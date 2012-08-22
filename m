@@ -1,34 +1,34 @@
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1T4Faz-0002X5-5Z
+	(envelope-from <bruce.ashfield@gmail.com>) id 1T4Fic-00048P-8d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 20:24:01 +0200
-Received: by qadc11 with SMTP id c11so43235qad.6
+	Wed, 22 Aug 2012 20:31:54 +0200
+Received: by qcad10 with SMTP id d10so856380qca.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 11:11:55 -0700 (PDT)
+	Wed, 22 Aug 2012 11:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=saMC1hdRfMGwz/D7s0aq54W5CRhw5tYPxUXBCGdq3IA=;
-	b=uWeVr041uucuGmjpBgrEJzY9zKLI1qgYUXQnL9IkzJUhjYZaK0uxIQ2XwII7E9RZvd
-	mn8VZW3jAPwMcHWH/4ZI+dYw91isefvdT+SLxjZdfO2l0HM48lOLe53zjSalpaYrWD/5
-	YuA3dlw0aJCXbq9xO69EMQV3PQ5DpZ9aY7l9LWJH64a5fBejVq7dEFT6Pw0v5/gzr+eV
-	nyX0NPptPzg8xbqzQjUWZDYDlqbb0+k4xHTOlJLcujZLaNDWhi9rOVxVg2HqvuFvzwLc
-	8db1qoNdRoqZ8mRltEoYalE2F++MaCOjpRQkoF2PwoUcaBHvBq2zMzwcCjvajRRO39wM
-	M47Q==
+	bh=vfZE75aKjlxJZht6+anfat/KnQkoXEumDwVO5eqr6So=;
+	b=nCMmELycJMRoAw9UOST54sbI5nUHxGtCrPrBCLQg03wYozxGOi4PX0C/taNlGTbUZ8
+	6rHcZ4xv2l8BJP//uvg99aQQQKSUF1Aj3wnZ68rEQdKxjDniz2KqqXt8O2y0YH1+2oYN
+	399DzSaMbJAGNCwZu6z625w5/TEN+70wUwFFcQ3YgXC0zWCrHO1CIlZQLIajSYKh7IcP
+	WwTJl/tSE6sKdxzlLbbvVdG0lerKARCSWUL0PBYJchX+QeTRID2CTbi3ciS/+OC+N64H
+	DWSIfUbEVLehLRkZNzbQ21RUkfV3w+Cwe3rUNjGhAzgErB+4jGeP/h9ZKLTJ57S1vfqj
+	NTvQ==
 MIME-Version: 1.0
-Received: by 10.229.136.82 with SMTP id q18mr17087403qct.108.1345659115323;
-	Wed, 22 Aug 2012 11:11:55 -0700 (PDT)
-Received: by 10.229.247.198 with HTTP; Wed, 22 Aug 2012 11:11:55 -0700 (PDT)
-In-Reply-To: <1345658390-19692-2-git-send-email-raj.khem@gmail.com>
+Received: by 10.224.178.133 with SMTP id bm5mr12186571qab.1.1345659588585;
+	Wed, 22 Aug 2012 11:19:48 -0700 (PDT)
+Received: by 10.229.247.198 with HTTP; Wed, 22 Aug 2012 11:19:48 -0700 (PDT)
+In-Reply-To: <1345658390-19692-3-git-send-email-raj.khem@gmail.com>
 References: <1345658390-19692-1-git-send-email-raj.khem@gmail.com>
-	<1345658390-19692-2-git-send-email-raj.khem@gmail.com>
-Date: Wed, 22 Aug 2012 14:11:55 -0400
-Message-ID: <CADkTA4MdBtk2aQHTdTt2e7w1ubi4yDOoX_B4_DcjDzXyY5xZ2A@mail.gmail.com>
+	<1345658390-19692-3-git-send-email-raj.khem@gmail.com>
+Date: Wed, 22 Aug 2012 14:19:48 -0400
+Message-ID: <CADkTA4OZbVVXexU=dUF5wv+AS2gBQNPpfKzfgda2k2V0Of6t0g@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] linux-yocto: Remove parens from COMPATIBLE_MACHINE regexp
+Subject: Re: [PATCH 3/4] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,77 +41,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 18:24:01 -0000
+X-List-Received-Date: Wed, 22 Aug 2012 18:31:54 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
 On Wed, Aug 22, 2012 at 1:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> This helps in appending to this regexp from bbappends
-> coming from other layers who want to leverage linux-yocto
-> with minimum tweaks by using a standard prefefined machine
-> from linux-yocto
+> kernel compiler is not special and we currently have it so
+> we want to pass -march and -mtune options as CFLAGS to kernel
+> build so that compiler picks the right subarch flags when
+> compiling assembly files in particular. Otherwise defaults
+> are chosen which may not be right in many case e.g. when
+> compiling kernel for collie machine we should use arch=armv4
+> but it uses toolchain/as defaults which is armv5te
+>
+> in some case e.g. thumb1 we know that kernel can not be compiled
+> in thumb1 mode so we can provide that information e.g. -marm
+> option through KERNEL_HOST_CC_ARCH variable as we do now
 
-Fine with me.
+Having just fought with this a few months ago myself, I know that I ended up
+needing to override KERNEL_CC completely, vs using any of the existing
+variables and options. So I don't see a problem with streamlining the variables.
 
-We had a long winded discussion over a year ago about how the parens
-could be present, and still allow us to easily append, but my search
-didn't turn it up.
+Some random questions below:
 
-I can't see where this would cause a problem (others may though), so
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass      |    9 +++------
+>  meta/classes/module-base.bbclass |    9 +++------
+>  2 files changed, 6 insertions(+), 12 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index f34e632..766f345 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -1,7 +1,7 @@
+>  inherit linux-kernel-base module_strip
+>
+>  PROVIDES += "virtual/kernel"
+> -DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
+> +DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native update-modules"
+>
+>  # we include gcc above, we dont need virtual/libc
+>  INHIBIT_DEFAULT_DEPS = "1"
+> @@ -37,9 +37,6 @@ KERNEL_PRIORITY ?= "${@int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.
+>
+>  KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+>
+> -KERNEL_CCSUFFIX ?= ""
+> -KERNEL_LDSUFFIX ?= ""
+> -
+>  # Set TARGET_??_KERNEL_ARCH in the machine .conf to set architecture
+>  # specific options necessary for building the kernel and modules.
+>  #FIXME: should be this: TARGET_CC_KERNEL_ARCH ?= "${TARGET_CC_ARCH}"
+> @@ -48,8 +45,8 @@ HOST_CC_KERNEL_ARCH ?= "${TARGET_CC_KERNEL_ARCH}"
+>  TARGET_LD_KERNEL_ARCH ?= ""
+>  HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+>
+> -KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} ${HOST_CC_KERNEL_ARCH}${TOOLCHAIN_OPTIONS}"
+> -KERNEL_LD = "${HOST_PREFIX}ld${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}${TOOLCHAIN_OPTIONS}"
+> +KERNEL_CC = "${CC} ${HOST_CC_KERNEL_ARCH}"
+> +KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+I haven't looked at CC recently, I assume it can contain ccache within
+it's variable
+definition if a person is inclined to use ccache ?
+
+>
+>  # Where built kernel lies in the kernel tree
+>  KERNEL_OUTPUT ?= "arch/${ARCH}/boot/${KERNEL_IMAGETYPE}"
+> diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+> index 9379bf8..72a0bff 100644
+> --- a/meta/classes/module-base.bbclass
+> +++ b/meta/classes/module-base.bbclass
+> @@ -7,9 +7,6 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+>
+>  export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion')}"
+>  KERNEL_OBJECT_SUFFIX = ".ko"
+> -KERNEL_CCSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-ccsuffix')}"
+> -KERNEL_LDSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-ldsuffix')}"
+> -KERNEL_ARSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-arsuffix')}"
+>
+>  # Set TARGET_??_KERNEL_ARCH in the machine .conf to set architecture
+>  # specific options necessary for building the kernel and modules.
+> @@ -20,9 +17,9 @@ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+>  TARGET_AR_KERNEL_ARCH ?= ""
+>  HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+>
+> -KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc${KERNEL_CCSUFFIX} ${HOST_CC_KERNEL_ARCH}"
+> -KERNEL_LD = "${HOST_PREFIX}ld${KERNEL_LDSUFFIX} ${HOST_LD_KERNEL_ARCH}"
+> -KERNEL_AR = "${HOST_PREFIX}ar${KERNEL_ARSUFFIX} ${HOST_AR_KERNEL_ARCH}"
+> +KERNEL_CC = "${CC} ${HOST_CC_KERNEL_ARCH}"
+> +KERNEL_LD = "${LD} ${HOST_LD_KERNEL_ARCH}"
+> +KERNEL_AR = "${AR} ${HOST_AR_KERNEL_ARCH}"
+
+When I was working through my build issues, I wondered if the
+module-base and kernel.bbclass
+compile definitions could be unified to a single location (say
+kernel-arch.bbclass). I know
+that I found an issue with it, and didn't complete my work, but can
+you see a way that
+we could have a single definition vs the two ? These look to be
+exactly the same now :)
 
 Cheers,
 
 Bruce
 
-
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto_3.0.bb |    2 +-
->  meta/recipes-kernel/linux/linux-yocto_3.2.bb |    2 +-
->  meta/recipes-kernel/linux/linux-yocto_3.4.bb |    2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> index f5e812e..4d19664 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> @@ -26,7 +26,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;b
->
->  SRC_URI += "file://noslang.patch"
->
-> -COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
-> +COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
->
->  # Functionality flags
->  KERNEL_FEATURES = "features/netfilter"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-> index b254251..c3fb252 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-> @@ -26,7 +26,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;bareclone=1;b
->
->  SRC_URI += "file://noslang.patch"
->
-> -COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
-> +COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
->
->  # Functionality flags
->  KERNEL_FEATURES="features/netfilter"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> index 8ac2402..691d789 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> @@ -22,7 +22,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
->
->  KMETA = "meta"
->
-> -COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
-> +COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
->
->  # Functionality flags
->  KERNEL_REVISION_CHECKING=""
+>  # kernel modules are generally machine specific
+>  PACKAGE_ARCH = "${MACHINE_ARCH}"
 > --
 > 1.7.9.5
 >
