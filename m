@@ -1,43 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1T4EBO-0001vo-Qp
+	(envelope-from <ross.burton@intel.com>) id 1T4EBR-0001vr-EF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 18:53:31 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 09:34:40 -0700
-Received: by pbcxa7 with SMTP id xa7so1660673pbc.25
+	Wed, 22 Aug 2012 18:53:33 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 09:40:08 -0700
+Received: by obceq6 with SMTP id eq6so1391058obc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 09:34:39 -0700 (PDT)
+	Wed, 22 Aug 2012 09:40:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=CJsCvebT4KcUSy5pK4uQWKIXcve/XDKM8rDj1MeGlHc=;
-	b=XETgZs0oerwo6s5rAgMWAnspxUzbrrEh4H6c0FJ+i2N7/dvoTVI8678VpBlzz3e1v2
-	jAoPRk+2Zbc2vRSrAVLf3PBQD4pinQWfPH9c6qgkwAhAScgUYUaSMzJpmlrAByx/C6If
-	Jj7+QuolL5VYYLftO/eYEP5JbR0Roz91qMivkSolOqF41WeBWDtfM5EpIcijqmw4sI+H
-	jlaSgFkgkBlhmHfVCnnunBDKoDds1e1tQMP0QWBls1fCn5ulcnmSR8F+k+D0eqPYp7ok
-	WgBIrvrqP3XEIYax+5dQ8wgFv4CDw7Zzbf5sxxBNzRyHVmU903X34mD44bFqdwu7Gx3Q
-	TYvw==
-Received: by 10.66.79.195 with SMTP id l3mr47240690pax.33.1345653279850;
-	Wed, 22 Aug 2012 09:34:39 -0700 (PDT)
-Received: from [10.1.10.35] (c-50-137-42-92.hsd1.or.comcast.net.
-	[50.137.42.92])
-	by mx.google.com with ESMTPS id uy3sm4018826pbc.29.2012.08.22.09.34.37
-	(version=SSLv3 cipher=OTHER); Wed, 22 Aug 2012 09:34:39 -0700 (PDT)
-Message-ID: <50350A1B.4060505@intel.com>
-Date: Wed, 22 Aug 2012 09:34:35 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=hv3Tod0HSzaM/p8NvYFKtQAuvpkqfv6MVIeqwpKfojE=;
+	b=c82cyNccNJ35DKAKTKKr0vtiz4saRX4mPqomp+KX9NkkJ+T1ycY1b59mnyq+ZHioQU
+	5NmXX8HThPH45SxN86ZFMqy4a3JrRqxz/RHonlnQ6XZpw7iTxN0DvjaRcGt/dOFYZ/pX
+	su92FTZrC/KVOHAeioouy/O9N8DDR+vg6HOCyi7VExmIw+UmF7AEezo1milQ41ulxpYE
+	9qa3a84qjr/8NguFmg5k95MruupOeyK/HZ9HqWVWnerl2bThGXTLNCT2cE+0zYHL0TOk
+	gR8bnGIE0aeglofBb/7BZ1HaicW4anjijeN30knh6cpYHmThWi1GpIMFeRU/mIFzDNa5
+	iZ3w==
+Received: by 10.182.193.105 with SMTP id hn9mr15959828obc.11.1345653606816;
+	Wed, 22 Aug 2012 09:40:06 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1345573717.git.peter.seebach@windriver.com>
-	<511616ed1761453ec1323aa945c559ca6cafffd1.1345573717.git.peter.seebach@windriver.com>
-In-Reply-To: <511616ed1761453ec1323aa945c559ca6cafffd1.1345573717.git.peter.seebach@windriver.com>
-X-Gm-Message-State: ALoCoQlo0pqrM71seolubvDMcgaA/d6G+sBJSvZfXB0z6wwbYUF+Ha7y3HoX9Vc91hGBg8+1We+v
-Subject: Re: [PATCH 1/1] runqemu-export-rootfs and friends: don't put pseudo db in target fs
+Received: by 10.182.158.3 with HTTP; Wed, 22 Aug 2012 09:39:45 -0700 (PDT)
+In-Reply-To: <CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
+References: <CAJTo0LZpSd6LB+9W2kUcxfeU4GOVO5VOnLHMbHYT+1W6iVzcBQ@mail.gmail.com>
+	<CAJTo0LarhQSinwUHXuruO-OiCBOw4j89ko2n4RvctREApS5NZA@mail.gmail.com>
+	<CAJTo0LbJaRyPCexNT8nVhY-qvh19UxH9WSf22==GF8kjWuFaAg@mail.gmail.com>
+	<CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Aug 2012 17:39:45 +0100
+Message-ID: <CAJTo0Lbhir=VLZZfeqn4UakxTkiFyeXK+zKfCtH2GMgrZ5aBpw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OE-devel <openembedded-devel@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQnQ5u1kjthIczbJgrcN2BmBb6JjeG1xfiNjdRYEoJ0xunCH9hyjVkcYGX/B5F5et6Sieoui
+Subject: Re: RFC: One X Server To Rule Them All
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,66 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 16:53:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2012 16:53:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/21/2012 11:31 AM, Peter Seebach wrote:
-> In a few places, we have scripts which use <rootfs>/var/pseudo for
-> the pseudo state directory controlling a given filesystem. This
-> seems possibly risky because it means that stuff running under
-> qemu or whatnot could wipe out the data being used to handle that
-> rootfs.
+On 22 August 2012 17:18, Burton, Ross <ross.burton@intel.com> wrote:
+> -9892 ./usr/lib/libts-1.0.so.0.0.0
+> +8344 ./usr/lib/libts-1.0.so.0.0.0
 >
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-> ---
->   .../installer/adt-installer/scripts/extract_rootfs |    7 +++----
->   scripts/runqemu-export-rootfs                      |    2 +-
->   scripts/runqemu-extract-sdk                        |   13 +++++++------
->   3 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-> index 62dc170..0bbbeef 100755
-> --- a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-> +++ b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-> @@ -28,7 +28,6 @@ extract_rootfs()
->     native_sysroot=$3
->     target_sysroot=$2
->     PSEUDO_COMMAND="$native_sysroot/usr/bin/pseudo"
-> -  PSEUDO_OPTS="-P $natvie_sysroot/usr"
->     TAR_OPTS="-xjf"
->     PSEUDO_OPTS="-P $native_sysroot/usr"
->
-> @@ -46,9 +45,9 @@ extract_rootfs()
->       mkdir -p "$target_sysroot"
->     fi
->
-> -  mkdir -p "$target_sysroot/var/pseudo"
-> -  touch "$target_sysroot/var/pseudo/pseudo.pid"
-> -  PSEUDO_LOCALSTATEDIR="$target_sysroot/var/pseudo"
-> +  mkdir -p "$target_sysroot/../pseudo_state"
-> +  touch "$target_sysroot/../pseudo_state/pseudo.pid"
-> +  PSEUDO_LOCALSTATEDIR="$target_sysroot/../pseudo_state"
->     export PSEUDO_LOCALSTATEDIR
+> Now *this* is weird.
 
-This would mean that if someone tried to put multiple rootfs directories 
-in the same subdirectory, they could clobber each other's pseudo_state 
-data, correct? Putting multiple rootfs directories in the same subdir is 
-a common use case already, I don't think we could break that.
+Any ideas as to why this happened are greatly welcomed...
 
-If you appended the top-level rootfs directory name to ../pseudo_state, 
-e.g, ../pseudo_state_<dirname>, that would keep the pseudo_state 
-directories separate and make it fairly obvious what rootfs they 
-belonged to.
+> +19532 ./usr/lib/xorg/modules/extensions/libdbe.so
 
-Also, neither of these schemes would support having $target_sysroot 
-directly under / (though I'm not sure why someone would do that).
+Confirmed that this is 1990s HP legacy.  Gone.
 
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Ross
 
 
