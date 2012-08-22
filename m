@@ -1,39 +1,42 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T4Dvv-0001Yh-9e
+	(envelope-from <koen@dominion.thruhere.net>) id 1T4E34-0001ea-9e
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 18:37:31 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 09:18:58 -0700
-Received: by obceq6 with SMTP id eq6so1371048obc.25
+	Wed, 22 Aug 2012 18:44:54 +0200
+Received: by eekb57 with SMTP id b57so336644eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 09:18:57 -0700 (PDT)
+	Wed, 22 Aug 2012 09:32:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=1Q6JOIE0r8VR/6EWsWgcMeYcZxKzheoABi4zw1Po1Bw=;
-	b=mXbcvF7QmDbmRgd9J+nW6tVjukDrXUml9wy41dYCQ2lHYj6LHM6/+Muayu9NwOTezb
-	DZiQIY+W9JySHXBUuivtQNIBmkttp1rk9KFPfOprTOD9LeZBb4ylzBEyc83fwnYU0Edb
-	19t5+1YJQKP86SSV6aNPEu3tfe6IV7+QMzXUnEIuYoTh+QsGCZ/CFnbxtiN85/qViAdX
-	AAjuZt9TTcB5O5yvRPwtcW1Y4ExbNAgi/bb0wejPw6AF5PISxWatZqoYh8sn4a8NZaSX
-	fYkmelcoIC9rTkj/gIEttAcMfUuALQwtzTDR8G48dTVcbA71tOcdgyuKJeBkRIZJL/Yf
-	2qIA==
-Received: by 10.182.193.105 with SMTP id hn9mr15913655obc.11.1345652337602;
-	Wed, 22 Aug 2012 09:18:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.158.3 with HTTP; Wed, 22 Aug 2012 09:18:35 -0700 (PDT)
-In-Reply-To: <CAJTo0LbJaRyPCexNT8nVhY-qvh19UxH9WSf22==GF8kjWuFaAg@mail.gmail.com>
-References: <CAJTo0LZpSd6LB+9W2kUcxfeU4GOVO5VOnLHMbHYT+1W6iVzcBQ@mail.gmail.com>
-	<CAJTo0LarhQSinwUHXuruO-OiCBOw4j89ko2n4RvctREApS5NZA@mail.gmail.com>
-	<CAJTo0LbJaRyPCexNT8nVhY-qvh19UxH9WSf22==GF8kjWuFaAg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Aug 2012 17:18:35 +0100
-Message-ID: <CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OE-devel <openembedded-devel@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmI+MwqY0qT3rkiY+p9Cw0M7PI2oTRpjNLA2P+4gCyYSSX9muHKkQh7oBJ6+AXUm47ErVf1
-Subject: Re: RFC: One X Server To Rule Them All
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=GlRI/VaAOJk/r8nsS2ViTI3svAXLV9jk2E8FJHfnXEI=;
+	b=ByG3Rc0/UJxh7me/p277HXe7yDSG204VKWrsF3sSc0fHmLYiFEE1CC1TZG8kj+hGZ9
+	OpWrE+xd5+B2RRQfdeA+EbVe2LJmaTsSi08ObH5Emf+vur9LvBgjXI5q0GtIGTxrFPnR
+	Cx5WAlOjjKViUny693K08xrKR09Y8d/y+6//XEFwkflqw7mUYd23xgA6S09E3gfSxAQu
+	y84orZLEkxbJZvTi0bfIDGHX6bJcQIKZ3b8xzzhKa5kIYq+TOn26ZQcfe/f18koDi+d6
+	k/lVEW7Yo3UQWD9csArRHGiN8VZnAnndXMkfA94oeGJoSzgfb+PYj/w9tPzOqZ7eP1a3
+	SRCQ==
+Received: by 10.14.211.3 with SMTP id v3mr18958519eeo.43.1345653168913;
+	Wed, 22 Aug 2012 09:32:48 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::60b0:c146:e06b:4c1d?
+	([2001:610:612:0:60b0:c146:e06b:4c1d])
+	by mx.google.com with ESMTPS id v3sm14277357eep.10.2012.08.22.09.32.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Aug 2012 09:32:47 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1840245.41xHr4Jb3c@helios>
+Date: Wed, 22 Aug 2012 18:32:46 +0200
+Message-Id: <F1032BDA-250C-4EB3-94F5-5FB12A9FE6FB@dominion.thruhere.net>
+References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1840245.41xHr4Jb3c@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1485)
+X-Gm-Message-State: ALoCoQmdudVNjHsS8suo9V7F7lohtcQ96jc4ziinebTS7uOudwU/3PtwH54LClTndOwKl0rGYnys
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] zeroconf: remove - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,53 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 16:37:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Aug 2012 16:44:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-More numbers!
 
-The interesting delta in the root file system is as follows:
+Op 22 aug. 2012, om 18:11 heeft Paul Eggleton =
+<paul.eggleton@linux.intel.com> het volgende geschreven:
 
--1617464 ./usr/bin/Xfbdev
+> On Wednesday 22 August 2012 16:50:27 Paul Eggleton wrote:
+>> We already have avahi in OE-Core and some cursory research suggests =
+that
+>> avahi is preferred over this package, which has apparently not seen a
+>> release since 2006. Nothing in OE-Core actually refers to it, so =
+let's just
+>> remove it.
+>=20
+> Hmm, this was meant to be an RFC - I would like to give people some =
+time to=20
+> respond.
 
-Bye kdrive.
-
--9892 ./usr/lib/libts-1.0.so.0.0.0
-+8344 ./usr/lib/libts-1.0.so.0.0.0
-
-Now *this* is weird.
-
-+34948 ./usr/lib/libpciaccess.so.0.11.1
-+17088 ./usr/lib/xorg/modules/libfbdevhw.so
-+19544 ./usr/lib/xorg/modules/drivers/fbdev_drv.so
-+30492 ./usr/lib/xorg/modules/libshadowfb.so
-+135580 ./usr/lib/xorg/modules/libfb.so
-+24492 ./usr/lib/xorg/modules/libvbe.so
-+20804 ./usr/lib/xorg/modules/input/kbd_drv.so
-+42980 ./usr/lib/xorg/modules/input/mouse_drv.so
-+47936 ./usr/lib/xorg/modules/input/evdev_drv.so
-+98908 ./usr/lib/xorg/modules/extensions/libextmod.so
-+19532 ./usr/lib/xorg/modules/extensions/libdbe.so
-+27144 ./usr/lib/xorg/modules/libvgahw.so
-+26984 ./usr/lib/xorg/modules/libshadow.so
-+1099 ./usr/share/X11/xorg.conf.d/10-evdev.conf
-+17315 ./usr/share/X11/rgb.txt
-+13616 ./usr/bin/cvt
-+7476 ./usr/bin/showrgb
-+1983908 ./usr/bin/Xorg
-+526 ./etc/X11/xorg.conf
-
-That's a grand total of 2578716 bytes, or an overall gain of 938kb.
-
-I expect the dbe extension can disappear, and you'll notice that to
-cover all bases the keyboard, mouse, *and* evdev input modules are
-present - we don't need all three.  The rgb.txt database was pulled in
-but that's entirely optional and wasn't pulled in by kdrive.
-
-That concludes any analysis of killing kdrive.  Patch series coming
-shortly to action it, followed by the same analysis on
-xserver-xorg-lite.
-
-Ross
+IIRC gumstix used it for bonjour without bringing in the megabytes of =
+support needed for avahi.=
 
 
