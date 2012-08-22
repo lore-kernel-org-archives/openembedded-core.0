@@ -1,27 +1,27 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T4EEg-00028d-Fe
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 18:56:54 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2012 09:43:53 -0700
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1T4EGQ-0002BO-2d; Wed, 22 Aug 2012 18:58:42 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2012 09:46:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,809,1336374000"; d="scan'208";a="183852924"
+X-IronPort-AV: E=Sophos;i="4.77,809,1336374000"; d="scan'208";a="189952817"
 Received: from unknown (HELO helios.localnet) ([10.252.121.122])
-	by azsmga001.ch.intel.com with ESMTP; 22 Aug 2012 09:43:52 -0700
+	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2012 09:45:37 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 22 Aug 2012 17:43:51 +0100
-Message-ID: <3893603.mhMxk33SRR@helios>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Aug 2012 17:45:36 +0100
+Message-ID: <2181864.aYcJgUzL39@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <F1032BDA-250C-4EB3-94F5-5FB12A9FE6FB@dominion.thruhere.net>
-References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
-	<1840245.41xHr4Jb3c@helios>
-	<F1032BDA-250C-4EB3-94F5-5FB12A9FE6FB@dominion.thruhere.net>
+In-Reply-To: <CAJTo0Lbhir=VLZZfeqn4UakxTkiFyeXK+zKfCtH2GMgrZ5aBpw@mail.gmail.com>
+References: <CAJTo0LZpSd6LB+9W2kUcxfeU4GOVO5VOnLHMbHYT+1W6iVzcBQ@mail.gmail.com>
+	<CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
+	<CAJTo0Lbhir=VLZZfeqn4UakxTkiFyeXK+zKfCtH2GMgrZ5aBpw@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] zeroconf: remove - RFC
+Cc: openembedded-devel@lists.openembedded.org,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: One X Server To Rule Them All
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,16 +34,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 16:56:54 -0000
+X-List-Received-Date: Wed, 22 Aug 2012 16:58:42 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Wednesday 22 August 2012 18:32:46 Koen Kooi wrote:
-> IIRC gumstix used it for bonjour without bringing in the megabytes of
-> support needed for avahi.
+On Wednesday 22 August 2012 17:39:45 Burton, Ross wrote:
+> On 22 August 2012 17:18, Burton, Ross <ross.burton@intel.com> wrote:
+> > -9892 ./usr/lib/libts-1.0.so.0.0.0
+> > +8344 ./usr/lib/libts-1.0.so.0.0.0
+> > 
+> > Now *this* is weird.
 
-FWIW, meta-gumstix of today has no reference to it; but on the other hand it 
-is a BSP layer with no tasks or recipes.
+Nothing off the top of my head, but is there any difference in the tslib 
+configure/compile logs?
 
 Cheers,
 Paul
