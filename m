@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1T48Ym-0005zZ-0z
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T48lC-0006VG-O4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 12:53:16 +0200
+	Wed, 22 Aug 2012 13:06:06 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Aug 2012 03:41:09 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 22 Aug 2012 03:54:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,808,1336374000"; d="scan'208";a="136780741"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Aug 2012 03:41:08 -0700
-From: Radu Moisan <radu.moisan@intel.com>
+X-IronPort-AV: E=Sophos;i="4.77,808,1336374000"; d="scan'208";a="136782574"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.122])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Aug 2012 03:53:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2012 13:43:29 +0300
-Message-Id: <1345632209-4188-1-git-send-email-radu.moisan@intel.com>
+Date: Wed, 22 Aug 2012 11:53:06 +0100
+Message-Id: <1345632786-10657-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] coreutils: Upgrade to upstream version 8.17
+Subject: [PATCH] classes/package: document do_packages_split arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,120 +27,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 10:53:16 -0000
+X-List-Received-Date: Wed, 22 Aug 2012 11:06:07 -0000
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+This function takes quite a number of arguments and can be tricky to use
+properly; this is not made easier if it is undocumented, so document all
+of the arguments. (No functional changes, comments only.)
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../coreutils-8.17/realpath-works-yes.patch        |   21 ++++++++++++++++++++
- .../remove-gets.patch                              |   20 ++++++++++---------
- .../remove-usr-local-lib-from-m4.patch             |    0
- .../{coreutils_8.14.bb => coreutils_8.17.bb}       |    9 +++++----
- 4 files changed, 37 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
- rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.17}/remove-gets.patch (47%)
- rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.17}/remove-usr-local-lib-from-m4.patch (100%)
- rename meta/recipes-core/coreutils/{coreutils_8.14.bb => coreutils_8.17.bb} (91%)
+ meta/classes/package.bbclass |   41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
-new file mode 100644
-index 0000000..e32f612
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
-@@ -0,0 +1,21 @@
-+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-+Upstream status: pending
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index b17fa08..46facf7 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -73,6 +73,47 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
+     """
+     Used in .bb files to split up dynamically generated subpackages of a
+     given package, usually plugins or modules.
 +
-+The new version of coreutils, adds use of canonicalize_file_name() function defined in canonicalize.h
-+The problem: the function is redefined to rpl_canonicalize_file_name by means of a macro,which gives
-+an undefined reference error at compile time. Macro definition depends in the end on 
-+gl_cv_func_realpath_works but assumed true only when set to "yes" 
++    Arguments:
++    root           -- the path in which to search
++    file_regex     -- regular expression to match searched files. Use
++                      parentheses () to mark the part of this expression
++                      that should be used to derive the module name (to be
++                      substituted where %s is used in other function
++                      arguments as noted below)
++    output_pattern -- pattern to use for the package names. Must include %s.
++    description    -- description to set for each package. Must include %s.
++    postinst       -- postinstall script to use for all packages (as a
++                      string)
++    recursive      -- True to perform a recursive search - default False
++    hook           -- a hook function to be called for every match. The
++                      function will be called with the following arguments
++                      (in the order listed):
++                        f: full path to the file/directory match
++                        pkg: the package name
++                        file_regex: as above
++                        output_pattern: as above
++                        modulename: the module name derived using file_regex
++    extra_depends  -- extra runtime dependencies (RDEPENDS) to be set for
++                      all packages. The default value of None causes a
++                      dependency on the main package (${PN}) - if you do
++                      not want this, pass '' for this parameter.
++    aux_files_pattern -- extra item(s) to be added to FILES for each
++                      package. Can be a single string item or a list of
++                      strings for multiple items.  Must include %s.
++    postrm         -- postrm script to use for all packages (as a string)
++    allow_dirs     -- True allow directories to be matched - default False
++    prepend        -- if True, prepend created packages to PACKAGES instead
++                      of the default False which appends them
++    match_path     -- match file_regex on the whole relative path to the
++                      root rather than just the file name
++    aux_files_pattern_verbatim -- extra item(s) to be added to FILES for
++                      each package, using the actual derived module name
++                      rather than converting it to something legal for a
++                      package name. Can be a single string item or a list
++                      of strings for multiple items. Must include %s.
++    allow_links    -- True to allow symlinks to be matched - default False
 +
-+Index: coreutils-8.17/m4/canonicalize.m4
-+===================================================================
-+--- coreutils-8.17.orig/m4/canonicalize.m4	2012-05-08 12:05:23.000000000 +0300
-++++ coreutils-8.17/m4/canonicalize.m4	2012-08-17 14:20:22.000000000 +0300
-+@@ -95,7 +95,7 @@
-+      [gl_cv_func_realpath_works=no],
-+      [case "$host_os" in
-+                 # Guess yes on glibc systems.
-+-        *-gnu*) gl_cv_func_realpath_works="guessing yes" ;;
-++        *-gnu*) gl_cv_func_realpath_works="yes" ;;
-+                 # If we don't know, assume the worst.
-+         *)      gl_cv_func_realpath_works="guessing no" ;;
-+       esac
-diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch b/meta/recipes-core/coreutils/coreutils-8.17/remove-gets.patch
-similarity index 47%
-rename from meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
-rename to meta/recipes-core/coreutils/coreutils-8.17/remove-gets.patch
-index 4f61c92..eaadf7e 100644
---- a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
-+++ b/meta/recipes-core/coreutils/coreutils-8.17/remove-gets.patch
-@@ -3,19 +3,21 @@ use gets iff its defined. eglibc 2.16 removed gets
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- Upstream-Status: Pending
+     """
  
--Index: coreutils-8.14/lib/stdio.in.h
-+Index: coreutils-8.17/lib/stdio.in.h
- ===================================================================
----- coreutils-8.14.orig/lib/stdio.in.h	2011-09-24 04:20:48.000000000 -0700
--+++ coreutils-8.14/lib/stdio.in.h	2012-07-03 10:36:19.886296576 -0700
--@@ -713,11 +713,13 @@
-- _GL_CXXALIAS_SYS (gets, char *, (char *s));
-- #  undef gets
-+--- coreutils-8.17.orig/lib/stdio.in.h
-++++ coreutils-8.17/lib/stdio.in.h
-+@@ -698,13 +698,14 @@ _GL_WARN_ON_USE (getline, "getline is un
-+                  "use gnulib module getline for portability");
-  # endif
-+ #endif
-+-
- +# if defined gets
-- _GL_CXXALIASWARN (gets);
-  /* It is very rare that the developer ever has full control of stdin,
--    so any use of gets warrants an unconditional warning.  Assume it is
--    always declared, since it is required by C89.  */
-+    so any use of gets warrants an unconditional warning; besides, C11
-+    removed it.  */
-+ #undef gets
-+ #if HAVE_RAW_DECL_GETS
-  _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
- +# endif
-  #endif
-diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.17/remove-usr-local-lib-from-m4.patch
-similarity index 100%
-rename from meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
-rename to meta/recipes-core/coreutils/coreutils-8.17/remove-usr-local-lib-from-m4.patch
-diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.17.bb
-similarity index 91%
-rename from meta/recipes-core/coreutils/coreutils_8.14.bb
-rename to meta/recipes-core/coreutils/coreutils_8.17.bb
-index 9a714a9..9d8170e 100644
---- a/meta/recipes-core/coreutils/coreutils_8.14.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.17.bb
-@@ -6,8 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
- BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
--                    file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
--PR = "r5"
-+                    file://src/ls.c;startline=5;endline=16;md5=30c84fd2942cad91041e5e2dcd19ced6"
-+PR = "r0"
- DEPENDS = "gmp libcap"
- DEPENDS_virtclass-native = ""
- 
-@@ -16,9 +16,10 @@ inherit autotools gettext
- SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://remove-usr-local-lib-from-m4.patch \
-            file://remove-gets.patch \
-+           file://realpath-works-yes.patch \
-           "
--SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
--SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
-+SRC_URI[md5sum] = "bbda656ce8ca2c6903948f9faa204ba3"
-+SRC_URI[sha256sum] = "4e075a0d238072a5bd079046e1f024dc5e0d9133d43a39c73d0b86b0d1e2c5e5"
- 
- EXTRA_OECONF_virtclass-native = "--without-gmp"
- 
+     ml = d.getVar("MLPREFIX", True)
 -- 
 1.7.9.5
 
