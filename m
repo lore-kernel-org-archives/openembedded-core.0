@@ -1,30 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T4Fsv-00084I-0U for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 20:42:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7MIUROJ005459
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <joe@deserted.net>) id 1T4GLA-0007Zu-Uv
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Aug 2012 21:11:45 +0200
+Received: by ghbz2 with SMTP id z2so971903ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 19:30:27 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04504-07 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 19:30:23 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7MIUKHW005452
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 19:30:21 +0100
-Message-ID: <1345660222.3907.126.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Aug 2012 19:30:22 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] gmp-4.2.1: Set CC_FOR_BUILD to ensure the host system compiler is used, not the target one
+	Wed, 22 Aug 2012 11:59:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=bEEv/raM9RNfXcUrRQJiYtxa9L7Y+yZZRC5HlataG/s=;
+	b=GbH423R6lfYzWi7sHxgWw9gmaVO/OPqnUdKPVjq22Fes6xBBxNS3BYtQ6RTjSNcMBh
+	FJKqWYXyQWjX9HycNz9aO2ggm9LVX+iiN2JrmWAUi4FSAWtaGKW+t9q19xUgr6f82AEN
+	ra7zDIzGne9JQ7a5deuppwPnoiusG5Gd7eyuSJ6KEcQG8X57phBw/jchzVRjJHkx1XJ4
+	ifIp12XODsbo5qECsw40cgPZJE+NheV9SqbWB+1nBZOeCv1EqRah8vOx1Q/27EH7oIc6
+	Mloqy0znTvR+33eYjDeLCRDo+fpq3khhPKFhv0ORE7rPxDLPTLyKUH2i3LlIbW9Svyva
+	aVNA==
+MIME-Version: 1.0
+Received: by 10.50.87.165 with SMTP id az5mr3292087igb.60.1345661978493; Wed,
+	22 Aug 2012 11:59:38 -0700 (PDT)
+Received: by 10.50.60.34 with HTTP; Wed, 22 Aug 2012 11:59:38 -0700 (PDT)
+In-Reply-To: <2E13D0D74D03406FAF576083ED655376@gmail.com>
+References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
+	<2E13D0D74D03406FAF576083ED655376@gmail.com>
+Date: Wed, 22 Aug 2012 14:59:38 -0400
+Message-ID: <CANBf+V29JZm0SqE_YgvAB9PxR7SOvQOUGzGAVKkm6en7ZsGysw@mail.gmail.com>
+From: Joe MacDonald <joe@deserted.net>
+To: Christopher Larson <kergoth@gmail.com>
+X-Gm-Message-State: ALoCoQlS3cUlIilLvqWxvExDkhM1vsGo7Wqs01kD1l1BWZTlAWrwpM14as91fLWE8Szh9C4XSChV
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Proposal: Creating meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 18:42:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2012 19:11:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-This addresses errors like:
+On Wed, Aug 22, 2012 at 2:20 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> On Friday, June 15, 2012 at 8:15 AM, Joe MacDonald wrote:
+>
+> We've been talking about this on-and-off at Wind River for a while now,
+> but it now seems like a reasonable time to bring a proposal to the OE
+> community at large. We're thinking about creating a new layer to house
+> recipes, etc. for networking packages. I'll try to address what seem to
+> be the most immediate questions (certainly the ones we've been thinking
+> most about any time I've discussed this with anyone):
+>
+> Has their been any progress on the creation of this layer?
 
-| NOTE: make -j 16
-| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/build/tmp/sysroots/qemux86 `test -f 'gen-fac_ui.c' || echo './'`gen-fac_ui.c -o gen-fac_ui
-| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/build/tmp/sysroots/qemux86 `test -f 'gen-fib.c' || echo './'`gen-fib.c -o gen-fib
-| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/build/tmp/sysroots/qemux86 `test -f 'gen-bases.c' || echo './'`gen-bases.c -o gen-bases -lm
-| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/build/tmp/sysroots/qemux86 `test -f 'gen-psqr.c' || echo './'`gen-psqr.c -o gen-psqr -lm
-| ./gen-fac_ui 32 0 >mpz/fac_ui.h || (rm -f mpz/fac_ui.h; exit 1)
-| ./gen-bases header 32 0 >mp_bases.h || (rm -f mp_bases.h; exit 1)
-| ./gen-bases table 32 0 >mpn/mp_bases.c || (rm -f mpn/mp_bases.c; exit 1)
-| ./gen-fib header 32 0 >fib_table.h || (rm -f fib_table.h; exit 1)
-| ./gen-bases: error while loading shared libraries: libgcc_s.so.1: cannot open shared object file: No such file or directory
-| ./gen-bases: error while loading shared libraries: libgcc_s.so.1: cannot open shared object file: No such file or directory
-| ./gen-fib table 32 0 >mpn/fib_table.c || (rm -f mpn/fib_table.c; exit 1)
-| make: *** [mp_bases.h] Error 1
+Absolutely.  I think at least some of my mail on the subject have been
+bouncing from the lists but the short version is at the end of July
+the existing "meta-openembedded" pieces were done in my tree and there
+was a list of stuff that needed fixing in migrating the oe-classic
+bits into the new meta-networking layer (the list I laid out in my
+initial email).  I was on vacation between then and Monday, so
+nothing's happened since then but this week I'm back looking at the
+best way to handle these older recipes that are in need of love in
+order to work with the current meta-oe and we should be good to go.  I
+think what's likely to happen is there will be some of them updated
+right away and others will be integrated and updated soon after.
 
-and matches the fix for the other gmp version.
+-J.
 
-[YOCTO #2992]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-index 49ee59b..1f86a65 100644
---- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
-@@ -16,4 +16,6 @@ SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
- SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
- SRC_URI[sha256sum] = "d07ffcb37eecec35c5ec72516d10b35fdf6e6fef1fcf1dcd37e30b8cbf8bf941"
- 
-+export CC_FOR_BUILD = "${BUILD_CC}"
-+
- inherit autotools
+> --
+> Christopher Larson
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
+
+-- 
+Joe MacDonald
+:wq
 
 
