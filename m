@@ -1,41 +1,33 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T4EWE-0002xd-RE
+	(envelope-from <raj.khem@gmail.com>) id 1T4FPp-0004wO-VB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 19:15:03 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 10:02:56 -0700
-Received: by obceq6 with SMTP id eq6so1412330obc.25
+	Wed, 22 Aug 2012 20:12:30 +0200
+Received: by daks35 with SMTP id s35so946910dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 10:02:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=q0W2xOAcq0We9NyN1wvEiugI/tdmuXclJ1lRazhRS3g=;
-	b=DXZxTQBKaWb62P5kwZ78ulfYNj1IPmrttUh7ewRlKRVUtOPXx2AlnhQVk9dIVmDYCp
-	r+5dvsLf4Mv4Ga4byFw/15icbCdzUL4ONWDEmREckHLfi+NaSGEUPG6Co6cwdmtR0/03
-	FNwOIweQVO/HuKKL9PEA/8y6wkdY7kVjvKICNu2b9bdMZ0E7yUKxKhI1lTQ4a7FH2j1i
-	WfsfCT+IbXu8OBhVBuksvxDGy52DuIRFCEHkgXezUFignEhBzL34YjcpOcDzC8VFNtNQ
-	1vxPcUVCoUfqQWmUWlzNM1PoKQR3hsqaRYUfSHAcKUBGZlIu3KiN9tuFRq0tDtaF8j45
-	8RaQ==
-Received: by 10.60.6.73 with SMTP id y9mr16509691oey.17.1345654976125; Wed, 22
-	Aug 2012 10:02:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.158.3 with HTTP; Wed, 22 Aug 2012 10:02:35 -0700 (PDT)
-In-Reply-To: <2181864.aYcJgUzL39@helios>
-References: <CAJTo0LZpSd6LB+9W2kUcxfeU4GOVO5VOnLHMbHYT+1W6iVzcBQ@mail.gmail.com>
-	<CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
-	<CAJTo0Lbhir=VLZZfeqn4UakxTkiFyeXK+zKfCtH2GMgrZ5aBpw@mail.gmail.com>
-	<2181864.aYcJgUzL39@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Aug 2012 18:02:35 +0100
-Message-ID: <CAJTo0LZ1bx42KgF0rBEijbesV-rwnOMVRFpEyRPW0mGiKx7FpA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQng0cunmCeJhIdg7hl7oZ+Pl1mkb/E+ycfLPrIEEC1n/PcHyEqlz3EmqljDRjlfZvbluXmh
-Cc: openembedded-devel@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] RFC: One X Server To Rule Them All
+	Wed, 22 Aug 2012 11:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=njT2t3KN7vBElgcs6nHnJzXZMXcSi0u4nLbPaagWDh8=;
+	b=Rzz6Hg2PsSlBR5xIUTbPkbGj2GlxFu6QDF2QiW9k9zl3MLJRFrxeEvw8L08YCCMTI7
+	bLHziiJvwq0Bwp3Y6NplbwUFMYZy5gAWJI0NCY+2/uw7M40nSOgexPb5xDOLuwh4SGvi
+	X/NLe2judcP08z+Zzog73+KMnguqs8XTwD0T5TdN2X633/KvBneSSnNY8CjaH7Y9ncaG
+	dMh/CNBwD7w/lcGH1PmaWpB+Qhr6xiXoW+3gqClDtSN8RWlh/7X1nqGp3oYOkmfyZVQp
+	30aZw/nteMEmPfX846PNzaXjzJH4xflST0wXkN60/xtNGVrC/fwOCXQI876SsNTQo/GJ
+	c4oQ==
+Received: by 10.68.136.137 with SMTP id qa9mr54447536pbb.140.1345658423867;
+	Wed, 22 Aug 2012 11:00:23 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id pn4sm4142276pbb.50.2012.08.22.11.00.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Aug 2012 11:00:22 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2012 10:59:47 -0700
+Message-Id: <1345658390-19692-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/4] runqemu: Honor KERNEL and ROOTFS settings from environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,23 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 17:15:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Aug 2012 18:12:30 -0000
 
-On 22 August 2012 17:45, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 22 August 2012 17:39:45 Burton, Ross wrote:
->> On 22 August 2012 17:18, Burton, Ross <ross.burton@intel.com> wrote:
->> > -9892 ./usr/lib/libts-1.0.so.0.0.0
->> > +8344 ./usr/lib/libts-1.0.so.0.0.0
->> >
->> > Now *this* is weird.
->
-> Nothing off the top of my head, but is there any difference in the tslib
-> configure/compile logs?
+Expand the usage to be able to specify KERNEL and ROOTFS
+on commandline. This helps in using the script for booting
+images that are essentially not part of OE-Core
 
-There's only one configure/compile log in temp...  It's below X in the
-stack so shouldn't have rebuilt.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ scripts/runqemu |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 90998ae..290f9cc 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -54,9 +54,9 @@ error() {
+ }
+ 
+ MACHINE=${MACHINE:=""}
+-KERNEL=""
++KERNEL=${KERNEL:=""}
++ROOTFS=${ROOTFS:=""}
+ FSTYPE=""
+-ROOTFS=""
+ LAZY_ROOTFS=""
+ SCRIPT_QEMU_OPT=""
+ SCRIPT_QEMU_EXTRA_OPT=""
+-- 
+1.7.9.5
+
 
 
