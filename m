@@ -1,35 +1,20 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1T47b4-0004j4-UU
+	(envelope-from <radu.moisan@intel.com>) id 1T48Ym-0005zZ-0z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 11:51:34 +0200
-Received: by wibhq4 with SMTP id hq4so4812524wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 02:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=U8Yqz/8puqlP7j2OA6gZSRnGNyToVtlYznb/haKYpps=;
-	b=UbPypHWSBhclL8rzbQFt1WGXEOacnGeDPUJMjYgvmQf+fR5jdyLRU8DEVh1DINVIiE
-	FSoxQ//38d4Ncnwxi2B2dqiBKRQaI22CM0kzwK5NrjfmIV7RQEEkm0I3nlAJYsenUZQt
-	z/2CNvjJJdcp/GEDauUDf24BnGUgqS8wqst+Adlb2l0oDvNM6tV99qmruhjOTwSF+q1X
-	l04izT0dPowIHEK49jwWdrXf0SMcYefwYQfRcGx4HclWehd6TOFGUldO8PZEUyKE+rL3
-	6oBaTThndevNXwnw2JJGgIUzP4iH8I9U9HRaSCMRfbKXnqNOD7Pqa0syHOu1Ur/T2MZc
-	+aYA==
-MIME-Version: 1.0
-Received: by 10.180.106.97 with SMTP id gt1mr4441883wib.5.1345628370136; Wed,
-	22 Aug 2012 02:39:30 -0700 (PDT)
-Received: by 10.216.133.32 with HTTP; Wed, 22 Aug 2012 02:39:30 -0700 (PDT)
-In-Reply-To: <5230023.n3da1VyTML@helios>
-References: <CAOHjBZvqMsh4nENivZWfrGUb9sXBLE58CfacjZp5U1LWBorGAw@mail.gmail.com>
-	<1631931.9ZRM3ET91W@helios>
-	<CAOHjBZv+nCryVbn63BVY9J9tru0xeJ5N9teeH1b_+F8uMUtZaQ@mail.gmail.com>
-	<5230023.n3da1VyTML@helios>
-Date: Wed, 22 Aug 2012 11:39:30 +0200
-Message-ID: <CAOHjBZtMSAV6NWQP8osAss3viENoQLrNDpe=XKsJKrRqr-fq5w@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: error expanding variable do_*
+	Wed, 22 Aug 2012 12:53:16 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Aug 2012 03:41:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,808,1336374000"; d="scan'208";a="136780741"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Aug 2012 03:41:08 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2012 13:43:29 +0300
+Message-Id: <1345632209-4188-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] coreutils: Upgrade to upstream version 8.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,195 +27,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 09:51:35 -0000
-Content-Type: multipart/alternative; boundary=f46d04428066006c7104c7d78544
+X-List-Received-Date: Wed, 22 Aug 2012 10:53:16 -0000
 
---f46d04428066006c7104c7d78544
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../coreutils-8.17/realpath-works-yes.patch        |   21 ++++++++++++++++++++
+ .../remove-gets.patch                              |   20 ++++++++++---------
+ .../remove-usr-local-lib-from-m4.patch             |    0
+ .../{coreutils_8.14.bb => coreutils_8.17.bb}       |    9 +++++----
+ 4 files changed, 37 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+ rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.17}/remove-gets.patch (47%)
+ rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.17}/remove-usr-local-lib-from-m4.patch (100%)
+ rename meta/recipes-core/coreutils/{coreutils_8.14.bb => coreutils_8.17.bb} (91%)
 
-2012/8/21 Paul Eggleton <paul.eggleton@linux.intel.com>
+diff --git a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+new file mode 100644
+index 0000000..e32f612
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+@@ -0,0 +1,21 @@
++Signed-off-by: Radu Moisan <radu.moisan@intel.com>
++Upstream status: pending
++
++The new version of coreutils, adds use of canonicalize_file_name() function defined in canonicalize.h
++The problem: the function is redefined to rpl_canonicalize_file_name by means of a macro,which gives
++an undefined reference error at compile time. Macro definition depends in the end on 
++gl_cv_func_realpath_works but assumed true only when set to "yes" 
++
++Index: coreutils-8.17/m4/canonicalize.m4
++===================================================================
++--- coreutils-8.17.orig/m4/canonicalize.m4	2012-05-08 12:05:23.000000000 +0300
+++++ coreutils-8.17/m4/canonicalize.m4	2012-08-17 14:20:22.000000000 +0300
++@@ -95,7 +95,7 @@
++      [gl_cv_func_realpath_works=no],
++      [case "$host_os" in
++                 # Guess yes on glibc systems.
++-        *-gnu*) gl_cv_func_realpath_works="guessing yes" ;;
+++        *-gnu*) gl_cv_func_realpath_works="yes" ;;
++                 # If we don't know, assume the worst.
++         *)      gl_cv_func_realpath_works="guessing no" ;;
++       esac
+diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch b/meta/recipes-core/coreutils/coreutils-8.17/remove-gets.patch
+similarity index 47%
+rename from meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+rename to meta/recipes-core/coreutils/coreutils-8.17/remove-gets.patch
+index 4f61c92..eaadf7e 100644
+--- a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
++++ b/meta/recipes-core/coreutils/coreutils-8.17/remove-gets.patch
+@@ -3,19 +3,21 @@ use gets iff its defined. eglibc 2.16 removed gets
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Pending
+ 
+-Index: coreutils-8.14/lib/stdio.in.h
++Index: coreutils-8.17/lib/stdio.in.h
+ ===================================================================
+---- coreutils-8.14.orig/lib/stdio.in.h	2011-09-24 04:20:48.000000000 -0700
+-+++ coreutils-8.14/lib/stdio.in.h	2012-07-03 10:36:19.886296576 -0700
+-@@ -713,11 +713,13 @@
+- _GL_CXXALIAS_SYS (gets, char *, (char *s));
+- #  undef gets
++--- coreutils-8.17.orig/lib/stdio.in.h
+++++ coreutils-8.17/lib/stdio.in.h
++@@ -698,13 +698,14 @@ _GL_WARN_ON_USE (getline, "getline is un
++                  "use gnulib module getline for portability");
+  # endif
++ #endif
++-
+ +# if defined gets
+- _GL_CXXALIASWARN (gets);
+  /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
++    so any use of gets warrants an unconditional warning; besides, C11
++    removed it.  */
++ #undef gets
++ #if HAVE_RAW_DECL_GETS
+  _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+ +# endif
+  #endif
+diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.17/remove-usr-local-lib-from-m4.patch
+similarity index 100%
+rename from meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
+rename to meta/recipes-core/coreutils/coreutils-8.17/remove-usr-local-lib-from-m4.patch
+diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.17.bb
+similarity index 91%
+rename from meta/recipes-core/coreutils/coreutils_8.14.bb
+rename to meta/recipes-core/coreutils/coreutils_8.17.bb
+index 9a714a9..9d8170e 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.14.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.17.bb
+@@ -6,8 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
+-PR = "r5"
++                    file://src/ls.c;startline=5;endline=16;md5=30c84fd2942cad91041e5e2dcd19ced6"
++PR = "r0"
+ DEPENDS = "gmp libcap"
+ DEPENDS_virtclass-native = ""
+ 
+@@ -16,9 +16,10 @@ inherit autotools gettext
+ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+            file://remove-gets.patch \
++           file://realpath-works-yes.patch \
+           "
+-SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
+-SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
++SRC_URI[md5sum] = "bbda656ce8ca2c6903948f9faa204ba3"
++SRC_URI[sha256sum] = "4e075a0d238072a5bd079046e1f024dc5e0d9133d43a39c73d0b86b0d1e2c5e5"
+ 
+ EXTRA_OECONF_virtclass-native = "--without-gmp"
+ 
+-- 
+1.7.9.5
 
-> On Tuesday 21 August 2012 15:52:17 Giuseppe Condorelli wrote:
-> > > > [****]$ bitbake core-image-minimal
-> > > > Pseudo is not present but is required, building this first before the
-> > >
-> > > main
-> > >
-> > > > build
-> > > > NOTE: Error expanding variable do_unpack                        |
-> ETA:
-> > > > 00:00:04
-> > > > NOTE: Error during finalise of
-> > > > /oelinux/condorg/openembedded-core/meta/recipes-sato/web/web_git.bb
-> > > > ERROR: Unable to parse
-> > > > /oelinux/condorg/openembedded-core/meta/recipes-sato/web/web_git.bb
-> > > > ERROR: Command execution failed: Exited with 1
-> > > >
-> > > > I tried with bitbake version 1.15.2 and 1.15.3, the latest two
-> versions.
-> > > > What about the "Error expanding variable do_unpack?" I've read
-> something
-> > >
-> > > in
-> > >
-> > > > previous message on mailing list
-> > > > but with no understanding.
-> > >
-> > > This is almost certainly because of the whitespace changes in python
-> > > functions.
-> >
-> > What type of whitespace changes you are talking about?
->
-> Please see:
->
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/025962.html
->
 
-I'm sorry, I've not read that when it was wrote. I was out for two months
-and now I've to look at an huge amount of information coming from the
-mailing list.
 
->
-> > > If you use master of OE-Core, you must use BitBake 1.15.3+; if you
-> > > use denzil, you need to use 1.15.2. I'm a bit confused as to how you
-> could
-> > > have still got this error with 1.15.2 though since that change was not
-> in
-> > > that version (unless you are using master of OE-Core with BitBake
-> 1.15.2).
-> >
-> > I've pulled last two months updates for master OE-Core branch and I tried
-> > with both bitbake 1.15.2 and 1.15.3 versions.
->
-> I just tried BitBake 1.15.3 with OE-Core latest master and I do not see
-> that
-> error. Are you using latest master of OE-Core or some specific revision?
-> Can
-> you provide me with any other information that would help me to reproduce
-> the
-> issue? If you check out OE-Core in a separate new directory and use BitBake
-> 1.15.3 do you still get the same issue?
->
-Well, confirmed. I cloned OE-Core by scratch and all was solved trying to
-build the default core-image-minimal.
-I've now some issues on my own layer, but this is obvious given that it has
-to be aligned (perhaps os.* entries have to be moved to subprocess.*).
-Paul, as usual you are very very exhaustive in your reply. Many thanks for
-this.
-
->
-> Cheers,
-> Paul
->
-Cheers,
-Giuseppe
-
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
-
---f46d04428066006c7104c7d78544
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><br><div class=3D"gmail_quote">2012/8/21 Paul Eggleton <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">pa=
-ul.eggleton@linux.intel.com</a>&gt;</span><br><blockquote style=3D"margin:0=
-px 0px 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204);border=
--left-width:1px;border-left-style:solid" class=3D"gmail_quote">
-<div class=3D"im">On Tuesday 21 August 2012 15:52:17 Giuseppe Condorelli wr=
-ote:<br>
-&gt; &gt; &gt; [****]$ bitbake core-image-minimal<br>
-&gt; &gt; &gt; Pseudo is not present but is required, building this first b=
-efore the<br>
-&gt; &gt;<br>
-&gt; &gt; main<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; build<br>
-&gt; &gt; &gt; NOTE: Error expanding variable do_unpack =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0| ETA:<br>
-&gt; &gt; &gt; 00:00:04<br>
-&gt; &gt; &gt; NOTE: Error during finalise of<br>
-&gt; &gt; &gt; /oelinux/condorg/openembedded-core/meta/recipes-sato/web/<a =
-href=3D"http://web_git.bb" target=3D"_blank">web_git.bb</a><br>
-&gt; &gt; &gt; ERROR: Unable to parse<br>
-&gt; &gt; &gt; /oelinux/condorg/openembedded-core/meta/recipes-sato/web/<a =
-href=3D"http://web_git.bb" target=3D"_blank">web_git.bb</a><br>
-&gt; &gt; &gt; ERROR: Command execution failed: Exited with 1<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I tried with bitbake version 1.15.2 and 1.15.3, the latest t=
-wo versions.<br>
-&gt; &gt; &gt; What about the &quot;Error expanding variable do_unpack?&quo=
-t; I&#39;ve read something<br>
-&gt; &gt;<br>
-&gt; &gt; in<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; previous message on mailing list<br>
-&gt; &gt; &gt; but with no understanding.<br>
-&gt; &gt;<br>
-&gt; &gt; This is almost certainly because of the whitespace changes in pyt=
-hon<br>
-&gt; &gt; functions.<br>
-&gt;<br>
-&gt; What type of whitespace changes you are talking about?<br>
-<br>
-</div>Please see:<br>
-<a href=3D"http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July=
-/025962.html" target=3D"_blank">http://lists.linuxtogo.org/pipermail/openem=
-bedded-core/2012-July/025962.html</a><br></blockquote><div>=A0</div><div>I&=
-#39;m sorry, I&#39;ve not read that when it was wrote. I was out for two mo=
-nths and now I&#39;ve to look at an huge amount of information coming from =
-the mailing list.</div>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote">
-<div class=3D"im"><br>
-&gt; &gt; If you use master of OE-Core, you must use BitBake 1.15.3+; if yo=
-u<br>
-&gt; &gt; use denzil, you need to use 1.15.2. I&#39;m a bit confused as to =
-how you could<br>
-&gt; &gt; have still got this error with 1.15.2 though since that change wa=
-s not in<br>
-&gt; &gt; that version (unless you are using master of OE-Core with BitBake=
- 1.15.2).<br>
-&gt;<br>
-&gt; I&#39;ve pulled last two months updates for master OE-Core branch and =
-I tried<br>
-&gt; with both bitbake 1.15.2 and 1.15.3 versions.<br>
-<br>
-</div>I just tried BitBake 1.15.3 with OE-Core latest master and I do not s=
-ee that<br>
-error. Are you using latest master of OE-Core or some specific revision? Ca=
-n<br>
-you provide me with any other information that would help me to reproduce t=
-he<br>
-issue? If you check out OE-Core in a separate new directory and use BitBake=
-<br>
-1.15.3 do you still get the same issue?<br></blockquote><div>Well,=A0confir=
-med. I cloned=A0OE-Core by scratch and all was solved trying to build the d=
-efault core-image-minimal.</div><div>I&#39;ve now some issues on my own lay=
-er, but this is obvious given that it has to be aligned (perhaps os.* entri=
-es have to be moved to subprocess.*).</div>
-<div>Paul, as usual you are very very=A0exhaustive in your reply. Many than=
-ks for this.=A0</div><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-=
-left:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;border-le=
-ft-style:solid" class=3D"gmail_quote">
-
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-Cheers,<br>
-Paul<br></div></div></blockquote><div>Cheers,</div><div>Giuseppe=A0</div><b=
-lockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-co=
-lor:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote">
-<div class=3D"HOEnZb"><div class=3D"h5">
-<br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</div></div></blockquote></div><br>
-
---f46d04428066006c7104c7d78544--
