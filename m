@@ -1,26 +1,41 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1T4C0x-000820-N7
+	(envelope-from <raj.khem@gmail.com>) id 1T4C1R-00085W-Rz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 16:34:35 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Aug 2012 07:22:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,808,1336374000"; d="scan'208";a="212350918"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Aug 2012 07:22:28 -0700
-Message-ID: <5034EBB3.3010906@intel.com>
-Date: Wed, 22 Aug 2012 17:24:51 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: Chris Larson <clarson@kergoth.com>
-References: <1345632209-4188-1-git-send-email-radu.moisan@intel.com>
-	<CABcZANn8tSTrfwbOCi6WoiURVRcG3w_dF5-nnwMC+7Pz=aK01w@mail.gmail.com>
-In-Reply-To: <CABcZANn8tSTrfwbOCi6WoiURVRcG3w_dF5-nnwMC+7Pz=aK01w@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: Upgrade to upstream version 8.17
+	Wed, 22 Aug 2012 16:35:06 +0200
+Received: by pbcwy7 with SMTP id wy7so1481774pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2012 07:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	bh=KHjjUjgrWLjCcNZf9PaKIbXKPDzw3UR8xFFUzAsm9/Y=;
+	b=bU7zHOa0Dpre6tCWEBEnaPaiM2ZmoWtEu/u8E2oXHxsZzpTnj0SBNzzA2qHeQb72P5
+	JIkls+GPAAxqrwbL7BoK1Gdg8oQfM6hvisI3vKoJtrvKCM6bYTYx+agoIFB6zSWhI7vv
+	v0eHNudznU9MW+GX08ciFFpRcBKH9PUet7owUi4WXYAAuByu5fio17lhJL+H7uNceBA9
+	/l6DluBxsBSr7+pDLCeA9I86vptYKjedI2Sjchc2j9aEQsH8NJ8C2NlegJB2YzI/jv//
+	vUwYe3p00mXqRcdOmO2m2R3YhbRE2ULFOnF2vCZ6Oq4IkiTUZWe6vjaO+5GRzRMyMZ9d
+	BspQ==
+Received: by 10.68.222.102 with SMTP id ql6mr48526112pbc.72.1345645379068;
+	Wed, 22 Aug 2012 07:22:59 -0700 (PDT)
+Received: from [192.168.1.66] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id gf8sm3803987pbc.52.2012.08.22.07.22.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Aug 2012 07:22:58 -0700 (PDT)
+References: <lyfw7foy9v.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1345643102.3907.121.camel@ted>
+In-Reply-To: <1345643102.3907.121.camel@ted>
+Mime-Version: 1.0 (1.0)
+Message-Id: <AE4E99DC-C01D-4D4C-B63E-51E95A48974E@gmail.com>
+X-Mailer: iPad Mail (9B206)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Aug 2012 07:22:54 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: eglibc build fails with 'cannot find -lgcc_eh'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 14:34:35 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2012 14:35:06 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-On 08/22/2012 05:08 PM, Chris Larson wrote:
-> On Wed, Aug 22, 2012 at 3:43 AM, Radu Moisan <radu.moisan@intel.com> wrote:
->> diff --git a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
->> new file mode 100644
->> index 0000000..e32f612
->> --- /dev/null
->> +++ b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
->> @@ -0,0 +1,21 @@
->> +Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->> +Upstream status: pending
->> +
->> +The new version of coreutils, adds use of canonicalize_file_name() function defined in canonicalize.h
->> +The problem: the function is redefined to rpl_canonicalize_file_name by means of a macro,which gives
->> +an undefined reference error at compile time. Macro definition depends in the end on
->> +gl_cv_func_realpath_works but assumed true only when set to "yes"
->> +
->> +Index: coreutils-8.17/m4/canonicalize.m4
->> +===================================================================
->> +--- coreutils-8.17.orig/m4/canonicalize.m4     2012-05-08 12:05:23.000000000 +0300
->> ++++ coreutils-8.17/m4/canonicalize.m4  2012-08-17 14:20:22.000000000 +0300
->> +@@ -95,7 +95,7 @@
->> +      [gl_cv_func_realpath_works=no],
->> +      [case "$host_os" in
->> +                 # Guess yes on glibc systems.
->> +-        *-gnu*) gl_cv_func_realpath_works="guessing yes" ;;
->> ++        *-gnu*) gl_cv_func_realpath_works="yes" ;;
->> +                 # If we don't know, assume the worst.
->> +         *)      gl_cv_func_realpath_works="guessing no" ;;
->> +       esac
-> Wouldn't it be better to provide a cached test result in the site
-> files for this test, rather than relying on a host_os based guess?
-I really don't know the answer to your question. The patch was intended 
-to provide minimally invasive change to the original file. If you 
-elaborate more on your proposal, I would gladly take into consideration 
-a future patch to address this issue.
 
-radu
+-Khem
+
+On Aug 22, 2012, at 6:45 AM, Richard Purdie <richard.purdie@linuxfoundation.=
+org> wrote:
+
+> On Wed, 2012-08-22 at 15:24 +0200, Enrico Scholz wrote:
+>> Hi,
+>>=20
+>> with recent oe-core + oe-meta, a build from scratch fails in eglibc
+>> with:
+>>=20
+>> | .../tmp/sysroots/x86_64-oe-linux/usr/bin/armv5te-linux-gnueabi/arm-linu=
+x-gnueabi-ld.bfd: cannot find -lgcc_eh
+>> | collect2: error: ld returned 1 exit status
+>> | make[2]: *** [.../tmp/work/armv5te-linux-gnueabi/eglibc-2.15-r13+svnr19=
+294/build-arm-linux-gnueabi/iconv/iconv_prog] Error 1
+>> | make[2]: *** Waiting for unfinished jobs....
+>> | make[2]: Leaving directory `.../tmp/work/armv5te-linux-gnueabi/eglibc-2=
+.15-r13+svnr19294/eglibc-2_15/libc/iconv'
+>> | make[1]: *** [iconv/others] Error 2
+>>=20
+>> -lgcc_eh seems to be required because a check for -Wl,-as-needed failed.
+>> But this test result is bogus, because check failed due to missing -lgcc_=
+s
+>> and not because of the linker flag.
+>>=20
+>> Any idea how to solve this?
+>=20
+> This is highly likely to be from the toolchain bootstrap changes in
+> oe-core master. I'll defer to Khem on how to fix it.
+>=20
+
+Don't use 2.15 it is not fixed to work with new sequence. It reminds me to s=
+end a patch to delete 2.15 recipes from oe ore
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
