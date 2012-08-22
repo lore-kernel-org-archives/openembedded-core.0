@@ -1,42 +1,37 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1T3yL4-0000Jo-Tt
+	(envelope-from <raj.khem@gmail.com>) id 1T3ytz-00015O-71
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 01:58:27 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 21 Aug 2012 16:46:21 -0700
-Received: by pbcxa7 with SMTP id xa7so542303pbc.25
+	Wed, 22 Aug 2012 02:34:31 +0200
+Received: by eaad12 with SMTP id d12so100350eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2012 16:46:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=Hzaa6pjW76P7Io0hs4EVQNZRNeXEBha4X0kNFtx+doU=;
-	b=O7JaRjdARl6q2L0BBIsmC5tt+/6ZlLnNr2WBINb4qPHka6Ur28lweR9omjuKMzlRS/
-	UWGCALL8v91kU05ymSwHKEhjBOTO6boB+N/fDe2lpqI3ar/FLBmb9VmKSNlOMz4kEhrx
-	BUYlLTDnZ5XDSYauQX3WBAd5HupzPVGx0hpuZEYlRI8BfdgIG3rHXLw0JPmwOkBwPeTq
-	Z2CFKu4LinAQTtGAOHk3h17WomIbhO1d9nszErdyQhRBx0/epen9L/xI+E5L7GCT24hi
-	JSzHGeGlmOFgn4pSa+Fw6mevfMb/GQ62Th92XTXB+dSz3Ht6XjLuCb9WX9M9VtVgGvOj
-	Wozg==
-Received: by 10.68.194.229 with SMTP id hz5mr45385035pbc.86.1345592780879;
-	Tue, 21 Aug 2012 16:46:20 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id mr2sm2402143pbb.16.2012.08.21.16.46.19
-	(version=SSLv3 cipher=OTHER); Tue, 21 Aug 2012 16:46:20 -0700 (PDT)
-Message-ID: <50341DD7.1000405@intel.com>
-Date: Tue, 21 Aug 2012 16:46:31 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Tue, 21 Aug 2012 17:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=6fngX7rgjzqGOLJfu333+C6Evj7G15eU4SodtcURFIY=;
+	b=Ur1KHRGgBZOrIjUioGYdYs8czVlRhASTJ0MIaaiku86gGfZh8P915HounGzNAYeZSY
+	JXIlYWh90Bm2gvhlG0nQekpTx/1MgBuhHFP/Ypw1dUZOhNNTReE6cEGTjK+GQ1eBdtre
+	6Y703rE8WepRPSFcA0Svy7iPmfQ6qsENF9AaGHfTbwv8BgY18/Tr2rS1YLMRUvqf7WnY
+	XbF0ROXe0XLRLNCheLcKw83w6TymWuYhHGAuK9dE8DSdWrM+1e7JVA4x/Ugv9llIcqk+
+	fnA7upSZoi4I64HbX5KW8YdoEy/wSa1WZDc5d2oO/TfT5Oaupt0qBVU2Buf6YlIUNEOU
+	4gYg==
+Received: by 10.14.211.3 with SMTP id v3mr15848768eeo.43.1345594946903; Tue,
+	21 Aug 2012 17:22:26 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5033B589.8080502@intel.com> <5033C94D.4080902@intel.com>
-In-Reply-To: <5033C94D.4080902@intel.com>
-X-Gm-Message-State: ALoCoQlJRQyCq5f6sxEglgbaAhyjAcq5WEvVeNrM7j4VFX57pYjkvpXGEFm7G4UtJLwg53Loj2Ev
-Subject: Re: qemu gl changes are broken.
+Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 17:21:56 -0700 (PDT)
+In-Reply-To: <1345339639.24626.62.camel@x121e.pbcl.net>
+References: <CAMKF1srvBZzMTbN-iOqEjitgSjFOK_Cpd0B94HjWm1z7s-0-iQ@mail.gmail.com>
+	<1345285875.27428.27.camel@ted>
+	<CAMKF1srJ1w94g2rgu8FvZdmHLK-4t=GSj9OtSAncuquK6oNhjw@mail.gmail.com>
+	<1345339639.24626.62.camel@x121e.pbcl.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Aug 2012 17:21:56 -0700
+Message-ID: <CAMKF1sp5vLaO68jx-wmmrFDaTjbBczSJ3uLf8oAZPwkpmhZr_g@mail.gmail.com>
+To: Phil Blundell <philb@gnu.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Replacing chrpath with patchelf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,42 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 23:58:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2012 00:34:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 08/21/2012 10:45 AM, Scott Garman wrote:
-> On 08/21/2012 09:21 AM, Scott Garman wrote:
->> Hello,
->>
->> I tried building some images overnight with the latest master, and could
->> not get them to run this morning with qemu - I got an odd error that a
->> VNC server was started instead?
->>
->> Just on a hunch, I reverted the following commits:
->>
->> qemu: Fix broken accidental path move
->> qemu-git: Drop GL passthrough support
->> qemu-0.15: Drop GL passthrough support
->>
->> rebuilt qemu-native, and now qemu works correctly.
->>
->> I have no idea why qemu is trying to fallback on a VNC server, as I did
->> not have one running on my machine. I know we use VNC for our
->> autobuilder sanity tests, but those haven't been integrated into the
->> runqemu scripts as far as I can tell.
+On Sat, Aug 18, 2012 at 6:27 PM, Phil Blundell <philb@gnu.org> wrote:
+> On Sat, 2012-08-18 at 10:15 -0700, Khem Raj wrote:
+>> so I figured. which now means you need to have patchelf on build host
+>> preinstalled instead of chrpath.
 >
-> This may need further research, I seem to have it working on another
-> machine. I'll report back once I've learned more.
+> That'd be a bit of a pain, since (afaict) patchelf is not so widely
+> available in host distributions as chrpath.
+>
+>> you never know. It just lifts this limitation. We ship
+>> chrpath-nativesdk as well and people can use it in different ways
+>
+> I agree that removing the weird and arbitrary-seeming (from the user
+> perspective) restriction on rpath length would be a good thing.  But
+> it's less clear that swapping a weird restriction that few people will
+> ever run into for a requirement to pre-install a relatively obscure host
+> binary on all systems is a good tradeoff.
 
-Ok, I can no longer reproduce this issue anymore, even on the original 
-machine. Figures. :-/
+patchelf does have packages for all familiar linux distros but its not in
+their default feeds. May be it will be nicer to create one meta
+package which installs
+all prerequisites not only chrpath/patchelf and maintain that ourselves
+this could be nicer since then user only installs
 
-Scott
+apt-get install make-my-host-compile-oe package on ubuntu and similar
+for others.
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+>
+> How about writing a python function, or a trivial standalone program
+> (which can be compiled -native without requiring anything other than
+> ${BUILD_CC}) to preprocess the binaries before chrpath sees them, or
+> indeed just to replace chrpath altogether?  Or, as an alternative, how
+> about fixing chrpath to suck less and then just waiting for the improved
+> version to trickle down into deployed host distributions?
+>
+> p.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
