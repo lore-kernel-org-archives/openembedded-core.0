@@ -1,33 +1,33 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1T4HW1-0002a5-Ba
+	(envelope-from <raj.khem@gmail.com>) id 1T4HgX-0002nD-FJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 22:27:02 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q7MKEm6S027398
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Wed, 22 Aug 2012 22:37:53 +0200
+Received: by eekb57 with SMTP id b57so2870eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 22:14:50 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1T4HKZ-0002IC-Hz
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 22:15:11 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2012 22:15:11 +0200
-Message-ID: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Wed, 22 Aug 2012 13:25:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=x1QGtUp4bfjLo9JRAsaNy3roqEXGHzv2tj/DgUkPy8Q=;
+	b=kx/sTXoXlYcZG0PAuA9fzW07eyMtDjTETiIHkRU3+giTnGW3u0fDrxdumHJ1dD0Qlu
+	1WWYH7yCzr9rZ8+UvVp1cUvtl5M1EhVvXwWBoRkUHc6WXEXafXcpoi7nlMQKOpQKCqa3
+	jzMRH9ncExebKhDjSLKDKQ+zbuOxMFk84O1bPSj6tWd+4KsP9/wLvWOq2BeyCnkW0CCB
+	gkdBeshVzo4lqlqSE1haxK9SKMI6jGh/cTlsRZKWsXdGF6xszMAyg9chwsL9rh2neV9V
+	7foRzf3X+mM/8p+hrUGctFW7EmiyYXVcqlnWRKIlnXSHTve7jU0WQrA5XFl/dsFiPEkc
+	e7mA==
+Received: by 10.14.4.201 with SMTP id 49mr20220443eej.0.1345667148051; Wed, 22
+	Aug 2012 13:25:48 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.5
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: libgcc_s.so not stripped
+Received: by 10.14.2.5 with HTTP; Wed, 22 Aug 2012 13:25:17 -0700 (PDT)
+In-Reply-To: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Aug 2012 13:25:17 -0700
+Message-ID: <CAMKF1sp7G1S-B5N-HR-2P_PEhkmeJnjDtskRe6EcubxiHah=nQ@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: libgcc_s.so not stripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,17 +40,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 20:27:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Aug 2012 20:37:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On Wed, Aug 22, 2012 at 1:15 PM, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+>
+> I just noticed that libgcc_s.so.1 is not stripped in the .ipk.  Is
+> there any reason to keep the debug symbols?  Uncompressed, this makes a
+> difference of more than 1 MB.
 
-I just noticed that libgcc_s.so.1 is not stripped in the .ipk.  Is
-there any reason to keep the debug symbols?  Uncompressed, this makes a
-difference of more than 1 MB.
-
-
-
-Enrico
+I dont see a reason to have debug info there. Symbol table probably
+should be left in.
 
 
