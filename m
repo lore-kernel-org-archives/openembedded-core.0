@@ -1,40 +1,33 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe@deserted.net>) id 1T4Gzt-0001jH-Pb
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1T4HW1-0002a5-Ba
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 21:53:49 +0200
-Received: by yenm1 with SMTP id m1so1014765yen.6
+	Wed, 22 Aug 2012 22:27:02 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q7MKEm6S027398
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 12:41:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=loS6XrgPccp+bXBvcR1xCozkqlhavG9Rr8b4lFybmDg=;
-	b=HY7LEpjBZ2KErNsHv9WNrh+2qov6dxReVNg/tt/U+4MgDYs1yHqHTTwRZiV6k/ViXL
-	jMlWsANzp0M7sLDBVMqHn5SEU0k0EKljol8sxhywrvTTCwJaU/46Okpj4qY3Py+CZJL8
-	+fux/3AcOvQKm/NVa6BFw2u47dMakqhRblOdSrOkonh7AbL8jYLvMAe7LwO1qmuYJbCm
-	wl6+tWEgoW+qR/piB7QT4xKvrSxQL3CHN3hs4sEj0A0Qbk0Tuq+lCWinX88IhmBy9oLv
-	p3R84bexDmKhx2fUxuMh+MZsxShhubB+2ESRJ2RXyJHHRiCzpGRRZCRGU2bvta2N/Saa
-	ZMUg==
+	Wed, 22 Aug 2012 22:14:50 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1T4HKZ-0002IC-Hz
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Aug 2012 22:15:11 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2012 22:15:11 +0200
+Message-ID: <ly628a8z00.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.50.100.137 with SMTP id ey9mr3374855igb.61.1345664503576; Wed,
-	22 Aug 2012 12:41:43 -0700 (PDT)
-Received: by 10.50.60.34 with HTTP; Wed, 22 Aug 2012 12:41:43 -0700 (PDT)
-In-Reply-To: <CANBf+V0XGvR=qSwCSfKBZN6Z5y6sLeYwu-7XUYO_U5ampFZ==A@mail.gmail.com>
-References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
-	<2E13D0D74D03406FAF576083ED655376@gmail.com>
-	<CANBf+V29JZm0SqE_YgvAB9PxR7SOvQOUGzGAVKkm6en7ZsGysw@mail.gmail.com>
-	<CABcZANkyW52k-h1zfpA482b4+q4GyV_nZU2e=giKJExeqWws0A@mail.gmail.com>
-	<CANBf+V0XGvR=qSwCSfKBZN6Z5y6sLeYwu-7XUYO_U5ampFZ==A@mail.gmail.com>
-Date: Wed, 22 Aug 2012 15:41:43 -0400
-Message-ID: <CANBf+V2j=GsOOYY+OMs-hrGH8-KFedOsLORRpaJg=Uh8w41yTw@mail.gmail.com>
-From: Joe MacDonald <joe@deserted.net>
-To: Chris Larson <kergoth@gmail.com>
-X-Gm-Message-State: ALoCoQlk7eGBPArJDxn0iBil+WKP73LGiqB8sBxc8YydLXQ8+kofmQhFQTHllQPRen/tFqK+2KGl
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Proposal: Creating meta-networking
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.5
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: libgcc_s.so not stripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,60 +40,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 19:53:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 22 Aug 2012 20:27:02 -0000
+Content-Type: text/plain
 
-On Wed, Aug 22, 2012 at 3:37 PM, Joe MacDonald <joe@deserted.net> wrote:
-> On Wed, Aug 22, 2012 at 3:22 PM, Chris Larson <kergoth@gmail.com> wrote:
->> On Wed, Aug 22, 2012 at 11:59 AM, Joe MacDonald <joe@deserted.net> wrote:
->>> On Wed, Aug 22, 2012 at 2:20 PM, Christopher Larson <kergoth@gmail.com> wrote:
->>>> On Friday, June 15, 2012 at 8:15 AM, Joe MacDonald wrote:
->>>>
->>>> We've been talking about this on-and-off at Wind River for a while now,
->>>> but it now seems like a reasonable time to bring a proposal to the OE
->>>> community at large. We're thinking about creating a new layer to house
->>>> recipes, etc. for networking packages. I'll try to address what seem to
->>>> be the most immediate questions (certainly the ones we've been thinking
->>>> most about any time I've discussed this with anyone):
->>>>
->>>> Has their been any progress on the creation of this layer?
->>>
->>> Absolutely.  I think at least some of my mail on the subject have been
->>> bouncing from the lists but the short version is at the end of July
->>> the existing "meta-openembedded" pieces were done in my tree and there
->>> was a list of stuff that needed fixing in migrating the oe-classic
->>> bits into the new meta-networking layer (the list I laid out in my
->>> initial email).  I was on vacation between then and Monday, so
->>> nothing's happened since then but this week I'm back looking at the
->>> best way to handle these older recipes that are in need of love in
->>> order to work with the current meta-oe and we should be good to go.  I
->>> think what's likely to happen is there will be some of them updated
->>> right away and others will be integrated and updated soon after.
->>
->> Sounds good, thanks for the update. Is this repository-in-progress
->> available somewhere public yet?
->
-> Yep, sure is, though I'd discourage using it as a basis for work right
-> now as I'm not guaranteeing a clean history on it.  It's full of dead
-> branches and options I'd been working through with Koen.
->
-> So now that you know what you're getting into, my current WIP is here:
->
-> https://github.com/joeythesaint/meta-oe/tree/meta-networking-reordered-1
->
-> You can expect that the top commit (dd48fb590) will not be present at
-> all in the final version but everything leading up to it will likely
-> remain unchanged in the final version, I think we're mostly settled on
-> those being sensible.  Though since this is still a WIP I plan to
-> rebase the whole branch before sending any kind of pull request.
+Hi,
 
-Oh, and right after sending that I realize that what's currently in my
-github tree doesn't have the style cleanups yet (PRIORITY fields,
-metadata ordering, etc.) so even the earlier ones still have some
-changes coming.  Sorry about that.
+I just noticed that libgcc_s.so.1 is not stripped in the .ipk.  Is
+there any reason to keep the debug symbols?  Uncompressed, this makes a
+difference of more than 1 MB.
 
--- 
-Joe MacDonald
-:wq
+
+
+Enrico
 
 
