@@ -1,27 +1,43 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1T43zr-0003aB-43
+	(envelope-from <ross.burton@intel.com>) id 1T45qz-0004zM-N7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 08:00:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7M5mmGv011011
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Aug 2012 22:48:48 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.21.124) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Tue, 21 Aug 2012 22:48:48 -0700
-Message-ID: <503472BF.5000306@windriver.com>
-Date: Wed, 22 Aug 2012 01:48:47 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
+	Wed, 22 Aug 2012 09:59:53 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 00:47:31 -0700
+Received: by obceq6 with SMTP id eq6so883520obc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2012 00:47:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=68wn2bG+g/xiQfDrv8+1+dykhlSF2xBOk6KAz2KMPWk=;
+	b=GtQ4rs/vjFFV3qaKyhb95klkO9kaf1rewuXeYHCkPQ8ipXXW4em9XhDhPuQy1K21Kq
+	iutAFmWl4AnHUqee/QNi4lByIKfvJkWE/YEzjYulX8VEcSMVfbQbvbxMaOEqyuDelf6Y
+	saohFmCKceynE/8GNONfjLnGOaLme/tU625p7mmWgGm+lQfdlvhZPLO3oU3H3uQi2uX0
+	arp8uv7pXU1Mhx79nYkj2YXL3QH0HYyOSCyuvAN1+ASBoNNIFs1P5PZP5F6Jd1nvkmkI
+	CYmnPX8P3tgC/BVy5xrdHlQh8fJgemVkT94pYLHGSPS6l4wUdZYdW4gzwjOmpefHqFoo
+	zI9g==
+Received: by 10.60.29.72 with SMTP id i8mr14780345oeh.26.1345621650603; Wed,
+	22 Aug 2012 00:47:30 -0700 (PDT)
 MIME-Version: 1.0
-To: Tom Zanussi <tom.zanussi@intel.com>
-References: <cover.1344876697.git.bruce.ashfield@windriver.com>
-	<1345613248.17535.1.camel@trz-ThinkPad-T420>
-In-Reply-To: <1345613248.17535.1.camel@trz-ThinkPad-T420>
-Cc: openembedded-core@lists.openembedded.org, scott.a.garman@intel.com
-Subject: Re: [PATCH 0/1] [denzil] linux-yocto: make validate_branches handle non BSP branches
+Received: by 10.182.158.3 with HTTP; Wed, 22 Aug 2012 00:47:10 -0700 (PDT)
+In-Reply-To: <CAMKF1sp5vLaO68jx-wmmrFDaTjbBczSJ3uLf8oAZPwkpmhZr_g@mail.gmail.com>
+References: <CAMKF1srvBZzMTbN-iOqEjitgSjFOK_Cpd0B94HjWm1z7s-0-iQ@mail.gmail.com>
+	<1345285875.27428.27.camel@ted>
+	<CAMKF1srJ1w94g2rgu8FvZdmHLK-4t=GSj9OtSAncuquK6oNhjw@mail.gmail.com>
+	<1345339639.24626.62.camel@x121e.pbcl.net>
+	<CAMKF1sp5vLaO68jx-wmmrFDaTjbBczSJ3uLf8oAZPwkpmhZr_g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Aug 2012 08:47:10 +0100
+Message-ID: <CAJTo0LYycw59N9tO1i0q5NtTLjUgxwdPRTLQrcZWL7hgaQbmYA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQlzMpYPMyyDzXfLnUjIBSm5K6TJnWp10wVbZs/6XLQoGZCkxKPy2Ki1HlwLEniLqoEa+7Oh
+Cc: Phil Blundell <philb@gnu.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Replacing chrpath with patchelf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,102 +50,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 06:00:55 -0000
-X-Groupsio-MsgNum: 28038
-Content-Type: multipart/mixed; boundary="------------030801050006020606070601"
+X-List-Received-Date: Wed, 22 Aug 2012 07:59:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
---------------030801050006020606070601
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 12-08-22 1:27 AM, Tom Zanussi wrote:
-> On Mon, 2012-08-13 at 13:10 -0400, Bruce Ashfield wrote:
->> Scott,
->>
->> Here's a fix for validate_branches that comes from a pending master
->> change that I've been running for 3 weeks, and one that TomZ has tested
->> in his yocto BSP work on denzil.
->>
->> It fixes some BSP use cases that involve setting a specific SRCREV
->> on a base branch, so that a BSP branch that doesn't yet exist can
->> be created off of that known base. Previously only an existing BSP
->> branch could have it's SRCREV restricted.
->>
+On 22 August 2012 01:21, Khem Raj <raj.khem@gmail.com> wrote:
+> May be it will be nicer to create one meta
+> package which installs
+> all prerequisites not only chrpath/patchelf and maintain that ourselves
+> this could be nicer since then user only installs
 >
-> Hi Scott,
->
-> I don't see this in denzil - do you have it queued for the next pull
-> request, or did it get missed?
+> apt-get install make-my-host-compile-oe package on ubuntu and similar
+> for others.
 
-I was wondering the same thing, in particular, since I just made a minor
-tweak to this in master (which I'll send out tomorrow). The attached
-patch should also be merged to denzil.
+I used to maintain one of these for Debian years ago, and it did help a lot.
 
-Bruce
-
->
-> Tom
->
->> cc: Tom Zanussi<tom.zanussi@intel.com>
->>
->> Cheers,
->>
->> Bruce
->>
->> The following changes since commit 73cdebf60df225ee10f2eb215935be3b61e1b831:
->>
->>    documentation/dev-manual/dev-manual-kernel-appendix.xml: Add note about conflict (2012-06-29 15:54:26 +0100)
->>
->> are available in the git repository at:
->>    git://git.pokylinux.org/poky-contrib zedd/kernel-denzil
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-denzil
->>
->> Bruce Ashfield (1):
->>    linux-yocto: allow do_validate_branches to handle all branches
->>
->>   meta/classes/kernel-yocto.bbclass |  119 +++++++++++++++++++++++++------------
->>   1 files changed, 80 insertions(+), 39 deletions(-)
->>
->
->
+Ross
 
 
---------------030801050006020606070601
-Content-Type: application/mbox;
-	name="0001-kernel-yocto-set-master-branch-to-a-defined-SRCREV.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename*0="0001-kernel-yocto-set-master-branch-to-a-defined-SRCREV.patc";
-	filename*1="h"
-
-RnJvbSBlMDQ0MDQwYWZlY2RlNjI0MzYyYTcyNDNjM2NiNzQ4ZWQ5ZTNmZTlkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAd2luZHJp
-dmVyLmNvbT4KRGF0ZTogV2VkLCAyMiBBdWcgMjAxMiAwMToxODowNSAtMDQwMApTdWJqZWN0OiBb
-UEFUQ0hdIGtlcm5lbC15b2N0bzogc2V0IG1hc3RlciBicmFuY2ggdG8gYSBkZWZpbmVkIFNSQ1JF
-VgoKVG8gc3VwcG9ydCBjdXN0b20gcmVwb3NpdG9yaWVzIHRoYXQgc2V0IGEgU1JDUkVWIGFuZCB0
-aGF0IG9ubHkgaGF2ZQphIHNpbmdsZSBtYXN0ZXIgYnJhbmNoLCBkb192YWxpZGF0ZV9icmFuY2hl
-cyBuZWVkcyBhIHNwZWNpYWwgY2FzZQpmb3IgJ21hc3RlcicuIFdlIGNhbid0IGRlbGV0ZSBhbmQg
-cmVjcmVhdGUgdGhlIGJyYW5jaCwgc2luY2UgeW91CmNhbm5vdCBkZWxldGUgdGhlIGN1cnJlbnQg
-YnJhbmNoLCBpbnN0ZWFkIHdlIG11c3QgcmVzZXQgdGhlIGJyYW5jaAp0byB0aGUgcHJvcGVyIFNS
-Q1JFVi4KClNpZ25lZC1vZmYtYnk6IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEB3aW5k
-cml2ZXIuY29tPgotLS0KIG1ldGEvY2xhc3Nlcy9rZXJuZWwteW9jdG8uYmJjbGFzcyB8ICAgMTIg
-KysrKysrKystLS0tCiAxIGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMva2VybmVsLXlvY3RvLmJiY2xhc3MgYi9t
-ZXRhL2NsYXNzZXMva2VybmVsLXlvY3RvLmJiY2xhc3MKaW5kZXggZDg1OWQ3Ni4uZTY3NThjZiAx
-MDA2NDQKLS0tIGEvbWV0YS9jbGFzc2VzL2tlcm5lbC15b2N0by5iYmNsYXNzCisrKyBiL21ldGEv
-Y2xhc3Nlcy9rZXJuZWwteW9jdG8uYmJjbGFzcwpAQCAtMjcwLDExICsyNzAsMTUgQEAgZG9fdmFs
-aWRhdGVfYnJhbmNoZXMoKSB7CiAJIyBTUkNSRVYgKGlmIGl0IGlzbid0IHRoZSBjdXJyZW50IEhF
-QUQgb2YgdGhhdCBicmFuY2gpCiAJZ2l0IGNoZWNrb3V0IC1xIG1hc3RlcgogCWZvciBiIGluICRj
-b250YWluaW5nX2JyYW5jaGVzOyBkbwotCQlicmFuY2hfaGVhZD1gZ2l0IHNob3ctcmVmIC1zIC0t
-aGVhZHMgJHtifWAKKwkJYnJhbmNoX2hlYWQ9YGdpdCBzaG93LXJlZiAtcyAtLWhlYWRzICR7Yn1g
-CQkKIAkJaWYgWyAiJGJyYW5jaF9oZWFkIiAhPSAiJHRhcmdldF9icmFuY2hfaGVhZCIgXTsgdGhl
-bgotCQkJZWNobyAiW0lORk9dIFNldHRpbmcgYnJhbmNoICRiIHRvICR7dGFyZ2V0X2JyYW5jaF9o
-ZWFkfSIJICAgICAgCi0JCQlnaXQgYnJhbmNoIC1EICRiID4gL2Rldi9udWxsCi0JCQlnaXQgYnJh
-bmNoICRiICR0YXJnZXRfYnJhbmNoX2hlYWQgPiAvZGV2L251bGwKKwkJCWVjaG8gIltJTkZPXSBT
-ZXR0aW5nIGJyYW5jaCAkYiB0byAke3RhcmdldF9icmFuY2hfaGVhZH0iCisJCQlpZiBbICIkYiIg
-PT0gIm1hc3RlciIgXTsgdGhlbgorCQkJCWdpdCByZXNldCAtLWhhcmQgJHRhcmdldF9icmFuY2hf
-aGVhZCA+IC9kZXYvbnVsbAorCQkJZWxzZQorCQkJCWdpdCBicmFuY2ggLUQgJGIgPiAvZGV2L251
-bGwKKwkJCQlnaXQgYnJhbmNoICRiICR0YXJnZXRfYnJhbmNoX2hlYWQgPiAvZGV2L251bGwKKwkJ
-CWZpCiAJCWZpCiAJZG9uZQogCi0tIAoxLjcuNS40Cgo=
-
---------------030801050006020606070601--
