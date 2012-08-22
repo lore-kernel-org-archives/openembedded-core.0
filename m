@@ -1,40 +1,42 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T4EBR-0001vr-EF
+	(envelope-from <ross.burton@intel.com>) id 1T4EET-00026P-DJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 18:53:33 +0200
+	Wed, 22 Aug 2012 18:56:41 +0200
 Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 09:40:08 -0700
-Received: by obceq6 with SMTP id eq6so1391058obc.25
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 22 Aug 2012 09:44:35 -0700
+Received: by obceq6 with SMTP id eq6so1395278obc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 09:40:06 -0700 (PDT)
+	Wed, 22 Aug 2012 09:44:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=hv3Tod0HSzaM/p8NvYFKtQAuvpkqfv6MVIeqwpKfojE=;
-	b=c82cyNccNJ35DKAKTKKr0vtiz4saRX4mPqomp+KX9NkkJ+T1ycY1b59mnyq+ZHioQU
-	5NmXX8HThPH45SxN86ZFMqy4a3JrRqxz/RHonlnQ6XZpw7iTxN0DvjaRcGt/dOFYZ/pX
-	su92FTZrC/KVOHAeioouy/O9N8DDR+vg6HOCyi7VExmIw+UmF7AEezo1milQ41ulxpYE
-	9qa3a84qjr/8NguFmg5k95MruupOeyK/HZ9HqWVWnerl2bThGXTLNCT2cE+0zYHL0TOk
-	gR8bnGIE0aeglofBb/7BZ1HaicW4anjijeN30knh6cpYHmThWi1GpIMFeRU/mIFzDNa5
-	iZ3w==
-Received: by 10.182.193.105 with SMTP id hn9mr15959828obc.11.1345653606816;
-	Wed, 22 Aug 2012 09:40:06 -0700 (PDT)
+	:cc:content-type:x-gm-message-state;
+	bh=MhD643lR9IPrlChzu4X5sEd1nd3J4FKolzQHd+JdCZ8=;
+	b=Z3I6XYjaYFsqfSnHhgu6xEVfNCNDVPdrGbPqi2edTEM75PPq7FyTU8NsAyGfhlNjOE
+	ondzWkSrjy8+CYi2iezaKoQt1sPMGHic2BrnHGpSPW3iAfFpbJ9cBqRS5dIcYN5XQCfx
+	ePZAkhMxWGqh/8ixlgPAP9QTh+dHSAA7W8/GB7/TAEiOC/HZYfDf8AvIh1OjsP1Wi0B5
+	oJX1HT30W2/ju8xnsOSgdDgmVD7crWP93p+cdBhRDhUtre5KRZsnpAgzCtRg8EBhMxpm
+	QQAx7vGpHRRFMy/BTvyqtoR71Uj7BawJkw2R+y24ZlkJFfi7C0pmCvWKrIirWEbpBz40
+	+JVQ==
+Received: by 10.182.108.71 with SMTP id hi7mr16725553obb.21.1345653874853;
+	Wed, 22 Aug 2012 09:44:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.158.3 with HTTP; Wed, 22 Aug 2012 09:39:45 -0700 (PDT)
-In-Reply-To: <CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
-References: <CAJTo0LZpSd6LB+9W2kUcxfeU4GOVO5VOnLHMbHYT+1W6iVzcBQ@mail.gmail.com>
-	<CAJTo0LarhQSinwUHXuruO-OiCBOw4j89ko2n4RvctREApS5NZA@mail.gmail.com>
-	<CAJTo0LbJaRyPCexNT8nVhY-qvh19UxH9WSf22==GF8kjWuFaAg@mail.gmail.com>
-	<CAJTo0LYvK_Nbj-ThQRNGQxh6P1wZqzPmm0pGNYNGnTucQEV1ng@mail.gmail.com>
+Received: by 10.182.158.3 with HTTP; Wed, 22 Aug 2012 09:44:14 -0700 (PDT)
+In-Reply-To: <1345653628.3907.124.camel@ted>
+References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1840245.41xHr4Jb3c@helios>
+	<F1032BDA-250C-4EB3-94F5-5FB12A9FE6FB@dominion.thruhere.net>
+	<1345653628.3907.124.camel@ted>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Aug 2012 17:39:45 +0100
-Message-ID: <CAJTo0Lbhir=VLZZfeqn4UakxTkiFyeXK+zKfCtH2GMgrZ5aBpw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OE-devel <openembedded-devel@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnQ5u1kjthIczbJgrcN2BmBb6JjeG1xfiNjdRYEoJ0xunCH9hyjVkcYGX/B5F5et6Sieoui
-Subject: Re: RFC: One X Server To Rule Them All
+Date: Wed, 22 Aug 2012 17:44:14 +0100
+Message-ID: <CAJTo0Las+a6gpTqgu3221qaeyO4B7BuLRDzFrSJNgN1WD48Rig@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQkc2Myw2KNfyPus50La/a9TzA1c+YHG0SyCcNjaekn8gR1Y8/gMNDBSMBq+J1/JQh4gQoqs
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] zeroconf: remove - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,21 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 16:53:33 -0000
+X-List-Received-Date: Wed, 22 Aug 2012 16:56:41 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 22 August 2012 17:18, Burton, Ross <ross.burton@intel.com> wrote:
-> -9892 ./usr/lib/libts-1.0.so.0.0.0
-> +8344 ./usr/lib/libts-1.0.so.0.0.0
->
-> Now *this* is weird.
+> I'm not sure that is enough to warrant it staying in OE-Core. meta-oe
+> might be a better fit? Can avahi be cut down for "tiny" usage though
+> configuration?
 
-Any ideas as to why this happened are greatly welcomed...
+Agreed.
 
-> +19532 ./usr/lib/xorg/modules/extensions/libdbe.so
+I don't think Avahi can be cut down enough, zerconf only supports
+exposing the machine name which is a pretty tiny subset of mDNS in
+total.
 
-Confirmed that this is 1990s HP legacy.  Gone.
-
-Ross
+ross
 
 
