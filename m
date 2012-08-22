@@ -1,36 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T4B4y-0000Mk-Cm for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 15:34:40 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7MDMUpu003480;
-	Wed, 22 Aug 2012 14:22:30 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03272-03; Wed, 22 Aug 2012 14:22:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7MDMKEW003474
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 22 Aug 2012 14:22:21 +0100
-Message-ID: <1345641741.3907.119.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Aug 2012 14:22:21 +0100
-In-Reply-To: <CAJTo0LYycw59N9tO1i0q5NtTLjUgxwdPRTLQrcZWL7hgaQbmYA@mail.gmail.com>
-References: <CAMKF1srvBZzMTbN-iOqEjitgSjFOK_Cpd0B94HjWm1z7s-0-iQ@mail.gmail.com>
-	<1345285875.27428.27.camel@ted>
-	<CAMKF1srJ1w94g2rgu8FvZdmHLK-4t=GSj9OtSAncuquK6oNhjw@mail.gmail.com>
-	<1345339639.24626.62.camel@x121e.pbcl.net>
-	<CAMKF1sp5vLaO68jx-wmmrFDaTjbBczSJ3uLf8oAZPwkpmhZr_g@mail.gmail.com>
-	<CAJTo0LYycw59N9tO1i0q5NtTLjUgxwdPRTLQrcZWL7hgaQbmYA@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Phil Blundell <philb@gnu.org>, and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: [RFC] Replacing chrpath with patchelf
+Received: from mail.cvg.de ([62.153.82.30])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1T4B6D-0000RF-CU
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Aug 2012 15:35:57 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q7MDNnYB023858
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2012 15:23:51 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1T4Auq-0000KO-OM
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Aug 2012 15:24:12 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2012 15:24:12 +0200
+Message-ID: <lyfw7foy9v.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.85
+X-Spam-Score: -5.4
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: eglibc build fails with 'cannot find -lgcc_eh'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,29 +40,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 13:34:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2012 13:35:57 -0000
+Content-Type: text/plain
 
-On Wed, 2012-08-22 at 08:47 +0100, Burton, Ross wrote:
-> On 22 August 2012 01:21, Khem Raj <raj.khem@gmail.com> wrote:
-> > May be it will be nicer to create one meta
-> > package which installs
-> > all prerequisites not only chrpath/patchelf and maintain that ourselves
-> > this could be nicer since then user only installs
-> >
-> > apt-get install make-my-host-compile-oe package on ubuntu and similar
-> > for others.
-> 
-> I used to maintain one of these for Debian years ago, and it did help a lot.
+Hi,
 
-These days I'd much rather just ship a tarball with all the bits needed
-contained therein. Since we can self-host and we have the nativesdk
-infrastructure, this shouldn't be hard and it would work on any distro.
+with recent oe-core + oe-meta, a build from scratch fails in eglibc
+with:
 
-Cheers,
+| .../tmp/sysroots/x86_64-oe-linux/usr/bin/armv5te-linux-gnueabi/arm-linux-gnueabi-ld.bfd: cannot find -lgcc_eh
+| collect2: error: ld returned 1 exit status
+| make[2]: *** [.../tmp/work/armv5te-linux-gnueabi/eglibc-2.15-r13+svnr19294/build-arm-linux-gnueabi/iconv/iconv_prog] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| make[2]: Leaving directory `.../tmp/work/armv5te-linux-gnueabi/eglibc-2.15-r13+svnr19294/eglibc-2_15/libc/iconv'
+| make[1]: *** [iconv/others] Error 2
 
-Richard
+-lgcc_eh seems to be required because a check for -Wl,-as-needed failed.
+But this test result is bogus, because check failed due to missing -lgcc_s
+and not because of the linker flag.
 
+Any idea how to solve this?
+
+
+
+Enrico
 
 
