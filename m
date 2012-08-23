@@ -1,23 +1,54 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from co1ehsobe005.messaging.microsoft.com ([216.32.180.188]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T4fvQ-00057B-HB
+	(envelope-from <B29882@freescale.com>) id 1T4gX1-0003F5-FG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 00:30:52 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Aug 2012 15:18:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,301,1344236400"; d="scan'208";a="184764267"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.21])
-	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2012 15:18:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2012 15:18:42 -0700
-Message-Id: <1345760322-26866-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH v2] build-appliance-image: Add vmx* files and build zip file
+	Fri, 24 Aug 2012 01:09:43 +0200
+Received: from mail82-co1-R.bigfish.com (10.243.78.249) by
+	CO1EHSOBE011.bigfish.com (10.243.66.74) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 23 Aug 2012 22:57:35 +0000
+Received: from mail82-co1 (localhost [127.0.0.1])	by mail82-co1-R.bigfish.com
+	(Postfix) with ESMTP id A54CA8A00B6;
+	Thu, 23 Aug 2012 22:57:35 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 2
+X-BigFish: VS2(z37d4lz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2hbe9i1155h)
+Received: from mail82-co1 (localhost.localdomain [127.0.0.1]) by mail82-co1
+	(MessageSwitch) id 1345762653972433_13981;
+	Thu, 23 Aug 2012 22:57:33 +0000 (UTC)
+Received: from CO1EHSMHS013.bigfish.com (unknown [10.243.78.252])	by
+	mail82-co1.bigfish.com (Postfix) with ESMTP id EAA617C0047;
+	Thu, 23 Aug 2012 22:57:33 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS013.bigfish.com
+	(10.243.66.23) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 23 Aug 2012 22:57:33 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.3]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
+	Thu, 23 Aug 2012 17:57:33 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] distutils-common-base.bbclass: Pick up
+	additional .debug folders:
+Thread-Index: AQHNgXyL2GERuLJx7E2eDSLW7YvlgJdoVhiA
+Date: Thu, 23 Aug 2012 22:57:31 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A61294C@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1345747597-18078-1-git-send-email-msm@freescale.com>
+	<CAJTo0LZNhPx5Fj59mSnGudsmMQxDxNefZi+98HWuiSqdFoTJdQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZNhPx5Fj59mSnGudsmMQxDxNefZi+98HWuiSqdFoTJdQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] distutils-common-base.bbclass: Pick up additional .debug folders:
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -27,132 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 22:30:52 -0000
+X-List-Received-Date: Thu, 23 Aug 2012 23:09:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <14C452928A9457419D7F441747612339@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-This commit adds the vmx* files needed to setup a VMware image,
-this also packages the vmdk along with the vmx files.
+On Thu, Aug 23, 2012 at 5:13 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+> On 23 August 2012 19:46, Matthew McClintock <msm@freescale.com> wrote:
+>>    ${PYTHON_SITEPACKAGES_DIR}/.debug \
+>>    ${PYTHON_SITEPACKAGES_DIR}/*/.debug \
+>>    ${PYTHON_SITEPACKAGES_DIR}/*/*/.debug \
+>> +  ${libdir}/${PYTHON_DIR}/.debug \
+>> +  ${libdir}/${PYTHON_DIR}/*/.debug \
+>> +  ${libdir}/${PYTHON_DIR}/*/*/.debug \
+>
+> I thought packages that used distutils generally put their files under
+> sitepackages, and not the python base directory...  Are some packages
+> doing it wrong?
 
-v2: Add -f to ln to allow for overwrite
+pexpect was installing /usr/lib/python2.7 and that was my basis for
+the correct location so I changed it to ${libdir} to fix that... I
+just sent another patch that might address this issue..
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/images/build-appliance-image.bb  |   21 ++++++++-
- .../Yocto_Build_Appliance.vmx                      |   52 ++++++++++++++++++++
- .../Yocto_Build_Appliance.vmxf                     |    8 +++
- 3 files changed, 80 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
- create mode 100644 meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf
+-M
 
-diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
-index bac7f80..6b00e64 100644
---- a/meta/recipes-core/images/build-appliance-image.bb
-+++ b/meta/recipes-core/images/build-appliance-image.bb
-@@ -20,7 +20,10 @@ IMAGE_FSTYPES = "vmdk"
- inherit core-image
- 
- SRCREV = "73cdebf60df225ee10f2eb215935be3b61e1b831"
--SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
-+SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
-+           file://Yocto_Build_Appliance.vmx \
-+           file://Yocto_Build_Appliance.vmxf \
-+          "
- 
- IMAGE_CMD_ext3_append () {
- 	# We don't need to reserve much space for root, 0.5% is more than enough
-@@ -68,3 +71,19 @@ python do_get_poky_src () {
-     bb.build.exec_func('base_do_unpack', d)
- }
- addtask do_get_poky_src before do_rootfs
-+
-+create_bundle_files () {
-+	cd ${WORKDIR}
-+	mkdir -p Yocto_Build_Appliance
-+	cp *.vmx* Yocto_Build_Appliance
-+	ln -sf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
-+	zip -r ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
-+	ln -sf ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance-${DATETIME}.zip ${DEPLOY_DIR_IMAGE}/Yocto_Build_Appliance.zip
-+}
-+
-+python do_bundle_files() {
-+    bb.build.exec_func('create_bundle_files', d)
-+}
-+
-+addtask bundle_files after do_vmdkimg before do_build
-+do_bundle_files[nostamp] = "1"
-diff --git a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
-new file mode 100644
-index 0000000..b38127a
---- /dev/null
-+++ b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmx
-@@ -0,0 +1,52 @@
-+.encoding = "UTF-8"
-+displayname = "Yocto Build Appliance"
-+guestos = "other"
-+tools.syncTime = "FALSE"
-+virtualhw.version = "8"
-+config.version = "8"
-+numvcpus = "2"
-+cpuid.coresPerSocket = "1"
-+vcpu.hotadd = "TRUE"
-+mem.hotadd = "TRUE"
-+memsize = "4096"
-+svga.autodetect = "TRUE"
-+pciBridge0.present = "TRUE"
-+mks.enable3d = "TRUE"
-+pciBridge4.present = "TRUE"
-+pciBridge4.virtualDev = "pcieRootPort"
-+pciBridge4.functions = "8"
-+pciBridge5.present = "TRUE"
-+pciBridge5.virtualDev = "pcieRootPort"
-+pciBridge5.functions = "8"
-+pciBridge6.present = "TRUE"
-+pciBridge6.virtualDev = "pcieRootPort"
-+pciBridge6.functions = "8"
-+pciBridge7.present = "TRUE"
-+pciBridge7.virtualDev = "pcieRootPort"
-+pciBridge7.functions = "8"
-+vmci0.present = "TRUE"
-+floppy0.present = "TRUE"
-+floppy0.fileType = "device"
-+floppy0.autodetect = "FALSE"
-+floppy0.startConnected = "FALSE"
-+ide1:0.present = "TRUE"
-+ide1:0.deviceType = "atapi-cdrom"
-+ide1:0.autodetect = "TRUE"
-+ide1:0.startConnected = "FALSE"
-+ide0:0.present = "TRUE"
-+ide0:0.deviceType = "disk"
-+ide0:0.fileName = "Yocto_Build_Appliance.vmdk"
-+usb.present = "TRUE"
-+scsi0.virtualDev = "lsilogic"
-+scsi0.present = "TRUE"
-+ethernet0.present = "TRUE"
-+ethernet0.virtualDev = "e1000"
-+ethernet0.connectionType = "nat"
-+ethernet0.startConnected = "TRUE"
-+ethernet0.addressType = "generated"
-+sound.present = "TRUE"
-+sound.virtualDev = "es1371"
-+sound.autodetect = "TRUE"
-+extendedConfigFile = "Yocto_Build_Appliance.vmxf"
-+sound.fileName = "-1"
-+virtualHW.productCompatibility = "hosted"
-diff --git a/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf
-new file mode 100644
-index 0000000..ca3f026
---- /dev/null
-+++ b/meta/recipes-core/images/build-appliance-image/Yocto_Build_Appliance.vmxf
-@@ -0,0 +1,8 @@
-+<?xml version="1.0"?>
-+<Foundry>
-+<VM>
-+<VMId type="string">52 e4 0b df 7b 70 21 f8-88 56 a7 26 47 43 95 93</VMId>
-+<ClientMetaData>
-+<clientMetaDataAttributes/>
-+<HistoryEventList/></ClientMetaData>
-+<vmxPathName type="string">Yocto_Build_Appliance.vmx</vmxPathName></VM></Foundry>
--- 
-1.7.7.6
+>
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
