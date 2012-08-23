@@ -1,52 +1,28 @@
-Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T4Nih-0007aX-LB
+	(envelope-from <sgw@linux.intel.com>) id 1T4OGo-0000ps-UL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 05:04:31 +0200
-Received: from mail245-va3-R.bigfish.com (10.7.14.236) by
-	VA3EHSOBE013.bigfish.com (10.7.40.63) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 23 Aug 2012 02:52:25 +0000
-Received: from mail245-va3 (localhost [127.0.0.1])	by
-	mail245-va3-R.bigfish.com (Postfix) with ESMTP id A84675003B9;
-	Thu, 23 Aug 2012 02:52:25 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2hbe9i)
-Received: from mail245-va3 (localhost.localdomain [127.0.0.1]) by mail245-va3
-	(MessageSwitch) id 13456903442774_10371;
-	Thu, 23 Aug 2012 02:52:24 +0000 (UTC)
-Received: from VA3EHSMHS001.bigfish.com (unknown [10.7.14.238])	by
-	mail245-va3.bigfish.com (Postfix) with ESMTP id F15BED80045;
-	Thu, 23 Aug 2012 02:52:23 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS001.bigfish.com
-	(10.7.99.11) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 23 Aug 2012 02:52:23 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.123]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
-	Wed, 22 Aug 2012 21:52:22 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Thread-Topic: [OE-core] why does using a "revision" prevent downloading
-	during a parse?
-Thread-Index: AQHNgNpRNokU9M4a106Aes1Yl35T7w==
-Date: Thu, 23 Aug 2012 02:52:22 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A5FD736@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <alpine.DEB.2.02.1208222108300.24283@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1208222108300.24283@oneiric>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Thu, 23 Aug 2012 05:39:47 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2012 20:27:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,297,1344236400"; d="scan'208";a="184332738"
+Received: from unknown (HELO [10.255.13.21]) ([10.255.13.21])
+	by orsmga001.jf.intel.com with ESMTP; 22 Aug 2012 20:27:14 -0700
+Message-ID: <5035A312.9000903@linux.intel.com>
+Date: Wed, 22 Aug 2012 20:27:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: why does using a "revision" prevent downloading during a parse?
+To: Tom Rini <trini@ti.com>
+References: <1345592379-8704-1-git-send-email-trini@ti.com>
+In-Reply-To: <1345592379-8704-1-git-send-email-trini@ti.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/5] u-boot-mkimage: Correct EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -56,57 +32,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 03:04:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <5DB8A87F5C0786418F8079E3F8211CF9@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Aug 2012 03:39:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 22, 2012 at 8:11 PM, Robert P. J. Day <rpjday@crashcourse.ca> w=
-rote:
+On 08/21/2012 04:39 PM, Tom Rini wrote:
+> - HOSTLD has never been used in U-Boot, drop.
+> - HOSTSTRIP has been valid for a long time for tools
+> - Same for HOSTCFLAGS / HOSTLDFLAGS
 >
->   certainly about to embarrass myself again, but from
-> u-boot_2011.06.bb:
+> Signed-off-by: Tom Rini <trini@ti.com>
+> ---
+>   meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb  |    4 ++--
+>   meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb  |    4 ++--
+>   .../u-boot/u-boot-mkimage_2012.04.01.bb            |    4 +++-
+>   3 files changed, 7 insertions(+), 5 deletions(-)
 >
-> ...
-> # This revision corresponds to the tag "v2011.06"
-> # We use the revision in order to avoid having to fetch it from the repo =
-during parse
-> SRCREV =3D "b1af6f532e0d348b153d5c148369229d24af361a"
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
+> index 34bae8e..fdbe7c9 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+>                       file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
+>   SECTION = "bootloader"
 >
-> PV =3D "v2011.06+git${SRCPV}"
-> ...
+> -PR = "r1"
+> +PR = "r2"
 >
->   i don't know what that means -- how does using that "revision"
-> prevent fetching?  i would simply have defined the SRC_URI using the
-> tag value, so i'm not sure what benefit i'm getting out of the above.
+>   SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
+>              file://0001-Drop-config.h-include-in-tools-imximage.h.patch \
+> @@ -17,7 +17,7 @@ S = "${WORKDIR}/u-boot-${PV}"
+>
+>   BBCLASSEXTEND = "native nativesdk"
+>
+> -EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTSTRIP=true'
+> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+>
+I know you fixed the quote, but did you do any kind of test build?
 
-You should look for the patch that made that change and read the commit mes=
-sage.
+Please see the Autobuilder:
 
--M
+http://autobuilder.yoctoproject.org:8010/builders/nightly-world/builds/243/steps/shell_34/logs/stdio
 
->
-> rday
->
-> --
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+for additional failures, please let me know what testing you do when you 
+submit the next patch set please.
 
+
+
+Thanks
+	Sau!
+
+>   do_compile () {
+>     oe_runmake tools
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+> index 3ca0c2c..c4921d6 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+>                       file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
+>   SECTION = "bootloader"
+>
+> -PR = "r0"
+> +PR = "r1"
+>
+>   SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+>
+> @@ -15,7 +15,7 @@ S = "${WORKDIR}/u-boot-${PV}"
+>
+>   BBCLASSEXTEND = "native nativesdk"
+>
+> -EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+>
+>   do_compile () {
+>     oe_runmake tools
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
+> index aa107fe..c41a2f1 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
+> @@ -3,6 +3,8 @@ LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
+>   SECTION = "bootloader"
+>
+> +PR = "r1"
+> +
+>   # This is needs to be validated among supported BSP's before we can
+>   # make it default
+>   DEFAULT_PREFERENCE = "-1"
+> @@ -18,7 +20,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+>
+>   S = "${WORKDIR}/git"
+>
+> -EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+>
+>   do_compile () {
+>     oe_runmake tools
+>
 
 
