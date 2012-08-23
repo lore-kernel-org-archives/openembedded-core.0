@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1T4UjJ-0006iq-1a
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1T4VZS-000800-Fc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 12:33:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7NALRq7023247
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2012 03:21:27 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Thu, 23 Aug 2012 03:21:27 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Aug 2012 18:21:32 +0800
-Message-ID: <cover.1345709138.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.164]
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/1] ltp_20120104: add rdepends for denzil branch
+	Thu, 23 Aug 2012 13:27:30 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by orsmga102.jf.intel.com with ESMTP; 23 Aug 2012 04:14:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,300,1344236400"; d="scan'208";a="184070587"
+Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.39])
+	by azsmga001.ch.intel.com with ESMTP; 23 Aug 2012 04:14:17 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Aug 2012 14:14:18 +0300
+Message-Id: <1345720458-3909-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] mc: upgrade to 4.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,25 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 10:33:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Aug 2012 11:27:30 -0000
 
-The following changes since commit 65ffa7395055f7e012cb973f63f92380828eed0d:
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../mc/{mc_4.8.3.bb => mc_4.8.4.bb}                |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/mc/{mc_4.8.3.bb => mc_4.8.4.bb} (82%)
 
-  yocto-bsp: use base branches for qemu 'newbranch' case (2012-08-21 11:35:22 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/distro
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
-
-Kang Kai (1):
-  ltp_20120104: add rdepends
-
- meta/recipes-extended/ltp/ltp_20120104.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
+diff --git a/meta/recipes-extended/mc/mc_4.8.3.bb b/meta/recipes-extended/mc/mc_4.8.4.bb
+similarity index 82%
+rename from meta/recipes-extended/mc/mc_4.8.3.bb
+rename to meta/recipes-extended/mc/mc_4.8.4.bb
+index 3b777b5..fc551dd 100644
+--- a/meta/recipes-extended/mc/mc_4.8.3.bb
++++ b/meta/recipes-extended/mc/mc_4.8.4.bb
+@@ -10,8 +10,8 @@ PR = "r0"
+ 
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "12d38ad4969df3f8bbf66c3967a191ee"
+-SRC_URI[sha256sum] = "445f286652b85c3e8e87839bad64c28ad2dc80661778571a0b59c2b920ef60ac"
++SRC_URI[md5sum] = "a8edb8226cb25869f925ecce043faf1e"
++SRC_URI[sha256sum] = "917f32a6ce0b8e3ec893bb18af73e64c246d79066322041608352623a579234b"
+ 
+ inherit autotools gettext
+ 
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
