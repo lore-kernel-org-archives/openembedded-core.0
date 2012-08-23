@@ -1,34 +1,23 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1T4VzL-0008Sx-HD
+	(envelope-from <constantinx.musca@intel.com>) id 1T4Wu1-00017q-Dx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 13:54:15 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:39247 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1T4Vnb-0004RI-WA; Thu, 23 Aug 2012 07:42:08 -0400
-Date: Thu, 23 Aug 2012 07:42:07 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A5FD736@039-SN1MPN1-001.039d.mgd.msft.net>
-Message-ID: <alpine.DEB.2.02.1208230741030.25709@oneiric>
-References: <alpine.DEB.2.02.1208222108300.24283@oneiric>
-	<70CC66F5C30A414DADDA6973E4CA391A5FD736@039-SN1MPN1-001.039d.mgd.msft.net>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: why does using a "revision" prevent downloading during a parse?
+	Thu, 23 Aug 2012 14:52:49 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2012 05:40:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,300,1344236400"; d="scan'208";a="209459750"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.156])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2012 05:40:15 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Aug 2012 14:45:01 +0300
+Message-Id: <1345722302-25467-3-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1345722302-25467-1-git-send-email-constantinx.musca@intel.com>
+References: <1345722302-25467-1-git-send-email-constantinx.musca@intel.com>
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH 2/3] libnfsidmap: upgrade to 0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,44 +30,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 11:54:15 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 23 Aug 2012 12:52:49 -0000
 
-On Thu, 23 Aug 2012, McClintock Matthew-B29882 wrote:
+fix-ac-prereq.patch: adapted to the new version
 
-> On Wed, Aug 22, 2012 at 8:11 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >
-> >   certainly about to embarrass myself again, but from
-> > u-boot_2011.06.bb:
-> >
-> > ...
-> > # This revision corresponds to the tag "v2011.06"
-> > # We use the revision in order to avoid having to fetch it from the repo during parse
-> > SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
-> >
-> > PV = "v2011.06+git${SRCPV}"
-> > ...
-> >
-> >   i don't know what that means -- how does using that "revision"
-> > prevent fetching?  i would simply have defined the SRC_URI using the
-> > tag value, so i'm not sure what benefit i'm getting out of the above.
->
-> You should look for the patch that made that change and read the
-> commit message.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ .../nfs-utils/files/fix-ac-prereq.patch            |    6 ++----
+ .../{libnfsidmap_0.24.bb => libnfsidmap_0.25.bb}   |    6 +++---
+ 2 files changed, 5 insertions(+), 7 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{libnfsidmap_0.24.bb => libnfsidmap_0.25.bb} (74%)
 
-  ah, quite so ... i had to pop into the 2011.03 recipe file to get
-that info from "git blame" but i now get it, thanks.
-
-rday
-
+diff --git a/meta/recipes-connectivity/nfs-utils/files/fix-ac-prereq.patch b/meta/recipes-connectivity/nfs-utils/files/fix-ac-prereq.patch
+index 09c9061..d81c7c5 100644
+--- a/meta/recipes-connectivity/nfs-utils/files/fix-ac-prereq.patch
++++ b/meta/recipes-connectivity/nfs-utils/files/fix-ac-prereq.patch
+@@ -1,15 +1,13 @@
+ Upstream-Status: Inappropriate [configuration]
+ 
+-diff --git a/configure.in b/configure.in
+-index f5d54fb..c105988 100644
+ --- a/configure.in
+ +++ b/configure.in
+ @@ -1,7 +1,7 @@
+  #                                               -*- Autoconf -*-
+  # Process this file with autoconf to produce a configure script.
+  
+--AC_PREREQ([2.66])
++-AC_PREREQ([2.68])
+ +AC_PREREQ([2.65])
+- AC_INIT([libnfsidmap],[0.24],[linux-nfs@vger.kernel.org])
++ AC_INIT([libnfsidmap],[0.25],[linux-nfs@vger.kernel.org])
+  AC_CONFIG_SRCDIR([nfsidmap.h])
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.24.bb b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
+similarity index 74%
+rename from meta/recipes-connectivity/nfs-utils/libnfsidmap_0.24.bb
+rename to meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
+index 3ae0dba..07ca229 100644
+--- a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.24.bb
++++ b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
+@@ -5,14 +5,14 @@ SECTION = "libs"
+ 
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d9c6a2a0ca6017fda7cd905ed2739b37"
+-PR = "r1"
++PR = "r0"
+ 
+ SRC_URI = "http://www.citi.umich.edu/projects/nfsv4/linux/libnfsidmap/${BPN}-${PV}.tar.gz \
+            file://fix-ac-prereq.patch \
+           "
+ 
+-SRC_URI[md5sum] = "d71a1ee9881d5b5814ff3ec41256937d"
+-SRC_URI[sha256sum] = "59501432e683336d7a290da13767e92afb5b86f42ea4254041225fe218e8dd47"
++SRC_URI[md5sum] = "2ac4893c92716add1a1447ae01df77ab"
++SRC_URI[sha256sum] = "656d245d84400e1030f8f40a5a27da76370690c4a932baf249110f047fe7efcf"
+ 
+ inherit autotools
+ 
 -- 
+1.7.9.5
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
