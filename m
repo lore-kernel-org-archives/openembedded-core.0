@@ -1,40 +1,27 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T4UII-0006K5-Fy
+	(envelope-from <Kai.Kang@windriver.com>) id 1T4UjI-0006ip-Gx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 12:05:42 +0200
-Received: by wibhq4 with SMTP id hq4so642530wib.6
+	Thu, 23 Aug 2012 12:33:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7NALSrx009420
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2012 02:53:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=PSFXly5W1HFoEzJyeP6fqOw/Fh6U9xHVyOSiQ2ZPGtM=;
-	b=gZ0o2do6VH+oMLzju9NIBulQgK7B0/UuQFlTKH880QgXLbVldWIM+qgNPLRI96oY3y
-	0hiEndAZsXTo6PcoB/iIl+zQTByLEjchMvOU6vHXDF/n2rKyH6NQU5/HfYBQGHNcM2P8
-	IXa/vQRuZ9J03Skf4Vludx2dPrDjtvyYzfaFTnrUUtZSVn1VXvz4so7TWKniEG8k5JAc
-	EYy+E3jIB7rC2oZOw53XEm85jrHZPgPOYrt8pqEaYmkG+BXqFyu9T3JbCSoehse5Tqjm
-	w1hYyI40PvCOFHTS5nlMURDGcCRV4b/Ih4/Rb6QuuCrQsWLhNeuD+AJstGf5FriNl2DU
-	kPpQ==
-Received: by 10.216.203.154 with SMTP id f26mr574076weo.104.1345715616583;
-	Thu, 23 Aug 2012 02:53:36 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id h9sm43989304wiz.1.2012.08.23.02.53.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 23 Aug 2012 02:53:35 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1345685506-27178-1-git-send-email-raj.khem@gmail.com>
-Date: Thu, 23 Aug 2012 11:53:34 +0200
-Message-Id: <A8829627-6DCD-4087-941A-5C3CC53309F3@dominion.thruhere.net>
-References: <1345685506-27178-1-git-send-email-raj.khem@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQmEaSI9E/61fR+ilAMTONcBN92Vr3OVVlIFWytMGwkEfKMh9LzNaba9po283C/tSCofidps
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] iputils: Fix postinst to run on cross rootfs generation
+	Thu, 23 Aug 2012 03:21:28 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.164) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.309.2; Thu, 23 Aug 2012 03:21:28 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Aug 2012 18:21:33 +0800
+Message-ID: <55aeb8f8fd0cdce1c461c2c4f75026166e69e1dc.1345709138.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1345709138.git.kai.kang@windriver.com>
+References: <cover.1345709138.git.kai.kang@windriver.com>
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.164]
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 1/1] ltp_20120104: add rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 10:05:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Aug 2012 10:33:36 -0000
+Content-Type: text/plain
 
+[Yocto #2973]
 
-Op 23 aug. 2012, om 03:31 heeft Khem Raj <raj.khem@gmail.com> het =
-volgende geschreven:
+Add rdepends libaio to fix this defect.
 
-> rpm shows error messages like /bin/traceroute6 not found
-> when building cross rootfs
->=20
-> Yocto # 2894
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> meta/recipes-extended/iputils/iputils_s20101006.bb |    6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/iputils/iputils_s20101006.bb =
-b/meta/recipes-extended/iputils/iputils_s20101006.bb
-> index 62e2b5e..856bde4 100644
-> --- a/meta/recipes-extended/iputils/iputils_s20101006.bb
-> +++ b/meta/recipes-extended/iputils/iputils_s20101006.bb
-> @@ -59,15 +59,15 @@ ALTERNATIVE_${PN}-ping6 =3D "ping6"
-> ALTERNATIVE_LINK_NAME[ping6] =3D "${base_bindir}/ping6"
->=20
-> pkg_postinst_${PN}-ping () {
-> -       chmod 4555 ${base_bindir}/ping
-> +       chmod 4555 $D${base_bindir}/ping
-> }
->=20
-> pkg_postinst_${PN}-ping6 () {
-> -       chmod 4555 ${base_bindir}/ping6
-> +       chmod 4555 $D${base_bindir}/ping6
-> }
->=20
-> pkg_postinst_${PN}-traceroute6 () {
-> -	chmod 4555 ${base_bindir}/traceroute6
-> +	chmod 4555 $D${base_bindir}/traceroute6
-> }
->=20
-> PACKAGES +=3D "${PN}-ping ${PN}-ping6 ${PN}-arping ${PN}-tracepath =
-${PN}-tracepath6 ${PN}-traceroute6"
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ meta/recipes-extended/ltp/ltp_20120104.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-MIssing PR bump=
+diff --git a/meta/recipes-extended/ltp/ltp_20120104.bb b/meta/recipes-extended/ltp/ltp_20120104.bb
+index c82203a..f8119a7 100644
+--- a/meta/recipes-extended/ltp/ltp_20120104.bb
++++ b/meta/recipes-extended/ltp/ltp_20120104.bb
+@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 		    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
+            file://uclibc-getcontext.patch \
+@@ -28,6 +28,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
+ SRC_URI[md5sum] = "ac183bbdac67139f049b3755fda37179"
+ SRC_URI[sha256sum] = "11b149b821d709e3351ac66f028f1b0dd5337ee9073dc20019ccffdac42d5c2e"
+ 
++RDEPENDS_${PN} += "libaio"
++
+ export prefix = "/opt/ltp"
+ export exec_prefix = "/opt/ltp"
+ 
+-- 
+1.7.5.4
+
 
 
