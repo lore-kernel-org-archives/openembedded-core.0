@@ -1,20 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T4ILr-0005DI-Qp
+	(envelope-from <rpjday@crashcourse.ca>) id 1T4LWf-00012u-PU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 23:20:36 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Aug 2012 14:08:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,296,1344236400"; d="scan'208";a="184220053"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.21])
-	by orsmga001.jf.intel.com with ESMTP; 22 Aug 2012 14:07:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Aug 2012 14:07:54 -0700
-Message-Id: <cover.1345669569.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH 0/2] A couple of bug fixes
+	Thu, 23 Aug 2012 02:43:57 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:37174 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1T4LKw-0002kn-Ox for openembedded-core@lists.openembedded.org;
+	Wed, 22 Aug 2012 20:31:50 -0400
+Date: Wed, 22 Aug 2012 20:31:50 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1208222028250.26220@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: is there an image for the smallest feasible bootable system?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,32 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 21:20:36 -0000
+X-List-Received-Date: Thu, 23 Aug 2012 00:43:58 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-working through the list!
 
-Sau!
+  for the purposes of demo'ing in a class, i'm interested in building
+the *really* minimal system that will boot to a shell prompt.  i've
+examined core-image-minimal but it seems pretty clear that there's
+stuff in that image that isn't, strictly speaking, essential.
 
-The following changes since commit e3b0925f4c861393e436deb6b1912f9f1f325d1e:
+  anyone created an image file for a truly tiny bootable image?
+thanks.
 
-  libtool: normalize link paths before considering for RPATH (2012-08-22 14:22:51 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-
-Saul Wold (2):
-  cups: disable pdftops
-  external-python-tarball: Blacklist recipe if ipk is not in the
-    PACKAGE_CLASSES list
-
- meta/recipes-core/meta/external-python-tarball.bb |    5 +++++
- meta/recipes-extended/cups/cups14.inc             |    1 +
- meta/recipes-extended/cups/cups_1.4.6.bb          |    2 +-
- 3 files changed, 7 insertions(+), 1 deletions(-)
+rday
 
 -- 
-1.7.7.6
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
