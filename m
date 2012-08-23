@@ -1,21 +1,47 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T4Xu4-0005Fi-3A
+	(envelope-from <martin.jansa@gmail.com>) id 1T4YM5-00069R-LT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 15:56:56 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2012 06:44:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,300,1344236400"; d="scan'208";a="212926161"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.156])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2012 06:44:46 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Aug 2012 15:49:38 +0300
-Message-Id: <1345726178-16751-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] dpkg: upgrade to 1.16.8
+	Thu, 23 Aug 2012 16:25:53 +0200
+Received: by weyr6 with SMTP id r6so417152wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2012 07:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=resent-from:resent-date:resent-message-id:resent-to:date:from:to:cc
+	:subject:message-id:references:mime-version:content-type
+	:content-disposition:in-reply-to:user-agent;
+	bh=SYypUu8tqWYIZEZPjK2Dg64MOCNuchEL32s+8ssvYik=;
+	b=QpMPXtGhO/VFThBSfeoWgq45wJsH+ixHZU28Nni+tkYIZs1WPDV6Iu9+NgKj1sirgL
+	XUZseuPDECxctyFZZkbsF+z/BdndZidjVv2mlqN4ES/NZZBuWIwgKjY/T8bMe3RwGGHH
+	0B5Azl5WRXhercT2Fz3Z0hP4byQK0vQJe1oB6Oj0xdcAaLnyosxfbo3YQATyIkP4c4fV
+	qXRt0ReOXRBiBAJycu+aCEddY21Gkdhw+fzgqMl+fK7kvFR94h2R4RZ6Cxp6ja1uVZuk
+	DHl2SHv8zqptHzeUVSw4szf2HVZWNkWrROTwARXKMP/O1yEWXi0l5RdBIiJJ5NjG9T+2
+	s0BA==
+Received: by 10.216.29.10 with SMTP id h10mr916192wea.126.1345731227446;
+	Thu, 23 Aug 2012 07:13:47 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id l6sm44990948wiz.4.2012.08.23.07.13.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Aug 2012 07:13:46 -0700 (PDT)
+Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
+Resent-Date: Thu, 23 Aug 2012 16:13:53 +0200
+Resent-Message-ID: <20120823141353.GO3029@jama.jama.net>
+Resent-To: Matthew McClintock <msm@freescale.com>;,
+	openembedded-core@lists.openembedded.org
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w7sm44958267wiz.0.2012.08.23.07.09.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 23 Aug 2012 07:09:46 -0700 (PDT)
+Date: Thu, 23 Aug 2012 16:09:52 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20120823140952.GN3029@jama.jama.net>
+References: <20120822132435.26657103C9@opal>
+MIME-Version: 1.0
+In-Reply-To: <20120822132435.26657103C9@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Matthew McClintock : distutils.bblass: change order of args to install step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,441 +54,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 13:56:56 -0000
+X-List-Received-Date: Thu, 23 Aug 2012 14:25:53 -0000
+X-Groupsio-MsgNum: 28131
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="9v2bTOXBzuB5Piju"
+Content-Disposition: inline
 
-perllibdir.patch: removed
-    - in the new version PERL_LIBDIR will be set only if empty
-ignore_extra_fields.patch: adapted to the new version
-check_version.patch: adapted to the new version
-preinst.patch: removed
-    - the incorrect code is removed in the new version
-dpkg-deb-avoid-fflush.patch: removed
-    - the patch is included in the new version
+--9v2bTOXBzuB5Piju
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-devtools/dpkg/dpkg.inc                |    4 +-
- .../recipes-devtools/dpkg/dpkg/check_version.patch |   23 +--
- .../dpkg/dpkg/dpkg-deb-avoid-fflush.patch          |  198 --------------------
- .../dpkg/dpkg/ignore_extra_fields.patch            |   36 ++--
- meta/recipes-devtools/dpkg/dpkg/perllibdir.patch   |   22 ---
- meta/recipes-devtools/dpkg/dpkg/preinst.patch      |   46 -----
- .../dpkg/{dpkg_1.15.8.7.bb => dpkg_1.16.8.bb}      |   11 +-
- 7 files changed, 36 insertions(+), 304 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/preinst.patch
- rename meta/recipes-devtools/dpkg/{dpkg_1.15.8.7.bb => dpkg_1.16.8.bb} (34%)
+On Wed, Aug 22, 2012 at 01:24:34PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 3b23feca31480cc56f55301fd0274e622c40b522
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D3b23feca31480cc56f55301fd0274e622c40b522
+>=20
+> Author: Matthew McClintock <msm@freescale.com>
+> Date:   Tue Aug 21 13:44:21 2012 -0500
+>=20
+> distutils.bblass: change order of args to install step
+>=20
+> This let's the user override install-lib argument again if it needs
+> to be something else, otherwise things like python-setuptools
+> won't be able to modify the install-lib dir
+>=20
+> This fixes a new issue exposed by my previous distutils patch
+> that fixed the python modules default install location. Also,
+> it removes running the install step twice which was inadvertant
+>=20
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/classes/distutils.bbclass |    3 +--
+>  1 files changed, 1 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbcl=
+ass
+> index 7588b81..52a1aa8 100644
+> --- a/meta/classes/distutils.bbclass
+> +++ b/meta/classes/distutils.bbclass
+> @@ -38,8 +38,7 @@ distutils_do_install() {
+>          STAGING_LIBDIR=3D${STAGING_LIBDIR} \
+>          PYTHONPATH=3D${D}/${PYTHON_SITEPACKAGES_DIR} \
+>          BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install $=
+{DISTUTILS_INSTALL_ARGS} || \
+> -        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install $=
+{DISTUTILS_INSTALL_ARGS} --install-lib=3D${D}${libdir}/${PYTHON_DIR} || \
+> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install -=
+-install-lib=3D${D}${libdir}/${PYTHON_DIR} ${DISTUTILS_INSTALL_ARGS} || \
+>          bbfatal "python setup.py install execution failed."
+> =20
+>          for i in `find ${D} -name "*.py"` ; do \
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 7f4f620..723d1b2 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -2,9 +2,9 @@ DESCRIPTION = "Package maintenance system for Debian."
- LICENSE = "GPLv2.0+"
- SECTION = "base"
- 
--INC_PR = "r17"
-+INC_PR = "r18"
- 
--SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2 \
-+SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
-            file://ignore_extra_fields.patch"
- 
- DEPENDS = "zlib bzip2 perl"
-diff --git a/meta/recipes-devtools/dpkg/dpkg/check_version.patch b/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-index 524e715..0657a33 100644
---- a/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-@@ -4,20 +4,21 @@ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
- 
- Upstream-Status: Inappropriate [embedded specific]
- 
--diff -ruN dpkg-1.15.8.5-orig/lib/dpkg/parsehelp.c dpkg-1.15.8.5/lib/dpkg/parsehelp.c
----- dpkg-1.15.8.5-orig/lib/dpkg/parsehelp.c	2010-10-08 12:27:15.058572774 +0800
--+++ dpkg-1.15.8.5/lib/dpkg/parsehelp.c	2010-10-09 11:18:15.484190771 +0800
--@@ -268,11 +268,11 @@
-- 
--   /* XXX: Would be faster to use something like cisversion and cisrevision. */
--   for (ptr = rversion->version; *ptr; ptr++) {
-+Index: dpkg-1.16.8/lib/dpkg/parsehelp.c
-+===================================================================
-+--- dpkg-1.16.8.orig/lib/dpkg/parsehelp.c
-++++ dpkg-1.16.8/lib/dpkg/parsehelp.c
-+@@ -261,11 +261,11 @@ parseversion(struct dpkg_version *rversi
-+   if (*ptr && !cisdigit(*ptr++))
-+     return dpkg_put_warn(err, _("version number does not start with digit"));
-+   for (; *ptr; ptr++) {
- -    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
- +    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:_", *ptr) == NULL)
--       return _("invalid character in version number");
-+       return dpkg_put_warn(err, _("invalid character in version number"));
-    }
-    for (ptr = rversion->revision; *ptr; ptr++) {
---    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~", *ptr) == NULL)
--+    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~_", *ptr) == NULL)
--       return _("invalid character in revision number");
-+-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~", *ptr) == NULL)
-++    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~_", *ptr) == NULL)
-+       return dpkg_put_warn(err, _("invalid character in revision number"));
-    }
-  
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch b/meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
-deleted file mode 100644
-index a5d6b61..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
-+++ /dev/null
-@@ -1,198 +0,0 @@
--From 78eaf928d30d0b16e05d8d63c55a3632a135ed9a Mon Sep 17 00:00:00 2001
--From: Guillem Jover <guillem@debian.org>
--Date: Thu, 4 Nov 2010 00:51:13 +0100
--Subject: [PATCH] dpkg-deb: Use fd instead of stream based buffered I/O
--
--Behaviour of fflush() on input streams is undefined per POSIX, avoid
--mixing stream and file descriptor based I/O, and only use the latter
--instead.
--
--Upstream-Status: Backport of revision 2d420ee1d05033d237462a0075facfe406b08043 (in 1.16.x)
--
-----
-- dpkg-deb/extract.c |   83 ++++++++++++++++++++++++++++++++++++++-------------
-- 1 files changed, 62 insertions(+), 21 deletions(-)
--
--diff --git a/dpkg-deb/extract.c b/dpkg-deb/extract.c
--index 22aea98..0f5ac88 100644
----- a/dpkg-deb/extract.c
--+++ b/dpkg-deb/extract.c
--@@ -31,6 +31,7 @@
-- #include <ctype.h>
-- #include <string.h>
-- #include <dirent.h>
--+#include <fcntl.h>
-- #include <unistd.h>
-- #include <ar.h>
-- #include <stdbool.h>
--@@ -61,13 +62,41 @@ static void movecontrolfiles(const char *thing) {
-- }
-- 
-- static void DPKG_ATTR_NORET
---readfail(FILE *a, const char *filename, const char *what)
--+read_fail(int rc, const char *filename, const char *what)
-- {
---  if (ferror(a)) {
---    ohshite(_("error reading %s from file %.255s"), what, filename);
---  } else {
--+  if (rc == 0)
--     ohshit(_("unexpected end of file in %s in %.255s"),what,filename);
--+  else
--+    ohshite(_("error reading %s from file %.255s"), what, filename);
--+}
--+
--+static ssize_t
--+read_line(int fd, char *buf, size_t min_size, size_t max_size)
--+{
--+  ssize_t line_size = 0;
--+  size_t n = min_size;
--+
--+  while (line_size < (ssize_t)max_size) {
--+    ssize_t r;
--+    char *nl;
--+
--+    r = read(fd, buf + line_size, n);
--+    if (r <= 0)
--+      return r;
--+
--+    nl = strchr(buf + line_size, '\n');
--+    line_size += r;
--+
--+    if (nl != NULL) {
--+      nl[1] = '\0';
--+      return line_size;
--+    }
--+
--+    n = 1;
--   }
--+
--+  buf[line_size] = '\0';
--+  return line_size;
-- }
-- 
-- static size_t
--@@ -115,19 +144,26 @@ void extracthalf(const char *debar, const char *directory,
--   char versionbuf[40];
--   float versionnum;
--   size_t ctrllennum, memberlen= 0;
--+  ssize_t r;
--   int dummy;
--   pid_t c1=0,c2,c3;
--   int p1[2], p2[2];
---  FILE *ar;
--+  int arfd;
--   struct stat stab;
--   char nlc;
--   int adminmember;
--   bool oldformat, header_done;
--   struct compressor *decompressor = &compressor_gzip;
--   
---  ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
---  if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
---  if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,_("version number"));
--+  arfd = open(debar, O_RDONLY);
--+  if (arfd < 0)
--+    ohshite(_("failed to read archive `%.255s'"), debar);
--+  if (fstat(arfd, &stab))
--+    ohshite(_("failed to fstat archive"));
--+
--+  r = read_line(arfd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf));
--+  if (r < 0)
--+    read_fail(r, debar, _("archive magic version number"));
-- 
--   if (!strcmp(versionbuf, DPKG_AR_MAGIC)) {
--     oldformat = false;
--@@ -137,8 +173,9 @@ void extracthalf(const char *debar, const char *directory,
--     for (;;) {
--       struct ar_hdr arh;
-- 
---      if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
---        readfail(ar,debar,_("between members"));
--+      r = read(arfd, &arh, sizeof(arh));
--+      if (r != sizeof(arh))
--+        read_fail(r, debar, _("archive member header"));
-- 
--       dpkg_ar_normalize_name(&arh);
-- 
--@@ -153,8 +190,9 @@ void extracthalf(const char *debar, const char *directory,
--         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
--           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
--         infobuf= m_malloc(memberlen+1);
---        if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
---          readfail(ar,debar,_("header info member"));
--+        r = read(arfd, infobuf, memberlen + (memberlen & 1));
--+        if ((size_t)r != (memberlen + (memberlen & 1)))
--+          read_fail(r, debar, _("archive information header member"));
--         infobuf[memberlen] = '\0';
--         cur= strchr(infobuf,'\n');
--         if (!cur) ohshit(_("archive has no newlines in header"));
--@@ -174,7 +212,8 @@ void extracthalf(const char *debar, const char *directory,
--           /* Members with `_' are noncritical, and if we don't understand them
--            * we skip them.
--            */
---	stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
--+        fd_null_copy(arfd, memberlen + (memberlen & 1),
--+                     _("skipped archive member data from %s"), debar);
--       } else {
-- 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
-- 	  adminmember = 1;
--@@ -198,7 +237,8 @@ void extracthalf(const char *debar, const char *directory,
--           ctrllennum= memberlen;
--         }
--         if (!adminmember != !admininfo) {
---	  stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
--+          fd_null_copy(arfd, memberlen + (memberlen & 1),
--+                       _("skipped archive member data from %s"), debar);
--         } else {
--           break; /* Yes ! - found it. */
--         }
--@@ -221,8 +261,10 @@ void extracthalf(const char *debar, const char *directory,
--     l = strlen(versionbuf);
--     if (l && versionbuf[l - 1] == '\n')
--       versionbuf[l - 1] = '\0';
---    if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
---      readfail(ar, debar, _("control information length"));
--+
--+    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
--+    if (r < 0)
--+      read_fail(r, debar, _("archive control member size"));
--     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
--       ohshit(_("archive has malformatted control length `%s'"), ctrllenbuf);
-- 
--@@ -230,7 +272,8 @@ void extracthalf(const char *debar, const char *directory,
--       memberlen = ctrllennum;
--     } else {
--       memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
---      stream_null_copy(ar, ctrllennum, _("skipped control area from %s"), debar);
--+      fd_null_copy(arfd, ctrllennum,
--+                   _("skipped archive control member data from %s"), debar);
--     }
-- 
--     if (admininfo >= 2) {
--@@ -252,13 +295,11 @@ void extracthalf(const char *debar, const char *directory,
-- 
--   }
-- 
---  safe_fflush(ar);
---
--   m_pipe(p1);
--   c1 = subproc_fork();
--   if (!c1) {
--     close(p1[0]);
---    stream_fd_copy(ar, p1[1], memberlen, _("failed to write to pipe in copy"));
--+    fd_fd_copy(arfd, p1[1], memberlen, _("failed to write to pipe in copy"));
--     if (close(p1[1]))
--       ohshite(_("failed to close pipe in copy"));
--     exit(0);
--@@ -275,7 +316,7 @@ void extracthalf(const char *debar, const char *directory,
--     decompress_filter(decompressor, 0, 1, _("data"));
--   }
--   close(p1[0]);
---  fclose(ar);
--+  close(arfd);
--   if (taroption) close(p2[1]);
-- 
--   if (taroption && directory) {
---- 
--1.7.7.6
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch b/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-index 0ff09e7..a391177 100644
---- a/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-@@ -1,22 +1,22 @@
- Upstream-Status: Inappropriate [workaround]
- 
--diff -ruN dpkg-1.15.8.5-orig/dpkg-deb/build.c dpkg-1.15.8.5/dpkg-deb/build.c
----- dpkg-1.15.8.5-orig/dpkg-deb/build.c	2010-10-08 12:27:15.042083703 +0800
--+++ dpkg-1.15.8.5/dpkg-deb/build.c	2010-10-08 12:31:53.822534277 +0800
--@@ -275,14 +275,14 @@
--               controlfile, checkedinfo->otherpriority);
--       warns++;
--     }
---    for (field= checkedinfo->available.arbs; field; field= field->next) {
--+    /*for (field= checkedinfo->available.arbs; field; field= field->next) {
--       if (known_arbitrary_field(field))
--         continue;
-+Index: dpkg-1.16.8/dpkg-deb/build.c
-+===================================================================
-+--- dpkg-1.16.8.orig/dpkg-deb/build.c
-++++ dpkg-1.16.8/dpkg-deb/build.c
-+@@ -340,13 +340,13 @@ check_new_pkg(const char *dir)
-+   if (pkg->priority == pri_other)
-+     warning(_("'%s' contains user-defined Priority value '%s'"),
-+             controlfile, pkg->otherpriority);
-+-  for (field = pkg->available.arbs; field; field = field->next) {
-++  /*for (field = pkg->available.arbs; field; field = field->next) {
-+     if (known_arbitrary_field(field))
-+       continue;
-  
--       warning(_("'%s' contains user-defined field '%s'"),
--               controlfile, field->name);
--       warns++;
---    }
--+    }*/
-+     warning(_("'%s' contains user-defined field '%s'"), controlfile,
-+             field->name);
-+-  }
-++  }*/
-+ 
-+   free(controlfile);
-  
--     if (subdir) {
--       versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
-diff --git a/meta/recipes-devtools/dpkg/dpkg/perllibdir.patch b/meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
-deleted file mode 100644
-index 45973f0..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--We want to be able to set PERL_LIBDIR from the environment. This
--hardcoded assignment prevents us from doing so and obtains an 
--incorrect value.
--
--Upstream-Status: Inappropriate [in this form at least]
--
--RP 14/11/2011
--
--Index: dpkg-1.15.8.7/m4/dpkg-progs.m4
--===================================================================
----- dpkg-1.15.8.7.orig/m4/dpkg-progs.m4	2011-11-14 17:32:21.252053239 +0000
--+++ dpkg-1.15.8.7/m4/dpkg-progs.m4	2011-11-14 17:32:55.180052455 +0000
--@@ -9,9 +9,6 @@
-- [AC_ARG_VAR([PERL], [Perl interpreter])dnl
-- AC_PATH_PROG([PERL], [perl], [/usr/bin/perl])dnl
-- AC_ARG_VAR([PERL_LIBDIR], [Perl library directory])dnl
---PERL_LIBDIR=$($PERL -MConfig -e 'my $r = $Config{vendorlibexp};
---                                 $r =~ s/$Config{vendorprefixexp}/\$(prefix)/;
---                                 print $r')dnl
-- ])# DPKG_PROG_PERL
-- 
-- # DPKG_PROG_PO4A
-diff --git a/meta/recipes-devtools/dpkg/dpkg/preinst.patch b/meta/recipes-devtools/dpkg/dpkg/preinst.patch
-deleted file mode 100644
-index 06d2aac..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/preinst.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--Our pre/postinsts expect $D to be set when running in a sysroot and
--don't expect a chroot. This matches up our system expectations with
--what dpkg does.
--
--Upstream-Status: Inappropriate [OE Specific]
--
--RP 2011/12/07
--
--Index: dpkg-1.15.8.7/src/help.c
--===================================================================
----- dpkg-1.15.8.7.orig/src/help.c	2010-12-20 01:25:36.000000000 +0000
--+++ dpkg-1.15.8.7/src/help.c	2011-12-07 14:51:02.783461487 +0000
--@@ -181,30 +181,9 @@
--    * FIXME: none of the stuff here will work if admindir isn't inside
--    * instdir as expected.
--    */
---  size_t instdirl;
---
---  if (*instdir) {
---    if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
---    if (chdir("/"))
---      ohshite(_("failed to chdir to `%.255s'"), "/");
---  }
---  if (f_debug & dbg_scripts) {
---    struct varbuf args = VARBUF_INIT;
---    const char **argv = cmd->argv;
---
---    while (*++argv) {
---      varbufaddc(&args, ' ');
---      varbufaddstr(&args, *argv);
---    }
---    varbufaddc(&args, '\0');
---    debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);
---    varbuf_destroy(&args);
---  }
---  instdirl= strlen(instdir);
---  if (!instdirl)
---    return cmd->filename;
---  assert(strlen(cmd->filename) >= instdirl);
---  return cmd->filename + instdirl;
--+  if (*instdir)
--+    setenv("D", instdir, 1);
--+  return cmd->filename;
-- }  
-- 
-- void
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb b/meta/recipes-devtools/dpkg/dpkg_1.16.8.bb
-similarity index 34%
-rename from meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.16.8.bb
-index 1e7ef25..7e342b5 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.16.8.bb
-@@ -3,13 +3,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
- SRC_URI += "file://noman.patch \
-             file://check_snprintf.patch \
--            file://check_version.patch \
--            file://perllibdir.patch \
--            file://preinst.patch \
--            file://dpkg-deb-avoid-fflush.patch"
-+            file://check_version.patch"
- 
--SRC_URI[md5sum] = "d1731d4147c1ea3b537a4d094519a6dc"
--SRC_URI[sha256sum] = "1ec1376471b04717a4497e5d7a27cd545248c92116898ce0c53ced8ea94267b5"
-+SRC_URI[md5sum] = "9f8042561ecccd5124e5958a1e181de7"
-+SRC_URI[sha256sum] = "4a1f4611390d93f1f198d910d3a4e4913b3cf81702b31f585a1872ca98df0eaa"
- 
--PR = "${INC_PR}.4"
-+PR = "${INC_PR}.0"
- 
--- 
-1.7.9.5
+This seems to break recipes which inherit distutils only, now libs are inst=
+alled in
+/usr/lib/python2.7 directly instead of /usr/lib/python2.7/site-packages and=
+ packaging fails with fatal QA
+NOTE: Executing RunQueue Tasks
+ERROR: QA Issue: non debug package contains .debug directory: python-pyrtc =
+path /work/armv7a-vfp-neon-oe-linux-gnueabi/python-pyrtc-1_1.0.0+gitr1+63b1=
+dff1bc8ac22efabcee8a90e957c3b2423317-ml2/packages-split/python-pyrtc/usr/li=
+b/python2.7/.debug/pyrtc.so
+ERROR: QA run found fatal errors. Please consider fixing them.
 
+OE @ ~/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi $ find pyt=
+hon-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old/pa=
+ckages-split/
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc.shlibdeps
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib/python2.7
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib/python2.7/.debug
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib/python2.7/.debug/pyrtc.so
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib/python2.7/PyRTC-1.0.0-py2.7.egg-info
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib/python2.7/site-packages
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc/usr/lib/python2.7/pyrtc.so
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-doc
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src/debug
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+6=
+3b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+6=
+3b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/git
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+6=
+3b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/git/pyrtc
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+6=
+3b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/git/pyrtc/pyrtc.c
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+6=
+3b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/git/pyrtc/rtc.c
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2.old=
+/packages-split/python-pyrtc-dev
+OE @ ~/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi $ find pyt=
+hon-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/packag=
+es-split/
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc.shlibdeps
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc/usr
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc/usr/lib
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc/usr/lib/python2.7
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc/usr/lib/python2.7/site-packages
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc/usr/lib/python2.7/site-packages/PyRTC-1.0.0-py2.7.=
+egg-info
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc/usr/lib/python2.7/site-packages/pyrtc.so
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-doc
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src/debug
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+63b1d=
+ff1bc8ac22efabcee8a90e957c3b2423317-ml2
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+63b1d=
+ff1bc8ac22efabcee8a90e957c3b2423317-ml2/git
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+63b1d=
+ff1bc8ac22efabcee8a90e957c3b2423317-ml2/git/pyrtc
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+63b1d=
+ff1bc8ac22efabcee8a90e957c3b2423317-ml2/git/pyrtc/pyrtc.c
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/src/debug/python-pyrtc-1_1.0.0+gitr1+63b1d=
+ff1bc8ac22efabcee8a90e957c3b2423317-ml2/git/pyrtc/rtc.c
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/lib
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/lib/python2.7
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/lib/python2.7/site-packages
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/lib/python2.7/site-packages/.debug
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dbg/usr/lib/python2.7/site-packages/.debug/pyrtc.so
+python-pyrtc-1_1.0.0+gitr1+63b1dff1bc8ac22efabcee8a90e957c3b2423317-ml2/pac=
+kages-split/python-pyrtc-dev
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--9v2bTOXBzuB5Piju
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlA2ObAACgkQN1Ujt2V2gBxb5QCdFRagMeesBFRIx9dGu+UlKsYK
+Mk4AoKGyk29/NOPmphr9QcPTuERBlTU8
+=U2Y/
+-----END PGP SIGNATURE-----
+
+--9v2bTOXBzuB5Piju--
