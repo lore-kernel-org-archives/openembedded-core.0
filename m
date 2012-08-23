@@ -1,45 +1,26 @@
-Received: from am1ehsobe002.messaging.microsoft.com ([213.199.154.205]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T4ccC-0002Gu-WF
+	(envelope-from <tom.zanussi@intel.com>) id 1T4d7E-0002zQ-5e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 20:58:49 +0200
-Received: from mail91-am1-R.bigfish.com (10.3.201.237) by
-	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 23 Aug 2012 18:46:42 +0000
-Received: from mail91-am1 (localhost [127.0.0.1])	by mail91-am1-R.bigfish.com
-	(Postfix) with ESMTP id 1581960252	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2012 18:46:42 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 7
-X-BigFish: VS7(z37d4lzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1155h)
-Received: from mail91-am1 (localhost.localdomain [127.0.0.1]) by mail91-am1
-	(MessageSwitch) id 1345747601212726_7915;
-	Thu, 23 Aug 2012 18:46:41 +0000 (UTC)
-Received: from AM1EHSMHS013.bigfish.com (unknown [10.3.201.238])	by
-	mail91-am1.bigfish.com (Postfix) with ESMTP id 284E9180045	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2012 18:46:41 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS013.bigfish.com
-	(10.3.207.151) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 23 Aug 2012 18:46:40 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Thu, 23 Aug 2012 13:46:38 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q7NIkcdE013697 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Aug 2012 11:46:38 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Aug 2012 13:46:37 -0500
-Message-ID: <1345747597-18078-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] distutils-common-base.bbclass: Pick up additional .debug folders:
+	Thu, 23 Aug 2012 21:30:52 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2012 12:18:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,301,1344236400"; d="scan'208";a="184702242"
+Received: from unknown (HELO [10.255.12.220]) ([10.255.12.220])
+	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2012 12:18:43 -0700
+Message-ID: <1345749523.2988.4.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Thu, 23 Aug 2012 14:18:43 -0500
+In-Reply-To: <503472BF.5000306@windriver.com>
+References: <cover.1344876697.git.bruce.ashfield@windriver.com>
+	<1345613248.17535.1.camel@trz-ThinkPad-T420>
+	<503472BF.5000306@windriver.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, scott.a.garman@intel.com
+Subject: Re: [PATCH 0/1] [denzil] linux-yocto: make validate_branches handle non BSP branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,28 +33,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 18:58:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Aug 2012 19:30:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/classes/distutils-common-base.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
+On Wed, 2012-08-22 at 01:48 -0400, Bruce Ashfield wrote:
+> On 12-08-22 1:27 AM, Tom Zanussi wrote:
+> > On Mon, 2012-08-13 at 13:10 -0400, Bruce Ashfield wrote:
+> >> Scott,
+> >>
+> >> Here's a fix for validate_branches that comes from a pending master
+> >> change that I've been running for 3 weeks, and one that TomZ has tested
+> >> in his yocto BSP work on denzil.
+> >>
+> >> It fixes some BSP use cases that involve setting a specific SRCREV
+> >> on a base branch, so that a BSP branch that doesn't yet exist can
+> >> be created off of that known base. Previously only an existing BSP
+> >> branch could have it's SRCREV restricted.
+> >>
+> >
+> > Hi Scott,
+> >
+> > I don't see this in denzil - do you have it queued for the next pull
+> > request, or did it get missed?
+> 
+> I was wondering the same thing, in particular, since I just made a minor
+> tweak to this in master (which I'll send out tomorrow). The attached
+> patch should also be merged to denzil.
+> 
 
-diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
-index f66a5cd..e650d93 100644
---- a/meta/classes/distutils-common-base.bbclass
-+++ b/meta/classes/distutils-common-base.bbclass
-@@ -18,4 +18,7 @@ FILES_${PN}-dbg += "\
-   ${PYTHON_SITEPACKAGES_DIR}/.debug \
-   ${PYTHON_SITEPACKAGES_DIR}/*/.debug \
-   ${PYTHON_SITEPACKAGES_DIR}/*/*/.debug \
-+  ${libdir}/${PYTHON_DIR}/.debug \
-+  ${libdir}/${PYTHON_DIR}/*/.debug \
-+  ${libdir}/${PYTHON_DIR}/*/*/.debug \
- "
--- 
-1.7.9.7
+I tried the above patch on top of the other, built and booted a qemu arm
+bsp generated by yocto-bsp, and didn't see any problems FWIW...
+
+Tom
+
+> Bruce
+> 
+> >
+> > Tom
+> >
+> >> cc: Tom Zanussi<tom.zanussi@intel.com>
+> >>
+> >> Cheers,
+> >>
+> >> Bruce
+> >>
+> >> The following changes since commit 73cdebf60df225ee10f2eb215935be3b61e1b831:
+> >>
+> >>    documentation/dev-manual/dev-manual-kernel-appendix.xml: Add note about conflict (2012-06-29 15:54:26 +0100)
+> >>
+> >> are available in the git repository at:
+> >>    git://git.pokylinux.org/poky-contrib zedd/kernel-denzil
+> >>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-denzil
+> >>
+> >> Bruce Ashfield (1):
+> >>    linux-yocto: allow do_validate_branches to handle all branches
+> >>
+> >>   meta/classes/kernel-yocto.bbclass |  119 +++++++++++++++++++++++++------------
+> >>   1 files changed, 80 insertions(+), 39 deletions(-)
+> >>
+> >
+> >
+> 
 
 
 
