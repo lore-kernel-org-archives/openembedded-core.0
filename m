@@ -1,54 +1,48 @@
-Received: from co1ehsobe005.messaging.microsoft.com ([216.32.180.188]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T4gX1-0003F5-FG
+	(envelope-from <B29882@freescale.com>) id 1T4gye-0001fD-Io
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 01:09:43 +0200
-Received: from mail82-co1-R.bigfish.com (10.243.78.249) by
-	CO1EHSOBE011.bigfish.com (10.243.66.74) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 23 Aug 2012 22:57:35 +0000
-Received: from mail82-co1 (localhost [127.0.0.1])	by mail82-co1-R.bigfish.com
-	(Postfix) with ESMTP id A54CA8A00B6;
-	Thu, 23 Aug 2012 22:57:35 +0000 (UTC)
+	Fri, 24 Aug 2012 01:38:16 +0200
+Received: from mail127-ch1-R.bigfish.com (10.43.68.230) by
+	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 23 Aug 2012 22:55:55 +0000
+Received: from mail127-ch1 (localhost [127.0.0.1])	by
+	mail127-ch1-R.bigfish.com (Postfix) with ESMTP id E9279220282	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2012 22:55:54 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 2
-X-BigFish: VS2(z37d4lz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2hbe9i1155h)
-Received: from mail82-co1 (localhost.localdomain [127.0.0.1]) by mail82-co1
-	(MessageSwitch) id 1345762653972433_13981;
-	Thu, 23 Aug 2012 22:57:33 +0000 (UTC)
-Received: from CO1EHSMHS013.bigfish.com (unknown [10.243.78.252])	by
-	mail82-co1.bigfish.com (Postfix) with ESMTP id EAA617C0047;
-	Thu, 23 Aug 2012 22:57:33 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS013.bigfish.com
-	(10.243.66.23) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 23 Aug 2012 22:57:33 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.3]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
-	Thu, 23 Aug 2012 17:57:33 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] distutils-common-base.bbclass: Pick up
-	additional .debug folders:
-Thread-Index: AQHNgXyL2GERuLJx7E2eDSLW7YvlgJdoVhiA
-Date: Thu, 23 Aug 2012 22:57:31 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A61294C@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1345747597-18078-1-git-send-email-msm@freescale.com>
-	<CAJTo0LZNhPx5Fj59mSnGudsmMQxDxNefZi+98HWuiSqdFoTJdQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZNhPx5Fj59mSnGudsmMQxDxNefZi+98HWuiSqdFoTJdQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1155h)
+Received: from mail127-ch1 (localhost.localdomain [127.0.0.1]) by mail127-ch1
+	(MessageSwitch) id 1345762553313597_21772;
+	Thu, 23 Aug 2012 22:55:53 +0000 (UTC)
+Received: from CH1EHSMHS010.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.233])	by mail127-ch1.bigfish.com (Postfix) with ESMTP id
+	4AEE420021E	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2012 22:55:53 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS010.bigfish.com
+	(10.43.70.10) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 23 Aug 2012 22:55:52 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Thu, 23 Aug 2012 17:55:51 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q7NMtp3K011130 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2012 15:55:51 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Aug 2012 17:55:51 -0500
+Message-ID: <1345762551-11974-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distutils-common-base.bbclass: Pick up additional .debug folders:
+Subject: [PATCH] distutils.bbclass: install libraries in ${PYTHON_SITEPACKAGES_DIR}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -58,39 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 23:09:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <14C452928A9457419D7F441747612339@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Aug 2012 23:38:16 -0000
+Content-Type: text/plain
 
-On Thu, Aug 23, 2012 at 5:13 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-> On 23 August 2012 19:46, Matthew McClintock <msm@freescale.com> wrote:
->>    ${PYTHON_SITEPACKAGES_DIR}/.debug \
->>    ${PYTHON_SITEPACKAGES_DIR}/*/.debug \
->>    ${PYTHON_SITEPACKAGES_DIR}/*/*/.debug \
->> +  ${libdir}/${PYTHON_DIR}/.debug \
->> +  ${libdir}/${PYTHON_DIR}/*/.debug \
->> +  ${libdir}/${PYTHON_DIR}/*/*/.debug \
->
-> I thought packages that used distutils generally put their files under
-> sitepackages, and not the python base directory...  Are some packages
-> doing it wrong?
+This moves libaries from ${libdir}/${PYTHON_DIR}/
+to ${libdir}/${PYTHON_DIR}/sitepackages/
 
-pexpect was installing /usr/lib/python2.7 and that was my basis for
-the correct location so I changed it to ${libdir} to fix that... I
-just sent another patch that might address this issue..
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/classes/distutils.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--M
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 52a1aa8..bf1bd83 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -38,7 +38,7 @@ distutils_do_install() {
+         STAGING_LIBDIR=${STAGING_LIBDIR} \
+         PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
+         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+-        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}${libdir}/${PYTHON_DIR} ${DISTUTILS_INSTALL_ARGS} || \
++        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
+         bbfatal "python setup.py install execution failed."
+ 
+         for i in `find ${D} -name "*.py"` ; do \
+-- 
+1.7.9.7
 
->
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
