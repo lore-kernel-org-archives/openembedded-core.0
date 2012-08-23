@@ -1,28 +1,52 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1T4Mho-0002J2-C6
+	(envelope-from <B29882@freescale.com>) id 1T4Nih-0007aX-LB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Aug 2012 03:59:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7N1lP7X019084
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Aug 2012 18:47:25 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 22 Aug 2012 18:47:25 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Aug 2012 20:47:23 -0500
-Message-ID: <eef91770e809fcde924c197427cf4e1e956a29ae.1345686284.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1345686284.git.peter.seebach@windriver.com>
-References: <cover.1345686284.git.peter.seebach@windriver.com>
+	Thu, 23 Aug 2012 05:04:31 +0200
+Received: from mail245-va3-R.bigfish.com (10.7.14.236) by
+	VA3EHSOBE013.bigfish.com (10.7.40.63) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 23 Aug 2012 02:52:25 +0000
+Received: from mail245-va3 (localhost [127.0.0.1])	by
+	mail245-va3-R.bigfish.com (Postfix) with ESMTP id A84675003B9;
+	Thu, 23 Aug 2012 02:52:25 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2hbe9i)
+Received: from mail245-va3 (localhost.localdomain [127.0.0.1]) by mail245-va3
+	(MessageSwitch) id 13456903442774_10371;
+	Thu, 23 Aug 2012 02:52:24 +0000 (UTC)
+Received: from VA3EHSMHS001.bigfish.com (unknown [10.7.14.238])	by
+	mail245-va3.bigfish.com (Postfix) with ESMTP id F15BED80045;
+	Thu, 23 Aug 2012 02:52:23 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS001.bigfish.com
+	(10.7.99.11) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 23 Aug 2012 02:52:23 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.123]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
+	Wed, 22 Aug 2012 21:52:22 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Thread-Topic: [OE-core] why does using a "revision" prevent downloading
+	during a parse?
+Thread-Index: AQHNgNpRNokU9M4a106Aes1Yl35T7w==
+Date: Thu, 23 Aug 2012 02:52:22 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A5FD736@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <alpine.DEB.2.02.1208222108300.24283@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1208222108300.24283@oneiric>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] runqemu-export-rootfs and friends: don't put pseudo db in target fs
+X-OriginatorOrg: freescale.com
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: why does using a "revision" prevent downloading during a parse?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -32,99 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Aug 2012 01:59:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Aug 2012 03:04:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <5DB8A87F5C0786418F8079E3F8211CF9@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-In a few places, we have scripts which use <rootfs>/var/pseudo for
-the pseudo state directory controlling a given filesystem. This
-seems possibly risky because it means that stuff running under
-qemu or whatnot could wipe out the data being used to handle that
-rootfs. Move this to:
-  <rootfs>/../pseudo_state_$(basename $rootfs)
-to avoid problems.
+On Wed, Aug 22, 2012 at 8:11 PM, Robert P. J. Day <rpjday@crashcourse.ca> w=
+rote:
+>
+>   certainly about to embarrass myself again, but from
+> u-boot_2011.06.bb:
+>
+> ...
+> # This revision corresponds to the tag "v2011.06"
+> # We use the revision in order to avoid having to fetch it from the repo =
+during parse
+> SRCREV =3D "b1af6f532e0d348b153d5c148369229d24af361a"
+>
+> PV =3D "v2011.06+git${SRCPV}"
+> ...
+>
+>   i don't know what that means -- how does using that "revision"
+> prevent fetching?  i would simply have defined the SRC_URI using the
+> tag value, so i'm not sure what benefit i'm getting out of the above.
 
-This also solves at least one case (not directly hit by yocto's
-tree) wherein you could end up trying to remove a rootfs while
-pseudo was using a database inside that rootfs, and thus the
-remove would fail.
+You should look for the patch that made that change and read the commit mes=
+sage.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- .../installer/adt-installer/scripts/extract_rootfs |    8 ++++----
- scripts/runqemu-export-rootfs                      |    2 +-
- scripts/runqemu-extract-sdk                        |   15 +++++++++------
- 3 files changed, 14 insertions(+), 11 deletions(-)
+-M
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-index 62dc170..fee463c 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-@@ -28,7 +28,6 @@ extract_rootfs()
-   native_sysroot=$3
-   target_sysroot=$2
-   PSEUDO_COMMAND="$native_sysroot/usr/bin/pseudo"
--  PSEUDO_OPTS="-P $natvie_sysroot/usr"
-   TAR_OPTS="-xjf"
-   PSEUDO_OPTS="-P $native_sysroot/usr"
- 
-@@ -46,9 +45,10 @@ extract_rootfs()
-     mkdir -p "$target_sysroot"
-   fi
- 
--  mkdir -p "$target_sysroot/var/pseudo"
--  touch "$target_sysroot/var/pseudo/pseudo.pid"
--  PSEUDO_LOCALSTATEDIR="$target_sysroot/var/pseudo"
-+  pseudo_state_dir="$target_sysroot/../pseudo_state_$(basename "$target_sysroot")"
-+  mkdir -p "$pseudo_state_dir"
-+  touch "$pseudo_state_dir/pseudo.pid"
-+  PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
-   export PSEUDO_LOCALSTATEDIR
- 
-   echo_info "Extracting rootfs: $1, using pseudo..."
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index f8213ba..0e0d32c 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -68,7 +68,7 @@ NFSPID=~/.runqemu-sdk/nfs$NFS_INSTANCE.pid
- MOUNTPID=~/.runqemu-sdk/mount$NFS_INSTANCE.pid
- 
- PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
--PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/var/pseudo"
-+PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../pseudo_state/$(basename $NFS_EXPORT_DIR)"
- export PSEUDO_LOCALSTATEDIR
- 
- if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
-diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-index 4b52475..88fdf0d 100755
---- a/scripts/runqemu-extract-sdk
-+++ b/scripts/runqemu-extract-sdk
-@@ -73,15 +73,18 @@ if [ ! -d "$SDK_ROOTFS_DIR" ]; then
- 	mkdir -p "$SDK_ROOTFS_DIR"
- fi
- 
--if [ -e "$SDK_ROOTFS_DIR/var/pseudo" ]; then
--	echo "Error: $SDK_ROOTFS_DIR/var/pseudo already exists!"
--	echo "Please delete the entire rootfs tree manually if this is really what you want"
-+pseudo_state_dir="$SDK_ROOTFS_DIR/../pseudo_state_$(basename "$SDK_ROOTFS_DIR")"
-+
-+if [ -e "$pseudo_state_dir" ]; then
-+	echo "Error: $pseudo_state_dir already exists!"
-+	echo "Please delete the rootfs tree and pseudo directory manually"
-+        echo "if this is really what you want."
- 	exit 1
- fi
- 
--mkdir -p "$SDK_ROOTFS_DIR/var/pseudo"
--touch "$SDK_ROOTFS_DIR/var/pseudo/pseudo.pid"
--PSEUDO_LOCALSTATEDIR="$SDK_ROOTFS_DIR/var/pseudo"
-+mkdir -p "$pseudo_state_dir"
-+touch "$pseudo_state_dir/pseudo.pid"
-+PSEUDO_LOCALSTATEDIR="$pseudo_state_dir
- export PSEUDO_LOCALSTATEDIR
- 
- echo "Extracting rootfs tarball using pseudo..."
--- 
-1.7.0.4
+>
+> rday
+>
+> --
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
