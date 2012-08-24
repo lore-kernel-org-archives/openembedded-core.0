@@ -1,38 +1,31 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T526h-0007kF-EY
-	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Aug 2012 00:11:59 +0200
-Received: by eaad12 with SMTP id d12so565974eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2012 14:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5Nh0oIe43fakvJB+xeAexN/HqD9VDJC/J8L2zpEJe4E=;
-	b=Cem96GP4CVmwrB1C3KmhwmzJJ36vdlgQfy4xJlE9uP7NhLs1uSoURchVHXHfDmRomo
-	a37fnrQVAcSDUob1+FOT54BnFfglNYUmQFx90dvaQ3yohz9/6yOe4H0wTWMho+oMs9r5
-	Iz+LZgkuY+LtP489DejKjazX/3J+xWqLFv1AAT64sAPRUgqA2H3PFndnYkO7C76yYRcV
-	pk9PTaEHvLBEfoVTCu0wd7WP6Vd5ECBQV+A5nIWYgTEJ/fud298fAsnaXZGZgzqcy8Py
-	Zv2V2R0EfGJhNNeqUivSg810wpVrFJ99XPnu71nz6alY8ucNqedad1OrHJiK7Mc7SUcw
-	qD2g==
-MIME-Version: 1.0
-Received: by 10.14.198.129 with SMTP id v1mr8840283een.42.1345845591549; Fri,
-	24 Aug 2012 14:59:51 -0700 (PDT)
-Received: by 10.14.2.5 with HTTP; Fri, 24 Aug 2012 14:59:51 -0700 (PDT)
-In-Reply-To: <C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
-References: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
-	<8a3cf0ce40dbc72a43f08bfed56e61569fe7a910.1345518098.git.raj.khem@gmail.com>
-	<48919519-8CA2-41A8-96EA-F5D7F91DE33F@gmail.com>
-	<CAMKF1sou8jjkoktbC4J1O+b-KbxZ43MyF3aPq68S74p8wC_qwQ@mail.gmail.com>
-	<C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
-Date: Fri, 24 Aug 2012 14:59:51 -0700
-Message-ID: <CAMKF1srk7SJSGiCDztiyx71NJZUgG530=QbhYCMm88t6ndgSbw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Elvis Dowson <elvis.dowson@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T527y-0007nA-DP for openembedded-core@lists.openembedded.org;
+	Sat, 25 Aug 2012 00:13:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OM17kt017315;
+	Fri, 24 Aug 2012 23:01:07 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15614-09; Fri, 24 Aug 2012 23:01:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OM0xYb017309
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 24 Aug 2012 23:01:02 +0100
+Message-ID: <1345845661.14369.88.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+Date: Fri, 24 Aug 2012 23:01:01 +0100
+In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A617135@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1345824924.14369.82.camel@ted>
+	<70CC66F5C30A414DADDA6973E4CA391A617135@039-SN1MPN1-001.039d.mgd.msft.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] distutils/steuptools: Fix files layout and unbreak builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,58 +38,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 22:11:59 -0000
-Content-Type: multipart/alternative; boundary=047d7b34373868264f04c80a18fc
+X-List-Received-Date: Fri, 24 Aug 2012 22:13:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7b34373868264f04c80a18fc
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2012-08-24 at 20:48 +0000, McClintock Matthew-B29882 wrote:
+> On Fri, Aug 24, 2012 at 11:15 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > The last two distutils changes progressively broke the builds. Firstly they
+> > moved things from the site_packages directory to being higher up the tree
+> > which introduced package QA warnings as a side effect. Secondly, it interacts
+> > badly with setuptools which passes in --root=${D} itself.
+> >
+> > This patch restores the original directory layout, hence fixing the QA
+> > warnings and also passes extra options to setuptools to deal with the
+> > --root option it passes.
+> 
+> Hmm, I think you don't need certain bits anymore
+> 
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+> > index 52a1aa8..c73b24f 100644
+> > --- a/meta/classes/distutils.bbclass
+> > +++ b/meta/classes/distutils.bbclass
+> > @@ -38,7 +38,7 @@ distutils_do_install() {
+> >          STAGING_LIBDIR=${STAGING_LIBDIR} \
+> >          PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
+> >          BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> > -        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}${libdir}/${PYTHON_DIR} ${DISTUTILS_INSTALL_ARGS} || \
+> > +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
+> 
+> This change should be handled by the bit below? So you could
+> 
+> s/--install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}//
+> 
+> ?
 
-On Friday, August 24, 2012, Elvis Dowson <elvis.dowson@gmail.com> wrote:
->
-> On Aug 25, 2012, at 1:10 AM, Khem Raj wrote:
->
->> On Fri, Aug 24, 2012 at 2:08 PM, Elvis Dowson <elvis.dowson@gmail.com>
-wrote:
->>>
->>> I'm adapting my earlier gcc-4.5 recipes, to try and get them to build
-with
->>> the latest poky master.
->>>
->>> I'm using eglibc-2.13, so it is possible for this version to drop the
->>> gcc-cross-intermediate stage, or is it only with newer eglibc versions?
->>>
->>
->> well it wont work with anything older than eglibc 2.16
->
-> What should I do to get the gcc-4.5 recipes to continue to build, with
-eglib-2.13,
-> against the poky master branch? Should I retain the gcc-intermediate
-recipes?
+Not everything uses setuptools, there are things using just disutils.
+I'm open to further cleanup of this but we need to consider both
+cases...
 
-Back port some patches I did for eglibc 2.16 and drop intermediate recipes
-> Best regards,
->
-> Elvis
+Cheers,
 
---047d7b34373868264f04c80a18fc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<br><br>On Friday, August 24, 2012, Elvis Dowson &lt;<a href=3D"mailto:elvi=
-s.dowson@gmail.com">elvis.dowson@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; O=
-n Aug 25, 2012, at 1:10 AM, Khem Raj wrote:<br>&gt;<br>&gt;&gt; On Fri, Aug=
- 24, 2012 at 2:08 PM, Elvis Dowson &lt;<a href=3D"mailto:elvis.dowson@gmail=
-.com">elvis.dowson@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt;<br>&gt;&gt;&gt; I&#39;m adapting my earlier gcc-4.5 recipes, t=
-o try and get them to build with<br>&gt;&gt;&gt; the latest poky master.<br=
->&gt;&gt;&gt;<br>&gt;&gt;&gt; I&#39;m using eglibc-2.13, so it is possible =
-for this version to drop the<br>
-&gt;&gt;&gt; gcc-cross-intermediate stage, or is it only with newer eglibc =
-versions?<br>&gt;&gt;&gt;<br>&gt;&gt;<br>&gt;&gt; well it wont work with an=
-ything older than eglibc 2.16<br>&gt;<br>&gt; What should I do to get the g=
-cc-4.5 recipes to continue to build, with eglib-2.13,<br>
-&gt; against the poky master branch? Should I retain the gcc-intermediate r=
-ecipes?<br><br>Back port some patches I did for eglibc 2.16 and drop interm=
-ediate recipes<br>&gt; Best regards,<br>&gt;<br>&gt; Elvis
+> >          bbfatal "python setup.py install execution failed."
+> >
+> >          for i in `find ${D} -name "*.py"` ; do \
+> > diff --git a/meta/classes/setuptools.bbclass b/meta/classes/setuptools.bbclass
+> > index ced9509..ba9cf13 100644
+> > --- a/meta/classes/setuptools.bbclass
+> > +++ b/meta/classes/setuptools.bbclass
+> > @@ -5,4 +5,5 @@ DEPENDS += "python-setuptools-native"
+> >  DISTUTILS_INSTALL_ARGS = "--root=${D} \
+> >      --single-version-externally-managed \
+> >      --prefix=${prefix} \
+> > +    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
+> >      --install-data=${datadir}"
+> >
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
---047d7b34373868264f04c80a18fc--
+
+
+
