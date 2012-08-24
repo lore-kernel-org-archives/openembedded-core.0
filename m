@@ -1,23 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from ams-iport-1.cisco.com ([144.254.224.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1T4mTp-0002e1-Lb
+	(envelope-from <mertsas@cisco.com>) id 1T4n0R-0003dY-WE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 07:30:50 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7O5Ibku024650;
-	Thu, 23 Aug 2012 22:18:38 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri, 24 Aug 2012 01:18:34 -0400
-Message-Id: <6bfd8089c0dade4775adfac96644215ffdfc0f4e.1345785364.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1345785364.git.bruce.ashfield@windriver.com>
-References: <cover.1345785364.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1345785364.git.bruce.ashfield@windriver.com>
-References: <cover.1345785364.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/1] kernel.bbclass: fix INC directory for SLANG
+	Fri, 24 Aug 2012 08:04:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=mertsas@cisco.com; l=6965; q=dns/txt;
+	s=iport; t=1345787547; x=1346997147;
+	h=message-id:date:from:mime-version:to:subject:references:
+	in-reply-to; bh=kcOQSTKzVbqIKQ2JRoPRmbvnlm2zEXHtbdv8SXXmIPw=;
+	b=JVgCkhQngVkIbOjUp3+2+KK31gCNGOwXhfWFaAtqeavj3Pu3t1MAQucz
+	nDZGQzZD7g3mzLJUKZPZdZ6XQ2nij7wcgfSOv1uLm47F1kA/em+Dhjiao
+	zw8UcdsXw87Y+PLl880Ghn4DVscye9glRj6j13rmn98vTxFBBU+NvIi5j Y=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: Av8EAAYVN1CQ/khM/2dsb2JhbABFulKBB4IgAQEBBAEBAQ8BWwoRCxgJFg8JAwIBAgEVAS8TBgIBAR6HawuZSKAdkhkDkymCK4EUhEiIUYFngmU
+X-IronPort-AV: E=Sophos;i="4.80,302,1344211200"; 
+	d="scan'208,217";a="142838955"
+Received: from ams-core-3.cisco.com ([144.254.72.76])
+	by ams-iport-1.cisco.com with ESMTP; 24 Aug 2012 05:52:24 +0000
+Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q7O5qOHf025703
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2012 05:52:24 GMT
+Message-ID: <503715BB.1090009@cisco.com>
+Date: Fri, 24 Aug 2012 07:48:43 +0200
+From: =?ISO-8859-1?Q?Martin_Erts=E5s?= <mertsas@cisco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.6esrpre) Gecko/20120730 Thunderbird/10.0.6
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <CALN+Pg3chDYX-R1+=GiqGbdMf+2uncZhmvU50vvqENkxC2M3+w@mail.gmail.com>
+In-Reply-To: <CALN+Pg3chDYX-R1+=GiqGbdMf+2uncZhmvU50vvqENkxC2M3+w@mail.gmail.com>
+Subject: Re: Tackling compilation errors in qt5 recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,121 +43,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 05:30:50 -0000
+X-List-Received-Date: Fri, 24 Aug 2012 06:04:32 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060506030002000702060602"
 
-From: Liang Li <liang.li@windriver.com>
+--------------060506030002000702060602
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-In the kernel's tools/perf/Makefile CFLAGS was previously hard coded to
-contain "-I/usr/include/slang" to work with hosts that have
-"/usr/include/slang/slang.h" as well as hosts that have
-"/usr/include/slang.h". This path can cause compile warnings like:
+Hi.
 
-  cc1: warning: '/usr/include/slang' doesn't exists.
+You could have a look at git@github.com:martiert/meta-qt5.git as a
+starting point. Have not tried anything but the qt5-x11-free packages,
+which makes what is needed for rendering, but it is at least a starting
+point.
 
-  or
+- Martin
 
-  cc1: warning: include location "/usr/include/slang" is unsafe for
-  cross-compilation [-Wpoison-system-directories]
-
-Then in some cases warnings become errors if WERROR is enabled hence
-build errors.
-
-In coordination with a kernel fix, we can fix this error for all
-kernels by modifying the perf Makefile within the staged kernel
-source.
-
-Signed-off-by: Liang Li <liang.li@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel.bbclass                        |    3 +++
- .../recipes-kernel/linux/linux-yocto/noslang.patch |   20 --------------------
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    2 --
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |    2 --
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       |    2 --
- 5 files changed, 3 insertions(+), 26 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto/noslang.patch
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index f34e632..fdef1be 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -204,6 +204,9 @@ kernel_do_install() {
- 	for entry in $bin_files; do
- 		rm -f $kerneldir/$entry
- 	done
-+
-+	# Fix SLANG_INC for slang.h
-+	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
- }
- 
- sysroot_stage_all_append() {
-diff --git a/meta/recipes-kernel/linux/linux-yocto/noslang.patch b/meta/recipes-kernel/linux/linux-yocto/noslang.patch
-deleted file mode 100644
-index 9cada34..0000000
---- a/meta/recipes-kernel/linux/linux-yocto/noslang.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--We (OE) install slang into /usr/include so we never need to look into 
--/usr/include/slang/. We never want to look into a hardcoded path like this
--since it triggers host infection issues. For now, simply remove this
--since it causes us problems.
--
--Upstream-Status: Pending (would need rework)
--
--Index: tools/perf/Makefile
--===================================================================
----- linux.orig/tools/perf/Makefile	2012-08-07 10:29:43.020149620 +0000
--+++ linux/tools/perf/Makefile	2012-08-07 10:30:08.128148098 +0000
--@@ -504,7 +504,7 @@
-- 		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
-- 	else
-- 		# Fedora has /usr/include/slang/slang.h, but ubuntu /usr/include/slang.h
---		BASIC_CFLAGS += -I/usr/include/slang
--+		# BASIC_CFLAGS += -I/usr/include/slang
-- 		EXTLIBS += -lnewt -lslang
-- 		LIB_OBJS += $(OUTPUT)util/ui/setup.o
-- 		LIB_OBJS += $(OUTPUT)util/ui/browser.o
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index 4d19664..b9e5036 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -24,8 +24,6 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.0;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--SRC_URI += "file://noslang.patch"
--
- COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
- 
- # Functionality flags
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index c3fb252..6a162dd 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -24,8 +24,6 @@ KMETA = "meta"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--SRC_URI += "file://noslang.patch"
--
- COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemux86-64"
- 
- # Functionality flags
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index 691d789..6fa4920 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -13,8 +13,6 @@ SRCREV_meta ?= "28bcd46af1d592dab39bd8a0891c872454fde8bc"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--SRC_URI += "file://noslang.patch"
--
- LINUX_VERSION ?= "3.4.7"
- 
- PR = "${INC_PR}.0"
--- 
-1.7.5.4
+On 08/23/12 19:59, Sravan wrote:
+> Hello,
+>
+> I never worked on oe/bitbake before. 
+> I am trying to write recipes for Qt5(based
+> on http://qt-project.org/wiki/Building_Qt_5_from_Git) .
+> How ever i am stuck with few compilation errors that am able to slowly
+> fix and move forward, by disabling them through "config" options.
+>
+> So, far i have used following options in config to get rid of
+> compilation errors, is it the right approach? My end goal is to have a
+> separate recipe file for Qt5 that is good enough to run webkit.
+> Following are the flags that i am using
+>
+> QT_CONFIG_FLAGS = "-no-avx -no-opengl -no-neon -no-rpath -qconfig full 
+>             -release -opensource -confirm-license -no-pch \          
+>              
+>             -nomake examples -nomake demos  -no-sse2 -no-ssse3 \      
+>             
+>             -nomake tests -no-gtkstyle -nomake translations \        
+>              
+>             -qt-zlib -qt-libpng -qt-libjpeg -qt-sql-sqlite" 
+>
+> and my 
+>
+> Build Configuration:
+> BB_VERSION        = "1.15.2"
+> TARGET_ARCH       = "i586"
+> TARGET_OS         = "linux"
+> MACHINE           = "qemux86"
+> DISTRO            = "webos"
+> DISTRO_VERSION    = "1.0"
+> TUNE_FEATURES     = "m32 i586"
+> TARGET_FPU        = ""
+> meta              = "(nobranch):1b40dac2c501ae8c8d812cf2866fe7917f144a19"
+> meta-oe           = "(nobranch):31bb03eba7c2e928cbc069eea61a5ae2a8d9fe51"
+> meta-webos        =
+> "qt5-recipes-qt5:f7df573d4af74b77d8747c9e84c7e8fd2fb70156"
+>
+>
+> Please suggest how can i be sure that this approach is fine, and wont
+> hurt me after building webkit to run with Qt5.
+>
+> -Sravan.
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+--------------060506030002000702060602
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Hi.<br>
+    <br>
+    You could have a look at <a class="moz-txt-link-abbreviated" href="mailto:git@github.com:martiert/meta-qt5.git">git@github.com:martiert/meta-qt5.git</a> as a
+    starting point. Have not tried anything but the qt5-x11-free
+    packages, which makes what is needed for rendering, but it is at
+    least a starting point.<br>
+    <br>
+    - Martin<br>
+    <br>
+    On 08/23/12 19:59, Sravan wrote:
+    <blockquote
+cite="mid:CALN+Pg3chDYX-R1+=GiqGbdMf+2uncZhmvU50vvqENkxC2M3+w@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      Hello,
+      <div><br>
+      </div>
+      <div>I never worked on oe/bitbake before.&nbsp;</div>
+      <div>I am trying to write recipes for Qt5(based on&nbsp;<a
+          moz-do-not-send="true"
+          href="http://qt-project.org/wiki/Building_Qt_5_from_Git"
+          target="_blank">http://qt-project.org/wiki/Building_Qt_5_from_Git</a>)
+        .</div>
+      <div>How ever i am stuck with few compilation errors that am able
+        to slowly fix and move forward, by disabling them through
+        "config" options.</div>
+      <div><br>
+      </div>
+      <div>So, far i have used following options in config to get rid of
+        compilation errors, is it the right approach? My end goal is to
+        have a separate recipe file for Qt5 that is good enough to run
+        webkit.</div>
+      <div>Following are the flags that i am using</div>
+      <div><br>
+      </div>
+      <div>
+        <div>QT_CONFIG_FLAGS = "-no-avx -no-opengl -no-neon -no-rpath
+          -qconfig full&nbsp;</div>
+        <div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -release -opensource -confirm-license -no-pch \
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+        <div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -nomake examples -nomake demos &nbsp;-no-sse2
+          -no-ssse3 \ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+        <div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -nomake tests -no-gtkstyle -nomake translations
+          \ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
+        <div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -qt-zlib -qt-libpng -qt-libjpeg
+          -qt-sql-sqlite"&nbsp;</div>
+      </div>
+      <div><br>
+      </div>
+      <div>and my&nbsp;</div>
+      <div><br>
+      </div>
+      <div>
+        <div>
+          Build Configuration:</div>
+        <div>BB_VERSION &nbsp; &nbsp; &nbsp; &nbsp;= "1.15.2"</div>
+        <div>TARGET_ARCH &nbsp; &nbsp; &nbsp; = "i586"</div>
+        <div>TARGET_OS &nbsp; &nbsp; &nbsp; &nbsp; = "linux"</div>
+        <div>MACHINE &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "qemux86"</div>
+        <div>
+          DISTRO &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= "webos"</div>
+        <div>DISTRO_VERSION &nbsp; &nbsp;= "1.0"</div>
+        <div>TUNE_FEATURES &nbsp; &nbsp; = "m32 i586"</div>
+        <div>TARGET_FPU &nbsp; &nbsp; &nbsp; &nbsp;= ""</div>
+        <div>meta &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+          "(nobranch):1b40dac2c501ae8c8d812cf2866fe7917f144a19"</div>
+        <div>meta-oe &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+          "(nobranch):31bb03eba7c2e928cbc069eea61a5ae2a8d9fe51"</div>
+        <div>meta-webos &nbsp; &nbsp; &nbsp; &nbsp;=
+          "qt5-recipes-qt5:f7df573d4af74b77d8747c9e84c7e8fd2fb70156"</div>
+      </div>
+      <div><br>
+      </div>
+      <div><br>
+      </div>
+      <div>Please suggest how can i be sure that this approach is fine,
+        and wont hurt me after building webkit to run with Qt5.</div>
+      <div><br>
+      </div>
+      <div>-Sravan.</div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060506030002000702060602--
