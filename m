@@ -1,27 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1T4lle-0001mJ-FN
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1T4lu5-0001tN-PC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 06:45:10 +0200
+	Fri, 24 Aug 2012 06:53:54 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7O4X3qM024935
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Aug 2012 21:33:03 -0700 (PDT)
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7O4fkdg024997
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Aug 2012 21:41:46 -0700 (PDT)
 Received: from [128.224.162.182] (128.224.162.182) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 23 Aug 2012 21:33:02 -0700
-Message-ID: <503703FC.60008@windriver.com>
-Date: Fri, 24 Aug 2012 12:33:00 +0800
+	Thu, 23 Aug 2012 21:41:45 -0700
+Message-ID: <50370608.50809@windriver.com>
+Date: Fri, 24 Aug 2012 12:41:44 +0800
 From: wenzong fan <wenzong.fan@windriver.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1345431102.git.wenzong.fan@windriver.com>
-	<5a92968e29ead46bff1edf963d1f9cef3732e8b1.1345431102.git.wenzong.fan@windriver.com>
-	<50365A14.4050601@linux.intel.com>
-In-Reply-To: <50365A14.4050601@linux.intel.com>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1345431102.git.wenzong.fan@windriver.com>	<5a92968e29ead46bff1edf963d1f9cef3732e8b1.1345431102.git.wenzong.fan@windriver.com>	<50365A14.4050601@linux.intel.com>
+	<503703FC.60008@windriver.com>
+In-Reply-To: <503703FC.60008@windriver.com>
 Subject: Re: [PATCH 1/1] coreutils: fix do_configure error with long TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,91 +34,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 04:45:10 -0000
+X-List-Received-Date: Fri, 24 Aug 2012 04:53:54 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/24/2012 12:28 AM, Saul Wold wrote:
-> On 08/19/2012 07:55 PM, wenzong.fan@windriver.com wrote:
->> From: Wenzong Fan <wenzong.fan@windriver.com>
->>
->> By default the 'm4/*' files will be extended with absolute path while
->> autoreconf running, if the length of TMPDIR is too long such as 410
->> which is the maximum value allowed by 'sanity.bbclass', autoreconf
->> will fail with error:
->>
->> Can't exec "/bin/sh": Argument list too long ...
->>
->> Fix this issue by specific the 'acpaths' to '-I ./m4'.
->>
->> [YOCTO #2766]
->>
->> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
->> ---
->> meta/recipes-core/coreutils/coreutils_8.14.bb | 4 +++-
->> 1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb
->> b/meta/recipes-core/coreutils/coreutils_8.14.bb
->> index 9a714a9..c7c8e13 100644
->> --- a/meta/recipes-core/coreutils/coreutils_8.14.bb
->> +++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
->> @@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
->> LICENSE = "GPLv3+"
->> LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
->> file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
->>
->> -PR = "r5"
->> +PR = "r6"
->> DEPENDS = "gmp libcap"
->> DEPENDS_virtclass-native = ""
->>
->> @@ -36,6 +36,8 @@ base_bindir_progs = "cat chgrp chmod chown cp date
->> dd echo false kill ln ls mkdi
->>
->> sbindir_progs= "chroot"
->>
->> +acpaths = "-I ./m4"
->> +
-> This is a poor work-around to the problem, and does not give any idea as
-> to what your fixing. Please investigate a proper fix not just a
-> work-around.
+On 08/24/2012 12:33 PM, wenzong fan wrote:
+> On 08/24/2012 12:28 AM, Saul Wold wrote:
+>> On 08/19/2012 07:55 PM, wenzong.fan@windriver.com wrote:
+>>> From: Wenzong Fan <wenzong.fan@windriver.com>
+>>>
+>>> By default the 'm4/*' files will be extended with absolute path while
+>>> autoreconf running, if the length of TMPDIR is too long such as 410
+>>> which is the maximum value allowed by 'sanity.bbclass', autoreconf
+>>> will fail with error:
+>>>
+>>> Can't exec "/bin/sh": Argument list too long ...
+>>>
+>>> Fix this issue by specific the 'acpaths' to '-I ./m4'.
+>>>
+>>> [YOCTO #2766]
+>>>
+>>> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>>> ---
+>>> meta/recipes-core/coreutils/coreutils_8.14.bb | 4 +++-
+>>> 1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb
+>>> b/meta/recipes-core/coreutils/coreutils_8.14.bb
+>>> index 9a714a9..c7c8e13 100644
+>>> --- a/meta/recipes-core/coreutils/coreutils_8.14.bb
+>>> +++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
+>>> @@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+>>> LICENSE = "GPLv3+"
+>>> LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+>>> file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
+>>>
+>>>
+>>> -PR = "r5"
+>>> +PR = "r6"
+>>> DEPENDS = "gmp libcap"
+>>> DEPENDS_virtclass-native = ""
+>>>
+>>> @@ -36,6 +36,8 @@ base_bindir_progs = "cat chgrp chmod chown cp date
+>>> dd echo false kill ln ls mkdi
+>>>
+>>> sbindir_progs= "chroot"
+>>>
+>>> +acpaths = "-I ./m4"
+>>> +
+>> This is a poor work-around to the problem, and does not give any idea as
+>> to what your fixing. Please investigate a proper fix not just a
+>> work-around.
+>
+> Hi Saul,
+>
+> Because a too long TMPDIR will caused the failure:
+>
+> Can't exec "/bin/sh": Argument list too long at
+> /usr/lib/perl/5.10/IO/File.pm line 66.
+>
+> So we have a limitation in the sanity.bbclass that the tmpdir can't be
+> longer than 410. See commit 2dee999ab2731c2a96e82762ae04fe44f27edac6.
+>
+> This limitation works for mostly packages but except for coreutils.
+> There are 378 m4 files under '.../coreutils-8.14/m4', so if all of them
+> extended with absolute path while the TMPDIR is long enough, it will be
+> a very long argument list and over the ARG_MAX value that kernel defined.
 
-Hi Saul,
+The ARG_MAX from '/usr/include/linux/limits.h' is '131072'. Only the 
+m4/* extended will over than 378 * 410 = 154980 bytes, it's indeed a 
+very long argument list.
 
-Because a too long TMPDIR will caused the failure:
-
-Can't exec "/bin/sh": Argument list too long at 
-/usr/lib/perl/5.10/IO/File.pm line 66.
-
-So we have a limitation in the sanity.bbclass that the tmpdir can't be 
-longer than 410. See commit 2dee999ab2731c2a96e82762ae04fe44f27edac6.
-
-This limitation works for mostly packages but except for coreutils. 
-There are 378 m4 files under '.../coreutils-8.14/m4', so if all of them 
-extended with absolute path while the TMPDIR is long enough, it will be 
-a very long argument list and over the ARG_MAX value that kernel defined.
-
-I think the best solution is reducing the length of argument list, 
-because autoreconf will be run in $S dir, so absolute path is not 
-necessary here. The acpaths is generated by autotools.bbclass and allow 
-to overwrite by a pre-defined value. Another option is getting 
-autotools.bbclass generate acpatchs with relative path directly, this 
-might work, but will effect all autotool packages instead of coreutils only.
-
-
-Thanks
 Wenzong
 
 >
-> Thanks
-> Sau!
+> I think the best solution is reducing the length of argument list,
+> because autoreconf will be run in $S dir, so absolute path is not
+> necessary here. The acpaths is generated by autotools.bbclass and allow
+> to overwrite by a pre-defined value. Another option is getting
+> autotools.bbclass generate acpatchs with relative path directly, this
+> might work, but will effect all autotool packages instead of coreutils
+> only.
 >
->> do_install_append() {
->> for i in df mktemp base64; do mv ${D}${bindir}/$i
->> ${D}${bindir}/$i.${BPN}; done
+>
+> Thanks
+> Wenzong
+>
 >>
+>> Thanks
+>> Sau!
 >>
+>>> do_install_append() {
+>>> for i in df mktemp base64; do mv ${D}${bindir}/$i
+>>> ${D}${bindir}/$i.${BPN}; done
+>>>
+>>>
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
