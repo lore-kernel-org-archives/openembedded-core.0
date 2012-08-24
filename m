@@ -1,25 +1,45 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T4yoV-0002tm-Vk
+	(envelope-from <B29882@freescale.com>) id 1T4yrK-0002yJ-EA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 20:41:00 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Aug 2012 11:28:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,304,1344236400"; d="scan'208";a="210739793"
-Received: from unknown (HELO [10.255.13.21]) ([10.255.13.21])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2012 11:28:51 -0700
-Message-ID: <5037C7E3.9080000@linux.intel.com>
-Date: Fri, 24 Aug 2012 11:28:51 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Fri, 24 Aug 2012 20:43:54 +0200
+Received: from mail264-tx2-R.bigfish.com (10.9.14.247) by
+	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 24 Aug 2012 18:16:42 +0000
+Received: from mail264-tx2 (localhost [127.0.0.1])	by
+	mail264-tx2-R.bigfish.com (Postfix) with ESMTP id 2C88748E01ED	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2012 18:16:42 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail264-tx2 (localhost.localdomain [127.0.0.1]) by mail264-tx2
+	(MessageSwitch) id 1345832199815559_12518;
+	Fri, 24 Aug 2012 18:16:39 +0000 (UTC)
+Received: from TX2EHSMHS026.bigfish.com (unknown [10.9.14.250])	by
+	mail264-tx2.bigfish.com (Postfix) with ESMTP id BAE536860044	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2012 18:16:39 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS026.bigfish.com
+	(10.9.99.126) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 24 Aug 2012 18:16:39 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Fri, 24 Aug 2012 13:16:38 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q7OIGcv2006904 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2012 11:16:38 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Aug 2012 13:16:37 -0500
+Message-ID: <1345832197-3648-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1345458318-22072-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1345458318-22072-1-git-send-email-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mesa: clean up PACKAGECONFIG
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v2] kmod-native_git.bb: fix builds for hosts with older libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,49 +52,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 18:41:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Aug 2012 18:43:54 -0000
+Content-Type: text/plain
 
-On 08/20/2012 03:25 AM, Ross Burton wrote:
-> Use machine overrides instead of machine features.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-graphics/mesa/mesa-common.inc |    7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-> index de171f0..cfe4a37 100644
-> --- a/meta/recipes-graphics/mesa/mesa-common.inc
-> +++ b/meta/recipes-graphics/mesa/mesa-common.inc
-> @@ -12,7 +12,7 @@ SECTION = "x11"
->   LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
->
-> -INC_PR = "r2"
-> +INC_PR = "r3"
->   PE = "2"
->
->   DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
-> @@ -29,9 +29,8 @@ EXTRA_OECONF = "--enable-glu \
->                   --disable-glut \
->                   --enable-shared-glapi"
->
-> -PACKAGECONFIG ??= "${@base_contains('MACHINE_FEATURES', 'x86', 'gles', '', d)} \
-> -                   ${@base_contains('MACHINE_FEATURES', 'x86', 'egl', '', d)} \
-> -                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-> +PACKAGECONFIG_append_x86 = " gles egl"
->
->   X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
->   PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
->
+kmod will fail to build with the following error because O_CLOEXEC is
+not defined:
 
-Merged into OE-Core
+| libkmod/libkmod-module.c: In function 'kmod_module_get_initstate':
+| libkmod/libkmod-module.c:1640: error: 'O_CLOEXEC' undeclared (first use in this function)
+| libkmod/libkmod-module.c:1640: error: (Each undeclared identifier is reported only once
+| libkmod/libkmod-module.c:1640: error: for each function it appears in.)
+| libkmod/libkmod-module.c: In function 'kmod_module_get_refcnt':
+| libkmod/libkmod-module.c:1754: error: 'O_CLOEXEC' undeclared (first use in this function)
+| libkmod/libkmod-module.c: In function 'kmod_module_get_sections':
+| libkmod/libkmod-module.c:1913: error: 'O_CLOEXEC' undeclared (first use in this function)
+| libkmod/libkmod-file.c: In function 'kmod_file_open':
+| libkmod/libkmod-file.c:282: error: 'O_CLOEXEC' undeclared (first use in this function)
+| libkmod/libkmod-file.c:282: error: (Each undeclared identifier is reported only once
+| libkmod/libkmod-file.c:282: error: for each function it appears in.)
 
-Thanks
-	Sau!
+Since we are only using kmod-native for depmod, and it's a non-threaded
+user of this libary being built this should be safe to override O_CLOEXEC.
+
+Keep in mind this is ONLY effecting the native builds and not what is
+being shipped in the root file system.
+
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+v2: use patch instead of munging CFLAGS
+
+ meta/recipes-kernel/kmod/kmod-native_git.bb        |    3 ++-
+ .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |   17 +++++++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+
+diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
+index 96de8b8..8cbcdf8 100644
+--- a/meta/recipes-kernel/kmod/kmod-native_git.bb
++++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+@@ -4,7 +4,8 @@
+ require kmod.inc
+ inherit native
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
++SRC_URI += "file://fix-undefined-O_CLOEXEC.patch"
+ 
+ do_install_append (){
+ 	for tool in depmod insmod lsmod modinfo modprobe rmmod
+diff --git a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+new file mode 100644
+index 0000000..3177e9a
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+@@ -0,0 +1,17 @@
++Upstream-Status: Not applicable
++
++Index: git/libkmod/libkmod-private.h
++===================================================================
++--- git.orig/libkmod/libkmod-private.h
+++++ git/libkmod/libkmod-private.h
++@@ -1,6 +1,10 @@
++ #ifndef _LIBKMOD_PRIVATE_H_
++ #define _LIBKMOD_PRIVATE_H_
++ 
+++#ifndef O_CLOEXEC
+++# define O_CLOEXEC 0
+++#endif
+++
++ #include <stdbool.h>
++ #include <stdio.h>
++ #include <syslog.h>
+-- 
+1.7.9.7
+
 
 
 
