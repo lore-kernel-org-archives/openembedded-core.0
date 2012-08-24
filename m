@@ -1,39 +1,37 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1T51Uo-000726-0U
+	(envelope-from <raj.khem@gmail.com>) id 1T526h-0007kF-EY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 23:32:50 +0200
-Received: by pbcwy7 with SMTP id wy7so4266168pbc.6
+	Sat, 25 Aug 2012 00:11:59 +0200
+Received: by eaad12 with SMTP id d12so565974eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2012 14:20:41 -0700 (PDT)
+	Fri, 24 Aug 2012 14:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=QL9vy1nbENj+YOtKH+Y3SbBTX/dSmPJ6Aw8/Ga3qMG8=;
-	b=GEil4U0zuIrXskDknj38C6EVq4XAbbzw9Fa15h3qz3fpdKFv0oXnbqbass5rEKDLI9
-	eNPWROnYn9omn/qwMybvoHpEOCWXRXsunjAkvd7TsO3f9tNCoSKE7II7Zx8WUsl0Kfxa
-	UntqlVA3QP9ch00RBsFzI4dfP6EQCksiwGhXbDWeKcnT8fDjKuw4+HMAxmf8NGajZgGd
-	5Pqn+ZkCvcbscP5EFa/X/DaHxqkw+mEgZtz1V5H0R0lfTkoYiqC3BJRKJAuVW/LFyrwx
-	clERU8/s/2S+NGL59XS0pCIO/yG4AOODE0zsUAVUdjW9RA0HJ2Yc8WUGyHpklTPP8kXV
-	/qdg==
-Received: by 10.68.224.70 with SMTP id ra6mr15948489pbc.11.1345843241169;
-	Fri, 24 Aug 2012 14:20:41 -0700 (PDT)
-Received: from [192.168.1.101] ([94.205.108.162])
-	by mx.google.com with ESMTPS id ox5sm9015638pbc.75.2012.08.24.14.20.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 24 Aug 2012 14:20:40 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <CAMKF1sou8jjkoktbC4J1O+b-KbxZ43MyF3aPq68S74p8wC_qwQ@mail.gmail.com>
-Date: Sat, 25 Aug 2012 01:20:33 +0400
-Message-Id: <C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=5Nh0oIe43fakvJB+xeAexN/HqD9VDJC/J8L2zpEJe4E=;
+	b=Cem96GP4CVmwrB1C3KmhwmzJJ36vdlgQfy4xJlE9uP7NhLs1uSoURchVHXHfDmRomo
+	a37fnrQVAcSDUob1+FOT54BnFfglNYUmQFx90dvaQ3yohz9/6yOe4H0wTWMho+oMs9r5
+	Iz+LZgkuY+LtP489DejKjazX/3J+xWqLFv1AAT64sAPRUgqA2H3PFndnYkO7C76yYRcV
+	pk9PTaEHvLBEfoVTCu0wd7WP6Vd5ECBQV+A5nIWYgTEJ/fud298fAsnaXZGZgzqcy8Py
+	Zv2V2R0EfGJhNNeqUivSg810wpVrFJ99XPnu71nz6alY8ucNqedad1OrHJiK7Mc7SUcw
+	qD2g==
+MIME-Version: 1.0
+Received: by 10.14.198.129 with SMTP id v1mr8840283een.42.1345845591549; Fri,
+	24 Aug 2012 14:59:51 -0700 (PDT)
+Received: by 10.14.2.5 with HTTP; Fri, 24 Aug 2012 14:59:51 -0700 (PDT)
+In-Reply-To: <C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
 References: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
 	<8a3cf0ce40dbc72a43f08bfed56e61569fe7a910.1345518098.git.raj.khem@gmail.com>
 	<48919519-8CA2-41A8-96EA-F5D7F91DE33F@gmail.com>
 	<CAMKF1sou8jjkoktbC4J1O+b-KbxZ43MyF3aPq68S74p8wC_qwQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.1278)
-Cc: openembedded-core@lists.openembedded.org
+	<C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
+Date: Fri, 24 Aug 2012 14:59:51 -0700
+Message-ID: <CAMKF1srk7SJSGiCDztiyx71NJZUgG530=QbhYCMm88t6ndgSbw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Elvis Dowson <elvis.dowson@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/9] gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,34 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 21:32:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Aug 2012 22:11:59 -0000
+Content-Type: multipart/alternative; boundary=047d7b34373868264f04c80a18fc
 
+--047d7b34373868264f04c80a18fc
+Content-Type: text/plain; charset=UTF-8
 
-On Aug 25, 2012, at 1:10 AM, Khem Raj wrote:
-
-> On Fri, Aug 24, 2012 at 2:08 PM, Elvis Dowson <elvis.dowson@gmail.com> =
+On Friday, August 24, 2012, Elvis Dowson <elvis.dowson@gmail.com> wrote:
+>
+> On Aug 25, 2012, at 1:10 AM, Khem Raj wrote:
+>
+>> On Fri, Aug 24, 2012 at 2:08 PM, Elvis Dowson <elvis.dowson@gmail.com>
 wrote:
->>=20
->> I'm adapting my earlier gcc-4.5 recipes, to try and get them to build =
+>>>
+>>> I'm adapting my earlier gcc-4.5 recipes, to try and get them to build
 with
->> the latest poky master.
->>=20
->> I'm using eglibc-2.13, so it is possible for this version to drop the
->> gcc-cross-intermediate stage, or is it only with newer eglibc =
-versions?
->>=20
->=20
-> well it wont work with anything older than eglibc 2.16
-
-What should I do to get the gcc-4.5 recipes to continue to build, with =
-eglib-2.13,=20
-against the poky master branch? Should I retain the gcc-intermediate =
+>>> the latest poky master.
+>>>
+>>> I'm using eglibc-2.13, so it is possible for this version to drop the
+>>> gcc-cross-intermediate stage, or is it only with newer eglibc versions?
+>>>
+>>
+>> well it wont work with anything older than eglibc 2.16
+>
+> What should I do to get the gcc-4.5 recipes to continue to build, with
+eglib-2.13,
+> against the poky master branch? Should I retain the gcc-intermediate
 recipes?
 
-Best regards,
+Back port some patches I did for eglibc 2.16 and drop intermediate recipes
+> Best regards,
+>
+> Elvis
 
-Elvis=
+--047d7b34373868264f04c80a18fc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<br><br>On Friday, August 24, 2012, Elvis Dowson &lt;<a href=3D"mailto:elvi=
+s.dowson@gmail.com">elvis.dowson@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; O=
+n Aug 25, 2012, at 1:10 AM, Khem Raj wrote:<br>&gt;<br>&gt;&gt; On Fri, Aug=
+ 24, 2012 at 2:08 PM, Elvis Dowson &lt;<a href=3D"mailto:elvis.dowson@gmail=
+.com">elvis.dowson@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>&gt;&gt;&gt; I&#39;m adapting my earlier gcc-4.5 recipes, t=
+o try and get them to build with<br>&gt;&gt;&gt; the latest poky master.<br=
+>&gt;&gt;&gt;<br>&gt;&gt;&gt; I&#39;m using eglibc-2.13, so it is possible =
+for this version to drop the<br>
+&gt;&gt;&gt; gcc-cross-intermediate stage, or is it only with newer eglibc =
+versions?<br>&gt;&gt;&gt;<br>&gt;&gt;<br>&gt;&gt; well it wont work with an=
+ything older than eglibc 2.16<br>&gt;<br>&gt; What should I do to get the g=
+cc-4.5 recipes to continue to build, with eglib-2.13,<br>
+&gt; against the poky master branch? Should I retain the gcc-intermediate r=
+ecipes?<br><br>Back port some patches I did for eglibc 2.16 and drop interm=
+ediate recipes<br>&gt; Best regards,<br>&gt;<br>&gt; Elvis
 
+--047d7b34373868264f04c80a18fc--
