@@ -1,24 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T4zfF-0004RA-E7
+	(envelope-from <mark.hatle@windriver.com>) id 1T4zfF-0004RB-V8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 21:35:29 +0200
+	Fri, 24 Aug 2012 21:35:30 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7OJNKkn018972
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7OJNKQe009041
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Aug 2012 12:23:20 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Fri, 24 Aug 2012 12:23:20 -0700
+	Fri, 24 Aug 2012 12:23:21 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Aug 2012 14:23:41 -0500
-Message-ID: <cover.1345836133.git.mark.hatle@windriver.com>
+Date: Fri, 24 Aug 2012 14:23:42 -0500
+Message-ID: <38c075c68dde693fab241a3ae279ff4ad236352e.1345836133.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1345836133.git.mark.hatle@windriver.com>
+References: <cover.1345836133.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/1] Add unique identifier to screen calls
+Subject: [PATCH 1/1] terminal.py: use unique ids for screen sessions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,23 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 19:35:29 -0000
+X-List-Received-Date: Fri, 24 Aug 2012 19:35:30 -0000
 Content-Type: text/plain
 
-The following changes since commit 968cfc0b630fb409430a46b1512d6bf0de225ad1:
+From: Jason Wessel <jason.wessel@windriver.com>
 
-  build-appliance-image: Add vmx* files and build zip file (2012-08-24 17:32:34 +0100)
+When running multiple sets of builds on the same
+system, it is hard to distinguish which build belongs
+to which screen session and you can end up resuming
+the wrong session.
 
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib mhatle/devshell
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/devshell
+The simple solution is to just append the process
+id to the screen session invocation to make each
+unique.
 
-Jason Wessel (1):
-  terminal.py: use unique ids for screen sessions
-
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
  meta/lib/oe/terminal.py |    4 +++-
  1 files changed, 3 insertions(+), 1 deletions(-)
 
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 3131798..30e8f92 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -94,9 +94,11 @@ class Screen(Terminal):
+     command = 'screen -D -m -t "{title}" -S devshell {command}'
+ 
+     def __init__(self, sh_cmd, title=None, env=None):
++        s_id = "devshell_%i" % os.getpid()
++        self.command = "screen -D -m -t \"{title}\" -S %s {command}" % s_id
+         Terminal.__init__(self, sh_cmd, title, env)
+         logger.warn('Screen started. Please connect in another terminal with '
+-                    '"screen -r devshell"')
++                    '"screen -r devshell %s"' % s_id)
+ 
+ 
+ def prioritized():
 -- 
 1.7.3.4
 
