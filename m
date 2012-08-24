@@ -1,35 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T4woU-0007p9-JP for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 18:32:50 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OGKdqc014423;
-	Fri, 24 Aug 2012 17:20:39 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12212-06; Fri, 24 Aug 2012 17:20:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OGKVDo014417
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 24 Aug 2012 17:20:32 +0100
-Message-ID: <1345825233.14369.86.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Date: Fri, 24 Aug 2012 17:20:33 +0100
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6160FE@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1345747597-18078-1-git-send-email-msm@freescale.com>
-	<CAJTo0LZNhPx5Fj59mSnGudsmMQxDxNefZi+98HWuiSqdFoTJdQ@mail.gmail.com>
-	<20120824062509.GR3029@jama.jama.net>
-	<70CC66F5C30A414DADDA6973E4CA391A6160FE@039-SN1MPN1-001.039d.mgd.msft.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distutils-common-base.bbclass: Pick up additional .debug folders:
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andy.ross@windriver.com>) id 1T4wx6-00084W-Me
+	for openembedded-core@lists.openembedded.org;
+	Fri, 24 Aug 2012 18:41:44 +0200
+Received: from [0.0.0.0] (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id 488281F577;
+	Fri, 24 Aug 2012 09:29:38 -0700 (PDT)
+Message-ID: <5037ABF0.1030908@windriver.com>
+Date: Fri, 24 Aug 2012 09:29:36 -0700
+From: Andy Ross <andy.ross@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1345817543.14369.70.camel@ted> <5037A36C.8020401@windriver.com>
+	<1345825168.14369.85.camel@ted>
+In-Reply-To: <1345825168.14369.85.camel@ted>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-4.7: Add fix for libtool rpath problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 16:32:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 24 Aug 2012 16:41:44 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-08-24 at 16:06 +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Aug 24, 2012 at 1:25 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > On Thu, Aug 23, 2012 at 11:13:08PM +0100, Burton, Ross wrote:
-> >> On 23 August 2012 19:46, Matthew McClintock <msm@freescale.com> wrote:
-> >> >    ${PYTHON_SITEPACKAGES_DIR}/.debug \
-> >> >    ${PYTHON_SITEPACKAGES_DIR}/*/.debug \
-> >> >    ${PYTHON_SITEPACKAGES_DIR}/*/*/.debug \
-> >> > +  ${libdir}/${PYTHON_DIR}/.debug \
-> >> > +  ${libdir}/${PYTHON_DIR}/*/.debug \
-> >> > +  ${libdir}/${PYTHON_DIR}/*/*/.debug \
-> >>
-> >> I thought packages that used distutils generally put their files under
-> >> sitepackages, and not the python base directory...  Are some packages
-> >> doing it wrong?
-> >
-> > Yes, almost all python-* recipes after this patch
-> > http://git.openembedded.org/openembedded-core/commit/?id=3b23feca31480cc56f55301fd0274e622c40b522
-> >
-> > I have 9 such recipes in my dep tree.
-> 
-> Martin,
-> 
-> Can you look at:
-> 
-> http://patches.openembedded.org/patch/35245/
+On 08/24/2012 09:19 AM, Richard Purdie wrote:
+> I'd love to have a better fix for this. I suspect its taking the path
+> from some "gcc -print-xxxx" call which returns/usr/lib/../lib on x86_64
+> so we could try and normalise it at source...
 
-This gets so far but breaks python-argparse which uses setuptools. I've
-posted a patch which fixes both.
+Yeah, but that sounds like whack-a-mole to me.  It's just too tempting
+for upstream software to glue up a path name with .., it's very sane
+for a human being.
 
-Cheers,
+One of the (comparatively few) spots where I actually isolated the
+source of one of these is in gettext, where the configure script needs
+a --with-ncurses-prefix to be "/usr".  So the bitbake recipe sets it
+to ${STAGING_LIBDIR}/.., which seems clearly correct to me.  And then
+somewhere in the configure script that turns into a libtool library
+path of <ncurses_prefix>/lib (again completely correct), thus
+"/usr/lib/../lib".  And even then it's correct and if used for a -L
+argument would never cause a problem.
 
-Richard
+It's libtool which has special requirements here, becuase it's trying
+to set rpaths based on those funny strings and has to have them
+normalized.  So I'd argue that it's in libtool where this magic has to
+happen.
 
+Before I realized you already fixed the gcc-runtime issue, I was
+looking at finding a place farther up the stack where this could be
+done.  That is, sanitize all inbound paths at the spot where they're
+parsed at the command line.  The current cases we know we need to hit
+are -lib and -rpath, though I'm no libtool expert and am surely
+missing some...
+
+Andy
 
 
 
