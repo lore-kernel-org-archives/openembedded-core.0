@@ -1,43 +1,42 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1T4oZQ-0001bW-3e
+	(envelope-from <scott.a.garman@intel.com>) id 1T4ojo-0002Al-DM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 09:44:44 +0200
+	Fri, 24 Aug 2012 09:55:28 +0200
 Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 24 Aug 2012 00:31:30 -0700
-Received: by pbcxa7 with SMTP id xa7so2877761pbc.25
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Aug 2012 00:43:19 -0700
+Received: by pbcxa7 with SMTP id xa7so2898686pbc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2012 00:31:30 -0700 (PDT)
+	Fri, 24 Aug 2012 00:43:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:content-type:content-transfer-encoding
 	:x-gm-message-state;
-	bh=oPNC2yNrk37FVyKhc9cuHDCLF90vpygliOw10hstFZI=;
-	b=EB9CLz1jl4o7SPEyPHidLDyJ2xmOn0RItCMJ4YOXrgoRX3kX6gbWw8E1Ug3VvXVAv4
-	stPvLsn4ejeYZYFu1rpVWA7LZqsdltX1ceq4sgik3IYOAsiMZNb8PGZ0EjG+MIZeUq05
-	Eds6BKe7TiB9fk6u78WROtYvGqhUcdohMlkBnkNqpWxQ+MpwrJ4UPCTXpAv84ERnoTJv
-	mG95xHog1xmb8FuNndhR+yFbGzQZk7VXVwQQXKEj86YwNG4xjHIaDx24nH+5L0vojHck
-	8JrtNHV786sNgZqEzh1dGHa/0vNRbXUQko8pMbKRucERSzaAqFYQv7GWRHcwa4clXp7u
-	G1eQ==
-Received: by 10.66.88.40 with SMTP id bd8mr8830445pab.36.1345793490080;
-	Fri, 24 Aug 2012 00:31:30 -0700 (PDT)
+	bh=CJjyFNsvB/8r5T4mD1FlhxUw6tWwJqQTxt7iq2d2Yk4=;
+	b=OrYFiMdq5KOgKyjKfbt7CDpJTUkMEsSmKVIDH5sSTkjYVES+3L506ZIPBNl6xUvsLE
+	iCGrMjClC7i2yWY2dO9+2YMJTNHSAjKGxNGloPWeXbcuNnztpUNcBeHiyvCaCfvFdm6Y
+	D1iT1MMdoQBJ4612l4m3GDAOHVBZZBhbTUHJHziTE+oxP1OJ93f7PWDuzvETunbdcUFe
+	KIpG2IYdZFFvq8Nrx+idCVH3IWdAhcUjrAkq0ch4NvnZTxgU5amPQ0Mm2P4UCJ7Imk8y
+	ryv0Bs7row6avCLus8ptDTUFObjShqBCMvtT5wLFo89i2p6SmC1ny9c2pv7TGHIqBskm
+	1K4g==
+Received: by 10.66.82.97 with SMTP id h1mr8834647pay.45.1345794199408;
+	Fri, 24 Aug 2012 00:43:19 -0700 (PDT)
 Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
 	[76.105.137.48])
-	by mx.google.com with ESMTPS id os1sm7760337pbc.31.2012.08.24.00.31.28
-	(version=SSLv3 cipher=OTHER); Fri, 24 Aug 2012 00:31:29 -0700 (PDT)
-Message-ID: <50372DE1.40704@intel.com>
-Date: Fri, 24 Aug 2012 00:31:45 -0700
+	by mx.google.com with ESMTPS id pg9sm7786709pbb.26.2012.08.24.00.43.17
+	(version=SSLv3 cipher=OTHER); Fri, 24 Aug 2012 00:43:18 -0700 (PDT)
+Message-ID: <503730A6.4020708@intel.com>
+Date: Fri, 24 Aug 2012 00:43:34 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <cover.1345686284.git.peter.seebach@windriver.com>
-	<eef91770e809fcde924c197427cf4e1e956a29ae.1345686284.git.peter.seebach@windriver.com>
-In-Reply-To: <eef91770e809fcde924c197427cf4e1e956a29ae.1345686284.git.peter.seebach@windriver.com>
-X-Gm-Message-State: ALoCoQlvgNIS3jirD8yczsn7ooq7UcA3zGlhm0Z4s/EfSVXYdbJzxLi+8RKrD2tJA7i8G47shBUs
-Subject: Re: [PATCH 1/1] runqemu-export-rootfs and friends: don't put pseudo db in target fs
+References: <1345745765-22194-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1345745765-22194-1-git-send-email-sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkFBrx/SiiiSWzzRjoOheUu8d6gVEiz2qBZWn2zPNsdY6gJEq1zv7xL/XFi6W799TBOt6qG
+Subject: Re: [PATCH - Denzil 1/2] build-appliance-image: rename from self-hosted-image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,109 +49,205 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 07:44:45 -0000
+X-List-Received-Date: Fri, 24 Aug 2012 07:55:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/22/2012 06:47 PM, Peter Seebach wrote:
-> In a few places, we have scripts which use <rootfs>/var/pseudo for
-> the pseudo state directory controlling a given filesystem. This
-> seems possibly risky because it means that stuff running under
-> qemu or whatnot could wipe out the data being used to handle that
-> rootfs. Move this to:
->    <rootfs>/../pseudo_state_$(basename $rootfs)
-> to avoid problems.
+On 08/23/2012 11:16 AM, Saul Wold wrote:
+> From: Valentin Popa <valentin.popa@intel.com>
 >
-> This also solves at least one case (not directly hit by yocto's
-> tree) wherein you could end up trying to remove a rootfs while
-> pseudo was using a database inside that rootfs, and thus the
-> remove would fail.
+> (-) renamed self-hosted-image to build-appliance-image
+> (-) replaced build-appliance-image description
 >
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+> [YOCTO #2636]
+>
+> (From OE-Core rev: 04096f31778886479dac479132bded57e717653e)
+>
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I haven't tested this, but it appears to address the concerns I raised 
-earlier.
+Hi Saul,
 
-With Jessica on vacation, could anyone else on the SDK team try this out 
-and verify it with some sanity tests? e.g, boot some images using unfs 
-and from an installed sdk.
+Would you mind pushing these commits to a contrib branch so I can 
+cherry-pick them?
+
+Thanks,
 
 Scott
 
 > ---
->   .../installer/adt-installer/scripts/extract_rootfs |    8 ++++----
->   scripts/runqemu-export-rootfs                      |    2 +-
->   scripts/runqemu-extract-sdk                        |   15 +++++++++------
->   3 files changed, 14 insertions(+), 11 deletions(-)
+>   meta/conf/multilib.conf                           |    2 +-
+>   meta/recipes-core/images/build-appliance-image.bb |   70 +++++++++++++++++++++
+>   meta/recipes-core/images/self-hosted-image.bb     |   70 ---------------------
+>   3 files changed, 71 insertions(+), 71 deletions(-)
+>   create mode 100644 meta/recipes-core/images/build-appliance-image.bb
+>   delete mode 100644 meta/recipes-core/images/self-hosted-image.bb
 >
-> diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-> index 62dc170..fee463c 100755
-> --- a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-> +++ b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-> @@ -28,7 +28,6 @@ extract_rootfs()
->     native_sysroot=$3
->     target_sysroot=$2
->     PSEUDO_COMMAND="$native_sysroot/usr/bin/pseudo"
-> -  PSEUDO_OPTS="-P $natvie_sysroot/usr"
->     TAR_OPTS="-xjf"
->     PSEUDO_OPTS="-P $native_sysroot/usr"
->
-> @@ -46,9 +45,10 @@ extract_rootfs()
->       mkdir -p "$target_sysroot"
->     fi
->
-> -  mkdir -p "$target_sysroot/var/pseudo"
-> -  touch "$target_sysroot/var/pseudo/pseudo.pid"
-> -  PSEUDO_LOCALSTATEDIR="$target_sysroot/var/pseudo"
-> +  pseudo_state_dir="$target_sysroot/../pseudo_state_$(basename "$target_sysroot")"
-> +  mkdir -p "$pseudo_state_dir"
-> +  touch "$pseudo_state_dir/pseudo.pid"
-> +  PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
->     export PSEUDO_LOCALSTATEDIR
->
->     echo_info "Extracting rootfs: $1, using pseudo..."
-> diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-> index f8213ba..0e0d32c 100755
-> --- a/scripts/runqemu-export-rootfs
-> +++ b/scripts/runqemu-export-rootfs
-> @@ -68,7 +68,7 @@ NFSPID=~/.runqemu-sdk/nfs$NFS_INSTANCE.pid
->   MOUNTPID=~/.runqemu-sdk/mount$NFS_INSTANCE.pid
->
->   PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
-> -PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/var/pseudo"
-> +PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../pseudo_state/$(basename $NFS_EXPORT_DIR)"
->   export PSEUDO_LOCALSTATEDIR
->
->   if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
-> diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-> index 4b52475..88fdf0d 100755
-> --- a/scripts/runqemu-extract-sdk
-> +++ b/scripts/runqemu-extract-sdk
-> @@ -73,15 +73,18 @@ if [ ! -d "$SDK_ROOTFS_DIR" ]; then
->   	mkdir -p "$SDK_ROOTFS_DIR"
->   fi
->
-> -if [ -e "$SDK_ROOTFS_DIR/var/pseudo" ]; then
-> -	echo "Error: $SDK_ROOTFS_DIR/var/pseudo already exists!"
-> -	echo "Please delete the entire rootfs tree manually if this is really what you want"
-> +pseudo_state_dir="$SDK_ROOTFS_DIR/../pseudo_state_$(basename "$SDK_ROOTFS_DIR")"
+> diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+> index 3b47c48..950f7cb 100644
+> --- a/meta/conf/multilib.conf
+> +++ b/meta/conf/multilib.conf
+> @@ -581,7 +581,7 @@ BBCLASSEXTEND_append_pn-sat-solver = " ${MULTILIBS}"
+>   BBCLASSEXTEND_append_pn-screen = " ${MULTILIBS}"
+>   BBCLASSEXTEND_append_pn-scrnsaverproto = " ${MULTILIBS}"
+>   BBCLASSEXTEND_append_pn-sed = " ${MULTILIBS}"
+> -BBCLASSEXTEND_append_pn-self-hosted-image = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-build-appliance-image = " ${MULTILIBS}"
+>   BBCLASSEXTEND_append_pn-service = " ${MULTILIBS}"
+>   BBCLASSEXTEND_append_pn-setserial = " ${MULTILIBS}"
+>   BBCLASSEXTEND_append_pn-settings-daemon = " ${MULTILIBS}"
+> diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
+> new file mode 100644
+> index 0000000..2b7906f
+> --- /dev/null
+> +++ b/meta/recipes-core/images/build-appliance-image.bb
+> @@ -0,0 +1,70 @@
+> +DESCRIPTION = "An image you can boot and run using either the VMware Player or VMware Workstation.  For more information, see the<a href='http://www.yoctoproject.org/documentation/build-appliance'>Build Appliance page</a>."
+> +IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
 > +
-> +if [ -e "$pseudo_state_dir" ]; then
-> +	echo "Error: $pseudo_state_dir already exists!"
-> +	echo "Please delete the rootfs tree and pseudo directory manually"
-> +        echo "if this is really what you want."
->   	exit 1
->   fi
->
-> -mkdir -p "$SDK_ROOTFS_DIR/var/pseudo"
-> -touch "$SDK_ROOTFS_DIR/var/pseudo/pseudo.pid"
-> -PSEUDO_LOCALSTATEDIR="$SDK_ROOTFS_DIR/var/pseudo"
-> +mkdir -p "$pseudo_state_dir"
-> +touch "$pseudo_state_dir/pseudo.pid"
-> +PSEUDO_LOCALSTATEDIR="$pseudo_state_dir
->   export PSEUDO_LOCALSTATEDIR
->
->   echo "Extracting rootfs tarball using pseudo..."
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+> +                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +
+> +PR = "r15"
+> +
+> +IMAGE_FEATURES += "x11-mini package-management"
+> +
+> +# Ensure there's enough space to do a core-image-sato build, with rm_work enabled
+> +IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+> +
+> +# Do a quiet boot with limited console messages
+> +APPEND += "quiet"
+> +
+> +IMAGE_FSTYPES = "vmdk"
+> +
+> +inherit core-image
+> +
+> +SRCREV = "3ab5d73f0c49df9fefa2a46031d33436bbd7d7d8"
+> +SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
+> +
+> +IMAGE_CMD_ext3_append () {
+> +	# We don't need to reserve much space for root, 0.5% is more than enough
+> +	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+> +}
+> +
+> +fakeroot do_populate_poky_src () {
+> +	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
+> +	# will become invalid in the target.
+> +	rm -rf ${WORKDIR}/git/.git
+> +	rm -f ${WORKDIR}/git/.gitignore
+> +
+> +	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
+> +
+> +	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
+> +	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
+> +	cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
+> +
+> +	# Remove the git2_* tarballs -- this is ok since we still have the git2/.
+> +	rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
+> +
+> +	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
+> +	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+> +	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
+> +	echo "export PSEUDO_PREFIX=/usr" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> +	echo "export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> +	echo "export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> +
+> +	chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
+> +
+> +	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky
+> +
+> +	# Allow builder to use sudo to setup tap/tun
+> +	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
+> +
+> +	# Use Clearlooks GTK+ theme
+> +	mkdir -p ${IMAGE_ROOTFS}/etc/gtk-2.0
+> +	echo 'gtk-theme-name = "Clearlooks"' > ${IMAGE_ROOTFS}/etc/gtk-2.0/gtkrc
+> +}
+> +
+> +IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
+> +
+> +python do_get_poky_src () {
+> +    bb.build.exec_func('base_do_fetch', d)
+> +    bb.build.exec_func('base_do_unpack', d)
+> +}
+> +addtask do_get_poky_src before do_rootfs
+> diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/self-hosted-image.bb
+> deleted file mode 100644
+> index aef1507..0000000
+> --- a/meta/recipes-core/images/self-hosted-image.bb
+> +++ /dev/null
+> @@ -1,70 +0,0 @@
+> -DESCRIPTION = "Version 1.0-r6 of the self-hosted image."
+> -IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
+> -
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+> -                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> -
+> -PR = "r15"
+> -
+> -IMAGE_FEATURES += "x11-mini package-management"
+> -
+> -# Ensure there's enough space to do a core-image-sato build, with rm_work enabled
+> -IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+> -
+> -# Do a quiet boot with limited console messages
+> -APPEND += "quiet"
+> -
+> -IMAGE_FSTYPES = "vmdk"
+> -
+> -inherit core-image
+> -
+> -SRCREV = "3ab5d73f0c49df9fefa2a46031d33436bbd7d7d8"
+> -SRC_URI = "git://git.yoctoproject.org/poky;protocol=git"
+> -
+> -IMAGE_CMD_ext3_append () {
+> -	# We don't need to reserve much space for root, 0.5% is more than enough
+> -	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+> -}
+> -
+> -fakeroot do_populate_poky_src () {
+> -	# Because fetch2's git's unpack uses -s cloneflag, the unpacked git repo
+> -	# will become invalid in the target.
+> -	rm -rf ${WORKDIR}/git/.git
+> -	rm -f ${WORKDIR}/git/.gitignore
+> -
+> -	cp -Rp ${WORKDIR}/git ${IMAGE_ROOTFS}/home/builder/poky
+> -
+> -	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/conf
+> -	mkdir -p ${IMAGE_ROOTFS}/home/builder/poky/build/downloads
+> -	cp -RpL ${DL_DIR}/* ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/
+> -
+> -	# Remove the git2_* tarballs -- this is ok since we still have the git2/.
+> -	rm -rf ${IMAGE_ROOTFS}/home/builder/poky/build/downloads/git2_*
+> -
+> -	echo "/usr/bin" > ${IMAGE_ROOTFS}/home/builder/poky/build/pseudodone
+> -	echo "INHERIT += \"rm_work\"" >> ${IMAGE_ROOTFS}/home/builder/poky/build/conf/auto.conf
+> -	mkdir -p ${IMAGE_ROOTFS}/home/builder/pseudo
+> -	echo "export PSEUDO_PREFIX=/usr" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> -	echo "export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> -	echo "export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64" >> ${IMAGE_ROOTFS}/home/builder/.bashrc
+> -
+> -	chown builder.builder ${IMAGE_ROOTFS}/home/builder/pseudo
+> -
+> -	chown -R builder.builder  ${IMAGE_ROOTFS}/home/builder/poky
+> -
+> -	# Allow builder to use sudo to setup tap/tun
+> -	echo "builder ALL=(ALL) NOPASSWD: ALL" >> ${IMAGE_ROOTFS}/etc/sudoers
+> -
+> -	# Use Clearlooks GTK+ theme
+> -	mkdir -p ${IMAGE_ROOTFS}/etc/gtk-2.0
+> -	echo 'gtk-theme-name = "Clearlooks"' > ${IMAGE_ROOTFS}/etc/gtk-2.0/gtkrc
+> -}
+> -
+> -IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
+> -
+> -python do_get_poky_src () {
+> -    bb.build.exec_func('base_do_fetch', d)
+> -    bb.build.exec_func('base_do_unpack', d)
+> -}
+> -addtask do_get_poky_src before do_rootfs
 >
 
 
