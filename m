@@ -1,41 +1,30 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T4wmp-0007jx-VP
-	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 18:31:08 +0200
-Received: by wibhq4 with SMTP id hq4so974330wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2012 09:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=u8QaUMrD+gVdR/2etGiZakbovDaPzo9zI2skwL7f5nc=;
-	b=GFbrUVswuElQMtDa12ZBkz4XvH4oCRRVH92JmOQWCdhqANlEy/VQ046NYUixr84oQv
-	pRHL2HHGNoVOJ0Oya6IZSPwmmz+dLYNavinO8IYTLBuHQFqfhLaQtS64zqslr850N3WU
-	A4O/FuGTHMshhKIT5SG7yXAQERALDd4xVspxOC90j61lFlIVcItXNZwqJ0n8pZp0RYy9
-	ADIgIOf1i/jWUKM1Nf/IrXCFs6bcKi5BeHYubC56WLdtRGZLoG98JUtNkuTJ8gNFofsk
-	gD25XnkCG1tPKKwLhNBXc/Fs03uDewQkHudq/6bs3Wrc6cS7aYw5trCpO8u9pMk/1Lim
-	4QGg==
-Received: by 10.180.78.99 with SMTP id a3mr6667433wix.15.1345825140232;
-	Fri, 24 Aug 2012 09:19:00 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm386304wib.5.2012.08.24.09.18.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 24 Aug 2012 09:18:57 -0700 (PDT)
-Date: Fri, 24 Aug 2012 18:19:04 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Message-ID: <20120824161904.GU3029@jama.jama.net>
-References: <1345747597-18078-1-git-send-email-msm@freescale.com>
-	<CAJTo0LZNhPx5Fj59mSnGudsmMQxDxNefZi+98HWuiSqdFoTJdQ@mail.gmail.com>
-	<20120824062509.GR3029@jama.jama.net>
-	<70CC66F5C30A414DADDA6973E4CA391A6160FE@039-SN1MPN1-001.039d.mgd.msft.net>
-MIME-Version: 1.0
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6160FE@039-SN1MPN1-001.039d.mgd.msft.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distutils-common-base.bbclass: Pick up additional .debug folders:
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T4wnM-0007mR-Ld for openembedded-core@lists.openembedded.org;
+	Fri, 24 Aug 2012 18:31:40 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OGJXL5014399;
+	Fri, 24 Aug 2012 17:19:33 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11916-08; Fri, 24 Aug 2012 17:19:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OGJQOh014393
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 24 Aug 2012 17:19:27 +0100
+Message-ID: <1345825168.14369.85.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andy Ross <andy.ross@windriver.com>
+Date: Fri, 24 Aug 2012 17:19:28 +0100
+In-Reply-To: <5037A36C.8020401@windriver.com>
+References: <1345817543.14369.70.camel@ted> <5037A36C.8020401@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-4.7: Add fix for libtool rpath problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,78 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 16:31:08 -0000
-X-Groupsio-MsgNum: 28190
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+Yg8W10oK6rlW0RR"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 24 Aug 2012 16:31:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---+Yg8W10oK6rlW0RR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2012-08-24 at 08:53 -0700, Andy Ross wrote:
+> On 08/24/2012 07:12 AM, Richard Purdie wrote:
+> > This avoids problems with libstdc++ having bad rpaths (/usr/lib/../.lib)
+> > in its .la file. See the patch for more information.
+> 
+> Heh, I was just sitting down having discovered the same thing.  Isn't
+> the root cause at least partially that gcc is using a different
+> libtool implementation than the rest of the build?  I note it's also
+> missing the normalization patches that went into the standard libtool
+> (though that's benign here as -rpath isn't used).
 
-On Fri, Aug 24, 2012 at 04:06:45PM +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Aug 24, 2012 at 1:25 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > On Thu, Aug 23, 2012 at 11:13:08PM +0100, Burton, Ross wrote:
-> >> On 23 August 2012 19:46, Matthew McClintock <msm@freescale.com> wrote:
-> >> >    ${PYTHON_SITEPACKAGES_DIR}/.debug \
-> >> >    ${PYTHON_SITEPACKAGES_DIR}/*/.debug \
-> >> >    ${PYTHON_SITEPACKAGES_DIR}/*/*/.debug \
-> >> > +  ${libdir}/${PYTHON_DIR}/.debug \
-> >> > +  ${libdir}/${PYTHON_DIR}/*/.debug \
-> >> > +  ${libdir}/${PYTHON_DIR}/*/*/.debug \
-> >>
-> >> I thought packages that used distutils generally put their files under
-> >> sitepackages, and not the python base directory...  Are some packages
-> >> doing it wrong?
-> >
-> > Yes, almost all python-* recipes after this patch
-> > http://git.openembedded.org/openembedded-core/commit/?id=3D3b23feca3148=
-0cc56f55301fd0274e622c40b522
-> >
-> > I have 9 such recipes in my dep tree.
->=20
-> Martin,
->=20
-> Can you look at:
->=20
-> http://patches.openembedded.org/patch/35245/
+gcc is one of the few things we don't reautoconf so it doesn't pick up
+our libtool. We therefore end up patching libtool in it and binutils
+manually which can be a bit of a pain...
 
-Not right now.. the builder with OEBasicHash which failed because of
-this will be busy for next 40 hours at least because pixman PRINC was
-bumped..
+I'd love to have a better fix for this. I suspect its taking the path
+from some "gcc -print-xxxx" call which returns /usr/lib/../lib on x86_64
+so we could try and normalise it at source...
 
 Cheers,
 
-> -M
->=20
-> >
-> > Cheers,
-> >
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---+Yg8W10oK6rlW0RR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlA3qXgACgkQN1Ujt2V2gByIOwCfUs8oWtqhHmZGDpBXdNp00Ng/
-aLAAn3aw/uXe5FZYNqEgrYP93aryRPqp
-=Cm7V
------END PGP SIGNATURE-----
-
---+Yg8W10oK6rlW0RR--
