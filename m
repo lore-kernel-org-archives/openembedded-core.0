@@ -1,25 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1T4u8T-0000Jm-Kd
-	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Aug 2012 15:41:17 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7ODT94A001060
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T4uoN-0002gQ-SC for openembedded-core@lists.openembedded.org;
+	Fri, 24 Aug 2012 16:24:36 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OECSkN013789
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Aug 2012 06:29:09 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Fri, 24 Aug 2012 06:29:08 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Aug 2012 21:29:06 +0800
-Message-ID: <df19e69901a7d4757923a441f3023e7f96e37115.1345711916.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4
-In-Reply-To: <cover.1345711916.git.jackie.huang@windriver.com>
-References: <cover.1345711916.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] gdk-pixbuf: call gtk-update-icon-cache with -t in postinstall script
+	Fri, 24 Aug 2012 15:12:28 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12212-01 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2012 15:12:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OECLUB013783
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Aug 2012 15:12:23 +0100
+Message-ID: <1345817543.14369.70.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Aug 2012 15:12:23 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] gcc-4.7: Add fix for libtool rpath problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +37,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 13:41:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Aug 2012 14:24:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+This avoids problems with libstdc++ having bad rpaths (/usr/lib/../.lib)
+in its .la file. See the patch for more information.
 
-gtk-update-icon-cache is called for each subdir of ${datadir}/icons,
-but there are some themes without an index.theme file such as
-xcursor-transparent, so add -t(--ignore-theme-index) option to avoid
-errors of gtk-update-icon-cache.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 36ce1be..84c230c 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r10"
++PR = "r11"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.1
+@@ -74,6 +74,7 @@ SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
+ 	   file://gcc-argument-list-too-long.patch \
+ 	   file://fix-g++-sysroot.patch \
+ 	   file://disablesdt.patch \
++	   file://libtool.patch \
+ 	  "
+ 
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7/libtool.patch b/meta/recipes-devtools/gcc/gcc-4.7/libtool.patch
+new file mode 100644
+index 0000000..9580b23
+--- a/dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.7/libtool.patch
+@@ -0,0 +1,29 @@
++libstdc++ from gcc-runtime gets created with -rpath=/usr/lib/../lib for qemux86-64
++when running on am x86_64 build host.
++
++This patch stops this speading to libdir in the libstdc++.la file within libtool.
++Aguably, it shouldn't be passing this into libtool in the first place but
++for now this resolves the nastiest problems this causes.
++
++func_normal_abspath would resolve an empty path to `pwd` so we need
++to filter the zero case.
++
++RP 2012/8/24
++
++Upstream-Status: Pending
++
++Index: git/ltmain.sh
++===================================================================
++--- git.orig/ltmain.sh	2012-08-24 11:45:58.597087961 +0000
+++++ git/ltmain.sh	2012-08-24 12:18:37.961042581 +0000
++@@ -6359,6 +6359,10 @@
++ 	func_warning "ignoring multiple \`-rpath's for a libtool library"
++ 
++       install_libdir="$1"
+++      if test -n "$install_libdir"; then
+++	func_normal_abspath "$install_libdir"
+++	install_libdir=$func_normal_abspath_result
+++      fi
++ 
++       oldlibs=
++       if test -z "$rpath"; then
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-index 159bdae..99f6cb4 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-@@ -21,7 +21,7 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${
- SRC_URI[md5sum] = "72f39b34b20f68148c1609bd27415412"
- SRC_URI[sha256sum] = "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1"
- 
--PR = "r5"
-+PR = "r6"
- 
- inherit autotools pkgconfig gettext
- 
-@@ -65,7 +65,7 @@ GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders gdk-pixbuf-query-l
- if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/icons ]; then
-     for icondir in /usr/share/icons/*; do
-         if [ -d ${icondir} ]; then
--            gtk-update-icon-cache -q ${icondir}
-+            gtk-update-icon-cache -t -q ${icondir}
-         fi
-     done
- fi
--- 
-1.7.4
 
 
 
