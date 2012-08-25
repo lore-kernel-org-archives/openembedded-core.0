@@ -1,43 +1,30 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T5HN4-0001jj-Im
-	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Aug 2012 16:29:54 +0200
-Received: by wibhn17 with SMTP id hn17so1593533wib.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T5IkA-0002o5-JK for openembedded-core@lists.openembedded.org;
+	Sat, 25 Aug 2012 17:57:50 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PFjgOI008193
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 07:17:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=IrVy3+P2HXSMwfrJldKHI60mG6cHtbt46DHqJjxz33k=;
-	b=Dm3H7NjbIsIjPzKQlGPXVODl6KH9gOBVd4CVw8gfZ6+WTAGmz8KIJGcRJHAfJGgzA0
-	27BAcGUQB9oCb2oisp4YD1UEUZT8oUXfd4Rd+WzTIF+cLKTWfrKw/mfatTk7AZ6UsMzv
-	2+Mi/H3XVVhBzM1ek5P6S8g2to7tRrHdmHiKorrVIhfS5tXILADxB2YiaHH2BBHlbQar
-	RTiLZlg6RAHxFpJZqCsr7/iRWGeWyRYdCeYXXnm6tgd+K3l+VmS2LjNewjbvMl7oglC5
-	5VAYCG9YJvE4D3+VMNjfg4BXS2lUcj2if07ucR4AinMIkboRIxGSoK1AyqV+wWic1TpT
-	Ippg==
-Received: by 10.180.86.106 with SMTP id o10mr12697358wiz.22.1345904265695;
-	Sat, 25 Aug 2012 07:17:45 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id l6sm3441117wiz.4.2012.08.25.07.17.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 25 Aug 2012 07:17:44 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1345895796.14369.106.camel@ted>
-Date: Sat, 25 Aug 2012 16:17:43 +0200
-Message-Id: <1A25F2D9-E229-44B5-A7D4-AA363EB1EA57@dominion.thruhere.net>
-References: <cover.1345867875.git.tom.zanussi@intel.com>
-	<65d8351bbcb9fb6012c296222795f3c938dc5624.1345867875.git.tom.zanussi@intel.com>
-	<3BDCB1BC-7393-4B42-BE04-3BE9A8C90123@dominion.thruhere.net>
-	<1345895796.14369.106.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQnmwgm8GPF8iPqeNh0byDzF7dSR2Aj+Bke4oKudsKHMPSNdgR36Ya6URcJWaXinQxQZAblR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ia32-base.inc: new include file
+	Sat, 25 Aug 2012 16:45:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17462-07 for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Aug 2012 16:45:36 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PFjVeS008187
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Aug 2012 16:45:34 +0100
+Message-ID: <1345909533.14369.109.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 25 Aug 2012 16:45:33 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: e2fsprogs: Fully remove/disable blkid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,51 +37,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Aug 2012 14:29:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 25 Aug 2012 15:57:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+We've removed libblkid from e2fsprogs as it was being provided by util-linux. The blkid
+binary is also provided there and providing it within e2fsprogs too, linked against
+a different and potentially incompatible library we're likely asking for trouble.
+
+It also leads to inconsistencies in the native sysroot since we don't consistently
+get one given provider of blkid (but always the liblibid from util-linux).
+
+To clean this up, fully remove/disable the blkid binary and package.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+index 527e701..aea74f7 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+@@ -4,7 +4,6 @@ fixing, configuring , and debugging ext2 filesystems."
+ HOMEPAGE = "http://e2fsprogs.sourceforge.net/"
+ 
+ LICENSE = "GPLv2 & LGPLv2 & BSD & MIT"
+-LICENSE_e2fsprogs-blkid = "LGPLv2"
+ LICENSE_e2fsprogs-e2fsck = "GPLv2"
+ LICENSE_e2fsprogs-mke2fs = "GPLv2"
+ LICENSE_e2fsprogs-fsck = "GPLv2"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
+index 8d4443b..5e07d6e 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
+@@ -1,6 +1,6 @@
+ require e2fsprogs.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI += "file://fallocate.patch \
+             file://acinclude.m4 \
+@@ -30,6 +30,7 @@ do_install () {
+ 	rm -f ${D}${base_libdir}/libblkid*
+ 	rm -rf ${D}${includedir}/blkid
+ 	rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
++	rm -f ${D}${base_sbindir}/blkid
+ }
+ 
+ do_install_append () {
+@@ -41,15 +42,11 @@ do_install_append () {
+ 	fi
+ }
+ 
+-# blkid used to be part of e2fsprogs but is useful outside, add it
+-# as an RDEPENDS_${PN} so that anything relying on it being in e2fsprogs
+-# still works
+-RDEPENDS_e2fsprogs = "e2fsprogs-blkid e2fsprogs-badblocks"
++RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
+ 
+-PACKAGES =+ "e2fsprogs-blkid e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-fsck e2fsprogs-tune2fs e2fsprogs-badblocks"
++PACKAGES =+ "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-fsck e2fsprogs-tune2fs e2fsprogs-badblocks"
+ PACKAGES =+ "libcomerr libss libe2p libext2fs"
+ 
+-FILES_e2fsprogs-blkid = "${base_sbindir}/blkid"
+ FILES_e2fsprogs-fsck = "${base_sbindir}/fsck"
+ FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
+ FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
 
 
-Op 25 aug. 2012, om 13:56 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
-
-> On Sat, 2012-08-25 at 09:45 +0200, Koen Kooi wrote:
->> Op 25 aug. 2012, om 06:34 heeft tom.zanussi@intel.com het volgende =
-geschreven:
->>=20
->>> From: Tom Zanussi <tom.zanussi@intel.com>
->>>=20
->>> This is the ia32-base.inc moved over from meta-intel.  See =
-meta-intel
->>> for the complete history of contributions to this file.
->>>=20
->>> Here's the initial commit text that explains the purpose of this =
-file:
->>>=20
->>> The meta-intel BSPs currently have a number of machine settings =
-common
->>> to all - factor these out into a common include file.
->>>=20
->>> Also add several new intel-specific XSERVER variables for building
->>> XSERVER variables in BSPs.
->>>=20
->>> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
->>> ---
->>> meta/conf/machine/include/ia32-base.inc | 58 =
-+++++++++++++++++++++++++++++++++
->>>=20
->>> +# glibc-related variables
->>> +#
->>> +GLIBC_ADDONS ?=3D "nptl"
->>=20
->> That's a distro setting
->=20
-> Yes and no. It makes sense for architectures to have sane defaults and =
-I
-> class nptl on ia32 as that. We want OE-Core to function distroless but
-> allow distros to change things where it makes sense to them. So I'd
-> argue this is reasonable.
-
-So put it in default-distrovars, not in a machine 'tune' file.=
 
 
