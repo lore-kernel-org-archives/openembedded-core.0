@@ -1,31 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T527y-0007nA-DP for openembedded-core@lists.openembedded.org;
-	Sat, 25 Aug 2012 00:13:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OM17kt017315;
-	Fri, 24 Aug 2012 23:01:07 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15614-09; Fri, 24 Aug 2012 23:01:03 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7OM0xYb017309
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 24 Aug 2012 23:01:02 +0100
-Message-ID: <1345845661.14369.88.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Date: Fri, 24 Aug 2012 23:01:01 +0100
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A617135@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1345824924.14369.82.camel@ted>
-	<70CC66F5C30A414DADDA6973E4CA391A617135@039-SN1MPN1-001.039d.mgd.msft.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distutils/steuptools: Fix files layout and unbreak builds
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tom.zanussi@intel.com>) id 1T58Fi-0000KL-PI
+	for openembedded-core@lists.openembedded.org;
+	Sat, 25 Aug 2012 06:45:42 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Aug 2012 21:33:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,309,1344236400"; d="scan'208";a="137711323"
+Received: from unknown (HELO localhost) ([10.255.12.244])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Aug 2012 21:33:16 -0700
+From: tom.zanussi@intel.com
+To: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 24 Aug 2012 23:32:41 -0500
+Message-Id: <cover.1345867875.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.11.4
+Subject: [PATCH 0/1] add ia32-base.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,74 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Aug 2012 22:13:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 Aug 2012 04:45:43 -0000
 
-On Fri, 2012-08-24 at 20:48 +0000, McClintock Matthew-B29882 wrote:
-> On Fri, Aug 24, 2012 at 11:15 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > The last two distutils changes progressively broke the builds. Firstly they
-> > moved things from the site_packages directory to being higher up the tree
-> > which introduced package QA warnings as a side effect. Secondly, it interacts
-> > badly with setuptools which passes in --root=${D} itself.
-> >
-> > This patch restores the original directory layout, hence fixing the QA
-> > warnings and also passes extra options to setuptools to deal with the
-> > --root option it passes.
-> 
-> Hmm, I think you don't need certain bits anymore
-> 
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-> > index 52a1aa8..c73b24f 100644
-> > --- a/meta/classes/distutils.bbclass
-> > +++ b/meta/classes/distutils.bbclass
-> > @@ -38,7 +38,7 @@ distutils_do_install() {
-> >          STAGING_LIBDIR=${STAGING_LIBDIR} \
-> >          PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
-> >          BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
-> > -        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}${libdir}/${PYTHON_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-> > +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
-> 
-> This change should be handled by the bit below? So you could
-> 
-> s/--install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}//
-> 
-> ?
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Not everything uses setuptools, there are things using just disutils.
-I'm open to further cleanup of this but we need to consider both
-cases...
+This adds ia32-base to meta/conf/machine/include.  See the following
+link for details:
 
-Cheers,
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=2996
 
-Richard
+The following changes since commit 86a6410fcbfb43e74aa1c9c995a21129d8434f75:
 
-> >          bbfatal "python setup.py install execution failed."
-> >
-> >          for i in `find ${D} -name "*.py"` ; do \
-> > diff --git a/meta/classes/setuptools.bbclass b/meta/classes/setuptools.bbclass
-> > index ced9509..ba9cf13 100644
-> > --- a/meta/classes/setuptools.bbclass
-> > +++ b/meta/classes/setuptools.bbclass
-> > @@ -5,4 +5,5 @@ DEPENDS += "python-setuptools-native"
-> >  DISTUTILS_INSTALL_ARGS = "--root=${D} \
-> >      --single-version-externally-managed \
-> >      --prefix=${prefix} \
-> > +    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-> >      --install-data=${datadir}"
-> >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+  build-appliance-image: Add vmx* files and build zip file (2012-08-24 17:32:57 +0100)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/ia32-base-again.v1
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/ia32-base-again.v1
+
+Tom Zanussi (1):
+  ia32-base.inc: new include file
+
+ meta/conf/machine/include/ia32-base.inc | 58 +++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+ create mode 100644 meta/conf/machine/include/ia32-base.inc
+
+-- 
+1.7.11.4
 
 
 
