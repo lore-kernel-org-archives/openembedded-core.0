@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T5JhT-0003nB-C8 for openembedded-core@lists.openembedded.org;
-	Sat, 25 Aug 2012 18:59:07 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PGkwQM010580
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1T5N2h-0007L5-C9
+	for openembedded-core@lists.openembedded.org;
+	Sat, 25 Aug 2012 22:33:15 +0200
+Received: by eekb57 with SMTP id b57so853975eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 17:46:58 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08209-05 for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 17:46:53 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PGkpkg010574
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 17:46:52 +0100
-Message-ID: <1345913213.14369.131.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 25 Aug 2012 17:46:53 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Heads up: xxx-nativesdk -> nativesdk-xxx change
+	Sat, 25 Aug 2012 13:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=q23759o8bDosjd6pmMIPIAqtKEXZNCgC2qf4xDfVa+w=;
+	b=ElwKQWdmwHOA/AAy9RKScCjNkGPVbaXn3inrlOVinR8bPK8LJU1prarIZDq+7WfB05
+	T7IEgcPgym4Wf8ZxUu0DVn8zgtPqm8G0enk61iCIAMaGwihT1Dbnh0oThvINe1g9d39v
+	YxFUX16Yx9+BT/NREeZ1GK8/c8S29SP+Gv9r+QJxPQzhltk7DkUcNMVxMHYYMUUv4FGM
+	4BwfQSIlJfB7Y3lvLhG/4oGW3+0AHM08No0b6YSF97OkzsgQbfHabkshZVwGiFobWWDg
+	dtAXMrsDtEARcpnQv1GPLXzl8xMvIUv1RTvwrhcEkEd9TCKMEqUYN1HGSNmUcajQ6stc
+	edqQ==
+Received: by 10.14.202.66 with SMTP id c42mr12036778eeo.35.1345926065916; Sat,
+	25 Aug 2012 13:21:05 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.5 with HTTP; Sat, 25 Aug 2012 13:20:34 -0700 (PDT)
+In-Reply-To: <1345895601.14369.103.camel@ted>
+References: <cover.1345867875.git.tom.zanussi@intel.com>
+	<65d8351bbcb9fb6012c296222795f3c938dc5624.1345867875.git.tom.zanussi@intel.com>
+	<3BDCB1BC-7393-4B42-BE04-3BE9A8C90123@dominion.thruhere.net>
+	<CAMKF1srk3toCstU+aL66uohw4CPmCZm6szB4f2qswkUsJjTr9g@mail.gmail.com>
+	<1345895601.14369.103.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 25 Aug 2012 13:20:34 -0700
+Message-ID: <CAMKF1sp-tHRgygfmf=fOGdSXqJfN1N=znqkqRkGKm-qAHNxmow@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ia32-base.inc: new include file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +46,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Aug 2012 16:59:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 Aug 2012 20:33:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-As was previous discussed on the list a while ago, we have a problem
-with nativesdk where the code is getting complex and convoluted as its
-simply not possible to automatically "extend" using a suffix.
+On Sat, Aug 25, 2012 at 4:53 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2012-08-25 at 01:13 -0700, Khem Raj wrote:
+>>
+>>
+>> On Saturday, August 25, 2012, Koen Kooi <koen@dominion.thruhere.net>
+>> wrote:
+>> >
+>> > Op 25 aug. 2012, om 06:34 heeft tom.zanussi@intel.com het volgende
+>> geschreven:
+>> >
+>> >> From: Tom Zanussi <tom.zanussi@intel.com>
+>> >>
+>> >> This is the ia32-base.inc moved over from meta-intel.  See
+>> meta-intel
+>> >> for the complete history of contributions to this file.
+>> >>
+>> >> Here's the initial commit text that explains the purpose of this
+>> file:
+>> >>
+>> >>  The meta-intel BSPs currently have a number of machine settings
+>> common
+>> >>  to all - factor these out into a common include file.
+>> >>
+>> >>  Also add several new intel-specific XSERVER variables for building
+>> >>  XSERVER variables in BSPs.
+>> >>
+>> >> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+>> >> ---
+>> >> meta/conf/machine/include/ia32-base.inc | 58
+>> +++++++++++++++++++++++++++++++++
+>> >>
+>> >> +# glibc-related variables
+>> >> +#
+>> >> +GLIBC_ADDONS ?= "nptl"
+>> >
+>> > That's a distro setting
+>>
+>> And its redundant
+>
+> I thought you tried removing this and we ran into issues?
 
-Extension using a prefix works comparatively well be comparison as shown
-by the multilib code. Its for this reason I'd like to switch the
-meta-toolchain nativesdk recipes to become a prefix rather than a
-suffix.
+I did not but I guess someone else did and it
+was seemingly because of these settings in meta-intel but I will try
+to remove it once again and having this in OE core might be beneficial
 
-I'm going to propose some patches soon that do this. The patches are
-fairly nasty to write and maintain so will need to merge fairly quickly.
+besides, I think the name of file is misleading as Phil also pointed out
 
-If anyone does have a strong objection to this change, now is the time
-to raise it. I'd prefer not to have to do this but having considered all
-the options, its the best thing to do for the future and will result in
-cleaner metadata (look at PKGSUFFIX in eglibc for an example of how
-messy this gets).
 
-Note that -native are unchanged and there is no problem or planned
-change which them, this just affects nativesdk.
-
-An example WIP patch is:
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t1&id=2aa1acf11dd26bc194668be81544d08ab5e9bb24
-
-Cheers,
-
-Richard
-
+>
+> Regardless, I think this is reason to have this in one place where we
+> can clean it up. I tried to untangle the GLIBC_EXTRA_CONF bit that was
+> here until recently and that was more painful than necessary needing
+> patches to meta-intel and meta-yocto. If we get one good include file,
+> we then have one place to clean this kind of thing up and it stops BSP
+> layers having to do their own things badly.
+>
+> So in summary I think this is a reason to support this change :)
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
 
