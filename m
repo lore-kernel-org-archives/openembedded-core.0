@@ -1,30 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T5Iml-0003MD-9i for openembedded-core@lists.openembedded.org;
-	Sat, 25 Aug 2012 18:00:31 +0200
+	id 1T5Ipt-0003P7-G5 for openembedded-core@lists.openembedded.org;
+	Sat, 25 Aug 2012 18:03:45 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PFmNKY008260
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 16:48:23 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PFpX5f008332;
+	Sat, 25 Aug 2012 16:51:33 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 17462-09 for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 16:48:18 +0100 (BST)
+	id 08209-02; Sat, 25 Aug 2012 16:51:29 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PFmCIp008254
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 16:48:14 +0100
-Message-ID: <1345909694.14369.113.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7PFpOoZ008326
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Sat, 25 Aug 2012 16:51:26 +0100
+Message-ID: <1345909886.14369.115.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 25 Aug 2012 16:48:14 +0100
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sat, 25 Aug 2012 16:51:26 +0100
+In-Reply-To: <1A25F2D9-E229-44B5-A7D4-AA363EB1EA57@dominion.thruhere.net>
+References: <cover.1345867875.git.tom.zanussi@intel.com>
+	<65d8351bbcb9fb6012c296222795f3c938dc5624.1345867875.git.tom.zanussi@intel.com>
+	<3BDCB1BC-7393-4B42-BE04-3BE9A8C90123@dominion.thruhere.net>
+	<1345895796.14369.106.camel@ted>
+	<1A25F2D9-E229-44B5-A7D4-AA363EB1EA57@dominion.thruhere.net>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate.bbclass: Detect overwriting files in sstate controlled directories
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ia32-base.inc: new include file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,120 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Aug 2012 16:00:31 -0000
+X-List-Received-Date: Sat, 25 Aug 2012 16:03:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-We have a potential problem where two sstate packages try and touch the same
-file. This adds code which will print a warning whenever this happens.
+On Sat, 2012-08-25 at 16:17 +0200, Koen Kooi wrote:
+> Op 25 aug. 2012, om 13:56 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> 
+> > On Sat, 2012-08-25 at 09:45 +0200, Koen Kooi wrote:
+> >> Op 25 aug. 2012, om 06:34 heeft tom.zanussi@intel.com het volgende geschreven:
+> >> 
+> >>> From: Tom Zanussi <tom.zanussi@intel.com>
+> >>> 
+> >>> This is the ia32-base.inc moved over from meta-intel.  See meta-intel
+> >>> for the complete history of contributions to this file.
+> >>> 
+> >>> Here's the initial commit text that explains the purpose of this file:
+> >>> 
+> >>> The meta-intel BSPs currently have a number of machine settings common
+> >>> to all - factor these out into a common include file.
+> >>> 
+> >>> Also add several new intel-specific XSERVER variables for building
+> >>> XSERVER variables in BSPs.
+> >>> 
+> >>> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+> >>> ---
+> >>> meta/conf/machine/include/ia32-base.inc | 58 +++++++++++++++++++++++++++++++++
+> >>> 
+> >>> +# glibc-related variables
+> >>> +#
+> >>> +GLIBC_ADDONS ?= "nptl"
+> >> 
+> >> That's a distro setting
+> > 
+> > Yes and no. It makes sense for architectures to have sane defaults and I
+> > class nptl on ia32 as that. We want OE-Core to function distroless but
+> > allow distros to change things where it makes sense to them. So I'd
+> > argue this is reasonable.
+> 
+> So put it in default-distrovars, not in a machine 'tune' file.
 
-The implementation does but by maintaining a master file list and comparing
-file accesses against this. There are a number of places we have duplicate
-accesses which are harmless, mostly in the deploy directory so these
-are whitelisted.
+This was only seemingly needed on x86 for reasons which I no longer
+understand and are likely historical and irrelevant now. So yes, we
+could add it there with an arch override. The likely outcome is the
+thing will just get removed so I'm finding it hard to get worked up
+about it though.
 
-For now the code prints warnings, this could be strengthened in future to
-become error messages. Whilst working on this code on and off over the past
-few months various issues were uncovered, some serious.
+Cheers,
 
-[YOCTO #238]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 6762e32..02594a7 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -3,6 +3,7 @@ SSTATE_VERSION = "2"
- SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
- SSTATE_MANFILEBASE = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-"
- SSTATE_MANFILEPREFIX = "${SSTATE_MANFILEBASE}${PN}"
-+SSTATE_MASTERMANIFEST = "${SSTATE_MANIFESTS}/master.list"
- 
- def generate_sstatefn(spec, hash, d):
-     if not hash:
-@@ -17,6 +18,7 @@ SSTATE_EXTRAPATH   = ""
- SSTATE_EXTRAPATHWILDCARD = ""
- SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
- 
-+SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/"
- 
- SSTATE_SCAN_FILES ?= "*.la *-config *_config"
- SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
-@@ -125,7 +127,6 @@ def sstate_install(ss, d):
-         locks.append(bb.utils.lockfile(lock))
- 
-     for state in ss['dirs']:
--        oe.path.copytree(state[1], state[2])
-         for walkroot, dirs, files in os.walk(state[1]):
-             bb.debug(2, "Staging files from %s to %s" % (state[1], state[2]))
-             for file in files:
-@@ -140,9 +141,35 @@ def sstate_install(ss, d):
-                 if not dstdir.endswith("/"):
-                     dstdir = dstdir + "/"
-                 shareddirs.append(dstdir)
-+
-+    # Check the file list for conflicts against the master manifest
-+    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
-+    whitelist = d.getVar("SSTATE_DUPWHITELIST", True)
-+    lock = bb.utils.lockfile(mastermanifest + ".lock")
-+    fileslist = [line.strip() for line in open(mastermanifest)]
-+    bb.utils.unlockfile(lock)
-+    match = []
-+    for f in sharedfiles:
-+        if f in fileslist:
-+            realmatch = True
-+            for w in whitelist:
-+                if f.startswith(w):
-+                    realmatch = False
-+                    break
-+            if realmatch:
-+                match.append(f)
-+    if match:
-+        bb.warn("The recipe is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % "\n   ".join(match))
-+
-+    # Write out the manifest and add to the task's manifest file
-+    lock = bb.utils.lockfile(mastermanifest + ".lock")
-+    mf = open(mastermanifest, "a")
-     f = open(manifest, "w")
-     for file in sharedfiles:
-+        mf.write(file + "\n")
-         f.write(file + "\n")
-+    bb.utils.unlockfile(lock)
-+
-     # We want to ensure that directories appear at the end of the manifest
-     # so that when we test to see if they should be deleted any contents
-     # added by the task will have been removed first.
-@@ -152,6 +179,10 @@ def sstate_install(ss, d):
-         f.write(di + "\n")
-     f.close()
- 
-+    # Run the actual file install
-+    for state in ss['dirs']:
-+        oe.path.copytree(state[1], state[2])
-+
-     for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
-         bb.build.exec_func(postinst, d)
- 
-@@ -268,6 +299,18 @@ def sstate_clean_manifest(manifest, d):
-         except OSError:
-             pass
- 
-+    # Remove the entries from the master manifest
-+    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
-+    lock = bb.utils.lockfile(mastermanifest + ".lock")
-+    mf = open(mastermanifest + ".new", "w")
-+    for line in open(mastermanifest, "r"):
-+        if not line or line in entries:
-+            continue
-+        mf.write(line)
-+    mf.close()
-+    os.rename(mastermanifest + ".new", mastermanifest)
-+    bb.utils.unlockfile(lock)
-+
-     oe.path.remove(manifest)
- 
- def sstate_clean(ss, d):
+Richard
 
 
 
