@@ -1,26 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T5Wo8-0007MJ-Nh
-	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Aug 2012 08:58:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7Q6kgrl002998
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 23:46:42 -0700 (PDT)
-Received: from localhost.localdomain (128.224.163.124) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Sat, 25 Aug 2012 23:46:41 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Aug 2012 14:52:01 +0800
-Message-ID: <983ebee17c3d08205bb7605ede4f8c92ed0ec5eb.1345963712.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1345963712.git.liezhi.yang@windriver.com>
-References: <cover.1345963712.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 6/6] archiver.bbclass: fix the remove error
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T5YUY-0000zC-Vu for openembedded-core@lists.openembedded.org;
+	Sun, 26 Aug 2012 10:46:47 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7Q8YVHx004489;
+	Sun, 26 Aug 2012 09:34:31 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03431-02; Sun, 26 Aug 2012 09:34:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7Q8YE39004483
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Sun, 26 Aug 2012 09:34:20 +0100
+Message-ID: <1345970056.7252.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 26 Aug 2012 09:34:16 +0100
+In-Reply-To: <4D9F71D8-B4DC-4070-8FD4-E2605855880E@gmail.com>
+References: <1345913213.14369.131.camel@ted>
+	<CAMKF1sqsvRFa0iC0p4RCaCkQ+swt6E1YiSc5UYXEZT8tBN2FDw@mail.gmail.com>
+	<1345928435.14369.137.camel@ted>
+	<4D9F71D8-B4DC-4070-8FD4-E2605855880E@gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Heads up: xxx-nativesdk -> nativesdk-xxx change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,173 +40,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Aug 2012 06:58:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 26 Aug 2012 08:46:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* The "tar-package" is used for saving the "Source" list for rpmbuild,
-  there is no such a file when "ARCHIVER_MODE[type] ?= srpm", and there
-  would be errors, it hadn't happen before was becuase that the remove
-  function didn't work. Let the "rpmbuild --rmsource" to remove the
-  Sources, and the remove function will just remove the tar-package file.
+On Sat, 2012-08-25 at 14:14 -0700, Khem Raj wrote:
+> On Aug 25, 2012, at 2:00 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> 
+> > On Sat, 2012-08-25 at 13:25 -0700, Khem Raj wrote:
+> >> On Sat, Aug 25, 2012 at 9:46 AM, Richard Purdie
+> >> <richard.purdie@linuxfoundation.org> wrote:
+> >>> As was previous discussed on the list a while ago, we have a problem
+> >>> with nativesdk where the code is getting complex and convoluted as its
+> >>> simply not possible to automatically "extend" using a suffix.
+> >>> 
+> >>> Extension using a prefix works comparatively well be comparison as shown
+> >>> by the multilib code. Its for this reason I'd like to switch the
+> >>> meta-toolchain nativesdk recipes to become a prefix rather than a
+> >>> suffix.
+> >>> 
+> >>> I'm going to propose some patches soon that do this. The patches are
+> >>> fairly nasty to write and maintain so will need to merge fairly quickly.
+> >>> 
+> >>> If anyone does have a strong objection to this change, now is the time
+> >>> to raise it. I'd prefer not to have to do this but having considered all
+> >>> the options, its the best thing to do for the future and will result in
+> >>> cleaner metadata (look at PKGSUFFIX in eglibc for an example of how
+> >>> messy this gets).
+> >> 
+> >> I think we should then also remove prefixing others too for consistency
+> >> 
+> >> its hard enough to get the OE terminology to users for gcc and
+> >> gcc-cross and gcc-crosssdk and so on and now we are creating an
+> >> anomaly here. I am ok
+> >> if call it cross-gcc and crosssdk-gcc and native-gcc and so on. That
+> >> will make it consistent to prefix everything then
+> > 
+> > This is a cost/benefit thing. nativesdk is pretty crippled at the moment
+> > by this, we can't easily extend it to several recipes without more
+> > PKGSUFFIX nastiness and it will limit its functionality. We do already
+> > have precedent with the multilibs.
+> > 
+> > On the plus side, nativesdk doesn't feature strongly in most OE user
+> > experience, the documentation and its not massively engrained in the
+> > code base.
+> > 
+> > Equally, you could change -cross as those recipes are corner cases,
+> > there are not many of them.
+> > 
+> > For native things are *very* different. There is no PACKAGES problem
+> > there, we actively want to keep the numbers of recipes low, there is a
+> > higher volume of -native references in the documentation and the
+> > userbase is exposed to the naming. There are many -native recipes in
+> > other trees out there. So I'm afraid my view is that -native is simply
+> > not worth the pain.
+> > 
+> > If we make an invasive change, I'm ok with that *if* we have good reason
+> > for it. We have that with -nativesdk, we don't for -native IMO.
+> > 
+> 
+> I am experiencing teaching new folks OE tricks and one day they might
+> be OE contributors and believe me it does not help if we have
+> inconstancies, its hard enough and this doesn't make it easier.
+> 
+> Since multilib is something not of interest it hasn't appeared so
+> strongly in my case however it was easy to say you extend recipes and
+> by appending to their name its easier to change to prepend but some
+> append some prepend I don't know personally I know it enough that I
+> can deal with it but for new folks its another
+> thing to learn.
 
-* Remove several unwanted "try ... exception" sentences, let the error
-  raise rather than ignore them when the error happens.
+I might also have some experience of showing people the system ;-).
 
-* Remove several un-needed code.
+Whilst I understand the point, I think there are other areas that time
+could be spent that would benefit people more than the naming of the
+native recipes.
 
-[YOCTO #2619]
+The native recipe change would be extremely invasive and effectively
+require a flag day where everyone changes every layer. We lose our
+compatibility and layer interoperability story and we cause a big
+headache for anyone working with this from a commercial perspective too.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/archiver.bbclass    | 51 ++++++++++++++++------------------------
- meta/classes/package_rpm.bbclass | 25 ++++++--------------
- 2 files changed, 27 insertions(+), 49 deletions(-)
+Its ok to require some changes for the right reasons but do this too
+often or for the wrong reasons and we'll seriously upset users and
+suffer as a project as a result. Its very easy to decide to make some
+change to "improve" things but the implications need to be thought
+through and accounted for.
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 19c5567..3146d02 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -359,26 +359,22 @@ def store_package(d, package_name):
-     """
-     store tarbablls name to file "tar-package"
-     """
--    try:
--        f = open(os.path.join(d.getVar('WORKDIR', True), 'tar-package'), 'a')
--        f.write(package_name + ' ')
--        f.close()
--    except IOError:
--        pass
-+    f = open(os.path.join(d.getVar('WORKDIR', True), 'tar-package'), 'a')
-+    f.write(package_name + ' ')
-+    f.close()
- 
- def get_package(d):
-     """
-     get tarballs name from "tar-package"
-     """
-     work_dir = (d.getVar('WORKDIR', True))
--    tarpackage = os.path.join(work_dir, 'tar-package')
--    try:
--        f = open(tarpackage, 'r')
--        line = list(set(f.readline().replace('\n', '').split()))
--    except UnboundLocalError, IOError:
--        pass
--    f.close()
--    return line
-+    tarlist = os.path.join(work_dir, 'tar-package')
-+    if os.path.exists(tarlist):
-+        f = open(tarlist, 'r')
-+        line = f.readline().rstrip('\n').split()
-+        f.close()
-+        return line
-+    return []
- 
- 
- def archive_sources_patches(d, stage_name):
-@@ -407,9 +403,9 @@ def archive_sources_patches(d, stage_name):
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         move_tarball_deploy(d, [source_tar_name, patch_tar_name])
-     else:
--        tarpackage = os.path.join(d.getVar('WORKDIR', True), 'tar-package')
--        if os.path.exists(tarpackage):
--            os.remove(tarpackage)
-+        tarlist = os.path.join(d.getVar('WORKDIR', True), 'tar-package')
-+        if os.path.exists(tarlist):
-+            os.remove(tarlist)
-         for package in os.path.basename(source_tar_name), patch_tar_name:
-             if package:
-                 store_package(d, str(package) + ' ')
-@@ -558,18 +554,11 @@ python do_archive_linux_yocto(){
- do_kernel_checkout[postfuncs] += "do_archive_linux_yocto "
- 
- # remove tarball for sources, patches and logs after creating srpm.
--python do_remove_tarball(){
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--        work_dir = d.getVar('WORKDIR', True)
--        try:
--            for file in os.listdir(os.getcwd()):
--                if file in get_package(d):
--                    os.remove(file)
--            os.remove(os.path.join(work_dir, 'tar-package'))
--        except (TypeError, OSError):
--            pass
-+python do_remove_tarlist(){
-+    work_dir = d.getVar('WORKDIR', True)
-+    tarlist = os.path.join(work_dir, 'tar-package')
-+    if os.path.exists(tarlist):
-+        os.remove(tarlist)
- }
--do_remove_tarball[deptask] = "do_archive_scripts_logs"
--do_package_write_rpm[postfuncs] += "do_remove_tarball "
--export get_licenses
--export get_package
-+do_remove_tarlist[deptask] = "do_archive_scripts_logs"
-+do_package_write_rpm[postfuncs] += "do_remove_tarlist "
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index d44ab4c..2c4c89a 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -575,16 +575,11 @@ python write_specfile () {
-             spec_files_bottom.append('%s' % "echo \"include logs and patches, Please check them in SOURCES\"")
-             spec_files_bottom.append('')
- 
--    # get the name of tarball for sources, patches and logs
--    def get_tarballs(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--            return get_package(d)
--    
-     # append the name of tarball to key word 'SOURCE' in xxx.spec.
--    def tail_source(d,source_list=[],patch_list=None):
-+    def tail_source(d):
-         if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-+            source_list = get_package(d)
-             source_number = 0
--            patch_number = 0
-             workdir = d.getVar('WORKDIR', True)
-             for source in source_list:
-                 # The rpmbuild doesn't need the root permission, but it needs
-@@ -593,11 +588,6 @@ python write_specfile () {
-                 os.chown("%s/%s" % (workdir, source), 0, 0)
-                 spec_preamble_top.append('Source' + str(source_number) + ': %s' % source)
-                 source_number += 1
--            if patch_list:
--                for patch in patch_list:
--                    os.chown("%s/%s" % (workdir, patch), 0, 0)
--                    print_deps(patch, "Patch" + str(patch_number), spec_preamble_top, d)
--                    patch_number += 1
-     # We need a simple way to remove the MLPREFIX from the package name,
-     # and dependency information...
-     def strip_multilib(name, d):
-@@ -915,8 +905,7 @@ python write_specfile () {
-     spec_preamble_top.append('Group: %s' % srcsection)
-     spec_preamble_top.append('Packager: %s' % srcmaintainer)
-     spec_preamble_top.append('URL: %s' % srchomepage)
--    source_list = get_tarballs(d)
--    tail_source(d,source_list,None)
-+    tail_source(d)
- 
-     # Replaces == Obsoletes && Provides
-     if srcrreplaces and srcrreplaces.strip() != "":
-@@ -1151,13 +1140,13 @@ python do_package_rpm () {
-         cmd = cmd + " --define '_sourcedir " + workdir + "'"
-         cmdsrpm = cmd + " --define '_srcrpmdir " + creat_srpm_dir(d) + "'"
-         cmdsrpm = cmdsrpm + " -bs " + outspecfile
--    cmd = cmd + " -bb " + outspecfile
--
--    # Build the source rpm package !
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-+        # Build the .src.rpm
-         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
-         d.setVarFlag('SBUILDSPEC', 'func', '1')
-         bb.build.exec_func('SBUILDSPEC', d)
-+        # Remove the source (SOURCE0, SOURCE1 ...)
-+        cmd = cmd + " --rmsource "
-+    cmd = cmd + " -bb " + outspecfile
- 
-     # Build the rpm package!
-     d.setVar('BUILDSPEC', cmd + "\n")
--- 
-1.7.11.2
+FWIW, I think we did a bad job with the gcc-intermediate change. In
+hindsight I think we should have changed the gcc-cross-initial include
+name in master, allowing backwards compatibility. The intermediate
+include could have then been moved to the toolchain layer, removing the
+need for a flag day for every eglibc/gcc out there. I'm saying this not
+to pick on anyone, I'm as guilty as anyone for merging the change. I do
+want to illustrate we're thinking about the issues people hit and how to
+better in future though.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
 
