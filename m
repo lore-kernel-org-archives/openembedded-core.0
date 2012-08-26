@@ -1,26 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T5Wo5-0007Lb-V4
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1T5Wo7-0007Li-5Y
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Aug 2012 08:58:50 +0200
+	Sun, 26 Aug 2012 08:58:51 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7Q6kd3V025982
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7Q6keXk025985
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Aug 2012 23:46:39 -0700 (PDT)
+	Sat, 25 Aug 2012 23:46:40 -0700 (PDT)
 Received: from localhost.localdomain (128.224.163.124) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Sat, 25 Aug 2012 23:46:39 -0700
+	14.2.309.2; Sat, 25 Aug 2012 23:46:40 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Aug 2012 14:51:59 +0800
-Message-ID: <b5bd6ea0e516fa1d777018fea33d10deb7d24704.1345963712.git.liezhi.yang@windriver.com>
+Date: Sun, 26 Aug 2012 14:52:00 +0800
+Message-ID: <dde22f4853c452d4624a5b4e09067fe23d58d4df.1345963712.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.11.2
 In-Reply-To: <cover.1345963712.git.liezhi.yang@windriver.com>
 References: <cover.1345963712.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 4/6] archiver.bbclass: remove the "upper()" function
+Subject: [PATCH 5/6] copyleft_compliance.bbclass: remove the duplicated code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,166 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Aug 2012 06:58:50 -0000
+X-List-Received-Date: Sun, 26 Aug 2012 06:58:51 -0000
 Content-Type: text/plain
 
-The configuration value from the conf file is lower case, e.g. srpm,
-tar, so there is no reason to use the upper case which makes things
-complicated.
+A part of the code in copyleft_compliance.bbclass is duplicated to
+archiver.bbclass, remove the duplicated lines.
 
 [YOCTO #2619]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/archiver.bbclass    | 26 +++++++++++---------------
- meta/classes/package_rpm.bbclass | 12 ++++++------
- 2 files changed, 17 insertions(+), 21 deletions(-)
+ meta/classes/copyleft_compliance.bbclass | 51 ++------------------------------
+ 1 file changed, 3 insertions(+), 48 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 7056714..19c5567 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -7,9 +7,9 @@
+diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+index c59cb7a..e68942d 100644
+--- a/meta/classes/copyleft_compliance.bbclass
++++ b/meta/classes/copyleft_compliance.bbclass
+@@ -6,55 +6,10 @@
  #
+ # vi:sts=4:sw=4:et
  
- ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
--ARCHIVE_TYPE ?= "TAR SRPM"
-+ARCHIVE_TYPE ?= "tar srpm"
- DISTRO ?= "poky"
--PATCHES_ARCHIVE_WITH_SERIES = 'TRUE'
-+PATCHES_ARCHIVE_WITH_SERIES = 'yes'
- SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= '${@d.getVarFlag('ARCHIVER_MODE', 'log_type') \
-     if d.getVarFlag('ARCHIVER_MODE', 'log_type') != 'none' else 'logs_with_scripts'}'
- SOURCE_ARCHIVE_PACKAGE_TYPE ?= '${@d.getVarFlag('ARCHIVER_MODE', 'type') \
-@@ -74,7 +74,7 @@ def tar_filter(d):
-     and ignore the one in COPYLEFT_LICENSE_EXCLUDE. Don't exclude any
-     packages when \"FILTER\" is \"no\"
-     """
--    if d.getVar('FILTER', True).upper() == "YES":
-+    if d.getVar('FILTER', True) == "yes":
-         included, reason = copyleft_should_include(d)
-         if not included:
-             return False
-@@ -235,7 +235,6 @@ def archive_sources_from_directory(d, stage_name):
-     archive sources codes tree to tarball when tarball of $P doesn't
-     exist in $DL_DIR
-     """
--    import shutil
+-COPYLEFT_SOURCES_DIR ?= '${DEPLOY_DIR}/copyleft_sources'
+-
+-COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
+-COPYLEFT_LICENSE_INCLUDE[type] = 'list'
+-COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
+-
+-COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
+-COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
+-COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which exclude licenses'
+-
+-COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
+-COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
+-
+-COPYLEFT_RECIPE_TYPES ?= 'target'
+-COPYLEFT_RECIPE_TYPES[type] = 'list'
+-COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
+-
+-COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
+-COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
+-COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
+-
+-def copyleft_recipe_type(d):
+-    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
+-        if oe.utils.inherits(d, recipe_type):
+-            return recipe_type
+-    return 'target'
++# Need the copyleft_should_include
++inherit archiver
  
-     s = d.getVar('S', True)
-     work_dir=d.getVar('WORKDIR', True)
-@@ -353,10 +352,7 @@ def move_tarball_deploy(d, tarball_list):
- 
- def check_archiving_type(d):
-     """check the type for archiving package('tar' or 'srpm')"""
+-def copyleft_should_include(d):
+-    """Determine if this recipe's sources should be deployed for compliance"""
+-    import ast
+-    import oe.license
+-    from fnmatch import fnmatchcase as fnmatch
+-
+-    recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
+-    if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
+-        return False, 'recipe type "%s" is excluded' % recipe_type
+-
+-    include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+-    exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
+-
 -    try:
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in d.getVar('ARCHIVE_TYPE', True).split():
--            raise AttributeError
--    except AttributeError:
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) not in d.getVar('ARCHIVE_TYPE', True).split():
-         bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" is \'tar\' or \'srpm\', no other types")
+-        is_included, reason = oe.license.is_included(d.getVar('LICENSE', True), include, exclude)
+-    except oe.license.LicenseError as exc:
+-        bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
+-    else:
+-        if is_included:
+-            return True, 'recipe has included licenses: %s' % ', '.join(reason)
+-        else:
+-            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
++COPYLEFT_SOURCES_DIR ?= '${DEPLOY_DIR}/copyleft_sources'
  
- def store_package(d, package_name):
-@@ -399,16 +395,16 @@ def archive_sources_patches(d, stage_name):
- 
-     source_tar_name = archive_sources(d, stage_name)
-     if stage_name == "prepatch":
--        if d.getVar('PATCHES_ARCHIVE_WITH_SERIES', True).upper() == 'TRUE':
-+        if d.getVar('PATCHES_ARCHIVE_WITH_SERIES', True) == 'yes':
-             patch_tar_name = select_archive_patches(d, "all")
--        elif d.getVar('PATCHES_ARCHIVE_WITH_SERIES', True).upper() == 'FALSE':
-+        elif d.getVar('PATCHES_ARCHIVE_WITH_SERIES', True) == 'no':
-             patch_tar_name = select_archive_patches(d, "applying")
-         else:
--            bb.fatal("Please define 'PATCHES_ARCHIVE_WITH_SERIES' is strings 'True' or 'False' ")
-+            bb.fatal("Please define 'PATCHES_ARCHIVE_WITH_SERIES' to 'yes' or 'no' ")
-     else:
-         patch_tar_name = ''
- 
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         move_tarball_deploy(d, [source_tar_name, patch_tar_name])
-     else:
-         tarpackage = os.path.join(d.getVar('WORKDIR', True), 'tar-package')
-@@ -438,7 +434,7 @@ def archive_scripts_logs(d):
-     else:
-         return
- 
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         move_tarball_deploy(d, [tarlog])
- 
-     else:
-@@ -556,14 +552,14 @@ python do_archive_linux_yocto(){
-     s = d.getVar('S', True)
-     if 'linux-yocto' in s:
-         source_tar_name = archive_sources(d, '')
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         move_tarball_deploy(d, [source_tar_name, ''])
- }
- do_kernel_checkout[postfuncs] += "do_archive_linux_yocto "
- 
- # remove tarball for sources, patches and logs after creating srpm.
- python do_remove_tarball(){
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-         work_dir = d.getVar('WORKDIR', True)
-         try:
-             for file in os.listdir(os.getcwd()):
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index b999c28..d44ab4c 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -570,19 +570,19 @@ python write_specfile () {
- 
-     # append information for logs and patches to %prep
-     def add_prep(d,spec_files_bottom):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-             spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
-             spec_files_bottom.append('%s' % "echo \"include logs and patches, Please check them in SOURCES\"")
-             spec_files_bottom.append('')
- 
-     # get the name of tarball for sources, patches and logs
-     def get_tarballs(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-             return get_package(d)
-     
-     # append the name of tarball to key word 'SOURCE' in xxx.spec.
-     def tail_source(d,source_list=[],patch_list=None):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-             source_number = 0
-             patch_number = 0
-             workdir = d.getVar('WORKDIR', True)
-@@ -1020,7 +1020,7 @@ python write_specfile () {
- 
- python do_package_rpm () {
-     def creat_srpm_dir(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-             clean_licenses = get_licenses(d)
-             pkgwritesrpmdir = bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
-             pkgwritesrpmdir = pkgwritesrpmdir + '/' + clean_licenses
-@@ -1147,14 +1147,14 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-         cmd = cmd + " --define '_sourcedir " + workdir + "'"
-         cmdsrpm = cmd + " --define '_srcrpmdir " + creat_srpm_dir(d) + "'"
-         cmdsrpm = cmdsrpm + " -bs " + outspecfile
-     cmd = cmd + " -bb " + outspecfile
- 
-     # Build the source rpm package !
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
-+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
-         d.setVarFlag('SBUILDSPEC', 'func', '1')
-         bb.build.exec_func('SBUILDSPEC', d)
+ python do_prepare_copyleft_sources () {
+     """Populate a tree of the recipe sources and emit patch series files"""
 -- 
 1.7.11.2
 
