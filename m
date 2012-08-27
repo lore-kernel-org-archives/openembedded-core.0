@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1T64Im-0000ri-Tj
+	(envelope-from <sgw@linux.intel.com>) id 1T64eH-0004Dm-8v
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Aug 2012 20:44:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7RIWX0E019669
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2012 11:32:33 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Mon, 27 Aug 2012 11:32:31 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Aug 2012 13:32:30 -0500
-Message-ID: <d69b33d58a5d37c6bf0584323a548e59b235d750.1346087164.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1346087164.git.peter.seebach@windriver.com>
-References: <cover.1346087164.git.peter.seebach@windriver.com>
+	Mon, 27 Aug 2012 21:06:57 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2012 11:54:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,322,1344236400"; d="scan'208";a="213824620"
+Received: from unknown (HELO [10.255.13.20]) ([10.255.13.20])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2012 11:54:43 -0700
+Message-ID: <503BC272.9050601@linux.intel.com>
+Date: Mon, 27 Aug 2012 11:54:42 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] runqemu-export-rootfs and friends: don't put pseudo db in target fs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1345909694.14369.113.camel@ted>
+In-Reply-To: <1345909694.14369.113.camel@ted>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate.bbclass: Detect overwriting files in sstate controlled directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,99 +32,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2012 18:44:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 Aug 2012 19:06:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In a few places, we have scripts which use <rootfs>/var/pseudo for
-the pseudo state directory controlling a given filesystem. This
-seems possibly risky because it means that stuff running under
-qemu or whatnot could wipe out the data being used to handle that
-rootfs. Move this to:
-  <rootfs>/../$(basename_rootfs).pseudo_state
-to avoid problems.
+On 08/25/2012 08:48 AM, Richard Purdie wrote:
+> We have a potential problem where two sstate packages try and touch the same
+> file. This adds code which will print a warning whenever this happens.
+>
+> The implementation does but by maintaining a master file list and comparing
+> file accesses against this. There are a number of places we have duplicate
+> accesses which are harmless, mostly in the deploy directory so these
+> are whitelisted.
+>
+> For now the code prints warnings, this could be strengthened in future to
+> become error messages. Whilst working on this code on and off over the past
+> few months various issues were uncovered, some serious.
+>
+This is causing a failure:
 
-This also solves at least one case (not directly hit by yocto's
-tree) wherein you could end up trying to remove a rootfs while
-pseudo was using a database inside that rootfs, and thus the
-remove would fail.
+IOError: [Errno 2] No such file or directory: 
+'/intel/poky/builds/world/tmp/sstate-control/master.list'
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- .../installer/adt-installer/scripts/extract_rootfs |    8 ++++----
- scripts/runqemu-export-rootfs                      |    2 +-
- scripts/runqemu-extract-sdk                        |   15 +++++++++------
- 3 files changed, 14 insertions(+), 11 deletions(-)
+<snip>
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-index 62dc170..d1a595b 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/extract_rootfs
-@@ -28,7 +28,6 @@ extract_rootfs()
-   native_sysroot=$3
-   target_sysroot=$2
-   PSEUDO_COMMAND="$native_sysroot/usr/bin/pseudo"
--  PSEUDO_OPTS="-P $natvie_sysroot/usr"
-   TAR_OPTS="-xjf"
-   PSEUDO_OPTS="-P $native_sysroot/usr"
- 
-@@ -46,9 +45,10 @@ extract_rootfs()
-     mkdir -p "$target_sysroot"
-   fi
- 
--  mkdir -p "$target_sysroot/var/pseudo"
--  touch "$target_sysroot/var/pseudo/pseudo.pid"
--  PSEUDO_LOCALSTATEDIR="$target_sysroot/var/pseudo"
-+  pseudo_state_dir="$target_sysroot/../$(basename "$target_sysroot").pseudo_state"
-+  mkdir -p "$pseudo_state_dir"
-+  touch "$pseudo_state_dir/pseudo.pid"
-+  PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
-   export PSEUDO_LOCALSTATEDIR
- 
-   echo_info "Extracting rootfs: $1, using pseudo..."
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index f8213ba..3c77dd7 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -68,7 +68,7 @@ NFSPID=~/.runqemu-sdk/nfs$NFS_INSTANCE.pid
- MOUNTPID=~/.runqemu-sdk/mount$NFS_INSTANCE.pid
- 
- PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
--PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/var/pseudo"
-+PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../$(basename $NFS_EXPORT_DIR).pseudo_state"
- export PSEUDO_LOCALSTATEDIR
- 
- if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
-diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-index 4b52475..509af66 100755
---- a/scripts/runqemu-extract-sdk
-+++ b/scripts/runqemu-extract-sdk
-@@ -73,15 +73,18 @@ if [ ! -d "$SDK_ROOTFS_DIR" ]; then
- 	mkdir -p "$SDK_ROOTFS_DIR"
- fi
- 
--if [ -e "$SDK_ROOTFS_DIR/var/pseudo" ]; then
--	echo "Error: $SDK_ROOTFS_DIR/var/pseudo already exists!"
--	echo "Please delete the entire rootfs tree manually if this is really what you want"
-+pseudo_state_dir="$SDK_ROOTFS_DIR/../$(basename "$SDK_ROOTFS_DIR").pseudo_state"
-+
-+if [ -e "$pseudo_state_dir" ]; then
-+	echo "Error: $pseudo_state_dir already exists!"
-+	echo "Please delete the rootfs tree and pseudo directory manually"
-+        echo "if this is really what you want."
- 	exit 1
- fi
- 
--mkdir -p "$SDK_ROOTFS_DIR/var/pseudo"
--touch "$SDK_ROOTFS_DIR/var/pseudo/pseudo.pid"
--PSEUDO_LOCALSTATEDIR="$SDK_ROOTFS_DIR/var/pseudo"
-+mkdir -p "$pseudo_state_dir"
-+touch "$pseudo_state_dir/pseudo.pid"
-+PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
- export PSEUDO_LOCALSTATEDIR
- 
- echo "Extracting rootfs tarball using pseudo..."
--- 
-1.7.0.4
+ERROR: [From file: 'sstate.bbclass', lineno: 13, function: sstate_clean]
+ERROR:      0024:    # Remove the entries from the master manifest
+ERROR:      0025:    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", 
+True)
+ERROR:      0026:    lock = bb.utils.lockfile(mastermanifest + ".lock")
+ERROR:      0027:    mf = open(mastermanifest + ".new", "w")
+ERROR:  *** 0028:    for line in open(mastermanifest, "r"):
+ERROR:      0029:        if not line or line in entries:
+ERROR:      0030:            continue
+ERROR:      0031:        mf.write(line)
+ERROR:      0032:    mf.close()
+ERROR: [From file: 'sstate.bbclass', lineno: 28, function: 
+sstate_clean_manifest]
+ERROR: Function failed: sstate_task_prefunc
 
+I see a master.list.lock and master.list.new, but no master.list.
+
+
+Sau!
+
+
+
+
+> [YOCTO #238]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 6762e32..02594a7 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -3,6 +3,7 @@ SSTATE_VERSION = "2"
+>   SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
+>   SSTATE_MANFILEBASE = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-"
+>   SSTATE_MANFILEPREFIX = "${SSTATE_MANFILEBASE}${PN}"
+> +SSTATE_MASTERMANIFEST = "${SSTATE_MANIFESTS}/master.list"
+>
+>   def generate_sstatefn(spec, hash, d):
+>       if not hash:
+> @@ -17,6 +18,7 @@ SSTATE_EXTRAPATH   = ""
+>   SSTATE_EXTRAPATHWILDCARD = ""
+>   SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
+>
+> +SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/"
+>
+>   SSTATE_SCAN_FILES ?= "*.la *-config *_config"
+>   SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
+> @@ -125,7 +127,6 @@ def sstate_install(ss, d):
+>           locks.append(bb.utils.lockfile(lock))
+>
+>       for state in ss['dirs']:
+> -        oe.path.copytree(state[1], state[2])
+>           for walkroot, dirs, files in os.walk(state[1]):
+>               bb.debug(2, "Staging files from %s to %s" % (state[1], state[2]))
+>               for file in files:
+> @@ -140,9 +141,35 @@ def sstate_install(ss, d):
+>                   if not dstdir.endswith("/"):
+>                       dstdir = dstdir + "/"
+>                   shareddirs.append(dstdir)
+> +
+> +    # Check the file list for conflicts against the master manifest
+> +    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
+> +    whitelist = d.getVar("SSTATE_DUPWHITELIST", True)
+> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
+> +    fileslist = [line.strip() for line in open(mastermanifest)]
+> +    bb.utils.unlockfile(lock)
+> +    match = []
+> +    for f in sharedfiles:
+> +        if f in fileslist:
+> +            realmatch = True
+> +            for w in whitelist:
+> +                if f.startswith(w):
+> +                    realmatch = False
+> +                    break
+> +            if realmatch:
+> +                match.append(f)
+> +    if match:
+> +        bb.warn("The recipe is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % "\n   ".join(match))
+> +
+> +    # Write out the manifest and add to the task's manifest file
+> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
+> +    mf = open(mastermanifest, "a")
+>       f = open(manifest, "w")
+>       for file in sharedfiles:
+> +        mf.write(file + "\n")
+>           f.write(file + "\n")
+> +    bb.utils.unlockfile(lock)
+> +
+>       # We want to ensure that directories appear at the end of the manifest
+>       # so that when we test to see if they should be deleted any contents
+>       # added by the task will have been removed first.
+> @@ -152,6 +179,10 @@ def sstate_install(ss, d):
+>           f.write(di + "\n")
+>       f.close()
+>
+> +    # Run the actual file install
+> +    for state in ss['dirs']:
+> +        oe.path.copytree(state[1], state[2])
+> +
+>       for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
+>           bb.build.exec_func(postinst, d)
+>
+> @@ -268,6 +299,18 @@ def sstate_clean_manifest(manifest, d):
+>           except OSError:
+>               pass
+>
+> +    # Remove the entries from the master manifest
+> +    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
+> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
+> +    mf = open(mastermanifest + ".new", "w")
+> +    for line in open(mastermanifest, "r"):
+> +        if not line or line in entries:
+> +            continue
+> +        mf.write(line)
+> +    mf.close()
+> +    os.rename(mastermanifest + ".new", mastermanifest)
+> +    bb.utils.unlockfile(lock)
+> +
+>       oe.path.remove(manifest)
+>
+>   def sstate_clean(ss, d):
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
