@@ -1,25 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T64eH-0004Dm-8v
+	(envelope-from <Mark.Asselstine@windriver.com>) id 1T64jP-0001t6-G5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Aug 2012 21:06:57 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2012 11:54:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,322,1344236400"; d="scan'208";a="213824620"
-Received: from unknown (HELO [10.255.13.20]) ([10.255.13.20])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2012 11:54:43 -0700
-Message-ID: <503BC272.9050601@linux.intel.com>
-Date: Mon, 27 Aug 2012 11:54:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Mon, 27 Aug 2012 21:12:15 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7RFOJ2u016178
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Aug 2012 08:24:19 -0700 (PDT)
+Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.309.2; Mon, 27 Aug 2012 08:24:19 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Aug 2012 11:24:29 -0400
+Message-ID: <1346081069-4741-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1345909694.14369.113.camel@ted>
-In-Reply-To: <1345909694.14369.113.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate.bbclass: Detect overwriting files in sstate controlled directories
+X-Originating-IP: [128.224.146.23]
+Subject: [PATCH] base-files: allow for more flexibility related to hostname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,158 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2012 19:06:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Aug 2012 19:12:15 -0000
+Content-Type: text/plain
 
-On 08/25/2012 08:48 AM, Richard Purdie wrote:
-> We have a potential problem where two sstate packages try and touch the same
-> file. This adds code which will print a warning whenever this happens.
->
-> The implementation does but by maintaining a master file list and comparing
-> file accesses against this. There are a number of places we have duplicate
-> accesses which are harmless, mostly in the deploy directory so these
-> are whitelisted.
->
-> For now the code prints warnings, this could be strengthened in future to
-> become error messages. Whilst working on this code on and off over the past
-> few months various issues were uncovered, some serious.
->
-This is causing a failure:
+Current logic used to create the /etc/hostname file is fairly
+restrictive and doesn't allow for easy customization since the
+variable 'hostname' is local to the base-files recipe. Changing
+'hostname' to a globally recognized variable which can be overwritten
+overcomes these restrictions. Additionally it is not always desirable
+to establish a /etc/hostname file, such as when we want to define the
+hostname via dhcp or using the kernel command line, so we provide a
+mechanism to skip its creation.
 
-IOError: [Errno 2] No such file or directory: 
-'/intel/poky/builds/world/tmp/sstate-control/master.list'
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta/conf/local.conf.sample                       |   11 +++++++++++
+ meta/recipes-core/base-files/base-files_3.0.14.bb |   15 +++++++--------
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-<snip>
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 5679c03..50696e4 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -43,6 +43,17 @@
+ MACHINE ??= "qemux86"
+ 
+ #
++# Hostname
++#
++# The openembedded default is to write a '${sysconfdir}/hostname' file which
++# will have ${MACHINE} as the hostname. If you want to use a different hostname
++# set it here. You may also set this to 'none' which will forgo the creation of
++# the '${sysconfdir}/hostname' file allowing, for example, the hostname to be
++# provided by your dhcp configuration or via the kernel command line.
++#
++#MACHINE_HOSTNAME ?= "none"
++
++#
+ # Where to place downloads
+ #
+ # During a first build the system will download many different source code tarballs
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 6bab040..571eded 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -60,10 +60,7 @@ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
+              ${sysconfdir}/default"
+ 
+-#
+-# set standard hostname, might be a candidate for a DISTRO variable? :M:
+-#
+-hostname = "openembedded"
++MACHINE_HOSTNAME ?= "openembedded"
+ 
+ BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
+ 
+@@ -107,10 +104,12 @@ do_install () {
+ }
+ 
+ do_install_basefilesissue () {
+-	if [ -n "${MACHINE}" -a "${hostname}" = "openembedded" ]; then
+-		echo ${MACHINE} > ${D}${sysconfdir}/hostname
+-	else
+-		echo ${hostname} > ${D}${sysconfdir}/hostname
++	if [ "${MACHINE_HOSTNAME}" != "none" ]; then
++		if [ -n "${MACHINE}" -a "${MACHINE_HOSTNAME}" = "openembedded" ]; then
++			echo ${MACHINE} > ${D}${sysconfdir}/hostname
++		else
++			echo ${MACHINE_HOSTNAME} > ${D}${sysconfdir}/hostname
++		fi
+ 	fi
+ 
+ 	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
+-- 
+1.7.9.5
 
-ERROR: [From file: 'sstate.bbclass', lineno: 13, function: sstate_clean]
-ERROR:      0024:    # Remove the entries from the master manifest
-ERROR:      0025:    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", 
-True)
-ERROR:      0026:    lock = bb.utils.lockfile(mastermanifest + ".lock")
-ERROR:      0027:    mf = open(mastermanifest + ".new", "w")
-ERROR:  *** 0028:    for line in open(mastermanifest, "r"):
-ERROR:      0029:        if not line or line in entries:
-ERROR:      0030:            continue
-ERROR:      0031:        mf.write(line)
-ERROR:      0032:    mf.close()
-ERROR: [From file: 'sstate.bbclass', lineno: 28, function: 
-sstate_clean_manifest]
-ERROR: Function failed: sstate_task_prefunc
-
-I see a master.list.lock and master.list.new, but no master.list.
-
-
-Sau!
-
-
-
-
-> [YOCTO #238]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 6762e32..02594a7 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -3,6 +3,7 @@ SSTATE_VERSION = "2"
->   SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
->   SSTATE_MANFILEBASE = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-"
->   SSTATE_MANFILEPREFIX = "${SSTATE_MANFILEBASE}${PN}"
-> +SSTATE_MASTERMANIFEST = "${SSTATE_MANIFESTS}/master.list"
->
->   def generate_sstatefn(spec, hash, d):
->       if not hash:
-> @@ -17,6 +18,7 @@ SSTATE_EXTRAPATH   = ""
->   SSTATE_EXTRAPATHWILDCARD = ""
->   SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
->
-> +SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/"
->
->   SSTATE_SCAN_FILES ?= "*.la *-config *_config"
->   SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
-> @@ -125,7 +127,6 @@ def sstate_install(ss, d):
->           locks.append(bb.utils.lockfile(lock))
->
->       for state in ss['dirs']:
-> -        oe.path.copytree(state[1], state[2])
->           for walkroot, dirs, files in os.walk(state[1]):
->               bb.debug(2, "Staging files from %s to %s" % (state[1], state[2]))
->               for file in files:
-> @@ -140,9 +141,35 @@ def sstate_install(ss, d):
->                   if not dstdir.endswith("/"):
->                       dstdir = dstdir + "/"
->                   shareddirs.append(dstdir)
-> +
-> +    # Check the file list for conflicts against the master manifest
-> +    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
-> +    whitelist = d.getVar("SSTATE_DUPWHITELIST", True)
-> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
-> +    fileslist = [line.strip() for line in open(mastermanifest)]
-> +    bb.utils.unlockfile(lock)
-> +    match = []
-> +    for f in sharedfiles:
-> +        if f in fileslist:
-> +            realmatch = True
-> +            for w in whitelist:
-> +                if f.startswith(w):
-> +                    realmatch = False
-> +                    break
-> +            if realmatch:
-> +                match.append(f)
-> +    if match:
-> +        bb.warn("The recipe is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % "\n   ".join(match))
-> +
-> +    # Write out the manifest and add to the task's manifest file
-> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
-> +    mf = open(mastermanifest, "a")
->       f = open(manifest, "w")
->       for file in sharedfiles:
-> +        mf.write(file + "\n")
->           f.write(file + "\n")
-> +    bb.utils.unlockfile(lock)
-> +
->       # We want to ensure that directories appear at the end of the manifest
->       # so that when we test to see if they should be deleted any contents
->       # added by the task will have been removed first.
-> @@ -152,6 +179,10 @@ def sstate_install(ss, d):
->           f.write(di + "\n")
->       f.close()
->
-> +    # Run the actual file install
-> +    for state in ss['dirs']:
-> +        oe.path.copytree(state[1], state[2])
-> +
->       for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
->           bb.build.exec_func(postinst, d)
->
-> @@ -268,6 +299,18 @@ def sstate_clean_manifest(manifest, d):
->           except OSError:
->               pass
->
-> +    # Remove the entries from the master manifest
-> +    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
-> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
-> +    mf = open(mastermanifest + ".new", "w")
-> +    for line in open(mastermanifest, "r"):
-> +        if not line or line in entries:
-> +            continue
-> +        mf.write(line)
-> +    mf.close()
-> +    os.rename(mastermanifest + ".new", mastermanifest)
-> +    bb.utils.unlockfile(lock)
-> +
->       oe.path.remove(manifest)
->
->   def sstate_clean(ss, d):
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
