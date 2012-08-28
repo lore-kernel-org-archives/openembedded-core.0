@@ -1,42 +1,43 @@
 Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T6No2-00016v-SE
+	(envelope-from <koen@dominion.thruhere.net>) id 1T6NoQ-00016v-Jq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Aug 2012 17:34:18 +0200
-Received: by eekb57 with SMTP id b57so1620996eek.6
+	Tue, 28 Aug 2012 17:34:42 +0200
+Received: by mail-ee0-f47.google.com with SMTP id b57so1620996eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2012 08:22:06 -0700 (PDT)
+	Tue, 28 Aug 2012 08:22:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=TS5onndQSXjhZN8xYjW3TcCc0lsPl3uirBV0SM47Yrk=;
-	b=H4IE1cSTYauLXzlINXdRvJmN0MIqLEG9Nsuj1vOZFQCp5Gdtx2uzYRTtsWCjjGDhrs
-	nqiyZYwKAPXqSWmj6afmVDJqwupVcndHTf0tm2enOCdwJzWZjZyYZpKlT6IaFu4qwf3d
-	f/PPKjq72y1e94AgdyIGA6yM7YcZSjrc490nLHmRe4nwPvgYDRDzgGK2QRkrOnGRkI6Q
-	xqhLuwe7OqGxCAA9xdi5sGXtiaao7Jb6koh2yoTq+3tHorF71z3nFInQxQP6p9ByJM0w
-	yTNmD0wRG6exB1q6W7Gsm6Qgmmb0nCoIG1SL00nb6p09ECKXV4sjLfHkvXPM28bNNQmQ
-	jx/A==
-Received: by 10.14.199.67 with SMTP id w43mr22515465een.33.1346167326016;
-	Tue, 28 Aug 2012 08:22:06 -0700 (PDT)
+	bh=IHspNtJ4KmoGU6Lh4vlNNzdwYki/4+F/NsWD0jnQLXU=;
+	b=CSMs2+qj7MPG5zIru1GGZQaRSYKfH/E0ttGXkbzZKIrbF0h1EhPTQP8MkF6QvN6MHO
+	Qe5r1TG+2FPHOyaUMJ7RGfw0W7OA1T6zMnflNC2NX4Dnp8hwRcnEeeIoF2xBFBTj5XJP
+	vo2HBYWWIU3ke5FmAjSO+ZosD1ML1pHj7EX7bJnu++g5yE1xDsusPOvuIDq2QzIog47b
+	DEqhPNrXzq4rJ59AtqjY9tfQsw2eNFQKbuRrIyLZNNLvCfueqnFsDxJmh1JBhldJiVLT
+	ku7InvymU5gyN6K37oz7E5WhPQxobHYPDRajVWSFxct1HVBVOjDE3G0VA0kq7sZEAyWU
+	1Q1g==
+Received: by 10.14.4.198 with SMTP id 46mr22763082eej.11.1346167352027;
+	Tue, 28 Aug 2012 08:22:32 -0700 (PDT)
 Received: from ?IPv6:2001:610:612::a139:371e:d7dd:fe4d?
 	([2001:610:612:0:a139:371e:d7dd:fe4d])
-	by mx.google.com with ESMTPS id z3sm62004374eel.15.2012.08.28.08.22.03
+	by mx.google.com with ESMTPS id z3sm62004374eel.15.2012.08.28.08.22.29
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Aug 2012 08:22:04 -0700 (PDT)
+	Tue, 28 Aug 2012 08:22:31 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <acae76c50ae66d8167038782cc623f5de64e1365.1338603853.git.kergoth@gmail.com>
-Date: Tue, 28 Aug 2012 17:22:02 +0200
-Message-Id: <04FC3EA8-F091-40C2-8106-C288056FB189@dominion.thruhere.net>
-References: <cover.1338603853.git.kergoth@gmail.com>
-	<acae76c50ae66d8167038782cc623f5de64e1365.1338603853.git.kergoth@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <3613253.MfUkZynff3@yow-masselst-d1>
+Date: Tue, 28 Aug 2012 17:22:29 +0200
+Message-Id: <E0720818-177C-4B8A-9C26-F9C77CFB4630@dominion.thruhere.net>
+References: <1346081069-4741-1-git-send-email-mark.asselstine@windriver.com>
+	<7BBED272-9097-4D7D-AA92-F371C06F4F47@dominion.thruhere.net>
+	<3613253.MfUkZynff3@yow-masselst-d1>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQl16kx9TuYNXmyFBYhmhDgyDKTIbWlBIgP2QJGT0VTPOB/ljs0eaLOtZAAOr/oLSNvCj6ap
-Subject: Re: [PATCH 2/2] task-core-basic: drop portmap
+X-Gm-Message-State: ALoCoQlIPJTIv96vtia57UHu4GEnXbobeFWk9utpza5Hr0h/X/guwfWowg8VjjXIBr/BP5Viva0c
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] base-files: allow for more flexibility related to hostname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,40 +50,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2012 15:34:18 -0000
+X-List-Received-Date: Tue, 28 Aug 2012 15:34:42 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 2 jun. 2012, om 04:24 heeft Christopher Larson <kergoth@gmail.com> =
-het volgende geschreven:
+Op 28 aug. 2012, om 15:45 heeft Mark Asselstine =
+<mark.asselstine@windriver.com> het volgende geschreven:
 
-> Both rpcbind and portmap are RPC port mappers. Having both is =
-redundant. Chose
-> rpcbind over portmap as rpcbind supports ipv6, nfs4, and builds =
-without the
-> glibc rpc headers, which have been obsoleted in glibc 2.14.
+> On August 28, 2012 08:47:33 Koen Kooi wrote:
+>> Op 27 aug. 2012, om 17:24 heeft Mark Asselstine=20
+> <mark.asselstine@windriver.com> het volgende geschreven:
+>>> Current logic used to create the /etc/hostname file is fairly
+>>> restrictive and doesn't allow for easy customization since the
+>>> variable 'hostname' is local to the base-files recipe.
+>>=20
+>> hostname_pn-basefiles_someotheroverride =3D "foo"
 >=20
-> Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> ---
-> meta/recipes-extended/tasks/task-core-basic.bb |    1 -
-> 1 file changed, 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/tasks/task-core-basic.bb =
-b/meta/recipes-extended/tasks/task-core-basic.bb
-> index 8bab0db..a810d37 100644
-> --- a/meta/recipes-extended/tasks/task-core-basic.bb
-> +++ b/meta/recipes-extended/tasks/task-core-basic.bb
-> @@ -148,7 +148,6 @@ RDEPENDS_task-core-sys-services =3D "\
->     nfs-utils \
->     pciutils \
->     libpcre \
-> -    portmap \
->     rpcbind \
->     sysfsutils \
->     tcp-wrappers \
-> --=20
+> Point taken. Do you object to the attempt at making it less obscure =
+however?
 
-Missing PR bump=
+Yes, since that was the outcome of the discussion in this list not so =
+long ago.=
 
 
