@@ -1,26 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T6O5M-0001QB-Or
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Aug 2012 17:52:13 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7SFdw5Z008445
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T6O5k-0001Uq-DQ for openembedded-core@lists.openembedded.org;
+	Tue, 28 Aug 2012 17:52:37 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7SEu3pZ008465
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2012 08:39:58 -0700 (PDT)
-Received: from localhost.localdomain (128.224.163.124) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Tue, 28 Aug 2012 08:39:58 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Aug 2012 23:45:22 +0800
-Message-ID: <d44a05ea08917e27279740f258bdf28424a7e055.1346138100.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1346138100.git.liezhi.yang@windriver.com>
-References: <cover.1346138100.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] package_rpm.bbclass: fix the arch (replace "-" with "_")
+	Tue, 28 Aug 2012 15:56:03 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08249-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Aug 2012 15:55:58 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7SEtrjg008459
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Aug 2012 15:55:55 +0100
+Message-ID: <1346168412.23096.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Aug 2012 08:40:12 -0700
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] nativesdk: Convert to use classextend.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,63 +37,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2012 15:52:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Aug 2012 15:52:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-rpm can't use the "-" as the arch, which causes problem, e.g., when
-MACHINE = "beagleboard":
+This patch converts the nativesdk class itself from operating as a suffix 
+to a prefix (see the proceeding patch for the related changes outside this
+class).
 
-* The arch should be armv7a-vfp-neon, but rpm only takes the armv7a,
-  this is incorrect since it is mixed with real arch armv7a.
+The big benefit here is that we can reuse the generic class extension code.
 
-* The nativesdk's arch should be i686-nativesdk (or x86_64-nativesdk),
-  but rpm only takes the i686 (or x86_64), this in incorrect since it is
-  mixed with the arch i686 (or x86_64).
-
-Replace "-" with "_" when rpm package and the rootfs generation would
-fix the problem, I think this is fine since it doesn't change the tune's
-arch, the package manager doesn't care about the arch's name, but it
-needs a unify arch system to avoid confusing. This is similar to what we
-have done on the deb which fixed the arch i486, i586 and so on to i386.
-
-[YOCTO #2328]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package_rpm.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 9abad5e..87dd367 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -27,12 +27,12 @@ package_update_index_rpm () {
- 	fi
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 7deaafc..8c0cd5b 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -59,51 +59,28 @@ python nativesdk_virtclass_handler () {
+         return
  
- 	# Update target packages
--	base_archs="${PACKAGE_ARCHS}"
--	ml_archs="${MULTILIB_PACKAGE_ARCHS}"
-+	base_archs="`echo ${PACKAGE_ARCHS} | sed 's/-/_/g'`"
-+	ml_archs="`echo ${MULTILIB_PACKAGE_ARCHS} | sed 's/-/_/g'`"
- 	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}" base_archs ml_archs
+     pn = e.data.getVar("PN", True)
+-    if not pn.endswith("-nativesdk"):
++    if not pn.endswith("-nativesdk") or pn.startswith("nativesdk-"):
+         return
  
- 	# Update SDK packages
--	base_archs="${SDK_PACKAGE_ARCHS}"
-+	base_archs="`echo ${SDK_PACKAGE_ARCHS} | sed 's/-/_/g'`"
- 	package_update_index_rpm_common "${RPMCONF_HOST_BASE}" base_archs
++    e.data.setVar("MLPREFIX", "nativesdk-")
++    e.data.setVar("PN", "nativesdk-" + e.data.getVar("PN", True).replace("-nativesdk", "").replace("nativesdk-", ""))
+     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-nativesdk")
  }
  
-@@ -1118,7 +1118,7 @@ python do_package_rpm () {
-     rpmbuild = d.getVar('RPMBUILD', True)
-     targetsys = d.getVar('TARGET_SYS', True)
-     targetvendor = d.getVar('TARGET_VENDOR', True)
--    package_arch = d.getVar('PACKAGE_ARCH', True) or ""
-+    package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
-     if package_arch not in "all any noarch".split():
-         ml_prefix = (d.getVar('MLPREFIX', True) or "").replace("-", "_")
-         d.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch)
--- 
-1.7.11.2
+ python () {
+     pn = d.getVar("PN", True)
+-    if not pn.endswith("-nativesdk"):
++    if not pn.startswith("nativesdk-"):
+         return
+ 
+-    def map_dependencies(varname, d, suffix = ""):
+-        if suffix:
+-            varname = varname + "_" + suffix
+-        deps = d.getVar(varname, True)
+-        if not deps:
+-            return
+-        deps = bb.utils.explode_deps(deps)
+-        newdeps = []
+-        for dep in deps:
+-            if dep.endswith("-native") or dep.endswith("-cross"):
+-                newdeps.append(dep)
+-            elif dep.endswith("-gcc-intermediate") or dep.endswith("-gcc-initial") or dep.endswith("-gcc") or dep.endswith("-g++"):
+-                newdeps.append(dep + "-crosssdk")
+-            elif not dep.endswith("-nativesdk"):
+-                newdeps.append(dep.replace("-nativesdk", "") + "-nativesdk")
+-            else:
+-                newdeps.append(dep)
+-        d.setVar(varname, " ".join(newdeps))
+-
+-    map_dependencies("DEPENDS", d)
+-    #for pkg in (d.getVar("PACKAGES", True).split() + [""]):
+-    #    map_dependencies("RDEPENDS", d, pkg)
+-    #    map_dependencies("RRECOMMENDS", d, pkg)
+-    #    map_dependencies("RSUGGESTS", d, pkg)
+-    #    map_dependencies("RPROVIDES", d, pkg)
+-    #    map_dependencies("RREPLACES", d, pkg)
+-
+-    provides = d.getVar("PROVIDES", True)
+-    for prov in provides.split():
+-        if prov.find(pn) != -1:
+-            continue
+-        if not prov.endswith("-nativesdk"):
+-            provides = provides.replace(prov, prov + "-nativesdk")
+-    d.setVar("PROVIDES", provides)
++    import oe.classextend
++
++    clsextend = oe.classextend.NativesdkClassExtender("nativesdk", d)
++    clsextend.rename_packages()
++    clsextend.rename_package_variables((d.getVar("PACKAGEVARS", True) or "").split())
++
++    clsextend.map_depends_variable("DEPENDS")
++    clsextend.map_packagevars()
++    clsextend.map_variable("PROVIDES")
+ }
+ 
+ addhandler nativesdk_virtclass_handler
+diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
+index fb0d967..86b1e8a 100644
+--- a/meta/lib/oe/classextend.py
++++ b/meta/lib/oe/classextend.py
+@@ -7,6 +7,10 @@ class ClassExtender(object):
+     def extend_name(self, name):
+         if name.startswith("kernel-module"):
+             return name
++        if name.startswith("rtld"):
++            return name
++        if name.endswith("-" + self.extname):
++            name = name.replace("-" + self.extname, "")
+         if name.startswith("virtual/"):
+             subs = name.split("/", 1)[1]
+             if not subs.startswith(self.extname):
+
 
 
 
