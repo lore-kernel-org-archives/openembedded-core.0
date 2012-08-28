@@ -1,30 +1,35 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1T6Dgm-0001jc-Oj
+	(envelope-from <koen@dominion.thruhere.net>) id 1T6Fgr-0006Ki-50
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Aug 2012 06:46:08 +0200
-Received: by iaky10 with SMTP id y10so10071583iak.6
+	Tue, 28 Aug 2012 08:54:21 +0200
+Received: by eekb57 with SMTP id b57so1416465eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2012 21:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=++uICkt6UEc1y4vyUxHJ9HXXtD36aEyACdJ2e7wJZCU=;
-	b=dE4dpYzDABBPkuElVrPzqAxh5TXxQptmm+ITV6AAUC+HWryhPd9sCfE0/Iw4AkvTv/
-	I93dY3+upwMA9NIt7xIYqxZMIwsq/kHqgEhFnU/hM7mQHSx3fJSAQ4Knc/iExnZR9X8+
-	sQUPhvh6HHne5D5AlCdYZb0ftL2nRB1qVt1xk4LoOQtyP/q855N9NgtwP6x7IbX048hK
-	3y9/TDq3hfPYcDTtdanj6/WnUEibqIevlRZPDmBgEMZxDqBv49UfoDktgs/Cv0KZhVoH
-	2/tbMfEaZ0juvBDfexJw7q4+s2bQiQNenCBAvoeUcKVQDRrkVYluicStBwSO0Hm0fmnt
-	KP3A==
-MIME-Version: 1.0
-Received: by 10.50.209.99 with SMTP id ml3mr12482647igc.31.1346128435767; Mon,
-	27 Aug 2012 21:33:55 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Mon, 27 Aug 2012 21:33:55 -0700 (PDT)
-Date: Tue, 28 Aug 2012 06:33:55 +0200
-Message-ID: <CALbNGRTrP1i2R69pT-rgtGhs+qmeGeGtPnBAxGgpxq5L2SJ3Ag@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+	Mon, 27 Aug 2012 23:42:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=L3sHUFvC/LAUMYOR/hXCaBoKpm8LaigbJPUePFpsn9w=;
+	b=HKc2aDd3YdNNvYKjrPeVO0bjgCgimxsVLGswefZwerrLhFTUvL1AI+LzfJ43pb7Lnj
+	W6PjN7oiLNloRgzVGbRWReXUOomoTRj8O0Kd6tBhPpqB9m9J6aZZJcD8yjOqQthZ4luf
+	d+TQZxc44scbMpHSyWirtmfmmldelAfoZi7FlVkLuirwy6DQo00s+MSHO3IDVB5Atotb
+	RCTBs/jc16ZyPWneQvTVtDUb9uBWVwaTfiYbOGy5ojCSWavp3/sFBPGiFS3SjT/xbl/4
+	Ltpc1UrAxepBUy+zmogM5drRy6X7wrAgd3qqPxURMf25mujZvZkRV/Om/OS7YbbGPb3M
+	8mpw==
+Received: by 10.14.204.72 with SMTP id g48mr20724208eeo.45.1346136128932;
+	Mon, 27 Aug 2012 23:42:08 -0700 (PDT)
+Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
+	by mx.google.com with ESMTPS id k41sm58207183eep.13.2012.08.27.23.42.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 27 Aug 2012 23:42:07 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Subject: IMAGE_LINGUAS question
+Date: Tue, 28 Aug 2012 08:41:38 +0200
+Message-Id: <1346136108-13062-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlPmEAMB/d5621HMhLjTiUaPXD6hJz1oQMqx3+dCyKTRkGDgpzLY3N6ygyO+qNoQ+QtQFqS
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: [for-denzil][meta-oe][PATCH 01/11] xz: updated to version 5.1.1alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2012 04:46:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 28 Aug 2012 06:54:21 -0000
 
-Hi
+From: Valentin Popa <valentin.popa@intel.com>
 
-another one out of the stupid-question-corner:
+The licenses are the same, only some white spaces added/removed.
 
-The display manager LXDM (and I think others too) check in
-configuration files which languages to offer. I would like to add a
-postinst for LXDM which fills it's configuration file according to
-what was installed by IMAGE_LINGUAS. Now my question (I looked into
-image.bbclass but did not find something useful): Is there some file
-around in rootfs where I can get the information which languages were
-installed by image linguas?
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../xz/{xz_5.0.3.bb => xz_5.1.1alpha.bb}           |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.0.3.bb => xz_5.1.1alpha.bb} (72%)
 
-Andreas
+diff --git a/meta/recipes-extended/xz/xz_5.0.3.bb b/meta/recipes-extended/xz/xz_5.1.1alpha.bb
+similarity index 72%
+rename from meta/recipes-extended/xz/xz_5.0.3.bb
+rename to meta/recipes-extended/xz/xz_5.1.1alpha.bb
+index e8f96b6..7fa7177 100644
+--- a/meta/recipes-extended/xz/xz_5.0.3.bb
++++ b/meta/recipes-extended/xz/xz_5.1.1alpha.bb
+@@ -4,17 +4,17 @@ SECTION = "base"
+ 
+ LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+-                    file://COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe \
++                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LGPLv2.1;md5=fbc093901857fcd118f065f900982c24 \
++                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
+                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
+ 
+ SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "fefe52f9ecd521de2a8ce38c21a27574"
+-SRC_URI[sha256sum] = "10eb4df72dffb2fb14c3d2d82b450e72282ffcb9ee3908a8e5b392b8f09681bf"
++SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
++SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ inherit autotools gettext
+ 
+-- 
+1.7.7.6
+
 
 
