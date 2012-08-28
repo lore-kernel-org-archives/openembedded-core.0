@@ -1,40 +1,39 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T6Fgt-0006Kp-QT
+	(envelope-from <koen@dominion.thruhere.net>) id 1T6Fgu-0006Ki-7d
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Aug 2012 08:54:23 +0200
-Received: by eaad12 with SMTP id d12so1156736eaa.6
+	Tue, 28 Aug 2012 08:54:24 +0200
+Received: by mail-ee0-f47.google.com with SMTP id b57so1416465eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Aug 2012 23:42:11 -0700 (PDT)
+	Mon, 27 Aug 2012 23:42:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=CbmsJTJbUs7OsyCYNQCGmrmWpfvzi42XFp6eGBYInGU=;
-	b=V4rH6LaxXvHTnnvta25uCo4T1tYr1fmfVr3arbKQqXZ7YTK0LzvLNqgVTbTYd19RKQ
-	FWHM9xRnIixEzXkjdICArwaA8wr1WBTWnWMDqrtGk64TbRnaAemB0lS2IpVHVhdIgEh0
-	6T7bHPgNAL/0plM/IG09R4F2fAHUbJk4L99X73wWLJPoNaztrxT4CSiEkfdVveANaUHC
-	ap4BzwcFE+UCRivCK/YKYwbxbbGgUuFngikh2P4NDdkrr0HB/x3aabEirMf/fRQRQ475
-	7mfGyGUThK/ZVScgQ9T7818ab8KJ1h5M2bXsjSvBlXOK1Fq7+LXyl9mp7/++a6GiGZiw
-	kEdw==
-Received: by 10.14.215.197 with SMTP id e45mr20556318eep.36.1346136131595;
-	Mon, 27 Aug 2012 23:42:11 -0700 (PDT)
+	bh=oqczKiYhVkxWpgqh1479ycAhPBIlgA/vfZKTPnl2Qfk=;
+	b=nveVYWs3JxSLpHrECPa2ixW7KWYgAGh3B/H6cMvM82mXz5KPB1M86WShyAksndEkuS
+	BIxKFBi3knpGs2PqTJSrpy/Go4CNiYQ6TIgGTGPn0eicjevXQjOySTUuIcIu5tGWRqhi
+	nCIuzRlAYirn2o2I7QKynRIQx0FQtffJ4GFGWOc0bjS276tVbkpj/LswiyHKeP83EC3X
+	urD6FgaK5S0up5N9WF6jJfIMdHiEvh6LtV/BFVW/qinv6k5kr+ECNGapq6S2s/Nzhguv
+	kMvud1ACBlZPfnZH1ZDfcMactiueqqlaR60B52l/JJo+oCbi2s4mHbkIBVlwijAbyihR
+	G7ug==
+Received: by 10.14.207.9 with SMTP id m9mr20589701eeo.5.1346136134129;
+	Mon, 27 Aug 2012 23:42:14 -0700 (PDT)
 Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
-	by mx.google.com with ESMTPS id v3sm58222845eep.10.2012.08.27.23.42.09
+	by mx.google.com with ESMTPS id k41sm58207695eep.13.2012.08.27.23.42.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Aug 2012 23:42:10 -0700 (PDT)
+	Mon, 27 Aug 2012 23:42:13 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Aug 2012 08:41:39 +0200
-Message-Id: <1346136108-13062-2-git-send-email-koen@dominion.thruhere.net>
+Date: Tue, 28 Aug 2012 08:41:40 +0200
+Message-Id: <1346136108-13062-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1346136108-13062-1-git-send-email-koen@dominion.thruhere.net>
 References: <1346136108-13062-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnZ2l2t6gh+TYbyOZcz27n+ggjxITsWmWbbY+B6QbzjxxKVZACT9/ElgYidkSiXrUyJdXJC
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Martin Jansa <martin.jansa@gmail.com>,
+X-Gm-Message-State: ALoCoQlrGEROwLmekyyGYoL2PeY12wQ+LJZfv0zMBKiRdAm7/t5O3/ENU2E6rZ06Ud67X4lsBuhv
+Cc: Martin Jansa <martin.jansa@gmail.com>,
 	Scott Garman <scott.a.garman@intel.com>
-Subject: [for-denzil][meta-oe][PATCH 02/11] opkg-utils: bump SRCREV for Packages cache fix and other fixes
+Subject: [for-denzil][meta-oe][PATCH 03/11] opkg-utils: bump SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,289 +50,29 @@ X-List-Received-Date: Tue, 28 Aug 2012 06:54:24 -0000
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../opkg-utils/opkg-utils/add-license-field.patch  |   39 -----------
- .../opkg-utils/arfile_header_split.patch           |   27 -------
- .../opkg-utils/index-ignore-filenotfound.patch     |   73 --------------------
- .../opkg-utils/opkg-utils/mtime-int.patch          |   30 --------
- .../opkg-utils/opkg-utils/shebang.patch            |   46 ------------
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    7 +--
- 6 files changed, 1 insertions(+), 221 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+* there are 2 small fixes
+  python-2.6 compatibility
+  missing C option for opkg-build
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
-deleted file mode 100644
-index 0d33459..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Add knowledge about License field in ipk headers
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: opkg-utils/opkg.py
--===================================================================
----- opkg-utils.orig/opkg.py	2010-11-01 04:52:35.000000000 -0700
--+++ opkg-utils/opkg.py	2011-07-13 15:18:03.900037344 -0700
--@@ -145,6 +145,7 @@
--         self.priority = None
--         self.tags = None
--         self.fn = fn
--+        self.license = None
-- 
--         if fn:
--             # see if it is deb format
--@@ -319,6 +320,12 @@
--     def get_section(self, section):
--         return self.section
-- 
--+    def set_license(self, license):
--+        self.license = license
--+
--+    def get_license(self, license):
--+        return self.license
--+
--     def get_file_list(self):
--         if not self.fn:
--             return []
--@@ -425,6 +432,7 @@
--         if self.description: out = out + "Description: %s\n" % (self.description)
--         if self.oe: out = out + "OE: %s\n" % (self.oe)
--         if self.homepage: out = out + "HomePage: %s\n" % (self.homepage)
--+        if self.license: out = out + "License: %s\n" % (self.license)
--         if self.priority: out = out + "Priority: %s\n" % (self.priority)
--         if self.tags: out = out + "Tags: %s\n" % (self.tags)
--         out = out + "\n"
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
-deleted file mode 100644
-index b679f8b..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From: Scott Anderson <o2e@saaworld.com>
--Subject: ipkg-utils: Make arfile.py handle six digit UIDs
--    
--    Essentially, the problem is that arfile.py is splitting the ar header with
--    white-space instead of fixed-width fields, so two fields would get treated
--    as a single field.  This makes things better than before as it now honors
--    the fixed field widths.
--    
--Upstream-Status: Pending (there is no upstream after openmoko imploded)
--
----- ipkg-utils/arfile.py.orig	2010-09-29 13:38:15.000000000 -0700
--+++ ipkg-utils/arfile.py	2010-10-01 16:06:00.000000000 -0700
--@@ -74,7 +74,12 @@
--             if l == "\n":
--                 l = self.f.readline()
--                 if not l: break
--             l = l.replace('`', '')
---            descriptor = l.split()
--+            # Field lengths from /usr/include/ar.h:
--+            ar_field_lens = [ 16, 12, 6, 6, 8, 10, 2 ]
--+            descriptor = []
--+            for field_len in ar_field_lens:
--+                descriptor.append(l[:field_len].strip())
--+                l = l[field_len:]
-- #            print descriptor
--             size = int(descriptor[5])
--             memberName = descriptor[0][:-1]
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
-deleted file mode 100644
-index f0f0fcf..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patch
-+++ /dev/null
-@@ -1,73 +0,0 @@
--If we're building an image and some package rebuilds while this is happening
--some package can be removed/added to the ipk deploy directory. The image will
--not depend on this package so we can safely ignore these cases rather than 
--error out.
--
--RP - 26/8/09
--
--Upstream-Status: Inappropriate [embedded specific]
--
--Index: opkg-utils/opkg-make-index
--===================================================================
----- opkg-utils.orig/opkg-make-index	2009-08-26 17:21:26.000000000 +0100
--+++ opkg-utils/opkg-make-index	2009-08-27 16:11:22.000000000 +0100
--@@ -96,6 +96,7 @@
-- files=glob(pkg_dir + '/*.ipk') + glob(pkg_dir + '/*.deb')
-- files.sort()
-- for filename in files:
--+  try:
--      basename = os.path.basename(filename)
--      pkg = None
--      fnameStat = os.stat(filename)
--@@ -130,6 +131,12 @@
--                to_morgue(basename)
--           if opt_s:
--                print filename
--+  except OSError:
--+      sys.stderr.write("Package %s disappeared on us!\n" % (filename))
--+      continue
--+  except IOError:
--+      sys.stderr.write("Package %s disappeared on us!\n" % (filename))
--+      continue
-- 
-- pkgsStampsFile = open(stamplist_filename, "w")
-- for f in pkgsStamps.keys():
--@@ -148,6 +155,7 @@
-- names = packages.packages.keys()
-- names.sort()
-- for name in names:
--+  try:
--      pkg = packages.packages[name]
--      if locales_dir and pkg.depends:
--          depends = string.split(pkg.depends, ',')
--@@ -165,6 +173,13 @@
--      if (verbose):
--           sys.stderr.write("Writing info for package %s\n" % (pkg.package,))
--      print pkg
--+  except OSError:
--+      sys.stderr.write("Package %s disappeared on us!\n" % (name))
--+      continue
--+  except IOError:
--+      sys.stderr.write("Package %s disappeared on us!\n" % (name))
--+      continue
--+
-- if packages_filename:
--      sys.stdout.close()
--      sys.stdout = old_stdout
--@@ -197,7 +197,15 @@
-- names = packages.packages.keys()
-- names.sort()
-- for name in names:
---     for fn in packages[name].get_file_list():
--+     try:
--+          fnlist = packages[name].get_file_list()
--+     except OSError, e:
--+          sys.stderr.write("Package %s disappeared on us!\n" % (name))
--+          continue
--+     except IOError, e:
--+          sys.stderr.write("Package %s disappeared on us!\n" % (name))
--+          continue
--+     for fn in fnlist:
--           (h,t) = os.path.split(fn)
--           if not t: continue
--           if not files.has_key(t): files[t] = name+':'+fn
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
-deleted file mode 100644
-index 483a62a..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Convert mtime to int before comparing it
--
--The st_mtime attribute (which is a float) is compared against a value
--from the timestamp database, which was stored as an integer there.
--
--When working on a filesystem with precise timestamps the comparision
--will fail nearly everytime hence.
--
--Although it might be possible to enhance the database to store the
--fractional part too, this will complicate things more than we would
--gain by this change.
--
--Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
--
--Upstream-Status: Pending
--(Contacting the original author, no response yet.)
--
--Index: opkg-utils/opkg-make-index
--===================================================================
----- opkg-utils.orig/opkg-make-index
--+++ opkg-utils/opkg-make-index
--@@ -100,7 +100,7 @@ for filename in files:
--      pkg = None
--      fnameStat = os.stat(filename)
--      if old_pkg_hash.has_key(basename):
---          if pkgsStamps.has_key(basename) and fnameStat.st_mtime == pkgsStamps[basename]:
--+          if pkgsStamps.has_key(basename) and int(fnameStat.st_mtime) == pkgsStamps[basename]:
--             if (verbose):
--                sys.stderr.write("Found %s in Packages\n" % (filename,))
--             pkg = old_pkg_hash[basename]
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
-deleted file mode 100644
-index f6a2ef9..0000000
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--Use python via the PATH, rather than hardcoding /usr/bin/python
--
--Upstream-Status: Pending
--
--Signed-off-by: Christopher Larson <kergoth@gmail.com>
--
----- opkg-utils.orig/opkg-list-fields
--+++ opkg-utils/opkg-list-fields
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/env python
-- 
-- import sys, opkg
-- 
----- opkg-utils.orig/opkg-make-index
--+++ opkg-utils/opkg-make-index
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/env python
-- 
-- import sys, os, posixpath
-- from glob import glob
----- opkg-utils.orig/opkg-show-deps
--+++ opkg-utils/opkg-show-deps
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/env python
-- 
-- import sys, os, posixpath
-- from glob import glob
----- opkg-utils.orig/opkg-unbuild
--+++ opkg-utils/opkg-unbuild
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/env python
-- 
-- import sys, os, re
-- 
----- opkg-utils.orig/opkg-update-index
--+++ opkg-utils/opkg-update-index
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python2.1
--+#!/usr/bin/env python
-- 
-- import sys, os
-- from glob import glob
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
 diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 4fe4038..1996c75 100644
+index 1996c75..b193ba4 100644
 --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
 +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -6,16 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
                      file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
  RDEPENDS_${PN} = "python"
  RDEPENDS_${PN}_virtclass-native = ""
--SRCREV = "16665959c330b5958c0f0f4624a9ca7f823f98de"
-+SRCREV = "44df9dd3dc411ca1255cb4b23bde7eb71aed4778"
+-SRCREV = "44df9dd3dc411ca1255cb4b23bde7eb71aed4778"
++SRCREV = "423ecd36b4782327c16f516885d1248249c7724a"
  PV = "0.1.8+git${SRCPV}"
  PR = "r1"
  
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=git \
--           file://index-ignore-filenotfound.patch \
--           file://mtime-int.patch \
--           file://add-license-field.patch \
--           file://arfile_header_split.patch \
--           file://shebang.patch \
-            "
- 
- S = "${WORKDIR}/git"
 -- 
 1.7.7.6
 
