@@ -1,24 +1,30 @@
-Received: from [192.55.52.88] (helo=mga01.intel.com)
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T66NM-0001EN-QH
+	(envelope-from <schnitzeltony@googlemail.com>) id 1T6Dgm-0001jc-Oj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Aug 2012 22:57:37 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Aug 2012 13:45:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,322,1344236400"; d="scan'208";a="214562843"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.136])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2012 13:45:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 28 Aug 2012 06:46:08 +0200
+Received: by iaky10 with SMTP id y10so10071583iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Aug 2012 21:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=++uICkt6UEc1y4vyUxHJ9HXXtD36aEyACdJ2e7wJZCU=;
+	b=dE4dpYzDABBPkuElVrPzqAxh5TXxQptmm+ITV6AAUC+HWryhPd9sCfE0/Iw4AkvTv/
+	I93dY3+upwMA9NIt7xIYqxZMIwsq/kHqgEhFnU/hM7mQHSx3fJSAQ4Knc/iExnZR9X8+
+	sQUPhvh6HHne5D5AlCdYZb0ftL2nRB1qVt1xk4LoOQtyP/q855N9NgtwP6x7IbX048hK
+	3y9/TDq3hfPYcDTtdanj6/WnUEibqIevlRZPDmBgEMZxDqBv49UfoDktgs/Cv0KZhVoH
+	2/tbMfEaZ0juvBDfexJw7q4+s2bQiQNenCBAvoeUcKVQDRrkVYluicStBwSO0Hm0fmnt
+	KP3A==
+MIME-Version: 1.0
+Received: by 10.50.209.99 with SMTP id ml3mr12482647igc.31.1346128435767; Mon,
+	27 Aug 2012 21:33:55 -0700 (PDT)
+Received: by 10.64.18.13 with HTTP; Mon, 27 Aug 2012 21:33:55 -0700 (PDT)
+Date: Tue, 28 Aug 2012 06:33:55 +0200
+Message-ID: <CALbNGRTrP1i2R69pT-rgtGhs+qmeGeGtPnBAxGgpxq5L2SJ3Ag@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Aug 2012 21:45:14 +0100
-Message-Id: <2a46b989f4c6ec2080471086b8e32482cd1e1804.1346099015.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1346099015.git.paul.eggleton@linux.intel.com>
-References: <cover.1346099015.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1346099015.git.paul.eggleton@linux.intel.com>
-References: <cover.1346099015.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] lib/oe/sstatesig.py: add signature data query function
+Subject: IMAGE_LINGUAS question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,108 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Aug 2012 20:57:37 -0000
+X-List-Received-Date: Tue, 28 Aug 2012 04:46:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Add a function that can be used from BitBake code which will find
-signature data (sigdata/siginfo) files based on specified criteria, and
-hook it into BitBake as bb.siggen.find_siginfo.
+Hi
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oe/sstatesig.py |   81 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
+another one out of the stupid-question-corner:
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 20d94b2..749029b 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -74,3 +74,84 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
- # Insert these classes into siggen's namespace so it can see and select them
- bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
- bb.siggen.SignatureGeneratorOEBasicHash = SignatureGeneratorOEBasicHash
-+
-+
-+def find_siginfo(pn, taskname, taskhashlist, d):
-+    """ Find signature data files for comparison purposes """
-+
-+    import fnmatch
-+
-+    if taskhashlist:
-+        hashfiles = {}
-+
-+    if not taskname:
-+        # We have to derive pn and taskname
-+        key = pn
-+        splitit = key.split('.bb.')
-+        taskname = splitit[1]
-+        pn = os.path.basename(splitit[0]).split('_')[0]
-+        if key.startswith('virtual:native:'):
-+            pn = pn + '-native'
-+
-+    # First search in stamps dir
-+    stampdir = d.getVar('TMPDIR', True) + '/stamps'
-+    filespec = '%s-*.%s.sigdata.*' % (pn, taskname)
-+    filedates = {}
-+    foundall = False
-+    for root, dirs, files in os.walk(stampdir):
-+        for fn in files:
-+            if fnmatch.fnmatch(fn, filespec):
-+                fullpath = os.path.join(root, fn)
-+                match = False
-+                if taskhashlist:
-+                    for taskhash in taskhashlist:
-+                        if fn.endswith('.%s' % taskhash):
-+                            hashfiles[taskhash] = fullpath
-+                            if len(hashfiles) == len(taskhashlist):
-+                                foundall = True
-+                                break
-+                else:
-+                    filedates[fullpath] = os.stat(fullpath).st_mtime
-+        if foundall:
-+            break
-+
-+    if len(filedates) < 2 and not foundall:
-+        # That didn't work, look in sstate-cache
-+        hashes = taskhashlist or ['*']
-+        localdata = bb.data.createCopy(d)
-+        for hashval in hashes:
-+            localdata.setVar('PACKAGE_ARCH', '*')
-+            localdata.setVar('TARGET_VENDOR', '*')
-+            localdata.setVar('TARGET_OS', '*')
-+            localdata.setVar('PN', pn)
-+            localdata.setVar('PV', '*')
-+            localdata.setVar('PR', '*')
-+            localdata.setVar('BB_TASKHASH', hashval)
-+            if pn.endswith('-native') or pn.endswith('-crosssdk') or pn.endswith('-cross'):
-+                localdata.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-+            sstatename = d.getVarFlag(taskname, "sstate-name")
-+            if not sstatename:
-+                sstatename = taskname
-+            filespec = '%s_%s.*.siginfo' % (localdata.getVar('SSTATE_PKG', True), sstatename)
-+
-+            if hashval != '*':
-+                sstatedir = "%s/%s" % (d.getVar('SSTATE_DIR', True), hashval[:2])
-+            else:
-+                sstatedir = d.getVar('SSTATE_DIR', True)
-+
-+            filedates = {}
-+            for root, dirs, files in os.walk(sstatedir):
-+                for fn in files:
-+                    fullpath = os.path.join(root, fn)
-+                    if fnmatch.fnmatch(fullpath, filespec):
-+                        if taskhashlist:
-+                            hashfiles[hashval] = fullpath
-+                        else:
-+                            filedates[fullpath] = os.stat(fullpath).st_mtime
-+
-+    if taskhashlist:
-+        return hashfiles
-+    else:
-+        return filedates
-+
-+bb.siggen.find_siginfo = find_siginfo
--- 
-1.7.9.5
+The display manager LXDM (and I think others too) check in
+configuration files which languages to offer. I would like to add a
+postinst for LXDM which fills it's configuration file according to
+what was installed by IMAGE_LINGUAS. Now my question (I looked into
+image.bbclass but did not find something useful): Is there some file
+around in rootfs where I can get the information which languages were
+installed by image linguas?
 
+Andreas
 
 
