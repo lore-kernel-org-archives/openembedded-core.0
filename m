@@ -1,40 +1,36 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T6SKl-0001P9-3E
+	(envelope-from <raj.khem@gmail.com>) id 1T6Sdt-0001Zh-PF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Aug 2012 22:24:23 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 28 Aug 2012 13:12:08 -0700
-Received: by obceq6 with SMTP id eq6so9628836obc.25
+	Tue, 28 Aug 2012 22:44:09 +0200
+Received: by eekb57 with SMTP id b57so1726298eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2012 13:12:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
+	Tue, 28 Aug 2012 13:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=tPfnLTf5Q+NZQ+i3A+MZvMOo8uYmfy7BNKjAnWE4vP8=;
-	b=KQ5JJZZmds1C0mkYxzSPt6kC8W4LOoySy6oMN70pCeM/CrS/IZKDjhe8auTcdFGkXE
-	7LemXLWDjm0ohUm7YaBx10kdpQclPDaPUFMMJJFqr0CiO9QqInPTETGZ6z/tvFmbPMl4
-	Rf1kwgGX010mND1Ls7MfxGH+ru5s/uHVU9n4FGdUEFdKQIQA1Y/nF6rDeKtYXtjHX+5F
-	58zDNSEELel0ODWonGy2n+YwfiDQuV6Nmm2rDR+RitoxAvqk0gvTB3QtJi8hR6fGOJBx
-	tkW75vIJP1SEvuMZFNMtgw2P1L0e9D1X5p85jZJ74wmJQB/VErCG62rwXmK9ToCEnk7G
-	2uIA==
-Received: by 10.182.124.102 with SMTP id mh6mr13378663obb.48.1346184727460;
-	Tue, 28 Aug 2012 13:12:07 -0700 (PDT)
+	:cc:content-type;
+	bh=KXKwp809zdLsOnjjUrJyRFJ3iOfg81qJbEIbZ4ufREA=;
+	b=qdgsWQwD9w2aCi0801mFIVR0wKN/WqG4G7MYxFOJXdBVr/kaF8l+QQgLMVfnZiWfUS
+	ce5BRUN0nHBqiPIi+1vU4dqVuzqa261TP+Edcp2CqKp98DfUkQ+ZYdT+EquQrXa6uX4Q
+	DvnM5aAYsT2zXnAAni5RK4k51BH1HcmWPIX1IoNQx6Hbo/XuJoS72ZQioT34/GxsDvdq
+	TNoZbFRZ/mMtHYdHUJloo2rlZI+7SHkvnj6Dfegj51Obcw9cL/JuZKN3umcis8/KGPKt
+	YZmoBvlpFnSK3+UiTg9VAKdSiQoeoXh+a6dOK851WgsiXi3K8Kz/vD4FAor0JtlKKEPS
+	zROQ==
+Received: by 10.14.218.134 with SMTP id k6mr23830195eep.14.1346185916703; Tue,
+	28 Aug 2012 13:31:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Tue, 28 Aug 2012 13:11:47 -0700 (PDT)
-In-Reply-To: <5151998.0QU9eL25sN@yow-masselst-d1>
-References: <1346178028-2036-1-git-send-email-mark.asselstine@windriver.com>
-	<14807078.5pTOjMOMpo@yow-masselst-d1>
-	<CAJTo0LaA16HKH7MDJ1b=CA-+qvqmMEY47ZsrKd9d_W0z8LBMRw@mail.gmail.com>
-	<5151998.0QU9eL25sN@yow-masselst-d1>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Aug 2012 21:11:47 +0100
-Message-ID: <CAJTo0Lb0P23jieSdtFuTPn+e2h+L9MNXbfQDz4Y+D3bRxSOBYg@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-X-Gm-Message-State: ALoCoQnHyzWSMeFWPi24hJX0dI5CmnLzdTNIqgpyJJy0NhIu/uTFbeq4Q8cJuwKuFG38bdAKSZ/Z
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] base-files: provide a mechanism to skip creation of the hostname file
+Received: by 10.14.2.5 with HTTP; Tue, 28 Aug 2012 13:31:26 -0700 (PDT)
+In-Reply-To: <CAGiJk9dU3=Z+iTe0=v5rpQbFRsnBwQEJ_4Ywz0h+CaSR+xaZ=A@mail.gmail.com>
+References: <CAGiJk9dvZ=_eSZwcXRnsfwo+h0x9fWJnCapuSCVz_HftgJAw6g@mail.gmail.com>
+	<1485327.Nf27BjiNnc@helios>
+	<CAGiJk9dU3=Z+iTe0=v5rpQbFRsnBwQEJ_4Ywz0h+CaSR+xaZ=A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Aug 2012 13:31:26 -0700
+Message-ID: <CAMKF1sp5PQiCyMRUD8_PG_cA8Ougu2jOmUwW9Hg2Hpv+2HChxw@mail.gmail.com>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Package re-order fallouts?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,20 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2012 20:24:23 -0000
+X-List-Received-Date: Tue, 28 Aug 2012 20:44:09 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 28 August 2012 21:01, Mark Asselstine <mark.asselstine@windriver.com> wrote:
->> But surely this should be running very early in the boot, and a
->> DHCP-assigned name should be running afterwards?
+On Tue, Aug 28, 2012 at 1:28 AM, Samuel Stirtzel
+<s.stirtzel@googlemail.com> wrote:
+> 2012/8/28 Paul Eggleton <paul.eggleton@linux.intel.com>:
+>> On Tuesday 28 August 2012 09:37:53 Samuel Stirtzel wrote:
+>>> after switching from the Denzil branch to next it seems that the
+>>> package order has been changed.
+>>
+>> You say "next", do you mean denzil-next or master?
+> master
 >
-> That hasn't been what I have observed, and doesn't cover the command line
-> case. If you have an NFS root this would also not be the case as init will be
-> run after the network is setup and root mounted.
+> Meant the next branch of the setup-scripts:
+> https://github.com/Angstrom-distribution/setup-scripts/blob/next/sources/layers.txt
+>
+>
 
-There was an implied "and if this isn't the case, a bug should be
-filed".  I hadn't thought about NFS-root though.
+thats angstrom-next I believe then the question is more relevant to
+angstrom-distro ml
 
-Ross
+> --
+> Regards
+> Samuel
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
