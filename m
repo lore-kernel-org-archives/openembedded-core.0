@@ -1,35 +1,26 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1T6HM4-0007Ty-Fx
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T6Jd7-0008Ey-TR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Aug 2012 10:41:00 +0200
-Received: by iaky10 with SMTP id y10so10384284iak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Aug 2012 01:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=aePhx1RRevupcBJhJEzS4FatwsisSzimHRBGwQNErLM=;
-	b=fwZn+Mj4dsru3DGU6zQUJ6XP030VbQBcv+a8Ufc7Hfb0QkZKEfjWiNtKYWAXCKUTkF
-	Mh7wz2eB/uYsk5JhcdFK7zvETRdsfQdaC3nirRkxMF+nmI6VgJ0FzQ81PB640UQpQDNV
-	5TgA1lYeovDo49+krA4SyxosrjhoWCnLfk6q+xbbuPzu1xCemOwhKtRmt1O5tZ8tuuSL
-	hypOqNFJHxVvV9sHFELWfMlff0kHjS1xkyxtmcj+l8j9tkD5bCmMujVqZ/f4V0b+TnGg
-	7MOeJOQKEjF2ebnAOAY1jXUYLOrsAg2RUlSAwoFle6kNqkT9axUsEBVVXnHtDnIwjd2V
-	WQsQ==
+	Tue, 28 Aug 2012 13:06:46 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 28 Aug 2012 03:54:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,326,1344236400"; d="scan'208";a="138677377"
+Received: from unknown (HELO helios.localnet) ([10.252.121.154])
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Aug 2012 03:54:30 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 28 Aug 2012 11:54:28 +0100
+Message-ID: <3785680.STh40WuoVt@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <acae76c50ae66d8167038782cc623f5de64e1365.1338603853.git.kergoth@gmail.com>
+References: <cover.1338603853.git.kergoth@gmail.com>
+	<acae76c50ae66d8167038782cc623f5de64e1365.1338603853.git.kergoth@gmail.com>
 MIME-Version: 1.0
-Received: by 10.50.242.71 with SMTP id wo7mr12816109igc.55.1346142527547; Tue,
-	28 Aug 2012 01:28:47 -0700 (PDT)
-Received: by 10.64.49.45 with HTTP; Tue, 28 Aug 2012 01:28:47 -0700 (PDT)
-In-Reply-To: <1485327.Nf27BjiNnc@helios>
-References: <CAGiJk9dvZ=_eSZwcXRnsfwo+h0x9fWJnCapuSCVz_HftgJAw6g@mail.gmail.com>
-	<1485327.Nf27BjiNnc@helios>
-Date: Tue, 28 Aug 2012 10:28:47 +0200
-Message-ID: <CAGiJk9dU3=Z+iTe0=v5rpQbFRsnBwQEJ_4Ywz0h+CaSR+xaZ=A@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Package re-order fallouts?
+Subject: Re: [PATCH 2/2] task-core-basic: drop portmap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,23 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2012 08:41:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 28 Aug 2012 11:06:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-2012/8/28 Paul Eggleton <paul.eggleton@linux.intel.com>:
-> On Tuesday 28 August 2012 09:37:53 Samuel Stirtzel wrote:
->> after switching from the Denzil branch to next it seems that the
->> package order has been changed.
->
-> You say "next", do you mean denzil-next or master?
-master
+On Friday 01 June 2012 19:24:54 Christopher Larson wrote:
+> Both rpcbind and portmap are RPC port mappers. Having both is redundant.
+> Chose rpcbind over portmap as rpcbind supports ipv6, nfs4, and builds
+> without the glibc rpc headers, which have been obsoleted in glibc 2.14.
+> 
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> ---
+>  meta/recipes-extended/tasks/task-core-basic.bb |    1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/meta/recipes-extended/tasks/task-core-basic.bb
+> b/meta/recipes-extended/tasks/task-core-basic.bb index 8bab0db..a810d37
+> 100644
+> --- a/meta/recipes-extended/tasks/task-core-basic.bb
+> +++ b/meta/recipes-extended/tasks/task-core-basic.bb
+> @@ -148,7 +148,6 @@ RDEPENDS_task-core-sys-services = "\
+>      nfs-utils \
+>      pciutils \
+>      libpcre \
+> -    portmap \
+>      rpcbind \
+>      sysfsutils \
+>      tcp-wrappers \
 
-Meant the next branch of the setup-scripts:
-https://github.com/Angstrom-distribution/setup-scripts/blob/next/sources/layers.txt
+I came across this while digging back through the history in master. Does this 
+mean we ought to be switching to rpcbind in our other tasks which currently 
+bring in portmap (e.g. task-base-nfs, task-core-apps-console)?
 
+Cheers,
+Paul
 
 -- 
-Regards
-Samuel
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
