@@ -1,35 +1,37 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <david.c.stewart@intel.com>) id 1T6WxM-00013l-J5
+	(envelope-from <s.stirtzel@googlemail.com>) id 1T6bkr-0000Tx-3W
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 03:20:32 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 28 Aug 2012 18:07:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,330,1344236400"; d="scan'208";a="186041771"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by azsmga001.ch.intel.com with ESMTP; 28 Aug 2012 18:07:10 -0700
-Received: from orsmsx152.amr.corp.intel.com (10.22.226.39) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 28 Aug 2012 18:07:10 -0700
-Received: from orsmsx105.amr.corp.intel.com ([169.254.4.178]) by
-	ORSMSX152.amr.corp.intel.com ([169.254.8.174]) with mapi id
-	14.01.0355.002; Tue, 28 Aug 2012 18:07:10 -0700
-From: "Stewart, David C" <david.c.stewart@intel.com>
-To: "'rich.pixley@palm.com'" <rich.pixley@palm.com>,
-	"'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] sstate doc?
-Thread-Index: AQHNhXoqTHG8PozBI0GoKzXiWtEXFZdv+klZ
-Date: Wed, 29 Aug 2012 01:07:09 +0000
-Message-ID: <CDED78A957032E45B3239CDDA7642D151C907DA6@ORSMSX105.amr.corp.intel.com>
-In-Reply-To: <503D5CB3.7040808@palm.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.142]
+	Wed, 29 Aug 2012 08:27:57 +0200
+Received: by iaky10 with SMTP id y10so446507iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Aug 2012 23:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=/qygQQ3vndKMBhcN8fuGYWcgoEeJZSOfb5nsJHBULUY=;
+	b=XMNsKAmm/JD5e3kCbvIcoefoPCwuuzEEa9QinaB76hQmLb8xEsz/qrm/O2Or3pD0uv
+	maasQO/PmF78ixwMZ3IX+bOQxzoA+t4LSWKbkMfeNd817QMJT9eblv0Gxu/S+r0oSRAx
+	NofCZeftFf1bvqZh0tc6aBrED4lUNdWNQNRSvEs2JGl6j5n9QIXeazwssqXYRc2lKxJv
+	LeJeFpRekQhV3iCheWTIazBci3TuRWzj58MtFy6TCdpHeLg27AQlvvL2WbycLeQ1sAca
+	s/8IHusDlUWJAxvrzFk0wBEGaCEEX10adVToyjc/t4JI1DyIp+CG84DXMGSb0sL0VhF9
+	fPIw==
 MIME-Version: 1.0
-Subject: Re: sstate doc?
+Received: by 10.50.242.71 with SMTP id wo7mr443565igc.55.1346220942934; Tue,
+	28 Aug 2012 23:15:42 -0700 (PDT)
+Received: by 10.64.49.45 with HTTP; Tue, 28 Aug 2012 23:15:42 -0700 (PDT)
+In-Reply-To: <CAMKF1sp5PQiCyMRUD8_PG_cA8Ougu2jOmUwW9Hg2Hpv+2HChxw@mail.gmail.com>
+References: <CAGiJk9dvZ=_eSZwcXRnsfwo+h0x9fWJnCapuSCVz_HftgJAw6g@mail.gmail.com>
+	<1485327.Nf27BjiNnc@helios>
+	<CAGiJk9dU3=Z+iTe0=v5rpQbFRsnBwQEJ_4Ywz0h+CaSR+xaZ=A@mail.gmail.com>
+	<CAMKF1sp5PQiCyMRUD8_PG_cA8Ougu2jOmUwW9Hg2Hpv+2HChxw@mail.gmail.com>
+Date: Wed, 29 Aug 2012 08:15:42 +0200
+Message-ID: <CAGiJk9eNZ05-Ai9+bGVBCzxsBBLRMW_JLYrJoBECiyBd74Y=sA@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Package re-order fallouts?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 01:20:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Aug 2012 06:27:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Rich - check the Yocto Project Reference Manual, available in the documenta=
-tion tab on the Yoctoproject.org website. Looks like section 3.2.3 document=
-s it.=20
+2012/8/28 Khem Raj <raj.khem@gmail.com>:
+> On Tue, Aug 28, 2012 at 1:28 AM, Samuel Stirtzel
+> <s.stirtzel@googlemail.com> wrote:
+>> 2012/8/28 Paul Eggleton <paul.eggleton@linux.intel.com>:
+>>> On Tuesday 28 August 2012 09:37:53 Samuel Stirtzel wrote:
+>>>> after switching from the Denzil branch to next it seems that the
+>>>> package order has been changed.
+>>>
+>>> You say "next", do you mean denzil-next or master?
+>> master
+>>
+>> Meant the next branch of the setup-scripts:
+>> https://github.com/Angstrom-distribution/setup-scripts/blob/next/sources/layers.txt
+>>
+>>
+>
+> thats angstrom-next I believe then the question is more relevant to
+> angstrom-distro ml
+>
 
-Dave
+The package re-ordering happened in OE-Core and _not in Angstrom_ how
+is this Angstrom related?
 
-Sent from my Blackberry
 
------ Original Message -----
-From: Rich Pixley [mailto:rich.pixley@palm.com]
-Sent: Tuesday, August 28, 2012 05:05 PM=0A=
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Subject: [OE-core] sstate doc?
 
-Where can I find documentation on the shared state system?
-
---rich
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+Regards
+Samuel
 
 
