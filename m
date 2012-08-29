@@ -1,27 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1T6fsC-0007LW-Bo
+	(envelope-from <ross.burton@intel.com>) id 1T6hLl-0000dw-Tr
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 12:51:48 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7TAdYAa026117
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 29 Aug 2012 14:26:26 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 05:14:09 -0700
+Received: by wgbdr1 with SMTP id dr1so356161wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 03:39:34 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Wed, 29 Aug 2012 03:39:33 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Aug 2012 18:39:40 +0800
-Message-ID: <46554ce323b57ef8d531c4ec53202dfa1b95adcc.1346236551.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1346236551.git.kai.kang@windriver.com>
-References: <cover.1346236551.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.164]
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/2] ltp: add dependency libaio
+	Wed, 29 Aug 2012 05:14:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=alBPnHJLmQAaSOR9O0CFt+lZ2okX6W0Fql9uep1db+s=;
+	b=ZAsiXc7C+77z58TzJds+9xKncYsMUlNx0n55iB4VWvdrcH0FI104vlvXYcEX/dEF/U
+	9i/pNpj45RGSv8DxVkFe022BKj0cuvV+wxZuy77XKPXLSrgVjdGLFj7mNvkXOk6Cmjpt
+	BxIPa0J0JJ9LSxUeZ1//tq1tl6+MCIofcVRbxcUvHZLl/mkQc8BSVcCQ5vwhrnC/3DL/
+	nOVYbB/0Ym6ZPQ6Q+MkAeEH0Hfq9JFfdC6sLHX2wsAornNp+zhTTZB7Gz3eS/x5KzRuW
+	GZXETGE/sZbQ2unkWC6IiX+QXtfe6/tz6QQH5a6KkGEvvBi63ZjjKqPfHHlkD1cUgTBM
+	hkLg==
+Received: by 10.216.143.158 with SMTP id l30mr852762wej.113.1346242447822;
+	Wed, 29 Aug 2012 05:14:07 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id l5sm15218276wix.5.2012.08.29.05.14.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 29 Aug 2012 05:14:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Aug 2012 13:13:25 +0100
+Message-Id: <1346242405-25027-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnREwVRLOyz0STeJNZsPgJZMSalMY/RhdSM/VlNeFoDgWKRYiYIuu3tUOniJiYKTCha4Kg0
+Subject: [PATCH] gail: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 10:51:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Aug 2012 12:26:26 -0000
 
-When libaio has been populated to sysroot, ltp will be compiled with
-libaio. If rpm/deb package of libaio doesn't be created, bitbake
-core-image-xxx will fail with:
+This functionality was integrated into GTK+ 2.13 and we've dropped support for
+anything before that.
 
-| Processing task-core-apps-console...
-| Processing ltp...
-| error: Failed dependencies:
-| 	libaio.so.1(LIBAIO_0.4) is needed by ltp-20120614-r0.i586
-| 	libaio.so.1(LIBAIO_0.1) is needed by ltp-20120614-r0.i586
-| 	libaio.so.1 is needed by ltp-20120614-r0.i586
-| ERROR: Function failed: do_rootfs
+[ YOCTO #2954 ]
 
-Add libaio to ltp dependency to fix this issue.
-
-Similiar to [Yocto #2973]
-
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/ltp/ltp_20120614.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gnome/gail_1.20.2.bb |   19 -------------------
+ 1 file changed, 19 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/gail_1.20.2.bb
 
-diff --git a/meta/recipes-extended/ltp/ltp_20120614.bb b/meta/recipes-extended/ltp/ltp_20120614.bb
-index a01399f..14c0fef 100644
---- a/meta/recipes-extended/ltp/ltp_20120614.bb
-+++ b/meta/recipes-extended/ltp/ltp_20120614.bb
-@@ -19,9 +19,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 		    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		"
- 
--DEPENDS = "attr"
-+DEPENDS = "attr libaio"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2"
- 
+diff --git a/meta/recipes-gnome/gnome/gail_1.20.2.bb b/meta/recipes-gnome/gnome/gail_1.20.2.bb
+deleted file mode 100644
+index df6cd03..0000000
+--- a/meta/recipes-gnome/gnome/gail_1.20.2.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-DESCRIPTION = "GNOME Accessibility Implementation Library"
+-SECTION = "x11/libs"
+-
+-DEPENDS = "gtk+"
+-PROVIDES = "virtual/gail"
+-
+-LICENSE = "LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+-
+-PR = "r2"
+-
+-inherit gnome gtk-doc
+-
+-SRC_URI[archive.md5sum] = "e805806f897cf6040e1f3e9c0cd2151b"
+-SRC_URI[archive.sha256sum] = "5025b13a4f3b960c8ab7c3e5c7d6d86082e2e1af6ee18e61e37fd4ce3dcc0153"
+-
+-FILES_${PN} += "${libdir}/gtk-2.0/modules/*.so"
+-FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug"
+-
 -- 
-1.7.5.4
+1.7.10
 
 
 
