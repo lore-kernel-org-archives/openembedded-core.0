@@ -1,36 +1,38 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T6hLl-0000dw-Tr
+	(envelope-from <koen@dominion.thruhere.net>) id 1T6huL-0001PI-Vr
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 14:26:26 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 05:14:09 -0700
-Received: by wgbdr1 with SMTP id dr1so356161wgb.24
+	Wed, 29 Aug 2012 15:02:10 +0200
+Received: by weyr6 with SMTP id r6so291367wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 05:14:07 -0700 (PDT)
+	Wed, 29 Aug 2012 05:49:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=alBPnHJLmQAaSOR9O0CFt+lZ2okX6W0Fql9uep1db+s=;
-	b=ZAsiXc7C+77z58TzJds+9xKncYsMUlNx0n55iB4VWvdrcH0FI104vlvXYcEX/dEF/U
-	9i/pNpj45RGSv8DxVkFe022BKj0cuvV+wxZuy77XKPXLSrgVjdGLFj7mNvkXOk6Cmjpt
-	BxIPa0J0JJ9LSxUeZ1//tq1tl6+MCIofcVRbxcUvHZLl/mkQc8BSVcCQ5vwhrnC/3DL/
-	nOVYbB/0Ym6ZPQ6Q+MkAeEH0Hfq9JFfdC6sLHX2wsAornNp+zhTTZB7Gz3eS/x5KzRuW
-	GZXETGE/sZbQ2unkWC6IiX+QXtfe6/tz6QQH5a6KkGEvvBi63ZjjKqPfHHlkD1cUgTBM
-	hkLg==
-Received: by 10.216.143.158 with SMTP id l30mr852762wej.113.1346242447822;
-	Wed, 29 Aug 2012 05:14:07 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l5sm15218276wix.5.2012.08.29.05.14.05
+	h=from:content-type:content-transfer-encoding:subject:message-id:date
+	:to:mime-version:x-mailer:x-gm-message-state;
+	bh=KD1HN+XvCiuXMSpM/3ojmSjY9CTHswTpLEgNf7yX3F8=;
+	b=BZ06afnR5A6TlMWlcmQ1h60LBefG2mf1++uCHmNv2mGQX/zw96qeGD7TRCFeP3Vwtm
+	ZneM7gkntp8I2byTvsYUTHOoEWLVt+z+6HkeRPf/2PlYSqlg9iJAAyGOwmdxMjqFdyuo
+	j54bjK/MeKJtjxCsGKubAV9lkx5VG58BZT7Jx8tIe5ntOGExiocHE2/YQJKCCzqPvm0O
+	kX4DPWLFnPR4kS5QcKRTn8XDWf49LpYiFkE5CFwB3mVPkWSzOBzSCUNLJ4/wKeuDt+Xs
+	Yo6y7tZS8N94vtVwu8ZPFjyFq1YTpDyUaioJSJ+Gc5cvjkx+IpwOeJb5KhUd/x4MUx+V
+	jWxg==
+Received: by 10.216.197.11 with SMTP id s11mr866851wen.55.1346244596120;
+	Wed, 29 Aug 2012 05:49:56 -0700 (PDT)
+Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id k20sm10123050wiv.11.2012.08.29.05.49.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Aug 2012 05:14:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2012 13:13:25 +0100
-Message-Id: <1346242405-25027-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnREwVRLOyz0STeJNZsPgJZMSalMY/RhdSM/VlNeFoDgWKRYiYIuu3tUOniJiYKTCha4Kg0
-Subject: [PATCH] gail: remove
+	Wed, 29 Aug 2012 05:49:54 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Message-Id: <897CCE6A-604A-484A-8ACD-452701801FAA@dominion.thruhere.net>
+Date: Wed, 29 Aug 2012 14:49:53 +0200
+To: "<openembedded-core@lists.openembedded.org> oe-core layer"
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
+X-Mailer: Apple Mail (2.1486)
+X-Gm-Message-State: ALoCoQks88w/RSCWVGkjoQPdrlX7MtpzWhpErpPeEiQtDwKOn5vUJx7PlDhlnm+OYNihrveo/Pwx
+Subject: Bitbake distro packages: kill them with fire
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 12:26:26 -0000
+X-List-Received-Date: Wed, 29 Aug 2012 13:02:10 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-This functionality was integrated into GTK+ 2.13 and we've dropped support for
-anything before that.
+Hi,
 
-[ YOCTO #2954 ]
+These might not be the appropiate lists, but I might reach a few of the =
+culprits. Over the years people have been doing 'apt get install =
+bitbake' or 'make install' to put bitbake into /usr/bin and after a few =
+minutes to get on irc/email/etc to complain that everything is suddenly =
+broken. There are checks for bitbake versions in the metadata, but it =
+can (and will!) still break with due to python path nastiness.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gnome/gail_1.20.2.bb |   19 -------------------
- 1 file changed, 19 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/gail_1.20.2.bb
+So to every person packaging bitbake for their distro: stop doing that!
 
-diff --git a/meta/recipes-gnome/gnome/gail_1.20.2.bb b/meta/recipes-gnome/gnome/gail_1.20.2.bb
-deleted file mode 100644
-index df6cd03..0000000
---- a/meta/recipes-gnome/gnome/gail_1.20.2.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--DESCRIPTION = "GNOME Accessibility Implementation Library"
--SECTION = "x11/libs"
--
--DEPENDS = "gtk+"
--PROVIDES = "virtual/gail"
--
--LICENSE = "LGPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
--
--PR = "r2"
--
--inherit gnome gtk-doc
--
--SRC_URI[archive.md5sum] = "e805806f897cf6040e1f3e9c0cd2151b"
--SRC_URI[archive.sha256sum] = "5025b13a4f3b960c8ab7c3e5c7d6d86082e2e1af6ee18e61e37fd4ce3dcc0153"
--
--FILES_${PN} += "${libdir}/gtk-2.0/modules/*.so"
--FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug"
--
--- 
-1.7.10
+If someone has a better suggestion to avoid this problem (more =
+documentation doesn't work), please speak up.
 
+Thanks,
+
+Koen=
 
 
