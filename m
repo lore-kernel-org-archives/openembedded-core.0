@@ -1,39 +1,41 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T6jOK-00077E-Fy
+	(envelope-from <ross.burton@intel.com>) id 1T6jOM-00077P-6J
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 16:37:12 +0200
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 07:24:56 -0700
-Received: by weyr6 with SMTP id r6so351397wey.6
+	Wed, 29 Aug 2012 16:37:14 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 07:24:58 -0700
+Received: by wgbdr1 with SMTP id dr1so452121wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 07:24:54 -0700 (PDT)
+	Wed, 29 Aug 2012 07:24:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=xMZKwcOJ8WSWn+TKgLtDXgnCE87HWx+QKOvt+xmgYWk=;
-	b=cu3djmO9m5LQwIK9WLBUZSqVqHtbZCI0a3StgoaAXIQcSgdU/sCJ/nuRb06+SOWmK7
-	YDN1vuKOkMIQ5SsUMMsYTCpyZ1bwm92W1/RB6XmzpjScffHbRQAFSSl/nOEVrN/v11AD
-	jIzvW53RF4jGPGXJ7uUgl2AtvffA1dvYMVViiOguEdsIUAemLiioK6ASEpZyq9Hd0Aii
-	mq1rD5nIhJu2F2luJonfFGKHvFGgcwF0tFL7iZQfjCJ3AeCJB1RhR32Opv0V4XIdK7un
-	ZtJ4HmKFPnHwbXOLn9RO0mpXrT4HeDOdtvMITS1YlM7sJp4c/2ZeGGaBylOgEBA65cIm
-	TNGw==
-Received: by 10.216.133.130 with SMTP id q2mr1096321wei.131.1346250294675;
-	Wed, 29 Aug 2012 07:24:54 -0700 (PDT)
+	:in-reply-to:references:x-gm-message-state;
+	bh=4RfiGSF/VD1xQ0TsLxIx9IDkDGVt4icfytY/nIHuM6c=;
+	b=OGaMt5dCD60SAmT2sC96C0LTn4Ccz/7wNib9cBSDLgfui/6U+g3U5naAImJDSQstdm
+	v9/9iO9imHWN8Tvb7iApGJ5EDenaUCM/1AJypMJeBQuctD3JQ4Zb1J1FkIDttcPCKGec
+	RqsubSNCwEb2ouG37ep21EU4Aw0kJFgjWPPbxM6OEbp0itFhTDd9RhfFbgi+mwpw9uKZ
+	Q7ls5MdOa3jKxpEnFoF/1LwKq9EuUIiYZRHEH0NlX6nUtDj8WhlTPsDbYXdjAkiZC29j
+	U3uCO3sYmSBDJoRDLhvJbW7d4JSLaKZ9sVmKglKtTW8lhqOZMkQQVA4emHW0z8uppDot
+	kqBA==
+Received: by 10.180.103.4 with SMTP id fs4mr4125435wib.16.1346250295983;
+	Wed, 29 Aug 2012 07:24:55 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id eu4sm10501531wib.2.2012.08.29.07.24.53
+	by mx.google.com with ESMTPS id eu4sm10501531wib.2.2012.08.29.07.24.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Aug 2012 07:24:53 -0700 (PDT)
+	Wed, 29 Aug 2012 07:24:55 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2012 15:24:13 +0100
-Message-Id: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
+Date: Wed, 29 Aug 2012 15:24:14 +0100
+Message-Id: <ba35808d6976ff17d3732ffcdb56e71f8014137c.1346250187.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
+In-Reply-To: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
+References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
 In-Reply-To: <cover.1346250187.git.ross.burton@intel.com>
 References: <cover.1346250187.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQknpVFk7jV+5UX6LXcDHxWkxSrI6Sl0s+VoZYFnQu31qMJjYUiWXOZnI7D1AI+YMGaN0dac
-Subject: [PATCH 1/2] tzdata: this package isn't architecture specific
+X-Gm-Message-State: ALoCoQmdmy3yCaKHljxHbSMGDoRKT+CimLEeaNgkO+vWRGELc5xhsPPnqd2v0TqVaiA5vJFXHgTH
+Subject: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,31 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 14:37:12 -0000
+X-List-Received-Date: Wed, 29 Aug 2012 14:37:14 -0000
 
-The data files are compiled to a binary but architecture-independent format, so
-this package can be allarch.
+Lots of code (such a GLib) expects this to exist and link to the current
+timezone data.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/tzdata/tzdata_2012d.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/tzdata/tzdata_2012d.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-extended/tzdata/tzdata_2012d.bb b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-index 605bf24..31e1266 100644
+index 31e1266..9741101 100644
 --- a/meta/recipes-extended/tzdata/tzdata_2012d.bb
 +++ b/meta/recipes-extended/tzdata/tzdata_2012d.bb
-@@ -5,7 +5,9 @@ LICENSE = "PD"
+@@ -5,7 +5,7 @@ LICENSE = "PD"
  LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234"
  DEPENDS = "tzcode-native"
  
--PR = "r0"
-+PR = "r1"
-+
-+inherit allarch
+-PR = "r1"
++PR = "r2"
  
- RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarctica \
-              timezone-arctic timezone-asia timezone-atlantic \
+ inherit allarch
+ 
+@@ -49,6 +49,7 @@ do_install () {
+         # Install default timezone
+         install -d ${D}${sysconfdir}
+         echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
++        ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
+ 
+         chown -R root:root ${D}
+ }
 -- 
 1.7.10
 
