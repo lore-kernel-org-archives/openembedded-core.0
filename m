@@ -1,26 +1,29 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T6qAf-0003a9-KB
+	(envelope-from <ross.burton@intel.com>) id 1T6qLb-00058F-HY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 23:51:33 +0200
-Received: by eaad12 with SMTP id d12so284258eaa.6
+	Thu, 30 Aug 2012 00:02:51 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 14:50:33 -0700
+Received: by obblz20 with SMTP id lz20so2112897obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 14:39:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Wed, 29 Aug 2012 14:50:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=d12wI24QCIWFrfxyeDIRG25A8+ss6hqgCulwlROEgXI=;
-	b=yN9Pe6k1O+kQ+3RTzkdfiDofrCaHoJbbXWb6a0FYDokQrAxIhXRGxmWw+ykTeKLIKf
-	dl5Usd7BbbcQWAWuOlJZVEqxHaAJH0QdPNnBKyma/syGdCfKRj6QlPmeTHp8K9cV94NB
-	6P0jwVkfcLAW6UQdIQhCEeD4ePDk5sOY+zffkkmGN7E06uci8qXevqfzcs8P2n1aDiBb
-	mrISQe1UBDnlrD41b/yiXviomVEUSBqW3vGe/0h21L4JPUwifsMfhyNoXUKW8iySQZcf
-	p8QHOoUr4H6ENLvj+Q5gW2n/G+ntpsuJRSqdK3Z9w7cukgH3rXBT1M4aCPA4t3bXekJK
-	1+bQ==
-Received: by 10.14.5.67 with SMTP id 43mr3846648eek.15.1346276359170; Wed, 29
-	Aug 2012 14:39:19 -0700 (PDT)
+	:cc:content-type:x-gm-message-state;
+	bh=dp5WYm041cTqt+tM838VLXXQSRzZwvy+hDTA6Q9UzSg=;
+	b=oOcBt0EaWQIirJCtFsjK6OYWRa8qjnG7IBdhX0T4IlEwlhVkx7mydZCK9i44U2pMn2
+	lllNZxwo/HvIdDiaKIvdRZ8bkY0H5QednkfkF93cXyQc6Rweypas+TINKDAU8AknptkE
+	y+j6vvdPK4FbU4y3qdSPQVb9G23Fe9sILfXDi6teO1Uc+Bp6W/XigIO2411Hl7Sw3NoJ
+	9fw8G3nIRtXNXEt2oXM3dfuO6kn8nsWBoIEr7FhJEbJ2U0jktS53WMxHULAWHYbFDeHn
+	uD+mCUJyTNgTPaGCMbKnOqpGZjemBLNH9dM4sy0myel80D6VJm8/CtuTfEzwquJhkkre
+	7cGQ==
+Received: by 10.182.44.7 with SMTP id a7mr2618053obm.80.1346277035132; Wed, 29
+	Aug 2012 14:50:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Wed, 29 Aug 2012 14:38:48 -0700 (PDT)
-In-Reply-To: <CAJTo0La-tMW+LVLqRGBTSE36x0BYXBJkiwh2B5_8_-SjaAzR5Q@mail.gmail.com>
+Received: by 10.182.79.105 with HTTP; Wed, 29 Aug 2012 14:50:14 -0700 (PDT)
+In-Reply-To: <CAMKF1srQO53m2zv91LLs8WFjEt=UKNA=w4OqxdVfJpyWPHG8jg@mail.gmail.com>
 References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
 	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
 	<CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
@@ -28,10 +31,12 @@ References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton
 	<CAJTo0LbGH3HV1yQOMyoYDVR_z=34qy3riZnASGYdFtkK_XkOmw@mail.gmail.com>
 	<1346267538.4396.38.camel@x121e.pbcl.net>
 	<CAJTo0La-tMW+LVLqRGBTSE36x0BYXBJkiwh2B5_8_-SjaAzR5Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Aug 2012 14:38:48 -0700
-Message-ID: <CAMKF1srQO53m2zv91LLs8WFjEt=UKNA=w4OqxdVfJpyWPHG8jg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAMKF1srQO53m2zv91LLs8WFjEt=UKNA=w4OqxdVfJpyWPHG8jg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 Aug 2012 22:50:14 +0100
+Message-ID: <CAJTo0LZGcZHwM5cZgjFrQ9tuhw6RLN_g732wBitVgHKo8UigNQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQk/pi36ptRaK8rwz6AwFp88MI4UjVUCZCCmuO06x+e4Wqdj1EN72vRCxxHm2LwhSh80pgFW
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Phil Blundell <philb@gnu.org>, Koen Kooi <koen@dominion.thruhere.net>,
 	openembedded-core@lists.openembedded.org
@@ -48,39 +53,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 21:51:33 -0000
+X-List-Received-Date: Wed, 29 Aug 2012 22:02:51 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 29, 2012 at 12:20 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> Sounds like they'll need to write a tool to run after every package
-> operation and hunt out symlinks in /etc (and other top-levels) to
-> files in /usr and turn those into copies.  Anything attempted on a
-> per-package level will fail.
+On 29 August 2012 22:38, Khem Raj <raj.khem@gmail.com> wrote:
+> rest of linux
+> world is moving in opposite direction where /usr is just fine and
+> considered existing along with rest of basefile structure.
 
-why cant you have symlinks across /usr and / all you have to do is
-ignore the warning
-about cross reference. We dont want to be in a situation where
-everything is ending up
-in /lib and /bin and so on. I am afraid thats where we are headed as
-more and more patches are coming where we are moving libraries from
-/usr/lib into /lib against the wishes of package owners who want them
-to be in /usr. rest of linux
-world is moving in opposite direction where /usr is just fine and
-considered existing along with rest of basefile structure.
+Agreed.  I'm with the side that says split / and /usr doesn't really
+work and they should always be the same filesystem.
 
-see
+I'm curious if the people who want / and /usr on separate partitions
+that Phil refers to are a hypothetical group of people, or people who
+can chime in with their opinion.
 
-http://lwn.net/Articles/483921/
-
-http://lwn.net/Articles/431185/
-
-
- More and more packages are now assuming /usr
-and we would have to keep fixing them to support our view of world if
-we go strict
-about enforcing / and /usr separation there is unionfs and initramfs
-and so many other techniques to solve this problem now a days we dont
-have to differentiate between / and /usr
+Ross
 
 
