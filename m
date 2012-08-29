@@ -1,33 +1,32 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1T6iUZ-00023t-St
+	(envelope-from <radu.moisan@intel.com>) id 1T6imo-0002Ob-7m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 15:39:35 +0200
-Received: by lagv3 with SMTP id v3so540521lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 06:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=Bep80eCuL9GVHYwDyidKbdiOpoZ50DeC43dWZRwTxZQ=;
-	b=m/0kNrX/9qnLAGrdDwviWF4Z7k+H1COwFyORElU10MXjhDdm42oZHGZO/5WSSr3onh
-	gtSbjPFuokp+rm1SzvdAjNb3IJp3ilJN49hUIXknOQR8xbdGyYhweUEHr22nyMvM74O0
-	os4bp57PlcpJqE1LX7tT89kbDMIUcVkqaM/nssu3ec62z1KrgQ9veU6qn5+kWsUU25Gd
-	2T4UP2qENp2YofgWqCAQE1fIu+nvyK46uRyS7haUmM11bTC7PuFcISHmGWRs+gu5rHxt
-	/6I40hw4jl9j+nOWgcetEJJQvzCOkK2d+6mCfbsWhJOBUz0U/lwS4miWyK/zMeofieUd
-	N1Cw==
+	Wed, 29 Aug 2012 15:58:26 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2012 06:46:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,334,1344236400"; d="scan'208";a="215303778"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2012 06:46:05 -0700
+Message-ID: <503E1DB9.2050300@intel.com>
+Date: Wed, 29 Aug 2012 16:48:41 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.112.39.41 with SMTP id m9mr401758lbk.80.1346246841823; Wed, 29
-	Aug 2012 06:27:21 -0700 (PDT)
-Received: by 10.112.21.9 with HTTP; Wed, 29 Aug 2012 06:27:21 -0700 (PDT)
-In-Reply-To: <897CCE6A-604A-484A-8ACD-452701801FAA@dominion.thruhere.net>
-References: <897CCE6A-604A-484A-8ACD-452701801FAA@dominion.thruhere.net>
-Date: Wed, 29 Aug 2012 09:27:21 -0400
-Message-ID: <CAHUNapRRLtTO_z8e3r06UEvcaPrmnwPyiG7YzJhOxJbRBe3N5w@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: scott.m.rifenbark@intel.com
-Subject: Re: Bitbake distro packages: kill them with fire
+References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
+	<lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<500E50C5.8000403@intel.com>
+	<CABcZANkJhW+yER52vnbXSywxd-mhpNTPrFixL6R27thmMRmhMg@mail.gmail.com>
+	<CAJTo0LYT5Jup6SXnmA62+Wy8sua94BdB_VwuHJ8erK1gshaYFw@mail.gmail.com>
+	<CAEsOVNcVB5zp7rhN4LP7ANx3hDq51kFQt_0L=O5=YLU6Qp_D-Q@mail.gmail.com>
+	<CABcZANkfFMgTxeQWzpKe2d2NqhMYaz27q-dnfW5m7-BJO2yygQ@mail.gmail.com>
+	<CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
+	<CAJTo0LYU_DpA9oywH9wCu9DHwJR-B7iJk6_nPiT=SAGGNSGVwA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYU_DpA9oywH9wCu9DHwJR-B7iJk6_nPiT=SAGGNSGVwA@mail.gmail.com>
+Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 13:39:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Aug 2012 13:58:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 29, 2012 at 8:49 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
-> These might not be the appropiate lists, but I might reach a few of the c=
-ulprits. Over the years people have been doing 'apt get install bitbake' or=
- 'make install' to put bitbake into /usr/bin and after a few minutes to get=
- on irc/email/etc to complain that everything is suddenly broken. There are=
- checks for bitbake versions in the metadata, but it can (and will!) still =
-break with due to python path nastiness.
->
-> So to every person packaging bitbake for their distro: stop doing that!
->
-> If someone has a better suggestion to avoid this problem (more documentat=
-ion doesn't work), please speak up.
 
-I certainly agree that documentation doesn't work (for the most part).
-But maybe it wouldn't hurt to put in a small note about this issue in
-the quick start guide(s)? Perhaps in the section where it is telling
-you what packages you need installed before starting, it could include
-a note to make sure to not have bitbake installed from your distro?
+On 08/15/2012 10:32 PM, Burton, Ross wrote:
+> On 15 August 2012 20:27, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
+>> I've been doing something similar and it's been working OK. -  I think
+>> we should apply Ross's patch.
+> Radu's, not mine.
+>
+> Ross
+What's happening with this one? Is it going to me merged or something 
+needs to be changed. As I see the comments, it should be fine.
+
+Radu
 
 
