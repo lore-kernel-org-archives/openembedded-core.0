@@ -1,37 +1,41 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1T6mFh-00037n-4G
+	(envelope-from <ross.burton@intel.com>) id 1T6mIy-0003Aw-Jv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 19:40:29 +0200
-Received: by lagv3 with SMTP id v3so810820lag.6
+	Wed, 29 Aug 2012 19:43:54 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 10:31:27 -0700
+Received: by obblz20 with SMTP id lz20so1552817obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 10:28:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Wed, 29 Aug 2012 10:31:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=YIUUs0tL+ku0p9Duto06KVo6LfIGzGBVE8FosBDr7Zw=;
-	b=DfwGgbV+AxtBXcx0oyPepWvTOlN4m6RDpzFauxRoaVtCiL5KwhEtPfNV7jjsr6F8M9
-	uOhiC0uhHzLnUv7gbXtHhSQkG4a1zrRUx6La776fuvF3IiUFjqUdSc9surEMdbo++gcB
-	M8RSEw4NIXByaDIwW0EBYqb7M5HEieJhHx1TcILaVUtbNsrfwYQg7nTD+ZZuVydW5ijt
-	w17M0UrtntmjT+L175yPyoSg0e6GQAzCYY6OnY85/IgNSHN7znJ7jtKdctVFBGPotq++
-	k49yGMarsaOufSNNGzt8/CNfXL2C6dkJZDowYVU6W1Sco289NtVm7lViGnrUluCSxYSm
-	zEdw==
-Received: by 10.112.101.6 with SMTP id fc6mr515298lbb.110.1346261294728; Wed,
-	29 Aug 2012 10:28:14 -0700 (PDT)
+	:cc:content-type:x-gm-message-state;
+	bh=LnweXxZic83ldU9nK3m7npsD30HQYlPbP+aTUrAvatQ=;
+	b=jSptCayQ7SxEa6kAnAc9dQOFiXikV8D6gYBLdozH850WDy5/USgDptn8+UoaTm1+yn
+	UdaJ+rLb98B97sw2vXSBPksYWu9/mP2lF/mOeDRgEuFgAfPEYKUQ3oZuHsVGS+Eevr+W
+	pwqkkIleS8hJ+2lQlSAg6TGRkyQ4BHrne77mxUW6eNanb89RffKkm9NrEBfEBS7s/2ay
+	3gxrTfmOwWYeqR2cZHjPZziTKHAT25ek84EegCz/nDQCMhGJ56N3TinwOV1/jE/lheiU
+	SQnGxw2fxGsKyMB7qTGgAaSB73mWag7YjlnseL7Spf7mflXyRk2UO19zWjYpAcyUnNrW
+	KSMA==
+Received: by 10.60.28.162 with SMTP id c2mr2096424oeh.3.1346261486638; Wed, 29
+	Aug 2012 10:31:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.114.19.2 with HTTP; Wed, 29 Aug 2012 10:27:54 -0700 (PDT)
-In-Reply-To: <CAMKF1srm3nnSyuB=rnzKhgzEf7ziv7RNxpDc-v0ojPcQoo36cw@mail.gmail.com>
-References: <cover.1338603853.git.kergoth@gmail.com>
-	<acae76c50ae66d8167038782cc623f5de64e1365.1338603853.git.kergoth@gmail.com>
-	<3785680.STh40WuoVt@helios>
-	<CAMKF1srm3nnSyuB=rnzKhgzEf7ziv7RNxpDc-v0ojPcQoo36cw@mail.gmail.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Wed, 29 Aug 2012 10:27:54 -0700
-Message-ID: <CABcZANkyJKvbmMG_Z2pJ=kMWT2vRt15Oka8uH03+3o30oE-uTw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+Received: by 10.182.79.105 with HTTP; Wed, 29 Aug 2012 10:31:06 -0700 (PDT)
+In-Reply-To: <4976204.OdG2Ohk3KU@helios>
+References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
+	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
+	<CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
+	<4976204.OdG2Ohk3KU@helios>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 Aug 2012 18:31:06 +0100
+Message-ID: <CAJTo0LbGH3HV1yQOMyoYDVR_z=34qy3riZnASGYdFtkK_XkOmw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQlqUiLEslvxkQ9dNGhzV9+/YrBfuTRE9HS2EkNX3i3fK9u4ZBKUsjQL8qyZOsMCMnshjy7p
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] task-core-basic: drop portmap
+Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 17:40:29 -0000
+X-List-Received-Date: Wed, 29 Aug 2012 17:43:54 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Aug 28, 2012 at 1:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Aug 28, 2012 at 3:54 AM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->>>      libpcre \
->>> -    portmap \
->>>      rpcbind \
->>>      sysfsutils \
->>>      tcp-wrappers \
->>
->> I came across this while digging back through the history in master. Does this
->> mean we ought to be switching to rpcbind in our other tasks which currently
->> bring in portmap (e.g. task-base-nfs, task-core-apps-console)?
->>
+On 29 August 2012 18:01, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> Well, the TSC as a group is still keen on supporting it last time it was
+> discussed (a few meetings ago) as Koen mentions.
 >
-> I guess yes because rpcbind is more featureful than portmap. its
-> better to use rpcbind as default portmapper. Things like ipv6, nfsv4
+> Surely this specific situation is pretty easy to solve for everyone using a
+> postinst which is able to apply some logic - i.e. if the file is on a separate
+> filesystem then cp the file, otherwise symlink it.
 
-Yeah, I think that would be best. It is worth noting that task-base
-and portmap are in recipes-core, while rpcbind is, iirc, in
-recipes-support, so such a change would probably be best done when
-also swapping the locations of the two recipes.
--- 
-Christopher Larson
+Sounds like a lot of extra work when the choice is fairly clear.
+Either we don't support split file systems and mandate initramfs for
+network boots, or we do our best to support it.  With a decision on
+that the choice of cp vs ln is obvious.
+
+Ross
 
 
