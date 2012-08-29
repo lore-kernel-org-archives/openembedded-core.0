@@ -1,28 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T6lpe-0002gS-CA
+	(envelope-from <sgw@linux.intel.com>) id 1T6ltb-0002pW-L0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 19:13:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 29 Aug 2012 10:01:19 -0700
+	Wed, 29 Aug 2012 19:17:39 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Aug 2012 10:05:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,335,1344236400"; d="scan'208";a="186514607"
-Received: from unknown (HELO helios.localnet) ([10.252.121.163])
-	by azsmga001.ch.intel.com with ESMTP; 29 Aug 2012 10:01:18 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 29 Aug 2012 18:01:16 +0100
-Message-ID: <4976204.OdG2Ohk3KU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
-References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
-	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
-	<CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="4.80,335,1344236400"; d="scan'208";a="215382005"
+Received: from unknown (HELO [10.255.13.94]) ([10.255.13.94])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2012 10:05:20 -0700
+Message-ID: <503E4BD0.5090903@linux.intel.com>
+Date: Wed, 29 Aug 2012 10:05:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
+To: Radu Moisan <radu.moisan@intel.com>
+References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
+	<lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<500E50C5.8000403@intel.com>
+	<CABcZANkJhW+yER52vnbXSywxd-mhpNTPrFixL6R27thmMRmhMg@mail.gmail.com>
+	<CAJTo0LYT5Jup6SXnmA62+Wy8sua94BdB_VwuHJ8erK1gshaYFw@mail.gmail.com>
+	<CAEsOVNcVB5zp7rhN4LP7ANx3hDq51kFQt_0L=O5=YLU6Qp_D-Q@mail.gmail.com>
+	<CABcZANkfFMgTxeQWzpKe2d2NqhMYaz27q-dnfW5m7-BJO2yygQ@mail.gmail.com>
+	<CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
+	<CAJTo0LYU_DpA9oywH9wCu9DHwJR-B7iJk6_nPiT=SAGGNSGVwA@mail.gmail.com>
+	<503E1DB9.2050300@intel.com>
+In-Reply-To: <503E1DB9.2050300@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 17:13:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 29 Aug 2012 17:17:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 29 August 2012 17:57:16 Burton, Ross wrote:
-> On 29 August 2012 17:50, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > Ehm, I *really* want it to be a symlink, that way you easily check what
-> > the timezone is without needing to boot the device or compare md5sums.
-> > The last thing the TSC said on the split /usr was something along the
-> > lines of "would be nice, but only if it doesn't make things worse". A cp
-> > instead of ln would make things worse IMO.
+On 08/29/2012 06:48 AM, Radu Moisan wrote:
 >
-> I'm all in favour of dropping the / and /usr split.  If we get a
-> definitive direction we can stop these arguments. :)
+> On 08/15/2012 10:32 PM, Burton, Ross wrote:
+>> On 15 August 2012 20:27, McClintock Matthew-B29882
+>> <B29882@freescale.com> wrote:
+>>> I've been doing something similar and it's been working OK. -  I think
+>>> we should apply Ross's patch.
+>> Radu's, not mine.
+>>
+>> Ross
+> What's happening with this one? Is it going to me merged or something
+> needs to be changed. As I see the comments, it should be fine.
+>
+Radu,
 
-Well, the TSC as a group is still keen on supporting it last time it was 
-discussed (a few meetings ago) as Koen mentions.
+I think that Matthew's patch was merged
 
-Surely this specific situation is pretty easy to solve for everyone using a 
-postinst which is able to apply some logic - i.e. if the file is on a separate 
-filesystem then cp the file, otherwise symlink it.
+[OE-core] [PATCH v2] kmod-native_git.bb: fix builds for hosts with older 
+libc
 
-Cheers,
-Paul
+Did this not fix this issue?
 
--- 
+Sau!
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+> Radu
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
