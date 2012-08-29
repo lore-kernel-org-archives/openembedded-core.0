@@ -1,33 +1,25 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1T6qsD-0005rw-VR
+	(envelope-from <sgw@linux.intel.com>) id 1T6qt8-0005uR-Qt
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 00:36:34 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1T6qgL-0002Pp-Gl; Thu, 30 Aug 2012 00:24:17 +0200
-Message-ID: <1346278937.4396.57.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 29 Aug 2012 23:22:17 +0100
-In-Reply-To: <CAJTo0LZGcZHwM5cZgjFrQ9tuhw6RLN_g732wBitVgHKo8UigNQ@mail.gmail.com>
-References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
-	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
-	<CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
-	<4976204.OdG2Ohk3KU@helios>
-	<CAJTo0LbGH3HV1yQOMyoYDVR_z=34qy3riZnASGYdFtkK_XkOmw@mail.gmail.com>
-	<1346267538.4396.38.camel@x121e.pbcl.net>
-	<CAJTo0La-tMW+LVLqRGBTSE36x0BYXBJkiwh2B5_8_-SjaAzR5Q@mail.gmail.com>
-	<CAMKF1srQO53m2zv91LLs8WFjEt=UKNA=w4OqxdVfJpyWPHG8jg@mail.gmail.com>
-	<CAJTo0LZGcZHwM5cZgjFrQ9tuhw6RLN_g732wBitVgHKo8UigNQ@mail.gmail.com>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
+	Thu, 30 Aug 2012 00:37:31 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 29 Aug 2012 15:25:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,335,1344236400"; d="scan'208";a="139468722"
+Received: from unknown (HELO [10.255.13.94]) ([10.255.13.94])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Aug 2012 15:25:14 -0700
+Message-ID: <503E96CA.5070509@linux.intel.com>
+Date: Wed, 29 Aug 2012 15:25:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1344390266-11878-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1344390266-11878-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] bitbake: compile tar-replacement firstly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 22:36:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 29 Aug 2012 22:37:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-08-29 at 22:50 +0100, Burton, Ross wrote:
-> I'm curious if the people who want / and /usr on separate partitions
-> that Phil refers to are a hypothetical group of people, or people who
-> can chime in with their opinion.
+On 08/07/2012 06:44 PM, rongqing.li@windriver.com wrote:
+> From: Roy.Li <rongqing.li@windriver.com>
+>
+> Compiling tar-replacement or not is decided by version of host tar,
+> if the host tar version is lower than 1.23, Compiling tar-replacement
+> is needed.
+>
+> When doing popoluate tar-replacement sysroot to write the tar to
+> sysroot, but writing is not finished. other packages probably
+> use the being written tar to unzip file, which will lead to failure
+> and report the below error:
+> "bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tar: Text file busy"
+>
+> Now we compile tar-replacement firstly to ensure that a being written
+> tar command will not be used.
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>   scripts/bitbake |    7 ++++++-
+>   1 files changed, 6 insertions(+), 1 deletions(-)
+>
+> diff --git a/scripts/bitbake b/scripts/bitbake
+> index 09f8a86..79a81ea 100755
+> --- a/scripts/bitbake
+> +++ b/scripts/bitbake
+> @@ -152,7 +152,12 @@ if [ $buildpseudo -gt 0 ]; then
+>               fi
+>           done
+>       done
+> -    bitbake pseudo-native $TARTARGET $GITTARGET $additionalopts -c populate_sysroot
+> +
+> +    if [ $needtar = "1" ]; then
+> +	bitbake $TARTARGET -c populate_sysroot
+> +    fi
+> +
+> +    bitbake pseudo-native $GITTARGET $additionalopts -c populate_sysroot
+>       ret=$?
+>       if [ "$ret" != "0" ]; then
+>           exit 1
+>
 
-As far as I know, only Intel have ever expressed any real interest in
-having this feature work.  My recollection is that there are some
-supposed "carrier grade" systems where this is, for whatever reason, a
-requirement.  There's been some previous discussion on the list, see for
-example:
+Merged into OE-Core
 
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/017360.html 
-
-and the follow-ups to that message.
-
-p.
-
+Thanks
+	Sau!
 
 
 
