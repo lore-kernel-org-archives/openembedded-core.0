@@ -1,38 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T6huL-0001PI-Vr
-	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 15:02:10 +0200
-Received: by weyr6 with SMTP id r6so291367wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 05:49:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:message-id:date
-	:to:mime-version:x-mailer:x-gm-message-state;
-	bh=KD1HN+XvCiuXMSpM/3ojmSjY9CTHswTpLEgNf7yX3F8=;
-	b=BZ06afnR5A6TlMWlcmQ1h60LBefG2mf1++uCHmNv2mGQX/zw96qeGD7TRCFeP3Vwtm
-	ZneM7gkntp8I2byTvsYUTHOoEWLVt+z+6HkeRPf/2PlYSqlg9iJAAyGOwmdxMjqFdyuo
-	j54bjK/MeKJtjxCsGKubAV9lkx5VG58BZT7Jx8tIe5ntOGExiocHE2/YQJKCCzqPvm0O
-	kX4DPWLFnPR4kS5QcKRTn8XDWf49LpYiFkE5CFwB3mVPkWSzOBzSCUNLJ4/wKeuDt+Xs
-	Yo6y7tZS8N94vtVwu8ZPFjyFq1YTpDyUaioJSJ+Gc5cvjkx+IpwOeJb5KhUd/x4MUx+V
-	jWxg==
-Received: by 10.216.197.11 with SMTP id s11mr866851wen.55.1346244596120;
-	Wed, 29 Aug 2012 05:49:56 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id k20sm10123050wiv.11.2012.08.29.05.49.53
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1T6iBB-0001f9-82; Wed, 29 Aug 2012 15:19:33 +0200
+Received: by wibhq4 with SMTP id hq4so5208593wib.6
+	for <multiple recipients>; Wed, 29 Aug 2012 06:07:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=AgQ9zf7rvyeaIxo9KpSV1+jFH09oHUOZUKDDU+6IkaQ=;
+	b=0ijn5rD2w8SnceLtC+in8xiP6rRYFAyu96yNJiOkS9Sw22ymLZLNgj5979Zne9K8zT
+	qBslww6AqYqvWkf5YG82c87C/LD4TuQvlNxChHXkBYvbDeQfnFWUzNmYxIrnZDSYjli3
+	3rgOWjP7LXk/k9TTU9ORzfQsPMjVT+a6BzXd/2OJHekRHdkfOiii3tWoRZMqvgYBR/UA
+	k650dv4BrVhpyZtJuCq+N5YLnx2JhqZ3zbEeVd7gb/z+FrUjbImFU/1uHuiTZFnkkOiz
+	eOwUyx787Z98KPSXBPUBF5S0AmtOxPKGf0KyXTqpNxLjQGJXvjeZ3i3V7geLeoB+3YRv
+	TnVA==
+Received: by 10.216.136.158 with SMTP id w30mr904474wei.136.1346245638836;
+	Wed, 29 Aug 2012 06:07:18 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fb20sm15534397wid.1.2012.08.29.06.07.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Aug 2012 05:49:54 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Message-Id: <897CCE6A-604A-484A-8ACD-452701801FAA@dominion.thruhere.net>
-Date: Wed, 29 Aug 2012 14:49:53 +0200
-To: "<openembedded-core@lists.openembedded.org> oe-core layer"
-	<openembedded-core@lists.openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQks88w/RSCWVGkjoQPdrlX7MtpzWhpErpPeEiQtDwKOn5vUJx7PlDhlnm+OYNihrveo/Pwx
-Subject: Bitbake distro packages: kill them with fire
+	Wed, 29 Aug 2012 06:07:17 -0700 (PDT)
+Date: Wed, 29 Aug 2012 15:07:31 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Message-ID: <20120829130731.GB3287@jama.jama.net>
+References: <897CCE6A-604A-484A-8ACD-452701801FAA@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <897CCE6A-604A-484A-8ACD-452701801FAA@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	"<openembedded-core@lists.openembedded.org> oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Bitbake distro packages: kill them with fire
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,26 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 13:02:10 -0000
+X-List-Received-Date: Wed, 29 Aug 2012 13:19:33 -0000
+X-Groupsio-MsgNum: 28363
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0ntfKIWw70PvrIHh"
+Content-Disposition: inline
+
+--0ntfKIWw70PvrIHh
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Aug 29, 2012 at 02:49:53PM +0200, Koen Kooi wrote:
+> Hi,
+>=20
+> These might not be the appropiate lists, but I might reach a few of the c=
+ulprits. Over the years people have been doing 'apt get install bitbake' or=
+ 'make install' to put bitbake into /usr/bin and after a few minutes to get=
+ on irc/email/etc to complain that everything is suddenly broken. There are=
+ checks for bitbake versions in the metadata, but it can (and will!) still =
+break with due to python path nastiness.
+>=20
+> So to every person packaging bitbake for their distro: stop doing that!
+>=20
+> If someone has a better suggestion to avoid this problem (more documentat=
+ion doesn't work), please speak up.
 
-These might not be the appropiate lists, but I might reach a few of the =
-culprits. Over the years people have been doing 'apt get install =
-bitbake' or 'make install' to put bitbake into /usr/bin and after a few =
-minutes to get on irc/email/etc to complain that everything is suddenly =
-broken. There are checks for bitbake versions in the metadata, but it =
-can (and will!) still break with due to python path nastiness.
+I was using bitbake from Gentoo for long time (they provide also live
+ebuilds) and it worked fine. I was using packaged version mostly to
+control which version gets installed to shr-chroot (sometimes with extra
+patches, sometimes holding on older version until shr metadata were
+compatible).
 
-So to every person packaging bitbake for their distro: stop doing that!
+Now I switched back to bitbake checkout with revision locked by setup
+scripts to make life easier for people using my setup scripts but
+without shr-chroot option.
 
-If someone has a better suggestion to avoid this problem (more =
-documentation doesn't work), please speak up.
+So I don't mind if people stop doing bitbake packages :).
 
-Thanks,
+Cheers,
 
-Koen=
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--0ntfKIWw70PvrIHh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlA+FBMACgkQN1Ujt2V2gByLOgCbBq2dU4hdJwjlCHrjIRxyUPwH
+Mh8AnAzNvE/XbiK0h50zMN3O8VmTPI06
+=41dA
+-----END PGP SIGNATURE-----
+
+--0ntfKIWw70PvrIHh--
