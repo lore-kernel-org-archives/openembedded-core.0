@@ -1,36 +1,39 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T6jOG-000777-HV
+	(envelope-from <ross.burton@intel.com>) id 1T6jOK-00077E-Fy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 16:37:08 +0200
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 07:24:52 -0700
-Received: by wibhq4 with SMTP id hq4so5310104wib.6
+	Wed, 29 Aug 2012 16:37:12 +0200
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 07:24:56 -0700
+Received: by weyr6 with SMTP id r6so351397wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 07:24:51 -0700 (PDT)
+	Wed, 29 Aug 2012 07:24:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=OI2VLraJX9+cV4pkd6yGq6eo4X9I3eMD57SnDetAW9A=;
-	b=DdxAEotbkFHPrPwMKAtuNCNmnxfgk17x5TJfTwOzJtUh9mTulrLqVsnUV6Vl2uR6cy
-	uQYBSZ1cZ86ofsPmFMsuuAp9FNDHkm5PACZKFLxdEu8gNvsXHP4NYMzZAyp55XZljCB9
-	pV13gi+d8Br/hinof9PPDEzMabspiERMVZ9CydCaK76GvGFCmXlFNSTxWihPYNwKmhss
-	eQLBVSd79QVLLuiUkM6CeaW/nTAawSGV7YoHHcLrPjWlcEZya1zU9TIEkkszVvqytHt7
-	2inYoUBxsYE+//a9PZ/jFmLWzBE1knwbXofYNiKT8jwTIOZQtzG8ze4yE1MMxuf+eLzC
-	cK5w==
-Received: by 10.180.107.163 with SMTP id hd3mr4111288wib.19.1346250290838;
-	Wed, 29 Aug 2012 07:24:50 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=xMZKwcOJ8WSWn+TKgLtDXgnCE87HWx+QKOvt+xmgYWk=;
+	b=cu3djmO9m5LQwIK9WLBUZSqVqHtbZCI0a3StgoaAXIQcSgdU/sCJ/nuRb06+SOWmK7
+	YDN1vuKOkMIQ5SsUMMsYTCpyZ1bwm92W1/RB6XmzpjScffHbRQAFSSl/nOEVrN/v11AD
+	jIzvW53RF4jGPGXJ7uUgl2AtvffA1dvYMVViiOguEdsIUAemLiioK6ASEpZyq9Hd0Aii
+	mq1rD5nIhJu2F2luJonfFGKHvFGgcwF0tFL7iZQfjCJ3AeCJB1RhR32Opv0V4XIdK7un
+	ZtJ4HmKFPnHwbXOLn9RO0mpXrT4HeDOdtvMITS1YlM7sJp4c/2ZeGGaBylOgEBA65cIm
+	TNGw==
+Received: by 10.216.133.130 with SMTP id q2mr1096321wei.131.1346250294675;
+	Wed, 29 Aug 2012 07:24:54 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l6sm10491621wiz.4.2012.08.29.07.24.48
+	by mx.google.com with ESMTPS id eu4sm10501531wib.2.2012.08.29.07.24.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Aug 2012 07:24:49 -0700 (PDT)
+	Wed, 29 Aug 2012 07:24:53 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2012 15:24:07 +0100
-Message-Id: <cover.1346250187.git.ross.burton@intel.com>
+Date: Wed, 29 Aug 2012 15:24:13 +0100
+Message-Id: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlL7/bZW4joS0RmjCIRsp/pYsBj+AxMErN0V3OHw7c9l7sBVbuDCLPDpthlTwBrA+wMGMDg
-Subject: [PATCH 0/2] tzdata fixes
+In-Reply-To: <cover.1346250187.git.ross.burton@intel.com>
+References: <cover.1346250187.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQknpVFk7jV+5UX6LXcDHxWkxSrI6Sl0s+VoZYFnQu31qMJjYUiWXOZnI7D1AI+YMGaN0dac
+Subject: [PATCH 1/2] tzdata: this package isn't architecture specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 14:37:08 -0000
+X-List-Received-Date: Wed, 29 Aug 2012 14:37:12 -0000
 
-tzdata is missing a file to make the local timezone detection actually work in
-many programs, and isn't architecture specific.
+The data files are compiled to a binary but architecture-independent format, so
+this package can be allarch.
 
-The following changes since commit 603f6c631e9454d10517599e229943f2b26d08a5:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2012d.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-  atom-pc: Drop glibc --with-tls option, its now the only option for glibc (2012-08-21 12:15:33 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/tz
-
-for you to fetch changes up to ba35808d6976ff17d3732ffcdb56e71f8014137c:
-
-  tzdata: install /etc/localtime alongside /etc/timezone (2012-08-29 15:21:48 +0100)
-
-----------------------------------------------------------------
-Ross Burton (2):
-      tzdata: this package isn't architecture specific
-      tzdata: install /etc/localtime alongside /etc/timezone
-
- meta/recipes-extended/tzdata/tzdata_2012d.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-Ross Burton (2):
-  tzdata: this package isn't architecture specific
-  tzdata: install /etc/localtime alongside /etc/timezone
-
- meta/recipes-extended/tzdata/tzdata_2012d.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-extended/tzdata/tzdata_2012d.bb b/meta/recipes-extended/tzdata/tzdata_2012d.bb
+index 605bf24..31e1266 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2012d.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2012d.bb
+@@ -5,7 +5,9 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234"
+ DEPENDS = "tzcode-native"
+ 
+-PR = "r0"
++PR = "r1"
++
++inherit allarch
+ 
+ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarctica \
+              timezone-arctic timezone-asia timezone-atlantic \
 -- 
 1.7.10
 
