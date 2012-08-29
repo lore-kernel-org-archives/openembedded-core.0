@@ -1,39 +1,36 @@
 Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T6kJP-0000e1-7i
+	(envelope-from <ross.burton@intel.com>) id 1T6kNV-0000ir-D7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 17:36:11 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 08:23:55 -0700
-Received: by obblz20 with SMTP id lz20so1218743obb.6
+	Wed, 29 Aug 2012 17:40:25 +0200
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 08:28:10 -0700
+Received: by wibhm2 with SMTP id hm2so5638722wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Aug 2012 08:23:55 -0700 (PDT)
+	Wed, 29 Aug 2012 08:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=oWYeTYoG+ExOse2f5o73XlDbFqnHSQnzNXfkxpawNcw=;
-	b=SJlx8WotluWVrG0uRp3XwcifQzV3jWcwcKOtxASduuWA7bHlDdGXvCkgmsMobYRkRY
-	TF8b8OCcG9+1ypQuVzNKPGV+3Goy8pybe3M8ATVRLrKtpWlU38m0fVYhhm2t5v8RzKRa
-	EwjWD2zthCuyBHHa0BibZ1kFDlCSjfgjJH1l6SUehk7mpSDMGxddZEBkPsN67YcOgwb3
-	jhkmUdGdGRWIh2dd5jJqiQkkEsaBlNgZMkpijXxABapw/uNSeFmiz9Q7tfUqQUuZunrY
-	WrRPiw9rSYhM8U24NQLl/pmvXwTLBLShxPSKlmHU3XTaTwe4L8uqoVWdSxgnkxPF1KWv
-	DKTA==
-Received: by 10.182.193.105 with SMTP id hn9mr1582547obc.11.1346253835065;
-	Wed, 29 Aug 2012 08:23:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Wed, 29 Aug 2012 08:23:33 -0700 (PDT)
-In-Reply-To: <1D285050-76EB-4F89-9FB2-0474C5E34102@dominion.thruhere.net>
-References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
-	<ba35808d6976ff17d3732ffcdb56e71f8014137c.1346250187.git.ross.burton@intel.com>
-	<1D285050-76EB-4F89-9FB2-0474C5E34102@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 29 Aug 2012 16:23:33 +0100
-Message-ID: <CAJTo0LatnKpmV5P53dsdO-J4_kMT_mqJu8SW5vX_b8KhbOJDXA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnsFDX90QMZIMUAFySdF5wUWal+7iIl9JnfpHGNRT4nUBA4mBZfoDsxpMxMfGhf91Nr5X71
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=pAOk6XmqaV5mXEpYe0zWUqTU84CDWkZBLMnMWbv7fp4=;
+	b=oO9YIximtI1P63BRAmXNiXvesQZHUDCaEWpqYf/5XCzL0Cxu9CsGSV03u7yijQO6fq
+	EkU+IVpifbVIU9R6D1jTf/wxP8/zbW1Rgy33lAagJobmW9F5hmCk6w9ZBO7k5cyVZ1Cv
+	t3LRgJOe4HIUrBSLmL0TWXl2CEn5hnQip5HGYyfpkxQ5X7C9V1xdwXwLuPeA5WscdR66
+	QmeUHwd4rbs0b0oJL1Yge4gVgUTEcOroJHIc4gmjPthzwezuYnU8A+3ys9Pt30CnRjgD
+	LtW/bFeUDD9Is5c71Zg04SLrNdoZsrh7EF2o1gwWRDYiX7hKA2tTnQ/G139ikFX4jeDs
+	euBQ==
+Received: by 10.216.139.196 with SMTP id c46mr1113473wej.220.1346254088612;
+	Wed, 29 Aug 2012 08:28:08 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id do5sm4472063wib.10.2012.08.29.08.28.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 29 Aug 2012 08:28:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Aug 2012 16:27:27 +0100
+Message-Id: <1346254047-12292-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQkpfm3BJU2TdmPVacayqsRV+dUKP7jxvkRUuEXjapkd+o/WmXRGOH97kQ3wtiPIE5mSKP+H
+Subject: [PATCH] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,15 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 15:36:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 29 Aug 2012 15:40:25 -0000
 
-On 29 August 2012 15:47, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Awesome! I've been campaigning for the symlink solution for a while now. Good thing that split-/usr nonsense is over now.
+Lots of code (such a GLib) expects this to exist and link to the current
+timezone data.
 
-Pointing out that the ln should be a cp for crazy split /usr systems
-would have been sufficient, Koen.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2012d.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-extended/tzdata/tzdata_2012d.bb b/meta/recipes-extended/tzdata/tzdata_2012d.bb
+index 31e1266..49ad2de 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2012d.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2012d.bb
+@@ -5,7 +5,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234"
+ DEPENDS = "tzcode-native"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ inherit allarch
+ 
+@@ -49,6 +49,7 @@ do_install () {
+         # Install default timezone
+         install -d ${D}${sysconfdir}
+         echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
++        cp -pP ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
+ 
+         chown -R root:root ${D}
+ }
+-- 
+1.7.10
+
 
 
