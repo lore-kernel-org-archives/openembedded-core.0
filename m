@@ -1,25 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1T6kAL-0000WC-3Z
+	(envelope-from <ross.burton@intel.com>) id 1T6kJP-0000e1-7i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Aug 2012 17:26:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2012 08:14:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,334,1344236400"; d="scan'208";a="215338779"
-Received: from unknown (HELO [10.255.13.33]) ([10.255.13.33])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2012 08:14:30 -0700
-Message-ID: <1346253269.18516.9.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 29 Aug 2012 10:14:29 -0500
-In-Reply-To: <1346281338.3283.1.camel@ted>
-References: <cover.1346166469.git.sgw@linux.intel.com>
-	<1346281338.3283.1.camel@ted>
-X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
-Mime-Version: 1.0
+	Wed, 29 Aug 2012 17:36:11 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 29 Aug 2012 08:23:55 -0700
+Received: by obblz20 with SMTP id lz20so1218743obb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Aug 2012 08:23:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=oWYeTYoG+ExOse2f5o73XlDbFqnHSQnzNXfkxpawNcw=;
+	b=SJlx8WotluWVrG0uRp3XwcifQzV3jWcwcKOtxASduuWA7bHlDdGXvCkgmsMobYRkRY
+	TF8b8OCcG9+1ypQuVzNKPGV+3Goy8pybe3M8ATVRLrKtpWlU38m0fVYhhm2t5v8RzKRa
+	EwjWD2zthCuyBHHa0BibZ1kFDlCSjfgjJH1l6SUehk7mpSDMGxddZEBkPsN67YcOgwb3
+	jhkmUdGdGRWIh2dd5jJqiQkkEsaBlNgZMkpijXxABapw/uNSeFmiz9Q7tfUqQUuZunrY
+	WrRPiw9rSYhM8U24NQLl/pmvXwTLBLShxPSKlmHU3XTaTwe4L8uqoVWdSxgnkxPF1KWv
+	DKTA==
+Received: by 10.182.193.105 with SMTP id hn9mr1582547obc.11.1346253835065;
+	Wed, 29 Aug 2012 08:23:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Wed, 29 Aug 2012 08:23:33 -0700 (PDT)
+In-Reply-To: <1D285050-76EB-4F89-9FB2-0474C5E34102@dominion.thruhere.net>
+References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
+	<ba35808d6976ff17d3732ffcdb56e71f8014137c.1346250187.git.ross.burton@intel.com>
+	<1D285050-76EB-4F89-9FB2-0474C5E34102@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 Aug 2012 16:23:33 +0100
+Message-ID: <CAJTo0LatnKpmV5P53dsdO-J4_kMT_mqJu8SW5vX_b8KhbOJDXA@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQnsFDX90QMZIMUAFySdF5wUWal+7iIl9JnfpHGNRT4nUBA4mBZfoDsxpMxMfGhf91Nr5X71
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED REQUEST 00/15] Misc Fixes
+Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +46,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Aug 2012 15:26:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Aug 2012 15:36:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2012-08-29 at 16:02 -0700, Richard Purdie wrote:
-> On Tue, 2012-08-28 at 08:11 -0700, Saul Wold wrote:
-> > Richard,
-> > 
-> > This includes some build related fixes for perf along with
-> > the cleanup's in the archiver from Robert.
-> > 
-> > There are also 2 changes for meta-yocto pending (one left over
-> > from Tom bsp-yocto set, and a local.conf.sample.extended for
-> > the achiver class changes).
-> > 
-> > I removed the kernel updates and one of your patches due to 
-> > failures.
-> 
-> Merged to master, thanks.
-> 
+On 29 August 2012 15:47, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Awesome! I've been campaigning for the symlink solution for a while now. Good thing that split-/usr nonsense is over now.
 
-Looks like this one got missed again:
+Pointing out that the ln should be a cp for crazy split /usr systems
+would have been sufficient, Koen.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=stage/master_under_test&id=0ccc4a5a72b7af73119e7c9e2d4b2ccd50ec3b05
-
-Tom
-
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+Ross
 
 
