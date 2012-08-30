@@ -1,37 +1,36 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T76RV-0000bg-D5
+	(envelope-from <marc.ferland@gmail.com>) id 1T76lG-00013g-JN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 17:14:01 +0200
-Received: by wgbdr1 with SMTP id dr1so1286512wgb.24
+	Thu, 30 Aug 2012 17:34:26 +0200
+Received: by vcbfy27 with SMTP id fy27so2006878vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 08:01:46 -0700 (PDT)
+	Thu, 30 Aug 2012 08:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=54hjX/xJU//YmoI0CNu3o2her2yTkZsTYYjE8edgAX0=;
-	b=ZxQbWH75ia5VE7Zo2AjzbCnZLEvQ7OT6PA6xEiItwV76FHOincNe09zgKsCJkOuucz
-	zlNDJ12VjkJPAf7p5NolsCxjtKuuXKITTbe3npvktB/1jut0+eA1gSFvNCbnc9Tf/Isc
-	4qIsSe1Ztsed8l23ZANWZRRLAH/twU+afGw8kMpzsqsd2kiE/15OVa7ouO2ddsrHddX5
-	r781SrdoZbN0Evu5zT6wqCcyPjdoLi9pbx8WJkI+9PSF+d81n/ScMtkYFKa7jtAoYNLC
-	qpkNrjQLro2zh1TSw9VTVsgFE3x9/ibm7iyayfcabt55Bp9owpD2xyUeuV+MZJ1fssgv
-	2APw==
-Received: by 10.216.238.79 with SMTP id z57mr3264963weq.184.1346338906135;
-	Thu, 30 Aug 2012 08:01:46 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id q4sm1140384wix.9.2012.08.30.08.01.43
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=lLVghum6xV2CrJLVnvuLlbDIhp7gQIuk6aNGPCbr6rI=;
+	b=JdurAY2PIUa5P6GGY9sTrEFcKS4yrJAsRMzV3ljygkTrxj0+o4j9R9vb0ke9IaNBut
+	tPwn5UrmUlLG0+If776y1eTnz9ulwXZZ16HClzOZ13oa5Mq/kp3d1ukK/lbQsY2R1zAY
+	YiqkeKoCgryAsEz0zdpZH0BhM/tzDrAjzXwa/3Q01LzqBqdRBVMoWT7kyxzC9Jo5mDox
+	5/RahGd3aOd2fw4brpMvvDAKhm8pgjebmiEh7Dslry7bf8aG8EOBvUGtfnchWTHCol27
+	5txw4CFqKZ+6JeSkrpgjMK5gOWvd7Tp3nec1LP2KwlLdBL06nMipEk0PiKmi/wYL7ywV
+	IRTQ==
+Received: by 10.52.65.112 with SMTP id w16mr2827451vds.65.1346340130712;
+	Thu, 30 Aug 2012 08:22:10 -0700 (PDT)
+Received: from ferlandm@sonatest.com
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by mx.google.com with ESMTPS id a13sm448726vdu.9.2012.08.30.08.22.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Aug 2012 08:01:44 -0700 (PDT)
-Date: Thu, 30 Aug 2012 17:02:00 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Marc Ferland <ferlandm@sonatest.com>
-Message-ID: <20120830150200.GB22519@jama.jama.net>
-References: <1346337941-15848-1-git-send-email-ferlandm@sonatest.com>
-MIME-Version: 1.0
-In-Reply-To: <1346337941-15848-1-git-send-email-ferlandm@sonatest.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] sysstat: Explicitly disable sensors support.
+	Thu, 30 Aug 2012 08:22:09 -0700 (PDT)
+Sender: Marc Ferland <marc.ferland@gmail.com>
+Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
+	Thu, 30 Aug 2012 11:22:41 -0400
+From: Marc Ferland <ferlandm@sonatest.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Aug 2012 11:22:41 -0400
+Message-Id: <1346340161-2649-1-git-send-email-ferlandm@sonatest.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCHv3] sysstat: Explicitly disable sensors support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,92 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 15:14:01 -0000
-X-Groupsio-MsgNum: 28427
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="s/l3CgOIzMHHjg/5"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 30 Aug 2012 15:34:26 -0000
 
---s/l3CgOIzMHHjg/5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since no lmsensors recipe exists by default in oe-core, explicitly disable
+support for it in sysstat. In my case sysstat would fail linking complaining
+about undefined references when adding my own lmsensors recipe.
 
-On Thu, Aug 30, 2012 at 10:45:41AM -0400, Marc Ferland wrote:
-> Since no lmsensors recipe exists by default in oe-core, explicitly disable
-> support for it in sysstat. In my case sysstat would fail linking complain=
-ing
-> about undefined references when adding my own lmsensors recipe.
->=20
-> Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
-> ---
->  meta/recipes-extended/sysstat/sysstat.inc       |    2 ++
->  meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
->  2 files changed, 3 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-ext=
-ended/sysstat/sysstat.inc
-> index 9da40a7..a89109c 100644
-> --- a/meta/recipes-extended/sysstat/sysstat.inc
-> +++ b/meta/recipes-extended/sysstat/sysstat.inc
-> @@ -3,12 +3,14 @@ DESCRIPTION =3D "The sysstat utilities are a collection=
- of performance monitoring
->  HOMEPAGE =3D "http://sebastien.godard.pagesperso-orange.fr/"
->  LICENSE =3D "GPLv2+"
->  SECTION =3D "console/utils"
-> +INC_PR =3D "r0"
-> =20
->  SRC_URI =3D "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.=
-tar.gz \
->  		   file://99_sysstat"
-> =20
->  inherit autotools gettext
-> =20
-> +EXTRA_OECONF +=3D "--disable-sensors"
->  EXTRA_OEMAKE +=3D 'LFLAGS=3D""'
-> =20
->  do_install() {
-> diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb b/meta/recip=
-es-extended/sysstat/sysstat_10.0.3.bb
-> index 7ef6c60..e9b95d8 100644
-> --- a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-> +++ b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-> @@ -2,7 +2,7 @@ require sysstat.inc
-> =20
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c=
-28b"
-> =20
-> -PR =3D "r1"
-> +PR =3D "${INC_PR}.1"
+Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
+---
+ meta/recipes-extended/sysstat/sysstat.inc       |    2 ++
+ meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletions(-)
 
-r0.1 sorts lower then old r1
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 9da40a7..287bb54 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -3,12 +3,14 @@ DESCRIPTION = "The sysstat utilities are a collection of performance monitoring
+ HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
+ LICENSE = "GPLv2+"
+ SECTION = "console/utils"
++INC_PR = "r1"
+ 
+ SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.gz \
+ 		   file://99_sysstat"
+ 
+ inherit autotools gettext
+ 
++EXTRA_OECONF += "--disable-sensors"
+ EXTRA_OEMAKE += 'LFLAGS=""'
+ 
+ do_install() {
+diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+index 7ef6c60..e9b95d8 100644
+--- a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
++++ b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+@@ -2,7 +2,7 @@ require sysstat.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ 
+-PR = "r1"
++PR = "${INC_PR}.1"
+ 
+ SRC_URI[md5sum] = "0e1ed5200f31f69a3b90ff1e81c07745"
+ SRC_URI[sha256sum] = "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d519f76a24fabcc1f5"
+-- 
+1.7.5.4
 
-> =20
->  SRC_URI[md5sum] =3D "0e1ed5200f31f69a3b90ff1e81c07745"
->  SRC_URI[sha256sum] =3D "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d5=
-19f76a24fabcc1f5"
-> --=20
-> 1.7.5.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---s/l3CgOIzMHHjg/5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlA/gGgACgkQN1Ujt2V2gBz97gCfXfwcbyxTYOmjcETbj6klbAnH
-M5gAn2SOwBloV2UgBOZu46OrUWiMpHOy
-=b5Ai
------END PGP SIGNATURE-----
-
---s/l3CgOIzMHHjg/5--
