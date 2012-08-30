@@ -1,43 +1,33 @@
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marc.ferland@gmail.com>) id 1T78m9-0005LM-DG
+	(envelope-from <kergoth@gmail.com>) id 1T78sz-0005W5-Hd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 19:43:29 +0200
-Received: by qadc11 with SMTP id c11so469708qad.6
+	Thu, 30 Aug 2012 19:50:33 +0200
+Received: by pbcwy7 with SMTP id wy7so3594108pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 10:31:13 -0700 (PDT)
+	Thu, 30 Aug 2012 10:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=FPJz+KKNOKm/aYAEiF2tT1oOr1rlj+iUhuvH8gvxom4=;
-	b=Rr894cgevfxBeJNNK9+MryPmV+eWgY+Y/1RI2rlF6UKObDGBXW0o8J25+EU84ClWF1
-	KvhWzmlElJBc0oG79zGYIA1U14pDiMtN47D25aWwr6POrvzMd+QdCcJGfy+xR5T9XfVe
-	GeGtvzI86sygr9e+cteUq+7IAuLkx/ppZOHZS93FUbSJr6njFIOHTc1ad/MlYkRiWZh5
-	l5ITZVyOQLVbUX1u2g6tFMK4NCGz2Jj4KrBae8wh01OiWS1JkdstfSwFaVVuSc+6lM+l
-	Uz6oxbAK0ZklmiWzYGyBDk841ufKZXEIpNpwS9XegqRVhRph6d/pEPmIjRv+Go2UHQC8
-	dNpQ==
-Received: by 10.224.189.83 with SMTP id dd19mr12700418qab.45.1346347873384;
-	Thu, 30 Aug 2012 10:31:13 -0700 (PDT)
-Received: from ferlandm@sonatest.com
-	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
-	by mx.google.com with ESMTPS id k6sm3105434qac.0.2012.08.30.10.31.08
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=p6nx+zGVB86VzZ1QeF05BLTd7aRq0nbUX1jdzx24W+8=;
+	b=fzZp6H9ZrAl4KfWAYPLwLXJWBCwyERWmwZy72A1VNsyjum26+9MlKICqs49e5Ngy1a
+	SxWBaD6wV/d072NmREI6G5iQriFDR6bGOmxI5x9FqBQVX+UVrYOx/uPwHnKkQqrRQiWk
+	2JqgnQWuDayPNTthzNO+rbDa57Vr1SEfbZ76EFlA94oLSs8O/kpShsaJMr146L3FZj6s
+	TBTwzUG1xUpKUjgk1d5R3qIOUggIDcwUre9lGfyPweMn6gu6RTYQLB7LOIm6AigYbCUj
+	4IhcGxvtRyKjF4hBhUqXL48qq2ZAS4a2bHWBXq4hvGaXVahSPoTHuzA1R7ZnAKmeo+ue
+	g8tw==
+Received: by 10.66.88.5 with SMTP id bc5mr10663864pab.83.1346348297164;
+	Thu, 30 Aug 2012 10:38:17 -0700 (PDT)
+Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id pq7sm1918367pbb.25.2012.08.30.10.38.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Aug 2012 10:31:11 -0700 (PDT)
-Sender: Marc Ferland <marc.ferland@gmail.com>
-Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
-	Thu, 30 Aug 2012 13:31:42 -0400
-From: Marc Ferland <ferlandm@sonatest.com>
-To: Saul Wold <sgw@linux.intel.com>
-References: <1346340161-2649-1-git-send-email-ferlandm@sonatest.com>
-	<503F9CBB.90808@linux.intel.com>
-Date: Thu, 30 Aug 2012 13:31:42 -0400
-In-Reply-To: <503F9CBB.90808@linux.intel.com> (Saul Wold's message of "Thu, 30
-	Aug 2012 10:02:51 -0700")
-Message-ID: <87ehmo8ewx.fsf@sonatest.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv3] sysstat: Explicitly disable sensors support.
+	Thu, 30 Aug 2012 10:38:15 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2012 10:38:09 -0700
+Message-Id: <1346348289-28470-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] Update lttng-2.0 versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,32 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 17:43:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Aug 2012 17:50:33 -0000
 
-Saul Wold <sgw@linux.intel.com> writes:
+From: Christopher Larson <chris_larson@mentor.com>
 
-> On 08/30/2012 08:22 AM, Marc Ferland wrote:
->> Since no lmsensors recipe exists by default in oe-core, explicitly disable
->> support for it in sysstat. In my case sysstat would fail linking complaining
->> about undefined references when adding my own lmsensors recipe.
->>
->> Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
->> ---
->>   meta/recipes-extended/sysstat/sysstat.inc       |    2 ++
->>   meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
->>   2 files changed, 3 insertions(+), 1 deletions(-)
->>
-> You seem to be a little behind the master branch as it's on sysstat_10.0.5
->
-> Please rebase your patch to master.
->
-I failed to mention that this patch is based on denzil. I will send
-another patch this time for master.
+lttng-modules: 2.0.pre11 -> 2.0.5
+lttng-tools: 2.0.1 -> 2.0.4
+lttng2-ust: 2.0.2 -> 2.0.5
 
-BTW, what is the preferred "--subject-prefix" to use to identify where the
-patch should be merge?
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ ...modules_2.0.pre11.bb => lttng-modules_2.0.5.bb} |    0
+ .../{lttng-tools_2.0.1.bb => lttng-tools_2.0.4.bb} |    0
+ .../{lttng2-ust_2.0.2.bb => lttng2-ust_2.0.5.bb}   |    0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-kernel/lttng-2.0/{lttng-modules_2.0.pre11.bb => lttng-modules_2.0.5.bb} (100%)
+ rename meta/recipes-kernel/lttng-2.0/{lttng-tools_2.0.1.bb => lttng-tools_2.0.4.bb} (100%)
+ rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.0.2.bb => lttng2-ust_2.0.5.bb} (100%)
 
-Marc
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+rename to meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
+rename to meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb
+rename to meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
+-- 
+1.7.9.5
+
 
 
