@@ -1,34 +1,23 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1T7BBA-0000V0-LX
+	(envelope-from <philb@gnu.org>) id 1T7BKn-0000de-TE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 22:17:29 +0200
-Received: by lagv3 with SMTP id v3so1729844lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 13:05:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=GTwIpzuDqHsY9lrCZsPvX2ySi1kzUfjqGB+jD/JcQPU=;
-	b=PXJAWc7QOrtvJ+adNuEnibdLcMGPZYzURpQCoeM6BAvAxprD9h8hD2HcLOq+n27uor
-	/GtsGAJjfJbL66gXHYQ/7ZiIHrM/JqZwMBjZbsYvyg1Z7+urW2HYx3zfGjeIbUCl1tHK
-	jM7yA06qOD9FdKe2j7xuaNIdkBSdRzx6HKvaU48ps7Fp77UPwzxiW65sV5vkDgprfMLR
-	+yQKTa8vIMuOLmCdLFpopykvbvuGXBwcXoj+NtxCTLEDaS8F3aYu83TqwoG1eh5Gr3Jh
-	LHx3yUcgrHjN+gsQl9d1wpEgmu4Fb+RpPGTdomKcQaXveKg58qMTxKb3EMaDVxwymBWd
-	6YQg==
-Received: by 10.152.132.133 with SMTP id ou5mr4461146lab.45.1346357112867;
-	Thu, 30 Aug 2012 13:05:12 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.19.2 with HTTP; Thu, 30 Aug 2012 13:04:52 -0700 (PDT)
-In-Reply-To: <1346356090-13811-1-git-send-email-sgw@linux.intel.com>
+	Thu, 30 Aug 2012 22:27:25 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1T7B8x-000372-VE
+	for openembedded-core@lists.openembedded.org;
+	Thu, 30 Aug 2012 22:15:12 +0200
+Message-ID: <1346357591.4396.76.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Aug 2012 21:13:11 +0100
+In-Reply-To: <CABcZANn-7+kaOPJq1DV2QsjG3qqk_H=Vx8O3W5RN=rsfv+EsRA@mail.gmail.com>
 References: <1346356090-13811-1-git-send-email-sgw@linux.intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 30 Aug 2012 13:04:52 -0700
-X-Google-Sender-Auth: cr3sGeZMMZuKNvbzwg85wLlO6Jg
-Message-ID: <CABcZANn-7+kaOPJq1DV2QsjG3qqk_H=Vx8O3W5RN=rsfv+EsRA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
+	<CABcZANn-7+kaOPJq1DV2QsjG3qqk_H=Vx8O3W5RN=rsfv+EsRA@mail.gmail.com>
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] poky-tiny: Enable x86-64 to build eglibc correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,19 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 20:17:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Aug 2012 20:27:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 30, 2012 at 12:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> The libc-libm-big option allows eglibc to correctly configure
-> itself to include the correct math functions for 64bit operations
->
-> [YOCTO #2943]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+On Thu, 2012-08-30 at 13:04 -0700, Chris Larson wrote:
+> On Thu, Aug 30, 2012 at 12:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > The libc-libm-big option allows eglibc to correctly configure
+> > itself to include the correct math functions for 64bit operations
+> >
+> > [YOCTO #2943]
+> >
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> 
+> I'm curious, is this needed for other 64 bit platforms, e.g. powerpc64?
 
-I'm curious, is this needed for other 64 bit platforms, e.g. powerpc64?
--- 
-Christopher Larson
+Also out of curiosity, what's the use-case for 64-bit userspace in a
+"tiny" context?  I would have thought that you'd generally want x32.
+
+p.
+
+
 
 
