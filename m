@@ -1,20 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T6x4I-000204-D7
+	(envelope-from <raj.khem@gmail.com>) id 1T6xUA-0002JM-P7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 07:13:26 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Aug 2012 22:01:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,337,1344236400"; d="scan'208";a="215610008"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.94])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2012 22:01:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 30 Aug 2012 07:40:10 +0200
+Received: by pbcwy7 with SMTP id wy7so2566884pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Aug 2012 22:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=2nEgkFrPMdRvnlbIHGlJh6xgRhnQ8IBxsq2T81l8nr0=;
+	b=jUbuJ6dsi8jfQ70sV+qJ1xuHLsbzdZ0ul7MpqCZprmmXCESurgkRtXTBjLxzVkicDC
+	5EDON3TFGhwiuPNV4T5+7Eq+u6xW0I8fYnGo840VRJR7Gvpgw1YphfSdYG828v4jaIQ+
+	8/W00SfAn8NpNc3k2gFjGzmRDVacT830ByMk9p7cpwBKr/zDe89xmbrlDcIldGb923Fg
+	iO6DY/vua2RMwGrrECmi6sukYGdtuBJ0qyaD0Rf1azboyhCtrtDGHeCU8g8jO6KR+jf4
+	CTnlYH7vm0dVialWWZcCY6UlhtcQBtBZdrvJMJ4aqnzl3qDjhRMa89Mp0LHXbtZxrgIj
+	vTdg==
+Received: by 10.68.194.169 with SMTP id hx9mr9583054pbc.8.1346304474983;
+	Wed, 29 Aug 2012 22:27:54 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id uy3sm861562pbc.29.2012.08.29.22.27.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 29 Aug 2012 22:27:53 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Aug 2012 22:01:09 -0700
-Message-Id: <cover.1346302766.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED REQUEST 0/9] Fixes (Cover Letter Only)
+Date: Wed, 29 Aug 2012 22:27:08 -0700
+Message-Id: <cover.1346304324.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/3] uclibc and eglibc update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,134 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 05:13:27 -0000
+X-List-Received-Date: Thu, 30 Aug 2012 05:40:11 -0000
 
-Richard,
 
-Other than the perl issue and a parallel build issue, these
-change work, I think the perl issue is related to the nativesdk,
-but futher testing may be needed by QA to wring those out.
+get some bugfixes for eglibc
+Move uclibc git recipes to latest git
+create patch for updating mount.h needed
+for systemd to work
 
-Thanks
-	Sau!
+Fix elfutils build on uclibc
 
 The following changes since commit 5bc4c0593997b046300a8f5b3f63c278aeb31d68:
 
   gail: remove (2012-08-29 14:14:13 -0700)
 
 are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-Constantin Musca (1):
-  dpkg: upgrade to 1.16.8
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
 
-Kang Kai (1):
-  ltp: add dependency libaio
+Khem Raj (3):
+  uclibc-git: Move to tip of master and sync mount.h
+  eglibc: Bring in the fix for glibc bug #14459, #14195
+  elfutils: Fix build on uclibc
 
-Richard Purdie (2):
-  nativesdk: Convert to use classextend.py
-  nativesdk: Switch to using nativesdk as a prefix, not a suffix
-
-Robert Yang (1):
-  sstate-cache-management.sh: fix it for downloaded file
-
-Ross Burton (3):
-  tzdata: this package isn't architecture specific
-  xserver-xorg: ship the exa module in a separate package
-  task-core-x11: default to xserver-xorg instead of kdrive
-
-Saul Wold (1):
-  task-self-hosted: remove e2fsprogs-fsck from task list
-
- meta/classes/base.bbclass                          |   17 +-
- meta/classes/cross-canadian.bbclass                |    2 +-
- meta/classes/distrodata.bbclass                    |    6 +-
- meta/classes/insane.bbclass                        |    4 +-
- meta/classes/nativesdk.bbclass                     |   51 ++----
- meta/classes/package_rpm.bbclass                   |    2 +-
- meta/classes/pkgconfig.bbclass                     |    2 +-
- meta/classes/populate_sdk.bbclass                  |    1 +
- meta/classes/populate_sdk_base.bbclass             |    2 +-
- meta/conf/bitbake.conf                             |    4 +-
- meta/conf/distro/include/default-providers.inc     |    6 +-
- meta/conf/distro/include/tclibc-eglibc.inc         |    4 +-
- meta/conf/distro/include/tcmode-default.inc        |   14 +-
- meta/lib/oe/classextend.py                         |    4 +
- meta/lib/oe/sstatesig.py                           |    2 +-
- meta/recipes-core/dbus/dbus.inc                    |    2 +-
- meta/recipes-core/eglibc/eglibc-locale.inc         |   15 +-
- meta/recipes-core/eglibc/eglibc-package.inc        |   53 +++---
- meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb      |    2 +-
- meta/recipes-core/glib-2.0/glib.inc                |    2 +-
- meta/recipes-core/meta/external-python-tarball.bb  |   38 ++--
- ...ost-nativesdk.bb => nativesdk-task-sdk-host.bb} |   24 ++--
- meta/recipes-core/tasks/task-self-hosted.bb        |    3 +-
- meta/recipes-devtools/autoconf/autoconf.inc        |    4 +-
- meta/recipes-devtools/automake/automake_1.12.1.bb  |    2 +-
- .../binutils/binutils-cross-canadian.inc           |    2 +-
- meta/recipes-devtools/dpkg/dpkg.inc                |    4 +-
- meta/recipes-devtools/dpkg/dpkg/autofoo.patch      |   50 -----
- .../recipes-devtools/dpkg/dpkg/check_version.patch |   23 ++-
- .../dpkg/dpkg/dpkg-deb-avoid-fflush.patch          |  198 --------------------
- .../dpkg/dpkg/fix-timestamps.patch                 |   21 ++
- .../dpkg/dpkg/ignore_extra_fields.patch            |   35 ++--
- meta/recipes-devtools/dpkg/dpkg/nochroot.patch     |   20 --
- meta/recipes-devtools/dpkg/dpkg/noman.patch        |    1 -
- meta/recipes-devtools/dpkg/dpkg/noupdalt.patch     |   18 --
- meta/recipes-devtools/dpkg/dpkg/perllibdir.patch   |   22 ---
- meta/recipes-devtools/dpkg/dpkg/preinst.patch      |   75 ++++----
- .../dpkg/dpkg/remove-tar-no-timestamp.patch        |   16 ++
- .../dpkg/{dpkg_1.15.8.7.bb => dpkg_1.16.8.bb}      |   10 +-
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc   |    2 +-
- .../recipes-devtools/gcc/gcc-cross-canadian_4.7.bb |    4 +-
- meta/recipes-devtools/gcc/gcc-crosssdk.inc         |    2 +-
- meta/recipes-devtools/gcc/libgcc_4.7.bb            |    9 +-
- meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |    7 +-
- .../gnu-config/gnu-config_20111111.bb              |    2 +-
- meta/recipes-devtools/gnu-config/gnu-config_git.bb |    2 +-
- .../adt-installer/scripts/adt_installer_internal   |    8 +-
- meta/recipes-devtools/opkg/opkg.inc                |   15 +-
- meta/recipes-devtools/perl/perl_5.14.2.bb          |    2 +
- meta/recipes-devtools/python/python_2.7.3.bb       |    9 +-
- ...tivesdk_1.0.bb => nativesdk-qemu-helper_1.0.bb} |    2 +-
- meta/recipes-devtools/qemu/qemu.inc                |    6 +-
- .../unfs-server/unfs-server_2.1+2.2beta47.bb       |    4 +-
- meta/recipes-extended/bash/bash_4.2.bb             |    1 +
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |    3 +-
- meta/recipes-extended/ltp/ltp_20120614.bb          |    4 +-
- meta/recipes-extended/tzdata/tzdata_2012d.bb       |    4 +-
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    2 +-
- meta/recipes-graphics/mesa/qemugl_git.bb           |    2 +-
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../xorg-xserver/xserver-xorg-common.inc           |    3 +
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
- meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |   17 +-
- meta/recipes-qt/meta/meta-toolchain-qte.bb         |    2 +-
- meta/recipes-qt/qt4/files/qt-dbus-const.patch      |    2 +-
- ...vesdk_4.8.1.bb => nativesdk-qt4-tools_4.8.1.bb} |    0
- ...sdk.bb => nativesdk-task-qte-toolchain-host.bb} |    4 +-
- meta/recipes-sato/tasks/task-core-x11-mini.bb      |    2 +-
- meta/recipes-sato/tasks/task-core-x11.bb           |    2 +-
- meta/recipes-support/curl/curl_7.26.0.bb           |    2 +-
- meta/recipes-support/sqlite/sqlite3.inc            |   15 +-
- scripts/sstate-cache-management.sh                 |   20 ++-
- 72 files changed, 326 insertions(+), 598 deletions(-)
- rename meta/recipes-core/tasks/{task-sdk-host-nativesdk.bb => nativesdk-task-sdk-host.bb} (63%)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/autofoo.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/fix-timestamps.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/nochroot.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/noupdalt.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
- rename meta/recipes-devtools/dpkg/{dpkg_1.15.8.7.bb => dpkg_1.16.8.bb} (49%)
- rename meta/recipes-devtools/qemu/{qemu-helper-nativesdk_1.0.bb => nativesdk-qemu-helper_1.0.bb} (98%)
- rename meta/recipes-qt/qt4/{qt4-tools-nativesdk_4.8.1.bb => nativesdk-qt4-tools_4.8.1.bb} (100%)
- rename meta/recipes-qt/tasks/{task-qte-toolchain-host-nativesdk.bb => nativesdk-task-qte-toolchain-host.bb} (47%)
+ .../eglibc/eglibc-2.16/rpc-bootstrap.patch         |   63 ---------------
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
+ meta/recipes-core/uclibc/uclibc-git.inc            |    5 +-
+ .../uclibc/uclibc-git/mount.h-update.patch         |   83 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc_git.bb             |    2 -
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    8 +-
+ 6 files changed, 91 insertions(+), 73 deletions(-)
+ delete mode 100644 meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/mount.h-update.patch
 
 -- 
-1.7.7.6
+1.7.9.5
 
 
 
