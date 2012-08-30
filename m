@@ -1,36 +1,36 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marc.ferland@gmail.com>) id 1T76BU-0006IU-9I
+	(envelope-from <ross.burton@intel.com>) id 1T76Il-0000PE-RF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 16:57:28 +0200
-Received: by vcbfy27 with SMTP id fy27so1947702vcb.6
+	Thu, 30 Aug 2012 17:05:00 +0200
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 07:52:40 -0700
+Received: by weyr6 with SMTP id r6so1056116wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 07:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=YQ5AGz6cLrNav+BC7zrK6zMb9zSN6tawHFiqRGRbcdQ=;
-	b=P+q/T/AzW4fI8hmu68V4Bb/5Zlg226WOhtRj6DsvdxZwKi+KGqZCTfQvxlJpVsnvwl
-	hDSIamv0POBKZdeh5SGvHv9yHuTZKVTJpM+7wEVahaorGAh1sX3Ev+vp1+PbA2aJbQIH
-	ku6r+0WH77oUjRHpyv11EckyP7vs2LmbEDkX2KE8nYFmiByO+CQxCPBWKZ3hqspWI4ll
-	3MRv1nVNPQRTEft6+Sl0FTzAtZjtKAeP8WwNeh94ou3k9N/nwAolbuSytVLCsqLefpdo
-	KRrZVff18IvZxZ/zSSztXNp+2f/nQKiFMp6YaLfOglndY4L84vgMwhrg9idQV3NhZXJc
-	YymA==
-Received: by 10.52.26.237 with SMTP id o13mr2817867vdg.44.1346337912566;
-	Thu, 30 Aug 2012 07:45:12 -0700 (PDT)
-Received: from ferlandm@sonatest.com
-	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
-	by mx.google.com with ESMTPS id n15sm403538vdj.1.2012.08.30.07.45.09
+	Thu, 30 Aug 2012 07:52:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=XN4NYKgvRn7ld0fQox9W2+fijaAGA2wsKM4TiLJXzTs=;
+	b=GH3cCHyO1XoCYflOYH2Vka96UIP4pPAGDNXk22kyd+v4dcejVlyFj/TA5C9YdlCFAy
+	9PW6rlpVjxuDkmQYBkktlRrAGKWjdlIw+7zMHf9AYO9k3NPj8NUsNUiLgYkBQejzIWJO
+	FYGihJJS7B2xGvkHzEXkUeyi4AM0qIc/RiznHU/CSq8n6X79rFF6CQZYCftKLNgU/X/5
+	rtaa5d6FoNgGCgrzTXs4ikmHXV5C2Y5iBo9ejWdtks4VUxNHCCanIaBmpJUkC13XUkhg
+	o2jqv+FeDbCJdCgEpgFlMCuCO2zF4D9J8ZhHhaqxeu5DJJ32J9ofo4JWbvN76mEpG7UW
+	qJJA==
+Received: by 10.180.105.130 with SMTP id gm2mr1133228wib.6.1346338361387;
+	Thu, 30 Aug 2012 07:52:41 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id j6sm1703418wiy.4.2012.08.30.07.52.39
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Aug 2012 07:45:10 -0700 (PDT)
-Sender: Marc Ferland <marc.ferland@gmail.com>
-Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
-	Thu, 30 Aug 2012 10:45:41 -0400
-From: Marc Ferland <ferlandm@sonatest.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Aug 2012 10:45:41 -0400
-Message-Id: <1346337941-15848-1-git-send-email-ferlandm@sonatest.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCHv2] sysstat: Explicitly disable sensors support.
+	Thu, 30 Aug 2012 07:52:40 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2012 15:51:59 +0100
+Message-Id: <1346338319-17685-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQk68E+tmhhhWmAKi4SzH3cF9SgM5Kslivkl1WDIp4SE1q3g+PwharEXhC2tuafcP0YRiOkR
+Subject: [PATCH] glib-2.0: don't disable all debugging functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,52 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 14:57:28 -0000
+X-List-Received-Date: Thu, 30 Aug 2012 15:05:00 -0000
 
-Since no lmsensors recipe exists by default in oe-core, explicitly disable
-support for it in sysstat. In my case sysstat would fail linking complaining
-about undefined references when adding my own lmsensors recipe.
+GLib will use "minimal" debugging on non-development builds and the extra safety
+net and ability to debug at all is totally worth the small performance cost.
 
-Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
+If someone has a need for every ounce of performance, a simple .bbappend can
+restore this option.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/sysstat/sysstat.inc       |    2 ++
- meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
- 2 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    2 +-
+ meta/recipes-core/glib-2.0/glib.inc           |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 9da40a7..a89109c 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -3,12 +3,14 @@ DESCRIPTION = "The sysstat utilities are a collection of performance monitoring
- HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
- LICENSE = "GPLv2+"
- SECTION = "console/utils"
-+INC_PR = "r0"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
+index 8f7cd69..7bc97d68 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
+@@ -1,6 +1,6 @@
+ require glib.inc
  
- SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.gz \
- 		   file://99_sysstat"
+-PR = "r4"
++PR = "r5"
+ PE = "1"
  
- inherit autotools gettext
+ DEPENDS += "libffi python-argparse-native zlib"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 3540cd5..9dca440 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -27,7 +27,7 @@ S = "${WORKDIR}/glib-${PV}"
  
-+EXTRA_OECONF += "--disable-sensors"
- EXTRA_OEMAKE += 'LFLAGS=""'
+ CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
  
- do_install() {
-diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-index 7ef6c60..e9b95d8 100644
---- a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
-@@ -2,7 +2,7 @@ require sysstat.inc
+-EXTRA_OECONF = "--disable-debug --enable-included-printf=no ${CORECONF}"
++EXTRA_OECONF = "--enable-included-printf=no ${CORECONF}"
+ EXTRA_OECONF_virtclass-native = "${CORECONF}"
+ EXTRA_OECONF_linuxstdbase = "--enable-included-printf=no ${CORECONF}"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
--PR = "r1"
-+PR = "${INC_PR}.1"
- 
- SRC_URI[md5sum] = "0e1ed5200f31f69a3b90ff1e81c07745"
- SRC_URI[sha256sum] = "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d519f76a24fabcc1f5"
 -- 
-1.7.5.4
+1.7.10
 
 
 
