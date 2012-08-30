@@ -1,39 +1,41 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T71Pb-0005qn-W0
+	(envelope-from <ross.burton@intel.com>) id 1T71Yn-0007tB-1p
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 11:51:44 +0200
+	Thu, 30 Aug 2012 12:01:13 +0200
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 02:39:27 -0700
-Received: by obblz20 with SMTP id lz20so2882619obb.6
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 02:48:56 -0700
+Received: by obblz20 with SMTP id lz20so2891952obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 02:39:26 -0700 (PDT)
+	Thu, 30 Aug 2012 02:48:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=y28eYTQYlGg5GZWVwSXCBvu9qMbTdlFLbYjCg/sjQrw=;
-	b=Gog0y8+fJB09VNUR6sQk89eFXq8lJe8tMjY8nGYPM9UDahHrel90fBJqxGpT0ZZ084
-	uov4t3t1EzxJDNZmiyl6yECbQfyJRiCf6nCK9e7J6UfADw4+h2hE6U4Soh0/OaX45UnB
-	tcTQnt+SuDYVJTguq9M5MNMqsiitOJ7rmdoX7dOtlW+BiG/X7xwzgyX/tbLz2XFN1f7K
-	dtQ4b5nDuxVq80AzmHT5s6koL2FLtbhvqaEYXV7MmGtyTKtzkqWVyYdZaD7ZVU2Q6rlB
-	9p10sfYaCwA3osfC9Z8HAXxg7PSXJtaTFKV0OZVliqKTO7e+E21MpRDq7oQp5O1tCC3U
-	tacQ==
-Received: by 10.60.30.168 with SMTP id t8mr3661883oeh.89.1346319566403; Thu,
-	30 Aug 2012 02:39:26 -0700 (PDT)
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=XSXdz6mWL1MceeiQwoF4aT71svgV52OJ3hoerHGTGzI=;
+	b=WLE7/MKrjEEP88aT6zI7NwnIqd7QQ+uDU4L0p1j/E5YRiyE6XGgUuQRUqskWOKqDQF
+	D2RxcdlHjdYzeH1b6jLnP3vNmYRbb4h+8EGBHojxX2cpPMPKi0bs3U8eHp9iRxjNV1xU
+	kfO29PsObTaMiSVMfQGlVJjoQBNL6J0G9dusT1hEcMrqpSlq0J5/XZSKor67XklJkjuX
+	y8TUugXjaBJswmjDEr+i2R3MTTk1au4wJTC7SdBAQkR9xjgx43X8WVb2VtiAVi7mCT6T
+	M72/S6/2Vdrl11z6wkOKWZzzVpj9S4V68Ar+NZgEns+VhBFUkYUx3XkFkfcrmLcawEKc
+	m4Nw==
+Received: by 10.182.50.68 with SMTP id a4mr3645655obo.59.1346320134643; Thu,
+	30 Aug 2012 02:48:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Thu, 30 Aug 2012 02:39:05 -0700 (PDT)
-In-Reply-To: <CB4AF056-1525-4567-8E14-AA234CDE6AAC@dominion.thruhere.net>
-References: <1346255613-13401-1-git-send-email-ross.burton@intel.com>
-	<1346255613-13401-2-git-send-email-ross.burton@intel.com>
-	<CB4AF056-1525-4567-8E14-AA234CDE6AAC@dominion.thruhere.net>
+Received: by 10.182.79.105 with HTTP; Thu, 30 Aug 2012 02:48:34 -0700 (PDT)
+In-Reply-To: <FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
+References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
+	<ba35808d6976ff17d3732ffcdb56e71f8014137c.1346250187.git.ross.burton@intel.com>
+	<1D285050-76EB-4F89-9FB2-0474C5E34102@dominion.thruhere.net>
+	<CAJTo0LatnKpmV5P53dsdO-J4_kMT_mqJu8SW5vX_b8KhbOJDXA@mail.gmail.com>
+	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Aug 2012 10:39:05 +0100
-Message-ID: <CAJTo0Lakk5xDHTK2QVfsg_aSwXqsxfY6BdQJifttAyVav2qvsg@mail.gmail.com>
+Date: Thu, 30 Aug 2012 10:48:34 +0100
+Message-ID: <CAJTo0La61B9iceYx-xktn9DQ-wOGsM5Odu22GN_NpnX1294DBg@mail.gmail.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQmfV7YtmVjaJ+mrWhWa3UarnK3H9wEWgZBEZ64hLthEmpSKRhwuVq+z6uKWPL7+r8DfjE9x
+X-Gm-Message-State: ALoCoQkmSKDrMYRb96YL4VC+UnMoZwNTwnI0GUwt3YjVgwlCJjd5p4kP4nuBPP89IjMnvjyIVx3z
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] task-core-x11: default to xserver-xorg instead of kdrive
+Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,13 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 09:51:44 -0000
+X-List-Received-Date: Thu, 30 Aug 2012 10:01:13 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
 On 29 August 2012 17:50, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Missing PR bumps
+> Ehm, I *really* want it to be a symlink, that way you easily check what t=
+he timezone is without needing to boot the device or compare md5sums. The l=
+ast thing the TSC said on the split /usr was something along the lines of "=
+would be nice, but only if it doesn't make things worse". A cp instead of l=
+n would make things worse IMO.
 
-Fixed on the branch.
+Branch updated with a symlink, and the following commit message:
+
+    tzdata: install /etc/localtime alongside /etc/timezone
+
+    Lots of code (such a GLib) expects this to exist and link to the curren=
+t
+    timezone definition.
+
+    /etc/localtime is a symlink instead of a copy of hard link to make
+it obvious
+    what timezone data it's pointing at. For systems with /etc on a separat=
+e
+    filesystem to /usr this will result in a dangling symlink until
+/usr is mounted,
+    but as this is early boot the assumption is that anything checking it w=
+ill
+    handle that case and fallback to UTC.
 
 Ross
 
