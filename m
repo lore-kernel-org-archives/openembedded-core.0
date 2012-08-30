@@ -1,36 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T78Pq-0004g2-PA
+	(envelope-from <ross.burton@intel.com>) id 1T78Ps-0004g4-2x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 19:20:27 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 10:08:07 -0700
-Received: by wibhn17 with SMTP id hn17so498716wib.6
+	Thu, 30 Aug 2012 19:20:28 +0200
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 10:08:10 -0700
+Received: by wibhq4 with SMTP id hq4so516908wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 10:08:07 -0700 (PDT)
+	Thu, 30 Aug 2012 10:08:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=3RGKIl+7EasmdpvudwbLMJCTGP8F1fFeuf7mqyDRFpA=;
-	b=YMs2qRP0GEZX0fUDGoYfvXgIbLR9C84YgEYR2FdBmjJqWd5IEbdw33jr6J8Nx5bAgL
-	lMaHRyvw11EBPnEhLcMjcdIbZdHn5MeoOafDgBd3/DBCCJbgsv8iaMW4pu6CwJiSimfh
-	yCqC2dHOPs8qFPmPuEr2kUx/WxmTDbAkuUe1LPZLet9zXAHNhQHC4FmP2G60Rh3XoDDF
-	GN4zwLLmnCzcibhu6aSSleHM97pKokpb8hOCtqECKJ442eBY/G02Y5cyaGRmE2+Uhce1
-	mGEvQz5p1vhHw2hbe0K3DOzPmESNhqQkP8RK3GnOQRunSjnFhBTRJ376UxqCT5vy7Hn/
-	oKFg==
-Received: by 10.180.7.200 with SMTP id l8mr1892471wia.9.1346346487599;
-	Thu, 30 Aug 2012 10:08:07 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=qkmKKZcK3Yh1MticfT/nl+50oln5PQwIZbkaqOry6xY=;
+	b=JozQLSbqpXqCHUEJ4rb6aPU0/uCMoJEF5BjWHW6l5gYQLWGYVnqzpYagT+M6/XSm4F
+	qgSLBVi0JcbwAKZWb2dEmIiYHlGkxxc/ZE/86XCEVSJ/NHO1pyEDjeNplPJ4dKhEzusV
+	YKiZVbuLwLtW2venN3bEdzNy6xzflTrzQGF96uOCG/mHU6o0up762qmNezrSZ5Zj3aX/
+	GMiJJqCiwRRmauEwJO/9/SGZwNFdgHXrAX3O98+D2xpLiMe+dRsTcBTblcAenGDLtceu
+	JtYhqIbvM/rlv6LhsH8wVFcp6Qd8PskxmilrDyEXqo4bc7QuHmI2QxFay2wN9AVC7EfD
+	Y5XQ==
+Received: by 10.216.133.148 with SMTP id q20mr2985731wei.201.1346346489060;
+	Thu, 30 Aug 2012 10:08:09 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id hv8sm1707554wib.0.2012.08.30.10.08.05
+	by mx.google.com with ESMTPS id hv8sm1707554wib.0.2012.08.30.10.08.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Aug 2012 10:08:06 -0700 (PDT)
+	Thu, 30 Aug 2012 10:08:08 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Aug 2012 18:07:19 +0100
-Message-Id: <cover.1346346320.git.ross.burton@intel.com>
+Date: Thu, 30 Aug 2012 18:07:20 +0100
+Message-Id: <2a99c8c32800732abc08292ee5e0352661b30ffa.1346346320.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmTH5LMYBHmD+IqJbVixZKjuGzVvvi2YfzCHWeS71JuwfR/DG9lm2+Hqn2+/tWT31rc+gvm
-Subject: [PATCH 0/6] Remove xserver-kdrive
+In-Reply-To: <cover.1346346320.git.ross.burton@intel.com>
+References: <cover.1346346320.git.ross.burton@intel.com>
+In-Reply-To: <cover.1346346320.git.ross.burton@intel.com>
+References: <cover.1346346320.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmnPlwV8xXQR1j3k0pHfUbBMxAdMKyRLhaVyez4aXNj8RMd6YYr2tGiGK+AOtobnqky1D+1
+Subject: [PATCH 1/6] bsp: set default XSERVER for PowerPC and MIPS machines to Xorg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,136 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 17:20:27 -0000
+X-List-Received-Date: Thu, 30 Aug 2012 17:20:28 -0000
 
-Nobody is actually using xserver-kdrive anymore, apart from on two BSPs in
-meta-yocto that don't actually have video outputs.  Let's remove it.
 
-This is the first stage of the removal, once this has landed there is a lot of
-cruft to be removed too, I'm thinking specifically touchscreen tools that are
-kdrive-specific.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../substrate/target/arch/mips/conf/machine/{{=machine}}.conf   |    7 +++++--
+ .../target/arch/powerpc/conf/machine/{{=machine}}.conf          |    7 +++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
-The following changes since commit bb0aab79e488a99cb1b43f72f0e8ddbe39d97519:
-
-  yocto-bsp: use KBRANCH_DEFAULT in 'newbranch' cases (2012-08-29 14:23:36 -0700)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/xorg
-
-for you to fetch changes up to b4d8243842ad09c76d95efe611492f5e88c826a4:
-
-  x11-common: don't prune .svn directories on install, we're in git now (2012-08-30 18:04:20 +0100)
-
-----------------------------------------------------------------
-Ross Burton (6):
-      bsp: set default XSERVER for PowerPC and MIPS machines to Xorg
-      xserver-xorg: ship the exa module in a separate package
-      task-core-x11: default to xserver-xorg instead of kdrive
-      xserver-kdrive: remove.
-      x11-common: just support Xorg now that kdrive has been removed
-      x11-common: don't prune .svn directories on install, we're in git now
-
- .../x11-common/x11-common/etc/X11/Xserver          |   43 +-
- meta/recipes-graphics/x11-common/x11-common_0.1.bb |    3 +-
- .../xserver-kdrive-1.7.99.2/crosscompile.patch     |   23 -
- .../xserver-kdrive-1.7.99.2/disable-apm.patch      |   24 -
- .../enable-builtin-fonts.patch                     |   16 -
- .../enable-xcalibrate.patch                        |  152 ------
- .../error-address-work-around.patch                |  364 --------------
- .../xserver-kdrive-1.7.99.2/extra-kmodes.patch     |   87 ----
- .../fbdev_xrandr_ioctl.patch                       |   65 ---
- .../fix-bogus-stack-variables.patch                |  233 ---------
- .../fix-newer-xorg-headers.patch                   |   22 -
- .../hide-cursor-and-ppm-root.patch                 |  312 ------------
- .../xserver-kdrive-1.7.99.2/kdrive-evdev.patch     |  520 --------------------
- .../xserver-kdrive-1.7.99.2/kdrive-use-evdev.patch |   58 ---
- .../keyboard-resume-workaround.patch               |   29 --
- .../no-serial-probing.patch                        |   17 -
- .../xserver-kdrive-1.7.99.2/nodolt.patch           |   16 -
- .../xserver-kdrive-1.7.99.2/optional-xkb.patch     |   62 ---
- .../xorg-xserver/xserver-kdrive.inc                |  113 -----
- .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |   34 --
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../xorg-xserver/xserver-xorg-common.inc           |    3 +
- meta/recipes-sato/tasks/task-core-x11-mini.bb      |    4 +-
- meta/recipes-sato/tasks/task-core-x11.bb           |    4 +-
- .../arch/mips/conf/machine/{{=machine}}.conf       |    7 +-
- .../arch/powerpc/conf/machine/{{=machine}}.conf    |    7 +-
- 26 files changed, 20 insertions(+), 2200 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/crosscompile.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/disable-apm.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/enable-builtin-fonts.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/enable-xcalibrate.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/extra-kmodes.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fbdev_xrandr_ioctl.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fix-bogus-stack-variables.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fix-newer-xorg-headers.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/hide-cursor-and-ppm-root.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/kdrive-evdev.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/kdrive-use-evdev.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/keyboard-resume-workaround.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/no-serial-probing.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/nodolt.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/optional-xkb.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-
-Ross Burton (6):
-  bsp: set default XSERVER for PowerPC and MIPS machines to Xorg
-  xserver-xorg: ship the exa module in a separate package
-  task-core-x11: default to xserver-xorg instead of kdrive
-  xserver-kdrive: remove.
-  x11-common: just support Xorg now that kdrive has been removed
-  x11-common: don't prune .svn directories on install, we're in git now
-
- .../x11-common/x11-common/etc/X11/Xserver          |   43 +-
- meta/recipes-graphics/x11-common/x11-common_0.1.bb |    3 +-
- .../xserver-kdrive-1.7.99.2/crosscompile.patch     |   23 -
- .../xserver-kdrive-1.7.99.2/disable-apm.patch      |   24 -
- .../enable-builtin-fonts.patch                     |   16 -
- .../enable-xcalibrate.patch                        |  152 ------
- .../error-address-work-around.patch                |  364 --------------
- .../xserver-kdrive-1.7.99.2/extra-kmodes.patch     |   87 ----
- .../fbdev_xrandr_ioctl.patch                       |   65 ---
- .../fix-bogus-stack-variables.patch                |  233 ---------
- .../fix-newer-xorg-headers.patch                   |   22 -
- .../hide-cursor-and-ppm-root.patch                 |  312 ------------
- .../xserver-kdrive-1.7.99.2/kdrive-evdev.patch     |  520 --------------------
- .../xserver-kdrive-1.7.99.2/kdrive-use-evdev.patch |   58 ---
- .../keyboard-resume-workaround.patch               |   29 --
- .../no-serial-probing.patch                        |   17 -
- .../xserver-kdrive-1.7.99.2/nodolt.patch           |   16 -
- .../xserver-kdrive-1.7.99.2/optional-xkb.patch     |   62 ---
- .../xorg-xserver/xserver-kdrive.inc                |  113 -----
- .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |   34 --
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../xorg-xserver/xserver-xorg-common.inc           |    3 +
- meta/recipes-sato/tasks/task-core-x11-mini.bb      |    4 +-
- meta/recipes-sato/tasks/task-core-x11.bb           |    4 +-
- .../arch/mips/conf/machine/{{=machine}}.conf       |    7 +-
- .../arch/powerpc/conf/machine/{{=machine}}.conf    |    7 +-
- 26 files changed, 20 insertions(+), 2200 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/crosscompile.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/disable-apm.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/enable-builtin-fonts.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/enable-xcalibrate.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/error-address-work-around.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/extra-kmodes.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fbdev_xrandr_ioctl.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fix-bogus-stack-variables.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fix-newer-xorg-headers.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/hide-cursor-and-ppm-root.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/kdrive-evdev.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/kdrive-use-evdev.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/keyboard-resume-workaround.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/no-serial-probing.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/nodolt.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/optional-xkb.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive.inc
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/{{=machine}}.conf b/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/{{=machine}}.conf
+index ae27fe6..b7c86e8 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/{{=machine}}.conf
++++ b/scripts/lib/bsp/substrate/target/arch/mips/conf/machine/{{=machine}}.conf
+@@ -17,8 +17,11 @@ PREFERRED_VERSION_{{=preferred_kernel}} ?= "{{=preferred_kernel_version}}%"
+ 
+ {{ input type:"boolean" name:"xserver" prio:"50" msg:"Do you need support for X? (y/n)" default:"y" }}
+ {{ if xserver == "y": }}
+-PREFERRED_PROVIDER_virtual/xserver = "xserver-kdrive"
+-XSERVER = "xserver-kdrive-fbdev"
++PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
++XSERVER = "xserver-xorg \
++           xserver-xorg-extension-extmod \
++           xf86-input-evdev \
++           xf86-video-fbdev"
+ 
+ SERIAL_CONSOLE = "115200 ttyS0"
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf b/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf
+index 18f5247..cbf3c32 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf
+@@ -41,8 +41,11 @@ PREFERRED_VERSION_{{=preferred_kernel}} ?= "{{=preferred_kernel_version}}%"
+ 
+ {{ input type:"boolean" name:"xserver" prio:"50" msg:"Do you need support for X? (y/n)" default:"y" }}
+ {{ if xserver == "y": }}
+-PREFERRED_PROVIDER_virtual/xserver = "xserver-kdrive"
+-XSERVER = "xserver-kdrive-fbdev"
++PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
++XSERVER = "xserver-xorg \
++           xserver-xorg-extension-extmod \
++           xf86-input-evdev \
++           xf86-video-fbdev"
+ 
+ {{ input type:"edit" name:"uboot_entrypoint" prio:"40" msg:"Please specify a value for UBOOT_ENTRYPOINT:" default:"0x00000000" }}
+ UBOOT_ENTRYPOINT = "{{=uboot_entrypoint}}"
 -- 
 1.7.10
 
