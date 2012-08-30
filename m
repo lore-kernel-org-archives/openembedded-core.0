@@ -1,38 +1,43 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T78YJ-00055P-OU
+	(envelope-from <marc.ferland@gmail.com>) id 1T78m9-0005LM-DG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 19:29:11 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 10:16:55 -0700
-Received: by obblz20 with SMTP id lz20so3849617obb.6
+	Thu, 30 Aug 2012 19:43:29 +0200
+Received: by qadc11 with SMTP id c11so469708qad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 10:16:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=GPgXjsB1g5CAoL7+o36O09++EiOrU7CmYQBhUi7dRQs=;
-	b=j9C8zQWzHEgyngAvBEdIPXOQnjbrG8xc2plBkctR0geONy85slOOJvwk93hXtXDr41
-	7TE95+TV2uFimx4HWl6VeEtrqagF5h9bUM4Ys3QTLFwYKQWAW5SPesGjc8RtiOpRs5Wc
-	moNw0S84jMj4q1UmIz2OlIJCTMlpbmihcnlgbyizLMDXGdT8PdbOLUGEnx3XoSRjdODP
-	zU7hVOe4eCG3ZuS5gqEVWZPYDbzfguoYW0JO6gkhlj9HogRUGfSiHNgWXNbU9mRtKuu6
-	Nj1sV3bbFXwHq/rdwzGTAcoBHwnKtck46GCgHoaCiovvKd5ANdpXzoQnnauaJZKVySl6
-	ywXw==
-Received: by 10.182.124.102 with SMTP id mh6mr5352390obb.48.1346347014785;
-	Thu, 30 Aug 2012 10:16:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Thu, 30 Aug 2012 10:16:34 -0700 (PDT)
-In-Reply-To: <503F9F23.1070600@linux.intel.com>
-References: <cover.1346346320.git.ross.burton@intel.com>
-	<503F9F23.1070600@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Aug 2012 18:16:34 +0100
-Message-ID: <CAJTo0LZzwkYmDxBP55rw=uEiOzG8Vye6erWXNC67DhQ6Qm_pQQ@mail.gmail.com>
+	Thu, 30 Aug 2012 10:31:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
+	:user-agent:mime-version:content-type;
+	bh=FPJz+KKNOKm/aYAEiF2tT1oOr1rlj+iUhuvH8gvxom4=;
+	b=Rr894cgevfxBeJNNK9+MryPmV+eWgY+Y/1RI2rlF6UKObDGBXW0o8J25+EU84ClWF1
+	KvhWzmlElJBc0oG79zGYIA1U14pDiMtN47D25aWwr6POrvzMd+QdCcJGfy+xR5T9XfVe
+	GeGtvzI86sygr9e+cteUq+7IAuLkx/ppZOHZS93FUbSJr6njFIOHTc1ad/MlYkRiWZh5
+	l5ITZVyOQLVbUX1u2g6tFMK4NCGz2Jj4KrBae8wh01OiWS1JkdstfSwFaVVuSc+6lM+l
+	Uz6oxbAK0ZklmiWzYGyBDk841ufKZXEIpNpwS9XegqRVhRph6d/pEPmIjRv+Go2UHQC8
+	dNpQ==
+Received: by 10.224.189.83 with SMTP id dd19mr12700418qab.45.1346347873384;
+	Thu, 30 Aug 2012 10:31:13 -0700 (PDT)
+Received: from ferlandm@sonatest.com
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by mx.google.com with ESMTPS id k6sm3105434qac.0.2012.08.30.10.31.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 30 Aug 2012 10:31:11 -0700 (PDT)
+Sender: Marc Ferland <marc.ferland@gmail.com>
+Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
+	Thu, 30 Aug 2012 13:31:42 -0400
+From: Marc Ferland <ferlandm@sonatest.com>
 To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQmVJwLiFhJy6gwtUeOsoZFIKBBxA4BLAd3IfWv+UV7WFe6Mak1jiNKk3Vsj52KsrbqqZLT2
+References: <1346340161-2649-1-git-send-email-ferlandm@sonatest.com>
+	<503F9CBB.90808@linux.intel.com>
+Date: Thu, 30 Aug 2012 13:31:42 -0400
+In-Reply-To: <503F9CBB.90808@linux.intel.com> (Saul Wold's message of "Thu, 30
+	Aug 2012 10:02:51 -0700")
+Message-ID: <87ehmo8ewx.fsf@sonatest.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Remove xserver-kdrive
+Subject: Re: [PATCHv3] sysstat: Explicitly disable sensors support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,15 +50,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 17:29:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Aug 2012 17:43:29 -0000
+Content-Type: text/plain
 
-On 30 August 2012 18:13, Saul Wold <sgw@linux.intel.com> wrote:
-> You seem to be missing Signed-off-by: in the repo itself, but they all
-> appear in the email!
+Saul Wold <sgw@linux.intel.com> writes:
 
-Fixed.
+> On 08/30/2012 08:22 AM, Marc Ferland wrote:
+>> Since no lmsensors recipe exists by default in oe-core, explicitly disable
+>> support for it in sysstat. In my case sysstat would fail linking complaining
+>> about undefined references when adding my own lmsensors recipe.
+>>
+>> Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
+>> ---
+>>   meta/recipes-extended/sysstat/sysstat.inc       |    2 ++
+>>   meta/recipes-extended/sysstat/sysstat_10.0.3.bb |    2 +-
+>>   2 files changed, 3 insertions(+), 1 deletions(-)
+>>
+> You seem to be a little behind the master branch as it's on sysstat_10.0.5
+>
+> Please rebase your patch to master.
+>
+I failed to mention that this patch is based on denzil. I will send
+another patch this time for master.
 
-Ross
+BTW, what is the preferred "--subject-prefix" to use to identify where the
+patch should be merge?
+
+Marc
 
 
