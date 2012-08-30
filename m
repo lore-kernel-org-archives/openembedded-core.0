@@ -1,29 +1,43 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Mark.Asselstine@windriver.com>) id 1T7AKG-0007nX-68
+	(envelope-from <sgw@bigsur.com>) id 1T7AvQ-0000DG-Vk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 21:22:48 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7UHKO99014478
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Aug 2012 10:20:24 -0700 (PDT)
-Received: from yow-masselst-d1.localnet (128.224.146.23) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Thu, 30 Aug 2012 10:20:24 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Aug 2012 13:20:39 -0400
-Message-ID: <43444447.DkGKhXIaYr@yow-masselst-d1>
-Organization: Wind River Internation Inc.
-User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic; KDE/4.8.4; x86_64; ; )
-In-Reply-To: <CAJTo0Lb0P23jieSdtFuTPn+e2h+L9MNXbfQDz4Y+D3bRxSOBYg@mail.gmail.com>
-References: <1346178028-2036-1-git-send-email-mark.asselstine@windriver.com>
-	<5151998.0QU9eL25sN@yow-masselst-d1>
-	<CAJTo0Lb0P23jieSdtFuTPn+e2h+L9MNXbfQDz4Y+D3bRxSOBYg@mail.gmail.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.146.23]
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] base-files: provide a mechanism to skip creation of the hostname file
+	Thu, 30 Aug 2012 22:01:13 +0200
+Received: by pbcwy7 with SMTP id wy7so3768499pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Aug 2012 12:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=V/4Oh8NlixcewTVeTUdv+8Zs5kNTXbDhfY+5nwRpzRo=;
+	b=I8ThwTUNlqkn+SVKRsgxZRbPElBF+o0qb3lo/L8swcHOzSzziPsXBVetWZVjgcGFy0
+	i9LUVHbI64zSSkHKKlfbTSJrJCFRoSOUfDTVJI1vuyJeujvGySGkXeWSXjekUmDC2REv
+	bIrqTbUFTtTJ+e9n3NgavtVhLWI0jaWTmq5uA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=V/4Oh8NlixcewTVeTUdv+8Zs5kNTXbDhfY+5nwRpzRo=;
+	b=Wd3qMdS0xRFBNE9tZbFeScXdQgSBVq6WpGK5zQt/qN6moU2YdaavDiKyOXEW2SVliC
+	T1uFHA3R+BQe9BkxhMogpPJYoIRL4049UAvNWHtPDDqCJsc7VJmn0NPDlctqzK8gYP+P
+	MiEu2+tY8QuPL/nOYeNelk3roCTakrSFPagRnMUXpa34DiGC492umgtaX84SZsqvqok7
+	hZRf7hOspADDQi/bHcqnFEOexlwMtVfV7DnwckCIH4/4ZXO86hNetvx0sMgghF6mV7eJ
+	4JTKz5cwd7Czz9+96Tq935xuVU6A4OS91sJwNdQprhoHHgJn8K6aPpEemlFG985+DNzg
+	HGCg==
+Received: by 10.68.222.170 with SMTP id qn10mr12914182pbc.114.1346356136510;
+	Thu, 30 Aug 2012 12:48:56 -0700 (PDT)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id pf10sm2062757pbc.56.2012.08.30.12.48.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 30 Aug 2012 12:48:55 -0700 (PDT)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Aug 2012 12:48:10 -0700
+Message-Id: <1346356090-13811-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQloqpmArDDIQK49kGhBUTaHoCWaYRmsk9F5/UbNBlIWSXmH4kE1rdiL2OX96YnJl6+JvwhH
+Subject: [PATCH] poky-tiny: Enable x86-64 to build eglibc correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,29 +50,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 19:22:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 30 Aug 2012 20:01:13 -0000
 
-On August 28, 2012 21:11:47 Burton, Ross wrote:
-> On 28 August 2012 21:01, Mark Asselstine <mark.asselstine@windriver.com> 
-wrote:
-> >> But surely this should be running very early in the boot, and a
-> >> DHCP-assigned name should be running afterwards?
-> > 
-> > That hasn't been what I have observed, and doesn't cover the command line
-> > case. If you have an NFS root this would also not be the case as init will
-> > be run after the network is setup and root mounted.
-> 
-> There was an implied "and if this isn't the case, a bug should be
-> filed".  I hadn't thought about NFS-root though.
-> 
-> Ross
+The libc-libm-big option allows eglibc to correctly configure
+itself to include the correct math functions for 64bit operations
 
-Thanks for your thoughts on this.
+[YOCTO #2943]
 
-Is there anything else I can contribute here?
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta-yocto/conf/distro/poky-tiny.conf |    1 +
+ 1 file changed, 1 insertion(+)
 
-Mark
+diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+index 8ae1d85..bfb4432 100644
+--- a/meta-yocto/conf/distro/poky-tiny.conf
++++ b/meta-yocto/conf/distro/poky-tiny.conf
+@@ -63,6 +63,7 @@ ASSUME_PROVIDED += "pkgconfig$"
+ # Reconfigure eglibc for a smaller installation
+ # Comment out any of the lines below to disable them in the build
+ DISTRO_FEATURES_LIBC_TINY = "libc-libm libc-crypt"
++DISTRO_FEATURES_LIBC_TINY_append_x86-64 = " libc-libm-big"
+ 
+ # Required for "who"
+ DISTRO_FEATURES_LIBC_MINIMAL = "libc-utmp libc-getlogin"
+-- 
+1.7.9.5
+
 
 
