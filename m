@@ -1,38 +1,43 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T73zV-0005rb-8z
+	(envelope-from <koen@dominion.thruhere.net>) id 1T74jX-0006z6-6K
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 14:36:57 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 30 Aug 2012 05:24:40 -0700
-Received: by obblz20 with SMTP id lz20so3118517obb.6
+	Thu, 30 Aug 2012 15:24:31 +0200
+Received: by eekb57 with SMTP id b57so607127eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Aug 2012 05:24:39 -0700 (PDT)
+	Thu, 30 Aug 2012 06:12:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=hxIIrmIi37i8VrPjk2qOtsxLP9W2Wnq9LNoZqENdutE=;
-	b=f+d0rcB6CaE1vSkh5FcGeunNEU/8D45hkZlkk1HSA9TOVqlNLKkZwoWEFcHEQPAoWT
-	PM7TyozrF7FonH5yk4raNp8GNz7ZKCV5vzpaM/DdhEOVUiL09IocwEbNC528POq7G3h6
-	rH01FqFQmLkX49YUQ7eCw722+hVg/LKSeqpzcLU1CI+mqYQxOoJ4BHWOiT0/Q6gyGJEC
-	M71tQhTeI0AqjfRQJ2pvzmLSzupMiFqTPAjcWGUbRyNboLVbSwfT6uNVEaRnIpT0FyDi
-	Sddjz8nQWYWMNLGhhODWYMhj/RSmKbkeXdlEMSvhIbfxQrvly+3SaLU8aQ+4fm3dz4yz
-	F3aA==
-Received: by 10.60.171.174 with SMTP id av14mr4201371oec.61.1346329479775;
-	Thu, 30 Aug 2012 05:24:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Thu, 30 Aug 2012 05:24:19 -0700 (PDT)
-In-Reply-To: <F37371D0-84A6-4E9C-9455-72409B92E29C@dominion.thruhere.net>
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=b8QS7a6Xvio1KQeDDv1pJKxZkVJnEWQnqgtB13vE6q8=;
+	b=j/pUeU1fIOPQ5+gGHfUmXUfVIenKj3b/ElXkmUkneUhCo2s90n5DqUBeC7Un9Cq0Ie
+	Q8rOtyKfRiwk+NJ/DOGDC7TP7fSUpV/nN2pwOraLRfXYQBZqHuBSQZ26PMkYE37NnzYj
+	RPHq+0dcFkpu1HASjwSTSg2DVswwpTLd0rVbdWA1jGQOI/Yci3mONrrD5aPm4MaWZTDm
+	PS4mBO6wNG5I1Z5GbRPCN9S79fyT8tE4kfLZEbnHjs2AZnQQv8Q68Lnhey5Ke0IpYphA
+	KsOkikROmoXX0nnZO3/hVaoycc6d4ZRcI7mMsNDez3ro+K2SrQgGsGPl58KwedfQxZnL
+	DvHQ==
+Received: by 10.14.212.72 with SMTP id x48mr6455015eeo.40.1346332335793;
+	Thu, 30 Aug 2012 06:12:15 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::dc13:ace3:2d40:4ac6?
+	([2001:610:612:0:dc13:ace3:2d40:4ac6])
+	by mx.google.com with ESMTPS id e7sm4883693eep.2.2012.08.30.06.12.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 30 Aug 2012 06:12:14 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LZtnp+CRBrz2GcMsGuGRYzDkCgS46hxGe34v_p47BeMRQ@mail.gmail.com>
+Date: Thu, 30 Aug 2012 15:12:12 +0200
+Message-Id: <A9F5B8AC-9CD5-4BE4-B8BB-BE54D5340069@dominion.thruhere.net>
 References: <1346255613-13401-1-git-send-email-ross.burton@intel.com>
 	<92175252-0A9C-401F-87F5-751E4CFB8611@dominion.thruhere.net>
 	<CAJTo0LY5=R5=7BGtt3LkstRhRb2Ycd1oDJFDoKygtc8KcC4W8w@mail.gmail.com>
 	<F37371D0-84A6-4E9C-9455-72409B92E29C@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Aug 2012 13:24:19 +0100
-Message-ID: <CAJTo0LZtnp+CRBrz2GcMsGuGRYzDkCgS46hxGe34v_p47BeMRQ@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQl8Mw/YLOcIuh+mRkmD9E6M53HBtXH6czuKxWUGu+n8gfKftRdTeefZdoqXpBuc5tOivitr
+	<CAJTo0LZtnp+CRBrz2GcMsGuGRYzDkCgS46hxGe34v_p47BeMRQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1486)
+X-Gm-Message-State: ALoCoQlSEg4vYVikxNEb1GQJQ/aUUKdUk5Lnn+qXpKiylQvgx/b3mG4igXQDb6Y7HB8XmiNLKtt8
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/2] xserver-xorg: ship the exa module in a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,16 +52,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 12:36:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Aug 2012 13:24:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 30 August 2012 13:17, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Indeed. In the past I had every device using full Xorg in OE on my desk, but with the demise of kdrive and the adoption rate of OE it has become impossible to have access to each device :)
 
-Speaking of hardware I'd like to test the touchscreen calibration code
-in Xorg and purge the bits that are kdrive-specific.  Any
-recommendations for hardware with a touchscreen?
+Op 30 aug. 2012, om 14:24 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-Ross
+> On 30 August 2012 13:17, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> Indeed. In the past I had every device using full Xorg in OE on my =
+desk, but with the demise of kdrive and the adoption rate of OE it has =
+become impossible to have access to each device :)
+>=20
+> Speaking of hardware I'd like to test the touchscreen calibration code
+> in Xorg and purge the bits that are kdrive-specific.  Any
+> recommendations for hardware with a touchscreen?
+
+I'm biased of course, but this is what I use: =
+http://beagleboardtoys.com/products/#LCD7 in combination with a =
+beaglebone. Meta-ti has the needed drivers for it.
+
 
 
