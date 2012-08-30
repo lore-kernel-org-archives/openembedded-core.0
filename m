@@ -1,26 +1,42 @@
-Received: from outrightsolutions.nl ([194.145.201.26]
-	helo=mail.outrightsolutions.nl)
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sander@outrightsolutions.nl>) id 1T73JR-0004lw-EL
+	(envelope-from <koen@dominion.thruhere.net>) id 1T73sd-0005jJ-Ni
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Aug 2012 13:53:29 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.outrightsolutions.nl (Postfix) with ESMTP id A6B935BC9A0;
-	Thu, 30 Aug 2012 13:33:47 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at outrightsolutions.nl
-Received: from mail.outrightsolutions.nl ([127.0.0.1])
-	by localhost (hydrogen.outrightsolutions.nl [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 6t0TDpUsranJ; Thu, 30 Aug 2012 13:33:47 +0200 (CEST)
-Received: from haze.lan (unknown [IPv6:2a02:2308::1ab:f800:2])
-	by mail.outrightsolutions.nl (Postfix) with ESMTPSA id D845C5BC99F;
-	Thu, 30 Aug 2012 13:33:46 +0200 (CEST)
-From: Sander van Grieken <sander@outrightsolutions.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Aug 2012 13:33:40 +0200
-Message-Id: <1346326420-23677-1-git-send-email-sander@outrightsolutions.nl>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] avahi: systemd postinst and postrm removed in favor of using systemd.bbclass
+	Thu, 30 Aug 2012 14:29:51 +0200
+Received: by wibhn17 with SMTP id hn17so170917wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Aug 2012 05:17:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=S9gN/YBTf4Dbq37d1RHgO2IOFe3NswXMqbVlzcALCvc=;
+	b=lCA6DDE5w2MEZGKrEuwml6geopSnql5q7soNam+3XqgMqvSwaYKFu1Hv1PcfcORBCs
+	KnV31rQloX5eeiZABsT+pAhLn4gQgtkxdwgPMmKppkwv8HIACfKtcaO70ItGaGtaXKje
+	rq1VPOdJJ7TKyEYd7MSsu7JLGG2yR+wgKn2/nl8ys0auLOMRMD92XSHlCkf1Bj9ohPt/
+	d3Hnlgt/m54zK6Bc9B4ByqaqQ/yrqZc1c/1ovjXvQP/9v5NufEwu+dEWW0en3GGBoLkz
+	h3LK/uDj76x2eznfHhWbfj90d3eeJuNcJZ8NJJekAfImlr8Whio2E5QiN0sMPwHBdG70
+	iYfA==
+Received: by 10.180.20.11 with SMTP id j11mr187419wie.12.1346329056586;
+	Thu, 30 Aug 2012 05:17:36 -0700 (PDT)
+Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id cu1sm539572wib.6.2012.08.30.05.17.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 30 Aug 2012 05:17:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LY5=R5=7BGtt3LkstRhRb2Ycd1oDJFDoKygtc8KcC4W8w@mail.gmail.com>
+Date: Thu, 30 Aug 2012 14:17:35 +0200
+Message-Id: <F37371D0-84A6-4E9C-9455-72409B92E29C@dominion.thruhere.net>
+References: <1346255613-13401-1-git-send-email-ross.burton@intel.com>
+	<92175252-0A9C-401F-87F5-751E4CFB8611@dominion.thruhere.net>
+	<CAJTo0LY5=R5=7BGtt3LkstRhRb2Ycd1oDJFDoKygtc8KcC4W8w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1486)
+X-Gm-Message-State: ALoCoQm6XG+D9PyK6h4awIFnRxxpVEK58ffYejpkLT1xh3dzsPLW6zZ17GBT53HD/quK5RxNa6eq
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] xserver-xorg: ship the exa module in a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Aug 2012 11:53:29 -0000
+X-List-Received-Date: Thu, 30 Aug 2012 12:29:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The recipe's custom systemd service enable code is now handled by the meta-systemd
-bbappend recipe in meta-openembedded.
 
-Signed-off-by: Sander van Grieken <sander@outrightsolutions.nl>
----
- meta/recipes-connectivity/avahi/avahi.inc |   19 -------------------
- 1 file changed, 19 deletions(-)
+Op 30 aug. 2012, om 13:28 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index c08acb5..a0a1681 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -155,22 +155,3 @@ pkg_postrm_avahi-autoipd () {
- 	deluser avahi-autoipd || true
- 	delgroup avahi-autoipd || true
- }
--
--pkg_postinst_avahi-systemd() {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--	
--	systemctl enable avahi-daemon.service
--}
--
--pkg_postrm_avahi-systemd() {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--
--	systemctl disable avahi-daemon.service
--}
--
--- 
-1.7.9.5
+> On 29 August 2012 17:51, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> FWIW, the idea of those subpackages was to split every module out, =
+but I haven't kept up with xorg modules for some years now.
+>=20
+> There's also a lot of work ensuring that the dependencies are in place
+> because they can't be automatically inferred.  I'm happy leaving
+> fb/fbdev/shadow/shadowfb in the main package for now...
 
+Indeed. In the past I had every device using full Xorg in OE on my desk, =
+but with the demise of kdrive and the adoption rate of OE it has become =
+impossible to have access to each device :)=
 
 
