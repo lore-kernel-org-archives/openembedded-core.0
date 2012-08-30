@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T7MCW-0003Px-Lu for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 10:03:36 +0200
+	id 1T7MCY-0003Px-8l for openembedded-core@lists.openembedded.org;
+	Fri, 31 Aug 2012 10:03:38 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7V0RNwi006136
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7UNaab2005870
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 01:27:23 +0100
+	Fri, 31 Aug 2012 00:36:36 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 05772-02 for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 01:27:19 +0100 (BST)
+	id 05116-04 for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Aug 2012 00:36:31 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7V0RBKP006130
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7UNaOxm005864
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 01:27:13 +0100
-Message-ID: <1346372831.16485.15.camel@ted>
+	Fri, 31 Aug 2012 00:36:27 +0100
+Message-ID: <1346369784.16485.14.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Aug 2012 17:27:11 -0700
+Date: Thu, 30 Aug 2012 16:36:24 -0700
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate.bbclass: Remove hardcoded task mappings
+Subject: perl: Fix various nativesdk build issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,42 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2012 08:03:36 -0000
+X-List-Received-Date: Fri, 31 Aug 2012 08:03:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I've not idea why this got left in but as per the comment, it needs fixing
-and we shouldn't have hardcoded mappings like this. Lets remove it
-and dynamically generate the data instead.
+The config.sh lists -fstack-protector but this isn't in LDFLAGS. This
+can result in perl compilation failures due to the mismatch. Adding the
+flag to LDFLAGS solves makes all the flags consistent and avoids build
+failures from missing symbols.
 
-[YOCTO #3039]
+It was also found that the path substitutions made by the sed statement
+can conflict with each other and you can end up with $prefix$prefix type
+expressions in config.sh-X which can break the build in unusual ways.
+This patch anchors the expressions to ensure only true matches are
+replaced.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 6762e32..e4b70b3 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -519,16 +519,9 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index 9db3805..8e7ab9e 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -90,6 +90,8 @@ export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
+ # LDFLAGS for shared libraries
+ export LDDLFLAGS = "${LDFLAGS} -shared"
  
-     ret = []
--    # This needs to go away, FIXME
--    mapping = {
--        "do_populate_sysroot" : "populate-sysroot",
--        "do_populate_lic" : "populate-lic",
--        "do_package_write_ipk" : "deploy-ipk",
--        "do_package_write_deb" : "deploy-deb",
--        "do_package_write_rpm" : "deploy-rpm",
--        "do_package" : "package",
--        "do_deploy" : "deploy",
--    }
-+    mapping = {}
-+    for t in d.getVar("SSTATETASKS", True).split():
-+        mapping[t] = d.getVarFlag(t, "sstate-name", True)
++LDFLAGS_append = " -fstack-protector"
++
+ # We're almost Debian, aren't we?
+ CFLAGS += "-DDEBIAN"
  
-     for task in range(len(sq_fn)):
-         spec = sq_hashfn[task].split(" ")[1]
+@@ -148,10 +150,10 @@ do_configure() {
+                -e 's,@ARCH@-thread-multi,,g' \
+                -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
+                -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
+-               -e "s%/usr/include%${STAGING_INCDIR}%g" \
+-	       -e 's,/usr/lib/,${libdir}/,g' \
+-	       -e 's,/usr/,${exec_prefix}/,g' \
+-	       -e 's,/perl5,/perl,g' \
++               -e "s%\([ \"^\',=]\+\)/usr/include%\1${STAGING_INCDIR}%g" \
++	       -e "s%\([ \"^\',=]\+\)/usr/lib/%\1${libdir}/%g" \
++	       -e "s%\([ \"^\',=]\+\)/usr/%\1${exec_prefix}/%g" \
++	       -e "s%/perl5%/perl%g" \
+             config.sh-${TARGET_ARCH}-${TARGET_OS}
+ 
+ 	case "${TARGET_ARCH}" in
 
 
 
