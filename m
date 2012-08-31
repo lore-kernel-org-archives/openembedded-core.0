@@ -1,39 +1,35 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T7XQC-0000fX-MT
+	(envelope-from <raj.khem@gmail.com>) id 1T7YU9-0001rO-C2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 22:02:28 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 31 Aug 2012 12:50:03 -0700
-Received: by obblz20 with SMTP id lz20so6396049obb.6
+	Fri, 31 Aug 2012 23:10:37 +0200
+Received: by eaad12 with SMTP id d12so860323eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 12:50:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
+	Fri, 31 Aug 2012 13:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=ww8cDvj5nxY6XqbIGt6rKoMbk5qlB/3jlva+jrYRIeM=;
-	b=bNCsFN6gCNwZoZR3qSl1RFESsmcXrCP/Csf36gWwqT6leK+7CGPJk8/fPMCYCMTxa2
-	MhUTNgdOU9WRVFNmlSw8ghKw0U4/KWRsyUw5RT/5DGFyIZzUmKjDdRVpPei30aEe1IHb
-	wHoL4fOzJvnwnxi7Eu9V/ZK3aWbsq6225lcH6cXyge/Dh82vYYZ8wQLNcMQQ0zhXbseU
-	6bsyEo36xWVcn0MN1KHgEGgNB/uTBR6gYf1IAKY49+s7gPRYohfNH5UUCGtaJGr4PPzI
-	1Xtm6ZeorMooMi/+5L1CRmWFAYiS76x2ZBYkI3n2w3cndVf2DxnttNqCLPuxl39HMqcy
-	GGRA==
-Received: by 10.60.19.195 with SMTP id h3mr8780859oee.102.1346442602406; Fri,
-	31 Aug 2012 12:50:02 -0700 (PDT)
+	:cc:content-type;
+	bh=UB7+H97WWyKO+E1etFeULy33dyyp/Ty5ekKzo4rTzO0=;
+	b=IfqTr38kEbvnwoaXDwfnbKUnn/Vsokm140hg0UHBCGqqXSpdrMeORqMOFOzV0iRtPV
+	VyW6nYdTcaWLeGv+f0P+RZxxIF8FHcPBsaFMcblIu3MrpBdxgn2U86kV/o6u7FDpdWDG
+	GkwcRaYjxHkmRINFOfJCTRPfBpOTz0fk2d7CsFlwc5Tth7i10U+aW9XbDHtceqREeapi
+	wciDFSCa2Y8LlB7c3vg79RbHOv/Y/qVgeZm9taesFgS4D0qyezrHAx81B/fM5dmsbfQU
+	IHPAe2GUCfl4eTo+XvMK3X3uKKJKEIeh05vOfOg4ca99+Q6Phi10FLlOIIgOa1DwEN2j
+	uC/g==
+Received: by 10.14.218.134 with SMTP id k6mr12838124eep.14.1346446700323; Fri,
+	31 Aug 2012 13:58:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Fri, 31 Aug 2012 12:49:42 -0700 (PDT)
-In-Reply-To: <5040E5FD.604@linux.intel.com>
-References: <cover.1346346320.git.ross.burton@intel.com>
-	<b01489d1b7731846021040962e4ef625d311a4e7.1346346320.git.ross.burton@intel.com>
-	<5040E5FD.604@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 31 Aug 2012 20:49:42 +0100
-Message-ID: <CAJTo0LYMmz6edsk6b--QoL1SvJ9pAjdu1f8aL5i6-oE-u0XJcg@mail.gmail.com>
+Received: by 10.14.2.5 with HTTP; Fri, 31 Aug 2012 13:57:50 -0700 (PDT)
+In-Reply-To: <5040D8FE.3050506@linux.intel.com>
+References: <1346422229-61628-1-git-send-email-bjst@enea.com>
+	<1346422229-61628-3-git-send-email-bjst@enea.com>
+	<5040D8FE.3050506@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 31 Aug 2012 13:57:50 -0700
+Message-ID: <CAMKF1sqymqSHOc7Yng8J-3Jx+Pg6TgusN+6qzROm0T3DZcUHgg@mail.gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQlxyshh0uEA37dzWN7ECesHEfQaSmZ3vzHz1CY+m+IfjDs5knI/WaqwAOwdomu40nB+k+83
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/6] xserver-kdrive: remove.
+Subject: Re: [PATCH 2/3] Enable bash-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,19 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2012 20:02:29 -0000
+X-List-Received-Date: Fri, 31 Aug 2012 21:10:37 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi Saul,
+> Should this be a DISTRO or IMAGE FEATURE? I can see potential arguments for
+> both sides, what was your thinking on choosing IMAGE over DISTRO?
 
-On 31 August 2012 17:27, Saul Wold <sgw@linux.intel.com> wrote:
-> I really can't take this patch set until the corresponding change is made to
-> the meta-yocto BSPs as this will cause breakage there.
-
-I understand why I accidentally removed those patches.  Thanks to the
-magic of git reflog I recovered them, put them on the ross/xorg
-branch, and mailed them to poky@.
-
-Ross
+this is IMAGE_FEATURE that can then be recommended/mandated in a distro policy
+is upto distros
 
 
