@@ -1,22 +1,22 @@
-Received: from r-finger.com ([178.79.160.5])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1T7Q5L-0007nW-BE
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1T7S8b-0001Wh-BP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 14:12:27 +0200
-Received: from [192.168.0.2] (host81-153-116-70.range81-153.btcentralplus.com
-	[81.153.116.70]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id CA9139AE4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 12:53:31 +0100 (BST)
-Message-ID: <5040A5BB.7040601@r-finger.com>
-Date: Fri, 31 Aug 2012 12:53:31 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+	Fri, 31 Aug 2012 16:23:57 +0200
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.298.4;
+	Fri, 31 Aug 2012 16:10:36 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id CA7C6286783;
+	Fri, 31 Aug 2012 16:10:35 +0200 (CEST)
+From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 31 Aug 2012 16:10:26 +0200
+Message-ID: <1346422229-61628-1-git-send-email-bjst@enea.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: runstrip() in package.bbclass fails when run against a kernel module
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Subject: [PATCH 0/3] RFC: Package testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,64 +29,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2012 12:12:27 -0000
-X-Groupsio-MsgNum: 28465
-Content-Type: multipart/mixed; boundary="------------010002010005070505050505"
+X-List-Received-Date: Fri, 31 Aug 2012 14:23:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------010002010005070505050505
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+(An earlier version of this was posted to the yocto list last week:
+https://lists.yoctoproject.org/pipermail/yocto/2012-August/011166.html)
+
+This is a first set of patches implementing the package testing concept
+I proposed in
+https://lists.yoctoproject.org/pipermail/yocto/2012-June/009443.html
+
+In summary, the proposal creates a new package group called -ptest that
+contains the test suites included with many source packages, compiled to
+run on target.
+
+Packaging the test suites sometimes requires patching makefiles to allow
+test tools to be cross-compiled. And it sometimes requires patching
+and/or translation of the test output to produce a generic output format
+that can be automatically parsed. I have included an example patch for
+bash that does just that.
+
+I have also included "ptest-runnner", a simple script to find and run
+all installed ptests.
+
+The idea is to eventually upstream these changes, both for the benefit
+of the entire ecosystem and of course to reduce the number of patches.
+
+However I won't downplay the effort required to get hundreds of upstream
+projects to agree on a common concept for test cross compilation and
+result formatting.
+
+I see two main options: Implement first or discuss first.
+
+a) Implement first: We design and implement a good system for yocto/oe
+and then, once it has proven itself, engage the larger open source
+community with our already tested concept.
+
+Pro: It's easier to discuss an already working system
+Con: We'll have to manage patches for all packages until agreement
+
+b) Discuss first: We invite the whole open source community to discuss
+and try to agree on how to handle cross-compiled test cases and test
+result formatting before we implement anything.
+
+Pro: No increased patch load until agreement
+Con: No result until agreement, which could potentially take a long time
+
+My suggestion is a). I'm open for all suggestions that would make the
+patch load easier to manage.
+
+Bj=C3=B6rn Stenberg (3):
+  Add -ptest package group
+  Enable bash-ptest
+  New recipe: ptest-runner
+
+ meta/classes/distutils-common-base.bbclass         |    5 ++-
+ meta/classes/image.bbclass                         |    6 ++-
+ meta/classes/task.bbclass                          |    2 +-
+ meta/conf/bitbake.conf                             |   12 ++++++-
+ .../bash/bash-4.2/build-tests.patch                |   34 ++++++++++++++++=
+++++
+ meta/recipes-extended/bash/bash-4.2/run-ptest      |    2 +
+ .../bash/bash-4.2/test-output.patch                |   19 +++++++++++
+ meta/recipes-extended/bash/bash.inc                |   23 +++++++++++++
+ meta/recipes-extended/bash/bash_4.2.bb             |    5 ++-
+ .../ptest-runner/files/ptest-runner                |   16 +++++++++
+ .../ptest-runner/ptest-runner_1.0.bb               |   17 ++++++++++
+ 11 files changed, 135 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-extended/bash/bash-4.2/build-tests.patch
+ create mode 100644 meta/recipes-extended/bash/bash-4.2/run-ptest
+ create mode 100644 meta/recipes-extended/bash/bash-4.2/test-output.patch
+ create mode 100644 meta/recipes-support/ptest-runner/files/ptest-runner
+ create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_1.0.bb
+
+--=20
+1.7.5.4
 
 
-runstrip() in package.bbclass fails when run against a kernel module,
-because it tries to do a bitwise & with a 'None' argument. This throws:
-TypeError: unsupported operand type(s) for &: 'NoneType' and 'int'.
 
-(This bug triggers, for example, when building ti-linuxutils from
-meta-ti (v2012.05-yocto1.2 tag) against Denzil.)
-
-Patch attached.
-
-Tomas
-
-
---------------010002010005070505050505
-Content-Type: text/x-patch;
- name="0001-package.bbclass-fix-stripping-for-kernel-modules.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-package.bbclass-fix-stripping-for-kernel-modules.patch"
-
-From 6abe978d8e0acdb35c1abfed83e775b276b1231f Mon Sep 17 00:00:00 2001
-From: Tomas Frydrych <tomas@sleepfive.com>
-Date: Fri, 31 Aug 2012 12:02:18 +0100
-Subject: [PATCH] package.bbclass: fix stripping for kernel modules
-
-runstrip(path, elftype, d) does bitwise & on the elftype parameter, so it has
-to be passed an integer. Passing None fails with: TypeError: unsupported
-operand type(s) for &: 'NoneType' and 'int'.
-
-Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
----
- meta/classes/package.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 44e551f..f046fbb 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -877,7 +877,7 @@ python split_and_strip_files () {
- 			for f in files:
- 				if not f.endswith(".ko"):
- 					continue
--				runstrip(os.path.join(root, f), None, d)
-+				runstrip(os.path.join(root, f), 0, d)
- 	#
- 	# End of strip
- 	#
--- 
-1.7.10.4
-
-
-
---------------010002010005070505050505--
