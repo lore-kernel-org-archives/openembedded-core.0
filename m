@@ -1,27 +1,25 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1T7ODE-0005fJ-I2
+	(envelope-from <Kai.Kang@windriver.com>) id 1T7ODA-0005f6-1J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 12:12:28 +0200
+	Fri, 31 Aug 2012 12:12:29 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7VA0ATv007465
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7VA057I007459
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 03:00:10 -0700 (PDT)
+	Fri, 31 Aug 2012 03:00:05 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Fri, 31 Aug 2012 03:00:11 -0700
+	(TLS) id 14.2.309.2; Fri, 31 Aug 2012 03:00:05 -0700
 From: Kang Kai <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Aug 2012 18:00:08 +0800
-Message-ID: <2b3e7beffed41a1147ec3ccaa524347abbac69c7.1346406022.git.kai.kang@windriver.com>
+Date: Fri, 31 Aug 2012 18:00:04 +0800
+Message-ID: <cover.1346406022.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1346406022.git.kai.kang@windriver.com>
-References: <cover.1346406022.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.164]
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 4/8] libdumpvalue-perl: add it
+Subject: [PATCH 0/8] Patches for LSB perl test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,43 +35,40 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 31 Aug 2012 10:12:29 -0000
 Content-Type: text/plain
 
-LSB perl test 4.1.6-2 case all/tst_perlModPresent.pl 1 fails with:
-test 44 'use Dumpvalue;' failed
+The following changes since commit b4c5725af4cd85d5644f0373e2674e903c4eab2b:
 
-So add libdumpvalue-perl to fix it.
+  yocto-bsp: add missing xserver-xf86-config .bbappend for qemu (2012-08-25 14:47:07 +0100)
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../perl/libdumpvalue-perl_1.16.bb                 |   20 ++++++++++++++++++++
- 1 files changed, 20 insertions(+), 0 deletions(-)
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/lsb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb
+
+Kang Kai (8):
+  libclass-isa-perl: add it
+  perl: package modules Pod-Html and Tie-Hash-NamedCapture
+  libpod-plainer-perl: add it
+  libdumpvalue-perl: add it
+  libenv-perl: add it
+  libfile-checktree-perl: add it
+  libi18n-collate-perl: add it
+  task-core-lsb: add packages
+
+ meta/recipes-devtools/perl/perl-5.14.2/config.sh   |    2 +-
+ .../perl/libclass-isa-perl_0.36.bb                 |   32 +++++++++++++++++++
+ .../perl/libdumpvalue-perl_1.16.bb                 |   20 ++++++++++++
+ meta/recipes-extended/perl/libenv-perl_1.03.bb     |   22 +++++++++++++
+ .../perl/libfile-checktree-perl_4.41.bb            |   33 ++++++++++++++++++++
+ .../perl/libi18n-collate-perl_1.02.bb              |   22 +++++++++++++
+ .../perl/libpod-plainer-perl_1.03.bb               |   24 ++++++++++++++
+ meta/recipes-extended/tasks/task-core-lsb.bb       |    9 +++++-
+ 8 files changed, 162 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/perl/libclass-isa-perl_0.36.bb
  create mode 100644 meta/recipes-extended/perl/libdumpvalue-perl_1.16.bb
+ create mode 100644 meta/recipes-extended/perl/libenv-perl_1.03.bb
+ create mode 100644 meta/recipes-extended/perl/libfile-checktree-perl_4.41.bb
+ create mode 100644 meta/recipes-extended/perl/libi18n-collate-perl_1.02.bb
+ create mode 100644 meta/recipes-extended/perl/libpod-plainer-perl_1.03.bb
 
-diff --git a/meta/recipes-extended/perl/libdumpvalue-perl_1.16.bb b/meta/recipes-extended/perl/libdumpvalue-perl_1.16.bb
-new file mode 100644
-index 0000000..8476b94
---- /dev/null
-+++ b/meta/recipes-extended/perl/libdumpvalue-perl_1.16.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "Perl module for provides screen dump of Perl data."
-+DESCRIPTION = "Perl module for provides screen dump of Perl data."
-+
-+HOMEPAGE = "http://search.cpan.org/~flora/Dumpvalue/"
-+SECTION = "libs"
-+LICENSE = "Artistic-1.0 | GPL-1.0+"
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=31013c0a67276e1ca20f358868cf99ab"
-+
-+SRC_URI = "http://search.cpan.org/CPAN/authors/id/F/FL/FLORA/Dumpvalue-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "bef29bf25717db250929bf2b065c4183"
-+SRC_URI[sha256sum] = "8204ea8f95dc6b137e225702e9bacaa23646ffa8c1c9eef45fa06a7f19f338f2"
-+
-+S = "${WORKDIR}/Dumpvalue-${PV}"
-+
-+inherit cpan
-+
-+BBCLASSEXTEND = "native"
 -- 
 1.7.5.4
 
