@@ -1,35 +1,26 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T7UaJ-0005g7-Tr
+	(envelope-from <sgw@linux.intel.com>) id 1T7Uab-0005iG-Eh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 19:00:44 +0200
-Received: by eekb57 with SMTP id b57so1089913eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Aug 2012 09:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vWtsOo32dpkzYwaCcJhXRaJnC85CE/Pjp0utAweA5x4=;
-	b=qYkRzTIXh3VSRnG4H2wVsvcXdh4w9622WUu956vR2pSyyeyRDP1cd4FKB/waz86G/u
-	eYDiGXaV4qIIHmSTy7nCwAgf64PRmdOW2fHk9vGv/ZvVciopNMksr+6O/q69znVuP+eu
-	Ld0Q9DMOzPU2enoj38QHDfnGaRwjO8g2C8rD9mER5m4ZWAt15NYgmyCYI5zFJcmg3C9M
-	Lg2JE6EXwZKJ3oZr+0FRY8jMR1iznXAmoKaB1KeDUAuxuT4MGCG0uVpErqwr3RnMPx1M
-	F75FsMoEUjH3eLtgZfwjzr6CuIjlqXR06KX7nlzy1YDn4wP8nowcPOWtsLm5jexT8RbU
-	SKjg==
-Received: by 10.14.204.72 with SMTP id g48mr12060516eeo.45.1346431707413; Fri,
-	31 Aug 2012 09:48:27 -0700 (PDT)
+	Fri, 31 Aug 2012 19:01:01 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 31 Aug 2012 09:48:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,348,1344236400"; d="scan'208";a="187665746"
+Received: from unknown (HELO [10.255.12.251]) ([10.255.12.251])
+	by orsmga001.jf.intel.com with ESMTP; 31 Aug 2012 09:48:42 -0700
+Message-ID: <5040EAEA.7050000@linux.intel.com>
+Date: Fri, 31 Aug 2012 09:48:42 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Fri, 31 Aug 2012 09:47:57 -0700 (PDT)
-In-Reply-To: <5040E6EA.4010806@linux.intel.com>
-References: <1346356090-13811-1-git-send-email-sgw@linux.intel.com>
-	<CAMKF1sr=pHa21ihb5y6m9tkLYV4zG2__hWkBBZML=S9eRZhZfw@mail.gmail.com>
-	<5040E6EA.4010806@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 31 Aug 2012 09:47:57 -0700
-Message-ID: <CAMKF1sof_ULGZS62-OB=ZSedsUthdZJxfzC292azp80YQMbmGw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1346369662-17265-1-git-send-email-sgw@linux.intel.com>
+	<A19E8B5D-4A0F-439C-B67C-8CBB0CE84E16@dominion.thruhere.net>
+In-Reply-To: <A19E8B5D-4A0F-439C-B67C-8CBB0CE84E16@dominion.thruhere.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] poky-tiny: Enable x86-64 to build eglibc correctly
+Subject: Re: [PATCH] connman: Ignore eth0 cleanup when booting over the network
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,13 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2012 17:00:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 31 Aug 2012 17:01:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 31, 2012 at 9:31 AM, Saul Wold <sgw@linux.intel.com> wrote:
+On 08/31/2012 12:28 AM, Koen Kooi wrote:
 >
-> Should I file an eglibc bug?
+> Op 31 aug. 2012, om 01:34 heeft Saul Wold <sgw@linux.intel.com> het volgende geschreven:
+>
+>> There was a change to connman, such that it cleans up the
+>> route table for devices at startup, this was causing the
+>> network to get lost and NFS to loose it connection.
+>>
+>> The -I option will cause the device to be ignored.
+>
+> Apart from the missing PR bump, what happens when you don't boot of the network? Will connman keep ignoring eth0?
+> FWIW I asked about nfsroot and connman and Marcel said: don't do that! So I'm inclined to say that if you're using nfsroot you shouldn't be using connman.
+>
+What if there are multiple network interfaces, but just one (eth0, usb0, 
+...) is the nfsroot provider?
 
-yes
+Is there a way to determine which interface nfs is active on and only 
+ignore that one?
+
+I am going to disable connmand for now in a v2 patch, but I think we 
+need to address this better either via connman or here in oe-core.
+
+Sau!
+
 
 
