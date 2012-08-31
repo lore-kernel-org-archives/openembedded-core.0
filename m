@@ -1,24 +1,24 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1T7S8b-0001Wh-K6
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1T7S8d-0001Wu-W7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 16:23:57 +0200
+	Fri, 31 Aug 2012 16:24:00 +0200
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.298.4;
-	Fri, 31 Aug 2012 16:10:36 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id D79A82867CE;
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.298.4;
+	Fri, 31 Aug 2012 16:10:33 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id D1D3828677E;
 	Fri, 31 Aug 2012 16:10:35 +0200 (CEST)
 From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Aug 2012 16:10:28 +0200
-Message-ID: <1346422229-61628-3-git-send-email-bjst@enea.com>
+Date: Fri, 31 Aug 2012 16:10:27 +0200
+Message-ID: <1346422229-61628-2-git-send-email-bjst@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1346422229-61628-1-git-send-email-bjst@enea.com>
 References: <1346422229-61628-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
 	permitted sender hosts)
-Subject: [PATCH 2/3] Enable bash-ptest
+Subject: [PATCH 1/3] Add -ptest package group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,184 +31,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2012 14:23:57 -0000
+X-List-Received-Date: Fri, 31 Aug 2012 14:24:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Patch Makefile.in to allow test programs be built on host and ran on
-target.
-Patch tests/run-all to output PASS/FAIL for each testcase.
-Patch recipe to contitionally build and install ptest.
+This patch creates a new package group -ptest to contain the tests from
+each package.
 
 Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 ---
- .../bash/bash-4.2/build-tests.patch                |   34 ++++++++++++++++=
-++++
- meta/recipes-extended/bash/bash-4.2/run-ptest      |    2 +
- .../bash/bash-4.2/test-output.patch                |   19 +++++++++++
- meta/recipes-extended/bash/bash.inc                |   23 +++++++++++++
- meta/recipes-extended/bash/bash_4.2.bb             |    5 ++-
- 5 files changed, 82 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-extended/bash/bash-4.2/build-tests.patch
- create mode 100644 meta/recipes-extended/bash/bash-4.2/run-ptest
- create mode 100644 meta/recipes-extended/bash/bash-4.2/test-output.patch
+ meta/classes/distutils-common-base.bbclass |    5 ++++-
+ meta/classes/image.bbclass                 |    6 ++++--
+ meta/classes/task.bbclass                  |    2 +-
+ meta/conf/bitbake.conf                     |   12 +++++++++++-
+ 4 files changed, 20 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash-4.2/build-tests.patch b/meta/r=
-ecipes-extended/bash/bash-4.2/build-tests.patch
-new file mode 100644
-index 0000000..17276c7
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-4.2/build-tests.patch
-@@ -0,0 +1,34 @@
-+diff -uNr a/Makefile.in b/Makefile.in
-+--- a/Makefile.in	2012-08-31 13:54:15.259491840 +0200
-++++ b/Makefile.in	2012-08-31 14:54:46.508053649 +0200
-+@@ -827,20 +827,26 @@
-+ 	fi
-+=20
-+ recho$(EXEEXT):		$(SUPPORT_SRC)recho.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)recho.c ${LIBS=
-_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+=20
-+ zecho$(EXEEXT):		$(SUPPORT_SRC)zecho.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)zecho.c ${LIBS=
-_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+=20
-+ printenv$(EXEEXT):	$(SUPPORT_SRC)printenv.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)printenv.c ${L=
-IBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+=20
-+ xcase$(EXEEXT):	$(SUPPORT_SRC)xcase.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)xcase.c ${LIBS=
-_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+=20
-+-test tests check:	force $(Program) $(TESTS_SUPPORT)
-++test tests check:
-++	@$(MAKE) buildtest
-++	@$(MAKE) runtest
-++
-++buildtest: force $(Program) $(TESTS_SUPPORT)
-+ 	@-test -d tests || mkdir tests
-+ 	@cp $(TESTS_SUPPORT) tests
-++
-++runtest:
-+ 	@( cd $(srcdir)/tests && \
-+ 		PATH=3D$(BUILD_DIR)/tests:$$PATH THIS_SH=3D$(THIS_SH) $(SHELL) ${TESTSC=
-RIPT} )
-diff --git a/meta/recipes-extended/bash/bash-4.2/run-ptest b/meta/recipes-e=
-xtended/bash/bash-4.2/run-ptest
-new file mode 100644
-index 0000000..8dd3b99
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-4.2/run-ptest
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+make -k THIS_SH=3D/bin/bash BUILD_DIR=3D. runtest
-diff --git a/meta/recipes-extended/bash/bash-4.2/test-output.patch b/meta/r=
-ecipes-extended/bash/bash-4.2/test-output.patch
-new file mode 100644
-index 0000000..065a85c
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-4.2/test-output.patch
-@@ -0,0 +1,19 @@
-+diff -uNr a/tests/run-all b/tests/run-all
-+--- a/tests/run-all	2012-06-14 10:15:15.007467700 +0200
-++++ b/tests/run-all	2012-06-14 10:19:26.464678067 +0200
-+@@ -22,6 +22,14 @@
-+ 	case $x in
-+ 	$0|run-minimal|run-gprof)	;;
-+ 	*.orig|*~) ;;
-+-	*)	echo $x ; sh $x ;;
-++	*)	echo $x
-++		output=3D`sh $x`
-++		if [ -n "$output" ]; then
-++			echo "$output"
-++			echo "FAIL: $x"
-++		else
-++			echo "PASS: $x"
-++		fi
-++		;;
-+ 	esac
-+ done
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/ba=
-sh/bash.inc
-index 3684191..7f7a965 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -21,18 +21,41 @@ ALTERNATIVE_PRIORITY =3D "100"
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/dist=
+utils-common-base.bbclass
+index f66a5cd..7db015b 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -5,7 +5,7 @@ EXTRA_OEMAKE =3D ""
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
 =20
- export AUTOHEADER =3D "true"
+-PACKAGES =3D "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
++PACKAGES =3D "${PN}-dev ${PN}-dbg ${PN}-ptest ${PN}-doc ${PN}"
 =20
-+RDEPENDS_${PN}-ptest +=3D "make"
-+FILES_${PN}-dbg +=3D "${PTEST_PATH}/.debug \
-+                    ${PTEST_PATH}/tests/.debug"
-+
-+PTEST_ENABLED =3D "${@base_contains('IMAGE_FEATURES', 'ptest-pkgs', '1', '=
-0', d)}"
-+
- do_configure_prepend () {
- 	if [ ! -e acinclude.m4 ]; then
- 		cat aclocal.m4 > acinclude.m4
- 	fi
+ FILES_${PN} =3D "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+=20
+@@ -19,3 +19,6 @@ FILES_${PN}-dbg +=3D "\
+   ${PYTHON_SITEPACKAGES_DIR}/*/.debug \
+   ${PYTHON_SITEPACKAGES_DIR}/*/*/.debug \
+ "
++FILES_${PN}-ptest +=3D "\
++  ${PYTHON_SITEPACKAGES_DIR}/${PTEST_NAME} \
++"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 72720f1..c154bc2 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -29,13 +29,13 @@ ROOTFS_BOOTSTRAP_INSTALL =3D "${@base_contains("IMAGE_F=
+EATURES", "package-manageme
+ FEATURE_INSTALL =3D "${@' '.join(oe.packagegroup.required_packages(oe.data=
+.typed_value('IMAGE_FEATURES', d), d))}"
+ FEATURE_INSTALL_OPTIONAL =3D "${@' '.join(oe.packagegroup.optional_package=
+s(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
+=20
+-# packages to install from features, excluding dev/dbg/doc
++# packages to install from features, excluding dev/dbg/doc/ptest
+ NORMAL_FEATURE_INSTALL =3D "${@' '.join(oe.packagegroup.required_packages(=
+normal_groups(d), d))}"
+ NORMAL_FEATURE_INSTALL_OPTIONAL =3D "${@' '.join(oe.packagegroup.optional_=
+packages(normal_groups(d), d))}"
+=20
+ def normal_groups(d):
+     """Return all the IMAGE_FEATURES, with the exception of our special pa=
+ckage groups"""
+-    extras =3D set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs'])
++    extras =3D set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs', =
+'ptest-pkgs'])
+     features =3D set(oe.data.typed_value('IMAGE_FEATURES', d))
+     return features.difference(extras)
+=20
+@@ -53,6 +53,8 @@ def complementary_globs(featurevar, d):
+             globs.append('*-doc')
+         elif feature =3D=3D 'dbg-pkgs':
+             globs.append('*-dbg')
++        elif feature =3D=3D 'ptest-pkgs':
++            globs.append('*-ptest')
+     return ' '.join(globs)
+=20
+ IMAGE_INSTALL_COMPLEMENTARY =3D '${@complementary_globs("IMAGE_FEATURES", =
+d)}'
+diff --git a/meta/classes/task.bbclass b/meta/classes/task.bbclass
+index 6ec154a..653f149 100644
+--- a/meta/classes/task.bbclass
++++ b/meta/classes/task.bbclass
+@@ -20,7 +20,7 @@ python () {
+     packages =3D d.getVar('PACKAGES', True).split()
+     genpackages =3D []
+     for pkg in packages:
+-        for postfix in ['-dbg', '-dev']:
++        for postfix in ['-dbg', '-ptest', '-dev']:
+             genpackages.append(pkg+postfix)
+     d.setVar('PACKAGES', ' '.join(packages+genpackages))
  }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7dfeda3..d10e933 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -220,6 +220,10 @@ SUMMARY_${PN}-dbg ?=3D "${SUMMARY} - Debugging files"
+ DESCRIPTION_${PN}-dbg ?=3D "${DESCRIPTION}  \
+ This package contains ELF symbols and related sources for debugging purpos=
+es."
 =20
-+do_compile_append () {
-+        if [ ${PTEST_ENABLED} =3D "1" ] ; then
-+		oe_runmake buildtest
-+        fi
-+}
++SUMMARY_${PN}-ptest ?=3D "${SUMMARY} - Package test files"
++DESCRIPTION_${PN}-ptest ?=3D "${DESCRIPTION}  \
++This package contains test directory with the name ${PTEST_NAME} for packa=
+ge test purposes."
 +
- do_install_append () {
- 	# Move /usr/bin/bash to /bin/bash, if need
- 	if [ "${base_bindir}" !=3D "${bindir}" ]; then
- 		mkdir -p ${D}${base_bindir}
- 		mv ${D}${bindir}/bash ${D}${base_bindir}
- 	fi
+ SUMMARY_${PN}-dev ?=3D "${SUMMARY} - Development files"
+ DESCRIPTION_${PN}-dev ?=3D "${DESCRIPTION}  \
+ This package contains symbolic links, header files, and \
+@@ -263,7 +267,7 @@ SOLIBSDEV_darwin8 =3D ".dylib"
+ SOLIBSDEV_darwin9 =3D ".dylib"
+=20
+ PACKAGE_BEFORE_PN ?=3D ""
+-PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale $=
+{PACKAGE_BEFORE_PN} ${PN}"
++PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale $=
+{PN}-ptest ${PACKAGE_BEFORE_PN} ${PN}"
+ PACKAGES_DYNAMIC =3D "${PN}-locale-*"
+ FILES =3D ""
+=20
+@@ -307,6 +311,12 @@ SECTION_${PN}-dbg =3D "devel"
+ ALLOW_EMPTY_${PN}-dbg =3D "1"
+ RRECOMMENDS_${PN}-dbg =3D "${PN} (=3D ${EXTENDPKGV})"
+=20
++PTEST_PATH ?=3D "${libdir}/${PN}/ptest"
++FILES_${PN}-ptest =3D "${PTEST_PATH}/*"
++SECTION_${PN}-ptest =3D "devel"
++ALLOW_EMPTY_${PN}-ptest =3D "1"
++RDEPENDS_${PN}-ptest =3D "${PN} (=3D ${EXTENDPKGV})"
 +
-+        if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
-+            mkdir -p ${D}${PTEST_PATH}
-+            install -m 0755 ${WORKDIR}/run-ptest    ${D}${PTEST_PATH}
-+            install -m 0755 ${B}/Makefile           ${D}${PTEST_PATH}
-+            install -m 0755 ${B}/recho              ${D}${PTEST_PATH}
-+            install -m 0755 ${B}/zecho              ${D}${PTEST_PATH}
-+            install -m 0755 ${B}/printenv           ${D}${PTEST_PATH}
-+            install -m 0755 ${B}/xcase              ${D}${PTEST_PATH}
-+            cp -r ${B}/tests                        ${D}${PTEST_PATH}
-+        fi
- }
+ FILES_${PN}-locale =3D "${datadir}/locale"
 =20
- pkg_postinst_${PN} () {
-diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended=
-/bash/bash_4.2.bb
-index 50f2ff6..5e9b50e 100644
---- a/meta/recipes-extended/bash/bash_4.2.bb
-+++ b/meta/recipes-extended/bash/bash_4.2.bb
-@@ -1,6 +1,6 @@
- require bash.inc
-=20
--PR =3D "r4"
-+PR =3D "r5"
-=20
- SRC_URI =3D "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=3Dtarball \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=3Dyes;stri=
-plevel=3D0;name=3Dpatch001 \
-@@ -14,6 +14,9 @@ SRC_URI =3D "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=
-=3Dtarball \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-009;apply=3Dyes;stri=
-plevel=3D0;name=3Dpatch009 \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-010;apply=3Dyes;stri=
-plevel=3D0;name=3Dpatch010 \
-            file://execute_cmd.patch;striplevel=3D0 \
-+           file://build-tests.patch \
-+           file://test-output.patch \
-+           file://run-ptest \
-            "
-=20
- SRC_URI[tarball.md5sum] =3D "3fb927c7c33022f1c327f14a81c0d4b0"
+ # File manifest
 --=20
 1.7.5.4
 
