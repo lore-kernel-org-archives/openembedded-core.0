@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T7TwR-0004iF-5c
+	(envelope-from <sgw@linux.intel.com>) id 1T7TxJ-0004lk-Pw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 31 Aug 2012 18:19:31 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Aug 2012 09:07:13 -0700
+	Fri, 31 Aug 2012 18:20:27 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 31 Aug 2012 09:08:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,347,1344236400"; d="scan'208";a="216362193"
+X-IronPort-AV: E=Sophos;i="4.80,347,1344236400"; d="scan'208";a="187432023"
 Received: from unknown (HELO [10.255.12.251]) ([10.255.12.251])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Aug 2012 09:07:12 -0700
-Message-ID: <5040E130.3040102@linux.intel.com>
-Date: Fri, 31 Aug 2012 09:07:12 -0700
+	by azsmga001.ch.intel.com with ESMTP; 31 Aug 2012 09:08:07 -0700
+Message-ID: <5040E167.4080100@linux.intel.com>
+Date: Fri, 31 Aug 2012 09:08:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1346338319-17685-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1346338319-17685-1-git-send-email-ross.burton@intel.com>
+To: Marc Ferland <ferlandm@sonatest.com>
+References: <1346350125-10939-1-git-send-email-ferlandm@sonatest.com>
+In-Reply-To: <1346350125-10939-1-git-send-email-ferlandm@sonatest.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glib-2.0: don't disable all debugging functionality
+Subject: Re: [PATCH] sysstat: Explicitly disable sensors support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,124 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Aug 2012 16:19:31 -0000
+X-List-Received-Date: Fri, 31 Aug 2012 16:20:27 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/30/2012 07:51 AM, Ross Burton wrote:
-> GLib will use "minimal" debugging on non-development builds and the extra safety
-> net and ability to debug at all is totally worth the small performance cost.
+On 08/30/2012 11:08 AM, Marc Ferland wrote:
+> Since no lmsensors recipe exists by default in oe-core, explicitly disable
+> support for it in sysstat. In my case sysstat would fail linking complaining
+> about undefined references when adding my own lmsensors recipe.
 >
-> If someone has a need for every ounce of performance, a simple .bbappend can
-> restore this option.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
 > ---
->   meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    2 +-
->   meta/recipes-core/glib-2.0/glib.inc           |    2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+>   meta/recipes-extended/sysstat/sysstat.inc       |    2 ++
+>   meta/recipes-extended/sysstat/sysstat_10.0.5.bb |    2 +-
+>   2 files changed, 3 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> index 8f7cd69..7bc97d68 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> @@ -1,6 +1,6 @@
->   require glib.inc
+> diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+> index 9da40a7..287bb54 100644
+> --- a/meta/recipes-extended/sysstat/sysstat.inc
+> +++ b/meta/recipes-extended/sysstat/sysstat.inc
+> @@ -3,12 +3,14 @@ DESCRIPTION = "The sysstat utilities are a collection of performance monitoring
+>   HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
+>   LICENSE = "GPLv2+"
+>   SECTION = "console/utils"
+> +INC_PR = "r1"
 >
-> -PR = "r4"
-> +PR = "r5"
->   PE = "1"
+>   SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.gz \
+>   		   file://99_sysstat"
 >
->   DEPENDS += "libffi python-argparse-native zlib"
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-> index 3540cd5..9dca440 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -27,7 +27,7 @@ S = "${WORKDIR}/glib-${PV}"
+>   inherit autotools gettext
 >
->   CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
+> +EXTRA_OECONF += "--disable-sensors"
+>   EXTRA_OEMAKE += 'LFLAGS=""'
 >
-> -EXTRA_OECONF = "--disable-debug --enable-included-printf=no ${CORECONF}"
-> +EXTRA_OECONF = "--enable-included-printf=no ${CORECONF}"
->   EXTRA_OECONF_virtclass-native = "${CORECONF}"On 08/30/2012 07:51 AM, Ross Burton wrote:> GLib will use "minimal" debugging on non-development builds and the extra safety
-> net and ability to debug at all is totally worth the small performance cost.
+>   do_install() {
+> diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.5.bb b/meta/recipes-extended/sysstat/sysstat_10.0.5.bb
+> index 233102a..1c8595a 100644
+> --- a/meta/recipes-extended/sysstat/sysstat_10.0.5.bb
+> +++ b/meta/recipes-extended/sysstat/sysstat_10.0.5.bb
+> @@ -2,7 +2,7 @@ require sysstat.inc
 >
-> If someone has a need for every ounce of performance, a simple .bbappend can
-> restore this option.
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    2 +-
->   meta/recipes-core/glib-2.0/glib.inc           |    2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+> -PR = "r0"
+> +PR = "${INC_PR}.1"
 >
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> index 8f7cd69..7bc97d68 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> @@ -1,6 +1,6 @@
->   require glib.inc
+>   SRC_URI[md5sum] = "208dd236d726d20591d53d3a20124dd4"
+>   SRC_URI[sha256sum] = "1f474d6ca742af73d0f9d09a374bda64c72bccb126aef327fa74383ff438feff"
 >
-> -PR = "r4"
-> +PR = "r5"
->   PE = "1"
->
->   DEPENDS += "libffi python-argparse-native zlib"
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-> index 3540cd5..9dca440 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -27,7 +27,7 @@ S = "${WORKDIR}/glib-${PV}"
->
->   CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
->
-> -EXTRA_OECONF = "--disable-debug --enable-included-printf=no ${CORECONF}"
-> +EXTRA_OECONF = "--enable-included-printf=no ${CORECONF}"
->   EXTRA_OECONF_virtclass-native = "${CORECONF}"
->   EXTRA_OECONF_linuxstdbase = "--enable-included-printf=no ${CORECONF}"
->
->
->   EXTRA_OECONF_linuxstdbase = "--enable-included-prinOn 08/30/2012 07:51 AM, Ross Burton wrote:> GLib will use "minimal" debugging on non-development builds and the extra safety
-> net and ability to debug at all is totally worth the small performance cost.
->
-> If someone has a need for every ounce of performance, a simple .bbappend can
-> restore this option.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    2 +-
->   meta/recipes-core/glib-2.0/glib.inc           |    2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> index 8f7cd69..7bc97d68 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-> @@ -1,6 +1,6 @@
->   require glib.inc
->
-> -PR = "r4"
-> +PR = "r5"
->   PE = "1"
->
->   DEPENDS += "libffi python-argparse-native zlib"
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-> index 3540cd5..9dca440 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -27,7 +27,7 @@ S = "${WORKDIR}/glib-${PV}"
->
->   CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
->
-> -EXTRA_OECONF = "--disable-debug --enable-included-printf=no ${CORECONF}"
-> +EXTRA_OECONF = "--enable-included-printf=no ${CORECONF}"
->   EXTRA_OECONF_virtclass-native = "${CORECONF}"
->   EXTRA_OECONF_linuxstdbase = "--enable-included-printf=no ${CORECONF}"
->
-> tf=no ${CORECONF}"
->
->
-
 Merged into OE-Core
 
 Thanks
