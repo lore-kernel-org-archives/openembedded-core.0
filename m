@@ -1,26 +1,40 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XDB-0006T3-TD
+	(envelope-from <ross.burton@intel.com>) id 1T8XI5-0006YL-Lv
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 16:01:10 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Sep 2012 06:48:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="140985628"
-Received: from unknown (HELO helios.localnet) ([10.252.121.155])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Sep 2012 06:48:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 03 Sep 2012 14:47:56 +0100
-Message-ID: <8068324.QSSVEOGDPm@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <CAJTo0Las+a6gpTqgu3221qaeyO4B7BuLRDzFrSJNgN1WD48Rig@mail.gmail.com>
+	Mon, 03 Sep 2012 16:06:13 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 03 Sep 2012 06:53:47 -0700
+Received: by obblz20 with SMTP id lz20so9290631obb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Sep 2012 06:53:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=y/GR6cgdSsAvUoC8gxVB9TkByGxOiK+XZZW4NY5SK7Y=;
+	b=ZFYJ6uEROSxklm3D3VYiEayVhCRYvNWEGHDejvNBhVnUsDISs5zZeZoc4Aeqt2CRiQ
+	dmtvyB4XQtJcMx0C1ZjultmWjVI/cH1cVWwvEc3e0bArSrnx55JPgZgDsV8MsqOF6SGJ
+	woLgYRUQq4LqhOhWzr1w/6bKXXaKE1KrJ4dI/Dw2Xco/kHUIOLY1HA1nSpA5eeOkGNJD
+	thDRklmDntA8i6NEj4xJzInS1pju0FKTfC2vUiF3PSPnqVSg2eV4ZXioQvdq/PXBdf6i
+	LOi39NcVgiBVeO7yBUr5+BlFcGt4lrWrXRlcLpuNlxAAPAwZbx8raa/AqNB0HeFqM28K
+	EUBQ==
+Received: by 10.60.29.72 with SMTP id i8mr13775404oeh.26.1346680431166; Mon,
+	03 Sep 2012 06:53:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Mon, 3 Sep 2012 06:53:30 -0700 (PDT)
+In-Reply-To: <8068324.QSSVEOGDPm@helios>
 References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
 	<1345653628.3907.124.camel@ted>
 	<CAJTo0Las+a6gpTqgu3221qaeyO4B7BuLRDzFrSJNgN1WD48Rig@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<8068324.QSSVEOGDPm@helios>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Sep 2012 14:53:30 +0100
+Message-ID: <CAJTo0Lbn5ow1yMDj5X-c77CxNDNQJri4cWH_WdBEU3guWJdfrg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQnpY9SCs20GoCPSyjkPBBg62x6Tmq2evyJGfBIYqDlO/6vD+wTX9lyqK1tNdLzQ/L5oOPdg
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] zeroconf: remove - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,29 +48,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 14:01:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Sep 2012 14:06:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 22 August 2012 17:44:14 Burton, Ross wrote:
-> > I'm not sure that is enough to warrant it staying in OE-Core. meta-oe
-> > might be a better fit? Can avahi be cut down for "tiny" usage though
-> > configuration?
-> 
-> Agreed.
-> 
-> I don't think Avahi can be cut down enough, zerconf only supports
-> exposing the machine name which is a pretty tiny subset of mDNS in
-> total.
+On 3 September 2012 14:47, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> So, where does that leave us with this patch then?
 
-So, where does that leave us with this patch then?
+I'd say merge it, if anyone really needs a tiny mDNS responder they
+can dig it out.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
 
