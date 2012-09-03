@@ -1,31 +1,37 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1T8Ong-00022D-VZ
+	(envelope-from <martin.jansa@gmail.com>) id 1T8QxQ-0001vq-3t
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 07:02:17 +0200
-Received: by obblz20 with SMTP id lz20so8724703obb.6
+	Mon, 03 Sep 2012 09:20:28 +0200
+Received: by wgbdr1 with SMTP id dr1so3352169wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Sep 2012 21:49:56 -0700 (PDT)
+	Mon, 03 Sep 2012 00:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=tNtfKiIxh+ZTMDmsfCSHcFGfGiJGkozyvDc46nJ21Vs=;
-	b=FtQGGXm9KmBQlluwJBdCxMt/tnb36SLsV2GNJUEmv6oc/wW6ywjAamKnXhr3lRpHY0
-	IriQIPeo5wk2mcD8Xoe5iQMp1MpDM8tcQtUUNC89qovMZsv6VB53/ZChjJ0KZ+pqCgHz
-	J/Hti4dE10OQCnBZL5E/e8k7YgOOLrdoxhPCZulezDRK8HOPx4mycqSJ1TTNef1tMmpm
-	4pJ2GChl7wjMyBGuzR+PK45XU2kfwj8BN9ptcjOljzbGsimK+Fu6d1pk7yb+X3vY8YAz
-	cMI73hNlm1e0mfHWMO+uU4ibGi9NkUzcCMT01MABD0Ib3vZeItnPx85YaarqSDViJCPH
-	jtHw==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=NhdrVy5OOM9PA+/6CiaI9vUFMzNu+m0pMpYoEtbf7lw=;
+	b=HmrSUtDaz2x+oLgQTBzkvxeivi31RgVW9OLXIGXid2CWueTkfW1Yerrg/Y15/XS1pz
+	J+5hkHTmpmnKFVK9f11HeeTVgqQQwU2+XUPGY+lS7ypChJ1hG8OcugU1/3qia4ZblIEK
+	btNr4XqEn1vfkodVMoo/cjX5/ylPW5Tqk1pXy8ezcll2GyMslgWBWxhJ4lUoh8Lg95JW
+	WFN7UdJHpWXt4SYteyF9aEXIrpvNuH8QcP+8NKGk3vxpSVOEHshzwJEAlozri/N8tBT0
+	ixiXJqNtd6dOu7Zh8umbJ+JYu4pvlVmnmEX8CdNTw49+MpuOA6BSvJOwd0RS4HvgNjZ/
+	WHvA==
+Received: by 10.180.100.35 with SMTP id ev3mr21109123wib.7.1346656088137;
+	Mon, 03 Sep 2012 00:08:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id el6sm17631717wib.8.2012.09.03.00.08.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 03 Sep 2012 00:08:06 -0700 (PDT)
+Date: Mon, 3 Sep 2012 09:08:32 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+Message-ID: <20120903070832.GC3205@jama.jama.net>
+References: <5040A5BB.7040601@r-finger.com>
 MIME-Version: 1.0
-Received: by 10.60.171.138 with SMTP id au10mr13455959oec.39.1346647796430;
-	Sun, 02 Sep 2012 21:49:56 -0700 (PDT)
-Received: by 10.60.33.201 with HTTP; Sun, 2 Sep 2012 21:49:56 -0700 (PDT)
-Date: Mon, 3 Sep 2012 06:49:56 +0200
-Message-ID: <CAOHjBZs0nD_7QjvxpQjF+on5a-e2nSDz_+NyatkVPKB4qyXkYw@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Cannot find -lssp during uclibc package build
+In-Reply-To: <5040A5BB.7040601@r-finger.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: runstrip() in package.bbclass fails when run against a kernel module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,55 +44,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 05:02:17 -0000
-Content-Type: multipart/alternative; boundary=bcaec554051c8b35fa04c8c4df67
+X-List-Received-Date: Mon, 03 Sep 2012 07:20:28 -0000
+X-Groupsio-MsgNum: 28516
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0lnxQi9hkpPO77W3"
+Content-Disposition: inline
 
---bcaec554051c8b35fa04c8c4df67
-Content-Type: text/plain; charset=ISO-8859-1
-
-Hi Khem, All
-
-I'm building an uclibc image using gcc 4.6.3 instead of the 4.7 version
-oe-core provides.
-I'm falling in the following linker error during uClibc package build:
-
-"Cannot find -lssp"
-
-Now, ssp support is enabled in the uClibc package and disabled in the
-gcc-cross-initial package, so
-ld should not include that by default. Instead it does and if I switch to
-old OE-Core repository (June 2012)
-I can see all goes right just because the gcc-cross-intermediate package
-was still present and uClibc depends on it
-for building. Now, I know the -intermediate package was moved out and the
--initial one should include it, but
-that's it.
-I've not tested that with gcc 4.7 version, this is out of my scope.
-Please, can you address me to solve this issue?
-
-Best Regards,
-Giuseppe
-
---bcaec554051c8b35fa04c8c4df67
-Content-Type: text/html; charset=ISO-8859-1
+--0lnxQi9hkpPO77W3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div>Hi Khem, All</div><div>=A0</div><div>I&#39;m building an uclibc=A0imag=
-e using gcc 4.6.3 instead of the 4.7 version oe-core provides.</div><div>I&=
-#39;m falling in the following linker=A0error during uClibc package build:<=
-/div>
-<div>=A0</div><div>&quot;Cannot find -lssp&quot;</div><div>=A0</div><div>No=
-w, ssp support is enabled in the uClibc package and disabled in the gcc-cro=
-ss-initial package, so</div><div>ld should not include that by default. Ins=
-tead it does and if I switch to old OE-Core repository (June 2012)</div>
-<div>I can see all goes right just because the gcc-cross-intermediate packa=
-ge was still present and uClibc depends on it</div><div>for building. Now, =
-I know the -intermediate package was moved out and the -initial one should =
-include it, but</div>
-<div>that&#39;s it.</div><div>I&#39;ve not tested that with gcc 4.7 version=
-, this is out of my scope.</div><div>Please, can you address me to solve th=
-is issue?</div><div>=A0</div><div>Best Regards,</div><div>Giuseppe</div><di=
-v>
-=A0</div>
+On Fri, Aug 31, 2012 at 12:53:31PM +0100, Tomas Frydrych wrote:
+>=20
+> runstrip() in package.bbclass fails when run against a kernel module,
+> because it tries to do a bitwise & with a 'None' argument. This throws:
+> TypeError: unsupported operand type(s) for &: 'NoneType' and 'int'.
+>=20
+> (This bug triggers, for example, when building ti-linuxutils from
+> meta-ti (v2012.05-yocto1.2 tag) against Denzil.)
+>=20
+> Patch attached.
 
---bcaec554051c8b35fa04c8c4df67--
+Was this for denzil?
+
+In master it was fixed a month ago by:
+http://git.openembedded.org/openembedded-core/commit/meta/classes/package.b=
+bclass?id=3Da834ab8a6d53cae504fa112a89bab93d726539ec
+
+Don't know why they merged your patch to master too now..
+
+Cheers,
+
+>=20
+> Tomas
+>=20
+
+> From 6abe978d8e0acdb35c1abfed83e775b276b1231f Mon Sep 17 00:00:00 2001
+> From: Tomas Frydrych <tomas@sleepfive.com>
+> Date: Fri, 31 Aug 2012 12:02:18 +0100
+> Subject: [PATCH] package.bbclass: fix stripping for kernel modules
+>=20
+> runstrip(path, elftype, d) does bitwise & on the elftype parameter, so it=
+ has
+> to be passed an integer. Passing None fails with: TypeError: unsupported
+> operand type(s) for &: 'NoneType' and 'int'.
+>=20
+> Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+> ---
+>  meta/classes/package.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 44e551f..f046fbb 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -877,7 +877,7 @@ python split_and_strip_files () {
+>  			for f in files:
+>  				if not f.endswith(".ko"):
+>  					continue
+> -				runstrip(os.path.join(root, f), None, d)
+> +				runstrip(os.path.join(root, f), 0, d)
+>  	#
+>  	# End of strip
+>  	#
+> --=20
+> 1.7.10.4
+>=20
+>=20
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--0lnxQi9hkpPO77W3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBEV3AACgkQN1Ujt2V2gBzA1QCgu98tBf599yZccSbj0hd4o90O
+D+8AoK8pbdzeeoz0lhOAQtpFeAzR+0U4
+=iJfw
+-----END PGP SIGNATURE-----
+
+--0lnxQi9hkpPO77W3--
