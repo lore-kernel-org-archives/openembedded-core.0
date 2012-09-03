@@ -1,26 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8RcF-0003bG-K7
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8Rpy-0003pr-Mf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 10:02:39 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 00:50:18 -0700
+	Mon, 03 Sep 2012 10:16:50 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Sep 2012 01:04:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217452608"
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="188295590"
 Received: from unknown (HELO helios.localnet) ([10.252.121.155])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 00:50:17 -0700
+	by orsmga001.jf.intel.com with ESMTP; 03 Sep 2012 01:04:21 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 03 Sep 2012 08:49:26 +0100
-Message-ID: <1624899.nqBzdK1tX0@helios>
+To: Andrei Gherzan <andrei@gherzan.ro>
+Date: Mon, 03 Sep 2012 09:03:30 +0100
+Message-ID: <5808938.Nh0F33ee0J@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <20120903072317.GD3205@jama.jama.net>
-References: <cover.1346584261.git.Martin.Jansa@gmail.com>
-	<3830362.NxTCTzAyLx@helios> <20120903072317.GD3205@jama.jama.net>
+In-Reply-To: <2c0055c43eae1489aee3e5e3fa2b8481d10fe0ce.1345155936.git.andrei@gherzan.ro>
+References: <754a26c722091d5922d1ef095def13f1cf57f27f.1345155936.git.andrei@gherzan.ro>
+	<2c0055c43eae1489aee3e5e3fa2b8481d10fe0ce.1345155936.git.andrei@gherzan.ro>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] sstate-cache-management.sh: look in meta* above oe-core dir when looking for available tunes
+Subject: Re: [V2 PATCH 5/6] task-core-boot: Add busybox-hwclock if MACHINE_FEATURES contains rtc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 08:02:40 -0000
+X-List-Received-Date: Mon, 03 Sep 2012 08:16:51 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Monday 03 September 2012 09:23:17 Martin Jansa wrote:
-> On Sun, Sep 02, 2012 at 01:07:53PM +0100, Paul Eggleton wrote:
-> > On Sunday 02 September 2012 13:13:20 Martin Jansa wrote:
-> > > * many layouts have other layers on the same level as oe-core checkout
-> > 
-> > This is beginning to indicate that this script really needs to actually
-> > know something about your configuration rather than trying to guess it.
-> You can pass more layers to script with:
+On Friday 17 August 2012 01:28:51 Andrei Gherzan wrote:
+> For machines with no hardware clock it makes no sense to have this
+> init stript. Moreover, we avoid a boot error in this way.
 > 
->   --extra-layer=<layer1>,<layer2>...<layern>
->         Specify the layer which will be used for searching the archs,
->         it will search the meta and meta-* layers in the top dir by
->         default, and will search meta, meta-*, <layer1>, <layer2>,
->         ...<layern> when specified. Use "," as the separator.
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> ---
+>  meta/recipes-core/tasks/task-core-boot.bb |    1 +
+>  1 file changed, 1 insertion(+)
 > 
-> But nobody says what is "top dir", in my bblayers.conf it's the
-> directory with oe-core and meta-* checkouts and I think this is common
-> layout if you're not using some combo tool to merge all layers to
-> oe-core checkout.
-> 
-> So this change only makes default search path a bit more usefull and
-> then it filteres available arch anyway.
+> diff --git a/meta/recipes-core/tasks/task-core-boot.bb
+> b/meta/recipes-core/tasks/task-core-boot.bb index 6487436..2947509 100644
+> --- a/meta/recipes-core/tasks/task-core-boot.bb
+> +++ b/meta/recipes-core/tasks/task-core-boot.bb
+> @@ -34,6 +34,7 @@ RDEPENDS_task-core-boot = "\
+>      base-files \
+>      base-passwd \
+>      busybox \
+> +    ${@base_contains("MACHINE_FEATURES", "rtc", "busybox-hwclock", "", d)}
+> \ ${VIRTUAL-RUNTIME_initscripts} \
+>      ${@base_contains("MACHINE_FEATURES", "keyboard",
+> "${VIRTUAL-RUNTIME_keymaps}", "", d)} \ modutils-initscripts \
 
-I don't dispute that your change is an improvement, I just think it would be a 
-good future improvement to pick up the configuration from bitbake rather than 
-working in the way it currently does.
+Why did this get added to task-core-boot? This is meant only to contain items 
+that are essential for booting; I'm not sure that support for the rtc 
+qualifies.
 
 Cheers,
 Paul
