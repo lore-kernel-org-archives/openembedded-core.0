@@ -1,38 +1,25 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T8YOp-0007kH-BG
+	(envelope-from <sgw@linux.intel.com>) id 1T8YkM-00083j-SG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 17:17:15 +0200
-Received: by mail-bk0-f47.google.com with SMTP id ik5so2687502bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Sep 2012 08:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=Vta81R3mAoOz7Vrr2Ig+epthgSOPr1TLUwB9fsEDvok=;
-	b=KDSZ2b4fI/KRKubQHub8SEUsVpezL9NGuuZRgi63bzgyF+Zrp3YugnvmdFAxkmHEW/
-	WlRzNTYdbq8wdYnfQDEXBdhcaoUWlpkkKAKsZg3ui2Ud95hqi8JsrIi9luf3eTE4ZI+s
-	Jdv7ijL1MEtENsuP0JDLPcfBZCUbsN0PEOx7/B9z5mSwhfB5te3sbkMnvAno8shDQ7DH
-	gnV6rk7+XpNEihI6nwz9/fNJ46mL7rtN9b89Qga5bA9ytUwSdHjz0CmwgEQD7npXe2Nm
-	dE1W/ny807pJzv0xSpkvXz9F1qFYoLTnlC6DNoaNS50Fz3We7wC8qlqszNsVbiy1XTif
-	JRtA==
-Received: by 10.204.156.10 with SMTP id u10mr6961577bkw.11.1346684697051;
-	Mon, 03 Sep 2012 08:04:57 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id m9sm8278206bkm.10.2012.09.03.08.04.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Sep 2012 08:04:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2012 17:05:08 +0200
-Message-Id: <8bc58ce5fd928ed38389895be18817b1c80b6ac0.1346684630.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-In-Reply-To: <78656451c17d66cb405fd5d12248ce311d0bce8e.1346684630.git.Martin.Jansa@gmail.com>
-References: <cover.1346584261.git.Martin.Jansa@gmail.com>
-	<78656451c17d66cb405fd5d12248ce311d0bce8e.1346684630.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1346684630.git.Martin.Jansa@gmail.com>
-References: <cover.1346684630.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 6/9] sstate-cache-management.sh: fix remove_duplicated when multiple archs were built
+	Mon, 03 Sep 2012 17:39:31 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 08:27:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,360,1344236400"; d="scan'208";a="217581211"
+Received: from unknown (HELO [10.255.12.252]) ([10.255.12.252])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 08:27:09 -0700
+Message-ID: <5044CC4C.50006@linux.intel.com>
+Date: Mon, 03 Sep 2012 08:27:08 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1344429053-2858-1-git-send-email-radu.moisan@intel.com>
+In-Reply-To: <1344429053-2858-1-git-send-email-radu.moisan@intel.com>
+Subject: Re: [PATCH] curl: update to upstream version 7.27.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,84 +32,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 15:17:15 -0000
+X-List-Received-Date: Mon, 03 Sep 2012 15:39:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* The problem is that you're looking for duplicates across all available archs, so
-  armv4t and armv7a populate_sysroot are considered duplicate and only last one is
-  kept, but to rebuild from sstate-cache you need both!
+On 08/08/2012 05:30 AM, Radu Moisan wrote:
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> ---
+>   meta/recipes-support/curl/curl/pkgconfig_fix.patch |   25 +++++++++-----------
+>   .../curl/{curl_7.26.0.bb => curl_7.27.0.bb}        |    4 ++--
+>   2 files changed, 13 insertions(+), 16 deletions(-)
+>   rename meta/recipes-support/curl/{curl_7.26.0.bb => curl_7.27.0.bb} (92%)
+>
+> diff --git a/meta/recipes-support/curl/curl/pkgconfig_fix.patch b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+> index ad73c00..5eb8ce2 100644
+> --- a/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+> +++ b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+> @@ -1,11 +1,8 @@
+> -Upstream-Status: Inappropriate [packaging]
+> -
+Why are you removing the Upstream-Status?  Also you have 3 other patches 
+that I have send you email about that are missing the Upstream-Status tag.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/sstate-cache-management.sh | 52 ++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 25 deletions(-)
+This is also missing a Signed-off-by: tag in the pkgconfig_fix.patch itself.
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index 0cfff77..f519555 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -217,33 +217,35 @@ remove_duplicated () {
-       for fn in $file_names; do
-           [ -z "$verbose" ] || echo "Analyzing $fn-xxx_$suffix.tgz"
-           for arch in $ava_archs; do
--              grep -h "/$fn-$arch-" $list_suffix >>$fn_tmp
--          done
--          [ $debug -gt 1 ] && echo "Available files for $fn with suffix $suffix:" && cat $fn_tmp
--          # Use the modification time
--          to_del=$(ls -t $(cat $fn_tmp) | sed -n '1!p')
--          [ $debug -gt 2 ] && echo "Considering to delete: $to_del"
--          # The sstate file which is downloaded from the SSTATE_MIRROR is
--          # put in SSTATE_DIR, and there is a symlink in SSTATE_DIR/??/ to
--          # it, so filter it out from the remove list if it should not be
--          # removed.
--          to_keep=$(ls -t $(cat $fn_tmp) | sed -n '1p')
--          [ $debug -gt 2 ] && echo "Considering to keep: $to_keep"
--          for k in $to_keep; do
--              if [ -L "$k" ]; then
--                  # The symlink's destination
--                  k_dest="`readlink -e $k`"
--                  # Maybe it is the one in cache_dir
--                  k_maybe="$cache_dir/${k##/*/}"
--                  # Remove it from the remove list if they are the same.
--                  if [ "$k_dest" = "$k_maybe" ]; then
--                      to_del="`echo $to_del | sed 's#'\"$k_maybe\"'##g'`"
--                  fi
-+              grep -h "/$fn-$arch-" $list_suffix >$fn_tmp
-+              if [ -s $fn_tmp ] ; then
-+                  [ $debug -gt 1 ] && echo "Available files for $fn-$arch- with suffix $suffix:" && cat $fn_tmp
-+                  # Use the modification time
-+                  to_del=$(ls -t $(cat $fn_tmp) | sed -n '1!p')
-+                  [ $debug -gt 2 ] && echo "Considering to delete: $to_del"
-+                  # The sstate file which is downloaded from the SSTATE_MIRROR is
-+                  # put in SSTATE_DIR, and there is a symlink in SSTATE_DIR/??/ to
-+                  # it, so filter it out from the remove list if it should not be
-+                  # removed.
-+                  to_keep=$(ls -t $(cat $fn_tmp) | sed -n '1p')
-+                  [ $debug -gt 2 ] && echo "Considering to keep: $to_keep"
-+                  for k in $to_keep; do
-+                      if [ -L "$k" ]; then
-+                          # The symlink's destination
-+                          k_dest="`readlink -e $k`"
-+                          # Maybe it is the one in cache_dir
-+                          k_maybe="$cache_dir/${k##/*/}"
-+                          # Remove it from the remove list if they are the same.
-+                          if [ "$k_dest" = "$k_maybe" ]; then
-+                              to_del="`echo $to_del | sed 's#'\"$k_maybe\"'##g'`"
-+                          fi
-+                      fi
-+                  done
-+                  rm -f $fn_tmp
-+                  [ $debug -gt 2 ] && echo "Decided to delete: $to_del"
-+                  gen_rmlist $rm_list "$to_del"
-               fi
-           done
--          rm -f $fn_tmp
--          [ $debug -gt 2 ] && echo "Decided to delete: $to_del"
--          gen_rmlist $rm_list "$to_del"
-       done
-       [ ! -s "$rm_list" ] || deleted=`cat $rm_list | wc -l`
-       [ -s "$rm_list" -a $debug -gt 0 ] && cat $rm_list
--- 
-1.7.12
+Sau!
 
+> -
+> -Index: curl-7.20.0/libcurl.pc.in
+> +Index: curl-7.27.0/libcurl.pc.in
+>   ===================================================================
+> ---- curl-7.20.0.orig/libcurl.pc.in	2009-11-17 18:11:07.000000000 +0000
+> -+++ curl-7.20.0/libcurl.pc.in	2010-03-25 12:13:26.814051066 +0000
+> -@@ -35,6 +35,7 @@
+> +--- curl-7.27.0.orig/libcurl.pc.in	2012-05-26 00:56:17.000000000 +0300
+> ++++ curl-7.27.0/libcurl.pc.in	2012-08-08 11:30:41.000000000 +0300
+> +@@ -34,6 +34,7 @@
+>    URL: http://curl.haxx.se/
+>    Description: Library to transfer files with ftp, http, etc.
+>    Version: @CURLVERSION@
+> @@ -14,12 +11,12 @@ Index: curl-7.20.0/libcurl.pc.in
+>   +Requires.private: @GNUTLS_REQUIRED@
+>   +Libs: -L${libdir} -lcurl
+>   +Libs.private: -ldl -lz
+> - Cflags: -I${includedir}
+> -Index: curl-7.20.0/configure.ac
+> + Cflags: -I${includedir} @CPPFLAG_CURL_STATICLIB@
+> +Index: curl-7.27.0/configure.ac
+>   ===================================================================
+> ---- curl-7.20.0.orig/configure.ac	2010-02-04 21:41:46.000000000 +0000
+> -+++ curl-7.20.0/configure.ac	2010-03-25 12:12:18.673129001 +0000
+> -@@ -1668,6 +1668,7 @@
+> +--- curl-7.27.0.orig/configure.ac	2012-07-27 21:25:09.000000000 +0300
+> ++++ curl-7.27.0/configure.ac	2012-08-08 11:45:06.000000000 +0300
+> +@@ -1863,6 +1863,7 @@
+>           AC_SUBST(USE_GNUTLS, [1])
+>           GNUTLS_ENABLED=1
+>           USE_GNUTLS="yes"
+> @@ -27,9 +24,9 @@ Index: curl-7.20.0/configure.ac
+>           curl_ssl_msg="enabled (GnuTLS)"
+>           ],
+>           [
+> -@@ -1696,6 +1697,8 @@
+> +@@ -2102,6 +2103,8 @@
+>
+> - fi dnl OPENSSL != 1
+> + fi
+>
+>   +AC_SUBST(GNUTLS_REQUIRED)
+>   +
+> diff --git a/meta/recipes-support/curl/curl_7.26.0.bb b/meta/recipes-support/curl/curl_7.27.0.bb
+> similarity index 92%
+> rename from meta/recipes-support/curl/curl_7.26.0.bb
+> rename to meta/recipes-support/curl/curl_7.27.0.bb
+> index f04b400..fe423c7 100644
+> --- a/meta/recipes-support/curl/curl_7.26.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.27.0.bb
+> @@ -13,8 +13,8 @@ PR = "r0"
+>   SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+>              file://pkgconfig_fix.patch"
+>
+> -SRC_URI[md5sum] = "bfa80f01b3d300359cfb4d409b6136a3"
+> -SRC_URI[sha256sum] = "fced262f16eb6bfcdcea15e04a7905ffcb5ff04b14a19ca35b9df86d6720d26a"
+> +SRC_URI[md5sum] = "11fcbfc0de9c12512e607e7d72d500a0"
+> +SRC_URI[sha256sum] = "aba5582135c28470b46084da9747470c1c680485fc91f9f0d3f7928df8169398"
+>
+>   inherit autotools pkgconfig binconfig
+>
+>
 
 
