@@ -1,29 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1T8SXV-0005O0-J6
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8U8D-0004vF-Ct
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 11:01:49 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Sep 2012 01:49:28 -0700
+	Mon, 03 Sep 2012 12:43:49 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 03:31:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="188309380"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by orsmga001.jf.intel.com with ESMTP; 03 Sep 2012 01:49:27 -0700
-Message-ID: <50446FBB.3030306@intel.com>
-Date: Mon, 03 Sep 2012 11:52:11 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217497154"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.155])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 03:31:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1345632209-4188-1-git-send-email-radu.moisan@intel.com>
-	<CABcZANn8tSTrfwbOCi6WoiURVRcG3w_dF5-nnwMC+7Pz=aK01w@mail.gmail.com>
-	<5034EBB3.3010906@intel.com>
-	<2C58EEEE-174C-4E2B-8A9F-1148A009E26D@gmail.com>
-	<CABcZANkvEXuKWGSaDzJLdgBMGzgZHSGfH2yiRB+8PcKcZ_zeWw@mail.gmail.com>
-	<50350A8E.9060405@windriver.com>
-In-Reply-To: <50350A8E.9060405@windriver.com>
-Subject: Re: [PATCH] coreutils: Upgrade to upstream version 8.17
+Date: Mon,  3 Sep 2012 11:30:22 +0100
+Message-Id: <1a2dd4def9f665707e0b8e99f52166906f14f1b5.1346668109.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1346668109.git.paul.eggleton@linux.intel.com>
+References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1346668109.git.paul.eggleton@linux.intel.com>
+References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 02/28] classes/core-image: remove *_IMAGE_FEATURES variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,73 +31,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 09:01:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Sep 2012 10:43:49 -0000
 
+This indirection does not add anything in terms of configuration and
+only serves to increase confusion; and given the nature of these it is
+unlikely they are being used outside of OE-Core. Change the sato-sdk and
+sato-dev images to be based on the main Sato image (avoiding the need
+for a common SATO_IMAGE_FEATURES variable) and eliminate all references
+to them.
 
-On 08/22/2012 07:36 PM, Mark Hatle wrote:
-> On 8/22/12 9:30 AM, Chris Larson wrote:
->> On Wed, Aug 22, 2012 at 7:26 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>>>>> diff --git 
->>>>>> a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch 
->>>>>> b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch 
->>>>>>
->>>>>> new file mode 100644
->>>>>> index 0000000..e32f612
->>>>>> --- /dev/null
->>>>>> +++ 
->>>>>> b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch 
->>>>>>
->>>>>> @@ -0,0 +1,21 @@
->>>>>> +Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->>>>>> +Upstream status: pending
->>>>>> +
->>>>>> +The new version of coreutils, adds use of 
->>>>>> canonicalize_file_name() function defined in canonicalize.h
->>>>>> +The problem: the function is redefined to 
->>>>>> rpl_canonicalize_file_name by means of a macro,which gives
->>>>>> +an undefined reference error at compile time. Macro definition 
->>>>>> depends in the end on
->>>>>> +gl_cv_func_realpath_works but assumed true only when set to "yes"
->>>>>> +
->>>>>> +Index: coreutils-8.17/m4/canonicalize.m4
->>>>>> +===================================================================
->>>>>> +--- coreutils-8.17.orig/m4/canonicalize.m4 2012-05-08 
->>>>>> 12:05:23.000000000 +0300
->>>>>> ++++ coreutils-8.17/m4/canonicalize.m4  2012-08-17 
->>>>>> 14:20:22.000000000 +0300
->>>>>> +@@ -95,7 +95,7 @@
->>>>>> +      [gl_cv_func_realpath_works=no],
->>>>>> +      [case "$host_os" in
->>>>>> +                 # Guess yes on glibc systems.
->>>>>> +-        *-gnu*) gl_cv_func_realpath_works="guessing yes" ;;
->>>>>> ++        *-gnu*) gl_cv_func_realpath_works="yes" ;;
->>>>>> +                 # If we don't know, assume the worst.
->>>>>> +         *)      gl_cv_func_realpath_works="guessing no" ;;
->>>>>> +       esac
->>>>> Wouldn't it be better to provide a cached test result in the site
->>>>> files for this test, rather than relying on a host_os based guess?
->>>> I really don't know the answer to your question. The patch was 
->>>> intended to provide minimally invasive change to the original file. 
->>>> If you elaborate more on your proposal, I would gladly take into 
->>>> consideration a future patch to address this issue.
->>>
->>>
->>> Add CACHED_CONFIGUREVARS in the recipe search in metadata for 
->>> existing examples
->>
->> That's a good route, but only if we know realpath works in 100% of
->> cases. Which, admittedly, one would certainly hope is the case :)
->>
->
-> As far as I know realpath has worked well, for at least the last 6 
-> years (likely much longer).
->
-> --Mark
->
-What's the status here? Is it going to be merged?
+Fixes [YOCTO #2458].
 
-radu
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/core-image.bbclass                    |    4 ----
+ meta/recipes-core/images/core-image-core.bb        |    2 +-
+ meta/recipes-graphics/images/core-image-clutter.bb |    2 +-
+ meta/recipes-sato/images/core-image-sato-dev.bb    |    6 ++----
+ meta/recipes-sato/images/core-image-sato-sdk.bb    |    8 +++-----
+ meta/recipes-sato/images/core-image-sato.bb        |    2 +-
+ 6 files changed, 8 insertions(+), 16 deletions(-)
+
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index f401313..d6dd646 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -62,10 +62,6 @@ CORE_IMAGE_EXTRA_INSTALL ?= ""
+ 
+ IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+ 
+-X11_IMAGE_FEATURES  = "x11-base apps-x11-core package-management"
+-ENHANCED_IMAGE_FEATURES = "${X11_IMAGE_FEATURES} apps-x11-games package-management"
+-SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ssh-server-dropbear"
+-
+ inherit image
+ 
+ # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+diff --git a/meta/recipes-core/images/core-image-core.bb b/meta/recipes-core/images/core-image-core.bb
+index ed33e12..ea6ba7e 100644
+--- a/meta/recipes-core/images/core-image-core.bb
++++ b/meta/recipes-core/images/core-image-core.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "An X11 image with simple applications such as terminal, editor, \
+ and file manager."
+ 
+-IMAGE_FEATURES += "apps-console-core ${X11_IMAGE_FEATURES}"
++IMAGE_FEATURES += "apps-console-core package-management x11-base apps-x11-core"
+ 
+ LICENSE = "MIT"
+ 
+diff --git a/meta/recipes-graphics/images/core-image-clutter.bb b/meta/recipes-graphics/images/core-image-clutter.bb
+index 6c49a02..aa6e2a2 100644
+--- a/meta/recipes-graphics/images/core-image-clutter.bb
++++ b/meta/recipes-graphics/images/core-image-clutter.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "An image with support for the Open GL-based toolkit Clutter, \
+ which enables development of rich and animated graphical user interfaces."
+ 
+-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
++IMAGE_FEATURES += "apps-console-core package-management x11-base apps-x11-core apps-x11-games x11-sato ssh-server-dropbear"
+ 
+ LICENSE = "MIT"
+ 
+diff --git a/meta/recipes-sato/images/core-image-sato-dev.bb b/meta/recipes-sato/images/core-image-sato-dev.bb
+index 5ee9a04..b3db2e6 100644
+--- a/meta/recipes-sato/images/core-image-sato-dev.bb
++++ b/meta/recipes-sato/images/core-image-sato-dev.bb
+@@ -2,8 +2,6 @@ DESCRIPTION = "Image with Sato for development work. It includes everything \
+ within core-image-sato plus a native toolchain, application development and \
+ testing libraries, profiling and debug symbols."
+ 
+-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs"
++require core-image-sato.bb
+ 
+-LICENSE = "MIT"
+-
+-inherit core-image
++IMAGE_FEATURES += "dev-pkgs"
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
+index 18ed0cd..c462254 100644
+--- a/meta/recipes-sato/images/core-image-sato-sdk.bb
++++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
+@@ -2,12 +2,10 @@ DESCRIPTION = "Image with Sato support that includes everything within \
+ core-image-sato plus meta-toolchain, development headers and libraries to \
+ form a standalone SDK."
+ 
+-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs \
+-	tools-debug tools-profile tools-testapps debug-tweaks ssh-server-openssh"
+-
+-LICENSE = "MIT"
++require core-image-sato.bb
+ 
+-inherit core-image
++IMAGE_FEATURES += "dev-pkgs tools-sdk qt4-pkgs \
++	tools-debug tools-profile tools-testapps debug-tweaks ssh-server-openssh"
+ 
+ IMAGE_INSTALL += "kernel-dev"
+ 
+diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
+index c228a35..4bbf099 100644
+--- a/meta/recipes-sato/images/core-image-sato.bb
++++ b/meta/recipes-sato/images/core-image-sato.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Image with Sato, a mobile environment and visual style for \
+ mobile devices. The image supports X11 with a Sato theme, Pimlico \
+ applications, and contains terminal, editor, and file manager."
+ 
+-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
++IMAGE_FEATURES += "apps-console-core package-management x11-base apps-x11-core apps-x11-games x11-sato ssh-server-dropbear"
+ 
+ LICENSE = "MIT"
+ 
+-- 
+1.7.9.5
+
 
 
