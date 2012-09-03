@@ -1,37 +1,24 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T8RBg-00026Q-QR
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8RcF-0003bG-K7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 09:35:12 +0200
-Received: by wibhq4 with SMTP id hq4so3119442wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Sep 2012 00:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qvOV3gPqLq9FNHGxhSJZsiCm04S/liA4pqdi/mNjYcc=;
-	b=ZzQBLEHQcykQPVkIQrpigrm+Kvsdf0YX4M+d2Fwp1ZAhVYvKDRS8y5XQVsgD4cLR8V
-	64QaTh9ou4gQK48lGyx8lH2O6D9as9cX0TY27XBGnvtryUt3Cflcq4DTtHwt2mwdlrKt
-	0xRLFu8IrYxNrP7Vl2XouchjEv5ekUafLi86c+HmrSnorSE80iPD+zOfSyzkNdXuNMRd
-	SLSK0KK09sczewaLCLLV2FwlQch3D1wuWtF3do4nPC9oNH+SmlRbFeCl+gO3q33BEB17
-	gz7BjLPl62RoXeTCBGoLF2ml4o4wMxZqb20yNCHdVi0b6XMo73ThYnZhv5eHZgY/FeBI
-	jgYw==
-Received: by 10.216.85.149 with SMTP id u21mr8737544wee.147.1346656972728;
-	Mon, 03 Sep 2012 00:22:52 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id l5sm26028225wix.5.2012.09.03.00.22.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Sep 2012 00:22:51 -0700 (PDT)
-Date: Mon, 3 Sep 2012 09:23:17 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20120903072317.GD3205@jama.jama.net>
+	Mon, 03 Sep 2012 10:02:39 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 00:50:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217452608"
+Received: from unknown (HELO helios.localnet) ([10.252.121.155])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 00:50:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 03 Sep 2012 08:49:26 +0100
+Message-ID: <1624899.nqBzdK1tX0@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <20120903072317.GD3205@jama.jama.net>
 References: <cover.1346584261.git.Martin.Jansa@gmail.com>
-	<bc9cba103446ace4d9158470cdccd58801a66978.1346584261.git.Martin.Jansa@gmail.com>
-	<3830362.NxTCTzAyLx@helios>
+	<3830362.NxTCTzAyLx@helios> <20120903072317.GD3205@jama.jama.net>
 MIME-Version: 1.0
-In-Reply-To: <3830362.NxTCTzAyLx@helios>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 3/4] sstate-cache-management.sh: look in meta* above oe-core dir when looking for available tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,56 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 07:35:12 -0000
-X-Groupsio-MsgNum: 28518
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UoPmpPX/dBe4BELn"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Sep 2012 08:02:40 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---UoPmpPX/dBe4BELn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Monday 03 September 2012 09:23:17 Martin Jansa wrote:
+> On Sun, Sep 02, 2012 at 01:07:53PM +0100, Paul Eggleton wrote:
+> > On Sunday 02 September 2012 13:13:20 Martin Jansa wrote:
+> > > * many layouts have other layers on the same level as oe-core checkout
+> > 
+> > This is beginning to indicate that this script really needs to actually
+> > know something about your configuration rather than trying to guess it.
+> You can pass more layers to script with:
+> 
+>   --extra-layer=<layer1>,<layer2>...<layern>
+>         Specify the layer which will be used for searching the archs,
+>         it will search the meta and meta-* layers in the top dir by
+>         default, and will search meta, meta-*, <layer1>, <layer2>,
+>         ...<layern> when specified. Use "," as the separator.
+> 
+> But nobody says what is "top dir", in my bblayers.conf it's the
+> directory with oe-core and meta-* checkouts and I think this is common
+> layout if you're not using some combo tool to merge all layers to
+> oe-core checkout.
+> 
+> So this change only makes default search path a bit more usefull and
+> then it filteres available arch anyway.
 
-On Sun, Sep 02, 2012 at 01:07:53PM +0100, Paul Eggleton wrote:
-> On Sunday 02 September 2012 13:13:20 Martin Jansa wrote:
-> > * many layouts have other layers on the same level as oe-core checkout
->=20
-> This is beginning to indicate that this script really needs to actually k=
-now=20
-> something about your configuration rather than trying to guess it.
-
-You can pass more layers to script with:
-
-  --extra-layer=3D<layer1>,<layer2>...<layern>
-        Specify the layer which will be used for searching the archs,
-        it will search the meta and meta-* layers in the top dir by
-        default, and will search meta, meta-*, <layer1>, <layer2>,
-        ...<layern> when specified. Use "," as the separator.
-
-But nobody says what is "top dir", in my bblayers.conf it's the
-directory with oe-core and meta-* checkouts and I think this is common
-layout if you're not using some combo tool to merge all layers to
-oe-core checkout.
-
-So this change only makes default search path a bit more usefull and
-then it filteres available arch anyway.
+I don't dispute that your change is an improvement, I just think it would be a 
+good future improvement to pick up the configuration from bitbake rather than 
+working in the way it currently does.
 
 Cheers,
+Paul
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
 
---UoPmpPX/dBe4BELn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlBEWuUACgkQN1Ujt2V2gByB1gCfawmNJO8E++9KFnzCjue7OU3T
-sa8AnAhbQlNzGBReecGNxkq5L8cpgErh
-=t1iS
------END PGP SIGNATURE-----
-
---UoPmpPX/dBe4BELn--
