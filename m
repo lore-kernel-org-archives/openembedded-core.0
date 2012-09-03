@@ -1,27 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8UFA-000671-0A
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8UH9-0006Ei-Gg
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 12:51:00 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Sep 2012 03:38:38 -0700
+	Mon, 03 Sep 2012 12:53:03 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 03:40:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="140937977"
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217499644"
 Received: from unknown (HELO helios.localnet) ([10.252.121.155])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Sep 2012 03:38:38 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 03:40:41 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <philb@gnu.org>
-Date: Mon, 03 Sep 2012 11:37:47 +0100
-Message-ID: <2466289.CAG9RzjSbc@helios>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Sep 2012 11:39:51 +0100
+Message-ID: <1495699.DXtY1GZVau@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <1346668525.2673.116.camel@phil-desktop>
+In-Reply-To: <cover.1346668109.git.paul.eggleton@linux.intel.com>
 References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
-	<8e6521856490f08291c3c01a3b16e5f270fe6bac.1346668109.git.paul.eggleton@linux.intel.com>
-	<1346668525.2673.116.camel@phil-desktop>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 15/28] packagegroup-base: remove openswan from packagegroup-base-ipsec
+Subject: Re: [PATCH 00/28] Package group fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,18 +31,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 10:51:00 -0000
+X-List-Received-Date: Mon, 03 Sep 2012 10:53:03 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Monday 03 September 2012 11:35:24 Phil Blundell wrote:
-> On Mon, 2012-09-03 at 11:30 +0100, Paul Eggleton wrote:
-> > openswan was only ever provided in unmaintained form in meta-demoapps
-> > which has been removed, so we never really provided it in OE-Core.
+On Monday 03 September 2012 11:30:20 Paul Eggleton wrote:
+> This rather large set of changes renames "task" to "packagegroup" and
+> attempts to clean up a number of package group related issues [1]. It
+> doesn't go quite as far as I had hoped - I wanted to tidy up the base,
+> core-lsb and core-basic recipes even further, but unfortunately I ran
+> out of time for this cycle.
 > 
-> Isn't packagegroup-base-ipsec rather useless without it?
+> [1] http://www.openembedded.org/wiki/OE-Core_Task_Rework
 
-If you ignore the RRECOMMENDS line that follows, yes.
+Also, here's a script useful for renaming task to packagegroup in other 
+layers:
+
+https://gist.github.com/3608439
 
 Cheers,
 Paul
