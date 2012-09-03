@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XAJ-0005m7-Jv
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XAK-0005m8-C4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 15:58:11 +0200
+	Mon, 03 Sep 2012 15:58:12 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 06:45:51 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 06:45:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217553104"
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217553126"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.155])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 06:45:50 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 06:45:51 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2012 14:45:38 +0100
-Message-Id: <9742c83708edfc12b509e1b5293fa87f79e8570b.1346679751.git.paul.eggleton@linux.intel.com>
+Date: Mon,  3 Sep 2012 14:45:39 +0100
+Message-Id: <e99c96b8d02ff04fd7ad3e25616c2c00b0259b1f.1346679751.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1346679751.git.paul.eggleton@linux.intel.com>
 References: <cover.1346679751.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1346679751.git.paul.eggleton@linux.intel.com>
 References: <cover.1346679751.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/7] qemu-config: split out anjuta-remote-run
+Subject: [PATCH 4/7] oprofileui-server: move initscript from qemu-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +33,112 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 03 Sep 2012 13:58:12 -0000
 
-Given that support for Anjuta is unlikely to be needed by everyone and
-is by no means specific to qemu, split it out to a separate recipe. The
-following changes were made in the process:
-
-Also depend on dbus instead of dbus-x11 since dbus-launch is now back in
-he main dbus package
-
-Part of the fix for [YOCTO #1690].
+The qemu-config initscript was only starting oprofile-server, so move it
+to the oprofileui-server recipe.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-bsp/qemu-config/qemu-config.bb        |    6 +-----
- .../devel-config/anjuta-remote-run.bb              |   19 +++++++++++++++++++
- .../anjuta-remote-run}/anjuta-remote-run           |    0
- 3 files changed, 20 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-devtools/devel-config/anjuta-remote-run.bb
- rename meta/{recipes-bsp/qemu-config/qemu-config => recipes-devtools/devel-config/anjuta-remote-run}/anjuta-remote-run (100%)
+ meta/recipes-bsp/qemu-config/qemu-config.bb        |   11 ++---------
+ .../oprofile/oprofileui-server/init}               |    8 ++++----
+ .../oprofile/oprofileui-server_git.bb              |   13 ++++++++++++-
+ 3 files changed, 18 insertions(+), 14 deletions(-)
+ rename meta/{recipes-bsp/qemu-config/qemu-config/qemu-autostart => recipes-kernel/oprofile/oprofileui-server/init} (74%)
 
 diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-bsp/qemu-config/qemu-config.bb
-index ac3e7f3..6775af3 100644
+index 6775af3..4179fc0 100644
 --- a/meta/recipes-bsp/qemu-config/qemu-config.bb
 +++ b/meta/recipes-bsp/qemu-config/qemu-config.bb
-@@ -10,7 +10,6 @@ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
- PR = "r25"
+@@ -11,8 +11,7 @@ PR = "r25"
  
  SRC_URI = "file://distcc.sh \
--           file://anjuta-remote-run \
             file://exports \
-            file://shutdown.desktop \
-            file://qemu-autostart"
-@@ -23,9 +22,6 @@ do_install() {
-     install -m 0755 distcc.sh ${D}${sysconfdir}/profile.d/
-     install -m 0644 exports ${D}${sysconfdir}/
+-           file://shutdown.desktop \
+-           file://qemu-autostart"
++           file://shutdown.desktop"
+ 
+ S = "${WORKDIR}"
+ 
+@@ -24,9 +23,6 @@ do_install() {
      
--    install -d ${D}${bindir}
--    install -m 0755 anjuta-remote-run ${D}${bindir}/
--    
      install -d ${D}${datadir}/applications
      install -m 0644 shutdown.desktop ${D}${datadir}/applications/
- 
-@@ -38,7 +34,7 @@ pkg_postinst_${PN} () {
-         sed -i $D${datadir}/applications/shutdown.desktop -e 's/^Exec=halt/Exec=reboot/'
+-
+-    install -d ${D}${sysconfdir}/init.d
+-    install qemu-autostart ${D}${sysconfdir}/init.d/
  }
  
--RDEPENDS_${PN} = "distcc ${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)} packagegroup-core-nfs-server oprofileui-server rsync bash"
-+RDEPENDS_${PN} = "distcc packagegroup-core-nfs-server oprofileui-server bash"
+ pkg_postinst_${PN} () {
+@@ -36,7 +32,4 @@ pkg_postinst_${PN} () {
  
- inherit update-rc.d allarch
+ RDEPENDS_${PN} = "distcc packagegroup-core-nfs-server oprofileui-server bash"
  
-diff --git a/meta/recipes-devtools/devel-config/anjuta-remote-run.bb b/meta/recipes-devtools/devel-config/anjuta-remote-run.bb
-new file mode 100644
-index 0000000..51fdf9e
---- /dev/null
-+++ b/meta/recipes-devtools/devel-config/anjuta-remote-run.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Provides on-device script for interaction with the Anjuta IDE"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-inherit update-rc.d allarch
+-
+-INITSCRIPT_NAME = "qemu-autostart"
+-INITSCRIPT_PARAMS = "start 999 5 2 . stop 20 0 1 6 ."
++inherit allarch
+diff --git a/meta/recipes-bsp/qemu-config/qemu-config/qemu-autostart b/meta/recipes-kernel/oprofile/oprofileui-server/init
+similarity index 74%
+rename from meta/recipes-bsp/qemu-config/qemu-config/qemu-autostart
+rename to meta/recipes-kernel/oprofile/oprofileui-server/init
+index db2668e..2544ea4 100755
+--- a/meta/recipes-bsp/qemu-config/qemu-config/qemu-autostart
++++ b/meta/recipes-kernel/oprofile/oprofileui-server/init
+@@ -1,11 +1,11 @@
+ #!/bin/sh
+ ### BEGIN INIT INFO
+-# Provides:          hddtemp
++# Provides:          oprofile-server
+ # Required-Start:    $network
+ # Required-Stop:     $network
+ # Default-Start:     2 3 4 5
+ # Default-Stop:      0 1 6
+-# Short-Description: OProfile server
++# Short-Description: OProfileUI server
+ # Description:       
+ ### END INIT INFO
+ 
+@@ -13,13 +13,13 @@
+ 
+ case "$1" in
+   start)
+-        echo "Starting automatic qemu services"
++        echo "Starting OProfileUI server"
+ 	. /etc/profile
+ 	/usr/bin/oprofile-server &
+   ;;
+ 
+   stop)
+-        echo "Stopping qemu services"
++        echo "Stopping OProfileUI server"
+         killproc oprofile-server
+   ;;
+ 
+diff --git a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
+index b9f6a81..e75923f 100644
+--- a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
++++ b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
+@@ -6,8 +6,19 @@ PR = "r0"
+ 
+ S = "${WORKDIR}/git"
+ 
+-SRC_URI = "git://git.yoctoproject.org/oprofileui;protocol=git"
++SRC_URI = "git://git.yoctoproject.org/oprofileui;protocol=git \
++           file://init"
+ 
+ EXTRA_OECONF += "--disable-client --enable-server"
+ 
+ RDEPENDS_${PN} = "oprofile"
 +
-+SRC_URI = "file://anjuta-remote-run"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+	install -d ${D}${bindir}
-+	install -m 0755 anjuta-remote-run ${D}${bindir}/
++do_install_append() {
++	install -d ${D}${sysconfdir}/init.d
++	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/oprofileui-server
 +}
 +
-+PACKAGES = "${PN}"
-+RDEPENDS_${PN} = "dbus rsync"
++INITSCRIPT_NAME = "oprofileui-server"
++INITSCRIPT_PARAMS = "start 999 5 2 . stop 20 0 1 6 ."
 +
-+inherit allarch
-+
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config/anjuta-remote-run b/meta/recipes-devtools/devel-config/anjuta-remote-run/anjuta-remote-run
-similarity index 100%
-rename from meta/recipes-bsp/qemu-config/qemu-config/anjuta-remote-run
-rename to meta/recipes-devtools/devel-config/anjuta-remote-run/anjuta-remote-run
++inherit update-rc.d
 -- 
 1.7.9.5
 
