@@ -1,27 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8Xkk-0006s1-Bx
+	(envelope-from <ross.burton@intel.com>) id 1T8YBb-0007Zj-2F
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 16:35:50 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Sep 2012 07:23:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,360,1344236400"; d="scan'208";a="140995374"
-Received: from unknown (HELO helios.localnet) ([10.252.121.155])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Sep 2012 07:23:27 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 03 Sep 2012 15:22:36 +0100
-Message-ID: <74820047.hktcrWHqC2@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <CAJTo0Lam8RbHZQ-BEUO+3CO3h=6nEBaV9Z_qS+YPtLQMiBX+WQ@mail.gmail.com>
-References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
-	<83D2678E-81E3-40A6-8766-53CD395C8205@dominion.thruhere.net>
-	<CAJTo0Lam8RbHZQ-BEUO+3CO3h=6nEBaV9Z_qS+YPtLQMiBX+WQ@mail.gmail.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH] zeroconf: remove - RFC
+	Mon, 03 Sep 2012 17:03:35 +0200
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 03 Sep 2012 07:51:12 -0700
+Received: by wibhm2 with SMTP id hm2so3097562wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Sep 2012 07:51:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=pkTzb4TwWgbs6RZxUpT0HTGfFWgvbEMotzZC13Luh20=;
+	b=nqttfPe6rGds0SzhnYb3Qru1EixnUhI4zVJ+hKROMsijuxwVvObvQZGeuGYfReMg9U
+	QBOTH+fqkSXO08i4XCpchGRcpxeqGcZxVYFRfPqIdn1jJ/YQxYBqIhnLRIdaNQweo+Tk
+	dLGOhVqga7+qEbz2A02YomPwQDIRURPUikA6WhOFF6bH0v+8grYQOB/ClF5jiD3dm52u
+	UdIho5L4uPufgtGOrPh9QJrfnVs5lSVp9kI8BY1feZMD9JFQJFW2msmXaevc233tV9Zi
+	pJxqBYOaaKxUHWRH6d2gEh/XfRMOFfSDXSTxSuqe+zPX5Q0H4XVzwTI5GgayqugLcm27
+	o9LA==
+Received: by 10.217.3.7 with SMTP id q7mr10634680wes.47.1346683870932;
+	Mon, 03 Sep 2012 07:51:10 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id q4sm19322865wix.9.2012.09.03.07.51.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 03 Sep 2012 07:51:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Sep 2012 15:50:26 +0100
+Message-Id: <1346683826-32079-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmiOfi761AnaMOPtOWdfyx510JuHUl/3YSd/YtC2xUoJfcT8kWkOzTUUNq3twrP6HpLE5oZ
+Subject: [PATCH] xserver-xorg: remove HAL option, nothing uses HAL anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,27 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 14:35:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Sep 2012 15:03:35 -0000
 
-On Monday 03 September 2012 15:13:10 Burton, Ross wrote:
-> On 3 September 2012 15:05, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > And put it in meta-networking instead of oe-core :)
-> 
-> Yay another dumping around! It's so nice having multiple dumping
-> grounds to pick from.
 
-Well, to be fair the intent is that meta-networking should be fairly well-
-organised. The only issue with this specific recipe is that the upstream is 
-unmaintained.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc |    1 -
+ 1 file changed, 1 deletion(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+index 738ccb3..404c488 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+@@ -120,7 +120,6 @@ EXTRA_OECONF += "--with-fop=no \
+ "
+ 
+ PACKAGECONFIG ??= "udev"
+-PACKAGECONFIG[hal] = "--enable-config-hal,--disable-config-hal,,hal"
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+ 
+ do_install_append () {
 -- 
+1.7.10
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
