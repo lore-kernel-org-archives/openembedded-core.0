@@ -1,24 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XAS-0005n6-Uk
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XDB-0006T3-TD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 15:58:21 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Sep 2012 06:46:02 -0700
+	Mon, 03 Sep 2012 16:01:10 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 03 Sep 2012 06:48:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217553181"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.155])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 06:45:54 -0700
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="140985628"
+Received: from unknown (HELO helios.localnet) ([10.252.121.155])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Sep 2012 06:48:47 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2012 14:45:42 +0100
-Message-Id: <7eaea83a4dfcf2947038a6a2b4d3af693a22bdb3.1346679751.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1346679751.git.paul.eggleton@linux.intel.com>
-References: <cover.1346679751.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1346679751.git.paul.eggleton@linux.intel.com>
-References: <cover.1346679751.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 7/7] qemu-config: turn into distcc-config and a package group
+Date: Mon, 03 Sep 2012 14:47:56 +0100
+Message-ID: <8068324.QSSVEOGDPm@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <CAJTo0Las+a6gpTqgu3221qaeyO4B7BuLRDzFrSJNgN1WD48Rig@mail.gmail.com>
+References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1345653628.3907.124.camel@ted>
+	<CAJTo0Las+a6gpTqgu3221qaeyO4B7BuLRDzFrSJNgN1WD48Rig@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] zeroconf: remove - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,104 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 13:58:21 -0000
+X-List-Received-Date: Mon, 03 Sep 2012 14:01:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* Create a new packagegroup-core-device-devel which pulls in everything
-  that qemu-config used to, with the exception of anjuta-remote-run -
-  this is unlikely to be widely used
-* Move the remainder of qemu-config to distcc-config and allow
-  DISTCC_HOSTS to be configured via a variable of the same name
-* Use SUMMARY instead of DESCRIPTION for single-line description since
-  DESCRIPTION is defaulted from SUMMARY if not set
+On Wednesday 22 August 2012 17:44:14 Burton, Ross wrote:
+> > I'm not sure that is enough to warrant it staying in OE-Core. meta-oe
+> > might be a better fit? Can avahi be cut down for "tiny" usage though
+> > configuration?
+> 
+> Agreed.
+> 
+> I don't think Avahi can be cut down enough, zerconf only supports
+> exposing the machine name which is a pretty tiny subset of mDNS in
+> total.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../devel-config/distcc-config.bb}                 |   20 +++++++++++---------
- .../devel-config/distcc-config}/distcc.sh          |    2 +-
- .../packagegroup-core-device-devel.bb              |   15 +++++++++++++++
- 3 files changed, 27 insertions(+), 10 deletions(-)
- rename meta/{recipes-bsp/qemu-config/qemu-config.bb => recipes-devtools/devel-config/distcc-config.bb} (44%)
- rename meta/{recipes-bsp/qemu-config/qemu-config => recipes-devtools/devel-config/distcc-config}/distcc.sh (57%)
- create mode 100644 meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
+So, where does that leave us with this patch then?
 
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-devtools/devel-config/distcc-config.bb
-similarity index 44%
-rename from meta/recipes-bsp/qemu-config/qemu-config.bb
-rename to meta/recipes-devtools/devel-config/distcc-config.bb
-index 3ed07df..8deaa66 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config.bb
-+++ b/meta/recipes-devtools/devel-config/distcc-config.bb
-@@ -1,23 +1,25 @@
--DESCRIPTION = "Adds scripts to use distcc on the host system under qemu"
-+SUMMARY = "Sets up distcc for compilation on the target device"
- 
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--
--COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
--
--PR = "r25"
--
- SRC_URI = "file://distcc.sh"
- 
- S = "${WORKDIR}"
- 
-+# Default to the host machine for a running qemu session
-+DISTCC_HOSTS ?= "192.168.7.1"
-+
-+do_configure() {
-+	sed -i "s%@DISTCC_HOSTS@%${DISTCC_HOSTS}%" distcc.sh
-+}
-+
- do_install() {
--    install -d ${D}${sysconfdir}/profile.d
--    install -m 0755 distcc.sh ${D}${sysconfdir}/profile.d/
-+	install -d ${D}${sysconfdir}/profile.d
-+	install -m 0755 distcc.sh ${D}${sysconfdir}/profile.d/
- }
- 
--RDEPENDS_${PN} = "distcc oprofileui-server bash"
-+RDEPENDS_${PN} = "distcc"
- 
- inherit allarch
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config/distcc.sh b/meta/recipes-devtools/devel-config/distcc-config/distcc.sh
-similarity index 57%
-rename from meta/recipes-bsp/qemu-config/qemu-config/distcc.sh
-rename to meta/recipes-devtools/devel-config/distcc-config/distcc.sh
-index a2b543d..b420593 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config/distcc.sh
-+++ b/meta/recipes-devtools/devel-config/distcc-config/distcc.sh
-@@ -1,4 +1,4 @@
--DISTCC_HOSTS="192.168.7.1"
-+DISTCC_HOSTS="@DISTCC_HOSTS@"
- #DISTCC_VERBOSE="1"
- 
- export DISTCC_HOSTS
-diff --git a/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb b/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
-new file mode 100644
-index 0000000..e55eed5
---- /dev/null
-+++ b/meta/recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
-@@ -0,0 +1,15 @@
-+SUMMARY = "Provides a small set of tools for development on the device"
-+LICENSE = "MIT"
-+
-+inherit packagegroup
-+
-+RPROVIDES_${PN} = "qemu-config"
-+RREPLACES_${PN} = "qemu-config"
-+
-+RDEPENDS_${PN} = "\
-+    distcc-config \
-+    oprofileui-server \
-+    nfs-export-root \
-+    bash \
-+    "
-+
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
