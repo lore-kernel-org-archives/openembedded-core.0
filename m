@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XAK-0005m8-C4
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8XAN-0005n6-HW
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 15:58:12 +0200
+	Mon, 03 Sep 2012 15:58:15 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 06:45:53 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 03 Sep 2012 06:45:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217553126"
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217553151"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.155])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 06:45:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 06:45:52 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2012 14:45:39 +0100
-Message-Id: <e99c96b8d02ff04fd7ad3e25616c2c00b0259b1f.1346679751.git.paul.eggleton@linux.intel.com>
+Date: Mon,  3 Sep 2012 14:45:40 +0100
+Message-Id: <cc5ac825041b46a0eec1c1c85842a146999d3fa1.1346679751.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1346679751.git.paul.eggleton@linux.intel.com>
 References: <cover.1346679751.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1346679751.git.paul.eggleton@linux.intel.com>
 References: <cover.1346679751.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/7] oprofileui-server: move initscript from qemu-config
+Subject: [PATCH 5/7] qemu-config: split out shutdown icon to its own recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,114 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 13:58:12 -0000
+X-List-Received-Date: Mon, 03 Sep 2012 13:58:15 -0000
 
-The qemu-config initscript was only starting oprofile-server, so move it
-to the oprofileui-server recipe.
+Cleanly shutting down the machine from Sato is useful on other machines,
+not all of which have a power button that otherwise enables this, so
+make it not specific to qemu* and add it to task-core-x11-sato.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-bsp/qemu-config/qemu-config.bb        |   11 ++---------
- .../oprofile/oprofileui-server/init}               |    8 ++++----
- .../oprofile/oprofileui-server_git.bb              |   13 ++++++++++++-
- 3 files changed, 18 insertions(+), 14 deletions(-)
- rename meta/{recipes-bsp/qemu-config/qemu-config/qemu-autostart => recipes-kernel/oprofile/oprofileui-server/init} (74%)
+ meta/recipes-bsp/qemu-config/qemu-config.bb        |   11 +----------
+ .../packagegroups/packagegroup-core-x11-sato.bb    |    1 +
+ .../shutdown-desktop/shutdown-desktop.bb           |   20 ++++++++++++++++++++
+ .../shutdown-desktop}/shutdown.desktop             |    0
+ 4 files changed, 22 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
+ rename meta/{recipes-bsp/qemu-config/qemu-config => recipes-sato/shutdown-desktop/shutdown-desktop}/shutdown.desktop (100%)
 
 diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-bsp/qemu-config/qemu-config.bb
-index 6775af3..4179fc0 100644
+index 4179fc0..06f2f32 100644
 --- a/meta/recipes-bsp/qemu-config/qemu-config.bb
 +++ b/meta/recipes-bsp/qemu-config/qemu-config.bb
-@@ -11,8 +11,7 @@ PR = "r25"
+@@ -10,8 +10,7 @@ COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
+ PR = "r25"
  
  SRC_URI = "file://distcc.sh \
-            file://exports \
--           file://shutdown.desktop \
--           file://qemu-autostart"
-+           file://shutdown.desktop"
+-           file://exports \
+-           file://shutdown.desktop"
++           file://exports"
  
  S = "${WORKDIR}"
  
-@@ -24,9 +23,6 @@ do_install() {
-     
-     install -d ${D}${datadir}/applications
-     install -m 0644 shutdown.desktop ${D}${datadir}/applications/
+@@ -20,14 +19,6 @@ do_install() {
+ 
+     install -m 0755 distcc.sh ${D}${sysconfdir}/profile.d/
+     install -m 0644 exports ${D}${sysconfdir}/
+-    
+-    install -d ${D}${datadir}/applications
+-    install -m 0644 shutdown.desktop ${D}${datadir}/applications/
+-}
 -
--    install -d ${D}${sysconfdir}/init.d
--    install qemu-autostart ${D}${sysconfdir}/init.d/
+-pkg_postinst_${PN} () {
+-    grep -q qemuarm $D${sysconfdir}/hostname && \
+-        sed -i $D${datadir}/applications/shutdown.desktop -e 's/^Exec=halt/Exec=reboot/'
  }
  
- pkg_postinst_${PN} () {
-@@ -36,7 +32,4 @@ pkg_postinst_${PN} () {
- 
  RDEPENDS_${PN} = "distcc packagegroup-core-nfs-server oprofileui-server bash"
- 
--inherit update-rc.d allarch
--
--INITSCRIPT_NAME = "qemu-autostart"
--INITSCRIPT_PARAMS = "start 999 5 2 . stop 20 0 1 6 ."
-+inherit allarch
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config/qemu-autostart b/meta/recipes-kernel/oprofile/oprofileui-server/init
-similarity index 74%
-rename from meta/recipes-bsp/qemu-config/qemu-config/qemu-autostart
-rename to meta/recipes-kernel/oprofile/oprofileui-server/init
-index db2668e..2544ea4 100755
---- a/meta/recipes-bsp/qemu-config/qemu-config/qemu-autostart
-+++ b/meta/recipes-kernel/oprofile/oprofileui-server/init
-@@ -1,11 +1,11 @@
- #!/bin/sh
- ### BEGIN INIT INFO
--# Provides:          hddtemp
-+# Provides:          oprofile-server
- # Required-Start:    $network
- # Required-Stop:     $network
- # Default-Start:     2 3 4 5
- # Default-Stop:      0 1 6
--# Short-Description: OProfile server
-+# Short-Description: OProfileUI server
- # Description:       
- ### END INIT INFO
- 
-@@ -13,13 +13,13 @@
- 
- case "$1" in
-   start)
--        echo "Starting automatic qemu services"
-+        echo "Starting OProfileUI server"
- 	. /etc/profile
- 	/usr/bin/oprofile-server &
-   ;;
- 
-   stop)
--        echo "Stopping qemu services"
-+        echo "Stopping OProfileUI server"
-         killproc oprofile-server
-   ;;
- 
-diff --git a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-index b9f6a81..e75923f 100644
---- a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-+++ b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-@@ -6,8 +6,19 @@ PR = "r0"
- 
- S = "${WORKDIR}/git"
- 
--SRC_URI = "git://git.yoctoproject.org/oprofileui;protocol=git"
-+SRC_URI = "git://git.yoctoproject.org/oprofileui;protocol=git \
-+           file://init"
- 
- EXTRA_OECONF += "--disable-client --enable-server"
- 
- RDEPENDS_${PN} = "oprofile"
+diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+index 5d781ae..53e15d3 100644
+--- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
++++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+@@ -37,6 +37,7 @@ RDEPENDS_${PN}-base = "\
+     sato-icon-theme \
+     settings-daemon \
+     gtk-sato-engine \
++    shutdown-desktop \
+     libsdl \
+     ${NETWORK_MANAGER} \
+     "
+diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
+new file mode 100644
+index 0000000..d0f507e
+--- /dev/null
++++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "Provides an icon to shut down the system cleanly"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 +
-+do_install_append() {
-+	install -d ${D}${sysconfdir}/init.d
-+	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/oprofileui-server
++SRC_URI = "file://shutdown.desktop"
++
++S = "${WORKDIR}"
++
++do_install() {
++	install -d ${D}${datadir}/applications
++	install -m 0644 shutdown.desktop ${D}${datadir}/applications/
 +}
 +
-+INITSCRIPT_NAME = "oprofileui-server"
-+INITSCRIPT_PARAMS = "start 999 5 2 . stop 20 0 1 6 ."
++pkg_postinst_${PN} () {
++    grep -q qemuarm $D${sysconfdir}/hostname && \
++        sed -i $D${datadir}/applications/shutdown.desktop -e 's/^Exec=halt/Exec=reboot/'
++}
 +
-+inherit update-rc.d
++inherit allarch
+diff --git a/meta/recipes-bsp/qemu-config/qemu-config/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
+similarity index 100%
+rename from meta/recipes-bsp/qemu-config/qemu-config/shutdown.desktop
+rename to meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
 -- 
 1.7.9.5
 
