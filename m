@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8U8J-0004vj-01
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8U8J-0004vG-C5
 	for openembedded-core@lists.openembedded.org;
 	Mon, 03 Sep 2012 12:43:55 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Sep 2012 03:31:30 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2012 03:31:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217497250"
+X-IronPort-AV: E=Sophos;i="4.80,359,1344236400"; d="scan'208";a="217497214"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.155])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 03:31:26 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2012 03:31:17 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Sep 2012 11:30:45 +0100
-Message-Id: <5c3f0852606c2ca5fec324f3119b3a9fd39d6f97.1346668109.git.paul.eggleton@linux.intel.com>
+Date: Mon,  3 Sep 2012 11:30:35 +0100
+Message-Id: <8e6521856490f08291c3c01a3b16e5f270fe6bac.1346668109.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1346668109.git.paul.eggleton@linux.intel.com>
 References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1346668109.git.paul.eggleton@linux.intel.com>
 References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 25/28] packagegroup-core-basic: tidy up
+Subject: [PATCH 15/28] packagegroup-base: remove openswan from packagegroup-base-ipsec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,72 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 10:43:55 -0000
+X-List-Received-Date: Mon, 03 Sep 2012 10:43:57 -0000
 
-* Remove packagegroup-core-basic-rpm - we already have a mechanism for
-  ensuring that packaging tools are installed on the target if desired;
-  we don't need a package group to bring them in as well (especially if
-  packagegroup-core-basic is used with other packaging systems).
-* Remove the poorly-named packagegroup-core-base-utils: we already get
-  busybox via packagegroup-core-boot.
+openswan was only ever provided in unmaintained form in meta-demoapps
+which has been removed, so we never really provided it in OE-Core.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../packagegroups/packagegroup-core-basic.bb       |   14 --------------
- 1 file changed, 14 deletions(-)
+ .../packagegroups/packagegroup-base.bb             |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
-index b2489fe..4e4bcf5 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
-@@ -10,34 +10,26 @@ inherit packagegroup
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index 7e2bd69..c0f0f52 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -255,7 +255,7 @@ RRECOMMENDS_packagegroup-base-ppp = "\
+     kernel-module-slhc"
  
- PACKAGES = "\
-     packagegroup-core-basic \
--    packagegroup-core-base-utils \
-     packagegroup-core-basic-libs \
-     packagegroup-core-basic-utils \
-     packagegroup-core-basic-extended \
-     packagegroup-core-dev-utils \
-     packagegroup-core-multiuser \
-     packagegroup-core-initscripts \
--    packagegroup-core-rpm \
-     packagegroup-core-sys-services \
-     "
+ RDEPENDS_packagegroup-base-ipsec = "\
+-    openswan"
++    "
  
- 
- RDEPENDS_packagegroup-core-basic = "\
--    packagegroup-core-base-utils \
-     packagegroup-core-basic-libs \
-     packagegroup-core-basic-utils \
-     packagegroup-core-basic-extended \
-     packagegroup-core-dev-utils \
-     packagegroup-core-multiuser \
-     packagegroup-core-initscripts \
--    packagegroup-core-rpm \
-     packagegroup-core-sys-services \
-     "
- 
--RDEPENDS_packagegroup-core-base-utils = "\
--    busybox \
--    "
--
- RDEPENDS_packagegroup-core-basic-libs = "\
-     glib-2.0 \
-     "
-@@ -106,12 +98,6 @@ RDEPENDS_packagegroup-core-multiuser = "\
-     sudo \
-     "
- 
--RDEPENDS_packagegroup-core-rpm = "\
--    beecrypt \
--    rpm \
--    zypper \
--    "
--
- RDEPENDS_packagegroup-core-sys-services = "\
-     at \
-     bzip2 \
+ RRECOMMENDS_packagegroup-base-ipsec = "\
+     kernel-module-ipsec"
 -- 
 1.7.9.5
 
