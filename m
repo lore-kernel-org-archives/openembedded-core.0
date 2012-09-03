@@ -1,39 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T8XI5-0006YL-Lv
+	(envelope-from <koen@dominion.thruhere.net>) id 1T8XTf-0006gs-JK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Sep 2012 16:06:13 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 03 Sep 2012 06:53:47 -0700
-Received: by obblz20 with SMTP id lz20so9290631obb.6
+	Mon, 03 Sep 2012 16:18:11 +0200
+Received: by weyr6 with SMTP id r6so3147181wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Sep 2012 06:53:51 -0700 (PDT)
+	Mon, 03 Sep 2012 07:05:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=y/GR6cgdSsAvUoC8gxVB9TkByGxOiK+XZZW4NY5SK7Y=;
-	b=ZFYJ6uEROSxklm3D3VYiEayVhCRYvNWEGHDejvNBhVnUsDISs5zZeZoc4Aeqt2CRiQ
-	dmtvyB4XQtJcMx0C1ZjultmWjVI/cH1cVWwvEc3e0bArSrnx55JPgZgDsV8MsqOF6SGJ
-	woLgYRUQq4LqhOhWzr1w/6bKXXaKE1KrJ4dI/Dw2Xco/kHUIOLY1HA1nSpA5eeOkGNJD
-	thDRklmDntA8i6NEj4xJzInS1pju0FKTfC2vUiF3PSPnqVSg2eV4ZXioQvdq/PXBdf6i
-	LOi39NcVgiBVeO7yBUr5+BlFcGt4lrWrXRlcLpuNlxAAPAwZbx8raa/AqNB0HeFqM28K
-	EUBQ==
-Received: by 10.60.29.72 with SMTP id i8mr13775404oeh.26.1346680431166; Mon,
-	03 Sep 2012 06:53:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Mon, 3 Sep 2012 06:53:30 -0700 (PDT)
-In-Reply-To: <8068324.QSSVEOGDPm@helios>
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=zxgAsJooXH6VcJn96U7cIEEvpmZ6quyBiJRhl64q9QA=;
+	b=Wni/VtB1zYg3Kitk5LNdViMFuYMY/zN2Kk1amjlQFY2iXERv28pfStMlfjUJQm0X8G
+	cfpst2L3hC3mh0MUcr3seX9ZsaC0FXpS8UD7lxiQJ4GkbXKpG5sIZ07YsyIwYQQ/qG7r
+	mgL7CCx81yOQtV/2hrMQaJoghEDT/o61wwe5sYUnWRRWQM+XT3hJbAzrBEXJ00tDrEEz
+	ilZmmuBk+F574hRCdU9L/xPWBqnS/5U66dQSuLoYSJ477vmgDarUY1SSzd80xsfP6Ma+
+	alp03hUlpCbhaPmpFXGT0bOLN1OLWTLHHhTUKm6Wj4DWdLSNHynskdR4t0x1hnCPjimg
+	P2GA==
+Received: by 10.180.14.8 with SMTP id l8mr23582632wic.6.1346681149097;
+	Mon, 03 Sep 2012 07:05:49 -0700 (PDT)
+Received: from [172.20.0.49] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id hv8sm19614165wib.0.2012.09.03.07.05.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 03 Sep 2012 07:05:48 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0Lbn5ow1yMDj5X-c77CxNDNQJri4cWH_WdBEU3guWJdfrg@mail.gmail.com>
+Date: Mon, 3 Sep 2012 16:05:43 +0200
+Message-Id: <83D2678E-81E3-40A6-8766-53CD395C8205@dominion.thruhere.net>
 References: <1345650627-3232-1-git-send-email-paul.eggleton@linux.intel.com>
 	<1345653628.3907.124.camel@ted>
 	<CAJTo0Las+a6gpTqgu3221qaeyO4B7BuLRDzFrSJNgN1WD48Rig@mail.gmail.com>
 	<8068324.QSSVEOGDPm@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Sep 2012 14:53:30 +0100
-Message-ID: <CAJTo0Lbn5ow1yMDj5X-c77CxNDNQJri4cWH_WdBEU3guWJdfrg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnpY9SCs20GoCPSyjkPBBg62x6Tmq2evyJGfBIYqDlO/6vD+wTX9lyqK1tNdLzQ/L5oOPdg
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	<CAJTo0Lbn5ow1yMDj5X-c77CxNDNQJri4cWH_WdBEU3guWJdfrg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1486)
+X-Gm-Message-State: ALoCoQkHHPtlBq1r2oqGyhxWxW1pFLhqaCQPFdqtMfMo/ZS8Be7OPoWmeS3d5HVWwUHVbI0dV1En
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] zeroconf: remove - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,15 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Sep 2012 14:06:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 03 Sep 2012 14:18:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 3 September 2012 14:47, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> So, where does that leave us with this patch then?
 
-I'd say merge it, if anyone really needs a tiny mDNS responder they
-can dig it out.
+Op 3 sep. 2012, om 15:53 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-Ross
+> On 3 September 2012 14:47, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
+>> So, where does that leave us with this patch then?
+>=20
+> I'd say merge it, if anyone really needs a tiny mDNS responder they
+> can dig it out.
+
+And put it in meta-networking instead of oe-core :)=
 
 
