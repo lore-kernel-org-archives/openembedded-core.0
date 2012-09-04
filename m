@@ -1,32 +1,24 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T8zan-00027o-IM
+	(envelope-from <mark.hatle@windriver.com>) id 1T907U-0002WH-VP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 22:19:25 +0200
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 04 Sep 2012 13:07:02 -0700
-Received: by iaky10 with SMTP id y10so10068385iak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2012 13:07:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=oPbQrji9V/R2c0giMn82gntcUheRgnCeD1nP3qPNfXA=;
-	b=NI2D6Hj21KE7goB+iujuLHmaCkIBCvJT6Us8+sD6htyIGFQubQ6zOUZQjIuRk6ekpB
-	OGd10M5IyINSfiKdiyZ+RNPkNL4W1xSEc8clxJdxca7mtHFMZRXSxqbzdpW29jOqlQig
-	hx/SbeKGDHdWrhTtQBi9dkO3XhWRDRqBiLz2nKWjCT0SDAWOEu+W7Izhjb7SS6AKS8fx
-	PjalyvgjIdXdLKuz+/1kh9iCsRTzNTUiDg3ISSwA6LjPhzjE5xYNvJubZnRIyOIlHvjK
-	SReX6SOOjzAyQG7xcJ8mZzWvtr9jBUXzP6h1CHeptsLZUjEbdu0cH0EXD4wzbGdWOFy3
-	ehuA==
-Received: by 10.50.191.227 with SMTP id hb3mr5501265igc.43.1346789221242; Tue,
-	04 Sep 2012 13:07:01 -0700 (PDT)
+	Tue, 04 Sep 2012 22:53:13 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q84KemBY025426
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Sep 2012 13:40:48 -0700 (PDT)
+Received: from msp-dhcp18.wrs.com (172.25.34.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 4 Sep 2012 13:40:47 -0700
+Message-ID: <5046674F.6080908@windriver.com>
+Date: Tue, 4 Sep 2012 15:40:47 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.64.25.69 with HTTP; Tue, 4 Sep 2012 13:06:41 -0700 (PDT)
-In-Reply-To: <50465A0D.6090309@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
-	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
-	<CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
 	<4976204.OdG2Ohk3KU@helios>
 	<CAJTo0LbGH3HV1yQOMyoYDVR_z=34qy3riZnASGYdFtkK_XkOmw@mail.gmail.com>
 	<1346267538.4396.38.camel@x121e.pbcl.net>
@@ -42,11 +34,8 @@ References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton
 	<50462C35.6000400@windriver.com>
 	<CAJTo0LY5-Zuw=O_gPaHy326v4VCa704rruHZiefuxBQDbBKwLQ@mail.gmail.com>
 	<50465A0D.6090309@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 4 Sep 2012 21:06:41 +0100
-Message-ID: <CAJTo0LaqmMMj0yepcr-TLKUQVa1jXCB+7OPs7-peaYG-FjRKFA@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Gm-Message-State: ALoCoQk2wN2DLyl/j+WyPJEFJ580vu7HZXvV+ypZoGMtmbyZZiVrOXMRgEgCDy0zFwGQKk7eqKuE
+	<CAJTo0LaqmMMj0yepcr-TLKUQVa1jXCB+7OPs7-peaYG-FjRKFA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaqmMMj0yepcr-TLKUQVa1jXCB+7OPs7-peaYG-FjRKFA@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,24 +50,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 20:19:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 04 Sep 2012 20:53:13 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 4 September 2012 20:44, Mark Hatle <mark.hatle@windriver.com> wrote:
->> So that's a false positive, and libgudev can be moved back into /usr
->> where it belongs?
+On 9/4/12 3:06 PM, Burton, Ross wrote:
+> On 4 September 2012 20:44, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>> So that's a false positive, and libgudev can be moved back into /usr
+>>> where it belongs?
+>>
+>> The gobject linkage into udev is either the result of a newer version of
+>> udev, different configuration options or "something else".  The version
+>> we're using from the Denzil branch did not generate this failure.  (maybe
+>> the check was in error?)
 >
-> The gobject linkage into udev is either the result of a newer version of
-> udev, different configuration options or "something else".  The version
-> we're using from the Denzil branch did not generate this failure.  (maybe
-> the check was in error?)
+> gudev is relatively new, so probably isn't in the Denzil udev.  It
+> would be interesting to see if it's used in early boot or not (I
+> suspect not, as it depends on GObject), and only selectively move
+> parts of udev to /lib as required instead of forcing everything to
+> move.
 
-gudev is relatively new, so probably isn't in the Denzil udev.  It
-would be interesting to see if it's used in early boot or not (I
-suspect not, as it depends on GObject), and only selectively move
-parts of udev to /lib as required instead of forcing everything to
-move.
+Ya, understanding how it's used and when.. it should be much easier to make a 
+good choice.  I know in the past I've been able to break apart things like this.
 
-Ross
+--Mark
+
+> Ross
+>
+
 
 
