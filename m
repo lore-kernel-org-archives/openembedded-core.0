@@ -1,32 +1,25 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T8pJi-0002Gv-V3
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1T8pNY-0002L7-9D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 11:21:07 +0200
-Received: by bkcik5 with SMTP id ik5so3124168bkc.6
+	Tue, 04 Sep 2012 11:25:04 +0200
+Received: from [192.168.0.2] (host81-153-84-143.range81-153.btcentralplus.com
+	[81.153.84.143]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 6CC2E9ADE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2012 02:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=U9tXOygiiXf5hKBg3vQvEQ0eTSibeviX5JETPEv3rDQ=;
-	b=p/dPaRJ7K4nbSaRQHRwZFu7id3ZG1RQppseguNLoaO2Z5j5S7vWCR+BWzCk245MC+0
-	ATFazBbhdBdYDJe+RKTo7L6jjgRWgoq4vNK/NfPem8IIA/PQ13kgDwYguyzBf7rnCE6K
-	W4QsJejE80tGfxEFkigrMK4hygxiFbZoARBuCrz5DHtzzyl3e9/g3HEB3kWpQJiCyqJD
-	bTH5iLod0Kmgw4hhzsj8LDvqAjf8fYfFDba44oPEg4kpgfPR+KZO/wMBX3xKy7NEAMhf
-	6O/0kEOqFrcGohVu3yNcI+UNhExxiD+NddzzNGUJ9vHose16jk0zWI6YQX5o8owiF9Kr
-	E4fQ==
-Received: by 10.204.156.87 with SMTP id v23mr8040005bkw.0.1346749725546;
-	Tue, 04 Sep 2012 02:08:45 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id m9sm9639679bkm.10.2012.09.04.02.08.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Sep 2012 02:08:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue,  4 Sep 2012 10:12:44 +0100 (BST)
+Message-ID: <5045C60B.1020600@r-finger.com>
+Date: Tue, 04 Sep 2012 10:12:43 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Sep 2012 11:09:11 +0200
-Message-Id: <1346749751-25699-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-Subject: [PATCH] bitbake.conf: FETCHCMD_svn add --non-interactive --trust-server-cert
+References: <5040A5BB.7040601@r-finger.com>
+	<20120903070832.GC3205@jama.jama.net>
+In-Reply-To: <20120903070832.GC3205@jama.jama.net>
+Subject: Re: runstrip() in package.bbclass fails when run against a kernel module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,39 +32,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 09:21:07 -0000
+X-List-Received-Date: Tue, 04 Sep 2012 09:25:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-* now with subversion-native we know those 2 options are supported
-* with https protocol used for SVN checkouts we cannot confirm certificate and do_fetch fails
-  Error validating server certificate for 'https://foo:443':
-  - The certificate is not issued by a trusted authority. Use the
-    fingerprint to validate the certificate manually!
-    Certificate information:
-    ...
-    (R)eject, accept (t)emporarily or accept (p)ermanently? svn: E175002: Unable to connect to a repository at URL 'https://foo/trunk'
-    svn: E175002: OPTIONS of 'https://foo/trunk': Server certificate verification failed: issuer is not trusted (https://foo)
-    ERROR: Function failed: Fetcher failure for URL: 'svn://foo;protocol=https;module=trunk'. Unable to fetch URL from any source.
+Hi,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 03/09/12 08:08, Martin Jansa wrote:
+> On Fri, Aug 31, 2012 at 12:53:31PM +0100, Tomas Frydrych wrote:
+>>
+>> runstrip() in package.bbclass fails when run against a kernel module,
+>> because it tries to do a bitwise & with a 'None' argument. This throws:
+>> TypeError: unsupported operand type(s) for &: 'NoneType' and 'int'.
+> 
+> Was this for denzil?
+> 
+> In master it was fixed a month ago by:
+> http://git.openembedded.org/openembedded-core/commit/meta/classes/package.bbclass?id=a834ab8a6d53cae504fa112a89bab93d726539ec
+> 
+> Don't know why they merged your patch to master too now..
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1d56813..161cdaf 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -578,7 +578,7 @@ XORG_MIRROR = "http://xorg.freedesktop.org/releases"
- #  export DEBIAN_MIRROR = "ftp://ftp.de.debian.org/debian/pool"
- #     into your local.conf
- 
--FETCHCMD_svn = "/usr/bin/env svn"
-+FETCHCMD_svn = "/usr/bin/env svn --non-interactive --trust-server-cert"
- FETCHCMD_cvs = "/usr/bin/env cvs"
- FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no-check-certificate"
- FETCHCMD_bzr = "/usr/bin/env bzr"
--- 
-1.7.12
+Yes, I run into the bug on Denzil and did not see the alternative fix in
+master; either one of those fixes the problem, of course.
+
+Tomas
+
+
+> 
+> Cheers,
+> 
+>>
+>> Tomas
+>>
+> 
+>> From 6abe978d8e0acdb35c1abfed83e775b276b1231f Mon Sep 17 00:00:00 2001
+>> From: Tomas Frydrych <tomas@sleepfive.com>
+>> Date: Fri, 31 Aug 2012 12:02:18 +0100
+>> Subject: [PATCH] package.bbclass: fix stripping for kernel modules
+>>
+>> runstrip(path, elftype, d) does bitwise & on the elftype parameter, so it has
+>> to be passed an integer. Passing None fails with: TypeError: unsupported
+>> operand type(s) for &: 'NoneType' and 'int'.
+>>
+>> Signed-off-by: Tomas Frydrych <tomas@sleepfive.com>
+>> ---
+>>  meta/classes/package.bbclass |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+>> index 44e551f..f046fbb 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -877,7 +877,7 @@ python split_and_strip_files () {
+>>  			for f in files:
+>>  				if not f.endswith(".ko"):
+>>  					continue
+>> -				runstrip(os.path.join(root, f), None, d)
+>> +				runstrip(os.path.join(root, f), 0, d)
+>>  	#
+>>  	# End of strip
+>>  	#
+>> -- 
+>> 1.7.10.4
+>>
+>>
+> 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> 
 
 
 
