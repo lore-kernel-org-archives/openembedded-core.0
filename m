@@ -1,35 +1,27 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1T8oXC-000179-61; Tue, 04 Sep 2012 10:30:58 +0200
-Received: by weyr6 with SMTP id r6so3641279wey.6
-	for <multiple recipients>; Tue, 04 Sep 2012 01:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=DJcHrNGQ07zcO1AMfiZOM5+S4JegxjY7juh3v4UPQ/Y=;
-	b=VyYwXA3uto2VBHZ5Oa1FXo+F3mnYi6cGZO+uM8gt1pkZOBRnt9FWYp3eQ4gGtPCwas
-	W22qBZVy5ID6sm7RL7kNzgtcCiMS8RKS2XIzqkCxN5EkD+YuyE/Daa64GMP5EpQLd5G+
-	yv4cSLAHIy96GB6rqn4/nNE3tHjGPH3VZRw3DERddzrXAkTr39Y3DMGK95mp3/KkGM+3
-	f+4YCQ2b9vj4Z4gaP7rz7VasclWLtb1lGK37UadGY8Nqn99BnG/22s4uWMJ1HJ2CcnMj
-	PIAsrjXOUj8jrWradSLsPhzv1oL8lUUo5fFiZtcFqC7lTk78W1H3GUXhAmIljzyYN3Rx
-	msPQ==
-Received: by 10.180.97.33 with SMTP id dx1mr28961333wib.18.1346746716257;
-	Tue, 04 Sep 2012 01:18:36 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm34582249wix.6.2012.09.04.01.18.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Sep 2012 01:18:35 -0700 (PDT)
-Date: Tue, 4 Sep 2012 10:18:58 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120904081858.GA3372@jama.jama.net>
-References: <20120902125724.B93CA10357@opal>
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8oij-0001GA-3s
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Sep 2012 10:42:53 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Sep 2012 01:30:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,366,1344236400"; d="scan'208";a="217490354"
+Received: from unknown (HELO helios.localnet) ([10.252.121.161])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Sep 2012 01:30:29 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 04 Sep 2012 09:30:28 +0100
+Message-ID: <1937737.ltCaXIobqa@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <5045687E.7010505@linux.intel.com>
+References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
+	<1a2dd4def9f665707e0b8e99f52166906f14f1b5.1346668109.git.paul.eggleton@linux.intel.com>
+	<5045687E.7010505@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20120902125724.B93CA10357@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Purdie : perl: Fix various nativesdk build issues
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/28] classes/core-image: remove *_IMAGE_FEATURES variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,152 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 08:30:58 -0000
-X-Groupsio-MsgNum: 28607
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 04 Sep 2012 08:42:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---YiEDa0DAkWCtVeE4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Monday 03 September 2012 19:33:34 Saul Wold wrote:
+> > -IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
+> > +IMAGE_FEATURES += "apps-console-core package-management x11-base
+> > apps-x11-core apps-x11-games x11-sato ssh-server-dropbear"
+>
+> Should package-management be here or should it be a DISTRO_FEATURE and
+> have the ability to be enabled or disabled more on DISTRO basis?  I know
+> that we explicitly disable it on core-image-minimal and have a
+> ROOTFS_POSTPRESSES_COMMAND there, but I wonder about setting that up on
+> a DISTRO basis?
 
-On Sun, Sep 02, 2012 at 12:57:24PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 38234f2e276356b1d77a87ceabc486107e336d19
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D38234f2e276356b1d77a87ceabc486107e336d19
->=20
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Thu Aug 30 16:36:24 2012 -0700
->=20
-> perl: Fix various nativesdk build issues
->=20
-> The config.sh lists -fstack-protector but this isn't in LDFLAGS. This
-> can result in perl compilation failures due to the mismatch. Adding the
-> flag to LDFLAGS solves makes all the flags consistent and avoids build
-> failures from missing symbols.
->=20
-> It was also found that the path substitutions made by the sed statement
-> can conflict with each other and you can end up with $prefix$prefix type
-> expressions in config.sh-X which can break the build in unusual ways.
-> This patch anchors the expressions to ensure only true matches are
-> replaced.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/recipes-devtools/perl/perl_5.14.2.bb |   12 +++++++-----
->  1 files changed, 7 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-dev=
-tools/perl/perl_5.14.2.bb
-> index 9db3805..3c1360f 100644
-> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://Copying;md5=3D2b4c6ffbcfcbde=
-e469f02565f253d81a \
->  # We need gnugrep (for -I)
->  DEPENDS =3D "virtual/db grep-native"
->  DEPENDS +=3D "gdbm zlib"
-> -PR =3D "r8"
-> +PR =3D "r9"
-> =20
->  # 5.10.1 has Module::Build built-in
->  PROVIDES +=3D "libmodule-build-perl"
-> @@ -90,6 +90,8 @@ export PERLHOSTLIB =3D "${STAGING_LIBDIR_NATIVE}/perl-n=
-ative/perl/${PV}/"
->  # LDFLAGS for shared libraries
->  export LDDLFLAGS =3D "${LDFLAGS} -shared"
-> =20
-> +LDFLAGS_append =3D " -fstack-protector"
-> +
->  # We're almost Debian, aren't we?
->  CFLAGS +=3D "-DDEBIAN"
-> =20
-> @@ -148,10 +150,10 @@ do_configure() {
->                 -e 's,@ARCH@-thread-multi,,g' \
->                 -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
->                 -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
-> -               -e "s%/usr/include%${STAGING_INCDIR}%g" \
-> -	       -e 's,/usr/lib/,${libdir}/,g' \
-> -	       -e 's,/usr/,${exec_prefix}/,g' \
-> -	       -e 's,/perl5,/perl,g' \
-> +               -e "s%\([ \"^\',=3D]\+\)/usr/include%\1${STAGING_INCDIR}%=
-g" \
-> +	       -e "s%\([ \"^\',=3D]\+\)/usr/lib/%\1${libdir}/%g" \
-> +	       -e "s%\([ \"^\',=3D]\+\)/usr/%\1${exec_prefix}/%g" \
-> +	       -e "s%/perl5%/perl%g" \
->              config.sh-${TARGET_ARCH}-${TARGET_OS}
-> =20
->  	case "${TARGET_ARCH}" in
+DISTRO_FEATURES are usually items that influence changes at compilation time. I 
+think it's also reasonable to expect people want to be able to produce images 
+that have package management for development/testing/debugging and those that 
+don't for production, side-by-side, in which case it has to be in 
+IMAGE_FEATURES (especially as changing DISTRO_FEATURES on the fly will result 
+in a lot of recompilation).
 
-Not sure if it's caused by this, but nativesdk-perl now fails to
-do_install()
+> It's part of the following:
+> 
+> meta/recipes-core/images/build-appliance-image.bb
+> meta/recipes-graphics/images/core-image-clutter.bb
+> meta/recipes-graphics/images/core-image-x11.bb
+> meta/recipes-sato/images/core-image-sato.bb
+> 
+> What about LSB? core-image-base or core-image-basic?
 
-make[1]: Nothing to be done for `install.man'.
-make[1]: Leaving directory `/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oes=
-dk-linux/nativesdk-perl-5.14.2-r9/perl-5.14.2'
-ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativ=
-esdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-i686/sysro=
-ots/i686-oesdk-linux/usr/bin/perl': No such file or directory
-ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativ=
-esdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysr=
-oots/i686-oesdk-linux/usr/lib/perl5': No such file or directory
-rmdir: failed to remove '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-=
-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-o=
-esdk-linux/usr/lib/perl/site_perl/5.14.2': No such file or directory
-rmdir: failed to remove '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-=
-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-o=
-esdk-linux/usr/lib/perl/site_perl': No such file or directory
-mv: cannot stat '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/na=
-tivesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-lin=
-ux/usr/lib/perl/5.14.2/CORE/libperl.so': No such file or directory
-ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativ=
-esdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysr=
-oots/i686-oesdk-linux/usr/lib/libperl.so.5': No such file or directory
-ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativ=
-esdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysr=
-oots/i686-oesdk-linux/usr/lib/perl/5.14.2/CORE/libperl.so': No such file or=
- directory
-install: cannot create regular file '/OE/shr-core/tmp-eglibc/work/i686-nati=
-vesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-i686/sysr=
-oots/i686-oesdk-linux/usr/lib/perl': No such file or directory
-ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativ=
-esdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-i686/sysro=
-ots/i686-oesdk-linux/usr/lib/perl/5.14.2/Config_heavy-target.pl': No such f=
-ile or directory
+The latter images never had package management enabled; I think core-image-
+basic at least could reasonably have package management enabled though since 
+it's meant to produce a more fully-featured Linux system (mental note, still 
+need to rename some of those images). AIUI, LSB doesn't require full package 
+management to be enabled, only that rpm packages are able to be installed; 
+installing rpm should satisfy this. We would only want to enable full package 
+management in the LSB images if it was in some way helpful to run the LSB 
+tests.
 
-And files are all installed in wrong directory (sysroot path repeated twice=
-):
-OE @ ~/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5=
-=2E14.2-r9/perl-5.14.2 $ ls /OE/shr-core/tmp-eglibc/work/i686-nativesdk-oes=
-dk-linux/nativesdk-perl-
-5.14.2-r9/image/usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/local/o=
-ecore-i686/sysroots/i686-oesdk-linux/usr/bin/
-a2p          corelist   cpanp           enc2xs     h2xs       libnetcfg   p=
-erlbug  perlthanks  pod2latex  pod2usage   prove    ptar      s2p     xsubpp
-c2ph         cpan       cpanp-run-perl  find2perl  instmodsh  perl        p=
-erldoc  piconv      pod2man    podchecker  psed     ptardiff  shasum
-config_data  cpan2dist  dprofpp         h2ph       json_pp    perl5.14.2  p=
-erlivp  pl2pm       pod2text   podselect   pstruct  ptargrep  splain
+I'm not entirely sure how we ended up with package management in the Sato 
+images and not with some of the others - perhaps there was at one time a 
+package management application within Sato or plans for one?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Cheers,
+Paul
 
---YiEDa0DAkWCtVeE4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Paul Eggleton
+Intel Open Source Technology Centre
 
-iEYEARECAAYFAlBFuXIACgkQN1Ujt2V2gBw+hwCghg3NUTSMlAJsLYkglI1lP2ug
-hGkAoKUiWS7Nb5Jwu8P/tCP1kpztvLU9
-=pxAz
------END PGP SIGNATURE-----
 
---YiEDa0DAkWCtVeE4--
