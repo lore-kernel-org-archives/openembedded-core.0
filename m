@@ -1,24 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1T8v6G-0004Hh-Rj
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 17:31:37 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q84FJAOK005974;
-	Tue, 4 Sep 2012 08:19:11 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Tue,  4 Sep 2012 11:19:09 -0400
-Message-Id: <fc1c6360e80b1d094a5b618cb7aeabe0700a4971.1346771668.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T8vda-00058d-0p for openembedded-core@lists.openembedded.org;
+	Tue, 04 Sep 2012 18:06:02 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q84FrYMj018570;
+	Tue, 4 Sep 2012 16:53:34 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17582-05; Tue,  4 Sep 2012 16:53:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q84FrP1k018563
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 4 Sep 2012 16:53:26 +0100
+Message-ID: <1346773997.21985.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Tue, 04 Sep 2012 16:53:17 +0100
 In-Reply-To: <cover.1346771668.git.bruce.ashfield@windriver.com>
 References: <cover.1346771668.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1346771668.git.bruce.ashfield@windriver.com>
-References: <cover.1346771668.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org, dvhart@linux.intel.com,
 	saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto-rt: update to 3.4.9-rt17
+Subject: Re: [PATCH 0/1] linux-yocto-rt: update and boot fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 15:31:37 -0000
+X-List-Received-Date: Tue, 04 Sep 2012 16:06:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Bumping the 3.4 kernel to -rt17.
+On Tue, 2012-09-04 at 11:19 -0400, Bruce Ashfield wrote:
+> Richard/Saul,
+> 
+> This is an update to the -rt branches that fixes up some merge
+> issues which were preventing the -rt boards from sucessfully
+> booting (hangs in the timekeeping code).
+> 
+> Built and booted here, so it's better than before, and it's
+> worth updating this ASAP, even while more testing happens, since
+> any issues can be dealt with via incremental patches.
+> 
+> Cheers,
+> 
+> Bruce
+> 
+> cc: Kishore Bodke <kishore.k.bodke@intel.com>
+> cc: Darren Hart <dvhart@linux.intel.com>
+> 
+> The following changes since commit e731ff2881ef13e742889ef6e535f1cf89bbc1ef:
+> 
+>   udev: Remove files moved to udev-extraconf (2012-09-04 15:41:16 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib zedd/kernel-rt
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-rt
+> 
+> Bruce Ashfield (1):
+>   linux-yocto-rt: update to 3.4.9-rt17
 
-As well as picking up the normal set of bug fixes, this update fixes
-a boot issue that was introduced during merging of kernel.org -stable
-updates into the -rt branches (in the timekeeping code).
+Merged to master, thanks.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-index 9cc7e99..ae64de1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -8,8 +8,8 @@ LINUX_KERNEL_TYPE = "preempt-rt"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "eb9c0669c66041eeae72b853011ec31ad81cc35d"
--SRCREV_machine_qemuppc ?= "76add8441a2b6ed26bcc9268819782b2eec99001"
-+SRCREV_machine ?= "52518e60a7220385f31cdd09b83dacd84581c88c"
-+SRCREV_machine_qemuppc ?= "e6db5e91e1a5b31d26ac67778df7fb1fd5e42aa5"
- SRCREV_meta ?= "463299bc2e533e1bd38b0053ae7b210980f269c3"
- 
- PR = "${INC_PR}.0"
--- 
-1.7.5.4
+Richard
 
 
 
