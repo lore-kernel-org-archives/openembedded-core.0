@@ -1,27 +1,33 @@
-Received: from r-finger.com ([178.79.160.5])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1T8q1J-0003Te-GE
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 12:06:09 +0200
-Received: from [192.168.0.2] (host81-153-84-143.range81-153.btcentralplus.com
-	[81.153.84.143]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 1A70D9ADE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2012 10:53:50 +0100 (BST)
-Message-ID: <5045CFAD.5040003@r-finger.com>
-Date: Tue, 04 Sep 2012 10:53:49 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5040A5BB.7040601@r-finger.com>
-	<20120903070832.GC3205@jama.jama.net>
-	<5045C60B.1020600@r-finger.com>
-	<20120904092321.GC3372@jama.jama.net>
-In-Reply-To: <20120904092321.GC3372@jama.jama.net>
-Subject: Re: runstrip() in package.bbclass fails when run against a kernel module
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T8qSc-0003zq-Bm for openembedded-core@lists.openembedded.org;
+	Tue, 04 Sep 2012 12:34:22 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q84ALx1b016002;
+	Tue, 4 Sep 2012 11:21:59 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15207-07; Tue,  4 Sep 2012 11:21:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q84ALoBG015995
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 4 Sep 2012 11:21:51 +0100
+Message-ID: <1346754109.30964.21.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 04 Sep 2012 11:21:49 +0100
+In-Reply-To: <CALbNGRRvPK7HZN08-QnyEoC61jyjQ_JRcXrk1+aFacy4RsinZg@mail.gmail.com>
+References: <CALbNGRTHoEqc5FBuNDCiOogU+xker62u3ue4paTTvwr3EFfgvA@mail.gmail.com>
+	<CALbNGRRvPK7HZN08-QnyEoC61jyjQ_JRcXrk1+aFacy4RsinZg@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q84ALx1b016002
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: checksums linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 10:06:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Sep 2012 10:34:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, 2012-09-04 at 11:45 +0200, Andreas M=C3=BCller wrote:
+> On Tue, Sep 4, 2012 at 11:35 AM, Andreas M=C3=BCller
+> <schnitzeltony@googlemail.com> wrote:
+> > Hi,
+> >
+> > checksums changed upstream?
+> >
+> > | File: '/home/andreas/data/Downloads/packets/dl/linux-3.4.3.tar.bz2'
+> > has md5 checksum 635c7c2376b9eda4c0ccc67d34205e73 when
+> > 3aefa02db55715d627ed23a01667057d was expected
+> > | File: '/home/andreas/data/Downloads/packets/dl/linux-3.4.3.tar.bz2'
+> > has sha256 checksum
+> > 2fbce991cae0c9f1f363ad1386e35c2095c6cce1b43e74ed5a96186578074ae0 when
+> > 17f1256daa289dde1a0a587c9753556d37a52770f7c4efcf2666fd4796a6eacc was
+> > expected
+> > | Your checksums:
+> > | SRC_URI[md5sum] =3D "635c7c2376b9eda4c0ccc67d34205e73"
+> > | SRC_URI[sha256sum] =3D
+> > "2fbce991cae0c9f1f363ad1386e35c2095c6cce1b43e74ed5a96186578074ae0"
+> >
+> > Andreas
+>=20
+> Sorry for noise - I tried twice before sending out this email. Seems
+> my network is causing this I get every time different checksums and
+> unpacking fails.
 
-On 04/09/12 10:23, Martin Jansa wrote:
->>> Was this for denzil?
->>>
->>> In master it was fixed a month ago by:
->>> http://git.openembedded.org/openembedded-core/commit/meta/classes/package.bbclass?id=a834ab8a6d53cae504fa112a89bab93d726539ec
->>>
->>> Don't know why they merged your patch to master too now..
->>
->> Yes, I run into the bug on Denzil and did not see the alternative fix in
->> master; either one of those fixes the problem, of course.
-> 
-> Yes but having both in master doesn't make much sense, and someone
-> already asked the older fix to be merged to denzil.
+At least it validates that they *are* useful :)
 
-I does not do any harm either, but if you prefer to revert that, I will
-not complain. (Though, I personally prefer fixing the way the function
-was incorrectly called rather than handling a wrong argument inside it. :) )
+[I get complaints about them being a pain when upgrading recipes but
+this illustrates they do help in some cases]
 
-Tomas
+Cheers,
+
+Richard
 
 
 
