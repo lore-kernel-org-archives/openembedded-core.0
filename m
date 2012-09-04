@@ -1,27 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T8oij-0001GA-3s
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 10:42:53 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Sep 2012 01:30:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,366,1344236400"; d="scan'208";a="217490354"
-Received: from unknown (HELO helios.localnet) ([10.252.121.161])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Sep 2012 01:30:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 04 Sep 2012 09:30:28 +0100
-Message-ID: <1937737.ltCaXIobqa@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <5045687E.7010505@linux.intel.com>
-References: <cover.1346668109.git.paul.eggleton@linux.intel.com>
-	<1a2dd4def9f665707e0b8e99f52166906f14f1b5.1346668109.git.paul.eggleton@linux.intel.com>
-	<5045687E.7010505@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/28] classes/core-image: remove *_IMAGE_FEATURES variables
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T8ojI-0001Im-KQ; Tue, 04 Sep 2012 10:43:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q848V5mP015026;
+	Tue, 4 Sep 2012 09:31:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14679-02; Tue,  4 Sep 2012 09:31:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q848UxTY015020
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 4 Sep 2012 09:31:00 +0100
+Message-ID: <1346747458.30964.14.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 04 Sep 2012 09:30:58 +0100
+In-Reply-To: <20120904081858.GA3372@jama.jama.net>
+References: <20120902125724.B93CA10357@opal>
+	<20120904081858.GA3372@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : perl: Fix various nativesdk build issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,56 +38,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 08:42:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 04 Sep 2012 08:43:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Monday 03 September 2012 19:33:34 Saul Wold wrote:
-> > -IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES}"
-> > +IMAGE_FEATURES += "apps-console-core package-management x11-base
-> > apps-x11-core apps-x11-games x11-sato ssh-server-dropbear"
->
-> Should package-management be here or should it be a DISTRO_FEATURE and
-> have the ability to be enabled or disabled more on DISTRO basis?  I know
-> that we explicitly disable it on core-image-minimal and have a
-> ROOTFS_POSTPRESSES_COMMAND there, but I wonder about setting that up on
-> a DISTRO basis?
-
-DISTRO_FEATURES are usually items that influence changes at compilation time. I 
-think it's also reasonable to expect people want to be able to produce images 
-that have package management for development/testing/debugging and those that 
-don't for production, side-by-side, in which case it has to be in 
-IMAGE_FEATURES (especially as changing DISTRO_FEATURES on the fly will result 
-in a lot of recompilation).
-
-> It's part of the following:
+On Tue, 2012-09-04 at 10:18 +0200, Martin Jansa wrote:
+> >  meta/recipes-devtools/perl/perl_5.14.2.bb |   12 +++++++-----
+> >  1 files changed, 7 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> > index 9db3805..3c1360f 100644
+> > --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
+> > +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> > @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+> >  # We need gnugrep (for -I)
+> >  DEPENDS = "virtual/db grep-native"
+> >  DEPENDS += "gdbm zlib"
+> > -PR = "r8"
+> > +PR = "r9"
+> >  
+> >  # 5.10.1 has Module::Build built-in
+> >  PROVIDES += "libmodule-build-perl"
+> > @@ -90,6 +90,8 @@ export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${PV}/"
+> >  # LDFLAGS for shared libraries
+> >  export LDDLFLAGS = "${LDFLAGS} -shared"
+> >  
+> > +LDFLAGS_append = " -fstack-protector"
+> > +
+> >  # We're almost Debian, aren't we?
+> >  CFLAGS += "-DDEBIAN"
+> >  
+> > @@ -148,10 +150,10 @@ do_configure() {
+> >                 -e 's,@ARCH@-thread-multi,,g' \
+> >                 -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
+> >                 -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
+> > -               -e "s%/usr/include%${STAGING_INCDIR}%g" \
+> > -	       -e 's,/usr/lib/,${libdir}/,g' \
+> > -	       -e 's,/usr/,${exec_prefix}/,g' \
+> > -	       -e 's,/perl5,/perl,g' \
+> > +               -e "s%\([ \"^\',=]\+\)/usr/include%\1${STAGING_INCDIR}%g" \
+> > +	       -e "s%\([ \"^\',=]\+\)/usr/lib/%\1${libdir}/%g" \
+> > +	       -e "s%\([ \"^\',=]\+\)/usr/%\1${exec_prefix}/%g" \
+> > +	       -e "s%/perl5%/perl%g" \
+> >              config.sh-${TARGET_ARCH}-${TARGET_OS}
+> >  
+> >  	case "${TARGET_ARCH}" in
 > 
-> meta/recipes-core/images/build-appliance-image.bb
-> meta/recipes-graphics/images/core-image-clutter.bb
-> meta/recipes-graphics/images/core-image-x11.bb
-> meta/recipes-sato/images/core-image-sato.bb
+> Not sure if it's caused by this, 
+
+
+FWIW we never used to build nativesdk-perl at all. So bugs here are new
+and due to the system being more correct about missing dependencies. Of
+course nativesdk-perl should build, I just want to be clear this is a
+new issue.
+
+> but nativesdk-perl now fails to
+> do_install()
 > 
-> What about LSB? core-image-base or core-image-basic?
+> make[1]: Nothing to be done for `install.man'.
+> make[1]: Leaving directory `/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/perl-5.14.2'
+> ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/bin/perl': No such file or directory
+> ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl5': No such file or directory
+> rmdir: failed to remove '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl/site_perl/5.14.2': No such file or directory
+> rmdir: failed to remove '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl/site_perl': No such file or directory
+> mv: cannot stat '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl/5.14.2/CORE/libperl.so': No such file or directory
+> ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/libperl.so.5': No such file or directory
+> ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image//usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl/5.14.2/CORE/libperl.so': No such file or directory
+> install: cannot create regular file '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl': No such file or directory
+> ln: failed to create symbolic link '/OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/lib/perl/5.14.2/Config_heavy-target.pl': No such file or directory
+> 
+> And files are all installed in wrong directory (sysroot path repeated twice):
+> OE @ ~/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/perl-5.14.2 $ ls /OE/shr-core/tmp-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-perl-
+> 5.14.2-r9/image/usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/local/oecore-i686/sysroots/i686-oesdk-linux/usr/bin/
+> a2p          corelist   cpanp           enc2xs     h2xs       libnetcfg   perlbug  perlthanks  pod2latex  pod2usage   prove    ptar      s2p     xsubpp
+> c2ph         cpan       cpanp-run-perl  find2perl  instmodsh  perl        perldoc  piconv      pod2man    podchecker  psed     ptardiff  shasum
+> config_data  cpan2dist  dprofpp         h2ph       json_pp    perl5.14.2  perlivp  pl2pm       pod2text   podselect   pstruct  ptargrep  splain
 
-The latter images never had package management enabled; I think core-image-
-basic at least could reasonably have package management enabled though since 
-it's meant to produce a more fully-featured Linux system (mental note, still 
-need to rename some of those images). AIUI, LSB doesn't require full package 
-management to be enabled, only that rpm packages are able to be installed; 
-installing rpm should satisfy this. We would only want to enable full package 
-management in the LSB images if it was in some way helpful to run the LSB 
-tests.
-
-I'm not entirely sure how we ended up with package management in the Sato 
-images and not with some of the others - perhaps there was at one time a 
-package management application within Sato or plans for one?
+This is likely a sign that some sed is happening twice to the perl
+config files. You can see my patch above fixes some of them, looks like
+there is still another one somewhere in there :(
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
 
