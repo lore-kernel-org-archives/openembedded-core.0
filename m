@@ -1,46 +1,52 @@
-Received: from co1ehsobe002.messaging.microsoft.com ([216.32.180.185]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T8yi4-0000qx-Pl
+	(envelope-from <ross.burton@intel.com>) id 1T8yyP-000166-8D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 21:22:53 +0200
-Received: from mail215-co1-R.bigfish.com (10.243.78.235) by
-	CO1EHSOBE004.bigfish.com (10.243.66.67) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 4 Sep 2012 19:10:29 +0000
-Received: from mail215-co1 (localhost [127.0.0.1])	by
-	mail215-co1-R.bigfish.com (Postfix) with ESMTP id 96E7A7E00F0	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2012 19:10:29 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1155h)
-Received: from mail215-co1 (localhost.localdomain [127.0.0.1]) by mail215-co1
-	(MessageSwitch) id 134678580194102_23297;
-	Tue,  4 Sep 2012 19:10:01 +0000 (UTC)
-Received: from CO1EHSMHS017.bigfish.com (unknown [10.243.78.239])	by
-	mail215-co1.bigfish.com (Postfix) with ESMTP id F0250D60048	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  4 Sep 2012 19:10:00 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS017.bigfish.com
-	(10.243.66.27) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 4 Sep 2012 19:09:59 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Tue, 4 Sep 2012 14:09:58 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q84J9vPn025379
-	for <openembedded-core@lists.openembedded.org>; Tue, 4 Sep 2012 12:09:58
-	-0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Sep 2012 14:09:54 -0500
-Message-ID: <1346785794-18278-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
+	Tue, 04 Sep 2012 21:39:45 +0200
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 04 Sep 2012 12:27:21 -0700
+Received: by ggmq1 with SMTP id q1so1549627ggm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Sep 2012 12:27:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=cTrjY7cKOIphcnHVvX6uNG7ftS1GIpCOg6t5AKdNxcY=;
+	b=MYIpzaz1k1ifHP2xxoolqaoVSvW49DLnq5NwBfhBBg5hkf/gRknabkmDtjsPoRNAh+
+	bSDCtqWYXwUkNClaVcOHbjS1oTTm+6/kQGgbKZVa4A9z7FhyPnGKEdWcSuJ2o9l9WcoE
+	aRm7cWYKXAwqQQLar6H/M/TcfA2rn0dKZRBQDYqg1Z7PwfCFBmaJKzL66Emf/d9W3a+v
+	kwYcAv9bf62RbzwY0CQa7/ArFiMnV5T+z5M690xjoo2CfL8vK4tLqU0URjGkZw0bwd2D
+	xtIoPsrHpdN3oGFkRGm3whloUBOvtzVN9RdE/BF7oHGEm7DxhrYPPb+oER8zwfTD8ZK+
+	oUcg==
+Received: by 10.60.19.195 with SMTP id h3mr16149524oee.102.1346786840333; Tue,
+	04 Sep 2012 12:27:20 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] qmake: add linux-qnuspe to the list of supported targets
+Received: by 10.182.79.105 with HTTP; Tue, 4 Sep 2012 12:26:58 -0700 (PDT)
+In-Reply-To: <50462C35.6000400@windriver.com>
+References: <d45bc352092507d11c740fb85c37d1102fa7203d.1346250187.git.ross.burton@intel.com>
+	<FF931F2C-6ABE-4F72-8FEE-90CFCE69121C@dominion.thruhere.net>
+	<CAJTo0LZa4odP83UOT=1U+nan-wcOEKuRMXW3iHRv9wzD8pspDA@mail.gmail.com>
+	<4976204.OdG2Ohk3KU@helios>
+	<CAJTo0LbGH3HV1yQOMyoYDVR_z=34qy3riZnASGYdFtkK_XkOmw@mail.gmail.com>
+	<1346267538.4396.38.camel@x121e.pbcl.net>
+	<CAJTo0La-tMW+LVLqRGBTSE36x0BYXBJkiwh2B5_8_-SjaAzR5Q@mail.gmail.com>
+	<CAMKF1srQO53m2zv91LLs8WFjEt=UKNA=w4OqxdVfJpyWPHG8jg@mail.gmail.com>
+	<CAJTo0LZGcZHwM5cZgjFrQ9tuhw6RLN_g732wBitVgHKo8UigNQ@mail.gmail.com>
+	<1346278937.4396.57.camel@x121e.pbcl.net>
+	<1346423384.2673.102.camel@phil-desktop>
+	<1346428885.16485.29.camel@ted>
+	<CAMKF1soyonS_-QFV3XKaz1=i_Krguy4i2Nnt1Ep8O9mkTR-3Jg@mail.gmail.com>
+	<CAMKF1sqqWJEwsvng_BHbqACJWhUBDRfW4Nixd2t2O1eADmCE5w@mail.gmail.com>
+	<43FF08E0-8A1F-4B64-9552-D5C68A207D0C@gmail.com>
+	<50462C35.6000400@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Sep 2012 20:26:58 +0100
+Message-ID: <CAJTo0LY5-Zuw=O_gPaHy326v4VCa704rruHZiefuxBQDbBKwLQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQmRMooyLLA9GsQ45OwD849Oj1funvJYlv7HR0lDCz21jVQh3MCw/36L8tWIedd+PFS1wz/C
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] tzdata: install /etc/localtime alongside /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,30 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 19:22:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Sep 2012 19:39:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/classes/qmake_base.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 4 September 2012 17:28, Mark Hatle <mark.hatle@windriver.com> wrote:
+> I'm sorry, not all devices being generated have initramfs configuration (nor
+> do people want that behavior.)   Also we've shown you can build a system w/
+> a split filesystem and it works properly.  The systemd/udev developers seem
+> 'lazy' to me... they were unwilling to work through early and late boot so
+> they just gave up.
 
-diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
-index d1008b6..f972b27 100644
---- a/meta/classes/qmake_base.bbclass
-+++ b/meta/classes/qmake_base.bbclass
-@@ -48,7 +48,7 @@ addtask generate_qt_config_file after do_patch before do_configure
- 
- qmake_base_do_configure() {
- 	case ${QMAKESPEC} in
--	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi-oe-g++)
-+	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi-oe-g++|*linux-gnuspe-oe-g++)
- 		;;
- 	*-oe-g++)
- 		die Unsupported target ${TARGET_OS} for oe-g++ qmake spec
--- 
-1.7.9.7
+With oe-core master, I get:
 
+NOTE: Executing RunQueue Tasks
+WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the
+base_prefix, requires a shared library under exec_prefix (/usr):
+libgobject-2.0.so.0 => /usr/lib/libgobject-2.0.so.0 (0xdead2000)
 
+So that's a false positive, and libgudev can be moved back into /usr
+where it belongs?
+
+Ross
 
 
