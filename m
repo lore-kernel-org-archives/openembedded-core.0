@@ -1,37 +1,39 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1T8w4j-0005Wt-6l
+	(envelope-from <schnitzeltony@googlemail.com>) id 1T8w4l-0005Wu-71
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 18:34:05 +0200
-Received: by bkcik5 with SMTP id ik5so3398270bkc.6
+	Tue, 04 Sep 2012 18:34:07 +0200
+Received: by bkcik5 with SMTP id ik5so3398310bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Sep 2012 09:21:43 -0700 (PDT)
+	Tue, 04 Sep 2012 09:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding;
-	bh=DSJlXhcN9ibwgpDrKEj3fgMCdEhoqT64z+xJU8AVyTg=;
-	b=Oi0OzK+v09z2P/jdbldSNGO92PbboOpVrWFuPiiPwUsi2LggTD9Ed1/yeL8hUej78F
-	d2NJXAg83NDp3BeHGbD7vz9HWwf8bK0PyNzE043cy0W61l+gvwT5jYcTfrKbhHp7AHbj
-	xB6ITRG5H2vcVp2j+4cLR5L2hDcjldIBk01CH3DLpZ+mm/rFIEVycer6sUoX0HWEEa1W
-	HCszuJTFGiJYS3i15VAwZANNRQMQ/L/fSGwMKgaCiYn6ROpmB7CXoH+PZArUpuCEEiKp
-	/nPs48+j9IZkLYqj5NDWv6mmBFOFWhwBP0Sxt6eEWeiY5odnDZ14qT/05VB0ZufAqawj
-	bI7g==
-Received: by 10.205.134.133 with SMTP id ic5mr8666393bkc.15.1346775703365;
-	Tue, 04 Sep 2012 09:21:43 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=TD1DJ1CusnMQB046MB3z0q/xeSLLOShmrSUHVwuolN4=;
+	b=PupXb0bSlNjlmValG9Yr1HW/1ZebXmGXEHMkIsn63vRWi9XIPO+lOjtuZupR87GOQe
+	lIiKZ0bRFCOaP9DmbRdHj9k8C8IVsedEXx3Dh3k/5P2RpFUHZlvrFrfLhfkqiyc0YatR
+	wKOSIsEvpqyuFHC4xp15ITQNCb4LzRwKJPceSdrmF2rBCadR1/nw56SacwAu1RZcVLox
+	C01LEjKSwe7L0G9sPe4TQXY95ovoA/523/VrHxW+BfObCz9bnWVodxLB5rcT/pDY1d6H
+	BbL3tHXplOL0SrxQEhElepRkO9JrNhizRPY/B+ejOGoDHLk1VVFQjFFJYLEx8+f3yLiJ
+	DzZQ==
+Received: by 10.204.157.143 with SMTP id b15mr8241062bkx.75.1346775705445;
+	Tue, 04 Sep 2012 09:21:45 -0700 (PDT)
 Received: from localhost.localdomain (ip-95-222-156-96.unitymediagroup.de.
 	[95.222.156.96])
-	by mx.google.com with ESMTPS id 25sm10894982bkx.9.2012.09.04.09.21.40
+	by mx.google.com with ESMTPS id 25sm10894982bkx.9.2012.09.04.09.21.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Sep 2012 09:21:41 -0700 (PDT)
+	Tue, 04 Sep 2012 09:21:44 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: meta-ti@yoctoproject.org
-Date: Tue,  4 Sep 2012 18:20:57 +0200
-Message-Id: <1346775658-23370-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Tue,  4 Sep 2012 18:20:58 +0200
+Message-Id: <1346775658-23370-2-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 1.7.6.5
+In-Reply-To: <1346775658-23370-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1346775658-23370-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta-ti 1/2] mesa: add appends to avoid providing conflicts
+Subject: [meta-ti 2/2] libgles-omap3: fix for latest oe-core mesa changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,67 +46,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 16:34:05 -0000
+X-List-Received-Date: Tue, 04 Sep 2012 16:34:07 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-For libgles-omap3 compatible machines mesa should only provide libgl.
+* add virtual/libgles1 virtual/libgles2 to PROVIDES
+* add RREPLACES_{PN}* for mesa's libegl* libgles1* libgles2*
 
 Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- recipes-graphics/mesa/mesa-dri_8.0.4.bbappend  |    1 +
- recipes-graphics/mesa/mesa-dri_git.bbappend    |    1 +
- recipes-graphics/mesa/mesa-omap3-common.inc    |    7 +++++++
- recipes-graphics/mesa/mesa-xlib_8.0.4.bbappend |    1 +
- recipes-graphics/mesa/mesa-xlib_git.bbappend   |    1 +
- 5 files changed, 11 insertions(+), 0 deletions(-)
- create mode 100644 recipes-graphics/mesa/mesa-dri_8.0.4.bbappend
- create mode 100644 recipes-graphics/mesa/mesa-dri_git.bbappend
- create mode 100644 recipes-graphics/mesa/mesa-omap3-common.inc
- create mode 100644 recipes-graphics/mesa/mesa-xlib_8.0.4.bbappend
- create mode 100644 recipes-graphics/mesa/mesa-xlib_git.bbappend
+ recipes-graphics/libgles/libgles-omap3.inc |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-graphics/mesa/mesa-dri_8.0.4.bbappend b/recipes-graphics/mesa/mesa-dri_8.0.4.bbappend
-new file mode 100644
-index 0000000..164ec1b
---- /dev/null
-+++ b/recipes-graphics/mesa/mesa-dri_8.0.4.bbappend
-@@ -0,0 +1 @@
-+require mesa-omap3-common.inc
-diff --git a/recipes-graphics/mesa/mesa-dri_git.bbappend b/recipes-graphics/mesa/mesa-dri_git.bbappend
-new file mode 100644
-index 0000000..164ec1b
---- /dev/null
-+++ b/recipes-graphics/mesa/mesa-dri_git.bbappend
-@@ -0,0 +1 @@
-+require mesa-omap3-common.inc
-diff --git a/recipes-graphics/mesa/mesa-omap3-common.inc b/recipes-graphics/mesa/mesa-omap3-common.inc
-new file mode 100644
-index 0000000..0340770
---- /dev/null
-+++ b/recipes-graphics/mesa/mesa-omap3-common.inc
-@@ -0,0 +1,7 @@
-+PRINC := "${@int(PRINC) + 1}"
+diff --git a/recipes-graphics/libgles/libgles-omap3.inc b/recipes-graphics/libgles/libgles-omap3.inc
+index 6137097..ac9d5df 100644
+--- a/recipes-graphics/libgles/libgles-omap3.inc
++++ b/recipes-graphics/libgles/libgles-omap3.inc
+@@ -3,13 +3,17 @@ LICENSE = "proprietary-binary"
+ # 'TSPA.txt' might not be the best file to md5sum
+ LIC_FILES_CHKSUM = "file://TSPA.txt;md5=c0d5d9c1e38b41677144c4e24d6ddee1"
+ 
+-PR = "r31"
++PR = "r32"
+ 
+ COMPATIBLE_MACHINE = "(omap3|ti814x|ti816x|ti33x)"
+ 
+ DEPENDS = "virtual/libx11 libxau libxdmcp libdrm"
+ 
+-PROVIDES += "virtual/egl"
++PROVIDES += "virtual/egl virtual/libgles1 virtual/libgles2"
 +
-+# avoid providing conflicts for libgles-omap3 compatibles
-+PROVIDES_omap3 = "virtual/libgl"
-+PROVIDES_ti814x = "virtual/libgl"
-+PROVIDES_ti816x = "virtual/libgl"
-+PROVIDES_ti33x = "virtual/libgl"
-diff --git a/recipes-graphics/mesa/mesa-xlib_8.0.4.bbappend b/recipes-graphics/mesa/mesa-xlib_8.0.4.bbappend
-new file mode 100644
-index 0000000..164ec1b
---- /dev/null
-+++ b/recipes-graphics/mesa/mesa-xlib_8.0.4.bbappend
-@@ -0,0 +1 @@
-+require mesa-omap3-common.inc
-diff --git a/recipes-graphics/mesa/mesa-xlib_git.bbappend b/recipes-graphics/mesa/mesa-xlib_git.bbappend
-new file mode 100644
-index 0000000..164ec1b
---- /dev/null
-+++ b/recipes-graphics/mesa/mesa-xlib_git.bbappend
-@@ -0,0 +1 @@
-+require mesa-omap3-common.inc
++RREPLACES_${PN} = "libegl libgles1 libgles2"
++RREPLACES_${PN}-dev = "libegl-dev libgles1-dev libgles2-dev"
++RREPLACES_${PN}-dbg = "libegl-dbg"
+ 
+ SRC_URI = "http://software-dl.ti.com/dsps/dsps_public_sw/sdo_sb/targetcontent/gfxsdk/${SGXPV}/exports/OMAP35x_Graphics_SDK_setuplinux_${SGXPV}.bin \
+ 		   file://cputype \
 -- 
 1.7.6.5
 
