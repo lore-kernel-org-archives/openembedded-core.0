@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1T8j7y-0007kK-2x
+	(envelope-from <Kai.Kang@windriver.com>) id 1T8j7z-0007kR-GX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 04:44:34 +0200
+	Tue, 04 Sep 2012 04:44:35 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q842WBvl022193
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q842WCCN000859
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Sep 2012 19:32:11 -0700 (PDT)
+	Mon, 3 Sep 2012 19:32:13 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Mon, 3 Sep 2012 19:32:11 -0700
+	(TLS) id 14.2.309.2; Mon, 3 Sep 2012 19:32:12 -0700
 From: Kang Kai <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 4 Sep 2012 10:32:17 +0800
-Message-ID: <cd7f775fed1c56e909480087dda6d54849e83a31.1346666634.git.kai.kang@windriver.com>
+Date: Tue, 4 Sep 2012 10:32:18 +0800
+Message-ID: <c0b57d127fb7e75fad45cf48fd5c5ab4782b130c.1346666634.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1346666634.git.kai.kang@windriver.com>
 References: <cover.1346666634.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.164]
 Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] msmtp: disable libidn support
+Subject: [PATCH 3/3] ghostscript: disable libidn support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 02:44:34 -0000
+X-List-Received-Date: Tue, 04 Sep 2012 02:44:36 -0000
 Content-Type: text/plain
 
-When libidn has been populated to sysroot but rpm packages are not
-created, build msmtp will check libidn support automatically and then
-depends on libidn. But package libidn doesn't exist, build image which
-includes msmtp will fail with:
+If libidn is just populated to sysroot but rpm packages are not created,
+build ghostscript will check libidn automatically and then depends on
+libidn. But package libidn doesn't exist, so build image which contains
+ghostscript will fail with:
 
 | error: Failed dependencies:
-| 	libidn11 >= 1.25 is needed by msmtp-1.4.24-r3.i586
-| 	libidn.so.11(LIBIDN_1.0) is needed by msmtp-1.4.24-r3.i586
-| 	libidn.so.11 is needed by msmtp-1.4.24-r3.i586
+| 	libidn11 >= 1.25 is needed by ghostscript-9.05-r2.i586
+| 	libidn.so.11(LIBIDN_1.0) is needed by ghostscript-9.05-r2.i586
+| 	libidn.so.11 is needed by ghostscript-9.05-r2.i586
 
 Disable libidn support to fix this issue.
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- meta/recipes-extended/msmtp/msmtp_1.4.24.bb |    4 ++--
+ .../ghostscript/ghostscript_9.05.bb                |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-index 08566ca..13de167 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-@@ -5,7 +5,7 @@ SECTION = "console/network"
- 
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+index dc6e481..1c18b21 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+@@ -15,7 +15,7 @@ SECTION = "console/utils"
  LICENSE = "GPLv3"
- DEPENDS = "zlib gnutls"
--PR = "r3"
-+PR = "r4"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c5326026692dbed183f0558f926580f8"
  
+-PR = "r2"
++PR = "r3"
  
- #COPYING or Licence
-@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "f19f3fcc67da448420b3adbd5add09f8fe110664dd64f3c2cd693ef0cb
+ DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
+ DEPENDS_virtclass-native = ""
+@@ -36,7 +36,7 @@ SRC_URI[md5sum] = "f7c6f0431ca8d44ee132a55d583212c1"
+ SRC_URI[sha256sum] = "593f77f7584704bdf9de41598a084a4208c3ad3b940a1de1faaf8f59a15cc207"
  
- inherit gettext autotools update-alternatives
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec --without-jasper \
+-                --with-fontpath=${datadir}/fonts --with-install-cups"
++                --with-fontpath=${datadir}/fonts --with-install-cups --without-libidn"
  
--EXTRA_OECONF += "--without-gnome-keyring"
-+EXTRA_OECONF += "--without-gnome-keyring --without-libidn"
- 
- ALTERNATIVE_${PN} = "sendmail"
- ALTERNATIVE_TARGET[sendmail] = "${bindir}/msmtp"
+ # This has been fixed upstream but for now we need to subvert the check for time.h
+ # http://bugs.ghostscript.com/show_bug.cgi?id=692443
 -- 
 1.7.5.4
 
