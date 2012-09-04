@@ -1,30 +1,19 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T8scj-0008NS-QF for openembedded-core@lists.openembedded.org;
-	Tue, 04 Sep 2012 14:52:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q84CeY3O016988;
-	Tue, 4 Sep 2012 13:40:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15631-09; Tue,  4 Sep 2012 13:40:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q84CeROH016981
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 4 Sep 2012 13:40:28 +0100
-Message-ID: <1346762426.30964.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Constantin Musca <constantinx.musca@intel.com>
-Date: Tue, 04 Sep 2012 13:40:26 +0100
-In-Reply-To: <cover.1346686600.git.constantinx.musca@intel.com>
-References: <cover.1346686600.git.constantinx.musca@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/9] Package upgrades
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bruce.ashfield@windriver.com>) id 1T8scq-0008Ph-GB
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Sep 2012 14:53:04 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q84Cecwo008783;
+	Tue, 4 Sep 2012 05:40:38 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue,  4 Sep 2012 08:40:31 -0400
+Message-Id: <cover.1346762109.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/6] linux-yocto/kern-tools: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +26,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2012 12:52:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Sep 2012 12:53:04 -0000
 
-On Mon, 2012-09-03 at 18:45 +0300, Constantin Musca wrote:
-> This is another set of package upgrades compiled on all architectures and
-> tested using core-image-sato.
-> The following changes since commit 37c8597e7600385367257e8a513e003947ebef5b:
-> 
->   distro-tracking: remove xserver-kdrive (2012-09-02 05:52:16 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib cmuscax/upgrades
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cmuscax/upgrades
-> 
-> Constantin Musca (9):
->   automake: upgrade to 1.12.3
->   gypsy: upgrade to 0.9
->   libdrm: upgrade to 2.4.39
->   lsof: upgrade to 4.86
->   man-pages: upgrade to 3.42
->   telepathy-glib: upgrade to 0.19.8
->   freetype: upgrade to 2.4.10
->   puzzles: upgrade to r9594
->   iproute2: upgrade to 3.5.1
+Saul/Richard,
 
-Merged to master, thanks.
+This is largely the same pull request that I sent a week ago, and
+I've had things fixed for a bit, but I didn't want to send it 
+again during my travel .. and then a long weekend.
 
-Richard
+So here's the request again. 
+
+It is a content update to 3.4.9 + some tool tweaking for problems 
+found by Khem, Matthew Foster and Tom Zanussi. With the tools fixes,
+we have all known use cases back up and working.
+
+The content update has been tested for 2 weeks now and is safe,
+we do know that the -rt kernel has some issues at the moment, and
+once this pull request is sent, I'll do a refresh on -rt and get
+that problem fixed.
+
+Cheers,
+
+Bruce
+
+The following changes since commit bb86a22ba6f90902644c11f984ae4c171ba36624:
+
+  yocto-docs/.gitignore: Final fix to ignore mega-manual. (2012-09-04 12:55:03 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  kern-tools: fix forced branching
+  linux-yocto: fix unapplied patch error message
+  linux-yocto: check for bad SRCREV before branch checks
+  kern-tools: fix non-inheriting branch names
+  linux-yocto/3.4: v3.4.9, unionfs, perf and configuration changes
+  linux-yocto/3.2/3.4: arm: Fix linking errors with binutils 2.23
+
+ meta/classes/kernel-yocto.bbclass                  |   18 ++++++++++--------
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb  |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   12 ++++++------
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   16 ++++++++--------
+ 7 files changed, 32 insertions(+), 30 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
