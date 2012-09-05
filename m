@@ -1,38 +1,37 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1T9G9V-0007JH-HF
-	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 16:00:21 +0200
-Received: by obblz20 with SMTP id lz20so186996obb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2012 06:47:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=eGqc28E073wS0vmoY2y0vr6B/WI+Ck8anOLe4CVCieA=;
-	b=LvbxuboJWZcvGxH6aK/D8FKp/E9ANav973GQafDa1zV8wX1ZmJEDOHcov94gmpoM8V
-	VTt6QshEyfUvCr4Xx7Ra2r8nIcEQtbrar0xTxWDnFo0Bg2FapmTKVfI5TTCC65h4Bc6I
-	apNqq8F+Xa5/hMdxcH/2pPoxQNavIUza4UV2OBrPGUrayD3SjVZViLuw6ifT2ZdQI263
-	pI5mOJnh+GSzveqfnK4okzJGApzRcVQznML7vF8Yk9kIJzGy0H8Yrj/3PAoLtFWVMmLH
-	LYLLfaYkPZ437FLeYvDgncvOc4Oxo1Uvg9rhXoPo8LgP8jhdcDpEauclCmrJESxBjkno
-	G9tg==
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1T9GPn-0007bL-V1; Wed, 05 Sep 2012 16:17:11 +0200
+Received: by wgbdr1 with SMTP id dr1so570855wgb.24
+	for <multiple recipients>; Wed, 05 Sep 2012 07:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ZEOZA8dcOUykTfRFFwop9lm+ZkTrCPSNa0N0A18zn8A=;
+	b=d2t6y0Uta31KwHRXRM+zrW7csmAFDDdwkZuS1fvc/nw59mN5WWWVmhxgIJYvutvO8s
+	WfgS8GwPP4rJJ6OEaJaxcwpiWSpf2v7O0+1kG0NWvZ/KPOBKN4c6vCiSJFOWkoMiWJoU
+	uiVoUwVgE2s5NLLEawWVTMjRCryNarmmvmno3fUDo4/HqlxENflVdj4gBgZ3mdZigeZV
+	TWkAzOY7TvJX3EZpzwjHYaARWi12vbNyLnCeHly9xd0eWy6XZRJ/UkGPe3qSFjGMn2HU
+	2dt/xqhs25hM/WNQMT7GBZMYVGJ1gD2BR399Dm4La7Jd/VoiE2OZieUSk26I4A9oc7X5
+	y3DA==
+Received: by 10.216.144.234 with SMTP id n84mr13731076wej.78.1346853888912;
+	Wed, 05 Sep 2012 07:04:48 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t7sm4869624wix.6.2012.09.05.07.04.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 05 Sep 2012 07:04:46 -0700 (PDT)
+Date: Wed, 5 Sep 2012 16:05:16 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Constantin Musca <constantinx.musca@intel.com>
+Message-ID: <20120905140516.GQ3372@jama.jama.net>
+References: <20120904115104.46A5A10383@opal>
 MIME-Version: 1.0
-Received: by 10.60.7.169 with SMTP id k9mr16786210oea.77.1346852877847; Wed,
-	05 Sep 2012 06:47:57 -0700 (PDT)
-Received: by 10.76.173.163 with HTTP; Wed, 5 Sep 2012 06:47:57 -0700 (PDT)
-In-Reply-To: <E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
-References: <cover.1346837268.git.liezhi.yang@windriver.com>
-	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
-	<32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
-	<1346845447.21985.50.camel@ted>
-	<E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
-Date: Wed, 5 Sep 2012 15:47:57 +0200
-Message-ID: <CAGiJk9fx541Fbjzr2Wz0EqHEuXqaLT67OMhcCnTfafWvDQGDPg@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
+In-Reply-To: <20120904115104.46A5A10383@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: autoreconf: automake failed with exit status: 1 Was: [oe-commits] Constantin Musca : automake: upgrade to 1.12.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,86 +44,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 14:00:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Sep 2012 14:17:12 -0000
+X-Groupsio-MsgNum: 28725
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="DMLl6fZPX8o7hGmc"
+Content-Disposition: inline
+
+--DMLl6fZPX8o7hGmc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-2012/9/5 Koen Kooi <koen@dominion.thruhere.net>:
->
-> Op 5 sep. 2012, om 13:44 heeft Richard Purdie <richard.purdie@linuxfounda=
-tion.org> het volgende geschreven:
->
->> On Wed, 2012-09-05 at 12:05 +0200, Koen Kooi wrote:
->>> Op 5 sep. 2012, om 11:31 heeft Robert Yang <liezhi.yang@windriver.com> =
-het volgende geschreven:
->>>
->>>> This is for fixing the problem:
->>>> 1) bitbake core-image-sato-sdk with MACHINE=3Dqemux86
->>>> 2) bitbake core-image-sato with with MACHINE=3Dcrownbay
->>>>
->>>> The qemux86's PACKAGE_ARCH is i586, the crownbay's is core2, but sever=
-al
->>>> i586 packages will be installed into crownbay's rootfs though there ar=
-e
->>>> core2 packages. For example, there are:
->>>>
->>>> xserver-xorg_1.11.2-r4_i586.ipk
->>>> xserver-xorg_1.9.3-r1_core2.ipk
->>>>
->>>> The crownbay.conf says:
->>>> PREFERRED_VERSION_xserver-xorg ?=3D "1.9.3"
->>>>
->>>> What the crownbay's image needs is xserver-xorg_1.9.3-r1_core2.ipk, bu=
-t
->>>> the xserver-xorg_1.11.2-r4_i586.ipk will be installed, this is
->>>> incorrect.
->>>
->>> It is the correct behaviour, though.
->>
->> No, it isn't. You told bitbake to build some specific versions, it did
->> that, then put something else in the rootfs. Without mentioning any of
->> this to the user.
->
-> You forget that, you, as the user, instructed bitbake to build the other =
-version when switching machine. Should bitbake refuse to build the packages=
- in this scenario? That would make more sense than trying to clean up the m=
-ess in the package_ipk bbclass. If you have online feeds the problem will r=
-eappear anyway.
->
->> So the current behaviour is totally broken and it needs to do one of:
->>
->> a) Put the things the user asked for in the rootfs
->> b) Tell the user its not going to
->> c) Error out and ask the user to fix the problem
->>
->> Builds are meant to be deterministic and this clearly isn't as what you
->> get out depends on the order of what you build.
->
-> How do we know what the user expects? The user already did something that=
- isn't right by building compatible arch packages with different versions. =
-And this is deterministic, the user instructed bitbake to build a more rece=
-nt, but compatible version, which will end up in the rootfs. If would be no=
-n-deterministic if opkg would decide at random what to install.
->
-> So, fix this problem at the root and make bitbake error out if your build=
- breaks PREFERRED_VERSION.
+On Tue, Sep 04, 2012 at 11:51:04AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 1110da87a2395e1d516f092553e6ed542bb34805
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D1110da87a2395e1d516f092553e6ed542bb34805
+>=20
+> Author: Constantin Musca <constantinx.musca@intel.com>
+> Date:   Mon Sep  3 10:06:42 2012 +0300
+>=20
+> automake: upgrade to 1.12.3
+>=20
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>=20
+> ---
+>=20
+>  .../{automake_1.12.1.bb =3D> automake_1.12.3.bb}     |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/automake/automake_1.12.1.bb b/meta/rec=
+ipes-devtools/automake/automake_1.12.3.bb
+> similarity index 92%
+> rename from meta/recipes-devtools/automake/automake_1.12.1.bb
+> rename to meta/recipes-devtools/automake/automake_1.12.3.bb
+> index 700592c..25069d7 100644
 
-+1
+Has anyone seen errors like this?
 
-Even thought that this won't hit me again with a dedicated build
-machine that deletes the tmp/sstate dirs before each build.
-I can remember building for the Pandaboard and Overo in a row which
-resulted in errors that could not be resolved with sstate clean,
-leading to unexpected runtime behavior but "stated" a completely sane build=
-.
+| autoreconf: running: automake --foreign --add-missing --copy --force-miss=
+ing --warnings=3Dcross
+| automake: warning: unknown warning category 'cross'
+| automake: warnings are treated as errors
+| automake: warning: autoconf input should be named 'configure.ac', not 'co=
+nfigure.in'
+| autoreconf: automake failed with exit status: 1
+| ERROR: autoreconf execution failed.
+| ERROR: Function failed: do_configure (see /OE/shr-core/tmp-eglibc/work/ar=
+mv7a-vfp-neon-oe-linux-gnueabi/foxtrotgps-1.1.0-r1/temp/log.do_configure.32=
+412 for further information)
+NOTE: recipe foxtrotgps-1.1.0-r1: task do_configure: Failed
+ERROR: Task 886 (/OE/shr-core/meta-openembedded/meta-oe/recipes-navigation/=
+foxtrotgps/foxtrotgps_1.1.0.bb, do_configure) failed with exit code '1'
 
-It turned out that the PREFERRED_VERSION for an Overo recipe was
-ignored, deleting the tmp/sstate directories did sort out the problem.
+Failed like this for first time today.. so I suspect it's caused by automak=
+e upgrade.
 
+Cheers,
 
+> --- a/meta/recipes-devtools/automake/automake_1.12.1.bb
+> +++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
+> @@ -39,10 +39,10 @@ SRC_URI +=3D "${PATHFIXPATCH} \
+>  	    file://python-libdir.patch \
+>              file://py-compile-compile-only-optimized-byte-code.patch"
+> =20
+> -SRC_URI[md5sum] =3D "ec25c1855cacf47e4bdee76a776b96ba"
+> -SRC_URI[sha256sum] =3D "24bf1640679ba4a9cbe2d36422f39a81eced7f556b576a7a=
+2ccfc70ca85a1e2f"
+> +SRC_URI[md5sum] =3D "d2af8484de94cdee16d89c50aaa1c729"
+> +SRC_URI[sha256sum] =3D "095ffaa3ac887d1eb3511bf13d7f1fc9ec0503c6a06aeae0=
+5c93730cdda9a5a0"
+> =20
+> -PR =3D "r1"
+> +PR =3D "r0"
+> =20
+>  do_install () {
+>      oe_runmake 'DESTDIR=3D${D}' install
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
 --=20
-Regards
-Samuel
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--DMLl6fZPX8o7hGmc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBHXBwACgkQN1Ujt2V2gBw/dACeOSjcOMAZvRIjiiCYbnny4bIR
+YRUAnRtG3LkbHR702trIkc7ZnI2LIuY7
+=8RCQ
+-----END PGP SIGNATURE-----
+
+--DMLl6fZPX8o7hGmc--
