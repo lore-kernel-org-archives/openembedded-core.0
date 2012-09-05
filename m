@@ -1,35 +1,37 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1T9OAi-0004Vw-KY
-	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 00:34:08 +0200
-Received: by lagv3 with SMTP id v3so676714lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2012 15:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=IHhPdo2DHNn8TuJiPwAm7gJaOTwTJp8q5DAAAyuvCuU=;
-	b=jR+Upct8ioS5NwUspm1fZA6Kife5LZ7NtubVhVKCYiqIotUNY6ieR/9s7UcuiH0Z7c
-	tY/ggT4Ijp9agvf/l4oH2eTYjv3wwv1igd+vLyfmEUbMXsJO6B7kk2VVpNA5gq7bOq2S
-	vUS+vU/sSvXt0Ha/0OZAI4B5Bjmscl8kAIHzrM78+p4DmQtgtATYSvNyUpWvCO5eJpZi
-	dpO4b9Iyu4Q4rK6HCbZzZkb0MCtWTtiTL2qZei+eYTkuCBHHKk2BWhsq3bbN2FgDHw0W
-	7tpgP8TuXk07H+QGt6/Llk+CxytWUhNANZrYB3ChrNhZnNp3ktvy/WGmIDxCRhR1tkSA
-	4Hfg==
-Received: by 10.112.51.174 with SMTP id l14mr163776lbo.24.1346883705127; Wed,
-	05 Sep 2012 15:21:45 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.19.2 with HTTP; Wed, 5 Sep 2012 15:21:24 -0700 (PDT)
-In-Reply-To: <1346855269.21985.57.camel@ted>
-References: <1346855269.21985.57.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 5 Sep 2012 15:21:24 -0700
-X-Google-Sender-Auth: cLz4323tO-y1GzEKH1HrS7kigCQ
-Message-ID: <CABcZANk+N+3Gg3kASaQ_19DYd_AtyDoWsS-hfv=mFZe0Jaz6Qg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sanity.bbclass: Move back to running at ConfigParsed time
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T9ORE-0004gx-6I for openembedded-core@lists.openembedded.org;
+	Thu, 06 Sep 2012 00:51:12 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85MclGp031121;
+	Wed, 5 Sep 2012 23:38:47 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28994-06; Wed,  5 Sep 2012 23:38:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85McdNM031115
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 5 Sep 2012 23:38:41 +0100
+Message-ID: <1346884719.21985.133.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chris Larson <clarson@kergoth.com>
+Date: Wed, 05 Sep 2012 23:38:39 +0100
+In-Reply-To: <CABcZANk7NaXkEUzYRof5OS22keHLNPN6cfYr0gy=5AS+Lbh9Qg@mail.gmail.com>
+References: <cover.1346837268.git.liezhi.yang@windriver.com>
+	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
+	<32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
+	<1346845447.21985.50.camel@ted>
+	<E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
+	<1346879977.21985.88.camel@ted>
+	<CABcZANk7NaXkEUzYRof5OS22keHLNPN6cfYr0gy=5AS+Lbh9Qg@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Zhenfeng.Zhao@windriver.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,18 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 22:34:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Sep 2012 22:51:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 5, 2012 at 7:27 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> If we don't do this, users can get extremely confused errors since the sanity tests
-> happen too late (after parsing) and don't see the warnings.
+On Wed, 2012-09-05 at 15:19 -0700, Chris Larson wrote:
+> On Wed, Sep 5, 2012 at 2:19 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > What I really need here is help with coming up with some working
+> > solution. Putting our heads in the sand and arguing whether its even a
+> > problem isn't going to go anywhere :(.
+> 
+> This doesn't make any sense. Deciding whether something is or isn't an
+> actual problem / is or isn't expected behavior is a good thing to be
+> doing, and is the opposite of putting heads in the sand, as it's
+> debating user expectations vs tool behavior. If you really think it's
+> better to blindly make changes before figuring out how the tool should
+> behave relative to user expectations, or think figuring out what
+> should be done first is "putting our heads in the sand", then 
 
-Can you elaborate on this? This commit message is extremely unclear.
-If there's an open bug in bugzilla or something that could be referred
-to here, that'd be helpful.
--- 
-Christopher Larson
+This isn't what I was suggesting and is misinterpretation. Given the
+following comment I'm not sure its worth taking the discuss further.
+
+> I think
+> we have serious problems with you in charge of the project.
+
+Your opinion is duly noted, thanks ;-).
+
+Cheers,
+
+Richard
+
 
 
