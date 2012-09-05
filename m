@@ -1,26 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T9HHQ-0001CI-CX
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T9HwA-0002QG-TG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 17:12:36 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q85F0CeG006922
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Sep 2012 08:00:12 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 5 Sep 2012 08:00:11 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Sep 2012 22:54:07 +0800
-Message-ID: <cfc2249ab533864f2716612838731e7831a1cb60.1346824226.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1346824226.git.liezhi.yang@windriver.com>
-References: <cover.1346824226.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] package_rpm.bbclass: fix incremental rpm image generation
+	Wed, 05 Sep 2012 17:54:43 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 05 Sep 2012 08:42:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,374,1344236400"; d="scan'208";a="189215336"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.155])
+	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2012 08:42:18 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Sep 2012 16:42:15 +0100
+Message-Id: <1346859735-24001-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] classes/qmake_base: support linux-gnuspe/linux-uclibcspe TARGET_OS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 15:12:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Sep 2012 15:54:43 -0000
 
-* Check ${target_rootfs}/etc/passwd rather than
-  ${target_rootfs}${rpmlibdir} to make sure that it has been previously
-  installed.
+Fix borrowed from OE-Classic. This should fix build failures during
+do_configure of Qt applications with the p1022ds machine from
+meta-fsl-ppc, for example.
 
-* Remove the "--nodeps" when incremental image generation, it should
-  take care of the dependencies. Still use "--replacefiles --replacepkgs" in
-  case there are conflicts.
-
-[YOCTO #3047]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/package_rpm.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/qmake_base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 742f292..b2b8cee 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -191,7 +191,7 @@ rpm_update_pkg () {
+diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
+index d1008b6..fa1b5f0 100644
+--- a/meta/classes/qmake_base.bbclass
++++ b/meta/classes/qmake_base.bbclass
+@@ -48,7 +48,7 @@ addtask generate_qt_config_file after do_patch before do_configure
  
-         # Attempt to install the incremental pkgs
-         if [ -s $installdir/incremental.manifest ]; then
--            rpm_common_comand --nodeps --replacefiles --replacepkgs \
-+            rpm_common_comand --replacefiles --replacepkgs \
-                -Uvh $installdir/incremental.manifest
-         fi
-     else
-@@ -517,7 +517,7 @@ EOF
- 			${target_rootfs}/install/original_solution_sorted.manifest > \
- 			${target_rootfs}/install/diff.manifest
- 		mv ${target_rootfs}/install/diff.manifest ${target_rootfs}/install/total_solution.manifest
--	elif [ "${INC_RPM_IMAGE_GEN}" = "1" -a -d "${target_rootfs}${rpmlibdir}" ]; then
-+	elif [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f "${target_rootfs}/etc/passwd" ]; then
- 		echo "Skipping pre install due to existing image"
- 	else
- 		# RPM is special. It can't handle dependencies and preinstall scripts correctly. Its
+ qmake_base_do_configure() {
+ 	case ${QMAKESPEC} in
+-	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi-oe-g++)
++	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi-oe-g++|*linux-gnuspe-oe-g++|*linux-uclibcspe-oe-g++)
+ 		;;
+ 	*-oe-g++)
+ 		die Unsupported target ${TARGET_OS} for oe-g++ qmake spec
 -- 
-1.7.1
+1.7.9.5
 
 
 
