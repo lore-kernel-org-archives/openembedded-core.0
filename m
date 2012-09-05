@@ -1,27 +1,24 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T9920-00060r-D3
+	(envelope-from <Kai.Kang@windriver.com>) id 1T9AIJ-0007I2-0m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 08:24:08 +0200
+	Wed, 05 Sep 2012 09:45:03 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q856Bile027115
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q857WcIj028034
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Sep 2012 23:11:44 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 4 Sep 2012 23:11:43 -0700
-Message-ID: <5046ED1D.9080204@windriver.com>
-Date: Wed, 5 Sep 2012 14:11:41 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Wed, 5 Sep 2012 00:32:38 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.164) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.309.2; Wed, 5 Sep 2012 00:32:37 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <sgw@linux.intel.com>
+Date: Wed, 5 Sep 2012 15:32:39 +0800
+Message-ID: <cover.1346829716.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1346807137-4231-1-git-send-email-Martin.Jansa@gmail.com>
-	<1346807137-4231-2-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1346807137-4231-2-git-send-email-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] pixman: ignore NEON, IWMMXT, LOONGSON_MMI variables for class-native
+X-Originating-IP: [128.224.162.164]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/9] V2: Patches for LSB perl test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,61 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 06:24:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Sep 2012 07:45:03 -0000
+Content-Type: text/plain
 
+Hi Saul,
 
+I create layer meta-lsb and put the new added recipes for LSB test there.
+Patch for perl is just modify the file in layer meta.
 
-On 09/05/2012 09:05 AM, Martin Jansa wrote:
-> * pixman-native can have different do_configure sstate checksums if it's built with armv4t machine and armv7a
->    OE @ ~ $ bitbake/bin/bitbake-diffsigs
->      before-mgmt/stamps.1346795706/nokia900/x86_64-linux/pixman-native-*.do_configure.sigdata.*
->      after-mgmt/stamps.1346801508/om-gta02/x86_64-linux/pixman-native-*.do_configure.sigdata.*
->    basehash changed from 27e577de60880a788c7aaba797ef83e0 to c6799807eb3e767daf1e75738fc753f7
->    Variable NEON value changed from   to  --disable-arm-neon
-> * so if you start building with different machine then last time (wrt
->    NEON setting) all recipes which depends on pixman-native will be rebuilt too
-> * this explains why sstate-cache-management.sh wanted to remove many
->    native sstate packages when --stamps-dir option was used (see comment
->    28 in https://bugzilla.yoctoproject.org/show_bug.cgi?id=2897)
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->   meta/recipes-graphics/xorg-lib/pixman_0.27.2.bb | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.27.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.27.2.bb
-> index 35a2def..218808a 100644
-> --- a/meta/recipes-graphics/xorg-lib/pixman_0.27.2.bb
-> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.27.2.bb
-> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
->   DEPENDS += "zlib libpng"
->   BBCLASSEXTEND = "native"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   PE = "1"
->
-> @@ -25,7 +25,8 @@ NEON = " --disable-arm-neon "
->   NEON_armv7a = " "
->   NEON_armv7a-vfp-neon = " "
->
-> -EXTRA_OECONF="--disable-gtk ${IWMMXT} ${LOONGSON_MMI} ${NEON}"
-> +EXTRA_OECONF = "--disable-gtk ${IWMMXT} ${LOONGSON_MMI} ${NEON}"
-> +EXTRA_OECONF_class-native = "--disable-gtk"
->
+Regards,
+Kai
 
-Hi Martin,
+The following changes since commit 37c8597e7600385367257e8a513e003947ebef5b:
 
-What's the differences between "_virtclass-native" and "_class-native", please?
+  distro-tracking: remove xserver-kdrive (2012-09-02 05:52:16 -0700)
 
-// Robert
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/lsb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb
 
+Kang Kai (9):
+  meta-lsb: add layer meta-lsb
+  libclass-isa-perl: add it
+  perl: package modules Pod-Html and Tie-Hash-NamedCapture
+  libpod-plainer-perl: add it
+  libdumpvalue-perl: add it
+  libenv-perl: add it
+  libfile-checktree-perl: add it
+  libi18n-collate-perl: add it
+  task-core-lsb.bbappend: add bbappend file
 
->   SRC_URI += "\
->               file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
->
+ meta-lsb/README                                    |    4 ++
+ meta-lsb/conf/layer.conf                           |   10 ++++++
+ meta-lsb/recipes-core/tasks/task-core-lsb.bbappend |   15 +++++++++
+ .../perl/libclass-isa-perl_0.36.bb                 |   32 +++++++++++++++++++
+ .../perl/libdumpvalue-perl_1.16.bb                 |   20 ++++++++++++
+ meta-lsb/recipes-devtools/perl/libenv-perl_1.03.bb |   22 +++++++++++++
+ .../perl/libfile-checktree-perl_4.41.bb            |   33 ++++++++++++++++++++
+ .../perl/libi18n-collate-perl_1.02.bb              |   22 +++++++++++++
+ .../perl/libpod-plainer-perl_1.03.bb               |   24 ++++++++++++++
+ meta/recipes-devtools/perl/perl-5.14.2/config.sh   |    2 +-
+ 10 files changed, 183 insertions(+), 1 deletions(-)
+ create mode 100644 meta-lsb/README
+ create mode 100644 meta-lsb/conf/layer.conf
+ create mode 100644 meta-lsb/recipes-core/tasks/task-core-lsb.bbappend
+ create mode 100644 meta-lsb/recipes-devtools/perl/libclass-isa-perl_0.36.bb
+ create mode 100644 meta-lsb/recipes-devtools/perl/libdumpvalue-perl_1.16.bb
+ create mode 100644 meta-lsb/recipes-devtools/perl/libenv-perl_1.03.bb
+ create mode 100644 meta-lsb/recipes-devtools/perl/libfile-checktree-perl_4.41.bb
+ create mode 100644 meta-lsb/recipes-devtools/perl/libi18n-collate-perl_1.02.bb
+ create mode 100644 meta-lsb/recipes-devtools/perl/libpod-plainer-perl_1.03.bb
+
+-- 
+1.7.5.4
+
 
 
