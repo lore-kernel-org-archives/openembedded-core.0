@@ -1,36 +1,32 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T9E7C-0004Yr-VB
-	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 13:49:51 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Sep 2012 04:37:26 -0700
-Received: by wgbdr1 with SMTP id dr1so466649wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2012 04:37:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=wSmxEhytSeR3aSXwXGaAPnQTVGbFxGECRo2i11/yTes=;
-	b=U3Sw79+nGCK56YphCjM7klBjnVABV6cv8hE06wdVk4RjDNX36OyifDP4wqPVmc/8vO
-	B154h0mr64l+Rz8JpdMfVd38U+aEPar98v6sNSmLKYt7WzESS1GZRd6n3MczIa3tBh1y
-	FpA3UtFnit2jvmMPn3V+Q09yqRUiyYuJy12swQ3ZtMbzkst2+QYmTkGlvoNAprJ9lhjQ
-	EJB8o1VQDzbXvhVkvqOz5nrq3z7rd27x1zhanxDTvfyO9MZ3kT2+w4Mk1M/RAZl787VC
-	3abPrOgr9llLLVWTCIXNlhy1SkKG81JjXYBUIQ5D9amqdlRx2UyXSca5DIMSs11YELE3
-	smZA==
-Received: by 10.180.84.104 with SMTP id x8mr37582144wiy.20.1346845044449;
-	Wed, 05 Sep 2012 04:37:24 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id h9sm28552807wiz.1.2012.09.05.04.37.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Sep 2012 04:37:23 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Sep 2012 12:36:39 +0100
-Message-Id: <1346844999-9420-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQljKjBecJCXdMwmVx2TmewQ7CTsaCVYETceUXFwLGTaQFoETF9WDX6xKG+lW0fEBXB8i5GN
-Subject: [PATCH] gsettings.bbclass: fix whitespace
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T9EDp-0004fQ-Nz for openembedded-core@lists.openembedded.org;
+	Wed, 05 Sep 2012 13:56:41 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85BiHN3026568;
+	Wed, 5 Sep 2012 12:44:17 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24187-08; Wed,  5 Sep 2012 12:44:13 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85Bi7qQ026561
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 5 Sep 2012 12:44:08 +0100
+Message-ID: <1346845447.21985.50.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 05 Sep 2012 12:44:07 +0100
+In-Reply-To: <32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
+References: <cover.1346837268.git.liezhi.yang@windriver.com>
+	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
+	<32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,59 +39,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 11:49:51 -0000
+X-List-Received-Date: Wed, 05 Sep 2012 11:56:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-As nothing in oe-core uses gsettings, it wasn't noticed that the whitespace is
-wrong.
+On Wed, 2012-09-05 at 12:05 +0200, Koen Kooi wrote:
+> Op 5 sep. 2012, om 11:31 heeft Robert Yang <liezhi.yang@windriver.com> het volgende geschreven:
+> 
+> > This is for fixing the problem:
+> > 1) bitbake core-image-sato-sdk with MACHINE=qemux86
+> > 2) bitbake core-image-sato with with MACHINE=crownbay
+> > 
+> > The qemux86's PACKAGE_ARCH is i586, the crownbay's is core2, but several
+> > i586 packages will be installed into crownbay's rootfs though there are
+> > core2 packages. For example, there are:
+> > 
+> > xserver-xorg_1.11.2-r4_i586.ipk
+> > xserver-xorg_1.9.3-r1_core2.ipk
+> > 
+> > The crownbay.conf says:
+> > PREFERRED_VERSION_xserver-xorg ?= "1.9.3"
+> > 
+> > What the crownbay's image needs is xserver-xorg_1.9.3-r1_core2.ipk, but
+> > the xserver-xorg_1.11.2-r4_i586.ipk will be installed, this is
+> > incorrect.
+> 
+> It is the correct behaviour, though.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/gsettings.bbclass |   32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+No, it isn't. You told bitbake to build some specific versions, it did
+that, then put something else in the rootfs. Without mentioning any of
+this to the user.
 
-diff --git a/meta/classes/gsettings.bbclass b/meta/classes/gsettings.bbclass
-index 1e3f7a1..dec5abc 100644
---- a/meta/classes/gsettings.bbclass
-+++ b/meta/classes/gsettings.bbclass
-@@ -18,20 +18,20 @@ gsettings_postinstrm () {
- }
- 
- python populate_packages_append () {
--	pkg = d.getVar('PN', True)
--	bb.note("adding gsettings postinst scripts to %s" % pkg)
--
--	postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
--	if not postinst:
--		postinst = '#!/bin/sh\n'
--	postinst += d.getVar('gsettings_postinstrm', True)
--	d.setVar('pkg_postinst_%s' % pkg, postinst)
--
--	bb.note("adding gsettings postrm scripts to %s" % pkg)
--
--	postrm = d.getVar('pkg_postrm_%s' % pkg, True) or d.getVar('pkg_postrm', True)
--	if not postrm:
--		postrm = '#!/bin/sh\n'
--	postrm += d.getVar('gsettings_postinstrm', True)
--	d.setVar('pkg_postrm_%s' % pkg, postrm)
-+    pkg = d.getVar('PN', True)
-+    bb.note("adding gsettings postinst scripts to %s" % pkg)
-+
-+    postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
-+    if not postinst:
-+        postinst = '#!/bin/sh\n'
-+    postinst += d.getVar('gsettings_postinstrm', True)
-+    d.setVar('pkg_postinst_%s' % pkg, postinst)
-+
-+    bb.note("adding gsettings postrm scripts to %s" % pkg)
-+
-+    postrm = d.getVar('pkg_postrm_%s' % pkg, True) or d.getVar('pkg_postrm', True)
-+    if not postrm:
-+        postrm = '#!/bin/sh\n'
-+    postrm += d.getVar('gsettings_postinstrm', True)
-+    d.setVar('pkg_postrm_%s' % pkg, postrm)
- }
--- 
-1.7.10
+So the current behaviour is totally broken and it needs to do one of:
+
+a) Put the things the user asked for in the rootfs
+b) Tell the user its not going to
+c) Error out and ask the user to fix the problem
+
+Builds are meant to be deterministic and this clearly isn't as what you
+get out depends on the order of what you build.
+
+> > This is caused by opkg's selecting mechanism: when more than one
+> > candidate is found, it will use the higher version one and ignore the
+> > arch priority.
+> 
+> As expected and wanted.
+
+Under certain situations but not this one.
+
+> > we have several conf files which set the PREFERRED_VERSION_pkg = "..." ,
+> > but there is no such a mechanism which can let us tell the opkg to
+> > install the preferred version.
+> 
+> As pointed out before, your DISTRO needs to fix this and you should
+> NOT break opkg in the way you are doing now. 
+
+Maybe.
+
+What you're suggesting is that we have to force every package on a given
+architecture to the lowest common denominator which makes no sense.
+
+I understand about the "un-removable" package issue you previously
+mentioned. There is a difference between what we build at rootfs time
+and any ultimate disto package feeds however and I think we need to at
+least consider this proposal.
+
+It would appear at face value to at least make builds deterministic and
+do what the users expects them to do. The side effect is making on
+target package management more difficult.
+
+Going back to the un-removable package problem, I think that opkg
+probably should always prefer arch specific over version. The question
+is how do you get back to say arch specific rather than machine specific
+at some later date. I'd argue that removing the arch specific package
+from the feed would be the trigger for that. Could that work as a
+mechanism to get us out of this problematic situation?
+
+Please try and help us figure out a way out of this. I will warn that
+above all else builds need to be deterministic and so Robert's patch is
+tempting right now as it fixes that.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
 
