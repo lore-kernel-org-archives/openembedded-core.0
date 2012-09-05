@@ -1,41 +1,36 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T9Cfo-0002n0-86
+	(envelope-from <ross.burton@intel.com>) id 1T9D5I-00035O-7f
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 12:17:28 +0200
-Received: by wgbdr1 with SMTP id dr1so375092wgb.24
+	Wed, 05 Sep 2012 12:43:48 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Sep 2012 03:31:23 -0700
+Received: by wgbdr1 with SMTP id dr1so403021wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2012 03:05:05 -0700 (PDT)
+	Wed, 05 Sep 2012 03:31:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=BdwnxfSRQy0kHaGHGizRHfgDzSGZrCHXgBGWz5d600Y=;
-	b=LuzhIektYEGnmRDRjnmYSPQPvVhnJu+qbPjmNRDqAiCS1z7Erhd+66KtSw38pKC9DX
-	VmWrSFvGxJvrlnI4qMJZobLjvi4cdU44BkM4umf7tsUnXtvaQOIwa2vWp9jPP+IPTC6C
-	JNGUdPeJIE+ezX4ao30LsvU2T9gTJDCF4BnC3cILCHswverLtPD6W7l8J1K8uPvnRhEk
-	EKxRHW7hrx/i21pgV6wgZX55hrOzl6nOleQ7J1n3v0+BKBUYA8vGK9wOvLE4ZPtcXH6P
-	k99Nnf5UYt6AWSFzTiZ76P1fDm5EQvJtLdI6gDP4SEkN/nD0vI9iw7BSKtFlP0ArSQf0
-	x0Zw==
-Received: by 10.180.95.193 with SMTP id dm1mr37059468wib.10.1346839505342;
-	Wed, 05 Sep 2012 03:05:05 -0700 (PDT)
-Received: from [172.20.0.49] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id l5sm3437116wix.5.2012.09.05.03.05.03
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=731RZlDzOBZS5ClAj1WYfy87cN9mbL2Wn9/k1fjVUjQ=;
+	b=lnkGI9YpJrxDHbWHaZV6BPgU8PF+yWkoLWKZEG+ZB2fq4jaun0cUEgH8Cbwa1VLzJX
+	9f8tzAMfI1QhVrTZr+CKPY08EGMbIbRmNJM2OtztAJXpaSiY7lByb6JxXy52W/9vWRJ8
+	YQkC2H2r6SNB6i5UXsjHDPlf3Kk+meahqMTeS29M1PrNLwqC4A3JFuVofHzN8VIBJ8Vc
+	LTy9mGzIcHcE2NZ3WGvHteTKEzhD8aRovQs5YIn+iIwCLbCGwqFIFIkrCpFLRBnACK+f
+	ULjHdeT5PPsVZtmvjKs0/3sZOh6JVz8EnKonmUj01z0AejoJbRIAzZz0XcYpbxFjn8Z6
+	z70g==
+Received: by 10.180.84.169 with SMTP id a9mr37249485wiz.8.1346841081875;
+	Wed, 05 Sep 2012 03:31:21 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ef5sm3631183wib.3.2012.09.05.03.31.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Sep 2012 03:05:04 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
-Date: Wed, 5 Sep 2012 12:05:03 +0200
-Message-Id: <32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
-References: <cover.1346837268.git.liezhi.yang@windriver.com>
-	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQnzoRIE/Acl3CTMtVI2XK6FSZBPvucUWrrDPzQIA7QflVd7UXSFi8q4M6SifqKQCsPyC+wC
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
+	Wed, 05 Sep 2012 03:31:20 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Sep 2012 11:30:36 +0100
+Message-Id: <1346841036-9897-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQl+2FxitYG9taD+Cn7jGoO6jBYFWvgodLXZiIJbW4xU3cj4TtjtRgrxZNnAb/sgvMQHxNpp
+Subject: [PATCH] xserver-xorg-common: add RREPLACES on xserver-xorg to -module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,49 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 10:17:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Sep 2012 10:43:48 -0000
 
+As the file moved from xserver-xorg to xserver-xorg-module-exa, the latter needs
+to "replace" the former to ensure a smooth migration when upgrading the
+packages.
 
-Op 5 sep. 2012, om 11:31 heeft Robert Yang <liezhi.yang@windriver.com> =
-het volgende geschreven:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc |    3 +--
+ meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc |    1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> This is for fixing the problem:
-> 1) bitbake core-image-sato-sdk with MACHINE=3Dqemux86
-> 2) bitbake core-image-sato with with MACHINE=3Dcrownbay
->=20
-> The qemux86's PACKAGE_ARCH is i586, the crownbay's is core2, but =
-several
-> i586 packages will be installed into crownbay's rootfs though there =
-are
-> core2 packages. For example, there are:
->=20
-> xserver-xorg_1.11.2-r4_i586.ipk
-> xserver-xorg_1.9.3-r1_core2.ipk
->=20
-> The crownbay.conf says:
-> PREFERRED_VERSION_xserver-xorg ?=3D "1.9.3"
->=20
-> What the crownbay's image needs is xserver-xorg_1.9.3-r1_core2.ipk, =
-but
-> the xserver-xorg_1.11.2-r4_i586.ipk will be installed, this is
-> incorrect.
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index b588c11..b4a348c 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,5 +8,4 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+ 
+-PR = "r5"
+-
++PR = "r6"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+index 404c488..6133344 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+@@ -66,6 +66,7 @@ PACKAGES =+ "${PN}-security-policy \
+ 
+ RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
++RREPLACES_${PN}-module-exa = "${PN}"
+ 
+ FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+ FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
+-- 
+1.7.10
 
-It is the correct behaviour, though.
-
-> This is caused by opkg's selecting mechanism: when more than one
-> candidate is found, it will use the higher version one and ignore the
-> arch priority.
-
-As expected and wanted.
-
-> we have several conf files which set the PREFERRED_VERSION_pkg =3D =
-"..." ,
-> but there is no such a mechanism which can let us tell the opkg to
-> install the preferred version.
-
-As pointed out before, your DISTRO needs to fix this and you should NOT =
-break opkg in the way you are doing now.=20=
 
 
