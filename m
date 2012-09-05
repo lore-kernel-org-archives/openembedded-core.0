@@ -1,37 +1,56 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T9NCi-0003yA-VR for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 23:32:09 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85LJimX030603;
-	Wed, 5 Sep 2012 22:19:44 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28994-02; Wed,  5 Sep 2012 22:19:40 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85LJb2i030597
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 5 Sep 2012 22:19:38 +0100
-Message-ID: <1346879977.21985.88.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from co1ehsobe005.messaging.microsoft.com ([216.32.180.188]
+	helo=co1outboundpool.messaging.microsoft.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1T9NZ2-0004Mb-BY
+	for openembedded-core@lists.openembedded.org;
+	Wed, 05 Sep 2012 23:55:12 +0200
+Received: from mail69-co1-R.bigfish.com (10.243.78.244) by
+	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 5 Sep 2012 21:42:48 +0000
+Received: from mail69-co1 (localhost [127.0.0.1])	by mail69-co1-R.bigfish.com
+	(Postfix) with ESMTP id DD084CC01AC;
+	Wed,  5 Sep 2012 21:42:47 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275ch8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2hbe9i1155h)
+Received: from mail69-co1 (localhost.localdomain [127.0.0.1]) by mail69-co1
+	(MessageSwitch) id 1346881365819932_7031;
+	Wed,  5 Sep 2012 21:42:45 +0000 (UTC)
+Received: from CO1EHSMHS029.bigfish.com (unknown [10.243.78.239])	by
+	mail69-co1.bigfish.com (Postfix) with ESMTP id C3449C0045;
+	Wed,  5 Sep 2012 21:42:45 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS029.bigfish.com
+	(10.243.66.39) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 5 Sep 2012 21:42:43 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.57]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
+	Wed, 5 Sep 2012 16:42:43 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 05 Sep 2012 22:19:37 +0100
-In-Reply-To: <E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
-References: <cover.1346837268.git.liezhi.yang@windriver.com>
-	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
-	<32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
-	<1346845447.21985.50.camel@ted>
-	<E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
+Thread-Topic: [OE-core] [for-denzil][meta-oe][PATCH 09/11] kernel: Add
+	kernel headers to kernel-dev package
+Thread-Index: AQHNi69g16iWHsp3Yk2zmlOC8q56rg==
+Date: Wed, 5 Sep 2012 21:42:41 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A64E50F@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1346136108-13062-1-git-send-email-koen@dominion.thruhere.net>
+	<1346136108-13062-9-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1346136108-13062-9-git-send-email-koen@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Scott Garman <scott.a.garman@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [for-denzil][meta-oe][PATCH 09/11] kernel: Add kernel headers to kernel-dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -41,108 +60,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 21:32:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Sep 2012 21:55:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <F31829FDD407D545897E1A27825FECBD@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2012-09-05 at 15:24 +0200, Koen Kooi wrote:
-> Op 5 sep. 2012, om 13:44 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> 
-> > On Wed, 2012-09-05 at 12:05 +0200, Koen Kooi wrote:
-> >> Op 5 sep. 2012, om 11:31 heeft Robert Yang <liezhi.yang@windriver.com> het volgende geschreven:
-> >> 
-> >>> This is for fixing the problem:
-> >>> 1) bitbake core-image-sato-sdk with MACHINE=qemux86
-> >>> 2) bitbake core-image-sato with with MACHINE=crownbay
-> >>> 
-> >>> The qemux86's PACKAGE_ARCH is i586, the crownbay's is core2, but several
-> >>> i586 packages will be installed into crownbay's rootfs though there are
-> >>> core2 packages. For example, there are:
-> >>> 
-> >>> xserver-xorg_1.11.2-r4_i586.ipk
-> >>> xserver-xorg_1.9.3-r1_core2.ipk
-> >>> 
-> >>> The crownbay.conf says:
-> >>> PREFERRED_VERSION_xserver-xorg ?= "1.9.3"
-> >>> 
-> >>> What the crownbay's image needs is xserver-xorg_1.9.3-r1_core2.ipk, but
-> >>> the xserver-xorg_1.11.2-r4_i586.ipk will be installed, this is
-> >>> incorrect.
-> >> 
-> >> It is the correct behaviour, though.
-> > 
-> > No, it isn't. You told bitbake to build some specific versions, it did
-> > that, then put something else in the rootfs. Without mentioning any of
-> > this to the user.
-> 
-> You forget that, you, as the user, instructed bitbake to build the
-> other version when switching machine. Should bitbake refuse to build
-> the packages in this scenario?
+On Tue, Aug 28, 2012 at 1:41 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> From: Darren Hart <dvhart@linux.intel.com>
+>
+> [YOCTO #1614]
+>
+> Add the kernel headers to the kernel-dev package. This packages what was
+> already built and kept in sysroots for building modules with bitbake.
+> Making this available on the target requires removing some additional
+> host binaries.
+>
+> Move the location to /usr/src/kernel
+>
+> Before use on the target, the user will need to:
+>
+>     # cd /usr/src/kernel
+>     # make scripts
+>
+> This renders the kernel-misc recipe empty, so remove it.
+>
+> As we use /usr/src/kernel in several places (and I missed one in the
+> previous version), add a KERNEL_SRC_DIR variable and use that throughout
+> the class to avoid update errors in the future.
+>
+> Now that we package the kernel headers, drop the
+> kernel_package_preprocess function which removed them from PKGD.
+>
+> All *-sdk image recipes include dev-pkgs, so the kernel-dev package will
+> be installed by default on all such images.
+>
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> CC: Bruce Ashfield <bruce.ashfield@windriver.com>
+> CC: Tom Zanussi <tom.zanussi@intel.com>
+> CC: Khem Raj <raj.khem@gmail.com>
+>
+> ---
+>  meta/classes/kernel.bbclass |   25 +++++++++++--------------
+>  meta/conf/bitbake.conf      |    2 +-
+>  2 files changed, 12 insertions(+), 15 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 3ccd753..d79ba9f 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -77,6 +77,10 @@ EXTRA_OEMAKE =3D ""
+>
+>  KERNEL_ALT_IMAGETYPE ??=3D ""
+>
+> +# Define where the kernel headers are installed on the target as well as=
+ where
+> +# they are staged.
+> +KERNEL_SRC_PATH =3D "/usr/src/kernel"
+> +
+>  KERNEL_IMAGETYPE_FOR_MAKE =3D "${@(lambda s: s[:-3] if s[-3:] =3D=3D ".g=
+z" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+>
+>  kernel_do_compile() {
+> @@ -130,7 +134,7 @@ kernel_do_install() {
+>         # Support for external module building - create a minimal copy of=
+ the
+>         # kernel source tree.
+>         #
+> -       kerneldir=3D${D}/kernel
+> +       kerneldir=3D${D}${KERNEL_SRC_PATH}
+>         install -d $kerneldir
+>
+>         #
+> @@ -191,20 +195,15 @@ kernel_do_install() {
+>         # Remove the following binaries which cause strip errors
+>         # during do_package for cross-compiled platforms
+>         bin_files=3D"arch/powerpc/boot/addnote arch/powerpc/boot/hack-cof=
+f \
+> -                  arch/powerpc/boot/mktree"
+> +                  arch/powerpc/boot/mktree scripts/kconfig/zconf.tab.o \
+> +                  scripts/kconfig/conf.o"
+>         for entry in $bin_files; do
+>                 rm -f $kerneldir/$entry
+>         done
+>  }
+>
+> -PACKAGE_PREPROCESS_FUNCS +=3D "kernel_package_preprocess"
+> -
+> -kernel_package_preprocess () {
+> -       rm -rf ${PKGD}/kernel
+> -}
+> -
+>  sysroot_stage_all_append() {
+> -       sysroot_stage_dir ${D}/kernel ${SYSROOT_DESTDIR}/kernel
+> +       sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERN=
+EL_SRC_PATH}
+>  }
+>
+>  kernel_do_configure() {
+> @@ -252,13 +251,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>
+>  # kernel-base becomes kernel-${KERNEL_VERSION}
+>  # kernel-image becomes kernel-image-${KERNEL_VERISON}
+> -PACKAGES =3D "kernel kernel-base kernel-image kernel-dev kernel-vmlinux =
+kernel-misc"
+> +PACKAGES =3D "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
+>  FILES =3D ""
+>  FILES_kernel-image =3D "/boot/${KERNEL_IMAGETYPE}*"
+> -FILES_kernel-dev =3D "/boot/System.map* /boot/Module.symvers* /boot/conf=
+ig*"
+> +FILES_kernel-dev =3D "/boot/System.map* /boot/Module.symvers* /boot/conf=
+ig* ${KERNEL_SRC_PATH}"
 
-That would be better than silently doing something non-deterministic.
+This patch is causing the following on denzil (which Scott applied to
+his denzil-next branch)
 
-The bit I hate about this is the fact that sometimes a build would
-result in one thing, sometimes another. It should always error out with
-an invalid configuration rather than do that.
+ERROR: QA Issue: non debug package contains .debug directory:
+kernel-dev path
+/work/p5020ds_64b-poky-linux/linux-qoriq-sdk-3.0.34-r4/packages-split/kerne=
+l-dev/usr/src/kernel/tools/perf/.debug/perf
+ERROR: QA run found fatal errors. Please consider fixing them.
+ERROR: Function failed: do_package_qa
+ERROR: Logfile of failure stored in:
+/local/home/mattsm/git/poky/build-denzil/tmp/work/p5020ds_64b-poky-linux/li=
+nux-qoriq-sdk-3.0.34-r4/temp/log.do_package.26851
+NOTE: package linux-qoriq-sdk-3.0.34-r4: task do_package: Failed
+ERROR: Task 13 (/local/home/mattsm/git/poky/build-denzil/../meta-fsl-ppc/re=
+cipes-kernel/linux/linux-qoriq-sdk.bb,
+do_package) failed with exit code '1'
 
->  That would make more sense than trying to clean up the mess in the
-> package_ipk bbclass. If you have online feeds the problem will
-> reappear anyway.
+At first glance, it looks like we should:
 
-I care more about builds being deterministic than online feeds.
-Sorry ;-).
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 7ae2a53..511b22b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -546,4 +546,5 @@ EXPORT_FUNCTIONS do_deploy
+ PACKAGES =3D+ "perf-dbg perf"
+ FILES_perf =3D "${bindir}/* \
+               ${libexecdir}"
+-FILES_perf-dbg =3D "${FILES_${PN}-dbg}"
++FILES_perf-dbg =3D "${FILES_${PN}-dbg} \
++                 ${KERNEL_SRC_PATH}/tools/perf/.debug"
 
-> > So the current behaviour is totally broken and it needs to do one of:
-> > 
-> > a) Put the things the user asked for in the rootfs
-> > b) Tell the user its not going to
-> > c) Error out and ask the user to fix the problem
-> > 
-> > Builds are meant to be deterministic and this clearly isn't as what you
-> > get out depends on the order of what you build.
-> 
-> How do we know what the user expects? The user already did something
-> that isn't right by building compatible arch packages with different
-> versions. And this is deterministic, the user instructed bitbake to
-> build a more recent, but compatible version, which will end up in the
-> rootfs. If would be non-deterministic if opkg would decide at random
-> what to install.
+Thoughts?
 
-Having a different image depending on whether I build MACHINE A or B
-first is not what the user expects and is not deterministic in my world
-or I suspect in most user's. We can go and ask some if you really think
-we need to?
+-M
 
-> So, fix this problem at the root and make bitbake error out if your
-> build breaks PREFERRED_VERSION.
 
-How do we detect this? I want deterministic builds so I need the error
-to appear regardless of whether I build A or B first (just like I expect
-a consistent image).
-
-I also do want to support these situations where we need special
-versions. I appreciate its ugly but we have several significant users
-with this problem and pretending it doesn't exist doesn't work, much as
-I wish we could.
-
-What I really need here is help with coming up with some working
-solution. Putting our heads in the sand and arguing whether its even a
-problem isn't going to go anywhere :(.
-
-Its really easy to shoot down ideas on the mailing list. Its much harder
-to be creative and find ways to take the project to better places whilst
-addressing everyone's concerns. I'm starting to find I'm simply
-physically and mentally running out of bandwidth for some of these
-discussions. I try very hard to hear different opinions, explain
-decisions, come up with creative solutions and so on and I think this
-process is one of the better features of the project. I am going to need
-help in order to be able to continue to do this and scale the project
-though.
-
-Cheers,
-
-Richard
-
+>  FILES_kernel-vmlinux =3D "/boot/vmlinux*"
+> -# misc is a package to contain files we need in staging
+> -FILES_kernel-misc =3D "/kernel/include/config /kernel/scripts /kernel/dr=
+ivers/crypto /kernel/drivers/media"
+>  RDEPENDS_kernel =3D "kernel-base"
+>  # Allow machines to override this dependency if kernel image files are
+>  # not wanted in images as standard
+> @@ -475,7 +472,7 @@ python populate_packages_prepend () {
+>         metapkg =3D "kernel-modules"
+>         d.setVar('ALLOW_EMPTY_' + metapkg, "1")
+>         d.setVar('FILES_' + metapkg, "")
+> -       blacklist =3D [ 'kernel-dev', 'kernel-image', 'kernel-base', 'ker=
+nel-vmlinux', 'perf', 'perf-dbg', 'kernel-misc' ]
+> +       blacklist =3D [ 'kernel-dev', 'kernel-image', 'kernel-base', 'ker=
+nel-vmlinux', 'perf', 'perf-dbg' ]
+>         for l in module_deps.values():
+>                 for i in l:
+>                         pkg =3D module_pattern % legitimize_package_name(=
+re.match(module_regex, os.path.basename(i)).group(1))
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 618780c..85ba108 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -376,7 +376,7 @@ SDKPATHNATIVE =3D "${SDKPATH}/sysroots/${SDK_SYS}"
+>  ##################################################################
+>
+>  OLDEST_KERNEL =3D "2.6.16"
+> -STAGING_KERNEL_DIR =3D "${STAGING_DIR_HOST}/kernel"
+> +STAGING_KERNEL_DIR =3D "${STAGING_DIR_HOST}/usr/src/kernel"
+>
+>  ##################################################################
+>  # Specific image creation and rootfs population info.
+> --
+> 1.7.7.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
