@@ -1,30 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T9GmD-0008FI-Hy for openembedded-core@lists.openembedded.org;
-	Wed, 05 Sep 2012 16:40:21 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85ERwii027996
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Sep 2012 15:27:58 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27558-02 for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Sep 2012 15:27:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q85ERnMa027990
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Sep 2012 15:27:50 +0100
-Message-ID: <1346855269.21985.57.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Sep 2012 15:27:49 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sanity.bbclass: Move back to running at ConfigParsed time
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1T9Gr3-00007V-89
+	for openembedded-core@lists.openembedded.org;
+	Wed, 05 Sep 2012 16:45:21 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Sep 2012 07:32:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,374,1344236400"; d="scan'208";a="218385947"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.252])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Sep 2012 07:32:57 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Sep 2012 07:32:56 -0700
+Message-Id: <cover.1346855361.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [CONSOLIDATED REQUEST 0/5] Packagegroup updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,65 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 14:40:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Sep 2012 14:45:21 -0000
 
-If we don't do this, users can get extremely confused errors since the sanity tests
-happen too late (after parsing) and don't see the warnings.
+Richard,
 
-Also cleanup messages about merging configuration file changes to give better
-hints at where the updated files may be.
+These are some changes that have been run through the AB
+with the pre-RC1 build.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 40d8211..8f42fca 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -333,20 +333,20 @@ def check_sanity(sanity_data):
-     conf_version =  sanity_data.getVar('LOCALCONF_VERSION', True)
- 
-     if current_conf != conf_version:
--        messages = messages + "Your version of local.conf was generated from an older version of local.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/local.conf conf/local.conf.sample\" is a good way to visualise the changes.\n"
-+        messages = messages + "Your version of local.conf was generated from an older version of local.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/local.conf ${COREBASE}/meta*/conf/local.conf.sample\" is a good way to visualise the changes.\n"
- 
-     # Check bblayers.conf is valid
-     current_lconf = sanity_data.getVar('LCONF_VERSION', True)
-     lconf_version = sanity_data.getVar('LAYER_CONF_VERSION', True)
-     if current_lconf != lconf_version:
--        messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
-+        messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
- 
-     # If we have a site.conf, check it's valid
-     if check_conf_exists("conf/site.conf", sanity_data):
-         current_sconf = sanity_data.getVar('SCONF_VERSION', True)
-         sconf_version = sanity_data.getVar('SITE_CONF_VERSION', True)
-         if current_sconf != sconf_version:
--            messages = messages + "Your version of site.conf was generated from an older version of site.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/site.conf conf/site.conf.sample\" is a good way to visualise the changes.\n"
-+            messages = messages + "Your version of site.conf was generated from an older version of site.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/site.conf ${COREBASE}/meta*/conf/site.conf.sample\" is a good way to visualise the changes.\n"
- 
-     assume_provided = sanity_data.getVar('ASSUME_PROVIDED', True).split()
-     # Check user doesn't have ASSUME_PROVIDED = instead of += in local.conf
-@@ -556,7 +556,7 @@ def check_sanity(sanity_data):
-         messages = messages + "Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space."
- 
-     if messages != "":
--        raise_sanity_error(messages, sanity_data)
-+        raise_sanity_error(sanity_data.expand(messages), sanity_data)
- 
- # Create a copy of the datastore and finalise it to ensure appends and 
- # overrides are set - the datastore has yet to be finalised at ConfigParsed
-@@ -567,7 +567,7 @@ def copy_data(e):
- 
- addhandler check_sanity_eventhandler
- python check_sanity_eventhandler() {
--    if bb.event.getName(e) == "BuildStarted" and e.data.getVar("BB_WORKERCONTEXT", True) != "1" and e.data.getVar("DISABLE_SANITY_CHECKS", True) != "1":
-+    if bb.event.getName(e) == "ConfigParsed" and e.data.getVar("BB_WORKERCONTEXT", True) != "1" and e.data.getVar("DISABLE_SANITY_CHECKS", True) != "1":
-         sanity_data = copy_data(e)
-         check_sanity(sanity_data)
-     elif bb.event.getName(e) == "SanityCheck":
+Thanks
+	Sau!
 
+The following changes since commit da9b66ddde02ec19f3f83f23eb2b595af9a57520:
+
+  build-appliance-image: Update to latest poky master (2012-09-04 18:04:32 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Bruce Ashfield (1):
+  linux-yocto-rt: 3.4.9-rt17 remaining changes
+
+Martin Jansa (1):
+  packagegroup-core-x11: split machine specific parts to separate
+    recipe packagegroup-core-x11-server
+
+Paul Eggleton (3):
+  packagegroup-(base|core-basic): add RREPLACES/RCONFLICTS
+  build-appliance-image: fix for packagegroup-apps-console removal
+  packagegroup-core-x11: add upgrade path from meta-oe task-x11*
+
+ meta/conf/layer.conf                               |    1 +
+ meta/recipes-core/images/build-appliance-image.bb  |    4 +-
+ .../packagegroups/packagegroup-base.bb             |   10 +++-----
+ .../packagegroups/packagegroup-core-basic.bb       |    4 ++-
+ .../packagegroups/packagegroup-core-x11-xserver.bb |   24 ++++++++++++++++++++
+ .../packagegroups/packagegroup-core-x11.bb         |   21 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    4 +-
+ 7 files changed, 46 insertions(+), 22 deletions(-)
+ create mode 100644 meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
+
+-- 
+1.7.7.6
 
 
 
