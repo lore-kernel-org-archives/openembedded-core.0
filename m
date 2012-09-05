@@ -1,35 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1T9O7z-0002TH-B1
+	(envelope-from <kergoth@gmail.com>) id 1T9O95-0004EJ-K7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 00:31:19 +0200
-Received: from mail-qa0-f54.google.com ([209.85.216.54])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 05 Sep 2012 15:17:44 -0700
-Received: by qatn12 with SMTP id n12so1490742qat.6
+	Thu, 06 Sep 2012 00:32:33 +0200
+Received: by lagv3 with SMTP id v3so675921lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2012 15:17:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:cc:content-type
-	:x-gm-message-state;
-	bh=SZGcueMY/S+VGutHBxvBcnSGbkgj9z5KHpU+wPYFoec=;
-	b=mzbkEbMEH9771Y1ubVSmM8EBIWKbL1hOxrSaIFLoafeDObYmHtoRXMiBmDVK47oNTi
-	hSWo4ToPaK08SLpswfBplaRIbTOgBlpIfU2FZaI/unD3/zu2/nBEOPUG+PwxFutwWKMj
-	vHsvosBJSiP51SVQpFbtApGCVG7QVPvmadKftwkOYTjOiLgsh3JD6VgcbzDYbaurw/kw
-	OHy/coVi/ngmZKYD4nJCefgX1OrTmtMVljSoFVkZecEuGyvq6lVX4HKFXUuWoZy0+bfv
-	j0fLbZUupvcRhEucS9wtU+4zgJrFU3nQDv/0XsJztJmR/YH+KLuo2ZHlnig8fgM1yFiY
-	MYDA==
+	Wed, 05 Sep 2012 15:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=UujR9q6OD0k2x3C2wJVtnLToAgK7fWEIqTQkQpaMNT4=;
+	b=dmWEAdwE0P32me9zU3ecZhvX8a515pwzLl52dI01TXiyTY2mk8ziFD4vnS8AKckNx+
+	Wuol9XfBnEti0urHwDOgM6zbRGUraR8kjXSc7I3R0Ljg8LLY6TaVkWLzBdhJ9yRNjvJr
+	uS6p52hciXGYZrBvW7Su+e/jfbci7VhP9Ea7oKwkDHzU25q7l8PwH3wvEsDZeUdWiRAm
+	nsvxfeoxmnHOBKOlzMfyNxI5jhQo5KHPEiZERu9txnXkoZwR/8fqMtSX4dryOSGRUfsR
+	JZtYPKxyEY+kLaWYDhqrfJfSjq3UL7wtTGLF/cNBessjzcadr0tRO3JdGHrFGBUS6qPX
+	QE3Q==
+Received: by 10.112.82.168 with SMTP id j8mr163319lby.22.1346883603871; Wed,
+	05 Sep 2012 15:20:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.224.42.82 with SMTP id r18mr1011773qae.43.1346883468923; Wed,
-	05 Sep 2012 15:17:48 -0700 (PDT)
-Received: by 10.229.63.1 with HTTP; Wed, 5 Sep 2012 15:17:48 -0700 (PDT)
-Date: Wed, 5 Sep 2012 15:17:48 -0700
-Message-ID: <CAPhnLPDh_+TmCQm68b4m2ENx8rrarn5JXJ_LweZUFo-UkzSAPA@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQncGJtyFl+bpp5iqVZEEOHvLZrgXxyJk9/fYlpzFNu35R5nlzAQ4VU9Qt1B2DWkkfPFbQJN
-Subject: [PATCH 1/1] [Revision 3] adt-installer: Allow changing YOCTOADT_REPO
+Sender: kergoth@gmail.com
+Received: by 10.114.19.2 with HTTP; Wed, 5 Sep 2012 15:19:43 -0700 (PDT)
+In-Reply-To: <1346879977.21985.88.camel@ted>
+References: <cover.1346837268.git.liezhi.yang@windriver.com>
+	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
+	<32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
+	<1346845447.21985.50.camel@ted>
+	<E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
+	<1346879977.21985.88.camel@ted>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 5 Sep 2012 15:19:43 -0700
+X-Google-Sender-Auth: Nd902dH_rmtHJeys8AAM8D21AJ8
+Message-ID: <CABcZANk7NaXkEUzYRof5OS22keHLNPN6cfYr0gy=5AS+Lbh9Qg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Zhenfeng.Zhao@windriver.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,90 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2012 22:31:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 05 Sep 2012 22:32:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-YOCTOADT_REPO within adt-installer.conf was hardcoded to
-http://adtrepo.yoctoproject.org/${SDK_VERSION}
+On Wed, Sep 5, 2012 at 2:19 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> What I really need here is help with coming up with some working
+> solution. Putting our heads in the sand and arguing whether its even a
+> problem isn't going to go anywhere :(.
 
-This allows it to be overriden in local.conf by setting
-ADTREPO = "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
-
-I'm also fixing a bad rm in do_populate_adt. The file name
-that is being rm'd is wrong.
-
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
----
- .../installer/adt-installer/adt_installer.conf     |    2 +-
- .../installer/adt-installer_1.0.bb                 |   10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-b/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-index afc69a4..171d2ac 100644
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer.conf
-@@ -23,7 +23,7 @@
-
- # Your yocto distro repository, this should include IPKG based
-packages and root filesystem files where the installation is based on
-
--YOCTOADT_REPO="http://adtrepo.yoctoproject.org/YOCTOADT_VERSION"
-+YOCTOADT_REPO="ADTREPO"
-
- # The following are for system wide setup
- # Target architectures that you want to setup host cross dev environment for
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index becdef6..c5cdb86 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -1,6 +1,6 @@
- # Yocto ADT Installer bb file
- #
--# Copyright 2010-2011 by Intel Corp.
-+# Copyright 2010-2012 by Intel Corp.
- #
- # Permission is hereby granted, free of charge, to any person obtaining a copy
- # of this software and associated documentation files (the
-"Software"), to deal
-@@ -30,7 +30,7 @@ ALLOW_EMPTY = "1"
-
- PACKAGES = ""
-
--PR = "r10"
-+PR = "r11"
-
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
-@@ -51,14 +51,14 @@ SRC_URI =
-"svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
-            file://opkg/conf/opkg-sdk-i686.conf \
- 	  "
-
--ADTREPO = "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
-+ADTREPO ?= "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
-
- do_populate_adt[umask] = "022"
-
- fakeroot do_populate_adt () {
- 	cd ${WORKDIR}
- 	mkdir -p ${ADT_DEPLOY}
--	rm -f ${ADT_DEPLOY}/adt-installer.tar.bz2
-+	rm -f ${ADT_DEPLOY}/adt_installer.tar.bz2
- 	rm -rf ${ADT_DIR}
- 	mkdir -p ${ADT_DIR}/opkg/build
- 	cp -r opkg ${ADT_DIR}/
-@@ -68,7 +68,7 @@ fakeroot do_populate_adt () {
- 	cp -r scripts ${ADT_DIR}/
- 	cp adt_installer ${ADT_DIR}
- 	cp adt_installer.conf ${ADT_DIR}
--	sed -i -e 's#YOCTOADT_VERSION#${SDK_VERSION}#' ${ADT_DIR}/adt_installer.conf
-+	sed -i -e 's#ADTREPO#${ADTREPO}#' ${ADT_DIR}/adt_installer.conf
- 	echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
- 	echo 'DEFAULT_INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
- 	cp ${COREBASE}/scripts/relocate_sdk.py ${ADT_DIR}/scripts/
+This doesn't make any sense. Deciding whether something is or isn't an
+actual problem / is or isn't expected behavior is a good thing to be
+doing, and is the opposite of putting heads in the sand, as it's
+debating user expectations vs tool behavior. If you really think it's
+better to blindly make changes before figuring out how the tool should
+behave relative to user expectations, or think figuring out what
+should be done first is "putting our heads in the sand", then I think
+we have serious problems with you in charge of the project.
 -- 
-1.7.9.5
+Christopher Larson
 
 
