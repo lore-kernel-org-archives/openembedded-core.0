@@ -1,25 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T9hRl-0003i1-M8
+	(envelope-from <sgw@linux.intel.com>) id 1T9hYS-0003nc-EB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 21:09:01 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Sep 2012 11:56:30 -0700
+	Thu, 06 Sep 2012 21:15:56 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 06 Sep 2012 12:03:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="189759276"
+X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="142301539"
 Received: from unknown (HELO [10.255.13.76]) ([10.255.13.76])
-	by orsmga001.jf.intel.com with ESMTP; 06 Sep 2012 11:56:35 -0700
-Message-ID: <5048F1E3.4050800@linux.intel.com>
-Date: Thu, 06 Sep 2012 11:56:35 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Sep 2012 12:03:30 -0700
+Message-ID: <5048F381.1090202@linux.intel.com>
+Date: Thu, 06 Sep 2012 12:03:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1346945375-5770-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1346945375-5770-1-git-send-email-ross.burton@intel.com>
+To: Martin Ertsaas <mertsas@cisco.com>
+References: <1346939964-24426-1-git-send-email-mertsas@cisco.com>
+In-Reply-To: <1346939964-24426-1-git-send-email-mertsas@cisco.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gst-plugins-good: disable (uninstalled) examples
+Subject: Re: [PATCH] rsync: Add md5sum and sha256sum for the rsync_2.6.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 19:09:01 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 19:15:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/06/2012 08:29 AM, Ross Burton wrote:
-> The examples pull in a GTK+ build dependency, so remove that too.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+On 09/06/2012 06:59 AM, Martin Ertsaas wrote:
+> rsync_2.6.9 is the only rsync recipe in openembedded without GPLv3 license, but it lacked the
+> checksums for the fetcher.
 > ---
->   meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb |    6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   meta/recipes-devtools/rsync/rsync_2.6.9.bb |    3 +++
+>   1 files changed, 3 insertions(+), 0 deletions(-)
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> index ac63f94..0fc34df 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> @@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
->                       file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
->                       file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+> diff --git a/meta/recipes-devtools/rsync/rsync_2.6.9.bb b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
+> index 54feada..8c8b115 100644
+> --- a/meta/recipes-devtools/rsync/rsync_2.6.9.bb
+> +++ b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
+> @@ -10,6 +10,9 @@ SRC_URI = "http://rsync.samba.org/ftp/rsync/src/rsync-${PV}.tar.gz \
+>              file://rsync-2.6.9-fname-obo.patch \
+>              file://rsyncd.conf"
 >
-> -DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
-> +DEPENDS += "gst-plugins-base gconf cairo jpeg libpng zlib libid3tag flac \
->   	    speex libsoup-2.4 pulseaudio"
+> +SRC_URI[md5sum] = "996d8d8831dbca17910094e56dcb5942"
+> +SRC_URI[sha256sum] = "ca437301becd890e73300bc69a39189ff1564baa761948ff149b3dd7bde633f9"
+> +
+>   inherit autotools
+>
+>   do_install_append() {
+>
 
-You seem to be changing DEPENDS here also with no reason why.
+It's a good fix, but you need a Signed-off-by: in the commit message please.
 
-Sau!
+Thanks
+	Sau!
 
-> -PR = "r2"
-> +PR = "r3"
->
->   inherit gettext gconf
->
->   EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
-> -                 --disable-orc"
-> +                 --disable-orc --disable-examples"
->
->   do_configure_prepend() {
->   	# This m4 file contains nastiness which conflicts with libtool 2.2.2
->
 
 
