@@ -1,38 +1,29 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T9kq3-0003fY-Ka
+	(envelope-from <mark.hatle@windriver.com>) id 1T9krm-0003qZ-LP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 00:46:19 +0200
-Received: by iaky10 with SMTP id y10so2706312iak.6
+	Fri, 07 Sep 2012 00:48:07 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q86MZem6023263
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 15:33:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=ulQBUMDSjVAZOHWVZNTxy0h2N8v8kRDSpyx4+qmggH0=;
-	b=EXApPjcfYdS2zWUI/hHjya2U0bqHS/u5DkDhHDd7P0Ou0aBGgLh8A6wLl8zgLZtTW4
-	ZPZO3sUqyuKittRt6vTW1ZKg6/8haLr80U9hfZbnLpjhyUYwOphfbk3jx/pOQR4MEV4K
-	LmeLwtdpuNKc+BdRwKMJClO9xeIu5CvN84NKOWYgR+/ala1iVCWTMY4iNKk65wnJnARb
-	VzK7fitGhLQoaCNB1ZJAkc6n+yWoZDzU+52ahcm+kSHrmJruHziEZMB687dFCNOC0YDy
-	Hp8Kkia/MAg7y0RaMAJPVGHVr8MpuX7aA+9HAjt1lnQuFvHm57T7Us7IG9n7WDo2ADoM
-	U9Ig==
-Received: by 10.50.213.39 with SMTP id np7mr5361612igc.51.1346970834416;
-	Thu, 06 Sep 2012 15:33:54 -0700 (PDT)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id n5sm8157066igw.13.2012.09.06.15.33.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Sep 2012 15:33:53 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2012 15:32:48 -0700
-Message-Id: <79c3225e4613a32edca699207117f3061e4eb022.1346970617.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <78bc20e7fc534e4452c6a17c6c5d9020ac014eff.1346970617.git.raj.khem@gmail.com>
-References: <78bc20e7fc534e4452c6a17c6c5d9020ac014eff.1346970617.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1346970617.git.raj.khem@gmail.com>
-References: <cover.1346970617.git.raj.khem@gmail.com>
-Subject: [PATCH 6/6] machines/x86: Drop redundant glibc configure knobs
+	Thu, 6 Sep 2012 15:35:40 -0700 (PDT)
+Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 6 Sep 2012 15:35:40 -0700
+Message-ID: <5049253B.4090402@windriver.com>
+Date: Thu, 6 Sep 2012 17:35:39 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120824 Thunderbird/15.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1346956528.git.bruce.ashfield@windriver.com>
+	<fb717d4aa26b125680f620254cde9eb97ef0708a.1346956528.git.bruce.ashfield@windriver.com>
+	<1346969961.7493.24.camel@ted> <504921BD.4040004@windriver.com>
+In-Reply-To: <504921BD.4040004@windriver.com>
+Subject: Re: [PATCH 1/1] conf/tune: add tune-ppce300c3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,60 +36,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 22:46:20 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 22:48:07 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-nptl and thereby tls are not optional anymore
+On 9/6/12 5:20 PM, Bruce Ashfield wrote:
+> On 12-09-06 6:19 PM, Richard Purdie wrote:
+>> On Thu, 2012-09-06 at 14:43 -0400, Bruce Ashfield wrote:
+>>> It has been pointed out several times that the yocto mpc8315e-rdb
+>>> reference was using the wrong tuning (603e), since it is actually
+>>> a e300c3 board.
+>>>
+>>> This commit creates a e300c3 tune file based on the e300c2 variant
+>>> already in oe-core.
+>>>
+>>> This commit also inhibits altivec in flac when this new tuning is
+>>> enabled. It was also noticed that the existing tune based overrides
+>>> in the flac package would not be triggered since DEFAULTTUNE is not
+>>> in the overrides list. To avoid doing per-board disabling of altivec
+>>> DEFAULTTUNE is added to the local package OVERRIDES and then used
+>>> to disable altivec.
+>>>
+>>> [YOCTO #1192]
+>>>
+>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>>>
+>>> asdfkljds
+>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>>> ---
+>>>    meta/conf/machine/include/tune-ppce300c3.inc |   11 +++++++++++
+>>>    meta/recipes-multimedia/flac/flac_1.2.1.bb   |    5 +++++
+>>>    2 files changed, 16 insertions(+), 0 deletions(-)
+>>>    create mode 100644 meta/conf/machine/include/tune-ppce300c3.inc
+>>>
+>>> diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machine/include/tune-ppce300c3.inc
+>>> new file mode 100644
+>>> index 0000000..3f5ac26
+>>> --- /dev/null
+>>> +++ b/meta/conf/machine/include/tune-ppce300c3.inc
+>>> @@ -0,0 +1,11 @@
+>>> +DEFAULTTUNE ?= "ppce300c3"
+>>> +
+>>> +require conf/machine/include/powerpc/arch-powerpc.inc
+>>> +
+>>> +TUNEVALID[ppce300c3] = "Enable ppce300c3 specific processor optimizations"
+>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "-mcpu=e300c3", "", d)}"
+>>> +
+>>> +AVAILTUNES += "ppce300c3"
+>>> +TUNE_FEATURES_tune-ppce300c3 = "m32 fpu-soft ppce300c3"
+>>> +TUNE_PKGARCH_tune-ppce300c3 = "ppce300c3"
+>>> +PACKAGE_EXTRA_ARCHS_tune-ppce300c3 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} ppce300c3"
+>>> diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+>>> index 3c5b73c..25db1c4 100644
+>>> --- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
+>>> +++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+>>> @@ -36,9 +36,14 @@ EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
+>>>                    --without-xmms-exec-prefix \
+>>>                    --without-libiconv-prefix \
+>>>                    --without-id3lib"
+>>> +
+>>> +FLACOVERRIDE = ":${DEFAULTTUNE}"
+>>> +OVERRIDES .= "${FLACOVERRIDE}"
+>>> +
+>>>    EXTRA_OECONF_prepend_e500mc = "--disable-altivec "
+>>>    EXTRA_OECONF_prepend_e5500 = "--disable-altivec "
+>>>    EXTRA_OECONF_prepend_e5500-64b = "--disable-altivec "
+>>> +EXTRA_OECONF_prepend_ppce300c3 = "--disable-altivec "
+>>>
+>>
+>> This is getting ugly and is kind of unsafe. Perhaps the architecture
+>> should be doing something like:
+>>
+>> MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", ":noaltivec", "" ,d)}
+>>
+>> or even in this recipe just do:
+>>
+>> EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " --disable-altivec", "" ,d)}
+>
+> I definitely considered this route. I can do that for the new arch, and the
+> old ones, but can't test the old ones at the moment.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/ia32-base.inc |    5 -----
- meta/conf/machine/qemux86-64.conf       |    3 ---
- meta/conf/machine/qemux86.conf          |    4 ----
- 3 files changed, 12 deletions(-)
+The problem is actually in the flac.  This recipe sees powerpc as the machine 
+type, and immediately enabled altivec.  By default altivec support is disabled 
+in OE-Core.
 
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
-index af583ae..78d4458 100644
---- a/meta/conf/machine/include/ia32-base.inc
-+++ b/meta/conf/machine/include/ia32-base.inc
-@@ -18,11 +18,6 @@ KERNEL_IMAGETYPE ?= "bzImage"
- SERIAL_CONSOLE ?= "115200 ttyS0"
- 
- #
--# glibc-related variables
--#
--GLIBC_ADDONS ?= "nptl"
--
--#
- # kernel-related variables
- #
- PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 285054a..8d4bd6f 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -26,7 +26,4 @@ require conf/machine/include/qemu.inc
- 
- MACHINE_FEATURES += "x86"
- 
--GLIBC_ADDONS = "nptl"
--GLIBC_EXTRA_OECONF = "--with-tls"
--
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index c81afe5..6edf386 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -26,8 +26,4 @@ require conf/machine/include/qemu.inc
- 
- MACHINE_FEATURES += "x86"
- 
--GLIBC_ADDONS = "nptl"
--GLIBC_EXTRA_OECONF = "--with-tls"
--
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
--
--- 
-1.7.9.5
+Perhaps one way we could address this is add a tune flag that says if the tune 
+has altivec support or not.. then in the flac binary, disable it unless it's 
+enabled?
+
+--Mark
+
+> Bruce
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
