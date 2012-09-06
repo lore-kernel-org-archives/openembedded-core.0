@@ -1,24 +1,21 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1T9ZT2-0007Hn-D1
+	(envelope-from <constantinx.musca@intel.com>) id 1T9ZlV-0007if-NL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 12:37:48 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1T9ZH2-0005L5-UE; Thu, 06 Sep 2012 12:25:25 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 06 Sep 2012 11:25:23 +0100
-In-Reply-To: <4865258.AYjzzpLvn7@helios>
-References: <CALbNGRTrP1i2R69pT-rgtGhs+qmeGeGtPnBAxGgpxq5L2SJ3Ag@mail.gmail.com>
-	<4865258.AYjzzpLvn7@helios>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1346927124.2673.184.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: IMAGE_LINGUAS question
+	Thu, 06 Sep 2012 12:56:54 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Sep 2012 03:44:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="197876814"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.156])
+	by orsmga002.jf.intel.com with ESMTP; 06 Sep 2012 03:44:27 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2012 12:49:34 +0300
+Message-Id: <1346924974-13859-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] automake 1.12.3: fix warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,42 +28,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 10:37:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Sep 2012 10:56:54 -0000
 
-On Thu, 2012-09-06 at 10:51 +0100, Paul Eggleton wrote:
-> On Tuesday 28 August 2012 06:33:55 Andreas M=C3=BCller wrote:
-> > The display manager LXDM (and I think others too) check in
-> > configuration files which languages to offer. I would like to add a
-> > postinst for LXDM which fills it's configuration file according to
-> > what was installed by IMAGE_LINGUAS. Now my question (I looked into
-> > image.bbclass but did not find something useful): Is there some file
-> > around in rootfs where I can get the information which languages were
-> > installed by image linguas?
->=20
-> My suggestion would be to add a shell function called from=20
-> ROOTFS_POSTPROCESS_COMMAND which calls the get_split_linguas shell functi=
-on=20
-> (see image.bbclass) or uses IMAGE_LINGUAS directly depending on what your=
-=20
-> configuration file expects.
+- don't fail when an autoconf tool tries to pass "--warning=cross"
+to automake
+- don't show a warning when the configure.in file exists
 
-That is a good idea for static rootfses without O_P_M, but obviously it
-won't help much for subsequent online installs of LXDM.  Also, in an
-ideal world, you'd want LXDM to dynamically update for subsequent online
-installation or removal of other language packs.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ .../automake/automake/add-cross-warning.patch      |   91 ++++++++++++++++++++
+ .../automake/automake/no-configure.in-warn.patch   |   19 ++++
+ meta/recipes-devtools/automake/automake_1.12.3.bb  |    2 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-devtools/automake/automake/add-cross-warning.patch
+ create mode 100644 meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
 
-It used to be fairly straightforward to inspect /usr/share/locale to
-determine what linguas were installed, but this doesn't work anymore
-with the packed locale archive format.  It might be worth offering a
-DISTRO option to have language packs install some dummy marker file
-(e.g. /usr/share/locale/LINGUA.installed) to advertise their presence,
-perhaps.  Or alternatively write some tool to poke at the
-locale-archive, but that'd end up being somewhat libc-specific.
-
-p.
-
+diff --git a/meta/recipes-devtools/automake/automake/add-cross-warning.patch b/meta/recipes-devtools/automake/automake/add-cross-warning.patch
+new file mode 100644
+index 0000000..db0871e
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/add-cross-warning.patch
+@@ -0,0 +1,91 @@
++Add cross compilation warning option
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++
++--- a/aclocal.in
+++++ b/aclocal.in
++@@ -942,6 +942,7 @@ Options:
++   -W, --warnings=CATEGORY   report the warnings falling in CATEGORY
++ 
++ Warning categories include:
+++  cross         cross compilation issues
++   syntax        dubious syntactic constructs (default)
++   unsupported   unknown macros (default)
++   all           all the warnings (default)
++--- a/doc/automake.info-1
+++++ b/doc/automake.info-1
++@@ -2291,6 +2291,9 @@ misunderstand this paragraph: `automake'
++           extra portability issues related to obscure tools.  One
++           example of such a tool is the Microsoft `lib' archiver.
++ 
+++    `cross'
+++          cross compilation issues
+++
++     `syntax'
++           weird syntax, unused variables, typos
++ 
++@@ -2821,6 +2824,9 @@ File: automake.info,  Node: aclocal Opti
++ 
++ `--warnings=CATEGORY'
++      Output warnings falling in CATEGORY.  CATEGORY can be one of:
+++    `cross'
+++          cross compilation issues
+++
++     `syntax'
++           dubious syntactic constructs, underquoted macros, unused
++           macros, etc.
++--- a/lib/Automake/ChannelDefs.pm
+++++ b/lib/Automake/ChannelDefs.pm
++@@ -97,6 +97,10 @@ Errors related to GNITS Standards (silen
++ 
++ Internal errors.  Use C<&prog_error> to send messages over this channel.
++ 
+++=item C<cross>
+++
+++cross compilation issues
+++
++ =item C<gnu>
++ 
++ Warnings related to GNU Coding Standards.
++@@ -155,6 +159,7 @@ register_channel 'automake', type => 'fa
++   uniq_part => UP_NONE, ordered => 0;
++ 
++ register_channel 'extra-portability', type => 'warning', silent => 1;
+++register_channel 'cross', type => 'warning';
++ register_channel 'gnu', type => 'warning';
++ register_channel 'obsolete', type => 'warning', silent => 1;
++ register_channel 'override', type => 'warning', silent => 1;
++@@ -185,6 +190,7 @@ sub usage ()
++ {
++   print <<EOF;
++ Warning categories include:
+++  cross              cross compilation issues
++   gnu                GNU coding standards (default in gnu and gnits modes)
++   obsolete           obsolete features or constructions
++   override           user redefinitions of Automake rules or variables
++@@ -273,7 +279,11 @@ sub switch_warning ($)
++       $has_no = 1;
++     }
++ 
++-  if ($cat eq 'all')
+++  if ($cat eq 'cross')
+++    {
+++      setup_channel_type 'warning', silent => $has_no;
+++    }
+++  elsif ($cat eq 'all')
++     {
++       setup_channel_type 'warning', silent => $has_no;
++     }
++--- a/doc/automake.texi
+++++ b/doc/automake.texi
++@@ -2681,6 +2681,8 @@ Print the version number of Automake and
++ Output warnings falling in @var{category}.  @var{category} can be
++ one of:
++ @table @code
+++@item cross
+++warnings related to cross compilation issues
++ @item gnu
++ warnings related to the GNU Coding Standards
++ (@pxref{Top, , , standards, The GNU Coding Standards}).
+diff --git a/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch b/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
+new file mode 100644
+index 0000000..46329a5
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
+@@ -0,0 +1,19 @@
++Don't show a warning if configure.in exists
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++
++--- a/lib/Automake/Configure_ac.pm
+++++ b/lib/Automake/Configure_ac.pm
++@@ -77,8 +77,8 @@ sub find_configure_ac (;@)
++ 
++   if (-f $configure_in)
++     {
++-      msg ('obsolete', "autoconf input should be named 'configure.ac'," .
++-                       " not 'configure.in'");
+++#      msg ('obsolete', "autoconf input should be named 'configure.ac'," .
+++#                       " not 'configure.in'");
++       if (-f $configure_ac)
++ 	{
++ 	  msg ('unsupported',
+diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recipes-devtools/automake/automake_1.12.3.bb
+index 25069d7..c10adaf 100644
+--- a/meta/recipes-devtools/automake/automake_1.12.3.bb
++++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
+@@ -37,6 +37,8 @@ PATHFIXPATCH_virtclass-nativesdk = ""
+ SRC_URI += "${PATHFIXPATCH} \
+ 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+ 	    file://python-libdir.patch \
++	    file://add-cross-warning.patch \
++	    file://no-configure.in-warn.patch \
+             file://py-compile-compile-only-optimized-byte-code.patch"
+ 
+ SRC_URI[md5sum] = "d2af8484de94cdee16d89c50aaa1c729"
+-- 
+1.7.9.5
 
 
 
