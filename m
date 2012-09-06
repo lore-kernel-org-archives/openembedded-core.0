@@ -1,46 +1,41 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T9VCv-0007i3-0l
+	(envelope-from <koen@dominion.thruhere.net>) id 1T9WKK-0000Kv-3X
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 08:04:53 +0200
-Received: by wibhq4 with SMTP id hq4so5227582wib.6
+	Thu, 06 Sep 2012 09:16:36 +0200
+Received: by weyr6 with SMTP id r6so1015319wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Sep 2012 22:52:29 -0700 (PDT)
+	Thu, 06 Sep 2012 00:04:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=UoF5KG7YCokiF8TuWwxhk6ak+V7FCGH7X1op/gpAeVs=;
-	b=LhioLkhOE/uQzjo6kM9SHM131Oq1grhQEkPW01HoZPgJMtoOWKXGBJo/YoPuMza7L5
-	lnJUxBVzRx9K//12rdddsnkQiaexyF324H2J5G59seSKkU5mngRkFtZJQPSAhkFTcV5O
-	zn77YgfvCdNt00bQUIHcGtygUpEDRUOZBosD5eQ+Sbzj4zRldvZ2qYWrlMcPHrCXIGhV
-	iX1NImI/Vbb3JYE5W9m5yNeGpF8denMGxQaoq9qJT+AcIuc5lAh78jzUwW+dI27U6Qcl
-	TE5UK92AQoyP1L1byQXmQvfvRP4VUHQEe1WzI6HsYCn/EELxVjr1wJ0BfA9Gurgx+TaC
-	kMbg==
-Received: by 10.216.121.16 with SMTP id q16mr513651weh.193.1346910748943;
-	Wed, 05 Sep 2012 22:52:28 -0700 (PDT)
+	bh=/3GmxExvujlgPog3wNQhWw/kQSnlvHOJp6xYktXUWaY=;
+	b=WgxSP0mzVbp/YyjtN2WRRuTp22hNBFVxxdLNmjp2UbH0m+6uXyHuXYrsdeYvkKwGfc
+	uhLarszytB71PUGssHWu6LQgxcZB5KVpd9p2pnayqWBUUTmLNjjjGdSuiOw2MgvZdKH1
+	UXOhx3F/q8PmMWdRE5ZITfQzGUrP93hHiRz+xPGLlmHCsfqt/MBi+Y5I0yl07uyWwf8L
+	+7Ne0AA73I1gdnlBA1taMFVuk7XpTiUsAU+BUKpdvGODFXVgrCTeaSUxGKXaovhS1EJQ
+	2W1pPW9kIighV9ZHaqHGBaWlQ/Gtqwl0QhUf44w56WlHpVtqQ3l98uDmVDt55uPTxU+1
+	/91w==
+Received: by 10.216.132.156 with SMTP id o28mr633893wei.141.1346915052014;
+	Thu, 06 Sep 2012 00:04:12 -0700 (PDT)
 Received: from [172.20.0.49] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id do5sm3281242wib.10.2012.09.05.22.52.27
+	by mx.google.com with ESMTPS id cu1sm2758973wib.6.2012.09.06.00.04.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Sep 2012 22:52:28 -0700 (PDT)
+	Thu, 06 Sep 2012 00:04:10 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <5047F316.8030808@linux.intel.com>
-Date: Thu, 6 Sep 2012 07:52:26 +0200
-Message-Id: <E5E839E2-8D4D-4B80-BC93-BD72FA95F5FA@dominion.thruhere.net>
-References: <1346136108-13062-1-git-send-email-koen@dominion.thruhere.net>
-	<1346136108-13062-9-git-send-email-koen@dominion.thruhere.net>
-	<70CC66F5C30A414DADDA6973E4CA391A64E50F@039-SN1MPN1-001.039d.mgd.msft.net>
-	<5047F316.8030808@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
+In-Reply-To: <698f0ce085fc3bcdb6798f26916dbd2c450b5e1f.1346905978.git.raj.khem@gmail.com>
+Date: Thu, 6 Sep 2012 09:04:10 +0200
+Message-Id: <691C34E1-3DE3-4663-99CA-333D3033B92D@dominion.thruhere.net>
+References: <5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
+	<698f0ce085fc3bcdb6798f26916dbd2c450b5e1f.1346905978.git.raj.khem@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQlWQa1hDnKfW42cB386tayOJ8NQLbWacctt5K7CqGvl0yZsVr2VRbnAsBUPHS9MsAVmOhV7
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Scott Garman <scott.a.garman@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-denzil][meta-oe][PATCH 09/11] kernel: Add kernel headers to kernel-dev package
+X-Gm-Message-State: ALoCoQkNqQmzdEDrh03MEbym19vWYNHSTX8JK9oDeO0WyU7V4cLWOCpqF7uPyb75JiL3UHFrsuEF
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] gcc-4.7: Fix build for armv4/EABI and ppc/Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,179 +48,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 06:04:53 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Thu, 06 Sep 2012 07:16:36 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 6 sep. 2012, om 02:49 heeft Darren Hart <dvhart@linux.intel.com> het =
+Op 6 sep. 2012, om 06:35 heeft Khem Raj <raj.khem@gmail.com> het =
 volgende geschreven:
 
+> arm patch is a forward port from OE/classic
+> ppc patch should help in building images with Os
+
+Can you add an Upstream-Status to both patches?
+
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-4.7.inc              |    4 ++-
+> .../gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch    |   29 =
+++++++++++++++++++++
+> .../gcc/gcc-4.7/ppc_no_crtsavres.patch             |   21 =
+++++++++++++++
+> 3 files changed, 53 insertions(+), 1 deletion(-)
+> create mode 100644 =
+meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
+> create mode 100644 =
+meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc =
+b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> index affbd54..b455b28 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> @@ -1,6 +1,6 @@
+> require gcc-common.inc
+>=20
+> -PR =3D "r11"
+> +PR =3D "r12"
+>=20
+> # Third digit in PV should be incremented after a minor release
+> # happens from this branch on gcc e.g. currently its 4.7.1
+> @@ -75,6 +75,8 @@ SRC_URI =3D =
+"svn://gcc.gnu.org/svn/gcc/branches;module=3D${BRANCH};protocol=3Dhttp \
+> 	   file://fix-g++-sysroot.patch \
+> 	   file://disablesdt.patch \
+> 	   file://libtool.patch \
+> +	   file://gcc-armv4-pass-fix-v4bx-to-ld.patch \
+> +	   file://ppc_no_crtsavres.patch \
+> 	  "
+>=20
+> S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
+> diff --git =
+a/meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch =
+b/meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
+> new file mode 100644
+> index 0000000..6cd645a
+> --- /dev/null
+> +++ =
+b/meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
+> @@ -0,0 +1,29 @@
+> +The LINK_SPEC for linux gets overwritten by linux-eabi.h which
+> +means the value of TARGET_FIX_V4BX_SPEC gets lost and as a result
+> +the option is not passed to linker when chosing march=3Darmv4
+> +This patch redefines this in linux-eabi.h and reinserts it
+> +for eabi defaulting toolchains.
+> +
+> +We might want to send it upstream
+> +
+> +-Khem
+> +Index: gcc-4_7-branch/gcc/config/arm/linux-eabi.h
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- gcc-4_7-branch.orig/gcc/config/arm/linux-eabi.h	2012-08-21 =
+22:54:12.448453417 -0700
+> ++++ gcc-4_7-branch/gcc/config/arm/linux-eabi.h	2012-08-21 =
+23:05:18.008478722 -0700
+> +@@ -78,10 +78,14 @@
+> +      %{mfloat-abi=3Dsoft*:" GLIBC_DYNAMIC_LINKER_SOFT_FLOAT "} \
+> +      %{!mfloat-abi=3D*:" GLIBC_DYNAMIC_LINKER_DEFAULT "}"
+> +=20
+> ++/* For armv4 we pass --fix-v4bx to linker to support EABI */
+> ++#undef TARGET_FIX_V4BX_SPEC
+> ++#define TARGET_FIX_V4BX_SPEC =
+"%{mcpu=3Darm8|mcpu=3Darm810|mcpu=3Dstrongarm*|march=3Darmv4: =
+--fix-v4bx}"
+> ++
+> + /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
+> +    use the GNU/Linux version, not the generic BPABI version.  */
+> + #undef  LINK_SPEC
+> +-#define LINK_SPEC BE8_LINK_SPEC						=
+\
+> ++#define LINK_SPEC BE8_LINK_SPEC TARGET_FIX_V4BX_SPEC			=
+\
+> +   LINUX_OR_ANDROID_LD (LINUX_TARGET_LINK_SPEC,				=
+\
+> + 		       LINUX_TARGET_LINK_SPEC " " ANDROID_LINK_SPEC)
+> +=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch =
+b/meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
+> new file mode 100644
+> index 0000000..88684d3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
+> @@ -0,0 +1,21 @@
+> +--- a/gcc/config/rs6000/sysv4.h
+> ++++ b/gcc/config/rs6000/sysv4.h
+> +@@ -246,13 +246,13 @@ do {							=
+		\
+> +=20
+> + /* Define cutoff for using external functions to save floating =
+point.
+> +    When optimizing for size, use external functions when profitable. =
+ */
+> +-#define FP_SAVE_INLINE(FIRST_REG) (optimize_size			=
+\
+> ++#define FP_SAVE_INLINE(FIRST_REG) (1 || (optimize_size			=
+\
+> + 				   ? ((FIRST_REG) =3D=3D 62			=
+\
+> + 				      || (FIRST_REG) =3D=3D 63)		=
+\
+> +-				   : (FIRST_REG) < 64)
+> ++				   : (FIRST_REG) < 64))
+> + /* And similarly for general purpose registers.  */
+> +-#define GP_SAVE_INLINE(FIRST_REG) ((FIRST_REG) < 32	\
+> +-				   && !optimize_size)
+> ++#define GP_SAVE_INLINE(FIRST_REG) (1 || ((FIRST_REG) < 32	\
+> ++				   && !optimize_size))
+> +=20
+> + /* Put jump tables in read-only memory, rather than in .text.  */
+> + #define JUMP_TABLES_IN_TEXT_SECTION 0
+> +
+> --=20
+> 1.7.9.5
 >=20
 >=20
-> On 09/05/2012 02:42 PM, McClintock Matthew-B29882 wrote:
->> On Tue, Aug 28, 2012 at 1:41 AM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>> From: Darren Hart <dvhart@linux.intel.com>
->>>=20
->>> [YOCTO #1614]
->>>=20
->>> Add the kernel headers to the kernel-dev package. This packages what =
-was
->>> already built and kept in sysroots for building modules with =
-bitbake.
->>> Making this available on the target requires removing some =
-additional
->>> host binaries.
->>>=20
->>> Move the location to /usr/src/kernel
->>>=20
->>> Before use on the target, the user will need to:
->>>=20
->>>    # cd /usr/src/kernel
->>>    # make scripts
->>>=20
->>> This renders the kernel-misc recipe empty, so remove it.
->>>=20
->>> As we use /usr/src/kernel in several places (and I missed one in the
->>> previous version), add a KERNEL_SRC_DIR variable and use that =
-throughout
->>> the class to avoid update errors in the future.
->>>=20
->>> Now that we package the kernel headers, drop the
->>> kernel_package_preprocess function which removed them from PKGD.
->>>=20
->>> All *-sdk image recipes include dev-pkgs, so the kernel-dev package =
-will
->>> be installed by default on all such images.
->>>=20
->>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->>> CC: Bruce Ashfield <bruce.ashfield@windriver.com>
->>> CC: Tom Zanussi <tom.zanussi@intel.com>
->>> CC: Khem Raj <raj.khem@gmail.com>
->>>=20
->>> ---
->>> meta/classes/kernel.bbclass |   25 +++++++++++--------------
->>> meta/conf/bitbake.conf      |    2 +-
->>> 2 files changed, 12 insertions(+), 15 deletions(-)
->>>=20
->>> diff --git a/meta/classes/kernel.bbclass =
-b/meta/classes/kernel.bbclass
->>> index 3ccd753..d79ba9f 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -77,6 +77,10 @@ EXTRA_OEMAKE =3D ""
->>>=20
->>> KERNEL_ALT_IMAGETYPE ??=3D ""
->>>=20
->>> +# Define where the kernel headers are installed on the target as =
-well as where
->>> +# they are staged.
->>> +KERNEL_SRC_PATH =3D "/usr/src/kernel"
->>> +
->>> KERNEL_IMAGETYPE_FOR_MAKE =3D "${@(lambda s: s[:-3] if s[-3:] =3D=3D =
-".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
->>>=20
->>> kernel_do_compile() {
->>> @@ -130,7 +134,7 @@ kernel_do_install() {
->>>        # Support for external module building - create a minimal =
-copy of the
->>>        # kernel source tree.
->>>        #
->>> -       kerneldir=3D${D}/kernel
->>> +       kerneldir=3D${D}${KERNEL_SRC_PATH}
->>>        install -d $kerneldir
->>>=20
->>>        #
->>> @@ -191,20 +195,15 @@ kernel_do_install() {
->>>        # Remove the following binaries which cause strip errors
->>>        # during do_package for cross-compiled platforms
->>>        bin_files=3D"arch/powerpc/boot/addnote =
-arch/powerpc/boot/hack-coff \
->>> -                  arch/powerpc/boot/mktree"
->>> +                  arch/powerpc/boot/mktree =
-scripts/kconfig/zconf.tab.o \
->>> +                  scripts/kconfig/conf.o"
->>>        for entry in $bin_files; do
->>>                rm -f $kerneldir/$entry
->>>        done
->>> }
->>>=20
->>> -PACKAGE_PREPROCESS_FUNCS +=3D "kernel_package_preprocess"
->>> -
->>> -kernel_package_preprocess () {
->>> -       rm -rf ${PKGD}/kernel
->>> -}
->>> -
->>> sysroot_stage_all_append() {
->>> -       sysroot_stage_dir ${D}/kernel ${SYSROOT_DESTDIR}/kernel
->>> +       sysroot_stage_dir ${D}${KERNEL_SRC_PATH} =
-${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
->>> }
->>>=20
->>> kernel_do_configure() {
->>> @@ -252,13 +251,11 @@ EXPORT_FUNCTIONS do_compile do_install =
-do_configure
->>>=20
->>> # kernel-base becomes kernel-${KERNEL_VERSION}
->>> # kernel-image becomes kernel-image-${KERNEL_VERISON}
->>> -PACKAGES =3D "kernel kernel-base kernel-image kernel-dev =
-kernel-vmlinux kernel-misc"
->>> +PACKAGES =3D "kernel kernel-base kernel-vmlinux kernel-image =
-kernel-dev"
->>> FILES =3D ""
->>> FILES_kernel-image =3D "/boot/${KERNEL_IMAGETYPE}*"
->>> -FILES_kernel-dev =3D "/boot/System.map* /boot/Module.symvers* =
-/boot/config*"
->>> +FILES_kernel-dev =3D "/boot/System.map* /boot/Module.symvers* =
-/boot/config* ${KERNEL_SRC_PATH}"
->>=20
->> This patch is causing the following on denzil (which Scott applied to
->> his denzil-next branch)
->>=20
->> ERROR: QA Issue: non debug package contains .debug directory:
->> kernel-dev path
->> =
-/work/p5020ds_64b-poky-linux/linux-qoriq-sdk-3.0.34-r4/packages-split/kern=
-el-dev/usr/src/kernel/tools/perf/.debug/perf
->> ERROR: QA run found fatal errors. Please consider fixing them.
->> ERROR: Function failed: do_package_qa
->> ERROR: Logfile of failure stored in:
->> =
-/local/home/mattsm/git/poky/build-denzil/tmp/work/p5020ds_64b-poky-linux/l=
-inux-qoriq-sdk-3.0.34-r4/temp/log.do_package.26851
->> NOTE: package linux-qoriq-sdk-3.0.34-r4: task do_package: Failed
->> ERROR: Task 13 =
-(/local/home/mattsm/git/poky/build-denzil/../meta-fsl-ppc/recipes-kernel/l=
-inux/linux-qoriq-sdk.bb,
->> do_package) failed with exit code '1'
->>=20
->> At first glance, it looks like we should:
->>=20
->> diff --git a/meta/classes/kernel.bbclass =
-b/meta/classes/kernel.bbclass
->> index 7ae2a53..511b22b 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -546,4 +546,5 @@ EXPORT_FUNCTIONS do_deploy
->> PACKAGES =3D+ "perf-dbg perf"
->> FILES_perf =3D "${bindir}/* \
->>               ${libexecdir}"
->> -FILES_perf-dbg =3D "${FILES_${PN}-dbg}"
->> +FILES_perf-dbg =3D "${FILES_${PN}-dbg} \
->> +                 ${KERNEL_SRC_PATH}/tools/perf/.debug"
->>=20
->> Thoughts?
->=20
-> I suppose that or pull in the patches to separate perf into a separate
-> recipe, although that's 13+ patches.
-
-I kept the perf change out on purpose in this patchset :)
-
-> I prefer your solution for the
-> stable tree.
-
-Me too. I haven't run into that bug yet, but the fix is valid.
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
