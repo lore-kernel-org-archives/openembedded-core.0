@@ -1,26 +1,28 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T9fN7-0006hc-Sz
+	(envelope-from <mark.hatle@windriver.com>) id 1T9fVl-0007Rn-Mx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 18:56:06 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2012 09:43:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="218948267"
-Received: from unknown (HELO [10.255.13.76]) ([10.255.13.76])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2012 09:43:40 -0700
-Message-ID: <5048D2BB.3000909@linux.intel.com>
-Date: Thu, 06 Sep 2012 09:43:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Thu, 06 Sep 2012 19:05:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q86GqZWK027489
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Sep 2012 09:52:35 -0700 (PDT)
+Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 6 Sep 2012 09:52:35 -0700
+Message-ID: <5048D4D3.3080009@windriver.com>
+Date: Thu, 6 Sep 2012 11:52:35 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120824 Thunderbird/15.0
 MIME-Version: 1.0
-To: "Franklin S. Cooper Jr" <fcooperjr27@gmail.com>
-References: <1346794545-14277-1-git-send-email-fcooper27jr@gmail.com>
-In-Reply-To: <1346794545-14277-1-git-send-email-fcooper27jr@gmail.com>
-Cc: "Franklin S. Cooper Jr" <fcooper27jr@gmail.com>, fcooper@ti.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Use fw_env.config if available.
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1346138100.git.liezhi.yang@windriver.com>
+	<d44a05ea08917e27279740f258bdf28424a7e055.1346138100.git.liezhi.yang@windriver.com>
+In-Reply-To: <d44a05ea08917e27279740f258bdf28424a7e055.1346138100.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] package_rpm.bbclass: fix the arch (replace "-" with "_")
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,104 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 16:56:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 06 Sep 2012 17:05:02 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/04/2012 02:35 PM, Franklin S. Cooper Jr wrote:
-> * Add support for board specific fw_env.config file if available.
+I've looked at the patch and it looks find to me.
+
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
+
+
+One note, however..  Whatever arch fields we use need to also match the fields 
+that get encoded into Zypper and the sat-solver stuff..  So there may be a 
+second chunk of code that needs to be updated to match.
+
+--Mark
+
+On 8/28/12 10:45 AM, Robert Yang wrote:
+> rpm can't use the "-" as the arch, which causes problem, e.g., when
+> MACHINE = "beagleboard":
 >
-> Signed-off-by: Franklin S. Cooper Jr <fcooper27jr@gmail.com>
+> * The arch should be armv7a-vfp-neon, but rpm only takes the armv7a,
+>    this is incorrect since it is mixed with real arch armv7a.
+>
+> * The nativesdk's arch should be i686-nativesdk (or x86_64-nativesdk),
+>    but rpm only takes the i686 (or x86_64), this in incorrect since it is
+>    mixed with the arch i686 (or x86_64).
+>
+> Replace "-" with "_" when rpm package and the rootfs generation would
+> fix the problem, I think this is fine since it doesn't change the tune's
+> arch, the package manager doesn't care about the arch's name, but it
+> needs a unify arch system to avoid confusing. This is similar to what we
+> have done on the deb which fixed the arch i486, i586 and so on to i386.
+>
+> [YOCTO #2328]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->   meta/recipes-bsp/u-boot/u-boot.inc           |   16 +++++++++++-----
->   meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 +-
->   meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 +-
->   meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 +-
->   4 files changed, 14 insertions(+), 8 deletions(-)
+>   meta/classes/package_rpm.bbclass | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index a8642f0..ed587a6 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -49,6 +49,11 @@ do_install () {
->       install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
->       ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 9abad5e..87dd367 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -27,12 +27,12 @@ package_update_index_rpm () {
+>   	fi
 >
-> +    if [ -e ${WORKDIR}/fw_env.config ] ; then
-> +        install -d ${D}${sysconfdir}
-> +        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-> +    fi
-> +
->       if [ "x${SPL_BINARY}" != "x" ]
->       then
->           install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-> @@ -56,16 +61,17 @@ do_install () {
->       fi
+>   	# Update target packages
+> -	base_archs="${PACKAGE_ARCHS}"
+> -	ml_archs="${MULTILIB_PACKAGE_ARCHS}"
+> +	base_archs="`echo ${PACKAGE_ARCHS} | sed 's/-/_/g'`"
+> +	ml_archs="`echo ${MULTILIB_PACKAGE_ARCHS} | sed 's/-/_/g'`"
+>   	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}" base_archs ml_archs
+>
+>   	# Update SDK packages
+> -	base_archs="${SDK_PACKAGE_ARCHS}"
+> +	base_archs="`echo ${SDK_PACKAGE_ARCHS} | sed 's/-/_/g'`"
+>   	package_update_index_rpm_common "${RPMCONF_HOST_BASE}" base_archs
 >   }
 >
-> -FILES_${PN} = "/boot"
-> +FILES_${PN} = "/boot$ {sysconfdir}"
->   FILESPATH =. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
+> @@ -1118,7 +1118,7 @@ python do_package_rpm () {
+>       rpmbuild = d.getVar('RPMBUILD', True)
+>       targetsys = d.getVar('TARGET_SYS', True)
+>       targetvendor = d.getVar('TARGET_VENDOR', True)
+> -    package_arch = d.getVar('PACKAGE_ARCH', True) or ""
+> +    package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
+>       if package_arch not in "all any noarch".split():
+>           ml_prefix = (d.getVar('MLPREFIX', True) or "").replace("-", "_")
+>           d.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch)
 >
->   do_deploy () {
->       install -d ${DEPLOYDIR}
-> -	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-> +    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
->
-> -	cd ${DEPLOYDIR}
-> -	rm -f ${UBOOT_SYMLINK}
-> -	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-> +    cd ${DEPLOYDIR}
-> +    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-> +    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-> +    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
->
->       if [ "x${SPL_BINARY}" != "x" ]
->       then
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> index 8465395..a9cbeca 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
->   SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
->
->   PV = "v2011.03+git${SRCPV}"
-> -PR = "r7"
-> +PR = "r8"
->
->   SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> index 9654795..a115ed2 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
->   SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
->
->   PV = "v2011.06+git${SRCPV}"
-> -PR = "r2"
-> +PR = "r3"
->
->   SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> index c4ec50d..6c099b1 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> @@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
->   SRCREV = "415d386877df49eb051b85ef74fa59a16dc17c7d"
->
->   PV = "v2012.04.01+git${SRCPV}"
-> -PR = "r1"
-> +PR = "r2"
->
->   SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
->
->
-Merged into OE-Core
-
-Thanks
-	Sau!
 
 
 
