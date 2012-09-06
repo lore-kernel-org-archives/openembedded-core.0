@@ -1,34 +1,38 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1T9aEy-0001vv-Dp
+	(envelope-from <ross.burton@intel.com>) id 1T9bxZ-0005jv-3G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 13:27:20 +0200
-Received: by iaky10 with SMTP id y10so1975047iak.6
+	Thu, 06 Sep 2012 15:17:29 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 06:05:03 -0700
+Received: by obblz20 with SMTP id lz20so2501593obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 04:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=5j/vXlJQ/XL3NJT1EG7I7AYzyK4fMr3l+EI+vyxaguk=;
-	b=ped+diYnEMxjkF++uXbuUne3TXC/0/G26p8QurtHET5HZwecUE6DFONpg4KQcbugRx
-	UxzbybJ0JwLpiH1JOW4cYWELRgZFISL3wnz+OwrTy7dqHUEqRb6fRuDy48A2HOIlceJk
-	ITG9gwDOvO6k8ZUMhD1HkytRJ28q0A2rXQNlgPH9+eFV7OPj51r5in3bncstgLBVUKiJ
-	Iez/wrPEE6xVycWxOxYNXVp470JKiaC76s6VDh8qAicSBWyTv7lXIB90SAywYZDM1Rtg
-	yyXgAQUECDHdRte6zeaRAB3mcfduiQR38tzw/5UqwGjZwn6MVXudM22nO8dKCLlvI9On
-	g9Dg==
+	Thu, 06 Sep 2012 06:05:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=ckYgebVmGoU+m9y8A6g8xSg5euOn/pJi857UvtMmVj4=;
+	b=Uo8qoxRJCjTfAcHOWf7E94lXBcj03Y/85RGxMPP3TnzO5hbHwRz24D2Z4RW/xowUJB
+	AMBGIss2FcwnjBSNOy8fuxPtZUXDpuUa8vojczX17DwDUj+mX5yLJYlTAdK6IQEk+x6z
+	LVL3lKy4BH6EM8GlssktUODOuDGDEIxv5fi9M5O69xIXtWMKLWGA1QBvKvbiMbgc73qu
+	CC8BFUFBUSDd+RKq5NKfDCQANQXbzvQxl2PRgfADVMdLy2zHTV2pW8ZYyq9sNUoXkJOQ
+	1Lbo9CAJCI4hyazBHnbFAnfkFiZq99m0Axf4SzkqjQcjh5GHUiFh/O+tAkyfy1CxleX5
+	ApNg==
+Received: by 10.182.154.70 with SMTP id vm6mr1920151obb.50.1346936701517; Thu,
+	06 Sep 2012 06:05:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.15.202 with SMTP id z10mr2258301igc.50.1346930095640; Thu,
-	06 Sep 2012 04:14:55 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Thu, 6 Sep 2012 04:14:55 -0700 (PDT)
-In-Reply-To: <1346928461.2673.186.camel@phil-desktop>
-References: <CALbNGRR0tpkqGtN6szJc5dLqYKPRFnyeaD2tyRAk6nV50aOT8w@mail.gmail.com>
-	<1346928461.2673.186.camel@phil-desktop>
-Date: Thu, 6 Sep 2012 13:14:55 +0200
-Message-ID: <CALbNGRRpab2YJWZbVJvLyXV8npxGW9Gv4vajTmDQ_dJOzJXqiQ@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: PREFERRED_VERSION_virtual/..
+Received: by 10.182.79.105 with HTTP; Thu, 6 Sep 2012 06:04:41 -0700 (PDT)
+In-Reply-To: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
+References: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Sep 2012 14:04:41 +0100
+Message-ID: <CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
+To: Andrei Gherzan <andrei@gherzan.ro>
+X-Gm-Message-State: ALoCoQkCuU663MItnteOwlC/JVxtKojKqm+TXqJSOBnZqxNQsOuifAD0FP1uogKkPM0xlm5Kn9mO
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] opengl / libgl / libgles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +45,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 11:27:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Sep 2012 13:17:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Sep 6, 2012 at 12:47 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Thu, 2012-09-06 at 12:45 +0200, Andreas M=FCller wrote:
->> In meta-gumstix I am working on a central include-file where I can
->> switch kernel-sources/-versions at one single place.
->>
->> For this I need PREFERRED_VERSION_virtual/... working.
->>
->> Is there a specific reason why this is not implemented or would it
->> cause huge efforts to implement?
+(CCing oe-core, discussion should happen there really)
+
+On 6 September 2012 11:00, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> In DISTRO_FEATURES we have opengl. That is pretty vague and generally we
+> don't want to have mesa on machines where there is no libgl but only gles +
+> egl. For example if we want to compile something that adds a DEPENDS based
+> on DISTRO_FEATURE opengl, this dependency will be added even if there is no
+> libgl implemented for that specific machine.
 >
-> Well, it's inherently meaningless: virtuals don't have any version
-> number, only concrete packages do, and it's entirely possible that the
-> different providers for a given virtual might have unrelated (whether or
-> not intersecting) version numbering schemes.
+> First idea would be that opengl (gl / gles) are machine related. On the
+> other hand opengl can be a DISTRO_FEATURE as we have a software
+> implementation - mesa.
 >
-> Why exactly do you want this?
->
-> p.
->
->
-Since I spend lot of time testing different kernels, I would like to
-have a single location where I can setup which kernel-source/-version
-is compiled [1] simply (this file is included by my machine
-configuration [2]). Alongside I want to ensure that the
-linux-glibc-headers share same version as the kernel [3].
+> How would you guys see a solution for this? The idea that came into my mind
+> was to map opengl to libgl or libgles. Or to both if there is the case.
 
-So for my case: I have
+(First I must apologise for the uneven flow of this mail - my mornings
+been pretty choppy but hopefully people can see what I'm thinking)
 
-* linux-mainline_3.2.bbappend (3.2.19)
-* linux-omap_3.5.bb (3.5.0)
-* linux-omap_3.6.bb (3.6.0-rc3)
-* linux-sakoman_3.2.bb (3.2.0)
+I've been thinking about this quite a lot recently, as the current
+setup is broken in some way on most hardware.  There is a bigger
+problem than just distro or machine features - the packaging isn't
+obvious or correct either.
 
-Without PREFERRED_VERSION_virtual/.. I cannot select between
-linux-omap_3.5.bb and linux-omap_3.6.bb. OK I can use
-PREFERRED_VERSION_linux-omap (as I am doing in [2] currently) but if I
-select to build linux-mainline, I get complaints that there is no
-linux-omap-3.2.9.
+First, we need a concrete definition of the "opengl" distro feature.
+I propose just "some form of OpenGL functionality" without any
+implications about what specification is present.
 
-Hope that explains what I would like to have this feature...
+Then, machine features for the portions of OpenGL that the hardware
+supports - gl, gles1, gles2.  I'd love to say "gles" means GLESv2 but
+I suspect we're not quite safe from the horrors of hardware that only
+supports GLESv1 yet.
 
-Andreas
+We then need more virtual providers for the GL libraries.  Mesa is an
+obvious provider - it provides libgl, libglesv1, libglesv2 and libegl.
+ On Raspberry Pi the binary drivers provide libglesv1, glesv2, and
+egl.  As the performance of the software renderer will be terrible,
+unsetting the libgl provider makes a lot of sense.
 
-[1] http://gitorious.org/schnitzeltony-oe-meta/meta-gumstix/blobs/master/re=
-cipes-kernel/linux/linux-versions-overo.inc
-[2] http://gitorious.org/schnitzeltony-oe-meta/meta-gumstix/blobs/master/co=
-nf/machine/overo.conf
-[3] http://gitorious.org/schnitzeltony-oe-meta/meta-gumstix/blobs/master/re=
-cipes-kernel/linux-libc-headers/linux-libc-headers_git.bb
-Repl
+Because there are multiple providers of the GL libraries, and they are
+not all specific to a single machine, every package that provides GL
+packages need to be namespaced.  The Debian-renaming makes this
+trickier but luckily it can be overridden in the recipe, so Mesa
+should be building libgl-mesa, libegl-mesa, and so on.  Every other
+provider of the GL libraries should do this too.
+
+Library dependencies are also broken, of course.  A package that links
+to libGL.so.1 shouldn't get a dependency on mesa-dri or whatever was
+installed to provide that library, but a dependency on a virtual
+"libgl" package.  As far as I'm aware this isn't something that the
+automatic shlibs dependency generation handles, but there is plenty of
+prior art for this.
+
+Finally we can talk about packages.  Take xorg-xserver, this can
+optionally support the GLX extension.  If the opengl distro feature is
+set then it can pass --enable-glx (I've a patch for this[1] already).
+GLX requires GL so on Raspberry Pi this will mean building mesa and
+using the software renderer which really isn't a good idea, so that is
+a strong argument for making the xserver machine-specific and checking
+both the opengl distro feature *and* the gl machine feature.
+(side-note: GLX is deprecated, use EGL!)
+
+Maybe I need to spend tomorrow morning writing my scribbles down into
+something more organised on the wiki, after the collective wisdom of
+oe-core has pointed out why this plan is stupid.
+
+Cheers,
+Ross
+
+[1] http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/xorg&id=e7b034379026457f291356e181c6a9ecd7fdb23b
 
 
