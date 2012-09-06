@@ -1,28 +1,25 @@
-Received: from ams-iport-1.cisco.com ([144.254.224.140])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mertsas@cisco.com>) id 1T9Xeo-0001at-20
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T9YSk-0007CH-DL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 10:41:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2005; q=dns/txt; s=iport;
-	t=1346920168; x=1348129768;
-	h=from:to:cc:subject:date:message-id;
-	bh=l+oJdR2Ob2Ol399ifdAsoNSDTpB93uq6n7DIPyc07OM=;
-	b=CsP+IYdW67Qkh045THP2y+AELd9nbFOWT+T3+1CvssGXl+F9bXCqXPK1
-	gjSHBkOcsFGRpxRVh/75BoSoVK23/GQdKR80Ms9vFJEwaG+B3LAiGLoOT
-	YNt4Q4Z30BD/HhzBfQ3qlfZJPAS49Bj7SIbzTbYxHDoEOqoQ/v/5xQptg I=;
-X-IronPort-AV: E=Sophos;i="4.80,377,1344211200"; d="scan'208";a="143399244"
-Received: from ams-core-2.cisco.com ([144.254.72.75])
-	by ams-iport-1.cisco.com with ESMTP; 06 Sep 2012 08:29:25 +0000
-Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
-	by ams-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id q868TP0d002188;
-	Thu, 6 Sep 2012 08:29:25 GMT
-From: Martin Ertsaas <mertsas@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2012 10:29:24 +0200
-Message-Id: <1346920164-29192-1-git-send-email-mertsas@cisco.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] perl: Remove the changes of bin, lib etc. as the defaults will give sane values.
+	Thu, 06 Sep 2012 11:33:26 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Sep 2012 02:20:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,379,1344236400"; d="scan'208";a="218787730"
+Received: from unknown (HELO helios.localnet) ([10.252.121.173])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2012 02:20:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Matthew McClintock <msm@freescale.com>
+Date: Thu, 06 Sep 2012 10:20:50 +0100
+Message-ID: <2905564.VViGOl5k8s@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <1346785794-18278-1-git-send-email-msm@freescale.com>
+References: <1346785794-18278-1-git-send-email-msm@freescale.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qmake: add linux-qnuspe to the list of supported targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 08:41:50 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 09:33:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The old config put stuff in ${perldir}/image/usr/local/oecore-x86_64/sysroot/x86_64-unknownsdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-unknownsdk-linux/usr
-instead of in ${perldir}/image/usr/local/oecore-x86_64/sysroot/x86_64-nimbussdk-linux/usr as it should.
----
- meta/recipes-devtools/perl/perl_5.14.2.bb |   19 ++++++++-----------
- 1 files changed, 8 insertions(+), 11 deletions(-)
+On Tuesday 04 September 2012 14:09:54 Matthew McClintock wrote:
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+>  meta/classes/qmake_base.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/qmake_base.bbclass
+> b/meta/classes/qmake_base.bbclass index d1008b6..f972b27 100644
+> --- a/meta/classes/qmake_base.bbclass
+> +++ b/meta/classes/qmake_base.bbclass
+> @@ -48,7 +48,7 @@ addtask generate_qt_config_file after do_patch before
+> do_configure
+> 
+>  qmake_base_do_configure() {
+>  	case ${QMAKESPEC} in
+> -	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceabi
+> -oe-g++)
+> +	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++|*linux-uclibceab
+> i-oe-g++|*linux-gnuspe-oe-g++) ;;
+>  	*-oe-g++)
+>  		die Unsupported target ${TARGET_OS} for oe-g++ qmake spec
 
-diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-index 3c1360f..04e2597 100644
---- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
- # We need gnugrep (for -I)
- DEPENDS = "virtual/db grep-native"
- DEPENDS += "gdbm zlib"
--PR = "r9"
-+PR = "r10"
- 
- # 5.10.1 has Module::Build built-in
- PROVIDES += "libmodule-build-perl"
-@@ -145,16 +145,13 @@ do_configure() {
- 
- 	${@base_contains('DISTRO_FEATURES', 'largefile', '', 'do_nolargefile', d)}
- 
--        # Update some paths in the configuration
--        sed -i -e 's,@DESTDIR@,${prefix},g' \
--               -e 's,@ARCH@-thread-multi,,g' \
--               -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
--               -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
--               -e "s%\([ \"^\',=]\+\)/usr/include%\1${STAGING_INCDIR}%g" \
--	       -e "s%\([ \"^\',=]\+\)/usr/lib/%\1${libdir}/%g" \
--	       -e "s%\([ \"^\',=]\+\)/usr/%\1${exec_prefix}/%g" \
--	       -e "s%/perl5%/perl%g" \
--            config.sh-${TARGET_ARCH}-${TARGET_OS}
-+    # Update some paths in the configuration
-+    sed -i -e 's,@DESTDIR@,${prefix},g' \
-+           -e 's,@ARCH@-thread-multi,,g' \
-+           -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
-+           -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
-+           -e "s%/perl5%/perl%g" \
-+          config.sh-${TARGET_ARCH}-${TARGET_OS}
- 
- 	case "${TARGET_ARCH}" in
- 		x86_64 | powerpc | s390)
+Oops, I missed this and created my own equivalent fix based on the file from OE-
+Classic. The good news is it has been merged now though, and should support 
+uClibc builds as well.
+
+Cheers,
+Paul
+
 -- 
-1.7.8.6
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
