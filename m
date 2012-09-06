@@ -1,19 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1T9hHx-00016R-W4
+	(envelope-from <sgw@linux.intel.com>) id 1T9hLB-0008Mj-Ih
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 20:58:54 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.wrs.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q86IkQoo018815;
-	Thu, 6 Sep 2012 11:46:26 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu,  6 Sep 2012 14:43:22 -0400
-Message-Id: <cover.1346956528.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
+	Thu, 06 Sep 2012 21:02:20 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Sep 2012 11:49:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="218708984"
+Received: from unknown (HELO [10.255.13.76]) ([10.255.13.76])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2012 11:49:47 -0700
+Message-ID: <5048F04B.7000604@linux.intel.com>
+Date: Thu, 06 Sep 2012 11:49:47 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Constantin Musca <constantinx.musca@intel.com>
+References: <1346924974-13859-1-git-send-email-constantinx.musca@intel.com>
+In-Reply-To: <1346924974-13859-1-git-send-email-constantinx.musca@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] machine/tune: add tune-ppce300c3.inc
+Subject: Re: [PATCH] automake 1.12.3: fix warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,51 +32,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 18:58:54 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 19:02:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Richard/Saul,
+On 09/06/2012 02:49 AM, Constantin Musca wrote:
+> - don't fail when an autoconf tool tries to pass "--warning=cross"
+> to automake
+> - don't show a warning when the configure.in file exists
+>
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> ---
+>   .../automake/automake/add-cross-warning.patch      |   91 ++++++++++++++++++++
+>   .../automake/automake/no-configure.in-warn.patch   |   19 ++++
+>   meta/recipes-devtools/automake/automake_1.12.3.bb  |    2 +
+>   3 files changed, 112 insertions(+)
+>   create mode 100644 meta/recipes-devtools/automake/automake/add-cross-warning.patch
+>   create mode 100644 meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
+>
+> diff --git a/meta/recipes-devtools/automake/automake/add-cross-warning.patch b/meta/recipes-devtools/automake/automake/add-cross-warning.patch
+> new file mode 100644
+> index 0000000..db0871e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/automake/automake/add-cross-warning.patch
+> @@ -0,0 +1,91 @@
+> +Add cross compilation warning option
+> +
+While the below patch is one solution, maybe it would be better to see 
+how it's getting called and fix it at the caller level (autoconf?)
 
-I was asked to pick up the languishing yocto bug #1192, which
-tells us that the mpc8315 reference board was using the 
-incorrect tuning.
+I assigned a bug to you that address this.
 
-To fix this, I created a new tune-ppce300c3, which is based on 
-the tune-ppce300c2.
 
-core-image-minimal, and core-image-sato builds have passed, as
-well as boot tests. During the sato build, I had to fix flac to
-not use altivec. The examples already in flac didn't seem to work,
-since my tuning override wasn't working. To fix it, I added DEFAULTTUNE
-to the OVERRIDES for the package and sato now builds.
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> +
+> +--- a/aclocal.in
+> ++++ b/aclocal.in
+> +@@ -942,6 +942,7 @@ Options:
+> +   -W, --warnings=CATEGORY   report the warnings falling in CATEGORY
+> +
+> + Warning categories include:
+> ++  cross         cross compilation issues
+> +   syntax        dubious syntactic constructs (default)
+> +   unsupported   unknown macros (default)
+> +   all           all the warnings (default)
+> +--- a/doc/automake.info-1
+> ++++ b/doc/automake.info-1
+> +@@ -2291,6 +2291,9 @@ misunderstand this paragraph: `automake'
+> +           extra portability issues related to obscure tools.  One
+> +           example of such a tool is the Microsoft `lib' archiver.
+> +
+> ++    `cross'
+> ++          cross compilation issues
+> ++
+> +     `syntax'
+> +           weird syntax, unused variables, typos
+> +
+> +@@ -2821,6 +2824,9 @@ File: automake.info,  Node: aclocal Opti
+> +
+> + `--warnings=CATEGORY'
+> +      Output warnings falling in CATEGORY.  CATEGORY can be one of:
+> ++    `cross'
+> ++          cross compilation issues
+> ++
+> +     `syntax'
+> +           dubious syntactic constructs, underquoted macros, unused
+> +           macros, etc.
+> +--- a/lib/Automake/ChannelDefs.pm
+> ++++ b/lib/Automake/ChannelDefs.pm
+> +@@ -97,6 +97,10 @@ Errors related to GNITS Standards (silen
+> +
+> + Internal errors.  Use C<&prog_error> to send messages over this channel.
+> +
+> ++=item C<cross>
+> ++
+> ++cross compilation issues
+> ++
+> + =item C<gnu>
+> +
+> + Warnings related to GNU Coding Standards.
+> +@@ -155,6 +159,7 @@ register_channel 'automake', type => 'fa
+> +   uniq_part => UP_NONE, ordered => 0;
+> +
+> + register_channel 'extra-portability', type => 'warning', silent => 1;
+> ++register_channel 'cross', type => 'warning';
+> + register_channel 'gnu', type => 'warning';
+> + register_channel 'obsolete', type => 'warning', silent => 1;
+> + register_channel 'override', type => 'warning', silent => 1;
+> +@@ -185,6 +190,7 @@ sub usage ()
+> + {
+> +   print <<EOF;
+> + Warning categories include:
+> ++  cross              cross compilation issues
+> +   gnu                GNU coding standards (default in gnu and gnits modes)
+> +   obsolete           obsolete features or constructions
+> +   override           user redefinitions of Automake rules or variables
+> +@@ -273,7 +279,11 @@ sub switch_warning ($)
+> +       $has_no = 1;
+> +     }
+> +
+> +-  if ($cat eq 'all')
+> ++  if ($cat eq 'cross')
+> ++    {
+> ++      setup_channel_type 'warning', silent => $has_no;
+> ++    }
+> ++  elsif ($cat eq 'all')
+> +     {
+> +       setup_channel_type 'warning', silent => $has_no;
+> +     }
+> +--- a/doc/automake.texi
+> ++++ b/doc/automake.texi
+> +@@ -2681,6 +2681,8 @@ Print the version number of Automake and
+> + Output warnings falling in @var{category}.  @var{category} can be
+> + one of:
+> + @table @code
+> ++@item cross
+> ++warnings related to cross compilation issues
+> + @item gnu
+> + warnings related to the GNU Coding Standards
+> + (@pxref{Top, , , standards, The GNU Coding Standards}).
+> diff --git a/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch b/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
+> new file mode 100644
+> index 0000000..46329a5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
+> @@ -0,0 +1,19 @@
+> +Don't show a warning if configure.in exists
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> +
+> +--- a/lib/Automake/Configure_ac.pm
+> ++++ b/lib/Automake/Configure_ac.pm
+> +@@ -77,8 +77,8 @@ sub find_configure_ac (;@)
+> +
+> +   if (-f $configure_in)
+> +     {
+> +-      msg ('obsolete', "autoconf input should be named 'configure.ac'," .
+> +-                       " not 'configure.in'");
+> ++#      msg ('obsolete', "autoconf input should be named 'configure.ac'," .
+> ++#                       " not 'configure.in'");
 
-I'll follow this with a pull request for the yocto reference BSP.
+I think this is an important warning.
 
-I'm by no means a tuning or powerpc expert, but to the best of
-my knowledge, this is what we want to do. Anyone more familiar 
-with the board can feel free to comment :)
+I am not sure about this change, where is it occuring from?  It might be 
+better to fix the packages that use configure.in for automake instead of 
+working around this.
 
-Cheers,
-
-Bruce
-
-The following changes since commit 55d82fd07f6bded10333735a99fcb176b3d26e6f:
-
-  stash: disable x11 for gdkpixbuf (2012-09-05 14:55:14 -0400)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/ppc-tune
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/ppc-tune
-
-Bruce Ashfield (1):
-  conf/tune: add tune-ppce300c3
-
- meta/conf/machine/include/tune-ppce300c3.inc |   11 +++++++++++
- meta/recipes-multimedia/flac/flac_1.2.1.bb   |    5 +++++
- 2 files changed, 16 insertions(+), 0 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-ppce300c3.inc
-
--- 
-1.7.7
-
+> +       if (-f $configure_ac)
+> + 	{
+> + 	  msg ('unsupported',
+> diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recipes-devtools/automake/automake_1.12.3.bb
+> index 25069d7..c10adaf 100644
+> --- a/meta/recipes-devtools/automake/automake_1.12.3.bb
+> +++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
+> @@ -37,6 +37,8 @@ PATHFIXPATCH_virtclass-nativesdk = ""
+>   SRC_URI += "${PATHFIXPATCH} \
+>   	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+>   	    file://python-libdir.patch \
+> +	    file://add-cross-warning.patch \
+> +	    file://no-configure.in-warn.patch \
+>               file://py-compile-compile-only-optimized-byte-code.patch"
+>
+>   SRC_URI[md5sum] = "d2af8484de94cdee16d89c50aaa1c729"
+>
 
 
