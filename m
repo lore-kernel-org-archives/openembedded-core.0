@@ -1,41 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T9dcD-0000PU-4x
+	(envelope-from <ross.burton@intel.com>) id 1T9eEF-0004fh-09
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 17:03:33 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 07:51:07 -0700
-Received: by obblz20 with SMTP id lz20so2751942obb.6
+	Thu, 06 Sep 2012 17:42:51 +0200
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 08:30:24 -0700
+Received: by weyr6 with SMTP id r6so1298905wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 07:51:06 -0700 (PDT)
+	Thu, 06 Sep 2012 08:30:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=mTVic8F1KSR8/+uh51dOqvlsziVtvdF+Nl0qf8sDsSU=;
-	b=U+Cy+1WhmpD2yk8WnxxqvWPKPzhKFnVjm2X1qOUsMguNb+ICmYtsslourJYjcSmFl0
-	SXKfRPAHtS36hWKvYk5CofWPyzV7qZYN0dHYBgGAo2RDVq4izeGpvepDD8Mlzor9FlZ6
-	DAiWMQiG944y7MHdI7oLvm4OP25CzGmxtiAwss2TOlAKxli5Vb/v1CB1688TOAyRCVrn
-	4DtlRkLh5ixyNs5bykFz+fB4+BbsdoWMwyeBiQkLlHfYqPHkQyQau1smTTxGQQRaHdwS
-	DrUuEMjDKcCOGpg+3e2qqpHxWqHMXKsLqSqYgr48RGnKgtfh1qBU49A7eORdGYHijfMk
-	iosg==
-Received: by 10.182.50.68 with SMTP id a4mr2399294obo.59.1346943066811; Thu,
-	06 Sep 2012 07:51:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Thu, 6 Sep 2012 07:50:46 -0700 (PDT)
-In-Reply-To: <5048B526.4050501@r-finger.com>
-References: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
-	<CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
-	<644855E8-7D63-45DC-B072-B9A9893058F3@dominion.thruhere.net>
-	<CAJTo0La9-QHoWJB2v82C2tiM2XFwgHzsP1zda+Duqe_3uTwByw@mail.gmail.com>
-	<5048B526.4050501@r-finger.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Sep 2012 15:50:46 +0100
-Message-ID: <CAJTo0LbE0vZm423U47_mQqyi6N0ONR=p4qnh04jgKviH+CiRZQ@mail.gmail.com>
-To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-X-Gm-Message-State: ALoCoQkUB6xyD4zQzJZogruKl9fcY1Xmmf3Ou/k5giJyCr+xvwaZu45vPG7yaEPLrVN69+d3smKi
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] opengl / libgl / libgles
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=U8qHTdroZYO840UqG2BeXg3bv9oK2lO1jU6amhDXdbg=;
+	b=TX7Yz/zpG4Dc9zB0hQZTdnO4oH5jrE0/kbmj5CU5QWz+l8+bKQTRBFiI5LtSGOPvpl
+	u/DljFff/IRG9v+hXXuRhjjg++yO13/aCdMXggmYzDVX4QAC3nGGxODrwXZITg0F6qU3
+	9bG1JL4zSUEIbH5xdPwjMS3AVtA8niR7MfyBiaEeQaXUTdtQW7ym5XbuAydqEXQFzROf
+	4apISo+bhUPYqtqPVZpUtyHimYRgzk8cTGfcBTrA8XKZG6vsYh4YaxZPF2x/M0e4FtCj
+	5AOKZCJ2n3ttsTvafu3496X11N1jpyZOP0FSt4RHas/l65IDxYs5xkNvWNcKVzvevcaY
+	TJng==
+Received: by 10.216.198.137 with SMTP id v9mr1464297wen.116.1346945421276;
+	Thu, 06 Sep 2012 08:30:21 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id j6sm6520856wiy.4.2012.09.06.08.30.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 06 Sep 2012 08:30:20 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2012 16:29:35 +0100
+Message-Id: <1346945375-5770-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlEgHR5C/3k8Gf9zzycCyiE9oLkXyHO4BiddOoD6FZ8OKnFm/6zTJ729E9TCW4Fq0Tvm/mQ
+Subject: [PATCH] gst-plugins-good: disable (uninstalled) examples
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,16 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 15:03:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 06 Sep 2012 15:42:51 -0000
 
-On 6 September 2012 15:37, Tomas Frydrych <tf+lists.yocto@r-finger.com> wrote:
-> Is there much that actually links against libGL / libgles? Things like
-> cogl dlopen() these these, so you have to manually specify the RDEPENDS
-> anyway. Just thinking this could be less of an issue than it might appear.
+The examples pull in a GTK+ build dependency, so remove that too.
 
-That is certainly true.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Ross
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+index ac63f94..0fc34df 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
+                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+ 
+-DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
++DEPENDS += "gst-plugins-base gconf cairo jpeg libpng zlib libid3tag flac \
+ 	    speex libsoup-2.4 pulseaudio"
+-PR = "r2"
++PR = "r3"
+ 
+ inherit gettext gconf
+ 
+ EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
+-                 --disable-orc"
++                 --disable-orc --disable-examples"
+ 
+ do_configure_prepend() {
+ 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
+-- 
+1.7.10
+
 
 
