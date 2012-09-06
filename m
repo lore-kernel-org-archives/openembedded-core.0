@@ -1,27 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T9eXS-0005Ju-1j for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 18:02:42 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86FoH4k019255;
-	Thu, 6 Sep 2012 16:50:17 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04992-03; Thu,  6 Sep 2012 16:50:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86FoAmf019249
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 6 Sep 2012 16:50:11 +0100
-Message-ID: <1346946610.7493.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 06 Sep 2012 16:50:10 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] gcc-cross-initial: Reinstate limits.h generation fix
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1T9eZR-0005NV-Du
+	for openembedded-core@lists.openembedded.org;
+	Thu, 06 Sep 2012 18:04:45 +0200
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 08:52:13 -0700
+Received: by wibhq4 with SMTP id hq4so5809082wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Sep 2012 08:52:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=g7V8nj5hDKoEeNm8oKb2hW75nTHTvcYP9N5P3CPVn2c=;
+	b=ZxKQI+LP4rEAMvfNMg2yuPIXT9QTmJQddo58WaCUwahSsW6wTC2fJbY/CsGIIqK9e9
+	XmhGWaYzU6vrEFIwEZMDNeERENMlJLd80G2DhHdmcVpnVcFwtnf7hHBCxPS1xqxBratc
+	fUkhbLUAE6meYlrNP1dr4zOos3ht8OMRUHgJDhOT1lVhQXlDJu2g0DBTfZfOKVmlwTCc
+	8RE//sKyWnHs7AOevMSqpw27ksByh6fuGqAqFGO0+7qFbrlQ9SPAPWioNpnugY0kQOUM
+	jGjSTXLbpY/x0MlvhCRwfZw0XMadFQm9cQDeoiQ7H3UBqMjtSTA4fqY199okcKiYXjQY
+	y/jQ==
+Received: by 10.180.24.4 with SMTP id q4mr46656541wif.19.1346946737576;
+	Thu, 06 Sep 2012 08:52:17 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ef5sm6648470wib.3.2012.09.06.08.52.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 06 Sep 2012 08:52:16 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2012 16:51:31 +0100
+Message-Id: <1346946691-28296-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnlDOuxpEYYbucPeGKSP/Y6uwk+W3ZaOqCdNjsvyM/x3+0jEZi7iETp/6tk/afMgHIqA347
+Subject: [PATCH] gssdp: build examples which require GTK+ only if we have X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 16:02:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Sep 2012 16:04:45 -0000
 
-The removal of gcc-cross-intermediate inadvertently reintroduced a
-problem with the limits.h file being incorrectly/inconsistently
-generated.
+Also they just need GTK+ not libglade, so fix the depends.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b0faebd1f07e1616004bd19664395932e7c2c48f
-reverted part of:
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=c8815d2f21849deb9359706f54dc71490773415e
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb |   12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-This reintroduces the protected sysroot ensuring the limits.h file is
-always correctly generated. To reproduce the bug, build gcc-cross, then
-rebuild gcc-cross-initial and it will reference the limits.h file from
-gcc-cross in the sysroot.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-index be47f85..ff6556c 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-@@ -19,7 +19,7 @@ EXTRA_OECONF = "--with-newlib \
-                 ${OPTSPACE} \
- 		--program-prefix=${TARGET_PREFIX} \
- 		--with-sysroot=${STAGING_DIR_TARGET} \
--		--with-build-sysroot=${STAGING_DIR_TARGET} \
-+		--with-build-sysroot=${GCCCROSS_BUILDSYSROOT} \
- 		${EXTRA_OECONF_INITIAL} \
- 		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--with-ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)} \
- 		${EXTRA_OECONF_FPU}"
+diff --git a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
+index f3494e7..ad41ac1 100644
+--- a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
++++ b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
+@@ -2,7 +2,9 @@ SUMMARY = "Resource discovery and announcement over SSDP"
+ DESCRIPTION = "GSSDP implements resource discovery and announcement over SSDP (Simpe Service Discovery Protocol)."
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+-DEPENDS = "glib-2.0 libsoup-2.4 libglade gobject-introspection-stub"
++DEPENDS = "glib-2.0 libsoup-2.4 gobject-introspection-stub"
++
++PR = "r2"
+ 
+ SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
+ 
+@@ -17,9 +19,5 @@ FILES_gssdp-tools = "${bindir}/gssdp* ${datadir}/gssdp/*.glade"
+ 
+ EXTRA_OECONF = "--disable-introspection"
+ 
+-PR = "r1"
+-
+-SRC_URI[md5sum] = "aec6a56ac1d4f8a4837da83f2d152556"
+-SRC_URI[sha256sum] = "94de92bb4f7906ed2f047b0146a3b21d53d09908fe1f0149484f61c6afc598ea" 
+-
+-
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)}"
++PACKAGECONFIG[gtk] = "--with-gtk,--without-gtk,gtk+"
+-- 
+1.7.10
 
 
 
