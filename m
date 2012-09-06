@@ -1,33 +1,24 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1T9ZCI-0006z5-Bf
+	(envelope-from <philb@gnu.org>) id 1T9ZT2-0007Hn-D1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 12:20:30 +0200
-Received: by iebc11 with SMTP id c11so2795628ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 03:08:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=4RSjeWiTXsmgQMdWDD8dPrBhSXQlizXeP7i0e94kIAg=;
-	b=fqicMzhecG4de3K3uKSTdeIdxVi/EpCvNRY6cmgUUdv2CfBlCWkGMgbmzQ4UuuClQS
-	XuMrDhh0nOy8k/YOi/g+5spqTc8MGLMLihLhV5hajrU/1/y4RzJQ6eFn76WvggP6a9CH
-	+NyG2aM8k/I4Oh3nmZbZ4jfsy201qrjIWvbarGyj3Zq+GJaxUHn6IOH3+3qZZbYQf34J
-	9QfUeVlZgqYLhOp3DyffmtA12L4E9t5YVu1cDhs6AThc9EX52Z+ybT4w1xcQqE4hFEUc
-	oFOmeJFCsgb48Z97ZsIESvmnIhI0W6cQNOmcD1SQx0s2RA1pOW0WQ6P6RGSX8DzoIcEe
-	nYcg==
-Received: by 10.50.159.201 with SMTP id xe9mr1940741igb.63.1346926085628; Thu,
-	06 Sep 2012 03:08:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.129.232 with HTTP; Thu, 6 Sep 2012 03:07:45 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Thu, 6 Sep 2012 13:07:45 +0300
-Message-ID: <CAK18fxHp3-+VET0HN_4Ror3Sami8tJkeO187nyRS+VaXoJbdxQ@mail.gmail.com>
-To: openembedded <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmG5D5nsLI8snnDSvzV3JQPdzpxmQ5HGX8vZfd7N8pScigcwqLu2iYwsoIhDUKlTHyG26x6
-Subject: In dash there is no "echo -e"
+	Thu, 06 Sep 2012 12:37:48 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1T9ZH2-0005L5-UE; Thu, 06 Sep 2012 12:25:25 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 06 Sep 2012 11:25:23 +0100
+In-Reply-To: <4865258.AYjzzpLvn7@helios>
+References: <CALbNGRTrP1i2R69pT-rgtGhs+qmeGeGtPnBAxGgpxq5L2SJ3Ag@mail.gmail.com>
+	<4865258.AYjzzpLvn7@helios>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1346927124.2673.184.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: IMAGE_LINGUAS question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,61 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 10:20:30 -0000
-Content-Type: multipart/alternative; boundary=14dae93405b3df629304c905aa01
-
---14dae93405b3df629304c905aa01
-Content-Type: text/plain; charset=ISO-8859-1
-
-Hello,
-
-oe-core / yocto removed the prerequisite to have sh pointing to bash. This
-means that echo -e in dash will actually print "-e" and interpret
-backslashes by default.
-
-http://www.mail-archive.com/yocto@yoctoproject.org/msg06000.html
-http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=550399
-
-
-
-Now, in oe-core / yocto there are a couple of occurrences of "echo -e".
-Generally these are scripts with bash shebangs - so no problem here. But
-there are 4 classes which use this:
-
-buildhistory.bbclass
-package_rpm.bbclass
-package_deb.bbclass
-package_ipk.bbclass
-
-
-My solution would be to replace echo with print in these cases.
-
-ag
-
---14dae93405b3df629304c905aa01
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Thu, 06 Sep 2012 10:37:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,<br><br>oe-core / yocto removed the prerequisite to have sh pointing =
-to bash. This means that echo -e in dash will actually print &quot;-e&quot;=
- and interpret backslashes by default.=A0<div><br></div><blockquote style=
-=3D"margin:0 0 0 40px;border:none;padding:0px">
+On Thu, 2012-09-06 at 10:51 +0100, Paul Eggleton wrote:
+> On Tuesday 28 August 2012 06:33:55 Andreas M=C3=BCller wrote:
+> > The display manager LXDM (and I think others too) check in
+> > configuration files which languages to offer. I would like to add a
+> > postinst for LXDM which fills it's configuration file according to
+> > what was installed by IMAGE_LINGUAS. Now my question (I looked into
+> > image.bbclass but did not find something useful): Is there some file
+> > around in rootfs where I can get the information which languages were
+> > installed by image linguas?
+>=20
+> My suggestion would be to add a shell function called from=20
+> ROOTFS_POSTPROCESS_COMMAND which calls the get_split_linguas shell functi=
+on=20
+> (see image.bbclass) or uses IMAGE_LINGUAS directly depending on what your=
+=20
+> configuration file expects.
 
-<div><a href=3D"http://www.mail-archive.com/yocto@yoctoproject.org/msg06000=
-.html">http://www.mail-archive.com/yocto@yoctoproject.org/msg06000.html</a>=
-</div><div><a href=3D"http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D55=
-0399">http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D550399</a></div>
+That is a good idea for static rootfses without O_P_M, but obviously it
+won't help much for subsequent online installs of LXDM.  Also, in an
+ideal world, you'd want LXDM to dynamically update for subsequent online
+installation or removal of other language packs.
 
-</blockquote><div><br><br>Now, in oe-core / yocto there are a couple of occ=
-urrences of &quot;echo -e&quot;. Generally these are scripts with bash sheb=
-angs - so no problem here. But there are 4 classes which use this:<br>
-<br>
-</div><blockquote style=3D"margin:0 0 0 40px;border:none;padding:0px"><div>=
-buildhistory.bbclass</div><div>package_rpm.bbclass</div><div>package_deb.bb=
-class</div><div>package_ipk.bbclass</div></blockquote><div><br></div><div>
+It used to be fairly straightforward to inspect /usr/share/locale to
+determine what linguas were installed, but this doesn't work anymore
+with the packed locale archive format.  It might be worth offering a
+DISTRO option to have language packs install some dummy marker file
+(e.g. /usr/share/locale/LINGUA.installed) to advertise their presence,
+perhaps.  Or alternatively write some tool to poke at the
+locale-archive, but that'd end up being somewhat libc-specific.
 
-My=A0solution=A0would be to replace echo with print in these cases.</div><d=
-iv><br>ag
-</div>
+p.
 
---14dae93405b3df629304c905aa01--
+
+
+
