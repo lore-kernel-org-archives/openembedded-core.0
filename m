@@ -1,25 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T9hLB-0008Mj-Ih
+	(envelope-from <sgw@linux.intel.com>) id 1T9hRl-0003i1-M8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 21:02:20 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Sep 2012 11:49:48 -0700
+	Thu, 06 Sep 2012 21:09:01 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Sep 2012 11:56:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="218708984"
+X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="189759276"
 Received: from unknown (HELO [10.255.13.76]) ([10.255.13.76])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2012 11:49:47 -0700
-Message-ID: <5048F04B.7000604@linux.intel.com>
-Date: Thu, 06 Sep 2012 11:49:47 -0700
+	by orsmga001.jf.intel.com with ESMTP; 06 Sep 2012 11:56:35 -0700
+Message-ID: <5048F1E3.4050800@linux.intel.com>
+Date: Thu, 06 Sep 2012 11:56:35 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Constantin Musca <constantinx.musca@intel.com>
-References: <1346924974-13859-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1346924974-13859-1-git-send-email-constantinx.musca@intel.com>
+To: Ross Burton <ross.burton@intel.com>
+References: <1346945375-5770-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1346945375-5770-1-git-send-email-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] automake 1.12.3: fix warnings
+Subject: Re: [PATCH] gst-plugins-good: disable (uninstalled) examples
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,172 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 19:02:30 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 19:09:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/06/2012 02:49 AM, Constantin Musca wrote:
-> - don't fail when an autoconf tool tries to pass "--warning=cross"
-> to automake
-> - don't show a warning when the configure.in file exists
+On 09/06/2012 08:29 AM, Ross Burton wrote:
+> The examples pull in a GTK+ build dependency, so remove that too.
 >
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->   .../automake/automake/add-cross-warning.patch      |   91 ++++++++++++++++++++
->   .../automake/automake/no-configure.in-warn.patch   |   19 ++++
->   meta/recipes-devtools/automake/automake_1.12.3.bb  |    2 +
->   3 files changed, 112 insertions(+)
->   create mode 100644 meta/recipes-devtools/automake/automake/add-cross-warning.patch
->   create mode 100644 meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
+>   meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/automake/automake/add-cross-warning.patch b/meta/recipes-devtools/automake/automake/add-cross-warning.patch
-> new file mode 100644
-> index 0000000..db0871e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/automake/automake/add-cross-warning.patch
-> @@ -0,0 +1,91 @@
-> +Add cross compilation warning option
-> +
-While the below patch is one solution, maybe it would be better to see 
-how it's getting called and fix it at the caller level (autoconf?)
-
-I assigned a bug to you that address this.
-
-
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> +
-> +--- a/aclocal.in
-> ++++ b/aclocal.in
-> +@@ -942,6 +942,7 @@ Options:
-> +   -W, --warnings=CATEGORY   report the warnings falling in CATEGORY
-> +
-> + Warning categories include:
-> ++  cross         cross compilation issues
-> +   syntax        dubious syntactic constructs (default)
-> +   unsupported   unknown macros (default)
-> +   all           all the warnings (default)
-> +--- a/doc/automake.info-1
-> ++++ b/doc/automake.info-1
-> +@@ -2291,6 +2291,9 @@ misunderstand this paragraph: `automake'
-> +           extra portability issues related to obscure tools.  One
-> +           example of such a tool is the Microsoft `lib' archiver.
-> +
-> ++    `cross'
-> ++          cross compilation issues
-> ++
-> +     `syntax'
-> +           weird syntax, unused variables, typos
-> +
-> +@@ -2821,6 +2824,9 @@ File: automake.info,  Node: aclocal Opti
-> +
-> + `--warnings=CATEGORY'
-> +      Output warnings falling in CATEGORY.  CATEGORY can be one of:
-> ++    `cross'
-> ++          cross compilation issues
-> ++
-> +     `syntax'
-> +           dubious syntactic constructs, underquoted macros, unused
-> +           macros, etc.
-> +--- a/lib/Automake/ChannelDefs.pm
-> ++++ b/lib/Automake/ChannelDefs.pm
-> +@@ -97,6 +97,10 @@ Errors related to GNITS Standards (silen
-> +
-> + Internal errors.  Use C<&prog_error> to send messages over this channel.
-> +
-> ++=item C<cross>
-> ++
-> ++cross compilation issues
-> ++
-> + =item C<gnu>
-> +
-> + Warnings related to GNU Coding Standards.
-> +@@ -155,6 +159,7 @@ register_channel 'automake', type => 'fa
-> +   uniq_part => UP_NONE, ordered => 0;
-> +
-> + register_channel 'extra-portability', type => 'warning', silent => 1;
-> ++register_channel 'cross', type => 'warning';
-> + register_channel 'gnu', type => 'warning';
-> + register_channel 'obsolete', type => 'warning', silent => 1;
-> + register_channel 'override', type => 'warning', silent => 1;
-> +@@ -185,6 +190,7 @@ sub usage ()
-> + {
-> +   print <<EOF;
-> + Warning categories include:
-> ++  cross              cross compilation issues
-> +   gnu                GNU coding standards (default in gnu and gnits modes)
-> +   obsolete           obsolete features or constructions
-> +   override           user redefinitions of Automake rules or variables
-> +@@ -273,7 +279,11 @@ sub switch_warning ($)
-> +       $has_no = 1;
-> +     }
-> +
-> +-  if ($cat eq 'all')
-> ++  if ($cat eq 'cross')
-> ++    {
-> ++      setup_channel_type 'warning', silent => $has_no;
-> ++    }
-> ++  elsif ($cat eq 'all')
-> +     {
-> +       setup_channel_type 'warning', silent => $has_no;
-> +     }
-> +--- a/doc/automake.texi
-> ++++ b/doc/automake.texi
-> +@@ -2681,6 +2681,8 @@ Print the version number of Automake and
-> + Output warnings falling in @var{category}.  @var{category} can be
-> + one of:
-> + @table @code
-> ++@item cross
-> ++warnings related to cross compilation issues
-> + @item gnu
-> + warnings related to the GNU Coding Standards
-> + (@pxref{Top, , , standards, The GNU Coding Standards}).
-> diff --git a/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch b/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
-> new file mode 100644
-> index 0000000..46329a5
-> --- /dev/null
-> +++ b/meta/recipes-devtools/automake/automake/no-configure.in-warn.patch
-> @@ -0,0 +1,19 @@
-> +Don't show a warning if configure.in exists
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> +
-> +--- a/lib/Automake/Configure_ac.pm
-> ++++ b/lib/Automake/Configure_ac.pm
-> +@@ -77,8 +77,8 @@ sub find_configure_ac (;@)
-> +
-> +   if (-f $configure_in)
-> +     {
-> +-      msg ('obsolete', "autoconf input should be named 'configure.ac'," .
-> +-                       " not 'configure.in'");
-> ++#      msg ('obsolete', "autoconf input should be named 'configure.ac'," .
-> ++#                       " not 'configure.in'");
-
-I think this is an important warning.
-
-I am not sure about this change, where is it occuring from?  It might be 
-better to fix the packages that use configure.in for automake instead of 
-working around this.
-
-> +       if (-f $configure_ac)
-> + 	{
-> + 	  msg ('unsupported',
-> diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recipes-devtools/automake/automake_1.12.3.bb
-> index 25069d7..c10adaf 100644
-> --- a/meta/recipes-devtools/automake/automake_1.12.3.bb
-> +++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
-> @@ -37,6 +37,8 @@ PATHFIXPATCH_virtclass-nativesdk = ""
->   SRC_URI += "${PATHFIXPATCH} \
->   	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
->   	    file://python-libdir.patch \
-> +	    file://add-cross-warning.patch \
-> +	    file://no-configure.in-warn.patch \
->               file://py-compile-compile-only-optimized-byte-code.patch"
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> index ac63f94..0fc34df 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> @@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>                       file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
+>                       file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
 >
->   SRC_URI[md5sum] = "d2af8484de94cdee16d89c50aaa1c729"
+> -DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
+> +DEPENDS += "gst-plugins-base gconf cairo jpeg libpng zlib libid3tag flac \
+>   	    speex libsoup-2.4 pulseaudio"
+
+You seem to be changing DEPENDS here also with no reason why.
+
+Sau!
+
+> -PR = "r2"
+> +PR = "r3"
+>
+>   inherit gettext gconf
+>
+>   EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
+> -                 --disable-orc"
+> +                 --disable-orc --disable-examples"
+>
+>   do_configure_prepend() {
+>   	# This m4 file contains nastiness which conflicts with libtool 2.2.2
 >
 
 
