@@ -1,30 +1,28 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T9lMZ-0001X7-Px
+	(envelope-from <jason.wessel@windriver.com>) id 1T9lMg-0001Xv-Nz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 01:19:56 +0200
+	Fri, 07 Sep 2012 01:20:04 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q86N7TSR008727
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q86Kqsjk006471
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2012 16:07:29 -0700 (PDT)
-Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
+	Thu, 6 Sep 2012 13:52:54 -0700 (PDT)
+Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 6 Sep 2012 16:07:28 -0700
-Message-ID: <50492CAF.3010203@windriver.com>
-Date: Thu, 6 Sep 2012 18:07:27 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120824 Thunderbird/15.0
+	Thu, 6 Sep 2012 13:52:54 -0700
+Message-ID: <50490D24.6020306@windriver.com>
+Date: Thu, 6 Sep 2012 15:52:52 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1346956528.git.bruce.ashfield@windriver.com>
-	<fb717d4aa26b125680f620254cde9eb97ef0708a.1346956528.git.bruce.ashfield@windriver.com>
-	<1346969961.7493.24.camel@ted> <504921BD.4040004@windriver.com>
-	<5049253B.4090402@windriver.com> <1346972362.7493.32.camel@ted>
-In-Reply-To: <1346972362.7493.32.camel@ted>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1346957634-22312-1-git-send-email-jason.wessel@windriver.com>
+	<2236591.qU5F3vlEoV@helios>
+In-Reply-To: <2236591.qU5F3vlEoV@helios>
+X-Enigmail-Version: 1.4.3
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] conf/tune: add tune-ppce300c3
+Subject: Re: [PATCH] packageinfo.bbclass: Fix crash in hob
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,112 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 23:19:56 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 06 Sep 2012 23:20:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 9/6/12 5:59 PM, Richard Purdie wrote:
-> On Thu, 2012-09-06 at 17:35 -0500, Mark Hatle wrote:
->> On 9/6/12 5:20 PM, Bruce Ashfield wrote:
->>> On 12-09-06 6:19 PM, Richard Purdie wrote:
->>>> On Thu, 2012-09-06 at 14:43 -0400, Bruce Ashfield wrote:
->>>>> It has been pointed out several times that the yocto mpc8315e-rdb
->>>>> reference was using the wrong tuning (603e), since it is actually
->>>>> a e300c3 board.
->>>>>
->>>>> This commit creates a e300c3 tune file based on the e300c2 variant
->>>>> already in oe-core.
->>>>>
->>>>> This commit also inhibits altivec in flac when this new tuning is
->>>>> enabled. It was also noticed that the existing tune based overrides
->>>>> in the flac package would not be triggered since DEFAULTTUNE is not
->>>>> in the overrides list. To avoid doing per-board disabling of altivec
->>>>> DEFAULTTUNE is added to the local package OVERRIDES and then used
->>>>> to disable altivec.
->>>>>
->>>>> [YOCTO #1192]
->>>>>
->>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
->>>>>
->>>>> asdfkljds
->>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
->>>>> ---
->>>>>     meta/conf/machine/include/tune-ppce300c3.inc |   11 +++++++++++
->>>>>     meta/recipes-multimedia/flac/flac_1.2.1.bb   |    5 +++++
->>>>>     2 files changed, 16 insertions(+), 0 deletions(-)
->>>>>     create mode 100644 meta/conf/machine/include/tune-ppce300c3.inc
->>>>>
->>>>> diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machine/include/tune-ppce300c3.inc
->>>>> new file mode 100644
->>>>> index 0000000..3f5ac26
->>>>> --- /dev/null
->>>>> +++ b/meta/conf/machine/include/tune-ppce300c3.inc
->>>>> @@ -0,0 +1,11 @@
->>>>> +DEFAULTTUNE ?= "ppce300c3"
->>>>> +
->>>>> +require conf/machine/include/powerpc/arch-powerpc.inc
->>>>> +
->>>>> +TUNEVALID[ppce300c3] = "Enable ppce300c3 specific processor optimizations"
->>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "-mcpu=e300c3", "", d)}"
->>>>> +
->>>>> +AVAILTUNES += "ppce300c3"
->>>>> +TUNE_FEATURES_tune-ppce300c3 = "m32 fpu-soft ppce300c3"
->>>>> +TUNE_PKGARCH_tune-ppce300c3 = "ppce300c3"
->>>>> +PACKAGE_EXTRA_ARCHS_tune-ppce300c3 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} ppce300c3"
->>>>> diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
->>>>> index 3c5b73c..25db1c4 100644
->>>>> --- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
->>>>> +++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
->>>>> @@ -36,9 +36,14 @@ EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
->>>>>                     --without-xmms-exec-prefix \
->>>>>                     --without-libiconv-prefix \
->>>>>                     --without-id3lib"
->>>>> +
->>>>> +FLACOVERRIDE = ":${DEFAULTTUNE}"
->>>>> +OVERRIDES .= "${FLACOVERRIDE}"
->>>>> +
->>>>>     EXTRA_OECONF_prepend_e500mc = "--disable-altivec "
->>>>>     EXTRA_OECONF_prepend_e5500 = "--disable-altivec "
->>>>>     EXTRA_OECONF_prepend_e5500-64b = "--disable-altivec "
->>>>> +EXTRA_OECONF_prepend_ppce300c3 = "--disable-altivec "
->>>>>
->>>>
->>>> This is getting ugly and is kind of unsafe. Perhaps the architecture
->>>> should be doing something like:
->>>>
->>>> MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", ":noaltivec", "" ,d)}
->>>>
->>>> or even in this recipe just do:
->>>>
->>>> EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " --disable-altivec", "" ,d)}
->>>
->>> I definitely considered this route. I can do that for the new arch, and the
->>> old ones, but can't test the old ones at the moment.
+On 09/06/2012 03:36 PM, Paul Eggleton wrote:
+> On Thursday 06 September 2012 13:53:54 Jason Wessel wrote:
+>> The hob internally fails after executing a build and invoking
+>> the hob a second time when it tries to use the values found in
+>> BUILDDIR/tmp/pkgdata/*/runtime/*
 >>
->> The problem is actually in the flac.  This recipe sees powerpc as the machine
->> type, and immediately enabled altivec.  By default altivec support is disabled
->> in OE-Core.
+>> The internal failure of the hob will manifest itself as
+>> stating "Populated recipes 99%" forever after selecting
+>> a machine just after starting the hob interface.
 >>
->> Perhaps one way we could address this is add a tune flag that says if the tune
->> has altivec support or not.. then in the flac binary, disable it unless it's
->> enabled?
+>> The internal trace looks like:
+>>
+>> Traceback (most recent call last):
+>> File "packageinfo_handler(e)", line 24, in packageinfo_handler
+>> KeyError: 'PKGV'
+>>
+>> It is a result of using an override for a package version for
+>> pieces of the toolchain, in the bb file e.g.
+>> PKGV_gdb-dbg = "1234.5678"
+>>
+>> The work around for now is to populate the sdata PKGV value
+>> and to assign the pkgv variable with the correct value
+>> from the values found in the pkgdata store.
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> ---
+>> meta/classes/packageinfo.bbclass | 7 ++++++-
+>> 1 files changed, 6 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/classes/packageinfo.bbclass
+>> b/meta/classes/packageinfo.bbclass index 26cce60..53965e4 100644
+>> --- a/meta/classes/packageinfo.bbclass
+>> +++ b/meta/classes/packageinfo.bbclass
+>> @@ -18,7 +18,12 @@ python packageinfo_handler () {
+>> sdata = oe.packagedata.read_pkgdatafile(root +
+>> pkgname) sdata['PKG'] = pkgname
+>> pkgrename = sdata['PKG_%s' % pkgname]
+>> - pkgv = sdata['PKGV'].replace('-', '+')
+>> + try:
+>> + pkgv = sdata['PKGV']
+>> + except:
+>> + sdata['PKGV'] = sdata['PKGV_%s' % pkgname]
+>> + pkgv = sdata['PKGV']
+>> + pkgv = pkgv.replace('-', '+')
+>> pkgr = sdata['PKGR']
+>> # We found there are some renaming issue with
+>> certain architecture. # For example, armv7a-vfp-neon, it will use armv7a in
+>> the rpm file. This is the workaround for it.
 >
-> I think having altivec in the tune_features would be ideal. I'd love to
-> get this cleaned up too but I lack much knowledge about powerpc...
-
-My proposal then would be to accept Bruce's patch, with the understanding that 
-we need to add a tune flag of 'altivec' to the PowerPC tunings (where 
-appropriate) and then make the flac recipe respect that flag.
-
-Unfortunately I don't have the time to do that right now or I would.  Would an 
-enhancement bug in the Yocto Project bugzilla be enough to be sure the work is done?
-
---Mark
-
-> Cheers,
+> Rather than a blanket try...except which could catch other errors I would
+> suggest using .get() to which you can supply a default value if no such key
+> exists in the dict.
 >
-> Richard
+> I'm afraid I didn't get around to determining whether we should be recording
+> these package name overrides in the pkgdata files today, I will check into that
+> tomorrow.
 >
+
+Honestly I don't care how we fix it, and I believe the fix I proposed
+should be changed over to the writer side.  If nothing else this patch
+is meant to illustrate or call out the problem.
+
+You'll note I had to actually set the sdata['PKGV'] because it turns
+out it is used directly elsewhere in the hob and things started
+falling over without fixing it.  This leads us to the possibility that
+the writer of the data store is probably wrong, at least for PKGV
+anyway.  On the other hand there might be other implicit assumptions
+that are broken.
+
+What I find odd is that this does work when the pkgdata store is not
+there which leads me to believe it was never written out properly in
+the first place or the data isn't always needed.  The hob, to me looks
+like a piece of spaghetti, so without further investigation I cannot
+make a concise claim about the correct fix.  I am hoping someone else
+might take a further look at it who knows more about the hob
+interface.
+
+Jason.
 
 
 
