@@ -1,25 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T9j0m-0000CS-Jm
+	(envelope-from <sgw@linux.intel.com>) id 1T9kHr-0008EG-Ue
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 22:49:17 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2012 13:36:50 -0700
+	Fri, 07 Sep 2012 00:11:00 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 06 Sep 2012 14:58:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,381,1344236400"; d="scan'208";a="219037827"
-Received: from unknown (HELO helios.localnet) ([10.252.121.173])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2012 13:36:32 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Date: Thu, 06 Sep 2012 21:36:31 +0100
-Message-ID: <2236591.qU5F3vlEoV@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <1346957634-22312-1-git-send-email-jason.wessel@windriver.com>
-References: <1346957634-22312-1-git-send-email-jason.wessel@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] packageinfo.bbclass: Fix crash in hob
+X-IronPort-AV: E=Sophos;i="4.80,381,1344236400"; d="scan'208";a="142354287"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.76])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Sep 2012 14:58:33 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2012 14:58:33 -0700
+Message-Id: <1346968713-16778-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] matchbox-session: Should have high ALTERNATIE_PRIORITY than mini-x-session
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,72 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 20:49:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 06 Sep 2012 22:11:00 -0000
 
-On Thursday 06 September 2012 13:53:54 Jason Wessel wrote:
-> The hob internally fails after executing a build and invoking
-> the hob a second time when it tries to use the values found in
-> BUILDDIR/tmp/pkgdata/*/runtime/*
-> 
-> The internal failure of the hob will manifest itself as
-> stating "Populated recipes 99%" forever after selecting
-> a machine just after starting the hob interface.
-> 
-> The internal trace looks like:
-> 
-> Traceback (most recent call last):
->   File "packageinfo_handler(e)", line 24, in packageinfo_handler
-> KeyError: 'PKGV'
-> 
-> It is a result of using an override for a package version for
-> pieces of the toolchain, in the bb file e.g.
->     PKGV_gdb-dbg = "1234.5678"
-> 
-> The work around for now is to populate the sdata PKGV value
-> and to assign the pkgv variable with the correct value
-> from the values found in the pkgdata store.
-> 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/classes/packageinfo.bbclass |    7 ++++++-
->  1 files changed, 6 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/classes/packageinfo.bbclass
-> b/meta/classes/packageinfo.bbclass index 26cce60..53965e4 100644
-> --- a/meta/classes/packageinfo.bbclass
-> +++ b/meta/classes/packageinfo.bbclass
-> @@ -18,7 +18,12 @@ python packageinfo_handler () {
->                          sdata = oe.packagedata.read_pkgdatafile(root +
-> pkgname) sdata['PKG'] = pkgname
->                          pkgrename = sdata['PKG_%s' % pkgname]
-> -                        pkgv = sdata['PKGV'].replace('-', '+')
-> +                        try:
-> +                            pkgv = sdata['PKGV']
-> +                        except:
-> +			    sdata['PKGV'] = sdata['PKGV_%s' % pkgname]
-> +                        pkgv = sdata['PKGV']
-> +                        pkgv = pkgv.replace('-', '+')
->                          pkgr = sdata['PKGR']
->                          # We found there are some renaming issue with
-> certain architecture. # For example, armv7a-vfp-neon, it will use armv7a in
-> the rpm file. This is the workaround for it.
+By having a high priority it will be installed instead of the mini-x-session
+when both are in a give set of packagegroups, as it stands now the
+mini-x-session is installed by default on sato which is wrong!
 
-Rather than a blanket try...except which could catch other errors I would 
-suggest using .get() to which you can supply a default value if no such key 
-exists in the dict.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../matchbox-session/matchbox-session_0.1.bb       |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-I'm afraid I didn't get around to determining whether we should be recording 
-these package name overrides in the pkgdata files today, I will check into that 
-tomorrow.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
+index f4be279..b9e83a5 100644
+--- a/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
++++ b/meta/recipes-graphics/matchbox-session/matchbox-session_0.1.bb
+@@ -11,13 +11,13 @@ RCONFLICTS_${PN} = "matchbox-common"
+ SRC_URI = "file://matchbox-session"
+ S = "${WORKDIR}"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit update-alternatives
+ 
+ ALTERNATIVE_${PN} = "x-session-manager"
+ ALTERNATIVE_TARGET[x-session-manager] = "${bindir}/matchbox-session"
+-ALTERNATIVE_PRIORITY = "10"
++ALTERNATIVE_PRIORITY = "100"
+ 
+ do_install() {
+ 	install -d ${D}/${bindir}
 -- 
+1.7.7.6
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
