@@ -1,36 +1,27 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T9eQz-0004pA-Q0
-	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 17:56:02 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 08:43:35 -0700
-Received: by wibhn17 with SMTP id hn17so1400642wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 08:43:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=me1Gw7S9c607ndAX37jDf8/v/wBlvmVMst60810Sy2U=;
-	b=hKyRl9Jv4JEp20BIcYUBblV28wiilR/+JUMDRpY9+1ff8M08hb1SN9kDm5TZxun6fl
-	6nKr36aocz+oHRAHM0yFt/0cmOPpmWx2FdbhiNVt5P2D1FlTlCHaq+nonwrMPcPZ97g1
-	eNMBuu/vqRm7latcq8zezlhuXUvR6bgli+5K6ZIFMCGeSiJGExaGPMQPqCFBavBkpnaL
-	Iav2tQt1eZVcjFI4KnmS7NscSyTUcYTbsaJ9D41FDet6grfOA7bOlMTNjoJVSi7/YV0g
-	odVCz+2CyGFnppaxYHOPr/wS48dZlNrjH2MKz7xg8HWq5/J3CBK6LcmA0QyuXXqZsEJ+
-	Qcjw==
-Received: by 10.216.121.16 with SMTP id q16mr1325484weh.193.1346946213921;
-	Thu, 06 Sep 2012 08:43:33 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm4643412wib.10.2012.09.06.08.43.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Sep 2012 08:43:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2012 16:42:48 +0100
-Message-Id: <1346946168-7482-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnC+NolxIxW30qya97ki4NEPUMp6NbLXFPCO8StTogerTISO+SW3Jy5u/08N6HJ6ibfMtlq
-Subject: [PATCH] pulseaudio: remove ConsoleKit dependency
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T9eXS-0005Ju-1j for openembedded-core@lists.openembedded.org;
+	Thu, 06 Sep 2012 18:02:42 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86FoH4k019255;
+	Thu, 6 Sep 2012 16:50:17 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04992-03; Thu,  6 Sep 2012 16:50:12 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86FoAmf019249
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 6 Sep 2012 16:50:11 +0100
+Message-ID: <1346946610.7493.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 06 Sep 2012 16:50:10 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] gcc-cross-initial: Reinstate limits.h generation fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,44 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 15:56:02 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 16:02:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ConsoleKit is a runtime dependency for the ConsoleKit module, but there isn't a
-build-time dependency.
+The removal of gcc-cross-intermediate inadvertently reintroduced a
+problem with the limits.h file being incorrectly/inconsistently
+generated.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |    2 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b0faebd1f07e1616004bd19664395932e7c2c48f
+reverted part of:
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=c8815d2f21849deb9359706f54dc71490773415e
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 315d4dc..14e90a2 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
- DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
-            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxtst libice libsm libxcb gtk+', '', d)}"
- # optional
--DEPENDS += "udev alsa-lib glib-2.0 dbus consolekit \
-+DEPENDS += "udev alsa-lib glib-2.0 dbus \
-            ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)}"
- 
- SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz \
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-index 97bd4d3..e39b69e 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r2"
-+PR = "r3"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
--- 
-1.7.10
+This reintroduces the protected sysroot ensuring the limits.h file is
+always correctly generated. To reproduce the bug, build gcc-cross, then
+rebuild gcc-cross-initial and it will reference the limits.h file from
+gcc-cross in the sysroot.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index be47f85..ff6556c 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -19,7 +19,7 @@ EXTRA_OECONF = "--with-newlib \
+                 ${OPTSPACE} \
+ 		--program-prefix=${TARGET_PREFIX} \
+ 		--with-sysroot=${STAGING_DIR_TARGET} \
+-		--with-build-sysroot=${STAGING_DIR_TARGET} \
++		--with-build-sysroot=${GCCCROSS_BUILDSYSROOT} \
+ 		${EXTRA_OECONF_INITIAL} \
+ 		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--with-ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)} \
+ 		${EXTRA_OECONF_FPU}"
 
 
 
