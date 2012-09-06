@@ -1,40 +1,27 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Noor_Ahsan@mentor.com>) id 1T9cpQ-0006zp-Ho
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1T9dOw-0008CV-0T
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 16:13:08 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1T9cdO-00060v-Nm from Noor_Ahsan@mentor.com ;
-	Thu, 06 Sep 2012 07:00:42 -0700
-Received: from SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 6 Sep 2012 07:00:42 -0700
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.57]) by
-	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
-	14.01.0289.001; Thu, 6 Sep 2012 15:00:41 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: jhuang0 <jackie.huang@windriver.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] quota 4.00: add DEPENDS gettext-native
-Thread-Index: AQHNgacx6d2yVlnQ1keOsEbi4qstHZd9bISQ
-Date: Thu, 6 Sep 2012 14:00:40 +0000
-Message-ID: <365E1805BC95084CBE82381A0B8699945BDAC44A@EU-MBX-03.mgc.mentorg.com>
-References: <cover.1343032359.git.jackie.huang@windriver.com>
-	<5e873b2c99606b089ed82777f64049837a30beb0.1343032359.git.jackie.huang@windriver.com>
-	<1343037628.21788.83.camel@ted> <500E2FFF.2050202@windriver.com>
-	<5036F27B.2050906@windriver.com>
-In-Reply-To: <5036F27B.2050906@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Thu, 06 Sep 2012 16:49:50 +0200
+Received: from [192.168.0.2] (host81-153-84-143.range81-153.btcentralplus.com
+	[81.153.84.143]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 5C4319ADE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Sep 2012 15:37:27 +0100 (BST)
+Message-ID: <5048B526.4050501@r-finger.com>
+Date: Thu, 06 Sep 2012 15:37:26 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-X-OriginalArrivalTime: 06 Sep 2012 14:00:42.0629 (UTC)
-	FILETIME=[00FD9B50:01CD8C38]
-Cc: "Zhao, Zhenfeng" <Zhenfeng.Zhao@windriver.com>, "Yang,
-	Liezhi" <Liezhi.Yang@windriver.com>
-Subject: Re: [PATCH 1/1] quota 4.00: add DEPENDS gettext-native
+To: openembedded-core@lists.openembedded.org
+References: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
+	<CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
+	<644855E8-7D63-45DC-B072-B9A9893058F3@dominion.thruhere.net>
+	<CAJTo0La9-QHoWJB2v82C2tiM2XFwgHzsP1zda+Duqe_3uTwByw@mail.gmail.com>
+In-Reply-To: <CAJTo0La9-QHoWJB2v82C2tiM2XFwgHzsP1zda+Duqe_3uTwByw@mail.gmail.com>
+Subject: Re: [yocto] opengl / libgl / libgles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,102 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 14:13:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Sep 2012 14:49:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
-
-Kindly someone merge this patch. We are hitting this issue.
-
-Regards,
-Noor
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of jhuang0
-Sent: Friday, August 24, 2012 8:18 AM
-To: Patches and discussions about the oe-core layer
-Cc: Zhao, Zhenfeng; Yang, Liezhi
-Subject: Re: [OE-core] [PATCH 1/1] quota 4.00: add DEPENDS gettext-native
-
-
-
-On 7/24/2012 1:17 PM, jhuang0 wrote:
->
->
-> On 7/23/2012 6:00 PM, Richard Purdie wrote:
->> On Mon, 2012-07-23 at 16:38 +0800, jackie.huang@windriver.com wrote:
->>> From: Jackie Huang<jackie.huang@windriver.com>
->>>
->>> do_install needs command 'msgfmt', it would fail if the command=20
->>> doesn't exist on the host, add DEPENDS gettext-native to fix this.
->>>
->>> [YOCTO #2811]
->>>
->>> Signed-off-by: Jackie Huang<jackie.huang@windriver.com>
->>> ---
->>>   meta/recipes-extended/quota/quota_4.00.bb |    2 ++
->>>   1 files changed, 2 insertions(+), 0 deletions(-)
->>>
->>> diff --git a/meta/recipes-extended/quota/quota_4.00.bb
->>> b/meta/recipes-extended/quota/quota_4.00.bb
->>> index 5fef9cb..25f6381 100644
->>> --- a/meta/recipes-extended/quota/quota_4.00.bb
->>> +++ b/meta/recipes-extended/quota/quota_4.00.bb
->>> @@ -15,6 +15,8 @@ SRC_URI[sha256sum] =3D=20
->>> "eb2b045f58b98299edc568b8607b95b10735b4a131fa5196f41c89b51f
->>>
->>>   S =3D "${WORKDIR}/quota-tools"
->>>
->>> +DEPENDS =3D "gettext-native"
->>> +
->>>   inherit autotools
->>>
->>>   EXTRA_OEMAKE +=3D 'STRIP=3D""'
+On 06/09/12 14:51, Burton, Ross wrote:
+> On 6 September 2012 14:25, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> It's not automatic, but you can do something like this:
 >>
->> Shouldn't this be "inherit gettext" ?
->
-> No, quota doesn't depend on gettext at runtime, so I don't think we=20
-> need 'inherit gettext'.
+>>         http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/commit/?id=23b02134
+>>
+>>         RDEPENDS_${PN} = "libGL"
+> 
+> Ah, interesting.  I'm not entirely keen on the manual dependencies but
+> that's certainly a step in the right direction.
 
-quota only needs command 'msgfmt' which provied by gettext in do_install, s=
-o I don't think we need 'inherit gettext' to both depends on gettext-native=
- and virtual/gettext. Could anyone explain why we should use 'inherit gette=
-xt' instead of just depending on gettext-native?
+Is there much that actually links against libGL / libgles? Things like
+cogl dlopen() these these, so you have to manually specify the RDEPENDS
+anyway. Just thinking this could be less of an issue than it might appear.
 
-Thanks,
-Jackie
-
->
-> Thanks,
-> Jackie
->
->>
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
-
---
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Tomas
 
 
