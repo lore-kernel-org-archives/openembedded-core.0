@@ -1,29 +1,31 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T9gDj-00086U-AC
+	(envelope-from <mark.hatle@windriver.com>) id 1T9gIn-0008DA-UC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 19:50:27 +0200
+	Thu, 06 Sep 2012 19:55:42 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q86Hc1n0006571
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q86HhGNV007563
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Sep 2012 10:38:01 -0700 (PDT)
+	Thu, 6 Sep 2012 10:43:16 -0700 (PDT)
 Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 6 Sep 2012 10:38:01 -0700
-Message-ID: <5048DF79.1060305@windriver.com>
-Date: Thu, 6 Sep 2012 12:38:01 -0500
+	Thu, 6 Sep 2012 10:43:16 -0700
+Message-ID: <5048E0B3.60604@windriver.com>
+Date: Thu, 6 Sep 2012 12:43:15 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:15.0) Gecko/20120824 Thunderbird/15.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1346138100.git.liezhi.yang@windriver.com>
-	<d44a05ea08917e27279740f258bdf28424a7e055.1346138100.git.liezhi.yang@windriver.com>
-	<5048D4D3.3080009@windriver.com>
-In-Reply-To: <5048D4D3.3080009@windriver.com>
-Subject: Re: [PATCH 1/1] package_rpm.bbclass: fix the arch (replace "-" with "_")
+References: <CALbNGRR0tpkqGtN6szJc5dLqYKPRFnyeaD2tyRAk6nV50aOT8w@mail.gmail.com>
+	<1346928461.2673.186.camel@phil-desktop>
+	<CALbNGRRpab2YJWZbVJvLyXV8npxGW9Gv4vajTmDQ_dJOzJXqiQ@mail.gmail.com>
+In-Reply-To: <CALbNGRRpab2YJWZbVJvLyXV8npxGW9Gv4vajTmDQ_dJOzJXqiQ@mail.gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q86HhGNV007563
+Subject: Re: PREFERRED_VERSION_virtual/..
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,82 +38,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 17:50:27 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 17:55:42 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 9/6/12 11:52 AM, Mark Hatle wrote:
-> I've looked at the patch and it looks find to me.
+On 9/6/12 6:14 AM, Andreas M=FCller wrote:
+> On Thu, Sep 6, 2012 at 12:47 PM, Phil Blundell <philb@gnu.org> wrote:
+>> On Thu, 2012-09-06 at 12:45 +0200, Andreas M=FCller wrote:
+>>> In meta-gumstix I am working on a central include-file where I can
+>>> switch kernel-sources/-versions at one single place.
+>>>
+>>> For this I need PREFERRED_VERSION_virtual/... working.
+>>>
+>>> Is there a specific reason why this is not implemented or would it
+>>> cause huge efforts to implement?
+>>
+>> Well, it's inherently meaningless: virtuals don't have any version
+>> number, only concrete packages do, and it's entirely possible that the
+>> different providers for a given virtual might have unrelated (whether =
+or
+>> not intersecting) version numbering schemes.
+>>
+>> Why exactly do you want this?
+>>
+>> p.
+>>
+>>
+> Since I spend lot of time testing different kernels, I would like to
+> have a single location where I can setup which kernel-source/-version
+> is compiled [1] simply (this file is included by my machine
+> configuration [2]). Alongside I want to ensure that the
+> linux-glibc-headers share same version as the kernel [3].
 >
-> Acked-by: Mark Hatle <mark.hatle@windriver.com>
+> So for my case: I have
 >
+> * linux-mainline_3.2.bbappend (3.2.19)
+> * linux-omap_3.5.bb (3.5.0)
+> * linux-omap_3.6.bb (3.6.0-rc3)
+> * linux-sakoman_3.2.bb (3.2.0)
 >
-> One note, however..  Whatever arch fields we use need to also match the fields
-> that get encoded into Zypper and the sat-solver stuff..  So there may be a
-> second chunk of code that needs to be updated to match.
+> Without PREFERRED_VERSION_virtual/.. I cannot select between
+> linux-omap_3.5.bb and linux-omap_3.6.bb. OK I can use
+> PREFERRED_VERSION_linux-omap (as I am doing in [2] currently) but if I
+> select to build linux-mainline, I get complaints that there is no
+> linux-omap-3.2.9.
 
-It's the do_archgen functions in both sat-solver and libzypp recipes.  They need 
-to match the arch namings.
+This is where preferred provider is used, and then the preferred version =
+can be=20
+used to select the right version of a given provider.
 
---Mark
+PREFERRED_PROVIDER_virtual/kernel =3D "linux-foo"
+PREFERRED_VERSION_linux-foo =3D "3.4"
 
-> --Mark
+> Hope that explains what I would like to have this feature...
 >
-> On 8/28/12 10:45 AM, Robert Yang wrote:
->> rpm can't use the "-" as the arch, which causes problem, e.g., when
->> MACHINE = "beagleboard":
->>
->> * The arch should be armv7a-vfp-neon, but rpm only takes the armv7a,
->>     this is incorrect since it is mixed with real arch armv7a.
->>
->> * The nativesdk's arch should be i686-nativesdk (or x86_64-nativesdk),
->>     but rpm only takes the i686 (or x86_64), this in incorrect since it is
->>     mixed with the arch i686 (or x86_64).
->>
->> Replace "-" with "_" when rpm package and the rootfs generation would
->> fix the problem, I think this is fine since it doesn't change the tune's
->> arch, the package manager doesn't care about the arch's name, but it
->> needs a unify arch system to avoid confusing. This is similar to what we
->> have done on the deb which fixed the arch i486, i586 and so on to i386.
->>
->> [YOCTO #2328]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>    meta/classes/package_rpm.bbclass | 8 ++++----
->>    1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->> index 9abad5e..87dd367 100644
->> --- a/meta/classes/package_rpm.bbclass
->> +++ b/meta/classes/package_rpm.bbclass
->> @@ -27,12 +27,12 @@ package_update_index_rpm () {
->>    	fi
->>
->>    	# Update target packages
->> -	base_archs="${PACKAGE_ARCHS}"
->> -	ml_archs="${MULTILIB_PACKAGE_ARCHS}"
->> +	base_archs="`echo ${PACKAGE_ARCHS} | sed 's/-/_/g'`"
->> +	ml_archs="`echo ${MULTILIB_PACKAGE_ARCHS} | sed 's/-/_/g'`"
->>    	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}" base_archs ml_archs
->>
->>    	# Update SDK packages
->> -	base_archs="${SDK_PACKAGE_ARCHS}"
->> +	base_archs="`echo ${SDK_PACKAGE_ARCHS} | sed 's/-/_/g'`"
->>    	package_update_index_rpm_common "${RPMCONF_HOST_BASE}" base_archs
->>    }
->>
->> @@ -1118,7 +1118,7 @@ python do_package_rpm () {
->>        rpmbuild = d.getVar('RPMBUILD', True)
->>        targetsys = d.getVar('TARGET_SYS', True)
->>        targetvendor = d.getVar('TARGET_VENDOR', True)
->> -    package_arch = d.getVar('PACKAGE_ARCH', True) or ""
->> +    package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
->>        if package_arch not in "all any noarch".split():
->>            ml_prefix = (d.getVar('MLPREFIX', True) or "").replace("-", "_")
->>            d.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch)
->>
+> Andreas
 >
+> [1] http://gitorious.org/schnitzeltony-oe-meta/meta-gumstix/blobs/maste=
+r/recipes-kernel/linux/linux-versions-overo.inc
+> [2] http://gitorious.org/schnitzeltony-oe-meta/meta-gumstix/blobs/maste=
+r/conf/machine/overo.conf
+> [3] http://gitorious.org/schnitzeltony-oe-meta/meta-gumstix/blobs/maste=
+r/recipes-kernel/linux-libc-headers/linux-libc-headers_git.bb
+> Repl
 >
 > _______________________________________________
 > Openembedded-core mailing list
