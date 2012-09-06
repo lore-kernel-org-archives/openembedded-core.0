@@ -1,28 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1T9kdN-0003J2-Dy
+	(envelope-from <raj.khem@gmail.com>) id 1T9kpc-0003Yb-T0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 00:33:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q86MKjLw007950
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Sep 2012 15:20:45 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.22.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Thu, 6 Sep 2012 15:20:45 -0700
-Message-ID: <504921BD.4040004@windriver.com>
-Date: Thu, 6 Sep 2012 18:20:45 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1346956528.git.bruce.ashfield@windriver.com>
-	<fb717d4aa26b125680f620254cde9eb97ef0708a.1346956528.git.bruce.ashfield@windriver.com>
-	<1346969961.7493.24.camel@ted>
-In-Reply-To: <1346969961.7493.24.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] conf/tune: add tune-ppce300c3
+	Fri, 07 Sep 2012 00:45:53 +0200
+Received: by iaky10 with SMTP id y10so2705988iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Sep 2012 15:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=h+qNFKhMqGfN8Vdd+Bf3HnuYMZJPPyHQNK2QUiNRwPE=;
+	b=nmIBFDyJcXkmYWIUOca3ZUFXUg+e/cU36wE8jzkSEosm7RKZKtcttrwAIv4tGY89yD
+	L4SivU0GhrtqJygQEqN+nvNWkzaqUFJf0F+mUfkWqztR7FHZfcrqlelsBLMSEww09fgP
+	+tYVVgQFmImyRoM0CqHuxyqESvbFUY90oFzIoKaFKa/U0vUlWt69wqpQyMFB+VJu4rCV
+	Jv3ZXb4IweQ/p1HiS8P52K7bjMj5JttBO2Zod1QVzSwzXCAPQ3JA3FbyO+RTYrHTUQV1
+	3w2sId4yaiP12UpZXPUgF5PagtMZQrcw+XHNPJY3P6CGFKDDz3GUDnNQKjr1RFEPNz59
+	szug==
+Received: by 10.50.57.202 with SMTP id k10mr5431300igq.45.1346970807425;
+	Thu, 06 Sep 2012 15:33:27 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id nh1sm5232881igc.11.2012.09.06.15.33.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 06 Sep 2012 15:33:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Sep 2012 15:32:32 -0700
+Message-Id: <cover.1346970617.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/6] Upgrade qemu to 1.2 and eglibc with kconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,93 +40,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 22:33:15 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Sep 2012 22:45:53 -0000
 
-On 12-09-06 6:19 PM, Richard Purdie wrote:
-> On Thu, 2012-09-06 at 14:43 -0400, Bruce Ashfield wrote:
->> It has been pointed out several times that the yocto mpc8315e-rdb
->> reference was using the wrong tuning (603e), since it is actually
->> a e300c3 board.
->>
->> This commit creates a e300c3 tune file based on the e300c2 variant
->> already in oe-core.
->>
->> This commit also inhibits altivec in flac when this new tuning is
->> enabled. It was also noticed that the existing tune based overrides
->> in the flac package would not be triggered since DEFAULTTUNE is not
->> in the overrides list. To avoid doing per-board disabling of altivec
->> DEFAULTTUNE is added to the local package OVERRIDES and then used
->> to disable altivec.
->>
->> [YOCTO #1192]
->>
->> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
->>
->> asdfkljds
->> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
->> ---
->>   meta/conf/machine/include/tune-ppce300c3.inc |   11 +++++++++++
->>   meta/recipes-multimedia/flac/flac_1.2.1.bb   |    5 +++++
->>   2 files changed, 16 insertions(+), 0 deletions(-)
->>   create mode 100644 meta/conf/machine/include/tune-ppce300c3.inc
->>
->> diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machine/include/tune-ppce300c3.inc
->> new file mode 100644
->> index 0000000..3f5ac26
->> --- /dev/null
->> +++ b/meta/conf/machine/include/tune-ppce300c3.inc
->> @@ -0,0 +1,11 @@
->> +DEFAULTTUNE ?= "ppce300c3"
->> +
->> +require conf/machine/include/powerpc/arch-powerpc.inc
->> +
->> +TUNEVALID[ppce300c3] = "Enable ppce300c3 specific processor optimizations"
->> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "-mcpu=e300c3", "", d)}"
->> +
->> +AVAILTUNES += "ppce300c3"
->> +TUNE_FEATURES_tune-ppce300c3 = "m32 fpu-soft ppce300c3"
->> +TUNE_PKGARCH_tune-ppce300c3 = "ppce300c3"
->> +PACKAGE_EXTRA_ARCHS_tune-ppce300c3 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} ppce300c3"
->> diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
->> index 3c5b73c..25db1c4 100644
->> --- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
->> +++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
->> @@ -36,9 +36,14 @@ EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
->>                   --without-xmms-exec-prefix \
->>                   --without-libiconv-prefix \
->>                   --without-id3lib"
->> +
->> +FLACOVERRIDE = ":${DEFAULTTUNE}"
->> +OVERRIDES .= "${FLACOVERRIDE}"
->> +
->>   EXTRA_OECONF_prepend_e500mc = "--disable-altivec "
->>   EXTRA_OECONF_prepend_e5500 = "--disable-altivec "
->>   EXTRA_OECONF_prepend_e5500-64b = "--disable-altivec "
->> +EXTRA_OECONF_prepend_ppce300c3 = "--disable-altivec "
->>
->
-> This is getting ugly and is kind of unsafe. Perhaps the architecture
-> should be doing something like:
->
-> MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", ":noaltivec", "" ,d)}
->
-> or even in this recipe just do:
->
-> EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " --disable-altivec", "" ,d)}
+This patchset updates qemu to 1.2 release
+Adds kconfig to eglibc, kconfig is of interest for
+eglibc upstream which is next step.
+Removes nptl and enable-tls configure options from 
+x86 machine configurations
 
-I definitely considered this route. I can do that for the new arch, and the
-old ones, but can't test the old ones at the moment.
+The following changes since commit 610f8c0c0cab8e258919689fd641faec28b58caf:
 
-Bruce
+  adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:27:31 +0100)
 
->
-> Cheers,
->
-> Richard
->
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/qemu-eglibc-updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-eglibc-updates
+
+Khem Raj (6):
+  eglibc-2.16: Add kconfig infrastructure
+  eglibc: Enable kconfig for option management
+  kconfig-frontends: Create symlinks for conf and mconf
+  qemu-git: Move to tip of git past 1.2 release
+  qemu: Update from 0.15 to 1.2
+  machines/x86: Drop redundant glibc configure knobs
+
+ meta/conf/machine/include/ia32-base.inc            |    5 -
+ meta/conf/machine/qemux86-64.conf                  |    3 -
+ meta/conf/machine/qemux86.conf                     |    4 -
+ .../0001-eglibc-menuconfig-support.patch           | 1007 ++++++++++++++++++++
+ ...0002-eglibc-menuconfig-hex-string-options.patch |  169 ++++
+ ...0003-eglibc-menuconfig-build-instructions.patch |  176 ++++
+ meta/recipes-core/eglibc/eglibc-initial.inc        |    1 +
+ meta/recipes-core/eglibc/eglibc-options.inc        |    4 +-
+ meta/recipes-core/eglibc/eglibc.inc                |    4 +
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    8 +-
+ .../kconfig-frontends/kconfig-frontends_3.5.bb     |    8 +-
+ .../qemu-0.15.1/0001-ppc64-Fix-linker-script.patch |   46 -
+ .../a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch |   66 --
+ ...-Actually-raise-interrupt-on-timer-expiry.patch |   41 -
+ .../qemu-0.15.1/ppc-s500-set-invalid-mask.patch    |  610 ------------
+ .../qemu/{qemu-0.15.1 => qemu-1.2.0}/arm-bgr.patch |   12 +-
+ .../enable-i386-linux-user.patch                   |    0
+ .../fallback-to-safe-mmap_min_addr.patch           |    0
+ .../fix-configure-checks.patch                     |   18 +-
+ .../{qemu-0.15.1 => qemu-1.2.0}/init-info.patch    |    0
+ .../larger_default_ram_size.patch                  |    0
+ .../{qemu-0.15.1 => qemu-1.2.0}/linker-flags.patch |   14 +-
+ .../{qemu-0.15.1 => qemu-1.2.0}/no-strip.patch     |    0
+ .../{qemu-0.15.1 => qemu-1.2.0}/powerpc_rom.bin    |  Bin 4096 -> 4096 bytes
+ .../qemu-vmware-vga-depth.patch                    |   70 +-
+ .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
+ .../qemu/{qemu_0.15.1.bb => qemu_1.2.0.bb}         |   18 +-
+ meta/recipes-devtools/qemu/qemu_git.bb             |   15 +-
+ 28 files changed, 1431 insertions(+), 868 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-eglibc-menuconfig-support.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0002-eglibc-menuconfig-hex-string-options.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0003-eglibc-menuconfig-build-instructions.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/0001-ppc64-Fix-linker-script.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/hw-pl031-Actually-raise-interrupt-on-timer-expiry.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/arm-bgr.patch (75%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/enable-i386-linux-user.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/fallback-to-safe-mmap_min_addr.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/fix-configure-checks.patch (59%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/init-info.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/larger_default_ram_size.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/linker-flags.patch (64%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/no-strip.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/powerpc_rom.bin (100%)
+ rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/qemu-vmware-vga-depth.patch (61%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+ rename meta/recipes-devtools/qemu/{qemu_0.15.1.bb => qemu_1.2.0.bb} (57%)
+
+-- 
+1.7.9.5
 
 
 
