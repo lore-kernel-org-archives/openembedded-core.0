@@ -1,43 +1,39 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T9dbI-0000Mu-CS
+	(envelope-from <ross.burton@intel.com>) id 1T9dcD-0000PU-4x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 17:02:36 +0200
-Received: by wibhq4 with SMTP id hq4so5734263wib.6
+	Thu, 06 Sep 2012 17:03:33 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 07:51:07 -0700
+Received: by obblz20 with SMTP id lz20so2751942obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 07:50:12 -0700 (PDT)
+	Thu, 06 Sep 2012 07:51:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=Tvn7haGoH4A3FDslCr3SJKYw+ddey+8JsE2N/ZVUWh8=;
-	b=m4I4Qa1Z9u6cFMVdL4+80okM1N/P77kDojXwZO/KB6O+t3+OCuO+toOV0wTNuPrt5k
-	HV5Ec7DyGcOzmmvBRrVQifeqKOYCMvL07jourUmnTIUJoSxgl6QEXnmpritshRH+UfkY
-	YMvrfbS29vM3CAdzWGOOEdp+6C0deugV5+YSC7U9/hBDQ/suuhCuGWovYts2jKEoqbCR
-	BHZlRTTjPNJ5a7HjYWNneHUZNyFNN9OR0D1Da2+89NTJKm/pmR63BTlTae6sG7ocMMf8
-	XpbK63xfE2o6BrbaDZDs5T5mk8WJlVRP2sUL9RAntPEyIoOQAtx2avM7RzgTZAXY08NW
-	3SrA==
-Received: by 10.181.13.208 with SMTP id fa16mr5398924wid.11.1346943012039;
-	Thu, 06 Sep 2012 07:50:12 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::4908:ca0a:f01a:394b?
-	([2001:610:612:0:4908:ca0a:f01a:394b])
-	by mx.google.com with ESMTPS id w7sm4463016wiz.0.2012.09.06.07.50.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Sep 2012 07:50:10 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=mTVic8F1KSR8/+uh51dOqvlsziVtvdF+Nl0qf8sDsSU=;
+	b=U+Cy+1WhmpD2yk8WnxxqvWPKPzhKFnVjm2X1qOUsMguNb+ICmYtsslourJYjcSmFl0
+	SXKfRPAHtS36hWKvYk5CofWPyzV7qZYN0dHYBgGAo2RDVq4izeGpvepDD8Mlzor9FlZ6
+	DAiWMQiG944y7MHdI7oLvm4OP25CzGmxtiAwss2TOlAKxli5Vb/v1CB1688TOAyRCVrn
+	4DtlRkLh5ixyNs5bykFz+fB4+BbsdoWMwyeBiQkLlHfYqPHkQyQau1smTTxGQQRaHdwS
+	DrUuEMjDKcCOGpg+3e2qqpHxWqHMXKsLqSqYgr48RGnKgtfh1qBU49A7eORdGYHijfMk
+	iosg==
+Received: by 10.182.50.68 with SMTP id a4mr2399294obo.59.1346943066811; Thu,
+	06 Sep 2012 07:51:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Thu, 6 Sep 2012 07:50:46 -0700 (PDT)
 In-Reply-To: <5048B526.4050501@r-finger.com>
-Date: Thu, 6 Sep 2012 16:50:10 +0200
-Message-Id: <C92CD2AA-A842-454E-9C14-FCA5FC683DAB@dominion.thruhere.net>
 References: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
 	<CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
 	<644855E8-7D63-45DC-B072-B9A9893058F3@dominion.thruhere.net>
 	<CAJTo0La9-QHoWJB2v82C2tiM2XFwgHzsP1zda+Duqe_3uTwByw@mail.gmail.com>
 	<5048B526.4050501@r-finger.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Sep 2012 15:50:46 +0100
+Message-ID: <CAJTo0LbE0vZm423U47_mQqyi6N0ONR=p4qnh04jgKviH+CiRZQ@mail.gmail.com>
 To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQksrVbS7ht0EFPp0WDXEMzyxuvydZVt4mQ389gR3zfWn5yE52CEiHmRXIMjXidnshMX21Xk
+X-Gm-Message-State: ALoCoQkUB6xyD4zQzJZogruKl9fcY1Xmmf3Ou/k5giJyCr+xvwaZu45vPG7yaEPLrVN69+d3smKi
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [yocto] opengl / libgl / libgles
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,35 +48,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 15:02:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Sep 2012 15:03:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-Op 6 sep. 2012, om 16:37 heeft Tomas Frydrych =
-<tf+lists.yocto@r-finger.com> het volgende geschreven:
-
-> On 06/09/12 14:51, Burton, Ross wrote:
->> On 6 September 2012 14:25, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>> It's not automatic, but you can do something like this:
->>>=20
->>>        =
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/commit/?id=3D23b02134
->>>=20
->>>        RDEPENDS_${PN} =3D "libGL"
->>=20
->> Ah, interesting.  I'm not entirely keen on the manual dependencies =
-but
->> that's certainly a step in the right direction.
->=20
+On 6 September 2012 15:37, Tomas Frydrych <tf+lists.yocto@r-finger.com> wrote:
 > Is there much that actually links against libGL / libgles? Things like
-> cogl dlopen() these these, so you have to manually specify the =
-RDEPENDS
-> anyway. Just thinking this could be less of an issue than it might =
-appear.
+> cogl dlopen() these these, so you have to manually specify the RDEPENDS
+> anyway. Just thinking this could be less of an issue than it might appear.
 
+That is certainly true.
 
-xbmc is one=
+Ross
 
 
