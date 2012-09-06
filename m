@@ -1,37 +1,32 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooper@ti.com>) id 1T9lnM-0005E7-VF
-	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 01:47:37 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id q86NZA5x021175;
-	Thu, 6 Sep 2012 18:35:10 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q86NZ8Lq001518;
-	Thu, 6 Sep 2012 18:35:10 -0500
-Received: from DFLE09.ent.ti.com ([fe80::3103:58c3:47f:860b]) by
-	DFLE73.ent.ti.com ([fe80::86e:fab6:cd95:e158%28]) with mapi id
-	14.01.0323.003; Thu, 6 Sep 2012 18:35:07 -0500
-From: "Cooper Jr., Franklin" <fcooper@ti.com>
-To: Saul Wold <sgw@linux.intel.com>, "Franklin S. Cooper Jr"
-	<fcooperjr27@gmail.com>
-Thread-Topic: [OE-core] [oe-core][PATCH] u-boot: Use fw_env.config if
-	available.
-Thread-Index: AQHNiuLmF4ueulg96kSeh7/khIr/w5d925SAgAAeqAA=
-Date: Thu, 6 Sep 2012 23:35:07 +0000
-Message-ID: <8F29D6B095ED194EA1980491A5E029710C2B767E@DFLE09.ent.ti.com>
-References: <1346794545-14277-1-git-send-email-fcooper27jr@gmail.com>
-	<5048D2BB.3000909@linux.intel.com>
-In-Reply-To: <5048D2BB.3000909@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
-MIME-Version: 1.0
-Cc: "Franklin S. Cooper Jr" <fcooper27jr@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Use fw_env.config if available.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T9lpQ-0005HT-Qo for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 01:49:45 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86NbJ4t023544;
+	Fri, 7 Sep 2012 00:37:19 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22770-08; Fri,  7 Sep 2012 00:37:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86Nb9s7023538
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 7 Sep 2012 00:37:10 +0100
+Message-ID: <1346974630.7493.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 07 Sep 2012 00:37:10 +0100
+In-Reply-To: <20120906233413.GB3487@jama.jama.net>
+References: <1346792317-26563-1-git-send-email-Martin.Jansa@gmail.com>
+	<1346792317-26563-2-git-send-email-Martin.Jansa@gmail.com>
+	<1346974199.7493.36.camel@ted> <20120906233413.GB3487@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] packagegroup-core-x11: split machine specific parts to separate recipe packagegroup-core-x11-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,128 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 23:47:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Sep 2012 23:49:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I released a second revision of this patch that should be used instead. htt=
-p://patches.openembedded.org/patch/35845/
+On Fri, 2012-09-07 at 01:34 +0200, Martin Jansa wrote:
+> On Fri, Sep 07, 2012 at 12:29:59AM +0100, Richard Purdie wrote:
+> > On Tue, 2012-09-04 at 22:58 +0200, Martin Jansa wrote:
+> > > * add new packagegroup-core-x11-server to SIGGEN_EXCLUDERECIPES_ABISAFE,
+> > >   so that recipes depending on it are not rebuilt after every machine
+> > >   swtich
+> > > * allows to remove task-x11-server and task-x11 from meta-oe without 
+> > >   loosing any functionality
+> > > * be carefull with default XSERVER value which does not have 
+> > >   xf86-input-mouse and xf86-input-keyboard)
+> > > * VIRTUAL-RUNTIME_xserver_common which defaults to x11-common in oe-core 
+> > >   and xserver-common in meta-oe's task-x11
+> > > 
+> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > ---
+> > >  meta/conf/layer.conf                               |  1 +
+> > >  .../packagegroups/packagegroup-core-x11-xserver.bb | 24 ++++++++++++++++++++++
+> > >  .../packagegroups/packagegroup-core-x11.bb         | 16 ++-------------
+> > >  3 files changed, 27 insertions(+), 14 deletions(-)
+> > >  create mode 100644 meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
+> > 
+> > This sneaked in with a load of other patches. I never meant to merge
+> > this as I consider it broken.
+> > 
+> > Task packages are cheap and having them being machine specific imposes
+> > little overhead. Splitting this into two just increases the parsing
+> > overhead through the number of recipes and doesn't do much else since
+> > there are still machine specific packages involved, all dependencies
+> > still get built etc. so I really don't see the point of the added
+> > complexity.
+> 
+> Yes task-* are cheap but if such recipe is in RDEPENDS of some other
+> more expensive recipe then it's better when it's excluded from sstate.
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Thursday, September 06, 2012 11:44 AM
-To: Franklin S. Cooper Jr
-Cc: openembedded-core@lists.openembedded.org; Cooper Jr., Franklin; Frankli=
-n S. Cooper Jr
-Subject: Re: [OE-core] [oe-core][PATCH] u-boot: Use fw_env.config if availa=
-ble.
+Which expensive recipes RDEPEND on task/packagegroup recipes?
 
-On 09/04/2012 02:35 PM, Franklin S. Cooper Jr wrote:
-> * Add support for board specific fw_env.config file if available.
->
-> Signed-off-by: Franklin S. Cooper Jr <fcooper27jr@gmail.com>
-> ---
->   meta/recipes-bsp/u-boot/u-boot.inc           |   16 +++++++++++-----
->   meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 +-
->   meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 +-
->   meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 +-
->   4 files changed, 14 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc=20
-> b/meta/recipes-bsp/u-boot/u-boot.inc
-> index a8642f0..ed587a6 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -49,6 +49,11 @@ do_install () {
->       install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
->       ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
->
-> +    if [ -e ${WORKDIR}/fw_env.config ] ; then
-> +        install -d ${D}${sysconfdir}
-> +        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env=
-.config
-> +    fi
-> +
->       if [ "x${SPL_BINARY}" !=3D "x" ]
->       then
->           install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE} @@ -56,16=20
-> +61,17 @@ do_install () {
->       fi
->   }
->
-> -FILES_${PN} =3D "/boot"
-> +FILES_${PN} =3D "/boot$ {sysconfdir}"
->   FILESPATH =3D. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
->
->   do_deploy () {
->       install -d ${DEPLOYDIR}
-> -	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-> +    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
->
-> -	cd ${DEPLOYDIR}
-> -	rm -f ${UBOOT_SYMLINK}
-> -	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-> +    cd ${DEPLOYDIR}
-> +    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-> +    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-> +    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
->
->       if [ "x${SPL_BINARY}" !=3D "x" ]
->       then
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb=20
-> b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> index 8465395..a9cbeca 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42=
-237583f50183a5651ecb \
->   SRCREV =3D "19b54a701811220221fc4d5089a2bb18892018ca"
->
->   PV =3D "v2011.03+git${SRCPV}"
-> -PR =3D "r7"
-> +PR =3D "r8"
->
->   SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgi=
-t"
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb=20
-> b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> index 9654795..a115ed2 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42=
-237583f50183a5651ecb \
->   SRCREV =3D "b1af6f532e0d348b153d5c148369229d24af361a"
->
->   PV =3D "v2011.06+git${SRCPV}"
-> -PR =3D "r2"
-> +PR =3D "r3"
->
->   SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgi=
-t"
->
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb=20
-> b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> index c4ec50d..6c099b1 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> @@ -20,7 +20,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42=
-237583f50183a5651ecb"
->   SRCREV =3D "415d386877df49eb051b85ef74fa59a16dc17c7d"
->
->   PV =3D "v2012.04.01+git${SRCPV}"
-> -PR =3D "r1"
-> +PR =3D "r2"
->
->   SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgi=
-t"
->
->
-Merged into OE-Core
+Cheers,
 
-Thanks
-	Sau!
+Richard
 
 
 
