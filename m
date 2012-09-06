@@ -1,36 +1,29 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T9eqo-0005m9-IN
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1T9erH-0005oq-VN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 18:22:43 +0200
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 06 Sep 2012 09:10:15 -0700
-Received: by wibhm2 with SMTP id hm2so5156699wib.0
+	Thu, 06 Sep 2012 18:23:13 +0200
+Received: from [192.168.0.2] (host81-153-84-143.range81-153.btcentralplus.com
+	[81.153.84.143]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id A642C9ADE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 09:10:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=TPqARPqHrAhsmYRiPnF8Y3K1TgJB9+gDDsLC2R5ZSBE=;
-	b=DzOIWOdeRWL+18JbKndOpjHx62VeiMNR22P6gCeY17ivkE16q71rHgl5/+yWA/4gVl
-	mcip+iLAciXwBAZttnMUYGq44/ffj7a7v9jYMAQs0svHHSLFxxpCOUktzc1AugvxD5BC
-	OuJMv+yBj03ter778XlsVeMkZitMI77lV9YG7ekxytvj7IS3PUTUZW4gtGAxj0H/dlub
-	TUvNTX/pHQY5lJFctQS+y35NFiD1lu712wpB+32Z5DIARJhCEGvn3BmvtNvBacILPh5S
-	B2gY17YX2N2UI26CfjYk7LbJlFyuMAa4v1YFOrkVuvPUekyNcdTvZzzkGuJOd3xacPHQ
-	PVng==
-Received: by 10.180.84.1 with SMTP id u1mr5870347wiy.15.1346947813015;
-	Thu, 06 Sep 2012 09:10:13 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fr4sm6731950wib.8.2012.09.06.09.10.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Sep 2012 09:10:11 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu,  6 Sep 2012 17:10:48 +0100 (BST)
+Message-ID: <5048CB07.9000502@r-finger.com>
+Date: Thu, 06 Sep 2012 17:10:47 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Sep 2012 17:09:29 +0100
-Message-Id: <1346947769-12659-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlLOav8gDljsGuiUZmfzPU6oPZSWUIQq8zpRAX0c5CewuGn+oUIlxfBGi5dEO/E+L3RHxA1
-Subject: [PATCH] gssdp: build examples which require GTK+ only if we have X11
+References: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
+	<CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
+	<644855E8-7D63-45DC-B072-B9A9893058F3@dominion.thruhere.net>
+	<CAJTo0La9-QHoWJB2v82C2tiM2XFwgHzsP1zda+Duqe_3uTwByw@mail.gmail.com>
+	<5048B526.4050501@r-finger.com>
+	<C92CD2AA-A842-454E-9C14-FCA5FC683DAB@dominion.thruhere.net>
+In-Reply-To: <C92CD2AA-A842-454E-9C14-FCA5FC683DAB@dominion.thruhere.net>
+Subject: Re: [yocto] opengl / libgl / libgles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,53 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 16:22:43 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 16:23:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-They just need GTK+ not libglade, so fix the depends.
+On 06/09/12 15:50, Koen Kooi wrote:
+> 
+> Op 6 sep. 2012, om 16:37 heeft Tomas Frydrych <tf+lists.yocto@r-finger.com> het volgende geschreven:
+> 
+>> On 06/09/12 14:51, Burton, Ross wrote:
+>>> On 6 September 2012 14:25, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>> It's not automatic, but you can do something like this:
+>>>>
+>>>>        http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/commit/?id=23b02134
+>>>>
+>>>>        RDEPENDS_${PN} = "libGL"
+>>>
+>>> Ah, interesting.  I'm not entirely keen on the manual dependencies but
+>>> that's certainly a step in the right direction.
+>>
+>> Is there much that actually links against libGL / libgles? Things like
+>> cogl dlopen() these these, so you have to manually specify the RDEPENDS
+>> anyway. Just thinking this could be less of an issue than it might appear.
+> 
+> 
+> xbmc is one
 
-The recipe also had multple checksums, so remove the old ones.
+The problem is basically the mesa package, right? If the mesa package is
+split so that the mesa libGL parts are provided separately from the more
+generic parts, and any GL bits, mesa or otherwise, are only built as a
+specific machine feature, then we will never have any GL bits in the
+non-machine part of the sysroot, and will always be dealing with the
+correct, and only, libGL. Packages that link directly to libGL would
+also be machine specific, but if we are talking about a hand full
+things, this is not a major issue. Or I am missing something?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb |   16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Ross, I think it gets unnecessarily complicated if you start thinking of
+it in the terms of hot-swapping libGL at runtime the way desktop distros do.
 
-diff --git a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-index f3494e7..b87c755 100644
---- a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-+++ b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-@@ -2,12 +2,14 @@ SUMMARY = "Resource discovery and announcement over SSDP"
- DESCRIPTION = "GSSDP implements resource discovery and announcement over SSDP (Simpe Service Discovery Protocol)."
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
--DEPENDS = "glib-2.0 libsoup-2.4 libglade gobject-introspection-stub"
-+DEPENDS = "glib-2.0 libsoup-2.4 gobject-introspection-stub"
-+
-+PR = "r2"
- 
- SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "725c32e8f92a072cc34f0e091937df2a"
--SRC_URI[sha256sum] = "8eaab799f699836770ec2fcc08abfef2f824a82ae959c6af7b39ffb6968b9fd7"
-+SRC_URI[md5sum] = "aec6a56ac1d4f8a4837da83f2d152556"
-+SRC_URI[sha256sum] = "94de92bb4f7906ed2f047b0146a3b21d53d09908fe1f0149484f61c6afc598ea" 
- 
- inherit autotools pkgconfig
- 
-@@ -17,9 +19,5 @@ FILES_gssdp-tools = "${bindir}/gssdp* ${datadir}/gssdp/*.glade"
- 
- EXTRA_OECONF = "--disable-introspection"
- 
--PR = "r1"
--
--SRC_URI[md5sum] = "aec6a56ac1d4f8a4837da83f2d152556"
--SRC_URI[sha256sum] = "94de92bb4f7906ed2f047b0146a3b21d53d09908fe1f0149484f61c6afc598ea" 
--
--
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)}"
-+PACKAGECONFIG[gtk] = "--with-gtk,--without-gtk,gtk+"
--- 
-1.7.10
-
+Tomas
 
 
