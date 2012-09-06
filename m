@@ -1,28 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T9iBX-0004Q8-Ts
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T9j0m-0000CS-Jm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 21:56:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q86Jhssg027723
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Sep 2012 12:43:54 -0700 (PDT)
-Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 6 Sep 2012 12:43:54 -0700
-Message-ID: <5048FCF9.9070707@windriver.com>
-Date: Thu, 6 Sep 2012 14:43:53 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120824 Thunderbird/15.0
+	Thu, 06 Sep 2012 22:49:17 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2012 13:36:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,381,1344236400"; d="scan'208";a="219037827"
+Received: from unknown (HELO helios.localnet) ([10.252.121.173])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2012 13:36:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Thu, 06 Sep 2012 21:36:31 +0100
+Message-ID: <2236591.qU5F3vlEoV@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <1346957634-22312-1-git-send-email-jason.wessel@windriver.com>
+References: <1346957634-22312-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1346920164-29192-1-git-send-email-mertsas@cisco.com>
-	<5048F57F.10002@linux.intel.com>
-In-Reply-To: <5048F57F.10002@linux.intel.com>
-Subject: Re: [PATCH] perl: Remove the changes of bin, lib etc. as the defaults will give sane values.
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] packageinfo.bbclass: Fix crash in hob
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,78 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 19:56:20 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Sep 2012 20:49:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 9/6/12 2:11 PM, Saul Wold wrote:
-> On 09/06/2012 01:29 AM, Martin Ertsaas wrote:
->> The old config put stuff in ${perldir}/image/usr/local/oecore-x86_64/sysroot/x86_64-unknownsdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-unknownsdk-linux/usr
->> instead of in ${perldir}/image/usr/local/oecore-x86_64/sysroot/x86_64-nimbussdk-linux/usr as it should.
->
-> I am not sure we want to remove that sed code, since allows for
-> different ${libdir} than /usr/lib, such as a flattened /lib, same with
-> the ${exec_prefix}.
+On Thursday 06 September 2012 13:53:54 Jason Wessel wrote:
+> The hob internally fails after executing a build and invoking
+> the hob a second time when it tries to use the values found in
+> BUILDDIR/tmp/pkgdata/*/runtime/*
+> 
+> The internal failure of the hob will manifest itself as
+> stating "Populated recipes 99%" forever after selecting
+> a machine just after starting the hob interface.
+> 
+> The internal trace looks like:
+> 
+> Traceback (most recent call last):
+>   File "packageinfo_handler(e)", line 24, in packageinfo_handler
+> KeyError: 'PKGV'
+> 
+> It is a result of using an override for a package version for
+> pieces of the toolchain, in the bb file e.g.
+>     PKGV_gdb-dbg = "1234.5678"
+> 
+> The work around for now is to populate the sdata PKGV value
+> and to assign the pkgv variable with the correct value
+> from the values found in the pkgdata store.
+> 
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> ---
+>  meta/classes/packageinfo.bbclass |    7 ++++++-
+>  1 files changed, 6 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/classes/packageinfo.bbclass
+> b/meta/classes/packageinfo.bbclass index 26cce60..53965e4 100644
+> --- a/meta/classes/packageinfo.bbclass
+> +++ b/meta/classes/packageinfo.bbclass
+> @@ -18,7 +18,12 @@ python packageinfo_handler () {
+>                          sdata = oe.packagedata.read_pkgdatafile(root +
+> pkgname) sdata['PKG'] = pkgname
+>                          pkgrename = sdata['PKG_%s' % pkgname]
+> -                        pkgv = sdata['PKGV'].replace('-', '+')
+> +                        try:
+> +                            pkgv = sdata['PKGV']
+> +                        except:
+> +			    sdata['PKGV'] = sdata['PKGV_%s' % pkgname]
+> +                        pkgv = sdata['PKGV']
+> +                        pkgv = pkgv.replace('-', '+')
+>                          pkgr = sdata['PKGR']
+>                          # We found there are some renaming issue with
+> certain architecture. # For example, armv7a-vfp-neon, it will use armv7a in
+> the rpm file. This is the workaround for it.
 
-Ya, the sed lines are specifically there to enable the end user to modify the 
-exec_prefix and libdir to their local distribution policies.  If this is no 
-longer necessary, we can remove it.. but someone needs to verify they are being 
-used properly.  (Flattened filesystem and multilibs are the two places I know 
-it's used today.)
+Rather than a blanket try...except which could catch other errors I would 
+suggest using .get() to which you can supply a default value if no such key 
+exists in the dict.
 
---Mark
+I'm afraid I didn't get around to determining whether we should be recording 
+these package name overrides in the pkgdata files today, I will check into that 
+tomorrow.
 
-> Sau!
->
->
->> ---
->>    meta/recipes-devtools/perl/perl_5.14.2.bb |   19 ++++++++-----------
->>    1 files changed, 8 insertions(+), 11 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
->> index 3c1360f..04e2597 100644
->> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
->> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
->>    # We need gnugrep (for -I)
->>    DEPENDS = "virtual/db grep-native"
->>    DEPENDS += "gdbm zlib"
->> -PR = "r9"
->> +PR = "r10"
->>
->>    # 5.10.1 has Module::Build built-in
->>    PROVIDES += "libmodule-build-perl"
->> @@ -145,16 +145,13 @@ do_configure() {
->>
->>    	${@base_contains('DISTRO_FEATURES', 'largefile', '', 'do_nolargefile', d)}
->>
->> -        # Update some paths in the configuration
->> -        sed -i -e 's,@DESTDIR@,${prefix},g' \
->> -               -e 's,@ARCH@-thread-multi,,g' \
->> -               -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
->> -               -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
->> -               -e "s%\([ \"^\',=]\+\)/usr/include%\1${STAGING_INCDIR}%g" \
->> -	       -e "s%\([ \"^\',=]\+\)/usr/lib/%\1${libdir}/%g" \
->> -	       -e "s%\([ \"^\',=]\+\)/usr/%\1${exec_prefix}/%g" \
->> -	       -e "s%/perl5%/perl%g" \
->> -            config.sh-${TARGET_ARCH}-${TARGET_OS}
->> +    # Update some paths in the configuration
->> +    sed -i -e 's,@DESTDIR@,${prefix},g' \
->> +           -e 's,@ARCH@-thread-multi,,g' \
->> +           -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
->> +           -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
->> +           -e "s%/perl5%/perl%g" \
->> +          config.sh-${TARGET_ARCH}-${TARGET_OS}
->>
->>    	case "${TARGET_ARCH}" in
->>    		x86_64 | powerpc | s390)
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
