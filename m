@@ -1,40 +1,27 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T9cHn-000692-4y
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T9cMx-0006E0-6g
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 15:38:23 +0200
-Received: by wgbdr1 with SMTP id dr1so1352519wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 06:25:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=QiPu1EBuTXiZxiE5N3bc+/zCExxKjuA7phpiq7cvD1Q=;
-	b=XWUveck2oPOxlhkD/OB+e1AfSEagNdvzyeIjkPqTmDXaRppZ6YWwxWReUG2BhdM4XD
-	bQ5Mbe+dqohp8cDNUs5C5ZycM9FIwPnE5GTZR561tPhTBqfgE4OpG5CMOR8oIvvX/OnS
-	qkGkP5snxhTj5XlmmGO5jS4aMRUuciBWcN3e1CoUPLac3YwvS9x+dRvHiFFxgAQZg0n0
-	jNIMKxGJY/SI3/U/T6pLUwxS0e7rVL8LAi/VSwh+GxgDbDIzZNZD5GP4OX8p7x13r0cC
-	sbpFRQi7F7/2NhDY3yhM8WspX2r/eCRuVqjmym7KcKAIaLNbHGC8Nd5LKVdLX5/Ex0EF
-	nQMg==
-Received: by 10.216.200.201 with SMTP id z51mr1319607wen.0.1346937958728;
-	Thu, 06 Sep 2012 06:25:58 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id cu1sm4138809wib.6.2012.09.06.06.25.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Sep 2012 06:25:57 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
-Date: Thu, 6 Sep 2012 15:25:58 +0200
-Message-Id: <644855E8-7D63-45DC-B072-B9A9893058F3@dominion.thruhere.net>
-References: <CAK18fxEb3gjEEwhvN-du3eJvgUVCbjXU2Ag4kicFFDt6xra6og@mail.gmail.com>
-	<CAJTo0LYmPf0g_qv6X+8MefjzfWr4gsr33SaszHsG82PiGg+oEg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQkHwHe4LblTbft/MblodzHm3CN3GAr4PoK/QnMeL9CAERpcImz+C0GRutgVMmmf7VuRTtqd
-Subject: Re: [yocto] opengl / libgl / libgles
+	Thu, 06 Sep 2012 15:43:43 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Sep 2012 06:30:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="197954898"
+Received: from unknown (HELO helios.localnet) ([10.252.121.173])
+	by orsmga002.jf.intel.com with ESMTP; 06 Sep 2012 06:30:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, Liang Li <liang.li@windriver.com>,
+	Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Thu, 06 Sep 2012 14:30:57 +0100
+Message-ID: <1452592.pU2j6FHZEs@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <20120802142510.GA6025@localhost>
+References: <CALbNGRR1j33mDcTD-q2FD+g2uL1VNZNdDwRX7_MNeUTKtN=ozQ@mail.gmail.com>
+	<CALbNGRSbs7D5kiPjuR1uh=ra-j08HbJRszx+cLv5NJtRtxj_RA@mail.gmail.com>
+	<20120802142510.GA6025@localhost>
+MIME-Version: 1.0
+Subject: Re: latest updates make kernel menuconfig unusable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,98 +34,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 13:38:23 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 06 Sep 2012 13:43:43 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-
-Op 6 sep. 2012, om 15:04 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
-
-> (CCing oe-core, discussion should happen there really)
+On Thursday 02 August 2012 22:25:18 Liang Li wrote:
+> On 2012-08-02 19:07, Andreas M=EF=BF=BDller <schnitzeltony@googlemail=
+.com> wrote:
+> > On Thu, Jun 21, 2012 at 2:29 AM, Khem Raj <raj.khem@gmail.com> wrot=
+e:
+> > > On Wed, Jun 20, 2012 at 11:55 AM, Martin Jansa <martin.jansa@gmai=
+l.com>=20
+wrote:
+> > >> On Wed, Jun 20, 2012 at 04:20:03PM +0200, Andreas M=E9=BB=AEler =
+wrote:
+> > >>> Hi,
+> > >>>=20
+> > >>> since
+> > >>>=20
+> > >>> commit fe417e8a4d625c6933de72163d2fee52ac47f571
+> > >>> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > >>> Date:   Thu May 31 13:22:34 2012 +0000
+> > >>>=20
+> > >>>     cmd1.bbclass: Ensure ncurses is built and used for menuconf=
+ig
+> > >>>     tasks
+> > >>>    =20
+> > >>>     Currently, the task just exits if something goes wrong. Thi=
+s adds
+> > >>>     the
+> > >>>     ncurses-native dependency. It also adds a small delay befor=
+e
+> > >>>     closing the
+> > >>>     window so any messages displayed there can be seen.
+> > >>>    =20
+> > >>>     Trying to get the kernel build system to correctly find and=
+ link
+> > >>>     with
+> > >>>     our copy of ncurses is some kind of nightmare. I ended up h=
+aving
+> > >>>     to add
+> > >>>     it to HOST_LOADLIBES globally for this task which is rather=
+ nasty
+> > >>>     but I
+> > >>>     couldn't find any other way.
+> > >>>    =20
+> > >>>     [YOCTO #2513]
+> > >>>    =20
+> > >>>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundati=
+on.org>
+> > >>>=20
+> > >>> my menuconfig is unusable (see screenshot attached). I reverted=
+ it and
+> > >>> can work as before.
+> > >>>=20
+> > >>> I am working on Fedora 15 and set in my local.conf
+> > >>>=20
+> > >>> TERMCMD =3D "${GNOME_TERMCMD}"
+> > >>> TERMCMDRUN =3D "${GNOME_TERMCMDRUN}"
+> > >>=20
+> > >> I can confirm the same look&feel with
+> > >> TERMCMD =3D "${SCREEN_TERMCMD}"
+> > >> TERMCMDRUN =3D "${SCREEN_TERMCMDRUN}"
+> > >=20
+> > > seems like a locale issue.
+> >=20
+> > FYI
+> >=20
+> > Still have this behaviour and can work around it by commenting out
+> >=20
+> > OE_TERMINAL_EXPORTS +=3D "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIB=
+ES"
+> >=20
+> > in cml1.bbclass.
 >=20
-> On 6 September 2012 11:00, Andrei Gherzan <andrei@gherzan.ro> wrote:
->> In DISTRO_FEATURES we have opengl. That is pretty vague and generally =
-we
->> don't want to have mesa on machines where there is no libgl but only =
-gles +
->> egl. For example if we want to compile something that adds a DEPENDS =
-based
->> on DISTRO_FEATURE opengl, this dependency will be added even if there =
-is no
->> libgl implemented for that specific machine.
->>=20
->> First idea would be that opengl (gl / gles) are machine related. On =
-the
->> other hand opengl can be a DISTRO_FEATURE as we have a software
->> implementation - mesa.
->>=20
->> How would you guys see a solution for this? The idea that came into =
-my mind
->> was to map opengl to libgl or libgles. Or to both if there is the =
-case.
+> I have same issue on fedora 17, make it works for my host with
+> below temporary tweak:
 >=20
-> (First I must apologise for the uneven flow of this mail - my mornings
-> been pretty choppy but hopefully people can see what I'm thinking)
+> diff --git meta/classes/cml1.bbclass meta/classes/cml1.bbclass
+> index bd25311..948cfad 100644
+> --- meta/classes/cml1.bbclass
+> +++ meta/classes/cml1.bbclass
+> @@ -15,6 +15,7 @@ HOSTLDFLAGS =3D "${BUILD_LDFLAGS}"
+>  HOST_LOADLIBES =3D "-lncurses"
 >=20
-> I've been thinking about this quite a lot recently, as the current
-> setup is broken in some way on most hardware.  There is a bigger
-> problem than just distro or machine features - the packaging isn't
-> obvious or correct either.
+>  python do_menuconfig() {
+> +        d.setVar("HOSTLDFLAGS", "")
+>          oe_terminal("${SHELL} -c \"make menuconfig; echo 'Pausing fo=
+r
+>          5 seconds'; sleep 5\"", '${PN} Configuration', d)
+>  }
+>  do_menuconfig[depends] +=3D "ncurses-native:do_populate_sysroot"
 >=20
-> First, we need a concrete definition of the "opengl" distro feature.
-> I propose just "some form of OpenGL functionality" without any
-> implications about what specification is present.
+> ---
 >=20
-> Then, machine features for the portions of OpenGL that the hardware
-> supports - gl, gles1, gles2.  I'd love to say "gles" means GLESv2 but
-> I suspect we're not quite safe from the horrors of hardware that only
-> supports GLESv1 yet.
+> FYI.
 >=20
-> We then need more virtual providers for the GL libraries.  Mesa is an
-> obvious provider - it provides libgl, libglesv1, libglesv2 and libegl.
-> On Raspberry Pi the binary drivers provide libglesv1, glesv2, and
-> egl.  As the performance of the software renderer will be terrible,
-> unsetting the libgl provider makes a lot of sense.
+> Regards,
+> =09=09Liang Li
 >=20
-> Because there are multiple providers of the GL libraries, and they are
-> not all specific to a single machine, every package that provides GL
-> packages need to be namespaced.  The Debian-renaming makes this
-> trickier but luckily it can be overridden in the recipe, so Mesa
-> should be building libgl-mesa, libegl-mesa, and so on.  Every other
-> provider of the GL libraries should do this too.
->=20
-> Library dependencies are also broken, of course.  A package that links
-> to libGL.so.1 shouldn't get a dependency on mesa-dri or whatever was
-> installed to provide that library, but a dependency on a virtual
-> "libgl" package.  As far as I'm aware this isn't something that the
-> automatic shlibs dependency generation handles, but there is plenty of
-> prior art for this.
 
-It's not automatic, but you can do something like this:
+Is there a proper fix for this issue if clearing HOSTLDFLAGS isn't the =
+right=20
+one? I'm not quite sure how to reproduce the problem here.
 
-	=
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/commit/?id=3D23b02134
+Cheers,
+Paul
 
-That recipe ships multiple copies of the libraries to account for =
-different silicon revisions (the shader compiler will offload different =
-things to the CPU), but we don't want the shlibs code to pickup the =
-copies. So for mesa you can do:
+--=20
 
-	PRIVATE_LIBS_${PN}-dri =3D "libGL.so"
-	RPROVIDES_${PN}-dri =3D $magic_python_function(PACKAGE_CONFIG, =
-sometthing, something, libgl)
-
-And in the recipes that link to a GL lib you do:
-
-	RDEPENDS_${PN} =3D "libGL"
-
-Which only leaves the DISTRO to sort out the runtime preferred provider, =
-which is likely a conf file with a bunch of PACKAGE_CONFIG entries for =
-all the machines the DISTRO wants to support.
-
-regards,
-
-Koen=
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
