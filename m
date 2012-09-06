@@ -1,34 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T9ll4-00057K-A1 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 01:45:14 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86NWmQI023516;
-	Fri, 7 Sep 2012 00:32:48 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22787-07; Fri,  7 Sep 2012 00:32:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q86NWesC023510
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 7 Sep 2012 00:32:41 +0100
-Message-ID: <1346974360.7493.38.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 07 Sep 2012 00:32:40 +0100
-In-Reply-To: <50492CAF.3010203@windriver.com>
-References: <cover.1346956528.git.bruce.ashfield@windriver.com>
-	<fb717d4aa26b125680f620254cde9eb97ef0708a.1346956528.git.bruce.ashfield@windriver.com>
-	<1346969961.7493.24.camel@ted> <504921BD.4040004@windriver.com>
-	<5049253B.4090402@windriver.com> <1346972362.7493.32.camel@ted>
-	<50492CAF.3010203@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1T9llw-0005AY-23
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 01:46:08 +0200
+Received: by wgbdr1 with SMTP id dr1so1723663wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Sep 2012 16:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=L7vkoy+uKsl8sLzMt/tCkBxZ5siI2GkCxWoTHzPoD7A=;
+	b=o1RJLdN43lpLiU8t8a976UoZ8MOYeohQzNIdlzHYs8je7ty7vi9stzLBd7wXFJfW4d
+	esbP/URqog8QracF4/QfS5E7tro8tQMG3+pomiy4u6ebn4R4qwvp03dYod58z0tZnp9i
+	mINE0Im65WFv2G05II850eKmUbv/m+N1ru4fvt7tbdu9jVaGltkE2BIk+SfA+kr4VlVY
+	pTUo2sc5NunIlIsAVGaGsCz/0GqScmGfGr3dZl+2nlybzsjhr2K4SsNgqpcQ+N+Km3EZ
+	fBD0DLSVwDi9DWSQCrmb/ia32AZ236YHFyEugHXRfRMfjR5GW5D4Sh/pW9+9BmDYDQVf
+	UueQ==
+Received: by 10.180.105.163 with SMTP id gn3mr8035078wib.2.1346974423154;
+	Thu, 06 Sep 2012 16:33:43 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id o2sm9411419wiz.11.2012.09.06.16.33.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 06 Sep 2012 16:33:41 -0700 (PDT)
+Date: Fri, 7 Sep 2012 01:34:13 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120906233413.GB3487@jama.jama.net>
+References: <1346792317-26563-1-git-send-email-Martin.Jansa@gmail.com>
+	<1346792317-26563-2-git-send-email-Martin.Jansa@gmail.com>
+	<1346974199.7493.36.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1346974199.7493.36.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] conf/tune: add tune-ppce300c3
+Subject: Re: [PATCH 2/2] packagegroup-core-x11: split machine specific parts to separate recipe packagegroup-core-x11-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,118 +46,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 23:45:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Sep 2012 23:46:08 -0000
+X-Groupsio-MsgNum: 28843
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="i0/AhcQY5QxfSsSZ"
+Content-Disposition: inline
 
-On Thu, 2012-09-06 at 18:07 -0500, Mark Hatle wrote:
-> On 9/6/12 5:59 PM, Richard Purdie wrote:
-> > On Thu, 2012-09-06 at 17:35 -0500, Mark Hatle wrote:
-> >> On 9/6/12 5:20 PM, Bruce Ashfield wrote:
-> >>> On 12-09-06 6:19 PM, Richard Purdie wrote:
-> >>>> On Thu, 2012-09-06 at 14:43 -0400, Bruce Ashfield wrote:
-> >>>>> It has been pointed out several times that the yocto mpc8315e-rdb
-> >>>>> reference was using the wrong tuning (603e), since it is actually
-> >>>>> a e300c3 board.
-> >>>>>
-> >>>>> This commit creates a e300c3 tune file based on the e300c2 variant
-> >>>>> already in oe-core.
-> >>>>>
-> >>>>> This commit also inhibits altivec in flac when this new tuning is
-> >>>>> enabled. It was also noticed that the existing tune based overrides
-> >>>>> in the flac package would not be triggered since DEFAULTTUNE is not
-> >>>>> in the overrides list. To avoid doing per-board disabling of altivec
-> >>>>> DEFAULTTUNE is added to the local package OVERRIDES and then used
-> >>>>> to disable altivec.
-> >>>>>
-> >>>>> [YOCTO #1192]
-> >>>>>
-> >>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
-> >>>>>
-> >>>>> asdfkljds
-> >>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
-> >>>>> ---
-> >>>>>     meta/conf/machine/include/tune-ppce300c3.inc |   11 +++++++++++
-> >>>>>     meta/recipes-multimedia/flac/flac_1.2.1.bb   |    5 +++++
-> >>>>>     2 files changed, 16 insertions(+), 0 deletions(-)
-> >>>>>     create mode 100644 meta/conf/machine/include/tune-ppce300c3.inc
-> >>>>>
-> >>>>> diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machine/include/tune-ppce300c3.inc
-> >>>>> new file mode 100644
-> >>>>> index 0000000..3f5ac26
-> >>>>> --- /dev/null
-> >>>>> +++ b/meta/conf/machine/include/tune-ppce300c3.inc
-> >>>>> @@ -0,0 +1,11 @@
-> >>>>> +DEFAULTTUNE ?= "ppce300c3"
-> >>>>> +
-> >>>>> +require conf/machine/include/powerpc/arch-powerpc.inc
-> >>>>> +
-> >>>>> +TUNEVALID[ppce300c3] = "Enable ppce300c3 specific processor optimizations"
-> >>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "-mcpu=e300c3", "", d)}"
-> >>>>> +
-> >>>>> +AVAILTUNES += "ppce300c3"
-> >>>>> +TUNE_FEATURES_tune-ppce300c3 = "m32 fpu-soft ppce300c3"
-> >>>>> +TUNE_PKGARCH_tune-ppce300c3 = "ppce300c3"
-> >>>>> +PACKAGE_EXTRA_ARCHS_tune-ppce300c3 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} ppce300c3"
-> >>>>> diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
-> >>>>> index 3c5b73c..25db1c4 100644
-> >>>>> --- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
-> >>>>> +++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
-> >>>>> @@ -36,9 +36,14 @@ EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
-> >>>>>                     --without-xmms-exec-prefix \
-> >>>>>                     --without-libiconv-prefix \
-> >>>>>                     --without-id3lib"
-> >>>>> +
-> >>>>> +FLACOVERRIDE = ":${DEFAULTTUNE}"
-> >>>>> +OVERRIDES .= "${FLACOVERRIDE}"
-> >>>>> +
-> >>>>>     EXTRA_OECONF_prepend_e500mc = "--disable-altivec "
-> >>>>>     EXTRA_OECONF_prepend_e5500 = "--disable-altivec "
-> >>>>>     EXTRA_OECONF_prepend_e5500-64b = "--disable-altivec "
-> >>>>> +EXTRA_OECONF_prepend_ppce300c3 = "--disable-altivec "
-> >>>>>
-> >>>>
-> >>>> This is getting ugly and is kind of unsafe. Perhaps the architecture
-> >>>> should be doing something like:
-> >>>>
-> >>>> MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", ":noaltivec", "" ,d)}
-> >>>>
-> >>>> or even in this recipe just do:
-> >>>>
-> >>>> EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " --disable-altivec", "" ,d)}
-> >>>
-> >>> I definitely considered this route. I can do that for the new arch, and the
-> >>> old ones, but can't test the old ones at the moment.
-> >>
-> >> The problem is actually in the flac.  This recipe sees powerpc as the machine
-> >> type, and immediately enabled altivec.  By default altivec support is disabled
-> >> in OE-Core.
-> >>
-> >> Perhaps one way we could address this is add a tune flag that says if the tune
-> >> has altivec support or not.. then in the flac binary, disable it unless it's
-> >> enabled?
-> >
-> > I think having altivec in the tune_features would be ideal. I'd love to
-> > get this cleaned up too but I lack much knowledge about powerpc...
-> 
-> My proposal then would be to accept Bruce's patch, with the understanding that 
-> we need to add a tune flag of 'altivec' to the PowerPC tunings (where 
-> appropriate) and then make the flac recipe respect that flag.
-> 
-> Unfortunately I don't have the time to do that right now or I would.  Would an 
-> enhancement bug in the Yocto Project bugzilla be enough to be sure the work is done?
+--i0/AhcQY5QxfSsSZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please send something machine specific. Adding DEFAULTTUNE is a bad idea
-for several reasons, not least it might not be the selected tune.
+On Fri, Sep 07, 2012 at 12:29:59AM +0100, Richard Purdie wrote:
+> On Tue, 2012-09-04 at 22:58 +0200, Martin Jansa wrote:
+> > * add new packagegroup-core-x11-server to SIGGEN_EXCLUDERECIPES_ABISAFE,
+> >   so that recipes depending on it are not rebuilt after every machine
+> >   swtich
+> > * allows to remove task-x11-server and task-x11 from meta-oe without=20
+> >   loosing any functionality
+> > * be carefull with default XSERVER value which does not have=20
+> >   xf86-input-mouse and xf86-input-keyboard)
+> > * VIRTUAL-RUNTIME_xserver_common which defaults to x11-common in oe-cor=
+e=20
+> >   and xserver-common in meta-oe's task-x11
+> >=20
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/conf/layer.conf                               |  1 +
+> >  .../packagegroups/packagegroup-core-x11-xserver.bb | 24 ++++++++++++++=
+++++++++
+> >  .../packagegroups/packagegroup-core-x11.bb         | 16 ++-------------
+> >  3 files changed, 27 insertions(+), 14 deletions(-)
+> >  create mode 100644 meta/recipes-graphics/packagegroups/packagegroup-co=
+re-x11-xserver.bb
+>=20
+> This sneaked in with a load of other patches. I never meant to merge
+> this as I consider it broken.
+>=20
+> Task packages are cheap and having them being machine specific imposes
+> little overhead. Splitting this into two just increases the parsing
+> overhead through the number of recipes and doesn't do much else since
+> there are still machine specific packages involved, all dependencies
+> still get built etc. so I really don't see the point of the added
+> complexity.
 
-I took Matthew's original patch on the understanding this gets fixed and
-it hasn't happened but please do file the request.
-
+Yes task-* are cheap but if such recipe is in RDEPENDS of some other
+more expensive recipe then it's better when it's excluded from sstate.
+=20
 Cheers,
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--i0/AhcQY5QxfSsSZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlBJMvUACgkQN1Ujt2V2gBw9IgCggTOwLVzVin182r2ieTPj3m08
+caQAn0jXQK48psUXPkK6T3BRcQ2iEzRE
+=2UNS
+-----END PGP SIGNATURE-----
 
-
+--i0/AhcQY5QxfSsSZ--
