@@ -1,16 +1,16 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T9Zq7-0008Lm-KJ
+	(envelope-from <constantinx.musca@intel.com>) id 1T9ZvU-0000Bg-B3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Sep 2012 13:01:39 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 06 Sep 2012 03:49:14 -0700
+	Thu, 06 Sep 2012 13:07:12 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2012 03:54:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="142131336"
+X-IronPort-AV: E=Sophos;i="4.80,380,1344236400"; d="scan'208";a="218813287"
 Received: from costin-desktop (HELO [10.237.105.156]) ([10.237.105.156])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Sep 2012 03:49:12 -0700
-Message-ID: <504872CD.7040407@intel.com>
-Date: Thu, 06 Sep 2012 12:54:21 +0300
+	by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2012 03:54:35 -0700
+Message-ID: <50487410.2080408@intel.com>
+Date: Thu, 06 Sep 2012 12:59:44 +0300
 From: Constantin Musca <constantinx.musca@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120714 Thunderbird/14.0
@@ -35,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 11:01:39 -0000
+X-List-Received-Date: Thu, 06 Sep 2012 11:07:12 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -102,8 +102,8 @@ On 09/05/2012 05:05 PM, Martin Jansa wrote:
 >> Openembedded-commits mailing list
 >> Openembedded-commits@lists.openembedded.org
 >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
-I have sent a patch ([PATCH] automake 1.12.3: fix warnings) that 
-eliminates the warnings.
+I have sent a patch([PATCH] automake 1.12.3: fix warnings) that resolves 
+the problem.
 
 Cheers,
 Constantin Musca
