@@ -1,36 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T9wJd-0003CJ-WE
+	(envelope-from <ross.burton@intel.com>) id 1T9wKg-0003HD-Cv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 13:01:38 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 07 Sep 2012 03:49:05 -0700
-Received: by wibhn17 with SMTP id hn17so2207068wib.6
+	Fri, 07 Sep 2012 13:02:42 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 07 Sep 2012 03:50:12 -0700
+Received: by wgbdr1 with SMTP id dr1so2046396wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2012 03:49:03 -0700 (PDT)
+	Fri, 07 Sep 2012 03:50:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=KZHd66PSIxqUgdj5U8dJwplAXk8UxRHEsV3YTs5otbQ=;
-	b=FYQf6uTLeNEuuQEAn318YagaFZw7e6TbviMmKO7ziATk1rT1hp6shOSK+U+vWG4Sb6
-	j1tgCoEwdx/V+RNuj48Ox7/GMD1u+bdWWpX+m3dMuhMq41Z7heClFuq0MwEVU2P+VMS5
-	aceQlaaLp1L1f+wbDBnAPG8FkaQ6dbSG1aUvp/7orsN+BDkEJVna5/eh+hw9H8MdpY1Y
-	SnyLWX+wcPWaN2gEjChq+XwLEKn8GOCHfkJnhPwWwMKcx0QhAByqE1yg8zizuBqIOqlc
-	K/VkLAOsx1KSJX0wrY+YnJgwJEkIoKFgxfre/joe5CvgP8x+ZI+0b1FD/vA/08WPi5yV
-	RP4Q==
-Received: by 10.216.116.70 with SMTP id f48mr2857527weh.162.1347014943250;
-	Fri, 07 Sep 2012 03:49:03 -0700 (PDT)
+	bh=cIlbrYLHFFDf+VeWJq5ZqvY5/Q71fcy2xxkXe99ydPU=;
+	b=QxcNblHRbPx12nlsASgQcHKB6pF7dr38ycsM1a1WCSVtTm40StT42aJuHpnfVBL9b4
+	gIu4VnBKnosivmEtmwR9JhYiBtTWcVtm3gi6S9mvfM3g46X3tsU1ei6kzy8w1i7y9Z+4
+	8i6SCXikU9D5ttuqUYrLX/+06Zr8iYmRgBhD4pESKl5+iM+PqELtJuqTP+xTZsNqL5I5
+	9Zzypzv9+O9fUMwhE87cxAA6r3VwQ2c0WJildymBUKHTrtZ/k8F4w7XFl76DQsEOULIq
+	6HlYDEX6lLeiZ4yjXbQrBFZNJOebM6zDe6dEonRzH0Dbhyh21aeaJvpx8lP9IauwFLWs
+	41Wg==
+Received: by 10.180.91.1 with SMTP id ca1mr45649594wib.8.1347015010807;
+	Fri, 07 Sep 2012 03:50:10 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id k2sm13233259wiz.7.2012.09.07.03.49.01
+	by mx.google.com with ESMTPS id q4sm9053094wix.9.2012.09.07.03.50.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Sep 2012 03:49:02 -0700 (PDT)
+	Fri, 07 Sep 2012 03:50:09 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Sep 2012 11:48:16 +0100
-Message-Id: <1347014897-24227-1-git-send-email-ross.burton@intel.com>
+Date: Fri,  7 Sep 2012 11:49:25 +0100
+Message-Id: <1347014965-24440-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmXjWlqUsdUPD8VfGTzXgpNxr+KXi3jnkkGsHWfE1cH8cFOPlbPG5iU5LNGiEUbFcs09I5I
-Subject: [PATCH 1/2] xserver-xorg-lite: remove
+X-Gm-Message-State: ALoCoQms1+jBuZ1ZI3/ONXP8EQiRzN90VwfDTDfAY3xrER79eRZVJ6/eOJpuWUrSyDiTsGEhlxPS
+Subject: [PATCH] xserver-xorg: make DRI/GLX options respect opengl distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,335 +43,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 11:01:38 -0000
+X-List-Received-Date: Fri, 07 Sep 2012 11:02:42 -0000
 
-Building xserver-xorg and not installing the DRI and GLX modules (and so not
-Mesa) results in an increase of 16kb compared to this package.
-
-This isn't worth the effort of maintaining two packages.
+If the distro doesn't have the opengl feature there's no point building the DRI
+or GLX support, making the mesa-dri build dependency optional.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../xorg-xserver/xserver-xorg-common.inc           |  129 ------------------
- .../xorg-xserver/xserver-xorg-lite.inc             |    8 --
- .../xorg-xserver/xserver-xorg-lite_1.11.2.bb       |    4 -
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  138 +++++++++++++++++++-
- 4 files changed, 134 insertions(+), 145 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
+ .../xorg-xserver/xserver-xorg-1.11.2.inc               |    2 +-
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc    |   16 ++++------------
+ 2 files changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-deleted file mode 100644
-index 6133344..0000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
-+++ /dev/null
-@@ -1,129 +0,0 @@
--DESCRIPTION = "The X.Org X server"
--HOMEPAGE = "http://www.x.org"
--SECTION = "x11/base"
--LICENSE = "MIT-X"
--LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
--
--# xf86-*-* packages depend on an X server built with the xfree86 DDX
--# so we have a virtual to represent that:
--# deprecated, we should use virtual/xserver instead
--PROVIDES = "virtual/xserver-xf86"
--
--# Other packages tend to just care that there is *an* X server:
--PROVIDES += "virtual/xserver"
--
--PE = "2"
--
--XORG_PN = "xorg-server"
--SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
--SRC_URI += "file://macro_tweak.patch"
--
--S = "${WORKDIR}/${XORG_PN}-${PV}"
--
--inherit autotools pkgconfig
--
--PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
--LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
--DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
--
--# Split out some modules and extensions from the main package
--# These aren't needed for basic operations and only take up space:
--#  32.0k   libdri.so
--#  91.0k   libexa.so
--#  336.0k  libglx.so
--#  1360k   libint10.so
--#  180.0k  libwfb.so
--#  320.0k  libxaa.so
--#  124.0k  libxf1bpp.so
--#  84.0k   libxf4bpp.so
--#          librecord.so
--#          libextmod.so
--#          libdbe.so
--
--PACKAGES =+ "${PN}-security-policy \
--             ${PN}-sdl \
--             ${PN}-fbdev \
--             ${PN}-xprint \
--             ${PN}-xvfb \
--             ${PN}-utils \
--             ${PN}-xephyr \
--             ${PN}-multimedia-modules \
--             ${PN}-extension-dri \
--             ${PN}-extension-dri2 \
--             ${PN}-extension-glx \
--             ${PN}-extension-record \
--             ${PN}-extension-extmod \
--             ${PN}-extension-dbe \
--             ${PN}-module-libint10 \
--             ${PN}-module-libafb \
--             ${PN}-module-libwfb  \
--             ${PN}-module-libmfb \
--             ${PN}-module-libcfb \
--             ${PN}-module-exa \
--             ${PN}-module-xaa \
--             ${PN}-module-libxf1bpp \
--             ${PN}-module-libxf4bpp"
--
--RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
--RDEPENDS_${PN}-xvfb += "xkeyboard-config"
--RREPLACES_${PN}-module-exa = "${PN}"
--
--FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
--FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
--FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled ${localstatedir}/lib/xkb/README.compiled"
--FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
--                    ${libdir}/xorg/modules/*/.debug \
--                    ${libdir}/xorg/modules/*/*/.debug \
--                    "
--FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
--FILES_${PN}-sdl = "${bindir}/Xsdl"
--FILES_${PN}-fbdev = "${bindir}/Xfbdev"
--FILES_${PN}-xprint = "${libdir}/X11/xserver/*/print"
--FILES_${PN}-xvfb = "${bindir}/Xvfb"
--FILES_${PN}-utils = "${bindir}/scanpci ${bindir}/pcitweak ${bindir}/ioport ${bindir}/in[bwl] ${bindir}/out[bwl] ${bindir}/mmap[rw] ${bindir}/gtf ${bindir}/getconfig ${bindir}/getconfig.pl"
--FILES_${PN}-xephyr = "${bindir}/Xephyr"
--FILES_${PN}-multimedia-modules = "${libdir}/xorg/modules/multimedia/*drv*"
--FILES_${PN}-extension-dri = "${libdir}/xorg/modules/extensions/libdri.so"
--FILES_${PN}-extension-dri2 = "${libdir}/xorg/modules/extensions/libdri2.so"
--FILES_${PN}-extension-glx = "${libdir}/xorg/modules/extensions/libglx.so"
--FILES_${PN}-extension-record = "${libdir}/xorg/modules/extensions/librecord.so"
--FILES_${PN}-extension-extmod = "${libdir}/xorg/modules/extensions/libextmod.so"
--FILES_${PN}-extension-dbe = "${libdir}/xorg/modules/extensions/libdbe.so"
--FILES_${PN}-module-libint10 = "${libdir}/xorg/modules/libint10.so"
--FILES_${PN}-module-libafb = "${libdir}/xorg/modules/libafb.so"
--FILES_${PN}-module-libwfb = "${libdir}/xorg/modules/libwfb.so"
--FILES_${PN}-module-libmfb = "${libdir}/xorg/modules/libmfb.so"
--FILES_${PN}-module-libcfb = "${libdir}/xorg/modules/libcfb.so"
--FILES_${PN}-module-exa = "${libdir}/xorg/modules/libexa.so"
--FILES_${PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"
--FILES_${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
--FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
--
--EXTRA_OECONF += "--with-fop=no \
--                 --disable-static \
--                 --disable-acfb \
--                 --disable-ccfb \
--                 --disable-mcfb \
--                 --disable-xinerama \
--                 --disable-xf86misc \
--                 --disable-xorgcfg \
--                 --disable-record \
--                 --disable-dmx \
--                 --disable-xnest \
--                 --disable-xvfb \
--                 --enable-composite \
--                 --without-dtrace \
--                 --sysconfdir=/etc/X11 \
--                 --localstatedir=/var \
--                 --with-fontdir=${datadir}/fonts/X11 \
--                 --with-xkb-output=/var/lib/xkb \
--                 ac_cv_file__usr_share_sgml_X11_defs_ent=no \
--"
--
--PACKAGECONFIG ??= "udev"
--PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
--
--do_install_append () {
--	# Its assumed base-files creates this for us
--	rmdir ${D}${localstatedir}/log/
--}
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-deleted file mode 100644
-index 02db5bf..0000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require xserver-xorg-common.inc
--
--EXTRA_OECONF += "\
--                 --disable-dri \
--                 --disable-glx \
--                 --disable-dga \
--                 --without-xmlto \
--"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
-deleted file mode 100644
-index ec29b21..0000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require xserver-xorg-lite.inc
--require xserver-xorg-${PV}.inc
--
--FILESEXTRAPATHS_append := "${THISDIR}/xserver-xorg:${THISDIR}/xserver-xorg-${PV}:"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index b4a348c..c71896a 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,4 +8,4 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+ 
+-PR = "r6"
++PR = "r7"
 diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index ca7d33a..a0309aa 100644
+index a0309aa..210abad 100644
 --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
 +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -1,5 +1,138 @@
--require xserver-xorg-common.inc
-+DESCRIPTION = "The X.Org X server"
-+HOMEPAGE = "http://www.x.org"
-+SECTION = "x11/base"
-+LICENSE = "MIT-X"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
- 
-+# xf86-*-* packages depend on an X server built with the xfree86 DDX
-+# so we have a virtual to represent that:
-+# deprecated, we should use virtual/xserver instead
-+PROVIDES = "virtual/xserver-xf86"
-+
-+# Other packages tend to just care that there is *an* X server:
-+PROVIDES += "virtual/xserver"
-+
-+PE = "2"
-+
-+XORG_PN = "xorg-server"
-+SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
-+SRC_URI += "file://macro_tweak.patch"
-+
-+S = "${WORKDIR}/${XORG_PN}-${PV}"
-+
-+inherit autotools pkgconfig
-+
-+PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
-+LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
-+DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
-+
-+# Split out some modules and extensions from the main package
-+# These aren't needed for basic operations and only take up space:
-+#  32.0k   libdri.so
-+#  91.0k   libexa.so
-+#  336.0k  libglx.so
-+#  1360k   libint10.so
-+#  180.0k  libwfb.so
-+#  320.0k  libxaa.so
-+#  124.0k  libxf1bpp.so
-+#  84.0k   libxf4bpp.so
-+#          librecord.so
-+#          libextmod.so
-+#          libdbe.so
-+
-+PACKAGES =+ "${PN}-security-policy \
-+             ${PN}-sdl \
-+             ${PN}-fbdev \
-+             ${PN}-xprint \
-+             ${PN}-xvfb \
-+             ${PN}-utils \
-+             ${PN}-xephyr \
-+             ${PN}-multimedia-modules \
-+             ${PN}-extension-dri \
-+             ${PN}-extension-dri2 \
-+             ${PN}-extension-glx \
-+             ${PN}-extension-record \
-+             ${PN}-extension-extmod \
-+             ${PN}-extension-dbe \
-+             ${PN}-module-libint10 \
-+             ${PN}-module-libafb \
-+             ${PN}-module-libwfb  \
-+             ${PN}-module-libmfb \
-+             ${PN}-module-libcfb \
-+             ${PN}-module-exa \
-+             ${PN}-module-xaa \
-+             ${PN}-module-libxf1bpp \
-+             ${PN}-module-libxf4bpp"
-+
-+RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
-+RDEPENDS_${PN}-xvfb += "xkeyboard-config"
-+RREPLACES_${PN}-module-exa = "${PN}"
-+
-+FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
-+FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
-+FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled ${localstatedir}/lib/xkb/README.compiled"
-+FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
-+                    ${libdir}/xorg/modules/*/.debug \
-+                    ${libdir}/xorg/modules/*/*/.debug \
-+                    "
-+FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
-+FILES_${PN}-sdl = "${bindir}/Xsdl"
-+FILES_${PN}-fbdev = "${bindir}/Xfbdev"
-+FILES_${PN}-xprint = "${libdir}/X11/xserver/*/print"
-+FILES_${PN}-xvfb = "${bindir}/Xvfb"
-+FILES_${PN}-utils = "${bindir}/scanpci ${bindir}/pcitweak ${bindir}/ioport ${bindir}/in[bwl] ${bindir}/out[bwl] ${bindir}/mmap[rw] ${bindir}/gtf ${bindir}/getconfig ${bindir}/getconfig.pl"
-+FILES_${PN}-xephyr = "${bindir}/Xephyr"
-+FILES_${PN}-multimedia-modules = "${libdir}/xorg/modules/multimedia/*drv*"
-+FILES_${PN}-extension-dri = "${libdir}/xorg/modules/extensions/libdri.so"
-+FILES_${PN}-extension-dri2 = "${libdir}/xorg/modules/extensions/libdri2.so"
-+FILES_${PN}-extension-glx = "${libdir}/xorg/modules/extensions/libglx.so"
-+FILES_${PN}-extension-record = "${libdir}/xorg/modules/extensions/librecord.so"
-+FILES_${PN}-extension-extmod = "${libdir}/xorg/modules/extensions/libextmod.so"
-+FILES_${PN}-extension-dbe = "${libdir}/xorg/modules/extensions/libdbe.so"
-+FILES_${PN}-module-libint10 = "${libdir}/xorg/modules/libint10.so"
-+FILES_${PN}-module-libafb = "${libdir}/xorg/modules/libafb.so"
-+FILES_${PN}-module-libwfb = "${libdir}/xorg/modules/libwfb.so"
-+FILES_${PN}-module-libmfb = "${libdir}/xorg/modules/libmfb.so"
-+FILES_${PN}-module-libcfb = "${libdir}/xorg/modules/libcfb.so"
-+FILES_${PN}-module-exa = "${libdir}/xorg/modules/libexa.so"
-+FILES_${PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"
-+FILES_${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
-+FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
-+
-+EXTRA_OECONF += "--with-fop=no \
-+                 --without-xmlto \
-+                 --with-pic \
-+                 --disable-static \
-+                 --disable-acfb \
-+                 --disable-ccfb \
-+                 --disable-mcfb \
-+                 --disable-xinerama \
-+                 --disable-xf86misc \
-+                 --disable-xorgcfg \
-+                 --disable-record \
-+                 --disable-dmx \
-+                 --disable-xnest \
-+                 --disable-xvfb \
-+                 --enable-composite \
-+                 --without-dtrace \
-+                 --with-int10=x86emu \
-+                 --sysconfdir=/etc/X11 \
-+                 --localstatedir=/var \
-+                 --with-fontdir=${datadir}/fonts/X11 \
-+                 --with-xkb-output=/var/lib/xkb \
-+                 ac_cv_file__usr_share_sgml_X11_defs_ent=no \
-+"
-+
-+PACKAGECONFIG ??= "udev"
-+PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
-+
-+do_install_append () {
-+	# Its assumed base-files creates this for us
-+	rmdir ${D}${localstatedir}/log/
-+}
-+
-+
-+# Mesa/GLX/DRI
- PROTO_DEPS += "xf86driproto dri2proto"
- LIB_DEPS += "mesa-dri"
- 
-@@ -7,7 +140,4 @@ EXTRA_OECONF += "\
-                  --enable-dri \
-                  --enable-dri2 \
-                  --enable-glx-tls \
--                 --with-pic \
--                 --with-int10=x86emu \
--                 --without-xmlto \
+@@ -123,21 +123,13 @@ EXTRA_OECONF += "--with-fop=no \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
  "
+ 
+-PACKAGECONFIG ??= "udev"
++PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx', '', d)}"
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
++PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
++                      --disable-dri --disable-glx,\
++                      xf86driproto dri2proto mesa-dri"
+ 
+ do_install_append () {
+ 	# Its assumed base-files creates this for us
+ 	rmdir ${D}${localstatedir}/log/
+ }
+-
+-
+-# Mesa/GLX/DRI
+-PROTO_DEPS += "xf86driproto dri2proto"
+-LIB_DEPS += "mesa-dri"
+-
+-EXTRA_OECONF += "\
+-                 --enable-dri \
+-                 --enable-dri2 \
+-                 --enable-glx-tls \
+-"
 -- 
 1.7.10
 
