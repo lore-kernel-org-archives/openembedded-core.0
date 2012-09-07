@@ -1,33 +1,25 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooperjr27@gmail.com>) id 1TA86r-0005J4-TS
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TA8bu-0005xA-E9
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Sep 2012 01:37:14 +0200
-Received: by obblz20 with SMTP id lz20so236577obb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2012 16:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=Xb9ZA4pwcmRin3UDZvoZWWd0WB/TMwJMzh97IFlnJEs=;
-	b=RRz/VtsFaD9QZSQJwii+Jo6ods2SnuCrIKePY+dEkekKd3lXzKB9jZScciJs2Guv1m
-	0DZ2VtHXKzSIbz3c8130UwCrP1D/MTZ+gNXoUW545q4DkuhALduuEFpHQZXLY4SApNMZ
-	GQq44X+ypUNaAJshPUKu8NtRWflbZwAM9Yq+7reZAnPorGdmTQbKrNmXa3NENKCVO8m1
-	ctpdRhtSg6ZXAcp1b4FgPwFDBPiANPTWAF1CKIOJiwr5+fjL4vjda7tSXksFzES/WzLQ
-	kMIAQNsqRMZiMMLjEj/7Ly//rZJYi6n2+f/5meMJxS7tPUMelfBYp5Di+k7IJlGVlnah
-	dwwg==
-Received: by 10.182.146.77 with SMTP id ta13mr7558224obb.97.1347060287230;
-	Fri, 07 Sep 2012 16:24:47 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com. [192.94.94.33])
-	by mx.google.com with ESMTPS id q3sm4780769oef.0.2012.09.07.16.24.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Sep 2012 16:24:46 -0700 (PDT)
-From: "Franklin S. Cooper Jr" <fcooperjr27@gmail.com>
+	Sat, 08 Sep 2012 02:09:18 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 07 Sep 2012 16:56:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,388,1344236400"; d="scan'208";a="142782271"
+Received: from unknown (HELO helios.localnet) ([10.252.121.181])
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Sep 2012 16:56:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Sep 2012 18:42:56 -0500
-Message-Id: <1347061376-22634-1-git-send-email-fcooper27jr@gmail.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: "Franklin S. Cooper Jr" <fcooper27jr@gmail.com>
-Subject: [meta][PATCH v3] u-boot: Use fw_env.config if available.
+Date: Sat, 08 Sep 2012 00:56:48 +0100
+Message-ID: <3797326.nJL3Eer77d@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <1347041849-1559-1-git-send-email-sgw@linux.intel.com>
+References: <1347041849-1559-1-git-send-email-sgw@linux.intel.com>
+MIME-Version: 1.0
+Cc: Marc Ferland <marc.ferland@gmail.com>
+Subject: Re: [PATCH] openssh: allow root login when debug-tweaks is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,98 +32,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 23:37:14 -0000
+X-List-Received-Date: Sat, 08 Sep 2012 00:09:18 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* Add support for board specific fw_env.config file if available.
+On Friday 07 September 2012 11:17:29 Saul Wold wrote:
+> This allows root to login over ssh with an empty password just like
+> dropbear when the debug-tweaks are enabled, it's important to disable
+> debug-tweaks for a production system as this will leave open a security
+> hole!
+> 
+> Thanks to Marc for the settings.
+> Cc: Marc Ferland <marc.ferland@gmail.com>
+> 
+> [Yocto #3078]
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-connectivity/openssh/openssh_6.0p1.bb |    9 ++++++++-
+>  1 files changed, 8 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+> b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb index 31202d4..fcd082c
+> 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+> @@ -7,7 +7,7 @@ SECTION = "console/network"
+>  LICENSE = "BSD"
+>  LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+> 
+> -PR = "r3"
+> +PR = "r4"
+> 
+>  DEPENDS = "zlib openssl"
+>  DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+> @@ -75,6 +75,13 @@ do_install_append () {
+>  			install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+>  		fi
+>  	done
+> +	for i in ${IMAGE_FEATURES};
+> +	do
+> +		if [ ${i} = "debug-tweaks" ]; then
+> +			sed -i -e "s/^#PermitRootLogin/PermitRootLogin/"
+> ${D}${sysconfdir}/ssh/sshd_config +			sed -i -e "s/^#PermitEmptyPasswords
+> no/PermitEmptyPasswords yes/" ${D}${sysconfdir}/ssh/sshd_config +		fi
+> +	done
+>  	install -d ${D}${sysconfdir}/init.d
+>  	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
+>  	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
 
-Signed-off-by: Franklin S. Cooper Jr <fcooper27jr@gmail.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc           |   16 +++++++++++-----
- meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 +-
- meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 +-
- meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 +-
- 4 files changed, 14 insertions(+), 8 deletions(-)
+I'm a bit confused by this because I thought this issue had already been 
+solved. Unfortunately when I looked back I see the patch was never merged:
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index a8642f0..ae53b90 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -49,6 +49,11 @@ do_install () {
-     install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-     ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
- 
-+    if [ -e ${WORKDIR}/fw_env.config ] ; then
-+        install -d ${D}${sysconfdir}
-+        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-+    fi
-+
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
-         install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-@@ -56,16 +61,17 @@ do_install () {
-     fi
- }
- 
--FILES_${PN} = "/boot"
-+FILES_${PN} = "/boot ${sysconfdir}"
- FILESPATH =. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
- 
- do_deploy () {
-     install -d ${DEPLOYDIR}
--	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
- 
--	cd ${DEPLOYDIR}
--	rm -f ${UBOOT_SYMLINK}
--	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    cd ${DEPLOYDIR}
-+    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
- 
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-index 8465395..a9cbeca 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
- SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
- 
- PV = "v2011.03+git${SRCPV}"
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-index 9654795..a115ed2 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
- SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
- 
- PV = "v2011.06+git${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-index c4ec50d..6c099b1 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
- SRCREV = "415d386877df49eb051b85ef74fa59a16dc17c7d"
- 
- PV = "v2012.04.01+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
+http://patches.openembedded.org/patch/29693/
+
+I agree with Phil, we really don't want to replicate dropbear's usage of 
+IMAGE_FEATURES outside of image handling code - in fact there is a bug in the 
+Yocto Project bugzilla (#2578) against me to remove this for dropbear.
+
+Cheers,
+Paul
+
 -- 
-1.7.0.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
