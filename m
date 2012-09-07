@@ -1,38 +1,37 @@
-Received: from comal.ext.ti.com ([198.47.26.152])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooper@ti.com>) id 1T9lwC-0005aL-Vj
+	(envelope-from <bruce.ashfield@gmail.com>) id 1T9o8M-0002dN-2E
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 01:56:45 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id q86NiJbq020596;
-	Thu, 6 Sep 2012 18:44:19 -0500
-Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q86NiJ6D009087;
-	Thu, 6 Sep 2012 18:44:19 -0500
-Received: from DFLE09.ent.ti.com ([fe80::3103:58c3:47f:860b]) by
-	DFLE72.ent.ti.com ([fe80::5c48:b90d:af93:5822%30]) with mapi id
-	14.01.0323.003; Thu, 6 Sep 2012 18:44:19 -0500
-From: "Cooper Jr., Franklin" <fcooper@ti.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH] u-boot: Use fw_env.config if
-	available.
-Thread-Index: AQHNiuLmF4ueulg96kSeh7/khIr/w5d925SAgAAeqACAAFW1AP//rL1A
-Date: Thu, 6 Sep 2012 23:44:18 +0000
-Message-ID: <8F29D6B095ED194EA1980491A5E029710C2B76E3@DFLE09.ent.ti.com>
-References: <1346794545-14277-1-git-send-email-fcooper27jr@gmail.com>
-	<5048D2BB.3000909@linux.intel.com>
-	<8F29D6B095ED194EA1980491A5E029710C2B767E@DFLE09.ent.ti.com>
-	<50493458.8020801@linux.intel.com>
-In-Reply-To: <50493458.8020801@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
+	Fri, 07 Sep 2012 04:17:26 +0200
+Received: by lagv3 with SMTP id v3so1522553lag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Sep 2012 19:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=gegzWPpzfp7xzSiZo4snTaGAQKeDP5B+ZM4y8pcs1/w=;
+	b=cAW1rKqlZ6YJG851W+YU66w9pu4r3YAcfn1IL0VJMHKLrbzEm292VbsY7OzhfPWIaN
+	Dbb5xM84jJbRYFkZaUIGyngjGa7PxpXg+Qsg/jm0iGLy3KdiKHrskFKSJ0hwcSAhNja9
+	qmlocghLE4Z6cI5DhGD1bMKnOzSRvHgtTlk0ZrurLBZsubeTQXwqyRminKcOFKK7Lk8d
+	arGmhrEDrLBqC0gtIlitG34718C5GADnEAnk4B7LpC4B+gAOUzJ4ghiCZqtM2UQ80q0I
+	zCxX0rfiEIDE6nRD1kDwScD38ctnxWE5CIJbu617mo9rL/6GjHi/k3deVseMgI7gcQTI
+	PfbQ==
 MIME-Version: 1.0
-Cc: "Franklin S. Cooper Jr" <fcooper27jr@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Use fw_env.config if available.
+Received: by 10.152.46.203 with SMTP id x11mr3596595lam.46.1346983500775; Thu,
+	06 Sep 2012 19:05:00 -0700 (PDT)
+Received: by 10.114.68.20 with HTTP; Thu, 6 Sep 2012 19:05:00 -0700 (PDT)
+In-Reply-To: <1346974360.7493.38.camel@ted>
+References: <cover.1346956528.git.bruce.ashfield@windriver.com>
+	<fb717d4aa26b125680f620254cde9eb97ef0708a.1346956528.git.bruce.ashfield@windriver.com>
+	<1346969961.7493.24.camel@ted> <504921BD.4040004@windriver.com>
+	<5049253B.4090402@windriver.com> <1346972362.7493.32.camel@ted>
+	<50492CAF.3010203@windriver.com> <1346974360.7493.38.camel@ted>
+Date: Thu, 6 Sep 2012 22:05:00 -0400
+Message-ID: <CADkTA4PTVBYmNoRzwfgsgAhoBeY-nz5U568yKvMtEDsf8_Cnqg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] conf/tune: add tune-ppce300c3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,155 +44,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2012 23:56:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 07 Sep 2012 02:17:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-I was slightly confused since I checked master after you sent that email an=
-d actually didn't see my patch being included. I did a pull again and still=
- didn't see it. I can submit the v2 (or maybe call it v3) of the patch agai=
-n if u like.
-
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Thursday, September 06, 2012 6:40 PM
-To: Cooper Jr., Franklin
-Cc: Franklin S. Cooper Jr; openembedded-core@lists.openembedded.org; Frankl=
-in S. Cooper Jr
-Subject: Re: [OE-core] [oe-core][PATCH] u-boot: Use fw_env.config if availa=
-ble.
-
-On 09/06/2012 04:35 PM, Cooper Jr., Franklin wrote:
-> I released a second revision of this patch that should be used=20
-> instead. http://patches.openembedded.org/patch/35845/
+On Thu, Sep 6, 2012 at 7:32 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2012-09-06 at 18:07 -0500, Mark Hatle wrote:
+>> On 9/6/12 5:59 PM, Richard Purdie wrote:
+>> > On Thu, 2012-09-06 at 17:35 -0500, Mark Hatle wrote:
+>> >> On 9/6/12 5:20 PM, Bruce Ashfield wrote:
+>> >>> On 12-09-06 6:19 PM, Richard Purdie wrote:
+>> >>>> On Thu, 2012-09-06 at 14:43 -0400, Bruce Ashfield wrote:
+>> >>>>> It has been pointed out several times that the yocto mpc8315e-rdb
+>> >>>>> reference was using the wrong tuning (603e), since it is actually
+>> >>>>> a e300c3 board.
+>> >>>>>
+>> >>>>> This commit creates a e300c3 tune file based on the e300c2 variant
+>> >>>>> already in oe-core.
+>> >>>>>
+>> >>>>> This commit also inhibits altivec in flac when this new tuning is
+>> >>>>> enabled. It was also noticed that the existing tune based overrides
+>> >>>>> in the flac package would not be triggered since DEFAULTTUNE is not
+>> >>>>> in the overrides list. To avoid doing per-board disabling of altivec
+>> >>>>> DEFAULTTUNE is added to the local package OVERRIDES and then used
+>> >>>>> to disable altivec.
+>> >>>>>
+>> >>>>> [YOCTO #1192]
+>> >>>>>
+>> >>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>> >>>>>
+>> >>>>> asdfkljds
+>> >>>>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>> >>>>> ---
+>> >>>>>     meta/conf/machine/include/tune-ppce300c3.inc |   11 +++++++++++
+>> >>>>>     meta/recipes-multimedia/flac/flac_1.2.1.bb   |    5 +++++
+>> >>>>>     2 files changed, 16 insertions(+), 0 deletions(-)
+>> >>>>>     create mode 100644 meta/conf/machine/include/tune-ppce300c3.inc
+>> >>>>>
+>> >>>>> diff --git a/meta/conf/machine/include/tune-ppce300c3.inc b/meta/conf/machine/include/tune-ppce300c3.inc
+>> >>>>> new file mode 100644
+>> >>>>> index 0000000..3f5ac26
+>> >>>>> --- /dev/null
+>> >>>>> +++ b/meta/conf/machine/include/tune-ppce300c3.inc
+>> >>>>> @@ -0,0 +1,11 @@
+>> >>>>> +DEFAULTTUNE ?= "ppce300c3"
+>> >>>>> +
+>> >>>>> +require conf/machine/include/powerpc/arch-powerpc.inc
+>> >>>>> +
+>> >>>>> +TUNEVALID[ppce300c3] = "Enable ppce300c3 specific processor optimizations"
+>> >>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", "-mcpu=e300c3", "", d)}"
+>> >>>>> +
+>> >>>>> +AVAILTUNES += "ppce300c3"
+>> >>>>> +TUNE_FEATURES_tune-ppce300c3 = "m32 fpu-soft ppce300c3"
+>> >>>>> +TUNE_PKGARCH_tune-ppce300c3 = "ppce300c3"
+>> >>>>> +PACKAGE_EXTRA_ARCHS_tune-ppce300c3 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} ppce300c3"
+>> >>>>> diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+>> >>>>> index 3c5b73c..25db1c4 100644
+>> >>>>> --- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
+>> >>>>> +++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+>> >>>>> @@ -36,9 +36,14 @@ EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
+>> >>>>>                     --without-xmms-exec-prefix \
+>> >>>>>                     --without-libiconv-prefix \
+>> >>>>>                     --without-id3lib"
+>> >>>>> +
+>> >>>>> +FLACOVERRIDE = ":${DEFAULTTUNE}"
+>> >>>>> +OVERRIDES .= "${FLACOVERRIDE}"
+>> >>>>> +
+>> >>>>>     EXTRA_OECONF_prepend_e500mc = "--disable-altivec "
+>> >>>>>     EXTRA_OECONF_prepend_e5500 = "--disable-altivec "
+>> >>>>>     EXTRA_OECONF_prepend_e5500-64b = "--disable-altivec "
+>> >>>>> +EXTRA_OECONF_prepend_ppce300c3 = "--disable-altivec "
+>> >>>>>
+>> >>>>
+>> >>>> This is getting ugly and is kind of unsafe. Perhaps the architecture
+>> >>>> should be doing something like:
+>> >>>>
+>> >>>> MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", ":noaltivec", "" ,d)}
+>> >>>>
+>> >>>> or even in this recipe just do:
+>> >>>>
+>> >>>> EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c3", " --disable-altivec", "" ,d)}
+>> >>>
+>> >>> I definitely considered this route. I can do that for the new arch, and the
+>> >>> old ones, but can't test the old ones at the moment.
+>> >>
+>> >> The problem is actually in the flac.  This recipe sees powerpc as the machine
+>> >> type, and immediately enabled altivec.  By default altivec support is disabled
+>> >> in OE-Core.
+>> >>
+>> >> Perhaps one way we could address this is add a tune flag that says if the tune
+>> >> has altivec support or not.. then in the flac binary, disable it unless it's
+>> >> enabled?
+>> >
+>> > I think having altivec in the tune_features would be ideal. I'd love to
+>> > get this cleaned up too but I lack much knowledge about powerpc...
+>>
+>> My proposal then would be to accept Bruce's patch, with the understanding that
+>> we need to add a tune flag of 'altivec' to the PowerPC tunings (where
+>> appropriate) and then make the flac recipe respect that flag.
+>>
+>> Unfortunately I don't have the time to do that right now or I would.  Would an
+>> enhancement bug in the Yocto Project bugzilla be enough to be sure the work is done?
 >
+> Please send something machine specific. Adding DEFAULTTUNE is a bad idea
+> for several reasons, not least it might not be the selected tune.
 
-It's possible I made a mistake and replied to the wrong email, can you plea=
-se check master and verify which version is there.  If it's the wrong versi=
-on, please prepare a rebased patch.
+Works for me, I'll just switch in the rdb and send another update then when the
+patch is fixed.
 
-Thanks
-	Sau!
+Bruce
 
-
-> -----Original Message-----
-> From: Saul Wold [mailto:sgw@linux.intel.com]
-> Sent: Thursday, September 06, 2012 11:44 AM
-> To: Franklin S. Cooper Jr
-> Cc: openembedded-core@lists.openembedded.org; Cooper Jr., Franklin;=20
-> Franklin S. Cooper Jr
-> Subject: Re: [OE-core] [oe-core][PATCH] u-boot: Use fw_env.config if avai=
-lable.
 >
-> On 09/04/2012 02:35 PM, Franklin S. Cooper Jr wrote:
->> * Add support for board specific fw_env.config file if available.
->>
->> Signed-off-by: Franklin S. Cooper Jr <fcooper27jr@gmail.com>
->> ---
->>    meta/recipes-bsp/u-boot/u-boot.inc           |   16 +++++++++++-----
->>    meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 +-
->>    meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 +-
->>    meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 +-
->>    4 files changed, 14 insertions(+), 8 deletions(-)
->>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
->> b/meta/recipes-bsp/u-boot/u-boot.inc
->> index a8642f0..ed587a6 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot.inc
->> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
->> @@ -49,6 +49,11 @@ do_install () {
->>        install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
->>        ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
->>
->> +    if [ -e ${WORKDIR}/fw_env.config ] ; then
->> +        install -d ${D}${sysconfdir}
->> +        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_en=
-v.config
->> +    fi
->> +
->>        if [ "x${SPL_BINARY}" !=3D "x" ]
->>        then
->>            install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE} @@=20
->> -56,16
->> +61,17 @@ do_install () {
->>        fi
->>    }
->>
->> -FILES_${PN} =3D "/boot"
->> +FILES_${PN} =3D "/boot$ {sysconfdir}"
->>    FILESPATH =3D. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
->>
->>    do_deploy () {
->>        install -d ${DEPLOYDIR}
->> -	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
->> +    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
->>
->> -	cd ${DEPLOYDIR}
->> -	rm -f ${UBOOT_SYMLINK}
->> -	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
->> +    cd ${DEPLOYDIR}
->> +    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
->> +    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
->> +    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
->>
->>        if [ "x${SPL_BINARY}" !=3D "x" ]
->>        then
->> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
->> b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
->> index 8465395..a9cbeca 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
->> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
->> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d4=
-2237583f50183a5651ecb \
->>    SRCREV =3D "19b54a701811220221fc4d5089a2bb18892018ca"
->>
->>    PV =3D "v2011.03+git${SRCPV}"
->> -PR =3D "r7"
->> +PR =3D "r8"
->>
->>    SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3D=
-git"
->>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
->> b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
->> index 9654795..a115ed2 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
->> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
->> @@ -15,7 +15,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d4=
-2237583f50183a5651ecb \
->>    SRCREV =3D "b1af6f532e0d348b153d5c148369229d24af361a"
->>
->>    PV =3D "v2011.06+git${SRCPV}"
->> -PR =3D "r2"
->> +PR =3D "r3"
->>
->>    SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3D=
-git"
->>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
->> b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
->> index c4ec50d..6c099b1 100644
->> --- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
->> +++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
->> @@ -20,7 +20,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d4=
-2237583f50183a5651ecb"
->>    SRCREV =3D "415d386877df49eb051b85ef74fa59a16dc17c7d"
->>
->>    PV =3D "v2012.04.01+git${SRCPV}"
->> -PR =3D "r1"
->> +PR =3D "r2"
->>
->>    SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3D=
-git"
->>
->>
-> Merged into OE-Core
+> I took Matthew's original patch on the understanding this gets fixed and
+> it hasn't happened but please do file the request.
 >
-> Thanks
-> 	Sau!
+> Cheers,
+>
+> Richard
 >
 >
 >
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
