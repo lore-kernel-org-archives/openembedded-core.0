@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TA1G5-0002lx-2l for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 18:18:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87G5obm031000
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1TA1dC-00039E-5t
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 18:42:10 +0200
+Received: by eekb57 with SMTP id b57so1190237eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Sep 2012 17:05:50 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30887-01 for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Sep 2012 17:05:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87G5g2f030994
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Sep 2012 17:05:43 +0100
-Message-ID: <1347033943.8619.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Sep 2012 17:05:43 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] autotools.bbclass: Add functionality to force a distclean when reconfiguring
+	Fri, 07 Sep 2012 09:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zb3QYKV/w5yKkmsipDbkq40k8qfek1EMl4fY9Yt1dl0=;
+	b=bvhuMn/QMsbjIXakFC2OALzXvmVqv6ifUNHWSjQcARITlplpnBijOaSeCwy1xSHelh
+	rjhL8qv3q4FX1jVkF6A4ZOpzbQ8E/S16/jcSq4zKDpmbgmuFa4tgyrVqCl3fSTY+0oVd
+	ywKXi2HiyEOIBUh5M2uOQOiQE12eCZsf32uBbuep/J9YMhJdyF4IKlzD69kAiIlNRV4B
+	tEox/DKWw8VlS8a4QuoKxEKJaxvXzR3L70k4F6WCfWl6ntutlmZyF8eFIw+iw8sM5kFl
+	W5n0+LfORmf8P2FlgA3iJKwbxdZKrUtfWPhDaDlk0GDErPztmLQHSxS+Q+/34STaRhMb
+	XmOg==
+Received: by 10.14.218.134 with SMTP id k6mr9056053eep.14.1347035384394; Fri,
+	07 Sep 2012 09:29:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.5 with HTTP; Fri, 7 Sep 2012 09:29:14 -0700 (PDT)
+In-Reply-To: <CAOHjBZsUj7ObbzVQUTKeV6kf29YP3_o0Pnm_tJujfXhpGSD9MA@mail.gmail.com>
+References: <CAOHjBZs0nD_7QjvxpQjF+on5a-e2nSDz_+NyatkVPKB4qyXkYw@mail.gmail.com>
+	<CAOHjBZvb3Zne1eQbw=2J4fVXdQH3QpynzrXsnE17gRNxowFi0A@mail.gmail.com>
+	<CAMKF1sqCgp-yH7hP-izT=L0qiWfuGpkiCSbuJQ0OtGZ1TgfGgQ@mail.gmail.com>
+	<CAOHjBZvkfpvmwFn+VpMyJrb2tfZ5j45OqXgRyzVJh6Ozj-HnDg@mail.gmail.com>
+	<CAOHjBZvo0yyLXfxUGgEq1cBiTn0--wYj+Jvv_2NYAwAF0VjaqQ@mail.gmail.com>
+	<CAOHjBZsUj7ObbzVQUTKeV6kf29YP3_o0Pnm_tJujfXhpGSD9MA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 7 Sep 2012 09:29:14 -0700
+Message-ID: <CAMKF1soz+96VdGKy07oLTF-=f7O=CWcSr0vqCECCScWj2+4eGA@mail.gmail.com>
+To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Cannot find -lssp during uclibc package build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,64 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 16:18:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Sep 2012 16:42:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Unfortunately whilst reruning configure and make against a project will mostly
-work there are situations where it does not correctly do the right thing.
+On Fri, Sep 7, 2012 at 1:46 AM, Giuseppe Condorelli
+<giuseppe.condorelli@gmail.com> wrote:
+> Update: removing ssp from DISTRO_FEATURES solve to build error but
+> (obviously) remove ssp support
+> from uclibc package.
+> Is there a way to avoid this?
 
-In particular, eglibc and gcc will fail out with errors where settings
-do not match a previously built configuration. It could be argued they are
-broken but the situation is what it is. There is the possibility of more subtle
-errors too.
-
-This patch adds a "make distclean" call to recipes where configure is
-rerunning and the sstate checksum for do_configure has changed. We could
-simply use a stamp but saving out the previous configuration checksum
-adds some data at no real overhead.
-
-If we find there are things out there which don't have a "distclean" target,
-we can disable this behaviour with CONFIGURESTAMPFILE = "" in the recipe,
-or users could disable it globally.
-
-[YOCTO #2774]
-[YOCTO #2848]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 4c4bf87..1ab2e0c 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -89,7 +89,16 @@ oe_runconf () {
- 
- AUTOTOOLS_AUXDIR ?= "${S}"
- 
-+CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
-+
- autotools_do_configure() {
-+	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
-+		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
-+			echo "Previously configured build detected, running make distclean"
-+			oe_runmake distclean
-+		fi
-+	fi
-+
- 	case ${PN} in
- 	autoconf*)
- 	;;
-@@ -180,6 +189,9 @@ autotools_do_configure() {
- 	else
- 		bbnote "nothing to configure"
- 	fi
-+	if [ -n "${CONFIGURESTAMPFILE}" ]; then
-+		echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
-+	fi
- }
- 
- autotools_do_install() {
-
-
+I think uclibc should not need this option to build itself to be ssp capable.
 
 
