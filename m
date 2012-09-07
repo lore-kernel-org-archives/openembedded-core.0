@@ -1,30 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T9zA8-000850-N4 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 16:04:01 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87DpXPY029981;
-	Fri, 7 Sep 2012 14:51:33 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29414-05; Fri,  7 Sep 2012 14:51:29 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87DpOu7029973
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 7 Sep 2012 14:51:25 +0100
-Message-ID: <1347025884.7493.69.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1T9zlz-0000Bf-5h
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 16:43:07 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Sep 2012 07:30:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,387,1344236400"; d="scan'208";a="219418719"
+Received: from unknown (HELO [10.255.13.76]) ([10.255.13.76])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2012 07:30:40 -0700
+Message-ID: <504A0510.5020705@linux.intel.com>
+Date: Fri, 07 Sep 2012 07:30:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Fri, 07 Sep 2012 14:51:24 +0100
-In-Reply-To: <1347024185-9312-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1347024185-9312-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+References: <1346937168-8200-1-git-send-email-paul.eggleton@linux.intel.com>
+In-Reply-To: <1346937168-8200-1-git-send-email-paul.eggleton@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/mirrors: remove bogus gnutls mirror
+Subject: Re: [PATCH] classes/core-image: improve comments listing IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,28 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 14:04:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Sep 2012 14:43:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-09-07 at 14:23 +0100, Paul Eggleton wrote:
-> This mirror entry which maps to itself plus a slash, if matched, put the
-> fetcher into a circular loop until the stack space is exhausted. A patch
-> has been sent to fix this issue in BitBake, but we should remove the
-> bogus entry as well.
-> 
-> (Note that this entry does not actually trigger the issue with current
-> master because the gnutls recipe now uses GNU_MIRROR instead of
-> ftp.gnutls.org, thus the bogus mirror entry is not matched.)
-> 
+On 09/06/2012 06:12 AM, Paul Eggleton wrote:
+> Ensure this listing is complete. (Comment change only.)
+>
 > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 > ---
->  meta/classes/mirrors.bbclass |    1 -
->  1 file changed, 1 deletion(-)
+>   meta/classes/core-image.bbclass |    9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+> index 2bfadb4..2e67018 100644
+> --- a/meta/classes/core-image.bbclass
+> +++ b/meta/classes/core-image.bbclass
+> @@ -15,14 +15,19 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+>   # - x11                 - X server
+>   # - x11-base            - X server with minimal environment
+>   # - x11-sato            - OpenedHand Sato environment
+> -# - tools-sdk           - SDK
+>   # - tools-debug         - debugging tools
+>   # - tools-profile       - profiling tools
+>   # - tools-testapps      - tools usable to make some device tests
+> +# - tools-sdk           - SDK (C/C++ compiler, autotools, etc.)
+>   # - nfs-server          - NFS server
+>   # - ssh-server-dropbear - SSH server (dropbear)
+>   # - ssh-server-openssh  - SSH server (openssh)
+> -# - debug-tweaks        - makes an image suitable for development
+> +# - qt4-pkgs            - Qt4/X11 and demo applications
+> +# - package-management  - installs package management tools and preserves the package manager database
+> +# - debug-tweaks        - makes an image suitable for development, e.g. allowing passwordless root logins
+> +# - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
+> +# - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
+> +# - doc-pkgs            - documentation packages for all installed packages in the rootfs
+>   #
+>   PACKAGE_GROUP_x11 = "packagegroup-core-x11"
+>   PACKAGE_GROUP_x11-base = "packagegroup-core-x11-base"
+>
+Merged into OE-Core
 
-Merged to master, thanks.
-
-Richard
+Thanks
+	Sau!
 
 
 
