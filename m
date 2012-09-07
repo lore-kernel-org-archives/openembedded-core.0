@@ -1,35 +1,29 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TA1qD-0003Sp-6A
-	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 18:55:37 +0200
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 07 Sep 2012 09:43:10 -0700
-Received: by oagn9 with SMTP id n9so150474oag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2012 09:42:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=x3FUoyeEhkFuCluaF22cL5EIu4dcD/g+L65oTbJkjOU=;
-	b=MuOA19kgIRSHpnGV6F+JSOKE99sQ8lbi/odatgqdfI9ijBUw4m2jKcIOG5tpdhOvyq
-	ansDzgiqOX25hovwIEbakAcfnHQSt8qL/RajYz7PFw3RWAd3nV+qWb2JEu2cZ3XkIQaF
-	18jHo9rtafH1taELcR2BUNYCopgG+H5N0tBIKdyxTmxK0DS6gYSpQBZlEOBnoyo2LwDy
-	mzRyqbxf9XL/F6/JcPHDyR/bRLVh1OxjNjcpuaHls4x8hZKfiKAF8LWlJSBwwOWfA+OH
-	je4H0v3UlMr8xeGYxkIHtvXQ3Sln+MVCuWiHKIoM994OMs7Z5lWNPokAbGpGuCsfKBVT
-	tpvQ==
-Received: by 10.60.30.168 with SMTP id t8mr6945598oeh.89.1347036175760; Fri,
-	07 Sep 2012 09:42:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Fri, 7 Sep 2012 09:42:34 -0700 (PDT)
-In-Reply-To: <504A21A5.7000309@windriver.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TA2Ft-00084Y-SC for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 19:22:10 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87H9gAN031473;
+	Fri, 7 Sep 2012 18:09:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30887-05; Fri,  7 Sep 2012 18:09:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87H9Vdp031467
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 7 Sep 2012 18:09:32 +0100
+Message-ID: <1347037772.8619.24.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 07 Sep 2012 18:09:32 +0100
+In-Reply-To: <CAJTo0LYnG1BdZ=UkKPWju7UwBZWjEJhQ_svmO4bVwaSL1ZGGkA@mail.gmail.com>
 References: <1347033943.8619.0.camel@ted> <504A21A5.7000309@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Sep 2012 17:42:34 +0100
-Message-ID: <CAJTo0LYnG1BdZ=UkKPWju7UwBZWjEJhQ_svmO4bVwaSL1ZGGkA@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Gm-Message-State: ALoCoQkuET1s9VoOoNL8fJP/rxaxETtoe0onabBsxh0TZrmN5IeUkmmUxILMpFNXfPUrZhQ+7ifu
+	<CAJTo0LYnG1BdZ=UkKPWju7UwBZWjEJhQ_svmO4bVwaSL1ZGGkA@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a distclean when reconfiguring
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,21 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 16:55:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Sep 2012 17:22:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 7 September 2012 17:32, Mark Hatle <mark.hatle@windriver.com> wrote:
-> I'm curious, is there any [easy] way we can force a rerun of configure as a
-> test pass over the system?
->
-> I'd like a way to verify that both this patch works as expected, and future
-> recipes work as expected.  (It would also be nice to test the things that
-> don't use the autotools.bbclass..)
+On Fri, 2012-09-07 at 17:42 +0100, Burton, Ross wrote:
+> On 7 September 2012 17:32, Mark Hatle <mark.hatle@windriver.com> wrote:
+> > I'm curious, is there any [easy] way we can force a rerun of configure as a
+> > test pass over the system?
+> >
+> > I'd like a way to verify that both this patch works as expected, and future
+> > recipes work as expected.  (It would also be nice to test the things that
+> > don't use the autotools.bbclass..)
+> 
+> Yeah, I expect we'll discover some cases when upstream just don't
+> expect a distclean.  By generally taking from git and re-running the
+> entire autotools we *should* be okay, but...
 
-Yeah, I expect we'll discover some cases when upstream just don't
-expect a distclean.  By generally taking from git and re-running the
-entire autotools we *should* be okay, but...
+Further testing suggests we either going to need a whitelist or a
+blacklist for this :/
 
-Ross
+The key places people get bitten are eglibc and gcc so those should be
+straight forward to test, the question is how widely to deploy this
+initially. I think the mechanism is good, its now just a question of the
+implementation detail.
+
+FWIW, libgpg-error fails with checksum issues (checksumming a generated
+file?!) and libtool has issues about cleaning directories that have
+makefiles that were never generated...
+
+Cheers,
+
+Richard
+
+
+
 
 
