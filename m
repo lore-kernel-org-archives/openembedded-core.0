@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TA6q7-0006rB-Ii
+	(envelope-from <mark.hatle@windriver.com>) id 1TA6q7-0006rD-UK
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Sep 2012 00:15:51 +0200
+	Sat, 08 Sep 2012 00:15:52 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87M3NeF004839
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87M3PWg004842
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Sep 2012 15:03:24 -0700 (PDT)
+	Fri, 7 Sep 2012 15:03:25 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Fri, 7 Sep 2012 15:03:23 -0700
+	Fri, 7 Sep 2012 15:03:24 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Sep 2012 17:05:42 -0500
-Message-ID: <cover.1347055413.git.mark.hatle@windriver.com>
+Date: Fri, 7 Sep 2012 17:05:44 -0500
+Message-ID: <bc6aa4b508418cdb8e62ba4eb152b38527731b3b.1347055413.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1347055413.git.mark.hatle@windriver.com>
+References: <cover.1347055413.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/2] Enhancement / bug fixes to the complementary install
+Subject: [PATCH 2/2] package_rpm.bbclass: Avoid unnecessary installs in complementary pass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +36,40 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 07 Sep 2012 22:15:52 -0000
 Content-Type: text/plain
 
-This is one bug fix and one enhancement to the complementary install.
+When called with the complementary install option, the first step is to
+backup the install manifest so that we can avoid installing items previously
+installed.  However, this backup process skipped the initial_install portion
+of the manifest, causing early install items like libc6, bash, and base-files
+to be installed a second time.
 
-We have a use where we would like to call the complementary install directly
-with a set of parameters, the enhancement allows us to do this.
+Fix this by cating the files to original_solution.  This is done as an append to
+allow multiple calls to package_install_internal_rpm to work.
 
-The bug fix is specific to the implementation within the RPM rootfs generation.
-Without the fix, a suboptimal installation is generated and performed.
-
-The following changes since commit 0de1827a9601143b090f751ea702fdb65a936b77:
-
-  classes/mirrors: remove bogus gnutls mirror (2012-09-07 14:51:10 +0100)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib mhatle/comp_install
-  http://git.yoctoproject.org/cgit.cgi//log/?h=mhatle/comp_install
-
-Mark Hatle (2):
-  image.bbclass: Enable the complementary install to be called w/
-    globbing params
-  package_rpm.bbclass: Avoid unnecessary installs in complementary pass
-
- meta/classes/image.bbclass       |    4 +++-
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
  meta/classes/package_rpm.bbclass |    9 ++++++++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 742f292..7e3dfbe 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -313,7 +313,14 @@ package_install_internal_rpm () {
+ 			done
+ 		fi
+ 	else
+-		mv ${target_rootfs}/install/total_solution.manifest ${target_rootfs}/install/original_solution.manifest
++		# We may run through the complementary installs multiple times.  For each time
++		# we should add the previous solution manifest to the full "original" set to
++		# avoid duplicate install steps.
++		echo "Update original solution..."
++		cat ${target_rootfs}/install/initial_solution.manifest >> ${target_rootfs}/install/original_solution.manifest
++		cat ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/original_solution.manifest
++		rm ${target_rootfs}/install/initial_solution.manifest
++		rm ${target_rootfs}/install/total_solution.manifest
+ 	fi
+ 
+ 	# Setup manifest of packages to install...
 -- 
 1.7.3.4
 
