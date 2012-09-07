@@ -1,25 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TA2Lf-0003rU-1b
+	(envelope-from <mark.hatle@windriver.com>) id 1TA3C3-00070n-2g
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 19:28:07 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TA29f-0006N9-1J; Fri, 07 Sep 2012 19:15:43 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 07 Sep 2012 18:15:36 +0100
-In-Reply-To: <1347037772.8619.24.camel@ted>
-References: <1347033943.8619.0.camel@ted> <504A21A5.7000309@windriver.com>
-	<CAJTo0LYnG1BdZ=UkKPWju7UwBZWjEJhQ_svmO4bVwaSL1ZGGkA@mail.gmail.com>
-	<1347037772.8619.24.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1347038143.2673.226.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a distclean when reconfiguring
+	Fri, 07 Sep 2012 20:22:15 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87I9mmM003903
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Sep 2012 11:09:48 -0700 (PDT)
+Received: from msp-dhcp24.wrs.com (172.25.34.24) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 7 Sep 2012 11:09:47 -0700
+Message-ID: <504A386B.1050804@windriver.com>
+Date: Fri, 7 Sep 2012 13:09:47 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120824 Thunderbird/15.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1346178028-2036-1-git-send-email-mark.asselstine@windriver.com>
+	<5151998.0QU9eL25sN@yow-masselst-d1>
+	<CAJTo0Lb0P23jieSdtFuTPn+e2h+L9MNXbfQDz4Y+D3bRxSOBYg@mail.gmail.com>
+	<43444447.DkGKhXIaYr@yow-masselst-d1>
+In-Reply-To: <43444447.DkGKhXIaYr@yow-masselst-d1>
+Subject: Re: [PATCH V2] base-files: provide a mechanism to skip creation of the hostname file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,27 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 17:28:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Sep 2012 18:22:15 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-09-07 at 18:09 +0100, Richard Purdie wrote:
-> The key places people get bitten are eglibc and gcc so those should be
-> straight forward to test, the question is how widely to deploy this
-> initially. I think the mechanism is good, its now just a question of the
-> implementation detail.
+On 8/30/12 12:20 PM, Mark Asselstine wrote:
+> On August 28, 2012 21:11:47 Burton, Ross wrote:
+>> On 28 August 2012 21:01, Mark Asselstine <mark.asselstine@windriver.com>
+> wrote:
+>>>> But surely this should be running very early in the boot, and a
+>>>> DHCP-assigned name should be running afterwards?
+>>>
+>>> That hasn't been what I have observed, and doesn't cover the command line
+>>> case. If you have an NFS root this would also not be the case as init will
+>>> be run after the network is setup and root mounted.
+>>
+>> There was an implied "and if this isn't the case, a bug should be
+>> filed".  I hadn't thought about NFS-root though.
+>>
+>> Ross
+>
+> Thanks for your thoughts on this.
+>
+> Is there anything else I can contribute here?
 
-Eglibc and gcc, at least, support building with ${B} != ${S} so it might
-be easier/quicker to just blow away the whole ${B} tree rather than
-trying to distclean it.
+I found a bug with this patch.  If you are building with the deb packaging then 
+the conffiles is set to /etc/hostname, but the file may not always be created... 
+this causes a failure condition when generating .deb packages.
 
-I imagine that most modern-ish autotools-based packages will also build
-fine in that configuration, though there are bound to be some that
-don't.  It's hard to say whether there are likely to be more or fewer of
-those than there are ones where "make distclean" fails.
+i.e.:
 
-p.
+-CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hostname"
++CONFFILES_${PN} = "${sysconfdir}/fstab ${@['', 
+'${sysconfdir}/hostname'][(d.getVar('hostname', True) != '')]}"
 
+
+> Mark
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
