@@ -1,37 +1,29 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from ams-iport-3.cisco.com ([144.254.224.146])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1T9pkQ-0004fi-3m
+	(envelope-from <mertsas@cisco.com>) id 1T9rnJ-0002K6-CM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 06:00:50 +0200
-Received: by lagv3 with SMTP id v3so1555576lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Sep 2012 20:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=SDMafuwo+SUs3frmyLJCIImmw49yk39EUm3QK1s9jus=;
-	b=STCKas3d8Fti0IQ0ivEb3dKANxyqozZoK2neXcrDHY6HOPUtb4rbialnAg+mEm9ElD
-	P1VH2vAeZE41hWwzdnTQEc/5i0Tw+iUKwphFBJ1Z5SXUJE0kPLiqf0ezPnK2YdyytuQ6
-	t46se3eTAPGjQuHn1q7MY4Tba1VQRdSUSIKpm8XmBwcCenK9WXLWL3MoHnNL4Ewn5g1z
-	LK5CdFSIetClCsJeL3Y6sgNuDDo/8pzFHAh2gwWvnrIOQkUeBlhamYdazRV3ov0RLbFH
-	XYWyEA02q18LezFCPC2MfTqrQqYZMJR+1qIZ/qb9fcSEFXyE58urw1Bo99zH9u8wOgwD
-	0c9A==
-MIME-Version: 1.0
-Received: by 10.152.113.68 with SMTP id iw4mr3849365lab.50.1346989704774; Thu,
-	06 Sep 2012 20:48:24 -0700 (PDT)
-Received: by 10.114.68.20 with HTTP; Thu, 6 Sep 2012 20:48:24 -0700 (PDT)
-In-Reply-To: <1346974360.7493.38.camel@ted>
-References: <cover.1346956528.git.bruce.ashfield@windriver.com>
-	<fb717d4aa26b125680f620254cde9eb97ef0708a.1346956528.git.bruce.ashfield@windriver.com>
-	<1346969961.7493.24.camel@ted> <504921BD.4040004@windriver.com>
-	<5049253B.4090402@windriver.com> <1346972362.7493.32.camel@ted>
-	<50492CAF.3010203@windriver.com> <1346974360.7493.38.camel@ted>
-Date: Thu, 6 Sep 2012 23:48:24 -0400
-Message-ID: <CADkTA4MK=YEBvA__7VMBvu-+um6FucHX_T9tD1ptfLF6EQ9+2Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] conf/tune: add tune-ppce300c3
+	Fri, 07 Sep 2012 08:11:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=906; q=dns/txt; s=iport;
+	t=1346997574; x=1348207174;
+	h=from:to:cc:subject:date:message-id;
+	bh=Bw2YRwYSnfTtBYuAc+YMvSf1MqtseLApWnyBkYL/K5k=;
+	b=ag5DwcjQZsNqWpSRBtH3ewd+P35zvvqJ0YiwRsI0u7/WmOBZaUCHboDk
+	d4//WYaWbilRfjInOQt2bmysH1Rt5iCydmaqGjrSGVNW8Qo8U5FyE3YoN
+	V+ixNjA5NqSSGGoolYPH59ND7Wedz/u17qqAQHt1yOO0KBGkTcubhDqaI c=;
+X-IronPort-AV: E=Sophos;i="4.80,384,1344211200"; 
+   d="scan'208";a="7861895"
+Received: from ams-core-3.cisco.com ([144.254.72.76])
+	by ams-iport-3.cisco.com with ESMTP; 07 Sep 2012 05:59:31 +0000
+Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q875xVev026522;
+	Fri, 7 Sep 2012 05:59:31 GMT
+From: Martin Ertsaas <mertsas@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Sep 2012 07:59:30 +0200
+Message-Id: <1346997570-23066-1-git-send-email-mertsas@cisco.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH v2] rsync: Add md5sum and sha256sum for the rsync_2.6.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,84 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 04:00:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 07 Sep 2012 06:11:57 -0000
 
-On Thu, Sep 6, 2012 at 7:32 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2012-09-06 at 18:07 -0500, Mark Hatle wrote:
->> On 9/6/12 5:59 PM, Richard Purdie wrote:
->> > On Thu, 2012-09-06 at 17:35 -0500, Mark Hatle wrote:
->> >> On 9/6/12 5:20 PM, Bruce Ashfield wrote:
->> >>> On 12-09-06 6:19 PM, Richard Purdie wrote:
->> >>>> On Thu, 2012-09-06 at 14:43 -0400, Bruce Ashfield wrote:
->> >>>>> It has been pointed out several times that the yocto mpc8315e-rdb
->> >>>>> reference was using the wrong tuning (603e), since it is actually
+rsync_2.6.9 is the only rsync recipe in openembedded without GPLv3 license, but it lacked the
+checksums for the fetcher.
 
-<snip>
+Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+---
+ meta/recipes-devtools/rsync/rsync_2.6.9.bb |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
->> >> The problem is actually in the flac.  This recipe sees powerpc as the machine
->> >> type, and immediately enabled altivec.  By default altivec support is disabled
->> >> in OE-Core.
->> >>
->> >> Perhaps one way we could address this is add a tune flag that says if the tune
->> >> has altivec support or not.. then in the flac binary, disable it unless it's
->> >> enabled?
->> >
->> > I think having altivec in the tune_features would be ideal. I'd love to
->> > get this cleaned up too but I lack much knowledge about powerpc...
->>
->> My proposal then would be to accept Bruce's patch, with the understanding that
->> we need to add a tune flag of 'altivec' to the PowerPC tunings (where
->> appropriate) and then make the flac recipe respect that flag.
->>
->> Unfortunately I don't have the time to do that right now or I would.  Would an
->> enhancement bug in the Yocto Project bugzilla be enough to be sure the work is done?
->
-> Please send something machine specific. Adding DEFAULTTUNE is a bad idea
-> for several reasons, not least it might not be the selected tune.
-
-Same branch (contrib zedd/ppc-tune), now has:
-
---- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
-@@ -39,6 +39,7 @@ EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
- EXTRA_OECONF_prepend_e500mc = "--disable-altivec "
- EXTRA_OECONF_prepend_e5500 = "--disable-altivec "
- EXTRA_OECONF_prepend_e5500-64b = "--disable-altivec "
-+EXTRA_OECONF_prepend_mpc8315e-rdb = "--disable-altivec "
-
- PACKAGES += "libflac libflac++ liboggflac liboggflac++"
- FILES_${PN} = "${bindir}/*"
-
-Everything else is the same.
-
-Let me know if you want a full resend of the patch.
-
-Cheers,
-
-Bruce
-
->
-> I took Matthew's original patch on the understanding this gets fixed and
-> it hasn't happened but please do file the request.
->
-> Cheers,
->
-> Richard
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/recipes-devtools/rsync/rsync_2.6.9.bb b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
+index 54feada..8c8b115 100644
+--- a/meta/recipes-devtools/rsync/rsync_2.6.9.bb
++++ b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
+@@ -10,6 +10,9 @@ SRC_URI = "http://rsync.samba.org/ftp/rsync/src/rsync-${PV}.tar.gz \
+            file://rsync-2.6.9-fname-obo.patch \
+            file://rsyncd.conf"
+ 
++SRC_URI[md5sum] = "996d8d8831dbca17910094e56dcb5942"
++SRC_URI[sha256sum] = "ca437301becd890e73300bc69a39189ff1564baa761948ff149b3dd7bde633f9"
++
+ inherit autotools
+ 
+ do_install_append() {
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.8.6
+
 
 
