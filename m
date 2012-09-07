@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T9wA1-0002cT-Ok for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 12:51:41 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87AdC87028104;
-	Fri, 7 Sep 2012 11:39:12 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27749-03; Fri,  7 Sep 2012 11:39:08 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87Ad3K1028097
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 7 Sep 2012 11:39:05 +0100
-Message-ID: <1347014344.7493.46.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Ertsaas <mertsas@cisco.com>
-Date: Fri, 07 Sep 2012 11:39:04 +0100
-In-Reply-To: <1346997570-23066-1-git-send-email-mertsas@cisco.com>
-References: <1346997570-23066-1-git-send-email-mertsas@cisco.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] rsync: Add md5sum and sha256sum for the rsync_2.6.9
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1T9wJa-0003CB-4j
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 13:01:34 +0200
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 Sep 2012 03:49:06 -0700
+Received: by wibhn17 with SMTP id hn17so2207087wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Sep 2012 03:49:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=8XdqX3I0CNpnkr5vtdEBPL6SOodsrS2sEhs5VO/pueg=;
+	b=M6uKMVTA9Rbohlg7D9VLte+n44BRAcbyGVILOz5hnjYiYtAIbIjqyqujEvF9MPFpdp
+	J6n0iCv7jjqnf3Q+RmK9XZi4YuWou+6W40eYzPl6cLEYg3DBYDIh8/X1wyLxt0/ZMsFO
+	KVkzvrVbd2fQkUlXnAtVxyVMFwIJ5SBfytoTkXa/5S7csonZkdWjKqrYXKbVC5WxTSMm
+	KlIC/bq6ea/AsFxXhxBmIPq9Os1yant81+VJCPczUqCSYHaCnsmk+DgPMy2FUASguiR1
+	fDOZIPYdwP7iWu8kH9a65jKehYKML8gEGQRrvi2GpdjTQ1Qznrvqksequ0VerwCWXxq2
+	DQVg==
+Received: by 10.217.3.1 with SMTP id q1mr2831446wes.38.1347014944744;
+	Fri, 07 Sep 2012 03:49:04 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id k2sm13233259wiz.7.2012.09.07.03.49.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 07 Sep 2012 03:49:03 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Sep 2012 11:48:17 +0100
+Message-Id: <1347014897-24227-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <1347014897-24227-1-git-send-email-ross.burton@intel.com>
+References: <1347014897-24227-1-git-send-email-ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmaR+HdZ/OdNM5GVWk2RP36/bZygjctnlvpe1mxmNk5XqwN+sPQaVc7KdUTWpq2Hs6DHJkT
+Subject: [PATCH 2/2] xserver-xorg: make DRI/GLX options respect opengl distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,22 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 10:51:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Sep 2012 11:01:34 -0000
 
-On Fri, 2012-09-07 at 07:59 +0200, Martin Ertsaas wrote:
-> rsync_2.6.9 is the only rsync recipe in openembedded without GPLv3 license, but it lacked the
-> checksums for the fetcher.
-> 
-> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
-> ---
->  meta/recipes-devtools/rsync/rsync_2.6.9.bb |    3 +++
->  1 files changed, 3 insertions(+), 0 deletions(-)
+If the distro doesn't have the opengl feature there's no point building the DRI
+or GLX support, making the mesa-dri build dependency optional.
 
-Merged to master, thanks.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |   16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-Richard
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index a0309aa..210abad 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -123,21 +123,13 @@ EXTRA_OECONF += "--with-fop=no \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+ "
+ 
+-PACKAGECONFIG ??= "udev"
++PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx', '', d)}"
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
++PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
++                      --disable-dri --disable-glx,\
++                      xf86driproto dri2proto mesa-dri"
+ 
+ do_install_append () {
+ 	# Its assumed base-files creates this for us
+ 	rmdir ${D}${localstatedir}/log/
+ }
+-
+-
+-# Mesa/GLX/DRI
+-PROTO_DEPS += "xf86driproto dri2proto"
+-LIB_DEPS += "mesa-dri"
+-
+-EXTRA_OECONF += "\
+-                 --enable-dri \
+-                 --enable-dri2 \
+-                 --enable-glx-tls \
+-"
+-- 
+1.7.10
 
 
 
