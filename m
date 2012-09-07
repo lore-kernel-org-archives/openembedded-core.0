@@ -1,26 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TA6q7-0006rC-Ap
+	(envelope-from <mark.hatle@windriver.com>) id 1TA6q7-0006rB-Ii
 	for openembedded-core@lists.openembedded.org;
 	Sat, 08 Sep 2012 00:15:51 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q87M3OnQ003435
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87M3NeF004839
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 7 Sep 2012 15:03:24 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Fri, 7 Sep 2012 15:03:24 -0700
+	Fri, 7 Sep 2012 15:03:23 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Sep 2012 17:05:43 -0500
-Message-ID: <cace43d80670231e0f389f8e8920d534f53c4606.1347055413.git.mark.hatle@windriver.com>
+Date: Fri, 7 Sep 2012 17:05:42 -0500
+Message-ID: <cover.1347055413.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1347055413.git.mark.hatle@windriver.com>
-References: <cover.1347055413.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/2] image.bbclass: Enable the complementary install to be called w/ globbing params
+Subject: [PATCH 0/2] Enhancement / bug fixes to the complementary install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 22:15:51 -0000
+X-List-Received-Date: Fri, 07 Sep 2012 22:15:52 -0000
 Content-Type: text/plain
 
-If the image.bbclass is called with arguments, and these arguments are not
-"populate_sdk", they will be passed in as the expected GLOBS.
+This is one bug fix and one enhancement to the complementary install.
 
-This enables external components and scripting to use the
-rootfs_install_complementary code.
+We have a use where we would like to call the complementary install directly
+with a set of parameters, the enhancement allows us to do this.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/image.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+The bug fix is specific to the implementation within the RPM rootfs generation.
+Without the fix, a suboptimal installation is generated and performed.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 2e95556..9433d48 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -329,8 +329,10 @@ rootfs_install_complementary() {
-     list_installed_packages arch > ${WORKDIR}/installed_pkgs.txt
- 
-     # Apply the globs to all the packages currently installed
--    if [ "$1" = "populate_sdk" ] ; then
-+    if [ -n "$1" -a "$1" = "populate_sdk" ] ; then
-         GLOBS="${SDKIMAGE_INSTALL_COMPLEMENTARY}"
-+    elif [ -n "$1" ]; then
-+        GLOBS="$@"
-     else
-         GLOBS="${IMAGE_INSTALL_COMPLEMENTARY}"
-         # Add locales
+The following changes since commit 0de1827a9601143b090f751ea702fdb65a936b77:
+
+  classes/mirrors: remove bogus gnutls mirror (2012-09-07 14:51:10 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib mhatle/comp_install
+  http://git.yoctoproject.org/cgit.cgi//log/?h=mhatle/comp_install
+
+Mark Hatle (2):
+  image.bbclass: Enable the complementary install to be called w/
+    globbing params
+  package_rpm.bbclass: Avoid unnecessary installs in complementary pass
+
+ meta/classes/image.bbclass       |    4 +++-
+ meta/classes/package_rpm.bbclass |    9 ++++++++-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
 -- 
 1.7.3.4
 
