@@ -1,30 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TA3C3-00070n-2g
+	(envelope-from <sgw@linux.intel.com>) id 1TA3JV-000778-4O
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 20:22:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87I9mmM003903
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Sep 2012 11:09:48 -0700 (PDT)
-Received: from msp-dhcp24.wrs.com (172.25.34.24) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 7 Sep 2012 11:09:47 -0700
-Message-ID: <504A386B.1050804@windriver.com>
-Date: Fri, 7 Sep 2012 13:09:47 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120824 Thunderbird/15.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1346178028-2036-1-git-send-email-mark.asselstine@windriver.com>
-	<5151998.0QU9eL25sN@yow-masselst-d1>
-	<CAJTo0Lb0P23jieSdtFuTPn+e2h+L9MNXbfQDz4Y+D3bRxSOBYg@mail.gmail.com>
-	<43444447.DkGKhXIaYr@yow-masselst-d1>
-In-Reply-To: <43444447.DkGKhXIaYr@yow-masselst-d1>
-Subject: Re: [PATCH V2] base-files: provide a mechanism to skip creation of the hostname file
+	Fri, 07 Sep 2012 20:29:57 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Sep 2012 11:17:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,387,1344236400"; d="scan'208";a="219508922"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.76])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2012 11:17:29 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Sep 2012 11:17:29 -0700
+Message-Id: <1347041849-1559-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Cc: Marc Ferland <marc.ferland@gmail.com>
+Subject: [PATCH] openssh: allow root login when debug-tweaks is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,48 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 18:22:15 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Sep 2012 18:29:57 -0000
 
-On 8/30/12 12:20 PM, Mark Asselstine wrote:
-> On August 28, 2012 21:11:47 Burton, Ross wrote:
->> On 28 August 2012 21:01, Mark Asselstine <mark.asselstine@windriver.com>
-> wrote:
->>>> But surely this should be running very early in the boot, and a
->>>> DHCP-assigned name should be running afterwards?
->>>
->>> That hasn't been what I have observed, and doesn't cover the command line
->>> case. If you have an NFS root this would also not be the case as init will
->>> be run after the network is setup and root mounted.
->>
->> There was an implied "and if this isn't the case, a bug should be
->> filed".  I hadn't thought about NFS-root though.
->>
->> Ross
->
-> Thanks for your thoughts on this.
->
-> Is there anything else I can contribute here?
+This allows root to login over ssh with an empty password just like
+dropbear when the debug-tweaks are enabled, it's important to disable
+debug-tweaks for a production system as this will leave open a security
+hole!
 
-I found a bug with this patch.  If you are building with the deb packaging then 
-the conffiles is set to /etc/hostname, but the file may not always be created... 
-this causes a failure condition when generating .deb packages.
+Thanks to Marc for the settings.
+Cc: Marc Ferland <marc.ferland@gmail.com>
 
-i.e.:
+[Yocto #3078]
 
--CONFFILES_${PN} = "${sysconfdir}/fstab ${sysconfdir}/hostname"
-+CONFFILES_${PN} = "${sysconfdir}/fstab ${@['', 
-'${sysconfdir}/hostname'][(d.getVar('hostname', True) != '')]}"
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-connectivity/openssh/openssh_6.0p1.bb |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
-
-> Mark
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+index 31202d4..fcd082c 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+@@ -7,7 +7,7 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -75,6 +75,13 @@ do_install_append () {
+ 			install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+ 		fi
+ 	done
++	for i in ${IMAGE_FEATURES};
++	do
++		if [ ${i} = "debug-tweaks" ]; then
++			sed -i -e "s/^#PermitRootLogin/PermitRootLogin/" ${D}${sysconfdir}/ssh/sshd_config
++			sed -i -e "s/^#PermitEmptyPasswords no/PermitEmptyPasswords yes/" ${D}${sysconfdir}/ssh/sshd_config
++		fi
++	done
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
+ 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
+-- 
+1.7.7.6
 
 
 
