@@ -1,35 +1,36 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1T9uNr-0004xU-2i
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1T9uP1-00050C-3U
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 10:57:51 +0200
-Received: by obblz20 with SMTP id lz20so4430413obb.6
+	Fri, 07 Sep 2012 10:59:03 +0200
+Received: by obblz20 with SMTP id lz20so4431631obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2012 01:45:25 -0700 (PDT)
+	Fri, 07 Sep 2012 01:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=WFSr9AmF3tWjzF2sz9CrFcP0G8jCDya01WiCHaIZJ4g=;
-	b=YXdZUhpJDvr3iTBq529M71EaSPRLjSDgf+1LxuSN+2D0GN68MEgNLlMrD509hfwZsg
-	72U38BqgoUZzL7dsbmz/BBQvQzPs6ChHWR0uQwDz5lvHh8dJwiRzF7/VU37COrpxRbZ/
-	0fMXpynIWY5RlThFdI0ALnEKRTjl1VE7ZI1N0v0dNa2G9pTD1/qC2FCP+Ztb2WJRdES8
-	Lvt+nhbd4S8bhAoZShGUkrqlVvCEyXaP0squbKKF+9VDVGDeIsRZbfo1X+D8e6Y30oKO
-	pfnG+5hRkXj0GUSK05v53G+z3ZavFflfewbH7DBEQAdGPX4YwlGuOzrHU5QcMfn6lZhX
-	doLQ==
+	:content-type; bh=ZGqbi0sKnXnKcwkqGGmzdl2gsyA6Q3o+CK+P7rmgybs=;
+	b=FkX6LgJntQRd8DPlJoWjTgR/SiwtiJrUx8dcjiNSmEPiFB3uT3baM1KfK/kr3V24Cp
+	Lx3rcLQIT5OLW6jSm424zCcglCvTx0GEz33HMDA6Dhp6c02/+MUkz6iXg7BNJYNIa7Rg
+	YuPO/fa/PWy44P38Jy4eipLE1lOEx2pLX4AM6feDPNoOo5tgKe//EdFLstDlJxna3nK8
+	teB5Q/phOQWibbEbzq54YuiqQ3vZuFVWvW3fi9hnOgptx4Z39moYREd7YrwMyOEoFTHP
+	kYfqk5mdzWJwhNGqWXOyjK9itZnDLi6J+1tnKyBY9eTf7HP5GeLjWfHU0mKSTuiW/l3u
+	TD8Q==
 MIME-Version: 1.0
-Received: by 10.60.6.167 with SMTP id c7mr4796733oea.88.1347007525166; Fri, 07
-	Sep 2012 01:45:25 -0700 (PDT)
-Received: by 10.60.33.201 with HTTP; Fri, 7 Sep 2012 01:45:25 -0700 (PDT)
-In-Reply-To: <CAOHjBZvkfpvmwFn+VpMyJrb2tfZ5j45OqXgRyzVJh6Ozj-HnDg@mail.gmail.com>
+Received: by 10.182.50.103 with SMTP id b7mr4981992obo.15.1347007597283; Fri,
+	07 Sep 2012 01:46:37 -0700 (PDT)
+Received: by 10.60.33.201 with HTTP; Fri, 7 Sep 2012 01:46:37 -0700 (PDT)
+In-Reply-To: <CAOHjBZvo0yyLXfxUGgEq1cBiTn0--wYj+Jvv_2NYAwAF0VjaqQ@mail.gmail.com>
 References: <CAOHjBZs0nD_7QjvxpQjF+on5a-e2nSDz_+NyatkVPKB4qyXkYw@mail.gmail.com>
 	<CAOHjBZvb3Zne1eQbw=2J4fVXdQH3QpynzrXsnE17gRNxowFi0A@mail.gmail.com>
 	<CAMKF1sqCgp-yH7hP-izT=L0qiWfuGpkiCSbuJQ0OtGZ1TgfGgQ@mail.gmail.com>
 	<CAOHjBZvkfpvmwFn+VpMyJrb2tfZ5j45OqXgRyzVJh6Ozj-HnDg@mail.gmail.com>
-Date: Fri, 7 Sep 2012 10:45:25 +0200
-Message-ID: <CAOHjBZvo0yyLXfxUGgEq1cBiTn0--wYj+Jvv_2NYAwAF0VjaqQ@mail.gmail.com>
+	<CAOHjBZvo0yyLXfxUGgEq1cBiTn0--wYj+Jvv_2NYAwAF0VjaqQ@mail.gmail.com>
+Date: Fri, 7 Sep 2012 10:46:37 +0200
+Message-ID: <CAOHjBZsUj7ObbzVQUTKeV6kf29YP3_o0Pnm_tJujfXhpGSD9MA@mail.gmail.com>
 From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Cannot find -lssp during uclibc package build
+Subject: Re: Cannot find -lssp during uclibc package build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,104 +43,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 08:57:51 -0000
-Content-Type: multipart/alternative; boundary=e89a8fb1ff520c1ebd04c918a12d
+X-List-Received-Date: Fri, 07 Sep 2012 08:59:03 -0000
+Content-Type: multipart/alternative; boundary=f46d04451a095888c704c918a5fa
 
---e89a8fb1ff520c1ebd04c918a12d
+--f46d04451a095888c704c918a5fa
 Content-Type: text/plain; charset=ISO-8859-1
 
-This is a forward of the mail erroneously sent only to Khem.
+Update: removing ssp from DISTRO_FEATURES solve to build error but
+(obviously) remove ssp support
+from uclibc package.
+Is there a way to avoid this?
 
----------- Forwarded message ----------
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-Date: 2012/9/7
-Subject: Re: [OE-core] Cannot find -lssp during uclibc package build
-To: Khem Raj <raj.khem@gmail.com>
+Cheers,
+Giuseppe
 
+2012/9/7 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
 
-Hi Khem,
-
-many thanks for your reply (see below).
-
-2012/9/7 Khem Raj <raj.khem@gmail.com>
-
-> On Fri, Sep 7, 2012 at 12:11 AM, Giuseppe Condorelli
-> <giuseppe.condorelli@gmail.com> wrote:
-> > Any news?
-> >
-> >
-> > 2012/9/3 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-> >>
-> >> Hi Khem, All
-> >>
-> >> I'm building an uclibc image using gcc 4.6.3 instead of the 4.7 version
-> >> oe-core provides.
-> >> I'm falling in the following linker error during uClibc package build:
-> >>
-> >> "Cannot find -lssp"
+> This is a forward of the mail erroneously sent only to Khem.
 >
-> have a look at the 4.6 recipes from meta-openemebedded/toolchain-layer
-> does that work for you ?
 >
-I'll look soon
+> ---------- Forwarded message ----------
+> From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+> Date: 2012/9/7
+> Subject: Re: [OE-core] Cannot find -lssp during uclibc package build
+> To: Khem Raj <raj.khem@gmail.com>
+>
+>
+> Hi Khem,
+>
+> many thanks for your reply (see below).
+>
+> 2012/9/7 Khem Raj <raj.khem@gmail.com>
+>
+>> On Fri, Sep 7, 2012 at 12:11 AM, Giuseppe Condorelli
+>> <giuseppe.condorelli@gmail.com> wrote:
+>> > Any news?
+>> >
+>> >
+>> > 2012/9/3 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+>> >>
+>> >> Hi Khem, All
+>> >>
+>> >> I'm building an uclibc image using gcc 4.6.3 instead of the 4.7 version
+>> >> oe-core provides.
+>> >> I'm falling in the following linker error during uClibc package build:
+>> >>
+>> >> "Cannot find -lssp"
+>>
+>> have a look at the 4.6 recipes from meta-openemebedded/toolchain-layer
+>> does that work for you ?
+>>
+> I'll look soon
+>
+>>
+>> and may be you have 'ssp' in DISTRO_FEATURES then remove that.
+>>
+> Yes, I've ssp enabled in DISTRO_FEATURES and I thought this was right
+> because
+> uclibc uses DISTRO_FEATURES to create its .config where UCLIBC_HAS_SSP=y
+> should be available, isnt' it?
+>
+>>
+>> >>
+>> >> Now, ssp support is enabled in the uClibc package and disabled in the
+>> >> gcc-cross-initial package, so
+>> >> ld should not include that by default. Instead it does and if I switch
+>> to
+>> >> old OE-Core repository (June 2012)
+>> >> I can see all goes right just because the gcc-cross-intermediate
+>> package
+>> >> was still present and uClibc depends on it
+>> >> for building. Now, I know the -intermediate package was moved out and
+>> the
+>> >> -initial one should include it, but
+>> >> that's it.
+>> >> I've not tested that with gcc 4.7 version, this is out of my scope.
+>> >> Please, can you address me to solve this issue?
+>> >>
+>> >> Best Regards,
+>> >> Giuseppe
+>> >>
+>> >
+>> >
+>> >
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> >
+>>
+>
+>
+>
 
->
-> and may be you have 'ssp' in DISTRO_FEATURES then remove that.
->
-Yes, I've ssp enabled in DISTRO_FEATURES and I thought this was right
-because
-uclibc uses DISTRO_FEATURES to create its .config where UCLIBC_HAS_SSP=y
-should be available, isnt' it?
-
->
-> >>
-> >> Now, ssp support is enabled in the uClibc package and disabled in the
-> >> gcc-cross-initial package, so
-> >> ld should not include that by default. Instead it does and if I switch
-> to
-> >> old OE-Core repository (June 2012)
-> >> I can see all goes right just because the gcc-cross-intermediate package
-> >> was still present and uClibc depends on it
-> >> for building. Now, I know the -intermediate package was moved out and
-> the
-> >> -initial one should include it, but
-> >> that's it.
-> >> I've not tested that with gcc 4.7 version, this is out of my scope.
-> >> Please, can you address me to solve this issue?
-> >>
-> >> Best Regards,
-> >> Giuseppe
-> >>
-> >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
->
-
---e89a8fb1ff520c1ebd04c918a12d
+--f46d04451a095888c704c918a5fa
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-This is a forward of the mail erroneously sent only to Khem.<br><br><div cl=
-ass=3D"gmail_quote">---------- Forwarded message ----------<br>From: <b cla=
-ss=3D"gmail_sendername">Giuseppe Condorelli</b> <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:giuseppe.condorelli@gmail.com">giuseppe.condorelli@gmail.com</=
-a>&gt;</span><br>
+<div>Update: removing ssp from DISTRO_FEATURES solve to build error but (ob=
+viously) remove ssp support</div><div>from uclibc package.</div><div>Is the=
+re a way to avoid this?</div><div>=A0</div><div>Cheers,</div><div>Giuseppe<=
+br>
+<br></div><div class=3D"gmail_quote">2012/9/7 Giuseppe Condorelli <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com" target=3D"_bl=
+ank">giuseppe.condorelli@gmail.com</a>&gt;</span><br><blockquote style=3D"m=
+argin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204)=
+;border-left-width:1px;border-left-style:solid" class=3D"gmail_quote">
+This is a forward of the mail erroneously sent only to Khem.<div class=3D"H=
+OEnZb"><div class=3D"h5"><br><br><div class=3D"gmail_quote">---------- Forw=
+arded message ----------<br>From: <b class=3D"gmail_sendername">Giuseppe Co=
+ndorelli</b> <span dir=3D"ltr">&lt;<a href=3D"mailto:giuseppe.condorelli@gm=
+ail.com" target=3D"_blank">giuseppe.condorelli@gmail.com</a>&gt;</span><br>
+
 Date: 2012/9/7<br>Subject: Re: [OE-core] Cannot find -lssp during uclibc pa=
-ckage build<br>To: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.k=
-hem@gmail.com</a>&gt;<br><br><br><div>Hi Khem,</div><div>=A0</div><div>many=
- thanks for your reply (see below).<br>
-<br></div><div class=3D"gmail_quote"><div class=3D"im">2012/9/7 Khem Raj <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank"=
->raj.khem@gmail.com</a>&gt;</span><br>
+ckage build<br>To: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targe=
+t=3D"_blank">raj.khem@gmail.com</a>&gt;<br><br><br><div>Hi Khem,</div><div>
+=A0</div><div>many thanks for your reply (see below).<br>
+<br></div><div class=3D"gmail_quote"><div>2012/9/7 Khem Raj <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gma=
+il.com</a>&gt;</span><br>
 <blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
 color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
 =3D"gmail_quote"><div>On Fri, Sep 7, 2012 at 12:11 AM, Giuseppe Condorelli<=
 br>
+
 
 
 &lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com" target=3D"_blank">gius=
@@ -163,9 +190,10 @@ e build:<br>
 </div>have a look at the 4.6 recipes from meta-openemebedded/toolchain-laye=
 r<br>
 does that work for you ?<br></blockquote></div><div>I&#39;ll look soon=A0</=
-div><div class=3D"im"><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding=
--left:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;border-l=
-eft-style:solid" class=3D"gmail_quote">
+div><div><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;bor=
+der-left-color:rgb(204,204,204);border-left-width:1px;border-left-style:sol=
+id" class=3D"gmail_quote">
+
 
 
 <br>
@@ -174,7 +202,8 @@ and may be you have &#39;ssp&#39; in DISTRO_FEATURES then remove that.<br><=
 hought=A0this was right because</div><div>uclibc uses DISTRO_FEATURES to=A0=
 create=A0its .config where UCLIBC_HAS_SSP=3Dy should=A0be available, isnt&#=
 39; it?</div>
-<div class=3D"im">
+
+<div>
 <blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
 color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
 =3D"gmail_quote">
@@ -213,5 +242,6 @@ stinfo/openembedded-core</a><br>
 &gt;<br>
 </blockquote></div></div><br>
 </div><br>
+</div></div></blockquote></div><br>
 
---e89a8fb1ff520c1ebd04c918a12d--
+--f46d04451a095888c704c918a5fa--
