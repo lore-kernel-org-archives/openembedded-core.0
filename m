@@ -1,36 +1,37 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T9wKg-0003HD-Cv
-	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Sep 2012 13:02:42 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 07 Sep 2012 03:50:12 -0700
-Received: by wgbdr1 with SMTP id dr1so2046396wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Sep 2012 03:50:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=cIlbrYLHFFDf+VeWJq5ZqvY5/Q71fcy2xxkXe99ydPU=;
-	b=QxcNblHRbPx12nlsASgQcHKB6pF7dr38ycsM1a1WCSVtTm40StT42aJuHpnfVBL9b4
-	gIu4VnBKnosivmEtmwR9JhYiBtTWcVtm3gi6S9mvfM3g46X3tsU1ei6kzy8w1i7y9Z+4
-	8i6SCXikU9D5ttuqUYrLX/+06Zr8iYmRgBhD4pESKl5+iM+PqELtJuqTP+xTZsNqL5I5
-	9Zzypzv9+O9fUMwhE87cxAA6r3VwQ2c0WJildymBUKHTrtZ/k8F4w7XFl76DQsEOULIq
-	6HlYDEX6lLeiZ4yjXbQrBFZNJOebM6zDe6dEonRzH0Dbhyh21aeaJvpx8lP9IauwFLWs
-	41Wg==
-Received: by 10.180.91.1 with SMTP id ca1mr45649594wib.8.1347015010807;
-	Fri, 07 Sep 2012 03:50:10 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id q4sm9053094wix.9.2012.09.07.03.50.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Sep 2012 03:50:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Sep 2012 11:49:25 +0100
-Message-Id: <1347014965-24440-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQms1+jBuZ1ZI3/ONXP8EQiRzN90VwfDTDfAY3xrER79eRZVJ6/eOJpuWUrSyDiTsGEhlxPS
-Subject: [PATCH] xserver-xorg: make DRI/GLX options respect opengl distro feature
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T9xoI-0005d4-QD for openembedded-core@lists.openembedded.org;
+	Fri, 07 Sep 2012 14:37:23 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87COt8i029102;
+	Fri, 7 Sep 2012 13:24:55 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28801-04; Fri,  7 Sep 2012 13:24:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q87COmou029096
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 7 Sep 2012 13:24:49 +0100
+Message-ID: <1347020688.7493.63.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 07 Sep 2012 13:24:48 +0100
+In-Reply-To: <F14829DE-6688-48C1-B69D-1A1A66AD9251@dominion.thruhere.net>
+References: <cover.1346837268.git.liezhi.yang@windriver.com>
+	<a30f2ce625990ccfb3e1e06794b353dc1f1257cb.1346837268.git.liezhi.yang@windriver.com>
+	<32CDFC5F-610C-45E8-A239-A3387A8839FB@dominion.thruhere.net>
+	<1346845447.21985.50.camel@ted>
+	<E182019A-4B42-4F70-BA82-EDC685EDFA9A@dominion.thruhere.net>
+	<1346879977.21985.88.camel@ted>
+	<F14829DE-6688-48C1-B69D-1A1A66AD9251@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "openembedded-core@lists.openembedded.org layer"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 2/2] package_ipk.bbclass: use "--force-arch" when install package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,59 +44,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 11:02:42 -0000
+X-List-Received-Date: Fri, 07 Sep 2012 12:37:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If the distro doesn't have the opengl feature there's no point building the DRI
-or GLX support, making the mesa-dri build dependency optional.
+On Thu, 2012-09-06 at 13:05 +0200, Koen Kooi wrote:
+> Op 5 sep. 2012, om 23:19 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> 
+> > On Wed, 2012-09-05 at 15:24 +0200, Koen Kooi wrote:
+> >> Op 5 sep. 2012, om 13:44 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> >> 
+> >>> On Wed, 2012-09-05 at 12:05 +0200, Koen Kooi wrote:
+> >>>> Op 5 sep. 2012, om 11:31 heeft Robert Yang <liezhi.yang@windriver.com> het volgende geschreven:
+> >>>> 
+> >>>>> This is for fixing the problem:
+> >>>>> 1) bitbake core-image-sato-sdk with MACHINE=qemux86
+> >>>>> 2) bitbake core-image-sato with with MACHINE=crownbay
+> >>>>> 
+> >>>>> The qemux86's PACKAGE_ARCH is i586, the crownbay's is core2, but several
+> >>>>> i586 packages will be installed into crownbay's rootfs though there are
+> >>>>> core2 packages. For example, there are:
+> >>>>> 
+> >>>>> xserver-xorg_1.11.2-r4_i586.ipk
+> >>>>> xserver-xorg_1.9.3-r1_core2.ipk
+> >>>>> 
+> >>>>> The crownbay.conf says:
+> >>>>> PREFERRED_VERSION_xserver-xorg ?= "1.9.3"
+> >>>>> 
+> >>>>> What the crownbay's image needs is xserver-xorg_1.9.3-r1_core2.ipk, but
+> >>>>> the xserver-xorg_1.11.2-r4_i586.ipk will be installed, this is
+> >>>>> incorrect.
+> >>>> 
+> >>>> It is the correct behaviour, though.
+> >>> 
+> >>> No, it isn't. You told bitbake to build some specific versions, it did
+> >>> that, then put something else in the rootfs. Without mentioning any of
+> >>> this to the user.
+> >> 
+> >> You forget that, you, as the user, instructed bitbake to build the
+> >> other version when switching machine. Should bitbake refuse to build
+> >> the packages in this scenario?
+> > 
+> > That would be better than silently doing something non-deterministic.
+> > 
+> > The bit I hate about this is the fact that sometimes a build would
+> > result in one thing, sometimes another. It should always error out with
+> > an invalid configuration rather than do that.
+> > 
+> >> That would make more sense than trying to clean up the mess in the
+> >> package_ipk bbclass. If you have online feeds the problem will
+> >> reappear anyway.
+> > 
+> > I care more about builds being deterministic than online feeds.
+> 
+> Thanks for going on the record for that.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../xorg-xserver/xserver-xorg-1.11.2.inc               |    2 +-
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc    |   16 ++++------------
- 2 files changed, 5 insertions(+), 13 deletions(-)
+We're a build system and package feed creation has always been argued to
+be a second step based on the output of the build system, often by you
+iirc.
+> > 
+> >> So, fix this problem at the root and make bitbake error out if your
+> >> build breaks PREFERRED_VERSION.
+> > 
+> > How do we detect this? I want deterministic builds so I need the error
+> > to appear regardless of whether I build A or B first (just like I expect
+> > a consistent image).
+> > 
+> > I also do want to support these situations where we need special
+> > versions. I appreciate its ugly but we have several significant users
+> > with this problem and pretending it doesn't exist doesn't work, much as
+> > I wish we could.
+> > 
+> > What I really need here is help with coming up with some working
+> > solution. Putting our heads in the sand and arguing whether its even a
+> > problem isn't going to go anywhere :(.
+> 
+> Where have I argued that it's not a problem? I've said time and time
+> again that PREFERRED_VERSION problems are for the DISTRO to solve. You
+> are arguing that we should band-aid it somewhere in a class where it
+> would break package feeds. So my counter proposal for broken DISTROs
+> was to have bitbake completely prevent the user from building such a
+> conflicting version.
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index b4a348c..c71896a 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -8,4 +8,4 @@ SRC_URI += "file://crosscompile.patch \
- SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
--PR = "r6"
-+PR = "r7"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index a0309aa..210abad 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -123,21 +123,13 @@ EXTRA_OECONF += "--with-fop=no \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
- "
- 
--PACKAGECONFIG ??= "udev"
-+PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx', '', d)}"
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
-+PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
-+                      --disable-dri --disable-glx,\
-+                      xf86driproto dri2proto mesa-dri"
- 
- do_install_append () {
- 	# Its assumed base-files creates this for us
- 	rmdir ${D}${localstatedir}/log/
- }
--
--
--# Mesa/GLX/DRI
--PROTO_DEPS += "xf86driproto dri2proto"
--LIB_DEPS += "mesa-dri"
--
--EXTRA_OECONF += "\
--                 --enable-dri \
--                 --enable-dri2 \
--                 --enable-glx-tls \
--"
--- 
-1.7.10
+I'd argue its up to the DISTRO to solve at package feed generation time
+and that is the point it should error. I cannot see any way bitbake can
+reasonably figure out this problem and accurately error as it simply
+doesn't have the info. At package feed generation time, you do have that
+info.
+
+On the other hand, the build system *can* generate images consistently.
+
+> The low-tech solution would be to document that you can't build this
+> combination of machines in the same TMPDIR. Wiping TMDIR between
+> machines changes should be quite cheap with sstate-cache nowadays, no?
+
+By your own reasoning, this is unacceptable since the generated images
+would differ from what online package management would result in with
+image upgrades.
+
+Documenting the builds aren't deterministic is a fail, we can do better.
+
+Cheers,
+
+Richard
 
 
 
