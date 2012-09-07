@@ -1,26 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TA6q7-0006rD-UK
+	(envelope-from <mark.hatle@windriver.com>) id 1TA6rV-0006yv-5N
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Sep 2012 00:15:52 +0200
+	Sat, 08 Sep 2012 00:17:17 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87M3PWg004842
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q87M4ovX004942
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Sep 2012 15:03:25 -0700 (PDT)
+	Fri, 7 Sep 2012 15:04:50 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Fri, 7 Sep 2012 15:03:24 -0700
+	Fri, 7 Sep 2012 15:04:49 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Sep 2012 17:05:44 -0500
-Message-ID: <bc6aa4b508418cdb8e62ba4eb152b38527731b3b.1347055413.git.mark.hatle@windriver.com>
+Date: Fri, 7 Sep 2012 17:07:10 -0500
+Message-ID: <cover.1347055585.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1347055413.git.mark.hatle@windriver.com>
-References: <cover.1347055413.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/2] package_rpm.bbclass: Avoid unnecessary installs in complementary pass
+Subject: [PATCH 0/1] Minor fix to qt4 -dbg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Sep 2012 22:15:52 -0000
+X-List-Received-Date: Fri, 07 Sep 2012 22:17:17 -0000
 Content-Type: text/plain
 
-When called with the complementary install option, the first step is to
-backup the install manifest so that we can avoid installing items previously
-installed.  However, this backup process skipped the initial_install portion
-of the manifest, causing early install items like libc6, bash, and base-files
-to be installed a second time.
+The following changes since commit 0de1827a9601143b090f751ea702fdb65a936b77:
 
-Fix this by cating the files to original_solution.  This is done as an append to
-allow multiple calls to package_install_internal_rpm to work.
+  classes/mirrors: remove bogus gnutls mirror (2012-09-07 14:51:10 +0100)
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package_rpm.bbclass |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib mhatle/qt4
+  http://git.yoctoproject.org/cgit.cgi//log/?h=mhatle/qt4
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 742f292..7e3dfbe 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -313,7 +313,14 @@ package_install_internal_rpm () {
- 			done
- 		fi
- 	else
--		mv ${target_rootfs}/install/total_solution.manifest ${target_rootfs}/install/original_solution.manifest
-+		# We may run through the complementary installs multiple times.  For each time
-+		# we should add the previous solution manifest to the full "original" set to
-+		# avoid duplicate install steps.
-+		echo "Update original solution..."
-+		cat ${target_rootfs}/install/initial_solution.manifest >> ${target_rootfs}/install/original_solution.manifest
-+		cat ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/original_solution.manifest
-+		rm ${target_rootfs}/install/initial_solution.manifest
-+		rm ${target_rootfs}/install/total_solution.manifest
- 	fi
- 
- 	# Setup manifest of packages to install...
+Mark Hatle (1):
+  qt4: Update qt4.inc to remove staticdev deps in -dbg packages
+
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
 -- 
 1.7.3.4
 
