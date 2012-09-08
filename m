@@ -1,27 +1,41 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TA8sJ-0006Cq-45
+	(envelope-from <raj.khem@gmail.com>) id 1TAFx4-0007tM-Cj
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Sep 2012 02:26:15 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Sep 2012 17:13:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,388,1344236400"; d="scan'208";a="219616015"
-Received: from unknown (HELO helios.localnet) ([10.252.121.181])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2012 17:13:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Sat, 08 Sep 2012 01:13:46 +0100
-Message-ID: <2421210.2flnjmrcNM@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <504A8B60.50602@linux.intel.com>
-References: <1347041849-1559-1-git-send-email-sgw@linux.intel.com>
-	<3797326.nJL3Eer77d@helios> <504A8B60.50602@linux.intel.com>
+	Sat, 08 Sep 2012 09:59:38 +0200
+Received: by pbcwy7 with SMTP id wy7so730308pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Sep 2012 00:47:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=p2ld5inVWkbgX2PZDMnTNoK3u2qNjS+UG1iLcEf/RoY=;
+	b=dWLaI2ntTC4IX2O3kxD0XUDO2MBaH5c5sl+H6ex4PtxOSbm3dsbv7EFYJCpe9SPv+0
+	Fegk7ytZz+1inehhfhmtgpLWUbujYAztQ1bc9D91dZVSm/pAhxZmL8h2sTwnLY2mXgZJ
+	goVFRcDGqe63KpSgI0NL2KKh/IvBxBJXha4nBEUPK0Npz3mBp70AcOzt4n723NZBFJ9s
+	7pAR21+aAkfjts6Wal5GRHOcv86MKTgbbvqKTu1j1eFYu81TaEKAYRUVZBlpegwHKtqJ
+	P8dffqE3VPftzxXs70eG5IE3LNN53JXVxkPRxq6SAvjVbtQ6jiS+gwjgDEDmEHWQIeZM
+	IbSg==
+Received: by 10.68.203.228 with SMTP id kt4mr1999209pbc.87.1347090430752;
+	Sat, 08 Sep 2012 00:47:10 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id gt2sm4735401pbc.62.2012.09.08.00.47.09
+	(version=SSLv3 cipher=OTHER); Sat, 08 Sep 2012 00:47:09 -0700 (PDT)
+Date: Sat, 8 Sep 2012 00:46:32 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Brandon Stafford <brandon@rascalmicro.com>
+Message-ID: <20120908074629.GB3903@sakrah.homelinux.org>
+Mail-Followup-To: Brandon Stafford <brandon@rascalmicro.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CA+b4E8xjg7ZWy3pMoGY_HRYpTCwhS95_c+o0ZL_JG58dU0iMdw@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Marc Ferland <marc.ferland@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssh: allow root login when debug-tweaks is enabled
+In-Reply-To: <CA+b4E8xjg7ZWy3pMoGY_HRYpTCwhS95_c+o0ZL_JG58dU0iMdw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Trying to compile Scipy, but stuck on native cc and ld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Sep 2012 00:26:15 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 08 Sep 2012 07:59:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Friday 07 September 2012 17:03:44 Saul Wold wrote:
-> On 09/07/2012 04:56 PM, Paul Eggleton wrote:
-> > I'm a bit confused by this because I thought this issue had already been
-> > solved. Unfortunately when I looked back I see the patch was never merged:
-> > 
-> > http://patches.openembedded.org/patch/29693/
+On (06/09/12 12:36), Brandon Stafford wrote:
+> Hi all,
 > 
-> It was merged, I just augmented that allow_empty_passwd() with another 1
-> line sed to PermitRootLogin also.
+> I'm working on a recipe for Scipy, which is a Python library for
+> scientific computation. It contains chunks of code in C and Fortran.
+> 
+> I have seen this recent message from Phil Blundell (about an entirely
+> different recipe) that suggests that the problem may be the use of the
+> host's cc and ld, rather than the correct ARM cross-compilers:
+> http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg27120.html
+> 
+> This looks like the problem to me, but I'm not sure how to tell the
+> Python build script that it should be cross-compiling. Based on Phil's
+> message, I'd expect it involves setting ${CC} and ${LD} and somehow
+> passing them to Python, but I'm not sure how.
+> 
+> Full error message: http://pastebin.com/pMvaLpcz
+> Recipe in broken state: http://pastebin.com/a5jm45vB
+> 
+> (The line export LDFLAGS = "-L${STAGING_LIBDIR}" is just there because
+> another mailing list suggestion:
+> http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg24196.html.
+> It does not appear to affect the errors produced.)
+> 
+> Any suggestions?
 
-Ah yes, now that I search for the correct string I see it was merged.
+FIrst you need fortran language frontends and support libraries
+compiled with gcc cross compiler. By default we only build c/c++
 
-> > I agree with Phil, we really don't want to replicate dropbear's usage of
-> > IMAGE_FEATURES outside of image handling code - in fact there is a bug in
-> > the Yocto Project bugzilla (#2578) against me to remove this for
-> > dropbear.
->
-> Paul, I can have a crack at it if you want.
+the you need to take a look at scipy build system and see how
+its deriving its CC and LD variables and then override them with
+CC LD that recipe gets from environment when building
 
-You are welcome to, but FYI it does involve modifications to dropbear itself as 
-it does not have a runtime configuration option for this.
-
-Cheers,
-Paul
+> 
+> Brandon
+> 
+> --
+> Brandon Stafford
+> Rascal Micro: small computers for art and science
+> Somerville, MA, USA
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+-Khem
 
 
