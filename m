@@ -1,37 +1,26 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1TANQo-0002GI-MN
+	(envelope-from <mark.hatle@windriver.com>) id 1TANTo-0002hJ-QA
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Sep 2012 17:58:50 +0200
-Received: from compute6.internal (compute6.nyi.mail.srv.osa [10.202.2.46])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 9D79C20E9D;
-	Sat,  8 Sep 2012 11:37:03 -0400 (EDT)
-Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
-	by compute6.internal (MEProxy); Sat, 08 Sep 2012 11:37:03 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:cc:date
-	:in-reply-to:references:content-type:mime-version
-	:content-transfer-encoding; s=smtpout; bh=zgNiNzRkS2MY+7ToTzvxgl
-	hg/K8=; b=FSBdXcWLreyQBeWESAJ3cbb5+9aCvEC4g612FBOv2KyJ5sWHih4olD
-	K1a/GXdBTefX66VCBnLklqyxTYBrnpuLCLy3AUfnlpt+Mxz/8nqnVKSUwmIar/Tb
-	Noh47nt9dNGn6ttacW6UEWZrBktJkyfK/HM8Oas0eDWV0j2DMoEFQ=
-X-Sasl-enc: jaDPJUaGD2wHAxYv358NC3GaFqiah3ky1XFCrfuJmJXc 1347118623
-Received: from [192.168.1.6] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 1FC188E0206;
-	Sat,  8 Sep 2012 11:37:03 -0400 (EDT)
-Message-ID: <1347118585.2583.14.camel@lenny>
-From: Colin Walters <walters@verbum.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Sat, 08 Sep 2012 11:36:25 -0400
-In-Reply-To: <504B4880.5000304@windriver.com>
-References: <1347033943.8619.0.camel@ted> <504A21A5.7000309@windriver.com>
-	<CAJTo0LYnG1BdZ=UkKPWju7UwBZWjEJhQ_svmO4bVwaSL1ZGGkA@mail.gmail.com>
-	<1347037772.8619.24.camel@ted> <1347038143.2673.226.camel@phil-desktop>
-	<20120908080502.GC3903@sakrah.homelinux.org>
-	<504B4880.5000304@windriver.com>
-X-Mailer: Evolution 3.4.3 (3.4.3-2.fc17) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	Sat, 08 Sep 2012 18:01:57 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q88FnSv6013754
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 8 Sep 2012 08:49:28 -0700 (PDT)
+Received: from msp-dhcp24.wrs.com (172.25.34.24) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Sat, 8 Sep 2012 08:49:28 -0700
+Message-ID: <504B6907.6080704@windriver.com>
+Date: Sat, 8 Sep 2012 10:49:27 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120824 Thunderbird/15.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1347033943.8619.0.camel@ted> <1347119094.2583.20.camel@lenny>
+In-Reply-To: <1347119094.2583.20.camel@lenny>
 Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a distclean when reconfiguring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,36 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Sep 2012 15:58:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 08 Sep 2012 16:01:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2012-09-08 at 08:30 -0500, Mark Hatle wrote:
+On 9/8/12 10:44 AM, Colin Walters wrote:
+> On Fri, 2012-09-07 at 17:05 +0100, Richard Purdie wrote:
+>> Unfortunately whilst reruning configure and make against a project will mostly
+>> work there are situations where it does not correctly do the right thing.
+>>
+>> In particular, eglibc and gcc will fail out with errors where settings
+>> do not match a previously built configuration. It could be argued they are
+>> broken but the situation is what it is. There is the possibility of more subtle
+>> errors too.
+>>
+>> This patch adds a "make distclean" call to recipes where configure is
+>> rerunning and the sstate checksum for do_configure has changed. We could
+>> simply use a stamp but saving out the previous configuration checksum
+>> adds some data at no real overhead.
+>
+> The major problem with distclean is that it completely falls over in the
+> scenario where the source code has changed; the new distclean won't know
+> about *old* object files it no longer builds, files renamed, etc.
+>
+> In GNOME we just this cycle landed this patch to use "git clean -dfx"
+> instead of "make distclean" if possible:
+> https://bugzilla.gnome.org/show_bug.cgi?id=656081
+>
+> It might be interesting to have an option to run:
+> "git init; git add .; git commit -a -m auto-import" on each tarball
+> build in OE.  I've been considering doing this for jhbuild.
+>
+> (My latest build system *only* builds from git repositories, so
+>   it works there =) )
 
-> In principal I agree completely, however in practice at least 20-30% of the 
-> packages I try won't deal w/ the B/S separation properly.
+While we're not managing the patching w/ git.. we are with quilt.  Does quilt 
+have any facilities for restoring to the pristine last copy vs whatever is in 
+the current tree?  (I don't think it does BTW.)
 
-So what I did in my most recent build system[1] is:
+--Mark
 
-1) Default to srcdir != builddir
-2) Tag modules which don't support that
-
-See: http://people.gnome.org/~walters/docs/build-api.txt
-
-If a module doesn't support srcdir != builddir, I simply copy the source
-tree to the builddir.  This is can be a confusing trap from a developer
-perspective; I've caught myself editing the copied source files, and
-then had them blown away during a build. 
-
-But in general we should pressure upstreams to support srcdir !=
-builddir, because the benefits are great and the drawbacks small.
-
-It'd be awesome if you guys considered having the bitbake autotools
-class implement the same semantics.
-
-[1]
-http://git.gnome.org/browse/gnome-ostree/tree/src/ostbuild/pyostbuild/builtin_compile_one.py#n132
-
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
