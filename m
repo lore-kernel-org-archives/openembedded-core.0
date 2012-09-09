@@ -1,21 +1,21 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TAdnp-00019W-20
+	(envelope-from <philb@gnu.org>) id 1TAeBw-0001R0-I3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Sep 2012 11:27:41 +0200
+	Sun, 09 Sep 2012 11:52:36 +0200
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.6])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TAdbm-0007Xs-Un
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TAdzu-0007YF-Nu
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Sep 2012 11:15:15 +0200
-Message-ID: <1347181988.4396.256.camel@x121e.pbcl.net>
+	Sun, 09 Sep 2012 11:40:10 +0200
+Message-ID: <1347183484.4396.257.camel@x121e.pbcl.net>
 From: Phil Blundell <philb@gnu.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 09 Sep 2012 10:13:08 +0100
+Date: Sun, 09 Sep 2012 10:38:04 +0100
 X-Mailer: Evolution 3.4.3-1 
 Mime-Version: 1.0
-Subject: [PATCH] perl-native: PROVIDE libmodule-build-perl-native for consistency with non-native perl
+Subject: [PATCH] rootfs_ipk: Avoid leaving run-postinsts around for non-O_P_M images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,33 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Sep 2012 09:27:41 -0000
+X-List-Received-Date: Sun, 09 Sep 2012 09:52:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This module is, apparently, included in the standard perl distribution
-since 5.10.1 or so.  The regular perl recipe has had this PROVIDES for a
-while but it seems to have been overlooked in the native version.
+If all postinsts have already been run during rootfs construction then
+there's no point in having run-postinsts in the installed system.
+Clean it up at the same time that update-rc.d and suchlike are being
+removed.
 
 Signed-off-by: Phil Blundell <pb@pbcl.net>
 ---
- meta/recipes-devtools/perl/perl-native_5.14.2.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/classes/rootfs_ipk.bbclass |   14 ++++++++++++--
+ 1 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl-native_5.14.2.bb b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
-index df8f058..9f6a077 100644
---- a/meta/recipes-devtools/perl/perl-native_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
-@@ -9,6 +9,9 @@ PR = "r1"
- LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
-                     file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
- 
-+# 5.10.1 has Module::Build built-in
-+PROVIDES += "libmodule-build-perl-native"
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 6cdd8f6..46e8d60 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -97,8 +97,18 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
+ 		if ! grep Status:.install.ok.unpacked ${STATUS}; then
+ 			# All packages were successfully configured.
+-			# update-rc.d, base-passwd are no further use, remove them now
+-			opkg-cl ${IPKG_ARGS} --force-depends remove update-rc.d base-passwd || true
++			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
++			remove_run_postinsts=false
++			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
++				remove_run_postinsts=true
++			fi
++			opkg-cl ${IPKG_ARGS} --force-depends remove update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL} || true
 +
- SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
-            file://Configure-multilib.patch \
-            file://perl-configpm-switch.patch \
++			# Need to remove rc.d files for run-postinsts by hand since opkg won't
++			# call postrm scripts in offline root mode.
++			if $remove_run_postinsts; then
++				update-rc.d -f -r ${IMAGE_ROOTFS} run-postinsts remove
++			fi
+ 
+ 			# Also delete the status files
+ 			rm -rf ${IMAGE_ROOTFS}${opkglibdir}
 -- 
 1.7.9
 
