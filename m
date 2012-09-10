@@ -1,45 +1,31 @@
-Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
-	helo=va3outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TB9YS-0005fH-WB
-	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Sep 2012 21:21:57 +0200
-Received: from mail50-va3-R.bigfish.com (10.7.14.240) by
-	VA3EHSOBE004.bigfish.com (10.7.40.24) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 10 Sep 2012 19:09:26 +0000
-Received: from mail50-va3 (localhost [127.0.0.1])	by mail50-va3-R.bigfish.com
-	(Postfix) with ESMTP id 576B830023D	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 19:09:26 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1d1ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h1155h)
-Received: from mail50-va3 (localhost.localdomain [127.0.0.1]) by mail50-va3
-	(MessageSwitch) id 1347304163618857_11944;
-	Mon, 10 Sep 2012 19:09:23 +0000 (UTC)
-Received: from VA3EHSMHS002.bigfish.com (unknown [10.7.14.241])	by
-	mail50-va3.bigfish.com (Postfix) with ESMTP id 939B62E0228	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 19:09:23 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS002.bigfish.com
-	(10.7.99.12) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 10 Sep 2012 19:09:23 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Mon, 10 Sep 2012 14:09:22 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q8AJ9LZv032595 for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 12:09:22 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Sep 2012 14:09:21 -0500
-Message-ID: <1347304161-19864-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we have items to check
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBAuY-0002sG-Sp for openembedded-core@lists.openembedded.org;
+	Mon, 10 Sep 2012 22:48:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8AKaII5003435;
+	Mon, 10 Sep 2012 21:36:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01387-10; Mon, 10 Sep 2012 21:36:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8AKaBR3003420
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 10 Sep 2012 21:36:12 +0100
+Message-ID: <1347309373.31154.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Mon, 10 Sep 2012 21:36:13 +0100
+In-Reply-To: <1347297632-16529-3-git-send-email-ross.burton@intel.com>
+References: <1347297632-16529-1-git-send-email-ross.burton@intel.com>
+	<1347297632-16529-3-git-send-email-ross.burton@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] libx11: don't split libX11-xcb out into a libx11-xcb package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,38 +38,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2012 19:21:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Sep 2012 20:48:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Right now, we delay running the serial console checks to we boot up. This causes
-issues for read only file systems. So, if have not configured any serial ports to
-check via SERIAL_CONSOLES_CHECK we can skip the check at boot. This fixes any
-issues with read only file systems and ipk packaging.
+On Mon, 2012-09-10 at 18:20 +0100, Ross Burton wrote:
+> As XCB is a hard requirement for libX11, and libX11-xcb.so is a deprecated 3KB
+> .so, it's not worth splitting it into a separate package.
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+3kb is 3kb. If its deprecated, things will stop linking with it and
+nothing will depend on it and everyone will be happy as it fades into
+history.
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 1089edb..5394f18 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -65,7 +65,11 @@ if [ "x$D" == "x" ]; then
- 	done
- 	kill -HUP 1
- else
--	exit 1
-+	if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
-+		exit 0
-+	else
-+		exit 1
-+	fi
- fi
- }
- 
--- 
-1.7.9.7
+What am I missing?
+
+Cheers,
+
+Richard
+
+
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb |    2 +-
+>  meta/recipes-graphics/xorg-lib/libx11.inc           |    3 ---
+>  meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb      |    2 +-
+>  3 files changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
+> index 3d5a306..c39b859 100644
+> --- a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
+> @@ -5,7 +5,7 @@ DESCRIPTION += " Support for XCMS is disabled in this version."
+>  LICENSE = "MIT & MIT-style & BSD"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+>  
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  DEPENDS += "libxcb xproto xextproto xtrans libxau kbproto inputproto xf86bigfontproto xproto-native"
+>  
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+> index 592f116..bbbb29c 100644
+> --- a/meta/recipes-graphics/xorg-lib/libx11.inc
+> +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+> @@ -18,10 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+>  
+>  EXTRA_OECONF += "--with-groff=no --with-ps2pdf=no --with-fop=no --disable-specs"
+>  
+> -PACKAGES =+ "${PN}-xcb"
+> -
+>  FILES_${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${libdir}/X11/Xcms.txt"
+> -FILES_${PN}-xcb += "${libdir}/libX11-xcb.so.*"
+>  FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
+>  
+>  do_compile_prepend() {
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
+> index a65ab1f..e78d707 100644
+> --- a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
+> @@ -1,7 +1,7 @@
+>  require libx11.inc
+>  inherit gettext
+>  
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+>  
 
 
 
