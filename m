@@ -1,26 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TB6YK-0003Mv-Bk
+	(envelope-from <martin.jansa@gmail.com>) id 1TB6ZT-0003fb-BY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Sep 2012 18:09:36 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Sep 2012 08:56:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,398,1344236400"; d="scan'208";a="191201118"
-Received: from unknown (HELO [10.255.13.123]) ([10.255.13.123])
-	by orsmga001.jf.intel.com with ESMTP; 10 Sep 2012 08:57:05 -0700
-Message-ID: <504E0DD1.1020504@linux.intel.com>
-Date: Mon, 10 Sep 2012 08:57:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Mon, 10 Sep 2012 18:10:47 +0200
+Received: by eekb57 with SMTP id b57so1186358eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Sep 2012 08:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=JLJSeNLrSn2jwUAf+aAtucvdD1l7pvF9beoSiL7LEHg=;
+	b=GbLbavluBPdz66956zmnVSJLsKXYAYfYHZhd1IfNeN6Zt2WkwYaLI/wyOKCWAULQh0
+	YiyH2Nv4Lo7yEwCvHN6tF4UYVopCnTTqeCbz5HWhS+/4utz++CuYmw4IyIIc+gSgI0S5
+	pw+6e4zj8yQZWobxbcUvDxHJ4ICY04NKNtcF6BBEqAViDGFbg0GH40jJ4Rhv3Tk+LSlK
+	cH77E2LdlTNtom0Ys7cJ/BMSWDJwh/4rVXbwCPaZChi5qtN12UeaHitetiHjgTwbHXr9
+	tpUJY0AhMoxyiGP8HSv2iCLtltwMPcq5DVbzsbDarmeIzBfIN9abwXH/cg76qPQlu7il
+	q7eA==
+Received: by 10.204.10.92 with SMTP id o28mr4077061bko.39.1347292697316;
+	Mon, 10 Sep 2012 08:58:17 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id y20sm7640262bkv.11.2012.09.10.08.58.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 10 Sep 2012 08:58:15 -0700 (PDT)
+Date: Mon, 10 Sep 2012 17:58:14 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20120910155814.GD3502@jama.jama.net>
+References: <cover.1346970617.git.raj.khem@gmail.com>
+	<504E0DA0.6000802@linux.intel.com>
 MIME-Version: 1.0
-To: Constantin Musca <constantinx.musca@intel.com>
-References: <1347006136-7449-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1347006136-7449-1-git-send-email-constantinx.musca@intel.com>
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autoconf: use --warning=cross only if supported
+In-Reply-To: <504E0DA0.6000802@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Upgrade qemu to 1.2 and eglibc with kconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,89 +45,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2012 16:09:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Sep 2012 16:10:47 -0000
+X-Groupsio-MsgNum: 28962
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="BRE3mIcgqKzpedwo"
+Content-Disposition: inline
 
-On 09/07/2012 01:22 AM, Constantin Musca wrote:
-> Adapt autoconf to pass --warning=cross to automake only if
-> supported.
->
-> [YOCTO #842]
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> ---
->   .../autoconf/check-automake-cross-warning.patch    |   34 ++++++++++++++++++++
->   meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    3 +-
->   2 files changed, 36 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/autoconf/autoconf/check-automake-cross-warning.patch
->
-> diff --git a/meta/recipes-devtools/autoconf/autoconf/check-automake-cross-warning.patch b/meta/recipes-devtools/autoconf/autoconf/check-automake-cross-warning.patch
-> new file mode 100644
-> index 0000000..73394d7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/autoconf/autoconf/check-automake-cross-warning.patch
-> @@ -0,0 +1,34 @@
-> +Use --warning=cross only if supported by automake
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +
-> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> +
-> +--- a/bin/autoreconf.in
-> ++++ b/bin/autoreconf.in
-> +@@ -127,6 +127,8 @@ my $aclocal_supports_warnings = 0;
-> + my $automake_supports_force_missing = 0;
-> + # Does automake support -Wfoo?
-> + my $automake_supports_warnings = 0;
-> ++# Does automake support --warning=cross
-> ++my $automake_supports_cross_warning = 0;
-> +
-> + my @prepend_include;
-> + my @include;
-> +@@ -191,6 +193,7 @@ sub parse_args ()
-> +   $aclocal_supports_warnings = $aclocal_help =~ /--warnings/;
-> +   $automake_supports_force_missing = $automake_help =~ /--force-missing/;
-> +   $automake_supports_warnings = $automake_help =~ /--warnings/;
-> ++  $automake_supports_cross_warning = $automake_help =~ /cross/;
-> +
-> +   # Dispatch autoreconf's option to the tools.
-> +   # --include;
-> +@@ -244,6 +247,8 @@ sub parse_args ()
-> +       $libtoolize .= ' --debug';
-> +     }
-> +   # --warnings;
-> ++  @warning = grep { $_ ne "cross" } @warning
-> ++    if ! $automake_supports_cross_warning;
-> +   if (@warning)
-> +     {
-> +       my $warn = ' --warnings=' . join (',', @warning);
-> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.69.bb b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> index 478f8ed..1ec1cb5 100644
-> --- a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> @@ -1,6 +1,6 @@
->   require autoconf.inc
->
-> -PR = "r7"
-> +PR = "r8"
->
->   PARALLEL_MAKE = ""
->
-> @@ -8,6 +8,7 @@ LICENSE = "GPLv2 & GPLv3"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
->   		    file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504"
->   SRC_URI += "file://autoreconf-include.patch \
-> +	    file://check-automake-cross-warning.patch \
->   	    file://autoreconf-exclude.patch \
->   	    file://autoreconf-foreign.patch \
->   	    file://autoreconf-gnuconfigize.patch \
->
+--BRE3mIcgqKzpedwo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Merged into OE-Core
+On Mon, Sep 10, 2012 at 08:56:16AM -0700, Saul Wold wrote:
+> On 09/06/2012 03:32 PM, Khem Raj wrote:
+> > This patchset updates qemu to 1.2 release
+> > Adds kconfig to eglibc, kconfig is of interest for
+> > eglibc upstream which is next step.
+> > Removes nptl and enable-tls configure options from
+> > x86 machine configurations
+> >
+> > The following changes since commit 610f8c0c0cab8e258919689fd641faec28b5=
+8caf:
+> >
+> >    adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:27:31 +01=
+00)
+> >
+> > are available in the git repository at:
+> >
+> >    git://git.openembedded.org/openembedded-core-contrib kraj/qemu-eglib=
+c-updates
+> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/=
+?h=3Dkraj/qemu-eglibc-updates
+> >
+> > Khem Raj (6):
+> >    eglibc-2.16: Add kconfig infrastructure
+> >    eglibc: Enable kconfig for option management
+> >    kconfig-frontends: Create symlinks for conf and mconf
+> >    qemu-git: Move to tip of git past 1.2 release
+> >    qemu: Update from 0.15 to 1.2
+> >    machines/x86: Drop redundant glibc configure knobs
+> >
+> >   meta/conf/machine/include/ia32-base.inc            |    5 -
+> >   meta/conf/machine/qemux86-64.conf                  |    3 -
+> >   meta/conf/machine/qemux86.conf                     |    4 -
+> >   .../0001-eglibc-menuconfig-support.patch           | 1007 +++++++++++=
++++++++++
+> >   ...0002-eglibc-menuconfig-hex-string-options.patch |  169 ++++
+> >   ...0003-eglibc-menuconfig-build-instructions.patch |  176 ++++
+> >   meta/recipes-core/eglibc/eglibc-initial.inc        |    1 +
+> >   meta/recipes-core/eglibc/eglibc-options.inc        |    4 +-
+> >   meta/recipes-core/eglibc/eglibc.inc                |    4 +
+> >   meta/recipes-core/eglibc/eglibc_2.16.bb            |    8 +-
+> >   .../kconfig-frontends/kconfig-frontends_3.5.bb     |    8 +-
+> >   .../qemu-0.15.1/0001-ppc64-Fix-linker-script.patch |   46 -
+> >   .../a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch |   66 --
+> >   ...-Actually-raise-interrupt-on-timer-expiry.patch |   41 -
+> >   .../qemu-0.15.1/ppc-s500-set-invalid-mask.patch    |  610 ------------
+> >   .../qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/arm-bgr.patch |   12 +-
+> >   .../enable-i386-linux-user.patch                   |    0
+> >   .../fallback-to-safe-mmap_min_addr.patch           |    0
+> >   .../fix-configure-checks.patch                     |   18 +-
+> >   .../{qemu-0.15.1 =3D> qemu-1.2.0}/init-info.patch    |    0
+> >   .../larger_default_ram_size.patch                  |    0
+> >   .../{qemu-0.15.1 =3D> qemu-1.2.0}/linker-flags.patch |   14 +-
+> >   .../{qemu-0.15.1 =3D> qemu-1.2.0}/no-strip.patch     |    0
+> >   .../{qemu-0.15.1 =3D> qemu-1.2.0}/powerpc_rom.bin    |  Bin 4096 -> 4=
+096 bytes
+> >   .../qemu-vmware-vga-depth.patch                    |   70 +-
+> >   .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 b=
+ytes
+> >   .../qemu/{qemu_0.15.1.bb =3D> qemu_1.2.0.bb}         |   18 +-
+> >   meta/recipes-devtools/qemu/qemu_git.bb             |   15 +-
+> >   28 files changed, 1431 insertions(+), 868 deletions(-)
+> >   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-eglibc-m=
+enuconfig-support.patch
+> >   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0002-eglibc-m=
+enuconfig-hex-string-options.patch
+> >   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0003-eglibc-m=
+enuconfig-build-instructions.patch
+> >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/0001-ppc64-=
+Fix-linker-script.patch
+> >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542=
+935b90d2eb30f3aead4edcf455fe6.patch
+> >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/hw-pl031-Ac=
+tually-raise-interrupt-on-timer-expiry.patch
+> >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-se=
+t-invalid-mask.patch
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/arm-b=
+gr.patch (75%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/enabl=
+e-i386-linux-user.patch (100%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/fallb=
+ack-to-safe-mmap_min_addr.patch (100%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/fix-c=
+onfigure-checks.patch (59%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/init-=
+info.patch (100%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/large=
+r_default_ram_size.patch (100%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/linke=
+r-flags.patch (64%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/no-st=
+rip.patch (100%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/power=
+pc_rom.bin (100%)
+> >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 =3D> qemu-1.2.0}/qemu-=
+vmware-vga-depth.patch (61%)
+> >   create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+> >   rename meta/recipes-devtools/qemu/{qemu_0.15.1.bb =3D> qemu_1.2.0.bb}=
+ (57%)
+> >
+>=20
+> Merged to OE-Core (along with the runqemu fix)
 
-Thanks
-	Sau!
+Please merge
+http://patchwork.openembedded.org/patch/36205/
+to fix eglibc-initial build
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--BRE3mIcgqKzpedwo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBODhYACgkQN1Ujt2V2gBz1qgCgugeF+8JpUzXUkjKsQmukSmmt
+auwAnjXWuUXww10tdEOk7oApulVxw6vq
+=dwAZ
+-----END PGP SIGNATURE-----
+
+--BRE3mIcgqKzpedwo--
