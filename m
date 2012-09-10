@@ -1,39 +1,19 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TB7s1-0003ND-1v
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TB8eo-0004bL-Lc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Sep 2012 19:34:01 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 10 Sep 2012 10:21:29 -0700
-Received: by wibhn17 with SMTP id hn17so2045122wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 10:21:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=36dU3WntV33U63QlWiJEtWhebWhFtEDwOsbCdWrXIPg=;
-	b=NawCjyL+bb/ypH1VLkcnERrMVk2bM6b85aDU4tqzvmhY6wjGK4jWlOYysA+6A9O3XF
-	VWjSy4kS05DjOC96o1O7RNUK9cCKgUZJfNrR5lX2CKJUdqGnU4rZ0zeyUE/Kj9RdRUMx
-	GC0r9JdGZ0RVBUId9uUColJNWokl/CC7I/flO3MX06Kf/lCHhKJu+a81o+YizTBfOcGB
-	riATMlzNbEi1Og+Cleqawd7Svu1u2D99tuzTZv5EUZrOTuPugkZ626l4pu3YTD0VldPX
-	9vng90WRVjFjvqzU5I/baBuiaYPAXtH2CsCtOKvIFMcv8ugTZ66rfufbZUkt+MbdZquW
-	6Ojw==
-Received: by 10.180.99.196 with SMTP id es4mr18526601wib.18.1347297687121;
-	Mon, 10 Sep 2012 10:21:27 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id r9sm26684729wia.2.2012.09.10.10.21.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 10 Sep 2012 10:21:25 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Sep 2012 18:20:31 +0100
-Message-Id: <1347297632-16529-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1347297632-16529-1-git-send-email-ross.burton@intel.com>
-References: <1347297632-16529-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQllvDs6n2P7KvXhbPhitWKkYgF7XF4hdWWhehwdBWtf1oufIoasRRI64Sob5vC3boC/Q8VT
-Subject: [PATCH 3/4] libx11: don't split libX11-xcb out into a libx11-xcb package
+	Mon, 10 Sep 2012 20:24:27 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8AIBqbu007192;
+	Mon, 10 Sep 2012 11:11:52 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 10 Sep 2012 14:11:40 -0400
+Message-Id: <cover.1347300360.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto: 3.4 kernel updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,61 +26,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2012 17:34:01 -0000
+X-List-Received-Date: Mon, 10 Sep 2012 18:24:27 -0000
 
-As XCB is a hard requirement for libX11, and libX11-xcb.so is a deprecated 3KB
-.so, it's not worth splitting it into a separate package.
+Richard/Saul,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb |    2 +-
- meta/recipes-graphics/xorg-lib/libx11.inc           |    3 ---
- meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb      |    2 +-
- 3 files changed, 2 insertions(+), 5 deletions(-)
+Here's a small bump to 3.4.10 (32 commits) and an update to
+pickup some configuration changes from TomZ (no impact on existing
+features). All in all, it's a nice set of small fixes, with no risk.
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-index 3d5a306..c39b859 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-@@ -5,7 +5,7 @@ DESCRIPTION += " Support for XCMS is disabled in this version."
- LICENSE = "MIT & MIT-style & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
- 
--PR = "r1"
-+PR = "r2"
- 
- DEPENDS += "libxcb xproto xextproto xtrans libxau kbproto inputproto xf86bigfontproto xproto-native"
- 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 592f116..bbbb29c 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -18,10 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
- 
- EXTRA_OECONF += "--with-groff=no --with-ps2pdf=no --with-fop=no --disable-specs"
- 
--PACKAGES =+ "${PN}-xcb"
--
- FILES_${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${libdir}/X11/Xcms.txt"
--FILES_${PN}-xcb += "${libdir}/libX11-xcb.so.*"
- FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
- 
- do_compile_prepend() {
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-index a65ab1f..e78d707 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-@@ -1,7 +1,7 @@
- require libx11.inc
- inherit gettext
- 
--PR = "r1"
-+PR = "r2"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+Cheers,
+
+Bruce
+
+cc: Tom Zanussi <tom.zanussi@intel.com>
+
+The following changes since commit 21816355c00eadb2273d61b456f06239ca300b47:
+
+  bitbake: cooker: fix handling of exceptions during exception handling (2012-09-10 13:14:08 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
 -- 
-1.7.10
+1.7.5.4
 
 
 
