@@ -1,41 +1,29 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TAmVE-0002d9-8b
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1TAugN-00042B-B7
 	for openembedded-core@lists.openembedded.org;
-	Sun, 09 Sep 2012 20:45:05 +0200
-Received: by pbcwy7 with SMTP id wy7so1579415pbc.6
+	Mon, 10 Sep 2012 05:29:07 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8A3Gaeb024797
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Sep 2012 11:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=AUNM5obBmiqjXjeIZ4NIGMsx8yJ0CB0W7hIjclJjp1s=;
-	b=JqupCuBnF6TjcwbGUogLKNbq2mPoJnIZNPVmFrG/8/nXTerPc9mtpgpQdGfMIXPyqG
-	WOHZMkP1wmJf2jsu/E0py2N0HTarBTGQtXBviPqjMv1RAI7kGnnrP28RA8pCnjD5kSdF
-	E05095KwzASBUggsVsyyk9SfzC6p9itfBvWhvzxB1/vSGQdzO2zaxgCwFl9y6uG9Nv/F
-	yzpHONs3OPm8si8SFKK1/VbsIw/6lk/hR7OMBZX6P4ysYEk4aJMckR1vXYs+hFh+cVLh
-	xrTQvSGmWBNZGyowPfsLEiOJyvW9MbSApDgCaSw6tiKUdggDn8PaGdjBxb6+mtVCL2nr
-	aXTw==
-Received: by 10.68.193.196 with SMTP id hq4mr1441056pbc.32.1347215555079;
-	Sun, 09 Sep 2012 11:32:35 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id ho7sm6636069pbc.3.2012.09.09.11.32.33
-	(version=SSLv3 cipher=OTHER); Sun, 09 Sep 2012 11:32:34 -0700 (PDT)
-Date: Sun, 9 Sep 2012 11:31:48 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Phil Blundell <philb@gnu.org>
-Message-ID: <20120909183146.GA14698@sakrah.homelinux.org>
-Mail-Followup-To: Phil Blundell <philb@gnu.org>,
-	openembedded-core@lists.openembedded.org
-References: <1347187725.4396.259.camel@x121e.pbcl.net>
-	<CAMKF1soL0MPz7RPenc=SYV_7R7VRHvrHBjiFramP7xw3E4PBfQ@mail.gmail.com>
-	<1347213501.4396.262.camel@x121e.pbcl.net>
+	Sun, 9 Sep 2012 20:16:37 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Sun, 9 Sep 2012 20:16:36 -0700
+Message-ID: <504D5B93.3070407@windriver.com>
+Date: Mon, 10 Sep 2012 11:16:35 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-In-Reply-To: <1347213501.4396.262.camel@x121e.pbcl.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1346138100.git.liezhi.yang@windriver.com>
+	<d44a05ea08917e27279740f258bdf28424a7e055.1346138100.git.liezhi.yang@windriver.com>
+	<5048D4D3.3080009@windriver.com> <5048DF79.1060305@windriver.com>
+In-Reply-To: <5048DF79.1060305@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] shadow-native: Ensure that ${sbindir} and ${base_sbindir} are respected
+Subject: Re: [PATCH 1/1] package_rpm.bbclass: fix the arch (replace "-" with "_")
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,30 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Sep 2012 18:45:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 10 Sep 2012 03:29:07 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On (09/09/12 18:58), Phil Blundell wrote:
-> On Sun, 2012-09-09 at 08:35 -0700, Khem Raj wrote:
-> > On Sun, Sep 9, 2012 at 3:48 AM, Phil Blundell <philb@gnu.org> wrote:
-> > > These values need to be passed on the command line to "make install" otherwise
-> > > shadow will use its own built-in idea of where those directories are located.
-> > >
-> > 
-> > why would we care for it in a native recipe.
-> 
-> Because the binaries won't get staged into the sysroot if they are in
-> the wrong place.
 
-OK. it seems its not respecting $prefix ?
+Hi Mark,
 
-> 
-> p.
-> 
-> 
+Thanks, The libzypp_git.bb had already changed the "-" to "_", I will
+update sat-solver_git.bb and send a V2.
 
--- 
--Khem
+// Robert
+
+On 09/07/2012 01:38 AM, Mark Hatle wrote:
+> On 9/6/12 11:52 AM, Mark Hatle wrote:
+>> I've looked at the patch and it looks find to me.
+>>
+>> Acked-by: Mark Hatle <mark.hatle@windriver.com>
+>>
+>>
+>> One note, however..  Whatever arch fields we use need to also match the fields
+>> that get encoded into Zypper and the sat-solver stuff..  So there may be a
+>> second chunk of code that needs to be updated to match.
+>
+> It's the do_archgen functions in both sat-solver and libzypp recipes.  They need
+> to match the arch namings.
+>
+> --Mark
+>
+>> --Mark
+>>
+>> On 8/28/12 10:45 AM, Robert Yang wrote:
+>>> rpm can't use the "-" as the arch, which causes problem, e.g., when
+>>> MACHINE = "beagleboard":
+>>>
+>>> * The arch should be armv7a-vfp-neon, but rpm only takes the armv7a,
+>>>     this is incorrect since it is mixed with real arch armv7a.
+>>>
+>>> * The nativesdk's arch should be i686-nativesdk (or x86_64-nativesdk),
+>>>     but rpm only takes the i686 (or x86_64), this in incorrect since it is
+>>>     mixed with the arch i686 (or x86_64).
+>>>
+>>> Replace "-" with "_" when rpm package and the rootfs generation would
+>>> fix the problem, I think this is fine since it doesn't change the tune's
+>>> arch, the package manager doesn't care about the arch's name, but it
+>>> needs a unify arch system to avoid confusing. This is similar to what we
+>>> have done on the deb which fixed the arch i486, i586 and so on to i386.
+>>>
+>>> [YOCTO #2328]
+>>>
+>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>> ---
+>>>    meta/classes/package_rpm.bbclass | 8 ++++----
+>>>    1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+>>> index 9abad5e..87dd367 100644
+>>> --- a/meta/classes/package_rpm.bbclass
+>>> +++ b/meta/classes/package_rpm.bbclass
+>>> @@ -27,12 +27,12 @@ package_update_index_rpm () {
+>>>        fi
+>>>
+>>>        # Update target packages
+>>> -    base_archs="${PACKAGE_ARCHS}"
+>>> -    ml_archs="${MULTILIB_PACKAGE_ARCHS}"
+>>> +    base_archs="`echo ${PACKAGE_ARCHS} | sed 's/-/_/g'`"
+>>> +    ml_archs="`echo ${MULTILIB_PACKAGE_ARCHS} | sed 's/-/_/g'`"
+>>>        package_update_index_rpm_common "${RPMCONF_TARGET_BASE}" base_archs
+>>> ml_archs
+>>>
+>>>        # Update SDK packages
+>>> -    base_archs="${SDK_PACKAGE_ARCHS}"
+>>> +    base_archs="`echo ${SDK_PACKAGE_ARCHS} | sed 's/-/_/g'`"
+>>>        package_update_index_rpm_common "${RPMCONF_HOST_BASE}" base_archs
+>>>    }
+>>>
+>>> @@ -1118,7 +1118,7 @@ python do_package_rpm () {
+>>>        rpmbuild = d.getVar('RPMBUILD', True)
+>>>        targetsys = d.getVar('TARGET_SYS', True)
+>>>        targetvendor = d.getVar('TARGET_VENDOR', True)
+>>> -    package_arch = d.getVar('PACKAGE_ARCH', True) or ""
+>>> +    package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
+>>>        if package_arch not in "all any noarch".split():
+>>>            ml_prefix = (d.getVar('MLPREFIX', True) or "").replace("-", "_")
+>>>            d.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch)
+>>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
