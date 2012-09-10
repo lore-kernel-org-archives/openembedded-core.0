@@ -1,26 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1TAz0G-00043L-4B
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TB1aq-0007jd-F1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Sep 2012 10:05:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8A7rQ3k024554
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 00:53:26 -0700 (PDT)
-Received: from fc17-64.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Mon, 10 Sep 2012 00:53:25 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Sep 2012 15:58:52 +0800
-Message-ID: <d9e6edb763de4f7a4a66b64c0ae38bb6861948c0.1347247613.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1347247613.git.liezhi.yang@windriver.com>
-References: <cover.1347247613.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] package_rpm.bbclass: fix the arch (replace "-" with "_")
+	Mon, 10 Sep 2012 12:51:53 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Sep 2012 03:39:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,396,1344236400"; d="scan'208";a="220197592"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.62])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Sep 2012 03:39:20 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Sep 2012 13:41:38 +0300
+Message-Id: <1347273698-26576-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] [for-denzil] Save proxy settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,79 +27,238 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2012 08:05:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Sep 2012 10:51:53 -0000
 
-rpm can't use the "-" as the arch, which causes problem, e.g., when
-MACHINE = "beagleboard":
+Proxy settings were not properly saved between Hob runs. This
+fix is mostly a backport of code in master.
 
-* The arch should be armv7a-vfp-neon, but rpm only takes the armv7a,
-  this is incorrect since it is mixed with real arch armv7a.
+[YOCTO #3024]
 
-* The nativesdk's arch should be i686-nativesdk (or x86_64-nativesdk),
-  but rpm only takes the i686 (or x86_64), this in incorrect since it is
-  mixed with the arch i686 (or x86_64).
-
-Replace "-" with "_" when rpm package and the rootfs generation would
-fix the problem, I think this is fine since it doesn't change the tune's
-arch, the package manager doesn't care about the arch's name, but it
-needs a unify arch system to avoid confusing. This is similar to what we
-have done on the deb which fixed the arch i486, i586 and so on to i386.
-
-[YOCTO #2328]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/classes/package_rpm.bbclass                   | 10 +++++-----
- meta/recipes-extended/sat-solver/sat-solver_git.bb |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ bitbake/lib/bb/ui/crumbs/builder.py |   18 ++++++++---
+ bitbake/lib/bb/ui/crumbs/hig.py     |   58 +++++++++++++++++------------------
+ 2 files changed, 43 insertions(+), 33 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 742f292..43cdd57 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -27,12 +27,12 @@ package_update_index_rpm () {
- 	fi
+diff --git a/bitbake/lib/bb/ui/crumbs/builder.py b/bitbake/lib/bb/ui/crumbs/builder.py
+index df85326..000a838 100755
+--- a/bitbake/lib/bb/ui/crumbs/builder.py
++++ b/bitbake/lib/bb/ui/crumbs/builder.py
+@@ -70,6 +70,7 @@ class Configuration:
+         self.all_proxy = self.http_proxy = self.ftp_proxy = self.https_proxy = ""
+         self.git_proxy_host = self.git_proxy_port = ""
+         self.cvs_proxy_host = self.cvs_proxy_port = ""
++        self.enable_proxy = None
  
- 	# Update target packages
--	base_archs="${PACKAGE_ARCHS}"
--	ml_archs="${MULTILIB_PACKAGE_ARCHS}"
-+	base_archs="`echo ${PACKAGE_ARCHS} | sed 's/-/_/g'`"
-+	ml_archs="`echo ${MULTILIB_PACKAGE_ARCHS} | sed 's/-/_/g'`"
- 	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}" base_archs ml_archs
+     def clear_selection(self):
+         self.selected_image = None
+@@ -99,6 +100,9 @@ class Configuration:
+         self.default_task = params["default_task"]
  
- 	# Update SDK packages
--	base_archs="${SDK_PACKAGE_ARCHS}"
-+	base_archs="`echo ${SDK_PACKAGE_ARCHS} | sed 's/-/_/g'`"
- 	package_update_index_rpm_common "${RPMCONF_HOST_BASE}" base_archs
- }
+         # proxy settings
++        self.enable_proxy = params["http_proxy"] != "" or params["https_proxy"] != "" or params["ftp_proxy"] != "" \
++            or params["git_proxy_host"] != "" or params["git_proxy_port"] != ""                                    \
++            or params["cvs_proxy_host"] != "" or params["cvs_proxy_port"] != "" or params["all_proxy"] != ""
+         self.all_proxy = params["all_proxy"]
+         self.http_proxy = params["http_proxy"]
+         self.ftp_proxy = params["ftp_proxy"]
+@@ -146,6 +150,7 @@ class Configuration:
+         self.selected_recipes = template.getVar("DEPENDS").split()
+         self.selected_packages = template.getVar("IMAGE_INSTALL").split()
+         # proxy
++        self.enable_proxy = eval(template.getVar("enable_proxy"))
+         self.all_proxy = template.getVar("all_proxy")
+         self.http_proxy = template.getVar("http_proxy")
+         self.ftp_proxy = template.getVar("ftp_proxy")
+@@ -183,6 +188,7 @@ class Configuration:
+             template.setVar("DEPENDS", self.selected_recipes)
+             template.setVar("IMAGE_INSTALL", self.user_selected_packages)
+         # proxy
++        template.setVar("enable_proxy", self.enable_proxy)
+         template.setVar("all_proxy", self.all_proxy)
+         template.setVar("http_proxy", self.http_proxy)
+         template.setVar("ftp_proxy", self.ftp_proxy)
+@@ -212,7 +218,6 @@ class Parameters:
+         self.all_sdk_machines = []
+         self.all_layers = []
+         self.image_names = []
+-        self.enable_proxy = False
  
-@@ -1113,8 +1113,8 @@ python do_package_rpm () {
-     rpmbuild = d.getVar('RPMBUILD', True)
-     targetsys = d.getVar('TARGET_SYS', True)
-     targetvendor = d.getVar('TARGET_VENDOR', True)
--    package_arch = d.getVar('PACKAGE_ARCH', True) or ""
--    if package_arch not in "all any noarch".split() and not package_arch.endswith("-nativesdk"):
-+    package_arch = (d.getVar('PACKAGE_ARCH', True) or "").replace("-", "_")
-+    if package_arch not in "all any noarch".split() and not package_arch.endswith("_nativesdk"):
-         ml_prefix = (d.getVar('MLPREFIX', True) or "").replace("-", "_")
-         d.setVar('PACKAGE_ARCH_EXTEND', ml_prefix + package_arch)
-     else:
-diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-index e1054e9..67503b7 100644
---- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
-+++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-@@ -47,7 +47,7 @@ do_archgen () {
- 			all | any | noarch)
- 				continue;;
- 		esac
--		INSTALL_PLATFORM_ARCHS="$each_arch $INSTALL_PLATFORM_ARCHS"
-+		INSTALL_PLATFORM_ARCHS="`echo $each_arch | sed 's/-/_/g'` $INSTALL_PLATFORM_ARCHS"
- 	done
+         # for build log to show
+         self.bb_version = ""
+@@ -581,13 +586,20 @@ class Builder(gtk.Window):
+         self.handler.set_extra_inherit("packageinfo")
+         self.handler.set_extra_inherit("image_types")
+         # set proxies
+-        if self.parameters.enable_proxy:
++        if self.configuration.enable_proxy == True:
+             self.handler.set_http_proxy(self.configuration.http_proxy)
+             self.handler.set_https_proxy(self.configuration.https_proxy)
+             self.handler.set_ftp_proxy(self.configuration.ftp_proxy)
+             self.handler.set_all_proxy(self.configuration.all_proxy)
+             self.handler.set_git_proxy(self.configuration.git_proxy_host, self.configuration.git_proxy_port)
+             self.handler.set_cvs_proxy(self.configuration.cvs_proxy_host, self.configuration.cvs_proxy_port)
++        elif self.configuration.enable_proxy == False:
++            self.handler.set_http_proxy('')
++            self.handler.set_https_proxy('')
++            self.handler.set_ftp_proxy('')
++            self.handler.set_all_proxy('')
++            self.handler.set_git_proxy('', '')
++            self.handler.set_cvs_proxy('', '')
  
- 	echo "/* Automatically generated by the sat-solver recipe */" > src/core-arch.h
+     def update_recipe_model(self, selected_image, selected_recipes):
+         self.recipe_model.set_selected_image(selected_image)
+@@ -1009,7 +1021,6 @@ class Builder(gtk.Window):
+             all_distros = self.parameters.all_distros,
+             all_sdk_machines = self.parameters.all_sdk_machines,
+             max_threads = self.parameters.max_threads,
+-            enable_proxy = self.parameters.enable_proxy,
+             parent = self,
+             flags = gtk.DIALOG_MODAL
+                     | gtk.DIALOG_DESTROY_WITH_PARENT
+@@ -1021,7 +1032,6 @@ class Builder(gtk.Window):
+         response = dialog.run()
+         settings_changed = False
+         if response == gtk.RESPONSE_YES:
+-            self.parameters.enable_proxy = dialog.enable_proxy
+             self.configuration = dialog.configuration
+             self.save_defaults() # remember settings
+             settings_changed = dialog.settings_changed
+diff --git a/bitbake/lib/bb/ui/crumbs/hig.py b/bitbake/lib/bb/ui/crumbs/hig.py
+index 4baf960..b6c970b 100644
+--- a/bitbake/lib/bb/ui/crumbs/hig.py
++++ b/bitbake/lib/bb/ui/crumbs/hig.py
+@@ -309,7 +309,7 @@ class AdvancedSettingDialog (CrumbsDialog):
+ 
+     def __init__(self, title, configuration, all_image_types,
+             all_package_formats, all_distros, all_sdk_machines,
+-            max_threads, enable_proxy, parent, flags, buttons=None):
++            max_threads, parent, flags, buttons=None):
+         super(AdvancedSettingDialog, self).__init__(title, parent, flags, buttons)
+ 
+         # class members from other objects
+@@ -320,7 +320,6 @@ class AdvancedSettingDialog (CrumbsDialog):
+         self.all_distros = all_distros
+         self.all_sdk_machines = all_sdk_machines
+         self.max_threads = max_threads
+-        self.enable_proxy = enable_proxy
+ 
+         # class members for internal use
+         self.distro_combo = None
+@@ -356,7 +355,8 @@ class AdvancedSettingDialog (CrumbsDialog):
+         data += ("SDK_MACHINE: "          + self._get_sorted_value(self.configuration.curr_sdk_machine))
+         data += ("TOOLCHAIN_BUILD: "      + self._get_sorted_value(self.configuration.toolchain_build))
+         data += ("IMAGE_FSTYPES: "        + self._get_sorted_value(self.configuration.image_fstypes))
+-        if self.enable_proxy:
++        data += ("ENABLE_PROXY: "         + self._get_sorted_value(self.configuration.enable_proxy))
++        if self.configuration.enable_proxy:
+             data += ("ALL_PROXY: "            + self._get_sorted_value(self.configuration.all_proxy))
+             data += ("HTTP_PROXY: "           + self._get_sorted_value(self.configuration.http_proxy))
+             data += ("HTTPS_PROXY: "          + self._get_sorted_value(self.configuration.https_proxy))
+@@ -531,55 +531,55 @@ class AdvancedSettingDialog (CrumbsDialog):
+         advanced_vbox.pack_start(sub_vbox, expand=False, fill=False)
+         self.proxy_checkbox = gtk.CheckButton("Enable proxy")
+         self.proxy_checkbox.set_tooltip_text("Check this box to setup the proxy you specified")
+-        self.proxy_checkbox.set_active(self.enable_proxy)
++        self.proxy_checkbox.set_active(self.configuration.enable_proxy)
+         self.proxy_checkbox.connect("toggled", self.proxy_checkbox_toggled_cb)
+         sub_vbox.pack_start(self.proxy_checkbox, expand=False, fill=False)
+ 
+         label = self.gen_label_widget("<span weight=\"bold\">Set all proxy:</span>")
+         tooltip = "Set the all proxy that will be used if the proxy for a URL isn't specified."
+         proxy_widget, self.all_proxy_text = self.gen_entry_widget(self.configuration.all_proxy, self, tooltip, False)
+-        self.all_proxy_text.set_editable(self.enable_proxy)
+-        self.all_proxy_text.set_sensitive(self.enable_proxy)
++        self.all_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.all_proxy_text.set_sensitive(self.configuration.enable_proxy)
+         sub_vbox.pack_start(label, expand=False, fill=False)
+         sub_vbox.pack_start(proxy_widget, expand=False, fill=False)
+ 
+         label = self.gen_label_widget("<span weight=\"bold\">Set http proxy:</span>")
+         tooltip = "Set the http proxy that will be used in do_fetch() source code"
+         proxy_widget, self.http_proxy_text = self.gen_entry_widget(self.configuration.http_proxy, self, tooltip, False)
+-        self.http_proxy_text.set_editable(self.enable_proxy)
+-        self.http_proxy_text.set_sensitive(self.enable_proxy)
++        self.http_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.http_proxy_text.set_sensitive(self.configuration.enable_proxy)
+         sub_vbox.pack_start(label, expand=False, fill=False)
+         sub_vbox.pack_start(proxy_widget, expand=False, fill=False)
+ 
+         label = self.gen_label_widget("<span weight=\"bold\">Set https proxy:</span>")
+         tooltip = "Set the https proxy that will be used in do_fetch() source code"
+         proxy_widget, self.https_proxy_text = self.gen_entry_widget(self.configuration.https_proxy, self, tooltip, False)
+-        self.https_proxy_text.set_editable(self.enable_proxy)
+-        self.https_proxy_text.set_sensitive(self.enable_proxy)
++        self.https_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.https_proxy_text.set_sensitive(self.configuration.enable_proxy)
+         sub_vbox.pack_start(label, expand=False, fill=False)
+         sub_vbox.pack_start(proxy_widget, expand=False, fill=False)
+ 
+         label = self.gen_label_widget("<span weight=\"bold\">Set ftp proxy:</span>")
+         tooltip = "Set the ftp proxy that will be used in do_fetch() source code"
+         proxy_widget, self.ftp_proxy_text = self.gen_entry_widget(self.configuration.ftp_proxy, self, tooltip, False)
+-        self.ftp_proxy_text.set_editable(self.enable_proxy)
+-        self.ftp_proxy_text.set_sensitive(self.enable_proxy)
++        self.ftp_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.ftp_proxy_text.set_sensitive(self.configuration.enable_proxy)
+         sub_vbox.pack_start(label, expand=False, fill=False)
+         sub_vbox.pack_start(proxy_widget, expand=False, fill=False)
+ 
+         label = self.gen_label_widget("<span weight=\"bold\">Set git proxy:</span>")
+         tooltip = "Set the git proxy that will be used in do_fetch() source code"
+         proxy_widget, self.git_proxy_text = self.gen_entry_widget(self.configuration.git_proxy_host + ':' + self.configuration.git_proxy_port, self, tooltip, False)
+-        self.git_proxy_text.set_editable(self.enable_proxy)
+-        self.git_proxy_text.set_sensitive(self.enable_proxy)
++        self.git_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.git_proxy_text.set_sensitive(self.configuration.enable_proxy)
+         sub_vbox.pack_start(label, expand=False, fill=False)
+         sub_vbox.pack_start(proxy_widget, expand=False, fill=False)
+ 
+         label = self.gen_label_widget("<span weight=\"bold\">Set cvs proxy:</span>")
+         tooltip = "Set the cvs proxy that will be used in do_fetch() source code"
+         proxy_widget, self.cvs_proxy_text = self.gen_entry_widget(self.configuration.cvs_proxy_host + ':' + self.configuration.cvs_proxy_port, self, tooltip, False)
+-        self.cvs_proxy_text.set_editable(self.enable_proxy)
+-        self.cvs_proxy_text.set_sensitive(self.enable_proxy)
++        self.cvs_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.cvs_proxy_text.set_sensitive(self.configuration.enable_proxy)
+         sub_vbox.pack_start(label, expand=False, fill=False)
+         sub_vbox.pack_start(proxy_widget, expand=False, fill=False)
+ 
+@@ -600,19 +600,19 @@ class AdvancedSettingDialog (CrumbsDialog):
+         return advanced_vbox
+ 
+     def proxy_checkbox_toggled_cb(self, button):
+-        self.enable_proxy = self.proxy_checkbox.get_active()
+-        self.all_proxy_text.set_editable(self.enable_proxy)
+-        self.all_proxy_text.set_sensitive(self.enable_proxy)
+-        self.http_proxy_text.set_editable(self.enable_proxy)
+-        self.http_proxy_text.set_sensitive(self.enable_proxy)
+-        self.https_proxy_text.set_editable(self.enable_proxy)
+-        self.https_proxy_text.set_sensitive(self.enable_proxy)
+-        self.ftp_proxy_text.set_editable(self.enable_proxy)
+-        self.ftp_proxy_text.set_sensitive(self.enable_proxy)
+-        self.git_proxy_text.set_editable(self.enable_proxy)
+-        self.git_proxy_text.set_sensitive(self.enable_proxy)
+-        self.cvs_proxy_text.set_editable(self.enable_proxy)
+-        self.cvs_proxy_text.set_sensitive(self.enable_proxy)
++        self.configuration.enable_proxy = self.proxy_checkbox.get_active()
++        self.all_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.all_proxy_text.set_sensitive(self.configuration.enable_proxy)
++        self.http_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.http_proxy_text.set_sensitive(self.configuration.enable_proxy)
++        self.https_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.https_proxy_text.set_sensitive(self.configuration.enable_proxy)
++        self.ftp_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.ftp_proxy_text.set_sensitive(self.configuration.enable_proxy)
++        self.git_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.git_proxy_text.set_sensitive(self.configuration.enable_proxy)
++        self.cvs_proxy_text.set_editable(self.configuration.enable_proxy)
++        self.cvs_proxy_text.set_sensitive(self.configuration.enable_proxy)
+ 
+     def response_cb(self, dialog, response_id):
+         package_format = []
 -- 
-1.7.11.2
+1.7.9.5
 
 
 
