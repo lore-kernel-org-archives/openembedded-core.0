@@ -1,38 +1,32 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TB6ek-00059j-Jn
-	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Sep 2012 18:16:14 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 10 Sep 2012 09:03:21 -0700
-Received: by wibhn17 with SMTP id hn17so1956480wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 09:03:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=OY39N19jInFforOavuIkeSpjrwp8IOvrs+I9XvPW15Y=;
-	b=L85ID9Dx3SDclYcdyo2RbJeoIigrSWdpZ0y5D4nLsoZd5JAgSaX0EM9cy23EnRAI2v
-	4oppNTCgAxPtbv8BA/IDG/kImtihoOtGcq5t+8NxhnKYenSvpy3iOS5Lrl4UIACXEAaf
-	dFDdLmicOsH4LPC/Qo9CBqHzBIn+ahFgCd8APzc4s5fV4nPsUrn8dbEMVcViJugMpzYA
-	yXk6K+F8PkvLohONZSZvCWex8pH0t04kjNENGzgOxMRMOM++vT/fGDYjb9je1l04dBOH
-	W8hNKpspOv3ANuZf0q2nIqLgvzEIBAfT9xcgXQfnmVpaeRDbtA9SB2CdX7vnJ+xlHOGV
-	XXvA==
-Received: by 10.180.106.97 with SMTP id gt1mr18176455wib.5.1347292989496;
-	Mon, 10 Sep 2012 09:03:09 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id w7sm17753742wiz.0.2012.09.10.09.03.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 10 Sep 2012 09:03:08 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Sep 2012 17:02:22 +0100
-Message-Id: <1347292942-7241-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQlN4tExTOt7amUt3fVPwFfFhmGVw9A33wMZkTuuQn2eDsOOcTsC2xaqGUkgVNxJEL6h44Y9
-Subject: [PATCH] webkit-gtk: work around Make bug by re-running make
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TB6zn-000275-6i for openembedded-core@lists.openembedded.org;
+	Mon, 10 Sep 2012 18:37:59 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8AGPNVN001451;
+	Mon, 10 Sep 2012 17:25:23 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00417-05; Mon, 10 Sep 2012 17:25:18 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8AGPEnv001444
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 10 Sep 2012 17:25:15 +0100
+Message-ID: <1347294315.31154.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 10 Sep 2012 17:25:15 +0100
+In-Reply-To: <20120910155814.GD3502@jama.jama.net>
+References: <cover.1346970617.git.raj.khem@gmail.com>
+	<504E0DA0.6000802@linux.intel.com>
+	<20120910155814.GD3502@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Upgrade qemu to 1.2 and eglibc with kconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,68 +39,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2012 16:16:14 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Sep 2012 16:37:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-GNU make 3.82 has a bug where it drops required dependencies.
-https://bugs.webkit.org/show_bug.cgi?id=79498 is the WebKitGTK+
-bug, and http://savannah.gnu.org/bugs/?30653 is the GNU Make bug.
+On Mon, 2012-09-10 at 17:58 +0200, Martin Jansa wrote:
+> On Mon, Sep 10, 2012 at 08:56:16AM -0700, Saul Wold wrote:
+> > On 09/06/2012 03:32 PM, Khem Raj wrote:
+> > > This patchset updates qemu to 1.2 release
+> > > Adds kconfig to eglibc, kconfig is of interest for
+> > > eglibc upstream which is next step.
+> > > Removes nptl and enable-tls configure options from
+> > > x86 machine configurations
+> > >
+> > > The following changes since commit 610f8c0c0cab8e258919689fd641faec28b58caf:
+> > >
+> > >    adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:27:31 +0100)
+> > >
+> > > are available in the git repository at:
+> > >
+> > >    git://git.openembedded.org/openembedded-core-contrib kraj/qemu-eglibc-updates
+> > >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-eglibc-updates
+> > >
+> > > Khem Raj (6):
+> > >    eglibc-2.16: Add kconfig infrastructure
+> > >    eglibc: Enable kconfig for option management
+> > >    kconfig-frontends: Create symlinks for conf and mconf
+> > >    qemu-git: Move to tip of git past 1.2 release
+> > >    qemu: Update from 0.15 to 1.2
+> > >    machines/x86: Drop redundant glibc configure knobs
+> > >
+> > >   meta/conf/machine/include/ia32-base.inc            |    5 -
+> > >   meta/conf/machine/qemux86-64.conf                  |    3 -
+> > >   meta/conf/machine/qemux86.conf                     |    4 -
+> > >   .../0001-eglibc-menuconfig-support.patch           | 1007 ++++++++++++++++++++
+> > >   ...0002-eglibc-menuconfig-hex-string-options.patch |  169 ++++
+> > >   ...0003-eglibc-menuconfig-build-instructions.patch |  176 ++++
+> > >   meta/recipes-core/eglibc/eglibc-initial.inc        |    1 +
+> > >   meta/recipes-core/eglibc/eglibc-options.inc        |    4 +-
+> > >   meta/recipes-core/eglibc/eglibc.inc                |    4 +
+> > >   meta/recipes-core/eglibc/eglibc_2.16.bb            |    8 +-
+> > >   .../kconfig-frontends/kconfig-frontends_3.5.bb     |    8 +-
+> > >   .../qemu-0.15.1/0001-ppc64-Fix-linker-script.patch |   46 -
+> > >   .../a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch |   66 --
+> > >   ...-Actually-raise-interrupt-on-timer-expiry.patch |   41 -
+> > >   .../qemu-0.15.1/ppc-s500-set-invalid-mask.patch    |  610 ------------
+> > >   .../qemu/{qemu-0.15.1 => qemu-1.2.0}/arm-bgr.patch |   12 +-
+> > >   .../enable-i386-linux-user.patch                   |    0
+> > >   .../fallback-to-safe-mmap_min_addr.patch           |    0
+> > >   .../fix-configure-checks.patch                     |   18 +-
+> > >   .../{qemu-0.15.1 => qemu-1.2.0}/init-info.patch    |    0
+> > >   .../larger_default_ram_size.patch                  |    0
+> > >   .../{qemu-0.15.1 => qemu-1.2.0}/linker-flags.patch |   14 +-
+> > >   .../{qemu-0.15.1 => qemu-1.2.0}/no-strip.patch     |    0
+> > >   .../{qemu-0.15.1 => qemu-1.2.0}/powerpc_rom.bin    |  Bin 4096 -> 4096 bytes
+> > >   .../qemu-vmware-vga-depth.patch                    |   70 +-
+> > >   .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
+> > >   .../qemu/{qemu_0.15.1.bb => qemu_1.2.0.bb}         |   18 +-
+> > >   meta/recipes-devtools/qemu/qemu_git.bb             |   15 +-
+> > >   28 files changed, 1431 insertions(+), 868 deletions(-)
+> > >   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-eglibc-menuconfig-support.patch
+> > >   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0002-eglibc-menuconfig-hex-string-options.patch
+> > >   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0003-eglibc-menuconfig-build-instructions.patch
+> > >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/0001-ppc64-Fix-linker-script.patch
+> > >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
+> > >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/hw-pl031-Actually-raise-interrupt-on-timer-expiry.patch
+> > >   delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/arm-bgr.patch (75%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/enable-i386-linux-user.patch (100%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/fallback-to-safe-mmap_min_addr.patch (100%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/fix-configure-checks.patch (59%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/init-info.patch (100%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/larger_default_ram_size.patch (100%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/linker-flags.patch (64%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/no-strip.patch (100%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/powerpc_rom.bin (100%)
+> > >   rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/qemu-vmware-vga-depth.patch (61%)
+> > >   create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+> > >   rename meta/recipes-devtools/qemu/{qemu_0.15.1.bb => qemu_1.2.0.bb} (57%)
+> > >
+> > 
+> > Merged to OE-Core (along with the runqemu fix)
+> 
+> Please merge
+> http://patchwork.openembedded.org/patch/36205/
+> to fix eglibc-initial build
 
-Work around this by running make again if it fails just in case the failure is
-due to the bug.
+It also merged around the time you sent this message :)
 
-Based on a patch by Andreas Müller <schnitzeltony@googlemail.com>.
+Cheers,
 
-[ YOCTO #2816 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb |   22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb
-index cf4129d..8beb6eb 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb
-@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
-                     file://Source/WebKit/gtk/webkit/webkit.h;endline=21;md5=b4fbe9f4a944f1d071dba1d2c76b3351 \
-                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=b57c8a2952a8d0e655988fa0ecb2bf7f"
- 
-+PR = "r1"
-+
- # Choice of language backends - icu has issues on Big Endian machines so use pango
- ICU_LIB = "icu"
- ICU_LIB_powerpc = "pango"
-@@ -77,6 +79,26 @@ do_configure_append() {
- 	done
- }
- 
-+# A dirty hack for GNU make 3.82 bug which means it drops required
-+# dependencies. https://bugs.webkit.org/show_bug.cgi?id=79498 is the WebKitGTK+
-+# bug, and http://savannah.gnu.org/bugs/?30653 is the GNU Make bug.  This is
-+# fixed in Make CVS, so 3.83 won't have this problem.
-+do_compile() {
-+    if [ x"$MAKE" = x ]; then MAKE=make; fi
-+    bbnote ${MAKE} ${EXTRA_OEMAKE} "$@"
-+    for error_count in 1 2 3; do
-+        bbnote "Attempt $error_count of 3"
-+        exit_code=0
-+        ${MAKE} ${EXTRA_OEMAKE} "$@" || exit_code=1
-+        if [ $exit_code = 0 ]; then
-+            break
-+        fi
-+    done
-+    if [ ! $exit_code = 0 ]; then
-+        die "oe_runmake failed"
-+    fi
-+}
-+
- do_install_append() {
- 	rmdir ${D}${libexecdir}
- }
--- 
-1.7.10
+Richard
 
 
 
