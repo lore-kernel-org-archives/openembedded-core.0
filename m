@@ -1,27 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TB6aN-0003vz-8Y
+	(envelope-from <sgw@linux.intel.com>) id 1TB6b6-00047V-G4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Sep 2012 18:11:43 +0200
+	Mon, 10 Sep 2012 18:12:29 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Sep 2012 08:59:12 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 10 Sep 2012 08:59:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,398,1344236400"; d="scan'208";a="220120427"
+X-IronPort-AV: E=Sophos;i="4.80,398,1344236400"; d="scan'208";a="220120805"
 Received: from unknown (HELO [10.255.13.123]) ([10.255.13.123])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Sep 2012 08:59:12 -0700
-Message-ID: <504E0E50.6050401@linux.intel.com>
-Date: Mon, 10 Sep 2012 08:59:12 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 10 Sep 2012 08:59:57 -0700
+Message-ID: <504E0E7D.3090500@linux.intel.com>
+Date: Mon, 10 Sep 2012 08:59:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1346970617.git.raj.khem@gmail.com>
-	<504E0DA0.6000802@linux.intel.com>
-	<20120910155814.GD3502@jama.jama.net>
-In-Reply-To: <20120910155814.GD3502@jama.jama.net>
+To: Ross Burton <ross.burton@intel.com>
+References: <1347014897-24227-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1347014897-24227-1-git-send-email-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Upgrade qemu to 1.2 and eglibc with kconfig
+Subject: Re: [PATCH 1/2] xserver-xorg-lite: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,97 +32,344 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Sep 2012 16:11:43 -0000
+X-List-Received-Date: Mon, 10 Sep 2012 16:12:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/10/2012 08:58 AM, Martin Jansa wrote:
-> On Mon, Sep 10, 2012 at 08:56:16AM -0700, Saul Wold wrote:
->> On 09/06/2012 03:32 PM, Khem Raj wrote:
->>> This patchset updates qemu to 1.2 release
->>> Adds kconfig to eglibc, kconfig is of interest for
->>> eglibc upstream which is next step.
->>> Removes nptl and enable-tls configure options from
->>> x86 machine configurations
->>>
->>> The following changes since commit 610f8c0c0cab8e258919689fd641faec28b58caf:
->>>
->>>     adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:27:31 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>     git://git.openembedded.org/openembedded-core-contrib kraj/qemu-eglibc-updates
->>>     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-eglibc-updates
->>>
->>> Khem Raj (6):
->>>     eglibc-2.16: Add kconfig infrastructure
->>>     eglibc: Enable kconfig for option management
->>>     kconfig-frontends: Create symlinks for conf and mconf
->>>     qemu-git: Move to tip of git past 1.2 release
->>>     qemu: Update from 0.15 to 1.2
->>>     machines/x86: Drop redundant glibc configure knobs
->>>
->>>    meta/conf/machine/include/ia32-base.inc            |    5 -
->>>    meta/conf/machine/qemux86-64.conf                  |    3 -
->>>    meta/conf/machine/qemux86.conf                     |    4 -
->>>    .../0001-eglibc-menuconfig-support.patch           | 1007 ++++++++++++++++++++
->>>    ...0002-eglibc-menuconfig-hex-string-options.patch |  169 ++++
->>>    ...0003-eglibc-menuconfig-build-instructions.patch |  176 ++++
->>>    meta/recipes-core/eglibc/eglibc-initial.inc        |    1 +
->>>    meta/recipes-core/eglibc/eglibc-options.inc        |    4 +-
->>>    meta/recipes-core/eglibc/eglibc.inc                |    4 +
->>>    meta/recipes-core/eglibc/eglibc_2.16.bb            |    8 +-
->>>    .../kconfig-frontends/kconfig-frontends_3.5.bb     |    8 +-
->>>    .../qemu-0.15.1/0001-ppc64-Fix-linker-script.patch |   46 -
->>>    .../a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch |   66 --
->>>    ...-Actually-raise-interrupt-on-timer-expiry.patch |   41 -
->>>    .../qemu-0.15.1/ppc-s500-set-invalid-mask.patch    |  610 ------------
->>>    .../qemu/{qemu-0.15.1 => qemu-1.2.0}/arm-bgr.patch |   12 +-
->>>    .../enable-i386-linux-user.patch                   |    0
->>>    .../fallback-to-safe-mmap_min_addr.patch           |    0
->>>    .../fix-configure-checks.patch                     |   18 +-
->>>    .../{qemu-0.15.1 => qemu-1.2.0}/init-info.patch    |    0
->>>    .../larger_default_ram_size.patch                  |    0
->>>    .../{qemu-0.15.1 => qemu-1.2.0}/linker-flags.patch |   14 +-
->>>    .../{qemu-0.15.1 => qemu-1.2.0}/no-strip.patch     |    0
->>>    .../{qemu-0.15.1 => qemu-1.2.0}/powerpc_rom.bin    |  Bin 4096 -> 4096 bytes
->>>    .../qemu-vmware-vga-depth.patch                    |   70 +-
->>>    .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
->>>    .../qemu/{qemu_0.15.1.bb => qemu_1.2.0.bb}         |   18 +-
->>>    meta/recipes-devtools/qemu/qemu_git.bb             |   15 +-
->>>    28 files changed, 1431 insertions(+), 868 deletions(-)
->>>    create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-eglibc-menuconfig-support.patch
->>>    create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0002-eglibc-menuconfig-hex-string-options.patch
->>>    create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0003-eglibc-menuconfig-build-instructions.patch
->>>    delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/0001-ppc64-Fix-linker-script.patch
->>>    delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch
->>>    delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/hw-pl031-Actually-raise-interrupt-on-timer-expiry.patch
->>>    delete mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/arm-bgr.patch (75%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/enable-i386-linux-user.patch (100%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/fallback-to-safe-mmap_min_addr.patch (100%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/fix-configure-checks.patch (59%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/init-info.patch (100%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/larger_default_ram_size.patch (100%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/linker-flags.patch (64%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/no-strip.patch (100%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/powerpc_rom.bin (100%)
->>>    rename meta/recipes-devtools/qemu/{qemu-0.15.1 => qemu-1.2.0}/qemu-vmware-vga-depth.patch (61%)
->>>    create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
->>>    rename meta/recipes-devtools/qemu/{qemu_0.15.1.bb => qemu_1.2.0.bb} (57%)
->>>
->>
->> Merged to OE-Core (along with the runqemu fix)
+On 09/07/2012 03:48 AM, Ross Burton wrote:
+> Building xserver-xorg and not installing the DRI and GLX modules (and so not
+> Mesa) results in an increase of 16kb compared to this package.
 >
-> Please merge
-> http://patchwork.openembedded.org/patch/36205/
-> to fix eglibc-initial build
+> This isn't worth the effort of maintaining two packages.
 >
-I just queued it in master_under_test will be merged soon.
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   .../xorg-xserver/xserver-xorg-common.inc           |  129 ------------------
+>   .../xorg-xserver/xserver-xorg-lite.inc             |    8 --
+>   .../xorg-xserver/xserver-xorg-lite_1.11.2.bb       |    4 -
+>   .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  138 +++++++++++++++++++-
+>   4 files changed, 134 insertions(+), 145 deletions(-)
+>   delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+>   delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+>   delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
+>
 
-Sau!
+Merged into OE-core
 
-> Cheers,
+Thanks
+	Sau!
+
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+> deleted file mode 100644
+> index 6133344..0000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+> +++ /dev/null
+> @@ -1,129 +0,0 @@
+> -DESCRIPTION = "The X.Org X server"
+> -HOMEPAGE = "http://www.x.org"
+> -SECTION = "x11/base"
+> -LICENSE = "MIT-X"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
+> -
+> -# xf86-*-* packages depend on an X server built with the xfree86 DDX
+> -# so we have a virtual to represent that:
+> -# deprecated, we should use virtual/xserver instead
+> -PROVIDES = "virtual/xserver-xf86"
+> -
+> -# Other packages tend to just care that there is *an* X server:
+> -PROVIDES += "virtual/xserver"
+> -
+> -PE = "2"
+> -
+> -XORG_PN = "xorg-server"
+> -SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
+> -SRC_URI += "file://macro_tweak.patch"
+> -
+> -S = "${WORKDIR}/${XORG_PN}-${PV}"
+> -
+> -inherit autotools pkgconfig
+> -
+> -PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
+> -LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
+> -DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
+> -
+> -# Split out some modules and extensions from the main package
+> -# These aren't needed for basic operations and only take up space:
+> -#  32.0k   libdri.so
+> -#  91.0k   libexa.so
+> -#  336.0k  libglx.so
+> -#  1360k   libint10.so
+> -#  180.0k  libwfb.so
+> -#  320.0k  libxaa.so
+> -#  124.0k  libxf1bpp.so
+> -#  84.0k   libxf4bpp.so
+> -#          librecord.so
+> -#          libextmod.so
+> -#          libdbe.so
+> -
+> -PACKAGES =+ "${PN}-security-policy \
+> -             ${PN}-sdl \
+> -             ${PN}-fbdev \
+> -             ${PN}-xprint \
+> -             ${PN}-xvfb \
+> -             ${PN}-utils \
+> -             ${PN}-xephyr \
+> -             ${PN}-multimedia-modules \
+> -             ${PN}-extension-dri \
+> -             ${PN}-extension-dri2 \
+> -             ${PN}-extension-glx \
+> -             ${PN}-extension-record \
+> -             ${PN}-extension-extmod \
+> -             ${PN}-extension-dbe \
+> -             ${PN}-module-libint10 \
+> -             ${PN}-module-libafb \
+> -             ${PN}-module-libwfb  \
+> -             ${PN}-module-libmfb \
+> -             ${PN}-module-libcfb \
+> -             ${PN}-module-exa \
+> -             ${PN}-module-xaa \
+> -             ${PN}-module-libxf1bpp \
+> -             ${PN}-module-libxf4bpp"
+> -
+> -RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+> -RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+> -RREPLACES_${PN}-module-exa = "${PN}"
+> -
+> -FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+> -FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
+> -FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled ${localstatedir}/lib/xkb/README.compiled"
+> -FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
+> -                    ${libdir}/xorg/modules/*/.debug \
+> -                    ${libdir}/xorg/modules/*/*/.debug \
+> -                    "
+> -FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
+> -FILES_${PN}-sdl = "${bindir}/Xsdl"
+> -FILES_${PN}-fbdev = "${bindir}/Xfbdev"
+> -FILES_${PN}-xprint = "${libdir}/X11/xserver/*/print"
+> -FILES_${PN}-xvfb = "${bindir}/Xvfb"
+> -FILES_${PN}-utils = "${bindir}/scanpci ${bindir}/pcitweak ${bindir}/ioport ${bindir}/in[bwl] ${bindir}/out[bwl] ${bindir}/mmap[rw] ${bindir}/gtf ${bindir}/getconfig ${bindir}/getconfig.pl"
+> -FILES_${PN}-xephyr = "${bindir}/Xephyr"
+> -FILES_${PN}-multimedia-modules = "${libdir}/xorg/modules/multimedia/*drv*"
+> -FILES_${PN}-extension-dri = "${libdir}/xorg/modules/extensions/libdri.so"
+> -FILES_${PN}-extension-dri2 = "${libdir}/xorg/modules/extensions/libdri2.so"
+> -FILES_${PN}-extension-glx = "${libdir}/xorg/modules/extensions/libglx.so"
+> -FILES_${PN}-extension-record = "${libdir}/xorg/modules/extensions/librecord.so"
+> -FILES_${PN}-extension-extmod = "${libdir}/xorg/modules/extensions/libextmod.so"
+> -FILES_${PN}-extension-dbe = "${libdir}/xorg/modules/extensions/libdbe.so"
+> -FILES_${PN}-module-libint10 = "${libdir}/xorg/modules/libint10.so"
+> -FILES_${PN}-module-libafb = "${libdir}/xorg/modules/libafb.so"
+> -FILES_${PN}-module-libwfb = "${libdir}/xorg/modules/libwfb.so"
+> -FILES_${PN}-module-libmfb = "${libdir}/xorg/modules/libmfb.so"
+> -FILES_${PN}-module-libcfb = "${libdir}/xorg/modules/libcfb.so"
+> -FILES_${PN}-module-exa = "${libdir}/xorg/modules/libexa.so"
+> -FILES_${PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"
+> -FILES_${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
+> -FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
+> -
+> -EXTRA_OECONF += "--with-fop=no \
+> -                 --disable-static \
+> -                 --disable-acfb \
+> -                 --disable-ccfb \
+> -                 --disable-mcfb \
+> -                 --disable-xinerama \
+> -                 --disable-xf86misc \
+> -                 --disable-xorgcfg \
+> -                 --disable-record \
+> -                 --disable-dmx \
+> -                 --disable-xnest \
+> -                 --disable-xvfb \
+> -                 --enable-composite \
+> -                 --without-dtrace \
+> -                 --sysconfdir=/etc/X11 \
+> -                 --localstatedir=/var \
+> -                 --with-fontdir=${datadir}/fonts/X11 \
+> -                 --with-xkb-output=/var/lib/xkb \
+> -                 ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+> -"
+> -
+> -PACKAGECONFIG ??= "udev"
+> -PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+> -
+> -do_install_append () {
+> -	# Its assumed base-files creates this for us
+> -	rmdir ${D}${localstatedir}/log/
+> -}
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+> deleted file mode 100644
+> index 02db5bf..0000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -require xserver-xorg-common.inc
+> -
+> -EXTRA_OECONF += "\
+> -                 --disable-dri \
+> -                 --disable-glx \
+> -                 --disable-dga \
+> -                 --without-xmlto \
+> -"
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
+> deleted file mode 100644
+> index ec29b21..0000000
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -require xserver-xorg-lite.inc
+> -require xserver-xorg-${PV}.inc
+> -
+> -FILESEXTRAPATHS_append := "${THISDIR}/xserver-xorg:${THISDIR}/xserver-xorg-${PV}:"
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> index ca7d33a..a0309aa 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> @@ -1,5 +1,138 @@
+> -require xserver-xorg-common.inc
+> +DESCRIPTION = "The X.Org X server"
+> +HOMEPAGE = "http://www.x.org"
+> +SECTION = "x11/base"
+> +LICENSE = "MIT-X"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
+>
+> +# xf86-*-* packages depend on an X server built with the xfree86 DDX
+> +# so we have a virtual to represent that:
+> +# deprecated, we should use virtual/xserver instead
+> +PROVIDES = "virtual/xserver-xf86"
+> +
+> +# Other packages tend to just care that there is *an* X server:
+> +PROVIDES += "virtual/xserver"
+> +
+> +PE = "2"
+> +
+> +XORG_PN = "xorg-server"
+> +SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
+> +SRC_URI += "file://macro_tweak.patch"
+> +
+> +S = "${WORKDIR}/${XORG_PN}-${PV}"
+> +
+> +inherit autotools pkgconfig
+> +
+> +PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86rushproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto evieext trapproto xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
+> +LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
+> +DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
+> +
+> +# Split out some modules and extensions from the main package
+> +# These aren't needed for basic operations and only take up space:
+> +#  32.0k   libdri.so
+> +#  91.0k   libexa.so
+> +#  336.0k  libglx.so
+> +#  1360k   libint10.so
+> +#  180.0k  libwfb.so
+> +#  320.0k  libxaa.so
+> +#  124.0k  libxf1bpp.so
+> +#  84.0k   libxf4bpp.so
+> +#          librecord.so
+> +#          libextmod.so
+> +#          libdbe.so
+> +
+> +PACKAGES =+ "${PN}-security-policy \
+> +             ${PN}-sdl \
+> +             ${PN}-fbdev \
+> +             ${PN}-xprint \
+> +             ${PN}-xvfb \
+> +             ${PN}-utils \
+> +             ${PN}-xephyr \
+> +             ${PN}-multimedia-modules \
+> +             ${PN}-extension-dri \
+> +             ${PN}-extension-dri2 \
+> +             ${PN}-extension-glx \
+> +             ${PN}-extension-record \
+> +             ${PN}-extension-extmod \
+> +             ${PN}-extension-dbe \
+> +             ${PN}-module-libint10 \
+> +             ${PN}-module-libafb \
+> +             ${PN}-module-libwfb  \
+> +             ${PN}-module-libmfb \
+> +             ${PN}-module-libcfb \
+> +             ${PN}-module-exa \
+> +             ${PN}-module-xaa \
+> +             ${PN}-module-libxf1bpp \
+> +             ${PN}-module-libxf4bpp"
+> +
+> +RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+> +RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+> +RREPLACES_${PN}-module-exa = "${PN}"
+> +
+> +FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+> +FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
+> +FILES_${PN}-doc += "${libdir}/X11/doc ${datadir}/X11/xkb/compiled/README.compiled ${localstatedir}/lib/xkb/README.compiled"
+> +FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
+> +                    ${libdir}/xorg/modules/*/.debug \
+> +                    ${libdir}/xorg/modules/*/*/.debug \
+> +                    "
+> +FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
+> +FILES_${PN}-sdl = "${bindir}/Xsdl"
+> +FILES_${PN}-fbdev = "${bindir}/Xfbdev"
+> +FILES_${PN}-xprint = "${libdir}/X11/xserver/*/print"
+> +FILES_${PN}-xvfb = "${bindir}/Xvfb"
+> +FILES_${PN}-utils = "${bindir}/scanpci ${bindir}/pcitweak ${bindir}/ioport ${bindir}/in[bwl] ${bindir}/out[bwl] ${bindir}/mmap[rw] ${bindir}/gtf ${bindir}/getconfig ${bindir}/getconfig.pl"
+> +FILES_${PN}-xephyr = "${bindir}/Xephyr"
+> +FILES_${PN}-multimedia-modules = "${libdir}/xorg/modules/multimedia/*drv*"
+> +FILES_${PN}-extension-dri = "${libdir}/xorg/modules/extensions/libdri.so"
+> +FILES_${PN}-extension-dri2 = "${libdir}/xorg/modules/extensions/libdri2.so"
+> +FILES_${PN}-extension-glx = "${libdir}/xorg/modules/extensions/libglx.so"
+> +FILES_${PN}-extension-record = "${libdir}/xorg/modules/extensions/librecord.so"
+> +FILES_${PN}-extension-extmod = "${libdir}/xorg/modules/extensions/libextmod.so"
+> +FILES_${PN}-extension-dbe = "${libdir}/xorg/modules/extensions/libdbe.so"
+> +FILES_${PN}-module-libint10 = "${libdir}/xorg/modules/libint10.so"
+> +FILES_${PN}-module-libafb = "${libdir}/xorg/modules/libafb.so"
+> +FILES_${PN}-module-libwfb = "${libdir}/xorg/modules/libwfb.so"
+> +FILES_${PN}-module-libmfb = "${libdir}/xorg/modules/libmfb.so"
+> +FILES_${PN}-module-libcfb = "${libdir}/xorg/modules/libcfb.so"
+> +FILES_${PN}-module-exa = "${libdir}/xorg/modules/libexa.so"
+> +FILES_${PN}-module-xaa = "${libdir}/xorg/modules/libxaa.so"
+> +FILES_${PN}-module-libxf1bpp = "${libdir}/xorg/modules/libxf1bpp.so"
+> +FILES_${PN}-module-libxf4bpp = "${libdir}/xorg/modules/libxf4bpp.so"
+> +
+> +EXTRA_OECONF += "--with-fop=no \
+> +                 --without-xmlto \
+> +                 --with-pic \
+> +                 --disable-static \
+> +                 --disable-acfb \
+> +                 --disable-ccfb \
+> +                 --disable-mcfb \
+> +                 --disable-xinerama \
+> +                 --disable-xf86misc \
+> +                 --disable-xorgcfg \
+> +                 --disable-record \
+> +                 --disable-dmx \
+> +                 --disable-xnest \
+> +                 --disable-xvfb \
+> +                 --enable-composite \
+> +                 --without-dtrace \
+> +                 --with-int10=x86emu \
+> +                 --sysconfdir=/etc/X11 \
+> +                 --localstatedir=/var \
+> +                 --with-fontdir=${datadir}/fonts/X11 \
+> +                 --with-xkb-output=/var/lib/xkb \
+> +                 ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+> +"
+> +
+> +PACKAGECONFIG ??= "udev"
+> +PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+> +
+> +do_install_append () {
+> +	# Its assumed base-files creates this for us
+> +	rmdir ${D}${localstatedir}/log/
+> +}
+> +
+> +
+> +# Mesa/GLX/DRI
+>   PROTO_DEPS += "xf86driproto dri2proto"
+>   LIB_DEPS += "mesa-dri"
+>
+> @@ -7,7 +140,4 @@ EXTRA_OECONF += "\
+>                    --enable-dri \
+>                    --enable-dri2 \
+>                    --enable-glx-tls \
+> -                 --with-pic \
+> -                 --with-int10=x86emu \
+> -                 --without-xmlto \
+>   "
 >
 
 
