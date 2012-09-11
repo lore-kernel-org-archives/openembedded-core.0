@@ -1,39 +1,45 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBWBg-0001or-Bk
+	(envelope-from <scott.a.garman@intel.com>) id 1TBWBg-0001nO-MS
 	for openembedded-core@lists.openembedded.org;
 	Tue, 11 Sep 2012 21:31:56 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:15 -0700
-Received: by mail-wg0-f43.google.com with SMTP id dr1so617841wgb.24
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:26 -0700
+Received: by pbcwy7 with SMTP id wy7so1154217pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 12:19:23 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding
 	:x-gm-message-state;
-	bh=gvkCVbzS4C0kprpIRvQ98zEESbTRsGyAIZuSroVh4Cw=;
-	b=JleFYDGu8MpBGuilwCSYaeHEIlB+nKsEdtW14Yqz3NJKANWZdud94EY3Prggq2o8fZ
-	F78eOhlTsor3GLU9Kawu3jFTRAuJ1llLJsZwi2ujksvPnTx21QrQqpF+t2o7qviG6UTK
-	9GpM8BwF6kqDHTdThsxopIjRANfXzROJGDgex+L5mrYSsHDANx1BTD6GW7aJCFntsInf
-	G10MTjzsYa99VVg1a4EZ2QxPsgzxVDAfTNJe7Hs9ceVzh+XVvy/b8Yh3CbpOWMnE0LTo
-	szQ7kzIEwbTYmWsBCJNhwko3CzcJysx6d8U7UdQwhvn4ifHiY/DfMH5tSvqQhzbnNwTo
-	GV1A==
-Received: by 10.217.1.195 with SMTP id n45mr9603961wes.179.1347391163702;
-	Tue, 11 Sep 2012 12:19:23 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
+	bh=++ywHszvEzvJw+N5gpDhi3DuPx9AweN+Ld4bZlLFkrw=;
+	b=oIoO2sHNah1QwKLyyAgyEQHR6ofrSHm2qCd3doDUQSsOTcFBFnE64S9KAysIy2AU7O
+	4VVRiLGlHZXibNHarcTB+0zx5UisVM3fOolSxIVyUsWhHgZn7aCeuyEKUPp0c1Iy1Co0
+	HYM3/iCiK+oq5FCZz5ZSR7JsJo5iRXL5z4t6YHj8oxu6NKgQS1gwSnzTPT05DBrR5xJY
+	v7ZtM2wS9QF50F6YMqL/bq6tn7EDjR4KU/jPXCocIVopjvG55KBpSf7Njobg6IqhIkMS
+	+u6klQUwH7I84+Fp1vwAOxeekDgv+dj0Jy00dOLT33KTeKRMu5VJ8GgPNi/KwHf+eNJz
+	LocQ==
+Received: by 10.68.217.69 with SMTP id ow5mr12372465pbc.35.1347391162569;
 	Tue, 11 Sep 2012 12:19:22 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 20:18:08 +0100
-Message-Id: <1347391088-30390-18-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmbzV/3IATzIgQwP5pkhegYWnB6CF4y1Q8N008N8G9GRzBr57rzeMHzrxFKadBd6MtnR72V
-Subject: [RFC 18/18] libx11: revise keysymdef patch based on submission upstream
+Received: from [10.32.68.88] (72-254-23-251.client.stsn.net. [72.254.23.251])
+	by mx.google.com with ESMTPS id
+	rz10sm10184365pbc.32.2012.09.11.12.19.17
+	(version=SSLv3 cipher=OTHER); Tue, 11 Sep 2012 12:19:18 -0700 (PDT)
+Message-ID: <504F8EB5.30503@intel.com>
+Date: Tue, 11 Sep 2012 12:19:17 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <504F8D62.8010508@intel.com>
+	<CAJTo0LYf2C0PmrpMf3-RsUub1pQmN=G3f6Tt8ou6UNJ-8NoJKA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYf2C0PmrpMf3-RsUub1pQmN=G3f6Tt8ou6UNJ-8NoJKA@mail.gmail.com>
+X-Gm-Message-State: ALoCoQmdatEK06dTpI9Y7SklyPwHJQDEjRfl3xOrDlqZpqM9EaIrbakuJO97UiUm3VqXJFyOKfaS
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Sato virtual keyboard - how to close it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,89 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 19:31:56 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 19:31:57 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 09/11/2012 12:16 PM, Burton, Ross wrote:
+> On 11 September 2012 20:13, Scott Garman <scott.a.garman@intel.com> wrote:
+>> In the Sato desktop, there is a virtual keyboard which you can bring up to
+>> enter text from a touchscreen interface. Once that keyboard pops up, how do
+>> you close it? I'm not seeing anything obvious.
+>>
+>> I'm helping out with a demo at a conference and could use this info
+>> urgently.
+>
+> Moving the focus from a text field will do it.  I thought there was a
+> keyboard icon on the panel which should explicitly hide it, but maybe
+> not.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../xorg-lib/libx11/keysymdef_include.patch        |   38 ++++++++++++++++----
- meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb     |    2 +-
- 2 files changed, 32 insertions(+), 8 deletions(-)
+Negatory on both counts. Sounds like a bug?
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/keysymdef_include.patch b/meta/recipes-graphics/xorg-lib/libx11/keysymdef_include.patch
-index d1bdab9..ba65319 100644
---- a/meta/recipes-graphics/xorg-lib/libx11/keysymdef_include.patch
-+++ b/meta/recipes-graphics/xorg-lib/libx11/keysymdef_include.patch
-@@ -1,23 +1,47 @@
--Upstream-Status: Inappropriate [configuration]
-+From 547937d82084f2cce7e3f0849b5112a20c467146 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Tue, 11 Sep 2012 17:39:12 +0100
-+Subject: [PATCH] Allow overriding location of keysymdef.h
- 
--Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+Currently keysymdef.h is found by using the includedir of xproto.  This doesn't
-+work when cross-compiling with a sysroot as that ends up being /usr/include/X11,
-+not a path into the cross-build environment.
- 
--diff -uNr libX11-1.3.6.orig//configure.ac libX11-1.3.6/configure.ac
----- libX11-1.3.6.orig//configure.ac	2010-09-20 08:04:16.000000000 +0200
--+++ libX11-1.3.6/configure.ac	2010-09-28 16:29:26.000000000 +0200
--@@ -355,7 +355,14 @@
-+So, add an option to allow explicitly specifying the location of keysymdef.h,
-+and verify that the specified or found path exists.
-+
-+(original patch by Martin Jansa <martin.jansa@gmail.com>, revised by myself)
-+
-+Upstream-Status: Submitted [xorg-devel]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+---
-+ configure.ac |   13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 48a0c8a..200db15 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -306,7 +306,18 @@ AC_CHECK_FUNC(poll, [AC_DEFINE(USE_POLL, 1, [poll() function is available])], )
-  # Find keysymdef.h
-  #
-  AC_MSG_CHECKING([keysym definitions])
- -KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
- +AC_ARG_WITH(keysymdefdir,
--+        AC_HELP_STRING([--with-keysymdefdir=DIR], [The location of keysymdef.h]),
-++        AC_HELP_STRING([--with-keysymdefdir=DIR], [The location of keysymdef.h (defaults to xproto include dir)]),
- +        KEYSYMDEFDIR=$withval, KEYSYMDEFDIR="")
- +
- +if test x$KEYSYMDEFDIR = x; then
- +	KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
- +fi
- +
-++if test ! -d $KEYSYMDEFDIR; then
-++	AC_MSG_ERROR([$KEYSYMDEFDIR doesn't exist or isn't a directory])
-++fi
-++
-  FILES="keysymdef.h XF86keysym.h Sunkeysym.h DECkeysym.h HPkeysym.h"
-  for i in $FILES; do
-      if test -f "$KEYSYMDEFDIR/$i"; then
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-index 793496c..94e2051 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-@@ -1,7 +1,7 @@
- require libx11.inc
- inherit gettext
- 
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+Scott
+
 -- 
-1.7.10
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
