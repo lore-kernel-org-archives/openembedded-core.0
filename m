@@ -1,39 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBWBS-0001kd-Rk
+	(envelope-from <ross.burton@intel.com>) id 1TBWBT-0001kc-9t
 	for openembedded-core@lists.openembedded.org;
 	Tue, 11 Sep 2012 21:31:43 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:18:53 -0700
-Received: by wgbdr1 with SMTP id dr1so617841wgb.24
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:12 -0700
+Received: by mail-we0-f175.google.com with SMTP id r6so507617wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 12:18:59 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=1vie6UZNWMFWtTrZ5x52cdDyJNgDubkUt8tKgKEh8MM=;
-	b=SyNc+0GAYgBHSVlxwOzEiY3ZKlkXqrsZ9ud3+alkEj4slTvzH3lYVipqH4fIQ+k4Zg
-	FPkiKO8Y2c8jw9m6MGAKp83ukDB78oLsnFIit0WmEflQ9ze7gNOqhiti4xP9MGapKJwa
-	BTQGXqt+eZJJCDt0NthuwUpFp1/yXrvuMf4J9F5GCOBy4ie7UVZU4VypPlTn8V4f+UJr
-	XnJwFFeVRsYSK6AhRhfgDhSzUk14gIf1Pchib7KWab0KccdKnSDFD6H2JfPzT/+DmLx4
-	F6XbGVFOyXo96+u32ybVyom2yjgBppnbornZoX75qsSuOmbTE2DLXE3KvgRo0RRXkd7o
-	LprA==
-Received: by 10.216.132.25 with SMTP id n25mr9939856wei.25.1347391139218;
-	Tue, 11 Sep 2012 12:18:59 -0700 (PDT)
+	bh=YjgMyRWxpKiJ2czqYmaWzGAHODmbrnmLuYvuf91T1RQ=;
+	b=pqSFNcf/fyKYOwPvYU1lf+fPLwkk84LFW03GFALNibcsNq/IlewvGFWAJK6PRw7Exx
+	7ermDZig5XMW5h8oHnm0C3nQzyrfGIsScgqAKTTbTwfD4CHvIsopTfONlmjL5xk0A+97
+	bdMpdAzHMUiufcI/VPLYvH1HuisHsl7YVLFigGNc4nn4cD2Fj7W5Cmhfa43c3fWk+DVK
+	wbRWJv7yOgusH4sPDIASj0KhqJQnfrVpKyl7mvBAeVcLGn7afW6pMw09teNPfLUJ6B9c
+	AYTmxIerOrFcnskW/QL4NbZy6QK+KUklASlW7wvzPfAhRMEf2l9IqFybqkOnLwzocNzt
+	RCGg==
+Received: by 10.216.119.6 with SMTP id m6mr9922531weh.215.1347391152389;
+	Tue, 11 Sep 2012 12:19:12 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.18.57
+	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Sep 2012 12:18:57 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:10 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 20:17:52 +0100
-Message-Id: <1347391088-30390-2-git-send-email-ross.burton@intel.com>
+Date: Tue, 11 Sep 2012 20:18:00 +0100
+Message-Id: <1347391088-30390-10-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
 References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlCKmrN12tUhkemnR/4p1LnbxBUrZyKTfQEIZtZhxQNEO5DIJ7o7aObAqAkpT4evkJEg0bC
-Subject: [RFC 02/18] libx11-diet: you can't disable XCB anymore, so don't try
+X-Gm-Message-State: ALoCoQk/++0LQgFgG3jUfNXA4f3UBf1Rd4o5whHiMZ3ufnmoPaVK84sLYgMMXW6Nqy/szGRcrWIS
+Subject: [RFC 10/18] libx11: make bigfont an optional (disabled by default) packageconfig option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,41 +50,44 @@ X-List-Received-Date: Tue, 11 Sep 2012 19:31:43 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11.inc |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-index ed5a890..d821744 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-@@ -1,11 +1,11 @@
- require libx11.inc
+diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+index 85fdbe7..d56aa23 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11.inc
++++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+@@ -11,7 +11,7 @@ inherit siteinfo
+ FILESPATH = "${FILE_DIRNAME}/libx11"
  
--DESCRIPTION += " Support for XCB, UDC, XCMS and XLOCALE is disabled in \
-+DESCRIPTION += " Support for UDC, XCMS and XLOCALE is disabled in \
- this version."
+ PE = "1"
+-INC_PR = "r6"
++INC_PR = "r7"
  
+ PROVIDES = "virtual/libx11"
+ 
+@@ -20,7 +20,7 @@ LICENSE = "MIT & MIT-style & BSD"
  LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+ DEPENDS += "xproto xextproto xtrans libxcb kbproto inputproto"
+-DEPENDS += "xf86bigfontproto xproto-native"
++DEPENDS += "xproto-native"
  
- SRC_URI += "file://x11_disable_makekeys.patch \
-             file://X18NCMSstubs.diff \
-@@ -20,11 +20,11 @@ RPROVIDES_${PN}-locale = "libx11-locale"
- SRC_URI[md5sum] = "78b4b3bab4acbdf0abcfca30a8c70cc6"
- SRC_URI[sha256sum] = "c382efd7e92bfc3cef39a4b7f1ecf2744ba4414a705e3bc1e697f75502bd4d86"
+ PACKAGES =+ "${PN}-xcb"
  
--DEPENDS += "bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
-+DEPENDS += "libxcb bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
-             libxdmcp xf86bigfontproto kbproto inputproto xproto-native"
+@@ -30,9 +30,11 @@ FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
  
- FILESDIR = "${@os.path.dirname(d.getVar('FILE', True))}/libx11"
+ EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
  
--EXTRA_OECONF += "--without-xcb --disable-udc --disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
-+EXTRA_OECONF += "--disable-udc --disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
- CFLAGS += "-D_GNU_SOURCE"
+-# Almost nothing uses XCMS
++# Let people with incredibly archaic requirements enable Xcms and BigFont, but
++# disable them by default.
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
++PACKAGECONFIG[bigfont] = "--enable-xf86bigfont,--disable-xf86bigfont,xf86bigfontproto"
  
+ do_compile_prepend() {
+ 	cd ${S}/src/util
 -- 
 1.7.10
 
