@@ -1,24 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TBR8b-0005Cs-8Z
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 16:08:25 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Sep 2012 06:55:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,404,1344236400"; d="scan'208";a="191605304"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by orsmga001.jf.intel.com with ESMTP; 11 Sep 2012 06:55:38 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 16:55:31 +0300
-Message-Id: <115bbd54aa3a79cc62179d2db91e61de1d00d1e1.1347371624.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1347371624.git.laurentiu.palcu@intel.com>
-References: <cover.1347371624.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1347371624.git.laurentiu.palcu@intel.com>
-References: <cover.1347371624.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 1/1] nativesdk-qemu: fix SDK relocation issue
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBRYa-0007LQ-5F for openembedded-core@lists.openembedded.org;
+	Tue, 11 Sep 2012 16:35:16 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8BEMaN0010362
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2012 15:22:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10146-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2012 15:22:32 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8BEMSdK010356
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2012 15:22:29 +0100
+Message-ID: <1347373349.2122.35.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Sep 2012 15:22:29 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,80 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 14:08:25 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 14:35:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-User mode emulation binaries are linked using a local linker script. The
-nativesdk ones were not used and the resulting binaries did not have the
-interp section resized. Hence, those binaries could not be relocated.
+Unfortunately whilst rerunning configure and make against a project will mostly
+work there are situations where it does not correctly do the right thing.
 
-[YOCTO #3083]
+In particular, eglibc and gcc will fail out with errors where settings
+do not match a previously built configuration. It could be argued they are
+broken but the situation is what it is. There is the possibility of more subtle
+errors too.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+This patch adds removal of the build directory (${B}) when configure is
+rerunning, the sstate checksum for do_configure has changed and ${S} != ${B}.
+We could simply use a stamp but saving out the previous configuration checksum
+adds some data at no real overhead.
+
+If we find there are things where we want to disable this behaviour with
+CONFIGURESTAMPFILE = "" in the recipe, or users could disable it globally.
+
+[YOCTO #2774]
+[YOCTO #2848]
+
+This is particularly helpful for eglibc and gcc which use split builds by default and
+are a particular source of reconfigure type problems.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../qemu/qemu-1.2.0/relocatable_sdk.patch          |   34 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_1.2.0.bb           |    6 ++++
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch b/meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
-new file mode 100644
-index 0000000..0a01a8a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
-@@ -0,0 +1,34 @@
-+Upstream-Status: Inappropriate [SDK specific]
-+
-+In order to be able to change the dynamic loader path when relocating
-+binaries, the interp section has to be made big enough to accomodate
-+the new path (4096 is the maximum path length in Linux).
-+
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+
-+Index: qemu-1.2.0/i386.ld
-+===================================================================
-+--- qemu-1.2.0.orig/i386.ld
-++++ qemu-1.2.0/i386.ld
-+@@ -8,7 +8,7 @@ SECTIONS
-+ {
-+   /* Read-only sections, merged into text segment: */
-+   . = 0x60000000 + SIZEOF_HEADERS;
-+-  .interp     : { *(.interp) 	}
-++  .interp     : { *(.interp); . = 0x1000; }
-+   .hash          : { *(.hash)		}
-+   .dynsym        : { *(.dynsym)		}
-+   .dynstr        : { *(.dynstr)		}
-+Index: qemu-1.2.0/x86_64.ld
-+===================================================================
-+--- qemu-1.2.0.orig/x86_64.ld
-++++ qemu-1.2.0/x86_64.ld
-+@@ -6,7 +6,7 @@ SECTIONS
-+ {
-+   /* Read-only sections, merged into text segment: */
-+   . = 0x60000000 + SIZEOF_HEADERS;
-+-  .interp         : { *(.interp) }
-++  .interp         : { *(.interp); . = 0x1000; }
-+   .hash           : { *(.hash) }
-+   .dynsym         : { *(.dynsym) }
-+   .dynstr         : { *(.dynstr) }
-diff --git a/meta/recipes-devtools/qemu/qemu_1.2.0.bb b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-index 55ac532..7091f6d 100644
---- a/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-@@ -17,6 +17,12 @@ SRC_URI = "\
- SRC_URI[md5sum] = "78eb1e984f4532aa9f2bdd3c127b5b61"
- SRC_URI[sha256sum] = "c8b84420d9f4869397f84cad2dabd9a475b7723d619a924a873740353e9df936"
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 4c4bf87..a5997c5 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -89,6 +89,27 @@ oe_runconf () {
  
-+PR = "r1"
+ AUTOTOOLS_AUXDIR ?= "${S}"
+ 
++CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
 +
-+SRC_URI_append_virtclass-nativesdk = "\
-+    file://relocatable_sdk.patch \
-+    "
++autotools_preconfigure() {
++	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
++		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a "${S}" != "${B}" ]; then
++			echo "Previously configured separate build directory detected, cleaning ${B}"
++			rm -rf ${B}
++			mkdir ${B}
++		fi
++	fi
++}
 +
- do_configure_prepend_virtclass-nativesdk() {
- 	if [ "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "" ] ; then
- 		# Undo the -lX11 added by linker-flags.patch
--- 
-1.7.9.5
++autotools_postconfigure(){
++	if [ -n "${CONFIGURESTAMPFILE}" ]; then
++		echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
++	fi
++}
++
++do_configure[prefuncs] += "autotools_preconfigure"
++do_configure[postfuncs] += "autotools_postconfigure"
++
+ autotools_do_configure() {
+ 	case ${PN} in
+ 	autoconf*)
+
 
 
 
