@@ -1,31 +1,25 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TBNxN-0000i2-2C
+	(envelope-from <philb@gnu.org>) id 1TBPA0-0003n9-Ve
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 12:44:37 +0200
-Received: from localhost ([127.0.0.1]:60721 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TBNlG-0000CF-3X; Tue, 11 Sep 2012 10:32:06 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references; s=default; bh=E
-	WEjgvQXNOdalJqd2bkJ4WCv+4U=; b=yJHeCkyu12Y+JVaU4nafcbwej7v1zPGht
-	3JyQICXG5u+UT2cAmMsrD3+OCeOjqA8FOJJR5BJd9POz4OepRWnYrIAe2/u6hV3f
-	2GqH4uWsd+kKR+pfIZ70xMtJGBPIyP5NSo46HCm4qa9r4gRdFxSRIRY1R/8Aq8dL
-	1rVuhkzxmM=
-Received: from [195.171.99.130] (port=23225 helo=archHP.dbnet.local)
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TBNlF-0000Bv-VC; Tue, 11 Sep 2012 10:32:06 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 11:33:37 +0100
-Message-Id: <1347359617-4821-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.7.12
-In-Reply-To: <504F05A8.3000207@communistcode.co.uk>
-References: <504F05A8.3000207@communistcode.co.uk>
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [PATCH] git: add missing Python dependency
+	Tue, 11 Sep 2012 14:01:44 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TBOxw-0000Gv-2J
+	for openembedded-core@lists.openembedded.org;
+	Tue, 11 Sep 2012 13:49:16 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Sep 2012 12:49:15 +0100
+In-Reply-To: <2e7dddfce4a40a56f671116a2001b13c57667c70.1344892361.git.scott.a.garman@intel.com>
+References: <cover.1344892361.git.scott.a.garman@intel.com>
+	<2e7dddfce4a40a56f671116a2001b13c57667c70.1344892361.git.scott.a.garman@intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1347364156.6856.18.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 11/32] sysvinit-inittab_2.88dsf.bb: Allow multiple serial port consoles to be defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +32,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 10:44:37 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 12:01:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+On Mon, 2012-08-13 at 14:14 -0700, Scott Garman wrote:
+> +pkg_postinst_${PN} () {
+> +# run this on the target
+> +if [ "x$D" == "x" ]; then
 
-Add python to DEPENDS as it fails to install on target with RPM
-failing at do_rootfs due to un-met dependencies.
+By the way, "==" is a bashism; that should just be "=" for portability.
+Or you can use '-z "$D"' which is also portable.
 
-Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
----
- meta/recipes-devtools/git/git.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+p.
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 6748b70..9181da6 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -1,7 +1,7 @@
- DESCRIPTION = "The git revision control system used by the Linux kernel developers"
- SECTION = "console/utils"
- LICENSE = "GPLv2"
--DEPENDS = "openssl curl zlib expat"
-+DEPENDS = "openssl curl zlib expat python"
- 
- PROVIDES_append_virtclass-native = " git-replacement-native"
- 
--- 
-1.7.12
 
 
 
