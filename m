@@ -1,27 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TBFgF-0000Lu-1U
+	(envelope-from <Vladimir_Zapolskiy@mentor.com>) id 1TBFoj-0000sm-WC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 03:54:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8B1fqi6020479
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Sep 2012 18:41:52 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Mon, 10 Sep 2012 18:41:50 -0700
-Message-ID: <504E96F0.1090200@windriver.com>
-Date: Tue, 11 Sep 2012 09:42:08 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Tue, 11 Sep 2012 04:03:10 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1TBFcd-0005g5-Cp from Vladimir_Zapolskiy@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 10 Sep 2012 18:50:39 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 10 Sep 2012 18:50:39 -0700
+Received: from eyas.fin.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.1.289.1; Tue, 11 Sep 2012 02:50:37 +0100
+From: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Sep 2012 04:51:01 +0300
+Message-ID: <1347328261-21741-1-git-send-email-vladimir_zapolskiy@mentor.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1347326296-32657-3-git-send-email-vladimir_zapolskiy@mentor.com>
+References: <1347326296-32657-3-git-send-email-vladimir_zapolskiy@mentor.com>
 MIME-Version: 1.0
-To: Kang Kai <kai.kang@windriver.com>
-References: <cover.1346911593.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1346911593.git.kai.kang@windriver.com>
-X-Originating-IP: [128.224.162.159]
-Cc: openembedded-core@lists.openembedded.org, Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/1] One more LSB patch
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 11 Sep 2012 01:50:39.0312 (UTC)
+	FILETIME=[D83E9D00:01CD8FBF]
+Subject: [PATCH 6/6 v2] classes/license: place all found licenses on one line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,83 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 01:54:23 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060306030505030107030709"
+X-List-Received-Date: Tue, 11 Sep 2012 02:03:10 -0000
+Content-Type: text/plain
 
---------------060306030505030107030709
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+Cosmetic change, settle all found licenses into one line and report warning
+about missing licenses loudly.
 
-On 2012?09?07? 16:24, Kang Kai wrote:
-> Hi Saul,
->
-> This patch depends on the previous serious LSB patches. Only when they are merged, this patch can be merged.
->
-> Thanks,
-> Kai
->
-> The following changes since commit 718c07326229912636736fd1698f121d8fd9bd76:
->
->    packagegroup-core-lsb.bbappend: add bbappend file (2012-09-06 09:23:21 +0800)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib kangkai/lsb
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb
->
-> Kang Kai (1):
->    packagegroups-core-lsb.bbappend: add perl-dev/doc
->
->   .../packagegroups/packagegroup-core-lsb.bbappend   |    2 ++
->   1 files changed, 2 insertions(+), 0 deletions(-)
->
-Recall this patch. I'll rebase it and send V2.
+Signed-off-by: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+---
+Changes from v1 to v2:
+* interpret backslash escapes in the closing echo
 
-Regards,
-Kai
+ meta/classes/license.bbclass |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---------------060306030505030107030709
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 4b5954d..29fe938 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -112,16 +112,16 @@ license_create_manifest() {
+ 		echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_MANIFEST}
+ 		echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_MANIFEST}
+ 		echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_MANIFEST}
+-		echo "LICENSE: " >> ${LICENSE_MANIFEST}
++		echo -n "LICENSE:" >> ${LICENSE_MANIFEST}
+ 		for lic in ${pkged_lic}; do
+ 			# to reference a license file trim trailing + symbol
+ 			if [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
+-				echo ${lic} >> ${LICENSE_MANIFEST}
++				echo -n " ${lic}" >> ${LICENSE_MANIFEST}
+ 			else
+-				echo "WARNING: The license listed, " ${lic} " was not in the licenses collected for " ${pkged_pn} >> ${LICENSE_MANIFEST}
++				echo "WARNING: The license listed ${lic} was not in the licenses collected for ${pkged_pn}"
+ 			fi
+ 		done
+-		echo "" >> ${LICENSE_MANIFEST}
++		echo -e "\n" >> ${LICENSE_MANIFEST}
+ 	done
+ 
+ 	# Two options here:
+-- 
+1.7.10.4
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 2012&#24180;09&#26376;07&#26085; 16:24, Kang Kai wrote:
-    <blockquote cite="mid:cover.1346911593.git.kai.kang@windriver.com"
-      type="cite">
-      <pre wrap="">Hi Saul,
 
-This patch depends on the previous serious LSB patches. Only when they are merged, this patch can be merged.
 
-Thanks,
-Kai
-
-The following changes since commit 718c07326229912636736fd1698f121d8fd9bd76:
-
-  packagegroup-core-lsb.bbappend: add bbappend file (2012-09-06 09:23:21 +0800)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/lsb
-  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb</a>
-
-Kang Kai (1):
-  packagegroups-core-lsb.bbappend: add perl-dev/doc
-
- .../packagegroups/packagegroup-core-lsb.bbappend   |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-</pre>
-    </blockquote>
-    <font size="+1">Recall </font>this patch. I'll rebase it and send
-    V2.<br>
-    <br>
-    Regards,<br>
-    Kai<br>
-  </body>
-</html>
-
---------------060306030505030107030709--
