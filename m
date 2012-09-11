@@ -1,45 +1,33 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TBT1v-0001tX-2m
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 18:09:40 +0200
-Received: from mail115-ch1-R.bigfish.com (10.43.68.248) by
-	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 11 Sep 2012 15:41:59 +0000
-Received: from mail115-ch1 (localhost [127.0.0.1])	by
-	mail115-ch1-R.bigfish.com (Postfix) with ESMTP id 14B4A360062	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 15:41:59 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1d1ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12bdh1155h)
-Received: from mail115-ch1 (localhost.localdomain [127.0.0.1]) by mail115-ch1
-	(MessageSwitch) id 134737811858234_8456;
-	Tue, 11 Sep 2012 15:41:58 +0000 (UTC)
-Received: from CH1EHSMHS008.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.249])	by mail115-ch1.bigfish.com (Postfix) with ESMTP id
-	F243030009F	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 15:41:57 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS008.bigfish.com
-	(10.43.70.8) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 11 Sep 2012 15:41:56 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Tue, 11 Sep 2012 10:41:55 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q8BFftkw003555 for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 08:41:55 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Sep 2012 10:41:54 -0500
-Message-ID: <1347378114-19897-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH v2] sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we have items to check
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBT3M-0001xf-96 for openembedded-core@lists.openembedded.org;
+	Tue, 11 Sep 2012 18:11:08 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8BFwAvv011153;
+	Tue, 11 Sep 2012 16:58:10 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10146-09; Tue, 11 Sep 2012 16:58:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8BFvxdc011147
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 11 Sep 2012 16:58:00 +0100
+Message-ID: <1347379081.2122.48.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <saul.wold@intel.com>
+Date: Tue, 11 Sep 2012 16:58:01 +0100
+In-Reply-To: <504F5B9A.7070501@intel.com>
+References: <cover.1347376358.git.bruce.ashfield@windriver.com>
+	<ea700a4897d82d27177a0583f01b6432ac7ec379.1347376358.git.bruce.ashfield@windriver.com>
+	<504F59B1.60308@intel.com> <504F5B17.5070500@windriver.com>
+	<504F5B9A.7070501@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] linux-yocto/3.4: add x32 configuration fragment and tuning hook
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,50 +40,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 16:09:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Sep 2012 16:11:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Right now, we delay running the serial console checks to we boot up. This causes
-issues for read only file systems. So, if have not configured any serial ports to
-check via SERIAL_CONSOLES_CHECK we can skip the check at boot. This fixes any
-issues with read only file systems and ipk packaging.
+On Tue, 2012-09-11 at 08:41 -0700, Saul Wold wrote:
+> On 09/11/2012 08:39 AM, Bruce Ashfield wrote:
+> > On 12-09-11 11:33 AM, Saul Wold wrote:
+> >> On 09/11/2012 08:17 AM, Bruce Ashfield wrote:
+> >>> When x32 is the tuning for a x86 MACHINE, the kernel should also have
+> >>> CONFIG_X86_X32=y.
+> >>>
+> >>> This can be accomplished by adding the x32 configuraion fragment to the
+> >>> KERNEL_FEATURES when x32 is the tuning for a given machine.
+> >>>
+> >>> cc: Saul Wold <sgw@linux.intel.com>
+> >>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> >>> ---
+> >>> meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb | 3 ++-
+> >>> meta/recipes-kernel/linux/linux-yocto_3.4.bb | 3 ++-
+> >>> 2 files changed, 4 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >>> b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >>> index 4fd3845..156fb93 100644
+> >>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >>> @@ -10,7 +10,7 @@ KMETA = "meta"
+> >>>
+> >>> SRCREV_machine ?= "a35693b1287c0e50cdca33a1b95af0ff48b43cd0"
+> >>> SRCREV_machine_qemuppc ?= "85a1190530cb5749f5f831670976b163438dc301"
+> >>> -SRCREV_meta ?= "d9d5fc63d8b38705036e946ea77d971d95de11ad"
+> >>> +SRCREV_meta ?= "e0374ce012e7e6fc8e5bb8b957addb0478950898"
+> >>>
+> >>> PR = "${INC_PR}.0"
+> >>> PV = "${LINUX_VERSION}+git${SRCPV}"
+> >>> @@ -27,3 +27,4 @@ KERNEL_FEATURES_append = " features/netfilter"
+> >>> KERNEL_FEATURES_append = " features/taskstats"
+> >>> KERNEL_FEATURES_append_qemux86 = " cfg/sound"
+> >>> KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+> >>> +KERNEL_FEATURES_append_x32 = " cfg/x32"
+> >>
+> >> Scratch this bit and below, as I think I will use the other mechanism
+> >> you talked about to go from a .conf file.
+> >
+> > Works for me. The meta change is staged and pushed out, I'll update this
+> > patch to not have the KERNEL_FEATURES portion.
+> >
+> Thanks, see my other email to RP, since x32 is a feature that any x86-64 
+> machine might want to enable based on the DEFAULTTUNE it makes more 
+> sense to be in the machine config includes.
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
-v2: bump PR
+No, it doesn't.
 
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+What we need here is:
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 1089edb..ec27b8c 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
- 
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "file://inittab"
- 
-@@ -65,7 +65,11 @@ if [ "x$D" == "x" ]; then
- 	done
- 	kill -HUP 1
- else
--	exit 1
-+	if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
-+		exit 0
-+	else
-+		exit 1
-+	fi
- fi
- }
- 
--- 
-1.7.9.7
+-KERNEL_FEATURES_append = " features/taskstats"
++KERNEL_FEATURES_append = " features/taskstats ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
 
+which is simple, effective and to the point. If we start needing lots of
+these, we can look at an x32 override but right now I don't see the
+need.
+
+Cheers,
+
+Richard
 
 
 
