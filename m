@@ -1,36 +1,39 @@
 Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBWBI-0001jA-E7
+	(envelope-from <ross.burton@intel.com>) id 1TBWBL-0001jA-GJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 21:31:32 +0200
+	Tue, 11 Sep 2012 21:31:35 +0200
 Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:18:59 -0700
-Received: by wgbdr1 with SMTP id dr1so617826wgb.24
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:05 -0700
+Received: by mail-wg0-f43.google.com with SMTP id dr1so617826wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 12:18:57 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=qyu7OlKo2s+LaDmTZHBXqPnv9+pFuxvXfM8GoYN8MCA=;
-	b=CEoBJfAoglolJI+EBtUjv5ox6P1PEAlj3emzmKAwRytFDSXIOsFUqwd5e5pzezpxMH
-	YrOZhrmwrofoUyz7zkmdLz8qSuGxTh5rs8rD37egW4J1/+Gy1LMn40oNbhK95M5kO6uO
-	NadECeA2iQ3OO0qe8+qmVh1fj92SQqsE8a4iVcuNe3EgWEeNRL6WdO/w90Gdw2LstNHU
-	ROg4/RppJ0AmHvgji+DZxnvovzb6WXl9bIaS+Z9A9ur+ec8Thck6ja/FSwL+SLAgD783
-	dHL/BwrrskYAXyeQFJNXltLFsp9NwEe9wJhoQWiRzIYTf3XhvDsUK0Zoq6um30Dc3Vjz
-	wCtQ==
-Received: by 10.180.82.230 with SMTP id l6mr27103843wiy.21.1347391137221;
-	Tue, 11 Sep 2012 12:18:57 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=DxkmL2ximdt0p2sNHFolltKeU2EdMKT+fC28aitEFbg=;
+	b=d6SB9mFRPlXZXv7/cmJSi/cgdL15EhuRmuIV4EmuTxJEhvBW4Kvnvh2QKSafLKmV/d
+	7Lx+yByTaTa9ovJG+9HdTMLbPCJRizgVt9Iw4x5VId/Jxr5u33+CVgwe6GaN8rZmEppe
+	iTThv/CyYlsztleBfWoh0KeM3uv68G1XqSEjt3utiiq4/QPtPmjnKyeofWBAH7dbdagW
+	8ITbnbb17jNVjGdtP548pFxkpkBNvWPKgboo1LS+VDPo0kUX5RQQXHAVk3zqoo1jVXEL
+	ACncTV9yxX7+Er6jGG5kyVaYe1T+9+68ozgpReaJC1n1En189KMBhg+n89Nhg3XZcjoZ
+	trsQ==
+Received: by 10.180.106.130 with SMTP id gu2mr27118826wib.20.1347391145275;
+	Tue, 11 Sep 2012 12:19:05 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.18.54
+	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Sep 2012 12:18:55 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:04 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 20:17:51 +0100
-Message-Id: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 11 Sep 2012 20:17:56 +0100
+Message-Id: <1347391088-30390-6-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnkBiHLT1oA27M7VQmcudfqDttqdHar506Au9j9GfJq/fV33Im/v7afXRD1j79o5l9Ye1ND
-Subject: [RFC 01/18] libx11: use INC_PR
+In-Reply-To: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
+References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQlQpWlmNtblH0GEWQEszzNJULmGx7BckZ+jU22tlEvCLdKAD5XialWysvuLy3F+xitzEPOw
+Subject: [RFC 06/18] libx11: move keysymdefdir option to .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,67 +46,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 19:31:32 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 19:31:35 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
  meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb |    2 +-
- meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb |    2 +-
- meta/recipes-graphics/xorg-lib/libx11.inc           |    1 +
- meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb      |    2 +-
- 4 files changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb |    2 --
+ meta/recipes-graphics/xorg-lib/libx11.inc           |    4 +++-
+ meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb      |    2 --
+ 4 files changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-index 7d4facd..ed5a890 100644
+index dd9e7d9..9a7de33 100644
 --- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
 +++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-@@ -5,7 +5,7 @@ this version."
+@@ -25,6 +25,6 @@ DEPENDS += "libxcb bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+ FILESDIR = "${@os.path.dirname(d.getVar('FILE', True))}/libx11"
  
--PR = "r1"
-+PR = "${INC_PR}.0"
+-EXTRA_OECONF += "--disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
++EXTRA_OECONF += "--disable-xlocale"
+ CFLAGS += "-D_GNU_SOURCE"
  
- SRC_URI += "file://x11_disable_makekeys.patch \
-             file://X18NCMSstubs.diff \
 diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-index 3d5a306..e8661f3 100644
+index 9e88d45..714b993 100644
 --- a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
 +++ b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-@@ -5,7 +5,7 @@ DESCRIPTION += " Support for XCMS is disabled in this version."
- LICENSE = "MIT & MIT-style & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+@@ -18,5 +18,3 @@ RPROVIDES_${PN}-locale = "libx11-locale"
  
--PR = "r1"
-+PR = "${INC_PR}.0"
- 
- DEPENDS += "libxcb xproto xextproto xtrans libxau kbproto inputproto xf86bigfontproto xproto-native"
- 
+ SRC_URI[md5sum] = "78b4b3bab4acbdf0abcfca30a8c70cc6"
+ SRC_URI[sha256sum] = "c382efd7e92bfc3cef39a4b7f1ecf2744ba4414a705e3bc1e697f75502bd4d86"
+-
+-EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
 diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 592f116..9e8c863 100644
+index 22b26cc..a524c5f 100644
 --- a/meta/recipes-graphics/xorg-lib/libx11.inc
 +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -9,6 +9,7 @@ require xorg-lib-common.inc
+@@ -9,7 +9,7 @@ require xorg-lib-common.inc
  inherit siteinfo
  
  PE = "1"
-+INC_PR = "r1"
+-INC_PR = "r3"
++INC_PR = "r4"
  
  PROVIDES = "virtual/libx11"
  
+@@ -23,6 +23,8 @@ FILES_${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${libdir}/X11/X
+ FILES_${PN}-xcb += "${libdir}/libX11-xcb.so.*"
+ FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
+ 
++EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
++
+ # Almost nothing uses XCMS
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
 diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-index a65ab1f..2e47899 100644
+index 2e47899..0ba0f9b 100644
 --- a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
 +++ b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-@@ -1,7 +1,7 @@
- require libx11.inc
- inherit gettext
- 
--PR = "r1"
-+PR = "${INC_PR}.0"
+@@ -5,8 +5,6 @@ PR = "${INC_PR}.0"
  
  BBCLASSEXTEND = "native nativesdk"
  
+-EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11"
+-
+ DEPENDS += "util-macros xtrans libxdmcp libxau \
+             bigreqsproto xproto xextproto xcmiscproto \
+             xf86bigfontproto kbproto inputproto libxcb \
 -- 
 1.7.10
 
