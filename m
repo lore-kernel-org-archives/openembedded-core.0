@@ -1,41 +1,40 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TBK3g-0001KZ-Cz
+	(envelope-from <koen@dominion.thruhere.net>) id 1TBK4E-0001OI-RT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 08:34:52 +0200
-Received: by wgbdr1 with SMTP id dr1so105281wgb.24
+	Tue, 11 Sep 2012 08:35:26 +0200
+Received: by wibhq4 with SMTP id hq4so2700638wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Sep 2012 23:22:22 -0700 (PDT)
+	Mon, 10 Sep 2012 23:22:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=9dV7BNW0VY2khmci74V2MAC7qMYhhywUxdYrX2cV+xg=;
-	b=IxR8dL8sxOpyevlGWCX0sufPHTeq0RPaNk0kCu/bbNM/WIXlcZv5b2bXqqweZjUdv5
-	OAknnOngEB/MHARsMnmkOBbcHp9PbLEasEaginu1CrurSqPdOj0xxzgf3WbFgRCPQx86
-	i5QCteVGReeZHXl/seli3QLh6aXa8lCopUnbpIhSxVhy6w6TcCGJU45WuwlITUzsFvne
-	5IknuFhhZkq+l1KEQgO8GE5Iur4tnlFfzF18C0YqvzykCZuz3HZrrG8cTjKwPb58zItI
-	qZ6zgBqla33Lq67by+aQ3tXwVxyM+pw8ge52wLmdWj4mvJmLPnTM/7jgS4dpSDwVRRa5
-	tsZw==
-Received: by 10.180.106.97 with SMTP id gt1mr22682748wib.5.1347344541994;
-	Mon, 10 Sep 2012 23:22:21 -0700 (PDT)
+	bh=ZAyQumyNkcdngPNzjoxh9gEBTcbWV0oXDDnf20iINtQ=;
+	b=dp7qUq3ZGwSEkhBni8NhYeivGCJD/+KDpRwkckDlglkfwDmn4s7dniHbpaecZQAK04
+	4XaxS9wm/LmpBbAvXrK/1fOmXUNUB3bYKnFv/ggvoG2y0wlp0MFEQLJfDLB/HflW88Xq
+	T1LJhNTxR7F74qzGDSVXP3pdXpq2u9SIK0qXfc0Elc/FamtJx9rNCKGQK+jQfsxwPBmE
+	9D1vx3FPELEYTqwyfOGRtn/5UgBChUFbbkgKIAU6Plbhzu5GqaofoIQxHn214scRaKQS
+	gEpYFXZgZB7MnnycRI281iP16bPxnBejtzKWwO3ZKS7jnIn+WxT5N6T2OwhZcQWEvgqj
+	tzBg==
+Received: by 10.180.98.138 with SMTP id ei10mr22698760wib.1.1347344576610;
+	Mon, 10 Sep 2012 23:22:56 -0700 (PDT)
 Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id cu1sm1049149wib.6.2012.09.10.23.22.20
+	by mx.google.com with ESMTPS id cu1sm1049149wib.6.2012.09.10.23.22.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 10 Sep 2012 23:22:20 -0700 (PDT)
+	Mon, 10 Sep 2012 23:22:55 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1347297632-16529-3-git-send-email-ross.burton@intel.com>
-Date: Tue, 11 Sep 2012 08:22:19 +0200
-Message-Id: <EF1BA017-A04B-4FA6-B519-916F2F052FA1@dominion.thruhere.net>
-References: <1347297632-16529-1-git-send-email-ross.burton@intel.com>
-	<1347297632-16529-3-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
+In-Reply-To: <1347304161-19864-1-git-send-email-msm@freescale.com>
+Date: Tue, 11 Sep 2012 08:22:55 +0200
+Message-Id: <C79EC08E-0DE4-4ECF-B0A9-53FBB7E57248@dominion.thruhere.net>
+References: <1347304161-19864-1-git-send-email-msm@freescale.com>
+To: Matthew McClintock <msm@freescale.com>
 X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQmL8/Qa1deKIBn+0i9I2FoRo0I4cSMG7zxnh00B3mJ23shZlk2w51rC7TgUc9tHXkp7zxWb
+X-Gm-Message-State: ALoCoQlBveoa0bxbCEUqWLvkpza+giZ7KRjRWdPCHGYMiuPy9Fs7otj5lBhXLLWiog29GRvzaouk
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] libx11: don't split libX11-xcb out into a libx11-xcb package
+Subject: Re: [PATCH] sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we have items to check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,19 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 06:34:52 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 06:35:26 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 10 sep. 2012, om 19:20 heeft Ross Burton <ross.burton@intel.com> het =
-volgende geschreven:
+Op 10 sep. 2012, om 21:09 heeft Matthew McClintock <msm@freescale.com> =
+het volgende geschreven:
 
-> As XCB is a hard requirement for libX11, and libX11-xcb.so is a =
-deprecated 3KB
-> .so, it's not worth splitting it into a separate package.
+> Right now, we delay running the serial console checks to we boot up. =
+This causes
+> issues for read only file systems. So, if have not configured any =
+serial ports to
+> check via SERIAL_CONSOLES_CHECK we can skip the check at boot. This =
+fixes any
+> issues with read only file systems and ipk packaging.
+>=20
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+> .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +++++-
+> 1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb =
+b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> index 1089edb..5394f18 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -65,7 +65,11 @@ if [ "x$D" =3D=3D "x" ]; then
+> 	done
+> 	kill -HUP 1
+> else
+> -	exit 1
+> +	if [ "${SERIAL_CONSOLES_CHECK}" =3D "" ]; then
+> +		exit 0
+> +	else
+> +		exit 1
+> +	fi
+> fi
+> }
 
-What's the upgrade path? This commit will create a clash because now 2 =
-packages will provide the same file. Is that pain really worth it?=
+
+MIssing PR bump=
 
 
