@@ -1,34 +1,27 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TBQIM-0003KO-So
+	(envelope-from <mark.hatle@windriver.com>) id 1TBQKs-0003ZF-8l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 15:14:26 +0200
-Received: by eaad12 with SMTP id d12so230791eaa.6
+	Tue, 11 Sep 2012 15:17:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8BD4TVv001025
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 06:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=Nzmn6f3w8eD6F8Hq2qhCnhLKcp5RJhSUnI1ZSOA4QkQ=;
-	b=srFJzxi1HPrbizt8f14VI4vboD1TSEOfABfvI/j6sX21MJcakGaXIa9pKWnNlDMAQm
-	vydParKeRznX/V5n6u9+pgfsH81O3MADmTsFPJEPJ+VqS8lMnaDG/VmdmD3gBD7kKHlW
-	NnIHIN75JfkozR06gjVt30Gdr/NEF3BOcG6LQx5F6tDXX3eIWD+mJYbOP+uPzvCr8Kzd
-	hsaSRXg7/fhm6Q4IB3Ae756Zx+qdPz5e+Ym57f9pDG9C4mpvRvbebddk7uHu0U1rOcdd
-	srHbzmHBSUm6ayelLlXUpSF+CgKcmW49Oaqe3SuS+lg53m9YiZ6XzF3ReFC7j6FNa84F
-	BS9g==
-Received: by 10.204.9.194 with SMTP id m2mr4619416bkm.132.1347368515788;
-	Tue, 11 Sep 2012 06:01:55 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id y20sm9530662bkv.11.2012.09.11.06.01.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Sep 2012 06:01:54 -0700 (PDT)
-Date: Tue, 11 Sep 2012 15:01:55 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120911130155.GC14077@jama.jama.net>
+	Tue, 11 Sep 2012 06:04:29 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Tue, 11 Sep 2012 06:04:09 -0700
+Message-ID: <504F36CA.9060007@windriver.com>
+Date: Tue, 11 Sep 2012 08:04:10 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120824 Thunderbird/15.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: qemuarm: should it really have TUNE_ARCH armv5te?
+To: <openembedded-core@lists.openembedded.org>
+References: <504F05A8.3000207@communistcode.co.uk>
+In-Reply-To: <504F05A8.3000207@communistcode.co.uk>
+Subject: Re: /usr/bin/python is needed by git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,92 +34,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 13:14:27 -0000
-X-Groupsio-MsgNum: 29030
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="lMM8JwqTlfDpEaS6"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Sep 2012 13:17:02 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---lMM8JwqTlfDpEaS6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/11/12 4:34 AM, Jack Mitchell wrote:
+> I'm not sure where this issue is coming from so I'm just going to dump
+> the output log and see if anyone bites. From what I can tell it is maybe
+> an RPM dependency issue...?
+>
+> WARNING: Host distribution ""Arch Linux"" has not been validated with
+> this version of the build system; you may possibly experience unexpected
+> failures. It is recommended that you use a tested distribution.
+> Loading cache: 100%
+> |#########################################################################################################################################################################################################|
+> ETA:  00:00:00
+> Loaded 1206 entries from dependency cache.
+> Parsing recipes: 100%
+> |#######################################################################################################################################################################################################|
+> Time: 00:00:00
+> Parsing of 896 .bb files complete (894 cached, 2 parsed). 1205 targets,
+> 57 skipped, 7 masked, 0 errors.
+>
+> Build Configuration:
+> BB_VERSION        = "1.15.3"
+> TARGET_ARCH       = "arm"
+> TARGET_OS         = "linux-gnueabi"
+> MACHINE           = "beaglebone"
+> DISTRO            = "poky"
+> DISTRO_VERSION    = "1.2+snapshot-20120911"
+> TUNE_FEATURES     = "armv7a vfp neon cortexa8"
+> TARGET_FPU        = "vfp-neon"
+> meta
+> meta-yocto        = "master:7250638ec895bc89508711831083d43b9e1e9826"
+> meta-ti           = "master:7b54887b9505bb8334bfbe4094a2c396add8da48"
+> meta-db           = "master:4da6bda041dbbcee2d7464668de280d84c035fa9"
+>
+> NOTE: Resolving any missing task queue dependencies
+> NOTE: Preparing runqueue
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> WARNING: QA Issue: kmod: /bin/kmod, installed in the base_prefix,
+> requires a shared library under exec_prefix (/usr): libkmod.so.2 =>
+> /usr/lib/libkmod.so.2 (0xdead1000)
+> WARNING: QA Issue: libpam: /lib/security/pam_cracklib.so, installed in
+> the base_prefix, requires a shared library under exec_prefix (/usr):
+> libcrack.so.2 => /usr/lib/libcrack.so.2 (0xdead3000)
+> WARNING: QA Issue: libpam: /lib/security/pam_cracklib.so, installed in
+> the base_prefix, requires a shared library under exec_prefix (/usr):
+> libz.so.1 => /usr/lib/libz.so.1 (0xdead4000)
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the
+> base_prefix, requires a shared library under exec_prefix (/usr):
+> libgobject-2.0.so.0 => /usr/lib/libgobject-2.0.so.0 (0xdead2000)
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the
+> base_prefix, requires a shared library under exec_prefix (/usr):
+> libgthread-2.0.so.0 => /usr/lib/libgthread-2.0.so.0 (0xdead3000)
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the
+> base_prefix, requires a shared library under exec_prefix (/usr):
+> libffi.so.5 => /usr/lib/libffi.so.5 (0xdead4000)
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the
+> base_prefix, requires a shared library under exec_prefix (/usr):
+> libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead5000)
+> WARNING: QA Issue: udev: /lib/udev/udev-acl, installed in the
+> base_prefix, requires a shared library under exec_prefix (/usr):
+> libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead2000)
+> WARNING: QA Issue: php: Files/directories were installed but not shipped
+>     /mnt
+>     /mnt/storage
+>     /mnt/storage/yoctoBuilds
+>     /mnt/storage/yoctoBuilds/poky-beaglebone.git
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots
+> ERROR: Function failed: do_rootfs (see
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/beaglebone-poky-linux-gnueabi/core-image-db-1.0-r0/temp/log.do_rootfs.15968
+> for further information)
+> ERROR: Logfile of failure stored in:
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/beaglebone-poky-linux-gnueabi/core-image-db-1.0-r0/temp/log.do_rootfs.15968
+> Log data follows:
+> | DEBUG: Executing shell function do_rootfs
+> | Generating solve db for
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/beaglebone...
+> | Generating solve db for
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/armv7a_vfp_neon...
+> | Generating solve db for
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/all...
+> |    total:               1      0.000000 MB     88.851492 secs
+> |    fingerprint:      2487      0.065276 MB      0.731218 secs
+> |    install:           829      0.000000 MB     67.751171 secs
+> |    digest:           1658     11.934144 MB      0.117111 secs
+> |    signature:        1658      0.000000 MB      5.105333 secs
+> |    dbadd:             829      0.000000 MB     67.590105 secs
+> |    dbget:           17782      0.000000 MB      0.058949 secs
+> |    dbput:             829      6.853944 MB     57.990037 secs
+> |    readhdr:          8291     13.578976 MB      3.732102 secs
+> |    hdrload:          4452     21.570272 MB      0.088323 secs
+> |    hdrget:         159643      0.000000 MB      1.030783 secs
+> |    total:               1      0.000000 MB    190.089845 secs
+> |    fingerprint:      5034      0.089692 MB      1.256801 secs
+> |    install:          1678      0.000000 MB    146.995181 secs
+> |    digest:           3356     17.421210 MB      0.215644 secs
+> |    signature:        3356      0.000000 MB      9.807536 secs
+> |    dbadd:            1678      0.000000 MB    146.709467 secs
+> |    dbget:           34599      0.000000 MB      0.299620 secs
+> |    dbput:            1678     10.496148 MB    131.603615 secs
+> |    readhdr:         16781     20.750458 MB      9.085295 secs
+> |    hdrload:          8591     31.786302 MB      0.191107 secs
+> |    hdrget:         324291      0.000000 MB      2.933854 secs
+> |    total:               1      0.000000 MB      2.395373 secs
+> |    fingerprint:        36      0.000032 MB      0.000915 secs
+> |    install:            12      0.000000 MB      0.517583 secs
+> |    digest:             24      0.047656 MB      0.000381 secs
+> |    signature:          24      0.000000 MB      0.032788 secs
+> |    dbadd:              12      0.000000 MB      0.486005 secs
+> |    dbget:              59      0.000000 MB      0.000351 secs
+> |    dbput:              12      0.035820 MB      0.185407 secs
+> |    readhdr:           121      0.071560 MB      0.021102 secs
+> |    hdrload:            65      0.119208 MB      0.000533 secs
+> |    hdrget:           1814      0.000000 MB      0.003769 secs
+> | Generating solve db for
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/all...
+> | Processing task-core-boot...
+> | Processing git...
+> | Processing php-cgi...
+> | Processing packagegroup-core-ssh-openssh...
+> | Processing valgrind...
+> | Processing libjansson4...
+> | Processing hiawatha...
+> | Processing htop...
+> | Processing libwebsockets0...
+> | Processing openssh-sftp-server...
+> | error: Failed dependencies:
+> |     /usr/bin/python is needed by git-1.7.7-r2.armv7a_vfp_neon
 
-Hi,
+Within the git package, there is a file that has a header similar to:
 
-when building spitz and qemuarm (both produces packages in armv5te feed)
-resulting packages are tuned with -mtune=3Dxscale (when built for spitz)=20
-or -mtune=3Darm926ej-s (when built for qemuarm).
+#! /usr/bin/python
 
-=46rom
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1916#c5
-Firstly, if you go changing the tune parameters in a given machine, you are=
- expected to use a different PACKAGE_ARCH. If you do that, you will get a d=
-ifferent package feed for the different binaries, different WORKDIR and so =
-on. This was always the way the package architectures was intended to work =
-and nothing has changed there. Yes, you as the user changing various variab=
-les can create inconsistent package feeds. There are 101 ways you can do th=
-at, the simple answer is just don't. We're therefore unlikely to add MACHIN=
-E to DEPLOY_DIR or remove PACKAGE_ARCH, please just use it as its intended.
+This is incorrect, it should be /usr/bin/env python (or /bin/env python if you 
+flatten the filesystem).
 
-Does qemuarm use oe-core as it's intended?
+Did you build the python package?  If not I'd say there is probably a bug (or 
+bugs) in the git recipe.
 
-Shouldn't spitz produce something like armv5te-xscale and qemuarm armv5te-a=
-rm926ejs?
-It would cause all recipes to build again (cannot share armv5te feed anymor=
-e),
-but at least it would build it and user will really get it on target, right=
- now
-opkg upgrade can download some packages with xscale some with arm926ej-s.
+--Mark
 
-$ ~/bitbake/bin/bitbake-diffsigs
-  stamps.1347348910/spitz/armv5te-oe-linux-gnueabi/linux-libc-headers-3.4.3=
--r0.do_configure.sigdata.04b364a15889fcff7502614f1c116abc
-  stamps.1347348910/qemuarm/armv5te-oe-linux-gnueabi/linux-libc-headers-3.4=
-=2E3-r0.do_configure.sigdata.656f0583be969b427f040f2e143bcb14
-  basehash changed from 7fe9c0a3455dac20ba6a90ed337b097e to d8dd2ff8613d0aa=
-fe60bef1a1e9469a1
-  Variable TUNE_CCARGS value changed from
-  ${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=3Darmv5${ARMPKGSFX=
-_THUMB}${ARMPKGSFX_DSP}", "", d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=3Darmv4${ARMPKGSFX=
-_THUMB}", "", d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "thumb", "${ARM_THUMB_M_OPT}", "", =
-d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb-i=
-nterwork", "-mthumb-interwork", d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEAT=
-URES", "callconvention-hard", "-mfloat-abi=3Dhard", "-mfloat-abi=3Dsoftfp",=
- d), "" ,d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "xscale", "-mtune=3Dxscale", "", d)}
-  to
-  ${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=3Darmv5${ARMPKGSFX=
-_THUMB}${ARMPKGSFX_DSP}", "", d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=3Darmv4${ARMPKGSFX=
-_THUMB}", "", d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "thumb", "${ARM_THUMB_M_OPT}", "", =
-d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb-i=
-nterwork", "-mthumb-interwork", d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEAT=
-URES", "callconvention-hard", "-mfloat-abi=3Dhard", "-mfloat-abi=3Dsoftfp",=
- d), "" ,d)}
-  ${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", "-mtune=3Darm926ej-s",=
- "", d)}
+> | ERROR: Function failed: do_rootfs (see
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/beaglebone-poky-linux-gnueabi/core-image-db-1.0-r0/temp/log.do_rootfs.15968
+> for further information)
+> ERROR: Task 7
+> (/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta-db/recipes-core/images/core-image-db.bb,
+> do_rootfs) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 2137 tasks of which 1805 didn't need to
+> be rerun and 1 failed.
+>
+> Summary: 1 task failed:
+> /mnt/storage/yoctoBuilds/poky-beaglebone.git/meta-db/recipes-core/images/core-image-db.bb,
+> do_rootfs
+> Summary: There were 10 WARNING messages shown.
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---lMM8JwqTlfDpEaS6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlBPNkMACgkQN1Ujt2V2gBzq8ACgo/8/qRGSXjyXs6ZO0hO9fIcc
-TqQAoIz4Y/bc1LXdXxsvOWbDd9/urr0a
-=rDq+
------END PGP SIGNATURE-----
-
---lMM8JwqTlfDpEaS6--
