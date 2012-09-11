@@ -1,32 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1TBJ30-0008Oe-MY
+	(envelope-from <raj.khem@gmail.com>) id 1TBJ5G-0008T0-Mh
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 07:30:07 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8B5HYcT022718
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Sep 2012 22:17:34 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.19.124) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 10 Sep 2012 22:17:33 -0700
-Message-ID: <504EC96B.7090205@windriver.com>
-Date: Tue, 11 Sep 2012 01:17:31 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
+	Tue, 11 Sep 2012 07:32:26 +0200
+Received: by iaky10 with SMTP id y10so105186iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Sep 2012 22:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=dXi8e/eLRn2hbypiOb7dAC0p/6vE7+dAD2ozcH/TdVU=;
+	b=B0q4jOhR9D0KAwzWw6d08Wvhw2e2Rh0JS/WGueKF7vPIiEjTBF6zrVDxwUGmfhcaXH
+	k5zPjatVqnb/4OHzUYLCIOW7KKWskp2mluxgnyPi6StJ7thCgR5RTFOljFKCA8sSn+Vo
+	WX/vAislP6nuxPWVNEU0iFiXDC/AS6gXCgjdN4DCIraw9g4sTdKC6waCXxba3DtwZoxg
+	PVfEQaddW9s9xZE718ssgd5gGPHIGhZ8EJBSyvbZ1lSm8Fej8dUuPgtkpcbrmnEvRlRF
+	LxRLYZ9wSNDSjlxlg6htetSXgyehQBO2tAJmZUxLwBNHx6V86/3VNdS8XWK12ZjTzBd5
+	6J7Q==
+Received: by 10.50.183.135 with SMTP id em7mr10052448igc.31.1347340795842;
+	Mon, 10 Sep 2012 22:19:55 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id aa4sm704814igc.15.2012.09.10.22.19.53
+	(version=SSLv3 cipher=OTHER); Mon, 10 Sep 2012 22:19:54 -0700 (PDT)
+Date: Mon, 10 Sep 2012 22:19:51 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Kang Kai <kai.kang@windriver.com>
+Message-ID: <20120911051948.GB3035@sakrah.homelinux.org>
+Mail-Followup-To: Kang Kai <kai.kang@windriver.com>, sgw@linux.intel.com,
+	Zhenfeng.Zhao@windriver.com,
+	openembedded-core@lists.openembedded.org
+References: <cover.1347329133.git.kai.kang@windriver.com>
+	<824dcd67b7a31144bd46e58837cbd0f311bb7fa9.1347329133.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1347300360.git.bruce.ashfield@windriver.com>
-	<cc8bfedabfe61a0e06a8a8199f8c0fce4738260a.1347300360.git.bruce.ashfield@windriver.com>
-	<20120911045038.GE2980@sakrah.homelinux.org>
-	<504EC385.6060008@windriver.com>
-	<20120911045557.GF2980@sakrah.homelinux.org>
-	<504EC4F3.30705@windriver.com>
-	<20120911051602.GA3035@sakrah.homelinux.org>
-In-Reply-To: <20120911051602.GA3035@sakrah.homelinux.org>
-Subject: Re: [PATCH 1/1] linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
+In-Reply-To: <824dcd67b7a31144bd46e58837cbd0f311bb7fa9.1347329133.git.kai.kang@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org, Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] packagegroups-core-lsb: add perl-dev/doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,64 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 05:30:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Sep 2012 05:32:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12-09-11 1:16 AM, Khem Raj wrote:
-> On (11/09/12 00:58), Bruce Ashfield wrote:
->> On 12-09-11 12:55 AM, Khem Raj wrote:
->>> On (11/09/12 00:52), Bruce Ashfield wrote:
->>>> On 12-09-11 12:50 AM, Khem Raj wrote:
->>>>> On (10/09/12 14:11), Bruce Ashfield wrote:
->>>>>> Updating to 3.4.10 which has been soaking for a bit now, as well
->>>>>> as picking up the following meta commits from Tom Z:
->>>>>
->>>>> would it also need bumping linux-libc-headers too ?
->>>>
->>>> There's no new interfaces in the -stable updates, so there's no reason
->>>> to bump. I typically elect to jump to a 3.x.0 and leave it there, but
->>>> we had an interim bump that I wouldn't have done .. so we sit at 3.4.3
->>>> at the moment (which is still fine).
->>>
->>> OK. Next question is, do stable updates get changes such that we need to
->>> bump the linux-libc-headers ?
->>
->> Not that I've ever seen.
->
-> OK thats what I was expecting to hear
-> so in theory if we always pin linux-libc-headers to major release we are
-> good. say 3.4.0 and then 3.6.0 and so on we really dont need 3.4.1 or
-> later and similarly for other versions. In this case we only bump
-> the linux-libc-headers recipe when we add a new major kernel release
+On (11/09/12 13:00), Kang Kai wrote:
+> File CORE/config.h which is provided by perl-dev and file
+> unicore/version which is provided by perl-doc are required by LSB perl
+> test cases.
+> 
+> Add perl-dev and perl-doc to packagegroups-core-lsb.
 
-Correct. If you check the mailing list archives, I was a bit surprised
-to see it go to 3.4.3, but going forward, expect to only see major rev
-bumps.
+hmm adding -dev and -doc to core packaggroups seems like we are wanting
+developement packagegroups which does not seem correct.
 
-Cheers,
+why dont we move CORE/config.h into perl proper itself since the header
+is really in /usr/lib its not a typical dev header and unicore/version
+should belong to perl or perl-modules as well
 
-Bruce
+> 
+> [Yocto #3052 #3053 #3054 #3055]
+> 
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+> ---
+>  .../packagegroups/packagegroup-core-lsb.bb         |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> index 32dc58e..cee97bc 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> @@ -168,6 +168,8 @@ DESCRIPTION_packagegroup-core-lsb-perl = "Packages required to support libraries
+>      specified in the LSB Runtime languages specification (Perl parts)"
+>  RDEPENDS_packagegroup-core-lsb-perl = "\
+>      perl \
+> +    perl-dev \
+> +    perl-doc \
+>      perl-modules \
+>      perl-misc \
+>      perl-pod \
+> -- 
+> 1.7.5.4
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
->
-> Since there are no new features or user exported
->> defines that make it into the -stable updates, using the base
->> version headers
->> is reasonable. It saves churn, and keeps all of the QA and testing
->> results directly applicable throughout feature freeze by leaving the
->> the stable.
->>
->> Cheers,
->>
->> Bruce
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
+-- 
+-Khem
 
 
