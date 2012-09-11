@@ -1,49 +1,48 @@
-Received: from ch1ehsobe001.messaging.microsoft.com ([216.32.181.181]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TBVrj-0004Ng-5d
+	(envelope-from <B29882@freescale.com>) id 1TBVuL-0004RT-Dp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 21:11:19 +0200
-Received: from mail48-ch1-R.bigfish.com (10.43.68.237) by
-	CH1EHSOBE020.bigfish.com (10.43.70.77) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 11 Sep 2012 18:58:47 +0000
-Received: from mail48-ch1 (localhost [127.0.0.1])	by mail48-ch1-R.bigfish.com
-	(Postfix) with ESMTP id 586A12C0157;
-	Tue, 11 Sep 2012 18:58:47 +0000 (UTC)
+	Tue, 11 Sep 2012 21:14:01 +0200
+Received: from mail225-tx2-R.bigfish.com (10.9.14.240) by
+	TX2EHSOBE014.bigfish.com (10.9.40.34) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 11 Sep 2012 19:01:29 +0000
+Received: from mail225-tx2 (localhost [127.0.0.1])	by
+	mail225-tx2-R.bigfish.com (Postfix) with ESMTP id 52E05A00189;
+	Tue, 11 Sep 2012 19:01:29 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -4
-X-BigFish: VS-4(zzbb2dI98dI9371I936eI1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdhbe9i1155h)
-Received: from mail48-ch1 (localhost.localdomain [127.0.0.1]) by mail48-ch1
-	(MessageSwitch) id 1347389925625372_2213;
-	Tue, 11 Sep 2012 18:58:45 +0000 (UTC)
-Received: from CH1EHSMHS008.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.250])	by mail48-ch1.bigfish.com (Postfix) with ESMTP id
-	9621B22006A;	Tue, 11 Sep 2012 18:58:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS008.bigfish.com
-	(10.43.70.8) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 11 Sep 2012 18:58:44 +0000
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdhbe9i1155h)
+Received: from mail225-tx2 (localhost.localdomain [127.0.0.1]) by mail225-tx2
+	(MessageSwitch) id 1347390086722257_8660;
+	Tue, 11 Sep 2012 19:01:26 +0000 (UTC)
+Received: from TX2EHSMHS027.bigfish.com (unknown [10.9.14.245])	by
+	mail225-tx2.bigfish.com (Postfix) with ESMTP id A357390004B;
+	Tue, 11 Sep 2012 19:01:26 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS027.bigfish.com
+	(10.9.99.127) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 11 Sep 2012 19:01:25 +0000
 Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0309.003; Tue, 11 Sep 2012 13:58:44 -0500
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0309.003; Tue, 11 Sep 2012 14:01:25 -0500
 From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [CONSOLIDATED REQUEST 00/13] Misc Fixes (cover only)
-Thread-Index: AQHNkE92gBM7GTc7F0SLRTipq5mb7g==
-Date: Tue, 11 Sep 2012 18:58:43 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A66FF0D@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <cover.1347379806.git.sgw@linux.intel.com>
-	<504F6482.8090701@linux.intel.com>
-In-Reply-To: <504F6482.8090701@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] autotools.bbclass: Add functionality to
+	force a clean of ${B} when reconfiguring (and ${S} != ${B})
+Thread-Index: AQHNkE/XZFtQAqUHwE+D5hE+WSne8A==
+Date: Tue, 11 Sep 2012 19:01:25 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A66FF3F@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1347373349.2122.35.camel@ted>
+In-Reply-To: <1347373349.2122.35.camel@ted>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED REQUEST 00/13] Misc Fixes (cover only)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,108 +56,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 19:11:19 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 19:14:01 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C871F5AF899E054F916F12A94BDA7774@mgd.freescale.com>
+Content-ID: <E1CDE1232CC1F64AA61C4728A0C4E5FB@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 11, 2012 at 11:19 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 09/11/2012 09:14 AM, Saul Wold wrote:
->>
->>
->> The following changes since commit
->> 48169c6bc44c546cecaa06207b6c36da558b81f7:
->>
->>    classes/packageinfo: use better method to check if package exists
->> (2012-09-10 21:52:37 +0100)
->>
->> are available in the git repository at:
->>    git://git.openembedded.org/openembedded-core-contrib sgw/stage
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
-=3Dsgw/stage
->>
->> Bruce Ashfield (1):
->>    linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
->>
->> Khem Raj (2):
->>    gcc-4.7: Fix build for armv4/EABI and ppc/Os
->>    gcc-4.7: Backport libgcc fixes to appease the new build sequence
->>
->> Mark Asselstine (1):
->>    base-files: provide a mechanism to skip creation of the hostname file
->>
->> Mark Hatle (3):
->>    image.bbclass: Enable the complementary install to be called w/
->>      globbing params
->>    package_rpm.bbclass: Avoid unnecessary installs in complementary pass
->>    qt4: Update qt4.inc to remove staticdev deps in -dbg packages
->>
->> Matthew McClintock (1):
->>    sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we
->>      have items to check
->>
-> Scratch this one, I missed the v2 posted while I was heads down prepping
-> this!
+On Tue, Sep 11, 2012 at 9:22 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Unfortunately whilst rerunning configure and make against a project will =
+mostly
+> work there are situations where it does not correctly do the right thing.
+>
+> In particular, eglibc and gcc will fail out with errors where settings
+> do not match a previously built configuration. It could be argued they ar=
+e
+> broken but the situation is what it is. There is the possibility of more =
+subtle
+> errors too.
+>
+> This patch adds removal of the build directory (${B}) when configure is
+> rerunning, the sstate checksum for do_configure has changed and ${S} !=3D=
+ ${B}.
+> We could simply use a stamp but saving out the previous configuration che=
+cksum
+> adds some data at no real overhead.
+>
+> If we find there are things where we want to disable this behaviour with
+> CONFIGURESTAMPFILE =3D "" in the recipe, or users could disable it global=
+ly.
+>
+> [YOCTO #2774]
+> [YOCTO #2848]
+>
+> This is particularly helpful for eglibc and gcc which use split builds by=
+ default and
+> are a particular source of reconfigure type problems.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-v3 now!
+Is it feasible to back port this to denzil? I've encountered what I
+think are similar issues reconfiguring gcc for example.
 
 -M
 
+> ---
+> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbcl=
+ass
+> index 4c4bf87..a5997c5 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -89,6 +89,27 @@ oe_runconf () {
 >
-> Sau!
+>  AUTOTOOLS_AUXDIR ?=3D "${S}"
+>
+> +CONFIGURESTAMPFILE =3D "${WORKDIR}/configure.sstate"
+> +
+> +autotools_preconfigure() {
+> +       if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; =
+then
+> +               if [ "`cat ${CONFIGURESTAMPFILE}`" !=3D "${BB_TASKHASH}" =
+-a "${S}" !=3D "${B}" ]; then
+> +                       echo "Previously configured separate build direct=
+ory detected, cleaning ${B}"
+> +                       rm -rf ${B}
+> +                       mkdir ${B}
+> +               fi
+> +       fi
+> +}
+> +
+> +autotools_postconfigure(){
+> +       if [ -n "${CONFIGURESTAMPFILE}" ]; then
+> +               echo ${BB_TASKHASH} > ${CONFIGURESTAMPFILE}
+> +       fi
+> +}
+> +
+> +do_configure[prefuncs] +=3D "autotools_preconfigure"
+> +do_configure[postfuncs] +=3D "autotools_postconfigure"
+> +
+>  autotools_do_configure() {
+>         case ${PN} in
+>         autoconf*)
 >
 >
->> Phil Blundell (3):
->>    perl-native: PROVIDE libmodule-build-perl-native for consistency with
->>      non-native perl
->>    shadow: Fix various invalid assumptions about directory layout
->>    shadow-native: Ensure that ${sbindir} and ${base_sbindir} are
->>      respected
->>
->> Ross Burton (2):
->>    webkit-gtk: work around Make bug by re-running make
->>    telepathy-idle: fix parallel build
->>
->>   meta/classes/image.bbclass                         |    4 +-
->>   meta/classes/package_rpm.bbclass                   |    9 ++-
->>   .../build-fix-for-make-j-safety.patch              |   39 ++++++++
->>   .../fix-svc-gtk-doc.h-target.patch                 |   24 +-----
->>   .../telepathy/telepathy-idle_0.1.12.bb             |    5 +-
->>   meta/recipes-core/base-files/base-files_3.0.14.bb  |   14 ++--
->>   .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +-
->>   meta/recipes-devtools/gcc/gcc-4.7.inc              |    6 +-
->>   ...-vis_hide-gen-hide-list-Do-not-make-defin.patch |   93
->> ++++++++++++++++++++
->>   ...USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch |   49 ++++++++++
->>   .../gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch    |   31 +++++++
->>   .../gcc/gcc-4.7/ppc_no_crtsavres.patch             |   72
->> +++++++++++++++
->>   meta/recipes-devtools/perl/perl-native_5.14.2.bb   |    3 +
->>   .../shadow/shadow-native_4.1.4.3.bb                |   11 ++-
->>   meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |   17 +++-
->>   meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    8 +-
->>   meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   16 ++--
->>   meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
->>   meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
->>   meta/recipes-qt/qt4/qt4.inc                        |    2 +-
->>   meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb       |   22 +++++
->>   21 files changed, 380 insertions(+), 55 deletions(-)
->>   create mode 100644
->> meta/recipes-connectivity/telepathy/telepathy-idle-0.1.12/build-fix-for-=
-make-j-safety.patch
->>   create mode 100644
->> meta/recipes-devtools/gcc/gcc-4.7/0001-Makefile.in-vis_hide-gen-hide-lis=
-t-Do-not-make-defin.patch
->>   create mode 100644
->> meta/recipes-devtools/gcc/gcc-4.7/0001-crtstuff.c-USE_PT_GNU_EH_FRAME-De=
-fine-for-systems-us.patch
->>   create mode 100644
->> meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
->>   create mode 100644
->> meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
->>
 >
 > _______________________________________________
 > Openembedded-core mailing list
