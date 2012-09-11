@@ -1,37 +1,41 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TBN29-0006vC-46
+	(envelope-from <martin.jansa@gmail.com>) id 1TBN5B-0007BS-Gw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 11:45:29 +0200
-Received: from localhost ([127.0.0.1]:53596 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TBMq2-0006g1-8G
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 09:32:58 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:content-type
-	:content-transfer-encoding; s=default; bh=SOlkmkIJ191xFoklzPv5QA
-	61jAc=; b=S5gqQoUTJDL4Zilog6DeRrrnZC5mX4NAmY3HXHP9VKY/KYeDi7ytz+
-	rmhspHTB9XidTz5ofKM8H0heuGMtwAo5GU6/J5/3lr/uhVhUz1tGSKZ/oj6p7HBM
-	tj2up3e6KWMTJwiUptBUcvTLYmMDn52lCRQsNTT380gE/6zr719NM=
-Received: from [195.171.99.130] (port=56387 helo=[192.168.0.40])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TBMq2-0006fw-4I
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 09:32:58 +0000
-Message-ID: <504F05A8.3000207@communistcode.co.uk>
-Date: Tue, 11 Sep 2012 10:34:32 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120828 Thunderbird/15.0
+	Tue, 11 Sep 2012 11:48:37 +0200
+Received: by eekb57 with SMTP id b57so188825eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2012 02:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/gy5Iz8RRaWWgWO1eyIF6wLkoeTmmEH8FtgtDvcFECY=;
+	b=IA5CTKyaC2RBZ07op1LEvkY0N7OC8EmBebsXzjzXhMjOIHfbbXwJ27Sh4CnJGRbORy
+	3soyWqzd6cxgf7/pP8zNnfHoaWq1RD9Xre/mtBRu9JuMXW0uV7YAeezXnmmC4CF+ve2Z
+	Phx1Zdy94PavSR7kQftHYWxNNq3x3OQVNOmRQPDgvMkh3R3B8LNtfsGuFOdERg94Ei53
+	TkqTPxjSyeAL3n0KuEMRQ3fyO16jw1cgJY2ckNuHHMe2L7YZ6+Hul89y7VYlcfFOliI6
+	KNfelszxsjyJtsWWr09WA0XkMAC3Yuc2hFUWaYNY3rHN/HYvycGgWs6A/5oheGz05Cn5
+	NG3g==
+Received: by 10.204.10.92 with SMTP id o28mr4564607bko.39.1347356166549;
+	Tue, 11 Sep 2012 02:36:06 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id y20sm8847722bkv.11.2012.09.11.02.36.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 11 Sep 2012 02:36:05 -0700 (PDT)
+Date: Tue, 11 Sep 2012 11:36:05 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120911093605.GE3465@jama.jama.net>
+References: <20120911080334.GD3465@jama.jama.net>
+	<1347354207.2122.29.camel@ted>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: /usr/bin/python is needed by git
+In-Reply-To: <1347354207.2122.29.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: andrei.gherzan@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: DEPENDS_virtclass-native = "libpng jpeg" not extended to libpng-native jpeg-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -41,160 +45,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 09:45:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Sep 2012 09:48:37 -0000
+X-Groupsio-MsgNum: 29017
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
+Content-Disposition: inline
 
-I'm not sure where this issue is coming from so I'm just going to dump 
-the output log and see if anyone bites. From what I can tell it is maybe 
-an RPM dependency issue...?
+--/Uq4LBwYP4y1W6pO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-WARNING: Host distribution ""Arch Linux"" has not been validated with 
-this version of the build system; you may possibly experience unexpected 
-failures. It is recommended that you use a tested distribution.
-Loading cache: 100% 
-|#########################################################################################################################################################################################################| 
-ETA:  00:00:00
-Loaded 1206 entries from dependency cache.
-Parsing recipes: 100% 
-|#######################################################################################################################################################################################################| 
-Time: 00:00:00
-Parsing of 896 .bb files complete (894 cached, 2 parsed). 1205 targets, 
-57 skipped, 7 masked, 0 errors.
+On Tue, Sep 11, 2012 at 10:03:27AM +0100, Richard Purdie wrote:
+> On Tue, 2012-09-11 at 10:03 +0200, Martin Jansa wrote:
+> > Hi,
+> >=20
+> > in meta-openembedded/meta-oe/recipes-extended/libwmf/libwmf_0.2.8.4.bb:
+> >=20
+> > DEPENDS_virtclass-native =3D "libpng jpeg"
+> > DEPENDS =3D "libpng jpeg expat gtk+"
+> >=20
+> > BBCLASSEXTEND =3D "native"
+> >=20
+> > Did it work (at least at some point of time) that DEPENDS for
+> > libwmf-native were expanded to libpng-native and jpeg-native?
+>=20
+> I don't think that has ever worked. Its assumed that if you're going to
+> use class overrides, you put the right thing in place.
 
-Build Configuration:
-BB_VERSION        = "1.15.3"
-TARGET_ARCH       = "arm"
-TARGET_OS         = "linux-gnueabi"
-MACHINE           = "beaglebone"
-DISTRO            = "poky"
-DISTRO_VERSION    = "1.2+snapshot-20120911"
-TUNE_FEATURES     = "armv7a vfp neon cortexa8"
-TARGET_FPU        = "vfp-neon"
-meta
-meta-yocto        = "master:7250638ec895bc89508711831083d43b9e1e9826"
-meta-ti           = "master:7b54887b9505bb8334bfbe4094a2c396add8da48"
-meta-db           = "master:4da6bda041dbbcee2d7464668de280d84c035fa9"
+OK, good. That probably applies also to:
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-August/028091.h=
+tml
+ccing Andrei Gherzan
 
-NOTE: Resolving any missing task queue dependencies
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: QA Issue: kmod: /bin/kmod, installed in the base_prefix, 
-requires a shared library under exec_prefix (/usr): libkmod.so.2 => 
-/usr/lib/libkmod.so.2 (0xdead1000)
-WARNING: QA Issue: libpam: /lib/security/pam_cracklib.so, installed in 
-the base_prefix, requires a shared library under exec_prefix (/usr): 
-libcrack.so.2 => /usr/lib/libcrack.so.2 (0xdead3000)
-WARNING: QA Issue: libpam: /lib/security/pam_cracklib.so, installed in 
-the base_prefix, requires a shared library under exec_prefix (/usr): 
-libz.so.1 => /usr/lib/libz.so.1 (0xdead4000)
-WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the 
-base_prefix, requires a shared library under exec_prefix (/usr): 
-libgobject-2.0.so.0 => /usr/lib/libgobject-2.0.so.0 (0xdead2000)
-WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the 
-base_prefix, requires a shared library under exec_prefix (/usr): 
-libgthread-2.0.so.0 => /usr/lib/libgthread-2.0.so.0 (0xdead3000)
-WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the 
-base_prefix, requires a shared library under exec_prefix (/usr): 
-libffi.so.5 => /usr/lib/libffi.so.5 (0xdead4000)
-WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.0.1, installed in the 
-base_prefix, requires a shared library under exec_prefix (/usr): 
-libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead5000)
-WARNING: QA Issue: udev: /lib/udev/udev-acl, installed in the 
-base_prefix, requires a shared library under exec_prefix (/usr): 
-libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead2000)
-WARNING: QA Issue: php: Files/directories were installed but not shipped
-   /mnt
-   /mnt/storage
-   /mnt/storage/yoctoBuilds
-   /mnt/storage/yoctoBuilds/poky-beaglebone.git
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots
-ERROR: Function failed: do_rootfs (see 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/beaglebone-poky-linux-gnueabi/core-image-db-1.0-r0/temp/log.do_rootfs.15968 
-for further information)
-ERROR: Logfile of failure stored in: 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/beaglebone-poky-linux-gnueabi/core-image-db-1.0-r0/temp/log.do_rootfs.15968
-Log data follows:
-| DEBUG: Executing shell function do_rootfs
-| Generating solve db for 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/beaglebone...
-| Generating solve db for 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/armv7a_vfp_neon...
-| Generating solve db for 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/all...
-|    total:               1      0.000000 MB     88.851492 secs
-|    fingerprint:      2487      0.065276 MB      0.731218 secs
-|    install:           829      0.000000 MB     67.751171 secs
-|    digest:           1658     11.934144 MB      0.117111 secs
-|    signature:        1658      0.000000 MB      5.105333 secs
-|    dbadd:             829      0.000000 MB     67.590105 secs
-|    dbget:           17782      0.000000 MB      0.058949 secs
-|    dbput:             829      6.853944 MB     57.990037 secs
-|    readhdr:          8291     13.578976 MB      3.732102 secs
-|    hdrload:          4452     21.570272 MB      0.088323 secs
-|    hdrget:         159643      0.000000 MB      1.030783 secs
-|    total:               1      0.000000 MB    190.089845 secs
-|    fingerprint:      5034      0.089692 MB      1.256801 secs
-|    install:          1678      0.000000 MB    146.995181 secs
-|    digest:           3356     17.421210 MB      0.215644 secs
-|    signature:        3356      0.000000 MB      9.807536 secs
-|    dbadd:            1678      0.000000 MB    146.709467 secs
-|    dbget:           34599      0.000000 MB      0.299620 secs
-|    dbput:            1678     10.496148 MB    131.603615 secs
-|    readhdr:         16781     20.750458 MB      9.085295 secs
-|    hdrload:          8591     31.786302 MB      0.191107 secs
-|    hdrget:         324291      0.000000 MB      2.933854 secs
-|    total:               1      0.000000 MB      2.395373 secs
-|    fingerprint:        36      0.000032 MB      0.000915 secs
-|    install:            12      0.000000 MB      0.517583 secs
-|    digest:             24      0.047656 MB      0.000381 secs
-|    signature:          24      0.000000 MB      0.032788 secs
-|    dbadd:              12      0.000000 MB      0.486005 secs
-|    dbget:              59      0.000000 MB      0.000351 secs
-|    dbput:              12      0.035820 MB      0.185407 secs
-|    readhdr:           121      0.071560 MB      0.021102 secs
-|    hdrload:            65      0.119208 MB      0.000533 secs
-|    hdrget:           1814      0.000000 MB      0.003769 secs
-| Generating solve db for 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/deploy/rpm/all...
-| Processing task-core-boot...
-| Processing git...
-| Processing php-cgi...
-| Processing packagegroup-core-ssh-openssh...
-| Processing valgrind...
-| Processing libjansson4...
-| Processing hiawatha...
-| Processing htop...
-| Processing libwebsockets0...
-| Processing openssh-sftp-server...
-| error: Failed dependencies:
-|     /usr/bin/python is needed by git-1.7.7-r2.armv7a_vfp_neon
-| ERROR: Function failed: do_rootfs (see 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/beaglebone-poky-linux-gnueabi/core-image-db-1.0-r0/temp/log.do_rootfs.15968 
-for further information)
-ERROR: Task 7 
-(/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta-db/recipes-core/images/core-image-db.bb, 
-do_rootfs) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2137 tasks of which 1805 didn't need to 
-be rerun and 1 failed.
+> > Because now it does not:
+> > OE tuna@shr ~/shr-core $ bitbake-diffsigs
+> > stamps.1347348593/nokia900/x86_64-linux/libwmf-native-0.2.8.4-r1.do_con=
+figure.sigdata.315a83efebb27040d6bf0aaead16671e
+> > stamps.1347348593/om-gta02/x86_64-linux/libwmf-native-0.2.8.4-r1.do_con=
+figure.sigdata.0f8349ada0c8a18a6d6ed7b7841ec955
+> > Hash for dependent task libpng_1.2.49.bb.do_populate_sysroot changed
+> > from 640001ee0530e51ef0aefb300c34f7dd to 7ba7d74a27e1e0af253ddac00a2be1=
+c2
+> > Hash for dependent task libjpeg-turbo_svn.bb.do_populate_sysroot changed
+> > from 3fe6eae3a6fd1af40233d548680c5bab to ff852ac3d5e826ff74e68b5ddc4ac3=
+e1
+> >=20
+> > So native recipe depending on target checksum -> rebuilding with each
+> > MACHINE switch.
+> >=20
+> > I can fix it by:
+> > DEPENDS_virtclass-native =3D "libpng-native jpeg-native"
+> > but maybe there is more cases like this and this could be checked by
+> > native.bbclass or something like that.
+>=20
+> That is the correct thing to do, the code assumes when you write
+> explicit class overrides, you mean what you say...
 
-Summary: 1 task failed:
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta-db/recipes-core/images/core-image-db.bb, 
-do_rootfs
-Summary: There were 10 WARNING messages shown.
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+Ok, testing patch for that. 2nd similar issue is with sip-native which
+gets target DEPENDS through inherits, weirdly if I override DEPENDS
+in recipe after inherit it still gets qt4-x11-free :/
 
+meta-oe/recipes-extended/sip/sip-native_4.13.3.bb:
+inherit qt4x11 native python-dir
 
--- 
+# inherit qt4x11 adds dependency on target qt4-x11-free, which is bad,
+# because we don't need it and it's causing different sstate checksum:
+# $ bitbake-diffsigs
+#     stamps.1347348593/nokia900/x86_64-linux/sip-native-4.13.3-r0.do_confi=
+gure.sigdata.6e44871660ef91eab5ee4d56e55b6728
+#     stamps.1347348593/om-gta02/x86_64-linux/sip-native-4.13.3-r0.do_confi=
+gure.sigdata.cdaf666b98c2c6ccfb710743dcdbd988
+#       Hash for dependent task qt4-x11-free_4.8.1.bb.do_populate_sysroot c=
+hanged from 79234aca07686c1d97782e21fc098071 to 7e9ba3de3ba9f709a5d9ef5abad=
+b2d9e
+DEPENDS_class-native =3D "qt4-tools-native "
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
+Even with different overrides it does not work, from bitbake -e:
+sip-native.env.DEPENDS:# DEPENDS=3Dqt4-tools-native ${@base_contains("PROVI=
+DES", "qt4-x11", "", "qt4-x11 ", d)}${BASEDEPENDS} qt4-tools-native=20
+sip-native.env.DEPENDS:DEPENDS=3D"qt4-tools-native qt4-x11  qt4-tools-nativ=
+e"
+sip-native.env.DEPENDS_class-native:# DEPENDS_class-native=3DNone
+sip-native.env.DEPENDS_class-native:# DEPENDS=3Dqt4-tools-native ${@base_co=
+ntains("PROVIDES", "qt4-x11", "", "qt4-x11 ", d)}${BASEDEPENDS} qt4-tools-n=
+ative=20
+sip-native.env.DEPENDS_class-native:DEPENDS=3D"qt4-tools-native qt4-x11  qt=
+4-tools-native"
+sip-native.env.DEPENDS_virtclass-native:# DEPENDS_virtclass-native=3Dqt4-to=
+ols-native=20
+sip-native.env.DEPENDS_virtclass-native:# DEPENDS=3Dqt4-tools-native ${@bas=
+e_contains("PROVIDES", "qt4-x11", "", "qt4-x11 ", d)}${BASEDEPENDS}=20
+sip-native.env.DEPENDS_virtclass-native:DEPENDS_virtclass-native=3D"qt4-too=
+ls-native"
+sip-native.env.DEPENDS_virtclass-native:DEPENDS=3D"qt4-tools-native qt4-x11"
+sip-native.env.old.DEPENDS:# DEPENDS=3Dqt4-tools-native ${@base_contains("P=
+ROVIDES", "qt4-x11", "", "qt4-x11 ", d)}${BASEDEPENDS}=20
+sip-native.env.old.DEPENDS:DEPENDS=3D"qt4-tools-native qt4-x11"
 
---
+How to override DEPENDS_prepend from inherited bbclasses?
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--/Uq4LBwYP4y1W6pO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBPBgUACgkQN1Ujt2V2gBy68QCgnAvpcDY+mVGDd1snevs/DwUL
+2aoAn1ODS15Us/mogUUKRFIHSz6xZKeI
+=06Xx
+-----END PGP SIGNATURE-----
+
+--/Uq4LBwYP4y1W6pO--
