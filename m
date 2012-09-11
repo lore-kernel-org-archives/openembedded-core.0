@@ -1,20 +1,37 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TBQtr-0004TW-5m
+	(envelope-from <martin.jansa@gmail.com>) id 1TBR1D-0004yd-St
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 15:53:11 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 Sep 2012 06:40:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,404,1344236400"; d="scan'208";a="143788750"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Sep 2012 06:40:38 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Tue, 11 Sep 2012 16:00:47 +0200
+Received: by eekb57 with SMTP id b57so397732eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Sep 2012 06:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=JC6u9r/0P7J3LaGG+KHu56wLcmh+veqJW2H1jSvyc1I=;
+	b=FXS5gAQgD/LB9LPpTIcSnz+faK6K3JyTGa3BpZ8BzTYDkiAmUqNgzp1foCXjdgJBX+
+	aiJ9V6rz/XuzRPtFJXoDq2O1LYJPo/PGfULDmcK6KdRFRBHe1rgIufdgY/hRZIBFbq6p
+	kTrYsFLqzpO3TPcNA0BnVgVi4DOV2LM5tP8Y/O9iDYOd0t7murPs7RdkFomWPa9RfPii
+	M12PCiTSZnU4HkL3VpHjVcNQIzImgZPdabY+DV1cEm09gTKRoPuSWxcyKrpXrqdK6n2e
+	t0UpQfOxup72a56ZQk7e68CGfFtNfq7daqDEJiljNHWS97tPoF/jNSre4ChO58JMEiKh
+	PEhA==
+Received: by 10.204.148.12 with SMTP id n12mr4933900bkv.6.1347371296878;
+	Tue, 11 Sep 2012 06:48:16 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fu8sm9687815bkc.5.2012.09.11.06.48.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 11 Sep 2012 06:48:14 -0700 (PDT)
+Date: Tue, 11 Sep 2012 15:48:14 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 16:40:35 +0300
-Message-Id: <1347370836-13101-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] nativesdk-qemu: fix SDK relocation issue
+Message-ID: <20120911134814.GF14077@jama.jama.net>
+References: <20120911130155.GC14077@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20120911130155.GC14077@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: paul.eggleton@linux.intel.com
+Subject: Re: qemuarm: should it really have TUNE_ARCH armv5te?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,78 +44,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 13:53:11 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 14:00:48 -0000
+X-Groupsio-MsgNum: 29036
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="XStn23h1fwudRqtG"
+Content-Disposition: inline
 
-User mode emulation binaries are linked using a local linker script. The
-nativesdk ones were not used and the resulting binaries did not have the
-interp section resized. Hence, those binaries could not be relocated.
+--XStn23h1fwudRqtG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #3083]
+On Tue, Sep 11, 2012 at 03:01:55PM +0200, Martin Jansa wrote:
+> Hi,
+>=20
+> when building spitz and qemuarm (both produces packages in armv5te feed)
+> resulting packages are tuned with -mtune=3Dxscale (when built for spitz)=
+=20
+> or -mtune=3Darm926ej-s (when built for qemuarm).
+>=20
+> From
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1916#c5
+> Firstly, if you go changing the tune parameters in a given machine, you a=
+re expected to use a different PACKAGE_ARCH. If you do that, you will get a=
+ different package feed for the different binaries, different WORKDIR and s=
+o on. This was always the way the package architectures was intended to wor=
+k and nothing has changed there. Yes, you as the user changing various vari=
+ables can create inconsistent package feeds. There are 101 ways you can do =
+that, the simple answer is just don't. We're therefore unlikely to add MACH=
+INE to DEPLOY_DIR or remove PACKAGE_ARCH, please just use it as its intende=
+d.
+>=20
+> Does qemuarm use oe-core as it's intended?
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../qemu/qemu-1.2.0/relocatable_sdk.patch          |   34 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_1.2.0.bb           |    4 +++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
+CCing bluelightning because xscale is used in lot of meta-handheld machines:
 
-diff --git a/meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch b/meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
-new file mode 100644
-index 0000000..0a01a8a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
-@@ -0,0 +1,34 @@
-+Upstream-Status: Inappropriate [SDK specific]
-+
-+In order to be able to change the dynamic loader path when relocating
-+binaries, the interp section has to be made big enough to accomodate
-+the new path (4096 is the maximum path length in Linux).
-+
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+
-+Index: qemu-1.2.0/i386.ld
-+===================================================================
-+--- qemu-1.2.0.orig/i386.ld
-++++ qemu-1.2.0/i386.ld
-+@@ -8,7 +8,7 @@ SECTIONS
-+ {
-+   /* Read-only sections, merged into text segment: */
-+   . = 0x60000000 + SIZEOF_HEADERS;
-+-  .interp     : { *(.interp) 	}
-++  .interp     : { *(.interp); . = 0x1000; }
-+   .hash          : { *(.hash)		}
-+   .dynsym        : { *(.dynsym)		}
-+   .dynstr        : { *(.dynstr)		}
-+Index: qemu-1.2.0/x86_64.ld
-+===================================================================
-+--- qemu-1.2.0.orig/x86_64.ld
-++++ qemu-1.2.0/x86_64.ld
-+@@ -6,7 +6,7 @@ SECTIONS
-+ {
-+   /* Read-only sections, merged into text segment: */
-+   . = 0x60000000 + SIZEOF_HEADERS;
-+-  .interp         : { *(.interp) }
-++  .interp         : { *(.interp); . = 0x1000; }
-+   .hash           : { *(.hash) }
-+   .dynsym         : { *(.dynsym) }
-+   .dynstr         : { *(.dynstr) }
-diff --git a/meta/recipes-devtools/qemu/qemu_1.2.0.bb b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-index 55ac532..636a666 100644
---- a/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-@@ -17,6 +17,10 @@ SRC_URI = "\
- SRC_URI[md5sum] = "78eb1e984f4532aa9f2bdd3c127b5b61"
- SRC_URI[sha256sum] = "c8b84420d9f4869397f84cad2dabd9a475b7723d619a924a873740353e9df936"
- 
-+SRC_URI_append_virtclass-nativesdk = "\
-+    file://relocatable_sdk.patch \
-+    "
-+
- do_configure_prepend_virtclass-nativesdk() {
- 	if [ "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "" ] ; then
- 		# Undo the -lX11 added by linker-flags.patch
--- 
-1.7.9.5
+Does this make sense?
+
+OE @ ~/openembedded-core/meta/conf/machine/include $ diff -uNr tune-arm926*=
+; diff -uNr tune-xscale.inc*
+--- tune-arm926ejs.inc  2012-09-11 15:45:47.958202057 +0200
++++ tune-arm926ejs.inc.new      2012-09-11 15:45:40.579194777 +0200
+@@ -8,4 +8,4 @@
+ AVAILTUNES +=3D "arm926ejs"
+ TUNE_FEATURES_tune-arm926ejs =3D "${TUNE_FEATURES_tune-armv5te} arm926ejs"
+ PACKAGE_EXTRA_ARCHS_tune-arm926ejs =3D "${PACKAGE_EXTRA_ARCHS_tune-armv5te=
+}"
+-
++TUNE_PKGARCH_tune-arm926ejs =3D "armv5te-arm926ejs"
+--- tune-xscale.inc     2012-08-28 11:01:04.899070433 +0200
++++ tune-xscale.inc.new 2012-09-11 15:43:24.560060591 +0200
+@@ -8,10 +8,12 @@
+ AVAILTUNES +=3D "xscale"
+ TUNE_FEATURES_tune-xscale =3D "${TUNE_FEATURES_tune-armv5te} xscale"
+ PACKAGE_EXTRA_ARCHS_tune-xscale =3D "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
++TUNE_PKGARCH_tune-xscale =3D "armv5te-xscale"
+=20
+ AVAILTUNES +=3D "xscale-be"
+ TUNE_FEATURES_tune-xscale-be =3D "${TUNE_FEATURES_tune-armv5teb} xscale bi=
+gendian"
+ PACKAGE_EXTRA_ARCHS_tune-xscale-be =3D "${PACKAGE_EXTRA_ARCHS_tune-armv5te=
+b}"
++TUNE_PKGARCH_tune-xscale-be =3D "armv5teb-xscale"
+=20
+ # webkit-gtk has alignment issues with double instructions on armv5 so
+ # disable them here
+
+>=20
+> Shouldn't spitz produce something like armv5te-xscale and qemuarm armv5te=
+-arm926ejs?
+> It would cause all recipes to build again (cannot share armv5te feed anym=
+ore),
+> but at least it would build it and user will really get it on target, rig=
+ht now
+> opkg upgrade can download some packages with xscale some with arm926ej-s.
+>=20
+> $ ~/bitbake/bin/bitbake-diffsigs
+>   stamps.1347348910/spitz/armv5te-oe-linux-gnueabi/linux-libc-headers-3.4=
+=2E3-r0.do_configure.sigdata.04b364a15889fcff7502614f1c116abc
+>   stamps.1347348910/qemuarm/armv5te-oe-linux-gnueabi/linux-libc-headers-3=
+=2E4.3-r0.do_configure.sigdata.656f0583be969b427f040f2e143bcb14
+>   basehash changed from 7fe9c0a3455dac20ba6a90ed337b097e to d8dd2ff8613d0=
+aafe60bef1a1e9469a1
+>   Variable TUNE_CCARGS value changed from
+>   ${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=3Darmv5${ARMPKGS=
+FX_THUMB}${ARMPKGSFX_DSP}", "", d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=3Darmv4${ARMPKGS=
+FX_THUMB}", "", d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "thumb", "${ARM_THUMB_M_OPT}", ""=
+, d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb=
+-interwork", "-mthumb-interwork", d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FE=
+ATURES", "callconvention-hard", "-mfloat-abi=3Dhard", "-mfloat-abi=3Dsoftfp=
+", d), "" ,d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "xscale", "-mtune=3Dxscale", "", =
+d)}
+>   to
+>   ${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=3Darmv5${ARMPKGS=
+FX_THUMB}${ARMPKGSFX_DSP}", "", d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=3Darmv4${ARMPKGS=
+FX_THUMB}", "", d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "thumb", "${ARM_THUMB_M_OPT}", ""=
+, d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb=
+-interwork", "-mthumb-interwork", d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FE=
+ATURES", "callconvention-hard", "-mfloat-abi=3Dhard", "-mfloat-abi=3Dsoftfp=
+", d), "" ,d)}
+>   ${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", "-mtune=3Darm926ej-s=
+", "", d)}
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--XStn23h1fwudRqtG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBPQR4ACgkQN1Ujt2V2gBwIGQCgsjHKgpsvmRNE5KxrH9eIa3fN
+3gIAoKJsZVCfKQ1LEh1QFUiqIX7xKjXN
+=bvsF
+-----END PGP SIGNATURE-----
+
+--XStn23h1fwudRqtG--
