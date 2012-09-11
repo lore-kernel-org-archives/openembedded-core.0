@@ -1,39 +1,39 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBWBc-0001nL-4G
+	(envelope-from <ross.burton@intel.com>) id 1TBWBc-0001nO-NW
 	for openembedded-core@lists.openembedded.org;
 	Tue, 11 Sep 2012 21:31:52 +0200
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:19 -0700
-Received: by mail-we0-f175.google.com with SMTP id r6so507617wey.6
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:19 -0700
+Received: by wibhn17 with SMTP id hn17so923629wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 12:19:19 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=6dvJyAp6WgHZbKuwTgiA02xnoUj135v0CO6RVUOFhVY=;
-	b=YbDjC7tT3W94ky+P1pb26zV7o5yt3M1b5k1Sjmg9qAjDuPnnZ1NwenmUFz9AX0xLiw
-	axJsekfVM3YihPOZk/cEwtpnzlj11x/XObMgOXeqW2qH+MwydedlHs0bK4bdixy5L6Jd
-	H0DRWGrC3hbxGHYDKiQLwE0aXXD73o1SdYzc/JbOqHDWGcUG3MCinMzjgMYhoiLVBOcG
-	VqEATLYv05HozOuhyMHzToeuxq+I/GhJ2mT34FL1ipn6A3oGMIy3x65XmuId9LAfFl8v
-	JGle+WJC+OUb7NtJrf3SOzNifcG36VIsD3NSDAeDUDYxACWTWa50vwBfpztwC0vteCru
-	SLqg==
-Received: by 10.216.95.10 with SMTP id o10mr10852855wef.213.1347391159591;
-	Tue, 11 Sep 2012 12:19:19 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
+	bh=S0i8P+B9mF1W8nYGIzfBRQNfKQm2u1Xpx0FRij6rcIY=;
+	b=EErJVI/0WEo9rtFtfxmR0fYOTkTHAVsUYAw0XGIRZ6ElR9LRVTlGZjpfWMPZ0yLy6S
+	uP7S4S7UCbmJOCMKSWfilfmtaQXujsCJUd8nOwc2ipEUclWVyQRRLmhu/GuKuu0jndPC
+	+8GVw7Bg6Yor+Dbg4HOjFTwxT6oBHck3XyztkAfZZfReb34tQDen6zNvR19Fvan4zRU7
+	5fQNoOY1UTIxor22tsQb8emwW+34ObZgWXsdFH0RVaMzxId6Fej8MmOIrAlwfcaXsA7V
+	cWOBRct6kYJ0rp9zXF7vTe3YHZ6ODRjHe9IZvzrvXVjfOEebGWeXuGl2+rVI7FtmrMtB
+	+wow==
+Received: by 10.180.20.11 with SMTP id j11mr27166411wie.12.1347391158215;
 	Tue, 11 Sep 2012 12:19:18 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 11 Sep 2012 12:19:17 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 20:18:05 +0100
-Message-Id: <1347391088-30390-15-git-send-email-ross.burton@intel.com>
+Date: Tue, 11 Sep 2012 20:18:04 +0100
+Message-Id: <1347391088-30390-14-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
 References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmod3+rfhJwn4CVYjRME31V9vtBmU1JlPWthcx0AHbXrntGuVTtNPAdIcEjcvcahz9BYB/3
-Subject: [RFC 15/18] libx11: drop makekeys_crosscompile.patch, effectively merged upstream
+X-Gm-Message-State: ALoCoQmhFyY7Pfam+lLc1FMkcjOZbSxgvTQ6vAe0V5sEL9tmE//2MbzwKRLEvMrZ2b/u5+q4xLCl
+Subject: [RFC 14/18] distro-tracking: remove libx11-trim
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,115 +48,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Sep 2012 19:31:52 -0000
 
-
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../xorg-lib/libx11/makekeys_crosscompile.patch    |   76 --------------------
- meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb     |    3 +-
- 2 files changed, 1 insertion(+), 78 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libx11/makekeys_crosscompile.patch
+ meta-yocto/conf/distro/include/distro_alias.inc |    1 -
+ meta-yocto/conf/distro/include/maintainers.inc  |    1 -
+ meta-yocto/conf/distro/include/recipe_color.inc |    1 -
+ 3 files changed, 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/makekeys_crosscompile.patch b/meta/recipes-graphics/xorg-lib/libx11/makekeys_crosscompile.patch
-deleted file mode 100644
-index daf3696..0000000
---- a/meta/recipes-graphics/xorg-lib/libx11/makekeys_crosscompile.patch
-+++ /dev/null
-@@ -1,76 +0,0 @@
--Because the size of "unsigned long" is different between 32-bit
--and 64-bit, judge whether target is 32-bit or 64-bit and tell
--"makekey".
--
--The error information from LSB Test suite is as follow:
--VSW5TESTSUITE PURPOSE 7
--Assertion XStringToKeysym-7.(A)
--When the string argument is the name of a KeySym in the 
--table with the prefix XK_ removed, then a call to
--XStringToKeysym returns that KeySym.
--METH: For each KeySym name in table with code G:
--METH: Call XStringToKeysym to obtain the KeySym defined for that string.
--METH: Verify that XStringToKeysym did not return NoSymbol.
--METH: Verify that the returned string is correct.
--CHECK: XStringToKeysym-7 1, line 130 
--CHECK: XStringToKeysym-7 2, line 140 
--CHECK: XStringToKeysym-7 3, line 150 
--CHECK: XStringToKeysym-7 4, line 160 
--CHECK: XStringToKeysym-7 5, line 170 
--CHECK: XStringToKeysym-7 6, line 180 
--CHECK: XStringToKeysym-7 7, line 190 
--CHECK: XStringToKeysym-7 8, line 200 
--CHECK: XStringToKeysym-7 9, line 210 
--CHECK: XStringToKeysym-7 10, line 220 
--CHECK: XStringToKeysym-7 11, line 230 
--CHECK: XStringToKeysym-7 12, line 240 
--CHECK: XStringToKeysym-7 13, line 250 
--CHECK: XStringToKeysym-7 14, line 260 
--CHECK: XStringToKeysym-7 15, line 270 
--CHECK: XStringToKeysym-7 16, line 280 
--CHECK: XStringToKeysym-7 17, line 290 
--CHECK: XStringToKeysym-7 18, line 300 
--CHECK: XStringToKeysym-7 19, line 310 
--CHECK: XStringToKeysym-7 20, line 320
--
--Upstream-Status: Pending
--
--Signed-off-by: dbuitenh@windriver.com
--
----- libX11-1.3.4.orig/src/util/makekeys.c	2010-01-15 09:11:36.000000000 +0800
--+++ libX11-1.3.4/src/util/makekeys.c	2011-05-24 19:04:25.454774908 +0800
--@@ -33,6 +33,7 @@
-- #include <X11/keysymdef.h>
-- #include <stdio.h>
-- #include <stdlib.h>
--+#include <stdint.h>
-- 
-- typedef unsigned long Signature;
-- 
--@@ -124,7 +125,12 @@
-- 	    name = info[i].name;
-- 	    sig = 0;
-- 	    while ((c = *name++))
---		sig = (sig << 1) + c;
--+#ifdef USE32
--+		sig = (uint32_t)(sig << 1) + c;
--+#else
--+		sig = (uint64_t)(sig << 1) + c;
--+#endif
--+		
-- 	    first = j = sig % z;
-- 	    for (k = 0; tab[j]; k++) {
-- 		j += first + 1;
--@@ -163,7 +169,11 @@
-- 	name = info[i].name;
-- 	sig = 0;
-- 	while ((c = *name++))
---	    sig = (sig << 1) + c;
--+#ifdef USE32
--+	    sig = (uint32_t)(sig << 1) + c;
--+#else
--+	    sig = (uint64_t)(sig << 1) + c;
--+#endif
-- 	first = j = sig % z;
-- 	while (offsets[j]) {
-- 	    j += first + 1;
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-index c138785..5a66eb5 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-@@ -1,13 +1,12 @@
- require libx11.inc
- inherit gettext
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI += " file://keysymdef_include.patch \
-              file://x11_disable_makekeys.patch \
--             file://makekeys_crosscompile.patch \
-              "
- 
- SRC_URI[md5sum] = "78b4b3bab4acbdf0abcfca30a8c70cc6"
+diff --git a/meta-yocto/conf/distro/include/distro_alias.inc b/meta-yocto/conf/distro/include/distro_alias.inc
+index c63bd47..509dcde 100644
+--- a/meta-yocto/conf/distro/include/distro_alias.inc
++++ b/meta-yocto/conf/distro/include/distro_alias.inc
+@@ -183,7 +183,6 @@ DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
+ DISTRO_PN_ALIAS_pn-libusb-compat = "OSPDT"
+ DISTRO_PN_ALIAS_pn-libx11 = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
+ DISTRO_PN_ALIAS_pn-libx11-diet = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
+-DISTRO_PN_ALIAS_pn-libx11-trim = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
+ DISTRO_PN_ALIAS_pn-libxcalibrate = "OSPDT upstream=http://cgit.freedesktop.org/xorg/lib/libXCalibrate/"
+ DISTRO_PN_ALIAS_pn-libxfontcache = "Mandriva=libxfontcache Debian=libxfontcache"
+ DISTRO_PN_ALIAS_pn-libxft = "Mandriva=libxft Debian=libxft2 Ubuntu=libxft2"
+diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
+index dace3b9..fe8284e 100644
+--- a/meta-yocto/conf/distro/include/maintainers.inc
++++ b/meta-yocto/conf/distro/include/maintainers.inc
+@@ -358,7 +358,6 @@ RECIPE_MAINTAINER_pn-libuser = "Valentin Popa <valentin.popa@intel.com>"
+ RECIPE_MAINTAINER_pn-libvorbis = "Cristian Iorga <cristian.iorga@intel.com>"
+ RECIPE_MAINTAINER_pn-libx11 = "Valentin Popa <valentin.popa@intel.com>"
+ RECIPE_MAINTAINER_pn-libx11-diet = "Kai Kang <kai.kang@windriver.com>"
+-RECIPE_MAINTAINER_pn-libx11-trim = "Valentin Popa <valentin.popa@intel.com>"
+ RECIPE_MAINTAINER_pn-libxau = "Valentin Popa <valentin.popa@intel.com>"
+ RECIPE_MAINTAINER_pn-libxaw = "Valentin Popa <valentin.popa@intel.com>"
+ RECIPE_MAINTAINER_pn-libxcalibrate = "Valentin Popa <valentin.popa@intel.com>"
+diff --git a/meta-yocto/conf/distro/include/recipe_color.inc b/meta-yocto/conf/distro/include/recipe_color.inc
+index 612a698..894c76a 100644
+--- a/meta-yocto/conf/distro/include/recipe_color.inc
++++ b/meta-yocto/conf/distro/include/recipe_color.inc
+@@ -210,7 +210,6 @@ RECIPE_COLOR_pn-liburcu = "yellow"
+ RECIPE_COLOR_pn-libusb1 = "yellow"
+ RECIPE_COLOR_pn-libuser = "yellow"
+ RECIPE_COLOR_pn-libx11 = "yellow"
+-RECIPE_COLOR_pn-libx11-trim = "yellow"
+ RECIPE_COLOR_pn-libxau = "yellow"
+ RECIPE_COLOR_pn-libxaw = "red"
+ RECIPE_COLOR_pn-libxcalibrate = "yellow"
 -- 
 1.7.10
 
