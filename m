@@ -1,42 +1,21 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TBTHu-0002J2-G5
+	(envelope-from <sgw@linux.intel.com>) id 1TBTIj-0002LR-PR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 18:26:10 +0200
-Received: by wgbdr1 with SMTP id dr1so498492wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 09:13:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=Lg38XY723HJxOeScWSjGj3EmsyXPytFhEP7fZ9tWMME=;
-	b=OpjpPuOEkZMB7XUsSLDTnT054ronx7oc1aeQCqnZxO6YXFCa5vnMJluuxSpYWv7hsE
-	Q6ysE5oNM3wnmNcRlCAWBtQnKMWUIfPALnVZIISo+Si50KQzvy22KiXgHeKeantixR4L
-	Wqn+deT7iNxkQZI/WnWgVgx1ZxyI83YFESUDQQoBZmv58psCzj4rAzPb18LlxzRlrhPw
-	sReo55aiVNm1qK4Td6MQXy7VnOndmayGTXPKUWX0m5T0TBuftdBKm8qjNKALMtw7LrNd
-	uRGf2Aya7bdUvtKRhinpfeP6EGbIx07lLJ/7dFTe4ttT7VsENqiIE7TSAPx7cxMf+GhK
-	xyhg==
-Received: by 10.217.4.139 with SMTP id u11mr9985479wes.190.1347380019570;
-	Tue, 11 Sep 2012 09:13:39 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id hv8sm3514320wib.0.2012.09.11.09.13.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Sep 2012 09:13:38 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <504F5E0C.7040502@windriver.com>
-Date: Tue, 11 Sep 2012 18:13:36 +0200
-Message-Id: <A6372E3C-A8A4-4987-9C2B-D65FFBBCEF5C@dominion.thruhere.net>
-References: <20120911130155.GC14077@jama.jama.net>
-	<20120911134814.GF14077@jama.jama.net>
-	<504F5E0C.7040502@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQnGPgelAAE6rTuwmi19qWdJhragMXyRp2sr7j4K9NeXYBxKc7lMGYmO09gb4kT2J7p/wOrt
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: ARM-tuning -- was qemuarm: should it really have TUNE_ARCH armv5te?
+	Tue, 11 Sep 2012 18:27:01 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Sep 2012 09:14:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,406,1344236400"; d="scan'208";a="220783395"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.123])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2012 09:14:29 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Sep 2012 09:14:29 -0700
+Message-Id: <cover.1347379806.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+MIME-Version: 1.0
+Subject: [CONSOLIDATED REQUEST 00/13] Misc Fixes (cover only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,46 +28,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 16:26:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Sep 2012 16:27:02 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-Op 11 sep. 2012, om 17:51 heeft Mark Hatle <mark.hatle@windriver.com> =
-het volgende geschreven:
+The following changes since commit 48169c6bc44c546cecaa06207b6c36da558b81f7:
 
-> On 9/11/12 8:48 AM, Martin Jansa wrote:
->> On Tue, Sep 11, 2012 at 03:01:55PM +0200, Martin Jansa wrote:
->>> Hi,
->>>=20
->>> when building spitz and qemuarm (both produces packages in armv5te =
-feed)
->>> resulting packages are tuned with -mtune=3Dxscale (when built for =
-spitz)
->>> or -mtune=3Darm926ej-s (when built for qemuarm).
->=20
-> I argued this when we original did the work for the tunings, and I =
-lost....
->=20
->>> From
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1916#c5
->>> Firstly, if you go changing the tune parameters in a given machine, =
-you are expected to use a different PACKAGE_ARCH. If you do that, you =
-will get a different package feed for the different binaries, different =
-WORKDIR and so on. This was always the way the package architectures was =
-intended to work and nothing has changed there. Yes, you as the user =
-changing various variables can create inconsistent package feeds. There =
-are 101 ways you can do that, the simple answer is just don't. We're =
-therefore unlikely to add MACHINE to DEPLOY_DIR or remove PACKAGE_ARCH, =
-please just use it as its intended.
->=20
-> That is certainly my expectation.  I'm not sure that the arm926ej-s =
-can produce binaries that are -not- arm5te binaries -- as that seems to =
-be the standard for what an armv5te is.  The xscale on the other hand is =
-capable of having different tuning parameters and had a few additional =
-instructions. =20
+  classes/packageinfo: use better method to check if package exists (2012-09-10 21:52:37 +0100)
 
-=46rom a gcc point of view both are the same ISA, but using xscale will =
-take in account the absurdly long pipeline on that SoC.=
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Bruce Ashfield (1):
+  linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
+
+Khem Raj (2):
+  gcc-4.7: Fix build for armv4/EABI and ppc/Os
+  gcc-4.7: Backport libgcc fixes to appease the new build sequence
+
+Mark Asselstine (1):
+  base-files: provide a mechanism to skip creation of the hostname file
+
+Mark Hatle (3):
+  image.bbclass: Enable the complementary install to be called w/
+    globbing params
+  package_rpm.bbclass: Avoid unnecessary installs in complementary pass
+  qt4: Update qt4.inc to remove staticdev deps in -dbg packages
+
+Matthew McClintock (1):
+  sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we
+    have items to check
+
+Phil Blundell (3):
+  perl-native: PROVIDE libmodule-build-perl-native for consistency with
+    non-native perl
+  shadow: Fix various invalid assumptions about directory layout
+  shadow-native: Ensure that ${sbindir} and ${base_sbindir} are
+    respected
+
+Ross Burton (2):
+  webkit-gtk: work around Make bug by re-running make
+  telepathy-idle: fix parallel build
+
+ meta/classes/image.bbclass                         |    4 +-
+ meta/classes/package_rpm.bbclass                   |    9 ++-
+ .../build-fix-for-make-j-safety.patch              |   39 ++++++++
+ .../fix-svc-gtk-doc.h-target.patch                 |   24 +-----
+ .../telepathy/telepathy-idle_0.1.12.bb             |    5 +-
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |   14 ++--
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |    6 +-
+ ...-vis_hide-gen-hide-list-Do-not-make-defin.patch |   93 ++++++++++++++++++++
+ ...USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch |   49 ++++++++++
+ .../gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch    |   31 +++++++
+ .../gcc/gcc-4.7/ppc_no_crtsavres.patch             |   72 +++++++++++++++
+ meta/recipes-devtools/perl/perl-native_5.14.2.bb   |    3 +
+ .../shadow/shadow-native_4.1.4.3.bb                |   11 ++-
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |   17 +++-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   16 ++--
+ meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
+ meta/recipes-qt/qt4/qt4.inc                        |    2 +-
+ meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb       |   22 +++++
+ 21 files changed, 380 insertions(+), 55 deletions(-)
+ create mode 100644 meta/recipes-connectivity/telepathy/telepathy-idle-0.1.12/build-fix-for-make-j-safety.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/0001-Makefile.in-vis_hide-gen-hide-list-Do-not-make-defin.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/0001-crtstuff.c-USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
+
+-- 
+1.7.7.6
+
 
 
