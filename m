@@ -1,39 +1,39 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBWBS-0001kc-HS
+	(envelope-from <ross.burton@intel.com>) id 1TBWBS-0001kd-Rk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 21:31:42 +0200
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:09 -0700
-Received: by weyr6 with SMTP id r6so507617wey.6
+	Tue, 11 Sep 2012 21:31:43 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:18:53 -0700
+Received: by wgbdr1 with SMTP id dr1so617841wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 12:19:03 -0700 (PDT)
+	Tue, 11 Sep 2012 12:18:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=vSezyR6kxEWLg6vopff8BGVZmHIy9GjoRqGOZq0Pag4=;
-	b=CBsohoItGqF1XeAKIvEQb+BktlOUIviuE9ygaQE7cXF4guTmmLv/VUMM8umo7+b8UW
-	jy/tb/zGZ/Ye4kMrELTiWV7Pbpf0L2PqlsM8sN7zvEvyDNTB6jrpShzbSxb8YzdQqd+o
-	PFEDdiekh09YF2RQbWLhNV4VxZYWXgEoqoCWcTbYQd9xvO/excK82VE+1KDSTe3DBxVW
-	LAN+6dJE4QBmUUh7mVB9DnzMnZLu7vH8LUkZ+OW6Om8cG2ojpa9F4kgdNDv2TS4+r39I
-	mO6h1u48vixh8d/g4nKbOO+k3yA4Y42mW8OMNBgcqlpJhmN85r6iVxXLY822wSRkZiJ/
-	kNSA==
-Received: by 10.180.20.11 with SMTP id j11mr27165161wie.12.1347391143480;
-	Tue, 11 Sep 2012 12:19:03 -0700 (PDT)
+	bh=1vie6UZNWMFWtTrZ5x52cdDyJNgDubkUt8tKgKEh8MM=;
+	b=SyNc+0GAYgBHSVlxwOzEiY3ZKlkXqrsZ9ud3+alkEj4slTvzH3lYVipqH4fIQ+k4Zg
+	FPkiKO8Y2c8jw9m6MGAKp83ukDB78oLsnFIit0WmEflQ9ze7gNOqhiti4xP9MGapKJwa
+	BTQGXqt+eZJJCDt0NthuwUpFp1/yXrvuMf4J9F5GCOBy4ie7UVZU4VypPlTn8V4f+UJr
+	XnJwFFeVRsYSK6AhRhfgDhSzUk14gIf1Pchib7KWab0KccdKnSDFD6H2JfPzT/+DmLx4
+	F6XbGVFOyXo96+u32ybVyom2yjgBppnbornZoX75qsSuOmbTE2DLXE3KvgRo0RRXkd7o
+	LprA==
+Received: by 10.216.132.25 with SMTP id n25mr9939856wei.25.1347391139218;
+	Tue, 11 Sep 2012 12:18:59 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.02
+	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.18.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Sep 2012 12:19:02 -0700 (PDT)
+	Tue, 11 Sep 2012 12:18:57 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 20:17:55 +0100
-Message-Id: <1347391088-30390-5-git-send-email-ross.burton@intel.com>
+Date: Tue, 11 Sep 2012 20:17:52 +0100
+Message-Id: <1347391088-30390-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
 References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnhzIsXDXCDkfQeu7X4NaOc8hhUNjomEOMRbcc96ZHcr5sogTPx7Dy/NHA+AxlIkTCyQtdc
-Subject: [RFC 05/18] libx11: move xcms disabling to PACKAGECONFIG in libx11.inc
+X-Gm-Message-State: ALoCoQlCKmrN12tUhkemnR/4p1LnbxBUrZyKTfQEIZtZhxQNEO5DIJ7o7aObAqAkpT4evkJEg0bC
+Subject: [RFC 02/18] libx11-diet: you can't disable XCB anymore, so don't try
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,61 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 19:31:42 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 19:31:43 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb |    2 +-
- meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb |    2 +-
- meta/recipes-graphics/xorg-lib/libx11.inc           |    6 +++++-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-index e6aa63f..dd9e7d9 100644
+index ed5a890..d821744 100644
 --- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
 +++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
-@@ -25,6 +25,6 @@ DEPENDS += "libxcb bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
+@@ -1,11 +1,11 @@
+ require libx11.inc
  
- FILESDIR = "${@os.path.dirname(d.getVar('FILE', True))}/libx11"
+-DESCRIPTION += " Support for XCB, UDC, XCMS and XLOCALE is disabled in \
++DESCRIPTION += " Support for UDC, XCMS and XLOCALE is disabled in \
+ this version."
  
--EXTRA_OECONF += "--disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
-+EXTRA_OECONF += "--disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
- CFLAGS += "-D_GNU_SOURCE"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
  
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-index e8661f3..9e88d45 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-trim_1.5.0.bb
-@@ -19,4 +19,4 @@ RPROVIDES_${PN}-locale = "libx11-locale"
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ SRC_URI += "file://x11_disable_makekeys.patch \
+             file://X18NCMSstubs.diff \
+@@ -20,11 +20,11 @@ RPROVIDES_${PN}-locale = "libx11-locale"
  SRC_URI[md5sum] = "78b4b3bab4acbdf0abcfca30a8c70cc6"
  SRC_URI[sha256sum] = "c382efd7e92bfc3cef39a4b7f1ecf2744ba4414a705e3bc1e697f75502bd4d86"
  
--EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/ --disable-xcms "
-+EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index fb1daf2..22b26cc 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -9,7 +9,7 @@ require xorg-lib-common.inc
- inherit siteinfo
+-DEPENDS += "bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
++DEPENDS += "libxcb bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
+             libxdmcp xf86bigfontproto kbproto inputproto xproto-native"
  
- PE = "1"
--INC_PR = "r2"
-+INC_PR = "r3"
+ FILESDIR = "${@os.path.dirname(d.getVar('FILE', True))}/libx11"
  
- PROVIDES = "virtual/libx11"
+-EXTRA_OECONF += "--without-xcb --disable-udc --disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
++EXTRA_OECONF += "--disable-udc --disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
+ CFLAGS += "-D_GNU_SOURCE"
  
-@@ -23,6 +23,10 @@ FILES_${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${libdir}/X11/X
- FILES_${PN}-xcb += "${libdir}/libX11-xcb.so.*"
- FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
- 
-+# Almost nothing uses XCMS
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
-+
- do_compile_prepend() {
- 	cd ${S}/src/util
- 	mv makekeys.c.orig makekeys.c || true
 -- 
 1.7.10
 
