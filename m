@@ -1,25 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1TBSLc-0000OW-V8
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 17:25:57 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8BFDP6O003764
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 08:13:25 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Tue, 11 Sep 2012 08:13:24 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Sep 2012 23:13:22 +0800
-Message-ID: <7b84cadc9083744019230f510e46b7e4afcc17ce.1347355729.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4
-In-Reply-To: <cover.1347355729.git.jackie.huang@windriver.com>
-References: <cover.1347355729.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] libgnome-keyring: add missing DEPENDS on intltool-native
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBSLl-0000Ok-4i for openembedded-core@lists.openembedded.org;
+	Tue, 11 Sep 2012 17:26:05 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8BFDQVl010812;
+	Tue, 11 Sep 2012 16:13:27 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09947-08; Tue, 11 Sep 2012 16:13:22 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8BFDKum010806
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 11 Sep 2012 16:13:21 +0100
+Message-ID: <1347376402.2122.44.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 11 Sep 2012 16:13:22 +0100
+In-Reply-To: <1347376071-29566-1-git-send-email-sgw@linux.intel.com>
+References: <1347376071-29566-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] arch-ia32: Add x32 to MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 15:25:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Sep 2012 15:26:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Tue, 2012-09-11 at 08:07 -0700, Saul Wold wrote:
+> This will allow the KERNEL_FEATURES to trigger the x32 ABI via overrides
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/conf/machine/include/ia32/arch-ia32.inc |    1 +
+>  1 files changed, 1 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
+> index 15f67d7..fa70e57 100644
+> --- a/meta/conf/machine/include/ia32/arch-ia32.inc
+> +++ b/meta/conf/machine/include/ia32/arch-ia32.inc
+> @@ -24,6 +24,7 @@ ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "x32", "" ,d)}"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-mx32", "", d)}"
+>  TUNE_LDARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-m elf32_x86_64", "", d)}"
+>  TUNE_ASARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
+> +MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", ":x32", "" ,d)}"
+>  
+>  # ELF64 ABI
+>  TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
 
-libgnome-keyring requires command 'intltoolize' in configure,
-so add DEPENDS intltool-native.
+This is just for the kernel issue, right?
 
-[YOCTO #3081]
+In that case, just use ${@bb.utils.contains("TUNE_FEATURES", "mx32",
+"xxxx", "" ,d)} in the kernel recipe code...
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
-index cf18732..8ed44f3 100644
---- a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
-+++ b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
-@@ -9,11 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0914b9d3ebaba41ef2e3e0ae16f296cf \
-                     file://egg/egg-dh.h;endline=22;md5=1626c16af2a8da1f88324cf3ced33f08"
- 
- SECTION = "x11/gnome/libs"
--PR = "r2"
-+PR = "r3"
- 
- inherit gnome gtk-doc
- 
--DEPENDS = "dbus libgcrypt glib-2.0"
-+DEPENDS = "dbus libgcrypt glib-2.0 intltool-native"
- 
- SRC_URI[archive.md5sum] = "c42b2ca66204835d901d3dbfc1fa5ae6"
- SRC_URI[archive.sha256sum] = "56388c0d81ddfdb57d30e4963c83ecc1c18498aab99395420e0fff69929a0f0c"
--- 
-1.7.4
+Richard
 
 
 
