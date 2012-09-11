@@ -1,39 +1,39 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBWBT-0001kc-9t
+	(envelope-from <ross.burton@intel.com>) id 1TBWBT-0001kd-MU
 	for openembedded-core@lists.openembedded.org;
 	Tue, 11 Sep 2012 21:31:43 +0200
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:19:12 -0700
-Received: by mail-we0-f175.google.com with SMTP id r6so507617wey.6
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 12:18:54 -0700
+Received: by wibhq4 with SMTP id hq4so3527991wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 12:19:12 -0700 (PDT)
+	Tue, 11 Sep 2012 12:19:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=YjgMyRWxpKiJ2czqYmaWzGAHODmbrnmLuYvuf91T1RQ=;
-	b=pqSFNcf/fyKYOwPvYU1lf+fPLwkk84LFW03GFALNibcsNq/IlewvGFWAJK6PRw7Exx
-	7ermDZig5XMW5h8oHnm0C3nQzyrfGIsScgqAKTTbTwfD4CHvIsopTfONlmjL5xk0A+97
-	bdMpdAzHMUiufcI/VPLYvH1HuisHsl7YVLFigGNc4nn4cD2Fj7W5Cmhfa43c3fWk+DVK
-	wbRWJv7yOgusH4sPDIASj0KhqJQnfrVpKyl7mvBAeVcLGn7afW6pMw09teNPfLUJ6B9c
-	AYTmxIerOrFcnskW/QL4NbZy6QK+KUklASlW7wvzPfAhRMEf2l9IqFybqkOnLwzocNzt
-	RCGg==
-Received: by 10.216.119.6 with SMTP id m6mr9922531weh.215.1347391152389;
-	Tue, 11 Sep 2012 12:19:12 -0700 (PDT)
+	bh=pchqT/Rx5EJCbxNL3yMIVAMVzxY2MpEm0yfbNLb2EKM=;
+	b=Rik0ku0S0Jr+EAJpDQ6kxGW4IUai11XwEwE2G814gVv5wo25pwAc9yZunbtVIW6AGM
+	9Z/1+Vcje0CemUkD8sDARiqnBDG9HFn28FDYcPxosqVIazy3wIMQeXSIA/es7p/aZEpJ
+	LVCXJifER4LCPnUSacjMHEus6OEPpoU8nVGkehiOzeyjQzoGfXDJuCrmVH1rfER/8FcS
+	vUjOiGmfoukW1MfFpItBZK/h8gq84lNgpls54ckeUCCGMENEftEnqyVEVqF8ibI2hKp8
+	wIgFJWta3n8Q/KcX+WuYaXzElPf4D25rtq8BC8xnsn8GRwx2eMykjWUzBLpl3qNrmCwI
+	dpyw==
+Received: by 10.180.108.45 with SMTP id hh13mr27127402wib.15.1347391140688;
+	Tue, 11 Sep 2012 12:19:00 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.19.10
+	by mx.google.com with ESMTPS id t7sm5953150wix.6.2012.09.11.12.18.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Sep 2012 12:19:10 -0700 (PDT)
+	Tue, 11 Sep 2012 12:18:59 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 20:18:00 +0100
-Message-Id: <1347391088-30390-10-git-send-email-ross.burton@intel.com>
+Date: Tue, 11 Sep 2012 20:17:53 +0100
+Message-Id: <1347391088-30390-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
 References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQk/++0LQgFgG3jUfNXA4f3UBf1Rd4o5whHiMZ3ufnmoPaVK84sLYgMMXW6Nqy/szGRcrWIS
-Subject: [RFC 10/18] libx11: make bigfont an optional (disabled by default) packageconfig option
+X-Gm-Message-State: ALoCoQlvOWGB7EsH3YPOISIs11xbnY9QBy+qAF4AiR8jrqnHhSJsTIK/rhqUj9Wx5a+3UaBHON2t
+Subject: [RFC 03/18] libx11-diet: you can't disable UDC, because it's always disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,44 +50,35 @@ X-List-Received-Date: Tue, 11 Sep 2012 19:31:43 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11.inc |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 85fdbe7..d56aa23 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -11,7 +11,7 @@ inherit siteinfo
- FILESPATH = "${FILE_DIRNAME}/libx11"
+diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
+index d821744..e6aa63f 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.5.0.bb
+@@ -1,11 +1,11 @@
+ require libx11.inc
  
- PE = "1"
--INC_PR = "r6"
-+INC_PR = "r7"
+-DESCRIPTION += " Support for UDC, XCMS and XLOCALE is disabled in \
++DESCRIPTION += " Support for XCMS and XLOCALE is disabled in \
+ this version."
  
- PROVIDES = "virtual/libx11"
- 
-@@ -20,7 +20,7 @@ LICENSE = "MIT & MIT-style & BSD"
  LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
  
- DEPENDS += "xproto xextproto xtrans libxcb kbproto inputproto"
--DEPENDS += "xf86bigfontproto xproto-native"
-+DEPENDS += "xproto-native"
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
  
- PACKAGES =+ "${PN}-xcb"
+ SRC_URI += "file://x11_disable_makekeys.patch \
+             file://X18NCMSstubs.diff \
+@@ -25,6 +25,6 @@ DEPENDS += "libxcb bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
  
-@@ -30,9 +30,11 @@ FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
+ FILESDIR = "${@os.path.dirname(d.getVar('FILE', True))}/libx11"
  
- EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
+-EXTRA_OECONF += "--disable-udc --disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
++EXTRA_OECONF += "--disable-xcms --disable-xlocale --with-keysymdefdir=${STAGING_INCDIR}/X11"
+ CFLAGS += "-D_GNU_SOURCE"
  
--# Almost nothing uses XCMS
-+# Let people with incredibly archaic requirements enable Xcms and BigFont, but
-+# disable them by default.
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
-+PACKAGECONFIG[bigfont] = "--enable-xf86bigfont,--disable-xf86bigfont,xf86bigfontproto"
- 
- do_compile_prepend() {
- 	cd ${S}/src/util
 -- 
 1.7.10
 
