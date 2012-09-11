@@ -1,28 +1,28 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TBSwe-0001h7-G0
+	(envelope-from <mark.hatle@windriver.com>) id 1TBSyg-0001lY-76
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 18:04:12 +0200
+	Tue, 11 Sep 2012 18:06:18 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8BFpf3C004417
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8BFrkPh004472
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 08:51:41 -0700 (PDT)
+	Tue, 11 Sep 2012 08:53:46 -0700 (PDT)
 Received: from Marks-MacBook-Pro.local (172.25.36.227) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Tue, 11 Sep 2012 08:51:40 -0700
-Message-ID: <504F5E0C.7040502@windriver.com>
-Date: Tue, 11 Sep 2012 10:51:40 -0500
+	14.2.309.2; Tue, 11 Sep 2012 08:53:46 -0700
+Message-ID: <504F5E89.4070504@windriver.com>
+Date: Tue, 11 Sep 2012 10:53:45 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:15.0) Gecko/20120824 Thunderbird/15.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <20120911130155.GC14077@jama.jama.net>
-	<20120911134814.GF14077@jama.jama.net>
-In-Reply-To: <20120911134814.GF14077@jama.jama.net>
-Subject: Re: ARM-tuning -- was qemuarm: should it really have TUNE_ARCH armv5te?
+References: <1347376071-29566-1-git-send-email-sgw@linux.intel.com>
+	<1347376402.2122.44.camel@ted> <504F5A7C.9070407@linux.intel.com>
+In-Reply-To: <504F5A7C.9070407@linux.intel.com>
+Subject: Re: [PATCH] arch-ia32: Add x32 to MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,102 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 16:04:12 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 16:06:18 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/11/12 8:48 AM, Martin Jansa wrote:
-> On Tue, Sep 11, 2012 at 03:01:55PM +0200, Martin Jansa wrote:
->> Hi,
+On 9/11/12 10:36 AM, Saul Wold wrote:
+> On 09/11/2012 08:13 AM, Richard Purdie wrote:
+>> On Tue, 2012-09-11 at 08:07 -0700, Saul Wold wrote:
+>>> This will allow the KERNEL_FEATURES to trigger the x32 ABI via overrides
+>>>
+>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>> ---
+>>>    meta/conf/machine/include/ia32/arch-ia32.inc |    1 +
+>>>    1 files changed, 1 insertions(+), 0 deletions(-)
+>>>
+>>> diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
+>>> index 15f67d7..fa70e57 100644
+>>> --- a/meta/conf/machine/include/ia32/arch-ia32.inc
+>>> +++ b/meta/conf/machine/include/ia32/arch-ia32.inc
+>>> @@ -24,6 +24,7 @@ ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "x32", "" ,d)}"
+>>>    TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-mx32", "", d)}"
+>>>    TUNE_LDARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-m elf32_x86_64", "", d)}"
+>>>    TUNE_ASARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
+>>> +MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", ":x32", "" ,d)}"
+>>>
+>>>    # ELF64 ABI
+>>>    TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
 >>
->> when building spitz and qemuarm (both produces packages in armv5te feed)
->> resulting packages are tuned with -mtune=xscale (when built for spitz)
->> or -mtune=arm926ej-s (when built for qemuarm).
-
-I argued this when we original did the work for the tunings, and I lost....
-
->> From
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=1916#c5
->> Firstly, if you go changing the tune parameters in a given machine, you are expected to use a different PACKAGE_ARCH. If you do that, you will get a different package feed for the different binaries, different WORKDIR and so on. This was always the way the package architectures was intended to work and nothing has changed there. Yes, you as the user changing various variables can create inconsistent package feeds. There are 101 ways you can do that, the simple answer is just don't. We're therefore unlikely to add MACHINE to DEPLOY_DIR or remove PACKAGE_ARCH, please just use it as its intended.
-
-That is certainly my expectation.  I'm not sure that the arm926ej-s can produce 
-binaries that are -not- arm5te binaries -- as that seems to be the standard for 
-what an armv5te is.  The xscale on the other hand is capable of having different 
-tuning parameters and had a few additional instructions.  In the past I've 
-generated a tuning simple called "xscale" that was compatible w/ armv5te.  This 
-way you could share non-optimized things, and go w/ xscale as necessary.
-
->> Does qemuarm use oe-core as it's intended?
+>> This is just for the kernel issue, right?
+>>
+>> In that case, just use ${@bb.utils.contains("TUNE_FEATURES", "mx32",
+>> "xxxx", "" ,d)} in the kernel recipe code...
+>>
+> It's possible that there will be other recipes that need patches or
+> other changes in the future, but I guess we can cross that bridge when
+> we come to it.
 >
-> CCing bluelightning because xscale is used in lot of meta-handheld machines:
->
-> Does this make sense?
->
-> OE @ ~/openembedded-core/meta/conf/machine/include $ diff -uNr tune-arm926*; diff -uNr tune-xscale.inc*
-> --- tune-arm926ejs.inc  2012-09-11 15:45:47.958202057 +0200
-> +++ tune-arm926ejs.inc.new      2012-09-11 15:45:40.579194777 +0200
-> @@ -8,4 +8,4 @@
->   AVAILTUNES += "arm926ejs"
->   TUNE_FEATURES_tune-arm926ejs = "${TUNE_FEATURES_tune-armv5te} arm926ejs"
->   PACKAGE_EXTRA_ARCHS_tune-arm926ejs = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
-> -
-> +TUNE_PKGARCH_tune-arm926ejs = "armv5te-arm926ejs"
+> I think I will actually use the features update that Bruce just added
+> from here instead.  Since multiple BSP could take advantage of x32 we
+> should not have to edit each of there kernel recipes.  It should just be
+> enabled based on the x32 DEFAULTTUNE.
 
-I'd suggest simply arm926ejs....
-
-> --- tune-xscale.inc     2012-08-28 11:01:04.899070433 +0200
-> +++ tune-xscale.inc.new 2012-09-11 15:43:24.560060591 +0200
-> @@ -8,10 +8,12 @@
->   AVAILTUNES += "xscale"
->   TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
->   PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
-> +TUNE_PKGARCH_tune-xscale = "armv5te-xscale"
-
-Again simplify to xscale
-
->   AVAILTUNES += "xscale-be"
->   TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale bigendian"
->   PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb}"
-> +TUNE_PKGARCH_tune-xscale-be = "armv5teb-xscale"
-
-And xscaleeb (or be)
+I know there are a few other things that can (and should) change behavior based 
+on the x32 flag..  but flag or override, it just changes slightly the 
+implementation mechanism -- either should work as long as we consistently use it.
 
 --Mark
 
->   # webkit-gtk has alignment issues with double instructions on armv5 so
->   # disable them here
+> Thanks
+> 	Sau!
 >
+>
+>
+>> Cheers,
 >>
->> Shouldn't spitz produce something like armv5te-xscale and qemuarm armv5te-arm926ejs?
->> It would cause all recipes to build again (cannot share armv5te feed anymore),
->> but at least it would build it and user will really get it on target, right now
->> opkg upgrade can download some packages with xscale some with arm926ej-s.
+>> Richard
 >>
->> $ ~/bitbake/bin/bitbake-diffsigs
->>    stamps.1347348910/spitz/armv5te-oe-linux-gnueabi/linux-libc-headers-3.4.3-r0.do_configure.sigdata.04b364a15889fcff7502614f1c116abc
->>    stamps.1347348910/qemuarm/armv5te-oe-linux-gnueabi/linux-libc-headers-3.4.3-r0.do_configure.sigdata.656f0583be969b427f040f2e143bcb14
->>    basehash changed from 7fe9c0a3455dac20ba6a90ed337b097e to d8dd2ff8613d0aafe60bef1a1e9469a1
->>    Variable TUNE_CCARGS value changed from
->>    ${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=armv5${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}", "", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=armv4${ARMPKGSFX_THUMB}", "", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "thumb", "${ARM_THUMB_M_OPT}", "", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb-interwork", "-mthumb-interwork", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hard", "-mfloat-abi=softfp", d), "" ,d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "xscale", "-mtune=xscale", "", d)}
->>    to
->>    ${@bb.utils.contains("TUNE_FEATURES", "armv5", "-march=armv5${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}", "", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=armv4${ARMPKGSFX_THUMB}", "", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "thumb", "${ARM_THUMB_M_OPT}", "", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "no-thumb-interwork", "-mno-thumb-interwork", "-mthumb-interwork", d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hard", "-mfloat-abi=softfp", d), "" ,d)}
->>    ${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", "-mtune=arm926ej-s", "", d)}
 >>
->> --
->> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->
->
->
+>>
 >
 > _______________________________________________
 > Openembedded-core mailing list
