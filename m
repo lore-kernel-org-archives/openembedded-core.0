@@ -1,35 +1,26 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TBVaX-0003Ph-Tz
+	(envelope-from <philb@gnu.org>) id 1TBVo9-0004IY-Pe
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 20:53:34 +0200
-Received: by eekb57 with SMTP id b57so645377eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 11:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=QjZTjHtoUOXXeCBK19AQYwMdgITsy8YX1oaKnkMi5yU=;
-	b=gqcIWkuvpGyOv7NlFE7DZ7z1Kw5REQv1VD3MTq8/VQCUFZG+kxUAIMqmMf3ngXT4o/
-	AJoweoozZsUkG4R4SgwNnqAAFyouD+uTrhayHgf7kMjgXp9lubrY10q3dLLqLs2kYc7/
-	358vnxaiKfDKfXwaJamWGKiXilX+xcVrzzHExfH6ONJMJ7FM+ANw/gbvXG5SP+KkbhYQ
-	OECMgsrSDUPCbDnmzRwjWp8+nMz9JetuOOTLiIdN+kfSPDdpvRiDehw7arNxF2kdWpdr
-	OXLf4jhRDTiDuUW99m++QgQVhO+R55Y03J1buDJdEW7FgveAVdjf6k9+r0zR1TbczV21
-	LQvw==
-Received: by 10.14.202.66 with SMTP id c42mr27387474eeo.35.1347388862858; Tue,
-	11 Sep 2012 11:41:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Tue, 11 Sep 2012 11:40:31 -0700 (PDT)
-In-Reply-To: <A6372E3C-A8A4-4987-9C2B-D65FFBBCEF5C@dominion.thruhere.net>
+	Tue, 11 Sep 2012 21:07:37 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TBVc4-0000V6-0a; Tue, 11 Sep 2012 20:55:08 +0200
+Message-ID: <1347389582.29443.52.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Sep 2012 19:53:02 +0100
+In-Reply-To: <CAMKF1spX7cpvrb=zLOxi+qFaYhW2fpccOdFQ1-=-LVgv1gETKg@mail.gmail.com>
 References: <20120911130155.GC14077@jama.jama.net>
-	<20120911134814.GF14077@jama.jama.net>
-	<504F5E0C.7040502@windriver.com>
+	<20120911134814.GF14077@jama.jama.net> <504F5E0C.7040502@windriver.com>
 	<A6372E3C-A8A4-4987-9C2B-D65FFBBCEF5C@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Sep 2012 11:40:31 -0700
-Message-ID: <CAMKF1spX7cpvrb=zLOxi+qFaYhW2fpccOdFQ1-=-LVgv1gETKg@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
+	<CAMKF1spX7cpvrb=zLOxi+qFaYhW2fpccOdFQ1-=-LVgv1gETKg@mail.gmail.com>
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: ARM-tuning -- was qemuarm: should it really have TUNE_ARCH armv5te?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,12 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 18:53:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 11 Sep 2012 19:07:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 11, 2012 at 9:13 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> From a gcc point of view both are the same ISA, but using xscale will take in account the absurdly long pipeline on that SoC.
+On Tue, 2012-09-11 at 11:40 -0700, Khem Raj wrote:
+> On Tue, Sep 11, 2012 at 9:13 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > From a gcc point of view both are the same ISA, but using xscale will take in account the absurdly long pipeline on that SoC.
+> 
+> Not really, when you tune for XScale it will use ldrd/strd and pld if possible
 
-Not really, when you tune for XScale it will use ldrd/strd and pld if possible
+Are you sure?  As far as I remember, the only effects of -mtune=xscale
+are to alter some minor pipeline-related tradeoffs in code generation.
+In particular, LDM is especially slow on xscale so it is usually best
+avoided unless loading very large numbers of registers.
+
+I can't think of any reason why pld would be any more beneficial on
+xscale than generic v5TE, and I don't think gcc does anything special
+with it in that regard.
+
+p.
+
+
 
 
