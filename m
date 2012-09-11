@@ -1,35 +1,43 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TBXnc-0002U4-8x
+	(envelope-from <ross.burton@intel.com>) id 1TBXqR-0002Yd-T4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 23:15:12 +0200
-Received: by eaad12 with SMTP id d12so451569eaa.6
+	Tue, 11 Sep 2012 23:18:08 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Sep 2012 14:05:35 -0700
+Received: by obblz20 with SMTP id lz20so1537348obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Sep 2012 14:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Tue, 11 Sep 2012 14:05:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=2dtGqryb7y6dWl1xEf/MKkRwPBL94dTuv4e52JKN/ZQ=;
-	b=Esrf5Lgf8bChelg7M2f8Ti8Bx0WQ6IeEuJt9FSdxSxOkm7gTjLF1iUbuS+/gddybvA
-	1OEPGkz9Uo/GLl5/D6GpBLI1HKsqh5W7hk0CywPMhaGMv3gAXYSwHIdeMHkp2arM3BqP
-	anpjztxai6gHA1WNUB8Hxr5sBFJgqcFO2zknDzFgYzfrzwb3maotWyOMw5VJsC44yycg
-	vQRCua8gm/B5P3PUGUkc56K4SYMITDtUL8Uu3zn7Ibv9rkQuDAUF2ewdWJvKcsTKeUnI
-	wZYMPZDAQJUH7Zh+fWYnG8Ce1rAzQliKwP/fby0o1/yHwozFRgQgRJ7SicWCQZtdN9St
-	0KOQ==
-Received: by 10.14.173.131 with SMTP id v3mr22089248eel.15.1347397361035; Tue,
-	11 Sep 2012 14:02:41 -0700 (PDT)
+	:cc:content-type:x-gm-message-state;
+	bh=qFhq0YBOpedtYp35xwkgTaNJ/gfGjLBZJVjp7fAXjYE=;
+	b=OtLoty6lsqndgu4wD8REPfhcVJVzj7WxNyCOk8HbruElODddUQa5NYdx1K/CkBzwP8
+	uVvymBkPk8x6/9dth6iW3kTRCLms/HqFQcRL2x1puasArURuvnOL7+OKU5iouiC6HNjp
+	2IO7hFoRDSduxTqojzjNEoSm+rGwBFMPGZ5Atm7ButUaZggB94U0HerWtxV1fH58nz1q
+	2fNCYuA+nm5YcxxkHXsMfkSlZuPaA5IOwcjveQ8n3FhT19SB7l+fwVhKLJbMm+5APSnK
+	di3TijPmjlN17AF0+E8J1QfMnZvgHXh+Zc/YMdiKk3WPTLI4aCKpXjiPM1gKksq1kTNb
+	bbCw==
+Received: by 10.60.19.132 with SMTP id f4mr377240oee.17.1347397534535; Tue, 11
+	Sep 2012 14:05:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Tue, 11 Sep 2012 14:02:10 -0700 (PDT)
-In-Reply-To: <504F3E85.6030302@communistcode.co.uk>
-References: <504F05A8.3000207@communistcode.co.uk>
-	<504F36CA.9060007@windriver.com>
-	<504F3E85.6030302@communistcode.co.uk>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Sep 2012 14:02:10 -0700
-Message-ID: <CAMKF1srgD9eXY+hxmzfXwT8L1WmFNQBHGgA9T5xNiiQb5GJZsg@mail.gmail.com>
-To: ml@communistcode.co.uk
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: /usr/bin/python is needed by git
+Received: by 10.182.79.105 with HTTP; Tue, 11 Sep 2012 14:05:14 -0700 (PDT)
+In-Reply-To: <1347397258.2122.55.camel@ted>
+References: <504F8D62.8010508@intel.com>
+	<CAJTo0LYf2C0PmrpMf3-RsUub1pQmN=G3f6Tt8ou6UNJ-8NoJKA@mail.gmail.com>
+	<504F8EB5.30503@intel.com>
+	<CAJTo0LbTe4462EVa6u30FrYHh96oUXnksKkpWy8hVFbM=dz_9A@mail.gmail.com>
+	<504F92B2.6000304@intel.com> <1347397258.2122.55.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Sep 2012 22:05:14 +0100
+Message-ID: <CAJTo0LZaR9GVqDFJ7qsFaZxKHBf_zko9CVz73p9YJz6Jii7_dA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQlygb5xo3oxBL/YCeakjCbRO3WaqtEtztimYMBS83/GPaUG3aYCQ+F99/YqnVHLJxbmQ0Bf
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Scott Garman <scott.a.garman@intel.com>
+Subject: Re: Sato virtual keyboard - how to close it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +50,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 21:15:12 -0000
+X-List-Received-Date: Tue, 11 Sep 2012 21:18:08 -0000
 Content-Type: text/plain; charset=UTF-8
 
-> HI Mark,
+On 11 September 2012 22:00, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> There has been a bug open for this for years :(
 >
-> I sent a patch (see above) which added python as a dependency and that
-> seemed to fix it. Whether or not this is the right fix I don't know...
-> should git require the python binary to run? I really don't know much about
-> it...
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=149
+>
+> Ross appears to have recently closed it as NOTABUG but I think he
+> misunderstood the problem.
 
+Yes, the bug said "exit". :/  I've taken the new bug Scott filed, and
+will look at it once I've started on the slides I'm presenting next
+week...
 
-I wonder what needs python in git. Can you inspect ?
-
->
->
-> --
->
->   Jack Mitchell (jack@embed.me.uk)
->   Embedded Systems Engineer
->   http://www.embed.me.uk
->
-> --
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Ross
 
 
