@@ -1,30 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1TBIkd-00084M-Et
+	(envelope-from <Kai.Kang@windriver.com>) id 1TBImh-00087Y-Ny
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 07:11:07 +0200
+	Tue, 11 Sep 2012 07:13:16 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8B4wYLi022519
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8B50i8x029936
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Sep 2012 21:58:34 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.19.124) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 10 Sep 2012 21:58:34 -0700
-Message-ID: <504EC4F3.30705@windriver.com>
-Date: Tue, 11 Sep 2012 00:58:27 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1
+	Mon, 10 Sep 2012 22:00:44 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.309.2; Mon, 10 Sep 2012 22:00:43 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <sgw@linux.intel.com>
+Date: Tue, 11 Sep 2012 13:00:57 +0800
+Message-ID: <cover.1347329133.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1347300360.git.bruce.ashfield@windriver.com>
-	<cc8bfedabfe61a0e06a8a8199f8c0fce4738260a.1347300360.git.bruce.ashfield@windriver.com>
-	<20120911045038.GE2980@sakrah.homelinux.org>
-	<504EC385.6060008@windriver.com>
-	<20120911045557.GF2980@sakrah.homelinux.org>
-In-Reply-To: <20120911045557.GF2980@sakrah.homelinux.org>
-Subject: Re: [PATCH 1/1] linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
+X-Originating-IP: [128.224.162.159]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] One more patch for lsb perl test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 05:11:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Sep 2012 05:13:16 -0000
+Content-Type: text/plain
 
-On 12-09-11 12:55 AM, Khem Raj wrote:
-> On (11/09/12 00:52), Bruce Ashfield wrote:
->> On 12-09-11 12:50 AM, Khem Raj wrote:
->>> On (10/09/12 14:11), Bruce Ashfield wrote:
->>>> Updating to 3.4.10 which has been soaking for a bit now, as well
->>>> as picking up the following meta commits from Tom Z:
->>>
->>> would it also need bumping linux-libc-headers too ?
->>
->> There's no new interfaces in the -stable updates, so there's no reason
->> to bump. I typically elect to jump to a 3.x.0 and leave it there, but
->> we had an interim bump that I wouldn't have done .. so we sit at 3.4.3
->> at the moment (which is still fine).
->
-> OK. Next question is, do stable updates get changes such that we need to
-> bump the linux-libc-headers ?
+Hi Saul,
 
-Not that I've ever seen. Since there are no new features or user exported
-defines that make it into the -stable updates, using the base version 
-headers
-is reasonable. It saves churn, and keeps all of the QA and testing
-results directly applicable throughout feature freeze by leaving the
-the stable.
+V2 just rebase to master.
 
-Cheers,
+The following changes since commit 7250638ec895bc89508711831083d43b9e1e9826:
 
-Bruce
+  upstream_tracking: Fix format issues (2012-09-10 23:21:12 +0100)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/lsb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb
+
+Kang Kai (1):
+  packagegroups-core-lsb: add perl-dev/doc
+
+ .../packagegroups/packagegroup-core-lsb.bb         |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
