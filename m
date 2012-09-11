@@ -1,21 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TBTIj-0002LR-PR
+	(envelope-from <constantinx.musca@intel.com>) id 1TBTIs-0002Ln-Uj
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 18:27:01 +0200
+	Tue, 11 Sep 2012 18:27:11 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Sep 2012 09:14:30 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 11 Sep 2012 09:14:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,406,1344236400"; d="scan'208";a="220783395"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.123])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2012 09:14:29 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.80,406,1344236400"; d="scan'208";a="220783430"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.156])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2012 09:14:38 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Sep 2012 09:14:29 -0700
-Message-Id: <cover.1347379806.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-MIME-Version: 1.0
-Subject: [CONSOLIDATED REQUEST 00/13] Misc Fixes (cover only)
+Date: Tue, 11 Sep 2012 18:19:45 +0300
+Message-Id: <cover.1347376068.git.constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/5] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,80 +27,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 16:27:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Sep 2012 16:27:11 -0000
 
+This is another set of package upgrades compiled on all architectures
+and tested using core-image-sato.
+The following changes since commit 7250638ec895bc89508711831083d43b9e1e9826:
 
-The following changes since commit 48169c6bc44c546cecaa06207b6c36da558b81f7:
-
-  classes/packageinfo: use better method to check if package exists (2012-09-10 21:52:37 +0100)
+  upstream_tracking: Fix format issues (2012-09-10 23:21:12 +0100)
 
 are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-Bruce Ashfield (1):
-  linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
+  git://git.yoctoproject.org/poky-contrib cmuscax/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cmuscax/upgrades
 
-Khem Raj (2):
-  gcc-4.7: Fix build for armv4/EABI and ppc/Os
-  gcc-4.7: Backport libgcc fixes to appease the new build sequence
+Constantin Musca (5):
+  boost: upgrade to 1.51.0
+  glew: upgrade to 1.9.0
+  libexif: upgrade to 0.6.21
+  sysstat: upgrade to 10.1.1
+  openssl: upgrade to 1.0.1c
 
-Mark Asselstine (1):
-  base-files: provide a mechanism to skip creation of the hostname file
-
-Mark Hatle (3):
-  image.bbclass: Enable the complementary install to be called w/
-    globbing params
-  package_rpm.bbclass: Avoid unnecessary installs in complementary pass
-  qt4: Update qt4.inc to remove staticdev deps in -dbg packages
-
-Matthew McClintock (1):
-  sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we
-    have items to check
-
-Phil Blundell (3):
-  perl-native: PROVIDE libmodule-build-perl-native for consistency with
-    non-native perl
-  shadow: Fix various invalid assumptions about directory layout
-  shadow-native: Ensure that ${sbindir} and ${base_sbindir} are
-    respected
-
-Ross Burton (2):
-  webkit-gtk: work around Make bug by re-running make
-  telepathy-idle: fix parallel build
-
- meta/classes/image.bbclass                         |    4 +-
- meta/classes/package_rpm.bbclass                   |    9 ++-
- .../build-fix-for-make-j-safety.patch              |   39 ++++++++
- .../fix-svc-gtk-doc.h-target.patch                 |   24 +-----
- .../telepathy/telepathy-idle_0.1.12.bb             |    5 +-
- meta/recipes-core/base-files/base-files_3.0.14.bb  |   14 ++--
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    6 +-
- meta/recipes-devtools/gcc/gcc-4.7.inc              |    6 +-
- ...-vis_hide-gen-hide-list-Do-not-make-defin.patch |   93 ++++++++++++++++++++
- ...USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch |   49 ++++++++++
- .../gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch    |   31 +++++++
- .../gcc/gcc-4.7/ppc_no_crtsavres.patch             |   72 +++++++++++++++
- meta/recipes-devtools/perl/perl-native_5.14.2.bb   |    3 +
- .../shadow/shadow-native_4.1.4.3.bb                |   11 ++-
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |   17 +++-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    8 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   16 ++--
- meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
- meta/recipes-qt/qt4/qt4.inc                        |    2 +-
- meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb       |   22 +++++
- 21 files changed, 380 insertions(+), 55 deletions(-)
- create mode 100644 meta/recipes-connectivity/telepathy/telepathy-idle-0.1.12/build-fix-for-make-j-safety.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/0001-Makefile.in-vis_hide-gen-hide-list-Do-not-make-defin.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/0001-crtstuff.c-USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
+ .../openssl-1.0.0j/debian/debian-targets.patch     |   54 -----
+ .../openssl/openssl-1.0.0j/debian/pic.patch        |  242 --------------------
+ .../configure-targets.patch                        |    0
+ .../debian/block_digicert_malaysia.patch           |   29 +++
+ .../openssl-1.0.1c/debian/block_diginotar.patch    |   67 ++++++
+ .../debian/c_rehash-compat.patch                   |   15 +-
+ .../openssl-1.0.1c/debian/c_rehash-multi.patch     |   89 +++++++
+ .../debian/ca.patch                                |    1 +
+ .../openssl-1.0.1c/debian/config-hurd.patch        |   18 ++
+ .../openssl-1.0.1c/debian/debian-targets.patch     |   67 ++++++
+ .../openssl-1.0.1c/debian/default_bits.patch       |   14 ++
+ .../openssl/openssl-1.0.1c/debian/dgst_hmac.patch  |   54 +++++
+ .../openssl/openssl-1.0.1c/debian/gnu_source.patch |   27 +++
+ .../debian/libdoc-manpgs-pod-spell.patch           |  239 +++++++++++++++++++
+ .../openssl-1.0.1c/debian/libssl-misspell.patch    |   14 ++
+ .../debian/make-targets.patch                      |   13 +-
+ .../debian/man-dir.patch                           |    1 +
+ .../debian/man-section.patch                       |    1 +
+ .../debian/no-rpath.patch                          |    1 +
+ .../debian/no-symbolic.patch                       |    1 +
+ .../debian/openssl-pod-misspell.patch              |  125 ++++++++++
+ .../openssl/openssl-1.0.1c/debian/pic.patch        |  178 ++++++++++++++
+ .../openssl/openssl-1.0.1c/debian/pkcs12-doc.patch |   39 ++++
+ .../openssl-1.0.1c/debian/pod_ec.misspell.patch    |   14 ++
+ .../debian/pod_pksc12.misspell.patch               |   14 ++
+ .../openssl-1.0.1c/debian/pod_req_misspell2.patch  |   15 ++
+ .../debian/pod_s_server.misspell.patch             |   14 ++
+ .../debian/pod_x509setflags.misspell.patch         |   14 ++
+ .../openssl/openssl-1.0.1c/debian/rehash-crt.patch |   36 +++
+ .../openssl/openssl-1.0.1c/debian/rehash_pod.patch |   63 +++++
+ .../openssl-1.0.1c/debian/renegiotate_tls.patch    |   13 ++
+ .../openssl-1.0.1c/debian/shared-lib-ext.patch     |   17 ++
+ .../openssl/openssl-1.0.1c/debian/stddef.patch     |   15 ++
+ .../openssl/openssl-1.0.1c/debian/valgrind.patch   |   23 ++
+ .../debian/version-script.patch                    |  203 ++++++++++++++--
+ .../engines-install-in-libdir-ssl.patch            |    0
+ .../{openssl-1.0.0j => openssl-1.0.1c}/find.pl     |    0
+ .../oe-ldflags.patch                               |    0
+ .../openssl-fix-link.patch                         |    0
+ .../openssl_fix_for_x32.patch                      |   38 ++-
+ .../shared-libs.patch                              |   33 +--
+ .../{openssl_1.0.0j.bb => openssl_1.0.1c.bb}       |   37 ++-
+ meta/recipes-extended/sysstat/sysstat_10.0.5.bb    |    8 -
+ meta/recipes-extended/sysstat/sysstat_10.1.1.bb    |    8 +
+ .../glew/{glew_1.7.0.bb => glew_1.9.0.bb}          |    6 +-
+ .../boost/{boost_1.50.0.bb => boost_1.51.0.bb}     |    4 +-
+ .../{libexif_0.6.20.bb => libexif_0.6.21.bb}       |    4 +-
+ 47 files changed, 1465 insertions(+), 403 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/configure-targets.patch (100%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/block_digicert_malaysia.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/block_diginotar.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/c_rehash-compat.patch (77%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/c_rehash-multi.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/ca.patch (93%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/config-hurd.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/debian-targets.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/default_bits.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/dgst_hmac.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/gnu_source.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/libdoc-manpgs-pod-spell.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/libssl-misspell.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/make-targets.patch (46%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/man-dir.patch (86%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/man-section.patch (95%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/no-rpath.patch (91%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/no-symbolic.patch (91%)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/openssl-pod-misspell.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pic.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pkcs12-doc.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pod_ec.misspell.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pod_pksc12.misspell.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pod_req_misspell2.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pod_s_server.misspell.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/pod_x509setflags.misspell.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/rehash-crt.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/rehash_pod.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/renegiotate_tls.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/shared-lib-ext.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/stddef.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1c/debian/valgrind.patch
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/debian/version-script.patch (95%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/find.pl (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/openssl-fix-link.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/openssl_fix_for_x32.patch (63%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0j => openssl-1.0.1c}/shared-libs.patch (43%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.0j.bb => openssl_1.0.1c.bb} (53%)
+ delete mode 100644 meta/recipes-extended/sysstat/sysstat_10.0.5.bb
+ create mode 100644 meta/recipes-extended/sysstat/sysstat_10.1.1.bb
+ rename meta/recipes-graphics/glew/{glew_1.7.0.bb => glew_1.9.0.bb} (80%)
+ rename meta/recipes-support/boost/{boost_1.50.0.bb => boost_1.51.0.bb} (53%)
+ rename meta/recipes-support/libexif/{libexif_0.6.20.bb => libexif_0.6.21.bb} (74%)
 
 -- 
-1.7.7.6
+1.7.9.5
 
 
 
