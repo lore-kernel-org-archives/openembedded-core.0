@@ -1,29 +1,45 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from db3ehsobe004.messaging.microsoft.com ([213.199.154.142]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1TBd8K-0002FD-S2
+	(envelope-from <B19537@freescale.com>) id 1TBeH9-0003Yk-BO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 04:56:57 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 321F3F811ED; Tue, 11 Sep 2012 20:44:26 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id BA3F9F811E3;
-	Tue, 11 Sep 2012 20:44:24 -0600 (MDT)
-Message-ID: <504FF70B.7060701@mlbassoc.com>
-Date: Tue, 11 Sep 2012 20:44:27 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Wed, 12 Sep 2012 06:10:07 +0200
+Received: from mail4-db3-R.bigfish.com (10.3.81.232) by
+	DB3EHSOBE010.bigfish.com (10.3.84.30) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 12 Sep 2012 03:27:30 +0000
+Received: from mail4-db3 (localhost [127.0.0.1])	by mail4-db3-R.bigfish.com
+	(Postfix) with ESMTP id F3DE5C0136	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 12 Sep 2012 03:27:29 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz936eIzz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12bdh1155h)
+Received: from mail4-db3 (localhost.localdomain [127.0.0.1]) by mail4-db3
+	(MessageSwitch) id 1347420447827122_24657;
+	Wed, 12 Sep 2012 03:27:27 +0000 (UTC)
+Received: from DB3EHSMHS019.bigfish.com (unknown [10.3.81.237])	by
+	mail4-db3.bigfish.com (Postfix) with ESMTP id B964DA0060	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 12 Sep 2012 03:27:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS019.bigfish.com
+	(10.3.87.119) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 12 Sep 2012 03:27:26 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Tue, 11 Sep 2012 22:27:15 -0500
+Received: from bjsimics-desktop.ap.freescale.net
+	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id q8C3RDdi020399;
+	Tue, 11 Sep 2012 20:27:13 -0700
+From: <b19537@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Sep 2012 11:44:18 +0800
+Message-ID: <1347421458-2044-1-git-send-email-b19537@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1346905978.git.raj.khem@gmail.com>
-	<5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
-In-Reply-To: <5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 1/4] gcc: Switch SRC_URI to use svn
+X-OriginatorOrg: freescale.com
+Subject: valgrind: fix debug info reading error when do memcheck on ppc targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,71 +52,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 02:56:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Sep 2012 04:10:07 -0000
+Content-Type: text/plain
 
-On 2012-09-05 22:35, Khem Raj wrote:
-> svn tar balls are 96M as compared to 1.3G git tars
-> its unnessary to suck in that much of data.
->
-> Fixes [YOCTO #2908]
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+From: Zhenhua Luo <b19537@freescale.com>
 
-What about this patch?   Carrying around a 1.7GB (Sorry, Khem, that's the size of my tar ball!)
-is a bit much, especially when that's what I send to my customers...
+    following is the error message:
+        --2263-- WARNING: Serious error when reading debug info
+        --2263-- When reading debug info from /lib/ld-2.13.so:
+        --2263-- Can't make sense of .got section mapping
+        --2263-- WARNING: Serious error when reading debug info
+        --2263-- When reading debug info from /home/root/lzh:
+        --2263-- Can't make sense of .data section mapping
+        --2263-- WARNING: Serious error when reading debug info
+        --2263-- When reading debug info from /usr/lib/valgrind/vgpreload_core-ppc32-linux.so:
+        --2263-- Can't make sense of .data section mapping
+        --2263-- WARNING: Serious error when reading debug info
+        --2263-- When reading debug info from /usr/lib/valgrind/vgpreload_memcheck-ppc32-linux.so:
+        --2263-- Can't make sense of .data section mapping
+        --2263-- WARNING: Serious error when reading debug info
+        --2263-- When reading debug info from /lib/libc-2.13.so:
+        --2263-- Can't make sense of .data section mapping
 
-> ---
->   meta/recipes-devtools/gcc/gcc-4.7.inc |    8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-> index 84c230c..affbd54 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-> @@ -11,7 +11,7 @@ PR = "r11"
->   # using 4.7.1.0 for upgrade path when we move past 4.7.2 release
->   # then we should drop the last 0 as well.
->
-> -PV = "4.7.1.0+git${SRCPV}"
-> +PV = "4.7.1.0+svn${SRCPV}"
->
->   # BINV should be incremented after updating to a revision
->   # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
-> @@ -21,7 +21,7 @@ PV = "4.7.1.0+git${SRCPV}"
->
->   BINV = "4.7.2"
->
-> -SRCREV = "d07e24f4ab59f264d68d21838795349faab5dede"
-> +SRCREV = "190218"
->   BRANCH = "gcc-4_7-branch"
->   FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
->
-> @@ -36,7 +36,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->                      file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->   		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
->
-> -SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
-> +SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};protocol=http \
->   	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
->   	   file://100-uclibc-conf.patch \
->              file://gcc-uclibc-locale-ctype_touplow_t.patch \
-> @@ -77,7 +77,7 @@ SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
->   	   file://libtool.patch \
->   	  "
->
-> -S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
-> +S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
->   B = "${WORKDIR}/${BRANCH}/build.${HOST_SYS}.${TARGET_SYS}"
->
->   # Language Overrides
->
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+---
+ ...ind-3.7.0-fix-error-of-reading-debug-info.patch |   11 +++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    5 ++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
 
+diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
+new file mode 100644
+index 0000000..c3ebd67
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
+@@ -0,0 +1,11 @@
++--- a/coregrind/m_debuginfo/readelf.c	2012-09-11 21:45:36.696462313 -0500
+++++ b/coregrind/m_debuginfo/readelf.c	2012-09-11 21:45:49.913463615 -0500
++@@ -1539,7 +1539,7 @@
++                 && phdr->p_offset < di->fsm.rw_map_foff + di->fsm.rw_map_size
++                 && phdr->p_offset + phdr->p_filesz 
++                    <= di->fsm.rw_map_foff + di->fsm.rw_map_size
++-                && (phdr->p_flags & (PF_R | PF_W | PF_X)) == (PF_R | PF_W)) {
+++                && (phdr->p_flags & (PF_R | PF_W | PF_X)) >= (PF_R | PF_W)) {
++                if (n_rw == N_RX_RW_AREAS) {
++                   ML_(symerr)(di, True,
++                               "N_RX_RW_AREAS is too low; "
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+index abda7a6..651ae60 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+ 
+ X11DEPENDS = "virtual/libx11"
+ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+ 	   file://fix_issue_caused_by_ccache.patch \
+@@ -21,6 +21,9 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://configure-with-glibc-2.16.patch \
+           "
+ 
++SRC_URI_append_powerpc = " file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
++SRC_URI_append_powerpc64 = "file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
++
+ SRC_URI[md5sum] = "a855fda56edf05614f099dca316d1775"
+ SRC_URI[sha256sum] = "5d62c0330f1481fe2c593249192fa68ff454c19c34343978cc9ce91aa324cbf6"
+ 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.7.9.5
+
+
 
 
