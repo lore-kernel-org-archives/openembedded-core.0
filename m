@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TBqlZ-0003CW-Pl
+	(envelope-from <sgw@linux.intel.com>) id 1TBqtt-0003Mi-5H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 19:30:22 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 12 Sep 2012 10:17:48 -0700
+	Wed, 12 Sep 2012 19:38:57 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Sep 2012 10:26:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="144296327"
+X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="221148217"
 Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Sep 2012 10:17:47 -0700
-Message-ID: <5050C3BB.5030300@linux.intel.com>
-Date: Wed, 12 Sep 2012 10:17:47 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2012 10:26:23 -0700
+Message-ID: <5050C5BE.5030108@linux.intel.com>
+Date: Wed, 12 Sep 2012 10:26:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Matthew McClintock <msm@freescale.com>
-References: <1347386213-6215-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1347386213-6215-1-git-send-email-msm@freescale.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <cover.1347300360.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1347300360.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we have items to check
+Subject: Re: [PATCH 0/1] linux-yocto: 3.4 kernel updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,62 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 17:30:22 -0000
+X-List-Received-Date: Wed, 12 Sep 2012 17:38:57 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/11/2012 10:56 AM, Matthew McClintock wrote:
-> Right now, we delay running the serial console checks to we boot up. This causes
-> issues for read only file systems. So, if have not configured any serial ports to
-> check via SERIAL_CONSOLES_CHECK we can skip the check at boot. This fixes any
-> issues with read only file systems and ipk packaging.
+On 09/10/2012 11:11 AM, Bruce Ashfield wrote:
+> Richard/Saul,
 >
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
-> v2: bump PR
-> v3: change a == bashism to =
+> Here's a small bump to 3.4.10 (32 commits) and an update to
+> pickup some configuration changes from TomZ (no impact on existing
+> features). All in all, it's a nice set of small fixes, with no risk.
 >
->   .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
+> Cheers,
 >
-> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> index 1089edb..5b79caf 100644
-> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> @@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> Bruce
 >
-> -PR = "r7"
-> +PR = "r8"
+> cc: Tom Zanussi <tom.zanussi@intel.com>
 >
->   SRC_URI = "file://inittab"
+> The following changes since commit 21816355c00eadb2273d61b456f06239ca300b47:
 >
-> @@ -54,7 +54,7 @@ EOF
+>    bitbake: cooker: fix handling of exceptions during exception handling (2012-09-10 13:14:08 +0100)
 >
->   pkg_postinst_${PN} () {
->   # run this on the target
-> -if [ "x$D" == "x" ]; then
-> +if [ "x$D" = "x" ]; then
->   	tmp="${SERIAL_CONSOLES_CHECK}"
->   	for i in $tmp
->   	do
-> @@ -65,7 +65,11 @@ if [ "x$D" == "x" ]; then
->   	done
->   	kill -HUP 1
->   else
-> -	exit 1
-> +	if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
-> +		exit 0
-> +	else
-> +		exit 1
-> +	fi
->   fi
->   }
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 >
+> Bruce Ashfield (1):
+>    linux-yocto/3.4: v3.4.10 and uprobes/kprobes configuration updates
 >
-
-Merged to OE-Core
+>   meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
+>   meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
+>   2 files changed, 12 insertions(+), 12 deletions(-)
+>
+Merged into OE-Core
 
 Thanks
 	Sau!
