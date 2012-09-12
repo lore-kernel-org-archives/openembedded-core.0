@@ -1,25 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TBrU8-0004oO-Pl
+	(envelope-from <sgw@linux.intel.com>) id 1TBrUO-0004qk-CN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 20:16:24 +0200
+	Wed, 12 Sep 2012 20:16:40 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Sep 2012 11:03:51 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 12 Sep 2012 11:04:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="221164169"
+X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="221164434"
 Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2012 11:03:26 -0700
-Message-ID: <5050CE6E.7080003@linux.intel.com>
-Date: Wed, 12 Sep 2012 11:03:26 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2012 11:04:06 -0700
+Message-ID: <5050CE96.4010804@linux.intel.com>
+Date: Wed, 12 Sep 2012 11:04:06 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
-References: <1346867411-8227-1-git-send-email-schnitzeltony@googlemail.com>
-In-Reply-To: <1346867411-8227-1-git-send-email-schnitzeltony@googlemail.com>
+To: b19537@freescale.com
+References: <1347438046-9745-1-git-send-email-b19537@freescale.com>
+In-Reply-To: <1347438046-9745-1-git-send-email-b19537@freescale.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gst-plugins-good: fix compile error with recent linux-libc-headers
+Subject: Re: [oe-core v2] valgrind: fix debug info reading error when do memcheck on ppc targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,86 +32,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 18:16:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Sep 2012 18:16:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 09/05/2012 10:50 AM, Andreas Müller wrote:
-> With linux-libc-headers-3.5.0 (for tests) the error message was:
+On 09/12/2012 01:20 AM, b19537@freescale.com wrote:
+> From: Zhenhua Luo <b19537@freescale.com>
 >
-> | gstv4l2bufferpool.c: In function 'gst_v4l2_buffer_new':
-> | gstv4l2bufferpool.c:184:3: error: 'struct v4l2_buffer' has no member named 'input'
+>      following is the error message:
+>          --2263-- WARNING: Serious error when reading debug info
+>          --2263-- When reading debug info from /lib/ld-2.13.so:
+>          --2263-- Can't make sense of .got section mapping
+>          --2263-- WARNING: Serious error when reading debug info
+>          --2263-- When reading debug info from /home/root/lzh:
+>          --2263-- Can't make sense of .data section mapping
+>          --2263-- WARNING: Serious error when reading debug info
+>          --2263-- When reading debug info from /usr/lib/valgrind/vgpreload_core-ppc32-linux.so:
+>          --2263-- Can't make sense of .data section mapping
+>          --2263-- WARNING: Serious error when reading debug info
+>          --2263-- When reading debug info from /usr/lib/valgrind/vgpreload_memcheck-ppc32-linux.so:
+>          --2263-- Can't make sense of .data section mapping
+>          --2263-- WARNING: Serious error when reading debug info
+>          --2263-- When reading debug info from /lib/libc-2.13.so:
+>          --2263-- Can't make sense of .data section mapping
 >
-> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
 > ---
->   ...ild-with-recent-kernels-the-v4l2_buffer-i.patch |   33 ++++++++++++++++++++
->   .../gstreamer/gst-plugins-good_0.10.31.bb          |    4 ++-
->   2 files changed, 36 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch
+>   ...ind-3.7.0-fix-error-of-reading-debug-info.patch |   33 ++++++++++++++++++++
+>   meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    5 ++-
+>   2 files changed, 37 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
 >
-
 Merged into OE-Core
 
 Thanks
 	Sau!
 
-
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch
+> diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
 > new file mode 100644
-> index 0000000..6456d3c
+> index 0000000..b1626f0
 > --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch
+> +++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
 > @@ -0,0 +1,33 @@
-> +From 12d18fe4e98e7c232d59b56d529a0521f293fe6d Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-> +Date: Wed, 5 Sep 2012 18:54:42 +0200
-> +Subject: [PATCH] v4l2: fix build with recent kernels, the v4l2_buffer input
-> + field was removed
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
+> +Upstream-Status: Pending
 > +
-> +Upstream-Status: Backport
+> +fix debug info reading error when do memcheck on ppc targets
+> +    following is the error message:
+> +        --2263-- WARNING: Serious error when reading debug info
+> +        --2263-- When reading debug info from /lib/ld-2.13.so:
+> +        --2263-- Can't make sense of .got section mapping
+> +        --2263-- WARNING: Serious error when reading debug info
+> +        --2263-- When reading debug info from /home/root/lzh:
+> +        --2263-- Can't make sense of .data section mapping
+> +        --2263-- WARNING: Serious error when reading debug info
+> +        --2263-- When reading debug info from /usr/lib/valgrind/vgpreload_core-ppc32-linux.so:
+> +        --2263-- Can't make sense of .data section mapping
+> +        --2263-- WARNING: Serious error when reading debug info
+> +        --2263-- When reading debug info from /usr/lib/valgrind/vgpreload_memcheck-ppc32-linux.so:
+> +        --2263-- Can't make sense of .data section mapping
+> +        --2263-- WARNING: Serious error when reading debug info
+> +        --2263-- When reading debug info from /lib/libc-2.13.so:
+> +        --2263-- Can't make sense of .data section mapping
 > +
-> +[1] http://cgit.freedesktop.org/gstreamer/gst-plugins-good/commit/?id=9f2aa8d47f835ea155aaf635f618c0fc1ca87012
+> +Signed-off-by: Zhenhua Luo <b19537@freescale.com>
 > +
-> +Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-> +---
-> + sys/v4l2/gstv4l2bufferpool.c |    1 -
-> + 1 files changed, 0 insertions(+), 1 deletions(-)
-> +
-> +diff --git a/sys/v4l2/gstv4l2bufferpool.c b/sys/v4l2/gstv4l2bufferpool.c
-> +index b81c6a4..51cc0ce 100644
-> +--- a/sys/v4l2/gstv4l2bufferpool.c
-> ++++ b/sys/v4l2/gstv4l2bufferpool.c
-> +@@ -181,7 +181,6 @@ gst_v4l2_buffer_new (GstV4l2BufferPool * pool, guint index, GstCaps * caps)
-> +     GST_LOG_OBJECT (pool->v4l2elem, "  MMAP offset:  %u",
-> +         ret->vbuffer.m.offset);
-> +   GST_LOG_OBJECT (pool->v4l2elem, "  length:    %u", ret->vbuffer.length);
-> +-  GST_LOG_OBJECT (pool->v4l2elem, "  input:     %u", ret->vbuffer.input);
-> +
-> +   data = (guint8 *) v4l2_mmap (0, ret->vbuffer.length,
-> +       PROT_READ | PROT_WRITE, MAP_SHARED, pool->video_fd,
-> +--
-> +1.7.6.5
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> index ac63f94..abcd836 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> @@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+> +--- a/coregrind/m_debuginfo/readelf.c	2012-09-11 21:45:36.696462313 -0500
+> ++++ b/coregrind/m_debuginfo/readelf.c	2012-09-11 21:45:49.913463615 -0500
+> +@@ -1539,7 +1539,7 @@
+> +                 && phdr->p_offset < di->fsm.rw_map_foff + di->fsm.rw_map_size
+> +                 && phdr->p_offset + phdr->p_filesz
+> +                    <= di->fsm.rw_map_foff + di->fsm.rw_map_size
+> +-                && (phdr->p_flags & (PF_R | PF_W | PF_X)) == (PF_R | PF_W)) {
+> ++                && (phdr->p_flags & (PF_R | PF_W | PF_X)) >= (PF_R | PF_W)) {
+> +                if (n_rw == N_RX_RW_AREAS) {
+> +                   ML_(symerr)(di, True,
+> +                               "N_RX_RW_AREAS is too low; "
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+> index abda7a6..651ae60 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
 >
->   DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
->   	    speex libsoup-2.4 pulseaudio"
-> -PR = "r2"
-> +PR = "r3"
+>   X11DEPENDS = "virtual/libx11"
+>   DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+> -PR = "r5"
+> +PR = "r6"
 >
->   inherit gettext gconf
+>   SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>   	   file://fix_issue_caused_by_ccache.patch \
+> @@ -21,6 +21,9 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>              file://configure-with-glibc-2.16.patch \
+>             "
 >
-> +SRC_URI += "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch"
+> +SRC_URI_append_powerpc = " file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
+> +SRC_URI_append_powerpc64 = "file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
 > +
->   EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
->                    --disable-orc"
+>   SRC_URI[md5sum] = "a855fda56edf05614f099dca316d1775"
+>   SRC_URI[sha256sum] = "5d62c0330f1481fe2c593249192fa68ff454c19c34343978cc9ce91aa324cbf6"
 >
 >
 
