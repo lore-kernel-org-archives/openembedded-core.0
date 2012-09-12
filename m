@@ -1,32 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TBnF7-0004oK-U9 for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 15:44:38 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CDVxeB020040;
-	Wed, 12 Sep 2012 14:31:59 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19954-01; Wed, 12 Sep 2012 14:31:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CDVmft020034
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 12 Sep 2012 14:31:49 +0100
-Message-ID: <1347456710.11710.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Wed, 12 Sep 2012 14:31:50 +0100
-In-Reply-To: <1347455995-24565-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1347455995-24565-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q8CDVxeB020040
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cml1.bbclass: fix kernel menuconfig
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1TBnHC-0004t6-Fv
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Sep 2012 15:46:46 +0200
+Received: by lban1 with SMTP id n1so1040510lba.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Sep 2012 06:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=/BjQMx9tFkSp0DsYJL2qG4Rh7zd26BZny5v6dCss/HI=;
+	b=geUkCyx/mX9lfKh6lkOSSOschrxD7Pm/RgvD5rbg0DZfoiKrF3RdhXFRNijMgnW4rQ
+	Mf3b1Tk/bLXbesPyYhfYuxagxY1aAJt0mbPiQxdiFDFicBpUiNfOO9x7LVsE/t6h3S4v
+	SPljBwo+0LnwaZ0pmqC8khPmfay1aEH7T5mN3BE0JcvMfQ1N+CfOfhXP0qm2ltcEiIjF
+	pTuPAPeOU/w/5Jcn6FoFUoad8cSQ8IURv0JlPcsMprHfQtXMThhZnLzARL6KSTM7ga4t
+	V7Vxa+/7iT60i4Z+AqxCVQ5OS3nbHrDQx3I3K5U/3UywCFz9HDRU7dFUXb47mGCymHqA
+	PyFA==
+Received: by 10.112.101.6 with SMTP id fc6mr7372198lbb.110.1347456851078; Wed,
+	12 Sep 2012 06:34:11 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.19.2 with HTTP; Wed, 12 Sep 2012 06:33:50 -0700 (PDT)
+In-Reply-To: <20120912095652.GA696@giant>
+References: <20120912095652.GA696@giant>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 12 Sep 2012 06:33:50 -0700
+X-Google-Sender-Auth: 5i1o-OnBGS0ohdxPzUqzV-6hSOs
+Message-ID: <CABcZANmHAsYa1gniWq0e3mBvg0+X9=AZL7Mnd3C0mbHGGLR1Cw@mail.gmail.com>
+To: =?UTF-8?Q?Bj=C3=B6rn_Stenberg?= <bjst@enea.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Bug: LDFLAGS is not cleared for kernel devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,50 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 13:44:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Sep 2012 13:46:46 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2012-09-12 at 15:19 +0200, Andreas M=C3=BCller wrote:
-> At some host environments the menuconfig displayed wrong characters ang=
- turned
-> unusable.
->=20
-> Similar suggested in [1]
->=20
-> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-August/=
-027130.html
->=20
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-> ---
->  meta/classes/cml1.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-> index 67f17ad..c773684 100644
-> --- a/meta/classes/cml1.bbclass
-> +++ b/meta/classes/cml1.bbclass
-> @@ -9,7 +9,7 @@ addtask configure after do_unpack do_patch before do_co=
-mpile
-> =20
->  inherit terminal
-> =20
-> -OE_TERMINAL_EXPORTS +=3D "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIBES"
-> +OE_TERMINAL_EXPORTS +=3D "HOST_EXTRACFLAGS HOST_LOADLIBES"
->  HOST_EXTRACFLAGS =3D "${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
->  HOSTLDFLAGS =3D "${BUILD_LDFLAGS}"
->  HOST_LOADLIBES =3D "-lncurses"
+On Wed, Sep 12, 2012 at 2:56 AM, Bj=C3=B6rn Stenberg <bjst@enea.com> wrote:
+> I couldn't figure out where to properly patch this, so I'll just raise th=
+e issue:
+>
+> LDFLAGS is configured in bitbake.conf as linker flags to be passed to gcc=
+, not to ld. Hence it uses the -Wl prefix.
+>
+> The linux kernel build system inherits LDFLAGS from the environment and p=
+asses it directly to 'ld', in conflict with the bitbake view. This problem =
+is avoided by clearing LDFLAGS and some other enviroment variables in kerne=
+l.bbclass:kernel_do_compile().
+>
+> However this clearing is not done for do_devshell, resulting in errors wh=
+en trying to compile the kernel in devshell:
 
-This effectively just reverts the previous change. The real problem is
-that ncurses-native is broken. Could we figure out how/why
-ncurses-native is broken and fix the real problem rather than hacking
-around it please?
-
-FWIW I've been unable to reproduce this locally :(.
-
-Cheers,
-
-Richard
-
+We could unexport the appropriate variables rather than unsetting them
+in the task.
+E.g.
+LDFLAGS[unexport] =3D "1"
+--=20
+Christopher Larson
 
 
