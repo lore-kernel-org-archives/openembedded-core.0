@@ -1,34 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TBmCo-00030v-04 for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 14:38:10 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CCPa2a019482;
-	Wed, 12 Sep 2012 13:25:36 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18790-04; Wed, 12 Sep 2012 13:25:32 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CCPRkG019476
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 12 Sep 2012 13:25:28 +0100
-Message-ID: <1347452729.11710.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <saul.wold@intel.com>
-Date: Wed, 12 Sep 2012 13:25:29 +0100
-In-Reply-To: <504F61BF.30902@intel.com>
-References: <cover.1347376358.git.bruce.ashfield@windriver.com>
-	<ea700a4897d82d27177a0583f01b6432ac7ec379.1347376358.git.bruce.ashfield@windriver.com>
-	<504F59B1.60308@intel.com> <504F5B17.5070500@windriver.com>
-	<504F5B9A.7070501@intel.com> <1347379081.2122.48.camel@ted>
-	<504F61BF.30902@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] linux-yocto/3.4: add x32 configuration fragment and tuning hook
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TBmEQ-00033n-Ac
+	for openembedded-core@lists.openembedded.org;
+	Wed, 12 Sep 2012 14:39:50 +0200
+Received: by iebc11 with SMTP id c11so2937158ieb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Sep 2012 05:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=EGufRNrVPuuP+TpCn0lcwEoEg6nLQ+TOUdEDodex2Vc=;
+	b=WhNqtz4R3cSBeARGGCdrXxDrR2D31rRTiTSHisMuEpXPd+Tovoi1ctjv6GpeLi2SnM
+	M/R70O4UccxaaqvBEjJuULNEBDdrZrq7h5HzU7a5vJVBRPdyEDeMhKau5d5MDj6FxeAy
+	qn/Dic4T9+V8P4OFWeyQavuDc1uhvNc2P978C5shLWRTPyGg0/uLYXnn1pwYvIpDlN/t
+	DkQ0XnYzUjKIooFoehVnzvF8ZZs/bGTHn+bHFjVFEw4uZNCHWshlKSNdv0GkRbhr2DEd
+	BrqJIda7SBTwUUzyHxkBgzVWyOPgjHd9doVk3k799ZM0RTCpKEcRFcwWIf6fGhNrJOuN
+	vzPQ==
+MIME-Version: 1.0
+Received: by 10.50.195.232 with SMTP id ih8mr17194651igc.45.1347452836469;
+	Wed, 12 Sep 2012 05:27:16 -0700 (PDT)
+Received: by 10.64.18.13 with HTTP; Wed, 12 Sep 2012 05:27:16 -0700 (PDT)
+In-Reply-To: <1346867411-8227-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1346867411-8227-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Wed, 12 Sep 2012 14:27:16 +0200
+Message-ID: <CALbNGRQYN-fK4iqG5UmX7YsW42rQwRk86NUooEvBbabP=jv+Zg@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gst-plugins-good: fix compile error with recent linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,97 +40,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 12:38:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Sep 2012 12:39:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-09-11 at 09:07 -0700, Saul Wold wrote:
-> On 09/11/2012 08:58 AM, Richard Purdie wrote:
-> > On Tue, 2012-09-11 at 08:41 -0700, Saul Wold wrote:
-> >> On 09/11/2012 08:39 AM, Bruce Ashfield wrote:
-> >>> On 12-09-11 11:33 AM, Saul Wold wrote:
-> >>>> On 09/11/2012 08:17 AM, Bruce Ashfield wrote:
-> >>>>> When x32 is the tuning for a x86 MACHINE, the kernel should also have
-> >>>>> CONFIG_X86_X32=y.
-> >>>>>
-> >>>>> This can be accomplished by adding the x32 configuraion fragment to the
-> >>>>> KERNEL_FEATURES when x32 is the tuning for a given machine.
-> >>>>>
-> >>>>> cc: Saul Wold <sgw@linux.intel.com>
-> >>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >>>>> ---
-> >>>>> meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb | 3 ++-
-> >>>>> meta/recipes-kernel/linux/linux-yocto_3.4.bb | 3 ++-
-> >>>>> 2 files changed, 4 insertions(+), 2 deletions(-)
-> >>>>>
-> >>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-> >>>>> b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-> >>>>> index 4fd3845..156fb93 100644
-> >>>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-> >>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-> >>>>> @@ -10,7 +10,7 @@ KMETA = "meta"
-> >>>>>
-> >>>>> SRCREV_machine ?= "a35693b1287c0e50cdca33a1b95af0ff48b43cd0"
-> >>>>> SRCREV_machine_qemuppc ?= "85a1190530cb5749f5f831670976b163438dc301"
-> >>>>> -SRCREV_meta ?= "d9d5fc63d8b38705036e946ea77d971d95de11ad"
-> >>>>> +SRCREV_meta ?= "e0374ce012e7e6fc8e5bb8b957addb0478950898"
-> >>>>>
-> >>>>> PR = "${INC_PR}.0"
-> >>>>> PV = "${LINUX_VERSION}+git${SRCPV}"
-> >>>>> @@ -27,3 +27,4 @@ KERNEL_FEATURES_append = " features/netfilter"
-> >>>>> KERNEL_FEATURES_append = " features/taskstats"
-> >>>>> KERNEL_FEATURES_append_qemux86 = " cfg/sound"
-> >>>>> KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
-> >>>>> +KERNEL_FEATURES_append_x32 = " cfg/x32"
-> >>>>
-> >>>> Scratch this bit and below, as I think I will use the other mechanism
-> >>>> you talked about to go from a .conf file.
-> >>>
-> >>> Works for me. The meta change is staged and pushed out, I'll update this
-> >>> patch to not have the KERNEL_FEATURES portion.
-> >>>
-> >> Thanks, see my other email to RP, since x32 is a feature that any x86-64
-> >> machine might want to enable based on the DEFAULTTUNE it makes more
-> >> sense to be in the machine config includes.
-> >
-> > No, it doesn't.
-> >
-> > What we need here is:
-> >
-> > -KERNEL_FEATURES_append = " features/taskstats"
-> > +KERNEL_FEATURES_append = " features/taskstats ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
-> >
-> No, this would then only address the qemu machine, what about all the HW 
-> BSP that might want it, they would need to add this same line.  If I add 
-> the KERNEL_FEATURES_append to the arch-ia32.inc, conditional on mx32, 
-> then any x86-64 BSP can just enable that TUNE, isn't that the point of 
-> the machine config tuning?
+On Wed, Sep 5, 2012 at 7:50 PM, Andreas M=FCller
+<schnitzeltony@googlemail.com> wrote:
+> With linux-libc-headers-3.5.0 (for tests) the error message was:
+>
+> | gstv4l2bufferpool.c: In function 'gst_v4l2_buffer_new':
+> | gstv4l2bufferpool.c:184:3: error: 'struct v4l2_buffer' has no member na=
+med 'input'
+>
+> Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
+> ---
+>  ...ild-with-recent-kernels-the-v4l2_buffer-i.patch |   33 ++++++++++++++=
+++++++
+>  .../gstreamer/gst-plugins-good_0.10.31.bb          |    4 ++-
+>  2 files changed, 36 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.=
+10.31/0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0=
+001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch b/meta/recip=
+es-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2-fix-build-with-r=
+ecent-kernels-the-v4l2_buffer-i.patch
+> new file mode 100644
+> index 0000000..6456d3c
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l=
+2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch
+> @@ -0,0 +1,33 @@
+> +From 12d18fe4e98e7c232d59b56d529a0521f293fe6d Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Andreas=3D20M=3DC3=3DBCller?=3D <schnitzeltony@googlem=
+ail.com>
+> +Date: Wed, 5 Sep 2012 18:54:42 +0200
+> +Subject: [PATCH] v4l2: fix build with recent kernels, the v4l2_buffer in=
+put
+> + field was removed
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Upstream-Status: Backport
+> +
+> +[1] http://cgit.freedesktop.org/gstreamer/gst-plugins-good/commit/?id=3D=
+9f2aa8d47f835ea155aaf635f618c0fc1ca87012
+> +
+> +Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
+> +---
+> + sys/v4l2/gstv4l2bufferpool.c |    1 -
+> + 1 files changed, 0 insertions(+), 1 deletions(-)
+> +
+> +diff --git a/sys/v4l2/gstv4l2bufferpool.c b/sys/v4l2/gstv4l2bufferpool.c
+> +index b81c6a4..51cc0ce 100644
+> +--- a/sys/v4l2/gstv4l2bufferpool.c
+> ++++ b/sys/v4l2/gstv4l2bufferpool.c
+> +@@ -181,7 +181,6 @@ gst_v4l2_buffer_new (GstV4l2BufferPool * pool, guint=
+ index, GstCaps * caps)
+> +     GST_LOG_OBJECT (pool->v4l2elem, "  MMAP offset:  %u",
+> +         ret->vbuffer.m.offset);
+> +   GST_LOG_OBJECT (pool->v4l2elem, "  length:    %u", ret->vbuffer.lengt=
+h);
+> +-  GST_LOG_OBJECT (pool->v4l2elem, "  input:     %u", ret->vbuffer.input=
+);
+> +
+> +   data =3D (guint8 *) v4l2_mmap (0, ret->vbuffer.length,
+> +       PROT_READ | PROT_WRITE, MAP_SHARED, pool->video_fd,
+> +--
+> +1.7.6.5
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.b=
+b b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> index ac63f94..abcd836 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+> @@ -7,10 +7,12 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da6f89e2100d9=
+b6cdffcea4f398e37343 \
+>
+>  DEPENDS +=3D "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3t=
+ag flac \
+>             speex libsoup-2.4 pulseaudio"
+> -PR =3D "r2"
+> +PR =3D "r3"
+>
+>  inherit gettext gconf
+>
+> +SRC_URI +=3D "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_bu=
+ffer-i.patch"
+> +
+>  EXTRA_OECONF +=3D "--disable-aalib --disable-esd --disable-shout2 --disa=
+ble-libcaca --disable-hal --without-check \
+>                   --disable-orc"
+>
+> --
+Does it make sense to prepare a rebased version (it is a bugfix for
+kernel-libc-headers used in the future >3.5)
 
-It is the point, however, the key part of this you're ignoring is that
-the kernel fragment management only happens for linux-yocto. Only the
-linux-yocto recipe supports the KERNEL_FEATURES mechanism.
-
-The arch-ia32.inc file and any machine config *cannot* depend on
-linux-yocto.
-
-So this glue belongs in linux-yocto. I agree is suboptimal for people
-not using it but such is life, there isn't any generic mechanism we can
-place this into.
-
-> > which is simple, effective and to the point. If we start needing lots of
-> > these, we can look at an x32 override but right now I don't see the
-> > need.
-> >
-> And it does not have to be an x32 override, we just set it in the 
-> arch-ia32.inc file where we define that TUNE.
-> 
-> That seems the best way.
-
-Its not. See above.
-
-Cheers,
-
-Richard
-
+Andreas
 
 
