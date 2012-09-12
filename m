@@ -1,25 +1,33 @@
-Received: from smtp4.nedap.com ([213.160.213.85] helo=smtp.nedap.com)
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jaap.dejong@nedap.com>) id 1TBlgS-0002IN-QA
+	(envelope-from <Vladimir_Zapolskiy@mentor.com>) id 1TBlgp-0002Ko-QJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 14:04:44 +0200
-Received: from nvs0066.nedap.local (10.91.8.1) by relaysmtp1.nedap.local
-	(10.1.8.139) with Microsoft SMTP Server id 8.3.83.0; Wed, 12 Sep 2012
-	13:52:12 +0200
-X-TM-IMSS-Message-ID: <a3509e79001335ff@nedap.com>
-Received: from [10.17.24.1] ([10.17.24.1]) by nedap.com ([10.91.8.1]) with
-	ESMTP (TREND IMSS SMTP Service 7.1) id a3509e79001335ff ;
-	Wed, 12 Sep 2012 13:52:14 +0200
-Message-ID: <5050776B.4060009@nedap.com>
-Date: Wed, 12 Sep 2012 13:52:11 +0200
-From: Jaap de Jong <jaap.dejong@nedap.com>
+	Wed, 12 Sep 2012 14:05:08 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1TBlUf-0003hZ-8B from Vladimir_Zapolskiy@mentor.com ;
+	Wed, 12 Sep 2012 04:52:33 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 12 Sep 2012 04:52:33 -0700
+Received: from [172.30.4.60] (137.202.0.76) by SVR-IES-FEM-01.mgc.mentorg.com
+	(137.202.0.104) with Microsoft SMTP Server (TLS) id 14.1.289.1;
+	Wed, 12 Sep 2012 12:52:30 +0100
+Message-ID: <50507778.3000208@mentor.com>
+Date: Wed, 12 Sep 2012 14:52:24 +0300
+From: Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5050769A.2040404@nedap.com>
-In-Reply-To: <5050769A.2040404@nedap.com>
-Subject: Re: fstab
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1347444916.2122.101.camel@ted>
+In-Reply-To: <1347444916.2122.101.camel@ted>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 12 Sep 2012 11:52:33.0138 (UTC)
+	FILETIME=[182CE520:01CD90DD]
+Cc: openembedded-devel <openembedded-devel@openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Feature Developement vs. Stablisation and Bug fixing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +40,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 12:04:44 -0000
+X-List-Received-Date: Wed, 12 Sep 2012 12:05:08 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Sorry !!!!
-Already solved.
-My bad !!!
+Hi Richard,
 
-On 09/12/2012 01:48 PM, Jaap de Jong wrote:
-> Hi All,
+On 12.09.2012 13:15, Richard Purdie wrote:
+> Hi,
 >
-> I've created my own /etc/fstab which is perfectly included in
-> base-files_*.ipk as expected.
-> It also shows up in
-> build/tmp-angstrom_v2012_05-eglibc/work/mymachine/myimage*/rootfs/etc
-> But I find a different version of /etc/fstab under
-> build/tmp-angstrom_v2012_05-eglibc/deploy/images/mymachine/myimage*.rootfs.tar.bz2
-> I can't figure out why!
-> Any ideas or hints?
+> I know in the past this has taken some people by surprise. Both OE-Core
+> and the Yocto Project are aiming at release points every six months,
+> roughly October and April. In order to prepare for those there is a
+> period of 6-8 weeks beforehand which is aimed at stabilisation and bug
+> fixing.
 >
-> Thanks!
-> Jaap
+> We are now entering that window where we need to heavily taper off new
+> features and concentrate on the quality and stability of the release
+> which is scheduled for mid October. I'm not saying no new feature
+> patches will get taken but I will be asking questions like "why is this
+> being worked on?" and "shouldn't this wait until after release?". I'd
+> really like to see effort being focused on bugs now, not enhancements.
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> I know there are a couple of things which have been worked on for a
+> while and have been slightly delayed which I'd probably lean towards
+> taking (some offline postinstall work spring to mind). I was asked
+> whether I'd take a binutils update in a couple of weeks and the answer
+> is no, I'd very likely not as we're at the point we need to lock in on
+> the toolchain now (and major kernel version).
 >
+> Does anyone have any questions?
 >
 
+do you expect to have a filed bug in Yocto's bugzilla to attract attention
+to a problem, or published patchset with problem description and a fix is
+sufficient?
+
+With best wishes,
+Vladimir
 
 
