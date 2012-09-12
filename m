@@ -1,54 +1,46 @@
-Received: from co1ehsobe002.messaging.microsoft.com ([216.32.180.185]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from tx2ehsobe005.messaging.microsoft.com ([65.55.88.15]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TBr53-0003e7-0s
+	(envelope-from <B29882@freescale.com>) id 1TBr80-0003jV-NT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 19:50:29 +0200
-Received: from mail204-co1-R.bigfish.com (10.243.78.231) by
-	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 12 Sep 2012 17:37:55 +0000
-Received: from mail204-co1 (localhost [127.0.0.1])	by
-	mail204-co1-R.bigfish.com (Postfix) with ESMTP id 4454180058;
-	Wed, 12 Sep 2012 17:37:55 +0000 (UTC)
+	Wed, 12 Sep 2012 19:53:33 +0200
+Received: from mail169-tx2-R.bigfish.com (10.9.14.249) by
+	TX2EHSOBE008.bigfish.com (10.9.40.28) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 12 Sep 2012 17:40:56 +0000
+Received: from mail169-tx2 (localhost [127.0.0.1])	by
+	mail169-tx2-R.bigfish.com (Postfix) with ESMTP id AC1B9400F6;
+	Wed, 12 Sep 2012 17:40:56 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -4
-X-BigFish: VS-4(zz98dI9371I936eI1432I4015Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdhbe9i1155h)
-Received: from mail204-co1 (localhost.localdomain [127.0.0.1]) by mail204-co1
-	(MessageSwitch) id 1347471473447469_6755;
-	Wed, 12 Sep 2012 17:37:53 +0000 (UTC)
-Received: from CO1EHSMHS030.bigfish.com (unknown [10.243.78.234])	by
-	mail204-co1.bigfish.com (Postfix) with ESMTP id 69AD0740049;
-	Wed, 12 Sep 2012 17:37:53 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS030.bigfish.com
-	(10.243.66.40) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 12 Sep 2012 17:37:52 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0309.003; Wed, 12 Sep 2012 12:37:51 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Luo Zhenhua-B19537 <B19537@freescale.com>, Scott Garman
-	<scott.a.garman@intel.com>
-Thread-Topic: [OE-core] [oe-core v2] valgrind: fix debug info reading error
-	when do memcheck on ppc targets
-Thread-Index: AQHNkQ1UgIoGeM8ycUOJO4YQC3jvjg==
-Date: Wed, 12 Sep 2012 17:37:50 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A674CE7@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1347438046-9745-1-git-send-email-b19537@freescale.com>
-In-Reply-To: <1347438046-9745-1-git-send-email-b19537@freescale.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1d1ah1d2ah1082kzz8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12bdh12e5h1155h)
+Received: from mail169-tx2 (localhost.localdomain [127.0.0.1]) by mail169-tx2
+	(MessageSwitch) id 1347471655212744_15394;
+	Wed, 12 Sep 2012 17:40:55 +0000 (UTC)
+Received: from TX2EHSMHS013.bigfish.com (unknown [10.9.14.245])	by
+	mail169-tx2.bigfish.com (Postfix) with ESMTP id 303AB1E005B;
+	Wed, 12 Sep 2012 17:40:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS013.bigfish.com
+	(10.9.99.113) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 12 Sep 2012 17:40:52 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Wed, 12 Sep 2012 12:40:51 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q8CHep28015713; Wed, 12 Sep 2012 10:40:51 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Sep 2012 12:40:47 -0500
+Message-ID: <1347471647-2486-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core v2] valgrind: fix debug info reading error when do memcheck on ppc targets
+Cc: scott.a.garman@intel.com
+Subject: [for-denzil] eglibc_2.15: make patch only for Freescale machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -58,143 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 17:50:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C55F6832B501AB42BE1AF3C3E345CF40@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Sep 2012 17:53:33 -0000
+Content-Type: text/plain
 
-On Wed, Sep 12, 2012 at 3:20 AM,  <b19537@freescale.com> wrote:
-> From: Zhenhua Luo <b19537@freescale.com>
->
->     following is the error message:
->         --2263-- WARNING: Serious error when reading debug info
->         --2263-- When reading debug info from /lib/ld-2.13.so:
->         --2263-- Can't make sense of .got section mapping
->         --2263-- WARNING: Serious error when reading debug info
->         --2263-- When reading debug info from /home/root/lzh:
->         --2263-- Can't make sense of .data section mapping
->         --2263-- WARNING: Serious error when reading debug info
->         --2263-- When reading debug info from /usr/lib/valgrind/vgpreload=
-_core-ppc32-linux.so:
->         --2263-- Can't make sense of .data section mapping
->         --2263-- WARNING: Serious error when reading debug info
->         --2263-- When reading debug info from /usr/lib/valgrind/vgpreload=
-_memcheck-ppc32-linux.so:
->         --2263-- Can't make sense of .data section mapping
->         --2263-- WARNING: Serious error when reading debug info
->         --2263-- When reading debug info from /lib/libc-2.13.so:
->         --2263-- Can't make sense of .data section mapping
->
-> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+It's only Freescale machines that don't imlpement fsqrt, we don't want
+this to effect others.
 
-Scott,
+This patch was only added after the last release of denzil, so it's not
+present in the release yet. Also, 2.15 is removed from master so it
+should only apply to denzil branch
 
-I've added this to my denzil branch. Please pick it up for denzil-next
-when you are working on it again.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-core/eglibc/eglibc_2.15.bb |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dmattsm/denz=
-il
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index dc2a546..41f39b2 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "17386"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r8"
++PR = "r9"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
+@@ -23,13 +23,14 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://ppc-sqrt_finite.patch \
+            file://GLRO_dl_debug_mask.patch \
+            file://initgroups_keys.patch \
+-	   file://glibc.no_sqrt.patch \
+           "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+       file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
+ 
++SRC_URI_append_fslmachine = " file://glibc.no_sqrt.patch"
++
+ SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
+ S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+1.7.9.7
 
-Thanks,
-Matthew
-
-> ---
->  ...ind-3.7.0-fix-error-of-reading-debug-info.patch |   33 ++++++++++++++=
-++++++
->  meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    5 ++-
->  2 files changed, 37 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrin=
-d-3.7.0-fix-error-of-reading-debug-info.patch
->
-> diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0=
--fix-error-of-reading-debug-info.patch b/meta/recipes-devtools/valgrind/val=
-grind-3.7.0/valgrind-3.7.0-fix-error-of-reading-debug-info.patch
-> new file mode 100644
-> index 0000000..b1626f0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/valgrind-3.7.0-fix-er=
-ror-of-reading-debug-info.patch
-> @@ -0,0 +1,33 @@
-> +Upstream-Status: Pending
-> +
-> +fix debug info reading error when do memcheck on ppc targets
-> +    following is the error message:
-> +        --2263-- WARNING: Serious error when reading debug info
-> +        --2263-- When reading debug info from /lib/ld-2.13.so:
-> +        --2263-- Can't make sense of .got section mapping
-> +        --2263-- WARNING: Serious error when reading debug info
-> +        --2263-- When reading debug info from /home/root/lzh:
-> +        --2263-- Can't make sense of .data section mapping
-> +        --2263-- WARNING: Serious error when reading debug info
-> +        --2263-- When reading debug info from /usr/lib/valgrind/vgpreloa=
-d_core-ppc32-linux.so:
-> +        --2263-- Can't make sense of .data section mapping
-> +        --2263-- WARNING: Serious error when reading debug info
-> +        --2263-- When reading debug info from /usr/lib/valgrind/vgpreloa=
-d_memcheck-ppc32-linux.so:
-> +        --2263-- Can't make sense of .data section mapping
-> +        --2263-- WARNING: Serious error when reading debug info
-> +        --2263-- When reading debug info from /lib/libc-2.13.so:
-> +        --2263-- Can't make sense of .data section mapping
-> +
-> +Signed-off-by: Zhenhua Luo <b19537@freescale.com>
-> +
-> +--- a/coregrind/m_debuginfo/readelf.c  2012-09-11 21:45:36.696462313 -05=
-00
-> ++++ b/coregrind/m_debuginfo/readelf.c  2012-09-11 21:45:49.913463615 -05=
-00
-> +@@ -1539,7 +1539,7 @@
-> +                 && phdr->p_offset < di->fsm.rw_map_foff + di->fsm.rw_ma=
-p_size
-> +                 && phdr->p_offset + phdr->p_filesz
-> +                    <=3D di->fsm.rw_map_foff + di->fsm.rw_map_size
-> +-                && (phdr->p_flags & (PF_R | PF_W | PF_X)) =3D=3D (PF_R =
-| PF_W)) {
-> ++                && (phdr->p_flags & (PF_R | PF_W | PF_X)) >=3D (PF_R | =
-PF_W)) {
-> +                if (n_rw =3D=3D N_RX_RW_AREAS) {
-> +                   ML_(symerr)(di, True,
-> +                               "N_RX_RW_AREAS is too low; "
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/reci=
-pes-devtools/valgrind/valgrind_3.7.0.bb
-> index abda7a6..651ae60 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc46082167a314d=
-785d012a244748d803 \
->
->  X11DEPENDS =3D "virtual/libx11"
->  DEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}',=
- '', d)}"
-> -PR =3D "r5"
-> +PR =3D "r6"
->
->  SRC_URI =3D "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->            file://fix_issue_caused_by_ccache.patch \
-> @@ -21,6 +21,9 @@ SRC_URI =3D "http://www.valgrind.org/downloads/valgrind=
--${PV}.tar.bz2 \
->             file://configure-with-glibc-2.16.patch \
->            "
->
-> +SRC_URI_append_powerpc =3D " file://valgrind-3.7.0-fix-error-of-reading-=
-debug-info.patch"
-> +SRC_URI_append_powerpc64 =3D "file://valgrind-3.7.0-fix-error-of-reading=
--debug-info.patch"
-> +
->  SRC_URI[md5sum] =3D "a855fda56edf05614f099dca316d1775"
->  SRC_URI[sha256sum] =3D "5d62c0330f1481fe2c593249192fa68ff454c19c34343978=
-cc9ce91aa324cbf6"
->
-> --
-> 1.7.9.5
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
