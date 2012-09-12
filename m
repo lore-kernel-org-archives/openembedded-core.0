@@ -1,34 +1,37 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TBtSu-0007o8-96
+	(envelope-from <andrei@gherzan.ro>) id 1TBtT5-0007pv-4d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 22:23:16 +0200
-Received: by wibhm2 with SMTP id hm2so63772wib.0
+	Wed, 12 Sep 2012 22:23:27 +0200
+Received: by wgbdr1 with SMTP id dr1so1470082wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2012 13:10:43 -0700 (PDT)
+	Wed, 12 Sep 2012 13:10:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=+udb9BMRllRoZ1E61ZXFADD2QQs+0q/gzE8JD9/bwiE=;
-	b=Uptimre7hESAi+9yurqSA3oJM0AyLsgliPHYLgt0bue3XqwyFaAH+VLg7ISmVnD8Qv
-	eFf98BNHbQTV8mFp6o3mqYW3xqTSMDB99oWtfR8Nhr72+pig/qSAAF3q7j8/m47jdPkc
-	x4OJtzzAJW8wyqMsvf829XjYfJDANUwtlTOVgSUWLQlQ8yrFl04/ZDd0s7E1s23VESJB
-	+pFiourNBfR17yywDw9KC55EmxxWu9kU7bMWBP4TcEhbZg/jEP5ayhK0VWOaFLeN4vlB
-	oig5uN7RXaGerpcIEHugKoSUvFlMBFbMjdsN5xg3/K/unKK0le5/YqMV7NZHVNqkE9dI
-	mhmg==
-Received: by 10.180.20.204 with SMTP id p12mr35030725wie.7.1347480643807;
-	Wed, 12 Sep 2012 13:10:43 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=Q5FQnQ6/QvqQkRJZIUrTdfnsIuUmkv5hElkWbqboEZk=;
+	b=NpO0HFtPYtLIdINZo7B9MR/ZUPdvxe3Lj51AMzgwkTPJqzbogxGra9SjeSWHATOyPC
+	z5Yc+nu5/UJMap8mRWtZ+ZhRMZpeEBoCOfPKBumj4IYtAX0rfTrv8805eJMIuB+ZftY7
+	BfSD8ILIFiTM2IybOyyyKfBJwxQ6VcjG8eY39kUeGIE2noWhW+30rClEeXG40FTj3Zd4
+	yUjJnz7RsjYuyjwfkLJcjlA91c8Sk+zFTdEjVT87inZekK35jpoDprRRzJX4PNltnM0z
+	3kjQpTKP0ZXg+YY4uqbWJkjqrziWlk6wx6V0VUmgShtt85BS58p3rwTS4oIlx3P57MxA
+	S64Q==
+Received: by 10.180.95.193 with SMTP id dm1mr35018650wib.10.1347480654852;
+	Wed, 12 Sep 2012 13:10:54 -0700 (PDT)
 Received: from localhost.localdomain ([79.118.163.23])
-	by mx.google.com with ESMTPS id k2sm14507427wiz.7.2012.09.12.13.10.41
+	by mx.google.com with ESMTPS id t7sm14511953wix.6.2012.09.12.13.10.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Sep 2012 13:10:42 -0700 (PDT)
+	Wed, 12 Sep 2012 13:10:53 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Sep 2012 23:10:33 +0300
-Message-Id: <cover.1347480378.git.andrei@gherzan.ro>
+Date: Wed, 12 Sep 2012 23:10:47 +0300
+Message-Id: <09795cfdec0b03e3c5e03b8bef431de0adad71e5.1347480378.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQmGN6fUji9V9PsHUr/vkYOUvL+Y0Z9AYz/x74mdqMewoP/Ch7EsqPiuZnB0JMZgUv7CSXzp
-Subject: [PATCH V2 0/1] image_types.bbclass: Round up ROOTFS_SIZE after base_size check
+In-Reply-To: <cover.1347480378.git.andrei@gherzan.ro>
+References: <cover.1347480378.git.andrei@gherzan.ro>
+X-Gm-Message-State: ALoCoQkEzfdbc1rhg1EYOOc/2+gvHUCKnYcG9MWxJ5DciFeWhRB46yQLKplk05Gj3k2gJ4ihIZaq
+Subject: [PATCH V2 1/1] image_types.bbclass: Round up ROOTFS_SIZE after base_size check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,27 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 20:23:16 -0000
+X-List-Received-Date: Wed, 12 Sep 2012 20:23:27 -0000
 
-V2:
-Replace expr with awk. In this way an error like "expr: non-integer argument"
-is avoided.
+If we round up ROOTFS_SIZE to IMAGE_ROOTFS_ALIGNMENT before checking if
+base_size is greater then IMAGE_ROOTFS_SIZE, we can end up adding an
+unaligned value to IMAGE_ROOTFS_SIZE. Obviously, if
+IMAGE_ROOTFS_EXTRA_SPACE was overwritten with an unaligned value. So
+let's add the round up code after the base_size calculus and it's
+comparison.
 
-The following changes since commit 0f55a5868457300a3defc7fa7451ef191d19e018:
-
-  adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:28:10 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ag/rootfs_size
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/rootfs_size
-
-Andrei Gherzan (1):
-  image_types.bbclass: Round up ROOTFS_SIZE after base_size check
-
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
  meta/classes/image_types.bbclass |    7 +++++--
  1 file changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index d286eea..6c01b21 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -82,9 +82,12 @@ runimagecmd () {
+ 	# The base_size gets calculated:
+ 	#  - initial size determined by `du -ks` of the IMAGE_ROOTFS
+ 	#  - then multiplied by the IMAGE_OVERHEAD_FACTOR
+-	#  - then rounded up to IMAGE_ROOTFS_ALIGNMENT
+ 	#  - finally tested against IMAGE_ROOTFS_SIZE
+-	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = $1 * ${IMAGE_OVERHEAD_FACTOR} + ${IMAGE_ROOTFS_ALIGNMENT} - 1; base_size -= base_size % ${IMAGE_ROOTFS_ALIGNMENT}; print ((base_size > ${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) + ${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
++	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = $1 * ${IMAGE_OVERHEAD_FACTOR}; print ((base_size > ${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) + ${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
++
++	# Round up ROOTFS_SIZE to IMAGE_ROOTFS_ALIGNMENT
++	ROOTFS_SIZE=`awk "BEGIN { rootfs_size = $ROOTFS_SIZE + ${IMAGE_ROOTFS_ALIGNMENT} - 1; rootfs_size -= rootfs_size % ${IMAGE_ROOTFS_ALIGNMENT}; print rootfs_size }"`
++
+ 	${cmd}
+ 	# Now create the needed compressed versions
+ 	cd ${DEPLOY_DIR_IMAGE}/
 -- 
 1.7.9.5
 
