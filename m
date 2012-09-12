@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TBqLC-0002Za-2b
+	(envelope-from <sgw@linux.intel.com>) id 1TBqLb-0002c0-AL
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 19:03:06 +0200
+	Wed, 12 Sep 2012 19:03:31 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Sep 2012 09:50:33 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 12 Sep 2012 09:50:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="221131420"
+X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="221131711"
 Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2012 09:50:32 -0700
-Message-ID: <5050BD58.90402@linux.intel.com>
-Date: Wed, 12 Sep 2012 09:50:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2012 09:50:57 -0700
+Message-ID: <5050BD71.8010608@linux.intel.com>
+Date: Wed, 12 Sep 2012 09:50:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1347356375.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1347356375.git.paul.eggleton@linux.intel.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+References: <cover.1347371624.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1347371624.git.laurentiu.palcu@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] A couple of fixes for sanity.bbclass
+Subject: Re: [PATCH v2 0/1] Fix nativesdk-qemu relocation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,26 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 17:03:06 -0000
+X-List-Received-Date: Wed, 12 Sep 2012 17:03:31 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/11/2012 02:40 AM, Paul Eggleton wrote:
-> The following changes since commit 9f0453c29891e32f8038c4bbc22ada28bfbf818a:
+On 09/11/2012 06:55 AM, Laurentiu Palcu wrote:
+> Changes in V2:
+> 	- bump PR
 >
->    lib/oe/sstatesig.py: add signature data query function (2012-09-10 13:03:45 +0100)
+> Thanks,
+> Laurentiu
+>
+> The following changes since commit 7250638ec895bc89508711831083d43b9e1e9826:
+>
+>    upstream_tracking: Fix format issues (2012-09-10 23:21:12 +0100)
 >
 > are available in the git repository at:
 >
->    git://git.openembedded.org/openembedded-core-contrib paule/sanityfixes
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sanityfixes
+>    git://git.yoctoproject.org/poky-contrib lpalcu/qemu_issue
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/qemu_issue
 >
-> Paul Eggleton (2):
->    classes/sanity: skip tune checks if machine is invalid
->    classes/sanity: remove obsolete code
+> Laurentiu Palcu (1):
+>    nativesdk-qemu: fix SDK relocation issue
 >
->   meta/classes/sanity.bbclass |   19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
+>   .../qemu/qemu-1.2.0/relocatable_sdk.patch          |   34 ++++++++++++++++++++
+>   meta/recipes-devtools/qemu/qemu_1.2.0.bb           |    6 ++++
+>   2 files changed, 40 insertions(+)
+>   create mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
 >
 
 Merged into OE-Core
