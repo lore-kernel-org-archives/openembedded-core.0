@@ -1,24 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Mark.Asselstine@windriver.com>) id 1TBnNT-00051u-9v
-	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 15:53:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8CDedpp025343
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2012 06:40:39 -0700 (PDT)
-Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Wed, 12 Sep 2012 06:40:38 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Sep 2012 09:41:00 -0400
-Message-ID: <1347457260-25574-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [128.224.146.23]
-Subject: [PATCH] kernel: remove unused 'etc' directory
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBnVI-0005wj-MV for openembedded-core@lists.openembedded.org;
+	Wed, 12 Sep 2012 16:01:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CDmkJo020195;
+	Wed, 12 Sep 2012 14:48:46 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19954-03; Wed, 12 Sep 2012 14:48:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CDmZI3020189
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 12 Sep 2012 14:48:37 +0100
+Message-ID: <1347457717.11710.12.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 12 Sep 2012 14:48:37 +0100
+In-Reply-To: <CADkTA4OL98FtR_38BMn0H3zxVmvbJ08Yd7D3qcQX+Sei9kRLLg@mail.gmail.com>
+References: <cover.1347376358.git.bruce.ashfield@windriver.com>
+	<ea700a4897d82d27177a0583f01b6432ac7ec379.1347376358.git.bruce.ashfield@windriver.com>
+	<504F59B1.60308@intel.com> <504F5B17.5070500@windriver.com>
+	<504F5B9A.7070501@intel.com> <1347379081.2122.48.camel@ted>
+	<504F61BF.30902@intel.com> <1347452729.11710.7.camel@ted>
+	<CADkTA4OL98FtR_38BMn0H3zxVmvbJ08Yd7D3qcQX+Sei9kRLLg@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org, Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 2/2] linux-yocto/3.4: add x32 configuration fragment and tuning hook
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +42,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 13:53:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Sep 2012 14:01:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Along with checks to remove empty modprobe.d and modules-load.d
-directories we can add a similar check and removal of the etc
-directory. This will avoid warnings by the sanity checker.
+On Wed, 2012-09-12 at 08:58 -0400, Bruce Ashfield wrote:
+> On Wed, Sep 12, 2012 at 8:25 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2012-09-11 at 09:07 -0700, Saul Wold wrote:
+> >> On 09/11/2012 08:58 AM, Richard Purdie wrote:
+> >> > On Tue, 2012-09-11 at 08:41 -0700, Saul Wold wrote:
+> >> >> On 09/11/2012 08:39 AM, Bruce Ashfield wrote:
+> >> >>> On 12-09-11 11:33 AM, Saul Wold wrote:
+> >> >>>> On 09/11/2012 08:17 AM, Bruce Ashfield wrote:
+> >> >>>>> When x32 is the tuning for a x86 MACHINE, the kernel should also have
+> >> >>>>> CONFIG_X86_X32=y.
+> >> >>>>>
+> >> >>>>> This can be accomplished by adding the x32 configuraion fragment to the
+> >> >>>>> KERNEL_FEATURES when x32 is the tuning for a given machine.
+> >> >>>>>
+> >> >>>>> cc: Saul Wold <sgw@linux.intel.com>
+> >> >>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> >> >>>>> ---
+> >> >>>>> meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb | 3 ++-
+> >> >>>>> meta/recipes-kernel/linux/linux-yocto_3.4.bb | 3 ++-
+> >> >>>>> 2 files changed, 4 insertions(+), 2 deletions(-)
+> >> >>>>>
+> >> >>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >> >>>>> b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >> >>>>> index 4fd3845..156fb93 100644
+> >> >>>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >> >>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+> >> >>>>> @@ -10,7 +10,7 @@ KMETA = "meta"
+> >> >>>>>
+> >> >>>>> SRCREV_machine ?= "a35693b1287c0e50cdca33a1b95af0ff48b43cd0"
+> >> >>>>> SRCREV_machine_qemuppc ?= "85a1190530cb5749f5f831670976b163438dc301"
+> >> >>>>> -SRCREV_meta ?= "d9d5fc63d8b38705036e946ea77d971d95de11ad"
+> >> >>>>> +SRCREV_meta ?= "e0374ce012e7e6fc8e5bb8b957addb0478950898"
+> >> >>>>>
+> >> >>>>> PR = "${INC_PR}.0"
+> >> >>>>> PV = "${LINUX_VERSION}+git${SRCPV}"
+> >> >>>>> @@ -27,3 +27,4 @@ KERNEL_FEATURES_append = " features/netfilter"
+> >> >>>>> KERNEL_FEATURES_append = " features/taskstats"
+> >> >>>>> KERNEL_FEATURES_append_qemux86 = " cfg/sound"
+> >> >>>>> KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+> >> >>>>> +KERNEL_FEATURES_append_x32 = " cfg/x32"
+> >> >>>>
+> >> >>>> Scratch this bit and below, as I think I will use the other mechanism
+> >> >>>> you talked about to go from a .conf file.
+> >> >>>
+> >> >>> Works for me. The meta change is staged and pushed out, I'll update this
+> >> >>> patch to not have the KERNEL_FEATURES portion.
+> >> >>>
+> >> >> Thanks, see my other email to RP, since x32 is a feature that any x86-64
+> >> >> machine might want to enable based on the DEFAULTTUNE it makes more
+> >> >> sense to be in the machine config includes.
+> >> >
+> >> > No, it doesn't.
+> >> >
+> >> > What we need here is:
+> >> >
+> >> > -KERNEL_FEATURES_append = " features/taskstats"
+> >> > +KERNEL_FEATURES_append = " features/taskstats ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
+> >> >
+> >> No, this would then only address the qemu machine, what about all the HW
+> >> BSP that might want it, they would need to add this same line.  If I add
+> >> the KERNEL_FEATURES_append to the arch-ia32.inc, conditional on mx32,
+> >> then any x86-64 BSP can just enable that TUNE, isn't that the point of
+> >> the machine config tuning?
+> >
+> > It is the point, however, the key part of this you're ignoring is that
+> > the kernel fragment management only happens for linux-yocto. Only the
+> > linux-yocto recipe supports the KERNEL_FEATURES mechanism.
+> >
+> > The arch-ia32.inc file and any machine config *cannot* depend on
+> > linux-yocto.
+> >
+> > So this glue belongs in linux-yocto. I agree is suboptimal for people
+> > not using it but such is life, there isn't any generic mechanism we can
+> > place this into.
+> 
+> :)
+> 
+> linux-yocto it is, I've respun the patches to include the TUNE_FEATURES check
+> and pushed them to poky-contrib zedd/x32:
+> 
+>  7aeb32 linux-yocto/3.4: add x32 configuration fragment
+>  d34a34c linux-yocto*: append to KERNEL_FEATURES instead of assigning
+> 
+> I don't have a x32 build handy, but I assume Saul will take them for a spin.
+> 
+> If you want a full resend of the series, shout and I'll git send-email them out.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-CC: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+I've merged this, thanks. I'm assuming Saul will test the end result.
 
-There is some concern that removing this directory could cause issues
-if folks are adding to etc in a bbappend and not checking for and
-creating this directory. I don't believe this is an issue as if you
-want to add something to etc it should be done as part of a
-populate_packages_prepend or earlier since there are sanity checks run
-as part of populate_packages, so the removal here is being done at the
-latest possible point in the process (populate_packages_prepend in a
-bbappend will run before the populate_packages_prepend in
-kernel.bbclass).
+Cheers,
 
- meta/classes/kernel.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 5e04fda..decf6f5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -468,7 +468,7 @@ python populate_packages_prepend () {
-     # avoid warnings. removedirs only raises an OSError if an empty
-     # directory cannot be removed.
-     dvar = d.getVar('PKGD', True)
--    for dir in ["%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar)]:
-+    for dir in ["%s/etc/modprobe.d" % (dvar), "%s/etc/modules-load.d" % (dvar), "%s/etc/" % (dvar)]:
-         if len(os.listdir(dir)) == 0:
-             os.rmdir(dir)
- 
--- 
-1.7.9.5
+Richard
 
 
 
