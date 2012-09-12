@@ -1,25 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TBqMw-0002he-7W
+	(envelope-from <sgw@linux.intel.com>) id 1TBqlZ-0003CW-Pl
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 19:04:54 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 12 Sep 2012 09:52:12 -0700
+	Wed, 12 Sep 2012 19:30:22 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 12 Sep 2012 10:17:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="202322875"
+X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="144296327"
 Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
-	by orsmga002.jf.intel.com with ESMTP; 12 Sep 2012 09:52:18 -0700
-Message-ID: <5050BDC2.3000104@linux.intel.com>
-Date: Wed, 12 Sep 2012 09:52:18 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Sep 2012 10:17:47 -0700
+Message-ID: <5050C3BB.5030300@linux.intel.com>
+Date: Wed, 12 Sep 2012 10:17:47 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: jackie.huang@windriver.com
-References: <cover.1347355729.git.jackie.huang@windriver.com>
-In-Reply-To: <cover.1347355729.git.jackie.huang@windriver.com>
+To: Matthew McClintock <msm@freescale.com>
+References: <1347386213-6215-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1347386213-6215-1-git-send-email-msm@freescale.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] libgnome-keyring: add missing DEPENDS on intltool-native
+Subject: Re: [PATCH v3] sysvinit-inittab_2.88dsf.bb: only run serial checks at boot if we have items to check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,29 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 17:04:54 -0000
+X-List-Received-Date: Wed, 12 Sep 2012 17:30:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/11/2012 08:13 AM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
+On 09/11/2012 10:56 AM, Matthew McClintock wrote:
+> Right now, we delay running the serial console checks to we boot up. This causes
+> issues for read only file systems. So, if have not configured any serial ports to
+> check via SERIAL_CONSOLES_CHECK we can skip the check at boot. This fixes any
+> issues with read only file systems and ipk packaging.
+>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+> v2: bump PR
+> v3: change a == bashism to =
+>
+>   .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> index 1089edb..5b79caf 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+>
+> -PR = "r7"
+> +PR = "r8"
+>
+>   SRC_URI = "file://inittab"
+>
+> @@ -54,7 +54,7 @@ EOF
+>
+>   pkg_postinst_${PN} () {
+>   # run this on the target
+> -if [ "x$D" == "x" ]; then
+> +if [ "x$D" = "x" ]; then
+>   	tmp="${SERIAL_CONSOLES_CHECK}"
+>   	for i in $tmp
+>   	do
+> @@ -65,7 +65,11 @@ if [ "x$D" == "x" ]; then
+>   	done
+>   	kill -HUP 1
+>   else
+> -	exit 1
+> +	if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
+> +		exit 0
+> +	else
+> +		exit 1
+> +	fi
+>   fi
+>   }
 >
 >
-> The following changes since commit 48169c6bc44c546cecaa06207b6c36da558b81f7:
->
->    classes/packageinfo: use better method to check if package exists (2012-09-10 21:52:37 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib jhuang0/bug3081_libgnome-kering_0911
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/bug3081_libgnome-kering_0911
->
-> Jackie Huang (1):
->    libgnome-keyring: add missing DEPENDS on intltool-native
->
->   .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
->
-Merged into OE-Core
+
+Merged to OE-Core
 
 Thanks
 	Sau!
