@@ -1,43 +1,25 @@
-Received: from tx2ehsobe005.messaging.microsoft.com ([65.55.88.15]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TBr80-0003jV-NT
+	(envelope-from <sgw@linux.intel.com>) id 1TBrAX-0003od-6H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 19:53:33 +0200
-Received: from mail169-tx2-R.bigfish.com (10.9.14.249) by
-	TX2EHSOBE008.bigfish.com (10.9.40.28) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 12 Sep 2012 17:40:56 +0000
-Received: from mail169-tx2 (localhost [127.0.0.1])	by
-	mail169-tx2-R.bigfish.com (Postfix) with ESMTP id AC1B9400F6;
-	Wed, 12 Sep 2012 17:40:56 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1d1ah1d2ah1082kzz8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12bdh12e5h1155h)
-Received: from mail169-tx2 (localhost.localdomain [127.0.0.1]) by mail169-tx2
-	(MessageSwitch) id 1347471655212744_15394;
-	Wed, 12 Sep 2012 17:40:55 +0000 (UTC)
-Received: from TX2EHSMHS013.bigfish.com (unknown [10.9.14.245])	by
-	mail169-tx2.bigfish.com (Postfix) with ESMTP id 303AB1E005B;
-	Wed, 12 Sep 2012 17:40:55 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS013.bigfish.com
-	(10.9.99.113) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 12 Sep 2012 17:40:52 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Wed, 12 Sep 2012 12:40:51 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q8CHep28015713; Wed, 12 Sep 2012 10:40:51 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Sep 2012 12:40:47 -0500
-Message-ID: <1347471647-2486-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
+	Wed, 12 Sep 2012 19:56:09 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Sep 2012 10:43:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="144306601"
+Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Sep 2012 10:43:31 -0700
+Message-ID: <5050C9C3.4040204@linux.intel.com>
+Date: Wed, 12 Sep 2012 10:43:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: scott.a.garman@intel.com
-Subject: [for-denzil] eglibc_2.15: make patch only for Freescale machines
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1346905978.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1346905978.git.raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] GCC fixes and updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,53 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 17:53:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Sep 2012 17:56:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It's only Freescale machines that don't imlpement fsqrt, we don't want
-this to effect others.
+On 09/05/2012 09:35 PM, Khem Raj wrote:
+> This patchset switches us back to using svn for SRC_URI
+> and fixes building for armv4 and ppc soft float targets
+> Finally fixes for libgcc to build with new build sequence
+> such that its same with gcc-cross and gcc-cross-initial
+>
+> The following changes since commit 610f8c0c0cab8e258919689fd641faec28b58caf:
+>
+>    adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:27:31 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib kraj/gcc-updates
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gcc-updates
+>
+> Khem Raj (4):
+>    gcc: Switch SRC_URI to use svn
 
-This patch was only added after the last release of denzil, so it's not
-present in the release yet. Also, 2.15 is removed from master so it
-should only apply to denzil branch
+There has already been some discussion about this one.
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-core/eglibc/eglibc_2.15.bb |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+>    gcc-4.7: Fix build for armv4/EABI and ppc/Os
+>    arch-armv4.inc: On armv4 add --fix-v4bx to linker flags for kernel
+>    gcc-4.7: Backport libgcc fixes to appease the new build sequence
+>
+Merged these last three into OE-Core
 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index dc2a546..41f39b2 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r8"
-+PR = "r9"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-@@ -23,13 +23,14 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://ppc-sqrt_finite.patch \
-            file://GLRO_dl_debug_mask.patch \
-            file://initgroups_keys.patch \
--	   file://glibc.no_sqrt.patch \
-           "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
- 
-+SRC_URI_append_fslmachine = " file://glibc.no_sqrt.patch"
-+
- SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
- S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-1.7.9.7
+Thanks
+	Sau!
 
-
+>   meta/conf/machine/include/arm/arch-armv4.inc       |    1 +
+>   meta/recipes-devtools/gcc/gcc-4.7.inc              |   14 +--
+>   ...-vis_hide-gen-hide-list-Do-not-make-defin.patch |   93 ++++++++++++++++++++
+>   ...USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch |   49 +++++++++++
+>   .../gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch    |   29 ++++++
+>   .../gcc/gcc-4.7/ppc_no_crtsavres.patch             |   21 +++++
+>   6 files changed, 202 insertions(+), 5 deletions(-)
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/0001-Makefile.in-vis_hide-gen-hide-list-Do-not-make-defin.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/0001-crtstuff.c-USE_PT_GNU_EH_FRAME-Define-for-systems-us.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/gcc-armv4-pass-fix-v4bx-to-ld.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/ppc_no_crtsavres.patch
+>
 
 
