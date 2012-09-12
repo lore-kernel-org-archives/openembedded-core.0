@@ -1,37 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TBn47-0004bp-4i
-	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 15:33:15 +0200
-Received: by eaad12 with SMTP id d12so748969eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2012 06:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding;
-	bh=4IAOSjyOU/l7Zzn5oAfF3vyjjXGtLn3hj8+2r6ZCyNI=;
-	b=yOKvSuyZsQY0+y0xH8oQ4qStAtihdVQpRb27pECvRXKfzJ/Xg8oTW93lYNMC3n90Ky
-	U/AJYGZBNh+vEDL7k4IvaFlu5uIAJkux8qu+TjhBNWE1nnQijfmslguTY+xUaOgnSP/8
-	Q7W4NqgxfBXRvDTFafKUrhXQn7JJRcpz/mPp59r3/2Y3onIyOjWGqZqJb886hsfmhEkh
-	lK7xbVlvt9uhg/a2R4Lk5/RCOdV88+FY+fI3FRKdi5vNuMqNqnWaP7RehfhmcWAMoFlD
-	aaXqsrAzxtLz5rFPdZZlDGRlzyRUpADluwiNV3eJZp0T1K1VF/5AkFDrhL+t6lzp5OmC
-	jiYQ==
-Received: by 10.204.155.69 with SMTP id r5mr5837621bkw.49.1347456042842;
-	Wed, 12 Sep 2012 06:20:42 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-156-96.unitymediagroup.de.
-	[95.222.156.96])
-	by mx.google.com with ESMTPS id he8sm11932195bkc.3.2012.09.12.06.20.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Sep 2012 06:20:41 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Sep 2012 15:19:55 +0200
-Message-Id: <1347455995-24565-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
-MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] cml1.bbclass: fix kernel menuconfig
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBnF7-0004oK-U9 for openembedded-core@lists.openembedded.org;
+	Wed, 12 Sep 2012 15:44:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CDVxeB020040;
+	Wed, 12 Sep 2012 14:31:59 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19954-01; Wed, 12 Sep 2012 14:31:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CDVmft020034
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 12 Sep 2012 14:31:49 +0100
+Message-ID: <1347456710.11710.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 12 Sep 2012 14:31:50 +0100
+In-Reply-To: <1347455995-24565-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1347455995-24565-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q8CDVxeB020040
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cml1.bbclass: fix kernel menuconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +39,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 13:33:15 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Sep 2012 13:44:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-At some host environments the menuconfig displayed wrong characters ang turned
-unusable.
+On Wed, 2012-09-12 at 15:19 +0200, Andreas M=C3=BCller wrote:
+> At some host environments the menuconfig displayed wrong characters ang=
+ turned
+> unusable.
+>=20
+> Similar suggested in [1]
+>=20
+> [1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-August/=
+027130.html
+>=20
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> ---
+>  meta/classes/cml1.bbclass |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+> index 67f17ad..c773684 100644
+> --- a/meta/classes/cml1.bbclass
+> +++ b/meta/classes/cml1.bbclass
+> @@ -9,7 +9,7 @@ addtask configure after do_unpack do_patch before do_co=
+mpile
+> =20
+>  inherit terminal
+> =20
+> -OE_TERMINAL_EXPORTS +=3D "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIBES"
+> +OE_TERMINAL_EXPORTS +=3D "HOST_EXTRACFLAGS HOST_LOADLIBES"
+>  HOST_EXTRACFLAGS =3D "${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
+>  HOSTLDFLAGS =3D "${BUILD_LDFLAGS}"
+>  HOST_LOADLIBES =3D "-lncurses"
 
-Similar suggested in [1]
+This effectively just reverts the previous change. The real problem is
+that ncurses-native is broken. Could we figure out how/why
+ncurses-native is broken and fix the real problem rather than hacking
+around it please?
 
-[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-August/027130.html
+FWIW I've been unable to reproduce this locally :(.
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/classes/cml1.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index 67f17ad..c773684 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -9,7 +9,7 @@ addtask configure after do_unpack do_patch before do_compile
- 
- inherit terminal
- 
--OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIBES"
-+OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOST_LOADLIBES"
- HOST_EXTRACFLAGS = "${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
- HOSTLDFLAGS = "${BUILD_LDFLAGS}"
- HOST_LOADLIBES = "-lncurses"
--- 
-1.7.6.5
+Richard
 
 
 
