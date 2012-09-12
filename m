@@ -1,43 +1,32 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TBYNh-0004Mi-V0
+	(envelope-from <gary@mlbassoc.com>) id 1TBd8K-0002FD-S2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 23:52:30 +0200
-Received: from localhost ([127.0.0.1]:57336 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TBYBa-0003Rb-Hn
-	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 21:39:58 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:cc:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=orKclfz99BbJ3Rbc9VvxTbl2Agw=; b=gZIYmyyGqKr+SKAadtWKvRXiLiQc
-	oDwI/6p0aUS5rP6aY6QG6W5qJTZP2Rq9E3TNRW8geAnnL7SO2rAC4Cx9Dn/W8S2i
-	IrWzYxkWB3p0BKqWjhl62gTgICna3swRnTKmsATx1ONA/dD68sEBmqJmT8T8P3bC
-	wlC6NgsZDtMNsUg=
-Received: from cpc2-cmbg15-2-0-cust171.5-4.cable.virginmedia.com
-	([86.26.12.172]:50403 helo=[192.168.1.113])
-	by eumx.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <ml@communistcode.co.uk>)
-	id 1TBYBa-0003RW-FK for openembedded-core@lists.openembedded.org;
-	Tue, 11 Sep 2012 21:39:58 +0000
-Message-ID: <504FAFAD.3050600@communistcode.co.uk>
-Date: Tue, 11 Sep 2012 22:39:57 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:15.0) Gecko/20120824 Thunderbird/15.0
+	Wed, 12 Sep 2012 04:56:57 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 321F3F811ED; Tue, 11 Sep 2012 20:44:26 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id BA3F9F811E3;
+	Tue, 11 Sep 2012 20:44:24 -0600 (MDT)
+Message-ID: <504FF70B.7060701@mlbassoc.com>
+Date: Tue, 11 Sep 2012 20:44:27 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-CC: openembedded-core@lists.openembedded.org
-References: <504F05A8.3000207@communistcode.co.uk>
-	<504F36CA.9060007@windriver.com>
-	<504F3E85.6030302@communistcode.co.uk>
-	<CAMKF1srgD9eXY+hxmzfXwT8L1WmFNQBHGgA9T5xNiiQb5GJZsg@mail.gmail.com>
-In-Reply-To: <CAMKF1srgD9eXY+hxmzfXwT8L1WmFNQBHGgA9T5xNiiQb5GJZsg@mail.gmail.com>
-Subject: Re: /usr/bin/python is needed by git
+To: openembedded-core@lists.openembedded.org
+References: <cover.1346905978.git.raj.khem@gmail.com>
+	<5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
+In-Reply-To: <5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 1/4] gcc: Switch SRC_URI to use svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -47,37 +36,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2012 21:52:30 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Wed, 12 Sep 2012 02:56:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/09/2012 22:02, Khem Raj wrote:
->> HI Mark,
->>
->> I sent a patch (see above) which added python as a dependency and that
->> seemed to fix it. Whether or not this is the right fix I don't know...
->> should git require the python binary to run? I really don't know much about
->> it...
+On 2012-09-05 22:35, Khem Raj wrote:
+> svn tar balls are 96M as compared to 1.3G git tars
+> its unnessary to suck in that much of data.
 >
-> I wonder what needs python in git. Can you inspect ?
+> Fixes [YOCTO #2908]
 >
->>
->> --
->>
->>    Jack Mitchell (jack@embed.me.uk)
->>    Embedded Systems Engineer
->>    http://www.embed.me.uk
->>
->> --
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-I'll try and pin some time for it tomorrow and see if it's anything obvious.
+What about this patch?   Carrying around a 1.7GB (Sorry, Khem, that's the size of my tar ball!)
+is a bit much, especially when that's what I send to my customers...
 
-Cheers,
+> ---
+>   meta/recipes-devtools/gcc/gcc-4.7.inc |    8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> index 84c230c..affbd54 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> @@ -11,7 +11,7 @@ PR = "r11"
+>   # using 4.7.1.0 for upgrade path when we move past 4.7.2 release
+>   # then we should drop the last 0 as well.
+>
+> -PV = "4.7.1.0+git${SRCPV}"
+> +PV = "4.7.1.0+svn${SRCPV}"
+>
+>   # BINV should be incremented after updating to a revision
+>   # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
+> @@ -21,7 +21,7 @@ PV = "4.7.1.0+git${SRCPV}"
+>
+>   BINV = "4.7.2"
+>
+> -SRCREV = "d07e24f4ab59f264d68d21838795349faab5dede"
+> +SRCREV = "190218"
+>   BRANCH = "gcc-4_7-branch"
+>   FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
+>
+> @@ -36,7 +36,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+>                      file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+>   		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
+>
+> -SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
+> +SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};protocol=http \
+>   	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+>   	   file://100-uclibc-conf.patch \
+>              file://gcc-uclibc-locale-ctype_touplow_t.patch \
+> @@ -77,7 +77,7 @@ SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
+>   	   file://libtool.patch \
+>   	  "
+>
+> -S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
+> +S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
+>   B = "${WORKDIR}/${BRANCH}/build.${HOST_SYS}.${TARGET_SYS}"
+>
+>   # Language Overrides
+>
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
