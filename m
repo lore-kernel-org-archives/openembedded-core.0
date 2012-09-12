@@ -1,25 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TBqLb-0002c0-AL
+	(envelope-from <sgw@linux.intel.com>) id 1TBqMw-0002he-7W
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 19:03:31 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Sep 2012 09:50:58 -0700
+	Wed, 12 Sep 2012 19:04:54 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Sep 2012 09:52:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="221131711"
+X-IronPort-AV: E=Sophos;i="4.80,410,1344236400"; d="scan'208";a="202322875"
 Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Sep 2012 09:50:57 -0700
-Message-ID: <5050BD71.8010608@linux.intel.com>
-Date: Wed, 12 Sep 2012 09:50:57 -0700
+	by orsmga002.jf.intel.com with ESMTP; 12 Sep 2012 09:52:18 -0700
+Message-ID: <5050BDC2.3000104@linux.intel.com>
+Date: Wed, 12 Sep 2012 09:52:18 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1347371624.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1347371624.git.laurentiu.palcu@intel.com>
+To: jackie.huang@windriver.com
+References: <cover.1347355729.git.jackie.huang@windriver.com>
+In-Reply-To: <cover.1347355729.git.jackie.huang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/1] Fix nativesdk-qemu relocation issue
+Subject: Re: [PATCH 0/1] libgnome-keyring: add missing DEPENDS on intltool-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 17:03:31 -0000
+X-List-Received-Date: Wed, 12 Sep 2012 17:04:54 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/11/2012 06:55 AM, Laurentiu Palcu wrote:
-> Changes in V2:
-> 	- bump PR
+On 09/11/2012 08:13 AM, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
 >
-> Thanks,
-> Laurentiu
 >
-> The following changes since commit 7250638ec895bc89508711831083d43b9e1e9826:
+> The following changes since commit 48169c6bc44c546cecaa06207b6c36da558b81f7:
 >
->    upstream_tracking: Fix format issues (2012-09-10 23:21:12 +0100)
+>    classes/packageinfo: use better method to check if package exists (2012-09-10 21:52:37 +0100)
 >
 > are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib jhuang0/bug3081_libgnome-kering_0911
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/bug3081_libgnome-kering_0911
 >
->    git://git.yoctoproject.org/poky-contrib lpalcu/qemu_issue
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/qemu_issue
+> Jackie Huang (1):
+>    libgnome-keyring: add missing DEPENDS on intltool-native
 >
-> Laurentiu Palcu (1):
->    nativesdk-qemu: fix SDK relocation issue
+>   .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
 >
->   .../qemu/qemu-1.2.0/relocatable_sdk.patch          |   34 ++++++++++++++++++++
->   meta/recipes-devtools/qemu/qemu_1.2.0.bb           |    6 ++++
->   2 files changed, 40 insertions(+)
->   create mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/relocatable_sdk.patch
->
-
 Merged into OE-Core
 
 Thanks
