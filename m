@@ -1,37 +1,24 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from smtp4.nedap.com ([213.160.213.85] helo=smtp.nedap.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TBlas-0001mk-5W
+	(envelope-from <jaap.dejong@nedap.com>) id 1TBld6-0002DP-15
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 13:58:58 +0200
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 12 Sep 2012 04:46:24 -0700
-Received: by oagn9 with SMTP id n9so908335oag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2012 04:46:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=NHixnkSoLqsMlObUkuvGChAPsEj0mKI3tLlFpMAfQ9E=;
-	b=THb94tZ8bUWa2SwsED4df1QyVM3OsW82IqUp7I7ldTtE8ON8GpLIMeaMddgQrb6XsN
-	iHR3wKkmSafGM2OL8ia5pO+58Ev7dhnuAqVaF3vn/ouvzvaCDU4sVehHtznn1YuTb+0H
-	gfJ479m6YjaR4Xs8oRSFPEsTEUBvpHCQojGOFZZThJJPCMCnFL9tSQ785+6K8OwgcJ4J
-	35QyH1z18CFWKsDPQI13V3SnxiUxtCP0uqfV2atVbzjQmWcAJ5ZJqj5Pooz0yJkqozcx
-	5Dp/nSuYaWTOjC/+S8kwMSYX0uIqpYzTACDTuFreN25xnefAF/cmdeyjceRb8CMGJp2X
-	ctBQ==
-Received: by 10.60.19.132 with SMTP id f4mr2254001oee.17.1347450382666; Wed,
-	12 Sep 2012 04:46:22 -0700 (PDT)
+	Wed, 12 Sep 2012 14:01:16 +0200
+Received: from nvs0066.nedap.local (10.91.8.1) by relaysmtp1.nedap.local
+	(10.1.8.139) with Microsoft SMTP Server id 8.3.83.0; Wed, 12 Sep 2012
+	13:48:43 +0200
+X-TM-IMSS-Message-ID: <a34d70d0001335df@nedap.com>
+Received: from [10.17.24.1] ([10.17.24.1]) by nedap.com ([10.91.8.1]) with
+	ESMTP (TREND IMSS SMTP Service 7.1) id a34d70d0001335df ;
+	Wed, 12 Sep 2012 13:48:46 +0200
+Message-ID: <5050769A.2040404@nedap.com>
+Date: Wed, 12 Sep 2012 13:48:42 +0200
+From: Jaap de Jong <jaap.dejong@nedap.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Wed, 12 Sep 2012 04:46:02 -0700 (PDT)
-In-Reply-To: <1347391088-30390-13-git-send-email-ross.burton@intel.com>
-References: <1347391088-30390-1-git-send-email-ross.burton@intel.com>
-	<1347391088-30390-13-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Sep 2012 12:46:02 +0100
-Message-ID: <CAJTo0LYVeNZ5==q97TOj=Fhhznvkej9F6UiGdV1xW-se6yu_Pg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQnhnLBIyqfHfgV8c2a+qDlp9iYKEWPnR+CHpMZST7Twh+L+hI55dcYLjyoyT/R2SIkiXKWZ
-Subject: Re: [RFC 13/18] libx11-trim: remove, it's the same as libx11 now
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: fstab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,15 +31,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 11:58:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Sep 2012 12:01:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is the only patch in the series that isn't ready for merging as
-far as I'm concerned.
+Hi All,
 
-Are there sufficient users of libx11-trim on non-debian-renaming
-systems that use package feeds to add conflicts/replaces for this?
+I've created my own /etc/fstab which is perfectly included in 
+base-files_*.ipk as expected.
+It also shows up in 
+build/tmp-angstrom_v2012_05-eglibc/work/mymachine/myimage*/rootfs/etc
+But I find a different version of /etc/fstab under 
+build/tmp-angstrom_v2012_05-eglibc/deploy/images/mymachine/myimage*.rootfs.tar.bz2
+I can't figure out why!
+Any ideas or hints?
 
-Ross
+Thanks!
+Jaap
 
 
