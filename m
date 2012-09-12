@@ -1,40 +1,30 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TBo1x-0007FQ-BP
-	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Sep 2012 16:35:05 +0200
-Received: by eaad12 with SMTP id d12so781949eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Sep 2012 07:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bXZHFJoS+MPAJa1fN8n33O22QSTZWgMr18TlkRGpWhw=;
-	b=REM6vSnsRe9Gg4F6QQgREmwPtzeVrStAB2K7WFxpQDWj5xUb6HxhkSm0gkHAIlBI+g
-	ACzBpKt5iVGWBslYWhj+NExtysWK43lFCKzCB31IHn2oi7ZFXvxUvVcUhqt1lL7Dimn1
-	SCbRbPkQIMBuN/0lOoT5imtb4efoo/zj+VDX8w2tvtW/090VJ43gaAPZDlv3oVfbInTO
-	b4WTjob7heTIrINShflLMW6F1CLwBlq/Us6CclK2DStlRYwg2w3gkl4IxwGLeKQKlB0O
-	ia4OoiL4ACQlI6DtDKRF0gH9EwYwQ7GO31OHb1Q6Fme8GfrrKWt7qHWJVXp1/T7WGnk0
-	cJfQ==
-Received: by 10.204.152.136 with SMTP id g8mr5950468bkw.44.1347459752987;
-	Wed, 12 Sep 2012 07:22:32 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm12135308bkc.5.2012.09.12.07.22.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Sep 2012 07:22:31 -0700 (PDT)
-Date: Wed, 12 Sep 2012 16:22:32 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Message-ID: <20120912142232.GA3162@jama.jama.net>
-References: <1347455995-24565-1-git-send-email-schnitzeltony@googlemail.com>
-	<1347456710.11710.11.camel@ted>
-	<CADkTA4P-THBeYwVkRvnyy3TxH6OTs9qcYUE-cBwXLWjJou7zrA@mail.gmail.com>
-	<CAGiJk9dn+rD5c=r958rWA8YcH_F88z_EWP5sEN+jDmknWQ-59A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAGiJk9dn+rD5c=r958rWA8YcH_F88z_EWP5sEN+jDmknWQ-59A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cml1.bbclass: fix kernel menuconfig
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TBo2n-0007IM-UR; Wed, 12 Sep 2012 16:35:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CENOhM020420;
+	Wed, 12 Sep 2012 15:23:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19904-08; Wed, 12 Sep 2012 15:23:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8CENHU5020414
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 12 Sep 2012 15:23:18 +0100
+Message-ID: <1347459798.11710.27.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Sep 2012 15:23:18 +0100
+In-Reply-To: <CAJTo0LbTipjuhpvyxgL1Z=WTn0yHNcLB4tQqcQeXCUth8ygWkA@mail.gmail.com>
+References: <CAJTo0LbTipjuhpvyxgL1Z=WTn0yHNcLB4tQqcQeXCUth8ygWkA@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: libx11-diet removal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,67 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Sep 2012 14:35:05 -0000
-X-Groupsio-MsgNum: 29173
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3MwIy2ne0vdjdPXF"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Sep 2012 14:35:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---3MwIy2ne0vdjdPXF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2012-09-12 at 15:10 +0100, Burton, Ross wrote:
+> On 12 September 2012 14:59, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > I don't think there are many such users so I've merged the series. We've
+> > had this mess around for a long time, keep talking about fixing and now
+> > someone gives me a patch series so I really just can't resist ;-)
+> 
+> Thanks, Richard.
+> 
+> The final question is do we keep libx11-diet?  It is substantially
+> smaller but the stubbing does knock out some non-deprecated
+> functionality - as far as I'm aware both GTK+ and Qt fail to
+> initialise with libx11-diet.
+> 
+> Two options:
+> 1) delete it from oe-core
+> 2) whoever actually uses it can have it, moving it from oe-core
+> 
+> I'll do (1) soonish unless someone speaks up in it's defence...
 
-On Wed, Sep 12, 2012 at 04:21:15PM +0200, Samuel Stirtzel wrote:
-> 2012/9/12 Bruce Ashfield <bruce.ashfield@gmail.com>:
-> > On Wed, Sep 12, 2012 at 9:31 AM, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> >> FWIW I've been unable to reproduce this locally :(.
-> >
-> > I've also tried to reproduce this periodically and have never seen it w=
-here
-> > I can debug it properly.
-> >
-> > I'm also not disputing that this is an issue .. just one I can't get at=
- yet
-> > either.
->=20
-> It seems like this issue is only triggered on Fedora machines..
-> (At least there were 2 reports of this issue on Fedora)
+Is there any way to add in enough functionality that gtk/qt would work
+but still save some space?
 
-and Gentoo
+Cheers,
 
-> So far I've got no problems with (K)Ubuntu machines.
-> But I've seen this on a Fedora 17 one too.
->=20
-> >
-> > Cheers,
-> >
-> > Bruce
-> >
->=20
-> --=20
-> Regards
-> Samuel
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---3MwIy2ne0vdjdPXF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlBQmqgACgkQN1Ujt2V2gBy4eQCfQB11vWnDNme3OsiO8fl8/OMJ
-qu8An1iRrLMM8dVyxo76MJNJOTWX18cT
-=IWtz
------END PGP SIGNATURE-----
-
---3MwIy2ne0vdjdPXF--
