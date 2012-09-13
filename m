@@ -1,26 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TCIKZ-0008PK-Mu
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TCJIP-0000qK-V2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 00:56:19 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 13 Sep 2012 15:43:10 -0700
+	Fri, 14 Sep 2012 01:58:10 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 13 Sep 2012 16:45:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,419,1344236400"; d="scan'208";a="192534232"
-Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
-	by azsmga001.ch.intel.com with ESMTP; 13 Sep 2012 15:43:10 -0700
-Message-ID: <5052617D.7080206@linux.intel.com>
-Date: Thu, 13 Sep 2012 15:43:09 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+X-IronPort-AV: E=Sophos;i="4.80,419,1344236400"; d="scan'208";a="192776818"
+Received: from unknown (HELO helios.localnet) ([10.252.121.190])
+	by orsmga001.jf.intel.com with ESMTP; 13 Sep 2012 16:45:33 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 00:45:32 +0100
+Message-ID: <1897044.003cSCLRiK@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <CAP9ODKpy==dnOV-MtxLck0nLm0juBPiVSNwf=_M3gt12tCqXXQ@mail.gmail.com>
+References: <CAP9ODKpy==dnOV-MtxLck0nLm0juBPiVSNwf=_M3gt12tCqXXQ@mail.gmail.com>
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1347564379-14252-1-git-send-email-sgw@linux.intel.com>
-	<22844638.2V3OiWsK3u@helios>
-In-Reply-To: <22844638.2V3OiWsK3u@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH] license: Ensure we find multilib packages also
+Cc: Rogerio Pimentel <rogerio.pimentel@freescale.com>,
+	Daiane Angolini <daiane.angolini@freescale.com>
+Subject: Re: Possible bug in bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2012 22:56:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Sep 2012 23:58:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 09/13/2012 03:31 PM, Paul Eggleton wrote:
-> On Thursday 13 September 2012 12:26:19 Saul Wold wrote:
->> Make sure to find -package, this was causing a failure
->> in the multi-lib build license generation during rootfs.
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>   meta/classes/license.bbclass |    2 +-
->>   1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
->> index 29fe938..b29067c 100644
->> --- a/meta/classes/license.bbclass
->> +++ b/meta/classes/license.bbclass
->> @@ -88,7 +88,7 @@ license_create_manifest() {
->>   	# list of installed packages is broken for deb
->>   	for pkg in ${INSTALLED_PKGS}; do
->>   		# not the best way to do this but licenses are not arch dependant iirc
->> -		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/${pkg}| head -1`
->> +		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/*${pkg}| head -1`
->>   		pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
->>
->>   		# exclude locale recipes
->
-> Surely this could end up matching a the wrong file when one package name is a
-> substring of another?
->
-I am open to ideas here, I tried the ${MLPREFIX}, but it seems to be 
-empty when rootfs runs, that did not help, I thought about adding the 
-'-', but that would fail in the non-multilib case, how can I determine 
-what the prefix will be to get a more accurate match?
+On Thursday 13 September 2012 15:41:15 Otavio Salvador wrote:
+> Hello,
+> 
+> Rogerio and Daiane, here copied, found a bug in bitbake (we managed to
+> reproduce it in denzil). The output in console when it happens can be
+> seen at:
+> 
+> https://groups.google.com/d/msg/meta-fsl-arm/7W9bwxqslnk/htEiOcaJMH8J
+> 
+> The way to reproduce it is very easy:
+> 
+>  * bitbake gnutls -c cleansstate
+>  * remove gnutls from download cache
+>  * bitbake gnutls
 
-Sau!
+Oh, hang on - now you mention gnutls, I think I know what it is. I suspect
+if you apply either or both of these patches the issue will go away:
 
-> Cheers,
-> Paul
->
+http://cgit.openembedded.org/openembedded-core/commit/?id=0de1827a9601143b090f751ea702fdb65a936b77
+http://cgit.openembedded.org/bitbake/commit/?id=57055d337a2c9997a6e5d5bdabaec396e3e128e9
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
