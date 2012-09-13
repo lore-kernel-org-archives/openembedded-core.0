@@ -1,26 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TCF4t-0004w2-5p
+	(envelope-from <sgw@linux.intel.com>) id 1TCFCf-00052Q-0B
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Sep 2012 21:27:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8DJFHax027673
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2012 12:15:17 -0700 (PDT)
-Received: from msp-dhcp28.wrs.com (172.25.34.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 13 Sep 2012 12:15:17 -0700
-Message-ID: <505230C4.5090107@windriver.com>
-Date: Thu, 13 Sep 2012 14:15:16 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
+	Thu, 13 Sep 2012 21:35:58 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Sep 2012 12:23:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,418,1344236400"; d="scan'208";a="203220088"
+Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
+	by orsmga002.jf.intel.com with ESMTP; 13 Sep 2012 12:23:18 -0700
+Message-ID: <505232A6.6040806@linux.intel.com>
+Date: Thu, 13 Sep 2012 12:23:18 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>
 References: <CAP9ODKpy==dnOV-MtxLck0nLm0juBPiVSNwf=_M3gt12tCqXXQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKpy==dnOV-MtxLck0nLm0juBPiVSNwf=_M3gt12tCqXXQ@mail.gmail.com>
+	<505230C4.5090107@windriver.com>
+In-Reply-To: <505230C4.5090107@windriver.com>
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Possible bug in bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,36 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2012 19:27:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 13 Sep 2012 19:35:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/13/12 1:41 PM, Otavio Salvador wrote:
-> Hello,
+On 09/13/2012 12:15 PM, Mark Hatle wrote:
+> On 9/13/12 1:41 PM, Otavio Salvador wrote:
+>> Hello,
+>>
+>> Rogerio and Daiane, here copied, found a bug in bitbake (we managed to
+>> reproduce it in denzil). The output in console when it happens can be
+>> seen at:
+>>
+>> https://groups.google.com/d/msg/meta-fsl-arm/7W9bwxqslnk/htEiOcaJMH8J
+>>
+>> The way to reproduce it is very easy:
+>>
+>>   * bitbake gnutls -c cleansstate
+>>   * remove gnutls from download cache
+>>   * bitbake gnutls
+>>
+>> Adding gnutls back to download cache make the build succeed.
+>>
 >
-> Rogerio and Daiane, here copied, found a bug in bitbake (we managed to
-> reproduce it in denzil). The output in console when it happens can be
-> seen at:
+> There is a stamp file in the download cache.  If you don't clear that,
+> then it will think it's still there.
 >
-> https://groups.google.com/d/msg/meta-fsl-arm/7W9bwxqslnk/htEiOcaJMH8J
+> bitbake gnutls -c distclean
 >
-> The way to reproduce it is very easy:
->
->   * bitbake gnutls -c cleansstate
->   * remove gnutls from download cache
->   * bitbake gnutls
->
-> Adding gnutls back to download cache make the build succeed.
->
+I think you mean cleanall!
 
-There is a stamp file in the download cache.  If you don't clear that, then it 
-will think it's still there.
+I don't think we have distclean.
 
-bitbake gnutls -c distclean
+Sau!
 
-that should remove from the download cache, the stamp file, and all of the 
-actions of cleansstate.
-
---Mark
+> that should remove from the download cache, the stamp file, and all of
+> the actions of cleansstate.
+>
+> --Mark
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
