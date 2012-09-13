@@ -1,42 +1,25 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TCE2z-0003pt-Dm
+	(envelope-from <Peter.Seebach@windriver.com>) id 1TCEN2-00042h-1E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Sep 2012 20:21:53 +0200
-Received: by eaad12 with SMTP id d12so1205006eaa.6
+	Thu, 13 Sep 2012 20:42:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8DIU1mO020800
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2012 11:09:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=paYwUVAR4geV+aTUxcRr3USCpKRGBVBGyowbY06yAtA=;
-	b=ISyn+yiaeHNX1cwLw/u/+WRvkqRWc7Y6bGPakDuTotZ3A2FkDKpZq4uMQcTLwqSckQ
-	nCAAmUsfwDcvD+I//M0MblZhU2dxJJg+u09gwnrw5EOqIkxk4SXFGKdsooSKCqup++o0
-	nxJda2eRaAY9fWExgN0lfWVS91ahb5hDGE3gfSSYsMIR2Il9pnGYrpH2/qagrApbdDAr
-	Hse+qn/FA6dH001mGIOh9+mtfFZS3MglQnCtsRHXrz2GEBGELPwOaRCxnYPErouwolGI
-	UmAyacRmOhzD/prWO2Z6MrwzZaDKeMR4U1AGtYu8+rF7Xnl9Rb4DvRd3uep1FdMDz0jy
-	U2zw==
-Received: by 10.14.213.137 with SMTP id a9mr56603eep.38.1347559346761;
-	Thu, 13 Sep 2012 11:02:26 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id v3sm67142728eep.10.2012.09.13.11.02.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Sep 2012 11:02:25 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAMKF1srBJoHJiARTyvDFuY9OQiFXg3j6ODVayuHUuXmHhCaEcw@mail.gmail.com>
-Date: Thu, 13 Sep 2012 20:02:27 +0200
-Message-Id: <914D5AC8-FD7D-4BDB-965E-C7D20FEC4DCF@dominion.thruhere.net>
-References: <1347429555-32159-1-git-send-email-raj.khem@gmail.com>
-	<1347431522.29443.92.camel@x121e.pbcl.net>
-	<CAMKF1srBJoHJiARTyvDFuY9OQiFXg3j6ODVayuHUuXmHhCaEcw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQnLcPiu+CJh4uVTBevgZS8+o0em56Jp0cREpcrqOdph1u3UDchVPZ27SA93uCiJeuwaCr+k
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/3] kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
+	Thu, 13 Sep 2012 11:30:01 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 13 Sep 2012 11:30:00 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Sep 2012 13:29:59 -0500
+Message-ID: <82333322e10699bb82f724f14c906d2eabbb60a2.1347559925.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1347559925.git.peter.seebach@windriver.com>
+References: <cover.1347559925.git.peter.seebach@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] pseudo_1.4.1.bb: update to pseudo 1.4.1, fixing 32-bit host problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,49 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2012 18:21:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 13 Sep 2012 18:42:36 -0000
+Content-Type: text/plain
 
+There were a number of cases where pseudo used plain old stat()
+to get dev/inode data for files; on 32-bit hosts, this could fail
+if the files were over 2GB, causing pseudo to prevent removing of
+large files. This is fixed in 1.4.1.
 
-Op 12 sep. 2012, om 09:49 heeft Khem Raj <raj.khem@gmail.com> het =
-volgende geschreven:
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+---
+ meta/recipes-devtools/pseudo/pseudo_1.4.1.bb |    8 ++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.4.bb   |    8 --------
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.bb
 
-> On Tue, Sep 11, 2012 at 11:32 PM, Phil Blundell <philb@gnu.org> wrote:
->> On Tue, 2012-09-11 at 22:59 -0700, Khem Raj wrote:
->>> kernel compiler is not special and we currently have it so
->>> we want to pass -march and -mtune options as CFLAGS to kernel
->>> build so that compiler picks the right subarch flags when
->>> compiling assembly files in particular.
->>=20
->> Historically, the kernel compiler has indeed been special: there have
->> been some machines where, due to bugs in the kernel or the compiler =
-or
->> both, we need to use a different version of the compiler for the =
-kernel
->> than we use for userspace.  The most famous example of this were the =
-old
->> ARM kernels back in the day which needed gcc-2.95 long after everyone
->> else had stopped using it, but I think there might be a few cases =
-where
->> the same situation obtains even today.
->=20
-> I agree with history but we have moved away from 2.9x for long.
-> moreover v1 of this patch has been posted for weeks no one raised a
-> concern which I take that such cases are not there anymore with
-> OE-Core
->=20
->>=20
->> If you remove ${KERNEL_CCSUFFIX} then we will lose the ability to do
->> that (easily).  I'm not necessarily opposed to such a change but I =
-think
->> it does need to be justified with clear benefits.
->>=20
->=20
-> again if there is a usecase with OE-Core of such a kind. I will be
-> happy to deal with it no one has shown me one.
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+new file mode 100644
+index 0000000..70fe9c0
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+@@ -0,0 +1,8 @@
++require pseudo.inc
++
++PR = "r13"
++
++SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "b49bb87c7e1de33f37fea479ddb99dca"
++SRC_URI[sha256sum] = "ae4bfba2bd1e3954ea8f83bf06571ee4958bf7623e4fa897056281dddfe6446d"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.bb
+deleted file mode 100644
+index e1e1f6f..0000000
+--- a/meta/recipes-devtools/pseudo/pseudo_1.4.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require pseudo.inc
+-
+-PR = "r12"
+-
+-SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "bc04c6c9d13cfdb789ffc2f3cca9ab08"
+-SRC_URI[sha256sum] = "147fa7b177061a145d330b9e159529a185be94550f123c6acb0d3b75d480c5b4"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 27ae4b2..e394ffb 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,8 +1,8 @@
+ require pseudo.inc
+ 
+-SRCREV = "9b792e4cb91bc22374f47d0b0902dbc4ecd7d6dd"
+-PV = "1.4+git${SRCPV}"
+-PR = "r27"
++SRCREV = "398a264490713c912b4ce465251a8a82a7905f45"
++PV = "1.4.1+git${SRCPV}"
++PR = "r28"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
+-- 
+1.7.0.4
 
-The archos vendor kernels only work when built with CSL 2007, a common =
-problem with TI kernels from that era=
 
 
