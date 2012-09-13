@@ -1,30 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TCIHq-0008Lc-F3 for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 00:53:30 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8DMeZk3003671
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2012 23:40:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03468-01 for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2012 23:40:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8DMeRGS003655
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2012 23:40:28 +0100
-Message-ID: <1347576029.11710.115.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Sep 2012 23:40:29 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] opkg: Fix package dependency issue for preinsts
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1TCIKZ-0008PK-Mu
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 00:56:19 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 13 Sep 2012 15:43:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,419,1344236400"; d="scan'208";a="192534232"
+Received: from unknown (HELO [10.255.13.93]) ([10.255.13.93])
+	by azsmga001.ch.intel.com with ESMTP; 13 Sep 2012 15:43:10 -0700
+Message-ID: <5052617D.7080206@linux.intel.com>
+Date: Thu, 13 Sep 2012 15:43:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1347564379-14252-1-git-send-email-sgw@linux.intel.com>
+	<22844638.2V3OiWsK3u@helios>
+In-Reply-To: <22844638.2V3OiWsK3u@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH] license: Ensure we find multilib packages also
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,45 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2012 22:53:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 13 Sep 2012 22:56:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-When processing dependencies, we need to look for both the SW_INSTALL and
-SW_UNKNOWN states. If we don't do this, dependencies can be missed
-and preinst scripts can run before dependencies are all installed.
+On 09/13/2012 03:31 PM, Paul Eggleton wrote:
+> On Thursday 13 September 2012 12:26:19 Saul Wold wrote:
+>> Make sure to find -package, this was causing a failure
+>> in the multi-lib build license generation during rootfs.
+>>
+>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> ---
+>>   meta/classes/license.bbclass |    2 +-
+>>   1 files changed, 1 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+>> index 29fe938..b29067c 100644
+>> --- a/meta/classes/license.bbclass
+>> +++ b/meta/classes/license.bbclass
+>> @@ -88,7 +88,7 @@ license_create_manifest() {
+>>   	# list of installed packages is broken for deb
+>>   	for pkg in ${INSTALLED_PKGS}; do
+>>   		# not the best way to do this but licenses are not arch dependant iirc
+>> -		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/${pkg}| head -1`
+>> +		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/*${pkg}| head -1`
+>>   		pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
+>>
+>>   		# exclude locale recipes
+>
+> Surely this could end up matching a the wrong file when one package name is a
+> substring of another?
+>
+I am open to ideas here, I tried the ${MLPREFIX}, but it seems to be 
+empty when rootfs runs, that did not help, I thought about adding the 
+'-', but that would fail in the non-multilib case, how can I determine 
+what the prefix will be to get a more accurate match?
 
-This leads to package installation errors for packages like dbus-1
-and associated user permission errors.
+Sau!
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/opkg/opkg/fix_installorder.patch b/meta/recipes-devtools/opkg/opkg/fix_installorder.patch
-index 9dd10b2..6a7e6db 100644
---- a/meta/recipes-devtools/opkg/opkg/fix_installorder.patch
-+++ b/meta/recipes-devtools/opkg/opkg/fix_installorder.patch
-@@ -147,7 +147,7 @@ Index: trunk/libopkg/pkg_depends.c
- +							       dependence_to_satisfy, 0);
- +               /* Being that I can't test constraing in pkg_hash, I will test it here */
- +	       if (satisfying_pkg != NULL && satisfying_pkg != pkg) {
--+                  if (pkg_constraint_satisfied(satisfying_pkg, dependence_to_satisfy) && satisfying_pkg->state_want == SW_INSTALL)
-++                  if (pkg_constraint_satisfied(satisfying_pkg, dependence_to_satisfy) && (satisfying_pkg->state_want == SW_INSTALL || satisfying_pkg->state_want == SW_UNKNOWN))
- +	              pkg_vec_insert(satisfiers, satisfying_pkg);
- +               }
- +
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index a0667ac..4146b7e 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -14,4 +14,4 @@ S = "${WORKDIR}/trunk"
- SRCREV = "633"
- PV = "0.1.8+svnr${SRCPV}"
- 
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
---
-cgit 0.9.0.1
-
-
+> Cheers,
+> Paul
+>
 
 
