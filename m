@@ -1,25 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TCD01-0002e1-UX
+	(envelope-from <andrei@gherzan.ro>) id 1TCDFv-0002nf-Ns
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Sep 2012 19:14:46 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TCCnu-0000lx-DZ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Sep 2012 19:02:14 +0200
-From: Phil Blundell <philb@gnu.org>
+	Thu, 13 Sep 2012 19:31:11 +0200
+Received: by pbcwy7 with SMTP id wy7so4055858pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Sep 2012 10:18:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=PPzmhcYnNFapERrz2BC6h6Ll7kRstVnrWRuUq8yOJ+I=;
+	b=pBUw08XcwtAa75GsDhJXJkHM/FeyEaxuiWO8nWYBNUS0ILCyG4Z2TpibxMGekspA3U
+	PlK1MMiX2XVhtnsX2M/l1bFtSIst7ZUQnVsiBqERHcJ/L+S7fy9RkBTKQPrx+K2TDjAT
+	VGv32FrGhz0vvRl9jWaRNd4nbe/ePZjX+TqkL3+VtLf0lPCEfU+ba/G83JS1aX+BSCoT
+	HvisFTz0heywGMiFY+nrNUoFmLxu/xTPRG5memdifWbfYmS1yVbWdALJbb6nd7HaiYDp
+	ek/8BO59fg4fn6CWTpQimcsxD7+Zyn1A7sJo+julLFGez3cwwGJkbdGiynPsfweXDSb0
+	b/gg==
+Received: by 10.68.221.72 with SMTP id qc8mr490288pbc.63.1347556717365;
+	Thu, 13 Sep 2012 10:18:37 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id pq7sm13381550pbb.25.2012.09.13.10.18.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 13 Sep 2012 10:18:36 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Sep 2012 18:02:13 +0100
-In-Reply-To: <50520E2E.1040804@windriver.com>
-References: <20120911130155.GC14077@jama.jama.net>
-	<1347460383.11710.34.camel@ted> <20120913062017.GA11252@jama.jama.net>
-	<1347532926.11710.66.camel@ted> <50520E2E.1040804@windriver.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1347555734.1786.19.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: qemuarm: should it really have TUNE_ARCH armv5te?
+Date: Thu, 13 Sep 2012 20:18:26 +0300
+Message-Id: <cover.1347556625.git.andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQk+a0RMbWttPhnspviTfUqqhxN+PP/y5V7/wZyRwXaepnrYRzVL2JQ4xu3ua3s+IKVcSRJ5
+Subject: [PATCH V3 0/1] Round up ROOTFS_SIZE after base_size check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2012 17:14:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Sep 2012 17:31:12 -0000
 
-On Thu, 2012-09-13 at 11:47 -0500, Mark Hatle wrote:
-> ARM seems to be the one exception, where you have three levels.. ABI 
-> (EABI/hf-EABI), processor family (armv4, armv5, armv7, cortext....), and then 
-> CPU optimization.  This seems to cause additional confusion, as the CPU 
-> optimizations are not being captured in the current package ARCH, which makes it 
-> difficult to optimize on a feed.
+V3:
+Do the whole thing in the same awk
 
-I guess that by "processor family" you mean ISA.  (I'm not aware of an
-ARM ISA variant named "cortext", though I haven't really been keeping up
-with the latest developments there so I could imagine that one might
-exist.)
+The following changes since commit 0f55a5868457300a3defc7fa7451ef191d19e018:
 
-Anyway, the basic three-way scenario (ISA, ABI, optimisation) that you
-describe above isn't in any sense unique to ARM; the concept of
-per-cpu-model optimisation/tuning applies equally to other architectures
-(x86 for example) as well.  It's probably less of an issue for MIPS but
-I suspect that's more a reflection of gcc's weaker optimisation
-capabilities on that architecture rather than a homogeous CPU
-population.  I don't know PowerPC well enough to make any comment about
-that.
+  adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:28:10 +0100)
 
-There's no particular reason that the per-cpu tuning couldn't be
-captured in PACKAGE_ARCH if one wanted to do it.  But the decision about
-how to structure a binary feed is clearly one for the DISTRO and the
-question of how to map that into PACKAGE_ARCH is, equally clearly, one
-that the distro ought to be solving.  Since oe-core itself doesn't build
-any feeds, I don't think there's any reason for it to make heroic
-efforts to sort out the package architectures that would go into them.
+are available in the git repository at:
 
-p.
+  git://git.yoctoproject.org/poky-contrib ag/rootfs_size
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/rootfs_size
 
+Andrei Gherzan (1):
+  image_types.bbclass: Round up ROOTFS_SIZE after base_size check
+
+ meta/classes/image_types.bbclass |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+1.7.9.5
 
 
 
