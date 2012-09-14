@@ -1,41 +1,21 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TCWKM-0006Dt-Dq
+	(envelope-from <constantinx.musca@intel.com>) id 1TCWjs-0001ib-69
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 15:53:02 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q8EDeOKT005530
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 14 Sep 2012 15:40:25 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1TCW8O-0007qQ-DR; Fri, 14 Sep 2012 15:40:40 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1347451098-16659-1-git-send-email-constantinx.musca@intel.com>
-	<lyvcfgu9ls.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1347623450.9456.29.camel@ted>
-	<lyobl8u70k.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1347629615.13596.18.camel@ted>
-Date: Fri, 14 Sep 2012 15:40:40 +0200
-In-Reply-To: <1347629615.13596.18.camel@ted> (Richard Purdie's message of
-	"Fri, 14 Sep 2012 14:33:35 +0100")
-Message-ID: <lyhar0u3hj.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.7
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Constantin Musca
-	<constantinx.musca-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] patch.bbclass: Use one TMPDIR per patching process
+	Fri, 14 Sep 2012 16:19:24 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Sep 2012 07:06:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="222171440"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Sep 2012 07:06:46 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 16:12:01 +0300
+Message-Id: <1347628321-25057-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] patch.bbclass: increase security
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,24 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 13:53:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Sep 2012 14:19:24 -0000
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+- Use mkdtemp for generating temp dir names
+- Use bb.utils.remove for removing temp dirs
+- Add comment for explaining the "patch" workaround
 
-> I would point out that the build process is likely full of such races
-> though. 
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/classes/patch.bbclass |   16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-Yes; I know.  But there is really no excuse to introduce insecure tmpfile
-creation; especially because safe techniques are well known, available
-and cheap.
-
-All the build tools (gcc, make, autoconf) got patches in the last years
-to avoid such races.
-
-
-Enrico
-
+diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
+index d010438..4b535d9 100644
+--- a/meta/classes/patch.bbclass
++++ b/meta/classes/patch.bbclass
+@@ -139,10 +139,14 @@ python patch_do_patch() {
+     path = os.getenv('PATH')
+     os.putenv('PATH', d.getVar('PATH', True))
+ 
+-    import shutil
+-    process_tmpdir = os.path.join('/tmp', str(os.getpid()))
++    # We must use one TMPDIR per process (/tmp/${PID}${random_chars})
++    # so that the "patch" processes don't generate the same temp
++    # file name.
++
++    import tempfile
++    process_tmpdir = tempfile.mkdtemp(prefix=str(os.getpid()))
+     if os.path.exists(process_tmpdir):
+-        shutil.rmtree(process_tmpdir)
++        bb.utils.remove(process_tmpdir, True)
+     os.makedirs(process_tmpdir)
+     os.environ['TMPDIR'] = process_tmpdir
+ 
+@@ -168,15 +172,15 @@ python patch_do_patch() {
+         try:
+             patchset.Import({"file":local, "strippath": parm['striplevel']}, True)
+         except Exception as exc:
+-            shutil.rmtree(process_tmpdir)
++            bb.utils.remove(process_tmpdir, True)
+             bb.fatal(str(exc))
+         try:
+             resolver.Resolve()
+         except bb.BBHandledException as e:
+-            shutil.rmtree(process_tmpdir)
++            bb.utils.remove(process_tmpdir, True)
+             bb.fatal(str(e))
+ 
+-    shutil.rmtree(process_tmpdir)
++    bb.utils.remove(process_tmpdir, True)
+ }
+ patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
+ 
+-- 
+1.7.9.5
 
 
 
