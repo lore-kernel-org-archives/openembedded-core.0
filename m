@@ -1,36 +1,20 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TCSel-0000UN-AP
+	(envelope-from <radu.moisan@intel.com>) id 1TCSgc-0000Y2-GB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 11:57:51 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Sep 2012 02:45:07 -0700
-Received: by wgbdq11 with SMTP id dq11so440471wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2012 02:45:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=P4xSQCpvYI5DoctvQZleKPz6gJKW/Kji9QntqwwVzbc=;
-	b=EJVW8s8y+aEqMUPGlQT/V+0MJwtLV+CyNi7izMakcwf71F1VY4h9+YgtG7/o3wMy6c
-	kfkLWfwQonBs4V1qv9txzCEDvCDjcSjBJWg2t2mKGUyYg2PKTbk7K1cR5tTRaaHSnI2R
-	OY04SZEF7GvLhD49YtBBjbod/ck0jaxmkmnE9yIhAf1xM49gtbKUt9nghapWdYt09bDn
-	PL08/lRHzG6qdBrmr6gqBs9i4/DUXQKLDmkfT098OMFdgCRFgnjtQpKviy29ON7oJ4fM
-	nIYNjrs2yxTM9P7MkwTamD5cmb5DKXrQrsDzG5WmaVopQVDMg12TrCPrUrOQPT+7SxPh
-	Ax6A==
-Received: by 10.180.100.131 with SMTP id ey3mr4743636wib.15.1347615905808;
-	Fri, 14 Sep 2012 02:45:05 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id do5sm2906350wib.10.2012.09.14.02.45.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Sep 2012 02:45:04 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 14 Sep 2012 11:59:46 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2012 02:47:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,422,1344236400"; d="scan'208";a="193001066"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2012 02:47:10 -0700
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2012 10:44:13 +0100
-Message-Id: <1347615853-20491-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQl1/iDwM18KNxqkj2p2xDi8APdBiQPHFQxIAploR0thU/i3OiXCaPiQmeqZ4DisgR7v3OGB
-Subject: [PATCH V2] librsvg: make the libcroco dependency a PACKAGECONFIG option
+Date: Fri, 14 Sep 2012 12:50:11 +0300
+Message-Id: <1347616211-3039-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v3] insane.bbclass: add library dir sanity check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,48 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 09:57:51 -0000
+X-List-Received-Date: Fri, 14 Sep 2012 09:59:46 -0000
 
-Default to enabling it as we were build-depending on it already.  If a user
-needs the disk space and the limitations imposed by not using libcroco are
-acceptable they can override this.
+Check in ${PKGD} for libraries in other locations
+then ${libdir}. Trigger a warning if so.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+[Yocto #2038]
+
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |   12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ meta/classes/insane.bbclass |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-index 6bb5fe2..b118805 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-@@ -7,15 +7,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://rsvg.h;beginline=3;endline=24;md5=20b4113c4909bbf0d67e006778302bc6"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index e74eb3f..d748c26 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -212,6 +212,18 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
+         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d)))
  
- SECTION = "x11/utils"
--DEPENDS = "gtk+ libcroco cairo libxml2"
-+DEPENDS = "gtk+ cairo libxml2"
- DEPENDS_virtclass-native = "cairo-native pango-native gdk-pixbuf-native"
- BBCLASSEXTEND = "native"
- 
--PR = "r9"
-+PR = "r10"
- 
- inherit autotools pkgconfig gnome gtk-doc
- 
--EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz --without-croco"
-+EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz"
++def package_qa_check_libdir(path,libdir):
++    """
++    Check in path for libraries in other locations then libdir. Trigger a warning if so.
++    """
++    import re
++    lib_re = re.compile("^.*\.(so)")
++    for root, dirs, files in os.walk(path):
++        if libdir not in root:
++            for file in files:
++                if lib_re.match(file):
++                    bb.warn("Found library in wrong location: %s" % os.path.join(root,file))
 +
-+PACKAGECONFIG ??= "croco"
-+# When native we can manage without croco, as it's only for GTK+
-+PACKAGECONFIG_class-native ??= ""
+ QAPATHTEST[debug-files] = "package_qa_check_dbg"
+ def package_qa_check_dbg(path, name, d, elf, messages):
+     """
+@@ -688,6 +700,12 @@ python do_package_qa () {
+             rdepends_sane = False
+ 
+ 
++    ml = d.getVar("MLPREFIX", True) or ""
++    if ml:
++        pkgd = d.getVar('PKGD', True)
++        libdir = d.getVar("libdir", True)
++        package_qa_check_libdir(pkgd,libdir)
 +
-+PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
- 
- SRC_URI += "file://doc_Makefile.patch"
- 
+     if not walk_sane or not rdepends_sane:
+         bb.fatal("QA run found fatal errors. Please consider fixing them.")
+     bb.note("DONE with PACKAGE QA")
 -- 
-1.7.10
+1.7.9.5
 
 
 
