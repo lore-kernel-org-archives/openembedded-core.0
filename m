@@ -1,32 +1,40 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TCSHl-0000D5-Ic for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 11:34:05 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8E8ue2K009727;
-	Fri, 14 Sep 2012 09:56:40 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09652-01; Fri, 14 Sep 2012 09:56:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8E8uUKG009721
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 14 Sep 2012 09:56:31 +0100
-Message-ID: <1347612993.9456.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TCSJx-0000Hp-6L
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 11:36:22 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 14 Sep 2012 02:23:45 -0700
+Received: by obblz20 with SMTP id lz20so6089568obb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Sep 2012 02:23:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=Rxw0VqrmWhhbzC+xs8CRSjygeQKiF7msvVoOtTyU04U=;
+	b=jRrLGkxgAtLVfteRzdGQhQmZfaVRL0hLelw74Cq2ABpxDausVxPuKpZKzj9Qg4UH3Y
+	qtmOJrCD7ChY+1/+tP6xyhBHxFbOS7Ca4lZAgOQbuJ1tllWgSHdS7PHri4KXnayzNfzo
+	JsN9gGPZNb6xEAyA02U4SfO+BWPsUUqGc+IUR0D5JUufqK1JkjiIo4RhbVZsA44qQaN5
+	SX0kTNWs5bUIyWcMpy6ciUtE0s5Z5pW1FkwV03hcqup+5u+NE3HJCiWC/6orRkLsWkaX
+	5mBqIDoYWhCndCpNes8QmNUojKoh9VVT5LS5VHpnpa6U4lZbBI/T96iaZR5gfCWN8KMM
+	Texw==
+Received: by 10.60.30.168 with SMTP id t8mr2015644oeh.89.1347614624257; Fri,
+	14 Sep 2012 02:23:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Fri, 14 Sep 2012 02:23:23 -0700 (PDT)
+In-Reply-To: <5052CE86.6030302@linux.intel.com>
+References: <cover.1347534093.git.paul.eggleton@linux.intel.com>
+	<6ccf7a1f517e37ce7a8467f4a2432b1ae957e837.1347534093.git.paul.eggleton@linux.intel.com>
+	<5052CE86.6030302@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Sep 2012 10:23:23 +0100
+Message-ID: <CAJTo0LYHQjL=2vSP=SNcT9csSd8vyGm=d-9_8TRh5SC18h7bCg@mail.gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 14 Sep 2012 09:56:33 +0100
-In-Reply-To: <5052CDF2.9090505@linux.intel.com>
-References: <1347530671-16622-1-git-send-email-ross.burton@intel.com>
-	<1347530671-16622-3-git-send-email-ross.burton@intel.com>
-	<5052CDF2.9090505@linux.intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] librsvg: make the libcroco dependency a PACKAGECONFIG option
+X-Gm-Message-State: ALoCoQmco26QXWixHgg/7qsV2L13UBuCbfGRqD0corTM8WeobaorcwQ9ZQE1MWgg2tKkAFD+xELk
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] gst-ffmpeg: add LICENSE_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,62 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 09:34:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Sep 2012 09:36:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2012-09-13 at 23:25 -0700, Saul Wold wrote:
-> On 09/13/2012 03:04 AM, Ross Burton wrote:
-> > Default to enabling it as we were build-depending on it already.  If a user
-> > needs the disk space and the limitations imposed by not using libcroco are
-> > acceptable they can override this.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > ---
-> >   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |    9 ++++++---
-> >   1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-> > index 6bb5fe2..012b3ba 100644
-> > --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-> > +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-> > @@ -7,15 +7,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-> >                       file://rsvg.h;beginline=3;endline=24;md5=20b4113c4909bbf0d67e006778302bc6"
-> >
-> >   SECTION = "x11/utils"
-> > -DEPENDS = "gtk+ libcroco cairo libxml2"
-> > +DEPENDS = "gtk+ cairo libxml2"
-> >   DEPENDS_virtclass-native = "cairo-native pango-native gdk-pixbuf-native"
-> >   BBCLASSEXTEND = "native"
-> >
-> > -PR = "r9"
-> > +PR = "r10"
-> >
-> >   inherit autotools pkgconfig gnome gtk-doc
-> >
-> > -EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz --without-croco"
-> > +EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz"
-> > +
-> > +PACKAGECONFIG ??= "croco"
+On 14 September 2012 07:28, Saul Wold <sgw@linux.intel.com> wrote:
+> ERROR: Nothing RPROVIDES 'gst-ffmpeg' (but
+> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/meta-intel-gpl/build/yocto/meta-intel/common/recipes-multimedia/gstreamer/gst-va-intel.bb
+> RDEPENDS on or otherwise requires it)
 
+That's interesting, I wasn't aware gst-va required ffmpeg.  At the
+most it should be a recommends as elements are pluggable, and to be
+honest I'm pretty sure that's a bad dependency.
 
-Needs a 
-
-+PACKAGECONFIG_class-native ??= ""
-
-> > +PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
-> >
-> This change seems to introduce a new native dependency on libcroco-native.
-> 
-> ERROR: Nothing PROVIDES 'libcroco-native' (but 
-> virtual:native:/srv/home/pokybuild/yocto-autobuilder/yocto-slave/build-appliance/build/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb 
-> DEPENDS on or otherwise requires it)
-> 
-> This was during a bitbake -c fetch universe
-
-Cheers,
-
-Richard
-
+Ross
 
 
