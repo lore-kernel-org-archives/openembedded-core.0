@@ -1,20 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TCRoI-0007ym-9c
-	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 11:03:38 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2012 01:50:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,422,1344236400"; d="scan'208";a="192988217"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2012 01:50:58 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2012 11:53:59 +0300
-Message-Id: <1347612839-16068-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] insane.bbclass: add library dir sanity check
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TCRse-0008FT-FQ for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 11:08:08 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8E8tWYV009718;
+	Fri, 14 Sep 2012 09:55:32 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06256-09; Fri, 14 Sep 2012 09:55:28 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8E8tNnZ009712
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 14 Sep 2012 09:55:24 +0100
+Message-ID: <1347612926.9456.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 14 Sep 2012 09:55:26 +0100
+In-Reply-To: <cover.1347605994.git.sgw@linux.intel.com>
+References: <cover.1347605994.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED REQUEST 00/26] Update Fixes (cover only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,55 +37,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 09:03:38 -0000
+X-List-Received-Date: Fri, 14 Sep 2012 09:08:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Check in ${PKGD} for libraries in other locations
-then ${libdir}. Trigger a warning if so.
+On Fri, 2012-09-14 at 00:04 -0700, Saul Wold wrote:
+> Richard,
+> 
+> THis is a continuation of yesterday's Fix list. It includes
+> some patches for some AB related issues such as the MPC8315 
+> and Multilib (really license.bbclass failure).
+> 
+> I have also included the patch you suggested for the SRCPV 
+> issue in sstate hash, it does change now, that commit message
+> might need somemore info from you since I just tried it.
+> 
+> Hope you can pull most of these during your day!
+>
+> Andrei Dinu (1):
+>   libffi upgrade to 3.0.11
+> 
+> Andrei Gherzan (2):
+>   image_types.bbclass: Round up ROOTFS_SIZE after base_size check
+>   taglib: Update to v1.8
+> 
+> Bruce Ashfield (3):
+>   kernel-yocto: fix kernel configuration audit for custom yocto kernels
+>   linux-yocto: virtio and KVM guest configuration
+>   linux-yocto/3.4: make uprobes select perf events
+> 
+> Constantin Musca (1):
+>   patch.bbclass: Use one TMPDIR per patching process
+> 
+> Jack Mitchell (1):
+>   git: define NO_PYTHON=1 to stop git requiring python as a dependancy
+> 
+> Khem Raj (4):
+>   kernel.bbclass, module-base.bbclass: Use CC to form KERNEL_CC
 
-[Yocto #2038]
+There are a number of questions about this one, I've left it for now.
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- meta/classes/insane.bbclass |   17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+>   uclibc: Revert systemd regressing patch from upsteam uclibc and uprev
+>     SRCREV
+>   runqemu: Explicitly specify MACHINE when calling bitbake
+>   binutils-2.22: Backport PR fixes from 2.22 branch
+> 
+> Matthew McClintock (1):
+>   valgrind_3.7.0.bb: fix missing leading space on _append
+> 
+> Paul Eggleton (3):
+>   gst-fluendo-mpegdemux: add LICENSE_FLAGS
+>   scripts/combo-layer: use last_revision if specified in init
+>   scripts/combo-layer: ensure we validate branch/revision on init
+> 
+> Peter Seebach (1):
+>   pseudo_1.4.1.bb: update to pseudo 1.4.1, fixing 32-bit host problems
+> 
+> Richard Purdie (1):
+>   opkg: Fix package dependency issue for preinsts
+> 
+> Ross Burton (4):
+>   connman: remove trailing whitespace
+>   librsvg: --disable-gnome-vfs doesn't exist anymore, remove
+>   librsvg: remove spurious popt dependency
+>   libx11: update patch to a backport from upstream git
+> 
+> Saul Wold (4):
+>   oprofileui: Add Icons to oprofileui-viewer package
+>   kernelshark: add missing ${D}
+>   license: Ensure we find multilib packages also
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index e74eb3f..3a1b469 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -212,6 +212,17 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
-         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
-                  (name, package_qa_clean_path(path,d)))
- 
-+def package_qa_check_libdir(path,libdir):
-+    """
-+    """
-+    import re
-+    lib_re = re.compile("^.*\.(so|a)")
-+    for root, dirs, files in os.walk(path):
-+        if libdir not in root:
-+            for file in files:
-+                if lib_re.match(file):
-+                    bb.warn("Found library in wrong location: %s" % os.path.join(root,file))
-+
- QAPATHTEST[debug-files] = "package_qa_check_dbg"
- def package_qa_check_dbg(path, name, d, elf, messages):
-     """
-@@ -688,6 +699,12 @@ python do_package_qa () {
-             rdepends_sane = False
- 
- 
-+    ml = d.getVar("MLPREFIX", True) or ""
-+    if ml:
-+        pkgd = d.getVar('PKGD', True)
-+        libdir = d.getVar("libdir", True)
-+        package_qa_check_libdir(pkgd,libdir)
-+
-     if not walk_sane or not rdepends_sane:
-         bb.fatal("QA run found fatal errors. Please consider fixing them.")
-     bb.note("DONE with PACKAGE QA")
--- 
-1.7.9.5
+This one looks like it might introduce other issues...
+
+>   bitbake.conf: Assign SRCPV so that it will be tracked in siginfo
+
+I tweaked this one as discussed.
+
+Otherwise I merged things, thanks.
+
+Cheers,
+
+Richard
+
 
 
 
