@@ -1,21 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TCXsU-0005BK-RB
+	(envelope-from <sgw@linux.intel.com>) id 1TCY4G-0005O3-84
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 17:32:23 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Sep 2012 08:19:47 -0700
+	Fri, 14 Sep 2012 17:44:32 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 14 Sep 2012 08:31:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="222199016"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Sep 2012 08:19:46 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Sep 2012 17:25:02 +0300
-Message-Id: <1347632702-16313-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH v4] patch.bbclass: increase security
+X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="145111028"
+Received: from unknown (HELO [10.255.13.94]) ([10.255.13.94])
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Sep 2012 08:31:56 -0700
+Message-ID: <50534DEB.5030500@linux.intel.com>
+Date: Fri, 14 Sep 2012 08:31:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Andrei Gherzan <andrei@gherzan.ro>
+References: <cover.1347574891.git.andrei@gherzan.ro>
+In-Reply-To: <cover.1347574891.git.andrei@gherzan.ro>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] Update to taglib v1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,61 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 15:32:23 -0000
+X-List-Received-Date: Fri, 14 Sep 2012 15:44:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-- Use mkdtemp for generating temp dir names
-- Use bb.utils.remove for removing temp dirs
-- Add comment for explaining the "patch" workaround
+On 09/13/2012 03:22 PM, Andrei Gherzan wrote:
+> The following changes since commit 7401ed019196313a7ae7cab0b9f3820356cfee29:
+>
+>    Update to upstream_tracking.inc (2012-09-12 17:56:58 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib ag/taglib
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/taglib
+>
+> Andrei Gherzan (1):
+>    taglib: Update to v1.8
+>
+>   .../taglib/taglib-1.6.3/configuretweak.patch       |   73 -
+>   .../taglib/taglib-1.6.3/nolibtool.patch            | 5916 --------------------
+>   .../taglib/{taglib_1.6.3.bb => taglib_1.8.bb}      |   17 +-
+>   3 files changed, 8 insertions(+), 5998 deletions(-)
+>   delete mode 100644 meta/recipes-support/taglib/taglib-1.6.3/configuretweak.patch
+>   delete mode 100644 meta/recipes-support/taglib/taglib-1.6.3/nolibtool.patch
+>   rename meta/recipes-support/taglib/{taglib_1.6.3.bb => taglib_1.8.bb} (56%)
+>
+Merged into OE-Core
 
-[YOCTO #3070]
-
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/classes/patch.bbclass |   16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index d010438..ed12802 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -139,11 +139,11 @@ python patch_do_patch() {
-     path = os.getenv('PATH')
-     os.putenv('PATH', d.getVar('PATH', True))
- 
--    import shutil
--    process_tmpdir = os.path.join('/tmp', str(os.getpid()))
--    if os.path.exists(process_tmpdir):
--        shutil.rmtree(process_tmpdir)
--    os.makedirs(process_tmpdir)
-+    # We must use one TMPDIR per process so that the "patch" processes
-+    # don't generate the same temp file name.
-+
-+    import tempfile
-+    process_tmpdir = tempfile.mkdtemp()
-     os.environ['TMPDIR'] = process_tmpdir
- 
-     for patch in src_patches(d):
-@@ -168,15 +168,15 @@ python patch_do_patch() {
-         try:
-             patchset.Import({"file":local, "strippath": parm['striplevel']}, True)
-         except Exception as exc:
--            shutil.rmtree(process_tmpdir)
-+            bb.utils.remove(process_tmpdir, True)
-             bb.fatal(str(exc))
-         try:
-             resolver.Resolve()
-         except bb.BBHandledException as e:
--            shutil.rmtree(process_tmpdir)
-+            bb.utils.remove(process_tmpdir, True)
-             bb.fatal(str(e))
- 
--    shutil.rmtree(process_tmpdir)
-+    bb.utils.remove(process_tmpdir, True)
- }
- patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
- 
--- 
-1.7.9.5
+Thanks
+	Sau!
 
 
 
