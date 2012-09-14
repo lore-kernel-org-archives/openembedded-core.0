@@ -1,33 +1,38 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TCUcK-0003D1-OS for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 14:03:28 +0200
+	id 1TCUjv-0003K0-T1; Fri, 14 Sep 2012 14:11:20 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8EBosCc011069;
-	Fri, 14 Sep 2012 12:50:54 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8EBwdp1011110;
+	Fri, 14 Sep 2012 12:58:39 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 10777-03; Fri, 14 Sep 2012 12:50:49 +0100 (BST)
+	id 10921-02; Fri, 14 Sep 2012 12:58:31 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8EBolQT011063
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8EBwPr7011099
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 14 Sep 2012 12:50:48 +0100
-Message-ID: <1347623450.9456.29.camel@ted>
+	Fri, 14 Sep 2012 12:58:27 +0100
+Message-ID: <1347623908.13596.2.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 14 Sep 2012 12:50:50 +0100
-In-Reply-To: <lyvcfgu9ls.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1347451098-16659-1-git-send-email-constantinx.musca@intel.com>
-	<lyvcfgu9ls.fsf@ensc-virt.intern.sigma-chemnitz.de>
+To: Chris Larson <clarson@kergoth.com>
+Date: Fri, 14 Sep 2012 12:58:28 +0100
+In-Reply-To: <CABcZANkbpR66G2-4WnBjdcjUGd4Khbje-kvpd2geUaVMMxE=4A@mail.gmail.com>
+References: <cover.1346905978.git.raj.khem@gmail.com>
+	<5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
+	<504FF70B.7060701@mlbassoc.com> <1347458928.11710.21.camel@ted>
+	<CAMKF1so6qUDFMw_aOZTdC4W_Dh=rDiiC1O7pvjaUQS2xkG8xWg@mail.gmail.com>
+	<20120913121935.GC18675@giant>
+	<CAP9ODKp8sKpVMi9MwdFxwZTq2-VMiRGzDzD=bBrFu8r4hZ0xMA@mail.gmail.com>
+	<CABcZANkbpR66G2-4WnBjdcjUGd4Khbje-kvpd2geUaVMMxE=4A@mail.gmail.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Constantin Musca
-	<constantinx.musca-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>,
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q8EBwdp1011110
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] patch.bbclass: Use one TMPDIR per patching process
+Subject: Re: [PATCH 1/4] gcc: Switch SRC_URI to use svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,37 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 12:03:28 -0000
+X-List-Received-Date: Fri, 14 Sep 2012 12:11:20 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2012-09-14 at 13:28 +0200, Enrico Scholz wrote:
-> Constantin Musca
-> <constantinx.musca-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> writes:
-> 
-> > +    process_tmpdir = os.path.join('/tmp', str(os.getpid()))
-> > +    if os.path.exists(process_tmpdir):
-> > +        shutil.rmtree(process_tmpdir)
-> > +    os.makedirs(process_tmpdir)
-> 
-> ooohhhh... this violates trivial rules regarding secure generation of
-> tempfiles. Better use 'mkdtemp()' from the 'tempfile' module.
+On Thu, 2012-09-13 at 07:22 -0700, Chris Larson wrote:
+> On Thu, Sep 13, 2012 at 6:06 AM, Otavio Salvador
+> <otavio@ossystems.com.br> wrote:
+> > On Thu, Sep 13, 2012 at 9:19 AM, Bj=C3=B6rn Stenberg <bjst@enea.com> =
+wrote:
+> >> Khem Raj wrote:
+> >>> I agree but then 1.7 GB is noticeably huge too and it will only bec=
+ome
+> >>> larger in future so I don't think fetching from git will be a good =
+solution
+> >>> for gcc ever.
+> >>
+> >> Can we use shallow clones? A quick test of gcc-4.7 gave me a 308 MB =
+tar.gz when cloned with --depth 1.
+> >
+> > I did not check if the fetcher has this support  but it would be a
+> > nice solution.
+>=20
+> Shallow clones won't be able to support SRCREV properly, as you can
+> only clone shallowly from HEAD, not from an arbitrary point in
+> history, AFAIK.
 
-The problem is that the internal temp directory creation inside patch
-can be broken. We *really* don't want to start building patch-native so
-this workaround gives patch a fighting chance of not conflicting with
-other instances of itself. Its only being used as a prefix, not as the
-full directory path name so it isn't quite as insecure as it would first
-appear.
+Right, shallow clones are a can of worms from a variety of angles.
 
-I'm fine if we want to use the mkdtemp approach though and further
-randomise this. I'd also suggest any updated version adds a comment to
-the code about *why* we need a separate TMPDIR and which versions of
-patch have this problem.
+My current thinking is a ;allowsinglerev=3D1 parameter to the git fetcher
+which:
+
+a) Generates tarballs of single git revisions if tarball generation is
+turned on
+b) Searches for single revision tarballs before trying the main checkout
+approach.
+
+This would mean that WORKDIR may or may not have a .git directory for
+any SRC_URI marked with this. I think we should all be able to live with
+that and it shouldn't break too much?
 
 Cheers,
 
 Richard
+
 
 
 
