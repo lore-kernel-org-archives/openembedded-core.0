@@ -1,19 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TCQF1-0005Mo-RC
+	(envelope-from <radu.moisan@intel.com>) id 1TCRoI-0007ym-9c
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 09:23:08 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8E4viTl010274;
-	Thu, 13 Sep 2012 21:57:44 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri, 14 Sep 2012 00:57:26 -0400
-Message-Id: <cover.1347597967.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-yocto/3.4: make uprobes select perf events
+	Fri, 14 Sep 2012 11:03:38 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2012 01:50:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,422,1344236400"; d="scan'208";a="192988217"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2012 01:50:58 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 11:53:59 +0300
+Message-Id: <1347612839-16068-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] insane.bbclass: add library dir sanity check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,41 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 07:23:08 -0000
+X-List-Received-Date: Fri, 14 Sep 2012 09:03:38 -0000
 
-Richard/Saul,
+Check in ${PKGD} for libraries in other locations
+then ${libdir}. Trigger a warning if so.
 
-This update addresses YOCTO #3111, which is a build a failure on the mpc8315
-after uprobes was enabled.
+[Yocto #2038]
 
-We ended up fixing this twice (but both are good fixes), there's a kernel
-Kconfig fix from me and a kernel configuration fix by TomZ.  Both fix the
-problem for the board showing the build error and have no impact on the other
-(already building) boards.
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ meta/classes/insane.bbclass |   17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-cc: Tom Zanussi <tom.zanussi@intel.com>
-
-Cheers,
-
-Bruce
-
-The following changes since commit 1d5e637e32e10d7dabd19fbff9f4b25cc280daa2:
-
-  linux-yocto: virtio and KVM guest configuration (2012-09-13 15:04:32 -0400)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/uprobes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/uprobes
-
-Bruce Ashfield (1):
-  linux-yocto/3.4: make uprobes select perf events
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   14 +++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index e74eb3f..3a1b469 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -212,6 +212,17 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
+         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d)))
+ 
++def package_qa_check_libdir(path,libdir):
++    """
++    """
++    import re
++    lib_re = re.compile("^.*\.(so|a)")
++    for root, dirs, files in os.walk(path):
++        if libdir not in root:
++            for file in files:
++                if lib_re.match(file):
++                    bb.warn("Found library in wrong location: %s" % os.path.join(root,file))
++
+ QAPATHTEST[debug-files] = "package_qa_check_dbg"
+ def package_qa_check_dbg(path, name, d, elf, messages):
+     """
+@@ -688,6 +699,12 @@ python do_package_qa () {
+             rdepends_sane = False
+ 
+ 
++    ml = d.getVar("MLPREFIX", True) or ""
++    if ml:
++        pkgd = d.getVar('PKGD', True)
++        libdir = d.getVar("libdir", True)
++        package_qa_check_libdir(pkgd,libdir)
++
+     if not walk_sane or not rdepends_sane:
+         bb.fatal("QA run found fatal errors. Please consider fixing them.")
+     bb.note("DONE with PACKAGE QA")
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
