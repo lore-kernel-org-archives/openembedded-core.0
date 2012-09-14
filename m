@@ -1,64 +1,42 @@
-Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>)
-	id 1TCarT-0001fR-8Y; Fri, 14 Sep 2012 20:43:31 +0200
-Received: from mail97-am1-R.bigfish.com (10.3.201.234) by
-	AM1EHSOBE008.bigfish.com (10.3.204.28) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 14 Sep 2012 18:30:55 +0000
-Received: from mail97-am1 (localhost [127.0.0.1])	by mail97-am1-R.bigfish.com
-	(Postfix) with ESMTP id D72483801A5;
-	Fri, 14 Sep 2012 18:30:55 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -9
-X-BigFish: VS-9(zz98dI9371Ic89bh936eI1441M1432I1453I62a3Id6f1izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdhbe9i1155h)
-Received: from mail97-am1 (localhost.localdomain [127.0.0.1]) by mail97-am1
-	(MessageSwitch) id 13476474542015_19286; Fri, 14 Sep 2012 18:30:54 +0000
-	(UTC)
-Received: from AM1EHSMHS015.bigfish.com (unknown [10.3.201.233])	by
-	mail97-am1.bigfish.com (Postfix) with ESMTP id E25593A00AD;
-	Fri, 14 Sep 2012 18:30:53 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS015.bigfish.com
-	(10.3.207.153) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 14 Sep 2012 18:30:52 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0309.003; Fri, 14 Sep 2012 13:30:50 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Thread-Topic: [bitbake-devel] [OE-core] [PATCH 1/4] gcc: Switch SRC_URI to
-	use svn
-Thread-Index: AQHNkqcQztcAN31T+0+Zoql5iEanQw==
-Date: Fri, 14 Sep 2012 18:30:50 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A67E750@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <cover.1346905978.git.raj.khem@gmail.com>
-	<5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
-	<504FF70B.7060701@mlbassoc.com> <1347458928.11710.21.camel@ted>
-	<CAMKF1so6qUDFMw_aOZTdC4W_Dh=rDiiC1O7pvjaUQS2xkG8xWg@mail.gmail.com>
-	<20120913121935.GC18675@giant>
-	<CAP9ODKp8sKpVMi9MwdFxwZTq2-VMiRGzDzD=bBrFu8r4hZ0xMA@mail.gmail.com>
-	<CABcZANkbpR66G2-4WnBjdcjUGd4Khbje-kvpd2geUaVMMxE=4A@mail.gmail.com>
-	<1347623908.13596.2.camel@ted>
-	<CAP9ODKpZp1bhNg-EoHUYhU1YCU3=dRULpT8K_QCPZ9VLS8+xZg@mail.gmail.com>
-	<1347629023.13596.12.camel@ted>
-	<CAP9ODKpmveRGD02wP1DAO=+C0xa4sC3FfxaOud2zE6J=4zspmg@mail.gmail.com>
-In-Reply-To: <CAP9ODKpmveRGD02wP1DAO=+C0xa4sC3FfxaOud2zE6J=4zspmg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1TCd2S-0004Xo-Ls
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 23:03:01 +0200
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 14 Sep 2012 13:50:23 -0700
+Received: by qatn12 with SMTP id n12so251223qat.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Sep 2012 13:50:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=5NgMdomW2w0UpQSuMPjEeIaKwP4IJxAlaQRNz+98Ico=;
+	b=VT+10wL95YeXoopbF2GuTfXrRYeT+79QuNsZS/StxD1dbi0GCTAtHvVKehT9GHdeFX
+	b3tW6INDnSpoZM3W29dQiXUYe0f/XrHCXLCGsVuOWxJ2OJiUSMphUJ2h2+LjpJjTIjfy
+	zQPI5ZDb5uOKYsfPsQEaCbAPtUix14v51CimKo5bNzXwvnGdbahbTgeJ+ClTjELeJU72
+	xwaV4LQzbwueBqZPC6XvEdbK7jJwMO669LqZtwxBQg4ZnLk4P6GTwb3Q+YyvR/bb+9/f
+	O+ZtB4Ur9IMWBEIASxHP2iajuAAsVeS48C5X8SXFup/J6qNxeUJAC1UKlCsoefCpwxAU
+	rysA==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: Chris Larson <clarson@kergoth.com>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] [PATCH 1/4] gcc: Switch SRC_URI to use svn
+Received: by 10.224.42.78 with SMTP id r14mr10202288qae.19.1347655822182; Fri,
+	14 Sep 2012 13:50:22 -0700 (PDT)
+Received: by 10.229.63.1 with HTTP; Fri, 14 Sep 2012 13:50:22 -0700 (PDT)
+In-Reply-To: <50535FC5.9040802@windriver.com>
+References: <1347564379-14252-1-git-send-email-sgw@linux.intel.com>
+	<22844638.2V3OiWsK3u@helios> <5052617D.7080206@linux.intel.com>
+	<1347638477.13596.21.camel@ted> <50535FC5.9040802@windriver.com>
+Date: Fri, 14 Sep 2012 13:50:22 -0700
+Message-ID: <CAPhnLPA6GodRgpEKwyCdbVPOdv+s3nW3zp2rDUhuj3xw=K3L+g@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQljoFDeeF5nDNpybrN+u5dWbxWGt5EgXR13wGG1ynAQ0yTCA8k7mEJn/PITFlHxkOjBb7N7
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH] license: Ensure we find multilib packages also
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -68,82 +46,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 18:43:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <B8A559BD8C190741900B54F38E5ADEB4@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Sep 2012 21:03:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Sep 14, 2012 at 8:25 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> On Fri, Sep 14, 2012 at 10:23 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2012-09-14 at 09:36 -0300, Otavio Salvador wrote:
->>> On Fri, Sep 14, 2012 at 8:58 AM, Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>> > On Thu, 2012-09-13 at 07:22 -0700, Chris Larson wrote:
->>> >> On Thu, Sep 13, 2012 at 6:06 AM, Otavio Salvador
->>> >> <otavio@ossystems.com.br> wrote:
->>> >> > On Thu, Sep 13, 2012 at 9:19 AM, Bj=F6rn Stenberg <bjst@enea.com> =
-wrote:
->>> >> >> Khem Raj wrote:
->>> >> >>> I agree but then 1.7 GB is noticeably huge too and it will only =
-become
->>> >> >>> larger in future so I don't think fetching from git will be a go=
-od solution
->>> >> >>> for gcc ever.
->>> >> >>
->>> >> >> Can we use shallow clones? A quick test of gcc-4.7 gave me a 308 =
-MB tar.gz when cloned with --depth 1.
->>> >> >
->>> >> > I did not check if the fetcher has this support  but it would be a
->>> >> > nice solution.
->>> >>
->>> >> Shallow clones won't be able to support SRCREV properly, as you can
->>> >> only clone shallowly from HEAD, not from an arbitrary point in
->>> >> history, AFAIK.
->>> >
->>> > Right, shallow clones are a can of worms from a variety of angles.
->>> >
->>> > My current thinking is a ;allowsinglerev=3D1 parameter to the git fet=
-cher
->>> > which:
->>> >
->>> > a) Generates tarballs of single git revisions if tarball generation i=
-s
->>> > turned on
->>> > b) Searches for single revision tarballs before trying the main check=
-out
->>> > approach.
->>> >
->>> > This would mean that WORKDIR may or may not have a .git directory for
->>> > any SRC_URI marked with this. I think we should all be able to live w=
-ith
->>> > that and it shouldn't break too much?
->>>
->>> We'll end with multiple tarballs, aren't we?
+On Fri, Sep 14, 2012 at 9:48 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 9/14/12 11:01 AM, Richard Purdie wrote:
 >>
->> Yes. I'm not seeing that as a big problem for most of the usecases where
->> we'd use this feature. You could skip shipping the big tarball of the
->> whole repo at distribution time.
+>> On Thu, 2012-09-13 at 15:43 -0700, Saul Wold wrote:
+>>>
+>>> On 09/13/2012 03:31 PM, Paul Eggleton wrote:
+>>>>
+>>>> On Thursday 13 September 2012 12:26:19 Saul Wold wrote:
+>>>>>
+>>>>> Make sure to find -package, this was causing a failure
+>>>>> in the multi-lib build license generation during rootfs.
+>>>>>
+>>>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>>>> ---
+>>>>>    meta/classes/license.bbclass |    2 +-
+>>>>>    1 files changed, 1 insertions(+), 1 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/classes/license.bbclass
+>>>>> b/meta/classes/license.bbclass
+>>>>> index 29fe938..b29067c 100644
+>>>>> --- a/meta/classes/license.bbclass
+>>>>> +++ b/meta/classes/license.bbclass
+>>>>> @@ -88,7 +88,7 @@ license_create_manifest() {
+>>>>>         # list of installed packages is broken for deb
+>>>>>         for pkg in ${INSTALLED_PKGS}; do
+>>>>>                 # not the best way to do this but licenses are not arch
+>>>>> dependant iirc
+>>>>> -               filename=`ls
+>>>>> ${TMPDIR}/pkgdata/*/runtime-reverse/${pkg}| head -1`
+>>>>> +               filename=`ls
+>>>>> ${TMPDIR}/pkgdata/*/runtime-reverse/*${pkg}| head -1`
+>>>>>                 pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
+>>>>>
+>>>>>                 # exclude locale recipes
+>>>>
+>>>>
+>>>> Surely this could end up matching a the wrong file when one package name
+>>>> is a
+>>>> substring of another?
+>>>>
+>>> I am open to ideas here, I tried the ${MLPREFIX}, but it seems to be
+>>> empty when rootfs runs, that did not help, I thought about adding the
+>>> '-', but that would fail in the non-multilib case, how can I determine
+>>> what the prefix will be to get a more accurate match?
+
+I'm not particularly happy with how we've been doing manifests for a
+while now and have been hacking at a revamp of it for the past 2
+months on and off.
+
+We really shouldn't be relying on package data at all for license
+manifests. As the manifests are relying on list_installed_packages,
+they end up inaccurate anyway as list_installed_packages does exactly
+that. List software installed via package. Not installed via the
+package manager? Then you aren't in the manifest. This ends up missing
+quite a few things necessary from a release engineering standpoint
+(like, hey, modutils? The kernel? Not listed in the manifest. IMHO
+this is wrong.)
+
+As a release engineer, I kind of don't really care if the software on
+my image was installed via the packaging system. I just want a list of
+what is on the images so I can audit my images to ensure GPL
+commitments.
+
+One way I've been looking at fixing this is via event handlers. I'll
+have some code for RFC on this hopefully soon, but a preview (which
+may or may not work it's still a WIP) is at:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=eflanagan/license_manifest
+
+One thing the patch I've been working on does other than creates
+accurate manifests is it also tries to create a semi-compliant SPDX
+1.0 manifest.
+
+I know this is late in the cycle so it might not make 1.3, but this
+may be something we want to look at to end up solving this issue once
+and for all.
+
+-b
+
+>>
+>>
+>> I would observe here that this probably works for ipk and multilib and
+>> only breaks for multilib+rpm. The reason is that rpm collapses the
+>> namespace when it creates the package list so "lib32-bash" becomes bash.
+>> I think this might be an error in however we generate the INSTALLED_PKGS
+>> list and we might need to revisit the rpm mechanism and ensure the
+>> multilib prefixes get added.
 >
-> By the way, there're any tool to clean the repo? (as we do for sstate-cac=
-he)?
-
-scripts/clean-workdir cleans tmp/ - not sure about downloads
-
--M
-
 >
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+> RPM has internal mechanisms to tag both the filetypes and architectures as
+> being different, unlike most of the other packaging formats which assume a
+> package with the same name is the same.
+>
+> The way to deal with this is via the mapping actions.  You should be able to
+> map from ML_PREFIX-${PN} to ${PN}.${ARCH} and of course the reverse...
+>
+> How it works....
+>
+> So during package generation we know the package arch is unique and just
+> strip off the mlprefix.  To do the reverse iterate over all of the available
+> MULTILIBS, there is code in rootfs_rpm.bbclass already to do this.  Then
+> reconstruct the package name based on the multilib configuration.
+>
+> --Mark
+>
+>
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
 >
 > _______________________________________________
-> bitbake-devel mailing list
-> bitbake-devel@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/bitbake-devel=
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+
+
+-- 
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
 
