@@ -1,46 +1,43 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1TCVKT-0004mt-B5; Fri, 14 Sep 2012 14:49:05 +0200
-Received: by pbcwy7 with SMTP id wy7so5291754pbc.6
-	for <multiple recipients>; Fri, 14 Sep 2012 05:36:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=087Bm0DgKzZvDEsxuPZyKi70zNpGw0tC5ZMRqWNeaYw=;
-	b=0TnICjqVFsSqVc7RisEpn5fKgC6thzpBRj5MV+8NcX2yul9E5bVCuJvmpMCrPxfjjb
-	OAw2ydoP7WJqOCPllvoPxFP1H0cHoM2rEGR0soyNINOEW1tRIOg8lds2raIj2DOLjiDv
-	i4yxcAJ8f3zW/dqlGkWDLbipmMb4h8kw+FnDm6dJ/JkJXzB3pdCPyCV3h3HvWQvm0HwI
-	UrPsvRSKmApOEvrW+8fwoRLp5c1ZNrQzY4vfwakIPatUt7jKe187dXjQ4yWa7hRz4fFI
-	unPdEk3a/GBiztf5qJSotuq5V/SS2GQdTCdwBkBysJitDbrQXsb7PXB87zOzur2aV8Sq
-	B3bQ==
+	(envelope-from <ml@communistcode.co.uk>) id 1TCVhD-0005S4-LG
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 15:12:35 +0200
+Received: from localhost ([127.0.0.1]:45516 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TCVV2-00085m-RC
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 13:00:00 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=nRXMFym+jP/+AiQYUst1ADCaxtA=; b=cQ2ox+xzoxutnQkje+6mefshTW02
+	R8rK6enU2z6TWiMtogzaNlUb5GZC8Ag5n5HGHZkOkjSDKzUHXH6nWAE7k8CST/Dx
+	F9LQ8z9P5/Vu9mc16/s27VVag6OmNGonpbwWBrzgVmxrtbl063LoPEFqojI9I7WB
+	zb/YBzDWzjM2LbE=
+Received: from [195.171.99.130] (port=55977 helo=[192.168.0.40])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TCVV2-00085j-IN
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 13:00:00 +0000
+Message-ID: <50532AA5.9060203@communistcode.co.uk>
+Date: Fri, 14 Sep 2012 14:01:25 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
 MIME-Version: 1.0
-Received: by 10.68.224.133 with SMTP id rc5mr4901352pbc.130.1347626189694;
-	Fri, 14 Sep 2012 05:36:29 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.36.105 with HTTP; Fri, 14 Sep 2012 05:36:29 -0700 (PDT)
-In-Reply-To: <1347623908.13596.2.camel@ted>
-References: <cover.1346905978.git.raj.khem@gmail.com>
-	<5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
-	<504FF70B.7060701@mlbassoc.com> <1347458928.11710.21.camel@ted>
-	<CAMKF1so6qUDFMw_aOZTdC4W_Dh=rDiiC1O7pvjaUQS2xkG8xWg@mail.gmail.com>
-	<20120913121935.GC18675@giant>
-	<CAP9ODKp8sKpVMi9MwdFxwZTq2-VMiRGzDzD=bBrFu8r4hZ0xMA@mail.gmail.com>
-	<CABcZANkbpR66G2-4WnBjdcjUGd4Khbje-kvpd2geUaVMMxE=4A@mail.gmail.com>
-	<1347623908.13596.2.camel@ted>
-Date: Fri, 14 Sep 2012 09:36:29 -0300
-X-Google-Sender-Auth: N41JkZvWi_CX6Eq8y2P78zMYsas
-Message-ID: <CAP9ODKpZp1bhNg-EoHUYhU1YCU3=dRULpT8K_QCPZ9VLS8+xZg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Chris Larson <clarson@kergoth.com>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] gcc: Switch SRC_URI to use svn
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <50531E8A.8000307@communistcode.co.uk>
+	<1347624973.13596.7.camel@ted>
+	<505323D2.7060304@communistcode.co.uk>
+	<505324E3.9090701@communistcode.co.uk>
+In-Reply-To: <505324E3.9090701@communistcode.co.uk>
+Subject: Re: Nothing provides libxcb-*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -50,53 +47,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 12:49:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Sep 2012 13:12:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 14, 2012 at 8:58 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2012-09-13 at 07:22 -0700, Chris Larson wrote:
->> On Thu, Sep 13, 2012 at 6:06 AM, Otavio Salvador
->> <otavio@ossystems.com.br> wrote:
->> > On Thu, Sep 13, 2012 at 9:19 AM, Bj=F6rn Stenberg <bjst@enea.com> wrot=
-e:
->> >> Khem Raj wrote:
->> >>> I agree but then 1.7 GB is noticeably huge too and it will only beco=
-me
->> >>> larger in future so I don't think fetching from git will be a good s=
-olution
->> >>> for gcc ever.
->> >>
->> >> Can we use shallow clones? A quick test of gcc-4.7 gave me a 308 MB t=
-ar.gz when cloned with --depth 1.
->> >
->> > I did not check if the fetcher has this support  but it would be a
->> > nice solution.
+On 14/09/12 13:36, Jack Mitchell wrote:
+> On 14/09/12 13:32, Jack Mitchell wrote:
+>> On 14/09/12 13:16, Richard Purdie wrote:
+>>> On Fri, 2012-09-14 at 13:09 +0100, Jack Mitchell wrote:
+>>>> I am trying to use the package libxcb-xfixes in a recipe however 
+>>>> when I
+>>>> add 'libxcb-xfixes' to DEPENDS I get the error that nothing provides
+>>>> libxcb-xfixes however the libxcb package clearly has it in the 
+>>>> PACKAGES
+>>>> variable
+>>>>
+>>>> recipes-graphics/xcb/libxcb.inc:PACKAGES =+ "libxcb-composite
+>>>> libxcb-damage libxcb-dpms libxcb-glx \
+>>>> recipes-graphics/xcb/libxcb.inc: libxcb-randr libxcb-record
+>>>> libxcb-render libxcb-res \
+>>>> recipes-graphics/xcb/libxcb.inc: libxcb-screensaver libxcb-shape
+>>>> libxcb-shm libxcb-sync \
+>>>> recipes-graphics/xcb/libxcb.inc: libxcb-xevie libxcb-xf86dri
+>>>> libxcb-xfixes libxcb-xlib \
+>>>> recipes-graphics/xcb/libxcb.inc: libxcb-xprint libxcb-xtest libxcb-xv
+>>>> libxcb-xvmc \
+>>>> recipes-graphics/xcb/libxcb.inc: libxcb-dri2"
+>>>>
+>>>> I have also tried using others in this package list to no avail, can
+>>>> anybody comment on how I should be using these packages?
+>>> You're mixing up the build time and runtime namespaces. You would add
+>>> DEPENDS = "libxcb" or RDEPENDS_${PN}-xxx = "libxcb-xfixes".
+>>>
+>>> DEPENDS is build time and you use PN
+>>>
+>>> RDEPENDS/RRECOMMENDS/R* is runtime and values from PACKAGES
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
 >>
->> Shallow clones won't be able to support SRCREV properly, as you can
->> only clone shallowly from HEAD, not from an arbitrary point in
->> history, AFAIK.
+>> Ok, thanks! I guess I have a bigger problem then, the error I am 
+>> recieving is:
+>>
+>> | DEBUG: Executing shell function autotools_preconfigure
+>> | DEBUG: Shell function autotools_preconfigure finished
+>> | DEBUG: Executing shell function do_configure
+>> | ERROR: Xfixes not found
+>> |
+>> | If you think configure made a mistake, make sure you are using the 
+>> latest
+>> | version from Git.  If the latest version fails, report the problem 
+>> to the
+>> | libav-user@libav.org mailing list or IRC #libav on irc.freenode.net.
+>> | Include the log file "config.log" produced by configure as this 
+>> will help
+>> | solving the problem.
+>>
+>>
+>> Now, I have libxcb in DEPENDS and I have the following configure 
+>> options:
+>>
+>> EXTRA_OECONF = " \
+>>         --cross-prefix=${TARGET_PREFIX} \
+>>         --enable-cross-compile \
+>>         --sysroot="${STAGING_DIR_TARGET}" \
+>> --sysinclude="${STAGING_DIR_TARGET}${includedir}" \
+>>         --target-os="linux" \
+>>         --extra-cflags="${TARGET_CFLAGS} 
+>> ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
+>>         --extra-ldflags="${TARGET_LDFLAGS}" \
+>>         --arch=${TARGET_ARCH} \
+>>         --enable-hardcoded-tables \
+>>         --enable-shared \
+>>         --enable-pthreads \
+>>         --enable-gpl \
+>>         --enable-avfilter \
+>>         --prefix=${prefix} \
+>>         --enable-x11grab \
+>>         --enable-libtheora  \
+>>         --enable-libvorbis \
+>>         ${EXTRA_FFCONF} \
+>> "
+>>
+>> Is there anything glaringly wrong?I am worried about these two:
+>>
+>>         --sysroot="${STAGING_DIR_TARGET}" \
+>> --sysinclude="${STAGING_DIR_TARGET}${includedir}" \
+>>
+>> Cheers,
+>>
 >
-> Right, shallow clones are a can of worms from a variety of angles.
+> Possibly of use?
 >
-> My current thinking is a ;allowsinglerev=3D1 parameter to the git fetcher
-> which:
+> check_lib X11/extensions/Xfixes.h XFixesGetCursorImage -lXfixes
+> check_header X11/extensions/Xfixes.h
+> check_cpp
+> BEGIN /tmp/ffconf.RboCj6pF.c
+>     1 #include <X11/extensions/Xfixes.h>
+>     2 int x;
+> END /tmp/ffconf.RboCj6pF.c
+> arm-poky-linux-gnueabi-gcc 
+> --sysroot=/home/jack/Projects/poky-rasp/raspberry/tmp/sysroots/raspberrypi 
+> -D_ISOC99_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE 
+> -D_POSIX_C_SOURCE=200112 -D_XOPEN_SOURCE=600 -O2 -pipe -g 
+> -feliminate-unused-debug-types -O2 -pipe -g 
+> -feliminate-unused-debug-types -march=armv6 -mthumb-interwork 
+> -mfloat-abi=softfp -mtune=arm1176jzf-s 
+> --sysroot=/home/jack/Projects/poky-rasp/raspberry/tmp/sysroots/raspberrypi 
+> -std=c99 -fomit-frame-pointer -marm -pthread -E -o 
+> /tmp/ffconf.IQTkUVuf.o /tmp/ffconf.RboCj6pF.c
+> /tmp/ffconf.RboCj6pF.c:1:35: fatal error: X11/extensions/Xfixes.h: No 
+> such file or directory
+> compilation terminated.
+> ERROR: Xfixes not found
 >
-> a) Generates tarballs of single git revisions if tarball generation is
-> turned on
-> b) Searches for single revision tarballs before trying the main checkout
-> approach.
 >
-> This would mean that WORKDIR may or may not have a .git directory for
-> any SRC_URI marked with this. I think we should all be able to live with
-> that and it shouldn't break too much?
 
-We'll end with multiple tarballs, aren't we?
+I can confirm that there is indeed no X11/extensions/Xfixes.h:
 
---=20
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+[jack@archHP raspberrypi]$ find . -name X11
+./usr/include/X11
+./usr/lib/X11
+./usr/share/X11
+[jack@archHP raspberrypi]$ find . -name Xfixes.h
+[jack@archHP raspberrypi]$
+
+Even though I have:
+
+RDEPENDS_${PN} = "libxcb-xfixes"
+
+What do I have to do to get it in the sysroot so it can compile against it?
+
+Thanks,
+
+
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
