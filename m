@@ -1,29 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TCZFx-0007y1-Rk
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TCZuR-0000Kl-3v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 19:00:42 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8EGm6mc018312
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2012 09:48:06 -0700 (PDT)
-Received: from msp-dhcp28.wrs.com (172.25.34.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 14 Sep 2012 09:48:05 -0700
-Message-ID: <50535FC5.9040802@windriver.com>
-Date: Fri, 14 Sep 2012 11:48:05 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1347564379-14252-1-git-send-email-sgw@linux.intel.com>
-	<22844638.2V3OiWsK3u@helios> <5052617D.7080206@linux.intel.com>
-	<1347638477.13596.21.camel@ted>
-In-Reply-To: <1347638477.13596.21.camel@ted>
-Subject: Re: [RFC PATCH] license: Ensure we find multilib packages also
+	Fri, 14 Sep 2012 19:42:31 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2012 10:29:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="204036839"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.221])
+	by orsmga002.jf.intel.com with ESMTP; 14 Sep 2012 10:29:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 18:29:36 +0100
+Message-Id: <1347643776-4028-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] xserver-xorg: remove broken RREPLACES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,78 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 17:00:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Sep 2012 17:42:31 -0000
 
-On 9/14/12 11:01 AM, Richard Purdie wrote:
-> On Thu, 2012-09-13 at 15:43 -0700, Saul Wold wrote:
->> On 09/13/2012 03:31 PM, Paul Eggleton wrote:
->>> On Thursday 13 September 2012 12:26:19 Saul Wold wrote:
->>>> Make sure to find -package, this was causing a failure
->>>> in the multi-lib build license generation during rootfs.
->>>>
->>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->>>> ---
->>>>    meta/classes/license.bbclass |    2 +-
->>>>    1 files changed, 1 insertions(+), 1 deletions(-)
->>>>
->>>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
->>>> index 29fe938..b29067c 100644
->>>> --- a/meta/classes/license.bbclass
->>>> +++ b/meta/classes/license.bbclass
->>>> @@ -88,7 +88,7 @@ license_create_manifest() {
->>>>    	# list of installed packages is broken for deb
->>>>    	for pkg in ${INSTALLED_PKGS}; do
->>>>    		# not the best way to do this but licenses are not arch dependant iirc
->>>> -		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/${pkg}| head -1`
->>>> +		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/*${pkg}| head -1`
->>>>    		pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
->>>>
->>>>    		# exclude locale recipes
->>>
->>> Surely this could end up matching a the wrong file when one package name is a
->>> substring of another?
->>>
->> I am open to ideas here, I tried the ${MLPREFIX}, but it seems to be
->> empty when rootfs runs, that did not help, I thought about adding the
->> '-', but that would fail in the non-multilib case, how can I determine
->> what the prefix will be to get a more accurate match?
->
-> I would observe here that this probably works for ipk and multilib and
-> only breaks for multilib+rpm. The reason is that rpm collapses the
-> namespace when it creates the package list so "lib32-bash" becomes bash.
-> I think this might be an error in however we generate the INSTALLED_PKGS
-> list and we might need to revisit the rpm mechanism and ensure the
-> multilib prefixes get added.
+Unfortunately with rpm at least, this results in xserver-xorg-module-exa
+being installed in preference to xserver-xorg when constructing the root
+filesystem, which is clearly not desirable.
 
-RPM has internal mechanisms to tag both the filetypes and architectures as being 
-different, unlike most of the other packaging formats which assume a package 
-with the same name is the same.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-The way to deal with this is via the mapping actions.  You should be able to map 
-from ML_PREFIX-${PN} to ${PN}.${ARCH} and of course the reverse...
-
-How it works....
-
-So during package generation we know the package arch is unique and just strip 
-off the mlprefix.  To do the reverse iterate over all of the available 
-MULTILIBS, there is code in rootfs_rpm.bbclass already to do this.  Then 
-reconstruct the package name based on the multilib configuration.
-
---Mark
-
-
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index c71896a..35cb33a 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,4 +8,4 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+ 
+-PR = "r7"
++PR = "r8"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 210abad..3ec38b7 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -66,7 +66,6 @@ PACKAGES =+ "${PN}-security-policy \
+ 
+ RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+-RREPLACES_${PN}-module-exa = "${PN}"
+ 
+ FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+ FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
+-- 
+1.7.9.5
 
 
 
