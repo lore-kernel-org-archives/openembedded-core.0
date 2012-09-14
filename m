@@ -1,45 +1,23 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TCJwG-0001jh-Oi
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TCOAZ-00037E-Gr
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 02:39:21 +0200
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 13 Sep 2012 17:26:45 -0700
-Received: by pbcwy7 with SMTP id wy7so4534749pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Sep 2012 17:26:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=Wu9wPgo+gxqrgJ9EX4lvszjsJmxcHlcbNBlVJAsZeTI=;
-	b=Kv8J+4yZjuDJUKMRVIP4/Tqqf084mShr6VJ0RSTllITQ4E+Dy2lsyOIkVMXXXgQ2SI
-	dO1GI0hNvjJOKi1yNFfehbgmb9BgTenebeCGCQQOCEFGj52wM4WIK2KN3LDc0K68pGTo
-	YlIuXsMWGm/CUT+iLXj4PZKiA7Ah6sbFlS/ENPFwm4TVwxwm3X/ZAFfqXEF4uglkNVcU
-	uJjPUuUgBv4ozApm5vQbL/N0IIvQPwWnAcffdaMfH+Hmt9hdHVbBapmK5gqDH2/2lyLM
-	20faWpfw3cknUl3xPthdILadAOYeorVkGDj/4QLmC8iI3pwVUNFFsae/5wPKCTtGTTyE
-	UVRw==
-Received: by 10.66.88.233 with SMTP id bj9mr1259691pab.72.1347582404226;
-	Thu, 13 Sep 2012 17:26:44 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id ih2sm108598pbc.65.2012.09.13.17.26.39
-	(version=SSLv3 cipher=OTHER); Thu, 13 Sep 2012 17:26:43 -0700 (PDT)
-Message-ID: <505279BB.8040201@intel.com>
-Date: Thu, 13 Sep 2012 17:26:35 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
-MIME-Version: 1.0
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-References: <1347373349.2122.35.camel@ted>
-	<70CC66F5C30A414DADDA6973E4CA391A66FF3F@039-SN1MPN1-001.039d.mgd.msft.net>
-	<1347459386.11710.23.camel@ted>
-	<70CC66F5C30A414DADDA6973E4CA391A674D1E@039-SN1MPN1-001.039d.mgd.msft.net>
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A674D1E@039-SN1MPN1-001.039d.mgd.msft.net>
-X-Gm-Message-State: ALoCoQm226DtNblhMUz7jnHqHY1zeueqOAq+PdjYB/GnnSWohNFwAXA3iSJg+ihMEfkoLQQKmtMb
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
+	Fri, 14 Sep 2012 07:10:23 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8E4viTm010274;
+	Thu, 13 Sep 2012 21:57:45 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Fri, 14 Sep 2012 00:57:27 -0400
+Message-Id: <5f0da99ea0b685191dc7b8fd5fd633783ed92664.1347597967.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1347597967.git.bruce.ashfield@windriver.com>
+References: <cover.1347597967.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1347597967.git.bruce.ashfield@windriver.com>
+References: <cover.1347597967.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/1] linux-yocto/3.4: make uprobes select perf events
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,63 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 00:39:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Sep 2012 05:10:23 -0000
 
-On 09/12/2012 10:47 AM, McClintock Matthew-B29882 wrote:
-> On Wed, Sep 12, 2012 at 9:16 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2012-09-11 at 19:01 +0000, McClintock Matthew-B29882 wrote:
->>> On Tue, Sep 11, 2012 at 9:22 AM, Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>>> Unfortunately whilst rerunning configure and make against a project will mostly
->>>> work there are situations where it does not correctly do the right thing.
->>>>
->>>> In particular, eglibc and gcc will fail out with errors where settings
->>>> do not match a previously built configuration. It could be argued they are
->>>> broken but the situation is what it is. There is the possibility of more subtle
->>>> errors too.
->>>>
->>>> This patch adds removal of the build directory (${B}) when configure is
->>>> rerunning, the sstate checksum for do_configure has changed and ${S} != ${B}.
->>>> We could simply use a stamp but saving out the previous configuration checksum
->>>> adds some data at no real overhead.
->>>>
->>>> If we find there are things where we want to disable this behaviour with
->>>> CONFIGURESTAMPFILE = "" in the recipe, or users could disable it globally.
->>>>
->>>> [YOCTO #2774]
->>>> [YOCTO #2848]
->>>>
->>>> This is particularly helpful for eglibc and gcc which use split builds by default and
->>>> are a particular source of reconfigure type problems.
->>>>
->>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>
->>> Is it feasible to back port this to denzil? I've encountered what I
->>> think are similar issues reconfiguring gcc for example.
->>
->> One of the bugs above is open against denzil and the issue certainly
->> exists there. The patch should apply equally well there.
->>
->> I'd suggest we let this settle in master for a week or two and then add
->> it to the backport queue if no problems arise.
->>
->> Cc'ing Scott so he's aware of this.
->
-> I've added this to my denzil branch and will start doing build testing.
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=mattsm/denzil
+uprobes depends on functionality provided by perf events. After
+uprobes was enabled in the standard kernel the mpc8315 board showed
+link errors due to missing perf event functions.
 
-I'll be returning from travel tomorrow and hope to catch up with my 
-denzil backlog, and queue up a new build on the autobuilder.
+This problem isn't isolated to the board or powerpc arch, but all
+other boards have PERF_EVENTS enabled. To fix this, we make UPROBE_EVENT
+select PERF_EVENTS, and any new boards will be protected from the
+same failure.
 
-Scott
+We also update the configuration fragments since CONFIG_UPROBES depends on
+CONFIG_PERF_EVENTS being set, so PERF_EVENTS needs to be added whenever
+uprobes are enabled.
 
+[YOCTO #3111]
+
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   14 +++++++-------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index 3b6b4e7..e42216b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -8,9 +8,9 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "a35693b1287c0e50cdca33a1b95af0ff48b43cd0"
+-SRCREV_machine_qemuppc ?= "85a1190530cb5749f5f831670976b163438dc301"
+-SRCREV_meta ?= "79947f1eb9f695c374ba63672f94deaa1de75561"
++SRCREV_machine ?= "dcecefa43e05f5450886648a93e2fda2ec35e2dc"
++SRCREV_machine_qemuppc ?= "5e8709c4777f07a12b0a05a22f0864f552ef9449"
++SRCREV_meta ?= "7c50e572635d356f0b66d9ab90823f127f835744"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 0812cff..7c082e7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -3,13 +3,13 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH_DEFAULT = "standard/base"
+ KBRANCH = "${KBRANCH_DEFAULT}"
+ 
+-SRCREV_machine_qemuarm ?= "b15e7b1e9b58b9863bd87778775f86cd8d8880ea"
+-SRCREV_machine_qemumips  ?= "8d5b98f263b5119af2dc30223f311be17173bab9"
+-SRCREV_machine_qemuppc ?= "b9a720ca38d298ed457f37d099c85771f9164b19"
+-SRCREV_machine_qemux86 ?= "46d8c757b3be1953f30d6745505d24436e2d6844"
+-SRCREV_machine_qemux86-64 ?= "46d8c757b3be1953f30d6745505d24436e2d6844"
+-SRCREV_machine ?= "46d8c757b3be1953f30d6745505d24436e2d6844"
+-SRCREV_meta ?= "79947f1eb9f695c374ba63672f94deaa1de75561"
++SRCREV_machine_qemuarm ?= "679978b4fd1ef8cfea97d4ee4b4cd7c51bc62ee2"
++SRCREV_machine_qemumips  ?= "9c7810609ff37a77e8d39680f98f1baefee18a80"
++SRCREV_machine_qemuppc ?= "cf4bad14983753ad4b592c40fb36466b202b24a4"
++SRCREV_machine_qemux86 ?= "59c3ff750831338d05ab67d5efd7fc101c451aff"
++SRCREV_machine_qemux86-64 ?= "59c3ff750831338d05ab67d5efd7fc101c451aff"
++SRCREV_machine ?= "59c3ff750831338d05ab67d5efd7fc101c451aff"
++SRCREV_meta ?= "7c50e572635d356f0b66d9ab90823f127f835744"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.5.4
+
 
 
