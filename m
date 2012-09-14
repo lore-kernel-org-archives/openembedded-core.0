@@ -1,28 +1,41 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TCWEB-000686-8u
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TCWKM-0006Dt-Dq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 15:46:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2012 06:34:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="193060985"
-Received: from unknown (HELO [10.255.13.148]) ([10.255.13.148])
-	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2012 06:34:02 -0700
-Message-ID: <1347629642.19399.124.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Sep 2012 08:34:02 -0500
-In-Reply-To: <CAJTo0LYHQjL=2vSP=SNcT9csSd8vyGm=d-9_8TRh5SC18h7bCg@mail.gmail.com>
-References: <cover.1347534093.git.paul.eggleton@linux.intel.com>
-	<6ccf7a1f517e37ce7a8467f4a2432b1ae957e837.1347534093.git.paul.eggleton@linux.intel.com>
-	<5052CE86.6030302@linux.intel.com>
-	<CAJTo0LYHQjL=2vSP=SNcT9csSd8vyGm=d-9_8TRh5SC18h7bCg@mail.gmail.com>
-X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Fri, 14 Sep 2012 15:53:02 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q8EDeOKT005530
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 14 Sep 2012 15:40:25 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TCW8O-0007qQ-DR; Fri, 14 Sep 2012 15:40:40 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1347451098-16659-1-git-send-email-constantinx.musca@intel.com>
+	<lyvcfgu9ls.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1347623450.9456.29.camel@ted>
+	<lyobl8u70k.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1347629615.13596.18.camel@ted>
+Date: Fri, 14 Sep 2012 15:40:40 +0200
+In-Reply-To: <1347629615.13596.18.camel@ted> (Richard Purdie's message of
+	"Fri, 14 Sep 2012 14:33:35 +0100")
+Message-ID: <lyhar0u3hj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.7
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Constantin Musca
+	<constantinx.musca-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] gst-ffmpeg: add LICENSE_FLAGS
+Subject: Re: [PATCH] patch.bbclass: Use one TMPDIR per patching process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 13:46:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Sep 2012 13:53:02 -0000
+Content-Type: text/plain
 
-On Fri, 2012-09-14 at 10:23 +0100, Burton, Ross wrote:
-> On 14 September 2012 07:28, Saul Wold <sgw@linux.intel.com> wrote:
-> > ERROR: Nothing RPROVIDES 'gst-ffmpeg' (but
-> > /srv/home/pokybuild/yocto-autobuilder/yocto-slave/meta-intel-gpl/build/yocto/meta-intel/common/recipes-multimedia/gstreamer/gst-va-intel.bb
-> > RDEPENDS on or otherwise requires it)
-> 
-> That's interesting, I wasn't aware gst-va required ffmpeg.  At the
-> most it should be a recommends as elements are pluggable, and to be
-> honest I'm pretty sure that's a bad dependency.
-> 
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-So some of the meta-intel BSPs add this as RRECOMMENDS to get video
-acceleration support under gstreamer:
+> I would point out that the build process is likely full of such races
+> though. 
 
-MACHINE_EXTRA_RRECOMMENDS += "gst-va-intel"
+Yes; I know.  But there is really no excuse to introduce insecure tmpfile
+creation; especially because safe techniques are well known, available
+and cheap.
 
-and that adds a runtime dependency on gst-ffmpeg, which in turn uses a
-local ffmpeg that does this to enable video video acceleration:
+All the build tools (gcc, make, autoconf) got patches in the last years
+to avoid such races.
 
-        --enable-vaapi \
 
-but also does this to avoid being 'commercial':
-
-        --enable-gpl \
-
-So unless there's something that requires gst-ffmpeg to be commercial, I
-don't think gst-ffmpeg actually needs commercial LICENSE_FLAGS.  What
-was the reason it was added now after all this time in the first place?
-
-Tom
-
-> Ross
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Enrico
 
 
 
