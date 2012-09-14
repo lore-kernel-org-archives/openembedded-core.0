@@ -1,25 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TCTSB-0001Wk-80
+	(envelope-from <constantinx.musca@intel.com>) id 1TCTYq-0001dG-8X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 12:48:55 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 14 Sep 2012 03:36:19 -0700
+	Fri, 14 Sep 2012 12:55:48 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 Sep 2012 03:43:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,422,1344236400"; d="scan'208";a="145031842"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Sep 2012 03:36:18 -0700
-Message-ID: <5053095A.7070202@intel.com>
-Date: Fri, 14 Sep 2012 13:39:22 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1347616211-3039-1-git-send-email-radu.moisan@intel.com>
-In-Reply-To: <1347616211-3039-1-git-send-email-radu.moisan@intel.com>
-Subject: Re: [PATCH v3] insane.bbclass: add library dir sanity check
+X-IronPort-AV: E=Sophos;i="4.80,422,1344236400"; d="scan'208";a="203793305"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
+	by orsmga002.jf.intel.com with ESMTP; 14 Sep 2012 03:43:11 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 12:48:27 +0300
+Message-Id: <1347616107-26809-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] grub: disable lzma, device-mapper, zfs and nvpair
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,62 +28,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 10:48:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Sep 2012 10:55:48 -0000
 
-has problems with re pattern.
-preparing v4
+check-if-liblzma-is-disabled.patch: added
+	- add support for the --enable_liblzma option
 
-radu
+[YOCTO #2750]
 
-On 09/14/2012 12:50 PM, Radu Moisan wrote:
-> Check in ${PKGD} for libraries in other locations
-> then ${libdir}. Trigger a warning if so.
->
-> [Yocto #2038]
->
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->   meta/classes/insane.bbclass |   18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index e74eb3f..d748c26 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -212,6 +212,18 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
->           messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
->                    (name, package_qa_clean_path(path,d)))
->   
-> +def package_qa_check_libdir(path,libdir):
-> +    """
-> +    Check in path for libraries in other locations then libdir. Trigger a warning if so.
-> +    """
-> +    import re
-> +    lib_re = re.compile("^.*\.(so)")
-> +    for root, dirs, files in os.walk(path):
-> +        if libdir not in root:
-> +            for file in files:
-> +                if lib_re.match(file):
-> +                    bb.warn("Found library in wrong location: %s" % os.path.join(root,file))
-> +
->   QAPATHTEST[debug-files] = "package_qa_check_dbg"
->   def package_qa_check_dbg(path, name, d, elf, messages):
->       """
-> @@ -688,6 +700,12 @@ python do_package_qa () {
->               rdepends_sane = False
->   
->   
-> +    ml = d.getVar("MLPREFIX", True) or ""
-> +    if ml:
-> +        pkgd = d.getVar('PKGD', True)
-> +        libdir = d.getVar("libdir", True)
-> +        package_qa_check_libdir(pkgd,libdir)
-> +
->       if not walk_sane or not rdepends_sane:
->           bb.fatal("QA run found fatal errors. Please consider fixing them.")
->       bb.note("DONE with PACKAGE QA")
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ .../grub/files/check-if-liblzma-is-disabled.patch  |   33 ++++++++++++++++++++
+ meta/recipes-bsp/grub/grub-efi-native_2.00.bb      |    6 ++--
+ meta/recipes-bsp/grub/grub_2.00.bb                 |    6 ++--
+ 3 files changed, 41 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/check-if-liblzma-is-disabled.patch
+
+diff --git a/meta/recipes-bsp/grub/files/check-if-liblzma-is-disabled.patch b/meta/recipes-bsp/grub/files/check-if-liblzma-is-disabled.patch
+new file mode 100644
+index 0000000..0eece08
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/check-if-liblzma-is-disabled.patch
+@@ -0,0 +1,33 @@
++Disable liblzma if --enable-liblzma=no
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1029,10 +1029,20 @@ fi
++ 
++ AC_SUBST([LIBGEOM])
++ 
++-AC_CHECK_LIB([lzma], [lzma_code],
++-             [LIBLZMA="-llzma"
++-              AC_DEFINE([HAVE_LIBLZMA], [1],
++-                        [Define to 1 if you have the LZMA library.])],)
+++AC_ARG_ENABLE([liblzma],
+++              [AS_HELP_STRING([--enable-liblzma],
+++                              [enable liblzma integration (default=guessed)])])
+++if test x"$enable_liblzma" = xno ; then
+++  liblzma_excuse="explicitly disabled"
+++fi
+++
+++if test x"$liblzma_excuse" = x ; then
+++  AC_CHECK_LIB([lzma], [lzma_code],
+++               [LIBLZMA="-llzma"
+++                AC_DEFINE([HAVE_LIBLZMA], [1],
+++                          [Define to 1 if you have the LZMA library.])],)
+++fi
+++
++ AC_SUBST([LIBLZMA])
++ 
++ AC_ARG_ENABLE([libzfs],
+diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+index 776bf23..14ab9ea 100644
+--- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ # FIXME: We should be able to optionally drop freetype as a dependency
+ DEPENDS = "autogen-native"
+ RDEPENDS_${PN} = "diffutils freetype"
+-PR = "r0"
++PR = "r1"
+ 
+ # Native packages do not normally rebuild when the target changes.
+ # Ensure this is built once per HOST-TARGET pair.
+@@ -26,6 +26,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://grub-2.00-fpmath-sse-387-fix.patch \
+ 	   file://grub-2.00-fix-enable_execute_stack-check.patch \
+            file://grub-2.00-disable-help2man.patch \
++           file://check-if-liblzma-is-disabled.patch \
+ 	   file://grub-no-unused-result.patch \
+           "
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+@@ -59,7 +60,8 @@ inherit native
+ inherit deploy
+ 
+ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+-                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix=''"
++                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
++                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+ do_mkimage() {
+ 	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
+diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+index 821d9ff..8d22424 100644
+--- a/meta/recipes-bsp/grub/grub_2.00.bb
++++ b/meta/recipes-bsp/grub/grub_2.00.bb
+@@ -13,12 +13,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ DEPENDS = "autogen-native flex-native"
+ RDEPENDS_${PN} = "diffutils freetype"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+           file://grub-install.in.patch \
+           file://grub-2.00-fpmath-sse-387-fix.patch \
+           file://remove-gets.patch \
++          file://check-if-liblzma-is-disabled.patch \
+           file://40_custom"
+ 
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+@@ -32,7 +33,8 @@ FILES_${PN}-dbg += "${libdir}/${BPN}/i386-pc/.debug"
+ inherit autotools
+ inherit gettext
+ 
+-EXTRA_OECONF = "--with-platform=pc --disable-grub-mkfont --program-prefix="""
++EXTRA_OECONF = "--with-platform=pc --disable-grub-mkfont --program-prefix="" \
++               --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+ do_install_append () {
+     install -d ${D}${sysconfdir}/grub.d
+-- 
+1.7.9.5
 
 
 
