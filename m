@@ -1,40 +1,36 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TCSJx-0000Hp-6L
+	(envelope-from <ross.burton@intel.com>) id 1TCSel-0000UN-AP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 11:36:22 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 14 Sep 2012 02:23:45 -0700
-Received: by obblz20 with SMTP id lz20so6089568obb.6
+	Fri, 14 Sep 2012 11:57:51 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Sep 2012 02:45:07 -0700
+Received: by wgbdq11 with SMTP id dq11so440471wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2012 02:23:44 -0700 (PDT)
+	Fri, 14 Sep 2012 02:45:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=Rxw0VqrmWhhbzC+xs8CRSjygeQKiF7msvVoOtTyU04U=;
-	b=jRrLGkxgAtLVfteRzdGQhQmZfaVRL0hLelw74Cq2ABpxDausVxPuKpZKzj9Qg4UH3Y
-	qtmOJrCD7ChY+1/+tP6xyhBHxFbOS7Ca4lZAgOQbuJ1tllWgSHdS7PHri4KXnayzNfzo
-	JsN9gGPZNb6xEAyA02U4SfO+BWPsUUqGc+IUR0D5JUufqK1JkjiIo4RhbVZsA44qQaN5
-	SX0kTNWs5bUIyWcMpy6ciUtE0s5Z5pW1FkwV03hcqup+5u+NE3HJCiWC/6orRkLsWkaX
-	5mBqIDoYWhCndCpNes8QmNUojKoh9VVT5LS5VHpnpa6U4lZbBI/T96iaZR5gfCWN8KMM
-	Texw==
-Received: by 10.60.30.168 with SMTP id t8mr2015644oeh.89.1347614624257; Fri,
-	14 Sep 2012 02:23:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Fri, 14 Sep 2012 02:23:23 -0700 (PDT)
-In-Reply-To: <5052CE86.6030302@linux.intel.com>
-References: <cover.1347534093.git.paul.eggleton@linux.intel.com>
-	<6ccf7a1f517e37ce7a8467f4a2432b1ae957e837.1347534093.git.paul.eggleton@linux.intel.com>
-	<5052CE86.6030302@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Sep 2012 10:23:23 +0100
-Message-ID: <CAJTo0LYHQjL=2vSP=SNcT9csSd8vyGm=d-9_8TRh5SC18h7bCg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQmco26QXWixHgg/7qsV2L13UBuCbfGRqD0corTM8WeobaorcwQ9ZQE1MWgg2tKkAFD+xELk
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] gst-ffmpeg: add LICENSE_FLAGS
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=P4xSQCpvYI5DoctvQZleKPz6gJKW/Kji9QntqwwVzbc=;
+	b=EJVW8s8y+aEqMUPGlQT/V+0MJwtLV+CyNi7izMakcwf71F1VY4h9+YgtG7/o3wMy6c
+	kfkLWfwQonBs4V1qv9txzCEDvCDjcSjBJWg2t2mKGUyYg2PKTbk7K1cR5tTRaaHSnI2R
+	OY04SZEF7GvLhD49YtBBjbod/ck0jaxmkmnE9yIhAf1xM49gtbKUt9nghapWdYt09bDn
+	PL08/lRHzG6qdBrmr6gqBs9i4/DUXQKLDmkfT098OMFdgCRFgnjtQpKviy29ON7oJ4fM
+	nIYNjrs2yxTM9P7MkwTamD5cmb5DKXrQrsDzG5WmaVopQVDMg12TrCPrUrOQPT+7SxPh
+	Ax6A==
+Received: by 10.180.100.131 with SMTP id ey3mr4743636wib.15.1347615905808;
+	Fri, 14 Sep 2012 02:45:05 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id do5sm2906350wib.10.2012.09.14.02.45.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 14 Sep 2012 02:45:04 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 10:44:13 +0100
+Message-Id: <1347615853-20491-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQl1/iDwM18KNxqkj2p2xDi8APdBiQPHFQxIAploR0thU/i3OiXCaPiQmeqZ4DisgR7v3OGB
+Subject: [PATCH V2] librsvg: make the libcroco dependency a PACKAGECONFIG option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,18 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 09:36:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 14 Sep 2012 09:57:51 -0000
 
-On 14 September 2012 07:28, Saul Wold <sgw@linux.intel.com> wrote:
-> ERROR: Nothing RPROVIDES 'gst-ffmpeg' (but
-> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/meta-intel-gpl/build/yocto/meta-intel/common/recipes-multimedia/gstreamer/gst-va-intel.bb
-> RDEPENDS on or otherwise requires it)
+Default to enabling it as we were build-depending on it already.  If a user
+needs the disk space and the limitations imposed by not using libcroco are
+acceptable they can override this.
 
-That's interesting, I wasn't aware gst-va required ffmpeg.  At the
-most it should be a recommends as elements are pluggable, and to be
-honest I'm pretty sure that's a bad dependency.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-Ross
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+index 6bb5fe2..b118805 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+@@ -7,15 +7,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://rsvg.h;beginline=3;endline=24;md5=20b4113c4909bbf0d67e006778302bc6"
+ 
+ SECTION = "x11/utils"
+-DEPENDS = "gtk+ libcroco cairo libxml2"
++DEPENDS = "gtk+ cairo libxml2"
+ DEPENDS_virtclass-native = "cairo-native pango-native gdk-pixbuf-native"
+ BBCLASSEXTEND = "native"
+ 
+-PR = "r9"
++PR = "r10"
+ 
+ inherit autotools pkgconfig gnome gtk-doc
+ 
+-EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz --without-croco"
++EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz"
++
++PACKAGECONFIG ??= "croco"
++# When native we can manage without croco, as it's only for GTK+
++PACKAGECONFIG_class-native ??= ""
++
++PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
+ 
+ SRC_URI += "file://doc_Makefile.patch"
+ 
+-- 
+1.7.10
+
 
 
