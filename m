@@ -1,26 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TCYEQ-0005ab-PM
+	(envelope-from <sgw@linux.intel.com>) id 1TCYGI-0005eh-WE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 17:55:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2012 08:42:22 -0700
+	Fri, 14 Sep 2012 17:56:59 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 14 Sep 2012 08:44:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="203964518"
+X-IronPort-AV: E=Sophos;i="4.80,423,1344236400"; d="scan'208";a="145115197"
 Received: from unknown (HELO [10.255.13.94]) ([10.255.13.94])
-	by orsmga002.jf.intel.com with ESMTP; 14 Sep 2012 08:42:21 -0700
-Message-ID: <5053505D.5030900@linux.intel.com>
-Date: Fri, 14 Sep 2012 08:42:21 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Sep 2012 08:44:23 -0700
+Message-ID: <505350D6.3060808@linux.intel.com>
+Date: Fri, 14 Sep 2012 08:44:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1347429555-32159-1-git-send-email-raj.khem@gmail.com>
-	<1347429555-32159-2-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1347429555-32159-2-git-send-email-raj.khem@gmail.com>
+To: Andrei Gherzan <andrei@gherzan.ro>
+References: <cover.1347556625.git.andrei@gherzan.ro>
+In-Reply-To: <cover.1347556625.git.andrei@gherzan.ro>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] runqemu: Explicitly specify MACHINE when calling bitbake
+Subject: Re: [PATCH V3 0/1] Round up ROOTFS_SIZE after base_size check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 15:55:03 -0000
+X-List-Received-Date: Fri, 14 Sep 2012 15:56:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/11/2012 10:59 PM, Khem Raj wrote:
-> When using runqemu with distros outside oe-core then
-> MACHINE may not be there in local.conf so use the one
-> thats available in environment of runqemu which is actually
-> the correct one.
+On 09/13/2012 10:18 AM, Andrei Gherzan wrote:
+> V3:
+> Do the whole thing in the same awk
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   scripts/runqemu |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> The following changes since commit 0f55a5868457300a3defc7fa7451ef191d19e018:
 >
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index a3c3509..e843946 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -281,7 +281,7 @@ setup_tmpdir() {
->               exit 1; }
+>    adt-installer: Allow changing YOCTOADT_REPO (2012-09-05 23:28:10 +0100)
 >
->           # We have bitbake in PATH, get OE_TMPDIR from bitbake
-> -        OE_TMPDIR=`bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
-> +        OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
->           if [ -z "$OE_TMPDIR" ]; then
->               echo "Error: this script needs to be run from your build directory,"
->               echo "or you need to explicitly set OE_TMPDIR in your environment"
+> are available in the git repository at:
 >
-
+>    git://git.yoctoproject.org/poky-contrib ag/rootfs_size
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/rootfs_size
+>
+> Andrei Gherzan (1):
+>    image_types.bbclass: Round up ROOTFS_SIZE after base_size check
+>
+>   meta/classes/image_types.bbclass |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
 Merged into OE-Core
 
 Thanks
