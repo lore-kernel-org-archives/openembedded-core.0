@@ -1,31 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TCRvR-0008KK-Ih for openembedded-core@lists.openembedded.org;
-	Fri, 14 Sep 2012 11:11:01 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8E8wPFm009736;
-	Fri, 14 Sep 2012 09:58:25 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06256-10; Fri, 14 Sep 2012 09:58:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8E8wHp2009730
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 14 Sep 2012 09:58:18 +0100
-Message-ID: <1347613099.9456.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Fri, 14 Sep 2012 09:58:19 +0100
-In-Reply-To: <5f0da99ea0b685191dc7b8fd5fd633783ed92664.1347597967.git.bruce.ashfield@windriver.com>
-References: <cover.1347597967.git.bruce.ashfield@windriver.com>
-	<5f0da99ea0b685191dc7b8fd5fd633783ed92664.1347597967.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] linux-yocto/3.4: make uprobes select perf events
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <radu.moisan@intel.com>) id 1TCRy5-0008Nd-Ui
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Sep 2012 11:13:46 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2012 02:01:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,422,1344236400"; d="scan'208";a="203745254"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by orsmga002.jf.intel.com with ESMTP; 14 Sep 2012 02:00:59 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Sep 2012 12:03:57 +0300
+Message-Id: <1347613438-22840-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] insane.bbclass: add library dir sanity check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,36 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 09:11:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Sep 2012 09:13:46 -0000
 
-On Fri, 2012-09-14 at 00:57 -0400, Bruce Ashfield wrote:
-> uprobes depends on functionality provided by perf events. After
-> uprobes was enabled in the standard kernel the mpc8315 board showed
-> link errors due to missing perf event functions.
-> 
-> This problem isn't isolated to the board or powerpc arch, but all
-> other boards have PERF_EVENTS enabled. To fix this, we make UPROBE_EVENT
-> select PERF_EVENTS, and any new boards will be protected from the
-> same failure.
-> 
-> We also update the configuration fragments since CONFIG_UPROBES depends on
-> CONFIG_PERF_EVENTS being set, so PERF_EVENTS needs to be added whenever
-> uprobes are enabled.
-> 
-> [YOCTO #3111]
-> 
-> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    6 +++---
->  meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   14 +++++++-------
->  2 files changed, 10 insertions(+), 10 deletions(-)
+Check in ${PKGD} for libraries in other locations
+then ${libdir}. Trigger a warning if so.
 
-Merged to master, thanks.
+[Yocto #2038]
 
-Richard
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ meta/classes/insane.bbclass |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index e74eb3f..6388609 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -212,6 +212,18 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
+         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d)))
+ 
++def package_qa_check_libdir(path,libdir):
++    """
++    Check in path for libraries in other locations then libdir. Trigger a warning if so.
++    """
++    import re
++    lib_re = re.compile("^.*\.(so|a)")
++    for root, dirs, files in os.walk(path):
++        if libdir not in root:
++            for file in files:
++                if lib_re.match(file):
++                    bb.warn("Found library in wrong location: %s" % os.path.join(root,file))
++
+ QAPATHTEST[debug-files] = "package_qa_check_dbg"
+ def package_qa_check_dbg(path, name, d, elf, messages):
+     """
+@@ -688,6 +700,12 @@ python do_package_qa () {
+             rdepends_sane = False
+ 
+ 
++    ml = d.getVar("MLPREFIX", True) or ""
++    if ml:
++        pkgd = d.getVar('PKGD', True)
++        libdir = d.getVar("libdir", True)
++        package_qa_check_libdir(pkgd,libdir)
++
+     if not walk_sane or not rdepends_sane:
+         bb.fatal("QA run found fatal errors. Please consider fixing them.")
+     bb.note("DONE with PACKAGE QA")
+-- 
+1.7.9.5
 
 
 
