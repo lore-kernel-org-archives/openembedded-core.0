@@ -1,29 +1,44 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TCfO7-0007K5-GW
-	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Sep 2012 01:33:31 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8ENKtLi025146
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Sep 2012 16:20:55 -0700 (PDT)
-Received: from msp-dhcp28.wrs.com (172.25.34.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 14 Sep 2012 16:20:54 -0700
-Message-ID: <5053BBD6.6000202@windriver.com>
-Date: Fri, 14 Sep 2012 18:20:54 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1TCm1I-0000ZD-Np; Sat, 15 Sep 2012 08:38:24 +0200
+Received: by weyr6 with SMTP id r6so2834539wey.6
+	for <multiple recipients>; Fri, 14 Sep 2012 23:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=F9COBA5G/Q+NatzqDj4DbaUjyxhozyNGIaVvEjHOUVg=;
+	b=bHNrK4ZsaKfTNUOKWaQxSVOV12b1BOa0Qpn379eYCRhKBsACJhxV124pwlJjonpdRE
+	X2TK5LTBOMxcWmU3/1F7fscm88TVXeI+3/5w7gv/blFnGyVz+yBpwcaJDXx0gU47KScn
+	yfL8AZL3phU8rhJisyOMFxMjAtZCQGIBtnBDwolJ/ckUrAeDc2Qe+zIkoQ30MwUxTgIo
+	ClsVLnVY+nsf7qPGwDeS1FhHkq66Rn8WI2IDSFkwkhD/Uk1S2u0oeRWkYf09Kyck+15D
+	nGPPFZnjiEyZV4jbKve0cBj0xOC33jVzlUIl++Q/uxRS7rJLPgIYa7RYmeX/pJJH1wCY
+	dz0A==
+Received: by 10.217.3.71 with SMTP id q49mr2849354wes.33.1347690348926;
+	Fri, 14 Sep 2012 23:25:48 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fr4sm4469926wib.8.2012.09.14.23.25.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 14 Sep 2012 23:25:47 -0700 (PDT)
+Date: Sat, 15 Sep 2012 08:25:52 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120915062552.GC11252@jama.jama.net>
+References: <cover.1346905978.git.raj.khem@gmail.com>
+	<5c54fcdb91d19909f8658b6a6e8d6e6cac934cf2.1346905978.git.raj.khem@gmail.com>
+	<504FF70B.7060701@mlbassoc.com> <1347458928.11710.21.camel@ted>
+	<CAMKF1so6qUDFMw_aOZTdC4W_Dh=rDiiC1O7pvjaUQS2xkG8xWg@mail.gmail.com>
+	<20120913121935.GC18675@giant>
+	<CAP9ODKp8sKpVMi9MwdFxwZTq2-VMiRGzDzD=bBrFu8r4hZ0xMA@mail.gmail.com>
+	<CABcZANkbpR66G2-4WnBjdcjUGd4Khbje-kvpd2geUaVMMxE=4A@mail.gmail.com>
+	<1347623908.13596.2.camel@ted>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1347664421.git.scott.a.garman@intel.com>
-	<674d84a9020d9fc0abfe8a45e6476ef63987d3a6.1347664421.git.scott.a.garman@intel.com>
-In-Reply-To: <674d84a9020d9fc0abfe8a45e6476ef63987d3a6.1347664421.git.scott.a.garman@intel.com>
-Subject: Re: [PATCH 1/1] runqemu: show bitbake errors to user
+In-Reply-To: <1347623908.13596.2.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Chris Larson <clarson@kergoth.com>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [bitbake-devel] [PATCH 1/4] gcc: Switch SRC_URI to use svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,56 +51,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Sep 2012 23:33:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 15 Sep 2012 06:38:24 -0000
+X-Groupsio-MsgNum: 29350
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="iFRdW5/EC4oqxDHL"
+Content-Disposition: inline
 
-On 9/14/12 6:15 PM, Scott Garman wrote:
-> In certain edge cases, bitbake may fail to run and cause setup_tmpdir()
-> within runqemu to fail, and not give the user a helpful error message.
-> Catch this case and show the user the output of bitbake -e.
->
-> This fixes [YOCTO #3112]
->
-> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-> ---
->   scripts/runqemu |   12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index e843946..8bb77ff 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -283,8 +283,16 @@ setup_tmpdir() {
->           # We have bitbake in PATH, get OE_TMPDIR from bitbake
->           OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
->           if [ -z "$OE_TMPDIR" ]; then
-> -            echo "Error: this script needs to be run from your build directory,"
-> -            echo "or you need to explicitly set OE_TMPDIR in your environment"
-> +            # Check for errors from bitbake that the user needs to know about
-> +            BITBAKE_OUTPUT=`bitbake -e`
+--iFRdW5/EC4oqxDHL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure that is a good idea.  If there is a failure (anything on stderr) it 
-will just be dumped to the screen...
+On Fri, Sep 14, 2012 at 12:58:28PM +0100, Richard Purdie wrote:
+> On Thu, 2012-09-13 at 07:22 -0700, Chris Larson wrote:
+> > On Thu, Sep 13, 2012 at 6:06 AM, Otavio Salvador
+> > <otavio@ossystems.com.br> wrote:
+> > > On Thu, Sep 13, 2012 at 9:19 AM, Bj=F6rn Stenberg <bjst@enea.com> wro=
+te:
+> > >> Khem Raj wrote:
+> > >>> I agree but then 1.7 GB is noticeably huge too and it will only bec=
+ome
+> > >>> larger in future so I don't think fetching from git will be a good =
+solution
+> > >>> for gcc ever.
+> > >>
+> > >> Can we use shallow clones? A quick test of gcc-4.7 gave me a 308 MB =
+tar.gz when cloned with --depth 1.
+> > >
+> > > I did not check if the fetcher has this support  but it would be a
+> > > nice solution.
+> >=20
+> > Shallow clones won't be able to support SRCREV properly, as you can
+> > only clone shallowly from HEAD, not from an arbitrary point in
+> > history, AFAIK.
+>=20
+> Right, shallow clones are a can of worms from a variety of angles.
+>=20
+> My current thinking is a ;allowsinglerev=3D1 parameter to the git fetcher
+> which:
+>=20
+> a) Generates tarballs of single git revisions if tarball generation is
+> turned on
+> b) Searches for single revision tarballs before trying the main checkout
+> approach.
+>=20
+> This would mean that WORKDIR may or may not have a .git directory for
+> any SRC_URI marked with this. I think we should all be able to live with
+> that and it shouldn't break too much?
 
-If it does succeed, it could attempt to load that variable with many MB of data, 
-which also likely isn't what is desired.
+Ah so finally fetch2 will have same functionality like fetch11 had?
 
-It might be better to dump the items to a tmp file (securely created of course) 
-  ;)  and then keep processing the same file for error messages, warnings, etc...
+IIRC there is old buq report about this.
 
-> +            if [ -z "$BITBAKE_OUTPUT" ]; then
-> +                echo "Error: this script needs to be run from your build directory,"
-> +                echo "or you need to explicitly set OE_TMPDIR in your environment"
-> +            else
-> +                echo "There was an error running bitbake to determine TMPDIR"
-> +                echo "Here is the output from 'bitbake -e':"
-> +                bitbake -e
-> +            fi
->               exit 1
->           fi
->       fi
->
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+> _______________________________________________
+> bitbake-devel mailing list
+> bitbake-devel@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/bitbake-devel
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--iFRdW5/EC4oqxDHL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBUH3AACgkQN1Ujt2V2gBweZQCeIhzj0rB7vKFb81ODFIObcLbe
+f+sAoJT794QdJpg0DjMt3C6i1C3oZex/
+=b+dm
+-----END PGP SIGNATURE-----
+
+--iFRdW5/EC4oqxDHL--
