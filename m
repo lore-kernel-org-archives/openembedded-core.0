@@ -1,37 +1,41 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TD8C2-0007zg-EF
-	for openembedded-core@lists.openembedded.org;
-	Sun, 16 Sep 2012 08:18:58 +0200
-Received: by wgbdq11 with SMTP id dq11so1542011wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Sep 2012 23:06:21 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1TDG3W-00089j-Qi; Sun, 16 Sep 2012 16:42:42 +0200
+Received: by weyr6 with SMTP id r6so3441072wey.6
+	for <multiple recipients>; Sun, 16 Sep 2012 07:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
+	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=aAvAx3L7C7/z2V4zt7AZOyy2jP9XnL3BIixmG1ETWQ8=;
-	b=G82dNYy+5nFOfU+tF7F6oeU/jnz3/L7J1nt0bmlomLV/QtUHSIVXfqY3ZPCGkRBCLf
-	fVj4/qFL9F1E5src4pQuOnQ/U52HpID0lhkAGs2SWlg2j3LrwC3YGPfsQ5FMGa6Y+xLX
-	uiHbJlh/1zob9ki4yKk4jQzCrjFDIHCuh7mk7+0ugVl5/sk2jAB1gaDIqueX5aQi/DK/
-	G+wgzR8veRRFhIrAgyk5THAIoXi/GoNhZAk/iyTL2KMyKH/Oi1KAAQ0n+iqOH2IDp+hP
-	lFwey+hhgqsfvdyXzOIq8KrglUaINK59X+9raWHX2OaAJOyHJ03wD1Bnd2yp0aoGbo1X
-	LnfQ==
-Received: by 10.180.84.104 with SMTP id x8mr8154267wiy.20.1347775581382;
-	Sat, 15 Sep 2012 23:06:21 -0700 (PDT)
+	bh=PyNiLPPJDKJCZxGNSggmpGi8fHpiZmO5Xd4lFONxjM0=;
+	b=O9/q+QNquQAY8Iw5kCK52U9c3Ec72f8LMA6OAvbG/rurq1Vjy5p9BFBXPXgdNordP4
+	fp14CDBo6mXjQaQYW2IQVxZCfY6W5gSRnumvelcpm1Apw+K0QEyWDKSS+RqyfK2cxhnB
+	VKyEOU6cRP6E+8T/89+JqS0tMRvR5IIM/ZMnpoko+yDG9M/nPeiuT3DPcW4Q045oOBHY
+	ei4h5SQt2qu7NcAFTHvZE9hSAlDgWbRN/NBnLnCrZNwr7HPZmaokwZF+rWbbFqhDTbaV
+	v5JtAf1n5ZPefh+cnH5czM4HltIQzN7lRwl71Wl78bzlfhm7HvxUgh1ui/+g8O2edlzs
+	0bPg==
+Received: by 10.180.73.76 with SMTP id j12mr10152310wiv.11.1347805805343;
+	Sun, 16 Sep 2012 07:30:05 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm14041181wix.6.2012.09.15.23.06.19
+	by mx.google.com with ESMTPS id b7sm17568903wiz.9.2012.09.16.07.30.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 15 Sep 2012 23:06:20 -0700 (PDT)
-Date: Sun, 16 Sep 2012 08:06:26 +0200
+	Sun, 16 Sep 2012 07:30:03 -0700 (PDT)
+Date: Sun, 16 Sep 2012 16:30:10 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120916060626.GA3628@jama.jama.net>
-References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+To: Phil Blundell <philb@gnu.org>
+Message-ID: <20120916143010.GB3628@jama.jama.net>
+References: <20120914085706.2CBFC103C3@opal>
+	<20120915162051.GA11051@jama.jama.net>
+	<1347729817.4444.52.camel@x121e.pbcl.net>
+	<20120915172816.GC11051@jama.jama.net>
+	<1347741572.4444.54.camel@x121e.pbcl.net>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+In-Reply-To: <1347741572.4444.54.camel@x121e.pbcl.net>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: binutils 2.23 call for testing the recipes
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Andrei Dinu : libffi upgrade to 3.0.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,73 +48,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Sep 2012 06:18:58 -0000
-X-Groupsio-MsgNum: 29358
+X-List-Received-Date: Sun, 16 Sep 2012 14:42:42 -0000
+X-Groupsio-MsgNum: 29359
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="82I3+IH0IqGh5yIs"
+	protocol="application/pgp-signature"; boundary="R3G7APHDIzY6R/pk"
 Content-Disposition: inline
 
---82I3+IH0IqGh5yIs
+--R3G7APHDIzY6R/pk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 08, 2012 at 10:45:19AM -0700, Khem Raj wrote:
-> Hi
+On Sat, Sep 15, 2012 at 09:39:32PM +0100, Phil Blundell wrote:
+> On Sat, 2012-09-15 at 19:28 +0200, Martin Jansa wrote:
+> > On Sat, Sep 15, 2012 at 06:23:37PM +0100, Phil Blundell wrote:
+> > > On Sat, 2012-09-15 at 18:20 +0200, Martin Jansa wrote:
+> > > > This changes .so name from libffi5 to libffi6, breaking every recipe
+> > > > depending on libffi when someone is using debian.bbclass.
+> > >=20
+> > > How exactly do the recipes break?  The whole point of debian.bbclass =
+is
+> > > to avoid breakage when this happens by making libffi5 and libffi6
+> > > parallel installable.  If that isn't working then there is clearly a =
+bug
+> > > somewhere and we should fix that.
+> >=20
+> > libffi5 is no longer in feed, so if you try to install something from
+> > feed which still has libffi5 in depends it will fail.
 >=20
-> Binutils 2.23 branch has started upstream. Given that toolchain
-> components require a lot of soak time, I have created the recipes
-> for binutils 2.23 and pushed it here
->=20
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/binut=
-ils-2.23
+> Ah, right.  So it's not actually the recipes which are broken, it's just
+> that something is wrong with whatever maintains the feed and the old
+> binaries are no longer installable.  I guess you need to figure out why
+> libffi5 is being removed and prevent that from happening.
 
-After last rebase of this branch, upgrade from 2.22.92* (or something
-like that) to git with SRCREV d56d3537a00d85d9072156026f426c931ba21fba
+Old ipk binaries are removed in package_write_ipk task.
 
-I see errors like this
-https://lists.gnu.org/archive/html/bug-binutils/2012-09/msg00036.html
-when building 2.6.39 kernel for armv4t
-| arch/arm/lib/copy_template.S: Assembler messages:
-| arch/arm/lib/copy_template.S:100: Error: selected processor does not
-support ARM mode `ldralt r3,[r1],#4'
+Even when I keep those binaries in public feed (rsynced from
+deploy/ipk/) then I would have to call opkg-make-index in that public
+feed to keep them in Packages too.
 
-Is it binutils bug or something needs to be changed in kernel again?
+So by default you can assume that libffi5*.ipk gets missing as soon as you
+bump libffi to version with new .so name like libffi6.
+
+And it's not only someone doing opkg install on target, do_rootfs fails
+too if you have any of those affected packages in your image.
 
 Cheers,
-
->=20
-> If you are using angstrom set
->=20
-> ANGSTROM_BINUTILS_VERSION =3D "2.23" in local.conf after pulling that bra=
-nch
-> for OE-Core it will work as it is
->=20
-> Let me know if you see any errors.
->=20
-> I will keep updating it until 2.23 release
->=20
-> Thanks
-> -Khem
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---82I3+IH0IqGh5yIs
+--R3G7APHDIzY6R/pk
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlBVbGIACgkQN1Ujt2V2gBzo1gCeOFjwvOApVWcAc0oS1NsIEzIT
-tQ0AmwX81/bgdV6z0p/0mlFv/adXTG3y
-=usUM
+iEYEARECAAYFAlBV4nIACgkQN1Ujt2V2gByTdwCfTa4731VLBRMvk2SrRLF4Xayz
+H9gAoJFO4j2zgkk5TSjBbPJHU1uRjFal
+=UtG6
 -----END PGP SIGNATURE-----
 
---82I3+IH0IqGh5yIs--
+--R3G7APHDIzY6R/pk--
