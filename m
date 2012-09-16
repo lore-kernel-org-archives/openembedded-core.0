@@ -1,23 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TDL5W-0000G3-AL
+	(envelope-from <kergoth@gmail.com>) id 1TDLjY-0006YE-ND
 	for openembedded-core@lists.openembedded.org;
-	Sun, 16 Sep 2012 22:05:06 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Sep 2012 12:52:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,431,1344236400"; d="scan'208";a="145682424"
-Received: from unknown (HELO [10.255.13.185]) ([10.255.13.185])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Sep 2012 12:52:26 -0700
-Message-ID: <50562DFA.6010508@linux.intel.com>
-Date: Sun, 16 Sep 2012 12:52:26 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Sun, 16 Sep 2012 22:46:28 +0200
+Received: by lagv3 with SMTP id v3so3468975lag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Sep 2012 13:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=FrrAsBLLT9VhQmvD8Z1alE18yHdVQ2Ql9aUe7qhMY+8=;
+	b=r7+xHefrgFPLJSRUg3KNPyPWK0H18p+l8bwEgiQUNTysskI6mm0WwU1cf9yid6lhh3
+	rXwk6X9WervIPv06c6t68gDNf8hGQQIL+d1AmcUorXKNo6+070hPDCP4nsMYHVXQbQ/c
+	JfFzXS0QlSgurfQwZ+L9cWhkdpLEWA65Xjf0sCz8h/BzivYMGw6LzDUJnABAClVGq3TX
+	0aqk06NDQTOa9/HBfspxdSbWgVkBcjDmBvoqvl8pseDbaNDaMtmTQTm9MGTNDSccPB0N
+	SIc3P+LhpFH50Mh04UKEnb6GE6OkbUcEuRY8Kx8Pk9jL5vPha92B8M6dd/JPQeDWDodE
+	u0kw==
+Received: by 10.112.51.174 with SMTP id l14mr3280804lbo.24.1347825902074; Sun,
+	16 Sep 2012 13:05:02 -0700 (PDT)
 MIME-Version: 1.0
-To: Constantin Musca <constantinx.musca@intel.com>
-References: <1347632702-16313-1-git-send-email-constantinx.musca@intel.com>
+Sender: kergoth@gmail.com
+Received: by 10.114.19.2 with HTTP; Sun, 16 Sep 2012 13:04:41 -0700 (PDT)
 In-Reply-To: <1347632702-16313-1-git-send-email-constantinx.musca@intel.com>
+References: <1347632702-16313-1-git-send-email-constantinx.musca@intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sun, 16 Sep 2012 13:04:41 -0700
+X-Google-Sender-Auth: WuRTSOuhNjtVLu-10h1uwiKl03k
+Message-ID: <CABcZAN=_Oaeyr77A1Puem86XvX28PgZJf-pNonEO4g_=+gE8Ag@mail.gmail.com>
+To: Constantin Musca <constantinx.musca@intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v4] patch.bbclass: increase security
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -32,67 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Sep 2012 20:05:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 16 Sep 2012 20:46:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/14/2012 07:25 AM, Constantin Musca wrote:
-> - Use mkdtemp for generating temp dir names
-> - Use bb.utils.remove for removing temp dirs
-> - Add comment for explaining the "patch" workaround
->
-> [YOCTO #3070]
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> ---
->   meta/classes/patch.bbclass |   16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> index d010438..ed12802 100644
-> --- a/meta/classes/patch.bbclass
-> +++ b/meta/classes/patch.bbclass
-> @@ -139,11 +139,11 @@ python patch_do_patch() {
->       path = os.getenv('PATH')
->       os.putenv('PATH', d.getVar('PATH', True))
->
-> -    import shutil
-> -    process_tmpdir = os.path.join('/tmp', str(os.getpid()))
-> -    if os.path.exists(process_tmpdir):
-> -        shutil.rmtree(process_tmpdir)
-> -    os.makedirs(process_tmpdir)
-> +    # We must use one TMPDIR per process so that the "patch" processes
-> +    # don't generate the same temp file name.
-> +
-> +    import tempfile
-> +    process_tmpdir = tempfile.mkdtemp()
->       os.environ['TMPDIR'] = process_tmpdir
->
->       for patch in src_patches(d):
-> @@ -168,15 +168,15 @@ python patch_do_patch() {
->           try:
->               patchset.Import({"file":local, "strippath": parm['striplevel']}, True)
->           except Exception as exc:
+On Fri, Sep 14, 2012 at 7:25 AM, Constantin Musca
+<constantinx.musca@intel.com> wrote:
 > -            shutil.rmtree(process_tmpdir)
 > +            bb.utils.remove(process_tmpdir, True)
->               bb.fatal(str(exc))
->           try:
->               resolver.Resolve()
->           except bb.BBHandledException as e:
-> -            shutil.rmtree(process_tmpdir)
-> +            bb.utils.remove(process_tmpdir, True)
->               bb.fatal(str(e))
->
-> -    shutil.rmtree(process_tmpdir)
-> +    bb.utils.remove(process_tmpdir, True)
->   }
->   patch_do_patch[vardepsexclude] = "PATCHRESOLVE"
->
->
-Merged into OE-Core
 
-Thanks
-	Sau!
+In the future, I'd suggest leveraging the ability to pass arguments by
+name to clarify the meaning of the boolean argument:
 
+    bb.utils.remove(process_tmpdir, recurse=True).
+
+This makes it a bit more clear when reading the code in the future.
+-- 
+Christopher Larson
 
 
