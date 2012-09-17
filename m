@@ -1,35 +1,34 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TDLjY-0006YE-ND
+	(envelope-from <otavio.salvador@gmail.com>) id 1TDPyO-000078-Mc
 	for openembedded-core@lists.openembedded.org;
-	Sun, 16 Sep 2012 22:46:28 +0200
-Received: by lagv3 with SMTP id v3so3468975lag.6
+	Mon, 17 Sep 2012 03:18:04 +0200
+Received: by ggmq1 with SMTP id q1so1492853ggm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2012 13:33:51 -0700 (PDT)
+	Sun, 16 Sep 2012 18:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=FrrAsBLLT9VhQmvD8Z1alE18yHdVQ2Ql9aUe7qhMY+8=;
-	b=r7+xHefrgFPLJSRUg3KNPyPWK0H18p+l8bwEgiQUNTysskI6mm0WwU1cf9yid6lhh3
-	rXwk6X9WervIPv06c6t68gDNf8hGQQIL+d1AmcUorXKNo6+070hPDCP4nsMYHVXQbQ/c
-	JfFzXS0QlSgurfQwZ+L9cWhkdpLEWA65Xjf0sCz8h/BzivYMGw6LzDUJnABAClVGq3TX
-	0aqk06NDQTOa9/HBfspxdSbWgVkBcjDmBvoqvl8pseDbaNDaMtmTQTm9MGTNDSccPB0N
-	SIc3P+LhpFH50Mh04UKEnb6GE6OkbUcEuRY8Kx8Pk9jL5vPha92B8M6dd/JPQeDWDodE
-	u0kw==
-Received: by 10.112.51.174 with SMTP id l14mr3280804lbo.24.1347825902074; Sun,
-	16 Sep 2012 13:05:02 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.19.2 with HTTP; Sun, 16 Sep 2012 13:04:41 -0700 (PDT)
-In-Reply-To: <1347632702-16313-1-git-send-email-constantinx.musca@intel.com>
-References: <1347632702-16313-1-git-send-email-constantinx.musca@intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sun, 16 Sep 2012 13:04:41 -0700
-X-Google-Sender-Auth: WuRTSOuhNjtVLu-10h1uwiKl03k
-Message-ID: <CABcZAN=_Oaeyr77A1Puem86XvX28PgZJf-pNonEO4g_=+gE8Ag@mail.gmail.com>
-To: Constantin Musca <constantinx.musca@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4] patch.bbclass: increase security
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=8Viq55MKV5sHHPG50C1xfJVVKICg92E420VnEOzOqKc=;
+	b=VzcQUrGT/m9C7ymQRTv07dbRpFjfOyvbevHukZrtP+N7IllUi5g7OisVcWqYALRqtv
+	NT5tbXn9EspRvUVEnMTC8Z8DrojesEdicVWbplBMPmIDuhhKeO3E7d5tjJCaikNlddsx
+	n+BWQQiBbgy5atagNwRyRIsCqAHdjerJ5eX3pPGsTwVkfoTke7ck7Ga/cZZW6T9EkQnw
+	WpuVPhuRYg3s8wy3/g8ymziGFy+VxC2TgFQTvjgrOjf9x9+CmKHEmc1W//FFf8B/zvPV
+	GCmNWd3nDVLBEI5+C029k71xcLwGCd3eBVg0SA6gvbolffufeGWu1TQ1GVwHx+rZqgzQ
+	sjLQ==
+Received: by 10.236.141.42 with SMTP id f30mr9959640yhj.120.1347843926224;
+	Sun, 16 Sep 2012 18:05:26 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id o25sm12182800yhm.14.2012.09.16.18.05.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 16 Sep 2012 18:05:24 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 16 Sep 2012 22:05:15 -0300
+Message-Id: <1347843915-8277-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [for-denzil][PATCH] dhcp: remove dependency of dev/staticdev packages on main package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,21 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Sep 2012 20:46:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Sep 2012 01:18:04 -0000
 
-On Fri, Sep 14, 2012 at 7:25 AM, Constantin Musca
-<constantinx.musca@intel.com> wrote:
-> -            shutil.rmtree(process_tmpdir)
-> +            bb.utils.remove(process_tmpdir, True)
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-In the future, I'd suggest leveraging the ability to pass arguments by
-name to clarify the meaning of the boolean argument:
+The main package is empty and is not produced, which leaves the dev
+and staticdev packages broken. Remove the dependencies (added in
+bitbake.conf by default) to fix this.
 
-    bb.utils.remove(process_tmpdir, recurse=True).
+(From OE-Core rev: 5380c65e819d82f783cb75aa21db7c73bb445189)
 
-This makes it a bit more clear when reading the code in the future.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc         |    2 ++
+ meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 8ead016..3159f93 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -56,6 +56,8 @@ do_install_append () {
+ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+ 
+ FILES_${PN} = ""
++RDEPENDS_${PN}-dev = ""
++RDEPENDS_${PN}-staticdev = ""
+ 
+ FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
+ RRECOMMENDS_dhcp-server = "dhcp-server-config"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
+index 24b50ba..67af3e2 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
+@@ -1,6 +1,6 @@
+ require dhcp.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI += "file://fixincludes.patch \
+             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
 -- 
-Christopher Larson
+1.7.2.5
+
 
 
