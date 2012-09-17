@@ -1,35 +1,38 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TDiUe-0001p3-FU
+	(envelope-from <raj.khem@gmail.com>) id 1TDiUg-0001p3-RL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 23:04:36 +0200
+	Mon, 17 Sep 2012 23:04:39 +0200
 Received: by mail-pb0-f47.google.com with SMTP id wy7so9391052pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 13:51:59 -0700 (PDT)
+	Mon, 17 Sep 2012 13:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=HcNU9dAjWzQ0gU0P3PJWeRdYorOnN34FLChvXFF6KUc=;
-	b=qlFxzKxKpfCnp24XorKd1M00dZUO0wRW4IGB9h8xn6AyrhY0SW0/XHsxxt06P3zr8p
-	L6xI2Uz6TAoQCECTSeNn/b/QJdTpeyHKxfqbuhDkEJsvDD5CFf2RBIrCvMVRJLezmG1T
-	Pa4+Aoo3+5gf9owenpUMO5SH1xqbFIeMn37LBMVpYy4XuyT8fLhLTcyTJjZOYEe9OZi7
-	laVZqkQsh9hrEGR5zwiXGQ3U+Ql88RPVU91a2b680m0nOzr/7Oof69O6dE9WDbeSPzYL
-	KCNMlF73GBM6avlMuPmnOJsyapHC7I/HnPFCiijTLseGvcLytVn69ZOG0uOMegMXr0YE
-	A2sw==
-Received: by 10.68.242.10 with SMTP id wm10mr24389372pbc.61.1347915119232;
-	Mon, 17 Sep 2012 13:51:59 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=4EWB/eHfoBjYrK7OplxEvOHC5AMd456LqDhCaHE9brI=;
+	b=PjuBSPYnutmnbvIBMI6GYSUxkVMufgAk/v5LwgeaCIOXvgC6pQetirlg6vUxXTGef2
+	RSUxN6bidbP0RTQw6aStfkTOpZKWGij2wYdMXpSrV7tkRtSTLd22/SXjnwgsJv8PUwCp
+	U2LE+M/er45VrgAUMPjlSl1iNCMXmAthpjGuHjwsRtDTdVi6ErnGlzC4mRGdrghLTGio
+	gmm/zc6+vMugN6pcuyo/x6VDOCvTcKCJMdEB05Gad4OpRoypRk8eljljFJdfkO6oLhYz
+	/C1RrLJMfdy8SfKa9QKJZ3+pvG7VklxSBHO2LLv1KEmqsj2PRxUwotd/S4EjTvA93/6C
+	zfFQ==
+Received: by 10.66.84.6 with SMTP id u6mr21700325pay.75.1347915121539;
+	Mon, 17 Sep 2012 13:52:01 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id gv1sm7498229pbc.38.2012.09.17.13.51.56
+	by mx.google.com with ESMTPS id gv1sm7498229pbc.38.2012.09.17.13.51.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 13:51:57 -0700 (PDT)
+	Mon, 17 Sep 2012 13:52:00 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 13:50:47 -0700
-Message-Id: <feb59cfcb48be1f8ad1e767a0a236f4f4fd92670.1347914898.git.raj.khem@gmail.com>
+Date: Mon, 17 Sep 2012 13:50:48 -0700
+Message-Id: <bffdd81ac7ad4886f01f1046953fde45d858e16c.1347914898.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <feb59cfcb48be1f8ad1e767a0a236f4f4fd92670.1347914898.git.raj.khem@gmail.com>
+References: <feb59cfcb48be1f8ad1e767a0a236f4f4fd92670.1347914898.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1347914898.git.raj.khem@gmail.com>
 References: <cover.1347914898.git.raj.khem@gmail.com>
-Subject: [PATCH 1/2] eglibc: Fix fcntl.h for powerpc
+Subject: [PATCH 2/2] eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,97 +45,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 21:04:36 -0000
-
-This fix is needed for systemd to work on powerpc
+X-List-Received-Date: Mon, 17 Sep 2012 21:04:39 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ..._handle_at-open_by_handle-etc.-to-PowerPC.patch |   65 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
+ .../eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch      |   44 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch b/meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch b/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
 new file mode 100644
-index 0000000..48b3c56
+index 0000000..712b353
 --- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
-@@ -0,0 +1,65 @@
-+Upstream-Status: Submitted
++++ b/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
+@@ -0,0 +1,44 @@
++Create e5500 specific math_private.h and let it include when compiling for e5500/64bit core
++We prefefine __CPU_HAS_FSQRT to 0 and then in general ppc64 math_private.h we check if its
++already defined before redefining it. This way we can ensure that on e5500 builds it wont
++emit fsqrt intructions
 +
++-Khem
 +
-+From 4b2716f902c117490285e39deb6ef7925fdc846e Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 8 Sep 2012 19:54:03 -0700
-+Subject: [PATCH] Add name_to_handle_at, open_by_handle etc. to PowerPC
-+ bits/fcntl.h.
++Upstream-Status: Pending
 +
-+---
-+ ChangeLog                                    |    7 +++++++
-+ sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h |   28 +++++++++++++++++++++++++-
-+ 2 files changed, 34 insertions(+), 1 deletion(-)
-+
-+Index: libc/sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h
++Index: libc/sysdeps/powerpc/fpu/math_private.h
 +===================================================================
-+--- libc.orig/sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h	2012-09-08 10:27:08.000000000 -0700
-++++ libc/sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h	2012-09-08 19:57:44.219191560 -0700
-+@@ -1,5 +1,5 @@
-+ /* O_*, F_*, FD_* bit values for Linux/PowerPC.
-+-   Copyright (C) 1995-1998, 2000, 2003, 2004, 2006, 2007, 2009, 2010, 2011
-++   Copyright (C) 1995-2012
-+    Free Software Foundation, Inc.
-+    This file is part of the GNU C Library.
++--- libc.orig/sysdeps/powerpc/fpu/math_private.h	2012-09-03 22:37:58.000000000 -0700
+++++ libc/sysdeps/powerpc/fpu/math_private.h	2012-09-17 09:35:09.709124003 -0700
++@@ -25,10 +25,12 @@
++ #include <dl-procinfo.h>
++ #include_next <math_private.h>
 + 
-+@@ -232,6 +232,19 @@
-+ 					   we splice from/to).  */
-+ # define SPLICE_F_MORE		4	/* Expect more data.  */
-+ # define SPLICE_F_GIFT		8	/* Pages passed in are a gift.  */
-++
-++
-++/* File handle structure.  */
-++struct file_handle
-++{
-++  unsigned int handle_bytes;
-++  int handle_type;
-++  /* File identifier.  */
-++  unsigned char f_handle[0];
-++};
-++
-++/* Maximum handle size (for now).  */
-++# define MAX_HANDLE_SZ  128
-+ #endif
-+ 
-+ __BEGIN_DECLS
-+@@ -278,6 +291,19 @@
-+ 			__off64_t __len);
++-# if __WORDSIZE == 64 || defined _ARCH_PWR4
++-#  define __CPU_HAS_FSQRT 1
++-# else
++-#  define __CPU_HAS_FSQRT ((GLRO(dl_hwcap) & PPC_FEATURE_64) != 0)
+++# ifndef __CPU_HAS_FSQRT
+++#  if __WORDSIZE == 64 || defined _ARCH_PWR4
+++#   define __CPU_HAS_FSQRT 1
+++#  else
+++#   define __CPU_HAS_FSQRT ((GLRO(dl_hwcap) & PPC_FEATURE_64) != 0)
+++#  endif
 + # endif
 + 
++ extern double __slow_ieee754_sqrt (double);
++Index: libc/ports/sysdeps/powerpc/powerpc64/e5500/fpu/math_private.h
++===================================================================
++--- /dev/null	1970-01-01 00:00:00.000000000 +0000
+++++ libc/ports/sysdeps/powerpc/powerpc64/e5500/fpu/math_private.h	2012-09-17 09:56:59.129124074 -0700
++@@ -0,0 +1,9 @@
+++#ifndef _E5500_MATH_PRIVATE_H_
+++#define _E5500_MATH_PRIVATE_H_ 1
+++/* E5500 core FPU does not implement
+++   fsqrt */
 ++
-++/* Map file name to file handle.  */
-++extern int name_to_handle_at (int __dfd, const char *__name,
-++			      struct file_handle *__handle, int *__mnt_id,
-++			      int __flags) __THROW;
+++#define __CPU_HAS_FSQRT 0
+++#include_next <math_private.h>
 ++
-++/* Open file using the file handle.
-++
-++   This function is a possible cancellation point and therefore not
-++   marked with __THROW.  */
-++extern int open_by_handle_at (int __mountdirfd, struct file_handle *__handle,
-++			      int __flags);
-++
-+ #endif
-+ 
-+ __END_DECLS
+++#endif /* _E5500_MATH_PRIVATE_H_ */
 diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-index 78dc44a..8f3d159 100644
+index 8f3d159..bc4f044 100644
 --- a/meta/recipes-core/eglibc/eglibc_2.16.bb
 +++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-@@ -29,6 +29,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
-            file://0001-eglibc-menuconfig-support.patch \
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "20393"
+ 
+ DEPENDS += "gperf-native kconfig-frontends-native"
+-PR = "r9"
++PR = "r10"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_16"
+@@ -30,6 +30,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
             file://0002-eglibc-menuconfig-hex-string-options.patch \
             file://0003-eglibc-menuconfig-build-instructions.patch \
-+           file://0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch \
+            file://0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch \
++           file://file://fsl-ppc-no-fsqrt.patch \
            "
  LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
        file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
