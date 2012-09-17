@@ -1,18 +1,18 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TDZzf-0002cA-06
+	(envelope-from <cristian.iorga@intel.com>) id 1TDa75-00035S-4f
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 14:00:03 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Sep 2012 04:47:23 -0700
+	Mon, 17 Sep 2012 14:07:43 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2012 04:53:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,435,1344236400"; d="scan'208";a="193861582"
+X-IronPort-AV: E=Sophos;i="4.80,435,1344236400"; d="scan'208";a="222991491"
 Received: from sentry (HELO localhost.localdomain) ([10.237.105.37])
-	by orsmga001.jf.intel.com with ESMTP; 17 Sep 2012 04:47:11 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2012 04:53:57 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 14:46:50 +0300
-Message-Id: <1347882410-2989-1-git-send-email-cristian.iorga@intel.com>
+Date: Mon, 17 Sep 2012 14:53:36 +0300
+Message-Id: <1347882817-3118-1-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 Subject: [PATCH] qemux86: Support for KVM, paravirt and virtio added
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -27,13 +27,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 12:00:03 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 12:07:43 -0000
 
 KVM, paravirtualization and virtio drivers are now activated
 in runqemu using the kvm option flag for qemux86.
 Host CPU features are also exported to guest OS (Yocto Linux).
 Usage example: runqemu qemux86 core-image-x11 kvm
-Fixes [BUGID #2550]
+
+Implements [YOCTO #2550].
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
