@@ -1,40 +1,39 @@
 Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TDaJf-0003JV-8Z
+	(envelope-from <koen@dominion.thruhere.net>) id 1TDaJg-0003JN-Pe
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 14:20:43 +0200
-Received: by mail-wg0-f43.google.com with SMTP id dq11so2288325wgb.24
+	Mon, 17 Sep 2012 14:20:45 +0200
+Received: by mail-wg0-f43.google.com with SMTP id dq11so2288311wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 05:08:07 -0700 (PDT)
+	Mon, 17 Sep 2012 05:08:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=RqoxWuDTsKSBbbv4B6mdyNAFq+MvQCYFL1UjrSufH78=;
-	b=DcIyHgmw8XX2JpQF9EWNg1J61/W15WOuPj8+obBOWwNu9kr9QBUjRbgdnMJuMJAYJZ
-	N0sBbm+kmi5Ca6v5mu0Byt5kLT/l1iQIcr9Q8BhS626IIEGmW3MvOXsjDrq3G3UUwQTR
-	FMs2oEoAQHsFAsoFC8NZJW3ZgKz66cDaTx5EovSkKVzFtMpzpEZ6MJ5IoS7v2bhOG+ZQ
-	iKqRTTieKaXSTgUGDADxy8W9E+4xfA9HGDlmHZHPPAzVgzDSm0S9+O+g9WTbxI0i0SnU
-	ntP40o7K//T5jAK+GCUG8xxIpIcarBfXZGqG1VAIf1p4a4NZsB8mwQs3uUrGhm9h8rri
-	Ug5w==
-Received: by 10.180.93.68 with SMTP id cs4mr15727549wib.14.1347883686983;
-	Mon, 17 Sep 2012 05:08:06 -0700 (PDT)
+	bh=ANS5Mx6oCHLdri7iU7CxQQdAuz3+kS9yF2idoXUlpuQ=;
+	b=ht2cTRSQQR/3my3n7MDkHK8hdDECuqKJQT1h00sGEb11gdIKNsV7ytEaMevRaHc0uC
+	2kdYJbyoAyFB4JR+9QVK1Lm1COdPkqkIJunty1+U1YzZhhEsx1hnG+3C/ezbIYah2G4h
+	vjWP0+XjDpkncx0rH4uyyVOOGfkmJcp2cAZ4Fs80XHa3Tqn3WTWZTNJxVYv6IV/XvAHH
+	d0j/aeQIAdSsThZVxW/YhsIFwzNN4dFxrxRimZgktUZfafO4wWUO3ownPQtYxw055YO4
+	0zNBqkMMBm3ZQHCd60QtIH9N6t4ZqSNl/3qeROzCP6bts2AbMSpfhCF6SWYgVI445AnK
+	avDA==
+Received: by 10.216.181.67 with SMTP id k45mr5613281wem.17.1347883688453;
+	Mon, 17 Sep 2012 05:08:08 -0700 (PDT)
 Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
 	[77.162.165.174])
-	by mx.google.com with ESMTPS id k20sm17570403wiv.11.2012.09.17.05.08.05
+	by mx.google.com with ESMTPS id k20sm17570403wiv.11.2012.09.17.05.08.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 05:08:06 -0700 (PDT)
+	Mon, 17 Sep 2012 05:08:07 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 14:07:34 +0200
-Message-Id: <1347883657-17529-7-git-send-email-koen@dominion.thruhere.net>
+Date: Mon, 17 Sep 2012 14:07:35 +0200
+Message-Id: <1347883657-17529-8-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1347883657-17529-1-git-send-email-koen@dominion.thruhere.net>
 References: <1347883657-17529-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQkxmxsqdq1Jw+YBGI8LOfCxlgHljIOcHLWqg+18TSuSFOkYl8kQYc+2LH0PqNqReilf/DnS
-Cc: Constantin Musca <constantinx.musca@intel.com>,
-	Scott Garman <scott.a.garman@intel.com>
-Subject: [for-denzil][pulseaudio-updates 07/10] pulseaudio: upgrade to 2.1
+X-Gm-Message-State: ALoCoQnSBYwjCdIXNmaCllACDbmCwVthuFErxTreEJMOYpH3SxLJEmUsOE9iZKLAydTB7O/x0d73
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: [for-denzil][pulseaudio-updates 08/10] pulseaudio: Always enable NLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,73 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 12:20:44 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 12:20:45 -0000
 
-From: Constantin Musca <constantinx.musca@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+When NLS is disabled e.g. on uclibc the build fails
+The actual problem is that pulseaudio build system
+should cater for it but it does not
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../pulseaudio/pulseaudio_2.0.bb                   |   21 --------------------
- .../pulseaudio/pulseaudio_2.1.bb                   |   21 ++++++++++++++++++++
- 2 files changed, 21 insertions(+), 21 deletions(-)
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    4 ++++
+ .../pulseaudio/pulseaudio_2.1.bb                   |    2 +-
+ 2 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb
-deleted file mode 100644
-index 7e57e5e..0000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--require pulseaudio.inc
--
--PR = "r0"
--
--DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
--
--inherit gettext perlnative
--
--SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
--  file://volatiles.04_pulse \
--"
--
--SRC_URI[md5sum] = "9bbde657c353fe675c3b693054175a8e"
--SRC_URI[sha256sum] = "28b42edd42f4879a6884af5f0ec11801ac001eb7582881215b36649aa37e2061"
--
--do_compile_prepend() {
--    cd ${S}
--    mkdir -p ${S}/libltdl
--    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
--}
--
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index b952d68..de653fe 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -19,6 +19,10 @@ SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.g
+ 
+ inherit autotools pkgconfig useradd
+ 
++# *.desktop rules wont be generated during configure and build will fail
++# if using --disable-nls
++USE_NLS = "yes"
++
+ EXTRA_OECONF = "\
+ 		--disable-lynx \
+ 		${@base_contains('DISTRO_FEATURES', 'bluetooth', '--enable-bluez', '--disable-bluez', d)} \
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-new file mode 100644
-index 0000000..a61e983
---- /dev/null
+index a61e983..5359146 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
 +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-@@ -0,0 +1,21 @@
-+require pulseaudio.inc
-+
-+PR = "r0"
-+
-+DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-+
-+inherit gettext perlnative
-+
-+SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
-+  file://volatiles.04_pulse \
-+"
-+
-+SRC_URI[md5sum] = "33e85023259d530f0a763d5204e8bad9"
-+SRC_URI[sha256sum] = "ef6b347bf47abfb98080795f1583018ac959b4aeb4df916b879f9e1eaba0ca7f"
-+
-+do_compile_prepend() {
-+    cd ${S}
-+    mkdir -p ${S}/libltdl
-+    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
-+}
-+
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+ 
 -- 
 1.7.7.6
 
