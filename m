@@ -1,42 +1,28 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TDQFE-0000Ka-M7
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1TDQy6-0003Hr-O1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 03:35:28 +0200
-Received: by pbcwy7 with SMTP id wy7so8072564pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2012 18:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=/J9kRvzo3xGkdxr/sPxpVGhOEu19CtbAFfw0GSne1jA=;
-	b=kyOhBDln7qpReXfCTK6/W7YDmUSN/FVkcAeJBRbudzUYvmP+BenzniGcZ5JpMUPlK7
-	C4WMNNv9LrMQTfuC000tkRrfVkyVnJBpfFRhH/wXGHyJR/u2JP0lbnFsy4CMbe5Gqboe
-	4pJyUKhLYxbHi+8SPYHIYq6s+qW/amdGoWYWHK+Wx8kCYgm6zGTagTwygJ8+rjwByROo
-	PdQy7yxlgnhPmPAth1L9N5hMBnw2uPvCGHP1YepnvTP69AY4cnQzkK4GM3wHYHoeAKxR
-	MHfp2PzVgQGoFGPZwjfZs5GdXuszVZHA4wFMVP4qncprpJMRHuvtnclx44ZiqWG0SOF3
-	X/Cg==
-Received: by 10.68.234.65 with SMTP id uc1mr19091608pbc.89.1347844969992;
-	Sun, 16 Sep 2012 18:22:49 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPS id gf3sm6020403pbc.74.2012.09.16.18.22.48
-	(version=SSLv3 cipher=OTHER); Sun, 16 Sep 2012 18:22:49 -0700 (PDT)
-Date: Sun, 16 Sep 2012 18:22:34 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20120917012232.GA30291@sakrah.homelinux.org>
-Mail-Followup-To: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
-	<20120916060626.GA3628@jama.jama.net>
+	Mon, 17 Sep 2012 04:21:51 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8H299nx020063
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 16 Sep 2012 19:09:09 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Sun, 16 Sep 2012 19:09:10 -0700
+Message-ID: <50568644.2000508@windriver.com>
+Date: Mon, 17 Sep 2012 10:09:08 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-In-Reply-To: <20120916060626.GA3628@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: binutils 2.23 call for testing the recipes
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1347247613.git.liezhi.yang@windriver.com>
+	<5050CBA0.5060409@linux.intel.com>
+In-Reply-To: <5050CBA0.5060409@linux.intel.com>
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1 V2] package_rpm.bbclass: fix the arch (replace "-" with "_")
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,69 +35,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 01:35:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On (16/09/12 08:06), Martin Jansa wrote:
-> On Wed, Aug 08, 2012 at 10:45:19AM -0700, Khem Raj wrote:
-> > Hi
-> > 
-> > Binutils 2.23 branch has started upstream. Given that toolchain
-> > components require a lot of soak time, I have created the recipes
-> > for binutils 2.23 and pushed it here
-> > 
-> > http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/binutils-2.23
-> 
-> After last rebase of this branch, upgrade from 2.22.92* (or something
-> like that) to git with SRCREV d56d3537a00d85d9072156026f426c931ba21fba
-> 
-> I see errors like this
-> https://lists.gnu.org/archive/html/bug-binutils/2012-09/msg00036.html
-> when building 2.6.39 kernel for armv4t
-> | arch/arm/lib/copy_template.S: Assembler messages:
-> | arch/arm/lib/copy_template.S:100: Error: selected processor does not
-> support ARM mode `ldralt r3,[r1],#4'
-> 
-> Is it binutils bug or something needs to be changed in kernel again?
-
-This is a binutils bug
-see discussions on
-http://sourceware.org/ml/binutils/2012-09/msg00128.html
-
-> 
-> Cheers,
-> 
-> > 
-> > If you are using angstrom set
-> > 
-> > ANGSTROM_BINUTILS_VERSION = "2.23" in local.conf after pulling that branch
-> > for OE-Core it will work as it is
-> > 
-> > Let me know if you see any errors.
-> > 
-> > I will keep updating it until 2.23 release
-> > 
-> > Thanks
-> > -Khem
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> -- 
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+X-List-Received-Date: Mon, 17 Sep 2012 02:21:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On 09/13/2012 01:51 AM, Saul Wold wrote:
+> On 09/10/2012 12:58 AM, Robert Yang wrote:
+>> Changes of V2:
+>> * Replace "-" with "_" for sat-solver_git.bb
+>>
+>> Test info:
+>> MACHINE = beagleboard/mpc8315e-rdb/qemux86
+>> PACKAGE_CLASSES = package_rpm
+>>
+>> $ bitbake core-image-minimal core-image-sato meta-toolchain \
+>>     meta-toolchain-sdk adt-installer meta-ide-support
+>>
+>> $ bitbake package-index
+>>
+>> $ runqemu qemux86 (when MACHINE=qemux86)
+>>
+>> All of them are OK.
+>>
+>> Note:
+>> The nativesdk's arch would be x86_64_nativesdk or i686_nativesdk (it was
+>> x86_64 or i686 in the past) when use rpm.
+>>
+>> // Robert
+>>
+>>
+>> The following changes since commit 5343cdb20ee56a8b507733c637dcc2466ae13288:
+>>
+>>    bitbake: fetch2: replace double slashes in paths in encodeurl() (2012-09-07
+>> 14:50:04 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib robert/rpmarch
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/rpmarch
+>>
+>> Robert Yang (1):
+>>    package_rpm.bbclass: fix the arch (replace "-" with "_")
+>>
+>>   meta/classes/package_rpm.bbclass                   | 10 +++++-----
+>>   meta/recipes-extended/sat-solver/sat-solver_git.bb |  2 +-
+>>   2 files changed, 6 insertions(+), 6 deletions(-)
+>>
+> I think this needs rebasing, can you resend please.
+>
 
+Hi Saul,
 
--- 
--Khem
+It had been merged into master, do you mean rebase for other branch?
+
+// Robert
+
+> Sau!
+>
+>
+>
 
 
