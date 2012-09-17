@@ -1,33 +1,21 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TDZcQ-00027E-VL
+	(envelope-from <constantinx.musca@intel.com>) id 1TDZgE-0002Ch-Ef
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 13:36:03 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q8HBNMEu031365
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 13:23:24 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1TDZQA-0006Sl-La
-	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 13:23:22 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 17 Sep 2012 13:39:59 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 17 Sep 2012 04:27:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,434,1344236400"; d="scan'208";a="145857832"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Sep 2012 04:26:50 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 13:23:22 +0200
-Message-ID: <lyr4q0zydx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.7
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: binutils regression: internal error in set_address
+Date: Mon, 17 Sep 2012 13:32:09 +0300
+Message-Id: <1347877929-15603-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] netbase: split up in netbase and init-ifupdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,31 +28,247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 11:36:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Sep 2012 11:39:59 -0000
 
-Hi,
+- netbase should only include etc-rpc, etc-protocols and etc-services
+- the init script/configuration files should be in another package
+(init-ifupdown)
 
-recent binutils upgrade[1] breaks dot assignments within NOLOAD sections.
-E.g
+[YOCTO #2486]
 
-$ echo '_start:' > foo.S
-$ cat <<EOF >foo.ld
-SECTIONS {
-	.stack (NOLOAD) : {
-               . = . + 128;
-	}
-}
-EOF
-$ arm-linux-gnueabi-gcc foo.S -T foo.ld
-arm-linux-gnueabi/4.7.2/ld: internal error in set_address, .../binutils-2.22/gold/output.h:189
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/conf/layer.conf                               |    1 +
+ .../init-ifupdown/init-ifupdown-1.0/copyright      |   11 +++++
+ .../init-ifupdown-1.0}/hosts                       |    0
+ .../init-ifupdown-1.0}/init                        |    0
+ .../init-ifupdown-1.0}/interfaces                  |    0
+ .../init-ifupdown-1.0}/nfsroot                     |    0
+ .../init-ifupdown-1.0}/qemuarm/interfaces          |    0
+ .../init-ifupdown-1.0}/qemuarmv6/interfaces        |    0
+ .../init-ifupdown-1.0}/qemuarmv7/interfaces        |    0
+ .../init-ifupdown-1.0}/qemumips/interfaces         |    0
+ .../init-ifupdown-1.0}/qemumips64/interfaces       |    0
+ .../init-ifupdown-1.0}/qemuppc/interfaces          |    0
+ .../init-ifupdown-1.0}/qemush4/interfaces          |    0
+ .../init-ifupdown-1.0}/qemux86-64/interfaces       |    0
+ .../init-ifupdown-1.0}/qemux86/interfaces          |    0
+ .../init-ifupdown/init-ifupdown_1.0.bb             |   42 ++++++++++++++++++++
+ meta/recipes-core/netbase/netbase_5.0.bb           |   35 ++--------------
+ .../packagegroups/packagegroup-core-boot.bb        |    1 +
+ 18 files changed, 58 insertions(+), 32 deletions(-)
+ create mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/hosts (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/init (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/nfsroot (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuarm/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuarmv6/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuarmv7/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemumips/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemumips64/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuppc/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemush4/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemux86-64/interfaces (100%)
+ rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemux86/interfaces (100%)
+ create mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
 
-
-
-Enrico
-
-Footnotes: 
-[1]  0038-Copy-from-mainline-to-binutils-2.22-branch.patch
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index ed50f1c..1308077 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -18,6 +18,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   shadow-securetty \
+   opkg-config-base \
+   netbase \
++  init-ifupdown \
+   formfactor \
+   xserver-xf86-config \
+   pointercal \
+diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright
+new file mode 100644
+index 0000000..2a8e0d1
+--- /dev/null
++++ b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright
+@@ -0,0 +1,11 @@
++This package was created by Peter Tobias tobias@et-inf.fho-emden.de on
++Wed, 24 Aug 1994 21:33:28 +0200 and maintained by Anthony Towns
++<ajt@debian.org> until 2001.
++It is currently maintained by Marco d'Itri <md@linux.it>.
++
++Copyright 1994-2010 Peter Tobias, Anthony Towns and Marco d'Itri
++
++The programs in this package are distributed under the terms of the GNU
++General Public License, version 2 as distributed by the Free Software
++Foundation. On Debian systems, a copy of this license may be found in
++/usr/share/common-licenses/GPL-2.
+diff --git a/meta/recipes-core/netbase/netbase-5.0/hosts b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/hosts
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/hosts
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/hosts
+diff --git a/meta/recipes-core/netbase/netbase-5.0/init b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/init
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
+diff --git a/meta/recipes-core/netbase/netbase-5.0/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/nfsroot b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/nfsroot
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/nfsroot
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/nfsroot
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuarm/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemuarm/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuarmv6/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemuarmv6/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuarmv7/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemuarmv7/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemumips/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemumips/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemumips64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemumips64/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuppc/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemuppc/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemush4/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemush4/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemux86-64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemux86-64/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
+diff --git a/meta/recipes-core/netbase/netbase-5.0/qemux86/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
+similarity index 100%
+rename from meta/recipes-core/netbase/netbase-5.0/qemux86/interfaces
+rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
+diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+new file mode 100644
+index 0000000..d128e8c
+--- /dev/null
++++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+@@ -0,0 +1,42 @@
++SUMMARY = "Basic TCP/IP networking init scripts and configuration files"
++DESCRIPTION = "This package provides high level tools to configure network interfaces"
++HOMEPAGE = "http://packages.debian.org/ifupdown"
++SECTION = "base"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
++RDEPENDS = "netbase"
++PR = "r0"
++
++inherit update-rc.d
++
++INITSCRIPT_NAME = "networking"
++INITSCRIPT_PARAMS = "start 40 S . stop 40 0 6 1 ."
++
++SRC_URI = "file://copyright \
++           file://init \
++           file://hosts \
++           file://interfaces \
++           file://nfsroot"
++
++do_install () {
++	install -d ${D}${sysconfdir}/init.d \
++		   ${D}${sysconfdir}/network/if-pre-up.d \
++		   ${D}${sysconfdir}/network/if-up.d \
++		   ${D}${sysconfdir}/network/if-down.d \
++		   ${D}${sysconfdir}/network/if-post-down.d
++	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/networking
++	install -m 0644 ${WORKDIR}/hosts ${D}${sysconfdir}/hosts
++	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfaces
++	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
++
++	# Disable network manager on machines that commonly do NFS booting
++	case "${MACHINE}" in
++		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qemush*")
++			touch ${D}${sysconfdir}/network/nm-disabled-eth0
++			;;
++		*)
++			;;
++	esac
++}
++
++CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
+diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core/netbase/netbase_5.0.bb
+index 3aea874..711a864 100644
+--- a/meta/recipes-core/netbase/netbase_5.0.bb
++++ b/meta/recipes-core/netbase/netbase_5.0.bb
+@@ -4,45 +4,16 @@ HOMEPAGE = "http://packages.debian.org/netbase"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+-PR = "r0"
++PR = "r1"
+ 
+-inherit update-rc.d
+-
+-INITSCRIPT_NAME = "networking"
+-INITSCRIPT_PARAMS = "start 40 S . stop 40 0 6 1 ."
+-
+-SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz \
+-           file://init \
+-           file://hosts \
+-           file://interfaces \
+-           file://nfsroot"
++SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz"
+ 
+ SRC_URI[md5sum] = "a379d9199d44d817543eddc211a29b70"
+ SRC_URI[sha256sum] = "ac9424d3cb2bd3c07b6c5bc5875c434d3bc687a73cd7c54b7dc7122308afa9dc"
+ 
+ do_install () {
+-	install -d ${D}${sysconfdir}/init.d \
+-		   ${D}${mandir}/man8 \
+-		   ${D}${sysconfdir}/network/if-pre-up.d \
+-		   ${D}${sysconfdir}/network/if-up.d \
+-		   ${D}${sysconfdir}/network/if-down.d \
+-		   ${D}${sysconfdir}/network/if-post-down.d
+-	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/networking
+-	install -m 0644 ${WORKDIR}/hosts ${D}${sysconfdir}/hosts
++	install -d ${D}/${mandir}/man8 ${D}${sysconfdir}
+ 	install -m 0644 etc-rpc ${D}${sysconfdir}/rpc
+ 	install -m 0644 etc-protocols ${D}${sysconfdir}/protocols
+ 	install -m 0644 etc-services ${D}${sysconfdir}/services
+-	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfaces
+-	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
+-
+-	# Disable network manager on machines that commonly do NFS booting
+-	case "${MACHINE}" in
+-		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qemush*")
+-			touch ${D}${sysconfdir}/network/nm-disabled-eth0
+-			;;
+-		*)
+-			;;
+-	esac
+ }
+-
+-CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 16ad4e3..c4ee7de 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -39,6 +39,7 @@ RDEPENDS_${PN} = "\
+     ${@base_contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+     modutils-initscripts \
+     netbase \
++    init-ifupdown \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
+     ${VIRTUAL-RUNTIME_dev_manager} \
+-- 
+1.7.9.5
 
 
 
