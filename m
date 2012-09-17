@@ -1,33 +1,20 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooperjr27@gmail.com>) id 1TDffe-00071m-Ev
+	(envelope-from <sgw@linux.intel.com>) id 1TDg7l-0007Rx-EA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 20:03:46 +0200
-Received: by obblz20 with SMTP id lz20so9523678obb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 10:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=j7RZh8GTbgi3Qt6LwtPlwXRJzzNfH9T4wn0i1CSNQZ0=;
-	b=tTNklnQJ2O0WE2xQ2dJJyjymwq1Qk8/m65MyOI6be7HG3tlbICOSxL5Sfahxbu6LXj
-	ZONYMeZuP3H2+f9OQ3Z2oNHNuMJUj1asFutA2z92HJfeCK+pnd7hDY+mNiTXQMycZBKJ
-	xcyIBwM25frzDqTdYE/RrmnjYafVE+hU4rgyj1nLZ5/ZN/S2kBSLMz8PNdT92xYwGkFl
-	UV8f5Joq+U9/KM+2SvNXEyoLM785VPambgpXSRQI1QsKoZGICFmxkmLv7Dk+zBR2ibvJ
-	EJ9BsbDmHcJjhl5opwj1p8g/r2nS+bQiXU5hyb/UNm+380eQfUYLQmNwB4UB9oC0R3oc
-	uRXg==
-Received: by 10.60.1.106 with SMTP id 10mr12851530oel.84.1347904267090;
-	Mon, 17 Sep 2012 10:51:07 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com. [192.94.94.33])
-	by mx.google.com with ESMTPS id 5sm9200685oeq.4.2012.09.17.10.51.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 10:51:06 -0700 (PDT)
-From: "Franklin S. Cooper Jr" <fcooperjr27@gmail.com>
+	Mon, 17 Sep 2012 20:32:49 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 17 Sep 2012 11:20:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,437,1344236400"; d="scan'208";a="193745787"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.193])
+	by azsmga001.ch.intel.com with ESMTP; 17 Sep 2012 11:19:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 13:12:55 -0500
-Message-Id: <1347905575-599-1-git-send-email-fcooper@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: "Franklin S. Cooper Jr" <fcooper@ti.com>
-Subject: [denzil][PATCH v2] u-boot: Use fw_env.config if avaliable
+Date: Mon, 17 Sep 2012 11:19:59 -0700
+Message-Id: <1347905999-7117-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] nfs-utils: add x32 patch to fix nfsctl issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,87 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 18:03:46 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 18:32:49 -0000
 
-* Add support for board specific fw_env.config file if avaliable
+nfsservctl syscall does not exist for x32, so return an error.
 
-Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
+ .../nfs-utils/nfs-utils-nfsctl-x32-fix.patch       |   30 ++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    3 +-
+ 2 files changed, 32 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
 
-Version 2 Changes:
-Updated signed off and author to point to correct email address
-
- meta/recipes-bsp/u-boot/u-boot.inc        |   16 +++++++++++-----
- meta/recipes-bsp/u-boot/u-boot_2011.03.bb |    2 +-
- meta/recipes-bsp/u-boot/u-boot_2011.06.bb |    2 +-
- 3 files changed, 13 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index e627e97..3086814 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -48,6 +48,11 @@ do_install () {
-     install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-     ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
- 
-+    if [ -e ${WORKDIR}/fw_env.config ] ; then
-+        install -d ${D}${sysconfdir}
-+        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-+    fi
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
+new file mode 100644
+index 0000000..26b4631
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
+@@ -0,0 +1,30 @@
 +
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
-         install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-@@ -55,15 +60,16 @@ do_install () {
-     fi
- }
++Upstream-Status: Pending
++
++Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
++
++--- nfs-utils-1.2.3/support/nfs/nfsctl.c.x32	2010-09-28 05:24:16.000000000 -0700
+++++ nfs-utils-1.2.3/support/nfs/nfsctl.c	2011-11-30 13:34:09.369917161 -0800
++@@ -12,15 +12,22 @@
++ 
++ #include <unistd.h>
++ #include <asm/unistd.h>
+++#include <errno.h>
++ #include "nfslib.h"
++ 
++ /* compatibility hack... */
++ #ifndef __NR_nfsctl
+++#ifdef __NR_nfsservctl
++ #define __NR_nfsctl	__NR_nfsservctl
++ #endif
+++#endif
++ 
++ int
++ nfsctl (int cmd, struct nfsctl_arg * argp, union nfsctl_res * resp)
++ {
+++#ifdef __NR_nfsctl
++   return syscall (__NR_nfsctl, cmd, argp, resp);
+++#else
+++  return -ENOSYS;
+++#endif
++ }
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+index eb18aaa..5a4a7e7 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+@@ -12,11 +12,12 @@ DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
+ RDEPENDS_${PN} = "portmap"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
  
--FILES_${PN} = "/boot"
-+FILES_${PN} = "/boot ${sysconfdir}"
+-PR = "r4"
++PR = "r5"
  
- do_deploy () {
-     install -d ${DEPLOYDIR}
--	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+ SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
+            file://nfs-utils-1.0.6-uclibc.patch \
+            file://nfs-utils-1.2.3-uclibc-libio.h.patch \
++           file://nfs-utils-nfsctl-x32-fix.patch \
+            file://nfsserver"
  
--	cd ${DEPLOYDIR}
--	rm -f ${UBOOT_SYMLINK}
--	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    cd ${DEPLOYDIR}
-+    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
- 
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-index 5d79e1a..fa328d1 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-@@ -17,7 +17,7 @@ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
- SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
- 
- PV = "v2011.03+git${SRCPV}"
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-index 43f2c06..93b7923 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-@@ -17,7 +17,7 @@ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
- SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
- 
- PV = "v2011.06+git${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
+ SRC_URI[md5sum] = "1131dc5f27c4f3905a6e7ee0d594fd4d"
 -- 
-1.7.0.4
+1.7.7.6
 
 
 
