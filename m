@@ -1,34 +1,42 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TDPyO-000078-Mc
+	(envelope-from <raj.khem@gmail.com>) id 1TDQFE-0000Ka-M7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 03:18:04 +0200
-Received: by ggmq1 with SMTP id q1so1492853ggm.6
+	Mon, 17 Sep 2012 03:35:28 +0200
+Received: by pbcwy7 with SMTP id wy7so8072564pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Sep 2012 18:05:26 -0700 (PDT)
+	Sun, 16 Sep 2012 18:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=8Viq55MKV5sHHPG50C1xfJVVKICg92E420VnEOzOqKc=;
-	b=VzcQUrGT/m9C7ymQRTv07dbRpFjfOyvbevHukZrtP+N7IllUi5g7OisVcWqYALRqtv
-	NT5tbXn9EspRvUVEnMTC8Z8DrojesEdicVWbplBMPmIDuhhKeO3E7d5tjJCaikNlddsx
-	n+BWQQiBbgy5atagNwRyRIsCqAHdjerJ5eX3pPGsTwVkfoTke7ck7Ga/cZZW6T9EkQnw
-	WpuVPhuRYg3s8wy3/g8ymziGFy+VxC2TgFQTvjgrOjf9x9+CmKHEmc1W//FFf8B/zvPV
-	GCmNWd3nDVLBEI5+C029k71xcLwGCd3eBVg0SA6gvbolffufeGWu1TQ1GVwHx+rZqgzQ
-	sjLQ==
-Received: by 10.236.141.42 with SMTP id f30mr9959640yhj.120.1347843926224;
-	Sun, 16 Sep 2012 18:05:26 -0700 (PDT)
-Received: from localhost.localdomain ([177.100.163.15])
-	by mx.google.com with ESMTPS id o25sm12182800yhm.14.2012.09.16.18.05.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 16 Sep 2012 18:05:24 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Sep 2012 22:05:15 -0300
-Message-Id: <1347843915-8277-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [for-denzil][PATCH] dhcp: remove dependency of dev/staticdev packages on main package
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=/J9kRvzo3xGkdxr/sPxpVGhOEu19CtbAFfw0GSne1jA=;
+	b=kyOhBDln7qpReXfCTK6/W7YDmUSN/FVkcAeJBRbudzUYvmP+BenzniGcZ5JpMUPlK7
+	C4WMNNv9LrMQTfuC000tkRrfVkyVnJBpfFRhH/wXGHyJR/u2JP0lbnFsy4CMbe5Gqboe
+	4pJyUKhLYxbHi+8SPYHIYq6s+qW/amdGoWYWHK+Wx8kCYgm6zGTagTwygJ8+rjwByROo
+	PdQy7yxlgnhPmPAth1L9N5hMBnw2uPvCGHP1YepnvTP69AY4cnQzkK4GM3wHYHoeAKxR
+	MHfp2PzVgQGoFGPZwjfZs5GdXuszVZHA4wFMVP4qncprpJMRHuvtnclx44ZiqWG0SOF3
+	X/Cg==
+Received: by 10.68.234.65 with SMTP id uc1mr19091608pbc.89.1347844969992;
+	Sun, 16 Sep 2012 18:22:49 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPS id gf3sm6020403pbc.74.2012.09.16.18.22.48
+	(version=SSLv3 cipher=OTHER); Sun, 16 Sep 2012 18:22:49 -0700 (PDT)
+Date: Sun, 16 Sep 2012 18:22:34 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20120917012232.GA30291@sakrah.homelinux.org>
+Mail-Followup-To: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+	<20120916060626.GA3628@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20120916060626.GA3628@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: binutils 2.23 call for testing the recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,51 +49,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 01:18:04 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 01:35:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+On (16/09/12 08:06), Martin Jansa wrote:
+> On Wed, Aug 08, 2012 at 10:45:19AM -0700, Khem Raj wrote:
+> > Hi
+> > 
+> > Binutils 2.23 branch has started upstream. Given that toolchain
+> > components require a lot of soak time, I have created the recipes
+> > for binutils 2.23 and pushed it here
+> > 
+> > http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/binutils-2.23
+> 
+> After last rebase of this branch, upgrade from 2.22.92* (or something
+> like that) to git with SRCREV d56d3537a00d85d9072156026f426c931ba21fba
+> 
+> I see errors like this
+> https://lists.gnu.org/archive/html/bug-binutils/2012-09/msg00036.html
+> when building 2.6.39 kernel for armv4t
+> | arch/arm/lib/copy_template.S: Assembler messages:
+> | arch/arm/lib/copy_template.S:100: Error: selected processor does not
+> support ARM mode `ldralt r3,[r1],#4'
+> 
+> Is it binutils bug or something needs to be changed in kernel again?
 
-The main package is empty and is not produced, which leaves the dev
-and staticdev packages broken. Remove the dependencies (added in
-bitbake.conf by default) to fix this.
+This is a binutils bug
+see discussions on
+http://sourceware.org/ml/binutils/2012-09/msg00128.html
 
-(From OE-Core rev: 5380c65e819d82f783cb75aa21db7c73bb445189)
+> 
+> Cheers,
+> 
+> > 
+> > If you are using angstrom set
+> > 
+> > ANGSTROM_BINUTILS_VERSION = "2.23" in local.conf after pulling that branch
+> > for OE-Core it will work as it is
+> > 
+> > Let me know if you see any errors.
+> > 
+> > I will keep updating it until 2.23 release
+> > 
+> > Thanks
+> > -Khem
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> -- 
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-connectivity/dhcp/dhcp.inc         |    2 ++
- meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb |    2 +-
- 2 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index 8ead016..3159f93 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -56,6 +56,8 @@ do_install_append () {
- PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
- 
- FILES_${PN} = ""
-+RDEPENDS_${PN}-dev = ""
-+RDEPENDS_${PN}-staticdev = ""
- 
- FILES_dhcp-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
- RRECOMMENDS_dhcp-server = "dhcp-server-config"
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
-index 24b50ba..67af3e2 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.2.3-P2.bb
-@@ -1,6 +1,6 @@
- require dhcp.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI += "file://fixincludes.patch \
-             file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
 -- 
-1.7.2.5
-
+-Khem
 
 
