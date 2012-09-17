@@ -1,20 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TDg7l-0007Rx-EA
+	(envelope-from <raj.khem@gmail.com>) id 1TDiUS-0001p3-MB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 20:32:49 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 17 Sep 2012 11:20:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,437,1344236400"; d="scan'208";a="193745787"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.193])
-	by azsmga001.ch.intel.com with ESMTP; 17 Sep 2012 11:19:59 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 17 Sep 2012 23:04:24 +0200
+Received: by pbcwy7 with SMTP id wy7so9391052pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Sep 2012 13:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=S0tJReY5ARaAz5NlD5jsLFEIGwEDu0L/9PW41PmA3AY=;
+	b=W4yLGu/9ce67rg0JD5PtEMXApNViIyha467OnlYuq4CqxLEAkZfqqxz1OqhjQmzW+U
+	OJmfvB7Ur43DhhTdfPm4x6a3XJNCneAkEDW8KDadcp3RQFtiElpW9ToTPROY+XWx2w63
+	vcfxi85rsnO9LTVQT7hB7TuDFV7qT983z7ZWJh6CvtUwiuOlgEy2OBF/jUPXH4VR40a0
+	dTm0SkrMIr03xfRLC+uHzNF5DaGIrW1zypKqm8U3+dCAUb7IdrztE091gmV+633fQkbR
+	+ZkXBuuO9yQT6Mmx43GMGQX1UBChaFfRAVHVik8HPu0Tbvg4HbxOhoi7TMthwLvzL3c6
+	1nDA==
+Received: by 10.68.201.73 with SMTP id jy9mr24695028pbc.124.1347915104768;
+	Mon, 17 Sep 2012 13:51:44 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id gi2sm7490607pbc.59.2012.09.17.13.51.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 17 Sep 2012 13:51:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 11:19:59 -0700
-Message-Id: <1347905999-7117-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] nfs-utils: add x32 patch to fix nfsctl issue
+Date: Mon, 17 Sep 2012 13:50:32 -0700
+Message-Id: <cover.1347914898.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] eglibc bugfixes for e5500 and systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,73 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 18:32:49 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 21:04:24 -0000
 
-nfsservctl syscall does not exist for x32, so return an error.
+This patchset addressed two bugs in eglibc on powerpc one where we would get
+fsqrt intruction emitted into libm code on e5500/64bit and second problem
+where systemd 189+ would not build on powerpc due to missing defines in
+fcntl.h for ppc.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../nfs-utils/nfs-utils-nfsctl-x32-fix.patch       |   30 ++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.2.3.bb                   |    3 +-
- 2 files changed, 32 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
+The following changes since commit 7887b99646d8e1e736ad6e4a306e47df9955221e:
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
-new file mode 100644
-index 0000000..26b4631
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-nfsctl-x32-fix.patch
-@@ -0,0 +1,30 @@
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-+
-+--- nfs-utils-1.2.3/support/nfs/nfsctl.c.x32	2010-09-28 05:24:16.000000000 -0700
-++++ nfs-utils-1.2.3/support/nfs/nfsctl.c	2011-11-30 13:34:09.369917161 -0800
-+@@ -12,15 +12,22 @@
-+ 
-+ #include <unistd.h>
-+ #include <asm/unistd.h>
-++#include <errno.h>
-+ #include "nfslib.h"
-+ 
-+ /* compatibility hack... */
-+ #ifndef __NR_nfsctl
-++#ifdef __NR_nfsservctl
-+ #define __NR_nfsctl	__NR_nfsservctl
-+ #endif
-++#endif
-+ 
-+ int
-+ nfsctl (int cmd, struct nfsctl_arg * argp, union nfsctl_res * resp)
-+ {
-++#ifdef __NR_nfsctl
-+   return syscall (__NR_nfsctl, cmd, argp, resp);
-++#else
-++  return -ENOSYS;
-++#endif
-+ }
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-index eb18aaa..5a4a7e7 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-@@ -12,11 +12,12 @@ DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
- RDEPENDS_${PN} = "portmap"
- RRECOMMENDS_${PN} = "kernel-module-nfsd"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
-            file://nfs-utils-1.0.6-uclibc.patch \
-            file://nfs-utils-1.2.3-uclibc-libio.h.patch \
-+           file://nfs-utils-nfsctl-x32-fix.patch \
-            file://nfsserver"
- 
- SRC_URI[md5sum] = "1131dc5f27c4f3905a6e7ee0d594fd4d"
+  local.conf.sample: change valgrind support architecture comment (2012-09-14 17:05:59 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-fixes
+
+Khem Raj (2):
+  eglibc: Fix fcntl.h for powerpc
+  eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu
+
+ ..._handle_at-open_by_handle-etc.-to-PowerPC.patch |   65 ++++++++++++++++++++
+ .../eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch      |   44 +++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    4 +-
+ 3 files changed, 112 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
+
 -- 
-1.7.7.6
+1.7.9.5
 
 
 
