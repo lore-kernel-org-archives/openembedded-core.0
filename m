@@ -1,34 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TDjHJ-0002RE-G7
+	(envelope-from <fcooperjr27@gmail.com>) id 1TDkYS-0004L5-7N
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 23:54:53 +0200
-Received: by eaad12 with SMTP id d12so2199949eaa.6
+	Tue, 18 Sep 2012 01:16:40 +0200
+Received: by obblz20 with SMTP id lz20so9889076obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 14:42:14 -0700 (PDT)
+	Mon, 17 Sep 2012 16:04:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=aRJrR1f1LbkSaN4F8PcV7eTFbnXgoCwSmdk5d7hUkfE=;
-	b=Tp8uaSTS2vDblV9t3iJ7Qi39aJtFQTZL+/l8iv8fH0m1jI22RvC9tBbDdX5LT/Yst3
-	VCPmFEsqHyvDVCkvvGhfqw+IjDX9Tk8hBteb8nGPs1v76WxcZQF9uJKxH6NDFWNy+8SP
-	H9ylrGGbsrI6zocN48xw6yUnEzYoW6NrEKaHseBCm+7qHV/Iv46CbzuAuBL5fvPwVMAC
-	XW/m2T9sI47Fdq1uhauAY0Iyu+UtLrqlKJzeK8BFXqmQj77loMi0aBDpcHEKPf07h+eH
-	J/NDw57raKxA5SRrjjWFzjL7qYFHfI8LD+IzI0ODebQ5jZElDIxZg5JE2TTfKgEQCEwY
-	Borw==
-Received: by 10.14.202.66 with SMTP id c42mr15199646eeo.35.1347918134429; Mon,
-	17 Sep 2012 14:42:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Mon, 17 Sep 2012 14:41:44 -0700 (PDT)
-In-Reply-To: <bffdd81ac7ad4886f01f1046953fde45d858e16c.1347914898.git.raj.khem@gmail.com>
-References: <cover.1347914898.git.raj.khem@gmail.com>
-	<feb59cfcb48be1f8ad1e767a0a236f4f4fd92670.1347914898.git.raj.khem@gmail.com>
-	<bffdd81ac7ad4886f01f1046953fde45d858e16c.1347914898.git.raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 17 Sep 2012 14:41:44 -0700
-Message-ID: <CAMKF1sqGofc=vOcPCX=HtNRfVdcJgiVnfyssxgaPBpBzCHcvDA@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=QheufKQuf7oPCR6bwLU1HeArnvlaqU5MHvhz19MnR60=;
+	b=fFupAjs77oHGGVTzdQ0QQzPm9u+y/ThPW4/gYi6NDvfnuxnbPNPvMd5kz67f+ti2ix
+	yU3xsor6LrNj/ga1XMIa4Ba0QzFaadNWcBY/hor+5Lad6vd4+LmWd97xiPBoKME7y5SX
+	zVydGLrqJNrzHraJQrhfhakZG7KlJa2ajZoKFSKJ0Ews/WvYbDO6y2u3wXDx9FFdQvda
+	VtlXRZy3py9qO5smG080GexyVhUVOBvvOBz7iO/K4+qticL+bUeb05V1xe/Pqk1jjgoO
+	mXnQctxg41eBv7pYDaDSTohg76uXIcU2r4QExQ38hKvF8KR/3y5oo24y2egJR7xEEkKp
+	i6gQ==
+Received: by 10.182.44.74 with SMTP id c10mr13634195obm.29.1347923040527;
+	Mon, 17 Sep 2012 16:04:00 -0700 (PDT)
+Received: from localhost.localdomain (dragon.ti.com. [192.94.94.33])
+	by mx.google.com with ESMTPS id d6sm12216451obx.15.2012.09.17.16.03.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 17 Sep 2012 16:03:59 -0700 (PDT)
+From: "Franklin S. Cooper Jr" <fcooperjr27@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu
+Date: Mon, 17 Sep 2012 18:25:52 -0500
+Message-Id: <1347924353-11159-1-git-send-email-fcooper@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [denzil][PATCH 1/2] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,25 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 21:54:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Sep 2012 23:16:40 -0000
 
->
->  EGLIBC_BRANCH="eglibc-2_16"
-> @@ -30,6 +30,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
->             file://0002-eglibc-menuconfig-hex-string-options.patch \
->             file://0003-eglibc-menuconfig-build-instructions.patch \
->             file://0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch \
-> +           file://file://fsl-ppc-no-fsqrt.patch \
+From: Radu Moisan <radu.moisan@intel.com>
 
+Followed suggestions from Bugz 2261:
 
-I have fixed this typo on the branch
+2) make the virtual/libx11 DEPENDS conditional based on the x11 distro feature.
+This makes the build dependencies reflect the feature list.
 
->            "
->  LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
->        file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-> --
-> 1.7.9.5
->
+3) remove dbus-x11, meaning that dbus-launch with its potential X11 dependency
+is now back in dbus where is belongs.
+
+4) make dbus provide dbus-x11, for compatibility.
+
+Fixes [Yocto #2261]
+
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/dbus/dbus.inc |   10 ++++++----
+ 1 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index a75583d..164c4d3 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -31,10 +31,11 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib ${PN}-systemd ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
++PACKAGES =+ "${PN}-lib ${PN}-systemd"
+ 
+-FILES_${PN}-x11 = "${bindir}/dbus-launch"
+-RDEPENDS_${PN}-x11 = "${PN}"
++# for compatibility
++RPROVIDES_${PN} = "dbus-x11"
++RREPLACES_${PN} += "dbus-x11"
+ 
+ FILES_${PN}-systemd = "${systemd_unitdir}/system/"
+ 
+@@ -43,6 +44,7 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-cleanup-sockets \
+                ${bindir}/dbus-send \
+                ${bindir}/dbus-monitor \
++               ${bindir}/dbus-launch \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+@@ -59,7 +61,7 @@ pkg_postinst_dbus() {
+ }
+ 
+ EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+-EXTRA_OECONF_X_virtclass-native = "--without-x"
++EXTRA_OECONF_X_virtclass-native = "--disable-x11-autolaunch"
+ 
+ EXTRA_OECONF = "--disable-tests \
+                 --disable-checks \
+-- 
+1.7.0.4
+
 
 
