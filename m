@@ -1,33 +1,43 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooperjr27@gmail.com>) id 1TDdUM-00079v-Cz
+	(envelope-from <sgw@bigsur.com>) id 1TDeCs-00053D-2i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 17:43:58 +0200
-Received: by obblz20 with SMTP id lz20so9311522obb.6
+	Mon, 17 Sep 2012 18:29:58 +0200
+Received: by oagn9 with SMTP id n9so5034992oag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 08:31:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=bo76sV6M7ONugd0PThPGQLF4U2G8nVkikI048o/P0/I=;
-	b=PQ31LZZ3Wlfs98EmnlBqhnKFWCEINQCB/qJo5rBln7kiEXQh7paImlFUq/U1HcTOsi
-	enyB5lhU2IItMNHdjjiXTiM5Mycm1Mv2Yc6ntvBZPqtQX1fQ33fIP7xL1qWmAc5CvBY+
-	SiRdKL2ml5ZMSgndMh3F+fbrwb+j2srlgXAK6y1mtCgj2FKD0kLLwXx+CGVpzvV1Hmok
-	pd8qKq1orxPkrLx9tvq739eLhGi8KoYDNmS6h1yHnc9qUo9BVLEEFwfgT6cA5qLyGBe0
-	dHL7yd2Pudq9HPmfiH3vb5tvre3i/IAGvbk7SwaJ+bxAc9TZc2Hgmv8mrPt6Ja5PDHdp
-	QyYg==
-Received: by 10.182.144.68 with SMTP id sk4mr12279349obb.0.1347895879047;
-	Mon, 17 Sep 2012 08:31:19 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com. [192.94.94.33])
-	by mx.google.com with ESMTPS id q3sm8877368oef.0.2012.09.17.08.31.16
+	Mon, 17 Sep 2012 09:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=CoY56D5Biwu+SbQ6i+nLH+5LW94QIsTFXwCoz65vnCM=;
+	b=D3k/Y4KpFWp1z+7eVofiEJKe+R817TRDrvcBHFizI9c5nOJThMxxTXPMfzY9QY+467
+	sfcASrCHMemP2cS2Y0YvmrPy2Ai/R/nFWJQn2z9cN84y7vIkPi7XYyu7Nu70OrjoDyL9
+	tq3hXp6d8R2F0bwOGR5wI3Z+vrUHIw6uLsuJM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=CoY56D5Biwu+SbQ6i+nLH+5LW94QIsTFXwCoz65vnCM=;
+	b=DWAfezruKFeFJ4VQTKqJZymA9sJFnQt6dNovqP04u69ihJ9jAQzazkjh6+v/Ic7Mdb
+	yKhItC6Tmxhjyab2gyHN+/EhemJwl8llB5tFOvY5h3BjLNEHLcQZouwLMm4Olul5HFdF
+	pMssS7fORR/28tgVaAHUx1UfIExJg04MKlbpmwEYrLQlRUwte3oelCGG1qCXmq07WK5k
+	xM7U5RRfYnDeCb0wKfhigAhW4c7dwQh9Pp9fHq/5vYdkOOLaDwZt/fGbcQEBK/dLIPd+
+	IBdNP2r1oPfWXEkL7o9AbpjI85qb9RkxD8V3Q+z2PQJj7VB1fPoeiLqVuT961NBV3ano
+	mgXg==
+Received: by 10.60.13.9 with SMTP id d9mr11939937oec.92.1347898638755;
+	Mon, 17 Sep 2012 09:17:18 -0700 (PDT)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id k8sm8954428oeh.9.2012.09.17.09.17.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 08:31:18 -0700 (PDT)
-From: "Franklin S. Cooper Jr" <fcooperjr27@gmail.com>
+	Mon, 17 Sep 2012 09:17:16 -0700 (PDT)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 10:53:01 -0500
-Message-Id: <1347897181-28003-1-git-send-email-fcooper@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: "Franklin S. Cooper Jr" <fcooper27jr@gmail.com>
-Subject: [denzil][PATCH] u-boot: Use fw_env.config if avaliable
+Date: Mon, 17 Sep 2012 09:17:01 -0700
+Message-Id: <1347898621-24929-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQmU+DLCfVtMhQFJZmPn8pGr3tXd29khBheLILVP/io75zawNF51mD01XGQjYWSBrD7/6v1y
+Subject: [PATCH] xserver-xorg: Modify RREPLACES for RCONFLICTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,87 +50,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 15:43:58 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 16:29:58 -0000
 
-From: Franklin S. Cooper Jr <fcooper27jr@gmail.com>
-
-* Add support for board specific fw_env.config file if avaliable.
-* This patch is based on commit 5b6a8e987f9039aca63d97bc42421b78acab8a3d
-  from oe-core master.
-
-Signed-off-by: Franklin S. Cooper Jr <fcooper27jr@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc        |   16 +++++++++++-----
- meta/recipes-bsp/u-boot/u-boot_2011.03.bb |    2 +-
- meta/recipes-bsp/u-boot/u-boot_2011.06.bb |    2 +-
- 3 files changed, 13 insertions(+), 7 deletions(-)
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
+ .../xorg-xserver/xserver-xorg-common.inc           |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index e627e97..3086814 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -48,6 +48,11 @@ do_install () {
-     install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-     ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index b4a348c..c71896a 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,4 +8,4 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
  
-+    if [ -e ${WORKDIR}/fw_env.config ] ; then
-+        install -d ${D}${sysconfdir}
-+        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-+    fi
-+
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
-         install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-@@ -55,15 +60,16 @@ do_install () {
-     fi
- }
+-PR = "r6"
++PR = "r7"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+index 6133344..98fe534 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-common.inc
+@@ -66,7 +66,7 @@ PACKAGES =+ "${PN}-security-policy \
  
--FILES_${PN} = "/boot"
-+FILES_${PN} = "/boot ${sysconfdir}"
+ RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+-RREPLACES_${PN}-module-exa = "${PN}"
++RCONFLICTS_${PN}-module-exa = "${PN} (<${PV})"
  
- do_deploy () {
-     install -d ${DEPLOYDIR}
--	install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
- 
--	cd ${DEPLOYDIR}
--	rm -f ${UBOOT_SYMLINK}
--	ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    cd ${DEPLOYDIR}
-+    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-+    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
- 
-     if [ "x${SPL_BINARY}" != "x" ]
-     then
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-index 5d79e1a..fa328d1 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-@@ -17,7 +17,7 @@ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
- SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
- 
- PV = "v2011.03+git${SRCPV}"
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-index 43f2c06..93b7923 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-@@ -17,7 +17,7 @@ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
- SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
- 
- PV = "v2011.06+git${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
+ FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+ FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
 -- 
-1.7.0.4
+1.7.9.5
 
 
 
