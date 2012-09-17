@@ -1,39 +1,34 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TDYoT-0008LM-Ol
+	(envelope-from <andrei@gherzan.ro>) id 1TDZ6G-0000bL-A6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 12:44:25 +0200
-Received: by mail-wi0-f171.google.com with SMTP id hq4so1894453wib.6
+	Mon, 17 Sep 2012 13:02:48 +0200
+Received: by daks35 with SMTP id s35so3908714dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 03:31:49 -0700 (PDT)
+	Mon, 17 Sep 2012 03:50:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=Qq4PN+Xa8yTBT5bkz8Zb4p5WAtc0KokrugQVGNufOUU=;
-	b=CO7tG07J5BHglcFv/K8ftLRdN8LwwhhqHsYsUsPy/s56eMp9aL5JifdHi8KRFJeWBu
-	o/VEBANle6XKvervSAlHiZP/YsfMEOmhvRkf0/qrnX2xxH3KcW6zUbHSWhz56CXnOD6G
-	R28+cTRV7SYRoHPomxztEua3eIiLnfKg//9pQi9gf05FSocCdlqjLX1jDc+iJ2kbjG3k
-	O4oMGejSY6jyyEJimDwk2xA49qRH/1T2acLfvFSfnq+JJoWvAJoSj7ykA1RWObiJmcta
-	z24VLWgUqiFqUwLXMrM2OpFYaSpZ/W2g5KrNnGOxmHxYLfN0x4kfPUp4K+X6knLm7lc0
-	VMJg==
-Received: by 10.216.243.203 with SMTP id k53mr1645624wer.90.1347877909521;
-	Mon, 17 Sep 2012 03:31:49 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id t7sm24968727wix.6.2012.09.17.03.31.48
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=Tt6wWs8T7UqiBjEDK82Xdbe5eQRaXEO0qBsWU48/+bQ=;
+	b=Ofi5ERCZr7SuexH5SG27xtDTLzEphQz+BA5K1HTM3WORJhqqSIYRt5/ahtOdBkW9KS
+	COywmkCdFPdO8b1DPleZkHE/XOMmtBJlfW8rC+1tl/nn2hSDFfHTxardFhDFbpdl/x2A
+	PQX4Rdp0Igt7jSgpwzqhu63FmT3PwtclYd2o2KjVAnBG1y2R50KfIP7Ih3Fj44q9Iwfa
+	pDxwEI6q93vFUI64eRfnXQSXFzf4rh6MTHVI1tTjj/fGHosrd5itryOruwutS0Mklrzv
+	aKYNnjZnQTOUH1fgQ8nJdFLboC6Lw1PWPe7PE2dRdubEd5hoCml9QvgJA8p5S4L6lhiT
+	iTfw==
+Received: by 10.68.224.73 with SMTP id ra9mr22007886pbc.85.1347879008915;
+	Mon, 17 Sep 2012 03:50:08 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id qw6sm6750536pbc.26.2012.09.17.03.50.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 03:31:48 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Mon, 17 Sep 2012 03:50:08 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 12:30:53 +0200
-Message-Id: <1347877853-30738-5-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <1347877853-30738-1-git-send-email-koen@dominion.thruhere.net>
-References: <1347877853-30738-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQlEinlJ/ub618lvY84AcITXwR+fI6nIqtpZB6IiKMgxam1lMwxJ0/t/t5nuEGM/TJbnYuV7
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [for-denzil][bluez-updates 5/5] bluez4: fix packaging issue after update
+Date: Mon, 17 Sep 2012 13:49:58 +0300
+Message-Id: <1347878998-19019-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQlHMLqv0/dduPO4sXcFlWvwLYuDW5oN+ot6j3d6sP1oWrUuqRaGxM8F7Akl0wwM0v1eq0SJ
+Subject: [PATCH] util-linux: Fix bloken swapoff symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,43 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 10:44:25 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 11:02:48 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+There were 2 issues with this symlink.
+1. Is was installed in base_bindidir but packaged in bindir. Fixed to
+be packaged in base_bindir
+2. The symlink swapoff was created to point to swapon. The problem is
+that swapoff is an alternative so it would end up pointing to
+swapoff.util-linux which was an inexistent file. The fix is to create
+a symlink swapoff.util-linux to swapon.util-linux.
 
-WARNING: QA Issue: bluez4: Files/directories were installed but not shipped
-  /usr/share/dbus-1
-  /usr/share/dbus-1/system-services
-  /usr/share/dbus-1/system-services/org.bluez.service
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-connectivity/bluez/bluez4_4.101.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc       |    4 ++--
+ meta/recipes-core/util-linux/util-linux_2.21.2.bb |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index a2ba66f..4a360b6 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 00e5d7c..79e0608 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -46,7 +46,7 @@ FILES_util-linux-agetty = "${base_sbindir}/agetty"
+ FILES_util-linux-fdisk = "${base_sbindir}/fdisk.${BPN}"
+ FILES_util-linux-cfdisk = "${base_sbindir}/cfdisk"
+ FILES_util-linux-sfdisk = "${sbindir}/sfdisk"
+-FILES_util-linux-swaponoff = "${base_sbindir}/swapon.${BPN} ${sbindir}/swapoff.${BPN}"
++FILES_util-linux-swaponoff = "${base_sbindir}/swapon.${BPN} ${base_sbindir}/swapoff.${BPN}"
+ FILES_util-linux-losetup = "${base_sbindir}/losetup.${BPN}"
+ FILES_util-linux-mount = "${base_bindir}/mount.${BPN}"
+ FILES_util-linux-mcookie = "${bindir}/mcookie"
+@@ -121,7 +121,7 @@ do_install () {
+ 	install -d ${D}${sysconfdir}/default/
+ 	echo 'MOUNTALL="-t nonfs,nosmbfs,noncpfs"' > ${D}${sysconfdir}/default/mountall
  
--PR = "r0"
-+PR = "r1"
+-	ln -sf swapon   ${D}${base_sbindir}/swapoff
++	ln -sf swapon.${BPN}   ${D}${base_sbindir}/swapoff.${BPN}
+ 	rm -f ${D}${sbindir}/swapoff
+ }
  
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch"
-@@ -22,7 +22,7 @@ ALLOW_EMPTY_libasound-module-bluez = "1"
- PACKAGES =+ "libasound-module-bluez"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.21.2.bb b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
+index 0f5fdc6..6ef3163 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.21.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
+@@ -1,5 +1,5 @@
+ MAJOR_VERSION = "2.21"
+-PR = "r1"
++PR = "r2"
+ require util-linux.inc
  
- FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
--FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${systemd_unitdir}/"
-+FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
- FILES_${PN}-dev += "\
-   ${libdir}/bluetooth/plugins/*.la \
-   ${libdir}/alsa-lib/*.la \
+ # note that `lscpu' is under GPLv3+
 -- 
-1.7.7.6
+1.7.9.5
 
 
 
