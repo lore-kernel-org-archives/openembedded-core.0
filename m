@@ -1,33 +1,35 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TDiUS-0001p3-MB
+	(envelope-from <raj.khem@gmail.com>) id 1TDiUe-0001p3-FU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 23:04:24 +0200
-Received: by pbcwy7 with SMTP id wy7so9391052pbc.6
+	Mon, 17 Sep 2012 23:04:36 +0200
+Received: by mail-pb0-f47.google.com with SMTP id wy7so9391052pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 13:51:44 -0700 (PDT)
+	Mon, 17 Sep 2012 13:51:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=S0tJReY5ARaAz5NlD5jsLFEIGwEDu0L/9PW41PmA3AY=;
-	b=W4yLGu/9ce67rg0JD5PtEMXApNViIyha467OnlYuq4CqxLEAkZfqqxz1OqhjQmzW+U
-	OJmfvB7Ur43DhhTdfPm4x6a3XJNCneAkEDW8KDadcp3RQFtiElpW9ToTPROY+XWx2w63
-	vcfxi85rsnO9LTVQT7hB7TuDFV7qT983z7ZWJh6CvtUwiuOlgEy2OBF/jUPXH4VR40a0
-	dTm0SkrMIr03xfRLC+uHzNF5DaGIrW1zypKqm8U3+dCAUb7IdrztE091gmV+633fQkbR
-	+ZkXBuuO9yQT6Mmx43GMGQX1UBChaFfRAVHVik8HPu0Tbvg4HbxOhoi7TMthwLvzL3c6
-	1nDA==
-Received: by 10.68.201.73 with SMTP id jy9mr24695028pbc.124.1347915104768;
-	Mon, 17 Sep 2012 13:51:44 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=HcNU9dAjWzQ0gU0P3PJWeRdYorOnN34FLChvXFF6KUc=;
+	b=qlFxzKxKpfCnp24XorKd1M00dZUO0wRW4IGB9h8xn6AyrhY0SW0/XHsxxt06P3zr8p
+	L6xI2Uz6TAoQCECTSeNn/b/QJdTpeyHKxfqbuhDkEJsvDD5CFf2RBIrCvMVRJLezmG1T
+	Pa4+Aoo3+5gf9owenpUMO5SH1xqbFIeMn37LBMVpYy4XuyT8fLhLTcyTJjZOYEe9OZi7
+	laVZqkQsh9hrEGR5zwiXGQ3U+Ql88RPVU91a2b680m0nOzr/7Oof69O6dE9WDbeSPzYL
+	KCNMlF73GBM6avlMuPmnOJsyapHC7I/HnPFCiijTLseGvcLytVn69ZOG0uOMegMXr0YE
+	A2sw==
+Received: by 10.68.242.10 with SMTP id wm10mr24389372pbc.61.1347915119232;
+	Mon, 17 Sep 2012 13:51:59 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id gi2sm7490607pbc.59.2012.09.17.13.51.42
+	by mx.google.com with ESMTPS id gv1sm7498229pbc.38.2012.09.17.13.51.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 13:51:43 -0700 (PDT)
+	Mon, 17 Sep 2012 13:51:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 13:50:32 -0700
-Message-Id: <cover.1347914898.git.raj.khem@gmail.com>
+Date: Mon, 17 Sep 2012 13:50:47 -0700
+Message-Id: <feb59cfcb48be1f8ad1e767a0a236f4f4fd92670.1347914898.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/2] eglibc bugfixes for e5500 and systemd
+In-Reply-To: <cover.1347914898.git.raj.khem@gmail.com>
+References: <cover.1347914898.git.raj.khem@gmail.com>
+Subject: [PATCH 1/2] eglibc: Fix fcntl.h for powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +42,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 21:04:24 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 21:04:36 -0000
 
-This patchset addressed two bugs in eglibc on powerpc one where we would get
-fsqrt intruction emitted into libm code on e5500/64bit and second problem
-where systemd 189+ would not build on powerpc due to missing defines in
-fcntl.h for ppc.
+This fix is needed for systemd to work on powerpc
 
-The following changes since commit 7887b99646d8e1e736ad6e4a306e47df9955221e:
-
-  local.conf.sample: change valgrind support architecture comment (2012-09-14 17:05:59 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-fixes
-
-Khem Raj (2):
-  eglibc: Fix fcntl.h for powerpc
-  eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
  ..._handle_at-open_by_handle-etc.-to-PowerPC.patch |   65 ++++++++++++++++++++
- .../eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch      |   44 +++++++++++++
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    4 +-
- 3 files changed, 112 insertions(+), 1 deletion(-)
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
+ 2 files changed, 66 insertions(+)
  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
 
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch b/meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
+new file mode 100644
+index 0000000..48b3c56
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch
+@@ -0,0 +1,65 @@
++Upstream-Status: Submitted
++
++
++From 4b2716f902c117490285e39deb6ef7925fdc846e Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 8 Sep 2012 19:54:03 -0700
++Subject: [PATCH] Add name_to_handle_at, open_by_handle etc. to PowerPC
++ bits/fcntl.h.
++
++---
++ ChangeLog                                    |    7 +++++++
++ sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h |   28 +++++++++++++++++++++++++-
++ 2 files changed, 34 insertions(+), 1 deletion(-)
++
++Index: libc/sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h
++===================================================================
++--- libc.orig/sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h	2012-09-08 10:27:08.000000000 -0700
+++++ libc/sysdeps/unix/sysv/linux/powerpc/bits/fcntl.h	2012-09-08 19:57:44.219191560 -0700
++@@ -1,5 +1,5 @@
++ /* O_*, F_*, FD_* bit values for Linux/PowerPC.
++-   Copyright (C) 1995-1998, 2000, 2003, 2004, 2006, 2007, 2009, 2010, 2011
+++   Copyright (C) 1995-2012
++    Free Software Foundation, Inc.
++    This file is part of the GNU C Library.
++ 
++@@ -232,6 +232,19 @@
++ 					   we splice from/to).  */
++ # define SPLICE_F_MORE		4	/* Expect more data.  */
++ # define SPLICE_F_GIFT		8	/* Pages passed in are a gift.  */
+++
+++
+++/* File handle structure.  */
+++struct file_handle
+++{
+++  unsigned int handle_bytes;
+++  int handle_type;
+++  /* File identifier.  */
+++  unsigned char f_handle[0];
+++};
+++
+++/* Maximum handle size (for now).  */
+++# define MAX_HANDLE_SZ  128
++ #endif
++ 
++ __BEGIN_DECLS
++@@ -278,6 +291,19 @@
++ 			__off64_t __len);
++ # endif
++ 
+++
+++/* Map file name to file handle.  */
+++extern int name_to_handle_at (int __dfd, const char *__name,
+++			      struct file_handle *__handle, int *__mnt_id,
+++			      int __flags) __THROW;
+++
+++/* Open file using the file handle.
+++
+++   This function is a possible cancellation point and therefore not
+++   marked with __THROW.  */
+++extern int open_by_handle_at (int __mountdirfd, struct file_handle *__handle,
+++			      int __flags);
+++
++ #endif
++ 
++ __END_DECLS
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 78dc44a..8f3d159 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -29,6 +29,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
+            file://0001-eglibc-menuconfig-support.patch \
+            file://0002-eglibc-menuconfig-hex-string-options.patch \
+            file://0003-eglibc-menuconfig-build-instructions.patch \
++           file://0001-Add-name_to_handle_at-open_by_handle-etc.-to-PowerPC.patch \
+           "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
 -- 
 1.7.9.5
 
