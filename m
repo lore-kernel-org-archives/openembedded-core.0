@@ -1,39 +1,39 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TDYoS-0008LA-Ax
+	(envelope-from <koen@dominion.thruhere.net>) id 1TDYoS-0008LM-PC
 	for openembedded-core@lists.openembedded.org;
 	Mon, 17 Sep 2012 12:44:24 +0200
-Received: by mail-wg0-f43.google.com with SMTP id dq11so2223324wgb.24
+Received: by wibhq4 with SMTP id hq4so1894453wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 03:31:48 -0700 (PDT)
+	Mon, 17 Sep 2012 03:31:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=8vkROvFoYcc4c4ZBNQXz1ebWyJ5/Vpu9NeXKU6EIfh8=;
-	b=DgDAV6SAdVh5bkS0Dj4S6DjewUT81OHTQoQF/dvsPbSGJkUwXEYZLqLJImHJDCOLzR
-	X0QjFcwRSt38666pcLt65f8twH5ozu+CjGZqqdTn9ZBcBUsYo7L82QyAVLnQ84tTzmhP
-	Q4Iep9ASDH50i7wkp5arPmcoUK0mlpwUYwIuq7Thj1vuQO8BrpFNbLGV4sTN/DVDeq4v
-	rXin2FvcWnJcZbdNvHu2gq4tKellikIyXyfMM09ADGfquVTb67w43w6y6xQb6+g53Lt1
-	o0bYG/Q4xxAM59WszAk9UuR/nej5kpHbY7nDqlBsT6vzWjj6mg3IXa+h2ISl79QYOlVQ
-	fNXQ==
-Received: by 10.180.98.200 with SMTP id ek8mr15277625wib.0.1347877908048;
-	Mon, 17 Sep 2012 03:31:48 -0700 (PDT)
+	bh=GFeoHAyZ10SLMgpNzL3ZUEjQ7N3aJ84OcCgCnyMqJlY=;
+	b=D8JSll7LNEHNLPKGNHGntls4c7ML5X9RKvbsZE+qJCZsLs0jn5ZOuuKQDVUqMOjb//
+	2ed3/vzJXC0OpxXRzy9hWq7kpg6Bz1ztw6/rmsS7lT9Tk+SCqMLBKsp1VXyJw0UssKK5
+	VlOW9QFP/4BKVDu/iPICG3zMzyNKFJ4IlaVClB3HB5kx4d86MwMNPbFog3wB+B211Ije
+	fTGf+CpOkbr8g+8GHW+zUALeoS1sSaFM4Cai7qI4rts+JpOLusoER87oO8c1Jimljxb9
+	rjk5I2DZRPH6Cfiqu3dNYuIbbrYTfZEvA4zFEVFvA5GTzuBct99/B8g9cPrXbboRsGGF
+	u5AA==
+Received: by 10.216.193.77 with SMTP id j55mr5681297wen.187.1347877906329;
+	Mon, 17 Sep 2012 03:31:46 -0700 (PDT)
 Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
 	[77.162.165.174])
-	by mx.google.com with ESMTPS id t7sm24968727wix.6.2012.09.17.03.31.46
+	by mx.google.com with ESMTPS id t7sm24968727wix.6.2012.09.17.03.31.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 03:31:47 -0700 (PDT)
+	Mon, 17 Sep 2012 03:31:45 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 12:30:52 +0200
-Message-Id: <1347877853-30738-4-git-send-email-koen@dominion.thruhere.net>
+Date: Mon, 17 Sep 2012 12:30:51 +0200
+Message-Id: <1347877853-30738-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1347877853-30738-1-git-send-email-koen@dominion.thruhere.net>
 References: <1347877853-30738-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQnWlmVbPLXo7FPUDvPYcLn8LVeCunY69Q3tPXRQ052i846UNnbd1tBtDXMzkaySIZoMqlYZ
+X-Gm-Message-State: ALoCoQl1DC5w2jFOb/maZNv5lgdXh7T24z3dbTQrcvJvMCrkgMK4qqAiKsnGhE/Yvngo6e8vvqGV
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [for-denzil][bluez-updates 4/5] bluez4: update to ver. 4.101
+Subject: [for-denzil][bluez-updates 3/5] gst-plugin-bluetooth: update to ver. 4.101
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,207 +53,101 @@ From: Cristian Iorga <cristian.iorga@intel.com>
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../bluez/bluez4-4.101/bluetooth.conf              |   16 +++++++++
- .../bluez/bluez4-4.101/sbc_mmx.patch               |   24 +++++++++++++
- .../bluez/bluez4-4.99/bluetooth.conf               |   16 ---------
- .../bluez/bluez4-4.99/sbc_mmx.patch                |   24 -------------
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   35 +++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.99.bb     |   36 --------------------
- 6 files changed, 75 insertions(+), 76 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch
- create mode 100644 meta/recipes-connectivity/bluez/bluez4_4.101.bb
- delete mode 100644 meta/recipes-connectivity/bluez/bluez4_4.99.bb
+ .../bluez/gst-plugin-bluetooth_4.101.bb            |   38 +++++++++++++++++++
+ .../bluez/gst-plugin-bluetooth_4.99.bb             |   39 --------------------
+ 2 files changed, 38 insertions(+), 39 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
+ delete mode 100644 meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.99.bb
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf b/meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
+diff --git a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
 new file mode 100644
-index 0000000..ca5e9e4
+index 0000000..49135ab
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
-@@ -0,0 +1,16 @@
-+<!-- This configuration file specifies the required security policies
-+     for Bluetooth core daemon to work. -->
-+
-+<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
-+<busconfig>
-+
-+  <!-- ../system.conf have denied everything, so we just punch some holes -->
-+
-+  <policy context="default">
-+    <allow own="org.bluez"/>
-+    <allow send_destination="org.bluez"/>
-+    <allow send_interface="org.bluez.Agent"/>
-+  </policy>
-+
-+</busconfig>
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
-new file mode 100644
-index 0000000..98fab45
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
-@@ -0,0 +1,24 @@
-+on x86 and x86_64 gcc 4.7 complains
-+
-+sbc/sbc_primitives_mmx.c: In function 'sbc_calc_scalefactors_mmx':
-+sbc/sbc_primitives_mmx.c:294:4: warning: asm operand 2 probably doesn't match constraints [enabled by default]
-+sbc/sbc_primitives_mmx.c:294:4: error: impossible constraint in 'asm'
-+
-+This patch is taken from https://bugs.launchpad.net/ubuntu/+source/bluez/+bug/911871
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+Index: bluez-4.98/sbc/sbc_primitives_mmx.c
-+===================================================================
-+--- bluez-4.98.orig/sbc/sbc_primitives_mmx.c	2011-12-21 14:53:54.000000000 -0800
-++++ bluez-4.98/sbc/sbc_primitives_mmx.c	2012-02-24 10:07:03.422073800 -0800
-+@@ -318,7 +318,7 @@
-+ 				"movl          %k0, 4(%3)\n"
-+ 			: "+r" (blk)
-+ 			: "r" (&sb_sample_f[0][ch][sb]),
-+-				"i" ((char *) &sb_sample_f[1][0][0] -
-++				"r" ((char *) &sb_sample_f[1][0][0] -
-+ 					(char *) &sb_sample_f[0][0][0]),
-+ 				"r" (&scale_factor[ch][sb]),
-+ 				"r" (&consts),
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf b/meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf
-deleted file mode 100644
-index ca5e9e4..0000000
---- a/meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf
-+++ /dev/null
-@@ -1,16 +0,0 @@
--<!-- This configuration file specifies the required security policies
--     for Bluetooth core daemon to work. -->
--
--<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-- "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
--<busconfig>
--
--  <!-- ../system.conf have denied everything, so we just punch some holes -->
--
--  <policy context="default">
--    <allow own="org.bluez"/>
--    <allow send_destination="org.bluez"/>
--    <allow send_interface="org.bluez.Agent"/>
--  </policy>
--
--</busconfig>
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch b/meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch
-deleted file mode 100644
-index 98fab45..0000000
---- a/meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--on x86 and x86_64 gcc 4.7 complains
--
--sbc/sbc_primitives_mmx.c: In function 'sbc_calc_scalefactors_mmx':
--sbc/sbc_primitives_mmx.c:294:4: warning: asm operand 2 probably doesn't match constraints [enabled by default]
--sbc/sbc_primitives_mmx.c:294:4: error: impossible constraint in 'asm'
--
--This patch is taken from https://bugs.launchpad.net/ubuntu/+source/bluez/+bug/911871
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Pending
--Index: bluez-4.98/sbc/sbc_primitives_mmx.c
--===================================================================
----- bluez-4.98.orig/sbc/sbc_primitives_mmx.c	2011-12-21 14:53:54.000000000 -0800
--+++ bluez-4.98/sbc/sbc_primitives_mmx.c	2012-02-24 10:07:03.422073800 -0800
--@@ -318,7 +318,7 @@
-- 				"movl          %k0, 4(%3)\n"
-- 			: "+r" (blk)
-- 			: "r" (&sb_sample_f[0][ch][sb]),
---				"i" ((char *) &sb_sample_f[1][0][0] -
--+				"r" ((char *) &sb_sample_f[1][0][0] -
-- 					(char *) &sb_sample_f[0][0][0]),
-- 				"r" (&scale_factor[ch][sb]),
-- 				"r" (&consts),
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-new file mode 100644
-index 0000000..a2ba66f
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -0,0 +1,35 @@
++++ b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
+@@ -0,0 +1,38 @@
 +require bluez4.inc
++require recipes-multimedia/gstreamer/gst-plugins-package.inc
 +
 +PR = "r0"
-+
-+SRC_URI += "file://bluetooth.conf \
-+            file://sbc_mmx.patch"
 +
 +SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
 +SRC_URI[sha256sum] = "59738410ade9f0e61a13c0f77d9aaffaafe49ba9418107e4ad75fe52846f7487"
 +
++DEPENDS = "bluez4 gst-plugins-base"
++
++EXTRA_OECONF = "\
++  --enable-gstreamer \
++"
++
++# clean unwanted files
 +do_install_append() {
-+	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
-+	install -m 0644 ${S}/network/network.conf ${D}/${sysconfdir}/bluetooth/
-+	install -m 0644 ${S}/input/input.conf ${D}/${sysconfdir}/bluetooth/
-+	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
-+	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
++	rm -rf ${D}${bindir}
++	rm -rf ${D}${sbindir}
++	rm -f  ${D}${libdir}/lib*
++	rm -rf ${D}${libdir}/pkgconfig
++	rm -rf ${D}${sysconfdir}
++	rm -rf ${D}${base_libdir}
++	rm -rf ${D}${libdir}/bluetooth
++	rm -rf ${D}${localstatedir}
++  	rm -rf ${D}${libdir}/alsa-lib
++  	rm -rf ${D}${datadir}
++	rm -rf ${D}${includedir}
 +}
 +
-+RDEPENDS_${PN}-dev = "bluez-hcidump"
-+
-+ALLOW_EMPTY_libasound-module-bluez = "1"
-+PACKAGES =+ "libasound-module-bluez"
-+
-+FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
-+FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${systemd_unitdir}/"
++FILES_${PN} = "${libdir}/gstreamer-0.10/lib*.so"
 +FILES_${PN}-dev += "\
-+  ${libdir}/bluetooth/plugins/*.la \
-+  ${libdir}/alsa-lib/*.la \
++  ${libdir}/gstreamer-0.10/*.la \
 +"
 +
 +FILES_${PN}-dbg += "\
-+  ${libdir}/bluetooth/plugins/.debug \
 +  ${libdir}/*/.debug \
-+  ${base_libdir}/udev/.debug \
-+  "
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.99.bb b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
++"
++
+diff --git a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.99.bb b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.99.bb
 deleted file mode 100644
-index 32831e7..0000000
---- a/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+index f8dab52..0000000
+--- a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.99.bb
 +++ /dev/null
-@@ -1,36 +0,0 @@
+@@ -1,39 +0,0 @@
 -require bluez4.inc
+-require recipes-multimedia/gstreamer/gst-plugins-package.inc
 -
 -PR = "r2"
--
--SRC_URI += "file://bluetooth.conf \
--            file://sbc_mmx.patch \
--           "
 -
 -SRC_URI[md5sum] = "570aa10692ed890aa0a4297b37824912"
 -SRC_URI[sha256sum] = "d884b9aa5d3d9653c076b7646ca14a3e43eb84bccfe8193c49690f802bbd827c"
 -
+-DEPENDS = "bluez4 gst-plugins-base"
+-
+-EXTRA_OECONF = "\
+-  --enable-gstreamer \
+-"
+-
+-# clean unwanted files
 -do_install_append() {
--	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
--	install -m 0644 ${S}/network/network.conf ${D}/${sysconfdir}/bluetooth/
--	install -m 0644 ${S}/input/input.conf ${D}/${sysconfdir}/bluetooth/
--	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
--	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
+-	rm -rf ${D}${bindir}
+-	rm -rf ${D}${sbindir}
+-	rm -f  ${D}${libdir}/lib*
+-	rm -rf ${D}${libdir}/pkgconfig
+-	rm -rf ${D}${sysconfdir}
+-	rm -rf ${D}${base_libdir}
+-	rm -rf ${D}${libdir}/bluetooth
+-	rm -rf ${D}${localstatedir}
+-  	rm -rf ${D}${libdir}/alsa-lib
+-  	rm -rf ${D}${datadir}
+-	rm -rf ${D}${includedir}
 -}
 -
--RDEPENDS_${PN}-dev = "bluez-hcidump"
--
--ALLOW_EMPTY_libasound-module-bluez = "1"
--PACKAGES =+ "libasound-module-bluez"
--
--FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
--FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${systemd_unitdir}/"
+-FILES_${PN} = "${libdir}/gstreamer-0.10/lib*.so"
 -FILES_${PN}-dev += "\
--  ${libdir}/bluetooth/plugins/*.la \
--  ${libdir}/alsa-lib/*.la \
+-  ${libdir}/gstreamer-0.10/*.la \
 -"
 -
 -FILES_${PN}-dbg += "\
--  ${libdir}/bluetooth/plugins/.debug \
 -  ${libdir}/*/.debug \
--  ${base_libdir}/udev/.debug \
--  "
+-"
+-
+-
 -- 
 1.7.7.6
 
