@@ -1,34 +1,40 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TDZ9u-0000g3-T7
-	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Sep 2012 13:06:34 +0200
-Received: by bkcik5 with SMTP id ik5so2250597bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 03:53:56 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1TDZDe-0000q5-3r; Mon, 17 Sep 2012 13:10:26 +0200
+Received: by wibhn17 with SMTP id hn17so1829804wib.6
+	for <multiple recipients>; Mon, 17 Sep 2012 03:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=oKrEz+qLApmxv6cEHaRa80FF9A3VCqx+gepLjrf1e7Q=;
-	b=q8+8pMpxpENTlew4wXgSa0qcolPpmf0duEnuThnrY999sAihAAQ4QNMNjGrg2wisaI
-	cvmVKNkQexbgFJmbd9c8HMNhaxaUpfYwGeANEaa4ermXsTyG9btsnnPjdnvGHP2Omee9
-	Hq8yDluP7gxliyxQ55aGoAOVmzTQI+rj3X2CZtYrVicrkmdl1HScKU9Z+cnhRYXSDu2K
-	Al9ctcPBCIEVBmcfuifjAAJ0cgwBnLhLJQAleayYKmcXBFLNTSm8OK4inTi+HheEgEj3
-	mtvOYwrkQslJJosB3gKKoPJ9ARk1ugH0pA+Az74R9IYcx7bUK8k1fiz1oLw8a/tja1KM
-	KG9Q==
-Received: by 10.204.129.76 with SMTP id n12mr4094077bks.18.1347879236186;
-	Mon, 17 Sep 2012 03:53:56 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=R+MEII3qpJ5ZmaZPQZZV74fgsStXvYd/jic8U+rnsVc=;
+	b=Pr1gl9KH8fuD24LcJxHR3aBaPGe+9VzVQmYiOyuKPAPXr4Cl1oqnW2R/1UwydlCUZb
+	QXbZQ1UqN1jCNQSIixVZ174902P25B6LvGfARbpsMVYnhlIydue+F8wkmMWtIpurRGRZ
+	XbdnnwLEDRVMUFyZPi0d3y+cr5w4GwEJgqb3qMX5+w1F1P3vN7/G4y5UHba6Ym5xHZUS
+	x/XX+C06+pUq+/p4rt9ejGQ7BPZfjMY6Ib1O70Qb4nScCCfG99zNMtBGWNh4ORPTQV/m
+	elh5H8JeQToKNc8o2J9qQtpMGXAVmrdSLDTWr5Fj5gF0qurOSr3cP/2bniD3bTITo9vG
+	gyKg==
+Received: by 10.216.242.196 with SMTP id i46mr5592350wer.123.1347879467633;
+	Mon, 17 Sep 2012 03:57:47 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id g12sm5060463bkt.7.2012.09.17.03.53.54
+	by mx.google.com with ESMTPS id dp8sm25116617wib.3.2012.09.17.03.57.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 03:53:55 -0700 (PDT)
+	Mon, 17 Sep 2012 03:57:45 -0700 (PDT)
+Date: Mon, 17 Sep 2012 12:57:52 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 12:54:00 +0200
-Message-Id: <1347879240-17214-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-In-Reply-To: <1347821246-13169-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1347821246-13169-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH] recipes: few more PR bumps to rebuild after libffi5 -> libffi6
+To: Andrei Gherzan <andrei@gherzan.ro>
+Message-ID: <20120917105752.GD3628@jama.jama.net>
+References: <20120914085706.2CBFC103C3@opal>
+	<20120915162051.GA11051@jama.jama.net>
+	<CAK18fxGHn8aMu9Y926M2r9RQULR2VTOciBJkVD5S9awBV_j7-Q@mail.gmail.com>
+	<20120915163739.GB11051@jama.jama.net>
+MIME-Version: 1.0
+In-Reply-To: <20120915163739.GB11051@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [O-core] [oe-commits] Andrei Dinu : libffi upgrade to 3.0.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,126 +47,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 11:06:35 -0000
+X-List-Received-Date: Mon, 17 Sep 2012 11:10:26 -0000
+X-Groupsio-MsgNum: 29375
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pZs/OQEoSSbxGlYw"
+Content-Disposition: inline
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb           | 2 +-
- meta/recipes-connectivity/galago/libgalago_0.5.2.bb                     | 2 +-
- meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb                         | 2 +-
- meta/recipes-connectivity/gupnp/gupnp-av_0.8.0.bb                       | 2 +-
- meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb                         | 2 +-
- meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb            | 2 +-
- meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb | 2 +-
- meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb                             | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+--pZs/OQEoSSbxGlYw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
-index 49135ab..f2dc0da 100644
---- a/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb
-@@ -1,7 +1,7 @@
- require bluez4.inc
- require recipes-multimedia/gstreamer/gst-plugins-package.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
- SRC_URI[sha256sum] = "59738410ade9f0e61a13c0f77d9aaffaafe49ba9418107e4ad75fe52846f7487"
-diff --git a/meta/recipes-connectivity/galago/libgalago_0.5.2.bb b/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
-index 1a5dd23..2071952 100644
---- a/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
-+++ b/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
-@@ -13,7 +13,7 @@ SRC_URI =	"http://www.galago-project.org/files/releases/source/${BPN}/${BPN}-${P
- 
- SRC_URI[md5sum] = "7ec92f2ecba1309ac4b71b4b4d8d0a0d"
- SRC_URI[sha256sum] = "9b7c9845e2f661dbf5c2595e67bc7afd48f090ac2c033726c89d7f0e90791dfa"
--PR = "r2"
-+PR = "r3"
- 
- inherit autotools pkgconfig gettext
- 
-diff --git a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-index b87c755..9dc05e5 100644
---- a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-+++ b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- DEPENDS = "glib-2.0 libsoup-2.4 gobject-introspection-stub"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
- 
-diff --git a/meta/recipes-connectivity/gupnp/gupnp-av_0.8.0.bb b/meta/recipes-connectivity/gupnp/gupnp-av_0.8.0.bb
-index ae96eda..598aa4d 100644
---- a/meta/recipes-connectivity/gupnp/gupnp-av_0.8.0.bb
-+++ b/meta/recipes-connectivity/gupnp/gupnp-av_0.8.0.bb
-@@ -7,7 +7,7 @@ DEPENDS = "gupnp"
- 
- SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
- 
--PR = "r1"
-+PR = "r2"
- 
- inherit autotools pkgconfig
- 
-diff --git a/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb b/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb
-index 84e0679..c226c9e 100644
---- a/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb
-+++ b/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb
-@@ -10,7 +10,7 @@ SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
- SRC_URI[md5sum] = "021bb237741532af4bca50157ff326e4"
- SRC_URI[sha256sum] = "f01a1f4fd36ce161a3df29fa83e1a0a2fb40d3c9f30f6b403e7791688ad24cfe"
- 
--PR = "r1"
-+PR = "r2"
- 
- EXTRA_OECONF = "--disable-introspection"
- 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-index 2b072bb..6bf27b2 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Telepathy Framework: GLib-based helper library for connection man
- HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
- DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib"
- LICENSE = "LGPLv2.1+"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
- 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
-index f1f4c1e..55ae117 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libtelepathy dbus-glib gconf"
- 
- SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
- 
--PR = "r0"
-+PR = "r1"
- 
- inherit autotools pkgconfig
- 
-diff --git a/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb b/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
-index da74a82..2fafcec 100644
---- a/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
-+++ b/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605"
- 
- SRCREV = "1161"
- PV = "2.11.0+svnr${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "svn://svn.gnome.org/svn/gtkhtml2/;module=trunk;protocol=http \
-            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/css-stylesheet-user.patch;striplevel=0;name=patch2 \
--- 
-1.7.12
+On Sat, Sep 15, 2012 at 06:37:39PM +0200, Martin Jansa wrote:
+> On Sat, Sep 15, 2012 at 07:22:43PM +0300, Andrei Gherzan wrote:
+> > On Sat, Sep 15, 2012 at 7:20 PM, Martin Jansa <martin.jansa@gmail.com>w=
+rote:
+> >=20
+> > > On Fri, Sep 14, 2012 at 08:57:06AM +0000, git@git.openembedded.org wr=
+ote:
+> > > > Module: openembedded-core.git
+> > > > Branch: master
+> > > > Commit: 3e40136e8bd13b17b6d88b6acfb5ed162bb8d96a
+> > > > URL:
+> > > http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit;h=
+=3D3e40136e8bd13b17b6d88b6acfb5ed162bb8d96a
+> > > >
+> > > > Author: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+> > > > Date:   Thu Sep 13 11:26:45 2012 +0300
+> > > >
+> > > > libffi upgrade to 3.0.11
+> > >
+> > > This changes .so name from libffi5 to libffi6, breaking every recipe
+> > > depending on libffi when someone is using debian.bbclass.
+> > >
+> > > This list of 374 packages is probably not complete, just what I have
+> > > built before.
+> > >
+> > > http://build.shr-project.org/tests/jama/libffi5.pkgs
+> >=20
+> >=20
+> > Confirmed. Just ran into this with glib-2.0.
+>=20
+> Something like:
+> | /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-lin=
+ux/gcc/x86_64-oe-linux/4.7.2/ld: warning: libffi.so.5, needed by /OE/shr-co=
+re/tmp-eglibc/sysroots/q
+> emux86-64/usr/lib/libgobject-2.0.so, not found (try using -rpath or -rpat=
+h-link)
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_void'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_double'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_prep_cif'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_sint32'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_float'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_uint64'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_sint64'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_pointer'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_type_uint32'
+> | /OE/shr-core/tmp-eglibc/sysroots/qemux86-64/usr/lib/libgobject-2.0.so: =
+undefined reference to `ffi_call'
+>=20
+> That's easy to fix by manual rebuild, but for runtime packages we need th=
+ose PR bumps :/.
+>=20
+> I'll PR bump recipes (from my list) in meta-oe and meta-smartphone layers=
+,=20
+> but leave oe-core for someone else.
 
+PR bumps for recipes from my list sent to oe-core too, but again it's
+probably not complete (only stuff included in one of images I build).
 
+Someone should build world-image to test the rest..
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--pZs/OQEoSSbxGlYw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBXAjAACgkQN1Ujt2V2gBwGjwCgprv377w8jXMzrk26oYqfbcvn
+SPcAni4ZRXKauAfzimjF3SFqeZMBnJp6
+=iSzh
+-----END PGP SIGNATURE-----
+
+--pZs/OQEoSSbxGlYw--
