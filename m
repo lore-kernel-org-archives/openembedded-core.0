@@ -1,55 +1,36 @@
-Received: from am1ehsobe002.messaging.microsoft.com ([213.199.154.205]
-	helo=am1outboundpool.messaging.microsoft.com)
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TE6m5-0001F9-FP
+	(envelope-from <raj.khem@gmail.com>) id 1TE6mR-0001ID-GD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 01:00:13 +0200
-Received: from mail30-am1-R.bigfish.com (10.3.201.245) by
-	AM1EHSOBE009.bigfish.com (10.3.204.29) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 18 Sep 2012 22:47:32 +0000
-Received: from mail30-am1 (localhost [127.0.0.1])	by mail30-am1-R.bigfish.com
-	(Postfix) with ESMTP id 92A201600FF;
-	Tue, 18 Sep 2012 22:47:32 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdhbe9i1155h)
-Received: from mail30-am1 (localhost.localdomain [127.0.0.1]) by mail30-am1
-	(MessageSwitch) id 134800845113209_17181;
-	Tue, 18 Sep 2012 22:47:31 +0000 (UTC)
-Received: from AM1EHSMHS001.bigfish.com (unknown [10.3.201.231])	by
-	mail30-am1.bigfish.com (Postfix) with ESMTP id EAEC74A004A;
-	Tue, 18 Sep 2012 22:47:30 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS001.bigfish.com
-	(10.3.207.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 18 Sep 2012 22:47:28 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0309.003; Tue, 18 Sep 2012 17:47:26 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] insane.bbclass: skip checking arch
-	(machine/bits) for powerpc kernel recipe
-Thread-Index: AQHNle8trn5crop4SU+lByBtq3l/LpeQsy0A
-Date: Tue, 18 Sep 2012 22:47:26 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A68B84B@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1348006091-14992-1-git-send-email-msm@freescale.com>
-	<1348006091-14992-6-git-send-email-msm@freescale.com>
-	<CAMKF1sqYh2BR_3z2OP-WvMCyFPk4nK9uqLZRK7ApQz4hV76OEg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqYh2BR_3z2OP-WvMCyFPk4nK9uqLZRK7ApQz4hV76OEg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Wed, 19 Sep 2012 01:00:35 +0200
+Received: by eaad12 with SMTP id d12so97746eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2012 15:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=P2UOuzq36+2EkU0sHgC4fxJ/+XoGuQW6FSFLDVgLJS4=;
+	b=Kc0L617jSWqjCAqrTE4N199kEhQZ4FTpWDqTHNUSpTLroXBvhC3Ey1anzRgaIp2nf4
+	/hmgTBrwHXrG+ildnxzykY1lTKhcJU7xqy688/MuKvAK14kAynirwMvUVf2LRuU3qZ7h
+	rFq0HNYB1o8Rq0PX4fKwUAAbCIV+rbr42WubsdduU3tieR3gWKSeEnU7raee9j7oRdLZ
+	30OaWTglrMcEGA/6v/C71ndlbCewypt1BypNy8iWnToiJTFOKqDg1Zr/z4iBnFNtMyW3
+	XJkjTW0kSo14ioRVhSAAKr9sa6QCMCdIWSfUcUxvUTnGbU/SjP3QuG14Fu90rPl8hAYU
+	D6Pg==
+Received: by 10.14.4.201 with SMTP id 49mr1691511eej.0.1348008475155; Tue, 18
+	Sep 2012 15:47:55 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass: skip checking arch (machine/bits) for powerpc kernel recipe
+Received: by 10.14.2.5 with HTTP; Tue, 18 Sep 2012 15:47:24 -0700 (PDT)
+In-Reply-To: <1348007893.20356.21.camel@omclinuxballt.devnet.ordermatic.net>
+References: <1348007893.20356.21.camel@omclinuxballt.devnet.ordermatic.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 18 Sep 2012 15:47:24 -0700
+Message-ID: <CAMKF1sp=qvEm+1VBXPQU4rT5AHCLqrY0ihpmT8GC5na50j7pZQ@mail.gmail.com>
+To: Brian Lloyd <blloyd@familyhonor.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: building wxwidgets under oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -59,84 +40,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 23:00:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C46C00D80D280B44A5F2BF67B74187EC@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Sep 2012 23:00:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Sep 18, 2012 at 5:44 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Sep 18, 2012 at 3:08 PM, Matthew McClintock <msm@freescale.com> w=
-rote:
->> For a 32-bit machine, we still might always (or optionally) want to buil=
-d a
->> 64-bit kernel so we add an exception.
->>
->> Signed-off-by: Matthew McClintock <msm@freescale.com>
->> ---
->> Not sure if we should just skip for all virtual/kernel's?
->>
->>  meta/classes/insane.bbclass |    6 ++++--
->>  1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->> index e74eb3f..2ca1b49 100644
->> --- a/meta/classes/insane.bbclass
->> +++ b/meta/classes/insane.bbclass
->> @@ -366,11 +366,13 @@ def package_qa_check_arch(path,name,d, elf, messag=
-es):
->>
->>      # Check the architecture and endiannes of the binary
->>      if not ((machine =3D=3D elf.machine()) or \
->> -       ("virtual/kernel" in provides) and (target_os =3D=3D "linux-gnux=
-32")):
->> +       ("virtual/kernel" in provides) and (target_os =3D=3D "linux-gnux=
-32") or \
->> +       ("virtual/kernel" in provides) and (target_arch =3D=3D "powerpc"=
-)):
+On Tue, Sep 18, 2012 at 3:38 PM, Brian Lloyd <blloyd@familyhonor.net> wrote:
+> Before going to the core methodology, the classic openembedded had
+> support for building wxwidgets.
 >
-> I feel using powerpc target_arch here is a broad brush. Can there be
-> some other variable in metadata
-> that could indicate 64bit kernel and a 32bit ppc userspace combo of
-> some sort ? or may be a variable
-> stating that this machine's kernel is 64bit and use that here instead.
-
-I added BUILD_64BIT_KERNEL in my layer for building a 64-bit kernel on
-a 32-bit machine, we could use this (or another "better" name)
-
--M
-
+> That library is one that does not appear to have been picked back up
+> since the refactoring of the code, either because there wasn't much
+> interest or else it proved hard to do.
 >
->>          messages.append("Architecture did not match (%d to %d) on %s" %=
- \
->>                   (machine, elf.machine(), package_qa_clean_path(path,d)=
-))
->>      elif not ((bits =3D=3D elf.abiSize()) or  \
->> -       ("virtual/kernel" in provides) and (target_os =3D=3D "linux-gnux=
-32")):
->> +       ("virtual/kernel" in provides) and (target_os =3D=3D "linux-gnux=
-32") or \
->> +       ("virtual/kernel" in provides) and (target_arch =3D=3D "powerpc"=
-)):
->>          messages.append("Bit size did not match (%d to %d) %s on %s" % =
-\
->>                   (bits, elf.abiSize(), bpn, package_qa_clean_path(path,=
-d)))
->>      elif not littleendian =3D=3D elf.isLittleEndian():
->> --
->> 1.7.9.7
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> When I tried it myself, I found that the autotools class assumed use of
+> all parts of autotools, which unfortunately wxwidgets doesn't do.  It
+> almost looks like I would have to write a custom class (or include it
+> all in the wxwidgets packet/includes) that only calls configure instead
+> of trying to do autoreconf (as well as deleting the bakefile generated
+> acinclude.m4).
+>
+> Does anyone have any suggestions how to fit these two systems together
+> smoothly in a way that is likely future change resistant?  Is making a
+> custom class like configure_only.bbclass a good idea?  After all, the
+
+I think we would like to reconfigure since it then gets the wanted
+libtool macros
+and so on. We use libtool 2.4 and if package has old libtool macros that may
+not go well if you dont refresh them
+
+> tar files for wxWidgets doesn't have the issues that the forced
+> autoreconf is trying to avoid but the attempt to fix the issue is
+> bringing in all sorts of added files/dependencies required.  Or is there
+> a way to use the autotools class which will ensure the hack code does
+> not fire?
+>
+
+you can always override do_configure () { oe_runconf } sort of thing see
+how binutils or gcc does it.
+
+
+> Of course, if someone has already made this work and it's somewhere I
+> missed, a pointer to where it is would be greatly appreciated.
+>
+>
+> Brian Lloyd
+>
+>
+>
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
-
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
