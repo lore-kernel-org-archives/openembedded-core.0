@@ -1,34 +1,20 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fcooperjr27@gmail.com>) id 1TDkYZ-0004L5-Ds
+	(envelope-from <sgw@linux.intel.com>) id 1TDlhj-0005Tz-T8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 01:16:47 +0200
-Received: by mail-ob0-f175.google.com with SMTP id lz20so9889076obb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 16:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=pM4El86IC1hmZ6k/Wm3QLLx6s27zA69VDlJ42FLMKU0=;
-	b=n7j+Ah/X+lqlpEBT5fjKTvWiWRzuZkVkT29RwS2HM31c1/kKwv4800YEpp+Xgw3cb8
-	z+1mgMkRB9NHWqZk9nSRxbaLeDjJpYjDdBcm9QrGmJMzwvxgXWlfmNeCTTpAwiUzY54z
-	bciDnK5o8iVK2x5f3Xt/pJC/prpCc+26/r02mNddL5FTrPkI8BNdIYvPgpijy5zzcKLD
-	+LZsYXqOLZXZPSGPUCgLOyxF/Kxz1PgL2OqgevTtqKKWt8JAuhTUMfvh0vrUN8DGfGY6
-	EAteg5Uk8AGwi8AScZJV2yBkLDiR6LN4Q6Xr7bFqX4CKTUFvJI/RGbruNr7PvWciMMdA
-	btVw==
-Received: by 10.182.131.98 with SMTP id ol2mr13262857obb.69.1347923050303;
-	Mon, 17 Sep 2012 16:04:10 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com. [192.94.94.33])
-	by mx.google.com with ESMTPS id d6sm12216451obx.15.2012.09.17.16.04.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Sep 2012 16:04:09 -0700 (PDT)
-From: "Franklin S. Cooper Jr" <fcooperjr27@gmail.com>
+	Tue, 18 Sep 2012 02:30:20 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Sep 2012 17:17:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,439,1344236400"; d="scan'208";a="193859690"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.193])
+	by azsmga001.ch.intel.com with ESMTP; 17 Sep 2012 17:17:39 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Sep 2012 18:25:53 -0500
-Message-Id: <1347924353-11159-2-git-send-email-fcooper@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1347924353-11159-1-git-send-email-fcooper@ti.com>
-References: <1347924353-11159-1-git-send-email-fcooper@ti.com>
-Subject: [denzil][PATCH 2/2] dbus: Ensure dbus-nativesdk doesn't RPROVIDE dbus-x11
+Date: Mon, 17 Sep 2012 17:17:37 -0700
+Message-Id: <1347927458-21623-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] rootfs_rpm: add multilib prefix to rpm installed package list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Sep 2012 23:16:47 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 00:30:20 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+RPM does not name it's packages with the Multilib prefix, but the rootfs_rpm class
+keeps track of the Multilib prefixs in a list. Use that list to re-attach the prefix
+for use with the license bbclass, buildhistory bbclass will also use this and make
+it more accurate between multilib and non-multilib.
 
-dbus-x11 should not RPROVIDE dbus-x11 as this is incorrect and confuses
-builds. This fixes the nativesdk case.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/dbus/dbus.inc |    7 +++++--
- 1 files changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/rootfs_rpm.bbclass |   13 ++++++++++---
+ 1 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 164c4d3..1984c74 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -33,9 +33,12 @@ DEBIANNAME_${PN} = "dbus-1"
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index c0207d8..ad83ffb 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -142,11 +142,18 @@ RPM_QUERY_CMD = '${RPM} --root $INSTALL_ROOTFS_RPM -D "_dbpath ${rpmlibdir}" \
  
- PACKAGES =+ "${PN}-lib ${PN}-systemd"
- 
-+OLDPKGNAME = "dbus-x11"
-+OLDPKGNAME_virtclass-nativesdk = ""
-+
- # for compatibility
--RPROVIDES_${PN} = "dbus-x11"
--RREPLACES_${PN} += "dbus-x11"
-+RPROVIDES_${PN} = "${OLDPKGNAME}"
-+RREPLACES_${PN} += "${OLDPKGNAME}"
- 
- FILES_${PN}-systemd = "${systemd_unitdir}/system/"
+ list_installed_packages() {
+ 	if [ "$1" = "arch" ] ; then
+-		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]"
++		GET_LIST=$(${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]")
+ 	elif [ "$1" = "file" ] ; then
+-		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{PACKAGEORIGIN}\n]"
++		GET_LIST=$(${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{PACKAGEORIGIN}\n]")
+ 	else
+-		${RPM_QUERY_CMD} -qa --qf "[%{NAME}\n]"
++		GET_LIST=$(${RPM_QUERY_CMD} -qa --qf "[%{NAME}\n]")
++	fi
++	if [ "x${MULTILIB_PREFIX_LIST}" = "x"]; then
++		echo "$GET_LIST"
++	else
++		for prefix in `echo ${MULTILIB_PREFIX_LIST}`; do
++			echo "$GET_LIST" | sed -e "s/^/$prefix\-/"
++		done
+ 	fi
+ }
  
 -- 
-1.7.0.4
+1.7.7.6
 
 
 
