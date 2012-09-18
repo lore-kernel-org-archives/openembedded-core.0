@@ -1,21 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TDsdl-0000ob-A8
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TDtqL-0002qT-D7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 09:54:41 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 18 Sep 2012 00:42:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,441,1344236400"; d="scan'208";a="194261254"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
-	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2012 00:41:59 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
+	Tue, 18 Sep 2012 11:11:45 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 1692FD22E8; Tue, 18 Sep 2012 10:59:09 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (84-10-244-25.dynamic.chello.pl [84.10.244.25])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 5866CD20E0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2012 10:58:39 +0200 (CEST)
+Message-ID: <505837BA.2040305@linaro.org>
+Date: Tue, 18 Sep 2012 10:58:34 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 09:47:19 +0300
-Message-Id: <1347950839-19779-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH v2] netbase: split up in netbase and init-ifupdown
+Subject: Best way to update gnu-config?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,242 +38,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 07:54:41 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 09:11:45 -0000
+X-Groupsio-MsgNum: 29421
+Content-Type: multipart/mixed; boundary="------------090904030003080209050002"
 
-- netbase should only include etc-rpc, etc-protocols, etc-services
-and the hosts file
-- the init script/configuration files should be in another package
-(init-ifupdown)
+--------------090904030003080209050002
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #2486]
+I am working on meta-aarch64 layer to add 64-bit ARM support.
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+For that I have to update gnu-config to newer version. Currently I am
+using gnu-config_git.bbappend to move to 20120814 one. OE-Core is using
+tarball prepared by Yocto Project so update is not so easy for outside
+developer.
+
+Attached are files which I am using (including updated uclibc patch).
+Please reply with information how I can get it fully merged.
+
+
+--------------090904030003080209050002
+Content-Type: text/plain; charset=UTF-8;
+ name="gnu-config_git.bbappend"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="gnu-config_git.bbappend"
+
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vY29uZmlnLmd1ZXNzO2VuZGxpbmU9Mzk7bWQ1PWI3
+OWE0NjYzNDc1ZjRkNzI0ODQ2NDYzMjc3ODE3ZTBkIgoKU1JDUkVWID0gIjA2MjU4N2VhYTg5MTM5
+NmM5MzY1NTVhZTUxZjdlNzdlZWI3MWE1ZmUiClBWID0gIjIwMTIwODE0K2dpdCR7U1JDUFZ9IgpQ
+UiA9ICJyMCIKClNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnN2LmdudS5vcmcvY29uZmlnLmdpdDtwcm90
+b2NvbD1naXQgXAogICAgICAgICAgIGZpbGU6Ly9jb25maWctZ3Vlc3MtdWNsaWJjLnBhdGNoIFwK
+ICAgICAgICAgICBmaWxlOi8vZ251LWNvbmZpZ2l6ZS5pbiIKCkRFRkFVTFRfUFJFRkVSRU5DRSA9
+ICIxIgpGSUxFU0VYVFJBUEFUSFNfcHJlcGVuZCA6PSAiJHtUSElTRElSfS8ke0JQTn06Igo=
+
+--------------090904030003080209050002
+Content-Type: text/x-patch;
+ name="config-guess-uclibc.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="config-guess-uclibc.patch"
+
+Upstream-Status: Pending
+
+Patch courtesy gentoo-portage/sys-devel/gnuconfig/files/automake-1.8.5-config-guess-uclibc.patch.
+
+updated to 20050516 by Marcin 'Hrw' Juszkiewicz (by hand)
+updated to 20080123 by Nitin A Kamble (by hand)
+updated to 20111001 by Saul Wold (by hand)
+updated to 20120818 by Marcin 'Hrw' Juszkiewicz (by hand)
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+
 ---
- meta/conf/layer.conf                               |    1 +
- .../init-ifupdown/init-ifupdown-1.0/copyright      |   11 ++++++
- .../init-ifupdown-1.0}/init                        |    0
- .../init-ifupdown-1.0}/interfaces                  |    0
- .../init-ifupdown-1.0}/nfsroot                     |    0
- .../init-ifupdown-1.0}/qemuarm/interfaces          |    0
- .../init-ifupdown-1.0}/qemuarmv6/interfaces        |    0
- .../init-ifupdown-1.0}/qemuarmv7/interfaces        |    0
- .../init-ifupdown-1.0}/qemumips/interfaces         |    0
- .../init-ifupdown-1.0}/qemumips64/interfaces       |    0
- .../init-ifupdown-1.0}/qemuppc/interfaces          |    0
- .../init-ifupdown-1.0}/qemush4/interfaces          |    0
- .../init-ifupdown-1.0}/qemux86-64/interfaces       |    0
- .../init-ifupdown-1.0}/qemux86/interfaces          |    0
- .../init-ifupdown/init-ifupdown_1.0.bb             |   41 ++++++++++++++++++++
- meta/recipes-core/netbase/netbase_5.0.bb           |   33 ++--------------
- .../packagegroups/packagegroup-core-boot.bb        |    1 +
- 17 files changed, 58 insertions(+), 29 deletions(-)
- create mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/init (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/nfsroot (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuarm/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuarmv6/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuarmv7/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemumips/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemumips64/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemuppc/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemush4/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemux86-64/interfaces (100%)
- rename meta/recipes-core/{netbase/netbase-5.0 => init-ifupdown/init-ifupdown-1.0}/qemux86/interfaces (100%)
- create mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+ config.guess |   67 +++++++++++++++++++++++++++++++++++------------------------
+ 1 file changed, 40 insertions(+), 27 deletions(-)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index ed50f1c..1308077 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -18,6 +18,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
-   shadow-securetty \
-   opkg-config-base \
-   netbase \
-+  init-ifupdown \
-   formfactor \
-   xserver-xf86-config \
-   pointercal \
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright
-new file mode 100644
-index 0000000..2a8e0d1
---- /dev/null
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/copyright
-@@ -0,0 +1,11 @@
-+This package was created by Peter Tobias tobias@et-inf.fho-emden.de on
-+Wed, 24 Aug 1994 21:33:28 +0200 and maintained by Anthony Towns
-+<ajt@debian.org> until 2001.
-+It is currently maintained by Marco d'Itri <md@linux.it>.
-+
-+Copyright 1994-2010 Peter Tobias, Anthony Towns and Marco d'Itri
-+
-+The programs in this package are distributed under the terms of the GNU
-+General Public License, version 2 as distributed by the Free Software
-+Foundation. On Debian systems, a copy of this license may be found in
-+/usr/share/common-licenses/GPL-2.
-diff --git a/meta/recipes-core/netbase/netbase-5.0/init b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/init
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-diff --git a/meta/recipes-core/netbase/netbase-5.0/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/nfsroot b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/nfsroot
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/nfsroot
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/nfsroot
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuarm/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemuarm/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuarmv6/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemuarmv6/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuarmv7/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemuarmv7/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemumips/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemumips/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemumips64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemumips64/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemuppc/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemuppc/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemush4/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemush4/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemux86-64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemux86-64/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
-diff --git a/meta/recipes-core/netbase/netbase-5.0/qemux86/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
-similarity index 100%
-rename from meta/recipes-core/netbase/netbase-5.0/qemux86/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-new file mode 100644
-index 0000000..80d0a02
---- /dev/null
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-@@ -0,0 +1,41 @@
-+SUMMARY = "Basic TCP/IP networking init scripts and configuration files"
-+DESCRIPTION = "This package provides high level tools to configure network interfaces"
-+HOMEPAGE = "http://packages.debian.org/ifupdown"
-+SECTION = "base"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://${WORKDIR}/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
-+RDEPENDS_${PN} = "netbase"
-+RCONFLICTS_${PN} = "netbase (< 5.0-r1)"
-+PR = "r0"
-+
-+inherit update-rc.d
-+
-+INITSCRIPT_NAME = "networking"
-+INITSCRIPT_PARAMS = "start 40 S . stop 40 0 6 1 ."
-+
-+SRC_URI = "file://copyright \
-+           file://init \
-+           file://interfaces \
-+           file://nfsroot"
-+
-+do_install () {
-+	install -d ${D}${sysconfdir}/init.d \
-+		   ${D}${sysconfdir}/network/if-pre-up.d \
-+		   ${D}${sysconfdir}/network/if-up.d \
-+		   ${D}${sysconfdir}/network/if-down.d \
-+		   ${D}${sysconfdir}/network/if-post-down.d
-+	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/networking
-+	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfaces
-+	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
-+
-+	# Disable network manager on machines that commonly do NFS booting
-+	case "${MACHINE}" in
-+		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qemush*")
-+			touch ${D}${sysconfdir}/network/nm-disabled-eth0
-+			;;
-+		*)
-+			;;
-+	esac
-+}
-+
-+CONFFILES_${PN} = "${sysconfdir}/network/interfaces"
-diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core/netbase/netbase_5.0.bb
-index 3aea874..3c683b0 100644
---- a/meta/recipes-core/netbase/netbase_5.0.bb
-+++ b/meta/recipes-core/netbase/netbase_5.0.bb
-@@ -4,45 +4,20 @@ HOMEPAGE = "http://packages.debian.org/netbase"
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
--PR = "r0"
--
--inherit update-rc.d
--
--INITSCRIPT_NAME = "networking"
--INITSCRIPT_PARAMS = "start 40 S . stop 40 0 6 1 ."
-+PR = "r1"
+--- git.orig/config.guess
++++ git/config.guess
+@@ -138,6 +138,19 @@ UNAME_RELEASE=`(uname -r) 2>/dev/null` |
+ UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
+ UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
  
- SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz \
--           file://init \
--           file://hosts \
--           file://interfaces \
--           file://nfsroot"
-+           file://hosts"
++# Detect uclibc systems.
++
++LIBC="gnu"
++if [ -f /usr/include/bits/uClibc_config.h ]
++then
++	LIBC=uclibc
++	if [ -n `grep "#define __UCLIBC_CONFIG_VERSION__" /usr/include/bits/uClibc_config.h` ]
++	then
++		UCLIBC_SUBVER=`sed -n "/#define __UCLIBC_CONFIG_VERSION__ /s///p" /usr/include/bits/uClibc_config.h`
++		LIBC=$LIBC$UCLIBC_SUBVER
++	fi
++fi
++
+ # Note: order is significant - the case branches are not exclusive.
  
- SRC_URI[md5sum] = "a379d9199d44d817543eddc211a29b70"
- SRC_URI[sha256sum] = "ac9424d3cb2bd3c07b6c5bc5875c434d3bc687a73cd7c54b7dc7122308afa9dc"
- 
- do_install () {
--	install -d ${D}${sysconfdir}/init.d \
--		   ${D}${mandir}/man8 \
--		   ${D}${sysconfdir}/network/if-pre-up.d \
--		   ${D}${sysconfdir}/network/if-up.d \
--		   ${D}${sysconfdir}/network/if-down.d \
--		   ${D}${sysconfdir}/network/if-post-down.d
--	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/networking
-+	install -d ${D}/${mandir}/man8 ${D}${sysconfdir}
- 	install -m 0644 ${WORKDIR}/hosts ${D}${sysconfdir}/hosts
- 	install -m 0644 etc-rpc ${D}${sysconfdir}/rpc
- 	install -m 0644 etc-protocols ${D}${sysconfdir}/protocols
- 	install -m 0644 etc-services ${D}${sysconfdir}/services
--	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfaces
--	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
--
--	# Disable network manager on machines that commonly do NFS booting
--	case "${MACHINE}" in
--		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qemush*")
--			touch ${D}${sysconfdir}/network/nm-disabled-eth0
--			;;
--		*)
--			;;
--	esac
- }
- 
--CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
-+CONFFILES_${PN} = "${sysconfdir}/hosts"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 16ad4e3..c4ee7de 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -39,6 +39,7 @@ RDEPENDS_${PN} = "\
-     ${@base_contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
-     modutils-initscripts \
-     netbase \
-+    init-ifupdown \
-     ${VIRTUAL-RUNTIME_login_manager} \
-     ${VIRTUAL-RUNTIME_init_manager} \
-     ${VIRTUAL-RUNTIME_dev_manager} \
--- 
-1.7.9.5
+ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
+@@ -886,15 +899,15 @@ EOF
+ 	  EV68*) UNAME_MACHINE=alphaev68 ;;
+ 	esac
+ 	objdump --private-headers /bin/sh | grep -q ld.so.1
+-	if test "$?" = 0 ; then LIBC="libc1" ; else LIBC="" ; fi
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu${LIBC}
++	if test "$?" = 0 ; then LIBC="gnulibc1" ; else LIBC="" ; fi
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     arm*:Linux:*:*)
+ 	eval $set_cc_for_build
+ 	if echo __ARM_EABI__ | $CC_FOR_BUILD -E - 2>/dev/null \
+ 	    | grep -q __ARM_EABI__
+ 	then
+-	    echo ${UNAME_MACHINE}-unknown-linux-gnu
++	    echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	else
+ 	    if echo __ARM_PCS_VFP | $CC_FOR_BUILD -E - 2>/dev/null \
+ 		| grep -q __ARM_PCS_VFP
+@@ -906,19 +919,19 @@ EOF
+ 	fi
+ 	exit ;;
+     avr32*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     cris:Linux:*:*)
+-	echo ${UNAME_MACHINE}-axis-linux-gnu
++	echo ${UNAME_MACHINE}-axis-linux-${LIBC}
+ 	exit ;;
+     crisv32:Linux:*:*)
+-	echo ${UNAME_MACHINE}-axis-linux-gnu
++	echo ${UNAME_MACHINE}-axis-linux-${LIBC}
+ 	exit ;;
+     frv:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     hexagon:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     i*86:Linux:*:*)
+ 	LIBC=gnu
+@@ -932,13 +945,13 @@ EOF
+ 	echo "${UNAME_MACHINE}-pc-linux-${LIBC}"
+ 	exit ;;
+     ia64:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     m32r*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     m68*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     mips:Linux:*:* | mips64:Linux:*:*)
+ 	eval $set_cc_for_build
+@@ -957,54 +970,54 @@ EOF
+ 	#endif
+ EOF
+ 	eval `$CC_FOR_BUILD -E $dummy.c 2>/dev/null | grep '^CPU'`
+-	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-gnu"; exit; }
++	test x"${CPU}" != x && { echo "${CPU}-unknown-linux-${LIBC}"; exit; }
+ 	;;
+     or32:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     padre:Linux:*:*)
+-	echo sparc-unknown-linux-gnu
++	echo sparc-unknown-linux-${LIBC}
+ 	exit ;;
+     parisc64:Linux:*:* | hppa64:Linux:*:*)
+-	echo hppa64-unknown-linux-gnu
++	echo hppa64-unknown-linux-${LIBC}
+ 	exit ;;
+     parisc:Linux:*:* | hppa:Linux:*:*)
+ 	# Look for CPU level
+ 	case `grep '^cpu[^a-z]*:' /proc/cpuinfo 2>/dev/null | cut -d' ' -f2` in
+-	  PA7*) echo hppa1.1-unknown-linux-gnu ;;
+-	  PA8*) echo hppa2.0-unknown-linux-gnu ;;
+-	  *)    echo hppa-unknown-linux-gnu ;;
++	  PA7*) echo hppa1.1-unknown-linux-${LIBC} ;;
++	  PA8*) echo hppa2.0-unknown-linux-${LIBC} ;;
++	  *)    echo hppa-unknown-linux-${LIBC} ;;
+ 	esac
+ 	exit ;;
+     ppc64:Linux:*:*)
+-	echo powerpc64-unknown-linux-gnu
++	echo powerpc64-unknown-linux-${LIBC}
+ 	exit ;;
+     ppc:Linux:*:*)
+-	echo powerpc-unknown-linux-gnu
++	echo powerpc-unknown-linux-${LIBC}
+ 	exit ;;
+     s390:Linux:*:* | s390x:Linux:*:*)
+ 	echo ${UNAME_MACHINE}-ibm-linux
+ 	exit ;;
+     sh64*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     sh*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     sparc:Linux:*:* | sparc64:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     tile*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     vax:Linux:*:*)
+-	echo ${UNAME_MACHINE}-dec-linux-gnu
++	echo ${UNAME_MACHINE}-dec-linux-${LIBC}
+ 	exit ;;
+     x86_64:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     xtensa*:Linux:*:*)
+-	echo ${UNAME_MACHINE}-unknown-linux-gnu
++	echo ${UNAME_MACHINE}-unknown-linux-${LIBC}
+ 	exit ;;
+     i*86:DYNIX/ptx:4*:*)
+ 	# ptx 4.0 does uname -s correctly, with DYNIX/ptx in there.
 
 
-
+--------------090904030003080209050002--
