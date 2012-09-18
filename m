@@ -1,32 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TDvMQ-0006vh-0D for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 12:48:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8IAaHIE026632;
-	Tue, 18 Sep 2012 11:36:17 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25988-06; Tue, 18 Sep 2012 11:36:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8IAa6MB026626
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 18 Sep 2012 11:36:07 +0100
-Message-ID: <1347964566.13596.113.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>, Michael Halstead
-	<michael@yoctoproject.org>
-Date: Tue, 18 Sep 2012 11:36:06 +0100
-In-Reply-To: <50583F16.9070102@linaro.org>
-References: <505837BA.2040305@linaro.org> <1347959319.13596.90.camel@ted>
-	<50583F16.9070102@linaro.org>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Best way to update gnu-config?
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1TDvQg-00072Q-1n
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 18 Sep 2012 12:53:22 +0200
+Received: by weyr6 with SMTP id r6so4586824wey.6
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2012 03:40:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=h+rKX6jqWw5U71NvA+Ax7gP8wN3heP2SbOFQroUp5ds=;
+	b=e1iWVMdcg4XabEkpWpADq4CQCcjwI8u4KbI20y2r43udxS+1LTGNbYOqmGpepjR/Ad
+	Hy3V4/rU3RD/9DCkxAWm0ucG0yM2symF7+4qkj+/n/nwvl5CiseMJH26zHKXdON75UO5
+	hwecVvP3IGBRS4wg3KfMNUIqTSafu6jecJQ3J8fD7exlTC5CY1hUNMuT6QrhVdM+utcm
+	A96yikrgQpqULXffHqZ4m/PBgh0bTLcMttEePknF+8pKfzgc5tfwWbT5crcnXWZkgaaa
+	CQ69kRNyTIEcTgJmozc1FOpB2exf6rw/oKEOMGX+E+rKwjPpHiaCiq4RTobPLtyU2Rnc
+	Bm+Q==
+Received: by 10.216.3.85 with SMTP id 63mr7140762weg.134.1347964842339;
+	Tue, 18 Sep 2012 03:40:42 -0700 (PDT)
+Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id k2sm31213835wiz.7.2012.09.18.03.40.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 18 Sep 2012 03:40:41 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1347958808-20182-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Date: Tue, 18 Sep 2012 12:40:39 +0200
+Message-Id: <D02B9EB5-5B6A-4418-A625-DF29275C8703@dominion.thruhere.net>
+References: <505837BA.2040305@linaro.org>
+	<1347958808-20182-1-git-send-email-marcin.juszkiewicz@linaro.org>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+X-Mailer: Apple Mail (2.1486)
+X-Gm-Message-State: ALoCoQmNxaFOXvwl9QQ8xwyqpwxQ0NCWKLrMd1RixypxjS2M7GsCyulVVX3ulpyDVGGRJivcsqq2
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] ncurses: Update gnu-config files to version used by OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +48,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 10:48:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Sep 2012 10:53:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-09-18 at 11:29 +0200, Marcin Juszkiewicz wrote:
-> W dniu 18.09.2012 11:08, Richard Purdie pisze:
-> 
-> > The trouble was that upstream was in cvs. It was the only reason we
-> > still had a dependency on cvs and we decided we wanted to kill it which
-> > isn't something I regret.
-> 
-> There is git mirror hosted on gnu.org servers which can be used instead
-> of cvs. OE-Core already has git-native.
 
-I remember the problem now, this was a circular dependency nightmare
-(git-native depends on gnu-config-native and vice versa). 
+Op 18 sep. 2012, om 11:00 heeft Marcin Juszkiewicz =
+<marcin.juszkiewicz@linaro.org> het volgende geschreven:
 
-> > Can you share a tarball of the updated (unpatched) upstream version and
-> > we'll put it into place alongside the other tarball on the server.
-> 
-> http://people.linaro.org/~hrw/aarch64/gnu-config-20120814.tar.bz2
-> 
-> 11:29 hrw@puchatek$ sha256sum gnu-config-20120814.tar.bz2
-> 44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b
-> gnu-config-20120814.tar.bz2
->
-> > Michael (cc'd) should be able to do this. Once that is done you should
-> > be able to send a patch as usual to update to the new version.
-> 
-> Ok.
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> ---
+> meta/recipes-core/ncurses/ncurses.inc |    5 +++++
+> 1 file changed, 5 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc =
+b/meta/recipes-core/ncurses/ncurses.inc
+> index 91b1f34..3ff0914 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -59,6 +59,11 @@ ncurses_configure() {
+> 	cd ..
+> }
+>=20
+> +# Update gnu-config files to version used by OE-Core
+> +do_configure_prepend() {
+> +	install -m 0755 =
+${STAGING_DATADIR_NATIVE}/gnu-config/config.{guess,sub} ${S}
+> +}
+> +
 
-Thanks, Michael should be able to take care of this later today (he's US
-based).
-
-Cheers,
-
-Richard
-
+Apart from the missing PR bumps, isn't autotools.bbclass supposed to =
+handle this?=
 
 
