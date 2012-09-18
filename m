@@ -1,25 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TE1B8-0006Ht-Oi
+	(envelope-from <jessica.zhang@intel.com>) id 1TE1tb-0006wV-FE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 19:01:42 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Sep 2012 09:48:50 -0700
+	Tue, 18 Sep 2012 19:47:39 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 18 Sep 2012 10:34:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,442,1344236400"; d="scan'208";a="194448814"
-Received: from unknown (HELO [10.255.13.193]) ([10.255.13.193])
-	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2012 09:49:01 -0700
-Message-ID: <5058A5FC.9020308@linux.intel.com>
-Date: Tue, 18 Sep 2012 09:49:00 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+X-IronPort-AV: E=Sophos;i="4.80,444,1344236400"; d="scan'208";a="146403057"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Sep 2012 10:34:57 -0700
+Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Tue, 18 Sep 2012 10:34:57 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.152]) by
+	ORSMSX151.amr.corp.intel.com ([169.254.7.213]) with mapi id
+	14.01.0355.002; Tue, 18 Sep 2012 10:34:56 -0700
+From: "Zhang, Jessica" <jessica.zhang@intel.com>
+To: "Palcu, Laurentiu" <laurentiu.palcu@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] adt-installer: fix package installation
+	issue
+Thread-Index: AQHNlX8rlYKzCAZFOEawXJ++CmkKwpeQXJ1A
+Date: Tue, 18 Sep 2012 17:34:55 +0000
+Message-ID: <C6510F6D410BB64A8C15398EDC6B847C46AF3562@ORSMSX101.amr.corp.intel.com>
+References: <cover.1347959838.git.laurentiu.palcu@intel.com>
+	<8ac4de1571d9862bb5cbf558b72b9cecc4751fc4.1347959838.git.laurentiu.palcu@intel.com>
+In-Reply-To: <8ac4de1571d9862bb5cbf558b72b9cecc4751fc4.1347959838.git.laurentiu.palcu@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-To: Constantin Musca <constantinx.musca@intel.com>
-References: <1347975238-6208-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1347975238-6208-1-git-send-email-constantinx.musca@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] intltool: include intltool.m4 and add missing rdepends
+Subject: Re: [PATCH 1/4] adt-installer: fix package installation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,52 +45,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 17:01:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Sep 2012 17:47:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/18/2012 06:33 AM, Constantin Musca wrote:
-> - include /usr/share/aclocal/intltool.m4 into the intltool
-> package (the files from intltool-dev must be included into the
-> main package, as intltool is a development tool)
-> - add missing rdepends: gettext-dev, libxml-parser-perl
->
-> [YOCTO #2597]
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> ---
->   meta/recipes-devtools/intltool/intltool_0.50.0.bb |    9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/intltool/intltool_0.50.0.bb b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
-> index d1ee31d..52de5df 100644
-> --- a/meta/recipes-devtools/intltool/intltool_0.50.0.bb
-> +++ b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
-> @@ -1,7 +1,7 @@
->   require intltool.inc
->   LICENSE="GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-> -PR = "r0"
-> +PR = "r1"
->
->   SRC_URI += "file://intltool-nowarn-0.50.0.patch \
->              ${NATIVEPATCHES} \
-> @@ -17,3 +17,10 @@ NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch"
->
->   SRC_URI[md5sum] = "0da9847a60391ca653df35123b1f7cc0"
->   SRC_URI[sha256sum] = "dccfb0b7dd35a170130e8934bfd30c29da6ae73bcd3ca4ba71317c977b2893d6"
-> +
-> +RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
-> +
-I am not sure that this is the right thing to do here, this might cause 
-some problems if you try to build the native variation of intltool??
+Hi Laurentiu,
 
-Sau!
+Why this is only an issue for installation to a directory other than the de=
+fault e.g. /opt/poky ?
 
-> +FILES_${PN}-dev = ""
-> +FILES_${PN} += "${datadir}/aclocal"
-> +
-> +INSANE_SKIP_${PN} += "dev-deps"
->
+Thanks,
+Jessica
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Laurentiu Palcu
+Sent: Tuesday, September 18, 2012 2:22 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH 1/4] adt-installer: fix package installation issu=
+e
+
+When the cross canadian toolchains are installed, for different architectur=
+es, they might contain common files. This leads to installation failures si=
+nce the opkg, by default, does not overwrite files. This issue happens, for=
+ example, for binutils packages (that contain the same locale files) or gdb=
+ (which installs some syscalls xml files). The locale files could be remove=
+d from the binutils cross-canadian package but we cannot do the same for th=
+e syscalls GDB files which are used by GDB to display user friendly names f=
+or the syscall numbers. Hence, the best solution is to force opkg to overwr=
+ite these files.
+
+[YOCTO #3109]
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../adt-installer/scripts/adt_installer_internal   |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_inst=
+aller_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_=
+installer_internal
+index 78ea6d0..f113aa4 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_i=
+nternal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installe
++++ r_internal
+@@ -112,7 +112,7 @@ check_result
+
+ #install below must sdk-host packages
+ OPKG_INSTALL_CMD=3D"$OPKG_CMD "
+-OPKG_INSTALL_NATIVE_CMD=3D"$OPKG_INSTALL_CMD  -f $OPKG_CONFIG_FILE -o $NAT=
+IVE_INSTALL_DIR install"
++OPKG_INSTALL_NATIVE_CMD=3D"$OPKG_INSTALL_CMD  --force-overwrite -f $OPKG_C=
+ONFIG_FILE -o $NATIVE_INSTALL_DIR install"
+
+ BASE_HOSTSDK_PKGNAMES=3D"pseudo opkg pkgconfig libtool autoconf automake"
+ for pkg in $BASE_HOSTSDK_PKGNAMES; do
+--
+1.7.9.5
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
