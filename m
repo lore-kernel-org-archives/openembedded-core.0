@@ -1,38 +1,45 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jessica.zhang@intel.com>) id 1TE1tb-0006wV-FE
+	(envelope-from <scott.a.garman@intel.com>) id 1TE2Cm-0007ZZ-Hy
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 19:47:39 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 18 Sep 2012 10:34:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,444,1344236400"; d="scan'208";a="146403057"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Sep 2012 10:34:57 -0700
-Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Tue, 18 Sep 2012 10:34:57 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.152]) by
-	ORSMSX151.amr.corp.intel.com ([169.254.7.213]) with mapi id
-	14.01.0355.002; Tue, 18 Sep 2012 10:34:56 -0700
-From: "Zhang, Jessica" <jessica.zhang@intel.com>
-To: "Palcu, Laurentiu" <laurentiu.palcu@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/4] adt-installer: fix package installation
-	issue
-Thread-Index: AQHNlX8rlYKzCAZFOEawXJ++CmkKwpeQXJ1A
-Date: Tue, 18 Sep 2012 17:34:55 +0000
-Message-ID: <C6510F6D410BB64A8C15398EDC6B847C46AF3562@ORSMSX101.amr.corp.intel.com>
-References: <cover.1347959838.git.laurentiu.palcu@intel.com>
-	<8ac4de1571d9862bb5cbf558b72b9cecc4751fc4.1347959838.git.laurentiu.palcu@intel.com>
-In-Reply-To: <8ac4de1571d9862bb5cbf558b72b9cecc4751fc4.1347959838.git.laurentiu.palcu@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+	Tue, 18 Sep 2012 20:07:28 +0200
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 18 Sep 2012 10:54:46 -0700
+Received: by pbcwy7 with SMTP id wy7so464981pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2012 10:54:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=na/TuvwNp4EZ6oz0hlyx/1i9Qms4fUg+Ap+seHFFrwg=;
+	b=YD7AoZPZdylWlWmEW6TzXSvqLa5l1OZl6fWQNvY+qoACsVlFuCxzH5Jylo09RyOCEK
+	xvnWENdXkeESMuycWXui7FSMuqBglVXUFFFP2g/DNGdVsusZSsWIj45Gb6IDLejzZ7eQ
+	qlqkmr/fqM9mAleEqewp6/dckEcc92KfI19GsNtJ+kktElWjWoNShoQ9GizGge6Mx71N
+	AiHV1LGzxVaIbqrdMuEOS0q9EIuD10d2F4ox5xlckjQVZhMF49fjSDtlTGw7wCuHZDMK
+	KBovmA2wLwGlqh8hhpux9Yi4bf1ztzNqAkKV9hr4RXMwpn/zNMMh1Vt5OkgIFNXqfE/N
+	YzhQ==
+Received: by 10.68.240.7 with SMTP id vw7mr758962pbc.152.1347990886308;
+	Tue, 18 Sep 2012 10:54:46 -0700 (PDT)
+Received: from [10.1.10.30] (c-50-137-42-92.hsd1.or.comcast.net.
+	[50.137.42.92])
+	by mx.google.com with ESMTPS id qb6sm319740pbb.18.2012.09.18.10.54.42
+	(version=SSLv3 cipher=OTHER); Tue, 18 Sep 2012 10:54:45 -0700 (PDT)
+Message-ID: <5058A3D2.5010106@intel.com>
+Date: Tue, 18 Sep 2012 09:39:46 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] adt-installer: fix package installation issue
+To: Mark Asselstine <mark.asselstine@windriver.com>
+References: <1347457260-25574-1-git-send-email-mark.asselstine@windriver.com>
+	<5050D255.9030401@linux.intel.com>
+	<32086337.ec4RMj2Chr@yow-masselst-d1>
+In-Reply-To: <32086337.ec4RMj2Chr@yow-masselst-d1>
+X-Gm-Message-State: ALoCoQn+4aLb8fBbKKSUp39NwIxIlkjCD4oPIWgm0cloH1rNkTNmt5j+/GYmPjpmrWnExxRUwYUR
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: remove unused 'etc' directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,70 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 17:47:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Sep 2012 18:07:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurentiu,
+On 09/12/2012 12:35 PM, Mark Asselstine wrote:
+> On September 12, 2012 11:20:05 Saul Wold wrote:
+>> I assume this patch is for Denzil?  It seems that the current OE-Core
+>> master has etc in that list.
+>>
+>> Please confirm
+>>
+>> Sau!
+>
+> Saul,
+>
+> Sorry I got mixed up on my branches there and didn't notice your change,
+> thanks for straightening me out. Scott any chance we can get Saul's commit
+> 963742f5a9bc [kernel: Fix packaging issue] cherry-picked to Denzil?
+>
+> Mark
 
-Why this is only an issue for installation to a directory other than the de=
-fault e.g. /opt/poky ?
+Hi Mark,
 
-Thanks,
-Jessica
+Yes, I have just pulled that into my sgarman/denzil-next branches, to be 
+queued up for Autobuilder testing ASAP.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Laurentiu Palcu
-Sent: Tuesday, September 18, 2012 2:22 AM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 1/4] adt-installer: fix package installation issu=
-e
+Scott
 
-When the cross canadian toolchains are installed, for different architectur=
-es, they might contain common files. This leads to installation failures si=
-nce the opkg, by default, does not overwrite files. This issue happens, for=
- example, for binutils packages (that contain the same locale files) or gdb=
- (which installs some syscalls xml files). The locale files could be remove=
-d from the binutils cross-canadian package but we cannot do the same for th=
-e syscalls GDB files which are used by GDB to display user friendly names f=
-or the syscall numbers. Hence, the best solution is to force opkg to overwr=
-ite these files.
-
-[YOCTO #3109]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../adt-installer/scripts/adt_installer_internal   |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_inst=
-aller_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_=
-installer_internal
-index 78ea6d0..f113aa4 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_i=
-nternal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installe
-+++ r_internal
-@@ -112,7 +112,7 @@ check_result
-
- #install below must sdk-host packages
- OPKG_INSTALL_CMD=3D"$OPKG_CMD "
--OPKG_INSTALL_NATIVE_CMD=3D"$OPKG_INSTALL_CMD  -f $OPKG_CONFIG_FILE -o $NAT=
-IVE_INSTALL_DIR install"
-+OPKG_INSTALL_NATIVE_CMD=3D"$OPKG_INSTALL_CMD  --force-overwrite -f $OPKG_C=
-ONFIG_FILE -o $NATIVE_INSTALL_DIR install"
-
- BASE_HOSTSDK_PKGNAMES=3D"pseudo opkg pkgconfig libtool autoconf automake"
- for pkg in $BASE_HOSTSDK_PKGNAMES; do
---
-1.7.9.5
-
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
