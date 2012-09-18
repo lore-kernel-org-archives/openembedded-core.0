@@ -1,30 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TDvJF-0006rv-9Z for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 12:45:41 +0200
+	id 1TDvMQ-0006vh-0D for openembedded-core@lists.openembedded.org;
+	Tue, 18 Sep 2012 12:48:58 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8IAX0TF026599
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 11:33:00 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8IAaHIE026632;
+	Tue, 18 Sep 2012 11:36:17 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 25988-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 11:32:55 +0100 (BST)
+	id 25988-06; Tue, 18 Sep 2012 11:36:12 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8IAWqHj026593
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 11:32:53 +0100
-Message-ID: <1347964372.13596.110.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8IAa6MB026626
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 18 Sep 2012 11:36:07 +0100
+Message-ID: <1347964566.13596.113.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Sep 2012 11:32:52 +0100
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>, Michael Halstead
+	<michael@yoctoproject.org>
+Date: Tue, 18 Sep 2012 11:36:06 +0100
+In-Reply-To: <50583F16.9070102@linaro.org>
+References: <505837BA.2040305@linaro.org> <1347959319.13596.90.camel@ted>
+	<50583F16.9070102@linaro.org>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] bitbake.conf/gcc: Add clean masks for stamp files
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Best way to update gnu-config?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 10:45:41 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 10:48:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This takes advantage of new bitbake functionality to clean up stale stamp
-files when creating new stamp files.
+On Tue, 2012-09-18 at 11:29 +0200, Marcin Juszkiewicz wrote:
+> W dniu 18.09.2012 11:08, Richard Purdie pisze:
+> 
+> > The trouble was that upstream was in cvs. It was the only reason we
+> > still had a dependency on cvs and we decided we wanted to kill it which
+> > isn't something I regret.
+> 
+> There is git mirror hosted on gnu.org servers which can be used instead
+> of cvs. OE-Core already has git-native.
 
-[YOCTO #2961]
+I remember the problem now, this was a circular dependency nightmare
+(git-native depends on gnu-config-native and vice versa). 
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9c51630..b3d3f52 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -332,7 +332,8 @@ GITDIR = "${CO_DIR}/git2"
- BZRDIR = "${CO_DIR}/bzr"
- HGDIR = "${CO_DIR}/hg"
- 
--STAMP = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PF}"
-+STAMP = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PN}-${EXTENDPE}${PV}-${PR}"
-+STAMPCLEAN = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PN}-*-*"
- WORKDIR = "${TMPDIR}/work/${MULTIMACH_TARGET_SYS}/${PF}"
- T = "${WORKDIR}/temp"
- D = "${WORKDIR}/image"
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 72180db..4ef2a1b 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -63,6 +63,10 @@ SS = "${TMPDIR}/stamps/work-shared/gcc-${PV}-${PR}"
- do_fetch[stamp-base] = "${SS}"
- do_unpack[stamp-base] = "${SS}"
- do_patch[stamp-base] = "${SS}"
-+SSCLEAN = "${TMPDIR}/stamps/work-shared/gcc-*-*"
-+do_fetch[stamp-base-clean] = "${SSCLEAN}"
-+do_unpack[stamp-base-clean] = "${SSCLEAN}"
-+do_patch[stamp-base-clean] = "${SSCLEAN}"
- 
- # SW means Shared Work directory
- SW = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
+> > Can you share a tarball of the updated (unpatched) upstream version and
+> > we'll put it into place alongside the other tarball on the server.
+> 
+> http://people.linaro.org/~hrw/aarch64/gnu-config-20120814.tar.bz2
+> 
+> 11:29 hrw@puchatek$ sha256sum gnu-config-20120814.tar.bz2
+> 44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b
+> gnu-config-20120814.tar.bz2
+>
+> > Michael (cc'd) should be able to do this. Once that is done you should
+> > be able to send a patch as usual to update to the new version.
+> 
+> Ok.
 
+Thanks, Michael should be able to take care of this later today (he's US
+based).
+
+Cheers,
+
+Richard
 
 
 
