@@ -1,20 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TDuCP-0003Nd-Lf
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TDuCS-0003Nd-UH
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 11:34:33 +0200
+	Tue, 18 Sep 2012 11:34:37 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Sep 2012 02:21:53 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 18 Sep 2012 02:21:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,441,1344236400"; d="scan'208";a="223464660"
+X-IronPort-AV: E=Sophos;i="4.80,441,1344236400"; d="scan'208";a="223464669"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2012 02:21:51 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2012 02:21:53 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 12:21:42 +0300
-Message-Id: <cover.1347959838.git.laurentiu.palcu@intel.com>
+Date: Tue, 18 Sep 2012 12:21:43 +0300
+Message-Id: <8ac4de1571d9862bb5cbf558b72b9cecc4751fc4.1347959838.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/4] SDK and adt_installer fixes
+In-Reply-To: <cover.1347959838.git.laurentiu.palcu@intel.com>
+References: <cover.1347959838.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1347959838.git.laurentiu.palcu@intel.com>
+References: <cover.1347959838.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/4] adt-installer: fix package installation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,35 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 09:34:33 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 09:34:37 -0000
 
-Hi,
+When the cross canadian toolchains are installed, for different
+architectures, they might contain common files. This leads to
+installation failures since the opkg, by default, does not overwrite
+files. This issue happens, for example, for binutils packages (that
+contain the same locale files) or gdb (which installs some syscalls xml
+files). The locale files could be removed from the binutils
+cross-canadian package but we cannot do the same for the syscalls GDB
+files which are used by GDB to display user friendly names for the
+syscall numbers. Hence, the best solution is to force opkg to overwrite
+these files.
 
-This patchset contains some SDK/adt-installer fixes.
+[YOCTO #3109]
 
-Thanks,
-Laurentiu
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../adt-installer/scripts/adt_installer_internal   |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit 913944d904266bf90af0cad94b4f0fb3652bd29d:
-
-  upstream_tracking: update lsb and ltp (2012-09-14 17:12:52 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/adt_sdk_fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/adt_sdk_fixes
-
-Laurentiu Palcu (4):
-  adt-installer: fix package installation issue
-  SDK: fix installation into symlinked directories
-  adt-installer: ensure directory exists before copying/removing
-  SDK: remove references to Poky distro from tarball installer
-
- meta/classes/populate_sdk_base.bbclass             |   12 +++--
- .../installer/adt-installer/adt_installer          |    6 ++-
- .../adt-installer/scripts/adt_installer_internal   |   56 ++++++++++----------
- 3 files changed, 42 insertions(+), 32 deletions(-)
-
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index 78ea6d0..f113aa4 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -112,7 +112,7 @@ check_result
+ 
+ #install below must sdk-host packages
+ OPKG_INSTALL_CMD="$OPKG_CMD "
+-OPKG_INSTALL_NATIVE_CMD="$OPKG_INSTALL_CMD  -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR install"
++OPKG_INSTALL_NATIVE_CMD="$OPKG_INSTALL_CMD  --force-overwrite -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR install"
+ 
+ BASE_HOSTSDK_PKGNAMES="pseudo opkg pkgconfig libtool autoconf automake"
+ for pkg in $BASE_HOSTSDK_PKGNAMES; do
 -- 
 1.7.9.5
 
