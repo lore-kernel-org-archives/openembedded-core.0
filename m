@@ -1,30 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TDtzj-00035C-5A for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 11:21:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8I98kgp026203;
-	Tue, 18 Sep 2012 10:08:46 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25975-02; Tue, 18 Sep 2012 10:08:41 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8I98dPG026197
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 18 Sep 2012 10:08:40 +0100
-Message-ID: <1347959319.13596.90.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Date: Tue, 18 Sep 2012 10:08:39 +0100
-In-Reply-To: <505837BA.2040305@linaro.org>
-References: <505837BA.2040305@linaro.org>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Best way to update gnu-config?
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TDuCP-0003Nd-Lf
+	for openembedded-core@lists.openembedded.org;
+	Tue, 18 Sep 2012 11:34:33 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Sep 2012 02:21:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,441,1344236400"; d="scan'208";a="223464660"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2012 02:21:51 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Sep 2012 12:21:42 +0300
+Message-Id: <cover.1347959838.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/4] SDK and adt_installer fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 09:21:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Sep 2012 09:34:33 -0000
 
-On Tue, 2012-09-18 at 10:58 +0200, Marcin Juszkiewicz wrote:
-> I am working on meta-aarch64 layer to add 64-bit ARM support.
-> 
-> For that I have to update gnu-config to newer version. Currently I am
-> using gnu-config_git.bbappend to move to 20120814 one. OE-Core is using
-> tarball prepared by Yocto Project so update is not so easy for outside
-> developer.
-> 
-> Attached are files which I am using (including updated uclibc patch).
-> Please reply with information how I can get it fully merged.
+Hi,
 
-The trouble was that upstream was in cvs. It was the only reason we
-still had a dependency on cvs and we decided we wanted to kill it which
-isn't something I regret.
+This patchset contains some SDK/adt-installer fixes.
 
-Can you share a tarball of the updated (unpatched) upstream version and
-we'll put it into place alongside the other tarball on the server.
-Michael (cc'd) should be able to do this. Once that is done you should
-be able to send a patch as usual to update to the new version.
+Thanks,
+Laurentiu
 
-I appreciate this is a pain but a dependency on cvs is worse IMO ;-).
+The following changes since commit 913944d904266bf90af0cad94b4f0fb3652bd29d:
 
-Cheers,
+  upstream_tracking: update lsb and ltp (2012-09-14 17:12:52 +0100)
 
-Richard
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib lpalcu/adt_sdk_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/adt_sdk_fixes
 
+Laurentiu Palcu (4):
+  adt-installer: fix package installation issue
+  SDK: fix installation into symlinked directories
+  adt-installer: ensure directory exists before copying/removing
+  SDK: remove references to Poky distro from tarball installer
+
+ meta/classes/populate_sdk_base.bbclass             |   12 +++--
+ .../installer/adt-installer/adt_installer          |    6 ++-
+ .../adt-installer/scripts/adt_installer_internal   |   56 ++++++++++----------
+ 3 files changed, 42 insertions(+), 32 deletions(-)
+
+-- 
+1.7.9.5
 
 
 
