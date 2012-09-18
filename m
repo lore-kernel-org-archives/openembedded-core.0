@@ -1,36 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TDycu-0001Zw-Nb
+	(envelope-from <constantinx.musca@intel.com>) id 1TDyzI-0005H2-C9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 16:18:12 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 18 Sep 2012 07:05:20 -0700
-Received: by wgbdq11 with SMTP id dq11so3196489wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 07:05:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=72hxYX7fwrBVLKw3sI1D+CRipDl+mlM9kf4tdcWDYqc=;
-	b=hRTIPp++iscEerymU6YMqnSPbY52kqh7yFdlgxcDLYtAXXn6pF8AndgLfwPH4zHNtd
-	kbmK6WkD/7xsAfoVbGrpafCmkwAaMtbLfKzTZ5A2dfk1N1mLB2k+OidQryOdjmHvAvYZ
-	Uh68iulyUqh203kHkh1JjMiSNNX8tRVlWqtVxwIezLz2W7LXrm3kamRjR4I6MSMoD32g
-	SFqp25nL0WkJl6SbW+jaAP/IJQ+86wXHDm6ue/Drcp2xPKBaHzVlOFH5D7p8gfUw2GXP
-	S+CsThEfic0pSpAIq07gy9PHTIPiRBjoXQr+l0CIAQ3jDi6XVIrTvnoTgzUgPP6VXsU/
-	AkmQ==
-Received: by 10.180.94.164 with SMTP id dd4mr61999wib.1.1347977129159;
-	Tue, 18 Sep 2012 07:05:29 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id v3sm22910986wiw.7.2012.09.18.07.05.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Sep 2012 07:05:26 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 18 Sep 2012 16:41:20 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Sep 2012 07:28:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,442,1344236400"; d="scan'208";a="223571155"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2012 07:28:38 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 15:04:34 +0100
-Message-Id: <1347977074-3803-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmgC3dzRitUaJLOMzb6HlFLXQ6uqyQiCUZ0KCSMigbylCXLJiP/tfY3AqKGJ+RL38EKP/UV
-Subject: [PATCH] hob: Don't set busy cursor on the root window, just our window
+Date: Tue, 18 Sep 2012 16:33:58 +0300
+Message-Id: <1347975238-6208-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] intltool: include intltool.m4 and add missing rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,33 +28,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 14:18:12 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 14:41:20 -0000
 
-[ YOCTO #3127 ]
+- include /usr/share/aclocal/intltool.m4 into the intltool
+package (the files from intltool-dev must be included into the
+main package, as intltool is a development tool)
+- add missing rdepends: gettext-dev, libxml-parser-perl
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+[YOCTO #2597]
+
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- bitbake/lib/bb/ui/crumbs/builder.py |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/intltool/intltool_0.50.0.bb |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/bitbake/lib/bb/ui/crumbs/builder.py b/bitbake/lib/bb/ui/crumbs/builder.py
-index 6df1ca4..335a5cb 100755
---- a/bitbake/lib/bb/ui/crumbs/builder.py
-+++ b/bitbake/lib/bb/ui/crumbs/builder.py
-@@ -809,9 +809,9 @@ class Builder(gtk.Window):
-         self.image_details_page.set_sensitive(sensitive)
+diff --git a/meta/recipes-devtools/intltool/intltool_0.50.0.bb b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+index d1ee31d..52de5df 100644
+--- a/meta/recipes-devtools/intltool/intltool_0.50.0.bb
++++ b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+@@ -1,7 +1,7 @@
+ require intltool.inc
+ LICENSE="GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PR = "r0"
++PR = "r1"
  
-         if sensitive:
--            self.get_root_window().set_cursor(gtk.gdk.Cursor(gtk.gdk.LEFT_PTR))
-+            self.window.set_cursor(None)
-         else:
--            self.get_root_window().set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
-+            self.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
-         self.sensitive = sensitive
+ SRC_URI += "file://intltool-nowarn-0.50.0.patch \
+            ${NATIVEPATCHES} \
+@@ -17,3 +17,10 @@ NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch"
  
- 
+ SRC_URI[md5sum] = "0da9847a60391ca653df35123b1f7cc0"
+ SRC_URI[sha256sum] = "dccfb0b7dd35a170130e8934bfd30c29da6ae73bcd3ca4ba71317c977b2893d6"
++
++RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
++
++FILES_${PN}-dev = ""
++FILES_${PN} += "${datadir}/aclocal"
++
++INSANE_SKIP_${PN} += "dev-deps"
 -- 
-1.7.10
+1.7.9.5
 
 
 
