@@ -1,20 +1,36 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TDxav-0005iL-OS
+	(envelope-from <ross.burton@intel.com>) id 1TDycu-0001Zw-Nb
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 15:12:05 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Sep 2012 05:58:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,442,1344236400"; d="scan'208";a="194353484"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.37])
-	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2012 05:58:19 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Tue, 18 Sep 2012 16:18:12 +0200
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 18 Sep 2012 07:05:20 -0700
+Received: by wgbdq11 with SMTP id dq11so3196489wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2012 07:05:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=72hxYX7fwrBVLKw3sI1D+CRipDl+mlM9kf4tdcWDYqc=;
+	b=hRTIPp++iscEerymU6YMqnSPbY52kqh7yFdlgxcDLYtAXXn6pF8AndgLfwPH4zHNtd
+	kbmK6WkD/7xsAfoVbGrpafCmkwAaMtbLfKzTZ5A2dfk1N1mLB2k+OidQryOdjmHvAvYZ
+	Uh68iulyUqh203kHkh1JjMiSNNX8tRVlWqtVxwIezLz2W7LXrm3kamRjR4I6MSMoD32g
+	SFqp25nL0WkJl6SbW+jaAP/IJQ+86wXHDm6ue/Drcp2xPKBaHzVlOFH5D7p8gfUw2GXP
+	S+CsThEfic0pSpAIq07gy9PHTIPiRBjoXQr+l0CIAQ3jDi6XVIrTvnoTgzUgPP6VXsU/
+	AkmQ==
+Received: by 10.180.94.164 with SMTP id dd4mr61999wib.1.1347977129159;
+	Tue, 18 Sep 2012 07:05:29 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id v3sm22910986wiw.7.2012.09.18.07.05.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 18 Sep 2012 07:05:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 15:57:58 +0300
-Message-Id: <1347973078-12399-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] qemux86-64: Support for KVM, paravirt and virtio added
+Date: Tue, 18 Sep 2012 15:04:34 +0100
+Message-Id: <1347977074-3803-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmgC3dzRitUaJLOMzb6HlFLXQ6uqyQiCUZ0KCSMigbylCXLJiP/tfY3AqKGJ+RL38EKP/UV
+Subject: [PATCH] hob: Don't set busy cursor on the root window, just our window
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,57 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 13:12:06 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 14:18:12 -0000
 
-    KVM, paravirtualization and virtio drivers are now activated
-    in runqemu using the kvm option flag for qemux86-64.
-    Host CPU features are also exported to guest OS (Yocto Linux).
-    Usage example: runqemu qemux86-64 core-image-x11 kvm
+[ YOCTO #3127 ]
 
-    Implements [YOCTO #2550].
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_3.4.bb |    3 ++-
- scripts/runqemu-internal                     |    4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ bitbake/lib/bb/ui/crumbs/builder.py |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index 32ae02b..06dd677 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckou
+diff --git a/bitbake/lib/bb/ui/crumbs/builder.py b/bitbake/lib/bb/ui/crumbs/builder.py
+index 6df1ca4..335a5cb 100755
+--- a/bitbake/lib/bb/ui/crumbs/builder.py
++++ b/bitbake/lib/bb/ui/crumbs/builder.py
+@@ -809,9 +809,9 @@ class Builder(gtk.Window):
+         self.image_details_page.set_sensitive(sensitive)
  
- LINUX_VERSION ?= "3.4.10"
+         if sensitive:
+-            self.get_root_window().set_cursor(gtk.gdk.Cursor(gtk.gdk.LEFT_PTR))
++            self.window.set_cursor(None)
+         else:
+-            self.get_root_window().set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
++            self.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.WATCH))
+         self.sensitive = sensitive
  
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.3"
- PV = "${LINUX_VERSION}+git${SRCPV}"
  
- KMETA = "meta"
-@@ -28,4 +28,5 @@ KERNEL_FEATURES_append = " features/netfilter"
- KERNEL_FEATURES_append_qemux86=" cfg/sound"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
- KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm"
-+KERNEL_FEATURES_append_qemux86-64=" cfg/paravirt_kvm"
- KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f2c8d83..6e20dd7 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -350,8 +350,8 @@ if [ "$MACHINE" = "qemux86-64" ]; then
-     QEMU=qemu-system-x86_64
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
--        KERNCMDLINE="vga=0 root=/dev/hda rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -hda $ROOTFS $QEMU_UI_OPTIONS"
-+        KERNCMDLINE="vga=0 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "x$ROOTFS" = "x" ]; then
 -- 
-1.7.9.5
+1.7.10
 
 
 
