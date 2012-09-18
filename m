@@ -1,32 +1,25 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TDuKa-0003gw-Qy
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1TDv00-0006La-1X
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 11:43:00 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 1E8F6D22DD; Tue, 18 Sep 2012 11:30:24 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (84-10-244-25.dynamic.chello.pl [84.10.244.25])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 739BFD20E0;
-	Tue, 18 Sep 2012 11:30:03 +0200 (CEST)
-Message-ID: <50583F16.9070102@linaro.org>
-Date: Tue, 18 Sep 2012 11:29:58 +0200
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Tue, 18 Sep 2012 12:25:48 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8IAD6Om005755
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Sep 2012 03:13:06 -0700 (PDT)
+Received: from fc17-64.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 18 Sep 2012 03:13:06 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Sep 2012 18:18:30 +0800
+Message-ID: <cover.1347950270.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.11.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <505837BA.2040305@linaro.org> <1347959319.13596.90.camel@ted>
-In-Reply-To: <1347959319.13596.90.camel@ted>
-Subject: Re: Best way to update gnu-config?
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] rpm 5.4.9: DEPENDS on bison-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,32 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 09:43:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Sep 2012 10:25:48 -0000
+Content-Type: text/plain
 
-W dniu 18.09.2012 11:08, Richard Purdie pisze:
+The following changes since commit 913944d904266bf90af0cad94b4f0fb3652bd29d:
 
-> The trouble was that upstream was in cvs. It was the only reason we
-> still had a dependency on cvs and we decided we wanted to kill it which
-> isn't something I regret.
+  upstream_tracking: update lsb and ltp (2012-09-14 17:12:52 +0100)
 
-There is git mirror hosted on gnu.org servers which can be used instead
-of cvs. OE-Core already has git-native.
+are available in the git repository at:
 
-> Can you share a tarball of the updated (unpatched) upstream version and
-> we'll put it into place alongside the other tarball on the server.
+  git://git.pokylinux.org/poky-contrib robert/rpmdepend
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/rpmdepend
 
-http://people.linaro.org/~hrw/aarch64/gnu-config-20120814.tar.bz2
+Robert Yang (1):
+  rpm 5.4.9: DEPENDS on bison-native
 
-11:29 hrw@puchatek$ sha256sum gnu-config-20120814.tar.bz2
-44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b
-gnu-config-20120814.tar.bz2
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Michael (cc'd) should be able to do this. Once that is done you should
-> be able to send a patch as usual to update to the new version.
-
-Ok.
+-- 
+1.7.11.2
 
 
 
