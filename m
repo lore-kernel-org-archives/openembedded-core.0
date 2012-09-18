@@ -1,40 +1,20 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TDxID-0004y8-2Y
+	(envelope-from <cristian.iorga@intel.com>) id 1TDxQb-0005TO-9r
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 14:52:45 +0200
-Received: by wibhq4 with SMTP id hq4so3302918wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 05:40:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=qPmWXzD8Zp0dZyqNXo04N8/xUFCRyZqNY8Ewtey9mqM=;
-	b=NnRjh3A9Gxu3otyq8oOgwEzW64j00+IRw6jtsiKOsf7oPkAfzvCQS5BIfhqavXO5gC
-	AAqZKLvwYbY5gxwqfnU4i3u7XThOSCQDYtDHQFK9fRjjEz2zUKDFWATfJjaqPaooskCt
-	O/ijzMQmi1mJnE/mU2rqXBNgZ3PwQtJU/LaGv3st79ousLnMQtPZx1LXSJPamFbcmZDi
-	ypmNer3p59STCcdOCuITpdDPWbg07rg8jmjNOuZW58J5qbmNd8MgVaQwV3E+hQtR5P5k
-	I0BILvnMoEetb+n4Ry2ypgSMaHhubm5wLBfQZcrYwpsedd/V+GUMCUkQuqWuB0+7cTVa
-	iVqg==
-Received: by 10.216.145.227 with SMTP id p77mr19002wej.58.1347972005129;
-	Tue, 18 Sep 2012 05:40:05 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id do5sm31723731wib.10.2012.09.18.05.40.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Sep 2012 05:40:04 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1347962498-756-1-git-send-email-constantinx.musca@intel.com>
-Date: Tue, 18 Sep 2012 14:40:04 +0200
-Message-Id: <4D914278-5082-4B59-9162-CE561159AAF7@dominion.thruhere.net>
-References: <1347962498-756-1-git-send-email-constantinx.musca@intel.com>
-To: Constantin Musca <constantinx.musca@intel.com>
-X-Mailer: Apple Mail (2.1486)
-X-Gm-Message-State: ALoCoQmm00ICPMZxZUNgyHs6Zjb1hKxo1x797GwDEOkMeSPmDSKZ9cxCNfmS/4ctY3CYD4CuOMK6
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] netbase: split up in netbase and init-ifupdown
+	Tue, 18 Sep 2012 15:01:25 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Sep 2012 05:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,442,1344236400"; d="scan'208";a="223533127"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.37])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Sep 2012 05:48:43 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Sep 2012 15:48:23 +0300
+Message-Id: <1347972503-12200-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] qemux86-64: Support for KVM, paravirt and virtio added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,39 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 12:52:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Sep 2012 13:01:25 -0000
 
+    KVM, paravirtualization and virtio drivers are now activated
+    in runqemu using the kvm option flag for qemux86-64.
+    Host CPU features are also exported to guest OS (Yocto Linux).
+    Usage example: runqemu qemux86-64 core-image-x11 kvm
 
-Op 18 sep. 2012, om 12:01 heeft Constantin Musca =
-<constantinx.musca@intel.com> het volgende geschreven:
+    Implements [YOCTO #2550].
 
-> - netbase should only include etc-rpc, etc-protocols, etc-services
-> and the hosts file
-> - the init script/configuration files should be in another package
-> (init-ifupdown)
->=20
-> [YOCTO #2486]
->=20
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->=20
-> --- /dev/null
-> +++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-> @@ -0,0 +1,41 @@
-> +SUMMARY =3D "Basic TCP/IP networking init scripts and configuration =
-files"
-> +DESCRIPTION =3D "This package provides high level tools to configure =
-network interfaces"
-> +HOMEPAGE =3D "http://packages.debian.org/ifupdown"
-> +SECTION =3D "base"
-> +LICENSE =3D "GPLv2"
-> +LIC_FILES_CHKSUM =3D =
-"file://${WORKDIR}/copyright;md5=3D3dd6192d306f582dee7687da3d8748ab"
-> +RDEPENDS_${PN} =3D "netbase"
-> +RCONFLICTS_${PN} =3D "netbase (< 5.0-r1)"
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb |    1 +
+ scripts/runqemu-internal                     |    4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Since R* is for packaging they should live below do_install to mimic the =
-order of task execution in the recipe=
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 32ae02b..e265f6f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -28,4 +28,5 @@ KERNEL_FEATURES_append = " features/netfilter"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm"
++KERNEL_FEATURES_append_qemux86-64=" cfg/paravirt_kvm"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index f2c8d83..6e20dd7 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -350,8 +350,8 @@ if [ "$MACHINE" = "qemux86-64" ]; then
+     QEMU=qemu-system-x86_64
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
+     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
+-        KERNCMDLINE="vga=0 root=/dev/hda rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -hda $ROOTFS $QEMU_UI_OPTIONS"
++        KERNCMDLINE="vga=0 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
+     fi
+     if [ "$FSTYPE" = "nfs" ]; then
+         if [ "x$ROOTFS" = "x" ]; then
+-- 
+1.7.9.5
+
 
 
