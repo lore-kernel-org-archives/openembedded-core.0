@@ -1,33 +1,36 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TDn3I-0006qa-JO
+	(envelope-from <otavio.salvador@gmail.com>) id 1TDnvl-0007rl-Md
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 03:56:40 +0200
-Received: by eaad12 with SMTP id d12so2229638eaa.6
+	Tue, 18 Sep 2012 04:52:57 +0200
+Received: by pbcwy7 with SMTP id wy7so9862868pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Sep 2012 18:44:01 -0700 (PDT)
+	Mon, 17 Sep 2012 19:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=W4kZp/Hw+Nz4uroq8Q82rFhyIlVhuO4GYITVejr+1DE=;
-	b=mvoQltifE4As9tW0wtHFATSE96l4KzAL2VE7AoJOI73aW6rWJfcGRRpC5+/FagQdjP
-	w6L7aKLw6J40hcRjoXb3f23/Y4/tfmq7gRl+lzMZswVlHGexO3d7U0xp+HQUeql2PlTL
-	p+rkWDD4Jq1K3g1p2w3Qzc1dIUT8T7INhMFUS+M3sPy2FctW26esKHXiyCMFokdalWqH
-	BljryxFL1ZgX4Hf53mLu+KRyBfRY40oE5c4sRADLOqUIJy2bBD+AKgzG61KO828DWmfV
-	gdAllqPWrzdo1YqpvWcnge8VQGmT69o+5wLUQZ3s61PGSeVw9gjIRrj0xHimJyeM645u
-	1fPA==
-Received: by 10.14.211.3 with SMTP id v3mr15412594eeo.43.1347932641491; Mon,
-	17 Sep 2012 18:44:01 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=6OXaFYMbv9QHj33L/PabuFXanXImATGFm8UWs+yTm5U=;
+	b=LRl7RZMlBTSg/THF2HPv+0ycvX+OT5Ln8eVzIU+ExZ1J5xo2MNl2PxDp4giV3gQVPr
+	sWk6BxRQifOyybjufchNKfORzGwqgEaJvOlArRrCqIL+Of53K1Gg3k5fYAWsKaei+rk2
+	Usd1OqNUsU6HQDqPh8KmlsL8+UqyBcoTpTdj8IoNR+7zZasL6uxq689vFH++zUx4qTw+
+	pGpBrHCYEb5UApy/QUYO3WqrAQQz8hFR48ajJ9/XGlbUKV7dEcxwN/iscTX2LVRlZiJF
+	CPzfFwMhkBspVLPdr29knHTzGu7+7TeCZoIMdvPp8R4dB3olJ6n6BL+ykF4WMHyXip1s
+	AWDQ==
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Mon, 17 Sep 2012 18:43:31 -0700 (PDT)
-In-Reply-To: <lyr4q0zydx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lyr4q0zydx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 17 Sep 2012 18:43:31 -0700
-Message-ID: <CAMKF1spzF3aXKo5X2+vFNo_Ha4LDA+5rx6gSCoh_R_2rapcxzQ@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Received: by 10.66.78.194 with SMTP id d2mr23328943pax.42.1347936017525; Mon,
+	17 Sep 2012 19:40:17 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.36.105 with HTTP; Mon, 17 Sep 2012 19:40:17 -0700 (PDT)
+In-Reply-To: <1347927458-21623-2-git-send-email-sgw@linux.intel.com>
+References: <1347927458-21623-1-git-send-email-sgw@linux.intel.com>
+	<1347927458-21623-2-git-send-email-sgw@linux.intel.com>
+Date: Mon, 17 Sep 2012 23:40:17 -0300
+X-Google-Sender-Auth: RbVwMM1ubaHKD8Z8S_m6vy5DV1o
+Message-ID: <CAP9ODKrM9FxUgMm5-Di9B2q1AAg882hQLd+gvNpErpVFi=q+Yw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: binutils regression: internal error in set_address
+Subject: Re: [PATCH v2] xserver-xorg: Modify RREPLACES for RCONFLICTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,45 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 01:56:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Sep 2012 02:52:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Sep 17, 2012 at 4:23 AM, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> Hi,
->
-> recent binutils upgrade[1] breaks dot assignments within NOLOAD sections.
+Hello Saul,
 
+On Mon, Sep 17, 2012 at 9:17 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-Hi Enrico
+I understand the patch but from the description it is not clear why it
+is need. Please clarify it in the commit log.
 
-Yes I have seen this and currently filed a bug for gold upstream. This
-exists on trunk of gold too.
-
-> E.g
->
-> $ echo '_start:' > foo.S
-> $ cat <<EOF >foo.ld
-> SECTIONS {
->         .stack (NOLOAD) : {
->                . = . + 128;
->         }
-> }
-> EOF
-> $ arm-linux-gnueabi-gcc foo.S -T foo.ld
-> arm-linux-gnueabi/4.7.2/ld: internal error in set_address, .../binutils-2.22/gold/output.h:189
->
->
->
-> Enrico
->
-> Footnotes:
-> [1]  0038-Copy-from-mainline-to-binutils-2.22-branch.patch
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
