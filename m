@@ -1,43 +1,26 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@bigsur.com>) id 1TE4dl-000638-9E
+	(envelope-from <sgw@linux.intel.com>) id 1TE4nE-0006BO-VE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Sep 2012 22:43:29 +0200
-Received: by pbcwy7 with SMTP id wy7so734495pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 13:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bigsur.com; s=bigsur.com;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=PDsiLxBeNz96EqlhVsJqXzQOawXQE7HsVpps1AjpLMM=;
-	b=Lw406uoFBsJ29VtxhWi1uaU0pEVboOyiUKlc5ErGr8CMIbAZeXcRahy1b5mAbiwUUs
-	eYdYx0C08htuZXmPcYZU8J7aY267UGur4uWcpDeKthwRaDTodT98VDflmTVYyxmHiVRc
-	R8AGUndindTaITbqatVaF22if4QRar3pFwiO8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=PDsiLxBeNz96EqlhVsJqXzQOawXQE7HsVpps1AjpLMM=;
-	b=Rs8zJPU2oDncdsZ142ai5TOi/oUha15F1KS9byyV5stK6sksV/lb6DIzBsHeFkXWsb
-	HxbX7bxU2BtVM6zceLviE4ioeY+hhKET8WoArcL6SpyQk10KM6uhtXu3WZjy6pJVx3lR
-	DOKaoiUUWwdSDdDw6SElFVIEvJx0oHDKAsZNIlQ5c+yIgHkgBTkix2LBIzdQ037RrMJ5
-	nVWA1G0SQP6vOdxCD2yWSbEbBgyAYp1ZDnQ00Elm5GUAXYv/bXtTwa8TJpGN/Vyrr78I
-	cmb80vQcWyGVCvaRumIRlgtLwUz4fh2V6yALr3bnyX/7zrQpSCiTOKXHrRstEnDjCItJ
-	E8kg==
-Received: by 10.68.225.199 with SMTP id rm7mr1595385pbc.150.1348000248076;
-	Tue, 18 Sep 2012 13:30:48 -0700 (PDT)
-Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id tw5sm496257pbc.48.2012.09.18.13.30.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Sep 2012 13:30:47 -0700 (PDT)
-Sender: Saul Wold <sgw@bigsur.com>
+	Tue, 18 Sep 2012 22:53:17 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Sep 2012 13:40:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,445,1344236400"; d="scan'208";a="223656423"
+Received: from unknown (HELO [10.255.13.193]) ([10.255.13.193])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Sep 2012 13:40:35 -0700
+Message-ID: <5058DC43.1000503@linux.intel.com>
+Date: Tue, 18 Sep 2012 13:40:35 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 13:30:34 -0700
-Message-Id: <1348000234-9879-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQkd/Oo2i+HhzUFrMJWiI1lLflaLejt76MRM6VvTL4DVsDrMif/rDAzF8pL4NK8r72zZ+hCL
-Subject: [PATCH] image_types: fix squashfs-lzma image creation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Constantin Musca <constantinx.musca@intel.com>
+References: <1347975238-6208-1-git-send-email-constantinx.musca@intel.com>
+	<5058A5FC.9020308@linux.intel.com>
+In-Reply-To: <5058A5FC.9020308@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] intltool: include intltool.m4 and add missing rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,41 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 20:43:29 -0000
+X-List-Received-Date: Tue, 18 Sep 2012 20:53:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-squashfs has the -comp option for lzma, so use it.
+On 09/18/2012 09:49 AM, Saul Wold wrote:
+> On 09/18/2012 06:33 AM, Constantin Musca wrote:
+>> - include /usr/share/aclocal/intltool.m4 into the intltool
+>> package (the files from intltool-dev must be included into the
+>> main package, as intltool is a development tool)
+>> - add missing rdepends: gettext-dev, libxml-parser-perl
+>>
+>> [YOCTO #2597]
+>>
+>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>> ---
+>>   meta/recipes-devtools/intltool/intltool_0.50.0.bb |    9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>> b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>> index d1ee31d..52de5df 100644
+>> --- a/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>> +++ b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>> @@ -1,7 +1,7 @@
+>>   require intltool.inc
+>>   LICENSE="GPLv2"
+>>   LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>> -PR = "r0"
+>> +PR = "r1"
+>>
+>>   SRC_URI += "file://intltool-nowarn-0.50.0.patch \
+>>              ${NATIVEPATCHES} \
+>> @@ -17,3 +17,10 @@ NATIVEPATCHES_virtclass-native =
+>> "file://use-nativeperl.patch"
+>>
+>>   SRC_URI[md5sum] = "0da9847a60391ca653df35123b1f7cc0"
+>>   SRC_URI[sha256sum] =
+>> "dccfb0b7dd35a170130e8934bfd30c29da6ae73bcd3ca4ba71317c977b2893d6"
+>> +
+>> +RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
+>> +
+> I am not sure that this is the right thing to do here, this might cause
+> some problems if you try to build the native variation of intltool??
+>
+I should have included the failure:
 
-[YOCTO #3126]
+> ERROR: Nothing RPROVIDES 'gettext-dev-native' (but virtual:native:/intel/poky/distro/meta/recipes-devtools/intltool/intltool_0.50.0.bb RDEPENDS on or otherwise requires it)
+> NOTE: Runtime target 'gettext-dev-native' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['gettext-dev-native']
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/image_types.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Not sure how you tested this, as it failed right away for me!
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8d76cc9..bdb67b4 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -166,7 +166,7 @@ IMAGE_CMD_btrfs () {
- }
- 
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs ${EXTRA_IMAGECMD} -noappend"
--IMAGE_CMD_squashfs-lzma = "mksquashfs-lzma ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzma ${EXTRA_IMAGECMD} -noappend"
-+IMAGE_CMD_squashfs-lzma = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzma ${EXTRA_IMAGECMD} -noappend -comp lzma"
- IMAGE_CMD_tar = "cd ${IMAGE_ROOTFS} && tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar ."
- 
- CPIO_TOUCH_INIT () {
-@@ -225,7 +225,7 @@ IMAGE_DEPENDS_ext3 = "genext2fs-native e2fsprogs-native"
- IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
--IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
-+IMAGE_DEPENDS_squashfs-lzma = "squashfs-tools-native"
- IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
--- 
-1.7.9.5
+Sau!
 
+> Sau!
+>
+>> +FILES_${PN}-dev = ""
+>> +FILES_${PN} += "${datadir}/aclocal"
+>> +
+>> +INSANE_SKIP_${PN} += "dev-deps"
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
