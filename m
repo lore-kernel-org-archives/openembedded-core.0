@@ -1,28 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TEMMc-0000G2-GV
+	(envelope-from <constantinx.musca@intel.com>) id 1TEMNw-0000JF-Jz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 17:38:58 +0200
+	Wed, 19 Sep 2012 17:40:20 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2012 08:26:16 -0700
+	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2012 08:27:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,447,1344236400"; d="scan'208";a="194884442"
-Received: from unknown (HELO [10.252.121.202]) ([10.252.121.202])
-	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2012 08:26:15 -0700
-Message-ID: <5059E416.6090108@intel.com>
-Date: Wed, 19 Sep 2012 18:26:14 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.80,447,1344236400"; d="scan'208";a="194884950"
+Received: from costin-desktop (HELO [10.237.105.66]) ([10.237.105.66])
+	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2012 08:27:37 -0700
+Message-ID: <5059D79C.8060703@intel.com>
+Date: Wed, 19 Sep 2012 17:33:00 +0300
+From: Constantin Musca <constantinx.musca@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1348052899.git.laurentiu.palcu@intel.com>
-	<e12955c6d49bceb6c271574551b5feb76c51fa3b.1348052899.git.laurentiu.palcu@intel.com>
-	<CAMKF1soiz=RjQEGd+bGidaMJKCVcja6wvUJeyyFfaUuPsXUUqg@mail.gmail.com>
-	<CAJTo0Lb6QFTJkc0RKmvi5SKxpaGJo3db01ssScsiSsfMTjwGgg@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb6QFTJkc0RKmvi5SKxpaGJo3db01ssScsiSsfMTjwGgg@mail.gmail.com>
+References: <1348048754-30379-1-git-send-email-constantinx.musca@intel.com>
+	<CAMKF1spysZ_tcHRu1XoTTdvvMCbSxfjkJnk6xgg1KU_Hm__DBQ@mail.gmail.com>
+	<5059C2CE.4050109@intel.com> <5059E042.3050805@linux.intel.com>
+	<CAJTo0LaB862PyJ8VGCJgLVCqb9A0=AZf43fztWjQOPMUuki-5Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LaB862PyJ8VGCJgLVCqb9A0=AZf43fztWjQOPMUuki-5Q@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 4/7] gtk-icon-cache: run the icon generation at rootfs time
+Subject: Re: [PATCH v2] intltool: include intltool.m4 and add missing rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 15:38:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 19 Sep 2012 15:40:20 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 09/19/2012 04:38 PM, Burton, Ross wrote:
-> On 19 September 2012 14:28, Khem Raj <raj.khem@gmail.com> wrote:
->> Do you really need bash for this script to run ? if so then can it be
->> written so that it works on posixly shells.
-> 
-> #! /bin/bash and no dependency on bash...  probably should make that
-> sh-compliant.
-Will do.
-
-Thanks,
-Laurentiu
-> 
+On 09/19/2012 06:15 PM, Burton, Ross wrote:
+> On 19 September 2012 16:09, Saul Wold <sgw@linux.intel.com> wrote:
+>> The question here is why do we need the gettext-dev package for intltool?
+>> What does intltool need from the -dev package?
+> intltool needs the gettext binaries and IIRC a header - but I'm
+> sufficiently unsure about the details that someone should verify what
+> the dependencies were for documenting in the commit.
+>
 > Ross
-> 
+I'm going to investigate this and come back to you.
+
+Constantin
 
 
