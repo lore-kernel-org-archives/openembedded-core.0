@@ -1,28 +1,51 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from ch1ehsobe006.messaging.microsoft.com ([216.32.181.186]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TEAFQ-0007hi-Bv
+	(envelope-from <B29882@freescale.com>) id 1TEAMm-0005gY-3K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 04:42:44 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Sep 2012 19:29:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,446,1344236400"; d="scan'208";a="194656547"
-Received: from unknown (HELO [10.255.13.193]) ([10.255.13.193])
-	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2012 19:29:56 -0700
-Message-ID: <50592E24.8070701@linux.intel.com>
-Date: Tue, 18 Sep 2012 19:29:56 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Wed, 19 Sep 2012 04:50:20 +0200
+Received: from mail136-ch1-R.bigfish.com (10.43.68.248) by
+	CH1EHSOBE020.bigfish.com (10.43.70.77) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 19 Sep 2012 02:37:38 +0000
+Received: from mail136-ch1 (localhost [127.0.0.1])	by
+	mail136-ch1-R.bigfish.com (Postfix) with ESMTP id A62FBE017E	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2012 02:37:38 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VS1(zzzz1202h1d1ah1d2ahzzz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdhbe9i1155h)
+Received: from mail136-ch1 (localhost.localdomain [127.0.0.1]) by mail136-ch1
+	(MessageSwitch) id 1348022257162885_11703;
+	Wed, 19 Sep 2012 02:37:37 +0000 (UTC)
+Received: from CH1EHSMHS024.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.236])	by mail136-ch1.bigfish.com (Postfix) with ESMTP id
+	2460B3A007E	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2012 02:37:37 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS024.bigfish.com
+	(10.43.70.24) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 19 Sep 2012 02:37:36 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0309.003; Tue, 18 Sep 2012 21:37:36 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: multilib errors
+Thread-Index: AQHNlg+6OMS/xOqYcUClQ5N5275vdw==
+Date: Wed, 19 Sep 2012 02:37:35 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A68BAF6@039-SN1MPN1-001.039d.mgd.msft.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-To: Cristian Iorga <cristian.iorga@intel.com>
-References: <1347973078-12399-1-git-send-email-cristian.iorga@intel.com>
-In-Reply-To: <1347973078-12399-1-git-send-email-cristian.iorga@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qemux86-64: Support for KVM, paravirt and virtio added
+X-OriginatorOrg: freescale.com
+Subject: multilib errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -32,66 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 02:42:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Sep 2012 02:50:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <E34D663DF18FB7498C6C56B1CD0702E6@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 09/18/2012 05:57 AM, Cristian Iorga wrote:
->      KVM, paravirtualization and virtio drivers are now activated
->      in runqemu using the kvm option flag for qemux86-64.
->      Host CPU features are also exported to guest OS (Yocto Linux).
->      Usage example: runqemu qemux86-64 core-image-x11 kvm
->
->      Implements [YOCTO #2550].
->
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   meta/recipes-kernel/linux/linux-yocto_3.4.bb |    3 ++-
->   scripts/runqemu-internal                     |    4 ++--
->   2 files changed, 4 insertions(+), 3 deletions(-)
->
+Is anyone else seeing:
 
-This seems to be an incremental change over the last one, and I have 
-lost track of which applies against which, can you please resend a 
-versioned patch (ie [PATCH v2] ) that is complete.
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry trailingslash.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry prefix-manpage-fix.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry rename-with-sysroot.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry use-sysroot-in-libpath.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry fix-final-rpath.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry avoid_absolute_paths_for_general_utils.patch: file could not be
+found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry fix-rpath.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry respect-fstack-protector.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry norm-rpath.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry prefix.patch: file could not be found
+WARNING: Unable to get checksum for lib64-nativesdk-libtool SRC_URI
+entry fixinstall.patch: file could not be found
+WARNING: Unable to get checksum for lib64-build-appliance-image
+SRC_URI entry Yocto_Build_Appliance.vmx: file could not be found
+WARNING: Unable to get checksum for lib64-build-appliance-image
+SRC_URI entry Yocto_Build_Appliance.vmxf: file could not be found
 
-Thanks
-	Sau!
+With multilib enabled? Have not debuged but it looks like something is
+parsing SRC_URI for recipes under multilib when it should not be.
 
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> index 32ae02b..06dd677 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> @@ -15,7 +15,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckou
->
->   LINUX_VERSION ?= "3.4.10"
->
-> -PR = "${INC_PR}.1"
-> +PR = "${INC_PR}.3"
->   PV = "${LINUX_VERSION}+git${SRCPV}"
->
->   KMETA = "meta"
-> @@ -28,4 +28,5 @@ KERNEL_FEATURES_append = " features/netfilter"
->   KERNEL_FEATURES_append_qemux86=" cfg/sound"
->   KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
->   KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/paravirt_kvm"
->   KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index f2c8d83..6e20dd7 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -350,8 +350,8 @@ if [ "$MACHINE" = "qemux86-64" ]; then
->       QEMU=qemu-system-x86_64
->       QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
->       if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-> -        KERNCMDLINE="vga=0 root=/dev/hda rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-> -        QEMUOPTIONS="$QEMU_NETWORK_CMD -hda $ROOTFS $QEMU_UI_OPTIONS"
-> +        KERNCMDLINE="vga=0 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-> +        QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
->       fi
->       if [ "$FSTYPE" = "nfs" ]; then
->           if [ "x$ROOTFS" = "x" ]; then
->
+-M=
+
 
 
