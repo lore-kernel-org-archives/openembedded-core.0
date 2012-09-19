@@ -1,38 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TEMBP-00008K-F7
+	(envelope-from <ross.burton@intel.com>) id 1TEMCj-0006QE-Gv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 17:27:27 +0200
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Sep 2012 08:14:29 -0700
-Received: by oagn9 with SMTP id n9so1163374oag.6
+	Wed, 19 Sep 2012 17:28:45 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 19 Sep 2012 08:16:02 -0700
+Received: by obblz20 with SMTP id lz20so1189901obb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 08:14:40 -0700 (PDT)
+	Wed, 19 Sep 2012 08:15:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=Oa8slfKjwMkaOfextmruC00in+nVljBi4LsC7nkntX4=;
-	b=ZHUFLL3RPM3Rg0F9/ITqpbhonJZeO0Fx3zz6ukL5Kfqc3icsCXYL7imgZZdfI74RMB
-	Zs8aYdrhHsoTZwjPuonyBR0RsAyGvjtCVvPv0D31G/bFgVdnWQ4qjCB4+gaz6H6y7ofd
-	4HFOHmqp8lw3w3XvJbiuaV/KTRwqYUbYk3fhR7dpz6OM3mMAcbVjmgsvwWDJix5SCZ45
-	SO3lt3GkS3+F63G39wyVZvq4caG1n98w4wSuRM7Djdkl32B3sXZLlvRX/q7x8yA6WhJe
-	zYeFYXq6eEjlep9fgR7JJ2/F7Yk4+M8wJ9cgsoiHB8QvJ7U+89uD4W1/I6bIXaebpkVr
-	H2ag==
-Received: by 10.60.12.106 with SMTP id x10mr3090847oeb.103.1348067680105; Wed,
-	19 Sep 2012 08:14:40 -0700 (PDT)
+	bh=/C4o4X9goBvDmEF1rZzNTFVadrUBiCFyVpJ9wpgwjwM=;
+	b=dAcbqYHXo/vOowRZ7notEsCQkvfu7iwP8syGAvA0ZGFg6QlpbXy5/Xezv0o9hadFn7
+	dHuBqCYNXMLgXxdKFIGuwfiIZZTCbQIkgG6biSkmR4cZA65qc51QnYNcuDir3g5Cg6xO
+	H/Ct3WMeljaqN7EpRpV340eB4a0Z+krgztZ9y4q+0/d8EzZz4b6K1XavxfIgj6ylh1qy
+	5Ekvr612/2AjujEKLWqpYVfSFf1sMxAdEZeCHpS9CTFMG2I3aVWZaAIOo71tTclEuzaj
+	9Lcf3oMBJQ/AQ5IGCOGCms/9AC2fCiYGDr8ejESefIzrUhdGaJpuBtQZQ8FAJbyfdpPs
+	GLjw==
+Received: by 10.60.171.174 with SMTP id av14mr3315336oec.61.1348067757837;
+	Wed, 19 Sep 2012 08:15:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Wed, 19 Sep 2012 08:14:19 -0700 (PDT)
-In-Reply-To: <949436f21dca1d0f73ff55f2692d8c1459657fa2.1348052899.git.laurentiu.palcu@intel.com>
-References: <cover.1348052899.git.laurentiu.palcu@intel.com>
-	<949436f21dca1d0f73ff55f2692d8c1459657fa2.1348052899.git.laurentiu.palcu@intel.com>
+Received: by 10.182.79.105 with HTTP; Wed, 19 Sep 2012 08:15:37 -0700 (PDT)
+In-Reply-To: <5059E042.3050805@linux.intel.com>
+References: <1348048754-30379-1-git-send-email-constantinx.musca@intel.com>
+	<CAMKF1spysZ_tcHRu1XoTTdvvMCbSxfjkJnk6xgg1KU_Hm__DBQ@mail.gmail.com>
+	<5059C2CE.4050109@intel.com> <5059E042.3050805@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Sep 2012 16:14:19 +0100
-Message-ID: <CAJTo0LafLwJxBi4eG_CF+iviJbPT4HwtDdkssCAGeOgzv1t2XQ@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQlX1yEYMlnb63jOkrXQYC+jT/PJnY6kIUaFx8/JYyp7ujtqgSbseqcle1eLqyDZCVyHZckn
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 2/7] image.bbclass: run postinst scripts once, at rootfs time
+Date: Wed, 19 Sep 2012 16:15:37 +0100
+Message-ID: <CAJTo0LaB862PyJ8VGCJgLVCqb9A0=AZf43fztWjQOPMUuki-5Q@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQn63xg06oSB1grpsxLBeLFPOqk1oee+zFaHbSM5W4YhtmCOG/VdGHz04ZT4O58LqZxHTO1s
+Cc: Constantin Musca <constantinx.musca@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] intltool: include intltool.m4 and add missing rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,19 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 15:27:30 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 15:28:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 September 2012 12:49, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> +ROOTFS_POSTPROCESS_COMMAND ?= "run_intercept_scriptlets"
+On 19 September 2012 16:09, Saul Wold <sgw@linux.intel.com> wrote:
+> The question here is why do we need the gettext-dev package for intltool?
+> What does intltool need from the -dev package?
 
-From other examples, it looks like this should be "run_intercept_scriptlets;"
-
-Also whilst this is a great proof of concept, maybe it should be
-integrated into image.bblcass directly instead of being a postprocess
-hook?  A postprocess hook might expect the postinstall scripts to have
-been ran already, which they would have been if they were not
-intercepted.
+intltool needs the gettext binaries and IIRC a header - but I'm
+sufficiently unsure about the details that someone should verify what
+the dependencies were for documenting in the commit.
 
 Ross
 
