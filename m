@@ -1,37 +1,25 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TEL96-0001jO-Lf
+	(envelope-from <sgw@linux.intel.com>) id 1TELzo-0007KB-Im
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 16:20:56 +0200
-Received: by eekb57 with SMTP id b57so385647eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 07:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=nmKF+G+xF1rbeXTXFo0s+iCpNndn2MgWCaKapLeHwQE=;
-	b=lUsRUXlUjvNSKveFRaJitfdD3nKIWH4cnXb3pY4yz8q46iR8WjqFRwZeM2nBCItca7
-	t2vvZ92hbhLp5PYMvDIno0G5QYt4N1lwXFniFlrNNE389cAozjuyKjIWbaOw27J2mx0K
-	YZI85kjS5lCecueOibbxhL/TWN1f0vaX6IHoDqIt6UssA1Y6NATTd5q/hH5yAwVwhmpH
-	9dJI3KcaDsBT2uRIb0N9V2MTqGk+xJtU5yMOEE0xp0vTK8vGZZyPK3fOstRyWzK1SJzu
-	1jOyhpGLrDiCx2VbgFYhSfrHQLUtgp4EtGHbi8ErBgxWKf5lmTUrFiTVaHeoQIK7vVoY
-	uA4w==
-Received: by 10.14.202.71 with SMTP id c47mr3643720eeo.42.1348061880077; Wed,
-	19 Sep 2012 06:38:00 -0700 (PDT)
+	Wed, 19 Sep 2012 17:15:24 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Sep 2012 08:02:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,447,1344236400"; d="scan'208";a="224090172"
+Received: from unknown (HELO [10.255.13.229]) ([10.255.13.229])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2012 08:02:41 -0700
+Message-ID: <5059DE91.9060709@linux.intel.com>
+Date: Wed, 19 Sep 2012 08:02:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Wed, 19 Sep 2012 06:37:29 -0700 (PDT)
-In-Reply-To: <3089732.XYZjcTqTr7@helios>
-References: <70CC66F5C30A414DADDA6973E4CA391A68BAF6@039-SN1MPN1-001.039d.mgd.msft.net>
-	<224680354.d9icDWC9tY@helios>
-	<CAMKF1srg0a1GhHPqY9dS_AjTJRXS7wSNzH1-UBMUJEuaXfuidw@mail.gmail.com>
-	<3089732.XYZjcTqTr7@helios>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Sep 2012 06:37:29 -0700
-Message-ID: <CAMKF1sq=+EBibPSO68d3K+TbhHp+fZk=f4WDq23APxn5M9oPkQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: multilib errors
+To: Martin Ertsaas <mertsas@cisco.com>
+References: <1348039015-27100-1-git-send-email-mertsas@cisco.com>
+In-Reply-To: <1348039015-27100-1-git-send-email-mertsas@cisco.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] bash: Make it possible to run bash 3.2.48 instead of 4.2.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,41 +32,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 14:20:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 19 Sep 2012 15:15:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 19, 2012 at 6:31 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 19 September 2012 06:26:31 Khem Raj wrote:
->> On Wed, Sep 19, 2012 at 4:03 AM, Paul Eggleton
->>
->> <paul.eggleton@linux.intel.com> wrote:
->> > I have seen these errors as well. It definitely should be doing these
->> > checks - the warnings occur during the file checksum code but more
->> > broadly they indicate the system will fail to find these files should you
->> > try to build the targets mentioned. Looking more closely, I could be
->> > wrong but it looks to me that BPN is not correct at least in the case of
->> > lib64-build-appliance-image - I think it ought to be
->> > "build-appliance-image"  but instead it is "lib64-build-
->> > appliance-image", which means that it can't find the files referred to in
->> > SRC_URI anymore given that they are located in a directory named "build-
->> > appliance-image".
->>
->> IMO when we inherit multilib bbclass then it should also add new
->> ${BPN} based dirs to FILESPATH
+On 09/19/2012 12:16 AM, Martin Ertsaas wrote:
+> bash-3.2.48 did not provide the linking from sh to bash, making it unusable.
+> Moving the license part out of the bash.inc file, and into bash_4.2.bb file makes
+> us able to use that file also for bash_3.2.48.bb, which makes maintaining both
+> at the same time a lot easier.
 >
-> BPN-based dirs are already in FILESPATH - that's the issue, BPN itself is not
-> the expected value.
->
+This is good, but I forgot to ask you to include the size change in 
+here, it's helpful for tracking, I am still considering this change, but 
+we have constantly adding little change like this adds up to bigger
+change.
 
-Thats what I meant with 'new BPN'
+Is there any other way to do the equivalent of what you are attempting 
+to do in the other patch without adding size to busy box?
 
-> Cheers,
-> Paul
+Thanks
+
+Sau!
+
+> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+> ---
+>   meta/recipes-extended/bash/bash.inc       |    3 --
+>   meta/recipes-extended/bash/bash_3.2.48.bb |   31 +---------------------------
+>   meta/recipes-extended/bash/bash_4.2.bb    |    6 ++++-
+>   3 files changed, 7 insertions(+), 33 deletions(-)
 >
-> --
+> diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+> index 3684191..ae4b681 100644
+> --- a/meta/recipes-extended/bash/bash.inc
+> +++ b/meta/recipes-extended/bash/bash.inc
+> @@ -2,9 +2,6 @@ DESCRIPTION = "An sh-compatible command language interpreter."
+>   HOMEPAGE = "http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html"
+>   SECTION = "base/shell"
 >
-> Paul Eggleton
-> Intel Open Source Technology Centre
+> -# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
+> -LICENSE = "GPLv3+"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>   DEPENDS = "ncurses bison-native"
+>
+>   inherit autotools gettext update-alternatives
+> diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+> index 509d7a0..828d629 100644
+> --- a/meta/recipes-extended/bash/bash_3.2.48.bb
+> +++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+> @@ -1,12 +1,9 @@
+> -DESCRIPTION = "An sh-compatible command language interpreter."
+> -HOMEPAGE = "http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html"
+> -SECTION = "base/shell"
+> +require bash.inc
+>
+>   LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=fd5d9bcabd8ed5a54a01ce8d183d592a"
+> -DEPENDS = "ncurses"
+>
+> -PR = "r10"
+> +PR = "r11"
+>
+>   SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+>              ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-049;apply=yes;striplevel=0;name=patch001 \
+> @@ -24,27 +21,3 @@ SRC_URI[patch003.sha256sum] = "354886097cd95b4def77028f32ee01e2e088d58a98184fede
+>
+>   SRC_URI[md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
+>   SRC_URI[sha256sum] = "128d281bd5682ba5f6953122915da71976357d7a76490d266c9173b1d0426348"
+> -
+> -inherit autotools gettext
+> -
+> -PARALLEL_MAKE = ""
+> -
+> -bindir = "/bin"
+> -sbindir = "/sbin"
+> -
+> -EXTRA_OECONF = "--with-ncurses"
+> -export CC_FOR_BUILD = "${BUILD_CC}"
+> -
+> -export AUTOHEADER = "true"
+> -
+> -do_configure_prepend () {
+> -	if [ ! -e acinclude.m4 ]; then
+> -		cat aclocal.m4 > acinclude.m4
+> -	fi
+> -}
+> -
+> -pkg_postinst_${PN} () {
+> -	touch $D${sysconfdir}/shells
+> -	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
+> -	grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
+> -}
+> diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
+> index 384eb62..5a0f015 100644
+> --- a/meta/recipes-extended/bash/bash_4.2.bb
+> +++ b/meta/recipes-extended/bash/bash_4.2.bb
+> @@ -1,6 +1,10 @@
+>   require bash.inc
+>
+> -PR = "r4"
+> +# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
+> +LICENSE = "GPLv3+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> +
+> +PR = "r5"
+>
+>   SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+>              ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
+>
 
 
