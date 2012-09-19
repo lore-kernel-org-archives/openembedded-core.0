@@ -1,39 +1,25 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TEGIh-0001kk-2N
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1TEGlZ-00024b-MP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 11:10:31 +0200
-Received: by wibhn17 with SMTP id hn17so727326wib.6
+	Wed, 19 Sep 2012 11:40:22 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8J9RcxC029979
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 01:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=tPl+3cAAYtmWQjB0DqMfqhdN7DN7l92+PQhhTI7BBGA=;
-	b=DxQRmeldsoa0kH1PY4KmtGTyNr9+N1IA6hWaVAeb7MOWSgrrbfrHJe9XO64F7b+SDj
-	zmh6+YVVNpaagB02ej6N/zCLutL7ghPYHKt84RG4pz7h/wtpQYJsRSp3wooaLmreat1X
-	Od6ddwr9xF2hQiO2CpLx/j9kFXz96QCRXkZtuGYUmBQF8Wr+8QZLdRcHdWHxUuRWqTic
-	bIvMXqSV0MWxjogYukjVjb2SQsE9ldr1O6ZVoKknLCHvLEbYYoiAMCZHxUbWPP+xHwxk
-	fZ3xDMUtFKMe9smMGnXymh6sT6XP7aP5+CUcZJ+EsQlCMiljOTBPXq9Go4MymG6JTuW4
-	2r+Q==
-Received: by 10.180.74.133 with SMTP id t5mr5506045wiv.2.1348045069984;
-	Wed, 19 Sep 2012 01:57:49 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id r9sm4006128wia.2.2012.09.19.01.57.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 19 Sep 2012 01:57:49 -0700 (PDT)
-Date: Wed, 19 Sep 2012 10:57:44 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Message-ID: <20120919085744.GE3498@jama.jama.net>
-References: <1347883657-17529-1-git-send-email-koen@dominion.thruhere.net>
-	<60C9B225-F04B-4B56-9137-C0F24872475D@dominion.thruhere.net>
+	Wed, 19 Sep 2012 02:27:39 -0700 (PDT)
+Received: from fc17-64.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Wed, 19 Sep 2012 02:27:38 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Sep 2012 17:33:02 +0800
+Message-ID: <cover.1348038052.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.11.2
 MIME-Version: 1.0
-In-Reply-To: <60C9B225-F04B-4B56-9137-C0F24872475D@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Scott Garman <scott.a.garman@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [for-denzil][pulseaudio-updates 01/10] pulseaudio: disable tcpwrap by default
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] opkg 0.1.8: remove it since it doesn't work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,101 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 09:10:31 -0000
-X-Groupsio-MsgNum: 29516
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EgVrEAR5UttbsTXg"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Sep 2012 09:40:22 -0000
+Content-Type: text/plain
 
---EgVrEAR5UttbsTXg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Test info:
+# With PACKAGE_CLASSES = "package_ipk"
+$ bitbake core-image-sato core-image-minimal meta-toolchain meta-toolchain-sdk \
+	adt-installer meta-ide-support
+$ bitbake package-index
 
-On Wed, Sep 19, 2012 at 07:57:00AM +0200, Koen Kooi wrote:
-> So Scott asked me to explain why these pulseaudio updates are needed in d=
-enzil, and it's mainly because of udev. The old bluez is using deprecated u=
-dev API that went away in newer releases and I'm trying to get a more recen=
-t udev into meta-oe to fix bugs people have reported.
-> I must admit that pulseaudio 1.x to 2.x is a big step, so patch 7 through=
- 10 are questionable and could be replaced with backporting the udev api fi=
-x from git. But I opted for cherry-picking from master to leverage the oe-c=
-ore QA.
+All the builds are OK.
 
-I'm not using denzil, but something like this could help in meta-oe
-http://git.openembedded.org/meta-openembedded/commit/?id=3D9e2751773cd523b3=
-38d7962030356a1bce327174
+// Robert
 
-> regards,
->=20
-> Koen
->=20
-> Op 17 sep. 2012, om 14:07 heeft Koen Kooi <koen@dominion.thruhere.net> he=
-t volgende geschreven:
->=20
-> > From: Saul Wold <sgw@linux.intel.com>
-> >=20
-> > This ensures that tcpwrapper usage is always disabled, this was
-> > inconsistent because it would test for libwrap and sometimes enable
-> > and sometimes not.
-> >=20
-> > This ensures consistent build reproducibility.
-> >=20
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> > meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    1 +
-> > .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
-> > 2 files changed, 2 insertions(+), 1 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/r=
-ecipes-multimedia/pulseaudio/pulseaudio.inc
-> > index a653af5..a2f0d9f 100644
-> > --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> > +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> > @@ -31,6 +31,7 @@ EXTRA_OECONF =3D "\
-> > 		--without-hal \
-> > 		--disable-hal \
-> > 		--disable-orc \
-> > +		--enable-tcpwrap=3Dno \
-> > 		--with-access-group=3Daudio \
-> > "
-> >=20
-> > diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/met=
-a/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-> > index fd61149..d2ed3c8 100644
-> > --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-> > +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-> > @@ -1,6 +1,6 @@
-> > require pulseaudio.inc
-> >=20
-> > -PR =3D "r8"
-> > +PR =3D "r9"
-> >=20
-> > DEPENDS +=3D "libjson gdbm speex libxml-parser-perl-native"
-> >=20
-> > --=20
-> > 1.7.7.6
-> >=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The following changes since commit 913944d904266bf90af0cad94b4f0fb3652bd29d:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  upstream_tracking: update lsb and ltp (2012-09-14 17:12:52 +0100)
 
---EgVrEAR5UttbsTXg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+are available in the git repository at:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+  git://git.pokylinux.org/poky-contrib robert/rm_opkg018
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/rm_opkg018
 
-iEYEARECAAYFAlBZiQgACgkQN1Ujt2V2gBzbogCfdN2jyOVV9aoScU61xznuOVAA
-9GIAnj75HYFlYZs7rOuTS3WpJr8i1RB9
-=uKFr
------END PGP SIGNATURE-----
+Robert Yang (1):
+  opkg 0.1.8: remove it since it doesn't work
 
---EgVrEAR5UttbsTXg--
+ meta/recipes-devtools/opkg/opkg-0.1.8/headerfix.patch | 19 -------------------
+ meta/recipes-devtools/opkg/opkg-nogpg_0.1.8.bb        | 10 ----------
+ meta/recipes-devtools/opkg/opkg_0.1.8.bb              | 11 -----------
+ 3 files changed, 40 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg-0.1.8/headerfix.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg-nogpg_0.1.8.bb
+ delete mode 100644 meta/recipes-devtools/opkg/opkg_0.1.8.bb
+
+-- 
+1.7.11.2
+
+
+
