@@ -1,28 +1,27 @@
-Received: from ams-iport-1.cisco.com ([144.254.224.140])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mertsas@cisco.com>) id 1TEEki-0008Cv-5z
+	(envelope-from <constantinx.musca@intel.com>) id 1TEFA2-0000Ez-3M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 09:31:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3311; q=dns/txt; s=iport;
-	t=1348039121; x=1349248721;
-	h=from:to:cc:subject:date:message-id;
-	bh=Rnx1BTeC1sNt045E5icFchLc15/K+FgT1/Y+Rrf5Xyc=;
-	b=JfBCk84q+ZVIOt1jgt7baUu4v5MdvCWqqgWB1/aF3mM6OTOLhrdy7WSf
-	SO17v1sXEOxuXlCMHzyggx+XvXK/gckxESwp1Mb+gvAbUniWl/7URthJh
-	hpNai2GcGB/f+bdHENHMJ6rAUAPrKG8mWGu6ULHxRUrlIM9vD8xEIl0WW g=;
-X-IronPort-AV: E=Sophos;i="4.80,447,1344211200"; d="scan'208";a="144022254"
-Received: from ams-core-3.cisco.com ([144.254.72.76])
-	by ams-iport-1.cisco.com with ESMTP; 19 Sep 2012 07:18:39 +0000
-Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
-	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q8J7Ic6F023380;
-	Wed, 19 Sep 2012 07:18:38 GMT
-From: Martin Ertsaas <mertsas@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2012 09:16:55 +0200
-Message-Id: <1348039015-27100-1-git-send-email-mertsas@cisco.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH v2] bash: Make it possible to run bash 3.2.48 instead of 4.2.
+	Wed, 19 Sep 2012 09:57:30 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2012 00:44:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,447,1344236400"; d="scan'208";a="194728494"
+Received: from costin-desktop (HELO [10.237.105.66]) ([10.237.105.66])
+	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2012 00:44:47 -0700
+Message-ID: <50596B22.8000902@intel.com>
+Date: Wed, 19 Sep 2012 09:50:10 +0300
+From: Constantin Musca <constantinx.musca@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1347975238-6208-1-git-send-email-constantinx.musca@intel.com>
+	<5058A5FC.9020308@linux.intel.com>
+	<5058DC43.1000503@linux.intel.com>
+In-Reply-To: <5058DC43.1000503@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] intltool: include intltool.m4 and add missing rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,99 +34,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 07:31:20 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 07:57:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-bash-3.2.48 did not provide the linking from sh to bash, making it unusable.
-Moving the license part out of the bash.inc file, and into bash_4.2.bb file makes
-us able to use that file also for bash_3.2.48.bb, which makes maintaining both
-at the same time a lot easier.
+On 09/18/2012 11:40 PM, Saul Wold wrote:
+> On 09/18/2012 09:49 AM, Saul Wold wrote:
+>> On 09/18/2012 06:33 AM, Constantin Musca wrote:
+>>> - include /usr/share/aclocal/intltool.m4 into the intltool
+>>> package (the files from intltool-dev must be included into the
+>>> main package, as intltool is a development tool)
+>>> - add missing rdepends: gettext-dev, libxml-parser-perl
+>>>
+>>> [YOCTO #2597]
+>>>
+>>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>>> ---
+>>>   meta/recipes-devtools/intltool/intltool_0.50.0.bb |    9 ++++++++-
+>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>>> b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>>> index d1ee31d..52de5df 100644
+>>> --- a/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>>> +++ b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+>>> @@ -1,7 +1,7 @@
+>>>   require intltool.inc
+>>>   LICENSE="GPLv2"
+>>>   LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>>> -PR = "r0"
+>>> +PR = "r1"
+>>>
+>>>   SRC_URI += "file://intltool-nowarn-0.50.0.patch \
+>>>              ${NATIVEPATCHES} \
+>>> @@ -17,3 +17,10 @@ NATIVEPATCHES_virtclass-native =
+>>> "file://use-nativeperl.patch"
+>>>
+>>>   SRC_URI[md5sum] = "0da9847a60391ca653df35123b1f7cc0"
+>>>   SRC_URI[sha256sum] =
+>>> "dccfb0b7dd35a170130e8934bfd30c29da6ae73bcd3ca4ba71317c977b2893d6"
+>>> +
+>>> +RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
+>>> +
+>> I am not sure that this is the right thing to do here, this might cause
+>> some problems if you try to build the native variation of intltool??
+>>
+> I should have included the failure:
+>
+>> ERROR: Nothing RPROVIDES 'gettext-dev-native' (but 
+>> virtual:native:/intel/poky/distro/meta/recipes-devtools/intltool/intltool_0.50.0.bb 
+>> RDEPENDS on or otherwise requires it)
+>> NOTE: Runtime target 'gettext-dev-native' is unbuildable, removing...
+>> Missing or unbuildable dependency chain was: ['gettext-dev-native']
+>
+> Not sure how you tested this, as it failed right away for me!
+>
+> Sau!
+>
+>> Sau!
+>>
+>>> +FILES_${PN}-dev = ""
+>>> +FILES_${PN} += "${datadir}/aclocal"
+>>> +
+>>> +INSANE_SKIP_${PN} += "dev-deps"
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+I think that my setup was messed up. I will send patch v2.
 
-Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
----
- meta/recipes-extended/bash/bash.inc       |    3 --
- meta/recipes-extended/bash/bash_3.2.48.bb |   31 +---------------------------
- meta/recipes-extended/bash/bash_4.2.bb    |    6 ++++-
- 3 files changed, 7 insertions(+), 33 deletions(-)
-
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index 3684191..ae4b681 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -2,9 +2,6 @@ DESCRIPTION = "An sh-compatible command language interpreter."
- HOMEPAGE = "http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html"
- SECTION = "base/shell"
- 
--# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
--LICENSE = "GPLv3+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "ncurses bison-native"
- 
- inherit autotools gettext update-alternatives
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index 509d7a0..828d629 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -1,12 +1,9 @@
--DESCRIPTION = "An sh-compatible command language interpreter."
--HOMEPAGE = "http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html"
--SECTION = "base/shell"
-+require bash.inc
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fd5d9bcabd8ed5a54a01ce8d183d592a"
--DEPENDS = "ncurses"
- 
--PR = "r10"
-+PR = "r11"
- 
- SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-049;apply=yes;striplevel=0;name=patch001 \
-@@ -24,27 +21,3 @@ SRC_URI[patch003.sha256sum] = "354886097cd95b4def77028f32ee01e2e088d58a98184fede
- 
- SRC_URI[md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
- SRC_URI[sha256sum] = "128d281bd5682ba5f6953122915da71976357d7a76490d266c9173b1d0426348"
--
--inherit autotools gettext
--
--PARALLEL_MAKE = ""
--
--bindir = "/bin"
--sbindir = "/sbin"
--
--EXTRA_OECONF = "--with-ncurses"
--export CC_FOR_BUILD = "${BUILD_CC}"
--
--export AUTOHEADER = "true"
--
--do_configure_prepend () {
--	if [ ! -e acinclude.m4 ]; then
--		cat aclocal.m4 > acinclude.m4
--	fi
--}
--
--pkg_postinst_${PN} () {
--	touch $D${sysconfdir}/shells
--	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
--	grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
--}
-diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
-index 384eb62..5a0f015 100644
---- a/meta/recipes-extended/bash/bash_4.2.bb
-+++ b/meta/recipes-extended/bash/bash_4.2.bb
-@@ -1,6 +1,10 @@
- require bash.inc
- 
--PR = "r4"
-+# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+
-+PR = "r5"
- 
- SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
--- 
-1.7.8.6
-
+Constantin
 
 
