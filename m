@@ -1,35 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TEKVG-00078C-0t
+	(envelope-from <raj.khem@gmail.com>) id 1TEKXP-0007DF-L8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 15:39:46 +0200
-Received: by eekb57 with SMTP id b57so363570eek.6
+	Wed, 19 Sep 2012 15:41:59 +0200
+Received: by eaad12 with SMTP id d12so273421eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 06:27:02 -0700 (PDT)
+	Wed, 19 Sep 2012 06:29:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=9QFJrf58cWmUDtLEVTWaIST1DXkQ30gT6Mtr5RbaV+U=;
-	b=0754aYt0kUsYI4gIm7QuqZ5XdiJDkIIhO2ZTy8881ARSc4enFCeTLz068OAOcWgx1i
-	SrUMJ/lV7Zudr5+dJLxyB/W04jj/uOnaJlH6qWSM9qBoxW92hQblbs9OgZaoF697ocpy
-	j/w6kT3jPLAjb/9jWcWC39HdQ6GrJC7dSKQJMOitEFZ4hOs/4Zp4+6NYq6VdVVeuT53s
-	oxaOdEVLs49Evtsf6L4MGP2HthKg2KBE9yOL5uZv/tZLgaAfDbDN2UCetHZPYjKJKKVJ
-	scKpu3nPnh+6/4LEjCZe7PPUKy+6Zg3fiG9nCNrXzZLE91FrO/hx7+t1finBpm+yG+Ci
-	45Xg==
-Received: by 10.14.204.72 with SMTP id g48mr3573990eeo.45.1348061222025; Wed,
-	19 Sep 2012 06:27:02 -0700 (PDT)
+	bh=x8Gu0pDfXvUzLmNlfS8OwVn/LHEQ83VWikZdIUE2FI4=;
+	b=sWG9+uyB8WnHjgkNiYHIa9N1hxL2MQdQsTrjHk7jpddmyYeJ/M8S8mkVNKVgzhXyVe
+	t5iC49FYuAMvkzXrtCXcEiJuJCpr+/xEq4ky7i5mjcTpwsWrs+z5ZIiuoa7mcXbHJAda
+	q7Q8Ja03CUo8ZXae9FVuzfspTSSTF6cTwPeF0DISUuc0PyGvrDCW70D0mtDj0H9UCWzu
+	XrhhZmyoQI4QARhQUpLEuQ4JtoAqsQSe0y3ZA8ybOThvO3EMJeOoe1DYnmwZ7CWwVYqo
+	AWI+a9NPLVNyIWAiUPOojr+pqnz6LdoTRY4td+5I3M7MBjzAt5ssTW83V6x6KLO9Lhqv
+	ITNg==
+Received: by 10.14.220.134 with SMTP id o6mr3596320eep.35.1348061355595; Wed,
+	19 Sep 2012 06:29:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Wed, 19 Sep 2012 06:26:31 -0700 (PDT)
-In-Reply-To: <224680354.d9icDWC9tY@helios>
-References: <70CC66F5C30A414DADDA6973E4CA391A68BAF6@039-SN1MPN1-001.039d.mgd.msft.net>
-	<224680354.d9icDWC9tY@helios>
+Received: by 10.14.2.5 with HTTP; Wed, 19 Sep 2012 06:28:44 -0700 (PDT)
+In-Reply-To: <e12955c6d49bceb6c271574551b5feb76c51fa3b.1348052899.git.laurentiu.palcu@intel.com>
+References: <cover.1348052899.git.laurentiu.palcu@intel.com>
+	<e12955c6d49bceb6c271574551b5feb76c51fa3b.1348052899.git.laurentiu.palcu@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Sep 2012 06:26:31 -0700
-Message-ID: <CAMKF1srg0a1GhHPqY9dS_AjTJRXS7wSNzH1-UBMUJEuaXfuidw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: multilib errors
+Date: Wed, 19 Sep 2012 06:28:44 -0700
+Message-ID: <CAMKF1soiz=RjQEGd+bGidaMJKCVcja6wvUJeyyFfaUuPsXUUqg@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 4/7] gtk-icon-cache: run the icon generation at rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,22 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 13:39:46 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 13:41:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Sep 19, 2012 at 4:03 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> I have seen these errors as well. It definitely should be doing these checks -
-> the warnings occur during the file checksum code but more broadly they indicate
-> the system will fail to find these files should you try to build the targets
-> mentioned. Looking more closely, I could be wrong but it looks to me that BPN
-> is not correct at least in the case of lib64-build-appliance-image - I think
-> it ought to be "build-appliance-image"  but instead it is "lib64-build-
-> appliance-image", which means that it can't find the files referred to in
-> SRC_URI anymore given that they are located in a directory named "build-
-> appliance-image".
+On Wed, Sep 19, 2012 at 4:49 AM, Laurentiu Palcu
+<laurentiu.palcu@intel.com> wrote:
+> This change will allow for the icon cache generation at rootfs time and
+> only once, at the end. So, even though there will be many packages
+> depending on gtk+, the icon cache generation will be done once.
+> Hopefully, this will lower the target's first boot time significantly
+> by using the power of the host machine to generate the cache.
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/classes/gtk-icon-cache.bbclass |   21 +++++++++++++++++----
+>  1 file changed, 17 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+> index 01fb2f3..f65b11c 100644
+> --- a/meta/classes/gtk-icon-cache.bbclass
+> +++ b/meta/classes/gtk-icon-cache.bbclass
+> @@ -1,12 +1,24 @@
+>  FILES_${PN} += "${datadir}/icons/hicolor"
+>
+> -DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']}"
+> +DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+-native"
+>
+> -# This could run on the host as icon cache files are architecture independent,
+> -# but there is no gtk-update-icon-cache built natively.
+>  gtk_icon_cache_postinst() {
+>  if [ "x$D" != "x" ]; then
+> -        exit 1
+> +    if [ ! -f $INTERCEPT_DIR/update_icon_cache ]; then
+> +        cat << "EOF" > $INTERCEPT_DIR/update_icon_cache
+> +#!/bin/bash -x
 
-IMO when we inherit multilib bbclass then it should also add new
-${BPN} based dirs to FILESPATH
+Do you really need bash for this script to run ? if so then can it be
+written so that it works on posixly shells.
+
+> +
+> +# Update the native pixbuf loader's cache
+> +gdk-pixbuf-query-loaders --update-cache
+> +
+> +for icondir in $D/usr/share/icons/* ; do
+> +    if [ -d $icondir ] ; then
+> +        gtk-update-icon-cache -fqt  $icondir
+> +    fi
+> +done
+> +EOF
+> +    fi
+> +    exit 0
+>  fi
+>
+>  # Update the pixbuf loaders in case they haven't been registered yet
+> @@ -17,6 +29,7 @@ for icondir in /usr/share/icons/* ; do
+>          gtk-update-icon-cache -fqt  $icondir
+>      fi
+>  done
+> +
+>  }
+>
+>  gtk_icon_cache_postrm() {
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
