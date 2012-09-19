@@ -1,50 +1,44 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TED1b-0005hW-FN
+	(envelope-from <scott.a.garman@intel.com>) id 1TED8X-0005qL-SV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 07:40:40 +0200
+	Wed, 19 Sep 2012 07:47:50 +0200
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 18 Sep 2012 22:27:48 -0700
-Received: by pbcwy7 with SMTP id wy7so1545151pbc.6
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 18 Sep 2012 22:35:07 -0700
+Received: by pbcwy7 with SMTP id wy7so1556547pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 22:27:47 -0700 (PDT)
+	Tue, 18 Sep 2012 22:35:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
 	:x-gm-message-state;
-	bh=uloxB1l5Gjw4kImMT4Hp/dkIrHo4ck1xTaOM0X7GOnA=;
-	b=UT7hjD+/927VpSkaYz5KkpOJNgeDDviEpaKpYwchRGwIvXsZoOHVDzTI6pbC2J6bjF
-	vfCgiKWFqmwgYiVoXP3knGrsyLBcL/iDJQyPGPnZuCB1IAf9QQl+EO1H8G2D/sCaervS
-	NsC//e7FWjrzQdGe98twMZjAQRvgfETPA55KIKVD9oH9OTssr2HXeOnyxzyQIzxYjGxS
-	rT2fttihL7QcNPJk2QRgsSP3bK1/mrDz3F4KoGU7H1eWidDPFV2bsqi7gF50UQ8X66AA
-	r9WKr2o2i1/YxsnXtzirn3D/ybChCmaR5EGLMBOZotpb6VaV1b6tEHYwOEhNpRW6TkDg
-	iwhQ==
-Received: by 10.68.233.136 with SMTP id tw8mr2414869pbc.133.1348032467623;
-	Tue, 18 Sep 2012 22:27:47 -0700 (PDT)
+	bh=Q94Ms9HgkZpuw947vsJCn+H6G6K2k/h+sO4IWXhHPoA=;
+	b=VszpbJtyNTwrgMqZFW7kCr0XffFT3SEwmniiZf7gnYVaUARXRB7v7e3rgpPDD52nS1
+	xsL7kxe5RChMFPlZr7ivJy3Bw7c4uCo0h3NI6GRk6HToX/QkamvxI+jf0/miPhK7/opn
+	r76iExKIjU799kl/sWNmBac3szf479tUxDXCJP+KU7eJWZw8EYKo6PUle1tahf8LZx8f
+	xb6QYezcgsKDWnLkPjXKrg1b2WNwoudadcFocvjtVAr1OJmyvzgW+iA0S2KvOAFb7LbA
+	Y37tXkxAi+udduJ4mO+zPf8yctmNnsyNafqJpvoMy+q8uEdjY8CXBCQ/kp1vGOw2RVuh
+	ENyQ==
+Received: by 10.68.233.198 with SMTP id ty6mr4452000pbc.107.1348032907484;
+	Tue, 18 Sep 2012 22:35:07 -0700 (PDT)
 Received: from [192.168.1.104] (c-76-105-137-48.hsd1.or.comcast.net.
 	[76.105.137.48])
-	by mx.google.com with ESMTPS id ou6sm1220068pbc.9.2012.09.18.22.27.45
-	(version=SSLv3 cipher=OTHER); Tue, 18 Sep 2012 22:27:46 -0700 (PDT)
-Message-ID: <505957D0.8070009@intel.com>
-Date: Tue, 18 Sep 2012 22:27:44 -0700
+	by mx.google.com with ESMTPS id vd4sm1220298pbc.41.2012.09.18.22.35.05
+	(version=SSLv3 cipher=OTHER); Tue, 18 Sep 2012 22:35:05 -0700 (PDT)
+Message-ID: <50595988.5080901@intel.com>
+Date: Tue, 18 Sep 2012 22:35:04 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1346136108-13062-1-git-send-email-koen@dominion.thruhere.net>
-	<1346136108-13062-9-git-send-email-koen@dominion.thruhere.net>
-	<70CC66F5C30A414DADDA6973E4CA391A64E50F@039-SN1MPN1-001.039d.mgd.msft.net>
-	<5047F316.8030808@linux.intel.com>
-	<E5E839E2-8D4D-4B80-BC93-BD72FA95F5FA@dominion.thruhere.net>
-In-Reply-To: <E5E839E2-8D4D-4B80-BC93-BD72FA95F5FA@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQlPDBYtqCzsGEdw1QkQNHr+1qIgW+2E/eQ1qu+J+idTUw7Ds04fLTdUOszoJz9zOKK6aNhq
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Darren Hart <dvhart@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-denzil][meta-oe][PATCH 09/11] kernel: Add kernel headers to kernel-dev package
+To: openembedded-core@lists.openembedded.org
+References: <cover.1347664421.git.scott.a.garman@intel.com>
+	<674d84a9020d9fc0abfe8a45e6476ef63987d3a6.1347664421.git.scott.a.garman@intel.com>
+	<5053BBD6.6000202@windriver.com>
+In-Reply-To: <5053BBD6.6000202@windriver.com>
+X-Gm-Message-State: ALoCoQlyUPngltvcWnfBPPxLfu7nZct5NIHE6jJn3KLPp1lROKf2DxcrmlwBshso1Zl1Ae63GZIk
+Subject: Re: [PATCH 1/1] runqemu: show bitbake errors to user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,158 +51,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 05:40:40 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 05:47:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/05/2012 10:52 PM, Koen Kooi wrote:
->
-> Op 6 sep. 2012, om 02:49 heeft Darren Hart <dvhart@linux.intel.com> het volgende geschreven:
->
+On 09/14/2012 04:20 PM, Mark Hatle wrote:
+> On 9/14/12 6:15 PM, Scott Garman wrote:
+>> In certain edge cases, bitbake may fail to run and cause setup_tmpdir()
+>> within runqemu to fail, and not give the user a helpful error message.
+>> Catch this case and show the user the output of bitbake -e.
 >>
+>> This fixes [YOCTO #3112]
 >>
->> On 09/05/2012 02:42 PM, McClintock Matthew-B29882 wrote:
->>> On Tue, Aug 28, 2012 at 1:41 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>> From: Darren Hart <dvhart@linux.intel.com>
->>>>
->>>> [YOCTO #1614]
->>>>
->>>> Add the kernel headers to the kernel-dev package. This packages what was
->>>> already built and kept in sysroots for building modules with bitbake.
->>>> Making this available on the target requires removing some additional
->>>> host binaries.
->>>>
->>>> Move the location to /usr/src/kernel
->>>>
->>>> Before use on the target, the user will need to:
->>>>
->>>>     # cd /usr/src/kernel
->>>>     # make scripts
->>>>
->>>> This renders the kernel-misc recipe empty, so remove it.
->>>>
->>>> As we use /usr/src/kernel in several places (and I missed one in the
->>>> previous version), add a KERNEL_SRC_DIR variable and use that throughout
->>>> the class to avoid update errors in the future.
->>>>
->>>> Now that we package the kernel headers, drop the
->>>> kernel_package_preprocess function which removed them from PKGD.
->>>>
->>>> All *-sdk image recipes include dev-pkgs, so the kernel-dev package will
->>>> be installed by default on all such images.
->>>>
->>>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->>>> CC: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> CC: Tom Zanussi <tom.zanussi@intel.com>
->>>> CC: Khem Raj <raj.khem@gmail.com>
->>>>
->>>> ---
->>>> meta/classes/kernel.bbclass |   25 +++++++++++--------------
->>>> meta/conf/bitbake.conf      |    2 +-
->>>> 2 files changed, 12 insertions(+), 15 deletions(-)
->>>>
->>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>>> index 3ccd753..d79ba9f 100644
->>>> --- a/meta/classes/kernel.bbclass
->>>> +++ b/meta/classes/kernel.bbclass
->>>> @@ -77,6 +77,10 @@ EXTRA_OEMAKE = ""
->>>>
->>>> KERNEL_ALT_IMAGETYPE ??= ""
->>>>
->>>> +# Define where the kernel headers are installed on the target as well as where
->>>> +# they are staged.
->>>> +KERNEL_SRC_PATH = "/usr/src/kernel"
->>>> +
->>>> KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
->>>>
->>>> kernel_do_compile() {
->>>> @@ -130,7 +134,7 @@ kernel_do_install() {
->>>>         # Support for external module building - create a minimal copy of the
->>>>         # kernel source tree.
->>>>         #
->>>> -       kerneldir=${D}/kernel
->>>> +       kerneldir=${D}${KERNEL_SRC_PATH}
->>>>         install -d $kerneldir
->>>>
->>>>         #
->>>> @@ -191,20 +195,15 @@ kernel_do_install() {
->>>>         # Remove the following binaries which cause strip errors
->>>>         # during do_package for cross-compiled platforms
->>>>         bin_files="arch/powerpc/boot/addnote arch/powerpc/boot/hack-coff \
->>>> -                  arch/powerpc/boot/mktree"
->>>> +                  arch/powerpc/boot/mktree scripts/kconfig/zconf.tab.o \
->>>> +                  scripts/kconfig/conf.o"
->>>>         for entry in $bin_files; do
->>>>                 rm -f $kerneldir/$entry
->>>>         done
->>>> }
->>>>
->>>> -PACKAGE_PREPROCESS_FUNCS += "kernel_package_preprocess"
->>>> -
->>>> -kernel_package_preprocess () {
->>>> -       rm -rf ${PKGD}/kernel
->>>> -}
->>>> -
->>>> sysroot_stage_all_append() {
->>>> -       sysroot_stage_dir ${D}/kernel ${SYSROOT_DESTDIR}/kernel
->>>> +       sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
->>>> }
->>>>
->>>> kernel_do_configure() {
->>>> @@ -252,13 +251,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->>>>
->>>> # kernel-base becomes kernel-${KERNEL_VERSION}
->>>> # kernel-image becomes kernel-image-${KERNEL_VERISON}
->>>> -PACKAGES = "kernel kernel-base kernel-image kernel-dev kernel-vmlinux kernel-misc"
->>>> +PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
->>>> FILES = ""
->>>> FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
->>>> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config*"
->>>> +FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
->>>
->>> This patch is causing the following on denzil (which Scott applied to
->>> his denzil-next branch)
->>>
->>> ERROR: QA Issue: non debug package contains .debug directory:
->>> kernel-dev path
->>> /work/p5020ds_64b-poky-linux/linux-qoriq-sdk-3.0.34-r4/packages-split/kernel-dev/usr/src/kernel/tools/perf/.debug/perf
->>> ERROR: QA run found fatal errors. Please consider fixing them.
->>> ERROR: Function failed: do_package_qa
->>> ERROR: Logfile of failure stored in:
->>> /local/home/mattsm/git/poky/build-denzil/tmp/work/p5020ds_64b-poky-linux/linux-qoriq-sdk-3.0.34-r4/temp/log.do_package.26851
->>> NOTE: package linux-qoriq-sdk-3.0.34-r4: task do_package: Failed
->>> ERROR: Task 13 (/local/home/mattsm/git/poky/build-denzil/../meta-fsl-ppc/recipes-kernel/linux/linux-qoriq-sdk.bb,
->>> do_package) failed with exit code '1'
->>>
->>> At first glance, it looks like we should:
->>>
->>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>> index 7ae2a53..511b22b 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -546,4 +546,5 @@ EXPORT_FUNCTIONS do_deploy
->>> PACKAGES =+ "perf-dbg perf"
->>> FILES_perf = "${bindir}/* \
->>>                ${libexecdir}"
->>> -FILES_perf-dbg = "${FILES_${PN}-dbg}"
->>> +FILES_perf-dbg = "${FILES_${PN}-dbg} \
->>> +                 ${KERNEL_SRC_PATH}/tools/perf/.debug"
->>>
->>> Thoughts?
+>> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>> ---
+>>   scripts/runqemu |   12 ++++++++++--
+>>   1 file changed, 10 insertions(+), 2 deletions(-)
 >>
->> I suppose that or pull in the patches to separate perf into a separate
->> recipe, although that's 13+ patches.
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index e843946..8bb77ff 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -283,8 +283,16 @@ setup_tmpdir() {
+>>           # We have bitbake in PATH, get OE_TMPDIR from bitbake
+>>           OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | grep ^TMPDIR=\" |
+>> cut -d '=' -f2 | cut -d '"' -f2`
+>>           if [ -z "$OE_TMPDIR" ]; then
+>> -            echo "Error: this script needs to be run from your build
+>> directory,"
+>> -            echo "or you need to explicitly set OE_TMPDIR in your
+>> environment"
+>> +            # Check for errors from bitbake that the user needs to
+>> know about
+>> +            BITBAKE_OUTPUT=`bitbake -e`
 >
-> I kept the perf change out on purpose in this patchset :)
->
->> I prefer your solution for the
->> stable tree.
->
-> Me too. I haven't run into that bug yet, but the fix is valid.
+> I'm not sure that is a good idea.  If there is a failure (anything on
+> stderr) it will just be dumped to the screen...
 
-I've include Matthew's fix in my sgarman/denzil-next branches, 
-"kernel.bbclass: put perf .debug dir in -dbg package", 
-11cc90715be0ece185d736133d4fcd1a3288366f.
+I'm afraid this is not the case with the error case I was testing this 
+against. That case being when there is an LCONF_VERSION mismatch in 
+bblayers.conf. Those user instructions are written to STDOUT.
+
+> If it does succeed, it could attempt to load that variable with many MB
+> of data, which also likely isn't what is desired.
+
+This is a valid point. I could change it to bitbake -e | wc -l, and 
+check the number of lines of output. I'm basically just checking to see 
+that this is greater than 0.
+
+> It might be better to dump the items to a tmp file (securely created of
+> course)  ;)  and then keep processing the same file for error messages,
+> warnings, etc...
+
+This code path should only be run on very unusual edge cases, so I'm not 
+inclined to add additional tmpfile handling complexity and have to deal 
+with cleaning up the files, etc.
+
+I will re-spin this patch with the wc -l modification.
 
 Scott
 
