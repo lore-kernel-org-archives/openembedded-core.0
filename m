@@ -1,37 +1,25 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TEO5n-0002qd-3f
+	(envelope-from <sgw@linux.intel.com>) id 1TEOIP-00030N-Jd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 19:29:43 +0200
-Received: by wgbdq11 with SMTP id dq11so847624wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 10:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=aLvJTW8X1/ta5g5R+8Hral2loVG2bFJwcCRHipAYWrM=;
-	b=udjVPlfU2sqComc+KF156AyET2ojzV4choJEZegwzJbbJMyGGNR8FHb1s+qSH7/T2S
-	DI0wQGZpOdae2tYpqYqg2pXzRT6YHIhFsCeEejs/M/GJ7Fr9RUyo/iPKRVTemUXHeCAb
-	vqhPe3ZaCRb1w6QGTRH2LqWu8OohvNNBW96TQDVnSR8Roa7PK7gsXKFbwRcdbEoE1Uhl
-	t9L/VQMoQMzmBhnvFLw3QyjSc15LFIA1UzaO8hV1h4EYRw68N5fCHqGCzrShJnYCEFvB
-	pd4K5Ac+Q4P0PG6Fgd9LMAW5CIDvOSLEFJ8cX78Ggshtc3GBEYDO6a2xBHtyrSzWMbBz
-	cyDw==
-Received: by 10.216.243.203 with SMTP id k53mr2105185wer.91.1348075021870;
-	Wed, 19 Sep 2012 10:17:01 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j6sm5944676wiy.4.2012.09.19.10.17.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 19 Sep 2012 10:17:00 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Sep 2012 19:16:31 +0200
-Message-Id: <90f3fc3aeffac6451faf9ceddcfb9b6458d50e64.1348074403.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-In-Reply-To: <cover.1348074403.git.Martin.Jansa@gmail.com>
+	Wed, 19 Sep 2012 19:42:45 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Sep 2012 10:29:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,450,1344236400"; d="scan'208";a="224059272"
+Received: from unknown (HELO [10.255.13.229]) ([10.255.13.229])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2012 10:29:51 -0700
+Message-ID: <505A010F.6080104@linux.intel.com>
+Date: Wed, 19 Sep 2012 10:29:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <cover.1348074403.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1348074403.git.Martin.Jansa@gmail.com>
-References: <cover.1348074403.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 3/3] opkg-nogpg: drop SRCREV
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] Opkg patch upstreaming and SIGSEGV fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 17:29:43 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 17:42:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* use SRCREV from opkg_svn.bb, because with 596 patches we have won't apply
+On 09/19/2012 10:16 AM, Martin Jansa wrote:
+> This depends on
+> http://patchwork.openembedded.org/patch/36893/
+> otherwise warning about missing SRC_URI entries will be shown
+>
+> The following changes since commit f06097f4581e4c728c2950a86e025384e4bdcdf0:
+>
+>    eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu (2012-09-18 07:44:13 -0700)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib jansa/opkg
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/opkg
+>
+> Martin Jansa (3):
+>    opkg: replace local patches with git patches submitted upstream
+>    opkg: add patch to fix SIGSEGV when printing status file
+>    opkg-nogpg: drop SRCREV
+>
+>   meta/recipes-devtools/opkg/opkg-nogpg_svn.bb       |  2 -
+>   .../0001-add-opkg_compare_versions-function.patch  | 51 ++++++++++++++
+>   ...e-the-uname-gname-fields-when-extracting.patch} | 30 +++++---
+>   ...ix-dependency-issues-for-preinst-scripts.patch} | 65 ++++++++++--------
+>   ...nst-script-is-not-fatal-with-conf-offlin.patch} | 75 +++++++++++---------
+>   ...ot-read-etc-opkg-.conf-if-f-is-specified.patch} | 11 ++-
+>   ...tch => 0006-detect-circular-dependencies.patch} | 79 +++++++++++++---------
+>   ...g-provides-even-when-oldpkg-provides-exis.patch | 46 +++++++++++++
+>   meta/recipes-devtools/opkg/opkg/add_vercmp.patch   | 36 ----------
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/opkg/opkg-nogpg_svn.bb | 2 --
- 1 file changed, 2 deletions(-)
+These patches do not have Upstream-Status in the local version, I guess 
+you are trying to preserve the original state?  How soon will they be 
+accepted into the upstream?
 
-diff --git a/meta/recipes-devtools/opkg/opkg-nogpg_svn.bb b/meta/recipes-devtools/opkg/opkg-nogpg_svn.bb
-index 35f0581..e1b9f24 100644
---- a/meta/recipes-devtools/opkg/opkg-nogpg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg-nogpg_svn.bb
-@@ -3,8 +3,6 @@ require opkg_svn.bb
- DEPENDS = "curl"
- PROVIDES += "opkg"
- 
--SRCREV = "596"
--
- EXTRA_OECONF += "--disable-gpg"
- 
- DEFAULT_PREFERENCE = "-1"
--- 
-1.7.12
+They should still have Upstream-Status: Submitted added.
 
+Thanks
+	Sau!
+
+>   meta/recipes-devtools/opkg/opkg_svn.bb             | 15 ++--
+>   10 files changed, 258 insertions(+), 152 deletions(-)
+>   create mode 100644 meta/recipes-devtools/opkg/opkg/0001-add-opkg_compare_versions-function.patch
+>   rename meta/recipes-devtools/opkg/opkg/{add_uname_support.patch => 0002-Ensure-we-use-the-uname-gname-fields-when-extracting.patch} (71%)
+>   rename meta/recipes-devtools/opkg/opkg/{fix_installorder.patch => 0003-Fix-dependency-issues-for-preinst-scripts.patch} (82%)
+>   rename meta/recipes-devtools/opkg/opkg/{offline_postinstall.patch => 0004-Failed-postinst-script-is-not-fatal-with-conf-offlin.patch} (52%)
+>   rename meta/recipes-devtools/opkg/opkg/{conf_override.patch => 0005-Do-not-read-etc-opkg-.conf-if-f-is-specified.patch} (91%)
+>   rename meta/recipes-devtools/opkg/opkg/{track_parents.patch => 0006-detect-circular-dependencies.patch} (59%)
+>   create mode 100644 meta/recipes-devtools/opkg/opkg/0007-merge-newpkg-provides-even-when-oldpkg-provides-exis.patch
+>   delete mode 100644 meta/recipes-devtools/opkg/opkg/add_vercmp.patch
+>
 
 
