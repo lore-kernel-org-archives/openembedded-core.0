@@ -1,29 +1,29 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tarek.elsherbiny@gmail.com>) id 1TENdu-0002E3-Lg
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TEO1q-0002eO-VG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 19:00:54 +0200
-Received: by qcad10 with SMTP id d10so1027758qca.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 09:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=/cS2GfjWuhEVyYJ7Tj9i8THMYseujS8DIqCFQGZqTnQ=;
-	b=wYUC+HisjI6dRyiREkFyQ4Yw2nvhy0z8zpG4DoepPuqFq50PAqaAzVf1oqj5pa5I0m
-	6xPI/pS3ZpSpnjZnTb2pRkTlpf7oOu1F97VZZBGhCJPSC6V6lloGytisEGYk5737x3sv
-	uhTl9m8rJ9XZu/ZCNxfAU6hlbmdh/SM2BsyQ3oDP0g6ypESxlKjJINl81XXMJbrlIHfR
-	NUxg8EiCPj6IT+K4X4SV919Zn5y2yJnbZ1qTXjxUeucIGlxL7WUI4kBvJsZ/CUw61RX0
-	Va+s/ZEucwGkmIEwSO+kb7iqFXOBAWh/UCzhyWz/Wa26Rc1HyubMOSNgdWH++fbbYb8p
-	6PWw==
+	Wed, 19 Sep 2012 19:25:39 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2012 10:12:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,450,1344236400"; d="scan'208";a="194933753"
+Received: from unknown (HELO [10.252.121.202]) ([10.252.121.202])
+	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2012 10:12:55 -0700
+Message-ID: <5059FD16.6070109@intel.com>
+Date: Wed, 19 Sep 2012 20:12:54 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.224.197.10 with SMTP id ei10mr8408120qab.49.1348073292743;
-	Wed, 19 Sep 2012 09:48:12 -0700 (PDT)
-Received: by 10.224.174.19 with HTTP; Wed, 19 Sep 2012 09:48:12 -0700 (PDT)
-Date: Wed, 19 Sep 2012 17:48:12 +0100
-Message-ID: <CAB3sqtaZSMuxaFkeaXtAuFAwcE2=JuXJTE56J-F-=pKvZddpjg@mail.gmail.com>
-From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: SVN checkout ERROR: Function failed: Fetcher failure for URL:
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1348052899.git.laurentiu.palcu@intel.com>
+	<949436f21dca1d0f73ff55f2692d8c1459657fa2.1348052899.git.laurentiu.palcu@intel.com>
+	<CAJTo0LafLwJxBi4eG_CF+iviJbPT4HwtDdkssCAGeOgzv1t2XQ@mail.gmail.com>
+	<5059E893.1060300@intel.com>
+	<CAJTo0Laae2ZaE+8E_Co3rUQbYtQOtK41wGtBi8sRdWDWnXzjDg@mail.gmail.com>
+In-Reply-To: <CAJTo0Laae2ZaE+8E_Co3rUQbYtQOtK41wGtBi8sRdWDWnXzjDg@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 2/7] image.bbclass: run postinst scripts once, at rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,93 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 17:00:54 -0000
-Content-Type: multipart/alternative; boundary=20cf3005dc98bec3f004ca10c579
+X-List-Received-Date: Wed, 19 Sep 2012 17:25:39 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---20cf3005dc98bec3f004ca10c579
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-I would like to check out from our local SVN repository. This is the URI
-line I'm using in the recipe:
 
- SRC_URI =3D
-"svn://svn.local.repo/svn/dev_repos/Generation3_app;module=3Dtrunk;proto=3D=
-http"
+On 09/19/2012 06:50 PM, Burton, Ross wrote:
+> On 19 September 2012 16:45, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>> I'm a little confused here... Technically, when the postprocess hooks
+>> are executed all the postinstall scripts were already executed. Ideally,
+>> the run-once scripts are created from inside the postinst scriptlets
+>> themselves. So, I don't really understand why using the postprocess hook
+>> isn't safe. Can you please elaborate?
+> 
+> My concern (and it's just a hunch) is that there could be a
+> post-process hook running before the intercepts are run which could be
+> expecting the post install phase to have been completed.  With
+> intercepts a portion of the post-install phase is happening later than
+> they previously did, so they haven't completely been ran yet.
+I see your point now... The only place we could do it in image.bbclass
+is immediately after rootfs_${IMAGE_PKGTYPE}_do_rootfs in do_rootfs()
+function. But then we fall into the same issue you mentioned. The
+post-process hooks would be executed before the intercept scripts...
 
-When I try the same command bitbake is using on the command line it works
-fine. But bitbake is not fetching the package.
+The alternative would be to use the post-install hooks
+(ROOTFS_POSTINSTALL_COMMAND) instead of post-process. These are executed
+before the post-process hooks.
 
-Is there a special parameter that I need to modify for SVN to work?
+Thanks,
+Laurentiu
 
-here is the error message I get:
+> 
+> Ross
+> 
 
-WARNING: Failed to fetch URL
-svn://svn.local.repo/svn/dev_repos/Generation3_app;module=3Dtrunk;proto=3Dh=
-ttp
-ERROR: Fetcher failure: Fetch command export HOME=3D"/home/"; export
-SSH_AGENT_PID=3D"2398"; export SSH_AUTH_SOCK=3D"/tmp/keyring-suRHPa/ssh";
-export
-GIT_CONFIG=3D"/home//work/fsl/build/tmp/sysroots/i686-linux/etc/gitconfig";
-export
-PATH=3D"/home/work/fsl/build/tmp/sysroots/i686-linux/usr/bin/armv7a-vfp-neo=
-n-poky-linux-gnueabi:/home/work/fsl/build/tmp/sysroots/imx6qsabrelite/usr/b=
-in/crossscripts:/home/work/fsl/build/tmp/sysroots/i686-linux/usr/sbin:/home=
-/work/fsl/build/tmp/sysroots/i686-linux/usr/bin:/home/work/fsl/build/tmp/sy=
-sroots/i686-linux/sbin:/home/work/fsl/build/tmp/sysroots/i686-linux//bin:/h=
-ome/work/fsl/sources/poky/scripts:/home/work/fsl/sources/poky/bitbake/bin/:=
-/home/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr=
-/games:/opt/openocd/bin:/opt/arm-elf/bin:/opt/arm-elf-insight/bin:/opt/sh-e=
-lf/bin:/opt/insight.sh-elf/bin:/usr/local/cwSDK/cwvx/bin:/opt/arm-elf-insig=
-ht/bin:/opt/android-sdk-linux_x86/platform-tools/:/home/work/fsl/sources/po=
-ky/scripts";
-/usr/bin/env svn update -r 78183 could not be run:
-None
-ERROR: Function failed: Fetcher failure for URL:
-'svn://svn.local.repo/svn/dev_repos/Generation3_app;module=3Dtrunk;proto=3D=
-http'.
-Unable to fetch URL from any source.
-ERROR: Logfile of failure stored in:
-/home/work/fsl/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/web-browse=
-r-8.5-r1/temp/log.do_fetch.29607
-NOTE: package web-browser-8.5-r1: task do_fetch: Failed
 
---20cf3005dc98bec3f004ca10c579
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div>I would like to check out from our local SVN=A0reposito=
-ry. This is the URI line I&#39;m using in the recipe:</div><div><br></div><=
-div>=A0SRC_URI =3D &quot;svn://svn.local.repo/svn/dev_repos/Generation3_app=
-;module=3Dtrunk;proto=3Dhttp&quot;</div>
-<div><br></div><div>When I try the same command bitbake is using on the com=
-mand line it works fine. But bitbake is not fetching the package.</div><div=
-><br></div><div>Is there a special parameter that I need to modify for SVN =
-to work?</div>
-<div><br></div><div>here is the error message I get:</div><div><br></div><d=
-iv><div>WARNING: Failed to fetch URL svn://svn.local.repo/svn/dev_repos/Gen=
-eration3_app;module=3Dtrunk;proto=3Dhttp</div><div>ERROR: Fetcher failure: =
-Fetch command export HOME=3D&quot;/home/&quot;; export SSH_AGENT_PID=3D&quo=
-t;2398&quot;; export SSH_AUTH_SOCK=3D&quot;/tmp/keyring-suRHPa/ssh&quot;; e=
-xport GIT_CONFIG=3D&quot;/home//work/fsl/build/tmp/sysroots/i686-linux/etc/=
-gitconfig&quot;; export PATH=3D&quot;/home/work/fsl/build/tmp/sysroots/i686=
--linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi:/home/work/fsl/build/tmp/=
-sysroots/imx6qsabrelite/usr/bin/crossscripts:/home/work/fsl/build/tmp/sysro=
-ots/i686-linux/usr/sbin:/home/work/fsl/build/tmp/sysroots/i686-linux/usr/bi=
-n:/home/work/fsl/build/tmp/sysroots/i686-linux/sbin:/home/work/fsl/build/tm=
-p/sysroots/i686-linux//bin:/home/work/fsl/sources/poky/scripts:/home/work/f=
-sl/sources/poky/bitbake/bin/:/home/bin:/usr/local/sbin:/usr/local/bin:/usr/=
-sbin:/usr/bin:/sbin:/bin:/usr/games:/opt/openocd/bin:/opt/arm-elf/bin:/opt/=
-arm-elf-insight/bin:/opt/sh-elf/bin:/opt/insight.sh-elf/bin:/usr/local/cwSD=
-K/cwvx/bin:/opt/arm-elf-insight/bin:/opt/android-sdk-linux_x86/platform-too=
-ls/:/home/work/fsl/sources/poky/scripts&quot;; /usr/bin/env svn update -r 7=
-8183 could not be run:</div>
-<div>None</div><div>ERROR: Function failed: Fetcher failure for URL: &#39;s=
-vn://svn.local.repo/svn/dev_repos/Generation3_app;module=3Dtrunk;proto=3Dht=
-tp&#39;. Unable to fetch URL from any source.</div><div>ERROR: Logfile of f=
-ailure stored in: /home/work/fsl/build/tmp/work/armv7a-vfp-neon-poky-linux-=
-gnueabi/web-browser-8.5-r1/temp/log.do_fetch.29607</div>
-<div>NOTE: package web-browser-8.5-r1: task do_fetch: Failed</div></div><di=
-v><br></div>
-
---20cf3005dc98bec3f004ca10c579--
