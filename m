@@ -1,33 +1,25 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TE6mR-0001ID-GD
+	(envelope-from <sgw@linux.intel.com>) id 1TEAFQ-0007hi-Bv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 01:00:35 +0200
-Received: by eaad12 with SMTP id d12so97746eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Sep 2012 15:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=P2UOuzq36+2EkU0sHgC4fxJ/+XoGuQW6FSFLDVgLJS4=;
-	b=Kc0L617jSWqjCAqrTE4N199kEhQZ4FTpWDqTHNUSpTLroXBvhC3Ey1anzRgaIp2nf4
-	/hmgTBrwHXrG+ildnxzykY1lTKhcJU7xqy688/MuKvAK14kAynirwMvUVf2LRuU3qZ7h
-	rFq0HNYB1o8Rq0PX4fKwUAAbCIV+rbr42WubsdduU3tieR3gWKSeEnU7raee9j7oRdLZ
-	30OaWTglrMcEGA/6v/C71ndlbCewypt1BypNy8iWnToiJTFOKqDg1Zr/z4iBnFNtMyW3
-	XJkjTW0kSo14ioRVhSAAKr9sa6QCMCdIWSfUcUxvUTnGbU/SjP3QuG14Fu90rPl8hAYU
-	D6Pg==
-Received: by 10.14.4.201 with SMTP id 49mr1691511eej.0.1348008475155; Tue, 18
-	Sep 2012 15:47:55 -0700 (PDT)
+	Wed, 19 Sep 2012 04:42:44 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Sep 2012 19:29:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,446,1344236400"; d="scan'208";a="194656547"
+Received: from unknown (HELO [10.255.13.193]) ([10.255.13.193])
+	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2012 19:29:56 -0700
+Message-ID: <50592E24.8070701@linux.intel.com>
+Date: Tue, 18 Sep 2012 19:29:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Tue, 18 Sep 2012 15:47:24 -0700 (PDT)
-In-Reply-To: <1348007893.20356.21.camel@omclinuxballt.devnet.ordermatic.net>
-References: <1348007893.20356.21.camel@omclinuxballt.devnet.ordermatic.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Sep 2012 15:47:24 -0700
-Message-ID: <CAMKF1sp=qvEm+1VBXPQU4rT5AHCLqrY0ihpmT8GC5na50j7pZQ@mail.gmail.com>
-To: Brian Lloyd <blloyd@familyhonor.net>
+To: Cristian Iorga <cristian.iorga@intel.com>
+References: <1347973078-12399-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1347973078-12399-1-git-send-email-cristian.iorga@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: building wxwidgets under oe-core
+Subject: Re: [PATCH] qemux86-64: Support for KVM, paravirt and virtio added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,57 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2012 23:00:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 19 Sep 2012 02:42:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 18, 2012 at 3:38 PM, Brian Lloyd <blloyd@familyhonor.net> wrote:
-> Before going to the core methodology, the classic openembedded had
-> support for building wxwidgets.
+On 09/18/2012 05:57 AM, Cristian Iorga wrote:
+>      KVM, paravirtualization and virtio drivers are now activated
+>      in runqemu using the kvm option flag for qemux86-64.
+>      Host CPU features are also exported to guest OS (Yocto Linux).
+>      Usage example: runqemu qemux86-64 core-image-x11 kvm
 >
-> That library is one that does not appear to have been picked back up
-> since the refactoring of the code, either because there wasn't much
-> interest or else it proved hard to do.
+>      Implements [YOCTO #2550].
 >
-> When I tried it myself, I found that the autotools class assumed use of
-> all parts of autotools, which unfortunately wxwidgets doesn't do.  It
-> almost looks like I would have to write a custom class (or include it
-> all in the wxwidgets packet/includes) that only calls configure instead
-> of trying to do autoreconf (as well as deleting the bakefile generated
-> acinclude.m4).
->
-> Does anyone have any suggestions how to fit these two systems together
-> smoothly in a way that is likely future change resistant?  Is making a
-> custom class like configure_only.bbclass a good idea?  After all, the
-
-I think we would like to reconfigure since it then gets the wanted
-libtool macros
-and so on. We use libtool 2.4 and if package has old libtool macros that may
-not go well if you dont refresh them
-
-> tar files for wxWidgets doesn't have the issues that the forced
-> autoreconf is trying to avoid but the attempt to fix the issue is
-> bringing in all sorts of added files/dependencies required.  Or is there
-> a way to use the autotools class which will ensure the hack code does
-> not fire?
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   meta/recipes-kernel/linux/linux-yocto_3.4.bb |    3 ++-
+>   scripts/runqemu-internal                     |    4 ++--
+>   2 files changed, 4 insertions(+), 3 deletions(-)
 >
 
-you can always override do_configure () { oe_runconf } sort of thing see
-how binutils or gcc does it.
+This seems to be an incremental change over the last one, and I have 
+lost track of which applies against which, can you please resend a 
+versioned patch (ie [PATCH v2] ) that is complete.
 
+Thanks
+	Sau!
 
-> Of course, if someone has already made this work and it's somewhere I
-> missed, a pointer to where it is would be greatly appreciated.
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+> index 32ae02b..06dd677 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+> @@ -15,7 +15,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckou
 >
+>   LINUX_VERSION ?= "3.4.10"
 >
-> Brian Lloyd
+> -PR = "${INC_PR}.1"
+> +PR = "${INC_PR}.3"
+>   PV = "${LINUX_VERSION}+git${SRCPV}"
 >
+>   KMETA = "meta"
+> @@ -28,4 +28,5 @@ KERNEL_FEATURES_append = " features/netfilter"
+>   KERNEL_FEATURES_append_qemux86=" cfg/sound"
+>   KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+>   KERNEL_FEATURES_append_qemux86=" cfg/paravirt_kvm"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/paravirt_kvm"
+>   KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32", "" ,d)}"
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index f2c8d83..6e20dd7 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -350,8 +350,8 @@ if [ "$MACHINE" = "qemux86-64" ]; then
+>       QEMU=qemu-system-x86_64
+>       QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
+>       if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
+> -        KERNCMDLINE="vga=0 root=/dev/hda rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
+> -        QEMUOPTIONS="$QEMU_NETWORK_CMD -hda $ROOTFS $QEMU_UI_OPTIONS"
+> +        KERNCMDLINE="vga=0 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
+> +        QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
+>       fi
+>       if [ "$FSTYPE" = "nfs" ]; then
+>           if [ "x$ROOTFS" = "x" ]; then
 >
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
