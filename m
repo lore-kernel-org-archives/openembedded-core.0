@@ -1,27 +1,31 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TEDNx-0006Sf-0T
+	(envelope-from <scott.a.garman@intel.com>) id 1TEDO1-0006Ta-51
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 08:03:45 +0200
+	Wed, 19 Sep 2012 08:03:49 +0200
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id C07E72FD0F
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id AC12E2FD12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 01:50:58 -0400 (EDT)
+	Wed, 19 Sep 2012 01:51:02 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 22:50:49 -0700
-Message-Id: <cover.1348033737.git.scott.a.garman@intel.com>
+Date: Tue, 18 Sep 2012 22:50:50 -0700
+Message-Id: <d7a77583ec35e5f7c1853d6005d7f75999004d32.1348033737.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1348033737.git.scott.a.garman@intel.com>
+References: <cover.1348033737.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1348033737.git.scott.a.garman@intel.com>
+References: <cover.1348033737.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: C07E72FD0F.37FE6
+X-MailScanner-ID: AC12E2FD12.9DED2
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 0/1] runqemu bugfix [v2]
+Subject: [PATCH 1/1] runqemu: show bitbake errors to user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,35 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 06:03:45 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 06:03:49 -0000
 
-Hello,
+In certain edge cases, bitbake may fail to run and cause setup_tmpdir()
+within runqemu to fail, and not give the user a helpful error message.
+Catch this case and show the user the output of bitbake -e.
 
-This is a fix for Yocto bug #3112, where there are certain edge cases
-where the bitbake command is avalable to fails to run. Previously we
-mistakenly treated that as the same case as if bitbake didn't exist in
-the user's $PATH, and this fix causes us to show the user the output
-of bitbake so they can view the error message.
+This fixes [YOCTO #3112]
 
-v2 includes rework based on feedback from Mark Hatle (thanks!).
-
-Scott
-
-The following changes since commit 7887b99646d8e1e736ad6e4a306e47df9955221e:
-
-  local.conf.sample: change valgrind support architecture comment (2012-09-14 17:05:59 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib sgarman/runqemu-bitbake-fix-oe
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/runqemu-bitbake-fix-oe
-
-Scott Garman (1):
-  runqemu: show bitbake errors to user
-
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  scripts/runqemu |   12 ++++++++++--
  1 file changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index e843946..a9f513c 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -283,8 +283,16 @@ setup_tmpdir() {
+         # We have bitbake in PATH, get OE_TMPDIR from bitbake
+         OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
+         if [ -z "$OE_TMPDIR" ]; then
+-            echo "Error: this script needs to be run from your build directory,"
+-            echo "or you need to explicitly set OE_TMPDIR in your environment"
++            # Check for errors from bitbake that the user needs to know about
++            BITBAKE_OUTPUT=`bitbake -e | wc -l`
++            if [ "$BITBAKE_OUTPUT" -eq "0" ]; then
++                echo "Error: this script needs to be run from your build directory,"
++                echo "or you need to explicitly set OE_TMPDIR in your environment"
++            else
++                echo "There was an error running bitbake to determine TMPDIR"
++                echo "Here is the output from 'bitbake -e':"
++                bitbake -e
++            fi
+             exit 1
+         fi
+     fi
 -- 
 1.7.9.5
 
