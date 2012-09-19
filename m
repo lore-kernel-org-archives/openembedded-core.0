@@ -1,28 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TEKZr-0007J5-D1
+	(envelope-from <ross.burton@intel.com>) id 1TEKeZ-0007Ox-Lk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 15:44:31 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Sep 2012 06:31:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,447,1344236400"; d="scan'208";a="224052439"
-Received: from unknown (HELO helios.localnet) ([10.252.121.228])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2012 06:31:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Sep 2012 14:31:39 +0100
-Message-ID: <3089732.XYZjcTqTr7@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-30-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <CAMKF1srg0a1GhHPqY9dS_AjTJRXS7wSNzH1-UBMUJEuaXfuidw@mail.gmail.com>
-References: <70CC66F5C30A414DADDA6973E4CA391A68BAF6@039-SN1MPN1-001.039d.mgd.msft.net>
-	<224680354.d9icDWC9tY@helios>
-	<CAMKF1srg0a1GhHPqY9dS_AjTJRXS7wSNzH1-UBMUJEuaXfuidw@mail.gmail.com>
+	Wed, 19 Sep 2012 15:49:23 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Sep 2012 06:36:23 -0700
+Received: by obblz20 with SMTP id lz20so1063774obb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2012 06:36:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=pJKS+vh5M7G8/TXHtGmMVD+xMxqUeUrESI8TLoM80RE=;
+	b=LnFN1K7rUeNRSw/gZbNy/aLWQBxADHFB8GceqYNVcgi2J8chb/ZlWyH6PppF3SehWw
+	tgyTsocjmbs37qZ6z2xgW5MnU9tx+8SPseKAV5oD+Fz9rw4V3WomymSk9yKNiHumdIrd
+	6xaonjSPYQ3KfTP0ToZYeVM+s5VXtE89devRLyQ7OJEGWkROidxhXZbTcGHCz7vQVsny
+	6gGHGA5Xzk7vDudPsNgw9N+IKVAtToIGmSo0MuDORqw53kHAoyFSdedcjSmDaDLAxH46
+	XM7xIeJtovLOpYXRaAoHcdBTBYO7sAqlxqqqYNq1Fnp430mtFU3rfKSSpgH1/5vLeTls
+	SRsA==
+Received: by 10.182.124.102 with SMTP id mh6mr2963983obb.48.1348061794368;
+	Wed, 19 Sep 2012 06:36:34 -0700 (PDT)
 MIME-Version: 1.0
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: multilib errors
+Received: by 10.182.79.105 with HTTP; Wed, 19 Sep 2012 06:36:14 -0700 (PDT)
+In-Reply-To: <854e4261283991cdc56f176c6f97dee9acf718fd.1348052899.git.laurentiu.palcu@intel.com>
+References: <cover.1348052899.git.laurentiu.palcu@intel.com>
+	<854e4261283991cdc56f176c6f97dee9acf718fd.1348052899.git.laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Sep 2012 14:36:14 +0100
+Message-ID: <CAJTo0La4o60k728vHB11Kv8yae4KpMStSS9iq9WLBCGzDc3ZXQ@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQnWk0yrYnUt344278JGEqLB3TbrwEUudrccrtSijkaofBZ2y0dEjKWYwADHlyUL5h3JXytF
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 6/7] sato-icon-theme: make use of the gtk-icon-cache postinst scriptlet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 13:44:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 19 Sep 2012 13:49:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 19 September 2012 06:26:31 Khem Raj wrote:
-> On Wed, Sep 19, 2012 at 4:03 AM, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > I have seen these errors as well. It definitely should be doing these
-> > checks - the warnings occur during the file checksum code but more
-> > broadly they indicate the system will fail to find these files should you
-> > try to build the targets mentioned. Looking more closely, I could be
-> > wrong but it looks to me that BPN is not correct at least in the case of
-> > lib64-build-appliance-image - I think it ought to be
-> > "build-appliance-image"  but instead it is "lib64-build-
-> > appliance-image", which means that it can't find the files referred to in
-> > SRC_URI anymore given that they are located in a directory named "build-
-> > appliance-image".
-> 
-> IMO when we inherit multilib bbclass then it should also add new
-> ${BPN} based dirs to FILESPATH
+On 19 September 2012 12:49, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>  SECTION = "x11"
+> -DEPENDS = ""
+> +DEPENDS = "gtk+-native"
 
-BPN-based dirs are already in FILESPATH - that's the issue, BPN itself is not 
-the expected value.
+This recipe doesn't directly need gtk+-native, the class does and that
+already adds gtk+-native to the dependencies.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
 
