@@ -1,29 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TEO1q-0002eO-VG
+	(envelope-from <martin.jansa@gmail.com>) id 1TEO5P-0002jb-5p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 19:25:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2012 10:12:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,450,1344236400"; d="scan'208";a="194933753"
-Received: from unknown (HELO [10.252.121.202]) ([10.252.121.202])
-	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2012 10:12:55 -0700
-Message-ID: <5059FD16.6070109@intel.com>
-Date: Wed, 19 Sep 2012 20:12:54 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1348052899.git.laurentiu.palcu@intel.com>
-	<949436f21dca1d0f73ff55f2692d8c1459657fa2.1348052899.git.laurentiu.palcu@intel.com>
-	<CAJTo0LafLwJxBi4eG_CF+iviJbPT4HwtDdkssCAGeOgzv1t2XQ@mail.gmail.com>
-	<5059E893.1060300@intel.com>
-	<CAJTo0Laae2ZaE+8E_Co3rUQbYtQOtK41wGtBi8sRdWDWnXzjDg@mail.gmail.com>
-In-Reply-To: <CAJTo0Laae2ZaE+8E_Co3rUQbYtQOtK41wGtBi8sRdWDWnXzjDg@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 2/7] image.bbclass: run postinst scripts once, at rootfs time
+	Wed, 19 Sep 2012 19:29:19 +0200
+Received: by bkvi18 with SMTP id i18so368943bkv.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Sep 2012 10:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=6qhjKwsL1I78V9WoAYlefJZu7IegJYix8SAUrEHFt3U=;
+	b=X8DYv2dn0Iz7bNAS/nYFh0KMy7qTF9g3+UUPGrDRGLCxr1+gIprhXHban08ePd3/Pn
+	VSfwir8CvmUrifLpHO0JfFnbaPsrsbRmIrdmhhR9mKDYpBs5nLXn+11y3X8Zci//A9op
+	IV6RvPkO21ANi0WGiS46SRf2yaf4Y9mPYc2WCaXsUGXVsiyEMgVAF1VqrLGZviGVmIz7
+	tKKaK1p2oteH4vBTXuUp9V1dJdpwS3MDBt9LDiPBLCAgIFc4AvWdZsxDbXpHdIsKFz53
+	AXH9dwsHaCx7J919aizVQO269MR9cUSIOTwR96iPilRFc6n+G0+f3skzbLnrmyoV8AES
+	Yx4Q==
+Received: by 10.204.146.13 with SMTP id f13mr25514bkv.29.1348074997654;
+	Wed, 19 Sep 2012 10:16:37 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id y20sm2576517bkv.11.2012.09.19.10.16.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 19 Sep 2012 10:16:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Sep 2012 19:16:28 +0200
+Message-Id: <cover.1348074403.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.12
+Subject: [PATCH 0/3] Opkg patch upstreaming and SIGSEGV fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,39 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 17:25:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Sep 2012 17:29:19 -0000
 
+This depends on
+http://patchwork.openembedded.org/patch/36893/
+otherwise warning about missing SRC_URI entries will be shown
 
+The following changes since commit f06097f4581e4c728c2950a86e025384e4bdcdf0:
 
-On 09/19/2012 06:50 PM, Burton, Ross wrote:
-> On 19 September 2012 16:45, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
->> I'm a little confused here... Technically, when the postprocess hooks
->> are executed all the postinstall scripts were already executed. Ideally,
->> the run-once scripts are created from inside the postinst scriptlets
->> themselves. So, I don't really understand why using the postprocess hook
->> isn't safe. Can you please elaborate?
-> 
-> My concern (and it's just a hunch) is that there could be a
-> post-process hook running before the intercepts are run which could be
-> expecting the post install phase to have been completed.  With
-> intercepts a portion of the post-install phase is happening later than
-> they previously did, so they haven't completely been ran yet.
-I see your point now... The only place we could do it in image.bbclass
-is immediately after rootfs_${IMAGE_PKGTYPE}_do_rootfs in do_rootfs()
-function. But then we fall into the same issue you mentioned. The
-post-process hooks would be executed before the intercept scripts...
+  eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu (2012-09-18 07:44:13 -0700)
 
-The alternative would be to use the post-install hooks
-(ROOTFS_POSTINSTALL_COMMAND) instead of post-process. These are executed
-before the post-process hooks.
+are available in the git repository at:
 
-Thanks,
-Laurentiu
+  git://git.openembedded.org/openembedded-core-contrib jansa/opkg
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/opkg
 
-> 
-> Ross
-> 
+Martin Jansa (3):
+  opkg: replace local patches with git patches submitted upstream
+  opkg: add patch to fix SIGSEGV when printing status file
+  opkg-nogpg: drop SRCREV
+
+ meta/recipes-devtools/opkg/opkg-nogpg_svn.bb       |  2 -
+ .../0001-add-opkg_compare_versions-function.patch  | 51 ++++++++++++++
+ ...e-the-uname-gname-fields-when-extracting.patch} | 30 +++++---
+ ...ix-dependency-issues-for-preinst-scripts.patch} | 65 ++++++++++--------
+ ...nst-script-is-not-fatal-with-conf-offlin.patch} | 75 +++++++++++---------
+ ...ot-read-etc-opkg-.conf-if-f-is-specified.patch} | 11 ++-
+ ...tch => 0006-detect-circular-dependencies.patch} | 79 +++++++++++++---------
+ ...g-provides-even-when-oldpkg-provides-exis.patch | 46 +++++++++++++
+ meta/recipes-devtools/opkg/opkg/add_vercmp.patch   | 36 ----------
+ meta/recipes-devtools/opkg/opkg_svn.bb             | 15 ++--
+ 10 files changed, 258 insertions(+), 152 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-add-opkg_compare_versions-function.patch
+ rename meta/recipes-devtools/opkg/opkg/{add_uname_support.patch => 0002-Ensure-we-use-the-uname-gname-fields-when-extracting.patch} (71%)
+ rename meta/recipes-devtools/opkg/opkg/{fix_installorder.patch => 0003-Fix-dependency-issues-for-preinst-scripts.patch} (82%)
+ rename meta/recipes-devtools/opkg/opkg/{offline_postinstall.patch => 0004-Failed-postinst-script-is-not-fatal-with-conf-offlin.patch} (52%)
+ rename meta/recipes-devtools/opkg/opkg/{conf_override.patch => 0005-Do-not-read-etc-opkg-.conf-if-f-is-specified.patch} (91%)
+ rename meta/recipes-devtools/opkg/opkg/{track_parents.patch => 0006-detect-circular-dependencies.patch} (59%)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0007-merge-newpkg-provides-even-when-oldpkg-provides-exis.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/add_vercmp.patch
+
+-- 
+1.7.12
+
 
 
