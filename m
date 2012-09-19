@@ -1,39 +1,26 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TEKh4-0007VY-Gm
+	(envelope-from <constantinx.musca@intel.com>) id 1TEL0E-0001Wb-O6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 15:51:58 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 19 Sep 2012 06:39:12 -0700
-Received: by obblz20 with SMTP id lz20so1066911obb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 06:39:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=TDBs6OBSkzlMR+c7VBnbZDIALuWTLjoB9ab+FG5qNkc=;
-	b=SzLG3uLgGeaJ/O3W0auXyzTfq5V1dus9NcS7pQmJ7QhkbcRk7nE1hPjM88fIPNiODz
-	rKiX+5H9JJlBK7t4Q5UfC5gevmqVihSJD1VcLF4eOh5kIENBzK8UACL85gGfpKkzxnpF
-	ojif8GV5x6H/qnicOVJ1UBSn/kPY5Wt5h/0fGVsovD2tjI5kTd/Pp85ZAPhjbii49BKW
-	OkJfhCbFwghaYelFv0T/7/3PuFIjJJt92vR6cN5ywaMA4RVhms+YWFsltROpeCFXhEwJ
-	w1mCkvPsDNALmLZot+lek7g0eAC2GAYOJCGR5cddVIoEXRNJKkRQNBSN29oUQg2U1vuL
-	e5qA==
-Received: by 10.60.12.106 with SMTP id x10mr2868798oeb.103.1348061951731; Wed,
-	19 Sep 2012 06:39:11 -0700 (PDT)
+	Wed, 19 Sep 2012 16:11:47 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 19 Sep 2012 06:59:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,447,1344236400"; d="scan'208";a="146735850"
+Received: from costin-desktop (HELO [10.237.105.66]) ([10.237.105.66])
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Sep 2012 06:58:51 -0700
+Message-ID: <5059C2CE.4050109@intel.com>
+Date: Wed, 19 Sep 2012 16:04:14 +0300
+From: Constantin Musca <constantinx.musca@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Wed, 19 Sep 2012 06:38:51 -0700 (PDT)
-In-Reply-To: <CAMKF1soiz=RjQEGd+bGidaMJKCVcja6wvUJeyyFfaUuPsXUUqg@mail.gmail.com>
-References: <cover.1348052899.git.laurentiu.palcu@intel.com>
-	<e12955c6d49bceb6c271574551b5feb76c51fa3b.1348052899.git.laurentiu.palcu@intel.com>
-	<CAMKF1soiz=RjQEGd+bGidaMJKCVcja6wvUJeyyFfaUuPsXUUqg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Sep 2012 14:38:51 +0100
-Message-ID: <CAJTo0Lb6QFTJkc0RKmvi5SKxpaGJo3db01ssScsiSsfMTjwGgg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-X-Gm-Message-State: ALoCoQlu28FZWqbV9aS17F90d4z6hjecv1TrPh0MBhDZ8xFjtgfpvvX8VmwLYGzrhmNTM0tq6x5B
+References: <1348048754-30379-1-git-send-email-constantinx.musca@intel.com>
+	<CAMKF1spysZ_tcHRu1XoTTdvvMCbSxfjkJnk6xgg1KU_Hm__DBQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spysZ_tcHRu1XoTTdvvMCbSxfjkJnk6xgg1KU_Hm__DBQ@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 4/7] gtk-icon-cache: run the icon generation at rootfs time
+Subject: Re: [PATCH v2] intltool: include intltool.m4 and add missing rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,16 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 13:51:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 19 Sep 2012 14:11:47 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 19 September 2012 14:28, Khem Raj <raj.khem@gmail.com> wrote:
-> Do you really need bash for this script to run ? if so then can it be
-> written so that it works on posixly shells.
+On 09/19/2012 04:23 PM, Khem Raj wrote:
+>> >--- a/meta/recipes-devtools/intltool/intltool.inc
+>> >+++ b/meta/recipes-devtools/intltool/intltool.inc
+>> >@@ -7,11 +7,18 @@ SRC_URI ="http://launchpad.net/${BPN}/trunk/${PV}/+download/${BP}.tar.gz"
+>> >  S = "${WORKDIR}/intltool-${PV}"
+>> >
+>> >  DEPENDS = "libxml-parser-perl-native"
+>> >+RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
+> creating a runtime dependency on a dev package seems troublesome to me.
+> Can you explain why is this being done ?
+>
+>> >  DEPENDS_virtclass-native = "libxml-parser-perl-native"
+>> >-#RDEPENDS_${PN} = "libxml-parser-perl"
+>> >+# gettext is assumed to exist on the host
+>> >+RDEPENDS_${PN}_virtclass-native = "libxml-parser-perl-native"
+>> >  RRECOMMENDS_${PN} = "perl-modules"
+Ross suggested to use these RDEPENDS after having issues with some 
+packages on a image due to intltool.
 
-#! /bin/bash and no dependency on bash...  probably should make that
-sh-compliant.
-
-Ross
+Constantin
 
 
