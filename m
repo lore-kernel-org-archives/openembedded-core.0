@@ -1,31 +1,40 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TEDO1-0006Ta-51
+	(envelope-from <koen@dominion.thruhere.net>) id 1TEDQR-0006Yn-JS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Sep 2012 08:03:49 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id AC12E2FD12
+	Wed, 19 Sep 2012 08:06:20 +0200
+Received: by wibhn17 with SMTP id hn17so590261wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Sep 2012 01:51:02 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
+	Tue, 18 Sep 2012 22:53:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=xEuRWdvQL/A0+YMXKTuBx6UY0/B6NyvNYDjZvDymkZc=;
+	b=BXCNF5/etddW/Mon040uM76fJfTx9AtoF4/36EMwsYB5vEU4E0UtFqZFuumAMSCDCG
+	PzYJIbt5QSTBg1vYt6TupiJPsRSFld3zqprEQ6T9nTWghchul8M3MfKu0CjxEOcrIYCd
+	M9zbrj9L7sMgdJtrIxMgLDc6Z3SYjfExwzYbV8Y92gMShT34Av4tOKCnlgcZ2rIJxgOs
+	/UDoVfuiTR7ymAtESk3EPuaWdaCn4g6AOspG7rtQwpqP93SNdJw8Ibyezsng8fj1SI3h
+	Jh0kceSzmys1cacPqNAAtEXG0WEdDua5beURg3AN4wTzfPw6f3cq6Pc09mmjpPEIu3wU
+	3TCQ==
+Received: by 10.180.82.39 with SMTP id f7mr4340901wiy.2.1348034018295;
+	Tue, 18 Sep 2012 22:53:38 -0700 (PDT)
+Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id do5sm3238038wib.10.2012.09.18.22.53.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 18 Sep 2012 22:53:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1486\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1347877853-30738-1-git-send-email-koen@dominion.thruhere.net>
+Date: Wed, 19 Sep 2012 07:53:36 +0200
+Message-Id: <2F9BDF1A-77D9-4E3B-B754-48431837A1A6@dominion.thruhere.net>
+References: <1347877853-30738-1-git-send-email-koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Sep 2012 22:50:50 -0700
-Message-Id: <d7a77583ec35e5f7c1853d6005d7f75999004d32.1348033737.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1348033737.git.scott.a.garman@intel.com>
-References: <cover.1348033737.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1348033737.git.scott.a.garman@intel.com>
-References: <cover.1348033737.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: AC12E2FD12.9DED2
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] runqemu: show bitbake errors to user
+X-Mailer: Apple Mail (2.1486)
+X-Gm-Message-State: ALoCoQlqwjJzSFlPVWYfWbU92RlYgH0svMSwVDxn3S8B+J3lKklVM0vr+qVw0jzhG2aq50AuL6qW
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [for-denzil][bluez-updates 1/5] bluez4: make alsa support conditional upon DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +47,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2012 06:03:49 -0000
+X-List-Received-Date: Wed, 19 Sep 2012 06:06:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-In certain edge cases, bitbake may fail to run and cause setup_tmpdir()
-within runqemu to fail, and not give the user a helpful error message.
-Catch this case and show the user the output of bitbake -e.
+So Scott asked me to explain why these bluez updates are needed in =
+denzil, and it's mainly because of udev. The old bluez is using =
+deprecated udev API that went away in newer releases and I'm trying to =
+get a more recent udev into meta-oe to fix bugs people have reported. =
+But apart from the minor version bump having the alsa and FILES_${PN} =
+fix would be very good.
 
-This fixes [YOCTO #3112]
+regards,
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu |   12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Koen
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index e843946..a9f513c 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -283,8 +283,16 @@ setup_tmpdir() {
-         # We have bitbake in PATH, get OE_TMPDIR from bitbake
-         OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
-         if [ -z "$OE_TMPDIR" ]; then
--            echo "Error: this script needs to be run from your build directory,"
--            echo "or you need to explicitly set OE_TMPDIR in your environment"
-+            # Check for errors from bitbake that the user needs to know about
-+            BITBAKE_OUTPUT=`bitbake -e | wc -l`
-+            if [ "$BITBAKE_OUTPUT" -eq "0" ]; then
-+                echo "Error: this script needs to be run from your build directory,"
-+                echo "or you need to explicitly set OE_TMPDIR in your environment"
-+            else
-+                echo "There was an error running bitbake to determine TMPDIR"
-+                echo "Here is the output from 'bitbake -e':"
-+                bitbake -e
-+            fi
-             exit 1
-         fi
-     fi
--- 
-1.7.9.5
+Op 17 sep. 2012, om 12:30 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
+
+> From: Jonas Danielsson <jonas.danielsson@lundinova.se>
+>=20
+> Do not enable alsa in bluez4 unless it's included in DISTRO_FEATURES.
+>=20
+> Signed-off-by: Jonas Danielsson <jonas.danielsson@lundinova.se>
+> ---
+> meta/recipes-connectivity/bluez/bluez4.inc     |    6 ++++--
+> meta/recipes-connectivity/bluez/bluez4_4.99.bb |    3 ++-
+> 2 files changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc =
+b/meta/recipes-connectivity/bluez/bluez4.inc
+> index fbbe0bf..6dc06f4 100644
+> --- a/meta/recipes-connectivity/bluez/bluez4.inc
+> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
+> @@ -7,9 +7,12 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>                     =
+file://COPYING.LIB;md5=3Dfb504b67c50331fc78734fed90fb0e09 \
+>                     =
+file://src/main.c;beginline=3D1;endline=3D24;md5=3D9bc54b93cd7e17bf03f5251=
+3f39f926e \
+>                     =
+file://sbc/sbc.c;beginline=3D1;endline=3D25;md5=3D1a40781ed30d50d8639323a1=
+84aeb191"
+> -DEPENDS =3D "udev alsa-lib libusb dbus-glib glib-2.0 libcheck"
+> +DEPENDS =3D "udev libusb dbus-glib glib-2.0 libcheck"
+> RDEPENDS_${PN}-dev =3D "bluez-hcidump"
+>=20
+> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'alsa', =
+'alsa', '', d)}"
+> +PACKAGECONFIG[alsa] =3D "--enable-alsa,--disable-alsa,alsa-lib"
+> +
+> ASNEEDED =3D ""
+>=20
+> SRC_URI =3D "\
+> @@ -21,7 +24,6 @@ inherit autotools
+>=20
+> EXTRA_OECONF =3D "\
+>   --disable-gstreamer \
+> -  --enable-alsa \
+>   --enable-usb \
+>   --enable-tools \
+>   --enable-bccmd \
+> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.99.bb =
+b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> index 5033d34..32831e7 100644
+> --- a/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> +++ b/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> @@ -1,6 +1,6 @@
+> require bluez4.inc
+>=20
+> -PR =3D "r1"
+> +PR =3D "r2"
+>=20
+> SRC_URI +=3D "file://bluetooth.conf \
+>             file://sbc_mmx.patch \
+> @@ -19,6 +19,7 @@ do_install_append() {
+>=20
+> RDEPENDS_${PN}-dev =3D "bluez-hcidump"
+>=20
+> +ALLOW_EMPTY_libasound-module-bluez =3D "1"
+> PACKAGES =3D+ "libasound-module-bluez"
+>=20
+> FILES_libasound-module-bluez =3D "${libdir}/alsa-lib/lib*.so =
+${datadir}/alsa"
+> --=20
+> 1.7.7.6
+>=20
 
 
 
