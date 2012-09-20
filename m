@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TEhJU-0004Kn-Rm
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TEhJV-0004Kn-JZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Sep 2012 16:01:09 +0200
+	Thu, 20 Sep 2012 16:01:10 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 20 Sep 2012 06:48:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,453,1344236400"; d="scan'208";a="208702950"
+X-IronPort-AV: E=Sophos;i="4.80,453,1344236400"; d="scan'208";a="208702955"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by orsmga002.jf.intel.com with ESMTP; 20 Sep 2012 06:48:08 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Sep 2012 06:48:09 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Sep 2012 16:47:57 +0300
-Message-Id: <cover.1348148406.git.laurentiu.palcu@intel.com>
+Date: Thu, 20 Sep 2012 16:47:58 +0300
+Message-Id: <8ac4de1571d9862bb5cbf558b72b9cecc4751fc4.1348148406.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2 0/6] SDK and adt_installer fixes
+In-Reply-To: <cover.1348148406.git.laurentiu.palcu@intel.com>
+References: <cover.1348148406.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1348148406.git.laurentiu.palcu@intel.com>
+References: <cover.1348148406.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v2 1/6] adt-installer: fix package installation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,44 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2012 14:01:09 -0000
+X-List-Received-Date: Thu, 20 Sep 2012 14:01:10 -0000
 
-Changes in v2:
-Since the previous patchset was not merged I took the liberty of adding
-another 2 fixes and send another patchset so that they're merged in the
-right order.
+When the cross canadian toolchains are installed, for different
+architectures, they might contain common files. This leads to
+installation failures since the opkg, by default, does not overwrite
+files. This issue happens, for example, for binutils packages (that
+contain the same locale files) or gdb (which installs some syscalls xml
+files). The locale files could be removed from the binutils
+cross-canadian package but we cannot do the same for the syscalls GDB
+files which are used by GDB to display user friendly names for the
+syscall numbers. Hence, the best solution is to force opkg to overwrite
+these files.
 
-Changes in v1:
+[YOCTO #3109]
 
-Hi,
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../adt-installer/scripts/adt_installer_internal   |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This patchset contains some SDK/adt-installer fixes.
-
-Thanks,
-Laurentiu
-
-The following changes since commit 913944d904266bf90af0cad94b4f0fb3652bd29d:
-
-  upstream_tracking: update lsb and ltp (2012-09-14 17:12:52 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/adt_sdk_fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/adt_sdk_fixes
-
-Laurentiu Palcu (6):
-  adt-installer: fix package installation issue
-  SDK: fix installation into symlinked directories
-  adt-installer: ensure directory exists before copying/removing
-  SDK: remove references to Poky distro from tarball installer
-  SDK: relocate symlinks too
-  SDK: allow toolchain installation from another directory
-
- meta/classes/populate_sdk_base.bbclass             |   21 +++++--
- .../installer/adt-installer/adt_installer          |    6 +-
- .../adt-installer/scripts/adt_installer_internal   |   61 +++++++++++---------
- 3 files changed, 54 insertions(+), 34 deletions(-)
-
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index 78ea6d0..f113aa4 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -112,7 +112,7 @@ check_result
+ 
+ #install below must sdk-host packages
+ OPKG_INSTALL_CMD="$OPKG_CMD "
+-OPKG_INSTALL_NATIVE_CMD="$OPKG_INSTALL_CMD  -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR install"
++OPKG_INSTALL_NATIVE_CMD="$OPKG_INSTALL_CMD  --force-overwrite -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR install"
+ 
+ BASE_HOSTSDK_PKGNAMES="pseudo opkg pkgconfig libtool autoconf automake"
+ for pkg in $BASE_HOSTSDK_PKGNAMES; do
 -- 
 1.7.9.5
 
