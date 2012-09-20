@@ -1,37 +1,34 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tarek.elsherbiny@gmail.com>) id 1TEc3x-0004fK-Qo
+	(envelope-from <andrei@gherzan.ro>) id 1TEcfc-0005T2-2t
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Sep 2012 10:24:46 +0200
-Received: by qcad10 with SMTP id d10so1602394qca.6
+	Thu, 20 Sep 2012 11:03:40 +0200
+Received: by pabkp6 with SMTP id kp6so115759pab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2012 01:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=afr4iCib5RGGYYXH3EW4Edpeybimavc2OJPRr5p2L7s=;
-	b=AsPCUuexFwjvhZfPDQxykSwFCxmdKawCO6Av+uGu23kKXi93MHj8i78PMcCJcg3iIo
-	LIiWqSb0N+pMFjUZtxhRTA+3ZfIHFwBZZpQIvKtZU843WRg/ZRkB+9SGg5yILbCjc9ml
-	I/Pvr1Bvc0gT9bDnCWmEdHxZysXWzvQjciPKfYsplbNFc2MTMFECGGiiHOiqtx9P95pe
-	i7PNY5yDHZWpWLRXnnzW8+vjHzNtlp9KyWJ9Ek3oASqxBER3PqeFMSlMEUEYfMQ68Q/g
-	fGpH+riI5yZs6kedC9e9ckkc2wXNzADPKmk/LJGueznN4wV8cIfworPlqiFVO/tg08NQ
-	4GtA==
-MIME-Version: 1.0
-Received: by 10.224.138.143 with SMTP id a15mr2954994qau.64.1348128723154;
-	Thu, 20 Sep 2012 01:12:03 -0700 (PDT)
-Received: by 10.224.174.19 with HTTP; Thu, 20 Sep 2012 01:12:03 -0700 (PDT)
-In-Reply-To: <177B8C55-470B-4E98-B51E-ED11F2F3B091@familyhonor.net>
-References: <CAB3sqtaZSMuxaFkeaXtAuFAwcE2=JuXJTE56J-F-=pKvZddpjg@mail.gmail.com>
-	<CAMKF1sr8_PN8p0H+35JqUAyKyDLFTij4etP47VEb613pOi11Tw@mail.gmail.com>
-	<CAB3sqtb1fBxg0u=1RWL5m5aY1LLeBZwRe-Qb5eVf+R=UjjYBHg@mail.gmail.com>
-	<177B8C55-470B-4E98-B51E-ED11F2F3B091@familyhonor.net>
-Date: Thu, 20 Sep 2012 09:12:03 +0100
-Message-ID: <CAB3sqtamNO=LnfNVwwQA09LUD36c5MjkMvQi5uUOGgqA1VobCw@mail.gmail.com>
-From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
-To: Brian Lloyd <blloyd@familyhonor.net>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: SVN checkout ERROR: Function failed: Fetcher failure for URL:
+	Thu, 20 Sep 2012 01:50:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=4+x5xl0dxQaQDhl+Crm/X1nZabeTcwO5t6Ytq7aWYPo=;
+	b=EE2IzACih7H58TGUv3QejTnlKnNw4pqUpgZoEEr6b7DNDs3cYu5cdYilW6TlUlhmXn
+	tqh0qHxjDs+syAaZbeVN4q0bBO7OiuS6lGsF76UdgaCyfD4b9PDq5NKQznlGYRSeW3i0
+	ee35gsadA+Qhmcrv6K6R3V23nIWJLaEo9hyJ5rbPDuDhqNeQcwY96pO9jPwVky1ebKwy
+	yBACenthcdaHXxbZUbtgnbb8kiyXMD7+6HrguYbgg1eD7GR3e1ZFSAfUS+XE5X9cuZrj
+	L+3hr8bNQTQreelKdGyBbi/iid5eRjJgpKPxAzA3l3KmJCx2RNkMdFWEcDsaKqxZ2dIq
+	0MZA==
+Received: by 10.68.226.38 with SMTP id rp6mr4828885pbc.116.1348130690032;
+	Thu, 20 Sep 2012 01:44:50 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id vf8sm3209837pbc.27.2012.09.20.01.44.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 20 Sep 2012 01:44:49 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Sep 2012 11:44:39 +0300
+Message-Id: <1348130679-31552-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQmAFwfosDIvYlrum7SukZdw6/s03XmgfMc3JSakch2/GJ5zdCKb/VMSBY9b3rGanrQ6yAiE
+Subject: [PATCH] Replace "echo -e" with "printf" to have the same behavior in dash or bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,115 +41,255 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2012 08:24:46 -0000
-Content-Type: multipart/alternative; boundary=20cf3074d77ca7b84b04ca1dadf3
+X-List-Received-Date: Thu, 20 Sep 2012 09:03:40 -0000
 
---20cf3074d77ca7b84b04ca1dadf3
-Content-Type: text/plain; charset=ISO-8859-1
+oe-core removed the prerequisite to have sh as bash. POSIX doesn't define
+any options and furthermore allows echo -e to be the default behavior.
+This means that in dash "echo -e" will actually print "-e" and interpret
+backslashes by default. We use instead "printf" builtin command with or
+without "\n" to simulate echo -e or echo -n.
 
-svn.local.repo has address 192.168.113.20
-this is our local svn repository.
+[YOCTO #3138]
+
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/classes/buildhistory.bbclass                 |    6 +++---
+ meta/classes/cml1.bbclass                         |    2 +-
+ meta/classes/license.bbclass                      |    6 +++---
+ meta/classes/package_deb.bbclass                  |    2 +-
+ meta/classes/package_ipk.bbclass                  |    2 +-
+ meta/classes/package_rpm.bbclass                  |    6 +++---
+ meta/classes/populate_sdk_base.bbclass            |    8 ++++----
+ meta/recipes-core/base-files/base-files_3.0.14.bb |    8 ++++----
+ meta/recipes-extended/libzypp/libzypp_git.bb      |    4 ++--
+ meta/recipes-extended/lsb/lsb_4.1.bb              |    6 +++---
+ scripts/contrib/ddimage                           |    2 +-
+ 11 files changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index e121088..8519c74 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -293,13 +293,13 @@ buildhistory_get_image_installed() {
+ 	# Change delimiter from pipe to -> and set style for recommend lines
+ 	sed -i -e 's:|: -> :' -e 's:\[REC\]:[style=dotted]:' -e 's:$:;:' ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 	# Add header, sorted and de-duped contents and footer and then delete the temp file
+-	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
++	printf "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 	cat ${BUILDHISTORY_DIR_IMAGE}/depends.tmp | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
+ 	rm ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
+ 
+ 	# Produce installed package sizes list
+-	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
++	printf > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
+ 	cat $pkgcache | while read pkg pkgfile
+ 	do
+ 		if [ -f $pkgfile ] ; then
+@@ -330,7 +330,7 @@ buildhistory_get_imageinfo() {
+ 	( cd ${IMAGE_ROOTFS} && find . -ls | awk '{ if ( $7 ~ /[0-9]/ ) printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, $7, $11, $12, $13 ; else printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, 0, $10, $11, $12 }' | sort -k5 > ${BUILDHISTORY_DIR_IMAGE}/files-in-image.txt )
+ 
+ 	# Record some machine-readable meta-information about the image
+-	echo -n > ${BUILDHISTORY_DIR_IMAGE}/image-info.txt
++	printf > ${BUILDHISTORY_DIR_IMAGE}/image-info.txt
+ 	cat >> ${BUILDHISTORY_DIR_IMAGE}/image-info.txt <<END
+ ${@buildhistory_get_imagevars(d)}
+ END
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 67f17ad..37ed792 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -20,7 +20,7 @@ python do_menuconfig() {
+         except OSError:
+             mtime = 0
+ 
+-        oe_terminal("${SHELL} -c \"make menuconfig; if [ $? -ne 0 ]; then echo 'Command failed.'; echo -n 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
++        oe_terminal("${SHELL} -c \"make menuconfig; if [ $? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
+ 
+         # FIXME this check can be removed when the minimum bitbake version has been bumped
+         if hasattr(bb.build, 'write_taint'):
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 29fe938..024e579 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -112,16 +112,16 @@ license_create_manifest() {
+ 		echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_MANIFEST}
+ 		echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_MANIFEST}
+ 		echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_MANIFEST}
+-		echo -n "LICENSE:" >> ${LICENSE_MANIFEST}
++		printf "LICENSE:" >> ${LICENSE_MANIFEST}
+ 		for lic in ${pkged_lic}; do
+ 			# to reference a license file trim trailing + symbol
+ 			if [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
+-				echo -n " ${lic}" >> ${LICENSE_MANIFEST}
++				printf " ${lic}" >> ${LICENSE_MANIFEST}
+ 			else
+ 				echo "WARNING: The license listed ${lic} was not in the licenses collected for ${pkged_pn}"
+ 			fi
+ 		done
+-		echo -e "\n" >> ${LICENSE_MANIFEST}
++		printf "\n" >> ${LICENSE_MANIFEST}
+ 	done
+ 
+ 	# Two options here:
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 48511df..a6d4e02 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -192,7 +192,7 @@ deb_log_check() {
+ 		if (echo "$lf_txt" | grep -v log_check | grep "$keyword_die") >/dev/null 2>&1
+ 		then
+ 			echo "log_check: There were error messages in the logfile"
+-			echo -e "log_check: Matched keyword: [$keyword_die]\n"
++			printf "log_check: Matched keyword: [$keyword_die]\n"
+ 			echo "$lf_txt" | grep -v log_check | grep -C 5 -i "$keyword_die"
+ 			echo ""
+ 			do_exit=1
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index e94586e..dbf0feb 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -181,7 +181,7 @@ ipk_log_check() {
+ 		if (echo "$lf_txt" | grep -v log_check | grep "$keyword_die") >/dev/null 2>&1
+ 		then
+ 			echo "log_check: There were error messages in the logfile"
+-			echo -e "log_check: Matched keyword: [$keyword_die]\n"
++			printf "log_check: Matched keyword: [$keyword_die]\n"
+ 			echo "$lf_txt" | grep -v log_check | grep -C 5 -i "$keyword_die"
+ 			echo ""
+ 			do_exit=1
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 61f0117..0972af5 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -110,7 +110,7 @@ rpm_log_check() {
+ 		if (echo "$lf_txt" | grep -v log_check | grep "$keyword_die") >/dev/null 2>&1
+ 		then
+ 			echo "log_check: There were error messages in the logfile"
+-			echo -e "log_check: Matched keyword: [$keyword_die]\n"
++			printf "log_check: Matched keyword: [$keyword_die]\n"
+ 			echo "$lf_txt" | grep -v log_check | grep -C 5 -i "$keyword_die"
+ 			echo ""
+ 			do_exit=1
+@@ -211,8 +211,8 @@ process_pkg_list_rpm() {
+ 	pkgs="$@"
+ 	local confbase=${INSTALL_CONFBASE_RPM}
+ 
+-	echo -n > ${target_rootfs}/install/base_archs.pkglist
+-	echo -n > ${target_rootfs}/install/ml_archs.pkglist
++	printf > ${target_rootfs}/install/base_archs.pkglist
++	printf > ${target_rootfs}/install/ml_archs.pkglist
+ 
+ 	for pkg in $pkgs; do
+ 		echo "Processing $pkg..."
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 1c151d7..2bff41f 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -118,7 +118,7 @@ fakeroot create_shar() {
+ 
+ DEFAULT_INSTALL_DIR="${SDKPATH}"
+ 
+-echo -n "Enter target directory for Poky SDK (default: $DEFAULT_INSTALL_DIR): "
++printf "Enter target directory for Poky SDK (default: $DEFAULT_INSTALL_DIR): "
+ read target_sdk_dir
+ 
+ if [ "$target_sdk_dir" = "" ]; then
+@@ -128,7 +128,7 @@ fi
+ eval target_sdk_dir=$target_sdk_dir
+ target_sdk_dir=$(readlink -m $target_sdk_dir)
+ 
+-echo -n "You are about to install Poky SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
++printf "You are about to install Poky SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
+ read answer
+ 
+ if [ "$answer" = "" ]; then
+@@ -148,11 +148,11 @@ fi
+ 
+ payload_offset=$(($(grep -na -m1 "^MARKER:$" $(basename $0)|cut -d':' -f1) + 1))
+ 
+-echo -n "Extracting SDK..."
++printf "Extracting SDK..."
+ tail -n +$payload_offset $(basename $0) | tar xj --strip-components=4 -C $target_sdk_dir
+ echo "done"
+ 
+-echo -n "Setting it up..."
++printf "Setting it up..."
+ # fix environment paths
+ env_setup_script=$(find $target_sdk_dir -name "environment-setup-${REAL_MULTIMACH_TARGET_SYS}")
+ sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index e80cff1..ba355ee 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -117,11 +117,11 @@ do_install_basefilesissue () {
+ 
+ 	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
+         if [ -n "${DISTRO_NAME}" ]; then
+-		echo -n "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
+-		echo -n "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
++		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
++		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
+ 		if [ -n "${DISTRO_VERSION}" ]; then
+-			echo -n "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
+-			echo -n "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
++			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
++			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
+ 		fi
+ 		echo "\n \l" >> ${D}${sysconfdir}/issue
+ 		echo >> ${D}${sysconfdir}/issue
+diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
+index 3a323e7..1729c78 100644
+--- a/meta/recipes-extended/libzypp/libzypp_git.bb
++++ b/meta/recipes-extended/libzypp/libzypp_git.bb
+@@ -106,10 +106,10 @@ do_archgen () {
+ 				continue;;
+ 		esac
+ 		if [ "${AVOID_CONSTRUCTOR}" != "true" ]; then
+-		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
++		  printf "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
+ 		  echo "(_${each_arch});" | tr - _				>> zypp/oe-arch.h
+ 		else
+-		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
++		  printf "  const Arch Arch_${each_arch} " | tr - _		>> zypp/oe-arch.h
+ 		  echo "( IdString ( \"${each_arch}\" ) );" | tr - _		>> zypp/oe-arch.h
+ 		fi
+ 	done
+diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+index a3242db..55ea241 100644
+--- a/meta/recipes-extended/lsb/lsb_4.1.bb
++++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+@@ -31,12 +31,12 @@ do_install(){
+ 	mkdir -p ${D}${base_bindir}
+ 	mkdir -p ${D}/${baselib}
+ 	mkdir -p ${D}${sysconfdir}/lsb-release.d
+-	echo -n "LSB_VERSION=\"core-4.1-noarch:" > ${D}${sysconfdir}/lsb-release
++	printf "LSB_VERSION=\"core-4.1-noarch:" > ${D}${sysconfdir}/lsb-release
+ 
+ 	if [ "${TARGET_ARCH}" = "i586" ];then
+-		echo -n "core-4.1-ia32" >>  ${D}${sysconfdir}/lsb-release
++		printf "core-4.1-ia32" >>  ${D}${sysconfdir}/lsb-release
+ 	else
+-		echo -n "core-4.1-${TARGET_ARCH}" >>  ${D}${sysconfdir}/lsb-release
++		printf "core-4.1-${TARGET_ARCH}" >>  ${D}${sysconfdir}/lsb-release
+ 	fi
+ 	echo "\"" >> ${D}${sysconfdir}/lsb-release
+ 	echo "DISTRIB_ID=${DISTRO}" >> ${D}${sysconfdir}/lsb-release
+diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
+index 2cba9b2..956699c 100755
+--- a/scripts/contrib/ddimage
++++ b/scripts/contrib/ddimage
+@@ -75,7 +75,7 @@ fi
+ image_details $IMAGE
+ device_details $(basename $DEVICE)
+ 
+-echo -n "Write $IMAGE to $DEVICE [y/N]? "
++printf "Write $IMAGE to $DEVICE [y/N]? "
+ read RESPONSE
+ if [ "$RESPONSE" != "y" ]; then
+ 	echo "Write aborted"
+-- 
+1.7.9.5
 
 
-On Wed, Sep 19, 2012 at 6:59 PM, Brian Lloyd <blloyd@familyhonor.net> wrote:
 
-> This may be a dumb question, but what does svn.local.repo resolve to?
->
-> Brian A Lloyd
->
-> On Sep 19, 2012, at 12:54 PM, Tarek El-Sherbiny <
-> tarek.elsherbiny@gmail.com> wrote:
->
-> I've tried with both protocol=http and without the argument at all. Still
-> not fetching!
->
-> On Wed, Sep 19, 2012 at 6:41 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Wed, Sep 19, 2012 at 9:48 AM, Tarek El-Sherbiny
->> <tarek.elsherbiny@gmail.com> wrote:
->> >
->> > I would like to check out from our local SVN repository. This is the URI
->> > line I'm using in the recipe:
->> >
->> >  SRC_URI =
->> >
->> "svn://svn.local.repo/svn/dev_repos/Generation3_app;module=trunk;proto=http"
->>
->> use protocol=http above and make sure that your server exports over
->> http otherwise drop the argument
->>
->> >
->> > When I try the same command bitbake is using on the command line it
->> works
->> > fine. But bitbake is not fetching the package.
->> >
->> > Is there a special parameter that I need to modify for SVN to work?
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-
---20cf3074d77ca7b84b04ca1dadf3
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-svn.local.repo=A0has address 192.168.113.20<div>this is our local svn=A0rep=
-ository.</div><div><br></div><div><br><div class=3D"gmail_quote">On Wed, Se=
-p 19, 2012 at 6:59 PM, Brian Lloyd <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-blloyd@familyhonor.net" target=3D"_blank">blloyd@familyhonor.net</a>&gt;</s=
-pan> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF"><div>This may be a =
-dumb question, but what does svn.local.repo resolve to?<br><br>Brian A Lloy=
-d</div>
-<div><div class=3D"h5"><div><br>On Sep 19, 2012, at 12:54 PM, Tarek El-Sher=
-biny &lt;<a href=3D"mailto:tarek.elsherbiny@gmail.com" target=3D"_blank">ta=
-rek.elsherbiny@gmail.com</a>&gt; wrote:<br><br></div><div></div><blockquote=
- type=3D"cite">
-<div>I&#39;ve tried with both protocol=3Dhttp and without the argument at a=
-ll. Still not fetching!<br><br><div class=3D"gmail_quote">On Wed, Sep 19, 2=
-012 at 6:41 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@g=
-mail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div>On Wed, Sep 19, 2012 at 9:48 AM, Tarek =
-El-Sherbiny<br>
-&lt;<a href=3D"mailto:tarek.elsherbiny@gmail.com" target=3D"_blank">tarek.e=
-lsherbiny@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; I would like to check out from our local SVN repository. This is the U=
-RI<br>
-&gt; line I&#39;m using in the recipe:<br>
-&gt;<br>
-&gt; =A0SRC_URI =3D<br>
-&gt; &quot;svn://svn.local.repo/svn/dev_repos/Generation3_app;module=3Dtrun=
-k;proto=3Dhttp&quot;<br>
-<br>
-</div>use protocol=3Dhttp above and make sure that your server exports over=
-<br>
-http otherwise drop the argument<br>
-<div><div><br>
-&gt;<br>
-&gt; When I try the same command bitbake is using on the command line it wo=
-rks<br>
-&gt; fine. But bitbake is not fetching the package.<br>
-&gt;<br>
-&gt; Is there a special parameter that I need to modify for SVN to work?<br=
->
-</div></div></blockquote></div><br>
-</div></blockquote></div></div><blockquote type=3D"cite"><div><span>_______=
-________________________________________</span><br><span>Openembedded-core =
-mailing list</span><br><span><a href=3D"mailto:Openembedded-core@lists.open=
-embedded.org" target=3D"_blank">Openembedded-core@lists.openembedded.org</a=
-></span><br>
-<span><a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openem=
-bedded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/l=
-istinfo/openembedded-core</a></span><br></div></blockquote></div></blockquo=
-te>
-</div><br></div>
-
---20cf3074d77ca7b84b04ca1dadf3--
