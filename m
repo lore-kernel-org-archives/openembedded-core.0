@@ -1,29 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from ams-iport-4.cisco.com ([144.254.224.147])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1TEYiI-0008Ed-KX
+	(envelope-from <mertsas@cisco.com>) id 1TEa6m-000264-Jr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Sep 2012 06:50:10 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8K4bQ6V004278
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Sep 2012 21:37:27 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 19 Sep 2012 21:37:26 -0700
-Message-ID: <505A9D84.5070501@windriver.com>
-Date: Thu, 20 Sep 2012 12:37:24 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Thu, 20 Sep 2012 08:19:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4440; q=dns/txt; s=iport;
+	t=1348121212; x=1349330812;
+	h=message-id:date:from:mime-version:to:cc:subject:
+	references:in-reply-to:content-transfer-encoding;
+	bh=NU1HzII6jXPayNKak12mQhNJIF13BxoW165apgG0K/o=;
+	b=ixxUKi31xjuPeat8TErtODX4bhDFjGhgKzac57gbEp1nHDE7yyYgKwY1
+	nNN4vgaZ4Egqqok7cO/SR0Znqzpl2OSPYBzfxjPBnyUiVmMaZaknaGsWt
+	wAPjlWQNgJUOMmrVLspX/Nh3/CMp6ZwCIlfsXgOGtd7on4qN9FD3bu5/e I=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: Av8EAPyxWlCQ/khN/2dsb2JhbABFFrx3gQiCIAEBAQQSATgBLRALDgoJJQ8CRgYNAQUCAQEeh2ELmXmRVwGOK4schkEDlWSBFIRMiFiBaYJo
+X-IronPort-AV: E=Sophos;i="4.80,453,1344211200"; 
+   d="scan'208";a="8177655"
+Received: from ams-core-4.cisco.com ([144.254.72.77])
+	by ams-iport-4.cisco.com with ESMTP; 20 Sep 2012 06:06:49 +0000
+Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id q8K66m04004197;
+	Thu, 20 Sep 2012 06:06:49 GMT
+Message-ID: <505AB23E.10607@cisco.com>
+Date: Thu, 20 Sep 2012 08:05:50 +0200
+From: =?ISO-8859-1?Q?Martin_Erts=E5s?= <mertsas@cisco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.7) Gecko/20120911 Thunderbird/10.0.7
 MIME-Version: 1.0
 To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1345431102.git.wenzong.fan@windriver.com>
-	<5a92968e29ead46bff1edf963d1f9cef3732e8b1.1345431102.git.wenzong.fan@windriver.com>
-	<50365A14.4050601@linux.intel.com>
-In-Reply-To: <50365A14.4050601@linux.intel.com>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] coreutils: fix do_configure error with long TMPDIR
+References: <1348039015-27100-1-git-send-email-mertsas@cisco.com>
+	<5059DE91.9060709@linux.intel.com>
+In-Reply-To: <5059DE91.9060709@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] bash: Make it possible to run bash 3.2.48 instead of 4.2.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,91 +45,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2012 04:50:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 20 Sep 2012 06:19:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-
-
-On 08/24/2012 12:28 AM, Saul Wold wrote:
-> On 08/19/2012 07:55 PM, wenzong.fan@windriver.com wrote:
->> From: Wenzong Fan <wenzong.fan@windriver.com>
+On 09/19/12 17:02, Saul Wold wrote:
+> On 09/19/2012 12:16 AM, Martin Ertsaas wrote:
+>> bash-3.2.48 did not provide the linking from sh to bash, making it
+>> unusable.
+>> Moving the license part out of the bash.inc file, and into
+>> bash_4.2.bb file makes
+>> us able to use that file also for bash_3.2.48.bb, which makes
+>> maintaining both
+>> at the same time a lot easier.
 >>
->> By default the 'm4/*' files will be extended with absolute path while
->> autoreconf running, if the length of TMPDIR is too long such as 410
->> which is the maximum value allowed by 'sanity.bbclass', autoreconf
->> will fail with error:
->>
->>      Can't exec "/bin/sh": Argument list too long ...
->>
->> Fix this issue by specific the 'acpaths' to '-I ./m4'.
->>
->> [YOCTO #2766]
->>
->> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
->> ---
->>   meta/recipes-core/coreutils/coreutils_8.14.bb |    4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb
->> b/meta/recipes-core/coreutils/coreutils_8.14.bb
->> index 9a714a9..c7c8e13 100644
->> --- a/meta/recipes-core/coreutils/coreutils_8.14.bb
->> +++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
->> @@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
->>   LICENSE = "GPLv3+"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
->>
->> file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
->> -PR = "r5"
->> +PR = "r6"
->>   DEPENDS = "gmp libcap"
->>   DEPENDS_virtclass-native = ""
->>
->> @@ -36,6 +36,8 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo
->> false kill ln ls mkdi
->>
->>   sbindir_progs= "chroot"
->>
->> +acpaths = "-I ./m4"
->> +
-> This is a poor work-around to the problem, and does not give any idea as to what
-> your fixing.  Please investigate a proper fix not just a work-around.
+> This is good, but I forgot to ask you to include the size change in
+> here, it's helpful for tracking, I am still considering this change,
+> but we have constantly adding little change like this adds up to bigger
+> change.
 >
-
-Hi Saul,
-
-This is because the aclocal's argument list is very long when building
-coreutils, it has many arguments (378 m4 files under 'coreutils-8.14/m4'),
-when the length of the TMPDIR is short this is OK, but when it is longer,
-there would be a argument list too long error.
-
-I think that we have two solutions to fix this problem:
-1) Make aclocal accept longer arguments, unfortunately, the native aclocal is
-    running on the host, the length of the argument depends on the host's kernel
-    (The ARG_MAX which is defined in '/usr/include/linux/limits.h'), so this way
-    doesn't work.
-
-2) Make coreutils' acpaths shorter, this is what this patch does, it changes the
-    absolute path to the relative path, so it doesn't care the length of the
-    TMPDIR anymore.
-
-// Robert
-
+> Is there any other way to do the equivalent of what you are attempting
+> to do in the other patch without adding size to busy box?
+>
 > Thanks
->      Sau!
 >
->>   do_install_append() {
->>       for i in df mktemp base64; do mv ${D}${bindir}/$i
->> ${D}${bindir}/$i.${BPN}; done
+> Sau!
+What size change is that? I'm not sure what you are referring to here,
+sorry. As far as I see I'm not adding any size to busybox either, but I
+might be wrong as I don't know the internals of busybox. If you could
+elaborate a bit more, I can see what I can do about your concerns.
+
+- Martin
+>
+>> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+>> ---
+>>   meta/recipes-extended/bash/bash.inc       |    3 --
+>>   meta/recipes-extended/bash/bash_3.2.48.bb |   31
+>> +---------------------------
+>>   meta/recipes-extended/bash/bash_4.2.bb    |    6 ++++-
+>>   3 files changed, 7 insertions(+), 33 deletions(-)
 >>
+>> diff --git a/meta/recipes-extended/bash/bash.inc
+>> b/meta/recipes-extended/bash/bash.inc
+>> index 3684191..ae4b681 100644
+>> --- a/meta/recipes-extended/bash/bash.inc
+>> +++ b/meta/recipes-extended/bash/bash.inc
+>> @@ -2,9 +2,6 @@ DESCRIPTION = "An sh-compatible command language
+>> interpreter."
+>>   HOMEPAGE = "http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html"
+>>   SECTION = "base/shell"
 >>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+>> -# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
+>> -LICENSE = "GPLv3+"
+>> -LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>>   DEPENDS = "ncurses bison-native"
+>>
+>>   inherit autotools gettext update-alternatives
+>> diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb
+>> b/meta/recipes-extended/bash/bash_3.2.48.bb
+>> index 509d7a0..828d629 100644
+>> --- a/meta/recipes-extended/bash/bash_3.2.48.bb
+>> +++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+>> @@ -1,12 +1,9 @@
+>> -DESCRIPTION = "An sh-compatible command language interpreter."
+>> -HOMEPAGE = "http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html"
+>> -SECTION = "base/shell"
+>> +require bash.inc
+>>
+>>   LICENSE = "GPLv2+"
+>>   LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=fd5d9bcabd8ed5a54a01ce8d183d592a"
+>> -DEPENDS = "ncurses"
+>>
+>> -PR = "r10"
+>> +PR = "r11"
+>>
+>>   SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+>>             
+>> ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-049;apply=yes;striplevel=0;name=patch001
+>> \
+>> @@ -24,27 +21,3 @@ SRC_URI[patch003.sha256sum] =
+>> "354886097cd95b4def77028f32ee01e2e088d58a98184fede
+>>
+>>   SRC_URI[md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
+>>   SRC_URI[sha256sum] =
+>> "128d281bd5682ba5f6953122915da71976357d7a76490d266c9173b1d0426348"
+>> -
+>> -inherit autotools gettext
+>> -
+>> -PARALLEL_MAKE = ""
+>> -
+>> -bindir = "/bin"
+>> -sbindir = "/sbin"
+>> -
+>> -EXTRA_OECONF = "--with-ncurses"
+>> -export CC_FOR_BUILD = "${BUILD_CC}"
+>> -
+>> -export AUTOHEADER = "true"
+>> -
+>> -do_configure_prepend () {
+>> -    if [ ! -e acinclude.m4 ]; then
+>> -        cat aclocal.m4 > acinclude.m4
+>> -    fi
+>> -}
+>> -
+>> -pkg_postinst_${PN} () {
+>> -    touch $D${sysconfdir}/shells
+>> -    grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >>
+>> $D${sysconfdir}/shells
+>> -    grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >>
+>> $D${sysconfdir}/shells
+>> -}
+>> diff --git a/meta/recipes-extended/bash/bash_4.2.bb
+>> b/meta/recipes-extended/bash/bash_4.2.bb
+>> index 384eb62..5a0f015 100644
+>> --- a/meta/recipes-extended/bash/bash_4.2.bb
+>> +++ b/meta/recipes-extended/bash/bash_4.2.bb
+>> @@ -1,6 +1,10 @@
+>>   require bash.inc
+>>
+>> -PR = "r4"
+>> +# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
+>> +LICENSE = "GPLv3+"
+>> +LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>> +
+>> +PR = "r5"
+>>
+>>   SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+>>             
+>> ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001
+>> \
+>>
+
 
 
