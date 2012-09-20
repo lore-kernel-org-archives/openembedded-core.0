@@ -1,19 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TEkqv-0006F5-Hr
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TElI9-0006zK-Nl
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Sep 2012 19:47:53 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8KHZ72b019013;
-	Thu, 20 Sep 2012 10:35:07 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu, 20 Sep 2012 13:34:42 -0400
-Message-Id: <cover.1348162346.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-yocto/3.4: latency/profiling option consistency
+	Thu, 20 Sep 2012 20:16:01 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q8KI3Goj029986
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 20 Sep 2012 20:03:18 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TEl5o-0007Cr-FO; Thu, 20 Sep 2012 20:03:16 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1347964372.13596.110.camel@ted>
+Date: Thu, 20 Sep 2012 20:03:16 +0200
+In-Reply-To: <1347964372.13596.110.camel@ted> (Richard Purdie's message of
+	"Tue, 18 Sep 2012 11:32:52 +0100")
+Message-ID: <lya9wkr2qj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.7
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Richard Purdie
+	<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+Subject: Re: [PATCH] bitbake.conf/gcc: Add clean masks for stamp files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,35 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2012 17:47:53 -0000
+X-List-Received-Date: Thu, 20 Sep 2012 18:16:01 -0000
+Content-Type: text/plain
 
-Richard/Saul,
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-Here's a change from Tom that I've had for a few days, to make 
-more BSPs use the common profiling/latency configuration fragments.
-Everything checks out fine here.
+> +STAMPCLEAN = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PN}-*-*"
 
-Cheers,
+Is it intended that this pattern can match unrelated packages? E.g. for
+PN='gcc-cross', the mask will apply to stampfiles for 'gcc-cross-initial'
+too.
 
-Bruce
 
-The following changes since commit df5f9a3e6dfcf8e8f57132843a024b44c0bd90fc:
 
-  gtk+: enable gtk+-native (2012-09-20 13:33:50 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto/3.4: use profiling and latencytop features in yocto bsps
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
--- 
-1.7.5.4
-
+Enrico
 
 
