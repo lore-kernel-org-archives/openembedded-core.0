@@ -1,32 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TEh5l-0003pj-96 for openembedded-core@lists.openembedded.org;
-	Thu, 20 Sep 2012 15:46:57 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8KDYBrH012206;
-	Thu, 20 Sep 2012 14:34:11 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11861-03; Thu, 20 Sep 2012 14:34:07 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8KDY3rJ012200
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 20 Sep 2012 14:34:04 +0100
-Message-ID: <1348148042.10108.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Sep 2012 14:34:02 +0100
-In-Reply-To: <CAMKF1spysZ_tcHRu1XoTTdvvMCbSxfjkJnk6xgg1KU_Hm__DBQ@mail.gmail.com>
-References: <1348048754-30379-1-git-send-email-constantinx.musca@intel.com>
-	<CAMKF1spysZ_tcHRu1XoTTdvvMCbSxfjkJnk6xgg1KU_Hm__DBQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Constantin Musca <constantinx.musca@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] intltool: include intltool.m4 and add missing rdepends
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TEhJU-0004Kn-Rm
+	for openembedded-core@lists.openembedded.org;
+	Thu, 20 Sep 2012 16:01:09 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 20 Sep 2012 06:48:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,453,1344236400"; d="scan'208";a="208702950"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by orsmga002.jf.intel.com with ESMTP; 20 Sep 2012 06:48:08 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Sep 2012 16:47:57 +0300
+Message-Id: <cover.1348148406.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2 0/6] SDK and adt_installer fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,49 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2012 13:46:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Sep 2012 14:01:09 -0000
 
-On Wed, 2012-09-19 at 06:23 -0700, Khem Raj wrote:
-> On Wed, Sep 19, 2012 at 2:59 AM, Constantin Musca
-> <constantinx.musca@intel.com> wrote:
-> > - include /usr/share/aclocal/intltool.m4 into the intltool
-> > package (the files from intltool-dev must be included into the
-> > main package, as intltool is a development tool)
-> > - add missing rdepends: gettext-dev, libxml-parser-perl
-> >
-> > [YOCTO #2597]
-> >
-> > Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> > ---
-> >  meta/recipes-devtools/intltool/intltool.inc       |    9 ++++++++-
-> >  meta/recipes-devtools/intltool/intltool_0.50.0.bb |    2 +-
-> >  2 files changed, 9 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
-> > index 1c41f0f..59974d8 100644
-> > --- a/meta/recipes-devtools/intltool/intltool.inc
-> > +++ b/meta/recipes-devtools/intltool/intltool.inc
-> > @@ -7,11 +7,18 @@ SRC_URI = "http://launchpad.net/${BPN}/trunk/${PV}/+download/${BP}.tar.gz"
-> >  S = "${WORKDIR}/intltool-${PV}"
-> >
-> >  DEPENDS = "libxml-parser-perl-native"
-> > +RDEPENDS_${PN} = "gettext-dev libxml-parser-perl"
-> 
-> creating a runtime dependency on a dev package seems troublesome to me.
-> Can you explain why is this being done ?
+Changes in v2:
+Since the previous patchset was not merged I took the liberty of adding
+another 2 fixes and send another patchset so that they're merged in the
+right order.
 
-Constantin has posted an update about this. The issue is the intltool.m4
-macros references macros that come from gettext-dev.
+Changes in v1:
 
-I think that whilst this unusual, developer tools can need other
-development tools. We need to remember that intltool is only ever used
-for development.
+Hi,
 
-Cheers,
+This patchset contains some SDK/adt-installer fixes.
 
-Richard
+Thanks,
+Laurentiu
+
+The following changes since commit 913944d904266bf90af0cad94b4f0fb3652bd29d:
+
+  upstream_tracking: update lsb and ltp (2012-09-14 17:12:52 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/adt_sdk_fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/adt_sdk_fixes
+
+Laurentiu Palcu (6):
+  adt-installer: fix package installation issue
+  SDK: fix installation into symlinked directories
+  adt-installer: ensure directory exists before copying/removing
+  SDK: remove references to Poky distro from tarball installer
+  SDK: relocate symlinks too
+  SDK: allow toolchain installation from another directory
+
+ meta/classes/populate_sdk_base.bbclass             |   21 +++++--
+ .../installer/adt-installer/adt_installer          |    6 +-
+ .../adt-installer/scripts/adt_installer_internal   |   61 +++++++++++---------
+ 3 files changed, 54 insertions(+), 34 deletions(-)
+
+-- 
+1.7.9.5
 
 
 
