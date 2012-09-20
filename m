@@ -1,29 +1,20 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tarek.elsherbiny@gmail.com>) id 1TEhmP-00087X-Qv
+	(envelope-from <sgw@linux.intel.com>) id 1TEhxE-0001m0-Ki
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Sep 2012 16:31:01 +0200
-Received: by qcad10 with SMTP id d10so1832712qca.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Sep 2012 07:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=7wtlEiisD2CY4/6Go7syIPYdEk+Se6CPcdjYkNTPho4=;
-	b=zDp9dmx2OZIcJ2l3QHpUIEm6CTUzt83U6PZKq+ZPP+NDJ1M9SfwJzAxIejXMI5cj8U
-	H6LPjmGjDs7naPoqoJTNdcyqcwzR++XHLMx+zRatAgY+LOAnUKkvWgp1TLMRZHnW+s0f
-	lnPf3jkj66l8rqbKESFto0lBie//jAZU48gn3DjsZOO4Uq+cXFZzTuRCuJOSSz3GVA1y
-	is+G1iWjzUVDXpAOIJdQrm7cmD7hTvGzF4pZXyUKv8lAt1SixGeZubb3yZjCKtCGIirR
-	724itKFu5793vbJdF85mdypsMT9cQbYb5dCUvWq4QBfOWyzqoICJ/yRb/0bosKaUIpvN
-	Tn9w==
-MIME-Version: 1.0
-Received: by 10.224.206.198 with SMTP id fv6mr4959599qab.65.1348150698709;
-	Thu, 20 Sep 2012 07:18:18 -0700 (PDT)
-Received: by 10.224.174.19 with HTTP; Thu, 20 Sep 2012 07:18:18 -0700 (PDT)
-Date: Thu, 20 Sep 2012 15:18:18 +0100
-Message-ID: <CAB3sqtYcKxt3R4phift55_gbNZU7iUoiAdXJRQ_bZmeivSNR_Q@mail.gmail.com>
-From: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
+	Thu, 20 Sep 2012 16:42:13 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 20 Sep 2012 07:29:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,453,1344236400"; d="scan'208";a="147173818"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.229])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Sep 2012 07:29:28 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: SVN fetch is not working
+Date: Thu, 20 Sep 2012 07:29:28 -0700
+Message-Id: <cover.1348150993.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [CONSOLIDATED REQUEST 00/15] Fixes for 1.3 RC2 (no cover letter)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,85 +27,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Sep 2012 14:31:02 -0000
-Content-Type: multipart/alternative; boundary=20cf300fb2db80131e04ca22cbe6
+X-List-Received-Date: Thu, 20 Sep 2012 14:42:13 -0000
 
---20cf300fb2db80131e04ca22cbe6
-Content-Type: text/plain; charset=ISO-8859-1
+Richard,
 
-Hi,
+This contains a set of fixes that have been tested against the
+build.
 
-This is the line i'm using to fetch from local svn server
+I have included the GDB update, which I know is late in the game,
+but I think it important tool to be updated.
 
-SRC_URI =
-"svn://svn.ad-group.adh/svn/dev_repos/Generation3_app;module=trunk;proto=http"
+I also included Wenzong's TMPDIR fix, if you read the chain of emails
+this seems to be the only way to fix this give the number of m4 macro
+files included and the fact that we really can't patch the host aclocal.
 
-Viewing the log.do_fetch file:
+Sau!
 
-DEBUG: Fetcher accessed the network with the command /usr/bin/env svn info
-http://svn.ad-group.adh/svn/dev_repos/Generation3_app/trunk/
-DEBUG: Running export HOME="/home/telsherbiny"; export
-SSH_AGENT_PID="2398"; export SSH_AUTH_SOCK="/tmp/keyring-suRHPa/ssh";
-export
-........
-........
-/work/fsl/sources/poky/scripts"; LANG=C LC_ALL=C /usr/bin/env *svn info
-http://svn.ad-group.adh/svn/dev_repos/Generation3_app/trunk*/
+The following changes since commit 9db6ea4981fe22dd430c13d9f5a838ad92d1afe6:
 
-DEBUG: Trying PREMIRRORS
-DEBUG: For url ['svn', 'svn.ad-group.adh',
-'/svn/dev_repos/Generation3_app', '', '', {'module': 'trunk', 'proto':
-'http'}] comparing ['bzr', '.*', '/.
-*', '', '', {}] to ['http', 'downloads.yoctoproject.org',
-'/mirror/sources/', '', '', {}]
-.................
-.................
 
-So bitbake is constructing the svn command correctly but it fall-back to
-Mirrors for some reason!
+  gtk+: enable gtk+-native (2012-09-20 13:21:59 +0100)
 
-When I run the same svn command manually I get the correct result.
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-Can someone explain why it's not working?
+Constantin Musca (1):
+  intltool: include intltool.m4 and add missing rdepends
 
-The same recipe is working for oe-classic!
+Cristian Iorga (2):
+  qemux86: Support for KVM, paravirt and virtio added
+  qemux86-64: Support for KVM, paravirt and virtio added
 
-Thanks
+Darren Hart (1):
+  mkefidisk.sh: Add script to do an EFI install on the host
 
---20cf300fb2db80131e04ca22cbe6
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Khem Raj (1):
+  gdb: Upgrade 7.4 -> 7.5
 
-Hi,<div><br></div><div>This is the line i&#39;m using to fetch from local s=
-vn server</div><div><br></div><div>SRC_URI =3D &quot;svn://svn.ad-group.adh=
-/svn/dev_repos/Generation3_app;module=3Dtrunk;proto=3Dhttp&quot;</div><div>=
-<br>
-</div><div>Viewing the log.do_fetch file:</div><div><br></div><div><div>DEB=
-UG: Fetcher accessed the network with the command /usr/bin/env svn info =A0=
-<a href=3D"http://svn.ad-group.adh/svn/dev_repos/Generation3_app/trunk/">ht=
-tp://svn.ad-group.adh/svn/dev_repos/Generation3_app/trunk/</a></div>
-<div>DEBUG: Running export HOME=3D&quot;/home/telsherbiny&quot;; export SSH=
-_AGENT_PID=3D&quot;2398&quot;; export SSH_AUTH_SOCK=3D&quot;/tmp/keyring-su=
-RHPa/ssh&quot;; export=A0</div><div>........</div><div>........</div><div>/=
-work/fsl/sources/poky/scripts&quot;; LANG=3DC LC_ALL=3DC /usr/bin/env <b><f=
-ont color=3D"#3333ff">svn info =A0<a href=3D"http://svn.ad-group.adh/svn/de=
-v_repos/Generation3_app/trunk">http://svn.ad-group.adh/svn/dev_repos/Genera=
-tion3_app/trunk</a></font></b>/</div>
-</div><div><br></div><div><div>DEBUG: Trying PREMIRRORS</div><div>DEBUG: Fo=
-r url [&#39;svn&#39;, &#39;svn.ad-group.adh&#39;, &#39;/svn/dev_repos/Gener=
-ation3_app&#39;, &#39;&#39;, &#39;&#39;, {&#39;module&#39;: &#39;trunk&#39;=
-, &#39;proto&#39;: &#39;http&#39;}] comparing [&#39;bzr&#39;, &#39;.*&#39;,=
- &#39;/.</div>
-<div>*&#39;, &#39;&#39;, &#39;&#39;, {}] to [&#39;http&#39;, &#39;<a href=
-=3D"http://downloads.yoctoproject.org">downloads.yoctoproject.org</a>&#39;,=
- &#39;/mirror/sources/&#39;, &#39;&#39;, &#39;&#39;, {}]</div><div>........=
-.........</div>
-</div><div>.................</div><div><br></div><div>So bitbake is constru=
-cting the svn command correctly but it=A0fall-back to Mirrors for some reas=
-on!</div><div>=A0</div><div>When I run the same svn command manually I get =
-the correct result.</div>
-<div><br></div><div>Can someone explain why it&#39;s not working?=A0</div><=
-div><br></div><div>The same recipe is working for oe-classic!</div><div><br=
-></div><div>Thanks=A0</div>
+Martin Jansa (3):
+  opkg: replace local patches with git patches submitted upstream
+  opkg: add patch to fix SIGSEGV when printing status file
+  opkg-nogpg: drop SRCREV
 
---20cf300fb2db80131e04ca22cbe6--
+Radu Moisan (1):
+  insane.bbclass: add library dir sanity check
+
+Robert Yang (3):
+  rpm 5.4.9: DEPENDS on bison-native
+  opkg 0.1.8: remove it since it doesn't work
+  opkg svn: respect to the arch priority
+
+Ross Burton (1):
+  librsvg: make the libcroco dependency a PACKAGECONFIG option
+
+Scott Garman (1):
+  runqemu: show bitbake errors to user
+
+Wenzong Fan (1):
+  coreutils: fix do_configure error with long TMPDIR
+
+ meta/classes/insane.bbclass                        |   39 ++-
+ meta/recipes-core/coreutils/coreutils_8.14.bb      |    4 +-
+intltool meta/recipes-devtools/gdb/gdb-common.inc           |   11 +-
+ ...canadian_7.4.1.bb => gdb-cross-canadian_7.5.bb} |    0
+ .../gdb/{gdb-cross_7.4.1.bb => gdb-cross_7.5.bb}   |    0
+ meta/recipes-devtools/gdb/gdb.inc                  |    1 -
+ meta/recipes-devtools/gdb/gdb/no-werror.patch      |   80 ----
+ .../gdb/gdb/renesas-sh-native-support.patch        |  194 +++++-----
+ meta/recipes-devtools/gdb/gdb/siginfo_t.patch      |  403 --------------------
+ .../gdb/{gdb_7.4.1.bb => gdb_7.5.bb}               |    0
+ meta/recipes-devtools/intltool/intltool.inc        |    9 +-
+ meta/recipes-devtools/intltool/intltool_0.50.0.bb  |    2 +-
+ .../opkg/opkg-0.1.8/headerfix.patch                |   19 -
+ meta/recipes-devtools/opkg/opkg-nogpg_0.1.8.bb     |   10 -
+ meta/recipes-devtools/opkg/opkg-nogpg_svn.bb       |    2 -
+ .../0001-add-opkg_compare_versions-function.patch  |   54 +++
+ ...e-the-uname-gname-fields-when-extracting.patch} |   31 +-
+ ...ix-dependency-issues-for-preinst-scripts.patch} |   66 ++--
+ ...nst-script-is-not-fatal-with-conf-offlin.patch} |   76 +++--
+ ...ot-read-etc-opkg-.conf-if-f-is-specified.patch} |   12 +-
+ ...tch => 0006-detect-circular-dependencies.patch} |   82 +++--
+ ...g-provides-even-when-oldpkg-provides-exis.patch |   49 +++
+ .../opkg/opkg/0008-select_higher_version.patch     |  102 +++++
+ meta/recipes-devtools/opkg/opkg/add_vercmp.patch   |   36 --
+ meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   11 -
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   16 +-
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    4 +-
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |   10 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |    4 +-
+ scripts/contrib/mkefidisk.sh                       |  255 +++++++++++++
+ scripts/runqemu                                    |   28 ++-
+ scripts/runqemu-internal                           |   18 +-
+ 32 files changed, 831 insertions(+), 797 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.4.1.bb => gdb-cross-canadian_7.5.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.4.1.bb => gdb-cross_7.5.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/no-werror.patch
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/siginfo_t.patch
+ rename meta/recipes-devtools/gdb/{gdb_7.4.1.bb => gdb_7.5.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg-0.1.8/headerfix.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg-nogpg_0.1.8.bb
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-add-opkg_compare_versions-function.patch
+ rename meta/recipes-devtools/opkg/opkg/{add_uname_support.patch => 0002-Ensure-we-use-the-uname-gname-fields-when-extracting.patch} (69%)
+ rename meta/recipes-devtools/opkg/opkg/{fix_installorder.patch => 0003-Fix-dependency-issues-for-preinst-scripts.patch} (81%)
+ rename meta/recipes-devtools/opkg/opkg/{offline_postinstall.patch => 0004-Failed-postinst-script-is-not-fatal-with-conf-offlin.patch} (50%)
+ rename meta/recipes-devtools/opkg/opkg/{conf_override.patch => 0005-Do-not-read-etc-opkg-.conf-if-f-is-specified.patch} (88%)
+ rename meta/recipes-devtools/opkg/opkg/{track_parents.patch => 0006-detect-circular-dependencies.patch} (58%)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0007-merge-newpkg-provides-even-when-oldpkg-provides-exis.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0008-select_higher_version.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/add_vercmp.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg_0.1.8.bb
+ create mode 100755 scripts/contrib/mkefidisk.sh
+
+-- 
+1.7.7.6
+
+
+
