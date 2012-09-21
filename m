@@ -1,20 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TEvtm-0003lW-Ky
-	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 07:35:34 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Sep 2012 22:22:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,459,1344236400"; d="scan'208";a="224750164"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.229])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Sep 2012 22:22:49 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Sep 2012 22:22:49 -0700
-Message-Id: <cover.1348204894.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED REQUEST (v2) 00/22] Fixes for 1.3 RC2 (no cover letter)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TEzrX-0004He-2n for openembedded-core@lists.openembedded.org;
+	Fri, 21 Sep 2012 11:49:31 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8L9alvR017816;
+	Fri, 21 Sep 2012 10:36:47 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11861-06; Fri, 21 Sep 2012 10:36:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8L9ac1Y017810
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 21 Sep 2012 10:36:39 +0100
+Message-ID: <1348220197.10108.34.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 21 Sep 2012 10:36:37 +0100
+In-Reply-To: <lya9wkr2qj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <1347964372.13596.110.camel@ted>
+	<lya9wkr2qj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Richard Purdie
+	<public-richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@plane.gmane.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf/gcc: Add clean masks for stamp files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,137 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 05:35:35 -0000
+X-List-Received-Date: Fri, 21 Sep 2012 09:49:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard,
+On Thu, 2012-09-20 at 20:03 +0200, Enrico Scholz wrote:
+> 
+> Richard Purdie
+> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+> writes:
+> 
+> > +STAMPCLEAN = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PN}-*-*"
+> 
+> Is it intended that this pattern can match unrelated packages? E.g. for
+> PN='gcc-cross', the mask will apply to stampfiles for 'gcc-cross-initial'
+> too.
 
-This contains a set of fixes that have been tested against the
-build.
+No, this is a problem :(
 
-I have included the GDB update, which I know is late in the game,
-but I think it important tool to be updated.
+I saw this last night and have been giving it some thought. We might
+have to put a separator into the stamp file format to make this easier
+to deal with. The downside is that is a TMPDIR layout change :/.
 
-I also included Wenzong's TMPDIR fix, if you read the chain of emails
-this seems to be the only way to fix this give the number of m4 macro
-files included and the fact that we really can't patch the host aclocal.
+The thing is the bug this solves is serious even if people only rarely
+hit it and I can't think of a better solution...
 
-This also adds Laurentiu's SDK/ADT-Installer patches.
+Cheers,
 
-Sau!
-
-
-The following changes since commit 9db6ea4981fe22dd430c13d9f5a838ad92d1afe6:
-
-  gtk+: enable gtk+-native (2012-09-20 13:21:59 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Bruce Ashfield (1):
-  linux-yocto/3.4: use profiling and latencytop features in yocto bsps
-
-Constantin Musca (1):
-  intltool: include intltool.m4 and add missing rdepends
-
-Cristian Iorga (2):
-  qemux86: Support for KVM, paravirt and virtio added
-  qemux86-64: Support for KVM, paravirt and virtio added
-
-Darren Hart (1):
-  mkefidisk.sh: Add script to do an EFI install on the host
-
-Khem Raj (1):
-  gdb: Upgrade 7.4 -> 7.5
-
-Laurentiu Palcu (6):
-  adt-installer: fix package installation issue
-  SDK: fix installation into symlinked directories
-  adt-installer: ensure directory exists before copying/removing
-  SDK: remove references to Poky distro from tarball installer
-  SDK: relocate symlinks too
-  SDK: allow toolchain installation from another directory
-
-Martin Jansa (3):
-  opkg: replace local patches with git patches submitted upstream
-  opkg: add patch to fix SIGSEGV when printing status file
-  opkg-nogpg: drop SRCREV
-
-Radu Moisan (1):
-  insane.bbclass: add library dir sanity check
-
-Robert Yang (3):
-  rpm 5.4.9: DEPENDS on bison-native
-  opkg 0.1.8: remove it since it doesn't work
-  opkg svn: respect to the arch priority
-
-Ross Burton (1):
-  librsvg: make the libcroco dependency a PACKAGECONFIG option
-
-Scott Garman (1):
-  runqemu: show bitbake errors to user
-
-Wenzong Fan (1):
-  coreutils: fix do_configure error with long TMPDIR
-
- meta/classes/insane.bbclass                        |   39 ++-
- meta/classes/populate_sdk_base.bbclass             |   21 +-
- meta/recipes-core/coreutils/coreutils_8.14.bb      |    4 +-
- meta/recipes-devtools/gdb/gdb-common.inc           |   11 +-
- ...canadian_7.4.1.bb => gdb-cross-canadian_7.5.bb} |    0
- .../gdb/{gdb-cross_7.4.1.bb => gdb-cross_7.5.bb}   |    0
- meta/recipes-devtools/gdb/gdb.inc                  |    1 -
- meta/recipes-devtools/gdb/gdb/no-werror.patch      |   80 ----
- .../gdb/gdb/renesas-sh-native-support.patch        |  194 +++++-----
- meta/recipes-devtools/gdb/gdb/siginfo_t.patch      |  403 --------------------
- .../gdb/{gdb_7.4.1.bb => gdb_7.5.bb}               |    0
- .../installer/adt-installer/adt_installer          |    6 +-
- .../adt-installer/scripts/adt_installer_internal   |   61 ++--
- meta/recipes-devtools/intltool/intltool.inc        |    9 +-
- meta/recipes-devtools/intltool/intltool_0.50.0.bb  |    2 +-
- .../opkg/opkg-0.1.8/headerfix.patch                |   19 -
- meta/recipes-devtools/opkg/opkg-nogpg_0.1.8.bb     |   10 -
- meta/recipes-devtools/opkg/opkg-nogpg_svn.bb       |    2 -
- .../0001-add-opkg_compare_versions-function.patch  |   54 +++
- ...e-the-uname-gname-fields-when-extracting.patch} |   31 +-
- ...ix-dependency-issues-for-preinst-scripts.patch} |   66 ++--
- ...nst-script-is-not-fatal-with-conf-offlin.patch} |   76 +++--
- ...ot-read-etc-opkg-.conf-if-f-is-specified.patch} |   12 +-
- ...tch => 0006-detect-circular-dependencies.patch} |   82 +++--
- ...g-provides-even-when-oldpkg-provides-exis.patch |   49 +++
- .../opkg/opkg/0008-select_higher_version.patch     |  102 +++++
- meta/recipes-devtools/opkg/opkg/add_vercmp.patch   |   36 --
- meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   11 -
- meta/recipes-devtools/opkg/opkg_svn.bb             |   16 +-
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    4 +-
- meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |   10 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       |    6 +-
- scripts/contrib/mkefidisk.sh                       |  255 +++++++++++++
- scripts/runqemu                                    |   28 ++-
- scripts/runqemu-internal                           |   18 +-
- 36 files changed, 887 insertions(+), 833 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.4.1.bb => gdb-cross-canadian_7.5.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_7.4.1.bb => gdb-cross_7.5.bb} (100%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/no-werror.patch
- delete mode 100644 meta/recipes-devtools/gdb/gdb/siginfo_t.patch
- rename meta/recipes-devtools/gdb/{gdb_7.4.1.bb => gdb_7.5.bb} (100%)
- delete mode 100644 meta/recipes-devtools/opkg/opkg-0.1.8/headerfix.patch
- delete mode 100644 meta/recipes-devtools/opkg/opkg-nogpg_0.1.8.bb
- create mode 100644 meta/recipes-devtools/opkg/opkg/0001-add-opkg_compare_versions-function.patch
- rename meta/recipes-devtools/opkg/opkg/{add_uname_support.patch => 0002-Ensure-we-use-the-uname-gname-fields-when-extracting.patch} (69%)
- rename meta/recipes-devtools/opkg/opkg/{fix_installorder.patch => 0003-Fix-dependency-issues-for-preinst-scripts.patch} (81%)
- rename meta/recipes-devtools/opkg/opkg/{offline_postinstall.patch => 0004-Failed-postinst-script-is-not-fatal-with-conf-offlin.patch} (50%)
- rename meta/recipes-devtools/opkg/opkg/{conf_override.patch => 0005-Do-not-read-etc-opkg-.conf-if-f-is-specified.patch} (88%)
- rename meta/recipes-devtools/opkg/opkg/{track_parents.patch => 0006-detect-circular-dependencies.patch} (58%)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0007-merge-newpkg-provides-even-when-oldpkg-provides-exis.patch
- create mode 100644 meta/recipes-devtools/opkg/opkg/0008-select_higher_version.patch
- delete mode 100644 meta/recipes-devtools/opkg/opkg/add_vercmp.patch
- delete mode 100644 meta/recipes-devtools/opkg/opkg_0.1.8.bb
- create mode 100755 scripts/contrib/mkefidisk.sh
-
--- 
-1.7.7.6
+Richard
 
 
 
