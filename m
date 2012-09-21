@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TF3OV-0001fR-Rn for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 15:35:48 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8LDN3AV025775;
-	Fri, 21 Sep 2012 14:23:03 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24823-05; Fri, 21 Sep 2012 14:23:00 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8LDMu5T025769
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 21 Sep 2012 14:22:57 +0100
-Message-ID: <1348233776.10108.75.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 21 Sep 2012 14:22:56 +0100
-In-Reply-To: <1348220197.10108.34.camel@ted>
-References: <1347964372.13596.110.camel@ted>
-	<lya9wkr2qj.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1348220197.10108.34.camel@ted>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Richard Purdie
-	<public-richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@plane.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf/gcc: Add clean masks for stamp files
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1TF3Y1-0001n3-GC
+	for openembedded-core@lists.openembedded.org;
+	Fri, 21 Sep 2012 15:45:37 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8LDWq8k022082
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2012 06:32:52 -0700 (PDT)
+Received: from [128.224.170.151] (128.224.170.151) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 21 Sep 2012 06:32:51 -0700
+Message-ID: <505C6C8A.9000800@windriver.com>
+Date: Fri, 21 Sep 2012 16:32:58 +0300
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: binutils fails to set ld.gold as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,44 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 13:35:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Sep 2012 13:45:37 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-09-21 at 10:36 +0100, Richard Purdie wrote:
-> On Thu, 2012-09-20 at 20:03 +0200, Enrico Scholz wrote:
-> > 
-> > Richard Purdie
-> > <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-> > writes:
-> > 
-> > > +STAMPCLEAN = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PN}-*-*"
-> > 
-> > Is it intended that this pattern can match unrelated packages? E.g. for
-> > PN='gcc-cross', the mask will apply to stampfiles for 'gcc-cross-initial'
-> > too.
-> 
-> No, this is a problem :(
-> 
-> I saw this last night and have been giving it some thought. We might
-> have to put a separator into the stamp file format to make this easier
-> to deal with. The downside is that is a TMPDIR layout change :/.
-> 
-> The thing is the bug this solves is serious even if people only rarely
-> hit it and I can't think of a better solution...
+Hi all,
+I am facing an issue trying to use ld.gold as the default ld on a poky 
+build. I've added to my build's conf/local.conf DISTRO_FEATURES_append = 
+"ld-is-gold" so I get in 
+tmp-eglibc-eglibc/sysroots/i686-linux/usr/bin/armv7a-vfp-neon-oe-linux-gnueabi 
+the following (amongst others):
 
-I've given this some more thought and there is an easier way out if we
-assume PV starts with something numeric. Since the current situation is
-rather problematic (I didn't see it locally due to another patch I
-have), I've pushed a fix:
+arm-oe-linux-gnueabi-ld
+arm-oe-linux-gnueabi-ld.bfd
+arm-oe-linux-gnueabi-ld.gold
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3c101af5e33b21f53171c66de0c2c3e797d95247
+All good so far. But looking into 
+tmp-eglibc-eglibc/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.7.2 
+I see:
 
-I'm going to post some RFCs on other ideas related to this.
+ld -> 
+../../../../../bin/armv7a-vfp-neon-oe-linux-gnueabi/arm-oe-linux-gnueabi-ld
 
-Cheers,
+ From the binutils.inc recipe, in EXTRA_OECONF: 
+${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default 
+--enable-threads', '', d)}
+Shouldn't that have made ld point to ld.gold?
 
-Richard
+Any thoughts/ideas on why this is happening?
 
+Thank you,
+Florin
 
 
