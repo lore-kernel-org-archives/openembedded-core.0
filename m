@@ -1,30 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TF3w8-0002Vh-Ko for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 16:10:32 +0200
+	id 1TF3xO-0002Yl-KI for openembedded-core@lists.openembedded.org;
+	Fri, 21 Sep 2012 16:11:50 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8LDvkFo026019;
-	Fri, 21 Sep 2012 14:57:46 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8LDx7am026066;
+	Fri, 21 Sep 2012 14:59:07 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 25778-02; Fri, 21 Sep 2012 14:57:42 +0100 (BST)
+	id 25778-03; Fri, 21 Sep 2012 14:59:03 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8LDvbKx026013
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8LDwvVb026058
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 21 Sep 2012 14:57:38 +0100
-Message-ID: <1348235856.10108.77.camel@ted>
+	Fri, 21 Sep 2012 14:58:58 +0100
+Message-ID: <1348235937.10108.78.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 21 Sep 2012 14:57:36 +0100
-In-Reply-To: <cover.1348204894.git.sgw@linux.intel.com>
-References: <cover.1348204894.git.sgw@linux.intel.com>
+To: Florin Sarbu <florin.sarbu@windriver.com>
+Date: Fri, 21 Sep 2012 14:58:57 +0100
+In-Reply-To: <505C6C8A.9000800@windriver.com>
+References: <505C6C8A.9000800@windriver.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED REQUEST (v2) 00/22] Fixes for 1.3 RC2 (no cover letter)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: binutils fails to set ld.gold as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,31 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 14:10:32 -0000
+X-List-Received-Date: Fri, 21 Sep 2012 14:11:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-09-20 at 22:22 -0700, Saul Wold wrote:
-> Richard,
+On Fri, 2012-09-21 at 16:32 +0300, Florin Sarbu wrote:
+> Hi all,
+> I am facing an issue trying to use ld.gold as the default ld on a poky 
+> build. I've added to my build's conf/local.conf DISTRO_FEATURES_append = 
+> "ld-is-gold" so I get in 
+> tmp-eglibc-eglibc/sysroots/i686-linux/usr/bin/armv7a-vfp-neon-oe-linux-gnueabi 
+> the following (amongst others):
 > 
-> This contains a set of fixes that have been tested against the
-> build.
+> arm-oe-linux-gnueabi-ld
+> arm-oe-linux-gnueabi-ld.bfd
+> arm-oe-linux-gnueabi-ld.gold
 > 
-> I have included the GDB update, which I know is late in the game,
-> but I think it important tool to be updated.
+> All good so far. But looking into 
+> tmp-eglibc-eglibc/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.7.2 
+> I see:
 > 
-> I also included Wenzong's TMPDIR fix, if you read the chain of emails
-> this seems to be the only way to fix this give the number of m4 macro
-> files included and the fact that we really can't patch the host aclocal.
+> ld -> 
+> ../../../../../bin/armv7a-vfp-neon-oe-linux-gnueabi/arm-oe-linux-gnueabi-ld
+> 
+>  From the binutils.inc recipe, in EXTRA_OECONF: 
+> ${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default 
+> --enable-threads', '', d)}
+> Shouldn't that have made ld point to ld.gold?
+> 
+> Any thoughts/ideas on why this is happening?
 
-I merged this apart from the above fix which really needs to be made to
-autotools.bbclass and shouldn't be difficult to fix there. I've sent a
-separate email.
+Its probably not enabled. Try:
+
+DISTRO_FEATURES_append = " ld-is-gold"
+
+note the extra space.
 
 Cheers,
 
 Richard
-
 
 
 
