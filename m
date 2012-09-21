@@ -1,22 +1,21 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TF8py-0000v3-LU
+	(envelope-from <philb@gnu.org>) id 1TF9M4-0001IK-0K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 21:24:30 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Sep 2012 12:11:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,464,1344236400"; d="scan'208";a="225191359"
-Received: from unknown (HELO localhost) ([10.255.13.250])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2012 12:11:46 -0700
-From: tom.zanussi@intel.com
+	Fri, 21 Sep 2012 21:57:40 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TF99l-0001BK-Mp
+	for openembedded-core@lists.openembedded.org;
+	Fri, 21 Sep 2012 21:44:57 +0200
+Message-ID: <1348256558.4444.194.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Sep 2012 14:11:45 -0500
-Message-Id: <96ec94413cd58a08aa4277ac8a863dea4b0e8c55.1348254442.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <cover.1348254442.git.tom.zanussi@intel.com>
-References: <cover.1348254442.git.tom.zanussi@intel.com>
-Subject: [PATCH 1/1] initscripts/sysfs.sh: mount debugfs if present
+Date: Fri, 21 Sep 2012 20:42:38 +0100
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Subject: [PATCH v2] rootfs_ipk: Avoid leaving run-postinsts around if online package management is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,46 +28,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 19:24:30 -0000
+X-List-Received-Date: Fri, 21 Sep 2012 19:57:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+If all postinsts have already been run during rootfs construction then
+there's no point in having run-postinsts in the installed system.
+Clean it up at the same time that update-rc.d and suchlike are being
+removed.
 
-debugfs is another kernel virtual file system that should be mounted
-if configured, so if it's configured into the kernel, mount it.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+Signed-off-by: Phil Blundell <pb@pbcl.net>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh | 4 ++++
- meta/recipes-core/initscripts/initscripts_1.0.bb       | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+v2: per suggestion from Paul Eggleton, don't refer to O_P_M in subject 
+line since oe-core doesn't use it anymore
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-index bd87dcd..0cfe76e 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
-@@ -17,3 +17,7 @@ fi
- if [ -e /sys ] && grep -q sysfs /proc/filesystems && ! [ -e /sys/class ]; then
-   mount -t sysfs sysfs /sys
- fi
+ meta/classes/rootfs_ipk.bbclass |   14 ++++++++++++--
+ 1 files changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 6cdd8f6..46e8d60 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -97,8 +97,18 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
+ 		if ! grep Status:.install.ok.unpacked ${STATUS}; then
+ 			# All packages were successfully configured.
+-			# update-rc.d, base-passwd are no further use, remove them now
+-			opkg-cl ${IPKG_ARGS} --force-depends remove update-rc.d base-passwd || true
++			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
++			remove_run_postinsts=false
++			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
++				remove_run_postinsts=true
++			fi
++			opkg-cl ${IPKG_ARGS} --force-depends remove update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL} || true
 +
-+if [ -e /sys/kernel/debug ] && grep -q debugfs /proc/filesystems; then
-+  mount -t debugfs debugfs /sys/kernel/debug
-+fi
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index b741b61..d25838b 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r136"
-+PR = "r137"
++			# Need to remove rc.d files for run-postinsts by hand since opkg won't
++			# call postrm scripts in offline root mode.
++			if $remove_run_postinsts; then
++				update-rc.d -f -r ${IMAGE_ROOTFS} run-postinsts remove
++			fi
  
- INHIBIT_DEFAULT_DEPS = "1"
- 
+ 			# Also delete the status files
+ 			rm -rf ${IMAGE_ROOTFS}${opkglibdir}
 -- 
-1.7.11.4
+1.7.9
+
+
+
 
 
 
