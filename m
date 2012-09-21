@@ -1,31 +1,25 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TFBYP-00050x-0m
+	(envelope-from <sgw@linux.intel.com>) id 1TFBhg-0005Bp-LP
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 00:18:33 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 7F8E730452
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2012 18:05:40 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Sep 2012 15:06:02 -0700
-Message-Id: <788ce6395c57aae824d913c5c9073801a9732c69.1348265025.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1348265025.git.scott.a.garman@intel.com>
-References: <cover.1348265025.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1348265025.git.scott.a.garman@intel.com>
-References: <cover.1348265025.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 7F8E730452.5A0E9
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] runqemu: work with tap device names that end with a colon
+	Sat, 22 Sep 2012 00:28:08 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Sep 2012 15:15:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,464,1344236400"; d="scan'208";a="196221212"
+Received: from unknown (HELO [10.255.14.14]) ([10.255.14.14])
+	by orsmga001.jf.intel.com with ESMTP; 21 Sep 2012 15:15:22 -0700
+Message-ID: <505CE6FA.9060502@linux.intel.com>
+Date: Fri, 21 Sep 2012 15:15:22 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Ross Burton <ross.burton@intel.com>
+References: <1347615853-20491-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1347615853-20491-1-git-send-email-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] librsvg: make the libcroco dependency a PACKAGECONFIG option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,48 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 22:18:33 -0000
+X-List-Received-Date: Fri, 21 Sep 2012 22:28:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fedora systems (and likely others), ifconfig returns interface
-names that end with a colon. Make sure we strip the colon off the
-tap device name before using it.
+On 09/14/2012 02:44 AM, Ross Burton wrote:
+> Default to enabling it as we were build-depending on it already.  If a user
+> needs the disk space and the limitations imposed by not using libcroco are
+> acceptable they can override this.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |   12 +++++++++---
+>   1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> index 6bb5fe2..b118805 100644
+> --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> @@ -7,15 +7,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>                       file://rsvg.h;beginline=3;endline=24;md5=20b4113c4909bbf0d67e006778302bc6"
+>
+>   SECTION = "x11/utils"
+> -DEPENDS = "gtk+ libcroco cairo libxml2"
+> +DEPENDS = "gtk+ cairo libxml2"
+>   DEPENDS_virtclass-native = "cairo-native pango-native gdk-pixbuf-native"
+>   BBCLASSEXTEND = "native"
+>
+> -PR = "r9"
+> +PR = "r10"
+>
+>   inherit autotools pkgconfig gnome gtk-doc
+>
+> -EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz --without-croco"
+> +EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz"
+> +
+> +PACKAGECONFIG ??= "croco"
+> +# When native we can manage without croco, as it's only for GTK+
+> +PACKAGECONFIG_class-native ??= ""
+> +
+> +PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
+>
+>   SRC_URI += "file://doc_Makefile.patch"
+>
+>
+Merged int OE-Core
 
-This fixes [YOCTO #3028]
-
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu-gen-tapdevs |    2 +-
- scripts/runqemu-internal    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/runqemu-gen-tapdevs b/scripts/runqemu-gen-tapdevs
-index 2c1ff0e..f5be30a 100755
---- a/scripts/runqemu-gen-tapdevs
-+++ b/scripts/runqemu-gen-tapdevs
-@@ -70,7 +70,7 @@ if [ ! -x "$IFCONFIG" ]; then
- fi
- 
- # Ensure we start with a clean slate
--for tap in `$IFCONFIG | grep ^tap | awk '{ print \$1 }'`; do
-+for tap in `$IFCONFIG | grep ^tap | awk '{ print \$1 }' | sed s/://`; do
- 	echo "Note: Destroying pre-existing tap interface $tap..."
- 	$TUNCTL -d $tap
- done
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 6e20dd7..6b8bb65 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -154,7 +154,7 @@ if [ ! -x "$IFCONFIG" ]; then
-        exit 1
- fi
- 
--POSSIBLE=`$IFCONFIG -a | grep '^tap' | awk '{print $1}'`
-+POSSIBLE=`$IFCONFIG -a | grep '^tap' | awk '{print $1}' | sed s/://`
- TAP=""
- LOCKFILE=""
- for tap in $POSSIBLE; do
--- 
-1.7.9.5
+Thanks
+	Sau!
 
 
 
