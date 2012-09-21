@@ -1,40 +1,41 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TF59k-0004og-7n
+	(envelope-from <martin.jansa@gmail.com>) id 1TF5C4-0004tu-HW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 17:28:40 +0200
-Received: from localhost ([127.0.0.1]:34109 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TF4xQ-0002nw-0l
-	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 15:15:56 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=eK70CtKKc8ilwqmYOSQ75K5jIds=; b=wxCP1PFeVhizJszeHn0Lor3seTgs
-	dTlNHrWR7LOXz8uSyL0DPVe1pl0+CFV3Kg/mJcyimxuuTXG/+LTkokqAPztqwLs8
-	6z1ChliazSPqmPRJQuiEI26+vpBL+sVekngz614gGG+N2JwL/6vMI6JiJ9XnIeOO
-	cVXTghZd2kLcFqg=
-Received: from [195.171.99.130] (port=11681 helo=[192.168.0.42])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TF4xP-0002np-Sy
-	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Sep 2012 15:15:56 +0000
-Message-ID: <505C8503.2040907@communistcode.co.uk>
-Date: Fri, 21 Sep 2012 16:17:23 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
+	Fri, 21 Sep 2012 17:31:04 +0200
+Received: by wgbdq11 with SMTP id dq11so2381533wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Sep 2012 08:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=2UBjfvhDaoxLythiZmldM88Q6aKwE1DGGHBggNJ0pMs=;
+	b=scPm/NSsjYK/5iHQIBoTDsm5Ym8jrN5HqGE+rDvaOZ4ayW6devPcmG401kHNU7aHGw
+	RiOHAjomcprnmXL9UZ2X4RQbdYVu/JTJ/Ox+C4T3oIDMcmtGDsYgAIzN5KDfrSKFXhtQ
+	zd4RzdInZmL6RsY9CzCnasVtG0/Qcrx2SD2jnLkKdKZQHCyFsMss6RDom26TybMxPGP3
+	mVJ47RlfkbHlx1kwI9LYts+sAbyTRaSdC7N3xWAW+JeNLyT6lT46rKTqkUGZdekor7c1
+	SNM/HZUzZATBldgJ3X43eeKil9xJkJATxglMqKozeuWL7lOnPqpcL9w9HMtJQ7M7LFnp
+	NorA==
+Received: by 10.216.137.193 with SMTP id y43mr2685881wei.71.1348240700659;
+	Fri, 21 Sep 2012 08:18:20 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id el6sm38310342wib.8.2012.09.21.08.18.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 21 Sep 2012 08:18:19 -0700 (PDT)
+Date: Fri, 21 Sep 2012 17:18:17 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Phil Blundell <philb@gnu.org>
+Message-ID: <20120921151817.GG10268@jama.jama.net>
+References: <1348237488.10108.83.camel@ted>
+	<1348237670.15074.234.camel@phil-desktop>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
-In-Reply-To: <505C7F3A.7020400@intel.com>
-Subject: Re: ld problems with relocated toolchain
+In-Reply-To: <1348237670.15074.234.camel@phil-desktop>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] bitbake.conf: Change WORKDIR to split by PN and version into seperate directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -44,98 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 15:28:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Sep 2012 15:31:04 -0000
+X-Groupsio-MsgNum: 29646
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="kadn00tgSopKmJ1H"
+Content-Disposition: inline
 
-On 21/09/12 15:52, Laurentiu Palcu wrote:
->
-> On 09/21/2012 05:04 PM, Jack Mitchell wrote:
->> I am currently having issues building my application with the latest
->> toolchain.
->>
->> I have used the new capabilities of it being relocatable to place it
->> somewhere sensible and I think this may be what is breaking it. My old
->> toolchain in /opt still works perfectly.
->>
->> The error I receive is:
->>
->> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
->> cannot find crtbegin.o: No such file or directory
->> collect2: error: ld returned 1 exit status
->> make: *** [R0005] Error 1
-> Did this error appear after the latest SDK fixes that were merged today?
-> Can you activate compiler verbose mode so we can see the arguments
-> passed to the linker? Does it work if you install in the default
-> location? Or better, can you tell the exact steps you followed to get
-> this issue?
+--kadn00tgSopKmJ1H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Exact steps:
+On Fri, Sep 21, 2012 at 03:27:48PM +0100, Phil Blundell wrote:
+> On Fri, 2012-09-21 at 15:24 +0100, Richard Purdie wrote:
+> > As per the previous patch, this is really a request for comments, I can
+> > see pros and cons...
+>=20
+> I've been using this configuration locally for quite some time (it's
+> needed for rm_old_works in particular) and it seems to be an improvement
+> in general.
 
-bitbake meta-toolchain
-run toolchain setup script
-tell application to use new toolchain and sysroot
-compile
+Last time I was using rm_old_works without this change
+https://github.com/shr-distribution/meta-smartphone/commit/0d4c17de1ba7343d=
+82bb10c311754e29d573c485
 
-This was appearing before the patches that were merged today.
+I've seen a lot of /usr/src/debug/${EXTENDPE}${PV}-${PR}" on target from
+-dbg packages, which doesn't look right, was this fixed in whatever packs=
+=20
+source code to -dbg packages?
 
-Works fine when installed in default location.
+Cheers,
 
-Some more verbose output:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/as 
--v -I 
-/home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/include 
--mcpu=cortex-a8 -mfloat-abi=softfp -mfpu=neon -meabi=5 -o 
-src/systemConfig.o /tmp/ccr24jiu.s
-GNU assembler version 2.22 (arm-poky-linux-gnueabi) using BFD version 
-(GNU Binutils) 2.22
-COMPILER_PATH=/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/:/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/
-LIBRARY_PATH=/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/:/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/
-COLLECT_GCC_OPTIONS='-I' 
-'/home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/include' 
-'-O0' '-mfpu=neon' '-mfloat-abi=softfp' '-mcpu=cortex-a8' '-g3' '-Wall' 
-'-Wextra' '-c' '-fmessage-length=0' '-v' '-MMD' '-MP' '-MF' 
-'src/systemConfig.d' '-MT' 'src/systemConfig.d' '-o' 
-'src/systemConfig.o' '-mtls-dialect=gnu'
-/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
-cannot find crt1.o: No such file or directory
-/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
-cannot find crti.o: No such file or directory
-/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
-cannot find crtbegin.o: No such file or directory
-/lib/libpthread.so.0: file not recognized: File format not recognized
-collect2: error: ld returned 1 exit status
-make: *** [R0005] Error 1
+--kadn00tgSopKmJ1H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->
-> Thanks,
-> Laurentiu
->> However, crtbeign.o is at the path:
->>
->>      [jack@archHP armv7a-vfp-neon-poky-linux-gnueabi]$ pwd
->> /home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi
->>      [jack@archHP armv7a-vfp-neon-poky-linux-gnueabi]$ find . -name
->>      crtbegin.o
->>      ./usr/lib/arm-poky-linux-gnueabi/4.7.2/crtbegin.o
->>      [jack@archHP armv7a-vfp-neon-poky-linux-gnueabi]$ ls usr/lib
->>      lib/     libexec/
->>      [jack@archHP armv7a-vfp-neon-poky-linux-gnueabi]$ ls usr/libexec/
->>      pt_chown
->>      [jack@archHP armv7a-vfp-neon-poky-linux-gnueabi]$
->>
->>
->> Does anyone have an idea what is the issue here? Why can't it find the
->> object file?
->>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
--- 
+iEYEARECAAYFAlBchTkACgkQN1Ujt2V2gBzq8ACgjEAB6wS3Lei0RoLObKkUusbR
+Us4AoKz2tL91KVY097d3S9V4CxdD44PG
+=bVW/
+-----END PGP SIGNATURE-----
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
-
-
+--kadn00tgSopKmJ1H--
