@@ -1,35 +1,27 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TFBN0-0004pQ-Eq
+	(envelope-from <scott.a.garman@intel.com>) id 1TFBYM-00050w-6S
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 00:06:46 +0200
-Received: by eaad12 with SMTP id d12so1063399eaa.6
+	Sat, 22 Sep 2012 00:18:30 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 27C3530451
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Sep 2012 14:54:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=MhN/XFC6NowtYFRVeitLR1OYMsVMJQa4pfJQVs3Qy9g=;
-	b=aaVqq52QtEGnq8Q5mP9Q+sK9Nhgb1aWabvzOTx6jz00dF/ipGCpAU48vLo6Ahoupt+
-	F5Lh52IWE2nnhBupGU4Dq8+EitqHnAWdtW09g+i7ch6sLqkJ1I1Ns5701bRXRgtgMCK4
-	M0RUarolAYcOWrrNcB/hxRaGpCoPLEDMMIFQFFTENsV8a+wXwPIPLy6IIFZxIyBJapGs
-	wRxHLc+dYoIZJ8thxbnKA0WxtP3ghRGymnybbPD5yhm+4bAxd+JvBGTgZzu/4YBYO+d+
-	zQlXu7h0Uev+E2LkYf+RdpACc8pWWHy9EQDfcPRkMSJ9lXbv3cceJRwSqUZa7DPoxosH
-	ZBrw==
-Received: by 10.14.218.134 with SMTP id k6mr7902196eep.14.1348264442290; Fri,
-	21 Sep 2012 14:54:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.173.69 with HTTP; Fri, 21 Sep 2012 14:53:32 -0700 (PDT)
-In-Reply-To: <505CC452.9040906@windriver.com>
-References: <505C6C8A.9000800@windriver.com> <1348235937.10108.78.camel@ted>
-	<505CC452.9040906@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 21 Sep 2012 14:53:32 -0700
-Message-ID: <CAMKF1srm1JLHray=JEJtRoBjwKvg8KFGno95fjRz+SFN+Fu-Pg@mail.gmail.com>
-To: Florin Sarbu <florin.sarbu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: binutils fails to set ld.gold as default
+	Fri, 21 Sep 2012 18:05:37 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Sep 2012 15:06:01 -0700
+Message-Id: <cover.1348265025.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 27C3530451.826CE
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] runqemu tap device fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,19 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 22:06:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Sep 2012 22:18:30 -0000
 
-On Fri, Sep 21, 2012 at 12:47 PM, Florin Sarbu
-<florin.sarbu@windriver.com> wrote:
-> It is enabled. As I said earlier, ld.gold gets created, it's just that ld is
-> not pointing to it even though the flag says --enable-gold=default. It still
-> point to the regular cross ld. Another config option that creates ld.gold is
-> --enable-ld=yes, so at this point default looks exactly like yes.
-> Just to be extra sure, I did try to add the extra space as you suggested but
-> the behaviour is the same.
+Hello,
 
-post the output of
-bitbake -e binutils-cross
+n Fedora systems (and likely others), ifconfig returns interface
+names that end with a colon. Make sure we strip the colon off
+the tap device name before using it.
+
+This fixes [YOCTO #3028] 
+
+I don't have a Fedora system handy, so I asked Tom Zanussi to test
+this patch, and he confirms it works for him.
+
+Scott
+
+The following changes since commit 5e03d1e83d0536a2fc69a88d3e5407108836203f:
+
+  gcc: Use 4.7.2 release tarball (2012-09-21 14:55:26 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib sgarman/runqemu-tap-fix-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/runqemu-tap-fix-oe
+
+Scott Garman (1):
+  runqemu: work with tap device names that end with a colon
+
+ scripts/runqemu-gen-tapdevs |    2 +-
+ scripts/runqemu-internal    |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+1.7.9.5
+
 
 
