@@ -1,21 +1,32 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TFSkE-00021T-V9
+	(envelope-from <martin.jansa@gmail.com>) id 1TFT7c-0002ma-Et
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 18:39:54 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TFSXv-00020E-QD
-	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 18:27:11 +0200
-Message-ID: <1348331093.4444.218.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
+	Sat, 22 Sep 2012 19:04:04 +0200
+Received: by wibhq4 with SMTP id hq4so2794256wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Sep 2012 09:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=Gw8WqJS5orz3QyQunZe/TQ9ywi2Tc+M8qb9dqvhha/k=;
+	b=Bks+R2v6ABTqkLYFgNP2n+IbNd3CBPAGnuMwT5bBPKoJyZLFCmoFs4xZkDEhOm2ktn
+	UcQdrPZR6Pfjb3DplwF8HCBeO5u3+XpWmOZDe9uJDef+a+/6ezaSuYtG/udlz+FroHf5
+	r0/PoU+ag43Al7Avc879jiqVEpSnvvi5VxdgpLJvXpdgoReD6II4e/NKLQ/qL3Yaax4N
+	wcTJ7t0BAB7Ol8+zRcdkBaKWYooQh0rMjCslozdW+DTzPW1ac+SatFAbqd6L8FoZOY5D
+	qyUq8jLup+K1edLYPuLTtnMAiUEDRAEOD2YhMKpe7ap4IPINas5lK9X2twfgGfP1qW5t
+	wipg==
+Received: by 10.180.81.193 with SMTP id c1mr3885846wiy.12.1348332679127;
+	Sat, 22 Sep 2012 09:51:19 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k2sm5130756wiz.7.2012.09.22.09.51.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 22 Sep 2012 09:51:18 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Sep 2012 17:24:53 +0100
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Subject: [PATCH] util-linux: Ensure that ${sbindir} is respected
+Date: Sat, 22 Sep 2012 18:51:12 +0200
+Message-Id: <cover.1348330479.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.12
+Subject: [RFC 0/5] OPTDEFAULTTUNE for arm tune files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,80 +39,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2012 16:39:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 22 Sep 2012 17:04:04 -0000
 
-The configure script uses a hard-coded value for ${usrsbin_execdir},
-which is the path that we know as ${sbindir}.  Adjust configure to take
-this from the environment if it's set there, and have do_configure()
-pass it in.
+This patchset is just RFC because I've modified and tested it only for
+tune-arm926ejs and tune-xscale (because I've tried to build qemuarm and
+same builddir).
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/recipes-core/util-linux/util-linux.inc        |    4 +++-
- .../util-linux/util-linux/configure-sbindir.patch  |   13 +++++++++++++
- meta/recipes-core/util-linux/util-linux_2.21.2.bb  |    3 ++-
- 3 files changed, 18 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+Also I have no strong opinion about used TUNE as suffix (see 1. patch)
+or as ARMPKGARCH (see last patch, which reverts most of 1. patch).
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 79e0608..2c5267f 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -38,7 +38,9 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
-                 --enable-kill --enable-last --enable-mesg --enable-partx \
-                 --enable-raw --enable-rdev --enable-reset --disable-login-utils \
-                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
--                --enable-libuuid --enable-libblkid --enable-fsck --without-udev"
-+                --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
-+		usrsbin_execdir='${sbindir}' \
-+"
- 
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
-diff --git a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
-new file mode 100644
-index 0000000..5d0a59b
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
-@@ -0,0 +1,13 @@
-+--- util-linux-2.21.2/configure.ac~	2012-09-22 09:29:12.354215377 +0100
-++++ util-linux-2.21.2/configure.ac	2012-09-22 16:47:14.713628946 +0100
-+@@ -67,7 +67,9 @@
-+ usrbin_execdir='${exec_prefix}/bin'
-+ AC_SUBST([usrbin_execdir])
-+ 
-+-usrsbin_execdir='${exec_prefix}/sbin'
-++if [ -z "$usrsbin_execdir" ]; then
-++   usrsbin_execdir='${exec_prefix}/sbin'
-++fi
-+ AC_SUBST([usrsbin_execdir])
-+ 
-+ usrlib_execdir='${exec_prefix}/'$libdirname
-diff --git a/meta/recipes-core/util-linux/util-linux_2.21.2.bb b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-index 6ef3163..e8f00fc 100644
---- a/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.21"
--PR = "r2"
-+PR = "r3"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
-@@ -8,6 +8,7 @@ LICENSE_${PN}-lscpu = "GPLv3+"
- SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://util-linux-ng-2.16-mount_lock_path.patch \
-             file://uclibc-__progname-conflict.patch \
-+	    file://configure-sbindir.patch \
- "
- 
- SRC_URI[md5sum] = "b75b3cfecb943f74338382fde693c2c3"
+And what's even bigger mess are PACKAGE_EXTRA_ARCHS, because to be correct
+we should repeat all tune-armv5te variations with xscale prefix/suffix too,
+while most people will have only
+armv5te and (armv5te-xscale or xscale-te)
+current tune files allow also armv4t-xscale etc...
+
+But FWIW with this patchset I can build openssl for qemuarm and qemuarmx,
+everything except openssl is shared and built just once and also just once in feed.
+
+qemuarmx is the same like qemuarm but using tune-xscale, see
+http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/qemu-tests
+
+If we decide this is right way to fix it then it should be extended to all arm tune
+files. And also somehow set default DEFAULTTUNE to OPTDEFAULTTUNE if 
+PACKAGE_ARCH == MACHINE_ARCH (in this case we know we won't share the feed, so why
+use best mtune available).
+
+This allows finer control of which DEFAULTTUNE to use
+
+1) default: don't use mtune, optimize only for march (don't mix mtune in
+the same feed).
+
+2) include optimized-tune.inc in distro.conf: use mtune only for some packages, but
+with separate package feed for them
+
+3) DEFAULTTUNE = ${OPTDEFAULTTUNE} in distro.conf: always use best mtune
+available for MACHINE, but unlike current default, don't mix them in
+same package feed
+
+More info in thread:
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-September/029414.html
+
+The following changes since commit 5e03d1e83d0536a2fc69a88d3e5407108836203f:
+
+  gcc: Use 4.7.2 release tarball (2012-09-21 14:55:26 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/tune
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/tune
+
+Martin Jansa (5):
+  arch-arm: add ARMPKGSFX_CPU to TUNE_PKGARCH because we're using
+    different TUNE_CCARGS
+  tune-xscale, tune-arm926ejs: add OPTDEFAULTTUNE variable and use more
+    generic DEFAULTTUNE as default
+  optimized-tune.inc: add optional distro include
+  bitbake.conf: add TUNE_CCARGS[vardepvalue]
+  tune-xscale, tune-arm926ejs: drop ARMPKGSFX_CPU, change ARMPKGARCH
+    instead
+
+ meta/conf/bitbake.conf                       | 2 ++
+ meta/conf/distro/include/optimized-tune.inc  | 2 ++
+ meta/conf/machine/include/tune-arm926ejs.inc | 7 ++++---
+ meta/conf/machine/include/tune-xscale.inc    | 8 +++++---
+ 4 files changed, 13 insertions(+), 6 deletions(-)
+ create mode 100644 meta/conf/distro/include/optimized-tune.inc
+
 -- 
-1.7.9
-
-
+1.7.12
 
 
 
