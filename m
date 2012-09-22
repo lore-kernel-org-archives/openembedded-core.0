@@ -1,25 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TFBrf-0005iy-Ir
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1TFJnC-0007AX-5G
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 00:38:27 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Sep 2012 15:25:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,464,1344236400"; d="scan'208";a="225108903"
-Received: from unknown (HELO [10.255.14.14]) ([10.255.14.14])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Sep 2012 15:25:42 -0700
-Message-ID: <505CE965.7030609@linux.intel.com>
-Date: Fri, 21 Sep 2012 15:25:41 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Sat, 22 Sep 2012 09:06:23 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8M6rWHm004729
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 21 Sep 2012 23:53:32 -0700 (PDT)
+Received: from [128.224.18.106] (128.224.18.106) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 21 Sep 2012 23:53:32 -0700
+Message-ID: <505D606C.5080406@windriver.com>
+Date: Sat, 22 Sep 2012 09:53:32 +0300
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1348074403.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1348074403.git.Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Opkg patch upstreaming and SIGSEGV fix
+To: Khem Raj <raj.khem@gmail.com>
+References: <505C6C8A.9000800@windriver.com> <1348235937.10108.78.camel@ted>
+	<505CC452.9040906@windriver.com>
+	<CAMKF1srm1JLHray=JEJtRoBjwKvg8KFGno95fjRz+SFN+Fu-Pg@mail.gmail.com>
+In-Reply-To: <CAMKF1srm1JLHray=JEJtRoBjwKvg8KFGno95fjRz+SFN+Fu-Pg@mail.gmail.com>
+Cc: Patches, discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: binutils fails to set ld.gold as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,54 +37,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Sep 2012 22:38:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 22 Sep 2012 07:06:23 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/19/2012 10:16 AM, Martin Jansa wrote:
-> This depends on
-> http://patchwork.openembedded.org/patch/36893/
-> otherwise warning about missing SRC_URI entries will be shown
->
-> The following changes since commit f06097f4581e4c728c2950a86e025384e4bdcdf0:
->
->    eglibc: Do not use fsqrt in libm when building for fsl ppc with fpu (2012-09-18 07:44:13 -0700)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib jansa/opkg
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/opkg
->
-> Martin Jansa (3):
->    opkg: replace local patches with git patches submitted upstream
->    opkg: add patch to fix SIGSEGV when printing status file
->    opkg-nogpg: drop SRCREV
->
->   meta/recipes-devtools/opkg/opkg-nogpg_svn.bb       |  2 -
->   .../0001-add-opkg_compare_versions-function.patch  | 51 ++++++++++++++
->   ...e-the-uname-gname-fields-when-extracting.patch} | 30 +++++---
->   ...ix-dependency-issues-for-preinst-scripts.patch} | 65 ++++++++++--------
->   ...nst-script-is-not-fatal-with-conf-offlin.patch} | 75 +++++++++++---------
->   ...ot-read-etc-opkg-.conf-if-f-is-specified.patch} | 11 ++-
->   ...tch => 0006-detect-circular-dependencies.patch} | 79 +++++++++++++---------
->   ...g-provides-even-when-oldpkg-provides-exis.patch | 46 +++++++++++++
->   meta/recipes-devtools/opkg/opkg/add_vercmp.patch   | 36 ----------
->   meta/recipes-devtools/opkg/opkg_svn.bb             | 15 ++--
->   10 files changed, 258 insertions(+), 152 deletions(-)
->   create mode 100644 meta/recipes-devtools/opkg/opkg/0001-add-opkg_compare_versions-function.patch
->   rename meta/recipes-devtools/opkg/opkg/{add_uname_support.patch => 0002-Ensure-we-use-the-uname-gname-fields-when-extracting.patch} (71%)
->   rename meta/recipes-devtools/opkg/opkg/{fix_installorder.patch => 0003-Fix-dependency-issues-for-preinst-scripts.patch} (82%)
->   rename meta/recipes-devtools/opkg/opkg/{offline_postinstall.patch => 0004-Failed-postinst-script-is-not-fatal-with-conf-offlin.patch} (52%)
->   rename meta/recipes-devtools/opkg/opkg/{conf_override.patch => 0005-Do-not-read-etc-opkg-.conf-if-f-is-specified.patch} (91%)
->   rename meta/recipes-devtools/opkg/opkg/{track_parents.patch => 0006-detect-circular-dependencies.patch} (59%)
->   create mode 100644 meta/recipes-devtools/opkg/opkg/0007-merge-newpkg-provides-even-when-oldpkg-provides-exis.patch
->   delete mode 100644 meta/recipes-devtools/opkg/opkg/add_vercmp.patch
->
+What exactly do you wanna see in the output? I can post the variables 
+you are looking for.
 
-Merged into OE-Core with v2 of 2/3
+Florin
 
-Thanks
-	Sau!
+On 09/22/2012 12:53 AM, Khem Raj wrote:
+> On Fri, Sep 21, 2012 at 12:47 PM, Florin Sarbu
+> <florin.sarbu@windriver.com> wrote:
+>> It is enabled. As I said earlier, ld.gold gets created, it's just that ld is
+>> not pointing to it even though the flag says --enable-gold=default. It still
+>> point to the regular cross ld. Another config option that creates ld.gold is
+>> --enable-ld=yes, so at this point default looks exactly like yes.
+>> Just to be extra sure, I did try to add the extra space as you suggested but
+>> the behaviour is the same.
+> post the output of
+> bitbake -e binutils-cross
 
 
 
