@@ -1,37 +1,37 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TFT8B-0002or-Po
+	(envelope-from <martin.jansa@gmail.com>) id 1TFT8K-0002pz-9C
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 19:04:39 +0200
-Received: by wgbdq11 with SMTP id dq11so3031926wgb.24
+	Sat, 22 Sep 2012 19:04:48 +0200
+Received: by weyt44 with SMTP id t44so1309035wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Sep 2012 09:51:54 -0700 (PDT)
+	Sat, 22 Sep 2012 09:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=eZYV4LFc0+15ojZy3fs6p5xd3CvOF5oyIHHHQGR3kN0=;
-	b=R6wi3QnTKmk5XyF4BDTKpEvL1oWrt8Pv3XocBOE+szP/1ZCAY8WfnlpIkQfZs6964B
-	nknGdQ8leCHX96xO1UD/sNiY1v/+7AWbzsQUsiMHhovENwq12LghfE/a49iRsbJN+b8A
-	+RzCitgZg5hb7yXMGH/WaVOFoYPmPgioI5yOShMmL/DTU7FQNVcYZnCC0tCAnzl3k0Fx
-	2lC+UO/8+58OMMuRfG+kiOrAe7f3mkZxBcEW2NELBTXRv0Pqr5X79HQep4dRLJPJZpw5
-	gySfkAQOnezkzPi8vbQV+EvNzz2GpO0kpFmJYaygLthUVV0G8VgjJ5/J5eQYXwrfrstO
-	7PJA==
-Received: by 10.180.79.2 with SMTP id f2mr3932595wix.2.1348332714292;
-	Sat, 22 Sep 2012 09:51:54 -0700 (PDT)
+	bh=jUHGGzde8Bvr/D6CXdoc4dCx2RcTFaioE35mA3VbZWE=;
+	b=r5TO1gM270U5JiHeMtqV+3JK2FXBwGFGVCkU1y4BJDFNabQVvhZ5BBlOeraIRb9PHr
+	PBHzK1F6Wjq8cuNPWOtY0ozbcLvBTUED4vH762LZVsP63p1KdejcZaZ9jUjS+mo+64Vi
+	TwjMdyRULKJW+urzuOtE6TtJYCX4vadyMPPBPIfyS+UWd44PIGXLbUFnWO0dNqn1pP5h
+	1irAFx1/eLB6dpOdwo0/JWCg2RL+L3r45GkP/aARoApQOueRbK6ioCCw8dDSSEI9x0w3
+	4/W/EOqRPtLl6Zt/iLGLFNCccyd/am8SdrlKSTmsACVKGfrf2buUSg/ps8tZ/rL7/x1a
+	0kxg==
+Received: by 10.216.205.145 with SMTP id j17mr4372117weo.95.1348332722957;
+	Sat, 22 Sep 2012 09:52:02 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id l6sm4508295wiz.4.2012.09.22.09.51.52
+	by mx.google.com with ESMTPS id q7sm5133074wiy.11.2012.09.22.09.52.01
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 22 Sep 2012 09:51:53 -0700 (PDT)
+	Sat, 22 Sep 2012 09:52:02 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Sep 2012 18:51:13 +0200
-Message-Id: <665c47ce8876de5003296cd4f3b33d5c11a79eaa.1348330479.git.Martin.Jansa@gmail.com>
+Date: Sat, 22 Sep 2012 18:51:14 +0200
+Message-Id: <5ac0bc525f5ac3f07c5749efc31e91c3fe6145c1.1348330479.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.12
 In-Reply-To: <cover.1348330479.git.Martin.Jansa@gmail.com>
 References: <cover.1348330479.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1348330479.git.Martin.Jansa@gmail.com>
 References: <cover.1348330479.git.Martin.Jansa@gmail.com>
-Subject: [RFC 1/5] arch-arm: add ARMPKGSFX_CPU to TUNE_PKGARCH because we're using different TUNE_CCARGS
+Subject: [RFC 2/5] tune-xscale, tune-arm926ejs: add OPTDEFAULTTUNE variable and use more generic DEFAULTTUNE as default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,105 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2012 17:04:39 -0000
+X-List-Received-Date: Sat, 22 Sep 2012 17:04:48 -0000
 
-* without this tune-xscale and tune-arm926ejs were both creating
-  packages in armv5te feed, but each with different -mtune, with
-  OEBasicHash enabled it was causing each package to rebuild with new
-  -mtune after MACHINE switch, but that doesn't make sense with output
-  stored in the same armv5te feed
-
-* this makes different feed for each -mtune/ARMPKGSFX_CPU
+* bitbake.conf has OPTDEFAULTTUNE with weak default value of DEFAULTTUNE
+* this way xscale or arm926ejs is not used by default when some machine
+  includes its tune*.inc, but it's easy for DISTRO to say it wants
+  OPTDEFAULTTUNE for some packages or always (if they don't want to
+  share built packages between xscale and arm926ejs).
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/machine/include/arm/README         | 5 ++++-
- meta/conf/machine/include/arm/arch-arm.inc   | 4 +++-
- meta/conf/machine/include/tune-arm926ejs.inc | 4 ++--
- meta/conf/machine/include/tune-xscale.inc    | 5 +++--
- 4 files changed, 12 insertions(+), 6 deletions(-)
+ meta/conf/bitbake.conf                       | 1 +
+ meta/conf/machine/include/tune-arm926ejs.inc | 3 ++-
+ meta/conf/machine/include/tune-xscale.inc    | 3 ++-
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/arm/README b/meta/conf/machine/include/arm/README
-index a1beb75..7e52902 100644
---- a/meta/conf/machine/include/arm/README
-+++ b/meta/conf/machine/include/arm/README
-@@ -16,7 +16,7 @@ default.  The format must be of the form:
- <armversion>[t][e][hf][b][-vfp][-neon]
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9b41749..e433fcb 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -95,6 +95,7 @@ HOST_LD_ARCH = "${TARGET_LD_ARCH}"
+ HOST_AS_ARCH = "${TARGET_AS_ARCH}"
+ HOST_EXEEXT = ""
  
- TUNE_PKGARCH is defined as:
--${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}
-+${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}${ARMPKGSFX_CPU}
- 
- ARMPKGARCH - This is the core package arch component specified by each 
- tuning.  This is the primary identifier of a tuning.  Usual values are:
-@@ -38,3 +38,6 @@ the core arch-arm.inc file.
- 
- ARMPKGSFX_FPU - This is the FPU specific suffix.  The suffix indicates 
- specific FPU optimizations.  'vfp' and 'neon' are both defined.
-+
-+ARMPKGSFX_CPU - This is the CPU specific suffix.  The suffix indicates
-+that specific CPU optimizations were used.
-diff --git a/meta/conf/machine/include/arm/arch-arm.inc b/meta/conf/machine/include/arm/arch-arm.inc
-index da51044..6f22c94 100644
---- a/meta/conf/machine/include/arm/arch-arm.inc
-+++ b/meta/conf/machine/include/arm/arch-arm.inc
-@@ -4,12 +4,14 @@ TUNEVALID[bigendian] = "Enable big-endian mode."
- ARMPKGARCH ??= "arm"
- ARMPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "b", "", d)}"
- ARMPKGSFX_FPU ??= ""
-+ARMPKGSFX_CPU ??= ""
-+ARMPKGSFX_CPU[vardepvalue] = "${ARMPKGSFX_CPU}"
- ARMPKGSFX_DSP ??= ""
- ARMPKGSFX_EABI ??= ""
- ARMPKGSFX_THUMB ??= ""
- 
- TUNE_ARCH = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "armeb", "arm", d)}"
--TUNE_PKGARCH = "${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}"
-+TUNE_PKGARCH = "${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}${ARMPKGSFX_CPU}"
- 
- ABIEXTENSION = "eabi"
- 
++OPTDEFAULTTUNE ??= "${DEFAULTTUNE}"
+ TUNE_ARCH ??= "INVALID"
+ TUNE_CCARGS ??= ""
+ TUNE_LDARGS ??= ""
 diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
-index 7f2cc4e..c6e5289 100644
+index c6e5289..4406b3c 100644
 --- a/meta/conf/machine/include/tune-arm926ejs.inc
 +++ b/meta/conf/machine/include/tune-arm926ejs.inc
 @@ -1,4 +1,5 @@
- DEFAULTTUNE ?= "arm926ejs"
-+ARMPKGSFX_CPU = "${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", "-arm926ejs", "", d)}"
+-DEFAULTTUNE ?= "arm926ejs"
++DEFAULTTUNE ?= "armv5te"
++OPTDEFAULTTUNE ?= "arm926ejs"
+ ARMPKGSFX_CPU = "${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", "-arm926ejs", "", d)}"
  
  require conf/machine/include/arm/arch-armv5-dsp.inc
- 
-@@ -7,5 +8,4 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", "-mtune=arm92
- 
- AVAILTUNES += "arm926ejs"
- TUNE_FEATURES_tune-arm926ejs = "${TUNE_FEATURES_tune-armv5te} arm926ejs"
--PACKAGE_EXTRA_ARCHS_tune-arm926ejs = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
--
-+PACKAGE_EXTRA_ARCHS_tune-arm926ejs = "${PACKAGE_EXTRA_ARCHS_tune-armv5te} armv5te-arm926ejs"
 diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
-index 80a3683..1f47c44 100644
+index 1f47c44..a04a5e1 100644
 --- a/meta/conf/machine/include/tune-xscale.inc
 +++ b/meta/conf/machine/include/tune-xscale.inc
 @@ -1,4 +1,5 @@
- DEFAULTTUNE ?= "xscale"
-+ARMPKGSFX_CPU = "${@bb.utils.contains("TUNE_FEATURES", "xscale", "-xscale", "", d)}"
+-DEFAULTTUNE ?= "xscale"
++DEFAULTTUNE ?= "armv5te"
++OPTDEFAULTTUNE ?= "xscale"
+ ARMPKGSFX_CPU = "${@bb.utils.contains("TUNE_FEATURES", "xscale", "-xscale", "", d)}"
  
  require conf/machine/include/arm/arch-armv5-dsp.inc
- 
-@@ -7,11 +8,11 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "xscale", "-mtune=xscale",
- 
- AVAILTUNES += "xscale"
- TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
--PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
-+PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te} armv5te-xscale"
- 
- AVAILTUNES += "xscale-be"
- TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale bigendian"
--PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb}"
-+PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb} armv5teb-xscale"
- 
- # webkit-gtk has alignment issues with double instructions on armv5 so
- # disable them here
 -- 
 1.7.12
 
