@@ -1,32 +1,21 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TFPIu-0004yD-BZ
+	(envelope-from <philb@gnu.org>) id 1TFPwT-0005xp-22
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 14:59:28 +0200
-Received: by wgbdq11 with SMTP id dq11so2931233wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Sep 2012 05:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=D5QnVPGwS8AZJDOJTb9W3KNUa3UyqZRcsMsLyQBvw2o=;
-	b=BRVLdmhPSSoD3nBOVjbpqc26cEAZTiC/TKFg+iviw7HLG7YC9DpmXVpy8ef0Xtrhle
-	wHs3v5ljfqfWIigb2tMZ3kFUxdtpDOU64enuz9xRvd/lMHae3LVihq7FhhCySyJy3bcu
-	oCUpfcAs3bcxGindhh+tF33NZ7F03Yr5OgmwzgrZVtpxi8YxcgX6LEXOp8EbgaKdayuj
-	Ls1ECMz6p1WANPsB4sJ8NyFabU+4FCwzPYdZ6EHJs+JulV3MxHzKREMmhdjVDxXzqQej
-	AVNLsfffxnRNkSUjM5TLjK2LcDsN1Odku8DCMvM8Kl3OSqo5Uvc2zvHcTDlkydBcEKCN
-	n7Pw==
-Received: by 10.216.209.87 with SMTP id r65mr4143402weo.42.1348318003163;
-	Sat, 22 Sep 2012 05:46:43 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id q4sm3394107wix.9.2012.09.22.05.46.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 22 Sep 2012 05:46:41 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Sat, 22 Sep 2012 15:40:21 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TFPk9-0001t6-Sj
+	for openembedded-core@lists.openembedded.org;
+	Sat, 22 Sep 2012 15:27:37 +0200
+Message-ID: <1348320319.4444.212.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Sep 2012 14:46:41 +0200
-Message-Id: <1348318001-18232-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-Subject: [PATCH] kernel.bbclass: include PE in KERNEL_IMAGE_BASE_NAME
+Date: Sat, 22 Sep 2012 14:25:19 +0100
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Subject: [PATCH] libcap: respect ${base_sbindir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +28,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2012 12:59:28 -0000
+X-List-Received-Date: Sat, 22 Sep 2012 13:40:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* without this you it's harder to see which kernel is newer version
-  e.g. after branch change LOCALCOUNT in SRCPV is reset to 0, so it needs PE bump for upgrade path
-  but then it's clear why gitr1+HASH has newer DATETIME then gitrN+HASH, so include PE in name
-* using PE not EXTENDPE to sort it correctly even for PE == 1
-* it will sort alphabetically wrong in deploy dir for a while until old 
-  images are removed
+Need to pass the path explicitly to "make install" to ensure that the binaries end up
+in the right locations.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Phil Blundell <pb@pbcl.net>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/libcap/libcap.inc     |    2 +-
+ meta/recipes-support/libcap/libcap_2.22.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index fdef1be..e2e365f 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -490,7 +490,7 @@ do_sizecheck() {
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 5d7291e..bfaeffd 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -43,7 +43,7 @@ do_compile() {
+ }
  
- addtask sizecheck before do_install after do_compile
+ do_install() {
+-	oe_runmake install DESTDIR="${D}" prefix="${prefix}"
++	oe_runmake install DESTDIR="${D}" prefix="${prefix}" SBINDIR="${D}${base_sbindir}"
+ }
  
--KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
-+KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
- # Don't include the DATETIME variable in the sstate package signatures
- KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
- KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+ do_install_append() {
+diff --git a/meta/recipes-support/libcap/libcap_2.22.bb b/meta/recipes-support/libcap/libcap_2.22.bb
+index b631c51..d57c102 100644
+--- a/meta/recipes-support/libcap/libcap_2.22.bb
++++ b/meta/recipes-support/libcap/libcap_2.22.bb
+@@ -1,6 +1,6 @@
+ require libcap.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI[md5sum] = "b4896816b626bea445f0b3849bdd4077"
+ SRC_URI[sha256sum] = "e1cae65d8febf2579be37c255d2e058715785ead481a4e6a4357a06aff84721f"
 -- 
-1.7.12
+1.7.9
+
+
+
 
 
 
