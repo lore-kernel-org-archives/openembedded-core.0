@@ -1,21 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TFT8t-00031V-4d
+	(envelope-from <martin.jansa@gmail.com>) id 1TFTSq-0003Ff-Nv
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 19:05:23 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TFSwZ-00020x-Ng
-	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 18:52:39 +0200
-Message-ID: <1348332621.4444.219.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
+	Sat, 22 Sep 2012 19:26:00 +0200
+Received: by weyt44 with SMTP id t44so1316272wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Sep 2012 10:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=0EwrGruNqyqd6iD/cA88LPVtVQUqgnNQ1+SZV/X6+E4=;
+	b=MgMDdeDHWotKEmH/VRlVgVmcFsSzUaH485SicPMjQYzIKg71DSe4i4jfGPYNyS7vZu
+	blcwOeVyqgE4Hwdu6u3eJe5Dii03LgJSAQOK0TsN4CHa18CdEk6KjjwuTXux1ULsDIlp
+	EHp/4cwOR3HSyG9aGzsf5O7481TudQnT1toL3Itttg52Bo2XOTUG3QpKItxkV6dAxcQn
+	NZX2zm64X/4ozZgoOPwVH5NZNRmK9DkurkqRE7cBZp1jAwXJHHInLZvopHc0fMeY+5+v
+	lkWxnExh4AaIBQ+SCEmLqdIGEUpt+nWfNpnEEvkkddMiPHcrM/fpTWnKCkkfFlTU39xm
+	Ay2Q==
+Received: by 10.180.83.66 with SMTP id o2mr3961742wiy.14.1348333995490;
+	Sat, 22 Sep 2012 10:13:15 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id do5sm5234853wib.10.2012.09.22.10.13.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 22 Sep 2012 10:13:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Sep 2012 17:50:21 +0100
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Subject: [PATCH] sqlite3: enable USE_PREAD
+Date: Sat, 22 Sep 2012 19:13:13 +0200
+Message-Id: <1348333994-18026-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.12
+In-Reply-To: <20120921112144.GE10268@jama.jama.net>
+References: <20120921112144.GE10268@jama.jama.net>
+Subject: [PATCH] xserver-xorg: fix RCONFLICTS line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,51 +41,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2012 17:05:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 22 Sep 2012 17:26:00 -0000
 
-This gives a small but measureable performance improvement for
-I/O heavy workloads.
+* there needs to be space between '<' and PV, see:
+  >>> bb.utils.explode_dep_versions('xserver-xorg (<1.11.2)')
+  {'xserver-xorg': None}
+  >>> bb.utils.explode_dep_versions('xserver-xorg (< 1.11.2)')
+  {'xserver-xorg': '< 1.11.2'}
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc       |    4 ++++
- meta/recipes-support/sqlite/sqlite3_3.7.13.bb |    2 +-
- 2 files changed, 5 insertions(+), 1 deletions(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc | 2 +-
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index 0cc5d65..70841f8 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -17,6 +17,10 @@ export config_TARGET_LINK = "${CCLD}"
- export config_TARGET_CFLAGS = "${CFLAGS}"
- export config_TARGET_LFLAGS = "${LDFLAGS}"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index 35cb33a..32bd9fd 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,4 +8,4 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
  
-+# pread() is in POSIX.1-2001 so any reasonable system must surely support it
-+BUILD_CFLAGS += "-DUSE_PREAD"
-+TARGET_CFLAGS += "-DUSE_PREAD"
-+
- PACKAGES = "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-staticdev ${PN}"
+-PR = "r8"
++PR = "r9"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 643ca70..33f59fe 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -66,7 +66,7 @@ PACKAGES =+ "${PN}-security-policy \
  
- FILES_${PN} = "${bindir}/*"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.13.bb b/meta/recipes-support/sqlite/sqlite3_3.7.13.bb
-index 4e050a3..48b50ac 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.7.13.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.7.13.bb
-@@ -2,7 +2,7 @@ require sqlite3.inc
+ RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+-RCONFLICTS_${PN}-module-exa = "${PN} (<${PV})"
++RCONFLICTS_${PN}-module-exa = "${PN} (< ${PV})"
  
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3071300.tar.gz"
- S = "${WORKDIR}/sqlite-autoconf-3071300"
+ FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+ FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
 -- 
-1.7.9
-
-
+1.7.12
 
 
 
