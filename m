@@ -1,24 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TFP38-0004gI-RO
+	(envelope-from <martin.jansa@gmail.com>) id 1TFPIu-0004yD-BZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 14:43:11 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Sep 2012 05:30:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,467,1344236400"; d="scan'208";a="196428774"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.225])
-	by orsmga001.jf.intel.com with ESMTP; 22 Sep 2012 05:30:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Sat, 22 Sep 2012 14:59:28 +0200
+Received: by wgbdq11 with SMTP id dq11so2931233wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Sep 2012 05:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=D5QnVPGwS8AZJDOJTb9W3KNUa3UyqZRcsMsLyQBvw2o=;
+	b=BRVLdmhPSSoD3nBOVjbpqc26cEAZTiC/TKFg+iviw7HLG7YC9DpmXVpy8ef0Xtrhle
+	wHs3v5ljfqfWIigb2tMZ3kFUxdtpDOU64enuz9xRvd/lMHae3LVihq7FhhCySyJy3bcu
+	oCUpfcAs3bcxGindhh+tF33NZ7F03Yr5OgmwzgrZVtpxi8YxcgX6LEXOp8EbgaKdayuj
+	Ls1ECMz6p1WANPsB4sJ8NyFabU+4FCwzPYdZ6EHJs+JulV3MxHzKREMmhdjVDxXzqQej
+	AVNLsfffxnRNkSUjM5TLjK2LcDsN1Odku8DCMvM8Kl3OSqo5Uvc2zvHcTDlkydBcEKCN
+	n7Pw==
+Received: by 10.216.209.87 with SMTP id r65mr4143402weo.42.1348318003163;
+	Sat, 22 Sep 2012 05:46:43 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id q4sm3394107wix.9.2012.09.22.05.46.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 22 Sep 2012 05:46:41 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Sep 2012 13:29:56 +0100
-Message-Id: <cf0d3814e3a9e96a6358caa109c0c1e1554a1467.1348316945.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1348316945.git.paul.eggleton@linux.intel.com>
-References: <cover.1348316945.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1348316945.git.paul.eggleton@linux.intel.com>
-References: <cover.1348316945.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 1/2] classes/multilib: ensure MLPREFIX is set for image recipes
+Date: Sat, 22 Sep 2012 14:46:41 +0200
+Message-Id: <1348318001-18232-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.12
+Subject: [PATCH] kernel.bbclass: include PE in KERNEL_IMAGE_BASE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,35 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2012 12:43:11 -0000
+X-List-Received-Date: Sat, 22 Sep 2012 12:59:28 -0000
 
-We need MLPREFIX to be set so that oe.utils.prune_suffix() (as used for
-the value of BPN) can derive the bare name from the multilib-extended
-name for image recipes. BPN being set correctly avoids missing file
-warnings during parse from the file checksum code for (unusual) images
-that set SRC_URI, such as build-appliance-image.
+* without this you it's harder to see which kernel is newer version
+  e.g. after branch change LOCALCOUNT in SRCPV is reset to 0, so it needs PE bump for upgrade path
+  but then it's clear why gitr1+HASH has newer DATETIME then gitrN+HASH, so include PE in name
+* using PE not EXTENDPE to sort it correctly even for PE == 1
+* it will sort alphabetically wrong in deploy dir for a while until old 
+  images are removed
 
-First half of the fix for [YOCTO #3146].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/multilib.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index b1a593e..4d3f889 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -12,6 +12,7 @@ python multilib_virtclass_handler () {
-         raise bb.parse.SkipPackage("We shouldn't have multilib variants for the kernel")
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index fdef1be..e2e365f 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -490,7 +490,7 @@ do_sizecheck() {
  
-     if bb.data.inherits_class('image', e.data):
-+        e.data.setVar("MLPREFIX", variant + "-")
-         e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-         return
+ addtask sizecheck before do_install after do_compile
  
+-KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+ # Don't include the DATETIME variable in the sstate package signatures
+ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
 -- 
-1.7.9.5
+1.7.12
 
 
 
