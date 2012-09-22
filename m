@@ -1,32 +1,34 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TFNB9-0002E2-9M
-	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Sep 2012 12:43:19 +0200
-Received: by weyt44 with SMTP id t44so1172783wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Sep 2012 03:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=p8on5FuH/GISZVmUNhcGoyTDv8PqC5kZUoV8MSLJVUw=;
-	b=lhUN8Ktvb4vmfR5brutXSUyiZGCmRudYNp2+Fct/Yz5R97l9cyHEZnRpT4Uxjsm1SU
-	KC51A6QNtSS7oOkGtQLkK/dO4c7C3tdcc4XOHlrZZa6tOfKdC9CZTHsgqzMS1Dm6cN9A
-	31w7uri+w47KBOc39s/JONxlwgSu8lQrNCMkCjrnapVFdKHfrLzS24LKSxm1vjTOdWzS
-	clcM/RodCP6WnUcCY/DSEWl14sLXG5kcn4Cg40RP4RThqVaakZT0isY75e/VPHUIc838
-	lwW8cnjwIUdQUmzGE3FonUaOfqOyyczNaVotKdJPr3FeD0JnJzwdKlktqvfRUpaDpxR+
-	LM/w==
-Received: by 10.216.66.7 with SMTP id g7mr4520583wed.146.1348309834234;
-	Sat, 22 Sep 2012 03:30:34 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fb20sm3261136wid.1.2012.09.22.03.30.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 22 Sep 2012 03:30:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Sep 2012 12:30:32 +0200
-Message-Id: <1348309833-13334-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-Subject: [PATCH] qemu-native: fix build on hosts without libX11 installed
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TFOJm-0003VE-4m for openembedded-core@lists.openembedded.org;
+	Sat, 22 Sep 2012 13:56:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8MBhS7j005176;
+	Sat, 22 Sep 2012 12:43:28 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01781-03; Sat, 22 Sep 2012 12:43:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8MBhIms005169
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Sat, 22 Sep 2012 12:43:20 +0100
+Message-ID: <1348314198.10108.197.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Mark Hatle
+	<mark.hatle@windriver.com>
+Date: Sat, 22 Sep 2012 12:43:18 +0100
+In-Reply-To: <20120921151817.GG10268@jama.jama.net>
+References: <1348237488.10108.83.camel@ted>
+	<1348237670.15074.234.camel@phil-desktop>
+	<20120921151817.GG10268@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Phil Blundell <philb@gnu.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] bitbake.conf: Change WORKDIR to split by PN and version into seperate directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Sep 2012 10:43:19 -0000
+X-List-Received-Date: Sat, 22 Sep 2012 11:56:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/qemu/qemu_1.2.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Fri, 2012-09-21 at 17:18 +0200, Martin Jansa wrote:
+> On Fri, Sep 21, 2012 at 03:27:48PM +0100, Phil Blundell wrote:
+> > On Fri, 2012-09-21 at 15:24 +0100, Richard Purdie wrote:
+> > > As per the previous patch, this is really a request for comments, I can
+> > > see pros and cons...
+> > 
+> > I've been using this configuration locally for quite some time (it's
+> > needed for rm_old_works in particular) and it seems to be an improvement
+> > in general.
+> 
+> Last time I was using rm_old_works without this change
+> https://github.com/shr-distribution/meta-smartphone/commit/0d4c17de1ba7343d82bb10c311754e29d573c485
+> 
+> I've seen a lot of /usr/src/debug/${EXTENDPE}${PV}-${PR}" on target from
+> -dbg packages, which doesn't look right, was this fixed in whatever packs 
+> source code to -dbg packages?
 
-diff --git a/meta/recipes-devtools/qemu/qemu_1.2.0.bb b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-index 7091f6d..191ee48 100644
---- a/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-@@ -17,7 +17,7 @@ SRC_URI = "\
- SRC_URI[md5sum] = "78eb1e984f4532aa9f2bdd3c127b5b61"
- SRC_URI[sha256sum] = "c8b84420d9f4869397f84cad2dabd9a475b7723d619a924a873740353e9df936"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI_append_virtclass-nativesdk = "\
-     file://relocatable_sdk.patch \
-@@ -29,4 +29,8 @@ do_configure_prepend_virtclass-nativesdk() {
- 		sed -i 's/-lX11//g' Makefile.target
- 	fi
- }
-+do_configure_prepend_virtclass-native() {
-+	# Undo the -lX11 added by linker-flags.patch, don't assume that host has libX11 installed
-+	sed -i 's/-lX11//g' Makefile.target
-+}
- 
--- 
-1.7.12
+Probably from the way splitfile2 works in package.bbclass. I think this
+should be using ${PF} explicitly if that is what it wants...
+
+Cheers,
+
+Richard
+
 
 
 
