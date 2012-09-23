@@ -1,24 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TFqUp-00042K-FI
+	(envelope-from <walters@verbum.org>) id 1TFsKB-0005iJ-Kj
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Sep 2012 20:01:35 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TFqIU-0003k3-HS; Sun, 23 Sep 2012 19:48:50 +0200
-Message-ID: <1348422391.4444.238.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 23 Sep 2012 18:46:31 +0100
-In-Reply-To: <CAMKF1sr_zaF9B-kWwDexh6jwL8S2oKxnBMqg4BQ7eAdEh4X5vA@mail.gmail.com>
-References: <1348331093.4444.218.camel@x121e.pbcl.net>
-	<CAMKF1sr_zaF9B-kWwDexh6jwL8S2oKxnBMqg4BQ7eAdEh4X5vA@mail.gmail.com>
-X-Mailer: Evolution 3.4.3-1 
+	Sun, 23 Sep 2012 21:58:43 +0200
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id A49922068F;
+	Sun, 23 Sep 2012 15:45:58 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute5.internal (MEProxy); Sun, 23 Sep 2012 15:45:58 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:cc:date
+	:in-reply-to:references:content-type:mime-version
+	:content-transfer-encoding; s=smtpout; bh=gfpewwE9NJScrXpMxfin8r
+	xXAY8=; b=JDm3RyKg588Kn/gw1Mk/4pOngLHDhMYHRHSnQQvDj7PR8Gj7nG1K0B
+	N/u3Fcl8pbFXTIugWbI7bch46D09+vPTWSjlN8xavRgZh7F9jFp7o4/78u1jmZXU
+	5asKzliVGKeYkEHPMFaURNDuuymnS97zyAoaE5U03Sj1dCOB1KEhc=
+X-Sasl-enc: lQXz7ybr/tErVRjyl9JrHIAWBWLSgd2MZg+G3nmCG7kj 1348429558
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 3D9A448279F;
+	Sun, 23 Sep 2012 15:45:58 -0400 (EDT)
+Message-ID: <1348429520.4646.16.camel@lenny>
+From: Colin Walters <walters@verbum.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Sun, 23 Sep 2012 15:45:20 -0400
+In-Reply-To: <1348339337.4444.229.camel@x121e.pbcl.net>
+References: <1348339337.4444.229.camel@x121e.pbcl.net>
+X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Ensure that ${sbindir} is respected
+Subject: Re: [PATCH] dbus: Remove hardcoded reference to /usr in System V startup script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,26 +41,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Sep 2012 18:01:35 -0000
+X-List-Received-Date: Sun, 23 Sep 2012 19:58:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2012-09-23 at 10:31 -0700, Khem Raj wrote:
-> On Sat, Sep 22, 2012 at 9:24 AM, Phil Blundell <philb@gnu.org> wrote:
-> > The configure script uses a hard-coded value for ${usrsbin_execdir},
-> > which is the path that we know as ${sbindir}.  Adjust configure to take
-> > this from the environment if it's set there, and have do_configure()
-> > pass it in.
-> 
-> I think our expectation is same as what the configure is defining
-> which is sbin dir under exec_prefix
+On Sat, 2012-09-22 at 19:42 +0100, Phil Blundell wrote:
 
-Well, that might be your expectation, but it isn't necessarily what the
-user has configured.  There is no guarantee that ${sbindir} will be set
-to that particular value, and the recipes ought to respect what it is,
-in fact, set to.
+> -	install -m 0755 ${WORKDIR}/dbus-1.init ${D}${sysconfdir}/init.d/dbus-1
+> +	sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${WORKDIR}/dbus-1.init.sh
 
-p.
+Does that actually work?  The variable reference is inside single quotes
+so it won't be expanded by the shell, right?
 
 
 
