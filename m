@@ -1,32 +1,24 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1TFsKB-0005iJ-Kj
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TFste-0006Yk-Nn
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Sep 2012 21:58:43 +0200
-Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id A49922068F;
-	Sun, 23 Sep 2012 15:45:58 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute5.internal (MEProxy); Sun, 23 Sep 2012 15:45:58 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:cc:date
-	:in-reply-to:references:content-type:mime-version
-	:content-transfer-encoding; s=smtpout; bh=gfpewwE9NJScrXpMxfin8r
-	xXAY8=; b=JDm3RyKg588Kn/gw1Mk/4pOngLHDhMYHRHSnQQvDj7PR8Gj7nG1K0B
-	N/u3Fcl8pbFXTIugWbI7bch46D09+vPTWSjlN8xavRgZh7F9jFp7o4/78u1jmZXU
-	5asKzliVGKeYkEHPMFaURNDuuymnS97zyAoaE5U03Sj1dCOB1KEhc=
-X-Sasl-enc: lQXz7ybr/tErVRjyl9JrHIAWBWLSgd2MZg+G3nmCG7kj 1348429558
-Received: from [192.168.1.6] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 3D9A448279F;
-	Sun, 23 Sep 2012 15:45:58 -0400 (EDT)
-Message-ID: <1348429520.4646.16.camel@lenny>
-From: Colin Walters <walters@verbum.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Sun, 23 Sep 2012 15:45:20 -0400
-In-Reply-To: <1348339337.4444.229.camel@x121e.pbcl.net>
+	Sun, 23 Sep 2012 22:35:22 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Sep 2012 13:22:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,471,1344236400"; d="scan'208";a="148135450"
+Received: from unknown (HELO helios.localnet) ([10.252.121.252])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Sep 2012 13:22:33 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Colin Walters <walters@verbum.org>
+Date: Sun, 23 Sep 2012 21:22:32 +0100
+Message-ID: <8646478.oESqj5TJhl@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.1 (Linux/3.2.0-31-generic-pae; KDE/4.9.1; i686; ; )
+In-Reply-To: <1348429520.4646.16.camel@lenny>
 References: <1348339337.4444.229.camel@x121e.pbcl.net>
-X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
-Mime-Version: 1.0
+	<1348429520.4646.16.camel@lenny>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] dbus: Remove hardcoded reference to /usr in System V startup script
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,18 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Sep 2012 19:58:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 23 Sep 2012 20:35:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sat, 2012-09-22 at 19:42 +0100, Phil Blundell wrote:
+On Sunday 23 September 2012 15:45:20 Colin Walters wrote:
+> On Sat, 2012-09-22 at 19:42 +0100, Phil Blundell wrote:
+> > -	install -m 0755 ${WORKDIR}/dbus-1.init ${D}${sysconfdir}/init.d/dbus-1
+> > +	sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init
+> > >${WORKDIR}/dbus-1.init.sh
+> Does that actually work?  The variable reference is inside single quotes
+> so it won't be expanded by the shell, right?
 
-> -	install -m 0755 ${WORKDIR}/dbus-1.init ${D}${sysconfdir}/init.d/dbus-1
-> +	sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${WORKDIR}/dbus-1.init.sh
+What is being expanded here at parse time is a bitbake variable rather than a 
+shell variable, so it should work fine.
 
-Does that actually work?  The variable reference is inside single quotes
-so it won't be expanded by the shell, right?
+Cheers,
+Paul
 
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
