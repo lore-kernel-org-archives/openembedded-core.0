@@ -1,32 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Florin.Sarbu@windriver.com>) id 1TFhAX-0000PG-2B
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TFn9R-00087Q-Pd
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Sep 2012 10:04:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8N7p8hF015387
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 23 Sep 2012 00:51:08 -0700 (PDT)
-Received: from [128.224.18.154] (128.224.18.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Sun, 23 Sep 2012 00:51:07 -0700
-Message-ID: <505EBF6D.2020602@windriver.com>
-Date: Sun, 23 Sep 2012 10:51:09 +0300
-From: Florin Sarbu <florin.sarbu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <505C6C8A.9000800@windriver.com> <1348235937.10108.78.camel@ted>
-	<505CC452.9040906@windriver.com>
-	<CAMKF1srm1JLHray=JEJtRoBjwKvg8KFGno95fjRz+SFN+Fu-Pg@mail.gmail.com>
-	<505D606C.5080406@windriver.com>
-	<CAMKF1sqMtA1LhK98khoDAXAK83_gmTokfez8RpFC7gwRHdv=KA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqMtA1LhK98khoDAXAK83_gmTokfez8RpFC7gwRHdv=KA@mail.gmail.com>
-Cc: Patches, discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: binutils fails to set ld.gold as default
+	Sun, 23 Sep 2012 16:27:17 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Sep 2012 07:14:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,470,1344236400"; d="scan'208";a="225477776"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Sep 2012 07:14:29 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 23 Sep 2012 17:14:27 +0300
+Message-Id: <1348409667-15468-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] adt-installer: add sudo when relocating symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,57 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Sep 2012 08:04:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 23 Sep 2012 14:27:18 -0000
 
-You're right, the symbolic link pointing to this "regular" ld confused 
-me. Looking at it's version, it clearly says gold.
+This is needed if installation is done in a directory that needs root
+privileges.
 
-Thank you.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../adt-installer/scripts/adt_installer_internal   |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 09/23/2012 06:41 AM, Khem Raj wrote:
-> On Fri, Sep 21, 2012 at 11:53 PM, Florin Sarbu
-> <florin.sarbu@windriver.com> wrote:
->> What exactly do you wanna see in the output? I can post the variables you
->> are looking for.
-> why cant you pastebin the whole file ? anyhow you are probably looking
-> at a red herring
-> build will create three linker binaries
->
-> 1. Default linker - <cross>-ld
-> 2. Gold linker - <cross>-ld.gold
-> 3. GNU ld - <cross>-ld.bfd
->
-> 1 above will be copy of either ld.gold or ld.bfd depending upon what
-> you have chosen
-> as default.
->
-> run <cross>-ls -v
->
-> to see the version of linker. If it is gold then it will say so
->
->
->
->> Florin
->>
->>
->> On 09/22/2012 12:53 AM, Khem Raj wrote:
->>> On Fri, Sep 21, 2012 at 12:47 PM, Florin Sarbu
->>> <florin.sarbu@windriver.com> wrote:
->>>> It is enabled. As I said earlier, ld.gold gets created, it's just that ld
->>>> is
->>>> not pointing to it even though the flag says --enable-gold=default. It
->>>> still
->>>> point to the regular cross ld. Another config option that creates ld.gold
->>>> is
->>>> --enable-ld=yes, so at this point default looks exactly like yes.
->>>> Just to be extra sure, I did try to add the extra space as you suggested
->>>> but
->>>> the behaviour is the same.
->>> post the output of
->>> bitbake -e binutils-cross
->>
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index 63fcf60..9a13573 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -217,7 +217,7 @@ find $OECORE_NATIVE_SYSROOT -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut
+ 
+ # change all symlinks pointing to /opt/${DISTRO}/${SDK_VERSION}
+ for l in $(find $NATIVE_INSTALL_DIR -type l); do
+-	ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_FOLDER:$NATIVE_INSTALL_DIR:") $l
++    $SUDO ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_FOLDER:$NATIVE_INSTALL_DIR:") $l
+ done
+ 
+ echo_info "\nSuccessfully installed selected native ADT!"
+-- 
+1.7.9.5
 
 
 
