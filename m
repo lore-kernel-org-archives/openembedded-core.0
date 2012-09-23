@@ -1,21 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TFuDw-0008Db-Eo
+	(envelope-from <walters@verbum.org>) id 1TFuQk-0008Py-8X
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 00:00:24 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TFu1b-0003sO-P9
-	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Sep 2012 23:47:39 +0200
-Message-ID: <1348436710.4444.247.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 23 Sep 2012 22:45:10 +0100
-X-Mailer: Evolution 3.4.3-1 
+	Mon, 24 Sep 2012 00:13:38 +0200
+Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 2215C2068D;
+	Sun, 23 Sep 2012 18:00:53 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute1.internal (MEProxy); Sun, 23 Sep 2012 18:00:53 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:cc:date
+	:in-reply-to:references:content-type:mime-version
+	:content-transfer-encoding; s=smtpout; bh=PiSZFX7xmM2jU5Xxyuyjhv
+	fT8so=; b=FOXN51J7VIVcxd6Q3Z4HW/KqH/63fEXBucoQbLJNoIF/XdTBZEc+4u
+	Giv0EX4LWgXhXF2btG6O1VTYNUhENaBz1WcQ/SyOEk+Xjw147oXffCL8zga4jBKP
+	FDsbz0RiAzVKFKybcavmZDxF1Z03usoOu2qGm1m9i4iv8UJJgYocA=
+X-Sasl-enc: MGr9HlkQyjrzXVXbSXKuSizbvuy0B6OtF6eGqqXUSiNz 1348437652
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id B2C054824F0;
+	Sun, 23 Sep 2012 18:00:52 -0400 (EDT)
+Message-ID: <1348437614.4646.20.camel@lenny>
+From: Colin Walters <walters@verbum.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Sun, 23 Sep 2012 18:00:14 -0400
+In-Reply-To: <8646478.oESqj5TJhl@helios>
+References: <1348339337.4444.229.camel@x121e.pbcl.net>
+	<1348429520.4646.16.camel@lenny> <8646478.oESqj5TJhl@helios>
+X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
 Mime-Version: 1.0
-Subject: [PATCH] kernel.bbclass: Allow modules.tar.gz generation to be inhibited
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] dbus: Remove hardcoded reference to /usr in System V startup script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,41 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Sep 2012 22:00:24 -0000
+X-List-Received-Date: Sun, 23 Sep 2012 22:13:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The modules.tar.gz archive is sometimes of no value and it can take
-a noticeable time to build if many modules were enabled in the kernel
-configuration.  The extraneous file also contributes to deploy/ clutter
-and is a waste of disk space.
+On Sun, 2012-09-23 at 21:22 +0100, Paul Eggleton wrote:
 
-Allow it to be suppressed by setting KERNEL_DEPLOY_MODULE_TARBALL=0.
+> What is being expanded here at parse time is a bitbake variable rather than a 
+> shell variable, so it should work fine.
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/classes/kernel.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index fdef1be..2896d28 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -520,9 +520,11 @@ do_uboot_mkimage() {
- 
- addtask uboot_mkimage before do_install after do_compile
- 
-+KERNEL_DEPLOY_MODULE_TARBALL ?= "1"
-+
- kernel_do_deploy() {
- 	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-+	if [ ${KERNEL_DEPLOY_MODULE_TARBALL} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
- 	fi
- 
--- 
-1.7.9
+Ok, sorry for the noise.
 
 
 
