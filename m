@@ -1,26 +1,21 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TFste-0006Yk-Nn
+	(envelope-from <philb@gnu.org>) id 1TFtml-0007YD-LS
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Sep 2012 22:35:22 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 Sep 2012 13:22:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,471,1344236400"; d="scan'208";a="148135450"
-Received: from unknown (HELO helios.localnet) ([10.252.121.252])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Sep 2012 13:22:33 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Colin Walters <walters@verbum.org>
-Date: Sun, 23 Sep 2012 21:22:32 +0100
-Message-ID: <8646478.oESqj5TJhl@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.1 (Linux/3.2.0-31-generic-pae; KDE/4.9.1; i686; ; )
-In-Reply-To: <1348429520.4646.16.camel@lenny>
-References: <1348339337.4444.229.camel@x121e.pbcl.net>
-	<1348429520.4646.16.camel@lenny>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dbus: Remove hardcoded reference to /usr in System V startup script
+	Sun, 23 Sep 2012 23:32:19 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TFtaQ-0003ry-KW
+	for openembedded-core@lists.openembedded.org;
+	Sun, 23 Sep 2012 23:19:34 +0200
+Message-ID: <1348435031.4444.241.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 23 Sep 2012 22:17:11 +0100
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Subject: [RFC PATCH] eglibc: Move perl- and bash-using scripts to separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +28,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Sep 2012 20:35:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 23 Sep 2012 21:32:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sunday 23 September 2012 15:45:20 Colin Walters wrote:
-> On Sat, 2012-09-22 at 19:42 +0100, Phil Blundell wrote:
-> > -	install -m 0755 ${WORKDIR}/dbus-1.init ${D}${sysconfdir}/init.d/dbus-1
-> > +	sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init
-> > >${WORKDIR}/dbus-1.init.sh
-> Does that actually work?  The variable reference is inside single quotes
-> so it won't be expanded by the shell, right?
+This removes the dependency of eglibc.bb itself on perl and bash
+which, in turn, eliminates the need to build those two recipes if the
+scripts which need them are not going to be installed.
 
-What is being expanded here at parse time is a bitbake variable rather than a 
-shell variable, so it should work fine.
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/recipes-core/eglibc/eglibc-collateral.inc  |   11 ++++++++
+ meta/recipes-core/eglibc/eglibc-locale.inc      |   11 +--------
+ meta/recipes-core/eglibc/eglibc-mtrace.inc      |   12 +++++++++
+ meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb  |    1 +
+ meta/recipes-core/eglibc/eglibc-package.inc     |   29 +++++++++++++++++-----
+ meta/recipes-core/eglibc/eglibc-scripts.inc     |   17 +++++++++++++
+ meta/recipes-core/eglibc/eglibc-scripts_2.16.bb |    1 +
+ meta/recipes-core/eglibc/eglibc_2.16.bb         |    2 +-
+ 8 files changed, 66 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-collateral.inc
+ create mode 100644 meta/recipes-core/eglibc/eglibc-mtrace.inc
+ create mode 100644 meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb
+ create mode 100644 meta/recipes-core/eglibc/eglibc-scripts.inc
+ create mode 100644 meta/recipes-core/eglibc/eglibc-scripts_2.16.bb
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/eglibc/eglibc-collateral.inc b/meta/recipes-core/eglibc/eglibc-collateral.inc
+new file mode 100644
+index 0000000..b770bb0
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-collateral.inc
+@@ -0,0 +1,11 @@
++INHIBIT_DEFAULT_DEPS = "1"
++LICENSE = "GPLv2 & LGPLv2.1"
++
++do_fetch[noexec] = "1"
++do_unpack[noexec] = "1"
++do_patch[noexec] = "1"
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++
++do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
++
+diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+index 296afde..729e9e6 100644
+--- a/meta/recipes-core/eglibc/eglibc-locale.inc
++++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+@@ -1,15 +1,8 @@
+-INHIBIT_DEFAULT_DEPS = "1"
+-LICENSE = "GPLv2 & LGPLv2.1"
++include eglibc-collateral.inc
+ 
+ BPN = "eglibc"
+ LOCALEBASEPN = "eglibc"
+ 
+-do_fetch[noexec] = "1"
+-do_unpack[noexec] = "1"
+-do_patch[noexec] = "1"
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-
+ # Binary locales are generated at build time if ENABLE_BINARY_LOCALE_GENERATION
+ # is set. The idea is to avoid running localedef on the target (at first boot)
+ # to decrease initial boot time and avoid localedef being killed by the OOM
+@@ -90,6 +83,4 @@ do_install () {
+ 
+ inherit libc-package
+ 
+-do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
+-
+ BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-core/eglibc/eglibc-mtrace.inc b/meta/recipes-core/eglibc/eglibc-mtrace.inc
+new file mode 100644
+index 0000000..321de7b
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-mtrace.inc
+@@ -0,0 +1,12 @@
++include eglibc-collateral.inc
++
++SUMMARY = "mtrace utility provided by eglibc"
++DESCRIPTION = "mtrace utility provided by eglibc"
++RDEPENDS_${PN} = "perl"
++
++SRC = "${STAGING_INCDIR}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}"
++
++do_install() {
++	install -d -m 0755 ${D}${bindir}
++	install -m 0755 ${SRC}/mtrace ${D}${bindir}/
++}
+diff --git a/meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb b/meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb
+new file mode 100644
+index 0000000..6fa2be9
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb
+@@ -0,0 +1 @@
++require eglibc-mtrace.inc
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index ab7540a..c74665d 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -17,7 +17,7 @@ python __anonymous () {
+ # Set this to zero if you don't want ldconfig in the output package
+ USE_LDCONFIG ?= "1"
+ 
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldd ${PN}-mtrace ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
++PACKAGES = "${PN}-dbg catchsegv sln nscd ldd eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ 
+ # The ld.so in this eglibc supports the GNU_HASH
+ RPROVIDES_${PN} = "glibc rtld(GNU_HASH)"
+@@ -51,8 +51,6 @@ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv = "${bindir}/catchsegv"
+ RDEPENDS_catchsegv = "libsegfault"
+-RDEPENDS_${PN}-utils += "bash"
+-RDEPENDS_${PN}-mtrace += "perl"
+ FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
+ FILES_eglibc-thread-db = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
+ RPROVIDES_${PN}-dev += "libc-dev"
+@@ -65,11 +63,9 @@ DESCRIPTION_nscd = "nscd, name service cache daemon, caches name service lookups
+ SUMMARY_eglibc-extra-nss = "hesiod, NIS and NIS+ nss libraries"
+ DESCRIPTION_eglibc-extra-nss = "eglibc: nis, nisplus and hesiod search services."
+ SUMMARY_ldd = "print shared library dependencies"
+-DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
++DESCRIPTION_ldd = "${bindir}/ldd prints shared library dependencies for each program or shared library specified on the command line."
+ SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
+ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
+-SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
+-DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
+ DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
+ 
+ inherit libc-common multilib_header
+@@ -109,10 +105,29 @@ do_install_locale () {
+ 
+ addtask do_install_locale after do_install before do_populate_sysroot do_package
+ 
++bashscripts = "mtrace sotruss xtrace"
++
++do_evacuate_scripts () {
++	target=${D}${includedir}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}
++	mkdir -p $target
++	for i in ${bashscripts}; do
++		cp ${D}${bindir}/$i $target/
++	done
++}
++
++do_evacuate_scripts_pn-eglibc-initial () {
++	:
++}
++
++addtask evacuate_scripts after do_install before do_populate_sysroot do_package
++
+ PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
+ 
+ eglibc_package_preprocess () {
+ 	rm -rf ${PKGD}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
++	rm -rf ${PKGD}/${includedir}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}
+ 	rm -rf ${PKGD}/${libdir}/locale
++	for i in ${bashscripts}; do
++	    rm -f ${PKGD}${bindir}/$i
++	done
+ }
+-
+diff --git a/meta/recipes-core/eglibc/eglibc-scripts.inc b/meta/recipes-core/eglibc/eglibc-scripts.inc
+new file mode 100644
+index 0000000..a020961
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-scripts.inc
+@@ -0,0 +1,17 @@
++include eglibc-collateral.inc
++
++SUMMARY = "utility scripts provided by eglibc"
++DESCRIPTION = "utility scripts provided by eglibc"
++RDEPENDS_${PN} = "bash"
++RDEPENDS_ldd = "bash"
++
++SRC = "${STAGING_INCDIR}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}"
++
++bashscripts = "mtrace sotruss xtrace"
++
++do_install() {
++	install -d -m 0755 ${D}${bindir}
++	for i in ${bashscripts}; do
++		install -m 0755 ${SRC}/$i ${D}${bindir}/
++	done
++}
+diff --git a/meta/recipes-core/eglibc/eglibc-scripts_2.16.bb b/meta/recipes-core/eglibc/eglibc-scripts_2.16.bb
+new file mode 100644
+index 0000000..3113362
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-scripts_2.16.bb
+@@ -0,0 +1 @@
++require eglibc-scripts.inc
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 72d134a..3a7ae50 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "20393"
+ 
+ DEPENDS += "gperf-native kconfig-frontends-native"
+-PR = "r10"
++PR = "r11"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_16"
 -- 
+1.7.9
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+
 
 
