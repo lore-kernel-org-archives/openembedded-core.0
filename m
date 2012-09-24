@@ -1,30 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TG66m-00059Z-Ia for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 12:41:48 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OARQ9S027779;
-	Mon, 24 Sep 2012 11:27:26 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27712-02; Mon, 24 Sep 2012 11:27:22 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OARFqU027773
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 24 Sep 2012 11:27:16 +0100
-Message-ID: <1348482435.4654.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Mon, 24 Sep 2012 11:27:15 +0100
-In-Reply-To: <1348256558.4444.194.camel@x121e.pbcl.net>
-References: <1348256558.4444.194.camel@x121e.pbcl.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] rootfs_ipk: Avoid leaving run-postinsts around if online package management is disabled
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TG66v-0005Bq-Fi
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 12:41:57 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 83099D22E9; Mon, 24 Sep 2012 12:29:14 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (84-10-244-25.dynamic.chello.pl [84.10.244.25])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id B324CD22DB
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 12:28:44 +0200 (CEST)
+Message-ID: <506035D6.3030705@linaro.org>
+Date: Mon, 24 Sep 2012 12:28:38 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: perl-nativesdk interesting fail in do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 10:41:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 24 Sep 2012 10:41:57 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-09-21 at 20:42 +0100, Phil Blundell wrote:
-> If all postinsts have already been run during rootfs construction then
-> there's no point in having run-postinsts in the installed system.
-> Clean it up at the same time that update-rc.d and suchlike are being
-> removed.
-> 
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
-> ---
-> v2: per suggestion from Paul Eggleton, don't refer to O_P_M in subject 
-> line since oe-core doesn't use it anymore
-> 
->  meta/classes/rootfs_ipk.bbclass |   14 ++++++++++++--
->  1 files changed, 12 insertions(+), 2 deletions(-)
+I want to build 'meta-toolchain' but on my Ubuntu 12.10 it fails on
+'nativesdk-perl' recipe in do_install:
 
-Merged to master, thanks.
+|
+/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/perl/5.14.2/pod/perlxstut.pod
+|
+/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/perl/5.14.2/pod/a2p.pod
+|
+| Warning: perl appears in your path in the following locations beyond where
+| we just installed it:
+|
+/home/hrw/HDD/devel/canonical/ci-linaro/oecore/build/tmp-eglibc/sysroots/x86_64-linux/usr/bin/perl-native/perl
+|     /usr/bin/perl
+|
+| make[1]: Nothing to be done for `install.man'.
+| make[1]: Leaving directory
+`/home/hrw/HDD/devel/canonical/ci-linaro/oecore/build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/perl-5.14.2'
+|
+/home/hrw/HDD/devel/canonical/ci-linaro/oecore/build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image
+/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin
+| ln: failed to create symbolic link
+`/home/hrw/HDD/devel/canonical/ci-linaro/oecore/build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/image/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/perl':
+No such file or directory
+| ERROR: Function failed: do_install (see
+/home/hrw/HDD/devel/canonical/ci-linaro/oecore/build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/nativesdk-perl-5.14.2-r9/temp/log.do_install.24991
+for further information)
+ERROR: Task 2
+(virtual:nativesdk:/home/hrw/HDD/devel/canonical/ci-linaro/oecore/openembedded-core/meta/recipes-devtools/perl/perl_5.14.2.bb,
+do_install) failed with exit code '1'
 
-Richard
+Perl is installed as /home/hrw/HDD/devel/canonical/ci-linaro/ \
+oecore/build/tmp-eglibc/work/x86_64-nativesdk-oesdk-linux/ \
+nativesdk-perl-5.14.2-r9/image/ \
+usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/ \
+usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/ \
+usr/bin/perl
 
+Note repeated "/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux" in
+path.
+
+Any idea how it happened? Did someone built 'meta-toolchain' recently?
 
 
