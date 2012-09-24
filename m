@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TG5wj-0004ZA-OD for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 12:31:25 +0200
+	id 1TG5xU-0004bX-GL for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 12:32:13 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAIQpG027647;
-	Mon, 24 Sep 2012 11:18:26 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAJFCZ027664;
+	Mon, 24 Sep 2012 11:19:15 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 27527-05; Mon, 24 Sep 2012 11:18:20 +0100 (BST)
+	id 26940-09; Mon, 24 Sep 2012 11:19:07 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAIIfK027641
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAJ14n027651
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 24 Sep 2012 11:18:19 +0100
-Message-ID: <1348481899.4654.10.camel@ted>
+	Mon, 24 Sep 2012 11:19:02 +0100
+Message-ID: <1348481942.4654.11.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Mon, 24 Sep 2012 11:18:19 +0100
-In-Reply-To: <1348339024.4444.228.camel@x121e.pbcl.net>
-References: <1348339024.4444.228.camel@x121e.pbcl.net>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Mon, 24 Sep 2012 11:19:02 +0100
+In-Reply-To: <cover.1348316945.git.paul.eggleton@linux.intel.com>
+References: <cover.1348316945.git.paul.eggleton@linux.intel.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pulseaudio: Ensure openssl is disabled
+Subject: Re: [PATCH v2 0/2] Fixes for warnings during parse with multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,24 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 10:31:26 -0000
+X-List-Received-Date: Mon, 24 Sep 2012 10:32:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2012-09-22 at 19:37 +0100, Phil Blundell wrote:
-> We don't DEPEND on openssl but configure will try to use it if
-> pkg-config thinks it might be installed.  This can lead to failing
-> and/or nondeterministic builds, so let's force it off.
+On Sat, 2012-09-22 at 13:29 +0100, Paul Eggleton wrote:
+> The following changes since commit 5e03d1e83d0536a2fc69a88d3e5407108836203f:
 > 
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
-> ---
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    1 +
->  .../pulseaudio/pulseaudio_2.1.bb                   |    2 +-
->  2 files changed, 2 insertions(+), 1 deletions(-)
+>   gcc: Use 4.7.2 release tarball (2012-09-21 14:55:26 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib paule/multilib
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/multilib
+> 
+> Paul Eggleton (2):
+>   classes/multilib: ensure MLPREFIX is set for image recipes
+>   classes/multilib: prevent multilib extension of nativesdk recipes
+> 
+>  meta/classes/multilib.bbclass |    4 ++++
+>  1 file changed, 4 insertions(+)
 
 Merged to master, thanks.
 
 Richard
+
 
 
 
