@@ -1,58 +1,35 @@
-Received: from co1ehsobe003.messaging.microsoft.com ([216.32.180.186]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TGHlM-0003XU-9c
+	(envelope-from <walters@verbum.org>) id 1TGIh6-0004bV-P5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 01:08:28 +0200
-Received: from mail158-co1-R.bigfish.com (10.243.78.229) by
-	CO1EHSOBE003.bigfish.com (10.243.66.66) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 24 Sep 2012 22:55:39 +0000
-Received: from mail158-co1 (localhost [127.0.0.1])	by
-	mail158-co1-R.bigfish.com (Postfix) with ESMTP id 6877C7000EE;
-	Mon, 24 Sep 2012 22:55:39 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
-Received: from mail158-co1 (localhost.localdomain [127.0.0.1]) by mail158-co1
-	(MessageSwitch) id 1348527337473418_10126;
-	Mon, 24 Sep 2012 22:55:37 +0000 (UTC)
-Received: from CO1EHSMHS023.bigfish.com (unknown [10.243.78.230])	by
-	mail158-co1.bigfish.com (Postfix) with ESMTP id 6FD2C440052;
-	Mon, 24 Sep 2012 22:55:37 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS023.bigfish.com
-	(10.243.66.33) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 24 Sep 2012 22:55:37 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0309.003; Mon, 24 Sep 2012 17:55:36 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/2] libx11.inc: disable warnings that don't
-	work on certain compilers
-Thread-Index: AQHNmo9Neh5HA2KHJUaVw2FGObezaJeZ6uwAgABg3ID//85qAA==
-Date: Mon, 24 Sep 2012 22:55:36 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6A3ABC@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1348516546-26005-1-git-send-email-msm@freescale.com>
-	<20120924200050.GF3295@jama.jama.net>
-	<70CC66F5C30A414DADDA6973E4CA391A6A2D4F@039-SN1MPN1-001.039d.mgd.msft.net>
-	<CAJTo0Lbx9CoDzbKnMrdEwtTzJO-+LEatBTnZnF2f7tNWwhO+eA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbx9CoDzbKnMrdEwtTzJO-+LEatBTnZnF2f7tNWwhO+eA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Martin Jansa <martin.jansa@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libx11.inc: disable warnings that don't work on certain compilers
+	Tue, 25 Sep 2012 02:08:09 +0200
+Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 1E7EF2088A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 19:55:22 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute1.internal (MEProxy); Mon, 24 Sep 2012 19:55:22 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:date
+	:content-type:mime-version; s=smtpout; bh=ie6RFbhdQQfBZtM/bXRz9w
+	4AbTE=; b=hmImW2a8phU5ol9M99ny2omGZE1aUyTZ1iJWcOw3iKvf8zBoT5Aam9
+	HpO3fSQpQIk/BwHmleJSE2+YTwXyNvGt+05TfTeG3+3dOv47NjfTriAw8q45d+BU
+	CEIpJ9MzF4iwvG7V15a+2CoSe3BBG/XMpj9Qs4dhgNF7OFMxoXJoE=
+X-Sasl-enc: rBXqO2RDNV65jAX19WmnZO/q1PDUSjNpNFPVETUBIdyz 1348530921
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id CC16B4827B8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 19:55:21 -0400 (EDT)
+Message-ID: <1348530882.25427.1.camel@lenny>
+From: Colin Walters <walters@verbum.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Sep 2012 19:54:42 -0400
+X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
+Mime-Version: 1.0
+Subject: [PATCH] Add packagegroup-core-buildessential
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -62,36 +39,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 23:08:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9CE32F51CDBACE40A4557D2D48598DAD@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 25 Sep 2012 00:08:09 -0000
+X-Groupsio-MsgNum: 29829
+Content-Type: multipart/mixed; boundary="=-oH2AuTy1fRx74fnsmYOk"
 
-On Mon, Sep 24, 2012 at 3:52 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-> On 24 September 2012 21:06, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
->>> Shouldn't it be applied only for -native? version?
->>
->> That's reasonable. But, suppressing warnings to compile logs also did
->> not seem to matter much since we don't go line by line on warnings in
->> compile logs (does anyone?). I'll go with the consensus though.
->
-> I'd prefer this to be a -native only thing too.
+--=-oH2AuTy1fRx74fnsmYOk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I think the CWARNFLAGS needs to be on all the though (native,
-nativesdk, etc), '-e' can go away entirely.
+[Not heavily tested, but sent for discussion]
 
--M
+task-core-sdk is too big - for example, I simply don't want to ship tcl, ever =)
+Historically distcc caused a large dependency graph explosion because it has
+a utility which uses gtk+, although that was fixed.
 
->
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+packagegroup-core-sdk also includes coreutils, which is a bit
+confusing; conceptually things dependent on coreutils should pull it
+in explicitly, or possibly we just declare coreutils to be in the
+minimal build set.
 
+So packagegroup-core-buildessential is intended to be similar to
+Debian's "build-essential" package.  It's the stuff needed by say 80+%
+of components, not worth repeating over and over.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ .../packagegroup-core-buildessential.bb            | 30 ++++++++++++++++++++++
+ .../packagegroups/packagegroup-core-sdk.bb         | 17 +-----------
+ 2 files changed, 31 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
 
 
+
+--=-oH2AuTy1fRx74fnsmYOk
+Content-Disposition: attachment; filename="0001-Add-packagegroup-core-buildessential.patch"
+Content-Type: text/x-patch; name="0001-Add-packagegroup-core-buildessential.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+From 80a199a2fd34cca08324f228fc1272086a476e61 Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Mon, 24 Sep 2012 19:46:01 -0400
+Subject: [PATCH] Add packagegroup-core-buildessential
+
+task-core-sdk is too big - for example, I simply don't want to ship tcl, ever =)
+Historically distcc caused a large dependency graph explosion because it has
+a utility which uses gtk+, although that was fixed.
+
+packagegroup-core-sdk also includes coreutils, which is a bit
+confusing; conceptually things dependent on coreutils should pull it
+in explicitly, or possibly we just declare coreutils to be in the
+minimal build set.
+
+So packagegroup-core-buildessential is intended to be similar to
+Debian's "build-essential" package.  It's the stuff needed by say 80+%
+of components, not worth repeating over and over.
+
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ .../packagegroup-core-buildessential.bb            | 30 ++++++++++++++++++++++
+ .../packagegroups/packagegroup-core-sdk.bb         | 17 +-----------
+ 2 files changed, 31 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+new file mode 100644
+index 0000000..164da36
+--- /dev/null
++++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+@@ -0,0 +1,30 @@
++#
++# Copyright (C) 2007 OpenedHand Ltd.
++# Copyright (C) 2012 Red Hat, Inc.
++#
++
++SUMMARY = "Essential build dependencies"
++LICENSE = "MIT"
++PR = "r0"
++
++inherit packagegroup
++
++RDEPENDS_packagegroup-core-buildessential = "\
++    autoconf \
++    automake \
++    binutils \
++    binutils-symlinks \
++    cpp \
++    cpp-symlinks \
++    gcc \
++    gcc-symlinks \
++    g++ \
++    g++-symlinks \
++    gettext \
++    make \
++    libstdc++ \
++    libstdc++-dev \
++    libtool \
++    pkgconfig \
++    "
++
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index b00bf07..985bebd 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -16,28 +16,13 @@ RREPLACES_packagegroup-core-sdk = "task-core-sdk"
+ RCONFLICTS_packagegroup-core-sdk = "task-core-sdk"
+ 
+ RDEPENDS_packagegroup-core-sdk = "\
+-    autoconf \
+-    automake \
+-    binutils \
+-    binutils-symlinks \
++    packagegroup-core-buildessential \
+     coreutils \
+-    cpp \
+-    cpp-symlinks \
+     ccache \
+     diffutils \
+-    gcc \
+-    gcc-symlinks \
+-    g++ \
+-    g++-symlinks \
+-    gettext \
+-    make \
+     intltool \
+-    libstdc++ \
+-    libstdc++-dev \
+-    libtool \
+     perl-module-re \
+     perl-module-text-wrap \
+-    pkgconfig \
+     findutils \
+     quilt \
+     less \
+-- 
+1.7.11.4
+
+
+--=-oH2AuTy1fRx74fnsmYOk--
