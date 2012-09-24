@@ -1,23 +1,45 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TGvHt-0007tm-9u
+	(envelope-from <martin.jansa@gmail.com>) id 1TGviu-00088V-Sm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 19:20:41 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TGv5U-0006dY-Iq; Wed, 26 Sep 2012 19:07:52 +0200
-From: Phil Blundell <philb@gnu.org>
+	Wed, 26 Sep 2012 19:48:36 +0200
+Received: by wgbdq11 with SMTP id dq11so605972wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2012 10:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=resent-from:resent-date:resent-message-id:resent-to:mime-version
+	:in-reply-to:references:date:delivered-to:message-id:subject:from:to
+	:content-type; bh=6u+EfEuQBSIRs26LAKHKviQ7/TIO2443120bncd+R8I=;
+	b=FM8oMUfR4UeuDzKClyLosvQY8xxPLRD6tqaRajDFZefYA68bThLFas3GfNUe1VyIqS
+	RCiCVt8n++V3dxaVgdCxPmEjvAive6/eXqlQ9eHmkcgt0P+R7V0KFd5qF9BHyc8EWzVj
+	gPEMvTGaq7Cgd3XUm4UoiSLCnuYowyv48JKvQM1N5wj5pz3vBaadcNyhkqstEz53LH4h
+	LvZ+FpCJ34y3PjIGicBj7HlFyeNOYTOVhjNqylelKgjTZTkoXHU/G3r8iBbCVQoVCUhj
+	h0S3FFdSlL1giuIrYFklg8yCBL+TKD+5asopwqas69L5hxXeuH4n+1ScZsXF6KNjx1nl
+	h14Q==
+Received: by 10.216.136.157 with SMTP id w29mr28949wei.148.1348680943192;
+	Wed, 26 Sep 2012 10:35:43 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id hv8sm33480719wib.0.2012.09.26.10.35.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 26 Sep 2012 10:35:42 -0700 (PDT)
+Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
+Resent-Date: Wed, 26 Sep 2012 19:35:50 +0200
+Resent-Message-ID: <20120926173550.GA19337@jama.jama.net>
+Resent-To: openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+Received: by 10.64.49.71 with HTTP; Mon, 24 Sep 2012 03:52:16 -0700 (PDT)
+In-Reply-To: <1348483380.8662.2.camel@ted>
+References: <20120921112144.GE10268@jama.jama.net>
+	<1348333994-18026-1-git-send-email-Martin.Jansa@gmail.com>
+	<1348333994-18026-2-git-send-email-Martin.Jansa@gmail.com>
+	<1348482003.4654.12.camel@ted>
+	<CA+chaQd0psd_sPVnixVH_e6RAO_5jqrj-5=S5cnd4rG+2rhwCA@mail.gmail.com>
+	<1348483380.8662.2.camel@ted>
+Date: Mon, 24 Sep 2012 12:52:16 +0200
+Message-ID: <CA+chaQdYkLRac9-yaH7TThO-ALgHaUOB7=3WdrG9CL+U4SfkRA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 26 Sep 2012 18:07:51 +0100
-In-Reply-To: <1347373349.2122.35.camel@ted>
-References: <1347373349.2122.35.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348679272.32611.4.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
+Subject: Re: [PATCH] xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,55 +52,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 17:20:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2012 17:48:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2012-09-11 at 15:22 +0100, Richard Purdie wrote:
-> Unfortunately whilst rerunning configure and make against a project will mostly
-> work there are situations where it does not correctly do the right thing.
-> 
-> In particular, eglibc and gcc will fail out with errors where settings
-> do not match a previously built configuration. It could be argued they are
-> broken but the situation is what it is. There is the possibility of more subtle
-> errors too.
+On Mon, Sep 24, 2012 at 12:43 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2012-09-24 at 12:26 +0200, Martin Jansa wrote:
+>> On Mon, Sep 24, 2012 at 12:20 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > On Sat, 2012-09-22 at 19:13 +0200, Martin Jansa wrote:
+>> >> * it doesn't make much sense with PV, because xserver-xorg-module-exa
+>> >>   was introduced in
+>> >>   http://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver?id=1a666ee1cda3c0b74daba5881fc5f62e13deec66
+>> >>   so our xserver-xorg-module-exa RCONFLICTS with xserver-xorg (<= 1.11.2-r4)
+>> >>   and (< 1.11.2) is not good enough
+>> >>
+>> >> * because we don't know how many PRINC are in BSP/DISTRO layers,
+>> >>   then it's safer to RCONFLICTS with every older version then current
+>> >>   EXTENDPKGV
+>> >>
+>> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> >>
+>> >> --
+>> >>
+>> >> * I haven't really tested this with IPK, since it was changed from
+>> >>   RREPLACES to RCONFLICTS (because of RPM) and all my installed devices
+>> >>   are already upgraded
+>> >> ---
+>> >>  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
+>> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >>
+>> >> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> >> index 33f59fe..7513399 100644
+>> >> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> >> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> >> @@ -66,7 +66,7 @@ PACKAGES =+ "${PN}-security-policy \
+>> >>
+>> >>  RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+>> >>  RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+>> >> -RCONFLICTS_${PN}-module-exa = "${PN} (< ${PV})"
+>> >> +RCONFLICTS_${PN}-module-exa = "${PN} (< ${EXTENDPKGV})"
+>> >>
+>> >>  FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+>> >>  FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
+>> >
+>> > The original patch and this patch are wrong, this value should not be
+>> > "floating". It should be spelt out explicitly so it doesn't change with
+>> > the recipe version in future.:
+>> >
+>> > RCONFLICTS_${PN}-module-exa = "${PN} (< 1.11.2-r4)"
+>>
+>> So every layer with PRINC in xserver-xorg needs to add
+>> RCONFLICTS_${PN}-module-exa = "${PN} (<
+>> 1.11.2-rTHEIR_PR_AT_THE_TIME_OF_CHANGE) ?
+>> What if there is more layers then one with PRINC and they don't know
+>> about each other?
+>
+> There is a problem there, yes and we're on uncharted territory here. If
+> people were using the PR service rather that trying to force package
+> management problems into the core we wouldn't have this kind of problem.
+>
+> As a solution, how about appending something to PV? I don't like it but
+> an artificial PV step should "resolve" this.
 
-FWIW, I just encountered another instance of what appears to be a
-similar problem (with this patch applied).  I had changed my CFLAGS to
-work around a compiler problem and then just reran the build, which led
-eventually to:
+Why not RCONFLICT with every older version then current?
 
-ERROR: Function failed: do_siteconfig_gencache
-(see ..../tmp-eglibc/work/mips32el-oe-linux/eglibc/2.16-r11.micro1
-+svnr20393/temp/log.do_populate_sysroot.6005 for further information)
-ERROR: Logfile of failure stored
-in: ..../tmp-eglibc/work/mips32el-oe-linux/eglibc/2.16-r11.micro1
-+svnr20393/temp/log.do_populate_sysroot.6005
-Log data follows:
-| DEBUG: Executing python function sstate_task_prefunc
-[...]
-| DEBUG: Executing shell function do_siteconfig_gencache
-| configure: WARNING: unrecognized options: --disable-silent-rules,
---disable-dependency-tracking, --with-libtool-sysroot
-| configure: loading cache eglibc_cache
-| configure: error: `CFLAGS' has changed since the previous run:
-| configure:   former value:  `...'
-| configure:   current value: `...'
-| configure: error: in
-`/.../tmp-eglibc/work/mips32el-oe-linux/eglibc/2.16-r11.micro1
-+svnr20393/site_config_cheetah':
-| configure: error: changes in the environment can compromise the build
-| configure: error: run `make distclean' and/or `rm eglibc_cache' and
-start over
-| DEBUG: Python function siteconfig_do_siteconfig finished
-| DEBUG: Python function autotools_do_siteconfig finished
-| DEBUG: Python function do_siteconfig finished
-| DEBUG: Python function sstate_task_postfunc finished
-ERROR: Task 30 (.../oe-core/meta/recipes-core/eglibc/eglibc_2.16.bb,
-do_populate_sysroot) failed with exit code '1'
-
-p.
-
-
+It's true that e.g. 1.11.2-r8 does not really conflict with 1.11.2-r7
+(but r4 in most cases), but that should work.
 
 
