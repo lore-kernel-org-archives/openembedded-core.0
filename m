@@ -1,30 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TG608-0004lQ-Oe for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 12:34:56 +0200
+	id 1TG609-0004lQ-4b for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 12:34:57 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OACCt4027536;
-	Mon, 24 Sep 2012 11:12:12 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAFAkA027581;
+	Mon, 24 Sep 2012 11:15:10 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 26940-04; Mon, 24 Sep 2012 11:12:06 +0100 (BST)
+	id 27527-02; Mon, 24 Sep 2012 11:15:06 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAC5J6027530
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAF2oo027565
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 24 Sep 2012 11:12:06 +0100
-Message-ID: <1348481526.4654.1.camel@ted>
+	Mon, 24 Sep 2012 11:15:02 +0100
+Message-ID: <1348481702.4654.4.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Mon, 24 Sep 2012 11:12:06 +0100
-In-Reply-To: <1348467891.4444.250.camel@x121e.pbcl.net>
-References: <1348467891.4444.250.camel@x121e.pbcl.net>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 24 Sep 2012 11:15:02 +0100
+In-Reply-To: <302d0a0fcb7450756a88775e9ffd01e1f834e67d.1348455913.git.bruce.ashfield@windriver.com>
+References: <cover.1348455913.git.bruce.ashfield@windriver.com>
+	<302d0a0fcb7450756a88775e9ffd01e1f834e67d.1348455913.git.bruce.ashfield@windriver.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] util-linux: Ensure that ${sbindir} is respected
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] linux-yocto/3.4: Update fri2 and sys940x to emgd-1.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,21 +42,16 @@ X-List-Received-Date: Mon, 24 Sep 2012 10:34:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-09-24 at 07:24 +0100, Phil Blundell wrote:
-> The configure script uses a hard-coded value for ${usrsbin_execdir},
-> which is the path that we know as ${sbindir}.  Adjust configure to take
-> this from the environment if it's set there, and have do_configure()
-> pass it in.
+On Sun, 2012-09-23 at 23:06 -0400, Bruce Ashfield wrote:
+> Bumping the meta SRCREV to pickup a newer emgd for the fri2 and
+> sys940x.
 > 
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 > ---
-> v2: now with correct header on new patch
-> 
->  meta/recipes-core/util-linux/util-linux.inc        |    4 +++-
->  .../util-linux/util-linux/configure-sbindir.patch  |   18 ++++++++++++++++++
->  meta/recipes-core/util-linux/util-linux_2.21.2.bb  |    3 ++-
->  3 files changed, 23 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
+>  meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    3 ++-
+>  meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 
 Merged to master, thanks.
 
