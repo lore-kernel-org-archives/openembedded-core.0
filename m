@@ -1,23 +1,21 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TG74g-0000QR-9A
+	(envelope-from <philb@gnu.org>) id 1TG7Mm-00011E-UI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 13:43:42 +0200
+	Mon, 24 Sep 2012 14:02:25 +0200
 Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
 	helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TG6sH-0004OF-KF; Mon, 24 Sep 2012 13:30:53 +0200
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TG7AO-0004On-CH
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 13:49:36 +0200
 From: Phil Blundell <philb@gnu.org>
-To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-Date: Mon, 24 Sep 2012 12:30:52 +0100
-In-Reply-To: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
-References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Sep 2012 12:49:35 +0100
 X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348486253.31293.28.camel@phil-desktop>
+Message-ID: <1348487376.31293.31.camel@phil-desktop>
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
+Subject: [PATCH] kexec-tools: admit mips as a COMPATIBLE_HOST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,18 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 11:43:42 -0000
+X-List-Received-Date: Mon, 24 Sep 2012 12:02:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-09-24 at 14:26 +0300, Andrei Dinu wrote:
-> +-	    *reloc_addr += sym->st_value;
-> ++	    *reloc_addr = sym->st_value;
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/recipes-kernel/kexec/kexec-tools.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That patch looks slightly dubious to me.  Are you sure this doesn't
-introduce any regressions elsewhere?
+diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
+index 278ce34..ee1f1e8 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools.inc
++++ b/meta/recipes-kernel/kexec/kexec-tools.inc
+@@ -12,6 +12,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
+ 
+ inherit autotools
+ 
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-(linux|freebsd.*)'
++COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+ 
+ INSANE_SKIP_${PN} = "arch"
+-- 
+1.7.10.4
 
-p.
 
 
 
