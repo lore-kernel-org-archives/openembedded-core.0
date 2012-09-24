@@ -1,39 +1,27 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TG4M7-0005oM-JC
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TG4Tk-00060Z-5u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 10:49:31 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 24 Sep 2012 01:36:42 -0700
-Received: by obblz20 with SMTP id lz20so5148844obb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 01:36:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=YxI0vTlYVKM/QeFvmTCP8t0V9BxK3ZshLTeU4sXW+U8=;
-	b=D/hTS9/b+blVcFzwX76c5+n/tOUMhnCDUxROpjz3sS5CQ3TDa9umFCbHTmCeuSd+eF
-	4K6zqjECpSjraTW2KXZU/PmXcUSEuj09DPQBw1gnDVVHTXG507SB/td8+Iy96QIDGx3w
-	dTJ19iHYN1J+OxL6CqiDxnjyd6gP7M82aLaca2ly+T7pFeHdk5JFNslJ0ap+Bf2jEPU3
-	ijtoETI11pVaZdAyixPewMKsYoc1QZKmWNYukxotGe9myxsSbaArHvi6kdMYDxgckWs/
-	IqmOeUsRW9itMOwfXmLvTqJX+zUUM49Z7zldyrKaQn/zaWuVK/4Qkf6nnqlCj3brneGE
-	1/KQ==
-Received: by 10.60.29.72 with SMTP id i8mr9096961oeh.26.1348475801694; Mon, 24
-	Sep 2012 01:36:41 -0700 (PDT)
+	Mon, 24 Sep 2012 10:57:24 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Sep 2012 01:44:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,474,1344236400"; d="scan'208";a="148310337"
+Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Sep 2012 01:44:19 -0700
+Message-ID: <50601D62.8070408@intel.com>
+Date: Mon, 24 Sep 2012 11:44:18 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Mon, 24 Sep 2012 01:36:21 -0700 (PDT)
-In-Reply-To: <505F99C3.1030409@balister.org>
-References: <1348436710.4444.247.camel@x121e.pbcl.net>
-	<1540243.ihgQ8YivHP@helios> <505F99C3.1030409@balister.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Sep 2012 09:36:21 +0100
-Message-ID: <CAJTo0Lbi+KEu1=857m0v5xX0geWHA4pDuQqHgALyMt2rPLD8XQ@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-X-Gm-Message-State: ALoCoQmAodPJLy06Z7apJNViv8WL5ooiKdmDcMx+VeeF60ad4NpmVTlEMXEbLDSV4VL9dAp+mMUL
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: Allow modules.tar.gz generation to be inhibited
+To: openembedded-core@lists.openembedded.org
+References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
+	<505C8503.2040907@communistcode.co.uk>
+	<CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
+	<50601BC1.9060706@communistcode.co.uk>
+In-Reply-To: <50601BC1.9060706@communistcode.co.uk>
+Subject: Re: ld problems with relocated toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,19 +34,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 08:49:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 24 Sep 2012 08:57:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 24 September 2012 00:22, Philip Balister <philip@balister.org> wrote:
->>> Allow it to be suppressed by setting KERNEL_DEPLOY_MODULE_TARBALL=0.
+
+
+On 09/24/2012 11:37 AM, Jack Mitchell wrote:
+> On 24/09/12 03:17, Khem Raj wrote:
+> 
+> [snip]
+> 
 >>
->> I'm wondering, does anyone still find this file useful?
->
-> I've used it to put modules in rootfs when there is a new kernel version and
-> I do not have easy access to packages feeds. This speeds testing.
+>>
+>> What does linker command looks like, its not in the above log you posted.
+>>
+>>
+> 
+> Hi Khem,
+> 
+> Is this enough information?
+> 
+> Building target: R0005
+> Invoking: GCC C Linker
+> 
+> arm-poky-linux-gnueabi-gcc 
+> -L/home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/lib 
+> -o "R0005"  ./src/webInterfaces/webInterface_rJSON.o 
+> ./src/webInterfaces/webInterface_sqlite.o 
+> ./src/webInterfaces/webInterface_webSockets.o 
+> ./src/storageInterfaces/sqlite.o ./src/management/management_database.o 
+> ./src/hardwareProtocols/hardwareProtocol_B092SPIImage.o 
+> ./src/hardwareProtocols/hardwareProtocol_axonSPI.o 
+> ./src/hardwareInterfaces/interface_gpio_mmap.o 
+> ./src/hardwareInterfaces/interface_gpio_sysfs.o 
+> ./src/hardwareInterfaces/interface_kMod.o 
+> ./src/hardwareInterfaces/interface_serial.o 
+> ./src/hardwareInterfaces/interface_spidev.o  ./src/B092/B092.o 
+> ./src/B092/B092_config.o ./src/B092/B092_database.o 
+> ./src/B092/B092_init.o ./src/B092/B092_socket.o 
+> ./src/B092/B092_thumbnail.o ./src/B092/BO92_data.o ./src/AX02/AX02.o 
+> ./src/AX02/AX02_PIDs.o ./src/AX02/AX02_config.o ./src/AX02/AX02_data.o 
+> ./src/AX02/AX02_database.o ./src/AX02/AX02_init.o ./src/AX02/AX02_log.o 
+> ./src/AX02/AX02_socket.o ./src/AX02/AX02_tables.o  ./src/R0005.o 
+> ./src/errors.o ./src/systemConfig.o   -lsqlite3 -ljansson -lwebsockets 
+> -lz -lpthread -ljpeg -lpng
+> 
+> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
+> cannot find crt1.o: No such file or directory
+> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
+> cannot find crti.o: No such file or directory
+> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
+> cannot find crtbegin.o: No such file or directory
+Can you please try the little test app I wrote in order to test this? I
+attached it in the bug. Let me know if it works.
 
-Sounds like a less than common use-case.  How about setting it to 0 by default?
+> /lib/libpthread.so.0: file not recognized: File format not recognized
+This is kind of weird... It looks like it tries to link against the host
+libpthread library.
 
-Ross
+Thanks,
+Laurentiu
+> 
+> collect2: error: ld returned 1 exit status
+> 
+> make: *** [R0005] Error 1
+> 
+> Regards,
+> 
 
 
