@@ -1,27 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TG4Tk-00060Z-5u
-	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 10:57:24 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 Sep 2012 01:44:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,474,1344236400"; d="scan'208";a="148310337"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Sep 2012 01:44:19 -0700
-Message-ID: <50601D62.8070408@intel.com>
-Date: Mon, 24 Sep 2012 11:44:18 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
-	<505C8503.2040907@communistcode.co.uk>
-	<CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
-	<50601BC1.9060706@communistcode.co.uk>
-In-Reply-To: <50601BC1.9060706@communistcode.co.uk>
-Subject: Re: ld problems with relocated toolchain
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TG4ae-0006Vx-6C for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 11:04:32 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8O8pg5C026893;
+	Mon, 24 Sep 2012 09:51:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24783-06; Mon, 24 Sep 2012 09:51:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8O8pXxZ026885
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 24 Sep 2012 09:51:34 +0100
+Message-ID: <1348476693.10108.221.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Mon, 24 Sep 2012 09:51:33 +0100
+In-Reply-To: <1348467993.4444.252.camel@x121e.pbcl.net>
+References: <1348467993.4444.252.camel@x121e.pbcl.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] staging: Avoid staging the same binaries again and again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,73 +37,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 08:57:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 24 Sep 2012 09:04:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2012-09-24 at 07:26 +0100, Phil Blundell wrote:
+> It is possible that some or all of ${bindir}, ${base_bindir},
+> ${sbindir} and ${base_sbindir} might be the same directory.  In
+> particular, for micro it is often the case that all four are
+> the same.  There is clearly no point in staging the same directory
+> four times, so let's keep track of which paths have already been
+> staged and skip any later duplicates.
+> 
+> Signed-off-by: Phil Blundell <pb@pbcl.net>
+> ---
+>  meta/classes/staging.bbclass |   24 ++++++++++++++++++++----
+>  1 files changed, 20 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+> index 82624cb..bd97ed5 100644
+> --- a/meta/classes/staging.bbclass
+> +++ b/meta/classes/staging.bbclass
+> @@ -21,6 +21,21 @@ sysroot_stage_dir() {
+>  	fi
+>  }
+>  
+> +sysroot_stage_dir_once() {
+> +	src="$1"
+> +	dest="$2"
+> +
+> +	src_b64=`echo $src | base64 -w 0`
+> +	for d in $staged_dirs; do
+> +	    if [ $d = $src_b64 ]; then
+> +	       echo "$src has been staged already"
+> +	       return
+> +	    fi
+> +	done
+> +	sysroot_stage_dir $src $dest
+> +	staged_dirs="$staged_dirs $src_b64"
+> +}
+
+Wouldn't testing whether $dest already exists work just as well?
+
+Cheers,
+
+Richard
+
+>  sysroot_stage_libdir() {
+>  	src="$1"
+>  	dest="$2"
+> @@ -34,10 +49,11 @@ sysroot_stage_dirs() {
+>  
+>  	sysroot_stage_dir $from${includedir} $to${includedir}
+>  	if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
+> -		sysroot_stage_dir $from${bindir} $to${bindir}
+> -		sysroot_stage_dir $from${sbindir} $to${sbindir}
+> -		sysroot_stage_dir $from${base_bindir} $to${base_bindir}
+> -		sysroot_stage_dir $from${base_sbindir} $to${base_sbindir}
+> +		staged_dirs=
+> +		sysroot_stage_dir_once $from${bindir} $to${bindir}
+> +		sysroot_stage_dir_once $from${sbindir} $to${sbindir}
+> +		sysroot_stage_dir_once $from${base_bindir} $to${base_bindir}
+> +		sysroot_stage_dir_once $from${base_sbindir} $to${base_sbindir}
+>  		sysroot_stage_dir $from${libexecdir} $to${libexecdir}
+>  		sysroot_stage_dir $from${sysconfdir} $to${sysconfdir}
+>  		sysroot_stage_dir $from${localstatedir} $to${localstatedir}
 
 
-On 09/24/2012 11:37 AM, Jack Mitchell wrote:
-> On 24/09/12 03:17, Khem Raj wrote:
-> 
-> [snip]
-> 
->>
->>
->> What does linker command looks like, its not in the above log you posted.
->>
->>
-> 
-> Hi Khem,
-> 
-> Is this enough information?
-> 
-> Building target: R0005
-> Invoking: GCC C Linker
-> 
-> arm-poky-linux-gnueabi-gcc 
-> -L/home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/lib 
-> -o "R0005"  ./src/webInterfaces/webInterface_rJSON.o 
-> ./src/webInterfaces/webInterface_sqlite.o 
-> ./src/webInterfaces/webInterface_webSockets.o 
-> ./src/storageInterfaces/sqlite.o ./src/management/management_database.o 
-> ./src/hardwareProtocols/hardwareProtocol_B092SPIImage.o 
-> ./src/hardwareProtocols/hardwareProtocol_axonSPI.o 
-> ./src/hardwareInterfaces/interface_gpio_mmap.o 
-> ./src/hardwareInterfaces/interface_gpio_sysfs.o 
-> ./src/hardwareInterfaces/interface_kMod.o 
-> ./src/hardwareInterfaces/interface_serial.o 
-> ./src/hardwareInterfaces/interface_spidev.o  ./src/B092/B092.o 
-> ./src/B092/B092_config.o ./src/B092/B092_database.o 
-> ./src/B092/B092_init.o ./src/B092/B092_socket.o 
-> ./src/B092/B092_thumbnail.o ./src/B092/BO92_data.o ./src/AX02/AX02.o 
-> ./src/AX02/AX02_PIDs.o ./src/AX02/AX02_config.o ./src/AX02/AX02_data.o 
-> ./src/AX02/AX02_database.o ./src/AX02/AX02_init.o ./src/AX02/AX02_log.o 
-> ./src/AX02/AX02_socket.o ./src/AX02/AX02_tables.o  ./src/R0005.o 
-> ./src/errors.o ./src/systemConfig.o   -lsqlite3 -ljansson -lwebsockets 
-> -lz -lpthread -ljpeg -lpng
-> 
-> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
-> cannot find crt1.o: No such file or directory
-> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
-> cannot find crti.o: No such file or directory
-> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
-> cannot find crtbegin.o: No such file or directory
-Can you please try the little test app I wrote in order to test this? I
-attached it in the bug. Let me know if it works.
 
-> /lib/libpthread.so.0: file not recognized: File format not recognized
-This is kind of weird... It looks like it tries to link against the host
-libpthread library.
-
-Thanks,
-Laurentiu
-> 
-> collect2: error: ld returned 1 exit status
-> 
-> make: *** [R0005] Error 1
-> 
-> Regards,
-> 
 
 
