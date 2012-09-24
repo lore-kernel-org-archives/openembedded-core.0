@@ -1,34 +1,34 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TGDRl-00068j-Qg
+	(envelope-from <otavio.salvador@gmail.com>) id 1TGDW2-0006Fo-Mh
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 20:31:57 +0200
-Received: by ghbz2 with SMTP id z2so1869975ghb.6
+	Mon, 24 Sep 2012 20:36:22 +0200
+Received: by yenm2 with SMTP id m2so1870811yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 11:19:09 -0700 (PDT)
+	Mon, 24 Sep 2012 11:23:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=+mPZoWVpdGKsztT2JWTsikLaTtr0dsxcEPez1+H6k6o=;
-	b=ISmgavA6KdkYgYDQgddAbPDySXOoRy18wwLgiB23Z3fuZZvGx/5Jt95LQEmTgvdPGk
-	iMf+JhJg6m9ohSrjpq9SnLbwN95uccBFebcdytt7o6DXL1Py6VfnbcYyfq2oddT50Hbm
-	v71Y5ak8rvILSo4aPX2Nw4jAHmHWHrP/swd9OYyKG7L2WLiegUFSV27uICBy8euwHl8G
-	FEmjIyy+CsH+WY773bxK4LNmme7NAbIIkGrzWZ3R3FbZaHKHPgcxmrhx+Q+UF/HDUej8
-	D1VRiDO3NOxxKkytv6clyl0yEjXrIVnWjk4J0OTS7RMsYLpTs7ImJhMz5QoGm6DolPgr
-	VTGQ==
-Received: by 10.236.148.70 with SMTP id u46mr13484120yhj.30.1348510749431;
-	Mon, 24 Sep 2012 11:19:09 -0700 (PDT)
+	bh=hRi1OpbDEMxUGxH+J6ZLRCKP6iBLL/qYXsOOT+UoObw=;
+	b=zBwfI4kRf+Ur3nLhxt8Ym4ZbZNpRM4HjzOJQ/PO/sRoAOehP8RyUlk2kErptmaauMR
+	y7DA2b3v+LX3S8kE0Lx5kEIsKcBnBWvgi8HFHKlCCFJvVBaaGWgFKAZDhsK48o1zBdO3
+	7hALJKqYhxYej2+vSDXifHhpf5VUl49rAep1rHuAraUKoo9oLgeT70xFCzuY9eiqu+3W
+	AuJisNqvfcg38Vzp/anV47jZOOs8j9bBnQCkNuyO7HVCKs5olf/hGm8DJShq2weLBtNG
+	8i0SeQsFy0mAis+tX09AP7vUwzv+vPr9cixPWfYXVH00A3GudtYQr/qIs6x0MoKRySYj
+	OUJg==
+Received: by 10.236.76.234 with SMTP id b70mr13412744yhe.31.1348511014352;
+	Mon, 24 Sep 2012 11:23:34 -0700 (PDT)
 Received: from localhost.localdomain ([177.100.163.15])
-	by mx.google.com with ESMTPS id t39sm17203997anh.3.2012.09.24.11.19.07
+	by mx.google.com with ESMTPS id k2sm17197177anl.11.2012.09.24.11.23.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 24 Sep 2012 11:19:08 -0700 (PDT)
+	Mon, 24 Sep 2012 11:23:33 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Sep 2012 15:18:59 -0300
-Message-Id: <1348510739-21424-1-git-send-email-otavio@ossystems.com.br>
+Date: Mon, 24 Sep 2012 15:23:19 -0300
+Message-Id: <1348510999-22223-1-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] cogl: Add a missing depends on libxdamage
+Subject: [PATCH v2] cogl: Add a missing depends on libxdamage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,10 +41,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 18:31:58 -0000
+X-List-Received-Date: Mon, 24 Sep 2012 18:36:22 -0000
 
-During a from scratch build test, cogl build failed due missing
-libxdamage dependency not being explicit.
+During a from scratch build test, cogl build failed due a missing
+dependency on libxdamage.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
