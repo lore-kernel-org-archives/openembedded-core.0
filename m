@@ -1,55 +1,35 @@
-Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
-	helo=am1outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TGFc5-0000Kc-3A
-	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 22:50:45 +0200
-Received: from mail26-am1-R.bigfish.com (10.3.201.225) by
-	AM1EHSOBE002.bigfish.com (10.3.204.22) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 24 Sep 2012 20:37:56 +0000
-Received: from mail26-am1 (localhost [127.0.0.1])	by mail26-am1-R.bigfish.com
-	(Postfix) with ESMTP id C8EB02C01C8	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 20:37:56 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz98dI9371I936eI1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
-Received: from mail26-am1 (localhost.localdomain [127.0.0.1]) by mail26-am1
-	(MessageSwitch) id 1348519074611470_24716;
-	Mon, 24 Sep 2012 20:37:54 +0000 (UTC)
-Received: from AM1EHSMHS008.bigfish.com (unknown [10.3.201.249])	by
-	mail26-am1.bigfish.com (Postfix) with ESMTP id 887CE1C013B	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 20:37:54 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS008.bigfish.com
-	(10.3.207.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 24 Sep 2012 20:37:49 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
-	Mon, 24 Sep 2012 15:36:04 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 4/9] rpm: Use link time check for libssp
-Thread-Index: AQHNmpQ3+VNspL2mSUu0Za4XTqV5Fg==
-Date: Mon, 24 Sep 2012 20:36:03 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6A3103@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <cover.1339740433.git.raj.khem@gmail.com>
-	<1366d81a5719e42af8bf24d46b86352491fc0e67.1339740433.git.raj.khem@gmail.com>
-	<1f0884d8428c923c1b18670877c85cb3dc09cfda.1339740433.git.raj.khem@gmail.com>
-In-Reply-To: <1f0884d8428c923c1b18670877c85cb3dc09cfda.1339740433.git.raj.khem@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH 4/9] rpm: Use link time check for libssp
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TGFpC-0000oO-9d for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 23:04:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OKpSTM000389;
+	Mon, 24 Sep 2012 21:51:28 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32284-04; Mon, 24 Sep 2012 21:51:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OKpIDb000381
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 24 Sep 2012 21:51:20 +0100
+Message-ID: <1348519878.8662.14.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Mon, 24 Sep 2012 21:51:18 +0100
+In-Reply-To: <1348518219.4444.262.camel@x121e.pbcl.net>
+References: <1348487376.31293.31.camel@phil-desktop>
+	<CAMKF1soJZLBPDBH-1rOs3Jk7Su9m76gue1aOWuKKN-598KP0CA@mail.gmail.com>
+	<1348518219.4444.262.camel@x121e.pbcl.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kexec-tools: admit mips as a COMPATIBLE_HOST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -59,78 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 20:50:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <5CD17E53303FEB418F734808C60FE9DE@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 24 Sep 2012 21:04:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 15, 2012 at 1:12 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> -fstack-protector needs libssp to link with
-> so when checking for this option support we
-> need to find if libssp is staged in root file
-> system
+On Mon, 2012-09-24 at 21:23 +0100, Phil Blundell wrote:
+> On Mon, 2012-09-24 at 11:28 -0700, Khem Raj wrote:
+> > On Mon, Sep 24, 2012 at 4:49 AM, Phil Blundell <philb@gnu.org> wrote:
+> > >
+> > > -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-(linux|freebsd.*)'
+> > > +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*|mips.*)-(linux|freebsd.*)'
+> > 
+> > I wonder if this expression should be removed completely now that mips is added
+> > we dont have any supported arch left.
+> 
+> There are at least a few Linux architectures not in that list: alpha and
+> sparc are the obvious two, but there are a few more obscure ones as
+> well.  I don't think alpha has ever really been supported in oe-core,
+> but there are at least some sparc bits in there and, of course, it is
+> possible for an external layer to add support for new architectures.
+> Plus, of course, there is the OS side: if you were targetting mingw32
+> for example then kexec-tools would clearly not work.
+> 
+> However, all that said, I tend to agree that the COMPATIBLE_HOST check
+> isn't buying much in this recipe.  The original intent of
+> COMPATIBLE_MACHINE (and later COMPATIBLE_HOST) was to prevent bitbake
+> from selecting inappropriate providers to satisfy a virtual dependency:
+> in particular, the idea was that it would stop you picking up a kernel
+> recipe for some completely unrelated hardware.  In the case of
+> kexec-tools there are no alternative providers available and it isn't
+> totally obvious that having the recipe skip itself on a host that it
+> thinks is "unsupported" is really any better than letting it try and
+> fail to build.  So I would be happy to see that check removed.
 
-Won't this still break on systems without libssp where sstate-cache
-was built on systems with libssp?
+Going back in time, kexec only worked on a handful of platforms so the
+check made sense. Now mips support is there, it can probably be removed.
 
--M
+Part of the reasoning this is here is to make world builds useful as a
+test that everything builds.
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../rpm/rpm/fstack-protector-configure-check.patch |   13 +++++++++++++
->  meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
->  2 files changed, 14 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-devtools/rpm/rpm/fstack-protector-config=
-ure-check.patch
->
-> diff --git a/meta/recipes-devtools/rpm/rpm/fstack-protector-configure-che=
-ck.patch b/meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.p=
-atch
-> new file mode 100644
-> index 0000000..84d0430
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patc=
-h
-> @@ -0,0 +1,13 @@
-> +Index: rpm-5.4.0/configure.ac
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- rpm-5.4.0.orig/configure.ac        2012-06-01 11:41:19.741480143 -07=
-00
-> ++++ rpm-5.4.0/configure.ac     2012-06-01 11:41:51.773481676 -0700
-> +@@ -193,7 +193,7 @@
-> +  my_save_cflags=3D"$CFLAGS"
-> +  CFLAGS=3D$c
-> +  AC_MSG_CHECKING([whether GCC supports $c])
-> +- AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],
-> ++ AC_LINK_IFELSE([AC_LANG_PROGRAM([])],
-> +     [AC_MSG_RESULT([yes])]
-> +     [my_cflags=3D$c],
-> +     [AC_MSG_RESULT([no])]
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtoo=
-ls/rpm/rpm_5.4.9.bb
-> index 404916a..ccf015a 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> @@ -74,6 +74,7 @@ SRC_URI =3D "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-=
-5.4.9-0.20120508.src.rpm;ex
->            file://rpm-pkgconfigdeps.patch \
->            file://uclibc-support.patch \
->            file://rpmatch.patch \
-> +          file://fstack-protector-configure-check.patch \
->           "
->
->  SRC_URI[md5sum] =3D "60d56ace884340c1b3fcac6a1d58e768"
-> --
-> 1.7.5.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+Cheers,
+
+Richard
 
 
 
