@@ -1,36 +1,20 @@
-Received: from ams-iport-1.cisco.com ([144.254.224.140])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mneergaa@cisco.com>) id 1TG6b8-0008K2-Kg
+	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TG6ev-0008P6-6U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 13:13:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=650; q=dns/txt; s=iport;
-	t=1348484425; x=1349694025;
-	h=date:from:to:subject:message-id:references:mime-version:
-	content-transfer-encoding:in-reply-to;
-	bh=1CQ4HzE5BmCZOuMUkclYQEIKGvBtsGS9pHXkLBoRF4k=;
-	b=RGD06WJPZ7Se0BP8AU3bhwUK6fYWDWxm/fQPIhRxSqaV8uc6Nncdsnzl
-	Vdtnpg0hlAu3gCS7qfVwdaQLXfcBKS9QIk7lTMPoSHFB0rD0j6UiNFrEA
-	hYle+tdezPghrOflXHSzZRB/hZR3BdVwVhDyRx3Y86MVT68bbxuX9bYId 8=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AkkFAD08YFCQ/khM/2dsb2JhbABFhURHuCGBCIIhAQEEEgEQDwFWCxoCJgICFH6HY5hJjRySJgSBIY0Fgg6BEgOVZI47gWmCaQ
-X-IronPort-AV: E=Sophos;i="4.80,474,1344211200"; d="scan'208";a="144273087"
-Received: from ams-core-3.cisco.com ([144.254.72.76])
-	by ams-iport-1.cisco.com with ESMTP; 24 Sep 2012 10:58:40 +0000
-Received: from kattastrofe (dhcp-10-54-74-65.cisco.com [10.54.74.65])
-	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q8OAweSr014264
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 10:58:40 GMT
-Date: Mon, 24 Sep 2012 12:58:40 +0200
-From: Morten Minde Neergaard <mneergaa@cisco.com>
+	Mon, 24 Sep 2012 13:17:05 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Sep 2012 04:04:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,474,1344236400"; d="scan'208";a="225710647"
+Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.39])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Sep 2012 04:04:15 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20120924105839.GK2254@kattastrofe.rd.tandberg.com>
-References: <20120924074452.GH2254@kattastrofe.rd.tandberg.com>
-MIME-Version: 1.0
-In-Reply-To: <20120924074452.GH2254@kattastrofe.rd.tandberg.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Customize devshell terminal command / environment?
+Date: Mon, 24 Sep 2012 14:04:47 +0300
+Message-Id: <1348484687-8019-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] fix for bug 2577
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +27,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 11:13:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Sep 2012 11:17:05 -0000
 
-At 09:44, Mon 2012-09-24, Morten Minde Neergaard wrote:
-[…]
->  * Make a new CustomTerminal terminal class that takes its command line
->    from a configuration directive, e.g. OE_TERMINAL_CUSTOMCMD
->  * Allowing option overrides for each of the existing classes
->  * Detect the STY variable if present, and use the existing screen if
->    one exists
+Upstream status : pending
 
-Class tentatively named Custom, and allows me to use screen as I wish
-using the following config:
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch      |   25 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
 
-OE_TERMINAL = "custom"
-OE_TERMINAL_CUSTOMCMD = "screen"
-OE_TERMINAL_EXPORTS += "STY"
-
-Patch maintained on the gist:
-
-https://gist.github.com/3774736
-
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch b/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
+new file mode 100644
+index 0000000..f2480e5
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
+@@ -0,0 +1,25 @@
++From 73890569c5048aef34d9a6f08907895a53211d72 Mon Sep 17 00:00:00 2001
++From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
++Date: Mon, 24 Sep 2012 10:21:49 +0300
++Subject: [PATCH] updated version
++
++Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
++---
++ .../libc/ports/sysdeps/arm/dl-machine.h            |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++ndex 8d905e8..dcfa71e 100644
++--- libc.orig/ports/sysdeps/arm/dl-machine.h
+++++ libc/ports/sysdeps/arm/dl-machine.h
++@@ -503,7 +503,7 @@ elf_machine_rel (struct link_map *map, const Elf32_Rel *reloc,
++ 
++ 	case R_ARM_TLS_DTPOFF32:
++ 	  if (sym != NULL)
++-	    *reloc_addr += sym->st_value;
+++	    *reloc_addr = sym->st_value;
++ 	  break;
++ 
++ 	case R_ARM_TLS_TPOFF32:
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 78dc44a..68da385 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -29,6 +29,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
+            file://0001-eglibc-menuconfig-support.patch \
+            file://0002-eglibc-menuconfig-hex-string-options.patch \
+            file://0003-eglibc-menuconfig-build-instructions.patch \
++           file://0001-R_ARM_TLS_DTPOFF32.patch \
+           "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
 -- 
-Morten Minde Neergaard
+1.7.9.5
+
 
 
