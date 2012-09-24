@@ -1,20 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TG706-0000Lh-0l
+	(envelope-from <philb@gnu.org>) id 1TG74g-0000QR-9A
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 13:38:58 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Sep 2012 04:25:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,474,1344236400"; d="scan'208";a="225928571"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.39])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Sep 2012 04:25:50 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Sep 2012 14:26:23 +0300
-Message-Id: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] eglibc: Fix for dynamic linker broken offset
+	Mon, 24 Sep 2012 13:43:42 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TG6sH-0004OF-KF; Mon, 24 Sep 2012 13:30:53 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Date: Mon, 24 Sep 2012 12:30:52 +0100
+In-Reply-To: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
+References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1348486253.31293.28.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,78 +30,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 11:38:58 -0000
+X-List-Received-Date: Mon, 24 Sep 2012 11:43:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Solution provided by Donn Seeley in bug 1443:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=1443
+On Mon, 2012-09-24 at 14:26 +0300, Andrei Dinu wrote:
+> +-	    *reloc_addr += sym->st_value;
+> ++	    *reloc_addr = sym->st_value;
 
-worked when testing with core-image-sato-sdk for qemuarm.
+That patch looks slightly dubious to me.  Are you sure this doesn't
+introduce any regressions elsewhere?
 
-[YOCTO #2577]
+p.
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- .../eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch      |   27 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 ++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
-
-diff --git a/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch b/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
-new file mode 100644
-index 0000000..520c699
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Pending
-+
-+From 73890569c5048aef34d9a6f08907895a53211d72 Mon Sep 17 00:00:00 2001
-+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-+Date: Mon, 24 Sep 2012 10:21:49 +0300
-+Subject: [PATCH] updated version
-+
-+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-+---
-+ .../libc/ports/sysdeps/arm/dl-machine.h            |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+ndex 8d905e8..dcfa71e 100644
-+--- libc.orig/ports/sysdeps/arm/dl-machine.h
-++++ libc/ports/sysdeps/arm/dl-machine.h
-+@@ -503,7 +503,7 @@ elf_machine_rel (struct link_map *map, const Elf32_Rel *reloc,
-+ 
-+ 	case R_ARM_TLS_DTPOFF32:
-+ 	  if (sym != NULL)
-+-	    *reloc_addr += sym->st_value;
-++	    *reloc_addr = sym->st_value;
-+ 	  break;
-+ 
-+ 	case R_ARM_TLS_TPOFF32:
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-index 78dc44a..b1f03c7 100644
---- a/meta/recipes-core/eglibc/eglibc_2.16.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "20393"
- 
- DEPENDS += "gperf-native kconfig-frontends-native"
--PR = "r9"
-+PR = "r10"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_16"
-@@ -29,6 +29,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
-            file://0001-eglibc-menuconfig-support.patch \
-            file://0002-eglibc-menuconfig-hex-string-options.patch \
-            file://0003-eglibc-menuconfig-build-instructions.patch \
-+           file://0001-R_ARM_TLS_DTPOFF32.patch \
-           "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
--- 
-1.7.9.5
 
 
 
