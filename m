@@ -1,39 +1,45 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TGEX3-0007NE-QC
+	(envelope-from <B29882@freescale.com>) id 1TGExU-0007z0-19
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 21:41:29 +0200
-Received: by wibhn17 with SMTP id hn17so4447245wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 12:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=O82ZOwjpIU5BWmWKcaS3htOcMYTCjnDeK2l8fyESgB0=;
-	b=B7GwoJGl6m/ac52z+2S4tkG5A7kcmT0IUV3KeULMGqlWDy9LpkzhL432O3IfovF71M
-	mtCZaN6mX7x9aZmmnnQCGo27MuLPMUhyzm4QcoQsHy/rUlzS6U2Wjso4KuH3pUllTXjx
-	h1txLF7SnoRFpmShkkPt2FiMKxQ8U5Asn2BnKKjW5YnD/nhow6keCag/UhBb6dxP+NRK
-	pNZDQRp5HMs9UAUPy+0bGkK2SL7PUFe5zqbupYE0GYtJM0lFgnvic4FA+AVBceGXZ4gC
-	FuaFGsSPGw7r5H5ShgmRSf78HxGtgyf+o+nrEUEQmeKPatCQl72otCUMo983e9c1PWCH
-	76qw==
-Received: by 10.216.232.84 with SMTP id m62mr7456316weq.200.1348514921632;
-	Mon, 24 Sep 2012 12:28:41 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id cw4sm13007986wib.4.2012.09.24.12.28.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 24 Sep 2012 12:28:40 -0700 (PDT)
-Date: Mon, 24 Sep 2012 21:28:45 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <philb@gnu.org>
-Message-ID: <20120924192845.GE3295@jama.jama.net>
-References: <1348501103.31293.51.camel@phil-desktop>
-	<50607F4E.5040300@linux.intel.com>
-	<1348503778.31293.52.camel@phil-desktop>
+	Mon, 24 Sep 2012 22:08:48 +0200
+Received: from mail47-db3-R.bigfish.com (10.3.81.241) by
+	DB3EHSOBE010.bigfish.com (10.3.84.30) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 24 Sep 2012 19:55:56 +0000
+Received: from mail47-db3 (localhost [127.0.0.1])	by mail47-db3-R.bigfish.com
+	(Postfix) with ESMTP id A7DC8A0094	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 19:55:56 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h137ah139eh1155h)
+Received: from mail47-db3 (localhost.localdomain [127.0.0.1]) by mail47-db3
+	(MessageSwitch) id 1348516555671316_5276;
+	Mon, 24 Sep 2012 19:55:55 +0000 (UTC)
+Received: from DB3EHSMHS014.bigfish.com (unknown [10.3.81.234])	by
+	mail47-db3.bigfish.com (Postfix) with ESMTP id 948D22C0046	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 19:55:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS014.bigfish.com
+	(10.3.87.114) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 24 Sep 2012 19:55:51 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Mon, 24 Sep 2012 14:55:49 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q8OJtk7h017699 for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 12:55:50 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Sep 2012 14:55:45 -0500
+Message-ID: <1348516546-26005-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
-In-Reply-To: <1348503778.31293.52.camel@phil-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: work-shared not being correctly shared
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 1/2] libx11.inc: disable warnings that don't work on certain compilers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,47 +52,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 19:41:29 -0000
-X-Groupsio-MsgNum: 29797
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="TybLhxa8M7aNoW+V"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Sep 2012 20:08:48 -0000
+Content-Type: text/plain
 
---TybLhxa8M7aNoW+V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes these sorts of issues present on older gcc (CentOS 5.x in this case)
 
-On Mon, Sep 24, 2012 at 05:22:57PM +0100, Phil Blundell wrote:
-> On Mon, 2012-09-24 at 08:42 -0700, Saul Wold wrote:
-> > Yes, I am seeing something similar with do_patch happening twice on the=
-=20
-> > work-shared area, I talked with Richard a bit ago about it, and I am=20
-> > digging into the siginfo files, you can use bitbake-sigdiff to see what=
-=20
-> > sigs are changed causing it unpack twice (or in my case patch twice).
->=20
-> Ah, right, it seems to be rm_old_work that's causing the problem.  I'll
-> disable that for now and figure out how to fix it later.
+| cc1: error: unrecognized command line option "-Werror=implicit"
+| cc1: error: unrecognized command line option "-Werror=nonnull"
+| cc1: error: unrecognized command line option "-Werror=init-self"
+| cc1: error: unrecognized command line option "-Werror=main"
+| cc1: error: unrecognized command line option "-Werror=missing-braces"
+| cc1: error: unrecognized command line option "-Werror=sequence-point"
+| cc1: error: unrecognized command line option "-Werror=return-type"
+| cc1: error: unrecognized command line option "-Werror=trigraphs"
+| cc1: error: unrecognized command line option "-Werror=array-bounds"
+| cc1: error: unrecognized command line option "-Werror=write-strings"
+| cc1: error: unrecognized command line option "-Werror=address"
+| cc1: error: unrecognized command line option "-Werror=int-to-pointer-cast"
+| cc1: error: unrecognized command line option "-Werror=pointer-to-int-cast"
 
-That was already discussed few weeks ago, you should be able to find it
-in archive.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-graphics/xorg-lib/libx11.inc |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+index 3ecd9e5..0e99442 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11.inc
++++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+@@ -11,7 +11,7 @@ inherit siteinfo
+ FILESPATH = "${FILE_DIRNAME}/libx11"
+ 
+ PE = "1"
+-INC_PR = "r8"
++INC_PR = "r9"
+ 
+ PROVIDES = "virtual/libx11"
+ 
+@@ -23,6 +23,7 @@ DEPENDS += "xproto xextproto xtrans libxcb kbproto inputproto"
+ DEPENDS += "xproto-native"
+ 
+ EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
++EXTRA_OEMAKE = '-e CWARNFLAGS=""'
+ 
+ # Let people with incredibly archaic requirements enable Xcms and BigFont, but
+ # disable them by default.
+-- 
+1.7.9.7
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---TybLhxa8M7aNoW+V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlBgtG0ACgkQN1Ujt2V2gBxF/wCgiTM4bj6nDA5bpqmaxMM/K5ys
-hJUAoIsRY04WecONKxeEZh58LOC3XE0l
-=nWYS
------END PGP SIGNATURE-----
-
---TybLhxa8M7aNoW+V--
