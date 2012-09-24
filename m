@@ -1,41 +1,54 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from co1ehsobe004.messaging.microsoft.com ([216.32.180.187]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1TGF6g-000894-5Y; Mon, 24 Sep 2012 22:18:18 +0200
-Received: by wibhn17 with SMTP id hn17so4482708wib.6
-	for <multiple recipients>; Mon, 24 Sep 2012 13:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ICPB4u8W3Jru7+mk9xh230irzM6z+RjcpZC8NDIyv4Q=;
-	b=KtCnpTVOJVP4wbvNsl+COfAsYkIZl3AEtJSRUMFhZvUvnUCQy4bXJUscK95M3sUSg7
-	03tZor+lvIpfuqPHFpMoIoeYh7D3ktwDp1YrhhOI9rC34LDvvKACWo9Ie1GTlDFJHwDI
-	0xjsnDfP+tzEtKAUKNtuxKaF+4Tv4wXfwQQ/jgZcyL2MtssV3pANv/aSebOP46xiRQpK
-	gg107E0CFAgdJIcWJWLlChmG+SOgmw91h3A1N2t/+DLLXlV3BCeAgUqW86iouyaGB5ky
-	0Y5SzZwgc6LyM3jYOUbqjfkc+f8tylmJI4+huDEYtkI6CVtKfCjc5s1ChjAuELlcj4G5
-	w0Zg==
-Received: by 10.180.78.40 with SMTP id y8mr16538518wiw.7.1348517130085;
-	Mon, 24 Sep 2012 13:05:30 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ga2sm6588174wib.2.2012.09.24.13.05.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 24 Sep 2012 13:05:29 -0700 (PDT)
-Date: Mon, 24 Sep 2012 22:05:34 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <philb@gnu.org>
-Message-ID: <20120924200534.GG3295@jama.jama.net>
-References: <20120924103553.BC0E91038B@opal>
-	<20120924134810.GC3295@jama.jama.net>
-	<1348494844.31293.39.camel@phil-desktop>
+	(envelope-from <B29882@freescale.com>) id 1TGF7f-0008Bo-5U
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 22:19:19 +0200
+Received: from mail32-co1-R.bigfish.com (10.243.78.241) by
+	CO1EHSOBE001.bigfish.com (10.243.66.64) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 24 Sep 2012 20:06:29 +0000
+Received: from mail32-co1 (localhost [127.0.0.1])	by mail32-co1-R.bigfish.com
+	(Postfix) with ESMTP id E8B219C00F4;
+	Mon, 24 Sep 2012 20:06:29 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ahbe9i1155h)
+Received: from mail32-co1 (localhost.localdomain [127.0.0.1]) by mail32-co1
+	(MessageSwitch) id 1348517187925337_23566;
+	Mon, 24 Sep 2012 20:06:27 +0000 (UTC)
+Received: from CO1EHSMHS027.bigfish.com (unknown [10.243.78.249])	by
+	mail32-co1.bigfish.com (Postfix) with ESMTP id D5C1F780046;
+	Mon, 24 Sep 2012 20:06:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS027.bigfish.com
+	(10.243.66.37) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 24 Sep 2012 20:06:26 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.02.0309.003; Mon, 24 Sep 2012 15:06:25 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/2] libx11.inc: disable warnings that don't
+	work on certain compilers
+Thread-Index: AQHNmo9Neh5HA2KHJUaVw2FGObezaJeZ6uwA
+Date: Mon, 24 Sep 2012 20:06:24 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6A2D4F@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1348516546-26005-1-git-send-email-msm@freescale.com>
+	<20120924200050.GF3295@jama.jama.net>
+In-Reply-To: <20120924200050.GF3295@jama.jama.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-In-Reply-To: <1348494844.31293.39.camel@phil-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Phil Blundell : libcap: respect ${base_sbindir}
+X-OriginatorOrg: freescale.com
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libx11.inc: disable warnings that don't work on certain compilers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -45,52 +58,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 20:18:19 -0000
-X-Groupsio-MsgNum: 29800
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="GV0iVqYguTV4Q9ER"
-Content-Disposition: inline
-
---GV0iVqYguTV4Q9ER
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Sep 2012 20:19:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <1C3453B91AB3F74CB436461A363C8C04@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 24, 2012 at 02:54:03PM +0100, Phil Blundell wrote:
-> On Mon, 2012-09-24 at 15:48 +0200, Martin Jansa wrote:
-> > On Mon, Sep 24, 2012 at 10:35:53AM +0000, git@git.openembedded.org wrot=
+On Mon, Sep 24, 2012 at 3:00 PM, Martin Jansa <martin.jansa@gmail.com> wrot=
 e:
-> > >  do_install() {
-> > > -	oe_runmake install DESTDIR=3D"${D}" prefix=3D"${prefix}"
-> > > +	oe_runmake install DESTDIR=3D"${D}" prefix=3D"${prefix}" SBINDIR=3D=
-"${D}${base_sbindir}"
-> > >  }
-> >=20
-> > This breaks packaging:
-> >=20
-> > /sbin/capsh /sbin/getcap /sbin/getpcaps /sbin/setcap
-> > were moved from /usr/sbin/ and now are included in PN instead of PN-bin
->=20
-> Ah, looks like that should have been ${sbindir} not ${base_sbindir}.
-> Does it work for you if you make that change?
+> On Mon, Sep 24, 2012 at 02:55:45PM -0500, Matthew McClintock wrote:
+>> Fixes these sorts of issues present on older gcc (CentOS 5.x in this cas=
+e)
+>>
+>> | cc1: error: unrecognized command line option "-Werror=3Dimplicit"
+>> | cc1: error: unrecognized command line option "-Werror=3Dnonnull"
+>> | cc1: error: unrecognized command line option "-Werror=3Dinit-self"
+>> | cc1: error: unrecognized command line option "-Werror=3Dmain"
+>> | cc1: error: unrecognized command line option "-Werror=3Dmissing-braces=
+"
+>> | cc1: error: unrecognized command line option "-Werror=3Dsequence-point=
+"
+>> | cc1: error: unrecognized command line option "-Werror=3Dreturn-type"
+>> | cc1: error: unrecognized command line option "-Werror=3Dtrigraphs"
+>> | cc1: error: unrecognized command line option "-Werror=3Darray-bounds"
+>> | cc1: error: unrecognized command line option "-Werror=3Dwrite-strings"
+>> | cc1: error: unrecognized command line option "-Werror=3Daddress"
+>> | cc1: error: unrecognized command line option "-Werror=3Dint-to-pointer=
+-cast"
+>> | cc1: error: unrecognized command line option "-Werror=3Dpointer-to-int=
+-cast"
+>
+> Shouldn't it be applied only for -native? version?
 
-Yes, then it does work.
+That's reasonable. But, suppressing warnings to compile logs also did
+not seem to matter much since we don't go line by line on warnings in
+compile logs (does anyone?). I'll go with the consensus though.
 
-Cheers,
+-M
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+> Cheers,
+>
+>>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>>  meta/recipes-graphics/xorg-lib/libx11.inc |    3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-gr=
+aphics/xorg-lib/libx11.inc
+>> index 3ecd9e5..0e99442 100644
+>> --- a/meta/recipes-graphics/xorg-lib/libx11.inc
+>> +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+>> @@ -11,7 +11,7 @@ inherit siteinfo
+>>  FILESPATH =3D "${FILE_DIRNAME}/libx11"
+>>
+>>  PE =3D "1"
+>> -INC_PR =3D "r8"
+>> +INC_PR =3D "r9"
+>>
+>>  PROVIDES =3D "virtual/libx11"
+>>
+>> @@ -23,6 +23,7 @@ DEPENDS +=3D "xproto xextproto xtrans libxcb kbproto i=
+nputproto"
+>>  DEPENDS +=3D "xproto-native"
+>>
+>>  EXTRA_OECONF +=3D "--with-keysymdefdir=3D${STAGING_INCDIR}/X11/"
+>> +EXTRA_OEMAKE =3D '-e CWARNFLAGS=3D""'
+>>
+>>  # Let people with incredibly archaic requirements enable Xcms and BigFo=
+nt, but
+>>  # disable them by default.
+>> --
+>> 1.7.9.7
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=
 
---GV0iVqYguTV4Q9ER
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlBgvQ4ACgkQN1Ujt2V2gBzs5wCeJw2ddpgn+k8/HBtWZX95pHMC
-exkAnibsBn1NqL+uE+bYSgbeDLk/rFk3
-=qI4o
------END PGP SIGNATURE-----
-
---GV0iVqYguTV4Q9ER--
