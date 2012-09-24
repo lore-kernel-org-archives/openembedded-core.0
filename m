@@ -1,31 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TG6Sa-0008By-GP for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 13:04:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAR1Fi027769;
-	Mon, 24 Sep 2012 11:27:01 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27527-09; Mon, 24 Sep 2012 11:26:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OAQrud027763
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 24 Sep 2012 11:26:54 +0100
-Message-ID: <1348482414.4654.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: tom.zanussi@intel.com
-Date: Mon, 24 Sep 2012 11:26:54 +0100
-In-Reply-To: <96ec94413cd58a08aa4277ac8a863dea4b0e8c55.1348254442.git.tom.zanussi@intel.com>
-References: <cover.1348254442.git.tom.zanussi@intel.com>
-	<96ec94413cd58a08aa4277ac8a863dea4b0e8c55.1348254442.git.tom.zanussi@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] initscripts/sysfs.sh: mount debugfs if present
+Received: from ams-iport-1.cisco.com ([144.254.224.140])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mneergaa@cisco.com>) id 1TG6b8-0008K2-Kg
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 13:13:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=650; q=dns/txt; s=iport;
+	t=1348484425; x=1349694025;
+	h=date:from:to:subject:message-id:references:mime-version:
+	content-transfer-encoding:in-reply-to;
+	bh=1CQ4HzE5BmCZOuMUkclYQEIKGvBtsGS9pHXkLBoRF4k=;
+	b=RGD06WJPZ7Se0BP8AU3bhwUK6fYWDWxm/fQPIhRxSqaV8uc6Nncdsnzl
+	Vdtnpg0hlAu3gCS7qfVwdaQLXfcBKS9QIk7lTMPoSHFB0rD0j6UiNFrEA
+	hYle+tdezPghrOflXHSzZRB/hZR3BdVwVhDyRx3Y86MVT68bbxuX9bYId 8=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AkkFAD08YFCQ/khM/2dsb2JhbABFhURHuCGBCIIhAQEEEgEQDwFWCxoCJgICFH6HY5hJjRySJgSBIY0Fgg6BEgOVZI47gWmCaQ
+X-IronPort-AV: E=Sophos;i="4.80,474,1344211200"; d="scan'208";a="144273087"
+Received: from ams-core-3.cisco.com ([144.254.72.76])
+	by ams-iport-1.cisco.com with ESMTP; 24 Sep 2012 10:58:40 +0000
+Received: from kattastrofe (dhcp-10-54-74-65.cisco.com [10.54.74.65])
+	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q8OAweSr014264
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 10:58:40 GMT
+Date: Mon, 24 Sep 2012 12:58:40 +0200
+From: Morten Minde Neergaard <mneergaa@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120924105839.GK2254@kattastrofe.rd.tandberg.com>
+References: <20120924074452.GH2254@kattastrofe.rd.tandberg.com>
+MIME-Version: 1.0
+In-Reply-To: <20120924074452.GH2254@kattastrofe.rd.tandberg.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: Customize devshell terminal command / environment?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,25 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 11:04:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Sep 2012 11:13:11 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2012-09-21 at 14:11 -0500, tom.zanussi@intel.com wrote:
-> From: Tom Zanussi <tom.zanussi@intel.com>
-> 
-> debugfs is another kernel virtual file system that should be mounted
-> if configured, so if it's configured into the kernel, mount it.
-> 
-> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-> ---
->  meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh | 4 ++++
->  meta/recipes-core/initscripts/initscripts_1.0.bb       | 2 +-
->  2 files changed, 5 insertions(+), 1 deletion(-)
+At 09:44, Mon 2012-09-24, Morten Minde Neergaard wrote:
+[…]
+>  * Make a new CustomTerminal terminal class that takes its command line
+>    from a configuration directive, e.g. OE_TERMINAL_CUSTOMCMD
+>  * Allowing option overrides for each of the existing classes
+>  * Detect the STY variable if present, and use the existing screen if
+>    one exists
 
-Merged to master, thanks.
+Class tentatively named Custom, and allows me to use screen as I wish
+using the following config:
 
-Richard
+OE_TERMINAL = "custom"
+OE_TERMINAL_CUSTOMCMD = "screen"
+OE_TERMINAL_EXPORTS += "STY"
 
+Patch maintained on the gist:
+
+https://gist.github.com/3774736
+
+-- 
+Morten Minde Neergaard
 
 
