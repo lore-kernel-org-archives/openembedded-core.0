@@ -1,32 +1,33 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1TGIh6-0004bV-P5
+	(envelope-from <raj.khem@gmail.com>) id 1TGIh7-0004bT-6Z
 	for openembedded-core@lists.openembedded.org;
 	Tue, 25 Sep 2012 02:08:09 +0200
-Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 1E7EF2088A
+Received: by padfa11 with SMTP id fa11so1004293pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 19:55:22 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute1.internal (MEProxy); Mon, 24 Sep 2012 19:55:22 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:date
-	:content-type:mime-version; s=smtpout; bh=ie6RFbhdQQfBZtM/bXRz9w
-	4AbTE=; b=hmImW2a8phU5ol9M99ny2omGZE1aUyTZ1iJWcOw3iKvf8zBoT5Aam9
-	HpO3fSQpQIk/BwHmleJSE2+YTwXyNvGt+05TfTeG3+3dOv47NjfTriAw8q45d+BU
-	CEIpJ9MzF4iwvG7V15a+2CoSe3BBG/XMpj9Qs4dhgNF7OFMxoXJoE=
-X-Sasl-enc: rBXqO2RDNV65jAX19WmnZO/q1PDUSjNpNFPVETUBIdyz 1348530921
-Received: from [192.168.1.6] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id CC16B4827B8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 19:55:21 -0400 (EDT)
-Message-ID: <1348530882.25427.1.camel@lenny>
-From: Colin Walters <walters@verbum.org>
+	Mon, 24 Sep 2012 16:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=6MTVmgvKpeLmHmTEzUT11GiQSI8ulslgYQt7m1pgACY=;
+	b=tQ73QpTXj8xwwPY/PgyrlLqP5lbDrxB9e6ej2flMxIBQgVBLqimjRNQvIPg+KjE1RZ
+	LBiGeSVxKQ8WFas+NQhgRu+3PIE3gE4SvzOE5hAm9Bs3em5xXHbzNWqraQGCoELHrJ1I
+	Z7K95Wj9t2/gCTt29/35irAYfaXYoUif1yCNcja0GZ3U7v9aR/o9NiovagiWhXYWx3a4
+	fiUHGmuGdBpjExNIRf0n5et6JIO404JS8jYNjqWF2tCUx5hj9fOQyb6GAfQSmE50JFwb
+	jgDSrokeTu3CIhvldp9sVjs6xk8su1BKxc6zITaxWYOnjCGRy67iQ2oF0HUxkAYpVOCZ
+	qT2A==
+Received: by 10.66.90.1 with SMTP id bs1mr36334093pab.13.1348530920160;
+	Mon, 24 Sep 2012 16:55:20 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id ox5sm10326470pbc.75.2012.09.24.16.55.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 24 Sep 2012 16:55:19 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Sep 2012 19:54:42 -0400
-X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
-Mime-Version: 1.0
-Subject: [PATCH] Add packagegroup-core-buildessential
+Date: Mon, 24 Sep 2012 16:55:10 -0700
+Message-Id: <1348530910-9917-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] jpeg-native: Do not use libtool-cross for native recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,140 +41,60 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 25 Sep 2012 00:08:09 -0000
-X-Groupsio-MsgNum: 29829
-Content-Type: multipart/mixed; boundary="=-oH2AuTy1fRx74fnsmYOk"
 
---=-oH2AuTy1fRx74fnsmYOk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+This fixes errors when building native recipes like below
+Additionally fix some space issues.
 
-[Not heavily tested, but sent for discussion]
+ /work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool:
+line 981: /work/yocto/poky/build/tmp/sysroots/x86_64-linux//bin/sed: No
+such file or directory
+| x86_64-linux-libtool: compile: Failed to create `.libs'
+| make[1]: *** [jaricom.lo] Error 1
+| make[1]: *** Waiting for unfinished jobs....
+|
+/work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool:
+line 981: /work/yocto/poky/build/tmp/sysroots/x86_64-linux//bin/sed: No
+such file or directory
+|
+/work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool:
+line 981: /work/yocto/poky/build/tmp/sysroots/x86_64-linux//bin/sed: No
+such file or directory
+| x86_64-linux-libtool: compile: Failed to create `.libs'
+| x86_64-linux-libtool: compile: Failed to create `.libs'
 
-task-core-sdk is too big - for example, I simply don't want to ship tcl, ever =)
-Historically distcc caused a large dependency graph explosion because it has
-a utility which uses gtk+, although that was fixed.
-
-packagegroup-core-sdk also includes coreutils, which is a bit
-confusing; conceptually things dependent on coreutils should pull it
-in explicitly, or possibly we just declare coreutils to be in the
-minimal build set.
-
-So packagegroup-core-buildessential is intended to be similar to
-Debian's "build-essential" package.  It's the stuff needed by say 80+%
-of components, not worth repeating over and over.
-
-Signed-off-by: Colin Walters <walters@verbum.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../packagegroup-core-buildessential.bb            | 30 ++++++++++++++++++++++
- .../packagegroups/packagegroup-core-sdk.bb         | 17 +-----------
- 2 files changed, 31 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+ meta/recipes-core/jpeg/jpeg_8d.bb |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-
-
---=-oH2AuTy1fRx74fnsmYOk
-Content-Disposition: attachment; filename="0001-Add-packagegroup-core-buildessential.patch"
-Content-Type: text/x-patch; name="0001-Add-packagegroup-core-buildessential.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-From 80a199a2fd34cca08324f228fc1272086a476e61 Mon Sep 17 00:00:00 2001
-From: Colin Walters <walters@verbum.org>
-Date: Mon, 24 Sep 2012 19:46:01 -0400
-Subject: [PATCH] Add packagegroup-core-buildessential
-
-task-core-sdk is too big - for example, I simply don't want to ship tcl, ever =)
-Historically distcc caused a large dependency graph explosion because it has
-a utility which uses gtk+, although that was fixed.
-
-packagegroup-core-sdk also includes coreutils, which is a bit
-confusing; conceptually things dependent on coreutils should pull it
-in explicitly, or possibly we just declare coreutils to be in the
-minimal build set.
-
-So packagegroup-core-buildessential is intended to be similar to
-Debian's "build-essential" package.  It's the stuff needed by say 80+%
-of components, not worth repeating over and over.
-
-Signed-off-by: Colin Walters <walters@verbum.org>
----
- .../packagegroup-core-buildessential.bb            | 30 ++++++++++++++++++++++
- .../packagegroups/packagegroup-core-sdk.bb         | 17 +-----------
- 2 files changed, 31 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-new file mode 100644
-index 0000000..164da36
---- /dev/null
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-@@ -0,0 +1,30 @@
-+#
-+# Copyright (C) 2007 OpenedHand Ltd.
-+# Copyright (C) 2012 Red Hat, Inc.
-+#
-+
-+SUMMARY = "Essential build dependencies"
-+LICENSE = "MIT"
-+PR = "r0"
-+
-+inherit packagegroup
-+
-+RDEPENDS_packagegroup-core-buildessential = "\
-+    autoconf \
-+    automake \
-+    binutils \
-+    binutils-symlinks \
-+    cpp \
-+    cpp-symlinks \
-+    gcc \
-+    gcc-symlinks \
-+    g++ \
-+    g++-symlinks \
-+    gettext \
-+    make \
-+    libstdc++ \
-+    libstdc++-dev \
-+    libtool \
-+    pkgconfig \
-+    "
-+
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-index b00bf07..985bebd 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-@@ -16,28 +16,13 @@ RREPLACES_packagegroup-core-sdk = "task-core-sdk"
- RCONFLICTS_packagegroup-core-sdk = "task-core-sdk"
+diff --git a/meta/recipes-core/jpeg/jpeg_8d.bb b/meta/recipes-core/jpeg/jpeg_8d.bb
+index 6781619..1f6366b 100644
+--- a/meta/recipes-core/jpeg/jpeg_8d.bb
++++ b/meta/recipes-core/jpeg/jpeg_8d.bb
+@@ -11,7 +11,7 @@ SECTION = "libs"
+ DEPENDS = "libtool-cross"
+ DEPENDS_virtclass-native = "libtool-native"
  
- RDEPENDS_packagegroup-core-sdk = "\
--    autoconf \
--    automake \
--    binutils \
--    binutils-symlinks \
-+    packagegroup-core-buildessential \
-     coreutils \
--    cpp \
--    cpp-symlinks \
-     ccache \
-     diffutils \
--    gcc \
--    gcc-symlinks \
--    g++ \
--    g++-symlinks \
--    gettext \
--    make \
-     intltool \
--    libstdc++ \
--    libstdc++-dev \
--    libtool \
-     perl-module-re \
-     perl-module-text-wrap \
--    pkgconfig \
-     findutils \
-     quilt \
-     less \
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://www.ijg.org/files/jpegsrc.v${PV}.tar.gz \
+ 	   file://debian-libjpeg7_7-1.diff \
+@@ -22,8 +22,10 @@ SRC_URI[sha256sum] = "00029b1473f0f0ea72fbca3230e8cb25797fbb27e58ae2e46bb8bf5a80
+ 
+ inherit autotools 
+ 
+-EXTRA_OECONF="--enable-static --enable-shared"
+-EXTRA_OEMAKE='"LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"'
++EXTRA_OECONF = "--enable-static --enable-shared"
++EXTRA_OEMAKE = '"LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"'
++
++EXTRA_OEMAKE_class-native = ""
+ 
+ CFLAGS_append = " -D_REENTRANT"
+ 
 -- 
-1.7.11.4
+1.7.9.5
 
 
---=-oH2AuTy1fRx74fnsmYOk--
+
