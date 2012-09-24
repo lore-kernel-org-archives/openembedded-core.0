@@ -1,36 +1,39 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TGEKq-0007DO-Dq
+	(envelope-from <martin.jansa@gmail.com>) id 1TGEX3-0007NE-QC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 21:28:52 +0200
-Received: by eaac1 with SMTP id c1so236560eaa.6
+	Mon, 24 Sep 2012 21:41:29 +0200
+Received: by wibhn17 with SMTP id hn17so4447245wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 12:16:04 -0700 (PDT)
+	Mon, 24 Sep 2012 12:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=yhN0mJRtslgUwvQMtaiqn9M2Bnd+3GdEcPJCUwaK8zc=;
-	b=y09DBO0XW8trDiMNQ+XNwFhLbDmhoQauh12yIkybsKbhzVU653U63SwXJBmsdFRer2
-	or6zaSqokX9ejlDE88Zrvck0fpLUPtl022LF2nJi3tjjH6GZtZgfiOP5sBSuG1PoG+mS
-	HDII9XYVsdjwo4RhrHg5Sw3CJ8cp2A2hSbkM8RZCgXXtMVMPjRNwQSi68xteUnOgM7vn
-	0DiPOmK58BRkrhi3mPY1cw2zEZem5Q3HnZBk8p7TYKIvMadDifKK9La7YWh3xJp9gCp/
-	LOu2MJzzYH7+6O45NK4C8+Q+HvNC7Z/lp7osAvBosL/FoMWphQzhxe5sglOPbtATvh0Y
-	+Ydg==
-Received: by 10.14.218.134 with SMTP id k6mr16020399eep.14.1348514164416; Mon,
-	24 Sep 2012 12:16:04 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=O82ZOwjpIU5BWmWKcaS3htOcMYTCjnDeK2l8fyESgB0=;
+	b=B7GwoJGl6m/ac52z+2S4tkG5A7kcmT0IUV3KeULMGqlWDy9LpkzhL432O3IfovF71M
+	mtCZaN6mX7x9aZmmnnQCGo27MuLPMUhyzm4QcoQsHy/rUlzS6U2Wjso4KuH3pUllTXjx
+	h1txLF7SnoRFpmShkkPt2FiMKxQ8U5Asn2BnKKjW5YnD/nhow6keCag/UhBb6dxP+NRK
+	pNZDQRp5HMs9UAUPy+0bGkK2SL7PUFe5zqbupYE0GYtJM0lFgnvic4FA+AVBceGXZ4gC
+	FuaFGsSPGw7r5H5ShgmRSf78HxGtgyf+o+nrEUEQmeKPatCQl72otCUMo983e9c1PWCH
+	76qw==
+Received: by 10.216.232.84 with SMTP id m62mr7456316weq.200.1348514921632;
+	Mon, 24 Sep 2012 12:28:41 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id cw4sm13007986wib.4.2012.09.24.12.28.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 24 Sep 2012 12:28:40 -0700 (PDT)
+Date: Mon, 24 Sep 2012 21:28:45 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Phil Blundell <philb@gnu.org>
+Message-ID: <20120924192845.GE3295@jama.jama.net>
+References: <1348501103.31293.51.camel@phil-desktop>
+	<50607F4E.5040300@linux.intel.com>
+	<1348503778.31293.52.camel@phil-desktop>
 MIME-Version: 1.0
-Received: by 10.14.173.69 with HTTP; Mon, 24 Sep 2012 12:15:34 -0700 (PDT)
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6A295A@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1348487376.31293.31.camel@phil-desktop>
-	<CAMKF1soJZLBPDBH-1rOs3Jk7Su9m76gue1aOWuKKN-598KP0CA@mail.gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A6A295A@039-SN1MPN1-001.039d.mgd.msft.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 24 Sep 2012 12:15:34 -0700
-Message-ID: <CAMKF1spJLc_nZ=pZouUxOJD1apifDAQ=zDPGesmuHYgXN_fc4Q@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Cc: Phil Blundell <philb@gnu.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kexec-tools: admit mips as a COMPATIBLE_HOST
+In-Reply-To: <1348503778.31293.52.camel@phil-desktop>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: work-shared not being correctly shared
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +46,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 19:28:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 24 Sep 2012 19:41:29 -0000
+X-Groupsio-MsgNum: 29797
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="TybLhxa8M7aNoW+V"
+Content-Disposition: inline
 
-On Mon, Sep 24, 2012 at 12:10 PM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Mon, Sep 24, 2012 at 1:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Mon, Sep 24, 2012 at 4:49 AM, Phil Blundell <philb@gnu.org> wrote:
->>>
->>> -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-(linux|freebsd.*)'
->>> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*|mips.*)-(linux|freebsd.*)'
->>
->> I wonder if this expression should be removed completely now that mips is added
->> we dont have any supported arch left.
->
-> All the powerpc64 target still won't work (the Freescale ones at least).
+--TybLhxa8M7aNoW+V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK but above expression does not exclude ppc64 so you have a bug here.
+On Mon, Sep 24, 2012 at 05:22:57PM +0100, Phil Blundell wrote:
+> On Mon, 2012-09-24 at 08:42 -0700, Saul Wold wrote:
+> > Yes, I am seeing something similar with do_patch happening twice on the=
+=20
+> > work-shared area, I talked with Richard a bit ago about it, and I am=20
+> > digging into the siginfo files, you can use bitbake-sigdiff to see what=
+=20
+> > sigs are changed causing it unpack twice (or in my case patch twice).
+>=20
+> Ah, right, it seems to be rm_old_work that's causing the problem.  I'll
+> disable that for now and figure out how to fix it later.
 
->
-> -M
->
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+That was already discussed few weeks ago, you should be able to find it
+in archive.
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--TybLhxa8M7aNoW+V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBgtG0ACgkQN1Ujt2V2gBxF/wCgiTM4bj6nDA5bpqmaxMM/K5ys
+hJUAoIsRY04WecONKxeEZh58LOC3XE0l
+=nWYS
+-----END PGP SIGNATURE-----
+
+--TybLhxa8M7aNoW+V--
