@@ -1,45 +1,37 @@
-Received: from db3ehsobe005.messaging.microsoft.com ([213.199.154.143]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TGExU-0007z0-19
+	(envelope-from <martin.jansa@gmail.com>) id 1TGF26-00084c-Ml
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 22:08:48 +0200
-Received: from mail47-db3-R.bigfish.com (10.3.81.241) by
-	DB3EHSOBE010.bigfish.com (10.3.84.30) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 24 Sep 2012 19:55:56 +0000
-Received: from mail47-db3 (localhost [127.0.0.1])	by mail47-db3-R.bigfish.com
-	(Postfix) with ESMTP id A7DC8A0094	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 19:55:56 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1d1ah1d2ah1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h137ah139eh1155h)
-Received: from mail47-db3 (localhost.localdomain [127.0.0.1]) by mail47-db3
-	(MessageSwitch) id 1348516555671316_5276;
-	Mon, 24 Sep 2012 19:55:55 +0000 (UTC)
-Received: from DB3EHSMHS014.bigfish.com (unknown [10.3.81.234])	by
-	mail47-db3.bigfish.com (Postfix) with ESMTP id 948D22C0046	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 19:55:55 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS014.bigfish.com
-	(10.3.87.114) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 24 Sep 2012 19:55:51 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Mon, 24 Sep 2012 14:55:49 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q8OJtk7h017699 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 12:55:50 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Sep 2012 14:55:45 -0500
-Message-ID: <1348516546-26005-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
+	Mon, 24 Sep 2012 22:13:34 +0200
+Received: by wgbdq11 with SMTP id dq11so4333921wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 13:00:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Cv8mvPnNYYOriBvJoTf6A93RWrK7Rfr2Zrsp4+6XXnY=;
+	b=jyjtHO4T9GgLgIkY1IZyCr+PbuYScVTSlyiF8yo7H+SZIuDDIRgDvEJCRpi1GU4p8p
+	1KNGb/Xr35YyfoMcqenbw8X4zbkuf1dnfnROtj6cHRPWokUaYzFUggQB6Kaj6PWKaanu
+	oTC1KzYYKMBrOx6C6DUsQQKD8nirzZhHCkOyrPxqo21sk36jGDvTiX5yz/7oanUZITDX
+	h++LoAhjMiR3HjCbOrvV6L0sX+CMYwMQI8CCO0zoW6oW272XSVUKjgKvZGSOJmuQ089j
+	Ooeznfsec99ZKkEY5aUj6vYBqI/v5kOAc9Xy77n8Xe3CzciDpJaMCiv4UFQo94vtIRCg
+	Ulxg==
+Received: by 10.180.81.193 with SMTP id c1mr16510960wiy.12.1348516846602;
+	Mon, 24 Sep 2012 13:00:46 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id cw4sm13162085wib.4.2012.09.24.13.00.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 24 Sep 2012 13:00:45 -0700 (PDT)
+Date: Mon, 24 Sep 2012 22:00:50 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Matthew McClintock <msm@freescale.com>
+Message-ID: <20120924200050.GF3295@jama.jama.net>
+References: <1348516546-26005-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH 1/2] libx11.inc: disable warnings that don't work on certain compilers
+In-Reply-To: <1348516546-26005-1-git-send-email-msm@freescale.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libx11.inc: disable warnings that don't work on certain compilers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,54 +44,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 20:08:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Sep 2012 20:13:35 -0000
+X-Groupsio-MsgNum: 29799
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="idY8LE8SD6/8DnRI"
+Content-Disposition: inline
 
-Fixes these sorts of issues present on older gcc (CentOS 5.x in this case)
+--idY8LE8SD6/8DnRI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-| cc1: error: unrecognized command line option "-Werror=implicit"
-| cc1: error: unrecognized command line option "-Werror=nonnull"
-| cc1: error: unrecognized command line option "-Werror=init-self"
-| cc1: error: unrecognized command line option "-Werror=main"
-| cc1: error: unrecognized command line option "-Werror=missing-braces"
-| cc1: error: unrecognized command line option "-Werror=sequence-point"
-| cc1: error: unrecognized command line option "-Werror=return-type"
-| cc1: error: unrecognized command line option "-Werror=trigraphs"
-| cc1: error: unrecognized command line option "-Werror=array-bounds"
-| cc1: error: unrecognized command line option "-Werror=write-strings"
-| cc1: error: unrecognized command line option "-Werror=address"
-| cc1: error: unrecognized command line option "-Werror=int-to-pointer-cast"
-| cc1: error: unrecognized command line option "-Werror=pointer-to-int-cast"
+On Mon, Sep 24, 2012 at 02:55:45PM -0500, Matthew McClintock wrote:
+> Fixes these sorts of issues present on older gcc (CentOS 5.x in this case)
+>=20
+> | cc1: error: unrecognized command line option "-Werror=3Dimplicit"
+> | cc1: error: unrecognized command line option "-Werror=3Dnonnull"
+> | cc1: error: unrecognized command line option "-Werror=3Dinit-self"
+> | cc1: error: unrecognized command line option "-Werror=3Dmain"
+> | cc1: error: unrecognized command line option "-Werror=3Dmissing-braces"
+> | cc1: error: unrecognized command line option "-Werror=3Dsequence-point"
+> | cc1: error: unrecognized command line option "-Werror=3Dreturn-type"
+> | cc1: error: unrecognized command line option "-Werror=3Dtrigraphs"
+> | cc1: error: unrecognized command line option "-Werror=3Darray-bounds"
+> | cc1: error: unrecognized command line option "-Werror=3Dwrite-strings"
+> | cc1: error: unrecognized command line option "-Werror=3Daddress"
+> | cc1: error: unrecognized command line option "-Werror=3Dint-to-pointer-=
+cast"
+> | cc1: error: unrecognized command line option "-Werror=3Dpointer-to-int-=
+cast"
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-graphics/xorg-lib/libx11.inc |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Shouldn't it be applied only for -native? version?
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 3ecd9e5..0e99442 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -11,7 +11,7 @@ inherit siteinfo
- FILESPATH = "${FILE_DIRNAME}/libx11"
- 
- PE = "1"
--INC_PR = "r8"
-+INC_PR = "r9"
- 
- PROVIDES = "virtual/libx11"
- 
-@@ -23,6 +23,7 @@ DEPENDS += "xproto xextproto xtrans libxcb kbproto inputproto"
- DEPENDS += "xproto-native"
- 
- EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
-+EXTRA_OEMAKE = '-e CWARNFLAGS=""'
- 
- # Let people with incredibly archaic requirements enable Xcms and BigFont, but
- # disable them by default.
--- 
-1.7.9.7
+Cheers,
 
+>=20
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/libx11.inc |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-gra=
+phics/xorg-lib/libx11.inc
+> index 3ecd9e5..0e99442 100644
+> --- a/meta/recipes-graphics/xorg-lib/libx11.inc
+> +++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+> @@ -11,7 +11,7 @@ inherit siteinfo
+>  FILESPATH =3D "${FILE_DIRNAME}/libx11"
+> =20
+>  PE =3D "1"
+> -INC_PR =3D "r8"
+> +INC_PR =3D "r9"
+> =20
+>  PROVIDES =3D "virtual/libx11"
+> =20
+> @@ -23,6 +23,7 @@ DEPENDS +=3D "xproto xextproto xtrans libxcb kbproto in=
+putproto"
+>  DEPENDS +=3D "xproto-native"
+> =20
+>  EXTRA_OECONF +=3D "--with-keysymdefdir=3D${STAGING_INCDIR}/X11/"
+> +EXTRA_OEMAKE =3D '-e CWARNFLAGS=3D""'
+> =20
+>  # Let people with incredibly archaic requirements enable Xcms and BigFon=
+t, but
+>  # disable them by default.
+> --=20
+> 1.7.9.7
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--idY8LE8SD6/8DnRI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBgu/IACgkQN1Ujt2V2gByT5ACggtpiRu79rIbzFWAchJbCiigD
+vyQAn2Ab26zS/YV7SiocbJUgXBU2sMve
+=oZfT
+-----END PGP SIGNATURE-----
+
+--idY8LE8SD6/8DnRI--
