@@ -1,32 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TGFpC-0000oO-9d for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 23:04:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OKpSTM000389;
-	Mon, 24 Sep 2012 21:51:28 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32284-04; Mon, 24 Sep 2012 21:51:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8OKpIDb000381
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 24 Sep 2012 21:51:20 +0100
-Message-ID: <1348519878.8662.14.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Mon, 24 Sep 2012 21:51:18 +0100
-In-Reply-To: <1348518219.4444.262.camel@x121e.pbcl.net>
-References: <1348487376.31293.31.camel@phil-desktop>
-	<CAMKF1soJZLBPDBH-1rOs3Jk7Su9m76gue1aOWuKKN-598KP0CA@mail.gmail.com>
-	<1348518219.4444.262.camel@x121e.pbcl.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kexec-tools: admit mips as a COMPATIBLE_HOST
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TGFql-0000sG-8R
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 23:05:55 +0200
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 24 Sep 2012 13:53:05 -0700
+Received: by oagn9 with SMTP id n9so6027032oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Sep 2012 13:53:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=22Ou6h4wbJWKe97bs1qDyyXI6lUWohPZk3tzISOGdM4=;
+	b=nNwOAprUdeQieVeNtVdL0yEf5IjkLka+x4GQZ3CcyQKImhLet9aXHEIMgJXssff8kB
+	OOTOgT3yJwMm5QfwpLbkaDhNBtjq9zvQQ+QbF2DQHZ7t6u5jrphbd41pgDOdtQ+BgKKP
+	M7w3QKXniYvJfZ1Nuq3NAU2GajTaCWiAQcK/F2lsatDgKlL1CzMKtOKHUFQ0r6CjtL2V
+	pzLWYwaWB1z1ztyKMY6dls4YfQrRgBgkepH451VSa2aEVwxkyMOpmQfgvkE6O57vJtJU
+	EpLwptnUb6gkqrj8NYs/1yBnVPGQyT7g0sgJdC+rzKxmXqvCoiQbZrW/LScXYqqFDcwP
+	6KPQ==
+Received: by 10.60.29.72 with SMTP id i8mr10609218oeh.26.1348519984584; Mon,
+	24 Sep 2012 13:53:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Mon, 24 Sep 2012 13:52:43 -0700 (PDT)
+In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6A2D4F@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1348516546-26005-1-git-send-email-msm@freescale.com>
+	<20120924200050.GF3295@jama.jama.net>
+	<70CC66F5C30A414DADDA6973E4CA391A6A2D4F@039-SN1MPN1-001.039d.mgd.msft.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Sep 2012 21:52:43 +0100
+Message-ID: <CAJTo0Lbx9CoDzbKnMrdEwtTzJO-+LEatBTnZnF2f7tNWwhO+eA@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+X-Gm-Message-State: ALoCoQnW7G8o4XJS1VpWmvipYn6X4h3igCiUnm7TulgTW9A9kH59SKk1LHRLZpubWrCBpFh6k/Hh
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libx11.inc: disable warnings that don't work on certain compilers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,48 +48,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 21:04:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Sep 2012 21:05:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-09-24 at 21:23 +0100, Phil Blundell wrote:
-> On Mon, 2012-09-24 at 11:28 -0700, Khem Raj wrote:
-> > On Mon, Sep 24, 2012 at 4:49 AM, Phil Blundell <philb@gnu.org> wrote:
-> > >
-> > > -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-(linux|freebsd.*)'
-> > > +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*|mips.*)-(linux|freebsd.*)'
-> > 
-> > I wonder if this expression should be removed completely now that mips is added
-> > we dont have any supported arch left.
-> 
-> There are at least a few Linux architectures not in that list: alpha and
-> sparc are the obvious two, but there are a few more obscure ones as
-> well.  I don't think alpha has ever really been supported in oe-core,
-> but there are at least some sparc bits in there and, of course, it is
-> possible for an external layer to add support for new architectures.
-> Plus, of course, there is the OS side: if you were targetting mingw32
-> for example then kexec-tools would clearly not work.
-> 
-> However, all that said, I tend to agree that the COMPATIBLE_HOST check
-> isn't buying much in this recipe.  The original intent of
-> COMPATIBLE_MACHINE (and later COMPATIBLE_HOST) was to prevent bitbake
-> from selecting inappropriate providers to satisfy a virtual dependency:
-> in particular, the idea was that it would stop you picking up a kernel
-> recipe for some completely unrelated hardware.  In the case of
-> kexec-tools there are no alternative providers available and it isn't
-> totally obvious that having the recipe skip itself on a host that it
-> thinks is "unsupported" is really any better than letting it try and
-> fail to build.  So I would be happy to see that check removed.
+On 24 September 2012 21:06, McClintock Matthew-B29882
+<B29882@freescale.com> wrote:
+>> Shouldn't it be applied only for -native? version?
+>
+> That's reasonable. But, suppressing warnings to compile logs also did
+> not seem to matter much since we don't go line by line on warnings in
+> compile logs (does anyone?). I'll go with the consensus though.
 
-Going back in time, kexec only worked on a handful of platforms so the
-check made sense. Now mips support is there, it can probably be removed.
+I'd prefer this to be a -native only thing too.
 
-Part of the reasoning this is here is to make world builds useful as a
-test that everything builds.
-
-Cheers,
-
-Richard
-
+Ross
 
 
