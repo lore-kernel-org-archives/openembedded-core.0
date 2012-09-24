@@ -1,24 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TG6ie-0008Ti-D5
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1TG6pX-0000Ca-Oa
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 13:20:56 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Sep 2012 04:08:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,474,1344236400"; d="scan'208";a="225711672"
-Received: from adinu-vostro-460 (HELO [10.237.105.39]) ([10.237.105.39])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Sep 2012 04:07:43 -0700
-Message-ID: <50603F22.8020002@intel.com>
-Date: Mon, 24 Sep 2012 14:08:18 +0300
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-References: <1348484687-8019-1-git-send-email-andrei.adrianx.dinu@intel.com>
-In-Reply-To: <1348484687-8019-1-git-send-email-andrei.adrianx.dinu@intel.com>
+	Mon, 24 Sep 2012 13:28:03 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1TG6d9-002Yxh-BH>; Mon, 24 Sep 2012 13:15:15 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.69)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1TG6d9-001O5j-9u>; Mon, 24 Sep 2012 13:15:15 +0200
+Received: from heinold by andorra.imp.fu-berlin.de with local (internal Exim
+	4.72) id 1TG6d8-0001PR-70; Mon, 24 Sep 2012 13:15:14 +0200
+Date: Mon, 24 Sep 2012 13:15:14 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: openembedded-core@lists.openembedded.org
 Cc: openembedded-core@lists.openembedded.org
+Message-ID: <20120924111513.GA3763@mail.familie-heinold.de>
+References: <1348484687-8019-1-git-send-email-andrei.adrianx.dinu@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1348484687-8019-1-git-send-email-andrei.adrianx.dinu@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
 Subject: Re: [PATCH] fix for bug 2577
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -32,22 +39,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 11:20:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Sep 2012 11:28:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Please ignore. will resend.
-
-On 09/24/2012 02:04 PM, Andrei Dinu wrote:
+On Mon, Sep 24, 2012 at 02:04:47PM +0300, Andrei Dinu wrote:
 > Upstream status : pending
->
+> 
 > Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 > ---
->   .../eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch      |   25 ++++++++++++++++++++
->   meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
->   2 files changed, 26 insertions(+)
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
->
+>  .../eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch      |   25 ++++++++++++++++++++
+>  meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
+>  2 files changed, 26 insertions(+)
+>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
+> 
 > diff --git a/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch b/meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
 > new file mode 100644
 > index 0000000..f2480e5
@@ -68,15 +73,15 @@ On 09/24/2012 02:04 PM, Andrei Dinu wrote:
 > +--- libc.orig/ports/sysdeps/arm/dl-machine.h
 > ++++ libc/ports/sysdeps/arm/dl-machine.h
 > +@@ -503,7 +503,7 @@ elf_machine_rel (struct link_map *map, const Elf32_Rel *reloc,
-> +
+> + 
 > + 	case R_ARM_TLS_DTPOFF32:
 > + 	  if (sym != NULL)
 > +-	    *reloc_addr += sym->st_value;
 > ++	    *reloc_addr = sym->st_value;
 > + 	  break;
-> +
+> + 
 > + 	case R_ARM_TLS_TPOFF32:
-> +--
+> +-- 
 > +1.7.9.5
 > +
 > diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
@@ -84,13 +89,18 @@ On 09/24/2012 02:04 PM, Andrei Dinu wrote:
 > --- a/meta/recipes-core/eglibc/eglibc_2.16.bb
 > +++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
 > @@ -29,6 +29,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
->              file://0001-eglibc-menuconfig-support.patch \
->              file://0002-eglibc-menuconfig-hex-string-options.patch \
->              file://0003-eglibc-menuconfig-build-instructions.patch \
+>             file://0001-eglibc-menuconfig-support.patch \
+>             file://0002-eglibc-menuconfig-hex-string-options.patch \
+>             file://0003-eglibc-menuconfig-build-instructions.patch \
 > +           file://0001-R_ARM_TLS_DTPOFF32.patch \
->             "
->   LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
->         file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+>            "
+>  LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+>        file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+> -- 
+> 1.7.9.5
 
+Please resend the patch, with a better/correct commit msg.
+
+Bye Henning
 
 
