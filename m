@@ -1,37 +1,42 @@
-Received: from ams-iport-4.cisco.com ([144.254.224.147])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mneergaa@cisco.com>) id 1TG3Yz-0004Kq-R1
+	(envelope-from <ml@communistcode.co.uk>) id 1TG4L5-0005lY-0P
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 09:58:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=865; q=dns/txt; s=iport;
-	t=1348472760; x=1349682360;
-	h=date:from:to:subject:message-id:mime-version;
-	bh=cQfH0jV4tWbgL59jErzyiuRA8+b0cYXKCoBuYL/IGiM=;
-	b=JW1ApHyNp53k+UGhGCE7leWrZTQb8bhZMhz4E9ZafXJRwNIYb7YNv1+r
-	3Ve4cZQ+HHdm1CU4X00FLsO/RXQBRO5KnQrDN3S5vNJc+5jXYTKxGZJOh
-	2G4aBENYynQODULb/XbiRcryUBS7T7q+mfm3s7lg/l6kNj3cfnRJHwmjk o=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AkcFAEIOYFCQ/khR/2dsb2JhbABFhURHuCCBCII5ARCBCwImAhZ+h2OXaIEojRySFgSBIY0Fgg6BEgOVZI47gWmCaQ
-X-IronPort-AV: E=Sophos;i="4.80,474,1344211200"; 
-   d="scan'208";a="8269290"
-Received: from ams-core-1.cisco.com ([144.254.72.81])
-	by ams-iport-4.cisco.com with ESMTP; 24 Sep 2012 07:44:53 +0000
-Received: from kattastrofe (dhcp-10-54-74-65.cisco.com [10.54.74.65])
-	by ams-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id q8O7ir2U024718
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Sep 2012 07:44:53 GMT
-Date: Mon, 24 Sep 2012 09:44:53 +0200
-From: Morten Minde Neergaard <mneergaa@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120924074452.GH2254@kattastrofe.rd.tandberg.com>
+	Mon, 24 Sep 2012 10:48:27 +0200
+Received: from localhost ([127.0.0.1]:48971 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TG48h-0004mF-Ba
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 08:35:39 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=PaxpkJTGKV31t0rRDNecH62chRg=; b=jIpNuF0kES0tpoQG+eUe6Jw89Bbi
+	C4kTj5qpP+AW7tkUZEwmnjfSBMZduWZpkEvP03Oie7IV2KiyAVNUrvUX+51VJD7R
+	yivXSwHc1QdnjTUrf3DSu1eeSsNdEG8FDhqbKoQgt52zx1LBiNfreXYJSkwG/OOD
+	QGJ7VzR7xdaZi88=
+Received: from [195.171.99.130] (port=40525 helo=[192.168.0.59])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TG48h-0004mB-6S
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Sep 2012 08:35:39 +0000
+Message-ID: <50601BC1.9060706@communistcode.co.uk>
+Date: Mon, 24 Sep 2012 09:37:21 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Customize devshell terminal command / environment?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
+	<505C8503.2040907@communistcode.co.uk>
+	<CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
+In-Reply-To: <CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
+Subject: Re: ld problems with relocated toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -41,33 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 07:58:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Sep 2012 08:48:27 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 24/09/12 03:17, Khem Raj wrote:
 
-I'm using screen for all my terminal multiplexing. While using the
-devshell feature, I want to add devshells directly to my existing screen
-session. This wasn't straightforward, at least not as straightforward as
-I'd like.
+[snip]
 
-Made this pach: https://gist.github.com/3774736
+>
+>
+> What does linker command looks like, its not in the above log you posted.
+>
+>
 
-It's just a quick hack, the minimum effort for getting the behaviour I
-want. The space of possible implementations if probably quite wide, here
-are a few options:
+Hi Khem,
 
- * Make a new CustomTerminal terminal class that takes its command line
-   from a configuration directive, e.g. OE_TERMINAL_CUSTOMCMD
- * Allowing option overrides for each of the existing classes
- * Detect the STY variable if present, and use the existing screen if
-   one exists
+Is this enough information?
 
-I'm strongly in favour of implementing the first one. Any objections or
-interjections? =)
+Building target: R0005
+Invoking: GCC C Linker
+
+arm-poky-linux-gnueabi-gcc 
+-L/home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/lib 
+-o "R0005"  ./src/webInterfaces/webInterface_rJSON.o 
+./src/webInterfaces/webInterface_sqlite.o 
+./src/webInterfaces/webInterface_webSockets.o 
+./src/storageInterfaces/sqlite.o ./src/management/management_database.o 
+./src/hardwareProtocols/hardwareProtocol_B092SPIImage.o 
+./src/hardwareProtocols/hardwareProtocol_axonSPI.o 
+./src/hardwareInterfaces/interface_gpio_mmap.o 
+./src/hardwareInterfaces/interface_gpio_sysfs.o 
+./src/hardwareInterfaces/interface_kMod.o 
+./src/hardwareInterfaces/interface_serial.o 
+./src/hardwareInterfaces/interface_spidev.o  ./src/B092/B092.o 
+./src/B092/B092_config.o ./src/B092/B092_database.o 
+./src/B092/B092_init.o ./src/B092/B092_socket.o 
+./src/B092/B092_thumbnail.o ./src/B092/BO92_data.o ./src/AX02/AX02.o 
+./src/AX02/AX02_PIDs.o ./src/AX02/AX02_config.o ./src/AX02/AX02_data.o 
+./src/AX02/AX02_database.o ./src/AX02/AX02_init.o ./src/AX02/AX02_log.o 
+./src/AX02/AX02_socket.o ./src/AX02/AX02_tables.o  ./src/R0005.o 
+./src/errors.o ./src/systemConfig.o   -lsqlite3 -ljansson -lwebsockets 
+-lz -lpthread -ljpeg -lpng
+
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
+cannot find crt1.o: No such file or directory
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
+cannot find crti.o: No such file or directory
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld: 
+cannot find crtbegin.o: No such file or directory
+/lib/libpthread.so.0: file not recognized: File format not recognized
+
+collect2: error: ld returned 1 exit status
+
+make: *** [R0005] Error 1
+
+Regards,
 
 -- 
-Morten Minde Neergaard
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
