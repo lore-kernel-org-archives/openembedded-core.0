@@ -1,38 +1,33 @@
 Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TG4bx-0006b1-00
+	(envelope-from <ml@communistcode.co.uk>) id 1TG508-0000j7-1N
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 11:05:53 +0200
-Received: from localhost ([127.0.0.1]:38039 helo=eumx.net)
+	Mon, 24 Sep 2012 11:30:52 +0200
+Received: from localhost ([127.0.0.1]:42809 helo=eumx.net)
 	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TG4PZ-0005Hu-KA
+	(envelope-from <ml@communistcode.co.uk>) id 1TG4nk-0006Bb-BE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 08:53:05 +0000
+	Mon, 24 Sep 2012 09:18:04 +0000
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=mzAHyhIrld+yUIxjRP8tfnm5M/w=; b=IZtfdkuvwMm0/PJ2Y0iQefnHkpob
-	wQI0MvTiYKRRP3ssiwv5DcFk0vGpN4d86uME3HfvfywHqH72B+HZk83MPzHIYIs6
-	d0BekfJ2WyPu/jrluJZRgF7bSqeec06ucFIxBh3litpzUKfjhHYI8/UkSDwAMUKG
-	x+yFLjzZJVLO4U8=
-Received: from [195.171.99.130] (port=40931 helo=[192.168.0.59])
+	:date:from:reply-to:mime-version:to:subject:content-type
+	:content-transfer-encoding; s=default; bh=fFOaChxHfIVWT2aVmIZ2FN
+	U6UwM=; b=uvEm3RJzkxpB7ZvFcSa9EHB1bbxvsw2CRX5Tpyb56E+z+XJ44ee77L
+	Try0aew8Bty6xg7NNITwPvMvleUipGOM+quaZ/nzFkZvoMKbefJzBGAWrTEzSphn
+	Fnhx/K/8K4v0RSxXU67RiFZZFLeY5soqN6ZZYG7HDMSGLt6XmTpXM=
+Received: from [195.171.99.130] (port=60972 helo=[192.168.0.59])
 	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TG4PZ-0005Hq-Hp
+	(envelope-from <ml@communistcode.co.uk>) id 1TG4nk-0006BX-8g
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Sep 2012 08:53:05 +0000
-Message-ID: <50601FD9.4080009@communistcode.co.uk>
-Date: Mon, 24 Sep 2012 09:54:49 +0100
+	Mon, 24 Sep 2012 09:18:04 +0000
+Message-ID: <506025B4.6010000@communistcode.co.uk>
+Date: Mon, 24 Sep 2012 10:19:48 +0100
 From: Jack Mitchell <ml@communistcode.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
-	<505C8503.2040907@communistcode.co.uk>
-	<CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
-	<50601BC1.9060706@communistcode.co.uk> <50601D62.8070408@intel.com>
-In-Reply-To: <50601D62.8070408@intel.com>
-Subject: Re: ld problems with relocated toolchain
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Perl autoconf issues - possibly related to previous toolchain issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,85 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Sep 2012 09:05:53 -0000
+X-List-Received-Date: Mon, 24 Sep 2012 09:30:52 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 24/09/12 09:44, Laurentiu Palcu wrote:
->
-> On 09/24/2012 11:37 AM, Jack Mitchell wrote:
->> On 24/09/12 03:17, Khem Raj wrote:
->>
->> [snip]
->>
->>>
->>> What does linker command looks like, its not in the above log you posted.
->>>
->>>
->> Hi Khem,
->>
->> Is this enough information?
->>
->> Building target: R0005
->> Invoking: GCC C Linker
->>
->> arm-poky-linux-gnueabi-gcc
->> -L/home/jack/Projects/R0005-SDK-210912/sysroots/armv7a-vfp-neon-poky-linux-gnueabi/usr/lib
->> -o "R0005"  ./src/webInterfaces/webInterface_rJSON.o
->> ./src/webInterfaces/webInterface_sqlite.o
->> ./src/webInterfaces/webInterface_webSockets.o
->> ./src/storageInterfaces/sqlite.o ./src/management/management_database.o
->> ./src/hardwareProtocols/hardwareProtocol_B092SPIImage.o
->> ./src/hardwareProtocols/hardwareProtocol_axonSPI.o
->> ./src/hardwareInterfaces/interface_gpio_mmap.o
->> ./src/hardwareInterfaces/interface_gpio_sysfs.o
->> ./src/hardwareInterfaces/interface_kMod.o
->> ./src/hardwareInterfaces/interface_serial.o
->> ./src/hardwareInterfaces/interface_spidev.o  ./src/B092/B092.o
->> ./src/B092/B092_config.o ./src/B092/B092_database.o
->> ./src/B092/B092_init.o ./src/B092/B092_socket.o
->> ./src/B092/B092_thumbnail.o ./src/B092/BO92_data.o ./src/AX02/AX02.o
->> ./src/AX02/AX02_PIDs.o ./src/AX02/AX02_config.o ./src/AX02/AX02_data.o
->> ./src/AX02/AX02_database.o ./src/AX02/AX02_init.o ./src/AX02/AX02_log.o
->> ./src/AX02/AX02_socket.o ./src/AX02/AX02_tables.o  ./src/R0005.o
->> ./src/errors.o ./src/systemConfig.o   -lsqlite3 -ljansson -lwebsockets
->> -lz -lpthread -ljpeg -lpng
->>
->> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
->> cannot find crt1.o: No such file or directory
->> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
->> cannot find crti.o: No such file or directory
->> /home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
->> cannot find crtbegin.o: No such file or directory
-> Can you please try the little test app I wrote in order to test this? I
-> attached it in the bug. Let me know if it works.
->
->> /lib/libpthread.so.0: file not recognized: File format not recognized
-> This is kind of weird... It looks like it tries to link against the host
-> libpthread library.
+I am trying to convert my application to use the autotools suite in 
+order to get a bit of control over my build. However I am hitting an 
+issue when trying to run autoreconf -i, I believe it is to do with 
+toolchain issues again...
 
-I agree, I also can't find libpthread.so.0 in my sysroot either, only 
-libpthread.so, so maybe it is trying to fallback to host libs?
+configure.ac:17: the top level
+configure.ac:7: installing './install-sh'
+configure.ac:7: installing './missing'
+src/Makefile.am: installing './depcomp'
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+     LANGUAGE = (unset),
+     LC_ALL = (unset),
+     LANG = "en_GB.utf8"
+     are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+Can't locate strict.pm in @INC (@INC contains: 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/share/autoconf 
+/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/perl/site_perl/5.14.2/ 
+/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/perl/site_perl/5.14.2 
+/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/perl/vendor_perl/5.14.2/ 
+/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/perl/vendor_perl/5.14.2 
+/home/jack/Projects/poky-r0005/R0005/tmp/sysroots/x86_64-nativesdk-pokysdk-linux/usr/lib/perl/5.14.2/ 
+/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/perl/5.14.2 
+/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/perl/5.14.2 
+.) at 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/share/autoconf/Autom4te/Channels.pm 
+line 70.
+BEGIN failed--compilation aborted at 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/share/autoconf/Autom4te/Channels.pm 
+line 70.
+Compilation failed in require at 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/share/autoconf/Autom4te/ChannelDefs.pm 
+line 19.
+BEGIN failed--compilation aborted at 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/share/autoconf/Autom4te/ChannelDefs.pm 
+line 19.
+Compilation failed in require at 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/gnu-configize 
+line 40.
+BEGIN failed--compilation aborted at 
+/home/jack/Projects/R0005-SDK-210912/sysroots/x86_64-pokysdk-linux/usr/bin/gnu-configize 
+line 40.
+autoreconf: gnu-configize failed with exit status: 2
 
-I have attached the output from the test cases you propsed and attached 
-them to the bug report.
+As you can see it is looking in /opt/poky again and I believe it 
+shouldn't be.
 
-I also just tried passing the --sysroot= argument to no avail.
-
->
-> Thanks,
-> Laurentiu
->> collect2: error: ld returned 1 exit status
->>
->> make: *** [R0005] Error 1
->>
->> Regards,
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Regards,
+Jack.
 
 -- 
 
