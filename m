@@ -1,31 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TGRrL-0005R4-Mb for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 11:55:19 +0200
+	id 1TGRrZ-0005TJ-Is for openembedded-core@lists.openembedded.org;
+	Tue, 25 Sep 2012 11:55:33 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8P9gSQx006863;
-	Tue, 25 Sep 2012 10:42:28 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8P9ghP9006872;
+	Tue, 25 Sep 2012 10:42:43 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 04326-09; Tue, 25 Sep 2012 10:42:22 +0100 (BST)
+	id 06074-05; Tue, 25 Sep 2012 10:42:39 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8P9gJ9J006852
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8P9gX2K006866
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 25 Sep 2012 10:42:20 +0100
-Message-ID: <1348566140.8662.37.camel@ted>
+	Tue, 25 Sep 2012 10:42:34 +0100
+Message-ID: <1348566154.8662.38.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 25 Sep 2012 10:42:20 +0100
-In-Reply-To: <1348513241-18271-1-git-send-email-kergoth@gmail.com>
-References: <1348513241-18271-1-git-send-email-kergoth@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 25 Sep 2012 10:42:34 +0100
+In-Reply-To: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
+References: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add and use 'localedir' variable
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-common.inc: Consider multilib when renaming libgcc for debian'ness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,31 +37,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 09:55:20 -0000
+X-List-Received-Date: Tue, 25 Sep 2012 09:55:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-09-24 at 12:00 -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
+On Mon, 2012-09-24 at 15:24 -0700, Khem Raj wrote:
+> When doing multilib builds rpm does not find libgcc1 for lib32
+> multilib because its not honoring the debian renaming scheme for
+> libgcc-multilib. Lets add MLPREFIX to fix it.
 > 
-> This avoids the hardcoding of ${libdir}/locale which is all over the place,
-> and will facilitate use of ${exec_prefix}/lib/locale instead of
-> ${libdir}/locale.
-> 
-> This doesn't actually change any output at this time. Verified this with
-> buildhistory against the packages produced from core-image-base.
-> 
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/classes/libc-common.bbclass            |    2 +-
->  meta/classes/libc-package.bbclass           |   27 ++++++++++++++-------------
->  meta/conf/bitbake.conf                      |    1 +
->  meta/recipes-core/eglibc/eglibc-locale.inc  |    6 +++---
->  meta/recipes-core/eglibc/eglibc-package.inc |   11 ++++++++---
->  meta/recipes-core/eglibc/eglibc.inc         |    1 +
->  6 files changed, 28 insertions(+), 20 deletions(-)
-
-I appreciate the buildhistory tests :)
+>  meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Merged to master, thanks.
 
