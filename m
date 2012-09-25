@@ -1,39 +1,47 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TGVj4-0002Ni-NL
+	(envelope-from <ml@communistcode.co.uk>) id 1TGVph-0002ZS-3z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 16:03:02 +0200
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 25 Sep 2012 06:49:59 -0700
-Received: by wibhn17 with SMTP id hn17so5329696wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2012 06:49:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=NEuepsZzL2n4VBiXQGPiPWdaIJswuhQOfctZ9chR6As=;
-	b=gsZzcni3v6MI7BWOGC3qTBQaEx7IHzddSmojBNxqIGvWZv30+3x3krVCD/dCuBdvXz
-	ZdUyWnU8eWRnGiGsTe3V8DOKP802tuqB5UDhVuBR83JnWT2Ruk2en9xBgrzP+51iz0IE
-	zOM1x0lWpW7gVBfi0bmmxLcylKEjq856aFEbgpqT8gae7Vq9WQ0miIMOGaWfZg1mgFY/
-	xmHOrrMMpcyJP46OZtwjfoTFEzhCRlosAtYYoMRFB5oBQ2PW9SCXl7BFzcTUgvzySKFk
-	LkxfYccnhVeOIQIvgzyzSeYtdfc7XqJ9Y6/DbS5zBWahL8aoGES8iOE8T9cjFL+d/SCs
-	Wy4w==
-Received: by 10.216.243.10 with SMTP id j10mr9535531wer.211.1348580997529;
-	Tue, 25 Sep 2012 06:49:57 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bn7sm692469wib.8.2012.09.25.06.49.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 25 Sep 2012 06:49:56 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Sep 2012 14:49:03 +0100
-Message-Id: <1348580943-30362-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmqLIwsTTrd48i1+++81KkbwSTAECpmjR/cZtI3P3q2X/dTwV7qJHbV9Qypnw7dfrrB7Cmt
-Subject: [PATCH] xf86-input-keyboard: upgrade to 1.6.2
+	Tue, 25 Sep 2012 16:09:53 +0200
+Received: from localhost ([127.0.0.1]:51773 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TGVdH-0000mu-Er
+	for openembedded-core@lists.openembedded.org;
+	Tue, 25 Sep 2012 13:57:03 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=tYLwcmcwIB2Hk8h7693IiW1pX/Q=; b=LLQRr85usFuFQHg/VDd0ZDjyv/Gh
+	VTmNf0UH0Y3zYIxG6eKwDqdr9/dtHRD7ECta4RjtwQ0M0oF8Ff7JQeGUg8awiUIR
+	INPdyS/ndqrHOmNNf4sbXxE+f//uDTDWf97gYvK+awCpl8O1iJYRx4OZU9l1k13K
+	/TB8xd4v7ZmdwOs=
+Received: from [195.171.99.130] (port=62571 helo=[192.168.0.59])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TGVdH-0000mr-CL
+	for openembedded-core@lists.openembedded.org;
+	Tue, 25 Sep 2012 13:57:03 +0000
+Message-ID: <5061B893.5030705@communistcode.co.uk>
+Date: Tue, 25 Sep 2012 14:58:43 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
+	<505C8503.2040907@communistcode.co.uk>
+	<CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
+	<50601BC1.9060706@communistcode.co.uk> <50601D62.8070408@intel.com>
+	<50601FD9.4080009@communistcode.co.uk>
+	<CAMKF1sqGGc+mE-0JpxznkC1KkbqMrVOzMqRiUtxX8fOR7FqwTQ@mail.gmail.com>
+	<50616B77.1030007@communistcode.co.uk>
+	<CAMKF1sqWTFmvWq8PbFohzWZ8-fPn1BMREdb7yryDJEsZf9U8SQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqWTFmvWq8PbFohzWZ8-fPn1BMREdb7yryDJEsZf9U8SQ@mail.gmail.com>
+Subject: Re: ld problems with relocated toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -43,61 +51,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 14:03:02 -0000
+X-List-Received-Date: Tue, 25 Sep 2012 14:09:53 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 25/09/12 14:41, Khem Raj wrote:
+> On Tue, Sep 25, 2012 at 1:29 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> Ok, I passed the compiler and the linker the sysroot flag and it compiled
+>> successfully. Thank you everyone for all your help and I'll brush up on my
+>> compiling/linking knowledge!
+> Hmm if you installed toolchain in different prefix then it was built
+> on and then experience
+>
+> <cross>-gcc hello.c not building thats a problem we have to fix in
+> relocatable SDK install or wherever
+> wasnt that the case ?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../xorg-driver/xf86-input-keyboard_1.6.1.bb            |   15 ---------------
- .../xorg-driver/xf86-input-keyboard_1.6.2.bb            |   15 +++++++++++++++
- 2 files changed, 15 insertions(+), 15 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.1.bb
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.2.bb
+I think the issue was that I am using Eclipse to manage my build and it 
+was over writing the GCC parameters.
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.1.bb b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.1.bb
-deleted file mode 100644
-index ac398b5..0000000
---- a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.1.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--require xorg-driver-input.inc
--
--SUMMARY = "X.Org X server -- keyboard input driver"
--
--DESCRIPTION = "keyboard is an Xorg input driver for keyboards. The \
--driver supports the standard OS-provided keyboard interface.  The driver \
--functions as a keyboard input device, and may be used as the X server's \
--core keyboard."
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=ea2099d24ac9e316a6d4b9f20b3d4e10"
--
--PR = "${INC_PR}.0"
--
--SRC_URI[md5sum] = "09744e8dc9a1fe5e61927c1073cd3428"
--SRC_URI[sha256sum] = "aa9ec96e7f7f87bc086cb86b871ee6f4b9a7809fb1e7d50d0abbd7c2e50a8cc3"
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.2.bb
-new file mode 100644
-index 0000000..b635499
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.6.2.bb
-@@ -0,0 +1,15 @@
-+require xorg-driver-input.inc
-+
-+SUMMARY = "X.Org X server -- keyboard input driver"
-+
-+DESCRIPTION = "keyboard is an Xorg input driver for keyboards. The \
-+driver supports the standard OS-provided keyboard interface.  The driver \
-+functions as a keyboard input device, and may be used as the X server's \
-+core keyboard."
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ea2099d24ac9e316a6d4b9f20b3d4e10"
-+
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "ec2ea4c3faf5af15f2b3192d84252703"
-+SRC_URI[sha256sum] = "76651a84f5031f7c6ecf075d55989c04a00689642579df6d1a1bee6d5c2e5f8a"
+I believe it was calling arm-*-*-* directly and not using ${CC} if that 
+makes sense? Therefore it didn't know where to find the libraries and 
+includes. Passing the --sysroot option to the compiler and the linker 
+now lets it build.
+
+Eclipse is still having issues looking in the right directory for 
+includes and I don't know what is causing that - but it compiles and 
+links fine now.
+
+If I can provide more information then I would be happy to. I think I 
+agree and I'm still not fully convinced that it's completely fixed.
+
+Cheers,
+
 -- 
-1.7.10
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
