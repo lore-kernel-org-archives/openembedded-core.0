@@ -1,36 +1,28 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1TGdYl-0005oi-Fd
+	(envelope-from <eflanagan@envy.jf.intel.com>) id 1TGdtZ-000615-1R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 00:24:55 +0200
-Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 8B5BB20AAA;
-	Tue, 25 Sep 2012 18:12:07 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute3.internal (MEProxy); Tue, 25 Sep 2012 18:12:07 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:cc:date
-	:in-reply-to:references:content-type:mime-version
-	:content-transfer-encoding; s=smtpout; bh=5WUlFLqBjxIMUekbpW7EJQ
-	fMmOI=; b=cs+zOZr+PmS9laFLWx1o0uM7yrjGM5FSoP3BNqU/Hdzd2HtTV1aKY2
-	Vq9XSZ+cDvy3+qAjqUg9Eg1oQVvD6nSJulpe8PKdqWa89A9vEc5nkj+xp2lJdqoT
-	Y/t67Vnc9MTelZU+dmDLf6QtYwuxBOFEoC2kZx6VKYQbZXcmAT8Jc=
-X-Sasl-enc: a+Pwvqr+jPN8AZWBNZ48sVGhiYEnqyIB5KF0wNjJUOIy 1348611127
-Received: from [192.168.1.6] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 3EAB64827D6;
-	Tue, 25 Sep 2012 18:12:07 -0400 (EDT)
-Message-ID: <1348611089.2853.7.camel@lenny>
-From: Colin Walters <walters@verbum.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Tue, 25 Sep 2012 18:11:29 -0400
-In-Reply-To: <1348610431.1335.11.camel@x121e.pbcl.net>
-References: <1348577690.31293.70.camel@phil-desktop>
-	<1348610357.2853.5.camel@lenny>
-	<1348610431.1335.11.camel@x121e.pbcl.net>
-X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Remove static libraries from -dev packages
+	Wed, 26 Sep 2012 00:46:25 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 25 Sep 2012 15:33:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,486,1344236400"; d="scan'208";a="197637599"
+Received: from envy.jf.intel.com (HELO envy) ([10.7.201.159])
+	by orsmga001.jf.intel.com with ESMTP; 25 Sep 2012 15:33:34 -0700
+Received: from envy.jf.intel.com (localhost [127.0.0.1])
+	by envy (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id q8PMW9Gn007402;
+	Tue, 25 Sep 2012 15:32:09 -0700
+Received: (from eflanagan@localhost)
+	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q8PMW9x2007401;
+	Tue, 25 Sep 2012 15:32:09 -0700
+From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Sep 2012 15:32:07 -0700
+Message-Id: <40fc7f586f71cb47f3d2a96b2197fa8bcdae0499.1348612198.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1348612198.git.elizabeth.flanagan@intel.com>
+References: <cover.1348612198.git.elizabeth.flanagan@intel.com>
+Subject: [PATCH 1/1] ossp-uuid: LICENSE type corrections.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 22:24:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Sep 2012 22:46:25 -0000
 
-On Tue, 2012-09-25 at 23:00 +0100, Phil Blundell wrote:
+The LICENSE for ossp-uuid is MIT. As well, the LIC_FILES_CHKSUM
+was missing the license text within uuid_md5.c
 
-> That'd be inconsistent with other packages, since we do generally build
-> and ship the static libraries.  Having a big switch to turn off static
-> libraries globally seems like a fine plan, but I can't see any obvious
-> reason why the util-linux ones are any more useless than the rest.
+Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+---
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
 
-Makes sense.  I wonder if there are actually any users of the static
-libraries.
-
-For what it's worth in gnome-ostree I do just globally pass
---disable-static by default.
-
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb b/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+index cc1ec75..7de0a58 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+@@ -11,10 +11,11 @@ Unique Identifiers (UUID) from the command-line."
+ HOMEPAGE = "http://www.ossp.org/pkg/lib/uuid/"
+ SECTION = "libs"
+ 
+-LICENSE = "ossp_uuid"
+-LIC_FILES_CHKSUM = "file://README;beginline=30;endline=55;md5=b394fadb039bbfca6ad9d9d769ee960e"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://README;beginline=30;endline=55;md5=b394fadb039bbfca6ad9d9d769ee960e \
++	   file://uuid_md5.c;beginline=1;endline=28;md5=9c1f4b2218546deae24c91be1dcf00dd"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "ftp://ftp.ossp.org/pkg/lib/uuid/uuid-1.6.2.tar.gz \
+ 	   file://0001-Change-library-name.patch \
+-- 
+1.7.5.4
 
 
 
