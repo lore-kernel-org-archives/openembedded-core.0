@@ -1,26 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eflanagan@envy.jf.intel.com>) id 1TGdti-00062W-7l
+	(envelope-from <joe.slater@windriver.com>) id 1TGeJq-0006eq-74
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 00:46:34 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Sep 2012 15:33:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,486,1344236400"; d="scan'208";a="212993804"
-Received: from envy.jf.intel.com (HELO envy) ([10.7.201.159])
-	by orsmga002.jf.intel.com with ESMTP; 25 Sep 2012 15:33:27 -0700
-Received: from envy.jf.intel.com (localhost [127.0.0.1])
-	by envy (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id q8PMW2Ij007365;
-	Tue, 25 Sep 2012 15:32:02 -0700
-Received: (from eflanagan@localhost)
-	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q8PMW1hJ007364;
-	Tue, 25 Sep 2012 15:32:01 -0700
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Sep 2012 15:31:59 -0700
-Message-Id: <cover.1348612198.git.elizabeth.flanagan@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/1] Correcting LICENSE for ossp-uuid
+	Wed, 26 Sep 2012 01:13:34 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8PLbRSF019514
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Sep 2012 14:37:27 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Tue, 25 Sep 2012 14:37:27 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Sep 2012 14:37:27 -0700
+Message-ID: <1348609047-4118-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH] cmake.bbclass: modify construction of compiler flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 22:46:34 -0000
+X-List-Received-Date: Tue, 25 Sep 2012 23:13:34 -0000
+Content-Type: text/plain
 
-LICENSE information for ossp-uuid was tossing a warning. this fixes license
-as well as provides a more detailed LIC_FILES_CHKSUM.
+Use CFLAGS instead of CPPFLAGS for C_FLAGS variants.
+Also remove duplicate flags from _RELEASE variants.
 
-The following changes since commit a8edf79fce381d0433f18bd38df6cd74008e5179:
+Signed-off-by: Joe Slater <jslater@windriver.com>
 
-  bitbake: fetch2/git: Don't use deprecated API (2012-09-25 15:55:57 +0100)
+*** Note - this can break things that have never really
+***        been compiled with -O2 optimization
 
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib eflanagan/ossp-uuid-native
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/ossp-uuid-native
+---
+ meta/classes/cmake.bbclass |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-Elizabeth Flanagan (1):
-  ossp-uuid: LICENSE type corrections.
-
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
-
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index dcd974a..ac5c048 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -19,10 +19,10 @@ OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
+ OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
+ 
+ # Compiler flags
+-OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS}"
++OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
+ OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} -fpermissive"
+-OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} ${CPPFLAGS} -DNDEBUG"
+-OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} ${CXXFLAGS} -DNDEBUG"
++OECMAKE_C_FLAGS_RELEASE ?= "${CFLAGS} -DNDEBUG"
++OECMAKE_CXX_FLAGS_RELEASE ?= "${CXXFLAGS} -DNDEBUG"
+ 
+ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
 -- 
-1.7.5.4
+1.7.3.4
 
 
 
