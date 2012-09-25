@@ -1,27 +1,40 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1TGVSl-0001d6-R0
+	(envelope-from <raj.khem@gmail.com>) id 1TGVaw-0001nA-8U
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 15:46:12 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8PDXMOU002023
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 25 Sep 2012 15:54:38 +0200
+Received: by eeit10 with SMTP id t10so1738861eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Sep 2012 06:33:22 -0700 (PDT)
-Received: from fc17-64.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 25 Sep 2012 06:33:21 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Sep 2012 21:38:37 +0800
-Message-ID: <f803471f8bfd25391e33f0914818111dbaf64366.1348561895.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1348561895.git.liezhi.yang@windriver.com>
-References: <cover.1348561895.git.liezhi.yang@windriver.com>
+	Tue, 25 Sep 2012 06:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=z2N59l7/0AnhGEiKjZ5bpY689+GhNllfRup5vEFrzS8=;
+	b=CaQ/gfzHy5C8KoznKZ/e9Rl5ernCIBYnlqbhlMzTaicQNPpep8J98tjvQb0fWSqOUi
+	/O1LymJsrM4zTqu03BmsWiKUqKbm6hcUVZqWWf4YD1Sm5RiY+KJzgWyBYhoNFp+tE702
+	ZY0aL6Uq3VcxbVj98B3b3c8CT0jUs1/PvAnCoNjYbIa56uAcH9I/TOn8dpNPMa3uP48w
+	ShNwnYUbG7qUZ69kY+vz+n+01wYWzwejjIqvfoaeFP8/khcHBUoksHCJWlhaUmxhNWiB
+	0rMLVLdYgiLpLM4CrzdjS6idXLP8dI6XQTZ7WZK+G32yGa3qfBLY/X2u2wr28nm2jp8q
+	gmKw==
+Received: by 10.14.220.134 with SMTP id o6mr20240694eep.35.1348580509342; Tue,
+	25 Sep 2012 06:41:49 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/2] package_rpm.bbclass: no initial_solution in the second build
+Received: by 10.14.173.69 with HTTP; Tue, 25 Sep 2012 06:41:18 -0700 (PDT)
+In-Reply-To: <50616B77.1030007@communistcode.co.uk>
+References: <505C7402.4060604@communistcode.co.uk> <505C7F3A.7020400@intel.com>
+	<505C8503.2040907@communistcode.co.uk>
+	<CAMKF1spWUv8SFWnQ-_hKqw_+0NEK_Yq4-dhfyAnr-eTyMRemyg@mail.gmail.com>
+	<50601BC1.9060706@communistcode.co.uk> <50601D62.8070408@intel.com>
+	<50601FD9.4080009@communistcode.co.uk>
+	<CAMKF1sqGGc+mE-0JpxznkC1KkbqMrVOzMqRiUtxX8fOR7FqwTQ@mail.gmail.com>
+	<50616B77.1030007@communistcode.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 25 Sep 2012 06:41:18 -0700
+Message-ID: <CAMKF1sqWTFmvWq8PbFohzWZ8-fPn1BMREdb7yryDJEsZf9U8SQ@mail.gmail.com>
+To: ml@communistcode.co.uk
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: ld problems with relocated toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,44 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 13:46:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Sep 2012 13:54:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There is no initial_solution.manifest in the second build when
-incremental rpm image generation, since the initial solution has been
-skipped. So we should check it before cat it.
+On Tue, Sep 25, 2012 at 1:29 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> Ok, I passed the compiler and the linker the sysroot flag and it compiled
+> successfully. Thank you everyone for all your help and I'll brush up on my
+> compiling/linking knowledge!
 
-[YOCTO #3128]
+Hmm if you installed toolchain in different prefix then it was built
+on and then experience
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/package_rpm.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index be6bd45..49055f2 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -317,10 +317,13 @@ package_install_internal_rpm () {
- 		# we should add the previous solution manifest to the full "original" set to
- 		# avoid duplicate install steps.
- 		echo "Update original solution..."
--		cat ${target_rootfs}/install/initial_solution.manifest >> ${target_rootfs}/install/original_solution.manifest
--		cat ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/original_solution.manifest
--		rm ${target_rootfs}/install/initial_solution.manifest
--		rm ${target_rootfs}/install/total_solution.manifest
-+		for m in ${target_rootfs}/install/initial_solution.manifest \
-+			${target_rootfs}/install/total_solution.manifest; do
-+			if [ -s $m ]; then
-+				cat $m >> ${target_rootfs}/install/original_solution.manifest
-+				rm -f $m
-+			fi
-+		done
- 	fi
- 
- 	# Setup manifest of packages to install...
--- 
-1.7.11.2
-
+<cross>-gcc hello.c not building thats a problem we have to fix in
+relocatable SDK install or wherever
+wasnt that the case ?
 
 
