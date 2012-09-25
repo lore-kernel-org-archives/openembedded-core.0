@@ -1,21 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TGcz8-00051B-PJ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 23:48:06 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TGcmk-0005pH-Po
-	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 23:35:19 +0200
-Message-ID: <1348608781.1335.9.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Sep 2012 22:33:01 +0100
-X-Mailer: Evolution 3.4.3-1 
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TGdH5-0005YC-8I for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 00:06:39 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8PLrmms012181;
+	Tue, 25 Sep 2012 22:53:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12087-01; Tue, 25 Sep 2012 22:53:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8PLrf86012174
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 25 Sep 2012 22:53:42 +0100
+Message-ID: <1348610022.8662.70.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 25 Sep 2012 22:53:42 +0100
+In-Reply-To: <5061F3F1.2010502@windriver.com>
+References: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
+	<5061F3F1.2010502@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
-Subject: [PATCH] cpan_build: Unify directory layout for native and target builds
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-common.inc: Consider multilib when renaming libgcc for debian'ness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,52 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 21:48:06 -0000
+X-List-Received-Date: Tue, 25 Sep 2012 22:06:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-There seems to be no benefit in having them be different and this
-appears to cause a certain amount of confusion about paths for
-the native modules.
+On Tue, 2012-09-25 at 13:12 -0500, Mark Hatle wrote:
+> On 9/24/12 5:24 PM, Khem Raj wrote:
+> > When doing multilib builds rpm does not find libgcc1 for lib32
+> > multilib because its not honoring the debian renaming scheme for
+> > libgcc-multilib. Lets add MLPREFIX to fix it.
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >   meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+> > index 3b00017..38f3b7f 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-common.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-common.inc
+> > @@ -40,7 +40,7 @@ def get_gcc_multiarch_setting(bb, d):
+> >   # For now, libgcc is most important so we fix for that - RP.
+> >   SHLIBSDIR = "${STAGING_DIR_TARGET}/shlibs"
+> >
+> > -DEBIANNAME_libgcc = "libgcc1"
+> > +DEBIANNAME_${MLPREFIX}libgcc = "libgcc1"
+> 
+> I realize this is a fairly rare case, but should the debian (or multilib) 
+> bbclasses be multilib aware, and if so automatically generate the corresponding 
+> DEBIANNAME_${MLPREFIX}pn = value?
+> 
+> This is already done for blacklists, preferred provider/version and whitelists 
+> in the base.bbclass.  Then if anyone (in the future) specifies DEBIANNAME, it'll 
+> be automatic.
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
-previously posted as RFC, no comments so reposting as an actual patch
+The multilib/package code does have a list of variables it processes for
+this, this one should probably be added to that list.
 
- meta/classes/cpan_build.bbclass |    7 ++-----
- 1 files changed, 2 insertions(+), 5 deletions(-)
+In fact debian.bbclass should append it to the list package.bbclass
+has...
 
-diff --git a/meta/classes/cpan_build.bbclass
-b/meta/classes/cpan_build.bbclass
-index 36ffc56..0809602 100644
---- a/meta/classes/cpan_build.bbclass
-+++ b/meta/classes/cpan_build.bbclass
-@@ -23,8 +23,9 @@ cpan_build_do_configure () {
- 	if [ ${@is_target(d)} == "yes" ]; then
- 		# build for target
- 		. ${STAGING_LIBDIR}/perl/config.sh
-+	fi
- 
--			perl Build.PL --installdirs vendor \
-+	perl Build.PL --installdirs vendor \
- 				--destdir ${D} \
- 				--install_path lib="${datadir}/perl" \
- 				--install_path arch="${libdir}/perl" \
-@@ -32,10 +33,6 @@ cpan_build_do_configure () {
- 				--install_path bin=${bindir} \
- 				--install_path bindoc=${mandir}/man1 \
- 				--install_path libdoc=${mandir}/man3
--	else
--		# build for host
--		perl Build.PL --installdirs site --destdir ${D}
--	fi
- }
- 
- cpan_build_do_compile () {
--- 
-1.7.9
+Cheers,
 
-
+Richard
 
 
 
