@@ -1,31 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TGdH5-0005YC-8I for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 00:06:39 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8PLrmms012181;
-	Tue, 25 Sep 2012 22:53:48 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12087-01; Tue, 25 Sep 2012 22:53:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8PLrf86012174
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 25 Sep 2012 22:53:42 +0100
-Message-ID: <1348610022.8662.70.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 25 Sep 2012 22:53:42 +0100
-In-Reply-To: <5061F3F1.2010502@windriver.com>
-References: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
-	<5061F3F1.2010502@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <walters@verbum.org>) id 1TGdMy-0005e6-2S
+	for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 00:12:44 +0200
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 5BE0B20934;
+	Tue, 25 Sep 2012 17:59:56 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute5.internal (MEProxy); Tue, 25 Sep 2012 17:59:56 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:cc:date
+	:in-reply-to:references:content-type:mime-version
+	:content-transfer-encoding; s=smtpout; bh=/UBNu1ChMw24b4355t4Jkg
+	GteOY=; b=HbVw5Wa4uQ1FMGknULMOQWQHPT9N7OCmuqJfosv3APwhxL2CVk8GDH
+	/TQrQRwTFc74fcxW4FexBgzQg6Zb8Fh0Ku/0oIJTBfpu8DeJ9XVxQNK68IT16IBy
+	C+/nViYyQ0C6T6oG65xOWh8UtAyBDGYB3K/JdG2zshLepe+CcQg3o=
+X-Sasl-enc: J3oKLruiVv1mmvePixx5YULEoLTU0Zf5ZlZYpWzH3ZiP 1348610396
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0AF8F4827C8;
+	Tue, 25 Sep 2012 17:59:56 -0400 (EDT)
+Message-ID: <1348610357.2853.5.camel@lenny>
+From: Colin Walters <walters@verbum.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Tue, 25 Sep 2012 17:59:17 -0400
+In-Reply-To: <1348577690.31293.70.camel@phil-desktop>
+References: <1348577690.31293.70.camel@phil-desktop>
+X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-common.inc: Consider multilib when renaming libgcc for debian'ness
+Subject: Re: [PATCH] util-linux: Remove static libraries from -dev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,49 +41,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 22:06:39 -0000
+X-List-Received-Date: Tue, 25 Sep 2012 22:12:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-09-25 at 13:12 -0500, Mark Hatle wrote:
-> On 9/24/12 5:24 PM, Khem Raj wrote:
-> > When doing multilib builds rpm does not find libgcc1 for lib32
-> > multilib because its not honoring the debian renaming scheme for
-> > libgcc-multilib. Lets add MLPREFIX to fix it.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >   meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-> > index 3b00017..38f3b7f 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-common.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-common.inc
-> > @@ -40,7 +40,7 @@ def get_gcc_multiarch_setting(bb, d):
-> >   # For now, libgcc is most important so we fix for that - RP.
-> >   SHLIBSDIR = "${STAGING_DIR_TARGET}/shlibs"
-> >
-> > -DEBIANNAME_libgcc = "libgcc1"
-> > +DEBIANNAME_${MLPREFIX}libgcc = "libgcc1"
+On Tue, 2012-09-25 at 13:54 +0100, Phil Blundell wrote:
+> Fixes the QA warnings:
 > 
-> I realize this is a fairly rare case, but should the debian (or multilib) 
-> bbclasses be multilib aware, and if so automatically generate the corresponding 
-> DEBIANNAME_${MLPREFIX}pn = value?
-> 
-> This is already done for blacklists, preferred provider/version and whitelists 
-> in the base.bbclass.  Then if anyone (in the future) specifies DEBIANNAME, it'll 
-> be automatic.
+> WARNING: QA Issue: non -staticdev package contains static .a library: util-linux-libblkid-dev path '/work/mips32el-oe-linux/util-linux/2.21.2-r3micro3/packages-split/util-linux-libblkid-dev/lib/libblkid.a'
+> WARNING: QA Issue: non -staticdev package contains static .a library: util-linux-libuuid-dev path '/work/mips32el-oe-linux/util-linux/2.21.2-r3micro3/packages-split/util-linux-libuuid-dev/lib/libuuid.a'
 
-The multilib/package code does have a list of variables it processes for
-this, this one should probably be added to that list.
+> -FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so ${base_libdir}/libblkid.a ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
+> +FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
 
-In fact debian.bbclass should append it to the list package.bbclass
-has...
+Wouldn't EXTRA_OECONF += " --disable-static" be better?
 
-Cheers,
 
-Richard
 
 
 
