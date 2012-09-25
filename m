@@ -1,53 +1,51 @@
-Received: from db3ehsobe006.messaging.microsoft.com ([213.199.154.144]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from va3ehsobe004.messaging.microsoft.com ([216.32.180.14]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TGZIM-0000PF-UW
+	(envelope-from <B29882@freescale.com>) id 1TGZka-0000HY-4D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Sep 2012 19:51:43 +0200
-Received: from mail97-db3-R.bigfish.com (10.3.81.238) by
-	DB3EHSOBE010.bigfish.com (10.3.84.30) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 25 Sep 2012 17:38:53 +0000
-Received: from mail97-db3 (localhost [127.0.0.1])	by mail97-db3-R.bigfish.com
-	(Postfix) with ESMTP id 7971116016C;
-	Tue, 25 Sep 2012 17:38:53 +0000 (UTC)
+	Tue, 25 Sep 2012 20:20:52 +0200
+Received: from mail244-va3-R.bigfish.com (10.7.14.239) by
+	VA3EHSOBE011.bigfish.com (10.7.40.61) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 25 Sep 2012 18:08:02 +0000
+Received: from mail244-va3 (localhost [127.0.0.1])	by
+	mail244-va3-R.bigfish.com (Postfix) with ESMTP id 2D29F6C018F;
+	Tue, 25 Sep 2012 18:08:02 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
-Received: from mail97-db3 (localhost.localdomain [127.0.0.1]) by mail97-db3
-	(MessageSwitch) id 1348594732114964_24043;
-	Tue, 25 Sep 2012 17:38:52 +0000 (UTC)
-Received: from DB3EHSMHS017.bigfish.com (unknown [10.3.81.235])	by
-	mail97-db3.bigfish.com (Postfix) with ESMTP id 1923660096;
-	Tue, 25 Sep 2012 17:38:52 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS017.bigfish.com
-	(10.3.87.117) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 25 Sep 2012 17:38:50 +0000
+X-SpamScore: 8
+X-BigFish: VS8(z3b49sz98dI9371I936eI1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
+Received: from mail244-va3 (localhost.localdomain [127.0.0.1]) by mail244-va3
+	(MessageSwitch) id 1348596480608508_31232;
+	Tue, 25 Sep 2012 18:08:00 +0000 (UTC)
+Received: from VA3EHSMHS027.bigfish.com (unknown [10.7.14.243])	by
+	mail244-va3.bigfish.com (Postfix) with ESMTP id 913BF700045;
+	Tue, 25 Sep 2012 18:08:00 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS027.bigfish.com
+	(10.7.99.37) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 25 Sep 2012 18:07:59 +0000
 Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-005.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
-	Tue, 25 Sep 2012 12:38:48 -0500
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0309.003; Tue, 25 Sep 2012 13:07:59 -0500
 From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 2/2] libx11: fix nativesdk build on older
-	distros
-Thread-Index: AQHNmwD5+brGPjerY06d7Y9qKwsk7pebMX2AgABnmID//7oKgA==
-Date: Tue, 25 Sep 2012 17:38:48 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6A7466@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1348516546-26005-1-git-send-email-msm@freescale.com>
-	<1348516546-26005-2-git-send-email-msm@freescale.com>
-	<CAJTo0LYe6LuFQJS_36PYVsjwnp=N9J-XuiFVMntBi76qt+i4aw@mail.gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A6A6CE2@039-SN1MPN1-001.039d.mgd.msft.net>
-	<CAJTo0LZ7LrDg8JfOH6bVDV2PK6mnpqUsdHPwnvmUm1uen8uzMQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ7LrDg8JfOH6bVDV2PK6mnpqUsdHPwnvmUm1uen8uzMQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Scott Garman
+	<scott.a.garman@intel.com>
+Thread-Topic: [OE-core] [PATCH] gcc-common.inc: Consider multilib when
+	renaming libgcc for debian'ness
+Thread-Index: AQHNm0ixt6PGGMlIukioOIB/2pPA0A==
+Date: Tue, 25 Sep 2012 18:07:59 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6A7611@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
+	<1348566154.8662.38.camel@ted>
+In-Reply-To: <1348566154.8662.38.camel@ted>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libx11: fix nativesdk build on older distros
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-common.inc: Consider multilib when renaming libgcc for debian'ness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -61,45 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2012 17:51:43 -0000
+X-List-Received-Date: Tue, 25 Sep 2012 18:20:52 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <40BE70403531F947A338E99A5CC74B88@mgd.freescale.com>
+Content-ID: <8D4304BE0B76CF42A8542D41CA246151@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 25, 2012 at 11:48 AM, Burton, Ross <ross.burton@intel.com> wrot=
-e:
-> Whoops, I dropped oe-core.
->
-> On 25 September 2012 16:38, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
->>>> Older libc do not have this defined, we can use the -D_GNU_SOURCE
->>>> to the compiler to prevent generating calls to this function and
->>>> make linking work
->>>
->>> Why isn't this from configure.ac working?
->>>
->>> # Set common system defines for POSIX extensions, such as _GNU_SOURCE
->>> # Must be called before any macros that run the compiler (like AC_PROG_=
-LIBTOOL)
->>> # to avoid autoconf errors.
->>> AC_USE_SYSTEM_EXTENSIONS
+This should probably go in denzil as well.
+
+-M
+
+On Tue, Sep 25, 2012 at 4:42 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2012-09-24 at 15:24 -0700, Khem Raj wrote:
+>> When doing multilib builds rpm does not find libgcc1 for lib32
+>> multilib because its not honoring the debian renaming scheme for
+>> libgcc-multilib. Lets add MLPREFIX to fix it.
 >>
->> Do these make it to CC_FOR_BUILD? Here is what it looks like before:
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> AC_USE_SYSTEM_EXTENSIONS sets _GNU_SOURCE (and more) using AC_DEFINE,
-> so they end up in config.h... which isn't being included in
-> makekeys.c.
+> Merged to master, thanks.
 >
-> So the correct and upstreamable fix is to include config.h from makekeys.=
-c.
-
-I read somewhere (very informative - I know - but I've forgot where)
-that you are not supposed to include config.h for CC_FOR_BUILD
-targets? I'm not expert and just double checking on this bit as the
-correct solution.
-
---M=
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
