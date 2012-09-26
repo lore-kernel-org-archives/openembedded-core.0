@@ -1,26 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TGs8h-0001Wp-Sa
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 15:59:00 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Sep 2012 06:46:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,490,1344236400"; d="scan'208";a="198050487"
-Received: from unknown (HELO helios.localnet) ([10.252.122.36])
-	by orsmga001.jf.intel.com with ESMTP; 26 Sep 2012 06:45:59 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 26 Sep 2012 14:45:58 +0100
-Message-ID: <1873147.GujWgbYhhC@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.1 (Linux/3.2.0-31-generic-pae; KDE/4.9.1; i686; ; )
-In-Reply-To: <20120926133013.GM3313@jama.jama.net>
-References: <1348659245-14209-1-git-send-email-paul.eggleton@linux.intel.com>
-	<1985929.Ib8AKayW0V@helios> <20120926133013.GM3313@jama.jama.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gstreamer: make pulseaudio support dependent on DISTRO_FEATURES
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TGs95-0001Zx-DU for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 15:59:23 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QDkVe1020153;
+	Wed, 26 Sep 2012 14:46:31 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20063-02; Wed, 26 Sep 2012 14:46:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QDkMdU020147
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 26 Sep 2012 14:46:23 +0100
+Message-ID: <1348667183.8662.106.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Wed, 26 Sep 2012 14:46:23 +0100
+In-Reply-To: <1348655282.31293.94.camel@phil-desktop>
+References: <1348652719.31293.90.camel@phil-desktop>
+	<20120926095459.GE3313@jama.jama.net>
+	<1348653462.31293.92.camel@phil-desktop>
+	<20120926100123.GF3313@jama.jama.net>
+	<1348655282.31293.94.camel@phil-desktop>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-configure-cross: factor out --enable-threads argument into ${GCCTHREADS}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 13:59:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 26 Sep 2012 13:59:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 26 September 2012 15:30:13 Martin Jansa wrote:
-> On Wed, Sep 26, 2012 at 02:24:07PM +0100, Paul Eggleton wrote:
-> > On Wednesday 26 September 2012 14:32:57 Martin Jansa wrote:
-> > > On Wed, Sep 26, 2012 at 01:31:10PM +0100, Paul Eggleton wrote:
-> > > > On Wednesday 26 September 2012 13:38:19 Martin Jansa wrote:
-> > > > > On Wed, Sep 26, 2012 at 12:34:05PM +0100, Paul Eggleton wrote:
-> > > > > > This should be no change to the previous situation unless you
-> > > > > > explicitly have pulseaudio in DISTRO_FEATURES_BACKFILL_CONSIDERED
-> > > > > > (currently).
-> > > > > 
-> > > > > Why not use PACKAGECONFIG for this?
-> > > > 
-> > > > Only because I didn't see the need complicate it just to be able to
-> > > > configure it on a per-recipe basis - you almost certainly want
-> > > > pulseaudio
-> > > > either on or off everywhere. If you want it for stylistic reasons,
-> > > > sure,
-> > > > I guess... it is a bit ugly though.
-> > > 
-> > > Well it looked to me like ideal use-case for PACKAGECONFIG.
+On Wed, 2012-09-26 at 11:28 +0100, Phil Blundell wrote:
+> On Wed, 2012-09-26 at 12:01 +0200, Martin Jansa wrote:
+> > Sorry I haven't noticed that it's the same value as before. 
 > > 
-> > It does encapsulate the DEPENDS and EXTRA_OECONF into one piece, yes, but
-> > then when you make the PACKAGECONFIG option set from DISTRO_FEATURES
-> > anyway it gets ugly, and here I'm not convinced it adds anything useful.
+> > But if it causes different sstate checksum than PR bump would be nice to get new
+> > builddir (well maybe not needed after f15f61af77cc4e52a037f509f8e49e1ea530cf35).
 > 
-> Yes, but that's the case for almost every other PACKAGECONFIG use in
-> oe-core too AFAIK and I was asked to convert similar commit to use
-> PACKAGECONFIG before so I was expecting that the ultimate goal is to
-> replace all such DISTRO_FEATURE tests with PACKAGECONFIG where possible,
-> not to add more of them.
+> OK.  In that case I'll leave the patch alone for now and see if Richard
+> will swallow it as it stands.
 
-Perhaps. Well, I just noticed I need to correct the commit message anyway 
-(it's a change to gst-plugins-good, not gstreamer) so given that I'll send a 
-v2 using PACKAGECONFIG.
+I've merged it, lets see how that previous commit stands up to this
+test. I did change it to ?=, not that it matters a great deal.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
