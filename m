@@ -1,33 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TGnVs-0000V3-4Q for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 11:02:36 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8Q8ngR8016704;
-	Wed, 26 Sep 2012 09:49:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15900-03; Wed, 26 Sep 2012 09:49:38 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8Q8nVKw016698
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 26 Sep 2012 09:49:33 +0100
-Message-ID: <1348649372.8662.90.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Colin Walters <walters@verbum.org>
-Date: Wed, 26 Sep 2012 09:49:32 +0100
-In-Reply-To: <1348611089.2853.7.camel@lenny>
-References: <1348577690.31293.70.camel@phil-desktop>
-	<1348610357.2853.5.camel@lenny>
-	<1348610431.1335.11.camel@x121e.pbcl.net>
-	<1348611089.2853.7.camel@lenny>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Remove static libraries from -dev packages
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1TGnwE-0000oD-7a
+	for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 11:29:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8Q9GxPI012030
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2012 02:16:59 -0700 (PDT)
+Received: from fc17-64.wrs.com (128.224.163.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Wed, 26 Sep 2012 02:16:58 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Sep 2012 17:22:15 +0800
+Message-ID: <cover.1348645880.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.11.2
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] rootfs_rpm.bbclass: maybe no rpm postinst script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 09:02:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2012 09:29:50 -0000
+Content-Type: text/plain
 
-On Tue, 2012-09-25 at 18:11 -0400, Colin Walters wrote:
-> On Tue, 2012-09-25 at 23:00 +0100, Phil Blundell wrote:
-> 
-> > That'd be inconsistent with other packages, since we do generally build
-> > and ship the static libraries.  Having a big switch to turn off static
-> > libraries globally seems like a fine plan, but I can't see any obvious
-> > reason why the util-linux ones are any more useless than the rest.
-> 
-> Makes sense.  I wonder if there are actually any users of the static
-> libraries.
-> 
-> For what it's worth in gnome-ostree I do just globally pass
-> --disable-static by default.
+The following changes since commit b1f37e51e40774418a1b4c6e3df78df6ac6ee938:
 
-I tested this a while back to see what performance difference it made.
-The answer was "nothing too significant", I don't have the exact timings
-handy. I do remember having to exclude sqlite-native from the list since
-pseudo static links against it.
+  package_rpm.bbclass: no initial_solution in the second build (2012-09-26 10:15:20 +0800)
 
-Cheers,
+are available in the git repository at:
 
-Richard
+  git://git.pokylinux.org/poky-contrib robert/rpm_head
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/rpm_head
+
+Robert Yang (1):
+  rootfs_rpm.bbclass: maybe no rpm postinst script
+
+ meta/classes/rootfs_rpm.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+1.7.11.2
 
 
 
