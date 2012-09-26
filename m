@@ -1,40 +1,62 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TGvxF-0000DJ-6o
+	(envelope-from <B29882@freescale.com>) id 1TGw2F-0000IQ-Is
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 20:03:25 +0200
-Received: by wgbdq11 with SMTP id dq11so613719wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 10:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=HbOAxM8TNSWQ9BIg01LkBxezl1Hcn2UctQ31aZW4uSo=;
-	b=Izly/b+Op4kTyXsj4NmuOAEwobtbmj/m5KOD8reKVT4V2qoOLVKPkV1alnFV5qVyhg
-	axJHOF4BEFF/yYtVpHQO7vO69ADWM+adMJmZUOX7HZGoIV8/9BwHjPFGcoGQ3nfrA1eB
-	v2RnfiNBwc1pxDKD0gPD9XZfM+Fqwc3c/pTXUk7n3wGFKNm8TZX9zvVp7hxNj5S7mu93
-	enYIAMjHxByvQjkDYU7+ZeSb+Wg0/7Dd/WC74zE+W88qbiUDRZng3ce039S9C4XosZLx
-	/L9LpcRy420VcKOGpFdOP77hVDvRUkmJ2oFQv6OokdXTTNqDijojJmbSJIm1rSdAmJvz
-	XPRg==
-Received: by 10.180.78.40 with SMTP id y8mr2990908wiw.7.1348681832205;
-	Wed, 26 Sep 2012 10:50:32 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm8179785wix.6.2012.09.26.10.50.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Sep 2012 10:50:30 -0700 (PDT)
-Date: Wed, 26 Sep 2012 19:50:38 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20120926175038.GB19337@jama.jama.net>
-References: <1348675707-24182-1-git-send-email-ross.burton@intel.com>
+	Wed, 26 Sep 2012 20:08:36 +0200
+Received: from mail207-tx2-R.bigfish.com (10.9.14.241) by
+	TX2EHSOBE006.bigfish.com (10.9.40.26) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 26 Sep 2012 17:55:43 +0000
+Received: from mail207-tx2 (localhost [127.0.0.1])	by
+	mail207-tx2-R.bigfish.com (Postfix) with ESMTP id EAF2638011A;
+	Wed, 26 Sep 2012 17:55:43 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zz98dI9371I1432I1418Izz1202h1d1ah1d2ahzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
+Received: from mail207-tx2 (localhost.localdomain [127.0.0.1]) by mail207-tx2
+	(MessageSwitch) id 1348682142214076_32743;
+	Wed, 26 Sep 2012 17:55:42 +0000 (UTC)
+Received: from TX2EHSMHS001.bigfish.com (unknown [10.9.14.247])	by
+	mail207-tx2.bigfish.com (Postfix) with ESMTP id 2776764004E;
+	Wed, 26 Sep 2012 17:55:42 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS001.bigfish.com
+	(10.9.99.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 26 Sep 2012 17:55:41 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
+	Wed, 26 Sep 2012 12:55:41 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 2/2] libx11: fix nativesdk build on older
+	distros
+Thread-Index: AQHNmwD5+brGPjerY06d7Y9qKwsk7pebwGEAgABDwQCAAKyxgIAAOVgA
+Date: Wed, 26 Sep 2012 17:55:40 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6ACAE2@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1348516546-26005-1-git-send-email-msm@freescale.com>
+	<1348516546-26005-2-git-send-email-msm@freescale.com>
+	<CAJTo0LYe6LuFQJS_36PYVsjwnp=N9J-XuiFVMntBi76qt+i4aw@mail.gmail.com>
+	<70CC66F5C30A414DADDA6973E4CA391A6A6CE2@039-SN1MPN1-001.039d.mgd.msft.net>
+	<CAJTo0LZ7LrDg8JfOH6bVDV2PK6mnpqUsdHPwnvmUm1uen8uzMQ@mail.gmail.com>
+	<CAEsOVNfCLUhhpM91OBLC_paOXzsoS6PMeVXdp2xSnajqGuBcyg@mail.gmail.com>
+	<70CC66F5C30A414DADDA6973E4CA391A6A7790@039-SN1MPN1-001.039d.mgd.msft.net>
+	<CAJTo0LYcfqespv9vnEWUASJN6-Psh954FGHRoWhAmUYkFWwtEw@mail.gmail.com>
+	<CAPj87rM=D6hSXGqY6O2qOoPb=NiGSrTRSpakcwJQTkssDMYtzg@mail.gmail.com>
+	<CAJTo0LYNQrgg3=krn2ezw5w-aByV++Wpw-mszNL6MGGeMdCqRA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYNQrgg3=krn2ezw5w-aByV++Wpw-mszNL6MGGeMdCqRA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-In-Reply-To: <1348675707-24182-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xserver-xorg: fix -exa conflicts
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libx11: fix nativesdk build on older distros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -44,100 +66,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 18:03:25 -0000
-X-Groupsio-MsgNum: 29947
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
-
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Sep 2012 18:08:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <74392EE9F7CE1A41A2EEE5BDA8A92633@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 26, 2012 at 05:08:27PM +0100, Ross Burton wrote:
-> Hopefully for good this time!
->=20
-> The previous conflict of < ${PV} declares a conflict with all versions ol=
-der
-> than the version being built, which isn't right.
->=20
-> This conflict was being declared in a .inc file which is being included by
-> multiple recipes (xserver-psb in meta-intel, for example) so knowledge of=
- the
-> exact version in which this change occured is only known by the .bb file =
-itself.
-> Recognise this and put the conflict in the .bb file itself.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc |    4 ++++
->  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc        |    1 -
->  2 files changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b=
-/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-> index 35cb33a..a2d1bec 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-> @@ -9,3 +9,7 @@ SRC_URI[md5sum] =3D "8796fff441e5435ee36a72579008af24"
->  SRC_URI[sha256sum] =3D "fa415decf02027ca278b06254ccfbcceba2a83c274140525=
-7ebf749da4a73cf2"
-> =20
->  PR =3D "r8"
-> +
-> +# This conflict needs to be here and not in the .inc so we know the exact
-> +# version where the break was
-> +RCONFLICTS_${PN}-module-exa =3D "${PN} (< 1.11.2-r5)"
+On Wed, Sep 26, 2012 at 4:30 AM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+> On 26 September 2012 00:11, Daniel Stone <daniel@fooishbar.org> wrote:
+>>> The best fix is to just #define _GNU_SOURCE at the top of makekeys
+>>> then, and push that upstream (mail patch to xorg-devel@lists.x.org).
+>>
+>> Actually, it isn't, as that breaks non-glibc badly.  glibc takes
+>> _GNU_SOURCE to mean 'please add useful GNU extensions to this POSIX
+>> wasteland', whereas BSD and/or Solaris take it to mean 'please make
+>> this only GNU and don't use any other extensions at all'.  So we have
+>> to do whatever AC_USE_SYSTEM_EXTENSIONS does, because that really is
+>> the only thing that actually works.
+>
+> What do you mean non-glibc? :)
+>
+> Ignoring Minix as a build host (I think that's reasonable),
+> AC_USE_SYSTEM_EXTENSIONS  defines _ALL_SOURCE _GNU_SOURCE
+> _POSIX_PTHREAD_SEMANTICS _TANDEM_SOURCE, and does a compile-time
+> sanity test of __EXTENSIONS__ (because it's possible that some
+> combination of these defines make the system headers unusable on
+> Solaris).
+>
+> This is annoying.  How about for oe-core we patch in -D_GNU_SOURCE to
+> src/util/Makefile.am's CPPFLAGS definition and I'll discuss with
+> xorg-dev for a proper fix?
 
-This doesn't work if there is layer with PRINC or even more layers which
-doesn't know about each other, see:
+Would this be OK for now in libx11.inc?
 
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-September/03001=
-4.html
+-export CFLAGS_FOR_BUILD =3D "${BUILD_CFLAGS}"
++export CFLAGS_FOR_BUILD =3D "${BUILD_CFLAGS} -D_GNU_SOURCE"
 
-Cheers,
+-M=
 
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/r=
-ecipes-graphics/xorg-xserver/xserver-xorg.inc
-> index 643ca70..3ec38b7 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> @@ -66,7 +66,6 @@ PACKAGES =3D+ "${PN}-security-policy \
-> =20
->  RRECOMMENDS_${PN} +=3D "${PN}-security-policy xkeyboard-config rgb xserv=
-er-xf86-config"
->  RDEPENDS_${PN}-xvfb +=3D "xkeyboard-config"
-> -RCONFLICTS_${PN}-module-exa =3D "${PN} (<${PV})"
-> =20
->  FILES_${PN} =3D "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${l=
-ibdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xor=
-g/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.con=
-f.d"
->  FILES_${PN}-dev +=3D "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules=
-/*/*.la"
-> --=20
-> 1.7.10
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlBjQG4ACgkQN1Ujt2V2gBwvZQCfRE+kgAv+Rg6pmYEIIFYkjVMm
-STwAnRmYDZP6x1ws+WYvVUoUGH+7y3Wp
-=4tqX
------END PGP SIGNATURE-----
-
---ZGiS0Q5IWpPtfppv--
