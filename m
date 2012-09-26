@@ -1,37 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TH0HP-0005vP-Cx
+	(envelope-from <martin.jansa@gmail.com>) id 1TH0HX-0005wg-9c
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 00:40:31 +0200
-Received: by weyt44 with SMTP id t44so279267wey.6
+	Thu, 27 Sep 2012 00:40:39 +0200
+Received: by wiwc10 with SMTP id c10so7341wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 15:27:40 -0700 (PDT)
+	Wed, 26 Sep 2012 15:27:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=RGXIVX3TXyIc0EsuL/4mzx9tYMtwcvQUm4RcXeQruHk=;
-	b=VyYNaZXFJkQaUAEKcTvXwmCxy+9ou5mMlutLwB3aY9JvKDcvg0fZ3cYz88bcrHxDuE
-	9IzbLw9mEcHP7bzvLyiVHEXyyZV59UVduG3bVXLY5Yhl6I7f7ZejG8Sps4/FwADbLEha
-	VIZeLBhDzlgvMn5kQKj98GnRSM14Qpi+75LHxNCyM0fzOdWTdsfjjFfbJHep4nlkhFOt
-	n6N94+IGCd2ZWZ2tTaKgwj6tkwMNiqKmpyLFgr97XF22n0cWX7ykkYfjHeJCHpS1VJjZ
-	Tu8sJQtguuglSlAKtj0BH/LwJZlY+VHGCY83dOA/NE6cnEphgFcxnHdUXb1avGrgbQ8H
-	nv7Q==
-Received: by 10.180.8.41 with SMTP id o9mr4127033wia.3.1348698460671;
-	Wed, 26 Sep 2012 15:27:40 -0700 (PDT)
+	bh=rl/I2FgcOVpKPVwkjXstysAS1ijY8ct3ozpfUWdQuPs=;
+	b=UW6OR9ijfwwsTNW2L8/CciASubzO4KdGdto57e72hKzNWcWZGTbqxxz9/N9z/dX7+w
+	id0S/OZwn1fyjKlp+bfhMw/PeSKS9wne3zWXIj6ufS/3U0J9buxuuGe1jsjRi/UUFUsX
+	RcbuI999B5JRzkg6NubgL6rP7DAnp+10Upfy4bRw9366ZbjmawSwMn21eweHsUOXFsPk
+	qBJlfBePZd7xeh6RvR8lWoyGVNddQtdLh9hHfe+Avu13jFuCtI1dWkYV+x3lUsu0/Y2z
+	ic7B3R2oCBDXn0GSB5idwLwZ+3Yzq0hUd4fp7PDXSBJaCY1R53gONLqpo9IsmJoi/U0o
+	fmfA==
+Received: by 10.216.194.148 with SMTP id m20mr383216wen.51.1348698468325;
+	Wed, 26 Sep 2012 15:27:48 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id do5sm9497984wib.10.2012.09.26.15.27.39
+	by mx.google.com with ESMTPS id bn7sm9500496wib.8.2012.09.26.15.27.46
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Sep 2012 15:27:39 -0700 (PDT)
+	Wed, 26 Sep 2012 15:27:47 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 00:27:09 +0200
-Message-Id: <920ba43ec9efff798e309fa44473d96d43f22f4b.1348697518.git.Martin.Jansa@gmail.com>
+Date: Thu, 27 Sep 2012 00:27:10 +0200
+Message-Id: <084b8031e2bfbae486018781fdfb59fb2fef6b1b.1348697518.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.12
 In-Reply-To: <cover.1348697518.git.Martin.Jansa@gmail.com>
 References: <cover.1348697518.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1348697518.git.Martin.Jansa@gmail.com>
 References: <cover.1348697518.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 04/10] qt4.inc: move more options to separate variables
+Subject: [PATCH 05/10] qt-mobility: move qt-mobility patches to separate dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,49 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 22:40:31 -0000
-
-* make it easier to override them in bbappend
-* convert pulseaudio to more common -pulseaudio/-no-pulseaudio form
+X-List-Received-Date: Wed, 26 Sep 2012 22:40:39 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-qt/qt4/qt4.inc | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ .../0001-gstvideoconnector-fixed-buffers-allocation.patch                | 0
+ .../0002-Remove-unnecessary-rpaths-from-qml_device-example.patch         | 0
+ meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/gcc-scope.patch         | 0
+ .../qt4/{files => qt-mobility-1.2.0}/qt-mobility-configure.patch         | 0
+ .../qt4/{files => qt-mobility-1.2.0}/qt-mobility-no-opengl.patch         | 0
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                                | 1 +
+ 6 files changed, 1 insertion(+)
+ rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/0001-gstvideoconnector-fixed-buffers-allocation.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/gcc-scope.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/qt-mobility-configure.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/qt-mobility-no-opengl.patch (100%)
 
-diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-index ba231ba..35748f8 100644
---- a/meta/recipes-qt/qt4/qt4.inc
-+++ b/meta/recipes-qt/qt4/qt4.inc
-@@ -12,12 +12,25 @@ QT_SQL_DRIVER_FLAGS ?= "-no-sql-ibase -no-sql-mysql -no-sql-psql -no-sql-odbc -p
+diff --git a/meta/recipes-qt/qt4/files/0001-gstvideoconnector-fixed-buffers-allocation.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/0001-gstvideoconnector-fixed-buffers-allocation.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/0001-gstvideoconnector-fixed-buffers-allocation.patch
+rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/0001-gstvideoconnector-fixed-buffers-allocation.patch
+diff --git a/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+diff --git a/meta/recipes-qt/qt4/files/gcc-scope.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/gcc-scope.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/gcc-scope.patch
+rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/gcc-scope.patch
+diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-configure.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/qt-mobility-configure.patch
+rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-configure.patch
+diff --git a/meta/recipes-qt/qt4/files/qt-mobility-no-opengl.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-no-opengl.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/qt-mobility-no-opengl.patch
+rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-no-opengl.patch
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+index 7f0af9f..3dc12af 100644
+--- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -5,6 +5,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+ 		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
  
- QT_GLFLAGS ?= ""
- 
-+  
-+QT_QT3SUPPORT ?= "-qt3support"
-+QT_XML ?= "-xmlpatterns"
-+QT_WEBKIT ?= "-webkit"
-+QT_PHONON ?= "-phonon"
-+QT_DBUS ?= "-qdbus"
-+QT_MULTIMEDIA ?= "${@base_contains('DISTRO_FEATURES', 'pulseaudio', '-pulseaudio', '-no-pulseaudio', d)}"
-+ 
- QT_CONFIG_FLAGS += "-release -no-cups -reduce-relocations \
-                     -shared -no-nas-sound -no-nis \
-                     -system-libjpeg -system-libpng -system-libtiff -system-zlib \
--                    -no-pch -qdbus -stl -glib -phonon -webkit \
--                    -xmlpatterns -no-rpath -qt3support -silent \
--                    ${@base_contains('DISTRO_FEATURES', 'pulseaudio', '--enable-pulseaudio', '--disable-pulseaudio', d)} \
-+                    -no-pch -stl -glib \
-+                    -no-rpath -silent \
-+                    ${QT_DBUS} \
-+                    ${QT_QT3SUPPORT} \
-+                    ${QT_WEBKIT} \
-+                    ${QT_PHONON} \
-+                    ${QT_XML} \
-+                    ${QT_MULTIMEDIA} \
-                     ${QT_SQL_DRIVER_FLAGS} \
-                     ${QT_DISTRO_FLAGS} \
-                     ${QT_GLFLAGS}"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-mobility-${PV}:"
+ SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
+            file://qt-mobility-configure.patch \
+            file://0001-gstvideoconnector-fixed-buffers-allocation.patch \
 -- 
 1.7.12
 
