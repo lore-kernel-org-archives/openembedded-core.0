@@ -1,24 +1,28 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1TGlwa-0005zr-QR
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TGlwg-000600-Qw
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 09:22:06 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8Q79ERW010395
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 26 Sep 2012 00:09:14 -0700 (PDT)
-Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.239) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 26 Sep 2012 00:09:13 -0700
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<openembedded-core@www.linuxtogo.org>
-Date: Wed, 26 Sep 2012 15:09:13 +0800
-Message-ID: <1348643353-32175-1-git-send-email-Xin.Ouyang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 26 Sep 2012 09:22:11 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Sep 2012 00:09:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,488,1344236400"; d="scan'208";a="226861387"
+Received: from unknown (HELO [10.252.122.30]) ([10.252.122.30])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Sep 2012 00:09:04 -0700
+Message-ID: <5062AA0F.3050604@intel.com>
+Date: Wed, 26 Sep 2012 10:09:03 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Subject: [PATCH] at: atd remove useless --make-pidfile option.
+To: openembedded-core@lists.openembedded.org
+References: <cover.1348052899.git.laurentiu.palcu@intel.com>
+	<CALbNGRTCyvfZFYHx6bKV8oVDJWH3X0tj1DHSJm9CkvT4xY2f7A@mail.gmail.com>
+	<5059E5C3.2080603@intel.com>
+	<CALbNGRS2WzGmRgM0ibnArYgbWWrRVG8VEYayXB12mLcKJmaPAA@mail.gmail.com>
+	<CALbNGRST8C-p=M5V8KoVe5ug1MXwp5=7z2rUubEg_MxeR776Kw@mail.gmail.com>
+In-Reply-To: <CALbNGRST8C-p=M5V8KoVe5ug1MXwp5=7z2rUubEg_MxeR776Kw@mail.gmail.com>
+Subject: Re: [RFC 0/7] Postinstall improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,47 +35,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 07:22:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Sep 2012 07:22:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-For start-stop-daemon, --make-pidfile is used when starting a
-program that does not create its own pid file.
-atd would create its own /var/run/atd.pid, so remove this option.
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
----
- meta/recipes-extended/at/at_3.1.13.bb |    2 +-
- meta/recipes-extended/at/files/S99at  |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/at/at_3.1.13.bb b/meta/recipes-extended/at/at_3.1.13.bb
-index a391d6e..3580e09 100644
---- a/meta/recipes-extended/at/at_3.1.13.bb
-+++ b/meta/recipes-extended/at/at_3.1.13.bb
-@@ -11,7 +11,7 @@ PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
- 
- RCONFLICTS_${PN} = "atd"
- RREPLACES_${PN} = "atd"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://configure.patch \
-diff --git a/meta/recipes-extended/at/files/S99at b/meta/recipes-extended/at/files/S99at
-index bcfcbda..386f8a4 100644
---- a/meta/recipes-extended/at/files/S99at
-+++ b/meta/recipes-extended/at/files/S99at
-@@ -7,7 +7,7 @@ umask 077
- 
- start() {
- 	echo -n "Starting atd: "
--	start-stop-daemon --start --quiet --make-pidfile --pidfile /var/run/atd.pid --background --exec /usr/sbin/atd -- -f
-+	start-stop-daemon --start --quiet --pidfile /var/run/atd.pid --background --exec /usr/sbin/atd -- -f
- 	echo "OK"
- }
- stop() {
--- 
-1.7.9.5
+On 09/20/2012 07:12 PM, Andreas Müller wrote:
+> On Thu, Sep 20, 2012 at 5:38 PM, Andreas Müller
+> <schnitzeltony@googlemail.com> wrote:
+>> On Wed, Sep 19, 2012 at 5:33 PM, Laurentiu Palcu
+>> <laurentiu.palcu@intel.com> wrote:
+>>>
+>>>
+>>> On 09/19/2012 04:41 PM, Andreas Müller wrote:
+>>>> On Wed, Sep 19, 2012 at 1:49 PM, Laurentiu Palcu
+>>>> <laurentiu.palcu@intel.com> wrote:
+>>>>> Hi,
+>>>>>
+>>>>> It's been quite a long time since I sent the first version of postinstall
+>>>>> improvements which, after some debate, we decided it needed run-once
+>>>>> support of postinst scriptlets on host. This patcheset (RFC actually) adds
+>>>>> that.
+>>>>>
+>>>>> So, in order to achieve this goal I took advantage of
+>>>>> ROOTFS_POSTPROCESS_COMMAND variable. Basically, if running some postinst
+>>>>> scriptlets is time consuming (even on host) and execute repeatedly,
+>>>>> then we can postpone the running and run the scriplet just once. The idea is
+>>>>> to put the scriptlet in the ${WORKDIR}/intercept_scripts directory. When the
+>>>>> ROOTFS_POSTPROCESS_COMMAND is executed, it will pick up all the scripts in
+>>>>> this directory and execute them.
+>>>>>
+>>>>> This actual patchset does the above for the gtk icon cache generation which
+>>>>> takes a very long time to run on target and even on some hosts.
+>>>>>
+>>>>> The people willing to give this patchset a test, are most than welcome. Also,
+>>>>> please feel free to review.
+>>>>>
+>>>>> Thanks,
+>>>>> Laurentiu
+>>>>>
+>>>> Thanks for taking care. I will give it a test tonight and hope to have
+>>>> results tomorrow.
+>>> It would be great if you could give it a try and let me know your results.
+>>>
+>> I removed gtk-native append in meta-oe, build from scratch and tested
+>> the image. No issues so far - seems you have done a great job -
+>> Thanks!
+>>
+> Aargh I really would like to consider this done but I found suspicious
+> when browsing on the machine with the new image (hicolor- and
+> gnome-icon-theme installed):
+> 
+> * in the folder /usr/share/icons/gnome *no* icon-theme.cache is found
+> * /usr/share/icons/hicolor/icon-theme.cache is there but it has the
+> date of 01.01.2000 (have no rtc backup on the machine). I would expect
+> this file to have build host's date.
+> 
+> So I checked the contents on the build machine in image's rootfs:
+> 
+> * in the folder /usr/share/icons/gnome *no* icon-theme.cache is found
+> * /usr/share/icons/hicolor/icon-theme.cache is there but has only
+> 64,5KB (the version on the machine is 2,3MB!!).
+Did you have any chance to debug the issue on your setup? I tried to
+replicate your environment but I failed. Lots of build errors, so I gave
+up. It would have taken me more time to make your setup work than
+debugging the real problem.
 
+Another alternative would be for you to prepare a tarball with all the
+repos and configs that you use and put it somewhere where I can take it.
+It would be easier for me to directly start debugging your issue.
+
+Thanks,
+Laurentiu
+> 
+> 
+> Andreas
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
