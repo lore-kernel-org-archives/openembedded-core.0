@@ -1,43 +1,26 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TGyS2-0003vN-8m
+	(envelope-from <eflanagan@envy.jf.intel.com>) id 1TGziQ-0000Jm-Db
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 22:43:22 +0200
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 13:30:30 -0700
-Received: by oagh1 with SMTP id h1so517551oag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 13:30:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=Cy0UznF8PaV/Gak9bbWOIvxVM15ev4jvhsE5JvHa77I=;
-	b=jlpFzGT+8vc6TPSV3C7vWmeoKHR+ZyZmou7hLygH07gUkaRn2a/HSUC/xaMU1FU16e
-	+gMkhs2FVSFHjhCn4wQiyzKldOjzpdvD1v9Hij/qE2mxZ3FKQRTQ1TDQvni+tN4FJlkG
-	qWafbTAr8Xbe4lzEBbNdWwzgoRJEn9ILiz+LhIYXIHq2l1JL9JHJX8sDyu7JteEf6BwK
-	8R0yrTF/PWEj2T1vn2nMLhFvhHnTWZrlge1u19JkWJBuycyXFSayagATWdKPsZCpt/UE
-	gnAlANQzw4ZRA4KOLXEd/l8U1zyz1tUKv/Oq2g3+GHK2Vxzq5eKJ/48TQImyWZNrSVmr
-	MvAA==
-Received: by 10.60.28.162 with SMTP id c2mr1471923oeh.3.1348691429437; Wed, 26
-	Sep 2012 13:30:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Wed, 26 Sep 2012 13:30:08 -0700 (PDT)
-In-Reply-To: <CA+chaQdYkLRac9-yaH7TThO-ALgHaUOB7=3WdrG9CL+U4SfkRA@mail.gmail.com>
-References: <20120921112144.GE10268@jama.jama.net>
-	<1348333994-18026-1-git-send-email-Martin.Jansa@gmail.com>
-	<1348333994-18026-2-git-send-email-Martin.Jansa@gmail.com>
-	<1348482003.4654.12.camel@ted>
-	<CA+chaQd0psd_sPVnixVH_e6RAO_5jqrj-5=S5cnd4rG+2rhwCA@mail.gmail.com>
-	<1348483380.8662.2.camel@ted>
-	<CA+chaQdYkLRac9-yaH7TThO-ALgHaUOB7=3WdrG9CL+U4SfkRA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Sep 2012 21:30:08 +0100
-Message-ID: <CAJTo0LZu0GAaB39EkcprS95ZN30gxB=2xKmjbBFez3ZFBzf2fQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQl37+dxSiy6IPn+Gl03CotcGmLNVfpyUqV4YaEjUUM6L/svXrZDhsIP7bC4oag9YtqXoHhA
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
+	Thu, 27 Sep 2012 00:04:22 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Sep 2012 14:51:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,492,1344236400"; d="scan'208";a="198277625"
+Received: from envy.jf.intel.com (HELO envy) ([10.7.201.159])
+	by orsmga001.jf.intel.com with ESMTP; 26 Sep 2012 14:51:30 -0700
+Received: from envy.jf.intel.com (localhost [127.0.0.1])
+	by envy (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id q8QLo31s027817;
+	Wed, 26 Sep 2012 14:50:04 -0700
+Received: (from eflanagan@localhost)
+	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q8QLo3mH027816;
+	Wed, 26 Sep 2012 14:50:03 -0700
+From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Sep 2012 14:50:02 -0700
+Message-Id: <cover.1348695851.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/3] license.bbclass fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,21 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 20:43:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Sep 2012 22:04:22 -0000
 
-On 24 September 2012 11:52, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Why not RCONFLICT with every older version then current?
->
-> It's true that e.g. 1.11.2-r8 does not really conflict with 1.11.2-r7
-> (but r4 in most cases), but that should work.
+[YOCTO #3118]
 
-As much as I don't like this solution as it's overenthusiastic about
-the conflicts, it isn't demonstrably broken (whereas a bbappend with
-PRINC breaks my proposal).
+license.conf hasn't been being parsed. This commit series ensures that 
+license.conf is parsed, that it contains useful variables that should be
+in a global conf file and that those variables are not kept within 
+license.bbclass.
 
-So, ignore my patch, I ack this one instead.
+This also fixes an discreprancy between the documentation of LICENSE_PATH (which
+is what we tell people to use) and what we were using "LICENSE_DIR". This ensures
+that when the end user needs to add additional licenses, that they use 
+LICENSE_PATH += "path/to/additional/licenses" and that it works.
 
-Ross
+The following changes since commit 0b09e50810162a07ef0aecee91ee32b4a36334a3:
+
+  busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/LICENSE_PATH
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/LICENSE_PATH
+
+Elizabeth Flanagan (3):
+  license.bbclass: Variable standardization
+  bitbake.conf: parse license config
+  license.conf/bbclass: Move globals to license.conf
+
+ meta/classes/license.bbclass |   67 +-----------------------------------------
+ meta/conf/bitbake.conf       |    1 +
+ meta/conf/licenses.conf      |   64 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 66 insertions(+), 66 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
