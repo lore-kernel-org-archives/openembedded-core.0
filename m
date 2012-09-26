@@ -1,24 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TGpP9-0003BD-MO
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 13:03:47 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TGpCl-0006NE-Jw; Wed, 26 Sep 2012 12:50:59 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Henning Heinold <heinold@inf.fu-berlin.de>
-Date: Wed, 26 Sep 2012 11:50:58 +0100
-In-Reply-To: <20120926104608.GA23994@mi.fu-berlin.de>
-References: <1348652719.31293.90.camel@phil-desktop>
-	<20120926104608.GA23994@mi.fu-berlin.de>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348656659.31293.100.camel@phil-desktop>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TGpTq-0003FT-07 for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 13:08:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QAtKAL018450;
+	Wed, 26 Sep 2012 11:55:20 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15900-08; Wed, 26 Sep 2012 11:55:16 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QAt9pn018444
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 26 Sep 2012 11:55:11 +0100
+Message-ID: <1348656910.8662.93.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+Date: Wed, 26 Sep 2012 11:55:10 +0100
+In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6A7611@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
+	<1348566154.8662.38.camel@ted>
+	<70CC66F5C30A414DADDA6973E4CA391A6A7611@039-SN1MPN1-001.039d.mgd.msft.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-configure-cross: factor out --enable-threads argument into ${GCCTHREADS}
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [PATCH] gcc-common.inc: Consider multilib when renaming libgcc for debian'ness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,21 +41,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 11:03:47 -0000
+X-List-Received-Date: Wed, 26 Sep 2012 11:08:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-09-26 at 12:46 +0200, Henning Heinold wrote:
-> should that not be GCCTHREADS ?=
-> 
-> otherwise I do not see how it could be overwritten from outside.
+On Tue, 2012-09-25 at 18:07 +0000, McClintock Matthew-B29882 wrote:
+> This should probably go in denzil as well.
 
-Well, a .bbappend can do it (since EXTRA_OECONF isn't assigned :=) or
-you can use an override GCCTHREADS_pn-gcc-cross = "no" for example.  But
-yes, making it be ?= would be fine with me as well.
+Lets hold off that as I think we need to fix this in a better way at the
+core level...
 
-p.
+Cheers,
 
+Richard
 
 
 
