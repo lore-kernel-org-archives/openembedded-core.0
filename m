@@ -1,37 +1,37 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TH0HX-0005wg-9c
+	(envelope-from <martin.jansa@gmail.com>) id 1TH0Hh-0005vP-MO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 00:40:39 +0200
-Received: by wiwc10 with SMTP id c10so7341wiw.0
+	Thu, 27 Sep 2012 00:40:49 +0200
+Received: by mail-we0-f175.google.com with SMTP id t44so279267wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 15:27:48 -0700 (PDT)
+	Wed, 26 Sep 2012 15:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=rl/I2FgcOVpKPVwkjXstysAS1ijY8ct3ozpfUWdQuPs=;
-	b=UW6OR9ijfwwsTNW2L8/CciASubzO4KdGdto57e72hKzNWcWZGTbqxxz9/N9z/dX7+w
-	id0S/OZwn1fyjKlp+bfhMw/PeSKS9wne3zWXIj6ufS/3U0J9buxuuGe1jsjRi/UUFUsX
-	RcbuI999B5JRzkg6NubgL6rP7DAnp+10Upfy4bRw9366ZbjmawSwMn21eweHsUOXFsPk
-	qBJlfBePZd7xeh6RvR8lWoyGVNddQtdLh9hHfe+Avu13jFuCtI1dWkYV+x3lUsu0/Y2z
-	ic7B3R2oCBDXn0GSB5idwLwZ+3Yzq0hUd4fp7PDXSBJaCY1R53gONLqpo9IsmJoi/U0o
-	fmfA==
-Received: by 10.216.194.148 with SMTP id m20mr383216wen.51.1348698468325;
-	Wed, 26 Sep 2012 15:27:48 -0700 (PDT)
+	bh=n75UIR7BhBdf/75kfHljsmL2cZIKDqnthfmF4Dk4zag=;
+	b=nBQamF1eJodmOl8/e//iEre6EqlIyNZ/8DvbRpQxeDAbKibV9T36fJrbA1xvNy9AOn
+	YnH006GIFG6ZQAfgkqpd9tifDERVgyHssSAaq7v1Lo3zr6HOYKJAEnKkjJ4yf990eIue
+	b8hTRuReQwoAHH6sLJwznpHXlPwFw53PHPa7lfkrVGdduGOepB0UaB827ZaT/VyhIjH+
+	deTTiHR1wgcOu/OmrlHoJG4QhQ/fkgMVYO3Eh5UWyi9NZhBrgXHoeawc/EoSLjFBjZ05
+	PdTsRjMXPHsg1p6Nhx1fUg+QgIT7EVJuGNMY2usIt9GGYphk+vdxdNeYTbrVsnQ5lo7I
+	+nsg==
+Received: by 10.180.82.164 with SMTP id j4mr4015023wiy.18.1348698481013;
+	Wed, 26 Sep 2012 15:28:01 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id bn7sm9500496wib.8.2012.09.26.15.27.46
+	by mx.google.com with ESMTPS id eu4sm28005633wib.2.2012.09.26.15.27.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Sep 2012 15:27:47 -0700 (PDT)
+	Wed, 26 Sep 2012 15:28:00 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 00:27:10 +0200
-Message-Id: <084b8031e2bfbae486018781fdfb59fb2fef6b1b.1348697518.git.Martin.Jansa@gmail.com>
+Date: Thu, 27 Sep 2012 00:27:11 +0200
+Message-Id: <3446810f37cfc917d94c08b92d0d13749a17dd7d.1348697518.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.12
 In-Reply-To: <cover.1348697518.git.Martin.Jansa@gmail.com>
 References: <cover.1348697518.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1348697518.git.Martin.Jansa@gmail.com>
 References: <cover.1348697518.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 05/10] qt-mobility: move qt-mobility patches to separate dir
+Subject: [PATCH 06/10] qt4: move patches from files to qt4-4.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,55 +44,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 22:40:39 -0000
+X-List-Received-Date: Wed, 26 Sep 2012 22:40:49 -0000
+
+* faster lookup in FILESPATH as small bonus
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../0001-gstvideoconnector-fixed-buffers-allocation.patch                | 0
- .../0002-Remove-unnecessary-rpaths-from-qml_device-example.patch         | 0
- meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/gcc-scope.patch         | 0
- .../qt4/{files => qt-mobility-1.2.0}/qt-mobility-configure.patch         | 0
- .../qt4/{files => qt-mobility-1.2.0}/qt-mobility-no-opengl.patch         | 0
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                                | 1 +
- 6 files changed, 1 insertion(+)
- rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/0001-gstvideoconnector-fixed-buffers-allocation.patch (100%)
- rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch (100%)
- rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/gcc-scope.patch (100%)
- rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/qt-mobility-configure.patch (100%)
- rename meta/recipes-qt/qt4/{files => qt-mobility-1.2.0}/qt-mobility-no-opengl.patch (100%)
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/0004-no-qmake.patch              | 0
+ .../recipes-qt/qt4/{files => qt4-4.8.1}/0006-freetype-host-includes.patch | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/0008-qt-lib-infix.patch          | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/0009-support-2bpp.patch          | 0
+ .../qt4/{files => qt4-4.8.1}/add_nostrip_for_debug_packages.diff          | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/blacklist-diginotar-certs.diff   | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/compile.test-lflags.patch        | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/configure-paths.patch            | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/fix-config-tests.patch           | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/fix_qkbdtty_qws.patch            | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/qt-config.patch                  | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/qt-dbus-const.patch              | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/qte.sh                           | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/set-OUTPUT_DIR-if-empty.patch    | 0
+ meta/recipes-qt/qt4/{files => qt4-4.8.1}/target_qmake.patch               | 0
+ 15 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/0004-no-qmake.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/0006-freetype-host-includes.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/0008-qt-lib-infix.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/0009-support-2bpp.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/add_nostrip_for_debug_packages.diff (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/blacklist-diginotar-certs.diff (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/compile.test-lflags.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/configure-paths.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/fix-config-tests.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/fix_qkbdtty_qws.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/qt-config.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/qt-dbus-const.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/qte.sh (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/set-OUTPUT_DIR-if-empty.patch (100%)
+ rename meta/recipes-qt/qt4/{files => qt4-4.8.1}/target_qmake.patch (100%)
 
-diff --git a/meta/recipes-qt/qt4/files/0001-gstvideoconnector-fixed-buffers-allocation.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/0001-gstvideoconnector-fixed-buffers-allocation.patch
+diff --git a/meta/recipes-qt/qt4/files/0004-no-qmake.patch b/meta/recipes-qt/qt4/qt4-4.8.1/0004-no-qmake.patch
 similarity index 100%
-rename from meta/recipes-qt/qt4/files/0001-gstvideoconnector-fixed-buffers-allocation.patch
-rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/0001-gstvideoconnector-fixed-buffers-allocation.patch
-diff --git a/meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
+rename from meta/recipes-qt/qt4/files/0004-no-qmake.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/0004-no-qmake.patch
+diff --git a/meta/recipes-qt/qt4/files/0006-freetype-host-includes.patch b/meta/recipes-qt/qt4/qt4-4.8.1/0006-freetype-host-includes.patch
 similarity index 100%
-rename from meta/recipes-qt/qt4/files/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
-rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/0002-Remove-unnecessary-rpaths-from-qml_device-example.patch
-diff --git a/meta/recipes-qt/qt4/files/gcc-scope.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/gcc-scope.patch
+rename from meta/recipes-qt/qt4/files/0006-freetype-host-includes.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/0006-freetype-host-includes.patch
+diff --git a/meta/recipes-qt/qt4/files/0008-qt-lib-infix.patch b/meta/recipes-qt/qt4/qt4-4.8.1/0008-qt-lib-infix.patch
 similarity index 100%
-rename from meta/recipes-qt/qt4/files/gcc-scope.patch
-rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/gcc-scope.patch
-diff --git a/meta/recipes-qt/qt4/files/qt-mobility-configure.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-configure.patch
+rename from meta/recipes-qt/qt4/files/0008-qt-lib-infix.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/0008-qt-lib-infix.patch
+diff --git a/meta/recipes-qt/qt4/files/0009-support-2bpp.patch b/meta/recipes-qt/qt4/qt4-4.8.1/0009-support-2bpp.patch
 similarity index 100%
-rename from meta/recipes-qt/qt4/files/qt-mobility-configure.patch
-rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-configure.patch
-diff --git a/meta/recipes-qt/qt4/files/qt-mobility-no-opengl.patch b/meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-no-opengl.patch
+rename from meta/recipes-qt/qt4/files/0009-support-2bpp.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/0009-support-2bpp.patch
+diff --git a/meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff b/meta/recipes-qt/qt4/qt4-4.8.1/add_nostrip_for_debug_packages.diff
 similarity index 100%
-rename from meta/recipes-qt/qt4/files/qt-mobility-no-opengl.patch
-rename to meta/recipes-qt/qt4/qt-mobility-1.2.0/qt-mobility-no-opengl.patch
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-index 7f0af9f..3dc12af 100644
---- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -5,6 +5,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
- 		    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
- 
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/qt-mobility-${PV}:"
- SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.tar.gz \
-            file://qt-mobility-configure.patch \
-            file://0001-gstvideoconnector-fixed-buffers-allocation.patch \
+rename from meta/recipes-qt/qt4/files/add_nostrip_for_debug_packages.diff
+rename to meta/recipes-qt/qt4/qt4-4.8.1/add_nostrip_for_debug_packages.diff
+diff --git a/meta/recipes-qt/qt4/files/blacklist-diginotar-certs.diff b/meta/recipes-qt/qt4/qt4-4.8.1/blacklist-diginotar-certs.diff
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/blacklist-diginotar-certs.diff
+rename to meta/recipes-qt/qt4/qt4-4.8.1/blacklist-diginotar-certs.diff
+diff --git a/meta/recipes-qt/qt4/files/compile.test-lflags.patch b/meta/recipes-qt/qt4/qt4-4.8.1/compile.test-lflags.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/compile.test-lflags.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/compile.test-lflags.patch
+diff --git a/meta/recipes-qt/qt4/files/configure-paths.patch b/meta/recipes-qt/qt4/qt4-4.8.1/configure-paths.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/configure-paths.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/configure-paths.patch
+diff --git a/meta/recipes-qt/qt4/files/fix-config-tests.patch b/meta/recipes-qt/qt4/qt4-4.8.1/fix-config-tests.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/fix-config-tests.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/fix-config-tests.patch
+diff --git a/meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch b/meta/recipes-qt/qt4/qt4-4.8.1/fix_qkbdtty_qws.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/fix_qkbdtty_qws.patch
+diff --git a/meta/recipes-qt/qt4/files/qt-config.patch b/meta/recipes-qt/qt4/qt4-4.8.1/qt-config.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/qt-config.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/qt-config.patch
+diff --git a/meta/recipes-qt/qt4/files/qt-dbus-const.patch b/meta/recipes-qt/qt4/qt4-4.8.1/qt-dbus-const.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/qt-dbus-const.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/qt-dbus-const.patch
+diff --git a/meta/recipes-qt/qt4/files/qte.sh b/meta/recipes-qt/qt4/qt4-4.8.1/qte.sh
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/qte.sh
+rename to meta/recipes-qt/qt4/qt4-4.8.1/qte.sh
+diff --git a/meta/recipes-qt/qt4/files/set-OUTPUT_DIR-if-empty.patch b/meta/recipes-qt/qt4/qt4-4.8.1/set-OUTPUT_DIR-if-empty.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/set-OUTPUT_DIR-if-empty.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/set-OUTPUT_DIR-if-empty.patch
+diff --git a/meta/recipes-qt/qt4/files/target_qmake.patch b/meta/recipes-qt/qt4/qt4-4.8.1/target_qmake.patch
+similarity index 100%
+rename from meta/recipes-qt/qt4/files/target_qmake.patch
+rename to meta/recipes-qt/qt4/qt4-4.8.1/target_qmake.patch
 -- 
 1.7.12
 
