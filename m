@@ -1,45 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TGviu-00088V-Sm
+	(envelope-from <joe.slater@windriver.com>) id 1TGvuJ-00009v-EU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 19:48:36 +0200
-Received: by wgbdq11 with SMTP id dq11so605972wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 10:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=resent-from:resent-date:resent-message-id:resent-to:mime-version
-	:in-reply-to:references:date:delivered-to:message-id:subject:from:to
-	:content-type; bh=6u+EfEuQBSIRs26LAKHKviQ7/TIO2443120bncd+R8I=;
-	b=FM8oMUfR4UeuDzKClyLosvQY8xxPLRD6tqaRajDFZefYA68bThLFas3GfNUe1VyIqS
-	RCiCVt8n++V3dxaVgdCxPmEjvAive6/eXqlQ9eHmkcgt0P+R7V0KFd5qF9BHyc8EWzVj
-	gPEMvTGaq7Cgd3XUm4UoiSLCnuYowyv48JKvQM1N5wj5pz3vBaadcNyhkqstEz53LH4h
-	LvZ+FpCJ34y3PjIGicBj7HlFyeNOYTOVhjNqylelKgjTZTkoXHU/G3r8iBbCVQoVCUhj
-	h0S3FFdSlL1giuIrYFklg8yCBL+TKD+5asopwqas69L5hxXeuH4n+1ScZsXF6KNjx1nl
-	h14Q==
-Received: by 10.216.136.157 with SMTP id w29mr28949wei.148.1348680943192;
-	Wed, 26 Sep 2012 10:35:43 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id hv8sm33480719wib.0.2012.09.26.10.35.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Sep 2012 10:35:42 -0700 (PDT)
-Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
-Resent-Date: Wed, 26 Sep 2012 19:35:50 +0200
-Resent-Message-ID: <20120926173550.GA19337@jama.jama.net>
-Resent-To: openembedded-core@lists.openembedded.org
-MIME-Version: 1.0
-Received: by 10.64.49.71 with HTTP; Mon, 24 Sep 2012 03:52:16 -0700 (PDT)
-In-Reply-To: <1348483380.8662.2.camel@ted>
-References: <20120921112144.GE10268@jama.jama.net>
-	<1348333994-18026-1-git-send-email-Martin.Jansa@gmail.com>
-	<1348333994-18026-2-git-send-email-Martin.Jansa@gmail.com>
-	<1348482003.4654.12.camel@ted>
-	<CA+chaQd0psd_sPVnixVH_e6RAO_5jqrj-5=S5cnd4rG+2rhwCA@mail.gmail.com>
-	<1348483380.8662.2.camel@ted>
-Date: Mon, 24 Sep 2012 12:52:16 +0200
-Message-ID: <CA+chaQdYkLRac9-yaH7TThO-ALgHaUOB7=3WdrG9CL+U4SfkRA@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 26 Sep 2012 20:00:23 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8QHlUNd022516
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Sep 2012 10:47:30 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.76]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.02.0309.002;
+	Wed, 26 Sep 2012 10:47:29 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
+Thread-Topic: [OE-core] [PATCH] cmake.bbclass: modify construction of
+	compiler flags
+Thread-Index: AQHNm8OjZcCrWuKJeEK8IV3OXyof8pec5QoQ
+Date: Wed, 26 Sep 2012 17:47:29 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84200BC403@ALA-MBB.corp.ad.wrs.com>
+References: <1348609047-4118-1-git-send-email-jslater@windriver.com>
+	<1348649261.8662.88.camel@ted>
+In-Reply-To: <1348649261.8662.88.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: modify construction of compiler flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,72 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 17:48:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Sep 2012 18:00:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Sep 24, 2012 at 12:43 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2012-09-24 at 12:26 +0200, Martin Jansa wrote:
->> On Mon, Sep 24, 2012 at 12:20 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Sat, 2012-09-22 at 19:13 +0200, Martin Jansa wrote:
->> >> * it doesn't make much sense with PV, because xserver-xorg-module-exa
->> >>   was introduced in
->> >>   http://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver?id=1a666ee1cda3c0b74daba5881fc5f62e13deec66
->> >>   so our xserver-xorg-module-exa RCONFLICTS with xserver-xorg (<= 1.11.2-r4)
->> >>   and (< 1.11.2) is not good enough
->> >>
->> >> * because we don't know how many PRINC are in BSP/DISTRO layers,
->> >>   then it's safer to RCONFLICTS with every older version then current
->> >>   EXTENDPKGV
->> >>
->> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> >>
->> >> --
->> >>
->> >> * I haven't really tested this with IPK, since it was changed from
->> >>   RREPLACES to RCONFLICTS (because of RPM) and all my installed devices
->> >>   are already upgraded
->> >> ---
->> >>  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
->> >>  1 file changed, 1 insertion(+), 1 deletion(-)
->> >>
->> >> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
->> >> index 33f59fe..7513399 100644
->> >> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
->> >> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
->> >> @@ -66,7 +66,7 @@ PACKAGES =+ "${PN}-security-policy \
->> >>
->> >>  RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
->> >>  RDEPENDS_${PN}-xvfb += "xkeyboard-config"
->> >> -RCONFLICTS_${PN}-module-exa = "${PN} (< ${PV})"
->> >> +RCONFLICTS_${PN}-module-exa = "${PN} (< ${EXTENDPKGV})"
->> >>
->> >>  FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
->> >>  FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
->> >
->> > The original patch and this patch are wrong, this value should not be
->> > "floating". It should be spelt out explicitly so it doesn't change with
->> > the recipe version in future.:
->> >
->> > RCONFLICTS_${PN}-module-exa = "${PN} (< 1.11.2-r4)"
->>
->> So every layer with PRINC in xserver-xorg needs to add
->> RCONFLICTS_${PN}-module-exa = "${PN} (<
->> 1.11.2-rTHEIR_PR_AT_THE_TIME_OF_CHANGE) ?
->> What if there is more layers then one with PRINC and they don't know
->> about each other?
->
-> There is a problem there, yes and we're on uncharted territory here. If
-> people were using the PR service rather that trying to force package
-> management problems into the core we wouldn't have this kind of problem.
->
-> As a solution, how about appending something to PV? I don't like it but
-> an artificial PV step should "resolve" this.
-
-Why not RCONFLICT with every older version then current?
-
-It's true that e.g. 1.11.2-r8 does not really conflict with 1.11.2-r7
-(but r4 in most cases), but that should work.
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
+W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBXZWRu
+ZXNkYXksIFNlcHRlbWJlciAyNiwgMjAxMiAxOjQ4IEFNDQo+IFRvOiBTbGF0ZXIsIEpvc2VwaA0K
+PiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gY21ha2UuYmJjbGFzczogbW9kaWZ5IGNvbnN0cnVjdGlv
+biBvZiBjb21waWxlciBmbGFncw0KPiANCj4gT24gVHVlLCAyMDEyLTA5LTI1IGF0IDE0OjM3IC0w
+NzAwLCBKb2UgU2xhdGVyIHdyb3RlOg0KPiA+IFVzZSBDRkxBR1MgaW5zdGVhZCBvZiBDUFBGTEFH
+UyBmb3IgQ19GTEFHUyB2YXJpYW50cy4NCj4gPiBBbHNvIHJlbW92ZSBkdXBsaWNhdGUgZmxhZ3Mg
+ZnJvbSBfUkVMRUFTRSB2YXJpYW50cy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEpvZSBTbGF0
+ZXIgPGpzbGF0ZXJAd2luZHJpdmVyLmNvbT4NCj4gPg0KPiA+ICoqKiBOb3RlIC0gdGhpcyBjYW4g
+YnJlYWsgdGhpbmdzIHRoYXQgaGF2ZSBuZXZlciByZWFsbHkNCj4gPiAqKiogICAgICAgIGJlZW4g
+Y29tcGlsZWQgd2l0aCAtTzIgb3B0aW1pemF0aW9uDQo+IA0KPiBUaGlzIGNoYW5nZSBzYXlzIHdo
+YXQgeW91J3JlIGRvaW5nIGJ1dCBub3QgcmVhbGx5IHdoeS4gSG93IGFyZSB0aGluZ3MNCj4gYnJv
+a2VuIGFuZCB3aHkgaXMgdGhpcyBhbiBpbXByb3ZlbWVudD8NCg0KVGhlIHNwZWNpZmljIHByb2Js
+ZW0gaXMgdGhhdCwgc2luY2UgQ0ZMQUdTIGFyZSBpZ25vcmVkLCB0aGVyZSBpcyBubyBkaWZmZXJl
+bmNlDQpiZXR3ZWVuIGRlYnVnICgtTzApIGFuZCBwcm9kdWN0aW9uICgtTzIpIGJ1aWxkcy4gIEl0
+IGFsc28gc2VlbXMgY291bnRlci1pbnR1aXRpdmUNCnRoYXQgQ1hYX0ZMQUdTIGFyZSBiYXNlZCBv
+biBDWFhGTEFHUywgYnV0IENfRkxBR1MgYXJlIG5vdCBiYXNlZCBvbiBDRkxBR1MuDQoNCkpvZQ0K
+DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQo+IA0KPiA+IC0tLQ0KPiA+ICBtZXRhL2Ns
+YXNzZXMvY21ha2UuYmJjbGFzcyB8ICAgIDYgKysrLS0tDQo+ID4gIDEgZmlsZXMgY2hhbmdlZCwg
+MyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21l
+dGEvY2xhc3Nlcy9jbWFrZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL2NtYWtlLmJiY2xhc3MNCj4g
+PiBpbmRleCBkY2Q5NzRhLi5hYzVjMDQ4IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9j
+bWFrZS5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2NtYWtlLmJiY2xhc3MNCj4gPiBA
+QCAtMTksMTAgKzE5LDEwIEBAIE9FQ01BS0VfQ19DT01QSUxFUiA/PSAiYGVjaG8gJHtDQ30gfCBz
+ZWQgJ3MvXlwoW14gXSpcKS4qL1wxLydgIg0KPiA+ICBPRUNNQUtFX0NYWF9DT01QSUxFUiA/PSAi
+YGVjaG8gJHtDWFh9IHwgc2VkICdzL15cKFteIF0qXCkuKi9cMS8nYCINCj4gPg0KPiA+ICAjIENv
+bXBpbGVyIGZsYWdzDQo+ID4gLU9FQ01BS0VfQ19GTEFHUyA/PSAiJHtIT1NUX0NDX0FSQ0h9ICR7
+VE9PTENIQUlOX09QVElPTlN9ICR7Q1BQRkxBR1N9Ig0KPiA+ICtPRUNNQUtFX0NfRkxBR1MgPz0g
+IiR7SE9TVF9DQ19BUkNIfSAke1RPT0xDSEFJTl9PUFRJT05TfSAke0NGTEFHU30iDQo+ID4gIE9F
+Q01BS0VfQ1hYX0ZMQUdTID89ICIke0hPU1RfQ0NfQVJDSH0gJHtUT09MQ0hBSU5fT1BUSU9OU30g
+JHtDWFhGTEFHU30gLWZwZXJtaXNzaXZlIg0KPiA+IC1PRUNNQUtFX0NfRkxBR1NfUkVMRUFTRSA/
+PSAiJHtTRUxFQ1RFRF9PUFRJTUlaQVRJT059ICR7Q1BQRkxBR1N9IC1ETkRFQlVHIg0KPiA+IC1P
+RUNNQUtFX0NYWF9GTEFHU19SRUxFQVNFID89ICIke1NFTEVDVEVEX09QVElNSVpBVElPTn0gJHtD
+WFhGTEFHU30gLUROREVCVUciDQo+ID4gK09FQ01BS0VfQ19GTEFHU19SRUxFQVNFID89ICIke0NG
+TEFHU30gLUROREVCVUciDQo+ID4gK09FQ01BS0VfQ1hYX0ZMQUdTX1JFTEVBU0UgPz0gIiR7Q1hY
+RkxBR1N9IC1ETkRFQlVHIg0KPiA+DQo+ID4gIE9FQ01BS0VfUlBBVEggPz0gIiINCj4gPiAgT0VD
+TUFLRV9QRVJMTkFUSVZFX0RJUiA/Pz0gIiINCj4gDQoNCg==
 
 
