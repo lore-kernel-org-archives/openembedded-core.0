@@ -1,34 +1,26 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TGs2h-0001M9-A9
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TGs8h-0001Wp-Sa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 15:52:47 +0200
-Received: by iebc13 with SMTP id c13so1313615ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 06:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=YbKsJkMauUAecJfvp2Nrb7fG/FNiFLW+2CVFU1+T6W8=;
-	b=APC/Mj0ZuLXiIghmL8gaynXfmvM5/XgBzTp9dQcn6wgbvAjNvoRnz43F1aJQNGpAHk
-	iXMJ91lJxF7rvhTf3G1+RT7kIahVeuD9je98ICIgKEITsxRoCyvolUFixHbgjPDUvrjW
-	+FSgc16bAN5glOcENey9q64tJDYIrtLmjfzkeWXdo2N8+DDO0wJVZY0d1+9OfZPXZQ82
-	qwXx6Gv4r9aBa7yOGBqXAfPu3HFp8VN05Pj8PCUjgmUDkStY3k4G756GFpTmLOnazSCt
-	FbujtOHCMppgocJLxApy5SIrBrgWz6xa3OBEORxgOvvnsbVhEiTrLFbjbM0/yEFNO2+w
-	VpCA==
+	Wed, 26 Sep 2012 15:59:00 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 Sep 2012 06:46:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,490,1344236400"; d="scan'208";a="198050487"
+Received: from unknown (HELO helios.localnet) ([10.252.122.36])
+	by orsmga001.jf.intel.com with ESMTP; 26 Sep 2012 06:45:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 26 Sep 2012 14:45:58 +0100
+Message-ID: <1873147.GujWgbYhhC@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.1 (Linux/3.2.0-31-generic-pae; KDE/4.9.1; i686; ; )
+In-Reply-To: <20120926133013.GM3313@jama.jama.net>
+References: <1348659245-14209-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1985929.Ib8AKayW0V@helios> <20120926133013.GM3313@jama.jama.net>
 MIME-Version: 1.0
-Received: by 10.50.236.6 with SMTP id uq6mr465713igc.50.1348666795295; Wed, 26
-	Sep 2012 06:39:55 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Wed, 26 Sep 2012 06:39:55 -0700 (PDT)
-In-Reply-To: <1348662532.31293.111.camel@phil-desktop>
-References: <1348661505.31293.106.camel@phil-desktop>
-	<20120926122357.GJ3313@jama.jama.net>
-	<1348662532.31293.111.camel@phil-desktop>
-Date: Wed, 26 Sep 2012 15:39:55 +0200
-Message-ID: <CALbNGRQS7+-RBWUwc6qFguADhsWeGOin6q6=JrHy5W=Xcb7C_A@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: Use qemu to run postinsts in offline root mode
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gstreamer: make pulseaudio support dependent on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,18 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 13:52:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Sep 2012 13:59:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Sep 26, 2012 at 2:28 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Wed, 2012-09-26 at 14:23 +0200, Martin Jansa wrote:
->> On Wed, Sep 26, 2012 at 01:11:44PM +0100, Phil Blundell wrote:
->> > This makes it possible to use gdk-pixbuf on a read-only rootfs.
->>
->> Isn't this issue resolved in "[RFC 0/7] Postinstall improvements" too?
-Investigations are still pending since I saw unexplainable effects on
-my standard image.
+On Wednesday 26 September 2012 15:30:13 Martin Jansa wrote:
+> On Wed, Sep 26, 2012 at 02:24:07PM +0100, Paul Eggleton wrote:
+> > On Wednesday 26 September 2012 14:32:57 Martin Jansa wrote:
+> > > On Wed, Sep 26, 2012 at 01:31:10PM +0100, Paul Eggleton wrote:
+> > > > On Wednesday 26 September 2012 13:38:19 Martin Jansa wrote:
+> > > > > On Wed, Sep 26, 2012 at 12:34:05PM +0100, Paul Eggleton wrote:
+> > > > > > This should be no change to the previous situation unless you
+> > > > > > explicitly have pulseaudio in DISTRO_FEATURES_BACKFILL_CONSIDERED
+> > > > > > (currently).
+> > > > > 
+> > > > > Why not use PACKAGECONFIG for this?
+> > > > 
+> > > > Only because I didn't see the need complicate it just to be able to
+> > > > configure it on a per-recipe basis - you almost certainly want
+> > > > pulseaudio
+> > > > either on or off everywhere. If you want it for stylistic reasons,
+> > > > sure,
+> > > > I guess... it is a bit ugly though.
+> > > 
+> > > Well it looked to me like ideal use-case for PACKAGECONFIG.
+> > 
+> > It does encapsulate the DEPENDS and EXTRA_OECONF into one piece, yes, but
+> > then when you make the PACKAGECONFIG option set from DISTRO_FEATURES
+> > anyway it gets ugly, and here I'm not convinced it adds anything useful.
+> 
+> Yes, but that's the case for almost every other PACKAGECONFIG use in
+> oe-core too AFAIK and I was asked to convert similar commit to use
+> PACKAGECONFIG before so I was expecting that the ultimate goal is to
+> replace all such DISTRO_FEATURE tests with PACKAGECONFIG where possible,
+> not to add more of them.
 
-Andreas
+Perhaps. Well, I just noticed I need to correct the commit message anyway 
+(it's a change to gst-plugins-good, not gstreamer) so given that I'll send a 
+v2 using PACKAGECONFIG.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
