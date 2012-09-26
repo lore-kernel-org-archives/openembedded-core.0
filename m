@@ -1,26 +1,46 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TGo7H-0001EK-Ty
+	(envelope-from <ross.burton@intel.com>) id 1TGo9E-0001HU-DV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 11:41:15 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TGnus-0006KD-Ew; Wed, 26 Sep 2012 11:28:26 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 26 Sep 2012 10:28:25 +0100
-In-Reply-To: <1348649372.8662.90.camel@ted>
-References: <1348577690.31293.70.camel@phil-desktop>
-	<1348610357.2853.5.camel@lenny>
-	<1348610431.1335.11.camel@x121e.pbcl.net>
-	<1348611089.2853.7.camel@lenny> <1348649372.8662.90.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348651706.31293.89.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Remove static libraries from -dev packages
+	Wed, 26 Sep 2012 11:43:16 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 02:30:24 -0700
+Received: by obceq6 with SMTP id eq6so368822obc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2012 02:30:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=PlZlEJYCoDwk0ZEo6DrzvvC3lJr2BSsHaB4KNFxtVNU=;
+	b=aWOLW8+WveiQMR+kvZFzG1aPqjxTKoj3NFmzdQBFxnB2KDyf0i9WnDL0f9zgsFEz3T
+	oB23yXXBa32HI3/6J2AKwfnJHxu9/xI+qhX7SPe2Iv0ZU4LSNznipS8Ze9kC8Aws0NGF
+	WWUsZLQ/qL6ZVORMBZnGbAy4hTPnfhwszftX/l+m1Uc05/Y/wlT67keb8YbLrXaCyr1U
+	VEGQ/nqnGCNykwXMcGwgGkrZUss8Phfken4sy3XOAzH9YIw4GYzFq8IUf/NC8LHG7yQk
+	+/YNLgcwL+UcJWRaSzNxxL1q49zujqoHMj4Ub5DO35nOsRgolgSKWRABgc1R+DLJP3/I
+	YDFA==
+Received: by 10.60.12.106 with SMTP id x10mr14360430oeb.103.1348651824135;
+	Wed, 26 Sep 2012 02:30:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Wed, 26 Sep 2012 02:30:03 -0700 (PDT)
+In-Reply-To: <CAPj87rM=D6hSXGqY6O2qOoPb=NiGSrTRSpakcwJQTkssDMYtzg@mail.gmail.com>
+References: <1348516546-26005-1-git-send-email-msm@freescale.com>
+	<1348516546-26005-2-git-send-email-msm@freescale.com>
+	<CAJTo0LYe6LuFQJS_36PYVsjwnp=N9J-XuiFVMntBi76qt+i4aw@mail.gmail.com>
+	<70CC66F5C30A414DADDA6973E4CA391A6A6CE2@039-SN1MPN1-001.039d.mgd.msft.net>
+	<CAJTo0LZ7LrDg8JfOH6bVDV2PK6mnpqUsdHPwnvmUm1uen8uzMQ@mail.gmail.com>
+	<CAEsOVNfCLUhhpM91OBLC_paOXzsoS6PMeVXdp2xSnajqGuBcyg@mail.gmail.com>
+	<70CC66F5C30A414DADDA6973E4CA391A6A7790@039-SN1MPN1-001.039d.mgd.msft.net>
+	<CAJTo0LYcfqespv9vnEWUASJN6-Psh954FGHRoWhAmUYkFWwtEw@mail.gmail.com>
+	<CAPj87rM=D6hSXGqY6O2qOoPb=NiGSrTRSpakcwJQTkssDMYtzg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 26 Sep 2012 10:30:03 +0100
+Message-ID: <CAJTo0LYNQrgg3=krn2ezw5w-aByV++Wpw-mszNL6MGGeMdCqRA@mail.gmail.com>
+To: Daniel Stone <daniel@fooishbar.org>
+X-Gm-Message-State: ALoCoQlqqPja1sqjlgK5oN9TR4P2UsP0leYwb6gWPdpE4FsRkrDg06QXLpNaPwiSneX+2eHAtDnu
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libx11: fix nativesdk build on older distros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 09:41:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2012 09:43:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2012-09-26 at 09:49 +0100, Richard Purdie wrote:
-> On Tue, 2012-09-25 at 18:11 -0400, Colin Walters wrote:
-> > On Tue, 2012-09-25 at 23:00 +0100, Phil Blundell wrote:
-> > 
-> > > That'd be inconsistent with other packages, since we do generally build
-> > > and ship the static libraries.  Having a big switch to turn off static
-> > > libraries globally seems like a fine plan, but I can't see any obvious
-> > > reason why the util-linux ones are any more useless than the rest.
-> > 
-> > Makes sense.  I wonder if there are actually any users of the static
-> > libraries.
-> > 
-> > For what it's worth in gnome-ostree I do just globally pass
-> > --disable-static by default.
-> 
-> I tested this a while back to see what performance difference it made.
-> The answer was "nothing too significant", I don't have the exact timings
-> handy. I do remember having to exclude sqlite-native from the list since
-> pseudo static links against it.
+On 26 September 2012 00:11, Daniel Stone <daniel@fooishbar.org> wrote:
+>> The best fix is to just #define _GNU_SOURCE at the top of makekeys
+>> then, and push that upstream (mail patch to xorg-devel@lists.x.org).
+>
+> Actually, it isn't, as that breaks non-glibc badly.  glibc takes
+> _GNU_SOURCE to mean 'please add useful GNU extensions to this POSIX
+> wasteland', whereas BSD and/or Solaris take it to mean 'please make
+> this only GNU and don't use any other extensions at all'.  So we have
+> to do whatever AC_USE_SYSTEM_EXTENSIONS does, because that really is
+> the only thing that actually works.
 
-It's slightly surprising that it doesn't make that much of a difference,
-given that building static libraries does essentially double the number
-of compilations for library code.  Though, of course, glibc doesn't
-support --disable-static nowadays and there might be a few other big
-packages that have the same issue.
+What do you mean non-glibc? :)
 
-I guess that if you have enough cores, compilation count becomes
-something of a non-issue since it's one of the few things that does
-parallelize very well.  It might be interesting to repeat the
-measurements of --disable-static on a machine with only a few CPUs and
-see whether it makes more of a difference there.
+Ignoring Minix as a build host (I think that's reasonable),
+AC_USE_SYSTEM_EXTENSIONS  defines _ALL_SOURCE _GNU_SOURCE
+_POSIX_PTHREAD_SEMANTICS _TANDEM_SOURCE, and does a compile-time
+sanity test of __EXTENSIONS__ (because it's possible that some
+combination of these defines make the system headers unusable on
+Solaris).
 
-Out of interest, why does pseudo static-link against sqlite anyway?
+This is annoying.  How about for oe-core we patch in -D_GNU_SOURCE to
+src/util/Makefile.am's CPPFLAGS definition and I'll discuss with
+xorg-dev for a proper fix?
 
-p.
-
-
+Ross
 
 
