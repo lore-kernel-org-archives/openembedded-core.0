@@ -1,30 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TGqRC-0005cG-Tl for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 14:09:59 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QBv8ef018813
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 12:57:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18696-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 12:57:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QBuw4c018807
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 12:56:59 +0100
-Message-ID: <1348660618.8662.104.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1TGqcJ-0007cj-L9
+	for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 14:21:27 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TGqJv-0006OW-EN
+	for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 14:02:27 +0200
+From: Phil Blundell <philb@gnu.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Sep 2012 12:56:58 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Date: Wed, 26 Sep 2012 13:02:26 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1348660947.31293.105.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: packagedata/multilib: Fix search patch for multilib builds
+Subject: [PATCH] kernel.bbclass, module.bbclass: Make update-modules optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,102 +28,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 12:09:59 -0000
+X-List-Received-Date: Wed, 26 Sep 2012 12:21:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The current multilib search path code for packagedata is flawed since it
-doesn't correctly handle changes in the TARGET_VENDOR/TARGET_OS that
-multilib may make. This patch enhances the code to correctly build the
-search paths so multilib packagedata is found correctly.
+The update-modules mechanism is something of a historical relic and it isn't
+entirely clear that it has a great deal of value nowadays.  Also, it causes a
+problem when building a read-only rootfs since update-modules itself refuses
+to configure offline.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Allow DISTROs to circumvent this whole thing by declaring (via DISTRO_FEATURES)
+that they don't wish to use update-modules.  This is backfilled for existing
+distributions and will have to be marked as CONSIDERED by those who actually
+don't want it.
+
+Signed-off-by: Phil Blundell <pb@pbcl.net>
 ---
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index b1a593e..73ccf3a 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -32,8 +32,6 @@ python multilib_virtclass_handler () {
-     e.data.setVar("MLPREFIX", variant + "-")
-     e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-     e.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,e.data.getVar("SHLIBSDIR", False) + "/" + variant)
--    if e.data.getVar("TARGET_VENDOR_virtclass-multilib-" + variant, False) is None:
--	    e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + variant, e.data.getVar("TARGET_VENDOR", False) + "ml" + variant)
-     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
- }
+ meta/classes/kernel.bbclass |   24 ++++++++++++++++--------
+ meta/classes/module.bbclass |    2 +-
+ meta/conf/bitbake.conf      |    2 +-
+ 3 files changed, 18 insertions(+), 10 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index fdef1be..d3af67c 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -398,10 +398,12 @@ python populate_packages_prepend () {
  
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index b76fd94..f55e3a2 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -2,6 +2,11 @@ python multilib_virtclass_handler_global () {
-     if not e.data:
-         return
+         dvar = d.getVar('PKGD', True)
  
-+    if isinstance(e, bb.event.RecipePreFinalise):
-+        for v in e.data.getVar("MULTILIB_VARIANTS", True).split():
-+            if e.data.getVar("TARGET_VENDOR_virtclass-multilib-" + v, False) is None:
-+	       e.data.setVar("TARGET_VENDOR_virtclass-multilib-" + v, e.data.getVar("TARGET_VENDOR", False) + "ml" + v)
++        use_update_modules = oe.utils.contains('DISTRO_FEATURES', 'update-modules', True, False, d)
 +
-     variant = e.data.getVar("BBEXTENDVARIANT", True)
+         # If autoloading is requested, output /etc/modules-load.d/<name>.conf and append
+         # appropriate modprobe commands to the postinst
+         autoload = d.getVar('module_autoload_%s' % basename, True)
+-        if autoload:
++        if autoload and use_update_modules:
+             name = '%s/etc/modules-load.d/%s.conf' % (dvar, basename)
+             f = open(name, 'w')
+             for m in autoload.split():
+@@ -415,15 +417,16 @@ python populate_packages_prepend () {
  
-     if isinstance(e, bb.event.RecipeParsed) and not variant:
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index 5f897ff..ce92a7e 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -23,21 +23,39 @@ def read_pkgdatafile(fn):
+         # Write out any modconf fragment
+         modconf = d.getVar('module_conf_%s' % basename, True)
+-        if modconf:
++        if modconf and use_update_modules:
+             name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
+             f = open(name, 'w')
+             f.write("%s\n" % modconf)
+             f.close()
  
-     return pkgdata
+-        files = d.getVar('FILES_%s' % pkg, True)
+-        files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
+-        d.setVar('FILES_%s' % pkg, files)
++        if use_update_modules:
++            files = d.getVar('FILES_%s' % pkg, True)
++            files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
++            d.setVar('FILES_%s' % pkg, files)
  
-+def all_pkgdatadirs(d):
-+    archs = []
-+    tos = []
-+    tvs = []
-+
-+    archs.append(d.getVar("PACKAGE_ARCHS", True).split())
-+    tos.append(d.getVar("TARGET_OS", True))
-+    tvs.append(d.getVar("TARGET_VENDOR", True))
-+
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for item in variants.split():
-+        localdata = bb.data.createCopy(d)
-+        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
-+        localdata.setVar("OVERRIDES", overrides)
-+        bb.data.update_data(localdata)
-+
-+        archs.append(localdata.getVar("PACKAGE_ARCHS", True).split())
-+        tos.append(localdata.getVar("TARGET_OS", True))
-+        tvs.append(localdata.getVar("TARGET_VENDOR", True))
-+
-+    dirs = []
-+    for i in range(len(archs)):
-+        for arch in archs[i]:
-+            dirs.append(arch + tvs[i] + "-" + tos[i] + "/runtime/")
-+    dirs.reverse()
-+    return dirs 
-+ 
- def get_subpkgedata_fn(pkg, d):
--    archs = d.expand("${PACKAGE_ARCHS}").split(" ")
--    mlarchs = d.getVar("MULTILIB_PACKAGE_ARCHS", d) or None
-+    dirs = all_pkgdatadirs(d)
+         if vals.has_key("description"):
+             old_desc = d.getVar('DESCRIPTION_' + pkg, True) or ""
+@@ -441,12 +444,17 @@ python populate_packages_prepend () {
+     module_regex = '^(.*)\.k?o$'
+     module_pattern = 'kernel-module-%s'
  
--    if mlarchs:
--        for mlarch in mlarchs.split(" "):
--            if "_" in mlarch:
--                prefix, split, new_arch = mlarch.partition("_")
--                archs.append(new_arch)
--
--    archs.reverse()
-     pkgdata = d.expand('${TMPDIR}/pkgdata/')
--    targetdir = d.expand('${TARGET_VENDOR}-${TARGET_OS}/runtime/')
--    for arch in archs:
--        fn = pkgdata + arch + targetdir + pkg
-+    for dir in dirs:
-+        fn = pkgdata + dir + pkg
-         if os.path.exists(fn):
-             return fn
-     return d.expand('${PKGDATA_DIR}/runtime/%s' % pkg)
+-    postinst = d.getVar('pkg_postinst_modules', True)
+-    postrm = d.getVar('pkg_postrm_modules', True)
++    use_update_modules = oe.utils.contains('DISTRO_FEATURES', 'update-modules', True, False, d)
++    if use_update_modules:
++        postinst = d.getVar('pkg_postinst_modules', True)
++        postrm = d.getVar('pkg_postrm_modules', True)
++    else:
++        postinst = None
++        postrm = None
+     do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.bin$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+     do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.fw$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+     do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.cis$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+-    do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='update-modules kernel-%s' % d.getVar("KERNEL_VERSION", True))
++    do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%skernel-%s' % (['', 'update-modules '][use_update_modules], d.getVar("KERNEL_VERSION", True)))
+ 
+     # If modules-load.d and modprobe.d are empty at this point, remove them to
+     # avoid warnings. removedirs only raises an OSError if an empty
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index c721202..e8d32eb 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -1,4 +1,4 @@
+-RDEPENDS += "kernel-image update-modules"
++RDEPENDS_${PN} += "kernel-image ${@oe.utils.contains('DISTRO_FEATURES', 'update-modules', 'update-modules', '', d)}"
+ DEPENDS += "virtual/kernel"
+ 
+ inherit module-base
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3496d2b..5196018 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -724,7 +724,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
+ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+ 
+-DISTRO_FEATURES_BACKFILL = "pulseaudio"
++DISTRO_FEATURES_BACKFILL = "pulseaudio update-modules"
+ DISTRO_FEATURES_append = "${@oe.utils.features_backfill("DISTRO_FEATURES",d)}"
+ 
+ MACHINE_FEATURES_BACKFILL = "rtc"
+-- 
+1.7.10.4
+
 
 
 
