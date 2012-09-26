@@ -1,24 +1,38 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TGqz8-0008Gc-NA
+	(envelope-from <martin.jansa@gmail.com>) id 1TGqzo-0008JU-Bj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 14:45:02 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TGqjU-0006QH-8X; Wed, 26 Sep 2012 14:28:52 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 26 Sep 2012 13:28:51 +0100
-In-Reply-To: <20120926122357.GJ3313@jama.jama.net>
-References: <1348661505.31293.106.camel@phil-desktop>
-	<20120926122357.GJ3313@jama.jama.net>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348662532.31293.111.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: Use qemu to run postinsts in offline root mode
+	Wed, 26 Sep 2012 14:45:44 +0200
+Received: by wgbdq11 with SMTP id dq11so395088wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2012 05:32:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=oqxi9mXFRXcB9VQG1d3aSvi9n2A5bNRLOAV3RH4QF+w=;
+	b=AU9Tdv+tBjAFQrgCqXzQR3rwuDVecv9F5SWXyPFJKK2U/jrRGQ+c+j+Br3vUAMPyBn
+	5AQpl7wu85mjQwuG4FCbdQurFapMSPvJ+WWD40UR4lb/zAUvvY3FWRtercHQ2GGC8Vt7
+	GjT2inCeC6dxhwif/NPFmNCq0kzGEXrm9J7FsVf5uZlS1UQc7MKTOn8xtqojG4ZUbXua
+	g/SI2i2DIIZvPtaqL1BAswrwvd+GZukefyHg1MWI3Z0lUSQK50c1lI4uCZu7MDCKlk2i
+	L82ApdBPuIxuyVDsXxajv0ovLwCZRrzCgliNh75WUkzroSPZh3X5fPFP/VglRERBeDhV
+	8cRQ==
+Received: by 10.180.104.197 with SMTP id gg5mr1192721wib.9.1348662771233;
+	Wed, 26 Sep 2012 05:32:51 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id f10sm6622096wiy.9.2012.09.26.05.32.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 26 Sep 2012 05:32:50 -0700 (PDT)
+Date: Wed, 26 Sep 2012 14:32:57 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20120926123257.GK3313@jama.jama.net>
+References: <1348659245-14209-1-git-send-email-paul.eggleton@linux.intel.com>
+	<20120926113818.GG3313@jama.jama.net> <2280743.CHvCEmHVFs@helios>
+MIME-Version: 1.0
+In-Reply-To: <2280743.CHvCEmHVFs@helios>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gstreamer: make pulseaudio support dependent on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,21 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 12:45:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2012 12:45:44 -0000
+X-Groupsio-MsgNum: 29914
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="kswDJesP0akhmDn8"
+Content-Disposition: inline
 
-On Wed, 2012-09-26 at 14:23 +0200, Martin Jansa wrote:
-> On Wed, Sep 26, 2012 at 01:11:44PM +0100, Phil Blundell wrote:
-> > This makes it possible to use gdk-pixbuf on a read-only rootfs.
-> 
-> Isn't this issue resolved in "[RFC 0/7] Postinstall improvements" too?
+--kswDJesP0akhmDn8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ah, possibly.  I haven't really been following that thread.  I'll take a
-look.
+On Wed, Sep 26, 2012 at 01:31:10PM +0100, Paul Eggleton wrote:
+> On Wednesday 26 September 2012 13:38:19 Martin Jansa wrote:
+> > On Wed, Sep 26, 2012 at 12:34:05PM +0100, Paul Eggleton wrote:
+> > > This should be no change to the previous situation unless you
+> > > explicitly have pulseaudio in DISTRO_FEATURES_BACKFILL_CONSIDERED
+> > > (currently).
+> >=20
+> > Why not use PACKAGECONFIG for this?
+>=20
+> Only because I didn't see the need complicate it just to be able to confi=
+gure=20
+> it on a per-recipe basis - you almost certainly want pulseaudio either on=
+ or=20
+> off everywhere. If you want it for stylistic reasons, sure, I guess... it=
+ is a=20
+> bit ugly though.
 
-p.
+Well it looked to me like ideal use-case for PACKAGECONFIG.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--kswDJesP0akhmDn8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlBi9fkACgkQN1Ujt2V2gBzMvACgrqchDq9hBwH+ESBKOdAiTYT5
+6D8AnAyF8svV+v3dq2cG8ur7jGTgGzEC
+=VytJ
+-----END PGP SIGNATURE-----
+
+--kswDJesP0akhmDn8--
