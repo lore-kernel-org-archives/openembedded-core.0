@@ -1,35 +1,36 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <alexandru.damian@intel.com>) id 1TGtn8-0006Ox-N9
+	(envelope-from <ross.burton@intel.com>) id 1TGuNX-00074j-2d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 17:44:50 +0200
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 08:30:54 -0700
-Received: by qafi29 with SMTP id i29so5443971qaf.6
+	Wed, 26 Sep 2012 18:22:27 +0200
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 09:09:33 -0700
+Received: by wiwc10 with SMTP id c10so3732727wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 08:30:53 -0700 (PDT)
+	Wed, 26 Sep 2012 09:09:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type
-	:x-gm-message-state;
-	bh=Xzc0Ur3jHkHeDm1Z1A56WhZC3JrE3/SDnUC7xRK4xLI=;
-	b=PVzTNU99sXxQUpaEXlx+A6KiUCg5Vc28dJm/m42TqPE15iZd13Z+TxuQPIfOsQvZAy
-	6HsKUaYWSDSTpU79ZRFY46Cs8+Qw7NQDyQEMR8lqJHTWw9NsEBimbYr5XZqksEe1GoO/
-	XCSdk/qHCG9TseBPx19ihhGp+KHUWgBqSU5ikL6YBhbH0hTyNDwgjFQkKsPtCPhZ3ze6
-	WZGaNghxd12En6SlLHyUQ0ft619rBveWRMPmpinfngKMOlppB/lvxzTRVMHv9hNLhfVk
-	EYhjZBk3IBRBj8VrXuQg8ASEnes9AK/xDfuDPouVfu6uvTx7hNnesuUHJifJc5xTCW2i
-	YV6A==
-MIME-Version: 1.0
-Received: by 10.224.176.18 with SMTP id bc18mr2809324qab.63.1348673453064;
-	Wed, 26 Sep 2012 08:30:53 -0700 (PDT)
-Received: by 10.49.15.33 with HTTP; Wed, 26 Sep 2012 08:30:53 -0700 (PDT)
-Date: Wed, 26 Sep 2012 18:30:53 +0300
-Message-ID: <CAJ2CSBtA+XdaQg_jdro=kz5VHZPOqsh+nxXk7c+QWdFSd-cDkg@mail.gmail.com>
-From: "Damian, Alexandru" <alexandru.damian@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQk06Il3T3pIQyxVPNViLA+pBd87i+iSFfV3KJZ357GPezhItsEc+z/h2aq3vLOoRA/dr+BF
-Subject: udev patch v4
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=DvBP8OqOnHDDCWAMDEhN0RJGUIqSvYAuZWJSxXZd6m0=;
+	b=ErZYPgNUxeE2sIJYIloLWO2/r6u4ZQn3UH5sm87N4EmURoFWr71vjvcjp+uRc6gUJU
+	37s7uZ71kG4wkgl1/90e+JR/wp+noFRzcwyOcwF0yoVlHSXStETAV8xXhHu7kLkUWE3p
+	fo0aYT7LjGSvo5PnUIXgdWPpaQTvYa6J1i7zNoqLZiExGZhC9yRwHLPpeole53qPVMzB
+	LRaiNDVrsiNdmSItA8Q+ZqUAvf279yCbUJ6SJReitt1Hd78Woxy0uOaH1PUTXipPOTVA
+	+klnZCHpjRmLhhmFQUomm4pl28nQlXJSHjLPOjYPSq1iIArH5mEgcAgU6jxADo05SrT4
+	y1Gg==
+Received: by 10.216.197.41 with SMTP id s41mr47832wen.205.1348675765940;
+	Wed, 26 Sep 2012 09:09:25 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id l10sm899010wiy.3.2012.09.26.09.09.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 26 Sep 2012 09:09:24 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Sep 2012 17:08:27 +0100
+Message-Id: <1348675707-24182-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlpE0734iZW8h09uIFlCx3ou3gD68w11Eu9AC41hBVRn2+GVzSRKhpzfZknpZ0DvhnoX6qI
+Subject: [PATCH] xserver-xorg: fix -exa conflicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 15:44:51 -0000
-Content-Type: multipart/alternative; boundary=20cf302d4e5e16834904ca9c823c
+X-List-Received-Date: Wed, 26 Sep 2012 16:22:27 -0000
 
---20cf302d4e5e16834904ca9c823c
-Content-Type: text/plain; charset=ISO-8859-1
+Hopefully for good this time!
 
-Hi all,
+The previous conflict of < ${PV} declares a conflict with all versions older
+than the version being built, which isn't right.
 
-I sent patch v4 with a small change modifying the udev's default runtime
-directory
-from /run/ to the more traditional /var/run/.
+This conflict was being declared in a .inc file which is being included by
+multiple recipes (xserver-psb in meta-intel, for example) so knowledge of the
+exact version in which this change occured is only known by the .bb file itself.
+Recognise this and put the conflict in the .bb file itself.
 
-I've opened two bugs https://bugzilla.yoctoproject.org/show_bug.cgi?id=3179and
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3181 to track the issue
-and
-to remove the patch when we fix the runtime directory in Yocto.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc |    4 ++++
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc        |    1 -
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-Cheers,
-Alex
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index 35cb33a..a2d1bec 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -9,3 +9,7 @@ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+ 
+ PR = "r8"
++
++# This conflict needs to be here and not in the .inc so we know the exact
++# version where the break was
++RCONFLICTS_${PN}-module-exa = "${PN} (< 1.11.2-r5)"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 643ca70..3ec38b7 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -66,7 +66,6 @@ PACKAGES =+ "${PN}-security-policy \
+ 
+ RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+-RCONFLICTS_${PN}-module-exa = "${PN} (<${PV})"
+ 
+ FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+ FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
+-- 
+1.7.10
 
---20cf302d4e5e16834904ca9c823c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,<br><br>I sent patch v4 with a small change modifying the udev&#39;s=
- default runtime directory<br>from /run/ to the more traditional /var/run/.=
- <br><br>I&#39;ve opened two bugs <a href=3D"https://bugzilla.yoctoproject.=
-org/show_bug.cgi?id=3D3179">https://bugzilla.yoctoproject.org/show_bug.cgi?=
-id=3D3179</a> and<br>
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3181">https:=
-//bugzilla.yoctoproject.org/show_bug.cgi?id=3D3181</a> to track the issue a=
-nd <br>to remove the patch when we fix the runtime directory in Yocto.<br><=
-br>
-Cheers,<br>Alex<br>
 
---20cf302d4e5e16834904ca9c823c--
