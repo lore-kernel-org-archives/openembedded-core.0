@@ -1,37 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TGsYj-0002kf-Co
+	(envelope-from <walters@verbum.org>) id 1TGsZW-0002nC-5z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 16:25:53 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 07:12:47 -0700
-Received: by obceq6 with SMTP id eq6so625134obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 07:13:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=dzDnGQE8n1JyF4KBNrwbImlBNdEiE4H+tDcHJG4wK24=;
-	b=SmwMp4yYxQ5TTT4GDJ9mNYAFHAyBNtfT75tRUvUS4mMy6iZby8zXoXTaO0G2QZrs1W
-	WmtrJndwRGXYJyEGSp6gZLP8PdeNGFFmjJtD9wQ4BkhSavPKVJfJHuhPTpSUvDUMVsVQ
-	d60k3kyhsuNFMlWg/Ug0g/6Q94cT20sRTkT/8tUEF0ubysjgCkl/0ZU72bn79KdRLuFO
-	jiTpNu5sOx9VPwZOjDO0dWx0W78xWxVyNKdpiIrFn0ctC8nhiFx8o4Qk12NkXTOpmzN/
-	vQUWVX2ZwqTKrIDd3TyY7gFpE9X7PVPy/S+ZAssn2AxSkfH0mOXnmCoWAw4L0M9R0RrA
-	0FFw==
-Received: by 10.60.28.6 with SMTP id x6mr543265oeg.61.1348668780720; Wed, 26
-	Sep 2012 07:13:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Wed, 26 Sep 2012 07:12:40 -0700 (PDT)
-In-Reply-To: <1348663741.31293.114.camel@phil-desktop>
-References: <1348663741.31293.114.camel@phil-desktop>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Sep 2012 15:12:40 +0100
-Message-ID: <CAJTo0La28g_t84Ku+LbLKLVfwyRL-KuCpq3GuYWxLbnu4-NYkg@mail.gmail.com>
+	Wed, 26 Sep 2012 16:26:42 +0200
+Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id A317620D82;
+	Wed, 26 Sep 2012 10:13:53 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute3.internal (MEProxy); Wed, 26 Sep 2012 10:13:53 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:cc:date
+	:in-reply-to:references:content-type:mime-version
+	:content-transfer-encoding; s=smtpout; bh=eogPYbluDkedcyYI153Jva
+	3MRXc=; b=KDWbGmLjr4Pf2c0PkEAGibOj2fwzbBOYRW/QFW4NhHDA1sZ2uKR6UX
+	IsEjgkHYKfR7e7acn9qr9KP8r4oUdQzfx0DNXqvHE+Za5DtD2hEcjGyKd0RybKMG
+	GKhZ3hWSw9n2Phh3YbHw/6pDDZNiYpRssV2oSNDHYPZi6UW4+Pehk=
+X-Sasl-enc: vLbtnpkfBbnSbkHlFJALwNub2Rq4g0JM3fKOYJGWW8Cu 1348668833
+Received: from [10.193.23.134] (unknown [66.187.233.203])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 314AA48279E;
+	Wed, 26 Sep 2012 10:13:53 -0400 (EDT)
+Message-ID: <1348668794.7240.4.camel@lenny>
+From: Colin Walters <walters@verbum.org>
 To: Phil Blundell <philb@gnu.org>
-X-Gm-Message-State: ALoCoQnNqiNGi4cPB/RTHvWlcROCQHsq4/EVWdAum1vWbls1cpk3OZkVWV4m+SueunQ//BM7ff7U
+Date: Wed, 26 Sep 2012 10:13:14 -0400
+In-Reply-To: <1348661842.31293.108.camel@phil-desktop>
+References: <1348661842.31293.108.camel@phil-desktop>
+X-Mailer: Evolution 3.4.4 (3.4.4-1.fc17) 
+Mime-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glib-2.0: Update to 2.34.0
+Subject: Re: [PATCH] glib-2.0: Update to 2.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,17 +41,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 14:25:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Sep 2012 14:26:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It's a bit late for this oe-core cycle I suspect, if we'd been
-tracking the 2.33. releases that would be a different story, so maybe
-we'll do that next time...
+On Wed, 2012-09-26 at 13:17 +0100, Phil Blundell wrote:
 
-Also from glancing at the NEWS, we should be able to drop some of the
-cross-compile patches.  Did you investigate this or just refresh the
-patches?
+>  meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch   |   34 ++++++++--------
 
-Ross
+This should not be necessary anymore; see:
+
+
 
 
