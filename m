@@ -1,24 +1,39 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TGsns-00038W-PD
+	(envelope-from <ross.burton@intel.com>) id 1TGsq5-0003D1-Q2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 16:41:32 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TGsbU-0006U6-EY; Wed, 26 Sep 2012 16:28:44 +0200
-From: Phil Blundell <philb@gnu.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Sep 2012 15:28:43 +0100
-In-Reply-To: <CAJTo0La28g_t84Ku+LbLKLVfwyRL-KuCpq3GuYWxLbnu4-NYkg@mail.gmail.com>
-References: <1348663741.31293.114.camel@phil-desktop>
-	<CAJTo0La28g_t84Ku+LbLKLVfwyRL-KuCpq3GuYWxLbnu4-NYkg@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348669724.31293.117.camel@phil-desktop>
-Mime-Version: 1.0
+	Wed, 26 Sep 2012 16:43:50 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 07:30:57 -0700
+Received: by obceq6 with SMTP id eq6so648730obc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Sep 2012 07:30:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=x7n2RbVE1svbJfeS5hKEdfBe0K1CW7g1/fikm7L/f20=;
+	b=JWuarGgccCpg+3TCh2feGyhUkL2FoG+Qa49BouWkA0Rcu2RuPmhfnmjqU4xK0030+K
+	hlpcWewTs4MljGHdHAiMgHNcD9N3x/HSVL59V6dj+ecJpS3N8vIPtRpUxiG8/Qxl/Y3T
+	XaTau2k6XUO/Y4JSClaY2jqsU/JEA1Vk4aaebWfMfsbCwrolFGTInYn/8AqOjy8PIoNz
+	7EC7B/6rueGoMVQ4gr51VOl4ZzXEy1nAyJHsRoweLtJndniTeAdGvlYbD4f0P8MQucDG
+	ECkocUTEiKLmp7rHKb/lV30rBLlkxEZaDizLowuF4pULfl3hKa0g96+fmB7SQ19NvduU
+	N3IA==
+Received: by 10.60.12.106 with SMTP id x10mr525460oeb.103.1348669856589; Wed,
+	26 Sep 2012 07:30:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Wed, 26 Sep 2012 07:30:36 -0700 (PDT)
+In-Reply-To: <1348669701.31293.116.camel@phil-desktop>
+References: <1348661842.31293.108.camel@phil-desktop>
+	<1348668794.7240.4.camel@lenny> <1348668853.7240.5.camel@lenny>
+	<1348669701.31293.116.camel@phil-desktop>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 26 Sep 2012 15:30:36 +0100
+Message-ID: <CAJTo0LZbOto+ZD05TFiQ0r=DmYWxM-H_R9LYrFBedzTm3g0tiA@mail.gmail.com>
+To: Phil Blundell <philb@gnu.org>
+X-Gm-Message-State: ALoCoQky5pSRY5xQs1sbqE9NGBKbIBnvTyJF2ymrNk780lDqkfaLGhvkXfY/02uWQVJEZGjdHEIZ
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glib-2.0: Update to 2.34.0
+Subject: Re: [PATCH] glib-2.0: Update to 2.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,24 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 14:41:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Sep 2012 14:43:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2012-09-26 at 15:12 +0100, Burton, Ross wrote:
-> It's a bit late for this oe-core cycle I suspect, if we'd been
-> tracking the 2.33. releases that would be a different story, so maybe
-> we'll do that next time...
-> 
-> Also from glancing at the NEWS, we should be able to drop some of the
-> cross-compile patches.  Did you investigate this or just refresh the
-> patches?
+On 26 September 2012 15:28, Phil Blundell <philb@gnu.org> wrote:
+> That disables all the tests, right?  I wasn't entirely clear whether we
+> wanted to do that or not.  If we do then yes, I agree, that would be a
+> way to avoid the nodbus.patch.
 
-Which patches were you thinking of specifically?  I don't think there
-are many that we apply which are actually related to cross-compiling.
+Well, we can't run them, so not much point in building them.
 
-p.
+(yet. this is a prime candidate for a better test for the ptest proposal!)
 
-
+Ross
 
 
