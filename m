@@ -1,28 +1,22 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1TGpKX-0002ka-V3
+	(envelope-from <philb@gnu.org>) id 1TGpP9-0003BD-MO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 12:59:02 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1TGp86-001Kje-Us>; Wed, 26 Sep 2012 12:46:10 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1TGp86-002hjJ-Rh>; Wed, 26 Sep 2012 12:46:10 +0200
-Received: from heinold by andorra.imp.fu-berlin.de with local (internal Exim
-	4.72) id 1TGp84-0006dj-Os; Wed, 26 Sep 2012 12:46:08 +0200
-Date: Wed, 26 Sep 2012 12:46:08 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Phil Blundell <philb@gnu.org>
-Message-ID: <20120926104608.GA23994@mi.fu-berlin.de>
+	Wed, 26 Sep 2012 13:03:47 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TGpCl-0006NE-Jw; Wed, 26 Sep 2012 12:50:59 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Henning Heinold <heinold@inf.fu-berlin.de>
+Date: Wed, 26 Sep 2012 11:50:58 +0100
+In-Reply-To: <20120926104608.GA23994@mi.fu-berlin.de>
 References: <1348652719.31293.90.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1348652719.31293.90.camel@phil-desktop>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
+	<20120926104608.GA23994@mi.fu-berlin.de>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1348656659.31293.100.camel@phil-desktop>
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-configure-cross: factor out --enable-threads argument into ${GCCTHREADS}
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,36 +31,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 10:59:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Sep 2012 11:03:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 26, 2012 at 10:45:18AM +0100, Phil Blundell wrote:
-> This allows BSPs for architectures with no thread support to set (for
-> example) "GCCTHREADS=no" without having to override all the other configure
-> parameters.
+On Wed, 2012-09-26 at 12:46 +0200, Henning Heinold wrote:
+> should that not be GCCTHREADS ?=
 > 
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
-> ---
->  meta/recipes-devtools/gcc/gcc-configure-common.inc |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> index 908ad3e..504bfaa 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-> @@ -26,12 +26,13 @@ EXTRA_OECONF_INITIAL ?= ""
->  EXTRA_OECONF_INTERMEDIATE ?= ""
->  
->  GCCMULTILIB = "--disable-multilib"
-> +GCCTHREADS = "posix"
+> otherwise I do not see how it could be overwritten from outside.
 
-Hi Phil,
+Well, a .bbappend can do it (since EXTRA_OECONF isn't assigned :=) or
+you can use an override GCCTHREADS_pn-gcc-cross = "no" for example.  But
+yes, making it be ?= would be fine with me as well.
 
-should that not be GCCTHREADS ?=
+p.
 
-otherwise I do not see how it could be overwritten from outside.
 
-Bye Henning
 
 
