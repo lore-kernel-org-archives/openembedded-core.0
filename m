@@ -1,36 +1,23 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TGuNX-00074j-2d
+	(envelope-from <philb@gnu.org>) id 1TGvHt-0007tm-9u
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 18:22:27 +0200
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 26 Sep 2012 09:09:33 -0700
-Received: by wiwc10 with SMTP id c10so3732727wiw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Sep 2012 09:09:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=DvBP8OqOnHDDCWAMDEhN0RJGUIqSvYAuZWJSxXZd6m0=;
-	b=ErZYPgNUxeE2sIJYIloLWO2/r6u4ZQn3UH5sm87N4EmURoFWr71vjvcjp+uRc6gUJU
-	37s7uZ71kG4wkgl1/90e+JR/wp+noFRzcwyOcwF0yoVlHSXStETAV8xXhHu7kLkUWE3p
-	fo0aYT7LjGSvo5PnUIXgdWPpaQTvYa6J1i7zNoqLZiExGZhC9yRwHLPpeole53qPVMzB
-	LRaiNDVrsiNdmSItA8Q+ZqUAvf279yCbUJ6SJReitt1Hd78Woxy0uOaH1PUTXipPOTVA
-	+klnZCHpjRmLhhmFQUomm4pl28nQlXJSHjLPOjYPSq1iIArH5mEgcAgU6jxADo05SrT4
-	y1Gg==
-Received: by 10.216.197.41 with SMTP id s41mr47832wen.205.1348675765940;
-	Wed, 26 Sep 2012 09:09:25 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l10sm899010wiy.3.2012.09.26.09.09.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Sep 2012 09:09:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Sep 2012 17:08:27 +0100
-Message-Id: <1348675707-24182-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlpE0734iZW8h09uIFlCx3ou3gD68w11Eu9AC41hBVRn2+GVzSRKhpzfZknpZ0DvhnoX6qI
-Subject: [PATCH] xserver-xorg: fix -exa conflicts
+	Wed, 26 Sep 2012 19:20:41 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TGv5U-0006dY-Iq; Wed, 26 Sep 2012 19:07:52 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 26 Sep 2012 18:07:51 +0100
+In-Reply-To: <1347373349.2122.35.camel@ted>
+References: <1347373349.2122.35.camel@ted>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1348679272.32611.4.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 16:22:27 -0000
+X-List-Received-Date: Wed, 26 Sep 2012 17:20:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hopefully for good this time!
+On Tue, 2012-09-11 at 15:22 +0100, Richard Purdie wrote:
+> Unfortunately whilst rerunning configure and make against a project will mostly
+> work there are situations where it does not correctly do the right thing.
+> 
+> In particular, eglibc and gcc will fail out with errors where settings
+> do not match a previously built configuration. It could be argued they are
+> broken but the situation is what it is. There is the possibility of more subtle
+> errors too.
 
-The previous conflict of < ${PV} declares a conflict with all versions older
-than the version being built, which isn't right.
+FWIW, I just encountered another instance of what appears to be a
+similar problem (with this patch applied).  I had changed my CFLAGS to
+work around a compiler problem and then just reran the build, which led
+eventually to:
 
-This conflict was being declared in a .inc file which is being included by
-multiple recipes (xserver-psb in meta-intel, for example) so knowledge of the
-exact version in which this change occured is only known by the .bb file itself.
-Recognise this and put the conflict in the .bb file itself.
+ERROR: Function failed: do_siteconfig_gencache
+(see ..../tmp-eglibc/work/mips32el-oe-linux/eglibc/2.16-r11.micro1
++svnr20393/temp/log.do_populate_sysroot.6005 for further information)
+ERROR: Logfile of failure stored
+in: ..../tmp-eglibc/work/mips32el-oe-linux/eglibc/2.16-r11.micro1
++svnr20393/temp/log.do_populate_sysroot.6005
+Log data follows:
+| DEBUG: Executing python function sstate_task_prefunc
+[...]
+| DEBUG: Executing shell function do_siteconfig_gencache
+| configure: WARNING: unrecognized options: --disable-silent-rules,
+--disable-dependency-tracking, --with-libtool-sysroot
+| configure: loading cache eglibc_cache
+| configure: error: `CFLAGS' has changed since the previous run:
+| configure:   former value:  `...'
+| configure:   current value: `...'
+| configure: error: in
+`/.../tmp-eglibc/work/mips32el-oe-linux/eglibc/2.16-r11.micro1
++svnr20393/site_config_cheetah':
+| configure: error: changes in the environment can compromise the build
+| configure: error: run `make distclean' and/or `rm eglibc_cache' and
+start over
+| DEBUG: Python function siteconfig_do_siteconfig finished
+| DEBUG: Python function autotools_do_siteconfig finished
+| DEBUG: Python function do_siteconfig finished
+| DEBUG: Python function sstate_task_postfunc finished
+ERROR: Task 30 (.../oe-core/meta/recipes-core/eglibc/eglibc_2.16.bb,
+do_populate_sysroot) failed with exit code '1'
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc |    4 ++++
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc        |    1 -
- 2 files changed, 4 insertions(+), 1 deletion(-)
+p.
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index 35cb33a..a2d1bec 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -9,3 +9,7 @@ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
- PR = "r8"
-+
-+# This conflict needs to be here and not in the .inc so we know the exact
-+# version where the break was
-+RCONFLICTS_${PN}-module-exa = "${PN} (< 1.11.2-r5)"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 643ca70..3ec38b7 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -66,7 +66,6 @@ PACKAGES =+ "${PN}-security-policy \
- 
- RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
- RDEPENDS_${PN}-xvfb += "xkeyboard-config"
--RCONFLICTS_${PN}-module-exa = "${PN} (<${PV})"
- 
- FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
- FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
--- 
-1.7.10
 
 
 
