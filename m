@@ -1,20 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TGsNs-0002Om-ES
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Sep 2012 16:14:40 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Sep 2012 07:01:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,490,1344236400"; d="scan'208";a="213611499"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.36])
-	by orsmga002.jf.intel.com with ESMTP; 26 Sep 2012 07:01:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Sep 2012 15:01:40 +0100
-Message-Id: <1348668100-17572-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] gst-plugins-good: make pulseaudio support dependent on DISTRO_FEATURES
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TGsRI-0002W5-Vq for openembedded-core@lists.openembedded.org;
+	Wed, 26 Sep 2012 16:18:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QE5J6w020352;
+	Wed, 26 Sep 2012 15:05:19 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20079-05; Wed, 26 Sep 2012 15:05:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8QE5AQF020346
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 26 Sep 2012 15:05:11 +0100
+Message-ID: <1348668311.8662.110.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Wed, 26 Sep 2012 15:05:11 +0100
+In-Reply-To: <1348651706.31293.89.camel@phil-desktop>
+References: <1348577690.31293.70.camel@phil-desktop>
+	<1348610357.2853.5.camel@lenny>
+	<1348610431.1335.11.camel@x121e.pbcl.net>
+	<1348611089.2853.7.camel@lenny> <1348649372.8662.90.camel@ted>
+	<1348651706.31293.89.camel@phil-desktop>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: Remove static libraries from -dev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,39 +41,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Sep 2012 14:14:40 -0000
+X-List-Received-Date: Wed, 26 Sep 2012 14:18:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This should be no change to the previous situation unless you
-explicitly have pulseaudio in DISTRO_FEATURES_BACKFILL_CONSIDERED
-(currently).
+On Wed, 2012-09-26 at 10:28 +0100, Phil Blundell wrote:
+> On Wed, 2012-09-26 at 09:49 +0100, Richard Purdie wrote:
+> > On Tue, 2012-09-25 at 18:11 -0400, Colin Walters wrote:
+> > > On Tue, 2012-09-25 at 23:00 +0100, Phil Blundell wrote:
+> > > 
+> > > > That'd be inconsistent with other packages, since we do generally build
+> > > > and ship the static libraries.  Having a big switch to turn off static
+> > > > libraries globally seems like a fine plan, but I can't see any obvious
+> > > > reason why the util-linux ones are any more useless than the rest.
+> > > 
+> > > Makes sense.  I wonder if there are actually any users of the static
+> > > libraries.
+> > > 
+> > > For what it's worth in gnome-ostree I do just globally pass
+> > > --disable-static by default.
+> > 
+> > I tested this a while back to see what performance difference it made.
+> > The answer was "nothing too significant", I don't have the exact timings
+> > handy. I do remember having to exclude sqlite-native from the list since
+> > pseudo static links against it.
+> 
+> It's slightly surprising that it doesn't make that much of a difference,
+> given that building static libraries does essentially double the number
+> of compilations for library code.  Though, of course, glibc doesn't
+> support --disable-static nowadays and there might be a few other big
+> packages that have the same issue.
+> 
+> I guess that if you have enough cores, compilation count becomes
+> something of a non-issue since it's one of the few things that does
+> parallelize very well.  It might be interesting to repeat the
+> measurements of --disable-static on a machine with only a few CPUs and
+> see whether it makes more of a difference there.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Yes, admittedly I probably did test that in a highly parallel
+environment and was focusing on the critical path timings as a result.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index 641de7c..b845371 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -5,9 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
-                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
- 
-+PR = "r6"
-+
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)}"
-+PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
-+
- DEPENDS += "gst-plugins-base gconf cairo jpeg libpng zlib libid3tag flac \
--	    speex libsoup-2.4 pulseaudio"
--PR = "r5"
-+            speex libsoup-2.4"
- 
- inherit gettext gconf
- 
--- 
-1.7.9.5
+> Out of interest, why does pseudo static-link against sqlite anyway?
+
+Given the crazy things that pseudo does and the way it works as an ld
+preload that keeps itself preloaded, I'm guessing it stops itself having
+to worry about finding its own libraries correctly. I just added a
+package override for sqlite3-native which wasn't a big deal.
+
+Cheers,
+
+Richard
 
 
 
