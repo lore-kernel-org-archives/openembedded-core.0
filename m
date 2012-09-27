@@ -1,21 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1THEQw-00026t-P5
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 15:47:19 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Sep 2012 06:34:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,495,1344236400"; d="scan'208";a="197925250"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
-	by azsmga001.ch.intel.com with ESMTP; 27 Sep 2012 06:34:24 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 15:39:55 +0300
-Message-Id: <1348749595-11603-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH v2] sanity.bbclass: bblayers.conf should be updated automatically
+	(envelope-from <jason.wessel@windriver.com>) id 1THEaO-0002G0-LK
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 27 Sep 2012 15:57:05 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8RDiC2O009092
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2012 06:44:12 -0700 (PDT)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 27 Sep 2012 06:44:11 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Sep 2012 08:52:46 -0500
+Message-ID: <1348753966-45893-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Subject: [PATCH] cml1.bbclass: Convert tab indentation in python functions into four-space
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,102 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 13:47:19 -0000
+X-List-Received-Date: Thu, 27 Sep 2012 13:57:05 -0000
+Content-Type: text/plain
 
-- add check_bblayers_conf bitbake function which does the bblayers.conf
-v4 -> v5 update if necessary (every layer should make its specific
-bblayers.conf upgrades appending to the check_bblayers_conf function)
-- we ask the user to re-run bitbake because we can't trigger reparsing
-without being invasive
+Based on the previous commit 604d46c686d06d62d5a07b9c7f4fa170f99307d8
+(Convert tab indentation in python functions into four-space), the
+cml.bbclass was not converted, and in order to properly extend it
+with external bbappend's it needs to be converted.
 
-[YOCTO #3082]
-
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/sanity.bbclass |   61 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+ meta/classes/cml1.bbclass |   28 ++++++++++++++--------------
+ 1 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 385d733..9c3ab1f 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -4,6 +4,56 @@
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 37ed792..ba44196 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -15,23 +15,23 @@ HOSTLDFLAGS = "${BUILD_LDFLAGS}"
+ HOST_LOADLIBES = "-lncurses"
  
- SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
+ python do_menuconfig() {
+-        try:
+-            mtime = os.path.getmtime(".config")
+-        except OSError:
+-            mtime = 0
++    try:
++        mtime = os.path.getmtime(".config")
++    except OSError:
++        mtime = 0
  
-+python check_bblayers_conf() {
-+    bblayers_fn = os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
-+
-+    current_lconf = int(d.getVar('LCONF_VERSION', True))
-+    if not current_lconf:
-+        sys.exit()
-+    lconf_version = int(d.getVar('LAYER_CONF_VERSION', True))
-+    lines = []
-+
-+    import re
-+    def find_line(pattern, lines):
-+        return next(((index, line)
-+            for index, line in enumerate(lines)
-+            if re.search(pattern, line)), (None, None))
-+
-+    if current_lconf < 4:
-+        sys.exit()
-+
-+    with open(bblayers_fn, 'r') as f:
-+        lines = f.readlines()
-+
-+    if current_lconf == 4:
-+        topdir_var = '$' + '{TOPDIR}'
-+        index, bbpath_line = find_line('BBPATH', lines)
-+        if bbpath_line:
-+            start = bbpath_line.find('"')
-+            if start != -1 and (len(bbpath_line) != (start + 1)):
-+                if bbpath_line[start + 1] == '"':
-+                    lines[index] = (bbpath_line[:start + 1] +
-+                                    topdir_var + bbpath_line[start + 1:])
-+                else:
-+                    if not topdir_var in bbpath_line:
-+                        lines[index] = (bbpath_line[:start + 1] +
-+                                    topdir_var + ':' + bbpath_line[start + 1:])
-+            else:
-+                sys.exit()
-+        else:
-+            index, bbfiles_line = find_line('BBFILES', lines)
-+            if bbfiles_line:
-+                lines.insert(index, 'BBPATH = "' + topdir_var + '"\n')
-+            else:
-+                sys.exit()
-+
-+        index, line = find_line('LCONF_VERSION', lines)
-+        current_lconf += 1
-+        lines[index] = 'LCONF_VERSION = "%d"\n' % current_lconf
-+        with open(bblayers_fn, "w") as f:
-+            f.write(''.join(lines))
-+}
-+
- def raise_sanity_error(msg, d):
-     if d.getVar("SANITY_USE_EVENTS", True) == "1":
-         bb.event.fire(bb.event.SanityCheckFailed(msg), d)
-@@ -337,7 +387,16 @@ def check_sanity(sanity_data):
-     current_lconf = sanity_data.getVar('LCONF_VERSION', True)
-     lconf_version = sanity_data.getVar('LAYER_CONF_VERSION', True)
-     if current_lconf != lconf_version:
--        messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
+-        oe_terminal("${SHELL} -c \"make menuconfig; if [ $? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
++    oe_terminal("${SHELL} -c \"make menuconfig; if [ $? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
+ 
+-        # FIXME this check can be removed when the minimum bitbake version has been bumped
+-        if hasattr(bb.build, 'write_taint'):
+-            try:
+-                newmtime = os.path.getmtime(".config")
+-            except OSError:
+-                newmtime = 0
++    # FIXME this check can be removed when the minimum bitbake version has been bumped
++    if hasattr(bb.build, 'write_taint'):
 +        try:
-+            bb.build.exec_func("check_bblayers_conf", sanity_data)
-+            if sanity_data.getVar("SANITY_USE_EVENTS", True) == "1":
-+                bb.event.fire(bb.event.SanityCheckFailed("Your conf/bblayers.conf has been automatically updated. Please close and re-run."), sanity_data)
-+                return
-+            else:
-+                bb.note("Your conf/bblayers.conf has been automatically updated. Please re-run %s." % os.path.basename(sys.argv[0]))
-+                sys.exit(0)
-+        except Exception:
-+            messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
++            newmtime = os.path.getmtime(".config")
++        except OSError:
++            newmtime = 0
  
-     # If we have a site.conf, check it's valid
-     if check_conf_exists("conf/site.conf", sanity_data):
+-            if newmtime > mtime:
+-                bb.note("Configuration changed, recompile will be forced")
+-                bb.build.write_taint('do_compile', d)
++        if newmtime > mtime:
++            bb.note("Configuration changed, recompile will be forced")
++            bb.build.write_taint('do_compile', d)
+ }
+ do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
+ do_menuconfig[nostamp] = "1"
 -- 
-1.7.9.5
+1.7.1
 
 
 
