@@ -1,21 +1,21 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1THDJ6-0006Z5-Cn
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1THECl-0001cp-Oe
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 14:35:08 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1THD6g-0007tQ-Re
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 14:22:18 +0200
-From: Phil Blundell <philb@gnu.org>
+	Thu, 27 Sep 2012 15:32:39 +0200
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id E8585D22D6;
+	Thu, 27 Sep 2012 15:19:49 +0200 (CEST)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 13:22:17 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348748538.32611.18.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: overuse of bitbake flags considered harmful
+Date: Thu, 27 Sep 2012 15:19:37 +0200
+Message-Id: <1348751980-23989-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.7.10.4
+Cc: linaro-dev@lists.linaro.org, patches@linaro.org
+Subject: Add AArch64 support into OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,21 +28,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 12:35:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Sep 2012 13:32:39 -0000
 
-I was mildly amused to discover, the other day, that the output of
-"bitbake -e rpm | grep PACKAGECONFIG" is not quite as one might na=C3=AFvel=
-y
-expect. =20
+This patchset adds support for AArch64 in all required classes:
 
-I guess the right response to this is perhaps that bitbake ought
-nowadays to find some other way to store its own internal state, since
-the idiom of using flags is pretty well established in oe-core.
+- insane
+- kernel-arch
+- siteinfo
 
-p.
-
+Everything is from public available information (binutils, linux).
 
 
 
