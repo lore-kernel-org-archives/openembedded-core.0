@@ -1,30 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1THMxy-0003Cn-2V
+	(envelope-from <martin.jansa@gmail.com>) id 1THN6f-0003dz-UB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 00:53:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8RMf40Z017358
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 28 Sep 2012 01:02:58 +0200
+Received: by iebc13 with SMTP id c13so5859459ieb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 15:41:04 -0700 (PDT)
-Received: from msp-dhcp5.wrs.com (172.25.34.5) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 27 Sep 2012 15:41:04 -0700
-Message-ID: <5064D5FF.2050409@windriver.com>
-Date: Thu, 27 Sep 2012 17:41:03 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
+	Thu, 27 Sep 2012 15:50:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=fuYOrQgX60Af5f1A90X5zTR0420RgWYTL/qbVXeRt1g=;
+	b=zCSeTqBPBS0R4kOBFbVaWg2kZsOzluU8PY44v2s8ZJm3obCJHudzBR4J7n1NuG8G18
+	6OoSIx7GOVxHQwPfPPW1FhKBrBruIVl9a1L1N8ZxYO1gldMYVGFI9496WWujRwvI2dzS
+	GBElYQy5Rd6GFSkTdArBBaz5AuVdQS0TIzffHderpRSeq3xSv6rVHFyntqS8s8Ll43kq
+	epHaBdLSb9rk14gR8az/AIcgwlFttB4kqh5a8Ved2hot1Tnj7NtE4aX6qjXPC+1ZIaiZ
+	1dO7+bVBMNy0EfC/cnayAFWJ+Fj8+wdOOOPer4VWC8EpGAHo2c4PE2B/Sbhak2Bym4Q8
+	O5qg==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: by 10.50.77.164 with SMTP id t4mr5039037igw.7.1348786205142; Thu, 27
+	Sep 2012 15:50:05 -0700 (PDT)
+Received: by 10.64.49.71 with HTTP; Thu, 27 Sep 2012 15:50:05 -0700 (PDT)
+In-Reply-To: <5064D5FF.2050409@windriver.com>
 References: <20120927142926.CA9C5103AC@opal>
 	<20120927153419.GD3454@jama.jama.net>
 	<20120927175531.GF3454@jama.jama.net>
 	<CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
-In-Reply-To: <CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
+	<5064D5FF.2050409@windriver.com>
+Date: Fri, 28 Sep 2012 00:50:05 +0200
+Message-ID: <CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,62 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 22:53:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Sep 2012 23:02:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Just an FYI -- Martin Jansa found a problem with the implement of the package 
-version comparison.
-
-In deb and ipk, they do not support '<' or '>', instead it's '<<' and '>>'. 
-(Odd, historical reasons apparently).
-
-While RPM doesn't have any idea what '<<' or '>>' is.
-
-Talking with RP and others it seems like the best approach is to implement a 
-conversion, in the deb and ipk packaging classes, to convert '<' and '>' to the 
-'<<' and '>>' equivalents.  As well as add a sanity check that nobody is using 
-'<<' or '>>'.
-
-I'm in the process of doing that now.
-
---Mark
-
-On 9/27/12 1:08 PM, Otavio Salvador wrote:
-> On Thu, Sep 27, 2012 at 2:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> On Thu, Sep 27, 2012 at 05:34:19PM +0200, Martin Jansa wrote:
->>> On Thu, Sep 27, 2012 at 02:29:25PM +0000, git@git.openembedded.org wrote:
->>>> Module: openembedded-core.git
->>>> Branch: master
->>>> Commit: ed0216d29fc4355c5220f3ad51df04a63cacb0c3
->>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=ed0216d29fc4355c5220f3ad51df04a63cacb0c3
->>>>
->>>> Author: Martin Jansa <martin.jansa@gmail.com>
->>>> Date:   Sat Sep 22 19:13:14 2012 +0200
->>>>
->>>> xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
->>>>
->>>> * it doesn't make much sense with PV, because xserver-xorg-module-exa
->>>>    was introduced in
->>>>    http://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver?id=1a666ee1cda3c0b74daba5881fc5f62e13deec66
->>>>    so our xserver-xorg-module-exa RCONFLICTS with xserver-xorg (<= 1.11.2-r4)
->>>>    and (< 1.11.2) is not good enough
->>>>
->>>> * because we don't know how many PRINC are in BSP/DISTRO layers,
->>>>    then it's safer to RCONFLICTS with every older version then current
->>>>    EXTENDPKGV
->>>>
->>>> Also fixes whitespace to work correctly with opkg
->>>
->>> The whitespace problem wasn't opkg fault AFAIK, but
->>> bb.utils.explode_dep_versions as shown in
->>> http://patchwork.openembedded.org/patch/37069/
->>
->> Ah and it was meant to be applied together with this patch, so now it's
->> missing PR bump..
+On Fri, Sep 28, 2012 at 12:41 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> Just an FYI -- Martin Jansa found a problem with the implement of the
+> package version comparison.
 >
-> It keeps failing for me.
+> In deb and ipk, they do not support '<' or '>', instead it's '<<' and '>>'.
+> (Odd, historical reasons apparently).
 >
+> While RPM doesn't have any idea what '<<' or '>>' is.
+>
+> Talking with RP and others it seems like the best approach is to implement a
+> conversion, in the deb and ipk packaging classes, to convert '<' and '>' to
+> the '<<' and '>>' equivalents.  As well as add a sanity check that nobody is
+> using '<<' or '>>'.
+>
+> I'm in the process of doing that now.
+>
+> --Mark
 
+There is still some problem in opkg, now when I'm testing << with opkg
+which should work as LESS (and < as LESS_EQUAL), it still shows <= in
+opkg status and behaves like <=. So there is probably some bug in opkg
+still hidden :/
 
 
