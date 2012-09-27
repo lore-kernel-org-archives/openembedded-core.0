@@ -1,30 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1THMQE-0002ur-3j for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 00:19:06 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8RM6Dch004584
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1THMxy-0003Cn-2V
+	for openembedded-core@lists.openembedded.org;
+	Fri, 28 Sep 2012 00:53:58 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8RMf40Z017358
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 23:06:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04374-02 for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 23:06:08 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8RM64pb004578
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 23:06:05 +0100
-Message-ID: <1348783566.15753.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Sep 2012 23:06:06 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate: Relax the duplicate file whitelist for now
+	Thu, 27 Sep 2012 15:41:04 -0700 (PDT)
+Received: from msp-dhcp5.wrs.com (172.25.34.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 27 Sep 2012 15:41:04 -0700
+Message-ID: <5064D5FF.2050409@windriver.com>
+Date: Thu, 27 Sep 2012 17:41:03 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <20120927142926.CA9C5103AC@opal>
+	<20120927153419.GD3454@jama.jama.net>
+	<20120927175531.GF3454@jama.jama.net>
+	<CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
+In-Reply-To: <CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
+Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,39 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 22:19:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 27 Sep 2012 22:53:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-do_package is a machine specific task at the moment due to packagedata. This means
-do_package tasks and their dependencies rerun between different machines
-with various duplicate file installations. There are plans to fix this but they're
-too invasive before release.
+Just an FYI -- Martin Jansa found a problem with the implement of the package 
+version comparison.
 
-This patch relaxes the whitelist for sstate duplicate file detection to account
-for this. Post-release, we re-enable stricter settings once do_package is not
-machine specific.
+In deb and ipk, they do not support '<' or '>', instead it's '<<' and '>>'. 
+(Odd, historical reasons apparently).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 6878e1a..03f083e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -17,7 +17,11 @@ SSTATE_EXTRAPATH   = ""
- SSTATE_EXTRAPATHWILDCARD = ""
- SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
- 
--SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/"
-+# In theory we should be using:
-+# SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/ ${TMPDIR}/pkgdata/all${TARGET_VENDOR}-${TARGET_OS}"
-+# However until do_package is not machine specific, we'll have to make do with this:
-+SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/ ${TMPDIR}/pkgdata/"
-+
- 
- SSTATE_SCAN_FILES ?= "*.la *-config *_config"
- SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
+While RPM doesn't have any idea what '<<' or '>>' is.
 
+Talking with RP and others it seems like the best approach is to implement a 
+conversion, in the deb and ipk packaging classes, to convert '<' and '>' to the 
+'<<' and '>>' equivalents.  As well as add a sanity check that nobody is using 
+'<<' or '>>'.
+
+I'm in the process of doing that now.
+
+--Mark
+
+On 9/27/12 1:08 PM, Otavio Salvador wrote:
+> On Thu, Sep 27, 2012 at 2:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> On Thu, Sep 27, 2012 at 05:34:19PM +0200, Martin Jansa wrote:
+>>> On Thu, Sep 27, 2012 at 02:29:25PM +0000, git@git.openembedded.org wrote:
+>>>> Module: openembedded-core.git
+>>>> Branch: master
+>>>> Commit: ed0216d29fc4355c5220f3ad51df04a63cacb0c3
+>>>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=ed0216d29fc4355c5220f3ad51df04a63cacb0c3
+>>>>
+>>>> Author: Martin Jansa <martin.jansa@gmail.com>
+>>>> Date:   Sat Sep 22 19:13:14 2012 +0200
+>>>>
+>>>> xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
+>>>>
+>>>> * it doesn't make much sense with PV, because xserver-xorg-module-exa
+>>>>    was introduced in
+>>>>    http://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver?id=1a666ee1cda3c0b74daba5881fc5f62e13deec66
+>>>>    so our xserver-xorg-module-exa RCONFLICTS with xserver-xorg (<= 1.11.2-r4)
+>>>>    and (< 1.11.2) is not good enough
+>>>>
+>>>> * because we don't know how many PRINC are in BSP/DISTRO layers,
+>>>>    then it's safer to RCONFLICTS with every older version then current
+>>>>    EXTENDPKGV
+>>>>
+>>>> Also fixes whitespace to work correctly with opkg
+>>>
+>>> The whitespace problem wasn't opkg fault AFAIK, but
+>>> bb.utils.explode_dep_versions as shown in
+>>> http://patchwork.openembedded.org/patch/37069/
+>>
+>> Ah and it was meant to be applied together with this patch, so now it's
+>> missing PR bump..
+>
+> It keeps failing for me.
+>
 
 
 
