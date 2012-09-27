@@ -1,25 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1THHmF-0004uA-Qn
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 19:21:32 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 27 Sep 2012 10:08:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,496,1344236400"; d="scan'208";a="149922340"
-Received: from unknown (HELO [10.255.13.173]) ([10.255.13.173])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Sep 2012 10:08:37 -0700
-Message-ID: <50648815.70308@linux.intel.com>
-Date: Thu, 27 Sep 2012 10:08:37 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1THIVS-0007Hr-IU; Thu, 27 Sep 2012 20:08:14 +0200
+Received: by wibhj13 with SMTP id hj13so529378wib.6
+	for <multiple recipients>; Thu, 27 Sep 2012 10:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=sVK4606mD1z76e1byg4bElxnyfyGivk4wi5sGzO/H0A=;
+	b=NCfM/I42A5kqNlh8fGeyEtVIBKNtWNvB4jOyGnVZI3j1oF2mBu3gYi3KhLIkBWfBY5
+	PsfQpqKbuNxgGXyT1uihTrZOdVukEIvK1Gzl/Rt/WA6Vh5KTyt8ygS/NGGhRPga3qk07
+	QPKpGA7eVRCScB54E2LLj+VYi0qMXCK1xlX7miQgNyqb/jS4v2ysZN8+ET9+16qhcCXS
+	+AT8u5puFRLxpyyrEj2lNypOss4aXsknNKO238sDpBsSUFl4rirk+51Uph8e8ST9sg1j
+	7oZIUIhS3q5TD9Y0dUpUEp9KnkvL1I41Ar6bxBae4EvCLYoF+2gRPZNfFDw+OOS4uJMD
+	L2NA==
+Received: by 10.180.93.8 with SMTP id cq8mr9903049wib.16.1348768522447;
+	Thu, 27 Sep 2012 10:55:22 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k20sm32373008wiv.11.2012.09.27.10.55.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 27 Sep 2012 10:55:21 -0700 (PDT)
+Date: Thu, 27 Sep 2012 19:55:31 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120927175531.GF3454@jama.jama.net>
+References: <20120927142926.CA9C5103AC@opal>
+	<20120927153419.GD3454@jama.jama.net>
 MIME-Version: 1.0
-To: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-References: <cover.1348695851.git.elizabeth.flanagan@intel.com>
-In-Reply-To: <cover.1348695851.git.elizabeth.flanagan@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] license.bbclass fixes
+In-Reply-To: <20120927153419.GD3454@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +43,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 17:21:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Sep 2012 18:08:14 -0000
+X-Groupsio-MsgNum: 30022
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xaMk4Io5JJdpkLEb"
+Content-Disposition: inline
 
-On 09/26/2012 02:50 PM, Elizabeth Flanagan wrote:
-> [YOCTO #3118]
->
-> license.conf hasn't been being parsed. This commit series ensures that
-> license.conf is parsed, that it contains useful variables that should be
-> in a global conf file and that those variables are not kept within
-> license.bbclass.
->
-So where is the inherit license bbclass?
+--xaMk4Io5JJdpkLEb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+On Thu, Sep 27, 2012 at 05:34:19PM +0200, Martin Jansa wrote:
+> On Thu, Sep 27, 2012 at 02:29:25PM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: ed0216d29fc4355c5220f3ad51df04a63cacb0c3
+> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
+it;h=3Ded0216d29fc4355c5220f3ad51df04a63cacb0c3
+> >=20
+> > Author: Martin Jansa <martin.jansa@gmail.com>
+> > Date:   Sat Sep 22 19:13:14 2012 +0200
+> >=20
+> > xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-e=
+xa
+> >=20
+> > * it doesn't make much sense with PV, because xserver-xorg-module-exa
+> >   was introduced in
+> >   http://git.openembedded.org/openembedded-core/commit/meta/recipes-gra=
+phics/xorg-xserver?id=3D1a666ee1cda3c0b74daba5881fc5f62e13deec66
+> >   so our xserver-xorg-module-exa RCONFLICTS with xserver-xorg (<=3D 1.1=
+1.2-r4)
+> >   and (< 1.11.2) is not good enough
+> >=20
+> > * because we don't know how many PRINC are in BSP/DISTRO layers,
+> >   then it's safer to RCONFLICTS with every older version then current
+> >   EXTENDPKGV
+> >=20
+> > Also fixes whitespace to work correctly with opkg
+>=20
+> The whitespace problem wasn't opkg fault AFAIK, but
+> bb.utils.explode_dep_versions as shown in=20
+> http://patchwork.openembedded.org/patch/37069/
 
-> This also fixes an discreprancy between the documentation of LICENSE_PATH (which
-> is what we tell people to use) and what we were using "LICENSE_DIR". This ensures
-> that when the end user needs to add additional licenses, that they use
-> LICENSE_PATH += "path/to/additional/licenses" and that it works.
->
+Ah and it was meant to be applied together with this patch, so now it's
+missing PR bump..
 
-> The following changes since commit 0b09e50810162a07ef0aecee91ee32b4a36334a3:
->
->    busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
->
-> are available in the git repository at:
->    git://git.yoctoproject.org/poky-contrib eflanagan/LICENSE_PATH
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/LICENSE_PATH
->
-> Elizabeth Flanagan (3):
->    license.bbclass: Variable standardization
->    bitbake.conf: parse license config
->    license.conf/bbclass: Move globals to license.conf
->
->   meta/classes/license.bbclass |   67 +-----------------------------------------
->   meta/conf/bitbake.conf       |    1 +
->   meta/conf/licenses.conf      |   64 ++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 66 insertions(+), 66 deletions(-)
->
+Cheers,
+
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >=20
+> > --
+> >=20
+> > * I haven't really tested this with IPK, since it was changed from
+> >   RREPLACES to RCONFLICTS (because of RPM) and all my installed devices
+> >   are already upgraded
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >=20
+> > ---
+> >=20
+> >  .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
+> >  1 files changed, 1 insertions(+), 1 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta=
+/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> > index 643ca70..7513399 100644
+> > --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> > @@ -66,7 +66,7 @@ PACKAGES =3D+ "${PN}-security-policy \
+> > =20
+> >  RRECOMMENDS_${PN} +=3D "${PN}-security-policy xkeyboard-config rgb xse=
+rver-xf86-config"
+> >  RDEPENDS_${PN}-xvfb +=3D "xkeyboard-config"
+> > -RCONFLICTS_${PN}-module-exa =3D "${PN} (<${PV})"
+> > +RCONFLICTS_${PN}-module-exa =3D "${PN} (< ${EXTENDPKGV})"
+> > =20
+> >  FILES_${PN} =3D "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards $=
+{libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/x=
+org/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.c=
+onf.d"
+> >  FILES_${PN}-dev +=3D "${libdir}/xorg/modules/*.la ${libdir}/xorg/modul=
+es/*/*.la"
+> >=20
+> >=20
+> > _______________________________________________
+> > Openembedded-commits mailing list
+> > Openembedded-commits@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--xaMk4Io5JJdpkLEb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBkkxMACgkQN1Ujt2V2gBwUiACfZWwZRXk+Uz1wS4mjr628fkVA
+hmsAn0E3JLoq+QtaFDtyyi9bt2Owjv5r
+=V/y2
+-----END PGP SIGNATURE-----
+
+--xaMk4Io5JJdpkLEb--
