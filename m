@@ -1,36 +1,34 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1THIiE-0007WF-C8; Thu, 27 Sep 2012 20:21:26 +0200
-Received: by pbbro12 with SMTP id ro12so4004856pbb.6
-	for <multiple recipients>; Thu, 27 Sep 2012 11:08:33 -0700 (PDT)
+	(envelope-from <otavio.salvador@gmail.com>) id 1THJKN-0008CO-1z
+	for openembedded-core@lists.openembedded.org;
+	Thu, 27 Sep 2012 21:00:51 +0200
+Received: by yenm2 with SMTP id m2so642223yen.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2012 11:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=fGT4e9o2F4e9NMeKknp+c+nKaxbUah1pz256uWIf6rs=;
-	b=kRzDLtfJb9i5gkdJ6rYas/OP3N2xg637HFSylRNGVgH8HY7b9fXeBxh2VXs1ng7u6K
-	2rSl4jRfmQNkHLgDfaD16c0ZQnwobGiyGw6gyTPCV4FGKB0yDTCTrgKx1Cqtt0aFNL/e
-	B9H0MIpdxA0dmjeOXWi7LRAiPHtBWtZPRgcmRZDjHyGdjQ3ukj5TT4fw3M76X10gU5ju
-	FJYNzNP9SY3qdeaBtQ23KCd5DFhauJehmJgLjl9n2j7wU5bw1JAx+FJ+IY28eXFznQQT
-	p2xohdiiV9F4mcPjX5QMT6eQplvInx0NR1LoEYD9aklaIsK++fBUuzGV+cXTGpFpAJsK
-	GByQ==
-MIME-Version: 1.0
-Received: by 10.68.229.138 with SMTP id sq10mr13776580pbc.126.1348769313488;
-	Thu, 27 Sep 2012 11:08:33 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.36.105 with HTTP; Thu, 27 Sep 2012 11:08:33 -0700 (PDT)
-In-Reply-To: <20120927175531.GF3454@jama.jama.net>
-References: <20120927142926.CA9C5103AC@opal>
-	<20120927153419.GD3454@jama.jama.net>
-	<20120927175531.GF3454@jama.jama.net>
-Date: Thu, 27 Sep 2012 15:08:33 -0300
-X-Google-Sender-Auth: PjIAFHeRxu7Ix-gjMXsvzdlm2lk
-Message-ID: <CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=oIHV+KuliHZUMCHaB+duhdGjRAuFRDnTOi+zPQp058o=;
+	b=HhPSulYFE0usO8Tz/5SEqnoFoXLOkzRSxq4pJ1KuRXA/Be1K3rZ57L4kcewdD7WtA9
+	eo67mp4PyWjf6kOQgW2cKl2TPs8K8aIU1bGlRl49K1sDZxDUAYnDGogHPplDGOJcV9i6
+	DW8jMhni5pIhBmrNvBz/oOzQ59wtOhxq6XSSOlgVU2nDTy941dUOSQh9xXecuvndp45Q
+	aVL2852AmvuRjpWH4EOS3eNuI9Ys7hC2uN0PPecE6SGNjs0s2A6lLpMKuCXCNYaqTivO
+	m2+pQFZ35VZVdmZE8AhxgXrht+PX0kuFyXonLtwixGjA+fPVv3FfF2qe6QJxa2xn4VBb
+	P68Q==
+Received: by 10.236.191.233 with SMTP id g69mr5406515yhn.113.1348771678535;
+	Thu, 27 Sep 2012 11:47:58 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id c64sm10396565yhj.17.2012.09.27.11.47.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 27 Sep 2012 11:47:56 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Sep 2012 15:47:49 -0300
+Message-Id: <1348771669-22222-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] xserver-xorg: Use rdepends to ensure xserver-xorg-module-exa match version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 18:21:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 27 Sep 2012 19:00:51 -0000
 
-On Thu, Sep 27, 2012 at 2:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Sep 27, 2012 at 05:34:19PM +0200, Martin Jansa wrote:
->> On Thu, Sep 27, 2012 at 02:29:25PM +0000, git@git.openembedded.org wrote:
->> > Module: openembedded-core.git
->> > Branch: master
->> > Commit: ed0216d29fc4355c5220f3ad51df04a63cacb0c3
->> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=ed0216d29fc4355c5220f3ad51df04a63cacb0c3
->> >
->> > Author: Martin Jansa <martin.jansa@gmail.com>
->> > Date:   Sat Sep 22 19:13:14 2012 +0200
->> >
->> > xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
->> >
->> > * it doesn't make much sense with PV, because xserver-xorg-module-exa
->> >   was introduced in
->> >   http://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/xorg-xserver?id=1a666ee1cda3c0b74daba5881fc5f62e13deec66
->> >   so our xserver-xorg-module-exa RCONFLICTS with xserver-xorg (<= 1.11.2-r4)
->> >   and (< 1.11.2) is not good enough
->> >
->> > * because we don't know how many PRINC are in BSP/DISTRO layers,
->> >   then it's safer to RCONFLICTS with every older version then current
->> >   EXTENDPKGV
->> >
->> > Also fixes whitespace to work correctly with opkg
->>
->> The whitespace problem wasn't opkg fault AFAIK, but
->> bb.utils.explode_dep_versions as shown in
->> http://patchwork.openembedded.org/patch/37069/
->
-> Ah and it was meant to be applied together with this patch, so now it's
-> missing PR bump..
+This fix the installation of xserver-xorg-module-exa package at rootfs
+using opkg. It were failing as conflicts where not working properly.
 
-It keeps failing for me.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index 35cb33a..32bd9fd 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,4 +8,4 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+ 
+-PR = "r8"
++PR = "r9"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 7513399..bea0252 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -66,7 +66,7 @@ PACKAGES =+ "${PN}-security-policy \
+ 
+ RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+-RCONFLICTS_${PN}-module-exa = "${PN} (< ${EXTENDPKGV})"
++RDEPENDS_${PN}-module-exa = "${PN} (= ${EXTENDPKGV})"
+ 
+ FILES_${PN} = "${bindir} ${libdir}/X11/Options ${libdir}/X11/Cards ${libdir}/X11/getconfig ${libdir}/X11/etc ${libdir}/modules/*.so ${libdir}/xorg/modules/*.so /etc/X11 ${libdir}/xorg/protocol.txt ${datadir}/X11/xorg.conf.d"
+ FILES_${PN}-dev += "${libdir}/xorg/modules/*.la ${libdir}/xorg/modules/*/*.la"
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.2.5
+
 
 
