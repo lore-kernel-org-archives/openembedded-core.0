@@ -1,25 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1TH9bB-0005qU-H3
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1TH9bC-0005qV-EE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 10:37:33 +0200
+	Thu, 27 Sep 2012 10:37:34 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8R8OeiO001786
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8R8OgAq002885
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 01:24:40 -0700 (PDT)
+	Thu, 27 Sep 2012 01:24:43 -0700 (PDT)
 Received: from usp-ub1204-32.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Thu, 27 Sep 2012 01:24:39 -0700
+	14.2.309.2; Thu, 27 Sep 2012 01:24:41 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Sep 2012 16:23:36 +0800
-Message-ID: <cover.1348734058.git.wenzong.fan@windriver.com>
+Date: Thu, 27 Sep 2012 16:23:37 +0800
+Message-ID: <ae8afc91a951339570a19ea607c8452037078a73.1348734058.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1348734058.git.wenzong.fan@windriver.com>
+References: <cover.1348734058.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/1] autotools.bbclass: using relative paths for acpaths
+Subject: [PATCH 1/1] autotools.bbclass: using relative paths for acpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 08:37:33 -0000
+X-List-Received-Date: Thu, 27 Sep 2012 08:37:34 -0000
 Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
@@ -48,21 +50,25 @@ it has bunch of m4 files need to be expanded.
 
 [YOCTO #2766]
 
-The following changes since commit 0b09e50810162a07ef0aecee91ee32b4a36334a3:
-
-  busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib wenzong/2766
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/2766
-
-Wenzong Fan (1):
-  autotools.bbclass: using relative paths for acpaths
-
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
  meta/classes/autotools.bbclass |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index e4e034b..874e01d 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -130,7 +130,8 @@ autotools_do_configure() {
+ 		if [ x"${acpaths}" = xdefault ]; then
+ 			acpaths=
+ 			for i in `find ${S} -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
+-				grep -v 'acinclude.m4' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
++				grep -v 'acinclude.m4' | sed -e 's,\(.*/\).*$,\1,'|sort -u| \
++				sed -e 's,${S},\.,'`; do
+ 				acpaths="$acpaths -I $i"
+ 			done
+ 		else
 -- 
 1.7.9.5
 
