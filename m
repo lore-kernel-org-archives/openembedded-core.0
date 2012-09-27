@@ -1,20 +1,25 @@
-Received: from dmz4.rosetechnology.dk ([95.154.61.7])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sml@rosetechnology.dk>) id 1THFXu-00068o-Uc
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1THFvo-0008Mm-FA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 16:58:35 +0200
-Received: from smlws1.rosetechnology.dk (unknown [95.154.61.6])
-	by dmz4.rosetechnology.dk (Postfix) with ESMTPA id DBAD4A3046
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 16:36:48 +0200 (CEST)
-Message-ID: <50646480.40108@rosetechnology.dk>
-Date: Thu, 27 Sep 2012 16:36:48 +0200
-From: =?ISO-8859-1?Q?Steven_Munk_=D8stergaard?= <sml@rosetechnology.dk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
+	Thu, 27 Sep 2012 17:23:16 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Sep 2012 08:10:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,496,1344236400"; d="scan'208";a="198597350"
+Received: from unknown (HELO helios.localnet) ([10.252.122.29])
+	by orsmga001.jf.intel.com with ESMTP; 27 Sep 2012 08:10:22 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 27 Sep 2012 16:10:20 +0100
+Message-ID: <2523654.gPkJCTUPfL@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.1 (Linux/3.2.0-31-generic-pae; KDE/4.9.1; i686; ; )
+In-Reply-To: <cover.1348697518.git.Martin.Jansa@gmail.com>
+References: <cover.1348697518.git.Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: Fail in perl-native_5.14.2.bb
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/10] qt4: upgrade to 4.8.3 and cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,45 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 14:58:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Sep 2012 15:23:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hello, peace be with thee... :)
+On Thursday 27 September 2012 00:27:05 Martin Jansa wrote:
+> Please test on more architectures.
+> I've tested complete qt4-native + qt4-free-x11 on armv4t.
+> And only do_patch for nativesdk-qt4-tools, qt-mobility-*, qt4-embedded.
 
-I found a mistake in the "do_configure()" function of: 
-"perl-native_5.14.2.bb"
+So this is great work and these patches look good, although I'm still not 
+particularly happy with breaking out so many of the configure options because 
+I'm convinced it won't stop here; but it's possible I might be overruled on 
+this issue. 
 
-I am not experienced enough with mailing list to produce patches, but i 
-will try...
+The bigger problem is when these patches are arriving - we're late into the 
+stabilisation period and given the choice I'd prefer not to merge them until 
+the next development cycle.
 
-Explanation:
-sed is in " -e "s%/perl5%/perl%g" \ " replacing parts of @DESTDIR@ which 
-makes its patch way to long and doubles up parts of it's folders...
-This patch works for me...
+Cheers,
+Paul
 
+-- 
 
-Index: perl/perl_5.14.2.bb
-===================================================================
---- perl.orig/perl_5.14.2.bb
-+++ perl/perl_5.14.2.bb
-@@ -146,14 +146,14 @@ do_configure() {
-      ${@base_contains('DISTRO_FEATURES', 'largefile', '', 
-'do_nolargefile', d)}
-
-          # Update some paths in the configuration
--        sed -i -e 's,@DESTDIR@,${prefix},g' \
--               -e 's,@ARCH@-thread-multi,,g' \
-+        sed -i -e 's,@ARCH@-thread-multi,,g' \
-                 -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
-                 -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
-                 -e "s%\([ \"^\',=]\+\)/usr/include%\1${STAGING_INCDIR}%g" \
-             -e "s%\([ \"^\',=]\+\)/usr/lib/%\1${libdir}/%g" \
-             -e "s%\([ \"^\',=]\+\)/usr/%\1${exec_prefix}/%g" \
-             -e "s%/perl5%/perl%g" \
-+           -e 's,@DESTDIR@,${prefix},g' \
-              config.sh-${TARGET_ARCH}-${TARGET_OS}
-
-      case "${TARGET_ARCH}" in
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
