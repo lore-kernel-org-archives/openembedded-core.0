@@ -1,37 +1,38 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1THN6f-0003dz-UB
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1THO4X-0004Rm-OT
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 01:02:58 +0200
-Received: by iebc13 with SMTP id c13so5859459ieb.6
+	Fri, 28 Sep 2012 02:04:49 +0200
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 27 Sep 2012 16:50:51 -0700
+Received: by qcad10 with SMTP id d10so1986329qca.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 15:50:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Thu, 27 Sep 2012 16:50:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=fuYOrQgX60Af5f1A90X5zTR0420RgWYTL/qbVXeRt1g=;
-	b=zCSeTqBPBS0R4kOBFbVaWg2kZsOzluU8PY44v2s8ZJm3obCJHudzBR4J7n1NuG8G18
-	6OoSIx7GOVxHQwPfPPW1FhKBrBruIVl9a1L1N8ZxYO1gldMYVGFI9496WWujRwvI2dzS
-	GBElYQy5Rd6GFSkTdArBBaz5AuVdQS0TIzffHderpRSeq3xSv6rVHFyntqS8s8Ll43kq
-	epHaBdLSb9rk14gR8az/AIcgwlFttB4kqh5a8Ved2hot1Tnj7NtE4aX6qjXPC+1ZIaiZ
-	1dO7+bVBMNy0EfC/cnayAFWJ+Fj8+wdOOOPer4VWC8EpGAHo2c4PE2B/Sbhak2Bym4Q8
-	O5qg==
+	:cc:content-type:x-gm-message-state;
+	bh=vayoFLuorvgUk5X7NkIYtjDeCpyw1ed+bloS4+LR0ZM=;
+	b=dIPyV1rbKpS95gKGusbQyE2z1t8+82FLfUVV1Q9SEUO5j7U9KfT0Kw74egkkOF3wGd
+	BGKHAn6AbL1zgLqs859j5BbbnZaCVIGIUu5lpyfOol7+riKLMOTrDG88ijE/u9o/ngon
+	v64QKxdZ/6tETsESNvUaISPWMCz0rgcQ1lRbhMKFmPbaNPm/ufEIXvrZgK06wKCgXyg6
+	fyHTqT9LNUZdGM/9j+ayFQgEzWIHCK3WHwIaDveBUfCp/QrlWQs5hom6/vB6wC0li6EK
+	6oTaYIigx/77Kekz17YVNWuigOYsEXQDhwFgjRgkZmY2atsnQJ/1p6QokPuj9mwyY5KM
+	RUvw==
 MIME-Version: 1.0
-Received: by 10.50.77.164 with SMTP id t4mr5039037igw.7.1348786205142; Thu, 27
-	Sep 2012 15:50:05 -0700 (PDT)
-Received: by 10.64.49.71 with HTTP; Thu, 27 Sep 2012 15:50:05 -0700 (PDT)
-In-Reply-To: <5064D5FF.2050409@windriver.com>
-References: <20120927142926.CA9C5103AC@opal>
-	<20120927153419.GD3454@jama.jama.net>
-	<20120927175531.GF3454@jama.jama.net>
-	<CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
-	<5064D5FF.2050409@windriver.com>
-Date: Fri, 28 Sep 2012 00:50:05 +0200
-Message-ID: <CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+Received: by 10.229.77.227 with SMTP id h35mr3594489qck.47.1348789850624; Thu,
+	27 Sep 2012 16:50:50 -0700 (PDT)
+Received: by 10.229.63.1 with HTTP; Thu, 27 Sep 2012 16:50:50 -0700 (PDT)
+In-Reply-To: <50648815.70308@linux.intel.com>
+References: <cover.1348695851.git.elizabeth.flanagan@intel.com>
+	<50648815.70308@linux.intel.com>
+Date: Thu, 27 Sep 2012 16:50:50 -0700
+Message-ID: <CAPhnLPBLwMbu7_xU5M_a=8HYxCmB3avo3xLt3LdN0M7CTB55Mw@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkBTRd8MkPLJfR8Dwc0jQyPTA8pedFPmyW6cD4eddOo4KshvN0l2hF3riqOyLPLQ9d94KOf
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
+Subject: Re: [PATCH 0/3] license.bbclass fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +45,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 23:02:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 28 Sep 2012 00:04:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Sep 28, 2012 at 12:41 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> Just an FYI -- Martin Jansa found a problem with the implement of the
-> package version comparison.
->
-> In deb and ipk, they do not support '<' or '>', instead it's '<<' and '>>'.
-> (Odd, historical reasons apparently).
->
-> While RPM doesn't have any idea what '<<' or '>>' is.
->
-> Talking with RP and others it seems like the best approach is to implement a
-> conversion, in the deb and ipk packaging classes, to convert '<' and '>' to
-> the '<<' and '>>' equivalents.  As well as add a sanity check that nobody is
-> using '<<' or '>>'.
->
-> I'm in the process of doing that now.
->
-> --Mark
+On Thu, Sep 27, 2012 at 10:08 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 09/26/2012 02:50 PM, Elizabeth Flanagan wrote:
+>>
+>> [YOCTO #3118]
+>>
+>> license.conf hasn't been being parsed. This commit series ensures that
+>> license.conf is parsed, that it contains useful variables that should be
+>> in a global conf file and that those variables are not kept within
+>> license.bbclass.
+>>
+> So where is the inherit license bbclass?
 
-There is still some problem in opkg, now when I'm testing << with opkg
-which should work as LESS (and < as LESS_EQUAL), it still shows <= in
-opkg status and behaves like <=. So there is probably some bug in opkg
-still hidden :/
+For the yocto project it's an INHERIT +=  within poky.conf.
+meta-angstrom does not inherit it within
+conf/distro/include/angstrom.inc.
+
+-b
+
+>
+> Sau!
+>
+>
+>> This also fixes an discreprancy between the documentation of LICENSE_PATH
+>> (which
+>> is what we tell people to use) and what we were using "LICENSE_DIR". This
+>> ensures
+>> that when the end user needs to add additional licenses, that they use
+>> LICENSE_PATH += "path/to/additional/licenses" and that it works.
+>>
+>
+>> The following changes since commit
+>> 0b09e50810162a07ef0aecee91ee32b4a36334a3:
+>>
+>>    busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
+>>
+>> are available in the git repository at:
+>>    git://git.yoctoproject.org/poky-contrib eflanagan/LICENSE_PATH
+>>
+>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/LICENSE_PATH
+>>
+>> Elizabeth Flanagan (3):
+>>    license.bbclass: Variable standardization
+>>    bitbake.conf: parse license config
+>>    license.conf/bbclass: Move globals to license.conf
+>>
+>>   meta/classes/license.bbclass |   67
+>> +-----------------------------------------
+>>   meta/conf/bitbake.conf       |    1 +
+>>   meta/conf/licenses.conf      |   64
+>> ++++++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 66 insertions(+), 66 deletions(-)
+>>
+>
+
+
+
+-- 
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
 
