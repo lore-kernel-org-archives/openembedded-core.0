@@ -1,26 +1,31 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1THHZz-0004gU-C6
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 19:08:51 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 27 Sep 2012 09:55:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,496,1344236400"; d="scan'208";a="149916004"
-Received: from unknown (HELO [10.255.13.173]) ([10.255.13.173])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Sep 2012 09:55:56 -0700
-Message-ID: <5064851C.2020105@linux.intel.com>
-Date: Thu, 27 Sep 2012 09:55:56 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120827 Thunderbird/15.0
-MIME-Version: 1.0
-To: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-References: <cover.1348695851.git.elizabeth.flanagan@intel.com>
-	<c2df57712e4e2ce9e87121b063835f51e5a76d7c.1348695851.git.elizabeth.flanagan@intel.com>
-In-Reply-To: <c2df57712e4e2ce9e87121b063835f51e5a76d7c.1348695851.git.elizabeth.flanagan@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] license.bbclass: Variable standardization
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1THHdK-0004lG-KT for openembedded-core@lists.openembedded.org;
+	Thu, 27 Sep 2012 19:12:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8RGxRQM001536;
+	Thu, 27 Sep 2012 17:59:27 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01198-03; Thu, 27 Sep 2012 17:59:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8RGxIiM001530
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 27 Sep 2012 17:59:19 +0100
+Message-ID: <1348765159.11186.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wenzong.fan@windriver.com
+Date: Thu, 27 Sep 2012 17:59:19 +0100
+In-Reply-To: <ae8afc91a951339570a19ea607c8452037078a73.1348734058.git.wenzong.fan@windriver.com>
+References: <cover.1348734058.git.wenzong.fan@windriver.com>
+	<ae8afc91a951339570a19ea607c8452037078a73.1348734058.git.wenzong.fan@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] autotools.bbclass: using relative paths for acpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 17:08:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 27 Sep 2012 17:12:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 09/26/2012 02:50 PM, Elizabeth Flanagan wrote:
-> The variable mentioned in license.conf is LICENSE_PATH. The variable
-> used in license.bbclass is LICENSE_DIR. Conforming to what is in
-> license.conf
->
-> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+On Thu, 2012-09-27 at 16:23 +0800, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+> 
+> Fix autotools.bbclass to use relative paths for acpaths instead of
+> absolute ones. Since absolute paths may cause potential autoreconf
+> error like:
+> 
+>     Can't exec "/bin/sh": Argument list too long ...
+> 
+> This error occurs while building coreutils with long TMPDIR, because
+> it has bunch of m4 files need to be expanded.
+> 
+> [YOCTO #2766]
+> 
+> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 > ---
->   meta/classes/license.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index ffcaf93..ad543f6 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -186,7 +186,7 @@ python do_populate_lic() {
->       license_source_dirs = []
->       license_source_dirs.append(generic_directory)
->       try:
-> -        additional_lic_dirs = d.getVar('LICENSE_DIR', True).split()
-> +        additional_lic_dirs = d.getVar('LICENSE_PATH', True).split()
+>  meta/classes/autotools.bbclass |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+> index e4e034b..874e01d 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -130,7 +130,8 @@ autotools_do_configure() {
+>  		if [ x"${acpaths}" = xdefault ]; then
+>  			acpaths=
+>  			for i in `find ${S} -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
+> -				grep -v 'acinclude.m4' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
+> +				grep -v 'acinclude.m4' | sed -e 's,\(.*/\).*$,\1,'|sort -u| \
+> +				sed -e 's,${S},\.,'`; do
+>  				acpaths="$acpaths -I $i"
+>  			done
+>  		else
 
-Beth, I found that we also have LICENSE_DIRECTORY, so the intent here is 
-to be a multiple directory (such as a search PATH) for licenses?
+We applied this but it nearly instantly caused build failure reports.
+Anything with multiple configure.ac files where sub configures are used
+such as bdwgc-native will fail after this.
 
-There is also some documentation that needs to be changed, should not 
-prevent this patch from being pulled.
+I've therefore reverted it and we need to find another way.
 
+Cheers,
 
+Richard
 
-Sau!
-
->           for lic_dir in additional_lic_dirs:
->               license_source_dirs.append(lic_dir)
->       except:
->
 
 
