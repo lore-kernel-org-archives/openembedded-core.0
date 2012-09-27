@@ -1,25 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1THHFL-00041a-12
+	(envelope-from <sgw@linux.intel.com>) id 1THHG4-000441-0x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 18:47:31 +0200
+	Thu, 27 Sep 2012 18:48:16 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2012 09:34:37 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2012 09:35:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,496,1344236400"; d="scan'208";a="227714983"
+X-IronPort-AV: E=Sophos;i="4.80,496,1344236400"; d="scan'208";a="227715337"
 Received: from unknown (HELO [10.255.13.173]) ([10.255.13.173])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2012 09:34:36 -0700
-Message-ID: <5064801C.1060906@linux.intel.com>
-Date: Thu, 27 Sep 2012 09:34:36 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2012 09:35:21 -0700
+Message-ID: <50648048.5040607@linux.intel.com>
+Date: Thu, 27 Sep 2012 09:35:20 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: wenzong.fan@windriver.com
-References: <cover.1348734058.git.wenzong.fan@windriver.com>
-In-Reply-To: <cover.1348734058.git.wenzong.fan@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] autotools.bbclass: using relative paths for acpaths
+To: Constantin Musca <constantinx.musca@intel.com>
+References: <1348733857-18055-1-git-send-email-constantinx.musca@intel.com>
+In-Reply-To: <1348733857-18055-1-git-send-email-constantinx.musca@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gnome-keyring: include unpackaged files with PAM enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,38 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 16:47:31 -0000
+X-List-Received-Date: Thu, 27 Sep 2012 16:48:16 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/27/2012 01:23 AM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
+On 09/27/2012 01:17 AM, Constantin Musca wrote:
+> Include missing files/dirs:
+>      ${base_libdir}/security/*.la
+>      ${base_libdir}/security/*${SOLIBSDEV}
+>      ${base_libdir}/security/.debug/
 >
-> Fix autotools.bbclass to use relative paths for acpaths instead of
-> absolute ones. Since absolute paths may cause potential autoreconf
-> error like:
+> [YOCTO #2805]
 >
->      Can't exec "/bin/sh": Argument list too long ...
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> ---
+>   meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |    9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> This error occurs while building coreutils with long TMPDIR, because
-> it has bunch of m4 files need to be expanded.
+> diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+> index d822721..92e0e1b 100644
+> --- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+> +++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
 >
-> [YOCTO #2766]
+>   SECTION = "x11/gnome"
 >
-> The following changes since commit 0b09e50810162a07ef0aecee91ee32b4a36334a3:
+> -PR = "r9"
+> +PR = "r10"
 >
->    busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
+>   inherit autotools gnome gtk-doc pkgconfig
 >
-> are available in the git repository at:
+> @@ -43,7 +43,10 @@ FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr"
 >
->    git://git.pokylinux.org/poky-contrib wenzong/2766
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/2766
+>   FILES_${PN}-dev += "${libdir}/${BPN}/devel/*.la \
+>                       ${libdir}/${BPN}/devel/*${SOLIBSDEV} \
+> -                    ${libdir}/${BPN}/standalone/*.la"
+> +                    ${libdir}/${BPN}/standalone/*.la \
+> +                    ${base_libdir}/security/*.la \
+> +                    ${base_libdir}/security/*${SOLIBSDEV}"
 >
-> Wenzong Fan (1):
->    autotools.bbclass: using relative paths for acpaths
->
->   meta/classes/autotools.bbclass |    3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   FILES_${PN}-dbg += "${libdir}/${BPN}/standalone/.debug/ \
+> -                    ${libdir}/${BPN}/devel/.debug/"
+> +                    ${libdir}/${BPN}/devel/.debug/ \
+> +                    ${base_libdir}/security/.debug/"
 >
 
 Merged into OE-Core
