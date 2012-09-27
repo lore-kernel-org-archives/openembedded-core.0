@@ -1,23 +1,21 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1THECn-0001dJ-JR
+	(envelope-from <constantinx.musca@intel.com>) id 1THEQw-00026t-P5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 15:32:41 +0200
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 9C707D22E9;
-	Thu, 27 Sep 2012 15:19:51 +0200 (CEST)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+	Thu, 27 Sep 2012 15:47:19 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Sep 2012 06:34:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,495,1344236400"; d="scan'208";a="197925250"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
+	by azsmga001.ch.intel.com with ESMTP; 27 Sep 2012 06:34:24 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 15:19:40 +0200
-Message-Id: <1348751980-23989-4-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1348751980-23989-1-git-send-email-marcin.juszkiewicz@linaro.org>
-References: <1348751980-23989-1-git-send-email-marcin.juszkiewicz@linaro.org>
-Cc: linaro-dev@lists.linaro.org, patches@linaro.org
-Subject: [PATCH 3/3] insane.bbclass: add AArch64 support
+Date: Thu, 27 Sep 2012 15:39:55 +0300
+Message-Id: <1348749595-11603-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH v2] sanity.bbclass: bblayers.conf should be updated automatically
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,27 +28,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 13:32:41 -0000
+X-List-Received-Date: Thu, 27 Sep 2012 13:47:19 -0000
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+- add check_bblayers_conf bitbake function which does the bblayers.conf
+v4 -> v5 update if necessary (every layer should make its specific
+bblayers.conf upgrades appending to the check_bblayers_conf function)
+- we ask the user to re-run bitbake because we can't trigger reparsing
+without being invasive
+
+[YOCTO #3082]
+
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/classes/insane.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/sanity.bbclass |   61 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 1fb8970..b390242 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -44,6 +44,7 @@ def package_qa_get_machine_dict():
-                         "arm" :       (40,     0,    0,          True,          32),
-                       },
-             "linux" : { 
-+                        "aarch64" :   (183,    0,    0,          True,          64),
-                         "arm" :       (40,    97,    0,          True,          32),
-                         "armeb":      (40,    97,    0,          False,         32),
-                         "powerpc":    (20,     0,    0,          False,         32),
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 385d733..9c3ab1f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -4,6 +4,56 @@
+ 
+ SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
+ 
++python check_bblayers_conf() {
++    bblayers_fn = os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
++
++    current_lconf = int(d.getVar('LCONF_VERSION', True))
++    if not current_lconf:
++        sys.exit()
++    lconf_version = int(d.getVar('LAYER_CONF_VERSION', True))
++    lines = []
++
++    import re
++    def find_line(pattern, lines):
++        return next(((index, line)
++            for index, line in enumerate(lines)
++            if re.search(pattern, line)), (None, None))
++
++    if current_lconf < 4:
++        sys.exit()
++
++    with open(bblayers_fn, 'r') as f:
++        lines = f.readlines()
++
++    if current_lconf == 4:
++        topdir_var = '$' + '{TOPDIR}'
++        index, bbpath_line = find_line('BBPATH', lines)
++        if bbpath_line:
++            start = bbpath_line.find('"')
++            if start != -1 and (len(bbpath_line) != (start + 1)):
++                if bbpath_line[start + 1] == '"':
++                    lines[index] = (bbpath_line[:start + 1] +
++                                    topdir_var + bbpath_line[start + 1:])
++                else:
++                    if not topdir_var in bbpath_line:
++                        lines[index] = (bbpath_line[:start + 1] +
++                                    topdir_var + ':' + bbpath_line[start + 1:])
++            else:
++                sys.exit()
++        else:
++            index, bbfiles_line = find_line('BBFILES', lines)
++            if bbfiles_line:
++                lines.insert(index, 'BBPATH = "' + topdir_var + '"\n')
++            else:
++                sys.exit()
++
++        index, line = find_line('LCONF_VERSION', lines)
++        current_lconf += 1
++        lines[index] = 'LCONF_VERSION = "%d"\n' % current_lconf
++        with open(bblayers_fn, "w") as f:
++            f.write(''.join(lines))
++}
++
+ def raise_sanity_error(msg, d):
+     if d.getVar("SANITY_USE_EVENTS", True) == "1":
+         bb.event.fire(bb.event.SanityCheckFailed(msg), d)
+@@ -337,7 +387,16 @@ def check_sanity(sanity_data):
+     current_lconf = sanity_data.getVar('LCONF_VERSION', True)
+     lconf_version = sanity_data.getVar('LAYER_CONF_VERSION', True)
+     if current_lconf != lconf_version:
+-        messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
++        try:
++            bb.build.exec_func("check_bblayers_conf", sanity_data)
++            if sanity_data.getVar("SANITY_USE_EVENTS", True) == "1":
++                bb.event.fire(bb.event.SanityCheckFailed("Your conf/bblayers.conf has been automatically updated. Please close and re-run."), sanity_data)
++                return
++            else:
++                bb.note("Your conf/bblayers.conf has been automatically updated. Please re-run %s." % os.path.basename(sys.argv[0]))
++                sys.exit(0)
++        except Exception:
++            messages = messages + "Your version of bblayers.conf was generated from an older version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n"
+ 
+     # If we have a site.conf, check it's valid
+     if check_conf_exists("conf/site.conf", sanity_data):
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
