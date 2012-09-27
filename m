@@ -1,32 +1,25 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TH8qB-00030x-Bg
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1TH9bB-0005qU-H3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 09:48:59 +0200
-Received: by wibhj13 with SMTP id hj13so2603773wib.6
+	Thu, 27 Sep 2012 10:37:33 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8R8OeiO001786
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 00:36:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=qwSEYQVrXP0xKfNCxkLy9p5NgCTzttE96OAzaEi8AAE=;
-	b=fXq/xXO+QzUkZVHNJx/7LUGYFqozoA7EU63koOQzEYmKe8eDb+acu/T8xw89bfe70T
-	NVuRXs0IEXDA3KBlaUPEHL2OIo1v92r2zo8t6bq9FRh4Uw9erjsHYpkyfZNcUSvDkd7t
-	YMkUbkw+G7FcwMc8XPVxN8TH0ZcN9kxUrWV/aXNUjBau2cScU+mzHgdl97234QqcHPS9
-	yku6G9k9NnwvcLchpuAxNOFpcVK2QKP1ImbrC9gsG7p/bQ1FH3B3x9EHg+a5ydXkSQYD
-	yYjA5zmpP/IcAlSsJRjCjT9ZC3I//E2Q0XJvTQ/MY9lBKliuAVmba7NZdK0CJt5orK5x
-	LU9A==
-Received: by 10.180.93.33 with SMTP id cr1mr34749459wib.8.1348731367665;
-	Thu, 27 Sep 2012 00:36:07 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id cn6sm2468580wib.9.2012.09.27.00.36.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 27 Sep 2012 00:36:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 09:36:13 +0200
-Message-Id: <1348731373-27278-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-Subject: [PATCH] sstate-cache-management: hide error message when one of possible layer location doesn't exist
+	Thu, 27 Sep 2012 01:24:40 -0700 (PDT)
+Received: from usp-ub1204-32.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Thu, 27 Sep 2012 01:24:39 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Sep 2012 16:23:36 +0800
+Message-ID: <cover.1348734058.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] autotools.bbclass: using relative paths for acpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 07:48:59 -0000
+X-List-Received-Date: Thu, 27 Sep 2012 08:37:33 -0000
+Content-Type: text/plain
 
-* fixes [YOCTO #3116]
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/sstate-cache-management.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fix autotools.bbclass to use relative paths for acpaths instead of
+absolute ones. Since absolute paths may cause potential autoreconf
+error like:
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index f519555..4c06fe8 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -174,7 +174,7 @@ remove_duplicated () {
-   topdir=$(dirname $oe_core_dir)
-   tunedirs="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/include'`"
-   [ -n "$tunedirs" ] || echo_error "Can't find the tune directory"
--  all_machines="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/*' -name '*.conf' | sed -e 's/.*\///' -e 's/.conf$//'`"
-+  all_machines="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/*' -name '*.conf' 2>/dev/null | sed -e 's/.*\///' -e 's/.conf$//'`"
-   all_archs=`grep -r -h "^AVAILTUNES .*=" $tunedirs | sed -e 's/.*=//' -e 's/\"//g'`
-   # Add the qemu and native archs
-   # Use the "_" to substitute "-", e.g., x86-64 to x86_64
+    Can't exec "/bin/sh": Argument list too long ...
+
+This error occurs while building coreutils with long TMPDIR, because
+it has bunch of m4 files need to be expanded.
+
+[YOCTO #2766]
+
+The following changes since commit 0b09e50810162a07ef0aecee91ee32b4a36334a3:
+
+  busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/2766
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/2766
+
+Wenzong Fan (1):
+  autotools.bbclass: using relative paths for acpaths
+
+ meta/classes/autotools.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
 -- 
-1.7.12
+1.7.9.5
 
 
 
