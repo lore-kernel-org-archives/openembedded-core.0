@@ -1,32 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1THGCk-0000FF-Ji for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 17:40:46 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8RFRqFQ032567;
-	Thu, 27 Sep 2012 16:27:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32240-03; Thu, 27 Sep 2012 16:27:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8RFRfib032560
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 27 Sep 2012 16:27:43 +0100
-Message-ID: <1348759663.8493.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <philb@gnu.org>
-Date: Thu, 27 Sep 2012 16:27:43 +0100
-In-Reply-To: <1348748538.32611.18.camel@phil-desktop>
-References: <1348748538.32611.18.camel@phil-desktop>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q8RFRqFQ032567
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1THGGs-0000Q0-Ny
+	for openembedded-core@lists.openembedded.org;
+	Thu, 27 Sep 2012 17:45:03 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 27 Sep 2012 08:32:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,496,1344236400"; d="scan'208";a="149880761"
+Received: from unknown (HELO [10.255.13.173]) ([10.255.13.173])
+	by AZSMGA002.ch.intel.com with ESMTP; 27 Sep 2012 08:32:08 -0700
+Message-ID: <50647177.5090105@linux.intel.com>
+Date: Thu, 27 Sep 2012 08:32:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: Christian Glindkamp <christian.glindkamp@taskit.de>
+References: <1348748457-7215-1-git-send-email-christian.glindkamp@taskit.de>
+In-Reply-To: <1348748457-7215-1-git-send-email-christian.glindkamp@taskit.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: overuse of bitbake flags considered harmful
+Subject: Re: [PATCH] perl: Fix nativesdk install path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 15:40:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Sep 2012 15:45:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-09-27 at 13:22 +0100, Phil Blundell wrote:
-> I was mildly amused to discover, the other day, that the output of
-> "bitbake -e rpm | grep PACKAGECONFIG" is not quite as one might na=C3=AF=
-vely
-> expect. =20
->=20
-> I guess the right response to this is perhaps that bitbake ought
-> nowadays to find some other way to store its own internal state, since
-> the idiom of using flags is pretty well established in oe-core.
+On 09/27/2012 05:20 AM, Christian Glindkamp wrote:
+> Commit 38234f2e276356b1d77a87ceabc486107e336d19 tried to fix the sed
+> expressions by anchoring the left side of the search regexp to prevent
+> $prefix$prefix type expression in the perl config. For nativesdk this is
+> not enough. Adding anchors on both side fixes this.
+>
+> Signed-off-by: Christian Glindkamp <christian.glindkamp@taskit.de>
+> ---
+>
+> This is currently only build tested, but buildhistory for perl did not change.
+>
+>   meta/recipes-devtools/perl/perl_5.14.2.bb |    8 ++++----
+>   1 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> index 3c1360f..0009855 100644
+> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+>   # We need gnugrep (for -I)
+>   DEPENDS = "virtual/db grep-native"
+>   DEPENDS += "gdbm zlib"
+> -PR = "r9"
+> +PR = "r10"
+>
+>   # 5.10.1 has Module::Build built-in
+>   PROVIDES += "libmodule-build-perl"
+> @@ -150,9 +150,9 @@ do_configure() {
+>                  -e 's,@ARCH@-thread-multi,,g' \
+>                  -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
+>                  -e 's,@STAGINGDIR@,${STAGING_DIR_HOST},g' \
+> -               -e "s%\([ \"^\',=]\+\)/usr/include%\1${STAGING_INCDIR}%g" \
+> -	       -e "s%\([ \"^\',=]\+\)/usr/lib/%\1${libdir}/%g" \
+> -	       -e "s%\([ \"^\',=]\+\)/usr/%\1${exec_prefix}/%g" \
+> +               -e "s%\([ \"^\',=]\+\)/usr/include\([ \"^\',=]\+\)%\1${STAGING_INCDIR}\2%g" \
+> +	       -e "s%\([ \"^\',=]\+\)/usr/lib/\([ \"^\',=]\+\)%\1${libdir}/\2%g" \
+> +	       -e "s%\([ \"^\',=]\+\)/usr/\([ \"^\',=]\+\)%\1${exec_prefix}/\2%g" \
+>   	       -e "s%/perl5%/perl%g" \
+>               config.sh-${TARGET_ARCH}-${TARGET_OS}
+>
+>
 
-For those who don't realise what's going on here, the output is:
+Merged into OE-Core
 
-python PACKAGECONFIG () {
-db bzip2 zlib beecrypt openssl libelf python}
-
-since "python" is a flag bitbake uses to identify python functions too.
-
-I suspect the better solution would be to use "_python" internally since
-we already have a convention within bitbake of prefixing internally used
-flags with "_".
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/bitbake/lib/bb/data_smar=
-t.py?id=3D49bc007c80e429090c4db51e30c5ce27e8a72558
-http://git.yoctoproject.org/cgit.cgi/poky/commit/bitbake/lib/bb/data_smar=
-t.py?id=3D980d658f3f1e6c5b459f741385533a11d35009ca
-
-This would mean the metadata shouldn't use that namespace but I think we
-can live with that.
-
-Cheers,
-
-Richard
-
-
+Thanks	
+	Sau!
 
 
 
