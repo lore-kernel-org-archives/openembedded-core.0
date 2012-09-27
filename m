@@ -1,36 +1,36 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1THF4B-0008CT-VC
+	(envelope-from <ross.burton@intel.com>) id 1THFAs-0008Mt-Gs
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Sep 2012 16:27:52 +0200
-Received: by eeit10 with SMTP id t10so824719eei.6
+	Thu, 27 Sep 2012 16:34:46 +0200
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 27 Sep 2012 07:21:52 -0700
+Received: by wibhj13 with SMTP id hj13so3006667wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 07:15:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=6IWheI3lTUfmzu93zTVxabZwoix3IJw4y9f7XRIqItY=;
-	b=kJXvtdajatEnd072kzKsbAfi6jNg6iMuDUiEAUJrKaNoyRGO9zWcJzXsaHY8RtV901
-	+7ZVxfsAQd3Y0USSkBhi+yIEdstxWJGaWIFlsR2So1719pO9us71r6iZHSRTIY51DbO8
-	vfwiKSS+kSpZVnVqqCzTsXmFgIogs7OPLLnLH7GqZERUG6yDWxARLcvuXt6Vhsg1sHTh
-	SFxYsQaEDjQnsnN8hYQyBVcFva9I+z4rdAZQ2h9hwdwj3Dn3oAJ2osvzT5rdS93Fw7ci
-	501m7KZaje7+chvFHskmMx+Xct0YQq5SB5H85KDWjV48n/YD6fhgK3W+pOmfv6aGR7Qa
-	Wn5A==
-Received: by 10.14.202.131 with SMTP id d3mr6100718eeo.32.1348755300278; Thu,
-	27 Sep 2012 07:15:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.173.69 with HTTP; Thu, 27 Sep 2012 07:14:29 -0700 (PDT)
-In-Reply-To: <1348667991.8662.108.camel@ted>
-References: <1348530910-9917-1-git-send-email-raj.khem@gmail.com>
-	<1348560878.8662.29.camel@ted>
-	<CAMKF1srWM46Jofrjd8xxX22waY1b7O3a0Nwr-Av+B_mid9fSfw@mail.gmail.com>
-	<1348667991.8662.108.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Sep 2012 07:14:29 -0700
-Message-ID: <CAMKF1sqFe+8xmEg6r+g9+2xLo0TYyfGQp0aYOCT+kp-WHE03+A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] jpeg-native: Do not use libtool-cross for native recipe
+	Thu, 27 Sep 2012 07:21:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=c+s0rylMLU7453SeTJnpCgTh8pyXkrOopJYEFqpRvXc=;
+	b=GWZEjaJj/eUUsTAK8w76C1xdzpLWJoXtxw+HJLoonDJF+epIWrTEuVKLGg+Hkk51Bg
+	3Nry9dU+HkPfIsoY+Az6bUMzeQTj6+tmIF9I9Y62mZZlxLN1rk63GK/xGK1p11+ukwEY
+	BG2a8pvZXr/SgGSkF0xW9cBFesJkaesiNXfZ6R2zM6KRD0wBBmQ/cV80hFIL622J3fVF
+	6NbWj96ha6MPRcaTiXIrLWUesfsLLTZJnDAlE0T5iY1mGoNHCoA88kYrFtysKdyhdq8n
+	yS+pEWnKhhUunwU977wi/KAZzxJveyrdSd6C5JVMXWGpLJn1dHdoSFgyze3z+PH0CNVJ
+	dPHA==
+Received: by 10.180.91.169 with SMTP id cf9mr4479264wib.1.1348755710605;
+	Thu, 27 Sep 2012 07:21:50 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id t7sm13426611wix.6.2012.09.27.07.21.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 27 Sep 2012 07:21:49 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Sep 2012 15:20:49 +0100
+Message-Id: <cover.1348755513.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQk5OLCu44j9YoVbT3YMMF0WEsx55Q8YGeAaQhsBBX7EJuWfiMRS+Tn/Q/Z4+fq2KA7QrvsN
+Subject: [PATCH 0/2] initramfs fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,41 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Sep 2012 14:27:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Sep 2012 14:34:46 -0000
 
-On Wed, Sep 26, 2012 at 6:59 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2012-09-25 at 06:27 -0700, Khem Raj wrote:
->> On Tue, Sep 25, 2012 at 1:14 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > This wallpapers over cracks. Why is libtool-native/libtool-cross broken?
->> > Shouldn't we fix whatever is breaking libtool?
->> >
->>
->> it is not broken. But we were ending up using cross-libtool for native
->> recipe that does not seem right.
->
-> Looking at your original error message, it says:
->
->  /work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool
->
-> which is libtool-native. I appreciate that the OEMAKE line to use the
-> cross version is wrong but it looks like it still manages to find the
-> native libtool and that it isn't working.
+A colleague was working on an initramfs-based yocto system and encounting some
+issues because the initial script is quite fragile.
 
-hmmm I tried and it worked fine when libtool-cross was staged. I guess
-my problem was
-that it was trying to find native sed in native sysroot. I cant
-reproduce it. But I guess
-the patch still makes sense. I can send it with commit message changed
-if you are ok with that
+Attached are two patches to make it less fragile, and drop you to a shell if it
+does break.
 
->
-> Cheers,
->
-> Richard
->
->
+The following changes since commit 55b3e7bf48a67c0ce42308b8332262fbe4eccd24:
+
+  dbus: disable all X11 when native (2012-09-26 21:23:37 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/initramfs
+
+for you to fetch changes up to 265e1e50186d5982b40d87f37f0662a0e09a7daa:
+
+  initramfs: Make mkdir not fail (2012-09-27 15:17:35 +0100)
+
+----------------------------------------------------------------
+Damien Lespiau (2):
+      initrd: Spawn an emergency shell when something goes wrong
+      initramfs: Make mkdir not fail
+
+ meta/recipes-core/initrdscripts/files/init-live.sh |   17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+Damien Lespiau (2):
+  initrd: Spawn an emergency shell when something goes wrong
+  initramfs: Make mkdir not fail
+
+ meta/recipes-core/initrdscripts/files/init-live.sh |   17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+-- 
+1.7.10
+
 
 
