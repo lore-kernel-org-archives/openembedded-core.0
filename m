@@ -1,26 +1,40 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1THZFb-0007WP-6s
+	(envelope-from <otavio.salvador@gmail.com>) id 1THZTp-0007fS-9M
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 14:00:59 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8SBm0rS008098
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Sep 2012 04:48:01 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Fri, 28 Sep 2012 04:48:00 -0700
-Message-ID: <50658E84.9090206@windriver.com>
-Date: Fri, 28 Sep 2012 19:48:20 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Fri, 28 Sep 2012 14:15:41 +0200
+Received: by pbbro12 with SMTP id ro12so5108109pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Sep 2012 05:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=4LFxz516wIhC9gCfqp+fgfzCCq8meh9RMRxLk5xxk9M=;
+	b=pG+2ZYwUu7MHdd6sGfdeo2oJhtY6ygSyT13fg0u7CvQpUD3gqeg6Zy2cH8quc+zo93
+	O5wnYxVzp0C709gMmLgCgUEprVcnWy1UKnH22VOOQiIjwVQgyk9yhaJx1020IPHs6ZUe
+	bib3OTNwrhk2w2C1sKWaFceeGxKCG6f84dkwIPIKAJpFs14G4ITPbidj4pYyWLPxevEg
+	pk0t1bgt6M8JkcdvLAPQmJZ75bJGsQkBJGHeug6pIdcBCl9itqWj/nCte7K+K9Ycowh3
+	VLfloNqxsb4yeEjahmNK+mRPhS9FxIs9nBE+JJYV/Z1t8IRicoJjJDd5UV0I08IIMoC6
+	d+tQ==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Originating-IP: [128.224.162.159]
+Received: by 10.68.218.226 with SMTP id pj2mr19998588pbc.33.1348833767500;
+	Fri, 28 Sep 2012 05:02:47 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.36.105 with HTTP; Fri, 28 Sep 2012 05:02:47 -0700 (PDT)
+In-Reply-To: <CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
+References: <20120927142926.CA9C5103AC@opal>
+	<20120927153419.GD3454@jama.jama.net>
+	<20120927175531.GF3454@jama.jama.net>
+	<CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
+	<5064D5FF.2050409@windriver.com>
+	<CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
+Date: Fri, 28 Sep 2012 09:02:47 -0300
+X-Google-Sender-Auth: -5sjpl3Jy-ba33uvpt5GhDdq-pI
+Message-ID: <CAP9ODKpKzc2T7MpMckyTabvuAkAe1ABCyZLKSz0=z83gJjAh1Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Some problems about nativesdk-perl
+Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 12:00:59 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020400010409030609000006"
+X-List-Received-Date: Fri, 28 Sep 2012 12:15:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---------------020400010409030609000006
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+On Thu, Sep 27, 2012 at 7:50 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Fri, Sep 28, 2012 at 12:41 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> Just an FYI -- Martin Jansa found a problem with the implement of the
+>> package version comparison.
+>>
+>> In deb and ipk, they do not support '<' or '>', instead it's '<<' and '>>'.
+>> (Odd, historical reasons apparently).
+>>
+>> While RPM doesn't have any idea what '<<' or '>>' is.
+>>
+>> Talking with RP and others it seems like the best approach is to implement a
+>> conversion, in the deb and ipk packaging classes, to convert '<' and '>' to
+>> the '<<' and '>>' equivalents.  As well as add a sanity check that nobody is
+>> using '<<' or '>>'.
+>>
+>> I'm in the process of doing that now.
+>>
+>> --Mark
+>
+> There is still some problem in opkg, now when I'm testing << with opkg
+> which should work as LESS (and < as LESS_EQUAL), it still shows <= in
+> opkg status and behaves like <=. So there is probably some bug in opkg
+> still hidden :/
 
-Hi Richard,
+Yes; it seems the right fix is in opkg.
 
-I meet 2 problems about nativesdk-perl.
+Using RCONFLICTS with << also fails to me as said yestarday on IRC.
 
-First one is that nativesdk-perl-modules doesn't depends on the single 
-nativesdk-perl-module-xxx which I asked you yesterday, but I still don't 
-know how to fix it.
-I tried to add one line to perl_5.14.2.bb:
-RRECOMMENDS_perl-modules_virtclass-nativesdk += 
-"nativesdk-perl-module-config"
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-and it will cover the original value and make nativesdk-perl-modules 
-only depends on nativesdk-perl-module-config.
-Doesn't "+=" work for nativesdk ?
 
-The second issue is the latest commit for perl(Yocto commit 
-876ec81c039132d07a5f3d99bae40d6154351d41) . I build meta-toolchain-gmae 
-with it,
-and the perl @INC path remove the 
-"/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux" prefix.
-Is that the right operation?
-
-Regards,
-Kai
-
---------------020400010409030609000006
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <font size="+1">Hi Richard,<br>
-      <br>
-      I meet 2 problems about nativesdk-perl. <br>
-      <br>
-      First one is that nativesdk-perl-modules doesn't depends on the
-      single nativesdk-perl-module-xxx which I asked you yesterday, but
-      I still don't know how to fix it.<br>
-      I tried to add one line to perl_5.14.2.bb:<br>
-      RRECOMMENDS_perl-modules_virtclass-nativesdk +=
-      "nativesdk-perl-module-config" <br>
-      <br>
-      and it will cover the original value and make
-      nativesdk-perl-modules only depends on </font><font size="+1">nativesdk-perl-module-config.<br>
-      Doesn't "+=" work for nativesdk ?<br>
-      <br>
-      The second issue is the latest commit for perl(Yocto commit
-      876ec81c039132d07a5f3d99bae40d6154351d41) . I build
-      meta-toolchain-gmae with it, <br>
-      and the perl @INC path remove the
-      "/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux" prefix.<br>
-      Is that the right operation?<br>
-      <br>
-      Regards,<br>
-      Kai<br>
-    </font>
-  </body>
-</html>
-
---------------020400010409030609000006--
