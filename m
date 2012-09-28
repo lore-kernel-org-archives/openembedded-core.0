@@ -1,38 +1,45 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1THRSP-0006x9-0D
+	(envelope-from <B29882@freescale.com>) id 1THRTQ-0006zX-So
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 05:41:41 +0200
-Received: by padfa11 with SMTP id fa11so1898110pad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 20:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=B3rVOC/xWrfmG8Bbq4d/gKFVsvuqMQP7BdHY6xOYmd0=;
-	b=nt6Z5VFw2qwAcpVCzgaDj2PbTpPwAj6fu1KotMkttMqig6mxTH7ElIj1bSsYldHKeU
-	tl5GF+igJ4ItcDmIJ7jiesasuIaO10hh/HfO7lmCqzHNEG7MCWRLELBZCwEe/lNYcSUN
-	U1+JTjQRuAv/2VuRTNfwT1IyhKk8X0akPrhgdCgwnCVJCHDTiPpUkiZG9a6lwl0Foi+C
-	XhFtvU3Sv1Bfvza3N64rvuS9NBA5lOTUtXZ1D7++6jfH+bfIEgE1dMkS9V3rro5BUy9E
-	UDC8siGynA6GfSJb0qKEEbkoKGvyem1BCWBmf5gFB3c2rOduwT/unzeUH8pUt1IR0Pfi
-	Ax8g==
-Received: by 10.68.225.68 with SMTP id ri4mr16553549pbc.115.1348802927585;
-	Thu, 27 Sep 2012 20:28:47 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id
-	bt7sm4761606pab.14.2012.09.27.20.28.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 27 Sep 2012 20:28:46 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <9CAE2E57-84BE-44B7-A7BE-BCE8F728EFE8@gmail.com>
-Date: Thu, 27 Sep 2012 20:28:45 -0700
-Message-Id: <E416A48D-4E21-4353-BDDC-B3B15AA810C9@gmail.com>
-References: <9CAE2E57-84BE-44B7-A7BE-BCE8F728EFE8@gmail.com>
-To: "openembedded-core@lists.openembedded.org oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1498)
-Subject: Re: perl install error
+	Fri, 28 Sep 2012 05:42:45 +0200
+Received: from mail81-tx2-R.bigfish.com (10.9.14.245) by
+	TX2EHSOBE004.bigfish.com (10.9.40.24) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 28 Sep 2012 03:29:51 +0000
+Received: from mail81-tx2 (localhost [127.0.0.1])	by mail81-tx2-R.bigfish.com
+	(Postfix) with ESMTP id B0F86600A4	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 28 Sep 2012 03:29:51 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 2
+X-BigFish: VS2(zz936eIzz1202h1d1ah1d2ah1082kzz17326ah8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1155h)
+Received: from mail81-tx2 (localhost.localdomain [127.0.0.1]) by mail81-tx2
+	(MessageSwitch) id 1348802989900318_15711;
+	Fri, 28 Sep 2012 03:29:49 +0000 (UTC)
+Received: from TX2EHSMHS013.bigfish.com (unknown [10.9.14.236])	by
+	mail81-tx2.bigfish.com (Postfix) with ESMTP id D7197320045	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 28 Sep 2012 03:29:49 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS013.bigfish.com
+	(10.9.99.113) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 28 Sep 2012 03:29:49 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Thu, 27 Sep 2012 22:29:49 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q8S3Tmr0025246 for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2012 20:29:48 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Sep 2012 22:29:48 -0500
+Message-ID: <1348802988-5585-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v2 04/10] eglibc_2.16.bb: refresh fsl-ppc-no-fsqrt.patch for Freescale targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,61 +52,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 03:41:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Sep 2012 03:42:45 -0000
+Content-Type: text/plain
 
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+v2: refresh for all Freescale targets, and fix mixup between
+    single and double precision
+v3: add 32-bit e6500 which was missed
+v4: Screwed up the patch, fixed in v4
 
-On Sep 27, 2012, at 8:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
+All these patches are on my tree in poky-contrib:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=mattsm/master
 
-> Hi
->=20
-> On ppc64 I am getting=20
->=20
-> | Warning: perl appears in your path in the following locations beyond =
-where
-> | we just installed it:
-> |     =
-/work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/perl-native/perl
-> |
-> | make[1]: Nothing to be done for `install.man'.
-> | make[1]: Leaving directory =
-`/work/yocto/poky/build/tmp/work/ppc64e5500-poky-linux/perl-5.14.2-r10/per=
-l-5.14.2'
-> | ln: failed to create symbolic link =
-`/work/yocto/poky/build/tmp/work/ppc64e5500-poky-linux/perl-5.14.2-r10/ima=
-ge//usr/lib64/perl5': No such file or directory
-> | ERROR: Function failed: do_install (see =
-/work/yocto/poky/build/tmp/work/ppc64e5500-poky-linux/perl-5.14.2-r10/temp=
-/log.do_install.6656 for further information)
-> ERROR: Task 1679 =
-(/work/yocto/poky/meta/recipes-devtools/perl/perl_5.14.2.bb, do_install) =
-failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 4082 tasks of which 4057 didn't need to =
-be rerun and 1 failed.
->=20
->=20
-> It was working fine yesterday
-> anyone else seeing it ?
+ .../eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch      |   64 ++++++++++++++++++--
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    2 +-
+ 2 files changed, 61 insertions(+), 5 deletions(-)
 
-
-If I revert=20
-
-perl: Fix nativesdk install path
-Commit 38234f2e276356b1d77a87ceabc486107e336d19 tried to fix the sed
-expressions by anchoring the left side of the search regexp to prevent
-$prefix$prefix type expression in the perl config. For nativesdk this is
-not enough. Adding anchors on both side fixes this.
-
-Signed-off-by: Christian Glindkamp <christian.glindkamp@taskit.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-
-
-It works again
-
-Thanks
--Khem
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch b/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
+index 712b353..511ee9d 100644
+--- a/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
++++ b/meta/recipes-core/eglibc/eglibc-2.16/fsl-ppc-no-fsqrt.patch
+@@ -9,8 +9,8 @@ Upstream-Status: Pending
+ 
+ Index: libc/sysdeps/powerpc/fpu/math_private.h
+ ===================================================================
+---- libc.orig/sysdeps/powerpc/fpu/math_private.h	2012-09-03 22:37:58.000000000 -0700
+-+++ libc/sysdeps/powerpc/fpu/math_private.h	2012-09-17 09:35:09.709124003 -0700
++--- libc.orig/sysdeps/powerpc/fpu/math_private.h
+++++ libc/sysdeps/powerpc/fpu/math_private.h
+ @@ -25,10 +25,12 @@
+  #include <dl-procinfo.h>
+  #include_next <math_private.h>
+@@ -30,8 +30,8 @@ Index: libc/sysdeps/powerpc/fpu/math_private.h
+  extern double __slow_ieee754_sqrt (double);
+ Index: libc/ports/sysdeps/powerpc/powerpc64/e5500/fpu/math_private.h
+ ===================================================================
+---- /dev/null	1970-01-01 00:00:00.000000000 +0000
+-+++ libc/ports/sysdeps/powerpc/powerpc64/e5500/fpu/math_private.h	2012-09-17 09:56:59.129124074 -0700
++--- /dev/null
+++++ libc/ports/sysdeps/powerpc/powerpc64/e5500/fpu/math_private.h
+ @@ -0,0 +1,9 @@
+ +#ifndef _E5500_MATH_PRIVATE_H_
+ +#define _E5500_MATH_PRIVATE_H_ 1
+@@ -42,3 +42,59 @@ Index: libc/ports/sysdeps/powerpc/powerpc64/e5500/fpu/math_private.h
+ +#include_next <math_private.h>
+ +
+ +#endif /* _E5500_MATH_PRIVATE_H_ */
++Index: libc/ports/sysdeps/powerpc/powerpc64/e6500/fpu/math_private.h
++===================================================================
++--- /dev/null
+++++ libc/ports/sysdeps/powerpc/powerpc64/e6500/fpu/math_private.h
++@@ -0,0 +1,9 @@
+++#ifndef _E6500_MATH_PRIVATE_H_
+++#define _E6500_MATH_PRIVATE_H_ 1
+++/* E6500 core FPU does not implement
+++   fsqrt */
+++
+++#define __CPU_HAS_FSQRT 0
+++#include_next <math_private.h>
+++
+++#endif /* _E6500_MATH_PRIVATE_H_ */
++Index: libc/ports/sysdeps/powerpc/powerpc32/e500mc/fpu/math_private.h
++===================================================================
++--- /dev/null
+++++ libc/ports/sysdeps/powerpc/powerpc32/e500mc/fpu/math_private.h
++@@ -0,0 +1,9 @@
+++#ifndef _E500MC_MATH_PRIVATE_H_
+++#define _E500MC_MATH_PRIVATE_H_ 1
+++/* E500MC core FPU does not implement
+++   fsqrt */
+++
+++#define __CPU_HAS_FSQRT 0
+++#include_next <math_private.h>
+++
+++#endif /* _E500MC_MATH_PRIVATE_H_ */
++Index: libc/ports/sysdeps/powerpc/powerpc32/e5500/fpu/math_private.h
++===================================================================
++--- /dev/null
+++++ libc/ports/sysdeps/powerpc/powerpc32/e5500/fpu/math_private.h
++@@ -0,0 +1,9 @@
+++#ifndef _E5500_MATH_PRIVATE_H_
+++#define _E5500_MATH_PRIVATE_H_ 1
+++/* E5500 core FPU does not implement
+++   fsqrt */
+++
+++#define __CPU_HAS_FSQRT 0
+++#include_next <math_private.h>
+++
+++#endif /* _E5500_MATH_PRIVATE_H_ */
++Index: libc/ports/sysdeps/powerpc/powerpc32/e6500/fpu/math_private.h
++===================================================================
++--- /dev/null
+++++ libc/ports/sysdeps/powerpc/powerpc32/e6500/fpu/math_private.h
++@@ -0,0 +1,9 @@
+++#ifndef _E6500_MATH_PRIVATE_H_
+++#define _E6500_MATH_PRIVATE_H_ 1
+++/* E6500 core FPU does not implement
+++   fsqrt */
+++
+++#define __CPU_HAS_FSQRT 0
+++#include_next <math_private.h>
+++
+++#endif /* _E6500_MATH_PRIVATE_H_ */
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 5d88831..a0824cd 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "20393"
+ 
+ DEPENDS += "gperf-native kconfig-frontends-native"
+-PR = "r13"
++PR = "r14"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_16"
+-- 
+1.7.9.7
 
 
 
