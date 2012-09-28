@@ -1,45 +1,58 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1THfON-0000JT-EO
+	(envelope-from <B29882@freescale.com>) id 1THfYN-0000Xz-Aq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 20:34:27 +0200
-Received: by mail-wi0-f169.google.com with SMTP id hq4so27311wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2012 11:21:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5/yAtM28rUm7tSUfywVExDys/xrp/6M0S1UzaIuCrr0=;
-	b=XPJEQ+XO9zfJ0q9nvhZyWwh5wQuu7j9uwIYeILhFpz7hWgIB8xqvs1Y3j0kpkr6dcc
-	g71PrcNiL/KakxrStxCI6gAxob+BZKuHTQyw7GbgEXjg+vIkGNvZQalrlj8cu4lQECYO
-	GuJNaedV2uWrlISPOr9o1djgresDIcC+HOw8M3cK4f5tpjV8lYXMtUIrtj5rCxfXcMIE
-	wkNJVBZJivO2dYri/R4eqGBGlszQFBh5fJxvKbIykXYrGOcjaKW1ewDZTiSrMOv+2pOr
-	DBQfI201SrGq/dvdznx9CxQzSvJtYpB3cORvjRS+zW2+qnKhN4XYXCloca2FV6jLlcAS
-	758w==
-Received: by 10.180.79.100 with SMTP id i4mr5443327wix.12.1348856491354;
-	Fri, 28 Sep 2012 11:21:31 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id cn6sm702717wib.9.2012.09.28.11.21.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 28 Sep 2012 11:21:30 -0700 (PDT)
-Date: Fri, 28 Sep 2012 20:21:42 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <philb@gnu.org>
-Message-ID: <20120928182142.GD3049@jama.jama.net>
-References: <cover.1348330479.git.Martin.Jansa@gmail.com>
-	<5ac0bc525f5ac3f07c5749efc31e91c3fe6145c1.1348330479.git.Martin.Jansa@gmail.com>
-	<1348335944.10108.211.camel@ted>
-	<20120927083701.GC3454@jama.jama.net>
-	<5064A1DB.40506@windriver.com>
-	<1348830171.32611.47.camel@phil-desktop>
+	Fri, 28 Sep 2012 20:44:48 +0200
+Received: from mail151-tx2-R.bigfish.com (10.9.14.244) by
+	TX2EHSOBE002.bigfish.com (10.9.40.22) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 28 Sep 2012 18:31:50 +0000
+Received: from mail151-tx2 (localhost [127.0.0.1])	by
+	mail151-tx2-R.bigfish.com (Postfix) with ESMTP id 2F15834006E;
+	Fri, 28 Sep 2012 18:31:50 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 8
+X-BigFish: VS8(z3b49sz98dI9371I936eI1432Izz1202h1d1ah1d2ahzz17326ah8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
+Received: from mail151-tx2 (localhost.localdomain [127.0.0.1]) by mail151-tx2
+	(MessageSwitch) id 1348857108764805_5098;
+	Fri, 28 Sep 2012 18:31:48 +0000 (UTC)
+Received: from TX2EHSMHS028.bigfish.com (unknown [10.9.14.250])	by
+	mail151-tx2.bigfish.com (Postfix) with ESMTP id B7F8D4E00F3;
+	Fri, 28 Sep 2012 18:31:48 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS028.bigfish.com
+	(10.9.99.128) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 28 Sep 2012 18:31:43 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
+	Fri, 28 Sep 2012 13:31:43 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] gcc-common.inc: Consider multilib when
+	renaming libgcc for debian'ness
+Thread-Index: AQHNm0ixt6PGGMlIukioOIB/2pPA0JecyAsAgANQTYA=
+Date: Fri, 28 Sep 2012 18:31:43 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6B7819@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <1348525482-31986-1-git-send-email-raj.khem@gmail.com>
+	<1348566154.8662.38.camel@ted>
+	<70CC66F5C30A414DADDA6973E4CA391A6A7611@039-SN1MPN1-001.039d.mgd.msft.net>
+	<1348656910.8662.93.camel@ted>
+In-Reply-To: <1348656910.8662.93.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-In-Reply-To: <1348830171.32611.47.camel@phil-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 2/5] tune-xscale, tune-arm926ejs: add OPTDEFAULTTUNE variable and use more generic DEFAULTTUNE as default
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Scott Garman <scott.a.garman@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-common.inc: Consider multilib when renaming libgcc for debian'ness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -49,59 +62,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 18:34:27 -0000
-X-Groupsio-MsgNum: 30122
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="48TaNjbzBVislYPb"
-Content-Disposition: inline
-
---48TaNjbzBVislYPb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 28 Sep 2012 18:44:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <A755DF5CD30440459817B8E15EDB7F51@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 28, 2012 at 12:02:50PM +0100, Phil Blundell wrote:
-> On Thu, 2012-09-27 at 13:58 -0500, Mark Hatle wrote:
-> > I've been an advocate for a while that the processor optimization (CCAR=
-GS) does=20
-> > make it into the PKGARCH.  ARMPKGSFX_CPU seems like a reasonable approa=
-ch to do=20
-> > this.  It allows each tune to set something to tell people what that bi=
-nary is=20
-> > really built for, and for the 'base' tunes (i.e. armv5) it can be left =
-off.
->=20
-> I think we've discussed this before but, just to reiterate, this sort of
-> thing is a matter of DISTRO policy.  It is perfectly legitimate to want
-> to build binaries with, say, -march=3Darmv5te -mtune=3Darm926ej-s and have
-> them end up with PACKAGE_ARCH=3D"armv5te" or even just "arm".
->=20
-> It seems to me that we are in danger of adding a lot of complicated and
-> hard-to-understand machinery to oe-core in an attempt to solve a problem
-> that ought to be getting solved by the DISTRO, and that by doing so we
-> might be making life harder rather than easier for DISTROs which happen
-> to want a slightly different labelling model to the default.
+On Wed, Sep 26, 2012 at 5:55 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2012-09-25 at 18:07 +0000, McClintock Matthew-B29882 wrote:
+>> This should probably go in denzil as well.
+>
+> Lets hold off that as I think we need to fix this in a better way at the
+> core level...
 
-That's already there with DEFAULTUNE/AVAILTUNES machinery, isn't it?
+This? Where there follow up fixes also?
 
-Having that with better default values doesn't make things worse for
-such DISTROs.
+-M
 
-Cheers,
+commit 42e8c8056719326b68b1602e0699eba00a924d2b
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Wed Sep 26 12:56:58 2012 +0100
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+    packagedata/multilib: Fix search patch for multilib builds
 
---48TaNjbzBVislYPb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+    The current multilib search path code for packagedata is flawed since i=
+t
+    doesn't correctly handle changes in the TARGET_VENDOR/TARGET_OS that
+    multilib may make. This patch enhances the code to correctly build the
+    search paths so multilib packagedata is found correctly.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+    (From OE-Core rev: f50c5d36b2da9b36d56d95a7d89404509a1a3e9b)
 
-iEYEARECAAYFAlBl6rYACgkQN1Ujt2V2gBy01QCfVH+c66rcOS7u6xhx70KUTaBf
-VxYAoKN20b/t9QnNNjI9bhgSa/umpjGx
-=8cw+
------END PGP SIGNATURE-----
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---48TaNjbzBVislYPb--
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+
+
+
