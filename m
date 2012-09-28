@@ -1,38 +1,28 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1THc8p-0001cC-Mu
+	(envelope-from <philb@gnu.org>) id 1THcCp-0001hE-Sk
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 17:06:11 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2012 07:52:59 -0700
-Received: by obceq6 with SMTP id eq6so3177128obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2012 07:52:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=q7WaxQZvVOG7Hk3RYHLo+9NEL3LNmO38MFViwBWViGY=;
-	b=LkCN8xk4bjdJgY1boIWOWb5Nz9ZPeCTWK7sF2RRbHWAdPr0/q54GLu6cYK/ttn4BFY
-	nXtaolww1CCynXdJP1cm9GytSvRTarXD30t3aVfShrng2gGYuOMEiex+xNs/6JVaXZiw
-	ZpedKdhN308gmo25kyb40cdHiJGP8jla1ymIYEtlvt1PdNLMFUi3igqTj7nvcURPyBkz
-	FJqXUv4Duh+oLCL9o+pust233bdry1o2DaJz9ZIYWPAvsvIYxO74Bnou4CBzvuqySRGP
-	SfQh84NHGYlfi9P3CzAUo2FbOcY2NMbjDggZWrbMLxTzS5Rn178sW6Y30su4lqXP2Gxm
-	v4FQ==
-Received: by 10.182.179.100 with SMTP id df4mr6078221obc.59.1348843978247;
-	Fri, 28 Sep 2012 07:52:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Fri, 28 Sep 2012 07:52:38 -0700 (PDT)
-In-Reply-To: <1348795994-21695-10-git-send-email-msm@freescale.com>
-References: <1348795994-21695-1-git-send-email-msm@freescale.com>
-	<1348795994-21695-10-git-send-email-msm@freescale.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 28 Sep 2012 15:52:38 +0100
-Message-ID: <CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
-To: Matthew McClintock <msm@freescale.com>
-X-Gm-Message-State: ALoCoQlP/tZaPEBHKBpFn0cSDItp7RABiQz4OUgSth+ln1jS66DpEvzfy3AQYZPdW/ThsPrp+frY
+	Fri, 28 Sep 2012 17:10:20 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1THc0N-0000sH-Rp; Fri, 28 Sep 2012 16:57:28 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Fri, 28 Sep 2012 15:57:21 +0100
+In-Reply-To: <5065B5BB.6080108@windriver.com>
+References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
+	<1348486253.31293.28.camel@phil-desktop> <506054A0.6090309@intel.com>
+	<1348825951.32611.30.camel@phil-desktop>
+	<5065ACC4.7080505@windriver.com>
+	<1348840977.32611.51.camel@phil-desktop>
+	<5065B5BB.6080108@windriver.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1348844247.32611.54.camel@phil-desktop>
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 10/10] libx11.inc: fix build issues for older CentOS distros
+Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,22 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 15:06:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 28 Sep 2012 15:10:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 28 September 2012 02:33, Matthew McClintock <msm@freescale.com> wrote:
-> Fixes these sorts of issues present on older gcc (CentOS 5.x in this case)
->
-> | cc1: error: unrecognized command line option "-Werror=implicit"
-> | cc1: error: unrecognized command line option "-Werror=nonnull"
+On Fri, 2012-09-28 at 09:35 -0500, Mark Hatle wrote:
+> On 9/28/12 9:02 AM, Phil Blundell wrote:
+> > On Fri, 2012-09-28 at 08:57 -0500, Mark Hatle wrote:
+> >> On 9/28/12 4:52 AM, Phil Blundell wrote:
+> >>> On Mon, 2012-09-24 at 15:40 +0300, Andrei Dinu wrote:
+> >>>> On 09/24/2012 02:30 PM, Phil Blundell wrote:
+> >>>>> On Mon, 2012-09-24 at 14:26 +0300, Andrei Dinu wrote:
+> >>>>>> +-	    *reloc_addr += sym->st_value;
+> >>>>>> ++	    *reloc_addr = sym->st_value;
+> >>>>> That patch looks slightly dubious to me.  Are you sure this doesn't
+> >>>>> introduce any regressions elsewhere?
+> >>>>>
+> >>>> I have insufficient data to affirm that it doesn't introduces regressions.
+> >>>
+> >>> Presumably it does at least pass the eglibc and binutils testsuites,
+> >>> right?
+> >>
+> >> That patch is a workaround for an ARM issue related to thread local storage and
+> >> TLS offsets during runtime and prelinking.
+> >
+> > Right, I understand that.  But this doesn't really answer the question
+> > "does the workaround break anything else?".
+> 
+> In my testing no.  But I never integrated it with OE, so I never ran the test 
+> suite Khem was referring to.
 
-Took me a minute to realise why this happens.  This happens when
-cross-building because although configure is checking that the flags
-it uses are supported by the compiler, it's only doing that for the
-cross and not the host compiler.  Right?
+I think the testsuite Khem mentioned is just eglibc's builtin tests; it
+isn't actually specific to OE.  What did your testing consist of?
 
-(upstream bug alert)
+p.
 
-Ross
+
 
 
