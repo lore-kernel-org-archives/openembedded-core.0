@@ -1,40 +1,36 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1THZTp-0007fS-9M
+	(envelope-from <otavio.salvador@gmail.com>) id 1THZpD-0007td-7z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 14:15:41 +0200
-Received: by pbbro12 with SMTP id ro12so5108109pbb.6
+	Fri, 28 Sep 2012 14:37:47 +0200
+Received: by padfa11 with SMTP id fa11so2248337pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2012 05:02:47 -0700 (PDT)
+	Fri, 28 Sep 2012 05:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=4LFxz516wIhC9gCfqp+fgfzCCq8meh9RMRxLk5xxk9M=;
-	b=pG+2ZYwUu7MHdd6sGfdeo2oJhtY6ygSyT13fg0u7CvQpUD3gqeg6Zy2cH8quc+zo93
-	O5wnYxVzp0C709gMmLgCgUEprVcnWy1UKnH22VOOQiIjwVQgyk9yhaJx1020IPHs6ZUe
-	bib3OTNwrhk2w2C1sKWaFceeGxKCG6f84dkwIPIKAJpFs14G4ITPbidj4pYyWLPxevEg
-	pk0t1bgt6M8JkcdvLAPQmJZ75bJGsQkBJGHeug6pIdcBCl9itqWj/nCte7K+K9Ycowh3
-	VLfloNqxsb4yeEjahmNK+mRPhS9FxIs9nBE+JJYV/Z1t8IRicoJjJDd5UV0I08IIMoC6
-	d+tQ==
+	bh=X1KJ90/D9Q7UBcYgoGmt8WZf5V7MjpmnMil8m5ll+kI=;
+	b=stdROgWHV5Lq/yu1f170Vi8QUbMLoJAjbzZfwUbw2tjT1PfJLa0J9u0QgJ6T+yB7O+
+	jOGyRhpRymnuFwerDsQAYFkfHQjWhiREvinl660Faiv+gMSHlfP3ohUvdNx8XjtCZwKC
+	EXGNncioK8cbexbfh9NTgz0wYg3D8OHB5Yq3d0wNFZgjphsv/AWJM74Qhom93o85A+xw
+	ghRVfvU5OgDzidckz3+dU/u3bvrGTpygxALsoXRy2mXVIa1x6Op861RGtOuR17RY2liT
+	liQCqWbT857XxGNV0mY5eC4OubqQ1fF+NLmxcByh3NhTxHjSExE2S8m5oQI2x20YSU/F
+	mWUA==
 MIME-Version: 1.0
-Received: by 10.68.218.226 with SMTP id pj2mr19998588pbc.33.1348833767500;
-	Fri, 28 Sep 2012 05:02:47 -0700 (PDT)
+Received: by 10.68.224.133 with SMTP id rc5mr19643140pbc.130.1348835093477;
+	Fri, 28 Sep 2012 05:24:53 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.68.36.105 with HTTP; Fri, 28 Sep 2012 05:02:47 -0700 (PDT)
-In-Reply-To: <CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
-References: <20120927142926.CA9C5103AC@opal>
-	<20120927153419.GD3454@jama.jama.net>
-	<20120927175531.GF3454@jama.jama.net>
-	<CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
-	<5064D5FF.2050409@windriver.com>
-	<CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
-Date: Fri, 28 Sep 2012 09:02:47 -0300
-X-Google-Sender-Auth: -5sjpl3Jy-ba33uvpt5GhDdq-pI
-Message-ID: <CAP9ODKpKzc2T7MpMckyTabvuAkAe1ABCyZLKSz0=z83gJjAh1Q@mail.gmail.com>
+Received: by 10.68.36.105 with HTTP; Fri, 28 Sep 2012 05:24:53 -0700 (PDT)
+In-Reply-To: <1348803644-20961-2-git-send-email-raj.khem@gmail.com>
+References: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
+	<1348803644-20961-2-git-send-email-raj.khem@gmail.com>
+Date: Fri, 28 Sep 2012 09:24:53 -0300
+X-Google-Sender-Auth: pwy-78JTk0BZq9TZusRaX4HDfeU
+Message-ID: <CAP9ODKrjKH3mBMLqeF8W_Kc8S0tkrju63sJBEqkTE3bsYuyyLg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
+Subject: Re: [PATCH] flex,bison: Add nativesdk variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,36 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 12:15:41 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 12:37:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Sep 27, 2012 at 7:50 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Fri, Sep 28, 2012 at 12:41 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> Just an FYI -- Martin Jansa found a problem with the implement of the
->> package version comparison.
->>
->> In deb and ipk, they do not support '<' or '>', instead it's '<<' and '>>'.
->> (Odd, historical reasons apparently).
->>
->> While RPM doesn't have any idea what '<<' or '>>' is.
->>
->> Talking with RP and others it seems like the best approach is to implement a
->> conversion, in the deb and ipk packaging classes, to convert '<' and '>' to
->> the '<<' and '>>' equivalents.  As well as add a sanity check that nobody is
->> using '<<' or '>>'.
->>
->> I'm in the process of doing that now.
->>
->> --Mark
+On Fri, Sep 28, 2012 at 12:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> It is needed in some SDKs that we ship own
+> version of lex/yacc for sdk host
 >
-> There is still some problem in opkg, now when I'm testing << with opkg
-> which should work as LESS (and < as LESS_EQUAL), it still shows <= in
-> opkg status and behaves like <=. So there is probably some bug in opkg
-> still hidden :/
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-Yes; it seems the right fix is in opkg.
-
-Using RCONFLICTS with << also fails to me as said yestarday on IRC.
+I'd prefer two patches for it, otherwise the patch is indeed a good addition.
 
 -- 
 Otavio Salvador                             O.S. Systems
