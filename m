@@ -1,33 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1THiBX-00074i-DP for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 23:33:23 +0200
+	id 1THiFJ-0007DW-HZ for openembedded-core@lists.openembedded.org;
+	Fri, 28 Sep 2012 23:37:17 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLKNgL014791;
-	Fri, 28 Sep 2012 22:20:23 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLOKY1014806;
+	Fri, 28 Sep 2012 22:24:20 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 13751-05; Fri, 28 Sep 2012 22:20:18 +0100 (BST)
+	id 14346-03; Fri, 28 Sep 2012 22:24:14 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLKF4m014785
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLOCLc014800
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 28 Sep 2012 22:20:17 +0100
-Message-ID: <1348867217.15753.81.camel@ted>
+	Fri, 28 Sep 2012 22:24:13 +0100
+Message-ID: <1348867454.15753.84.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Date: Fri, 28 Sep 2012 22:20:17 +0100
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6B7ED0@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1347373349.2122.35.camel@ted>
-	<1348679272.32611.4.camel@phil-desktop> <1348838588.15753.52.camel@ted>
-	<70CC66F5C30A414DADDA6973E4CA391A6B7ED0@039-SN1MPN1-001.039d.mgd.msft.net>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 28 Sep 2012 22:24:14 +0100
+In-Reply-To: <20120928180251.GB3049@jama.jama.net>
+References: <1348782166.15753.28.camel@ted>
+	<20120928180251.GB3049@jama.jama.net>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Phil Blundell <philb@gnu.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE-Core Release Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,80 +38,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 21:33:23 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 21:37:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-09-28 at 20:21 +0000, McClintock Matthew-B29882 wrote:
-> I've seen this now:
+On Fri, 2012-09-28 at 20:02 +0200, Martin Jansa wrote:
+> On Thu, Sep 27, 2012 at 10:42:46PM +0100, Richard Purdie wrote:
+> > We're now at -rc2 for the October release of OE-Core. I've noticed a
+> > sudden surge of patches on the list, several of which are things like
+> > version increments which are no longer really appropriate at this point
+> > in the release cycle.
+> > 
+> > Why haven't we branched?
+> > 
+> > The plus side of branching now would be continued patches into master.
+> > The downside is that QA and autobuilder resources are concentrating on
+> > release and hence not on ensuring regressions are being added. I also
+> > really need my energy focused on the release rather than reviewing other
+> > code. I'm out of bandwidth so I'm putting off branching.
+> > 
+> > There is also the risk that if we branch, people will continue with
+> > master development and ignore the release branch and I'd like to apply a
+> > little pressure against this.
+> > 
+> > So if patches are getting ignored its likely they've been deemed not
+> > suited to the state of the tree right now. I may start to queue things
+> > on master-next but no guarantees and I would ask people to try and help
+> > make the release a good one.
+> > 
+> > If there are patches being ignored you think do qualify for -rcX, please
+> > ping me as it is hard to keep track of everything.
 > 
-> ERROR: Logfile of failure stored in:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/temp/log.do_configure.26311
-> Log data follows:
-> | DEBUG: Executing python function sysroot_cleansstate
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/include/FlexLexer.h
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/lib/libfl.a
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/lib/libfl_pic.a
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/include/
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/share/
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/lib/
-> | DEBUG: Removing manifest:
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/beagleboard/usr/
-> | DEBUG: Python function sysroot_cleansstate finished
-> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
-> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
-> 'common']
-> | DEBUG: Executing shell function autotools_preconfigure
-> | DEBUG: Shell function autotools_preconfigure finished
-> | DEBUG: Executing shell function do_configure
-> | automake (GNU automake) 1.12.3
-> | Copyright (C) 2012 Free Software Foundation, Inc.
-> | License GPLv2+: GNU GPL version 2 or later
-> <http://gnu.org/licenses/gpl-2.0.html>
-> | This is free software: you are free to change and redistribute it.
-> | There is NO WARRANTY, to the extent permitted by law.
-> |
-> | Written by Tom Tromey <tromey@redhat.com>
-> |        and Alexandre Duret-Lutz <adl@gnu.org>.
-> | AUTOV is 1.12
-> | NOTE: Executing autoreconf --verbose --install --force
-> --exclude=autopoint -I
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/flex-2.5.35/m4/
-> -I/local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12
-> -I /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/flex-2.5.35/aclocal-copy/
-> | autoreconf: Entering directory `.'
-> | autoreconf: running: aclocal -I
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/flex-2.5.35/m4/
-> -I /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12
-> -I /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/flex-2.5.35/aclocal-copy/
-> -I /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/flex-2.5.35/m4/
-> -I /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12
-> -I /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/flex-2.5.35/aclocal-copy/
-> --force -I m4
-> | aclocal: error: aclocal: file
-> '/local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/sysroots/x86_64-linux/usr/share/aclocal/gconf-2.m4'
-> does not exist
-> | autoreconf: aclocal failed with exit status: 1
-> | ERROR: autoreconf execution failed.
-> | ERROR: Function failed: do_configure (see
-> /local/yocto/upstream/label/fedora17-64b/machine/beagleboard/poky/master/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/flex-2.5.35-r3/temp/log.do_configure.26311
-> for further information)
+> I don't know what to do with tune* and qt patchset.
+> 
+> This one is not important, but if you like the idea then it would be
+> better to get it in this release already:
+> [PATCH] kernel.bbclass: include PE in KERNEL_IMAGE_BASE_NAME
 
-Totally unrelated, likely a transient race we're meant to have fixed but
-don't seem to have done so :/
+The trouble is this close to release, this will likely break the
+autobuilder or qemu scripts or something like that. We can't just rename
+output like that without quite a bit of checking :(.
 
-The supposed fix was:
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=a92ff3ad4212f8966bbd3f6defcb112737d81cda
+> And I have 2 patches to remove time dependent variables from images
+> which I haven't sent to ML yet, because still testing if it has some bad
+> sideeffect and if it's enough to resolve the issue I was seeing.
+> I'll send them as RFC.
+> 
+> commit 9c65f68dc380be34f06c4677d6867bbb874a75d1
+> Author: Martin Jansa <Martin.Jansa@gmail.com>
+> Date:   Wed Sep 26 15:56:05 2012 +0200
+> 
+>     bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
+>     
+>     * resolves ERROR shown when bitbake -S is used for image:
+>       ERROR: Bitbake's cached basehash does not match the one we just generated
+>       (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
+>       ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
+>     
+>     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+Hmm, that might be ok...
+
+> commit 7173532f91a755911e4822a103c98e7b81b18cb6
+> Author: Martin Jansa <Martin.Jansa@gmail.com>
+> Date:   Wed Sep 26 00:57:21 2012 +0200
+> 
+>     rootfs_*.bbclass: exclude BUILDNAME var dependency from do_rootfs
+>     
+>     * I have kernel recipe which depends on other recipe to build tiny initramfs
+>       image, without this change it rebuilds not only that initramfs image
+>       but also whole kernel when DATE or TIME is changed and OEBasicHash enabled
+>     * also resolves ERROR shown when bitbake -S is used for image:
+>       ERROR: Bitbake's cached basehash does not match the one we just generated
+>       (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
+>       ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
+>     
+>     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+Doesn't the above fix obsolete this one?
 
 Cheers,
 
 Richard
+
+
 
 
 
