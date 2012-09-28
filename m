@@ -1,60 +1,35 @@
-Received: from co1ehsobe006.messaging.microsoft.com ([216.32.180.189]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1THSxL-0005Ua-9R
+	(envelope-from <schnitzeltony@googlemail.com>) id 1THTrf-00016I-JF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 07:17:45 +0200
-Received: from mail56-co1-R.bigfish.com (10.243.78.248) by
-	CO1EHSOBE007.bigfish.com (10.243.66.70) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 28 Sep 2012 05:04:49 +0000
-Received: from mail56-co1 (localhost [127.0.0.1])	by mail56-co1-R.bigfish.com
-	(Postfix) with ESMTP id DC7DDB0011F;
-	Fri, 28 Sep 2012 05:04:49 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3h946hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
-Received: from mail56-co1 (localhost.localdomain [127.0.0.1]) by mail56-co1
-	(MessageSwitch) id 1348808687296717_28524;
-	Fri, 28 Sep 2012 05:04:47 +0000 (UTC)
-Received: from CO1EHSMHS023.bigfish.com (unknown [10.243.78.251])	by
-	mail56-co1.bigfish.com (Postfix) with ESMTP id 3BBAA3C0047;
-	Fri, 28 Sep 2012 05:04:47 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS023.bigfish.com
-	(10.243.66.33) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 28 Sep 2012 05:04:47 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0309.003; Fri, 28 Sep 2012 00:04:46 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] perl install error
-Thread-Index: AQHNnSsJbPfdUfkH6UeNb9LQuJLCBZefcDgA//+u14CAAFskgP//rVAAgABYUQD//7NKAA==
-Date: Fri, 28 Sep 2012 05:04:46 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6B48F3@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <9CAE2E57-84BE-44B7-A7BE-BCE8F728EFE8@gmail.com>
-	<E416A48D-4E21-4353-BDDC-B3B15AA810C9@gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A6B4252@039-SN1MPN1-001.039d.mgd.msft.net>
-	<C4E52DF7-ECBD-4411-9DA6-5E7F920FE747@gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A6B43AC@039-SN1MPN1-001.039d.mgd.msft.net>
-	<C0194970-81E1-4713-A8EF-5BB842370C25@gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A6B462F@039-SN1MPN1-001.039d.mgd.msft.net>
-	<FBB69FDD-BE5F-4BAD-9FE3-59A5283722E6@gmail.com>
-In-Reply-To: <FBB69FDD-BE5F-4BAD-9FE3-59A5283722E6@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Fri, 28 Sep 2012 08:15:55 +0200
+Received: by iebc13 with SMTP id c13so6492504ieb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2012 23:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=yn7g8h2ZvgliVEUIqXGP5Kl/9IZVjrrD1UZyIYxZ2Lw=;
+	b=Ar13GQzS8aJHMqjuzhs8r0xnyitsAVoXLu9o3o8HocTaoHFe4XefW9IJZ+qpe1VsGm
+	Qr4/p928WRE6sIjaDMY4VcRlaz2Jes2l3ScPINzpIxTnUb/+1jtGgKkdeGMOYE5vwjaX
+	4RNZFnJKL6d1kKGgChlJ489cfx+F/mekAZJZpNbcEFa45xV6QpciyaIBs6ouvfQYP3pq
+	QCAaF8lFH9osZvvlvMEUG3kdwfYzHnIpgiJnlMGkwHlefGTAvv31jHtZ0JTLI+iLOIh1
+	Bdy6GMFwNJcRVQoplYxBP8ffVWw4MuCi7uEDD6WraJQV/6ksvhnFm5SH2IlSPvjcVvRs
+	QTDA==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	"openembedded-core@lists.openembedded.org oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: perl install error
+Received: by 10.50.47.129 with SMTP id d1mr657177ign.45.1348812182189; Thu, 27
+	Sep 2012 23:03:02 -0700 (PDT)
+Received: by 10.64.18.13 with HTTP; Thu, 27 Sep 2012 23:03:02 -0700 (PDT)
+In-Reply-To: <20120831003845.485CE10335@opal>
+References: <20120831003845.485CE10335@opal>
+Date: Fri, 28 Sep 2012 08:03:02 +0200
+Message-ID: <CALbNGRTugOvs5r_VEeMLMraimF46Mu-Q7eLP2zfKuHSonTZ+qQ@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : sstate.bbclass: Detect overwriting files in sstate controlled directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -64,97 +39,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 05:17:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <5AF94B676E9AF543A89FED623E09826F@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Sep 2012 06:15:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Sep 27, 2012 at 11:38 PM, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Aug 31, 2012 at 2:38 AM,  <git@git.openembedded.org> wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 1f1b6f93d6b7aa8c9bd9bb5b1826997812e36932
+> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=1f1b6f93d6b7aa8c9bd9bb5b1826997812e36932
 >
-> On Sep 27, 2012, at 9:23 PM, McClintock Matthew-B29882 <B29882@freescale.=
-com> wrote:
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Sat Aug 25 15:48:14 2012 +0000
 >
->> On Thu, Sep 27, 2012 at 11:18 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> On Sep 27, 2012, at 8:52 PM, McClintock Matthew-B29882 <B29882@freescal=
-e.com> wrote:
->>>
->>>> On Thu, Sep 27, 2012 at 10:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>>>
->>>>> On Sep 27, 2012, at 8:40 PM, McClintock Matthew-B29882 <B29882@freesc=
-ale.com> wrote:
->>>>>
->>>>>> Khem,
->>>>>>
->>>>>> I'm just not looking at a similiar issue. Do this:
->>>>>>
->>>>>
->>>>>
->>>>> just 'not' or just 'now' ?
->>>>>
->>>>>> cat tmp/sstate-control/manifest-* | grep usr/lib/perl5
->>>>>>
->>>>>> And see which recipe is making this folder. It should be the perl
->>>>>> recipe, first not some other recipe=85
->>>>>
->>>>>
->>>>> cat sstate-control/manifest-* | grep usr/lib/perl5
->>>>>
->>>>> return nothing
->>>>
->>>> Maybe this is not the same root cause then.
->>>
->>> reverting that commit fixed it. before that I tried to cleans state cle=
-an all perl and perl-native
->>> to no avail.
->>
->> OK, well we got the same error and ours was from another sstate-cache
->> installing files in /usr/lib/perl5 before perl installed it's own
->> symlink. cleaning cache for perl did not help either.
->>
->> Reverting that patch could have causes rebuilds and change of ordering
->> (possibly) that might mask the error a little longer. If ours are
->> related.
+> sstate.bbclass: Detect overwriting files in sstate controlled directories
 >
+> We have a potential problem where two sstate packages try and touch the same
+> file. This adds code which will print a warning whenever this happens.
 >
-> Does it mean that if I invalidate whole state it will work ?
-> thats kind of gross
+> The implementation does but by maintaining a master file list and comparing
+> file accesses against this. There are a number of places we have duplicate
+> accesses which are harmless, mostly in the deploy directory so these
+> are whitelisted.
+>
+> For now the code prints warnings, this could be strengthened in future to
+> become error messages. Whilst working on this code on and off over the past
+> few months various issues were uncovered, some serious.
+>
+> [YOCTO #238]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> ---
+>
+>  meta/classes/sstate.bbclass |   45 ++++++++++++++++++++++++++++++++++++++++++-
+>  1 files changed, 44 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 6762e32..02594a7 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -3,6 +3,7 @@ SSTATE_VERSION = "2"
+>  SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
+>  SSTATE_MANFILEBASE = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-"
+>  SSTATE_MANFILEPREFIX = "${SSTATE_MANFILEBASE}${PN}"
+> +SSTATE_MASTERMANIFEST = "${SSTATE_MANIFESTS}/master.list"
+>
+>  def generate_sstatefn(spec, hash, d):
+>      if not hash:
+> @@ -17,6 +18,7 @@ SSTATE_EXTRAPATH   = ""
+>  SSTATE_EXTRAPATHWILDCARD = ""
+>  SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
+>
+> +SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/"
+>
+>  SSTATE_SCAN_FILES ?= "*.la *-config *_config"
+>  SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
+> @@ -125,7 +127,6 @@ def sstate_install(ss, d):
+>          locks.append(bb.utils.lockfile(lock))
+>
+>      for state in ss['dirs']:
+> -        oe.path.copytree(state[1], state[2])
+>          for walkroot, dirs, files in os.walk(state[1]):
+>              bb.debug(2, "Staging files from %s to %s" % (state[1], state[2]))
+>              for file in files:
+> @@ -140,9 +141,35 @@ def sstate_install(ss, d):
+>                  if not dstdir.endswith("/"):
+>                      dstdir = dstdir + "/"
+>                  shareddirs.append(dstdir)
+> +
+> +    # Check the file list for conflicts against the master manifest
+> +    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
+> +    whitelist = d.getVar("SSTATE_DUPWHITELIST", True)
+> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
+> +    fileslist = [line.strip() for line in open(mastermanifest)]
+> +    bb.utils.unlockfile(lock)
+> +    match = []
+> +    for f in sharedfiles:
+> +        if f in fileslist:
+> +            realmatch = True
+> +            for w in whitelist:
+> +                if f.startswith(w):
+> +                    realmatch = False
+> +                    break
+> +            if realmatch:
+> +                match.append(f)
+> +    if match:
+> +        bb.warn("The recipe is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % "\n   ".join(match))
+> +
+> +    # Write out the manifest and add to the task's manifest file
+> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
+> +    mf = open(mastermanifest, "a")
+>      f = open(manifest, "w")
+>      for file in sharedfiles:
+> +        mf.write(file + "\n")
+>          f.write(file + "\n")
+> +    bb.utils.unlockfile(lock)
+> +
+>      # We want to ensure that directories appear at the end of the manifest
+>      # so that when we test to see if they should be deleted any contents
+>      # added by the task will have been removed first.
+> @@ -152,6 +179,10 @@ def sstate_install(ss, d):
+>          f.write(di + "\n")
+>      f.close()
+>
+> +    # Run the actual file install
+> +    for state in ss['dirs']:
+> +        oe.path.copytree(state[1], state[2])
+> +
+>      for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
+>          bb.build.exec_func(postinst, d)
+>
+> @@ -268,6 +299,18 @@ def sstate_clean_manifest(manifest, d):
+>          except OSError:
+>              pass
+>
+> +    # Remove the entries from the master manifest
+> +    mastermanifest = d.getVar("SSTATE_MASTERMANIFEST", True)
+> +    lock = bb.utils.lockfile(mastermanifest + ".lock")
+> +    mf = open(mastermanifest + ".new", "w")
+> +    for line in open(mastermanifest, "r"):
+> +        if not line or line in entries:
+> +            continue
+> +        mf.write(line)
+> +    mf.close()
+> +    os.rename(mastermanifest + ".new", mastermanifest)
+> +    bb.utils.unlockfile(lock)
+> +
+>      oe.path.remove(manifest)
+>
+>  def sstate_clean(ss, d):
+>
+This previous addressed the wrong list - so again:
 
-I think just making sure perl is deployed to sysroot first fixes this
-issue. For us we were simply missing a 'DEPENDS =3D perl' for a recipe
-which installed stuff in /usr/lib/perl5 - if perl is deployed to
-sysroot first the symlink is always in place properly.
+I think it started with this one: I often do play around with
+different kernel versions/sources to bisect when a bug was born. Doing
+so I now get wallpapers with
 
--M
+WARNING: The recipe is trying to install files into a shared area when
+those files already exist. Those files are:
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/Module.symvers
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/CREDITS
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/kernel-abiversion
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/Makefile
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/kernel-image-name
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/uImage
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/README
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/COPYING
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/REPORTING-BUGS
+   /home/Superandy/tmp/oe-core-eglibc/sysroots/overo/usr/src/kernel/System.map-3.5.0
+...
+(log.do_populate_sysroot is 2.8 MB)
 
->
->
->>
->> -M
->>
->>>>
->>>>>
->>>>>>
->>>>>> Side question are you using FSL layers?
->>>>>
->>>>> yes
->>>>
->>>> Is libhugetlbfs getting built?
->>>
->>> No
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+Would it cause huge effort to add a variable which is in scope of
+recipe avoiding this warning because it scrolls out all other
+interesting messages?
 
+Andreas
 
 
