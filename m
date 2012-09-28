@@ -1,26 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1THUbF-00027x-NQ
+	(envelope-from <Kai.Kang@windriver.com>) id 1THUk9-0002Ft-NB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 09:03:01 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2012 23:50:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,499,1344236400"; d="scan'208";a="227609408"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Sep 2012 23:50:07 -0700
-Message-ID: <5065489E.6060802@intel.com>
-Date: Fri, 28 Sep 2012 09:50:06 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Fri, 28 Sep 2012 09:12:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8S6xJNk026025
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2012 23:59:19 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.309.2; Thu, 27 Sep 2012 23:59:19 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Sep 2012 14:59:28 +0800
+Message-ID: <cover.1348815461.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1348590946-13319-1-git-send-email-laurentiu.palcu@intel.com>
-	<50647584.2010200@linux.intel.com>
-In-Reply-To: <50647584.2010200@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] SDK: trap any IO errors in the relocate script
+X-Originating-IP: [128.224.162.159]
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] ltp: add dependency libcap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,97 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 07:03:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Sep 2012 07:12:14 -0000
+Content-Type: text/plain
 
+The following changes since commit 3c58f92d46e32c40b80575f14e0f6f66c9920c66:
 
+  Revert "autotools.bbclass: using relative paths for acpaths" (2012-09-27 17:57:58 +0100)
 
-On 09/27/2012 06:49 PM, Saul Wold wrote:
-> On 09/25/2012 09:35 AM, Laurentiu Palcu wrote:
-> 
-> BTW: in the future it's good to say the "filename: <commit subject>"
-This is what I usually use when I change single files. However,
-sometimes (and I know this particular patch is not the case), I change
-multiple files to fix a single problem or add a feature. In this case
-your BKM is not quite appropriate. I will end up with a commit subject
-like this:
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/ltp-dep
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/ltp-dep
 
-filename1, filename2, filename3: <no space left for the subject itself>
+Kang Kai (1):
+  ltp: add dependency libcap
 
-If those files belong to a certain functional area, say SDK, I thought
-it was more appropriate to prepend the subject with SDK.
+ meta/recipes-extended/ltp/ltp_20120903.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Also, the contribution guidelines on the wiki, state the same (see rpm
-example):
+-- 
+1.7.5.4
 
-https://wiki.yoctoproject.org/wiki/Contribution_Guidelines
-
-Am I wrong here?
-
-Thanks,
-Laurentiu
-
-> 
-> So this would be "relocate_sdk.py: ...."
->> If the files being relocated are already used by other processes the
->> relocate script will fail with a traceback. This patch will trap any IO
->> errors when opening such a file and gracefully report them to the user.
->>
->> Also change the exit code from 1 to -1 for a better adt-installer user
->> experience (like pointing the user to the adt_installer.log).
->>
->> [YOCTO #3164]
->>
->> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->> ---
->>   scripts/relocate_sdk.py |   14 ++++++++++++--
->>   1 file changed, 12 insertions(+), 2 deletions(-)
->>
->> diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
->> index b247e65..637ffe9 100755
->> --- a/scripts/relocate_sdk.py
->> +++ b/scripts/relocate_sdk.py
->> @@ -29,6 +29,7 @@ import sys
->>   import stat
->>   import os
->>   import re
->> +import errno
->>
->>   old_prefix = re.compile("##DEFAULT_INSTALL_DIR##")
->>
->> @@ -171,7 +172,7 @@ def change_dl_sysdirs():
->>
->>   # MAIN
->>   if len(sys.argv) < 4:
->> -    exit(1)
->> +    exit(-1)
->>
->>   new_prefix = sys.argv[1]
->>   new_dl_path = sys.argv[2]
->> @@ -184,7 +185,16 @@ for e in executables_list:
->>       else:
->>           os.chmod(e, perms|stat.S_IRWXU)
->>
->> -    f = open(e, "r+b")
->> +    try:
->> +        f = open(e, "r+b")
->> +    except IOError as ioex:
->> +        if ioex.errno == errno.ETXTBSY:
->> +            print("Could not open %s. File used by another process.\nPlease "\
->> +                  "make sure you exit all processes that might use any SDK "\
->> +                  "binaries." % e)
->> +        else:
->> +            print("Could not open %s: %s(%d)" % (e, ioex.strerror, ioex.errno))
->> +        exit(-1)
->>
->>       arch = get_arch()
->>       if arch:
->>
-> Merged into OE-Core
-> 
-> Thanks
-> 	Sau!
-> 
 
 
