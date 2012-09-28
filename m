@@ -1,34 +1,34 @@
 Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1THf7F-0008JR-3x
+	(envelope-from <martin.jansa@gmail.com>) id 1THfGn-0008Uk-7P
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 20:16:45 +0200
-Received: by mail-wi0-f171.google.com with SMTP id hj13so116762wib.6
+	Fri, 28 Sep 2012 20:26:37 +0200
+Received: by mail-wi0-f171.google.com with SMTP id hj13so125496wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2012 11:03:54 -0700 (PDT)
+	Fri, 28 Sep 2012 11:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=fYh8BJO3PkwXoFQtZy+s1CxHmCch9Ct/pXDcylzG1Ms=;
-	b=nTjHu7lQGqAJuzSJqK+cz4mjFxImjEfKhI/a6qW2Iwlxxo+Xbgwv2ddonx37hYOgD+
-	SCA0wlCzhNjxUtaJ5GB3QMrkPvLYs8xWlG+zbFT9E9yOPwnoYbjOJ0RUEqf2SDWRutrK
-	OqUbaghOQymRQYQuvcm69sZ5wDMS/y1MLTzX3ZEbAmJONhdj33f1QFSM9VpFf9jW8UcA
-	4iemAjx5+wpA9yjRn9JZHCmc3mQEWT5PE6K9wDpNcF4VD2RJDU53WLHtLhpzennNSnNx
-	nN8c5fYnc6xmMPNAmZZKsOcyQyC8n9aiyuTcWmjg3Qkto6/3taJAFdoT3Mw1J0114ZDu
-	8yWQ==
-Received: by 10.180.82.3 with SMTP id e3mr5360482wiy.14.1348855434135;
-	Fri, 28 Sep 2012 11:03:54 -0700 (PDT)
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=oL3Ms9Y3baC3t+SFUeTC/YGg2vpBaFe8u3js14SojJI=;
+	b=kyAGEl7cQd1x3jf8NR/vd9xx5wU0OzDKM18Uf/sg5eJiQGk3o6UbJhrgGeuo3m9VZ+
+	BixgoQsqGtweHA4OSc843OekGBaWpKh9BbDjakZCdeSF/Qgi6kCgt07bJ+rrOJb+qm/I
+	FbK1EvS6UW/4XKJ5NXr3MB3JTHXFWnPGUze+tGS5JI/74zGMWAnU8H9tXzW5xL75WKSp
+	tKiQVlx3vCWugdCqxZ1dDL98k7T3/SENn7CCgjiYYWDDakQqci4M1+P30YlLkx5JEK9R
+	/qzqCMA3DewTz+vl67M+zbDB9Bhk8dH8l/qQNuHu20+7FDTuKZHjswuUQiUthN8Hs+68
+	7/lw==
+Received: by 10.180.8.41 with SMTP id o9mr5396299wia.3.1348856015146;
+	Fri, 28 Sep 2012 11:13:35 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ga2sm643904wib.2.2012.09.28.11.03.52
+	by mx.google.com with ESMTPS id v3sm597594wiw.7.2012.09.28.11.13.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 28 Sep 2012 11:03:53 -0700 (PDT)
+	Fri, 28 Sep 2012 11:13:33 -0700 (PDT)
+Date: Fri, 28 Sep 2012 20:13:45 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Sep 2012 20:03:50 +0200
-Message-Id: <1348855430-11091-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-In-Reply-To: <1348855430-11091-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1348855430-11091-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [RFC][PATCH 2/2] bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
+Message-ID: <20120928181345.GC3049@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: nativesdk-libgcc-s1 is now nativesdk-libgcc1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,32 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 18:16:45 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 18:26:37 -0000
+X-Groupsio-MsgNum: 30121
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Y5rl02BVI9TCfPar"
+Content-Disposition: inline
 
-* resolves ERROR shown when bitbake -S is used for image:
-  ERROR: Bitbake's cached basehash does not match the one we just generated
-  (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
-  ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
+--Y5rl02BVI9TCfPar
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+Just FYI:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e168ef1..8ac2769 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -401,6 +401,7 @@ STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
- IMAGE_ROOTFS = "${WORKDIR}/rootfs"
- IMAGE_BASENAME = "${PN}"
- IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
-+IMAGE_NAME[vardepsexclude] += "DATETIME"
- IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- 
- # This option allows for a percentage overage of the actual image size rather than a
--- 
-1.7.12
+I don't care about upgrade path for nativesdk packages, but building
+meta-toolchain-gmae was still failing for me (now when nativesdk-perl
+seems fixed). This time the problem was in do_rootfs, failing to find
+nativesdk-libgcc-s1.
 
+So if you notice the same issue, you can use something like:
+tmp-eglibc/deploy/ipk $ for i in `find . -name Packages `; do echo $i; grep=
+ nativesdk-libgcc-s1 -B 5 $i; done | grep ^Package
+to see which recipes need -c cleansstate to pick nativesdk-libgcc1.
 
+In my case:
+Package: nativesdk-db
+Package: nativesdk-elfutils-binutils
+Package: nativesdk-elfutils
+Package: nativesdk-libcrypto1.0.0
+Package: nativesdk-libcurl5
+Package: nativesdk-libgmpxx4
+Package: nativesdk-libltdl7
+Package: nativesdk-libpython2.7-1.0
+Package: nativesdk-libsdl-1.2-0
+Package: nativesdk-libssl1.0.0
+Package: nativesdk-openssl-engines
+Package: nativesdk-openssl
+Package: nativesdk-unfs-server
 
+or
+tmp-eglibc/deploy/ipk $ for i in `find . -name Packages `; do echo $i; grep=
+ nativesdk-libgcc-s1 -A 10 $i; done | grep ^OE: | sort -u | sed 's/OE: //g'=
+ | xargs
+nativesdk-db nativesdk-elfutils nativesdk-gmp nativesdk-openssl nativesdk-p=
+ython nativesdk-unfs-server
+to see oe names directly
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Y5rl02BVI9TCfPar
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBl6NkACgkQN1Ujt2V2gBzYAACgpBhpmjov69N3zBOeGuy/XS/w
+L5oAn37Y45svfSih4f7Qr8d3iQDqVI+M
+=ZIyd
+-----END PGP SIGNATURE-----
+
+--Y5rl02BVI9TCfPar--
