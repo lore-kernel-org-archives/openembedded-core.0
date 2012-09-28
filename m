@@ -1,23 +1,23 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1THXwv-0005lK-N7 for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 12:37:37 +0200
+	id 1THXx8-0005nh-As for openembedded-core@lists.openembedded.org;
+	Fri, 28 Sep 2012 12:37:51 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SAOeZj009028;
-	Fri, 28 Sep 2012 11:24:40 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SAOuLR009037;
+	Fri, 28 Sep 2012 11:24:56 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 08971-02; Fri, 28 Sep 2012 11:24:35 +0100 (BST)
+	id 08702-05; Fri, 28 Sep 2012 11:24:51 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SAOVma009022
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SAOkdW009031
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 28 Sep 2012 11:24:32 +0100
-Message-ID: <1348827873.15753.42.camel@ted>
+	Fri, 28 Sep 2012 11:24:47 +0100
+Message-ID: <1348827888.15753.43.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Sep 2012 11:24:33 +0100
+Date: Fri, 28 Sep 2012 11:24:48 +0100
 In-Reply-To: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
 References: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 10:37:38 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 10:37:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -54,6 +54,7 @@ On Thu, 2012-09-27 at 20:40 -0700, Khem Raj wrote:
 Merged to master, thanks.
 
 Richard
+
 
 
 
