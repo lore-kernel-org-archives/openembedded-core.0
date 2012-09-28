@@ -1,44 +1,38 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1THc63-0001YV-VV
+	(envelope-from <ross.burton@intel.com>) id 1THc8p-0001cC-Mu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 17:03:20 +0200
-Received: by pbbro12 with SMTP id ro12so5305703pbb.6
+	Fri, 28 Sep 2012 17:06:11 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2012 07:52:59 -0700
+Received: by obceq6 with SMTP id eq6so3177128obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2012 07:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=g1Va93V1Xw5CWcsOdoLfKBNGKUaJnhf1Pjo97Bkmdl8=;
-	b=NX4FRt9UFAyHoo/alZKpsYKW93BbTmYLCFRb5QgaYws/EHHbQ096R8GHll7mdO2Tsb
-	KtkLfeikLJyVXRhNtkMmH6ZmhFOgsLrsTGj7CyU7yqrPOvnL/qWkQl/9uGSNISNnCUzm
-	VttxSlxLv8GiDNmglrMRjsydA7vAiCvqPBEKzP2iR6ZVglyAe1xdSH5VTb2cgZQpamyR
-	545fH74x4U+SHHOSn6ZqhllghwJWYESGKmMH6NXxqU7uWeVk2zqCbshtFoF0fzyvAsqe
-	6FyTGRc5Wngr5JSuXunVOy97GSJVHxnrvNNYUkIaqubfoix3gHtOT7FQdimKDXLB2r7W
-	5cSw==
-Received: by 10.68.141.46 with SMTP id rl14mr21007285pbb.2.1348843826168;
-	Fri, 28 Sep 2012 07:50:26 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id
-	te6sm5699106pbc.29.2012.09.28.07.50.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 28 Sep 2012 07:50:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5065B5BB.6080108@windriver.com>
-Date: Fri, 28 Sep 2012 07:50:24 -0700
-Message-Id: <0937B10C-C996-4FBA-8901-DF3C13B629E6@gmail.com>
-References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
-	<1348486253.31293.28.camel@phil-desktop>
-	<506054A0.6090309@intel.com>
-	<1348825951.32611.30.camel@phil-desktop>
-	<5065ACC4.7080505@windriver.com>
-	<1348840977.32611.51.camel@phil-desktop>
-	<5065B5BB.6080108@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Mailer: Apple Mail (2.1498)
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
+	Fri, 28 Sep 2012 07:52:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=q7WaxQZvVOG7Hk3RYHLo+9NEL3LNmO38MFViwBWViGY=;
+	b=LkCN8xk4bjdJgY1boIWOWb5Nz9ZPeCTWK7sF2RRbHWAdPr0/q54GLu6cYK/ttn4BFY
+	nXtaolww1CCynXdJP1cm9GytSvRTarXD30t3aVfShrng2gGYuOMEiex+xNs/6JVaXZiw
+	ZpedKdhN308gmo25kyb40cdHiJGP8jla1ymIYEtlvt1PdNLMFUi3igqTj7nvcURPyBkz
+	FJqXUv4Duh+oLCL9o+pust233bdry1o2DaJz9ZIYWPAvsvIYxO74Bnou4CBzvuqySRGP
+	SfQh84NHGYlfi9P3CzAUo2FbOcY2NMbjDggZWrbMLxTzS5Rn178sW6Y30su4lqXP2Gxm
+	v4FQ==
+Received: by 10.182.179.100 with SMTP id df4mr6078221obc.59.1348843978247;
+	Fri, 28 Sep 2012 07:52:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Fri, 28 Sep 2012 07:52:38 -0700 (PDT)
+In-Reply-To: <1348795994-21695-10-git-send-email-msm@freescale.com>
+References: <1348795994-21695-1-git-send-email-msm@freescale.com>
+	<1348795994-21695-10-git-send-email-msm@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 28 Sep 2012 15:52:38 +0100
+Message-ID: <CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
+To: Matthew McClintock <msm@freescale.com>
+X-Gm-Message-State: ALoCoQlP/tZaPEBHKBpFn0cSDItp7RABiQz4OUgSth+ln1jS66DpEvzfy3AQYZPdW/ThsPrp+frY
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 10/10] libx11.inc: fix build issues for older CentOS distros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,18 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 15:03:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Sep 2012 15:06:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 28 September 2012 02:33, Matthew McClintock <msm@freescale.com> wrote:
+> Fixes these sorts of issues present on older gcc (CentOS 5.x in this case)
+>
+> | cc1: error: unrecognized command line option "-Werror=implicit"
+> | cc1: error: unrecognized command line option "-Werror=nonnull"
 
-On Sep 28, 2012, at 7:35 AM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
+Took me a minute to realise why this happens.  This happens when
+cross-building because although configure is checking that the flags
+it uses are supported by the compiler, it's only doing that for the
+cross and not the host compiler.  Right?
 
-> In my testing no.  But I never integrated it with OE, so I never ran =
-the test suite Khem was referring to.
+(upstream bug alert)
 
-anyhow provided I have time I will try to run regressions on beagle bone =
-and see what I get.=20=
+Ross
 
 
