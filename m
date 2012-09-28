@@ -1,33 +1,35 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1THReD-00077A-1j
+	(envelope-from <raj.khem@gmail.com>) id 1THReF-00077C-9s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 05:53:53 +0200
-Received: by pbbro12 with SMTP id ro12so4592282pbb.6
+	Fri, 28 Sep 2012 05:53:55 +0200
+Received: by pbbro12 with SMTP id ro12so4592314pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 20:40:59 -0700 (PDT)
+	Thu, 27 Sep 2012 20:41:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=BtqbpZDJSZhM4pkkOJXGVcuXaWIS66NGdJ3PuonTduo=;
-	b=0BtkiDTasY1T3uUgYh8dEoq3LUfUmOrHZ4hwtd+/oLsas3XteuFs0kthrtjnBcTp9P
-	cvaYTj1ixMw7twtPT9IBDqWaKkzWrARBIDSFeTWjn3wzlfQ8bJE/WnV4jzzkRxdvGhcv
-	XqhywollhF+A3SauuIqLXYShe0vPwdlW6S1W9IG3UB1imTn9rHEbO5olsypiO0BIdH5M
-	4qlwE9jphKhPqFzRsDj7XADlawtDRZrp8tf1fqh6DJqwpLjMRmXPV/hSarj6vkgDeFFP
-	zLnVzHHpg3ToAJ44gKQlSbjx3/rLln/a7TWV7DIEo91KU53RxQNG9z5G00oo3vUugEDU
-	hGKQ==
-Received: by 10.68.131.2 with SMTP id oi2mr16862463pbb.78.1348803659859;
-	Thu, 27 Sep 2012 20:40:59 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=2nFj6kZC3vR1gt4ak1LRx0cWW4NGQ8wfXPgFRZsd2X8=;
+	b=HZ9R8Q4HmxjwLG5L5PXZfdUOy1u4hP5Y6FdzVBugkJvyUn6h4Q4lCK2wLSLbX7IIeF
+	XsI6wYpHkDXkHx5sEIL/g36nvmZ6mkc7MMY84sDjg0W3CEFSnmBzN70TM8zk5sDZpsl+
+	ifUl0B8ukjzN7hD3z7jfIjRDTWnUAWSLoy9/K8IY0VE8TsDJks/jex6JAnarKc0mxHWa
+	94FrUDikowaRTGOX4ecizyuL3365nZzXQVYVacQ+Hr+mK+j5lrFpYNm9pA6g2SyKY9XL
+	YGIlTX2iH7AqgEFeGulLUkzV1S+FR6+SnSXvTxEYfJ+siIpxZkGLLG3Ky2fuP0WlbKPz
+	oDQA==
+Received: by 10.68.225.199 with SMTP id rm7mr17026867pbc.150.1348803662121;
+	Thu, 27 Sep 2012 20:41:02 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id s10sm4781602paz.11.2012.09.27.20.40.58
+	by mx.google.com with ESMTPS id s10sm4781602paz.11.2012.09.27.20.40.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 27 Sep 2012 20:40:58 -0700 (PDT)
+	Thu, 27 Sep 2012 20:41:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Sep 2012 20:40:42 -0700
-Message-Id: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
+Date: Thu, 27 Sep 2012 20:40:43 -0700
+Message-Id: <1348803644-20961-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] boost: Support enums in hash
+In-Reply-To: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
+References: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH] flex,bison: Add nativesdk variants
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,85 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 03:53:53 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 03:53:55 -0000
 
-Fixes builds which were building fine with previous versions of boost
+It is needed in some SDKs that we ship own
+version of lex/yacc for sdk host
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/boost/boost_1.51.0.bb        |    6 ++-
- meta/recipes-support/boost/files/hash_enums.patch |   45 +++++++++++++++++++++
- 2 files changed, 49 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/boost/files/hash_enums.patch
+ meta/recipes-devtools/bison/bison_2.5.1.bb |    2 +-
+ meta/recipes-devtools/flex/flex_2.5.35.bb  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/boost/boost_1.51.0.bb b/meta/recipes-support/boost/boost_1.51.0.bb
-index 1564b0e..b95049f 100644
---- a/meta/recipes-support/boost/boost_1.51.0.bb
-+++ b/meta/recipes-support/boost/boost_1.51.0.bb
-@@ -2,8 +2,10 @@ include boost.inc
+diff --git a/meta/recipes-devtools/bison/bison_2.5.1.bb b/meta/recipes-devtools/bison/bison_2.5.1.bb
+index d53c1d6..47b4a6c 100644
+--- a/meta/recipes-devtools/bison/bison_2.5.1.bb
++++ b/meta/recipes-devtools/bison/bison_2.5.1.bb
+@@ -33,4 +33,4 @@ do_install_append_virtclass-native() {
+ 		BISON_PKGDATADIR=${STAGING_DATADIR_NATIVE}/bison
+ }
+ #bison-native encodes the staging M4 path
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/flex/flex_2.5.35.bb b/meta/recipes-devtools/flex/flex_2.5.35.bb
+index 7419f10..2218c91 100644
+--- a/meta/recipes-devtools/flex/flex_2.5.35.bb
++++ b/meta/recipes-devtools/flex/flex_2.5.35.bb
+@@ -2,7 +2,7 @@ require flex.inc
+ PR = "r3"
+ LICENSE="BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
  
- LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
--SRC_URI += "file://arm-intrinsics.patch"
-+SRC_URI += "file://arm-intrinsics.patch \
-+            file://hash_enums.patch \
-+           "
- SRC_URI[md5sum] = "4b6bd483b692fd138aef84ed2c8eb679"
- SRC_URI[sha256sum] = "fb2d2335a29ee7fe040a197292bfce982af84a645c81688a915c84c925b69696"
-diff --git a/meta/recipes-support/boost/files/hash_enums.patch b/meta/recipes-support/boost/files/hash_enums.patch
-new file mode 100644
-index 0000000..368da96
---- /dev/null
-+++ b/meta/recipes-support/boost/files/hash_enums.patch
-@@ -0,0 +1,45 @@
-+Allow hashing of enums.
-+Fixes errors like 
-+
-+/opt/poky/1.3.0-1/sysroots/i586-poky-linux/usr/include/boost/functional/hash/extensions.hpp:257:34: error: no matching function for call to 'hash_value(const myspace::idx&)'
-+
-+Upstream-Status: Pending
-+Singed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: boost_1_51_0/boost/functional/hash/hash.hpp
-+===================================================================
-+--- boost_1_51_0.orig/boost/functional/hash/hash.hpp	2012-07-15 16:28:30.000000000 -0700
-++++ boost_1_51_0/boost/functional/hash/hash.hpp	2012-09-26 14:00:57.738364002 -0700
-+@@ -15,6 +15,8 @@
-+ #include <boost/functional/hash/detail/hash_float.hpp>
-+ #include <string>
-+ #include <boost/limits.hpp>
-++#include <boost/type_traits/is_enum.hpp>
-++#include <boost/utility/enable_if.hpp>
-+ 
-+ #if defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)
-+ #include <boost/type_traits/is_pointer.hpp>
-+@@ -89,6 +91,9 @@
-+     typename boost::hash_detail::long_numbers<T>::type hash_value(T);
-+     template <typename T>
-+     typename boost::hash_detail::ulong_numbers<T>::type hash_value(T);
-++    template <typename T>
-++    typename boost::enable_if<boost::is_enum<T>, std::size_t>::type
-++      hash_value(T);
-+ 
-+ #if !BOOST_WORKAROUND(__DMC__, <= 0x848)
-+     template <class T> std::size_t hash_value(T* const&);
-+@@ -178,7 +183,12 @@
-+     {
-+         return hash_detail::hash_value_unsigned(v);
-+     }
-+-
-++    template <typename T>
-++    typename boost::enable_if<boost::is_enum<T>, std::size_t>::type
-++      hash_value(T v)
-++    {
-++      return static_cast<std::size_t>(v);
-++    }
-+     // Implementation by Alberto Barbati and Dave Harris.
-+ #if !BOOST_WORKAROUND(__DMC__, <= 0x848)
-+     template <class T> std::size_t hash_value(T* const& v)
+ SRC_URI += "file://avoid-FORTIFY-warnings.patch \
+             file://int-is-not-the-same-size-as-size_t.patch"
 -- 
 1.7.9.5
 
