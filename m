@@ -1,31 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1THiFJ-0007DW-HZ for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 23:37:17 +0200
+	id 1THiIa-0007Lr-0U for openembedded-core@lists.openembedded.org;
+	Fri, 28 Sep 2012 23:40:40 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLOKY1014806;
-	Fri, 28 Sep 2012 22:24:20 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLRg6r014832;
+	Fri, 28 Sep 2012 22:27:42 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 14346-03; Fri, 28 Sep 2012 22:24:14 +0100 (BST)
+	id 13751-06; Fri, 28 Sep 2012 22:27:37 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLOCLc014800
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SLRYSF014826
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 28 Sep 2012 22:24:13 +0100
-Message-ID: <1348867454.15753.84.camel@ted>
+	Fri, 28 Sep 2012 22:27:36 +0100
+Message-ID: <1348867656.15753.86.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 28 Sep 2012 22:24:14 +0100
-In-Reply-To: <20120928180251.GB3049@jama.jama.net>
-References: <1348782166.15753.28.camel@ted>
-	<20120928180251.GB3049@jama.jama.net>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 28 Sep 2012 22:27:36 +0100
+In-Reply-To: <1348866282-30437-1-git-send-email-koen@dominion.thruhere.net>
+References: <1348866282-30437-1-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OE-Core Release Status
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Revert "opkg svn: respect to the arch priority"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,90 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 21:37:17 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 21:40:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-09-28 at 20:02 +0200, Martin Jansa wrote:
-> On Thu, Sep 27, 2012 at 10:42:46PM +0100, Richard Purdie wrote:
-> > We're now at -rc2 for the October release of OE-Core. I've noticed a
-> > sudden surge of patches on the list, several of which are things like
-> > version increments which are no longer really appropriate at this point
-> > in the release cycle.
-> > 
-> > Why haven't we branched?
-> > 
-> > The plus side of branching now would be continued patches into master.
-> > The downside is that QA and autobuilder resources are concentrating on
-> > release and hence not on ensuring regressions are being added. I also
-> > really need my energy focused on the release rather than reviewing other
-> > code. I'm out of bandwidth so I'm putting off branching.
-> > 
-> > There is also the risk that if we branch, people will continue with
-> > master development and ignore the release branch and I'd like to apply a
-> > little pressure against this.
-> > 
-> > So if patches are getting ignored its likely they've been deemed not
-> > suited to the state of the tree right now. I may start to queue things
-> > on master-next but no guarantees and I would ask people to try and help
-> > make the release a good one.
-> > 
-> > If there are patches being ignored you think do qualify for -rcX, please
-> > ping me as it is hard to keep track of everything.
+On Fri, 2012-09-28 at 23:04 +0200, Koen Kooi wrote:
+> This completely breaks installing packages from feeds:
 > 
-> I don't know what to do with tune* and qt patchset.
-> 
-> This one is not important, but if you like the idea then it would be
-> better to get it in this release already:
-> [PATCH] kernel.bbclass: include PE in KERNEL_IMAGE_BASE_NAME
+> root@bone-mainline:~# opkg install libgtk-2.0
+> Installing libgtk-2.0 (2.24.8-r7.1) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/libgtk-2.0_2.24.8-r7.1_armv7a-vfp-neon.ipk.
+> Installing pango (1.30.0-r1.1) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/pango_1.30.0-r1.1_armv7a-vfp-neon.ipk.
+> Installing pango-module-basic-x (1.30.0-r1.1) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/pango-module-basic-x_1.30.0-r1.1_armv7a-vfp-neon.ipk.
+> Installing pango-module-basic-fc (1.30.0-r1.1) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/pango-module-basic-fc_1.30.0-r1.1_armv7a-vfp-neon.ipk.
+> Installing shared-mime-info (0.91-r4.9) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/shared-mime-info_0.91-r4.9_armv7a-vfp-neon.ipk.
+> Installing gdk-pixbuf-loader-png (2.24.1-r7.1) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/gdk-pixbuf-loader-png_2.24.1-r7.1_armv7a-vfp-neon.ipk.
+> Installing gdk-pixbuf-loader-jpeg (2.24.1-r7.1) to root...
+> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk/eglibc/armv7a-vfp-neon/base/gdk-pixbuf-loader-jpeg_2.24.1-r7.1_armv7a-vfp-neon.ipk.
+> Installing libjpeg8 (8d+1.2.1-r1.1) to root...
+> Configuring pango-module-basic-x.
+> Configuring pango.
+> Configuring pango-module-basic-fc.
+> Configuring shared-mime-info.
+> Configuring hicolor-icon-theme.
+> //var/lib/opkg/info/hicolor-icon-theme.postinst: line 11: gtk-update-icon-cache: command not found
+> Configuring gdk-pixbuf-loader-png.
+> Collected errors:
+>  * opkg_download_pkg: Package libjpeg8 is not available from any configured src.
+>  * opkg_install_pkg: Failed to download libjpeg8. Perhaps you need to run 'opkg update'?
+>  * opkg_install_cmd: Cannot install package libgtk-2.0.
+>  * pkg_run_script: package "hicolor-icon-theme" postinst script returned status 127.
+>  * opkg_configure: hicolor-icon-theme.postinst returned 127.
 
-The trouble is this close to release, this will likely break the
-autobuilder or qemu scripts or something like that. We can't just rename
-output like that without quite a bit of checking :(.
+I'm not entirely seeing the connection to this patch based on the above
+errors. 
 
-> And I have 2 patches to remove time dependent variables from images
-> which I haven't sent to ML yet, because still testing if it has some bad
-> sideeffect and if it's enough to resolve the issue I was seeing.
-> I'll send them as RFC.
-> 
-> commit 9c65f68dc380be34f06c4677d6867bbb874a75d1
-> Author: Martin Jansa <Martin.Jansa@gmail.com>
-> Date:   Wed Sep 26 15:56:05 2012 +0200
-> 
->     bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
->     
->     * resolves ERROR shown when bitbake -S is used for image:
->       ERROR: Bitbake's cached basehash does not match the one we just generated
->       (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
->       ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
->     
->     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-
-Hmm, that might be ok...
-
-> commit 7173532f91a755911e4822a103c98e7b81b18cb6
-> Author: Martin Jansa <Martin.Jansa@gmail.com>
-> Date:   Wed Sep 26 00:57:21 2012 +0200
-> 
->     rootfs_*.bbclass: exclude BUILDNAME var dependency from do_rootfs
->     
->     * I have kernel recipe which depends on other recipe to build tiny initramfs
->       image, without this change it rebuilds not only that initramfs image
->       but also whole kernel when DATE or TIME is changed and OEBasicHash enabled
->     * also resolves ERROR shown when bitbake -S is used for image:
->       ERROR: Bitbake's cached basehash does not match the one we just generated
->       (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
->       ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
->     
->     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-
-Doesn't the above fix obsolete this one?
+Also did you try opkg with the new options? I'm not saying there isn't a
+problem but some help in figuring out how to resolve this would be good.
 
 Cheers,
 
 Richard
-
-
 
 
 
