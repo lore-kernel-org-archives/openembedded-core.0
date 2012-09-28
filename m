@@ -1,53 +1,36 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1THRdz-00075g-Vf
+	(envelope-from <raj.khem@gmail.com>) id 1THReD-00077A-1j
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 05:53:40 +0200
-Received: from mail95-ch1-R.bigfish.com (10.43.68.239) by
-	CH1EHSOBE011.bigfish.com (10.43.70.61) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 28 Sep 2012 03:40:46 +0000
-Received: from mail95-ch1 (localhost [127.0.0.1])	by mail95-ch1-R.bigfish.com
-	(Postfix) with ESMTP id BD05848009A;
-	Fri, 28 Sep 2012 03:40:46 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz98dI9371I1432Id6f1izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
-Received: from mail95-ch1 (localhost.localdomain [127.0.0.1]) by mail95-ch1
-	(MessageSwitch) id 1348803644842555_4172;
-	Fri, 28 Sep 2012 03:40:44 +0000 (UTC)
-Received: from CH1EHSMHS002.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.254])	by mail95-ch1.bigfish.com (Postfix) with ESMTP id
-	BFB9A4E0052;	Fri, 28 Sep 2012 03:40:44 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
-	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 28 Sep 2012 03:40:44 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0309.003; Thu, 27 Sep 2012 22:40:43 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] perl install error
-Thread-Index: AQHNnSsJbPfdUfkH6UeNb9LQuJLCBQ==
-Date: Fri, 28 Sep 2012 03:40:42 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6B4252@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <9CAE2E57-84BE-44B7-A7BE-BCE8F728EFE8@gmail.com>
-	<E416A48D-4E21-4353-BDDC-B3B15AA810C9@gmail.com>
-In-Reply-To: <E416A48D-4E21-4353-BDDC-B3B15AA810C9@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: perl install error
+	Fri, 28 Sep 2012 05:53:53 +0200
+Received: by pbbro12 with SMTP id ro12so4592282pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Sep 2012 20:40:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=BtqbpZDJSZhM4pkkOJXGVcuXaWIS66NGdJ3PuonTduo=;
+	b=0BtkiDTasY1T3uUgYh8dEoq3LUfUmOrHZ4hwtd+/oLsas3XteuFs0kthrtjnBcTp9P
+	cvaYTj1ixMw7twtPT9IBDqWaKkzWrARBIDSFeTWjn3wzlfQ8bJE/WnV4jzzkRxdvGhcv
+	XqhywollhF+A3SauuIqLXYShe0vPwdlW6S1W9IG3UB1imTn9rHEbO5olsypiO0BIdH5M
+	4qlwE9jphKhPqFzRsDj7XADlawtDRZrp8tf1fqh6DJqwpLjMRmXPV/hSarj6vkgDeFFP
+	zLnVzHHpg3ToAJ44gKQlSbjx3/rLln/a7TWV7DIEo91KU53RxQNG9z5G00oo3vUugEDU
+	hGKQ==
+Received: by 10.68.131.2 with SMTP id oi2mr16862463pbb.78.1348803659859;
+	Thu, 27 Sep 2012 20:40:59 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id s10sm4781602paz.11.2012.09.27.20.40.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 27 Sep 2012 20:40:58 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Sep 2012 20:40:42 -0700
+Message-Id: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] boost: Support enums in hash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -57,82 +40,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 03:53:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <E5A562B735D0454589D176D4CE6260FA@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Sep 2012 03:53:53 -0000
 
-Khem,
+Fixes builds which were building fine with previous versions of boost
 
-I'm just not looking at a similiar issue. Do this:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/boost/boost_1.51.0.bb        |    6 ++-
+ meta/recipes-support/boost/files/hash_enums.patch |   45 +++++++++++++++++++++
+ 2 files changed, 49 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/boost/files/hash_enums.patch
 
-cat tmp/sstate-control/manifest-* | grep usr/lib/perl5
-
-And see which recipe is making this folder. It should be the perl
-recipe, first not some other recipe...
-
-Side question are you using FSL layers?
-
--M
-
-On Thu, Sep 27, 2012 at 10:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Sep 27, 2012, at 8:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> Hi
->>
->> On ppc64 I am getting
->>
->> | Warning: perl appears in your path in the following locations beyond w=
-here
->> | we just installed it:
->> |     /work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin/perl-nati=
-ve/perl
->> |
->> | make[1]: Nothing to be done for `install.man'.
->> | make[1]: Leaving directory `/work/yocto/poky/build/tmp/work/ppc64e5500=
--poky-linux/perl-5.14.2-r10/perl-5.14.2'
->> | ln: failed to create symbolic link `/work/yocto/poky/build/tmp/work/pp=
-c64e5500-poky-linux/perl-5.14.2-r10/image//usr/lib64/perl5': No such file o=
-r directory
->> | ERROR: Function failed: do_install (see /work/yocto/poky/build/tmp/wor=
-k/ppc64e5500-poky-linux/perl-5.14.2-r10/temp/log.do_install.6656 for furthe=
-r information)
->> ERROR: Task 1679 (/work/yocto/poky/meta/recipes-devtools/perl/perl_5.14.=
-2.bb, do_install) failed with exit code '1'
->> NOTE: Tasks Summary: Attempted 4082 tasks of which 4057 didn't need to b=
-e rerun and 1 failed.
->>
->>
->> It was working fine yesterday
->> anyone else seeing it ?
->
->
-> If I revert
->
-> perl: Fix nativesdk install path
-> Commit 38234f2e276356b1d77a87ceabc486107e336d19 tried to fix the sed
-> expressions by anchoring the left side of the search regexp to prevent
-> $prefix$prefix type expression in the perl config. For nativesdk this is
-> not enough. Adding anchors on both side fixes this.
->
-> Signed-off-by: Christian Glindkamp <christian.glindkamp@taskit.de>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
->
->
-> It works again
->
-> Thanks
-> -Khem
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+diff --git a/meta/recipes-support/boost/boost_1.51.0.bb b/meta/recipes-support/boost/boost_1.51.0.bb
+index 1564b0e..b95049f 100644
+--- a/meta/recipes-support/boost/boost_1.51.0.bb
++++ b/meta/recipes-support/boost/boost_1.51.0.bb
+@@ -2,8 +2,10 @@ include boost.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+-SRC_URI += "file://arm-intrinsics.patch"
++SRC_URI += "file://arm-intrinsics.patch \
++            file://hash_enums.patch \
++           "
+ SRC_URI[md5sum] = "4b6bd483b692fd138aef84ed2c8eb679"
+ SRC_URI[sha256sum] = "fb2d2335a29ee7fe040a197292bfce982af84a645c81688a915c84c925b69696"
+diff --git a/meta/recipes-support/boost/files/hash_enums.patch b/meta/recipes-support/boost/files/hash_enums.patch
+new file mode 100644
+index 0000000..368da96
+--- /dev/null
++++ b/meta/recipes-support/boost/files/hash_enums.patch
+@@ -0,0 +1,45 @@
++Allow hashing of enums.
++Fixes errors like 
++
++/opt/poky/1.3.0-1/sysroots/i586-poky-linux/usr/include/boost/functional/hash/extensions.hpp:257:34: error: no matching function for call to 'hash_value(const myspace::idx&)'
++
++Upstream-Status: Pending
++Singed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: boost_1_51_0/boost/functional/hash/hash.hpp
++===================================================================
++--- boost_1_51_0.orig/boost/functional/hash/hash.hpp	2012-07-15 16:28:30.000000000 -0700
+++++ boost_1_51_0/boost/functional/hash/hash.hpp	2012-09-26 14:00:57.738364002 -0700
++@@ -15,6 +15,8 @@
++ #include <boost/functional/hash/detail/hash_float.hpp>
++ #include <string>
++ #include <boost/limits.hpp>
+++#include <boost/type_traits/is_enum.hpp>
+++#include <boost/utility/enable_if.hpp>
++ 
++ #if defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION)
++ #include <boost/type_traits/is_pointer.hpp>
++@@ -89,6 +91,9 @@
++     typename boost::hash_detail::long_numbers<T>::type hash_value(T);
++     template <typename T>
++     typename boost::hash_detail::ulong_numbers<T>::type hash_value(T);
+++    template <typename T>
+++    typename boost::enable_if<boost::is_enum<T>, std::size_t>::type
+++      hash_value(T);
++ 
++ #if !BOOST_WORKAROUND(__DMC__, <= 0x848)
++     template <class T> std::size_t hash_value(T* const&);
++@@ -178,7 +183,12 @@
++     {
++         return hash_detail::hash_value_unsigned(v);
++     }
++-
+++    template <typename T>
+++    typename boost::enable_if<boost::is_enum<T>, std::size_t>::type
+++      hash_value(T v)
+++    {
+++      return static_cast<std::size_t>(v);
+++    }
++     // Implementation by Alberto Barbati and Dave Harris.
++ #if !BOOST_WORKAROUND(__DMC__, <= 0x848)
++     template <class T> std::size_t hash_value(T* const& v)
+-- 
+1.7.9.5
 
 
 
