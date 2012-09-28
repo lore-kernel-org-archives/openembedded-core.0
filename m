@@ -1,32 +1,37 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from co1ehsobe006.messaging.microsoft.com ([216.32.180.189]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1THSYN-0003fN-0t
+	(envelope-from <B29882@freescale.com>) id 1THSxL-0005Ua-9R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 06:51:55 +0200
-Received: by padfa11 with SMTP id fa11so1940269pad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Sep 2012 21:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=CDnV3Rqr4oOQHtNThlHNYzLLbmRztKzXao668+sQobc=;
-	b=JH/SrkAr96LU7izhW81OkyzP5EKbmR3qD469bfF3HN/3I7kryjmwi1oUObCjpV06wT
-	cYmWWfXGFTbJM7gtJMQk4h+y3pLpPAEBvpkhIayHPRaln9czxyCI7QricQiqogVU+ofM
-	GM/NdFfn0go1Pz5UEyyO2vhVaqS3ywV7B28BV20iS9R8w7hzO6vYaNssq9CtVKv9rav5
-	c3Yrz5A3JZlq7RcaZ0tst39ivgDXxWxpwoubddAAW3e8+JuzxzXv3hY8/GADNIyeOHlz
-	VgEmm9wSPaDgI9whLEbDfut3014p6TxM95n0CZH3x+V0KeWh5fr+GvoUXqFcJA2okJA4
-	pJSQ==
-Received: by 10.68.234.232 with SMTP id uh8mr17212838pbc.94.1348807141703;
-	Thu, 27 Sep 2012 21:39:01 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id j9sm4858517pav.15.2012.09.27.21.38.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 27 Sep 2012 21:39:00 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6B462F@039-SN1MPN1-001.039d.mgd.msft.net>
-Date: Thu, 27 Sep 2012 21:38:58 -0700
-Message-Id: <FBB69FDD-BE5F-4BAD-9FE3-59A5283722E6@gmail.com>
+	Fri, 28 Sep 2012 07:17:45 +0200
+Received: from mail56-co1-R.bigfish.com (10.243.78.248) by
+	CO1EHSOBE007.bigfish.com (10.243.66.70) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 28 Sep 2012 05:04:49 +0000
+Received: from mail56-co1 (localhost [127.0.0.1])	by mail56-co1-R.bigfish.com
+	(Postfix) with ESMTP id DC7DDB0011F;
+	Fri, 28 Sep 2012 05:04:49 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3h946hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
+Received: from mail56-co1 (localhost.localdomain [127.0.0.1]) by mail56-co1
+	(MessageSwitch) id 1348808687296717_28524;
+	Fri, 28 Sep 2012 05:04:47 +0000 (UTC)
+Received: from CO1EHSMHS023.bigfish.com (unknown [10.243.78.251])	by
+	mail56-co1.bigfish.com (Postfix) with ESMTP id 3BBAA3C0047;
+	Fri, 28 Sep 2012 05:04:47 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS023.bigfish.com
+	(10.243.66.33) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 28 Sep 2012 05:04:47 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.02.0309.003; Fri, 28 Sep 2012 00:04:46 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] perl install error
+Thread-Index: AQHNnSsJbPfdUfkH6UeNb9LQuJLCBZefcDgA//+u14CAAFskgP//rVAAgABYUQD//7NKAA==
+Date: Fri, 28 Sep 2012 05:04:46 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6B48F3@039-SN1MPN1-001.039d.mgd.msft.net>
 References: <9CAE2E57-84BE-44B7-A7BE-BCE8F728EFE8@gmail.com>
 	<E416A48D-4E21-4353-BDDC-B3B15AA810C9@gmail.com>
 	<70CC66F5C30A414DADDA6973E4CA391A6B4252@039-SN1MPN1-001.039d.mgd.msft.net>
@@ -34,14 +39,22 @@ References: <9CAE2E57-84BE-44B7-A7BE-BCE8F728EFE8@gmail.com>
 	<70CC66F5C30A414DADDA6973E4CA391A6B43AC@039-SN1MPN1-001.039d.mgd.msft.net>
 	<C0194970-81E1-4713-A8EF-5BB842370C25@gmail.com>
 	<70CC66F5C30A414DADDA6973E4CA391A6B462F@039-SN1MPN1-001.039d.mgd.msft.net>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-X-Mailer: Apple Mail (2.1498)
-Cc: "openembedded-core@lists.openembedded.org oe-core layer"
+	<FBB69FDD-BE5F-4BAD-9FE3-59A5283722E6@gmail.com>
+In-Reply-To: <FBB69FDD-BE5F-4BAD-9FE3-59A5283722E6@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	"openembedded-core@lists.openembedded.org oe-core layer"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: perl install error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -51,81 +64,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 04:51:55 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 28 Sep 2012 05:17:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <5AF94B676E9AF543A89FED623E09826F@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
+On Thu, Sep 27, 2012 at 11:38 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Sep 27, 2012, at 9:23 PM, McClintock Matthew-B29882 <B29882@freescale.=
+com> wrote:
+>
+>> On Thu, Sep 27, 2012 at 11:18 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> On Sep 27, 2012, at 8:52 PM, McClintock Matthew-B29882 <B29882@freescal=
+e.com> wrote:
+>>>
+>>>> On Thu, Sep 27, 2012 at 10:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>>
+>>>>> On Sep 27, 2012, at 8:40 PM, McClintock Matthew-B29882 <B29882@freesc=
+ale.com> wrote:
+>>>>>
+>>>>>> Khem,
+>>>>>>
+>>>>>> I'm just not looking at a similiar issue. Do this:
+>>>>>>
+>>>>>
+>>>>>
+>>>>> just 'not' or just 'now' ?
+>>>>>
+>>>>>> cat tmp/sstate-control/manifest-* | grep usr/lib/perl5
+>>>>>>
+>>>>>> And see which recipe is making this folder. It should be the perl
+>>>>>> recipe, first not some other recipe=85
+>>>>>
+>>>>>
+>>>>> cat sstate-control/manifest-* | grep usr/lib/perl5
+>>>>>
+>>>>> return nothing
+>>>>
+>>>> Maybe this is not the same root cause then.
+>>>
+>>> reverting that commit fixed it. before that I tried to cleans state cle=
+an all perl and perl-native
+>>> to no avail.
+>>
+>> OK, well we got the same error and ours was from another sstate-cache
+>> installing files in /usr/lib/perl5 before perl installed it's own
+>> symlink. cleaning cache for perl did not help either.
+>>
+>> Reverting that patch could have causes rebuilds and change of ordering
+>> (possibly) that might mask the error a little longer. If ours are
+>> related.
+>
+>
+> Does it mean that if I invalidate whole state it will work ?
+> thats kind of gross
 
-On Sep 27, 2012, at 9:23 PM, McClintock Matthew-B29882 =
-<B29882@freescale.com> wrote:
+I think just making sure perl is deployed to sysroot first fixes this
+issue. For us we were simply missing a 'DEPENDS =3D perl' for a recipe
+which installed stuff in /usr/lib/perl5 - if perl is deployed to
+sysroot first the symlink is always in place properly.
 
-> On Thu, Sep 27, 2012 at 11:18 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>=20
->> On Sep 27, 2012, at 8:52 PM, McClintock Matthew-B29882 =
-<B29882@freescale.com> wrote:
->>=20
->>> On Thu, Sep 27, 2012 at 10:43 PM, Khem Raj <raj.khem@gmail.com> =
-wrote:
->>>>=20
->>>> On Sep 27, 2012, at 8:40 PM, McClintock Matthew-B29882 =
-<B29882@freescale.com> wrote:
->>>>=20
->>>>> Khem,
->>>>>=20
->>>>> I'm just not looking at a similiar issue. Do this:
->>>>>=20
->>>>=20
->>>>=20
->>>> just 'not' or just 'now' ?
->>>>=20
->>>>> cat tmp/sstate-control/manifest-* | grep usr/lib/perl5
->>>>>=20
->>>>> And see which recipe is making this folder. It should be the perl
->>>>> recipe, first not some other recipe=85
->>>>=20
->>>>=20
->>>> cat sstate-control/manifest-* | grep usr/lib/perl5
->>>>=20
->>>> return nothing
->>>=20
->>> Maybe this is not the same root cause then.
->>=20
->> reverting that commit fixed it. before that I tried to cleans state =
-clean all perl and perl-native
->> to no avail.
->=20
-> OK, well we got the same error and ours was from another sstate-cache
-> installing files in /usr/lib/perl5 before perl installed it's own
-> symlink. cleaning cache for perl did not help either.
->=20
-> Reverting that patch could have causes rebuilds and change of ordering
-> (possibly) that might mask the error a little longer. If ours are
-> related.
+-M
 
-
-Does it mean that if I invalidate whole state it will work ?
-thats kind of gross
-
-
->=20
-> -M
->=20
->>>=20
->>>>=20
->>>>>=20
->>>>> Side question are you using FSL layers?
->>>>=20
->>>> yes
->>>=20
->>> Is libhugetlbfs getting built?
->>=20
->> No
->>=20
->>=20
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>>
+>> -M
+>>
+>>>>
+>>>>>
+>>>>>>
+>>>>>> Side question are you using FSL layers?
+>>>>>
+>>>>> yes
+>>>>
+>>>> Is libhugetlbfs getting built?
+>>>
+>>> No
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
