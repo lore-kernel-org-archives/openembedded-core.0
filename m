@@ -1,24 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1THXRi-00055U-0z
-	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 12:05:22 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1THXFH-0000fH-9o; Fri, 28 Sep 2012 11:52:31 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-Date: Fri, 28 Sep 2012 10:52:30 +0100
-In-Reply-To: <506054A0.6090309@intel.com>
-References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
-	<1348486253.31293.28.camel@phil-desktop> <506054A0.6090309@intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348825951.32611.30.camel@phil-desktop>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1THXsh-0005d9-0Y for openembedded-core@lists.openembedded.org;
+	Fri, 28 Sep 2012 12:33:15 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SAKK5Y008958;
+	Fri, 28 Sep 2012 11:20:20 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08702-02; Fri, 28 Sep 2012 11:20:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SAKDMZ008952
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 28 Sep 2012 11:20:14 +0100
+Message-ID: <1348827615.15753.38.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+Date: Fri, 28 Sep 2012 11:20:15 +0100
+In-Reply-To: <cover.1348695851.git.elizabeth.flanagan@intel.com>
+References: <cover.1348695851.git.elizabeth.flanagan@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
+Subject: Re: [PATCH 0/3] license.bbclass fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,26 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 10:05:22 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 10:33:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-09-24 at 15:40 +0300, Andrei Dinu wrote:
-> On 09/24/2012 02:30 PM, Phil Blundell wrote:
-> > On Mon, 2012-09-24 at 14:26 +0300, Andrei Dinu wrote:
-> >> +-	    *reloc_addr += sym->st_value;
-> >> ++	    *reloc_addr = sym->st_value;
-> > That patch looks slightly dubious to me.  Are you sure this doesn't
-> > introduce any regressions elsewhere?
-> >
-> >
-> I have insufficient data to affirm that it doesn't introduces regressions.
+On Wed, 2012-09-26 at 14:50 -0700, Elizabeth Flanagan wrote:
+> [YOCTO #3118]
+> 
+> license.conf hasn't been being parsed. This commit series ensures that 
+> license.conf is parsed, that it contains useful variables that should be
+> in a global conf file and that those variables are not kept within 
+> license.bbclass.
+> 
+> This also fixes an discreprancy between the documentation of LICENSE_PATH (which
+> is what we tell people to use) and what we were using "LICENSE_DIR". This ensures
+> that when the end user needs to add additional licenses, that they use 
+> LICENSE_PATH += "path/to/additional/licenses" and that it works.
+> 
+> The following changes since commit 0b09e50810162a07ef0aecee91ee32b4a36334a3:
+> 
+>   busybox: Fix misplaced quote (2012-09-26 18:28:36 +0100)
+> 
+> are available in the git repository at:
+>   git://git.yoctoproject.org/poky-contrib eflanagan/LICENSE_PATH
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/LICENSE_PATH
+> 
+> Elizabeth Flanagan (3):
+>   license.bbclass: Variable standardization
+>   bitbake.conf: parse license config
+>   license.conf/bbclass: Move globals to license.conf
 
-Presumably it does at least pass the eglibc and binutils testsuites,
-right?
+Merged to master, thanks.
 
-p.
-
+Richard
 
 
 
