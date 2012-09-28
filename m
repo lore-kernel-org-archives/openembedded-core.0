@@ -1,38 +1,31 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1THb17-00060B-KV
+	(envelope-from <mark.hatle@windriver.com>) id 1THbGl-0008Om-W1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 15:54:09 +0200
-Received: by daks35 with SMTP id s35so686964dak.6
+	Fri, 28 Sep 2012 16:10:20 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8SDvPUF029372
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Sep 2012 06:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=W/CzPQm2rwzOylt27lBAYZ6BIBYeHp5K82Y+PaV0fBk=;
-	b=hLGc3BzfHc3uyJKB0V8TcuroomnbOEpWUuflQagdBuN7457Q25Y4nRVHwPval4HtnC
-	wHffkXTEnlCrbYIxfiB3YP1THX66IlfDVCC3KkIhKXYRwqJzGLTUoFgi+gbnObTvX0eO
-	+LEtj/SWPTRwh2QAWl0Xe0gIkFlO+erPWvU6Rt+Lu+wD+ZkKL1sacx0iBQL2rgyZATig
-	OJ1MEiNZIQjFbh0VQmACbbXP7oHGAJ3RpqDUf5vK62Re7ewgs5X6u1sUR7KOS4RP09Z7
-	kGhDv7xcjdn/tAFWf+y/2l98ZaTjEYMRE/F7sfn6ZFWojh2d6Ua39zE1VGydi+LkgFUT
-	FBog==
-Received: by 10.68.234.232 with SMTP id uh8mr20453059pbc.94.1348839675760;
-	Fri, 28 Sep 2012 06:41:15 -0700 (PDT)
-Received: from [172.23.6.32] (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id o1sm5529015pax.21.2012.09.28.06.41.13
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 28 Sep 2012 06:41:13 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1348828356.32611.34.camel@phil-desktop>
-Date: Fri, 28 Sep 2012 06:41:14 -0700
-Message-Id: <AD746491-C938-4CFC-8397-A0E6AF132595@gmail.com>
-References: <1348803644-20961-1-git-send-email-raj.khem@gmail.com>
-	<1348828356.32611.34.camel@phil-desktop>
-To: Phil Blundell <philb@gnu.org>
-X-Mailer: Apple Mail (2.1498)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Support enums in hash
+	Fri, 28 Sep 2012 06:57:25 -0700 (PDT)
+Received: from msp-dhcp5.wrs.com (172.25.34.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 28 Sep 2012 06:57:25 -0700
+Message-ID: <5065ACC4.7080505@windriver.com>
+Date: Fri, 28 Sep 2012 08:57:24 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
+	<1348486253.31293.28.camel@phil-desktop>
+	<506054A0.6090309@intel.com>
+	<1348825951.32611.30.camel@phil-desktop>
+In-Reply-To: <1348825951.32611.30.camel@phil-desktop>
+Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 13:54:10 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 28 Sep 2012 14:10:20 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 9/28/12 4:52 AM, Phil Blundell wrote:
+> On Mon, 2012-09-24 at 15:40 +0300, Andrei Dinu wrote:
+>> On 09/24/2012 02:30 PM, Phil Blundell wrote:
+>>> On Mon, 2012-09-24 at 14:26 +0300, Andrei Dinu wrote:
+>>>> +-	    *reloc_addr += sym->st_value;
+>>>> ++	    *reloc_addr = sym->st_value;
+>>> That patch looks slightly dubious to me.  Are you sure this doesn't
+>>> introduce any regressions elsewhere?
+>>>
+>>>
+>> I have insufficient data to affirm that it doesn't introduces regressions.
+>
+> Presumably it does at least pass the eglibc and binutils testsuites,
+> right?
 
-On Sep 28, 2012, at 3:32 AM, Phil Blundell <philb@gnu.org> wrote:
+That patch is a workaround for an ARM issue related to thread local storage and 
+TLS offsets during runtime and prelinking.
 
-> On Thu, 2012-09-27 at 20:40 -0700, Khem Raj wrote:
->> +Upstream-Status: Pending
->> +Singed-off-by: Khem Raj <raj.khem@gmail.com>
-> 
-> The mental picture of a patch being singed off is kind of amusing, but I
-> guess this was a typo.
-> 
+See https://bugzilla.yoctoproject.org/show_bug.cgi?id=1443
 
-heh yes. Fat fingers, I will correct it next time.
+Note, this is simply a workaround and not a final solution as it hasn't been 
+vetted upstream.
 
+--Mark
 
 > p.
-> 
-> 
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
