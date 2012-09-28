@@ -1,28 +1,39 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1THcCp-0001hE-Sk
+	(envelope-from <ross.burton@intel.com>) id 1THcDK-0001jd-Ll
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 17:10:20 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1THc0N-0000sH-Rp; Fri, 28 Sep 2012 16:57:28 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 28 Sep 2012 15:57:21 +0100
-In-Reply-To: <5065B5BB.6080108@windriver.com>
-References: <1348485983-8294-1-git-send-email-andrei.adrianx.dinu@intel.com>
-	<1348486253.31293.28.camel@phil-desktop> <506054A0.6090309@intel.com>
-	<1348825951.32611.30.camel@phil-desktop>
-	<5065ACC4.7080505@windriver.com>
-	<1348840977.32611.51.camel@phil-desktop>
-	<5065B5BB.6080108@windriver.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1348844247.32611.54.camel@phil-desktop>
-Mime-Version: 1.0
+	Fri, 28 Sep 2012 17:10:50 +0200
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 28 Sep 2012 07:57:56 -0700
+Received: by oagh1 with SMTP id h1so2634302oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Sep 2012 07:57:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=afGzSZaIYls2wgLcv71A/Rm+O20WA8Qx81iKKxku5TM=;
+	b=eMU9EbQxtimd/C3HBiJ7leALPvEs6tKSnhAz/aROSumJUj8yWobGtZewj08o/zbhFr
+	wf2mmgH6I2ziDSOP0FaGWi1ggT03NrrE+s5FbYZCjhjMUlPinvBxua4OPD73MYwwD3MC
+	2qG6dilArBL83IUfZEobiBSeTwLxVuuCFRqdVAuNPGKZEVnBUPFlMapLiP7ziAdmkoWK
+	BcciSRGzQu/6ADlrrRwPWViYRQ4Dac9aSrLDc1ne5Cd40LswmoMHdv5sQfKzAjwh0kQO
+	T/uR7WmB2WXcpwKN+uI+IL/8FoiDRPLSyRqIq5jt28yuiJb8SpyuFuQaCALiBBmNA57S
+	004Q==
+Received: by 10.182.154.70 with SMTP id vm6mr6176927obb.50.1348844275033; Fri,
+	28 Sep 2012 07:57:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Fri, 28 Sep 2012 07:57:34 -0700 (PDT)
+In-Reply-To: <CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
+References: <1348795994-21695-1-git-send-email-msm@freescale.com>
+	<1348795994-21695-10-git-send-email-msm@freescale.com>
+	<CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 28 Sep 2012 15:57:34 +0100
+Message-ID: <CAJTo0LYJJpXC_zAC0R5A+mfGAgxUGsXXxB-=U_EVTxOVenUFXg@mail.gmail.com>
+To: Matthew McClintock <msm@freescale.com>
+X-Gm-Message-State: ALoCoQmEetYypjE2eH+MU03ADJLih1jWqkcWSRu83wfeHmJArawo3NQkFzEyJt77GCzB0NC1YzPf
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: Fix for dynamic linker broken offset
+Subject: Re: [PATCH v2 10/10] libx11.inc: fix build issues for older CentOS distros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +46,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 15:10:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Sep 2012 15:10:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2012-09-28 at 09:35 -0500, Mark Hatle wrote:
-> On 9/28/12 9:02 AM, Phil Blundell wrote:
-> > On Fri, 2012-09-28 at 08:57 -0500, Mark Hatle wrote:
-> >> On 9/28/12 4:52 AM, Phil Blundell wrote:
-> >>> On Mon, 2012-09-24 at 15:40 +0300, Andrei Dinu wrote:
-> >>>> On 09/24/2012 02:30 PM, Phil Blundell wrote:
-> >>>>> On Mon, 2012-09-24 at 14:26 +0300, Andrei Dinu wrote:
-> >>>>>> +-	    *reloc_addr += sym->st_value;
-> >>>>>> ++	    *reloc_addr = sym->st_value;
-> >>>>> That patch looks slightly dubious to me.  Are you sure this doesn't
-> >>>>> introduce any regressions elsewhere?
-> >>>>>
-> >>>> I have insufficient data to affirm that it doesn't introduces regressions.
-> >>>
-> >>> Presumably it does at least pass the eglibc and binutils testsuites,
-> >>> right?
-> >>
-> >> That patch is a workaround for an ARM issue related to thread local storage and
-> >> TLS offsets during runtime and prelinking.
-> >
-> > Right, I understand that.  But this doesn't really answer the question
-> > "does the workaround break anything else?".
-> 
-> In my testing no.  But I never integrated it with OE, so I never ran the test 
-> suite Khem was referring to.
+FWIW, I've just filed #55423 and #55424 upstream for these issues.
 
-I think the testsuite Khem mentioned is just eglibc's builtin tests; it
-isn't actually specific to OE.  What did your testing consist of?
-
-p.
-
-
+Ross
 
 
