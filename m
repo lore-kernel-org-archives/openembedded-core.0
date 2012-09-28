@@ -1,55 +1,34 @@
-Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
-	helo=db3outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1THcY4-00029d-HY
-	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 17:32:16 +0200
-Received: from mail105-db3-R.bigfish.com (10.3.81.252) by
-	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 28 Sep 2012 15:04:10 +0000
-Received: from mail105-db3 (localhost [127.0.0.1])	by
-	mail105-db3-R.bigfish.com (Postfix) with ESMTP id 2CF8B480143;
-	Fri, 28 Sep 2012 15:04:10 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6hbe9i1155h)
-Received: from mail105-db3 (localhost.localdomain [127.0.0.1]) by mail105-db3
-	(MessageSwitch) id 1348844648895250_31412;
-	Fri, 28 Sep 2012 15:04:08 +0000 (UTC)
-Received: from DB3EHSMHS002.bigfish.com (unknown [10.3.81.252])	by
-	mail105-db3.bigfish.com (Postfix) with ESMTP id D6647260206;
-	Fri, 28 Sep 2012 15:04:08 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS002.bigfish.com
-	(10.3.87.102) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 28 Sep 2012 15:04:07 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.124]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0309.003; Fri, 28 Sep 2012 10:03:57 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2 10/10] libx11.inc: fix build issues for
-	older CentOS distros
-Thread-Index: AQHNnYj3GIeuzfB/Q02WY5KpmzNwgZef2coA
-Date: Fri, 28 Sep 2012 15:03:56 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6B6E36@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1348795994-21695-1-git-send-email-msm@freescale.com>
-	<1348795994-21695-10-git-send-email-msm@freescale.com>
-	<CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 10/10] libx11.inc: fix build issues for older CentOS distros
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1THcyY-0002SF-E7 for openembedded-core@lists.openembedded.org;
+	Fri, 28 Sep 2012 17:59:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SFkghW012626;
+	Fri, 28 Sep 2012 16:46:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12593-01; Fri, 28 Sep 2012 16:46:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8SFkYfq012620
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 28 Sep 2012 16:46:35 +0100
+Message-ID: <1348847196.15753.56.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Fri, 28 Sep 2012 16:46:36 +0100
+In-Reply-To: <5065489E.6060802@intel.com>
+References: <1348590946-13319-1-git-send-email-laurentiu.palcu@intel.com>
+	<50647584.2010200@linux.intel.com> <5065489E.6060802@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] SDK: trap any IO errors in the relocate script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -59,32 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 15:32:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <A6F40826591A984B898AD99854FF1118@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Sep 2012 15:59:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 28, 2012 at 9:52 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-> On 28 September 2012 02:33, Matthew McClintock <msm@freescale.com> wrote:
->> Fixes these sorts of issues present on older gcc (CentOS 5.x in this cas=
-e)
->>
->> | cc1: error: unrecognized command line option "-Werror=3Dimplicit"
->> | cc1: error: unrecognized command line option "-Werror=3Dnonnull"
->
-> Took me a minute to realise why this happens.  This happens when
-> cross-building because although configure is checking that the flags
-> it uses are supported by the compiler, it's only doing that for the
-> cross and not the host compiler.  Right?
->
-> (upstream bug alert)
+On Fri, 2012-09-28 at 09:50 +0300, Laurentiu Palcu wrote:
+> 
+> On 09/27/2012 06:49 PM, Saul Wold wrote:
+> > On 09/25/2012 09:35 AM, Laurentiu Palcu wrote:
+> > 
+> > BTW: in the future it's good to say the "filename: <commit subject>"
+> This is what I usually use when I change single files. However,
+> sometimes (and I know this particular patch is not the case), I change
+> multiple files to fix a single problem or add a feature. In this case
+> your BKM is not quite appropriate. I will end up with a commit subject
+> like this:
+> 
+> filename1, filename2, filename3: <no space left for the subject itself>
+> 
+> If those files belong to a certain functional area, say SDK, I thought
+> it was more appropriate to prepend the subject with SDK.
+> 
+> Also, the contribution guidelines on the wiki, state the same (see rpm
+> example):
+> 
+> https://wiki.yoctoproject.org/wiki/Contribution_Guidelines
+> 
+> Am I wrong here?
 
-Yea,  I suppose the the host compiler should be checked by autotools
-if it supports these warning flags.
+No but I think "SDK" is just a little unspecific so for example a hint
+that this was a change to "scripts:"  would have been more useful which
+I think was Saul's point.
 
--M=
+Cheers,
+
+Richard
 
 
 
