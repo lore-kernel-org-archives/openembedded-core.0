@@ -1,20 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1THVyw-0003Iz-CA
+	(envelope-from <constantinx.musca@intel.com>) id 1THWpr-000450-1L
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 10:31:34 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Sep 2012 01:18:25 -0700
+	Fri, 28 Sep 2012 11:26:15 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2012 02:13:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,501,1344236400"; d="scan'208";a="199197132"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.173])
-	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2012 01:18:40 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.80,501,1344236400"; d="scan'208";a="227662617"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.66])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Sep 2012 02:13:05 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Sep 2012 01:18:39 -0700
-Message-Id: <cover.1348820169.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED REQUEST 00/16]
+Date: Fri, 28 Sep 2012 11:18:36 +0300
+Message-Id: <1348820316-20012-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] libnss-mdns: fix mDNS resolving speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,94 +28,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 08:31:34 -0000
+X-List-Received-Date: Fri, 28 Sep 2012 09:26:15 -0000
 
-Richard,
+We need to fix the "hosts: files dns mdns4" nsswitch.conf line
+because for a .local lookup it does a DNS lookup first which will fail.
+The recommended solution is:
+hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4
 
-This is a set of changes (close to final) for rc3 of 1.3.
+[YOCTO #2502]
 
-I have built this against the AB core, there is the issue with
-both Multi-Lib and X32 from yesterday's Perl change, that still
-exists, otherwise a clean build.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ .../libnss-mdns/libnss-mdns_0.10.bb                |   13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Please Cherry-pick as you see appropriate.
-
-I will be out until Monday Morning (with no email access).
-
-Sau!
-
-
-The following changes since commit f95a9e2c292a1551861220270838cf1eaaba85b9:
-
-  Revert "autotools.bbclass: using relative paths for acpaths" (2012-09-27 17:57:46 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andrei Dinu (1):
-  eglibc: Fix for dynamic linker broken offset
-
-Bogdan Marinescu (1):
-  sanity: Added explicit network error status in SanityCheckFailed
-    event
-
-Constantin Musca (1):
-  sanity.bbclass: bblayers.conf should be updated automatically
-
-Damien Lespiau (2):
-  initrd: Spawn an emergency shell when something goes wrong
-  initramfs: Make mkdir not fail
-
-Elizabeth Flanagan (3):
-  license.bbclass: Variable standardization
-  bitbake.conf: parse license config
-  license.conf/bbclass: Move globals to license.conf
-
-Otavio Salvador (2):
-  cogl: Add a missing depends on libxdamage
-  xserver-xorg: Use rdepends to ensure xserver-xorg-module-exa match
-    version
-
-Paul Eggleton (1):
-  gst-plugins-good: make pulseaudio support dependent on
-    DISTRO_FEATURES
-
-Richard Purdie (2):
-  tcl: Fix dangerous do_install staging references
-  sstate: Relax the duplicate file whitelist for now
-
-Ross Burton (1):
-  xserver-xorg: merge version-specific .inc into .bb
-
-Scott Garman (2):
-  oe-find-native-sysroot: show bitbake errors to user
-  runqemu-internal: don't append an empty element to PATH
-
- meta/classes/license.bbclass                       |   67 +----------------
- meta/classes/sanity.bbclass                        |   81 ++++++++++++++++++--
- meta/classes/sstate.bbclass                        |    6 +-
- meta/conf/bitbake.conf                             |    1 +
- meta/conf/licenses.conf                            |   64 +++++++++++++++
- .../eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch      |   56 ++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
- meta/recipes-core/initrdscripts/files/init-live.sh |   17 ++++-
- meta/recipes-devtools/tcltk/tcl_8.5.11.bb          |    6 +-
- meta/recipes-graphics/clutter/cogl.inc             |    2 +-
- meta/recipes-graphics/clutter/cogl_1.8.2.bb        |    2 +-
- meta/recipes-graphics/clutter/cogl_git.bb          |    2 +-
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |   11 ---
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 +
- .../xorg-xserver/xserver-xorg_1.11.2.bb            |   13 +++-
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    8 ++-
- scripts/oe-find-native-sysroot                     |   29 +++++---
- scripts/runqemu-internal                           |    6 +-
- 18 files changed, 265 insertions(+), 110 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-R_ARM_TLS_DTPOFF32.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+index a1f2f9a..67c4710 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+ DEPENDS = "avahi"
+ RDEPENDS_${PN} = "avahi-daemon"
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz"
+ 
+@@ -24,13 +24,16 @@ DEBIANNAME_${PN} = "libnss-mdns"
+ EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
+ 
+ pkg_postinst_${PN} () {
+-if ! grep -q '^hosts:.*\<mdns4\>' $D/etc/nsswitch.conf; then
+-	sed -e 's/^hosts:.*/& mdns4/' -i $D/etc/nsswitch.conf
++if ! grep -q '^hosts:.*mdns4' $D/etc/nsswitch.conf; then
++	sed -e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 mdns4_minimal [NOTFOUND=return]\3\4 mdns4\5/' \
++		-i $D/etc/nsswitch.conf
+ fi
+ }
+ 
+ pkg_prerm_${PN} () {
+-if grep -q '^hosts:.*\<mdns4\>' /etc/nsswitch.conf; then
+-	sed -e '/^hosts:/s/\s\<mdns4\>//' -i /etc/nsswitch.conf
++if grep -q '^hosts:.*mdns4' /etc/nsswitch.conf; then
++	sed -e '/^hosts:/s/\s*\<mdns4\>//' \
++		-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=return\]//' \
++		-i /etc/nsswitch.conf
+ fi
+ }
 -- 
-1.7.7.6
+1.7.9.5
 
 
 
