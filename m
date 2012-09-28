@@ -1,28 +1,26 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1THUQg-0001gy-AF
+	(envelope-from <laurentiu.palcu@intel.com>) id 1THUbF-00027x-NQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Sep 2012 08:52:06 +0200
-Received: from localhost (193.41.119.134) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.279.1; Fri, 28 Sep 2012
-	08:37:02 +0200
-Date: Fri, 28 Sep 2012 08:37:56 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20120928063756.GA21472@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1348697518.git.Martin.Jansa@gmail.com>
-	<2523654.gPkJCTUPfL@helios> <20120927154530.GE3454@jama.jama.net>
+	Fri, 28 Sep 2012 09:03:01 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2012 23:50:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,499,1344236400"; d="scan'208";a="227609408"
+Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Sep 2012 23:50:07 -0700
+Message-ID: <5065489E.6060802@intel.com>
+Date: Fri, 28 Sep 2012 09:50:06 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-In-Reply-To: <20120927154530.GE3454@jama.jama.net>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.20 (2009-12-10)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH 00/10] qt4: upgrade to 4.8.3 and cleanup
+To: Saul Wold <sgw@linux.intel.com>
+References: <1348590946-13319-1-git-send-email-laurentiu.palcu@intel.com>
+	<50647584.2010200@linux.intel.com>
+In-Reply-To: <50647584.2010200@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] SDK: trap any IO errors in the relocate script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Sep 2012 06:52:06 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-
-* Martin Jansa <martin.jansa@gmail.com> [120927 17:44]:
-
-> On Thu, Sep 27, 2012 at 04:10:20PM +0100, Paul Eggleton wrote:
-> > On Thursday 27 September 2012 00:27:05 Martin Jansa wrote:
-> > > Please test on more architectures.
-> > > I've tested complete qt4-native + qt4-free-x11 on armv4t.
-> > > And only do_patch for nativesdk-qt4-tools, qt-mobility-*, qt4-embedded.
-> > 
-> > So this is great work and these patches look good, although I'm still not 
-> > particularly happy with breaking out so many of the configure options because 
-> > I'm convinced it won't stop here; but it's possible I might be overruled on 
-> > this issue. 
-
-> I've added that, because meta-webos layer disables more stuff then .inc
-> file forces enabled, so I would have to rewrite whole QT_CONFIG_FLAGS
-> (if I don't want to have e.g. -webkit from .inc and -no-webkit appended
-> after that through QT_DISTRO_FLAGS).
-
-> But it can be just 2 variables instead of 6 if it's issue.
-
-I haven't looked closely at the patches, but we're also disabling lots
-of stuff (though, quite a bit of that comes from meta-oe). Thus, I'm
-leaning towards an easier way to handle this.
-
-We're currently using an approach were we add to QT_CONFIG_FLAGS, to set
-our desired config, and oe_filter_out() to remove certain defaults from
-oe-core and meta-oe. Thus, everything that can help reduce this mess is
-something we'd appreciate.
-
-Cheers,
-Anders
+X-List-Received-Date: Fri, 28 Sep 2012 07:03:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+
+On 09/27/2012 06:49 PM, Saul Wold wrote:
+> On 09/25/2012 09:35 AM, Laurentiu Palcu wrote:
+> 
+> BTW: in the future it's good to say the "filename: <commit subject>"
+This is what I usually use when I change single files. However,
+sometimes (and I know this particular patch is not the case), I change
+multiple files to fix a single problem or add a feature. In this case
+your BKM is not quite appropriate. I will end up with a commit subject
+like this:
+
+filename1, filename2, filename3: <no space left for the subject itself>
+
+If those files belong to a certain functional area, say SDK, I thought
+it was more appropriate to prepend the subject with SDK.
+
+Also, the contribution guidelines on the wiki, state the same (see rpm
+example):
+
+https://wiki.yoctoproject.org/wiki/Contribution_Guidelines
+
+Am I wrong here?
+
+Thanks,
+Laurentiu
+
+> 
+> So this would be "relocate_sdk.py: ...."
+>> If the files being relocated are already used by other processes the
+>> relocate script will fail with a traceback. This patch will trap any IO
+>> errors when opening such a file and gracefully report them to the user.
+>>
+>> Also change the exit code from 1 to -1 for a better adt-installer user
+>> experience (like pointing the user to the adt_installer.log).
+>>
+>> [YOCTO #3164]
+>>
+>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> ---
+>>   scripts/relocate_sdk.py |   14 ++++++++++++--
+>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+>> index b247e65..637ffe9 100755
+>> --- a/scripts/relocate_sdk.py
+>> +++ b/scripts/relocate_sdk.py
+>> @@ -29,6 +29,7 @@ import sys
+>>   import stat
+>>   import os
+>>   import re
+>> +import errno
+>>
+>>   old_prefix = re.compile("##DEFAULT_INSTALL_DIR##")
+>>
+>> @@ -171,7 +172,7 @@ def change_dl_sysdirs():
+>>
+>>   # MAIN
+>>   if len(sys.argv) < 4:
+>> -    exit(1)
+>> +    exit(-1)
+>>
+>>   new_prefix = sys.argv[1]
+>>   new_dl_path = sys.argv[2]
+>> @@ -184,7 +185,16 @@ for e in executables_list:
+>>       else:
+>>           os.chmod(e, perms|stat.S_IRWXU)
+>>
+>> -    f = open(e, "r+b")
+>> +    try:
+>> +        f = open(e, "r+b")
+>> +    except IOError as ioex:
+>> +        if ioex.errno == errno.ETXTBSY:
+>> +            print("Could not open %s. File used by another process.\nPlease "\
+>> +                  "make sure you exit all processes that might use any SDK "\
+>> +                  "binaries." % e)
+>> +        else:
+>> +            print("Could not open %s: %s(%d)" % (e, ioex.strerror, ioex.errno))
+>> +        exit(-1)
+>>
+>>       arch = get_arch()
+>>       if arch:
+>>
+> Merged into OE-Core
+> 
+> Thanks
+> 	Sau!
+> 
 
 
