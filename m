@@ -1,44 +1,43 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1THrbg-0006uj-Dz
+	(envelope-from <martin.jansa@gmail.com>) id 1THsq7-0008Sh-Su
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Sep 2012 09:37:00 +0200
-Received: by wgbdq11 with SMTP id dq11so2038356wgb.24
+	Sat, 29 Sep 2012 10:55:59 +0200
+Received: by weyt44 with SMTP id t44so1918098wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2012 00:24:06 -0700 (PDT)
+	Sat, 29 Sep 2012 01:43:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=GJ3kaVLZSAkXMdLtKv+wak5B5GUFXp0vZ4vEdFggAxE=;
-	b=Peaz9CZ8t91WfK5z+zZsP8D7amoVF2FjmYRMDUB0AGCMIh5l4vXu3di4R1XRdSa1ya
-	iWR5ksI0piQKGCLpPh6VWdELLIj66deoj45A0bu4xFdeKdLPaLEW+4+ba0srtmg1ZCKA
-	88lUBQcv0NRBYOwZQvqv/zTKXz+W8dwY9QX4p1PxbEdtJV6OM3cGRkOB/rpSCc7Jzc59
-	zjE4Xm+Wj7n2UkAM3PMjxx3acULON7m86cWBqjxAoEWIcmqEos4KpkC5hIRumYL6cl/2
-	l47aMPqOh5lS8SvVcZSW428/jZI48vVJK+pIdZq3tGY0YgPiS8uq6IOkph4z+o+EIJ9J
-	3vwg==
-Received: by 10.216.194.148 with SMTP id m20mr4931047wen.51.1348903446323;
-	Sat, 29 Sep 2012 00:24:06 -0700 (PDT)
+	bh=XJ5PKNHI3AFWTNjCi87L5qJ3SqvRnDmF2bmpkTupQT8=;
+	b=fG8yl/BB3YCADW4FBrocZRRgnBoTf9IVXBLsO9wslGmL6IZwlXFsykzDTj/S9j/nQY
+	iaLgwAuArxkGlPPuDsKDyNP6Jpn0cGU7ApA7A5/WCVDHYqGQlRXV7O5k2Pnqy8YxdSmK
+	sLqTqkOyplyb8p0nIji9hiaDMQkTX/i2iysUkKvCkj/aRRy1rCATbuweCAfwcm7d7p31
+	OvTtENpJ0leSmNr0Mzk6uNFt3jsQ3kbW1+4ozX62HKB7KjmQ764A3QzgzPDYgo1s4WXJ
+	uVjs1zYiYZB3LuuGYucD82rZNdVzHuHywk3nTlHpvLcupurCjn8vF+63usWoxKi8slUU
+	rk6w==
+Received: by 10.216.134.97 with SMTP id r75mr5011808wei.127.1348908185708;
+	Sat, 29 Sep 2012 01:43:05 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id bn7sm3924598wib.8.2012.09.29.00.23.51
+	by mx.google.com with ESMTPS id b7sm3789030wiz.3.2012.09.29.01.43.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 29 Sep 2012 00:23:52 -0700 (PDT)
-Date: Sat, 29 Sep 2012 09:24:05 +0200
+	Sat, 29 Sep 2012 01:43:04 -0700 (PDT)
+Date: Sat, 29 Sep 2012 10:43:17 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20120929072405.GF3049@jama.jama.net>
-References: <1347373349.2122.35.camel@ted>
-	<1348679272.32611.4.camel@phil-desktop>
-	<1348838588.15753.52.camel@ted>
-	<70CC66F5C30A414DADDA6973E4CA391A6B7ED0@039-SN1MPN1-001.039d.mgd.msft.net>
-	<1348867217.15753.81.camel@ted>
-	<E64B7127595B4AD8AA31B5C8C0FED741@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20120929084317.GH3049@jama.jama.net>
+References: <20120927142926.CA9C5103AC@opal>
+	<20120927153419.GD3454@jama.jama.net>
+	<20120927175531.GF3454@jama.jama.net>
+	<CAP9ODKr0nC2WbN=gCieWRnf4=-9SiiB6NUiubVrTxnnvbAaGtg@mail.gmail.com>
+	<5064D5FF.2050409@windriver.com>
+	<CA+chaQdL+UTXrMsUJkzrEbpqMSxdQ3v7uCycumO9aUqmm9cnkg@mail.gmail.com>
+	<CAP9ODKpKzc2T7MpMckyTabvuAkAe1ABCyZLKSz0=z83gJjAh1Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <E64B7127595B4AD8AA31B5C8C0FED741@intel.com>
+In-Reply-To: <CAP9ODKpKzc2T7MpMckyTabvuAkAe1ABCyZLKSz0=z83gJjAh1Q@mail.gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Phil Blundell <philb@gnu.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Martin Jansa : xserver-xorg: use EXTENDPKGV instead of PV in RCONFLICTS_${PN}-module-exa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,48 +50,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2012 07:37:00 -0000
-X-Groupsio-MsgNum: 30135
+X-List-Received-Date: Sat, 29 Sep 2012 08:56:00 -0000
+X-Groupsio-MsgNum: 30136
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="qftxBdZWiueWNAVY"
+	protocol="application/pgp-signature"; boundary="smOfPzt+Qjm5bNGJ"
 Content-Disposition: inline
 
---qftxBdZWiueWNAVY
+--smOfPzt+Qjm5bNGJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 29, 2012 at 07:42:48AM +0100, Ross Burton wrote:
-> On Friday, 28 September 2012 at 22:20, Richard Purdie wrote:
-> > Totally unrelated, likely a transient race we're meant to have fixed but
-> > don't seem to have done so :/
-> >=20
-> > The supposed fix was:
-> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Da92ff3ad4212f896=
-6bbd3f6defcb112737d81cda
+On Fri, Sep 28, 2012 at 09:02:47AM -0300, Otavio Salvador wrote:
+> On Thu, Sep 27, 2012 at 7:50 PM, Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+> > On Fri, Sep 28, 2012 at 12:41 AM, Mark Hatle <mark.hatle@windriver.com>=
+ wrote:
+> >> Just an FYI -- Martin Jansa found a problem with the implement of the
+> >> package version comparison.
+> >>
+> >> In deb and ipk, they do not support '<' or '>', instead it's '<<' and =
+'>>'.
+> >> (Odd, historical reasons apparently).
+> >>
+> >> While RPM doesn't have any idea what '<<' or '>>' is.
+> >>
+> >> Talking with RP and others it seems like the best approach is to imple=
+ment a
+> >> conversion, in the deb and ipk packaging classes, to convert '<' and '=
+>' to
+> >> the '<<' and '>>' equivalents.  As well as add a sanity check that nob=
+ody is
+> >> using '<<' or '>>'.
+> >>
+> >> I'm in the process of doing that now.
+> >>
+> >> --Mark
+> >
+> > There is still some problem in opkg, now when I'm testing << with opkg
+> > which should work as LESS (and < as LESS_EQUAL), it still shows <=3D in
+> > opkg status and behaves like <=3D. So there is probably some bug in opkg
+> > still hidden :/
 >=20
-> FWIW, I saw this yesterday too. :/
+> Yes; it seems the right fix is in opkg.
+>=20
+> Using RCONFLICTS with << also fails to me as said yestarday on IRC.
 
-me too, few times over last week.
+Reported upstream with simple test case
+http://code.google.com/p/opkg/issues/detail?id=3D94
 
-Removing WORKDIR completely before running -c cleansstate as work
-around..
+will attach patch there + send here when I have it.
 
 Cheers,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---qftxBdZWiueWNAVY
+--smOfPzt+Qjm5bNGJ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlBmohUACgkQN1Ujt2V2gBySBwCbBsWQrEIqW4ISroU5c9EVuEaY
-nnsAoIMylfsA+dz44g90ppG3s7AKvSKi
-=RW0A
+iEYEARECAAYFAlBmtKUACgkQN1Ujt2V2gBz8WwCeNTIDlGN4Eukrj29ZhFNpOHKs
+rS0AnRRuJOqoBIEiqDwTbZKhVDwkpiJK
+=4x3r
 -----END PGP SIGNATURE-----
 
---qftxBdZWiueWNAVY--
+--smOfPzt+Qjm5bNGJ--
