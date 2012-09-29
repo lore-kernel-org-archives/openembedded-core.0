@@ -1,37 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1THuW7-0002GM-6Y for openembedded-core@lists.openembedded.org;
-	Sat, 29 Sep 2012 12:43:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8TAUObd018579;
-	Sat, 29 Sep 2012 11:30:24 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15680-10; Sat, 29 Sep 2012 11:30:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q8TAUEBN018573
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Sat, 29 Sep 2012 11:30:15 +0100
-Message-ID: <1348914615.15753.87.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 29 Sep 2012 11:30:15 +0100
-In-Reply-To: <20120929072405.GF3049@jama.jama.net>
-References: <1347373349.2122.35.camel@ted>
-	<1348679272.32611.4.camel@phil-desktop> <1348838588.15753.52.camel@ted>
-	<70CC66F5C30A414DADDA6973E4CA391A6B7ED0@039-SN1MPN1-001.039d.mgd.msft.net>
-	<1348867217.15753.81.camel@ted>
-	<E64B7127595B4AD8AA31B5C8C0FED741@intel.com>
-	<20120929072405.GF3049@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1THwGW-0004Kw-Bt
+	for openembedded-core@lists.openembedded.org;
+	Sat, 29 Sep 2012 14:35:28 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1THw42-0002xq-6W
+	for openembedded-core@lists.openembedded.org;
+	Sat, 29 Sep 2012 14:22:35 +0200
+Message-ID: <1348921205.4422.47.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 29 Sep 2012 13:20:05 +0100
+X-Mailer: Evolution 3.4.3-1 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Phil Blundell <philb@gnu.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: Add functionality to force a clean of ${B} when reconfiguring (and ${S} != ${B})
+Subject: [PATCH] opkg: Don't call sync() when installing into an offline root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +28,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2012 10:43:27 -0000
+X-List-Received-Date: Sat, 29 Sep 2012 12:35:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2012-09-29 at 09:24 +0200, Martin Jansa wrote:
-> On Sat, Sep 29, 2012 at 07:42:48AM +0100, Ross Burton wrote:
-> > On Friday, 28 September 2012 at 22:20, Richard Purdie wrote:
-> > > Totally unrelated, likely a transient race we're meant to have fixed but
-> > > don't seem to have done so :/
-> > > 
-> > > The supposed fix was:
-> > > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=a92ff3ad4212f8966bbd3f6defcb112737d81cda
-> > 
-> > FWIW, I saw this yesterday too. :/
-> 
-> me too, few times over last week.
-> 
-> Removing WORKDIR completely before running -c cleansstate as work
-> around..
+Even when installing onto a live target system, calling sync() during
+package installation is of somewhat questionable benefit.  But calling
+it on the build host during rootfs construction is certainly useless and
+can cause I/O to stall for several seconds on even a moderately sized
+host which is clearly not desirable.
 
-I suspect restarting the build would not see it happen again...
+(From a patch originally by Mike Crowe.)
 
-Cheers,
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ .../opkg/opkg/opkg-no-sync-offline.patch             |   18 ++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_svn.bb               |    3 ++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/opkg-no-sync-offline.patch
 
-Richard
+diff --git a/meta/recipes-devtools/opkg/opkg/opkg-no-sync-offline.patch b/meta/recipes-devtools/opkg/opkg/opkg-no-sync-offline.patch
+new file mode 100644
+index 0000000..b1b3453
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/opkg-no-sync-offline.patch
+@@ -0,0 +1,18 @@
++When installing into an offline root, calling sync() is pointless and just 
++hurts performance.  Don't let's do that.
++
++Signed-off-by: Phil Blundell <philb@gnu.org>
++Upstream-Status: Pending
++
++--- a/libopkg/opkg_cmd.c	2011-09-08 10:53:07.000000000 +0100
+++++ b/libopkg/opkg_cmd.c	2011-10-04 10:45:22.278615584 +0100
++@@ -64,7 +64,8 @@ write_status_files_if_changed(void)
++ 	  opkg_msg(INFO, "Writing status file.\n");
++ 	  opkg_conf_write_status_files();
++ 	  pkg_write_changed_filelists();
++-	  sync();
+++	  if (!conf->offline_root)
+++	      sync();
++      } else {
++ 	  opkg_msg(DEBUG, "Nothing to be done.\n");
++      }
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 820a224..f206cd5 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -9,6 +9,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+   file://0006-detect-circular-dependencies.patch \
+   file://0007-merge-newpkg-provides-even-when-oldpkg-provides-exis.patch \
+   file://0008-select_higher_version.patch \
++  file://opkg-no-sync-offline.patch \
+ "
+ 
+ S = "${WORKDIR}/trunk"
+@@ -16,4 +17,4 @@ S = "${WORKDIR}/trunk"
+ SRCREV = "633"
+ PV = "0.1.8+svnr${SRCPV}"
+ 
+-PR = "${INC_PR}.4"
++PR = "${INC_PR}.5"
+-- 
+1.7.10.4
+
+
 
 
 
