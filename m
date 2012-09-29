@@ -1,34 +1,34 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TI0jt-0004N4-1j
+	(envelope-from <martin.jansa@gmail.com>) id 1TI0tc-0005wo-Sq
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Sep 2012 19:22:05 +0200
-Received: by wibhj13 with SMTP id hj13so820875wib.6
+	Sat, 29 Sep 2012 19:32:08 +0200
+Received: by wgbdq11 with SMTP id dq11so2278681wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2012 10:09:01 -0700 (PDT)
+	Sat, 29 Sep 2012 10:19:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=FbboL9BYirBTswG+3HLPFTRQeLteQbT7Fp6hEwCq3Rc=;
-	b=iNFknWvqthc5tgxUQDzjDKuofLY9nWqKFtgJ9PhPxLRZHxS2mJYjHdKWw6C16kkc0g
-	dIdNfCdcHP76N1QavkW3Gx5w+/6ARyIiTa+094K3P4hW8xCRD4vPDLcL7OAh5XCicEK0
-	vYz+M070cimcHQR+vVWe8hNP532vq+nB8ZnbXMa+6ttZ6HWhhCczZZTdg3VcDKIUv2J3
-	ONuWso1o1Yo4PnxM/d7Lqxmt28Hy7/HTUBW23cN4G1+xsOLStdS6PdGMgzuwPHOcXDVg
-	/iHr8xORL51a7IEoXPigVrJEJqjJ2U6OluSpqJ/QZEoTTxBt+7oaZoptcQNPQgAziwmp
-	PpzQ==
-Received: by 10.216.135.85 with SMTP id t63mr5102900wei.93.1348938541451;
-	Sat, 29 Sep 2012 10:09:01 -0700 (PDT)
+	bh=I9UgE9Z0yJURbHzH8DVVFdp1++YO1QbEoX+uZ53zqVo=;
+	b=AN+gu14I86c+n5A42HjGD60KN7cevJOc89P+npA7rIsayVlwtWNsSDVeQAzlAYxC4L
+	gk8P1yBmZeBwe+XfZSvIFdr4Z0xAzxGPCFCJhIqN7EuwzsN/6e5cJgLh1UmFrneP+X7s
+	lJ+PUE7Z5Orfk3RVjDj1GCJP0LNyIHB8t5hAMwpunT+zd5INMNgh9aOojtJPCi7jyO8q
+	kshO4gynSebLjgA3UeGw2pET27YYrXo3xjpepoarLI26BA//YTtuZu6sLXvPFlxAdWu4
+	hsUXue9kIDZYi2o0wMMk1Z9drrTdut9QPFqLcMLIrVpj3dgP7l0p7yEIT1PDu4mdiwp9
+	fLXw==
+Received: by 10.216.216.220 with SMTP id g70mr4919060wep.83.1348939145193;
+	Sat, 29 Sep 2012 10:19:05 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id dm3sm6877401wib.3.2012.09.29.10.08.58
+	by mx.google.com with ESMTPS id m14sm6105873wie.8.2012.09.29.10.19.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 29 Sep 2012 10:08:59 -0700 (PDT)
+	Sat, 29 Sep 2012 10:19:04 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Sep 2012 19:09:12 +0200
-Message-Id: <1348938552-10963-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sat, 29 Sep 2012 19:19:16 +0200
+Message-Id: <1348939156-12048-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.12
-In-Reply-To: <20120929084317.GH3049@jama.jama.net>
-References: <20120929084317.GH3049@jama.jama.net>
-Subject: [PATCH] opkg: fix version constraints in conflicts, depends, replaces
+In-Reply-To: <1348938552-10963-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1348938552-10963-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCHv2] opkg: fix version constraints in conflicts, depends, replaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Sep 2012 17:22:06 -0000
+X-List-Received-Date: Sat, 29 Sep 2012 17:32:09 -0000
 
 * http://code.google.com/p/opkg/issues/detail?id=94
 
@@ -250,11 +250,11 @@ index 0000000..27df307
 +
 diff --git a/meta/recipes-devtools/opkg/opkg/0010-pkg_depends-fix-version_constraints_satisfied.patch b/meta/recipes-devtools/opkg/opkg/0010-pkg_depends-fix-version_constraints_satisfied.patch
 new file mode 100644
-index 0000000..ffcbc4b
+index 0000000..841b508
 --- /dev/null
 +++ b/meta/recipes-devtools/opkg/opkg/0010-pkg_depends-fix-version_constraints_satisfied.patch
 @@ -0,0 +1,37 @@
-+From 02d96ebf8c6cdbe3402506ad041bbb4806179273 Mon Sep 17 00:00:00 2001
++From 51a45a02a32064c14e0d4d6ef41c1a6276432b29 Mon Sep 17 00:00:00 2001
 +From: Martin Jansa <Martin.Jansa@gmail.com>
 +Date: Sat, 29 Sep 2012 18:56:01 +0200
 +Subject: [PATCH 10/10] pkg_depends: fix version_constraints_satisfied
@@ -275,7 +275,7 @@ index 0000000..ffcbc4b
 + 1 file changed, 2 insertions(+), 1 deletion(-)
 +
 +diff --git a/libopkg/pkg_depends.c b/libopkg/pkg_depends.c
-+index 4b7a2a5..58c4a99 100644
++index 4b7a2a5..a67579a 100644
 +--- a/libopkg/pkg_depends.c
 ++++ b/libopkg/pkg_depends.c
 +@@ -464,7 +464,8 @@ int version_constraints_satisfied(depend_t * depends, pkg_t * pkg)
@@ -283,7 +283,7 @@ index 0000000..ffcbc4b
 + 	    (comparison > 0))
 + 	return 1;
 +-    else if(comparison == 0)
-++    else if((depends->constraint == LATER) && 
+++    else if((depends->constraint == EQUAL) && 
 ++	    (comparison == 0))
 + 	return 1;
 +     else if((depends->constraint == LATER_EQUAL) &&
