@@ -1,27 +1,27 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TI7Mv-0001mj-K7
+	(envelope-from <mark.hatle@windriver.com>) id 1TI7Mw-0001n3-VO
 	for openembedded-core@lists.openembedded.org;
-	Sun, 30 Sep 2012 02:26:50 +0200
+	Sun, 30 Sep 2012 02:26:51 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8U0Dr9j020471
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8U0DtdV020474
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2012 17:13:53 -0700 (PDT)
+	Sat, 29 Sep 2012 17:13:55 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Sat, 29 Sep 2012 17:13:54 -0700
+	Sat, 29 Sep 2012 17:13:55 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2012 19:19:12 -0500
-Message-ID: <2a67012e76a5a81529f9a829ff6fe15e1c2d72a3.1348963477.git.mark.hatle@windriver.com>
+Date: Sat, 29 Sep 2012 19:19:14 -0500
+Message-ID: <7dc9277c4987b8e0278cfe958e7b2f56e2707a99.1348963477.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1348963477.git.mark.hatle@windriver.com>
 References: <cover.1348963477.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 06/12] libxcb: Update DEPENDS to avoid duplicate entries
+Subject: [PATCH 08/12] multilib: Move redefinition of STAGING_DIR_KERNEL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,70 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Sep 2012 00:26:50 -0000
+X-List-Received-Date: Sun, 30 Sep 2012 00:26:51 -0000
 Content-Type: text/plain
 
-Some items were listed multiple times in DEPENDS, avoid this situation.
+If the STAGING_DIR_KERNEL is set in the multilib.conf, then it may be
+set incorrected.  The evaluation happens before TMPDIR and LIBC are
+defined in other components.
 
-Note, PR was not incremented as no change to the build process occurs.
+Moving the definition process to the multilib.bbclass ensures that
+everything has been loaded before it is set.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-graphics/xcb/libxcb.inc       |    2 +-
- meta/recipes-graphics/xcb/libxcb_1.1.91.bb |    2 --
- meta/recipes-graphics/xcb/libxcb_1.8.1.bb  |    2 +-
- meta/recipes-graphics/xcb/libxcb_git.bb    |    2 --
- 4 files changed, 2 insertions(+), 6 deletions(-)
+ meta/classes/multilib.bbclass |    2 ++
+ meta/conf/multilib.conf       |    1 -
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/xcb/libxcb.inc b/meta/recipes-graphics/xcb/libxcb.inc
-index 1517f8a..5f4df69 100644
---- a/meta/recipes-graphics/xcb/libxcb.inc
-+++ b/meta/recipes-graphics/xcb/libxcb.inc
-@@ -11,7 +11,7 @@ SECTION = "x11/libs"
- LICENSE = "MIT-X"
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index fb03fca..8187e18 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -7,6 +7,8 @@ python multilib_virtclass_handler () {
+     if cls != "multilib" or not variant:
+         return
  
- PARALLEL_MAKE = ""
--DEPENDS = "xcb-proto xproto libxau libxslt-native xcb-proto-native"
-+DEPENDS = "xcb-proto xproto libxau libxslt-native xcb-proto-native libpthread-stubs"
- # DEPENDS += "xsltproc-native gperf-native"
++    e.data.setVar('STAGING_KERNEL_DIR', e.data.getVar('STAGING_KERNEL_DIR', True))
++
+     # There should only be one kernel in multilib configs
+     if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data):
+         raise bb.parse.SkipPackage("We shouldn't have multilib variants for the kernel")
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index ea5ed71..b22a4cb 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -6,7 +6,6 @@ MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
  
- SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.bz2"
-diff --git a/meta/recipes-graphics/xcb/libxcb_1.1.91.bb b/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-index 7ea7451..b74243e 100644
---- a/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-+++ b/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-@@ -1,6 +1,4 @@
- include libxcb.inc
- PR = "r2"
+ MULTILIBS ??= "multilib:lib32"
  
--DEPENDS += "libpthread-stubs xcb-proto-native"
--
- PACKAGES =+ "libxcb-xinerama"
-diff --git a/meta/recipes-graphics/xcb/libxcb_1.8.1.bb b/meta/recipes-graphics/xcb/libxcb_1.8.1.bb
-index 1f39ca0..52ff0b0 100644
---- a/meta/recipes-graphics/xcb/libxcb_1.8.1.bb
-+++ b/meta/recipes-graphics/xcb/libxcb_1.8.1.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
- 
- PR = "r0"
- 
--DEPENDS += "libpthread-stubs xcb-proto-native libxdmcp"
-+DEPENDS += "libxdmcp"
- 
- PACKAGES =+ "libxcb-xinerama"
- 
-diff --git a/meta/recipes-graphics/xcb/libxcb_git.bb b/meta/recipes-graphics/xcb/libxcb_git.bb
-index f8cf2a5..66934b4 100644
---- a/meta/recipes-graphics/xcb/libxcb_git.bb
-+++ b/meta/recipes-graphics/xcb/libxcb_git.bb
-@@ -6,8 +6,6 @@ SRCREV = "625ed596cae6dd8175aeb6cb6f26784928042f22"
- PV = "1.1.90.1+gitr${SRCPV}"
- PR = "r1"
- 
--DEPENDS += "libpthread-stubs xcb-proto-native"
--
- SRC_URI = "git://anongit.freedesktop.org/git/xcb/libxcb;protocol=git"
- S = "${WORKDIR}/git"
+-STAGING_KERNEL_DIR := "${STAGING_KERNEL_DIR}"
+ STAGING_DIR_HOST = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
+ STAGING_DIR_TARGET = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
  
 -- 
 1.7.3.4
