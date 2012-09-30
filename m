@@ -1,27 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TI7Mw-0001n3-VO
+	(envelope-from <mark.hatle@windriver.com>) id 1TI7Mx-0001n9-R4
 	for openembedded-core@lists.openembedded.org;
-	Sun, 30 Sep 2012 02:26:51 +0200
+	Sun, 30 Sep 2012 02:26:52 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8U0DtdV020474
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8U0DuK7027489
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Sep 2012 17:13:55 -0700 (PDT)
+	Sat, 29 Sep 2012 17:13:56 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
 	Sat, 29 Sep 2012 17:13:55 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2012 19:19:14 -0500
-Message-ID: <7dc9277c4987b8e0278cfe958e7b2f56e2707a99.1348963477.git.mark.hatle@windriver.com>
+Date: Sat, 29 Sep 2012 19:19:15 -0500
+Message-ID: <71d0f4fd9263063f69332b5943800973c38d7524.1348963477.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1348963477.git.mark.hatle@windriver.com>
 References: <cover.1348963477.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 08/12] multilib: Move redefinition of STAGING_DIR_KERNEL
+Subject: [PATCH 09/12] rpm-native: Fix 'uuid_rc_t' undeclared error when compiling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +34,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Sep 2012 00:26:51 -0000
+X-List-Received-Date: Sun, 30 Sep 2012 00:26:52 -0000
 Content-Type: text/plain
 
-If the STAGING_DIR_KERNEL is set in the multilib.conf, then it may be
-set incorrected.  The evaluation happens before TMPDIR and LIBC are
-defined in other components.
+When attempting to build with uuid and all tests compiling will error because
+uuid.h doesn't exist in the rpm tarball. Fix this by changing the include to
+use the one in ossp which solves the issue.
 
-Moving the definition process to the multilib.bbclass ensures that
-everything has been loaded before it is set.
+The recipe already depends on ossp so ossp/uuid.h will be there when rpm-native
+is built.
 
+Signed-off-by: Morgan Little <morgan.little@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/multilib.bbclass |    2 ++
- meta/conf/multilib.conf       |    1 -
- 2 files changed, 2 insertions(+), 1 deletions(-)
+ .../rpm/rpm/rpm-uuid-include.patch                 |   35 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 +-
+ 2 files changed, 37 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index fb03fca..8187e18 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -7,6 +7,8 @@ python multilib_virtclass_handler () {
-     if cls != "multilib" or not variant:
-         return
- 
-+    e.data.setVar('STAGING_KERNEL_DIR', e.data.getVar('STAGING_KERNEL_DIR', True))
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch b/meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch
+new file mode 100644
+index 0000000..0e45ed7
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-uuid-include.patch
+@@ -0,0 +1,35 @@
++A patch to fix a problem when compiling with uuid.
 +
-     # There should only be one kernel in multilib configs
-     if bb.data.inherits_class('kernel', e.data) or bb.data.inherits_class('module-base', e.data):
-         raise bb.parse.SkipPackage("We shouldn't have multilib variants for the kernel")
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index ea5ed71..b22a4cb 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -6,7 +6,6 @@ MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
++When attempting to build with uuid and all tests compiling will error because
++uuid.h doesn't exist in the rpm tarball. Fix this by changing the include to
++use the one in ossp which solves the issue. 
++
++The recipe already depends on ossp so ossp/uuid.h will be there when rpm-native
++is built.
++
++Signed-off-by: Morgan Little <morgan.little@windriver.com>
++
++
++--- a/lua/local/luuid.c.orig
+++++ b/lua/local/luuid.c
++@@ -21,7 +21,7 @@
++ 
++ #ifdef LUA_USE_UUID
++ 
++-#include "uuid.h"
+++#include <ossp/uuid.h>
++ 
++ /*  Lua method: <uuid> = uuid.generate(<version>[, <uuid-namespace>, <data>])  */
++ static int luuid_generate(lua_State *L)
++
++--- a/rpmio/rpmuuid.c.orig
+++++ b/rpmio/rpmuuid.c
++@@ -16,7 +16,7 @@
++ #include "rpmlog.h"
++ #include "rpmuuid.h"
++ #ifdef WITH_UUID
++-#include "uuid.h"
+++#include <ossp/uuid.h>
++ #endif
++ #include "debug.h"
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 5435445..2a4c8d8 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
- MULTILIBS ??= "multilib:lib32"
+ DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
+-PR = "r48"
++PR = "r49"
  
--STAGING_KERNEL_DIR := "${STAGING_KERNEL_DIR}"
- STAGING_DIR_HOST = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
- STAGING_DIR_TARGET = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
+ # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+ # in order to extract the distribution SRPM into a format we can extract...
+@@ -76,6 +76,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+ 	   file://rpmatch.patch \
+ 	   file://fstack-protector-configure-check.patch \
+ 	   file://dbconvert.patch \
++	   file://rpm-uuid-include.patch \
+ 	  "
  
+ SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
 -- 
 1.7.3.4
 
