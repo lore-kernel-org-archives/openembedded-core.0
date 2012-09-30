@@ -1,11 +1,11 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TI7Mz-0001nj-29
+	(envelope-from <mark.hatle@windriver.com>) id 1TI7Mz-0001no-S3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 30 Sep 2012 02:26:53 +0200
+	Sun, 30 Sep 2012 02:26:54 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q8U0Dvar027492
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q8U0DvBn020480
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 29 Sep 2012 17:13:57 -0700 (PDT)
@@ -14,14 +14,14 @@ Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	Sat, 29 Sep 2012 17:13:57 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 29 Sep 2012 19:19:17 -0500
-Message-ID: <851d6b47cf9ff427c66ae7ac3ab235e693957693.1348963477.git.mark.hatle@windriver.com>
+Date: Sat, 29 Sep 2012 19:19:18 -0500
+Message-ID: <53e86e3f0ccef5ab98d1370912023e67f7e9462b.1348963477.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1348963477.git.mark.hatle@windriver.com>
 References: <cover.1348963477.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 11/12] rpm: Add rpm patch to fix git_strerror issues
+Subject: [PATCH 12/12] rpm: Implement workaround for DB_BUFFER_SMALL error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,108 +34,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Sep 2012 00:26:53 -0000
+X-List-Received-Date: Sun, 30 Sep 2012 00:26:54 -0000
 Content-Type: text/plain
 
-Remove the optimzation append from recipe and add the patch that is in the rpm
-cvs repo, http://www.mail-archive.com/rpm-cvs@rpm5.org/msg08907.html. The -O2
-optimzation append is removed since it can limit debugging options that are
-provided when -O0 is used.
+In certain cases with BerkleyDB 5.3.x we are getting the error:
 
-This was tested by setting: SELECTED_OPTIMIZATION = "-O0"
+db3.c:1443: dbcursor->pget(-30999): BDB0063 DB_BUFFER_SMALL: User memory too small fo
 
-Signed-off-by: Morgan Little <morgan.little@windriver.com>
+See https://bugs.launchpad.net/rpm/+bug/934420 for more information.
+
+It appears to be some type of a bug in the BerkleyDB 5.3.x.  In an attempt
+to workaround the problem, when we encounter this situation we attempt
+to adjust the size of the mmap buffer until the call works, or we
+end up trying 10 times.  The new size is either the updated vp->size
+from the failed pget call, or the previous size + 1024.
+
+If DBI debugging is enabled, additional diagnostics are printed, otherwise
+a basic retry and success message is added to show that the failure was
+resolved.
+
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../rpm/rpm/rpm-stub-out-git_strerror.patch        |   60 ++++++++++++++++++++
+ .../rpm/rpm/rpm-db_buffer_small.patch              |   77 ++++++++++++++++++++
  meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 +-
- 2 files changed, 62 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-stub-out-git_strerror.patch
+ 2 files changed, 79 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-stub-out-git_strerror.patch b/meta/recipes-devtools/rpm/rpm/rpm-stub-out-git_strerror.patch
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch b/meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch
 new file mode 100644
-index 0000000..2cfc163
+index 0000000..d2ed853
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-stub-out-git_strerror.patch
-@@ -0,0 +1,60 @@
-+git: fix: stud-out git_strerror when --without-git
++++ b/meta/recipes-devtools/rpm/rpm/rpm-db_buffer_small.patch
+@@ -0,0 +1,77 @@
++In certain cases with BerkleyDB 5.3.x we are getting the error:
 +
-+Patch taken from the cvs repo,http://www.mail-archive.com/rpm-cvs@rpm5.org/msg08907.html. 
++db3.c:1443: dbcursor->pget(-30999): BDB0063 DB_BUFFER_SMALL: User memory too small for return value
 +
-+Upstream-status: Backport
++See https://bugs.launchpad.net/rpm/+bug/934420 for more information.
 +
-+Signed-off-by: Morgan Little <morgan.little@windriver.com>
++It appears to be some type of a bug in the BerkleyDB 5.3.x.  In an attempt
++to workaround the problem, when we encounter this situation we attempt
++to adjust the size of the mmap buffer until the call works, or we
++end up trying 10 times.  The new size is either the updated vp->size
++from the failed pget call, or the previous size + 1024.
 +
-+Server: rpm5.org                         Name:   Jeff Johnson
-+Root:   /v/rpm/cvs                       Email:  j...@rpm5.org
-+Module: rpm                              Date:   07-Jun-2012 16:17:02
-+Branch: rpm-5_4                          Handle: 2012060714165803
++If DBI debugging is enabled, additional diagnostics are printed, otherwise
++a basic retry and success message is added to show that the failure was
++resolved.
 +
-+Modified files:           (Branch: rpm-5_4)
-+  rpm                     CHANGES
-+  rpm/rpmio               rpmgit.c tgit.c
++Upstream-status: Inappropriate (workaround)
 +
-+Log:
-+  - git: fix: stub-out git_strerror when --without-git.
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +
-+Summary:
-+  Revision    Changes     Path
-+  2.1.2.11    +3  -1      rpm/rpmio/rpmgit.c
-+  1.1.2.7     +0  -1      rpm/rpmio/tgit.c
-+____________________________________________________________________________
-+Index: rpm/rpmio/rpmgit.c
-+============================================================================
-+--- rpm/rpmio/rpmgit.c
-++++ rpm/rpmio/rpmgit.c
-+@@ -145,6 +145,9 @@
-+ #endif       /* defined(WITH_LIBGT2) */
-+ 
-+ /*==============================================================*/
-++#if !defined(WITH_LIBGIT2)
-++#define      git_strerror(_rc) ""
-++#endif
-+ 
-+ static int Xchkgit(/*@unused@*/ rpmgit git, const char * msg,
-+                 int error, int printit,
-+@@ -157,7 +157,6 @@
-+     int rc = error;
-+ 
-+     if (printit && rc) {
-+-	/* XXX git_strerror? */
-+         rpmlog(RPMLOG_ERR, "%s:%s:%u: %s(%d): %s\n",
-+                 func, fn, ln, msg, rc, git_strerror(rc));
++Index: rpm-5.4.9/rpmdb/rpmdb.c
++===================================================================
++--- rpm-5.4.9.orig/rpmdb/rpmdb.c
+++++ rpm-5.4.9/rpmdb/rpmdb.c
++@@ -2212,8 +2212,12 @@ static int rpmmiGet(dbiIndex dbi, DBC * 
++ 	vp->flags |= DB_DBT_USERMEM;
++ 	rc = dbiGet(dbi, dbcursor, kp, vp, flags);
++ 	if (rc == DB_BUFFER_SMALL) {
+++	    int retry = 0;
+++	    size_t origlen = vp->size;
++ 	    size_t uhlen = vp->size;
++-	    void * uh = mmap(NULL, uhlen, _prot, _flags, _fdno, _off);
+++	    void * uh;
+++retry_get:
+++	    uh = mmap(NULL, uhlen, _prot, _flags, _fdno, _off);
++ 	    if (uh == NULL || uh == (void *)-1)
++ 		fprintf(stderr,
++ 		    "==> mmap(%p[%u], 0x%x, 0x%x, %d, 0x%x) error(%d): %s\n",
++@@ -2235,6 +2239,25 @@ static int rpmmiGet(dbiIndex dbi, DBC * 
++ 		if (munmap(uh, uhlen) != 0)
++ 		    fprintf(stderr, "==> munmap(%p[%u]) error(%d): %s\n",
++                 	uh, (unsigned)uhlen, errno, strerror(errno));
+++	        /* We want to be sure to limit the number of retry attempts to avoid a loop! */
+++	        if (rc == DB_BUFFER_SMALL && retry < 10) {
+++		   /* If we got a largr vp-size back, use that, otherwise increment the size by 1k */
+++	           uhlen = vp->size > uhlen ? vp->size : uhlen + 1024;
+++		   retry++;
+++	           if ((dbi)->dbi_debug)
+++	               fprintf(stderr, "==> DB_BUFFER_SMALL orig requested (%d), configured (%d), forcing larger buffer (%d), new size (%d)\n",
+++	                    origlen, vp->ulen, uhlen, vp->size);
+++	           else
+++	               fprintf(stderr, "==> retry (%d) db3cpget (%d)\n", retry, uhlen);
+++	           goto retry_get;
+++	        }
+++	    }
+++	    if (retry) {
+++	        if ((dbi)->dbi_debug)
+++	           fprintf(stderr, "==> success orig requested (%d), configured buffer (%d), buffer (%d), size after dbiGet (%d)\n",
+++			origlen, vp->ulen, uhlen, vp->size);
+++	        else
+++	           fprintf(stderr, "==> success\n");
++ 	    }
++ 	}
++     } else
++Index: rpm-5.4.9/rpmdb/db3.c
++===================================================================
++--- rpm-5.4.9.orig/rpmdb/db3.c
+++++ rpm-5.4.9/rpmdb/db3.c
++@@ -1452,7 +1452,7 @@ assert(db != NULL);
++ #endif
 +     }
-+Index: rpm/rpmio/tgit.c
-+============================================================================
-+--- rpm/rpmio/tgit.c
-++++ rpm/rpmio/tgit.c
-+@@ -34,7 +34,6 @@
-+     int rc = error;
 + 
-+     if (printit && rc) {
-+-	/* XXX git_strerror? */
-+         rpmlog(RPMLOG_ERR, "%s:%s:%u: %s(%d): %s\n",
-+                 func, fn, ln, msg, rc, git_strerror(rc));
-+     }
-+
++-DBIDEBUG(dbi, (stderr, "<-- %s(%p,%p,%p,%p,%p,0x%x) rc %d %s%s\n", __FUNCTION__, dbi, dbcursor, key, pkey, data, flags, rc, _DBCFLAGS(flags), _KEYDATA(key, pkey, data, NULL)));
+++DBIDEBUG(dbi, (stderr, "<-- %s(%p,%p,%p,%p,%p,0x%x) rc %d %s%s\n", __FUNCTION__, dbi, dbcursor, key, pkey, data, flags, rc, _DBCFLAGS(flags), _KEYDATA(key, pkey, rc == DB_BUFFER_SMALL ? NULL : data, NULL)));
++     return rc;
++ }
++ /*@=mustmod@*/
 diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 4aea2f6..dda5611 100644
+index dda5611..2dbdf54 100644
 --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
 +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
 @@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
  DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
--PR = "r50"
-+PR = "r51"
+-PR = "r51"
++PR = "r52"
  
  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
  # in order to extract the distribution SRPM into a format we can extract...
-@@ -78,6 +78,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
- 	   file://dbconvert.patch \
+@@ -79,6 +79,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
  	   file://rpm-uuid-include.patch \
  	   file://makefile-am-exec-hook.path \
-+	   file://rpm-stub-out-git_strerror.patch \
+ 	   file://rpm-stub-out-git_strerror.patch \
++	   file://rpm-db_buffer_small.patch \
  	  "
  
  SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
