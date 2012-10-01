@@ -1,38 +1,30 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TIhEG-00086U-84
+	(envelope-from <mark.hatle@windriver.com>) id 1TIhZg-00012s-Pz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 16:44:16 +0200
-Received: by wgbdq11 with SMTP id dq11so3355576wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Oct 2012 07:31:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=3VJQGarXkim908FkX68OuswpxIFjc8hIFLLI4FnsA98=;
-	b=QPrYsBukAFMeEqZMVuZ35mYaHoRcLqdN3wiwmZavuyreLK9KMKHwjJEheAtkcbRXgP
-	aYug8z2gOOoZ2i98iGvMJ5KoSrYB/rAv8PaInNEvBReujtkup/xRNTpkpnkxH7YNj7Ry
-	vW9oUbFKjAbs4tEXOU7bx/8xW3HzpJOnVtO1mzSsMbNUGeUZ3Wp4mOj+Fq5ovG8UZlVB
-	nz6KymFcw2KoUfEogYgIrNF0GSh0L/JHJMhImArng/SefmDUTFlyvxjUaX7OVuecghHa
-	KVaXxlOgGMUmozWGtzV/AHd63TvrgTMBeHBs4wA4Kns9vX+VEPQdd6QmbWb0pDMkyK8+
-	b/rg==
-Received: by 10.216.212.66 with SMTP id x44mr3523492weo.123.1349101878987;
-	Mon, 01 Oct 2012 07:31:18 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id dm3sm18901166wib.3.2012.10.01.07.31.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 01 Oct 2012 07:31:17 -0700 (PDT)
-Date: Mon, 1 Oct 2012 16:31:08 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121001143108.GD3454@jama.jama.net>
-References: <cover.1348697518.git.Martin.Jansa@gmail.com>
-	<20120928164309.GA3049@jama.jama.net>
-	<20120930201818.GC3419@jama.jama.net>
+	Mon, 01 Oct 2012 17:06:25 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q91ErOFT011137
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Oct 2012 07:53:24 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 1 Oct 2012 07:53:23 -0700
+Message-ID: <5069AE63.7020807@windriver.com>
+Date: Mon, 1 Oct 2012 09:53:23 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
 MIME-Version: 1.0
-In-Reply-To: <20120930201818.GC3419@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 00/10] qt4: upgrade to 4.8.3 and cleanup
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1348963477.git.mark.hatle@windriver.com>
+	<81b24042824b81344141c7dcaffbfe74354bc635.1348963477.git.mark.hatle@windriver.com>
+	<1349096953.15753.97.camel@ted>
+In-Reply-To: <1349096953.15753.97.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 04/12] bb.utils.explode_dep_versions: Update to ensure we avoid duplicate deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,229 +37,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 14:44:16 -0000
-X-Groupsio-MsgNum: 30176
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EP0wieDxd4TSJjHq"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 01 Oct 2012 15:06:25 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---EP0wieDxd4TSJjHq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/1/12 8:09 AM, Richard Purdie wrote:
+> On Sat, 2012-09-29 at 19:19 -0500, Mark Hatle wrote:
+>> Due to a recent change in bb.utils.explode_dep_version, we need to make
+>> sure that we do not have any duplicates in things that use
+>> explode_dep_versions.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> ---
+>>   meta/classes/insane.bbclass      |   55 +++++++++++++++++++++++++++++++++-
+>>   meta/classes/kernel.bbclass      |   20 +++++++-----
+>>   meta/classes/libc-common.bbclass |   13 ++++++--
+>>   meta/classes/package.bbclass     |   20 ++++++++++--
+>>   meta/classes/package_rpm.bbclass |   61 +++++++++++++++++++++-----------------
+>>   5 files changed, 125 insertions(+), 44 deletions(-)
+>>
+>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+>> index 1fb8970..17d887a 100644
+>> --- a/meta/classes/insane.bbclass
+>> +++ b/meta/classes/insane.bbclass
+>> @@ -114,7 +114,7 @@ def package_qa_get_machine_dict():
+>>
+>>   # Currently not being used by default "desktop"
+>>   WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir"
+>> -ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+>> +ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
+>>
+>>   ALL_QA = "${WARN_QA} ${ERROR_QA}"
+>>
+>> @@ -659,6 +659,54 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, d):
+>>
+>>       return sane
+>>
+>> +def package_qa_check_deps(pkg, pkgdest, skip, d):
+>> +    sane = True
+>> +
+>> +    # Copied from package_ipk.bbclass
+>> +    # boiler plate to update the data
+>> +    localdata = bb.data.createCopy(d)
+>> +    root = "%s/%s" % (pkgdest, pkg)
+>> +
+>> +    localdata.setVar('ROOT', '')
+>> +    localdata.setVar('ROOT_%s' % pkg, root)
+>
+>
+> Nothing here uses ROOT or root so these can be removed?
+>
+>> +    pkgname = localdata.getVar('PKG_%s' % pkg, True)
+>> +    if not pkgname:
+>> +        pkgname = pkg
+>> +    localdata.setVar('PKG', pkgname)
+>
+> Again, these look surplus to requirements?
+>
+>> +    localdata.setVar('OVERRIDES', pkg)
+>> +
+>> +    bb.data.update_data(localdata)
+>> +
 
-On Sun, Sep 30, 2012 at 10:18:18PM +0200, Martin Jansa wrote:
-> On Fri, Sep 28, 2012 at 06:43:09PM +0200, Martin Jansa wrote:
-> > On Thu, Sep 27, 2012 at 12:27:05AM +0200, Martin Jansa wrote:
-> > > Please test on more architectures.
-> > > I've tested complete qt4-native + qt4-free-x11 on armv4t.
-> > > And only do_patch for nativesdk-qt4-tools, qt-mobility-*, qt4-embedde=
-d.
-> >=20
-> > I've finished testing qt4-free-x11 on armv7a, x86_64 and armv5te +
-> > qt-mobility-x11 on armv4t and armv7a.
-> >=20
-> > Only python-pyqt_4.8.4.bb from meta-oe is failing with that, probably
-> > needs to be updated to 4.9.2 or something like that.
->=20
-> This seems to be caused by missing webkit support in qt4-4.8.3.
-> python-pyqt-4.9.4 and 4.9.5 fails the same.
->=20
-> Configure ignores -webkit and says that webkit won't be built I've found
-> some bug reports upstream but those were resolved by forcing xrender
-> support which doesn't help in our case..
+I'll get this fixed and resubmitted.
 
-Found it, jansa/qt4-4.8.3 updated and 4.8.3 now added with negative D_P
-instead of replacing 4.8.1, will send v2 tonight.
+--Mark
 
-Cheers,
-
-> > Should I resend only 4.8.1 cleanup without adding 4.8.3 or with 4.8.3=
-=20
-> > having negative D_P?
-> >=20
-> > Cheers,
-> >=20
-> > >=20
-> > > The following changes since commit 938d07871bedd91f0d95ed6fe338ecbfaf=
-a5ebfe:
-> > >=20
-> > >   busybox: Fix misplaced quote (2012-09-26 18:28:17 +0100)
-> > >=20
-> > > are available in the git repository at:
-> > >=20
-> > >   git://git.openembedded.org/openembedded-core-contrib jansa/qt4-4.8.3
-> > >   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log=
-/?h=3Djansa/qt4-4.8.3
-> > >=20
-> > > Martin Jansa (10):
-> > >   qt4-tools-nativesdk.inc: rename to nativesdk-qt4-tools.inc
-> > >   qt4: use releases.qt-project.org instead of get.qt.nokia.com
-> > >   qt4: rename qt-4.8.1 to qt4-4.8.1 to match other .inc and .bb
-> > >   qt4.inc: move more options to separate variables
-> > >   qt-mobility: move qt-mobility patches to separate dir
-> > >   qt4: move patches from files to qt4-4.8.1
-> > >   qt4: drop patches not used in any recipe
-> > >   qt4: replace all local patches with git patches with headers
-> > >   qt4: PR bumps
-> > >   qt4: upgrade to 4.8.3
-> > >=20
-> > >  meta/recipes-qt/qt4/files/0004-no-qmake.patch      | 27 ------
-> > >  meta/recipes-qt/qt4/files/0008-qt-lib-infix.patch  | 41 ----------
-> > >  .../qt4/files/blacklist-diginotar-certs.diff       | 95 ------------=
-----------
-> > >  .../recipes-qt/qt4/files/compile.test-lflags.patch | 17 ----
-> > >  meta/recipes-qt/qt4/files/fix-config-tests.patch   | 38 ---------
-> > >  ...tools-nativesdk.inc =3D> nativesdk-qt4-tools.inc} | 18 ++--
-> > >  meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.1.bb   |  8 --
-> > >  meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.3.bb   |  8 ++
-> > >  .../qt4/qt-4.8.1/fix_conflicting_types.patch       | 29 -------
-> > >  meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch       | 35 --------
-> > >  meta/recipes-qt/qt4/qt-4.8.1/qmake_cxx_eval.patch  | 22 -----
-> > >  ...stvideoconnector-fixed-buffers-allocation.patch |  0
-> > >  ...nnecessary-rpaths-from-qml_device-example.patch |  0
-> > >  .../{files =3D> qt-mobility-1.2.0}/gcc-scope.patch   |  0
-> > >  .../qt-mobility-configure.patch                    |  0
-> > >  .../qt-mobility-no-opengl.patch                    |  0
-> > >  meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |  3 +-
-> > >  .../recipes-qt/qt4/{qt-4.8.1.inc =3D> qt4-4.8.3.inc} | 41 +++++-----
-> > >  ...-allow-to-set-qt.conf-from-the-outside-u.patch} | 28 +++++--
-> > >  ...ty_qws-fix-build-with-old-kernel-headers.patch} | 21 ++++-
-> > >  ...03-webkit2-set-OUTPUT_DIR-value-if-empty.patch} | 21 ++++-
-> > >  ...make-is-already-built-in-qt4-tools-native.patch | 29 +++++++
-> > >  ...-set-LFLAGS-to-pick-up-zlib-from-staging.patch} | 24 ++++--
-> > >  ...e-OE_QMAKE_-values-to-specify-Qt-utility.patch} | 26 ++++--
-> > >  ...const-usage-that-causes-compile-failure-.patch} | 26 ++++--
-> > >  ...low-building-a-separate-qmake-for-the-ta.patch} | 20 +++--
-> > >  ...-fix-source-file-references-in-qmake.pri.patch} | 15 ++--
-> > >  ...ck-to-not-use-the-pg_config-of-the-host-.patch} | 25 ++++--
-> > >  .../0011-freetype-host-includes.patch}             | 20 +++--
-> > >  .../0012-Add-2bpp-support.patch}                   | 76 ++++++++++--=
------
-> > >  .../0013-configure-add-crossarch-option.patch}     | 36 ++++----
-> > >  ...ions-fix-phony-translation-linking-error.patch} | 19 +++--
-> > >  ...configure-add-nostrip-for-debug-packages.patch} | 15 +++-
-> > >  ...sure-we-identify-the-compiler-as-g-in-co.patch} | 27 ++++--
-> > >  ...re-make-pulseaudio-a-configurable-option.patch} | 17 ++--
-> > >  ...es-for-gcc-4.7.0-particularly-on-qemux86.patch} | 45 ++++++----
-> > >  ...019-webkit-disable-the-fuse-ld-gold-flag.patch} | 23 ++++--
-> > >  .../qt4/{qt-4.8.1 =3D> qt4-4.8.3}/g++.conf           |  0
-> > >  .../qt4/{qt-4.8.1 =3D> qt4-4.8.3}/linux.conf         |  0
-> > >  meta/recipes-qt/qt4/{files =3D> qt4-4.8.3}/qte.sh    |  0
-> > >  meta/recipes-qt/qt4/qt4-embedded.inc               |  2 +-
-> > >  ...qt4-embedded_4.8.1.bb =3D> qt4-embedded_4.8.3.bb} |  4 +-
-> > >  meta/recipes-qt/qt4/qt4-native.inc                 | 10 +--
-> > >  meta/recipes-qt/qt4/qt4-native_4.8.1.bb            | 12 ---
-> > >  meta/recipes-qt/qt4/qt4-native_4.8.3.bb            |  8 ++
-> > >  meta/recipes-qt/qt4/qt4-x11-free.inc               |  2 +-
-> > >  ...qt4-x11-free_4.8.1.bb =3D> qt4-x11-free_4.8.3.bb} |  4 +-
-> > >  meta/recipes-qt/qt4/qt4.inc                        | 19 ++++-
-> > >  48 files changed, 427 insertions(+), 529 deletions(-)
-> > >  delete mode 100644 meta/recipes-qt/qt4/files/0004-no-qmake.patch
-> > >  delete mode 100644 meta/recipes-qt/qt4/files/0008-qt-lib-infix.patch
-> > >  delete mode 100644 meta/recipes-qt/qt4/files/blacklist-diginotar-cer=
-ts.diff
-> > >  delete mode 100644 meta/recipes-qt/qt4/files/compile.test-lflags.pat=
-ch
-> > >  delete mode 100644 meta/recipes-qt/qt4/files/fix-config-tests.patch
-> > >  rename meta/recipes-qt/qt4/{qt4-tools-nativesdk.inc =3D> nativesdk-q=
-t4-tools.inc} (83%)
-> > >  delete mode 100644 meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.1.bb
-> > >  create mode 100644 meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.3.bb
-> > >  delete mode 100644 meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_type=
-s.patch
-> > >  delete mode 100644 meta/recipes-qt/qt4/qt-4.8.1/gcc47-fix.patch
-> > >  delete mode 100644 meta/recipes-qt/qt4/qt-4.8.1/qmake_cxx_eval.patch
-> > >  rename meta/recipes-qt/qt4/{files =3D> qt-mobility-1.2.0}/0001-gstvi=
-deoconnector-fixed-buffers-allocation.patch (100%)
-> > >  rename meta/recipes-qt/qt4/{files =3D> qt-mobility-1.2.0}/0002-Remov=
-e-unnecessary-rpaths-from-qml_device-example.patch (100%)
-> > >  rename meta/recipes-qt/qt4/{files =3D> qt-mobility-1.2.0}/gcc-scope.=
-patch (100%)
-> > >  rename meta/recipes-qt/qt4/{files =3D> qt-mobility-1.2.0}/qt-mobilit=
-y-configure.patch (100%)
-> > >  rename meta/recipes-qt/qt4/{files =3D> qt-mobility-1.2.0}/qt-mobilit=
-y-no-opengl.patch (100%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1.inc =3D> qt4-4.8.3.inc} (50%)
-> > >  rename meta/recipes-qt/qt4/{files/qt-config.patch =3D> qt4-4.8.3/000=
-1-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch} (49%)
-> > >  rename meta/recipes-qt/qt4/{files/fix_qkbdtty_qws.patch =3D> qt4-4.8=
-=2E3/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch} (68%)
-> > >  rename meta/recipes-qt/qt4/{files/set-OUTPUT_DIR-if-empty.patch =3D>=
- qt4-4.8.3/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch} (48%)
-> > >  create mode 100644 meta/recipes-qt/qt4/qt4-4.8.3/0004-configure-qmak=
-e-is-already-built-in-qt4-tools-native.patch
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/configure-lflags.patch =3D> qt4=
--4.8.3/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch} (46%)
-> > >  rename meta/recipes-qt/qt4/{files/configure-paths.patch =3D> qt4-4.8=
-=2E3/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch} (58%)
-> > >  rename meta/recipes-qt/qt4/{files/qt-dbus-const.patch =3D> qt4-4.8.3=
-/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch} (52%)
-> > >  rename meta/recipes-qt/qt4/{files/target_qmake.patch =3D> qt4-4.8.3/=
-0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch} (57%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/qmake_pri_fixes.patch =3D> qt4-=
-4.8.3/0009-qmake-fix-source-file-references-in-qmake.pri.patch} (81%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/hack-out-pg2-4.7.0.patch =3D> q=
-t4-4.8.3/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch} (=
-68%)
-> > >  rename meta/recipes-qt/qt4/{files/0006-freetype-host-includes.patch =
-=3D> qt4-4.8.3/0011-freetype-host-includes.patch} (50%)
-> > >  rename meta/recipes-qt/qt4/{files/0009-support-2bpp.patch =3D> qt4-4=
-=2E8.3/0012-Add-2bpp-support.patch} (83%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/0001-Added-Openembedded-crossar=
-ch-option.patch =3D> qt4-4.8.3/0013-configure-add-crossarch-option.patch} (=
-49%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/fix-translations.patch =3D> qt4=
--4.8.3/0014-translations-fix-phony-translation-linking-error.patch} (63%)
-> > >  rename meta/recipes-qt/qt4/{files/add_nostrip_for_debug_packages.dif=
-f =3D> qt4-4.8.3/0015-configure-add-nostrip-for-debug-packages.patch} (57%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/configure_oe_compiler.patch =3D=
-> qt4-4.8.3/0016-configure-ensure-we-identify-the-compiler-as-g-in-co.patch=
-} (60%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/pulseaudio-config.patch =3D> qt=
-4-4.8.3/0017-configure-make-pulseaudio-a-configurable-option.patch} (85%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/gcc47-fix2.patch =3D> qt4-4.8.3=
-/0018-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch} (46%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1/disable-fuse-gold-flag.patch =
-=3D> qt4-4.8.3/0019-webkit-disable-the-fuse-ld-gold-flag.patch} (46%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1 =3D> qt4-4.8.3}/g++.conf (100%)
-> > >  rename meta/recipes-qt/qt4/{qt-4.8.1 =3D> qt4-4.8.3}/linux.conf (100=
-%)
-> > >  rename meta/recipes-qt/qt4/{files =3D> qt4-4.8.3}/qte.sh (100%)
-> > >  rename meta/recipes-qt/qt4/{qt4-embedded_4.8.1.bb =3D> qt4-embedded_=
-4.8.3.bb} (73%)
-> > >  delete mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.1.bb
-> > >  create mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.3.bb
-> > >  rename meta/recipes-qt/qt4/{qt4-x11-free_4.8.1.bb =3D> qt4-x11-free_=
-4.8.3.bb} (75%)
-> > >=20
-> > > --=20
-> > > 1.7.12
-> > >=20
-> >=20
-> > --=20
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->=20
->=20
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> Cheers,
+>
+> Richard
+>
 
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EP0wieDxd4TSJjHq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlBpqSwACgkQN1Ujt2V2gBwVKACfZUmI9thQyYjl58xYmVFfaguq
-W3AAni+Db65DZUGY7TCVYZsNuY+/08kE
-=Uc9F
------END PGP SIGNATURE-----
-
---EP0wieDxd4TSJjHq--
