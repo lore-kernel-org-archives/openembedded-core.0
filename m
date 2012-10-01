@@ -1,26 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TIeiD-0004Hc-F2
+	(envelope-from <ross.burton@intel.com>) id 1TIep7-0004OZ-Ow
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 14:03:01 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TIeVi-0006fR-El; Mon, 01 Oct 2012 13:50:06 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 01 Oct 2012 12:50:03 +0100
-In-Reply-To: <20120924192845.GE3295@jama.jama.net>
-References: <1348501103.31293.51.camel@phil-desktop>
-	<50607F4E.5040300@linux.intel.com>
-	<1348503778.31293.52.camel@phil-desktop>
-	<20120924192845.GE3295@jama.jama.net>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1349092206.32611.57.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: work-shared not being correctly shared
+	Mon, 01 Oct 2012 14:10:09 +0200
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 01 Oct 2012 04:57:11 -0700
+Received: by weyt44 with SMTP id t44so2863048wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Oct 2012 04:57:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=n6wlCtG3mpEsbWY4AP9knvgwsb5H16vjAt5fZjJnI+E=;
+	b=SfoxDdbvgxmIG9kJ2A0pgNLPAV8pewczkF2cxse4zyOdkcvDK17/lrnVHag7wG7LG5
+	wSWaEBbnewRioECU8n7DBC5h7+51MuqXuPTTbwmaZJXu45z1jRgFn1jXr//hzQEAV2zo
+	KCY9icQQJtBebt4NpypZFnfmNRUu8bZQd05D34qEyrn1SMMaGTiYK1LsF4Flra090z/j
+	AMA6Cy+OX/gLXjqasIVDC4Rvs85u/2Y6GvPO6WZarqSJ6iYoVR6Ghq4/VMqusT2gFXQF
+	GgytI9O3d6v6XgoJuYIXJNqXdsRBIghiTZJbUlQSK4h2uMKtgcJ2yyk9rCM0gSVwvZGu
+	SGWQ==
+Received: by 10.180.87.132 with SMTP id ay4mr3645810wib.5.1349092629406;
+	Mon, 01 Oct 2012 04:57:09 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id cn6sm18253009wib.9.2012.10.01.04.57.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 01 Oct 2012 04:57:08 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Oct 2012 12:56:09 +0100
+Message-Id: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmN7drj+ykcIvlVrQKDGw/A/drTC1VBQOw2hOEO7WDVCjr5o2TH0e2FjGtfxxqBl28kNQ1b
+Subject: [PATCH] libdrm: Remove Cairo dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 12:03:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Oct 2012 12:10:10 -0000
 
-On Mon, 2012-09-24 at 21:28 +0200, Martin Jansa wrote:
-> On Mon, Sep 24, 2012 at 05:22:57PM +0100, Phil Blundell wrote:
-> > On Mon, 2012-09-24 at 08:42 -0700, Saul Wold wrote:
-> > > Yes, I am seeing something similar with do_patch happening twice on the 
-> > > work-shared area, I talked with Richard a bit ago about it, and I am 
-> > > digging into the siginfo files, you can use bitbake-sigdiff to see what 
-> > > sigs are changed causing it unpack twice (or in my case patch twice).
-> > 
-> > Ah, right, it seems to be rm_old_work that's causing the problem.  I'll
-> > disable that for now and figure out how to fix it later.
-> 
-> That was already discussed few weeks ago, you should be able to find it
-> in archive.
+From: Daniel Stone <daniel@fooishbar.org>
 
-I found this thread:
+This causes a build loop, when DRM depends on Cairo depends on Mesa
+depends on DRM.  We can safely remove it as it's only one libdrm example
+program which uses Cairo, which we won't be needing.  At least it's not
+worth the build loop.
 
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026185.html
+Signed-off-by: Daniel Stone <daniel@fooishbar.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/drm/libdrm.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-but there didn't appear to be any clear conclusion about what the right
-fix for the problem was.  Does anybody have any further insight into
-that?
-
-p.
-
+diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
+index 5ddab85..cc09791 100644
+--- a/meta/recipes-graphics/drm/libdrm.inc
++++ b/meta/recipes-graphics/drm/libdrm.inc
+@@ -9,9 +9,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
+ SRC_URI = "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
+ PROVIDES = "drm"
+-DEPENDS = "libpthread-stubs udev cairo"
++DEPENDS = "libpthread-stubs udev"
+ 
+-INC_PR = "r2"
++INC_PR = "r3"
+ 
+ #libpciaccess is required starting from libdrm 2.4.26
+ DEPENDS += " libpciaccess"
+-- 
+1.7.10
 
 
 
