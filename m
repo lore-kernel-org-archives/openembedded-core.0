@@ -1,21 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TIif1-0002zn-OP
+	(envelope-from <ross.burton@intel.com>) id 1TIixj-00044j-Ep
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 18:16:00 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TIiSW-0006sH-SN
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 18:03:04 +0200
-From: Phil Blundell <philb@gnu.org>
+	Mon, 01 Oct 2012 18:35:21 +0200
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 Oct 2012 09:22:07 -0700
+Received: by mail-wi0-f171.google.com with SMTP id hj13so2417703wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Oct 2012 09:22:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=yFYVc5Beg2iDe45KE8kygXXk+flpoGvn0gmIevyKfQ0=;
+	b=cYXLO43LvVKx3eJJxLgQPit4aEFAKEn62vjgF8VQ2cfjxW4/UFAy2qpvqN6ZYMK/cF
+	XqBI6dU6vfG7YM8GC0DfLLfx3BQmu3mL1Etcbhd3k6xhD5xiPe3cpqOsailoA6SJNask
+	wmmYnEQ0WtsOR3akKIGIEFY3vSY6yQ3im7MODXIxC8QvIhfAoYbcZ+D68CCCcO2cAS16
+	X+VT3eV8iZ8b0rMInLg75nvzsji3b9gmZnC4GieOlLBfPACiKKYBcvSB0V0O+7MX8WMO
+	oJhauQf5ZnqNuIg9P2/CEbqpQUixzHBYnBvWEEsqxSgM9iIZYkhXMFkkDUwC58JgrtMB
+	OMdw==
+Received: by 10.180.84.202 with SMTP id b10mr15755608wiz.13.1349108522312;
+	Mon, 01 Oct 2012 09:22:02 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ga2sm19364994wib.2.2012.10.01.09.22.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 01 Oct 2012 09:22:01 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 01 Oct 2012 17:03:04 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1349107384.32611.62.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] recipe_sanity: Don't bother checking LICENSE
+Date: Mon,  1 Oct 2012 17:20:59 +0100
+Message-Id: <1349108459-16408-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlbI4okiu7Y53SxrokTKhau35qwrKxzPshBdPDmJOc3oRMFhDP6+H0mI7r17xV0O+hfSi4C
+Subject: [PATCH] libpcap: add dependency on libnl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,57 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 16:16:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Oct 2012 16:35:22 -0000
 
-Since e3d7890cace71b0a57d2530bf615a58dcb46d96f or so, base.bbclass has
-considered invalid LICENSE settings to be a fatal error.  This means we
-will never see them so there is no point checking for that.
+libpcap uses libnl on Linux to support sniffing mac80211 devices, which could be
+useful.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/recipe_sanity.bbclass |    9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ meta/recipes-connectivity/libpcap/libpcap.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
-index c3bd0d2..bf378ea 100644
---- a/meta/classes/recipe_sanity.bbclass
-+++ b/meta/classes/recipe_sanity.bbclass
-@@ -13,7 +13,7 @@ def bad_runtime_vars(cfgdata, d):
-             __note("%s should be %s_${PN}" % (var, var), d)
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index 7d4e841..5381ef0 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -8,12 +8,12 @@ SECTION = "libs/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+                     file://pcap.h;beginline=1;endline=34;md5=8d6cf7e17d5745010d633e30bc529ea9"
+-DEPENDS = "flex-native bison-native"
++DEPENDS = "flex-native bison-native libnl"
  
- __recipe_sanity_reqvars = "DESCRIPTION"
--__recipe_sanity_reqdiffvars = "LICENSE"
-+__recipe_sanity_reqdiffvars = ""
- def req_vars(cfgdata, d):
-     for var in d.getVar("__recipe_sanity_reqvars", True).split():
-         if not d.getVar(var, 0):
-@@ -23,11 +23,6 @@ def req_vars(cfgdata, d):
-         val = d.getVar(var, 0)
-         cfgval = cfgdata.get(var)
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+ PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
  
--        # Hardcoding is bad, but I'm lazy.  We don't care about license being
--        # unset if the recipe has no sources!
--        if var == "LICENSE" and d.getVar("SRC_URI", True) == cfgdata.get("SRC_URI"):
--            continue
--
-         if not val:
-             __note("%s should be set" % var, d)
-         elif val == cfgval:
-@@ -93,7 +88,7 @@ def can_remove_FILESDIR(cfgdata, d):
-             expanded == d.expand(expected))
+-INC_PR = "r2"
++INC_PR = "r3"
  
- def can_remove_others(p, cfgdata, d):
--    for k in ["S", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
-+    for k in ["S", "PV", "PN", "DESCRIPTION", "DEPENDS",
-               "SECTION", "PACKAGES", "EXTRA_OECONF", "EXTRA_OEMAKE"]:
-     #for k in cfgdata:
-         unexpanded = d.getVar(k, 0)
+ SRC_URI = "http://www.tcpdump.org/release/libpcap-${PV}.tar.gz"
+ 
 -- 
-1.7.10.4
-
-
+1.7.10
 
 
 
