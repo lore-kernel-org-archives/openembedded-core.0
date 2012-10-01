@@ -1,32 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TIhk3-0001LB-Rl for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 17:17:08 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q91F4AGM003912;
-	Mon, 1 Oct 2012 16:04:10 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03678-02; Mon,  1 Oct 2012 16:04:06 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q91F406S003906
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 1 Oct 2012 16:04:01 +0100
-Message-ID: <1349103842.15753.105.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TIhx1-0001eC-O7
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Oct 2012 17:30:31 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 01 Oct 2012 08:17:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,517,1344236400"; d="scan'208";a="217568784"
+Received: from unknown (HELO [10.252.122.42]) ([10.252.122.42])
+	by orsmga002.jf.intel.com with ESMTP; 01 Oct 2012 08:17:31 -0700
+Message-ID: <5069B40A.5090902@intel.com>
+Date: Mon, 01 Oct 2012 18:17:30 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
 To: Mark Hatle <mark.hatle@windriver.com>
-Date: Mon, 01 Oct 2012 16:04:02 +0100
-In-Reply-To: <5069AE63.7020807@windriver.com>
 References: <cover.1348963477.git.mark.hatle@windriver.com>
-	<81b24042824b81344141c7dcaffbfe74354bc635.1348963477.git.mark.hatle@windriver.com>
-	<1349096953.15753.97.camel@ted> <5069AE63.7020807@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<0a88f460fef5d86e2a3ec4158498f025c836cfa9.1348963477.git.mark.hatle@windriver.com>
+	<1349097436.15753.99.camel@ted> <5069AEFF.5080707@windriver.com>
+In-Reply-To: <5069AEFF.5080707@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 04/12] bb.utils.explode_dep_versions: Update to ensure we avoid duplicate deps
+Subject: Re: [PATCH 03/12] populate_sdk_base: Update extraction script for multilibs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,86 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 15:17:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 01 Oct 2012 15:30:32 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-10-01 at 09:53 -0500, Mark Hatle wrote:
-> On 10/1/12 8:09 AM, Richard Purdie wrote:
-> > On Sat, 2012-09-29 at 19:19 -0500, Mark Hatle wrote:
-> >> Due to a recent change in bb.utils.explode_dep_version, we need to make
-> >> sure that we do not have any duplicates in things that use
-> >> explode_dep_versions.
-> >>
-> >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> >> ---
-> >>   meta/classes/insane.bbclass      |   55 +++++++++++++++++++++++++++++++++-
-> >>   meta/classes/kernel.bbclass      |   20 +++++++-----
-> >>   meta/classes/libc-common.bbclass |   13 ++++++--
-> >>   meta/classes/package.bbclass     |   20 ++++++++++--
-> >>   meta/classes/package_rpm.bbclass |   61 +++++++++++++++++++++-----------------
-> >>   5 files changed, 125 insertions(+), 44 deletions(-)
-> >>
-> >> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> >> index 1fb8970..17d887a 100644
-> >> --- a/meta/classes/insane.bbclass
-> >> +++ b/meta/classes/insane.bbclass
-> >> @@ -114,7 +114,7 @@ def package_qa_get_machine_dict():
-> >>
-> >>   # Currently not being used by default "desktop"
-> >>   WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir"
-> >> -ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
-> >> +ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
-> >>
-> >>   ALL_QA = "${WARN_QA} ${ERROR_QA}"
-> >>
-> >> @@ -659,6 +659,54 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, d):
-> >>
-> >>       return sane
-> >>
-> >> +def package_qa_check_deps(pkg, pkgdest, skip, d):
-> >> +    sane = True
-> >> +
-> >> +    # Copied from package_ipk.bbclass
-> >> +    # boiler plate to update the data
-> >> +    localdata = bb.data.createCopy(d)
-> >> +    root = "%s/%s" % (pkgdest, pkg)
-> >> +
-> >> +    localdata.setVar('ROOT', '')
-> >> +    localdata.setVar('ROOT_%s' % pkg, root)
-> >
-> >
-> > Nothing here uses ROOT or root so these can be removed?
-> >
-> >> +    pkgname = localdata.getVar('PKG_%s' % pkg, True)
-> >> +    if not pkgname:
-> >> +        pkgname = pkg
-> >> +    localdata.setVar('PKG', pkgname)
-> >
-> > Again, these look surplus to requirements?
-> >
-> >> +    localdata.setVar('OVERRIDES', pkg)
-> >> +
-> >> +    bb.data.update_data(localdata)
-> >> +
+
+
+On 10/01/2012 05:55 PM, Mark Hatle wrote:
+> On 10/1/12 8:17 AM, Richard Purdie wrote:
+>> On Sat, 2012-09-29 at 19:19 -0500, Mark Hatle wrote:
+>>> When multilibs are enabled, there will be more then one environment
+>>> file created.  We need to be sure to process each environment file.
+>>> The next function can simply use the last environment file processed
+>>> to get the magic value(s) that it requires.
+>>>
+>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>>> ---
+>>>   meta/classes/populate_sdk_base.bbclass |    5 +++--
+>>>   1 files changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+>>> index 6eb6726..1bc1438 100644
+>>> --- a/meta/classes/populate_sdk_base.bbclass
+>>> +++ b/meta/classes/populate_sdk_base.bbclass
+>>> @@ -158,8 +158,9 @@ echo "done"
+>>>
+>>>   printf "Setting it up..."
+>>>   # fix environment paths
+>>> -env_setup_script=$(find $target_sdk_dir/ -name "environment-setup-${REAL_MULTIMACH_TARGET_SYS}")
+The reason to replace globbing with ${REAL_MULTIMACH_TARGET_SYS} was to
+match only the file we're interested in and avoid matching other files
+whose names start with environment-setup. However, since all the
+environment-setup directories reside in $target_sdk_dir/ we would
+probably be safer, and faster, by doing a simple ls and avoid searching
+all the tree.
+
+env_setup_script=$(ls $target_sdk_dir/environment-setup-*)
+
+>>> -sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+>>> +for env_setup_script in `find $target_sdk_dir/ -name "environment-setup-*"` ; do
+>>> +  sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+>>> +done
+We could probably do this without the for loop since sed accepts
+multiple input files.
+
+>>>
+>>>   # fix dynamic loader paths in all ELF SDK binaries
+>>>   native_sysroot=$(cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
+>>
+>> This is on course to conflict with
+>>
+>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=1b6019086c4242c550b4e0551c7b5d206a0d52e1
+>>
+>> Can you please talk with Laurentiu and come up with a solution that
+>> works for everyone.
 > 
-> I'll get this fixed and resubmitted.
-
-I'm trying to find you on irc as we need to talk a bit more about
-things.
-
-With the above, I realised you copy and pasted some other code so I have
-a cleanup patch for both now.
-
-I don't think the ValueError is going to cut it, particularly this close
-to release. I'm working on replacing the function usage with an improved
-one which can cope with the duplicates.
-
-Cheers,
-
-Richard
-
-
-
+> I think this is a better fix for the problem.  The other change limits the 
+> environment file to a single file.  However, there is nothing in the function -- 
+> other then the use of 'env_setuo_script' -- that wants or needs a single file 
+> loaded.
+> 
+> So it's better to find htem all and just iterate over them all.  Also the order 
+> of processing, and the last item processed does not matter.  The later chunks of 
+> functionality just look for a static value that is supposed to be the same in 
+> all of the environment files.
+> 
+> --Mark
+> 
+>> Cheers,
+>>
+>> Richard
+>>
+> 
 
 
