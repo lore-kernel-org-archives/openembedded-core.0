@@ -1,29 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TIiUV-0002p6-A2
+	(envelope-from <philb@gnu.org>) id 1TIif1-0002zn-OP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 18:05:07 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q91Fq9Tf022663
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Oct 2012 08:52:09 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 1 Oct 2012 08:52:08 -0700
-Message-ID: <5069BC28.2080307@windriver.com>
-Date: Mon, 1 Oct 2012 10:52:08 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1349106622-28591-1-git-send-email-mark.hatle@windriver.com>
-	<1349106622-28591-2-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1349106622-28591-2-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [PATCH 04/12 v2] bb.utils.explode_dep_versions: Update to ensure we avoid duplicate deps
+	Mon, 01 Oct 2012 18:16:00 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TIiSW-0006sH-SN
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Oct 2012 18:03:04 +0200
+From: Phil Blundell <philb@gnu.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 01 Oct 2012 17:03:04 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1349107384.32611.62.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] recipe_sanity: Don't bother checking LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,336 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 16:05:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 01 Oct 2012 16:16:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-FYI I reworked this based on what Richard mentioned was wrong.  However, I do 
-expect this isn't the final version of the patch based on his comments that the 
-explode_dep_versions stuff is likely going to need further modifications.
+Since e3d7890cace71b0a57d2530bf615a58dcb46d96f or so, base.bbclass has
+considered invalid LICENSE settings to be a fatal error.  This means we
+will never see them so there is no point checking for that.
 
-Most of the changes below are still relevant even if explode_dep_versions 
-changes are not used.  Specifically the kernel, libc-common, package and 
-package_rpm changes.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/recipe_sanity.bbclass |    9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
---Mark
+diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
+index c3bd0d2..bf378ea 100644
+--- a/meta/classes/recipe_sanity.bbclass
++++ b/meta/classes/recipe_sanity.bbclass
+@@ -13,7 +13,7 @@ def bad_runtime_vars(cfgdata, d):
+             __note("%s should be %s_${PN}" % (var, var), d)
+ 
+ __recipe_sanity_reqvars = "DESCRIPTION"
+-__recipe_sanity_reqdiffvars = "LICENSE"
++__recipe_sanity_reqdiffvars = ""
+ def req_vars(cfgdata, d):
+     for var in d.getVar("__recipe_sanity_reqvars", True).split():
+         if not d.getVar(var, 0):
+@@ -23,11 +23,6 @@ def req_vars(cfgdata, d):
+         val = d.getVar(var, 0)
+         cfgval = cfgdata.get(var)
+ 
+-        # Hardcoding is bad, but I'm lazy.  We don't care about license being
+-        # unset if the recipe has no sources!
+-        if var == "LICENSE" and d.getVar("SRC_URI", True) == cfgdata.get("SRC_URI"):
+-            continue
+-
+         if not val:
+             __note("%s should be set" % var, d)
+         elif val == cfgval:
+@@ -93,7 +88,7 @@ def can_remove_FILESDIR(cfgdata, d):
+             expanded == d.expand(expected))
+ 
+ def can_remove_others(p, cfgdata, d):
+-    for k in ["S", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
++    for k in ["S", "PV", "PN", "DESCRIPTION", "DEPENDS",
+               "SECTION", "PACKAGES", "EXTRA_OECONF", "EXTRA_OEMAKE"]:
+     #for k in cfgdata:
+         unexpanded = d.getVar(k, 0)
+-- 
+1.7.10.4
 
 
-On 10/1/12 10:50 AM, Mark Hatle wrote:
-> Due to a recent change in bb.utils.explode_dep_version, we need to make
-> sure that we do not have any duplicates in things that use
-> explode_dep_versions.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->   meta/classes/insane.bbclass      |   45 ++++++++++++++++++++++++++-
->   meta/classes/kernel.bbclass      |   20 +++++++-----
->   meta/classes/libc-common.bbclass |   13 ++++++--
->   meta/classes/package.bbclass     |   20 ++++++++++--
->   meta/classes/package_rpm.bbclass |   61 +++++++++++++++++++++-----------------
->   5 files changed, 115 insertions(+), 44 deletions(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 1fb8970..ba40918 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -114,7 +114,7 @@ def package_qa_get_machine_dict():
->
->   # Currently not being used by default "desktop"
->   WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir"
-> -ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
-> +ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
->
->   ALL_QA = "${WARN_QA} ${ERROR_QA}"
->
-> @@ -659,6 +659,44 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, d):
->
->       return sane
->
-> +def package_qa_check_deps(pkg, pkgdest, skip, d):
-> +    sane = True
-> +
-> +    # Copied from package_ipk.bbclass
-> +    # boiler plate to update the data
-> +    localdata = bb.data.createCopy(d)
-> +    localdata.setVar('OVERRIDES', pkg)
-> +    bb.data.update_data(localdata)
-> +
-> +    def check_valid_deps(var):
-> +        sane = True
-> +        try:
-> +            rvar = bb.utils.explode_dep_versions(localdata.getVar(var, True) or "")
-> +        except ValueError as e:
-> +            bb.fatal("%s_%s: %s" % (var, pkg, e))
-> +            raise e
-> +        for dep in rvar:
-> +            if rvar[dep] and not rvar[dep].startswith(('< ', '= ', '> ', '<= ', '>=')):
-> +                error_msg = "%s_%s is invalid: %s (%s)   only comparisons <, =, >, <=, and >= are allowed" % (var, pkg, dep, rvar[dep])
-> +                sane = package_qa_handle_error("dep-cmp", error_msg, d)
-> +        return sane
-> +
-> +    sane = True
-> +    if not check_valid_deps('RDEPENDS'):
-> +        sane = False
-> +    if not check_valid_deps('RRECOMMENDS'):
-> +        sane = False
-> +    if not check_valid_deps('RSUGGESTS'):
-> +        sane = False
-> +    if not check_valid_deps('RPROVIDES'):
-> +        sane = False
-> +    if not check_valid_deps('RREPLACES'):
-> +        sane = False
-> +    if not check_valid_deps('RCONFLICTS'):
-> +        sane = False
-> +
-> +    return sane
-> +
->   # The PACKAGE FUNC to scan each package
->   python do_package_qa () {
->       import subprocess
-> @@ -699,6 +737,7 @@ python do_package_qa () {
->       g = globals()
->       walk_sane = True
->       rdepends_sane = True
-> +    deps_sane = True
->       for package in packages.split():
->           skip = (d.getVar('INSANE_SKIP_' + package, True) or "").split()
->           if skip:
-> @@ -722,12 +761,14 @@ python do_package_qa () {
->               walk_sane  = False
->           if not package_qa_check_rdepends(package, pkgdest, skip, d):
->               rdepends_sane = False
-> +        if not package_qa_check_deps(package, pkgdest, skip, d):
-> +            deps_sane = False
->
->
->       if 'libdir' in d.getVar("ALL_QA", True).split():
->           package_qa_check_libdir(d)
->
-> -    if not walk_sane or not rdepends_sane:
-> +    if not walk_sane or not rdepends_sane or not deps_sane:
->           bb.fatal("QA run found fatal errors. Please consider fixing them.")
->       bb.note("DONE with PACKAGE QA")
->   }
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index fdef1be..878fd6c 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -20,6 +20,13 @@ python __anonymous () {
->       image = d.getVar('INITRAMFS_IMAGE', True)
->       if image:
->           d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
-> +
-> +    # RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
-> +    rprovides = bb.utils.explode_dep_versions(d.getVar("RPROVIDES_kernel-base", True) or "")
-> +    dep = d.expand("kernel-${KERNEL_VERSION}")
-> +    if not dep in rprovides:
-> +        rprovides[dep] = ""
-> +    d.setVar("RPROVIDES_kernel-base", bb.utils.join_deps(rprovides, commasep=False))
->   }
->
->   inherit kernel-arch deploy
-> @@ -269,7 +276,6 @@ RDEPENDS_kernel = "kernel-base"
->   RDEPENDS_kernel-base ?= "kernel-image"
->   PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
->   PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
-> -RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
->   ALLOW_EMPTY_kernel = "1"
->   ALLOW_EMPTY_kernel-base = "1"
->   ALLOW_EMPTY_kernel-image = "1"
-> @@ -429,13 +435,11 @@ python populate_packages_prepend () {
->               old_desc = d.getVar('DESCRIPTION_' + pkg, True) or ""
->               d.setVar('DESCRIPTION_' + pkg, old_desc + "; " + vals["description"])
->
-> -        rdepends_str = d.getVar('RDEPENDS_' + pkg, True)
-> -        if rdepends_str:
-> -            rdepends = rdepends_str.split()
-> -        else:
-> -            rdepends = []
-> -        rdepends.extend(get_dependencies(file, pattern, format))
-> -        d.setVar('RDEPENDS_' + pkg, ' '.join(rdepends))
-> +        rdepends = bb.utils.explode_dep_versions(d.getVar('RDEPENDS_' + pkg, True) or "")
-> +        for dep in get_dependencies(file, pattern, format):
-> +            if not dep in rdepends:
-> +                rdepends[dep] = ""
-> +        d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
->
->       module_deps = parse_depmod()
->       module_regex = '^(.*)\.k?o$'
-> diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
-> index 0f49936..dc32c81 100644
-> --- a/meta/classes/libc-common.bbclass
-> +++ b/meta/classes/libc-common.bbclass
-> @@ -29,7 +29,14 @@ python populate_packages_prepend () {
->           d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
->           d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
->           # For backward compatibility with old -dbg package
-> -        d.appendVar('RPROVIDES_' + bpn + '-dbg', ' libc-dbg')
-> -        d.appendVar('RCONFLICTS_' + bpn + '-dbg', ' libc-dbg')
-> -        d.appendVar('RREPLACES_' + bpn + '-dbg', ' libc-dbg')
-> +
-> +        def add_dep(var, dep):
-> +            deps = bb.utils.explode_dep_versions(d.getVar(var + '_' + bpn, True) or "")
-> +            if not dep in deps:
-> +                deps[dep] = ""
-> +                d.setVar(var + '_' + bpn, bb.utils.join_deps(deps, commasep=False))
-> +
-> +        add_dep('RPROVIDES', 'libc-dbg')
-> +        add_dep('RCONFLICTS', 'libc-dbg')
-> +        add_dep('RREPLACES', 'libc-dbg')
->   }
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index c8aafc9..6b28a15 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1637,14 +1637,19 @@ def read_libdep_files(d):
->       pkglibdeps = {}
->       packages = d.getVar('PACKAGES', True).split()
->       for pkg in packages:
-> -        pkglibdeps[pkg] = []
-> +        pkglibdeps[pkg] = {}
->           for extension in ".shlibdeps", ".pcdeps", ".clilibdeps":
->               depsfile = d.expand("${PKGDEST}/" + pkg + extension)
->               if os.access(depsfile, os.R_OK):
->                   fd = file(depsfile)
->                   lines = fd.readlines()
->                   fd.close()
-> -                pkglibdeps[pkg].extend([l.rstrip() for l in lines])
-> +                for l in lines:
-> +                    l.rstrip()
-> +                    deps = bb.utils.explode_dep_versions(l)
-> +                    for dep in deps:
-> +                        if not dep in pkglibdeps[pkg]:
-> +                            pkglibdeps[pkg][dep] = deps[dep]
->       return pkglibdeps
->
->   python read_shlibdeps () {
-> @@ -1654,7 +1659,10 @@ python read_shlibdeps () {
->       for pkg in packages:
->           rdepends = bb.utils.explode_dep_versions(d.getVar('RDEPENDS_' + pkg, False) or d.getVar('RDEPENDS', False) or "")
->           for dep in pkglibdeps[pkg]:
-> -            rdepends[dep] = ""
-> +            # Add the dep if it's not already there, or if no comparison is set
-> +            if not dep in rdepends or not rdepends[dep]:
-> +                rdepends[dep] = pkglibdeps[pkg][dep]
-> +
->           d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
->   }
->
-> @@ -1761,7 +1769,11 @@ python package_depchains() {
->           pkglibdeplist = []
->           for pkg in pkglibdeps:
->               for dep in pkglibdeps[pkg]:
-> -                add_dep(pkglibdeplist, dep)
-> +                cmp = pkglibdeps[pkg][dep]
-> +                if cmp:
-> +                    add_dep(pkglibdeplist, dep)
-> +                else:
-> +                    add_dep(pkglibdeplist, "%s (%s)" % (dep, cmp))
->           # FIXME this should not look at PN once all task recipes inherit from task.bbclass
->           dbgdefaultdeps = ((d.getVar('DEPCHAIN_DBGDEFAULTDEPS', True) == '1') or (d.getVar('PN', True) or '').startswith('packagegroup-'))
->
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index 49055f2..6256d6f 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -608,6 +608,13 @@ python write_specfile () {
->                   name = "".join(name.split(eext[1] + '-'))
->           return name
->
-> +    def strip_multilib_deps(deps, d):
-> +        depends = bb.utils.explode_dep_versions(deps or "")
-> +        newdeps = {}
-> +        for dep in depends:
-> +            newdeps[strip_multilib(dep, d)] = depends[dep]
-> +        return bb.utils.join_deps(newdeps)
-> +
->   #        ml = d.getVar("MLPREFIX", True)
->   #        if ml and name and len(ml) != 0 and name.find(ml) == 0:
->   #            return ml.join(name.split(ml, 1)[1:])
-> @@ -709,7 +716,7 @@ python write_specfile () {
->       srchomepage    = d.getVar('HOMEPAGE', True)
->       srcdescription = d.getVar('DESCRIPTION', True) or "."
->
-> -    srcdepends     = strip_multilib(d.getVar('DEPENDS', True), d)
-> +    srcdepends     = strip_multilib_deps(d.getVar('DEPENDS', True), d)
->       srcrdepends    = []
->       srcrrecommends = []
->       srcrsuggests   = []
-> @@ -772,12 +779,12 @@ python write_specfile () {
->           # Map the dependencies into their final form
->           mapping_rename_hook(localdata)
->
-> -        splitrdepends    = strip_multilib(localdata.getVar('RDEPENDS', True), d) or ""
-> -        splitrrecommends = strip_multilib(localdata.getVar('RRECOMMENDS', True), d) or ""
-> -        splitrsuggests   = strip_multilib(localdata.getVar('RSUGGESTS', True), d) or ""
-> -        splitrprovides   = strip_multilib(localdata.getVar('RPROVIDES', True), d) or ""
-> -        splitrreplaces   = strip_multilib(localdata.getVar('RREPLACES', True), d) or ""
-> -        splitrconflicts  = strip_multilib(localdata.getVar('RCONFLICTS', True), d) or ""
-> +        splitrdepends    = strip_multilib_deps(localdata.getVar('RDEPENDS', True), d)
-> +        splitrrecommends = strip_multilib_deps(localdata.getVar('RRECOMMENDS', True), d)
-> +        splitrsuggests   = strip_multilib_deps(localdata.getVar('RSUGGESTS', True), d)
-> +        splitrprovides   = strip_multilib_deps(localdata.getVar('RPROVIDES', True), d)
-> +        splitrreplaces   = strip_multilib_deps(localdata.getVar('RREPLACES', True), d)
-> +        splitrconflicts  = strip_multilib_deps(localdata.getVar('RCONFLICTS', True), d)
->           splitrobsoletes  = []
->
->           # Gather special src/first package data
-> @@ -826,16 +833,16 @@ python write_specfile () {
->           spec_preamble_bottom.append('Group: %s' % splitsection)
->
->           # Replaces == Obsoletes && Provides
-> -        if splitrreplaces and splitrreplaces.strip() != "":
-> -            for dep in splitrreplaces.split(','):
-> -                if splitrprovides:
-> -                    splitrprovides = splitrprovides + ", " + dep
-> -                else:
-> -                    splitrprovides = dep
-> -                if splitrobsoletes:
-> -                    splitrobsoletes = splitrobsoletes + ", " + dep
-> -                else:
-> -                    splitrobsoletes = dep
-> +        robsoletes = bb.utils.explode_dep_versions(splitrobsoletes or "")
-> +        rprovides = bb.utils.explode_dep_versions(splitrprovides or "")
-> +        rreplaces = bb.utils.explode_dep_versions(splitrreplaces or "")
-> +        for dep in rreplaces:
-> +            if not dep in robsoletes:
-> +                robsoletes[dep] = rreplaces[dep]
-> +            if not dep in rprovides:
-> +                rprovides[dep] = rreplaces[dep]
-> +        splitrobsoletes = bb.utils.join_deps(robsoletes, commasep=False)
-> +        splitrprovides = bb.utils.join_deps(rprovides, commasep=False)
->
->           print_deps(splitrdepends, "Requires", spec_preamble_bottom, d)
->           # Suggests in RPM are like recommends in OE-core!
-> @@ -918,16 +925,16 @@ python write_specfile () {
->       tail_source(d)
->
->       # Replaces == Obsoletes && Provides
-> -    if srcrreplaces and srcrreplaces.strip() != "":
-> -        for dep in srcrreplaces.split(','):
-> -            if srcrprovides:
-> -                srcrprovides = srcrprovides + ", " + dep
-> -            else:
-> -                srcrprovides = dep
-> -            if srcrobsoletes:
-> -                srcrobsoletes = srcrobsoletes + ", " + dep
-> -            else:
-> -                srcrobsoletes = dep
-> +    robsoletes = bb.utils.explode_dep_versions(srcrobsoletes or "")
-> +    rprovides = bb.utils.explode_dep_versions(srcrprovides or "")
-> +    rreplaces = bb.utils.explode_dep_versions(srcrreplaces or "")
-> +    for dep in rreplaces:
-> +        if not dep in robsoletes:
-> +            robsoletes[dep] = rreplaces[dep]
-> +        if not dep in rprovides:
-> +            rprovides[dep] = rreplaces[dep]
-> +    srcrobsoletes = bb.utils.join_deps(robsoletes, commasep=False)
-> +    srcrprovides = bb.utils.join_deps(rprovides, commasep=False)
->
->       print_deps(srcdepends, "BuildRequires", spec_preamble_top, d)
->       print_deps(srcrdepends, "Requires", spec_preamble_top, d)
->
 
 
 
