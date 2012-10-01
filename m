@@ -1,35 +1,36 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TIeu1-0004V2-9Z
+	(envelope-from <ross.burton@intel.com>) id 1TIewf-0004Z6-La
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 14:15:13 +0200
-Received: by mail-wi0-f171.google.com with SMTP id hj13so2071548wib.6
+	Mon, 01 Oct 2012 14:17:57 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 01 Oct 2012 05:04:58 -0700
+Received: by obceq6 with SMTP id eq6so5030935obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Oct 2012 05:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=axoK8VEqtaSPbdVnhXTfnW8VeTm1ccGzzLyh+ySqKjM=;
-	b=P9ANcNEsebR6Zdw1YdM2k+yRXv4K0ozzoeDLKLwZdtmfWxGmIFC0wB0HjWk9hXYgbX
-	KriK5HyiaEStT7g5kfZZ2udSHoioe3U1XVrKKi0jFr8k2VqYAFythWNYPW3TCNxzbPub
-	vGW339XGWinJkH0uOeuDfSrXjv7hzAxxcRV64IVAYPh50ajavGHSZe8OlRmkZBkcu2fa
-	pAcIeGcW/hC5uyrFCGSSVhr6Cj1NPYChOTBuLVpeUGCXnqxZB2Q9gAh2zFj370dHvU78
-	tP2ADbxY3hH09Fq2B/Abdzqk9yBYpSTRmWdXAeSAiaoTCMEZtZcq6qCARiZqZm5vBTRA
-	wT/w==
-Received: by 10.180.93.106 with SMTP id ct10mr14213549wib.8.1349092936489;
-	Mon, 01 Oct 2012 05:02:16 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id q7sm18288016wiy.11.2012.10.01.05.02.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 01 Oct 2012 05:02:15 -0700 (PDT)
-Date: Mon, 1 Oct 2012 14:02:03 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20121001120203.GC3454@jama.jama.net>
-References: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
+	Mon, 01 Oct 2012 05:04:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=idZO9co+fuApEpG496g8qC04JklkTEZmXxO1iqxvcik=;
+	b=ZnzaVqdd4hCEgVtHH/zVI76eaSzqVP8yUrBS1BTZB6ho7v7eDBKepCbDGgsliU5Yrx
+	Dv2+Z2tSK0g42X2x0cHt/jAbIGRXVPK5dFEjhsvd5SEyNe0pIsdlStM0/Eiq205USPIN
+	hbYSevXmsiqX8v74brT3zqjvjJ4Ron+/cKdMKWPYSZ4njGBG9QmIyzujmXAK0LmQtgHi
+	/fIvyutqgLOUlhLVegMsquNqSO+Q87Fg2DIxqj6DCkG3jtrkNPUiDjsfFNBO/7UkXlPZ
+	u10xn3vLs5CRZqL4Kkl7FyjfEJJt+j8w119ltyTWm0F10Bzg03YpQAlSRyRUCcbsRarQ
+	onyA==
+Received: by 10.60.19.195 with SMTP id h3mr11321971oee.102.1349093096403; Mon,
+	01 Oct 2012 05:04:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Received: by 10.182.79.105 with HTTP; Mon, 1 Oct 2012 05:04:36 -0700 (PDT)
+In-Reply-To: <20121001120203.GC3454@jama.jama.net>
+References: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
+	<20121001120203.GC3454@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Oct 2012 13:04:36 +0100
+Message-ID: <CAJTo0LZogROfi=ShqZCCA+2mbOVm-iBS3NfSoLX=eC9CZEU2BQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQn4tN+ZNFslvwhZYQPmOWFpZi67cs/9Mzw8AQaaXf3cDK4KVSIwM2RoBg/yi+PNW4KyEOvL
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] libdrm: Remove Cairo dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,68 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 12:15:13 -0000
-X-Groupsio-MsgNum: 30169
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FsscpQKzF/jJk6ya"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 01 Oct 2012 12:17:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
---FsscpQKzF/jJk6ya
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1 October 2012 13:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+> shouldn't we disable that example explicitly, so that the output is not
+> different when cairo gets built before libdrm?
 
-On Mon, Oct 01, 2012 at 12:56:09PM +0100, Ross Burton wrote:
-> From: Daniel Stone <daniel@fooishbar.org>
->=20
-> This causes a build loop, when DRM depends on Cairo depends on Mesa
-> depends on DRM.  We can safely remove it as it's only one libdrm example
-> program which uses Cairo, which we won't be needing.  At least it's not
-> worth the build loop.
->=20
-> Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/drm/libdrm.inc |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics=
-/drm/libdrm.inc
-> index 5ddab85..cc09791 100644
-> --- a/meta/recipes-graphics/drm/libdrm.inc
-> +++ b/meta/recipes-graphics/drm/libdrm.inc
-> @@ -9,9 +9,9 @@ LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://xf86drm.c;beginline=3D9;endline=3D32;md5=3D=
-c8a3b961af7667c530816761e949dc71"
->  SRC_URI =3D "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
->  PROVIDES =3D "drm"
-> -DEPENDS =3D "libpthread-stubs udev cairo"
-> +DEPENDS =3D "libpthread-stubs udev"
-> =20
-> -INC_PR =3D "r2"
-> +INC_PR =3D "r3"
-> =20
->  #libpciaccess is required starting from libdrm 2.4.26
->  DEPENDS +=3D " libpciaccess"
+The test (tests/modetest/) is noinst, so the output doesn't actually change.
 
-shouldn't we disable that example explicitly, so that the output is not
-different when cairo gets built before libdrm?
+Ross
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---FsscpQKzF/jJk6ya
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlBphjsACgkQN1Ujt2V2gByMNQCfVcenS1ee4eg85vxCwjABkb9q
-aVwAoI86zPCSZYdkqD88d+VVv2VvSwjK
-=qVWx
------END PGP SIGNATURE-----
-
---FsscpQKzF/jJk6ya--
