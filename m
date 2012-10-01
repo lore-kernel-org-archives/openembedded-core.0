@@ -1,38 +1,31 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TIewf-0004Z6-La
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Oct 2012 14:17:57 +0200
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 01 Oct 2012 05:04:58 -0700
-Received: by obceq6 with SMTP id eq6so5030935obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Oct 2012 05:04:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=idZO9co+fuApEpG496g8qC04JklkTEZmXxO1iqxvcik=;
-	b=ZnzaVqdd4hCEgVtHH/zVI76eaSzqVP8yUrBS1BTZB6ho7v7eDBKepCbDGgsliU5Yrx
-	Dv2+Z2tSK0g42X2x0cHt/jAbIGRXVPK5dFEjhsvd5SEyNe0pIsdlStM0/Eiq205USPIN
-	hbYSevXmsiqX8v74brT3zqjvjJ4Ron+/cKdMKWPYSZ4njGBG9QmIyzujmXAK0LmQtgHi
-	/fIvyutqgLOUlhLVegMsquNqSO+Q87Fg2DIxqj6DCkG3jtrkNPUiDjsfFNBO/7UkXlPZ
-	u10xn3vLs5CRZqL4Kkl7FyjfEJJt+j8w119ltyTWm0F10Bzg03YpQAlSRyRUCcbsRarQ
-	onyA==
-Received: by 10.60.19.195 with SMTP id h3mr11321971oee.102.1349093096403; Mon,
-	01 Oct 2012 05:04:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.79.105 with HTTP; Mon, 1 Oct 2012 05:04:36 -0700 (PDT)
-In-Reply-To: <20121001120203.GC3454@jama.jama.net>
-References: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
-	<20121001120203.GC3454@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Oct 2012 13:04:36 +0100
-Message-ID: <CAJTo0LZogROfi=ShqZCCA+2mbOVm-iBS3NfSoLX=eC9CZEU2BQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQn4tN+ZNFslvwhZYQPmOWFpZi67cs/9Mzw8AQaaXf3cDK4KVSIwM2RoBg/yi+PNW4KyEOvL
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TIfwt-0005zG-DE for openembedded-core@lists.openembedded.org;
+	Mon, 01 Oct 2012 15:22:15 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q91D9I7M002980;
+	Mon, 1 Oct 2012 14:09:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02574-02; Mon,  1 Oct 2012 14:09:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q91D9AjW002974
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 1 Oct 2012 14:09:11 +0100
+Message-ID: <1349096953.15753.97.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Mon, 01 Oct 2012 14:09:13 +0100
+In-Reply-To: <81b24042824b81344141c7dcaffbfe74354bc635.1348963477.git.mark.hatle@windriver.com>
+References: <cover.1348963477.git.mark.hatle@windriver.com>
+	<81b24042824b81344141c7dcaffbfe74354bc635.1348963477.git.mark.hatle@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libdrm: Remove Cairo dependency
+Subject: Re: [PATCH 04/12] bb.utils.explode_dep_versions: Update to ensure we avoid duplicate deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,15 +38,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2012 12:17:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 01 Oct 2012 13:22:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 1 October 2012 13:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> shouldn't we disable that example explicitly, so that the output is not
-> different when cairo gets built before libdrm?
+On Sat, 2012-09-29 at 19:19 -0500, Mark Hatle wrote:
+> Due to a recent change in bb.utils.explode_dep_version, we need to make
+> sure that we do not have any duplicates in things that use
+> explode_dep_versions.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/classes/insane.bbclass      |   55 +++++++++++++++++++++++++++++++++-
+>  meta/classes/kernel.bbclass      |   20 +++++++-----
+>  meta/classes/libc-common.bbclass |   13 ++++++--
+>  meta/classes/package.bbclass     |   20 ++++++++++--
+>  meta/classes/package_rpm.bbclass |   61 +++++++++++++++++++++-----------------
+>  5 files changed, 125 insertions(+), 44 deletions(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 1fb8970..17d887a 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -114,7 +114,7 @@ def package_qa_get_machine_dict():
+>  
+>  # Currently not being used by default "desktop"
+>  WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir"
+> -ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms"
+> +ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
+>  
+>  ALL_QA = "${WARN_QA} ${ERROR_QA}"
+>  
+> @@ -659,6 +659,54 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, d):
+>  
+>      return sane
+>  
+> +def package_qa_check_deps(pkg, pkgdest, skip, d):
+> +    sane = True
+> +
+> +    # Copied from package_ipk.bbclass
+> +    # boiler plate to update the data
+> +    localdata = bb.data.createCopy(d)
+> +    root = "%s/%s" % (pkgdest, pkg)
+> +
+> +    localdata.setVar('ROOT', '') 
+> +    localdata.setVar('ROOT_%s' % pkg, root)
 
-The test (tests/modetest/) is noinst, so the output doesn't actually change.
 
-Ross
+Nothing here uses ROOT or root so these can be removed?
+
+> +    pkgname = localdata.getVar('PKG_%s' % pkg, True)
+> +    if not pkgname:
+> +        pkgname = pkg
+> +    localdata.setVar('PKG', pkgname)
+
+Again, these look surplus to requirements?
+
+> +    localdata.setVar('OVERRIDES', pkg)
+> +
+> +    bb.data.update_data(localdata)
+> +
+
+Cheers,
+
+Richard
+
 
 
