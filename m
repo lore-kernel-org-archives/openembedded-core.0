@@ -1,30 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TJ0Le-0007ns-Fi for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 13:09:10 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q92Au8wB014939;
-	Tue, 2 Oct 2012 11:56:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14190-04; Tue,  2 Oct 2012 11:56:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q92AtvoB014933
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 2 Oct 2012 11:55:59 +0100
-Message-ID: <1349175360.15753.134.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 02 Oct 2012 11:56:00 +0100
-In-Reply-To: <CAJTo0LZogROfi=ShqZCCA+2mbOVm-iBS3NfSoLX=eC9CZEU2BQ@mail.gmail.com>
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TJ0OG-0007rU-0i
+	for openembedded-core@lists.openembedded.org;
+	Tue, 02 Oct 2012 13:11:52 +0200
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 02 Oct 2012 03:58:52 -0700
+Received: by oagh1 with SMTP id h1so5702102oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Oct 2012 03:58:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=4N9zqht0kTqyAwtkyahSNSpxy2+rkqgLH+XJ2B8aHQU=;
+	b=nHEFb60GGv9K4CwGB5jQXWSEAxyvsVD3XbAL/xit69dYyFhYf9a1oRzCyhqjUnQ/XD
+	/4FGB261DnaHDEFtGk3izzYuL91d2ng6zvUdFwwqu7J8773+sO1KX9jIEwb9kocaJ6oJ
+	Ad+JnvqBLClv1VQ3QHThyA4I1n324G8nK7YQiTF7KVmEIp5/BnEiueBrJ7lbZxOyfwpn
+	uvmywuuKDWrj19VGMErXnY2q7t/tBerA0BZwXCRaIoT0kypgM2drYJTHJOT9315BWN0s
+	BDCwkJr46xjTCy3rPQe5AqtmeObFd7TIVAqBUjhWN71gqsJhyOBAU6sdd8IfQJc79Avw
+	JVUg==
+Received: by 10.182.147.8 with SMTP id tg8mr14259778obb.21.1349175531725; Tue,
+	02 Oct 2012 03:58:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.79.105 with HTTP; Tue, 2 Oct 2012 03:58:31 -0700 (PDT)
+In-Reply-To: <1349175360.15753.134.camel@ted>
 References: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
 	<20121001120203.GC3454@jama.jama.net>
 	<CAJTo0LZogROfi=ShqZCCA+2mbOVm-iBS3NfSoLX=eC9CZEU2BQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1349175360.15753.134.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 2 Oct 2012 11:58:31 +0100
+Message-ID: <CAJTo0LbApnmy7GRhp1wf=YNiLCFnrQHLTxL0-zf+wW3RLitjWA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQmJubWe0Yh1BzH65HMJ0N207im+TBHJTVnad8ANh3S0oDDc6LJSX0Z0iFGLBMt3hJq37Fxo
 Cc: Martin Jansa <martin.jansa@gmail.com>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] libdrm: Remove Cairo dependency
@@ -40,23 +48,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 11:09:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Oct 2012 11:11:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-10-01 at 13:04 +0100, Burton, Ross wrote:
-> On 1 October 2012 13:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > shouldn't we disable that example explicitly, so that the output is not
-> > different when cairo gets built before libdrm?
-> 
-> The test (tests/modetest/) is noinst, so the output doesn't actually change.
+On 2 October 2012 11:56, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Shouldn't we just disable the things to gain a small bit of build speed
+> if they don't matter? :)
 
-Shouldn't we just disable the things to gain a small bit of build speed
-if they don't matter? :)
+That means carrying a patch and the maintenance burden when upgrading.
+ I'm not entirely sure you'll notice all ten lines of Cairo code being
+compiled if cairo happens to be installed when libdrm2 builds.
 
-Cheers,
-
-Richard
-
+Ross
 
 
