@@ -1,22 +1,21 @@
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>) id 1TJ5zD-0007Hh-Dg
+	(envelope-from <philb@gnu.org>) id 1TJ6HZ-0007Uw-MP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 19:10:23 +0200
-Received: from lander.brightsign ([172.30.1.6])
-	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1TJ5FR-0002EH-B7; Tue, 02 Oct 2012 17:23:05 +0100
-Received: from mac by lander.brightsign with local (Exim 4.72)
-	(envelope-from <mac@lander.brightsign>)
-	id 1TJ5FN-0000WD-GX; Tue, 02 Oct 2012 17:23:03 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Oct 2012 17:22:49 +0100
-Message-Id: <1349194969-31873-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Phil Blundell <philb@gnu.org>, Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] bitbake.conf: Add CCACHE_DISABLE to BS_HASHBASE_WHITELIST
+	Tue, 02 Oct 2012 19:29:21 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TJ653-0004Bu-45
+	for openembedded-core@lists.openembedded.org;
+	Tue, 02 Oct 2012 19:16:25 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 02 Oct 2012 18:16:24 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1349198185.32611.100.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] e2fsprogs: Don't install findfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,31 +28,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 17:10:23 -0000
+X-List-Received-Date: Tue, 02 Oct 2012 17:29:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If CCACHE is in the whitelist then CCACHE_DISABLE probably should be too.
+This binary is provided by util-linux nowadays.  Fixes:
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Signed-off-by: Phil Blundell <philb@gnu.org>
+WARNING: The recipe is trying to install files into a shared area when those files already exist. Those files are:
+     /fast/jenkins/workspace/.../tmp-eglibc/sysroots/x86_64-linux/sbin/findfs
+
+Signed-off-by: Phil Blundell <pb@pbcl.net>
 ---
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(Not very clear what it was doing in the tune2fs package in the first place 
+since it doesn't really have anything to do with that program.)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e168ef1..e813fec 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -765,7 +765,7 @@ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
+index 3869c34..5d62ea0 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
+@@ -1,6 +1,6 @@
+ require e2fsprogs.inc
  
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasicHash"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE"
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS PARALLEL_MAKE BB_NUMBER_THREADS"
- BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc defaultval _append _prepend deps depends lockfiles type vardepsexclude \
-                                vardeps vardepvalue file-checksums python func task export unexport noexec \
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI += "file://fallocate.patch \
+             file://acinclude.m4 \
+@@ -32,6 +32,7 @@ do_install () {
+ 	rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
+ 	rm -f ${D}${base_sbindir}/blkid
+ 	rm -f ${D}${base_sbindir}/fsck
++	rm -f ${D}${base_sbindir}/findfs
+ }
+ 
+ do_install_append () {
+@@ -50,7 +51,7 @@ PACKAGES =+ "libcomerr libss libe2p libext2fs"
+ 
+ FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
+ FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
+-FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label ${base_sbindir}/findfs"
++FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label"
+ FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
+ FILES_libcomerr = "${base_libdir}/libcom_err.so.*"
+ FILES_libss = "${base_libdir}/libss.so.*"
 -- 
 1.7.10.4
+
+
 
 
 
