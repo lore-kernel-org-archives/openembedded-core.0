@@ -1,25 +1,21 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TIycV-0005Lu-3D
+	(envelope-from <philb@gnu.org>) id 1TIyqc-0005V7-2I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 11:18:27 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Oct 2012 02:05:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,522,1344236400"; d="scan'208";a="200527208"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by orsmga001.jf.intel.com with ESMTP; 02 Oct 2012 02:05:25 -0700
-Message-ID: <506AAE54.2030708@intel.com>
-Date: Tue, 02 Oct 2012 12:05:24 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
+	Tue, 02 Oct 2012 11:33:02 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TIye6-0003uU-2U
+	for openembedded-core@lists.openembedded.org;
+	Tue, 02 Oct 2012 11:20:06 +0200
+From: Phil Blundell <philb@gnu.org>
 To: openembedded-core@lists.openembedded.org
-References: <1349156215-16686-1-git-send-email-raj.khem@gmail.com>
-	<CAMKF1soLwgEoyR0RkYLpjsGGNi07gLsjVcZtzbR=arHuGt9wbg@mail.gmail.com>
-In-Reply-To: <CAMKF1soLwgEoyR0RkYLpjsGGNi07gLsjVcZtzbR=arHuGt9wbg@mail.gmail.com>
-Subject: Re: [PATCH] binutils-crossdk: Fix interp size expansion
+Date: Tue, 02 Oct 2012 10:20:04 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1349169606.32611.73.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] rootfs_ipk, image: Add debug capture support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,92 +28,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 09:18:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 02 Oct 2012 09:33:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+If ${IMAGE_BUILD_DEBUG} is set, construct a parallel tree containing
+the debug data for the packages that have been installed in the
+rootfs, then tar it up and deploy it alongside the rootfs images.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/image.bbclass      |    9 +++++++++
+ meta/classes/rootfs_ipk.bbclass |   15 +++++++++++++++
+ meta/conf/bitbake.conf          |    1 +
+ 3 files changed, 25 insertions(+)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ab212b3..c82fba1 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -445,3 +445,12 @@ do_package_write_deb[noexec] = "1"
+ do_package_write_rpm[noexec] = "1"
+ 
+ addtask rootfs before do_build
++
++fakeroot do_capture_debug() {
++	if [ "${IMAGE_BUILD_DEBUG}" = "1" -a -n "${IMAGE_ROOTFS_DBG}" -a -d "${IMAGE_ROOTFS_DBG}" ]; then
++		tar czf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.debug.tar.gz -C ${IMAGE_ROOTFS_DBG} .
++		[ "${IMAGE_NAME}" == "${IMAGE_LINK_NAME}" ] || ln -sf ${IMAGE_NAME}.debug.tar.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.debug.tar.gz
++	fi
++}
++
++addtask capture_debug before do_build after do_rootfs
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index 46e8d60..e4e74dd 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -9,6 +9,8 @@ EXTRAOPKGCONFIG ?= ""
+ ROOTFS_PKGMANAGE = "opkg opkg-collateral ${EXTRAOPKGCONFIG}"
+ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
+ 
++IMAGE_BUILD_DEBUG ?= "0"
++
+ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_package_write_ipk"
+ 
+@@ -17,6 +19,7 @@ do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
+ IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force-overwrite"
+ # The _POST version also works when constructing the matching SDK
+ IPKG_ARGS_POST = "-f ${IPKGCONF_TARGET} -o $INSTALL_ROOTFS_IPK --force-overwrite"
++IPKG_ARGS_DBG = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS_DBG} --force-overwrite"
+ 
+ OPKG_PREPROCESS_COMMANDS = "package_update_index_ipk; package_generate_ipkg_conf"
+ 
+@@ -88,6 +91,18 @@ fakeroot rootfs_ipk_do_rootfs () {
+ 		fi
+ 	fi
+ 
++	if [ "${IMAGE_BUILD_DEBUG}" = "1" -a -n "${IMAGE_ROOTFS_DBG}" ]; then
++		all_pkgs=`opkg-cl ${IPKG_ARGS} list-installed | awk '{ print $1 }'`
++		[ "${IMAGE_ROOTFS_DBG}" -ef "${IMAGE_ROOTFS}" ] || rm -rf ${IMAGE_ROOTFS_DBG}
++		mkdir -p ${IMAGE_ROOTFS_DBG}${opkglibdir}
++		opkg-cl ${IPKG_ARGS_DBG} update
++		for p in $all_pkgs; do
++	    		if [ "`opkg-cl ${IPKG_ARGS_DBG} info $p-dbg`" != "" ]; then
++	    			opkg-cl ${IPKG_ARGS_DBG} --nodeps install $p-dbg
++			fi
++		done
++	fi
++
+ 	install -d ${IMAGE_ROOTFS}/${sysconfdir}
+ 	echo ${BUILDNAME} > ${IMAGE_ROOTFS}/${sysconfdir}/version
+ 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 87351e0..66152fe 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -399,6 +399,7 @@ STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
+ ##################################################################
+ 
+ IMAGE_ROOTFS = "${WORKDIR}/rootfs"
++IMAGE_ROOTFS_DBG = "${IMAGE_ROOTFS}.debug"
+ IMAGE_BASENAME = "${PN}"
+ IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
+ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+-- 
+1.7.10.4
 
 
-On 10/02/2012 10:33 AM, Khem Raj wrote:
-> i need to check it with 1 more case. Please hold on for applying it. I
-> welcome testing
-> 
-> On Mon, Oct 1, 2012 at 10:36 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> Currently for sdk binutils we expand the size of .interp
->> section to 0x1000 assuming that its at the beginning of
->> the linker map but there may be program header before that
->> so actually we want to add 0x1000 - sizeof(.interp) section
->> to current location and not assign is absolutely to 0x1000
-Why does it matter if there is another program header before .interp?
-The .interp section should start at the end of the previous section.
->>
->> This fixes errors like
->>
->> built in linker script:11 cannot move location counter backwards (from
->> 0000000000401054 to 0000000000401000)
-This error usually means that the data inside that section exceeds the
-allocated size of the section. Assuming .interp section is the first,
-the linker is trying to squeeze 0x1054 bytes in a 0x1000 bytes section.
-And that is kind of weird. We might be missing something here...
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  .../binutils/binutils-crosssdk_2.22.bb             |    2 +-
->>  .../binutils/binutils/relocatable_sdk.patch        |   10 +++++-----
->>  2 files changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
->> index c936549..d3c25b6 100644
->> --- a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
->> +++ b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
->> @@ -2,7 +2,7 @@ require binutils-cross_${PV}.bb
->>
->>  inherit crosssdk
->>
->> -PR = "r1"
->> +PR = "r2"
->>
->>  PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
->>
->> diff --git a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
->> index 33f9e68..4a2494a 100644
->> --- a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
->> +++ b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
->> @@ -7,16 +7,16 @@ by the relocating script.
->>
->>  Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->>
->> -Index: binutils-2.22/ld/scripttempl/elf.sc
->> +Index: git/ld/scripttempl/elf.sc
->>  ===================================================================
->> ---- binutils-2.22.orig/ld/scripttempl/elf.sc
->> -+++ binutils-2.22/ld/scripttempl/elf.sc
->> -@@ -116,7 +116,7 @@ if test -n "${COMMONPAGESIZE}"; then
->> +--- git.orig/ld/scripttempl/elf.sc     2012-10-01 21:42:18.729294685 -0700
->> ++++ git/ld/scripttempl/elf.sc  2012-10-01 22:26:35.149173335 -0700
->> +@@ -125,7 +125,7 @@
->>     DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT-0}, .);"
->>   fi
->>   if test -z "${INITIAL_READONLY_SECTIONS}${CREATE_SHLIB}"; then
->>  -  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp) }"
->> -+  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp); . = 0x1000; }"
->> ++  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp); . = (. & 0x1000) + 0x1000; }"
-This line confuses me. You will have here an .interp size of 0x1000 or
-0x2000. Is this the intent?
 
-Thanks,
-Laurentiu
->>   fi
->>   if test -z "$PLT"; then
->>     IPLT=".iplt         ${RELOCATING-0} : { *(.iplt) }"
->> --
->> 1.7.9.5
->>
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
 
 
