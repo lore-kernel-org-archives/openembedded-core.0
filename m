@@ -1,26 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eflanagan@envy.jf.intel.com>) id 1TJBhC-0005G1-8i
+	(envelope-from <eflanagan@envy.jf.intel.com>) id 1TJBhI-0005GI-UK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 01:16:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Oct 2012 16:03:10 -0700
+	Wed, 03 Oct 2012 01:16:17 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 02 Oct 2012 16:02:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,525,1344236400"; d="scan'208";a="200832334"
+X-IronPort-AV: E=Sophos;i="4.80,525,1344236400"; d="scan'208";a="218648201"
 Received: from envy.jf.intel.com ([10.7.201.159])
-	by orsmga001.jf.intel.com with ESMTP; 02 Oct 2012 16:03:09 -0700
+	by orsmga002.jf.intel.com with ESMTP; 02 Oct 2012 16:03:16 -0700
 Received: from envy.jf.intel.com (localhost [127.0.0.1])
 	by envy.jf.intel.com (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id
-	q92N1crL023320; Tue, 2 Oct 2012 16:01:38 -0700
+	q92N1ik9023357; Tue, 2 Oct 2012 16:01:44 -0700
 Received: (from eflanagan@localhost)
-	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q92N1bpg023319;
-	Tue, 2 Oct 2012 16:01:37 -0700
+	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q92N1iAX023356;
+	Tue, 2 Oct 2012 16:01:44 -0700
 From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Oct 2012 16:01:36 -0700
-Message-Id: <cover.1349218820.git.elizabeth.flanagan@intel.com>
+Date: Tue,  2 Oct 2012 16:01:42 -0700
+Message-Id: <31141073add21ef176638e48bff752832901bb78.1349218820.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/1] Change bzip2 to a less generic license
+In-Reply-To: <cover.1349218820.git.elizabeth.flanagan@intel.com>
+References: <cover.1349218820.git.elizabeth.flanagan@intel.com>
+Subject: [PATCH 1/1] bzip2 and busybox: Incorrect LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 23:16:10 -0000
+X-List-Received-Date: Tue, 02 Oct 2012 23:16:17 -0000
 
 The license for bzip2 is not quite BSD. I have an email out to the
 maintainer to see if we can utilize a common BSD license (or something
@@ -43,21 +45,39 @@ license.
 As busybox also utilizes a lightly modified bzip2, this also
 effects busybox.
 
-The following changes since commit 8609051d8d4f9fa565eb48418a87fa0048613374:
-
-  bitbake.conf: Add CCACHE_DISABLE to BS_HASHBASE_WHITELIST (2012-10-02 18:12:48 +0100)
-
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib eflanagan/bzip
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/bzip
-
-Elizabeth Flanagan (1):
-  bzip2 and busybox: Incorrect LICENSE
-
+Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+---
  meta/recipes-core/busybox/busybox.inc      |    3 +--
  meta/recipes-extended/bzip2/bzip2_1.0.6.bb |    2 +-
  2 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 33e01a4..972e7d0 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -5,8 +5,7 @@ BUGTRACKER = "https://bugs.busybox.net/"
+ 
+ # bzip2 applet in busybox is based on lightly-modified bzip2 source
+ # the GPL is version 2 only
+-# bzip2 is not a bzip2 license (no such thing)
+-LICENSE = "GPLv2 & BSD-4-Clause"
++LICENSE = "GPLv2 & bzip2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
+ 
+ SECTION = "base"
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index 5f92deb..d03b57d 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
+ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
+ HOMEPAGE = "http://www.bzip.org/"
+ SECTION = "console/utils"
+-LICENSE = "BSD-4-Clause"
++LICENSE = "bzip2"
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc86cfdd9106e6b2"
+ PR = "r5"
+ 
 -- 
 1.7.5.4
 
