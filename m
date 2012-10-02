@@ -1,32 +1,41 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TIxBk-0003iH-Bc
+	(envelope-from <martin.jansa@gmail.com>) id 1TIxfT-0004M7-AH
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 09:46:44 +0200
-Received: by eeit10 with SMTP id t10so2348824eei.6
+	Tue, 02 Oct 2012 10:17:28 +0200
+Received: by wibhj13 with SMTP id hj13so397104wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Oct 2012 00:33:46 -0700 (PDT)
+	Tue, 02 Oct 2012 01:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=HthU01zwiRnq+7QQlcUWA0KWDqQiskSgnZF9wroRpqE=;
-	b=V+dNzEgJWTgI8w7630uqVgwAXZAUdXy7dbRieKOVtCTVfclJA9GDyPQ/hXVvq5b40e
-	E241yyDYUq2cA65+oGPkMW2Tpgt9cVLJNM3KxZ4Ha3QiGIpLxzmLd8iN0MSL+z4ZTD+6
-	WmB4UyEsrLQvAEv0lPKLAs87omWloCCnjFkZ89y43V30czo36rhQhtLRSuyVcCnDQr4i
-	myjlZzSFuXptpc26lFFZ0fLp4FlOGkeWt8PjJf21/5JvTZUGlrO4CIiugdzqRGFv72cf
-	Cgn3MgRC3DCGpR5aJ9mxtTDvKZdA8ngNEs5wsXUIBvLPDfl2CnkpzVggtskat0jg4Q1o
-	tf1A==
-Received: by 10.14.202.131 with SMTP id d3mr21201797eeo.32.1349163226253; Tue,
-	02 Oct 2012 00:33:46 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ta0iukfLaQf8TW7J7CpRKuMKGECWZbrF1ve+Dm5QKJ8=;
+	b=OQKt/3iCqe5xjM7VvplCdZITvyyLn79zkWN6Ws3PVp6HjgcrgQRBi6/tJnkFMpdIfz
+	tzV3/LuFP6SCyxyIjA2jJ1ZDFh3Dwv06u0Ra/gD/fQYtYznYXtYKEYBywwLZXatMT8sT
+	n65j1q2yTAtjrHktAafgY5n+/ZXTmmTSOutgjTrJ8rl+fK2WRupReg3SPGWVEuCVGiHX
+	tf0xCgyCR15UqBIizgQ7ybr+AAOkMuHA21zy+lRrlY+9keJoevqLaULHY6kjawmkH/es
+	H9qO0wPlSxZg1MckkZNFTXu3tVgi6ZcTQke5R7rbWKb0tAWPZzP8ClaIDJ4J44+AOiYG
+	qtcA==
+Received: by 10.216.198.80 with SMTP id u58mr8574488wen.204.1349165069298;
+	Tue, 02 Oct 2012 01:04:29 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id cl8sm20469640wib.10.2012.10.02.01.04.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Oct 2012 01:04:27 -0700 (PDT)
+Date: Tue, 2 Oct 2012 10:04:30 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20121002080430.GF3454@jama.jama.net>
+References: <1348866282-30437-1-git-send-email-koen@dominion.thruhere.net>
+	<1348867656.15753.86.camel@ted>
+	<BCD7AC26-F8DD-4A25-92CC-9E8324C9AC09@dominion.thruhere.net>
+	<1349097681.15753.100.camel@ted>
 MIME-Version: 1.0
-Received: by 10.14.173.69 with HTTP; Tue, 2 Oct 2012 00:33:16 -0700 (PDT)
-In-Reply-To: <1349156215-16686-1-git-send-email-raj.khem@gmail.com>
-References: <1349156215-16686-1-git-send-email-raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 2 Oct 2012 00:33:16 -0700
-Message-ID: <CAMKF1soLwgEoyR0RkYLpjsGGNi07gLsjVcZtzbR=arHuGt9wbg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] binutils-crossdk: Fix interp size expansion
+In-Reply-To: <1349097681.15753.100.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Revert "opkg svn: respect to the arch priority"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,71 +48,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 07:46:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Oct 2012 08:17:28 -0000
+X-Groupsio-MsgNum: 30203
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3yNHWXBV/QO9xKNm"
+Content-Disposition: inline
 
-i need to check it with 1 more case. Please hold on for applying it. I
-welcome testing
+--3yNHWXBV/QO9xKNm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 1, 2012 at 10:36 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Currently for sdk binutils we expand the size of .interp
-> section to 0x1000 assuming that its at the beginning of
-> the linker map but there may be program header before that
-> so actually we want to add 0x1000 - sizeof(.interp) section
-> to current location and not assign is absolutely to 0x1000
->
-> This fixes errors like
->
-> built in linker script:11 cannot move location counter backwards (from
-> 0000000000401054 to 0000000000401000)
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../binutils/binutils-crosssdk_2.22.bb             |    2 +-
->  .../binutils/binutils/relocatable_sdk.patch        |   10 +++++-----
->  2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
-> index c936549..d3c25b6 100644
-> --- a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
-> +++ b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
-> @@ -2,7 +2,7 @@ require binutils-cross_${PV}.bb
->
->  inherit crosssdk
->
-> -PR = "r1"
-> +PR = "r2"
->
->  PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
->
-> diff --git a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
-> index 33f9e68..4a2494a 100644
-> --- a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
-> +++ b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
-> @@ -7,16 +7,16 @@ by the relocating script.
->
->  Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->
-> -Index: binutils-2.22/ld/scripttempl/elf.sc
-> +Index: git/ld/scripttempl/elf.sc
->  ===================================================================
-> ---- binutils-2.22.orig/ld/scripttempl/elf.sc
-> -+++ binutils-2.22/ld/scripttempl/elf.sc
-> -@@ -116,7 +116,7 @@ if test -n "${COMMONPAGESIZE}"; then
-> +--- git.orig/ld/scripttempl/elf.sc     2012-10-01 21:42:18.729294685 -0700
-> ++++ git/ld/scripttempl/elf.sc  2012-10-01 22:26:35.149173335 -0700
-> +@@ -125,7 +125,7 @@
->     DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT-0}, .);"
->   fi
->   if test -z "${INITIAL_READONLY_SECTIONS}${CREATE_SHLIB}"; then
->  -  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp) }"
-> -+  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp); . = 0x1000; }"
-> ++  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp); . = (. & 0x1000) + 0x1000; }"
->   fi
->   if test -z "$PLT"; then
->     IPLT=".iplt         ${RELOCATING-0} : { *(.iplt) }"
-> --
-> 1.7.9.5
->
+On Mon, Oct 01, 2012 at 02:21:21PM +0100, Richard Purdie wrote:
+> On Sat, 2012-09-29 at 15:34 +0200, Koen Kooi wrote:
+> > Op 28 sep. 2012, om 23:27 heeft Richard Purdie <richard.purdie@linuxfou=
+ndation.org> het volgende geschreven:
+> >=20
+> > > On Fri, 2012-09-28 at 23:04 +0200, Koen Kooi wrote:
+> > >> This completely breaks installing packages from feeds:
+> > >>=20
+> > >> root@bone-mainline:~# opkg install libgtk-2.0
+> > >> Installing libgtk-2.0 (2.24.8-r7.1) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/libgtk-2.0_2.24.8-r7.1_armv7a-vfp-neon.ipk.
+> > >> Installing pango (1.30.0-r1.1) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/pango_1.30.0-r1.1_armv7a-vfp-neon.ipk.
+> > >> Installing pango-module-basic-x (1.30.0-r1.1) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/pango-module-basic-x_1.30.0-r1.1_armv7a-vfp-ne=
+on.ipk.
+> > >> Installing pango-module-basic-fc (1.30.0-r1.1) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/pango-module-basic-fc_1.30.0-r1.1_armv7a-vfp-n=
+eon.ipk.
+> > >> Installing shared-mime-info (0.91-r4.9) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/shared-mime-info_0.91-r4.9_armv7a-vfp-neon.ipk.
+> > >> Installing gdk-pixbuf-loader-png (2.24.1-r7.1) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/gdk-pixbuf-loader-png_2.24.1-r7.1_armv7a-vfp-n=
+eon.ipk.
+> > >> Installing gdk-pixbuf-loader-jpeg (2.24.1-r7.1) to root...
+> > >> Downloading http://eu.feeds.angstrom-distribution.org/feeds/core/ipk=
+/eglibc/armv7a-vfp-neon/base/gdk-pixbuf-loader-jpeg_2.24.1-r7.1_armv7a-vfp-=
+neon.ipk.
+> > >> Installing libjpeg8 (8d+1.2.1-r1.1) to root...
+> > >> Configuring pango-module-basic-x.
+> > >> Configuring pango.
+> > >> Configuring pango-module-basic-fc.
+> > >> Configuring shared-mime-info.
+> > >> Configuring hicolor-icon-theme.
+> > >> //var/lib/opkg/info/hicolor-icon-theme.postinst: line 11: gtk-update=
+-icon-cache: command not found
+> > >> Configuring gdk-pixbuf-loader-png.
+> > >> Collected errors:
+> > >> * opkg_download_pkg: Package libjpeg8 is not available from any conf=
+igured src.
+> > >> * opkg_install_pkg: Failed to download libjpeg8. Perhaps you need to=
+ run 'opkg update'?
+> > >> * opkg_install_cmd: Cannot install package libgtk-2.0.
+> > >> * pkg_run_script: package "hicolor-icon-theme" postinst script retur=
+ned status 127.
+> > >> * opkg_configure: hicolor-icon-theme.postinst returned 127.
+> > >=20
+> > > I'm not entirely seeing the connection to this patch based on the abo=
+ve
+> > > errors.=20
+> > >=20
+> > > Also did you try opkg with the new options? I'm not saying there isn'=
+t a
+> > > problem but some help in figuring out how to resolve this would be go=
+od.
+> >=20
+> > I'll see if the new option help next week, but even if they do, needing=
+ to use opkg install --unbreak-me is unacceptable.
+>=20
+> What I'm wondering if whether we can change the default and make
+> everyone happy. I'm waiting to hear back on the test to decide what to
+> do here.
 
+I can confirm that opkg upgrades and images are broken now.
 
+e.g. tzdata is now allarch, since
+http://git.openembedded.org/openembedded-core/commit/?id=3D23bf856215fa7c34=
+a71d6086ee355f7c0672dbab
+
+but opkg is installing old 2012d-r0 and trying to downgrade it on images
+built with older opkg:
+"Not downgrading package tzdata on root from 2012d-r2 to 2012d-r0."
+
+It was in arch with higher prio (exactly the use-case I said in original di=
+scussion of this patch).
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--3yNHWXBV/QO9xKNm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlBqoA4ACgkQN1Ujt2V2gBx+zwCeODmoP/9gbzrZNmpTF/6kw1bL
+xDEAnA2U7o8AX8Fhw7fH7PYStozkOVSA
+=OD98
+-----END PGP SIGNATURE-----
+
+--3yNHWXBV/QO9xKNm--
