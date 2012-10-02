@@ -1,42 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TJ50F-0005mt-7R
+	(envelope-from <ross.burton@intel.com>) id 1TJ52v-0005qW-T4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 18:07:23 +0200
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 02 Oct 2012 08:54:23 -0700
-Received: by iebc13 with SMTP id c13so15443209ieb.6
+	Tue, 02 Oct 2012 18:10:10 +0200
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 02 Oct 2012 08:57:09 -0700
+Received: by wibhj13 with SMTP id hj13so894148wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Oct 2012 08:54:23 -0700 (PDT)
+	Tue, 02 Oct 2012 08:57:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=lGS17MHgEIhe1U5VWZjdlhqQfG4GBrVYs7hSkJLPjAw=;
-	b=D4h+5uiGa0Gdt3NY+XrK5PYYwlYtcLAGya5gtDBDYbdSOsJuovfMfKl6mMgILhKw5V
-	iKJOFI9fP+co9UaddBVxuO2sUl85axrRPLN15Ofe89jPudrQKYbCKiGEJtPUgMmErUlZ
-	1ULzeB6JZ4TNhPODcaHI+VBPiHfoyp2FV+A/ScfSNyNyU4fyDh52xGtd9Xw6Dt30kQz6
-	QlHu/MswJmQvxiR9YNCENwgPxijGgMsPhjoXiXXvOYzsK3gH15uxlHCmyarX/HDCKOds
-	+d3oHOf78GFiWWU8RC2zWKQ6h++Wvrnmteg2LtMyCIz5ikUurr4k6MgzHcAu/9B/cNfN
-	w2Pg==
-Received: by 10.50.7.212 with SMTP id l20mr9213497iga.43.1349193262874; Tue,
-	02 Oct 2012 08:54:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.141.70 with HTTP; Tue, 2 Oct 2012 08:54:01 -0700 (PDT)
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6CA1BD@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <1348795994-21695-1-git-send-email-msm@freescale.com>
-	<1348795994-21695-10-git-send-email-msm@freescale.com>
-	<CAJTo0LYnnA868v3Dd5yDWn9wpXS3QsHLt0P8Ejj0BZiGmwd-RQ@mail.gmail.com>
-	<CAEsOVNeVxSgoZR6jQyEQ16P-_b+1_AQPcpFqcO5NPr=j8SkDVQ@mail.gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A6CA1BD@039-SN1MPN1-001.039d.mgd.msft.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Oct 2012 16:54:01 +0100
-Message-ID: <CAJTo0LaecR7m67KAK6rpQg5t022zxWufvZ3+PPbx-Kpb=-6vPQ@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-X-Gm-Message-State: ALoCoQkg9bIPPWRgpWKUdx8bTQbZBOJRSyGPBANbHFPIPQNrvX9M8AbAo33bZ+PmpUOJZGNqhvmC
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 10/10] libx11.inc: fix build issues for older CentOS distros
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=eOkdmzSFym9p8TTldQQ58pfEmSsmaGDcCEMJWI6rph4=;
+	b=FJlBkdRtZiysIvbALMnXRdcyCqJoMcVWhOwxbfpinNv4lweA1O04/uUnc3Lm6Zdqc3
+	8nOzNzFCCMRnOIuISz5k8Ag9VyJYlvxx4IBEuhySJu0dLKNakfDp4LEFtquoi+kA80s9
+	pe7dqqHLYz89qanO7JnK2Xwb6UzCMHsHvK/shcUICnWWys4X4lW4WtbQ3WFPWo3RQE21
+	HonkJTu/nkUhsQuuympuZUbhOwzNM4u3oQe1hGjOPeYBINFKfpawwhkaTM7AOgqJDvB0
+	SlcNKqVm5UG89Boou2I7sQp4JzQn3uWsCLYKD1MLUkvi6DXSPuNuAP8oeubFk7h3Mj5I
+	zF/w==
+Received: by 10.216.217.194 with SMTP id i44mr480836wep.60.1349193427374;
+	Tue, 02 Oct 2012 08:57:07 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ga2sm3057663wib.2.2012.10.02.08.57.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Oct 2012 08:57:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Oct 2012 16:56:05 +0100
+Message-Id: <1349193366-6632-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlX9Na1G+NVa+/RzhSBewDWs58CGj6gbTOPq5UwGrGDSZ7NGCd8PP5fyvoZTxM5/oVog9on
+Subject: [PATCH] Revert "initrd: Spawn an emergency shell when something goes wrong"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 16:07:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Oct 2012 16:10:10 -0000
 
-On 2 October 2012 16:50, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
->> Yea,  I suppose the the host compiler should be checked by autotools
->> if it supports these warning flags.
->
-> Should this block applying this patch to oe-core or will there be
-> upstream fixes before 1.3?
+This had nowhere near enough testing...
 
-This is the right fix for the short term, fixing upstream is more
-complicated because they have the pain of Solaris to deal with.
+This reverts commit ffb6928f5783e5202d9849c3a185e29be1d41c63.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/initrdscripts/files/init-live.sh |   11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 2639308..5682fd1 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -2,17 +2,6 @@
+ 
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
+ 
+-emergency_shell()
+-{
+-    echo "Bug in initramfs /init detected. Dropping to a shell. Good luck!"
+-    echo
+-    sh
+-}
+-trap "emergency_shell" 0 2
+-
+-# exit immediately if a command fails
+-set -e
+-
+ ROOT_MOUNT="/rootfs/"
+ ROOT_IMAGE="rootfs.img"
+ MOUNT="/bin/mount"
+-- 
+1.7.10
+
 
 
