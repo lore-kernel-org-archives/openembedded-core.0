@@ -1,30 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TJB7R-0004YF-FE for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 00:39:13 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q92MQFkf021835
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Oct 2012 23:26:15 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21323-06 for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Oct 2012 23:26:11 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q92MQ6wf021829
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Oct 2012 23:26:07 +0100
-Message-ID: <1349216769.18301.20.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Oct 2012 23:26:09 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] qt4: Avoid circular dependencies with multilib
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eflanagan@envy.jf.intel.com>) id 1TJBhC-0005G1-8i
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Oct 2012 01:16:10 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Oct 2012 16:03:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,525,1344236400"; d="scan'208";a="200832334"
+Received: from envy.jf.intel.com ([10.7.201.159])
+	by orsmga001.jf.intel.com with ESMTP; 02 Oct 2012 16:03:09 -0700
+Received: from envy.jf.intel.com (localhost [127.0.0.1])
+	by envy.jf.intel.com (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id
+	q92N1crL023320; Tue, 2 Oct 2012 16:01:38 -0700
+Received: (from eflanagan@localhost)
+	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q92N1bpg023319;
+	Tue, 2 Oct 2012 16:01:37 -0700
+From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Oct 2012 16:01:36 -0700
+Message-Id: <cover.1349218820.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] Change bzip2 to a less generic license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,62 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 22:39:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Oct 2012 23:16:10 -0000
 
-Without this, circular dependencies are found when attempting to build
-multilib versions of qt4 (or bitbake world in a multilib enabled build).
+The license for bzip2 is not quite BSD. I have an email out to the
+maintainer to see if we can utilize a common BSD license (or something
+else) however, for now, we should revert bzip2 back to a special
+license.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/qt4e.bbclass b/meta/classes/qt4e.bbclass
-index 05c24ef..de2a68d 100644
---- a/meta/classes/qt4e.bbclass
-+++ b/meta/classes/qt4e.bbclass
-@@ -1,4 +1,5 @@
--DEPENDS_prepend = "${@["qt4-embedded ", ""][(d.getVar('PN', True)[:12] == 'qt4-embedded')]}"
-+QT4EDEPENDS ?= "qt4-embedded "
-+DEPENDS_prepend = "${QT4EDEPENDS}"
- 
- inherit qmake2
- 
-diff --git a/meta/classes/qt4x11.bbclass b/meta/classes/qt4x11.bbclass
-index 52190f4..b06e15d 100644
---- a/meta/classes/qt4x11.bbclass
-+++ b/meta/classes/qt4x11.bbclass
-@@ -1,4 +1,5 @@
--DEPENDS_prepend = "${@base_contains("PROVIDES", "qt4-x11", "", "qt4-x11 ", d)}"
-+QT4DEPENDS ?= "qt4-x11 "
-+DEPENDS_prepend = "${QT4DEPENDS}"
- 
- inherit qmake2
- 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 53eb652..965c66e 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -4,6 +4,7 @@ HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
- INC_PR = "r48"
- 
-+QT4EDEPENDS = ""
- QT_BASE_LIB  ?= "libqt-embedded"
- 
- # Set necessary variables in the profile
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index 0ae74f7..70ee9b0 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -5,6 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
- SECTION = "x11/libs"
- DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
- PROVIDES += "qt4-x11"
-+QT4DEPENDS = ""
- 
- INC_PR = "r46"
- 
+As busybox also utilizes a lightly modified bzip2, this also
+effects busybox.
 
+The following changes since commit 8609051d8d4f9fa565eb48418a87fa0048613374:
+
+  bitbake.conf: Add CCACHE_DISABLE to BS_HASHBASE_WHITELIST (2012-10-02 18:12:48 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib eflanagan/bzip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/bzip
+
+Elizabeth Flanagan (1):
+  bzip2 and busybox: Incorrect LICENSE
+
+ meta/recipes-core/busybox/busybox.inc      |    3 +--
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb |    2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
