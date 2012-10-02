@@ -1,21 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TIyqc-0005V7-2I
+	(envelope-from <ross.burton@intel.com>) id 1TIzEb-0005ok-RQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 11:33:02 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TIye6-0003uU-2U
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 11:20:06 +0200
-From: Phil Blundell <philb@gnu.org>
+	Tue, 02 Oct 2012 11:57:50 +0200
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 02 Oct 2012 02:44:31 -0700
+Received: by mail-wi0-f171.google.com with SMTP id hj13so499714wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Oct 2012 02:44:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=JoLeDkKLu3yBUezkEyhzjG1KpsvV0WzgPBVHwcry5XI=;
+	b=Z7DICzFyTVYhpor8nDqho/ecNEkTf9R20gpquxP/zsIHIncuI78aSJlRtb7UJjxanX
+	8I4+Hasd2PNNHe1uqROyvKhCWPuBFn7HqDhchYcpWNnQsI3jMa6lrJQUAVarVi92WIKz
+	eZ2WO2Fewz9S/E/9+UpjyNItYhHsgc+MYClrzViUPjruBRosBakTQ9yr6pooXKcgy0nJ
+	F3yxThHkdKW6xhctlAtIO66Dmyqh5SHPXbD6y+bHbF5JXXZKJBCrZLJBJa/TBEwdjJjG
+	eySTnm0OHOTkJ4LuMBImoGZ8KXYmwi6vaGn6uIanctdmyBfbOmwohPPnycKwh6CM0pUi
+	OqaA==
+Received: by 10.216.207.93 with SMTP id m71mr8586075weo.201.1349171086760;
+	Tue, 02 Oct 2012 02:44:46 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id gm7sm1513626wib.10.2012.10.02.02.44.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Oct 2012 02:44:45 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 02 Oct 2012 10:20:04 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1349169606.32611.73.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] rootfs_ipk, image: Add debug capture support
+Date: Tue,  2 Oct 2012 10:43:45 +0100
+Message-Id: <1349171025-17731-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQkmLDoLRr4peGjLzY1rrpAhauvp4u3QTSumkdd+EUdp2knQN5fh7S42PYXVFHbuqJlubsxk
+Subject: [PATCH] galago: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,94 +43,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 09:33:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Oct 2012 09:57:50 -0000
 
-If ${IMAGE_BUILD_DEBUG} is set, construct a parallel tree containing
-the debug data for the packages that have been installed in the
-rootfs, then tar it up and deploy it alongside the rootfs images.
+Galago has been replaced with Telepathy and Folks, and has been unmaintained for
+years.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/image.bbclass      |    9 +++++++++
- meta/classes/rootfs_ipk.bbclass |   15 +++++++++++++++
- meta/conf/bitbake.conf          |    1 +
- 3 files changed, 25 insertions(+)
+ .../galago/galago-daemon_0.5.1.bb                  |   18 ------------
+ .../galago/libgalago-0.5.2/mkdir.patch             |   29 --------------------
+ .../galago/libgalago-0.5.2/pkgconfig.patch         |   16 -----------
+ .../recipes-connectivity/galago/libgalago_0.5.2.bb |   29 --------------------
+ .../packagegroups/packagegroup-sdk-gmae.inc        |    2 --
+ 5 files changed, 94 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/galago/galago-daemon_0.5.1.bb
+ delete mode 100644 meta/recipes-connectivity/galago/libgalago-0.5.2/mkdir.patch
+ delete mode 100644 meta/recipes-connectivity/galago/libgalago-0.5.2/pkgconfig.patch
+ delete mode 100644 meta/recipes-connectivity/galago/libgalago_0.5.2.bb
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index ab212b3..c82fba1 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -445,3 +445,12 @@ do_package_write_deb[noexec] = "1"
- do_package_write_rpm[noexec] = "1"
- 
- addtask rootfs before do_build
-+
-+fakeroot do_capture_debug() {
-+	if [ "${IMAGE_BUILD_DEBUG}" = "1" -a -n "${IMAGE_ROOTFS_DBG}" -a -d "${IMAGE_ROOTFS_DBG}" ]; then
-+		tar czf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.debug.tar.gz -C ${IMAGE_ROOTFS_DBG} .
-+		[ "${IMAGE_NAME}" == "${IMAGE_LINK_NAME}" ] || ln -sf ${IMAGE_NAME}.debug.tar.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.debug.tar.gz
-+	fi
-+}
-+
-+addtask capture_debug before do_build after do_rootfs
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 46e8d60..e4e74dd 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -9,6 +9,8 @@ EXTRAOPKGCONFIG ?= ""
- ROOTFS_PKGMANAGE = "opkg opkg-collateral ${EXTRAOPKGCONFIG}"
- ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- 
-+IMAGE_BUILD_DEBUG ?= "0"
-+
- do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_ipk"
- 
-@@ -17,6 +19,7 @@ do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force-overwrite"
- # The _POST version also works when constructing the matching SDK
- IPKG_ARGS_POST = "-f ${IPKGCONF_TARGET} -o $INSTALL_ROOTFS_IPK --force-overwrite"
-+IPKG_ARGS_DBG = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS_DBG} --force-overwrite"
- 
- OPKG_PREPROCESS_COMMANDS = "package_update_index_ipk; package_generate_ipkg_conf"
- 
-@@ -88,6 +91,18 @@ fakeroot rootfs_ipk_do_rootfs () {
- 		fi
- 	fi
- 
-+	if [ "${IMAGE_BUILD_DEBUG}" = "1" -a -n "${IMAGE_ROOTFS_DBG}" ]; then
-+		all_pkgs=`opkg-cl ${IPKG_ARGS} list-installed | awk '{ print $1 }'`
-+		[ "${IMAGE_ROOTFS_DBG}" -ef "${IMAGE_ROOTFS}" ] || rm -rf ${IMAGE_ROOTFS_DBG}
-+		mkdir -p ${IMAGE_ROOTFS_DBG}${opkglibdir}
-+		opkg-cl ${IPKG_ARGS_DBG} update
-+		for p in $all_pkgs; do
-+	    		if [ "`opkg-cl ${IPKG_ARGS_DBG} info $p-dbg`" != "" ]; then
-+	    			opkg-cl ${IPKG_ARGS_DBG} --nodeps install $p-dbg
-+			fi
-+		done
-+	fi
-+
- 	install -d ${IMAGE_ROOTFS}/${sysconfdir}
- 	echo ${BUILDNAME} > ${IMAGE_ROOTFS}/${sysconfdir}/version
- 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 87351e0..66152fe 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -399,6 +399,7 @@ STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
- ##################################################################
- 
- IMAGE_ROOTFS = "${WORKDIR}/rootfs"
-+IMAGE_ROOTFS_DBG = "${IMAGE_ROOTFS}.debug"
- IMAGE_BASENAME = "${PN}"
- IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
- IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+diff --git a/meta/recipes-connectivity/galago/galago-daemon_0.5.1.bb b/meta/recipes-connectivity/galago/galago-daemon_0.5.1.bb
+deleted file mode 100644
+index 81a367d..0000000
+--- a/meta/recipes-connectivity/galago/galago-daemon_0.5.1.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-SUMMARY =       "Desktop presence framework"
+-DESCRIPTION =   "Galago is a desktop presence framework, designed to transmit presence information between programs."
+-HOMEPAGE =      "http://www.galago-project.org/"
+-LICENSE =       "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-DEPENDS =       "libgalago dbus glib-2.0"
+-
+-SRC_URI =       "http://www.galago-project.org/files/releases/source/${BPN}/${BPN}-${PV}.tar.gz "
+-
+-SRC_URI[md5sum] = "fdb81f938f86f380b127158ebb542279"
+-SRC_URI[sha256sum] = "db42a0d1d0f8b069ea5ac1203207f9178f25ac1367f4910bd48547f5be1db4c2"
+-
+-EXTRA_OECONF =	"--disable-binreloc --disable-check --disable-tests"
+-
+-FILES_${PN} += "${datadir}/dbus-1/services/"
+-
+-inherit autotools pkgconfig gettext
+-
+diff --git a/meta/recipes-connectivity/galago/libgalago-0.5.2/mkdir.patch b/meta/recipes-connectivity/galago/libgalago-0.5.2/mkdir.patch
+deleted file mode 100644
+index 4f18686..0000000
+--- a/meta/recipes-connectivity/galago/libgalago-0.5.2/mkdir.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: libgalago-0.5.2/po/Makefile.in.in
+-===================================================================
+---- libgalago-0.5.2.orig/po/Makefile.in.in	2006-06-06 09:59:17.000000000 +0100
+-+++ libgalago-0.5.2/po/Makefile.in.in	2009-08-19 20:31:56.000000000 +0100
+-@@ -29,7 +29,7 @@
+- INSTALL = @INSTALL@
+- INSTALL_DATA = @INSTALL_DATA@
+- MKINSTALLDIRS = @MKINSTALLDIRS@
+--mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(MKINSTALLDIRS)" ;; esac`
+-+mkinstalldirs = $(MKINSTALLDIRS)
+- 
+- CC = @CC@
+- GMSGFMT = @GMSGFMT@
+-Index: libgalago-0.5.2/configure.ac
+-===================================================================
+---- libgalago-0.5.2.orig/configure.ac	2009-08-19 20:30:56.000000000 +0100
+-+++ libgalago-0.5.2/configure.ac	2009-08-19 20:31:28.000000000 +0100
+-@@ -157,6 +157,9 @@
+- 
+- AC_SUBST(CFLAGS)
+- 
+-+MKINSTALLDIRS="mkdir -p"
+-+AC_SUBST(MKINSTALLDIRS)
+-+
+- dnl ################################################################
+- dnl # Output the Makefiles
+- dnl ################################################################
+diff --git a/meta/recipes-connectivity/galago/libgalago-0.5.2/pkgconfig.patch b/meta/recipes-connectivity/galago/libgalago-0.5.2/pkgconfig.patch
+deleted file mode 100644
+index 6fbf552..0000000
+--- a/meta/recipes-connectivity/galago/libgalago-0.5.2/pkgconfig.patch
++++ /dev/null
+@@ -1,16 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: libgalago-0.5.2/libgalago.pc.in
+-===================================================================
+---- libgalago-0.5.2.orig/libgalago.pc.in	2006-05-17 08:53:26.000000000 +0100
+-+++ libgalago-0.5.2/libgalago.pc.in	2008-03-19 22:34:16.000000000 +0000
+-@@ -6,6 +6,7 @@
+- Name: libgalago
+- Description: Galago Association/Presence Communication Library
+- Version: @VERSION@
+--Libs: -L${libdir} -lgalago @PACKAGE_LIBS@
+--Cflags: -I${includedir} @PACKAGE_CFLAGS@
+-+Requires: dbus-1 glib-2.0 dbus-glib-1
+-+Libs: -L${libdir} -lgalago
+-+Cflags: -I${includedir}
+- 
+diff --git a/meta/recipes-connectivity/galago/libgalago_0.5.2.bb b/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
+deleted file mode 100644
+index 2071952..0000000
+--- a/meta/recipes-connectivity/galago/libgalago_0.5.2.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-SUMMARY =       "Desktop presence framework"
+-DESCRIPTION =	"Galago is a desktop presence framework, designed to transmit presence information between programs."
+-HOMEPAGE =	"http://www.galago-project.org/"
+-LICENSE =	"LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+-                    file://libgalago/galago.h;endline=21;md5=141785cb9ec62067398dda136a7bb401"
+-
+-DEPENDS = 	"dbus glib-2.0 dbus-glib"
+-
+-SRC_URI =	"http://www.galago-project.org/files/releases/source/${BPN}/${BPN}-${PV}.tar.gz \
+-                 file://mkdir.patch \
+-                 file://pkgconfig.patch "
+-
+-SRC_URI[md5sum] = "7ec92f2ecba1309ac4b71b4b4d8d0a0d"
+-SRC_URI[sha256sum] = "9b7c9845e2f661dbf5c2595e67bc7afd48f090ac2c033726c89d7f0e90791dfa"
+-PR = "r3"
+-
+-inherit autotools pkgconfig gettext
+-
+-EXTRA_OECONF = "--disable-tests --disable-check"
+-
+-do_configure_prepend_libc-uclibc() {
+-        touch ${S}/config.rpath
+-}
+-
+-do_install_append() {
+-	# We don't package autopackage files
+-	rm -rf ${D}${datadir}/autopackage
+-}
+diff --git a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
+index f9e373d..2289572 100644
+--- a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
++++ b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
+@@ -12,7 +12,6 @@ SDK-GMAE = " \
+     libebook-dev \
+     libxi-dev \
+     libsqlite3-dev \
+-    galago-daemon \
+     gnome-desktop \
+     gssdp \
+     gupnp \
+@@ -20,7 +19,6 @@ SDK-GMAE = " \
+     gupnp-tools \
+     gypsy \
+     libart-lgpl \
+-    libgalago \
+     libtelepathy \
+     pulseaudio \
+     telepathy-glib \
 -- 
-1.7.10.4
-
-
+1.7.10
 
 
 
