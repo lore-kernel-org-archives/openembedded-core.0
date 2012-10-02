@@ -1,22 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TJ0eT-0008Ho-RY
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Oct 2012 13:28:37 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TJ0Rx-0003wn-SB; Tue, 02 Oct 2012 13:15:42 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 02 Oct 2012 12:15:41 +0100
-In-Reply-To: <1349176346.15753.139.camel@ted>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TJ10w-0000AK-0n for openembedded-core@lists.openembedded.org;
+	Tue, 02 Oct 2012 13:51:50 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q92Bcom1015219;
+	Tue, 2 Oct 2012 12:38:50 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14190-07; Tue,  2 Oct 2012 12:38:45 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q92Bcha3015213
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 2 Oct 2012 12:38:44 +0100
+Message-ID: <1349177925.15753.140.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Tue, 02 Oct 2012 12:38:45 +0100
+In-Reply-To: <1349176541.32611.80.camel@phil-desktop>
 References: <1349169606.32611.73.camel@phil-desktop>
 	<1349176346.15753.139.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1349176541.32611.80.camel@phil-desktop>
+	<1349176541.32611.80.camel@phil-desktop>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] rootfs_ipk, image: Add debug capture support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -31,21 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2012 11:28:37 -0000
+X-List-Received-Date: Tue, 02 Oct 2012 11:51:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-10-02 at 12:12 +0100, Richard Purdie wrote:
-> Hasn't Paul added a general mechanism for doing this so we could add
-> this feature a level higher so that it could be used by all packaging
-> formats?
+On Tue, 2012-10-02 at 12:15 +0100, Phil Blundell wrote:
+> On Tue, 2012-10-02 at 12:12 +0100, Richard Purdie wrote:
+> > Hasn't Paul added a general mechanism for doing this so we could add
+> > this feature a level higher so that it could be used by all packaging
+> > formats?
+> 
+> Ah, possibly.  I'll have a look.  Can you give me a pointer to the
+> mechanism you were thinking of?
 
-Ah, possibly.  I'll have a look.  Can you give me a pointer to the
-mechanism you were thinking of?
+Something like IMAGE_FEATURES += "dbg-pkgs" should trigger the addition
+of dbg packages.
 
-thanks
+Cheers,
 
-p.
+Richard
 
 
 
