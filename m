@@ -1,20 +1,41 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TJMlU-0005i0-1z
+	(envelope-from <ross.burton@intel.com>) id 1TJMpV-0005lc-5s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 13:05:20 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Oct 2012 03:52:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,527,1344236400"; d="scan'208";a="151885460"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.37])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Oct 2012 03:52:17 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Oct 2012 13:51:46 +0300
-Message-Id: <1349261506-2829-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] qemu: Fixed running QEMU with virtio error reporting
+	Wed, 03 Oct 2012 13:09:29 +0200
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 03 Oct 2012 03:56:18 -0700
+Received: by oagh1 with SMTP id h1so6859209oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Oct 2012 03:56:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=ARJz2TkY90O4aLFhjKTUNjbDXDqZeymN/Ap5GdesxpE=;
+	b=crBRFioomIt3wF8nCcxXQS+S0xhMPIrDX8d+4JrXytwKeOPPkEuQ6586+QEdDSGWt6
+	7J97vGqOJPWg0J2nnr5Ucj90n+PwyeJwSnUZD0K5BCMGmwvhGDQMBkqkrMeYQdVg8DAB
+	yOQA6MdbbTBttrc9V7svQNaIi5wfE5n66rBh9zMUe7kLCeKAMEtr5+KKKBVGExlHrCZl
+	nk95TmJw7P91iuLfY1OzX3RGc0ljzdGzH50nE2hjntvLZCr7vYmUYf6CYoNWf5cKr2Zs
+	8DSvM8PxIbzTQHxx2aXkaNQkjRWrcFoUDr71aTXQy/6wK4QebFx4gZRXiiqp0+POdxiK
+	VOuQ==
+Received: by 10.182.212.70 with SMTP id ni6mr1191576obc.44.1349261778284; Wed,
+	03 Oct 2012 03:56:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.70.6 with HTTP; Wed, 3 Oct 2012 03:55:57 -0700 (PDT)
+In-Reply-To: <1349261304.18301.24.camel@ted>
+References: <1349086731-2818-1-git-send-email-ross.burton@intel.com>
+	<1349255253.18301.23.camel@ted>
+	<CAJTo0LbGDt_dKSgL+Ms0M9QAB7d+nBVCuV0-WuNKuGDy-t19fQ@mail.gmail.com>
+	<CAJTo0LYh7yqpN5gyfvfpNxoBVOP_jG0cjm8UHcYRT874=8B7yg@mail.gmail.com>
+	<1349261304.18301.24.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Oct 2012 11:55:57 +0100
+Message-ID: <CAJTo0LZRek50PZ1B4vd8vfVb0u8JALaX+2d+BGykjteBGD15TA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQlPLAbiTjPLBXuXEWohD+vtCcAgJGJQiWQUa412pbTuloai6DqQME4ap6ANjrLqUObFHMFd
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] xf86-video-intel: drop libxvmc dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,60 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 11:05:20 -0000
+X-List-Received-Date: Wed, 03 Oct 2012 11:09:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If vhost_net module is not properly installed,
-runqemu script will report the error and
-provide the user with a link to the guide.
-Also corrected small cosmetic issues in
-runqemu script messages.
+On 3 October 2012 11:48, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> My other question was whether we need any m4 macros from xvmc to
+> reautoconf it?
 
-Fixes [YOCTO #3184]
+if test "$XVMC" = yes; then
+	PKG_CHECK_MODULES(XVMCLIB,
+			  [xvmc xext xfixes dri2proto x11-xcb xcb-dri2 xcb-aux],
+			  [XVMC=yes], [XVMC=no])
+fi
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- scripts/runqemu |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Nope, it uses pkgconfig.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index e6e43f2..5608c72 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -223,13 +223,13 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
-     fi
-     if [ ! -e /dev/kvm ]; then
-         echo "Missing KVM device. Have you inserted kvm modules?"
--        echo "For further help see"
-+        echo "For further help see:"
-         echo "$YOCTO_KVM_WIKI";
-         exit 1;
-     fi
-     if [ ! -e /dev/vhost-net ]; then
-         echo "Missing virtio net device. Have you inserted vhost-net module?"
--        echo "For further help see"
-+        echo "For further help see:"
-         echo "$YOCTO_PARAVIRT_KVM_WIKI";
-         exit 1;
-     fi
-@@ -238,13 +238,13 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
-         KVM_ACTIVE="yes"
-     else
-         echo "You have no rights on /dev/kvm."
--        echo "Please change the ownership of this file as described at"
-+        echo "Please change the ownership of this file as described at:"
-         echo "$YOCTO_KVM_WIKI";
-         exit 1;
-     fi
--    if [ ! -w /dev/vhost-net -a -r /dev/vhost-net ]; then
-+    if ! 9<>/dev/vhost-net ; then
-         echo "You have no rights on /dev/vhost-net."
--        echo "Please change the ownership of this file as described at"
-+        echo "Please change the ownership of this file as described at:"
-         echo "$YOCTO_PARAVIRT_KVM_WIKI";
-         exit 1;
-     fi
--- 
-1.7.9.5
-
+Ross
 
 
