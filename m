@@ -1,32 +1,36 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1TJNz2-0007qT-2n
+	(envelope-from <ross.burton@intel.com>) id 1TJO1u-0007vM-2c
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 14:23:24 +0200
-Received: by iebc13 with SMTP id c13so17541610ieb.6
+	Wed, 03 Oct 2012 14:26:22 +0200
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 03 Oct 2012 05:13:20 -0700
+Received: by weyt44 with SMTP id t44so4246860wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Oct 2012 05:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=Xb+R4hgXWDh935YHgUX2shIgOLwN4w1NeJyZs9CFmLo=;
-	b=Q+HihIZX1wtaJlU2cXhJGErRGzCuU/41YwyqSmOE1hvpG/MzxaFprK4+lCsyrbhXei
-	Y4LrSbeDbY3gOn7rJAe/aT3QFOGcagaIgtCkTwywD/PHniExRhTCSh2jHT3r4gYcL2ob
-	bzhFee0oVFdDPkHCcBV8qqqJDc9flsmw5vX2DtWUqweeBiBIJQ65BEmmNAsVtTm1m/7T
-	fYpUZK1MDTY3mJypWgV4y4WDc2F46hgkEO2ZQ6uEV0cfbM393FJ+3Xz5cVd/8snPCO+C
-	fqxNq7Yjz1qH1W98k71ml4bqINhDdPuES1U/l+W9Mt7mtlQFcJTCu457WmTqo69U6PKJ
-	K2KQ==
-MIME-Version: 1.0
-Received: by 10.50.47.129 with SMTP id d1mr11939174ign.45.1349266223731; Wed,
-	03 Oct 2012 05:10:23 -0700 (PDT)
-Received: by 10.64.99.226 with HTTP; Wed, 3 Oct 2012 05:10:23 -0700 (PDT)
-In-Reply-To: <506BC13D.9030909@windriver.com>
-References: <52507f028d9ec0e88078673e15e238d010cfaead.1349239001.git.dvhart@linux.intel.com>
-	<506BC13D.9030909@windriver.com>
-Date: Wed, 3 Oct 2012 14:10:23 +0200
-Message-ID: <CAAQYJAvNKTTzux33yYq9Vif3+40Cc=B51Wh1usE9vS1kCqQ-sw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+	Wed, 03 Oct 2012 05:13:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=l9YWx6UEVu6E77ZoYuX2qorXinSoUZ5IeNrZGpLDl9U=;
+	b=PY+Ciu4tYUouS1yKgghDP5ZeM1qKjqhnVc28AeySSnp8woJBlpwzVeA8kHbGneO3jX
+	iqkM61jB9yMK1jHx+lVOgulx5Z1hzpn3MCAJII69vmd0GD7/BOHSjByh26byfGRGbfNK
+	krjbOmm7zmqpYcTN5ok/0h07liv5kH59d5GH1LJUQbnNMmg49bftnO9Gdn4VxiDgS05f
+	dMM1Swr4NOxdkcizL93PRh4to09Q6W+XcZ899I3LMqk8zP+2YX2cR/iziokW1hugYSi9
+	YvxDuF89O8uiMpQKdC2Tsbl+6cefLRHhLTB1h7TXuyslkVB+45FwnXigoeeO9Mohi4yQ
+	PJSg==
+Received: by 10.180.99.99 with SMTP id ep3mr4555932wib.15.1349266399368;
+	Wed, 03 Oct 2012 05:13:19 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id cu1sm26623221wib.6.2012.10.03.05.13.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 03 Oct 2012 05:13:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-yocto-custom: Clarify defconfig usage
+Date: Wed,  3 Oct 2012 13:12:18 +0100
+Message-Id: <1349266338-15222-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQkZTiYu/27JdVIxnlimFi4sJ+jGFK4anpG3zMQzqk+PQz65/QMNlPpdkjivbOGfdqzo6tGv
+Subject: [PATCH] wpa-supplicant: don't break the DBus service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,68 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 12:23:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 03 Oct 2012 12:26:22 -0000
 
-On Wed, Oct 3, 2012 at 6:38 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> On 12-10-03 12:36 AM, Darren Hart wrote:
->>
->> It is necessary to supply file://defconfig to the SRC_URI when using
->> a defconfig (it is not implicitly understood as the commentary might
->> currently suggest).
->
->
-> Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->
->
->>
->> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
->> CC: Bruce Ashfield<bruce.ashfield@windriver.com>
->> ---
->>   meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
->> b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
->> index 1f0b3a2..4115d2f 100644
->> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
->> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
->> @@ -13,7 +13,8 @@
->>   #
->>   #   You must also provide a Linux kernel configuration. The most direct
->>   #   method is to copy your .config to files/defconfig in your layer,
->> -#   in the same directory as the bbappend.
->> +#   in the same directory as the bbappend and add file://defconfig to
->> +#   your SRC_URI.
->>   #
->>   #   To use the yocto kernel tooling to generate a BSP configuration
->>   #   using modular configuration fragments, see the yocto-bsp and
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The recipe exports $BINDIR as ${sbindir} and the build system uses this when
+writing the DBus service file, so sedding it and replacing $base_sbindir with
+$sbindir (/sbin and /usr/sbin) isn't useful when it ends up as
+/usr/usr/sbin/wpa_supplicant.
 
-Great, this example can be very useful to create custom kernel recipes.
+[YOCTO: #3202]
 
-Just one thing, the comments on the top suggest to set
-#     COMPATIBLE_MACHINE_yourmachine = "yourmachine"
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc |    1 -
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb  |    2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-but at the end there is
-COMPATIBLE_MACHINE = "(^$)"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+index 873e923..485a2dd 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+@@ -61,7 +61,6 @@ do_install () {
+ 	install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+ 	install -d ${D}/${datadir}/dbus-1/system-services
+ 	install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
+-	sed -i -e s:${base_sbindir}:${sbindir}:g ${D}/${datadir}/dbus-1/system-services/*.service
+ 
+ 	install -d ${D}/etc/default/volatiles
+ 	install -m 0644 ${WORKDIR}/99_wpa_supplicant ${D}/etc/default/volatiles
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+index a60cd86..36ee25c 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-1.0.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "8650f6aa23646ef634402552d0669640"
+ SRC_URI[sha256sum] = "91d41d473a5aafa2e25dd6577ebda975c4d4a3188850a53e31feaf7c04482b9c"
+-- 
+1.7.10
 
-Now, the latter form is what I'm used to see.
-
-Which kind of advantages using COMPATIBLE_MACHINE_yourmachine ? In
-that way you don't mask the recipe for other machines...so I don't see
-the purpose and I think should be discouraged. Thus, I'd amend the
-example in the comment.
-
-My 2 cents
-
-Andrea
 
 
