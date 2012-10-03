@@ -1,20 +1,21 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TJLlV-0003jD-W3
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TJLom-0003nc-QW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 12:01:18 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Oct 2012 02:48:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,527,1344236400"; d="scan'208";a="229372996"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Oct 2012 02:48:16 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Wed, 03 Oct 2012 12:04:40 +0200
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 8CD81D22B7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Oct 2012 11:51:44 +0200 (CEST)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Oct 2012 12:48:14 +0300
-Message-Id: <1349257694-20782-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] qemu: add wrapper for qemu-mips binary
+Date: Wed,  3 Oct 2012 11:51:27 +0200
+Message-Id: <1349257892-32178-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.7.10.4
+Subject: Merging AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,49 +28,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 10:01:18 -0000
+X-List-Received-Date: Wed, 03 Oct 2012 10:04:40 -0000
 
-qemu-mips user emulation binary segfaults when running any kind of
-binary. This is due to a MMU access fault in the virtual CPU. This
-problem has been introduced in qemu when 4GB of vmem were reserved for
-32-on-64 bit.
+Hello guys
 
-This workaround will need to be reverted once the proper fix is found.
+Now, when AArch64 is buildable from public sources it came a time to
+work on merging all changes I had to do to get it working with current
+OE-Core.
 
-[YOCTO #3143]
+All changes are available in:
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-devtools/qemu/qemu_1.2.0.bb |   14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+git://git.openembedded.org/openembedded-core-contrib hrw/aarch64-support
 
-diff --git a/meta/recipes-devtools/qemu/qemu_1.2.0.bb b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-index 191ee48..dcf998a 100644
---- a/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-@@ -29,6 +29,20 @@ do_configure_prepend_virtclass-nativesdk() {
- 		sed -i 's/-lX11//g' Makefile.target
- 	fi
- }
-+
-+# The following fragment will create a wrapper for qemu-mips user emulation
-+# binary in order to work around a segmentation fault issue. Basically, by
-+# default, the reserved virtual address space for 32-on-64 bit is set to 4GB.
-+# This will trigger a MMU access fault in the virtual CPU. With this change,
-+# the qemu-mips works fine.
-+# IMPORTANT: This piece needs to be removed once the root cause is fixed!
-+inherit utils
-+do_install_append() {
-+	create_wrapper ${D}/${bindir}/qemu-mips \
-+		QEMU_RESERVED_VA=0x0
-+}
-+# END of qemu-mips workaround
-+
- do_configure_prepend_virtclass-native() {
- 	# Undo the -lX11 added by linker-flags.patch, don't assume that host has libX11 installed
- 	sed -i 's/-lX11//g' Makefile.target
--- 
-1.7.9.5
+Those are first versions of patches so if anything has to be changed
+feel free to tell. Probably descriptions needs to be updated etc but I
+would like to see some kind of review as it was long time since last
+time I did OE merging stuff.
 
 
 
