@@ -1,27 +1,21 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1TJQgy-000898-0d
+	(envelope-from <philb@gnu.org>) id 1TJRHy-0008FJ-2j
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 17:16:56 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Oct 2012 08:03:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,528,1344236400"; d="scan'208";a="230042953"
-Received: from unknown (HELO envy.home) ([10.255.13.153])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Oct 2012 08:03:55 -0700
-Message-ID: <506C53AC.80202@linux.intel.com>
-Date: Wed, 03 Oct 2012 08:03:08 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1349266338-15222-1-git-send-email-ross.burton@intel.com>
-	<506C5062.1050400@linux.intel.com>
-In-Reply-To: <506C5062.1050400@linux.intel.com>
-X-Enigmail-Version: 1.4.4
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wpa-supplicant: don't break the DBus service file
+	Wed, 03 Oct 2012 17:55:10 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TJR5Q-0005Ws-E3
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Oct 2012 17:42:12 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 03 Oct 2012 16:42:11 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1349278932.32611.140.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH] insane: detect and warn about relocations in .text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,55 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 15:16:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 03 Oct 2012 15:55:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2012-10-03 at 11:24 +0100, Phil Blundell wrote:
+> Signed-off-by: Phil Blundell <pb@pbcl.net>
+> ---
+> This requires qa.elf.run_objdump() so needs to be applied after the
+> patch which adds that function.
+
+By the way, the background motivation for this was that the current
+oe-core version of gcc seems to be somewhat broken in this respect on
+MIPS; it seems to have reverted to generating an .eh_frame with a
+relocation in it which results in DT_TEXTREL on the binary.  
+
+With -fasynchronous-unwind-tables it seems to get even worse.  I don't
+quite recall exactly what the failure was there but it was bad enough to
+make it unusable.
+
+I think both of these problems are regressions from the gcc-4.6 that we
+were using previously.  I'm not quite sure at what point it went wrong
+though.
+
+p.
 
 
-On 10/03/2012 07:49 AM, Darren Hart wrote:
-> On 10/03/2012 05:12 AM, Ross Burton wrote:
->> The recipe exports $BINDIR as ${sbindir} and the build system uses this when
->> writing the DBus service file, so sedding it and replacing $base_sbindir with
->> $sbindir (/sbin and /usr/sbin) isn't useful when it ends up as
->> /usr/usr/sbin/wpa_supplicant.
->>
->> [YOCTO: #3202]
->>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-Applied to master, built for FRI2, mkefidisk'd it, booted, associated
-with home network, ifdown eth0, pingtest to google. Perfect.
-
-Tested-by: Darren Hart <dvhart@linux.intel.com>
-
-
->> ---
->>  meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc |    1 -
->>  meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb  |    2 +-
->>  2 files changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
->> index 873e923..485a2dd 100644
->> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
->> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
->> @@ -61,7 +61,6 @@ do_install () {
->>  	install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
->>  	install -d ${D}/${datadir}/dbus-1/system-services
->>  	install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
->> -	sed -i -e s:${base_sbindir}:${sbindir}:g ${D}/${datadir}/dbus-1/system-services/*.service
-> 
-> Huh... I didn't detect this as a difference from 0.7 to 1.0, so I wonder
-> why 0.7 worked.
-> 
-> But I don't wonder too much - thanks for the fix!
-> 
-> Building and testing now.
-> 
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
 
 
