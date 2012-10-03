@@ -1,27 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from ams-iport-3.cisco.com ([144.254.224.146])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TJORC-0000M7-UE
+	(envelope-from <mertsas@cisco.com>) id 1TJOfv-0000vM-5i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 14:52:30 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TJOEe-0004uR-80; Wed, 03 Oct 2012 14:39:32 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 03 Oct 2012 13:39:30 +0100
-In-Reply-To: <1349263162.18301.28.camel@ted>
-References: <1349259854.32611.106.camel@phil-desktop>
-	<20121003103141.GA21043@jama.jama.net>
-	<1349261089.32611.115.camel@phil-desktop>
-	<1349263162.18301.28.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1349267972.32611.121.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane: detect and warn about relocations in .text
+	Wed, 03 Oct 2012 15:07:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1280; q=dns/txt; s=iport;
+	t=1349268885; x=1350478485;
+	h=from:to:cc:subject:date:message-id;
+	bh=J2YhECDarUN/XxpcTQeUqH3aBg0NKnyqW/AXtpCjoaw=;
+	b=lvzhmJKHMCKdGs5L2UvKifEeNR6ueUXnkZ6152THU7mR5tuv+rZcyY68
+	/HVYd2LPNhrp10VIOj/Ac/8zijcMfw0aKTTye9z/vYHM53eIC9rpUex1/
+	NDO+PbobWeEi8bUPUWHUXEpHn3CCBRTXgxmHhwdyWKEx7Swk2agZStWca M=;
+X-IronPort-AV: E=Sophos;i="4.80,527,1344211200"; 
+   d="scan'208";a="8491459"
+Received: from ams-core-3.cisco.com ([144.254.72.76])
+	by ams-iport-3.cisco.com with ESMTP; 03 Oct 2012 12:54:43 +0000
+Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q93CshJa008486;
+	Wed, 3 Oct 2012 12:54:43 GMT
+From: Martin Ertsaas <mertsas@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Oct 2012 14:51:15 +0200
+Message-Id: <1349268675-7808-1-git-send-email-mertsas@cisco.com>
+X-Mailer: git-send-email 1.7.8.6
+Cc: Thomas Kristensen <thkriste@cisco.com>
+Subject: [PATCH] populate_sdk_base.bbclass: Make it possible to overrise the create_shar method of populate_sdk_base.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,24 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 12:52:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Oct 2012 13:07:43 -0000
 
-On Wed, 2012-10-03 at 12:19 +0100, Richard Purdie wrote:
-> Am I right in thinking this is also a marginal help to 'security' since
-> if the .text segment is loaded read only, it becomes slightly harder for
-> certain kinds of overflow attacks to work?
+From: Thomas Kristensen <thkriste@cisco.com>
 
-Possibly a marginal help, though (for glibc at least) the dynamic linker
-will restore the original protection on .text once the relocations have
-been applied, so the window of time during which you could mount an
-attack based on the writeable .text region will be fairly small.  But in
-principle you're right, for best security you don't want to have any
-regions which are both writeable and executable.
+If you wish to change the install/unpack method of the sdk, this can now be done by making
+your own create_shar method, and setting a POPULATE_SDK_CREATE_SHAR_COMMAND variable to your
+new create_shar function.
 
-p.
+Signed-off-by: Thomas Kristensen <thkriste@cisco.com>
+Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+---
+ meta/classes/populate_sdk_base.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 1c151d7..53b11a3 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -24,6 +24,8 @@ PID = "${@os.getpid()}"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+ 
++POPULATE_SDK_CREATE_SHAR_COMMAND ?= "create_shar"
++
+ python () {
+     # If we don't do this we try and run the mapping hooks while parsing which is slow
+     # bitbake should really provide something to let us know this...
+@@ -56,7 +58,7 @@ fakeroot python do_populate_sdk() {
+ 
+     bb.build.exec_func("tar_sdk", d)
+ 
+-    bb.build.exec_func("create_shar", d)
++    bb.build.exec_func(d.getVar("POPULATE_SDK_CREATE_SHAR_COMMAND", True), d)
+ }
+ 
+ fakeroot populate_sdk_image() {
+-- 
+1.7.8.6
 
 
 
