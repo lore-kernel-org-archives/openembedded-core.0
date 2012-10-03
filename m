@@ -1,27 +1,43 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TJRtS-0000jD-J4
+	(envelope-from <sgw@bigsur.com>) id 1TJRwe-0000n7-5D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 18:33:54 +0200
-Received: from [192.168.1.111] (host86-143-222-9.range86-143.btcentralplus.com
-	[86.143.222.9])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2D3D5D22B7
+	Wed, 03 Oct 2012 18:37:12 +0200
+Received: by pbbro12 with SMTP id ro12so10196430pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Oct 2012 18:20:57 +0200 (CEST)
-Message-ID: <506C65E5.4070003@linaro.org>
-Date: Wed, 03 Oct 2012 17:20:53 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
-MIME-Version: 1.0
+	Wed, 03 Oct 2012 09:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=5q8DhTGouJfJUT+n1vYDV34/wRjxHaxhNLCIlt9bPCI=;
+	b=Q0YHdYuEormJR9NJJ2Ew6qdI2XxwoaBYoy+yHvlm1Dts+xBxoaMdf2n4mhJaN51VB9
+	Irg4Zy+6gTUj7+aD+zqaGohqC+Xq23j7CA7IpYYfRYeJmTBsIK1GN9wVGJIJlW5IesLI
+	SdzGccDGo1CsG9iCxMXnfBanECPkUslsRY4DU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=5q8DhTGouJfJUT+n1vYDV34/wRjxHaxhNLCIlt9bPCI=;
+	b=GTkSJR7Fe3gNin9xk7fiOQngZTu0RqwIls5pjmJWUW+P3uOkSv7UuxlfaQwOasoHeN
+	5C04gXjAPl53DCicX6Qp4evKx4YoHcFC5Rkxf1TZ96uCuyjtOeh7qdZq8VZi6gFGh+9f
+	Moxx6qPiWVUlLgT9pcM2E7RDaz8wxeqMmjnb2rCaWzCD+O2sYjZmO72bU/exM1M2SnqU
+	uXFvtEw+l7B1pf9q2KBhq6ndawXd3QK/JpgLXU2CCazBOE825WC9gCfJx+6lGGRMns7G
+	/CGLSYQyATQfN/heG6ULUuu2fz2TsDeapl8IdRULv7DApCTYBjzjHh+GgLloN7tuacDd
+	t61w==
+Received: by 10.68.130.67 with SMTP id oc3mr14363626pbb.18.1349281451608;
+	Wed, 03 Oct 2012 09:24:11 -0700 (PDT)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id gf8sm2828318pbc.52.2012.10.03.09.24.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 03 Oct 2012 09:24:10 -0700 (PDT)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1349280226.18301.50.camel@ted>
-In-Reply-To: <1349280226.18301.50.camel@ted>
-Subject: Re: Yocto Project 1.4 Planning Process
+Date: Wed,  3 Oct 2012 09:24:01 -0700
+Message-Id: <1349281441-1534-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQl9wxr6xwZdDxySyItWR3B5lsWsRAMNKUbUCxEJycnyOd9VUEs8cjbEOXE5zXvbcwM0OmuB
+Subject: [PATCH] distrodata: Update distrocheck functions for nativesdk- change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,25 +50,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 16:33:54 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Oct 2012 16:37:12 -0000
 
-W dniu 03.10.2012 17:03, Richard Purdie pisze:
-> Whilst I appreciate people are concentrating on 1.3, we do also need
-> to think about planning 1.4.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/distrodata.bbclass |   25 +++++++++++++++++++------
+ meta/lib/oe/distro_check.py     |    6 ++++++
+ 2 files changed, 25 insertions(+), 6 deletions(-)
 
-> Questions are more than welcome, as is feedback about this process.
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 945ff53..69bcc35 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -33,12 +33,6 @@ python do_distrodata_np() {
+             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+             bb.data.update_data(localdata)
+ 
+-        if pn.find("nativesdk-") != -1:
+-            pnstripped = pn.replace("nativesdk-", "")
+-            bb.note("Native Split: %s" % pnstripped)
+-            localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
+-            bb.data.update_data(localdata)
+-
+         if pn.find("-cross") != -1:
+             pnstripped = pn.split("-cross")
+             bb.note("cross Split: %s" % pnstripped)
+@@ -51,6 +45,13 @@ python do_distrodata_np() {
+             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+             bb.data.update_data(localdata)
+ 
++        if pn.startswith("nativesdk-"):
++            pnstripped = pn.replace("nativesdk-", "")
++            bb.note("NativeSDK Split: %s" % pnstripped)
++            localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
++            bb.data.update_data(localdata)
++
++
+         if pn.find("-initial") != -1:
+             pnstripped = pn.split("-initial")
+             bb.note("initial Split: %s" % pnstripped)
+@@ -119,12 +120,24 @@ python do_distrodata() {
+             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+             bb.data.update_data(localdata)
+ 
++        if pn.startswith("nativesdk-"):
++            pnstripped = pn.replace("nativesdk-", "")
++            bb.note("NativeSDK Split: %s" % pnstripped)
++            localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
++            bb.data.update_data(localdata)
++
+         if pn.find("-cross") != -1:
+             pnstripped = pn.split("-cross")
+             bb.note("cross Split: %s" % pnstripped)
+             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+             bb.data.update_data(localdata)
+ 
++        if pn.find("-crosssdk") != -1:
++            pnstripped = pn.split("-crosssdk")
++            bb.note("cross Split: %s" % pnstripped)
++            localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
++            bb.data.update_data(localdata)
++
+         if pn.find("-initial") != -1:
+             pnstripped = pn.split("-initial")
+             bb.note("initial Split: %s" % pnstripped)
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index 455135e..ad13d5e 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -288,6 +288,12 @@ def compare_in_distro_packages_list(distro_check_dir, d):
+         bb.data.update_data(localdata)
+         recipe_name = pnstripped[0]
+ 
++    if pn.startswith("nativesdk-"):
++        pnstripped = pn.split("nativesdk-")
++        localdata.setVar('OVERRIDES', "pn-" + pnstripped[1] + ":" + d.getVar('OVERRIDES', True))
++        bb.data.update_data(localdata)
++        recipe_name = pnstripped[1]
++
+     if pn.find("-cross") != -1:
+         pnstripped = pn.split("-cross")
+         localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+-- 
+1.7.9.5
 
-Before adding it to bugzilla or wiki I would like to list few things
-which would be usable during adding new architecture (maybe missed them).
-
-1. A way to automatical upload logs after build - selection all/failed
-    one would be extra.
-
-2. A way to collect preprocessed files in case of gcc ICE.
-
-3. Option to automatically rebuild ICEd recipe with PARALLEL_MAKE
-    disabled so it is easier to notice where it ICEd.
 
 
