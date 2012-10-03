@@ -1,39 +1,21 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TJLvD-00044u-CN
+	(envelope-from <philb@gnu.org>) id 1TJMKG-0004Ti-Qa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 12:11:19 +0200
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 03 Oct 2012 02:58:01 -0700
-Received: by oagh1 with SMTP id h1so6818768oag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Oct 2012 02:58:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=TpuPDhGC7tMBLqgqizTgW38xvP4+lPB+p3sFeYvEIT4=;
-	b=if0XrBtxiUw3rvhe1UAxkF/ehNjltxXKat+lS8vE2KqR2s6gxltSJfs6HIJpx4eDX1
-	DpsO1KGur5S+zFahNgs20B3fqGp9DwhNK5MGcIYv3592fgR1uSUDWQGMHvM5jZSdH9sZ
-	SvHO+eSAe1A02vAxQBg2Xjz2/eJKwuerz4mle+S1j1GBZa3auhW+JxaBU31fxw0sKuP+
-	4dx1srMOYGDMTbTgi/aTlXMqlFrTIxKI494eItD9Ku6iEnNccvQeusoLl3lZ1kZ+HhLG
-	h/tJLwc31g6sbCVcMSWsJBA/yozN3qzjFUFM+FFij+WBxUZGUUsUd/seLwC0SVvcuZhq
-	e7xA==
-Received: by 10.182.45.42 with SMTP id j10mr1049876obm.60.1349258297763; Wed,
-	03 Oct 2012 02:58:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.70.6 with HTTP; Wed, 3 Oct 2012 02:57:57 -0700 (PDT)
-In-Reply-To: <CAJTo0LbGDt_dKSgL+Ms0M9QAB7d+nBVCuV0-WuNKuGDy-t19fQ@mail.gmail.com>
-References: <1349086731-2818-1-git-send-email-ross.burton@intel.com>
-	<1349255253.18301.23.camel@ted>
-	<CAJTo0LbGDt_dKSgL+Ms0M9QAB7d+nBVCuV0-WuNKuGDy-t19fQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Oct 2012 10:57:57 +0100
-Message-ID: <CAJTo0LYh7yqpN5gyfvfpNxoBVOP_jG0cjm8UHcYRT874=8B7yg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Gm-Message-State: ALoCoQnVyxDzBu4m/RA0eXmvRTxJVukL5Rz9Ik9VBRkB36d/n1Nb6VWw1otW1w5wpQFVcd98q/gb
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xf86-video-intel: drop libxvmc dependency
+	Wed, 03 Oct 2012 12:37:12 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TJM7i-0004qr-O7
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Oct 2012 12:24:14 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 03 Oct 2012 11:24:12 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1349259854.32611.106.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] insane: detect and warn about relocations in .text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,22 +28,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 10:11:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Oct 2012 10:37:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 3 October 2012 10:39, Burton, Ross <ross.burton@intel.com> wrote:
-> On 3 October 2012 10:07, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2012-10-01 at 11:18 +0100, Ross Burton wrote:
->>> xvmc is explicitly disabled, so remove the dependency.
->>
->> and also add some new dependencies. I'm left wondering if that was
->> intentional?
->
-> No, that's fallout from cherry-picking.  I'll re-send.
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+This requires qa.elf.run_objdump() so needs to be applied after the
+patch which adds that function.
 
-Actually I mis-read the diff - there is no delta apart from the removal of xvmc.
+ meta/classes/insane.bbclass |   26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 5848ab4..ff35ed8 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -108,7 +108,7 @@ def package_qa_get_machine_dict():
+ 
+ 
+ # Currently not being used by default "desktop"
+-WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir"
++WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir textrel"
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
+ 
+ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+@@ -421,6 +421,30 @@ def package_qa_check_desktop(path, name, d, elf, messages):
+         for l in output:
+             messages.append("Desktop file issue: " + l.strip())
+ 
++QAPATHTEST[textrel] = "package_qa_textrel"
++def package_qa_textrel(path, name, d, elf, messages):
++    """
++    Check if the binary contains relocations in .text
++    """
++
++    if not elf:
++        return
++
++    if os.path.islink(path):
++        return
++
++    phdrs = elf.run_objdump("-p", d)
++    sane = True
++
++    import re
++    textrel_re = re.compile("\s+TEXTREL\s+")
++    for line in phdrs.split("\n"):
++        if textrel_re.match(line):
++	   sane = False
++
++    if not sane:
++        messages.append("ELF binary '%s' has relocations in .text" % path)
++
+ QAPATHTEST[ldflags] = "package_qa_hash_style"
+ def package_qa_hash_style(path, name, d, elf, messages):
+     """
+-- 
+1.7.10.4
+
+
+
 
 
