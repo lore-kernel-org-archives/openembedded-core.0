@@ -1,28 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TJRcy-0000S6-SI for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 18:16:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q93G3qpU028538;
-	Wed, 3 Oct 2012 17:03:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26503-04; Wed,  3 Oct 2012 17:03:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q93G3gOH028532
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 3 Oct 2012 17:03:44 +0100
-Message-ID: <1349280226.18301.50.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	yocto@yoctoproject.org
-Date: Wed, 03 Oct 2012 17:03:46 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Yocto Project 1.4 Planning Process
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TJRtS-0000jD-J4
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Oct 2012 18:33:54 +0200
+Received: from [192.168.1.111] (host86-143-222-9.range86-143.btcentralplus.com
+	[86.143.222.9])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2D3D5D22B7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Oct 2012 18:20:57 +0200 (CEST)
+Message-ID: <506C65E5.4070003@linaro.org>
+Date: Wed, 03 Oct 2012 17:20:53 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1349280226.18301.50.camel@ted>
+In-Reply-To: <1349280226.18301.50.camel@ted>
+Subject: Re: Yocto Project 1.4 Planning Process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 16:16:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 03 Oct 2012 16:33:54 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Whilst I appreciate people are concentrating on 1.3, we do also need to
-think about planning 1.4.
+W dniu 03.10.2012 17:03, Richard Purdie pisze:
+> Whilst I appreciate people are concentrating on 1.3, we do also need
+> to think about planning 1.4.
 
-https://wiki.yoctoproject.org/wiki/Yocto_1.4_Features
+> Questions are more than welcome, as is feedback about this process.
 
-is seeded with the 1.4/Future targeted enhancement requests from the
-bugzilla. This is currently unsorted/unprocessed other than some guesses
-from the triage team and I doubt we can actually do everything listed
-there but there are plenty of good ideas.
+Before adding it to bugzilla or wiki I would like to list few things
+which would be usable during adding new architecture (maybe missed them).
 
-If people can see anything that is missing from those lists which they
-think is something we should consider working on in 1.4, I'd recommend
-filing enhancement requests in the bugzilla so they're included in the
-list.
+1. A way to automatical upload logs after build - selection all/failed
+    one would be extra.
 
-In about a week's time, I'll be sitting down with this list and talking
-with the project stakeholders about what resources are available and
-which tasks we could use those resources on and generally figure out
-what we're going to target in 1.4. If there are resources available I'm
-unaware of, please do talk to me btw! :)
+2. A way to collect preprocessed files in case of gcc ICE.
 
-Equally, I'd also ask that if there are things you're planning to do in
-the 1.4 timescale, please indicate this with an entry in the bugzilla
-which you take ownership of, give a rough time estimation/ETA of and set
-the status to ACCEPTED. This tells others that you're working on
-something and gives us an idea of what changes to expect and when. This
-is useful for planning things like demos and the beta testing.
-
-Questions are more than welcome, as is feedback about this process.
-
-Cheers,
-
-Richard
-
-
-
-
+3. Option to automatically rebuild ICEd recipe with PARALLEL_MAKE
+    disabled so it is easier to notice where it ICEd.
 
 
