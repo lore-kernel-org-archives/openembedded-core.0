@@ -1,31 +1,31 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TJXQJ-0000tI-1m
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Oct 2012 00:28:11 +0200
-Received: from localhost (m8a2036d0.tmodns.net [208.54.32.138])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 84A8730434
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Oct 2012 18:15:04 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Oct 2012 15:13:53 -0700
-Message-Id: <32da4081eb3b416d2df06e7d9087ecac1f62a78f.1349302333.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1349302333.git.scott.a.garman@intel.com>
-References: <cover.1349302333.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1349302333.git.scott.a.garman@intel.com>
-References: <cover.1349302333.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 84A8730434.CC1C5
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 3/3] runqemu: allow multiple unfs instances to run simultaneously
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TJXWZ-0000zm-6V for openembedded-core@lists.openembedded.org;
+	Thu, 04 Oct 2012 00:34:39 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q93MLaoU032273;
+	Wed, 3 Oct 2012 23:21:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31844-03; Wed,  3 Oct 2012 23:21:32 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q93MLQqk032266
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 3 Oct 2012 23:21:27 +0100
+Message-ID: <1349302889.18301.61.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Scott Garman <scott.a.garman@intel.com>
+Date: Wed, 03 Oct 2012 23:21:29 +0100
+In-Reply-To: <506C7341.4010305@intel.com>
+References: <1349213410-14141-1-git-send-email-Chase.Maupin@ti.com>
+	<506C7341.4010305@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-denzil][PATCH] libtool: Add missing DEPENDS on libtool-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,55 +38,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 22:28:11 -0000
+X-List-Received-Date: Wed, 03 Oct 2012 22:34:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A miscalculation in the way the port numbers of mountd and nfsd
-are created was causing conflicts when starting multiple instances
-of qemu using userspace nfs.
+On Wed, 2012-10-03 at 10:17 -0700, Scott Garman wrote:
+> On 10/02/2012 02:30 PM, Chase Maupin wrote:
+> > * When building with 24 bitbake threads on my system I observed
+> >    errors like the following:
+> >      | configure.ac:199: error: LT_LANG: unsupported language: "Go"
+> >      | <tmpdir>/work/armv7a-vfp-neon-oe-linux-gnueabi/libtool-2.4.2-r3.0/libtool-2.4.2/aclocal-copy/libtool.m4:768: LT_LANG is expanded from...
+> >      | configure.ac:199: the top level
+> >      | autom4te: m4 failed with exit status: 1
+> > * This could be found by doing a clean build.  If a build had
+> >    already been performed then often just cleaning the libtool
+> >    package and rebuilding it would resolve the issue.
+> > * Adding a DEPENDS on libtool-cross resolves this issue with a
+> >    clean build.
+> > * Bump the PR
+> >
+> > Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> 
+> Thanks for this, I've merged it into my sgarman/denzil-next testing 
+> branches.
 
-Thanks to Rudolf Streif for proposing this fix!
+This isn't even in master yet and I have some concerns about why its
+necessary. I've not had a chance to look into it properly yet though :/.
 
-Fixes [YOCTO #1969]
+Cheers,
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu-export-rootfs |    4 ++--
- scripts/runqemu-internal      |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 90edc8a..bbdaf5b 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -82,9 +82,9 @@ NFS_MOUNTPROG=$[ 21111 + $NFS_INSTANCE ]
- # rpc.nfsd RPC port
- NFS_NFSPROG=$[ 11111 + $NFS_INSTANCE ]
- # NFS port number
--NFS_PORT=$[ 3049 + $NFS_INSTANCE ]
-+NFS_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
- # mountd port number
--MOUNT_PORT=$[ 3048 + $NFS_INSTANCE ]
-+MOUNT_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
- 
- ## For debugging you would additionally add
- ## --debug all
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 0f07bad..7ca00f8 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -277,8 +277,8 @@ if [ "$FSTYPE" = "nfs" ]; then
-     NFS_DIR=`echo $ROOTFS | sed 's/^[^:]*:\(.*\)/\1/'`
-     MOUNTD_RPCPORT=$[ 21111 + $NFS_INSTANCE ]
-     NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
--    NFSD_PORT=$[ 3049 + $NFS_INSTANCE ]
--    MOUNTD_PORT=$[ 3048 + $NFS_INSTANCE ]
-+    NFSD_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
-+    MOUNTD_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
-     UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,port=$NFSD_PORT,mountport=$MOUNTD_PORT"
- 
-     PSEUDO_LOCALSTATEDIR=~/.runqemu-sdk/pseudo
--- 
-1.7.9.5
+Richard
 
 
 
