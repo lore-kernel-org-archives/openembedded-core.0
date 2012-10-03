@@ -1,28 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TJL8D-0002wU-1F for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 11:20:41 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9397d7W025945;
-	Wed, 3 Oct 2012 10:07:39 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25642-03; Wed,  3 Oct 2012 10:07:35 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9397UfA025939
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 3 Oct 2012 10:07:30 +0100
-Message-ID: <1349255253.18301.23.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Wed, 03 Oct 2012 10:07:33 +0100
-In-Reply-To: <1349086731-2818-1-git-send-email-ross.burton@intel.com>
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TJLdO-0003CV-2I
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Oct 2012 11:52:54 +0200
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 03 Oct 2012 02:39:53 -0700
+Received: by oagh1 with SMTP id h1so6805944oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Oct 2012 02:39:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=oIGqCFni89tIjbBlhf3kEp8V+VMSRcuRlmABml0GSd8=;
+	b=kVpZt4NbPVQgDz3J8F6Ji/HvTdak5CYNy6qTMcWd9GDF9LhP1nn5p/KQorGCjHX3C0
+	QCygU6tbANKyuTsyOr48+PGp39BwRCGjj79q8D5XkN+dD8KI5/CVUQ6+jo7NB+4cEk36
+	bdZ7X4dfvfSiiooeXkOTVfZmUKsANmepw8NmR5YUWSAN8qR306j0ahA3FguI3c5y3Ohx
+	AHbhIFAndNvir19ixpSovfCNg3R/PpJ+uJVoesoJi6QgEg5yAFUIQJkb4iovu64OnxLI
+	1OMG5wsBvaR7v+fXKue6NxpE7Gwx0vQyF3LVmM++fQF7gMeImqvi094sNIGzxSE2m/33
+	eoOw==
+Received: by 10.182.174.100 with SMTP id br4mr1025516obc.62.1349257191979;
+	Wed, 03 Oct 2012 02:39:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.70.6 with HTTP; Wed, 3 Oct 2012 02:39:31 -0700 (PDT)
+In-Reply-To: <1349255253.18301.23.camel@ted>
 References: <1349086731-2818-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1349255253.18301.23.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Oct 2012 10:39:31 +0100
+Message-ID: <CAJTo0LbGDt_dKSgL+Ms0M9QAB7d+nBVCuV0-WuNKuGDy-t19fQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQkr1q1zcpr3Id00FW1iC2/LwOSyYyNXqZhYd4YEL4W8CWJV766Gt9JLJAscHpwHfC4N0HLA
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] xf86-video-intel: drop libxvmc dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,63 +45,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 09:20:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Oct 2012 09:52:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-10-01 at 11:18 +0100, Ross Burton wrote:
-> xvmc is explicitly disabled, so remove the dependency.
+On 3 October 2012 10:07, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2012-10-01 at 11:18 +0100, Ross Burton wrote:
+>> xvmc is explicitly disabled, so remove the dependency.
+>
+> and also add some new dependencies. I'm left wondering if that was
+> intentional?
 
-and also add some new dependencies. I'm left wondering if that was
-intentional?
+No, that's fallout from cherry-picking.  I'll re-send.
 
-Cheers,
-
-Richard
-
-
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/xorg-driver/xf86-video-intel_2.19.0.bb |    4 ++--
->  meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb    |    4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.19.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.19.0.bb
-> index fe7408b..fe4dfbd 100644
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.19.0.bb
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.19.0.bb
-> @@ -9,9 +9,9 @@ Infrastructure (DRI)."
->  
->  LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
->  
-> -PR = "${INC_PR}.0"
-> +PR = "${INC_PR}.1"
->  
-> -DEPENDS += "virtual/libx11 libxvmc drm xf86driproto glproto \
-> +DEPENDS += "virtual/libx11 drm xf86driproto glproto \
->  	    virtual/libgl xineramaproto xf86driproto libpciaccess"
->  
-> 
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-> index ed1f269..83a24ce 100644
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-> @@ -7,12 +7,12 @@ chipsets. The driver supports depths 8, 15, 16 and 24. On some chipsets, \
->  the driver supports hardware accelerated 3D via the Direct Rendering \
->  Infrastructure (DRI)."
->  
-> -DEPENDS += "virtual/libx11 libxvmc drm dri2proto glproto \
-> +DEPENDS += "virtual/libx11 drm dri2proto glproto \
->  	    virtual/libgl xineramaproto libpciaccess"
->  
->  SRCREV = "87ea531c5dc5b39809395b277c330854aaaaf019"
->  PV = "2.10.0+git${SRCPV}"
-> -PR = "${INC_PR}.0"
-> +PR = "${INC_PR}.1"
->  
->  EXTRA_OECONF += "--disable-xvmc --enable-dri --disable-static"
->  
-
-
+Ross
 
 
