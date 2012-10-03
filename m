@@ -1,25 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TJEBn-0007eH-Vh
+	(envelope-from <sgw@linux.intel.com>) id 1TJEFC-0007ir-B0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 03:55:56 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Oct 2012 18:42:38 -0700
+	Wed, 03 Oct 2012 03:59:26 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Oct 2012 18:46:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,525,1344236400"; d="scan'208";a="200874354"
+X-IronPort-AV: E=Sophos;i="4.80,525,1344236400"; d="scan'208";a="229823873"
 Received: from unknown (HELO [10.255.13.203]) ([10.255.13.203])
-	by orsmga001.jf.intel.com with ESMTP; 02 Oct 2012 18:42:52 -0700
-Message-ID: <506B981C.1090206@linux.intel.com>
-Date: Tue, 02 Oct 2012 18:42:52 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 02 Oct 2012 18:46:24 -0700
+Message-ID: <506B98F0.5000806@linux.intel.com>
+Date: Tue, 02 Oct 2012 18:46:24 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, daniel@fooishbar.org
-References: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1349092569-26895-1-git-send-email-ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
+References: <1349193366-6632-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1349193366-6632-1-git-send-email-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libdrm: Remove Cairo dependency
+Subject: Re: [PATCH] Revert "initrd: Spawn an emergency shell when something goes wrong"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 01:55:56 -0000
+X-List-Received-Date: Wed, 03 Oct 2012 01:59:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/01/2012 04:56 AM, Ross Burton wrote:
-> From: Daniel Stone <daniel@fooishbar.org>
+On 10/02/2012 08:56 AM, Ross Burton wrote:
+> This had nowhere near enough testing...
 >
-> This causes a build loop, when DRM depends on Cairo depends on Mesa
-> depends on DRM.  We can safely remove it as it's only one libdrm example
-> program which uses Cairo, which we won't be needing.  At least it's not
-> worth the build loop.
+> This reverts commit ffb6928f5783e5202d9849c3a185e29be1d41c63.
 >
-> Signed-off-by: Daniel Stone <daniel@fooishbar.org>
 > Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->   meta/recipes-graphics/drm/libdrm.inc |    4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   meta/recipes-core/initrdscripts/files/init-live.sh |   11 -----------
+>   1 file changed, 11 deletions(-)
 >
-> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
-> index 5ddab85..cc09791 100644
-> --- a/meta/recipes-graphics/drm/libdrm.inc
-> +++ b/meta/recipes-graphics/drm/libdrm.inc
-> @@ -9,9 +9,9 @@ LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
->   SRC_URI = "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
->   PROVIDES = "drm"
-> -DEPENDS = "libpthread-stubs udev cairo"
-> +DEPENDS = "libpthread-stubs udev"
+> diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+> index 2639308..5682fd1 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-live.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+> @@ -2,17 +2,6 @@
 >
-> -INC_PR = "r2"
-> +INC_PR = "r3"
+>   PATH=/sbin:/bin:/usr/sbin:/usr/bin
 >
->   #libpciaccess is required starting from libdrm 2.4.26
->   DEPENDS += " libpciaccess"
+> -emergency_shell()
+> -{
+> -    echo "Bug in initramfs /init detected. Dropping to a shell. Good luck!"
+> -    echo
+> -    sh
+> -}
+> -trap "emergency_shell" 0 2
+> -
+> -# exit immediately if a command fails
+> -set -e
+> -
+>   ROOT_MOUNT="/rootfs/"
+>   ROOT_IMAGE="rootfs.img"
+>   MOUNT="/bin/mount"
 >
+
 Merged into OE-Core
 
 Thanks
