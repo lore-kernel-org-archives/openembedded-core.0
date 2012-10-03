@@ -1,22 +1,39 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TJLop-0003oY-Kx
+	(envelope-from <ross.burton@intel.com>) id 1TJLvD-00044u-CN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 12:04:43 +0200
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 47A1FD22BB;
-	Wed,  3 Oct 2012 11:51:47 +0200 (CEST)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Oct 2012 11:51:32 +0200
-Message-Id: <1349257892-32178-6-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1349257892-32178-1-git-send-email-marcin.juszkiewicz@linaro.org>
-References: <1349257892-32178-1-git-send-email-marcin.juszkiewicz@linaro.org>
-Subject: [PATCH 5/5] util-linux: add AArch64 support
+	Wed, 03 Oct 2012 12:11:19 +0200
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 03 Oct 2012 02:58:01 -0700
+Received: by oagh1 with SMTP id h1so6818768oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Oct 2012 02:58:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=TpuPDhGC7tMBLqgqizTgW38xvP4+lPB+p3sFeYvEIT4=;
+	b=if0XrBtxiUw3rvhe1UAxkF/ehNjltxXKat+lS8vE2KqR2s6gxltSJfs6HIJpx4eDX1
+	DpsO1KGur5S+zFahNgs20B3fqGp9DwhNK5MGcIYv3592fgR1uSUDWQGMHvM5jZSdH9sZ
+	SvHO+eSAe1A02vAxQBg2Xjz2/eJKwuerz4mle+S1j1GBZa3auhW+JxaBU31fxw0sKuP+
+	4dx1srMOYGDMTbTgi/aTlXMqlFrTIxKI494eItD9Ku6iEnNccvQeusoLl3lZ1kZ+HhLG
+	h/tJLwc31g6sbCVcMSWsJBA/yozN3qzjFUFM+FFij+WBxUZGUUsUd/seLwC0SVvcuZhq
+	e7xA==
+Received: by 10.182.45.42 with SMTP id j10mr1049876obm.60.1349258297763; Wed,
+	03 Oct 2012 02:58:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.70.6 with HTTP; Wed, 3 Oct 2012 02:57:57 -0700 (PDT)
+In-Reply-To: <CAJTo0LbGDt_dKSgL+Ms0M9QAB7d+nBVCuV0-WuNKuGDy-t19fQ@mail.gmail.com>
+References: <1349086731-2818-1-git-send-email-ross.burton@intel.com>
+	<1349255253.18301.23.camel@ted>
+	<CAJTo0LbGDt_dKSgL+Ms0M9QAB7d+nBVCuV0-WuNKuGDy-t19fQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Oct 2012 10:57:57 +0100
+Message-ID: <CAJTo0LYh7yqpN5gyfvfpNxoBVOP_jG0cjm8UHcYRT874=8B7yg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQnVyxDzBu4m/RA0eXmvRTxJVukL5Rz9Ik9VBRkB36d/n1Nb6VWw1otW1w5wpQFVcd98q/gb
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] xf86-video-intel: drop libxvmc dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,60 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 10:04:44 -0000
+X-List-Received-Date: Wed, 03 Oct 2012 10:11:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- .../util-linux/util-linux/add-aarch64-support.patch  |   18 ++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.21.2.bb    |    3 ++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux/add-aarch64-support.patch
+On 3 October 2012 10:39, Burton, Ross <ross.burton@intel.com> wrote:
+> On 3 October 2012 10:07, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Mon, 2012-10-01 at 11:18 +0100, Ross Burton wrote:
+>>> xvmc is explicitly disabled, so remove the dependency.
+>>
+>> and also add some new dependencies. I'm left wondering if that was
+>> intentional?
+>
+> No, that's fallout from cherry-picking.  I'll re-send.
 
-diff --git a/meta/recipes-core/util-linux/util-linux/add-aarch64-support.patch b/meta/recipes-core/util-linux/util-linux/add-aarch64-support.patch
-new file mode 100644
-index 0000000..4480f13
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/add-aarch64-support.patch
-@@ -0,0 +1,18 @@
-+---
-+ fdisk/fdiskbsdlabel.h |    1 +
-+ 1 file changed, 1 insertion(+)
-+
-+--- util-linux-2.21.2.orig/fdisk/fdiskbsdlabel.h
-++++ util-linux-2.21.2/fdisk/fdiskbsdlabel.h
-+@@ -46,10 +46,11 @@
-+ 
-+ #define BSD_LINUX_BOOTDIR "/usr/ucb/mdec"
-+ 
-+ #if defined (__i386__) || defined (__sparc__) || defined (__arm__) || \
-+     defined (__mips__) || defined (__s390__) || defined (__sh__) || \
-++    defined (__aarch64__) || \
-+     defined(__x86_64__) || defined (__avr32__) || defined(__cris__)
-+ #define BSD_LABELSECTOR   1
-+ #define BSD_LABELOFFSET   0
-+ #elif defined (__alpha__) || defined (__powerpc__) || defined (__ia64__) || defined (__hppa__)
-+ #define BSD_LABELSECTOR   0
-diff --git a/meta/recipes-core/util-linux/util-linux_2.21.2.bb b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-index 39e3609..e64ebe9 100644
---- a/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.21"
--PR = "r5"
-+PR = "r6"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
-@@ -9,6 +9,7 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://util-linux-ng-2.16-mount_lock_path.patch \
-             file://uclibc-__progname-conflict.patch \
- 	    file://configure-sbindir.patch \
-+	    file://add-aarch64-support.patch \
- "
- 
- SRC_URI[md5sum] = "b75b3cfecb943f74338382fde693c2c3"
--- 
-1.7.10.4
+Actually I mis-read the diff - there is no delta apart from the removal of xvmc.
 
+Ross
 
 
