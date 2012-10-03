@@ -1,35 +1,28 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1TJQLf-00070Z-3p
+	(envelope-from <dvhart@linux.intel.com>) id 1TJQNf-000746-NP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Oct 2012 16:54:55 +0200
-Received: by lamh5 with SMTP id h5so2817122lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Oct 2012 07:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=T8QOBeebZYT3vhKTQdRZ5xtJzcKOBWGw9qTIc7WoJmQ=;
-	b=Cx9mJ6jrfTpYl3sp0u+Gh/DqLVEpb2s/m2sNC9goVZ/KsJ77RAXrxd2OMbEG4KHgRv
-	ycvdP1pKrxSraaeeZKX+NYmFRXohkA9y/vckicsM9ODM6rzhpKCytMcs98MSgfGzDoEL
-	2Hpo5vxzlGW5PEf8BSrx7oqJQdDgzhtg9kUkipqIigKzPVZ3KKYoxmqG+5YPGkCC/ZxG
-	LpLeVnJPpIADnOm3rPWaGT4UWaaoPkTt+m+Z81xlrwlgB0sFQ/7j6H4ubSHXZtVNwZlw
-	gpzUeUL3g3XiEB7/6fXQHndsR3wwA5nf6JxDax6UHHoIifAP1TWOVst/i544gxuO7fu4
-	Cg/A==
+	Wed, 03 Oct 2012 16:56:59 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Oct 2012 07:43:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,528,1344236400"; d="scan'208";a="229465171"
+Received: from unknown (HELO envy.home) ([10.255.13.153])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Oct 2012 07:43:46 -0700
+Message-ID: <506C4EF4.10408@linux.intel.com>
+Date: Wed, 03 Oct 2012 07:43:00 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-Received: by 10.112.9.132 with SMTP id z4mr1811091lba.95.1349275315142; Wed,
-	03 Oct 2012 07:41:55 -0700 (PDT)
-Received: by 10.114.17.164 with HTTP; Wed, 3 Oct 2012 07:41:55 -0700 (PDT)
-In-Reply-To: <CAAQYJAs7br-BfmshALOa238pOZ_fD_21-Nxhr5JpBz70F1s4Sw@mail.gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>
 References: <52507f028d9ec0e88078673e15e238d010cfaead.1349239001.git.dvhart@linux.intel.com>
 	<506BC13D.9030909@windriver.com>
 	<CAAQYJAvNKTTzux33yYq9Vif3+40Cc=B51Wh1usE9vS1kCqQ-sw@mail.gmail.com>
 	<CADkTA4Ph1tMSRvk--Hi26+A9ox96f=6OV4Vemrv6hEth67qt7A@mail.gmail.com>
 	<CAAQYJAs7br-BfmshALOa238pOZ_fD_21-Nxhr5JpBz70F1s4Sw@mail.gmail.com>
-Date: Wed, 3 Oct 2012 10:41:55 -0400
-Message-ID: <CADkTA4MymQjHjd7-axc=BLf0f7a+_rTsB0TT2rD-KGZwU0UjEw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
+In-Reply-To: <CAAQYJAs7br-BfmshALOa238pOZ_fD_21-Nxhr5JpBz70F1s4Sw@mail.gmail.com>
+X-Enigmail-Version: 1.4.4
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] linux-yocto-custom: Clarify defconfig usage
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,10 +37,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Oct 2012 14:54:55 -0000
+X-List-Received-Date: Wed, 03 Oct 2012 14:56:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 3, 2012 at 10:07 AM, Andrea Adami <andrea.adami@gmail.com> wrote:
+
+
+On 10/03/2012 07:07 AM, Andrea Adami wrote:
 > On Wed, Oct 3, 2012 at 2:33 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 >> On Wed, Oct 3, 2012 at 8:10 AM, Andrea Adami <andrea.adami@gmail.com> wrote:
 >>> On Wed, Oct 3, 2012 at 6:38 AM, Bruce Ashfield
@@ -113,96 +109,40 @@ On Wed, Oct 3, 2012 at 10:07 AM, Andrea Adami <andrea.adami@gmail.com> wrote:
 >> override, which is
 >> how linux-yocto + linux-yocto-bsp + meta-$semi have been put together for
 >> quite some time.
->
+> 
 > As long as the layer containing the -custom kernel recipe is not used
 > by other machines all is fine.
-
-That's typically what we do around here, the BSP layer has a bbappend
-that sets the compatibility. So wouldn't be reused by any other layers.
-
 > But if e.g you build for machine 'foo' and you have set
 > COMPATIBLE_MACHINE_foo = "foo" in the .bbappend in your layer that
 > does not mask the recipe for the 'bar' machine.
-
-right (If I'm following what you are saying correctly), that's what I would
-expect .. I don't want to mask it for machine 'bar'.
-
 > (Think about including the full meta-intel layer and having a custom
 > kernel for say cedartail: the other machines would have now multiple
 > kernel providers)
 > If you set instead COMPATIBLE_MACHINE = "foo" you are sure this recipe
 > will be ignored by other machines.
 
-Maybe I'm just thinking about the layout differently, I'm talking about a single
-linux-yocto-custom, that all boards use .. so there wouldn't be
-multiple providers,
-if there were, they'd have different names and preferred version/provider would
-clear up the ambiguity .. or maybe I'm just misunderstanding
+Are you saying that if users replace:
 
->
->>
->> The goal is to set a base which is incompatible with all machines, and then
->> suggest that you must have a machine or other layer that adds your
->> explicit compatibility (I know I'm stating the obvious) .. and using a machine
->> specific override to do that is one good way to be clear and avoid overly long
->> and complex series of |'d (is that a word?) machines that can cause append
->> problems in their own right.
->>
->> So I'd think that an update to the comment that included COMPATIBLE_MACHINE
->> or COMPATIBLE_MACHINE_append would be a good addition, but I wouldn't
->> drop the existing text .. just augment it if we want.
->
-> COMPATIBLE_MACHINE_append  is ok, I'm concerned by the _yourmachine scope
+COMPATIBLE_MACHINE = "(^$)"
 
-I still think both work, just different use cases and layouts.
+with
 
->
->>
->> Good comment though.
->>
->> Cheers,
->>
->> Bruce
->
-> BTW, cgit color-syntax dislikes the missing double-quotes in the
-> coment at #39 :)
+COMPATIBLE_MACHINE_foo = "foo"
 
-Patches accepted! I'm syntax highlight free when I view it, but I always
-hate that myself when editing code!
+That COMPATIBLE_MACHINE will default to "" for all the other machines
+and be implicitly marked as compatible?
 
-Bruce
+If so... I believe you are correct and that is not the desired behavior.
+the _machine is appropriate for bbappend files, but for custom bb files
+as this is meant to be used, a proper regex should be used.
 
->
-> Regards
->
-> Andrea
->
->>
->>>
->>> My 2 cents
->>>
->>> Andrea
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Care to submit a documentation patch for this?
 
-
+Thanks for the comments.
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
