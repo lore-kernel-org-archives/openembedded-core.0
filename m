@@ -1,32 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TJigr-0001tB-Jn; Thu, 04 Oct 2012 12:30:01 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q94AGxYb005761;
-	Thu, 4 Oct 2012 11:16:59 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05539-06; Thu,  4 Oct 2012 11:16:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q94AGqQk005755
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 4 Oct 2012 11:16:53 +0100
-Message-ID: <1349345816.18301.72.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 04 Oct 2012 11:16:56 +0100
-In-Reply-To: <20121004093329.GD3005@jama.jama.net>
-References: <20121002161853.6075610353@opal>
-	<20121004091206.GC3005@jama.jama.net> <1349342915.18301.70.camel@ted>
-	<20121004093329.GD3005@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Purdie : bitbake.conf: Add chrpath-native to ASSUME_PROVIDED
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TJjfx-0002x6-Qk
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Oct 2012 13:33:10 +0200
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 04 Oct 2012 04:20:06 -0700
+Received: by mail-we0-f175.google.com with SMTP id t44so241371wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Oct 2012 04:20:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=hH6bmD1+ZcW71RcoKzSpZU9UcNn3DLgqlWzpin1FvEk=;
+	b=KkUq8Yzo2/eeWkDgUGm4scLgyc+P+cp+M3SphDX4OJ8GHn26kKsCk1aqSzw3zCPAXU
+	mdAIQ9/21gW8Fy9XOmvB/60gfl7rVOsByub40mRT4v4/Y+iview+3BQDZb3Z5HusozRs
+	pKXE6Lhi1SbCdKH20Jm02syx3nILDR97ZEAZ1HCG56JJON55mH0GhEDZXDZxM7ntB8aQ
+	wn5/E1LyaR7uBO9Vci9qQAx8zw/AKKCzvUF2ZrQ+gtvN0WLOGUPFLidwvZIjP11CXGhZ
+	GylO9O/2/ziDfmgO8ZkhyULDXj/I50d4wy4xA+2AbRaBDHu2buufAUnnvyVXhHMEFcZy
+	f2NQ==
+Received: by 10.180.93.106 with SMTP id ct10mr12211917wib.8.1349349603895;
+	Thu, 04 Oct 2012 04:20:03 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id gg4sm14096089wib.6.2012.10.04.04.20.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 04 Oct 2012 04:20:02 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Oct 2012 12:19:03 +0100
+Message-Id: <1349349543-23599-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQm8a5FWodIFXHhIF21hsmdQ/gK70vma1Abnk2MAdSsDWcd9jf+/A3jD5+Ej7VOY52/a+RMW
+Subject: [PATCH] sato-icon-theme: use gtk-icon-cache helper class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,78 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2012 10:30:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Oct 2012 11:33:10 -0000
 
-On Thu, 2012-10-04 at 11:33 +0200, Martin Jansa wrote:
-> On Thu, Oct 04, 2012 at 10:28:35AM +0100, Richard Purdie wrote:
-> > On Thu, 2012-10-04 at 11:12 +0200, Martin Jansa wrote:
-> > > On Tue, Oct 02, 2012 at 04:18:50PM +0000, git@git.openembedded.org wrote:
-> > > > Module: openembedded-core.git
-> > > > Branch: master
-> > > > Commit: 97a3ea712003e8d48dc68c282e656591f39d2d1a
-> > > > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=97a3ea712003e8d48dc68c282e656591f39d2d1a
-> > > > 
-> > > > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > Date:   Tue Oct  2 14:12:21 2012 +0100
-> > > > 
-> > > > bitbake.conf: Add chrpath-native to ASSUME_PROVIDED
-> > > > 
-> > > > We assume chrpath is provided natively so it should be listed in ASSUME_PROVIDED.
-> > > > 
-> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > 
-> > > This breaks do_install in gpsd:
-> > > 
-> > > | arm-oe-linux-gnueabi-gcc -march=armv7-a -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900 -o gpsd --sysroot=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900 -pthread -Wl,-rpath=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/gpsd-3.7 -Wl,-rpath=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/lib gpsd.o ntpshm.o shmexport.o dbusexport.o sd_socket.o -L. -L/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/lib -L/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900/lib -lrt -lcap -lbluetooth -lgpsd -lusb-1.0 -lbluetooth -lgps -lm -lcap
-> > > | Install file: "gpsd" as "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd"
-> > > | chrpath -d "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd"
-> > > | `/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd' probably isn't a 64-bit LSB-first ELF file.
-> > > | elf_open: Exec format error
-> > > | scons: *** [/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd] Error 1
-> > > | scons: building terminated because of errors.
-> > > | ERROR: scons install execution failed.
-> > > | ERROR: Function failed: do_install (see /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/temp/log.do_install.8833 for further information)
-> > > NOTE: recipe gpsd-3.7-r9: task do_install: Failed
-> > > 
-> > > I guess I can add chrpath-replacement-native to DEPENDS, but do you have any 
-> > > idea why chrpath in Ubuntu 14.04.1 does not support arm binaries?
-> > > $ chrpath --version
-> > > chrpath version 0.13
-> > 
-> > Er, chrpath should only get used on native/nativesdk/crosssdk/cross
-> > binaries. Its not expected to work on target binaries and we should
-> > never be running this there.
-> > 
-> > Is this error coming from something we're putting in do_install or is it
-> > from gpsd's makefile?
-> > 
-> > I think this might be a problem in the Makefile and not from OE itself.
-> 
-> It's used from gpsd's SConstruct.
-> 
-> I can remove it there, but that results in 
->   WARNING: QA Issue: libgps:
->   /work/armv4t-oe-linux-gnueabi/gpsd/gpsd-3.5-r0/packages-split/libgps/usr/lib/libgps.so.20.0
->   contains probably-redundant RPATH /usr/lib
-> or
->   WARNING: QA Issue: package libgps contains bad RPATH
->   /OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gpsd/gpsd-3.5-r0/image/usr/lib
->   in file
->   /OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gpsd/gpsd-3.5-r0/packages-split/libgps/usr/lib/libgps.so.20.0
+Instead of explicitly updating the icon cache use the helper class that also
+forces a loader update at the same time.  This eliminates the possibility of
+updating the icon cache without any gdk-pixbuf loaders.
 
-Its clearly a gpsd build issue rather than anything in OE-Core. The
-former is a mild performance issue, the latter a potential security
-hole.
+Also check that the Sato icon theme isn't already set to avoid appending to the
+file every time the postinst runs.
 
-Ideally, just stop gpsd putting any rpaths in...
+[YOCTO #2399]
 
-Cheers,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc   |   15 +++++++--------
+ .../sato-icon-theme/sato-icon-theme_0.4.1.bb            |    2 +-
+ 2 files changed, 8 insertions(+), 9 deletions(-)
 
-Richard
-
-
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+index 9fd1012..0bd4814 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+@@ -8,18 +8,17 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=56a830bbe6e4697fe6cbbae01bb7c2b2"
+ SECTION = "x11"
+ DEPENDS = ""
+ 
+-inherit autotools pkgconfig allarch
++inherit autotools pkgconfig allarch gtk-icon-cache
+ 
+ FILES_${PN} += "${datadir}"
+ 
+ EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
+ 
+-#explictly setting "Sato" as default icon theme to avoid icon missing due to
+-#tricky race condition
++# Explictly setting "Sato" as the default icon theme to avoid flickering from
++# the desktop and settings daemon racing.  This shouldn't be done here but in the sato image
+ pkg_postinst_${PN} () {
+-        if [ "x$D" != "x" ]; then
+-                exit 1
+-        fi
+-        gtk-update-icon-cache -q /usr/share/icons/Sato
+-        echo 'gtk-icon-theme-name = "Sato"' >> /etc/gtk-2.0/gtkrc
++    mkdir -p $D/etc/gtk-2.0
++
++    grep -s -q -e ^gtk-icon-theme-name.*\"Sato\" $D/etc/gtk-2.0/gtkrc || \
++        echo 'gtk-icon-theme-name = "Sato"' >> $D/etc/gtk-2.0/gtkrc
+ }
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+index 108f8e8..6405359 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+@@ -2,7 +2,7 @@ require sato-icon-theme.inc
+ 
+ DEPENDS += "icon-naming-utils-native"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
+            file://iconpath-option.patch \
+-- 
+1.7.10
 
 
 
