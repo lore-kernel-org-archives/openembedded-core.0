@@ -1,40 +1,29 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TJpCN-0007zt-FW
+	(envelope-from <mark.hatle@windriver.com>) id 1TJpxh-0000gC-Iz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Oct 2012 19:26:59 +0200
-Received: by mail-wg0-f43.google.com with SMTP id dq11so571917wgb.24
+	Thu, 04 Oct 2012 20:15:53 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q94I2pBe025310
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Oct 2012 10:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=cDQ5WUEcLEtBKkHS1U82SsyP1yBNWxdYj7287vh3xI4=;
-	b=bcfGEsBsSmXhm3/JgrM27DEIyt2jG3LK9mkDAdDIIWc7r1Ew0C5KD+EO6IxlnLBEmt
-	Iw+1gCCypzuoJyusyoy/lueOPkr7SbiZ928dLBwriXAdpUbdrFhChFWQ0399LCavzwXW
-	/bTivSIX0XqOUjh2pXB//wlp7nkQNpREQfqdnc3mgqC592tSoMJsaj3jQF9C+8w9LGZU
-	q7feS1s0FB3vKroRqdgjxfpmJisUrIoWHcTFnI1nQ9C2BVVasR2XHdzpB57gO2VC+R6X
-	EClB8Jo0E/ijMfOd89k5Q8UKbMcyZi2uJPi8GgBBCnzo9u+iSMhh+7r0qzxQyh4Wg1ln
-	p64A==
-Received: by 10.180.91.71 with SMTP id cc7mr14409669wib.2.1349370838308;
-	Thu, 04 Oct 2012 10:13:58 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id hv8sm37735320wib.0.2012.10.04.10.13.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 04 Oct 2012 10:13:56 -0700 (PDT)
-Date: Thu, 4 Oct 2012 19:13:59 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20121004171359.GF3005@jama.jama.net>
-References: <cover.1348330479.git.Martin.Jansa@gmail.com>
-	<cover.1349356755.git.Martin.Jansa@gmail.com>
-	<95933d4d0d8226614433d225f106dd3b8aedb3df.1349356755.git.Martin.Jansa@gmail.com>
-	<CAMKF1sr=OnrzMec_NnM8OCr_vt1LZBTnUimWCcpJSHMrTUhxPw@mail.gmail.com>
+	Thu, 4 Oct 2012 11:02:51 -0700 (PDT)
+Received: from msp-dhcp7.wrs.com (172.25.34.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 4 Oct 2012 11:02:50 -0700
+Message-ID: <506DCF4A.5020101@windriver.com>
+Date: Thu, 4 Oct 2012 13:02:50 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr=OnrzMec_NnM8OCr_vt1LZBTnUimWCcpJSHMrTUhxPw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/7] tune-xscale: replace TUNE_CCARGS for webkit-gtk and cairo only with xscale in TUNE_FEATURES
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q94I2pBe025310
+Subject: RFC: Secondary Toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +36,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2012 17:26:59 -0000
-X-Groupsio-MsgNum: 30386
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yH1ZJFh+qWm+VodA"
-Content-Disposition: inline
-
---yH1ZJFh+qWm+VodA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Oct 2012 18:15:54 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 04, 2012 at 09:55:01AM -0700, Khem Raj wrote:
-> On Thu, Oct 4, 2012 at 6:23 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> >
-> > -TUNE_CCARGS_pn-webkit-gtk =3D "-march=3Darmv4t"
-> > -TUNE_CCARGS_pn-cairo =3D "-march=3Darmv4t"
-> > +TUNE_CCARGS_pn-webkit-gtk =3D "${@bb.utils.contains("TUNE_FEATURES", "=
-xscale", "-march=3Darmv4t", "", d)}"
-> > +TUNE_CCARGS_pn-cairo =3D "${@bb.utils.contains("TUNE_FEATURES", "xscal=
-e", "-march=3Darmv4t", "", d)}"
->=20
-> I would rather try to remove this option completely if possible. I
-> wonder if we still need to target armv4t when building on xscale
-> may be the reason it was added is no more relevant ?
+We have an issue where we'd like to have an alternative toolchain (assemb=
+ler,=20
+linker, compiler) available for our customers to selectively use.  Howeve=
+r,=20
+before we just go off and implement something, I'd like at least some bas=
+ic=20
+consensus on what the best practice is for doing this work.  Below is my =
+attempt=20
+at an early proposal.
 
-I think the same (as written in commit message). Now it won't be used by
-default at least (only if someone asks for DEFAULTTUNE xscale for
-webkit-gtk or cairo).
+Background
+----------------
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Many companies have commercial / highly optimized toolchains for specific=
+=20
+purpose, such as ICC from Intel, LLVM, ARM specific toolchain, etc..  For=
+=20
+(potentially) better performance with some applications a mechanism to bo=
+th=20
+provide the hooks for the alternative toolchain as well as a way to activ=
+e it=20
+per-package is desired.
 
---yH1ZJFh+qWm+VodA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+This work assumes that the third party toolchain is generally compatible =
+with=20
+the idea of sysroots, linking to the libc provided by OE, and generally=20
+compatible with GNU conventions.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+However, as part of the third party toolchain, it may not be GNU compatib=
+le.=20
+This means many Open Source applications simply may not work with this=20
+toolchain.  That means that we need to have a way for a toolchain to blac=
+klist=20
+(or whitelist) specific recipes.  This way only supported components can =
+be=20
+built by the user, avoiding numerous complaints.
 
-iEYEARECAAYFAlBtw9cACgkQN1Ujt2V2gBwPoACdE+SrmMD5PPmwxsDHrZQG0H4M
-T7AAnAvVw2TufSUvWZCMLsCaUFt5OELv
-=H9e0
------END PGP SIGNATURE-----
+Currently OE has a method to generate an SDK based on the GNU toolchain. =
+ We=20
+would like to be able to also export the external toolchain along with th=
+e SDK,=20
+effectively providing both the GNU toolchain and the third party toolchai=
+n using=20
+the common sysroot.
 
---yH1ZJFh+qWm+VodA--
+We need a way to active the third party toolchain on a per-package basis.=
+  This=20
+activation will need to use the existing sysroot, but be able to pass dif=
+ferent=20
+C, C++, LD, AS and other flags as specified by the third party toolchain.
+
+Finally third party toolchains should be implemented as layers that can e=
+asily=20
+plug into OE.
+
+Implementation
+---------------------
+
+Add an OVERRIDE to specify the alternative toolchain.  Can this be done w=
+ithin=20
+the layer by doing something like:
+
+OVERRIDE_append =3D ":toolchain-${TOOLCHAIN}"
+
+TOOLCHAIN =3D "gnu" (or "icc")
+
+To activate the toolchain you would use things like:
+
+TOOLCHAIN_pn-bash =3D 'icc'
+
+To define the correct behavior for the toolchain, the following would nee=
+d to be=20
+defined (with _toolchain-<toolchain>):
+
+TARGET_CPPFLAGS
+TARGET_CFLAGS
+TARGET_CXXFLAGS
+TARGET_LDFLAGS
+CC
+CXX
+F77
+CPP
+LD
+CCLD
+AR
+AS
+RANLIB
+STRIP
+OBJCOPY
+OBJDUMP
+NM
+FULL_OPTIMIZATIONS
+DEBUG_OPTIMIZATION
+
+Is anyone aware of any other items that may require additional items?  Wi=
+ll the=20
+above actually work?  Using the override of the TOOLCHAIN_=85 will that a=
+ctually=20
+change the override values or do we get stuck?
+
+Comments/suggestions appreciated!
+--Mark
+
+
