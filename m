@@ -1,23 +1,38 @@
-Received: from comal.ext.ti.com ([198.47.26.152])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chase.maupin@ti.com>) id 1TJnu5-0004k5-5H
+	(envelope-from <scott.a.garman@intel.com>) id 1TJoD7-0006O6-5Q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Oct 2012 18:04:01 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id q94Fow1j028477;
-	Thu, 4 Oct 2012 10:50:58 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q94FowbM015223;
-	Thu, 4 Oct 2012 10:50:58 -0500
-Received: from DLEE12.ent.ti.com ([fe80::3867:617:aab3:5956]) by
-	DFLE73.ent.ti.com ([fe80::86e:fab6:cd95:e158%28]) with mapi id
-	14.01.0323.003; Thu, 4 Oct 2012 10:50:58 -0500
-From: "Maupin, Chase" <chase.maupin@ti.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] libtool: Add missing DEPENDS on libtool-cross
-Thread-Index: AQHNohGpIKsqLuL3q0uUHVwyg/BmXZepFSuQgABaWID//6x+sIAAD41wgABdhQD//8J7wA==
-Date: Thu, 4 Oct 2012 15:50:56 +0000
-Message-ID: <7D46E86EC0A8354091174257B2FED10159243885@DLEE12.ent.ti.com>
+	Thu, 04 Oct 2012 18:23:41 +0200
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 04 Oct 2012 09:10:16 -0700
+Received: by mail-pb0-f47.google.com with SMTP id ro12so733359pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Oct 2012 09:10:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=haLFEGrET2khTdlBprq7pDGT1EGVAwISdPxGqvJ1mQ4=;
+	b=i5EGSG1ecvf1+pHfsj4zY5K8fJAyP267Vb1QRYJXwYBUo1vi/CYb29cSPHOZVOj8xw
+	1c60c74R1Lvdzqme9PBZ2RzUabwbM9VLtgHLjpwzeiFHEAUCeoaMbt/0fwAP8SZqDFnB
+	2WkehAMWtvSHbT/++Rq5KotmHUY7JVj3Fbd5U+L8hdN1VTVTbXPr/gg2Vk7Zara2AUte
+	hK/jC0KHnmoAV+YRm8muT6gZ9GqerN9yWR4VvoVQqPKQ5SQ45Fojz0WEIDBxIJK3WaTY
+	/JDab5a9c/mAAfrQQs6emmLcu9Znrg9pX9YDjvQLMe98NQnNzmzQ1QPan/AtU+7+E5Ue
+	R6Kw==
+Received: by 10.66.87.132 with SMTP id ay4mr14269032pab.82.1349367034403;
+	Thu, 04 Oct 2012 09:10:34 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id s10sm4469902paz.11.2012.10.04.09.10.33
+	(version=SSLv3 cipher=OTHER); Thu, 04 Oct 2012 09:10:33 -0700 (PDT)
+Message-ID: <506DB4FA.2040909@intel.com>
+Date: Thu, 04 Oct 2012 09:10:34 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
 References: <1349213439-14199-1-git-send-email-Chase.Maupin@ti.com>
 	<1349342479.18301.68.camel@ted>
 	<7D46E86EC0A8354091174257B2FED10159242C29@DLEE12.ent.ti.com>
@@ -25,14 +40,9 @@ References: <1349213439-14199-1-git-send-email-Chase.Maupin@ti.com>
 	<7D46E86EC0A8354091174257B2FED10159242E7C@DLEE12.ent.ti.com>
 	<7D46E86EC0A8354091174257B2FED1015924332D@DLEE12.ent.ti.com>
 	<1349360984.18301.103.camel@ted>
-In-Reply-To: <1349360984.18301.103.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	<7D46E86EC0A8354091174257B2FED10159243885@DLEE12.ent.ti.com>
+In-Reply-To: <7D46E86EC0A8354091174257B2FED10159243885@DLEE12.ent.ti.com>
+X-Gm-Message-State: ALoCoQmFR/E0twfUZ23WlMpW97SFwprzJj4JxE+sBNIrrXIBwBs/Km+VNwV4V8MNf8g1JUIeRutb
 Subject: Re: [PATCH] libtool: Add missing DEPENDS on libtool-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,135 +56,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2012 16:04:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 04 Oct 2012 16:23:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
-bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IFRodXJzZGF5
-LCBPY3RvYmVyIDA0LCAyMDEyIDk6MzAgQU0NCj4gVG86IE1hdXBpbiwgQ2hhc2UNCj4gQ2M6IG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUkU6IFtP
-RS1jb3JlXSBbUEFUQ0hdIGxpYnRvb2w6IEFkZCBtaXNzaW5nIERFUEVORFMgb24NCj4gbGlidG9v
-bC1jcm9zcw0KPiANCj4gT24gVGh1LCAyMDEyLTEwLTA0IGF0IDE0OjA2ICswMDAwLCBNYXVwaW4s
-IENoYXNlIHdyb3RlOg0KPiA+IEkgdHJpZWQgdGhlIGZvbGxvd2luZyB0byBoZWxwIG5hcnJvdyB0
-aGlzIGRvd24uICBQbGVhc2UgbGV0IG1lDQo+IGtub3cgaWYgdGhlcmUgaXMgc29tZXRoaW5nIGVs
-c2UgSSBjb3VsZCB0cnkgdG8gaGVscCBuYXJyb3cgdGhlDQo+IGlzc3VlLiAgSSByYW46DQo+ID4N
-Cj4gPiBiaXRiYWtlIC1jIGNsZWFuYWxsIGxpYnRvb2wNCj4gPiBiaXRiYWtlIGxpYnRvb2wNCj4g
-Pg0KPiA+IEVhY2ggdGltZSBpdCBmYWlsZWQgSSB3b3VsZCBnZXQgYSBsaXN0IG9mIHRoZSBjb250
-ZW50cyBvZiB0aGUNCj4gd29yayBkaXJlY3RvcnkgYW5kIHRoZSBzdGFtcHMgZGlyZWN0b3J5LiAg
-TXkgZ29hbCBoZXJlIHdhcyB0byBiZQ0KPiBhYmxlIHRvIGZpbmQgd2hhdCBjaGFuZ2VkIGJldHdl
-ZW4gYSBwYXNzIGFuZCBhIGZhaWwuICBJIGtlcHQNCj4gcnVubmluZyB0aGUgdGVzdCBhYm92ZSB1
-bnRpbCBJIGhhZCBhIGNvbnNpc3RlbnQgZmFpbHVyZSwgYW5kDQo+IHRoZXJlIHdlcmUgbm8gbmV3
-IHBhY2thZ2VzIGJlaW5nIGFkZGVkIGludG8gbXkgd29yayBkaXJlY3RvcnkgYW5kDQo+IG5vIG5l
-dyBzdGFtcHMgYmVpbmcgY3JlYXRlZC4gIEJhc2ljYWxseSB0aGlzIHRvbGQgbWUgdGhhdCBhbGwg
-dGhlDQo+IHBhY2thZ2VzIHRoYXQgd2VyZSBnb2luZyB0byBiZSBidWlsdCBmcm9tIGRvaW5nICJi
-aXRiYWtlIGxpYnRvb2wiDQo+IHdlcmUgYnVpbHQgYW5kIHRoYXQgdGhlIG9ubHkgcGFja2FnZSBi
-ZWluZyBidWlsdCB3YXMgbGlidG9vbA0KPiBpdHNlbGYuDQo+ID4NCj4gPiBJIHRoZW4gY2hhbmdl
-ZCBteSBidWlsZCBzdGVwcyB0byBkbzoNCj4gPg0KPiA+IGJpdGJha2UgLWMgY2xlYW5hbGwgbGli
-dG9vbA0KPiA+IGJpdGJha2UgbGlidG9vbC1jcm9zcw0KPiA+IGJpdGJha2UgbGlidG9vbA0KPiA+
-DQo+ID4gVGhpcyBwYXNzZWQgb24gdGhlIGZpcnN0IHJ1bi4gIEkgY2FwdHVyZWQgdGhlIHNhbWUg
-d29yaw0KPiBkaXJlY3RvcnkgY29udGVudHMgYW5kIHN0YW1wcyBjb250ZW50cyBhbmQgdGhlbiBk
-aWQgYSBkaWZmIHRvIHNlZQ0KPiB3aGF0IGhhZCBjaGFuZ2VkIGJldHdlZW4gdGhlc2UgYnVpbGRz
-LiAgVGhlIGRpZmZzIHdlcmU6DQo+ID4NCj4gPiBGb3IgU3RhbXBzIGRpZmYgbGlidG9vbC1mYWls
-ZWQtc3RhbXBzIGxpYnRvb2wtcGFzc2VkLXN0YW1wcw0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gL2FyYWdvLXRtcC1l
-Z2xpYmMvc3RhbXBzJCBkaWZmIC1idXJwTiBsaWJ0b29sLWZhaWxlZC1zdGFtcHMNCj4gbGlidG9v
-bC1wYXNzZWQtc3RhbXBzDQo+ID4gLS0tIGxpYnRvb2wtZmFpbGVkLXN0YW1wcwkyMDEyLTEwLTA0
-IDA5OjExOjI3LjkwOTg4MTcxMCAtMDUwMA0KPiA+ICsrKyBsaWJ0b29sLXBhc3NlZC1zdGFtcHMJ
-MjAxMi0xMC0wNCAwOToxNDozMy45OTczMjg4NDQgLTA1MDANCj4gPiBAQCAtMjMsMTggKzIzLDU2
-IEBAIGV4dGVybmFsLWFyYWdvLXRvb2xjaGFpbi0xLjAtcjIuZG9fcG9wdWwNCj4gPiAgZXh0ZXJu
-YWwtYXJhZ28tdG9vbGNoYWluLTEuMC0NCj4gcjIuZG9fcG9wdWxhdGVfc3lzcm9vdC5zaWdkYXRh
-LmJjY2FjMzViMmI2ZmVjZDNjYmVjNDljY2MyMDhjNmE5DQo+ID4gIGV4dGVybmFsLWFyYWdvLXRv
-b2xjaGFpbi0xLjAtcjIuZG9fdW5wYWNrDQo+ID4gIGV4dGVybmFsLWFyYWdvLXRvb2xjaGFpbi0x
-LjAtDQo+IHIyLmRvX3VucGFjay5zaWdkYXRhLjE0ZDgwOTBiNTFhNDQ3Y2ViNGNjZjQ0OTQxNzgx
-ZTQ3DQo+ID4gK2xpYnRvb2wtMi40LjItcjMuMC5kb19idWlsZA0KPiA+ICBsaWJ0b29sLTIuNC4y
-LXIzLjAuZG9fY2xlYW5zc3RhdGUNCj4gPiAgbGlidG9vbC0yLjQuMi0NCj4gcjMuMC5kb19jbGVh
-bnNzdGF0ZS5zaWdkYXRhLmUyYTVkNWM4OWUzYmU0MTgyM2U4MzVjMThiNTBkZmEzDQo+ID4gK2xp
-YnRvb2wtMi40LjItcjMuMC5kb19jb21waWxlDQo+ID4gK2xpYnRvb2wtMi40LjItDQo+IHIzLjAu
-ZG9fY29tcGlsZS5zaWdkYXRhLmVhNTEyNWM2ZWNjNTI0YWVkNTk4ZGJhM2I3MzFkOTJkDQo+ID4g
-K2xpYnRvb2wtMi40LjItcjMuMC5kb19jb25maWd1cmUNCj4gPiArbGlidG9vbC0yLjQuMi0NCj4g
-cjMuMC5kb19jb25maWd1cmUuc2lnZGF0YS4yZTQ2MmNhY2M3YzY5OWM3NWJjZTc0YmI3ZGNmNTVm
-NA0KPiA+ICBsaWJ0b29sLTIuNC4yLXIzLjAuZG9fY3JlYXRlX3NyY2lwaw0KPiA+ICBsaWJ0b29s
-LTIuNC4yLQ0KPiByMy4wLmRvX2NyZWF0ZV9zcmNpcGsuc2lnZGF0YS5jYWE1NmY2YjhiMTk1ZmY0
-ZTZhMDYzZjEyODhjNWY4Ng0KPiA+ICBsaWJ0b29sLTIuNC4yLXIzLjAuZG9fZmV0Y2gNCj4gPiAg
-bGlidG9vbC0yLjQuMi0NCj4gcjMuMC5kb19mZXRjaC5zaWdkYXRhLjBjY2RiZmUwYWFjZTAyMjM3
-MDM4YWUwMjAzZGU5MDYwDQo+ID4gK2xpYnRvb2wtMi40LjItcjMuMC5kb19pbnN0YWxsDQo+ID4g
-K2xpYnRvb2wtMi40LjItDQo+IHIzLjAuZG9faW5zdGFsbC5zaWdkYXRhLjlhZDIwM2FlNzYyZmUw
-NTU2ZTdhOTkxYWI4YTc3MDdjDQo+ID4gK2xpYnRvb2wtMi40LjItcjMuMC5kb19wYWNrYWdlLmFt
-MzM1eC1ldm0NCj4gPiArbGlidG9vbC0yLjQuMi0NCj4gcjMuMC5kb19wYWNrYWdlLnNpZ2RhdGEu
-ZmZiNGI4MTFlNzY0M2Q1ZjM3YWZiY2ZmZWY4NGY1ZTgNCj4gPiArbGlidG9vbC0yLjQuMi1yMy4w
-LmRvX3BhY2thZ2Vfd3JpdGUNCj4gPiArbGlidG9vbC0yLjQuMi1yMy4wLmRvX3BhY2thZ2Vfd3Jp
-dGVfaXBrDQo+ID4gK2xpYnRvb2wtMi40LjItDQo+IHIzLjAuZG9fcGFja2FnZV93cml0ZV9pcGsu
-c2lnZGF0YS5lYjE2NjAxZjdmNGYxYWZiZmFiYzg1NDJmZWEzYWYzDQo+IDANCj4gPiAgbGlidG9v
-bC0yLjQuMi1yMy4wLmRvX3BhdGNoDQo+ID4gIGxpYnRvb2wtMi40LjItDQo+IHIzLjAuZG9fcGF0
-Y2guc2lnZGF0YS43ZDAyOGY2ZGM2YTFiZGYzMmFhZGMyOWE2NDQ0YmViYw0KPiA+ICBsaWJ0b29s
-LTIuNC4yLXIzLjAuZG9fcG9wdWxhdGVfbGljDQo+ID4gIGxpYnRvb2wtMi40LjItDQo+IHIzLjAu
-ZG9fcG9wdWxhdGVfbGljLnNpZ2RhdGEuZWJkNTBjY2ViMDkwM2UxYjI3N2FkNmY1MzMwNTUzNzMN
-Cj4gPiArbGlidG9vbC0yLjQuMi1yMy4wLmRvX3BvcHVsYXRlX3N5c3Jvb3QuYW0zMzV4LWV2bQ0K
-PiA+ICtsaWJ0b29sLTIuNC4yLQ0KPiByMy4wLmRvX3BvcHVsYXRlX3N5c3Jvb3Quc2lnZGF0YS40
-M2Y4ZDFkZjgxZTM4ZGFjZDMwMWVlZDU1OTkwOTRmMQ0KPiA+ICBsaWJ0b29sLTIuNC4yLXIzLjAu
-ZG9fdW5wYWNrDQo+ID4gIGxpYnRvb2wtMi40LjItDQo+IHIzLjAuZG9fdW5wYWNrLnNpZ2RhdGEu
-Zjk3YzI2NDNlYzhmNTc1MmIyNTM3ZjMwNWE0NWNhN2UNCj4gPiArbGlidG9vbC1jcm9zcy0yLjQu
-Mi1yMy4xLmRvX2J1aWxkDQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjItcjMuMS5kb19jb21waWxl
-DQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjItDQo+IHIzLjEuZG9fY29tcGlsZS5zaWdkYXRhLmMw
-NGYwNThlNDFhYWJlOTAwMWYwYjgyNzY0ZDUxZDI0DQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjIt
-cjMuMS5kb19jb25maWd1cmUNCj4gPiArbGlidG9vbC1jcm9zcy0yLjQuMi0NCj4gcjMuMS5kb19j
-b25maWd1cmUuc2lnZGF0YS5iMzc5NDBmYWYxYWRmY2M3ODNlN2E2NmVmZjM1MWQ0Yg0KPiA+ICts
-aWJ0b29sLWNyb3NzLTIuNC4yLXIzLjEuZG9fY3JlYXRlX3NyY2lwaw0KPiA+ICtsaWJ0b29sLWNy
-b3NzLTIuNC4yLQ0KPiByMy4xLmRvX2NyZWF0ZV9zcmNpcGsuc2lnZGF0YS4zNzA4MmNkZmQ2ZWIx
-MDA5MjNhYWI4MDUxMDFmZTIyMQ0KPiA+ICtsaWJ0b29sLWNyb3NzLTIuNC4yLXIzLjEuZG9fZmV0
-Y2gNCj4gPiArbGlidG9vbC1jcm9zcy0yLjQuMi0NCj4gcjMuMS5kb19mZXRjaC5zaWdkYXRhLjc5
-ZGEwMmU5ZGUzNjljNzk2NGM5YjU0ZTI5MTA4OGQ1DQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjIt
-cjMuMS5kb19pbnN0YWxsDQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjItDQo+IHIzLjEuZG9faW5z
-dGFsbC5zaWdkYXRhLjYwNzE3N2I5MTdkNDhjNDExYzZjMmZiYWY0NzU4NjdiDQo+ID4gK2xpYnRv
-b2wtY3Jvc3MtMi40LjItcjMuMS5kb19wYWNrYWdlLmFtMzM1eC1ldm0NCj4gPiArbGlidG9vbC1j
-cm9zcy0yLjQuMi0NCj4gcjMuMS5kb19wYWNrYWdlLnNpZ2RhdGEuNGYwZWI5MTBkNzRmZjM2YjU2
-NDk2OGUwOWE4ZTE1ZjINCj4gPiArbGlidG9vbC1jcm9zcy0yLjQuMi1yMy4xLmRvX3BhY2thZ2Vf
-d3JpdGUNCj4gPiArbGlidG9vbC1jcm9zcy0yLjQuMi1yMy4xLmRvX3BhY2thZ2Vfd3JpdGVfaXBr
-DQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjItDQo+IHIzLjEuZG9fcGFja2FnZV93cml0ZV9pcGsu
-c2lnZGF0YS4wY2MzNjM1OGE0YzVkZWUxZjYxMmZlM2E5MGM2MGIxDQo+IGENCj4gPiArbGlidG9v
-bC1jcm9zcy0yLjQuMi1yMy4xLmRvX3BhdGNoDQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjItDQo+
-IHIzLjEuZG9fcGF0Y2guc2lnZGF0YS5hMzE5YzNhZTc3MjI5YTc1NTg0MDlhYmMxNzllYTk5ZA0K
-PiA+ICtsaWJ0b29sLWNyb3NzLTIuNC4yLXIzLjEuZG9fcG9wdWxhdGVfbGljDQo+ID4gK2xpYnRv
-b2wtY3Jvc3MtMi40LjItDQo+IHIzLjEuZG9fcG9wdWxhdGVfbGljLnNpZ2RhdGEuODJhMTkzODZi
-NDM4MGEwMDc3ZDJiNTVmODkzNDg1MWENCj4gPiArbGlidG9vbC1jcm9zcy0yLjQuMi1yMy4xLmRv
-X3BvcHVsYXRlX3N5c3Jvb3QuYW0zMzV4LWV2bQ0KPiA+ICtsaWJ0b29sLWNyb3NzLTIuNC4yLQ0K
-PiByMy4xLmRvX3BvcHVsYXRlX3N5c3Jvb3Quc2lnZGF0YS44YzYxYjU1NjY5NDVmOWE0MzlmYWE5
-MTZkNzBhOWZkMA0KPiA+ICtsaWJ0b29sLWNyb3NzLTIuNC4yLXIzLjEuZG9fdW5wYWNrDQo+ID4g
-K2xpYnRvb2wtY3Jvc3MtMi40LjItDQo+IHIzLjEuZG9fdW5wYWNrLnNpZ2RhdGEuMzIyYTE1ZTIx
-ZjZkZjk1N2Y1YmExMTZkYTE5ZDU1ODUNCj4gPiAgbGludXgtbGliYy1oZWFkZXJzLTMuMi1yMS5k
-b19jb21waWxlDQo+ID4gIGxpbnV4LWxpYmMtaGVhZGVycy0zLjItDQo+IHIxLmRvX2NvbXBpbGUu
-c2lnZGF0YS42MDQ3Yzg2MjM1NmZhOGYzYTU2MjY5ZGFmMmNkZTI2Yg0KPiA+ICBsaW51eC1saWJj
-LWhlYWRlcnMtMy4yLXIxLmRvX2NvbmZpZ3VyZQ0KPiA+DQo+ID4gTm90aWNlIHRoYXQgdGhlIG9u
-bHkgc3RhbXBzIGZvciBzdGVwcyBkb25lIGJldHdlZW4gYSBwYXNzaW5nDQo+IGFuZCBmYWlsaW5n
-IGJ1aWxkIGFyZSBmb3IgdGhlIGxpYnRvb2wtY3Jvc3MsIGFzIHdlbGwgYXMgdGhlIHN0ZXBzDQo+
-IGFmdGVyIHRoZSBkb19jb25maWd1cmUgc3RlcCBvZiBsaWJ0b29sIHNpbmNlIGl0IHBhc3NlZCB0
-aGlzIHRpbWUuDQo+ID4NCj4gPiBUaGUgd29yayBkaXJlY3RvcnkgZGlmZmVyZW5jZSB3YXMNCj4g
-PiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+IC0tLSBsaWJ0b29sLWZh
-aWxlZC13b3JrCTIwMTItMTAtMDQgMDk6MTc6NTAuMTM3NjA5OTg2IC0wNTAwDQo+ID4gKysrIGxp
-YnRvb2wtcGFzc2VkLXdvcmsJMjAxMi0xMC0wNCAwOToxNzo1MC4xMzc2MDk5ODYgLTA1MDANCj4g
-PiBAQCAtMzksNCArMzksNSBAQCB1bmlmZGVmLW5hdGl2ZS0yLjYuMTgrZ2l0LXIwDQo+ID4gIHps
-aWItbmF0aXZlLTEuMi42LXIxDQo+ID4gIGV4dGVybmFsLWFyYWdvLXRvb2xjaGFpbi0xLjAtcjIN
-Cj4gPiAgbGlidG9vbC0yLjQuMi1yMy4wDQo+ID4gK2xpYnRvb2wtY3Jvc3MtMi40LjItcjMuMQ0K
-PiA+ICBsaW51eC1saWJjLWhlYWRlcnMtMy4yLXIxDQo+ID4NCj4gPiBTbyB0aGUgb25seSBuZXcg
-cGFja2FnZSBJIHNhdyBzaG93LXVwIGluIG15IHdvcmsgZGlyZWN0b3J5IHdhcw0KPiBsaWJ0b29s
-LWNyb3NzLg0KPiA+DQo+ID4gRG9lcyBhbnlvbmUgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlvbnMg
-b2Ygd2hhdCB0byBsb29rIGF0IHNpbmNlDQo+IG15DQo+ID4gdGVzdGluZyBpcyBzaG93aW5nIHRo
-YXQgYWRkaW5nIGxpYnRvb2wtY3Jvc3MgaW50byB0aGUgYnVpbGQNCj4gYmVmb3JlDQo+ID4gbGli
-dG9vbCBhbGxvd3MgdGhlIGJ1aWxkIHRvIHBhc3MuICBJJ2xsIHRyeSBnb2luZyBiYWNrIHRvIHRo
-ZQ0KPiBpbnRlcm5hbA0KPiA+IHRvb2xjaGFpbiBpbnN0ZWFkIG9mIG15IGV4dGVybmFsIHRvb2xj
-aGFpbiBhcyBhbm90aGVyIHRlc3QgdG8NCj4gcnVuIGJ1dA0KPiA+IGFueSBvdGhlciBpZGVhcyB3
-b3VsZCBiZSBhcHByZWNpYXRlZC4gIElzIG15IGFwcHJvYWNoIGFib3ZlDQo+IGV2ZW4NCj4gPiB2
-YWxpZD8NCj4gDQo+IEEgbGlzdCBvZiBmaWxlIGRpZmZlcmVuY2VzIGluIHRoZSBzeXNyb290cyBk
-aXJlY3Rvcnkgd291bGQgaGVscA0KPiBoZXJlLg0KPiBHaXZlbiB0aGUgYWJvdmUsIHRoaXMgYW1v
-dW50cyB0byB0aGUgY29udGVudHMgb2YgdGhlIGxpYnRvb2wtDQo+IGNyb3NzDQo+IHBhY2thZ2Uu
-IEFyZSB5b3UgYWJsZSB0byByZXByb2R1Y2UgdGhpcyB3aXRoIG1hc3RlciBvciBpcyB0aGlzDQo+
-IGRlbnppbA0KPiBiYXNlZD8NCg0KSXQgd2FzIGRlbnppbCBiYXNlZCwgYnV0IG9uY2UgSSBzd2l0
-Y2hlZCB0byB0aGUgaW50ZXJuYWwgdG9vbGNoYWluIGluc3RlYWQgb2YgdXNpbmcgdGhlIGV4dGVy
-bmFsIHRvb2xjaGFpbiB0aGUgaXNzdWUgZG9lc24ndCBvY2N1ci4gIFNvIGl0IHNlZW1zIHRvIGJl
-IHJvb3RlZCBpbiB0aGUgZXh0ZXJuYWwgdG9vbGNoYWluIHJlY2lwZSB3ZSBhcmUgdXNpbmcuICBT
-b3JyeSBmb3IgdGhlIGNvbmZ1c2lvbiBhbmQgcGxlYXNlIGlnbm9yZSB0aGlzIHBhdGNoLg0KDQo+
-IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoNCg==
+On 10/04/2012 08:50 AM, Maupin, Chase wrote:
+>> -----Original Message----- From: Richard Purdie
+>> [mailto:richard.purdie@linuxfoundation.org] Sent: Thursday, October
+>> 04, 2012 9:30 AM To: Maupin, Chase Cc:
+>> openembedded-core@lists.openembedded.org Subject: RE: [OE-core]
+>> [PATCH] libtool: Add missing DEPENDS on libtool-cross
+>>
+>> On Thu, 2012-10-04 at 14:06 +0000, Maupin, Chase wrote:
+>>> I tried the following to help narrow this down.  Please let me
+>> know if there is something else I could try to help narrow the
+>> issue.  I ran:
+>>>
+>>> bitbake -c cleanall libtool bitbake libtool
+>>>
+>>> Each time it failed I would get a list of the contents of the
+>> work directory and the stamps directory.  My goal here was to be
+>> able to find what changed between a pass and a fail.  I kept
+>> running the test above until I had a consistent failure, and there
+>> were no new packages being added into my work directory and no new
+>> stamps being created.  Basically this told me that all the packages
+>> that were going to be built from doing "bitbake libtool" were built
+>> and that the only package being built was libtool itself.
+>>>
+>>> I then changed my build steps to do:
+>>>
+>>> bitbake -c cleanall libtool bitbake libtool-cross bitbake
+>>> libtool
+>>>
+>>> This passed on the first run.  I captured the same work
+>> directory contents and stamps contents and then did a diff to see
+>> what had changed between these builds.  The diffs were:
+>>>
+>>> For Stamps diff libtool-failed-stamps libtool-passed-stamps
+>>> -----------------------------------------------------------
+>>> /arago-tmp-eglibc/stamps$ diff -burpN libtool-failed-stamps
+>> libtool-passed-stamps
+>>> --- libtool-failed-stamps	2012-10-04 09:11:27.909881710 -0500 +++
+>>> libtool-passed-stamps	2012-10-04 09:14:33.997328844 -0500 @@
+>>> -23,18 +23,56 @@ external-arago-toolchain-1.0-r2.do_popul
+>>> external-arago-toolchain-1.0-
+>> r2.do_populate_sysroot.sigdata.bccac35b2b6fecd3cbec49ccc208c6a9
+>>> external-arago-toolchain-1.0-r2.do_unpack
+>>> external-arago-toolchain-1.0-
+>> r2.do_unpack.sigdata.14d8090b51a447ceb4ccf44941781e47
+>>> +libtool-2.4.2-r3.0.do_build libtool-2.4.2-r3.0.do_cleansstate
+>>> libtool-2.4.2-
+>> r3.0.do_cleansstate.sigdata.e2a5d5c89e3be41823e835c18b50dfa3
+>>> +libtool-2.4.2-r3.0.do_compile +libtool-2.4.2-
+>> r3.0.do_compile.sigdata.ea5125c6ecc524aed598dba3b731d92d
+>>> +libtool-2.4.2-r3.0.do_configure +libtool-2.4.2-
+>> r3.0.do_configure.sigdata.2e462cacc7c699c75bce74bb7dcf55f4
+>>> libtool-2.4.2-r3.0.do_create_srcipk libtool-2.4.2-
+>> r3.0.do_create_srcipk.sigdata.caa56f6b8b195ff4e6a063f1288c5f86
+>>> libtool-2.4.2-r3.0.do_fetch libtool-2.4.2-
+>> r3.0.do_fetch.sigdata.0ccdbfe0aace02237038ae0203de9060
+>>> +libtool-2.4.2-r3.0.do_install +libtool-2.4.2-
+>> r3.0.do_install.sigdata.9ad203ae762fe0556e7a991ab8a7707c
+>>> +libtool-2.4.2-r3.0.do_package.am335x-evm +libtool-2.4.2-
+>> r3.0.do_package.sigdata.ffb4b811e7643d5f37afbcffef84f5e8
+>>> +libtool-2.4.2-r3.0.do_package_write
+>>> +libtool-2.4.2-r3.0.do_package_write_ipk +libtool-2.4.2-
+>> r3.0.do_package_write_ipk.sigdata.eb16601f7f4f1afbfabc8542fea3af3
+>> 0
+>>> libtool-2.4.2-r3.0.do_patch libtool-2.4.2-
+>> r3.0.do_patch.sigdata.7d028f6dc6a1bdf32aadc29a6444bebc
+>>> libtool-2.4.2-r3.0.do_populate_lic libtool-2.4.2-
+>> r3.0.do_populate_lic.sigdata.ebd50cceb0903e1b277ad6f533055373
+>>> +libtool-2.4.2-r3.0.do_populate_sysroot.am335x-evm
+>>> +libtool-2.4.2-
+>> r3.0.do_populate_sysroot.sigdata.43f8d1df81e38dacd301eed5599094f1
+>>> libtool-2.4.2-r3.0.do_unpack libtool-2.4.2-
+>> r3.0.do_unpack.sigdata.f97c2643ec8f5752b2537f305a45ca7e
+>>> +libtool-cross-2.4.2-r3.1.do_build
+>>> +libtool-cross-2.4.2-r3.1.do_compile +libtool-cross-2.4.2-
+>> r3.1.do_compile.sigdata.c04f058e41aabe9001f0b82764d51d24
+>>> +libtool-cross-2.4.2-r3.1.do_configure +libtool-cross-2.4.2-
+>> r3.1.do_configure.sigdata.b37940faf1adfcc783e7a66eff351d4b
+>>> +libtool-cross-2.4.2-r3.1.do_create_srcipk +libtool-cross-2.4.2-
+>> r3.1.do_create_srcipk.sigdata.37082cdfd6eb100923aab805101fe221
+>>> +libtool-cross-2.4.2-r3.1.do_fetch +libtool-cross-2.4.2-
+>> r3.1.do_fetch.sigdata.79da02e9de369c7964c9b54e291088d5
+>>> +libtool-cross-2.4.2-r3.1.do_install +libtool-cross-2.4.2-
+>> r3.1.do_install.sigdata.607177b917d48c411c6c2fbaf475867b
+>>> +libtool-cross-2.4.2-r3.1.do_package.am335x-evm
+>>> +libtool-cross-2.4.2-
+>> r3.1.do_package.sigdata.4f0eb910d74ff36b564968e09a8e15f2
+>>> +libtool-cross-2.4.2-r3.1.do_package_write
+>>> +libtool-cross-2.4.2-r3.1.do_package_write_ipk
+>>> +libtool-cross-2.4.2-
+>> r3.1.do_package_write_ipk.sigdata.0cc36358a4c5dee1f612fe3a90c60b1
+>> a
+>>> +libtool-cross-2.4.2-r3.1.do_patch +libtool-cross-2.4.2-
+>> r3.1.do_patch.sigdata.a319c3ae77229a7558409abc179ea99d
+>>> +libtool-cross-2.4.2-r3.1.do_populate_lic +libtool-cross-2.4.2-
+>> r3.1.do_populate_lic.sigdata.82a19386b4380a0077d2b55f8934851a
+>>> +libtool-cross-2.4.2-r3.1.do_populate_sysroot.am335x-evm
+>>> +libtool-cross-2.4.2-
+>> r3.1.do_populate_sysroot.sigdata.8c61b5566945f9a439faa916d70a9fd0
+>>> +libtool-cross-2.4.2-r3.1.do_unpack +libtool-cross-2.4.2-
+>> r3.1.do_unpack.sigdata.322a15e21f6df957f5ba116da19d5585
+>>> linux-libc-headers-3.2-r1.do_compile linux-libc-headers-3.2-
+>> r1.do_compile.sigdata.6047c862356fa8f3a56269daf2cde26b
+>>> linux-libc-headers-3.2-r1.do_configure
+>>>
+>>> Notice that the only stamps for steps done between a passing
+>> and failing build are for the libtool-cross, as well as the steps
+>> after the do_configure step of libtool since it passed this time.
+>>>
+>>> The work directory difference was
+>>> ----------------------------------- --- libtool-failed-work
+>>> 2012-10-04 09:17:50.137609986 -0500 +++ libtool-passed-work
+>>> 2012-10-04 09:17:50.137609986 -0500 @@ -39,4 +39,5 @@
+>>> unifdef-native-2.6.18+git-r0 zlib-native-1.2.6-r1
+>>> external-arago-toolchain-1.0-r2 libtool-2.4.2-r3.0
+>>> +libtool-cross-2.4.2-r3.1 linux-libc-headers-3.2-r1
+>>>
+>>> So the only new package I saw show-up in my work directory was
+>> libtool-cross.
+>>>
+>>> Does anyone have any other suggestions of what to look at since
+>> my
+>>> testing is showing that adding libtool-cross into the build
+>> before
+>>> libtool allows the build to pass.  I'll try going back to the
+>> internal
+>>> toolchain instead of my external toolchain as another test to
+>> run but
+>>> any other ideas would be appreciated.  Is my approach above
+>> even
+>>> valid?
+>>
+>> A list of file differences in the sysroots directory would help
+>> here. Given the above, this amounts to the contents of the
+>> libtool- cross package. Are you able to reproduce this with master
+>> or is this denzil based?
+>
+> It was denzil based, but once I switched to the internal toolchain
+> instead of using the external toolchain the issue doesn't occur.  So
+> it seems to be rooted in the external toolchain recipe we are using.
+> Sorry for the confusion and please ignore this patch.
+
+I have now removed this from my sgarman/deznil-next branches, and this 
+happened just in time, as I'm about to start an autobuilder run.
+
+Scott
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
