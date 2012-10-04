@@ -1,31 +1,30 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from ams-iport-2.cisco.com ([144.254.224.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TJkiu-0006JF-R9
+	(envelope-from <mneergaa@cisco.com>) id 1TJktH-0006Tx-6j
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Oct 2012 14:40:16 +0200
-Received: by mail-wg0-f41.google.com with SMTP id ds1so1863038wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Oct 2012 05:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0q4AcdvfoFKCUanXyaFjsKo/7IpZMnTQn4Z0zyqbeAk=;
-	b=WwuVnIqwxM9ZAArllZtbczAc3x2ljqj2EdamyxtQ2PgP3Og6bqVexg1VihzJwhF7hv
-	WyTVSI6W8RT5btdy4zq9pn+gcal69IJlv4hcWLG9UeUKHpt3ua2mMzwP2dvKjVMTuhZ5
-	zLmiAIb8ddlg144ArxKYXn1aWTWzb/DncEctHOyqiXqi+5NQY35iOxCryEZ0XDw2oL3h
-	JQiC5lqugzHcfsV615LtQDCsezKKPylewtqGXBkSkfyUsOPrpSQl8ZpRrHFuw0YrznlY
-	08jGj3njxTxl/BzpJeH+6kbU1H5pU2Pgui8xF5xLrRSsJw3G4b+RzYumYdFBTz61TZyQ
-	vvnA==
-Received: by 10.216.216.220 with SMTP id g70mr3036926wep.83.1349353635944;
-	Thu, 04 Oct 2012 05:27:15 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f1sm14610533wiy.2.2012.10.04.05.27.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 04 Oct 2012 05:27:13 -0700 (PDT)
-Date: Thu, 4 Oct 2012 14:27:16 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 04 Oct 2012 14:50:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=887; q=dns/txt; s=iport;
+	t=1349354280; x=1350563880;
+	h=date:from:to:cc:subject:message-id:references:
+	mime-version:in-reply-to;
+	bh=NvlQQVvMQkdaMk+37hAa4Bn7LSwgltXNNXTa70HevXI=;
+	b=H9SrfWswutS6wKJkY7QwVhSE0vzRQSe41DWGA78qW6GeSO2Y/uRqBHzx
+	4Ii+V8ImqucUfvq2uh7DdIB1IldizaNV12I5nYnZzRtwyWi3dKJIYxZ04
+	KUtSADif8Qx87w6t+Kt3d/SZ1vOfyw4s3CmN01/kCQgK83m5ysTnpnltu Q=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AuwNAIeBbVCQ/khL/2dsb2JhbABFhUhHt2wCAgIBgQiBCIIgAQEBBBIBEFYQCxcBAgImAgIUOw4TIodjmH+NG5JvBIEhjwwyYAOVaAGOQoFpgm8
+X-IronPort-AV: E=Sophos;i="4.80,535,1344211200"; d="scan'208";a="77179204"
+Received: from ams-core-2.cisco.com ([144.254.72.75])
+	by ams-iport-2.cisco.com with ESMTP; 04 Oct 2012 12:36:54 +0000
+Received: from kattastrofe (dhcp-10-54-74-65.cisco.com [10.54.74.65])
+	by ams-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id q94Cas30000930
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 4 Oct 2012 12:36:54 GMT
+Date: Thu, 4 Oct 2012 14:36:54 +0200
+From: Morten Minde Neergaard <mneergaa@cisco.com>
 To: Phil Blundell <philb@gnu.org>
-Message-ID: <20121004122716.GE3005@jama.jama.net>
+Message-ID: <20121004123654.GB26670@cisco.com>
 References: <1349352468.32611.164.camel@phil-desktop>
 MIME-Version: 1.0
 In-Reply-To: <1349352468.32611.164.camel@phil-desktop>
@@ -44,51 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2012 12:40:16 -0000
-X-Groupsio-MsgNum: 30365
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vv4Sf/kQfcwinyKX"
+X-List-Received-Date: Thu, 04 Oct 2012 12:50:59 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
---vv4Sf/kQfcwinyKX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 04, 2012 at 01:07:46PM +0100, Phil Blundell wrote:
+At 13:07, Thu 2012-10-04, Phil Blundell wrote:
 > Since updating my copy of bitbake to one which does this extra locking,
 > I've come to realise that the constraint of having only one copy of
-> bitbake running is a bit of a nuisance when making use of devshells.  I
-> used to quite often have one or two long-running devshells for packages
-> that I was actively working on, and then in parallel with that would use
-> bitbake to recompile other things.  With the new locking mechanism, as
-> soon as I have a single devshell open I am now prohibited from using
-> bitbake for anything else in that same build directory.
->=20
-> Would it be reasonable to exempt devshells from that locking or is there
-> some compelling reason why they need to be serialised?
+> bitbake running is a bit of a nuisance when making use of devshells.
 
-The same does apply to bitbake-diffsigs now after IIRC this patch
-http://git.openembedded.org/bitbake/commit/?id=3Dcc70181659c07e04c205e17832=
-846acf1ff31d28
-before that I could use bitbake-diffsigs from any directory (not only
-TOPDIR) and also when build in the same directory was still running.
+In Message-ID: <20120924074452.GH2254@kattastrofe.rd.tandberg.com>,
+Subject: [OE-core] Customize devshell terminal command / environment, I
+suggested the patch found in https://gist.github.com/3774736
 
-Cheers,
+This patch would allow you to customize the terminal used, including
+spawning a terminal that detaches itself from the bitbake. So, my setup
+is: patch plus bitbake running in a screen instance plus these settings:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+OE_TERMINAL = "custom"
+OE_TERMINAL_CUSTOMCMD = "screen"
+OE_TERMINAL_EXPORTS += "STY"
 
---vv4Sf/kQfcwinyKX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+(Should I submit this (non-obtrusive) patch somewhere? (-: )
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlBtgKQACgkQN1Ujt2V2gBx3oACfege3UEQ/0cuL5LqLutGN3Nfo
-0u4An03L0BwyxnYRBaNjlcxdYKFom2aj
-=GhBn
------END PGP SIGNATURE-----
+Smiles,
+-- 
+Morten Minde Neergaard
 
---vv4Sf/kQfcwinyKX--
+
