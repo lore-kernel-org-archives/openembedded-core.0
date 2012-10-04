@@ -1,20 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei.adrianx.dinu@intel.com>) id 1TJidn-0001oh-Lq
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Oct 2012 12:26:52 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Oct 2012 03:13:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,533,1344236400"; d="scan'208";a="219867927"
-Received: from adinu-vostro-460 (HELO localhost.localdomain) ([10.237.105.39])
-	by orsmga002.jf.intel.com with ESMTP; 04 Oct 2012 03:13:47 -0700
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Oct 2012 13:14:32 +0300
-Message-Id: <1349345672-803-1-git-send-email-andrei.adrianx.dinu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gypsy: removed gypsy from meta/recipes-connectivity
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TJigr-0001tB-Jn; Thu, 04 Oct 2012 12:30:01 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q94AGxYb005761;
+	Thu, 4 Oct 2012 11:16:59 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05539-06; Thu,  4 Oct 2012 11:16:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q94AGqQk005755
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 4 Oct 2012 11:16:53 +0100
+Message-ID: <1349345816.18301.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 04 Oct 2012 11:16:56 +0100
+In-Reply-To: <20121004093329.GD3005@jama.jama.net>
+References: <20121002161853.6075610353@opal>
+	<20121004091206.GC3005@jama.jama.net> <1349342915.18301.70.camel@ted>
+	<20121004093329.GD3005@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : bitbake.conf: Add chrpath-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,139 +39,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2012 10:26:52 -0000
+X-List-Received-Date: Thu, 04 Oct 2012 10:30:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-removed also entry from meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
+On Thu, 2012-10-04 at 11:33 +0200, Martin Jansa wrote:
+> On Thu, Oct 04, 2012 at 10:28:35AM +0100, Richard Purdie wrote:
+> > On Thu, 2012-10-04 at 11:12 +0200, Martin Jansa wrote:
+> > > On Tue, Oct 02, 2012 at 04:18:50PM +0000, git@git.openembedded.org wrote:
+> > > > Module: openembedded-core.git
+> > > > Branch: master
+> > > > Commit: 97a3ea712003e8d48dc68c282e656591f39d2d1a
+> > > > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=97a3ea712003e8d48dc68c282e656591f39d2d1a
+> > > > 
+> > > > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > Date:   Tue Oct  2 14:12:21 2012 +0100
+> > > > 
+> > > > bitbake.conf: Add chrpath-native to ASSUME_PROVIDED
+> > > > 
+> > > > We assume chrpath is provided natively so it should be listed in ASSUME_PROVIDED.
+> > > > 
+> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > 
+> > > This breaks do_install in gpsd:
+> > > 
+> > > | arm-oe-linux-gnueabi-gcc -march=armv7-a -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900 -o gpsd --sysroot=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900 -pthread -Wl,-rpath=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/gpsd-3.7 -Wl,-rpath=/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/lib gpsd.o ntpshm.o shmexport.o dbusexport.o sd_socket.o -L. -L/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/lib -L/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/nokia900/lib -lrt -lcap -lbluetooth -lgpsd -lusb-1.0 -lbluetooth -lgps -lm -lcap
+> > > | Install file: "gpsd" as "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd"
+> > > | chrpath -d "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd"
+> > > | `/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd' probably isn't a 64-bit LSB-first ELF file.
+> > > | elf_open: Exec format error
+> > > | scons: *** [/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/image/usr/sbin/gpsd] Error 1
+> > > | scons: building terminated because of errors.
+> > > | ERROR: scons install execution failed.
+> > > | ERROR: Function failed: do_install (see /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/gpsd-3.7-r9/temp/log.do_install.8833 for further information)
+> > > NOTE: recipe gpsd-3.7-r9: task do_install: Failed
+> > > 
+> > > I guess I can add chrpath-replacement-native to DEPENDS, but do you have any 
+> > > idea why chrpath in Ubuntu 14.04.1 does not support arm binaries?
+> > > $ chrpath --version
+> > > chrpath version 0.13
+> > 
+> > Er, chrpath should only get used on native/nativesdk/crosssdk/cross
+> > binaries. Its not expected to work on target binaries and we should
+> > never be running this there.
+> > 
+> > Is this error coming from something we're putting in do_install or is it
+> > from gpsd's makefile?
+> > 
+> > I think this might be a problem in the Makefile and not from OE itself.
+> 
+> It's used from gpsd's SConstruct.
+> 
+> I can remove it there, but that results in 
+>   WARNING: QA Issue: libgps:
+>   /work/armv4t-oe-linux-gnueabi/gpsd/gpsd-3.5-r0/packages-split/libgps/usr/lib/libgps.so.20.0
+>   contains probably-redundant RPATH /usr/lib
+> or
+>   WARNING: QA Issue: package libgps contains bad RPATH
+>   /OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gpsd/gpsd-3.5-r0/image/usr/lib
+>   in file
+>   /OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gpsd/gpsd-3.5-r0/packages-split/libgps/usr/lib/libgps.so.20.0
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
----
- meta/recipes-connectivity/gypsy/files/fixups.patch |   21 -----------------
- meta/recipes-connectivity/gypsy/gypsy.inc          |   15 ------------
- meta/recipes-connectivity/gypsy/gypsy_0.9.bb       |   24 --------------------
- meta/recipes-connectivity/gypsy/gypsy_git.bb       |   18 ---------------
- .../packagegroups/packagegroup-sdk-gmae.inc        |    1 -
- 5 files changed, 79 deletions(-)
- delete mode 100644 meta/recipes-connectivity/gypsy/files/fixups.patch
- delete mode 100644 meta/recipes-connectivity/gypsy/gypsy.inc
- delete mode 100644 meta/recipes-connectivity/gypsy/gypsy_0.9.bb
- delete mode 100644 meta/recipes-connectivity/gypsy/gypsy_git.bb
+Its clearly a gpsd build issue rather than anything in OE-Core. The
+former is a mild performance issue, the latter a potential security
+hole.
 
-diff --git a/meta/recipes-connectivity/gypsy/files/fixups.patch b/meta/recipes-connectivity/gypsy/files/fixups.patch
-deleted file mode 100644
-index de4d92e..0000000
---- a/meta/recipes-connectivity/gypsy/files/fixups.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
-----
-- docs/reference/Makefile.am |    2 ++
-- 1 file changed, 2 insertions(+)
--
----- gypsy.orig/docs/reference/Makefile.am
--+++ gypsy/docs/reference/Makefile.am
--@@ -81,10 +81,12 @@ expand_content_files=
-- # e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
-- 
-- INCLUDES=-I$(top_srcdir) $(GYPSY_CFLAGS)
-- GTKDOC_LIBS=$(top_builddir)/gypsy/libgypsy.la $(GYPSY_LIBS)
-- 
--+EXTRA_DIST =
--+CLEANFILES =
-- # This includes the standard gtk-doc make rules, copied by gtkdocize.
-- include $(top_srcdir)/gtk-doc.make
-- 
-- # Other files to distribute
-- # e.g. EXTRA_DIST += version.xml.in
-diff --git a/meta/recipes-connectivity/gypsy/gypsy.inc b/meta/recipes-connectivity/gypsy/gypsy.inc
-deleted file mode 100644
-index 0c1735e..0000000
---- a/meta/recipes-connectivity/gypsy/gypsy.inc
-+++ /dev/null
-@@ -1,15 +0,0 @@
--SUMMARY = "GPS Multiplexing Daemon"
--DESCRIPTION = "Gypsy is a GPS multiplexing daemon which allows \
--multiple clients to access GPS data from multiple GPS sources \
--concurrently.  Gypsy also hides the details of parsing NMEA from the \
--client applications, passing the data as simple values for the clients \
--to use."
--LICENSE = "GPLv2.0 & LGPLv2.1"
--SECTION = "x11"
--DEPENDS = "glib-2.0 dbus bluez4 dbus-glib"
--
--inherit autotools pkgconfig gtk-doc
--
--EXTRA_OECONF += "--with-distro=debian"
--
--FILES_${PN} += "/usr/share/dbus-1/services/"
-diff --git a/meta/recipes-connectivity/gypsy/gypsy_0.9.bb b/meta/recipes-connectivity/gypsy/gypsy_0.9.bb
-deleted file mode 100644
-index 51207c9..0000000
---- a/meta/recipes-connectivity/gypsy/gypsy_0.9.bb
-+++ /dev/null
-@@ -1,24 +0,0 @@
--SUMMARY = "GPS Multiplexing Daemon"
--DESCRIPTION = "Gypsy is a GPS multiplexing daemon which allows \
--multiple clients to access GPS data from multiple GPS sources \
--concurrently.  Gypsy also hides the details of parsing NMEA from the \
--client applications, passing the data as simple values for the clients \
--to use."
--LICENSE = "GPLv2+ & LGPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
--                    file://COPYING.lib;md5=7fbc338309ac38fefcd64b04bb903e34 \
--                    file://src/main.c;beginline=1;endline=25;md5=3fe64e27e61b289b77383a54a982cbdd \
--                    file://gypsy/gypsy-time.h;beginline=1;endline=24;md5=06432ea19a7b6607428d04d9dadc37fd"
--
--SECTION = "x11"
--DEPENDS = "glib-2.0 dbus bluez4 dbus-glib libxslt"
--
--SRC_URI = "http://gypsy.freedesktop.org/releases/gypsy-${PV}.tar.gz"
--PR = "r1"
--
--inherit autotools pkgconfig
--
--FILES_${PN} += "/usr/share/dbus-1/system-services/"
--
--SRC_URI[md5sum] = "e2d186df9c2cc3b70a027043e22acf1a"
--SRC_URI[sha256sum] = "14e1cbe17351f408538e033ca370b4bf51ccf9c88744e236ddfb271904f154d6"
-diff --git a/meta/recipes-connectivity/gypsy/gypsy_git.bb b/meta/recipes-connectivity/gypsy/gypsy_git.bb
-deleted file mode 100644
-index 867582d..0000000
---- a/meta/recipes-connectivity/gypsy/gypsy_git.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--require gypsy.inc
--
--DEFAULT_PREFERENCE = "-1"
--
--SRCREV = "3652e1f37e82b8e63983e30fda3482cd099a8cf5"
--PV = "0.8+git${SRCPV}"
--PR = "r2"
--
--S = "${WORKDIR}/git"
--
--LICENSE = "GPLv2+ & LGPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
--                    file://COPYING.lib;md5=7fbc338309ac38fefcd64b04bb903e34 \
--                    file://src/main.c;beginline=1;endline=25;md5=3fe64e27e61b289b77383a54a982cbdd \
--                    file://gypsy/gypsy-time.h;beginline=1;endline=24;md5=06432ea19a7b6607428d04d9dadc37fd"
--
--SRC_URI = "git://anongit.freedesktop.org/gypsy;protocol=git \
--           file://fixups.patch"
-diff --git a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
-index 2289572..a6403fc 100644
---- a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
-+++ b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
-@@ -17,7 +17,6 @@ SDK-GMAE = " \
-     gupnp \
-     gupnp-av \
-     gupnp-tools \
--    gypsy \
-     libart-lgpl \
-     libtelepathy \
-     pulseaudio \
--- 
-1.7.9.5
+Ideally, just stop gpsd putting any rpaths in...
+
+Cheers,
+
+Richard
+
+
 
 
 
