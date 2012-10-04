@@ -1,41 +1,32 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TJr6f-0002JW-IF
+	(envelope-from <mark.hatle@windriver.com>) id 1TJsDI-0006QP-9E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Oct 2012 21:29:13 +0200
-Received: by mail-ie0-f175.google.com with SMTP id c13so1866940ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Oct 2012 12:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=PjW7wcsRN7+bcZT6pWMkQBd6fqDcOX4gngqmClxheR8=;
-	b=D7VS85sEUOZ4AqbiIaPauE+bXBTKwRBWEWdQ5v09R1V5zu2zyUHeIgh32vevZ1zVsu
-	shNao3eIXxMziu+ZyfxO72GMGO9R3Mg1wfWUI48qApNxcgbaxX9nv+WQ9zww4h+toejx
-	lttsT0F4JCqyFIyXq4bqm7WUF9GcYmTeWwB7OUVzWkJJFjcao5rbTwUN8HpHuW/NQG1E
-	o1cd2/t3yBMNDu9Yp28monKNAxdYJa5x3gN8krXz6Fe+lvrxqpfO6HNs8R6H67dPwxyx
-	PSbcIwomk5492ZWG9cUT8UN3SpfAeJk2FVOZ1i5pjGMDjKPtVBcy2ZUj+P8vIFB5so+w
-	FfGg==
+	Thu, 04 Oct 2012 22:40:08 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q94KR2fS016797
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 4 Oct 2012 13:27:02 -0700 (PDT)
+Received: from msp-dhcp7.wrs.com (172.25.34.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 4 Oct 2012 13:27:02 -0700
+Message-ID: <506DF115.7030308@windriver.com>
+Date: Thu, 4 Oct 2012 15:27:01 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120907 Thunderbird/15.0.1
 MIME-Version: 1.0
-Received: by 10.42.91.75 with SMTP id o11mr5218967icm.57.1349378171642; Thu,
-	04 Oct 2012 12:16:11 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Thu, 4 Oct 2012 12:16:11 -0700 (PDT)
-In-Reply-To: <CALbNGRR6Zg6aDwZmFiW9WAFKBgass7c-DpADwcKiQYXLgwoLAQ@mail.gmail.com>
-References: <cover.1348052899.git.laurentiu.palcu@intel.com>
-	<CALbNGRTCyvfZFYHx6bKV8oVDJWH3X0tj1DHSJm9CkvT4xY2f7A@mail.gmail.com>
-	<5059E5C3.2080603@intel.com>
-	<CALbNGRS2WzGmRgM0ibnArYgbWWrRVG8VEYayXB12mLcKJmaPAA@mail.gmail.com>
-	<CALbNGRST8C-p=M5V8KoVe5ug1MXwp5=7z2rUubEg_MxeR776Kw@mail.gmail.com>
-	<5062AA0F.3050604@intel.com>
-	<CALbNGRRT47T4RsVHSypgg0J12+0R0y1y6jPWK4GGTgZAaG_2sA@mail.gmail.com>
-	<CALbNGRR6Zg6aDwZmFiW9WAFKBgass7c-DpADwcKiQYXLgwoLAQ@mail.gmail.com>
-Date: Thu, 4 Oct 2012 21:16:11 +0200
-Message-ID: <CALbNGRTH_ETydVMCyxduE90AvPk_nAgK6mUqgve4=Y9+fj6PGQ@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 0/7] Postinstall improvements
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+References: <506DCF4A.5020101@windriver.com>
+	<70CC66F5C30A414DADDA6973E4CA391A6D910F@039-SN1MPN1-002.039d.mgd.msft.net>
+In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A6D910F@039-SN1MPN1-002.039d.mgd.msft.net>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q94KR2fS016797
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Secondary Toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,119 +39,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Oct 2012 19:29:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 04 Oct 2012 20:40:08 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 4, 2012 at 1:37 AM, Andreas M=FCller
-<schnitzeltony@googlemail.com> wrote:
-> On Wed, Sep 26, 2012 at 9:41 AM, Andreas M=FCller
-> <schnitzeltony@googlemail.com> wrote:
->> On Wed, Sep 26, 2012 at 9:09 AM, Laurentiu Palcu
->> <laurentiu.palcu@intel.com> wrote:
->>>
->>>
->>> On 09/20/2012 07:12 PM, Andreas M=FCller wrote:
->>>> On Thu, Sep 20, 2012 at 5:38 PM, Andreas M=FCller
->>>> <schnitzeltony@googlemail.com> wrote:
->>>>> On Wed, Sep 19, 2012 at 5:33 PM, Laurentiu Palcu
->>>>> <laurentiu.palcu@intel.com> wrote:
->>>>>>
->>>>>>
->>>>>> On 09/19/2012 04:41 PM, Andreas M=FCller wrote:
->>>>>>> On Wed, Sep 19, 2012 at 1:49 PM, Laurentiu Palcu
->>>>>>> <laurentiu.palcu@intel.com> wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> It's been quite a long time since I sent the first version of post=
-install
->>>>>>>> improvements which, after some debate, we decided it needed run-on=
-ce
->>>>>>>> support of postinst scriptlets on host. This patcheset (RFC actual=
-ly) adds
->>>>>>>> that.
->>>>>>>>
->>>>>>>> So, in order to achieve this goal I took advantage of
->>>>>>>> ROOTFS_POSTPROCESS_COMMAND variable. Basically, if running some po=
-stinst
->>>>>>>> scriptlets is time consuming (even on host) and execute repeatedly=
-,
->>>>>>>> then we can postpone the running and run the scriplet just once. T=
-he idea is
->>>>>>>> to put the scriptlet in the ${WORKDIR}/intercept_scripts directory=
-. When the
->>>>>>>> ROOTFS_POSTPROCESS_COMMAND is executed, it will pick up all the sc=
-ripts in
->>>>>>>> this directory and execute them.
->>>>>>>>
->>>>>>>> This actual patchset does the above for the gtk icon cache generat=
-ion which
->>>>>>>> takes a very long time to run on target and even on some hosts.
->>>>>>>>
->>>>>>>> The people willing to give this patchset a test, are most than wel=
-come. Also,
->>>>>>>> please feel free to review.
->>>>>>>>
->>>>>>>> Thanks,
->>>>>>>> Laurentiu
->>>>>>>>
->>>>>>> Thanks for taking care. I will give it a test tonight and hope to h=
-ave
->>>>>>> results tomorrow.
->>>>>> It would be great if you could give it a try and let me know your re=
-sults.
->>>>>>
->>>>> I removed gtk-native append in meta-oe, build from scratch and tested
->>>>> the image. No issues so far - seems you have done a great job -
->>>>> Thanks!
->>>>>
->>>> Aargh I really would like to consider this done but I found suspicious
->>>> when browsing on the machine with the new image (hicolor- and
->>>> gnome-icon-theme installed):
->>>>
->>>> * in the folder /usr/share/icons/gnome *no* icon-theme.cache is found
->>>> * /usr/share/icons/hicolor/icon-theme.cache is there but it has the
->>>> date of 01.01.2000 (have no rtc backup on the machine). I would expect
->>>> this file to have build host's date.
->>>>
->>>> So I checked the contents on the build machine in image's rootfs:
->>>>
->>>> * in the folder /usr/share/icons/gnome *no* icon-theme.cache is found
->>>> * /usr/share/icons/hicolor/icon-theme.cache is there but has only
->>>> 64,5KB (the version on the machine is 2,3MB!!).
->>> Did you have any chance to debug the issue on your setup? I tried to
->>> replicate your environment but I failed. Lots of build errors, so I gav=
-e
->>> up. It would have taken me more time to make your setup work than
->>> debugging the real problem.
->>>
->>> Another alternative would be for you to prepare a tarball with all the
->>> repos and configs that you use and put it somewhere where I can take it=
-.
->>> It would be easier for me to directly start debugging your issue.
->>>
->> Sorry but I am occupied by other issues at the moment. Hope to find
->> time at the weekend to add some debug messages to see what's going on.
+On 10/4/12 2:03 PM, McClintock Matthew-B29882 wrote:
+> On Thu, Oct 4, 2012 at 1:02 PM, Mark Hatle <mark.hatle@windriver.com> w=
+rote:
+>> We have an issue where we'd like to have an alternative toolchain
+>> (assembler, linker, compiler) available for our customers to selective=
+ly
+>> use.  However, before we just go off and implement something, I'd like=
+ at
+>> least some basic consensus on what the best practice is for doing this=
+ work.
+>> Below is my attempt at an early proposal.
 >>
-> Oh it's that simple: run_intercept_scriptlets is not called here (I
-> don't know what caused 'mini hicolor-icon-theme's cache)! You can
-> reproduce that e.g. by enabling buildhistory.
+>> Background
+>> ----------------
+>>
+>> Many companies have commercial / highly optimized toolchains for speci=
+fic
+>> purpose, such as ICC from Intel, LLVM, ARM specific toolchain, etc..  =
+For
+>> (potentially) better performance with some applications a mechanism to=
+ both
+>> provide the hooks for the alternative toolchain as well as a way to ac=
+tive
+>> it per-package is desired.
+>>
+>> This work assumes that the third party toolchain is generally compatib=
+le
+>> with the idea of sysroots, linking to the libc provided by OE, and gen=
+erally
+>> compatible with GNU conventions.
+>>
+>> However, as part of the third party toolchain, it may not be GNU compa=
+tible.
+>> This means many Open Source applications simply may not work with this
+>> toolchain.  That means that we need to have a way for a toolchain to
+>> blacklist (or whitelist) specific recipes.  This way only supported
+>> components can be built by the user, avoiding numerous complaints.
+>>
+>> Currently OE has a method to generate an SDK based on the GNU toolchai=
+n.  We
+>> would like to be able to also export the external toolchain along with=
+ the
+>> SDK, effectively providing both the GNU toolchain and the third party
+>> toolchain using the common sysroot.
+>>
+>> We need a way to active the third party toolchain on a per-package bas=
+is.
+>> This activation will need to use the existing sysroot, but be able to =
+pass
+>> different C, C++, LD, AS and other flags as specified by the third par=
+ty
+>> toolchain.
+>>
+>> Finally third party toolchains should be implemented as layers that ca=
+n
+>> easily plug into OE.
+>>
+>> Implementation
+>> ---------------------
+>>
+>> Add an OVERRIDE to specify the alternative toolchain.  Can this be don=
+e
+>> within the layer by doing something like:
+>>
+>> OVERRIDE_append =3D ":toolchain-${TOOLCHAIN}"
+>>
+>> TOOLCHAIN =3D "gnu" (or "icc")
+>>
+>> To activate the toolchain you would use things like:
+>>
+>> TOOLCHAIN_pn-bash =3D 'icc'
+>>
+>> To define the correct behavior for the toolchain, the following would =
+need
+>> to be defined (with _toolchain-<toolchain>):
+>>
+>> TARGET_CPPFLAGS
+>> TARGET_CFLAGS
+>> TARGET_CXXFLAGS
+>> TARGET_LDFLAGS
+>> CC
+>> CXX
+>> F77
+>> CPP
+>> LD
+>> CCLD
+>> AR
+>> AS
+>> RANLIB
+>> STRIP
+>> OBJCOPY
+>> OBJDUMP
+>> NM
+>> FULL_OPTIMIZATIONS
+>> DEBUG_OPTIMIZATION
+>>
+>> Is anyone aware of any other items that may require additional items? =
+ Will
+>> the above actually work?  Using the override of the TOOLCHAIN_=85 will=
+ that
+>> actually change the override values or do we get stuck?
 >
-> I simply replaced in image.bbclass
->
-> ROOTFS_POSTPROCESS_COMMAND ?=3D "run_intercept_scriptlets"
-> by
-> ROOTFS_POSTPROCESS_COMMAND =3D+ "run_intercept_scriptlets;"
->
-> an now see larger caches for all my icon themes. But the sizes are
-> still different from those mentioned above. Will run-test tomorrow.
->
-> Andreas
-Hey Laurentiu,
+> This seems orthogonal to actually implementing the recipe which would
+> procide 'icc'?
 
-With the minor change mentioned above I tested all my working images
-without issues. Thanks for taking care and speeding up first boot.
+That is correct.  I'm trying to establish a best practice for the layer=20
+configuration, as well as general distribution/recipe configuration.
 
-Andreas
+What I really don't want to see is 5 companies implementing similar=20
+functionality and doing it in a completely incompatible way.  If the vari=
+ables=20
+and override mechanism above is reasonable, then it gives people a roadma=
+p to=20
+get started.
+
+--Mark
+
+> -M
+>
+>>
+>> Comments/suggestions appreciated!
+>> --Mark
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
