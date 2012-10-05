@@ -1,43 +1,21 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TKEx6-0008Cr-OG
+	(envelope-from <dvhart@linux.intel.com>) id 1TKHZU-0007pD-9y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Oct 2012 22:56:56 +0200
-Received: by mail-ie0-f175.google.com with SMTP id c13so5171442ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2012 13:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=O1TGErHazBE13xymBXE1cZFKVVSRJNVBIvX14A1oTJQ=;
-	b=fxJLqUhF3bzczj/5Plf1vJQvkxjWGEyzc4eTHqeNFTEke5DvTT7iXe6PuwK9WnJaav
-	eMJTMHbTzp8fNGtmVydIQMY2LwyyzqvRqzPnGU5w4i5IBov99vP8fKZ9PG0fKArjxWWa
-	yVAXLp2vkDMcGSwbMbGURU6TBBpQDH7r4Ng6jPEZj/lsgFUO5T2ixVlP9agpdajTFwyg
-	wmdiucIU+PgboAgpD1hY8X++LOSCZdQjjymbqZS7+ADo918R17bBZeeEazGISobSh2K3
-	XUQOqvPkC9Nwd7G7PjU9ksO+rrYrkh8Ge1nuENVXFdVOij9EY29amh8N6vk9Q2O3FXlZ
-	rHYw==
-MIME-Version: 1.0
-Received: by 10.50.47.129 with SMTP id d1mr60048ign.45.1349469833464; Fri, 05
-	Oct 2012 13:43:53 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Fri, 5 Oct 2012 13:43:53 -0700 (PDT)
-In-Reply-To: <506E809F.3080206@intel.com>
-References: <cover.1348052899.git.laurentiu.palcu@intel.com>
-	<CALbNGRTCyvfZFYHx6bKV8oVDJWH3X0tj1DHSJm9CkvT4xY2f7A@mail.gmail.com>
-	<5059E5C3.2080603@intel.com>
-	<CALbNGRS2WzGmRgM0ibnArYgbWWrRVG8VEYayXB12mLcKJmaPAA@mail.gmail.com>
-	<CALbNGRST8C-p=M5V8KoVe5ug1MXwp5=7z2rUubEg_MxeR776Kw@mail.gmail.com>
-	<5062AA0F.3050604@intel.com>
-	<CALbNGRRT47T4RsVHSypgg0J12+0R0y1y6jPWK4GGTgZAaG_2sA@mail.gmail.com>
-	<CALbNGRR6Zg6aDwZmFiW9WAFKBgass7c-DpADwcKiQYXLgwoLAQ@mail.gmail.com>
-	<CALbNGRTH_ETydVMCyxduE90AvPk_nAgK6mUqgve4=Y9+fj6PGQ@mail.gmail.com>
-	<506E809F.3080206@intel.com>
-Date: Fri, 5 Oct 2012 22:43:53 +0200
-Message-ID: <CALbNGRTtE8txfemS8PS+7C=hfZLjUAu3qJgFZCt-swsEviRE5A@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC 0/7] Postinstall improvements
+	Sat, 06 Oct 2012 01:44:44 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Oct 2012 16:31:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,541,1344236400"; d="scan'208";a="221341967"
+Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
+	by orsmga002.jf.intel.com with ESMTP; 05 Oct 2012 16:31:39 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Poky <poky@yoctoproject.org>,
+	openembedded-core@lists.openembedded.org
+Date: Fri,  5 Oct 2012 16:31:35 -0700
+Message-Id: <cover.1349479383.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/2] Update poky-tiny to linux-yocto-tiny_3.4 for qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,40 +28,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2012 20:56:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 05 Oct 2012 23:44:44 -0000
 
-On Fri, Oct 5, 2012 at 8:39 AM, Laurentiu Palcu
-<laurentiu.palcu@intel.com> wrote:
->>>
->>> ROOTFS_POSTPROCESS_COMMAND ?= "run_intercept_scriptlets"
->>> by
->>> ROOTFS_POSTPROCESS_COMMAND =+ "run_intercept_scriptlets;"
->>>
->>> an now see larger caches for all my icon themes. But the sizes are
->>> still different from those mentioned above. Will run-test tomorrow.
->>>
->>> Andreas
->> Hey Laurentiu,
->>
->> With the minor change mentioned above I tested all my working images
->> without issues. Thanks for taking care and speeding up first boot.
->
-> Thanks Andreas for your help with the tests and for finding the issue.
-> Unfortunately the patches will not be able to get into 1.3 (we're a
-> little late for that). I'll prepare another patch-set as soon as I'll
-> find some spare time and, hopefully, we'll get the patches in for 1.4.
->
-> Thanks,
-> Laurentiu
->
->>
->> Andreas
->>
-Although I would like to get this in I agree. Meanwhile I will put the
-modified patches in on one of my build machines to get further
-experience with them.
+As these patches are dependent on eachother, sending to both poky and oe-core
+lists. Flame away.
 
-Andreas
+The refresh to 3.4 for tiny is coming in rather late as I was focused on other
+BSPs. However, qemux86 has been at 3.4 for poky and linux-yocto for a while now.
+This update effectively uses a subset of that tested config for the images built
+with poky-tiny. This only impacts qemux86 on poky-tiny.  That configuration
+builds and boots to the serial console.
+
+NOTE: This kernel recipe is pending a minor meta-data change to the
+linux-yocto_3.4 git repository which will require a SRCREV_meta update. That
+update can be made to only the linux-yocto-tiny_3.4 recipe in order to minimize
+risk to the rest of the system. However, please do not commit this until the
+meta-data patch goes in. At that point I will update the branch with the new
+SRCREV and notify the list in response to this email.
+
+The following changes since commit 415be864abdbd6f86e554aba684f5d7a9499e2e7:
+
+  sstate: Add extra entries to the sstate duplicate files whitelist (2012-10-05 16:18:26 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib dvhart/1.3/tiny
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/1.3/tiny
+
+Darren Hart (2):
+  linux-yocto-tiny: Add tiny recipe for the 3.4 linux-yocto kernel
+  poky-tiny: Update the default kernel to linux-yocto-tiny_3.4
+
+ meta-yocto/conf/distro/poky-tiny.conf             |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |   26 +++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+
+-- 
+1.7.5.4
+
 
 
