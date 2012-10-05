@@ -1,35 +1,30 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TK7lM-0004Qs-KK
-	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Oct 2012 15:16:20 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so1692987pbb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TK7yT-0000D6-8F for openembedded-core@lists.openembedded.org;
+	Fri, 05 Oct 2012 15:29:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q95DGpvK016950
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2012 06:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=vTleTSFxoOe6do5ysUbI7kXbl0/0+uVid1osib5P4jY=;
-	b=n95szjX7JoF+ybmsy0H+l4wYlb+FzZFs3WuiocSSFKEwwVy0PCC6m0TIKAmG2xa4IZ
-	mDQqVmGNOr2sgqD7ZEMOE/Ad2+EwowtPVVPG4ky60Oi6gOrZqBcR+KN+n8DEEBafdkhr
-	tFse4vvWubZWKViGVyLG50teNkBnAD+jfUYtelZ6Y5VGNnlWBmFwDJIAzHPaW6XZT/Xd
-	fRtT2DdEQ3B7+SvUtXyRLHoqrZk0382dkcRKdsZn99Q8JjVA7t6aw92oRdxCyPz+sEsl
-	gyvOAkdHtwshzL25yrbF6zf8YrYJbf6PwGcYYqIrmbu3ySrfu0cCN2aFNlih1ea6qoeT
-	VY2w==
-MIME-Version: 1.0
-Received: by 10.68.129.233 with SMTP id nz9mr30516209pbb.136.1349442197526;
-	Fri, 05 Oct 2012 06:03:17 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.36.105 with HTTP; Fri, 5 Oct 2012 06:03:17 -0700 (PDT)
-In-Reply-To: <1349437649.15658.20.camel@ted>
-References: <1349437649.15658.20.camel@ted>
-Date: Fri, 5 Oct 2012 10:03:17 -0300
-X-Google-Sender-Auth: 5r1GD30Me6YwYJczUcWnjk3QtpE
-Message-ID: <CAP9ODKpvpJbYpP-HPzO23cFFFONpF4ULdmc_OAGM-MR-2sXGCQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libdrm: Explicitly disable the cairo dependency
+	Fri, 5 Oct 2012 14:16:51 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13966-06 for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Oct 2012 14:16:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q95DGegO016944
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 5 Oct 2012 14:16:41 +0100
+Message-ID: <1349443004.15658.23.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 05 Oct 2012 14:16:44 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] sstate: Normalise paths before comparing with the whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2012 13:16:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 05 Oct 2012 13:29:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 5, 2012 at 8:47 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> We don't want the cairo dependency. Unfortunately simply checking whether its present
-> isn't good enough. If its not in DEPENDS, it can disappear half way through building.
-> We therefore need to explicitly disable it.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Without this, path components like // could break comparisons with the whitelist leading
+to warnings being displayed to the user unintentionally.
 
-Richard,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 03f083e..e820a2e 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -150,6 +150,7 @@ def sstate_install(ss, d):
+     match = []
+     for f in sharedfiles:
+         if os.path.exists(f):
++            f = os.path.normpath(f)
+             realmatch = True
+             for w in whitelist:
+                 if f.startswith(w):
 
-Please use the Upstream-Status field in the patch so it is easier to
-track later.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
