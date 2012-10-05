@@ -1,33 +1,40 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TJvLl-0000aC-J5
+	(envelope-from <koen@dominion.thruhere.net>) id 1TK1ZK-0004wh-66
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Oct 2012 02:01:05 +0200
-Received: by mail-pa0-f47.google.com with SMTP id fa11so992558pad.6
+	Fri, 05 Oct 2012 08:39:30 +0200
+Received: by mail-wi0-f177.google.com with SMTP id hj13so112738wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Oct 2012 16:48:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=/LqVbDZRSKfLYUBK4qH8sxbOTZp758Pwb65ol8FBcEo=;
-	b=d6CxYOIDN7004tJRehaHfy8VnPT5sGNj+Y9D7CRjX+/LBWCtZeWR06sBjPptEv91+C
-	VJ1ZGh1eE31HaH+I7vNh8+InOXWKzAQqXEMQ4izBGrr58B6XNNp8VjhZ/wXXBQbjyS7J
-	A5tsqfxXw77tPHogJl/H+upjZf9qhqbYc/xujR9iVrPUt4AmsWtLdkP0yRvM/6Mf9h5H
-	ra1983FZtLja2lMAdTa7bMfAETKf24GdSBWfCNoBsbxhngzoMyuTHnEvMwWFEHJD9MW0
-	Wo9oX3sseMiyiAVvYQZBpKy1/NA8CbUwRgNQM7b9qVlxNkbWN6F+8e4mZbNmGQLnbBQU
-	8S0Q==
-Received: by 10.66.75.233 with SMTP id f9mr17132472paw.21.1349394483023;
-	Thu, 04 Oct 2012 16:48:03 -0700 (PDT)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id sz4sm5053178pbc.22.2012.10.04.16.48.01
+	Thu, 04 Oct 2012 23:26:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=lLS6Qz3CReVltsxKdhBB6qrIzTawOUeO5OmZTiSrjRs=;
+	b=fpfO/H7zhJqZX2KDqT9ZGsrW+yfB74+FjjXLih7m0YWiNdlgY+JUJgTsPtFsCdjfpi
+	2kdhuMBHwQlfLZVHneiBC380TO/+W+x0/qrK+llGkjTqYll252y1Pa1alx42YR6obBtk
+	BzFE4yWDgGqBWBMOOGOUlv/k9qrUNoWSm0Oi2/IGjgvYcAsy7WCkm6zBDPBCzz6V1Aaa
+	QGopPPYPd3X5793HirBq/2MtTjTCtEHtKULMYm+OQaYDzBMpyyVVTjC5k+LIICrbvfBu
+	ZLQPrzRAJYb2+ZYY8X1yGmv8k1MDufZc0rov1KGmwBCwM28+q4Trt5YLr1KEkaQqhIXj
+	9O9Q==
+Received: by 10.180.94.226 with SMTP id df2mr963021wib.11.1349418388258;
+	Thu, 04 Oct 2012 23:26:28 -0700 (PDT)
+Received: from [172.20.0.22] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id fb20sm808497wid.1.2012.10.04.23.26.25
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 04 Oct 2012 16:48:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Oct 2012 16:47:39 -0700
-Message-Id: <1349394459-26860-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] toolchain-scripts.bbclass: Export M4
+	Thu, 04 Oct 2012 23:26:26 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1349318775-17939-1-git-send-email-fcooper@ti.com>
+Date: Fri, 5 Oct 2012 08:26:25 +0200
+Message-Id: <0132F9D2-DCF0-4605-9120-F8CD9A2A3B6C@dominion.thruhere.net>
+References: <1349318775-17939-1-git-send-email-fcooper@ti.com>
+To: Franklin S. Cooper Jr <fcooperjr27@gmail.com>
+X-Mailer: Apple Mail (2.1498)
+X-Gm-Message-State: ALoCoQl19YWNAQW5aFtBFpjehApb7kpY9iqKUOFNrdc0WyXNGVaGkr6+057gUNTERcxKT2y0UXaV
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [for-denzil][PATCH] gconf: Disable gtk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,31 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2012 00:01:05 -0000
+X-List-Received-Date: Fri, 05 Oct 2012 06:39:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-some packages use M4 variable from environment and sometimes
-its hardcoded to /usr/bin/m4 if not found in environment. Lets
-define it such that it is picked from path
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/toolchain-scripts.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+Op 4 okt. 2012, om 04:46 heeft Franklin S. Cooper Jr =
+<fcooperjr27@gmail.com> het volgende geschreven:
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 44284c3..6d8623c 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -26,6 +26,7 @@ toolchain_create_sdk_env_script () {
- 	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
- 	echo 'export AR=${TARGET_PREFIX}ar' >> $script
- 	echo 'export NM=${TARGET_PREFIX}nm' >> $script
-+	echo 'export M4=m4' >> $script
- 	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
- 	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=${SDKTARGETSYSROOT}"' >> $script
- 	if [ "${TARGET_OS}" = "darwin8" ]; then
--- 
-1.7.9.5
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> There are only a couple of helper utilities within gconf that need =
+gtk+ as a
+> dependency and those are unused and pretty useless. We might as well =
+drop
+> the dependency on gtk and allow more parallel builds by reducing =
+dependency
+> bottlenecks.
 
+Except that gnome needs gconf-sanity-check, which is one of those =
+"useless" binaries=
 
 
