@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TKE9w-0000eF-Ev
+	(envelope-from <scott.a.garman@intel.com>) id 1TKE9z-0000fN-92
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Oct 2012 22:06:08 +0200
+	Fri, 05 Oct 2012 22:06:11 +0200
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 891432FD12
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id D22782FD1D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2012 15:53:00 -0400 (EDT)
+	Fri,  5 Oct 2012 15:53:02 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Oct 2012 12:52:45 -0700
-Message-Id: <8430748e838872b22fe0e83a7dbf3a2a5b1faba2.1349466569.git.scott.a.garman@intel.com>
+Date: Fri,  5 Oct 2012 12:52:46 -0700
+Message-Id: <b21d1daf709ddce14c93a5f16c91ff702e1cb7ff.1349466569.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1349466569.git.scott.a.garman@intel.com>
 References: <cover.1349466569.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1349466569.git.scott.a.garman@intel.com>
 References: <cover.1349466569.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 891432FD12.37620
+X-MailScanner-ID: D22782FD1D.E7263
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 3/6] gnutls: Update SRC_URI to use GNU_MIRROR
+Subject: [PATCH 4/6] siteconfig: Clear cache before rebuilding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,42 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2012 20:06:08 -0000
+X-List-Received-Date: Fri, 05 Oct 2012 20:06:11 -0000
 
-From: Darren Hart <dvhart@linux.intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The current SRC_URI fails. Update it with the GNU_MIRROR SRC_URI from
-upstream commit 753b22012f10c393c191d3116b9d38ee4be6d112.
+This ensures consistent build results and avoids build failures when compiler flags
+change for example.
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: John Howard <john.howard@intel.com>
-CC: Scott Garman <scott.a.garman@intel.com>
+(From OE-Core rev: a5ff8396cad130f809f8f8da49bb38e6f80f923c)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/gnutls/gnutls.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/siteconfig.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 157612e..e818f07 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
- DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap readline"
- 
--INC_PR = "r6"
-+INC_PR = "r7"
- 
- LICENSE = "GPLv3+ & LGPLv2.1+"
- LICENSE_${PN} = "LGPLv2.1+"
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://lib/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://libextra/COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--SRC_URI = "ftp://ftp.gnutls.org/pub/gnutls/gnutls-${PV}.tar.bz2"
-+SRC_URI = "${GNU_MIRROR}/gnutls/gnutls-${PV}.tar.bz2"
- 
- inherit autotools binconfig pkgconfig gettext
- 
+diff --git a/meta/classes/siteconfig.bbclass b/meta/classes/siteconfig.bbclass
+index ccbe5b9..3701b7c 100644
+--- a/meta/classes/siteconfig.bbclass
++++ b/meta/classes/siteconfig.bbclass
+@@ -18,6 +18,7 @@ siteconfig_do_siteconfig_gencache () {
+ 		>${WORKDIR}/site_config_${MACHINE}/configure.ac
+ 	cd ${WORKDIR}/site_config_${MACHINE}
+ 	autoconf
++	rm -f ${PN}_cache
+         CONFIG_SITE="" ${EXTRASITECONFIG} ./configure ${CONFIGUREOPTS} --cache-file ${PN}_cache
+ 	sed -n -e "/ac_cv_c_bigendian/p" -e "/ac_cv_sizeof_/p" \
+ 		-e "/ac_cv_type_/p" -e "/ac_cv_header_/p" -e "/ac_cv_func_/p" \
 -- 
 1.7.9.5
 
