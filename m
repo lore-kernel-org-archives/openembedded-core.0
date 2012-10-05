@@ -1,52 +1,46 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TKEWO-0005BA-Du
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TKEx6-0008Cr-OG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Oct 2012 22:29:20 +0200
-Received: from mail2-ch1-R.bigfish.com (10.43.68.236) by
-	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 5 Oct 2012 20:16:16 +0000
-Received: from mail2-ch1 (localhost [127.0.0.1])	by mail2-ch1-R.bigfish.com
-	(Postfix) with ESMTP id E4F20300102;
-	Fri,  5 Oct 2012 20:16:16 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz98dI9371I1b0bI1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441hbe9i1155h)
-Received: from mail2-ch1 (localhost.localdomain [127.0.0.1]) by mail2-ch1
-	(MessageSwitch) id 1349468175736021_16142;
-	Fri,  5 Oct 2012 20:16:15 +0000 (UTC)
-Received: from CH1EHSMHS040.bigfish.com (snatpool2.int.messaging.microsoft.com
-	[10.43.68.236])	by mail2-ch1.bigfish.com (Postfix) with ESMTP id
-	AC60940220; Fri,  5 Oct 2012 20:16:15 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS040.bigfish.com
-	(10.43.69.249) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 5 Oct 2012 20:16:15 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.88]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0309.003; Fri, 5 Oct 2012 15:16:14 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Scott Garman <scott.a.garman@intel.com>
-Thread-Topic: [OE-core] [PATCH 0/6] denzil pull request 3
-Thread-Index: AQHNozZEAR9a2jwko0OU4bqww9NpEg==
-Date: Fri, 5 Oct 2012 20:16:14 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6DBCF1@039-SN1MPN1-002.039d.mgd.msft.net>
-References: <cover.1349466569.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1349466569.git.scott.a.garman@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Fri, 05 Oct 2012 22:56:56 +0200
+Received: by mail-ie0-f175.google.com with SMTP id c13so5171442ieb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Oct 2012 13:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=O1TGErHazBE13xymBXE1cZFKVVSRJNVBIvX14A1oTJQ=;
+	b=fxJLqUhF3bzczj/5Plf1vJQvkxjWGEyzc4eTHqeNFTEke5DvTT7iXe6PuwK9WnJaav
+	eMJTMHbTzp8fNGtmVydIQMY2LwyyzqvRqzPnGU5w4i5IBov99vP8fKZ9PG0fKArjxWWa
+	yVAXLp2vkDMcGSwbMbGURU6TBBpQDH7r4Ng6jPEZj/lsgFUO5T2ixVlP9agpdajTFwyg
+	wmdiucIU+PgboAgpD1hY8X++LOSCZdQjjymbqZS7+ADo918R17bBZeeEazGISobSh2K3
+	XUQOqvPkC9Nwd7G7PjU9ksO+rrYrkh8Ge1nuENVXFdVOij9EY29amh8N6vk9Q2O3FXlZ
+	rHYw==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] denzil pull request 3
+Received: by 10.50.47.129 with SMTP id d1mr60048ign.45.1349469833464; Fri, 05
+	Oct 2012 13:43:53 -0700 (PDT)
+Received: by 10.64.18.13 with HTTP; Fri, 5 Oct 2012 13:43:53 -0700 (PDT)
+In-Reply-To: <506E809F.3080206@intel.com>
+References: <cover.1348052899.git.laurentiu.palcu@intel.com>
+	<CALbNGRTCyvfZFYHx6bKV8oVDJWH3X0tj1DHSJm9CkvT4xY2f7A@mail.gmail.com>
+	<5059E5C3.2080603@intel.com>
+	<CALbNGRS2WzGmRgM0ibnArYgbWWrRVG8VEYayXB12mLcKJmaPAA@mail.gmail.com>
+	<CALbNGRST8C-p=M5V8KoVe5ug1MXwp5=7z2rUubEg_MxeR776Kw@mail.gmail.com>
+	<5062AA0F.3050604@intel.com>
+	<CALbNGRRT47T4RsVHSypgg0J12+0R0y1y6jPWK4GGTgZAaG_2sA@mail.gmail.com>
+	<CALbNGRR6Zg6aDwZmFiW9WAFKBgass7c-DpADwcKiQYXLgwoLAQ@mail.gmail.com>
+	<CALbNGRTH_ETydVMCyxduE90AvPk_nAgK6mUqgve4=Y9+fj6PGQ@mail.gmail.com>
+	<506E809F.3080206@intel.com>
+Date: Fri, 5 Oct 2012 22:43:53 +0200
+Message-ID: <CALbNGRTtE8txfemS8PS+7C=hfZLjUAu3qJgFZCt-swsEviRE5A@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 0/7] Postinstall improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -56,47 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2012 20:29:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <7A7715081DA30047B83120359C5FDBDF@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 05 Oct 2012 20:56:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Oct 5, 2012 at 2:52 PM, Scott Garman <scott.a.garman@intel.com> wro=
-te:
+On Fri, Oct 5, 2012 at 8:39 AM, Laurentiu Palcu
+<laurentiu.palcu@intel.com> wrote:
+>>>
+>>> ROOTFS_POSTPROCESS_COMMAND ?= "run_intercept_scriptlets"
+>>> by
+>>> ROOTFS_POSTPROCESS_COMMAND =+ "run_intercept_scriptlets;"
+>>>
+>>> an now see larger caches for all my icon themes. But the sizes are
+>>> still different from those mentioned above. Will run-test tomorrow.
+>>>
+>>> Andreas
+>> Hey Laurentiu,
+>>
+>> With the minor change mentioned above I tested all my working images
+>> without issues. Thanks for taking care and speeding up first boot.
 >
-> nightly-ppc-lsb: kernel compile failure
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-ppc-lsb/builds/=
-82
+> Thanks Andreas for your help with the tests and for finding the issue.
+> Unfortunately the patches will not be able to get into 1.3 (we're a
+> little late for that). I'll prepare another patch-set as soon as I'll
+> find some spare time and, hopefully, we'll get the patches in for 1.4.
 >
-> kernel do_compile failure for mpc8315e_rdb-poky-linux:
+> Thanks,
+> Laurentiu
 >
-> |   BOOTCC  arch/powerpc/boot/cuboot-pq2.o
-> | In file included from /srv/home/pokybuild/yocto-autobuilder/yocto-slave=
-/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/linux-yocto-3=
-.0.32+git1+34e0d2b4b4e9778b31f9ea99ca43f0dc71a7ee23_1+83f422f718cf15633cb4c=
-2d309aa041c3c354f65-r4/linux/arch/powerpc/boot/epapr.c:20:0:
-> | arch/powerpc/boot/libfdt.h:854:1: error: unterminated comment
-> | arch/powerpc/boot/libfdt.h:1:0: error: unterminated #ifndef
-> |   BOOTCC  arch/powerpc/boot/cuboot-sequoia.o
-> | make[3]: *** [arch/powerpc/boot/epapr.o] Error 1
-> | make[3]: *** Waiting for unfinished jobs....
-> | make[2]: *** [uImage] Error 2
-> | make[1]: *** [sub-make] Error 2
-> | make: *** [all] Error 2
-> | ERROR: oe_runmake failed
-> NOTE: package linux-yocto-3.0.32+git1+34e0d2b4b4e9778b31f9ea99ca43f0dc71a=
-7ee23_1+83f422f718cf15633cb4c2d309aa041c3c354f65-r4: task do_compile: Faile=
-d
->
-> I heard from Matthew McClintock that a fix for this has been sent
-> upstream, sounds like we need to get this merged to our kernel tree.
+>>
+>> Andreas
+>>
+Although I would like to get this in I agree. Meanwhile I will put the
+modified patches in on one of my build machines to get further
+experience with them.
 
-FYI,
-
-http://patchwork.ozlabs.org/patch/182260/
-
--M=
-
+Andreas
 
 
