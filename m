@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TKEA2-0000fW-2I
+	(envelope-from <scott.a.garman@intel.com>) id 1TKEA9-0000fm-Ca
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Oct 2012 22:06:14 +0200
+	Fri, 05 Oct 2012 22:06:21 +0200
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 21E552FE87
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id F3A052FD12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Oct 2012 15:53:05 -0400 (EDT)
+	Fri,  5 Oct 2012 15:53:07 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Oct 2012 12:52:47 -0700
-Message-Id: <7c7dcb05685d840c70474d409f6a58ae459c46f0.1349466569.git.scott.a.garman@intel.com>
+Date: Fri,  5 Oct 2012 12:52:48 -0700
+Message-Id: <c15fae372cf75403facc28cf76f973b1279425dd.1349466569.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1349466569.git.scott.a.garman@intel.com>
 References: <cover.1349466569.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1349466569.git.scott.a.garman@intel.com>
 References: <cover.1349466569.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 21E552FE87.BB226
+X-MailScanner-ID: F3A052FD12.91DB9
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 5/6] openjade-native: fix undefined Getopts error, use std namespace
+Subject: [PATCH 6/6] openssl: add deprecated and unmaintained find.pl from perl-5.14 to fix perlpath.pl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,104 +38,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Oct 2012 20:06:16 -0000
+X-List-Received-Date: Fri, 05 Oct 2012 20:06:21 -0000
 
-From: Dennis Lan <dennis.yxun@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Using Gentoo Linux as the build host, it fails without this patch
-Use Getopt::Std in place of getopts.pl.
+* openembedded-core/meta/recipes-connectivity/openssl/openssl.inc
+*
+* is using perlpath.pl:
+*
+*   do_configure () {
+*           cd util
+*           perl perlpath.pl ${STAGING_BINDIR_NATIVE}
+*   ...
+*
+* and perlpath.pl is using find.pl:
+* openssl-1.0.0i/util/perlpath.pl:
+*   #!/usr/local/bin/perl
+*   #
+*   # modify the '#!/usr/local/bin/perl'
+*   # line in all scripts that rely on perl.
+*   #
+*
+*   require "find.pl";
+*   ...
+*
+* which was removed in perl-5.16.0 and marked as deprecated and
+* unmaintained in 5.14 and older:
+* /tmp/usr/lib/perl5/5.14.2/find.pl:
+*   warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl
+*   core distribution in the next major release. Please install it from the
+*   CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]},
+*   line @{[(caller)[2]]}.\n";
+*
+*   # This library is deprecated and unmaintained. It is included for
+*   # compatibility with Perl 4 scripts which may use it, but it will be
+*   # removed in a future version of Perl. Please use the File::Find module
+*   # instead.
 
-https://bugs.gentoo.org/show_bug.cgi?id=420083
+(from OE-Core rev c09bf5d177a7ecd2045ef7e13fff4528137a9775)
 
-which following error:
-/usr/bin/perl -w ./../msggen.pl -l jstyleModule InterpreterMessages.msg
-/usr/bin/perl -w ./../msggen.pl -l jstyleModule DssslAppMessages.msg
-Undefined subroutine &main::Getopts called at ./../msggen.pl line 22.
-make[2]: *** [InterpreterMessages.h] Error 2
-make[2]: *** Waiting for unfinished jobs....
-Undefined subroutine &main::Getopts called at ./../msggen.pl line 22.
-make[2]: *** [DssslAppMessages.h] Error 2
-
-(from OE-Core rev 169a89b10817b742c063fcd76721e4dbbcca6199)
-
-Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../openjade/openjade-1.3.2/msggen.pl.patch        |   44 ++++++++++++++++++++
- .../openjade/openjade-native_1.3.2.bb              |    3 +-
- 2 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
+ .../openssl/openssl-1.0.0i/find.pl                 |   54 ++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    7 ++-
+ 2 files changed, 60 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl
 
-diff --git a/meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch b/meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl b/meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl
 new file mode 100644
-index 0000000..b47fd46
+index 0000000..8e1b42c
 --- /dev/null
-+++ b/meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
-@@ -0,0 +1,44 @@
-+commit fcc5b94f118495b1a467edcda6c6f631691c3f69
-+Author: Dennis Lan <dennis.yxun@gmail.com>
-+Date:   Tue Jul 3 09:25:42 2012 +0800
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl
+@@ -0,0 +1,54 @@
++warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl core distribution in the next major release. Please install it from the CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]}, line @{[(caller)[2]]}.\n";
 +
-+    openjade: fix undefined Getopts error, use std namespace
-+    
-+    Using Gentoo Linux as the build host, it fails without this patch
-+    Use Getopt::Std in place of getopts.pl.
-+    
-+    Upstream-Status: Inappropriate [no upstream]
-+    Original-Author-By: Mike Gilbert <floppym@gentoo.org>
-+    Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
++# This library is deprecated and unmaintained. It is included for
++# compatibility with Perl 4 scripts which may use it, but it will be
++# removed in a future version of Perl. Please use the File::Find module
++# instead.
 +
-+diff --git a/msggen.pl b/msggen.pl
-+index 0c33968..2ee3f66 100644
-+--- a/msggen.pl
-++++ b/msggen.pl
-+@@ -4,6 +4,7 @@
-+ # See the file COPYING for copying permission.
-+ 
-+ use POSIX;
-++use Getopt::Std;
-+ 
-+ # Package and version.
-+ $package = 'openjade';
-+@@ -18,8 +19,7 @@ $gen_c = 0;
-+ undef $opt_l;
-+ undef $opt_p;
-+ undef $opt_t;
-+-do 'getopts.pl';
-+-&Getopts('l:p:t:');
-++getopts('l:p:t:');
-+ $module = $opt_l;
-+ $pot_file = $opt_p;
-+ 
-+@@ -72,7 +72,7 @@ while (<DEF>) {
-+     else {
-+ 	$field[0] =~ /^[IWQXE][0-9]$/ || &error("invalid first field");;
-+ 	$type[$num] = substr($field[0], 0, 1);
-+-	$argc = int(substr($field[0], 1, 1));
-++	$argc = substr($field[0], 1, 1);
-+     }
-+     $nargs[$num] = $argc;
-+     $field[1] =~ /^[a-zA-Z_][a-zA-Z0-9_]+$/ || &error("invalid tag");
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index cd6a5aa..266210d 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -7,13 +7,14 @@ SECTION = "base"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
++# Usage:
++#	require "find.pl";
++#
++#	&find('/foo','/bar');
++#
++#	sub wanted { ... }
++#		where wanted does whatever you want.  $dir contains the
++#		current directory name, and $_ the current filename within
++#		that directory.  $name contains "$dir/$_".  You are cd'ed
++#		to $dir when the function is called.  The function may
++#		set $prune to prune the tree.
++#
++# For example,
++#
++#   find / -name .nfs\* -mtime +7 -exec rm -f {} \; -o -fstype nfs -prune
++#
++# corresponds to this
++#
++#	sub wanted {
++#	    /^\.nfs.*$/ &&
++#	    (($dev,$ino,$mode,$nlink,$uid,$gid) = lstat($_)) &&
++#	    int(-M _) > 7 &&
++#	    unlink($_)
++#	    ||
++#	    ($nlink || (($dev,$ino,$mode,$nlink,$uid,$gid) = lstat($_))) &&
++#	    $dev < 0 &&
++#	    ($prune = 1);
++#	}
++#
++# Set the variable $dont_use_nlink if you're using AFS, since AFS cheats.
++
++use File::Find ();
++
++*name		= *File::Find::name;
++*prune		= *File::Find::prune;
++*dir		= *File::Find::dir;
++*topdir		= *File::Find::topdir;
++*topdev		= *File::Find::topdev;
++*topino		= *File::Find::topino;
++*topmode	= *File::Find::topmode;
++*topnlink	= *File::Find::topnlink;
++
++sub find {
++    &File::Find::find(\&wanted, @_);
++}
++
++1;
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
+index ca15a38..c233ba1 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
+@@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
  
--PR = "r4"
-+PR = "r5"
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
  
- DEPENDS = "opensp-native sgml-common-native"
- RDEPENDS_${PN} = "sgml-common-native"
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/openjade/openjade-${PV}.tar.gz \
-            file://makefile.patch \
-+           file://msggen.pl.patch \
-            file://reautoconf.patch \
- 	   file://user-declared-default-constructor.patch"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
  
+@@ -29,6 +29,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://debian/no-symbolic.patch \
+             file://debian/debian-targets.patch \
+             file://openssl_fix_for_x32.patch \
++            file://find.pl \
+            "
+ 
+ SRC_URI[md5sum] = "b4df9c11af454fd68178c85a1d5f328f"
+@@ -43,3 +44,7 @@ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+ FILES_${PN}-engines-dbg = "${libdir}/ssl/engines/.debug"
+ 
+ PARALLEL_MAKEINST = ""
++
++do_configure_prepend() {
++  cp ${WORKDIR}/find.pl ${S}/util/find.pl
++}
 -- 
 1.7.9.5
 
