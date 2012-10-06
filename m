@@ -1,45 +1,36 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1TKXBK-0006oP-Pq
-	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Oct 2012 18:24:51 +0200
-Received: by mail-pa0-f47.google.com with SMTP id fa11so2561604pad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Oct 2012 09:11:46 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1TKXKl-0001Rj-23; Sat, 06 Oct 2012 18:34:35 +0200
+Received: by mail-wg0-f43.google.com with SMTP id dq11so1961891wgb.24
+	for <multiple recipients>; Sat, 06 Oct 2012 09:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=8SCpC3j+fHS/WSMwL8B7wAbVbZp8gEoGfYBo/8Ndgo8=;
-	b=wwbTCaqZRiNKXRbv+KppviLib7kaPagV50Gieo+jY1QuPEl0qaqvPI0BAu5gSid1W7
-	ZP+f9lJTW96vRMkMjHsAzYqYiDYlm0MwMCzakJMni9sLG98dAyQMpUn5QVLPysQZtM4E
-	5xh4DQc8qvrw7huTuA4taCWIKompxFxH5nykyUtcLdNqC7fYrf/uassr3eWFFpumxOz2
-	+9aM69HJlBbNGwqF2UR0wGPxQUpxWvrvG5XsbduDt1uP/MIzdG1fH7oAbX8d3IeeG0Zg
-	OYcwzH+4Enak7aJccpWNOLdR98p7ruedKIDQeRX+MOHyBMD1h/QnQX9HHlm5z8yMbyBA
-	z6sQ==
-Received: by 10.68.225.34 with SMTP id rh2mr39631651pbc.78.1349539906155;
-	Sat, 06 Oct 2012 09:11:46 -0700 (PDT)
-Received: from [192.168.1.100] ([94.205.106.112])
-	by mx.google.com with ESMTPS id qd6sm7838272pbb.34.2012.10.06.09.11.38
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=6nqIJZc9dFxe1LyhH5NIFCnCiModNpgRZtG6cTciHEc=;
+	b=qO0XK+bee0PXK6bTj9LBYj2FSg4zb7/Z7L4zlzwWu1JrbIs/3W6lrhitfRfyVM9RW6
+	xLqXL+eILarK8enigBVJomAOwSLmeNkihWNR87w6FqgemTIdMd86eR/oWsBDE7KIxTD+
+	xOzo/vDXs3ubjm/KKfoeLfcSWjH98Q8+Sd8zVgqvMJVWZIEZczdQEpnByt3Y16WJlFuu
+	bK5zltjRMBS1kkBeWPFMXbhUaRzh84XI5vnEK6AvnvowHU6bp2qKWrruRy1UQShEeOaC
+	aKBRc95AATUBALkkqS0T28IY1CRVHQyOQvHQtqcuc+Zlfel/wBhuhrwlL7uGsMEfw8eW
+	tODA==
+Received: by 10.216.240.3 with SMTP id d3mr7375263wer.87.1349540490986;
+	Sat, 06 Oct 2012 09:21:30 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id j8sm8999658wiy.9.2012.10.06.09.21.28
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 06 Oct 2012 09:11:41 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1283)
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <CAMKF1sqJ==O+AO-Si-CWQSOoZZhppepLjVmjQnipiXuSHWXLMQ@mail.gmail.com>
-Date: Sat, 6 Oct 2012 20:11:35 +0400
-Message-Id: <DD7C6112-A450-4E5D-8B49-647705625792@gmail.com>
-References: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
-	<8a3cf0ce40dbc72a43f08bfed56e61569fe7a910.1345518098.git.raj.khem@gmail.com>
-	<48919519-8CA2-41A8-96EA-F5D7F91DE33F@gmail.com>
-	<CAMKF1sou8jjkoktbC4J1O+b-KbxZ43MyF3aPq68S74p8wC_qwQ@mail.gmail.com>
-	<C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
-	<CAMKF1srk7SJSGiCDztiyx71NJZUgG530=QbhYCMm88t6ndgSbw@mail.gmail.com>
-	<F0DDC3CE-D71C-4CBE-ACA4-B6E66DEDD4FC@gmail.com>
-	<CAMKF1sqJ==O+AO-Si-CWQSOoZZhppepLjVmjQnipiXuSHWXLMQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.1283)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
+	Sat, 06 Oct 2012 09:21:29 -0700 (PDT)
+Date: Sat, 6 Oct 2012 18:21:36 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: laurentiu.palcu@intel.com
+Message-ID: <20121006162136.GA24453@jama.jama.net>
+References: <20121003114821.8D16410375@opal>
+MIME-Version: 1.0
+In-Reply-To: <20121003114821.8D16410375@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Laurentiu Palcu : qemu: add wrapper for qemu-mips binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,54 +43,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Oct 2012 16:24:51 -0000
+X-List-Received-Date: Sat, 06 Oct 2012 16:34:40 -0000
+X-Groupsio-MsgNum: 30438
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
+Content-Disposition: inline
+
+--xHFwDpU9dbj6ez1V
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,
-
-On Oct 6, 2012, at 7:41 PM, Khem Raj wrote:
-
-> On Fri, Oct 5, 2012 at 11:59 PM, Elvis Dowson <elvis.dowson@gmail.com> =
-wrote:
->>=20
->> I've narrowed down the init problem, to the application of the above =
-patch,
->> but I'm unable to figure out why it is failing. Any suggestions?
->>=20
+On Wed, Oct 03, 2012 at 11:48:21AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 53b3103abdf21123b1c7be49b05cfe97a7cd9ed7
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D53b3103abdf21123b1c7be49b05cfe97a7cd9ed7
 >=20
-> is it eglibc 2.13 ? or 2.16 one thing  I see is that it is disabling
-> ssp but otherwise it looks not to so much than changing eglibc to
-> use gcc-initial
+> Author: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Date:   Wed Oct  3 14:23:26 2012 +0300
+>=20
+> qemu: add wrapper for qemu-mips binary
+>=20
+> qemu-mips user emulation binary segfaults when running any kind of
+> binary. This is due to a MMU access fault in the virtual CPU. This
+> problem has been introduced in qemu when 4GB of vmem were reserved for
+> 32-on-64 bit.
+>=20
+> This workaround will need to be reverted once the proper fix is found.
+>=20
+> [YOCTO #3143]
+>=20
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-devtools/qemu/qemu_1.2.0.bb |   15 ++++++++++++++-
+>  1 files changed, 14 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu_1.2.0.bb b/meta/recipes-devt=
+ools/qemu/qemu_1.2.0.bb
+> index 191ee48..cbdb4d4 100644
+> --- a/meta/recipes-devtools/qemu/qemu_1.2.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
+> @@ -17,7 +17,7 @@ SRC_URI =3D "\
+>  SRC_URI[md5sum] =3D "78eb1e984f4532aa9f2bdd3c127b5b61"
+>  SRC_URI[sha256sum] =3D "c8b84420d9f4869397f84cad2dabd9a475b7723d619a924a=
+873740353e9df936"
+> =20
+> -PR =3D "r2"
+> +PR =3D "r3"
+> =20
+>  SRC_URI_append_virtclass-nativesdk =3D "\
+>      file://relocatable_sdk.patch \
+> @@ -29,6 +29,19 @@ do_configure_prepend_virtclass-nativesdk() {
+>  		sed -i 's/-lX11//g' Makefile.target
+>  	fi
+>  }
+> +
+> +# The following fragment will create a wrapper for qemu-mips user emulat=
+ion
+> +# binary in order to work around a segmentation fault issue. Basically, =
+by
+> +# default, the reserved virtual address space for 32-on-64 bit is set to=
+ 4GB.
+> +# This will trigger a MMU access fault in the virtual CPU. With this cha=
+nge,
+> +# the qemu-mips works fine.
+> +# IMPORTANT: This piece needs to be removed once the root cause is fixed!
+> +do_install_append() {
+> +	create_wrapper ${D}/${bindir}/qemu-mips \
+> +		QEMU_RESERVED_VA=3D0x0
+> +}
+> +# END of qemu-mips workaround
 
-It's eglibc-2.13. I will try without disabling ssp.=20
+What about checking if mips is in QEMU_TARGETS before doing this?
 
-I also cherry-picked this patch
+Right now this breaks all distros without mips in QEMU_TARGETS.
 
-=
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D800ce0f1d09f2d=
-4fc489c98ecca04cf695d707fa
-gcc-cross-initial: Reinstate limits.h generation fix
+Cheers,
 
-and I think I'll need to backport this patch to gcc-4.5.1,=20
+> +
+>  do_configure_prepend_virtclass-native() {
+>  	# Undo the -lX11 added by linker-flags.patch, don't assume that host ha=
+s libX11 installed
+>  	sed -i 's/-lX11//g' Makefile.target
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
-=
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D42f0f96903ac31=
-2881ef841ae4380b4d1c72980f
-gcc-4.7: Backport libgcc fixes to appease the new build sequence
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-FYI, I also briefly tested the latest poky master as of today, for the =
-powerpc440 target, but no change from the previous sitatuation, with =
-gcc-4.7.x and eglibc-2.16, which is init=3D/bin/sh gives no bash prompt. =
-It just finishes loading the kernel and stops with no prompt. If I click =
-on the enter key, the display scrolls up, but that's it.=20
+--xHFwDpU9dbj6ez1V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-With gcc-4.5.1, and specific commits, it varies with things working =
-correctly and giving a bash prompt; to a kernel panic when attempting to =
-run the bash prompt.=20
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
-Best regards,
+iEYEARECAAYFAlBwWpAACgkQN1Ujt2V2gByt9wCgm1LdYYU6OxdE9JVGdbB4Kz5g
+8lIAoKamTRpo/qmuFjaodygf5caMBs03
+=pLld
+-----END PGP SIGNATURE-----
 
-Elvis Dowson=
-
-
+--xHFwDpU9dbj6ez1V--
