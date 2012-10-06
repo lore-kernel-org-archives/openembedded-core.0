@@ -1,43 +1,43 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@bigsur.com>) id 1TKI02-0008Ub-BB
+	(envelope-from <elvis.dowson@gmail.com>) id 1TKOYc-0003et-V7
 	for openembedded-core@lists.openembedded.org;
-	Sat, 06 Oct 2012 02:12:10 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so2259342pbb.6
+	Sat, 06 Oct 2012 09:12:20 +0200
+Received: by mail-pa0-f47.google.com with SMTP id fa11so2362602pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Oct 2012 16:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bigsur.com; s=bigsur.com;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=WzIaRMG+VqqvCm/RcWVDK8mBcJj/Z1bXGLj8vqi3YAE=;
-	b=Onw16qpnS0SBvnTVdoz44xx5WWkVnymy8/ojycFhJylEokxC54pKKq1zoR8730rnA6
-	QDfGVuei7iOABu9ux+hPfQ+m/0NOqkySJ5c8RP43DDPHBwQdI2EMPEaNLYfsJsd7Roa1
-	DiXtKr4k6uRVFn3ISzYhr6azDfngzeTZpQ1h4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=WzIaRMG+VqqvCm/RcWVDK8mBcJj/Z1bXGLj8vqi3YAE=;
-	b=FUZkoxQ+6Q5ZK5QduYiVE6/zp6PkV2dNLey0WEbTeN/2Gxhujft5Hj0WFKYZW2Zwal
-	J6w48fFxub+J8+yUaXXIfJioksDBNbrDw80SJwzXvvoPs5dTEd2gdzX6xSnpYTtYPz9r
-	PoZ1dY11JgGkHbd7/hv+9QRnCzfeLvVZHzK564MngwURYQhghtU5Q5sertHtZVbjFLmm
-	t9OluQtryRzRC1yJnzvBikqa3/Fe10tDXgdn3ydzYsK64mVHwN0+LBIzxD89CcvSMNUV
-	dnQeTqhQhd5eIsOlB+Qnbct1HmloWI05DMZ+euryZWl2Oegky/yO8rQNdQQu+IzXSTN/
-	nHYw==
-Received: by 10.68.195.195 with SMTP id ig3mr35192640pbc.108.1349481546755;
-	Fri, 05 Oct 2012 16:59:06 -0700 (PDT)
-Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id vf8sm6761382pbc.27.2012.10.05.16.59.05
+	Fri, 05 Oct 2012 23:59:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to:x-mailer;
+	bh=jnX5Dw9n0QAyc3m2OipIxZRtIXaUvBo0yM8I/7jSIOs=;
+	b=B3OrzdKBPUS65CiKKxY+ol+6YPptMryeaUpeFmnJ9u3k2IcRIwJGtNdld1SyUMg3Qz
+	jZC6NEI0ZLbubsNM5gizvocBvivHqE7kemjNLP+lg9OkaX3f6Yh3ssxjwML5m3MQ0Si8
+	F3nDMcST+MKIw4E5iWs84nqaUeMieuhnrod9qhNqMsACLlgeEPtNRCWh2JjQetNtyxUl
+	dIedVDVKyBBrdQMDQB8VQEmt7EtGqe+Soz+CYDSEeXZXG/4jC3JQ08tgXh5iQubjA0ey
+	Y0t5L/NZ98g6LgOqPnyGyedGVtjzhA0MyWDSHNc6XsjIJTqtJXMOsB9f8yUNR6GE1TdQ
+	TIGg==
+Received: by 10.68.232.131 with SMTP id to3mr37167644pbc.58.1349506754885;
+	Fri, 05 Oct 2012 23:59:14 -0700 (PDT)
+Received: from [192.168.1.100] ([94.205.106.112])
+	by mx.google.com with ESMTPS id i9sm7253798pav.7.2012.10.05.23.59.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 05 Oct 2012 16:59:05 -0700 (PDT)
-Sender: Saul Wold <sgw@bigsur.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Oct 2012 16:59:03 -0700
-Message-Id: <1349481543-11185-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQnJ7uD0C4ayjABKGkubrzdZB19DVwrxL4n4idtRalLnJbZXfAcxhrvSj4ARARnLxnCiyV5t
-Subject: [PATCH] pulseaudio: ensure X11 and consolekit are disabled
+	Fri, 05 Oct 2012 23:59:13 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1283)
+From: Elvis Dowson <elvis.dowson@gmail.com>
+In-Reply-To: <CAMKF1srk7SJSGiCDztiyx71NJZUgG530=QbhYCMm88t6ndgSbw@mail.gmail.com>
+Date: Sat, 6 Oct 2012 10:59:07 +0400
+Message-Id: <F0DDC3CE-D71C-4CBE-ACA4-B6E66DEDD4FC@gmail.com>
+References: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
+	<8a3cf0ce40dbc72a43f08bfed56e61569fe7a910.1345518098.git.raj.khem@gmail.com>
+	<48919519-8CA2-41A8-96EA-F5D7F91DE33F@gmail.com>
+	<CAMKF1sou8jjkoktbC4J1O+b-KbxZ43MyF3aPq68S74p8wC_qwQ@mail.gmail.com>
+	<C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
+	<CAMKF1srk7SJSGiCDztiyx71NJZUgG530=QbhYCMm88t6ndgSbw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1283)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/9] gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,67 +50,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Oct 2012 00:12:10 -0000
+X-List-Received-Date: Sat, 06 Oct 2012 07:12:20 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_77E557D7-9818-4E2A-92CC-AEF0C34FC55B"
 
-When DISTRO_FEATURES does not include X11 ensure that both x11
-and gtk are diabled correctly.  ConsoleKit also has x11, so ensure
-that any RDEPENDS is also excluded.
+--Apple-Mail=_77E557D7-9818-4E2A-92CC-AEF0C34FC55B
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-The flags for x11 changed at somepoint to use enable/disable, but
-this recipe was not updated.
+Hi Khem,
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    7 ++++---
- .../pulseaudio/pulseaudio_2.1.bb                   |    2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+On Aug 25, 2012, at 1:59 AM, Khem Raj wrote:
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 753b013..3003eaa 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -27,7 +27,7 @@ EXTRA_OECONF = "\
- 		--disable-lynx \
- 		${@base_contains('DISTRO_FEATURES', 'bluetooth', '--enable-bluez', '--disable-bluez', d)} \
- 		--disable-polkit \
--		${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)} \
-+		${@base_contains('DISTRO_FEATURES', 'x11', '--enable-x11', '--disable-x11 --disable-gtk2', d)} \
- 		--without-jack \
- 		--with-glib \
- 		--with-alsa \
-@@ -117,7 +117,6 @@ python populate_packages_prepend() {
-     do_split_packages(d, plugindir, '^lib(.*)\.so$', 'pulseaudio-lib-%s', 'PulseAudio library for %s', extra_depends='' )
- }
- 
--RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
- RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-filter-apply \
-     pulseaudio-module-filter-heuristics \
-@@ -137,7 +136,9 @@ RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-rescue-streams \
-     pulseaudio-module-always-sink \
-     pulseaudio-module-suspend-on-idle \
--    pulseaudio-module-console-kit \
-     pulseaudio-module-position-event-sounds \
-     pulseaudio-module-role-cork "
- 
-+RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
-+RDEPENDS_pulseaudio-server += "\
-+        ${@base_contains('DISTRO_FEATURES', 'x11', 'pulseaudio-module-console-kit', '', d)}"
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-index 947aa6d..1c2c9f7 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r5"
-+PR = "r6"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
--- 
-1.7.9.5
+> On Friday, August 24, 2012, Elvis Dowson <elvis.dowson@gmail.com> =
+wrote:
+> >
+> > On Aug 25, 2012, at 1:10 AM, Khem Raj wrote:
+> >
+> >> On Fri, Aug 24, 2012 at 2:08 PM, Elvis Dowson =
+<elvis.dowson@gmail.com> wrote:
+> >>>
+> >>> I'm adapting my earlier gcc-4.5 recipes, to try and get them to =
+build with
+> >>> the latest poky master.
+> >>>
+> >>> I'm using eglibc-2.13, so it is possible for this version to drop =
+the
+> >>> gcc-cross-intermediate stage, or is it only with newer eglibc =
+versions?
+> >>>
+> >>
+> >> well it wont work with anything older than eglibc 2.16
+> >
+> > What should I do to get the gcc-4.5 recipes to continue to build, =
+with eglib-2.13,
+> > against the poky master branch? Should I retain the gcc-intermediate =
+recipes?
+>=20
+> Back port some patches I did for eglibc 2.16 and drop intermediate =
+recipes
+
+I've back ported the patches you did for eglibc-2.16 for eglibc-2.13, to =
+use with my gcc-4.5 recipe, for the PowerPC 440 target. With that patch =
+applied, in a local copy of my meta-openembedded/toolchain-layer, =
+containing both the eglibc-2.13 and gcc-4.5, recipe,
+
+building against the poky/master commit id works:
+
+=
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Db0faebd1f07e16=
+16004bd19664395932e7c2c48f
+gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
+
+I am able to get to the shell prompt, and get no crashes upto this =
+point. The root file system seems to be working fine, and I am able to =
+ping the host machine.
+
+It is with the application of the next patch, that I get a an init crash =
+on the console, as I have been seeing earlier.=20
+
+=
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D48df3fe947c4d9=
+00aa6b66d9d8352c0d9e59ebe4
+eglibc: Fix eglibc-initial and let eglibc depend on it
+
+I've narrowed down the init problem, to the application of the above =
+patch, but I'm unable to figure out why it is failing. Any suggestions?
+
+Best regards,
+
+Elvis Dowson
 
 
 
+--Apple-Mail=_77E557D7-9818-4E2A-92CC-AEF0C34FC55B
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space; ">Hi =
+Khem,<div><br><div><div>On Aug 25, 2012, at 1:59 AM, Khem Raj =
+wrote:</div><br class=3D"Apple-interchange-newline"><blockquote =
+type=3D"cite">On Friday, August 24, 2012, Elvis Dowson &lt;<a =
+href=3D"mailto:elvis.dowson@gmail.com">elvis.dowson@gmail.com</a>&gt; =
+wrote:<br>&gt;<br>&gt; On Aug 25, 2012, at 1:10 AM, Khem Raj =
+wrote:<br>&gt;<br>&gt;&gt; On Fri, Aug 24, 2012 at 2:08 PM, Elvis Dowson =
+&lt;<a =
+href=3D"mailto:elvis.dowson@gmail.com">elvis.dowson@gmail.com</a>&gt; =
+wrote:<br>
+&gt;&gt;&gt;<br>&gt;&gt;&gt; I'm adapting my earlier gcc-4.5 recipes, to =
+try and get them to build with<br>&gt;&gt;&gt; the latest poky =
+master.<br>&gt;&gt;&gt;<br>&gt;&gt;&gt; I'm using eglibc-2.13, so it is =
+possible for this version to drop the<br>
+&gt;&gt;&gt; gcc-cross-intermediate stage, or is it only with newer =
+eglibc versions?<br>&gt;&gt;&gt;<br>&gt;&gt;<br>&gt;&gt; well it wont =
+work with anything older than eglibc 2.16<br>&gt;<br>&gt; What should I =
+do to get the gcc-4.5 recipes to continue to build, with eglib-2.13,<br>
+&gt; against the poky master branch? Should I retain the =
+gcc-intermediate recipes?<br><br>Back port some patches I did for eglibc =
+2.16 and drop intermediate recipes<br></blockquote><br></div><div>I've =
+back ported the patches you did for eglibc-2.16 for eglibc-2.13, to use =
+with my gcc-4.5 recipe, for the PowerPC 440 target. With that patch =
+applied, in a local copy of my meta-openembedded/toolchain-layer, =
+containing both the eglibc-2.13 and gcc-4.5, =
+recipe,</div></div><div><br></div><div>building against the poky/master =
+commit id works:</div><div><br></div><div><a =
+href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Db0faeb=
+d1f07e1616004bd19664395932e7c2c48f">http://git.yoctoproject.org/cgit/cgit.=
+cgi/poky/commit/?id=3Db0faebd1f07e1616004bd19664395932e7c2c48f</a></div><d=
+iv>gcc-cross: Make gcc-cross-initial as the only intermediate gcc =
+stage</div><div><br></div><div>I am able to get to the shell prompt, and =
+get no crashes upto this point. The root file system seems to be working =
+fine, and I am able to ping the host =
+machine.</div><div><br></div><div>It is with the application of the next =
+patch, that I get a an init crash on the console, as I have been seeing =
+earlier.&nbsp;</div><div><br></div><div><a =
+href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D48df3f=
+e947c4d900aa6b66d9d8352c0d9e59ebe4">http://git.yoctoproject.org/cgit/cgit.=
+cgi/poky/commit/?id=3D48df3fe947c4d900aa6b66d9d8352c0d9e59ebe4</a></div><d=
+iv><div>eglibc: Fix eglibc-initial and let eglibc depend on =
+it</div><div><br></div></div><div>I've narrowed down the init problem, =
+to the application of the above patch, but&nbsp;I'm unable to figure out =
+why it is failing. Any suggestions?</div><div><br></div><div>Best =
+regards,</div><div><br></div><div>Elvis =
+Dowson</div><div><br></div><div><br></div></body></html>=
+
+--Apple-Mail=_77E557D7-9818-4E2A-92CC-AEF0C34FC55B--
