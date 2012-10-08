@@ -1,37 +1,34 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from ams-iport-1.cisco.com ([144.254.224.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <daniel@fooishbar.org>) id 1TL6LE-0000u2-8K
+	(envelope-from <mertsas@cisco.com>) id 1TL6uj-00024G-GT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Oct 2012 07:57:24 +0200
-Received: by mail-vc0-f175.google.com with SMTP id p1so3963262vcq.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Oct 2012 22:44:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
-	bh=tf5CF185RqqZtDlLmhl6uSOPzl5VTR8lQpvAtrwAxd0=;
-	b=Zl6GLB2d3AHq9jdmivxvwPiStlKrqQmsdexq4d87AKbKk6OIK20ToLENcNx7tKzo6Q
-	iiTNtNTU0WDbAsJ9MbjiYtpVH4VFBbKR4iwSVaDmeAHWc3U5kw2iGnx3/AQnyyBQYIF7
-	ioe2vn49GPdO4PdHHkicZg40mmRcMuahvYIREMEO4fXSPc+9qcdqK8kkm+tggRcTNRLL
-	Nm16jva5k16r/WSlLTsE+XXUQDHpBl3fIg786GqwjLXp6lrFvgqDI/eNXTOLYoTxHivN
-	k3yCKVEBZugcPaq3xRXcZ70JKR5+b6GlUJrCxhBlrsHeHfYjGTt13EiuR6u8c0IdFskB
-	vMCg==
+	Mon, 08 Oct 2012 08:34:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1599; q=dns/txt; s=iport;
+	t=1349677262; x=1350886862;
+	h=message-id:date:from:mime-version:to:cc:subject:
+	references:in-reply-to:content-transfer-encoding;
+	bh=dkAPb+pvE60ZfQW6u3UyP3uJBgT5Qcwdw0uMZXGCaM4=;
+	b=UDHBp7Y1u73GlEykLJjXsMNr0vyxQ8jux00+OlkBqCrTGivbFOpQCpUt
+	MK4UFEzIXf2XG6DxdDh0jadU1ym1n5CbLdeM+1NpfSeSAKEIUTSd+RhNO
+	n+pBnGrvP9ga5XIq70VnQEfSQgNA+9Oke7kEsmy5SaMZNJv+ZS5DgpUpi k=;
+X-IronPort-AV: E=Sophos;i="4.80,551,1344211200"; d="scan'208";a="144912744"
+Received: from ams-core-3.cisco.com ([144.254.72.76])
+	by ams-iport-1.cisco.com with ESMTP; 08 Oct 2012 06:20:59 +0000
+Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q986KxjH020906;
+	Mon, 8 Oct 2012 06:20:59 GMT
+Message-ID: <507270CA.6020501@cisco.com>
+Date: Mon, 08 Oct 2012 08:20:59 +0200
+From: =?ISO-8859-1?Q?Martin_Erts=E5s?= <mertsas@cisco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.7) Gecko/20120911 Thunderbird/10.0.7
 MIME-Version: 1.0
-Received: by 10.58.209.73 with SMTP id mk9mr9590057vec.25.1349675058021; Sun,
-	07 Oct 2012 22:44:18 -0700 (PDT)
-Received: by 10.58.161.231 with HTTP; Sun, 7 Oct 2012 22:44:17 -0700 (PDT)
-X-Originating-IP: [115.64.155.100]
-In-Reply-To: <CAPj87rO=rnyWBjnoMnx=2QCZ3BoMqfiq1w+Vf8qZAmMLyJg-sg@mail.gmail.com>
-References: <1349437649.15658.20.camel@ted>
-	<CAPj87rO=rnyWBjnoMnx=2QCZ3BoMqfiq1w+Vf8qZAmMLyJg-sg@mail.gmail.com>
-Date: Mon, 8 Oct 2012 16:44:17 +1100
-Message-ID: <CAPj87rM0BH_eU+6j66Gq7+mrPs2JbrwDZdu58gqwJ_34vNeKmg@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Gm-Message-State: ALoCoQl7QlRv2YEJs6BCjVUrqSynqDbCOZanEspycZdJ/xNdW1d9OYJ+Gs7Lcml6TY18KymIouu3
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libdrm: Explicitly disable the cairo dependency
+To: Martin Ertsaas <mertsas@cisco.com>
+References: <1349268675-7808-1-git-send-email-mertsas@cisco.com>
+In-Reply-To: <1349268675-7808-1-git-send-email-mertsas@cisco.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] populate_sdk_base.bbclass: Make it possible to overrise the create_shar method of populate_sdk_base.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,29 +41,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2012 05:57:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 08 Oct 2012 06:34:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 7 October 2012 12:10, Daniel Stone <daniel@fooishbar.org> wrote:
-> On 5 October 2012 21:47, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> We don't want the cairo dependency. Unfortunately simply checking whether its present
->> isn't good enough. If its not in DEPENDS, it can disappear half way through building.
->> We therefore need to explicitly disable it.
+On 10/03/12 14:51, Martin Ertsaas wrote:
+> From: Thomas Kristensen <thkriste@cisco.com>
 >
-> I've done roughly the same thing in this commit:
-> http://cgit.collabora.com/git/user/daniels/poky.git/commit/?id=96a6e8e9eb7c086be3fcbde6a38ac3b699fca008
+> If you wish to change the install/unpack method of the sdk, this can now be done by making
+> your own create_shar method, and setting a POPULATE_SDK_CREATE_SHAR_COMMAND variable to your
+> new create_shar function.
 >
-> which has already been submitted upstream:
-> http://lists.freedesktop.org/archives/dri-devel/2012-October/028514.html
+> Signed-off-by: Thomas Kristensen <thkriste@cisco.com>
+> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass |    4 +++-
+>  1 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index 1c151d7..53b11a3 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -24,6 +24,8 @@ PID = "${@os.getpid()}"
+>  
+>  EXCLUDE_FROM_WORLD = "1"
+>  
+> +POPULATE_SDK_CREATE_SHAR_COMMAND ?= "create_shar"
+> +
+>  python () {
+>      # If we don't do this we try and run the mapping hooks while parsing which is slow
+>      # bitbake should really provide something to let us know this...
+> @@ -56,7 +58,7 @@ fakeroot python do_populate_sdk() {
+>  
+>      bb.build.exec_func("tar_sdk", d)
+>  
+> -    bb.build.exec_func("create_shar", d)
+> +    bb.build.exec_func(d.getVar("POPULATE_SDK_CREATE_SHAR_COMMAND", True), d)
+>  }
+>  
+>  fakeroot populate_sdk_image() {
+Have anyone had the change to look at this? Would greatly appreciate
+some feedback on this. Might also consider making similar overloads for
+tar_sdk and friends as well if this is something the community wants.
 
-My patch also has the advantage of not trying to link against Cairo if
-it's present but disabled.  Without this, if you build libdrm, build
-Cairo, clean libdrm and attempt to rebuild it again, the rebuild will
-fail, because the test still attempts to link with -lcairo, which
-fails as Cairo's .la file references libdrm.
-
-Cheers,
-Daniel
+- Martin
 
 
