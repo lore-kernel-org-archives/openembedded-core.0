@@ -1,41 +1,33 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <daniel@fooishbar.org>) id 1TL9kH-0003r6-Bm
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Oct 2012 11:35:29 +0200
-Received: by mail-da0-f47.google.com with SMTP id s35so1311663dak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Oct 2012 02:22:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=17GqbrrhLT6wpFl2/rTbjObCEWK6Dme/XEiFphWOeuw=;
-	b=OkLG0IY5OfTXVoS5Sd36AsQHtn4a1bVSM6QoPecGpczHCX8ol4PsnQ5cpQ/8s1peSa
-	wKI6SutSXGhfIlS8gxNU/PBhZWUWeAzvZKKMJXzaLc25K2U+OhZRSkMePMRWb6oBAfT0
-	GYcUPHu2FRxUYpAXZRGJCj2PZVTkHD7GJL+7zTJ0BoEVgBDBuFQhxWW9Wt4qw99PZsfe
-	XdUtsVp05TV3axmkbAd6NISGvg4d8KvbQjrC0/ljBAFbtH0Dq3QS+Tn1BckgfM0iD9rf
-	a8f6YC2kaFq3u/Oqc6Q4e6MV2ZCJDGr/gq+IKhsq1Hc3zb3OaMZG3FHrpC8stViHuAw/
-	i/Vw==
-Received: by 10.66.9.2 with SMTP id v2mr41235274paa.65.1349688142695;
-	Mon, 08 Oct 2012 02:22:22 -0700 (PDT)
-Received: from swamp81.fooishbar.org (115-64-155-100.static.tpgi.com.au.
-	[115.64.155.100])
-	by mx.google.com with ESMTPS id vz8sm10442350pbc.63.2012.10.08.02.22.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 08 Oct 2012 02:22:21 -0700 (PDT)
-Received: by swamp81.fooishbar.org (Postfix, from userid 1000)
-	id 84A131167; Mon,  8 Oct 2012 20:22:17 +1100 (EST)
-From: Daniel Stone <daniel@fooishbar.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Oct 2012 20:22:17 +1100
-Message-Id: <1349688137-22470-3-git-send-email-daniel@fooishbar.org>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1349688137-22470-1-git-send-email-daniel@fooishbar.org>
-References: <1349687945.15658.100.camel@ted>
-	<1349688137-22470-1-git-send-email-daniel@fooishbar.org>
-X-Gm-Message-State: ALoCoQltmS3RIM8F0/fmULnW3U/jM9FOvfNa71l88NydiqRXIryBcKO8NdMYo3d56iTrxjty19cO
-Subject: [PATCH 3/3] DRM: Add --disable-cairo-tests switch
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TLAIr-0004qb-Op for openembedded-core@lists.openembedded.org;
+	Mon, 08 Oct 2012 12:11:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q989w5kv017955;
+	Mon, 8 Oct 2012 10:58:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16463-09; Mon,  8 Oct 2012 10:58:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q989vvvi017949
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 8 Oct 2012 10:57:58 +0100
+Message-ID: <1349690282.15658.110.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin =?ISO-8859-1?Q?Erts=E5s?= <mertsas@cisco.com>
+Date: Mon, 08 Oct 2012 10:58:02 +0100
+In-Reply-To: <507270CA.6020501@cisco.com>
+References: <1349268675-7808-1-git-send-email-mertsas@cisco.com>
+	<507270CA.6020501@cisco.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q989w5kv017955
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] populate_sdk_base.bbclass: Make it possible to overrise the create_shar method of populate_sdk_base.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,128 +40,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2012 09:35:29 -0000
+X-List-Received-Date: Mon, 08 Oct 2012 10:11:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rather than implicitly relying on Cairo being disabled through not being
-present, add a configure switch to forcibly disable it.
+On Mon, 2012-10-08 at 08:20 +0200, Martin Erts=C3=A5s wrote:
+> On 10/03/12 14:51, Martin Ertsaas wrote:
+> > From: Thomas Kristensen <thkriste@cisco.com>
+> >
+> > If you wish to change the install/unpack method of the sdk, this can =
+now be done by making
+> > your own create_shar method, and setting a POPULATE_SDK_CREATE_SHAR_C=
+OMMAND variable to your
+> > new create_shar function.
+> >
+> > Signed-off-by: Thomas Kristensen <thkriste@cisco.com>
+> > Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+> > ---
+> >  meta/classes/populate_sdk_base.bbclass |    4 +++-
+> >  1 files changed, 3 insertions(+), 1 deletions(-)
+> >
+> > diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/po=
+pulate_sdk_base.bbclass
+> > index 1c151d7..53b11a3 100644
+> > --- a/meta/classes/populate_sdk_base.bbclass
+> > +++ b/meta/classes/populate_sdk_base.bbclass
+> > @@ -24,6 +24,8 @@ PID =3D "${@os.getpid()}"
+> > =20
+> >  EXCLUDE_FROM_WORLD =3D "1"
+> > =20
+> > +POPULATE_SDK_CREATE_SHAR_COMMAND ?=3D "create_shar"
+> > +
+> >  python () {
+> >      # If we don't do this we try and run the mapping hooks while par=
+sing which is slow
+> >      # bitbake should really provide something to let us know this...
+> > @@ -56,7 +58,7 @@ fakeroot python do_populate_sdk() {
+> > =20
+> >      bb.build.exec_func("tar_sdk", d)
+> > =20
+> > -    bb.build.exec_func("create_shar", d)
+> > +    bb.build.exec_func(d.getVar("POPULATE_SDK_CREATE_SHAR_COMMAND", =
+True), d)
+> >  }
+> > =20
+> >  fakeroot populate_sdk_image() {
+> Have anyone had the change to look at this? Would greatly appreciate
+> some feedback on this. Might also consider making similar overloads for
+> tar_sdk and friends as well if this is something the community wants.
 
-Patch backported from upstream git.
+My main feedback would be about the variable name. Something like
+"SDK_PACKAGING_FUNC" might better describe what its doing.
 
-Signed-off-by: Daniel Stone <daniel@fooishbar.org>
----
- meta/recipes-graphics/drm/libdrm.inc               |    2 +
- .../drm/libdrm/disable-cairo.patch                 |   74 ++++++++++++++++++++
- meta/recipes-graphics/drm/libdrm_2.4.39.bb         |    1 +
- 3 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.patch
+This is coming in a bit late to make it into the release but which a
+rename, will make it into master in due course.
 
-diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
-index cc09791..a64a5df 100644
---- a/meta/recipes-graphics/drm/libdrm.inc
-+++ b/meta/recipes-graphics/drm/libdrm.inc
-@@ -18,6 +18,8 @@ DEPENDS += " libpciaccess"
- 
- inherit autotools pkgconfig
- 
-+EXTRA_OECONF += "--disable-cairo-tests"
-+
- PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-kms"
- FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode*"
- FILES_${PN}-drivers = "${libdir}/libdrm_*.so.*"
-diff --git a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch b/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
-new file mode 100644
-index 0000000..90e79d4
---- /dev/null
-+++ b/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
-@@ -0,0 +1,74 @@
-+commit c81d1df4926072d24b4dad1b488e618e57eff1c6
-+Author: Daniel Stone <daniel@fooishbar.org>
-+Date:   Thu Oct 4 10:26:37 2012 +1000
-+
-+    configure.ac: Allow forcible disabling of Cairo support
-+    
-+    We don't want to build libdrm tests with Cairo support under Poky, since
-+    they're never used and also cause a build loop from libdrm -> cairo ->
-+    mesa-dri -> libdrm.
-+    
-+    To avoid variance in build results, introduce a --disable-cairo-tests
-+    switch.
-+    
-+    Upstream-Status: Backport
-+    
-+    Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-+
-+diff --git a/configure.ac b/configure.ac
-+index 290362c..8c28107 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -222,11 +222,23 @@ if test "x$EXYNOS" = xyes; then
-+ 	AC_DEFINE(HAVE_EXYNOS, 1, [Have EXYNOS support])
-+ fi
-+ 
-++AC_ARG_ENABLE([cairo-tests],
-++              [AS_HELP_STRING([--enable-cairo-tests],
-++                              [Enable support for Cairo rendering in tests (default: auto)])],
-++              [CAIRO=$enableval], [CAIRO=auto])
-+ PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=yes], [HAVE_CAIRO=no])
-+-if test "x$HAVE_CAIRO" = xyes; then
-+-	AC_DEFINE(HAVE_CAIRO, 1, [Have cairo support])
-++AC_MSG_CHECKING([whether to enable Cairo tests])
-++if test "x$CAIRO" = xauto; then
-++	CAIRO="$HAVE_CAIRO"
-+ fi
-+-AM_CONDITIONAL(HAVE_CAIRO, [test "x$HAVE_CAIRO" = xyes])
-++if test "x$CAIRO" = xyes; then
-++	if ! test "x$HAVE_CAIRO" = xyes; then
-++		AC_MSG_ERROR([Cairo support required but not present])
-++	fi
-++	AC_DEFINE(HAVE_CAIRO, 1, [Have Cairo support])
-++fi
-++AC_MSG_RESULT([$CAIRO])
-++AM_CONDITIONAL(HAVE_CAIRO, [test "x$CAIRO" = xyes])
-+ 
-+ # For enumerating devices in test case
-+ PKG_CHECK_MODULES(LIBUDEV, libudev, [HAVE_LIBUDEV=yes], [HAVE_LIBUDEV=no])
-+diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
-+index b5ec771..065ae13 100644
-+--- a/tests/modetest/Makefile.am
-++++ b/tests/modetest/Makefile.am
-+@@ -1,8 +1,7 @@
-+ AM_CFLAGS = \
-+ 	-I$(top_srcdir)/include/drm \
-+ 	-I$(top_srcdir)/libkms/ \
-+-	-I$(top_srcdir) \
-+-	$(CAIRO_CFLAGS)
-++	-I$(top_srcdir)
-+ 
-+ noinst_PROGRAMS = \
-+ 	modetest
-+@@ -12,5 +11,9 @@ modetest_SOURCES = \
-+ 
-+ modetest_LDADD = \
-+ 	$(top_builddir)/libdrm.la \
-+-	$(top_builddir)/libkms/libkms.la \
-+-	$(CAIRO_LIBS)
-++	$(top_builddir)/libkms/libkms.la
-++
-++if HAVE_CAIRO
-++AM_CFLAGS += $(CAIRO_CFLAGS)
-++modetest_LDADD += $(CAIRO_LIBS)
-++endif
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.39.bb b/meta/recipes-graphics/drm/libdrm_2.4.39.bb
-index 4e6a8d5..f3ce2b1 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.39.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.39.bb
-@@ -4,6 +4,7 @@ PR = "${INC_PR}.0"
- 
- SRC_URI += "file://installtests.patch \
-             file://GNU_SOURCE_definition.patch \
-+            file://disable-cairo.patch \
-            "
- 
- SRC_URI[md5sum] = "9a299e021d81bab6c82307582c78319d"
--- 
-1.7.10.4
+Cheers,
+
+Richard
 
 
 
