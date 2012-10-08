@@ -1,33 +1,30 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TLFjH-0007LC-1q
-	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Oct 2012 17:58:51 +0200
-Received: by mail-ie0-f175.google.com with SMTP id c13so9980042ieb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TLFmE-0007ok-GZ for openembedded-core@lists.openembedded.org;
+	Mon, 08 Oct 2012 18:01:56 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q98FmmWu020988
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Oct 2012 08:45:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=AHnZMVwss94b5DxG6UtUr4NhhY0xxjmpEROFx6y7JA0=;
-	b=KUnsiSWwg1Q0ISEwt7xwKueSQmyWpWwFlLqwi2SwLKiuKr6hBO0W6ISyHQLyf0EJNn
-	srRHrZaCIqtOjS0IzCni2VVR40TRXCAAe2ScuhcdRc4zmXwcqSfxc+/QA2PkIkfrvRuh
-	JXjaY2WQNfTB9X9lpu4ZqXC3r7FIR/4BZ9cAo3ONlDFwsko3CurJ36q60R5rMtp0uISV
-	VplHS4zEfgAUmwh+oCvGFA9i8XSe1OllN7yk8tVHSQ8/WvaSkAb295kZLLtzuS/9rfo2
-	Kawj2d+pasY6myFelbwdElVRhIiMN5JHihwf05jtPE2mCFRrJ7siQb3dS75qcLibHn2b
-	Rl2A==
-Received: by 10.50.91.195 with SMTP id cg3mr6355487igb.57.1349711140469; Mon,
-	08 Oct 2012 08:45:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.52.8 with HTTP; Mon, 8 Oct 2012 08:45:20 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 8 Oct 2012 18:45:20 +0300
-Message-ID: <CAK18fxGx+aH7nnGOa-36hAJkUQJEaEzrqVK9HOZ_gPs_w71-fA@mail.gmail.com>
-To: openembedded <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmIkVF4SfPtlfHZnR8OlswgGbRHYmR35KWEYrU4igms8tYp6FF/TRMc59Ht4ZJ+krhkTjsf
-Subject: Systemd fails
+	Mon, 8 Oct 2012 16:48:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19723-09 for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Oct 2012 16:48:44 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q98FmfcT020982
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Oct 2012 16:48:42 +0100
+Message-ID: <1349711325.15658.119.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 08 Oct 2012 16:48:45 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] libc-package: Drop bogus replacement operation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,24 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2012 15:58:51 -0000
-Content-Type: multipart/alternative; boundary=e89a8f23532913ba3b04cb8e1db9
+X-List-Received-Date: Mon, 08 Oct 2012 16:01:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---e89a8f23532913ba3b04cb8e1db9
-Content-Type: text/plain; charset=ISO-8859-1
+The names used to generate the binary-localdata packages need to match the location
+the dependencies are added. In one case the dash replacement is made, in the other it
+is not leading to packages which cannot be installed:
 
-tmp-eglibc-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/systemd-git-r7/git/src/journal/journal-verify.c:69:
-undefined reference to `uncompress_blob'
+	eglibc-binary-localedata-af-za.iso88591 is needed by locale-base-af-za.iso-8859-1-2.16-r22.i586
+	eglibc-binary-localedata-cs-cz.iso88592 is needed by locale-base-cs-cz.iso-8859-2-2.16-r22.i586
+	eglibc-binary-localedata-ru-ru.koi8r is needed by locale-base-ru-ru.koi8-r-2.16-r22.i586
+	eglibc-binary-localedata-pl-pl.iso88592 is needed by locale-base-pl-pl.iso-8859-2-2.16-r22.i586
+	eglibc-binary-localedata-hu-hu.iso88592 is needed by locale-base-hu-hu.iso-8859-2-2.16-r22.i586
+	eglibc-binary-localedata-de-at+euro.iso885915 is needed by locale-base-de-at+euro.iso-8859-15-2.16-r22.i586
+	eglibc-binary-localedata-sv-fi.iso88591 is needed by locale-base-sv-fi.iso-8859-1-2.16-r22.i586
 
-Any hints?
+This fixes things so the names are consistent.
 
-ag
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 80d7124..3a13154 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -246,7 +246,7 @@ python package_do_split_gconvs () {
+     def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+         m = re.match("(.*)\.(.*)", name)
+         if m:
+-            libc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
++            libc_name = "%s.%s" % (m.group(1), m.group(2).lower())
+         else:
+             libc_name = name
+         d.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('%s-binary-localedata-%s' \
 
---e89a8f23532913ba3b04cb8e1db9
-Content-Type: text/html; charset=ISO-8859-1
-
-<div>tmp-eglibc-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/systemd-git-r7/git/src/journal/journal-verify.c:69: undefined reference to `uncompress_blob&#39;</div><div><br></div><div>Any hints?</div><div><br></div><div>ag</div>
 
 
 
---e89a8f23532913ba3b04cb8e1db9--
