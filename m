@@ -1,38 +1,37 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1TL4nZ-0003dn-7j
+	(envelope-from <daniel@fooishbar.org>) id 1TL6LE-0000u2-8K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 08 Oct 2012 06:18:33 +0200
-Received: by mail-ie0-f175.google.com with SMTP id c13so8693126ieb.6
+	Mon, 08 Oct 2012 07:57:24 +0200
+Received: by mail-vc0-f175.google.com with SMTP id p1so3963262vcq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Oct 2012 21:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=iMVmGBLUnkqYFtGoWrhH4HlEceBwP/Q/C9BTnCzxeJc=;
-	b=xuWnYxLO0slufQdLlyMdqqIfQLC4C3GeMunDtGFAmAYt5TNiOdIVEwP89yze4SdwY3
-	1972v/OYUnyBblTET3MEo7tYGgM4NYgXa52dFD+AKN8YkseO+dSWD/5aZpsQvdVDQLku
-	JSmeGOIrEzqrUKOGO2eBCxOUre4Ok/cwvyv376ZYeVogC/c3FTSw+kn6Dpz5TzuBAtM/
-	EOQ7jLA31TPgIvMDEcVWGlqwuD2pi80WwqZ04v/UdKLFUdHorUWM19J6Ocp5PrpWj0KO
-	tbrrmUHejm9IUZuxpJSjkDNsFX/BICKyP3lBZ9ln86n4CZzhPkHHMaH83JqHeA4RNLMY
-	gK3w==
-Received: by 10.50.51.234 with SMTP id n10mr7041177igo.74.1349669127063;
-	Sun, 07 Oct 2012 21:05:27 -0700 (PDT)
-Received: from localhost.localdomain ([96.44.93.233])
-	by mx.google.com with ESMTPS id d19sm6175073igp.6.2012.10.07.21.05.24
-	(version=SSLv3 cipher=OTHER); Sun, 07 Oct 2012 21:05:26 -0700 (PDT)
-Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon,  8 Oct 2012 00:05:18 -0400
-Message-Id: <1372b8b867ac48d1900f2327251125259054236c.1349668552.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1349668552.git.bruce.ashfield@windriver.com>
-References: <cover.1349668552.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1349668552.git.bruce.ashfield@windriver.com>
-References: <cover.1349668552.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/3.4: fix kconfig warnings and unnecessary options
+	Sun, 07 Oct 2012 22:44:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=tf5CF185RqqZtDlLmhl6uSOPzl5VTR8lQpvAtrwAxd0=;
+	b=Zl6GLB2d3AHq9jdmivxvwPiStlKrqQmsdexq4d87AKbKk6OIK20ToLENcNx7tKzo6Q
+	iiTNtNTU0WDbAsJ9MbjiYtpVH4VFBbKR4iwSVaDmeAHWc3U5kw2iGnx3/AQnyyBQYIF7
+	ioe2vn49GPdO4PdHHkicZg40mmRcMuahvYIREMEO4fXSPc+9qcdqK8kkm+tggRcTNRLL
+	Nm16jva5k16r/WSlLTsE+XXUQDHpBl3fIg786GqwjLXp6lrFvgqDI/eNXTOLYoTxHivN
+	k3yCKVEBZugcPaq3xRXcZ70JKR5+b6GlUJrCxhBlrsHeHfYjGTt13EiuR6u8c0IdFskB
+	vMCg==
+MIME-Version: 1.0
+Received: by 10.58.209.73 with SMTP id mk9mr9590057vec.25.1349675058021; Sun,
+	07 Oct 2012 22:44:18 -0700 (PDT)
+Received: by 10.58.161.231 with HTTP; Sun, 7 Oct 2012 22:44:17 -0700 (PDT)
+X-Originating-IP: [115.64.155.100]
+In-Reply-To: <CAPj87rO=rnyWBjnoMnx=2QCZ3BoMqfiq1w+Vf8qZAmMLyJg-sg@mail.gmail.com>
+References: <1349437649.15658.20.camel@ted>
+	<CAPj87rO=rnyWBjnoMnx=2QCZ3BoMqfiq1w+Vf8qZAmMLyJg-sg@mail.gmail.com>
+Date: Mon, 8 Oct 2012 16:44:17 +1100
+Message-ID: <CAPj87rM0BH_eU+6j66Gq7+mrPs2JbrwDZdu58gqwJ_34vNeKmg@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQl7QlRv2YEJs6BCjVUrqSynqDbCOZanEspycZdJ/xNdW1d9OYJ+Gs7Lcml6TY18KymIouu3
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libdrm: Explicitly disable the cairo dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,45 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Oct 2012 04:18:33 -0000
+X-List-Received-Date: Mon, 08 Oct 2012 05:57:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Updating the kernel configuration fragments to fix the following
-issues:
+On 7 October 2012 12:10, Daniel Stone <daniel@fooishbar.org> wrote:
+> On 5 October 2012 21:47, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> We don't want the cairo dependency. Unfortunately simply checking whether its present
+>> isn't good enough. If its not in DEPENDS, it can disappear half way through building.
+>> We therefore need to explicitly disable it.
+>
+> I've done roughly the same thing in this commit:
+> http://cgit.collabora.com/git/user/daniels/poky.git/commit/?id=96a6e8e9eb7c086be3fcbde6a38ac3b699fca008
+>
+> which has already been submitted upstream:
+> http://lists.freedesktop.org/archives/dri-devel/2012-October/028514.html
 
-  - remove options that are no longer in the 3.4 kernel
-  - disable unused, but large kernel modules
-  - fix kconfig audit warnings for x86 BSPs
-  - make uprobes reusable by multiple fragments
+My patch also has the advantage of not trying to link against Cairo if
+it's present but disabled.  Without this, if you build libdrm, build
+Cairo, clean libdrm and attempt to rebuild it again, the rebuild will
+fail, because the test still attempts to link with -lcairo, which
+fails as Cairo's .la file references libdrm.
 
-The following meta branch commits are represented by this update:
-
-  3da1172 uprobes: split into enable and patch fragments
-  17ec51a meta: cleanup invalid/obselete 3.4 CONFIG options
-  b5cee42 meta: disable OCFS2 by default
-  efe937e meta: drm: tag DRM options as 'hardware'
-  10b5155 meta: emenlow: clean emenlow configuration warnings
-  a907b82 meta: add CONFIG_SHMEM to standard kernel config
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto_3.4.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index 2f8f957..135187c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -9,7 +9,7 @@ SRCREV_machine_qemuppc ?= "cdecf5940d81330680ce1517a7bc101556792e71"
- SRCREV_machine_qemux86 ?= "3fa06aa29078fdb2af431de2d3fdae7d281ba85f"
- SRCREV_machine_qemux86-64 ?= "3fa06aa29078fdb2af431de2d3fdae7d281ba85f"
- SRCREV_machine ?= "3fa06aa29078fdb2af431de2d3fdae7d281ba85f"
--SRCREV_meta ?= "5bdc655034a58a7147176a8a882d81e2fd51e4b9"
-+SRCREV_meta ?= "3da11722e36591bafab908141876c89d1dfb229d"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--- 
-1.7.5.4
-
+Cheers,
+Daniel
 
 
