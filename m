@@ -1,38 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TLZHX-0000eb-4U
-	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Oct 2012 14:51:31 +0200
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Oct 2012 05:38:01 -0700
-Received: by mail-ie0-f175.google.com with SMTP id c13so11794341ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Oct 2012 05:38:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=d92XGmmHugkE3/4tu8VIdHPJPszUvID6oyfslIVkTHE=;
-	b=NggRVeVZYDXG+7YdQhr79cSOaTEa5ApH9TNjhM3gNZpxdms6svvhLHJKqfjp+eDjqm
-	f/OPFbvKEK86SxJE9Xt1tjUH9uoZixpYm7Xww9VLrjgjJHbDLV8WB1zbGT2fr/p3yF/K
-	UOa1znXQS11NWYc2q6EuG3+M1fwZ8VACJg5JbM4Bhgr9s8CoKPXAsvyPd5cT2SdFKIXg
-	CZ5KWlaRpphHUGLAP5CmXE46AWSJQ39gv1AcvjoTdcfsOpTfXdcH+xGPDG+6N8jFtAvC
-	zy0mQWgxZBJKiTUx37SRObtb3n13pFH1lAi0rgD5Jo5C/pmsdF9s4cAAW6zaAhqDwVOp
-	X8oQ==
-Received: by 10.50.104.201 with SMTP id gg9mr1440004igb.67.1349786300479; Tue,
-	09 Oct 2012 05:38:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.141.70 with HTTP; Tue, 9 Oct 2012 05:38:00 -0700 (PDT)
-In-Reply-To: <2072868.bxk9nbbmYZ@helios>
-References: <cover.1349689653.git.jackie.huang@windriver.com>
-	<2072868.bxk9nbbmYZ@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Oct 2012 13:38:00 +0100
-Message-ID: <CAJTo0LY9xi7=s0N1LX_zc9Hk3L1Wb15JRF4nN5sar8anjepJKA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnPCqYco7MHd3oM6HF8+Jmek4TdV3pZpseH4ywc6BKOuC2P38jIOPyIZKfhOAmaj72HDeaX
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TLZmj-0001mM-Pi for openembedded-core@lists.openembedded.org;
+	Tue, 09 Oct 2012 15:23:47 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q99DAaMd031370;
+	Tue, 9 Oct 2012 14:10:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30947-03; Tue,  9 Oct 2012 14:10:32 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q99DASnd031364
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 9 Oct 2012 14:10:29 +0100
+Message-ID: <1349788232.15658.173.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kang Kai <kai.kang@windriver.com>
+Date: Tue, 09 Oct 2012 14:10:32 +0100
+In-Reply-To: <5638b12dc40290cff09fc211d14b472ef7c2c8c0.1349770454.git.kai.kang@windriver.com>
+References: <cover.1349770454.git.kai.kang@windriver.com>
+	<5638b12dc40290cff09fc211d14b472ef7c2c8c0.1349770454.git.kai.kang@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] ruby: Add from OE-Classic and update to 1.9.3-p194
+Subject: Re: [PATCH 1/1] perl: fix @INC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,26 +38,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 12:51:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Oct 2012 13:23:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 9 October 2012 11:38, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> * I sent this months ago but was told that oe-core is not the right place,
->>   however, we think it makes sense to add ruby to complete the scripting
->>   language set of: python, perl, ruby, so I re-send it.
->
-> I have to say, my opinion is the same now as it was then. Ruby support is
-> certainly useful to have, and we have had requests for it; but unlike Perl and
-> Python which are needed by many other things, nothing we have in OE-Core
-> actually needs Ruby; thus it really belongs in another layer IMHO.
+On Tue, 2012-10-09 at 16:32 +0800, Kang Kai wrote:
+> perl @INC path includes native perl modules path. When run "perl -V",
+> the output at the end is something like:
+>   @INC:
+>     /etc/perl
+>     /usr/lib/perl/site_perl/5.14.2/
+>     /usr/lib/perl/site_perl/5.14.2
+>     /usr/lib/perl/vendor_perl/5.14.2/
+>     /usr/lib/perl/vendor_perl/5.14.2
+>     /mnt/sda10/poky-all-platform/build-qemuppc/tmp/sysroots/qemuppc/usr/lib/perl/5.14.2/
+>     /usr/lib/perl/5.14.2
+>     /usr/local/lib/site_perl
+>     /usr/lib/perl/5.14.2
+>     .
+> 
+> And this is caused by commit aeca6512f3a5468b8f65e2986024ab07d2ce45b4.
+> Because the native path is compiled into libperl.so that sed in
+> perl_package_preprocess() could NOT remove it. So revert the commit.
+> 
+> [Yocto #3099]
+> 
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+> ---
+>  meta/recipes-devtools/perl/perl-5.14.2/config.sh |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/perl/perl-5.14.2/config.sh b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
+> index 0d4ca1c..dbfabb5 100644
+> --- a/meta/recipes-devtools/perl/perl-5.14.2/config.sh
+> +++ b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
+> @@ -68,7 +68,7 @@ api_version='14'
+>  api_versionstring='5.14.0'
+>  ar='ar'
+>  archlib='@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
+> -archlibexp='@STAGINGDIR@@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
+> +archlibexp='@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
+>  archname64=''
+>  archname='@ARCH@-thread-multi'
+>  archobjs=''
 
-Agreed.  If we're completing the set of scripting languages there's
-plenty left out.  A standalone meta-ruby layer that contains the
-runtime and pretty much every useful library sounds like a much better
-idea as the runtime and the libraries will be in a single place and
-incompatible changes can be done in a single move without having to
-co-ordinate multiple layers.
+I dislike fixing one bug at the expense of breaking another.
 
-Ross
+Tom,
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=aeca6512f3a5468b8f65e2986024ab07d2ce45b4
+
+Any comments on this? How could we test the issue you originally fixed?
+
+Cheers,
+
+Richard
+
 
 
