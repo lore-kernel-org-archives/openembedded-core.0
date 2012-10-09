@@ -1,36 +1,25 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TLRnP-0001Lj-Ga
+	(envelope-from <Jackie.Huang@windriver.com>) id 1TLTdo-0004Nr-Ax
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Oct 2012 06:51:55 +0200
-Received: by mail-lb0-f175.google.com with SMTP id y2so3156091lbk.6
+	Tue, 09 Oct 2012 08:50:08 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q996ax8G021725
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Oct 2012 21:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=9ZgooLV/dICIwUheQKBiGtTljkgBIHgM9uoC6ergVlY=;
-	b=shM841JJGNsIL17ini/h6QNWTgYt3Hpghm8rDXvVfyulbZmN5MisAtcwYyslOB5OjB
-	xnjgE+GRuS1pfVe8pNdcqVtlo0LC+8Mi+1rnmQ+n9TlwtWpztHZmVQbE8L3pbcklM04w
-	Epht1NPLIgKc0WQXk+Q4A81PzYdityf9LwxjZtcpldt4nAplQ1U0YAkGqxOpWb7SvqZ8
-	jSc+gFmK2PMSpLTOPfcsjMjOvGmOAZM0AbU2ARFso+YeKLt9PNKSJw/xF+HAPFWWnICM
-	typVLgo4imUCIN5oymFxQ+xIeMw3opac2Gk22E3nSvIIWsexQ/utnkzBm/BFVJmJxRG+
-	ZrHw==
-Received: by 10.152.123.103 with SMTP id lz7mr15326547lab.21.1349757528292;
-	Mon, 08 Oct 2012 21:38:48 -0700 (PDT)
+	Mon, 8 Oct 2012 23:36:59 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 8 Oct 2012 23:36:59 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Oct 2012 14:36:53 +0800
+Message-ID: <cover.1349689653.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.19.2 with HTTP; Mon, 8 Oct 2012 21:38:28 -0700 (PDT)
-In-Reply-To: <1349713951-30766-1-git-send-email-marcin.juszkiewicz@linaro.org>
-References: <5058505C.2040602@linaro.org>
-	<1349713951-30766-1-git-send-email-marcin.juszkiewicz@linaro.org>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 8 Oct 2012 21:38:28 -0700
-X-Google-Sender-Auth: rYE2_27c8DHczIfuPjnhyYeHYkA
-Message-ID: <CABcZANm_-4qSUXByfvn2dejfDq1EsZ-QKYpWDN_S-fK=qh19Ww@mail.gmail.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] autotools.bbclass: update gnu-config files always
+Cc: Jackie.Huang@windriver.com
+Subject: [PATCH 0/4] ruby: Add from OE-Classic and update to 1.9.3-p194
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,53 +32,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 04:51:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Oct 2012 06:50:08 -0000
+Content-Type: text/plain
 
-On Mon, Oct 8, 2012 at 9:32 AM, Marcin Juszkiewicz
-<marcin.juszkiewicz@linaro.org> wrote:
-> When recipe inherits autotools it gets do_configure defined. One of
-> things which are done is autoreconf so gnu-config files are updated to
-> latest OE version.
->
-> But some recipes use own do_configure due to hard edited configure
-> scripts or other reasons. We can edit those recipes one by one or can
-> trick them and provide update gnu-config files without using
-> autoreconf.
->
-> There are still some recipes left but that's usually due to other
-> directories than ${S} being used for configure scripts.
->
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> ---
->  meta/classes/autotools.bbclass |    4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index e4e034b..7effd48 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -99,6 +99,10 @@ autotools_preconfigure() {
->                         mkdir ${B}
->                 fi
->         fi
-> +
-> +       # not all recipes which use autotools use it's do_configure
-> +       install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess ${S}
-> +       install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub ${S}
->  }
+From: Jackie Huang <jackie.huang@windriver.com>
 
+* I sent this months ago but was told that oe-core is not the right place,
+  however, we think it makes sense to add ruby to complete the scripting
+  language set of: python, perl, ruby, so I re-send it.
 
-This won't obey the autoconf macro which redirects such files into a
-subdirectory, right? It shouldn't always go to ${S}, afaik. Quite a
-few projects will use t his macro to move all those files into a
-subdir like 'config' to clean up the root of the source tree. To
-really do this properly, I think you'd have to:
-1) descend into autoconf subdirs, so subdir configure runs also use
-the updated gnu config files
-2) extract the config subdir from autoconf and install them there, for
-each of those dirs
+* Test info
+  1) IMAGE_INSTALL_append += "ruby"
+  2) $ bitbake core-image-sato
+  3) $ runqemu
+  4) simple runtime tests: 
+
+root@qemuppc:~# ruby -v
+ruby 1.9.3p194 (2012-04-20 revision 35410) [powerpc-linux]
+
+root@qemuppc:~# ruby -e 'puts "Hello World"'
+Hello World
+
+root@qemuppc:~# gem -v
+1.8.23
+
+root@qemuppc:~# wget http://rubygems.org/downloads/term-ansicolor-1.0.7.gem
+Connecting to rubygems.org (204.232.149.25:80)
+Connecting to rubygems.org (204.232.149.25:80)
+Connecting to production.cf.rubygems.org (54.240.160.224:80)
+term-ansicolor-1.0.7 100% |*******************************| 16896   0:00:00 ETA
+root@qemuppc:~# ls
+term-ansicolor-1.0.7.gem
+root@qemuppc:~# gem install term-ansicolor-1.0.7.gem
+Successfully installed term-ansicolor-1.0.7
+1 gem installed
+Installing ri documentation for term-ansicolor-1.0.7...
+Installing RDoc documentation for term-ansicolor-1.0.7...
+root@qemuppc:~# gem list
+
+*** LOCAL GEMS ***
+
+bigdecimal (1.1.0)
+io-console (0.3)
+json (1.5.4)
+minitest (2.5.1)
+rake (0.9.2.2)
+rdoc (3.9.4)
+term-ansicolor (1.0.7)
+
+ 
+  
+
+The following changes since commit bcefd015fb163d9c382ae05a86569dbcfd3d736a:
+
+  oe-buildenv-internal: Add BB_NO_NETWORK to BB_ENV_EXTRAWHITE (2012-10-07 13:13:52 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/r_ruby_20121008_2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_ruby_20121008_2
+
+Jackie Huang (4):
+  libyaml: Add recipe from meta-oe
+  libyaml: update to 0.1.4
+  ruby: Add from OE-Classic
+  ruby: update to 1.9.3-194
+
+ meta/recipes-devtools/ruby/ruby.inc                |   37 +++
+ ...onf-hardcode-wide-getaddr-info-test-outco.patch |   26 ++
+ meta/recipes-devtools/ruby/ruby/extmk.patch        |   13 +
+ meta/recipes-devtools/ruby/ruby/extmk_run.patch    |   15 +
+ .../ruby/ruby/ruby-1.9.3-always-use-i386.patch     |   11 +
+ .../ruby/ruby/ruby-1.9.3-bignum-test-fix.patch     |   31 ++
+ .../ruby/ruby-1.9.3-custom-rubygems-location.patch |   86 ++++++
+ .../ruby/ruby-1.9.3-disable-versioned-paths.patch  |  149 ++++++++++
+ .../ruby/ruby/ruby-1.9.3-fix-s390x-build.patch     |   12 +
+ .../ruby/ruby/ruby-1.9.3-install-cross.patch       |   16 +
+ .../ruby/ruby/ruby-1.9.3-mkmf-verbose.patch        |   11 +
+ .../ruby-1.9.3-rubygems-1.8.11-uninstaller.patch   |   76 +++++
+ .../ruby/ruby/ruby-1.9.3-webrick-test-fix.patch    |   24 ++
+ .../ruby/rubygems-1.8.11-binary-extensions.patch   |  296 ++++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_1.9.3-p194.bb      |   57 ++++
+ meta/recipes-support/libyaml/libyaml_0.1.4.bb      |   17 ++
+ 16 files changed, 877 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby.inc
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/extmk.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/extmk_run.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-always-use-i386.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-bignum-test-fix.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-custom-rubygems-location.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-disable-versioned-paths.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-fix-s390x-build.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-install-cross.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-mkmf-verbose.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-rubygems-1.8.11-uninstaller.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-1.9.3-webrick-test-fix.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/rubygems-1.8.11-binary-extensions.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby_1.9.3-p194.bb
+ create mode 100644 meta/recipes-support/libyaml/libyaml_0.1.4.bb
+
 -- 
-Christopher Larson
+1.7.4
+
 
 
