@@ -1,26 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TLakH-0005Nx-Dz
+	(envelope-from <raj.khem@gmail.com>) id 1TLdTv-0000Bf-QA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Oct 2012 16:25:17 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Oct 2012 07:12:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,560,1344236400"; d="scan'208";a="231723134"
-Received: from unknown (HELO [10.255.13.229]) ([10.255.13.229])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Oct 2012 07:12:08 -0700
-Message-ID: <1349791928.19865.6.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 09 Oct 2012 09:12:08 -0500
-In-Reply-To: <1349788232.15658.173.camel@ted>
-References: <cover.1349770454.git.kai.kang@windriver.com>
-	<5638b12dc40290cff09fc211d14b472ef7c2c8c0.1349770454.git.kai.kang@windriver.com>
-	<1349788232.15658.173.camel@ted>
-X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
-Mime-Version: 1.0
+	Tue, 09 Oct 2012 19:20:35 +0200
+Received: by mail-pb0-f47.google.com with SMTP id ro12so4923464pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Oct 2012 10:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=q+6t2IN1egYIMVrfDV15Wl8hz+o3kVP27bypIRfzMeM=;
+	b=gvJm/kT2hIjwWKlkB9l+/qJ2FFXrw8pf3aftzXNhu1PdGUDrzbQ513+z/WX8EXUySq
+	s2gHXPX8bpaYc6oJ6XIwOaaGHBugPcsRYJJLOb7eTNUgRC3cTFD7vF2dxMnx2SBZ5z7x
+	Ws1eW1Ewq2mPVk+u94/OLt17t4+wY0Ct9c8il4uUitBGCAbQq/lP+wA4qgR2mef7HDkI
+	GRZ/ksI4a4CUaBhJakYB66ST9yFt/p1COH/HF5rjYEALr4ovbfAVJEwh5mrhIi9X5a0o
+	z4EoBC73VUaBay9zA6ysiOPLSc17u+DMx6ix9uF0YpYHqWHr1o3A1vX8pyTQXYkN8Cm8
+	lxzQ==
+Received: by 10.68.211.67 with SMTP id na3mr59151736pbc.21.1349802447288;
+	Tue, 09 Oct 2012 10:07:27 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id
+	po4sm12668779pbb.13.2012.10.09.10.07.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 09 Oct 2012 10:07:22 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <2072868.bxk9nbbmYZ@helios>
+Date: Tue, 9 Oct 2012 10:07:21 -0700
+Message-Id: <FD0C6F48-3B88-4335-8450-4ACB13ADD6A2@gmail.com>
+References: <cover.1349689653.git.jackie.huang@windriver.com>
+	<2072868.bxk9nbbmYZ@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1499)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] perl: fix @INC
+Subject: Re: [PATCH 0/4] ruby: Add from OE-Classic and update to 1.9.3-p194
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,79 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 14:25:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Oct 2012 17:20:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-10-09 at 14:10 +0100, Richard Purdie wrote:
-> On Tue, 2012-10-09 at 16:32 +0800, Kang Kai wrote:
-> > perl @INC path includes native perl modules path. When run "perl -V",
-> > the output at the end is something like:
-> >   @INC:
-> >     /etc/perl
-> >     /usr/lib/perl/site_perl/5.14.2/
-> >     /usr/lib/perl/site_perl/5.14.2
-> >     /usr/lib/perl/vendor_perl/5.14.2/
-> >     /usr/lib/perl/vendor_perl/5.14.2
-> >     /mnt/sda10/poky-all-platform/build-qemuppc/tmp/sysroots/qemuppc/usr/lib/perl/5.14.2/
-> >     /usr/lib/perl/5.14.2
-> >     /usr/local/lib/site_perl
-> >     /usr/lib/perl/5.14.2
-> >     .
-> > 
-> > And this is caused by commit aeca6512f3a5468b8f65e2986024ab07d2ce45b4.
-> > Because the native path is compiled into libperl.so that sed in
-> > perl_package_preprocess() could NOT remove it. So revert the commit.
-> > 
-> > [Yocto #3099]
-> > 
-> > Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> > ---
-> >  meta/recipes-devtools/perl/perl-5.14.2/config.sh |    2 +-
-> >  1 files changed, 1 insertions(+), 1 deletions(-)
-> > 
-> > diff --git a/meta/recipes-devtools/perl/perl-5.14.2/config.sh b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
-> > index 0d4ca1c..dbfabb5 100644
-> > --- a/meta/recipes-devtools/perl/perl-5.14.2/config.sh
-> > +++ b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
-> > @@ -68,7 +68,7 @@ api_version='14'
-> >  api_versionstring='5.14.0'
-> >  ar='ar'
-> >  archlib='@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
-> > -archlibexp='@STAGINGDIR@@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
-> > +archlibexp='@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
-> >  archname64=''
-> >  archname='@ARCH@-thread-multi'
-> >  archobjs=''
-> 
-> I dislike fixing one bug at the expense of breaking another.
-> 
-> Tom,
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=aeca6512f3a5468b8f65e2986024ab07d2ce45b4
-> 
-> Any comments on this? How could we test the issue you originally fixed?
-> 
 
-The original purpose of that commit was to allow the perf build to use
-ExtUtils::Embed to build the Perl language bindings for 'perf script'.
+On Oct 9, 2012, at 3:38 AM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
 
-perl_package_preprocess() was (I thought) supposed to prevent the
-settings in config.sh from making it to the target - I'll have to look
-into why they do for libperl.so.
+> Hi Jackie,
+>=20
+> On Tuesday 09 October 2012 14:36:53 jackie.huang@windriver.com wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
+>>=20
+>> * I sent this months ago but was told that oe-core is not the right =
+place,
+>>  however, we think it makes sense to add ruby to complete the =
+scripting
+>>  language set of: python, perl, ruby, so I re-send it.
+>=20
+> I have to say, my opinion is the same now as it was then. Ruby support =
+is=20
+> certainly useful to have, and we have had requests for it; but unlike =
+Perl and=20
+> Python which are needed by many other things, nothing we have in =
+OE-Core=20
+> actually needs Ruby; thus it really belongs in another layer IMHO.
+>=20
 
-Tom
+I guess yes reluctantly, unless we have two different ruby apps which =
+show
+up in different layers then we have a stronger case.
 
 > Cheers,
-> 
-> Richard
-> 
-> 
+> Paul
+>=20
+> --=20
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
 
 
 
