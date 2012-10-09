@@ -1,32 +1,25 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TLWLP-0002dI-9m
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TLXPa-0003uY-JZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Oct 2012 11:43:19 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hj13so3912269wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Oct 2012 02:30:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=8foO9cYfPUZ/I2io+cjO9Uw9s+wuyBaq4yJNm5zQWK0=;
-	b=R2QyeHlg3xrt51jRDk+tBhfhI0hhmQfLUYQQ3DkdviHYRQ0SG1hiRWA3uxVComCn0U
-	sd/Aln+Fd3hOJfjLNJSKIxIy6MhqkE2ZikpWFf86F5bwkEKLrpQJYZ0vYEXvRmkvLOeP
-	UKS4+kU7aDUlLeNiraKvTW+EtCiRw/g+oivmFOHst1qYzEX563x3f80IPn2e3ThcpQ4j
-	P5d+S+RzTZ6Mwc0ubWCIErioHEN1w1yuE/ZP1mQQd6yNkYZzIGZMzxpgEThMTikTff1C
-	zwwfpO2BfhHH8/UZLnZvNlMRTHhgGYJf2Pz5uGt6/DUl7yvw/tvLxYSLh3QHrO//H4ke
-	2eJg==
-Received: by 10.216.217.38 with SMTP id h38mr10273406wep.82.1349775012135;
-	Tue, 09 Oct 2012 02:30:12 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j8sm24093342wiy.9.2012.10.09.02.30.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 09 Oct 2012 02:30:09 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Oct 2012 11:30:16 +0200
-Message-Id: <1349775016-8300-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.12
-Subject: [PATCH] sstate-cache-management: hide error message when one of possible layer location doesn't exist
+	Tue, 09 Oct 2012 12:51:44 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 Oct 2012 03:38:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,560,1344236400"; d="scan'208";a="224101042"
+Received: from unknown (HELO helios.localnet) ([10.252.122.38])
+	by orsmga002.jf.intel.com with ESMTP; 09 Oct 2012 03:38:33 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: jackie.huang@windriver.com
+Date: Tue, 09 Oct 2012 11:38:32 +0100
+Message-ID: <2072868.bxk9nbbmYZ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.2 (Linux/3.2.0-31-generic-pae; KDE/4.9.2; i686; ; )
+In-Reply-To: <cover.1349689653.git.jackie.huang@windriver.com>
+References: <cover.1349689653.git.jackie.huang@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] ruby: Add from OE-Classic and update to 1.9.3-p194
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 09:43:19 -0000
+X-List-Received-Date: Tue, 09 Oct 2012 10:51:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* fixes [YOCTO #3116]
+Hi Jackie,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/sstate-cache-management.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tuesday 09 October 2012 14:36:53 jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+> 
+> * I sent this months ago but was told that oe-core is not the right place,
+>   however, we think it makes sense to add ruby to complete the scripting
+>   language set of: python, perl, ruby, so I re-send it.
 
-diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index 4c06fe8..551d2f2 100755
---- a/scripts/sstate-cache-management.sh
-+++ b/scripts/sstate-cache-management.sh
-@@ -172,7 +172,7 @@ remove_duplicated () {
-   echo -n "Figuring out the archs in the layers ... "
-   oe_core_dir=$(dirname $(dirname $(readlink -e $0)))
-   topdir=$(dirname $oe_core_dir)
--  tunedirs="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/include'`"
-+  tunedirs="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/include' 2>/dev/null`"
-   [ -n "$tunedirs" ] || echo_error "Can't find the tune directory"
-   all_machines="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/*' -name '*.conf' 2>/dev/null | sed -e 's/.*\///' -e 's/.conf$//'`"
-   all_archs=`grep -r -h "^AVAILTUNES .*=" $tunedirs | sed -e 's/.*=//' -e 's/\"//g'`
+I have to say, my opinion is the same now as it was then. Ruby support is 
+certainly useful to have, and we have had requests for it; but unlike Perl and 
+Python which are needed by many other things, nothing we have in OE-Core 
+actually needs Ruby; thus it really belongs in another layer IMHO.
+
+Cheers,
+Paul
+
 -- 
-1.7.12
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
