@@ -1,22 +1,24 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TLgCR-0004jh-4a
+	(envelope-from <joe.slater@windriver.com>) id 1TLh0V-0006iO-BR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Oct 2012 22:14:43 +0200
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 9DDC1D22BA;
-	Tue,  9 Oct 2012 22:01:39 +0200 (CEST)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Oct 2012 22:01:26 +0200
-Message-Id: <1349812886-16922-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <CABcZANm_-4qSUXByfvn2dejfDq1EsZ-QKYpWDN_S-fK=qh19Ww@mail.gmail.com>
-References: <CABcZANm_-4qSUXByfvn2dejfDq1EsZ-QKYpWDN_S-fK=qh19Ww@mail.gmail.com>
-Subject: [PATCH] autotools.bbclass: update gnu-config files always
+	Tue, 09 Oct 2012 23:06:27 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q99KrHhr006766
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Oct 2012 13:53:17 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Tue, 9 Oct 2012 13:53:17 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Oct 2012 13:53:16 -0700
+Message-ID: <1349815996-3767-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH] chkconfig: pass CFLAGS to Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,41 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 20:14:43 -0000
+X-List-Received-Date: Tue, 09 Oct 2012 21:06:28 -0000
+Content-Type: text/plain
 
-When recipe inherits autotools it gets do_configure defined. One of
-things which are done is autoreconf so gnu-config files are updated to
-latest OE version.
+The environment CFLAGS is not used by the chkconfig
+Makefile, so debug and optimization options are ignored.
+So, we use RPM_OPT_FLAGS to pass CFLAGS into Makefile.
 
-But some recipes use own do_configure due to hard edited configure
-scripts or other reasons. We can edit those recipes one by one or can
-trick them and provide update gnu-config files without using
-autoreconf.
+Upstream-Status:  Inappropriate [configuration]
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/classes/autotools.bbclass |    6 ++++++
- 1 file changed, 6 insertions(+)
+ .../recipes-extended/chkconfig/chkconfig_1.3.58.bb |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index e4e034b..d0aad0d 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -99,6 +99,12 @@ autotools_preconfigure() {
- 			mkdir ${B}
- 		fi
- 	fi
-+
-+	# not all recipes which use autotools use it's do_configure
-+	( for ac in `find ${S} -name configure.in -o -name configure.ac`; do
-+		install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess `dirname $ac`
-+		install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub   `dirname $ac`
-+		done )
- }
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+index 17987a6..a9cf268 100644
+--- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
++++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+@@ -21,7 +21,10 @@ SRC_URI[sha256sum] = "18b497d25b2cada955c72810e45fcad8280d105f17cf45e2970f182712
  
- autotools_postconfigure(){
+ inherit autotools gettext
+ 
+-EXTRA_OEMAKE += 'MANDIR="${mandir}" BINDIR="${base_sbindir}" SBINDIR="${sbindir}"'
++# Makefile uses RPM_OPT_fLAGS to construct CFLAGS
++#
++EXTRA_OEMAKE += 'RPM_OPT_FLAGS="${CFLAGS}" MANDIR="${mandir}" \
++                 BINDIR="${base_sbindir}" SBINDIR="${sbindir}"'
+ 
+ do_install_append() {
+     mkdir -p ${D}/etc/chkconfig.d
 -- 
-1.7.10.4
+1.7.3.4
 
 
 
