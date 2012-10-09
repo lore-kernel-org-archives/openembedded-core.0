@@ -1,31 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TLiau-0001PQ-0L for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 00:48:08 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q99MYxqG007068;
-	Tue, 9 Oct 2012 23:34:59 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02727-09; Tue,  9 Oct 2012 23:34:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q99MYk50007043
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 9 Oct 2012 23:34:47 +0100
-Message-ID: <1349822091.15658.196.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Date: Tue, 09 Oct 2012 23:34:51 +0100
-In-Reply-To: <1349812886-16922-1-git-send-email-marcin.juszkiewicz@linaro.org>
-References: <CABcZANm_-4qSUXByfvn2dejfDq1EsZ-QKYpWDN_S-fK=qh19Ww@mail.gmail.com>
-	<1349812886-16922-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] autotools.bbclass: update gnu-config files always
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1TLiq0-00028w-72
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Oct 2012 01:03:44 +0200
+Received: by mail-wi0-f171.google.com with SMTP id hj13so5190938wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Oct 2012 15:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=NmLlpgYUEi9hpBGmLrOUd+qXTd0J8aFnlem6hXJAVrE=;
+	b=vQ63rSnwD7QZqgwUbJYR0BEIVFGkwgOgPgX+GzrQyvv3FwueQioCN+15IYZ3job7ze
+	t0lPj1LLQWCK4NveE7I9+Kug7XSEExFgS/NbEnQD3OTxH6pMNERwsLAZ5u7cWk6GVk4f
+	hunioSGKzYG7aQHC+4gTINYj2VoH1rViZ7PtN4Kkmcv3SHz2m8uTaGXGr4i7uQWsVwgK
+	k4jnysSDdzRoh+de85HT9k9t1TVzKAzNs45wJxli0zXj0Uqxxx5JD7ShYFX2+8kec+kG
+	nXduEBPRCxGVDtC0gHSpRWd25aXT5aQWXLLXF7Xnxih2cx5+049RPqnFeSXIOsCgkGE1
+	fG5Q==
+Received: by 10.216.145.9 with SMTP id o9mr12508132wej.107.1349823036060;
+	Tue, 09 Oct 2012 15:50:36 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id dt9sm27108257wib.1.2012.10.09.15.50.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 09 Oct 2012 15:50:35 -0700 (PDT)
+Date: Wed, 10 Oct 2012 00:50:49 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+Message-ID: <20121009225049.GF4715@jama.jama.net>
+References: <CAPhnLPAojmKQkympwaPL4Co5srBSzUfJd+7eB4YU3Fv665Q6gw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAPhnLPAojmKQkympwaPL4Co5srBSzUfJd+7eB4YU3Fv665Q6gw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bzip license: bzip2 not bzip.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,59 +45,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 22:48:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Oct 2012 23:03:44 -0000
+X-Groupsio-MsgNum: 30502
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/QKKmeG/X/bPShih"
+Content-Disposition: inline
 
-On Tue, 2012-10-09 at 22:01 +0200, Marcin Juszkiewicz wrote:
-> When recipe inherits autotools it gets do_configure defined. One of
-> things which are done is autoreconf so gnu-config files are updated to
-> latest OE version.
-> 
-> But some recipes use own do_configure due to hard edited configure
-> scripts or other reasons. We can edit those recipes one by one or can
-> trick them and provide update gnu-config files without using
-> autoreconf.
-> 
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> ---
->  meta/classes/autotools.bbclass |    6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index e4e034b..d0aad0d 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -99,6 +99,12 @@ autotools_preconfigure() {
->  			mkdir ${B}
->  		fi
->  	fi
-> +
-> +	# not all recipes which use autotools use it's do_configure
-> +	( for ac in `find ${S} -name configure.in -o -name configure.ac`; do
-> +		install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess `dirname $ac`
-> +		install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub   `dirname $ac`
-> +		done )
->  }
->  
->  autotools_postconfigure(){
+--/QKKmeG/X/bPShih
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure we want to go down this route. How about we mandate that
-everything call autotools_do_configure but allow various sections of it
-to be optional depending on some variables.
+On Tue, Oct 09, 2012 at 12:28:54PM -0700, Flanagan, Elizabeth wrote:
+> The name of the license for bzip2 is wrong causing warnings
+> to be thrown.
 
-We could then trigger the above behaviour for recipes which disable
-reautoconf?
-
-Ideally, we should be able to reautoconf everything and we shouldn't
-have exceptions at all.
-
-The aim here is to make things more deterministic and make it clear
-which code paths are being used where and why.
+Can you resend with -M?
 
 Cheers,
 
-Richard
+>=20
+> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+> ---
+>  meta/files/common-licenses/bzip  |   41 --------------------------------=
+------
+>  meta/files/common-licenses/bzip2 |   41 ++++++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 41 insertions(+), 41 deletions(-)
+>  delete mode 100644 meta/files/common-licenses/bzip
+>  create mode 100644 meta/files/common-licenses/bzip2
+>=20
+> diff --git a/meta/files/common-licenses/bzip b/meta/files/common-licenses=
+/bzip
+> deleted file mode 100644
+> index 8ec599d..0000000
+> --- a/meta/files/common-licenses/bzip
+> +++ /dev/null
+> @@ -1,41 +0,0 @@
+> -------------------------------------------------------------------------=
+--
+> -
+> -This program, "bzip2", the associated library "libbzip2", and all
+> -documentation, are copyright (C) 1996-2010 Julian R Seward.  All
+> -rights reserved.
+> -
+> -Redistribution and use in source and binary forms, with or without
+> -modification, are permitted provided that the following conditions
+> -are met:
+> -
+> -1. Redistributions of source code must retain the above copyright
+> -   notice, this list of conditions and the following disclaimer.
+> -
+> -2. The origin of this software must not be misrepresented; you must
+> -   not claim that you wrote the original software.  If you use this
+> -   software in a product, an acknowledgment in the product
+> -   documentation would be appreciated but is not required.
+> -
+> -3. Altered source versions must be plainly marked as such, and must
+> -   not be misrepresented as being the original software.
+> -
+> -4. The name of the author may not be used to endorse or promote
+> -   products derived from this software without specific prior written
+> -   permission.
+> -
+> -THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
+> -OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+> -WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+> -ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+> -DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+> -DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+> -GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+> -INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+> -WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+> -NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+> -SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> -
+> -Julian Seward, jseward@bzip.org
+> -bzip2/libbzip2 version 1.0.6 of 6 September 2010
+> -
+> -------------------------------------------------------------------------=
+--
+> diff --git a/meta/files/common-licenses/bzip2 b/meta/files/common-license=
+s/bzip2
+> new file mode 100644
+> index 0000000..8ec599d
+> --- /dev/null
+> +++ b/meta/files/common-licenses/bzip2
+> @@ -0,0 +1,41 @@
+> +------------------------------------------------------------------------=
+--
+> +
+> +This program, "bzip2", the associated library "libbzip2", and all
+> +documentation, are copyright (C) 1996-2010 Julian R Seward.  All
+> +rights reserved.
+> +
+> +Redistribution and use in source and binary forms, with or without
+> +modification, are permitted provided that the following conditions
+> +are met:
+> +
+> +1. Redistributions of source code must retain the above copyright
+> +   notice, this list of conditions and the following disclaimer.
+> +
+> +2. The origin of this software must not be misrepresented; you must
+> +   not claim that you wrote the original software.  If you use this
+> +   software in a product, an acknowledgment in the product
+> +   documentation would be appreciated but is not required.
+> +
+> +3. Altered source versions must be plainly marked as such, and must
+> +   not be misrepresented as being the original software.
+> +
+> +4. The name of the author may not be used to endorse or promote
+> +   products derived from this software without specific prior written
+> +   permission.
+> +
+> +THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
+> +OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+> +WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+> +ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+> +DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+> +DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+> +GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+> +INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+> +WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+> +NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+> +SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> +
+> +Julian Seward, jseward@bzip.org
+> +bzip2/libbzip2 version 1.0.6 of 6 September 2010
+> +
+> +------------------------------------------------------------------------=
+--
+> --=20
+> 1.7.9.5
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--/QKKmeG/X/bPShih
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlB0qkkACgkQN1Ujt2V2gBw0iQCePzTXW5QIN4nTR31AU0FAZekF
+Vl0Anjkv0tpxydP37bR7EKhST3fRJRlI
+=nux5
+-----END PGP SIGNATURE-----
+
+--/QKKmeG/X/bPShih--
