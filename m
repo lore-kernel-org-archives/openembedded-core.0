@@ -1,47 +1,35 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TLeUq-0001st-68
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1TLfgr-0003nE-PK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Oct 2012 20:25:36 +0200
-Received: by mail-pa0-f47.google.com with SMTP id fa11so4930380pad.6
+	Tue, 09 Oct 2012 21:42:06 +0200
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 09 Oct 2012 12:28:55 -0700
+Received: by mail-qc0-f175.google.com with SMTP id j3so4321196qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Oct 2012 11:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=emSU/hc8P4RFHDTXq6YFOWD74C/1nyVq8noeGYg/+h8=;
-	b=ox6l0OReO3Sngxt+57ou3OgZaGCu7xrLrgb8vGem5/P8l1FJ67e/nxcUON0cnYVIgS
-	R48aH03Jl/plSzYkGTjwBUFM/DdX99oOIUrPBJcTFEtXxVA9ishz0ouT7U99x7smUn8D
-	vsky/5YkQexVA/9QqsIUqAg1zWmat2TdD8ZciylRHr6qbOqM6S+7iXV7E0eK74a/CyJs
-	QcjbzOCagw+Q1BkJIZY58/Hivrg+GcLosp3yEZeVjavLTlhoIbh38Eu7yBkzPecr5T+7
-	gSXHSw7Llny6F68cyrIiekvy93NZ8VryMYgm07H4jXI1dj05R/cIVyNkIaHXRxbgBO5H
-	wx+Q==
-Received: by 10.68.217.201 with SMTP id pa9mr65635943pbc.45.1349806347304;
-	Tue, 09 Oct 2012 11:12:27 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id v9sm12926677paz.6.2012.10.09.11.12.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 09 Oct 2012 11:12:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <518EE65C-BC64-4BB4-A4ED-3C9BD3C0E017@gmail.com>
-Date: Tue, 9 Oct 2012 11:12:20 -0700
-Message-Id: <812D05AB-0A30-4236-988E-D08E13BE0823@gmail.com>
-References: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
-	<8a3cf0ce40dbc72a43f08bfed56e61569fe7a910.1345518098.git.raj.khem@gmail.com>
-	<48919519-8CA2-41A8-96EA-F5D7F91DE33F@gmail.com>
-	<CAMKF1sou8jjkoktbC4J1O+b-KbxZ43MyF3aPq68S74p8wC_qwQ@mail.gmail.com>
-	<C309CEF1-33E5-4DD0-BA0E-8414EB53802C@gmail.com>
-	<CAMKF1srk7SJSGiCDztiyx71NJZUgG530=QbhYCMm88t6ndgSbw@mail.gmail.com>
-	<F0DDC3CE-D71C-4CBE-ACA4-B6E66DEDD4FC@gmail.com>
-	<CAMKF1sqJ==O+AO-Si-CWQSOoZZhppepLjVmjQnipiXuSHWXLMQ@mail.gmail.com>
-	<F90052C7-AE0C-49EE-9471-29C8618432DD@gmail.com>
-	<518EE65C-BC64-4BB4-A4ED-3C9BD3C0E017@gmail.com>
-To: Elvis Dowson <elvis.dowson@gmail.com>
-X-Mailer: Apple Mail (2.1499)
-Cc: "openembedded-core@lists.openembedded.org"
+	Tue, 09 Oct 2012 12:28:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type
+	:x-gm-message-state;
+	bh=sBpYELiF0/DbCg2TndiuruDcBCzQdJ0z5VfmbU0/o8E=;
+	b=Q5UArwrFB8ZB36dyKFNwtl086xHRwiPK0JViPSusgKGzZTaueZadZqAL5P+GOFrr5Z
+	X3jcvAStLBDGpcJ0vqf1gqHKDbceom/QfvHJre1U5eXKdYvfBJXxZRiZ4rTF6UOtT3nr
+	hh8zXmjNbpxZOvso+42BF4SylftCCg/HH4ZGp8yp6GZFgt5YW56Kc4kCOGMGtH3s7+W3
+	TRfyH/RTKptDYZZyl4juNtkgSshyiloz3eEq6R7VEV6XpTBhsQnMPMZM5IwWzTHz+YwD
+	HpLmcpp90KwEn06W+eEmdNNw0i7xHhqN/OQQ9ekU+wP8Llt+BgU8aHJ2GpVv/W0BSTsc
+	dPeQ==
+MIME-Version: 1.0
+Received: by 10.229.106.162 with SMTP id x34mr3286790qco.60.1349810934178;
+	Tue, 09 Oct 2012 12:28:54 -0700 (PDT)
+Received: by 10.229.110.2 with HTTP; Tue, 9 Oct 2012 12:28:54 -0700 (PDT)
+Date: Tue, 9 Oct 2012 12:28:54 -0700
+Message-ID: <CAPhnLPAojmKQkympwaPL4Co5srBSzUfJd+7eB4YU3Fv665Q6gw@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
+X-Gm-Message-State: ALoCoQkp2/ccQMWeTzaI7qv1GjFzVde1jbmE4TNDNJcDxPrW85QlZzgd/uTZWiLSPxiyQuxXDAbo
+Subject: [PATCH] bzip license: bzip2 not bzip.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,43 +42,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Oct 2012 18:25:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Oct 2012 19:42:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+The name of the license for bzip2 is wrong causing warnings
+to be thrown.
 
-On Oct 9, 2012, at 10:37 AM, Elvis Dowson <elvis.dowson@gmail.com> =
-wrote:
+Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+---
+ meta/files/common-licenses/bzip  |   41 --------------------------------------
+ meta/files/common-licenses/bzip2 |   41 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/files/common-licenses/bzip
+ create mode 100644 meta/files/common-licenses/bzip2
 
-> Hi Khem,
->=20
-> On Oct 9, 2012, at 5:48 PM, Elvis Dowson wrote:
->=20
->> So, now I've got gcc-4.5.4 working with eglibc-2.13, upto the point =
-where the kconfig infrastructure was added.
->>=20
->> Next, to add the kconfig infrastructure to eglibc-2.13, and fast =
-forward to the tip of the poky master branch, and
->> see if things are still ok, with the PowerPC440.
->=20
-> Good news, I was able to get the backported patches for gcc-4.5.4 and =
-eglibc-2.13 working with the latest poky and meta-openembedded master =
-branch commits. This includes the gcc toolchain rework and the kconfig =
-support to eglibc.
->=20
-> Let me now try to switch to gcc-4.7.2 and eglibc-2.16, and see if =
-things work. I noticed that there was a recent patch to fix a =
-core-image.bb class, that prevented root login if debug tweaks was =
-enabled. Perhaps that is why I didn't see the boot prompt on the target =
-console with the recent gcc versions?
->=20
-
-I don't think so. You should always see login prompt. It might not let =
-you login if you don't have debug-tweaks in IMAGE_FEATURES
-
-> Best regards,
->=20
-> Elvis Dowson
-
+diff --git a/meta/files/common-licenses/bzip b/meta/files/common-licenses/bzip
+deleted file mode 100644
+index 8ec599d..0000000
+--- a/meta/files/common-licenses/bzip
++++ /dev/null
+@@ -1,41 +0,0 @@
+---------------------------------------------------------------------------
+-
+-This program, "bzip2", the associated library "libbzip2", and all
+-documentation, are copyright (C) 1996-2010 Julian R Seward.  All
+-rights reserved.
+-
+-Redistribution and use in source and binary forms, with or without
+-modification, are permitted provided that the following conditions
+-are met:
+-
+-1. Redistributions of source code must retain the above copyright
+-   notice, this list of conditions and the following disclaimer.
+-
+-2. The origin of this software must not be misrepresented; you must
+-   not claim that you wrote the original software.  If you use this
+-   software in a product, an acknowledgment in the product
+-   documentation would be appreciated but is not required.
+-
+-3. Altered source versions must be plainly marked as such, and must
+-   not be misrepresented as being the original software.
+-
+-4. The name of the author may not be used to endorse or promote
+-   products derived from this software without specific prior written
+-   permission.
+-
+-THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
+-OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+-ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+-GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-
+-Julian Seward, jseward@bzip.org
+-bzip2/libbzip2 version 1.0.6 of 6 September 2010
+-
+---------------------------------------------------------------------------
+diff --git a/meta/files/common-licenses/bzip2 b/meta/files/common-licenses/bzip2
+new file mode 100644
+index 0000000..8ec599d
+--- /dev/null
++++ b/meta/files/common-licenses/bzip2
+@@ -0,0 +1,41 @@
++--------------------------------------------------------------------------
++
++This program, "bzip2", the associated library "libbzip2", and all
++documentation, are copyright (C) 1996-2010 Julian R Seward.  All
++rights reserved.
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted provided that the following conditions
++are met:
++
++1. Redistributions of source code must retain the above copyright
++   notice, this list of conditions and the following disclaimer.
++
++2. The origin of this software must not be misrepresented; you must
++   not claim that you wrote the original software.  If you use this
++   software in a product, an acknowledgment in the product
++   documentation would be appreciated but is not required.
++
++3. Altered source versions must be plainly marked as such, and must
++   not be misrepresented as being the original software.
++
++4. The name of the author may not be used to endorse or promote
++   products derived from this software without specific prior written
++   permission.
++
++THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
++OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
++WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
++DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
++GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++Julian Seward, jseward@bzip.org
++bzip2/libbzip2 version 1.0.6 of 6 September 2010
++
++--------------------------------------------------------------------------
+-- 
+1.7.9.5
 
 
