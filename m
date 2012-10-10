@@ -1,42 +1,43 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TLycM-0003LI-Co
+	(envelope-from <sgw@bigsur.com>) id 1TLyqG-0003tG-BI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 17:54:42 +0200
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 10 Oct 2012 08:40:27 -0700
-Received: by mail-pa0-f47.google.com with SMTP id fa11so648640pad.6
+	Wed, 10 Oct 2012 18:09:04 +0200
+Received: by mail-pb0-f47.google.com with SMTP id ro12so756321pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2012 08:40:26 -0700 (PDT)
+	Wed, 10 Oct 2012 08:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=LkyBY4z/OouoBe4or8rj0IFTReXEz2wIjzJdjeXe3FY=;
+	b=BsqDsv1Nnt3RgPXrGCKJG4M3ldNmSqVE0HB1dMBANfN6HBpbLlIX9k5Dh7oHctCZhe
+	DknvTX55mvoNAYgzvNa9yOTiDkqH0U4RViPQnPUzln1b9GC8IhUU+SMpwNqMjjR68CUc
+	hwYhzJRy9DoMqg8S+bRemrB87R1l8Rpp6Wa4A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=5U0o/xW9+PeOsyCs4W/A7xte1riz8XMwEZI1n8N5Xu8=;
-	b=JsLxXguiovtisOvhf2EvIpe/oRgbUy5Mwcpw8qtzmIxekKLVyHpA0c5YBC5Akiz4Tk
-	abkYv7HjZDC1Z6309b62c0RQAI3D8xP+RbQg8CFuCYsWFTBWPncJlt4/haaFwZ7zfQrI
-	wE0gVpVt9Vm9EjGlPqq06NwnLcb6H/P25bvdiecG8LaNBvPJpkuVWrMsMLJQ3hAhJpvO
-	cOP+H5FpailTpLBuHtz8I5JWlyhlNlYKp1AQsjXCdac31QbDt6xVB2N4AyR1psUexu/8
-	aoA4ywYXhM29/0rLPMuMk/zL2Uwhz6moIwd/WU4mbFBNcw03MjU0ML5QMbTt2YxKTu1T
-	mlCA==
-Received: by 10.68.248.10 with SMTP id yi10mr5725874pbc.39.1349883626172;
-	Wed, 10 Oct 2012 08:40:26 -0700 (PDT)
-Received: from [10.1.10.30] (c-50-137-42-92.hsd1.or.comcast.net.
-	[50.137.42.92])
-	by mx.google.com with ESMTPS id st6sm1182845pbc.58.2012.10.10.08.40.24
-	(version=SSLv3 cipher=OTHER); Wed, 10 Oct 2012 08:40:25 -0700 (PDT)
-Message-ID: <507596E7.3060009@intel.com>
-Date: Wed, 10 Oct 2012 08:40:23 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
-MIME-Version: 1.0
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=LkyBY4z/OouoBe4or8rj0IFTReXEz2wIjzJdjeXe3FY=;
+	b=a6O1Mjd/yJL5OQwun+zTH4WjhSVDYsr5VBrVlulBLD7eO80GzfpfsMPpmK8uyXwlEy
+	oTMsuzq+f627uv9OnF89cbO3gRxagTYUK+I4ttViquf06toWdRcjmg1poKV++xwm82Ih
+	ErOJiRckdanGycUTdo0w/8RitQaTZEJkHPflpdgUlF+1aFMZ90vcmEEXCehjb/AfoR9p
+	6qaiM4F6amhLMLuTx9Xqqy9HHUk2halGwViYus3ESxIGc6wJ9jHmy3cMm4FNVN0HLjnR
+	IerVo0sgyn36sS3YN2OAxyX+Eg7+eoa5noOHy0iYd22doSm22/Fo15enkt//S+o6QWg7
+	KPoA==
+Received: by 10.66.87.73 with SMTP id v9mr63196959paz.1.1349884554624;
+	Wed, 10 Oct 2012 08:55:54 -0700 (PDT)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id pj10sm1205055pbb.46.2012.10.10.08.55.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 10 Oct 2012 08:55:53 -0700 (PDT)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1349466569.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1349466569.git.scott.a.garman@intel.com>
-X-Gm-Message-State: ALoCoQktM6VuKd3J7vpcmHKaENEulT+MIb6wzcxz2ReqArOUL42SnBoe9wQhkRbwobkgb6ZGBJpx
-Subject: Re: [PATCH 0/6] denzil pull request 3
+Date: Wed, 10 Oct 2012 08:55:45 -0700
+Message-Id: <1349884545-12719-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQmzP7pggeX5rQH76OIQR2O2aHpHBIcsVlDrbGgYBFLS7xac6/AKx8Jg08UChqQDkw52JzPM
+Subject: [PATCH] eglibc: force make to use /bin/bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,28 +50,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2012 15:54:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Oct 2012 16:09:04 -0000
 
-On 10/05/2012 12:52 PM, Scott Garman wrote:
-> Hello,
->
-> This is a pull request for denzil, it includes an important fix for the
-> kernel menuconfig sstate bug. The poky-based tree has been run through the
-> autobuilder as follows:
+The eglibc core build still has a number of issues with /bin/dash.
+Recently found is both sysdeps/unix/make-syscalls.sh and it's output,
+which make calls via SHELL do not play well with /bin/dash. By force
+make to use /bin/bash via SHELL setting it works correctly.
 
-Ping? I know the 1.3 release is in progress, just want to make sure this 
-doesn't get neglected for too long. I kept this pull request short to 
-make it easier to review.
+Currenly known issues are: make-syscalls.sh line with a bad substitution,
+which can be corrected by:
+     vdso_symver="$(printf '%s\n' ${vdso_symver} | sed 's/\./_/')"
 
-Thanks,
+Following that there is an issue with emiting a '\n' through a second
+echo and then to the compiler. There maybe more issues beyond that.
 
-Scott
+[YOCTO #3080]
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/eglibc/eglibc.inc     |    5 +++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb |    2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+index cae955d..e1ec6b2 100644
+--- a/meta/recipes-core/eglibc/eglibc.inc
++++ b/meta/recipes-core/eglibc/eglibc.inc
+@@ -51,6 +51,11 @@ EXTRA_OEMAKE[vardepsexclude] += "EGLIBCPARALLELISM"
+ EXTRA_OEMAKE += "${EGLIBCPARALLELISM}"
+ PARALLEL_MAKE = ""
+ 
++# eglibc make-syscalls.sh has a number of issues with /bin/dash and
++# it's output which make calls via the SHELL also has issues, so 
++# ensure make uses /bin/bash
++EXTRA_OEMAKE += "SHELL=/bin/bash"
++
+ OE_FEATURES = "${@features_to_eglibc_settings(d)}"
+ do_configure_prepend() {
+ 	sed -e "s#@BASH@#/bin/sh#" -i ${S}/elf/ldd.bash.in
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 32b0364..78bf9be 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "20393"
+ 
+ DEPENDS += "gperf-native kconfig-frontends-native"
+-PR = "r14"
++PR = "r15"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_16"
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.9.5
+
 
 
