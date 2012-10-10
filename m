@@ -1,36 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TLtOK-0004bN-KM for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 12:19:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9AA6bNb019268;
-	Wed, 10 Oct 2012 11:06:37 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03618-07; Wed, 10 Oct 2012 11:06:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9AA6P7Q019262
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 10 Oct 2012 11:06:26 +0100
-Message-ID: <1349863590.15658.198.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Oct 2012 11:06:30 +0100
-In-Reply-To: <CAJTo0LZ2hwkk58_jQQx9a5mjEFSjyexuk0trRL5_8z_FGyZiRg@mail.gmail.com>
-References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
-	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
-	<4F58B564.5040708@opendreambox.org>
-	<70CC66F5C30A414DADDA6973E4CA391A6ED3E4@039-SN1MPN1-002.039d.mgd.msft.net>
-	<CAJTo0LZ2hwkk58_jQQx9a5mjEFSjyexuk0trRL5_8z_FGyZiRg@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>, Patches,
-	discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Recipes with disabled parallel make
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TLu9u-0005hX-5b
+	for openembedded-core@lists.openembedded.org;
+	Wed, 10 Oct 2012 13:09:02 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 2C340D22BC; Wed, 10 Oct 2012 12:55:57 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2AB0AD22BA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2012 12:55:26 +0200 (CEST)
+Message-ID: <50755417.3010001@linaro.org>
+Date: Wed, 10 Oct 2012 12:55:19 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20121003 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <CABcZANm_-4qSUXByfvn2dejfDq1EsZ-QKYpWDN_S-fK=qh19Ww@mail.gmail.com>
+	<1349812886-16922-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<1349822091.15658.196.camel@ted>
+In-Reply-To: <1349822091.15658.196.camel@ted>
+Subject: Re: [PATCH] autotools.bbclass: update gnu-config files always
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2012 10:19:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 10 Oct 2012 11:09:02 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-10-10 at 10:16 +0100, Burton, Ross wrote:
-> Hi Matthew,
-> 
-> On 10 October 2012 02:45, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
-> >>> 1. Recipes (files) confirmed to fail with P_M enabled (need to have
-> >>> P_M disabled as it is now):
-> >>> meta/recipes-connectivity/bind/bind_9.8.1.bb
-> >>> meta/recipes-extended/slang/slang_2.2.4.bb
-> >>> meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-> >>> meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
-> >>> meta/recipes-support/pth/pth_2.0.7.bb
-> 
-> Lack of parallelism is one of those things that really bugs me...
-> 
-> Do you still have the failure logs to hand?  I'd love to see a patch
-> which put the failure alongside the PARALLEL_MAKE=0.  It's also
-> probably worth removing the PARALLEL_MAKE for the other targets once
-> master opens for development and seeing if they break on the
-> autobuilders (as some parallel races are rare to hit).
+W dniu 10.10.2012 00:34, Richard Purdie pisze:
+> On Tue, 2012-10-09 at 22:01 +0200, Marcin Juszkiewicz wrote:
 
-We've done this in the archives, the PARALLEL_MAKE entries we have are
-pretty much all needed, sadly. I'm not breaking master on the
-autobuilder by removing them "just for fun".
+>> +	# not all recipes which use autotools use it's do_configure
+>> +	( for ac in `find ${S} -name configure.in -o -name configure.ac`; do
+>> +		install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.guess `dirname $ac`
+>> +		install -m 0755 ${STAGING_DATADIR_NATIVE}/gnu-config/config.sub   `dirname $ac`
+>> +		done )
 
-Cheers,
+> I'm not sure we want to go down this route. How about we mandate that
+> everything call autotools_do_configure but allow various sections of it
+> to be optional depending on some variables.
 
-Richard
+How would we support ncurses then? It runs configure in different ways
+due to ENABLE_WIDEC variable (some play with EXTRA_OECONF maybe).
 
+Or slang which has ${S}/autoconf/configure.ac when autotools.bbclass
+checks only for ${S}/configure.{in,ac} when it decides to run autoreconf?
 
+db one is easier as there we can add some variable like SKIP_AUTORECONF
+and it should work. Similar with xinetd.
 
+> We could then trigger the above behaviour for recipes which disable
+> reautoconf?
+
+That's an option. But we need also something for situations like
+slang/ncurses.
+
+> Ideally, we should be able to reautoconf everything and we shouldn't
+> have exceptions at all.
+
+And no reset for PARALLEL_MAKE as well. But we learnt during those OE
+years that there is no such thing as ideal situation.
+
+> The aim here is to make things more deterministic and make it clear
+> which code paths are being used where and why.
+
+Agree.
 
 
