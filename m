@@ -1,20 +1,36 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TLszj-0003rB-GD
-	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 11:54:27 +0200
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 089EBD22BA;
-	Wed, 10 Oct 2012 11:41:23 +0200 (CEST)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Oct 2012 11:41:14 +0200
-Message-Id: <1349862074-13950-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] packagegroup-self-hosted: recommend kernel modules instead of depending on them
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TLtOK-0004bN-KM for openembedded-core@lists.openembedded.org;
+	Wed, 10 Oct 2012 12:19:52 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9AA6bNb019268;
+	Wed, 10 Oct 2012 11:06:37 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03618-07; Wed, 10 Oct 2012 11:06:33 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9AA6P7Q019262
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 10 Oct 2012 11:06:26 +0100
+Message-ID: <1349863590.15658.198.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Oct 2012 11:06:30 +0100
+In-Reply-To: <CAJTo0LZ2hwkk58_jQQx9a5mjEFSjyexuk0trRL5_8z_FGyZiRg@mail.gmail.com>
+References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
+	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
+	<4F58B564.5040708@opendreambox.org>
+	<70CC66F5C30A414DADDA6973E4CA391A6ED3E4@039-SN1MPN1-002.039d.mgd.msft.net>
+	<CAJTo0LZ2hwkk58_jQQx9a5mjEFSjyexuk0trRL5_8z_FGyZiRg@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>, Patches,
+	discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Recipes with disabled parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,58 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2012 09:54:27 -0000
+X-List-Received-Date: Wed, 10 Oct 2012 10:19:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Requested kernel modules may be integrated in kernel or totally disabled
-as not needed on target.
+On Wed, 2012-10-10 at 10:16 +0100, Burton, Ross wrote:
+> Hi Matthew,
+> 
+> On 10 October 2012 02:45, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+> >>> 1. Recipes (files) confirmed to fail with P_M enabled (need to have
+> >>> P_M disabled as it is now):
+> >>> meta/recipes-connectivity/bind/bind_9.8.1.bb
+> >>> meta/recipes-extended/slang/slang_2.2.4.bb
+> >>> meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+> >>> meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+> >>> meta/recipes-support/pth/pth_2.0.7.bb
+> 
+> Lack of parallelism is one of those things that really bugs me...
+> 
+> Do you still have the failure logs to hand?  I'd love to see a patch
+> which put the failure alongside the PARALLEL_MAKE=0.  It's also
+> probably worth removing the PARALLEL_MAKE for the other targets once
+> master opens for development and seeing if they break on the
+> autobuilders (as some parallel races are rare to hit).
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- .../packagegroups/packagegroup-self-hosted.bb           |   15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+We've done this in the archives, the PARALLEL_MAKE entries we have are
+pretty much all needed, sadly. I'm not breaking master on the
+autobuilder by removing them "just for fun".
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index de0a46d..19f5a16 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -4,7 +4,7 @@
- 
- SUMMARY = "Self-hosting"
- DESCRIPTION = "Packages required to run the build system"
--PR = "r11"
-+PR = "r12"
- LICENSE = "MIT"
- 
- inherit packagegroup
-@@ -37,11 +37,6 @@ RDEPENDS_packagegroup-self-hosted-host-tools = "\
-     genext2fs \
-     hdparm \
-     iptables \
--    kernel-module-tun \
--    kernel-module-iptable-raw \
--    kernel-module-iptable-nat \
--    kernel-module-iptable-mangle \
--    kernel-module-iptable-filter \
-     lsb \
-     mc \
-     parted \
-@@ -50,6 +45,14 @@ RDEPENDS_packagegroup-self-hosted-host-tools = "\
-     vte \
-     "
- 
-+RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
-+    kernel-module-tun \
-+    kernel-module-iptable-raw \
-+    kernel-module-iptable-nat \
-+    kernel-module-iptable-mangle \
-+    kernel-module-iptable-filter \
-+	"
-+
- # eglibc-utils: for rpcgen
- RDEPENDS_packagegroup-self-hosted-sdk = "\
-     autoconf \
--- 
-1.7.10.4
+Cheers,
+
+Richard
+
+
 
 
 
