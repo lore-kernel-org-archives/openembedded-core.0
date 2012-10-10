@@ -1,37 +1,55 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from db3ehsobe006.messaging.microsoft.com ([213.199.154.144]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TLlbs-0006iR-7B
+	(envelope-from <B29882@freescale.com>) id 1TLlnu-0006z1-S2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 04:01:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9A1m9eb012655
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Oct 2012 18:48:09 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Tue, 9 Oct 2012 18:48:08 -0700
-Message-ID: <5074D3F6.7040108@windriver.com>
-Date: Wed, 10 Oct 2012 09:48:38 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Wed, 10 Oct 2012 04:13:46 +0200
+Received: from mail35-db3-R.bigfish.com (10.3.81.238) by
+	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 10 Oct 2012 01:45:35 +0000
+Received: from mail35-db3 (localhost [127.0.0.1])	by mail35-db3-R.bigfish.com
+	(Postfix) with ESMTP id 786EE2E00E6	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2012 01:45:35 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zzbb2dI98dI9371I1432Izz1202h1d1ah1d2ahzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441hbe9i1155h)
+Received: from mail35-db3 (localhost.localdomain [127.0.0.1]) by mail35-db3
+	(MessageSwitch) id 1349833533597942_23807;
+	Wed, 10 Oct 2012 01:45:33 +0000 (UTC)
+Received: from DB3EHSMHS003.bigfish.com (unknown [10.3.81.225])	by
+	mail35-db3.bigfish.com (Postfix) with ESMTP id 853C4220068	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 10 Oct 2012 01:45:33 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS003.bigfish.com
+	(10.3.87.103) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 10 Oct 2012 01:45:30 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.88]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
+	Wed, 10 Oct 2012 01:45:28 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Recipes with disabled parallel make
+Thread-Index: AQHNpojsM6hpWoXuAkacfcG2KXBu3A==
+Date: Wed, 10 Oct 2012 01:45:28 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A6ED3E4@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <CAMKF1srTMHyV+2eDaJKuZs9=2VUYkqhJoqfFqZxrdTCCooWMXA@mail.gmail.com>
+	<CAJG6M_MgcYVomQbn=j_w=+BCDjUAdDe1D==CsQ_eFTJm1=rwQw@mail.gmail.com>
+	<4F58B564.5040708@opendreambox.org>
+In-Reply-To: <4F58B564.5040708@opendreambox.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-To: Tom Zanussi <tom.zanussi@intel.com>
-References: <cover.1349770454.git.kai.kang@windriver.com>
-	<5638b12dc40290cff09fc211d14b472ef7c2c8c0.1349770454.git.kai.kang@windriver.com>
-	<1349788232.15658.173.camel@ted>
-	<1349791928.19865.6.camel@empanada>
-	<1349830345.19865.27.camel@empanada>
-In-Reply-To: <1349830345.19865.27.camel@empanada>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q9A1m9eb012655
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] perl: fix @INC
+X-OriginatorOrg: freescale.com
+Subject: Re: Recipes with disabled parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -41,100 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2012 02:01:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 10 Oct 2012 02:13:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <2D7C64117665CF4A86E25F0BE0484F18@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On 2012=E5=B9=B410=E6=9C=8810=E6=97=A5 08:52, Tom Zanussi wrote:
-> On Tue, 2012-10-09 at 09:12 -0500, Tom Zanussi wrote:
->> On Tue, 2012-10-09 at 14:10 +0100, Richard Purdie wrote:
->>> On Tue, 2012-10-09 at 16:32 +0800, Kang Kai wrote:
->>>> perl @INC path includes native perl modules path. When run "perl -V"=
-,
->>>> the output at the end is something like:
->>>>    @INC:
->>>>      /etc/perl
->>>>      /usr/lib/perl/site_perl/5.14.2/
->>>>      /usr/lib/perl/site_perl/5.14.2
->>>>      /usr/lib/perl/vendor_perl/5.14.2/
->>>>      /usr/lib/perl/vendor_perl/5.14.2
->>>>      /mnt/sda10/poky-all-platform/build-qemuppc/tmp/sysroots/qemuppc=
-/usr/lib/perl/5.14.2/
->>>>      /usr/lib/perl/5.14.2
->>>>      /usr/local/lib/site_perl
->>>>      /usr/lib/perl/5.14.2
->>>>      .
->>>>
->>>> And this is caused by commit aeca6512f3a5468b8f65e2986024ab07d2ce45b=
-4.
->>>> Because the native path is compiled into libperl.so that sed in
->>>> perl_package_preprocess() could NOT remove it. So revert the commit.
->>>>
->>>> [Yocto #3099]
->>>>
->>>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
->>>> ---
->>>>   meta/recipes-devtools/perl/perl-5.14.2/config.sh |    2 +-
->>>>   1 files changed, 1 insertions(+), 1 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-devtools/perl/perl-5.14.2/config.sh b/meta=
-/recipes-devtools/perl/perl-5.14.2/config.sh
->>>> index 0d4ca1c..dbfabb5 100644
->>>> --- a/meta/recipes-devtools/perl/perl-5.14.2/config.sh
->>>> +++ b/meta/recipes-devtools/perl/perl-5.14.2/config.sh
->>>> @@ -68,7 +68,7 @@ api_version=3D'14'
->>>>   api_versionstring=3D'5.14.0'
->>>>   ar=3D'ar'
->>>>   archlib=3D'@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
->>>> -archlibexp=3D'@STAGINGDIR@@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
->>>> +archlibexp=3D'@LIBDIR@/perl/5.14.2/@ARCH@-thread-multi'
->>>>   archname64=3D''
->>>>   archname=3D'@ARCH@-thread-multi'
->>>>   archobjs=3D''
->>> I dislike fixing one bug at the expense of breaking another.
+On Thu, Mar 8, 2012 at 7:34 AM, Andreas Oberritter <obi@opendreambox.org> w=
+rote:
+> On 02.03.2012 23:29, Yury Bushmelev wrote:
+>> 2012/2/10 Khem Raj <raj.khem@gmail.com>:
+>>> Hi
 >>>
->>> Tom,
+>>> Just grepped for the occurances of disabled parallel make and I see
+>>> around 40 cases on oe-core
 >>>
->>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Daeca6512f3a546=
-8b8f65e2986024ab07d2ce45b4
+>>> git grep PARALLEL_MAKE.*=3D.*\"\" recipes* | grep -v "#"
 >>>
->>> Any comments on this? How could we test the issue you originally fixe=
-d?
+>>> If someone has time to kill then it would help to see if some of these
+>>> are fixed by time or can be fixed
 >>>
->> The original purpose of that commit was to allow the perf build to use
->> ExtUtils::Embed to build the Perl language bindings for 'perf script'.
+>>> it can help in paralleling the build a bit more.
 >>
->> perl_package_preprocess() was (I thought) supposed to prevent the
->> settings in config.sh from making it to the target - I'll have to look
->> into why they do for libperl.so.
+>> Well, I have some first results! :)
 >>
-Hi Tom,
-
-Thanks.
-> I just submitted a patchset that gets rid of the @INC problem while
-> still allowing perf scripting to work (rather than exiting with a
-> 'scripting not supported' message).
-I'll test perl with your patch.
-
-Regards,
-Kai
-
->
-> Tom
->
->> Tom
 >>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> 1. Recipes (files) confirmed to fail with P_M enabled (need to have
+>> P_M disabled as it is now):
+>> meta/recipes-connectivity/bind/bind_9.8.1.bb
+>> meta/recipes-extended/slang/slang_2.2.4.bb
+>> meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+>> meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+>> meta/recipes-support/pth/pth_2.0.7.bb
 >
+> meta/recipes-devtools/libtool/libtool_2.4.2.bb might need disabled
+> P_M, too:
 >
+> | ./mipsel-oe-linux-libtool  --tag=3DCC   --mode=3Dcompile ccache mipsel-=
+oe-linux-gcc  -mel -mabi=3D32   -mhard-float -march=3Dmips32 --sysroot=3D..=
+./tmp/sysroots/dm7020hd -DHAVE_CONFIG_H -I.  -DLTDLOPEN=3Dlibltdl -DLT_CONF=
+IG_H=3D'<config.h>' -DLTDL -I. -I. -Ilibltdl -I./libltdl -I./libltdl/libltd=
+l   -Os -pipe -g -feliminate-unused-debug-types -c -o libltdl/libltdl_liblt=
+dl_la-slist.lo `test -f 'libltdl/slist.c' || echo './'`libltdl/slist.c
+> | /bin/sh: ./mipsel-oe-linux-libtool: /bin/sh: bad interpreter: Text file=
+ busy
+> | make[2]: *** [libltdl/libltdl_libltdl_la-slist.lo] Error 126
+> | make[2]: *** Waiting for unfinished jobs....
+>
+> This was a fresh build with clean tmp and sstate-cache. I've just
+> seen this failue for the first time.
+>
+> BB_NUMBER_THREADS =3D "4"
+> PARALLEL_MAKE =3D "-j 4"
+
+I'm seeing this on denzil on Ubuntu 10.04.2 LTS 32-bit.
+
+-M=
 
 
 
