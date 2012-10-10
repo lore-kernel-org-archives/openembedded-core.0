@@ -1,43 +1,35 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@bigsur.com>) id 1TLyqG-0003tG-BI
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1TM1Nk-0000EW-FF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 18:09:04 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so756321pbb.6
+	Wed, 10 Oct 2012 20:51:48 +0200
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 10 Oct 2012 11:38:33 -0700
+Received: by mail-qc0-f175.google.com with SMTP id j3so672745qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Oct 2012 08:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bigsur.com; s=bigsur.com;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=LkyBY4z/OouoBe4or8rj0IFTReXEz2wIjzJdjeXe3FY=;
-	b=BsqDsv1Nnt3RgPXrGCKJG4M3ldNmSqVE0HB1dMBANfN6HBpbLlIX9k5Dh7oHctCZhe
-	DknvTX55mvoNAYgzvNa9yOTiDkqH0U4RViPQnPUzln1b9GC8IhUU+SMpwNqMjjR68CUc
-	hwYhzJRy9DoMqg8S+bRemrB87R1l8Rpp6Wa4A=
+	Wed, 10 Oct 2012 11:38:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=LkyBY4z/OouoBe4or8rj0IFTReXEz2wIjzJdjeXe3FY=;
-	b=a6O1Mjd/yJL5OQwun+zTH4WjhSVDYsr5VBrVlulBLD7eO80GzfpfsMPpmK8uyXwlEy
-	oTMsuzq+f627uv9OnF89cbO3gRxagTYUK+I4ttViquf06toWdRcjmg1poKV++xwm82Ih
-	ErOJiRckdanGycUTdo0w/8RitQaTZEJkHPflpdgUlF+1aFMZ90vcmEEXCehjb/AfoR9p
-	6qaiM4F6amhLMLuTx9Xqqy9HHUk2halGwViYus3ESxIGc6wJ9jHmy3cMm4FNVN0HLjnR
-	IerVo0sgyn36sS3YN2OAxyX+Eg7+eoa5noOHy0iYd22doSm22/Fo15enkt//S+o6QWg7
-	KPoA==
-Received: by 10.66.87.73 with SMTP id v9mr63196959paz.1.1349884554624;
-	Wed, 10 Oct 2012 08:55:54 -0700 (PDT)
-Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id pj10sm1205055pbb.46.2012.10.10.08.55.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 10 Oct 2012 08:55:53 -0700 (PDT)
-Sender: Saul Wold <sgw@bigsur.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Oct 2012 08:55:45 -0700
-Message-Id: <1349884545-12719-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQmzP7pggeX5rQH76OIQR2O2aHpHBIcsVlDrbGgYBFLS7xac6/AKx8Jg08UChqQDkw52JzPM
-Subject: [PATCH] eglibc: force make to use /bin/bash
+	h=mime-version:date:message-id:subject:from:to:content-type
+	:x-gm-message-state;
+	bh=PWPgMgaLP8LrTUL1QV29Je3MEaCUnNJa+S6EOtbgavU=;
+	b=GPy4zoti4IVciwMa4bfFpIgjmp+mm0S2yMbmJRBibsycoc0PJojViHk6n7raBdIDRL
+	AqE9W8euTxIt6VOWQkndo69w7ErHnoLFrtvVxbptn7OJ6QUk67aIVqF8mI0GowPUgDvw
+	EZen1VXAhjnxrCnOr07/m7rqZjn6EkdQlLNLhC/JYMPTEBsi8XeHZZn/AqMe6GwJmUcu
+	NIH3PezjGHgQBbKKNa6bKbJMp4p257HgeveLLVEvTO9EOxKZUBt3IVjwdoCb2eiuVag8
+	Gx8gdBnJn7G3ImBev4Hbj4K40fz2WmtTOkZRvpd1eBsZx6Pb+IITHpCBcJjx63TnNNCC
+	PK6A==
+MIME-Version: 1.0
+Received: by 10.49.85.194 with SMTP id j2mr4044919qez.54.1349894312394; Wed,
+	10 Oct 2012 11:38:32 -0700 (PDT)
+Received: by 10.229.110.2 with HTTP; Wed, 10 Oct 2012 11:38:32 -0700 (PDT)
+Date: Wed, 10 Oct 2012 11:38:32 -0700
+Message-ID: <CAPhnLPAbtmonYG1cL9m5QGVmWC7hQ8jQA6KVuuXnUhHSWa_jAA@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmY7dcSc7IEgFG77Op6dRd7L3n//QYTHJecmckzVdEatn+ljmRSBjvTbsFOFhTBNA868rf5
+Subject: [PATCH 1/1] build-appliance-image.bb: Bumping SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,59 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2012 16:09:04 -0000
+X-List-Received-Date: Wed, 10 Oct 2012 18:51:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-The eglibc core build still has a number of issues with /bin/dash.
-Recently found is both sysdeps/unix/make-syscalls.sh and it's output,
-which make calls via SHELL do not play well with /bin/dash. By force
-make to use /bin/bash via SHELL setting it works correctly.
+Bumping the SRCREV for the build-appliance
 
-Currenly known issues are: make-syscalls.sh line with a bad substitution,
-which can be corrected by:
-     vdso_symver="$(printf '%s\n' ${vdso_symver} | sed 's/\./_/')"
-
-Following that there is an issue with emiting a '\n' through a second
-echo and then to the compiler. There maybe more issues beyond that.
-
-[YOCTO #3080]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 ---
- meta/recipes-core/eglibc/eglibc.inc     |    5 +++++
- meta/recipes-core/eglibc/eglibc_2.16.bb |    2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-core/images/build-appliance-image.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index cae955d..e1ec6b2 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -51,6 +51,11 @@ EXTRA_OEMAKE[vardepsexclude] += "EGLIBCPARALLELISM"
- EXTRA_OEMAKE += "${EGLIBCPARALLELISM}"
- PARALLEL_MAKE = ""
- 
-+# eglibc make-syscalls.sh has a number of issues with /bin/dash and
-+# it's output which make calls via the SHELL also has issues, so 
-+# ensure make uses /bin/bash
-+EXTRA_OEMAKE += "SHELL=/bin/bash"
-+
- OE_FEATURES = "${@features_to_eglibc_settings(d)}"
- do_configure_prepend() {
- 	sed -e "s#@BASH@#/bin/sh#" -i ${S}/elf/ldd.bash.in
-diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-index 32b0364..78bf9be 100644
---- a/meta/recipes-core/eglibc/eglibc_2.16.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "20393"
- 
- DEPENDS += "gperf-native kconfig-frontends-native"
--PR = "r14"
-+PR = "r15"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_16"
+diff --git a/meta/recipes-core/images/build-appliance-image.bb
+b/meta/recipes-core/images/build-appliance-image.bb
+index 49e250d..dcc985f 100644
+--- a/meta/recipes-core/images/build-appliance-image.bb
++++ b/meta/recipes-core/images/build-appliance-image.bb
+@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
+
+ inherit core-image
+
+-SRCREV = "f0f23f1741c29baa9601c5fa6b6b4a18175be7c5"
++SRCREV = "d13e633272ab4b40f0ed69a37ab524e6d316c338"
+ SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
 -- 
 1.7.9.5
-
 
 
