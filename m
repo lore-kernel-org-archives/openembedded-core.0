@@ -1,20 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TLkg2-00055b-Eg
+	(envelope-from <tom.zanussi@intel.com>) id 1TLkg5-00055e-RN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 10 Oct 2012 03:01:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Oct 2012 17:48:25 -0700
+	Wed, 10 Oct 2012 03:01:38 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Oct 2012 17:48:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,562,1344236400"; d="scan'208";a="202577303"
+X-IronPort-AV: E=Sophos;i="4.80,562,1344236400"; d="scan'208";a="232754504"
 Received: from unknown (HELO localhost) ([10.255.13.229])
-	by azsmga001.ch.intel.com with ESMTP; 09 Oct 2012 17:48:24 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Oct 2012 17:48:28 -0700
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Oct 2012 19:48:22 -0500
-Message-Id: <cover.1349829329.git.tom.zanussi@intel.com>
+Date: Tue,  9 Oct 2012 19:48:25 -0500
+Message-Id: <2bc985f69847a615429a908aa0e8f972a8be91f9.1349829329.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.11.4
-Subject: [PATCH 0/2] perl: fix @INC, v2
+In-Reply-To: <b574551d9055cfed77428aab0035305f64100e3d.1349829329.git.tom.zanussi@intel.com>
+References: <b574551d9055cfed77428aab0035305f64100e3d.1349829329.git.tom.zanussi@intel.com>
+In-Reply-To: <cover.1349829329.git.tom.zanussi@intel.com>
+References: <cover.1349829329.git.tom.zanussi@intel.com>
+Subject: [PATCH 2/2] perl: use archlib_exp config.sh variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,87 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2012 01:01:34 -0000
+X-List-Received-Date: Wed, 10 Oct 2012 01:01:38 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This fixes the bug reported by Kang Kai in a way that allows
-perf scripting to continue to work.
+This patch uses an unmodified version of archlibexp called
+archlib_exp, introduced by a previous patch to config.sh, which is
+used to generate the correct value of ARCHLIB_EXP into config.h
 
-Before this patch, @INC on the target would contain a native path:
+Fixes [YOCTO #3099].
 
-   @INC:
-     /etc/perl
-     /usr/lib/perl/site_perl/5.14.2/
-     /usr/lib/perl/site_perl/5.14.2
-     /usr/lib/perl/vendor_perl/5.14.2/
-     /usr/lib/perl/vendor_perl/5.14.2
-     /mnt/sda10/poky-all-platform/build-qemuppc/tmp/sysroots/qemuppc/usr/lib/perl/5.14.2/
-     /usr/lib/perl/5.14.2
-     /usr/local/lib/site_perl
-     /usr/lib/perl/5.14.2
-     .
-
-Kang Kai's patch reverted the problem that caused the native path
-to appear, but also caused perf to report that scripting wasn't
-supported.
-
-With this patchset, the native path is gone:
-
-  Built under linux
-  Compiled at Oct  9 2012 18:40:15
-  @INC:
-    /etc/perl
-    /usr/lib/perl/site_perl/5.14.2/
-    /usr/lib/perl/site_perl/5.14.2
-    /usr/lib/perl/vendor_perl/5.14.2/
-    /usr/lib/perl/vendor_perl/5.14.2
-    /usr/lib/perl/5.14.2/
-    /usr/lib/perl/5.14.2
-    /usr/local/lib/site_perl
-    /usr/lib/perl/5.14.2
-    .
-
-and the perf Perl binding continues to work:
-
-root@crownbay:~# perf script rwtop
-
-read counts by pid:
-
-   pid                  comm     # reads   bytes_req  bytes_read
-------  --------------------  ----------  ----------  ----------
-  1524  perf                        5629      213712      213648
-  1508  dropbear                       8      131000         607
-
-write counts by pid:
-
-   pid                  comm    # writes  bytes_written
-------  --------------------  ----------  -------------
-  1522  perf                          11         845320
-  1508  dropbear                       8            944
-
-Tested on qemux86 and crownbay.
-
-The following changes since commit 2c3e8280e67721d42d4be48a8e2c1e9ce9bb89fd:
-
-  bitbake: hob/imageconfigurationpage: a 'hob-image' appears listed in the base image combo box (2012-10-08 16:23:34 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/bug-3099-fix
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/bug-3099-fix
-
-Tom Zanussi (2):
-  perl: add archlib_exp variable used to generate ARCHLIB_EXP in
-    config.h
-  perl: use archlib_exp config.sh variable
-
- meta/recipes-devtools/perl/perl-5.14.2/config.sh          |  1 +
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
  .../perl/perl-5.14.2/perl-archlib-exp.patch               | 15 +++++++++++++++
  meta/recipes-devtools/perl/perl_5.14.2.bb                 |  3 ++-
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ 2 files changed, 17 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/perl-archlib-exp.patch
 
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/perl-archlib-exp.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-archlib-exp.patch
+new file mode 100644
+index 0000000..1c170ef
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-archlib-exp.patch
+@@ -0,0 +1,15 @@
++Upstream-Status:Inappropriate [embedded specific]
++
++Index: perl-5.14.2/config_h.SH
++===================================================================
++--- perl-5.14.2.orig/config_h.SH
+++++ perl-5.14.2/config_h.SH
++@@ -996,7 +996,7 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#und
++  *	in programs that are not prepared to deal with ~ expansion at run-time.
++  */
++ #$d_archlib ARCHLIB "$archlib"		/**/
++-#$d_archlib ARCHLIB_EXP "$archlibexp"		/**/
+++#$d_archlib ARCHLIB_EXP "$archlib_exp"		/**/
++ 
++ /* ARCHNAME:
++  *	This symbol holds a string representing the architecture name.
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index 09b2acb..d9206d8 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ # We need gnugrep (for -I)
+ DEPENDS = "virtual/db grep-native"
+ DEPENDS += "gdbm zlib"
+-PR = "r10"
++PR = "r11"
+ 
+ # 5.10.1 has Module::Build built-in
+ PROVIDES += "libmodule-build-perl"
+@@ -66,6 +66,7 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+         file://cross-generate_uudmap.patch \
+ 	file://fix_bad_rpath.patch \
+ 	file://perl-build-in-t-dir.patch \
++	file://perl-archlib-exp.patch \
+ 	\
+         file://config.sh \
+         file://config.sh-32 \
 -- 
 1.7.11.4
 
