@@ -1,36 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ia0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TMKl9-0006jo-8K
+	(envelope-from <andrei@gherzan.ro>) id 1TML1X-0006zE-BR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Oct 2012 17:33:15 +0200
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 11 Oct 2012 08:19:41 -0700
-Received: by mail-we0-f175.google.com with SMTP id t44so1124414wey.6
+	Thu, 11 Oct 2012 17:50:11 +0200
+Received: by mail-ia0-f175.google.com with SMTP id b35so1341875iac.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2012 08:20:01 -0700 (PDT)
+	Thu, 11 Oct 2012 08:37:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=2MpQoQDq+TFqnJRBhWCirlW9dGrxq1AY26cFIUq0OvY=;
-	b=fAUsA0t7yBRDinSTRh5+CLD46oNLvWMwoX79xP33LXwnGUJGUmUhWBgxaXBM5X0j7j
-	atn00pH/5WQTINlV3MZzSi/x5QW9TooU92zYoiWt9NkxvDlOHCuW4XESb0pOLZCcwoFY
-	AAB/FJ6J1zagoYpXRlZ584oBy56+kQnBljvkGOOFXkWG77rZ7Os7CGHemRHQK6monsCU
-	VaQuiXrUHCib2iS2e//OErCFXwpScuOZmdFfIqoZKOi5oOp7hcp9XZsDJMUsynuf4qd+
-	5KkH/Al8SmnC/LLiPNEtXlba2hu8mIQwt4nlUs1hzzxpI/MIQXS7WlKiOlKZEeCG9Zvq
-	h/Zw==
-Received: by 10.180.104.97 with SMTP id gd1mr3076583wib.4.1349968801103;
-	Thu, 11 Oct 2012 08:20:01 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cn6sm9170844wib.9.2012.10.11.08.19.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 11 Oct 2012 08:19:54 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Oct 2012 16:18:50 +0100
-Message-Id: <1349968730-24071-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlJeCF2bktFnhLNwUn6wx5ZemdVs6a8fOu83/AKu9DXwzMo6D3mgllG1ybiiLXXWNw1HIII
-Subject: [PATCH] pulseaudio: add missing switch-on-port-available dependency to the server
+	h=mime-version:x-originating-ip:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=1yn4A1ikFEdXrc0AvCJbtzgq+C4RMKtaygEz82PD1ms=;
+	b=UltAVzFOXjLc4IwTwzk9waxCsHDN8gBKEa+ZwBgPkNpyX6rX5XP0GmLE6O9cpex574
+	b6Bt5csE35fzcaAHSyaE8DmuE+Kcl0GR50cQJjvnsXw712Y1iXWT/qtudEVmVlJuyNrY
+	AUUUeYTh4I0fT8fjeIMZ7YgdUwtzVuNH12oCYZO4G6Dctovm6IwvG1VFtFoOhO2J7m0k
+	EV+wMzYEI+FSA2xFLKMkM9eKekXpD82f6YVMSZ8to2A/1H1swG+Opp042vvBwcTv/q0q
+	Uu71d5m5lEfsilIPt8xA4zOQEQ5gPXFKMecoM/9hNj0EgKm41PQ//BJDutJc14Lsx0eY
+	YFJQ==
+Received: by 10.50.100.137 with SMTP id ey9mr1216799igb.57.1349969820442; Thu,
+	11 Oct 2012 08:37:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.52.8 with HTTP; Thu, 11 Oct 2012 08:36:37 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Thu, 11 Oct 2012 18:36:38 +0300
+Message-ID: <CAK18fxGxttqXrLDFCQkB4_XAEuKFvf7_M1Yfie42k3mXkNqZCg@mail.gmail.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmd4XBwxB8nwXWiOgMdQcSzhfhRq2jzn68qGpp63JwMoYzUjbcNyrI146Prmppfy1a5gX9D
+Subject: meta-systemd base-files issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2012 15:33:15 -0000
+X-List-Received-Date: Thu, 11 Oct 2012 15:50:11 -0000
+Content-Type: multipart/alternative; boundary=e89a8f23532b9ae11904cbca573f
 
-The PulseAudio server recently added a dependency by default on the
-switch-if-port-available module, but this was not enforced by the package
-dependencies so the server won't start.
+--e89a8f23532b9ae11904cbca573f
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |    3 ++-
- meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb |    2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+I'm trying to get meta-systemd work with meta-oe and oe-core.
+The problem seems to be with the fstab from oe-core where /var/volatile is
+mounted as tmpfs and the directories inside never recreated. So services
+like dbus or whatever needs /var/log or var/run etc which are all symlinks
+to volatile/*, will fail. Is this a known issue? Is there any other fix
+then using a custom fstab?
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 3003eaa..46e84c3 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -137,7 +137,8 @@ RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-always-sink \
-     pulseaudio-module-suspend-on-idle \
-     pulseaudio-module-position-event-sounds \
--    pulseaudio-module-role-cork "
-+    pulseaudio-module-role-cork \
-+    pulseaudio-module-switch-on-port-available"
- 
- RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
- RDEPENDS_pulseaudio-server += "\
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-index 1c2c9f7..a10b953 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r6"
-+PR = "r7"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
--- 
-1.7.10
+ag
 
+--e89a8f23532b9ae11904cbca573f
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+I&#39;m trying to get meta-systemd work with meta-oe and oe-core.<div>The p=
+roblem seems to be with the fstab from oe-core where /var/volatile is mount=
+ed as tmpfs and the directories inside never recreated. So services like db=
+us or whatever needs /var/log or var/run etc which are all symlinks to=A0vo=
+latile/*, will fail. Is this a known issue? Is there any other fix then usi=
+ng a custom fstab?<br clear=3D"all">
 
+<div style=3D"text-align:center"></div><div style=3D"text-align:center"><di=
+v align=3D"left"><font face=3D"Arial" color=3D"#333333" size=3D"-1" style=
+=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><br></font><fon=
+t color=3D"#333333" face=3D"Arial">ag</font></div>
+
+</div><br>
+</div>
+
+--e89a8f23532b9ae11904cbca573f--
