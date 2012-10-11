@@ -1,30 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TMIDE-0006AO-E5 for openembedded-core@lists.openembedded.org;
-	Thu, 11 Oct 2012 14:50:04 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9BCasO3006576
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2012 13:36:54 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06281-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2012 13:36:50 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9BCam0Z006570
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2012 13:36:48 +0100
-Message-ID: <1349959013.14368.13.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Oct 2012 13:36:53 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: scripts/cp-noerror: Try and use hardlinks if possible
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TMIzv-0008IS-Rj
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Oct 2012 15:40:24 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 11 Oct 2012 06:26:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,571,1344236400"; d="scan'208";a="225574377"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.70])
+	by orsmga002.jf.intel.com with ESMTP; 11 Oct 2012 06:27:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Oct 2012 14:27:10 +0100
+Message-Id: <1349962030-9309-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] local.conf.sample: add PATH to SSTATE_MIRRORS comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2012 12:50:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Oct 2012 13:40:24 -0000
 
-Since we generally have lots of copies of the directories created using this tool, use
-hardlinks where possible. This should save a little disk space and improve performance
-slightly.
+The shared state cache as pointed to by SSTATE_DIR by default now has
+two-character subdirectories to prevent there being an issue with too
+many files in the same directory; also, native sstate packages will go
+into a subdirectory named using the distro ID string. If you copy the
+newly structured sstate cache to a mirror location (either local or
+remote) and then point to it in SSTATE_MIRRORS, you need to append
+"PATH" to the end of the mirror URL so that the path used by bitbake
+before the mirror substitution is appended to the path used to access
+the mirror.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
-diff --git a/scripts/cp-noerror b/scripts/cp-noerror
-index f0cd243..cde1b54 100755
---- a/scripts/cp-noerror
-+++ b/scripts/cp-noerror
-@@ -21,7 +21,13 @@ def copytree(src, dst, symlinks=False, ignore=None):
-         srcname = os.path.join(src, name)
-         dstname = os.path.join(dst, name)
-         try:
--            shutil.copy2(srcname, dstname)
-+            d = dstname
-+            if os.path.isdir(dstname):
-+                d = os.path.join(dstname, os.path.basename(srcname))
-+            try:
-+                os.link(srcname, dstname)
-+            except OSError:
-+                shutil.copy2(srcname, dstname)
-         # catch the Error from the recursive copytree so that we can
-         # continue with other files
-         except shutil.Error, err:
+ meta/conf/local.conf.sample |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 04d947f..d181e75 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -194,9 +194,12 @@ PATCHRESOLVE = "noop"
+ # would contain the sstate-cache results from previous builds (possibly from other 
+ # machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the 
+ # cache locations to check for the shared objects.
++# NOTE: if the mirror uses the same structure as SSTATE_DIR, you need to add PATH
++# at the end as shown in the examples below. This will be substituted with the
++# correct path within the directory structure.
+ #SSTATE_MIRRORS ?= "\
+-#file://.* http://someserver.tld/share/sstate/ \n \
+-#file://.* file:///some/local/dir/sstate/"
++#file://.* http://someserver.tld/share/sstate/PATH \n \
++#file://.* file:///some/local/dir/sstate/PATH"
+ 
+ # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+ # track the version of this file when it was generated. This can safely be ignored if
+-- 
+1.7.9.5
 
 
 
