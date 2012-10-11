@@ -1,33 +1,17 @@
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TML1X-0006zE-BR
-	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Oct 2012 17:50:11 +0200
-Received: by mail-ia0-f175.google.com with SMTP id b35so1341875iac.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Oct 2012 08:37:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=1yn4A1ikFEdXrc0AvCJbtzgq+C4RMKtaygEz82PD1ms=;
-	b=UltAVzFOXjLc4IwTwzk9waxCsHDN8gBKEa+ZwBgPkNpyX6rX5XP0GmLE6O9cpex574
-	b6Bt5csE35fzcaAHSyaE8DmuE+Kcl0GR50cQJjvnsXw712Y1iXWT/qtudEVmVlJuyNrY
-	AUUUeYTh4I0fT8fjeIMZ7YgdUwtzVuNH12oCYZO4G6Dctovm6IwvG1VFtFoOhO2J7m0k
-	EV+wMzYEI+FSA2xFLKMkM9eKekXpD82f6YVMSZ8to2A/1H1swG+Opp042vvBwcTv/q0q
-	Uu71d5m5lEfsilIPt8xA4zOQEQ5gPXFKMecoM/9hNj0EgKm41PQ//BJDutJc14Lsx0eY
-	YFJQ==
-Received: by 10.50.100.137 with SMTP id ey9mr1216799igb.57.1349969820442; Thu,
-	11 Oct 2012 08:37:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.52.8 with HTTP; Thu, 11 Oct 2012 08:36:37 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Thu, 11 Oct 2012 18:36:38 +0300
-Message-ID: <CAK18fxGxttqXrLDFCQkB4_XAEuKFvf7_M1Yfie42k3mXkNqZCg@mail.gmail.com>
-To: openembedded <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmd4XBwxB8nwXWiOgMdQcSzhfhRq2jzn68qGpp63JwMoYzUjbcNyrI146Prmppfy1a5gX9D
-Subject: meta-systemd base-files issue
+	(envelope-from <andy.ross@windriver.com>) id 1TMLk0-0003tA-7x
+	for openembedded-core@openembedded.org; Thu, 11 Oct 2012 18:36:09 +0200
+Received: from cougar.plausible.org (unknown [67.171.188.207])
+	(Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id 2A0492133B;
+	Thu, 11 Oct 2012 09:22:58 -0700 (PDT)
+From: Andy Ross <andy.ross@windriver.com>
+To: openembedded-core@openembedded.org
+Date: Thu, 11 Oct 2012 09:22:55 -0700
+Message-Id: <1349972575-2738-1-git-send-email-andy.ross@windriver.com>
+X-Mailer: git-send-email 1.7.11.4
+Subject: [PATCH] sysklogd: fix update-rc.d handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,38 +24,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2012 15:50:11 -0000
-Content-Type: multipart/alternative; boundary=e89a8f23532b9ae11904cbca573f
+X-List-Received-Date: Thu, 11 Oct 2012 16:36:09 -0000
 
---e89a8f23532b9ae11904cbca573f
-Content-Type: text/plain; charset=ISO-8859-1
+The sysklogd recipe had a cut-n-paste version of the
+update-rc.d.bbclass code which didn't work, but this was hidden
+because all images contain the busybox version which does.  Building a
+busybox-free image unmasked the issue and syslogd wouldn't start on
+first boot.
 
-I'm trying to get meta-systemd work with meta-oe and oe-core.
-The problem seems to be with the fstab from oe-core where /var/volatile is
-mounted as tmpfs and the directories inside never recreated. So services
-like dbus or whatever needs /var/log or var/run etc which are all symlinks
-to volatile/*, will fail. Is this a known issue? Is there any other fix
-then using a custom fstab?
+The comments seem to be wrong/stale.  AFAICT update-rc.d and
+update-alternatives work fine with each other, though there is an
+ordering constraint (alternatives must be specified last, so it
+"wraps" update-rc.d).  This version builds and works both with and
+without busybox.
 
-ag
+Signed-off-by: Andy Ross <andy.ross@windriver.com>
+---
+ meta/recipes-extended/sysklogd/sysklogd.inc | 43 +----------------------------
+ 1 file changed, 1 insertion(+), 42 deletions(-)
 
---e89a8f23532b9ae11904cbca573f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 151babb..1167328 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -11,10 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
+                    "
+ 
+-# syslog initscript is handled explicitly because order of
+-# update-rc.d and update-alternatives is important (see below)
+-DEPENDS_append = " update-rc.d update-rc.d-native"
+-RDEPENDS_${PN}_append = " update-rc.d"
++inherit update-rc.d update-alternatives
+ 
+ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+            file://no-strip-install.patch \
+@@ -41,22 +38,6 @@ do_install () {
+ 	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
+ }
+ 
+-pkg_preinst_${PN} () {
+-	# all this is needed to avoid sysmlink errors,
+-	# because update-rc.d runs before pkg_postinst
+-	ETC=$D${sysconfdir}
+-
+-	if [ -e $ETC/init.d/syslog -a ! -L $ETC/init.d/syslog ]; then
+-		echo "WARNING:" "non symlink ${sysconfdir}/init.d/syslog exist -> backup to ${sysconfdir}/init.d/syslog.old"
+-		mv $ETC/init.d/syslog $ETC/init.d/syslog.old
+-	fi
+-	if [ ! -e $ETC/init.d/syslog ]; then
+-		ln -s dummy $ETC/init.d/syslog
+-	fi
+-}
+-
+-inherit update-alternatives
+-
+ ALTERNATIVE_PRIORITY = "100"
+ 
+ ALTERNATIVE_${PN} = "syslogd klogd syslog-init syslog-conf"
+@@ -66,15 +47,6 @@ ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+ ALTERNATIVE_LINK_NAME[syslog-init] = "${sysconfdir}/init.d/syslog"
+ ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
+ 
+-pkg_postinst_${PN} () {
+-	if test "x$D" != "x"; then
+-	OPT="-r $D"
+-	else
+-	OPT="-s"
+-	fi
+-	update-rc.d $OPT syslog defaults
+-}
+-
+ pkg_prerm_${PN} () {
+ 	if test "x$D" = "x"; then
+ 	if test "$1" = "upgrade" -o "$1" = "remove"; then
+@@ -82,16 +54,3 @@ pkg_prerm_${PN} () {
+ 	fi
+ 	fi
+ }
+-
+-pkg_postrm_${PN} () {
+-	if test "x$D" != "x"; then
+-	OPT="-r $D"
+-	else
+-	OPT=""
+-	fi
+-	if test "$1" = "remove" -o "$1" = "purge"; then
+-	if ! test -e "/etc/init.d/syslog"; then
+-	    update-rc.d $OPT syslog remove
+-	fi
+-	fi
+-}
+-- 
+1.7.11.4
 
-I&#39;m trying to get meta-systemd work with meta-oe and oe-core.<div>The p=
-roblem seems to be with the fstab from oe-core where /var/volatile is mount=
-ed as tmpfs and the directories inside never recreated. So services like db=
-us or whatever needs /var/log or var/run etc which are all symlinks to=A0vo=
-latile/*, will fail. Is this a known issue? Is there any other fix then usi=
-ng a custom fstab?<br clear=3D"all">
 
-<div style=3D"text-align:center"></div><div style=3D"text-align:center"><di=
-v align=3D"left"><font face=3D"Arial" color=3D"#333333" size=3D"-1" style=
-=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><br></font><fon=
-t color=3D"#333333" face=3D"Arial">ag</font></div>
 
-</div><br>
-</div>
-
---e89a8f23532b9ae11904cbca573f--
