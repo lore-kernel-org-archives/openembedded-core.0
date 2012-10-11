@@ -1,20 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TMIzv-0008IS-Rj
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TMJ4j-0008PU-AF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Oct 2012 15:40:24 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Oct 2012 06:26:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,571,1344236400"; d="scan'208";a="225574377"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.70])
-	by orsmga002.jf.intel.com with ESMTP; 11 Oct 2012 06:27:11 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 11 Oct 2012 15:45:21 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q9BDW4Ul018730
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 11 Oct 2012 15:32:05 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TMIrr-0000Sz-Lp; Thu, 11 Oct 2012 15:32:03 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Oct 2012 14:27:10 +0100
-Message-Id: <1349962030-9309-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] local.conf.sample: add PATH to SSTATE_MIRRORS comments
+References: <1349958020.14368.12.camel@ted>
+Date: Thu, 11 Oct 2012 15:32:03 +0200
+In-Reply-To: <1349958020.14368.12.camel@ted> (Richard Purdie's message of
+	"Thu, 11 Oct 2012 13:20:20 +0100")
+Message-ID: <ly7gqxf830.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -6.6
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Richard Purdie
+	<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+Subject: Re: [PATCH] sstate: Use -m option to tar when unpacking sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,44 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2012 13:40:24 -0000
+X-List-Received-Date: Thu, 11 Oct 2012 13:45:21 -0000
+Content-Type: text/plain
 
-The shared state cache as pointed to by SSTATE_DIR by default now has
-two-character subdirectories to prevent there being an issue with too
-many files in the same directory; also, native sstate packages will go
-into a subdirectory named using the distro ID string. If you copy the
-newly structured sstate cache to a mirror location (either local or
-remote) and then point to it in SSTATE_MIRRORS, you need to append
-"PATH" to the end of the mirror URL so that the path used by bitbake
-before the mirror substitution is appended to the path used to access
-the mirror.
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/conf/local.conf.sample |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+> We've noticed failures on the project autobuilders where a shared
+> sstate directory is used across multiple builders and the clocks
+> become skewed.
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 04d947f..d181e75 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -194,9 +194,12 @@ PATCHRESOLVE = "noop"
- # would contain the sstate-cache results from previous builds (possibly from other 
- # machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the 
- # cache locations to check for the shared objects.
-+# NOTE: if the mirror uses the same structure as SSTATE_DIR, you need to add PATH
-+# at the end as shown in the examples below. This will be substituted with the
-+# correct path within the directory structure.
- #SSTATE_MIRRORS ?= "\
--#file://.* http://someserver.tld/share/sstate/ \n \
--#file://.* file:///some/local/dir/sstate/"
-+#file://.* http://someserver.tld/share/sstate/PATH \n \
-+#file://.* file:///some/local/dir/sstate/PATH"
- 
- # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
- # track the version of this file when it was generated. This can safely be ignored if
--- 
-1.7.9.5
+I think, 'ntp' is a better way to solve this...
 
+
+> This avoids modification times in the future and should make builds
+> safer in shared environments sstate was designed for.
+
+But this will remove information about the age of (packaged) files,
+won't it?  E.g. previously, I was able to see on the target machine,
+when a file was modified. It is not a critical feature but often very
+useful.
+
+Now, the date on image will be either the former date or the date when
+the staged tarball will be extracted (--> e.g. after 'bitbake -c clean').
+Sounds confusing.
+
+
+> -	tar -xvzf ${SSTATE_PKG}
+> +	tar -xmvzf ${SSTATE_PKG}
+
+
+
+Enrico
 
 
