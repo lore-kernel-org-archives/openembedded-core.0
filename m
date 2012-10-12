@@ -1,41 +1,34 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TMdn5-0007Eb-MP
+	(envelope-from <s.stirtzel@googlemail.com>) id 1TMdqr-0007Il-Nu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Oct 2012 13:52:31 +0200
-Received: from localhost ([127.0.0.1]:57991 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TMdaK-0006l1-Ap
-	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Oct 2012 11:39:20 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=bob3PhC5zLQU3gf7RpHtfEvsYrE=; b=GfISVhVofu4HGzWXBhpKBnmLxz5q
-	f4v+CPi1Rlwt4IeeTHN1IhEXq99ApNqdPw/T+u7PUc5I03OPlB+NY5a+r4enWujP
-	g/FRUM7GwRBtLNZ4YZsIi+Lfcp8BkfgzgclKzv5N+NSzY9XLsiqu75qKbOdl6TDD
-	Nqp+TO8et1dl3tc=
-Received: from [195.171.99.130] (port=27445 helo=[192.168.0.79])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TMdaK-0006kx-8P
-	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Oct 2012 11:39:20 +0000
-Message-ID: <507801D8.30001@communistcode.co.uk>
-Date: Fri, 12 Oct 2012 12:41:12 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
+	Fri, 12 Oct 2012 13:56:25 +0200
+Received: by mail-ob0-f175.google.com with SMTP id eq6so2793195obc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Oct 2012 04:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=GCHxKdhRDuAymqOSgcFXXLAYvCdk9FtdvpVV12zNEcY=;
+	b=UOSC52njGJ49C24YABuV2gtXDEo33LCrLBSJu3rkd9lG3V4bphia8BQQupRdAbrGSI
+	/jac3U2wUjO4E9vXwGn3OxWq5v0HVehIxFLEMyfK9h9NiwEZJanPe6JdG6svfOocBOvO
+	OnGspVbNfcJ7DbDp/zSKqZbuALX96fl2NMFZl5RqnwsLV3RnBGE/GKA2a8RAt2jPgtGY
+	tbHBPX+cnmXZYWXjtLMFf/wmScQ6bVt/y+cCYVo53fdBJD0+9zttccYdRr3P31X8Y2kL
+	KiagqNj9ZKWrZoU15aN0h9wTFFgZdvz6K9Eg6rO+GAYOgzaqUyMzWqH1WAdOhNiwCKzM
+	REPw==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5077FEA8.5080308@communistcode.co.uk>
-	<5077FF51.2060703@communistcode.co.uk>
-	<507800E4.3070305@communistcode.co.uk>
-In-Reply-To: <507800E4.3070305@communistcode.co.uk>
-Subject: Re: Build Failures
+Received: by 10.182.179.104 with SMTP id df8mr3191345obc.90.1350042193808;
+	Fri, 12 Oct 2012 04:43:13 -0700 (PDT)
+Received: by 10.76.95.198 with HTTP; Fri, 12 Oct 2012 04:43:13 -0700 (PDT)
+Date: Fri, 12 Oct 2012 13:43:13 +0200
+Message-ID: <CAGiJk9fX67UyL_NQo-TWUzgpu=0wq6N3u9pDmKnOskbsjNhxAQ@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Accelerate do_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -45,67 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2012 11:52:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Oct 2012 11:56:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12/10/12 12:37, Jack Mitchell wrote:
-> On 12/10/12 12:30, Jack Mitchell wrote:
->> On 12/10/12 12:27, Jack Mitchell wrote:
->>> On my git pull and build today I ran into some compile errors. As 
->>> mentioned before I would usually just -c cleansstate and retry, 
->>> which 99% of the time sorts the issue. However, I was informed this 
->>> was not meant to happen and logs would be appreciated, so please 
->>> find them below.
->>>
->>> pkgconfig-native
->>> http://ix.io/38G
->>>
->>> binutils-crosssdk
->>> http://ix.io/38I
->>>
->>> Possibly looks like something doesn't have a 'sed' dependency when 
->>> it should?
->>>
->>> Cheers,
->>>
->>
->> On a re-run I get:
->>
->> http://ix.io/38J
->>
->> Next step is to try good old cleansstate which I believe will work as 
->> it seems to be an autoreconf which isn't being performed.
->>
->> Regards,
->>
->
-> Ok, seems to be maybe a bit more serious that first thought. Pkgconfig 
-> still fails to build with the following log:
->
-> http://ix.io/38K
->
-> Any ideas? Force a rebuild of libtool maybe?
->
-> Cheers,
->
+Hi,
+after re-building Qt the third time today, I was curious why
+do_package takes this long.
 
-Ok, to fix:
+From my investigation it looks like the library stripping is the culprit,
+it lets my system idle with 5% CPU usage over a long time.
 
-bitbake -c cleansstate binutils-crosssdk
-bitbake -c cleansstate pkgconfig
-bitbake -c cleansstate pkgconfig-native
+Would it be possible to accelerate do_package with parallelisation?
+Likely I could look into this sometime soon, but I'd rather hear your
+thoughts on this first.
 
-This got past the issue and it has now continued to build.
+
+PS:
+Also sstate creation and rootfs packing could be made faster with
+pbzip2 [1] / pigz [2] (we have a recipe for pigz), or is anthing
+preventing this?
+
+[1] http://compression.ca/pbzip2/
+[2] http://zlib.net/pigz/
 
 
 -- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Regards
+Samuel
 
 
