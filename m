@@ -1,39 +1,34 @@
-Received: from eumx.net ([91.82.101.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TMeI4-000777-EL
-	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Oct 2012 14:24:32 +0200
-Received: from localhost ([127.0.0.1]:48696 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TMe5I-0007rX-Pg
-	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Oct 2012 12:11:20 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=KjjvR3v590tvGyIHocd0e74Fvzs=; b=e1gOwSB7XyHhz5NKVXiRpkn9XyG9
-	y1VXTvBYaPSSPEYjZy2xHVINazuuKM+HKloThgJqx0iBlB+lH4+tHGp+sDwIcbUV
-	oqCPnQ/88fCjXdMQKhQl4byNP/tvQ5Kz/okZdNJ7zcZ2DK8JHm3bjODyW9trWrwJ
-	RGQCfFQu1lapogI=
-Received: from [195.171.99.130] (port=25618 helo=[192.168.0.79])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TMe5I-0007rU-NJ
-	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Oct 2012 12:11:20 +0000
-Message-ID: <50780958.4080209@communistcode.co.uk>
-Date: Fri, 12 Oct 2012 13:13:12 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120910 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAGiJk9fX67UyL_NQo-TWUzgpu=0wq6N3u9pDmKnOskbsjNhxAQ@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TMeV1-0001hQ-Uw for openembedded-core@lists.openembedded.org;
+	Fri, 12 Oct 2012 14:37:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9CCOhHg027413;
+	Fri, 12 Oct 2012 13:24:43 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25953-07; Fri, 12 Oct 2012 13:24:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9CCOV0X027407
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 12 Oct 2012 13:24:32 +0100
+Message-ID: <1350044676.25627.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Fri, 12 Oct 2012 13:24:36 +0100
 In-Reply-To: <CAGiJk9fX67UyL_NQo-TWUzgpu=0wq6N3u9pDmKnOskbsjNhxAQ@mail.gmail.com>
+References: <CAGiJk9fX67UyL_NQo-TWUzgpu=0wq6N3u9pDmKnOskbsjNhxAQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Accelerate do_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -43,62 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2012 12:24:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 12 Oct 2012 12:37:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/10/12 12:43, Samuel Stirtzel wrote:
+On Fri, 2012-10-12 at 13:43 +0200, Samuel Stirtzel wrote:
 > Hi,
 > after re-building Qt the third time today, I was curious why
 > do_package takes this long.
->
->  From my investigation it looks like the library stripping is the culprit,
+
+Try:
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t1&id=e355769c1dc2dd5c464f2fcfe0991f797613b43e
+
+The trouble is this "breaks" certain rpm per file dependency pieces and
+I've not found time to dive into finding an alternative way to do that.
+
+> From my investigation it looks like the library stripping is the culprit,
 > it lets my system idle with 5% CPU usage over a long time.
->
+
+Its the fork/exec overhead from the above that does this.
+
 > Would it be possible to accelerate do_package with parallelisation?
 > Likely I could look into this sometime soon, but I'd rather hear your
 > thoughts on this first.
->
->
+
+Parallelisation is good but there is a better piece of low hanging fruit
+here.
+
 > PS:
 > Also sstate creation and rootfs packing could be made faster with
 > pbzip2 [1] / pigz [2] (we have a recipe for pigz), or is anthing
 > preventing this?
->
-> [1] http://compression.ca/pbzip2/
-> [2] http://zlib.net/pigz/
->
->
 
-Samuel,
+The trouble is circular dependencies and being consistent about which
+util gets used where without races and dependency loops.
 
-You being up an interesting point here as I have recently been mulling 
-over ways of improving performance. I believe performance improvements 
-are one of the targets of the 1.4 yocto/oe-core release so it will be 
-properly discussed then.
+Its also not the big time sync people think it is, I tested a patch
+which "offlined" the whole sstate archive creation and it doesn't make
+much difference to overall build time.
 
-In the meantime a couple of points I was thinking about related to 
-improving performance was by deeming some tasks as "non active" such as 
-they didn't take up a thread of your total specified. This could be 
-applied to low-cpu intensive tasks such as do_fetch and do_package which 
-I believe would greatly speed up the build and make more efficient use 
-of the CPU.
+Cheers,
 
-As for using pbzip2/pigz I believe there was a discussion on it and 
-something was said regarding the compatibility of the created archives. 
-For example an archive created by pigz could sometimes not be 
-uncompressed by gzip, I am just remembering this from memory though, I'm 
-sure a search of the list would be more enlightening.
-
-Regards,
-
--- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
+Richard (not around much over the next few days)
 
 
 
