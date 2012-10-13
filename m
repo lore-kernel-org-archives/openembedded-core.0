@@ -1,31 +1,43 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TN0mX-0007yZ-LJ
+	(envelope-from <sgw@bigsur.com>) id 1TN32O-0005mS-W3
 	for openembedded-core@lists.openembedded.org;
-	Sat, 13 Oct 2012 14:25:29 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q9DCCBgt002985
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 13 Oct 2012 14:12:12 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1TN0Ze-0000oj-Vg; Sat, 13 Oct 2012 14:12:11 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Sat, 13 Oct 2012 16:50:01 +0200
+Received: by mail-pb0-f47.google.com with SMTP id ro12so3285584pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Oct 2012 07:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=2yq86hc0Ueh9VfEifn4fi0Rm0L3Zz4C7y+XJngfty4U=;
+	b=eFhXebTew49vXbPVjPjeP8wc2gJAseBYkEVx0hm1hrzNwaea6EVhx+Oi5sna/v/2Q7
+	GPmn2irm6GBCoeomyF31rpv6A878Rbfnsai0plVpTRGjdwYmZDn7AFRjIfjpj4Xqdxiv
+	B+4dodGLuhpvGGLGXZz2KtnSGzX1MJMmnr9CQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=2yq86hc0Ueh9VfEifn4fi0Rm0L3Zz4C7y+XJngfty4U=;
+	b=LxMVLHWnhXd/oC8UHJ1w0ZXkAgUR2ran6gyljRQ2KFXf8OP+ZOUr6t4FKYSTRDSnDq
+	ZXg3AoES1a1W2w77uVYsvnVqkAIFEcq85oEFbq5Jghm3dkbJS15u4vbs8fj1myMZzvMb
+	MVxnIk/5M5QGy1vQO+ZTuD/Tx7VcGU35tCRt9byscNPBIXUgWFnXGUm8By1EGjzoMYwv
+	hbVt6AhWygax8QZ/rYV7YjptXVELk8xv8Ojfl+Q7nMT06RfWCUvrLGEL0zUMbfMiPhuM
+	8JuxqV83YFDhi9e3KgsgqkkOhNYCf1k0Bvx9ojkQwu02awHLzhehgxnYHiO4pXRCsdDW
+	4EYQ==
+Received: by 10.66.79.166 with SMTP id k6mr19447003pax.25.1350139007181;
+	Sat, 13 Oct 2012 07:36:47 -0700 (PDT)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id o1sm6055792pax.21.2012.10.13.07.36.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 13 Oct 2012 07:36:46 -0700 (PDT)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Oct 2012 14:12:02 +0200
-Message-Id: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 1.7.11.7
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -6.6
-X-Spam-Level: ------
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] package.bbclass: search for dangling links in installation directory
+Date: Sat, 13 Oct 2012 07:36:35 -0700
+Message-Id: <1350138995-11220-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQk+TqqH0WOa7jGpQemhitCRotMoAtIFaRycb4zruvmjwH5COFsiZ66rRgQfdzAYTvgWCTF+
+Subject: [PATCH] sato-icon-theme: update mapping program location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,79 +50,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Oct 2012 12:25:29 -0000
+X-List-Received-Date: Sat, 13 Oct 2012 14:50:01 -0000
 
-The old dangling link detection used os.stat() on the file and
-registered it as a dangling link when it was not found. This causes
-problems when the link is an absolute one because it will check files of
-the host system.
+When we changed the /usr/libexec default to be
+/usr/lib/<pn>, the icon name mapping needed to
+be updated also.
 
-E.g. when there is a link
-
-.../tmp/work/../etc/cron.root -> /var/spool/cron/root
-
-Then
-
-* existence of /var/spool/cron/root but not of
-  ../tmp/work/.../var/spool/cron/root will be checked
-
-* the build aborts because a 'permission denied' exception is thrown
-  but only 'not found' be catched. E.g. build of systemd on an SELinux
-  enabled host aborts with:
-
-  | ERROR: Error executing a python function in .../systemd/systemd_git.bb:
-  | OSError: [Errno 13] Permission denied: '.../packages-split/systemd-initramfs/init'
-  | ...
-  | ERROR:      0219:                try:
-  | ERROR:  *** 0220:                    s = os.stat(path)
-  | ERROR:      0221:                except OSError, (err, strerror):
-
-This patch uses os.lstat() to check whether source file is a link, adds
-it to the installation root direction and checks for the existence of
-this file then.
-
-As this is only a QA mechanism which does not affect the resulting
-package, rebuilds are not needed
-
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/package.bbclass | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ .../sato-icon-theme/sato-icon-theme.inc            |    2 +-
+ .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 73c4358..30614f0 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1063,14 +1063,23 @@ python populate_packages () {
-                 path = os.path.join(root, f)
-                 rpath = path[len(inst_root):]
-                 pkg_files[pkg].append(rpath)
-+
-+                if not os.path.islink(path):
-+                    continue
-+
-+                target = os.readlink(path)
-+                if target[0] != '/':
-+                    # make path absolute relative to inst_root
-+                    target = os.path.join(root[len(inst_root):], target)
-+
-+                # make path absolute; do not use os.path.join() here
-+                # because target might start with multiple '/'
-+                rtarget = inst_root + target
-                 try:
--                    s = os.stat(path)
-+                    os.lstat(rtarget)
-                 except OSError, (err, strerror):
-                     if err != errno.ENOENT:
-                         raise
--                    target = os.readlink(path)
--                    if target[0] != '/':
--                        target = os.path.join(root[len(inst_root):], target)
-                     dangling_links[pkg].append(os.path.normpath(target))
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+index 0bd4814..55cbf40 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+@@ -12,7 +12,7 @@ inherit autotools pkgconfig allarch gtk-icon-cache
  
-     for pkg in package_list:
+ FILES_${PN} += "${datadir}"
+ 
+-EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
++EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/icon-naming-utils/icon-name-mapping"
+ 
+ # Explictly setting "Sato" as the default icon theme to avoid flickering from
+ # the desktop and settings daemon racing.  This shouldn't be done here but in the sato image
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+index 6405359..cd34cac 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+@@ -2,7 +2,7 @@ require sato-icon-theme.inc
+ 
+ DEPENDS += "icon-naming-utils-native"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
+            file://iconpath-option.patch \
 -- 
-1.7.11.7
+1.7.9.5
 
 
 
