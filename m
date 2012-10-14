@@ -1,43 +1,35 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@bigsur.com>) id 1TN32O-0005mS-W3
+	(envelope-from <kergoth@gmail.com>) id 1TNDVH-0000hV-Dy
 	for openembedded-core@lists.openembedded.org;
-	Sat, 13 Oct 2012 16:50:01 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so3285584pbb.6
+	Sun, 14 Oct 2012 04:00:31 +0200
+Received: by mail-lb0-f175.google.com with SMTP id y2so2630615lbk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Oct 2012 07:36:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bigsur.com; s=bigsur.com;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=2yq86hc0Ueh9VfEifn4fi0Rm0L3Zz4C7y+XJngfty4U=;
-	b=eFhXebTew49vXbPVjPjeP8wc2gJAseBYkEVx0hm1hrzNwaea6EVhx+Oi5sna/v/2Q7
-	GPmn2irm6GBCoeomyF31rpv6A878Rbfnsai0plVpTRGjdwYmZDn7AFRjIfjpj4Xqdxiv
-	B+4dodGLuhpvGGLGXZz2KtnSGzX1MJMmnr9CQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=2yq86hc0Ueh9VfEifn4fi0Rm0L3Zz4C7y+XJngfty4U=;
-	b=LxMVLHWnhXd/oC8UHJ1w0ZXkAgUR2ran6gyljRQ2KFXf8OP+ZOUr6t4FKYSTRDSnDq
-	ZXg3AoES1a1W2w77uVYsvnVqkAIFEcq85oEFbq5Jghm3dkbJS15u4vbs8fj1myMZzvMb
-	MVxnIk/5M5QGy1vQO+ZTuD/Tx7VcGU35tCRt9byscNPBIXUgWFnXGUm8By1EGjzoMYwv
-	hbVt6AhWygax8QZ/rYV7YjptXVELk8xv8Ojfl+Q7nMT06RfWCUvrLGEL0zUMbfMiPhuM
-	8JuxqV83YFDhi9e3KgsgqkkOhNYCf1k0Bvx9ojkQwu02awHLzhehgxnYHiO4pXRCsdDW
-	4EYQ==
-Received: by 10.66.79.166 with SMTP id k6mr19447003pax.25.1350139007181;
-	Sat, 13 Oct 2012 07:36:47 -0700 (PDT)
-Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id o1sm6055792pax.21.2012.10.13.07.36.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 13 Oct 2012 07:36:46 -0700 (PDT)
-Sender: Saul Wold <sgw@bigsur.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Oct 2012 07:36:35 -0700
-Message-Id: <1350138995-11220-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQk+TqqH0WOa7jGpQemhitCRotMoAtIFaRycb4zruvmjwH5COFsiZ66rRgQfdzAYTvgWCTF+
-Subject: [PATCH] sato-icon-theme: update mapping program location
+	Sat, 13 Oct 2012 18:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=9Hi+hsYwfmu0BrYgll0npCRzHI1b5Gvi/wWvWsEevMo=;
+	b=qGOsh4uEnt8jOvRRPft8Oac8yarFWlF5jxiWqi1X3gX5nQ2tFE0wg6m60t9QLgiiP7
+	hbh4HUKw3wwFrYF96EnAvRn/cSAbl8EpD6RVJr85VIeMgDx8uT9IZ/BIXytzgmHSKVMB
+	uaf6mFB1j73ML/6USuUkthgcHSy7KWOa3IhCIlEa6Bq7d3mg258HXqk+1pprVClRL/+2
+	OO/4Y10DoGGqGK+Hass/itcK75HXQIXQjSwQDe7EUWfDKHu9ICAjQtIM+LXSjJi54Akm
+	Scg+x94dO0ymcRo66nOScDLSeC+S7WqWUrn3D+PiRDH8GpcLWmS8J9UbZ0w8ZJ5xdeqx
+	Ijhw==
+Received: by 10.112.24.6 with SMTP id q6mr2352720lbf.24.1350179236634; Sat, 13
+	Oct 2012 18:47:16 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.19.2 with HTTP; Sat, 13 Oct 2012 18:46:56 -0700 (PDT)
+In-Reply-To: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sat, 13 Oct 2012 18:46:56 -0700
+X-Google-Sender-Auth: iKW-jW_ZiNpHEsSE1bzr_ceC8Ts
+Message-ID: <CABcZANkPym+NSXqx6PrZnkhVqtsHoq-D20Dc14OgQ1Cq3G-bUQ@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package.bbclass: search for dangling links in installation directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,46 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Oct 2012 14:50:01 -0000
+X-List-Received-Date: Sun, 14 Oct 2012 02:00:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When we changed the /usr/libexec default to be
-/usr/lib/<pn>, the icon name mapping needed to
-be updated also.
+On Sat, Oct 13, 2012 at 5:12 AM, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 73c4358..30614f0 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1063,14 +1063,23 @@ python populate_packages () {
+>                  path = os.path.join(root, f)
+>                  rpath = path[len(inst_root):]
+>                  pkg_files[pkg].append(rpath)
+> +
+> +                if not os.path.islink(path):
+> +                    continue
+> +
+> +                target = os.readlink(path)
+> +                if target[0] != '/':
+> +                    # make path absolute relative to inst_root
+> +                    target = os.path.join(root[len(inst_root):], target)
+> +
+> +                # make path absolute; do not use os.path.join() here
+> +                # because target might start with multiple '/'
+> +                rtarget = inst_root + target
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../sato-icon-theme/sato-icon-theme.inc            |    2 +-
- .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-index 0bd4814..55cbf40 100644
---- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-+++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-@@ -12,7 +12,7 @@ inherit autotools pkgconfig allarch gtk-icon-cache
- 
- FILES_${PN} += "${datadir}"
- 
--EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
-+EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/icon-naming-utils/icon-name-mapping"
- 
- # Explictly setting "Sato" as the default icon theme to avoid flickering from
- # the desktop and settings daemon racing.  This shouldn't be done here but in the sato image
-diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-index 6405359..cd34cac 100644
---- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-+++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-@@ -2,7 +2,7 @@ require sato-icon-theme.inc
- 
- DEPENDS += "icon-naming-utils-native"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
-            file://iconpath-option.patch \
+I think you can use the join() which is in the oe python package for this.
 -- 
-1.7.9.5
-
+Christopher Larson
 
 
