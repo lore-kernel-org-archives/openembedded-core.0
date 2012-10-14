@@ -1,34 +1,35 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TNDVH-0000hV-Dy
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TNL4A-0004r1-0n
 	for openembedded-core@lists.openembedded.org;
-	Sun, 14 Oct 2012 04:00:31 +0200
-Received: by mail-lb0-f175.google.com with SMTP id y2so2630615lbk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Oct 2012 18:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=9Hi+hsYwfmu0BrYgll0npCRzHI1b5Gvi/wWvWsEevMo=;
-	b=qGOsh4uEnt8jOvRRPft8Oac8yarFWlF5jxiWqi1X3gX5nQ2tFE0wg6m60t9QLgiiP7
-	hbh4HUKw3wwFrYF96EnAvRn/cSAbl8EpD6RVJr85VIeMgDx8uT9IZ/BIXytzgmHSKVMB
-	uaf6mFB1j73ML/6USuUkthgcHSy7KWOa3IhCIlEa6Bq7d3mg258HXqk+1pprVClRL/+2
-	OO/4Y10DoGGqGK+Hass/itcK75HXQIXQjSwQDe7EUWfDKHu9ICAjQtIM+LXSjJi54Akm
-	Scg+x94dO0ymcRo66nOScDLSeC+S7WqWUrn3D+PiRDH8GpcLWmS8J9UbZ0w8ZJ5xdeqx
-	Ijhw==
-Received: by 10.112.24.6 with SMTP id q6mr2352720lbf.24.1350179236634; Sat, 13
-	Oct 2012 18:47:16 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.19.2 with HTTP; Sat, 13 Oct 2012 18:46:56 -0700 (PDT)
-In-Reply-To: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	Sun, 14 Oct 2012 12:05:02 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q9E9pfGG009641
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sun, 14 Oct 2012 11:51:42 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TNKrE-0000mf-TZ; Sun, 14 Oct 2012 11:51:41 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
 References: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sat, 13 Oct 2012 18:46:56 -0700
-X-Google-Sender-Auth: iKW-jW_ZiNpHEsSE1bzr_ceC8Ts
-Message-ID: <CABcZANkPym+NSXqx6PrZnkhVqtsHoq-D20Dc14OgQ1Cq3G-bUQ@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: openembedded-core@lists.openembedded.org
+	<CABcZANkPym+NSXqx6PrZnkhVqtsHoq-D20Dc14OgQ1Cq3G-bUQ@mail.gmail.com>
+Date: Sun, 14 Oct 2012 11:51:40 +0200
+In-Reply-To: <CABcZANkPym+NSXqx6PrZnkhVqtsHoq-D20Dc14OgQ1Cq3G-bUQ@mail.gmail.com>
+	(Chris Larson's message of "Sat, 13 Oct 2012 18:46:56 -0700")
+Message-ID: <lyvced8jpv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -6.6
+X-Spam-Level: ------
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: clarson@kergoth.com
 Subject: Re: [PATCH] package.bbclass: search for dangling links in installation directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,34 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Oct 2012 02:00:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 14 Oct 2012 10:05:02 -0000
+Content-Type: text/plain
 
-On Sat, Oct 13, 2012 at 5:12 AM, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 73c4358..30614f0 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1063,14 +1063,23 @@ python populate_packages () {
->                  path = os.path.join(root, f)
->                  rpath = path[len(inst_root):]
->                  pkg_files[pkg].append(rpath)
-> +
-> +                if not os.path.islink(path):
-> +                    continue
-> +
-> +                target = os.readlink(path)
-> +                if target[0] != '/':
-> +                    # make path absolute relative to inst_root
-> +                    target = os.path.join(root[len(inst_root):], target)
-> +
-> +                # make path absolute; do not use os.path.join() here
-> +                # because target might start with multiple '/'
-> +                rtarget = inst_root + target
+Chris Larson <clarson-ZYzTKstmaoRBDgjK7y7TUQ@public.gmane.org> writes:
 
-I think you can use the join() which is in the oe python package for this.
--- 
-Christopher Larson
+>> +                # make path absolute; do not use os.path.join() here
+>> +                # because target might start with multiple '/'
+>> +                rtarget = inst_root + target
+>
+> I think you can use the join()
+
+no; I used it in an earlier version of the patch
+
+  rtarget = os.path.join(inst_root, target[1:])
+
+and this fails for links like '//sbin/systemd'.  I could play around
+with mangling 'target' through normpath() or lstrip()'ing the '/'.
+
+But concatening the two paths is the best solution because I know that
+'target' is absolute and starts with the dir delimiter.
+
+
+Enrico
 
 
