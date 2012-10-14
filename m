@@ -1,25 +1,25 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TNPtm-0002sH-V4
+	(envelope-from <sgw@linux.intel.com>) id 1TNWDM-0001PP-8K
 	for openembedded-core@lists.openembedded.org;
-	Sun, 14 Oct 2012 17:14:39 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TNPh0-0000nl-6U; Sun, 14 Oct 2012 17:01:26 +0200
-Message-ID: <1350226731.4470.90.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Sun, 14 Oct 2012 15:58:51 +0100
-In-Reply-To: <lyvced8jpv.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<CABcZANkPym+NSXqx6PrZnkhVqtsHoq-D20Dc14OgQ1Cq3G-bUQ@mail.gmail.com>
-	<lyvced8jpv.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package.bbclass: search for dangling links in installation directory
+	Sun, 14 Oct 2012 23:59:16 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 14 Oct 2012 14:46:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,584,1344236400"; d="scan'208";a="156114138"
+Received: from unknown (HELO [10.255.13.226]) ([10.255.13.226])
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Oct 2012 14:45:59 -0700
+Message-ID: <507B3297.3010102@linux.intel.com>
+Date: Sun, 14 Oct 2012 14:45:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: Phil Blundell <philb@gnu.org>
+References: <1349112564.32611.71.camel@phil-desktop>
+In-Reply-To: <1349112564.32611.71.camel@phil-desktop>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] insane: Rationalise phdrs-based QA checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +32,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Oct 2012 15:14:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 14 Oct 2012 21:59:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2012-10-14 at 11:51 +0200, Enrico Scholz wrote:
-> Chris Larson <clarson-ZYzTKstmaoRBDgjK7y7TUQ@public.gmane.org> writes:
-> 
-> >> +                # make path absolute; do not use os.path.join() here
-> >> +                # because target might start with multiple '/'
-> >> +                rtarget = inst_root + target
-> >
-> > I think you can use the join()
-> 
-> no; I used it in an earlier version of the patch
-> 
->   rtarget = os.path.join(inst_root, target[1:])
-> 
-> and this fails for links like '//sbin/systemd'.
-
-You somehow chopped off the important part of Chris's text.  What he
-actually wrote was "... the join() which is in the oe python package",
-which is not the same as os.path.join.  
-
-As the comment says, it is...
-
-    """Like os.path.join but doesn't treat absolute RHS specially"""
-
-p.
+On 10/01/2012 10:29 AM, Phil Blundell wrote:
+> Various different QA checks are based on essentially the same data from
+> the ELF program headers.  Calling objdump to extract it repeatedly is
+> inefficient, particularly if the shell is involved.  Instead, let's
+> cache the output from objdump inside the qa.elf object and allow it to
+> be reused by multiple tests.
+>
+> Also, using objdump instead of scanelf to check for bad RPATHs (in the
+> same way that the useless-rpaths check was doing already) allows the
+> dependency on pax-utils-native to be dropped.
+>
+This seems to be failing for a QemuArm build of world, specifically 
+lsbsetup, quilt, sysvinit, and foomatic-filters seems like its failing 
+on symlinks.
 
 
+
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>   meta/classes/insane.bbclass |   41 ++++++++++++++++++-----------------------
+>   meta/lib/oe/qa.py           |   17 +++++++++++++++++
+>   2 files changed, 35 insertions(+), 23 deletions(-)
+>
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 1fb8970..3705fe9 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -17,13 +17,8 @@
+>   #   files under exec_prefix
+>
+>
+> -#
+> -# We need to have the scanelf utility as soon as
+> -# possible and this is contained within the pax-utils-native.
+> -# The package.bbclass can help us here.
+> -#
+>   inherit package
+> -PACKAGE_DEPENDS += "pax-utils-native ${QADEPENDS}"
+> +PACKAGE_DEPENDS += "${QADEPENDS}"
+>   PACKAGEFUNCS += " do_package_qa "
+>
+>   # unsafe-references-in-binaries requires prelink-rtld from
+> @@ -147,21 +142,23 @@ def package_qa_check_rpath(file,name, d, elf, messages):
+>       if not elf:
+>           return
+>
+> -    scanelf = os.path.join(d.getVar('STAGING_BINDIR_NATIVE',True),'scanelf')
+>       bad_dirs = [d.getVar('TMPDIR', True) + "/work", d.getVar('STAGING_DIR_TARGET', True)]
+>       bad_dir_test = d.getVar('TMPDIR', True)
+> -    if not os.path.exists(scanelf):
+> -        bb.fatal("Can not check RPATH, scanelf (part of pax-utils-native) not found")
+>
+>       if not bad_dirs[0] in d.getVar('WORKDIR', True):
+>           bb.fatal("This class assumed that WORKDIR is ${TMPDIR}/work... Not doing any check")
+>
+> -    output = os.popen("%s -B -F%%r#F '%s'" % (scanelf,file))
+> -    txt    = output.readline().split()
+> -    for line in txt:
+> -        for dir in bad_dirs:
+> -            if dir in line:
+> -                messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
+> +    phdrs = elf.run_objdump("-p", d)
+> +
+> +    import re
+> +    rpath_re = re.compile("\s+RPATH\s+(.*)")
+> +    for line in phdrs.split("\n"):
+> +    	m = rpath_re.match(line)
+> +	if m:
+> +	    rpath = m.group(1)
+> +	    for dir in bad_dirs:
+> +                if dir in rpath:
+> +                    messages.append("package %s contains bad RPATH %s in file %s" % (name, rpath, file))
+>
+>   QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
+>   def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+> @@ -174,15 +171,14 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+>       if not elf:
+>           return
+>
+> -    objdump = d.getVar('OBJDUMP', True)
+> -    env_path = d.getVar('PATH', True)
+> -
+>       libdir = d.getVar("libdir", True)
+>       base_libdir = d.getVar("base_libdir", True)
+>
+> +    phdrs = elf.run_objdump("-p", d)
+> +
+>       import re
+>       rpath_re = re.compile("\s+RPATH\s+(.*)")
+> -    for line in os.popen("LC_ALL=C PATH=%s %s -p '%s' 2> /dev/null" % (env_path, objdump, file), "r"):
+> +    for line in phdrs.split("\n"):
+>       	m = rpath_re.match(line)
+>   	if m:
+>   	   rpath = m.group(1)
+> @@ -443,14 +439,13 @@ def package_qa_hash_style(path, name, d, elf, messages):
+>       if not gnu_hash:
+>           return
+>
+> -    objdump = d.getVar('OBJDUMP', True)
+> -    env_path = d.getVar('PATH', True)
+> -
+>       sane = False
+>       has_syms = False
+>
+> +    phdrs = elf.run_objdump("-p", d)
+> +
+>       # If this binary has symbols, we expect it to have GNU_HASH too.
+> -    for line in os.popen("LC_ALL=C PATH=%s %s -p '%s' 2> /dev/null" % (env_path, objdump, path), "r"):
+> +    for line in phdrs.split("\n"):
+>           if "SYMTAB" in line:
+>               has_syms = True
+>           if "GNU_HASH" in line:
+> diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+> index d380012..9e5ab58 100644
+> --- a/meta/lib/oe/qa.py
+> +++ b/meta/lib/oe/qa.py
+> @@ -28,6 +28,7 @@ class ELFFile:
+>       def __init__(self, name, bits = 0):
+>           self.name = name
+>           self.bits = bits
+> +        self.objdump_output = {}
+>
+>       def open(self):
+>           self.file = file(self.name, "r")
+> @@ -87,3 +88,19 @@ class ELFFile:
+>           import struct
+>           (a,) = struct.unpack(self.sex+"H", self.data[18:20])
+>           return a
+> +
+> +    def run_objdump(self, cmd, d):
+> +        import bb.process
+> +        import sys
+> +
+> +        if self.objdump_output.has_key(cmd):
+> +            return self.objdump_output[cmd]
+> +
+> +        objdump = d.getVar('OBJDUMP', True)
+> +        staging_dir = d.getVar('STAGING_BINDIR_TOOLCHAIN', True)
+> +
+> +        env = os.environ
+> +        env["LC_ALL"] = "C"
+> +
+> +        self.objdump_output[cmd] = bb.process.run([ os.path.join(staging_dir, objdump), cmd, self.name ], env=env, shell=False)[0]
+> +        return self.objdump_output[cmd]
+>
 
 
