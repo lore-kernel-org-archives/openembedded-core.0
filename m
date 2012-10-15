@@ -1,24 +1,25 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TNiAk-0005J5-CZ
+	(envelope-from <Kai.Kang@windriver.com>) id 1TNj6z-000709-1h
 	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Oct 2012 12:45:22 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TNhxw-0003dO-TL; Mon, 15 Oct 2012 12:32:09 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Mon, 15 Oct 2012 11:32:06 +0100
-In-Reply-To: <507B3297.3010102@linux.intel.com>
-References: <1349112564.32611.71.camel@phil-desktop>
-	<507B3297.3010102@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1350297128.3259.132.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] insane: Rationalise phdrs-based QA checks
+	Mon, 15 Oct 2012 13:45:33 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9FBWF61013751
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Oct 2012 04:32:15 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.309.2; Mon, 15 Oct 2012 04:32:15 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Oct 2012 19:32:38 +0800
+Message-ID: <cover.1350300631.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.205]
+Subject: [PATCH 0/2] Fix nativesdk-perl dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,89 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2012 10:45:22 -0000
-X-Groupsio-MsgNum: 30581
-Content-Type: multipart/mixed; boundary="=-88a6o0OFV6FTaHUl+ArD"
+X-List-Received-Date: Mon, 15 Oct 2012 11:45:33 -0000
+Content-Type: text/plain
 
---=-88a6o0OFV6FTaHUl+ArD
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Fix nativesdk-perl dependency issue and Yocto 3100:autoreconf run failed on x86-64 gmae-toolchain  
 
-On Sun, 2012-10-14 at 14:45 -0700, Saul Wold wrote:
-> On 10/01/2012 10:29 AM, Phil Blundell wrote:
-> > Various different QA checks are based on essentially the same data from
-> > the ELF program headers.  Calling objdump to extract it repeatedly is
-> > inefficient, particularly if the shell is involved.  Instead, let's
-> > cache the output from objdump inside the qa.elf object and allow it to
-> > be reused by multiple tests.
-> >
-> > Also, using objdump instead of scanelf to check for bad RPATHs (in the
-> > same way that the useless-rpaths check was doing already) allows the
-> > dependency on pax-utils-native to be dropped.
-> >
-> This seems to be failing for a QemuArm build of world, specifically 
-> lsbsetup, quilt, sysvinit, and foomatic-filters seems like its failing 
-> on symlinks.
+The following changes since commit 0260bb5c6978839c068007fcff2f704937805faf:
 
-I wasn't able to complete a build of world successfully due to some
-unrelated-looking breakage in xserver-xorg, but I did reproduce this
-problem by building quilt by hand.  The attached patch fixes it for me.
+  gitignore: Fix for poky repository (2012-10-11 13:52:14 +0100)
 
-thanks
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/distro
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
 
-p.
+Kang Kai (1):
+  nativesdk-packagegroup-sdk-host: add perl modules
 
+Robert Yang (1):
+  nativesdk-perl: fix dependecy
 
---=-88a6o0OFV6FTaHUl+ArD
-Content-Disposition: attachment;
-	filename="0001-insane-Don-t-try-to-run-objdump-on-symlinks.patch"
-Content-Type: text/x-patch;
-	name="0001-insane-Don-t-try-to-run-objdump-on-symlinks.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ .../nativesdk-packagegroup-sdk-host.bb             |    3 ++-
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-From 0aa4c262ded3e9d9da8293d899cd6ec28b4f60bb Mon Sep 17 00:00:00 2001
-From: Phil Blundell <philb@gnu.org>
-Date: Mon, 15 Oct 2012 11:28:00 +0100
-Subject: [PATCH] insane: Don't try to run objdump on symlinks
-
-If the link is absolute then we might end up reading from a host binary
-or a nonexistent path, neither of which will produce useful results and
-may result in objdump failure and python backtrace spew.  If the link
-does point to a binary within the installation root then we will scan the
-pointed-to file at some point anyway so there is no need to do it again.
-
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/classes/insane.bbclass |    6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 2b48419..71a9a58 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -157,6 +157,9 @@ def package_qa_check_rpath(file,name, d, elf, messages):
-     if not elf:
-         return
- 
-+    if os.path.islink(file):
-+        return
-+
-     bad_dirs = [d.getVar('TMPDIR', True) + "/work", d.getVar('STAGING_DIR_TARGET', True)]
-     bad_dir_test = d.getVar('TMPDIR', True)
- 
-@@ -186,6 +189,9 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
-     if not elf:
-         return
- 
-+    if os.path.islink(file):
-+        return
-+
-     libdir = d.getVar("libdir", True)
-     base_libdir = d.getVar("base_libdir", True)
- 
 -- 
-1.7.10.4
+1.7.5.4
 
 
---=-88a6o0OFV6FTaHUl+ArD--
+
