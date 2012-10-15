@@ -1,41 +1,31 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TNpVs-0004zD-3M
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Oct 2012 20:35:40 +0200
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 15 Oct 2012 11:22:22 -0700
-Received: by mail-pb0-f47.google.com with SMTP id ro12so4533949pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Oct 2012 11:22:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=y9OrtVwAAXFmeOqgaW/80/XRlP9iv+nF3Z7HXtUttOY=;
-	b=iUUIZyzzMtzaR/hoVyfdBDi6WZuXNGO1b7VBcklFS2VEHH/5PV2RvdsWC9m7OTpcMN
-	5/QYn6ba9Pk/pHvSbbZwPy29pz9/1ytY8eZAwcBZFZkTAkPu3HUBEwGNRCLFF5liFX9m
-	yBx+i/OwaKRXD5WVV9Gr3qNCSs01p4qPOIjjvr5ldsfIQB/p0NLhwVTKOnzZKBIn9SMd
-	wqQKjSIxChl979a2aq7aOKha4JduKjSwJADChCKRBEWI1f+ftRDLjQONb9zOTqRNi7lk
-	GrE8mBie9wNjTD+p9uh6QZgOu29VVgIKZwdkHTS3bK3vZ+rFMkTj0euDvnqzUzy1dDLy
-	Q8SQ==
-Received: by 10.66.78.231 with SMTP id e7mr35023577pax.44.1350325338013;
-	Mon, 15 Oct 2012 11:22:18 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id rw5sm9402245pbc.54.2012.10.15.11.22.15
-	(version=SSLv3 cipher=OTHER); Mon, 15 Oct 2012 11:22:16 -0700 (PDT)
-Message-ID: <507C544C.2060201@intel.com>
-Date: Mon, 15 Oct 2012 11:22:04 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1349318721-17882-1-git-send-email-fcooper@ti.com>
-In-Reply-To: <1349318721-17882-1-git-send-email-fcooper@ti.com>
-X-Gm-Message-State: ALoCoQkxoCZau14biokE4n6NKAHxKCsktscrQjARZDMXHLvR64ughIu+CUEXGLAYgvEO8z8pZmhN
-Subject: Re: [for-denzil][PATCH] gst-plugins-good: disable (uninstalled) examples
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TNruG-0002SW-EC for openembedded-core@lists.openembedded.org;
+	Mon, 15 Oct 2012 23:09:00 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9FKtioD004234;
+	Mon, 15 Oct 2012 21:55:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01428-02; Mon, 15 Oct 2012 21:55:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9FKtajF004212
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 15 Oct 2012 21:55:37 +0100
+Message-ID: <1350334543.2185.19.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kang Kai <kai.kang@windriver.com>
+Date: Mon, 15 Oct 2012 21:55:43 +0100
+In-Reply-To: <decff650be8ca9f3938423a38e869fb1d13baaec.1350300631.git.kai.kang@windriver.com>
+References: <cover.1350300631.git.kai.kang@windriver.com>
+	<decff650be8ca9f3938423a38e869fb1d13baaec.1350300631.git.kai.kang@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] nativesdk-packagegroup-sdk-host: add perl modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,55 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Oct 2012 18:35:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 15 Oct 2012 21:09:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/03/2012 07:45 PM, Franklin S. Cooper Jr wrote:
-> From: Ross Burton <ross.burton@intel.com>
->
-> The examples pull in a GTK+ build dependency, so remove that too.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Thanks for your patience, I have pulled this into my sgarman/denzil-next 
-testing branches.
-
-Scott
-
+On Mon, 2012-10-15 at 19:32 +0800, Kang Kai wrote:
+> nativesdk-perl is required to cross compile iptables when use
+> meta-toolchain-gmae, and perl modules are needed too.
+> Package nativesdk-perl-modules depends on nativesdk-perl, so just add
+> nativesdk-perl-modules only.
+> 
+> [Yocto 3100]
+> 
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
 > ---
->   .../gstreamer/gst-plugins-good_0.10.31.bb          |    6 +++---
->   1 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> index e0eaf7b..e4c54bf 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-> @@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
->                       file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
->                       file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
->
-> -DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
-> +DEPENDS += "gst-plugins-base gconf cairo jpeg libpng zlib libid3tag flac \
->   	    speex libsoup-2.4 pulseaudio"
-> -PR = "r1"
-> +PR = "r2"
->
->   inherit gettext gconf
->
->   EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
-> -                 --disable-orc"
-> +                 --disable-orc --disable-examples"
->
->   do_configure_prepend() {
->   	# This m4 file contains nastiness which conflicts with libtool 2.2.2
->
+>  .../nativesdk-packagegroup-sdk-host.bb             |    3 ++-
+>  1 files changed, 2 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> index 63fea28..383820a 100644
+> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> @@ -3,7 +3,7 @@
+>  #
+>  
+>  SUMMARY = "Host packages for the standalone SDK or external toolchain"
+> -PR = "r11"
+> +PR = "r12"
+>  LICENSE = "MIT"
+>  
+>  inherit nativesdk packagegroup
+> @@ -20,6 +20,7 @@ RDEPENDS_${PN} = "\
+>      nativesdk-libtool \
+>      nativesdk-autoconf \
+>      nativesdk-automake \
+> +    nativesdk-perl-modules \
+>      "
 
+This doesn't feel right. Which tool has the perl dependency and why
+doesn't that tool depend on (xxx-)perl-modules?
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Cheers,
+
+Richard
+
 
 
