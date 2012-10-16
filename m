@@ -1,25 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TOGbF-0004L4-9x
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TOGlg-0004Qi-TV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 01:31:01 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Oct 2012 16:17:42 -0700
+	Wed, 17 Oct 2012 01:41:49 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 Oct 2012 16:28:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,595,1344236400"; d="scan'208";a="206838469"
-Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
-	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2012 16:17:42 -0700
-Message-ID: <507DEB16.1060803@linux.intel.com>
-Date: Tue, 16 Oct 2012 16:17:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Marc Ferland <ferlandm@sonatest.com>
+X-IronPort-AV: E=Sophos;i="4.80,595,1344236400"; d="scan'208";a="205315566"
+Received: from unknown (HELO helios.localnet) ([10.252.122.73])
+	by azsmga001.ch.intel.com with ESMTP; 16 Oct 2012 16:28:13 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Oct 2012 00:28:11 +0100
+Message-ID: <71077863.US7FUzvX2E@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
+In-Reply-To: <20121016223739.GB3405@jama.jama.net>
 References: <1350424046-18863-1-git-send-email-ferlandm@sonatest.com>
-In-Reply-To: <1350424046-18863-1-git-send-email-ferlandm@sonatest.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lmsensors: Initial commit (cover letter)
+	<1350424046-18863-2-git-send-email-ferlandm@sonatest.com>
+	<20121016223739.GB3405@jama.jama.net>
+MIME-Version: 1.0
+Subject: Re: [PATCH] lmsensors: Initial commit.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,50 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2012 23:31:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Oct 2012 23:41:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 10/16/2012 02:47 PM, Marc Ferland wrote:
-> Hi,
->
-> This is a first attempt at getting lm_sensors included in oe-core. Comments
-> are very welcomed!
->
-Can you give more background as to why it should be in oe-core?  What 
-distros/hardware types use this?
+On Wednesday 17 October 2012 00:37:39 Martin Jansa wrote:
+> On Tue, Oct 16, 2012 at 05:47:26PM -0400, Marc Ferland wrote:
+> > Adds the lm_sensors applications. These consists of:
+> Is it really needed in oe-core? why not meta-oe?
 
+I'm thinking meta-oe is the place for this. As a bonus, rrdtool is already 
+there.
 
-> Regards,
->
-> Marc
->
-> Marc Ferland (1):
->    lmsensors: Initial commit.
->
->   meta/recipes-bsp/lm_sensors/files/fancontrol       |    2 +
->   meta/recipes-bsp/lm_sensors/files/fancontrol.sh    |   48 ++++++
->   meta/recipes-bsp/lm_sensors/files/sensord.cgi      |   10 ++
->   meta/recipes-bsp/lm_sensors/files/sensord.conf     |   16 ++
->   meta/recipes-bsp/lm_sensors/files/sensord.sh       |   49 +++++++
->   meta/recipes-bsp/lm_sensors/files/sensors.conf     |    2 +
->   meta/recipes-bsp/lm_sensors/lmsensors_3.3.2.bb     |  150 ++++++++++++++++++++
->   meta/recipes-support/rrdtool/files/automake.patch  |   15 ++
->   meta/recipes-support/rrdtool/files/configure.patch |   19 +++
-Just a note these two patches need Signed-off-by and Upstream-Status 
-tags to be accpeted.
->   meta/recipes-support/rrdtool/rrdtool_1.4.7.bb      |   31 ++++
->   10 files changed, 342 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-bsp/lm_sensors/files/fancontrol
->   create mode 100644 meta/recipes-bsp/lm_sensors/files/fancontrol.sh
->   create mode 100644 meta/recipes-bsp/lm_sensors/files/sensord.cgi
->   create mode 100644 meta/recipes-bsp/lm_sensors/files/sensord.conf
->   create mode 100644 meta/recipes-bsp/lm_sensors/files/sensord.sh
->   create mode 100644 meta/recipes-bsp/lm_sensors/files/sensors.conf
->   create mode 100644 meta/recipes-bsp/lm_sensors/lmsensors_3.3.2.bb
->   create mode 100644 meta/recipes-support/rrdtool/files/automake.patch
->   create mode 100644 meta/recipes-support/rrdtool/files/configure.patch
->   create mode 100644 meta/recipes-support/rrdtool/rrdtool_1.4.7.bb
->
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
