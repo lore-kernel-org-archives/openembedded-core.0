@@ -1,32 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TNwdQ-0003Au-Jw
+	(envelope-from <otavio.salvador@gmail.com>) id 1TNyJR-000626-2x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Oct 2012 04:11:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9G1wafC000053
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Oct 2012 18:58:36 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Mon, 15 Oct 2012 18:58:35 -0700
-Message-ID: <507CBF6B.6070202@windriver.com>
-Date: Tue, 16 Oct 2012 09:59:07 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1350300631.git.kai.kang@windriver.com>
-	<decff650be8ca9f3938423a38e869fb1d13baaec.1350300631.git.kai.kang@windriver.com>
-	<1350334543.2185.19.camel@ted>
-In-Reply-To: <1350334543.2185.19.camel@ted>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q9G1wafC000053
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] nativesdk-packagegroup-sdk-host: add perl modules
+	Tue, 16 Oct 2012 05:59:25 +0200
+Received: by mail-gh0-f175.google.com with SMTP id z2so1604700ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Oct 2012 20:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=aZBzDbpQsD8+ys5wwQ7eX6Qmm3Yx5fTZXCLmixSb9sU=;
+	b=R8CTVN7WN194Fd/wbzGhHj5DdDFFyU89Waryc1FkwJhf1pGY5N0c6MrMS0SW21d97K
+	vV3q5ivlgKiGpbujY+9GQKfXyg79LFb/xU5EXKQyL/eVMkuZyKKjxQqTQK4TollSbCzb
+	fXiGRtihEc0SlpguAaKxGK3AOfUGEJfTUbH2woSIbHNP8N9DWgG2Jvi9E34dYljO6FMz
+	Zt+/SG3wfmof7SekUfcPNpEG8GXiam9UIC7xRsYZSE4lynVCYrrE6K2tixJGtdqFzMb1
+	MIldzsn60ZWtAn5Te10Aie2vxYCcfLV2HhNF8CodlqNNacQLsRAP3lmcWiw2f/0RqntV
+	DZjg==
+Received: by 10.101.50.8 with SMTP id c8mr3929411ank.9.1350359168277;
+	Mon, 15 Oct 2012 20:46:08 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id j8sm13905580ann.3.2012.10.15.20.46.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 15 Oct 2012 20:46:07 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Oct 2012 00:45:57 -0300
+Message-Id: <1350359157-6110-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] buildhistory.bbclass: Fix hostname print for 'No changes' case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,68 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2012 02:11:57 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Oct 2012 03:59:25 -0000
 
-On 2012=E5=B9=B410=E6=9C=8816=E6=97=A5 04:55, Richard Purdie wrote:
-> On Mon, 2012-10-15 at 19:32 +0800, Kang Kai wrote:
->> nativesdk-perl is required to cross compile iptables when use
->> meta-toolchain-gmae, and perl modules are needed too.
->> Package nativesdk-perl-modules depends on nativesdk-perl, so just add
->> nativesdk-perl-modules only.
->>
->> [Yocto 3100]
->>
->> Signed-off-by: Kang Kai<kai.kang@windriver.com>
->> ---
->>   .../nativesdk-packagegroup-sdk-host.bb             |    3 ++-
->>   1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sd=
-k-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-ho=
-st.bb
->> index 63fea28..383820a 100644
->> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.=
-bb
->> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.=
-bb
->> @@ -3,7 +3,7 @@
->>   #
->>
->>   SUMMARY =3D "Host packages for the standalone SDK or external toolch=
-ain"
->> -PR =3D "r11"
->> +PR =3D "r12"
->>   LICENSE =3D "MIT"
->>
->>   inherit nativesdk packagegroup
->> @@ -20,6 +20,7 @@ RDEPENDS_${PN} =3D "\
->>       nativesdk-libtool \
->>       nativesdk-autoconf \
->>       nativesdk-automake \
->> +    nativesdk-perl-modules \
->>       "
-> This doesn't feel right. Which tool has the perl dependency and why
-> doesn't that tool depend on (xxx-)perl-modules?
-perl is RDEPENDed by eglibc-mtrace, and nativesdk-eglibc-mtrace is not=20
-installed into toolchain.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/buildhistory.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-When use meta-toolchain-gmae to cross iptable, run 'autoreconf' requires=20
-nativesdk-perl. But only install nativesdk-perl
-can't make perl work properly, so install nativesdk-perl-modules as=20
-well. And package nativesdk-perl-modules requires nativesdk-perl,
-so I just write "nativesdk-perl-modules" here.
-
-Regards,
-Kai
-
->
-> Cheers,
->
-> Richard
->
->
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 49f2ea5..0a5753f 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -403,9 +403,9 @@ END
+ 		fi
+ 		# Check if there are new/changed files to commit (other than metadata-revs)
+ 		repostatus=`git status --porcelain | grep -v " metadata-revs$"`
++		HOSTNAME=`hostname 2>/dev/null || echo unknown`
+ 		if [ "$repostatus" != "" ] ; then
+ 			git add .
+-			HOSTNAME=`hostname 2>/dev/null || echo unknown`
+ 			# porcelain output looks like "?? packages/foo/bar"
+ 			# Ensure we commit metadata-revs with the first commit
+ 			for entry in `echo "$repostatus" | awk '{print $2}' | awk -F/ '{print $1}' | sort | uniq` ; do
+-- 
+1.7.2.5
 
 
 
