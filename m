@@ -1,26 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TOCq4-0007V3-8v
+	(envelope-from <sgw@linux.intel.com>) id 1TODEe-0000V1-De
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Oct 2012 21:30:04 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TOCdF-0007c9-4d; Tue, 16 Oct 2012 21:16:49 +0200
-Message-ID: <1350414852.4470.128.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 16 Oct 2012 20:14:12 +0100
-In-Reply-To: <507DA7A0.5060100@linux.intel.com>
-References: <1349112564.32611.71.camel@phil-desktop>
-	<507B3297.3010102@linux.intel.com>
-	<1350297128.3259.132.camel@phil-desktop>
-	<507DA7A0.5060100@linux.intel.com>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
+	Tue, 16 Oct 2012 21:55:28 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Oct 2012 12:39:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,595,1344236400"; d="scan'208";a="235940844"
+Received: from unknown (HELO [10.255.13.226]) ([10.255.13.226])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2012 12:39:34 -0700
+Message-ID: <507DB7F6.9030208@linux.intel.com>
+Date: Tue, 16 Oct 2012 12:39:34 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1350038799-22567-1-git-send-email-Martin.Jansa@gmail.com>
+	<50785628.8060504@linux.intel.com>
+	<20121012175629.GB3605@jama.jama.net>
+In-Reply-To: <20121012175629.GB3605@jama.jama.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] insane: Rationalise phdrs-based QA checks
+Subject: Re: [PATCH 1/2] PACKAGES_DYNAMIC: use regexp not glob
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,60 +34,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2012 19:30:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 16 Oct 2012 19:55:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-10-16 at 11:29 -0700, Saul Wold wrote:
-> On 10/15/2012 03:32 AM, Phil Blundell wrote:
-> > On Sun, 2012-10-14 at 14:45 -0700, Saul Wold wrote:
-> >> On 10/01/2012 10:29 AM, Phil Blundell wrote:
-> >>> Various different QA checks are based on essentially the same data from
-> >>> the ELF program headers.  Calling objdump to extract it repeatedly is
-> >>> inefficient, particularly if the shell is involved.  Instead, let's
-> >>> cache the output from objdump inside the qa.elf object and allow it to
-> >>> be reused by multiple tests.
-> >>>
-> >>> Also, using objdump instead of scanelf to check for bad RPATHs (in the
-> >>> same way that the useless-rpaths check was doing already) allows the
-> >>> dependency on pax-utils-native to be dropped.
-> >>>
-> >> This seems to be failing for a QemuArm build of world, specifically
-> >> lsbsetup, quilt, sysvinit, and foomatic-filters seems like its failing
-> >> on symlinks.
-> >
-> > I wasn't able to complete a build of world successfully due to some
-> > unrelated-looking breakage in xserver-xorg, but I did reproduce this
-> > problem by building quilt by hand.  The attached patch fixes it for me.
-> >
-> This is better, but I found another failure:
-> 
-> > ERROR: Error executing a python function in /intel/distro/meta/recipes-devtools/qemu/qemu_1.2.0.bb:
-> > ExecutionError: Execution of '/intel/poky/builds/world/tmp/sysroots/x86_64-linux/usr/bin/armv5te-poky-linux-gnueabi/arm-poky-linux-gnueabi-objdump -p /intel/poky/builds/world/tmp/work/armv5te-poky-linux-gnueabi/qemu-1.2.0-r3/packages-split/qemu/usr/share/qemu/palcode-clipper' failed with exit code 1:
-> > /intel/poky/builds/world/tmp/sysroots/x86_64-linux/usr/bin/armv5te-poky-linux-gnueabi/arm-poky-linux-gnueabi-objdump: /intel/poky/builds/world/tmp/work/armv5te-poky-linux-gnueabi/qemu-1.2.0-r3/packages-split/qemu/usr/share/qemu/palcode-clipper: File format not recognized
-> >
-> 
-> When I run file:
-> /intel/poky/builds/world/tmp/work/armv5te-poky-linux-gnueabi/qemu-1.2.0-r3/packages-split/qemu/usr/share/qemu/palcode-clipper: 
-> ELF 64-bit LSB executable, Alpha (unofficial), version 1 (SYSV), 
-> statically linked, not stripped
-> 
-> I was building qemuarm, but I had a done a qemuppc build earlier also.
+On 10/12/2012 10:56 AM, Martin Jansa wrote:
+> On Fri, Oct 12, 2012 at 10:40:56AM -0700, Saul Wold wrote:
+>> On 10/12/2012 03:46 AM, Martin Jansa wrote:
+>>> * bitbake uses PACKAGES_DYNAMIC as regexp
+>>>     ^ could make matching faster (and it will be more clear that we're expecting regexp not glob)
+>>>     * made all those last '-' optional, use .* (or nothing)
+>>>
+>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>> ---
+>>>    meta/classes/kernel.bbclass                              | 6 +++---
+>>>    meta/conf/bitbake.conf                                   | 2 +-
+>>>    meta/recipes-connectivity/connman/connman.inc            | 2 +-
+>>>    meta/recipes-core/eglibc/eglibc-locale.inc               | 6 +++---
+>>>    meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 2 +-
+>>>    meta/recipes-devtools/perl/perl_5.14.2.bb                | 4 ++--
+>>>    meta/recipes-extended/lighttpd/lighttpd_1.4.31.bb        | 2 +-
+>>>    meta/recipes-extended/pam/libpam_1.1.6.bb                | 2 +-
+>>>    meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb       | 2 +-
+>>>    meta/recipes-gnome/gtk+/gtk+_2.24.8.bb                   | 2 +-
+>>>    meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb     | 2 +-
+>>>    meta/recipes-graphics/directfb/directfb.inc              | 2 +-
+>>>    meta/recipes-graphics/mesa/mesa-dri.inc                  | 2 +-
+>>>    meta/recipes-graphics/pango/pango.inc                    | 2 +-
+>>>    meta/recipes-kernel/linux/linux-dummy.bb                 | 4 ++--
+>>>    meta/recipes-multimedia/gstreamer/gst-plugins.inc        | 2 +-
+>>>    meta/recipes-multimedia/pulseaudio/pulseaudio.inc        | 2 +-
+>>>    meta/recipes-qt/qt-apps/qmmp_0.6.1.bb                    | 2 +-
+>>>    meta/recipes-qt/qt4/qt4-embedded.inc                     | 2 +-
+>>>    meta/recipes-qt/qt4/qt4.inc                              | 2 +-
+>>>    20 files changed, 26 insertions(+), 26 deletions(-)
+>>>
+>> Martin,
+>>
+>> Did you do any verification with the buildhistory tools to ensure
+>> nothing changed in the packaging?
+>
+> Yes, last 12 commits in
+> https://github.com/shr-distribution/buildhistory/commits/jama
+>
+> e.g. for om-gta02
+> https://github.com/shr-distribution/buildhistory/commit/55d9cb4fa438e64c9fcc4ef0966164779c5dc974
+> https://github.com/shr-distribution/buildhistory/commit/c0b3897e04fd9669c557620ca48fde05f01e7aca
+>
+> but it's together with last change to perl, eglibc, pkgconfig.
+>
+I did track down this failure to your change, possibly something missed 
+in kernel.bbclass:
 
-Well, that's a bit weird.  It seems as though you have somehow gotten an
-Alpha binary installed, which isn't appropriate for either qemuarm or
-qemuppc.  In fact I don't think we support alpha in oe-core at all so
-it's a bit of a mystery how it would have been built in the first place.
+> ERROR: Nothing RPROVIDES 'kernel-modules' (but /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/meta/recipes-core/packagegroups/packagegroup-base.bb RDEPENDS on or otherwise requires it)
+> NOTE: Runtime target 'kernel-modules' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['kernel-modules']
+> NOTE: Runtime target 'packagegroup-base-extended' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['packagegroup-base-extended', 'kernel-modules']
 
-On the one hand, this is a genuine problem and it's good that the QA
-check is diagnosing it.  On the other hand, it probably oughtn't to be
-diagnosing it by means of an objdump failure (and I think there is
-already a dedicated check for wrong ELF arch anyway).  So probably the
-right thing to do is just trap exceptions around running objdump and
-ignore any files that it doesn't understand.
+I was attempting to build core-image-sato and core-image-sato-sdk on 
+qemumips or routerstation, I was able to see this failure on other 
+MACHINES also.
 
-p.
+Thanks
+	Sau!
 
 
+
+> Cheers,
+>
 
 
