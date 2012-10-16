@@ -1,37 +1,37 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TO7Q1-0007NA-Dt
+	(envelope-from <ross.burton@intel.com>) id 1TO7ic-00007Y-TK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 16 Oct 2012 15:42:49 +0200
-Received: by mail-wg0-f43.google.com with SMTP id dq11so4728052wgb.24
+	Tue, 16 Oct 2012 16:02:03 +0200
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 16 Oct 2012 06:48:21 -0700
+Received: by mail-ob0-f175.google.com with SMTP id eq6so6214184obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Oct 2012 06:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=M4eFxaFTQR319EsSxz46F9Jv/FMOiqIu5ivweE9wjmI=;
-	b=dvS0i1vdLzLTlhPYl6EYRy4Ry7nBuU+gIaOkrvJkdwFQZSJ5dadMYwChWKfDH8Pepg
-	0bg+t6tRiSL9mh+9C4Ip5R1gvML2uHzCblCAmVUpZkR6phhO6dVTT7xnlP4FGHw3FZWv
-	hH8YaEX18EtaEzoKzWQktkYghngLJdtiIaoMUuZ5ZxwCa+2NjwDRnQwTE47NI0UYc7sj
-	sVYCduv1MWGmQO6nL/qPdy8ImU37XAOQapUpoO1KHadj4u0BAX++po42mivISix+oMkz
-	CIYe71vjrIXIR5MqXPsHpAmklWp+af+PvdXrf76+y8YXislA3X9XGDCyb7tjsiwiUkpT
-	C9fg==
-Received: by 10.180.90.201 with SMTP id by9mr31986608wib.5.1350394172897;
-	Tue, 16 Oct 2012 06:29:32 -0700 (PDT)
-Received: from localhost.localdomain (ip-109-91-251-94.unitymediagroup.de.
-	[109.91.251.94])
-	by mx.google.com with ESMTPS id v3sm19172402wiw.7.2012.10.16.06.29.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 16 Oct 2012 06:29:32 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Oct 2012 15:28:21 +0200
-Message-Id: <1350394101-15120-3-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
+	Tue, 16 Oct 2012 06:48:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=TNdxdMH6kZKe7cOhCH8/Bdcu76XVPvQl5DHWsyuVCjw=;
+	b=jRjaFWK02uG/6smOjF1v6vgvgLPmZeE5vzw19M1seIe/e3fXFEMOeF6JHYp1L+2AYi
+	I9HYhECK24dzY840jDrwwK+vO/pxaZV8HNb2nf00RRHUYDYA35cl7fUHhWs05JEdT+GG
+	NbSTHNs7i/pOKYS2J28Se2EUH6t/P+bLoL38Gb9c6rbkp20sUG9GQCi22sZhtNI2GoYH
+	kj2HLPck3RmdUtTLHRk6SekTOd2yVwihsyxJUbIsg3f/UmJgsLJjf5C5ksLLvwLhkw+a
+	kLHoQxvD4FqCh8sxvOyWd3cyw+RFLC1/RO07vztKxqJ+Jdi0cYVQGZaE2Mxo2/7d7WJw
+	RYCg==
+Received: by 10.60.171.69 with SMTP id as5mr12647342oec.100.1350395324130;
+	Tue, 16 Oct 2012 06:48:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.70.6 with HTTP; Tue, 16 Oct 2012 06:48:23 -0700 (PDT)
 In-Reply-To: <1350394101-15120-1-git-send-email-schnitzeltony@googlemail.com>
 References: <1350394101-15120-1-git-send-email-schnitzeltony@googlemail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] gnome-icon-theme: remove unused configure variable
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Oct 2012 14:48:23 +0100
+Message-ID: <CAJTo0LZ9RCivuOU039+Sq0ijD_Puor+=w6E1rtPVPZHARZGZqg@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+X-Gm-Message-State: ALoCoQlXFmJJxfSBamReqVus9vQUNkK9OhYaz8KHs+WKuTUwsi78oQl+QaWVAPNN38xN64ch/Wla
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] gnome-icon-them bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2012 13:42:49 -0000
+X-List-Received-Date: Tue, 16 Oct 2012 14:02:03 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-configure: WARNING: unrecognized options: --disable-silent-rules, --with-libtool-sysroot, --disable-hicolor-check
+On 16 October 2012 14:28, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
+> wrote:
+> It caused me a lot headache to load gtk-stock-icons...
+>
+> Andreas M=C3=BCller (2):
+>   gnome-icon-theme: fix icon mapping
+>   gnome-icon-theme: remove unused configure variable
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Ack.
 
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-index d322686..22e0c74 100644
---- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-@@ -19,6 +19,6 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "8e727703343d4c18c73c79dd2009f8ed"
- SRC_URI[sha256sum] = "ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a767982"
- 
--EXTRA_OECONF = "--disable-hicolor-check --with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
-+EXTRA_OECONF = "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
- 
- inherit autotools perlnative
--- 
-1.7.6.5
-
+Thanks,
+Ross
 
 
