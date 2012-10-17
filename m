@@ -1,36 +1,30 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1TOUqd-00080p-2b
-	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 16:43:52 +0200
-Received: by mail-wg0-f43.google.com with SMTP id dq11so5602381wgb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TOUuD-0007IB-Kz for openembedded-core@lists.openembedded.org;
+	Wed, 17 Oct 2012 16:47:33 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HEYFOM006710
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 07:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=SR/iiRR9z2eSSQGKmBMiGJB1DlL9zXbuw6zq8DuJBdM=;
-	b=M+f/bHxza77n3+ZtXCy3kOlsjYUOdii4cpkoPVolfZ7qHwz+SAVI6fKpSGIuybilTo
-	mWQ06byUSCIy34sNfy3PxpqTCndB23fASK3A8xXZuyAfm8TlZLuWSEBYw8i5SJmG3Rzu
-	OIRorJvcygpCJdCjT8RU0as0O1yATbvvoCtpt1ij59kE4qbZtCTWcgMfLOrfbGUTMTnZ
-	v65wBxNlAm8Mf+thHOMRDebkYGbEZ4pufrx/6R06vHU3UBofjtxLCcMI2thQwh78LIe5
-	1C70vnmIw2sqoOcwsjzUBEUMDP9IRCZgbvvwJIPhBhOy4u5rmaOXDp3J7PSX2NKSvQR4
-	9pkA==
-Received: by 10.216.194.38 with SMTP id l38mr11041560wen.80.1350484220810;
-	Wed, 17 Oct 2012 07:30:20 -0700 (PDT)
-Received: from s-stirtzel-linux.zera.local
-	(ip-109-91-251-94.unitymediagroup.de. [109.91.251.94])
-	by mx.google.com with ESMTPS id fp6sm4508834wib.0.2012.10.17.07.30.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 17 Oct 2012 07:30:19 -0700 (PDT)
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2012 16:29:32 +0200
-Message-Id: <1350484172-9188-3-git-send-email-s.stirtzel@googlemail.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1350484172-9188-1-git-send-email-s.stirtzel@googlemail.com>
-References: <1350484172-9188-1-git-send-email-s.stirtzel@googlemail.com>
-Subject: [PATCH 2/2] matchbox-keyboard: Use gtk-immodules-cache.bbclass
+	Wed, 17 Oct 2012 15:34:15 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05962-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Oct 2012 15:34:11 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HEY8Vt006704
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Oct 2012 15:34:08 +0100
+Message-ID: <1350484455.2185.84.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Oct 2012 15:34:15 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] texi2html: Add check for directory existence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,57 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 14:43:53 -0000
+X-List-Received-Date: Wed, 17 Oct 2012 14:47:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Without this, if configure fails, it won't be able to run again as the directory
+already exists.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../matchbox-keyboard/matchbox-keyboard_git.bb     |   21 ++++----------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
-
-diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-index 430e343..e426a5b 100644
---- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-+++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-@@ -21,13 +21,16 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
+diff --git a/meta/recipes-extended/texi2html/texi2html_5.0.bb b/meta/recipes-extended/texi2html/texi2html_5.0.bb
+index 4b220f5..f168416 100644
+--- a/meta/recipes-extended/texi2html/texi2html_5.0.bb
++++ b/meta/recipes-extended/texi2html/texi2html_5.0.bb
+@@ -16,7 +16,9 @@ inherit autotools gettext
  
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext gtk-immodules-cache
- 
- EXTRA_OECONF = "--disable-cairo --enable-gtk-im --enable-applet"
- 
- PACKAGES += "matchbox-keyboard-im matchbox-keyboard-im-dbg \
-              matchbox-keyboard-applet matchbox-keyboard-applet-dbg"
- 
-+#Updates the inputmethod module cache in postinst / postrm
-+GTKIMMODULES_PACKAGES = "matchbox-keyboard-im"
-+
- FILES_${PN} = "${bindir}/* \
- 	       ${sysconfdir} \
- 	       ${datadir}/applications \
-@@ -47,19 +50,3 @@ do_install_append () {
- 	rm -f ${D}${libdir}/gtk-2.0/*/immodules/*.la
- 	rm -f ${D}${libdir}/matchbox-panel/*.la
+ do_configure_prepend() {
+ 	# Make a directory for the old gettext setup
+-	mkdir ${S}/po
++	if [ ! -d ${S}/po ]; then
++		mkdir ${S}/po
++	fi
  }
--
--pkg_postinst_matchbox-keyboard-im () {
--if [ "x$D" != "x" ]; then
--  exit 1
--fi
--
--gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
--}
--
--pkg_postrm_matchbox-keyboard-im () {
--if [ "x$D" != "x" ]; then
--  exit 1
--fi
--
--gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
--}
--- 
-1.7.9.5
+ 
+ do_configure_append() {
+
 
 
 
