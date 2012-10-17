@@ -1,45 +1,21 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marc.ferland@gmail.com>) id 1TOTcw-0007aH-To
+	(envelope-from <philb@gnu.org>) id 1TOU5h-0007sF-3Y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 15:25:39 +0200
-Received: by mail-qc0-f175.google.com with SMTP id j3so5981335qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 06:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=iTY7bRWauL+yHAUtWldkhfvFJ3pmAsccR+4qgt+hzEI=;
-	b=c51tK0MAEnsuJ4BK8lAX1Yp89BLTZOvFAtUxwEOM4kkZdR52uLSIa1paQY0HVTCK8q
-	KMcjswlJQm+hI3WvxXxdSzvUbOdM0i6rSs2ScexAgPIZKAqUHcPoiH+0v51yEYs5IUbY
-	ZNcaV3nnEt0ndvhV6WixcsU+zQ8Sd3Gs+zfxuqfQP4UcUcg7zaTPvv9Q5jrzKhvISlyL
-	OwvDu2v86xiB+v3OCQjA2l+RfxPay8dQ8QTZ6vqI2P3NDXRvmn2TooXRT22gWMIz+7VT
-	jKHd18dJZ/t/L+uaG6i/S/c3enQ1C3UJyPco1Q6QuWr0jyHzWb73EqOivUGrRza138Nb
-	NuCw==
-Received: by 10.49.127.115 with SMTP id nf19mr42330656qeb.36.1350479540370;
-	Wed, 17 Oct 2012 06:12:20 -0700 (PDT)
-Received: from ferlandm@sonatest.com
-	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
-	by mx.google.com with ESMTPS id jw1sm19642264qeb.13.2012.10.17.06.12.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 17 Oct 2012 06:12:17 -0700 (PDT)
-Sender: Marc Ferland <marc.ferland@gmail.com>
-Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
-	Wed, 17 Oct 2012 09:12:12 -0400
-From: Marc Ferland <ferlandm@sonatest.com>
+	Wed, 17 Oct 2012 15:55:21 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TOTsq-0001PN-Tk
+	for openembedded-core@lists.openembedded.org;
+	Wed, 17 Oct 2012 15:42:05 +0200
+From: Phil Blundell <philb@gnu.org>
 To: openembedded-core@lists.openembedded.org
-References: <1350424046-18863-1-git-send-email-ferlandm@sonatest.com>
-	<1350424046-18863-2-git-send-email-ferlandm@sonatest.com>
-	<20121016223739.GB3405@jama.jama.net> <71077863.US7FUzvX2E@helios>
-	<242F788A-5F02-496B-B9DF-F8F3B0633992@gamestop.com>
-	<20121017073136.GF3405@jama.jama.net>
-Date: Wed, 17 Oct 2012 09:12:12 -0400
-In-Reply-To: <20121017073136.GF3405@jama.jama.net> (Martin Jansa's message of
-	"Wed, 17 Oct 2012 09:31:36 +0200")
-Message-ID: <871ugx9r9v.fsf@sonatest.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Subject: Re: [PATCH] lmsensors: Initial commit.
+Date: Wed, 17 Oct 2012 14:42:03 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1350481324.3259.185.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [RFC PATCH] autotools: Don't install .la files if the distro doesn't want them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,39 +28,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 13:25:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Oct 2012 13:55:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Martin Jansa <martin.jansa@gmail.com> writes:
+It's not obvious that libtool's .la files serve any very useful purpose
+on a modern system and they can be positively vexatious under some
+circumstances.  Make installation of this stuff conditional on the new
+"libtool-garbage" flag in DISTRO_FEATURES and backfill it for existing
+distros.
 
-> On Wed, Oct 17, 2012 at 12:29:21AM +0000, Patrick Turley wrote:
->> On Oct 16, 2012, at 6:28 PM, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> 
->> > On Wednesday 17 October 2012 00:37:39 Martin Jansa wrote:
->> >> On Tue, Oct 16, 2012 at 05:47:26PM -0400, Marc Ferland wrote:
->> >>> Adds the lm_sensors applications. These consists of:
->> >> Is it really needed in oe-core? why not meta-oe?
->> > 
->> > I'm thinking meta-oe is the place for this. As a bonus, rrdtool is already 
->> > there.
->> 
->> I am not qualified to have an opinion either way - but I *am*
->> curious about the motivating rationale. What are the reasons that
->> this should appear in meta-oe?
->
-> oe-core as *core* for other layers, should have only the most important
-> metadata which are needed for all other layers, like toolchain etc.
->
-> A lot of embedded images does not include or need lmsensors, so it's
-> kind of extra package which does not need to be included in *core*.
->
-Thanks for the clarification Martin. But looking at
-oe-core/meta/recipe-bsp I see things like acpid, libacpi, pcimciautils,
-etc. I am wondering what makes lmsensors so much different than these
-tools?
+Also, perform at least a perfunctory cleaning of unified build directories
+when reconfiguring since many packages don't have the right dependency
+rules to cause a recompile when this happens.  Making distclean is not
+practical since many packages either don't support it at all, or remove
+too much (e.g. polkit blows away its documentation which causes the
+subsequent license check to fail).
 
-Regards,
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/classes/autotools.bbclass |   16 ++++++++++++----
+ meta/conf/bitbake.conf         |    2 +-
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-Marc
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index e4e034b..adb2bbf 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -93,10 +93,15 @@ CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+ 
+ autotools_preconfigure() {
+ 	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
+-		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a "${S}" != "${B}" ]; then
+-			echo "Previously configured separate build directory detected, cleaning ${B}"
+-			rm -rf ${B}
+-			mkdir ${B}
++		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
++			if [ "${S}" != "${B}" ]; then
++				echo "Previously configured separate build directory detected, cleaning ${B}"
++				rm -rf ${B}
++				mkdir ${B}
++			else
++				echo "Previously configured source directory detected, cleaning ${S} (slightly)"
++				oe_runmake clean
++			fi
+ 		fi
+ 	fi
+ }
+@@ -201,6 +206,9 @@ autotools_do_install() {
+ 	if [ -e "${D}${infodir}/dir" ]; then
+ 		rm -f ${D}${infodir}/dir
+ 	fi
++	if ${@base_contains('DISTRO_FEATURES', 'libtool-garbage', 'false', 'true', d)}; then
++		find ${D} -name "*.la" -exec rm \{} \;
++	fi
+ }
+ 
+ inherit siteconfig
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1ad6ee6..4ad3722 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -728,7 +728,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
+ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+ 
+-DISTRO_FEATURES_BACKFILL = "pulseaudio update-modules"
++DISTRO_FEATURES_BACKFILL = "pulseaudio update-modules libtool-garbage"
+ DISTRO_FEATURES_append = "${@oe.utils.features_backfill("DISTRO_FEATURES",d)}"
+ 
+ MACHINE_FEATURES_BACKFILL = "rtc"
+-- 
+1.7.10.4
+
+
+
 
 
