@@ -1,43 +1,33 @@
 Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@bigsur.com>) id 1TOX35-0001M4-FW
+	(envelope-from <raj.khem@gmail.com>) id 1TOZ3m-00027s-T4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 19:05:01 +0200
-Received: by mail-pa0-f47.google.com with SMTP id fa11so6442438pad.6
+	Wed, 17 Oct 2012 21:13:43 +0200
+Received: by mail-pa0-f47.google.com with SMTP id fa11so6552994pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 09:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bigsur.com; s=bigsur.com;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=drh5N4YAdLOaoZ0d3cUwKQhCLYqWDEDbOq7UqmdOoGs=;
-	b=TO1X64kqqCICInQq3UCSoAKvpdwm01ksfg0tGSzNgjQx045LXwK1xu2KGSFPWXo9Zl
-	/1mG3qgF7WiZFv3BozwjKrNFjoJj04BVnneyKx6uQUxdQ4WeS5btaW4Z3plRefHNKnsB
-	CZoghaYkADS4yiiIr5qiJRUEW9KuuucJ5fh54=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=drh5N4YAdLOaoZ0d3cUwKQhCLYqWDEDbOq7UqmdOoGs=;
-	b=MdjjgbcJXT+Uc0KrXwRSVvPR11WR0Y+OfF+QHDywWjwaf0h6oO3oRA4sQPuRbvaTz0
-	I4IqxSPfg/VQ7uMBLYgEfRCRDwz1bRNGbccsh5724tIEJUYhCh+EOkq37OpzcUFHbP4o
-	qVWET7iv9ZKr/JYJx53/AXdj3eQ/OiEY95RAmYBHaboo4UBtijvFdatuW9HAXUgZWzZk
-	r69w2WqNPA8+zKelqvrZunXrM6xETdaJq5E4ewP6qFnxgSqZOGsWljf39uYoZeV6Thiy
-	Q1ms4CACBYtfDVzWpGUYeVK1fJlzEdhNArcfo6tvXWwoQ2gaPZVMI5LkPvCtnabpPkWX
-	JaWw==
-Received: by 10.66.79.166 with SMTP id k6mr52125609pax.25.1350492692188;
-	Wed, 17 Oct 2012 09:51:32 -0700 (PDT)
-Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id o5sm12846452paz.32.2012.10.17.09.51.30
+	Wed, 17 Oct 2012 12:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=9YnwZGM5+oIBmpnp57fqDTXXU8pFmrRS1DVGr4S9Jhs=;
+	b=S+deL3C5k+gclO+81LyDeESIwccURDsG7lsPBmK12zV12ZlQHR1rdkLXSRfvBtGHch
+	+hxxDYsQhyFcP/u8qO+q4TcekR6KfX+HLSaEfaTNs31kyVT2TihsXJUiYQ2bsQkSLmcC
+	eJ02MhXBZ4yiSonWF4dfj/6vesqrQuj3TECGl1hxIdfcHhevDBFp+XydqgbVfdK30Fne
+	GTV8o9QI36G6KkVL4vTgHCO+lL9HJT/E29CO486vwz68GL6OUFrx2zEUM/EnsIwmcIMm
+	Ts+xGFf2MZh1W7NXZbNnSruO9rm7r013uUa5lp4vqLNUtZcd3kPohqxd1WO4Xn7pqNla
+	pnwg==
+Received: by 10.68.131.40 with SMTP id oj8mr60086813pbb.40.1350500423592;
+	Wed, 17 Oct 2012 12:00:23 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id ka4sm12882775pbc.61.2012.10.17.12.00.22
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 17 Oct 2012 09:51:31 -0700 (PDT)
-Sender: Saul Wold <sgw@bigsur.com>
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 17 Oct 2012 12:00:22 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2012 09:51:15 -0700
-Message-Id: <1350492675-29611-1-git-send-email-sgw@linux.intel.com>
+Date: Wed, 17 Oct 2012 11:59:43 -0700
+Message-Id: <1350500383-8380-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQn1jY81/f5xnxOk1Q3udFEAGUfAviR6TAxD0uo1VdjYjiFS+RYPIA1pl+8tSSK7PqCBo4fM
-Subject: [PATCH] qemu: don't ignore libexecdir in configure
+Subject: [RFT][PATCH] eglibc-2.16: Use tar ball instead of svn SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,132 +40,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 17:05:02 -0000
+X-List-Received-Date: Wed, 17 Oct 2012 19:13:43 -0000
 
-This allow the relocation of libexecdir to be done correctly
-for the qemu-brigde-helper.
+Adapt the recipes to fetch a tarball.
+Tarball is generated from latest 2.16 branch
+which has e500-math_private.patch already applied
+hence we remove that patch.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../qemu/qemu-1.2.0/remove-hardcoded-libexec.patch |   41 ++++++++++++++++++++
- .../qemu/qemu-git/remove-hardcoded-libexec.patch   |   41 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_1.2.0.bb           |    3 +-
- 3 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/remove-hardcoded-libexec.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu-git/remove-hardcoded-libexec.patch
+ .../eglibc/cross-localedef-native_2.16.bb          |   14 +++++----
+ .../eglibc/eglibc-2.16/e500-math_private.patch     |   31 --------------------
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |   19 ++++++------
+ 3 files changed, 17 insertions(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu-1.2.0/remove-hardcoded-libexec.patch b/meta/recipes-devtools/qemu/qemu-1.2.0/remove-hardcoded-libexec.patch
-new file mode 100644
-index 0000000..8db460a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-1.2.0/remove-hardcoded-libexec.patch
-@@ -0,0 +1,41 @@
-+This will allow the libexecdir to be set on the command line
-+and have the files installed and used from the correct location
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: qemu-1.2.0/configure
-+===================================================================
-+--- qemu-1.2.0.orig/configure
-++++ qemu-1.2.0/configure
-+@@ -183,6 +183,7 @@ datadir="\${prefix}/share"
-+ qemu_docdir="\${prefix}/share/doc/qemu"
-+ bindir="\${prefix}/bin"
-+ libdir="\${prefix}/lib"
-++libexecdir="\${prefix}/libexec"
-+ includedir="\${prefix}/include"
-+ sysconfdir="\${prefix}/etc"
-+ confsuffix="/qemu"
-+@@ -644,7 +645,9 @@ for opt do
-+   ;;
-+   --sysconfdir=*) sysconfdir="$optarg"
-+   ;;
-+-  --sbindir=*|--libexecdir=*|--sharedstatedir=*|--localstatedir=*|\
-++  --libexecdir=*) libexecdir="$optarg"
-++  ;;
-++  --sbindir=*|--sharedstatedir=*|--localstatedir=*|\
-+   --oldincludedir=*|--datarootdir=*|--infodir=*|--localedir=*|\
-+   --htmldir=*|--dvidir=*|--pdfdir=*|--psdir=*)
-+     # These switches are silently ignored, for compatibility with
-+@@ -3190,8 +3193,8 @@ echo "sysconfdir=$sysconfdir" >> $config
-+ echo "qemu_confdir=$qemu_confdir" >> $config_host_mak
-+ echo "qemu_datadir=$qemu_datadir" >> $config_host_mak
-+ echo "qemu_docdir=$qemu_docdir" >> $config_host_mak
-+-echo "libexecdir=\${prefix}/libexec" >> $config_host_mak
-+-echo "CONFIG_QEMU_HELPERDIR=\"$prefix/libexec\"" >> $config_host_mak
-++echo "libexecdir=$libexecdir" >> $config_host_mak
-++echo "CONFIG_QEMU_HELPERDIR=\"$libexecdir\"" >> $config_host_mak
-+ 
-+ echo "ARCH=$ARCH" >> $config_host_mak
-+ if test "$debug_tcg" = "yes" ; then
-diff --git a/meta/recipes-devtools/qemu/qemu-git/remove-hardcoded-libexec.patch b/meta/recipes-devtools/qemu/qemu-git/remove-hardcoded-libexec.patch
-new file mode 100644
-index 0000000..83f5463
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-git/remove-hardcoded-libexec.patch
-@@ -0,0 +1,41 @@
-+This will allow the libexecdir to be set on the command line
-+and have the files installed and used from the correct location
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: qemu-1.2.0/configure
-+===================================================================
-+--- qemu-1.2.0.orig/configure
-++++ qemu-1.2.0/configure
-+@@ -183,6 +183,7 @@ datadir="\${prefix}/share"
-+ qemu_docdir="\${prefix}/share/doc/qemu"
-+ bindir="\${prefix}/bin"
-+ libdir="\${prefix}/lib"
-++libexecdir="\${prefix}/libexec"
-+ includedir="\${prefix}/include"
-+ sysconfdir="\${prefix}/etc"
-+ confsuffix="/qemu"
-+@@ -644,7 +645,9 @@ for opt do
-+   ;;
-+   --sysconfdir=*) sysconfdir="$optarg"
-+   ;;
-+-  --sbindir=*|--libexecdir=*|--sharedstatedir=*|--localstatedir=*|\
-++  --libexecdir=*) libexecdir="$optarg"
-++  ;;
-++  --sbindir=*|--sharedstatedir=*|--localstatedir=*|\
-+   --oldincludedir=*|--datarootdir=*|--infodir=*|--localedir=*|\
-+   --htmldir=*|--dvidir=*|--pdfdir=*|--psdir=*)
-+     # These switches are silently ignored, for compatibility with
-+@@ -3190,8 +3193,8 @@ echo "sysconfdir=$sysconfdir" >> $config
-+ echo "qemu_confdir=$qemu_confdir" >> $config_host_mak
-+ echo "qemu_datadir=$qemu_datadir" >> $config_host_mak
-+ echo "qemu_docdir=$qemu_docdir" >> $config_host_mak
-+-echo "libexecdir=\${prefix}/libexec" >> $config_host_mak
-+-echo "CONFIG_QEMU_HELPERDIR=\"$prefix/libexec\"" >> $config_host_mak
-++echo "libexecdir=$libexecdir" >> $config_host_mak
-++echo "CONFIG_QEMU_HELPERDIR=$libexecdir" >> $config_host_mak
-+ 
-+ echo "ARCH=$ARCH" >> $config_host_mak
-+ if test "$debug_tcg" = "yes" ; then
-diff --git a/meta/recipes-devtools/qemu/qemu_1.2.0.bb b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-index 517a74b..5cc142a 100644
---- a/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.2.0.bb
-@@ -13,11 +13,12 @@ SRC_URI = "\
-     file://fallback-to-safe-mmap_min_addr.patch \
-     file://larger_default_ram_size.patch \
-     file://arm-bgr.patch \
-+    file://remove-hardcoded-libexec.patch \
-     "
- SRC_URI[md5sum] = "78eb1e984f4532aa9f2bdd3c127b5b61"
- SRC_URI[sha256sum] = "c8b84420d9f4869397f84cad2dabd9a475b7723d619a924a873740353e9df936"
+diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+index a79a276..e4781ce 100644
+--- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
++++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.eglibc.org/home"
+ SECTION = "libs"
+ LICENSE = "LGPL-2.1"
  
--PR = "r3"
-+PR = "r4"
+-LIC_DIR = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
++LIC_DIR = "${WORKDIR}/eglibc-${PV}/libc"
+ LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9\
+       file://${LIC_DIR}/COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+       file://${LIC_DIR}/posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+@@ -16,13 +16,15 @@ inherit autotools
+ # pick up an eglibc-2.16 patch
+ FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
  
- SRC_URI_append_virtclass-nativesdk = "\
-     file://relocatable_sdk.patch \
+-PR = "r1"
+-SRCREV="19383"
+-EGLIBC_BRANCH="eglibc-2_16"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
++PR = "r2"
++SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}.tar.bz2 \
+ 	   file://fix_for_centos_5.8.patch;patchdir=.. \
+ 	  "
+-S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
++
++SRC_URI[md5sum] = "88894fa6e10e58e85fbd8134b8e486a8"
++SRC_URI[sha256sum] = "460a45f422da6eb1fd909baab6a64b5ae4c8ba18ea05a1491ed1024c8b98eeaa"
++
++S = "${WORKDIR}/eglibc-${PV}/localedef"
+ 
+ do_unpack_append() {
+     bb.build.exec_func('do_move_ports', d)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch b/meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
+deleted file mode 100644
+index 9dbb26e..0000000
+--- a/meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Match with the latest math_private restructuring in glibc
+-
+-as done here
+-
+-http://sourceware.org/ml/libc-alpha/2012-03/msg00302.html
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-
+-Index: libc/ports/sysdeps/powerpc/powerpc32/e500/fpu/math_private.h
+-===================================================================
+---- libc.orig/ports/sysdeps/powerpc/powerpc32/e500/fpu/math_private.h	2012-07-17 22:58:20.340405923 -0700
+-+++ libc/ports/sysdeps/powerpc/powerpc32/e500/fpu/math_private.h	2012-07-17 22:58:21.120405923 -0700
+-@@ -1 +1 @@
+--#include <math/math_private.h>
+-+#include_next <sysdeps/generic/math_private.h>
+-Index: libc/ports/sysdeps/powerpc/powerpc32/e500/fpu/fraiseexcpt.c
+-===================================================================
+---- libc.orig/ports/sysdeps/powerpc/powerpc32/e500/fpu/fraiseexcpt.c	2012-07-17 23:15:15.872405939 -0700
+-+++ libc/ports/sysdeps/powerpc/powerpc32/e500/fpu/fraiseexcpt.c	2012-07-17 23:18:42.760405602 -0700
+-@@ -23,7 +23,7 @@
+- 
+- #undef feraiseexcept
+- 
+--#define __FERAISEEXCEPT_INTERNAL feraiseexcept
+-+#define __FERAISEEXCEPT_INTERNAL __feraiseexcept
+- #include "../spe-raise.c"
+- 
+--libm_hidden_def (feraiseexcept)
+-+libm_hidden_ver (__feraiseexcept, feraiseexcept)
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 78bf9be..30ce173 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -1,13 +1,9 @@
+ require eglibc.inc
+ 
+-SRCREV = "20393"
+-
+ DEPENDS += "gperf-native kconfig-frontends-native"
+-PR = "r15"
+-PR_append = "+svnr${SRCPV}"
++PR = "r16"
+ 
+-EGLIBC_BRANCH="eglibc-2_16"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
++SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}.tar.bz2 \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
+@@ -21,7 +17,6 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
+            file://initgroups_keys.patch \
+            file://eglibc_fix_findidx_parameters.patch \
+            file://ppc_slow_ieee754_sqrt.patch \
+-           file://e500-math_private.patch \
+            file://fileops-without-wchar-io.patch \
+            file://add_resource_h_to_wait_h.patch \
+            file://0001-Avoid-use-of-libgcc_s-and-libgcc_eh-when-building-gl.patch \
+@@ -33,6 +28,10 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=h
+            file://fsl-ppc-no-fsqrt.patch \
+            file://0001-R_ARM_TLS_DTPOFF32.patch \
+           "
++
++SRC_URI[md5sum] = "88894fa6e10e58e85fbd8134b8e486a8"
++SRC_URI[sha256sum] = "460a45f422da6eb1fd909baab6a64b5ae4c8ba18ea05a1491ed1024c8b98eeaa"
++
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+@@ -41,7 +40,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+ SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch \
+             file://relocatable_sdk.patch \
+             "
+-S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
++S = "${WORKDIR}/eglibc-${PV}/libc"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
+ PACKAGES_DYNAMIC = ""
+@@ -93,9 +92,9 @@ do_unpack_append() {
+ }
+ 
+ do_move_ports() {
+-        if test -d ${WORKDIR}/${EGLIBC_BRANCH}/ports ; then
++        if test -d ${WORKDIR}/eglibc-${PV}/ports ; then
+ 	    rm -rf ${S}/ports
+-	    mv ${WORKDIR}/${EGLIBC_BRANCH}/ports ${S}/
++	    mv ${WORKDIR}/eglibc-${PV}/ports ${S}/
+ 	fi
+ }
+ 
 -- 
 1.7.9.5
 
