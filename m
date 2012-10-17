@@ -1,36 +1,30 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1TOVhl-0004en-Lz
-	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 17:38:45 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hj13so735577wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 08:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=9LrmyjE0ihCtC+4SqhIGoKgRWr8z8xZvRgUtLYIdn9M=;
-	b=MuijAZCNO2cv5trDHVEwn2A/O+C/RxCLf+PuSA8Zecood2DL61h9MDOD0b4xEFuW46
-	lblxz4eFJXPcBjL8nOe7A0W8JB3XEv6q3zzBN34u202pejtqytg9i8bOowzUGoNf/5IB
-	LyYKMiOaMHAJ7AWIBiBd5eBxJ+YFXQmCIX83rgqKP0ukw8A+VXwdJ/cVWQFnNmeFqlz2
-	Z7t65iQtDrMGgEyewGy4HLI6cufDTD8vwonpgjaCN0iZlnjiciub+Ii7TH3gIi73A1NK
-	v+lYXfuLdfIO2i9xkqv40pwERZSTL8Q6HgTFdta0K+lakayPWi+Vbkx9idN4redQoo+d
-	pjtQ==
-Received: by 10.216.210.11 with SMTP id t11mr11441271weo.92.1350487527689;
-	Wed, 17 Oct 2012 08:25:27 -0700 (PDT)
-Received: from s-stirtzel-linux.zera.local
-	(ip-109-91-251-94.unitymediagroup.de. [109.91.251.94])
-	by mx.google.com with ESMTPS id v3sm28140562wiy.5.2012.10.17.08.25.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 17 Oct 2012 08:25:17 -0700 (PDT)
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2012 17:24:57 +0200
-Message-Id: <1350487497-13102-2-git-send-email-s.stirtzel@googlemail.com>
-X-Mailer: git-send-email 1.7.9.5
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TOWUe-0005Yh-Sk for openembedded-core@lists.openembedded.org;
+	Wed, 17 Oct 2012 18:29:17 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HGFtYj007462;
+	Wed, 17 Oct 2012 17:15:55 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07386-01; Wed, 17 Oct 2012 17:15:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HGFk6i007455
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 17 Oct 2012 17:15:47 +0100
+Message-ID: <1350490553.2185.117.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Wed, 17 Oct 2012 17:15:53 +0100
 In-Reply-To: <1350487497-13102-1-git-send-email-s.stirtzel@googlemail.com>
 References: <1350487497-13102-1-git-send-email-s.stirtzel@googlemail.com>
-Subject: [PATCH v2 2/2] matchbox-keyboard: Use gtk-immodules-cache.bbclass
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] gtk-immodules-cache: Add initial class to update gtk inputmethod module cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,66 +37,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 15:38:45 -0000
+X-List-Received-Date: Wed, 17 Oct 2012 16:29:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
----
- .../matchbox-keyboard/matchbox-keyboard_git.bb     |   23 +++++---------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+On Wed, 2012-10-17 at 17:24 +0200, Samuel Stirtzel wrote:
+> This is used by:
+> openembedded-core/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+> meta-openembedded/meta-oe/recipes-support/maliit/maliit-framework_git.bb
+> 
+> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
+> ---
+>  meta/classes/gtk-immodules-cache.bbclass |   70 ++++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>  create mode 100644 meta/classes/gtk-immodules-cache.bbclass
+> 
+> diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
+> new file mode 100644
+> index 0000000..833eefe
+> --- /dev/null
+> +++ b/meta/classes/gtk-immodules-cache.bbclass
+> @@ -0,0 +1,70 @@
+> +# This class will update the inputmethod module cache for virtual keyboards
+> +#
+> +# Usage: Set GTKIMMODULES_PACKAGES to the packages that needs to update the inputmethod modules
+> +
+> +gtk_immodule_cache_postinst() {
+> +if [ "x$D" != "x" ]; then
+> +    exit 1
+> +fi
+> +if [ ! -z `which gtk-query-immodules-2.0` ]; then
+> +    gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+> +fi
+> +if [ ! -z `which gtk-query-immodules-3.0` ]; then
+> +    gtk-query-immodules-3.0 > /etc/gtk-3.0/gtk.immodules
+> +fi
+> +}
+> +
+> +gtk_immodule_cache_postrm() {
+> +if [ "x$D" != "x" ]; then
+> +    exit 1
+> +fi
+> +if [ ! -z `which gtk-query-immodules-2.0` ]; then
+> +    gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+> +fi
+> +if [ ! -z `which gtk-query-immodules-3.0` ]; then
+> +    gtk-query-immodules-3.0 > /etc/gtk-3.0/gtk.immodules
+> +fi
+> +}
+> +
+> +python populate_packages_append () {
+> +    gtkimmodules_pkgs = d.getVar('GTKIMMODULES_PACKAGES', True).split()
+> +
+> +    for pkg in gtkimmodules_pkgs:
+> +            bb.note("adding gtk-immodule-cache postinst and postrm scripts to %s" % pkg)
+> +
+> +            postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
+> +            if not postinst:
+> +                postinst = '#!/bin/sh\n'
+> +            postinst += d.getVar('gtk_immodule_cache_postinst', True)
+> +            d.setVar('pkg_postinst_%s' % pkg, postinst)
+> +
+> +            postrm = d.getVar('pkg_postrm_%s' % pkg, True) or d.getVar('pkg_postrm', True)
+> +            if not postrm:
+> +                postrm = '#!/bin/sh\n'
+> +            postrm += d.getVar('gtk_immodule_cache_postrm', True)
+> +            d.setVar('pkg_postrm_%s' % pkg, postrm)
+> +}
+> +
+> +def gtkimmodules_after_parse(d):
+> +    def gtkimmodules_check_vars():
+> +        if d.getVar('BB_WORKERCONTEXT', True) is not None:
+> +            return
+> +
+> +        bb_filename = d.getVar('FILE')
+> +        packages = d.getVar('PACKAGES', True)
+> +
+> +        # check gtk-immodules package
+> +        gtkimmodules_check = d.getVar('GTKIMMODULES_PACKAGES', True) or ""
+> +        if gtkimmodules_check == "":
+> +            raise bb.build.FuncFailed, "\n\n\nERROR: %s inherits gtk-immodule-cache but doesn't set GTKIMMODULES_PACKAGE" % bb_filename
+> +
+> +    bpn = d.getVar('BPN', 1)
+> +    if bpn + "-native" != d.getVar('PN', 1) and \
+> +            bpn + "-cross" != d.getVar('PN', 1) and \
+> +            bpn + "-nativesdk" != d.getVar('PN', 1):
+> +        gtkimmodules_check_vars()
+> +
+> +python __anonymous() {
+> +    gtkimmodules_after_parse(d)
+> +}
+> +
 
-diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-index 430e343..c812f05 100644
---- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-+++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-@@ -12,7 +12,7 @@ RDEPENDS_${PN} = "formfactor dbus-wait"
- SECTION = "x11"
- SRCREV = "b38f24036cff3be6c2fbcf9ca9881803e69003ac"
- PV = "0.0+git${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://configure_fix.patch;maxrev=1819 \
-@@ -21,13 +21,16 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext gtk-immodules-cache
- 
- EXTRA_OECONF = "--disable-cairo --enable-gtk-im --enable-applet"
- 
- PACKAGES += "matchbox-keyboard-im matchbox-keyboard-im-dbg \
-              matchbox-keyboard-applet matchbox-keyboard-applet-dbg"
- 
-+#Updates the inputmethod module cache in postinst / postrm
-+GTKIMMODULES_PACKAGES = "matchbox-keyboard-im"
-+
- FILES_${PN} = "${bindir}/* \
- 	       ${sysconfdir} \
- 	       ${datadir}/applications \
-@@ -47,19 +50,3 @@ do_install_append () {
- 	rm -f ${D}${libdir}/gtk-2.0/*/immodules/*.la
- 	rm -f ${D}${libdir}/matchbox-panel/*.la
- }
--
--pkg_postinst_matchbox-keyboard-im () {
--if [ "x$D" != "x" ]; then
--  exit 1
--fi
--
--gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
--}
--
--pkg_postrm_matchbox-keyboard-im () {
--if [ "x$D" != "x" ]; then
--  exit 1
--fi
--
--gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
--}
--- 
-1.7.9.5
+Sorry, but the after_parse code above is horrible. How about something
+more simple like:
+
+python __anonymous() {
+    if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
+        gtkimmodules_check = d.getVar('GTKIMMODULES_PACKAGES')
+        if not gtkimmodules_check:
+            bb_filename = d.getVar('FILE')
+            raise bb.build.FuncFailed, "\n\n\nERROR: %s inherits gtk-immodule-cache but doesn't set GTKIMMODULES_PACKAGE" % bb_filename
+}
+
+I'd like to know where you got the inspiration for the original as I'd
+like to simplify that too!
+
+Cheers,
+
+Richard
 
 
 
