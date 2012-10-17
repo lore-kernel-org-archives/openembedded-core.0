@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TOUfw-0001vl-Kd for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 16:32:49 +0200
+	id 1TOUgc-0001yw-66 for openembedded-core@lists.openembedded.org;
+	Wed, 17 Oct 2012 16:33:31 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HEJUAJ006584
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HEKBec006609
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 15:19:30 +0100
+	Wed, 17 Oct 2012 15:20:11 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 05807-07 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 15:19:25 +0100 (BST)
+	id 05962-05 for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Oct 2012 15:20:06 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HEJIMS006578
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HEK10v006588
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 15:19:19 +0100
-Message-ID: <1350483566.2185.77.camel@ted>
+	Wed, 17 Oct 2012 15:20:02 +0100
+Message-ID: <1350483609.2185.78.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Oct 2012 15:19:26 +0100
+Date: Wed, 17 Oct 2012 15:20:09 +0100
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] console-tools: Clean up recipe
+Subject: [PATCH] gettext: Add config.rpath and Makefile.in.in to gettext-minimal-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +37,475 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 14:32:49 -0000
+X-List-Received-Date: Wed, 17 Oct 2012 14:33:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This cleans up various bits of nastiness in this recipe:
-  * Drop unneeded m4 macros
-  * Update to a recent version of gettext (needs addition of Makevars file)
-  * Drop split do_compile and SUBDIRS hacks, just patch out the docs
-  * Remove some of the configure.in hacks since they seem unneeded now
-    and break gettext (the AC_OUTPUT change).
-  * Wipe out acinclude.m4 since it has corrosive contents
+We need gettext-minimal-native to be able to install config.rpath and
+Makefile.in.in so that we don't get version mismatch errors when subsequently
+using the reconfigured software.
+
+This patch moves the two files to be provided by minimal-native so
+that we can better 'gettextize' software without needing the full
+gettext-native when using --disable-nls.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/Makevars b/meta/recipes-core/console-tools/console-tools-0.3.2/Makevars
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/Makefile.in.in b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/Makefile.in.in
+new file mode 100644
+index 0000000..83d8838
+--- a/dev/null
++++ b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/Makefile.in.in
+@@ -0,0 +1,444 @@
++# Makefile for PO directory in any package using GNU gettext.
++# Copyright (C) 1995-1997, 2000-2007, 2009-2010 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
++#
++# This file can be copied and used freely without restrictions.  It can
++# be used in projects which are not available under the GNU General Public
++# License but which still want to provide support for the GNU gettext
++# functionality.
++# Please note that the actual code of GNU gettext is covered by the GNU
++# General Public License and is *not* in the public domain.
++#
++# Origin: gettext-0.18
++GETTEXT_MACRO_VERSION = 0.18
++
++PACKAGE = @PACKAGE@
++VERSION = @VERSION@
++PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
++
++SHELL = /bin/sh
++@SET_MAKE@
++
++srcdir = @srcdir@
++top_srcdir = @top_srcdir@
++VPATH = @srcdir@
++
++prefix = @prefix@
++exec_prefix = @exec_prefix@
++datarootdir = @datarootdir@
++datadir = @datadir@
++localedir = @localedir@
++gettextsrcdir = $(datadir)/gettext/po
++
++INSTALL = @INSTALL@
++INSTALL_DATA = @INSTALL_DATA@
++
++# We use $(mkdir_p).
++# In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
++# "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
++# @install_sh@ does not start with $(SHELL), so we add it.
++# In automake >= 1.10, @mkdir_p@ is derived from ${MKDIR_P}, which is defined
++# either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
++# versions, $(mkinstalldirs) and $(install_sh) are unused.
++mkinstalldirs = $(SHELL) @install_sh@ -d
++install_sh = $(SHELL) @install_sh@
++MKDIR_P = @MKDIR_P@
++mkdir_p = @mkdir_p@
++
++GMSGFMT_ = @GMSGFMT@
++GMSGFMT_no = @GMSGFMT@
++GMSGFMT_yes = @GMSGFMT_015@
++GMSGFMT = $(GMSGFMT_$(USE_MSGCTXT))
++MSGFMT_ = @MSGFMT@
++MSGFMT_no = @MSGFMT@
++MSGFMT_yes = @MSGFMT_015@
++MSGFMT = $(MSGFMT_$(USE_MSGCTXT))
++XGETTEXT_ = @XGETTEXT@
++XGETTEXT_no = @XGETTEXT@
++XGETTEXT_yes = @XGETTEXT_015@
++XGETTEXT = $(XGETTEXT_$(USE_MSGCTXT))
++MSGMERGE = msgmerge
++MSGMERGE_UPDATE = @MSGMERGE@ --update
++MSGINIT = msginit
++MSGCONV = msgconv
++MSGFILTER = msgfilter
++
++POFILES = @POFILES@
++GMOFILES = @GMOFILES@
++UPDATEPOFILES = @UPDATEPOFILES@
++DUMMYPOFILES = @DUMMYPOFILES@
++DISTFILES.common = Makefile.in.in remove-potcdate.sin \
++$(DISTFILES.common.extra1) $(DISTFILES.common.extra2) $(DISTFILES.common.extra3)
++DISTFILES = $(DISTFILES.common) Makevars POTFILES.in \
++$(POFILES) $(GMOFILES) \
++$(DISTFILES.extra1) $(DISTFILES.extra2) $(DISTFILES.extra3)
++
++POTFILES = \
++
++CATALOGS = @CATALOGS@
++
++# Makevars gets inserted here. (Don't remove this line!)
++
++.SUFFIXES:
++.SUFFIXES: .po .gmo .mo .sed .sin .nop .po-create .po-update
++
++.po.mo:
++	@echo "$(MSGFMT) -c -o $@ $<"; \
++	$(MSGFMT) -c -o t-$@ $< && mv t-$@ $@
++
++.po.gmo:
++	@lang=`echo $* | sed -e 's,.*/,,'`; \
++	test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
++	echo "$${cdcmd}rm -f $${lang}.gmo && $(GMSGFMT) -c --statistics --verbose -o $${lang}.gmo $${lang}.po"; \
++	cd $(srcdir) && rm -f $${lang}.gmo && $(GMSGFMT) -c --statistics --verbose -o t-$${lang}.gmo $${lang}.po && mv t-$${lang}.gmo $${lang}.gmo
++
++.sin.sed:
++	sed -e '/^#/d' $< > t-$@
++	mv t-$@ $@
++
++
++all: check-macro-version all-@USE_NLS@
++
++all-yes: stamp-po
++all-no:
++
++# Ensure that the gettext macros and this Makefile.in.in are in sync.
++check-macro-version:
++	@test "$(GETTEXT_MACRO_VERSION)" = "@GETTEXT_MACRO_VERSION@" \
++	  || { echo "*** error: gettext infrastructure mismatch: using a Makefile.in.in from gettext version $(GETTEXT_MACRO_VERSION) but the autoconf macros are from gettext version @GETTEXT_MACRO_VERSION@" 1>&2; \
++	       exit 1; \
++	     }
++
++# $(srcdir)/$(DOMAIN).pot is only created when needed. When xgettext finds no
++# internationalized messages, no $(srcdir)/$(DOMAIN).pot is created (because
++# we don't want to bother translators with empty POT files). We assume that
++# LINGUAS is empty in this case, i.e. $(POFILES) and $(GMOFILES) are empty.
++# In this case, stamp-po is a nop (i.e. a phony target).
++
++# stamp-po is a timestamp denoting the last time at which the CATALOGS have
++# been loosely updated. Its purpose is that when a developer or translator
++# checks out the package via CVS, and the $(DOMAIN).pot file is not in CVS,
++# "make" will update the $(DOMAIN).pot and the $(CATALOGS), but subsequent
++# invocations of "make" will do nothing. This timestamp would not be necessary
++# if updating the $(CATALOGS) would always touch them; however, the rule for
++# $(POFILES) has been designed to not touch files that don't need to be
++# changed.
++stamp-po: $(srcdir)/$(DOMAIN).pot
++	test ! -f $(srcdir)/$(DOMAIN).pot || \
++	  test -z "$(GMOFILES)" || $(MAKE) $(GMOFILES)
++	@test ! -f $(srcdir)/$(DOMAIN).pot || { \
++	  echo "touch stamp-po" && \
++	  echo timestamp > stamp-poT && \
++	  mv stamp-poT stamp-po; \
++	}
++
++# Note: Target 'all' must not depend on target '$(DOMAIN).pot-update',
++# otherwise packages like GCC can not be built if only parts of the source
++# have been downloaded.
++
++# This target rebuilds $(DOMAIN).pot; it is an expensive operation.
++# Note that $(DOMAIN).pot is not touched if it doesn't need to be changed.
++$(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
++	if LC_ALL=C grep 'GNU @PACKAGE@' $(top_srcdir)/* 2>/dev/null | grep -v 'libtool:' >/dev/null; then \
++	  package_gnu='GNU '; \
++	else \
++	  package_gnu=''; \
++	fi; \
++	if test -n '$(MSGID_BUGS_ADDRESS)' || test '$(PACKAGE_BUGREPORT)' = '@'PACKAGE_BUGREPORT'@'; then \
++	  msgid_bugs_address='$(MSGID_BUGS_ADDRESS)'; \
++	else \
++	  msgid_bugs_address='$(PACKAGE_BUGREPORT)'; \
++	fi; \
++	case `$(XGETTEXT) --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
++	  '' | 0.[0-9] | 0.[0-9].* | 0.1[0-5] | 0.1[0-5].* | 0.16 | 0.16.[0-1]*) \
++	    $(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_srcdir) \
++	      --add-comments=TRANSLATORS: $(XGETTEXT_OPTIONS) @XGETTEXT_EXTRA_OPTIONS@ \
++	      --files-from=$(srcdir)/POTFILES.in \
++	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
++	      --msgid-bugs-address="$$msgid_bugs_address" \
++	    ;; \
++	  *) \
++	    $(XGETTEXT) --default-domain=$(DOMAIN) --directory=$(top_srcdir) \
++	      --add-comments=TRANSLATORS: $(XGETTEXT_OPTIONS) @XGETTEXT_EXTRA_OPTIONS@ \
++	      --files-from=$(srcdir)/POTFILES.in \
++	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
++	      --package-name="$${package_gnu}@PACKAGE@" \
++	      --package-version='@VERSION@' \
++	      --msgid-bugs-address="$$msgid_bugs_address" \
++	    ;; \
++	esac
++	test ! -f $(DOMAIN).po || { \
++	  if test -f $(srcdir)/$(DOMAIN).pot; then \
++	    sed -f remove-potcdate.sed < $(srcdir)/$(DOMAIN).pot > $(DOMAIN).1po && \
++	    sed -f remove-potcdate.sed < $(DOMAIN).po > $(DOMAIN).2po && \
++	    if cmp $(DOMAIN).1po $(DOMAIN).2po >/dev/null 2>&1; then \
++	      rm -f $(DOMAIN).1po $(DOMAIN).2po $(DOMAIN).po; \
++	    else \
++	      rm -f $(DOMAIN).1po $(DOMAIN).2po $(srcdir)/$(DOMAIN).pot && \
++	      mv $(DOMAIN).po $(srcdir)/$(DOMAIN).pot; \
++	    fi; \
++	  else \
++	    mv $(DOMAIN).po $(srcdir)/$(DOMAIN).pot; \
++	  fi; \
++	}
++
++# This rule has no dependencies: we don't need to update $(DOMAIN).pot at
++# every "make" invocation, only create it when it is missing.
++# Only "make $(DOMAIN).pot-update" or "make dist" will force an update.
++$(srcdir)/$(DOMAIN).pot:
++	$(MAKE) $(DOMAIN).pot-update
++
++# This target rebuilds a PO file if $(DOMAIN).pot has changed.
++# Note that a PO file is not touched if it doesn't need to be changed.
++$(POFILES): $(srcdir)/$(DOMAIN).pot
++	@lang=`echo $@ | sed -e 's,.*/,,' -e 's/\.po$$//'`; \
++	if test -f "$(srcdir)/$${lang}.po"; then \
++	  test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
++	  echo "$${cdcmd}$(MSGMERGE_UPDATE) $(MSGMERGE_OPTIONS) --lang=$${lang} $${lang}.po $(DOMAIN).pot"; \
++	  cd $(srcdir) \
++	    && { case `$(MSGMERGE_UPDATE) --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
++	           '' | 0.[0-9] | 0.[0-9].* | 0.1[0-7] | 0.1[0-7].*) \
++	             $(MSGMERGE_UPDATE) $(MSGMERGE_OPTIONS) $${lang}.po $(DOMAIN).pot;; \
++	           *) \
++	             $(MSGMERGE_UPDATE) $(MSGMERGE_OPTIONS) --lang=$${lang} $${lang}.po $(DOMAIN).pot;; \
++	         esac; \
++	       }; \
++	else \
++	  $(MAKE) $${lang}.po-create; \
++	fi
++
++
++install: install-exec install-data
++install-exec:
++install-data: install-data-@USE_NLS@
++	if test "$(PACKAGE)" = "gettext-tools"; then \
++	  $(mkdir_p) $(DESTDIR)$(gettextsrcdir); \
++	  for file in $(DISTFILES.common) Makevars.template; do \
++	    $(INSTALL_DATA) $(srcdir)/$$file \
++			    $(DESTDIR)$(gettextsrcdir)/$$file; \
++	  done; \
++	  for file in Makevars; do \
++	    rm -f $(DESTDIR)$(gettextsrcdir)/$$file; \
++	  done; \
++	else \
++	  : ; \
++	fi
++install-data-no: all
++install-data-yes: all
++	@catalogs='$(CATALOGS)'; \
++	for cat in $$catalogs; do \
++	  cat=`basename $$cat`; \
++	  lang=`echo $$cat | sed -e 's/\.gmo$$//'`; \
++	  dir=$(localedir)/$$lang/LC_MESSAGES; \
++	  $(mkdir_p) $(DESTDIR)$$dir; \
++	  if test -r $$cat; then realcat=$$cat; else realcat=$(srcdir)/$$cat; fi; \
++	  $(INSTALL_DATA) $$realcat $(DESTDIR)$$dir/$(DOMAIN).mo; \
++	  echo "installing $$realcat as $(DESTDIR)$$dir/$(DOMAIN).mo"; \
++	  for lc in '' $(EXTRA_LOCALE_CATEGORIES); do \
++	    if test -n "$$lc"; then \
++	      if (cd $(DESTDIR)$(localedir)/$$lang && LC_ALL=C ls -l -d $$lc 2>/dev/null) | grep ' -> ' >/dev/null; then \
++	        link=`cd $(DESTDIR)$(localedir)/$$lang && LC_ALL=C ls -l -d $$lc | sed -e 's/^.* -> //'`; \
++	        mv $(DESTDIR)$(localedir)/$$lang/$$lc $(DESTDIR)$(localedir)/$$lang/$$lc.old; \
++	        mkdir $(DESTDIR)$(localedir)/$$lang/$$lc; \
++	        (cd $(DESTDIR)$(localedir)/$$lang/$$lc.old && \
++	         for file in *; do \
++	           if test -f $$file; then \
++	             ln -s ../$$link/$$file $(DESTDIR)$(localedir)/$$lang/$$lc/$$file; \
++	           fi; \
++	         done); \
++	        rm -f $(DESTDIR)$(localedir)/$$lang/$$lc.old; \
++	      else \
++	        if test -d $(DESTDIR)$(localedir)/$$lang/$$lc; then \
++	          :; \
++	        else \
++	          rm -f $(DESTDIR)$(localedir)/$$lang/$$lc; \
++	          mkdir $(DESTDIR)$(localedir)/$$lang/$$lc; \
++	        fi; \
++	      fi; \
++	      rm -f $(DESTDIR)$(localedir)/$$lang/$$lc/$(DOMAIN).mo; \
++	      ln -s ../LC_MESSAGES/$(DOMAIN).mo $(DESTDIR)$(localedir)/$$lang/$$lc/$(DOMAIN).mo 2>/dev/null || \
++	      ln $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo $(DESTDIR)$(localedir)/$$lang/$$lc/$(DOMAIN).mo 2>/dev/null || \
++	      cp -p $(DESTDIR)$(localedir)/$$lang/LC_MESSAGES/$(DOMAIN).mo $(DESTDIR)$(localedir)/$$lang/$$lc/$(DOMAIN).mo; \
++	      echo "installing $$realcat link as $(DESTDIR)$(localedir)/$$lang/$$lc/$(DOMAIN).mo"; \
++	    fi; \
++	  done; \
++	done
++
++install-strip: install
++
++installdirs: installdirs-exec installdirs-data
++installdirs-exec:
++installdirs-data: installdirs-data-@USE_NLS@
++	if test "$(PACKAGE)" = "gettext-tools"; then \
++	  $(mkdir_p) $(DESTDIR)$(gettextsrcdir); \
++	else \
++	  : ; \
++	fi
++installdirs-data-no:
++installdirs-data-yes:
++	@catalogs='$(CATALOGS)'; \
++	for cat in $$catalogs; do \
++	  cat=`basename $$cat`; \
++	  lang=`echo $$cat | sed -e 's/\.gmo$$//'`; \
++	  dir=$(localedir)/$$lang/LC_MESSAGES; \
++	  $(mkdir_p) $(DESTDIR)$$dir; \
++	  for lc in '' $(EXTRA_LOCALE_CATEGORIES); do \
++	    if test -n "$$lc"; then \
++	      if (cd $(DESTDIR)$(localedir)/$$lang && LC_ALL=C ls -l -d $$lc 2>/dev/null) | grep ' -> ' >/dev/null; then \
++	        link=`cd $(DESTDIR)$(localedir)/$$lang && LC_ALL=C ls -l -d $$lc | sed -e 's/^.* -> //'`; \
++	        mv $(DESTDIR)$(localedir)/$$lang/$$lc $(DESTDIR)$(localedir)/$$lang/$$lc.old; \
++	        mkdir $(DESTDIR)$(localedir)/$$lang/$$lc; \
++	        (cd $(DESTDIR)$(localedir)/$$lang/$$lc.old && \
++	         for file in *; do \
++	           if test -f $$file; then \
++	             ln -s ../$$link/$$file $(DESTDIR)$(localedir)/$$lang/$$lc/$$file; \
++	           fi; \
++	         done); \
++	        rm -f $(DESTDIR)$(localedir)/$$lang/$$lc.old; \
++	      else \
++	        if test -d $(DESTDIR)$(localedir)/$$lang/$$lc; then \
++	          :; \
++	        else \
++	          rm -f $(DESTDIR)$(localedir)/$$lang/$$lc; \
++	          mkdir $(DESTDIR)$(localedir)/$$lang/$$lc; \
++	        fi; \
++	      fi; \
++	    fi; \
++	  done; \
++	done
++
++# Define this as empty until I found a useful application.
++installcheck:
++
++uninstall: uninstall-exec uninstall-data
++uninstall-exec:
++uninstall-data: uninstall-data-@USE_NLS@
++	if test "$(PACKAGE)" = "gettext-tools"; then \
++	  for file in $(DISTFILES.common) Makevars.template; do \
++	    rm -f $(DESTDIR)$(gettextsrcdir)/$$file; \
++	  done; \
++	else \
++	  : ; \
++	fi
++uninstall-data-no:
++uninstall-data-yes:
++	catalogs='$(CATALOGS)'; \
++	for cat in $$catalogs; do \
++	  cat=`basename $$cat`; \
++	  lang=`echo $$cat | sed -e 's/\.gmo$$//'`; \
++	  for lc in LC_MESSAGES $(EXTRA_LOCALE_CATEGORIES); do \
++	    rm -f $(DESTDIR)$(localedir)/$$lang/$$lc/$(DOMAIN).mo; \
++	  done; \
++	done
++
++check: all
++
++info dvi ps pdf html tags TAGS ctags CTAGS ID:
++
++mostlyclean:
++	rm -f remove-potcdate.sed
++	rm -f stamp-poT
++	rm -f core core.* $(DOMAIN).po $(DOMAIN).1po $(DOMAIN).2po *.new.po
++	rm -fr *.o
++
++clean: mostlyclean
++
++distclean: clean
++	rm -f Makefile Makefile.in POTFILES *.mo
++
++maintainer-clean: distclean
++	@echo "This command is intended for maintainers to use;"
++	@echo "it deletes files that may require special tools to rebuild."
++	rm -f stamp-po $(GMOFILES)
++
++distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
++dist distdir:
++	$(MAKE) update-po
++	@$(MAKE) dist2
++# This is a separate target because 'update-po' must be executed before.
++dist2: stamp-po $(DISTFILES)
++	dists="$(DISTFILES)"; \
++	if test "$(PACKAGE)" = "gettext-tools"; then \
++	  dists="$$dists Makevars.template"; \
++	fi; \
++	if test -f $(srcdir)/$(DOMAIN).pot; then \
++	  dists="$$dists $(DOMAIN).pot stamp-po"; \
++	fi; \
++	if test -f $(srcdir)/ChangeLog; then \
++	  dists="$$dists ChangeLog"; \
++	fi; \
++	for i in 0 1 2 3 4 5 6 7 8 9; do \
++	  if test -f $(srcdir)/ChangeLog.$$i; then \
++	    dists="$$dists ChangeLog.$$i"; \
++	  fi; \
++	done; \
++	if test -f $(srcdir)/LINGUAS; then dists="$$dists LINGUAS"; fi; \
++	for file in $$dists; do \
++	  if test -f $$file; then \
++	    cp -p $$file $(distdir) || exit 1; \
++	  else \
++	    cp -p $(srcdir)/$$file $(distdir) || exit 1; \
++	  fi; \
++	done
++
++update-po: Makefile
++	$(MAKE) $(DOMAIN).pot-update
++	test -z "$(UPDATEPOFILES)" || $(MAKE) $(UPDATEPOFILES)
++	$(MAKE) update-gmo
++
++# General rule for creating PO files.
++
++.nop.po-create:
++	@lang=`echo $@ | sed -e 's/\.po-create$$//'`; \
++	echo "File $$lang.po does not exist. If you are a translator, you can create it through 'msginit'." 1>&2; \
++	exit 1
++
++# General rule for updating PO files.
++
++.nop.po-update:
++	@lang=`echo $@ | sed -e 's/\.po-update$$//'`; \
++	if test "$(PACKAGE)" = "gettext-tools"; then PATH=`pwd`/../src:$$PATH; fi; \
++	tmpdir=`pwd`; \
++	echo "$$lang:"; \
++	test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
++	echo "$${cdcmd}$(MSGMERGE) $(MSGMERGE_OPTIONS) --lang=$$lang $$lang.po $(DOMAIN).pot -o $$lang.new.po"; \
++	cd $(srcdir); \
++	if { case `$(MSGMERGE) --version | sed 1q | sed -e 's,^[^0-9]*,,'` in \
++	       '' | 0.[0-9] | 0.[0-9].* | 0.1[0-7] | 0.1[0-7].*) \
++	         $(MSGMERGE) $(MSGMERGE_OPTIONS) -o $$tmpdir/$$lang.new.po $$lang.po $(DOMAIN).pot;; \
++	       *) \
++	         $(MSGMERGE) $(MSGMERGE_OPTIONS) --lang=$$lang -o $$tmpdir/$$lang.new.po $$lang.po $(DOMAIN).pot;; \
++	     esac; \
++	   }; then \
++	  if cmp $$lang.po $$tmpdir/$$lang.new.po >/dev/null 2>&1; then \
++	    rm -f $$tmpdir/$$lang.new.po; \
++	  else \
++	    if mv -f $$tmpdir/$$lang.new.po $$lang.po; then \
++	      :; \
++	    else \
++	      echo "msgmerge for $$lang.po failed: cannot move $$tmpdir/$$lang.new.po to $$lang.po" 1>&2; \
++	      exit 1; \
++	    fi; \
++	  fi; \
++	else \
++	  echo "msgmerge for $$lang.po failed!" 1>&2; \
++	  rm -f $$tmpdir/$$lang.new.po; \
++	fi
++
++$(DUMMYPOFILES):
++
++update-gmo: Makefile $(GMOFILES)
++	@:
++
++# Recreate Makefile by invoking config.status. Explicitly invoke the shell,
++# because execution permission bits may not work on the current file system.
++# Use @SHELL@, which is the shell determined by autoconf for the use by its
++# scripts, not $(SHELL) which is hardwired to /bin/sh and may be deficient.
++Makefile: Makefile.in.in Makevars $(top_builddir)/config.status @POMAKEFILEDEPS@
++	cd $(top_builddir) \
++	  && @SHELL@ ./config.status $(subdir)/$@.in po-directories
++
++force:
++
++# Tell versions [3.59,3.63) of GNU make not to export all variables.
++# Otherwise a system limit (for SysV at least) may be exceeded.
++.NOEXPORT:
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/Makevars.template b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/Makevars.template
 new file mode 100644
 index 0000000..32692ab
 --- a/dev/null
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/Makevars
++++ b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/Makevars.template
 @@ -0,0 +1,41 @@
 +# Makefile variables for PO directory in any package using GNU gettext.
 +
@@ -98,674 +548,724 @@ index 0000000..32692ab
 +# This is the list of locale categories, beyond LC_MESSAGES, for which the
 +# message catalogs shall be used.  It is usually empty.
 +EXTRA_LOCALE_CATEGORIES =
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/config/codeset.m4 b/meta/recipes-core/console-tools/console-tools-0.3.2/config/codeset.m4
-deleted file mode 100644
-index 863c9cf..0000000
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/config/codeset.m4
-+++ b/dev/null
-@@ -1,17 +0,0 @@
--#serial AM1
--
--dnl From Bruno Haible.
--
--AC_DEFUN([AM_LANGINFO_CODESET],
--[
--  AC_CACHE_CHECK([for nl_langinfo and CODESET], am_cv_langinfo_codeset,
--    [AC_TRY_LINK([#include <langinfo.h>],
--      [char* cs = nl_langinfo(CODESET);],
--      am_cv_langinfo_codeset=yes,
--      am_cv_langinfo_codeset=no)
--    ])
--  if test $am_cv_langinfo_codeset = yes; then
--    AC_DEFINE(HAVE_LANGINFO_CODESET, 1,
--      [Define if you have <langinfo.h> and nl_langinfo(CODESET).])
--  fi
--])
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/config/gettext.m4 b/meta/recipes-core/console-tools/console-tools-0.3.2/config/gettext.m4
-deleted file mode 100644
-index e4d524c..0000000
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/config/gettext.m4
-+++ b/dev/null
-@@ -1,370 +0,0 @@
--# Macro to add for using GNU gettext.
--# Ulrich Drepper <drepper@cygnus.com>, 1995.
--#
--# This file can be copied and used freely without restrictions.  It can
--# be used in projects which are not available under the GNU General Public
--# License or the GNU Library General Public License but which still want
--# to provide support for the GNU gettext functionality.
--# Please note that the actual code of the GNU gettext library is covered
--# by the GNU Library General Public License, and the rest of the GNU
--# gettext package package is covered by the GNU General Public License.
--# They are *not* in the public domain.
--
--# serial 10
--
--dnl Usage: AM_WITH_NLS([TOOLSYMBOL], [NEEDSYMBOL], [LIBDIR]).
--dnl If TOOLSYMBOL is specified and is 'use-libtool', then a libtool library
--dnl    $(top_builddir)/intl/libintl.la will be created (shared and/or static,
--dnl    depending on --{enable,disable}-{shared,static} and on the presence of
--dnl    AM-DISABLE-SHARED). Otherwise, a static library
--dnl    $(top_builddir)/intl/libintl.a will be created.
--dnl If NEEDSYMBOL is specified and is 'need-ngettext', then GNU gettext
--dnl    implementations (in libc or libintl) without the ngettext() function
--dnl    will be ignored.
--dnl LIBDIR is used to find the intl libraries.  If empty,
--dnl    the value `$(top_builddir)/intl/' is used.
--dnl
--dnl The result of the configuration is one of three cases:
--dnl 1) GNU gettext, as included in the intl subdirectory, will be compiled
--dnl    and used.
--dnl    Catalog format: GNU --> install in $(datadir)
--dnl    Catalog extension: .mo after installation, .gmo in source tree
--dnl 2) GNU gettext has been found in the system's C library.
--dnl    Catalog format: GNU --> install in $(datadir)
--dnl    Catalog extension: .mo after installation, .gmo in source tree
--dnl 3) No internationalization, always use English msgid.
--dnl    Catalog format: none
--dnl    Catalog extension: none
--dnl The use of .gmo is historical (it was needed to avoid overwriting the
--dnl GNU format catalogs when building on a platform with an X/Open gettext),
--dnl but we keep it in order not to force irrelevant filename changes on the
--dnl maintainers.
--dnl
--AC_DEFUN([AM_WITH_NLS],
--  [AC_MSG_CHECKING([whether NLS is requested])
--    dnl Default is enabled NLS
--    AC_ARG_ENABLE(nls,
--      [  --disable-nls           do not use Native Language Support],
--      USE_NLS=$enableval, USE_NLS=yes)
--    AC_MSG_RESULT($USE_NLS)
--    AC_SUBST(USE_NLS)
--
--    BUILD_INCLUDED_LIBINTL=no
--    USE_INCLUDED_LIBINTL=no
--    INTLLIBS=
--
--    dnl If we use NLS figure out what method
--    if test "$USE_NLS" = "yes"; then
--      AC_DEFINE(ENABLE_NLS, 1,
--        [Define to 1 if translation of program messages to the user's native language
--   is requested.])
--      AC_MSG_CHECKING([whether included gettext is requested])
--      AC_ARG_WITH(included-gettext,
--        [  --with-included-gettext use the GNU gettext library included here],
--        nls_cv_force_use_gnu_gettext=$withval,
--        nls_cv_force_use_gnu_gettext=no)
--      AC_MSG_RESULT($nls_cv_force_use_gnu_gettext)
--
--      nls_cv_use_gnu_gettext="$nls_cv_force_use_gnu_gettext"
--      if test "$nls_cv_force_use_gnu_gettext" != "yes"; then
--        dnl User does not insist on using GNU NLS library.  Figure out what
--        dnl to use.  If GNU gettext is available we use this.  Else we have
--        dnl to fall back to GNU NLS library.
--	CATOBJEXT=NONE
--
--        dnl Add a version number to the cache macros.
--        define(gt_cv_func_gnugettext_libc, [gt_cv_func_gnugettext]ifelse([$2], need-ngettext, 2, 1)[_libc])
--        define(gt_cv_func_gnugettext_libintl, [gt_cv_func_gnugettext]ifelse([$2], need-ngettext, 2, 1)[_libintl])
--
--	AC_CHECK_HEADER(libintl.h,
--	  [AC_CACHE_CHECK([for GNU gettext in libc], gt_cv_func_gnugettext_libc,
--	    [AC_TRY_LINK([#include <libintl.h>
--extern int _nl_msg_cat_cntr;],
--	       [bindtextdomain ("", "");
--return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", "", 0)], [])[ + _nl_msg_cat_cntr],
--	       gt_cv_func_gnugettext_libc=yes,
--	       gt_cv_func_gnugettext_libc=no)])
--
--	   if test "$gt_cv_func_gnugettext_libc" != "yes"; then
--	     AC_CACHE_CHECK([for GNU gettext in libintl],
--	       gt_cv_func_gnugettext_libintl,
--	       [gt_save_LIBS="$LIBS"
--		LIBS="$LIBS -lintl $LIBICONV"
--		AC_TRY_LINK([#include <libintl.h>
--extern int _nl_msg_cat_cntr;],
--		  [bindtextdomain ("", "");
--return (int) gettext ("")]ifelse([$2], need-ngettext, [ + (int) ngettext ("", "", 0)], [])[ + _nl_msg_cat_cntr],
--		  gt_cv_func_gnugettext_libintl=yes,
--		  gt_cv_func_gnugettext_libintl=no)
--		LIBS="$gt_save_LIBS"])
--	   fi
--
--	   dnl If an already present or preinstalled GNU gettext() is found,
--	   dnl use it.  But if this macro is used in GNU gettext, and GNU
--	   dnl gettext is already preinstalled in libintl, we update this
--	   dnl libintl.  (Cf. the install rule in intl/Makefile.in.)
--	   if test "$gt_cv_func_gnugettext_libc" = "yes" \
--	      || { test "$gt_cv_func_gnugettext_libintl" = "yes" \
--		   && test "$PACKAGE" != gettext; }; then
--	     AC_DEFINE(HAVE_GETTEXT, 1,
--               [Define if the GNU gettext() function is already present or preinstalled.])
--
--	     if test "$gt_cv_func_gnugettext_libintl" = "yes"; then
--	       dnl If iconv() is in a separate libiconv library, then anyone
--	       dnl linking with libintl{.a,.so} also needs to link with
--	       dnl libiconv.
--	       INTLLIBS="-lintl $LIBICONV"
--	     fi
--
--	     gt_save_LIBS="$LIBS"
--	     LIBS="$LIBS $INTLLIBS"
--	     AC_CHECK_FUNCS(dcgettext)
--	     LIBS="$gt_save_LIBS"
--
--	     dnl Search for GNU msgfmt in the PATH.
--	     AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
--	       [$ac_dir/$ac_word --statistics /dev/null >/dev/null 2>&1], :)
--	     AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
--
--	     dnl Search for GNU xgettext in the PATH.
--	     AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
--	       [$ac_dir/$ac_word --omit-header /dev/null >/dev/null 2>&1], :)
--
--	     CATOBJEXT=.gmo
--	   fi
--	])
--
--        if test "$CATOBJEXT" = "NONE"; then
--	  dnl GNU gettext is not found in the C library.
--	  dnl Fall back on GNU gettext library.
--	  nls_cv_use_gnu_gettext=yes
--        fi
--      fi
--
--      if test "$nls_cv_use_gnu_gettext" = "yes"; then
--        dnl Mark actions used to generate GNU NLS library.
--        INTLOBJS="\$(GETTOBJS)"
--        AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
--	  [$ac_dir/$ac_word --statistics /dev/null >/dev/null 2>&1], :)
--        AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
--        AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
--	  [$ac_dir/$ac_word --omit-header /dev/null >/dev/null 2>&1], :)
--        AC_SUBST(MSGFMT)
--	BUILD_INCLUDED_LIBINTL=yes
--	USE_INCLUDED_LIBINTL=yes
--        CATOBJEXT=.gmo
--	INTLLIBS="ifelse([$3],[],\$(top_builddir)/intl,[$3])/libintl.ifelse([$1], use-libtool, [l], [])a $LIBICONV"
--	LIBS=`echo " $LIBS " | sed -e 's/ -lintl / /' -e 's/^ //' -e 's/ $//'`
--      fi
--
--      dnl This could go away some day; the PATH_PROG_WITH_TEST already does it.
--      dnl Test whether we really found GNU msgfmt.
--      if test "$GMSGFMT" != ":"; then
--	dnl If it is no GNU msgfmt we define it as : so that the
--	dnl Makefiles still can work.
--	if $GMSGFMT --statistics /dev/null >/dev/null 2>&1; then
--	  : ;
--	else
--	  AC_MSG_RESULT(
--	    [found msgfmt program is not GNU msgfmt; ignore it])
--	  GMSGFMT=":"
--	fi
--      fi
--
--      dnl This could go away some day; the PATH_PROG_WITH_TEST already does it.
--      dnl Test whether we really found GNU xgettext.
--      if test "$XGETTEXT" != ":"; then
--	dnl If it is no GNU xgettext we define it as : so that the
--	dnl Makefiles still can work.
--	if $XGETTEXT --omit-header /dev/null >/dev/null 2>&1; then
--	  : ;
--	else
--	  AC_MSG_RESULT(
--	    [found xgettext program is not GNU xgettext; ignore it])
--	  XGETTEXT=":"
--	fi
--      fi
--
--      dnl We need to process the po/ directory.
--      POSUB=po
--    fi
--    AC_OUTPUT_COMMANDS(
--     [for ac_file in $CONFIG_FILES; do
--        # Support "outfile[:infile[:infile...]]"
--        case "$ac_file" in
--          *:*) ac_file=`echo "$ac_file"|sed 's%:.*%%'` ;;
--        esac
--        # PO directories have a Makefile.in generated from Makefile.in.in.
--        case "$ac_file" in */Makefile.in)
--          # Adjust a relative srcdir.
--          ac_dir=`echo "$ac_file"|sed 's%/[^/][^/]*$%%'`
--          ac_dir_suffix="/`echo "$ac_dir"|sed 's%^\./%%'`"
--          ac_dots=`echo "$ac_dir_suffix"|sed 's%/[^/]*%../%g'`
--          # In autoconf-2.13 it is called $ac_given_srcdir.
--          # In autoconf-2.50 it is called $srcdir.
--          test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
--          case "$ac_given_srcdir" in
--            .)  top_srcdir=`echo $ac_dots|sed 's%/$%%'` ;;
--            /*) top_srcdir="$ac_given_srcdir" ;;
--            *)  top_srcdir="$ac_dots$ac_given_srcdir" ;;
--          esac
--          if test -f "$ac_given_srcdir/$ac_dir/POTFILES.in"; then
--            rm -f "$ac_dir/POTFILES"
--            test -n "$as_me" && echo "$as_me: creating $ac_dir/POTFILES" || echo "creating $ac_dir/POTFILES"
--            sed -e "/^#/d" -e "/^[ 	]*\$/d" -e "s,.*,     $top_srcdir/& \\\\," -e "\$s/\(.*\) \\\\/\1/" < "$ac_given_srcdir/$ac_dir/POTFILES.in" > "$ac_dir/POTFILES"
--            test -n "$as_me" && echo "$as_me: creating $ac_dir/Makefile" || echo "creating $ac_dir/Makefile"
--            sed -e "/POTFILES =/r $ac_dir/POTFILES" "$ac_dir/Makefile.in" > "$ac_dir/Makefile"
--          fi
--          ;;
--        esac
--      done])
--
--
--    dnl If this is used in GNU gettext we have to set BUILD_INCLUDED_LIBINTL
--    dnl to 'yes' because some of the testsuite requires it.
--    if test "$PACKAGE" = gettext; then
--      BUILD_INCLUDED_LIBINTL=yes
--    fi
--
--    dnl intl/plural.c is generated from intl/plural.y. It requires bison,
--    dnl because plural.y uses bison specific features. It requires at least
--    dnl bison-1.26 because earlier versions generate a plural.c that doesn't
--    dnl compile.
--    dnl bison is only needed for the maintainer (who touches plural.y). But in
--    dnl order to avoid separate Makefiles or --enable-maintainer-mode, we put
--    dnl the rule in general Makefile. Now, some people carelessly touch the
--    dnl files or have a broken "make" program, hence the plural.c rule will
--    dnl sometimes fire. To avoid an error, defines BISON to ":" if it is not
--    dnl present or too old.
--    AC_CHECK_PROGS([INTLBISON], [bison])
--    if test -z "$INTLBISON"; then
--      ac_verc_fail=yes
--    else
--      dnl Found it, now check the version.
--      AC_MSG_CHECKING([version of bison])
--changequote(<<,>>)dnl
--      ac_prog_version=`$INTLBISON --version 2>&1 | sed -n 's/^.*GNU Bison.* \([0-9]*\.[0-9.]*\).*$/\1/p'`
--      case $ac_prog_version in
--        '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
--        1.2[6-9]* | 1.[3-9][0-9]* | [2-9].*)
--changequote([,])dnl
--           ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
--        *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
--      esac
--      AC_MSG_RESULT([$ac_prog_version])
--    fi
--    if test $ac_verc_fail = yes; then
--      INTLBISON=:
--    fi
--
--    dnl These rules are solely for the distribution goal.  While doing this
--    dnl we only have to keep exactly one list of the available catalogs
--    dnl in configure.in.
--    for lang in $ALL_LINGUAS; do
--      GMOFILES="$GMOFILES $lang.gmo"
--      POFILES="$POFILES $lang.po"
--    done
--
--    dnl Make all variables we use known to autoconf.
--    AC_SUBST(BUILD_INCLUDED_LIBINTL)
--    AC_SUBST(USE_INCLUDED_LIBINTL)
--    AC_SUBST(CATALOGS)
--    AC_SUBST(CATOBJEXT)
--    AC_SUBST(GMOFILES)
--    AC_SUBST(INTLLIBS)
--    AC_SUBST(INTLOBJS)
--    AC_SUBST(POFILES)
--    AC_SUBST(POSUB)
--
--    dnl For backward compatibility. Some configure.ins may be using this.
--    nls_cv_header_intl=
--    nls_cv_header_libgt=
--
--    dnl For backward compatibility. Some Makefiles may be using this.
--    DATADIRNAME=share
--    AC_SUBST(DATADIRNAME)
--
--    dnl For backward compatibility. Some Makefiles may be using this.
--    INSTOBJEXT=.mo
--    AC_SUBST(INSTOBJEXT)
--
--    dnl For backward compatibility. Some Makefiles may be using this.
--    GENCAT=gencat
--    AC_SUBST(GENCAT)
--  ])
--
--dnl Usage: Just like AM_WITH_NLS, which see.
--AC_DEFUN([AM_GNU_GETTEXT],
--  [AC_REQUIRE([AC_PROG_MAKE_SET])dnl
--   AC_REQUIRE([AC_PROG_CC])dnl
--   AC_REQUIRE([AC_CANONICAL_HOST])dnl
--   AC_REQUIRE([AC_PROG_RANLIB])dnl
--   AC_REQUIRE([AC_ISC_POSIX])dnl
--   AC_REQUIRE([AC_HEADER_STDC])dnl
--   AC_REQUIRE([AC_C_CONST])dnl
--   AC_REQUIRE([AC_C_INLINE])dnl
--   AC_REQUIRE([AC_TYPE_OFF_T])dnl
--   AC_REQUIRE([AC_TYPE_SIZE_T])dnl
--   AC_REQUIRE([AC_FUNC_ALLOCA])dnl
--   AC_REQUIRE([AC_FUNC_MMAP])dnl
--   AC_REQUIRE([jm_GLIBC21])dnl
--
--   AC_CHECK_HEADERS([argz.h limits.h locale.h nl_types.h malloc.h stddef.h \
--stdlib.h string.h unistd.h sys/param.h])
--   AC_CHECK_FUNCS([feof_unlocked fgets_unlocked getcwd getegid geteuid \
--getgid getuid mempcpy munmap putenv setenv setlocale stpcpy strchr strcasecmp \
--strdup strtoul tsearch __argz_count __argz_stringify __argz_next])
--
--   AM_ICONV
--   AM_LANGINFO_CODESET
--   AM_LC_MESSAGES
--   AM_WITH_NLS([$1],[$2],[$3])
--
--   if test "x$CATOBJEXT" != "x"; then
--     if test "x$ALL_LINGUAS" = "x"; then
--       LINGUAS=
--     else
--       AC_MSG_CHECKING(for catalogs to be installed)
--       NEW_LINGUAS=
--       for presentlang in $ALL_LINGUAS; do
--         useit=no
--         for desiredlang in ${LINGUAS-$ALL_LINGUAS}; do
--           # Use the presentlang catalog if desiredlang is
--           #   a. equal to presentlang, or
--           #   b. a variant of presentlang (because in this case,
--           #      presentlang can be used as a fallback for messages
--           #      which are not translated in the desiredlang catalog).
--           case "$desiredlang" in
--             "$presentlang"*) useit=yes;;
--           esac
--         done
--         if test $useit = yes; then
--           NEW_LINGUAS="$NEW_LINGUAS $presentlang"
--         fi
--       done
--       LINGUAS=$NEW_LINGUAS
--       AC_MSG_RESULT($LINGUAS)
--     fi
--
--     dnl Construct list of names of catalog files to be constructed.
--     if test -n "$LINGUAS"; then
--       for lang in $LINGUAS; do CATALOGS="$CATALOGS $lang$CATOBJEXT"; done
--     fi
--   fi
--
--   dnl If the AC_CONFIG_AUX_DIR macro for autoconf is used we possibly
--   dnl find the mkinstalldirs script in another subdir but $(top_srcdir).
--   dnl Try to locate is.
--   MKINSTALLDIRS=
--   if test -n "$ac_aux_dir"; then
--     MKINSTALLDIRS="$ac_aux_dir/mkinstalldirs"
--   fi
--   if test -z "$MKINSTALLDIRS"; then
--     MKINSTALLDIRS="\$(top_srcdir)/mkinstalldirs"
--   fi
--   AC_SUBST(MKINSTALLDIRS)
--
--   dnl Enable libtool support if the surrounding package wishes it.
--   INTL_LIBTOOL_SUFFIX_PREFIX=ifelse([$1], use-libtool, [l], [])
--   AC_SUBST(INTL_LIBTOOL_SUFFIX_PREFIX)
--  ])
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/config/glibc21.m4 b/meta/recipes-core/console-tools/console-tools-0.3.2/config/glibc21.m4
-deleted file mode 100644
-index 5b88ef2..0000000
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/config/glibc21.m4
-+++ b/dev/null
-@@ -1,26 +0,0 @@
--#serial 2
--
--# Test for the GNU C Library, version 2.1 or newer.
--# From Bruno Haible.
--
--AC_DEFUN([jm_GLIBC21],
--  [
--    AC_CACHE_CHECK(whether we are using the GNU C Library 2.1 or newer,
--      ac_cv_gnu_library_2_1,
--      [AC_EGREP_CPP([Lucky GNU user],
--	[
--#include <features.h>
--#ifdef __GNU_LIBRARY__
-- #if (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1) || (__GLIBC__ > 2)
--  Lucky GNU user
-- #endif
--#endif
--	],
--	ac_cv_gnu_library_2_1=yes,
--	ac_cv_gnu_library_2_1=no)
--      ]
--    )
--    AC_SUBST(GLIBC21)
--    GLIBC21="$ac_cv_gnu_library_2_1"
--  ]
--)
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/config/iconv.m4 b/meta/recipes-core/console-tools/console-tools-0.3.2/config/iconv.m4
-deleted file mode 100644
-index 1723734..0000000
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/config/iconv.m4
-+++ b/dev/null
-@@ -1,69 +0,0 @@
--#serial AM2
--
--dnl From Bruno Haible.
--
--AC_DEFUN([AM_ICONV],
--[
--  dnl Some systems have iconv in libc, some have it in libiconv (OSF/1 and
--  dnl those with the standalone portable GNU libiconv installed).
--
--  AC_ARG_WITH([libiconv-prefix],
--[  --with-libiconv-prefix=DIR  search for libiconv in DIR/include and DIR/lib], [
--    for dir in `echo "$withval" | tr : ' '`; do
--      if test -d $dir/include; then CPPFLAGS="$CPPFLAGS -I$dir/include"; fi
--      if test -d $dir/lib; then LDFLAGS="$LDFLAGS -L$dir/lib"; fi
--    done
--   ])
--
--  AC_CACHE_CHECK(for iconv, am_cv_func_iconv, [
--    am_cv_func_iconv="no, consider installing GNU libiconv"
--    am_cv_lib_iconv=no
--    AC_TRY_LINK([#include <stdlib.h>
--#include <iconv.h>],
--      [iconv_t cd = iconv_open("","");
--       iconv(cd,NULL,NULL,NULL,NULL);
--       iconv_close(cd);],
--      am_cv_func_iconv=yes)
--    if test "$am_cv_func_iconv" != yes; then
--      am_save_LIBS="$LIBS"
--      LIBS="$LIBS -liconv"
--      AC_TRY_LINK([#include <stdlib.h>
--#include <iconv.h>],
--        [iconv_t cd = iconv_open("","");
--         iconv(cd,NULL,NULL,NULL,NULL);
--         iconv_close(cd);],
--        am_cv_lib_iconv=yes
--        am_cv_func_iconv=yes)
--      LIBS="$am_save_LIBS"
--    fi
--  ])
--  if test "$am_cv_func_iconv" = yes; then
--    AC_DEFINE(HAVE_ICONV, 1, [Define if you have the iconv() function.])
--    AC_MSG_CHECKING([for iconv declaration])
--    AC_CACHE_VAL(am_cv_proto_iconv, [
--      AC_TRY_COMPILE([
--#include <stdlib.h>
--#include <iconv.h>
--extern
--#ifdef __cplusplus
--"C"
--#endif
--#if defined(__STDC__) || defined(__cplusplus)
--size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
--#else
--size_t iconv();
--#endif
--], [], am_cv_proto_iconv_arg1="", am_cv_proto_iconv_arg1="const")
--      am_cv_proto_iconv="extern size_t iconv (iconv_t cd, $am_cv_proto_iconv_arg1 char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);"])
--    am_cv_proto_iconv=`echo "[$]am_cv_proto_iconv" | tr -s ' ' | sed -e 's/( /(/'`
--    AC_MSG_RESULT([$]{ac_t:-
--         }[$]am_cv_proto_iconv)
--    AC_DEFINE_UNQUOTED(ICONV_CONST, $am_cv_proto_iconv_arg1,
--      [Define as const if the declaration of iconv() needs const.])
--  fi
--  LIBICONV=
--  if test "$am_cv_lib_iconv" = yes; then
--    LIBICONV="-liconv"
--  fi
--  AC_SUBST(LIBICONV)
--])
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/config/progtest.m4 b/meta/recipes-core/console-tools/console-tools-0.3.2/config/progtest.m4
-deleted file mode 100644
-index 35dc3da..0000000
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/config/progtest.m4
-+++ b/dev/null
-@@ -1,51 +0,0 @@
--# Search path for a program which passes the given test.
--# Ulrich Drepper <drepper@cygnus.com>, 1996.
--#
--# This file can be copied and used freely without restrictions.  It can
--# be used in projects which are not available under the GNU General Public
--# License or the GNU Library General Public License but which still want
--# to provide support for the GNU gettext functionality.
--# Please note that the actual code of the GNU gettext library is covered
--# by the GNU Library General Public License, and the rest of the GNU
--# gettext package package is covered by the GNU General Public License.
--# They are *not* in the public domain.
--
--# serial 2
--
--dnl AM_PATH_PROG_WITH_TEST(VARIABLE, PROG-TO-CHECK-FOR,
--dnl   TEST-PERFORMED-ON-FOUND_PROGRAM [, VALUE-IF-NOT-FOUND [, PATH]])
--AC_DEFUN([AM_PATH_PROG_WITH_TEST],
--[# Extract the first word of "$2", so it can be a program name with args.
--set dummy $2; ac_word=[$]2
--AC_MSG_CHECKING([for $ac_word])
--AC_CACHE_VAL(ac_cv_path_$1,
--[case "[$]$1" in
--  /*)
--  ac_cv_path_$1="[$]$1" # Let the user override the test with a path.
--  ;;
--  *)
--  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS="${IFS}:"
--  for ac_dir in ifelse([$5], , $PATH, [$5]); do
--    test -z "$ac_dir" && ac_dir=.
--    if test -f $ac_dir/$ac_word; then
--      if [$3]; then
--	ac_cv_path_$1="$ac_dir/$ac_word"
--	break
--      fi
--    fi
--  done
--  IFS="$ac_save_ifs"
--dnl If no 4th arg is given, leave the cache variable unset,
--dnl so AC_PATH_PROGS will keep looking.
--ifelse([$4], , , [  test -z "[$]ac_cv_path_$1" && ac_cv_path_$1="$4"
--])dnl
--  ;;
--esac])dnl
--$1="$ac_cv_path_$1"
--if test ifelse([$4], , [-n "[$]$1"], ["[$]$1" != "$4"]); then
--  AC_MSG_RESULT([$]$1)
--else
--  AC_MSG_RESULT(no)
--fi
--AC_SUBST($1)dnl
--])
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch
-index 60ee8ff..15c100c 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch
-@@ -1,9 +1,5 @@
- Upstream-Status: Pending
- 
--#
--# Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
--#
--
- --- console-tools-0.3.2/configure.in~configure
- +++ console-tools-0.3.2/configure.in
- @@ -2,13 +2,14 @@
-@@ -23,25 +19,11 @@ Upstream-Status: Pending
-  AM_INIT_AUTOMAKE(console-tools, 0.3.2)
-  
-  # Defaults
--@@ -25,7 +26,7 @@
-+@@ -25,7 +26,6 @@
-  # i18n stuff
-  ALL_LINGUAS="cs de ru ga fr"
-  AM_GNU_GETTEXT
- -AC_OUTPUT_COMMANDS([sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
--+AC_CONFIG_COMMANDS([default-1],[[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile]],[[]])
-  
-  AC_DEFINE_UNQUOTED(LOCALEDIR, "/usr/share/locale")
-  
--@@ -172,10 +173,11 @@
-- AC_SUBST(CHARMAPDIR)
-- 
-- # Output
---AC_OUTPUT([Makefile lib/Makefile lib/console/Makefile lib/cfont/Makefile
--+AC_CONFIG_FILES([Makefile lib/Makefile lib/console/Makefile lib/cfont/Makefile
--   lib/ctutils/Makefile lib/ctlocal/Makefile lib/generic/Makefile
--   fontfiletools/Makefile vttools/Makefile
--   kbdtools/Makefile screenfonttools/Makefile contrib/Makefile
--   include/Makefile include/lct/Makefile compat/Makefile
--   doc/Makefile doc/man/Makefile examples/Makefile
--   po/Makefile.in intl/Makefile])
--+AC_OUTPUT
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/config/lcmessage.m4 b/meta/recipes-core/console-tools/console-tools-0.3.2/lcmessage.m4
-index 18d47a9..18d47a9 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/config/lcmessage.m4
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/lcmessage.m4
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/nodocs.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/nodocs.patch
-new file mode 100644
-index 0000000..60b5ffd
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/config.rpath b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/config.rpath
+new file mode 100755
+index 0000000..17298f2
 --- a/dev/null
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/nodocs.patch
-@@ -0,0 +1,19 @@
-+The docs need tools we don't have to build so disable them.
++++ b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/config.rpath
+@@ -0,0 +1,672 @@
++#! /bin/sh
++# Output a system dependent set of variables, describing how to set the
++# run time search path of shared libraries in an executable.
++#
++#   Copyright 1996-2010 Free Software Foundation, Inc.
++#   Taken from GNU libtool, 2001
++#   Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
++#
++#   This file is free software; the Free Software Foundation gives
++#   unlimited permission to copy and/or distribute it, with or without
++#   modifications, as long as this notice is preserved.
++#
++# The first argument passed to this file is the canonical host specification,
++#    CPU_TYPE-MANUFACTURER-OPERATING_SYSTEM
++# or
++#    CPU_TYPE-MANUFACTURER-KERNEL-OPERATING_SYSTEM
++# The environment variables CC, GCC, LDFLAGS, LD, with_gnu_ld
++# should be set by the caller.
++#
++# The set of defined variables is at the end of this script.
 +
-+Upstream-Status: Inappropriate [configuration]
-+RP 2012/10/17
++# Known limitations:
++# - On IRIX 6.5 with CC="cc", the run time search patch must not be longer
++#   than 256 bytes, otherwise the compiler driver will dump core. The only
++#   known workaround is to choose shorter directory names for the build
++#   directory and/or the installation directory.
 +
-+Index: console-tools-0.3.2/Makefile.am
-+===================================================================
-+--- console-tools-0.3.2.orig/Makefile.am	1999-04-15 01:33:24.000000000 +0000
-++++ console-tools-0.3.2/Makefile.am	2012-10-17 11:48:14.107069145 +0000
-+@@ -1,7 +1,7 @@
-+ # -*- makefile -*-
-+ AUTOMAKE_OPTIONS = foreign
-+ 
-+-SUBDIRS = lib fontfiletools vttools kbdtools screenfonttools contrib doc \
-+-	compat include examples po intl
-++SUBDIRS = lib fontfiletools vttools kbdtools screenfonttools contrib \
-++	compat include examples po intl
-+ 
-+ EXTRA_DIST = BUGS RELEASE CREDITS COPYING.kbd local-scripts/* debian/* *.lsm
-diff --git a/meta/recipes-core/console-tools/console-tools_0.3.2.bb b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
-index 8bcc90a..d62c0bd 100644
---- a/meta/recipes-core/console-tools/console-tools_0.3.2.bb
-+++ b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
-@@ -11,23 +11,18 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/lct/console-tools-${PV}.tar.gz \
-            file://compile.patch \
-            file://kbdrate.patch \
-            file://uclibc-fileno.patch \
--           file://config"
-+           file://nodocs.patch \
-+           file://lcmessage.m4 \
-+           file://Makevars"
++# All known linkers require a `.a' archive for static linking (except MSVC,
++# which needs '.lib').
++libext=a
++shrext=.so
++
++host="$1"
++host_cpu=`echo "$host" | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
++host_vendor=`echo "$host" | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
++host_os=`echo "$host" | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
++
++# Code taken from libtool.m4's _LT_CC_BASENAME.
++
++for cc_temp in $CC""; do
++  case $cc_temp in
++    compile | *[\\/]compile | ccache | *[\\/]ccache ) ;;
++    distcc | *[\\/]distcc | purify | *[\\/]purify ) ;;
++    \-*) ;;
++    *) break;;
++  esac
++done
++cc_basename=`echo "$cc_temp" | sed -e 's%^.*/%%'`
++
++# Code taken from libtool.m4's _LT_COMPILER_PIC.
++
++wl=
++if test "$GCC" = yes; then
++  wl='-Wl,'
++else
++  case "$host_os" in
++    aix*)
++      wl='-Wl,'
++      ;;
++    darwin*)
++      case $cc_basename in
++        xlc*)
++          wl='-Wl,'
++          ;;
++      esac
++      ;;
++    mingw* | cygwin* | pw32* | os2* | cegcc*)
++      ;;
++    hpux9* | hpux10* | hpux11*)
++      wl='-Wl,'
++      ;;
++    irix5* | irix6* | nonstopux*)
++      wl='-Wl,'
++      ;;
++    newsos6)
++      ;;
++    linux* | k*bsd*-gnu)
++      case $cc_basename in
++        ecc*)
++          wl='-Wl,'
++          ;;
++        icc* | ifort*)
++          wl='-Wl,'
++          ;;
++        lf95*)
++          wl='-Wl,'
++          ;;
++        pgcc | pgf77 | pgf90)
++          wl='-Wl,'
++          ;;
++        ccc*)
++          wl='-Wl,'
++          ;;
++        como)
++          wl='-lopt='
++          ;;
++        *)
++          case `$CC -V 2>&1 | sed 5q` in
++            *Sun\ C*)
++              wl='-Wl,'
++              ;;
++          esac
++          ;;
++      esac
++      ;;
++    osf3* | osf4* | osf5*)
++      wl='-Wl,'
++      ;;
++    rdos*)
++      ;;
++    solaris*)
++      wl='-Wl,'
++      ;;
++    sunos4*)
++      wl='-Qoption ld '
++      ;;
++    sysv4 | sysv4.2uw2* | sysv4.3*)
++      wl='-Wl,'
++      ;;
++    sysv4*MP*)
++      ;;
++    sysv5* | unixware* | sco3.2v5* | sco5v6* | OpenUNIX*)
++      wl='-Wl,'
++      ;;
++    unicos*)
++      wl='-Wl,'
++      ;;
++    uts4*)
++      ;;
++  esac
++fi
++
++# Code taken from libtool.m4's _LT_LINKER_SHLIBS.
++
++hardcode_libdir_flag_spec=
++hardcode_libdir_separator=
++hardcode_direct=no
++hardcode_minus_L=no
++
++case "$host_os" in
++  cygwin* | mingw* | pw32* | cegcc*)
++    # FIXME: the MSVC++ port hasn't been tested in a loooong time
++    # When not using gcc, we currently assume that we are using
++    # Microsoft Visual C++.
++    if test "$GCC" != yes; then
++      with_gnu_ld=no
++    fi
++    ;;
++  interix*)
++    # we just hope/assume this is gcc and not c89 (= MSVC++)
++    with_gnu_ld=yes
++    ;;
++  openbsd*)
++    with_gnu_ld=no
++    ;;
++esac
++
++ld_shlibs=yes
++if test "$with_gnu_ld" = yes; then
++  # Set some defaults for GNU ld with shared library support. These
++  # are reset later if shared libraries are not supported. Putting them
++  # here allows them to be overridden if necessary.
++  # Unlike libtool, we use -rpath here, not --rpath, since the documented
++  # option of GNU ld is called -rpath, not --rpath.
++  hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
++  case "$host_os" in
++    aix[3-9]*)
++      # On AIX/PPC, the GNU linker is very broken
++      if test "$host_cpu" != ia64; then
++        ld_shlibs=no
++      fi
++      ;;
++    amigaos*)
++      hardcode_libdir_flag_spec='-L$libdir'
++      hardcode_minus_L=yes
++      # Samuel A. Falvo II <kc5tja@dolphin.openprojects.net> reports
++      # that the semantics of dynamic libraries on AmigaOS, at least up
++      # to version 4, is to share data among multiple programs linked
++      # with the same dynamic library.  Since this doesn't match the
++      # behavior of shared libraries on other platforms, we cannot use
++      # them.
++      ld_shlibs=no
++      ;;
++    beos*)
++      if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
++        :
++      else
++        ld_shlibs=no
++      fi
++      ;;
++    cygwin* | mingw* | pw32* | cegcc*)
++      # hardcode_libdir_flag_spec is actually meaningless, as there is
++      # no search path for DLLs.
++      hardcode_libdir_flag_spec='-L$libdir'
++      if $LD --help 2>&1 | grep 'auto-import' > /dev/null; then
++        :
++      else
++        ld_shlibs=no
++      fi
++      ;;
++    interix[3-9]*)
++      hardcode_direct=no
++      hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
++      ;;
++    gnu* | linux* | k*bsd*-gnu)
++      if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
++        :
++      else
++        ld_shlibs=no
++      fi
++      ;;
++    netbsd*)
++      ;;
++    solaris*)
++      if $LD -v 2>&1 | grep 'BFD 2\.8' > /dev/null; then
++        ld_shlibs=no
++      elif $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
++        :
++      else
++        ld_shlibs=no
++      fi
++      ;;
++    sysv5* | sco3.2v5* | sco5v6* | unixware* | OpenUNIX*)
++      case `$LD -v 2>&1` in
++        *\ [01].* | *\ 2.[0-9].* | *\ 2.1[0-5].*)
++          ld_shlibs=no
++          ;;
++        *)
++          if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
++            hardcode_libdir_flag_spec='`test -z "$SCOABSPATH" && echo ${wl}-rpath,$libdir`'
++          else
++            ld_shlibs=no
++          fi
++          ;;
++      esac
++      ;;
++    sunos4*)
++      hardcode_direct=yes
++      ;;
++    *)
++      if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
++        :
++      else
++        ld_shlibs=no
++      fi
++      ;;
++  esac
++  if test "$ld_shlibs" = no; then
++    hardcode_libdir_flag_spec=
++  fi
++else
++  case "$host_os" in
++    aix3*)
++      # Note: this linker hardcodes the directories in LIBPATH if there
++      # are no directories specified by -L.
++      hardcode_minus_L=yes
++      if test "$GCC" = yes; then
++        # Neither direct hardcoding nor static linking is supported with a
++        # broken collect2.
++        hardcode_direct=unsupported
++      fi
++      ;;
++    aix[4-9]*)
++      if test "$host_cpu" = ia64; then
++        # On IA64, the linker does run time linking by default, so we don't
++        # have to do anything special.
++        aix_use_runtimelinking=no
++      else
++        aix_use_runtimelinking=no
++        # Test if we are trying to use run time linking or normal
++        # AIX style linking. If -brtl is somewhere in LDFLAGS, we
++        # need to do runtime linking.
++        case $host_os in aix4.[23]|aix4.[23].*|aix[5-9]*)
++          for ld_flag in $LDFLAGS; do
++            if (test $ld_flag = "-brtl" || test $ld_flag = "-Wl,-brtl"); then
++              aix_use_runtimelinking=yes
++              break
++            fi
++          done
++          ;;
++        esac
++      fi
++      hardcode_direct=yes
++      hardcode_libdir_separator=':'
++      if test "$GCC" = yes; then
++        case $host_os in aix4.[012]|aix4.[012].*)
++          collect2name=`${CC} -print-prog-name=collect2`
++          if test -f "$collect2name" && \
++            strings "$collect2name" | grep resolve_lib_name >/dev/null
++          then
++            # We have reworked collect2
++            :
++          else
++            # We have old collect2
++            hardcode_direct=unsupported
++            hardcode_minus_L=yes
++            hardcode_libdir_flag_spec='-L$libdir'
++            hardcode_libdir_separator=
++          fi
++          ;;
++        esac
++      fi
++      # Begin _LT_AC_SYS_LIBPATH_AIX.
++      echo 'int main () { return 0; }' > conftest.c
++      ${CC} ${LDFLAGS} conftest.c -o conftest
++      aix_libpath=`dump -H conftest 2>/dev/null | sed -n -e '/Import File Strings/,/^$/ { /^0/ { s/^0  *\(.*\)$/\1/; p; }
++}'`
++      if test -z "$aix_libpath"; then
++        aix_libpath=`dump -HX64 conftest 2>/dev/null | sed -n -e '/Import File Strings/,/^$/ { /^0/ { s/^0  *\(.*\)$/\1/; p; }
++}'`
++      fi
++      if test -z "$aix_libpath"; then
++        aix_libpath="/usr/lib:/lib"
++      fi
++      rm -f conftest.c conftest
++      # End _LT_AC_SYS_LIBPATH_AIX.
++      if test "$aix_use_runtimelinking" = yes; then
++        hardcode_libdir_flag_spec='${wl}-blibpath:$libdir:'"$aix_libpath"
++      else
++        if test "$host_cpu" = ia64; then
++          hardcode_libdir_flag_spec='${wl}-R $libdir:/usr/lib:/lib'
++        else
++          hardcode_libdir_flag_spec='${wl}-blibpath:$libdir:'"$aix_libpath"
++        fi
++      fi
++      ;;
++    amigaos*)
++      hardcode_libdir_flag_spec='-L$libdir'
++      hardcode_minus_L=yes
++      # see comment about different semantics on the GNU ld section
++      ld_shlibs=no
++      ;;
++    bsdi[45]*)
++      ;;
++    cygwin* | mingw* | pw32* | cegcc*)
++      # When not using gcc, we currently assume that we are using
++      # Microsoft Visual C++.
++      # hardcode_libdir_flag_spec is actually meaningless, as there is
++      # no search path for DLLs.
++      hardcode_libdir_flag_spec=' '
++      libext=lib
++      ;;
++    darwin* | rhapsody*)
++      hardcode_direct=no
++      if test "$GCC" = yes ; then
++        :
++      else
++        case $cc_basename in
++          xlc*)
++            ;;
++          *)
++            ld_shlibs=no
++            ;;
++        esac
++      fi
++      ;;
++    dgux*)
++      hardcode_libdir_flag_spec='-L$libdir'
++      ;;
++    freebsd1*)
++      ld_shlibs=no
++      ;;
++    freebsd2.2*)
++      hardcode_libdir_flag_spec='-R$libdir'
++      hardcode_direct=yes
++      ;;
++    freebsd2*)
++      hardcode_direct=yes
++      hardcode_minus_L=yes
++      ;;
++    freebsd* | dragonfly*)
++      hardcode_libdir_flag_spec='-R$libdir'
++      hardcode_direct=yes
++      ;;
++    hpux9*)
++      hardcode_libdir_flag_spec='${wl}+b ${wl}$libdir'
++      hardcode_libdir_separator=:
++      hardcode_direct=yes
++      # hardcode_minus_L: Not really in the search PATH,
++      # but as the default location of the library.
++      hardcode_minus_L=yes
++      ;;
++    hpux10*)
++      if test "$with_gnu_ld" = no; then
++        hardcode_libdir_flag_spec='${wl}+b ${wl}$libdir'
++        hardcode_libdir_separator=:
++        hardcode_direct=yes
++        # hardcode_minus_L: Not really in the search PATH,
++        # but as the default location of the library.
++        hardcode_minus_L=yes
++      fi
++      ;;
++    hpux11*)
++      if test "$with_gnu_ld" = no; then
++        hardcode_libdir_flag_spec='${wl}+b ${wl}$libdir'
++        hardcode_libdir_separator=:
++        case $host_cpu in
++          hppa*64*|ia64*)
++            hardcode_direct=no
++            ;;
++          *)
++            hardcode_direct=yes
++            # hardcode_minus_L: Not really in the search PATH,
++            # but as the default location of the library.
++            hardcode_minus_L=yes
++            ;;
++        esac
++      fi
++      ;;
++    irix5* | irix6* | nonstopux*)
++      hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
++      hardcode_libdir_separator=:
++      ;;
++    netbsd*)
++      hardcode_libdir_flag_spec='-R$libdir'
++      hardcode_direct=yes
++      ;;
++    newsos6)
++      hardcode_direct=yes
++      hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
++      hardcode_libdir_separator=:
++      ;;
++    openbsd*)
++      if test -f /usr/libexec/ld.so; then
++        hardcode_direct=yes
++        if test -z "`echo __ELF__ | $CC -E - | grep __ELF__`" || test "$host_os-$host_cpu" = "openbsd2.8-powerpc"; then
++          hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
++        else
++          case "$host_os" in
++            openbsd[01].* | openbsd2.[0-7] | openbsd2.[0-7].*)
++              hardcode_libdir_flag_spec='-R$libdir'
++              ;;
++            *)
++              hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
++              ;;
++          esac
++        fi
++      else
++        ld_shlibs=no
++      fi
++      ;;
++    os2*)
++      hardcode_libdir_flag_spec='-L$libdir'
++      hardcode_minus_L=yes
++      ;;
++    osf3*)
++      hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
++      hardcode_libdir_separator=:
++      ;;
++    osf4* | osf5*)
++      if test "$GCC" = yes; then
++        hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
++      else
++        # Both cc and cxx compiler support -rpath directly
++        hardcode_libdir_flag_spec='-rpath $libdir'
++      fi
++      hardcode_libdir_separator=:
++      ;;
++    solaris*)
++      hardcode_libdir_flag_spec='-R$libdir'
++      ;;
++    sunos4*)
++      hardcode_libdir_flag_spec='-L$libdir'
++      hardcode_direct=yes
++      hardcode_minus_L=yes
++      ;;
++    sysv4)
++      case $host_vendor in
++        sni)
++          hardcode_direct=yes # is this really true???
++          ;;
++        siemens)
++          hardcode_direct=no
++          ;;
++        motorola)
++          hardcode_direct=no #Motorola manual says yes, but my tests say they lie
++          ;;
++      esac
++      ;;
++    sysv4.3*)
++      ;;
++    sysv4*MP*)
++      if test -d /usr/nec; then
++        ld_shlibs=yes
++      fi
++      ;;
++    sysv4*uw2* | sysv5OpenUNIX* | sysv5UnixWare7.[01].[10]* | unixware7* | sco3.2v5.0.[024]*)
++      ;;
++    sysv5* | sco3.2v5* | sco5v6*)
++      hardcode_libdir_flag_spec='`test -z "$SCOABSPATH" && echo ${wl}-R,$libdir`'
++      hardcode_libdir_separator=':'
++      ;;
++    uts4*)
++      hardcode_libdir_flag_spec='-L$libdir'
++      ;;
++    *)
++      ld_shlibs=no
++      ;;
++  esac
++fi
++
++# Check dynamic linker characteristics
++# Code taken from libtool.m4's _LT_SYS_DYNAMIC_LINKER.
++# Unlike libtool.m4, here we don't care about _all_ names of the library, but
++# only about the one the linker finds when passed -lNAME. This is the last
++# element of library_names_spec in libtool.m4, or possibly two of them if the
++# linker has special search rules.
++library_names_spec=      # the last element of library_names_spec in libtool.m4
++libname_spec='lib$name'
++case "$host_os" in
++  aix3*)
++    library_names_spec='$libname.a'
++    ;;
++  aix[4-9]*)
++    library_names_spec='$libname$shrext'
++    ;;
++  amigaos*)
++    library_names_spec='$libname.a'
++    ;;
++  beos*)
++    library_names_spec='$libname$shrext'
++    ;;
++  bsdi[45]*)
++    library_names_spec='$libname$shrext'
++    ;;
++  cygwin* | mingw* | pw32* | cegcc*)
++    shrext=.dll
++    library_names_spec='$libname.dll.a $libname.lib'
++    ;;
++  darwin* | rhapsody*)
++    shrext=.dylib
++    library_names_spec='$libname$shrext'
++    ;;
++  dgux*)
++    library_names_spec='$libname$shrext'
++    ;;
++  freebsd1*)
++    ;;
++  freebsd* | dragonfly*)
++    case "$host_os" in
++      freebsd[123]*)
++        library_names_spec='$libname$shrext$versuffix' ;;
++      *)
++        library_names_spec='$libname$shrext' ;;
++    esac
++    ;;
++  gnu*)
++    library_names_spec='$libname$shrext'
++    ;;
++  hpux9* | hpux10* | hpux11*)
++    case $host_cpu in
++      ia64*)
++        shrext=.so
++        ;;
++      hppa*64*)
++        shrext=.sl
++        ;;
++      *)
++        shrext=.sl
++        ;;
++    esac
++    library_names_spec='$libname$shrext'
++    ;;
++  interix[3-9]*)
++    library_names_spec='$libname$shrext'
++    ;;
++  irix5* | irix6* | nonstopux*)
++    library_names_spec='$libname$shrext'
++    case "$host_os" in
++      irix5* | nonstopux*)
++        libsuff= shlibsuff=
++        ;;
++      *)
++        case $LD in
++          *-32|*"-32 "|*-melf32bsmip|*"-melf32bsmip ") libsuff= shlibsuff= ;;
++          *-n32|*"-n32 "|*-melf32bmipn32|*"-melf32bmipn32 ") libsuff=32 shlibsuff=N32 ;;
++          *-64|*"-64 "|*-melf64bmip|*"-melf64bmip ") libsuff=64 shlibsuff=64 ;;
++          *) libsuff= shlibsuff= ;;
++        esac
++        ;;
++    esac
++    ;;
++  linux*oldld* | linux*aout* | linux*coff*)
++    ;;
++  linux* | k*bsd*-gnu)
++    library_names_spec='$libname$shrext'
++    ;;
++  knetbsd*-gnu)
++    library_names_spec='$libname$shrext'
++    ;;
++  netbsd*)
++    library_names_spec='$libname$shrext'
++    ;;
++  newsos6)
++    library_names_spec='$libname$shrext'
++    ;;
++  nto-qnx*)
++    library_names_spec='$libname$shrext'
++    ;;
++  openbsd*)
++    library_names_spec='$libname$shrext$versuffix'
++    ;;
++  os2*)
++    libname_spec='$name'
++    shrext=.dll
++    library_names_spec='$libname.a'
++    ;;
++  osf3* | osf4* | osf5*)
++    library_names_spec='$libname$shrext'
++    ;;
++  rdos*)
++    ;;
++  solaris*)
++    library_names_spec='$libname$shrext'
++    ;;
++  sunos4*)
++    library_names_spec='$libname$shrext$versuffix'
++    ;;
++  sysv4 | sysv4.3*)
++    library_names_spec='$libname$shrext'
++    ;;
++  sysv4*MP*)
++    library_names_spec='$libname$shrext'
++    ;;
++  sysv5* | sco3.2v5* | sco5v6* | unixware* | OpenUNIX* | sysv4*uw2*)
++    library_names_spec='$libname$shrext'
++    ;;
++  uts4*)
++    library_names_spec='$libname$shrext'
++    ;;
++esac
++
++sed_quote_subst='s/\(["`$\\]\)/\\\1/g'
++escaped_wl=`echo "X$wl" | sed -e 's/^X//' -e "$sed_quote_subst"`
++shlibext=`echo "$shrext" | sed -e 's,^\.,,'`
++escaped_libname_spec=`echo "X$libname_spec" | sed -e 's/^X//' -e "$sed_quote_subst"`
++escaped_library_names_spec=`echo "X$library_names_spec" | sed -e 's/^X//' -e "$sed_quote_subst"`
++escaped_hardcode_libdir_flag_spec=`echo "X$hardcode_libdir_flag_spec" | sed -e 's/^X//' -e "$sed_quote_subst"`
++
++LC_ALL=C sed -e 's/^\([a-zA-Z0-9_]*\)=/acl_cv_\1=/' <<EOF
++
++# How to pass a linker flag through the compiler.
++wl="$escaped_wl"
++
++# Static library suffix (normally "a").
++libext="$libext"
++
++# Shared library suffix (normally "so").
++shlibext="$shlibext"
++
++# Format of library name prefix.
++libname_spec="$escaped_libname_spec"
++
++# Library names that the linker finds when passed -lNAME.
++library_names_spec="$escaped_library_names_spec"
++
++# Flag to hardcode \$libdir into a binary during linking.
++# This must work even if \$libdir does not exist.
++hardcode_libdir_flag_spec="$escaped_hardcode_libdir_flag_spec"
++
++# Whether we need a single -rpath flag with a separated argument.
++hardcode_libdir_separator="$hardcode_libdir_separator"
++
++# Set to yes if using DIR/libNAME.so during linking hardcodes DIR into the
++# resulting binary.
++hardcode_direct="$hardcode_direct"
++
++# Set to yes if using the -LDIR flag during linking hardcodes DIR into the
++# resulting binary.
++hardcode_minus_L="$hardcode_minus_L"
++
++EOF
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
+index d10e3f9..a46a40d 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
+@@ -1,4 +1,6 @@
+ SRC_URI = "file://aclocal.tgz \
++           file://config.rpath \
++           file://Makefile.in.in \
+            file://COPYING"
  
- SRC_URI[md5sum] = "bf21564fc38b3af853ef724babddbacd"
- SRC_URI[sha256sum] = "eea6b441672dacd251079fc85ed322e196282e0e66c16303ec64c3a2b1c126c2"
+ INHIBIT_DEFAULT_DEPS = "1"
+@@ -9,11 +11,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0854da868a929923087141d9d7aba7d5"
  
--export SUBDIRS = "fontfiletools vttools kbdtools screenfonttools contrib \
--		  examples po intl compat"
--
--acpaths = "-I config"
- do_configure_prepend () {
--	mkdir -p config
--	cp ${WORKDIR}/config/*.m4 config/
--}
--
--do_compile () {
--	oe_runmake -C lib
--	oe_runmake 'SUBDIRS=${SUBDIRS}'
-+	mkdir -p ${S}/m4
-+	cp ${WORKDIR}/lcmessage.m4 ${S}/m4/
-+	rm -f ${S}/acinclude.m4
-+	cp ${WORKDIR}/Makevars ${S}/po/
+ inherit native
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ S = "${WORKDIR}"
+ 
+ do_install () {
+ 	install -d ${D}${datadir}/aclocal/
+ 	cp ${WORKDIR}/*.m4 ${D}${datadir}/aclocal/
++	install -d ${D}${datadir}/gettext/po/
++	cp ${WORKDIR}/config.rpath ${D}${datadir}/gettext/
++	cp ${WORKDIR}/Makefile.in.in ${D}${datadir}/gettext/po/
+ }
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index 96859aa..0f6f068 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -102,6 +102,8 @@ do_install_append() {
+ 
+ do_install_append_virtclass-native () {
+ 	rm ${D}${datadir}/aclocal/*
++	rm ${D}${datadir}/gettext/config.rpath
++	rm ${D}${datadir}/gettext/po/Makefile.in.in
  }
  
- inherit autotools gettext update-alternatives
+ BBCLASSEXTEND = "native nativesdk"
 
 
 
