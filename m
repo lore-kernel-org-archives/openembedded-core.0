@@ -1,30 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TOVOR-0004GY-EH for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 17:18:47 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HF5SUB006951
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <s.stirtzel@googlemail.com>) id 1TOVd4-0004Vy-Tw
+	for openembedded-core@lists.openembedded.org;
+	Wed, 17 Oct 2012 17:33:55 +0200
+Received: by mail-ie0-f175.google.com with SMTP id c13so11895480ieb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 16:05:28 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06675-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 16:05:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9HF5Ie2006944
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 16:05:19 +0100
-Message-ID: <1350486326.2185.86.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Oct 2012 16:05:26 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] diffutils: Remove rather bizzare gettext macros
+	Wed, 17 Oct 2012 08:20:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=6l5uazb4de7Gb5RmmPB6XZOd28aaMrRoHNH+yDIKREo=;
+	b=k8q6eOfCPDgX/D7GlxTH/nX7zTbDyBH6IClcP0MYJJ5NrbVt8Jz8LggHE9/BQqCpYZ
+	TLqDI12WnVXS62U6Qvy+VteMtaB3KJuejhM+kgBlwsgjh8AvEobs7t1+rkSM2Kw4fl60
+	DdpiX+9hJUlXXZhq0Q5KU40oz5SU29Hj9ZxN9TPmL/V/cknnIbTIgDyFOS0JNMpNChLq
+	Rfdl11hlwzlqsimnANA7suy8ngAihq/D7i0jl/qa1ksEmo8u4Z8njec4TlYX5N57/J94
+	kYheExEC6IgImb6RxKPfocpgl4BzKPRYgxZoVi/OBpCY6854wamOqeInDaRVXpNfJ987
+	YrGQ==
+MIME-Version: 1.0
+Received: by 10.50.36.133 with SMTP id q5mr1934058igj.14.1350487233149; Wed,
+	17 Oct 2012 08:20:33 -0700 (PDT)
+Received: by 10.64.24.179 with HTTP; Wed, 17 Oct 2012 08:20:33 -0700 (PDT)
+In-Reply-To: <CAJTo0LYzc2NMN2Tu4ecT-BYfG9LjAy-AevUx2YBsaVS=85NgyQ@mail.gmail.com>
+References: <1350484172-9188-1-git-send-email-s.stirtzel@googlemail.com>
+	<1350484172-9188-3-git-send-email-s.stirtzel@googlemail.com>
+	<CAJTo0LYzc2NMN2Tu4ecT-BYfG9LjAy-AevUx2YBsaVS=85NgyQ@mail.gmail.com>
+Date: Wed, 17 Oct 2012 17:20:33 +0200
+Message-ID: <CAGiJk9e0niLAugOkHnVThzmdLZxkenOnj4fboRM9Mt_zUctTTw@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] matchbox-keyboard: Use gtk-immodules-cache.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 15:18:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Oct 2012 15:33:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-diffutils has a rather confused set of getext macros with different names and
-strange conflicting version requirements. This patch removes the problematic
-macros allowing it to 'gettextize' to the latest standard gettext code without
-issue.
+2012/10/17 Burton, Ross <ross.burton@intel.com>:
+> On 17 October 2012 15:29, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
+>> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
+>> ---
+>>  .../matchbox-keyboard/matchbox-keyboard_git.bb     |   21 ++++----------------
+>>  1 file changed, 4 insertions(+), 17 deletions(-)
+>
+> Missing PR bump, but acked once that is fixed.
+>
+> Ross
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-extended/diffutils/diffutils_3.2.bb b/meta/recipes-extended/diffutils/diffutils_3.2.bb
-index 74c371d..dc87190 100644
---- a/meta/recipes-extended/diffutils/diffutils_3.2.bb
-+++ b/meta/recipes-extended/diffutils/diffutils_3.2.bb
-@@ -3,6 +3,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- require diffutils.inc
- 
-+do_configure_prepend () {
-+	# Need to remove gettext macros with weird mix of versions
-+	for i in codeset.m4 gettext_gl.m4 intlmacosx.m4 inttypes-pri.m4 lib-ld_gl.m4 lib-prefix_gl.m4 po_gl.m4 ssize_t.m4 wchar_t.m4 wint_t.m4; do
-+		rm ${S}/m4/$i
-+	done
-+}
-+
- PR = "${INC_PR}.0"
- 
- SRC_URI += "file://remove-gets.patch"
+Thought that the PR bump is needed if the functionality changes?
+Anyway v2 coming soon.
 
 
+-- 
+Regards
+Samuel
 
 
