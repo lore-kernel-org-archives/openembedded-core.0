@@ -1,35 +1,23 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TOUBp-0008Lf-1Z
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TOUFI-0002PG-S9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 16:01:41 +0200
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 17 Oct 2012 06:48:19 -0700
-Received: by mail-ia0-f175.google.com with SMTP id b35so5408856iac.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 06:48:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=+KJHLgIoWWf8j/dJO/kQE4GKuK9d5+oZilcYcqdTsPM=;
-	b=bntQTMpsE3PYwVGB7cDKcfh2cQf1nZdv+ahz3JQECA/NV3uNN/RYkaUfIfJHdlVKat
-	YZjC931H1NM3CwMIFTN7b3cnp4OtcBj52r/EHhfM4SJmOkF6fQ008cLviYrHr/VorraK
-	DKendUlzH61BUK3MW7rPdtToRIenMb2QkIt2iqUDn3Neknv0ZqTYzY3umUEmsnrqDoDQ
-	sqb3HUNA1Btk+uSo3hQVAzn75ALP0jw987dYRmt0YaFs1k9l2F6sbAQFJo9FMUNewcR+
-	sOsf0zr0C1g6CEJ01xTtYl279STbDcelmptCvXXUkkW+Al6O5GZbnh36EiO4dbBZeAaq
-	dIrQ==
-Received: by 10.50.220.229 with SMTP id pz5mr1518315igc.67.1350481698484; Wed,
-	17 Oct 2012 06:48:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.141.70 with HTTP; Wed, 17 Oct 2012 06:47:58 -0700 (PDT)
+	Wed, 17 Oct 2012 16:05:18 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Oct 2012 06:51:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,600,1344236400"; d="scan'208";a="205594051"
+Received: from unknown (HELO helios.localnet) ([10.252.122.85])
+	by azsmga001.ch.intel.com with ESMTP; 17 Oct 2012 06:51:56 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <philb@gnu.org>
+Date: Wed, 17 Oct 2012 14:51:54 +0100
+Message-ID: <13507481.xhLg1jrNlM@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
 In-Reply-To: <1350481324.3259.185.camel@phil-desktop>
 References: <1350481324.3259.185.camel@phil-desktop>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Oct 2012 14:47:58 +0100
-Message-ID: <CAJTo0Lb2gv_VJ5jzbfCcebkhUpgDVR-MsGq_74c1_SPJph_OpA@mail.gmail.com>
-To: Phil Blundell <philb@gnu.org>
-X-Gm-Message-State: ALoCoQnSQAVsyC3m7ghknZXWiEsCnMfSFbCUh7+pUZQjNWtX0hePiTFt2mJ8+Hs6ZaBnOy6R7Y9n
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC PATCH] autotools: Don't install .la files if the distro doesn't want them
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,27 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 14:01:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Oct 2012 14:05:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 17 October 2012 14:42, Phil Blundell <philb@gnu.org> wrote:
+On Wednesday 17 October 2012 14:42:03 Phil Blundell wrote:
 > It's not obvious that libtool's .la files serve any very useful purpose
 > on a modern system and they can be positively vexatious under some
 > circumstances.  Make installation of this stuff conditional on the new
 > "libtool-garbage" flag in DISTRO_FEATURES and backfill it for existing
-> distros.
 
-Hooray!
+Could we perhaps have a less inflammatory feature name? Since this is going to 
+be set in stone after all...
 
-> Also, perform at least a perfunctory cleaning of unified build directories
-> when reconfiguring since many packages don't have the right dependency
-> rules to cause a recompile when this happens.  Making distclean is not
-> practical since many packages either don't support it at all, or remove
-> too much (e.g. polkit blows away its documentation which causes the
-> subsequent license check to fail).
+Cheers,
+Paul
 
-Would you consider splitting this into a separate commit?
+-- 
 
-Ross
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
