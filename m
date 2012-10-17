@@ -1,33 +1,33 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TOZ3m-00027s-T4
+	(envelope-from <raj.khem@gmail.com>) id 1TOZBD-0002EO-Pa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 21:13:43 +0200
-Received: by mail-pa0-f47.google.com with SMTP id fa11so6552994pad.6
+	Wed, 17 Oct 2012 21:21:24 +0200
+Received: by mail-pb0-f47.google.com with SMTP id ro12so6616218pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Oct 2012 12:00:23 -0700 (PDT)
+	Wed, 17 Oct 2012 12:08:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=9YnwZGM5+oIBmpnp57fqDTXXU8pFmrRS1DVGr4S9Jhs=;
-	b=S+deL3C5k+gclO+81LyDeESIwccURDsG7lsPBmK12zV12ZlQHR1rdkLXSRfvBtGHch
-	+hxxDYsQhyFcP/u8qO+q4TcekR6KfX+HLSaEfaTNs31kyVT2TihsXJUiYQ2bsQkSLmcC
-	eJ02MhXBZ4yiSonWF4dfj/6vesqrQuj3TECGl1hxIdfcHhevDBFp+XydqgbVfdK30Fne
-	GTV8o9QI36G6KkVL4vTgHCO+lL9HJT/E29CO486vwz68GL6OUFrx2zEUM/EnsIwmcIMm
-	Ts+xGFf2MZh1W7NXZbNnSruO9rm7r013uUa5lp4vqLNUtZcd3kPohqxd1WO4Xn7pqNla
-	pnwg==
-Received: by 10.68.131.40 with SMTP id oj8mr60086813pbb.40.1350500423592;
-	Wed, 17 Oct 2012 12:00:23 -0700 (PDT)
+	bh=YEkf8fHkqObHer0iyUMSu1GY7Q4ntRvWEP2fLEpLGnw=;
+	b=i7NbuzyHjxR/a9I5FNqNa9Qvq05ymheMkLhnr/3myXB0+xhQucMLbuFRWVFhwFsZ5N
+	viMynckaLZofCXuJ7b5F9iGWuLEAOTFAtFIO0fmLLN0ngi81Uo/PaXWiyjWFbhEb7fRU
+	Q6eUP5WldR+OipMMTWuVKCnIZfjq7G7SKYDZ6Lgc6Z6wU2GvnET73aJCEWHAMosoYPTB
+	BW9pzNU2N4ErEb2US0GG3y35fYRvc687Jrp781N9ld6JxNLR9D/5JnhNlLcAU4lOcA2O
+	IJX/z2Xy4mMxW55aF6bcBjXjcPCK06aeNnQTEFnjiYtB4bLRUlrJS/9L+KoC8Y+Vzl8u
+	hgzw==
+Received: by 10.66.75.132 with SMTP id c4mr53062182paw.2.1350500884677;
+	Wed, 17 Oct 2012 12:08:04 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id ka4sm12882775pbc.61.2012.10.17.12.00.22
+	by mx.google.com with ESMTPS id ju7sm12891441pbb.60.2012.10.17.12.08.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 17 Oct 2012 12:00:22 -0700 (PDT)
+	Wed, 17 Oct 2012 12:08:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Oct 2012 11:59:43 -0700
-Message-Id: <1350500383-8380-1-git-send-email-raj.khem@gmail.com>
+Date: Wed, 17 Oct 2012 12:07:24 -0700
+Message-Id: <1350500844-10356-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [RFT][PATCH] eglibc-2.16: Use tar ball instead of svn SRC_URI
+Subject: [RFT][PATCH V2] eglibc-2.16: Use tar ball instead of svn SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 19:13:43 -0000
+X-List-Received-Date: Wed, 17 Oct 2012 19:21:24 -0000
 
 Adapt the recipes to fetch a tarball.
 Tarball is generated from latest 2.16 branch
@@ -49,14 +49,14 @@ hence we remove that patch.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../eglibc/cross-localedef-native_2.16.bb          |   14 +++++----
+ .../eglibc/cross-localedef-native_2.16.bb          |   20 +++++++------
  .../eglibc/eglibc-2.16/e500-math_private.patch     |   31 --------------------
  meta/recipes-core/eglibc/eglibc_2.16.bb            |   19 ++++++------
- 3 files changed, 17 insertions(+), 47 deletions(-)
+ 3 files changed, 20 insertions(+), 50 deletions(-)
  delete mode 100644 meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
 
 diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-index a79a276..e4781ce 100644
+index a79a276..249595c 100644
 --- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
 +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
 @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.eglibc.org/home"
@@ -68,7 +68,7 @@ index a79a276..e4781ce 100644
  LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9\
        file://${LIC_DIR}/COPYING;md5=393a5ca445f6965873eca0259a17f833 \
        file://${LIC_DIR}/posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-@@ -16,13 +16,15 @@ inherit autotools
+@@ -16,26 +16,28 @@ inherit autotools
  # pick up an eglibc-2.16 patch
  FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
  
@@ -89,6 +89,22 @@ index a79a276..e4781ce 100644
  
  do_unpack_append() {
      bb.build.exec_func('do_move_ports', d)
+ }
+ 
+ do_move_ports() {
+-        if test -d ${WORKDIR}/${EGLIBC_BRANCH}/ports ; then
++        if test -d ${WORKDIR}/eglibc-${PV}/ports ; then
+ 	    rm -rf ${WORKDIR}/libc/ports
+-	    mv ${WORKDIR}/${EGLIBC_BRANCH}/ports ${WORKDIR}/libc/
++	    mv ${WORKDIR}/eglibc-${PV}/ports ${WORKDIR}/libc/
+ 	fi
+ }
+ 
+-EXTRA_OECONF = "--with-glibc=${WORKDIR}/${EGLIBC_BRANCH}/libc"
++EXTRA_OECONF = "--with-glibc=${WORKDIR}/eglibc-${PV}/libc"
+ CFLAGS += "-DNOT_IN_libc=1"
+ 
+ do_configure () {
 diff --git a/meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch b/meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
 deleted file mode 100644
 index 9dbb26e..0000000
