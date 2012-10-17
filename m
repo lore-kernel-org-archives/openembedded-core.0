@@ -1,34 +1,27 @@
-Received: from mail2.gamestop.com ([12.25.107.29]
-	helo=gsironport2.gamestop.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <PatrickTurley@gamestop.com>) id 1TOHje-0007p5-Gl
+	(envelope-from <sgw@linux.intel.com>) id 1TOKbC-0002WV-GJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 17 Oct 2012 02:43:46 +0200
-X-IronPort-AV: E=Sophos;i="4.80,595,1344229200"; 
-   d="scan'208";a="232392"
-Received: from unknown (HELO GV1HQPEX01.babgsetc.pvt) ([172.22.1.244])
-	by gsironport2.gamestop.com with ESMTP; 16 Oct 2012 19:29:23 -0500
-Received: from GV1HQPEX03.babgsetc.pvt ([169.254.1.3]) by
-	GV1HQPEX01.babgsetc.pvt ([172.22.1.191]) with mapi id 14.02.0283.003;
-	Tue, 16 Oct 2012 19:29:23 -0500
-From: Patrick Turley <PatrickTurley@gamestop.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] lmsensors: Initial commit.
-Thread-Index: AQHNq+fnJx+SfKyedkyzZYLNU8Ljf5e82bOAgAAOHoCAABEYAA==
-Date: Wed, 17 Oct 2012 00:29:21 +0000
-Message-ID: <242F788A-5F02-496B-B9DF-F8F3B0633992@gamestop.com>
-References: <1350424046-18863-1-git-send-email-ferlandm@sonatest.com>
-	<1350424046-18863-2-git-send-email-ferlandm@sonatest.com>
-	<20121016223739.GB3405@jama.jama.net> <71077863.US7FUzvX2E@helios>
-In-Reply-To: <71077863.US7FUzvX2E@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.1.244]
+	Wed, 17 Oct 2012 05:47:14 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2012 20:33:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,597,1344236400"; d="scan'208";a="228513645"
+Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
+	by orsmga002.jf.intel.com with ESMTP; 16 Oct 2012 20:33:54 -0700
+Message-ID: <507E2722.9020904@linux.intel.com>
+Date: Tue, 16 Oct 2012 20:33:54 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-Cc: "<openembedded-core@lists.openembedded.org>"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lmsensors: Initial commit.
+To: Phil Blundell <philb@gnu.org>
+References: <1348577801.31293.71.camel@phil-desktop>
+	<50785717.8000606@linux.intel.com>
+	<1350294414.3259.128.camel@phil-desktop>
+In-Reply-To: <1350294414.3259.128.camel@phil-desktop>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] eglibc: Move perl- and bash-using scripts to separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,27 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2012 00:43:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <48623E531593FB4F88D063920A277FBC@gamestop.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 17 Oct 2012 03:47:14 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Oct 16, 2012, at 6:28 PM, Paul Eggleton <paul.eggleton@linux.intel.com> =
-wrote:
+On 10/15/2012 02:46 AM, Phil Blundell wrote:
+> On Fri, 2012-10-12 at 10:44 -0700, Saul Wold wrote:
+>
 
-> On Wednesday 17 October 2012 00:37:39 Martin Jansa wrote:
->> On Tue, Oct 16, 2012 at 05:47:26PM -0400, Marc Ferland wrote:
->>> Adds the lm_sensors applications. These consists of:
->> Is it really needed in oe-core? why not meta-oe?
->=20
-> I'm thinking meta-oe is the place for this. As a bonus, rrdtool is alread=
-y=20
-> there.
+> On 09/25/2012 05:56 AM, Phil Blundell wrote:
+>>> This removes the dependency of eglibc.bb itself on perl and bash
+>>> which, in turn, eliminates the need to build those two recipes if the
+>>> scripts which need them are not going to be installed.
+>>>
+>>
+>> I think you missed dealing with an RPOVIDES someplace as I am getting
+>> the following error during build:
+>>
+>>> ERROR: Nothing RPROVIDES 'libc-mtrace' (but /intel/poky/distro/meta/recipes-core/packagegroups/packagegroup-core-tools-debug.bb RDEPENDS on or otherwise requires it)
+>>> NOTE: Runtime target 'libc-mtrace' is unbuildable, removing...
+>>> Missing or unbuildable dependency chain was: ['libc-mtrace']
+>>> ERROR: Required build target 'packagegroup-core-tools-debug' has no buildable providers.
+>>> Missing or unbuildable dependency chain was: ['packagegroup-core-tools-debug', 'libc-mtrace']
+>
+> Right, sorry about that.  The attached fixes this for me.
+>
 
-I am not qualified to have an opinion either way - but I *am* curious about=
- the motivating rationale. What are the reasons that this should appear in =
-meta-oe?
+Another edge case?
+> ERROR: Function failed: do_evacuate_scripts (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/temp/log.do_evacuate_scripts.1600 for further information)
+> ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/temp/log.do_evacuate_scripts.1600
+> Log data follows:
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+> | DEBUG: Executing shell function do_evacuate_scripts
+> | cp: cannot stat `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/image/opt/poky/1.3+snapshot/sysroots/i686-pokysdk-linux/usr/bin/mtrace': No such file or directory
+> | ERROR: Function failed: do_evacuate_scripts (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/temp/log.do_evacuate_scripts.1600 for further information)
+> NOTE: recipe nativesdk-eglibc-initial-2.16-r16+svnr20393: task do_evacuate_scripts: Failed
+> NOTE: recipe gupnp-av-0.8.0-r2: task do_compile: Started
+> ERROR: Task 1593 (virtual:nativesdk:/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/meta/recipes-core/eglibc/eglibc-initial_2.16.bb, do_evacuate_scripts) failed with exit code '1'
 
+This was a build for the meta-toolchain-gmae, but I also saw this with 
+the multilib build.
+
+
+Sau!
+
+
+
+
+> p.
+>
 
 
