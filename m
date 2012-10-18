@@ -1,23 +1,19 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TOraH-0004WR-Es
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TOraH-0004WQ-G8
 	for openembedded-core@lists.openembedded.org;
 	Thu, 18 Oct 2012 17:00:29 +0200
 Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9IEl6an010584;
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9IEl6am010584;
 	Thu, 18 Oct 2012 07:47:07 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Thu, 18 Oct 2012 10:47:05 -0400
-Message-Id: <7b8c12ae454f69996f935aef35cccc6d352b0964.1350571171.git.bruce.ashfield@windriver.com>
+Date: Thu, 18 Oct 2012 10:47:04 -0400
+Message-Id: <cover.1350571171.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1350571171.git.bruce.ashfield@windriver.com>
-References: <cover.1350571171.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1350571171.git.bruce.ashfield@windriver.com>
-References: <cover.1350571171.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] kernel.bbclass: remove explicit version.h target
+Subject: [RFC PATCH 0/1] kernel.bbclass: remove explicit version.h target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,52 +28,46 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 18 Oct 2012 15:00:29 -0000
 
-The compilation routine for the kernel has an explicit call to
-build version.h, which works fine for most kernels, but the
-location of it has recently changes.
+Hi all,
 
-commit d183e6f5 [UAPI: Move linux/version.h]
-commit 10b63956 [UAPI: Plumb the UAPI Kbuilds into the user
-                 header installation and checking]
+I'm doing a quick RFC on a patch to get 3.7 based kernels building
+again. 
 
-moves the file to include/generated/linux/version.h and then to
-include/generated/uapi/linux/version.h.
+The patch has the details on the kernel commits that have moved
+version.h around, which breaks our builds due to an explicit reference
+in kernel.bbclass.
 
-As a result kernel builds of 3.7 or bisection builds of intermediate
-kernel commits will fail with:
+I thought about making the call conditional, but as the patch says,
+this introduces a bit more complexity where it might not be 
+required. Removing the reference to version.h fixes the build, and 
+didn't break any of my older kernel builds (2.6.39, 3.0, 3.2, 3.4)
+while still producing version.h.
 
-  make[2]: *** No rule to make target `include/linux/version.h'.  Stop.
+I can't locate the original reason that version.h was being directly
+built, so that's why this is a RFC. I'm hoping someone will yell if
+this breaks a use case that I don't know about.
 
-Making the explicit version.h build conditional on the version, or
-via a file test would fix the problem, but it introduces some complexity
-to the build.
+This is stacked on top of my yocto master branch, since it was a 
+RFC. I can rebase onto oe-core, or master under test as appropriate.
 
-Even without an explicit call to build version.h, it is always produced
-by the kernel build, so it can simply be removed.
+Cheers,
 
-Note: it isn't clear why the explicit build of version.h was originally
-required, but the prep phases of the kernel have changed significantly,
-so it should no longer be required.
+Bruce
 
-[YOCTO: #3293]
+The following changes since commit e6e2b9bd66100c078c029ca7e34829cf1dfb5490:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+  documentation: poky-ref-manual - edits to MACHINE type variables. (2012-10-18 12:15:04 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  kernel.bbclass: remove explicit version.h target
+
  meta/classes/kernel.bbclass |    1 -
  1 files changed, 0 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 0df8f08..2163c1f 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -85,7 +85,6 @@ KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.g
- 
- kernel_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
--	oe_runmake include/linux/version.h CC="${KERNEL_CC}" LD="${KERNEL_LD}"
- 	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}"
- 	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
- 		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
 -- 
 1.7.5.4
 
