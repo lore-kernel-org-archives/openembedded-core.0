@@ -1,43 +1,25 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@bigsur.com>) id 1TOvva-0003mK-UX
+	(envelope-from <sgw@linux.intel.com>) id 1TOw7v-0003tp-4J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 21:38:47 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so7626595pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 12:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bigsur.com; s=bigsur.com;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=Jmk/S+SMVsB1wwHqZ/17OkLWYEUEBjNZjSHtzwqduD0=;
-	b=VGR5SBxFnfb7sV0QFxIAd9h0xdHQPDgalpatTJe5fEIf74tiJpeWvkc5pmEmkIyL31
-	scM0qboEHF0HK42peQDXYXvTa8ysuoasm3TVAzKDhiqN0C+hyQ/9IVwq9l2tvItcee7x
-	+CJWK4G3DYK08Lk0eWBuOj7TZoUMukTvWX2cs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=Jmk/S+SMVsB1wwHqZ/17OkLWYEUEBjNZjSHtzwqduD0=;
-	b=PqJq1takb1vE7S8XAM+Rrd9DediTQubqRkREve2QynSoLbOUj9ZAAo9sAlixavu+a+
-	sKhm9Kcef2vJAiiGsu/RBpuoI3Ps3rHU8cL6LxR7eD5Y2J1clxIcWiUYE0yBsXOHHJdo
-	G6gev/nlkAvwRN5bXujjBt3FIPbri475euXEUK88pItzd5GSUNdEEkQVz0OIL8OmuNZZ
-	LctXfWNy3PKCQsuRSr6BOhYZKPXonNKfThjYJokzaUW77AJvpD3UUNrEFHK2Bt22GPN6
-	GFE8tn87mb69OljMReRZYXiK1bqGjYRrIU9xUF8mAIX2ap0DO2X2zEKyIe8d2EOOp4my
-	EeDg==
-Received: by 10.66.72.36 with SMTP id a4mr23209427pav.16.1350588326401;
-	Thu, 18 Oct 2012 12:25:26 -0700 (PDT)
-Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id mt15sm5026427pbc.49.2012.10.18.12.25.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 18 Oct 2012 12:25:22 -0700 (PDT)
-Sender: Saul Wold <sgw@bigsur.com>
+	Thu, 18 Oct 2012 21:51:32 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 18 Oct 2012 12:38:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,608,1344236400"; d="scan'208";a="206216513"
+Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
+	by azsmga001.ch.intel.com with ESMTP; 18 Oct 2012 12:38:09 -0700
+Message-ID: <50805AA1.2070704@linux.intel.com>
+Date: Thu, 18 Oct 2012 12:38:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Oct 2012 12:25:05 -0700
-Message-Id: <1350588305-16854-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQmVl/uClY8Fki5WAe+1bS8dja7XrAKvdcegERmDIB1lHpc7EkoHowUaJPsXpe5Lu2m08ZmG
-Subject: [PATCH] sstate: add manifest info for shared file matches
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+MIME-Version: 1.0
+To: Phil Blundell <philb@gnu.org>
+References: <1349112564.32611.71.camel@phil-desktop>
+In-Reply-To: <1349112564.32611.71.camel@phil-desktop>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] insane: Rationalise phdrs-based QA checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,57 +32,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 19:38:47 -0000
+X-List-Received-Date: Thu, 18 Oct 2012 19:51:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Present the manifest file that contains the matches for
-files being installed to a location that already contains
-that file. This will help to determine which is the correct
-recipe to fix when this occurs.
+On 10/01/2012 10:29 AM, Phil Blundell wrote:
+> Various different QA checks are based on essentially the same data from
+> the ELF program headers.  Calling objdump to extract it repeatedly is
+> inefficient, particularly if the shell is involved.  Instead, let's
+> cache the output from objdump inside the qa.elf object and allow it to
+> be reused by multiple tests.
+>
+> Also, using objdump instead of scanelf to check for bad RPATHs (in the
+> same way that the useless-rpaths check was doing already) allows the
+> dependency on pax-utils-native to be dropped.
+>
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>   meta/classes/insane.bbclass |   41 ++++++++++++++++++-----------------------
+>   meta/lib/oe/qa.py           |   17 +++++++++++++++++
+>   2 files changed, 35 insertions(+), 23 deletions(-)
+>
 
-[YOCTO #3191]
+Merged this along with associated patches into 1.4
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/sstate.bbclass |    9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Thanks for your patience
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d2a120b..140dd59 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -27,7 +27,7 @@ SSTATE_DUPWHITELIST += "${STAGING_LIBDIR_NATIVE}/${MULTIMACH_TARGET_SYS} ${STAGI
- # Also avoid python issues until we fix the python recipe
- SSTATE_DUPWHITELIST += "${STAGING_LIBDIR}/python2.7/config/Makefile ${STAGING_LIBDIR}/libpython2.7 ${STAGING_INCDIR}/python2.7/pyconfig.h"
- # Avoid docbook/sgml catalog warnings for now
--SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
-+#SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
- 
- SSTATE_SCAN_FILES ?= "*.la *-config *_config"
- SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
-@@ -120,6 +120,7 @@ def sstate_add(ss, source, dest, d):
- 
- def sstate_install(ss, d):
-     import oe.path
-+    import subprocess
- 
-     sharedfiles = []
-     shareddirs = []
-@@ -164,8 +165,12 @@ def sstate_install(ss, d):
-                     break
-             if realmatch:
-                 match.append(f)
-+                sstate_search_cmd = "grep -rl %s %s | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
-+                search_output = subprocess.check_output(sstate_search_cmd, stderr=subprocess.STDOUT, shell=True)
-+                if search_output != None:
-+                    match.append("Matched in %s" % search_output.rstrip())
-     if match:
--        bb.warn("The recipe %s is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % (d.getVar("PN", True), "\n   ".join(match)))
-+        bb.warn("The recipe %s is trying to install files into a shared area when those files already exist. Those files and their manifest location are:\n   %s\nPlease verify which package should provide the above files." % (d.getVar('PN', True), "\n   ".join(match)))
- 
-     # Write out the manifest
-     f = open(manifest, "w")
--- 
-1.7.9.5
+	Sau!
 
+(Yes, we are taking patches again, RP and I are vetting patches on the list)
+
+
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 1fb8970..3705fe9 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -17,13 +17,8 @@
+>   #   files under exec_prefix
+>
+>
+> -#
+> -# We need to have the scanelf utility as soon as
+> -# possible and this is contained within the pax-utils-native.
+> -# The package.bbclass can help us here.
+> -#
+>   inherit package
+> -PACKAGE_DEPENDS += "pax-utils-native ${QADEPENDS}"
+> +PACKAGE_DEPENDS += "${QADEPENDS}"
+>   PACKAGEFUNCS += " do_package_qa "
+>
+>   # unsafe-references-in-binaries requires prelink-rtld from
+> @@ -147,21 +142,23 @@ def package_qa_check_rpath(file,name, d, elf, messages):
+>       if not elf:
+>           return
+>
+> -    scanelf = os.path.join(d.getVar('STAGING_BINDIR_NATIVE',True),'scanelf')
+>       bad_dirs = [d.getVar('TMPDIR', True) + "/work", d.getVar('STAGING_DIR_TARGET', True)]
+>       bad_dir_test = d.getVar('TMPDIR', True)
+> -    if not os.path.exists(scanelf):
+> -        bb.fatal("Can not check RPATH, scanelf (part of pax-utils-native) not found")
+>
+>       if not bad_dirs[0] in d.getVar('WORKDIR', True):
+>           bb.fatal("This class assumed that WORKDIR is ${TMPDIR}/work... Not doing any check")
+>
+> -    output = os.popen("%s -B -F%%r#F '%s'" % (scanelf,file))
+> -    txt    = output.readline().split()
+> -    for line in txt:
+> -        for dir in bad_dirs:
+> -            if dir in line:
+> -                messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
+> +    phdrs = elf.run_objdump("-p", d)
+> +
+> +    import re
+> +    rpath_re = re.compile("\s+RPATH\s+(.*)")
+> +    for line in phdrs.split("\n"):
+> +    	m = rpath_re.match(line)
+> +	if m:
+> +	    rpath = m.group(1)
+> +	    for dir in bad_dirs:
+> +                if dir in rpath:
+> +                    messages.append("package %s contains bad RPATH %s in file %s" % (name, rpath, file))
+>
+>   QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
+>   def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+> @@ -174,15 +171,14 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+>       if not elf:
+>           return
+>
+> -    objdump = d.getVar('OBJDUMP', True)
+> -    env_path = d.getVar('PATH', True)
+> -
+>       libdir = d.getVar("libdir", True)
+>       base_libdir = d.getVar("base_libdir", True)
+>
+> +    phdrs = elf.run_objdump("-p", d)
+> +
+>       import re
+>       rpath_re = re.compile("\s+RPATH\s+(.*)")
+> -    for line in os.popen("LC_ALL=C PATH=%s %s -p '%s' 2> /dev/null" % (env_path, objdump, file), "r"):
+> +    for line in phdrs.split("\n"):
+>       	m = rpath_re.match(line)
+>   	if m:
+>   	   rpath = m.group(1)
+> @@ -443,14 +439,13 @@ def package_qa_hash_style(path, name, d, elf, messages):
+>       if not gnu_hash:
+>           return
+>
+> -    objdump = d.getVar('OBJDUMP', True)
+> -    env_path = d.getVar('PATH', True)
+> -
+>       sane = False
+>       has_syms = False
+>
+> +    phdrs = elf.run_objdump("-p", d)
+> +
+>       # If this binary has symbols, we expect it to have GNU_HASH too.
+> -    for line in os.popen("LC_ALL=C PATH=%s %s -p '%s' 2> /dev/null" % (env_path, objdump, path), "r"):
+> +    for line in phdrs.split("\n"):
+>           if "SYMTAB" in line:
+>               has_syms = True
+>           if "GNU_HASH" in line:
+> diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+> index d380012..9e5ab58 100644
+> --- a/meta/lib/oe/qa.py
+> +++ b/meta/lib/oe/qa.py
+> @@ -28,6 +28,7 @@ class ELFFile:
+>       def __init__(self, name, bits = 0):
+>           self.name = name
+>           self.bits = bits
+> +        self.objdump_output = {}
+>
+>       def open(self):
+>           self.file = file(self.name, "r")
+> @@ -87,3 +88,19 @@ class ELFFile:
+>           import struct
+>           (a,) = struct.unpack(self.sex+"H", self.data[18:20])
+>           return a
+> +
+> +    def run_objdump(self, cmd, d):
+> +        import bb.process
+> +        import sys
+> +
+> +        if self.objdump_output.has_key(cmd):
+> +            return self.objdump_output[cmd]
+> +
+> +        objdump = d.getVar('OBJDUMP', True)
+> +        staging_dir = d.getVar('STAGING_BINDIR_TOOLCHAIN', True)
+> +
+> +        env = os.environ
+> +        env["LC_ALL"] = "C"
+> +
+> +        self.objdump_output[cmd] = bb.process.run([ os.path.join(staging_dir, objdump), cmd, self.name ], env=env, shell=False)[0]
+> +        return self.objdump_output[cmd]
+>
 
 
