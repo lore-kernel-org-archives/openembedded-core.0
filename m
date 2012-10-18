@@ -1,26 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yao.Zhao@windriver.com>) id 1TOzKC-0003lw-KR
+	(envelope-from <sgw@linux.intel.com>) id 1TOzU3-0003sF-W9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 01:16:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9IJnV69007248
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 12:49:31 -0700 (PDT)
-Received: from [128.224.147.210] (128.224.147.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Thu, 18 Oct 2012 12:49:28 -0700
-Message-ID: <50805D43.8090300@windriver.com>
-Date: Thu, 18 Oct 2012 15:49:23 -0400
-From: Yao Zhao <yao.zhao@windriver.com>
+	Fri, 19 Oct 2012 01:26:36 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Oct 2012 16:13:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,609,1344236400"; d="scan'208";a="235751611"
+Received: from unknown (HELO [10.255.14.107]) ([10.255.14.107])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Oct 2012 16:13:14 -0700
+Message-ID: <50808D0A.8090103@linux.intel.com>
+Date: Thu, 18 Oct 2012 16:13:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-X-Originating-IP: [128.224.147.210]
-Subject: libcrypto.so exec stack
+To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
+References: <1350394101-15120-1-git-send-email-schnitzeltony@googlemail.com>
+In-Reply-To: <1350394101-15120-1-git-send-email-schnitzeltony@googlemail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] gnome-icon-them bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,23 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 23:16:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Oct 2012 23:26:36 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 10/16/2012 06:28 AM, Andreas Müller wrote:
+> It caused me a lot headache to load gtk-stock-icons...
+>
+> Andreas Müller (2):
+>    gnome-icon-theme: fix icon mapping
+>    gnome-icon-theme: remove unused configure variable
+>
+>   .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
+>
+Andreas,
 
-In openssl recipe, it has this:
+I am having some trouble with the patches include, I think thunderbird 
+is trying to encode them in non-ascii, can you resend or point me at a 
+rebased branch.  I just made some changes in this also.
 
-# Avoid binaries being marked as requiring an executable stack (which causes
-# issues with SELinux on the host)
-CFLAG_append_virtclass-native = " -Wa,--noexecstack"
+Also, does sato-icon-theme need the same changes?
 
-
-
-Why this is only enabled for native? yocto doesn't support secure kernel?
-
-thanks,
-yao
+Thanks
+	Sau!
 
 
