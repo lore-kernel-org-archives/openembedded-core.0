@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TOwe8-0005kk-AE
+	(envelope-from <sgw@linux.intel.com>) id 1TOwfI-0005na-IZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 22:24:48 +0200
+	Thu, 18 Oct 2012 22:26:00 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 18 Oct 2012 13:11:27 -0700
+	by azsmga102.ch.intel.com with ESMTP; 18 Oct 2012 13:12:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,609,1344236400"; d="scan'208";a="157819965"
+X-IronPort-AV: E=Sophos;i="4.80,609,1344236400"; d="scan'208";a="157820282"
 Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Oct 2012 13:11:26 -0700
-Message-ID: <5080626E.1020509@linux.intel.com>
-Date: Thu, 18 Oct 2012 13:11:26 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Oct 2012 13:12:39 -0700
+Message-ID: <508062B7.6000508@linux.intel.com>
+Date: Thu, 18 Oct 2012 13:12:39 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-References: <1349862074-13950-1-git-send-email-marcin.juszkiewicz@linaro.org>
-In-Reply-To: <1349862074-13950-1-git-send-email-marcin.juszkiewicz@linaro.org>
+To: Joe Slater <jslater@windriver.com>
+References: <1349907403-11447-1-git-send-email-jslater@windriver.com>
+In-Reply-To: <1349907403-11447-1-git-send-email-jslater@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] packagegroup-self-hosted: recommend kernel modules instead of depending on them
+Subject: Re: [PATCH v2] chkconfig: pass CFLAGS to Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,61 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 20:24:48 -0000
+X-List-Received-Date: Thu, 18 Oct 2012 20:26:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/10/2012 02:41 AM, Marcin Juszkiewicz wrote:
-> Requested kernel modules may be integrated in kernel or totally disabled
-> as not needed on target.
+On 10/10/2012 03:16 PM, Joe Slater wrote:
+> The environment CFLAGS is not used by the chkconfig
+> Makefile, so debug and optimization options are ignored.
+> So, we use RPM_OPT_FLAGS to pass CFLAGS into Makefile.
 >
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> Upstream-Status:  Inappropriate [configuration]
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
 > ---
->   .../packagegroups/packagegroup-self-hosted.bb           |   15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
+>   .../recipes-extended/chkconfig/chkconfig_1.3.58.bb |    7 +++++--
+>   1 files changed, 5 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> index de0a46d..19f5a16 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> @@ -4,7 +4,7 @@
+> diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+> index 17987a6..a27a4ba 100644
+> --- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+> +++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
 >
->   SUMMARY = "Self-hosting"
->   DESCRIPTION = "Packages required to run the build system"
-> -PR = "r11"
-> +PR = "r12"
->   LICENSE = "MIT"
+>   DEPENDS = "libnewt popt"
 >
->   inherit packagegroup
-> @@ -37,11 +37,6 @@ RDEPENDS_packagegroup-self-hosted-host-tools = "\
->       genext2fs \
->       hdparm \
->       iptables \
-> -    kernel-module-tun \
-> -    kernel-module-iptable-raw \
-> -    kernel-module-iptable-nat \
-> -    kernel-module-iptable-mangle \
-> -    kernel-module-iptable-filter \
->       lsb \
->       mc \
->       parted \
-> @@ -50,6 +45,14 @@ RDEPENDS_packagegroup-self-hosted-host-tools = "\
->       vte \
->       "
+> -PR = "r1"
+> +PR = "r2"
 >
-> +RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
-> +    kernel-module-tun \
-> +    kernel-module-iptable-raw \
-> +    kernel-module-iptable-nat \
-> +    kernel-module-iptable-mangle \
-> +    kernel-module-iptable-filter \
-> +	"
-> +
->   # eglibc-utils: for rpcgen
->   RDEPENDS_packagegroup-self-hosted-sdk = "\
->       autoconf \
+>   SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2"
 >
-
+> @@ -21,7 +21,10 @@ SRC_URI[sha256sum] = "18b497d25b2cada955c72810e45fcad8280d105f17cf45e2970f182712
+>
+>   inherit autotools gettext
+>
+> -EXTRA_OEMAKE += 'MANDIR="${mandir}" BINDIR="${base_sbindir}" SBINDIR="${sbindir}"'
+> +# Makefile uses RPM_OPT_fLAGS to construct CFLAGS
+> +#
+> +EXTRA_OEMAKE += 'RPM_OPT_FLAGS="${CFLAGS}" MANDIR="${mandir}" \
+> +                 BINDIR="${base_sbindir}" SBINDIR="${sbindir}"'
+>
+>   do_install_append() {
+>       mkdir -p ${D}/etc/chkconfig.d
+>
 Merged into OE-Core
 
 Thanks
