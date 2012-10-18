@@ -1,44 +1,37 @@
-Received: from va3ehsobe005.messaging.microsoft.com ([216.32.180.31]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B05456@freescale.com>) id 1TOj1E-0003cj-LS
+	(envelope-from <raj.khem@gmail.com>) id 1TOjZu-0004RJ-Sx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 07:51:44 +0200
-Received: from mail11-va3-R.bigfish.com (10.7.14.246) by
-	VA3EHSOBE008.bigfish.com (10.7.40.28) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 18 Oct 2012 04:53:07 +0000
-Received: from mail11-va3 (localhost [127.0.0.1])	by mail11-va3-R.bigfish.com
-	(Postfix) with ESMTP id 2B5E42E00FE	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 04:53:07 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1155h)
-Received: from mail11-va3 (localhost.localdomain [127.0.0.1]) by mail11-va3
-	(MessageSwitch) id 1350535985778947_25832;
-	Thu, 18 Oct 2012 04:53:05 +0000 (UTC)
-Received: from VA3EHSMHS023.bigfish.com (unknown [10.7.14.248])	by
-	mail11-va3.bigfish.com (Postfix) with ESMTP id B118024011E	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 04:53:05 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS023.bigfish.com
-	(10.7.99.33) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 18 Oct 2012 04:53:01 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Thu, 18 Oct 2012 04:53:00 +0000
-Received: from localhost.localdomain ([10.232.15.67])	by
-	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id q9I4qwCE000303;
-	Wed, 17 Oct 2012 21:52:59 -0700
-From: Yashpal Dutta <yashpal.dutta@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Oct 2012 15:42:59 +0545
-Message-ID: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] cryptodev kernel module recipe
+	Thu, 18 Oct 2012 08:27:35 +0200
+Received: by mail-pb0-f47.google.com with SMTP id ro12so7076539pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Oct 2012 23:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=ss8UlIyw3nAyWMcP+TYR4uxzIXUFCbhlS1Q2LXb4N98=;
+	b=JlxqtIIgaKPlva/MeTBeLepzVmTIZVHgwrvm+rW11AZDUVZo0u+adjO+eR6kiynkkN
+	+K/g+1L8wxq4IoMBWxWT9sqLiiN1aUJO93PZsEuCoEK+uc0oaAkTbSkCOcLqg2m3YJbI
+	d7DTM3U2CrjBTgNeWiO3LBf/kUZE2ZDea8+fSbp1JM0liILiWFwEt+aut4oNiizMcckx
+	TOOxBd5zXo9AvXw5ooZBrB2T1M2HiHqeanrymPr92e9HT7n6C+B8mTbSWXvRZq3yo3RO
+	4wizRL3AZAs4QSXccHREcm8MWgTTq/LLITsorLOzkLS7yuPcfL5palNiILfL65+K1Wgo
+	8n+g==
+Received: by 10.66.85.233 with SMTP id k9mr56328516paz.73.1350540855089;
+	Wed, 17 Oct 2012 23:14:15 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id
+	qv4sm12367328pbc.38.2012.10.17.23.14.13 (version=SSLv3 cipher=OTHER);
+	Wed, 17 Oct 2012 23:14:14 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
+Date: Wed, 17 Oct 2012 23:14:26 -0700
+Message-Id: <7A2134DD-519C-4FFB-ACEE-8E36E7A5A088@gmail.com>
+References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
+To: Yashpal Dutta <yashpal.dutta@freescale.com>
+X-Mailer: Apple Mail (2.1499)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cryptodev kernel module recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,80 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 05:51:44 -0000
-Content-Type: text/plain
-
-This is a /dev/crypto device driver, equivalent to those in OpenBSD or FreeBSD.
-The main idea is to access of existing ciphers in kernel space from userspace,
-thus enabling re-use of a hardware implementation of a cipher.
-
-Signed-off-by: Yashpal Dutta <yashpal.dutta@freescale.com>
----
- meta/recipes-kernel/cryptodev/cryptodev_1.5.bb     |   18 +++++++++++++
- .../cryptodev/files/makefile_fixup.patch           |   26 ++++++++++++++++++++
- 2 files changed, 44 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/cryptodev/cryptodev_1.5.bb
- create mode 100644 meta/recipes-kernel/cryptodev/files/makefile_fixup.patch
-
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev_1.5.bb b/meta/recipes-kernel/cryptodev/cryptodev_1.5.bb
-new file mode 100644
-index 0000000..5125710
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/cryptodev_1.5.bb
-@@ -0,0 +1,18 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Cryptodev KERNEL MODULE"
-+DESCRIPTION = "The Cryptodev package contains the kernel /dev/crypto module"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+DEPENDS = "virtual/kernel"
-+
-+inherit module
-+
-+SRCREV = "1c24a0aa996630518d47826a2e3fea129ea094c7"
-+
-+SRC_URI = "git://repo.or.cz/cryptodev-linux.git;protocol=git \
-+	  file://makefile_fixup.patch"
-+
-+EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
-+
-+S = "${WORKDIR}/git"
-diff --git a/meta/recipes-kernel/cryptodev/files/makefile_fixup.patch b/meta/recipes-kernel/cryptodev/files/makefile_fixup.patch
-new file mode 100644
-index 0000000..323aacd
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/makefile_fixup.patch
-@@ -0,0 +1,26 @@
-+diff --git a/Makefile b/Makefile
-+index 2be8825..b36d68c 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -1,6 +1,7 @@
-+ KBUILD_CFLAGS += -I$(src)
-+ KERNEL_DIR = /lib/modules/$(shell uname -r)/build
-+ VERSION = 1.5
-++PREFIX =
-+ 
-+ cryptodev-objs = ioctl.o main.o cryptlib.o authenc.o zc.o util.o
-+ 
-+@@ -12,10 +13,10 @@ build: version.h
-+ version.h: Makefile
-+ 	@echo "#define VERSION \"$(VERSION)\"" > version.h
-+ 
-+-install:
-++modules_install:
-+ 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` modules_install
-+-	@echo "Installing cryptodev.h in /usr/include/crypto ..."
-+-	@install -D crypto/cryptodev.h /usr/include/crypto/cryptodev.h
-++	@echo "Installing cryptodev.h in $(PREFIX)/usr/include/crypto ..."
-++	@install -D crypto/cryptodev.h $(PREFIX)/usr/include/crypto/cryptodev.h
-+ 
-+ clean:
-+ 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` clean
--- 
-1.7.0.4
+X-List-Received-Date: Thu, 18 Oct 2012 06:27:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+On Oct 18, 2012, at 2:57 AM, Yashpal Dutta <yashpal.dutta@freescale.com> =
+wrote:
+
+> +-install:
+> ++modules_install:
+> + 	make -C $(KERNEL_DIR) SUBDIRS=3D`pwd` modules_install
+> +-	@echo "Installing cryptodev.h in /usr/include/crypto ..."
+> +-	@install -D crypto/cryptodev.h /usr/include/crypto/cryptodev.h
+> ++	@echo "Installing cryptodev.h in $(PREFIX)/usr/include/crypto =
+..."
+> ++	@install -D crypto/cryptodev.h =
+$(PREFIX)/usr/include/crypto/cryptodev.h
+> +=20
+
+why is it installing linux headers under /usr/include shouldn't they be =
+under usr/include/linux ?=
 
 
