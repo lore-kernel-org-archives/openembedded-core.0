@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TOwBB-0003xY-9a
+	(envelope-from <sgw@linux.intel.com>) id 1TOwJb-0004ZW-N4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 21:54:53 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Oct 2012 12:41:32 -0700
+	Thu, 18 Oct 2012 22:03:35 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Oct 2012 12:50:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,608,1344236400"; d="scan'208";a="206217604"
+X-IronPort-AV: E=Sophos;i="4.80,608,1344236400"; d="scan'208";a="235683642"
 Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
-	by azsmga001.ch.intel.com with ESMTP; 18 Oct 2012 12:41:31 -0700
-Message-ID: <50805B6B.3070504@linux.intel.com>
-Date: Thu, 18 Oct 2012 12:41:31 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 18 Oct 2012 12:50:14 -0700
+Message-ID: <50805D76.8090103@linux.intel.com>
+Date: Thu, 18 Oct 2012 12:50:14 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-References: <1349345672-803-1-git-send-email-andrei.adrianx.dinu@intel.com>
-In-Reply-To: <1349345672-803-1-git-send-email-andrei.adrianx.dinu@intel.com>
+To: Colin Walters <walters@verbum.org>
+References: <1348530882.25427.1.camel@lenny>
+In-Reply-To: <1348530882.25427.1.camel@lenny>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gypsy: removed gypsy from meta/recipes-connectivity
+Subject: Re: [PATCH] Add packagegroup-core-buildessential
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,146 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 19:54:53 -0000
+X-List-Received-Date: Thu, 18 Oct 2012 20:03:35 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/04/2012 03:14 AM, Andrei Dinu wrote:
-> removed also entry from meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
+On 09/24/2012 04:54 PM, Colin Walters wrote:
+> [Not heavily tested, but sent for discussion]
 >
-> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+> task-core-sdk is too big - for example, I simply don't want to ship tcl, ever =)
+> Historically distcc caused a large dependency graph explosion because it has
+> a utility which uses gtk+, although that was fixed.
+>
+> packagegroup-core-sdk also includes coreutils, which is a bit
+> confusing; conceptually things dependent on coreutils should pull it
+> in explicitly, or possibly we just declare coreutils to be in the
+> minimal build set.
+>
+> So packagegroup-core-buildessential is intended to be similar to
+> Debian's "build-essential" package.  It's the stuff needed by say 80+%
+> of components, not worth repeating over and over.
+>
+> Signed-off-by: Colin Walters <walters@verbum.org>
 > ---
->   meta/recipes-connectivity/gypsy/files/fixups.patch |   21 -----------------
->   meta/recipes-connectivity/gypsy/gypsy.inc          |   15 ------------
->   meta/recipes-connectivity/gypsy/gypsy_0.9.bb       |   24 --------------------
->   meta/recipes-connectivity/gypsy/gypsy_git.bb       |   18 ---------------
->   .../packagegroups/packagegroup-sdk-gmae.inc        |    1 -
->   5 files changed, 79 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/gypsy/files/fixups.patch
->   delete mode 100644 meta/recipes-connectivity/gypsy/gypsy.inc
->   delete mode 100644 meta/recipes-connectivity/gypsy/gypsy_0.9.bb
->   delete mode 100644 meta/recipes-connectivity/gypsy/gypsy_git.bb
+>   .../packagegroup-core-buildessential.bb            | 30 ++++++++++++++++++++++
+>   .../packagegroups/packagegroup-core-sdk.bb         | 17 +-----------
+>   2 files changed, 31 insertions(+), 16 deletions(-)
+>   create mode 100644 meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+>
 >
 Merged into OE-Core
 
 Thanks
 	Sau!
 
-
-> diff --git a/meta/recipes-connectivity/gypsy/files/fixups.patch b/meta/recipes-connectivity/gypsy/files/fixups.patch
-> deleted file mode 100644
-> index de4d92e..0000000
-> --- a/meta/recipes-connectivity/gypsy/files/fixups.patch
-> +++ /dev/null
-> @@ -1,21 +0,0 @@
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> ----
-> - docs/reference/Makefile.am |    2 ++
-> - 1 file changed, 2 insertions(+)
-> -
-> ---- gypsy.orig/docs/reference/Makefile.am
-> -+++ gypsy/docs/reference/Makefile.am
-> -@@ -81,10 +81,12 @@ expand_content_files=
-> - # e.g. GTKDOC_LIBS=$(top_builddir)/gtk/$(gtktargetlib)
-> -
-> - INCLUDES=-I$(top_srcdir) $(GYPSY_CFLAGS)
-> - GTKDOC_LIBS=$(top_builddir)/gypsy/libgypsy.la $(GYPSY_LIBS)
-> -
-> -+EXTRA_DIST =
-> -+CLEANFILES =
-> - # This includes the standard gtk-doc make rules, copied by gtkdocize.
-> - include $(top_srcdir)/gtk-doc.make
-> -
-> - # Other files to distribute
-> - # e.g. EXTRA_DIST += version.xml.in
-> diff --git a/meta/recipes-connectivity/gypsy/gypsy.inc b/meta/recipes-connectivity/gypsy/gypsy.inc
-> deleted file mode 100644
-> index 0c1735e..0000000
-> --- a/meta/recipes-connectivity/gypsy/gypsy.inc
-> +++ /dev/null
-> @@ -1,15 +0,0 @@
-> -SUMMARY = "GPS Multiplexing Daemon"
-> -DESCRIPTION = "Gypsy is a GPS multiplexing daemon which allows \
-> -multiple clients to access GPS data from multiple GPS sources \
-> -concurrently.  Gypsy also hides the details of parsing NMEA from the \
-> -client applications, passing the data as simple values for the clients \
-> -to use."
-> -LICENSE = "GPLv2.0 & LGPLv2.1"
-> -SECTION = "x11"
-> -DEPENDS = "glib-2.0 dbus bluez4 dbus-glib"
-> -
-> -inherit autotools pkgconfig gtk-doc
-> -
-> -EXTRA_OECONF += "--with-distro=debian"
-> -
-> -FILES_${PN} += "/usr/share/dbus-1/services/"
-> diff --git a/meta/recipes-connectivity/gypsy/gypsy_0.9.bb b/meta/recipes-connectivity/gypsy/gypsy_0.9.bb
-> deleted file mode 100644
-> index 51207c9..0000000
-> --- a/meta/recipes-connectivity/gypsy/gypsy_0.9.bb
-> +++ /dev/null
-> @@ -1,24 +0,0 @@
-> -SUMMARY = "GPS Multiplexing Daemon"
-> -DESCRIPTION = "Gypsy is a GPS multiplexing daemon which allows \
-> -multiple clients to access GPS data from multiple GPS sources \
-> -concurrently.  Gypsy also hides the details of parsing NMEA from the \
-> -client applications, passing the data as simple values for the clients \
-> -to use."
-> -LICENSE = "GPLv2+ & LGPLv2+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-> -                    file://COPYING.lib;md5=7fbc338309ac38fefcd64b04bb903e34 \
-> -                    file://src/main.c;beginline=1;endline=25;md5=3fe64e27e61b289b77383a54a982cbdd \
-> -                    file://gypsy/gypsy-time.h;beginline=1;endline=24;md5=06432ea19a7b6607428d04d9dadc37fd"
-> -
-> -SECTION = "x11"
-> -DEPENDS = "glib-2.0 dbus bluez4 dbus-glib libxslt"
-> -
-> -SRC_URI = "http://gypsy.freedesktop.org/releases/gypsy-${PV}.tar.gz"
-> -PR = "r1"
-> -
-> -inherit autotools pkgconfig
-> -
-> -FILES_${PN} += "/usr/share/dbus-1/system-services/"
-> -
-> -SRC_URI[md5sum] = "e2d186df9c2cc3b70a027043e22acf1a"
-> -SRC_URI[sha256sum] = "14e1cbe17351f408538e033ca370b4bf51ccf9c88744e236ddfb271904f154d6"
-> diff --git a/meta/recipes-connectivity/gypsy/gypsy_git.bb b/meta/recipes-connectivity/gypsy/gypsy_git.bb
-> deleted file mode 100644
-> index 867582d..0000000
-> --- a/meta/recipes-connectivity/gypsy/gypsy_git.bb
-> +++ /dev/null
-> @@ -1,18 +0,0 @@
-> -require gypsy.inc
-> -
-> -DEFAULT_PREFERENCE = "-1"
-> -
-> -SRCREV = "3652e1f37e82b8e63983e30fda3482cd099a8cf5"
-> -PV = "0.8+git${SRCPV}"
-> -PR = "r2"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -LICENSE = "GPLv2+ & LGPLv2+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-> -                    file://COPYING.lib;md5=7fbc338309ac38fefcd64b04bb903e34 \
-> -                    file://src/main.c;beginline=1;endline=25;md5=3fe64e27e61b289b77383a54a982cbdd \
-> -                    file://gypsy/gypsy-time.h;beginline=1;endline=24;md5=06432ea19a7b6607428d04d9dadc37fd"
-> -
-> -SRC_URI = "git://anongit.freedesktop.org/gypsy;protocol=git \
-> -           file://fixups.patch"
-> diff --git a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
-> index 2289572..a6403fc 100644
-> --- a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
-> +++ b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
-> @@ -17,7 +17,6 @@ SDK-GMAE = " \
->       gupnp \
->       gupnp-av \
->       gupnp-tools \
-> -    gypsy \
->       libart-lgpl \
->       libtelepathy \
->       pulseaudio \
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
