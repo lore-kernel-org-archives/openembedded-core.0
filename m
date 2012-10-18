@@ -1,27 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1TOwTE-0005IJ-Tn
+	(envelope-from <sgw@linux.intel.com>) id 1TOwTy-0005Kc-Ra
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 22:13:33 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Oct 2012 13:00:12 -0700
+	Thu, 18 Oct 2012 22:14:19 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Oct 2012 13:00:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,608,1344236400"; d="scan'208";a="237138772"
-Received: from unknown (HELO envy.home) ([10.255.14.53])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Oct 2012 13:00:11 -0700
-Message-ID: <50805F8F.5050604@linux.intel.com>
-Date: Thu, 18 Oct 2012 15:59:11 -0400
-From: Darren Hart <dvhart@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.80,608,1344236400"; d="scan'208";a="207809750"
+Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
+	by orsmga001.jf.intel.com with ESMTP; 18 Oct 2012 13:00:57 -0700
+Message-ID: <50805FF9.7050606@linux.intel.com>
+Date: Thu, 18 Oct 2012 13:00:57 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121009 Thunderbird/16.0
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
-	<7A2134DD-519C-4FFB-ACEE-8E36E7A5A088@gmail.com>
-In-Reply-To: <7A2134DD-519C-4FFB-ACEE-8E36E7A5A088@gmail.com>
-X-Enigmail-Version: 1.4.5
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cryptodev kernel module recipe
+To: Phil Blundell <philb@gnu.org>
+References: <1348574105.31293.69.camel@phil-desktop>
+In-Reply-To: <1348574105.31293.69.camel@phil-desktop>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] module.bbclass: Move do_make_scripts() to module-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 20:13:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 18 Oct 2012 20:14:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 09/25/2012 04:55 AM, Phil Blundell wrote:
+> It's sometimes useful to have this function available to recipes which
+> don't wish to use module.bbclass for whatever reason.
+>
+> Signed-off-by: Phil Blundell <pb@pbcl.net>
+> ---
+>   meta/classes/module-base.bbclass |   11 +++++++++++
+>   meta/classes/module.bbclass      |   11 -----------
+>   2 files changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+> index 9379bf8..210c47c 100644
+> --- a/meta/classes/module-base.bbclass
+> +++ b/meta/classes/module-base.bbclass
+> @@ -26,3 +26,14 @@ KERNEL_AR = "${HOST_PREFIX}ar${KERNEL_ARSUFFIX} ${HOST_AR_KERNEL_ARCH}"
+>
+>   # kernel modules are generally machine specific
+>   PACKAGE_ARCH = "${MACHINE_ARCH}"
+> +
+> +#
+> +# Ensure the hostprogs are available for module compilation. Modules that
+> +# inherit this recipe and override do_compile() should be sure to call
+> +# do_make_scripts() or ensure the scripts are built independently.
+> +#
+> +do_make_scripts() {
+> +	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> +	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> +	           -C ${STAGING_KERNEL_DIR} scripts
+> +}
+> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> index 91628e4..c721202 100644
+> --- a/meta/classes/module.bbclass
+> +++ b/meta/classes/module.bbclass
+> @@ -3,17 +3,6 @@ DEPENDS += "virtual/kernel"
+>
+>   inherit module-base
+>
+> -#
+> -# Ensure the hostprogs are available for module compilation. Modules that
+> -# inherit this recipe and override do_compile() should be sure to call
+> -# do_make_scripts() or ensure the scripts are built independently.
+> -#
+> -do_make_scripts() {
+> -	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> -	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+> -	           -C ${STAGING_KERNEL_DIR} scripts
+> -}
+> -
+>   addtask make_scripts before do_compile
+>   do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+>   do_make_scripts[deptask] = "do_populate_sysroot"
+>
 
+Merged into OE-Core
 
-On 10/18/2012 02:14 AM, Khem Raj wrote:
-> 
-> On Oct 18, 2012, at 2:57 AM, Yashpal Dutta <yashpal.dutta@freescale.com> wrote:
-> 
->> +-install:
->> ++modules_install:
->> + 	make -C $(KERNEL_DIR) SUBDIRS=`pwd` modules_install
->> +-	@echo "Installing cryptodev.h in /usr/include/crypto ..."
->> +-	@install -D crypto/cryptodev.h /usr/include/crypto/cryptodev.h
->> ++	@echo "Installing cryptodev.h in $(PREFIX)/usr/include/crypto ..."
->> ++	@install -D crypto/cryptodev.h $(PREFIX)/usr/include/crypto/cryptodev.h
->> + 
-> 
-> why is it installing linux headers under /usr/include shouldn't they be under usr/include/linux ?
+Thanks
+	Sau!
 
-And shouldn't /usr/include be one of those ${*dir} variables?
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
 
 
