@@ -1,26 +1,24 @@
-Received: from vms173009pub.verizon.net ([206.46.173.9])
+Received: from vms173005pub.verizon.net ([206.46.173.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1TP06E-0004eo-Hw
+	(envelope-from <denis@denix.org>) id 1TP06G-0004ep-5T
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 02:06:02 +0200
+	Fri, 19 Oct 2012 02:06:04 +0200
 Received: from gandalf.denix.org ([unknown] [72.66.25.115])
-	by vms173009.mailsrvcs.net
+	by vms173005.mailsrvcs.net
 	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MC400JR026RSGL0@vms173009.mailsrvcs.net> for
+	2009)) with ESMTPA id <0MC400DZX26P6SI0@vms173005.mailsrvcs.net> for
 	openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 17:52:19 -0500 (CDT)
+	Thu, 18 Oct 2012 17:52:16 -0500 (CDT)
 Received: from localhost.localdomain (elrond [192.168.0.7])
-	by gandalf.denix.org (Postfix) with ESMTP id BF6CF201CD; Thu,
-	18 Oct 2012 18:52:03 -0400 (EDT)
+	by gandalf.denix.org (Postfix) with ESMTP id 3E9172008D; Thu,
+	18 Oct 2012 18:52:01 -0400 (EDT)
 From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Oct 2012 18:51:58 -0400
-Message-id: <1350600718-3052-3-git-send-email-denis@denix.org>
+Date: Thu, 18 Oct 2012 18:51:56 -0400
+Message-id: <1350600718-3052-1-git-send-email-denis@denix.org>
 X-Mailer: git-send-email 1.7.12.3
-In-reply-to: <1350600718-3052-1-git-send-email-denis@denix.org>
-References: <1350600718-3052-1-git-send-email-denis@denix.org>
 Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 2/2] tune-cortexa7: add tunes for ARM Cortex-A7
+Subject: [PATCH 0/2] Add more tunes for new ARM processors Cortex-A15 and Cortex-A7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 00:06:02 -0000
+X-List-Received-Date: Fri, 19 Oct 2012 00:06:04 -0000
 
 From: Denys Dmytriyenko <denys@ti.com>
 
+The patchset adds 2 more standard tune files for the new ARM MPCore (multicore)
+processors Cortex-A15 and Cortex-A7, as per:
+
+http://www.arm.com/products/processors/cortex-a/cortex-a15.php
 http://www.arm.com/products/processors/cortex-a/cortex-a7.php
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/conf/machine/include/tune-cortexa7.inc | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Denys Dmytriyenko (2):
+  tune-cortexa15: add tunes for ARM Cortex-A15
+  tune-cortexa7: add tunes for ARM Cortex-A7
+
+ meta/conf/machine/include/tune-cortexa15.inc | 24 ++++++++++++++++++++++++
+ meta/conf/machine/include/tune-cortexa7.inc  | 24 ++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa15.inc
  create mode 100644 meta/conf/machine/include/tune-cortexa7.inc
 
-diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
-new file mode 100644
-index 0000000..8e41139
---- /dev/null
-+++ b/meta/conf/machine/include/tune-cortexa7.inc
-@@ -0,0 +1,24 @@
-+DEFAULTTUNE ?= "cortexa7-neon"
-+
-+require conf/machine/include/arm/arch-armv7a.inc
-+
-+TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa7", "-mtune=cortex-a7", "", d)}"
-+
-+# Little Endian base configs
-+AVAILTUNES += "cortexa7 cortexa7t cortexa7-neon"
-+TUNE_FEATURES_tune-cortexa7 = "${TUNE_FEATURES_tune-armv7a} cortexa7"
-+TUNE_FEATURES_tune-cortexa7t = "${TUNE_FEATURES_tune-armv7at} cortexa7"
-+TUNE_FEATURES_tune-cortexa7-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa7"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a}"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at}"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon}"
-+
-+# VFP Tunes
-+AVAILTUNES += "cortexa7hf cortexa7thf cortexa7hf-neon"
-+TUNE_FEATURES_tune-cortexa7hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa7"
-+TUNE_FEATURES_tune-cortexa7thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa7"
-+TUNE_FEATURES_tune-cortexa7hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa7"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf}"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon}"
 -- 
 1.7.12.3
 
