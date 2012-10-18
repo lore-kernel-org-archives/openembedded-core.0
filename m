@@ -1,36 +1,37 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TOqvg-0003JO-TW
+	(envelope-from <andrei@gherzan.ro>) id 1TOr8H-0003co-Io
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 16:18:33 +0200
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 18 Oct 2012 07:04:51 -0700
-Received: by mail-wi0-f171.google.com with SMTP id hj13so1911802wib.6
+	Thu, 18 Oct 2012 16:31:33 +0200
+Received: by mail-ob0-f175.google.com with SMTP id eq6so8638367obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 07:04:50 -0700 (PDT)
+	Thu, 18 Oct 2012 07:18:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=rl78NbCgRwmzt2CZHahMBhxCS1oSWflAV4oT/geEFDI=;
-	b=ek1UDUG9ExcNEBZCn80+E9rRAtPNFMyMAiOydxTb9y5bSNpDw27nQlU69/STrMYfRD
-	mmSmZa7AxGoJi3qGu4TeyWq2q6QUI4exzwSalEtGS5kPjzaUYkexXh2F/0x2TT+iBOCc
-	hZqTJJgYiMvsHfAxKeUQWlT7pPWxCZCjpvKVsiL8QkFvJtTF5Okv2HLnwzWgwywxkWWM
-	Bnu6MWurNwLhcMfbTs7dl8JYLv9UmArIy29KSH6E1C7YI54EowdCA/SkpRSHmm1EcHYw
-	Lf35wLjOuoAXDCYIzzuqRs3ug0OiGWGJgUDwdUVX4PW37KDKA+a9WepnF/PCF5U0xrqL
-	Ce8Q==
-Received: by 10.216.214.92 with SMTP id b70mr14034931wep.86.1350569089927;
-	Thu, 18 Oct 2012 07:04:49 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id v3sm29709483wiw.7.2012.10.18.07.04.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 18 Oct 2012 07:04:48 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Oct 2012 15:03:41 +0100
-Message-Id: <1350569021-17352-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmkQ5Yicl/HWs5aJHMvYr8zYOb42S/YQJ5wjyZ7u4e2DaWHOHh9zjBQyiUwc8Qe/bFgYxi1
-Subject: [PATCH] linux-firmare: upgrade to latest commit
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=qICfDji2ZfdBJ8BSNw7Ujlc41DuV8gauFhh+3217hNU=;
+	b=aqULX0BK82dB+1tVD+KD9SYyRzMAWcLE/oON4fKv3MWp+J/LzEJDJI2QtWNLYowOOd
+	ZHXc6a4F/M9ErvR1woiSfrv2bTaTnhFvFn0TqgF/WYDiGEIz1MVjY5v5dxOaCEx/qurh
+	c973JNfAiN20J8etwiRVwz0Yw+XfSbGAZpPAf8y31Berw3x7fTbGMmNIiq4DWjDN+f/w
+	DLCgxtHOursswt/vBgya6eUfxY8RXiUsxsH0WrtSKLcTYU9E+uNZ0TXJgMkRR7thzd1x
+	QC7cqyCadxX/9suWVOOUUNMsl+UHgSzIy+9Chuwjm8AxuT8Lms781QME3Ax2fmC3iJa1
+	g+fg==
+Received: by 10.182.64.14 with SMTP id k14mr17569151obs.72.1350569893518; Thu,
+	18 Oct 2012 07:18:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.12.202 with HTTP; Thu, 18 Oct 2012 07:17:53 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <0E923D60-C4AB-460F-91B8-7A45213679BF@gmail.com>
+References: <CAK18fxGxttqXrLDFCQkB4_XAEuKFvf7_M1Yfie42k3mXkNqZCg@mail.gmail.com>
+	<0E923D60-C4AB-460F-91B8-7A45213679BF@gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Thu, 18 Oct 2012 17:17:53 +0300
+Message-ID: <CAK18fxE=jT32svCXysbHTj99gSzgXfdmqGq0POLmD--+fLv1qg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Gm-Message-State: ALoCoQkwWyFdWEV91gilTndqHP3Xr2mGLRrz3PuUTJF35lrBp35LnPAMw8+lZTc16oUhuamIe3Ti
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-systemd base-files issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +44,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 14:18:33 -0000
+X-List-Received-Date: Thu, 18 Oct 2012 14:31:33 -0000
+Content-Type: multipart/alternative; boundary=14dae93a18f9bf5cbd04cc560efe
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--14dae93a18f9bf5cbd04cc560efe
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 559f82a..f4eb4cf 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -19,10 +19,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-                    "
- 
--SRCREV = "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
-+SRCREV = "0d6729f2b0bc6254d3628eb831bc80a36b5a17db"
- PE = "1"
- PV = "0.0+git${SRCPV}"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
- 
--- 
-1.7.10
+On Fri, Oct 12, 2012 at 1:06 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+>
+> On Oct 11, 2012, at 8:36 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+>
+> I'm trying to get meta-systemd work with meta-oe and oe-core.
+> The problem seems to be with the fstab from oe-core where /var/volatile is
+> mounted as tmpfs and the directories inside never recreated. So services
+> like dbus or whatever needs /var/log or var/run etc which are all symlinks
+> to volatile/*, will fail. Is this a known issue? Is there any other fix
+> then using a custom stab?
+>
+>
+> its a known issue. Fix is to remove
+>
+> -${localstatedir}/cache link    volatile/cache
+> -${localstatedir}/run   link    volatile/run
+> -${localstatedir}/log   link    volatile/log
+> -${localstatedir}/lock  link    volatile/lock
+> -${localstatedir}/tmp   link    volatile/tmp
+>
+> from meta/files/fs-perms.txt
+>
+> I did and bug wasn't solved. The idea is that the directories inside
+volatile are "not there" as long as tmpfs mounted.
+
+P.S.: @Khem Sorry for double send.
+
+--14dae93a18f9bf5cbd04cc560efe
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Fri, Oct 12, 2012 at 1:06 AM, Khem Raj <span =
+dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj=
+.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+<div style=3D"word-wrap:break-word"><br><div><div class=3D"im"><div>On Oct =
+11, 2012, at 8:36 AM, Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.r=
+o" target=3D"_blank">andrei@gherzan.ro</a>&gt; wrote:</div><br></div><block=
+quote type=3D"cite">
+
+<div class=3D"im">I&#39;m trying to get meta-systemd work with meta-oe and =
+oe-core.</div><div>The problem seems to be with the fstab from oe-core wher=
+e /var/volatile is mounted as tmpfs and the directories inside never recrea=
+ted. So services like dbus or whatever needs /var/log or var/run etc which =
+are all symlinks to=A0volatile/*, will fail. Is this a known issue? Is ther=
+e any other fix then using a custom stab?<br clear=3D"all">
+
+</div></blockquote><div><br></div><div>its a known issue. Fix is to remove<=
+/div><div><br></div><div><div>-${localstatedir}/cache link =A0 =A0volatile/=
+cache</div><div>-${localstatedir}/run =A0 link =A0 =A0volatile/run</div><di=
+v>-${localstatedir}/log =A0 link =A0 =A0volatile/log</div>
+
+<div>-${localstatedir}/lock =A0link =A0 =A0volatile/lock</div><div>-${local=
+statedir}/tmp =A0 link =A0 =A0volatile/tmp</div><div><br></div><div>from=A0=
+meta/files/fs-perms.txt</div></div><br><blockquote type=3D"cite"><div>
+
+<div style=3D"text-align:center"></div></div></blockquote></div></div></blo=
+ckquote></div><span style=3D"color:rgb(34,34,34);font-family:arial,sans-ser=
+if;font-size:13px;background-color:rgb(255,255,255)">I did and bug wasn&#39=
+;t solved. The idea is that the directories inside volatile are &quot;not t=
+here&quot; as long as tmpfs mounted.</span><div>
+
+<span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:1=
+3px;background-color:rgb(255,255,255)"><br></span></div><div><span style=3D=
+"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13px;background=
+-color:rgb(255,255,255)">P.S.: @Khem Sorry for double send.</span></div>
 
 
-
+--14dae93a18f9bf5cbd04cc560efe--
