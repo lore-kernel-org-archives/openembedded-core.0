@@ -1,25 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TOwz4-0004gJ-3U
+	(envelope-from <sgw@linux.intel.com>) id 1TOwzw-0005Lv-6n
 	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 22:46:26 +0200
+	Thu, 18 Oct 2012 22:47:20 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 18 Oct 2012 13:33:05 -0700
+	by azsmga101.ch.intel.com with ESMTP; 18 Oct 2012 13:33:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,609,1344236400"; d="scan'208";a="157826860"
+X-IronPort-AV: E=Sophos;i="4.80,609,1344236400"; d="scan'208";a="157827032"
 Received: from unknown (HELO [10.255.13.210]) ([10.255.13.210])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Oct 2012 13:33:04 -0700
-Message-ID: <50806780.7030901@linux.intel.com>
-Date: Thu, 18 Oct 2012 13:33:04 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Oct 2012 13:33:43 -0700
+Message-ID: <508067A7.6090501@linux.intel.com>
+Date: Thu, 18 Oct 2012 13:33:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Phil Blundell <philb@gnu.org>
-References: <1350512717.4470.171.camel@x121e.pbcl.net>
-In-Reply-To: <1350512717.4470.171.camel@x121e.pbcl.net>
+To: Ross Burton <ross.burton@intel.com>
+References: <1350553799-5977-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1350553799-5977-1-git-send-email-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gconf: Avoid error when trying to delete files that don't exist
+Subject: Re: [PATCH] sstate: when warnings about sysroot overwrites, say what the recipe was
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 20:46:26 -0000
+X-List-Received-Date: Thu, 18 Oct 2012 20:47:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/17/2012 03:25 PM, Phil Blundell wrote:
-> Use "rm -f" in do_install_append() so we don't fail if the files we're
-> trying to delete have already been removed.  This can happen if the
-> distro policy suppresses both static libs and .la files.
->
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
+On 10/18/2012 02:49 AM, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->   meta/recipes-gnome/gnome/gconf_3.2.3.bb |    4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   meta/classes/sstate.bbclass |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-> index dc3520f..4d77a14 100644
-> --- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-> +++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-> @@ -33,8 +33,8 @@ do_install_append() {
->   	install -d ${D}${sysconfdir}/gconf/gconf.xml.system
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 3fcaa65..b20b19c 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -165,7 +165,7 @@ def sstate_install(ss, d):
+>               if realmatch:
+>                   match.append(f)
+>       if match:
+> -        bb.warn("The recipe is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % "\n   ".join(match))
+> +        bb.warn("The recipe %s is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % (d.getVar("PN", True), "\n   ".join(match)))
 >
->   	# this stuff is unusable
-> -	rm ${D}${libdir}/GConf/*/*.*a
-> -	rm ${D}${libdir}/gio/*/*.*a
-> +	rm -f ${D}${libdir}/GConf/*/*.*a
-> +	rm -f ${D}${libdir}/gio/*/*.*a
->   }
->
->   # disable dbus-x11 when x11 isn't in DISTRO_FEATURES
+>       # Write out the manifest
+>       f = open(manifest, "w")
 >
 Merged into OE-Core
 
