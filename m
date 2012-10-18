@@ -1,36 +1,34 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TOmxp-0008QK-Vv
-	for openembedded-core@lists.openembedded.org;
-	Thu, 18 Oct 2012 12:04:30 +0200
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 18 Oct 2012 02:51:09 -0700
-Received: by mail-wg0-f43.google.com with SMTP id dq11so6227460wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 02:51:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=Xck1JSYQM8oJ6Y3Db2aA9d1DK5whDtJSAz2ODJ1dmiU=;
-	b=SyLXkYsFbBE1yT0dT/lgyat1jvXzj7b71VrWjhkD2f829OBGqnZZN444kmZRiC7GRE
-	1O8x43jFECJcqhST7RCRLjX6pILH6IRJ5eWTYgBzG26hD83KlzL/ba21wVMUvDIQYmzB
-	oo5EVn2eKlDe+xZSz1zEjFd3h+FQmq1gsuBCfea45GhiVBNWIv3nfxgX/5uvwAgG79hk
-	hYOO13DncSI+3X5+nsUL0lNn8SJqD+Tp4+8Ow/dG2UcH1fFu3UNwh8s6pdOyBRd37CLh
-	d9ep0a5+XFRL43fpmwyxMWrfnoH3fCTHKoPhG/Eyd/80xGv8dG+Kjk5wmSRZWTCpiRX1
-	OykQ==
-Received: by 10.180.93.106 with SMTP id ct10mr10097847wib.8.1350553867231;
-	Thu, 18 Oct 2012 02:51:07 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id eq2sm32664368wib.1.2012.10.18.02.51.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 18 Oct 2012 02:51:06 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Oct 2012 10:49:59 +0100
-Message-Id: <1350553799-5977-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQkChtXdnZSOu7XogwaRRyJHSZzxO1sGiZh8EAK1YAbltKl+UKEdGwAZihmo/2wXx7WWj6Os
-Subject: [PATCH] sstate: when warnings about sysroot overwrites, say what the recipe was
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TOn68-00005k-Nx for openembedded-core@lists.openembedded.org;
+	Thu, 18 Oct 2012 12:13:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9I9xfbD016890;
+	Thu, 18 Oct 2012 10:59:41 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16459-08; Thu, 18 Oct 2012 10:59:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9I9xXFE016884
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 18 Oct 2012 10:59:35 +0100
+Message-ID: <1350554381.2185.169.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Thu, 18 Oct 2012 10:59:41 +0100
+In-Reply-To: <1350514593.4470.175.camel@x121e.pbcl.net>
+References: <1348577801.31293.71.camel@phil-desktop>
+	<50785717.8000606@linux.intel.com>
+	<1350294414.3259.128.camel@phil-desktop>
+	<507E2722.9020904@linux.intel.com>
+	<1350514593.4470.175.camel@x121e.pbcl.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] eglibc: Move perl- and bash-using scripts to separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,28 +41,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2012 10:04:30 -0000
+X-List-Received-Date: Thu, 18 Oct 2012 10:13:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sstate.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 2012-10-17 at 23:56 +0100, Phil Blundell wrote:
+> On Tue, 2012-10-16 at 20:33 -0700, Saul Wold wrote:
+> > Another edge case?
+> > > ERROR: Function failed: do_evacuate_scripts (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/temp/log.do_evacuate_scripts.1600 for further information)
+> > > ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/temp/log.do_evacuate_scripts.1600
+> > > Log data follows:
+> > > | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+> > > | DEBUG: Executing shell function do_evacuate_scripts
+> > > | cp: cannot stat `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/image/opt/poky/1.3+snapshot/sysroots/i686-pokysdk-linux/usr/bin/mtrace': No such file or directory
+> > > | ERROR: Function failed: do_evacuate_scripts (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/i686-nativesdk-pokysdk-linux/nativesdk-eglibc-initial-2.16-r16+svnr20393/temp/log.do_evacuate_scripts.1600 for further information)
+> > > NOTE: recipe nativesdk-eglibc-initial-2.16-r16+svnr20393: task do_evacuate_scripts: Failed
+> > > NOTE: recipe gupnp-av-0.8.0-r2: task do_compile: Started
+> > > ERROR: Task 1593 (virtual:nativesdk:/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/meta/recipes-core/eglibc/eglibc-initial_2.16.bb, do_evacuate_scripts) failed with exit code '1'
+> > 
+> > This was a build for the meta-toolchain-gmae, but I also saw this with 
+> > the multilib build.
+> 
+> The issue with meta-toolchain-gmae is that eglibc-package.inc needs to
+> declare an empty do_evacuate_scripts_pn-nativesdk-eglibc-initial(), like
+> it does for pn-eglibc-initial.  Something along the lines of:
+> 
+> --- a/meta/recipes-core/eglibc/eglibc-package.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+> @@ -121,6 +121,10 @@ do_evacuate_scripts_pn-eglibc-initial () {
+>         :
+>  }
+>  
+> +do_evacuate_scripts_pn-nativesdk-eglibc-initial () {
+> +       :
+> +}
+> +
+>  addtask evacuate_scripts after do_install before do_populate_sysroot do_package
+>  
+>  PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
+> 
+> Do you have an easy way to reproduce the multilib failure?
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3fcaa65..b20b19c 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -165,7 +165,7 @@ def sstate_install(ss, d):
-             if realmatch:
-                 match.append(f)
-     if match:
--        bb.warn("The recipe is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % "\n   ".join(match))
-+        bb.warn("The recipe %s is trying to install files into a shared area when those files already exist. Those files are:\n   %s" % (d.getVar("PN", True), "\n   ".join(match)))
- 
-     # Write out the manifest
-     f = open(manifest, "w")
--- 
-1.7.10
+Its basically the same problem, the mulitlib libc-initial needs to be
+set too. The reproducer would be something like:
+
+local.conf:
+MACHINE = qemux86
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+baselib_virtclass-multilib-lib32 = "lib32"
+
+$ bitbake eglibc
+
+The easiest solution is probably to change the do_evacuate_scripts
+function to check for "-initial" in PN.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
 
