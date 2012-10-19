@@ -1,57 +1,33 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from ams-iport-3.cisco.com ([144.254.224.146])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TP1tD-0008D7-55
+	(envelope-from <mertsas@cisco.com>) id 1TP6AY-0005Hx-7f
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 04:00:43 +0200
-Received: from mail107-ch1-R.bigfish.com (10.43.68.232) by
-	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 19 Oct 2012 01:47:22 +0000
-Received: from mail107-ch1 (localhost [127.0.0.1])	by
-	mail107-ch1-R.bigfish.com (Postfix) with ESMTP id 7DC2620083;
-	Fri, 19 Oct 2012 01:47:22 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441hbe9i1155h)
-Received: from mail107-ch1 (localhost.localdomain [127.0.0.1]) by mail107-ch1
-	(MessageSwitch) id 1350611240475642_26132;
-	Fri, 19 Oct 2012 01:47:20 +0000 (UTC)
-Received: from CH1EHSMHS004.bigfish.com (snatpool2.int.messaging.microsoft.com
-	[10.43.68.233])	by mail107-ch1.bigfish.com (Postfix) with ESMTP id
-	72275420048;	Fri, 19 Oct 2012 01:47:20 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS004.bigfish.com
-	(10.43.70.4) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 19 Oct 2012 01:47:20 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.88]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0309.003; Fri, 19 Oct 2012 01:47:19 +0000
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] cryptodev kernel module recipe
-Thread-Index: AQHNrW/ikWSgpKAgu0+LKa1V8BZDiJe/hiIAgABWPYA=
-Date: Fri, 19 Oct 2012 01:47:19 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A709A30@039-SN1MPN1-002.039d.mgd.msft.net>
-References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
-	<508063AF.9030400@linux.intel.com>
-	<70CC66F5C30A414DADDA6973E4CA391A70949E@039-SN1MPN1-002.039d.mgd.msft.net>
-	<508068BA.8070301@linux.intel.com>
-In-Reply-To: <508068BA.8070301@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Dutta Yashpal-B05456 <B05456@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cryptodev kernel module recipe
+	Fri, 19 Oct 2012 08:34:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1188; q=dns/txt; s=iport;
+	t=1350627696; x=1351837296;
+	h=from:to:cc:subject:date:message-id;
+	bh=VDuLAy1/b4gC9ehY+0wfXwQGoT2R10qKI1IiA3tmvrQ=;
+	b=XH8+3keW+6otgNd+ebWwCUzgYKsNXMNd1kGa87NR5TlSp7oUQsjIvGtz
+	0r59Nxy2EzfubemaGcSbMtP4Q7Ev6VUYvTzb7kvz3I3AXLPfXidBC9tk6
+	H2imDzf6wQX7us651425ClVIG7yqBoVMzMNF9RkwRo84m9Bt3dEe3o6Np A=;
+X-IronPort-AV: E=Sophos;i="4.80,610,1344211200"; 
+   d="scan'208";a="8924584"
+Received: from ams-core-2.cisco.com ([144.254.72.75])
+	by ams-iport-3.cisco.com with ESMTP; 19 Oct 2012 06:21:33 +0000
+Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id q9J6LXGv016941;
+	Fri, 19 Oct 2012 06:21:33 GMT
+From: Martin Ertsaas <mertsas@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Oct 2012 08:16:27 +0200
+Message-Id: <1350627387-20385-1-git-send-email-mertsas@cisco.com>
+X-Mailer: git-send-email 1.7.8.6
+Cc: Thomas Kristensen <thkriste@cisco.com>
+Subject: [PATCH v2] populate_sdk_base.bbclass: Make it possible to overrise the create_shar method of populate_sdk_base.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -61,29 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 02:00:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9F8B691AA09DC0438CD2B41665F8A129@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Oct 2012 06:34:54 -0000
 
-On Thu, Oct 18, 2012 at 3:38 PM, Darren Hart <dvhart@linux.intel.com> wrote=
-:
->>>> +EXTRA_OEMAKE=3D'KERNEL_DIR=3D"${STAGING_KERNEL_DIR}" PREFIX=3D"${D}"'
->>>
->>> modules.bbclass already sets KERNEL_PATH and KERNEL_SRC, perhaps you
->>> could use one of those?
->>
->> cryptodev Makefile does not use these it uses KERNEL_DIR in it's
->> Makefile for whatever reason. Getting an upstream project to change is
->> more difficult.
->
-> I think this is the second reference to KERNEL_DIR in an external module,
-> perhaps module.bbclass should add that to it's list of predefined names f=
-or
-> the STAGING_KERNEL_DIR.
+From: Thomas Kristensen <thkriste@cisco.com>
 
-Fine with me, but not sure how its worth it quite yet...=
+If you wish to change the install/unpack method of the sdk, this can now be done by making
+your own create_shar method, and setting a SDK_PACKAGAING_FUNC variable to your
+new create_shar function.
+
+Signed-off-by: Thomas Kristensen <thkriste@cisco.com>
+---
+ meta/classes/populate_sdk_base.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 6eb6726..a914a2c 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -24,6 +24,8 @@ PID = "${@os.getpid()}"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+ 
++SDK_PACKAGING_FUNC ?= "create_shar"
++
+ python () {
+     # If we don't do this we try and run the mapping hooks while parsing which is slow
+     # bitbake should really provide something to let us know this...
+@@ -56,7 +58,7 @@ fakeroot python do_populate_sdk() {
+ 
+     bb.build.exec_func("tar_sdk", d)
+ 
+-    bb.build.exec_func("create_shar", d)
++    bb.build.exec_func(d.getVar("SDK_PACKAGING_FUNC", True), d)
+ }
+ 
+ fakeroot populate_sdk_image() {
+-- 
+1.7.8.6
 
 
 
