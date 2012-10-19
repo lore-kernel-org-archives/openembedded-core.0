@@ -1,31 +1,22 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TPEIJ-0007A5-4Y for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 17:15:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JF22NQ031939;
-	Fri, 19 Oct 2012 16:02:02 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31641-05; Fri, 19 Oct 2012 16:01:58 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JF1rZk031932
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 19 Oct 2012 16:01:54 +0100
-Message-ID: <1350658913.2520.34.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kang Kai <kai.kang@windriver.com>
-Date: Fri, 19 Oct 2012 16:01:53 +0100
-In-Reply-To: <44a03f4c870063fd0405695db1de2bfaae976a71.1350645464.git.kai.kang@windriver.com>
-References: <cover.1350645464.git.kai.kang@windriver.com>
-	<44a03f4c870063fd0405695db1de2bfaae976a71.1350645464.git.kai.kang@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] nativesdk-autoconf: add dependencies
+Received: from smtpout.karoo.kcom.com ([212.50.160.34])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mac@mcrowe.com>) id 1TPEse-0007oB-Hi
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Oct 2012 17:53:00 +0200
+X-IronPort-AV: E=Sophos;i="4.80,613,1344207600"; d="scan'208";a="667306398"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 19 Oct 2012 16:38:35 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
+	(envelope-from <mac@mcrowe.com>) id 1TPEeh-0003ZU-1e
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Oct 2012 16:38:35 +0100
+Date: Fri, 19 Oct 2012 16:38:35 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20121019153834.GA13159@mcrowe.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Using SSTATE_MIRRORS with sstate subdirectories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,102 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 15:15:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Oct 2012 15:53:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2012-10-19 at 19:22 +0800, Kang Kai wrote:
-> When use toolchain gmae to compile iptables, autoreconf needs perl and
-> some perl modules. It is too many item to put in the .bb file, so just
-> add nativesdk-perl-modules to provide them.
-> 
-> [Yocto 3100]
-> 
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> ---
->  meta/recipes-devtools/autoconf/autoconf.inc     |    4 +++-
->  meta/recipes-devtools/autoconf/autoconf_2.69.bb |    2 +-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
-> index 315e773..29d67a0 100644
-> --- a/meta/recipes-devtools/autoconf/autoconf.inc
-> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
-> @@ -10,7 +10,9 @@ DEPENDS_virtclass-native = "m4-native gnu-config-native"
->  DEPENDS_virtclass-nativesdk = "nativesdk-m4 nativesdk-gnu-config"
->  RDEPENDS_${PN} = "m4 gnu-config"
->  RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
-> -RDEPENDS_${PN}_virtclass-nativesdk = "nativesdk-m4 nativesdk-gnu-config"
-> +RDEPENDS_${PN}_virtclass-nativesdk = "nativesdk-m4 nativesdk-gnu-config \
-> +                                      nativesdk-perl nativesdk-perl-modules \
-> +                                     "
->  
+I'm having trouble using SSTATE_MIRRORS as suggested at
+https://wiki.yoctoproject.org/wiki/Enable_sstate_cache :
 
-Ok, this is getting closer but I'm still not 100% convinced we have
-everything fixed properly. For example, if the above is true, isn't
-RDEPENDS_${PN} wrong? Do we need everything in perl-modules?
+SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/"
 
-I also took a look at the automake recipe which in some ways looks
-better behaved. It does:
+Since commit 5d45c7b025f6635b2232d7bf92b7c1aba350396b my sstate-cache
+files are stored in two-letter subdirectories (and
+9360fc318cec5c873b17f59b817dd6312c81ee27 adds the LSB prefix too.)
+Although these components are present in the original URL they don't
+make it into the rewritten one:
 
-RDEPENDS_${PN} += "\
-    autoconf \
-    perl \
-    perl-module-bytes \
-    perl-module-constant \
-    perl-module-cwd \
-    perl-module-data-dumper \
-    perl-module-dynaloader \
-    perl-module-errno \
-    perl-module-exporter-heavy \
-    perl-module-file-basename \
-    perl-module-file-compare \
-    perl-module-file-copy \
-    perl-module-file-glob \
-    perl-module-file-spec-unix \
-    perl-module-file-stat \
-    perl-module-getopt-long \
-    perl-module-io \
-    perl-module-io-file \
-    perl-module-posix \
-    perl-module-strict \
-    perl-module-text-parsewords \
-    perl-module-vars "
+DEBUG: SState using premirror of: file://.* file:///private/sstate-cache/
+DEBUG: SState: Attempting to fetch file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
+DEBUG: Searching for Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz in paths:   
+DEBUG: Searching for Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz in path: /vg0disk/mac/src/oe2/build-bcm7425/conf/.
+DEBUG: Defaulting to /vg0disk/mac/src/oe2/build-bcm7425/sstate-cache/Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz for Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
+DEBUG: Testing URL file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
+DEBUG: For url ['file', '', 'Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz', '', '', {}] comparing ['file', '', '.*', '', '', {}] to ['file', '', '/private/sstate-cache/', '', '', {}]
+DEBUG: For url file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz returning file:///private/sstate-cache/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
+DEBUG: For url ['file', '', '/private/sstate-cache/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz', '', '', {}] comparing ['file', '', '.*', '', '', {}] to ['file', '', '/private/sstate-cache/', '', '', {}]
+DEBUG: SState: Unsuccessful fetch test for file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
 
-RDEPENDS_${PN}_virtclass-native = "autoconf-native perl-native-runtime"
-RDEPENDS_${PN}_virtclass-nativesdk = "nativesdk-autoconf"
+Inspired by 9360fc318cec5c873b17f59b817dd6312c81ee27 I tried:
 
-which at least seems to list the modules it really needs. The fact we
-then set a virtclass-nativesdk version which is wrong is worrying.
+SSTATE_MIRRORS ?= "file://(.*) file:///private/sstate-cache/\1"
 
-I think the assumption has been that for nativesdk, we'd use the system
-perl.
+But this just resulted in an infinite loop with progressively more
+private/sstate-cache/ components added to the path name.
 
-So I think we need to
+I've had a poke at fetch2's uri_replace but it isn't obvious to me how
+to change this behaviour without risking breaking something else.
 
-a) Decide whether the sdk should be using the nativesdk perl or the host
-system one. I'm fine with deciding we should use the nativesdk perl
-b) Fix RDEPENDS_${PN} for autoconf so that it lists the right perl
-modules.
-c) At this pooint we might be able to simply remove RDEPENDS_
-${PN}_virtclass-nativesdk and the code should figure things out
-automagically itself.
-d) We should verify the list of modules for automake is correct
-e) We should also see if we can simply remove the RDEPENDS_
-${PN}_virtclass-nativesdk line from automake.
+Any ideas?
 
-Does that make sense?
+Thanks.
 
-Cheers,
-
-Richard
-
-
-
-
-
-
-
+Mike.
 
 
 
