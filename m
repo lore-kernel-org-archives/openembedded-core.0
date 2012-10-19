@@ -1,27 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TPKGU-0006h9-Q5
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 23:37:59 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 19 Oct 2012 14:24:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,617,1344236400"; d="scan'208";a="158231794"
-Received: from unknown (HELO [10.255.14.107]) ([10.255.14.107])
-	by AZSMGA002.ch.intel.com with ESMTP; 19 Oct 2012 14:24:35 -0700
-Message-ID: <5081C512.1060301@linux.intel.com>
-Date: Fri, 19 Oct 2012 14:24:34 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-References: <cover.1350571171.git.bruce.ashfield@windriver.com>
-	<7b8c12ae454f69996f935aef35cccc6d352b0964.1350571171.git.bruce.ashfield@windriver.com>
-	<1350573146.2520.2.camel@ted> <50802FC0.7060803@windriver.com>
-In-Reply-To: <50802FC0.7060803@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel.bbclass: remove explicit version.h target
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TPLOm-0007hx-RW for openembedded-core@lists.openembedded.org;
+	Sat, 20 Oct 2012 00:50:39 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JMbCbn010468;
+	Fri, 19 Oct 2012 23:37:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06071-06; Fri, 19 Oct 2012 23:37:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JMaxw7010442
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 19 Oct 2012 23:37:00 +0100
+Message-ID: <1350686218.2520.49.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 19 Oct 2012 23:36:58 +0100
+In-Reply-To: <20121019193829.GA29349@jama.jama.net>
+References: <1350600718-3052-1-git-send-email-denis@denix.org>
+	<20121019084432.GH3087@jama.jama.net>
+	<20121019165616.GA27336@denix.org>
+	<20121019193829.GA29349@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org, Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 0/2] Add more tunes for new ARM processors Cortex-A15 and Cortex-A7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,69 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 21:37:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 19 Oct 2012 22:50:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/18/2012 09:35 AM, Bruce Ashfield wrote:
-> On 12-10-18 11:12 AM, Richard Purdie wrote:
->> On Thu, 2012-10-18 at 10:47 -0400, Bruce Ashfield wrote:
->>> The compilation routine for the kernel has an explicit call to
->>> build version.h, which works fine for most kernels, but the
->>> location of it has recently changes.
->>>
->>> commit d183e6f5 [UAPI: Move linux/version.h]
->>> commit 10b63956 [UAPI: Plumb the UAPI Kbuilds into the user
->>>                   header installation and checking]
->>>
->>> moves the file to include/generated/linux/version.h and then to
->>> include/generated/uapi/linux/version.h.
->>>
->>> As a result kernel builds of 3.7 or bisection builds of intermediate
->>> kernel commits will fail with:
->>>
->>>    make[2]: *** No rule to make target `include/linux/version.h'.  Stop.
->>>
->>> Making the explicit version.h build conditional on the version, or
->>> via a file test would fix the problem, but it introduces some complexity
->>> to the build.
->>>
->>> Even without an explicit call to build version.h, it is always produced
->>> by the kernel build, so it can simply be removed.
->>>
->>> Note: it isn't clear why the explicit build of version.h was originally
->>> required, but the prep phases of the kernel have changed significantly,
->>> so it should no longer be required.
->>
->> I had a look through the archives. I think this is a throwback to 2.4,
->> we had to build the version.h file to figure out if we had a 2.6 or a
->> 2.4 kernel, then we could do the right thing to build it.
->>
->> Since we don't support 2.4 anymore, this can die!
->
-> That makes my day.
->
-> Should I resend, or is the RFC patch enough ?
->
-Nope, It's merged into OE-Core
+On Fri, 2012-10-19 at 21:38 +0200, Martin Jansa wrote:
+> On Fri, Oct 19, 2012 at 12:56:16PM -0400, Denys Dmytriyenko wrote:
+> > On Fri, Oct 19, 2012 at 10:44:32AM +0200, Martin Jansa wrote:
+> > > On Thu, Oct 18, 2012 at 06:51:56PM -0400, Denys Dmytriyenko wrote:
+> > > > From: Denys Dmytriyenko <denys@ti.com>
+> > > > 
+> > > > The patchset adds 2 more standard tune files for the new ARM MPCore (multicore)
+> > > > processors Cortex-A15 and Cortex-A7, as per:
+> > > > 
+> > > > http://www.arm.com/products/processors/cortex-a/cortex-a15.php
+> > > > http://www.arm.com/products/processors/cortex-a/cortex-a7.php
+> > > 
+> > > Please check this patchset 
+> > > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/030759.html
+> > 
+> > Yes, I've seen that patchset. Unfortunately it's still in the queue and is 
+> > going through implementation iterations. Once it gets into OE-Core, I'd be 
+> 
+> Nobody commented on last iteration (except of acks from khem). So I
+> don't plan to send another one.
 
-Thanks
-	Sau!
+It was made clear that we were concentrating on the release and these
+were something we'd come back to afterwards. I also made it very clear
+that I'm opposed to something that is repeatedly getting proposed here.
+Lets just say it is unlikely I will simply change my mind if people keep
+sending it.
 
-> Bruce
->
->>
->> Cheers,
->>
->> Richard
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+I'm trying to get to the point of reviewing the patches that need
+attention and give more constructive feedback having cleared the less
+problematic ones out the way and shortened the backlog but I'm not there
+yet. Ideally I'd like to take a break entirely but sadly that simply
+isn't going to happen :(. I'll try and get to these as soon as I can but
+there is a substantial queue. 
+
+I'd also point out I'm getting considerable "feedback" as soon as
+anything goes into master that destabilises the build so when anything
+does merge, fixing fallout is taking priority too.
+
+Cheers,
+
+Richard
+
+
 
 
