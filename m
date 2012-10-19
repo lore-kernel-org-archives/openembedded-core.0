@@ -1,34 +1,25 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TPEzU-0007yA-9C
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TPF53-0008RS-Ph
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 18:00:04 +0200
-Received: by mail-la0-f47.google.com with SMTP id h5so346287lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2012 08:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=kTziPaSGSnENSH3B15TnfokOppCp3ZrNGAqKv+5Fgsc=;
-	b=KbuuY9JPzvf//Ros5YrdTIx4dsvEOiklTybXJMMPZJrIkotWQnYh/R1OJ87t4KKrRP
-	JnkIYBrp+cRdB47rHwSP43HQtanMNX9m/Lg2KDQ+1WGoMfTaYXLXT5cjI1THJ2HMIfhF
-	qOTTIZBuobI4eVCa4A4yr8QS5DTTY6qMlWAjQZTRXl5cRQREJegkOyVV1vQiCEFXb6q+
-	tHy6IYrjPeW5wOXkCxGi7AlndG6SnuNu0/O220ox+hzsQDrCNWpK5UyUmBkrr4NoPazj
-	+Vdl0jzd3gOffTKEgIblrvMU40MbdwgzYweLvdM2LQ32VUM9cC9FjuxVC/t6enR+llcG
-	ZR8g==
-Received: by 10.152.108.197 with SMTP id hm5mr1512901lab.45.1350661603224;
-	Fri, 19 Oct 2012 08:46:43 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.1.49 with HTTP; Fri, 19 Oct 2012 08:46:23 -0700 (PDT)
-In-Reply-To: <20121019153834.GA13159@mcrowe.com>
+	Fri, 19 Oct 2012 18:05:49 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Oct 2012 08:52:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,613,1344236400"; d="scan'208";a="236032122"
+Received: from unknown (HELO helios.localnet) ([10.252.122.112])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2012 08:52:26 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Oct 2012 16:52:25 +0100
+Message-ID: <2996317.jWZoZdIPNY@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
+In-Reply-To: <CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
 References: <20121019153834.GA13159@mcrowe.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 19 Oct 2012 08:46:23 -0700
-X-Google-Sender-Auth: wlVoOW6q-GVe-GLXAXIBp7RJ30s
-Message-ID: <CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
-To: Mike Crowe <mac@mcrowe.com>
-Cc: openembedded-core@lists.openembedded.org
+	<CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Chris Larson <clarson@kergoth.com>, Mike Crowe <mac@mcrowe.com>
 Subject: Re: Using SSTATE_MIRRORS with sstate subdirectories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,17 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 16:00:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 19 Oct 2012 16:05:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Oct 19, 2012 at 8:38 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> I'm having trouble using SSTATE_MIRRORS as suggested at
-> https://wiki.yoctoproject.org/wiki/Enable_sstate_cache :
->
-> SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/"
+On Friday 19 October 2012 08:46:23 Chris Larson wrote:
+> On Fri, Oct 19, 2012 at 8:38 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > I'm having trouble using SSTATE_MIRRORS as suggested at
+> > https://wiki.yoctoproject.org/wiki/Enable_sstate_cache :
+> > 
+> > SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/"
+> 
+> SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/PATH"
 
-SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/PATH"
+Note: with master / danny, but not denzil or earlier.
+
+Cheers,
+Paul
+
 -- 
-Christopher Larson
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
