@@ -1,37 +1,38 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TP8Ol-0007nY-IT
+	(envelope-from <obi@opendreambox.org>) id 1TP9RE-0001PC-Dm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 10:57:43 +0200
-Received: by mail-wi0-f169.google.com with SMTP id hq4so646wib.0
+	Fri, 19 Oct 2012 12:04:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id DC71835244B2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2012 01:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BgDRQggNkIR1nQReiRS5Byb6SUQSjGd9xE+zxCxA5mY=;
-	b=nMigwiVYsp/hUSUYAT/xZO3cMyb9z/ay9z2uvcOIXOh1JoOXvRJkvNzAEvGPB7CSbA
-	18R2IYdA7pJ5mKpdc8GcdiOnSJY4Q/jsMYHHYN+zrWNLHhaLePedQCrE4xQyQj7AClLa
-	KoG3jwkREy85D6RQV33nxcReQqQjmaymPtPSJxRognozsZwNuYibt7iaEDOznbBKM9N9
-	w7N5yTWAqHr+PZ8Sd2NJyOuCWKiJn2xJpNncBNRcQxTdFnsYlQyVGtViARA+ILUgdb6p
-	ztipqXbZwbT9P13o1CYQM8n+sbnkMeKEMfVrnCvGz0atgiP4bkclkwwXUFLB+cB9a6iP
-	+3fw==
-Received: by 10.216.150.197 with SMTP id z47mr330163wej.221.1350636263273;
-	Fri, 19 Oct 2012 01:44:23 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ei1sm2194066wid.7.2012.10.19.01.44.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 19 Oct 2012 01:44:21 -0700 (PDT)
-Date: Fri, 19 Oct 2012 10:44:32 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Message-ID: <20121019084432.GH3087@jama.jama.net>
-References: <1350600718-3052-1-git-send-email-denis@denix.org>
+	Fri, 19 Oct 2012 11:43:12 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id llELs9dKFrOn
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 11:43:02 +0200 (CEST)
+Received: from [172.22.22.61] (unknown [212.255.238.1])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 113ED315EFB8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 11:43:02 +0200 (CEST)
+Message-ID: <508120A5.1050404@opendreambox.org>
+Date: Fri, 19 Oct 2012 11:43:01 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
 MIME-Version: 1.0
-In-Reply-To: <1350600718-3052-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Add more tunes for new ARM processors Cortex-A15 and Cortex-A7
+To: openembedded-core@lists.openembedded.org
+References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
+	<508063AF.9030400@linux.intel.com>
+	<70CC66F5C30A414DADDA6973E4CA391A70949E@039-SN1MPN1-002.039d.mgd.msft.net>
+	<508068BA.8070301@linux.intel.com>
+	<70CC66F5C30A414DADDA6973E4CA391A709A30@039-SN1MPN1-002.039d.mgd.msft.net>
+In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A709A30@039-SN1MPN1-002.039d.mgd.msft.net>
+Subject: Re: [PATCH] cryptodev kernel module recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,66 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 08:57:43 -0000
-X-Groupsio-MsgNum: 30722
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3VRmKSg17yJg2MZg"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 19 Oct 2012 10:04:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---3VRmKSg17yJg2MZg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 19.10.2012 03:47, McClintock Matthew-B29882 wrote:
+> On Thu, Oct 18, 2012 at 3:38 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+>>>>> +EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+>>>>
+>>>> modules.bbclass already sets KERNEL_PATH and KERNEL_SRC, perhaps you
+>>>> could use one of those?
+>>>
+>>> cryptodev Makefile does not use these it uses KERNEL_DIR in it's
+>>> Makefile for whatever reason. Getting an upstream project to change is
+>>> more difficult.
+>>
+>> I think this is the second reference to KERNEL_DIR in an external module,
+>> perhaps module.bbclass should add that to it's list of predefined names for
+>> the STAGING_KERNEL_DIR.
+> 
+> Fine with me, but not sure how its worth it quite yet...
 
-On Thu, Oct 18, 2012 at 06:51:56PM -0400, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
->=20
-> The patchset adds 2 more standard tune files for the new ARM MPCore (mult=
-icore)
-> processors Cortex-A15 and Cortex-A7, as per:
->=20
-> http://www.arm.com/products/processors/cortex-a/cortex-a15.php
-> http://www.arm.com/products/processors/cortex-a/cortex-a7.php
+I don't think we should add more privately defined variables to
+module.bbclass.
 
-Please check this patchset=20
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/030759.=
-html
+I'd rather use something like the following as the default, which should
+work for all recipes where ${S} points to the directory containing the
+top-level Kbuild file and is independent of those variables:
 
->=20
-> Denys Dmytriyenko (2):
->   tune-cortexa15: add tunes for ARM Cortex-A15
->   tune-cortexa7: add tunes for ARM Cortex-A7
->=20
->  meta/conf/machine/include/tune-cortexa15.inc | 24 ++++++++++++++++++++++=
-++
->  meta/conf/machine/include/tune-cortexa7.inc  | 24 ++++++++++++++++++++++=
-++
->  2 files changed, 48 insertions(+)
->  create mode 100644 meta/conf/machine/include/tune-cortexa15.inc
->  create mode 100644 meta/conf/machine/include/tune-cortexa7.inc
->=20
-> --=20
-> 1.7.12.3
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+do_compile() {
+        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+        oe_runmake -C "${STAGING_KERNEL_DIR}" SUBDIRS="${S}" modules
+}
+do_install() {
+        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+        oe_runmake -C "${STAGING_KERNEL_DIR}" SUBDIRS="${S}"
+DEPMOD="echo" INSTALL_MOD_PATH="${D}" modules_install
+}
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+That's not an option for cryptodev, though, because unlike most recipes
+inheriting module.bbclass, cryptodev not only installs modules, but also
+header files.
 
---3VRmKSg17yJg2MZg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Regards,
+Andreas
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlCBEvAACgkQN1Ujt2V2gBwhHQCeOiuAzz5ZyMWbrjT6xewxVpqa
-qMEAn2M7kYPvFwJ5ielUEBoS9XV9Lag4
-=GCd4
------END PGP SIGNATURE-----
-
---3VRmKSg17yJg2MZg--
