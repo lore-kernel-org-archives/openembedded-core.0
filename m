@@ -1,30 +1,37 @@
-Received: from ams-iport-3.cisco.com ([144.254.224.146])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mertsas@cisco.com>) id 1TP6AY-0005Hx-7f
+	(envelope-from <martin.jansa@gmail.com>) id 1TP8Ol-0007nY-IT
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 08:34:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1188; q=dns/txt; s=iport;
-	t=1350627696; x=1351837296;
-	h=from:to:cc:subject:date:message-id;
-	bh=VDuLAy1/b4gC9ehY+0wfXwQGoT2R10qKI1IiA3tmvrQ=;
-	b=XH8+3keW+6otgNd+ebWwCUzgYKsNXMNd1kGa87NR5TlSp7oUQsjIvGtz
-	0r59Nxy2EzfubemaGcSbMtP4Q7Ev6VUYvTzb7kvz3I3AXLPfXidBC9tk6
-	H2imDzf6wQX7us651425ClVIG7yqBoVMzMNF9RkwRo84m9Bt3dEe3o6Np A=;
-X-IronPort-AV: E=Sophos;i="4.80,610,1344211200"; 
-   d="scan'208";a="8924584"
-Received: from ams-core-2.cisco.com ([144.254.72.75])
-	by ams-iport-3.cisco.com with ESMTP; 19 Oct 2012 06:21:33 +0000
-Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
-	by ams-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id q9J6LXGv016941;
-	Fri, 19 Oct 2012 06:21:33 GMT
-From: Martin Ertsaas <mertsas@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2012 08:16:27 +0200
-Message-Id: <1350627387-20385-1-git-send-email-mertsas@cisco.com>
-X-Mailer: git-send-email 1.7.8.6
-Cc: Thomas Kristensen <thkriste@cisco.com>
-Subject: [PATCH v2] populate_sdk_base.bbclass: Make it possible to overrise the create_shar method of populate_sdk_base.
+	Fri, 19 Oct 2012 10:57:43 +0200
+Received: by mail-wi0-f169.google.com with SMTP id hq4so646wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 01:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=BgDRQggNkIR1nQReiRS5Byb6SUQSjGd9xE+zxCxA5mY=;
+	b=nMigwiVYsp/hUSUYAT/xZO3cMyb9z/ay9z2uvcOIXOh1JoOXvRJkvNzAEvGPB7CSbA
+	18R2IYdA7pJ5mKpdc8GcdiOnSJY4Q/jsMYHHYN+zrWNLHhaLePedQCrE4xQyQj7AClLa
+	KoG3jwkREy85D6RQV33nxcReQqQjmaymPtPSJxRognozsZwNuYibt7iaEDOznbBKM9N9
+	w7N5yTWAqHr+PZ8Sd2NJyOuCWKiJn2xJpNncBNRcQxTdFnsYlQyVGtViARA+ILUgdb6p
+	ztipqXbZwbT9P13o1CYQM8n+sbnkMeKEMfVrnCvGz0atgiP4bkclkwwXUFLB+cB9a6iP
+	+3fw==
+Received: by 10.216.150.197 with SMTP id z47mr330163wej.221.1350636263273;
+	Fri, 19 Oct 2012 01:44:23 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ei1sm2194066wid.7.2012.10.19.01.44.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 19 Oct 2012 01:44:21 -0700 (PDT)
+Date: Fri, 19 Oct 2012 10:44:32 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Message-ID: <20121019084432.GH3087@jama.jama.net>
+References: <1350600718-3052-1-git-send-email-denis@denix.org>
+MIME-Version: 1.0
+In-Reply-To: <1350600718-3052-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Denys Dmytriyenko <denys@ti.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Add more tunes for new ARM processors Cortex-A15 and Cortex-A7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,43 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 06:34:54 -0000
+X-List-Received-Date: Fri, 19 Oct 2012 08:57:43 -0000
+X-Groupsio-MsgNum: 30722
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3VRmKSg17yJg2MZg"
+Content-Disposition: inline
 
-From: Thomas Kristensen <thkriste@cisco.com>
+--3VRmKSg17yJg2MZg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If you wish to change the install/unpack method of the sdk, this can now be done by making
-your own create_shar method, and setting a SDK_PACKAGAING_FUNC variable to your
-new create_shar function.
+On Thu, Oct 18, 2012 at 06:51:56PM -0400, Denys Dmytriyenko wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+>=20
+> The patchset adds 2 more standard tune files for the new ARM MPCore (mult=
+icore)
+> processors Cortex-A15 and Cortex-A7, as per:
+>=20
+> http://www.arm.com/products/processors/cortex-a/cortex-a15.php
+> http://www.arm.com/products/processors/cortex-a/cortex-a7.php
 
-Signed-off-by: Thomas Kristensen <thkriste@cisco.com>
----
- meta/classes/populate_sdk_base.bbclass |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+Please check this patchset=20
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/030759.=
+html
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 6eb6726..a914a2c 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -24,6 +24,8 @@ PID = "${@os.getpid()}"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
-+SDK_PACKAGING_FUNC ?= "create_shar"
-+
- python () {
-     # If we don't do this we try and run the mapping hooks while parsing which is slow
-     # bitbake should really provide something to let us know this...
-@@ -56,7 +58,7 @@ fakeroot python do_populate_sdk() {
- 
-     bb.build.exec_func("tar_sdk", d)
- 
--    bb.build.exec_func("create_shar", d)
-+    bb.build.exec_func(d.getVar("SDK_PACKAGING_FUNC", True), d)
- }
- 
- fakeroot populate_sdk_image() {
--- 
-1.7.8.6
+>=20
+> Denys Dmytriyenko (2):
+>   tune-cortexa15: add tunes for ARM Cortex-A15
+>   tune-cortexa7: add tunes for ARM Cortex-A7
+>=20
+>  meta/conf/machine/include/tune-cortexa15.inc | 24 ++++++++++++++++++++++=
+++
+>  meta/conf/machine/include/tune-cortexa7.inc  | 24 ++++++++++++++++++++++=
+++
+>  2 files changed, 48 insertions(+)
+>  create mode 100644 meta/conf/machine/include/tune-cortexa15.inc
+>  create mode 100644 meta/conf/machine/include/tune-cortexa7.inc
+>=20
+> --=20
+> 1.7.12.3
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--3VRmKSg17yJg2MZg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCBEvAACgkQN1Ujt2V2gBwhHQCeOiuAzz5ZyMWbrjT6xewxVpqa
+qMEAn2M7kYPvFwJ5ielUEBoS9XV9Lag4
+=GCd4
+-----END PGP SIGNATURE-----
+
+--3VRmKSg17yJg2MZg--
