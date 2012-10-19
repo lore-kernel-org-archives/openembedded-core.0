@@ -1,30 +1,37 @@
-Received: from ams-iport-1.cisco.com ([144.254.224.140])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <xim@kattastrofe>) id 1TPABk-0001uB-Kc
+	(envelope-from <martin.jansa@gmail.com>) id 1TPARy-0002YE-Ve
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 12:52:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3536; q=dns/txt; s=iport;
-	t=1350643146; x=1351852746;
-	h=from:to:cc:subject:date:message-id;
-	bh=xxnJQEArOLgOW+q6IKbbpcnOUQrlMGUVnrScQkVmDRQ=;
-	b=ImRKqKlOYKHzQJcUB/OWcq1zHCYleTgG6mRs1gM6P9ISFGRKD0sQjd6K
-	KwsN4I36p+8RpkloX5/OadKqDsbxbLFWflHhrrwGwN/LO5q7/582n3od8
-	TfkHqHINmYsQcHz9suYujwem0d5BaMUb7XX02fMGcHIXzf6bMtelmOrQr 4=;
-X-IronPort-AV: E=Sophos;i="4.80,612,1344211200"; d="scan'208";a="145516550"
-Received: from ams-core-4.cisco.com ([144.254.72.77])
-	by ams-iport-1.cisco.com with ESMTP; 19 Oct 2012 10:37:59 +0000
-Received: from kattastrofe (dhcp-10-54-74-65.cisco.com [10.54.74.65])
-	by ams-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id q9JAbxoV013172
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 19 Oct 2012 10:37:59 GMT
-From: Morten Minde Neergaard <mneergaa@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2012 12:37:07 +0200
-Message-Id: <1350643027-25785-1-git-send-email-mneergaa@cisco.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Morten Minde Neergaard <mneergaa@cisco.com>
-Subject: [PATCH] Add support for running custom terminals.
+	Fri, 19 Oct 2012 13:09:11 +0200
+Received: by mail-we0-f175.google.com with SMTP id t44so156303wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 03:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=KcEdpedFyhmKWdlL8ytUCYYOhQ4V/JJv2lYH5QoBdj0=;
+	b=FDPrRL55H2veizfc7Tml46YWT/Armftanmp7bzikDZ8Af9Mc0JYmIcnBpRfKVjRE8R
+	DiqdZr4Uo0ojtlpG9pbSA1HDy9LMFppeoSDzRBfpVU3M474gw4G6knRjgXCjb4iCKodh
+	o1zXbMRyKgQ56y74fgdGbwrw2ohX1R7nq7ckiqA6XTzr3Usg0Uu5/FY7+wW1kbepGS3Z
+	/F/u4pSJbIrLGjBH+5txHxxalWtNto6HdVvYnHJ09h876S1PEIXtPbJbg7ZwPxc6EGg7
+	TPCiMxZ7J7WEG5QqfC0M8FWd15BlB5e3vH+JJ3GpH+Zwpq2hK1TjqUUKAIDNCT9h5MMD
+	0ugg==
+Received: by 10.180.96.129 with SMTP id ds1mr2300561wib.17.1350644150382;
+	Fri, 19 Oct 2012 03:55:50 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b7sm34201577wiz.3.2012.10.19.03.55.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 19 Oct 2012 03:55:48 -0700 (PDT)
+Date: Fri, 19 Oct 2012 12:55:59 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20121019105559.GJ3087@jama.jama.net>
+References: <1350588305-16854-1-git-send-email-sgw@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1350588305-16854-1-git-send-email-sgw@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sstate: add manifest info for shared file matches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,99 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 10:52:24 -0000
+X-List-Received-Date: Fri, 19 Oct 2012 11:09:11 -0000
+X-Groupsio-MsgNum: 30725
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="8jNwmpfkpox/fiJK"
+Content-Disposition: inline
 
-Example config:
-OE_TERMINAL = "custom"
-OE_TERMINAL_CUSTOMCMD = "mysuperterm"
+--8jNwmpfkpox/fiJK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Morten Minde Neergaard <mneergaa@cisco.com>
----
- meta/classes/terminal.bbclass |   10 ++++++----
- meta/lib/oe/terminal.py       |   17 ++++++++++++++++-
- 2 files changed, 22 insertions(+), 5 deletions(-)
+On Thu, Oct 18, 2012 at 12:25:05PM -0700, Saul Wold wrote:
+> Present the manifest file that contains the matches for
+> files being installed to a location that already contains
+> that file. This will help to determine which is the correct
+> recipe to fix when this occurs.
+>=20
+> [YOCTO #3191]
 
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index 2cd6f4c..51846c1 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -4,7 +4,7 @@ OE_TERMINAL[choices] = 'auto none \
-                         ${@" ".join(o.name \
-                                     for o in oe.terminal.prioritized())}'
- 
--OE_TERMINAL_EXPORTS = 'XAUTHORITY SHELL DBUS_SESSION_BUS_ADDRESS DISPLAY EXTRA_OEMAKE SCREENDIR'
-+OE_TERMINAL_EXPORTS += 'XAUTHORITY SHELL DBUS_SESSION_BUS_ADDRESS DISPLAY EXTRA_OEMAKE SCREENDIR'
- OE_TERMINAL_EXPORTS[type] = 'list'
- 
- XAUTHORITY ?= "${HOME}/.Xauthority"
-@@ -15,17 +15,19 @@ def oe_terminal(command, title, d):
-     import oe.data
-     import oe.terminal
- 
-+    env = dict()
-+
-     for export in oe.data.typed_value('OE_TERMINAL_EXPORTS', d):
-         value = d.getVar(export, True)
-         if value is not None:
--            os.environ[export] = str(value)
-+            env[export] = str(value)
- 
-     terminal = oe.data.typed_value('OE_TERMINAL', d).lower()
-     if terminal == 'none':
-         bb.fatal('Devshell usage disabled with OE_TERMINAL')
-     elif terminal != 'auto':
-         try:
--            oe.terminal.spawn(terminal, command, title, None, d)
-+            oe.terminal.spawn(terminal, command, title, env, d)
-             return
-         except oe.terminal.UnsupportedTerminal:
-             bb.warn('Unsupported terminal "%s", defaulting to "auto"' %
-@@ -34,7 +36,7 @@ def oe_terminal(command, title, d):
-             bb.fatal('Unable to spawn terminal %s: %s' % (terminal, exc))
- 
-     try:
--        oe.terminal.spawn_preferred(command, title, None, d)
-+        oe.terminal.spawn_preferred(command, title, env, d)
-     except oe.terminal.NoSupportedTerminals:
-         bb.fatal('No valid terminal found, unable to open devshell')
-     except oe.terminal.ExecutionError as exc:
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 71d8a43..4c1e318 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -47,7 +47,7 @@ class Terminal(Popen):
- 
- class XTerminal(Terminal):
-     def __init__(self, sh_cmd, title=None, env=None, d=None):
--        Terminal.__init__(self, sh_cmd, title, env)
-+        Terminal.__init__(self, sh_cmd, title, env, d)
-         if not os.environ.get('DISPLAY'):
-             raise UnsupportedTerminal(self.name)
- 
-@@ -105,6 +105,21 @@ class Screen(Terminal):
-         else:
-             logger.warn(msg)
- 
-+class Custom(Terminal):
-+    command = 'false' # This is a placeholder
-+    priority = 3
-+
-+    def __init__(self, sh_cmd, title=None, env=None, d=None):
-+        self.command = d and d.getVar('OE_TERMINAL_CUSTOMCMD', True)
-+        if self.command:
-+            if not '{command}' in self.command:
-+                self.command += ' {command}'
-+            Terminal.__init__(self, sh_cmd, title, env, d)
-+            logger.warn('Custom terminal was started.')
-+        else:
-+            logger.debug(1, 'No custom terminal (OE_TERMINAL_CUSTOMCMD) set')
-+            raise UnsupportedTerminal('OE_TERMINAL_CUSTOMCMD not set')
-+
- 
- def prioritized():
-     return Registry.prioritized()
--- 
-1.7.9.5
+Can we do the same when removing files from sysroot?
 
+To catch errors like this:
+http://git.openembedded.org/openembedded-core/commit/?id=3D6b12d4cd39bacb08=
+7654b59e25f5052a4e839b26
 
+12:40:15 < JaMa> it depends on order of tasks
+12:41:27 < JaMa> gettext-native depends on gettext-minimal-native, so gette=
+xt-minimal-native installs own config.rpath to sysroot (when gettext-native=
+ "owns"
+                 it too)
+12:41:55 < JaMa> then gettext-native is built and before populting sysroot =
+it removes own files there (including config.rpath)
+12:43:45 < JaMa> and because sstate assumes that every file in sysroot is p=
+rovided by exactly one recipe, gettext-minimal-native looses his config.rpa=
+th
+12:44:49 < JaMa> now there is at least warning when 2 recipes are installin=
+g the same file to sysroot, but that doesn't resolve this issues when some =
+file is
+                 "moved" between recipes
+12:47:30 < JaMa> because gettext-minimal-native is only recipe installing it
+12:47:39 < JaMa> and gettext-native is only removing it
 
+If we check manifests from other recipes before removing files we can show =
+warning that
+gettext-native is trying to remove config.rpath now provided by gettext-min=
+imal-native
+and keep config.rpath in sysroot.
+
+Now everybody doing incremental builds needs to call
+bitbake -c cleansstate gettext-minimal-native
+
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--8jNwmpfkpox/fiJK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCBMb8ACgkQN1Ujt2V2gBxj2ACfTC9KyOQkgqK3Xe024NZ1Jb1V
+gMoAniqoqUMrQ9usmsfuznv+r4damOi0
+=jA4I
+-----END PGP SIGNATURE-----
+
+--8jNwmpfkpox/fiJK--
