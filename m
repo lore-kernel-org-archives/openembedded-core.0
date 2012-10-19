@@ -1,26 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from smtpout.karoo.kcom.com ([212.50.160.34])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TPF53-0008RS-Ph
+	(envelope-from <mac@mcrowe.com>) id 1TPFqn-00019K-RB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 18:05:49 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Oct 2012 08:52:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,613,1344236400"; d="scan'208";a="236032122"
-Received: from unknown (HELO helios.localnet) ([10.252.122.112])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2012 08:52:26 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Fri, 19 Oct 2012 18:55:09 +0200
+X-IronPort-AV: E=Sophos;i="4.80,613,1344207600"; d="scan'208";a="671816184"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 19 Oct 2012 17:41:36 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
+	(envelope-from <mac@mcrowe.com>) id 1TPFdg-0003uP-LN
+	for openembedded-core@lists.openembedded.org;
+	Fri, 19 Oct 2012 17:41:36 +0100
+Date: Fri, 19 Oct 2012 17:41:36 +0100
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Oct 2012 16:52:25 +0100
-Message-ID: <2996317.jWZoZdIPNY@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
-In-Reply-To: <CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
-References: <20121019153834.GA13159@mcrowe.com>
-	<CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
+Message-ID: <20121019164136.GA14620@mcrowe.com>
 MIME-Version: 1.0
-Cc: Chris Larson <clarson@kergoth.com>, Mike Crowe <mac@mcrowe.com>
-Subject: Re: Using SSTATE_MIRRORS with sstate subdirectories
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: RFC bitbake patch: siggen.py: report individual changes to dict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 16:05:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 19 Oct 2012 16:55:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Friday 19 October 2012 08:46:23 Chris Larson wrote:
-> On Fri, Oct 19, 2012 at 8:38 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> > I'm having trouble using SSTATE_MIRRORS as suggested at
-> > https://wiki.yoctoproject.org/wiki/Enable_sstate_cache :
-> > 
-> > SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/"
-> 
-> SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/PATH"
+I found it quite difficult to find the actual change among the copious
+output of bitbake-diffsigs when the environment differs so I came up
+with this to simplify the reporting.
 
-Note: with master / danny, but not denzil or earlier.
+-----8<----
 
-Cheers,
-Paul
+    siggen.py: If changed variable is a dict then report the individual values
+    that have changed
+    
+    If the signature has changed due to a variable changing and that variable
+    is a dict then try and report the individual values that have changed.
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+diff --git a/lib/bb/siggen.py b/lib/bb/siggen.py
+index 862c73b..c72b164 100644
+--- a/lib/bb/siggen.py
++++ b/lib/bb/siggen.py
+@@ -363,7 +363,16 @@ def compare_sigfiles(a, b, recursecb = None):
+     changed, added, removed = dict_diff(a_data['varvals'], b_data['varvals'])
+     if changed:
+         for dep in changed:
+-            output.append("Variable %s value changed from %s to %s" % (dep, a_data['varvals'][dep], b_data['varvals'][dep]))
++            if isinstance(a_data['varvals'][dep], dict) and isinstance(b_data['varvals'][dep], dict):
++                subchanged, subadded, subremoved = dict_diff(a_data['varvals'][dep], b_data['varvals'][dep])
++                for k in subchanged:
++                    output.append("Variable %s value ['%s'] changed from '%s' to '%s'. " % (dep, k, a_data['varvals'][dep][k], b_data['varvals'][dep][k]))
++                for k in subadded:
++                    output.append("Variable %s value ['%s'] changed from not present to '%s'. " % (dep, k, b_data['varvals'][dep][k]))
++                for k in subremoved:
++                    output.append("Variable %s value ['%s'] changed from '%s' to not present. " % (dep, k, a_data['varvals'][dep][k]))
++            else:
++                output.append("Variable %s value changed from %s to %s" % (dep, a_data['varvals'][dep], b_data['varvals'][dep]))
+ 
+     changed, added, removed = dict_diff(a_data['file_checksum_values'], b_data['file_checksum_values'])
+     if changed:
 
 
