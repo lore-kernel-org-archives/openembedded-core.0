@@ -1,22 +1,35 @@
-Received: from smtpout.karoo.kcom.com ([212.50.160.34])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mac@mcrowe.com>) id 1TPEse-0007oB-Hi
+	(envelope-from <kergoth@gmail.com>) id 1TPEzU-0007yA-9C
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 17:53:00 +0200
-X-IronPort-AV: E=Sophos;i="4.80,613,1344207600"; d="scan'208";a="667306398"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 19 Oct 2012 16:38:35 +0100
-Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
-	(envelope-from <mac@mcrowe.com>) id 1TPEeh-0003ZU-1e
-	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 16:38:35 +0100
-Date: Fri, 19 Oct 2012 16:38:35 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121019153834.GA13159@mcrowe.com>
+	Fri, 19 Oct 2012 18:00:04 +0200
+Received: by mail-la0-f47.google.com with SMTP id h5so346287lam.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 08:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=kTziPaSGSnENSH3B15TnfokOppCp3ZrNGAqKv+5Fgsc=;
+	b=KbuuY9JPzvf//Ros5YrdTIx4dsvEOiklTybXJMMPZJrIkotWQnYh/R1OJ87t4KKrRP
+	JnkIYBrp+cRdB47rHwSP43HQtanMNX9m/Lg2KDQ+1WGoMfTaYXLXT5cjI1THJ2HMIfhF
+	qOTTIZBuobI4eVCa4A4yr8QS5DTTY6qMlWAjQZTRXl5cRQREJegkOyVV1vQiCEFXb6q+
+	tHy6IYrjPeW5wOXkCxGi7AlndG6SnuNu0/O220ox+hzsQDrCNWpK5UyUmBkrr4NoPazj
+	+Vdl0jzd3gOffTKEgIblrvMU40MbdwgzYweLvdM2LQ32VUM9cC9FjuxVC/t6enR+llcG
+	ZR8g==
+Received: by 10.152.108.197 with SMTP id hm5mr1512901lab.45.1350661603224;
+	Fri, 19 Oct 2012 08:46:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Using SSTATE_MIRRORS with sstate subdirectories
+Sender: kergoth@gmail.com
+Received: by 10.114.1.49 with HTTP; Fri, 19 Oct 2012 08:46:23 -0700 (PDT)
+In-Reply-To: <20121019153834.GA13159@mcrowe.com>
+References: <20121019153834.GA13159@mcrowe.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 19 Oct 2012 08:46:23 -0700
+X-Google-Sender-Auth: wlVoOW6q-GVe-GLXAXIBp7RJ30s
+Message-ID: <CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Using SSTATE_MIRRORS with sstate subdirectories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,48 +42,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 15:53:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 19 Oct 2012 16:00:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I'm having trouble using SSTATE_MIRRORS as suggested at
-https://wiki.yoctoproject.org/wiki/Enable_sstate_cache :
+On Fri, Oct 19, 2012 at 8:38 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> I'm having trouble using SSTATE_MIRRORS as suggested at
+> https://wiki.yoctoproject.org/wiki/Enable_sstate_cache :
+>
+> SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/"
 
-SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/"
-
-Since commit 5d45c7b025f6635b2232d7bf92b7c1aba350396b my sstate-cache
-files are stored in two-letter subdirectories (and
-9360fc318cec5c873b17f59b817dd6312c81ee27 adds the LSB prefix too.)
-Although these components are present in the original URL they don't
-make it into the rewritten one:
-
-DEBUG: SState using premirror of: file://.* file:///private/sstate-cache/
-DEBUG: SState: Attempting to fetch file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
-DEBUG: Searching for Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz in paths:   
-DEBUG: Searching for Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz in path: /vg0disk/mac/src/oe2/build-bcm7425/conf/.
-DEBUG: Defaulting to /vg0disk/mac/src/oe2/build-bcm7425/sstate-cache/Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz for Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
-DEBUG: Testing URL file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
-DEBUG: For url ['file', '', 'Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz', '', '', {}] comparing ['file', '', '.*', '', '', {}] to ['file', '', '/private/sstate-cache/', '', '', {}]
-DEBUG: For url file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz returning file:///private/sstate-cache/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
-DEBUG: For url ['file', '', '/private/sstate-cache/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz', '', '', {}] comparing ['file', '', '.*', '', '', {}] to ['file', '', '/private/sstate-cache/', '', '', {}]
-DEBUG: SState: Unsuccessful fetch test for file://Debian-testing/b0/sstate-quilt-native-x86_64-linux-0.60-r0-x86_64-2-b0869ac9e0e74960018909e56a6822a1_populate-sysroot.tgz
-
-Inspired by 9360fc318cec5c873b17f59b817dd6312c81ee27 I tried:
-
-SSTATE_MIRRORS ?= "file://(.*) file:///private/sstate-cache/\1"
-
-But this just resulted in an infinite loop with progressively more
-private/sstate-cache/ components added to the path name.
-
-I've had a poke at fetch2's uri_replace but it isn't obvious to me how
-to change this behaviour without risking breaking something else.
-
-Any ideas?
-
-Thanks.
-
-Mike.
-
-
+SSTATE_MIRRORS ?= "file://.* file:///private/sstate-cache/PATH"
+-- 
+Christopher Larson
 
 
