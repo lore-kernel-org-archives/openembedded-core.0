@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TPE3d-0006tA-VF for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 17:00:18 +0200
+	id 1TPE4T-0006vc-Gw for openembedded-core@lists.openembedded.org;
+	Fri, 19 Oct 2012 17:01:09 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JEkvWM031757
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JEln6A031789
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2012 15:46:57 +0100
+	Fri, 19 Oct 2012 15:47:49 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 31581-02 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2012 15:46:53 +0100 (BST)
+	id 31641-02 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 15:47:43 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JEkmVs031750
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9JElcJ2031783
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2012 15:46:50 +0100
-Message-ID: <1350658008.2520.26.camel@ted>
+	Fri, 19 Oct 2012 15:47:39 +0100
+Message-ID: <1350658057.2520.27.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Oct 2012 15:46:48 +0100
+Date: Fri, 19 Oct 2012 15:47:37 +0100
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: base.bbclass: Add PKGTRIPLETS and PKGMLTRIPLETS variables
+Subject: lib/oe/packagedata: Use the PKGMLTRIPLETS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,70 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 15:00:18 -0000
+X-List-Received-Date: Fri, 19 Oct 2012 15:01:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-These variables correspond to the PACKAGE_ARCH list combined with the TARGET_VENDOR
-and TARGET_OS values. These can be used to traverse the pkgdata structure.
-
-Setting these once in base.bbclass stops pkgdata needing to recalculate the values
-and is also useful for the reworked shlibs code in a patch that will follow this.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f8efbf9..860f390 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -334,6 +334,38 @@ do_build () {
- 	:
- }
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index ce92a7e..62fd718 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -24,30 +24,10 @@ def read_pkgdatafile(fn):
+     return pkgdata
  
-+def set_packagetriplet(d):
-+    archs = []
-+    tos = []
-+    tvs = []
-+
-+    archs.append(d.getVar("PACKAGE_ARCHS", True).split())
-+    tos.append(d.getVar("TARGET_OS", True))
-+    tvs.append(d.getVar("TARGET_VENDOR", True))
-+
-+    def settriplet(d, varname, archs, tos, tvs):
-+        triplets = []
-+        for i in range(len(archs)):
-+            for arch in archs[i]:
-+                triplets.append(arch + tvs[i] + "-" + tos[i])
-+        triplets.reverse()
-+        d.setVar(varname, " ".join(triplets))
-+
-+    settriplet(d, "PKGTRIPLETS", archs, tos, tvs)
-+
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for item in variants.split():
-+        localdata = bb.data.createCopy(d)
-+        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
-+        localdata.setVar("OVERRIDES", overrides)
-+        bb.data.update_data(localdata)
-+
-+        archs.append(localdata.getVar("PACKAGE_ARCHS", True).split())
-+        tos.append(localdata.getVar("TARGET_OS", True))
-+        tvs.append(localdata.getVar("TARGET_VENDOR", True))
-+
-+    settriplet(d, "PKGMLTRIPLETS", archs, tos, tvs)
-+
- python () {
-     import exceptions, string, re
- 
-@@ -521,6 +553,8 @@ python () {
-     if ".zip" in srcuri:
-         d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_populate_sysroot')
- 
-+    set_packagetriplet(d)
-+
-     # 'multimachine' handling
-     mach_arch = d.getVar('MACHINE_ARCH', True)
-     pkg_arch = d.getVar('PACKAGE_ARCH', True)
+ def all_pkgdatadirs(d):
+-    archs = []
+-    tos = []
+-    tvs = []
+-
+-    archs.append(d.getVar("PACKAGE_ARCHS", True).split())
+-    tos.append(d.getVar("TARGET_OS", True))
+-    tvs.append(d.getVar("TARGET_VENDOR", True))
+-
+-    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
+-    for item in variants.split():
+-        localdata = bb.data.createCopy(d)
+-        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
+-        localdata.setVar("OVERRIDES", overrides)
+-        bb.data.update_data(localdata)
+-
+-        archs.append(localdata.getVar("PACKAGE_ARCHS", True).split())
+-        tos.append(localdata.getVar("TARGET_OS", True))
+-        tvs.append(localdata.getVar("TARGET_VENDOR", True))
+-
+     dirs = []
+-    for i in range(len(archs)):
+-        for arch in archs[i]:
+-            dirs.append(arch + tvs[i] + "-" + tos[i] + "/runtime/")
+-    dirs.reverse()
++    triplets = (d.getVar("PKGMLTRIPLETS") or "").split()
++    for t in triplets:
++        dirs.append(t + "/runtime/")
+     return dirs 
+  
+ def get_subpkgedata_fn(pkg, d):
 
 
 
