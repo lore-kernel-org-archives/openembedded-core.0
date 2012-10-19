@@ -1,38 +1,57 @@
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TP1OH-00076w-I1
+	(envelope-from <B29882@freescale.com>) id 1TP1tD-0008D7-55
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 03:28:45 +0200
-Received: by mail-ia0-f175.google.com with SMTP id b35so6734205iac.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Oct 2012 18:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=JBBvc7X9yONMAli7vQDuQ5sPFHXCn2jl8y5Nd5QFqnk=;
-	b=ob4Eeh5J8OMvT5OL5kcTA2A6Oo2VaDOwC7k/tA/SbGlnG6m9rd4UVqEWmbNcsvxENw
-	EVGTBN7Xw5Mv3CoZZ6HXGkyZSl4CyM2MnkIIwDzOp7M7ldi7gzrgfqpcc2dP0ZfSVggh
-	m6R/B4i6FMJLg/noQUsjLKQU/qMty4W0k0x28qtfTLOElA5LClaUimQOvfQqYlYbe6KM
-	JhVQ54zhihHChxu5cITJoQyoUiMmJSxqrLYO4pCZmGuDoCzAN5oM7EjCHimJpOrMy1Rs
-	sNlDQXJV3XvYGdRrpo92BGLPfdwkc8VnhT0xEIYGDto8NbwpvXe3m7ofu8zM7SsaTCHJ
-	i+oQ==
+	Fri, 19 Oct 2012 04:00:43 +0200
+Received: from mail107-ch1-R.bigfish.com (10.43.68.232) by
+	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 19 Oct 2012 01:47:22 +0000
+Received: from mail107-ch1 (localhost [127.0.0.1])	by
+	mail107-ch1-R.bigfish.com (Postfix) with ESMTP id 7DC2620083;
+	Fri, 19 Oct 2012 01:47:22 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3hd25hf0ah107ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441hbe9i1155h)
+Received: from mail107-ch1 (localhost.localdomain [127.0.0.1]) by mail107-ch1
+	(MessageSwitch) id 1350611240475642_26132;
+	Fri, 19 Oct 2012 01:47:20 +0000 (UTC)
+Received: from CH1EHSMHS004.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.233])	by mail107-ch1.bigfish.com (Postfix) with ESMTP id
+	72275420048;	Fri, 19 Oct 2012 01:47:20 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS004.bigfish.com
+	(10.43.70.4) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 19 Oct 2012 01:47:20 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.88]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0309.003; Fri, 19 Oct 2012 01:47:19 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] cryptodev kernel module recipe
+Thread-Index: AQHNrW/ikWSgpKAgu0+LKa1V8BZDiJe/hiIAgABWPYA=
+Date: Fri, 19 Oct 2012 01:47:19 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A709A30@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
+	<508063AF.9030400@linux.intel.com>
+	<70CC66F5C30A414DADDA6973E4CA391A70949E@039-SN1MPN1-002.039d.mgd.msft.net>
+	<508068BA.8070301@linux.intel.com>
+In-Reply-To: <508068BA.8070301@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Received: by 10.50.214.10 with SMTP id nw10mr6936308igc.31.1350609324742; Thu,
-	18 Oct 2012 18:15:24 -0700 (PDT)
-Received: by 10.64.20.113 with HTTP; Thu, 18 Oct 2012 18:15:24 -0700 (PDT)
-In-Reply-To: <50808D0A.8090103@linux.intel.com>
-References: <1350394101-15120-1-git-send-email-schnitzeltony@googlemail.com>
-	<50808D0A.8090103@linux.intel.com>
-Date: Fri, 19 Oct 2012 03:15:24 +0200
-Message-ID: <CALbNGRT_Omdw=kcj6kC6piX6-GobuVFGfhHWio9fNxCrDoiqEw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] gnome-icon-them bugfixes
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Dutta Yashpal-B05456 <B05456@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cryptodev kernel module recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -42,36 +61,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 01:28:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 19 Oct 2012 02:00:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9F8B691AA09DC0438CD2B41665F8A129@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 19, 2012 at 1:13 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 10/16/2012 06:28 AM, Andreas M=FCller wrote:
+On Thu, Oct 18, 2012 at 3:38 PM, Darren Hart <dvhart@linux.intel.com> wrote=
+:
+>>>> +EXTRA_OEMAKE=3D'KERNEL_DIR=3D"${STAGING_KERNEL_DIR}" PREFIX=3D"${D}"'
+>>>
+>>> modules.bbclass already sets KERNEL_PATH and KERNEL_SRC, perhaps you
+>>> could use one of those?
 >>
->> It caused me a lot headache to load gtk-stock-icons...
->>
->> Andreas M=FCller (2):
->>    gnome-icon-theme: fix icon mapping
->>    gnome-icon-theme: remove unused configure variable
->>
->>   .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    6 +++---
->>   1 files changed, 3 insertions(+), 3 deletions(-)
->>
-> Andreas,
+>> cryptodev Makefile does not use these it uses KERNEL_DIR in it's
+>> Makefile for whatever reason. Getting an upstream project to change is
+>> more difficult.
 >
-> I am having some trouble with the patches include, I think thunderbird is
-> trying to encode them in non-ascii, can you resend or point me at a rebas=
-ed
-> branch.  I just made some changes in this also.
->
-> Also, does sato-icon-theme need the same changes?
->
-> Thanks
->         Sau!
-Maybe caused by =FC in my family name - need to change that :). Will
-check for sato-icon theme and send a pull request next week.
+> I think this is the second reference to KERNEL_DIR in an external module,
+> perhaps module.bbclass should add that to it's list of predefined names f=
+or
+> the STAGING_KERNEL_DIR.
 
-Andreas
+Fine with me, but not sure how its worth it quite yet...=
+
 
 
