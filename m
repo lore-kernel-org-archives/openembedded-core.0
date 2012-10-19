@@ -1,26 +1,38 @@
-Received: from smtpout.karoo.kcom.com ([212.50.160.34])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mac@mcrowe.com>) id 1TPHaQ-0003a4-UE
+	(envelope-from <kergoth@gmail.com>) id 1TPI3v-0004PH-7Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 19 Oct 2012 20:46:22 +0200
-X-IronPort-AV: E=Sophos;i="4.80,615,1344207600"; d="scan'208";a="667353990"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 19 Oct 2012 19:33:01 +0100
-Received: from mac by deneb.mcrowe.com with local (Exim 4.72)
-	(envelope-from <mac@mcrowe.com>)
-	id 1TPHNV-0004ZR-E6; Fri, 19 Oct 2012 19:33:01 +0100
-Date: Fri, 19 Oct 2012 19:33:01 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Chris Larson <clarson@kergoth.com>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20121019183301.GA17013@mcrowe.com>
+	Fri, 19 Oct 2012 21:16:51 +0200
+Received: by mail-lb0-f175.google.com with SMTP id y2so507736lbk.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Oct 2012 12:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=uF+PE8foaQkkInqqOxG2f90UMnFksW8yp9Z36tLh8oc=;
+	b=O5A2a04Ir2fAV2N0RR4c82MKg5P3wJyeQuThYTwFCmq3bAfpZYp0EsNgeLX8XSM7zT
+	duqz2JQxyj+TRP2qL0yVNBgRE6XoeAqnp7hGlbc1aoHV8Utr7IRxuDXJEV8p1+AmObbq
+	Fmw23kQq5woMOPj3k6oNwSB5sx2aNyK1ADO9eN43W92htr3M3fg2a6wa3olw9e1u2gP+
+	2HEqRBdF9Ctw89a/qItGAezdBeb9DXLhDeKWeNW2DDYxChzQgFEfTagYQr2DziQfMAMM
+	UG2bp/hM2bRueF5PlWCxnSIe8FUQqpb8VHlcjZOt1g8uhJgFDSpSN7/DNisoz/Axj3i+
+	8ZLg==
+Received: by 10.152.108.42 with SMTP id hh10mr1937839lab.4.1350673410148; Fri,
+	19 Oct 2012 12:03:30 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.1.49 with HTTP; Fri, 19 Oct 2012 12:03:09 -0700 (PDT)
+In-Reply-To: <20121019183301.GA17013@mcrowe.com>
 References: <20121019153834.GA13159@mcrowe.com>
 	<CABcZANkWq0YZ38E9cCDvoJvpou0eunXJcHUUQCnbhRmDm_oQLg@mail.gmail.com>
 	<20121019165738.GC14620@mcrowe.com>
 	<CABcZANkCuggDC-rmqBA=N3GaWqTYWAPr+9eOoECiTSGVVgQN7A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CABcZANkCuggDC-rmqBA=N3GaWqTYWAPr+9eOoECiTSGVVgQN7A@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+	<20121019183301.GA17013@mcrowe.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 19 Oct 2012 12:03:09 -0700
+X-Google-Sender-Auth: CBHYvR2p_B7TOabQ8i6YMXvNAfo
+Message-ID: <CABcZAN=CsirVoiVEnYGwVDMP3QGTi+jz-gjO_Y9RkwqAVX_hLw@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Using SSTATE_MIRRORS with sstate subdirectories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,55 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2012 18:46:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 19 Oct 2012 19:16:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Oct 19, 2012 at 10:41:17AM -0700, Chris Larson wrote:
-> On Fri, Oct 19, 2012 at 9:57 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> > SSTATE_MIRRORS = "\
-> > file://Debian-testing/.* file:///private/sstate-cache/Debian-6.0.6/PATH \n \
-> > file://.* file:///private/sstate-cache/PATH \n \
-> > "
-> >
-> > Then I get paths like:
-> >
-> > DEBUG: For url file://Debian-testing/8c/sstate-tar-replacement-native-x86_64-linux-1.26-r3-x86_64-2-8cc4342260b064ace38e0aa1acf2f618_populate-sysroot.tgz returning file:///private/sstate-cache/Debian-6.0.6/Debian-testing/8c/sstate-tar-replacement-native-x86_64-linux-1.26-r3-x86_64-2-8cc4342260b064ace38e0aa1acf2f618_populate-sysroot.tgz
-> 
-> SSTATE_MIRRORS = "\
-> file://${LSBNATIVESTRING} file:///private/sstate-cache/Debian-6.0.6 \n \
-> file://.* file:///private/sstate-cache/PATH \n \
-> "
+On Fri, Oct 19, 2012 at 11:33 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> Thanks for your reply.
+>
+> After correcting ${LSBNATIVESTRING} to ${NATIVELSBSTRING} that worked!
+>
+> I'm still somewhat baffled as to why that one doesn't require PATH but
+> the general one does but that no longer matters to me.
 
-Hi Chris,
-
-Thanks for your reply.
-
-After correcting ${LSBNATIVESTRING} to ${NATIVELSBSTRING} that worked!
-
-I'm still somewhat baffled as to why that one doesn't require PATH but
-the general one does but that no longer matters to me.
- 
-> We do this at mentor with a class to simplify the setup. See
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/tree/classes/sstate-reuse.bbclass.
-> Then you'd do this:
-> 
-> INHERIT += "sstate-reuse"
-> SSTATE_MIRROR_DISTROS = "Debian-testing"
-> SSTATE_MIRROR_SITES = "file:///private/sstate-cache"
-> 
-> We do most of our automated builds on 32 bit and 64 bit centos 5.4
-> hosts, then those native/cross sstates can then be reused just about
-> everywhere, since that distro is so old.
-
-Thanks. That looks interesting. I'm trying to do something similar,
-except our main automated build machine is Debian stable and the
-"clients" are Debian stable, testing and Ubuntu recent. I'd made the
-same assumption that binaries compiledon Debian stable should run on
-all the others.
-
-Thanks again.
-
-Mike.
+The file://.* in the other one dose a replacement of the full url
+contents, so you have to add back the directory component. The other
+one I showed you just does a search/replace on the leading component,
+leaving the rest alone.
+-- 
+Christopher Larson
 
 
