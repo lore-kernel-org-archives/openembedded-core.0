@@ -1,33 +1,19 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from host46-141-dynamic.2-87-r.retail.telecomitalia.it
+	([87.2.141.46] helo=router.workgroup)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <aristovmax@gmail.com>) id 1TPPSS-0004DG-M3
+	(envelope-from <GNUtoo@no-log.org>) id 1TPcAm-0005Pp-5r
 	for openembedded-core@lists.openembedded.org;
-	Sat, 20 Oct 2012 05:10:40 +0200
-Received: by mail-la0-f47.google.com with SMTP id h5so616221lam.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Oct 2012 19:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=3lWw0wwXim6/ea9dKhE2kCrS+wVR4yzdpEatIH/TUJY=;
-	b=Zi+VBXv7vjVXeE8oDpCX5oTIYKOi2rGKs/TDy2HiY0+KPWcR+hnO6uBUh54QrWzHH6
-	OQKlEYZMMF+eENgwZXOz6p9DkzR5iQdlUglCvHZC9E/5qQrQDLCZxzg1KxZy2hFXMxlo
-	NnKucL+UzionVNR7U4+RRKsYRAjAN5nVB+HblJdwad1Mak3oxZEWQyOsSBCB/PkwYBny
-	ThE1vnWi2JfKMe2p90wPTJQJSujjCKTGxD5H0yHkOrdxJY6XxQVFYo0EFaUrDqWLCm/K
-	2MIWs+dwn1fGte4jP0OnAfD2wwpUVFqqObMoo39LQP88AvrkPFLtDK9deKCk9iXltKYT
-	cLNw==
-Received: by 10.112.44.198 with SMTP id g6mr1214245lbm.66.1350701838971;
-	Fri, 19 Oct 2012 19:57:18 -0700 (PDT)
-Received: from nvcom.kaf36 ([80.250.160.31])
-	by mx.google.com with ESMTPS id e4sm1063649lby.12.2012.10.19.19.57.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 19 Oct 2012 19:57:18 -0700 (PDT)
-From: Aristov Maxim <aristovmax@gmail.com>
+	Sat, 20 Oct 2012 18:45:16 +0200
+Received: from gnutoo-laptop.local ([192.168.1.118] helo=localhost.localdomain)
+	by router.workgroup with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.76) (envelope-from <GNUtoo@no-log.org>)
+	id 1TPbIj-0004mS-HM; Sat, 20 Oct 2012 17:49:25 +0200
+From: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Oct 2012 06:57:07 +0400
-Message-Id: <1350701827-10385-1-git-send-email-m@ximilian.ru>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Aristov Maxim <m@ximilian.ru>
-Subject: [PATCH] uClibc: Resolve conflicting options when building for mips32
+Date: Sat, 20 Oct 2012 17:50:13 +0200
+Message-Id: <1350748213-6436-1-git-send-email-GNUtoo@no-log.org>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH] boost: Activate zlib and bzip2 because they now work.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,91 +26,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Oct 2012 03:10:40 -0000
+X-List-Received-Date: Sat, 20 Oct 2012 16:45:16 -0000
 
-Signed-off-by: Aristov Maxim <m@ximilian.ru>
+This patch is needed for making wesnoth(will be sumbited
+  in meta-games) work.
+
+Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
 ---
- .../uclibc/uclibc-0.9.33/mips/uClibc.machine           |   16 ----------------
- .../recipes-core/uclibc/uclibc-git/mips/uClibc.machine |   16 ----------------
- meta/recipes-core/uclibc/uclibc.inc                    |   10 ++++++++++
- 3 files changed, 10 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/mips/uClibc.machine
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
+ meta/recipes-support/boost/boost.inc |    7 +------
+ 1 files changed, 1 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-0.9.33/mips/uClibc.machine b/meta/recipes-core/uclibc/uclibc-0.9.33/mips/uClibc.machine
-deleted file mode 100644
-index 7d7ab3f..0000000
---- a/meta/recipes-core/uclibc/uclibc-0.9.33/mips/uClibc.machine
-+++ /dev/null
-@@ -1,16 +0,0 @@
--# in OE we use TARGET_CC_ARCH="-march=mips32" but by
--# default uclibc uses mips1 ISA for o32 ABI which ends
--# up with conflicting march options to gcc. Here we
--# ask for MIPS32 ISA to match the OE defaults
--
--CONFIG_MIPS_ISA_MIPS32=y
--
--# Below options are exact copy of general
--# uClibc.machine file
--#
--FORCE_OPTIONS_FOR_ARCH=y
--ARCH_HAS_MMU=y
--ARCH_USE_MMU=y
--KERNEL_HEADERS="/usr/include"
--HAVE_DOT_CONFIG=y
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
-deleted file mode 100644
-index 7d7ab3f..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
-+++ /dev/null
-@@ -1,16 +0,0 @@
--# in OE we use TARGET_CC_ARCH="-march=mips32" but by
--# default uclibc uses mips1 ISA for o32 ABI which ends
--# up with conflicting march options to gcc. Here we
--# ask for MIPS32 ISA to match the OE defaults
--
--CONFIG_MIPS_ISA_MIPS32=y
--
--# Below options are exact copy of general
--# uClibc.machine file
--#
--FORCE_OPTIONS_FOR_ARCH=y
--ARCH_HAS_MMU=y
--ARCH_USE_MMU=y
--KERNEL_HEADERS="/usr/include"
--HAVE_DOT_CONFIG=y
--
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index 6c98090..707b14e 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -85,6 +85,15 @@ OE_DEL      := "${@features_to_uclibc_del(d)}"
- python () {
-     if "${OE_DEL}":
-         d.setVar('configmangle_append', "${OE_DEL}" + "\n")
-+
-+    # by default uclibc uses mips1 ISA for o32 ABI
-+    # if we use TARGET_CC_ARCH="-march=mips32" we end up 
-+    # with conflicting march options to gcc. Here we
-+    # ask for MIPS32 ISA to match the chosen arch
-+
-+    if "mips32" in d.getVar("TUNE_FEATURES",True):
-+        d.setVar('configmangle_append',
-+                 "/^### MIPS32_CHECK$/a\\\nCONFIG_MIPS_ISA_MIPS32=y\n\n")
-     if "${OE_FEATURES}":
-         d.setVar('configmangle_append',
-                    "/^### DISTRO FEATURES$/a\\\n%s\n\n" %
-@@ -133,6 +142,7 @@ do_configure() {
-         echo "### FPU" >>${S}/merged.config
-         echo "### ABI" >>${S}/merged.config
-         echo "### DISTRO FEATURES" >>${S}/merged.config
-+        echo "### MIPS32_CHECK" >>${S}/merged.config
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index ec602a6..f836243 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -16,7 +16,7 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
  
-         # Mangle the resulting .config depending on OE variables
-         sed -i -e '${configmangle}' ${S}/merged.config
+-INC_PR = "r4"
++INC_PR = "r5"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
+ 
+@@ -109,16 +109,11 @@ EQD = '\"'
+ #boost.bb:   "...  '-sGCC=... '${SQD}'-DBOOST_PLATFORM_CONFIG=${EQD}config${EQD}'${SQD} ..."
+ BJAM_CONF = "${SQD}'-DBOOST_PLATFORM_CONFIG=${EQD}boost/config/platform/${TARGET_OS}.hpp${EQD}'${SQD}"
+ 
+-# bzip2 and zip are disabled because... they're broken - the compilation simply
+-# isn't working with bjam.  I guess they will fix it, but who needs it?  This
+-# only affects the (new in 33) iostream library.
+ BJAM_TOOLS   = "-sTOOLS=gcc \
+ 		'-sGCC=${CC} '${BJAM_CONF} \
+ 		'-sGXX=${CXX} '${BJAM_CONF} \
+ 		'-sGCC_INCLUDE_DIRECTORY=${STAGING_INCDIR}' \
+ 		'-sGCC_STDLIB_DIRECTORY=${STAGING_LIBDIR}' \
+-		'-sNO_BZIP2=1' \
+-		'-sNO_ZLIB=1' \
+ 		'-sBUILD=release <optimization>space <threading>multi <inlining>on <debug-symbols>off' \
+ 		'-sPYTHON_VERSION=${PYTHON_VERSION}' \
+ 		'-sPYTHON_ROOT=${PYTHON_ROOT}' \
 -- 
-1.7.10.4
+1.7.5.4
 
 
 
