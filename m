@@ -1,38 +1,40 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TPxqx-0003TY-2L
+	(envelope-from <andrei@gherzan.ro>) id 1TPxqx-0003TY-KL
 	for openembedded-core@lists.openembedded.org;
 	Sun, 21 Oct 2012 17:54:15 +0200
 Received: by mail-we0-f175.google.com with SMTP id t44so1000662wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Oct 2012 08:40:51 -0700 (PDT)
+	Sun, 21 Oct 2012 08:40:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=lJlcRZfX/gLlv3ZIU3lqktzdSLOWGVbWT8sNeWzlUW0=;
-	b=Utn673kTwI+VucxORMrl/JVbqNeFqUV5I1jA+tvO6g1aPjD/xgVdEb6mrsOOzTfnTN
-	ux+Wc+sCRAD/nYHMvaLuixwsVpdgdk+xQRgMcXd8BDThq2xtXUwd2twsrixnBglAE4aV
-	npLR/K2lLfFR1XxG0aOjaG1S8XLAuaUf9zV+uHNxywj4aTMYJzYp+10pqqwIRcKGsHI2
-	3XtgUjHziMVcjbqxGKzhzlzWNIeLhBsGsx37tuOilo7BIo4jEIrwVdks5PQNcZmwJCYY
-	zFcKNtYQHtXh5KrsuMwhKgct+1+B8JEqi+BAxCjna0AjhgmibmZk9z76rwoRSVeVGHiF
-	+RgA==
-Received: by 10.180.95.97 with SMTP id dj1mr15436326wib.3.1350834051648;
-	Sun, 21 Oct 2012 08:40:51 -0700 (PDT)
+	:in-reply-to:references:x-gm-message-state;
+	bh=T5J68jfg8gz8NDwfqvcMRgxKxmKtlJsUgM7DEjFe6yo=;
+	b=l/9XRiwT5DQxqUvA3Xmzvp3pbHD6/FokVfxJNDKph2+ORl1pVSydTTpB1Sd/WkAF9D
+	KM4a4q+e8CkLzudLJHp8ZPICWbdQ+scWXN+YhPyCIkR1vRJ+QxErtZ9Mc8P6YO5tCFFt
+	Iq3YiWmIHKR57dO+lEN4UKsIJaG7bktplpgo6aRb9oLh8nFS1kCO68ooGL+cX9kIwFZI
+	CSuEeZLv0pbvO/6Fno9F04waCubsQlIOQe73Fxf46mPdvgxL5U0ckfKi5t9Ey23BUo8y
+	6chAR2Ixa0AXDt+nPRKYzZh80OwtmwLSaefL37FbLejLr5QNZHHpslCh2l09sqHIBQrI
+	pPWQ==
+Received: by 10.216.207.199 with SMTP id n49mr3930741weo.136.1350834054313;
+	Sun, 21 Oct 2012 08:40:54 -0700 (PDT)
 Received: from localhost.localdomain (5-13-211-28.residential.rdsnet.ro.
 	[5.13.211.28])
-	by mx.google.com with ESMTPS id j8sm46423462wiy.9.2012.10.21.08.40.50
+	by mx.google.com with ESMTPS id j8sm46423462wiy.9.2012.10.21.08.40.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 21 Oct 2012 08:40:50 -0700 (PDT)
+	Sun, 21 Oct 2012 08:40:53 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Oct 2012 18:40:39 +0300
-Message-Id: <4cebbf1aaeda065954bf8cb6989254f7cce85b7d.1350833713.git.andrei@gherzan.ro>
+Date: Sun, 21 Oct 2012 18:40:41 +0300
+Message-Id: <67ff120a7b9e2b737d9b52cfbb62456e1f7fae60.1350833713.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <4cebbf1aaeda065954bf8cb6989254f7cce85b7d.1350833713.git.andrei@gherzan.ro>
+References: <4cebbf1aaeda065954bf8cb6989254f7cce85b7d.1350833713.git.andrei@gherzan.ro>
 In-Reply-To: <cover.1350833713.git.andrei@gherzan.ro>
 References: <cover.1350833713.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQn+veZ2rcq/ANE94hu5GJfSY4WwGmhrF9EQvQI8bENyMGIDnYWAUlfqrED8lDtBthZO/z5A
-Subject: [PATCH V2 1/5] opkg-utils: Add needed python modules as RDEPENDS
+X-Gm-Message-State: ALoCoQlgsI+gKTaAMp8Qfpmqryf4F5QU03OU6hPxgcpLyWbW69mTeiVzVFFIwe5RIAlnP3o8qN7e
+Subject: [PATCH V2 3/5] opkg: Don't print empty PROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +49,68 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 21 Oct 2012 15:54:15 -0000
 
+Every package provides itself. While printing package information all
+fields are printed only if there is any relevant info for them. For
+example: a package with no "Replaces" won't get this printed at all.
+Packages which provide only themselves, were printing this field but with
+no values. This patch skips this field if the package provides only
+itself.
+
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...n-t-print-provides-if-nothing-is-provided.patch |   24 ++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_svn.bb             |    3 ++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/don-t-print-provides-if-nothing-is-provided.patch
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 92e6624..825c927 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -4,11 +4,11 @@ HOMEPAGE = "http://wiki.openmoko.org/wiki/Opkg"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
--RDEPENDS_${PN} = "python"
-+RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
- RDEPENDS_${PN}_virtclass-native = ""
- SRCREV = "49cc783d8e0415059d126ae22c892988717ffda7"
- PV = "0.1.8+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-devtools/opkg/opkg/don-t-print-provides-if-nothing-is-provided.patch b/meta/recipes-devtools/opkg/opkg/don-t-print-provides-if-nothing-is-provided.patch
+new file mode 100644
+index 0000000..669faef
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/don-t-print-provides-if-nothing-is-provided.patch
+@@ -0,0 +1,24 @@
++Every package provides itself. While printing package information all
++fields are printed only if there is any relevant info for them. For
++example: a package with no "Replaces" won't get this printed at all.
++Packages which provide only themselves, were printing this field but with
++no values. This patch skips this field if the package provides only
++itself.
++
++Upstream-Status: Pending
++Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++
++Index: trunk/libopkg/pkg.c
++===================================================================
++--- trunk.orig/libopkg/pkg.c	2011-12-18 02:11:34.000000000 +0200
+++++ trunk/libopkg/pkg.c	2012-10-20 22:20:04.109201287 +0300
++@@ -731,7 +731,8 @@
++ 	  } else if (strcasecmp(field, "Priority") == 0) {
++                fprintf(fp, "Priority: %s\n", pkg->priority);
++ 	  } else if (strcasecmp(field, "Provides") == 0) {
++-	       if (pkg->provides_count) {
+++	       /* Don't print provides if this package provides only itself */
+++	       if (pkg->provides_count > 1) {
++                   fprintf(fp, "Provides:");
++ 		  for(i = 1; i < pkg->provides_count; i++) {
++                       fprintf(fp, "%s %s", i == 1 ? "" : ",",
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 3a90677..e1049a7 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -13,6 +13,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+   file://0010-pkg_depends-fix-version_constraints_satisfied.patch \
+   file://opkg-no-sync-offline.patch \
+   file://don-t-add-recommends-pkgs-to-depended-upon-by.patch \
++  file://don-t-print-provides-if-nothing-is-provided.patch \
+ "
  
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=git \
-            "
+ S = "${WORKDIR}/trunk"
+@@ -20,4 +21,4 @@ S = "${WORKDIR}/trunk"
+ SRCREV = "633"
+ PV = "0.1.8+svnr${SRCPV}"
+ 
+-PR = "${INC_PR}.7"
++PR = "${INC_PR}.8"
 -- 
 1.7.9.5
 
