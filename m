@@ -1,40 +1,38 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TPxqw-0003Rz-67
+	(envelope-from <andrei@gherzan.ro>) id 1TPxqx-0003TY-2L
 	for openembedded-core@lists.openembedded.org;
-	Sun, 21 Oct 2012 17:54:14 +0200
-Received: by mail-wg0-f43.google.com with SMTP id dq11so1416024wgb.24
+	Sun, 21 Oct 2012 17:54:15 +0200
+Received: by mail-we0-f175.google.com with SMTP id t44so1000662wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Oct 2012 08:40:53 -0700 (PDT)
+	Sun, 21 Oct 2012 08:40:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=sALTb3DjfIowKhVtECcJKjVdbV83HGf/K5n6lboKOuA=;
-	b=VtP1wWcP9EM/ht8Brc6RArb1sEgQ4uCmoucfMjfvsq3d6htXAJBxpgvv43m5d7374v
-	4n22BVLj7grZsve9Pl2w5cGWZihSyzDKG9NVmfLsYEYKSdQdtkoVIbxQRK8LFOhc13NS
-	rC7X1vXJ2Gbq7gkEoSI15EkcpPIJK1uOUUBEiuMzNjxd96ASsr5ylOmRGYLjVva/Y4ze
-	UZ+/GtY0G3B+4tdtpnyx6eoqVyCdO5nddiiTRLH5Bzg6yPYKv8XFfnRwigVVmPvVcGvS
-	L484WOouYy6wu9ov+JcEIygDmrj2s6+o4FHFPPEAqqoOBGZEOeeUqYexdHUjOvXpPuw5
-	sJUw==
-Received: by 10.216.213.28 with SMTP id z28mr4308196weo.47.1350834052967;
-	Sun, 21 Oct 2012 08:40:52 -0700 (PDT)
+	:x-gm-message-state;
+	bh=lJlcRZfX/gLlv3ZIU3lqktzdSLOWGVbWT8sNeWzlUW0=;
+	b=Utn673kTwI+VucxORMrl/JVbqNeFqUV5I1jA+tvO6g1aPjD/xgVdEb6mrsOOzTfnTN
+	ux+Wc+sCRAD/nYHMvaLuixwsVpdgdk+xQRgMcXd8BDThq2xtXUwd2twsrixnBglAE4aV
+	npLR/K2lLfFR1XxG0aOjaG1S8XLAuaUf9zV+uHNxywj4aTMYJzYp+10pqqwIRcKGsHI2
+	3XtgUjHziMVcjbqxGKzhzlzWNIeLhBsGsx37tuOilo7BIo4jEIrwVdks5PQNcZmwJCYY
+	zFcKNtYQHtXh5KrsuMwhKgct+1+B8JEqi+BAxCjna0AjhgmibmZk9z76rwoRSVeVGHiF
+	+RgA==
+Received: by 10.180.95.97 with SMTP id dj1mr15436326wib.3.1350834051648;
+	Sun, 21 Oct 2012 08:40:51 -0700 (PDT)
 Received: from localhost.localdomain (5-13-211-28.residential.rdsnet.ro.
 	[5.13.211.28])
-	by mx.google.com with ESMTPS id j8sm46423462wiy.9.2012.10.21.08.40.51
+	by mx.google.com with ESMTPS id j8sm46423462wiy.9.2012.10.21.08.40.50
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 21 Oct 2012 08:40:52 -0700 (PDT)
+	Sun, 21 Oct 2012 08:40:50 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Oct 2012 18:40:40 +0300
-Message-Id: <1f862ff3b195e8fda9f58bc3a5e5bd083bca3944.1350833713.git.andrei@gherzan.ro>
+Date: Sun, 21 Oct 2012 18:40:39 +0300
+Message-Id: <4cebbf1aaeda065954bf8cb6989254f7cce85b7d.1350833713.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <4cebbf1aaeda065954bf8cb6989254f7cce85b7d.1350833713.git.andrei@gherzan.ro>
-References: <4cebbf1aaeda065954bf8cb6989254f7cce85b7d.1350833713.git.andrei@gherzan.ro>
 In-Reply-To: <cover.1350833713.git.andrei@gherzan.ro>
 References: <cover.1350833713.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQkyzK1f6RVK7YUtHCT/WjXw4frbODcIJVPBbsuSsZXFNQdyBXOFzGHhQNZ9aDnWtbN7wmQc
-Subject: [PATCH V2 2/5] opkg: Add patch to fix removing packages with recommends
+X-Gm-Message-State: ALoCoQn+veZ2rcq/ANE94hu5GJfSY4WwGmhrF9EQvQI8bENyMGIDnYWAUlfqrED8lDtBthZO/z5A
+Subject: [PATCH V2 1/5] opkg-utils: Add needed python modules as RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,67 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Oct 2012 15:54:14 -0000
-
-While removing a package with opkg, the process shouldn't be blocked if
-another package RECOMMENDS the package wanted to be removed. This is
-because, while generating the dependencies, opkg adds dependencies to
-depended_upon_by even if dependency's type is RECOMMEND. The fix is to
-skip dependencies of type RECOMMEND while constructing depended_upon_by.
-
-[YOCTO: #2431]
+X-List-Received-Date: Sun, 21 Oct 2012 15:54:15 -0000
 
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- ...t-add-recommends-pkgs-to-depended-upon-by.patch |   26 ++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_svn.bb             |    1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/don-t-add-recommends-pkgs-to-depended-upon-by.patch
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg/don-t-add-recommends-pkgs-to-depended-upon-by.patch b/meta/recipes-devtools/opkg/opkg/don-t-add-recommends-pkgs-to-depended-upon-by.patch
-new file mode 100644
-index 0000000..e581dc0
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/don-t-add-recommends-pkgs-to-depended-upon-by.patch
-@@ -0,0 +1,26 @@
-+While removing a package with opkg, the process shouldn't be blocked if
-+another package RECOMMENDS the package wanted to be removed. This is
-+because, while generating the dependencies, opkg adds dependencies to
-+depended_upon_by even if dependency's type is RECOMMEND. The fix is to
-+skip dependencies of type RECOMMEND while constructing depended_upon_by.
-+
-+Bug info:
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2431
-+
-+Upstream-Status: Pending
-+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-+
-+Index: trunk/libopkg/pkg_depends.c
-+===================================================================
-+--- trunk.orig/libopkg/pkg_depends.c	2011-09-03 05:54:56.000000000 +0300
-++++ trunk/libopkg/pkg_depends.c	2012-10-20 22:23:03.783573202 +0300
-+@@ -785,8 +785,7 @@
-+ 	for (i = 0; i < count; i++) {
-+ 		depends = &pkg->depends[i];
-+ 		if (depends->type != PREDEPEND
-+-		    && depends->type != DEPEND
-+-		    && depends->type != RECOMMEND)
-++		    && depends->type != DEPEND)
-+ 			continue;
-+ 		for (j = 0; j < depends->possibility_count; j++) {
-+ 			ab_depend = depends->possibilities[j]->pkg;
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index 4e83cfb..3a90677 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -12,6 +12,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
-   file://0009-pkg_depends-fix-version-constraints.patch \
-   file://0010-pkg_depends-fix-version_constraints_satisfied.patch \
-   file://opkg-no-sync-offline.patch \
-+  file://don-t-add-recommends-pkgs-to-depended-upon-by.patch \
- "
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 92e6624..825c927 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -4,11 +4,11 @@ HOMEPAGE = "http://wiki.openmoko.org/wiki/Opkg"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
+-RDEPENDS_${PN} = "python"
++RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
+ RDEPENDS_${PN}_virtclass-native = ""
+ SRCREV = "49cc783d8e0415059d126ae22c892988717ffda7"
+ PV = "0.1.8+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
  
- S = "${WORKDIR}/trunk"
+ SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=git \
+            "
 -- 
 1.7.9.5
 
