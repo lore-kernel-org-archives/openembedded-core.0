@@ -1,36 +1,25 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TQM9x-0005B4-9a
+	(envelope-from <tom.zanussi@intel.com>) id 1TQMKf-0005k6-9O
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 19:51:29 +0200
-Received: by mail-da0-f47.google.com with SMTP id s35so1287125dak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 10:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=D/nbQBmQS1DmWKx4lfa6bySjP0wktQwZKYAoBr0EqY4=;
-	b=aPVQOVaTdwYrpO1nV0vLNaRCqM1V7VQGrw2IA8ELS8TtmvV3c4kTYmm+EkjBHPkbjk
-	+UWpE2KH0mzeYaSKsJA0tEmRD0vRBUZsTy2b5DH00eQyk671Mdz8xTfBtbJlKLbThKJJ
-	F9oopd9RanddoRh+Ig3uGZB3EF+i3Db1sWBB+q/JShDFFRR1+Ysm+M7T5QKLIQER2I1O
-	gks+JAl+kZa3aoAp/ZtuPBKrcddYW8Nq/wxEGQ8f/swymytnLycukD0E2OMnELV5l9tw
-	pd0YJkEEvRhVuyqtwlideLn5cSHX+rLZXfZoZZ933pr4CRmmJoHVAtZM42Rj/dIpPfCt
-	kQXA==
-MIME-Version: 1.0
-Received: by 10.68.197.9 with SMTP id iq9mr31514573pbc.130.1350927483626; Mon,
-	22 Oct 2012 10:38:03 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.40.201 with HTTP; Mon, 22 Oct 2012 10:38:03 -0700 (PDT)
-In-Reply-To: <1350927160.3259.343.camel@phil-desktop>
-References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-	<1350927160.3259.343.camel@phil-desktop>
-Date: Mon, 22 Oct 2012 15:38:03 -0200
-X-Google-Sender-Auth: qzl4y07FYyU0D8sk1WS6OvaHMJ4
-Message-ID: <CAP9ODKojRUw1perOMbT6VCzFsU22SiCMbifboCo7fb58oyzOMw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <philb@gnu.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [RFC] OpenGL packaging/staging policy
+	Mon, 22 Oct 2012 20:02:33 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 Oct 2012 10:49:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,631,1344236400"; d="scan'208";a="207583395"
+Received: from unknown (HELO [10.255.14.142]) ([10.255.14.142])
+	by azsmga001.ch.intel.com with ESMTP; 22 Oct 2012 10:49:06 -0700
+Message-ID: <1350928144.1581.31.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 22 Oct 2012 12:49:04 -0500
+In-Reply-To: <1350919703-6105-1-git-send-email-kergoth@gmail.com>
+References: <1350919703-6105-1-git-send-email-kergoth@gmail.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
+Mime-Version: 1.0
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][for-danny] lttng-2.0: fix srcrev/pv to match the recipe filenames
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,44 +32,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 17:51:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 22 Oct 2012 18:02:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 22, 2012 at 3:32 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Mon, 2012-10-22 at 17:35 +0100, Burton, Ross wrote:
->> Rule 3. Only Mesa stages, nothing else
->>
->> Whilst there are multiple GL implementations that offer various
->> subsets of GL, they are all effectively interchangeable.  It's not a
->> massive concern what exact GL is present when building because they've
->> all got the same API.
->
-> This is an attractive idea but I'm not sure that the underlying
-> assumption is entirely correct.
->
-> Different GL libraries will have different vendor extensions and Mesa's
-> headers won't necessarily know about them.  If the vendor ships the
-> extension bits in a custom header (rather than jamming them into a
-> modified glext.h) then this could be worked around by staging the
-> headers separately, but you're still left with the problem that Mesa's
-> libGL.so might now be missing symbols that are required during
-> linking.
->
-> Also, even if the APIs were the same, I am slightly nervous about
-> relying on all vendor GLs having an identical ABI to Mesa.  I can't
-> immediately think of any reason why they shouldn't but, equally, vendors
-> have been known to do peculiar things in the past and I wouldn't be
-> totally shocked to find that there is some binary libGL out there which
-> manages to be ABI-incompatible with Mesa in some or other creative
-> fashion.
+On Mon, 2012-10-22 at 08:28 -0700, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> Somehow the recipe names got bumped, but the SRCREV and PVs in the recipes
+> didn't get updated, so they were still building old versions.
+> 
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb | 7 +++----
+>  meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb   | 4 ++--
+>  meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb    | 4 ++--
+>  3 files changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
+> index 4c78f36..baae25f 100644
+> --- a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
+> @@ -10,13 +10,12 @@ DEPENDS = "virtual/kernel"
+>  
+>  inherit module
+>  
+> -SRCREV = "4d3e89e379fc66480d729abe8daa5c86eb585400"
+> -PV = "2.0.pre11+git${SRCREV}"
+> +SRCREV = "a848cad4cc82d05493c487a709f6b55f22695ec6"
+> +PV = "2.0.5"
+>  PR = "r0"
+>  
+>  SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
+> -           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+> -           file://lttng-sycalls-protect-is_compat_task-from-redefiniti.patch"
+> +           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
+>  
 
-In this case every package depending on GL packages will be
-PACKAGE_ARCH specific; this would be nice if we can share it amoung
-boards at least.
+I guess the patch for lttng-modules should also remove the patch itself.
+I sent a patch to do that last week:
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/030957.html
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/030958.html
+
+which also updated the PV.  I didn't update the other lttng recipes as
+your patch does though, since I was assuming the lttng-modules thing was
+a typo and had probably been tested with the other recipe versions as
+they were.
+
+In any case, I did test the other versions once I got it building again,
+and here's a little writeup of what worked:
+
+https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling#LTTng_.28Linux_Trace_Toolkit.2C_next_generation.29
+
+
+Tom
+
+>  export INSTALL_MOD_DIR="kernel/lttng-modules"
+>  export KERNEL_SRC="${STAGING_KERNEL_DIR}"
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+> index e7f1016..0bafcb3 100644
+> --- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+> @@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
+>  
+>  DEPENDS = "liburcu popt lttng2-ust"
+>  
+> -SRCREV = "8c3919ea2dc77fdd47fb1c90e41490a20bb4d478"
+> -PV = "v2.0.1+git${SRCREV}"
+> +SRCREV = "98c8c95b0e1afb2dac686338efdf036f6446d790"
+> +PV = "v2.0.4"
+>  PR = "r0"
+>  
+>  SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git"
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
+> index 8f650a4..0574fe9 100644
+> --- a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
+> @@ -12,8 +12,8 @@ inherit autotools
+>  
+>  DEPENDS = "liburcu util-linux"
+>  
+> -SRCREV = "a367ee66aad3ffd21ef64d1b24efc6f862e09562"
+> -PV = "2.0.2+git${SRCPV}"
+> +SRCREV = "5fbf75f52c808b648feebea1ed4874c5f6264b05"
+> +PV = "2.0.5"
+>  PR = "r0"
+>  
+>  SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git"
+
+
 
 
