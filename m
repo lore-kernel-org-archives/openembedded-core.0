@@ -1,28 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TQM9Q-00058J-JO
+	(envelope-from <otavio.salvador@gmail.com>) id 1TQM9x-0005B4-9a
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 19:50:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9MHbVuf028391
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 22 Oct 2012 19:51:29 +0200
+Received: by mail-da0-f47.google.com with SMTP id s35so1287125dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 10:37:31 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 22 Oct 2012 10:37:30 -0700
-Message-ID: <50858460.3090809@windriver.com>
-Date: Mon, 22 Oct 2012 12:37:36 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
+	Mon, 22 Oct 2012 10:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=D/nbQBmQS1DmWKx4lfa6bySjP0wktQwZKYAoBr0EqY4=;
+	b=aPVQOVaTdwYrpO1nV0vLNaRCqM1V7VQGrw2IA8ELS8TtmvV3c4kTYmm+EkjBHPkbjk
+	+UWpE2KH0mzeYaSKsJA0tEmRD0vRBUZsTy2b5DH00eQyk671Mdz8xTfBtbJlKLbThKJJ
+	F9oopd9RanddoRh+Ig3uGZB3EF+i3Db1sWBB+q/JShDFFRR1+Ysm+M7T5QKLIQER2I1O
+	gks+JAl+kZa3aoAp/ZtuPBKrcddYW8Nq/wxEGQ8f/swymytnLycukD0E2OMnELV5l9tw
+	pd0YJkEEvRhVuyqtwlideLn5cSHX+rLZXfZoZZ933pr4CRmmJoHVAtZM42Rj/dIpPfCt
+	kQXA==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: by 10.68.197.9 with SMTP id iq9mr31514573pbc.130.1350927483626; Mon,
+	22 Oct 2012 10:38:03 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.40.201 with HTTP; Mon, 22 Oct 2012 10:38:03 -0700 (PDT)
+In-Reply-To: <1350927160.3259.343.camel@phil-desktop>
 References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-Subject: Re: [RFC] OpenGL packaging/staging policy
+	<1350927160.3259.343.camel@phil-desktop>
+Date: Mon, 22 Oct 2012 15:38:03 -0200
+X-Google-Sender-Auth: qzl4y07FYyU0D8sk1WS6OvaHMJ4
+Message-ID: <CAP9ODKojRUw1perOMbT6VCzFsU22SiCMbifboCo7fb58oyzOMw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Phil Blundell <philb@gnu.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFC] OpenGL packaging/staging policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,108 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 17:50:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2012 17:51:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 10/22/12 11:35 AM, Burton, Ross wrote:
-> Hi,
+On Mon, Oct 22, 2012 at 3:32 PM, Phil Blundell <philb@gnu.org> wrote:
+> On Mon, 2012-10-22 at 17:35 +0100, Burton, Ross wrote:
+>> Rule 3. Only Mesa stages, nothing else
+>>
+>> Whilst there are multiple GL implementations that offer various
+>> subsets of GL, they are all effectively interchangeable.  It's not a
+>> massive concern what exact GL is present when building because they've
+>> all got the same API.
 >
-> Now that we've almost got 1.3 out of the door we can go back to
-> breaking everything. Hooray!  Let's try to (un)break OpenGL again.
+> This is an attractive idea but I'm not sure that the underlying
+> assumption is entirely correct.
 >
-> First, I should say that I'm not looking at this from an GenX/Intel
-> specific perspective where Mesa is all you need.  meta-intel ships two
-> different binary GL drivers (cdt-pvr for Cedar Trail, EMGD for
-> everything else Atom that doesn't have i945) so I'm perfectly aware of
-> the problems.
+> Different GL libraries will have different vendor extensions and Mesa's
+> headers won't necessarily know about them.  If the vendor ships the
+> extension bits in a custom header (rather than jamming them into a
+> modified glext.h) then this could be worked around by staging the
+> headers separately, but you're still left with the problem that Mesa's
+> libGL.so might now be missing symbols that are required during
+> linking.
 >
-> For example, Cedar Trail's (SGX545-based) GL stack comprises of GLESv1
-> GLESv2 and EGL library blobs, and a DRI driver blob.  This DRI driver
-> can be used by Mesa's libGL.  This is actually a more complex problem
-> than Beagle has where it just doesn't do GL.
->
-> This is my attempt at a simple solution that doesn't involve
-> complicated packaging tricks.
->
-> Rule 1.  Unambiguous package naming
->
-> Debian-style renaming and multiple providers of the same API doesn't
-> work as you'll end up with multiple packages in the same feed called
-> libgl1, so all GL packages should be named in the style of libgl-foo,
-> where foo is the source of the package.  I've got a branch where this
-> is implemented for Mesa as a proof of concept[1], and the Python
-> fragment could easily be moved into a class and re-used easily.
+> Also, even if the APIs were the same, I am slightly nervous about
+> relying on all vendor GLs having an identical ABI to Mesa.  I can't
+> immediately think of any reason why they shouldn't but, equally, vendors
+> have been known to do peculiar things in the past and I wouldn't be
+> totally shocked to find that there is some binary libGL out there which
+> manages to be ABI-incompatible with Mesa in some or other creative
+> fashion.
 
-I can't say I'm a fan of the debian renamining, but in this case I think it's 
-very important to do this.  Using the pkgv_<name> = 'libgl-foo' is a good idea.. 
-  I'm guessing that is the easiest way to get consistent behavior.
+In this case every package depending on GL packages will be
+PACKAGE_ARCH specific; this would be nice if we can share it amoung
+boards at least.
 
-> Rule 2. No dependencies on specific GL implementations
->
-> Packages currently depend on the exact GL that they were built with,
-> although the GL packages are swappable.  Not very interesting for
-> systems where there's only one provider, but still a valid problem for
-> systems with swappable hardware or alternative GL stacks.  All linkage
-> to the GL stack should be intercepted and replaced by something like
-> "virtual/libgl | libgl-mesa".
-
-Moving everything to libgl1, or virtual/libgl or similar is what I would 
-suggest.  This is consistent with the rest of the system behavior.
-
-> This means changing the shlib dependency detection code to support
-> per-library overrides, there's plenty of prior art in existing
-> distributions to help here.
-
-Each of the libgl's should have equivalent provides (i.e. libgl1)
-
-> Rule 3. Only Mesa stages, nothing else
->
-> Whilst there are multiple GL implementations that offer various
-> subsets of GL, they are all effectively interchangeable.  It's not a
-> massive concern what exact GL is present when building because they've
-> all got the same API.  We can take advantage of this and remove the
-> problems caused by multiple GL implementations staging by only putting
-> Mesa into the sysroot.  Any other GL implementation should explicitly
-> stop staging itself to avoid sysroot tainting.  This can be
-> implemented by making Mesa build all APIs on all platforms (which
-> isn't a problem when it comes to image building or feeds, thanks to
-> rule 1), and removing the virtual/libgl PROVIDES from the other GL
-> implementations.
->
-> For systems which don't use Mesa at all (for example, BeagleBoard)
-> then this potentially means that Mesa will be built when it shouldn't.
->   GLX support in the X server may already be pulling it in (I made this
-> a packageconfig in 1.3 so distros can turn it off), but in any case I
-> think this is an acceptable compromise - Mesa isn't slow to build in
-> the scheme of things, and per Rule 2 this is purely in sysroot and not
-> in the images.
-
-For systems like BeagleBoard, do they use X11, if so what do they use for GL? 
-Most of the ARM systems use raw direct PowerVR drivers in my experience, and 
-generally don't use X11.
-
-We definitely need a solution for X11 / Mesa based systems.. and a way to 
-qualify the other systems with the way their graphics solutions are built.
-
---Mark
-
->
-> tl;dr: all packages built against a constant GL, all GL
-> implementations interchangable, no package conflicts in the feeds.
->
-> Any comments before I get my hands dirty with the next incomplete task
-> (shlib dependency generation)?
->
-> Ross
->
-> [1] http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mesa&id=784fa1372bb38dbc82e53a49b757c3c02593f2b8
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
