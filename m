@@ -1,39 +1,39 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1TQFxV-0006XA-Vs; Mon, 22 Oct 2012 13:14:14 +0200
-Received: by mail-ea0-f175.google.com with SMTP id c1so748249eaa.6
-	for <multiple recipients>; Mon, 22 Oct 2012 04:00:49 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>) id 1TQG4P-0006hp-Qt
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 13:21:21 +0200
+Received: by mail-wi0-f171.google.com with SMTP id hj13so2016941wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2012 04:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=j590ylth8EfjPLP1wNDygkhVacd0ZK3mq1cQPJxrOUc=;
-	b=KUL7JUEmicRRjW5H1XJeYuXsl4hzoHcjOHgUMwWG1732mftfL3O5VcQcgblLGQqK2Y
-	BivIRHX57UqVPWhmEaM4EXUUqLUGh0tlsZk17hMOhYR4fIjfim+eO9q/wNW5v4eHn7X3
-	2dePl51+q8oKdVmZm+HJA+/jwkkU6Cj5Yx9YmfTUUvYQ0Kk/wNcaN/woxANhYSTIf2vv
-	CdN+OnY0h2hS2TSoP0eOryVg02zahtKvIrh7AIy13tEUoHQkocfF8uvpCwFL1mNWOpBT
-	OhJcY5v3A+RSICnhZZErPZC2o8UrfwLiKchePBLz0hY0nIdL5ScSbimCes2v4yGyOx3G
-	tXkw==
-Received: by 10.14.203.69 with SMTP id e45mr11421842eeo.38.1350903649120;
-	Mon, 22 Oct 2012 04:00:49 -0700 (PDT)
+	bh=TRzrLOKm2dks6OSDBYxGSIZKaGpS/xHjg5fPBgHb9g8=;
+	b=xseGhPn72/dwp9EB0LvE2NIqRE2nB/5689OiamOdGlSFjhyiuMpFTPXSFEpqIQp8fS
+	fvvifjDIu4d/p+FSV14VATnTr4eEpd0EhusXnHL8AEo/7MM4b8P8a5k+eBUk6TAcjsdj
+	QbNuuFwJCZKEmNlJ3ZIwKuc0gmbvtHke92k5rD6eJhEXIVoD6vXK400HmYcuDFWzR2JR
+	yMh9FrL64f+ftjZWNn/XdjujYZusivxLxjpuVOMdjj/9DJ2vZOefaCKHZHhI2CUDDbsq
+	P5dtjNBXs7Q6SWKO4I55zGa6RcWI96OZ9rv6HU43lRhrHhuAmJElIXlHyT7AjG5Rlp7N
+	GMxw==
+Received: by 10.216.194.38 with SMTP id l38mr5167344wen.80.1350904077179;
+	Mon, 22 Oct 2012 04:07:57 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z43sm15421969een.16.2012.10.22.04.00.47
+	by mx.google.com with ESMTPS id p4sm21327608wix.0.2012.10.22.04.07.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 04:00:48 -0700 (PDT)
-Date: Mon, 22 Oct 2012 13:01:03 +0200
+	Mon, 22 Oct 2012 04:07:55 -0700 (PDT)
+Date: Mon, 22 Oct 2012 13:08:09 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20121022110103.GE3269@jama.jama.net>
-References: <20121019163541.436A0103AB@opal>
-	<20121022083441.GA3269@jama.jama.net>
-	<1350902949.2520.72.camel@ted>
+Message-ID: <20121022110809.GF3269@jama.jama.net>
+References: <1350658135.2520.29.camel@ted>
+	<20121022104442.GD3269@jama.jama.net>
+	<1350903508.2520.77.camel@ted>
 MIME-Version: 1.0
-In-Reply-To: <1350902949.2520.72.camel@ted>
+In-Reply-To: <1350903508.2520.77.camel@ted>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : perl: fix dependecies
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate: Improve handling of machine specific manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,83 +46,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 11:14:14 -0000
-X-Groupsio-MsgNum: 30798
+X-List-Received-Date: Mon, 22 Oct 2012 11:21:21 -0000
+X-Groupsio-MsgNum: 30799
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="gMR3gsNFwZpnI/Ts"
+	protocol="application/pgp-signature"; boundary="jkO+KyKz7TfD21mV"
 Content-Disposition: inline
 
---gMR3gsNFwZpnI/Ts
+--jkO+KyKz7TfD21mV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 22, 2012 at 11:49:09AM +0100, Richard Purdie wrote:
-> On Mon, 2012-10-22 at 10:34 +0200, Martin Jansa wrote:
-> > >  # 5.10.1 has Module::Build built-in
-> > >  PROVIDES +=3D "libmodule-build-perl"
-> > > @@ -243,7 +243,13 @@ perl_package_preprocess () {
+On Mon, Oct 22, 2012 at 11:58:28AM +0100, Richard Purdie wrote:
+> On Mon, 2012-10-22 at 12:44 +0200, Martin Jansa wrote:
+> > On Fri, Oct 19, 2012 at 03:48:55PM +0100, Richard Purdie wrote:
+> > > Now do_package isn't machine specific, we're only left with do_popula=
+te_sysroot as a
+> > > machine specific task. This change marks only the machine specific ma=
+nifests as machine
+> > > specific, defaulting to PACKAGE_ARCH for everything else.
+> > >=20
+> > > This means we do less work where there are multiple machines using th=
+e same
+> > > core package architecture and we can start to clean up the sstate dup=
+licate files
+> > > whitelist.
+> > >=20
+> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > ---
+> > > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> > > index d2a120b..dee84bf 100644
+> > > --- a/meta/classes/sstate.bbclass
+> > > +++ b/meta/classes/sstate.bbclass
+> > > @@ -17,10 +17,7 @@ SSTATE_EXTRAPATH   =3D ""
+> > >  SSTATE_EXTRAPATHWILDCARD =3D ""
+> > >  SSTATE_PATHSPEC   =3D "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${=
+SSTATE_PKGSPEC}"
 > > > =20
-> > >  PACKAGES =3D "perl-dbg perl perl-misc perl-dev perl-pod perl-doc per=
-l-lib \
-> > >              perl-module-cpan perl-module-cpanplus perl-module-unicor=
-e"
-> > > -FILES_${PN} =3D "${bindir}/perl ${bindir}/perl${PV}"
-> > > +FILES_${PN} =3D "${bindir}/perl ${bindir}/perl${PV} \
-> > > +               ${libdir}/perl/${PV}/Config.pm \
-> > > +               ${libdir}/perl/${PV}/strict.pm \
-> > > +               ${libdir}/perl/${PV}/warnings.pm \
-> > > +               ${libdir}/perl/${PV}/warnings \
-> > > +               ${libdir}/perl/${PV}/vars.pm \
-> > > +              "
+> > > -# In theory we should be using:
+> > > -# SSTATE_DUPWHITELIST =3D "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licens=
+es/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/ ${T=
+MPDIR}/pkgdata/all${TARGET_VENDOR}-${TARGET_OS}"
+> > > -# However until do_package is not machine specific, we'll have to ma=
+ke do with all of deploy/pkgdata.
+> > > -SSTATE_DUPWHITELIST =3D "${DEPLOY_DIR}/ ${TMPDIR}/pkgdata/"
+> > > +SSTATE_DUPWHITELIST =3D "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses=
+/"
 > >=20
-> > I think this breaks at least automake, tiobench and libtimedate-perl
+> > Looks like warnings are back :/
 > >=20
-> > OE @ ~/openembedded-core $ git grep perl-module-strict
-> > meta/recipes-devtools/automake/automake_1.12.3.bb:    perl-module-stric=
-t \
-> > meta/recipes-extended/perl/libtimedate-perl_1.20.bb:RDEPENDS_${PN} +=3D=
- "perl-module-carp perl-module-exporter perl-module-strict perl-module-time=
--local"
-> > OE @ ~/meta-openembedded $ git grep perl-module-strict
-> > meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb:    perl-module-st=
-rict \
-> > OE @ ~/openembedded-core $ git grep perl-module-vars
-> > meta/recipes-devtools/automake/automake_1.12.3.bb:    perl-module-vars "
+> > WARNING: The recipe attr is trying to install files into a shared area =
+when those files already exist. Those files are:
+> >    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/attr-l=
+ocale-de_2.4.46-r4_armv7a-vfp-neon.ipk
+> >    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/attr-d=
+bg_2.4.46-r4_armv7a-vfp-neon.ipk
+> >    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/attr-l=
+ocale-sv_2.4.46-r4_armv7a-vfp-neon.ipk
+> > ...
 > >=20
-> > perl-module-strict and perl-module-vars are not created now, probably e=
-mpty.
-> >=20
+> > and new warnings from pkgdata
+> > WARNING: The recipe bison is trying to install files into a shared area=
+ when those files already exist. Those files are:
+> >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-=
+gnueabi/bison
+> >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-=
+gnueabi/runtime/bison-locale-nl.packaged
+> >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-=
+gnueabi/runtime/bison-dbg.packaged
+> >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-=
+gnueabi/runtime/bison-doc
+> >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-=
+gnueabi/runtime/bison-locale-th.packaged
+> > ...
 >=20
-> It does, the autobuilder also noticed this and I pushed in a fix this
-> morning:
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D072a6d352f55bbe481=
-b04db02aa6d9cde7d90057
+> The question is why as they shouldn't be, these changes were meant to
+> fix this properly. Initially I wondered if this was another
+> manifestation of https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3219
+> but I'm not so sure.
 
-What about using something like world-image target? I'm using something
-like that to test that all recipes in my feed are not only buildable,
-but also able to install in do_rootfs. Only problem with this could be
-that more packages need to be excluded because some recipes are can be
-built together, but not installed in same images (packages with RCONFLICTS).
+Probably not as this happens on builder with 2 machines using the same
+tune and the same CCARGS.
 
-It should help find those issues on autobuilder.
+> Can you figure out which two recipes are trying to install these sets of
+> files?
+
+I'll try to compare them with scripts/sstate-diff.sh again to see if
+checksums are the same between those 2 machines, but those warnings are
+shown already when building 1 machine.
+=20
+> Or perhaps this is a one off transition issue I didn't see here when
+> testing this? Does a build from a clean tmp do this?
+
+Yes I've removed tmp-eglibc before starting this build (kept only
+sstate-cache) and it's building first machine.
 
 Cheers,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---gMR3gsNFwZpnI/Ts
+--jkO+KyKz7TfD21mV
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlCFJ24ACgkQN1Ujt2V2gBxU+wCcCIGszSO0kOtvLwz6fWJDvmpU
-IZQAn2fBHgn0kb8vRH1Lnnxb2UqIqZmU
-=v/Rd
+iEYEARECAAYFAlCFKRkACgkQN1Ujt2V2gBxNAACgnxelJYhILCuasPzToP/KHM1e
+NX8AniqIdC/YUn1fissk0YzDEKyS3Do9
+=a5Xk
 -----END PGP SIGNATURE-----
 
---gMR3gsNFwZpnI/Ts--
+--jkO+KyKz7TfD21mV--
