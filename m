@@ -1,37 +1,41 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQEci-000402-Oz
+	(envelope-from <ross.burton@intel.com>) id 1TQEfw-00046Z-EW
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 11:48:41 +0200
-Received: from localhost ([127.0.0.1]:36240 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQEPj-0003PD-SY
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 09:35:15 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:content-type
-	:content-transfer-encoding; s=default; bh=kuzl5M+H081tENkYeeAOTk
-	8Sqpc=; b=nWctyhZFpsSPble4Mc6SNGmkU+7hIodD033FRECQdMXzDfZLk/PC33
-	+J1o1zDTil/L0B7oRzGhatSRfBtO75/BN4qQSK//Z7Wr/w6Jc1mM58Mx3L+m0/e8
-	4WQHlXfCeJa0ID8WLuOzXHTIo6A24/pdxbutk8VEsQVHEGOzbErT4=
-Received: from [195.171.99.130] (port=6534 helo=[192.168.0.67])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQEPj-0003P8-Q9
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 09:35:15 +0000
-Message-ID: <508513C8.8070304@communistcode.co.uk>
-Date: Mon, 22 Oct 2012 10:37:12 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: build failures: rpath - gettext related?
+	Mon, 22 Oct 2012 11:52:01 +0200
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 02:38:08 -0700
+Received: by mail-lb0-f197.google.com with SMTP id b5so1853908lbd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2012 02:38:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=yMmUytk2iho5iX54OUgpF4MBsl/gPDi7ik7a8msudhg=;
+	b=e/x6Fgohn3TfdQ2rjWwWiXPysOl5ywEYL3Twj9qR5wUa9eTR7jh7Fhh+kZEX/RIsO3
+	wpcUe015KorAvpoLRDAGdS6vrVKZyh3LhWOcEWx8SJwYW4awfkmWx7lBdInHiAoFhR7j
+	YVDv5gffciIKc+K6pprW1AhuejKvGokXC31A7ltoR+60AXGViXX7zJbYu2biKsHbHkQx
+	3H/GGItQZZ7T75NVKpEyuZdwz1mMH4nMPZWKCwMIMGDFtAxSSMqDW6GLmbthQiUTg2/l
+	21oYTosQ+R4NDByOHlxbNnQW1EY6LDCehvoH1/qa202ziWMxLsyBgeu9L2jFQihBTzGG
+	bIig==
+Received: by 10.180.100.136 with SMTP id ey8mr19838048wib.1.1350898711831;
+	Mon, 22 Oct 2012 02:38:31 -0700 (PDT)
+Received: by 10.180.100.136 with SMTP id ey8mr19838030wib.1.1350898711688;
+	Mon, 22 Oct 2012 02:38:31 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id v3sm20970938wiy.5.2012.10.22.02.38.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 22 Oct 2012 02:38:30 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Oct 2012 10:37:20 +0100
+Message-Id: <cover.1350898411.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQngPC6cAD2A+Ji6vmU9McPwhMPn6QZBtQnv9org4BJUVdUJ3D0SIQ3Sdew+NTUuZekkxHP3SphqR93KfhWhUeXzYLWZcT2jBsWKQcn9HjflIpHiGsTUqVxL6+sdh6Hjuz3kbRTuPE0/3H23QliV/DgSpdCTXnMDknW3tV0k9dDI9mxYRzt7+82PdolwrwZ10GsrANiL
+Subject: [PATCH 0/3] Add Xorg driver ABI dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -41,120 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 09:48:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2012 09:52:01 -0000
 
-On my weekly 'git pull master' build I am facing rpath errors which seem 
-to be related to gettext?
+Hi,
 
-Parsing recipes: 100% |#########################################| ETA:  
-00:00:00
-Parsing of 888 .bb files complete (0 cached, 888 parsed). 1196 targets, 
-61 skipped, 8 masked, 0 errors.
+The xserver driver ABIs frequently change and as such are versioned.  It's
+entirely possible to build an image with an Xserver with ABI 13 but drivers
+using ABI 11, and in this situation the server won't load the modules.  These
+ABI versions have no relationship to the package version so the existing
+dependencies can't be made stricter.
 
-Build Configuration:
-BB_VERSION        = "1.16.0"
-TARGET_ARCH       = "arm"
-TARGET_OS         = "linux-gnueabi"
-MACHINE           = "beaglebone"
-DISTRO            = "poky"
-DISTRO_VERSION    = "1.3+snapshot-20121022"
-TUNE_FEATURES     = "armv7a vfp neon cortexa8"
-TARGET_FPU        = "vfp-neon"
-meta
-meta-yocto        = "master:7090cbe2c94f37baeb4e67cf3a822974d7dd0e61"
-meta-ti           = "master:4f3522a9dc7f04e2f650199d66badb08dad214c6"
-meta-db           = "master:4dbfea5ae4acf397d4e28a3b164860f4c8064801"
+The solution Debian (and probably others) take is to add versioned Provides to
+the server, and dependencies on those provides in the drivers.  Then ABI version
+mismatches become package dependencies errors and are caught at image
+construction time, not boot time.
 
-NOTE: Resolving any missing task queue dependencies
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-ERROR: Function failed: do_configure (see 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/bison-native-2.5.1-r0/temp/log.do_configure.3008 
-for further information)
-ERROR: Logfile of failure stored in: 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/bison-native-2.5.1-r0/temp/log.do_configure.3008
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing shell function do_configure
-| automake (GNU automake) 1.12.3
-| Copyright (C) 2012 Free Software Foundation, Inc.
-| License GPLv2+: GNU GPL version 2 or later 
-<http://gnu.org/licenses/gpl-2.0.html>
-| This is free software: you are free to change and redistribute it.
-| There is NO WARRANTY, to the extent permitted by law.
-|
-| Written by Tom Tromey <tromey@redhat.com>
-|        and Alexandre Duret-Lutz <adl@gnu.org>.
-| AUTOV is 1.12
-| cp: cannot stat 
-'/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots/x86_64-linux/usr/share/gettext/config.rpath': 
-No such file or directory
-| ERROR: Function failed: do_configure (see 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/bison-native-2.5.1-r0/temp/log.do_configure.3008 
-for further information)
-ERROR: Task 707 
-(virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/bison/bison_2.5.1.bb, 
-do_configure) failed with exit code '1'
-ERROR: Function failed: do_configure (see 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/flex-native-2.5.35-r3/temp/log.do_configure.3009 
-for further information)
-ERROR: Logfile of failure stored in: 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/flex-native-2.5.35-r3/temp/log.do_configure.3009
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing shell function do_configure
-| automake (GNU automake) 1.12.3
-| Copyright (C) 2012 Free Software Foundation, Inc.
-| License GPLv2+: GNU GPL version 2 or later 
-<http://gnu.org/licenses/gpl-2.0.html>
-| This is free software: you are free to change and redistribute it.
-| There is NO WARRANTY, to the extent permitted by law.
-|
-| Written by Tom Tromey <tromey@redhat.com>
-|        and Alexandre Duret-Lutz <adl@gnu.org>.
-| AUTOV is 1.12
-| cp: cannot stat 
-'/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots/x86_64-linux/usr/share/gettext/config.rpath': 
-No such file or directory
-| ERROR: Function failed: do_configure (see 
-/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/flex-native-2.5.35-r3/temp/log.do_configure.3009 
-for further information)
-ERROR: Task 1566 
-(virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/flex/flex_2.5.35.bb, 
-do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 122 tasks of which 116 didn't need to be 
-rerun and 2 failed.
-Waiting for 0 running tasks to finish:
+Ross
 
-Summary: 2 tasks failed:
-virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/bison/bison_2.5.1.bb, 
-do_configure
-virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/flex/flex_2.5.35.bb, 
-do_configure
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+The following changes since commit caba9cbfce09f19eb27f4c6615c0c5c48e1a2952:
 
-Any ideas? Would Richards patch '[OE-core] [PATCH] gettext: Add 
-config.rpath and Makefile.in.in to gettext-minimal-native' possibly fix 
-the issue?
+  kernel.bbclass: add kernel-modules to PACKAGES (2012-10-19 23:06:26 +0100)
 
-Regards,
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/xorg
+
+for you to fetch changes up to 4bb20610fa08a2daf71f59b42929181500345e75:
+
+  insane: add a check for Xorg driver ABI dependencies (2012-10-22 09:26:20 +0100)
+
+----------------------------------------------------------------
+Ross Burton (3):
+      xserver-xorg: add runtime provides for the driver ABI version
+      xorg-driver: add xserver driver ABI dependencies
+      insane: add a check for Xorg driver ABI dependencies
+
+ meta/classes/insane.bbclass                        |   20 ++++++++++++++-
+ .../xorg-driver/xorg-driver-common.inc             |   17 +++++++++++-
+ .../xorg-driver/xorg-driver-input.inc              |    4 +++
+ .../xorg-driver/xorg-driver-video.inc              |    3 +++
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   27 +++++++++++++++++++-
+ 5 files changed, 68 insertions(+), 3 deletions(-)
+
+Ross Burton (3):
+  xserver-xorg: add runtime provides for the driver ABI version
+  xorg-driver: add xserver driver ABI dependencies
+  insane: add a check for Xorg driver ABI dependencies
+
+ meta/classes/insane.bbclass                        |   20 ++++++++++++++-
+ .../xorg-driver/xorg-driver-common.inc             |   17 +++++++++++-
+ .../xorg-driver/xorg-driver-input.inc              |    4 +++
+ .../xorg-driver/xorg-driver-video.inc              |    3 +++
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   27 +++++++++++++++++++-
+ 5 files changed, 68 insertions(+), 3 deletions(-)
 
 -- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
+1.7.10
 
 
 
