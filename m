@@ -1,37 +1,24 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQLBk-0003HD-6p
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1TQLrb-0004Q2-Er
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 18:49:26 +0200
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 09:35:48 -0700
-Received: by mail-oa0-f69.google.com with SMTP id j6so8682990oag.0
+	Mon, 22 Oct 2012 19:32:31 +0200
+Received: from [192.168.0.2] (host81-153-114-123.range81-153.btcentralplus.com
+	[81.153.114.123]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 8F9DB99A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 09:35:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type
-	:x-gm-message-state;
-	bh=pdHbpJ86UzxhvPiVyvwSIdHxAloMxsnQ+RV+r3pDxtM=;
-	b=Wz5QDk4uuhMfX5lF46PTcMhaJVv3OJvboGZF7JtULdN38RSfjBScwx5HR4dNRdn3Pe
-	7P48XIc2tPo07ddpGzF/FiUZeQWer/ICbMq6SSjeMGA4nTph0kNwBOe+igCMIkVGqTID
-	7nnl2CqLyKoDuRorAfkFSM3PS8DIKTAA5SbUhyyjJJT+HY8QG9VpnrXLposI58pKzTI2
-	pXg6RfQ4Yc6EYSdn6Eubs1KgZlPBQL8Ch11lnOmkPk0xp8VLQIU8z9d2MpoidARmYbGA
-	um0GqDytAutOjryBIog+sSff6MWiNoHu3pB7yc29UbeYbaYauSmR9S5psRdPmLspSlRm
-	KMAw==
-Received: by 10.182.228.69 with SMTP id sg5mr2276884obc.2.1350923747815;
-	Mon, 22 Oct 2012 09:35:47 -0700 (PDT)
-Received: by 10.182.228.69 with SMTP id sg5mr2276876obc.2.1350923747734; Mon,
-	22 Oct 2012 09:35:47 -0700 (PDT)
+	Mon, 22 Oct 2012 18:19:07 +0100 (BST)
+Message-ID: <5085800A.4060600@r-finger.com>
+Date: Mon, 22 Oct 2012 18:19:06 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Mon, 22 Oct 2012 09:35:27 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Oct 2012 17:35:27 +0100
-Message-ID: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OE-devel <openembedded-devel@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmS5pchdIYpmjBQCBtvZE5vAycqgRosIeYZyG916XvOfLJAkAj0WAl3m2KcXRmK+ZjO1qvX0KaBVFvKchRa+5HH47vluGMdgX0t3sjpsOS5HzVABXVQp4DJe0X6XISsgOq0etEF+tM1nQEsqbuCnIgifl4k83cvlm9K8D6h7KNYMGTwuDRs6aHzW1uPJmysqw7+7sOt
-Subject: [RFC] OpenGL packaging/staging policy
+To: openembedded-core@lists.openembedded.org
+References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
+Subject: Re: [RFC] OpenGL packaging/staging policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,81 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 16:49:26 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 17:32:31 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Ross,
 
-Now that we've almost got 1.3 out of the door we can go back to
-breaking everything. Hooray!  Let's try to (un)break OpenGL again.
+On 22/10/12 17:35, Burton, Ross wrote:
+> Rule 3. Only Mesa stages, nothing else
 
-First, I should say that I'm not looking at this from an GenX/Intel
-specific perspective where Mesa is all you need.  meta-intel ships two
-different binary GL drivers (cdt-pvr for Cedar Trail, EMGD for
-everything else Atom that doesn't have i945) so I'm perfectly aware of
-the problems.
+I think it is a big mistake to special case mesa as anything other than
+*a* GL provider. GL stacks provide their own headers, these headers
+might not be identical to the mesa headers, and people writing GL
+software for the particular target have every right to expect to be
+using the headers provided with their GL stack -- sooner or later this
+rule will have to be broken because of customer software  not buildable
+under Yocto. (Whether the headers should be identical is neither here
+nor there; Yocto needs to work in the real world, and you well know that
+in the real world this is not the case.)
 
-For example, Cedar Trail's (SGX545-based) GL stack comprises of GLESv1
-GLESv2 and EGL library blobs, and a DRI driver blob.  This DRI driver
-can be used by Mesa's libGL.  This is actually a more complex problem
-than Beagle has where it just doesn't do GL.
+I know some folk don't like to hear this, but whether you like it or
+not, GL libs are tied to specific HW, i.e., are machine-specific. Our
+current difficulties stem directly from trying to pretend this is not
+the case, or that mesa is somehow more than just *a* GL provider. IMHO
+the correct thing to do here is:
 
-This is my attempt at a simple solution that doesn't involve
-complicated packaging tricks.
+a) Make the mesa packages machine specific so we can control compatible
+machines and preferred providers to match the HW realities,
 
-Rule 1.  Unambiguous package naming
+b) Split the ginormous mesa recipe, so that it is, for example, possible
+to stage mesa gl without mesa egl, so that we can accommodate HW that
+wants to use bits of mesa.
 
-Debian-style renaming and multiple providers of the same API doesn't
-work as you'll end up with multiple packages in the same feed called
-libgl1, so all GL packages should be named in the style of libgl-foo,
-where foo is the source of the package.  I've got a branch where this
-is implemented for Mesa as a proof of concept[1], and the Python
-fragment could easily be moved into a class and re-used easily.
+Tomas
 
-Rule 2. No dependencies on specific GL implementations
-
-Packages currently depend on the exact GL that they were built with,
-although the GL packages are swappable.  Not very interesting for
-systems where there's only one provider, but still a valid problem for
-systems with swappable hardware or alternative GL stacks.  All linkage
-to the GL stack should be intercepted and replaced by something like
-"virtual/libgl | libgl-mesa".
-
-This means changing the shlib dependency detection code to support
-per-library overrides, there's plenty of prior art in existing
-distributions to help here.
-
-Rule 3. Only Mesa stages, nothing else
-
-Whilst there are multiple GL implementations that offer various
-subsets of GL, they are all effectively interchangeable.  It's not a
-massive concern what exact GL is present when building because they've
-all got the same API.  We can take advantage of this and remove the
-problems caused by multiple GL implementations staging by only putting
-Mesa into the sysroot.  Any other GL implementation should explicitly
-stop staging itself to avoid sysroot tainting.  This can be
-implemented by making Mesa build all APIs on all platforms (which
-isn't a problem when it comes to image building or feeds, thanks to
-rule 1), and removing the virtual/libgl PROVIDES from the other GL
-implementations.
-
-For systems which don't use Mesa at all (for example, BeagleBoard)
-then this potentially means that Mesa will be built when it shouldn't.
- GLX support in the X server may already be pulling it in (I made this
-a packageconfig in 1.3 so distros can turn it off), but in any case I
-think this is an acceptable compromise - Mesa isn't slow to build in
-the scheme of things, and per Rule 2 this is purely in sysroot and not
-in the images.
-
-
-tl;dr: all packages built against a constant GL, all GL
-implementations interchangable, no package conflicts in the feeds.
-
-Any comments before I get my hands dirty with the next incomplete task
-(shlib dependency generation)?
-
-Ross
-
-[1] http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mesa&id=784fa1372bb38dbc82e53a49b757c3c02593f2b8
 
 
