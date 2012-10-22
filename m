@@ -1,23 +1,39 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>)
-	id 1TQNsc-0006z7-HV; Mon, 22 Oct 2012 21:41:43 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TQNfc-00013K-TI; Mon, 22 Oct 2012 21:28:16 +0200
-Message-ID: <1350933937.6763.10.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 22 Oct 2012 20:25:37 +0100
-In-Reply-To: <CAP9ODKrMoEJMXWNa0rx0KyQjx3hJhFzPOJCH+eDYqiDm3saMxg@mail.gmail.com>
+	(envelope-from <ross.burton@intel.com>) id 1TQNtk-00077f-A8
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 21:42:52 +0200
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 12:29:25 -0700
+Received: by mail-oa0-f69.google.com with SMTP id j6so9246614oag.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2012 12:29:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=cpun5BCgbZspKnJhD6WmOPPFT5P9faAtE6XHBBCAZ4w=;
+	b=Xxr0NySYpUiNSDs2u+egiqssCxUsSzn5zuXy8lN6zJY7tHN+orUo5NX8tmkV0zxZzM
+	gfMJH1wjGoCy6FBqoQYs4WCFzwhxN8D7wW4QLxEpXWmhX7zAODtXLYhs4kb366eRLPo/
+	7rN+NWaW2nTVpJbY7J9Ng9qmQp/4oSn972+FcZfjfUx9Nk2LgIKhgNDGRQHAILJKSI4K
+	ovObRAIh9lpOFuyd55q4ES8C+Pt5nd8y5USJKBtUpe9GJw/AXppEEPh8dYACPWdpcacn
+	fegkg6m5ttelFj/+5CekhMml+OP/4Gag5wppaHhf1t8mrhfluNW3PMTjDkcCmgJfnDzv
+	GHOw==
+Received: by 10.182.225.5 with SMTP id rg5mr7963861obc.49.1350934164255;
+	Mon, 22 Oct 2012 12:29:24 -0700 (PDT)
+Received: by 10.182.225.5 with SMTP id rg5mr7963860obc.49.1350934164219; Mon,
+	22 Oct 2012 12:29:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.46.70 with HTTP; Mon, 22 Oct 2012 12:29:02 -0700 (PDT)
+In-Reply-To: <50858460.3090809@windriver.com>
 References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-	<CAP9ODKrMoEJMXWNa0rx0KyQjx3hJhFzPOJCH+eDYqiDm3saMxg@mail.gmail.com>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	OE-devel <openembedded-devel@lists.openembedded.org>
+	<50858460.3090809@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Oct 2012 20:29:02 +0100
+Message-ID: <CAJTo0La6VoL6FFkE_fCKMPYYsdsTcsJpiVij1YH5EC=twe7Zfw@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQnYkUau0cGUZAxEVPHpg5hV+2njiQA9/amlyTVM+AYtZ3hNhsmrpBY3VsBrcYvygd37Q9KyMpgrDwexzmSn6Nj5L9Wjvo0ANNm636ukmpF5oFfHNJ65gyGMvUG1OOe5RgAcOIrzzcw7QWlbqxto45Ovklb6oAJ82G5paRhBt1hQsIhFyCK9qsjhe6BadAlFxzvcs/Hp
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC] OpenGL packaging/staging policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -31,37 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 19:41:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2012 19:42:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-10-22 at 15:33 -0200, Otavio Salvador wrote:
-> On Mon, Oct 22, 2012 at 2:35 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> ...
-> > Rule 1.  Unambiguous package naming
-> >
-> > Debian-style renaming and multiple providers of the same API doesn't
-> > work as you'll end up with multiple packages in the same feed called
-> > libgl1, so all GL packages should be named in the style of libgl-foo,
-> > where foo is the source of the package.  I've got a branch where this
-> > is implemented for Mesa as a proof of concept[1], and the Python
-> > fragment could easily be moved into a class and re-used easily.
-> 
-> It would be nice to also have a common SoC arch so the binaries are
-> clear not allarch but not rebuild for every board.
-> 
-> For example in iMX53 and iMX51 case they share same GL package set and
-> we could have a armv7-imx5 or so common to all them so we'd not
-> rebuild it for every board.
+On 22 October 2012 18:37, Mark Hatle <mark.hatle@windriver.com> wrote:
+> For systems like BeagleBoard, do they use X11, if so what do they use for
+> GL? Most of the ARM systems use raw direct PowerVR drivers in my experience,
+> and generally don't use X11.
 
-Surely in the case Ross describes, the "imx5" bit would be encoded into
-the package name (i.e. they'd be libgl-imx5) and then PACKAGE_ARCH can
-just be used as normal to represent the ISA and/or ABI.  I can't think
-of any situation where encoding the GPU type into PACKAGE_ARCH would be
-especially useful.
+X works.  GLX doesn't work as it requires GL (unless you're evil), but
+that's fine as GLX is effectively deprecated and EGL sort-of/should
+work.
 
-p.
-
-
+Ross
 
 
