@@ -1,43 +1,43 @@
 Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQEZM-0003iH-SH
+	(envelope-from <ross.burton@intel.com>) id 1TQEZN-0003iH-LC
 	for openembedded-core@lists.openembedded.org;
 	Mon, 22 Oct 2012 11:45:13 +0200
-Received: from mail-ee0-f69.google.com ([74.125.83.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 02:31:46 -0700
-Received: by mail-ee0-f69.google.com with SMTP id l10so1971969eei.0
+Received: from mail-wi0-f197.google.com ([209.85.212.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 02:31:49 -0700
+Received: by mail-wi0-f197.google.com with SMTP id hr7so1778872wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 02:31:44 -0700 (PDT)
+	Mon, 22 Oct 2012 02:31:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=lbwHF7fBazKXBq8zEzjqTCJO6TxLf0YAz/f99LPfoIs=;
-	b=hXM8ttq6dRqWvBgGn6WkUUuW6Hg78Il14ornqBNL/UWLYwtJhZdGfPplMFub5BMaTz
-	ZbebVdzqZT492HTHQdzSIM/lTFrfqqCiMhliEAQ6bjJ22GUGWMJMYfsVtx+7/xMmtYeM
-	maJecI+cOo0F1bS7+Ybx6ZlVfd76/v/20XubHm4dchDzQZhklOPux37FMPMTR4v6QwPI
-	qgYTcrBqxmCj9d2PqqrRzegJWUORvVoL5swX0H9ieQnMwgTMiQcs3bkoxaPQJSjw7Wd6
-	qNP7+OuaijxIp0ON6YdKzuZkaclw8/nerMooGI8y+S544ovBEzlGy34OeBV6RkulC8Dc
-	Jbvw==
-Received: by 10.180.83.234 with SMTP id t10mr19755807wiy.7.1350898304481;
-	Mon, 22 Oct 2012 02:31:44 -0700 (PDT)
-Received: by 10.180.83.234 with SMTP id t10mr19755792wiy.7.1350898304347;
-	Mon, 22 Oct 2012 02:31:44 -0700 (PDT)
+	bh=JvXxfLRlkSV3O7E6ipRK2M1/22ZUH5vUocbJl6p+IVw=;
+	b=HgQSthvfP8P22cR7jhtPQapj6Kn/2VuEghWa4Ubr9gtVNi308lHBQomrxHy4mnZqLm
+	AziyHxAancjzqTGyLVn++oXGroBgJ+jA6VxEUSC2hmJ7zB55bApbcSGsFqjr3+hMRu4e
+	TFLed228hxDQSsV8IaWFXUwxrwJPsA98fC4rJA1hjzh2ozYk6G7xGNF6KorgfnXblyEU
+	wl3sJrNERN6uulXxnH87Alf2BEX59esFKUSP5uuvrn2C7g6Hf+DiyMpCkiB32gh3bjSL
+	Mj/Bb4kOHD0ejNSVLORPgkaOZZpHPHBr0IKjxO1xy9toA4NnwskK8K62qgyIU5sUxlln
+	IzCA==
+Received: by 10.216.207.73 with SMTP id m51mr5103004weo.116.1350898307215;
+	Mon, 22 Oct 2012 02:31:47 -0700 (PDT)
+Received: by 10.216.207.73 with SMTP id m51mr5102999weo.116.1350898307060;
+	Mon, 22 Oct 2012 02:31:47 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id w8sm50203841wif.4.2012.10.22.02.31.43
+	by mx.google.com with ESMTPS id w8sm50203841wif.4.2012.10.22.02.31.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 02:31:43 -0700 (PDT)
+	Mon, 22 Oct 2012 02:31:46 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 10:30:27 +0100
-Message-Id: <dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
+Date: Mon, 22 Oct 2012 10:30:29 +0100
+Message-Id: <af1365a98c78c547e373195e27c538f71c963dd3.1350898066.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1350898066.git.ross.burton@intel.com>
 References: <cover.1350898066.git.ross.burton@intel.com>
 In-Reply-To: <cover.1350898066.git.ross.burton@intel.com>
 References: <cover.1350898066.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnOCmY2ERHP/mMPiNzop66r7KeciAs412TrSq1dHjoMZ6g3XdVyRCkWjI5SwT8CJ/YuhliAT3Zicst7a6Sc1qwF2602KJEm2TJYCDXCv64U0wZfKrcRRUMxeYrcHL2ntUcisAr5/MHdDyAc4u1omUYw6sds71mlvvUz3MNsF80L4JuKMeHjRc4gIOIV0FzxYymQtvlk
-Subject: [PATCH 1/3] libxkbcommon: New window system-independent xkb library
+X-Gm-Message-State: ALoCoQm9+MOe348W6XZSU1ng+Ptuc7C2+2O6GGg8uCAZ2fzT6cvFrTnXLYyLiFHDhCah8jLDVdIDu+Rz39VydQstLf4avn3Q9tlyFaU1uQXZmL929Wmee5RqGLY45n0RVh6tXZGf44Gc1KyW/kVBGtZtYvW9YkudOJL3xNaykB3edDCnMQBux/DzJegGENEmMTf8/JYPkJOf
+Subject: [PATCH 3/3] atk: Update to 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,56 +52,44 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 22 Oct 2012 09:45:13 -0000
 
-From: Damien Lespiau <damien.lespiau@intel.com>
+From: Daniel Stone <daniel@fooishbar.org>
 
-Needed for weston and wayland clients to compile key maps.
+Newer Clutter releases want 2.5.3+, so upgrade to the stable 2.6.0.
 
-Signed-off-by: Damien Lespiau <damien.lespiau@intel.com>
+Signed-off-by: Daniel Stone <daniel@fooishbar.org>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb |   19 +++++++++++++++++++
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
- 2 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
+ meta/recipes-support/atk/{atk_2.4.0.bb => atk_2.6.0.bb} |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/atk/{atk_2.4.0.bb => atk_2.6.0.bb} (74%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
-new file mode 100644
-index 0000000..b426115
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Generic XKB keymap library"
-+
-+DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
-+processes a reduced subset of keymaps as defined by the XKB specification."
-+
-+LICENSE = "MIT & MIT-style"
-+
-+require xorg-lib-common.inc
-+
-+DEPENDS = "flex-native bison-native"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
-+
-+SRCREV = "1c880887666f84e08ea1752bb8a5ab2a7bf1d8a0"
-+PV = "0.1.0+git${SRCPV}"
+diff --git a/meta/recipes-support/atk/atk_2.4.0.bb b/meta/recipes-support/atk/atk_2.6.0.bb
+similarity index 74%
+rename from meta/recipes-support/atk/atk_2.4.0.bb
+rename to meta/recipes-support/atk/atk_2.6.0.bb
+index 4a2d853..be797c7 100644
+--- a/meta/recipes-support/atk/atk_2.4.0.bb
++++ b/meta/recipes-support/atk/atk_2.6.0.bb
+@@ -7,15 +7,15 @@ LICENSE = "GPLv2+ & LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+                     file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
+                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
+-PR = "r1"
 +PR = "r0"
-+
-+SRC_URI = "git://anongit.freedesktop.org/xorg/lib/libxkbcommon;protocol=git"
-+S = "${WORKDIR}/git"
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index c911925..f3c08ab 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -17,7 +17,7 @@ EXTRA_OECONF = "--enable-malloc0returnsnull \
-                 --disable-specs --with-groff=no --with-ps2pdf=no --with-fop=no --without-xmlto"
  
- python () {
--        whitelist = [ "pixman", "libpciaccess" ]
-+        whitelist = [ "pixman", "libpciaccess", "libxkbcommon" ]
-         if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
-                 raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
- }
+ DEPENDS = "glib-2.0"
+ 
+ inherit autotools gtk-doc pkgconfig
+ 
+-SRC_URI = "http://download.gnome.org/sources/atk/2.4/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "2184a140f71d50276669d6eda5cce5db"
+-SRC_URI[sha256sum] = "091e9ce975a9fbbc7cd8fa64c9c389ffb7fa6cdde58b6d5c01b2c267093d888d"
++SRC_URI = "http://download.gnome.org/sources/atk/2.6/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "6b34e2a63dda4429b5692be7ca3aa5bf"
++SRC_URI[sha256sum] = "eff663f90847620bb68c9c2cbaaf7f45e2ff44163b9ab3f10d15be763680491f"
+ 
+ BBCLASSEXTEND = "native"
+ 
 -- 
 1.7.10
 
