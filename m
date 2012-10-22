@@ -1,38 +1,33 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@dresearch-fe.de>) id 1TQHnt-00011z-La
+	(envelope-from <s.stirtzel@googlemail.com>) id 1TQI0U-0001D8-T9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 15:12:25 +0200
-Received: by mail-bk0-f47.google.com with SMTP id jk7so787740bkc.6
+	Mon, 22 Oct 2012 15:25:27 +0200
+Received: by mail-oa0-f47.google.com with SMTP id h1so2347148oag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 05:59:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:x-enigmail-version:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=vDeWkT2i/+SAXqe7mTDqmfiYZ6Hy6I/Z18enfhImeAo=;
-	b=kQdIoUwHZ113gWfjkQxYVS9dkIXIACXClUThIp6+1KMOJ6YNr5HIFitz+Ff3Lp0U6S
-	EYbXJg3Fb9tqmu0Zh0Xvh0JJ7fk5Lb3V926nRRzi4yt6CiQ1WTV/MJOGZhuH5omEOACT
-	QLP6VkRtvgdU2Pxd9z9fvwW7vIaNbGXZK1+nLVebgc/Wahno52TIQp1n448nNvXJbAtO
-	cZumpEf6XkeB6gmStks5rTq4w9O6Fs1s4jxED98/yQvmXHAjP6aKUCpxFjctc4M7FACS
-	c13Sm5+U0LLv1lsdxgNie5CON+8wNznlMnijuU3hmEq/99l0aGS3zaswbkvzbz6xX9B6
-	litQ==
-Received: by 10.205.130.148 with SMTP id hm20mr2610004bkc.71.1350910740741;
-	Mon, 22 Oct 2012 05:59:00 -0700 (PDT)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPS id g8sm3531570bkv.6.2012.10.22.05.58.59
-	(version=SSLv3 cipher=OTHER); Mon, 22 Oct 2012 05:58:59 -0700 (PDT)
-Message-ID: <50854312.5040502@dresearch-fe.de>
-Date: Mon, 22 Oct 2012 14:58:58 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
+	Mon, 22 Oct 2012 06:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=y+IMf1PT+K0wCmtCWCMOfykVUOOvHb9YdPraAvNcmBA=;
+	b=Kax6ubUYRETrSygF+DxMQrwI40jWbevrkx/V8aa/Eg0f6TidWDNpUQ1JTiru872V+Y
+	LDekVVbRiMVZ+rEqwnsjly3M/FWgfrAXoORU/gWPxpmmqoq99HAjMbyM9M7sZe0mzhHb
+	HJ267vzc3UImekCx1YtcbeBShkY7L6MlDLmeFn07ZjIT1rHQZr3sncyC8Vy8Quk/C9J/
+	b6yWGj8XCyrbQmLdB7W+iaRcj7MIFfyW4nuXD0D+iZNOcilWRKV8QCRrWHr/2yvLTLDY
+	/kZXEKLu0H62F3FZJJObtU2kAUPC+X/kDWEkiSAYDzBXy7jefUfCWzjTyk0t13VgQWYk
+	ls0Q==
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-X-Enigmail-Version: 1.4.5
-X-Gm-Message-State: ALoCoQl2MZDQDwmXkhkFdLSyA2OiQEEu4XWMGNmfm3ySLvK/KKt0VVJftqOkDOPcpdOCDmzDTC0x
-Subject: Profiling binaries?
+Received: by 10.182.150.37 with SMTP id uf5mr6930755obb.10.1350911521633; Mon,
+	22 Oct 2012 06:12:01 -0700 (PDT)
+Received: by 10.76.25.227 with HTTP; Mon, 22 Oct 2012 06:12:01 -0700 (PDT)
+In-Reply-To: <50854312.5040502@dresearch-fe.de>
+References: <50854312.5040502@dresearch-fe.de>
+Date: Mon, 22 Oct 2012 15:12:01 +0200
+Message-ID: <CAGiJk9dt0OTOMG5T7DoomCfXxp+FUw15PWTXnaCSm=BJOpfjnw@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Profiling binaries?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,19 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 13:12:25 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 13:25:27 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Just a short question: Does oe[-core] provide a generic method to create packages containing binaries/libraries with profiling support?
+2012/10/22 Steffen Sledz <sledz@dresearch-fe.de>:
+> Just a short question: Does oe[-core] provide a generic method to create packages containing binaries/libraries with profiling support?
+>
+
+Depending on your platform you could use Valgrind [1], or to be more
+specific Callgrind [2].
+
+The recipe is in .../openembedded-core/meta/recipes-devtools/valgrind/
+you can check there if your arch/platform is supported.
+
+[1] http://valgrind.org/
+[2] http://valgrind.org/docs/manual/cl-manual.html
+
+
 
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Regards
+Samuel
 
 
