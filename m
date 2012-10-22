@@ -1,35 +1,31 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TQKR8-0004Ym-Kc
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 18:01:06 +0200
-Received: by mail-lb0-f175.google.com with SMTP id y2so1639101lbk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 08:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=2x9wnKaPsCkdIOY1x8hD+lhT7yQAfhVOPnx5ztzcDAo=;
-	b=YKM8sScKWsgfaB5EU+wVUJucatyE9/KoM7jyajWIOTJ0vo2g8wIYs5W/y04IAAoR0Y
-	QWSC6o/rSFf7k2G9xAc0EmNgDTzTUIucFeTVHwsmLK5ntSW2dpFc3d4trg/Ia9X49UyC
-	ozPPAGVkWdFHS3TiN7E5mXGkNrlNT/Y37+RAx4QV8s+UPovwxWRS9ov1SoHZAoR+Z3KC
-	c9n+h577L2dtWuM2r8jfzKdrjKG84VNiZNG5+UucPt6iJWaO/yYwVrOwZ8SEY3sLDLWd
-	u8HsI2zAmpw6kdUwPgx2tdMc0Ntyp9SgiI29AQ5IbWBuEbbEINyrwqUJoauFL0zP6e7U
-	47DQ==
-Received: by 10.112.24.6 with SMTP id q6mr3948747lbf.24.1350920861810; Mon, 22
-	Oct 2012 08:47:41 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.1.49 with HTTP; Mon, 22 Oct 2012 08:47:21 -0700 (PDT)
-In-Reply-To: <1350919506-4517-1-git-send-email-kergoth@gmail.com>
-References: <1350919506-4517-1-git-send-email-kergoth@gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Mon, 22 Oct 2012 08:47:21 -0700
-X-Google-Sender-Auth: bvYrIOZgEWVNd7F5YJwiWGzuCMY
-Message-ID: <CABcZAN=UswycOnUjMpNKju4grJ1esYRLg==to0BvEavW-T-yWQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH][for-danny] lttng-2.0: fix srcrev/pv to match the recipe filenames
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TQKUp-0004c9-22 for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 18:04:55 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MFpTd2006847;
+	Mon, 22 Oct 2012 16:51:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06604-02; Mon, 22 Oct 2012 16:51:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MFpLLg006840
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 22 Oct 2012 16:51:23 +0100
+Message-ID: <1350921081.22340.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Holger Freyther <holger@freyther.de>
+Date: Mon, 22 Oct 2012 16:51:21 +0100
+In-Reply-To: <loom.20121021T094018-148@post.gmane.org>
+References: <1350064876-11475-1-git-send-email-holger@moiji-mobile.com>
+	<loom.20121021T094018-148@post.gmane.org>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel.bbclass: Do not chdir to /boot before	running update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,17 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 16:01:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 22 Oct 2012 16:04:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 22, 2012 at 8:25 AM, Christopher Larson <kergoth@gmail.com> wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> Somehow the recipe names got bumped, but the SRCREV and PVs in the recipes
-> didn't get updated, so they were still building old versions.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+On Sun, 2012-10-21 at 07:42 +0000, Holger Freyther wrote:
+> Holger Hans Peter Freyther <holger@...> writes:
+> 
+> > 
+> > The symlink from uImage-3... to uImage is not created at image creation
+> > time and not properly update on kernel upgrades. This is fixed by removing
+> > the chdir. The other users of update-alternative do not change the directory
+> > before calling it.
+> 
+> Hi,
+> 
+> this patch has not been merged, nor has it received any comments. The symlink
+> creation for uImage is broken right now and I would be very happy if it could
+> be fixed.
 
-Ignore this one, use the second that got sent 5 minutes later.
+Merged to master, thanks.
+
+Richard
+
 
 
