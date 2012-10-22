@@ -1,30 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TQHIC-0000I3-5J for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 14:39:40 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MCQEmO004963;
-	Mon, 22 Oct 2012 13:26:14 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04420-08; Mon, 22 Oct 2012 13:26:10 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MCQ6Nr004956
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 22 Oct 2012 13:26:06 +0100
-Message-ID: <1350908766.2520.88.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 22 Oct 2012 13:26:06 +0100
-In-Reply-To: <1350038799-22567-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1350038799-22567-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] PACKAGES_DYNAMIC: use regexp not glob
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sledz@dresearch-fe.de>) id 1TQHnt-00011z-La
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 15:12:25 +0200
+Received: by mail-bk0-f47.google.com with SMTP id jk7so787740bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2012 05:59:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:x-enigmail-version:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=vDeWkT2i/+SAXqe7mTDqmfiYZ6Hy6I/Z18enfhImeAo=;
+	b=kQdIoUwHZ113gWfjkQxYVS9dkIXIACXClUThIp6+1KMOJ6YNr5HIFitz+Ff3Lp0U6S
+	EYbXJg3Fb9tqmu0Zh0Xvh0JJ7fk5Lb3V926nRRzi4yt6CiQ1WTV/MJOGZhuH5omEOACT
+	QLP6VkRtvgdU2Pxd9z9fvwW7vIaNbGXZK1+nLVebgc/Wahno52TIQp1n448nNvXJbAtO
+	cZumpEf6XkeB6gmStks5rTq4w9O6Fs1s4jxED98/yQvmXHAjP6aKUCpxFjctc4M7FACS
+	c13Sm5+U0LLv1lsdxgNie5CON+8wNznlMnijuU3hmEq/99l0aGS3zaswbkvzbz6xX9B6
+	litQ==
+Received: by 10.205.130.148 with SMTP id hm20mr2610004bkc.71.1350910740741;
+	Mon, 22 Oct 2012 05:59:00 -0700 (PDT)
+Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPS id g8sm3531570bkv.6.2012.10.22.05.58.59
+	(version=SSLv3 cipher=OTHER); Mon, 22 Oct 2012 05:58:59 -0700 (PDT)
+Message-ID: <50854312.5040502@dresearch-fe.de>
+Date: Mon, 22 Oct 2012 14:58:58 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.4.5
+X-Gm-Message-State: ALoCoQl2MZDQDwmXkhkFdLSyA2OiQEEu4XWMGNmfm3ySLvK/KKt0VVJftqOkDOPcpdOCDmzDTC0x
+Subject: Profiling binaries?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,60 +45,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 12:39:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2012 13:12:25 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2012-10-12 at 12:46 +0200, Martin Jansa wrote:
-> * bitbake uses PACKAGES_DYNAMIC as regexp
->   ^ could make matching faster (and it will be more clear that we're expecting regexp not glob)
->   * made all those last '-' optional, use .* (or nothing)
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/kernel.bbclass                              | 6 +++---
->  meta/conf/bitbake.conf                                   | 2 +-
->  meta/recipes-connectivity/connman/connman.inc            | 2 +-
->  meta/recipes-core/eglibc/eglibc-locale.inc               | 6 +++---
->  meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 2 +-
->  meta/recipes-devtools/perl/perl_5.14.2.bb                | 4 ++--
->  meta/recipes-extended/lighttpd/lighttpd_1.4.31.bb        | 2 +-
->  meta/recipes-extended/pam/libpam_1.1.6.bb                | 2 +-
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb       | 2 +-
->  meta/recipes-gnome/gtk+/gtk+_2.24.8.bb                   | 2 +-
->  meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb     | 2 +-
->  meta/recipes-graphics/directfb/directfb.inc              | 2 +-
->  meta/recipes-graphics/mesa/mesa-dri.inc                  | 2 +-
->  meta/recipes-graphics/pango/pango.inc                    | 2 +-
->  meta/recipes-kernel/linux/linux-dummy.bb                 | 4 ++--
->  meta/recipes-multimedia/gstreamer/gst-plugins.inc        | 2 +-
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc        | 2 +-
->  meta/recipes-qt/qt-apps/qmmp_0.6.1.bb                    | 2 +-
->  meta/recipes-qt/qt4/qt4-embedded.inc                     | 2 +-
->  meta/recipes-qt/qt4/qt4.inc                              | 2 +-
->  20 files changed, 26 insertions(+), 26 deletions(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 36bc3c7..b17b0f5 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -24,9 +24,9 @@ python __anonymous () {
->  
->  inherit kernel-arch deploy
->  
-> -PACKAGES_DYNAMIC += "kernel-module-*"
-> -PACKAGES_DYNAMIC += "kernel-image-*"
-> -PACKAGES_DYNAMIC += "kernel-firmware-*"
-> +PACKAGES_DYNAMIC += "^kernel-module-.*"
-> +PACKAGES_DYNAMIC += "^kernel-image-.*"
-> +PACKAGES_DYNAMIC += "^kernel-firmware-.*"
+Just a short question: Does oe[-core] provide a generic method to create packages containing binaries/libraries with profiling support?
 
-FWIW, these changes broke multilib. I've proposed a patch which at least
-makes the mulitlib builds work again.
-
-Cheers,
-
-Richard
-
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
 
