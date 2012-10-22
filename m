@@ -1,41 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQEaD-0003uY-Ob
+	(envelope-from <ml@communistcode.co.uk>) id 1TQEci-000402-Oz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 11:46:06 +0200
-Received: from mail-fa0-f69.google.com ([209.85.161.69])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 02:32:13 -0700
-Received: by mail-fa0-f69.google.com with SMTP id t1so2007048fae.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 02:32:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=+HL9EegzwbZbNNIYI8wF94WnFmRv5iCx6bNVGJBaXms=;
-	b=Il3ZXK1Q9u3z7Rsa1Eroy8JI7GLwRQlhhzita861RrkUufuMj/d0GFHlQ1I4OLMvnw
-	NbvCqfuZ7yEPthRXW8Jh1wRQ6PY0XoSZQbRGpGiCIjPXeBzu0IJPL8somdzxnzwOkdso
-	asjUZTiHipaYCYZN0AiiUGwHRaJEvqfOXbTyuoUWfiUF/jeFY9NKtnBGpZzcgsfZRMT4
-	33a1T++c+zzUAIuNMAIiwH1dfoflheT1BnOo/tZElQjv6RvHMwgCVF4GqB/uoW72Cvpq
-	A4tvBpHCT1r/kg0MvQlzmkx9yGl/hbU7hOyRHSYzrP5Ak3fC/o5QZGsE7YakN65hGAkU
-	O7Rw==
-Received: by 10.180.101.230 with SMTP id fj6mr19756387wib.16.1350898357579;
-	Mon, 22 Oct 2012 02:32:37 -0700 (PDT)
-Received: by 10.180.101.230 with SMTP id fj6mr19756344wib.16.1350898357170;
-	Mon, 22 Oct 2012 02:32:37 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id k20sm50388167wiv.11.2012.10.22.02.32.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 02:32:36 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 10:31:26 +0100
-Message-Id: <1350898286-14049-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQkhlDKiyluCc77uzJFxPxWFuhLU8qi/VDa/1yYFtv+s0YhbQLTohvMQZUgqdR715wEVpqT2oRhSpCqZa+AnFi8AOHNEJW7MiH/deAno3iVwMoutcgCY2j0ogHeAUeq8SkKHdtf+0AT+6iEEY7XIPJCf6/o9LFr0bjvnKnvsuwN37FGaakMcozlAlx9g45kfizz5fKGL
-Subject: [PATCH] mesa: Build separate GLU library
+	Mon, 22 Oct 2012 11:48:41 +0200
+Received: from localhost ([127.0.0.1]:36240 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TQEPj-0003PD-SY
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 09:35:15 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:content-type
+	:content-transfer-encoding; s=default; bh=kuzl5M+H081tENkYeeAOTk
+	8Sqpc=; b=nWctyhZFpsSPble4Mc6SNGmkU+7hIodD033FRECQdMXzDfZLk/PC33
+	+J1o1zDTil/L0B7oRzGhatSRfBtO75/BN4qQSK//Z7Wr/w6Jc1mM58Mx3L+m0/e8
+	4WQHlXfCeJa0ID8WLuOzXHTIo6A24/pdxbutk8VEsQVHEGOzbErT4=
+Received: from [195.171.99.130] (port=6534 helo=[192.168.0.67])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TQEPj-0003P8-Q9
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 09:35:15 +0000
+Message-ID: <508513C8.8070304@communistcode.co.uk>
+Date: Mon, 22 Oct 2012 10:37:12 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: build failures: rpath - gettext related?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -45,124 +41,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 09:46:06 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 09:48:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Daniel Stone <daniel@fooishbar.org>
+On my weekly 'git pull master' build I am facing rpath errors which seem 
+to be related to gettext?
 
-Mesa has removed GLU from the core tree upstream, so remove it from the
-Mesa build, add support for the new GLU tree, and introduce a new
-virtual/libglu package.
+Parsing recipes: 100% |#########################################| ETA:  
+00:00:00
+Parsing of 888 .bb files complete (0 cached, 888 parsed). 1196 targets, 
+61 skipped, 8 masked, 0 errors.
 
-Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/glew/glew_1.9.0.bb     |    4 ++--
- meta/recipes-graphics/mesa/mesa-common.inc   |    7 ++----
- meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb |   31 ++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb
+Build Configuration:
+BB_VERSION        = "1.16.0"
+TARGET_ARCH       = "arm"
+TARGET_OS         = "linux-gnueabi"
+MACHINE           = "beaglebone"
+DISTRO            = "poky"
+DISTRO_VERSION    = "1.3+snapshot-20121022"
+TUNE_FEATURES     = "armv7a vfp neon cortexa8"
+TARGET_FPU        = "vfp-neon"
+meta
+meta-yocto        = "master:7090cbe2c94f37baeb4e67cf3a822974d7dd0e61"
+meta-ti           = "master:4f3522a9dc7f04e2f650199d66badb08dad214c6"
+meta-db           = "master:4dbfea5ae4acf397d4e28a3b164860f4c8064801"
 
-diff --git a/meta/recipes-graphics/glew/glew_1.9.0.bb b/meta/recipes-graphics/glew/glew_1.9.0.bb
-index 00fff11..3b466d3 100644
---- a/meta/recipes-graphics/glew/glew_1.9.0.bb
-+++ b/meta/recipes-graphics/glew/glew_1.9.0.bb
-@@ -5,9 +5,9 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
- 
--DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
-+DEPENDS = "virtual/libx11 virtual/libgl virtual/libglu libxext libxi libxmu"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-            file://autotools.patch \
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index faa8183..1ad8ff3 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -12,7 +12,7 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
- 
--INC_PR = "r3"
-+INC_PR = "r4"
- PE = "2"
- 
- DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
-@@ -24,7 +24,7 @@ FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
- 
- inherit autotools pkgconfig pythonnative
- 
--EXTRA_OECONF = "--enable-glu \
-+EXTRA_OECONF = "--disable-glu \
-                 --disable-glw \
-                 --disable-glut \
-                 --enable-shared-glapi"
-@@ -42,7 +42,6 @@ EXCLUDE_FROM_WORLD = "1"
- RDEPENDS_${PN}-dev = ""
- 
- PACKAGES =+ "libegl libegl-dev \
--             libglu libglu-dev \
-              libosmesa libosmesa-dev \
-              libgl libgl-dev \
-              libglapi libglapi-dev \
-@@ -57,7 +56,6 @@ FILES_libgles1 = "${libdir}/libGLESv1*.so.*"
- FILES_libgles2 = "${libdir}/libGLESv2.so.*"
- FILES_libgl = "${libdir}/libGL.so.*"
- FILES_libglapi = "${libdir}/libglapi.so.*"
--FILES_libglu = "${libdir}/libGLU.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- 
- FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
-@@ -66,7 +64,6 @@ FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
- FILES_libglapi-dev = "${libdir}/libglapi.*"
- FILES_libgles1-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/pkgconfig/glesv1*.pc"
- FILES_libgles2-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
--FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h ${libdir}/pkgconfig/glu.pc"
- FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
- 
- FILES_${PN}-dbg += "${libdir}/dri/.debug/* ${libdir}/egl/.debug/*"
-diff --git a/meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb
-new file mode 100644
-index 0000000..d3fffe7
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb
-@@ -0,0 +1,31 @@
-+SUMMARY = "The OpenGL utility toolkit"
-+DESCRIPTION = "GLU is a utility toolkit used with OpenGL implementations"
-+
-+HOMEPAGE = "http://mesa3d.org"
-+BUGTRACKER = "https://bugs.freedesktop.org"
-+SECTION = "x11"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://include/GL/glu.h;endline=29;md5=6b79c570f644363b356456e7d44471d9 \
-+                    file://src/libtess/tess.c;endline=29;md5=6b79c570f644363b356456e7d44471d9"
-+
-+# Epoch as this used to be part of mesa-dri
-+PE = "2"
-+PR = "0"
-+
-+SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/glu/glu-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "be9249132ff49275461cf92039083030"
-+SRC_URI[sha256sum] = "1f7ad0d379a722fcbd303aa5650c6d7d5544fde83196b42a73d1193568a4df12"
-+
-+S = "${WORKDIR}/glu-${PV}"
-+
-+DEPENDS = "virtual/libgl"
-+
-+inherit autotools pkgconfig
-+
-+# ie mesa-glu could be empty and mesa-glu-dev RDEPENDS on it
-+ALLOW_EMPTY_${PN} = "1"
-+
-+PROVIDES = "virtual/libglu"
-+
-+FILES_mesa-glu-dev = "${libdir}/pkgconfig/glu.pc"
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+ERROR: Function failed: do_configure (see 
+/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/bison-native-2.5.1-r0/temp/log.do_configure.3008 
+for further information)
+ERROR: Logfile of failure stored in: 
+/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/bison-native-2.5.1-r0/temp/log.do_configure.3008
+Log data follows:
+| DEBUG: Executing python function sysroot_cleansstate
+| DEBUG: Python function sysroot_cleansstate finished
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing shell function do_configure
+| automake (GNU automake) 1.12.3
+| Copyright (C) 2012 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later 
+<http://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+|
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.12
+| cp: cannot stat 
+'/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots/x86_64-linux/usr/share/gettext/config.rpath': 
+No such file or directory
+| ERROR: Function failed: do_configure (see 
+/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/bison-native-2.5.1-r0/temp/log.do_configure.3008 
+for further information)
+ERROR: Task 707 
+(virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/bison/bison_2.5.1.bb, 
+do_configure) failed with exit code '1'
+ERROR: Function failed: do_configure (see 
+/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/flex-native-2.5.35-r3/temp/log.do_configure.3009 
+for further information)
+ERROR: Logfile of failure stored in: 
+/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/flex-native-2.5.35-r3/temp/log.do_configure.3009
+Log data follows:
+| DEBUG: Executing python function sysroot_cleansstate
+| DEBUG: Python function sysroot_cleansstate finished
+| DEBUG: Executing shell function autotools_preconfigure
+| DEBUG: Shell function autotools_preconfigure finished
+| DEBUG: Executing shell function do_configure
+| automake (GNU automake) 1.12.3
+| Copyright (C) 2012 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later 
+<http://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+|
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.12
+| cp: cannot stat 
+'/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots/x86_64-linux/usr/share/gettext/config.rpath': 
+No such file or directory
+| ERROR: Function failed: do_configure (see 
+/mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/work/x86_64-linux/flex-native-2.5.35-r3/temp/log.do_configure.3009 
+for further information)
+ERROR: Task 1566 
+(virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/flex/flex_2.5.35.bb, 
+do_configure) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 122 tasks of which 116 didn't need to be 
+rerun and 2 failed.
+Waiting for 0 running tasks to finish:
+
+Summary: 2 tasks failed:
+virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/bison/bison_2.5.1.bb, 
+do_configure
+virtual:native:/mnt/storage/yoctoBuilds/poky-beaglebone.git/meta/recipes-devtools/flex/flex_2.5.35.bb, 
+do_configure
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+
+Any ideas? Would Richards patch '[OE-core] [PATCH] gettext: Add 
+config.rpath and Makefile.in.in to gettext-minimal-native' possibly fix 
+the issue?
+
+Regards,
+
 -- 
-1.7.10
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
