@@ -1,33 +1,27 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1TQM5f-0004qh-I8; Mon, 22 Oct 2012 19:47:03 +0200
-Received: by mail-pa0-f47.google.com with SMTP id fa11so1826956pad.6
-	for <multiple recipients>; Mon, 22 Oct 2012 10:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=QDHm4rKOciN+x6yv7HTPEv43AzUbg+ISJ6B7SH9IkUs=;
-	b=0s5Tn3srWHMtB0DqvurBQe6t1r7daKYmN2KKn+jjeNb37vwuT9Pb91N8AmOoN2hCBE
-	qEOQju7dyTi7NXHP4DF/JiQ1VIjYEB8beBNpTo8yMKiSlTUAaj/w1kvothsdIoXaVQPl
-	hQjvsHv3uNdAN5E9sz/axU4YPY1oVMDd1T8yxULJRj1roWtu/i0C5V07adx+P+sD36Mo
-	HV+Bfs1MAar573miNXHNFQHvpF5lg+tf2fHrnZpv7IN5JUta+KDYutkIsCzk8J6Qy2d/
-	dJbxTtEU3snmZ4iGFnDyKGN8m64DvqI/YhzCuc11g3MJSnz2e7QMMjH7kTnmNK5BNe+m
-	QA7w==
+	(envelope-from <mark.hatle@windriver.com>) id 1TQM9Q-00058J-JO
+	for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 19:50:56 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9MHbVuf028391
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Oct 2012 10:37:31 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 22 Oct 2012 10:37:30 -0700
+Message-ID: <50858460.3090809@windriver.com>
+Date: Mon, 22 Oct 2012 12:37:36 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
 MIME-Version: 1.0
-Received: by 10.68.228.130 with SMTP id si2mr12853652pbc.126.1350927217713;
-	Mon, 22 Oct 2012 10:33:37 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.40.201 with HTTP; Mon, 22 Oct 2012 10:33:37 -0700 (PDT)
-In-Reply-To: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
+To: <openembedded-core@lists.openembedded.org>
 References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-Date: Mon, 22 Oct 2012 15:33:37 -0200
-X-Google-Sender-Auth: JdGFKrMYqcmSKp67dhmjTY4y6eA
-Message-ID: <CAP9ODKrMoEJMXWNa0rx0KyQjx3hJhFzPOJCH+eDYqiDm3saMxg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-devel <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
 Subject: Re: [RFC] OpenGL packaging/staging policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,11 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 17:47:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 22 Oct 2012 17:50:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 22, 2012 at 2:35 PM, Burton, Ross <ross.burton@intel.com> wrote:
-...
+On 10/22/12 11:35 AM, Burton, Ross wrote:
+> Hi,
+>
+> Now that we've almost got 1.3 out of the door we can go back to
+> breaking everything. Hooray!  Let's try to (un)break OpenGL again.
+>
+> First, I should say that I'm not looking at this from an GenX/Intel
+> specific perspective where Mesa is all you need.  meta-intel ships two
+> different binary GL drivers (cdt-pvr for Cedar Trail, EMGD for
+> everything else Atom that doesn't have i945) so I'm perfectly aware of
+> the problems.
+>
+> For example, Cedar Trail's (SGX545-based) GL stack comprises of GLESv1
+> GLESv2 and EGL library blobs, and a DRI driver blob.  This DRI driver
+> can be used by Mesa's libGL.  This is actually a more complex problem
+> than Beagle has where it just doesn't do GL.
+>
+> This is my attempt at a simple solution that doesn't involve
+> complicated packaging tricks.
+>
 > Rule 1.  Unambiguous package naming
 >
 > Debian-style renaming and multiple providers of the same API doesn't
@@ -55,16 +68,75 @@ On Mon, Oct 22, 2012 at 2:35 PM, Burton, Ross <ross.burton@intel.com> wrote:
 > is implemented for Mesa as a proof of concept[1], and the Python
 > fragment could easily be moved into a class and re-used easily.
 
-It would be nice to also have a common SoC arch so the binaries are
-clear not allarch but not rebuild for every board.
+I can't say I'm a fan of the debian renamining, but in this case I think it's 
+very important to do this.  Using the pkgv_<name> = 'libgl-foo' is a good idea.. 
+  I'm guessing that is the easiest way to get consistent behavior.
 
-For example in iMX53 and iMX51 case they share same GL package set and
-we could have a armv7-imx5 or so common to all them so we'd not
-rebuild it for every board.
+> Rule 2. No dependencies on specific GL implementations
+>
+> Packages currently depend on the exact GL that they were built with,
+> although the GL packages are swappable.  Not very interesting for
+> systems where there's only one provider, but still a valid problem for
+> systems with swappable hardware or alternative GL stacks.  All linkage
+> to the GL stack should be intercepted and replaced by something like
+> "virtual/libgl | libgl-mesa".
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Moving everything to libgl1, or virtual/libgl or similar is what I would 
+suggest.  This is consistent with the rest of the system behavior.
+
+> This means changing the shlib dependency detection code to support
+> per-library overrides, there's plenty of prior art in existing
+> distributions to help here.
+
+Each of the libgl's should have equivalent provides (i.e. libgl1)
+
+> Rule 3. Only Mesa stages, nothing else
+>
+> Whilst there are multiple GL implementations that offer various
+> subsets of GL, they are all effectively interchangeable.  It's not a
+> massive concern what exact GL is present when building because they've
+> all got the same API.  We can take advantage of this and remove the
+> problems caused by multiple GL implementations staging by only putting
+> Mesa into the sysroot.  Any other GL implementation should explicitly
+> stop staging itself to avoid sysroot tainting.  This can be
+> implemented by making Mesa build all APIs on all platforms (which
+> isn't a problem when it comes to image building or feeds, thanks to
+> rule 1), and removing the virtual/libgl PROVIDES from the other GL
+> implementations.
+>
+> For systems which don't use Mesa at all (for example, BeagleBoard)
+> then this potentially means that Mesa will be built when it shouldn't.
+>   GLX support in the X server may already be pulling it in (I made this
+> a packageconfig in 1.3 so distros can turn it off), but in any case I
+> think this is an acceptable compromise - Mesa isn't slow to build in
+> the scheme of things, and per Rule 2 this is purely in sysroot and not
+> in the images.
+
+For systems like BeagleBoard, do they use X11, if so what do they use for GL? 
+Most of the ARM systems use raw direct PowerVR drivers in my experience, and 
+generally don't use X11.
+
+We definitely need a solution for X11 / Mesa based systems.. and a way to 
+qualify the other systems with the way their graphics solutions are built.
+
+--Mark
+
+>
+> tl;dr: all packages built against a constant GL, all GL
+> implementations interchangable, no package conflicts in the feeds.
+>
+> Any comments before I get my hands dirty with the next incomplete task
+> (shlib dependency generation)?
+>
+> Ross
+>
+> [1] http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mesa&id=784fa1372bb38dbc82e53a49b757c3c02593f2b8
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
