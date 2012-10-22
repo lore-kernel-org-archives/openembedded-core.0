@@ -1,38 +1,37 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQDeS-00023Q-QR
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 10:46:25 +0200
-Received: from mail-wg0-f69.google.com ([74.125.82.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 01:32:57 -0700
-Received: by mail-wg0-f69.google.com with SMTP id 16so1762958wgi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 01:32:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=JLkx8joU5gsvRfsuyXqmbWXPS6cXsNrsWn853QlVOCg=;
-	b=YVjr0hJek7qE6Vq27wbpme41jUErNGBNMxl7az1RVRWCFrVYXPhTw9sB3LODP4J//v
-	IYQnXh0OpAkKRLbDVxilWsrw2ggpHmm+RV0JmDpKbnjYuRdJBwPvi+lfZ+65q4qq8gYa
-	95tvPRaj6t7kPAUnpaLLGef5hvRPj4cKpDwzRWITxXwmjTNDsd2Sir2hWOgnqC8Bms+m
-	ujjoOEmxuGkRTOeySm35b2vELw7vsjflK8ZcR5AV49YeeSw8aFYFxDor+uOkKBLBDlQY
-	Z9Oci3BfFZ9+vVu9VCex83juJfQHHDXrugVn4Z8e7AP5+UZbnoUb5bMa85wjNjFQp0D1
-	xk4g==
-Received: by 10.180.99.36 with SMTP id en4mr4453237wib.8.1350894775734;
-	Mon, 22 Oct 2012 01:32:55 -0700 (PDT)
-Received: by 10.180.99.36 with SMTP id en4mr4453217wib.8.1350894775556;
-	Mon, 22 Oct 2012 01:32:55 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p4sm20709412wix.0.2012.10.22.01.32.53
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1TQDfs-00026z-Le; Mon, 22 Oct 2012 10:47:52 +0200
+Received: by mail-we0-f175.google.com with SMTP id t44so1263238wey.6
+	for <multiple recipients>; Mon, 22 Oct 2012 01:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=SmV5L5Z+8kw3/EB5qNCkRCihjJpNWnUWLXIASB2QOMs=;
+	b=TRiRWO6p7tlEggIsOED0gQVofggdn1QlvIVIRcV2iuKGO5B7B49G2N7545qTgpKXqA
+	p3I5bcyh1eNoB9TpI2ghvQz/qZOq7JpO842AQ4aVEeevExujOv0OouO5PmyHp5rNoJHG
+	iXhyxTstXCfDoSby7ymDlUX4nkza9cTpAnwPOEsFX5xL5SyWZ7JxY8tGP0p44uCEMeFV
+	DrFecx+9eNrlLBa9wSrXHIDuS8POqG7azXIx7kt5P0Cn0U5pkxVGPScGjWoQ7YOOxh8n
+	zPr4fm0DhbBEhuByrmrsHdAiqdxLtO6eyCP8tI5M0hKfBvC9w/pzJ714kZMKm5aEXZXG
+	QHUQ==
+Received: by 10.216.71.202 with SMTP id r52mr4659514wed.108.1350894868089;
+	Mon, 22 Oct 2012 01:34:28 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id bn7sm20724224wib.8.2012.10.22.01.34.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 01:32:54 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 09:31:43 +0100
-Message-Id: <1350894704-12289-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlK2ljvYeCx+D8oRbS3k+OQvRUPsyHd8/DhiBQ3h/BA4p6cTx1e8YQwqgnfVTp+naWxj8SP9UU+vlULgaiKFcjVUDf+XBa/FLLYFz/xQ+op9sn+gseGFsUCmPxKdgfQHCyfnsQ+APNrTYFf8e8RAfbsyTbDgPJNlZLI5XqfmzxadpEIWQQ7/GJeBG47Cbwild4aYLmo
-Subject: [PATCH] xorg: remove XF86 BigFont extension
+	Mon, 22 Oct 2012 01:34:27 -0700 (PDT)
+Date: Mon, 22 Oct 2012 10:34:41 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20121022083441.GA3269@jama.jama.net>
+References: <20121019163541.436A0103AB@opal>
+MIME-Version: 1.0
+In-Reply-To: <20121019163541.436A0103AB@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : perl: fix dependecies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,88 +44,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 08:46:25 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 08:47:53 -0000
+X-Groupsio-MsgNum: 30777
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
 
-This has been disabled by default upstream since 2007, nothing uses it.
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/libx11.inc            |    9 ++++-----
- .../xorg-proto/xf86bigfontproto_1.2.0.bb             |   18 ------------------
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc  |    2 +-
- 3 files changed, 5 insertions(+), 24 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb
+On Fri, Oct 19, 2012 at 04:35:40PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: d50be1876f7a41822ef7e73207fdf8cccd39e400
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Dd50be1876f7a41822ef7e73207fdf8cccd39e400
+>=20
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Fri Oct 19 19:22:04 2012 +0800
+>=20
+> perl: fix dependecies
+>=20
+> This patch fixes 2 problems.
+>=20
+> The first one is that when run "perl -V" on target, it fails with lack
+> of some .pm files. So add these perl module files to package perl itself
+> to fix this failure.
+>=20
+> The second problem is that package nativesdk-perl-modules doesn't depends
+> on the single perl modules.
+>=20
+> In the .bb file, dependencies of perl-modules are set by:
+>=20
+> RRECOMMENDS_perl-modules =3D "${@d.getVar('PACKAGES', True)...}"
+>=20
+> The PACKAGES would be reset by do_split_packages since:
+>=20
+> PACKAGES_DYNAMIC =3D "perl-module-*"
+> PACKAGES_DYNAMIC_virtclass-nativesdk =3D "nativesdk-perl-module-*"
+>=20
+> Then:
+> 1) The target perl-modules RRECOMMENDS on perl-module-*, this is what
+>    we expect.
+>=20
+> 2) But the nativesdk-perl-modules doesn't RRECOMMENDS on
+>    nativesdk-perl-module-*, this is not what we expect.
+>=20
+> The value of PACKAGES after do_split_packages has been set correctly (it
+> contains the nativesdk-perl-module-* packages)
+>=20
+> But the:
+>=20
+> RRECOMMENDS_perl-modules =3D "${@d.getVar('PACKAGES', True)...}"
+>=20
+> doesn't work correctly for nativesdk, the
+>=20
+> d.getVar('RRECOMMENDS_perl-modules', True)
+>=20
+> doesn't get the new value of the PACKAGES, it gets the value of PACKAGES
+> before the do_split_packages.
+>=20
+> This patch will fix the problem.
+>=20
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-devtools/perl/perl_5.14.2.bb |   12 +++++++++---
+>  1 files changed, 9 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-dev=
+tools/perl/perl_5.14.2.bb
+> index d9206d8..d566a79 100644
+> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://Copying;md5=3D2b4c6ffbcfcbde=
+e469f02565f253d81a \
+>  # We need gnugrep (for -I)
+>  DEPENDS =3D "virtual/db grep-native"
+>  DEPENDS +=3D "gdbm zlib"
+> -PR =3D "r11"
+> +PR =3D "r12"
+> =20
+>  # 5.10.1 has Module::Build built-in
+>  PROVIDES +=3D "libmodule-build-perl"
+> @@ -243,7 +243,13 @@ perl_package_preprocess () {
+> =20
+>  PACKAGES =3D "perl-dbg perl perl-misc perl-dev perl-pod perl-doc perl-li=
+b \
+>              perl-module-cpan perl-module-cpanplus perl-module-unicore"
+> -FILES_${PN} =3D "${bindir}/perl ${bindir}/perl${PV}"
+> +FILES_${PN} =3D "${bindir}/perl ${bindir}/perl${PV} \
+> +               ${libdir}/perl/${PV}/Config.pm \
+> +               ${libdir}/perl/${PV}/strict.pm \
+> +               ${libdir}/perl/${PV}/warnings.pm \
+> +               ${libdir}/perl/${PV}/warnings \
+> +               ${libdir}/perl/${PV}/vars.pm \
+> +              "
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 97bd1c2..71e74f7 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -11,7 +11,7 @@ inherit siteinfo
- FILESPATH = "${FILE_DIRNAME}/libx11"
- 
- PE = "1"
--INC_PR = "r9"
-+INC_PR = "r10"
- 
- PROVIDES = "virtual/libx11"
- 
-@@ -22,14 +22,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
- DEPENDS += "xproto xextproto xtrans libxcb kbproto inputproto"
- DEPENDS += "xproto-native"
- 
--EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/"
-+EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/ --disable-xf86bigfont"
- EXTRA_OEMAKE += 'CWARNFLAGS=""'
- 
--# Let people with incredibly archaic requirements enable Xcms and BigFont, but
--# disable them by default.
-+# Let people with incredibly archaic requirements enable Xcms, but disable it by
-+# default.
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
--PACKAGECONFIG[bigfont] = "--enable-xf86bigfont,--disable-xf86bigfont,xf86bigfontproto"
- 
- # src/util/makekeys needs to be compiled natively, so tell it what compiler to
- # use.
-diff --git a/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb b/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb
-deleted file mode 100644
-index 969fc91..0000000
---- a/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--require xorg-proto-common.inc
--
--SUMMARY = "XFree86-BIGFONT: XFree86 Big Font extension headers"
--
--DESCRIPTION = "This package provides the wire protocol for the XFree86 \
--Big Font extension.  This extension makes larger font requests \
--possible."
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=e01e66e4b317088cf869bc98e6af4fb6"
--
--PR = "r1"
--PE = "1"
--
--BBCLASSEXTEND = "native nativesdk"
--
--SRC_URI[md5sum] = "120e226ede5a4687b25dd357cc9b8efe"
--SRC_URI[sha256sum] = "ba9220e2c4475f5ed2ddaa7287426b30089e4d29bd58d35fad57ba5ea43e1648"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 772fa52..b45cb44 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -23,7 +23,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- 
- inherit autotools pkgconfig
- 
--PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86vidmodeproto xf86bigfontproto compositeproto recordproto resourceproto videoproto scrnsaverproto  xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
-+PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86vidmodeproto compositeproto recordproto resourceproto videoproto scrnsaverproto  xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto glproto"
- LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl"
- DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
- 
--- 
-1.7.10
+I think this breaks at least automake, tiobench and libtimedate-perl
 
+OE @ ~/openembedded-core $ git grep perl-module-strict
+meta/recipes-devtools/automake/automake_1.12.3.bb:    perl-module-strict \
+meta/recipes-extended/perl/libtimedate-perl_1.20.bb:RDEPENDS_${PN} +=3D "pe=
+rl-module-carp perl-module-exporter perl-module-strict perl-module-time-loc=
+al"
+OE @ ~/meta-openembedded $ git grep perl-module-strict
+meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb:    perl-module-strict=
+ \
+OE @ ~/openembedded-core $ git grep perl-module-vars
+meta/recipes-devtools/automake/automake_1.12.3.bb:    perl-module-vars "
 
+perl-module-strict and perl-module-vars are not created now, probably empty.
 
+>  FILES_${PN}-dev =3D "${libdir}/perl/${PV}/CORE"
+>  FILES_${PN}-lib =3D "${libdir}/libperl.so* \
+>                     ${libdir}/perl5 \
+> @@ -294,7 +300,6 @@ FILES_perl-module-unicore +=3D "${libdir}/perl/${PV}/=
+unicore"
+>  # packages (actually the non modules packages and not created too)
+>  ALLOW_EMPTY_perl-modules =3D "1"
+>  PACKAGES_append =3D " perl-modules "
+> -RRECOMMENDS_perl-modules =3D "${@d.getVar('PACKAGES', True).replace('${P=
+N}-modules ', '').replace('${PN}-dbg ', '').replace('${PN}-misc ', '').repl=
+ace('${PN}-dev ', '').replace('${PN}-pod ', '').replace('${PN}-doc ', '')}"
+> =20
+>  python populate_packages_prepend () {
+>      libdir =3D d.expand('${libdir}/perl/${PV}')
+> @@ -302,6 +307,7 @@ python populate_packages_prepend () {
+>      do_split_packages(d, libdir, 'auto/([^/]*)/.*', 'perl-module-%s', 'p=
+erl module %s', recursive=3DTrue, allow_dirs=3DFalse, match_path=3DTrue, pr=
+epend=3DFalse)
+>      do_split_packages(d, libdir, 'Module/([^\/]*).*', 'perl-module-%s', =
+'perl module %s', recursive=3DTrue, allow_dirs=3DFalse, match_path=3DTrue, =
+prepend=3DFalse)
+>      do_split_packages(d, libdir, '(^(?!(CPAN\/|CPANPLUS\/|Module\/|unico=
+re\/|auto\/)[^\/]).*)\.(pm|pl|e2x)', 'perl-module-%s', 'perl module %s', re=
+cursive=3DTrue, allow_dirs=3DFalse, match_path=3DTrue, prepend=3DFalse)
+> +    d.setVar("RRECOMMENDS_${PN}-modules", d.getVar('PACKAGES', True).rep=
+lace('${PN}-modules ', '').replace('${PN}-dbg ', '').replace('${PN}-misc ',=
+ '').replace('${PN}-dev ', '').replace('${PN}-pod ', '').replace('${PN}-doc=
+ ', ''))
+>  }
+> =20
+>  PACKAGES_DYNAMIC =3D "perl-module-*"
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCFBSEACgkQN1Ujt2V2gByUxQCdE50eX11T6zdrR9PzZX64Sf26
+TroAnjdNPdIDaOwjbAVZd2GZybXT8H2f
+=2vCa
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
