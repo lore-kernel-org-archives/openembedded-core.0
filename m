@@ -1,43 +1,32 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQEwB-0004sg-1w
+	(envelope-from <Kai.Kang@windriver.com>) id 1TQFFD-0005Jv-9u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 12:08:47 +0200
-Received: from mail-ea0-f197.google.com ([209.85.215.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 02:55:21 -0700
-Received: by mail-ea0-f197.google.com with SMTP id i1so1814501eaa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 02:55:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=8B5p19FtNI3jjzu7TcTEYGkqwbBBXTWAOhD87C1b5sc=;
-	b=GIoOpiubS1W0oHWSu9JrYc/iZGwRe2TDApLR5L+0Qg6Ldo9V0FjMOc8oMgt1JhS/oX
-	bsQzsq14K6CciBvf5UIZ0UuTFKDrA2FsuxA9erUWjaoBFnwzTRlKPetKn1UzThsl+Enh
-	IlGiwBlu3JmuTVyJJp/QP9l3sO2x6mdX+BOdi5ewVe+gjuZtPDEe0h1DdobZo6pZghkG
-	f8m+OBk3uIluH8zZL1QnpUEveoL3NPOKac/b/Ptwj8E69bP1FXU4jVq9qCh+gsO+A7SL
-	YszWSgumtdPPIZp5MCpNj7eVmHxIA2dLZAWONlS4HN3Aiualez1R/BDcj3l/d0fY1E3v
-	Ew5g==
-Received: by 10.180.96.164 with SMTP id dt4mr35603295wib.10.1350899719725;
-	Mon, 22 Oct 2012 02:55:19 -0700 (PDT)
-Received: by 10.180.96.164 with SMTP id dt4mr35603288wib.10.1350899719625;
-	Mon, 22 Oct 2012 02:55:19 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id m14sm50330591wie.8.2012.10.22.02.55.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 02:55:18 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 10:37:26 +0100
-Message-Id: <4bb20610fa08a2daf71f59b42929181500345e75.1350898411.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <d54dfc8939a32ddde2b861d437dd2bf814d7ce15.1350898411.git.ross.burton@intel.com>
-References: <d54dfc8939a32ddde2b861d437dd2bf814d7ce15.1350898411.git.ross.burton@intel.com>
-In-Reply-To: <cover.1350898411.git.ross.burton@intel.com>
-References: <cover.1350898411.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmlyohgT/xePPJ/AgzD2zNux8gLNM6iVpDBF/ds3CuswnaG4lc/KOCg6PtyZFnOd8YdNPyyKELVsAOWsGulwZ/nl+fmpiaouqNXZUs/1h2TBV4CCVN2zIVQYmqM4zB869ebw5ZmapAokR28IZJgL1t2iOnpCe3WdLXEvcxO3FZDCP30/7ln/RjmPfC8m/nGeT7LaekC
-Subject: [PATCH 3/3] insane: add a check for Xorg driver ABI dependencies
+	Mon, 22 Oct 2012 12:28:27 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9MAF161020323
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Oct 2012 03:15:02 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
+	Mon, 22 Oct 2012 03:14:59 -0700
+Message-ID: <50851CC4.6040501@windriver.com>
+Date: Mon, 22 Oct 2012 18:15:32 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1350645464.git.kai.kang@windriver.com>
+	<44a03f4c870063fd0405695db1de2bfaae976a71.1350645464.git.kai.kang@windriver.com>
+	<1350658913.2520.34.camel@ted>
+In-Reply-To: <1350658913.2520.34.camel@ted>
+X-Originating-IP: [128.224.162.205]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	q9MAF161020323
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] nativesdk-autoconf: add dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,59 +39,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 10:08:48 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 10:28:27 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Now that xserver provides driver ABI names, all drivers should depend on the ABI
-version that they have been built against.
+On 2012=E5=B9=B410=E6=9C=8819=E6=97=A5 23:01, Richard Purdie wrote:
+> On Fri, 2012-10-19 at 19:22 +0800, Kang Kai wrote:
+>> When use toolchain gmae to compile iptables, autoreconf needs perl and
+>> some perl modules. It is too many item to put in the .bb file, so just
+>> add nativesdk-perl-modules to provide them.
+>>
+>> [Yocto 3100]
+>>
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-devtools/autoconf/autoconf.inc     |    4 +++-
+>>   meta/recipes-devtools/autoconf/autoconf_2.69.bb |    2 +-
+>>   2 files changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipe=
+s-devtools/autoconf/autoconf.inc
+>> index 315e773..29d67a0 100644
+>> --- a/meta/recipes-devtools/autoconf/autoconf.inc
+>> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
+>> @@ -10,7 +10,9 @@ DEPENDS_virtclass-native =3D "m4-native gnu-config-n=
+ative"
+>>   DEPENDS_virtclass-nativesdk =3D "nativesdk-m4 nativesdk-gnu-config"
+>>   RDEPENDS_${PN} =3D "m4 gnu-config"
+>>   RDEPENDS_${PN}_virtclass-native =3D "m4-native gnu-config-native"
+>> -RDEPENDS_${PN}_virtclass-nativesdk =3D "nativesdk-m4 nativesdk-gnu-co=
+nfig"
+>> +RDEPENDS_${PN}_virtclass-nativesdk =3D "nativesdk-m4 nativesdk-gnu-co=
+nfig \
+>> +                                      nativesdk-perl nativesdk-perl-m=
+odules \
+>> +                                     "
+>>
+> Ok, this is getting closer but I'm still not 100% convinced we have
+> everything fixed properly. For example, if the above is true, isn't
+> RDEPENDS_${PN} wrong? Do we need everything in perl-modules?
+>
+> I also took a look at the automake recipe which in some ways looks
+> better behaved. It does:
+>
+> RDEPENDS_${PN} +=3D "\
+>      autoconf \
+>      perl \
+>      perl-module-bytes \
+>      perl-module-constant \
+>      perl-module-cwd \
+>      perl-module-data-dumper \
+>      perl-module-dynaloader \
+>      perl-module-errno \
+>      perl-module-exporter-heavy \
+>      perl-module-file-basename \
+>      perl-module-file-compare \
+>      perl-module-file-copy \
+>      perl-module-file-glob \
+>      perl-module-file-spec-unix \
+>      perl-module-file-stat \
+>      perl-module-getopt-long \
+>      perl-module-io \
+>      perl-module-io-file \
+>      perl-module-posix \
+>      perl-module-strict \
+>      perl-module-text-parsewords \
+>      perl-module-vars "
+>
+> RDEPENDS_${PN}_virtclass-native =3D "autoconf-native perl-native-runtim=
+e"
+> RDEPENDS_${PN}_virtclass-nativesdk =3D "nativesdk-autoconf"
+>
+> which at least seems to list the modules it really needs. The fact we
+> then set a virtclass-nativesdk version which is wrong is worrying.
+>
+> I think the assumption has been that for nativesdk, we'd use the system
+> perl.
+>
+> So I think we need to
 
-All drivers that include xorg-driver-input.inc or xorg-driver-video.inc will get
-these automatically, so this should only impact binary drivers.
+Hi Richard,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/insane.bbclass |   20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+> a) Decide whether the sdk should be using the nativesdk perl or the hos=
+t
+> system one. I'm fine with deciding we should use the nativesdk perl
+> b) Fix RDEPENDS_${PN} for autoconf so that it lists the right perl
+> modules.
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 71a9a58..29b122e 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -109,7 +109,7 @@ def package_qa_get_machine_dict():
- 
- 
- # Currently not being used by default "desktop"
--WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir"
-+WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir xorg-driver-abi"
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
- 
- ALL_QA = "${WARN_QA} ${ERROR_QA}"
-@@ -496,6 +496,24 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
-     if tmpdir in file_content:
-         messages.append("File %s in package contained reference to tmpdir" % package_qa_clean_path(path,d))
- 
-+
-+QAPATHTEST[xorg-driver-abi] = "package_qa_check_xorg_driver_abi"
-+def package_qa_check_xorg_driver_abi(path, name, d, elf, messages):
-+    """
-+    Check that all packages containing Xorg drivers have ABI dependencies
-+    """
-+
-+    # Skip dev, dbg or nativesdk packages
-+    if name.endswith("-dev") or name.endswith("-dbg") or name.startswith("nativesdk-"):
-+        return
-+
-+    driverdir = d.expand("${libdir}/xorg/modules/drivers/")
-+    if driverdir in path and path.endswith(".so"):
-+        for rdep in bb.utils.explode_deps(d.getVar('RDEPENDS_' + name, True) or ""):
-+            if rdep.startswith("xorg-abi-"):
-+                return
-+        messages.append("Package %s contains Xorg driver (%s) but no xorg-abi- dependencies" % (name, os.path.basename(path)))
-+
- def package_qa_check_license(workdir, d):
-     """
-     Check for changes in the license files 
--- 
-1.7.10
+I have put every single perl module to autoconf's rdepend. I also update=20
+the dependencies among perl modules themselves.
+
+> c) At this pooint we might be able to simply remove RDEPENDS_
+> ${PN}_virtclass-nativesdk and the code should figure things out
+> automagically itself.
+
+It looks fine when remove the RDEPENDS_ ${PN}_virtclass-nativesdk from=20
+autoconf.
+
+> d) We should verify the list of modules for automake is correct
+
+Because automake depends on autoconf, so how about I remove the=20
+perl-module-* in automake's rdepends these already in autoconf rdepends?
+> e) We should also see if we can simply remove the RDEPENDS_
+> ${PN}_virtclass-nativesdk line from automake.
+
+I'll try to remove it.
+
+Thanks,
+Kai
+
+
+>
+> Does that make sense?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
 
 
 
