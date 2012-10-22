@@ -1,42 +1,37 @@
 Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQL1u-0008E4-Dr
+	(envelope-from <ross.burton@intel.com>) id 1TQLBk-0003HD-6p
 	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 18:39:06 +0200
-Received: from mail-lb0-f197.google.com ([209.85.217.197])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 09:25:39 -0700
-Received: by mail-lb0-f197.google.com with SMTP id b5so2147299lbd.0
+	Mon, 22 Oct 2012 18:49:26 +0200
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 22 Oct 2012 09:35:48 -0700
+Received: by mail-oa0-f69.google.com with SMTP id j6so8682990oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 09:25:34 -0700 (PDT)
+	Mon, 22 Oct 2012 09:35:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	h=mime-version:from:date:message-id:subject:to:content-type
 	:x-gm-message-state;
-	bh=pHznQEHqtNnQVwEJ9DtqeYaOwYKHcKCUCow922E9KLw=;
-	b=omvvVHZJe/KrLSsrlOtCLkh2AsaZragKwKM8fwPnepLTM7jCTHzMuAzuHEwKBsquge
-	i+66DrrRnoAaVVVkqI+Pz0Z7Ta+40P9k3Ps6L5kZnjhh7gXRLzPge2X0eUCIFoSDGCk6
-	iSR2DBTIQvy0P1q8Abl/gy2molLGjwtRJ8PxNt1P26WDlpm7+UnMDa+qFUz8B8RMb21h
-	DR2oeMgspXua+USZeUD6r26THthdU0w9BMgG7d+/iR/glsSKsJSg7HHdGkeBHPGBDS0D
-	s6AaK6d0C8fKODd2mqvszYat+l3lPheo/cknGSjP4ipx+Mayvx93arRlu9q70CDUivnd
-	mV6w==
-Received: by 10.180.90.201 with SMTP id by9mr38224346wib.5.1350923134675;
-	Mon, 22 Oct 2012 09:25:34 -0700 (PDT)
-Received: by 10.180.90.201 with SMTP id by9mr38224330wib.5.1350923134442;
-	Mon, 22 Oct 2012 09:25:34 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id hb6sm14976995wib.7.2012.10.22.09.25.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 09:25:33 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 17:24:20 +0100
-Message-Id: <1350923060-1707-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1350923060-1707-1-git-send-email-ross.burton@intel.com>
-References: <1350907509.2520.86.camel@ted>
-	<1350923060-1707-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnLsTRHn6P/02WyPysx7yIgQNGTnDJhFVN0T5cfS2alUDufgldAo8uJlHYOi0PU/GfE1paCvkY61Zq7xvTNLekZAD0oey4JaBsZ5EuFC9U6RZZ7fG28qsOCrW8pPEYvsycOBjV7OTCEELLLhKkNfDXttz4o97FipiPqJmh82oFtHPJLXOSMLQli03ggyLnBuCMuXIDS
-Subject: [PATCH] mesa: Build separate GLU library
+	bh=pdHbpJ86UzxhvPiVyvwSIdHxAloMxsnQ+RV+r3pDxtM=;
+	b=Wz5QDk4uuhMfX5lF46PTcMhaJVv3OJvboGZF7JtULdN38RSfjBScwx5HR4dNRdn3Pe
+	7P48XIc2tPo07ddpGzF/FiUZeQWer/ICbMq6SSjeMGA4nTph0kNwBOe+igCMIkVGqTID
+	7nnl2CqLyKoDuRorAfkFSM3PS8DIKTAA5SbUhyyjJJT+HY8QG9VpnrXLposI58pKzTI2
+	pXg6RfQ4Yc6EYSdn6Eubs1KgZlPBQL8Ch11lnOmkPk0xp8VLQIU8z9d2MpoidARmYbGA
+	um0GqDytAutOjryBIog+sSff6MWiNoHu3pB7yc29UbeYbaYauSmR9S5psRdPmLspSlRm
+	KMAw==
+Received: by 10.182.228.69 with SMTP id sg5mr2276884obc.2.1350923747815;
+	Mon, 22 Oct 2012 09:35:47 -0700 (PDT)
+Received: by 10.182.228.69 with SMTP id sg5mr2276876obc.2.1350923747734; Mon,
+	22 Oct 2012 09:35:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.46.70 with HTTP; Mon, 22 Oct 2012 09:35:27 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Oct 2012 17:35:27 +0100
+Message-ID: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OE-devel <openembedded-devel@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmS5pchdIYpmjBQCBtvZE5vAycqgRosIeYZyG916XvOfLJAkAj0WAl3m2KcXRmK+ZjO1qvX0KaBVFvKchRa+5HH47vluGMdgX0t3sjpsOS5HzVABXVQp4DJe0X6XISsgOq0etEF+tM1nQEsqbuCnIgifl4k83cvlm9K8D6h7KNYMGTwuDRs6aHzW1uPJmysqw7+7sOt
+Subject: [RFC] OpenGL packaging/staging policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,120 +44,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 16:39:06 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 16:49:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Daniel Stone <daniel@fooishbar.org>
+Hi,
 
-Mesa has removed GLU from the core tree upstream, so remove it from the
-Mesa build, add support for the new GLU tree, and introduce a new
-virtual/libglu package.
+Now that we've almost got 1.3 out of the door we can go back to
+breaking everything. Hooray!  Let's try to (un)break OpenGL again.
 
-Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/glew/glew_1.9.0.bb   |    4 ++--
- meta/recipes-graphics/mesa/libglu_9.0.0.bb |   27 +++++++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa-common.inc |    7 ++-----
- 3 files changed, 31 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/libglu_9.0.0.bb
+First, I should say that I'm not looking at this from an GenX/Intel
+specific perspective where Mesa is all you need.  meta-intel ships two
+different binary GL drivers (cdt-pvr for Cedar Trail, EMGD for
+everything else Atom that doesn't have i945) so I'm perfectly aware of
+the problems.
 
-diff --git a/meta/recipes-graphics/glew/glew_1.9.0.bb b/meta/recipes-graphics/glew/glew_1.9.0.bb
-index 00fff11..599d64b 100644
---- a/meta/recipes-graphics/glew/glew_1.9.0.bb
-+++ b/meta/recipes-graphics/glew/glew_1.9.0.bb
-@@ -5,9 +5,9 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
- 
--DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
-+DEPENDS = "virtual/libx11 virtual/libgl libglu libxext libxi libxmu"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-            file://autotools.patch \
-diff --git a/meta/recipes-graphics/mesa/libglu_9.0.0.bb b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-new file mode 100644
-index 0000000..7980749
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/libglu_9.0.0.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "The OpenGL utility toolkit"
-+DESCRIPTION = "GLU is a utility toolkit used with OpenGL implementations"
-+
-+HOMEPAGE = "http://mesa3d.org"
-+BUGTRACKER = "https://bugs.freedesktop.org"
-+SECTION = "x11"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://include/GL/glu.h;endline=29;md5=6b79c570f644363b356456e7d44471d9 \
-+                    file://src/libtess/tess.c;endline=29;md5=6b79c570f644363b356456e7d44471d9"
-+
-+# Epoch as this used to be part of mesa-dri
-+PE = "2"
-+PR = "0"
-+
-+SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/glu/glu-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "be9249132ff49275461cf92039083030"
-+SRC_URI[sha256sum] = "1f7ad0d379a722fcbd303aa5650c6d7d5544fde83196b42a73d1193568a4df12"
-+
-+S = "${WORKDIR}/glu-${PV}"
-+
-+DEPENDS = "virtual/libgl"
-+
-+inherit autotools pkgconfig
-+
-+# Remove the mesa-glu dependency in mesa-glu-dev, as mesa-glu is empty
-+RDEPENDS_${PN}-dev = ""
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index faa8183..1ad8ff3 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -12,7 +12,7 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
- 
--INC_PR = "r3"
-+INC_PR = "r4"
- PE = "2"
- 
- DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
-@@ -24,7 +24,7 @@ FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
- 
- inherit autotools pkgconfig pythonnative
- 
--EXTRA_OECONF = "--enable-glu \
-+EXTRA_OECONF = "--disable-glu \
-                 --disable-glw \
-                 --disable-glut \
-                 --enable-shared-glapi"
-@@ -42,7 +42,6 @@ EXCLUDE_FROM_WORLD = "1"
- RDEPENDS_${PN}-dev = ""
- 
- PACKAGES =+ "libegl libegl-dev \
--             libglu libglu-dev \
-              libosmesa libosmesa-dev \
-              libgl libgl-dev \
-              libglapi libglapi-dev \
-@@ -57,7 +56,6 @@ FILES_libgles1 = "${libdir}/libGLESv1*.so.*"
- FILES_libgles2 = "${libdir}/libGLESv2.so.*"
- FILES_libgl = "${libdir}/libGL.so.*"
- FILES_libglapi = "${libdir}/libglapi.so.*"
--FILES_libglu = "${libdir}/libGLU.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- 
- FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
-@@ -66,7 +64,6 @@ FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
- FILES_libglapi-dev = "${libdir}/libglapi.*"
- FILES_libgles1-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/pkgconfig/glesv1*.pc"
- FILES_libgles2-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
--FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h ${libdir}/pkgconfig/glu.pc"
- FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
- 
- FILES_${PN}-dbg += "${libdir}/dri/.debug/* ${libdir}/egl/.debug/*"
--- 
-1.7.10
+For example, Cedar Trail's (SGX545-based) GL stack comprises of GLESv1
+GLESv2 and EGL library blobs, and a DRI driver blob.  This DRI driver
+can be used by Mesa's libGL.  This is actually a more complex problem
+than Beagle has where it just doesn't do GL.
 
+This is my attempt at a simple solution that doesn't involve
+complicated packaging tricks.
+
+Rule 1.  Unambiguous package naming
+
+Debian-style renaming and multiple providers of the same API doesn't
+work as you'll end up with multiple packages in the same feed called
+libgl1, so all GL packages should be named in the style of libgl-foo,
+where foo is the source of the package.  I've got a branch where this
+is implemented for Mesa as a proof of concept[1], and the Python
+fragment could easily be moved into a class and re-used easily.
+
+Rule 2. No dependencies on specific GL implementations
+
+Packages currently depend on the exact GL that they were built with,
+although the GL packages are swappable.  Not very interesting for
+systems where there's only one provider, but still a valid problem for
+systems with swappable hardware or alternative GL stacks.  All linkage
+to the GL stack should be intercepted and replaced by something like
+"virtual/libgl | libgl-mesa".
+
+This means changing the shlib dependency detection code to support
+per-library overrides, there's plenty of prior art in existing
+distributions to help here.
+
+Rule 3. Only Mesa stages, nothing else
+
+Whilst there are multiple GL implementations that offer various
+subsets of GL, they are all effectively interchangeable.  It's not a
+massive concern what exact GL is present when building because they've
+all got the same API.  We can take advantage of this and remove the
+problems caused by multiple GL implementations staging by only putting
+Mesa into the sysroot.  Any other GL implementation should explicitly
+stop staging itself to avoid sysroot tainting.  This can be
+implemented by making Mesa build all APIs on all platforms (which
+isn't a problem when it comes to image building or feeds, thanks to
+rule 1), and removing the virtual/libgl PROVIDES from the other GL
+implementations.
+
+For systems which don't use Mesa at all (for example, BeagleBoard)
+then this potentially means that Mesa will be built when it shouldn't.
+ GLX support in the X server may already be pulling it in (I made this
+a packageconfig in 1.3 so distros can turn it off), but in any case I
+think this is an acceptable compromise - Mesa isn't slow to build in
+the scheme of things, and per Rule 2 this is purely in sysroot and not
+in the images.
+
+
+tl;dr: all packages built against a constant GL, all GL
+implementations interchangable, no package conflicts in the feeds.
+
+Any comments before I get my hands dirty with the next incomplete task
+(shlib dependency generation)?
+
+Ross
+
+[1] http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/mesa&id=784fa1372bb38dbc82e53a49b757c3c02593f2b8
 
 
