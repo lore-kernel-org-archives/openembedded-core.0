@@ -1,41 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TQGv3-0008FS-9p
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 14:15:45 +0200
-Received: by mail-ee0-f47.google.com with SMTP id t10so910860eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 05:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=1qtjpGPS0i+alvtYW+d1TzzW3uub2AQ3KcWO3JWSuOY=;
-	b=ui6n58Vk4U6j37Ofj/TsGuZaW859DcMlmIRmMO2JVEGaQYrz4jhG5PRj9VT+FZO6gG
-	KNQtFuNa4xqFuVOepvd6SBrK0vNm3uhwjgcohSbFe8m9n7g7ulBLLdiBBJmSlf+2biLL
-	YBUzpv73fxleCdbi7iRZDxNbTEjSis36padNNJBNnjAuO9Xh3tg2XtL4o4poxgY5BwBy
-	4j7JsTzJqDhJRpWUz51CR4T9djtTS6mPbtZPtv3WlU11852yXUZtoipaiayVcWgRi25H
-	fO8H9M48jv6gj1neRivU7fOCpCQVmXzZs8mzjpQ3Eh4EEhQVEh09rZY9yUWzETPFfMy5
-	AvHQ==
-Received: by 10.14.193.136 with SMTP id k8mr11684822een.30.1350907340589;
-	Mon, 22 Oct 2012 05:02:20 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id g5sm15671166eem.4.2012.10.22.05.02.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 05:02:19 -0700 (PDT)
-Date: Mon, 22 Oct 2012 14:02:34 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20121022120234.GG3269@jama.jama.net>
-References: <1350658135.2520.29.camel@ted>
-	<20121022104442.GD3269@jama.jama.net>
-	<1350903508.2520.77.camel@ted>
-	<20121022110809.GF3269@jama.jama.net>
-	<1350906171.2520.82.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1350906171.2520.82.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate: Improve handling of machine specific manifests
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TQGxy-0008JC-5E for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 14:18:46 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MC5Hac004801;
+	Mon, 22 Oct 2012 13:05:17 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04420-06; Mon, 22 Oct 2012 13:05:13 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MC582R004795
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 22 Oct 2012 13:05:09 +0100
+Message-ID: <1350907509.2520.86.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>, Daniel Stone <daniel@fooishbar.org>
+Date: Mon, 22 Oct 2012 13:05:09 +0100
+In-Reply-To: <1350898286-14049-1-git-send-email-ross.burton@intel.com>
+References: <1350898286-14049-1-git-send-email-ross.burton@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: Build separate GLU library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,180 +37,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 12:15:45 -0000
-X-Groupsio-MsgNum: 30801
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jt0yj30bxbg11sci"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 Oct 2012 12:18:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---jt0yj30bxbg11sci
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2012-10-22 at 10:31 +0100, Ross Burton wrote:
+> From: Daniel Stone <daniel@fooishbar.org>
+> 
+> Mesa has removed GLU from the core tree upstream, so remove it from the
+> Mesa build, add support for the new GLU tree, and introduce a new
+> virtual/libglu package.
+> 
+> Signed-off-by: Daniel Stone <daniel@fooishbar.org>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/glew/glew_1.9.0.bb     |    4 ++--
+>  meta/recipes-graphics/mesa/mesa-common.inc   |    7 ++----
+>  meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb |   31 ++++++++++++++++++++++++++
+>  3 files changed, 35 insertions(+), 7 deletions(-)
+>  create mode 100644 meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb
 
-On Mon, Oct 22, 2012 at 12:42:51PM +0100, Richard Purdie wrote:
-> On Mon, 2012-10-22 at 13:08 +0200, Martin Jansa wrote:
-> > On Mon, Oct 22, 2012 at 11:58:28AM +0100, Richard Purdie wrote:
-> > > On Mon, 2012-10-22 at 12:44 +0200, Martin Jansa wrote:
-> > > > On Fri, Oct 19, 2012 at 03:48:55PM +0100, Richard Purdie wrote:
-> > > > > Now do_package isn't machine specific, we're only left with do_po=
-pulate_sysroot as a
-> > > > > machine specific task. This change marks only the machine specifi=
-c manifests as machine
-> > > > > specific, defaulting to PACKAGE_ARCH for everything else.
-> > > > >=20
-> > > > > This means we do less work where there are multiple machines usin=
-g the same
-> > > > > core package architecture and we can start to clean up the sstate=
- duplicate files
-> > > > > whitelist.
-> > > > >=20
-> > > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > > ---
-> > > > > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bb=
-class
-> > > > > index d2a120b..dee84bf 100644
-> > > > > --- a/meta/classes/sstate.bbclass
-> > > > > +++ b/meta/classes/sstate.bbclass
-> > > > > @@ -17,10 +17,7 @@ SSTATE_EXTRAPATH   =3D ""
-> > > > >  SSTATE_EXTRAPATHWILDCARD =3D ""
-> > > > >  SSTATE_PATHSPEC   =3D "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}=
-*/${SSTATE_PKGSPEC}"
-> > > > > =20
-> > > > > -# In theory we should be using:
-> > > > > -# SSTATE_DUPWHITELIST =3D "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/li=
-censes/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/=
- ${TMPDIR}/pkgdata/all${TARGET_VENDOR}-${TARGET_OS}"
-> > > > > -# However until do_package is not machine specific, we'll have t=
-o make do with all of deploy/pkgdata.
-> > > > > -SSTATE_DUPWHITELIST =3D "${DEPLOY_DIR}/ ${TMPDIR}/pkgdata/"
-> > > > > +SSTATE_DUPWHITELIST =3D "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/lice=
-nses/"
-> > > >=20
-> > > > Looks like warnings are back :/
-> > > >=20
-> > > > WARNING: The recipe attr is trying to install files into a shared a=
-rea when those files already exist. Those files are:
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/at=
-tr-locale-de_2.4.46-r4_armv7a-vfp-neon.ipk
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/at=
-tr-dbg_2.4.46-r4_armv7a-vfp-neon.ipk
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/at=
-tr-locale-sv_2.4.46-r4_armv7a-vfp-neon.ipk
-> > > > ...
-> > > >=20
-> > > > and new warnings from pkgdata
-> > > > WARNING: The recipe bison is trying to install files into a shared =
-area when those files already exist. Those files are:
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-li=
-nux-gnueabi/bison
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-li=
-nux-gnueabi/runtime/bison-locale-nl.packaged
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-li=
-nux-gnueabi/runtime/bison-dbg.packaged
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-li=
-nux-gnueabi/runtime/bison-doc
-> > > >    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-li=
-nux-gnueabi/runtime/bison-locale-th.packaged
-> > > > ...
-> > >=20
-> > > The question is why as they shouldn't be, these changes were meant to
-> > > fix this properly. Initially I wondered if this was another
-> > > manifestation of https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D=
-3219
-> > > but I'm not so sure.
-> >=20
-]> > Probably not as this happens on builder with 2 machines using the same
-> > tune and the same CCARGS.
-> >=20
-> > > Can you figure out which two recipes are trying to install these sets=
- of
-> > > files?
-> >=20
-> > I'll try to compare them with scripts/sstate-diff.sh again to see if
-> > checksums are the same between those 2 machines, but those warnings are
-> > shown already when building 1 machine.
-> > =20
-> > > Or perhaps this is a one off transition issue I didn't see here when
-> > > testing this? Does a build from a clean tmp do this?
-> >=20
-> > Yes I've removed tmp-eglibc before starting this build (kept only
-> > sstate-cache) and it's building first machine.
->=20
-> If the warnings are showing up even after building one machine, there is
-> something very strange going on. Did it run the setscene do_package task
-> for these recipes?
+Both the package names and provider names change here leading to errors
+like:
 
-No, only for populate_lic and populate_sysroot:
+http://autobuilder.yoctoproject.org:8010/builders/nightly-arm-lsb/builds/100/steps/shell_27/logs/stdio
 
-NOTE: recipe attr-2.4.46-r4: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.4.46-r4: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_populate_lic_setscene: Started
-NOTE: recipe attr-2.4.46-r4: task do_populate_lic_setscene: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_fetch: Started
-NOTE: recipe attr-2.4.46-r4: task do_fetch: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_unpack: Started
-NOTE: recipe attr-2.4.46-r4: task do_unpack: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_patch: Started
-NOTE: recipe attr-2.4.46-r4: task do_patch: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_configure: Started
-NOTE: recipe attr-2.4.46-r4: task do_configure: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_compile: Started
-NOTE: recipe attr-2.4.46-r4: task do_compile: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_install: Started
-NOTE: recipe attr-2.4.46-r4: task do_install: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_populate_sysroot: Started
-NOTE: recipe attr-2.4.46-r4: task do_populate_sysroot: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_package: Started
-NOTE: recipe attr-2.4.46-r4: task do_package: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_package_write_ipk: Started
-NOTE: recipe attr-2.4.46-r4: task do_package_write_ipk: Succeeded
-NOTE: recipe attr-2.4.46-r4: task do_rm_work: Started
-NOTE: recipe attr-2.4.46-r4: task do_rm_work: Succeeded
-
-But I see this behavior when setscene tasks are executed and=20
-later it rebuilds it again quite often (assuming that some error=20
-in setscene task was hidden - e.g. that fetcher error from
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3250
-wasn't shown until lately, but maybe was there all the time)
-
-> Its as if it installed from sstate and then decided to overwrite the
-> files. Something isn't making sense though :/. Firstly, the sstate
-> should have been invalidated due to the package class and variable
-> changes. Secondly, if it had installed the files, it should be
-> uninstalled them before installing a second set. So I'm confused as to
-> what is going on here...
-
-It seems to reinstall a lot of files in sysroot too (which weren't shown be=
-fore).
-
-e.g. all files from gst-plugins-good now show warning
-WARNING: The recipe gst-plugins-good is trying to install files into a shar=
-ed area when those files already exist. Those files are:
-   /OE/jansa-test/shr-core/tmp-eglibc/sysroots/tuna/usr/share/gstreamer-0.1=
-0/presets/GstIirEqualizer10Bands.prs
-   /OE/jansa-test/shr-core/tmp-eglibc/sysroots/tuna/usr/share/gstreamer-0.1=
-0/presets/GstIirEqualizer3Bands.prs
-=2E..
-
-I'll try to wipe tmp-eglibc again after this build finishes to see if it was
-one off or if it will repeat again.
+so this is going to need some further tweaks.
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---jt0yj30bxbg11sci
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+> diff --git a/meta/recipes-graphics/glew/glew_1.9.0.bb b/meta/recipes-graphics/glew/glew_1.9.0.bb
+> index 00fff11..3b466d3 100644
+> --- a/meta/recipes-graphics/glew/glew_1.9.0.bb
+> +++ b/meta/recipes-graphics/glew/glew_1.9.0.bb
+> @@ -5,9 +5,9 @@ SECTION = "x11"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
+>  
+> -DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
+> +DEPENDS = "virtual/libx11 virtual/libgl virtual/libglu libxext libxi libxmu"
+>  
+> -PR = "r0"
+> +PR = "r1"
+>  
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+>             file://autotools.patch \
+> diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+> index faa8183..1ad8ff3 100644
+> --- a/meta/recipes-graphics/mesa/mesa-common.inc
+> +++ b/meta/recipes-graphics/mesa/mesa-common.inc
+> @@ -12,7 +12,7 @@ SECTION = "x11"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
+>  
+> -INC_PR = "r3"
+> +INC_PR = "r4"
+>  PE = "2"
+>  
+>  DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
+> @@ -24,7 +24,7 @@ FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
+>  
+>  inherit autotools pkgconfig pythonnative
+>  
+> -EXTRA_OECONF = "--enable-glu \
+> +EXTRA_OECONF = "--disable-glu \
+>                  --disable-glw \
+>                  --disable-glut \
+>                  --enable-shared-glapi"
+> @@ -42,7 +42,6 @@ EXCLUDE_FROM_WORLD = "1"
+>  RDEPENDS_${PN}-dev = ""
+>  
+>  PACKAGES =+ "libegl libegl-dev \
+> -             libglu libglu-dev \
+>               libosmesa libosmesa-dev \
+>               libgl libgl-dev \
+>               libglapi libglapi-dev \
+> @@ -57,7 +56,6 @@ FILES_libgles1 = "${libdir}/libGLESv1*.so.*"
+>  FILES_libgles2 = "${libdir}/libGLESv2.so.*"
+>  FILES_libgl = "${libdir}/libGL.so.*"
+>  FILES_libglapi = "${libdir}/libglapi.so.*"
+> -FILES_libglu = "${libdir}/libGLU.so.*"
+>  FILES_libosmesa = "${libdir}/libOSMesa.so.*"
+>  
+>  FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
+> @@ -66,7 +64,6 @@ FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
+>  FILES_libglapi-dev = "${libdir}/libglapi.*"
+>  FILES_libgles1-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/pkgconfig/glesv1*.pc"
+>  FILES_libgles2-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
+> -FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h ${libdir}/pkgconfig/glu.pc"
+>  FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
+>  
+>  FILES_${PN}-dbg += "${libdir}/dri/.debug/* ${libdir}/egl/.debug/*"
+> diff --git a/meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb
+> new file mode 100644
+> index 0000000..d3fffe7
+> --- /dev/null
+> +++ b/meta/recipes-graphics/mesa/mesa-glu_9.0.0.bb
+> @@ -0,0 +1,31 @@
+> +SUMMARY = "The OpenGL utility toolkit"
+> +DESCRIPTION = "GLU is a utility toolkit used with OpenGL implementations"
+> +
+> +HOMEPAGE = "http://mesa3d.org"
+> +BUGTRACKER = "https://bugs.freedesktop.org"
+> +SECTION = "x11"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://include/GL/glu.h;endline=29;md5=6b79c570f644363b356456e7d44471d9 \
+> +                    file://src/libtess/tess.c;endline=29;md5=6b79c570f644363b356456e7d44471d9"
+> +
+> +# Epoch as this used to be part of mesa-dri
+> +PE = "2"
+> +PR = "0"
+> +
+> +SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/glu/glu-${PV}.tar.bz2"
+> +
+> +SRC_URI[md5sum] = "be9249132ff49275461cf92039083030"
+> +SRC_URI[sha256sum] = "1f7ad0d379a722fcbd303aa5650c6d7d5544fde83196b42a73d1193568a4df12"
+> +
+> +S = "${WORKDIR}/glu-${PV}"
+> +
+> +DEPENDS = "virtual/libgl"
+> +
+> +inherit autotools pkgconfig
+> +
+> +# ie mesa-glu could be empty and mesa-glu-dev RDEPENDS on it
+> +ALLOW_EMPTY_${PN} = "1"
+> +
+> +PROVIDES = "virtual/libglu"
+> +
+> +FILES_mesa-glu-dev = "${libdir}/pkgconfig/glu.pc"
 
-iEYEARECAAYFAlCFNdoACgkQN1Ujt2V2gBxfDwCeMc7S9bfddzRb1FBnaCOlJoZ7
-a1gAn0rqu3cQcHBqZYvB0b6SUbV05qdg
-=RoL0
------END PGP SIGNATURE-----
 
---jt0yj30bxbg11sci--
+
+
