@@ -1,42 +1,33 @@
-Received: from eumx.net ([91.82.101.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQIGi-0001lM-M5
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 15:42:12 +0200
-Received: from localhost ([127.0.0.1]:34938 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQI3j-00013Q-Ra
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 13:28:47 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=awqh6ohjSLksF+pIlqX4JF/YZ+M=; b=xlO9eatfaCJ7781l+RG9cOa3VDUx
-	E0p92u0OfHlOgx1TEVW806kKbcyvZx9fj7g8AKtSuUMU6uedM89kVNl4p3jN5pNt
-	5q+mi5qzfRmQqFreJDHNelt7R/fDmRff+yI9Vooy/aLmao1bW7zoJ/BNNE2cP6o+
-	H37QlXRSuZUuj9g=
-Received: from [195.171.99.130] (port=40463 helo=[192.168.0.67])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQI3j-00013N-Nr
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 13:28:47 +0000
-Message-ID: <50854A83.2050106@communistcode.co.uk>
-Date: Mon, 22 Oct 2012 14:30:43 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TQISz-0006Vz-NP for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 15:55:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MDf9Zt005632;
+	Mon, 22 Oct 2012 14:41:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05034-04; Mon, 22 Oct 2012 14:41:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MDewGi005626
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 22 Oct 2012 14:41:00 +0100
+Message-ID: <1350913259.2520.90.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Date: Mon, 22 Oct 2012 14:40:59 +0100
+In-Reply-To: <50854312.5040502@dresearch-fe.de>
 References: <50854312.5040502@dresearch-fe.de>
-	<CAGiJk9dt0OTOMG5T7DoomCfXxp+FUw15PWTXnaCSm=BJOpfjnw@mail.gmail.com>
-	<5085481A.5050909@dresearch-fe.de>
-	<CAGiJk9eWrfnX68DDVLFcqzmG4fo4xEz=wpyKgjwtcP2__=x+EQ@mail.gmail.com>
-In-Reply-To: <CAGiJk9eWrfnX68DDVLFcqzmG4fo4xEz=wpyKgjwtcP2__=x+EQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Profiling binaries?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -46,42 +37,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 13:42:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 22 Oct 2012 13:56:45 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 13:56:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 22/10/12 14:23, Samuel Stirtzel wrote:
-> 2012/10/22 Steffen Sledz <sledz@dresearch-fe.de>:
->> On 22.10.2012 15:12, Samuel Stirtzel wrote:
->>> 2012/10/22 Steffen Sledz <sledz@dresearch-fe.de>:
->>>> Just a short question: Does oe[-core] provide a generic method to create packages containing binaries/libraries with profiling support?
->>>>
->>> Depending on your platform you could use Valgrind [1], or to be more
->>> specific Callgrind [2].
->>>
->>> The recipe is in .../openembedded-core/meta/recipes-devtools/valgrind/
->>> you can check there if your arch/platform is supported.
->>>
->>> [1] http://valgrind.org/
->>> [2] http://valgrind.org/docs/manual/cl-manual.html
->> My question was more related to gcc -pg, gprof & Co.
->>
-> Sorry forgot to mention that,
-> you can use IMAGE_FEATURES += "dev-pkgs"
->
+On Mon, 2012-10-22 at 14:58 +0200, Steffen Sledz wrote:
+> Just a short question: Does oe[-core] provide a generic method to
+> create packages containing binaries/libraries with profiling support?
 
-Section 5.15 has some interesting tidbits of profiling. There are a few 
-5,x sections so look at them all the find the profiling one ;)
+Have a look at the section "Optimization flags" in bitbake.conf. You
+should be able to add the -pg flag to
+FULL_OPTIMIZATION/DEBUG_OPTIMIZATION and get what you're looking for.
 
-http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html
+Cheers,
 
--- 
+Richard
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
 
---
 
 
 
