@@ -1,31 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TQFvQ-0006TP-4C for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 13:12:04 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MAwa3H004140;
-	Mon, 22 Oct 2012 11:58:36 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02610-08; Mon, 22 Oct 2012 11:58:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MAwS5j004134
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 22 Oct 2012 11:58:29 +0100
-Message-ID: <1350903508.2520.77.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 22 Oct 2012 11:58:28 +0100
-In-Reply-To: <20121022104442.GD3269@jama.jama.net>
-References: <1350658135.2520.29.camel@ted>
-	<20121022104442.GD3269@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sstate: Improve handling of machine specific manifests
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1TQFxV-0006XA-Vs; Mon, 22 Oct 2012 13:14:14 +0200
+Received: by mail-ea0-f175.google.com with SMTP id c1so748249eaa.6
+	for <multiple recipients>; Mon, 22 Oct 2012 04:00:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=j590ylth8EfjPLP1wNDygkhVacd0ZK3mq1cQPJxrOUc=;
+	b=KUL7JUEmicRRjW5H1XJeYuXsl4hzoHcjOHgUMwWG1732mftfL3O5VcQcgblLGQqK2Y
+	BivIRHX57UqVPWhmEaM4EXUUqLUGh0tlsZk17hMOhYR4fIjfim+eO9q/wNW5v4eHn7X3
+	2dePl51+q8oKdVmZm+HJA+/jwkkU6Cj5Yx9YmfTUUvYQ0Kk/wNcaN/woxANhYSTIf2vv
+	CdN+OnY0h2hS2TSoP0eOryVg02zahtKvIrh7AIy13tEUoHQkocfF8uvpCwFL1mNWOpBT
+	OhJcY5v3A+RSICnhZZErPZC2o8UrfwLiKchePBLz0hY0nIdL5ScSbimCes2v4yGyOx3G
+	tXkw==
+Received: by 10.14.203.69 with SMTP id e45mr11421842eeo.38.1350903649120;
+	Mon, 22 Oct 2012 04:00:49 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z43sm15421969een.16.2012.10.22.04.00.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 22 Oct 2012 04:00:48 -0700 (PDT)
+Date: Mon, 22 Oct 2012 13:01:03 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20121022110103.GE3269@jama.jama.net>
+References: <20121019163541.436A0103AB@opal>
+	<20121022083441.GA3269@jama.jama.net>
+	<1350902949.2520.72.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1350902949.2520.72.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : perl: fix dependecies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,73 +46,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 11:12:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Oct 2012 11:14:14 -0000
+X-Groupsio-MsgNum: 30798
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gMR3gsNFwZpnI/Ts"
+Content-Disposition: inline
 
-On Mon, 2012-10-22 at 12:44 +0200, Martin Jansa wrote:
-> On Fri, Oct 19, 2012 at 03:48:55PM +0100, Richard Purdie wrote:
-> > Now do_package isn't machine specific, we're only left with do_populate_sysroot as a
-> > machine specific task. This change marks only the machine specific manifests as machine
-> > specific, defaulting to PACKAGE_ARCH for everything else.
-> > 
-> > This means we do less work where there are multiple machines using the same
-> > core package architecture and we can start to clean up the sstate duplicate files
-> > whitelist.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> > index d2a120b..dee84bf 100644
-> > --- a/meta/classes/sstate.bbclass
-> > +++ b/meta/classes/sstate.bbclass
-> > @@ -17,10 +17,7 @@ SSTATE_EXTRAPATH   = ""
-> >  SSTATE_EXTRAPATHWILDCARD = ""
-> >  SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
-> >  
-> > -# In theory we should be using:
-> > -# SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/ ${DEPLOY_DIR_IPK}/all/ ${DEPLOY_DIR_RPM}/all ${DEPLOY_DIR_DEB}/all/ ${TMPDIR}/pkgdata/all${TARGET_VENDOR}-${TARGET_OS}"
-> > -# However until do_package is not machine specific, we'll have to make do with all of deploy/pkgdata.
-> > -SSTATE_DUPWHITELIST = "${DEPLOY_DIR}/ ${TMPDIR}/pkgdata/"
-> > +SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/"
-> 
-> Looks like warnings are back :/
-> 
-> WARNING: The recipe attr is trying to install files into a shared area when those files already exist. Those files are:
->    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/attr-locale-de_2.4.46-r4_armv7a-vfp-neon.ipk
->    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/attr-dbg_2.4.46-r4_armv7a-vfp-neon.ipk
->    /OE/jansa-test/shr-core/tmp-eglibc/deploy/ipk/armv7a-vfp-neon/attr-locale-sv_2.4.46-r4_armv7a-vfp-neon.ipk
-> ...
-> 
-> and new warnings from pkgdata
-> WARNING: The recipe bison is trying to install files into a shared area when those files already exist. Those files are:
->    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/bison
->    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtime/bison-locale-nl.packaged
->    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtime/bison-dbg.packaged
->    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtime/bison-doc
->    /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtime/bison-locale-th.packaged
-> ...
+--gMR3gsNFwZpnI/Ts
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The question is why as they shouldn't be, these changes were meant to
-fix this properly. Initially I wondered if this was another
-manifestation of https://bugzilla.yoctoproject.org/show_bug.cgi?id=3219
-but I'm not so sure.
+On Mon, Oct 22, 2012 at 11:49:09AM +0100, Richard Purdie wrote:
+> On Mon, 2012-10-22 at 10:34 +0200, Martin Jansa wrote:
+> > >  # 5.10.1 has Module::Build built-in
+> > >  PROVIDES +=3D "libmodule-build-perl"
+> > > @@ -243,7 +243,13 @@ perl_package_preprocess () {
+> > > =20
+> > >  PACKAGES =3D "perl-dbg perl perl-misc perl-dev perl-pod perl-doc per=
+l-lib \
+> > >              perl-module-cpan perl-module-cpanplus perl-module-unicor=
+e"
+> > > -FILES_${PN} =3D "${bindir}/perl ${bindir}/perl${PV}"
+> > > +FILES_${PN} =3D "${bindir}/perl ${bindir}/perl${PV} \
+> > > +               ${libdir}/perl/${PV}/Config.pm \
+> > > +               ${libdir}/perl/${PV}/strict.pm \
+> > > +               ${libdir}/perl/${PV}/warnings.pm \
+> > > +               ${libdir}/perl/${PV}/warnings \
+> > > +               ${libdir}/perl/${PV}/vars.pm \
+> > > +              "
+> >=20
+> > I think this breaks at least automake, tiobench and libtimedate-perl
+> >=20
+> > OE @ ~/openembedded-core $ git grep perl-module-strict
+> > meta/recipes-devtools/automake/automake_1.12.3.bb:    perl-module-stric=
+t \
+> > meta/recipes-extended/perl/libtimedate-perl_1.20.bb:RDEPENDS_${PN} +=3D=
+ "perl-module-carp perl-module-exporter perl-module-strict perl-module-time=
+-local"
+> > OE @ ~/meta-openembedded $ git grep perl-module-strict
+> > meta-oe/recipes-benchmark/tiobench/tiobench_0.3.3.bb:    perl-module-st=
+rict \
+> > OE @ ~/openembedded-core $ git grep perl-module-vars
+> > meta/recipes-devtools/automake/automake_1.12.3.bb:    perl-module-vars "
+> >=20
+> > perl-module-strict and perl-module-vars are not created now, probably e=
+mpty.
+> >=20
+>=20
+> It does, the autobuilder also noticed this and I pushed in a fix this
+> morning:
+>=20
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D072a6d352f55bbe481=
+b04db02aa6d9cde7d90057
 
-Can you figure out which two recipes are trying to install these sets of
-files?
+What about using something like world-image target? I'm using something
+like that to test that all recipes in my feed are not only buildable,
+but also able to install in do_rootfs. Only problem with this could be
+that more packages need to be excluded because some recipes are can be
+built together, but not installed in same images (packages with RCONFLICTS).
 
-Or perhaps this is a one off transition issue I didn't see here when
-testing this? Does a build from a clean tmp do this?
+It should help find those issues on autobuilder.
 
 Cheers,
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--gMR3gsNFwZpnI/Ts
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCFJ24ACgkQN1Ujt2V2gBxU+wCcCIGszSO0kOtvLwz6fWJDvmpU
+IZQAn2fBHgn0kb8vRH1Lnnxb2UqIqZmU
+=v/Rd
+-----END PGP SIGNATURE-----
 
-
-
-
-
-
+--gMR3gsNFwZpnI/Ts--
