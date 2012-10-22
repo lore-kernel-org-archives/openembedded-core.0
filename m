@@ -1,33 +1,30 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TQK8P-0003vH-5r
-	for openembedded-core@lists.openembedded.org;
-	Mon, 22 Oct 2012 17:41:45 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so1808227pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 08:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ZpRDaoBNdvTk+/cSnRdQgvL2pc7h3yttKQV+wPAGVMg=;
-	b=gqJCNTTClqwX8IQKDB4z648v9nFoqg3n/z9YqZRXDdlVnjpQPSZulQA8571YN0VQcC
-	zz3J9AZc093JD11SXsPJBHwNW1IuduOR5xpg2iA/EbmEwtzGiaqbThSP9T31P6zkwSq7
-	LhSfbYRcbA7X4PU4gL8GtytZbrSWsyidTWjfepdcec+3YAW1XMiYlm2W6Cod2AG0NuP9
-	jrJOfTOFm8WVVcxID1xuocpYWavozh3jfdphdPKgkaQNVfBV8oCNduNWc1f9x5y5gIq1
-	efvBuvyZ3XLDZLGVOD14JDZyZyfXOden/4TLkTOgcvMUxa0eFhYSPjLP9H96+HFphKLD
-	TSYQ==
-Received: by 10.66.85.66 with SMTP id f2mr26824987paz.56.1350919699669;
-	Mon, 22 Oct 2012 08:28:19 -0700 (PDT)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id ni3sm6098969pbc.2.2012.10.22.08.28.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 22 Oct 2012 08:28:18 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 08:28:23 -0700
-Message-Id: <1350919703-6105-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.12.4
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH][for-danny] lttng-2.0: fix srcrev/pv to match the recipe filenames
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TQKJY-000436-W4 for openembedded-core@lists.openembedded.org;
+	Mon, 22 Oct 2012 17:53:17 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MFdqkY006708;
+	Mon, 22 Oct 2012 16:39:52 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06604-01; Mon, 22 Oct 2012 16:39:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9MFdgFB006701
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 22 Oct 2012 16:39:43 +0100
+Message-ID: <1350920382.22340.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Denis 'GNUtoo' Carikli" <GNUtoo@no-log.org>
+Date: Mon, 22 Oct 2012 16:39:42 +0100
+In-Reply-To: <1350748213-6436-1-git-send-email-GNUtoo@no-log.org>
+References: <1350748213-6436-1-git-send-email-GNUtoo@no-log.org>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] boost: Activate zlib and bzip2 because they now work.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,73 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Oct 2012 15:41:45 -0000
+X-List-Received-Date: Mon, 22 Oct 2012 15:53:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Sat, 2012-10-20 at 17:50 +0200, Denis 'GNUtoo' Carikli wrote:
+> This patch is needed for making wesnoth(will be sumbited
+>   in meta-games) work.
+> 
+> Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
+> ---
+>  meta/recipes-support/boost/boost.inc |    7 +------
+>  1 files changed, 1 insertions(+), 6 deletions(-)
 
-Somehow the recipe names got bumped, but the SRCREV and PVs in the recipes
-didn't get updated, so they were still building old versions.
+I tried this in master-next, the build broke:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb | 7 +++----
- meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb   | 4 ++--
- meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb    | 4 ++--
- 3 files changed, 7 insertions(+), 8 deletions(-)
+| libs/iostreams/src/bzip2.cpp:20:56: fatal error: bzlib.h: No such file or directory
+| compilation terminated.
+| 
+|     "i586-poky-linux-g++" "-m32" "-march=i586" "-Wl,-O1" "-Wl,--hash-style=gnu" "-Wl,--as-needed" "--sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86"  -ftemplate-depth-128 -O3 -finline-functions -Wno-inline -Wall -pthread -fPIC  -DBOOST_ALL_NO_LIB=1 -DBOOST_IOSTREAMS_DYN_LINK=1 -DBOOST_IOSTREAMS_USE_DEPRECATED -DNDEBUG  -I"." -c -o "bin.v2/libs/iostreams/build/aca09349fdb84d131321425f6c3a38ed/bzip2.o" "libs/iostreams/src/bzip2.cpp"
+| 
+| ...failed gcc.compile.c++ bin.v2/libs/iostreams/build/aca09349fdb84d131321425f6c3a38ed/bzip2.o...
+| ...skipped <pbin.v2/libs/iostreams/build/aca09349fdb84d131321425f6c3a38ed>libboost_iostreams.so.1.51.0 for lack of <pbin.v2/libs/iostreams/build/aca09349fdb84d131321425f6c3a38ed>bzip2.o...
+| ...skipped <pstage/lib>libboost_iostreams.so.1.51.0 for lack of <pbin.v2/libs/iostreams/build/aca09349fdb84d131321425f6c3a38ed>libboost_iostreams.so.1.51.0...
+| ...skipped <pstage/lib>libboost_iostreams.so for lack of <pstage/lib>libboost_iostreams.so.1.51.0...
+| common.mkdir bin.v2/libs/program_options
+| common.mkdir bin.v2/libs/program_options/build
+| common.mkdir bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/cmdline.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/config_file.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/options_description.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/parsers.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/variables_map.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/value_semantic.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/positional_options.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/utf8_codecvt_facet.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/convert.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/winmain.o
+| gcc.compile.c++ bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/split.o
+| gcc.link.dll bin.v2/libs/program_options/build/aca09349fdb84d131321425f6c3a38ed/libboost_program_options.so.1.51.0
+| common.copy stage/lib/libboost_program_options.so.1.51.0
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
-index 4c78f36..baae25f 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.5.bb
-@@ -10,13 +10,12 @@ DEPENDS = "virtual/kernel"
- 
- inherit module
- 
--SRCREV = "4d3e89e379fc66480d729abe8daa5c86eb585400"
--PV = "2.0.pre11+git${SRCREV}"
-+SRCREV = "a848cad4cc82d05493c487a709f6b55f22695ec6"
-+PV = "2.0.5"
- PR = "r0"
- 
- SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
--           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
--           file://lttng-sycalls-protect-is_compat_task-from-redefiniti.patch"
-+           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- export KERNEL_SRC="${STAGING_KERNEL_DIR}"
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
-index e7f1016..0bafcb3 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
- 
- DEPENDS = "liburcu popt lttng2-ust"
- 
--SRCREV = "8c3919ea2dc77fdd47fb1c90e41490a20bb4d478"
--PV = "v2.0.1+git${SRCREV}"
-+SRCREV = "98c8c95b0e1afb2dac686338efdf036f6446d790"
-+PV = "v2.0.4"
- PR = "r0"
- 
- SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git"
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
-index 8f650a4..0574fe9 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
-@@ -12,8 +12,8 @@ inherit autotools
- 
- DEPENDS = "liburcu util-linux"
- 
--SRCREV = "a367ee66aad3ffd21ef64d1b24efc6f862e09562"
--PV = "2.0.2+git${SRCPV}"
-+SRCREV = "5fbf75f52c808b648feebea1ed4874c5f6264b05"
-+PV = "2.0.5"
- PR = "r0"
- 
- SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git"
--- 
-1.7.12.4
+http://autobuilder.yoctoproject.org:8010/builders/nightly-world/builds/348/steps/shell_41/logs/stdio
+
+Missing changes to DEPENDS maybe?
+
+Cheers,
+
+Richard
 
 
 
