@@ -1,30 +1,35 @@
-Received: from eu1sys200aog102.obsmtp.com ([207.126.144.113])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TQT9P-0005Qa-RX
+	(envelope-from <kergoth@gmail.com>) id 1TQThV-0005gt-EI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 03:19:24 +0200
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob102.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUIXteKBHnk7sHjVZrnIgEjY2jxpaToeO@postini.com;
-	Tue, 23 Oct 2012 01:06:00 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 928C4105
+	Tue, 23 Oct 2012 03:54:37 +0200
+Received: by mail-lb0-f175.google.com with SMTP id y2so42782lbk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 15:33:04 +0000 (GMT)
-Received: from mail7.sgp.st.com (mail7.sgp.st.com [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A6F4549C8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Oct 2012 15:33:03 +0000 (GMT)
-Received: from localhost (lxmcdt5.ctn.st.com [164.130.129.175])
-	by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id APV52704 (AUTH condorg);
-	Mon, 22 Oct 2012 17:33:03 +0200
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Oct 2012 17:32:32 +0200
-Message-Id: <1350919952-14859-1-git-send-email-giuseppe.condorelli@st.com>
-X-Mailer: git-send-email 1.7.4.4
-Subject: [PATCH] base-files: do_install_basefilesissue error
+	Mon, 22 Oct 2012 18:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=UFwBpy3vTztn8rImFB02CxGCuD1rFUybLXUNrl5dl8w=;
+	b=fV/9dR66f+pL3fX2w7mbYLL79FLRghfbA2WOgl+tGAHspDFL43c54QKXzBNEG+w3tL
+	pHuDqaRJ5Nz449gvXovAt/cNXnC2AlfIoQgWhx0EQ2zWRrshw6AVujf8w1WXtVe8DzN0
+	te93F3sQNnrKR3lIiEsjBMj58b06yViekgMb+q8bH5f7tKBwMfQE6PNX6hAKtj+NILnt
+	Re3ZjlYybRM08ZP3bO8k0jMVI+YjH4gIH98Sign1muLcuzZiVzPVBT9K6qMVshLeqftQ
+	ZUE8H8WPz8+nNz1/UL1/b/2TzVjbenrdIPCCukT6iHgLb6wSss5FR8PjKxBcKQjJB6o0
+	DSzA==
+Received: by 10.112.29.9 with SMTP id f9mr4421983lbh.22.1350956471881; Mon, 22
+	Oct 2012 18:41:11 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.1.49 with HTTP; Mon, 22 Oct 2012 18:40:51 -0700 (PDT)
+In-Reply-To: <1350919952-14859-1-git-send-email-giuseppe.condorelli@st.com>
+References: <1350919952-14859-1-git-send-email-giuseppe.condorelli@st.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Mon, 22 Oct 2012 18:40:51 -0700
+X-Google-Sender-Auth: N0Ebrdd1WI9P8N6CQ4xu7F9zj9M
+Message-ID: <CABcZANmEHH_Z0V20K+ujWb3QkKXDLHK55JwTuCEQfXTcKTYa=A@mail.gmail.com>
+To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] base-files: do_install_basefilesissue error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 01:19:24 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 01:54:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixed error in do_install_basefilesissue, printf is now replaced by echo.
+On Mon, Oct 22, 2012 at 8:32 AM, Giuseppe CONDORELLI
+<giuseppe.condorelli@st.com> wrote:
+> Fixed error in do_install_basefilesissue, printf is now replaced by echo.
+>
+> Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
 
-Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index ba355ee..766b0e5 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -117,11 +117,11 @@ do_install_basefilesissue () {
- 
- 	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
-         if [ -n "${DISTRO_NAME}" ]; then
--		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
--		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
-+		echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
-+		echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
- 		if [ -n "${DISTRO_VERSION}" ]; then
--			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
--			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
-+			echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
-+			echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
- 		fi
- 		echo "\n \l" >> ${D}${sysconfdir}/issue
- 		echo >> ${D}${sysconfdir}/issue
+What error? Also, this changes the behavior. printf doesn't print a
+newline, echo does (unless you use echo -n). printf's behavior is much
+more reliable and portable than echos is.
 -- 
-1.7.4.4
-
+Christopher Larson
 
 
