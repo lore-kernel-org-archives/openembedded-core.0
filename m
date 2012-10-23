@@ -1,28 +1,27 @@
 Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1TQbJe-0002Mj-U2
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1TQbVA-0003nG-3Z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 12:02:30 +0200
+	Tue, 23 Oct 2012 12:14:26 +0200
 Received: from [192.168.0.2] (host81-153-114-169.range81-153.btcentralplus.com
 	[81.153.114.169]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 4378B99A4
+	by r-finger.com (Postfix) with ESMTPSA id C3A7C99A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 10:49:07 +0100 (BST)
-Message-ID: <50866812.10408@r-finger.com>
-Date: Tue, 23 Oct 2012 10:49:06 +0100
+	Tue, 23 Oct 2012 11:00:48 +0100 (BST)
+Message-ID: <50866ACF.8010105@r-finger.com>
+Date: Tue, 23 Oct 2012 11:00:47 +0100
 From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-	<5085800A.4060600@r-finger.com>
-	<CAPj87rOXzZ5EwKYCrBnYtYAQo3cUyXtXyyDSh2nKh05Gy=uY9A@mail.gmail.com>
-	<50865733.40007@r-finger.com>
-	<CAPj87rOZokkPT_a7kbaqmai2bWwV5xLL8oV2UNOfoxkARHfwCg@mail.gmail.com>
-In-Reply-To: <CAPj87rOZokkPT_a7kbaqmai2bWwV5xLL8oV2UNOfoxkARHfwCg@mail.gmail.com>
-Subject: Re: [RFC] OpenGL packaging/staging policy
+References: <cover.1350898066.git.ross.burton@intel.com>
+	<dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
+	<50865F91.5060002@r-finger.com>
+	<CAPj87rP+FHP8QeBvqVHVDX0dUHh-fFL1W_BQbV-1HErG5dE4FA@mail.gmail.com>
+In-Reply-To: <CAPj87rP+FHP8QeBvqVHVDX0dUHh-fFL1W_BQbV-1HErG5dE4FA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] libxkbcommon: New window system-independent xkb library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,27 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 10:02:31 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 10:14:51 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/10/12 10:18, Daniel Stone wrote:
->> Regardless what is done with the packaging, allowing only mesa to stage
->> dev files will break things. GL headers are not interchangeable, even if
->> all the implementers are well behaved (which is a big if), the
->> *platform.h files are allowed to be implementation specific and so have
->> to be staged by the actual platform GL stack.
+On 23/10/12 10:15, Daniel Stone wrote:
+> Hi,
 > 
-> Right, I do agree with you, but in the mixed-stack situation, which
-> headers are we building against? :)
+> On 23 October 2012 20:12, Tomas Frydrych <tf+lists.yocto@r-finger.com> wrote:
+>> I think this needs a -native tools as well, like,
+>> https://github.com/Guacamayo/meta-guacamayo/blob/master/meta-guacamayo/recipes-graphics/xorg-lib/libxkbcommon_git.bb
+> 
+> Not anymore, we use Python for makekeys nowadays.  (And, in an
+> unpushed tree, don't use Python at all if we can avoid it.)
 
-The GL / GLES / GLES2 / EGL headers are separate from each other, so in
-theory if you have separate libgl, libles, libgles2, and libegl
-packages, you could even stage them from four different sources. But for
-the Cedar Trail scenario a separate big GL and a combined GLES/GLES2/EGL
-package, plus a package for common libs. This might be of some use for
-others (IIRC, the whole discussion about this was sparked after enabling
-EGL in the mesa package), though it means building mesa multiple times.
+Good news, but perhaps you forgot to push this into the public repo?
+makekeys seems to be C program even in the current master, certainly in
+1c880887666f84e08ea1752bb8a5ab2a7bf1d8a0.
 
 Tomas
 
