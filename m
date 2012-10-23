@@ -1,38 +1,24 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQkpm-0008Hf-Nl
+	(envelope-from <Peter.Seebach@windriver.com>) id 1TQlM8-0000Ms-JB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 22:12:18 +0200
-Received: from mail-we0-f197.google.com ([74.125.82.197])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 23 Oct 2012 12:58:49 -0700
-Received: by mail-we0-f197.google.com with SMTP id x43so3166272wey.0
+	Tue, 23 Oct 2012 22:45:44 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9NKWGo0029133
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 12:58:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=qN34XV+YD6AwsTzO3WicUOd9kOA5HfgeJo9/I1grA3o=;
-	b=BR91jG8Rwc5oVUcJ+nEIDjNfNk0mT3IWrWtVJrMutUQWN/0KmnO001I/0efXfexm+y
-	ndNyu/Ub+JZBgYN2XqsHwZMHcT1RjjsZDSLgi5Zke/vpJ/gKx9YUszsQqerYVB85ON02
-	xZcAW8e782zigjrGZw4otSnKKtGKliUW3Z7pBA32lYzIhk7GRalLZMb05ZWS5DP+9Ec2
-	OP4Mx9j/rCPDjj3c5I1PHZtPrWKlawxEz9hdEy+V8JDTCrM1r3c7ARhLyaeqXbWtfQo5
-	JPW0vw5XPdbSxMcSbjAc1lwwy9AuGkxu0/5Dv5MPZbk9W9Ffjx34ojUgQaQFfT7Nbza6
-	WVNQ==
-Received: by 10.216.132.223 with SMTP id o73mr7812853wei.69.1351022327774;
-	Tue, 23 Oct 2012 12:58:47 -0700 (PDT)
-Received: by 10.216.132.223 with SMTP id o73mr7812844wei.69.1351022327444;
-	Tue, 23 Oct 2012 12:58:47 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id dt9sm428306wib.1.2012.10.23.12.58.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 23 Oct 2012 12:58:46 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2012 20:57:37 +0100
-Message-Id: <1351022257-15219-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmB6atpbBasb69YKfjo0yXWa+RMfdlwN44T3J0jkMFRrLEJc/VTbGafNeOOFTtivvmeLmYhvgRxn0nf1TU/Xa/qGh+AUl0ZCjDRNWk2a8jqm4Egy6Pg8OF2U3dypR+2RJiOTkB/pkxDuIf8Z7wuti4dRkv4OUDjMvNCLHu1Xa1SoV2ELqmdq75NteWsKOXQjRepcaAR
-Subject: [PATCH] libxkbcommon: new window system-independent XKB library
+	Tue, 23 Oct 2012 13:32:16 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 23 Oct 2012 13:32:15 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Oct 2012 15:32:13 -0500
+Message-ID: <cover.1351024134.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] Make n32 survive insane.bbclass and multilib_header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,42 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 20:12:19 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 20:45:45 -0000
+Content-Type: text/plain
 
-Used by Wayland, Clutter, and more.
+The multilib_header fixup has code in the generated header to handle
+n32, but doesn't detect n32 headers. Meanwhile, insane.bclass rejects
+n32 binaries for being 32-bit binaries in a mips64 build. Solution: Use
+an ABI suffix, and check for it in appropriate places.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb |   18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb
-new file mode 100644
-index 0000000..7304080
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.2.0.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "Generic XKB keymap library"
-+DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
-+processes a reduced subset of keymaps as defined by the XKB specification."
-+HOMEPAGE = "http://www.xkbcommon.org"
-+
-+LICENSE = "MIT & MIT-style"
-+
-+DEPENDS = "util-macros flex-native bison-native"
-+
-+SRC_URI = "http://xkbcommon.org/download/${PN}-${PV}.tar.bz2"
-+SRC_URI[md5sum] = "2be3d4a255d02c7d46fc6a9486f21f6a"
-+SRC_URI[sha256sum] = "74eb0a121ca3998015fd687591426bb15c524645a72cf602831b2e729172fb42"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
-+
-+PR = "r0"
-+
-+EXTRA_OECONF = "--disable-docs"
--- 
-1.7.10
+The following changes since commit 754ddbf1c57e6b9d0650498538840effebe4f7a2:
+  Ross Burton (1):
+        libical: remove
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib seebs/mips64
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/mips64
+
+Peter Seebach (1):
+  insane.bbclass and friends: Fix sanity checks and multlib headers for
+    n32
+
+ meta/classes/insane.bbclass                  |    4 +++
+ meta/classes/multilib_header.bbclass         |   32 +++++++++++++++++--------
+ meta/conf/machine/include/mips/arch-mips.inc |    1 +
+ 3 files changed, 27 insertions(+), 10 deletions(-)
 
 
 
