@@ -1,35 +1,37 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TQYlY-0006qe-Vg
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TQYla-0006qf-I2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 09:19:09 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hj13so2845460wib.6
+	Tue, 23 Oct 2012 09:19:10 +0200
+Received: by mail-wi0-f171.google.com with SMTP id hj13so2861276wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 00:05:43 -0700 (PDT)
+	Tue, 23 Oct 2012 00:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=CW80x7hYDU7PLbWNfXvs8HsuS8BvAymTq0NcFT0nl+8=;
-	b=iLAYh8tJI7z86g/zggcRCLS8uB+nNIOj488GrjtSxvMdPhiFY/ywUWKMYGy3Xo0OzB
-	t+lHXWdQaFI8LHIqAicXax/6aae9UshlGfZy1gc3T17TCX6IoBke/nrwN3SWZ8kh9wwj
-	VS0HW6ggO4C4L4DEpJc281m+FXqO0qYe1QuTIx0JGCg9ziL7E+C8uxUFBQZTIuiGHVX0
-	UqDJk7zaoI7eM/5QICIY+eZ0YnIhoOzFa0sbma7O5tlPhFIWyV14wU+jYj2mbWMZyp2P
-	Tjxqv8VRrfugU2vwrWzQTMoZhxB2ITIZ+dNaeq72WkoF8D0mOKkFzV+8PUBIT3wn3vlR
-	FNkw==
-Received: by 10.216.140.73 with SMTP id d51mr6769059wej.217.1350975943187;
-	Tue, 23 Oct 2012 00:05:43 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=5ESKxWVkIJk8r6c/0SfoF9mXuZybo7D/PWf0FYpBx5A=;
+	b=fYpIHmCkkQLkAPIMaEiJ5EyIc0UVnwzL4LF3F40oXCOWelEL6h4weaDCLxxbLU+C4x
+	U6ElzTkSUF7bfmNXlaOdNx4py1oiS9oraLVxBGhLeTOETeqpP4uns9zn8BupZPdlZFvS
+	H01u5D7Hn+oqhbFI+3yULOpBgiF9M8oSy1xRDBVJUis0RArNj93uR5xteGEeCnjjEv7k
+	8pXpBdMPqsJz7XbuFnqdX7QgqebO6RsbVnz8qXAjLYimUFmjqLXJBjKkUDoqmWFz7pdh
+	BG1VCiwpsUgSKol9+To2Mm+Ud6Jt0df172BlAlfgyZ6S+JjvdLxZ1BkSN3lU52YaLbON
+	RwaA==
+Received: by 10.180.100.35 with SMTP id ev3mr42466276wib.7.1350975944838;
+	Tue, 23 Oct 2012 00:05:44 -0700 (PDT)
 Received: from localhost.localdomain (ip-109-91-251-94.unitymediagroup.de.
 	[109.91.251.94])
-	by mx.google.com with ESMTPS id cn6sm26296766wib.9.2012.10.23.00.05.41
+	by mx.google.com with ESMTPS id cn6sm26296766wib.9.2012.10.23.00.05.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 23 Oct 2012 00:05:42 -0700 (PDT)
+	Tue, 23 Oct 2012 00:05:43 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2012 09:04:28 +0200
-Message-Id: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Tue, 23 Oct 2012 09:04:29 +0200
+Message-Id: <1350975871-26719-2-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 1.7.6.5
+In-Reply-To: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
 MIME-Version: 1.0
-Subject: icon-themes fixes
+Subject: [PATCH 1/3] gnome-icon-theme: fix icon mapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 07:19:09 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 07:19:10 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 06d27cf0fbcc4004e6f456880eca49893c9290bf:
+Multiple errors in log.do_install as:
+Can't locate XML/Simple.pm in @INC (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5 .) at /home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/lib/../libexec/icon-name-mapping line 12.
 
-  xorg: remove XF86 BigFont extension (2012-10-22 14:57:26 +0100)
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
-are available in the git repository at:
-  git://gitorious.org/schnitzeltony-oe-meta/oe-core.git icon-themes
-
-Andreas Müller (3):
-      gnome-icon-theme: fix icon mapping
-      gnome-icon-theme: remove unused configure variable
-      sato-icon-theme: fix build
-
- .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    8 +++-----
- .../sato-icon-theme/sato-icon-theme.inc            |    2 +-
- .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    2 +-
- 3 files changed, 5 insertions(+), 7 deletions(-)
-
+diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+index 8e7995b..f017b56 100644
+--- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
++++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+@@ -9,7 +9,7 @@ SECTION = "x11/gnome"
+ DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native"
+ RDEPENDS_${PN} = "hicolor-icon-theme"
+ RRECOMMENDS_${PN} = "librsvg-gtk"
+-PR = "r3"
++PR = "r4"
+ 
+ FILES_${PN} += "${datadir}/*"
+ 
+@@ -22,5 +22,4 @@ SRC_URI[sha256sum] = "ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a
+ EXTRA_OECONF = "--disable-hicolor-check"
+ EXTRA_OECONF += "--with-iconmap=${@d.getVar('STAGING_LIBEXECDIR_NATIVE', True).replace('gnome-icon-theme', 'icon-naming-utils')}/icon-name-mapping"
+ 
+-
+-inherit autotools
++inherit autotools perlnative
 -- 
 1.7.6.5
 
