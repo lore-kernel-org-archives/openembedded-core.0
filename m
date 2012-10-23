@@ -1,34 +1,25 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TQaYe-0001Cm-3q
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1TQakX-0001OI-T2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 11:13:56 +0200
-Received: by mail-ob0-f175.google.com with SMTP id eq6so3295775obc.6
+	Tue, 23 Oct 2012 11:26:13 +0200
+Received: from [192.168.0.2] (host81-153-114-169.range81-153.btcentralplus.com
+	[81.153.114.169]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 3445499A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 02:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=1Gl9x3gll5wUIA98WitWQbaqbBEcpEH9unBg1SPQxw4=;
-	b=VqaJ4eDLR7ex+IrKN5yQWdNZbt79o4FPPYkDsmOTIc1Sar3q1+c86ABdFswHeMV6lU
-	y4IdTo/6+87yJMGBm3DtvobxeaR7dbzBYFBXLsGZEnj+gZ3o1X2NAk9EaEDUsgPb9ANf
-	VyK3CsZuT7DU6VqX7MpztldR+3nqAO4LeFL3GWjd7C03rqZkyal7mb7fl4o52vRGz0/w
-	rmM8QJwzxZic5Vr05Dc0xx7Kw5WG+fH4TaNaFKR8w0unSXceGLh9bOqqxHyMcDGHMG8w
-	aS6wge/shQQz+JejFVzdRqjDcgfGUY61W+r8Sij0ToMqSpWVGmrQwshXYdEL+4egUa4H
-	XP1w==
+	Tue, 23 Oct 2012 10:12:49 +0100 (BST)
+Message-ID: <50865F91.5060002@r-finger.com>
+Date: Tue, 23 Oct 2012 10:12:49 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-Received: by 10.60.25.136 with SMTP id c8mr10124783oeg.103.1350982829860; Tue,
-	23 Oct 2012 02:00:29 -0700 (PDT)
-Received: by 10.60.123.47 with HTTP; Tue, 23 Oct 2012 02:00:29 -0700 (PDT)
-In-Reply-To: <1350982663.22340.23.camel@ted>
-References: <1350974753-519-1-git-send-email-giuseppe.condorelli@st.com>
-	<1350982663.22340.23.camel@ted>
-Date: Tue, 23 Oct 2012 11:00:29 +0200
-Message-ID: <CAOHjBZvuGu+V42YKaJGPHJf=8htJxjVyY7Tnn68Hx8pvt3bBag@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] base-files: do_install_basefilesissue error
+To: openembedded-core@lists.openembedded.org
+References: <cover.1350898066.git.ross.burton@intel.com>
+	<dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
+In-Reply-To: <dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
+Subject: Re: [PATCH 1/3] libxkbcommon: New window system-independent xkb library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,160 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 09:13:57 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c1aeabe58f04ccb633eb
+X-List-Received-Date: Tue, 23 Oct 2012 09:26:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---e89a8ff1c1aeabe58f04ccb633eb
-Content-Type: text/plain; charset=ISO-8859-1
+I think this needs a -native tools as well, like,
+https://github.com/Guacamayo/meta-guacamayo/blob/master/meta-guacamayo/recipes-graphics/xorg-lib/libxkbcommon_git.bb
 
-Hi Richard,
+Tomas
 
-indeed this patch was erroneously sent twice and in the other one it was
-replied the mistake was solved and it is no more valid.
-Please discard it as already suggested in the other thread.
-Thanks,
-Giuseppe
 
-2012/10/23 Richard Purdie <richard.purdie@linuxfoundation.org>
+On 22/10/12 10:30, Ross Burton wrote:
+> From: Damien Lespiau <damien.lespiau@intel.com>
+> 
+> Needed for weston and wayland clients to compile key maps.
+> 
+> Signed-off-by: Damien Lespiau <damien.lespiau@intel.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb |   19 +++++++++++++++++++
+>  meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
+>  2 files changed, 20 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
+> 
+> diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
+> new file mode 100644
+> index 0000000..b426115
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
+> @@ -0,0 +1,19 @@
+> +SUMMARY = "Generic XKB keymap library"
+> +
+> +DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
+> +processes a reduced subset of keymaps as defined by the XKB specification."
+> +
+> +LICENSE = "MIT & MIT-style"
+> +
+> +require xorg-lib-common.inc
+> +
+> +DEPENDS = "flex-native bison-native"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
+> +
+> +SRCREV = "1c880887666f84e08ea1752bb8a5ab2a7bf1d8a0"
+> +PV = "0.1.0+git${SRCPV}"
+> +PR = "r0"
+> +
+> +SRC_URI = "git://anongit.freedesktop.org/xorg/lib/libxkbcommon;protocol=git"
+> +S = "${WORKDIR}/git"
+> diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+> index c911925..f3c08ab 100644
+> --- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+> +++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+> @@ -17,7 +17,7 @@ EXTRA_OECONF = "--enable-malloc0returnsnull \
+>                  --disable-specs --with-groff=no --with-ps2pdf=no --with-fop=no --without-xmlto"
+>  
+>  python () {
+> -        whitelist = [ "pixman", "libpciaccess" ]
+> +        whitelist = [ "pixman", "libpciaccess", "libxkbcommon" ]
+>          if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
+>                  raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
+>  }
 
-> On Tue, 2012-10-23 at 08:45 +0200, Giuseppe CONDORELLI wrote:
-> > Fixed error in do_install_basefilesissue, printf is now replaced by echo.
->
-> What kind of error?
->
-> Doesn't this change have issues about how newlines are handled?
->
-> Cheers,
->
-> Richard
->
->
-> > Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
-> > ---
-> >  meta/recipes-core/base-files/base-files_3.0.14.bb |    8 ++++----
-> >  1 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bbb/meta/recipes-core/base-files/
-> base-files_3.0.14.bb
-> > index ba355ee..766b0e5 100644
-> > --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> > +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> > @@ -117,11 +117,11 @@ do_install_basefilesissue () {
-> >
-> >       install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
-> >          if [ -n "${DISTRO_NAME}" ]; then
-> > -             printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
-> > -             printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
-> > +             echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
-> > +             echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
-> >               if [ -n "${DISTRO_VERSION}" ]; then
-> > -                     printf "${DISTRO_VERSION} " >>
-> ${D}${sysconfdir}/issue
-> > -                     printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/
-> issue.net
-> > +                     echo "${DISTRO_VERSION} " >>
-> ${D}${sysconfdir}/issue
-> > +                     echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/
-> issue.net
-> >               fi
-> >               echo "\n \l" >> ${D}${sysconfdir}/issue
-> >               echo >> ${D}${sysconfdir}/issue
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
---e89a8ff1c1aeabe58f04ccb633eb
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div>Hi Richard,</div><div>=A0</div><div>indeed this patch was erroneously =
-sent twice and in the other one it was replied the mistake was solved and i=
-t is no more valid.</div><div>Please discard it as already suggested in the=
- other thread.</div>
-<div>Thanks,</div><div>Giuseppe<br><br></div><div class=3D"gmail_quote">201=
-2/10/23 Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purd=
-ie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.or=
-g</a>&gt;</span><br>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote"><div class=3D"im">On Tue, 2012-10-23 at 08:45 +0200, Giuse=
-ppe CONDORELLI wrote:<br>
-
-&gt; Fixed error in do_install_basefilesissue, printf is now replaced by ec=
-ho.<br>
-<br>
-</div>What kind of error?<br>
-<br>
-Doesn&#39;t this change have issues about how newlines are handled?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<div class=3D"im HOEnZb"><br>
-<br>
-&gt; Signed-off-by: Giuseppe Condorelli &lt;<a href=3D"mailto:giuseppe.cond=
-orelli@st.com">giuseppe.condorelli@st.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =A0meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14.bb=
-" target=3D"_blank">base-files_3.0.14.bb</a> | =A0 =A08 ++++----<br>
-&gt; =A01 files changed, 4 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/base-files/<a href=3D"http://base-files=
-_3.0.14.bb" target=3D"_blank">base-files_3.0.14.bb</a> b/meta/recipes-core/=
-base-files/<a href=3D"http://base-files_3.0.14.bb" target=3D"_blank">base-f=
-iles_3.0.14.bb</a><br>
-
-&gt; index ba355ee..766b0e5 100644<br>
-&gt; --- a/meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14=
-.bb" target=3D"_blank">base-files_3.0.14.bb</a><br>
-&gt; +++ b/meta/recipes-core/base-files/<a href=3D"http://base-files_3.0.14=
-.bb" target=3D"_blank">base-files_3.0.14.bb</a><br>
-&gt; @@ -117,11 +117,11 @@ do_install_basefilesissue () {<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 install -m 644 ${WORKDIR}/issue* =A0${D}${sysconfdir}<br>
-&gt; =A0 =A0 =A0 =A0 =A0if [ -n &quot;${DISTRO_NAME}&quot; ]; then<br>
-&gt; - =A0 =A0 =A0 =A0 =A0 =A0 printf &quot;${DISTRO_NAME} &quot; &gt;&gt; =
-${D}${sysconfdir}/issue<br>
-&gt; - =A0 =A0 =A0 =A0 =A0 =A0 printf &quot;${DISTRO_NAME} &quot; &gt;&gt; =
-${D}${sysconfdir}/<a href=3D"http://issue.net" target=3D"_blank">issue.net<=
-/a><br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;${DISTRO_NAME} &quot; &gt;&gt; ${=
-D}${sysconfdir}/issue<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;${DISTRO_NAME} &quot; &gt;&gt; ${=
-D}${sysconfdir}/<a href=3D"http://issue.net" target=3D"_blank">issue.net</a=
-><br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 if [ -n &quot;${DISTRO_VERSION}&quot; ]; t=
-hen<br>
-&gt; - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 printf &quot;${DISTRO_VERSIO=
-N} &quot; &gt;&gt; ${D}${sysconfdir}/issue<br>
-&gt; - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 printf &quot;${DISTRO_VERSIO=
-N} &quot; &gt;&gt; ${D}${sysconfdir}/<a href=3D"http://issue.net" target=3D=
-"_blank">issue.net</a><br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;${DISTRO_VERSION}=
- &quot; &gt;&gt; ${D}${sysconfdir}/issue<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;${DISTRO_VERSION}=
- &quot; &gt;&gt; ${D}${sysconfdir}/<a href=3D"http://issue.net" target=3D"_=
-blank">issue.net</a><br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi<br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;\n \l&quot; &gt;&gt; ${D}${sysc=
-onfdir}/issue<br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &gt;&gt; ${D}${sysconfdir}/issue<br>
-<br>
-<br>
-<br>
-</div><div class=3D"HOEnZb"><div class=3D"h5">_____________________________=
-__________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</div></div></blockquote></div><br>
-
---e89a8ff1c1aeabe58f04ccb633eb--
