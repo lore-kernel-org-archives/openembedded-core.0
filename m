@@ -1,26 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TQk8M-0006hS-3P
+	(envelope-from <sgw@linux.intel.com>) id 1TQkHx-00073j-Ik
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 21:27:26 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Oct 2012 12:13:58 -0700
+	Tue, 23 Oct 2012 21:37:21 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Oct 2012 12:23:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,637,1344236400"; d="scan'208";a="237296290"
+X-IronPort-AV: E=Sophos;i="4.80,637,1344236400"; d="scan'208";a="239132449"
 Received: from unknown (HELO [10.255.14.141]) ([10.255.14.141])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Oct 2012 12:03:30 -0700
-Message-ID: <5086EA02.7070401@linux.intel.com>
-Date: Tue, 23 Oct 2012 12:03:30 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 23 Oct 2012 11:53:43 -0700
+Message-ID: <5086E7B1.2090702@linux.intel.com>
+Date: Tue, 23 Oct 2012 11:53:37 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, daniel@fooishbar.org
-References: <cover.1350898066.git.ross.burton@intel.com>
-	<af1365a98c78c547e373195e27c538f71c963dd3.1350898066.git.ross.burton@intel.com>
-In-Reply-To: <af1365a98c78c547e373195e27c538f71c963dd3.1350898066.git.ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
+References: <cover.1350898411.git.ross.burton@intel.com>
+In-Reply-To: <cover.1350898411.git.ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] atk: Update to 2.6.0
+Subject: Re: [PATCH 0/3] Add Xorg driver ABI dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,54 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 19:27:26 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 19:37:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/22/2012 02:30 AM, Ross Burton wrote:
-> From: Daniel Stone <daniel@fooishbar.org>
+On 10/22/2012 02:37 AM, Ross Burton wrote:
+> Hi,
 >
-> Newer Clutter releases want 2.5.3+, so upgrade to the stable 2.6.0.
+> The xserver driver ABIs frequently change and as such are versioned.  It's
+> entirely possible to build an image with an Xserver with ABI 13 but drivers
+> using ABI 11, and in this situation the server won't load the modules.  These
+> ABI versions have no relationship to the package version so the existing
+> dependencies can't be made stricter.
 >
-> Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-support/atk/{atk_2.4.0.bb => atk_2.6.0.bb} |    8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->   rename meta/recipes-support/atk/{atk_2.4.0.bb => atk_2.6.0.bb} (74%)
+> The solution Debian (and probably others) take is to add versioned Provides to
+> the server, and dependencies on those provides in the drivers.  Then ABI version
+> mismatches become package dependencies errors and are caught at image
+> construction time, not boot time.
 >
-> diff --git a/meta/recipes-support/atk/atk_2.4.0.bb b/meta/recipes-support/atk/atk_2.6.0.bb
-> similarity index 74%
-> rename from meta/recipes-support/atk/atk_2.4.0.bb
-> rename to meta/recipes-support/atk/atk_2.6.0.bb
-> index 4a2d853..be797c7 100644
-> --- a/meta/recipes-support/atk/atk_2.4.0.bb
-> +++ b/meta/recipes-support/atk/atk_2.6.0.bb
-> @@ -7,15 +7,15 @@ LICENSE = "GPLv2+ & LGPLv2+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
->                       file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
->                       file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
-> -PR = "r1"
-> +PR = "r0"
+> Ross
 >
->   DEPENDS = "glib-2.0"
+> The following changes since commit caba9cbfce09f19eb27f4c6615c0c5c48e1a2952:
 >
->   inherit autotools gtk-doc pkgconfig
+>    kernel.bbclass: add kernel-modules to PACKAGES (2012-10-19 23:06:26 +0100)
 >
-> -SRC_URI = "http://download.gnome.org/sources/atk/2.4/${BPN}-${PV}.tar.xz"
-> -SRC_URI[md5sum] = "2184a140f71d50276669d6eda5cce5db"
-> -SRC_URI[sha256sum] = "091e9ce975a9fbbc7cd8fa64c9c389ffb7fa6cdde58b6d5c01b2c267093d888d"
-> +SRC_URI = "http://download.gnome.org/sources/atk/2.6/${BPN}-${PV}.tar.xz"
-> +SRC_URI[md5sum] = "6b34e2a63dda4429b5692be7ca3aa5bf"
-> +SRC_URI[sha256sum] = "eff663f90847620bb68c9c2cbaaf7f45e2ff44163b9ab3f10d15be763680491f"
+> are available in the git repository at:
 >
->   BBCLASSEXTEND = "native"
+>    git://git.yoctoproject.org/poky-contrib ross/xorg
 >
+> for you to fetch changes up to 4bb20610fa08a2daf71f59b42929181500345e75:
+>
+>    insane: add a check for Xorg driver ABI dependencies (2012-10-22 09:26:20 +0100)
+>
+> ----------------------------------------------------------------
+> Ross Burton (3):
+>        xserver-xorg: add runtime provides for the driver ABI version
+Merged into OE-Core
+>        xorg-driver: add xserver driver ABI dependencies
+Not merged yet.
+
+>        insane: add a check for Xorg driver ABI dependencies
 >
 Merged into OE-Core
 
 Thanks
 	Sau!
-
+>   meta/classes/insane.bbclass                        |   20 ++++++++++++++-
+>   .../xorg-driver/xorg-driver-common.inc             |   17 +++++++++++-
+>   .../xorg-driver/xorg-driver-input.inc              |    4 +++
+>   .../xorg-driver/xorg-driver-video.inc              |    3 +++
+>   .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   27 +++++++++++++++++++-
+>   5 files changed, 68 insertions(+), 3 deletions(-)
+>
+> Ross Burton (3):
+>    xserver-xorg: add runtime provides for the driver ABI version
+>    xorg-driver: add xserver driver ABI dependencies
+>    insane: add a check for Xorg driver ABI dependencies
+>
+>   meta/classes/insane.bbclass                        |   20 ++++++++++++++-
+>   .../xorg-driver/xorg-driver-common.inc             |   17 +++++++++++-
+>   .../xorg-driver/xorg-driver-input.inc              |    4 +++
+>   .../xorg-driver/xorg-driver-video.inc              |    3 +++
+>   .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   27 +++++++++++++++++++-
+>   5 files changed, 68 insertions(+), 3 deletions(-)
+>
 
 
