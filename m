@@ -1,40 +1,30 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQgQ2-000506-U0
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TQgW4-0005Ox-0N
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 17:29:27 +0200
-Received: from mail-ie0-f197.google.com ([209.85.223.197])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 23 Oct 2012 08:15:59 -0700
-Received: by mail-ie0-f197.google.com with SMTP id 9so10949756iec.0
+	Tue, 23 Oct 2012 17:35:40 +0200
+Received: by mail-oa0-f47.google.com with SMTP id h1so3665259oag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 08:15:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=sphN4qeY94ZsGM3uv8NzYINBd+lIqvONhbfusD3DtIc=;
-	b=n5bx/N/u8aciUdOAM1pX132iIH1hMF904uxxdws4Z3e+durLzxyz+KGkEFyQXYUYEu
-	CN6GRiBCUWPCgk24H0T3A+0/dVMdyh418KwsYCR+laRBg4vV4zP4+ijiqw5/3Xw+iWWg
-	LBMIyl8Yz+yFm8B4RS7MRbIjTt23OVXoy6o/wa9UT/2xTbPrOck0Y3HlP5qtOlDlgr/U
-	demz4mEiYILcFDZ5B9Oyv6fSbb8ifS6+B6cUdboPu8uUZg0GSlLQShflrZO9Eo/eq0gp
-	4QmYgkDe+JvNahbC5JS3l1RUOBvgsRWc3XBOPxw5og7kvh8CAenCvJmHMA5enWNpCbOL
-	ZiQw==
-Received: by 10.60.5.138 with SMTP id s10mr11141124oes.80.1351005358681;
-	Tue, 23 Oct 2012 08:15:58 -0700 (PDT)
-Received: by 10.60.5.138 with SMTP id s10mr11141121oes.80.1351005358594; Tue,
-	23 Oct 2012 08:15:58 -0700 (PDT)
+	Tue, 23 Oct 2012 08:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=1ln4fLMpYgggLAUA8XGM/rUzIwXEljRFfIcaN2kh0nA=;
+	b=a2R+DrfMuu/V+ym5NX1Gek8NSA2Om0xzxIKTq5jwrM3dm0oB8lkgb231B/Fcqj/dyY
+	QlOmILo0Qd9DUMDqtc3UV9b9lj2c9x8qpAnfPx3TKDGLl3j0MWaugfZUfQcnJzkAHkdD
+	NEJ2Y37f4lDFMlINmBru4l3Psi3beJIdKpdDYZtPWkJktlhzXleNNE59Uv3e8vqwGwkd
+	blHklZNnBzF0aXTpaodvZhWtZhHWVR0ajb8YPxUiJGHFZERhuXQXuBuQuftU3icHG5dh
+	7aKhnX6m4o4p9QRVEDuLA7VgHQEDmJ0T6OngIWnRJAt1Uqyqe/JAil0GwCWPWaDJmqPy
+	DAeg==
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Tue, 23 Oct 2012 08:15:37 -0700 (PDT)
-In-Reply-To: <50869BDC.6050401@communistcode.co.uk>
-References: <50869BDC.6050401@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Oct 2012 16:15:37 +0100
-Message-ID: <CAJTo0LZHTGaVLnrYidOmLwvqB3Z+n9m5itr_4hA9krEPHihdsQ@mail.gmail.com>
-To: ml@communistcode.co.uk
-X-Gm-Message-State: ALoCoQlZV/l+sw8KRNlSCYjwySMs11Wq3Xj2PjqzG8EOkY5d4t5V6F0QLbKFJhUFxtevJbfoMRDQjfAG1dY311QFBBCkNagfWS+f4jIY18triFfCkGOUbg6S+kos4ZoftAI2UJkyiGmRKomzpTvx/S3xcZ1augRFWavXgtHlxlCexg14DIFo/KXp4oARPD1nOljg8mDFBRtN
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.60.20.41 with SMTP id k9mr8089822oee.39.1351005733295; Tue, 23
+	Oct 2012 08:22:13 -0700 (PDT)
+Received: by 10.60.123.47 with HTTP; Tue, 23 Oct 2012 08:22:13 -0700 (PDT)
+Date: Tue, 23 Oct 2012 17:22:13 +0200
+Message-ID: <CAOHjBZtTso5LuxjUX=Y+z7UNwnBLKo2rsYRs1oOyMeNfc5oTJg@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues building meta-toolchain, libxau
+Subject: add init applet to busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 15:29:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Oct 2012 15:35:40 -0000
+Content-Type: multipart/alternative; boundary=e89a8fb20710d2970604ccbb8801
 
-On 23 October 2012 14:30, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> I'm struggling to build a varient of meta-toolchain as I keep running into
-> the following error. I can't see any recent changes to libxau soI'm a bit
-> stumped...
+--e89a8fb20710d2970604ccbb8801
+Content-Type: text/plain; charset=ISO-8859-1
 
-/usr/bin/grep: /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots/x86_64-nativesdk-pokysdk-linux/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/libXau.la:
-No such file or directory
+Hi All,
 
-Hooray libtool!  :(  There have been relatively recent changes (a
-month ago?) to libX11 which may be causing this.  Is this from a clean
-build?
+I need to enable init applet in the current version of busybox.
+Do I have to create my own defconfig to pass via .bbappend file or
+there is another way to do this setting something for example in
+DISTRO_FEATURES (I don't think...).
+I saw in the past "stat" applet were added simply patching the already
+available defconfig.
+Please can you address me?
 
-(this is why people don't like .la files)
+Many thanks,
+Giuseppe
 
-Ross
+--e89a8fb20710d2970604ccbb8801
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div>Hi All,</div><div>=A0</div><div>I need to enable init applet in the cu=
+rrent version of busybox.</div><div>Do I have to create my own defconfig to=
+ pass via .bbappend file or</div><div>there is another way to do this setti=
+ng something for example in DISTRO_FEATURES (I don&#39;t think...).</div>
+<div>I saw in the past &quot;stat&quot; applet were added simply patching t=
+he already available defconfig.</div><div>Please can you address me?</div><=
+div>=A0</div><div>Many thanks,</div><div>Giuseppe</div>
 
+--e89a8fb20710d2970604ccbb8801--
