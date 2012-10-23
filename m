@@ -1,25 +1,39 @@
-Received: from r-finger.com ([178.79.160.5])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1TQakX-0001OI-T2
+	(envelope-from <ross.burton@intel.com>) id 1TQal7-0001Qn-3d
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 11:26:13 +0200
-Received: from [192.168.0.2] (host81-153-114-169.range81-153.btcentralplus.com
-	[81.153.114.169]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 3445499A4
+	Tue, 23 Oct 2012 11:26:49 +0200
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 23 Oct 2012 02:13:21 -0700
+Received: by mail-ob0-f197.google.com with SMTP id tb18so10827656obb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 10:12:49 +0100 (BST)
-Message-ID: <50865F91.5060002@r-finger.com>
-Date: Tue, 23 Oct 2012 10:12:49 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+	Tue, 23 Oct 2012 02:13:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=ZGL4XX+hbVgjM0yuGrBgjwgLhd3SqcJiH8SiLizBHZk=;
+	b=Agl13Ug52mu6IzXy5ZHWQk4r9An29XNNIm6pRxebLR6tjdAbJawI2ehl+Qu091nkxz
+	YgT9TYRIAzZtng2erPN0yyF6cE6yVOFNgKLdtHOele9JGpIcuNCHafYcQCDj1Ch24b/q
+	jFzZ0CS+xakIDA3YoLX+tSX20Fei9ZBUg3QFpS0cyHfjWnYj025BSR2K3Bp70SYaaNRc
+	usVU3Cz/TnPI4+eFbLyyR8KuNLeQux5ZsgdWJFPmCEKe/vnmKpvIDrilx3uPfnz3TRtj
+	67kTCg/iaLuLH93H13Gzd0L4DAg3bMhKuZopjWrLVHr4P/e2xb4wTp0x68cCmPRvMH0g
+	qMnQ==
+Received: by 10.60.24.4 with SMTP id q4mr77782oef.1.1350983600470;
+	Tue, 23 Oct 2012 02:13:20 -0700 (PDT)
+Received: by 10.60.24.4 with SMTP id q4mr77779oef.1.1350983600393; Tue, 23 Oct
+	2012 02:13:20 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1350898066.git.ross.burton@intel.com>
-	<dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
-In-Reply-To: <dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
-Subject: Re: [PATCH 1/3] libxkbcommon: New window system-independent xkb library
+Received: by 10.182.46.70 with HTTP; Tue, 23 Oct 2012 02:12:59 -0700 (PDT)
+In-Reply-To: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Oct 2012 10:12:59 +0100
+Message-ID: <CAJTo0Laj9kyJKVsmKi0tCN7uWsdP=Jj0Ouz7+YEwgWSAF3pLaQ@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+X-Gm-Message-State: ALoCoQmX6fUaobHX59asi/URpI4J2rDGYD00Opbw3yUg8qpa+mDtaAVHITMvPPsZgUnSkId0t2RqiwgNzAXe17eidnwUCIC6cfgXkeFQ2tXunuddnlLg4ZflabZxMSEkM72wJEfqwMggeo83dYyfYhGpUErVLmQ4RgvqAJizAwoFA2hT6hlBtKOPnauwsRIlaMSVd0j/7KbU
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: icon-themes fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,67 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 09:26:14 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 09:26:49 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-I think this needs a -native tools as well, like,
-https://github.com/Guacamayo/meta-guacamayo/blob/master/meta-guacamayo/recipes-graphics/xorg-lib/libxkbcommon_git.bb
+On 23 October 2012 08:04, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
+> wrote:
+> The following changes since commit 06d27cf0fbcc4004e6f456880eca49893c9290=
+bf:
+>
+>   xorg: remove XF86 BigFont extension (2012-10-22 14:57:26 +0100)
+>
+> are available in the git repository at:
+>   git://gitorious.org/schnitzeltony-oe-meta/oe-core.git icon-themes
+>
+> Andreas M=C3=BCller (3):
+>       gnome-icon-theme: fix icon mapping
+>       gnome-icon-theme: remove unused configure variable
+>       sato-icon-theme: fix build
 
-Tomas
+Looks good.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-On 22/10/12 10:30, Ross Burton wrote:
-> From: Damien Lespiau <damien.lespiau@intel.com>
-> 
-> Needed for weston and wayland clients to compile key maps.
-> 
-> Signed-off-by: Damien Lespiau <damien.lespiau@intel.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb |   19 +++++++++++++++++++
->  meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
->  2 files changed, 20 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
-> 
-> diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
-> new file mode 100644
-> index 0000000..b426115
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_git.bb
-> @@ -0,0 +1,19 @@
-> +SUMMARY = "Generic XKB keymap library"
-> +
-> +DESCRIPTION = "libxkbcommon is a keymap compiler and support library which \
-> +processes a reduced subset of keymaps as defined by the XKB specification."
-> +
-> +LICENSE = "MIT & MIT-style"
-> +
-> +require xorg-lib-common.inc
-> +
-> +DEPENDS = "flex-native bison-native"
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=9c0b824e72a22f9d2c40b9c93b1f0ddc"
-> +
-> +SRCREV = "1c880887666f84e08ea1752bb8a5ab2a7bf1d8a0"
-> +PV = "0.1.0+git${SRCPV}"
-> +PR = "r0"
-> +
-> +SRC_URI = "git://anongit.freedesktop.org/xorg/lib/libxkbcommon;protocol=git"
-> +S = "${WORKDIR}/git"
-> diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> index c911925..f3c08ab 100644
-> --- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> +++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> @@ -17,7 +17,7 @@ EXTRA_OECONF = "--enable-malloc0returnsnull \
->                  --disable-specs --with-groff=no --with-ps2pdf=no --with-fop=no --without-xmlto"
->  
->  python () {
-> -        whitelist = [ "pixman", "libpciaccess" ]
-> +        whitelist = [ "pixman", "libpciaccess", "libxkbcommon" ]
->          if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
->                  raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
->  }
-
+Ross
 
 
