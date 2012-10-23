@@ -1,35 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TQeRR-0007xJ-La for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 15:22:45 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9ND9Ix0016824;
-	Tue, 23 Oct 2012 14:09:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15752-07; Tue, 23 Oct 2012 14:09:13 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9ND9Bva016818
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 23 Oct 2012 14:09:12 +0100
-Message-ID: <1350997751.22340.52.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Tue, 23 Oct 2012 14:09:11 +0100
-In-Reply-To: <CALbNGRS20RGCEu=e9+TNbLxK2=+daj=ttvjhpni4YdjJDcBLcg@mail.gmail.com>
-References: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
-	<1350975871-26719-2-git-send-email-schnitzeltony@googlemail.com>
-	<1350991343.22340.43.camel@ted>
-	<CALbNGRS20RGCEu=e9+TNbLxK2=+daj=ttvjhpni4YdjJDcBLcg@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q9ND9Ix0016824
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] gnome-icon-theme: fix icon mapping
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1TQeUb-00084c-3V
+	for openembedded-core@lists.openembedded.org;
+	Tue, 23 Oct 2012 15:26:01 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9NDCZZd019321
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Oct 2012 06:12:35 -0700 (PDT)
+Received: from usp-ub10.wrs.com (128.224.163.69) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 23 Oct 2012 06:12:33 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Oct 2012 21:12:44 +0800
+Message-ID: <cover.1350996778.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] nativesdk-ncurses 5.9: files were installed but not shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 13:22:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Oct 2012 13:26:01 -0000
+Content-Type: text/plain
 
-On Tue, 2012-10-23 at 14:38 +0200, Andreas M=C3=BCller wrote:
-> On Tue, Oct 23, 2012 at 1:22 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Doesn't this need a DEPENDS +=3D "libxml-simple-perl-native" or whate=
-ver
-> > the correct name for the module is?
->=20
-> Sounds reasonable. Subsequent patch or V3?
+Test info:
+$ bitbake core-image-sato meta-toolchain-sdk
 
-V3 please, might as well get this right and sorry I didn't realise this
-before.
+There is no warning about "nativesdk-ncurses: files were installed but
+not shipped"
 
-Cheers,
+// Robert
 
-Richard
+The following changes since commit b0187d2ba864a5a218effa01e4ddb23ade40c7e2:
+
+  oe-buildenv-internal: break BB_ENV_EXTRAWHITE into small pieces (2012-10-23 14:00:14 +0800)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/ncurses
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/ncurses
+
+Robert Yang (1):
+  nativesdk-ncurses 5.9: files were installed but not shipped
+
+ meta/recipes-core/ncurses/ncurses.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
 
 
