@@ -1,39 +1,38 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQal7-0001Qn-3d
+	(envelope-from <daniel@fooishbar.org>) id 1TQana-0001V0-1o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 11:26:49 +0200
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 23 Oct 2012 02:13:21 -0700
-Received: by mail-ob0-f197.google.com with SMTP id tb18so10827656obb.0
+	Tue, 23 Oct 2012 11:29:22 +0200
+Received: by mail-vc0-f175.google.com with SMTP id p1so3896405vcq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 02:13:20 -0700 (PDT)
+	Tue, 23 Oct 2012 02:15:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=ZGL4XX+hbVgjM0yuGrBgjwgLhd3SqcJiH8SiLizBHZk=;
-	b=Agl13Ug52mu6IzXy5ZHWQk4r9An29XNNIm6pRxebLR6tjdAbJawI2ehl+Qu091nkxz
-	YgT9TYRIAzZtng2erPN0yyF6cE6yVOFNgKLdtHOele9JGpIcuNCHafYcQCDj1Ch24b/q
-	jFzZ0CS+xakIDA3YoLX+tSX20Fei9ZBUg3QFpS0cyHfjWnYj025BSR2K3Bp70SYaaNRc
-	usVU3Cz/TnPI4+eFbLyyR8KuNLeQux5ZsgdWJFPmCEKe/vnmKpvIDrilx3uPfnz3TRtj
-	67kTCg/iaLuLH93H13Gzd0L4DAg3bMhKuZopjWrLVHr4P/e2xb4wTp0x68cCmPRvMH0g
-	qMnQ==
-Received: by 10.60.24.4 with SMTP id q4mr77782oef.1.1350983600470;
-	Tue, 23 Oct 2012 02:13:20 -0700 (PDT)
-Received: by 10.60.24.4 with SMTP id q4mr77779oef.1.1350983600393; Tue, 23 Oct
-	2012 02:13:20 -0700 (PDT)
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=aBRcEg77H4IlsrqQ0OAo2EZOWN3Q3JZxFsSmqf2qdCk=;
+	b=TrU4W5f7MSbLJ9/uXfG3YiCHEF/P23NnYoYRvkzIoWECXEGQe7w7MceUFslgygfS5m
+	lO5BNsomx+3NhoXnB442LpZ2DdtrrkG/iOeFGjn+ZPvxsOyKe8RM8JND3PzqH3ZBvDeY
+	tbnNiFnAm91/YbsU0nObZRkF9pHCWZpT6pl/xEINj+MC7rO/dgwwmOHLEmqgdDEUuQa9
+	TOYHWRWH7JAcHnrHv/WvtS4ms7a5KyoFGDVtcf/qVuSBm9LidtFf5oRwu9/LhUpfvqaU
+	mgeBhNgqCWq2/qKkMKNfPjbrE4t4tvEaxUJGGtY3hAPirG7yd/iMwVOjdZSMFbiQ+rlZ
+	Muig==
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Tue, 23 Oct 2012 02:12:59 -0700 (PDT)
-In-Reply-To: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Oct 2012 10:12:59 +0100
-Message-ID: <CAJTo0Laj9kyJKVsmKi0tCN7uWsdP=Jj0Ouz7+YEwgWSAF3pLaQ@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQmX6fUaobHX59asi/URpI4J2rDGYD00Opbw3yUg8qpa+mDtaAVHITMvPPsZgUnSkId0t2RqiwgNzAXe17eidnwUCIC6cfgXkeFQ2tXunuddnlLg4ZflabZxMSEkM72wJEfqwMggeo83dYyfYhGpUErVLmQ4RgvqAJizAwoFA2hT6hlBtKOPnauwsRIlaMSVd0j/7KbU
+Received: by 10.52.74.135 with SMTP id t7mr15720458vdv.18.1350983755660; Tue,
+	23 Oct 2012 02:15:55 -0700 (PDT)
+Received: by 10.58.170.104 with HTTP; Tue, 23 Oct 2012 02:15:55 -0700 (PDT)
+X-Originating-IP: [115.64.155.100]
+In-Reply-To: <50865F91.5060002@r-finger.com>
+References: <cover.1350898066.git.ross.burton@intel.com>
+	<dc59bf999e1f8a6d5953c02d21c6e45c53c204a9.1350898066.git.ross.burton@intel.com>
+	<50865F91.5060002@r-finger.com>
+Date: Tue, 23 Oct 2012 20:15:55 +1100
+Message-ID: <CAPj87rP+FHP8QeBvqVHVDX0dUHh-fFL1W_BQbV-1HErG5dE4FA@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+To: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+X-Gm-Message-State: ALoCoQleK62/E4+bwaPMHrXDfyLtn2zYPTq6FZs+z+qleGvSzpbLcQ2wU/nF+/vVL9odkQFWbLC/
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: icon-themes fixes
+Subject: Re: [PATCH 1/3] libxkbcommon: New window system-independent xkb library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,29 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 09:26:49 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 09:29:22 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 23 October 2012 08:04, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
-> wrote:
-> The following changes since commit 06d27cf0fbcc4004e6f456880eca49893c9290=
-bf:
->
->   xorg: remove XF86 BigFont extension (2012-10-22 14:57:26 +0100)
->
-> are available in the git repository at:
->   git://gitorious.org/schnitzeltony-oe-meta/oe-core.git icon-themes
->
-> Andreas M=C3=BCller (3):
->       gnome-icon-theme: fix icon mapping
->       gnome-icon-theme: remove unused configure variable
->       sato-icon-theme: fix build
+Hi,
 
-Looks good.
+On 23 October 2012 20:12, Tomas Frydrych <tf+lists.yocto@r-finger.com> wrote:
+> I think this needs a -native tools as well, like,
+> https://github.com/Guacamayo/meta-guacamayo/blob/master/meta-guacamayo/recipes-graphics/xorg-lib/libxkbcommon_git.bb
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Not anymore, we use Python for makekeys nowadays.  (And, in an
+unpushed tree, don't use Python at all if we can avoid it.)
 
-Ross
+I'm about to push something after dinner which breaks ABI (as well as
+a tiny bit of API that thankfully seems thus far unused), so if you
+could please either hold off until I do or bump SRCREV shortly after,
+that'd be great, thanks. :)
+
+Cheers,
+Daniel
 
 
