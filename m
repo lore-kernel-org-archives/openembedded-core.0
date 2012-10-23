@@ -1,30 +1,35 @@
-Received: from eu1sys200aog107.obsmtp.com ([207.126.144.123])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TQYSV-0006Cf-IR
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TQYlY-0006qe-Vg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 08:59:27 +0200
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob107.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUIY9K/7dWA5QgyNsn8DKEByzLBSH2bTu@postini.com;
-	Tue, 23 Oct 2012 06:46:04 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 72F98E5
+	Tue, 23 Oct 2012 09:19:09 +0200
+Received: by mail-wi0-f177.google.com with SMTP id hj13so2845460wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 06:46:02 +0000 (GMT)
-Received: from mail7.sgp.st.com (mail7.sgp.st.com [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D4D0A20F6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 06:46:02 +0000 (GMT)
-Received: from localhost (lxmcdt5.ctn.st.com [164.130.129.175])
-	by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id APW35399 (AUTH condorg);
-	Tue, 23 Oct 2012 08:46:02 +0200
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+	Tue, 23 Oct 2012 00:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
+	:content-transfer-encoding;
+	bh=CW80x7hYDU7PLbWNfXvs8HsuS8BvAymTq0NcFT0nl+8=;
+	b=iLAYh8tJI7z86g/zggcRCLS8uB+nNIOj488GrjtSxvMdPhiFY/ywUWKMYGy3Xo0OzB
+	t+lHXWdQaFI8LHIqAicXax/6aae9UshlGfZy1gc3T17TCX6IoBke/nrwN3SWZ8kh9wwj
+	VS0HW6ggO4C4L4DEpJc281m+FXqO0qYe1QuTIx0JGCg9ziL7E+C8uxUFBQZTIuiGHVX0
+	UqDJk7zaoI7eM/5QICIY+eZ0YnIhoOzFa0sbma7O5tlPhFIWyV14wU+jYj2mbWMZyp2P
+	Tjxqv8VRrfugU2vwrWzQTMoZhxB2ITIZ+dNaeq72WkoF8D0mOKkFzV+8PUBIT3wn3vlR
+	FNkw==
+Received: by 10.216.140.73 with SMTP id d51mr6769059wej.217.1350975943187;
+	Tue, 23 Oct 2012 00:05:43 -0700 (PDT)
+Received: from localhost.localdomain (ip-109-91-251-94.unitymediagroup.de.
+	[109.91.251.94])
+	by mx.google.com with ESMTPS id cn6sm26296766wib.9.2012.10.23.00.05.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 23 Oct 2012 00:05:42 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Oct 2012 08:45:53 +0200
-Message-Id: <1350974753-519-1-git-send-email-giuseppe.condorelli@st.com>
-X-Mailer: git-send-email 1.7.4.4
-Subject: [PATCH] base-files: do_install_basefilesissue error
+Date: Tue, 23 Oct 2012 09:04:28 +0200
+Message-Id: <1350975871-26719-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.7.6.5
+MIME-Version: 1.0
+Subject: icon-themes fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 06:59:27 -0000
+X-List-Received-Date: Tue, 23 Oct 2012 07:19:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fixed error in do_install_basefilesissue, printf is now replaced by echo.
+The following changes since commit 06d27cf0fbcc4004e6f456880eca49893c9290bf:
 
-Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+  xorg: remove XF86 BigFont extension (2012-10-22 14:57:26 +0100)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index ba355ee..766b0e5 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -117,11 +117,11 @@ do_install_basefilesissue () {
- 
- 	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}  
-         if [ -n "${DISTRO_NAME}" ]; then
--		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
--		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
-+		echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
-+		echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
- 		if [ -n "${DISTRO_VERSION}" ]; then
--			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
--			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
-+			echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
-+			echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
- 		fi
- 		echo "\n \l" >> ${D}${sysconfdir}/issue
- 		echo >> ${D}${sysconfdir}/issue
+are available in the git repository at:
+  git://gitorious.org/schnitzeltony-oe-meta/oe-core.git icon-themes
+
+Andreas Müller (3):
+      gnome-icon-theme: fix icon mapping
+      gnome-icon-theme: remove unused configure variable
+      sato-icon-theme: fix build
+
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    8 +++-----
+ .../sato-icon-theme/sato-icon-theme.inc            |    2 +-
+ .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    2 +-
+ 3 files changed, 5 insertions(+), 7 deletions(-)
+
 -- 
-1.7.4.4
+1.7.6.5
 
 
 
