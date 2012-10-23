@@ -1,38 +1,39 @@
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TQgY3-0005Yf-QY
+	(envelope-from <ml@communistcode.co.uk>) id 1TQgY9-0005Ys-Pt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 17:37:43 +0200
-Received: by mail-oa0-f47.google.com with SMTP id h1so3668031oag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 08:24:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ionnfHvGXTWz+jCTQ3p4o2cx1RpYE8xtBTNH7ZWum3M=;
-	b=k3UK3Fzsf/89Zo/c+++yGB3zJpIBI0ha8R3UtNZc6qmOLcExin+B9V1rI1EMnUh01H
-	kyO8bCwkQnds2qdNbose2CceMmkFkuaQfphbSLVXC9EzJqNcp9KTZ0s1os07UdptuRgH
-	PY5WcXQjdqFZAmNTpj5u/165ju+RqRt4F6rwwmfXFPv8WZMezGeBAhsn7Q5Xt75oIbQj
-	szOyvQoF7W4vfHIdjV1yep5Ojn0M+ONfs6NcQaeya/YbqBsRCYBazQsdjZHfplJd1Pai
-	tiybbU6LPbfxMpuneMQk0BUwKixB+sVmqb1ugPw4Xk0pcyj7j/6pCdabmMQ5Em4Motn+
-	tM+g==
+	Tue, 23 Oct 2012 17:37:51 +0200
+Received: from localhost ([127.0.0.1]:53123 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TQgL5-00040A-Dh; Tue, 23 Oct 2012 15:24:19 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:cc:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=rzCxH6dVgjW7hroAlKDksOwQfnI=; b=MoKZtEPZbgjLtqYfCrmv8AmfGrnL
+	F94EyyMzqn6RaGmQj7AevhRKsJTNsIKl8obSgk3SWQOl1aOoT3e8miMox1D5oKBR
+	gcgYVtNvaUV9gqTj/98kAYvHaY2f9dmg7QER1CNKPkRSZi5/N9/oNklNlELd3GjR
+	MrAdhn6XtvBYgk4=
+Received: from [195.171.99.130] (port=45229 helo=[192.168.0.67])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TQgL5-000406-AF; Tue, 23 Oct 2012 15:24:19 +0000
+Message-ID: <5086B713.30708@communistcode.co.uk>
+Date: Tue, 23 Oct 2012 16:26:11 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
 MIME-Version: 1.0
-Received: by 10.60.29.3 with SMTP id f3mr11214639oeh.97.1351005857287; Tue, 23
-	Oct 2012 08:24:17 -0700 (PDT)
-Received: by 10.60.123.47 with HTTP; Tue, 23 Oct 2012 08:24:17 -0700 (PDT)
-In-Reply-To: <1351005775.3259.350.camel@phil-desktop>
-References: <CAOHjBZtTso5LuxjUX=Y+z7UNwnBLKo2rsYRs1oOyMeNfc5oTJg@mail.gmail.com>
-	<1351005775.3259.350.camel@phil-desktop>
-Date: Tue, 23 Oct 2012 17:24:17 +0200
-Message-ID: <CAOHjBZv1k=_fHmJ2DCiYrCf1TYRJgG17MwdRtObfKWB89AY4ug@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Phil Blundell <philb@gnu.org>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: add init applet to busybox
+References: <50869BDC.6050401@communistcode.co.uk>
+	<CAJTo0LZHTGaVLnrYidOmLwvqB3Z+n9m5itr_4hA9krEPHihdsQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZHTGaVLnrYidOmLwvqB3Z+n9m5itr_4hA9krEPHihdsQ@mail.gmail.com>
+Subject: Re: Issues building meta-toolchain, libxau
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -42,53 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 15:37:44 -0000
-Content-Type: multipart/alternative; boundary=e89a8fb20278368fb804ccbb903e
+X-List-Received-Date: Tue, 23 Oct 2012 15:37:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---e89a8fb20278368fb804ccbb903e
-Content-Type: text/plain; charset=ISO-8859-1
-
-Well, many thanks Phil for your fast reply.
-
-Cheers,
-Giuseppe
-
-2012/10/23 Phil Blundell <philb@gnu.org>
-
-> On Tue, 2012-10-23 at 17:22 +0200, Giuseppe Condorelli wrote:
-> > I need to enable init applet in the current version of busybox.
-> > Do I have to create my own defconfig to pass via .bbappend file
+On 23/10/12 16:15, Burton, Ross wrote:
+> On 23 October 2012 14:30, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> I'm struggling to build a varient of meta-toolchain as I keep running into
+>> the following error. I can't see any recent changes to libxau soI'm a bit
+>> stumped...
+> /usr/bin/grep: /mnt/storage/yoctoBuilds/poky-beaglebone.git/beaglebone-db/tmp/sysroots/x86_64-nativesdk-pokysdk-linux/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/libXau.la:
+> No such file or directory
 >
-> That's probably the best approach, yes.
+> Hooray libtool!  :(  There have been relatively recent changes (a
+> month ago?) to libX11 which may be causing this.  Is this from a clean
+> build?
 >
-> p.
+> (this is why people don't like .la files)
 >
->
->
->
+> Ross
 
---e89a8fb20278368fb804ccbb903e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+No, it is not a clean build. However I got quite reckless with the -c 
+cleansstate at one point which didn't seem to help.
 
-<div>Well, many thanks Phil for your fast reply.</div><div>=A0</div><div>Ch=
-eers,</div><div>Giuseppe<br><br></div><div class=3D"gmail_quote">2012/10/23=
- Phil Blundell <span dir=3D"ltr">&lt;<a href=3D"mailto:philb@gnu.org" targe=
-t=3D"_blank">philb@gnu.org</a>&gt;</span><br>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote"><div class=3D"im">On Tue, 2012-10-23 at 17:22 +0200, Giuse=
-ppe Condorelli wrote:<br>
+-- 
 
-&gt; I need to enable init applet in the current version of busybox.<br>
-&gt; Do I have to create my own defconfig to pass via .bbappend file<br>
-<br>
-</div>That&#39;s probably the best approach, yes.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-p.<br>
-<br>
-<br>
-<br>
-</font></span></blockquote></div><br>
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
 
---e89a8fb20278368fb804ccbb903e--
+--
+
+
+
