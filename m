@@ -1,27 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1TQZUi-0007uH-P7
+	(envelope-from <martin.jansa@gmail.com>) id 1TQZWa-00082D-Pf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 10:05:49 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9N7qLJv010893
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 23 Oct 2012 10:07:44 +0200
+Received: by mail-wi0-f177.google.com with SMTP id hj13so2879964wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 00:52:21 -0700 (PDT)
-Received: from usp-ub10.wrs.com (128.224.163.69) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 23 Oct 2012 00:52:18 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Oct 2012 15:52:27 +0800
-Message-ID: <7ed4d03d62b0fe0e05bb974122e544ae02f7354e.1350957811.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1350957811.git.liezhi.yang@windriver.com>
-References: <cover.1350957811.git.liezhi.yang@windriver.com>
+	Tue, 23 Oct 2012 00:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vxgcZIg4NGP0KavNWnEGVuRuOc3x+l9RzozThN2ezy0=;
+	b=LS6qVkKXLMlX4a9ulx6FGlAz/KitciBxBhqQ0Q6Lb81cmvwmKKVcJIjBebzb28l6O2
+	df/PibImHSugBd2arW6Gh0d9io2bjphFMBzDKTterVhGal3Odlzj8PaEqbGAHsS5gkYk
+	fuiknkhDvMAzVGY/I8iHGzz8aP3U6hm35/8Kc1x8SR+GszEz2zCJRDNGfo6NtszBVLks
+	lb8jQ4Av5IpdLdHjOpyoxbEwbqXNgza/35O99sZc5X3+Pg88WAMKmWvdRH7eLvpPeYxc
+	YAe4OxxdZ8zjbOtIFTfXfuAfEFpTT/ljY+VWAjx2zDPGEYLyTDjTTg3p/UpBq2YvSNuC
+	gtUA==
+Received: by 10.180.91.71 with SMTP id cc7mr27026856wib.2.1350978859059;
+	Tue, 23 Oct 2012 00:54:19 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fp6sm34983245wib.0.2012.10.23.00.54.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 23 Oct 2012 00:54:18 -0700 (PDT)
+Date: Tue, 23 Oct 2012 09:54:34 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+Message-ID: <20121023075434.GM3269@jama.jama.net>
+References: <1350919952-14859-1-git-send-email-giuseppe.condorelli@st.com>
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/2] bitbake.conf: add BUILDNAME to BB_HASHBASE_WHITELIST
+In-Reply-To: <1350919952-14859-1-git-send-email-giuseppe.condorelli@st.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] base-files: do_install_basefilesissue error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,64 +44,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 08:05:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Oct 2012 08:07:44 -0000
+X-Groupsio-MsgNum: 30856
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="1hVIwB4NpNcOOTEe"
+Content-Disposition: inline
 
-There is an error when "bitbake -S <image>", e.g., core-image-minimal:
+--1hVIwB4NpNcOOTEe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-NOTE: Reparsing files to collect dependency data
-ERROR: Bitbake's cached basehash does not match the one we just generated (/path/to/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
-ERROR: The mismatched hashes were 730202c9538c4fc1f2e3d1fefa3595f0 and a91bb9451c182e19bfe405ac1bafcc0f
+On Mon, Oct 22, 2012 at 05:32:32PM +0200, Giuseppe CONDORELLI wrote:
+> Fixed error in do_install_basefilesissue, printf is now replaced by echo.
 
-The mismatch can be caused by 2 reasons:
+Looks like partial revert of
 
-1) BUILDNAME, there is no member of BUILDNAME in the cache when first
-   parsing the recipes, it is added by the BBCooker::buildSetVars before
-   start the building, so there would be mismatches when compare the
-   re-parsed basehash (contains BUILDNAME) to the previous one (no
-   BUILDNAME) which is from the cache.
+commit a19880ad10ccb5d7d909dcf9de5c3dc58a0ebcd3
+Author: Andrei Gherzan <andrei@gherzan.ro>
+Date:   Thu Sep 20 12:56:59 2012 +0300
 
-   Add the BUILDNAME to BB_HASHBASE_WHITELIST would fix the problem.
+    Replace "echo -e" with "printf" to have the same behavior in dash or ba=
+sh
 
-2) DATE or TIME, they are in the cache data and will change when
-   re-parsing, move them from BB_HASHCONFIG_WHITELIST to
-   BB_HASHBASE_WHITELIST which can be ingored by basehash would fix the
-   problem.
+    oe-core removed the prerequisite to have sh as bash. POSIX doesn't defi=
+ne
+    any options and furthermore allows 'echo -e' to be the default behavior.
+    This means that in dash 'echo -e' will actually print '-e' and interpret
+    backslashes by default. We use instead 'printf' builtin command with or
+    without '\n' to simulate 'echo -e' or 'echo -n'.
+    'printf' needs format while 'echo' can be used without any arguments. So
+    'echo >' was replaced by 'printf "" >'.
+    'echo' without '-n' flag adds a new line by default so to keep the same
+    behavior of two new lines while using 'echo "\n"', 'printf "\n\n"' is
+    used.
 
-   Another fix for DATE or TIME is not to let them expand immediately,
-   change: (":=" to "=")
-   DATE := "${@time.strftime('%Y%m%d',time.gmtime())}"
-   TIME := "${@time.strftime('%H%M%S',time.gmtime())}"
+    [YOCTO #3138]
 
-   To:
+with very weak explanation why..
 
-   DATE = "${@time.strftime('%Y%m%d',time.gmtime())}"
-   TIME = "${@time.strftime('%H%M%S',time.gmtime())}"
+>=20
+> Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
+> ---
+>  meta/recipes-core/base-files/base-files_3.0.14.bb |    8 ++++----
+>  1 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/rec=
+ipes-core/base-files/base-files_3.0.14.bb
+> index ba355ee..766b0e5 100644
+> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+> @@ -117,11 +117,11 @@ do_install_basefilesissue () {
+> =20
+>  	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir} =20
+>          if [ -n "${DISTRO_NAME}" ]; then
+> -		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
+> -		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
+> +		echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
+> +		echo "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue.net
+>  		if [ -n "${DISTRO_VERSION}" ]; then
+> -			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
+> -			printf "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
+> +			echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue
+> +			echo "${DISTRO_VERSION} " >> ${D}${sysconfdir}/issue.net
+>  		fi
+>  		echo "\n \l" >> ${D}${sysconfdir}/issue
+>  		echo >> ${D}${sysconfdir}/issue
+> --=20
+> 1.7.4.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-[YOCTO #3299]
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/bitbake.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+--1hVIwB4NpNcOOTEe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 65efbb9..41c27eb 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -774,8 +774,8 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-     SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
-     PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
--    CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE"
--BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER \
-+    CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE DATE TIME BUILDNAME"
-+BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} SESSION_MANAGER \
-     DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK \
-     XAUTHORITY PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS"
--- 
-1.7.1
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCGTToACgkQN1Ujt2V2gBzDFQCfblneHTBwz6vMSiRsTXiNVsrx
+U6wAn3JMNZcwvFYCTH7PiRHKDycSb0yN
+=KnKZ
+-----END PGP SIGNATURE-----
 
-
+--1hVIwB4NpNcOOTEe--
