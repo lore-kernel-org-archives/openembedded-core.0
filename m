@@ -1,26 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1TQlM9-0000Mt-Ch
+	(envelope-from <sgw@linux.intel.com>) id 1TQld4-000112-IM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 22:45:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9NKWIMl027639
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Oct 2012 13:32:18 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 23 Oct 2012 13:32:17 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Oct 2012 15:32:14 -0500
-Message-ID: <c4e7be15d29c4fbc2b57e6107735490076ff5cb4.1351024134.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1351024134.git.peter.seebach@windriver.com>
-References: <cover.1351024134.git.peter.seebach@windriver.com>
+	Tue, 23 Oct 2012 23:03:14 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2012 13:49:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,637,1344236400"; d="scan'208";a="209671147"
+Received: from unknown (HELO [10.255.14.141]) ([10.255.14.141])
+	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2012 13:49:46 -0700
+Message-ID: <508702EA.6090800@linux.intel.com>
+Date: Tue, 23 Oct 2012 13:49:46 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] insane.bbclass and friends: Fix sanity checks and multlib headers for n32
+To: Peter Seebach <peter.seebach@windriver.com>
+References: <cover.1351024134.git.peter.seebach@windriver.com>
+In-Reply-To: <cover.1351024134.git.peter.seebach@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] Make n32 survive insane.bbclass and multilib_header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,110 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 20:45:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 23 Oct 2012 21:03:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The n32 architecture is odd, in that it's a mips64 ABI which happens
-to be 32-bit. To handle this, we need something in the environment
-which can be used to distinguish it. The obvious place to stash this
-is the ABI suffix, so we use "n32" as an ABI suffix. This allows
-a couple of improved checks:
+On 10/23/2012 01:32 PM, Peter Seebach wrote:
+> The multilib_header fixup has code in the generated header to handle
+> n32, but doesn't detect n32 headers. Meanwhile, insane.bclass rejects
+> n32 binaries for being 32-bit binaries in a mips64 build. Solution: Use
+> an ABI suffix, and check for it in appropriate places.
+>
 
-1. In insane.bbclass, we can use "linux-gnun32" to discern that it's
-okay for a mips64 binary to be a 32-bit binary in some cases.
-2. In multilib_header, we can check for the n32 ABI, and use a distinct
-value.
+How can I build test this, the same way as x32?
 
-Note that the multilib header wrapper already has n32 hooks in it, there
-was just nothing creating -n32 header variants.
+Sau!
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/classes/insane.bbclass                  |    4 +++
- meta/classes/multilib_header.bbclass         |   32 +++++++++++++++++--------
- meta/conf/machine/include/mips/arch-mips.inc |    1 +
- 3 files changed, 27 insertions(+), 10 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 29b122e..2dc9ba3 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -105,6 +105,10 @@ def package_qa_get_machine_dict():
-             "linux-gnux32" :       {
-                         "x86_64":     (62,     0,    0,          True,          32),
-                       },
-+            "linux-gnun32" :       {
-+                        "mips64":       ( 8,     0,    0,          False,         32),
-+                        "mipsel64":     ( 8,     0,    0,          True,          32),
-+                      },
-         }
- 
- 
-diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
-index 867bce4..639ed4b 100644
---- a/meta/classes/multilib_header.bbclass
-+++ b/meta/classes/multilib_header.bbclass
-@@ -1,16 +1,29 @@
- inherit siteinfo
- 
--# If applicable on the architecture, this routine will rename the header and add
--# a unique identifier to the name for the ABI/bitsize that is being used.  A wrapper will
--# be generated for the architecture that knows how to call all of the ABI variants for that
--# given architecture.
--#
--# TODO: mips64 n32 is not yet recognized in this code
--# when that is identified the name of the wrapped item should be "n32" and appropriately
--# determined int he if coding...
-+# If applicable on the architecture, this routine will rename the header and
-+# add a unique identifier to the name for the ABI/bitsize that is being used.
-+# A wrapper will be generated for the architecture that knows how to call
-+# all of the ABI variants for that given architecture.
- #
- oe_multilib_header() {
--	# Do nothing on ARM, only one ABI is supported at once
-+        # We use
-+        # For ARM: We don't support multilib builds.
-+        # For MIPS: "n32" is a special case, which needs to be
-+        # distinct from both 64-bit and 32-bit.
-+        case ${TARGET_ARCH} in
-+        arm*)   return
-+                ;;
-+        mips*)  case "${MIPSPKGSFX_ABI}" in
-+                "-n32")
-+                       ident=n32   
-+                       ;;
-+                *)     
-+                       ident=${SITEINFO_BITS}
-+                       ;;
-+                esac
-+                ;;
-+        *)      ident=${SITEINFO_BITS}
-+        esac
- 	if echo ${TARGET_ARCH} | grep -q arm; then
- 	    return
- 	fi
-@@ -20,7 +33,6 @@ oe_multilib_header() {
- 	      continue
- 	   fi
- 	   stem=$(echo $each_header | sed 's#\.h$##')
--	   ident=${SITEINFO_BITS}
- 	   # if mips64/n32 set ident to n32
- 	   mv ${D}/${includedir}/$each_header ${D}/${includedir}/${stem}-${ident}.h
- 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index 9f12920..c390ff9 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -17,6 +17,7 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "o32", "-mabi=32", "", d)}
- 
- TUNEVALID[n32] = "MIPS64 n32 ABI"
- TUNECONFLICTS[n32] = "o32 n64"
-+ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "n32", "n32", "" ,d)}"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "n32", "-mabi=n32", "", d)}"
- 
- TUNEVALID[n64] = "MIPS64 n64 ABI"
--- 
-1.7.0.4
-
+> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+>
+> The following changes since commit 754ddbf1c57e6b9d0650498538840effebe4f7a2:
+>    Ross Burton (1):
+>          libical: remove
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib seebs/mips64
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/mips64
+>
+> Peter Seebach (1):
+>    insane.bbclass and friends: Fix sanity checks and multlib headers for
+>      n32
+>
+>   meta/classes/insane.bbclass                  |    4 +++
+>   meta/classes/multilib_header.bbclass         |   32 +++++++++++++++++--------
+>   meta/conf/machine/include/mips/arch-mips.inc |    1 +
+>   3 files changed, 27 insertions(+), 10 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
