@@ -1,23 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TQld4-000112-IM
+	(envelope-from <Peter.Seebach@windriver.com>) id 1TQlgs-00015d-7B
 	for openembedded-core@lists.openembedded.org;
-	Tue, 23 Oct 2012 23:03:14 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2012 13:49:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,637,1344236400"; d="scan'208";a="209671147"
-Received: from unknown (HELO [10.255.14.141]) ([10.255.14.141])
-	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2012 13:49:46 -0700
-Message-ID: <508702EA.6090800@linux.intel.com>
-Date: Tue, 23 Oct 2012 13:49:46 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Peter Seebach <peter.seebach@windriver.com>
+	Tue, 23 Oct 2012 23:07:10 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9NKrhZB028030
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 23 Oct 2012 13:53:43 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 23 Oct 2012 13:53:42 -0700
+Date: Tue, 23 Oct 2012 15:53:25 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20121023155325.73a904ac@e6410-2>
+In-Reply-To: <508702EA.6090800@linux.intel.com>
 References: <cover.1351024134.git.peter.seebach@windriver.com>
-In-Reply-To: <cover.1351024134.git.peter.seebach@windriver.com>
+	<508702EA.6090800@linux.intel.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/1] Make n32 survive insane.bbclass and multilib_header
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -32,47 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Oct 2012 21:03:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 23 Oct 2012 21:07:10 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On 10/23/2012 01:32 PM, Peter Seebach wrote:
-> The multilib_header fixup has code in the generated header to handle
-> n32, but doesn't detect n32 headers. Meanwhile, insane.bclass rejects
-> n32 binaries for being 32-bit binaries in a mips64 build. Solution: Use
-> an ABI suffix, and check for it in appropriate places.
->
+On Tue, 23 Oct 2012 13:49:46 -0700
+Saul Wold <sgw@linux.intel.com> wrote:
 
-How can I build test this, the same way as x32?
+> How can I build test this, the same way as x32?
 
-Sau!
+I am ... not entirely sure how you'd do it in the absence of an
+n32 target. Our binary prebuilt toolchain uses n32 for one of the
+Octeon parts.
 
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
->
-> The following changes since commit 754ddbf1c57e6b9d0650498538840effebe4f7a2:
->    Ross Burton (1):
->          libical: remove
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib seebs/mips64
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/mips64
->
-> Peter Seebach (1):
->    insane.bbclass and friends: Fix sanity checks and multlib headers for
->      n32
->
->   meta/classes/insane.bbclass                  |    4 +++
->   meta/classes/multilib_header.bbclass         |   32 +++++++++++++++++--------
->   meta/conf/machine/include/mips/arch-mips.inc |    1 +
->   3 files changed, 27 insertions(+), 10 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+I think any tuning that uses n32 should illustrate the failure modes in
+the previous setup, which are:
+
+1. First thing you build that has target binaries errors out with QA
+checks because you're making 32-bit binaries for mips64.
+2. Anything that wants ncurses ends up thinking that ncurses.h doesn't
+exist because ncurses.h is a symlink to curses.h, and curses.h is
+renamed to curses-64.h, but the #include magic in the wrapper looks for
+curses-n32.h.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
