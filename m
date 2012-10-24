@@ -1,30 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TQznW-0004y9-Mu for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 14:10:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9OBvTBT002504;
-	Wed, 24 Oct 2012 12:57:29 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01410-05; Wed, 24 Oct 2012 12:57:25 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9OBvLef002498
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 24 Oct 2012 12:57:22 +0100
-Message-ID: <1351079840.22340.96.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Wed, 24 Oct 2012 12:57:20 +0100
-In-Reply-To: <1351071018-22570-1-git-send-email-ross.burton@intel.com>
-References: <1351071018-22570-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gst-plugins-good: disable taglib explicitly
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1TR05e-0005F5-3V
+	for openembedded-core@lists.openembedded.org;
+	Wed, 24 Oct 2012 14:29:42 +0200
+Received: by mail-we0-f175.google.com with SMTP id t44so211029wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Oct 2012 05:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=hGI6ys8DlW4QRtWBf3qi0khqlEOao4nlArJtK36OZzs=;
+	b=fKyV3HSkTlYceiEqoJlF8YP/xah03TIzbt8YqfvgmMzeELfXx5IvHlWEiwXVTFA50Z
+	IaSglBYNzGUkBhQhSLlvwQbuDxo3ZSEHqV/DPFLcWF75Nppr4yjLGd+qR3ZPd+8qEq+B
+	Ea1pn+gngVGWaZLYWMO1bJghn0C10iXGEAIkCTbixwVd1IkmIm+6zJ+cyfdoMgWW/NvT
+	/eV6YZBPpgdDbceaDp+xQOyDqm+2aMoYCRb7mmca4/rBqakfmnqcpsYdoSEYuqOM0kWb
+	9dJ6rdaSw+KXvdeXXOfx7yygLggVprprWpprZnoVYKwXaqoCY7y88ANUyqYC3e9BOQUA
+	sTaQ==
+Received: by 10.216.141.38 with SMTP id f38mr9825734wej.196.1351080974820;
+	Wed, 24 Oct 2012 05:16:14 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id v3sm4629850wiy.5.2012.10.24.05.16.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 24 Oct 2012 05:16:12 -0700 (PDT)
+Date: Wed, 24 Oct 2012 14:16:29 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20121024121629.GE3269@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: gconf-native backends broken when reused from sstate?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 12:10:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Oct 2012 12:29:42 -0000
+X-Groupsio-MsgNum: 30929
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xd7ZVmXU2EjaW0+X"
+Content-Disposition: inline
 
-On Wed, 2012-10-24 at 10:30 +0100, Ross Burton wrote:
-> This was being detected automatically so the build wasn't deterministic.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+--xd7ZVmXU2EjaW0+X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Merged to master, thanks.
+When building foxtrotgps I get this error:
 
-Richard
+| GCONF_CONFIG_SOURCE=3Dxml:merged:/OE/jansa-test/shr-core/tmp-eglibc/sysro=
+ots/x86_64-linux/etc/gconf/gconf.xml.defaults \
+| /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/gconftool-2 --makef=
+ile-install-rule apps_foxtrotgps.schemas
+|  /bin/mkdir -p '/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/foxt=
+rotgps-1.1.1-r1/image/usr/share/foxtrotgps'
+|
+| (gconftool-2:13082): GConf-CRITICAL **: No such file `/OE/jansa-test/shr-=
+core/tmp-eglibc/work/x86_64-linux/gconf-native-3.2.3-r12/GConf-3.2.3/gconf/=
+=2E./backends/.libs/libgconfbackend-xml.so'
+|
+|
+| (gconftool-2:13082): GConf-WARNING **: Failed to load source "xml:merged:=
+/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/etc/gconf/gconf.xm=
+l.defaults": Failed: Couldn't locate backend module for `xml:merged:/OE/jan=
+sa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/etc/gconf/gconf.xml.defau=
+lts'
 
+First path points to wrong sysroot (/OE/jansa-test/shr-core is used only
+on builder from where i get sstate-cache with SSTATE_MIRROR) and the
+other paths to backends are using even WORKDIR.
 
+It's not really foxtrotgps fault:
+sysroots/x86_64-linux/usr/bin/gconftool-2 --get-default-source
+xml:merged:/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/etc/gco=
+nf/gconf.xml.defaults
 
+Anyone seen this?
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--xd7ZVmXU2EjaW0+X
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCH3B0ACgkQN1Ujt2V2gBzRLQCfTXS6CKhux1jeNqAI2FV3SOlu
+sOgAniEW5/Na4sE11At6zdg1DBwjeuYe
+=Ey1n
+-----END PGP SIGNATURE-----
+
+--xd7ZVmXU2EjaW0+X--
