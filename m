@@ -1,27 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TQuMk-0007Fy-Tr
-	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 08:22:59 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9O69UYh011485
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Oct 2012 23:09:30 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Tue, 23 Oct 2012 23:09:30 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 24 Oct 2012 14:09:53 +0800
-Message-ID: <7b245ca2d14a40b26224a5ba8466709e770c5ce9.1351049433.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1351049433.git.kai.kang@windriver.com>
-References: <cover.1351049433.git.kai.kang@windriver.com>
+	(envelope-from <andrei.adrianx.dinu@intel.com>)
+	id 1TQw15-0001Gl-29; Wed, 24 Oct 2012 10:08:43 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Oct 2012 00:55:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,639,1344236400"; d="scan'208";a="239383270"
+Received: from adinu-vostro-460 (HELO [10.237.105.39]) ([10.237.105.39])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Oct 2012 00:45:02 -0700
+Message-ID: <50879CC0.2030104@intel.com>
+Date: Wed, 24 Oct 2012 10:46:08 +0300
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] automake: update dependencies
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1349345672-803-1-git-send-email-andrei.adrianx.dinu@intel.com>
+	<CA+chaQePjXEa0o6ziqV7rUVgqWOEoyJPMb1iApbv-9MEJzts0Q@mail.gmail.com>
+	<20121018205948.GE3087@jama.jama.net>
+	<20121023185454.GS3269@jama.jama.net>
+In-Reply-To: <20121023185454.GS3269@jama.jama.net>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gypsy: removed gypsy from meta/recipes-connectivity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,91 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 06:22:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Oct 2012 08:08:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove the RDEPENDS for nativesdk because the nativesdk-automake also
-needs perl modules.
+Hi Martin,
 
-Add dependencies perl-module-thread-queue and perl-module-threads.
+This change was caused by the bug :
 
-Remove redundant dependencies that they are already required by autoconf
-and autoconf is required by automake.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2797
 
-In this removed list, "-->" present "required by":
+I removed the tarball and kept only the git package because that is what 
+says in the bug.
 
-  perl-module-cwd --> perl-module-file-path --> autoconf
-  perl-module-dynaloader --> perl-module-xsloader --> perl-module-fcntl
-    			--> perl-module-file-stat --> autoconf
-  perl-module-exporter-heavy --> perl-module-exporter --> autoconf
-  perl-module-constant --> autoconf
-  perl-module-errno --> autoconf
-  perl-module-file-basename --> autoconf
-  perl-module-file-compare --> autoconf
-  perl-module-file-copy --> autoconf
-  perl-module-file-glob --> autoconf
-  perl-module-file-spec-unix --> perl-module-file-spec
-    			    --> perl-module-io-file --> autoconf
-  perl-module-file-stat --> autoconf
-  perl-module-getopt-long --> autoconf
-  perl-module-io --> perl-module-IO-handle --> perl-module-IO-seekable
-    		--> perl-module-io-file --> autoconf
-  perl-module-io-file --> autoconf
-  perl-module-posix --> autoconf
+Secondly, i modified the SRCREV because i took the latest version in the 
+git repo.
 
-Bump up PR.
+If there is anything more to add please send me an email.
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-devtools/automake/automake_1.12.3.bb |   20 +++-----------------
- 1 files changed, 3 insertions(+), 17 deletions(-)
+Thanks,
 
-diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recipes-devtools/automake/automake_1.12.3.bb
-index af99dfa..362500c 100644
---- a/meta/recipes-devtools/automake/automake_1.12.3.bb
-+++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
-@@ -7,28 +7,14 @@ RDEPENDS_${PN} += "\
-     autoconf \
-     perl \
-     perl-module-bytes \
--    perl-module-constant \
--    perl-module-cwd \
-     perl-module-data-dumper \
--    perl-module-dynaloader \
--    perl-module-errno \
--    perl-module-exporter-heavy \
--    perl-module-file-basename \
--    perl-module-file-compare \
--    perl-module-file-copy \
--    perl-module-file-glob \
--    perl-module-file-spec-unix \
--    perl-module-file-stat \
--    perl-module-getopt-long \
--    perl-module-io \
--    perl-module-io-file \
--    perl-module-posix \
-     perl-module-strict \
-     perl-module-text-parsewords \
-+    perl-module-thread-queue \
-+    perl-module-threads \
-     perl-module-vars "
- 
- RDEPENDS_${PN}_virtclass-native = "autoconf-native perl-native-runtime"
--RDEPENDS_${PN}_virtclass-nativesdk = "nativesdk-autoconf"
- 
- PATHFIXPATCH = "file://path_prog_fixes.patch"
- PATHFIXPATCH_virtclass-native = ""
-@@ -42,7 +28,7 @@ SRC_URI += "${PATHFIXPATCH} \
- SRC_URI[md5sum] = "d2af8484de94cdee16d89c50aaa1c729"
- SRC_URI[sha256sum] = "095ffaa3ac887d1eb3511bf13d7f1fc9ec0503c6a06aeae05c93730cdda9a5a0"
- 
--PR = "r1"
-+PR = "r2"
- 
- do_install () {
-     oe_runmake 'DESTDIR=${D}' install
--- 
-1.7.5.4
+Andrei Dinu
+
+On 10/23/2012 09:54 PM, Martin Jansa wrote:
+> On Thu, Oct 18, 2012 at 10:59:48PM +0200, Martin Jansa wrote:
+>> On Thu, Oct 18, 2012 at 08:59:19PM +0200, Martin Jansa wrote:
+>>> I know you've sent
+>>> http://patchwork.openembedded.org/patch/37763/
+>>> to add it to meta-oe, but this patch removed also newer gypsy_0.9.bb
+>>> and only older gypsy_git.bb was added back.
+>>>
+>>> Please fix that.
+>> There is also this diff which isn't mentioned in your commit.
+>>
+>> -SRCREV = "3652e1f37e82b8e63983e30fda3482cd099a8cf5"
+>> +SRCREV = "be8c9c382d2d1d37b51d29b0843045121ec90213"
+>>   PV = "0.8+git${SRCPV}"
+>>   PR = "r2"
+>>
+>> @@ -15,4 +15,5 @@
+>>                       file://gypsy/gypsy-time.h;beginline=1;endline=24;md5=06432ea19a7b6607428d04d9dadc37fd"
+>>
+>>   SRC_URI = "git://anongit.freedesktop.org/gypsy;protocol=git \
+>> -           file://fixups.patch"
+>> +           file://fixups.patch \
+>> +           file://0001-gypsy-m4-directory-missing-from-structure.patch"
+> ping
+>
+> meta-oe is still broken because of this
+>
+> Cheers,
 
 
 
