@@ -1,37 +1,34 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TQwBy-0001an-1Q
+	(envelope-from <martin.jansa@gmail.com>) id 1TQwG9-0001pC-8n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 10:19:58 +0200
-Received: by mail-wi0-f171.google.com with SMTP id hj13so3964882wib.6
+	Wed, 24 Oct 2012 10:24:17 +0200
+Received: by mail-wi0-f177.google.com with SMTP id hj13so184787wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2012 01:06:33 -0700 (PDT)
+	Wed, 24 Oct 2012 01:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=IrKGADr505bkuZp/yI/5or+dZu1OJ5FkZqVrlYQvtqI=;
-	b=B0w9YDpXE/Ww0f/MbjvWL8xXNkDgWsj8OeYasSZP0uCuJILj8l0W8IZefVHIuwEW5B
-	SfO7ZzH1f7q+R4mrNEZV83KvJvaA7WXbEZ53JxO66EBXCMwJocS3Onj7u91v24BGvrhv
-	qO+D94DoaQ22ADc/RNZBw4yBPT+Az4CyZexHK4/974UVfak6QcH/1eh792w31h9I2m9l
-	aX13zeeGDXcHLmeFw4upprXwitMtWtADisMVUWXLuQTNpHSzxyQeWfsUNZuMg60Fu2IU
-	nVGP5+dfqvzGbYGT5hv2Id5JdnBUQPHNBpdd7LN9IpRsN0WedH/lKE1gTmu/e9ZDd0D5
-	1XdA==
-Received: by 10.180.94.102 with SMTP id db6mr3866538wib.20.1351065993168;
-	Wed, 24 Oct 2012 01:06:33 -0700 (PDT)
-Received: from localhost.localdomain (ip-109-91-251-94.unitymediagroup.de.
-	[109.91.251.94])
-	by mx.google.com with ESMTPS id ei1sm3534677wid.7.2012.10.24.01.06.31
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=SF0cHt3T1A+Q06pSx5x7Edu1+zX3tujEynlY2dKUaNg=;
+	b=KVztfnTiuEFwf3+ulGhgP986UpEQh3lJEsWNMzY2yedoqVLyZKgsD95yg3WS6xvlyK
+	kjFVvF5hDsmaADlrQdwCMqSXOjpnerqUeH4OVKPSblupXTCzk031v+DX91qom8A19zMx
+	G7WGcqyE7p4bJ8asgAJF0TKdZJy/SuZW3GEomb0WA8/TCesbJOGVTVZ2rV1SjebXpIc9
+	IqsCi9J5MjnoNQZ001vXz816dX6/TTo2u6bF2q5sUV3L2UucavjWAs3CHID2J52Jpc+M
+	MMPB5vTphtbE/ZqoTScelI62EAvsDSwIYHa8abgEcKwj5E6MTOFEv/mVmY/2s6aI9sJe
+	SAEA==
+Received: by 10.216.193.136 with SMTP id k8mr8990367wen.188.1351066250290;
+	Wed, 24 Oct 2012 01:10:50 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id bn7sm3551350wib.8.2012.10.24.01.10.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 24 Oct 2012 01:06:32 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+	Wed, 24 Oct 2012 01:10:43 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Oct 2012 10:05:17 +0200
-Message-Id: <1351065917-14779-5-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <1351065917-14779-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1351065917-14779-1-git-send-email-schnitzeltony@googlemail.com>
-MIME-Version: 1.0
-Subject: [V3 4/4] sato-icon-theme: merge sato-icon-theme.inc into recipe
+Date: Wed, 24 Oct 2012 10:10:58 +0200
+Message-Id: <1351066258-19437-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.12.4
+In-Reply-To: <1351032689-20431-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1351032689-20431-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCHv2] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,91 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 08:19:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Oct 2012 08:24:17 -0000
 
-nothing else needs sato-icon-theme.inc
+* it's not very universal, but works with default oe-core setup and
+  shows basic HOW-TO. It can be improved later.
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+* eglibc-initial should be fixed, but for now better to add that
+  work around then to show a lot of false positives
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../sato-icon-theme/sato-icon-theme.inc            |   24 -------------------
- .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |   25 ++++++++++++++++++-
- 2 files changed, 23 insertions(+), 26 deletions(-)
- delete mode 100644 meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+ V2: added .pyo to WHITELIST
+     shorter filenames
+     TMPDIR
+     added duplicates but not shown
 
-diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-deleted file mode 100644
-index e014a7d..0000000
---- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-+++ /dev/null
-@@ -1,24 +0,0 @@
--DESCRIPTION = "Sato Icon Theme"
--HOMEPAGE = "http://www.o-hand.com"
--BUGTRACKER = "http://bugzilla.openedhand.com/"
--
--LICENSE = "CC-BY-SA-3.0"
--LIC_FILES_CHKSUM = "file://COPYING;md5=56a830bbe6e4697fe6cbbae01bb7c2b2"
--
--SECTION = "x11"
--DEPENDS = ""
--
--inherit autotools pkgconfig allarch gtk-icon-cache perlnative
--
--FILES_${PN} += "${datadir}"
--
--EXTRA_OECONF += "--with-iconmap=${@d.getVar('STAGING_LIBEXECDIR_NATIVE', True).replace('sato-icon-theme', 'icon-naming-utils')}/icon-name-mapping"
--
--# Explictly setting "Sato" as the default icon theme to avoid flickering from
--# the desktop and settings daemon racing.  This shouldn't be done here but in the sato image
--pkg_postinst_${PN} () {
--    mkdir -p $D/etc/gtk-2.0
--
--    grep -s -q -e ^gtk-icon-theme-name.*\"Sato\" $D/etc/gtk-2.0/gtkrc || \
--        echo 'gtk-icon-theme-name = "Sato"' >> $D/etc/gtk-2.0/gtkrc
--}
-diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-index ead2f7d..cb3b68c 100644
---- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-+++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-@@ -1,12 +1,33 @@
--require sato-icon-theme.inc
-+DESCRIPTION = "Sato Icon Theme"
-+HOMEPAGE = "http://www.o-hand.com"
-+BUGTRACKER = "http://bugzilla.openedhand.com/"
- 
--DEPENDS += "icon-naming-utils-native libxml-simple-perl-native"
-+LICENSE = "CC-BY-SA-3.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=56a830bbe6e4697fe6cbbae01bb7c2b2"
-+SECTION = "x11"
- 
- PR = "r6"
- 
-+DEPENDS = "icon-naming-utils-native libxml-simple-perl-native"
+ scripts/sstate-sysroot-cruft.sh | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100755 scripts/sstate-sysroot-cruft.sh
+
+diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
+new file mode 100755
+index 0000000..7bfb8f4
+--- /dev/null
++++ b/scripts/sstate-sysroot-cruft.sh
+@@ -0,0 +1,34 @@
++#!/bin/sh
 +
- SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
-            file://iconpath-option.patch \
-            file://0001-Inherit-the-GNOME-icon-theme.patch"
- 
- SRC_URI[md5sum] = "86a847f3128a43a9cf23b7029a656f50"
- SRC_URI[sha256sum] = "0b0a2807a6a96918ac799a86094ec3e8e2c892be0fd679a4232c2a77f2f61732"
++# Used to find files installed in sysroot which are not tracked by sstate manifest
++# Update BASE
 +
-+inherit autotools pkgconfig allarch gtk-icon-cache perlnative
++BASE="/OE/oe-core"
++TMPDIR="${BASE}/tmp-eglibc"
 +
-+FILES_${PN} += "${datadir}"
++OUTPUT=${BASE}/sysroot.cruft.`date "+%s"`
++WHITELIST="\/var\/pseudo\/*[^\/]*$ \/shlibs$ \.pyc$ \.pyo$"
 +
-+EXTRA_OECONF += "--with-iconmap=${@d.getVar('STAGING_LIBEXECDIR_NATIVE', True).replace('sato-icon-theme', 'icon-naming-utils')}/icon-name-mapping"
++mkdir ${OUTPUT}
++find ${TMPDIR}/sstate-control -name \*populate-sysroot -o -name \*package | xargs cat | grep sysroots | \
++  sed 's#tcbootstrapusr#tcbootstrap/usr#g; s#/$##g; s#///*#/#g' | \
++  # work around for missing / in manifest for eglibc-initial, paths ending with / for directories and multiplied // (e.g. paths to native sysroot)
++  sort > ${OUTPUT}/master.list.all
++sort -u ${OUTPUT}/master.list.all > ${OUTPUT}/master.list # -u because some directories are listed for more recipes
++find ${TMPDIR}/sysroots/ | \
++  sort > ${OUTPUT}/sysroot.list
 +
-+# Explictly setting "Sato" as the default icon theme to avoid flickering from
-+# the desktop and settings daemon racing.  This shouldn't be done here but in the sato image
-+pkg_postinst_${PN} () {
-+    mkdir -p $D/etc/gtk-2.0
++diff ${OUTPUT}/master.list.all ${OUTPUT}/master.list > ${OUTPUT}/duplicates
++diff ${OUTPUT}/master.list ${OUTPUT}/sysroot.list > ${OUTPUT}/diff.all
 +
-+    grep -s -q -e ^gtk-icon-theme-name.*\"Sato\" $D/etc/gtk-2.0/gtkrc || \
-+        echo 'gtk-icon-theme-name = "Sato"' >> $D/etc/gtk-2.0/gtkrc
-+}
++cp ${OUTPUT}/diff.all ${OUTPUT}/diff
++for item in ${WHITELIST}; do 
++  sed -i "/${item}/d" ${OUTPUT}/diff;
++done
++
++# too many false positives for directories
++# echo "Following files are installed in sysroot at least twice"
++# cat ${OUTPUT}/duplicates
++
++echo "Following files are installed in sysroot, but not tracked by sstate"
++cat ${OUTPUT}/diff
 -- 
-1.7.6.5
+1.7.12.4
 
 
 
