@@ -1,46 +1,41 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TQxCr-00034N-Jh
+	(envelope-from <ross.burton@intel.com>) id 1TQxWI-0003LS-CU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 11:24:57 +0200
-Received: from localhost ([127.0.0.1]:38704 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TQwzo-0004gw-OZ; Wed, 24 Oct 2012 09:11:28 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:cc:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=BwAN+qCpNzi5zADHGCR3EgsUyJo=; b=HvaRFTyAeYJzEaO1WOpZMgTsHfv2
-	H+AKisyaDMe8Ijw/5/eYj+ugA0WPTSkAIrvisBVaIb5kZgvWCg8H1IDWjbkptpbY
-	aTzpuUybY8hW4Au8GQkr16gppfdJDHxyalum1I7xttQFcQa0E0iGM/AyymwhoO7z
-	ogQgOYEYOz+kbVg=
-Received: from [195.171.99.130] (port=19027 helo=[192.168.0.67])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TQwzo-0004gt-MX; Wed, 24 Oct 2012 09:11:28 +0000
-Message-ID: <5087B12F.1080504@communistcode.co.uk>
-Date: Wed, 24 Oct 2012 10:13:19 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <50869BDC.6050401@communistcode.co.uk>
-	<CAJTo0LZHTGaVLnrYidOmLwvqB3Z+n9m5itr_4hA9krEPHihdsQ@mail.gmail.com>
-	<5086B713.30708@communistcode.co.uk>
-	<CAJTo0Lb0Fv=Hwhp88EUjurQO_Lnr319M-q_2Y6Js0fbzfO7Xfw@mail.gmail.com>
-	<5086BBB2.7070601@communistcode.co.uk>
-	<CAJTo0LZ0t1j=UpHAHR7Q=1FZ-LWGhT2TV0L+NPScEzEBmfd_Sg@mail.gmail.com>
-	<5086BD5E.3040904@communistcode.co.uk>
-	<CAJTo0La7QBQ-f=v8Rknh6nSYEiz70vcp_fA5crDjXOiOP-=XPA@mail.gmail.com>
-In-Reply-To: <CAJTo0La7QBQ-f=v8Rknh6nSYEiz70vcp_fA5crDjXOiOP-=XPA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues building meta-toolchain, libxau
+	Wed, 24 Oct 2012 11:45:02 +0200
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Oct 2012 02:31:33 -0700
+Received: by mail-bk0-f69.google.com with SMTP id jg15so219820bkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Oct 2012 02:31:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=I8mIfiB9J8Y76b7+vOBAyrzGCtPMpLYoyXODeyQyk0Y=;
+	b=c0DAq4rNV7M28a4CPP9eZHHrovSUppjBQEBv5HuY1URGZjl9U2wg8GCbZGX7pXc/FA
+	+INjs0JPCQO+NX5uT9mcrJ9WQ3BvwrSTHuNdDPP1DPqTAicZsWmRydsteJclLyxt2lOM
+	4t3Tiwa/izvXlCX0NVb6TS/LKuFbiIXtZl9qKRV1K/5EC8iuBc0a3i7Ikeoczx9lXS7v
+	ylv/A89WxITSqdIuehVeFtJS02aRm4uPVAZRXQTjuHxnqAK3hwirTx+UICcd9l9M014F
+	omvNtMazO/t1qdw0GxMURmM45WhMv6/2SWBWrKD+vm8JabOORYxWvU6SRcQfJZ1MEUNO
+	YsCw==
+Received: by 10.180.100.35 with SMTP id ev3mr1064736wib.7.1351071091579;
+	Wed, 24 Oct 2012 02:31:31 -0700 (PDT)
+Received: by 10.180.100.35 with SMTP id ev3mr1064714wib.7.1351071091365;
+	Wed, 24 Oct 2012 02:31:31 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ei1sm3896253wid.7.2012.10.24.02.31.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 24 Oct 2012 02:31:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Oct 2012 10:30:18 +0100
+Message-Id: <1351071018-22570-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmculOmVQXCbVd66ueyz7z38w8ikFqjlDjhmYeo6uydCIUOxO5bmHmre6xm+V3U6vKD7DJzTXgG49WZ6XC2g4QQ1LK48HvKyx7OJcFg2xe0ilc9mo4jFUBcN2QcBviUITPLKkcEDFVjX4zvnKjrL4OUsLodyIvYhKtSSuDPa2M1yDHdUMn2RG6j+ejBAVBEdXwNoI6D
+Subject: [PATCH] gst-plugins-good: disable taglib explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -50,33 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 09:24:57 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Oct 2012 09:45:02 -0000
 
-On 23/10/12 16:56, Burton, Ross wrote:
-> Only a few hits, try cleaning those.  God knows why your sysroot is
-> hosed.  Maybe we should forcibly prune .la files from the sysroot...
->
-> Ross
+This was being detected automatically so the build wasn't deterministic.
 
-Ok, after a bit of chat with rburton on IRC yesterday we're still stuck 
-with this problem even after multiple cleansstates, I am going to try a 
-clean build today as I need this working and will report back.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have now experienced this on both my Production machine and my 
-Development machine so it is at least (in some way) reproducible and not 
-an error due to tinkering.
-
-Regards,
-
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+index b845371..59bde5b 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
+                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)}"
+ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+@@ -18,7 +18,7 @@ inherit gettext gconf
+ SRC_URI += "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch"
+ 
+ EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
+-                 --disable-orc --disable-examples"
++                 --disable-orc --disable-examples --disable-taglib"
+ 
+ do_configure_prepend() {
+ 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
 -- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
+1.7.10
 
 
 
