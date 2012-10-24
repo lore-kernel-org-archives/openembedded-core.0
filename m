@@ -1,44 +1,37 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TR4Y0-0006RV-MN
+	(envelope-from <martin.jansa@gmail.com>) id 1TR5bV-0007X5-KH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 19:15:16 +0200
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Oct 2012 10:01:47 -0700
-Received: by mail-oa0-f69.google.com with SMTP id j6so2172865oag.0
+	Wed, 24 Oct 2012 20:22:57 +0200
+Received: by mail-wi0-f171.google.com with SMTP id hj13so4523850wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2012 10:01:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=YflrYj+TFGt8x1jq98In29Y7IGVKtTKRFQ+lJv0vMws=;
-	b=mOM8dCAC004DUpJnOmRmIxWcSdCs7j2IjU94mZMIQHYz7l4CQ76r3s3inirF+6G03/
-	oJ0Y5Hl0wjXCv6t0fcvrWcul2MQIjeb2umcdl4SHuxUs+FV5Je4iAYOgcgf9+SjNXxDO
-	PgviK51ePpL/ozm1tVOkZ/6X+Jofog0SnpVpM0b21gicg/KKP8DEKjP8t2XJTDtA+Zpb
-	sDwHy64cpRXfYi/OxyNIx9iv3PCeM6s2OutkpmB/lkCDTA166t2oy9IUs8ABHomNNhbl
-	z/C09j9rK+3c4TpfBBgMad+GE+8CBb7JcyZXG+1Xihni0o+cny/8bgeJsJxHKtBNyjkY
-	PsNg==
-Received: by 10.60.170.9 with SMTP id ai9mr14003058oec.36.1351098106629;
-	Wed, 24 Oct 2012 10:01:46 -0700 (PDT)
-Received: by 10.60.170.9 with SMTP id ai9mr14003054oec.36.1351098106548; Wed,
-	24 Oct 2012 10:01:46 -0700 (PDT)
+	Wed, 24 Oct 2012 11:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=XftgOgxDWVpA6hYuY1aKSJzxXka1R0aGtS4qBmHVncw=;
+	b=GU8i5OeyvJN6US5RoTVp7XDvrKfQHq1UXRypWBUYnSdhA984hF58ixEa95LNzY2RrO
+	kl9Ylc95bkRsaY6yFOLGTHziVnVhORspt6a019r9fnnhQh++D3mmDmtquLsWVlZJc9dD
+	vbuhQdQPZSv+t8s5mecVdrRRRxWXZJwLE9U0kKNyu1t9Nv/4RuahzQOj1y8fzWEu4+Pn
+	oje+Rj+DRjF85IvXpJFkpuVz8xO+58MBv0pox4YdqIOKxrIXmnXqymZNy8axnlN1nCcY
+	z+C7nUrkb8STdDuvjcVGKmN64feC3fYXp7sD4tINYlnDfDLqVTUQ8sz5LXLqIh7UdN6Z
+	rZ5A==
+Received: by 10.216.195.100 with SMTP id o78mr10733712wen.182.1351102169564;
+	Wed, 24 Oct 2012 11:09:29 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fp6sm5540342wib.0.2012.10.24.11.09.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 24 Oct 2012 11:09:28 -0700 (PDT)
+Date: Wed, 24 Oct 2012 20:09:46 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20121024180946.GI3269@jama.jama.net>
+References: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Wed, 24 Oct 2012 10:01:26 -0700 (PDT)
-In-Reply-To: <CALbNGRQoX5J5NvPRHc2VAx-D58UvxQmLhunEev09OaxkFwGJKA@mail.gmail.com>
-References: <CALbNGRSX3AtHywq3RR3OryKbRWaqL=v2TE+xsuNsDQ3O2PY4hg@mail.gmail.com>
-	<1351088462.3259.421.camel@phil-desktop>
-	<CALbNGRS7m2mbZD2QhwTrkJAdL2-1Vc_pz8yfkXQ_ZJzESbr0jg@mail.gmail.com>
-	<1700131.q7Jk2zQzF1@helios>
-	<CALbNGRQoX5J5NvPRHc2VAx-D58UvxQmLhunEev09OaxkFwGJKA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Oct 2012 18:01:26 +0100
-Message-ID: <CAJTo0LZ1JTxj6a40eM0RzxRpoY1=DKwLqJiuU7cGjQo_7dYO7w@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQnFNYH20CKLe9uDDnJfqNkgRHEETVYF5NL0mW1zmiuQ8VGtrcS2F3dFYlt02zHeTXVnRQmbu47+vz2yFGqUBPt0TyC2BQ0ctMHn9BftQbB/dVcUSbIi0Wneqeuw+CwtesElZvN1GQ4orf15yIqEKl/hi7wXp+85lBaJmaaMvRxZ/UWaUCR2IYeUfxbcFtW6t3SAk5fq
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Latest head causes challanges
+In-Reply-To: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] pulseaudio: add GConf dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,21 +44,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 17:15:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Oct 2012 18:22:57 -0000
+X-Groupsio-MsgNum: 30958
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="kUr9BK2/TCCh1PYv"
+Content-Disposition: inline
+
+--kUr9BK2/TCCh1PYv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 24 October 2012 15:49, Andreas M=C3=BCller <schnitzeltony@googlemail.com=
-> wrote:
-> To me this is a log off and go home. Since when do we care for FHS? I
-> thought everything is on it's way to /lib... And I thought on master
-> branch I am safe from strange changes these days...
+On Wed, Oct 24, 2012 at 05:37:33PM +0100, Ross Burton wrote:
+> Add explicit build-dependency on GConf as currently it's an implicit depe=
+ndency
+> and so vunerable to races at build time.
 
-I'm curious as to why it's such a drastic change for you.  Packages
-that Do The Right Thing will just work when libexecdir is changed, and
-by definition they are binaries that you won't be running yourself.
-So what's the problem?
+Isn't better to inherit gconf or the issue I had today with foxtrotgps
+does not apply here?
 
-Ross
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |    2 +-
+>  meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/rec=
+ipes-multimedia/pulseaudio/pulseaudio.inc
+> index 463777d..ab70c7e 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://GPL;md5=3D4325afd396febcb6=
+59c36b49533135d4 \
+>  DEPENDS =3D "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libt=
+ool \
+>             ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 li=
+bxtst libice libsm libxcb gtk+', '', d)}"
+>  # optional
+> -DEPENDS +=3D "udev alsa-lib glib-2.0 dbus \
+> +DEPENDS +=3D "udev alsa-lib glib-2.0 dbus gconf \
+>             ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', ''=
+, d)}"
+> =20
+>  SRC_URI =3D "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-$=
+{PV}.tar.gz \
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/=
+recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+> index a10b953..d25b424 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+> @@ -1,6 +1,6 @@
+>  require pulseaudio.inc
+> =20
+> -PR =3D "r7"
+> +PR =3D "r8"
+> =20
+>  DEPENDS +=3D "libjson gdbm speex libxml-parser-perl-native"
+> =20
+> --=20
+> 1.7.10
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--kUr9BK2/TCCh1PYv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCILuoACgkQN1Ujt2V2gBxYkQCfduA2jariugczNORhoc5QxOnN
+7LsAn3jbrMCcZlBK9P6V1PgvUzkugOjr
+=Z6vF
+-----END PGP SIGNATURE-----
+
+--kUr9BK2/TCCh1PYv--
