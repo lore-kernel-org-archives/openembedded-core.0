@@ -1,28 +1,23 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>)
-	id 1TR20o-0006qa-Qd; Wed, 24 Oct 2012 16:32:50 +0200
-Received: by mail-ie0-f175.google.com with SMTP id c13so736120ieb.6
-	for <multiple recipients>; Wed, 24 Oct 2012 07:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=8hfkTzpgb3EblSgZdY51Y1YnZ1TCXrkx05ABqC8vyfI=;
-	b=Uf7e/XyDa8fxJirMpSqQcmVKXaqVkvDKP/apNqeCBj718nfuBggyIZv+mqapLn1HoQ
-	fIeBolbmdtPic7lY3omAxKvvMW6MQVSkM85cMSyb1jI+BtLJuxcOgOjjekKBGFqXYl1C
-	RsTeyhhVh58+Mohf/A745XL7gRCeCqCISJd68RU6nFJkPj/xvXCxDGNyUrHcr/CoCTCK
-	zw675aM1hReP8OQPiscWxRML1X4zXUmggu4eH3eXBxYP+tJ02SygrtGr2o7PvQx0sJpe
-	4kEY7DvA5FEBFRP1RYr/paO1+0EodXC/9WBxAfOzKxe0zI5kRUyTBr6yMcT5bL3gORQJ
-	rGrw==
-MIME-Version: 1.0
-Received: by 10.50.237.6 with SMTP id uy6mr1096751igc.31.1351088362722; Wed,
-	24 Oct 2012 07:19:22 -0700 (PDT)
-Received: by 10.64.20.113 with HTTP; Wed, 24 Oct 2012 07:19:22 -0700 (PDT)
-Date: Wed, 24 Oct 2012 16:19:22 +0200
-Message-ID: <CALbNGRSX3AtHywq3RR3OryKbRWaqL=v2TE+xsuNsDQ3O2PY4hg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-devel@lists.openembedded.org, 
+	(envelope-from <philb@gnu.org>)
+	id 1TR22O-0006ym-8c; Wed, 24 Oct 2012 16:34:28 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TR1pO-00037E-M8; Wed, 24 Oct 2012 16:21:02 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Wed, 24 Oct 2012 15:21:01 +0100
+In-Reply-To: <CALbNGRSX3AtHywq3RR3OryKbRWaqL=v2TE+xsuNsDQ3O2PY4hg@mail.gmail.com>
+References: <CALbNGRSX3AtHywq3RR3OryKbRWaqL=v2TE+xsuNsDQ3O2PY4hg@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1351088462.3259.421.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
-Subject: Latest head causes challanges
+Subject: Re: Latest head causes challanges
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,15 +30,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 14:32:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Oct 2012 14:34:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Wed, 2012-10-24 at 16:19 +0200, Andreas M=C3=BCller wrote:
+> I updated my layers this morning. Since that I have huge fallout:
+> Poking around I found /usr/libexec is missing on my machine. Any idea
+> what might caused this?
 
-I updated my layers this morning. Since that I have huge fallout:
-Poking around I found /usr/libexec is missing on my machine. Any idea
-what might caused this?
+406bd38b4232f9f399ef5ffe0b4fac72ed605a23?
 
-Andreas
+p.
+
 
 
