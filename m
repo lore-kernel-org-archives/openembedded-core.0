@@ -1,40 +1,36 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TR2HA-0007oa-9Q
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TR2Tf-00028Y-0E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 16:49:44 +0200
-Received: from mail-ie0-f197.google.com ([209.85.223.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 24 Oct 2012 07:36:14 -0700
-Received: by mail-ie0-f197.google.com with SMTP id 9so1524226iec.0
+	Wed, 24 Oct 2012 17:02:44 +0200
+Received: by mail-ie0-f175.google.com with SMTP id c13so791679ieb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2012 07:36:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=nkE554+96+4R1joQ4LwAXWgp+Q+FVnRtxGhRnrNzzN4=;
-	b=LEkXaOLuYi5j11cUAmHcXeFz1X388Sxh9Nn+KMLizqTTz5SRIiPA6QZVd0eB3sUb1e
-	SE7JNlIT7PcJjC8+R8xitGPGG2t7B0/Tt/34IeNQHH+WBYqaDZ6QjsUeQT+oAISv1wSM
-	n5IoCtECD/HrZ/w24b430rn3auSmpQjh31EY/KL2qppMFWe7fG1gRFJcmUYIvsTEdJxb
-	5lpfY0t35hQiys3GyBRmB0SGhBHe7UppWKWDt/E015b+Ra/L00pBAKvMwRwtr2za4MAC
-	BDmtZ+x3OI2y6iuhmvD1DMqwMpell8OWOo9I4hFvRbEkmxqtq7uaxzAlqESSfkVrZial
-	OyVQ==
-Received: by 10.182.228.69 with SMTP id sg5mr7790741obc.2.1351089373769;
-	Wed, 24 Oct 2012 07:36:13 -0700 (PDT)
-Received: by 10.182.228.69 with SMTP id sg5mr7790738obc.2.1351089373720; Wed,
-	24 Oct 2012 07:36:13 -0700 (PDT)
+	Wed, 24 Oct 2012 07:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=JwuLs/Rf05Xd+OL6SIWWb3gePefT7onAm4ynMpm1nXE=;
+	b=cuD7/bCF6etyAAgbT915YvJddBl8z/9P4Uhr9rB84JOqWdC1Hvm/Aubwzcc+mm3SYw
+	VVJZxhLryIruQTgnrCOaUjpNvJHgXWEg1OEGrIfZrnCAq7IbCrkfwDKaFw0hZi9jJ5HA
+	4rY5sH+XJ+j5klZF8NHzChFmqsalZ57s8bE65Bo5DrdgKaIGmlylWu+WxP1//MTeR86h
+	858poG20lMLZS5Dip1BYeVEtOlxSNMlGzLPFAMcM204Vm9N0rv+QjEfEcedHDL0tdHVy
+	HWE7XuBaLPegNjo9/dDLTjs7EBx+tCUF6scaeoohdOa5aEGmNyYlO3IrP48V0StdGn9p
+	n3Pg==
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Wed, 24 Oct 2012 07:35:53 -0700 (PDT)
-In-Reply-To: <20121024121629.GE3269@jama.jama.net>
-References: <20121024121629.GE3269@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 24 Oct 2012 15:35:53 +0100
-Message-ID: <CAJTo0Lb94-kCKVFdZxRwAWdUQSm0yNwLk-MsWR5SFUJwE7MGUg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQnvMmZplKY/Lt//rF4TmUm6dMFJNkHm+NrwZNhSdGB/cxfeA/S1wFi0+VqW4/mhhQTMtDhGUuo9StNP9NOS6E8q+ECWAwZLpo9TjnAV3fqR1k4VLdA8cj/ezQaLRurAG5oxVtcZD21+WtaL4u6QbuNb4sivxpy0VT3rb94LOWE+NQJssRFhXkLfTi9NpOJJHL6/nwJC
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: gconf-native backends broken when reused from sstate?
+Received: by 10.50.169.100 with SMTP id ad4mr2674007igc.50.1351090147114; Wed,
+	24 Oct 2012 07:49:07 -0700 (PDT)
+Received: by 10.64.20.113 with HTTP; Wed, 24 Oct 2012 07:49:07 -0700 (PDT)
+In-Reply-To: <1700131.q7Jk2zQzF1@helios>
+References: <CALbNGRSX3AtHywq3RR3OryKbRWaqL=v2TE+xsuNsDQ3O2PY4hg@mail.gmail.com>
+	<1351088462.3259.421.camel@phil-desktop>
+	<CALbNGRS7m2mbZD2QhwTrkJAdL2-1Vc_pz8yfkXQ_ZJzESbr0jg@mail.gmail.com>
+	<1700131.q7Jk2zQzF1@helios>
+Date: Wed, 24 Oct 2012 16:49:07 +0200
+Message-ID: <CALbNGRQoX5J5NvPRHc2VAx-D58UvxQmLhunEev09OaxkFwGJKA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Latest head causes challanges
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,14 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 14:49:44 -0000
+X-List-Received-Date: Wed, 24 Oct 2012 15:02:51 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 24 October 2012 13:16, Martin Jansa <martin.jansa@gmail.com> wrote:
-> | /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/gconftool-2 --makefile-install-rule apps_foxtrotgps.schemas
+On Wed, Oct 24, 2012 at 4:30 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 24 October 2012 16:24:08 Andreas M=C3=BCller wrote:
+>> On Wed, Oct 24, 2012 at 4:21 PM, Phil Blundell <philb@gnu.org> wrote:
+>> > On Wed, 2012-10-24 at 16:19 +0200, Andreas M=C3=BCller wrote:
+>> >> I updated my layers this morning. Since that I have huge fallout:
+>> >> Poking around I found /usr/libexec is missing on my machine. Any idea
+>> >> what might caused this?
+>> >
+>> > 406bd38b4232f9f399ef5ffe0b4fac72ed605a23?
+>> >
+>> > p.
+>>
+>> Wow - I thought we are close to release...
+>
+> The master branch has already moved past release - danny is the release b=
+ranch
+> and does not have this patch.
+>
+> Cheers,
+> Paul
+>
+To me this is a log off and go home. Since when do we care for FHS? I
+thought everything is on it's way to /lib... And I thought on master
+branch I am safe from strange changes these days...
 
-Yeah, don't do that.  You probably want to inherit gconf in that recipe.
-
-Ross
+Andreas
 
 
