@@ -1,38 +1,34 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TQxWI-0003LS-CU
+	(envelope-from <martin.jansa@gmail.com>) id 1TQz8A-0002lA-8M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 11:45:02 +0200
-Received: from mail-bk0-f69.google.com ([209.85.214.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Oct 2012 02:31:33 -0700
-Received: by mail-bk0-f69.google.com with SMTP id jg15so219820bkc.0
+	Wed, 24 Oct 2012 13:28:14 +0200
+Received: by mail-wi0-f177.google.com with SMTP id hj13so319771wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Oct 2012 02:31:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=I8mIfiB9J8Y76b7+vOBAyrzGCtPMpLYoyXODeyQyk0Y=;
-	b=c0DAq4rNV7M28a4CPP9eZHHrovSUppjBQEBv5HuY1URGZjl9U2wg8GCbZGX7pXc/FA
-	+INjs0JPCQO+NX5uT9mcrJ9WQ3BvwrSTHuNdDPP1DPqTAicZsWmRydsteJclLyxt2lOM
-	4t3Tiwa/izvXlCX0NVb6TS/LKuFbiIXtZl9qKRV1K/5EC8iuBc0a3i7Ikeoczx9lXS7v
-	ylv/A89WxITSqdIuehVeFtJS02aRm4uPVAZRXQTjuHxnqAK3hwirTx+UICcd9l9M014F
-	omvNtMazO/t1qdw0GxMURmM45WhMv6/2SWBWrKD+vm8JabOORYxWvU6SRcQfJZ1MEUNO
-	YsCw==
-Received: by 10.180.100.35 with SMTP id ev3mr1064736wib.7.1351071091579;
-	Wed, 24 Oct 2012 02:31:31 -0700 (PDT)
-Received: by 10.180.100.35 with SMTP id ev3mr1064714wib.7.1351071091365;
-	Wed, 24 Oct 2012 02:31:31 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ei1sm3896253wid.7.2012.10.24.02.31.28
+	Wed, 24 Oct 2012 04:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=hwsjxHlrzvMwqT0DRcXKEL0hdeSUk7DTtsD46qRTrlA=;
+	b=GD1BjN/Lyx6jf+BXwWLgE6lecGPZ80bTXMBFQXr/nlXToi+DiBydAgisCPaDMJH3BQ
+	F7v+2FRLEf6QT32+Ssuv3QAWRRBvqXKHEpBT8/UKVyIgzis/yIJF2d6jDS3CndmGFgL+
+	guAmPFUcDPIQefP70DCwmIeSyfHyhsXpHYZeGGBEJgyqGz0SQ5ihJtzLpAWFv4Jz2cDJ
+	GBmfeoIA8Q5xwjzdBpSAeDUfEbOyiN7bCtOEF7Zn1Wb0DQiI1jQ2ImYp8/3+BZlGSyA7
+	fROVTXlYhWj2l/1ne1vdYOlFMnIc8l7R606RJUuJEVVcabJnE2uFovWvC9E9SK2IcW+b
+	2V5w==
+Received: by 10.216.135.99 with SMTP id t77mr1790484wei.193.1351077287012;
+	Wed, 24 Oct 2012 04:14:47 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id az2sm3804297wib.10.2012.10.24.04.14.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 24 Oct 2012 02:31:29 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 24 Oct 2012 04:14:45 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Oct 2012 10:30:18 +0100
-Message-Id: <1351071018-22570-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmculOmVQXCbVd66ueyz7z38w8ikFqjlDjhmYeo6uydCIUOxO5bmHmre6xm+V3U6vKD7DJzTXgG49WZ6XC2g4QQ1LK48HvKyx7OJcFg2xe0ilc9mo4jFUBcN2QcBviUITPLKkcEDFVjX4zvnKjrL4OUsLodyIvYhKtSSuDPa2M1yDHdUMn2RG6j+ejBAVBEdXwNoI6D
-Subject: [PATCH] gst-plugins-good: disable taglib explicitly
+Date: Wed, 24 Oct 2012 13:15:01 +0200
+Message-Id: <1351077301-7744-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.12.4
+In-Reply-To: <1351066258-19437-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1351066258-19437-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCHv3] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,39 +41,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 09:45:02 -0000
+X-List-Received-Date: Wed, 24 Oct 2012 11:28:14 -0000
 
-This was being detected automatically so the build wasn't deterministic.
+* it's not very universal, but works with default oe-core setup and
+  shows basic HOW-TO. It can be improved later.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+* eglibc-initial should be fixed, but for now better to add that
+  work around then to show a lot of false positives
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ V2: added .pyo to WHITELIST                                                                                            
+     shorter filenames                                                                                        
+     TMPDIR                                                                                                                                                   
+     added duplicates but not shown                                                                                                   
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index b845371..59bde5b 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
-                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
- 
--PR = "r6"
-+PR = "r7"
- 
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)}"
- PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
-@@ -18,7 +18,7 @@ inherit gettext gconf
- SRC_URI += "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch"
- 
- EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
--                 --disable-orc --disable-examples"
-+                 --disable-orc --disable-examples --disable-taglib"
- 
- do_configure_prepend() {
- 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
+ V3: use also populate-sysroot.MACHINE, manifest name for populate-sysroot 
+     was changed in febeaf3d1b8917b660c7279b008d8b03337568e9
+
+ scripts/sstate-sysroot-cruft.sh | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100755 scripts/sstate-sysroot-cruft.sh
+
+diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
+new file mode 100755
+index 0000000..b68de42
+--- /dev/null
++++ b/scripts/sstate-sysroot-cruft.sh
+@@ -0,0 +1,34 @@
++#!/bin/sh
++
++# Used to find files installed in sysroot which are not tracked by sstate manifest
++# Update BASE
++
++BASE="/OE/oe-core"
++TMPDIR="${BASE}/tmp-eglibc"
++
++OUTPUT=${BASE}/sysroot.cruft.`date "+%s"`
++WHITELIST="\/var\/pseudo\/*[^\/]*$ \/shlibs$ \.pyc$ \.pyo$"
++
++mkdir ${OUTPUT}
++find ${TMPDIR}/sstate-control -name \*.populate-sysroot\* -o -name \*.package\* | xargs cat | grep sysroots | \
++  sed 's#tcbootstrapusr#tcbootstrap/usr#g; s#/$##g; s#///*#/#g' | \
++  # work around for missing / in manifest for eglibc-initial, paths ending with / for directories and multiplied // (e.g. paths to native sysroot)
++  sort > ${OUTPUT}/master.list.all
++sort -u ${OUTPUT}/master.list.all > ${OUTPUT}/master.list # -u because some directories are listed for more recipes
++find ${TMPDIR}/sysroots/ | \
++  sort > ${OUTPUT}/sysroot.list
++
++diff ${OUTPUT}/master.list.all ${OUTPUT}/master.list > ${OUTPUT}/duplicates
++diff ${OUTPUT}/master.list ${OUTPUT}/sysroot.list > ${OUTPUT}/diff.all
++
++cp ${OUTPUT}/diff.all ${OUTPUT}/diff
++for item in ${WHITELIST}; do 
++  sed -i "/${item}/d" ${OUTPUT}/diff;
++done
++
++# too many false positives for directories
++# echo "Following files are installed in sysroot at least twice"
++# cat ${OUTPUT}/duplicates
++
++echo "Following files are installed in sysroot, but not tracked by sstate"
++cat ${OUTPUT}/diff
 -- 
-1.7.10
+1.7.12.4
 
 
 
