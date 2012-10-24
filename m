@@ -1,25 +1,41 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TR3aQ-0005JM-8G
+	(envelope-from <ross.burton@intel.com>) id 1TR4Bt-0005iD-6Y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 18:13:42 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 24 Oct 2012 09:00:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,640,1344236400"; d="scan'208";a="208519564"
-Received: from unknown (HELO [10.255.14.104]) ([10.255.14.104])
-	by azsmga001.ch.intel.com with ESMTP; 24 Oct 2012 09:00:13 -0700
-Message-ID: <5088108C.3050101@linux.intel.com>
-Date: Wed, 24 Oct 2012 09:00:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Phil Blundell <philb@gnu.org>
-References: <1348577801.31293.71.camel@phil-desktop>
-In-Reply-To: <1348577801.31293.71.camel@phil-desktop>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] eglibc: Move perl- and bash-using scripts to separate recipes
+	Wed, 24 Oct 2012 18:52:26 +0200
+Received: from mail-we0-f197.google.com ([74.125.82.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 24 Oct 2012 09:38:28 -0700
+Received: by mail-we0-f197.google.com with SMTP id x43so557452wey.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Oct 2012 09:38:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=zEo4Zg/+AjGdABuJT/MfZd4y/Vb1qeiSD+9/nJX2p24=;
+	b=TDAzOHaqLA1zRaydZUDh7dwr/VQWYg0YGPTa/QvlVe70N3OYaUvIrVGl8Rtt+Uz/Kk
+	/LGiWOPcTQ9TciY+leAIB2qb9hGZZEmMtBaKLVtcRrHvfOnU9IMUUO7G6noG/AlKhw7a
+	54QDW671gion3wDBWYugBgI8Sp1oQt2CDmPBPc2wtpH4tTZtRxYHH82FD1P6Ly4PBpHo
+	oasJtdHIjRHpzOUHwG1fBKuCoCbST+fCQTMjRrLt9LQt4b3LpBwzGB/Ra+IGmxgqXTQc
+	XLd8yj3JHw7EqSKsbsaBvAcnlYi5upORWueGk1R6tfgM6dZe0VNEkILrz00VoZl09q/o
+	Skmg==
+Received: by 10.180.91.71 with SMTP id cc7mr7217418wib.2.1351096734200;
+	Wed, 24 Oct 2012 09:38:54 -0700 (PDT)
+Received: by 10.180.91.71 with SMTP id cc7mr7217412wib.2.1351096734146;
+	Wed, 24 Oct 2012 09:38:54 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id fp6sm5146349wib.0.2012.10.24.09.38.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 24 Oct 2012 09:38:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Oct 2012 17:37:35 +0100
+Message-Id: <1351096656-32438-3-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
+References: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQlDEAASgz9YDtiaePg9QhzKb6mJUX8EwAtaYt5sjEGAWskuZCwlRxbv5lk+jfls2wm2seX8DjsYpJQiV3J2DfEmnB7lcIQdUQICvTl3no/DGuoYGA+Usq9uVCOI4knTsrZEAzz/7b5XiH75z+4j7yuRnSRQJdrFos/HfjJb3kwBf1Bksn6Cli9Ak67Y2RlD42kSY1Ei
+Subject: [PATCH 3/4] pulseaudio: fix library packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,219 +48,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 16:13:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Oct 2012 16:52:26 -0000
 
-On 09/25/2012 05:56 AM, Phil Blundell wrote:
-> This removes the dependency of eglibc.bb itself on perl and bash
-> which, in turn, eliminates the need to build those two recipes if the
-> scripts which need them are not going to be installed.
->
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
-> ---
-> v3: rebased on top of localedir changes
->
->   meta/recipes-core/eglibc/eglibc-collateral.inc  |   11 +++++++++
->   meta/recipes-core/eglibc/eglibc-locale.inc      |   11 +--------
->   meta/recipes-core/eglibc/eglibc-mtrace.inc      |   12 ++++++++++
->   meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb  |    1 +
->   meta/recipes-core/eglibc/eglibc-package.inc     |   28 ++++++++++++++++++-----
->   meta/recipes-core/eglibc/eglibc-scripts.inc     |   17 ++++++++++++++
->   meta/recipes-core/eglibc/eglibc-scripts_2.16.bb |    1 +
->   meta/recipes-core/eglibc/eglibc_2.16.bb         |    2 +-
->   8 files changed, 66 insertions(+), 17 deletions(-)
->   create mode 100644 meta/recipes-core/eglibc/eglibc-collateral.inc
->   create mode 100644 meta/recipes-core/eglibc/eglibc-mtrace.inc
->   create mode 100644 meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb
->   create mode 100644 meta/recipes-core/eglibc/eglibc-scripts.inc
->   create mode 100644 meta/recipes-core/eglibc/eglibc-scripts_2.16.bb
->
+libpulsecommon has moved into libdir/pulse.
 
-Merged the updated version of this to OE-Core
+libpulsedsp is an internal library for padsp so put that into pulseaudio-misc
+along with padsp.
 
-Thanks
-	Sau!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |    7 +++----
+ meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb |    2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-> diff --git a/meta/recipes-core/eglibc/eglibc-collateral.inc b/meta/recipes-core/eglibc/eglibc-collateral.inc
-> new file mode 100644
-> index 0000000..b770bb0
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-collateral.inc
-> @@ -0,0 +1,11 @@
-> +INHIBIT_DEFAULT_DEPS = "1"
-> +LICENSE = "GPLv2 & LGPLv2.1"
-> +
-> +do_fetch[noexec] = "1"
-> +do_unpack[noexec] = "1"
-> +do_patch[noexec] = "1"
-> +do_configure[noexec] = "1"
-> +do_compile[noexec] = "1"
-> +
-> +do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
-> +
-> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
-> index 105cf2e..16a357a 100644
-> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-> @@ -1,15 +1,8 @@
-> -INHIBIT_DEFAULT_DEPS = "1"
-> -LICENSE = "GPLv2 & LGPLv2.1"
-> +include eglibc-collateral.inc
->
->   BPN = "eglibc"
->   LOCALEBASEPN = "eglibc"
->
-> -do_fetch[noexec] = "1"
-> -do_unpack[noexec] = "1"
-> -do_patch[noexec] = "1"
-> -do_configure[noexec] = "1"
-> -do_compile[noexec] = "1"
-> -
->   # Binary locales are generated at build time if ENABLE_BINARY_LOCALE_GENERATION
->   # is set. The idea is to avoid running localedef on the target (at first boot)
->   # to decrease initial boot time and avoid localedef being killed by the OOM
-> @@ -90,6 +83,4 @@ do_install () {
->
->   inherit libc-package
->
-> -do_install[depends] += "virtual/${MLPREFIX}libc:do_populate_sysroot"
-> -
->   BBCLASSEXTEND = "nativesdk"
-> diff --git a/meta/recipes-core/eglibc/eglibc-mtrace.inc b/meta/recipes-core/eglibc/eglibc-mtrace.inc
-> new file mode 100644
-> index 0000000..321de7b
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-mtrace.inc
-> @@ -0,0 +1,12 @@
-> +include eglibc-collateral.inc
-> +
-> +SUMMARY = "mtrace utility provided by eglibc"
-> +DESCRIPTION = "mtrace utility provided by eglibc"
-> +RDEPENDS_${PN} = "perl"
-> +
-> +SRC = "${STAGING_INCDIR}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}"
-> +
-> +do_install() {
-> +	install -d -m 0755 ${D}${bindir}
-> +	install -m 0755 ${SRC}/mtrace ${D}${bindir}/
-> +}
-> diff --git a/meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb b/meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb
-> new file mode 100644
-> index 0000000..6fa2be9
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-mtrace_2.16.bb
-> @@ -0,0 +1 @@
-> +require eglibc-mtrace.inc
-> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-> index 0059bcf..6da9615 100644
-> --- a/meta/recipes-core/eglibc/eglibc-package.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
-> @@ -17,7 +17,7 @@ python __anonymous () {
->   # Set this to zero if you don't want ldconfig in the output package
->   USE_LDCONFIG ?= "1"
->
-> -PACKAGES = "${PN}-dbg catchsegv sln nscd ldd ${PN}-mtrace ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
-> +PACKAGES = "${PN}-dbg catchsegv sln nscd ldd ${PN}-utils eglibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} eglibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
->
->   # The ld.so in this eglibc supports the GNU_HASH
->   RPROVIDES_${PN} = "glibc rtld(GNU_HASH)"
-> @@ -51,8 +51,6 @@ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
->   FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
->   FILES_catchsegv = "${bindir}/catchsegv"
->   RDEPENDS_catchsegv = "libsegfault"
-> -RDEPENDS_${PN}-utils += "bash"
-> -RDEPENDS_${PN}-mtrace += "perl"
->   FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
->   FILES_eglibc-thread-db = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
->   RPROVIDES_${PN}-dev += "libc-dev"
-> @@ -65,11 +63,9 @@ DESCRIPTION_nscd = "nscd, name service cache daemon, caches name service lookups
->   SUMMARY_eglibc-extra-nss = "hesiod, NIS and NIS+ nss libraries"
->   DESCRIPTION_eglibc-extra-nss = "eglibc: nis, nisplus and hesiod search services."
->   SUMMARY_ldd = "print shared library dependencies"
-> -DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
-> +DESCRIPTION_ldd = "${bindir}/ldd prints shared library dependencies for each program or shared library specified on the command line."
->   SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
->   DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
-> -SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
-> -DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
->   DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
->
->   inherit libc-common multilib_header
-> @@ -111,10 +107,30 @@ do_install_locale () {
->
->   addtask do_install_locale after do_install before do_populate_sysroot do_package
->
-> +bashscripts = "mtrace sotruss xtrace"
-> +
-> +do_evacuate_scripts () {
-> +	target=${D}${includedir}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}
-> +	mkdir -p $target
-> +	for i in ${bashscripts}; do
-> +		cp ${D}${bindir}/$i $target/
-> +	done
-> +}
-> +
-> +do_evacuate_scripts_pn-eglibc-initial () {
-> +	:
-> +}
-> +
-> +addtask evacuate_scripts after do_install before do_populate_sysroot do_package
-> +
->   PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
->
->   eglibc_package_preprocess () {
->   	rm -rf ${PKGD}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
-> +	rm -rf ${PKGD}/${includedir}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}
-> +	for i in ${bashscripts}; do
-> +	    rm -f ${PKGD}${bindir}/$i
-> +	done
->   	rm -rf ${PKGD}/${localedir}
->   	if [ "${libdir}" != "${exec_prefix}/lib" ]; then
->   		# This dir only exists to hold locales
-> diff --git a/meta/recipes-core/eglibc/eglibc-scripts.inc b/meta/recipes-core/eglibc/eglibc-scripts.inc
-> new file mode 100644
-> index 0000000..a020961
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-scripts.inc
-> @@ -0,0 +1,17 @@
-> +include eglibc-collateral.inc
-> +
-> +SUMMARY = "utility scripts provided by eglibc"
-> +DESCRIPTION = "utility scripts provided by eglibc"
-> +RDEPENDS_${PN} = "bash"
-> +RDEPENDS_ldd = "bash"
-> +
-> +SRC = "${STAGING_INCDIR}/eglibc-scripts-internal-${MULTIMACH_TARGET_SYS}"
-> +
-> +bashscripts = "mtrace sotruss xtrace"
-> +
-> +do_install() {
-> +	install -d -m 0755 ${D}${bindir}
-> +	for i in ${bashscripts}; do
-> +		install -m 0755 ${SRC}/$i ${D}${bindir}/
-> +	done
-> +}
-> diff --git a/meta/recipes-core/eglibc/eglibc-scripts_2.16.bb b/meta/recipes-core/eglibc/eglibc-scripts_2.16.bb
-> new file mode 100644
-> index 0000000..3113362
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-scripts_2.16.bb
-> @@ -0,0 +1 @@
-> +require eglibc-scripts.inc
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-> index 72d134a..3a7ae50 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.16.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-> @@ -3,7 +3,7 @@ require eglibc.inc
->   SRCREV = "20393"
->
->   DEPENDS += "gperf-native kconfig-frontends-native"
-> -PR = "r10"
-> +PR = "r11"
->   PR_append = "+svnr${SRCPV}"
->
->   EGLIBC_BRANCH="eglibc-2_16"
->
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 70b77da..8c19c22 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -64,7 +64,7 @@ USERADD_PARAM_pulseaudio-server = "--system --home /var/run/pulse \
+                               --no-create-home --shell /bin/false \
+                               --groups audio,pulse --gid pulse pulse"
+ 
+-PACKAGES =+ "libpulsecore libpulsecommon libpulsedsp libpulse libpulse-simple libpulse-browse libpulse-mainloop-glib \
++PACKAGES =+ "libpulsecore libpulsecommon libpulse libpulse-simple libpulse-browse libpulse-mainloop-glib \
+              pulseaudio-server pulseaudio-misc"
+ 
+ #upgrade path:
+@@ -73,8 +73,7 @@ RREPLACES_pulseaudio-server = "libpulse-bin libpulse-conf"
+ PACKAGES_DYNAMIC += "^pulseaudio-lib.* ^pulseaudio-module.* ^libpulse-lib.* ^libpulse-module.* "
+ 
+ FILES_libpulsecore = "${libdir}/libpulsecore*.so"
+-FILES_libpulsecommon = "${libdir}/libpulsecommon*.so"
+-FILES_libpulsedsp = "${libdir}/libpulsedsp*.so"
++FILES_libpulsecommon = "${libdir}/pulseaudio/libpulsecommon*.so"
+ FILES_libpulse = "${libdir}/libpulse.so.*"
+ FILES_libpulse-simple = "${libdir}/libpulse-simple.so.*"
+ FILES_libpulse-browse = "${libdir}/libpulse-browse.so.*"
+@@ -86,7 +85,7 @@ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}
+ FILES_${PN}-conf = "${sysconfdir}"
+ FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
+ FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl ${base_libdir}/udev/rules.d/*.rules"
+-FILES_${PN}-misc = "${bindir}/*"
++FILES_${PN}-misc = "${bindir}/* ${libdir}/pulseaudio/libpulsedsp.so"
+ 
+ # Allow the pulseaudio package to be created empty as a placeholder (-dbg and -dev depend on it)
+ ALLOW_EMPTY_${PN} = "1"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+index 07410a4..6d5eb5f 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.1.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r9"
++PR = "r10"
+ 
+ DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+ 
+-- 
+1.7.10
+
 
 
