@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TR2lt-0003zk-AQ
+	(envelope-from <sgw@linux.intel.com>) id 1TR2mk-00042N-CK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 17:21:29 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Oct 2012 08:08:01 -0700
+	Wed, 24 Oct 2012 17:22:22 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Oct 2012 08:08:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,640,1344236400"; d="scan'208";a="159855114"
+X-IronPort-AV: E=Sophos;i="4.80,640,1344236400"; d="scan'208";a="239539727"
 Received: from unknown (HELO [10.255.14.104]) ([10.255.14.104])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Oct 2012 08:08:00 -0700
-Message-ID: <50880450.9030605@linux.intel.com>
-Date: Wed, 24 Oct 2012 08:08:00 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 24 Oct 2012 08:08:53 -0700
+Message-ID: <50880485.1050008@linux.intel.com>
+Date: Wed, 24 Oct 2012 08:08:53 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Morten Minde Neergaard <mneergaa@cisco.com>
-References: <1350643027-25785-1-git-send-email-mneergaa@cisco.com>
-In-Reply-To: <1350643027-25785-1-git-send-email-mneergaa@cisco.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add support for running custom terminals.
+To: Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1348645880.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1348645880.git.liezhi.yang@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] rootfs_rpm.bbclass: maybe no rpm postinst script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,102 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 15:21:29 -0000
+X-List-Received-Date: Wed, 24 Oct 2012 15:22:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/19/2012 03:37 AM, Morten Minde Neergaard wrote:
-> Example config:
-> OE_TERMINAL = "custom"
-> OE_TERMINAL_CUSTOMCMD = "mysuperterm"
+On 09/26/2012 02:22 AM, Robert Yang wrote:
+> The following changes since commit b1f37e51e40774418a1b4c6e3df78df6ac6ee938:
 >
-> Signed-off-by: Morten Minde Neergaard <mneergaa@cisco.com>
-> ---
->   meta/classes/terminal.bbclass |   10 ++++++----
->   meta/lib/oe/terminal.py       |   17 ++++++++++++++++-
->   2 files changed, 22 insertions(+), 5 deletions(-)
+>    package_rpm.bbclass: no initial_solution in the second build (2012-09-26 10:15:20 +0800)
 >
-> diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-> index 2cd6f4c..51846c1 100644
-> --- a/meta/classes/terminal.bbclass
-> +++ b/meta/classes/terminal.bbclass
-> @@ -4,7 +4,7 @@ OE_TERMINAL[choices] = 'auto none \
->                           ${@" ".join(o.name \
->                                       for o in oe.terminal.prioritized())}'
+> are available in the git repository at:
 >
-> -OE_TERMINAL_EXPORTS = 'XAUTHORITY SHELL DBUS_SESSION_BUS_ADDRESS DISPLAY EXTRA_OEMAKE SCREENDIR'
-> +OE_TERMINAL_EXPORTS += 'XAUTHORITY SHELL DBUS_SESSION_BUS_ADDRESS DISPLAY EXTRA_OEMAKE SCREENDIR'
->   OE_TERMINAL_EXPORTS[type] = 'list'
+>    git://git.pokylinux.org/poky-contrib robert/rpm_head
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/rpm_head
 >
->   XAUTHORITY ?= "${HOME}/.Xauthority"
-> @@ -15,17 +15,19 @@ def oe_terminal(command, title, d):
->       import oe.data
->       import oe.terminal
+> Robert Yang (1):
+>    rootfs_rpm.bbclass: maybe no rpm postinst script
 >
-> +    env = dict()
-> +
->       for export in oe.data.typed_value('OE_TERMINAL_EXPORTS', d):
->           value = d.getVar(export, True)
->           if value is not None:
-> -            os.environ[export] = str(value)
-> +            env[export] = str(value)
+>   meta/classes/rootfs_rpm.bbclass | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
->       terminal = oe.data.typed_value('OE_TERMINAL', d).lower()
->       if terminal == 'none':
->           bb.fatal('Devshell usage disabled with OE_TERMINAL')
->       elif terminal != 'auto':
->           try:
-> -            oe.terminal.spawn(terminal, command, title, None, d)
-> +            oe.terminal.spawn(terminal, command, title, env, d)
->               return
->           except oe.terminal.UnsupportedTerminal:
->               bb.warn('Unsupported terminal "%s", defaulting to "auto"' %
-> @@ -34,7 +36,7 @@ def oe_terminal(command, title, d):
->               bb.fatal('Unable to spawn terminal %s: %s' % (terminal, exc))
->
->       try:
-> -        oe.terminal.spawn_preferred(command, title, None, d)
-> +        oe.terminal.spawn_preferred(command, title, env, d)
->       except oe.terminal.NoSupportedTerminals:
->           bb.fatal('No valid terminal found, unable to open devshell')
->       except oe.terminal.ExecutionError as exc:
-> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> index 71d8a43..4c1e318 100644
-> --- a/meta/lib/oe/terminal.py
-> +++ b/meta/lib/oe/terminal.py
-> @@ -47,7 +47,7 @@ class Terminal(Popen):
->
->   class XTerminal(Terminal):
->       def __init__(self, sh_cmd, title=None, env=None, d=None):
-> -        Terminal.__init__(self, sh_cmd, title, env)
-> +        Terminal.__init__(self, sh_cmd, title, env, d)
->           if not os.environ.get('DISPLAY'):
->               raise UnsupportedTerminal(self.name)
->
-> @@ -105,6 +105,21 @@ class Screen(Terminal):
->           else:
->               logger.warn(msg)
->
-> +class Custom(Terminal):
-> +    command = 'false' # This is a placeholder
-> +    priority = 3
-> +
-> +    def __init__(self, sh_cmd, title=None, env=None, d=None):
-> +        self.command = d and d.getVar('OE_TERMINAL_CUSTOMCMD', True)
-> +        if self.command:
-> +            if not '{command}' in self.command:
-> +                self.command += ' {command}'
-> +            Terminal.__init__(self, sh_cmd, title, env, d)
-> +            logger.warn('Custom terminal was started.')
-> +        else:
-> +            logger.debug(1, 'No custom terminal (OE_TERMINAL_CUSTOMCMD) set')
-> +            raise UnsupportedTerminal('OE_TERMINAL_CUSTOMCMD not set')
-> +
->
->   def prioritized():
->       return Registry.prioritized()
->
-
 Merged into OE-Core
 
 Thanks
