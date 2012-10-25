@@ -1,32 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TR82L-0001Ux-TY for openembedded-core@lists.openembedded.org;
-	Wed, 24 Oct 2012 22:58:50 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9OKjJwh007665;
-	Wed, 24 Oct 2012 21:45:19 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06617-08; Wed, 24 Oct 2012 21:45:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9OKj9i9007659
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 24 Oct 2012 21:45:11 +0100
-Message-ID: <1351111509.22340.133.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 24 Oct 2012 21:45:09 +0100
-In-Reply-To: <20121024151234.GH3269@jama.jama.net>
-References: <1350569021-17352-1-git-send-email-ross.burton@intel.com>
-	<50880419.9000203@linux.intel.com>
-	<20121024151234.GH3269@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-firmare: upgrade to latest commit
+Received: from vms173009pub.verizon.net ([206.46.173.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <denis@denix.org>) id 1TRExA-00027C-Ah
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Oct 2012 06:21:56 +0200
+Received: from gandalf.denix.org ([unknown] [71.191.205.12])
+	by vms173009.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MCF007ANKU2SU40@vms173009.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 24 Oct 2012 23:08:27 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id BE4EA20077; Thu,
+	25 Oct 2012 00:08:26 -0400 (EDT)
+Date: Thu, 25 Oct 2012 00:08:26 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-id: <20121025040826.GG3465@denix.org>
+References: <1313164784.6733.165.camel@phil-desktop>
+MIME-version: 1.0
+In-reply-to: <1313164784.6733.165.camel@phil-desktop>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: dbus: only use x11 if DISTRO_FEATURES has selected it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,72 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2012 20:58:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Oct 2012 04:21:56 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Wed, 2012-10-24 at 17:12 +0200, Martin Jansa wrote:
-> On Wed, Oct 24, 2012 at 08:07:05AM -0700, Saul Wold wrote:
-> > On 10/18/2012 07:03 AM, Ross Burton wrote:
-> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > > ---
-> > >   meta/recipes-kernel/linux-firmware/linux-firmware_git.bb |    4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> > > index 559f82a..f4eb4cf 100644
-> > > --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> > > +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> > > @@ -19,10 +19,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
-> > >                       file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-> > >                      "
-> > >
-> > > -SRCREV = "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
-> > > +SRCREV = "0d6729f2b0bc6254d3628eb831bc80a36b5a17db"
-> > >   PE = "1"
-> > >   PV = "0.0+git${SRCPV}"
-> > > -PR = "r4"
-> > > +PR = "r5"
-> > >
-> > >   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
-> > >
-> > >
-> > Merged into OE-Core
+On Fri, Aug 12, 2011 at 04:59:43PM +0100, Phil Blundell wrote:
+> This makes it possible to include dbus in a non-X11-equipped DISTRO.
+
+I have a follow up question on this old change...
+
+
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/recipes-core/dbus/dbus.inc |    7 ++++---
+>  1 files changed, 4 insertions(+), 3 deletions(-)
 > 
-> Probably not caused by this upgrade, but do you also see:
+> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> index 6b76cba..a8ecda8 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -5,7 +5,8 @@ SECTION = "base"
+>  LICENSE = "AFL-2 | GPLv2+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+>                      file://dbus/dbus.h;firstline=6;endline=20;md5=6eea2e0c7750dd8e620dcb1437312fa5"
+> -DEPENDS = "expat virtual/libintl virtual/libx11 libsm"
+> +X11DEPENDS = "virtual/libx11 libsm"
+> +DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+>  DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
+>  DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk virtual/libx11"
+
+Would there be any objections extending this DISTRO check to nativesdk as 
+well?
+
+-- 
+Denys
+
+
+>  
+> @@ -22,7 +23,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+>  
+>  DEBIANNAME_${PN} = "dbus-1"
+>  
+> -PACKAGES =+ "${PN}-lib ${PN}-x11 ${PN}-systemd"
+> +PACKAGES =+ "${PN}-lib ${PN}-systemd ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
+>  
+>  FILES_${PN}-x11 = "${bindir}/dbus-launch"
+>  RDEPENDS_${PN}-x11 = "${PN}"
+> @@ -73,7 +74,7 @@ pkg_postinst_dbus() {
+>  	fi
+>  }
+>  
+> -EXTRA_OECONF_X = "--with-x"
+> +EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+>  EXTRA_OECONF_X_virtclass-native = "--without-x"
+>  
+>  EXTRA_OECONF = "--disable-tests \
+> -- 
+> 1.7.4.1
 > 
-> NOTE: Running setscene task 1956 of 2655 (/OE/shr-core/openembedded-core/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb, do_package_setscene)
-> NOTE: recipe linux-firmware-1_0.0+git2+0d6729f2b0bc6254d3628eb831bc80a36b5a17db-r5: task do_populate_sysroot_setscene: Started
-> NOTE: recipe linux-firmware-1_0.0+git2+0d6729f2b0bc6254d3628eb831bc80a36b5a17db-r5: task do_package_setscene: Started
-> WARNING: The recipe linux-firmware is trying to install files into a shared area when those files already exist. Those files are:
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/ti_5052.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/mts_edge.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/whiteheat_loader.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/mts_cdma.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/whiteheat.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/mts_gsm.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/ti_3410.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/kaweth/new_code_fix.bin
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/kaweth/trigger_code_fix.bin
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/kaweth/new_code.bin
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/kaweth/trigger_code.bin
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/keyspan_pda/keyspan_pda.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/keyspan_pda/xircom_pgs.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/edgeport/down.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/edgeport/down3.bin
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/edgeport/down2.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/edgeport/boot.fw
->    /OE/shr-core/tmp-eglibc/sysroots/om-gta02/lib/firmware/edgeport/boot2.fw
-> NOTE: recipe linux-firmware-1_0.0+git2+0d6729f2b0bc6254d3628eb831bc80a36b5a17db-r5: task do_populate_sysroot_setscene: Succeeded
 > 
-> Here it's installed by kernel recipe (linux-openmoko not linux-yocto based) but I don't 
-> see firmware install disabled in kernel.bbclass or linux-yocto.
-
-I've not seen those warnings in my builds or on the autobuilder...
-
-Cheers,
-
-Richard
-
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
