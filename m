@@ -1,31 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TRM4z-0004A7-H3 for openembedded-core@lists.openembedded.org;
-	Thu, 25 Oct 2012 13:58:29 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9PBivnA017131;
-	Thu, 25 Oct 2012 12:44:57 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 16860-04; Thu, 25 Oct 2012 12:44:53 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9PBik4N017124
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 25 Oct 2012 12:44:47 +0100
-Message-ID: <1351165486.22340.152.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 25 Oct 2012 12:44:46 +0100
-In-Reply-To: <1919390.bnYn62cq03@helios>
-References: <1313164784.6733.165.camel@phil-desktop>
-	<20121025040826.GG3465@denix.org> <1919390.bnYn62cq03@helios>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: dbus: only use x11 if DISTRO_FEATURES has selected it
+Received: from eumx.net ([91.82.101.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TRN9D-000664-Un
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Oct 2012 15:06:56 +0200
+Received: from localhost ([127.0.0.1]:55200 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TRMwA-0008D8-Hs; Thu, 25 Oct 2012 12:53:26 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
+	:subject:date:message-id; s=default; bh=OscroIJExjXtizQ2/2UXUB0X
+	mz8=; b=WtKiAeHJvB+KAUfwWkjvaGXIUPwNsYh0Ew4EJ22YuC5ehuUasyo+fGFI
+	J8s1y/cv5pJSztb5VjS4GNjZmPTfMrpVafVNPPhxHgiyMjZgUoi8/ZzZJys7hRQq
+	KFXEMgsnqpgari2iMKrOuDkaK6n96zhVqtsVYnFnNRDcCmbwMAA=
+Received: from [195.171.99.130] (port=41748 helo=archHP.dbnet.local)
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TRMwA-0008D5-DD; Thu, 25 Oct 2012 12:53:26 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Oct 2012 13:55:02 +0100
+Message-Id: <1351169702-2652-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.7.12.4
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [oe][PATCH] latencytop: disable GTK and remove gtk+ dependacy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,71 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2012 11:58:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Oct 2012 13:06:56 -0000
 
-On Thu, 2012-10-25 at 10:58 +0100, Paul Eggleton wrote:
-> On Thursday 25 October 2012 00:08:26 Denys Dmytriyenko wrote:
-> > On Fri, Aug 12, 2011 at 04:59:43PM +0100, Phil Blundell wrote:
-> > > This makes it possible to include dbus in a non-X11-equipped DISTRO.
-> > 
-> > I have a follow up question on this old change...
-> > 
-> > > Signed-off-by: Phil Blundell <philb@gnu.org>
-> > > ---
-> > > 
-> > >  meta/recipes-core/dbus/dbus.inc |    7 ++++---
-> > >  1 files changed, 4 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/meta/recipes-core/dbus/dbus.inc
-> > > b/meta/recipes-core/dbus/dbus.inc index 6b76cba..a8ecda8 100644
-> > > --- a/meta/recipes-core/dbus/dbus.inc
-> > > +++ b/meta/recipes-core/dbus/dbus.inc
-> > > @@ -5,7 +5,8 @@ SECTION = "base"
-> > > 
-> > >  LICENSE = "AFL-2 | GPLv2+"
-> > >  LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
-> > >  
-> > >                      file://dbus/dbus.h;firstline=6;endline=20;md5=6eea2e0
-> > >                      c7750dd8e620dcb1437312fa5"> 
-> > > -DEPENDS = "expat virtual/libintl virtual/libx11 libsm"
-> > > +X11DEPENDS = "virtual/libx11 libsm"
-> > > +DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES',
-> > > 'x11', '${X11DEPENDS}', '', d)}"> 
-> > >  DEPENDS_virtclass-native = "expat-native virtual/libintl-native"
-> > >  DEPENDS_virtclass-nativesdk = "expat-nativesdk virtual/libintl-nativesdk
-> > >  virtual/libx11"
-> >
-> > Would there be any objections extending this DISTRO check to nativesdk as
-> > well?
-> 
-> We did have a request not so long ago to be able to have x11 enabled in the 
-> nativesdk (for development tools that need X) but disabled on the target. I'm 
-> pretty sure we already have a lot of places where DISTRO_FEATURES will 
-> influence nativesdk, but I suspect the configuration may need to be separated 
-> for these two at some point.
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-There is a nasty subtlety in this request which I've noticed with
-dbus-native on my local builds.
+When DISTRO_FEATURES does not contain x11, disable GTK GUI and
+also don't add gtk+ to the DEPENDS
 
-If I launch a devshell, then within it try and launch a local X app
-which uses dbus, it finds the dbus in the native sysroot, not the host
-system one. Since X11 is disabled in the native dbus, it then generall
-gives me nasty errors and breaks the X app I wanted to run.
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+---
+ .../latencytop/latencytop-0.5/latencytop-makefile.patch     | 13 +++++++------
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb            |  6 ++++--
+ 2 files changed, 11 insertions(+), 8 deletions(-)
 
-So far I've just ignored this but it will do the same thing to
-nativesdk, namely break X apps once the dbus-nativesdk is in PATH.
-
-So I'm not sure disabling X11 is a good idea here. Perhaps not
-installing the dbus binaries into PATH for nativesdk might be good
-enough to avoid undesired affects but we need to think it through very
-carefully and the request isn't as simple as it first appears.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
+index 59a0b1f..596450c 100644
+--- a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
++++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
+@@ -1,8 +1,9 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+---- a/Makefile	2010-07-20 18:51:32.000000000 +0800
+-+++ b/Makefile	2010-07-20 18:54:54.000000000 +0800
+-@@ -4,7 +4,8 @@
++--- a/Makefile 2010-07-20 18:51:32.000000000 +0800
+++++ b/Makefile 2010-07-20 18:54:54.000000000 +0800
++@@ -1,10 +1,8 @@
++-# FIXME: Use autoconf ?
++-HAS_GTK_GUI = 1
++-
+  DESTDIR =
+  SBINDIR = /usr/sbin
+  XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare
+@@ -12,7 +13,7 @@ Upstream-Status: Inappropriate [configuration]
+  
+  OBJS= latencytop.o text_display.o translate.o fsync.o
+  
+-@@ -26,16 +27,17 @@
++@@ -26,16 +24,17 @@
+  
+  # We write explicity this "implicit rule"
+  %.o : %.c
+diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+index 15f3667..2429b3d 100644
+--- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
++++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "n/a"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
+ 
+-DEPENDS = "virtual/libintl ncurses glib-2.0 gtk+"
++DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+ 
+ PR = "r2"
+ 
+@@ -15,8 +15,10 @@ SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
+ SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
+ SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
+ 
++EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '-DHAS_GTK_GUI=1', '', d)}"
++
+ CFLAGS += "${LDFLAGS}"
+ 
+ do_install() {
+-    oe_runmake install DESTDIR=${D}
++    oe_runmake install DESTDIR=${D} ${EXTRA_OECONF_X}
+ }
+-- 
+1.7.12.4
 
 
 
