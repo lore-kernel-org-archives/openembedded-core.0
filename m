@@ -1,28 +1,38 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TRN9D-000664-Un
+	(envelope-from <ross.burton@intel.com>) id 1TROJd-0001oP-R6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Oct 2012 15:06:56 +0200
-Received: from localhost ([127.0.0.1]:55200 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TRMwA-0008D8-Hs; Thu, 25 Oct 2012 12:53:26 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
-	:subject:date:message-id; s=default; bh=OscroIJExjXtizQ2/2UXUB0X
-	mz8=; b=WtKiAeHJvB+KAUfwWkjvaGXIUPwNsYh0Ew4EJ22YuC5ehuUasyo+fGFI
-	J8s1y/cv5pJSztb5VjS4GNjZmPTfMrpVafVNPPhxHgiyMjZgUoi8/ZzZJys7hRQq
-	KFXEMgsnqpgari2iMKrOuDkaK6n96zhVqtsVYnFnNRDcCmbwMAA=
-Received: from [195.171.99.130] (port=41748 helo=archHP.dbnet.local)
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TRMwA-0008D5-DD; Thu, 25 Oct 2012 12:53:26 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
+	Thu, 25 Oct 2012 16:21:46 +0200
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 25 Oct 2012 07:07:47 -0700
+Received: by mail-bk0-f69.google.com with SMTP id jg15so1380854bkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Oct 2012 07:08:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=T0dRWiDHU5MbcZxhb6CwRbeAvQSGjEDTlSMlSRXO/z0=;
+	b=JHdz3+fiae+2LzqLftNbZYzaSdN3l2g/vjayioSwKEpzLUduRH0S5wujWtZy/fmPP3
+	OaM3EqWyst7MR6AsQzsfTQDgJw5m4a7R/DqEW6fvfpI0RK6OC9owDveb3Iusd4uO3wpY
+	fvIpv7v4GGqAdg8oBa7tIpCaIhswKeoRodOSac4N354oz19sdlg0B8F3iEuafw8COyVc
+	D3ppO8ckLwOeIkUYYFUTqeIax7cvhOOgR7Aw8eGFHChkcBdIhqE9mEWKD+A7FdS3mEHi
+	5+ynNE04+btR5s8XUrsUcRfxMMj5s8nHTaRZ8UkEkMo58w+6lb1vFSkxVthdKyJJcaV8
+	/0RQ==
+Received: by 10.180.82.35 with SMTP id f3mr14158505wiy.6.1351174093511;
+	Thu, 25 Oct 2012 07:08:13 -0700 (PDT)
+Received: by 10.180.82.35 with SMTP id f3mr14158489wiy.6.1351174093433;
+	Thu, 25 Oct 2012 07:08:13 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id j8sm10089149wiy.9.2012.10.25.07.08.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 25 Oct 2012 07:08:12 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Oct 2012 13:55:02 +0100
-Message-Id: <1351169702-2652-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.7.12.4
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [oe][PATCH] latencytop: disable GTK and remove gtk+ dependacy
+Date: Thu, 25 Oct 2012 15:07:04 +0100
+Message-Id: <1351174024-6300-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQl03djZgSC60nSAWcmby5F1qzniqax9jcz6+Zd1OThU3JbdQqlbFF93WltuE1fw4kqY/vzkRfhcmWvBSdf0xWfeJs3i1P0x+5P3/ONxJrHuJFIWwAIxTqyuAhIvp0Ks0XmOukA9aCiLjCae/3ekoqnPS33CdPdiunBj9pmwTSK29wP44A8WscBQ2TORjcWS991G3lds
+Subject: [PATCH] diffutils: fix rebuilds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,74 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2012 13:06:56 -0000
+X-List-Received-Date: Thu, 25 Oct 2012 14:21:46 -0000
 
-From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+If diffutils rebuilds it tries to remove with "rm" files that don't exist
+anymore, resulting in an error.
 
-When DISTRO_FEATURES does not contain x11, disable GTK GUI and
-also don't add gtk+ to the DEPENDS
+Use rm -f so the removal always succeeds.
 
-Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../latencytop/latencytop-0.5/latencytop-makefile.patch     | 13 +++++++------
- meta/recipes-kernel/latencytop/latencytop_0.5.bb            |  6 ++++--
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ meta/recipes-extended/diffutils/diffutils_3.2.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
-index 59a0b1f..596450c 100644
---- a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
-+++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
-@@ -1,8 +1,9 @@
--Upstream-Status: Inappropriate [configuration]
--
----- a/Makefile	2010-07-20 18:51:32.000000000 +0800
--+++ b/Makefile	2010-07-20 18:54:54.000000000 +0800
--@@ -4,7 +4,8 @@
-+--- a/Makefile 2010-07-20 18:51:32.000000000 +0800
-++++ b/Makefile 2010-07-20 18:54:54.000000000 +0800
-+@@ -1,10 +1,8 @@
-+-# FIXME: Use autoconf ?
-+-HAS_GTK_GUI = 1
-+-
-  DESTDIR =
-  SBINDIR = /usr/sbin
-  XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare
-@@ -12,7 +13,7 @@ Upstream-Status: Inappropriate [configuration]
-  
-  OBJS= latencytop.o text_display.o translate.o fsync.o
-  
--@@ -26,16 +27,17 @@
-+@@ -26,16 +24,17 @@
-  
-  # We write explicity this "implicit rule"
-  %.o : %.c
-diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-index 15f3667..2429b3d 100644
---- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-+++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "n/a"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
- 
--DEPENDS = "virtual/libintl ncurses glib-2.0 gtk+"
-+DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
- 
- PR = "r2"
- 
-@@ -15,8 +15,10 @@ SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
- SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
- SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
- 
-+EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '-DHAS_GTK_GUI=1', '', d)}"
-+
- CFLAGS += "${LDFLAGS}"
- 
- do_install() {
--    oe_runmake install DESTDIR=${D}
-+    oe_runmake install DESTDIR=${D} ${EXTRA_OECONF_X}
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.2.bb b/meta/recipes-extended/diffutils/diffutils_3.2.bb
+index dc87190..400c8a6 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.2.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.2.bb
+@@ -6,7 +6,7 @@ require diffutils.inc
+ do_configure_prepend () {
+ 	# Need to remove gettext macros with weird mix of versions
+ 	for i in codeset.m4 gettext_gl.m4 intlmacosx.m4 inttypes-pri.m4 lib-ld_gl.m4 lib-prefix_gl.m4 po_gl.m4 ssize_t.m4 wchar_t.m4 wint_t.m4; do
+-		rm ${S}/m4/$i
++		rm -f ${S}/m4/$i
+ 	done
  }
+ 
 -- 
-1.7.12.4
+1.7.10
 
 
 
