@@ -1,33 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TRZ6c-0004zS-7m
+	(envelope-from <raj.khem@gmail.com>) id 1TReBP-0005KW-77
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Oct 2012 03:53:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9Q1dVJA027735
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Oct 2012 18:39:31 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Thu, 25 Oct 2012 18:39:28 -0700
-Message-ID: <5089E9F3.1090400@windriver.com>
-Date: Fri, 26 Oct 2012 09:40:03 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1351155183.git.kai.kang@windriver.com>
-	<6568219d957b11739d325f2573df9266cfe228a6.1351155183.git.kai.kang@windriver.com>
-	<508952B7.7050502@linux.intel.com>
-In-Reply-To: <508952B7.7050502@linux.intel.com>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q9Q1dVJA027735
-Cc: Zhenfeng.Zhao@windriver.com, "Yang, Liezhi" <Liezhi.Yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] perl: update dependencies
+	Fri, 26 Oct 2012 09:18:20 +0200
+Received: by mail-pb0-f47.google.com with SMTP id ro12so2352779pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Oct 2012 00:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=9XaSGJiyhi64GccwfbrYDSw7q0u/pOYvD1NxDsSMqn0=;
+	b=02ot4TD69qo37Mn5sDidORdB35wKsQQJVb6GMJ5ArjH+E+CC96t9BXv4KdPxmaIx0L
+	HXQU3SQKQQOtVaVU+vvq8+Kw28lYKEoAwnMZThnGIREvQV1zONQlpnIRGSOnr001Wv4x
+	+rCyrFBoB7dWG1Ua+oLgtZuKJzMYnZD9qHTaZ8tLU0JWVIXRY5XObQmuwnwOdVRb0xWV
+	TQ6O+2PzxnpE3uBLdcDP2XQaphx8LoGa/7PyYK5hQ20bwGTAl/icgzKd4dJOUjKtIwlD
+	4bZYCRCt59u/hW68ZjpKTR3VZNrwQ+muVTjazOmp2pN/ww2fkept43kpRNMpSusJAGjB
+	GATQ==
+Received: by 10.66.73.6 with SMTP id h6mr59528507pav.69.1351235088265;
+	Fri, 26 Oct 2012 00:04:48 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id mt15sm719980pbc.49.2012.10.26.00.04.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 26 Oct 2012 00:04:47 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Oct 2012 00:03:49 -0700
+Message-Id: <1351235029-31096-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] bitbake.conf: Change systemd_unitdir definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,79 +40,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2012 01:53:02 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Oct 2012 07:18:20 -0000
 
-On 2012=E5=B9=B410=E6=9C=8825=E6=97=A5 22:54, Saul Wold wrote:
-> On 10/25/2012 02:50 AM, Kang Kai wrote:
->> Update dependencies for perl modules again. When only install
->> perl-module-file-glob, run perl script with "require File::Glob;" will
->> fail. Update dependencies to fix that.
->>
-> Is this just a point fix for the File::Glob issue?
+systemd_unitdir indicates the arch independent
+files which are basically scripts and unit files
+and systemd wants then to be in /lib always even
+when base_libdir is  /lib64, hence we have to reflect
+that and not use base_libdir to define it. Otherwise
+on architectures where base_libdir is lib64 e.g. ppc64
+or multilibbed x86_64 this wont work
 
-Fix perl-module-dynaloader too. It didn't expose to run failed when=20
-update the deps among perl modules.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/bitbake.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> As I was originally researching this issue it seemed to me that the=20
-> perl_rdepends was incorrect, the script used to generate it did not=20
-> actually work, please review the bug comment.
->
-> Are you going to look at the bigger issue?
-
-I'm glad to. But this may need more time.
-
-Regards,
-Kai
-
->
-> Thanks
-> Sau!
->
->> [Yocto 3069]
->>
->> Signed-off-by: Kang Kai <kai.kang@windriver.com>
->> ---
->> .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2 ++
->> meta/recipes-devtools/perl/perl_5.14.2.bb | 2 +-
->> 2 files changed, 3 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc=20
->> b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
->> index 2707fe8..39972ca 100644
->> --- a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
->> +++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
->> @@ -13,8 +13,10 @@
->>
->> # Some additional dependencies that the above doesn't manage to=20
->> figure out
->> # Please take care that exporter depends exporter-heavy, not reverse
->> +RDEPENDS_${PN}-module-dynaloader +=3D "${PN}-module-carp"
->> RDEPENDS_${PN}-module-exporter +=3D "${PN}-module-exporter-heavy"
->> RDEPENDS_${PN}-module-file-glob +=3D "${PN}-module-feature"
->> +RDEPENDS_${PN}-module-file-glob +=3D "${PN}-module-file"
->> RDEPENDS_${PN}-module-file-path +=3D "${PN}-module-cwd"
->> RDEPENDS_${PN}-module-file-spec +=3D "${PN}-module-file-spec-unix"
->> RDEPENDS_${PN}-module-file-stat +=3D "${PN}-module-fcntl"
->> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb=20
->> b/meta/recipes-devtools/perl/perl_5.14.2.bb
->> index 3ede831..1e1eb04 100644
->> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
->> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D=20
->> "file://Copying;md5=3D2b4c6ffbcfcbdee469f02565f253d81a \
->> # We need gnugrep (for -I)
->> DEPENDS =3D "virtual/db grep-native"
->> DEPENDS +=3D "gdbm zlib"
->> -PR =3D "r13"
->> +PR =3D "r14"
->>
->> # 5.10.1 has Module::Build built-in
->> PROVIDES +=3D "libmodule-build-perl"
->>
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5cb5b13..e7fa731 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -31,6 +31,7 @@ export localstatedir = "${base_prefix}/var"
+ export infodir = "${datadir}/info"
+ export mandir = "${datadir}/man"
+ export docdir = "${datadir}/doc"
++export systemd_unitdir = "/lib/systemd"
+ 
+ # Architecture dependent paths
+ export bindir = "${exec_prefix}/bin"
+@@ -39,7 +40,6 @@ export libexecdir = "${exec_prefix}/libexec"
+ export libdir = "${exec_prefix}/${baselib}"
+ export includedir = "${exec_prefix}/include"
+ export oldincludedir = "${exec_prefix}/include"
+-export systemd_unitdir = "${base_libdir}/systemd"
+ localedir = "${libdir}/locale"
+ 
+ # Linkage between native/cross/nativesdk layouts
+-- 
+1.7.9.5
 
 
 
