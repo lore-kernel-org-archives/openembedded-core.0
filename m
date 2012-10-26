@@ -1,34 +1,40 @@
 Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TRkHq-0006p8-AJ
+	(envelope-from <ml@communistcode.co.uk>) id 1TRkJU-0006za-Kd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Oct 2012 15:49:22 +0200
-Received: from localhost ([127.0.0.1]:45968 helo=eumx.net)
+	Fri, 26 Oct 2012 15:51:04 +0200
+Received: from localhost ([127.0.0.1]:59185 helo=eumx.net)
 	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TRk4l-0005DO-GE; Fri, 26 Oct 2012 13:35:51 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references; s=default; bh=i
-	4bUH0FTEm4Dz+Gl4YQC/HkHmqI=; b=zUhAO4ZC3Bnuy658BQDA6sEZNd7V86FO/
-	YkSX0ZrMpdw6/pLORUk99XCLGHWVV+V9hxjWdX48Bb/89+i09EFfianOwJT40/n/
-	NaRq9efIR9eTsn3ciKMVA9aul2BDfpIvfbqe8psfs2MO0PsVMOZJTJx+2U5YSu7B
-	4XLv6kRWyw=
-Received: from [195.171.99.130] (port=44483 helo=archHP.dbnet.local)
+	(envelope-from <ml@communistcode.co.uk>) id 1TRk6Q-0005Gz-Ov
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Oct 2012 13:37:34 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=ITQVSUKaYyTH5li6z1OSreSRye8=; b=w8dQAfxB3naq2nEIl/zl2UHngkYi
+	SZgDZIKJAMP/Ig3JP5KF19T3riaOTkYDc2sBuYr+SwcPx7f/DsEYme2f/n/UjR/a
+	43vUYm9EkVWnUnYWOiJkvrGHIn5gu5FO1IKOX5tv/qWJzczwnq6xjmOrkeHz/mEG
+	m9Xg+i1r/S/ERwI=
+Received: from [195.171.99.130] (port=40962 helo=[192.168.0.67])
 	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TRk4l-0005DH-B2; Fri, 26 Oct 2012 13:35:51 +0000
+	(envelope-from <ml@communistcode.co.uk>) id 1TRk6Q-0005Gv-Ld
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Oct 2012 13:37:34 +0000
+Message-ID: <508A9286.5030603@communistcode.co.uk>
+Date: Fri, 26 Oct 2012 14:39:18 +0100
 From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Oct 2012 14:37:23 +0100
-Message-Id: <1351258645-14649-2-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1351258645-14649-1-git-send-email-ml@communistcode.co.uk>
 References: <1351258645-14649-1-git-send-email-ml@communistcode.co.uk>
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [PATCH 1/3] latencytop: disable GTK and remove gtk+ dependacy
+	<1351258645-14649-2-git-send-email-ml@communistcode.co.uk>
+In-Reply-To: <1351258645-14649-2-git-send-email-ml@communistcode.co.uk>
+Subject: Re: [PATCH 1/3] latencytop: disable GTK and remove gtk+ dependacy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -38,74 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2012 13:49:22 -0000
+X-List-Received-Date: Fri, 26 Oct 2012 13:51:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Apologies for the double send - I don't know why this second set came 
+through!
 
-When DISTRO_FEATURES does not contain x11, disable GTK GUI and
-also don't add gtk+ to the DEPENDS
-
-Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
----
- .../latencytop/latencytop-0.5/latencytop-makefile.patch     | 13 +++++++------
- meta/recipes-kernel/latencytop/latencytop_0.5.bb            |  6 ++++--
- 2 files changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
-index 59a0b1f..596450c 100644
---- a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
-+++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
-@@ -1,8 +1,9 @@
--Upstream-Status: Inappropriate [configuration]
--
----- a/Makefile	2010-07-20 18:51:32.000000000 +0800
--+++ b/Makefile	2010-07-20 18:54:54.000000000 +0800
--@@ -4,7 +4,8 @@
-+--- a/Makefile 2010-07-20 18:51:32.000000000 +0800
-++++ b/Makefile 2010-07-20 18:54:54.000000000 +0800
-+@@ -1,10 +1,8 @@
-+-# FIXME: Use autoconf ?
-+-HAS_GTK_GUI = 1
-+-
-  DESTDIR =
-  SBINDIR = /usr/sbin
-  XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare
-@@ -12,7 +13,7 @@ Upstream-Status: Inappropriate [configuration]
-  
-  OBJS= latencytop.o text_display.o translate.o fsync.o
-  
--@@ -26,16 +27,17 @@
-+@@ -26,16 +24,17 @@
-  
-  # We write explicity this "implicit rule"
-  %.o : %.c
-diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-index 15f3667..695e12b 100644
---- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-+++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "n/a"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
- 
--DEPENDS = "virtual/libintl ncurses glib-2.0 gtk+"
-+DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
- 
- PR = "r2"
- 
-@@ -15,8 +15,10 @@ SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
- SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
- SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
- 
-+EXTRA_OEMAKE_X = "${@base_contains('DISTRO_FEATURES', 'x11', 'HAS_GTK_GUI=1', '', d)}"
-+
- CFLAGS += "${LDFLAGS}"
- 
- do_install() {
--    oe_runmake install DESTDIR=${D}
-+    oe_runmake install DESTDIR=${D} ${EXTRA_OEMAKE_X}
- }
 -- 
-1.8.0
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
