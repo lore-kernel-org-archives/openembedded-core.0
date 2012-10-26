@@ -1,32 +1,39 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1TRmA3-0001RX-CK; Fri, 26 Oct 2012 17:49:27 +0200
-Received: by mail-pb0-f47.google.com with SMTP id ro12so2596243pbb.6
-	for <multiple recipients>; Fri, 26 Oct 2012 08:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=7IBWFHzhFlyxnVxA586OFwdU0Ha/8I8Ycp7aOH05Jms=;
-	b=LniHAq2J9UVScXGeffucO+g4709ExqNmFyIGSRAxnzscES/ASMha8NHtqVZ2ScPsiv
-	D0hCSGafk9LiarE3NrrabjGxBhzBVhPskr7b4LTKZN1PokSKVcez3/iGUAY4BBvRuwB4
-	abVqYzMPnjqooaOYWITboRxNezYrL2DipFWLjNCf2MX8eQgUqzX9GpFrQd1H5zbgKSbl
-	SDD4iwdkNV6gxM7TApeYShaBECXVLOtfUpEZpNVrQsUjyRuzRHmGKpL2vQ+RuAjd+QNP
-	PLRGOQ4HMMy3r01ZbcDLVwAjZZyGG0PNNUJ4jNpBesDLjds2D1rSBfQL05oTAmM1PFCc
-	sv9g==
+	(envelope-from <ross.burton@intel.com>) id 1TRmEz-0001gK-Tm
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Oct 2012 17:54:34 +0200
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 26 Oct 2012 08:41:02 -0700
+Received: by mail-oa0-f69.google.com with SMTP id j6so9009311oag.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Oct 2012 08:41:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=9AV5moaJNTNXZy7AFaAxgxxedWNMhHOnlgr9W29L0ag=;
+	b=NYUiLed2ZSdjEZQqd3a4KnoRXuNI4nMHa3DF3meq4u+n/zp6Uka6Fy7i3L49nhryix
+	LfoJ1PTm3MLttWPjvILMJAP/yGeM0qWIsEcBdz77LGIg0mqrJSJr/Zyb3855EjLxaUvZ
+	OwRumq5ff1ULu/rh7Jx0ZETX8QFMUQDKtS1Bc+mm6YFl3oz+HeVp5cwHJPr5jvz8HG6Z
+	+0UmZSps4U8dmdWPFNp7xz2fykOo+GN32D6O5Mx6GzCpL0MuoExjXw078yIF+EN6pcwG
+	oYtvXu8Pzrf5jmHaPSdhefahHIzls4mv2eVMv2b2u/t9uy1+YcWRUFZyp3kZyxgRO3+d
+	NQqw==
+Received: by 10.182.0.1 with SMTP id 1mr18593028oba.18.1351266061940;
+	Fri, 26 Oct 2012 08:41:01 -0700 (PDT)
+Received: by 10.182.0.1 with SMTP id 1mr18593018oba.18.1351266061844; Fri, 26
+	Oct 2012 08:41:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.68.224.161 with SMTP id rd1mr71710513pbc.49.1351265756287;
-	Fri, 26 Oct 2012 08:35:56 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.40.201 with HTTP; Fri, 26 Oct 2012 08:35:56 -0700 (PDT)
-In-Reply-To: <k6e9ht$ra9$1@ger.gmane.org>
+Received: by 10.182.46.70 with HTTP; Fri, 26 Oct 2012 08:40:41 -0700 (PDT)
+In-Reply-To: <CAP9ODKoZXu2dbvrhGDegKsH+vDEisgtf7r2u6TcBwYy2ZEPHDA@mail.gmail.com>
 References: <CAJTo0LYm7bwU0fNYcD8wQ3unJm_ShoW-ej5tZ3FeeogEztJGnQ@mail.gmail.com>
 	<k6e9ht$ra9$1@ger.gmane.org>
-Date: Fri, 26 Oct 2012 13:35:56 -0200
-X-Google-Sender-Auth: mg6EBJN0h-ijGWD1_EdsaoPzPJ8
-Message-ID: <CAP9ODKoZXu2dbvrhGDegKsH+vDEisgtf7r2u6TcBwYy2ZEPHDA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	<CAP9ODKoZXu2dbvrhGDegKsH+vDEisgtf7r2u6TcBwYy2ZEPHDA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 Oct 2012 16:40:41 +0100
+Message-ID: <CAJTo0Lb3_R+=uX-QTE_60pQ4N=xNS0fqCZ3jiQLhAZZaEotFgQ@mail.gmail.com>
 To: openembedded-devel@lists.openembedded.org
+X-Gm-Message-State: ALoCoQmV9BNTTZ7AVFBxLBskYnDRm0K/zbVZc05hQs340yeDRUVQWjH5AMYO3A2y+mKBNQTgyLw1XufZNUQbyw8w561l4Oh7L8wpn+wKTPVDJfPrHOK16ANB/xcjO6sic2PkyerX+5RZKx8FIxR3ZGgcoSK559xRmY21qM+dNLCFA6RG2LMaKfIeoY01Tl1XjsoLogDVG6LO
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [oe] Danny stable release branch
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,37 +48,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2012 15:49:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 26 Oct 2012 15:54:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Oct 26, 2012 at 1:17 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
+On 26 October 2012 16:35, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Who's the maintainer for the oe-core danny branch?
 >
-> Op 26-10-12 15:44, Burton, Ross schreef:
->> Hi,
->>
->> Now that 1.3 is released[1] I can announce that I'm the Danny stable
->> release series maintainer.  This involves pulling any relevant security
->> fixes, build fixes and critical bug fixes from master, and periodically
->> rolling a 1.3.x release.
->>
->> Obviously there's a lot of activity in master so whilst I intend to
->> consider every commit, if anyone submits patches to master that should
->> also be in danny, please say so either in a direct mail or with a tag in
->> the subject line.
->>
->> Expect to see a ross/danny-next series in the poky-contrib repository
->> fairly soon where I'll be staging the commits.
->
-> Who's the maintainer for the oe-core danny branch?
+> I hope there's no delta between oe-core and poky one so Ross is the
+> maintainer as far as I know.
 
-I hope there's no delta between oe-core and poky one so Ross is the
-maintainer as far as I know.
+Correct. Poky is literally oe-core+bitbake+yocto-docs glued together,
+no work happens in the poky repository directly, just the "upstream"
+repositories.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Ross
 
 
