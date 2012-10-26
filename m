@@ -1,30 +1,24 @@
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TRl6M-00087s-KA
+	(envelope-from <mihaix.lindner@linux.intel.com>) id 1TRlGn-0008IM-C5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Oct 2012 16:41:34 +0200
-Received: by mail-oa0-f47.google.com with SMTP id h1so2693082oag.6
+	Fri, 26 Oct 2012 16:52:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Oct 2012 07:37:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,654,1344236400"; d="scan'208";a="209706545"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 26 Oct 2012 07:37:44 -0700
+Received: from mlindnex-mobl1.ger.corp.intel.com (unknown [10.237.105.54])
+	by linux.intel.com (Postfix) with ESMTP id 6DC0D2C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2012 07:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=h5OLi0dGOreEVpug6vfov+TUf9QEDlZMerLaz2M1HrY=;
-	b=RQmR686WDkWPg1QRGM22bTA5uuQN13Zldtens69NHUvlnVVb/q2BKrLyn3I31gJkjY
-	yuSVrcURxRPUW+1PdTDX0olboOO3Tv/P23gZSu123C/9x8j1/jr99EcJ5saywkdF27m9
-	P6r8+Py30Ja9gE7r/7avcid/AlHvX5JLwtFfsBw+oDRoeE8tEnN1yCB/2UpGMMEDB0Ex
-	2Wbdk8ipefkMQMrMUF1ZdOArKQzYhy4LQ/PJnKAsRLdqNZ9VbcF6ZlPtyToOPjb8KIHP
-	T7UKQftGV6iZHg/+sZIGUeTWPtrxhPIH1OFzauBUnZMNe+YygFkB2X+T8zoY7UyCB4HP
-	/S6A==
-MIME-Version: 1.0
-Received: by 10.60.32.135 with SMTP id j7mr19154109oei.132.1351261683932; Fri,
-	26 Oct 2012 07:28:03 -0700 (PDT)
-Received: by 10.60.123.47 with HTTP; Fri, 26 Oct 2012 07:28:03 -0700 (PDT)
-Date: Fri, 26 Oct 2012 16:28:03 +0200
-Message-ID: <CAOHjBZsdfnhLumBym4ZO+wxxzAyCq0yONSbRDc4XZS3TH_mJ=Q@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: uclibc sdk issue
+	Fri, 26 Oct 2012 07:37:44 -0700 (PDT)
+From: Mihai Lindner <mihaix.lindner@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Oct 2012 17:37:16 +0300
+Message-Id: <cover.1351261721.git.mihaix.lindner@linux.intel.com>
+X-Mailer: git-send-email 1.7.12.4
+Subject: [PATCH 0/2] check lsb_release exists and avoid sstate subdirectory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2012 14:41:34 -0000
-Content-Type: multipart/alternative; boundary=e89a8fb1f826ab5d8604ccf72042
+X-List-Received-Date: Fri, 26 Oct 2012 14:52:21 -0000
 
---e89a8fb1f826ab5d8604ccf72042
-Content-Type: text/plain; charset=ISO-8859-1
+Make sure `lsb_release` exists;
+Documentation updated to reflect the above;
+Replace "/" to avoid subdirectories in ./sstate-cache/
 
-Hi All,
+Signed-off-by: Mihai Lindner <mihaix.lindner@linux.intel.com>
+---
+The following changes since commit 3f14eb3674d44b61fe19016902d41cae57be8e6c:
 
-I need to build sdk using uclibc.
-I'm failing on nativesdk-libc-for-gcc dependence because
-system always finds nativesdk-eglibc as the correct one.
-I've set TCLIBC to uclibc and in fact (builind with -DDD) I can
-say the default nativesdk is the uclibc, although the eglibc part
-will be assigned after checking.
+  poky.conf: Add multiarch to DISTRO_FEATURES (2012-10-25 17:50:19 +0100)
 
-Please can you clarify this to me?
-BR,
-Giuseppe
+are available in the git repository at:
 
---e89a8fb1f826ab5d8604ccf72042
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+  git://git.yoctoproject.org/poky-contrib mihai/lsb_release
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mihai/lsb_release
 
-<div>Hi All,</div><div>=A0</div><div>I need to build sdk using uclibc.</div=
-><div>I&#39;m failing on nativesdk-libc-for-gcc dependence because</div><di=
-v>system always finds nativesdk-eglibc as the correct one.</div><div>I&#39;=
-ve set TCLIBC to uclibc and in fact (builind with -DDD) I can</div>
-<div>say the default nativesdk is the uclibc, although the eglibc part</div=
-><div>will be assigned after checking.</div><div>=A0</div><div>Please can y=
-ou clarify this to me?</div><div>BR,</div><div>Giuseppe</div>
+Mihai Lindner (2):
+  lsb_release: add sanity to avoid Unknown
+  distro_identifier: replace slash with hyphen
 
---e89a8fb1f826ab5d8604ccf72042--
+ documentation/poky.ent      | 4 ++--
+ meta/classes/sanity.bbclass | 2 +-
+ meta/lib/oe/lsb.py          | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+1.7.12.4
+
+
+
