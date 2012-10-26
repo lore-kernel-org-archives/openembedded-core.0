@@ -1,37 +1,30 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TRkur-0007yv-LU
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TRl6M-00087s-KA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Oct 2012 16:29:42 +0200
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 26 Oct 2012 07:16:09 -0700
-Received: by mail-oa0-f69.google.com with SMTP id j6so8738884oag.0
+	Fri, 26 Oct 2012 16:41:34 +0200
+Received: by mail-oa0-f47.google.com with SMTP id h1so2693082oag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2012 07:16:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:cc:content-type
-	:x-gm-message-state;
-	bh=+oavJE1/dXPDzkYAmHuycYNGIMCDUFdFPtKOSKH0Jj0=;
-	b=LAmA7uEYIKYp/JaRsgi0s1ZAZTr0OLb0icu+Qpj380HAomB5pPJhFqyeKwJzjw/f5O
-	FnoYQk3GWORm1WF0b2Ot8FpoOD2xlpqREMamFGT/4Hu8ufL7XSxIJ94ZWn8CwKXx0TSK
-	gk8z7pCUpLZS0PcJ4dUoopRRxmGSOgdzNLwgN/Js0gR5EBgxEQEeOk7+UC9ONbd3v70F
-	/5Jdtv12NBtd2dRDrhGr52A2FEzI9TyfuLgNTlRwbYRCkde6nVk882zTp9h3Q+XRQAwB
-	nL5oNXIZtA2ZGnYCWhPfgNz3GoJn6TcYr/am+1UNUMIOXd27AFpzauB6e76r29kkGkuz
-	3pog==
-Received: by 10.60.170.9 with SMTP id ai9mr18939291oec.36.1351259083364;
-	Fri, 26 Oct 2012 06:44:43 -0700 (PDT)
-Received: by 10.60.170.9 with SMTP id ai9mr18939283oec.36.1351259083274; Fri,
-	26 Oct 2012 06:44:43 -0700 (PDT)
+	Fri, 26 Oct 2012 07:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=h5OLi0dGOreEVpug6vfov+TUf9QEDlZMerLaz2M1HrY=;
+	b=RQmR686WDkWPg1QRGM22bTA5uuQN13Zldtens69NHUvlnVVb/q2BKrLyn3I31gJkjY
+	yuSVrcURxRPUW+1PdTDX0olboOO3Tv/P23gZSu123C/9x8j1/jr99EcJ5saywkdF27m9
+	P6r8+Py30Ja9gE7r/7avcid/AlHvX5JLwtFfsBw+oDRoeE8tEnN1yCB/2UpGMMEDB0Ex
+	2Wbdk8ipefkMQMrMUF1ZdOArKQzYhy4LQ/PJnKAsRLdqNZ9VbcF6ZlPtyToOPjb8KIHP
+	T7UKQftGV6iZHg/+sZIGUeTWPtrxhPIH1OFzauBUnZMNe+YygFkB2X+T8zoY7UyCB4HP
+	/S6A==
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Fri, 26 Oct 2012 06:44:22 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Oct 2012 14:44:22 +0100
-Message-ID: <CAJTo0LYm7bwU0fNYcD8wQ3unJm_ShoW-ej5tZ3FeeogEztJGnQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlVcLYq1KeS9/nnjyn+KzFTQLUWFvlQ6AJZuZo/JrdMsqEY2g+YgvacXVm9heWC9sL2HIr3Fa22sN6JYATo05DfEhp8zHFzvtHsJbKXn5QJrJrdMuWj6wkd9Z3lQ0OW6lWJkIj0sN91xA67315X0Xgg99UI2H9bv0C1o8daTtLBn5Qudh2OBhgSWcjvz7Ge3T+MYkM4
-Cc: OE-devel <openembedded-devel@lists.openembedded.org>
-Subject: Danny stable release branch
+Received: by 10.60.32.135 with SMTP id j7mr19154109oei.132.1351261683932; Fri,
+	26 Oct 2012 07:28:03 -0700 (PDT)
+Received: by 10.60.123.47 with HTTP; Fri, 26 Oct 2012 07:28:03 -0700 (PDT)
+Date: Fri, 26 Oct 2012 16:28:03 +0200
+Message-ID: <CAOHjBZsdfnhLumBym4ZO+wxxzAyCq0yONSbRDc4XZS3TH_mJ=Q@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: uclibc sdk issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2012 14:29:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Oct 2012 14:41:34 -0000
+Content-Type: multipart/alternative; boundary=e89a8fb1f826ab5d8604ccf72042
 
-Hi,
+--e89a8fb1f826ab5d8604ccf72042
+Content-Type: text/plain; charset=ISO-8859-1
 
-Now that 1.3 is released[1] I can announce that I'm the Danny stable
-release series maintainer.  This involves pulling any relevant
-security fixes, build fixes and critical bug fixes from master, and
-periodically rolling a 1.3.x release.
+Hi All,
 
-Obviously there's a lot of activity in master so whilst I intend to
-consider every commit, if anyone submits patches to master that should
-also be in danny, please say so either in a direct mail or with a tag
-in the subject line.
+I need to build sdk using uclibc.
+I'm failing on nativesdk-libc-for-gcc dependence because
+system always finds nativesdk-eglibc as the correct one.
+I've set TCLIBC to uclibc and in fact (builind with -DDD) I can
+say the default nativesdk is the uclibc, although the eglibc part
+will be assigned after checking.
 
-Expect to see a ross/danny-next series in the poky-contrib repository
-fairly soon where I'll be staging the commits.
+Please can you clarify this to me?
+BR,
+Giuseppe
 
-Ross
+--e89a8fb1f826ab5d8604ccf72042
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-[1] http://www.yoctoproject.org/blogs/davest/2012/yocto-project-v1.3-released
-if anyone missed the news
+<div>Hi All,</div><div>=A0</div><div>I need to build sdk using uclibc.</div=
+><div>I&#39;m failing on nativesdk-libc-for-gcc dependence because</div><di=
+v>system always finds nativesdk-eglibc as the correct one.</div><div>I&#39;=
+ve set TCLIBC to uclibc and in fact (builind with -DDD) I can</div>
+<div>say the default nativesdk is the uclibc, although the eglibc part</div=
+><div>will be assigned after checking.</div><div>=A0</div><div>Please can y=
+ou clarify this to me?</div><div>BR,</div><div>Giuseppe</div>
 
-
+--e89a8fb1f826ab5d8604ccf72042--
