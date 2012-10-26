@@ -1,41 +1,33 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TRmEz-0001gK-Tm
+	(envelope-from <mihaix.lindner@linux.intel.com>) id 1TRmHO-0001oM-3I
 	for openembedded-core@lists.openembedded.org;
-	Fri, 26 Oct 2012 17:54:34 +0200
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 26 Oct 2012 08:41:02 -0700
-Received: by mail-oa0-f69.google.com with SMTP id j6so9009311oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Oct 2012 08:41:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=9AV5moaJNTNXZy7AFaAxgxxedWNMhHOnlgr9W29L0ag=;
-	b=NYUiLed2ZSdjEZQqd3a4KnoRXuNI4nMHa3DF3meq4u+n/zp6Uka6Fy7i3L49nhryix
-	LfoJ1PTm3MLttWPjvILMJAP/yGeM0qWIsEcBdz77LGIg0mqrJSJr/Zyb3855EjLxaUvZ
-	OwRumq5ff1ULu/rh7Jx0ZETX8QFMUQDKtS1Bc+mm6YFl3oz+HeVp5cwHJPr5jvz8HG6Z
-	+0UmZSps4U8dmdWPFNp7xz2fykOo+GN32D6O5Mx6GzCpL0MuoExjXw078yIF+EN6pcwG
-	oYtvXu8Pzrf5jmHaPSdhefahHIzls4mv2eVMv2b2u/t9uy1+YcWRUFZyp3kZyxgRO3+d
-	NQqw==
-Received: by 10.182.0.1 with SMTP id 1mr18593028oba.18.1351266061940;
-	Fri, 26 Oct 2012 08:41:01 -0700 (PDT)
-Received: by 10.182.0.1 with SMTP id 1mr18593018oba.18.1351266061844; Fri, 26
-	Oct 2012 08:41:01 -0700 (PDT)
+	Fri, 26 Oct 2012 17:57:02 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Oct 2012 08:43:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,654,1344236400"; d="scan'208";a="209732410"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 26 Oct 2012 08:43:30 -0700
+Received: from mlindnex-mobl1.ger.corp.intel.com (unknown [10.237.105.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id E1E8E2C8001;
+	Fri, 26 Oct 2012 08:43:29 -0700 (PDT)
+Message-ID: <508AAF94.9040202@linux.intel.com>
+Date: Fri, 26 Oct 2012 18:43:16 +0300
+From: Mihai Lindner <mihaix.lindner@linux.intel.com>
+Organization: Intel OTC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121022 Thunderbird/16.0.1
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Fri, 26 Oct 2012 08:40:41 -0700 (PDT)
-In-Reply-To: <CAP9ODKoZXu2dbvrhGDegKsH+vDEisgtf7r2u6TcBwYy2ZEPHDA@mail.gmail.com>
-References: <CAJTo0LYm7bwU0fNYcD8wQ3unJm_ShoW-ej5tZ3FeeogEztJGnQ@mail.gmail.com>
-	<k6e9ht$ra9$1@ger.gmane.org>
-	<CAP9ODKoZXu2dbvrhGDegKsH+vDEisgtf7r2u6TcBwYy2ZEPHDA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Oct 2012 16:40:41 +0100
-Message-ID: <CAJTo0Lb3_R+=uX-QTE_60pQ4N=xNS0fqCZ3jiQLhAZZaEotFgQ@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org
-X-Gm-Message-State: ALoCoQmV9BNTTZ7AVFBxLBskYnDRm0K/zbVZc05hQs340yeDRUVQWjH5AMYO3A2y+mKBNQTgyLw1XufZNUQbyw8w561l4Oh7L8wpn+wKTPVDJfPrHOK16ANB/xcjO6sic2PkyerX+5RZKx8FIxR3ZGgcoSK559xRmY21qM+dNLCFA6RG2LMaKfIeoY01Tl1XjsoLogDVG6LO
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1351261721.git.mihaix.lindner@linux.intel.com>
+	<040de77b972b11336e88c593cf2a7571977347db.1351261721.git.mihaix.lindner@linux.intel.com>
+	<3432214.SFZEzFPHYM@helios>
+In-Reply-To: <3432214.SFZEzFPHYM@helios>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Danny stable release branch
+Subject: Re: [PATCH 1/2] lsb_release: add sanity to avoid Unknown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,19 +40,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2012 15:54:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Oct 2012 15:57:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26 October 2012 16:35, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> Who's the maintainer for the oe-core danny branch?
+On 10/26/2012 05:44 PM, Paul Eggleton wrote:
+> On Friday 26 October 2012 17:37:17 Mihai Lindner wrote:
+>> Check for lsb_release command (package name should be lsb-release for
+>> most package managers) to avoid "Unknown" Linux distributions, untested
+>> distro warnings and "Unknown" dir in ./sstate-cache/
+>> Also add lsb-release in host's software needs, Fedora and CentOS for now.
+>>
+>> Signed-off-by: Mihai Lindner <mihaix.lindner@linux.intel.com>
+>> ---
+>>   documentation/poky.ent      | 4 ++--
+>>   meta/classes/sanity.bbclass | 2 +-
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/documentation/poky.ent b/documentation/poky.ent
+>> index 8e0af71..ae8e70e 100644
+>> --- a/documentation/poky.ent
+>> +++ b/documentation/poky.ent
+>> @@ -50,8 +50,8 @@
+>>   <!ENTITY OE_INIT_FILE "oe-init-build-env">
+>>   <!ENTITY UBUNTU_HOST_PACKAGES_ESSENTIAL "awk wget git-core diffstat unzip
+>> texinfo build-essential chrpath"> <!ENTITY FEDORA_HOST_PACKAGES_ESSENTIAL
+>> "awk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat
+>> git -cpp gcc gcc-c++ eglibc-devel texinfo chrpath ccache">
+>> +cpp gcc gcc-c++ eglibc-devel texinfo chrpath ccache lsb-release">
+>>   <!ENTITY OPENSUSE_HOST_PACKAGES_ESSENTIAL "python gcc gcc-c++ git chrpath
+>> make wget diffstat texinfo python-curses"> <!ENTITY
+>> CENTOS_HOST_PACKAGES_ESSENTIAL "gawk make wget tar bzip2 gzip python unzip
+>> perl patch diffutils diffstat git -cpp gcc gcc-c++ glibc-devel texinfo
+>> chrpath">
+>> +cpp gcc gcc-c++ glibc-devel texinfo chrpath lsb-release">
+>>
+>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+>> index 3806bc5..f0cc11c 100644
+>> --- a/meta/classes/sanity.bbclass
+>> +++ b/meta/classes/sanity.bbclass
+>> @@ -2,7 +2,7 @@
+>>   # Sanity check the users setup for common misconfigurations
+>>   #
+>>
+>> -SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip
+>> gawk chrpath wget cpio" +SANITY_REQUIRED_UTILITIES ?= "bzip2 chrpath cpio
+>> diffstat gawk git gzip lsb_release makeinfo patch tar wget"
+>>
+>>   python check_bblayers_conf() {
+>>       bblayers_fn = os.path.join(d.getVar('TOPDIR', True),
+>> 'conf/bblayers.conf')
 >
-> I hope there's no delta between oe-core and poky one so Ross is the
-> maintainer as far as I know.
+> I don't particularly like this, because on some distros LSB comes as one
+> package which pulls in a whole bunch of unnecessary things for a headless
+> server. I think we need an alternative fix for this for the cases where
+> lsb_release is not available.
+>
+> Cheers,
+> Paul
+>
 
-Correct. Poky is literally oe-core+bitbake+yocto-docs glued together,
-no work happens in the poky repository directly, just the "upstream"
-repositories.
+You're right Paul. Thanks. I'll check for other solutions.
+Please ignore this patch.
 
-Ross
+2/2 should still apply though.
+
+Cheers,
+
+-- 
+Mihai Lindner
 
 
