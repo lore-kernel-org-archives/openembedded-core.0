@@ -1,31 +1,31 @@
 Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TRkHq-0006p9-AM
+	(envelope-from <ml@communistcode.co.uk>) id 1TRkHq-0006p8-AJ
 	for openembedded-core@lists.openembedded.org;
 	Fri, 26 Oct 2012 15:49:22 +0200
-Received: from localhost ([127.0.0.1]:56709 helo=eumx.net)
+Received: from localhost ([127.0.0.1]:45968 helo=eumx.net)
 	by eumx.net with esmtp (Exim 4.72)
 	(envelope-from <ml@communistcode.co.uk>)
-	id 1TRk4l-0005DS-PY; Fri, 26 Oct 2012 13:35:51 +0000
+	id 1TRk4l-0005DO-GE; Fri, 26 Oct 2012 13:35:51 +0000
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references; s=default; bh=7
-	a+aF9jv8//9Scp6gpuPAI8v680=; b=u4+DM3+A7gI/g6TOy9GUtvM+VWdbYENj7
-	AhSpvB690q8VvR8QLZ4D7a2uEBuYDX2TPDfX/ZVq68Rb+PwrKeh+iatiMSg0b/2e
-	qV0os1eQg/f5Hm/diNM7v3B7bIYRKc47nYjh+QoyJms/BQZPSL/6++bu8GWvUS0P
-	x78uZ+ITb0=
+	:subject:date:message-id:in-reply-to:references; s=default; bh=i
+	4bUH0FTEm4Dz+Gl4YQC/HkHmqI=; b=zUhAO4ZC3Bnuy658BQDA6sEZNd7V86FO/
+	YkSX0ZrMpdw6/pLORUk99XCLGHWVV+V9hxjWdX48Bb/89+i09EFfianOwJT40/n/
+	NaRq9efIR9eTsn3ciKMVA9aul2BDfpIvfbqe8psfs2MO0PsVMOZJTJx+2U5YSu7B
+	4XLv6kRWyw=
 Received: from [195.171.99.130] (port=44483 helo=archHP.dbnet.local)
 	by eumx.net with esmtpa (Exim 4.72)
 	(envelope-from <ml@communistcode.co.uk>)
-	id 1TRk4l-0005DH-Lr; Fri, 26 Oct 2012 13:35:51 +0000
+	id 1TRk4l-0005DH-B2; Fri, 26 Oct 2012 13:35:51 +0000
 From: Jack Mitchell <ml@communistcode.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Oct 2012 14:37:24 +0100
-Message-Id: <1351258645-14649-3-git-send-email-ml@communistcode.co.uk>
+Date: Fri, 26 Oct 2012 14:37:23 +0100
+Message-Id: <1351258645-14649-2-git-send-email-ml@communistcode.co.uk>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <1351258645-14649-1-git-send-email-ml@communistcode.co.uk>
 References: <1351258645-14649-1-git-send-email-ml@communistcode.co.uk>
 Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [PATCH 2/3] packagegroup-core-tools-profile: include sysprof only if x11 is distro feature
+Subject: [PATCH 1/3] latencytop: disable GTK and remove gtk+ dependacy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,31 +42,68 @@ X-List-Received-Date: Fri, 26 Oct 2012 13:49:22 -0000
 
 From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
+When DISTRO_FEATURES does not contain x11, disable GTK GUI and
+also don't add gtk+ to the DEPENDS
+
 Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../latencytop/latencytop-0.5/latencytop-makefile.patch     | 13 +++++++------
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb            |  6 ++++--
+ 2 files changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 369a646..2d37eb8 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -16,12 +16,14 @@ RPROVIDES_${PN} = "task-core-tools-profile"
- RREPLACES_${PN} = "task-core-tools-profile"
- RCONFLICTS_${PN} = "task-core-tools-profile"
+diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
+index 59a0b1f..596450c 100644
+--- a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
++++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
+@@ -1,8 +1,9 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+---- a/Makefile	2010-07-20 18:51:32.000000000 +0800
+-+++ b/Makefile	2010-07-20 18:54:54.000000000 +0800
+-@@ -4,7 +4,8 @@
++--- a/Makefile 2010-07-20 18:51:32.000000000 +0800
+++++ b/Makefile 2010-07-20 18:54:54.000000000 +0800
++@@ -1,10 +1,8 @@
++-# FIXME: Use autoconf ?
++-HAS_GTK_GUI = 1
++-
+  DESTDIR =
+  SBINDIR = /usr/sbin
+  XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare
+@@ -12,7 +13,7 @@ Upstream-Status: Inappropriate [configuration]
+  
+  OBJS= latencytop.o text_display.o translate.o fsync.o
+  
+-@@ -26,16 +27,17 @@
++@@ -26,16 +24,17 @@
+  
+  # We write explicity this "implicit rule"
+  %.o : %.c
+diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+index 15f3667..695e12b 100644
+--- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
++++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "n/a"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
  
-+PROFILE_TOOLS_X = "${@base_contains('DISTRO_FEATURES', 'x11', 'sysprof', '', d)}"
+-DEPENDS = "virtual/libintl ncurses glib-2.0 gtk+"
++DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+ 
+ PR = "r2"
+ 
+@@ -15,8 +15,10 @@ SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
+ SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
+ SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
+ 
++EXTRA_OEMAKE_X = "${@base_contains('DISTRO_FEATURES', 'x11', 'HAS_GTK_GUI=1', '', d)}"
 +
- RRECOMMENDS_${PN} = "\
-     perf \
-     trace-cmd \
-     kernel-module-oprofile \
-     blktrace \
--    sysprof \
-+    ${PROFILE_TOOLS_X} \
-     "
+ CFLAGS += "${LDFLAGS}"
  
- PROFILETOOLS = "\
+ do_install() {
+-    oe_runmake install DESTDIR=${D}
++    oe_runmake install DESTDIR=${D} ${EXTRA_OEMAKE_X}
+ }
 -- 
 1.8.0
 
