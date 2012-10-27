@@ -1,42 +1,30 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TS9sn-00064Q-9u
+	(envelope-from <andrea.adami@gmail.com>) id 1TSGRJ-000418-Pf
 	for openembedded-core@lists.openembedded.org;
-	Sat, 27 Oct 2012 19:09:13 +0200
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 27 Oct 2012 09:55:40 -0700
-Received: by mail-oa0-f69.google.com with SMTP id j6so11773508oag.0
+	Sun, 28 Oct 2012 02:09:17 +0200
+Received: by mail-ie0-f175.google.com with SMTP id c13so5254883ieb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Oct 2012 09:55:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=3f3KzWjw65IFWdE49MX+Lq2f8NPygPBEcziBoPHCFeM=;
-	b=X1IJ41fOCqpnE1P9CxqAPzKvnTagSTrsASAhnE7D7jzURX3OoA215CVRuTynl8BRVJ
-	b1TnTB34t6PoCKSFh25apNlWcRXLmg4rPFEV36JII8JYPJEySKD2IamYrpd6ZcU4wZZs
-	CXSNJ5iR5UKk39vI7jaqyyVkopClExz5MboqZHtG1zzLAzC9MjAlvUETOtSIIcIiAmkH
-	cwNEWTmoDZ4zylsWIUCeEpLAOCf0XUqbRVtowNoNyiArH3ZcHV3XGFdiMCkDSVUp3utO
-	lZ//u5X0Cp+L9WDyyTernSxxqkRs4VByl9ENzeVBf8Hf5aU4MVXC+Gn41D+FaJWAgH7k
-	uzFQ==
-Received: by 10.182.225.5 with SMTP id rg5mr21198138obc.49.1351356938952;
-	Sat, 27 Oct 2012 09:55:38 -0700 (PDT)
-Received: by 10.182.225.5 with SMTP id rg5mr21198136obc.49.1351356938888; Sat,
-	27 Oct 2012 09:55:38 -0700 (PDT)
+	Sat, 27 Oct 2012 16:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=ckJ3OQndr/9Nl0YL7wL/IHiJBrOlFh784RFbc/Azg7U=;
+	b=a4SP7tVZi/9y9/baJfvxVqiYsK87fCnTd35/6/Oy9mHrB/wSt/mzSbTLgk+yq5NbgX
+	OjBxloMxjF7M77OUVONNEv7xmGgC4pFQQJ3RpG/OkGPgAPvKvtz2RZ64lbdQbhOuipFk
+	yRm2WzF+aGEG1Q7joBtq9E9585lU69Ki7lnGxi7T6x51av4zXNpYJqzCAVPOHdPQkV0U
+	bdZjmSa57f7nH46fVt/0md+Lu8tu1ZqyvG3fog/asMh0oa28C3vL146M1p5fyRb7K4Ji
+	ajxUDhmQqZtAZSzEt/BW0YYBorbsFueomOtl6Y7wmfK69+/dKEqIb8ceyOWnRtY0kYVw
+	hBTw==
 MIME-Version: 1.0
-Received: by 10.182.46.70 with HTTP; Sat, 27 Oct 2012 09:55:18 -0700 (PDT)
-In-Reply-To: <508ACC30.30900@linux.intel.com>
-References: <1351022257-15219-1-git-send-email-ross.burton@intel.com>
-	<508AB9D5.1030902@linux.intel.com>
-	<CAJTo0LbDAuE59KdzpYNrjjCwuYMi7Eo8YDCS6FgY=T8KUNkq5w@mail.gmail.com>
-	<508ACC30.30900@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 27 Oct 2012 17:55:18 +0100
-Message-ID: <CAJTo0Lb9RtOTSUuOxhMqKYqiOCFdhH=F7y22Si7tk2ZE+1Kd1A@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQlP8vOlg5De8ldo9Ar2rdufBIaNf4JccL/+exatAHmutrIsNJP5v4x3aj8rSVNXQl1tcJ3+M7kGi9Udgfsl2xys2P36AfLQDOwJwXkllvtDzl8Ll9SfNIk5ZspEk046TNbfFGQ4cV9ts+Yr9wHkPea6Q7xkA/sJlud9DNgnacKKon1GNNc0DKqb+bRau/UUSK9tXHdP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libxkbcommon: new window system-independent XKB library
+Received: by 10.50.184.165 with SMTP id ev5mr5968628igc.32.1351382145216; Sat,
+	27 Oct 2012 16:55:45 -0700 (PDT)
+Received: by 10.64.99.226 with HTTP; Sat, 27 Oct 2012 16:55:45 -0700 (PDT)
+Date: Sun, 28 Oct 2012 01:55:45 +0200
+Message-ID: <CAAQYJAtxfQDkODhaPZP1Z8honP1azA1B6PuQ_DfjtuB--8YnvA@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: devshell spawning twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +37,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Oct 2012 17:09:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 28 Oct 2012 00:09:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 26 October 2012 18:45, Saul Wold <sgw@linux.intel.com> wrote:
-> Ok, I am really confused now!  Your right the version'ed one is in master,
-> which is this commit, your other commit with the git version is not.
->
-> Also, the git version had a change xorg-lib-common.inc also.
+Since commit c76da87511d2668479745c2f18b8a9b8116c7489 (terminal: Add
+support for running custom terminals.) screen opens also in the master
+terminal, waiting for input.
 
-Drop the git version, that had a required change to xorg-lib-common
-but as the versioned version doesn't use that include the change isn't
-required.
+Reverting the patch fixes the funny behavior.
 
-Ross
+This on Gentoo, using xterm.
+
+Regards
+
+Andrea
 
 
