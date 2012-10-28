@@ -1,25 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TSHfK-0005WF-HT
+	(envelope-from <sgw@linux.intel.com>) id 1TSHg8-0006Gd-3J
 	for openembedded-core@lists.openembedded.org;
-	Sun, 28 Oct 2012 02:27:50 +0100
+	Sun, 28 Oct 2012 02:28:40 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Oct 2012 18:14:17 -0700
+	by orsmga102.jf.intel.com with ESMTP; 27 Oct 2012 18:14:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,663,1344236400"; d="scan'208";a="212008521"
+X-IronPort-AV: E=Sophos;i="4.80,663,1344236400"; d="scan'208";a="212008646"
 Received: from unknown (HELO [10.255.14.47]) ([10.255.14.47])
-	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2012 18:14:17 -0700
-Message-ID: <508C86E9.5030907@linux.intel.com>
-Date: Sat, 27 Oct 2012 18:14:17 -0700
+	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2012 18:15:06 -0700
+Message-ID: <508C871A.3020806@linux.intel.com>
+Date: Sat, 27 Oct 2012 18:15:06 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1351235029-31096-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1351235029-31096-1-git-send-email-raj.khem@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1350918262.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1350918262.git.mark.hatle@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: Change systemd_unitdir definition
+Subject: Re: [PATCH 0/4] Implement multilib SDK support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Oct 2012 01:27:51 -0000
+X-List-Received-Date: Sun, 28 Oct 2012 01:28:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/26/2012 12:03 AM, Khem Raj wrote:
-> systemd_unitdir indicates the arch independent
-> files which are basically scripts and unit files
-> and systemd wants then to be in /lib always even
-> when base_libdir is  /lib64, hence we have to reflect
-> that and not use base_libdir to define it. Otherwise
-> on architectures where base_libdir is lib64 e.g. ppc64
-> or multilibbed x86_64 this wont work
+On 10/22/2012 08:20 AM, Mark Hatle wrote:
+> The attached patch set implements multilib SDK support.  This means that
+> when generating an SDK (either by a traditional SDK recipe or the
+> do_populate_sdk task), that support infrastructure for each multilib
+> will be included in the SDK.
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/conf/bitbake.conf |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Note, this code does -not- change the toolchain.  If the generated toolchain
+> does not work properly with the multilib configuration, that will need to
+> be a seperate fix!
 >
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 5cb5b13..e7fa731 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -31,6 +31,7 @@ export localstatedir = "${base_prefix}/var"
->   export infodir = "${datadir}/info"
->   export mandir = "${datadir}/man"
->   export docdir = "${datadir}/doc"
-> +export systemd_unitdir = "/lib/systemd"
+> This was tested with both the oe-core and our custom Wind River toolchain.
+> Generation passed on the oe-core SDK, but the functionality of the toolchain
+> was not tested.  The Wind River toolchain did get properly generated and
+> functioned as expected.
 >
->   # Architecture dependent paths
->   export bindir = "${exec_prefix}/bin"
-> @@ -39,7 +40,6 @@ export libexecdir = "${exec_prefix}/libexec"
->   export libdir = "${exec_prefix}/${baselib}"
->   export includedir = "${exec_prefix}/include"
->   export oldincludedir = "${exec_prefix}/include"
-> -export systemd_unitdir = "${base_libdir}/systemd"
->   localedir = "${libdir}/locale"
+> Note:  The 0003 patch that affects processing the environment file was
+> agreed to with the other author of the function.
 >
->   # Linkage between native/cross/nativesdk layouts
+> The following changes since commit 06d27cf0fbcc4004e6f456880eca49893c9290bf:
 >
+>    xorg: remove XF86 BigFont extension (2012-10-22 14:57:26 +0100)
+>
+> are available in the git repository at:
+>    git://git.yoctoproject.org/poky-contrib mhatle/sdk
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/sdk
+>
+> Mark Hatle (4):
+>    multilib: Add support for cross-canadian multilib packages
+>    multilib - crosssdk: Stop building multilib for crosssdk packages
+>    populate_sdk_base: Update extraction script for multilibs
+>    populate_sdk_base: Ensure that the multilib cross-canadian tools are
+>      used
+>
+>   meta/classes/base.bbclass              |   43 +++++++++++++++++++++++++++++---
+>   meta/classes/multilib.bbclass          |   20 +++++++++++---
+>   meta/classes/populate_sdk_base.bbclass |    7 +++--
+>   meta/lib/oe/classextend.py             |    4 +-
+>   4 files changed, 60 insertions(+), 14 deletions(-)
+>
+
 Merged into OE-Core
 
 Thanks
