@@ -1,38 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TSncl-0005Mb-E9
+	(envelope-from <ross.burton@intel.com>) id 1TSni5-0005fL-UU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 12:35:21 +0100
-Received: from mail-lb0-f197.google.com ([209.85.217.197])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 29 Oct 2012 04:21:14 -0700
-Received: by mail-lb0-f197.google.com with SMTP id b5so3591262lbd.0
+	Mon, 29 Oct 2012 12:40:50 +0100
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 29 Oct 2012 04:27:14 -0700
+Received: by mail-ob0-f197.google.com with SMTP id tb18so14528059obb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 04:21:41 -0700 (PDT)
+	Mon, 29 Oct 2012 04:27:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=MG4HnpmpKfmZ/uCfSFnATAUCTb6smfJh/HGq0Tq/G20=;
-	b=exjfpaAk4UQCB6ed5jRR75rWqDHlpy9HT2dZkVLPtghVQcfDiXwN1oPO+FwdpOG8P4
-	GdI3VACFP+Hnm0ATDMuY8APed9aoCKxnL9HqwAEpGC4GruTROUWnbzMjao7pjM3r4tN/
-	o5c3H4likqyjUTskJKcsTuG5LbsKh4D470SP7eAVnAJJDHXXV4U7mqcG9UwM8oJMBGVh
-	wTo69u2t+0RYkrNuYxh/HsnjUW1aXSM/ne/MeRZZYAYRM+ZilLu8TzGoDQS3KJo/IKlh
-	9+RVl08s+6kzsIoRWiCBb02tPDW7+QoWZr2PuXbVEO/+AEV1OkEBs+OHQ/oTrAefzkLg
-	oZCQ==
-Received: by 10.180.8.134 with SMTP id r6mr14554547wia.18.1351509701181;
-	Mon, 29 Oct 2012 04:21:41 -0700 (PDT)
-Received: by 10.180.8.134 with SMTP id r6mr14554527wia.18.1351509701053;
-	Mon, 29 Oct 2012 04:21:41 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id bn7sm10844252wib.8.2012.10.29.04.21.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 29 Oct 2012 04:21:39 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=2xmw543xHThUho+IyZU0ZC8NBmwE5pyjvTBKpohSHO8=;
+	b=pX0z1Ef6XzpjIQH6efmCcLbcqcnCSao9ZcoaDKHhu3lKPgy/NBsYdODnr2DvLvyQrE
+	G70m7C5CfXqaIBn6bJu+EYxHIAARLxuTSi7y2SqhWpcbmG0otJPxkP7aSPydW80UCt4z
+	roOgsoKO4gCO8XU1xca/W/vU8bUisuKYY1VP3J3eoiVwbIthsOqD0D0VO67zxn+vSIA+
+	pL/grbFJ6p3+79Lc+chXUOxRcEvK2imn3GP9M8gECkLem0Ot7mBYDF5wqWV7WY6zRm0a
+	YZqlmMXevCNkYPYyDiDIqNOmkwC8drBdmJlHvZbEErbegIVAHwIxtH/Ylrsd9YWN/ElE
+	d2+w==
+Received: by 10.60.31.199 with SMTP id c7mr15790816oei.126.1351510033458;
+	Mon, 29 Oct 2012 04:27:13 -0700 (PDT)
+Received: by 10.60.31.199 with SMTP id c7mr15790813oei.126.1351510033401; Mon,
+	29 Oct 2012 04:27:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.68.135 with HTTP; Mon, 29 Oct 2012 04:26:53 -0700 (PDT)
+In-Reply-To: <1351509628-12898-1-git-send-email-ross.burton@intel.com>
+References: <1351509628-12898-1-git-send-email-ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Oct 2012 11:26:53 +0000
+Message-ID: <CAJTo0LZ-+o18QSpgqu+EzYAEnRWaXW_pU6uqKGyXJZ_ONuCK3g@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Oct 2012 11:20:28 +0000
-Message-Id: <1351509628-12898-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlfcq0CW23nlf+ORrGoYf6QkJSS7uy2fcQUfVx8mgJrnSrXTLdzXYPibX5cmXIjuysQgmJHcysNeTDNQPpBUSOfR9Vmts2FGzg2crSRWGcaJiMmyVPhHkg8CbMVXDBgkwBGyXxzhNhGcX4rUZdadzpLFarx3/VRhs7xySVMYem5rLoMt6f8C4m4WOGJGaL5XAfxtFpz
-Subject: [PATCH] clutter-box2d: add missing glib-2.0 build dependency
+X-Gm-Message-State: ALoCoQnSaaRd66/rijRWRzzSGgLLikxhImJuu13shsv0joQ8icNAtaEsIC0yhMN3PDROJOH/7Tc7EdxwRDEDUv7HS6R5GnQxu2scMu4ffVWutuFr1Q7SY44USc8Cy5UXe6H6E/F42hFgcA+waE4z+Q9y8GB7uTcCZH6k7y3pUX6qV4Fo/6DjiNclcRCxUhNJhOTu6JTHdDIT
+Subject: Re: [PATCH] clutter-box2d: add missing glib-2.0 build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,33 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 11:35:29 -0000
+X-List-Received-Date: Mon, 29 Oct 2012 11:40:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Ignore this, brainfart.  Something to do with being up at 0430 probably...
 
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-index d256a28..86e0711 100644
---- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-+++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-@@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://box2d/License.txt;md5=e5d39ad91f7dc4692dcdb1d85139ec6
- 
- SRCREV = "de5452e56b537a11fd7f9453d048ff4b4793b5a2"
- PV = "0.12.1+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.gnome.org/clutter-box2d.git"
- 
- S = "${WORKDIR}/git"
- 
--DEPENDS += "clutter-1.8"
-+DEPENDS += "glib-2.0 clutter-1.8"
- PROVIDES = "clutter-box2d-1.6"
--- 
-1.7.10
+Ross
 
+On 29 October 2012 11:20, Ross Burton <ross.burton@intel.com> wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-graphics/clutter/clutter-box2d_git.bb |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> index d256a28..86e0711 100644
+> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> @@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://box2d/License.txt;md5=e5d39ad91f7dc4692dcdb1d85139ec6
+>
+>  SRCREV = "de5452e56b537a11fd7f9453d048ff4b4793b5a2"
+>  PV = "0.12.1+git${SRCPV}"
+> -PR = "r1"
+> +PR = "r2"
+>
+>  SRC_URI = "git://git.gnome.org/clutter-box2d.git"
+>
+>  S = "${WORKDIR}/git"
+>
+> -DEPENDS += "clutter-1.8"
+> +DEPENDS += "glib-2.0 clutter-1.8"
+>  PROVIDES = "clutter-box2d-1.6"
+> --
+> 1.7.10
+>
 
 
