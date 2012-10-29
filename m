@@ -1,21 +1,39 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TSrLc-0006sp-Rh
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TSrMK-0006vY-Px
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 16:33:53 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1TSr8W-0000nd-Ni
+	Mon, 29 Oct 2012 16:34:36 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q9TFKv67027978
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Oct 2012 16:20:58 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1TSr96-0001el-MU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 16:20:21 +0100
-From: Phil Blundell <philb@gnu.org>
+	Mon, 29 Oct 2012 16:20:56 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Oct 2012 15:20:19 +0000
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1351524020.13864.17.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] openssl: Use ${CFLAGS} not ${FULL_OPTIMIZATION}
+References: <1350130322-3100-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<CABcZANkPym+NSXqx6PrZnkhVqtsHoq-D20Dc14OgQ1Cq3G-bUQ@mail.gmail.com>
+	<lyvced8jpv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1350226731.4470.90.camel@x121e.pbcl.net>
+Date: Mon, 29 Oct 2012 16:20:56 +0100
+In-Reply-To: <1350226731.4470.90.camel@x121e.pbcl.net> (Phil Blundell's
+	message of "Sun, 14 Oct 2012 15:58:51 +0100")
+Message-ID: <lyzk35gv8n.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] package.bbclass: search for dangling links in installation directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,36 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 15:33:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Oct 2012 15:34:36 -0000
+Content-Type: text/plain
 
-The latter variable is only applicable for target builds and could
-result in passing incompatible options (and/or failing to pass
-required options) to ${BUILD_CC} for a virtclass-native build.
+Phil Blundell <philb-mXXj517/zsQ@public.gmane.org> writes:
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-connectivity/openssl/openssl.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> >> +                # make path absolute; do not use os.path.join() here
+>> >> +                # because target might start with multiple '/'
+>> >> +                rtarget = inst_root + target
+>> >
+>> > I think you can use the join()
+> ...
+> You somehow chopped off the important part of Chris's text.  What he
+> actually wrote was "... the join() which is in the oe python package",
+> which is not the same as os.path.join.  
+>
+> As the comment says, it is...
+>
+>     """Like os.path.join but doesn't treat absolute RHS specially"""
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 089b9a4..1b2be93 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -19,7 +19,7 @@ S = "${WORKDIR}/openssl-${PV}"
- 
- AR_append = " r"
- CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
--	-DTERMIO ${FULL_OPTIMIZATION} -Wall"
-+	-DTERMIO ${CFLAGS} -Wall"
- 
- # Avoid binaries being marked as requiring an executable stack (which causes 
- # issues with SELinux on the host)
--- 
-1.7.10.4
+ah ok... I misread 'oe' and 'os'... It is probably not the best idea, to
+use such similar names for functions with a so much different semantik.
+
+But there are no reasons to use one of these functions.  Beside the
+design error of handling absolute paths specially, the purpose of
+'os.path.join' is to concatenate paths with the correct delimiter ('/'
+vs. '\').
+
+But because RHS is guaranteed to be absolute in this case, they can be
+joined directly.
 
 
-
+Enrico
 
 
