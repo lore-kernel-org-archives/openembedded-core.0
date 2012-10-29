@@ -1,32 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TStcI-00058E-L3 for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 18:59:14 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9THjcuo006558;
-	Mon, 29 Oct 2012 17:45:38 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05714-10; Mon, 29 Oct 2012 17:45:34 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9THjUUd006552
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 29 Oct 2012 17:45:31 GMT
-Message-ID: <1351532730.2828.29.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chris Larson <clarson@kergoth.com>
-Date: Mon, 29 Oct 2012 17:45:30 +0000
-In-Reply-To: <CABcZANmzfXiXA5rdNQpqo33wXyFPz518dCkLe0x7rZGjOZ=Ucw@mail.gmail.com>
-References: <1351517628.13864.4.camel@phil-desktop>
-	<1351525416.2828.12.camel@ted>
-	<CABcZANmzfXiXA5rdNQpqo33wXyFPz518dCkLe0x7rZGjOZ=Ucw@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: What is TOOLCHAIN_NEED_CONFIGSITE_CACHE for?
+Received: from mail.cvg.de ([62.153.82.30])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TStpy-0005iQ-05
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 19:13:22 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q9THxhFi013261
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 29 Oct 2012 18:59:44 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TStcl-0000Uh-BE; Mon, 29 Oct 2012 18:59:43 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1351523465-26489-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<1351527102.2828.19.camel@ted>
+	<lyvcdtgsa6.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1351531332.2828.26.camel@ted>
+Date: Mon, 29 Oct 2012 18:59:43 +0100
+In-Reply-To: <1351531332.2828.26.camel@ted> (Richard Purdie's message of "Mon, 
+	29 Oct 2012 17:22:12 +0000")
+Message-ID: <lyr4ohgnw0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.84
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sstate.bbclass: preserve time when unstaging files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 17:59:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Oct 2012 18:13:22 -0000
+Content-Type: text/plain
 
-On Mon, 2012-10-29 at 10:33 -0700, Chris Larson wrote:
-> On Mon, Oct 29, 2012 at 8:43 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > We ship the "site" cache files with the toolchain. We decided to include
-> > the generated cache files as well as the static ones. We currently
-> > generate "site" files for libc and ncurses.
-> >
-> > You can almost certainly just set:
-> >
-> > TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC}"
-> >
-> > and be happy since this just lists which generated cache site files to
-> > include.
-> 
-> Shouldn't it be pulled in via depends from the populate_sdk bits,
-> rather than a task that's used both for image builds and toolchain
-> builds, though?
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-If we turned these into packaged output then we could do this, yes. As
-things stand those files aren't packaged and hence there are no
-dependencies from which to infer/pull these in. Converting them to that
-isn't a particularly trivial exercise.
+>> > where the option was added deliberately to deal with time mismatch
+>> > between autobuilders which was causing real world bugs.
+>> 
+>> But the real bug is the time mismatch in the autobuilders, isn't it?
+>> And this can/should be solved by synchronizing time by ntp on them
+>> instead of applying dirty hacks like resetting file dates.
+>
+> I have asked that ntp be installed/fixed on the autobuilders to sort the
+> problem out but it seems that even with ntp running, mismatches can
+> happen (e.g. misconfigured timezones).
 
-We currently only generate them for libc/ncurses which provide most of
-the configure cache speedups we'd want so it hasn't been a particularly
-pressing problem to solve.
+Really? The only timezone related problems might arise when a package
+makes 'touch -d <date>' during build.  But I can not remember that I
+have ever seen such a package and this problem should be easy to
+localize.
 
-I'm all for improving this and will happily take patches but its not
-something on the immediate task list as there are higher priority issues
-IMO.
+Else, timezone configuration is completely uninteresting for comparing
+timestamps or for setting time from ntp.
 
-Cheers,
 
-Richard
+> Worse, when this does happen the failures are extremely unpredictable
+> and hard to debug. It causes things to repeatedly recompile for example,
+> even during do_install.
 
+How comes do_install() into the game?  'populate-lic' are the only
+sstate files created before do_install() and I can not imagine how they
+affect the other build phases; do_compile() results are not sstated
+(and with the 'tar -m' thing, timestamps get havoc completely causing
+unpredictable rebuilds).
+
+When do_install() is executed, all the following sstate files
+(populate_sysroot, package) are invalidated and must be recreated.  So
+your problem with do_install() sounds more like an incomplete/racy
+cleanup of old files.
+
+
+
+Enrico
 
 
