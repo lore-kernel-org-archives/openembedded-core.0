@@ -1,35 +1,43 @@
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TSlEw-0006To-8J
+	(envelope-from <sledz@dresearch-fe.de>) id 1TSlou-0006t2-3L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 10:02:34 +0100
-Received: by mail-oa0-f47.google.com with SMTP id h1so4391110oag.6
+	Mon, 29 Oct 2012 10:39:44 +0100
+Received: by mail-bk0-f47.google.com with SMTP id jk7so1558650bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 01:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=8A5oKwpu42hRje3LUegJGBExJsXHjA+e39JxHibASgY=;
-	b=SdbrcCQoRp2fD2YjZ3w/sw27FUThMSf/TTZbJxgBHNntny8Wsn1DyqbRPupt2cU85E
-	3sTubq97iN3jixDKoNt9Fa5meOoPQ9lGF661HyK8pc3UviHu3XQlkvE69cakUbPPk8n6
-	0WBDXcJanNXbHefrHRorzrl9ScO/XUTJ1449JUKuug3BVL19xYozCFJrKkLuvzqa8T1K
-	+vKzsomNwWDJnBi56gQyv0oRwlXMx5XGupx8hzZ6iCze0wCmrmcgG/wO3srocEiEyGIp
-	GS1/U9HExX44sLwVd/NIKYf3ka6pLw1vyELy5EZ9qSSfmWSHMcNU0UHHNGM2FkSI8My0
-	ASnA==
+	Mon, 29 Oct 2012 02:26:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=ShDnTZMv3PHsgE9h//Gfx646qRjB5wfsEkxs907o3Cs=;
+	b=fO4NEjog7AxyMaftX5QvddKmPXzayzgCfgdWnEFZ2/9va4tqqlXHZr/J4Rs4V8sRMD
+	7lwbfkQQf3Ogw5mtf9QpHNCNzJtpqiGWzn6HiowvQa7gde/wqh9eQq1ln973yx3ZEkRr
+	S9+BqFQkkPWs520IR1ASlYwVXZR62ByWHalkxb9cQGABG/64kR3XdqW33voeF+iEiX5H
+	+a1PoN0yznyvx6Wudk+4hyttG+DyA4j5PTIpAWN+6eP68UhFBprpSeg2Fab43Q05l1lh
+	9NWtgMDcuXQcYdbCtr7hJlEfhEGTEOoGgZb4rMvldyViOfv5a+BhZdfLi7Gh+rBuB7H3
+	Oowg==
+Received: by 10.204.150.206 with SMTP id z14mr9107833bkv.105.1351502769901;
+	Mon, 29 Oct 2012 02:26:09 -0700 (PDT)
+Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPS id 9sm3332319bkq.13.2012.10.29.02.26.08
+	(version=SSLv3 cipher=OTHER); Mon, 29 Oct 2012 02:26:09 -0700 (PDT)
+Message-ID: <508E4BAF.9080901@dresearch-fe.de>
+Date: Mon, 29 Oct 2012 10:26:07 +0100
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
 MIME-Version: 1.0
-Received: by 10.60.170.110 with SMTP id al14mr24892342oec.120.1351500539994;
-	Mon, 29 Oct 2012 01:48:59 -0700 (PDT)
-Received: by 10.60.123.47 with HTTP; Mon, 29 Oct 2012 01:48:59 -0700 (PDT)
-In-Reply-To: <CAMKF1spobVWMY=F9X45930GmYJZ9fWCCak=zdxKNKab7ZD4x2w@mail.gmail.com>
-References: <CAOHjBZsdfnhLumBym4ZO+wxxzAyCq0yONSbRDc4XZS3TH_mJ=Q@mail.gmail.com>
-	<CAMKF1spobVWMY=F9X45930GmYJZ9fWCCak=zdxKNKab7ZD4x2w@mail.gmail.com>
-Date: Mon, 29 Oct 2012 09:48:59 +0100
-Message-ID: <CAOHjBZswZPW6f_4ugCJcJ9w4=y9bt6ADvVd0gjtEnFuiXB-1kw@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: uclibc sdk issue
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Matthew McClintock <msm@freescale.com>
+References: <1343319703-15704-1-git-send-email-msm@freescale.com>
+	<1343554172.16998.32.camel@ted>
+In-Reply-To: <1343554172.16998.32.camel@ted>
+X-Enigmail-Version: 1.4.5
+X-Gm-Message-State: ALoCoQmFF0SZszGqwDnh6p34mJW6/rlw5ROxnL5MB9KqsiNzuFJYsz20d27CeYnP4dhiMBrr9H6z
+Subject: Re: [PATCH] u-boot.inc: update linker arguments to pass --sysroot arg (BUILD BREAKAGE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,71 +50,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 09:02:34 -0000
-Content-Type: multipart/alternative; boundary=bcaec54ee1c099a09804cd2ebd2f
-
---bcaec54ee1c099a09804cd2ebd2f
+X-List-Received-Date: Mon, 29 Oct 2012 09:39:44 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-Hi Khem,
+On 29.07.2012 11:29, Richard Purdie wrote:
+> On Thu, 2012-07-26 at 11:21 -0500, Matthew McClintock wrote:
+>> If we are building from sstate-cache it's possible to be building
+>> from another folder on another machine, therefore the linker requires
+>> that a proper --sysroot is passed too it so it can find things like
+>> libgcc.a and avoid errors such as:
+>>
+>> | arm-poky-linux-gnueabi-gcc  -g  -O2  -fno-common -ffixed-r8 -msoft-float   -D__KERNEL__ -DCONFIG_SYS_TEXT_BASE=0x80008000 -I/local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git5+b1af6f532e0d348b153d5c148369229d24af361a-r0/git/include -fno-builtin -ffreestanding -nostdinc -isystem /local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/sysroots/x86_64-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.6.3/include -pipe  -DCONFIG_ARM -D__ARM__ -marm  -mabi=aapcs-linux -mno-thumb-interwork -march=armv5 -Wall -Wstrict-prototypes -fno-stack-protector -fno-toplevel-reorder   -o hello_world.o hello_world.c -c
+>> | arm-poky-linux-gnueabi-gcc  -g  -O2  -fno-common -ffixed-r8 -msoft-float   -D__KERNEL__ -DCONFIG_SYS_TEXT_BASE=0x80008000 -I/local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git5+b1af6f532e0d348b153d5c148369229d24af361a-r0/git/include -fno-builtin -ffreestanding -nostdinc -isystem /local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/sysroots/x86_64-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.6.3/include -pipe  -DCONFIG_ARM -D__ARM__ -marm  -mabi=aapcs-linux -mno-thumb-interwork -march=armv5 -Wall -Wstrict-prototypes -fno-stack-protector -fno-toplevel-reorder   -o stubs.o stubs.c -c
+>> | arm-poky-linux-gnueabi-ld  -r -o libstubs.o  stubs.o
+>> | arm-poky-linux-gnueabi-ld -g -Ttext 0x80300000 \
+>> | 			-o hello_world -e hello_world hello_world.o libstubs.o \
+>> | 			-L. -lgcc
+>> | arm-poky-linux-gnueabi-ld: cannot find -lgcc
+>> | make[1]: *** [hello_world] Error 1
+>>
+>> Signed-off-by: Matthew McClintock <msm@freescale.com>
+>> ---
+>>  meta/recipes-bsp/u-boot/u-boot.inc           |    2 +-
+>>  meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 +-
+>>  meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 +-
+>>  meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    1 +
+>>  4 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> 
+> Merged to master, thanks.
 
-what I want to build is the meta-toolchain (uclibc) and looking at the
-build I can see system tries to build also eglibc packages.
-Maybe I'm wrong in something.
-Welcome advice.
+While trying to migrate the u-boot support for our machine from oe-classic i hit a problem with this patch. :(
 
-BR,
-Giuseppe
+The
 
-2012/10/26 Khem Raj <raj.khem@gmail.com>
+  EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 
-> Why do you want uClibc for narivesdk ? Do you have a build system also
-> running uclibc
->
->
-> On Friday, October 26, 2012, Giuseppe Condorelli <
-> giuseppe.condorelli@gmail.com> wrote:
-> > Hi All,
-> >
-> > I need to build sdk using uclibc.
-> > I'm failing on nativesdk-libc-for-gcc dependence because
-> > system always finds nativesdk-eglibc as the correct one.
-> > I've set TCLIBC to uclibc and in fact (builind with -DDD) I can
-> > say the default nativesdk is the uclibc, although the eglibc part
-> > will be assigned after checking.
-> >
-> > Please can you clarify this to me?
-> > BR,
-> > Giuseppe
->
+in u-boot.inc leads to compiling problems with some build support tools. The tools (e.g. bmp_logo) are now compiled with the target compiler (arm-oe-linux-gnueabi-gcc in our case) instead of the host compiler. This results in build errors like
 
---bcaec54ee1c099a09804cd2ebd2f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+| ./bmp_logo logos/denx.bmp >/pm/sledz/oe-core/build/tmp-eglibc/work/hipox-oe-linux-gnueabi/u-boot-v2009.03+git91+e60beb13cf0135dc71c541021487b5ccc4d269cb-r8/git/include/bmp_logo.h
+| /bin/sh: ./bmp_logo: cannot execute binary file
 
-<div>Hi Khem,</div><div>=A0</div><div>what I want to build is the meta-tool=
-chain (uclibc) and looking at the</div><div>build I can see system tries to=
- build also eglibc packages.</div><div>Maybe I&#39;m wrong in something.</d=
-iv>
-<div>Welcome advice.</div><div>=A0</div><div>BR,</div><div>Giuseppe<br><br>=
-</div><div class=3D"gmail_quote">2012/10/26 Khem Raj <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com<=
-/a>&gt;</span><br>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote">Why do you want uClibc for narivesdk ? Do you have a build=
- system also running uclibc<div class=3D"HOEnZb">
-<div class=3D"h5"><br><br>On Friday, October 26, 2012, Giuseppe Condorelli =
-&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com" target=3D"_blank">gius=
-eppe.condorelli@gmail.com</a>&gt; wrote:<br>
-&gt; Hi All,<br>&gt; =A0<br>&gt; I need to build sdk using uclibc.<br>&gt; =
-I&#39;m failing on nativesdk-libc-for-gcc dependence because<br>&gt; system=
- always finds nativesdk-eglibc as the correct one.<br>&gt; I&#39;ve set TCL=
-IBC to uclibc and in fact (builind with -DDD) I can<br>
+Reverting to
 
-&gt; say the default nativesdk is the uclibc, although the eglibc part<br>&=
-gt; will be assigned after checking.<br>&gt; =A0<br>&gt; Please can you cla=
-rify this to me?<br>&gt; BR,<br>&gt; Giuseppe
-</div></div></blockquote></div><br>
+  EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX}'
 
---bcaec54ee1c099a09804cd2ebd2f--
+seems to fix this problem.
+
+Steffen
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
+
+
