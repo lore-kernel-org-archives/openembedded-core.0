@@ -1,29 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TStZZ-00053m-IZ
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 18:56:25 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9THgnQQ014478
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 10:42:49 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (147.11.116.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 29 Oct 2012 10:42:48 -0700
-Message-ID: <508EC020.80808@windriver.com>
-Date: Mon, 29 Oct 2012 12:42:56 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TStcI-00058E-L3 for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 18:59:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9THjcuo006558;
+	Mon, 29 Oct 2012 17:45:38 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05714-10; Mon, 29 Oct 2012 17:45:34 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9THjUUd006552
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 29 Oct 2012 17:45:31 GMT
+Message-ID: <1351532730.2828.29.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chris Larson <clarson@kergoth.com>
+Date: Mon, 29 Oct 2012 17:45:30 +0000
+In-Reply-To: <CABcZANmzfXiXA5rdNQpqo33wXyFPz518dCkLe0x7rZGjOZ=Ucw@mail.gmail.com>
 References: <1351517628.13864.4.camel@phil-desktop>
 	<1351525416.2828.12.camel@ted>
 	<CABcZANmzfXiXA5rdNQpqo33wXyFPz518dCkLe0x7rZGjOZ=Ucw@mail.gmail.com>
-In-Reply-To: <CABcZANmzfXiXA5rdNQpqo33wXyFPz518dCkLe0x7rZGjOZ=Ucw@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
 Subject: Re: What is TOOLCHAIN_NEED_CONFIGSITE_CACHE for?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,77 +39,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 17:56:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 29 Oct 2012 17:59:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/29/12 12:33 PM, Chris Larson wrote:
+On Mon, 2012-10-29 at 10:33 -0700, Chris Larson wrote:
 > On Mon, Oct 29, 2012 at 8:43 AM, Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2012-10-29 at 13:33 +0000, Phil Blundell wrote:
->>> This morning I happened to notice that some/all of my images had a
->>> dependency on ncurses for no obviously good reason.  (Following an
->>> earlier small crusade these are now the only remaining dependencies on
->>> ncurses in my build, so I would quite like to get rid of them.)
->>>
->>> It turns out that the dependency in question is due to the code in
->>> toolchain-scripts.bbclass (which is inherited from
->>> populate_sdk_base.bbclass, from image.bbclass) which does:
->>>
->>> TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC} ncurses"
->>>
->>> [...]
->>>
->>> python __anonymous () {
->>>      deps = ""
->>>      for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
->>>          deps += " %s:do_populate_sysroot" % dep
->>>      d.appendVarFlag('do_configure', 'depends', deps)
->>> }
->>>
->>> The code in question was added in:
->>>
->>> commit 9e87f1347788beed181476dc4563085db14a4729
->>> Author: Lianhao Lu <lianhao.lu@intel.com>
->>> Date:   Tue Aug 16 11:15:36 2011 +0800
->>>
->>>      toolchain-script.bbclass: Collected cached site config in runtime.
->>>
->>>      [YOCTO #892]
->>>      Modify the function toolchain_create_sdk_siteconfig to collect the
->>>      cached site config files which are specified by
->>>      TOOLCHAIN_NEED_CONFIGSITE_CACHE in runtime.
->>>
->>>      Also added task dependency to ensure the cached site config files are
->>>      generated.
->>>
->>>      Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
->>>
->>> ... but I don't entirely understand from that commentary what exactly is
->>> special about ncurses that means it needs to be handled this way.  Can
->>> anybody clarify?
->>
->> We ship the "site" cache files with the toolchain. We decided to include
->> the generated cache files as well as the static ones. We currently
->> generate "site" files for libc and ncurses.
->>
->> You can almost certainly just set:
->>
->> TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC}"
->>
->> and be happy since this just lists which generated cache site files to
->> include.
->
+> >
+> > We ship the "site" cache files with the toolchain. We decided to include
+> > the generated cache files as well as the static ones. We currently
+> > generate "site" files for libc and ncurses.
+> >
+> > You can almost certainly just set:
+> >
+> > TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC}"
+> >
+> > and be happy since this just lists which generated cache site files to
+> > include.
+> 
 > Shouldn't it be pulled in via depends from the populate_sdk bits,
 > rather than a task that's used both for image builds and toolchain
 > builds, though?
->
 
-Ya, this seems like a design issue.  The site cache files require the package to 
-be built, but I was under the impression they were included with the dev items 
-within that package.  If this isn't how it works, maybe this is a change we 
-should consider.
+If we turned these into packaged output then we could do this, yes. As
+things stand those files aren't packaged and hence there are no
+dependencies from which to infer/pull these in. Converting them to that
+isn't a particularly trivial exercise.
 
---Mark
+We currently only generate them for libc/ncurses which provide most of
+the configure cache speedups we'd want so it hasn't been a particularly
+pressing problem to solve.
+
+I'm all for improving this and will happily take patches but its not
+something on the immediate task list as there are higher priority issues
+IMO.
+
+Cheers,
+
+Richard
+
 
 
