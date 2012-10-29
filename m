@@ -1,32 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TStFi-0004bf-7H for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 18:35:54 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9THMJWv006418;
-	Mon, 29 Oct 2012 17:22:19 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05741-08; Mon, 29 Oct 2012 17:22:15 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9THMBTS006412
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 29 Oct 2012 17:22:12 GMT
-Message-ID: <1351531332.2828.26.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 29 Oct 2012 17:22:12 +0000
-In-Reply-To: <lyvcdtgsa6.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1351523465-26489-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1351527102.2828.19.camel@ted>
-	<lyvcdtgsa6.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sstate.bbclass: preserve time when unstaging files
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TStL9-0004ij-US
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 18:41:32 +0100
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 29 Oct 2012 10:27:02 -0700
+Received: by mail-ob0-f197.google.com with SMTP id tb18so15694835obb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Oct 2012 10:26:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=gXYCbhRoDWTW6PKcHBxlqQLoxssW/30IJrwCwN37PUo=;
+	b=U/fa1u4Yo+XSlMwXAwYbcu6NTdzq6dfO91O/cb3htCR/9EM7N2SEPa4/6+Us+UeYea
+	lj3e+2l3k+4O6ObKGanZBViTdf1leBD6SLfOeNiuumxrQQf+6HVkwUT580Bq2mNPbRvA
+	Ov7qwgpGZ0ggq+Hqfrc6ptI/8/h7iwRtIq5AG/dGiAGZLK3SyHwXz4RR7j/C08mtJOGR
+	4wWYItZPYQDxDBAmIemed7nxmtdjrHeX4kJoiRPFISxnoqOJXY9Wtd8WnrJZqiHsIRYA
+	bWhiyW682qYZ6si1kvzS9O6dkNiRfXL7dUPbl9I20+XK5v7URFzvtm3alf8bzvPqvC7A
+	bqyw==
+Received: by 10.50.178.67 with SMTP id cw3mr10130961igc.53.1351531617660;
+	Mon, 29 Oct 2012 10:26:57 -0700 (PDT)
+Received: by 10.50.178.67 with SMTP id cw3mr10130959igc.53.1351531617604; Mon,
+	29 Oct 2012 10:26:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.68.41 with HTTP; Mon, 29 Oct 2012 10:26:31 -0700 (PDT)
+In-Reply-To: <50866812.10408@r-finger.com>
+References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
+	<5085800A.4060600@r-finger.com>
+	<CAPj87rOXzZ5EwKYCrBnYtYAQo3cUyXtXyyDSh2nKh05Gy=uY9A@mail.gmail.com>
+	<50865733.40007@r-finger.com>
+	<CAPj87rOZokkPT_a7kbaqmai2bWwV5xLL8oV2UNOfoxkARHfwCg@mail.gmail.com>
+	<50866812.10408@r-finger.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Oct 2012 17:26:31 +0000
+Message-ID: <CAJTo0LbCB2K2wfbMF2sb=qosAYheFNc2zncOFfZqoj7c7eBDvw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OE-devel <openembedded-devel@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQn11SSVXOyTDPZD+rkD8d5AodZJKDrII4xy3wcOyWJ/wKWS6Bc7NE+RfIhqTf0oC3+woz51t1rOjnAX7/IwfqMbe8uSQYiFVfaapTPX869zErYJKG/qd81fYPSORa4L3uWMlBpA1bBCga06Krj9zs7LLo71dxzTvggZrlcnZITwVWWR6TSxrDZWhAmIKFXfTHLNyMhZ
+Subject: Re: [RFC] OpenGL packaging/staging policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +51,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 17:35:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Oct 2012 17:41:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-10-29 at 17:24 +0100, Enrico Scholz wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-> 
-> >> When packages are recreated after a 'bitbake -c clean', files will get
-> >> wrong date because tar has been invoked with the '-m' option.
-> >> 
-> >> Correct timestamps are useful for bug hunting and there are better
-> >> ways (e.g. using of ntp) than using '-m'.
-> >
-> > This is a revert of:
-> >
-> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=2d89cff42af2bb0049224bfaaebaa2b21966169f
-> >
-> > where the option was added deliberately to deal with time mismatch
-> > between autobuilders which was causing real world bugs.
-> 
-> But the real bug is the time mismatch in the autobuilders, isn't it?
-> And this can/should be solved by synchronizing time by ntp on them
-> instead of applying dirty hacks like resetting file dates.
+Hi,
 
-I have asked that ntp be installed/fixed on the autobuilders to sort the
-problem out but it seems that even with ntp running, mismatches can
-happen (e.g. misconfigured timezones). Worse, when this does happen the
-failures are extremely unpredictable and hard to debug. It causes things
-to repeatedly recompile for example, even during do_install.
+This was interesting discussion and certainly achieved the goal of
+soliciting comments...  A less aggressive plan:
 
-So no, I don't think this is a dirty hack, its part of ensuring the
-builds are deterministic and helping people avoid what can be a very
-nasty and hard to debug set of build issues.
+Rule 1.  Unambiguous package naming
 
-I appreciate it hurts some other debugging forensics but I'd rather that
-than anyone suffering some of the nasty build failures I debugged.
+I won't repeat this, everyone agreed this was sane.  I've a patch for
+mesa that I'll submit shortly.
 
-Cheers,
+Rule 2.  No whitelisting for GL driver conflicts
 
-Richard
+The target GL shall be staged, and situations which result in multiple
+GLs being installed should handle this case and resolve it.
 
+For atom-pc this means building Mesa.  For Beagle this means staging
+the Beagle binary drivers.  For Tegra as I've discovered this is
+"interesting" as they don't appear to provide any headers in their
+Tegra For Linux tarball...
 
+For Cedar Trail and EMGD, the easiest solution is a dedicated Mesa
+building just GL.  As Mesa's DRI driver API isn't stable this is
+practically required anyway: the ABI of the libGL we build and the
+libGL that the binary driver was built against need to match.  This
+mesa-just-gl (mesa-solo?) can be in meta-intel unless other machines
+turn out to have a similar (crazy) requirement.
+
+Rule 3.  No dependencies on specific GL implementations
+
+Useful so that GL implementations are swappable on systems where that
+can happen, but not essential if there isn't a single blessed GL for
+sysroot.  We'll do this later.
+
+Some things that will also happen whilst I do this:
+1) mesa-dri renamed to mesa.  Let's get this done nice and early!
+2) mesa stops architecture-overriding enabling of EGL and GLES, so all
+architectures that build Mesa get GL/EGL/GLESv1/GLESv2.  If you don't
+want this don't build Mesa, and the namespaced packaging means there
+won't be conflicts.
+
+Any more comments?
+
+Ross
 
 
