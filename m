@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TSrs2-0004Si-1n for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 17:07:24 +0100
+	id 1TSs9X-0003FG-0d for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 17:25:27 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TFrjBC005805
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 15:53:45 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TGBqgK005941;
+	Mon, 29 Oct 2012 16:11:52 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 05741-01 for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 15:53:39 +0000 (GMT)
+	id 05741-03; Mon, 29 Oct 2012 16:11:48 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TFrbsr005799
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 15:53:38 GMT
-Message-ID: <1351526017.2828.15.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TGBg6I005935
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 29 Oct 2012 16:11:43 GMT
+Message-ID: <1351527102.2828.19.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Oct 2012 15:53:37 +0000
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 29 Oct 2012 16:11:42 +0000
+In-Reply-To: <1351523465-26489-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1351523465-26489-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] udev: Ensure tmpfs are mounted and volatile/run exists
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sstate.bbclass: preserve time when unstaging files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 16:07:24 -0000
+X-List-Received-Date: Mon, 29 Oct 2012 16:25:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-There is a race with udev where eiher the run directory can get replaced
-during bootup leading to ude errors, or if the tmpfs was mounted and
-populate-volatiles hasn't run, udev won't start at all.
+On Mon, 2012-10-29 at 16:11 +0100, Enrico Scholz wrote:
+> When packages are recreated after a 'bitbake -c clean', files will get
+> wrong date because tar has been invoked with the '-m' option.
+> 
+> Correct timestamps are useful for bug hunting and there are better
+> ways (e.g. using of ntp) than using '-m'.
+> 
+> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> ---
+>  meta/classes/sstate.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index cbb14e1..d7c4e11 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -551,7 +551,7 @@ sstate_create_package () {
+>  sstate_unpack_package () {
+>  	mkdir -p ${SSTATE_INSTDIR}
+>  	cd ${SSTATE_INSTDIR}
+> -	tar -xmvzf ${SSTATE_PKG}
+> +	tar -xvzf ${SSTATE_PKG}
+>  }
+>  
+>  # Need to inject information about classes not in the global configuration scope
 
-This ensures that any tmpfs get mounted before udev starts and that the
-default volatiles/run directory at least exists, fixing the races
-and boot time errors caused after the recent udev upgrade.
+This is a revert of:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index ca02abb..74449fe 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -37,9 +37,8 @@ export ACTION=add
- echo "Starting udev"
- 
- # mount the tmpfs on /dev, if not already done
--LANG=C awk '$2 == "/dev" && ($3 == "tmpfs" || $3 == "devtmpfs") { exit 1 }' /proc/mounts && {
--	mount -n -o mode=0755 -t tmpfs none "/dev"
--}
-+mount -a -t tmpfs
-+mkdir -p /var/volatile/run
- [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
- [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
- 
-diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
-index 8e4a391..c41de9f 100644
---- a/meta/recipes-core/udev/udev_182.bb
-+++ b/meta/recipes-core/udev/udev_182.bb
-@@ -1,6 +1,6 @@
- include udev.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- # module-init-tools from kmod_git will provide libkmod runtime
- DEPENDS += "module-init-tools"
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=2d89cff42af2bb0049224bfaaebaa2b21966169f
 
+where the option was added deliberately to deal with time mismatch
+between autobuilders which was causing real world bugs.
+
+Cheers,
+
+Richard
 
 
 
