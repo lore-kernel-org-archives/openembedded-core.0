@@ -1,30 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TSsDz-0003O2-Ud for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 17:30:05 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TGGSf0006004;
-	Mon, 29 Oct 2012 16:16:28 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05741-04; Mon, 29 Oct 2012 16:16:24 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TGGMMC005998
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 29 Oct 2012 16:16:23 GMT
-Message-ID: <1351527382.2828.21.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marko Lindqvist <cazfi74@gmail.com>
-Date: Mon, 29 Oct 2012 16:16:22 +0000
-In-Reply-To: <CAF6bG8f111en-1a6ppqRVCjgg9Gn7Ywac4tJe+f9KoL4VCdu0Q@mail.gmail.com>
-References: <CAF6bG8f111en-1a6ppqRVCjgg9Gn7Ywac4tJe+f9KoL4VCdu0Q@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from mail.cvg.de ([62.153.82.30])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TSsM8-0003X6-7S
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 17:38:28 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q9TGOoBF003031
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 29 Oct 2012 17:24:52 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TSs8v-0004gh-Uz; Mon, 29 Oct 2012 17:24:50 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1351523465-26489-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<1351527102.2828.19.camel@ted>
+Date: Mon, 29 Oct 2012 17:24:49 +0100
+In-Reply-To: <1351527102.2828.19.camel@ted> (Richard Purdie's message of "Mon, 
+	29 Oct 2012 16:11:42 +0000")
+Message-ID: <lyvcdtgsa6.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.8
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: shadow-native build failure
+Subject: Re: [PATCH] sstate.bbclass: preserve time when unstaging files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,23 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 16:30:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Oct 2012 16:38:28 -0000
+Content-Type: text/plain
 
-On Mon, 2012-10-29 at 18:14 +0200, Marko Lindqvist wrote:
-> shadow-native do_configure fails with:
-> cp: cannot stat
-> '.../tmp-eglibc/sysroots/x86_64-linux/usr/share/gettext/config.rpath':
-> No such file or directory
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-Is this master and did you upgrade recently? 
+>> When packages are recreated after a 'bitbake -c clean', files will get
+>> wrong date because tar has been invoked with the '-m' option.
+>> 
+>> Correct timestamps are useful for bug hunting and there are better
+>> ways (e.g. using of ntp) than using '-m'.
+>
+> This is a revert of:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=2d89cff42af2bb0049224bfaaebaa2b21966169f
+>
+> where the option was added deliberately to deal with time mismatch
+> between autobuilders which was causing real world bugs.
 
-Does "bitbake gettext-minimal-native -c clean" help?
+But the real bug is the time mismatch in the autobuilders, isn't it?
+And this can/should be solved by synchronizing time by ntp on them
+instead of applying dirty hacks like resetting file dates.
 
-Cheers,
 
-Richard
-
+Enrico
 
 
