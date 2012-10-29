@@ -1,31 +1,32 @@
-Received: from eumx.net ([91.82.101.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1TSlpc-00077L-Sx
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 10:40:29 +0100
-Received: from localhost ([127.0.0.1]:53677 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TSlcV-0006oo-8a; Mon, 29 Oct 2012 09:26:55 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
-	:subject:date:message-id:in-reply-to:references; s=default; bh=W
-	URsAI/2x0w5dkJ7YT/8QGKF4dQ=; b=Gsba7b+S5ly7HaBL0ZnPSnqcYlEBsUBsU
-	YtBMgi/I3wMLBzNxDVv3geqW4ZV6TExEJg9gqtdVxuOZGeqSzKgTK+J8BUY1K9AP
-	XYeovlI3utcaGxP/dq1N1vDtlib7aaN+Smsz3pRaE6x9+e06UMiMV2ON45lsSF0Y
-	0N9KrZlXqE=
-Received: from [195.171.99.130] (port=2554 helo=archHP.dbnet.local)
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1TSlcV-0006o4-3z; Mon, 29 Oct 2012 09:26:55 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Oct 2012 09:28:50 +0000
-Message-Id: <1351502930-2348-4-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1351502930-2348-1-git-send-email-ml@communistcode.co.uk>
-References: <1351502930-2348-1-git-send-email-ml@communistcode.co.uk>
-Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
-Subject: [PATCH 3/3] babeltrace: fix depends
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TSmZU-0000Kx-Aj for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 11:27:52 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TAEG0L002813;
+	Mon, 29 Oct 2012 10:14:16 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22738-04; Mon, 29 Oct 2012 10:14:12 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TAE8Ee002805
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 29 Oct 2012 10:14:09 GMT
+Message-ID: <1351505648.2828.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Date: Mon, 29 Oct 2012 10:14:08 +0000
+In-Reply-To: <CAOHjBZswZPW6f_4ugCJcJ9w4=y9bt6ADvVd0gjtEnFuiXB-1kw@mail.gmail.com>
+References: <CAOHjBZsdfnhLumBym4ZO+wxxzAyCq0yONSbRDc4XZS3TH_mJ=Q@mail.gmail.com>
+	<CAMKF1spobVWMY=F9X45930GmYJZ9fWCCak=zdxKNKab7ZD4x2w@mail.gmail.com>
+	<CAOHjBZswZPW6f_4ugCJcJ9w4=y9bt6ADvVd0gjtEnFuiXB-1kw@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
+Subject: Re: uclibc sdk issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,35 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 09:40:29 -0000
+X-List-Received-Date: Mon, 29 Oct 2012 10:27:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+On Mon, 2012-10-29 at 09:48 +0100, Giuseppe Condorelli wrote:
+> Hi Khem,
+>  
+> what I want to build is the meta-toolchain (uclibc) and looking at the
+> build I can see system tries to build also eglibc packages.
+> Maybe I'm wrong in something.
+> Welcome advice.
 
-Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
----
- meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So that the toolchain can be used on many different systems the
+toolchain binaries themselves link against their own libc which ships as
+part of meta-toolchain. We use eglibc for this and uclibc is not
+supported. 
 
-diff --git a/meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb b/meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb
-index 95d65f5..e699712 100644
---- a/meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb
-+++ b/meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb
-@@ -8,11 +8,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8d1a03b3c17bdd158b3cbb34813b1423"
- 
- inherit autotools
- 
--DEPENDS = "gtk+ util-linux"
-+DEPENDS = "glib-2.0 util-linux popt"
- 
- SRCREV = "0d8f8c2ea27df096269aa76b4baeab26b68b95d4"
- PV = "0.12+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
- 
--- 
-1.8.0
+The target libc that ships with the toolchain can be uclibc though, that
+is perfectly fine. Build it and have a look at the result as I think it
+will be fine.
+
+Cheers,
+
+Richard
+
 
 
 
