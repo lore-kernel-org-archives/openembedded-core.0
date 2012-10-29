@@ -1,43 +1,28 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@dresearch-fe.de>) id 1TSlou-0006t2-3L
+	(envelope-from <ml@communistcode.co.uk>) id 1TSlpc-00076Q-2w
 	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 10:39:44 +0100
-Received: by mail-bk0-f47.google.com with SMTP id jk7so1558650bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Oct 2012 02:26:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=ShDnTZMv3PHsgE9h//Gfx646qRjB5wfsEkxs907o3Cs=;
-	b=fO4NEjog7AxyMaftX5QvddKmPXzayzgCfgdWnEFZ2/9va4tqqlXHZr/J4Rs4V8sRMD
-	7lwbfkQQf3Ogw5mtf9QpHNCNzJtpqiGWzn6HiowvQa7gde/wqh9eQq1ln973yx3ZEkRr
-	S9+BqFQkkPWs520IR1ASlYwVXZR62ByWHalkxb9cQGABG/64kR3XdqW33voeF+iEiX5H
-	+a1PoN0yznyvx6Wudk+4hyttG+DyA4j5PTIpAWN+6eP68UhFBprpSeg2Fab43Q05l1lh
-	9NWtgMDcuXQcYdbCtr7hJlEfhEGTEOoGgZb4rMvldyViOfv5a+BhZdfLi7Gh+rBuB7H3
-	Oowg==
-Received: by 10.204.150.206 with SMTP id z14mr9107833bkv.105.1351502769901;
-	Mon, 29 Oct 2012 02:26:09 -0700 (PDT)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPS id 9sm3332319bkq.13.2012.10.29.02.26.08
-	(version=SSLv3 cipher=OTHER); Mon, 29 Oct 2012 02:26:09 -0700 (PDT)
-Message-ID: <508E4BAF.9080901@dresearch-fe.de>
-Date: Mon, 29 Oct 2012 10:26:07 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121010 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Matthew McClintock <msm@freescale.com>
-References: <1343319703-15704-1-git-send-email-msm@freescale.com>
-	<1343554172.16998.32.camel@ted>
-In-Reply-To: <1343554172.16998.32.camel@ted>
-X-Enigmail-Version: 1.4.5
-X-Gm-Message-State: ALoCoQmFF0SZszGqwDnh6p34mJW6/rlw5ROxnL5MB9KqsiNzuFJYsz20d27CeYnP4dhiMBrr9H6z
-Subject: Re: [PATCH] u-boot.inc: update linker arguments to pass --sysroot arg (BUILD BREAKAGE)
+	Mon, 29 Oct 2012 10:40:28 +0100
+Received: from localhost ([127.0.0.1]:60419 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TSlcU-0006oS-FD; Mon, 29 Oct 2012 09:26:54 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=from:to:cc
+	:subject:date:message-id; s=default; bh=lB+2b5pcLrLkjMsq6oonO9eX
+	9jk=; b=K9jPaWA5vNHqcTiwfJK/rSU6VYJPuyh54TE/CBPLvAo/fyJ96LkH5W6V
+	sPWAY16iaD7zPrwt7n8Y/rEc+my05nSMXwbePWMgpO2wwNw14h5WJab3ohNy7Wph
+	HhqwkyYzDrph66rq0Ey6QRwNLPhbaYcRaf0o0nDwftdGjAFyITw=
+Received: from [195.171.99.130] (port=2554 helo=archHP.dbnet.local)
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TSlcU-0006o4-AC; Mon, 29 Oct 2012 09:26:54 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Oct 2012 09:28:47 +0000
+Message-Id: <1351502930-2348-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.0
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [PATCH 0/3] Improve x11 distro_feature checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,63 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 09:39:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Oct 2012 09:40:28 -0000
 
-On 29.07.2012 11:29, Richard Purdie wrote:
-> On Thu, 2012-07-26 at 11:21 -0500, Matthew McClintock wrote:
->> If we are building from sstate-cache it's possible to be building
->> from another folder on another machine, therefore the linker requires
->> that a proper --sysroot is passed too it so it can find things like
->> libgcc.a and avoid errors such as:
->>
->> | arm-poky-linux-gnueabi-gcc  -g  -O2  -fno-common -ffixed-r8 -msoft-float   -D__KERNEL__ -DCONFIG_SYS_TEXT_BASE=0x80008000 -I/local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git5+b1af6f532e0d348b153d5c148369229d24af361a-r0/git/include -fno-builtin -ffreestanding -nostdinc -isystem /local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/sysroots/x86_64-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.6.3/include -pipe  -DCONFIG_ARM -D__ARM__ -marm  -mabi=aapcs-linux -mno-thumb-interwork -march=armv5 -Wall -Wstrict-prototypes -fno-stack-protector -fno-toplevel-reorder   -o hello_world.o hello_world.c -c
->> | arm-poky-linux-gnueabi-gcc  -g  -O2  -fno-common -ffixed-r8 -msoft-float   -D__KERNEL__ -DCONFIG_SYS_TEXT_BASE=0x80008000 -I/local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git5+b1af6f532e0d348b153d5c148369229d24af361a-r0/git/include -fno-builtin -ffreestanding -nostdinc -isystem /local/yocto/upstream/label/ubuntu1204-64b/machine/beagleboard/poky/edison/tmp/sysroots/x86_64-linux/usr/bin/armv7a-vfp-neon-poky-linux-gnueabi/../../lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.6.3/include -pipe  -DCONFIG_ARM -D__ARM__ -marm  -mabi=aapcs-linux -mno-thumb-interwork -march=armv5 -Wall -Wstrict-prototypes -fno-stack-protector -fno-toplevel-reorder   -o stubs.o stubs.c -c
->> | arm-poky-linux-gnueabi-ld  -r -o libstubs.o  stubs.o
->> | arm-poky-linux-gnueabi-ld -g -Ttext 0x80300000 \
->> | 			-o hello_world -e hello_world hello_world.o libstubs.o \
->> | 			-L. -lgcc
->> | arm-poky-linux-gnueabi-ld: cannot find -lgcc
->> | make[1]: *** [hello_world] Error 1
->>
->> Signed-off-by: Matthew McClintock <msm@freescale.com>
->> ---
->>  meta/recipes-bsp/u-boot/u-boot.inc           |    2 +-
->>  meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 +-
->>  meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 +-
->>  meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    1 +
->>  4 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> 
-> Merged to master, thanks.
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-While trying to migrate the u-boot support for our machine from oe-classic i hit a problem with this patch. :(
+Improvement to the detection of the x11 distro_feature in a few recipes
+with the final achievement being that GTK+ is no longer required in 
+core-image-minimal if dbg-pkgs, tools-profile and tools-debug are enabled 
+when x11 is not in distro_features.
 
-The
+V2
 
-  EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
+Added PR bumps to all recipes
 
-in u-boot.inc leads to compiling problems with some build support tools. The tools (e.g. bmp_logo) are now compiled with the target compiler (arm-oe-linux-gnueabi-gcc in our case) instead of the host compiler. This results in build errors like
+Jack Mitchell (3):
+  latencytop: disable GTK and remove gtk+ dependacy
+  packagegroup-core-tools-profile: include sysprof only if x11 is
+    distro feature
+  babeltrace: fix depends
 
-| ./bmp_logo logos/denx.bmp >/pm/sledz/oe-core/build/tmp-eglibc/work/hipox-oe-linux-gnueabi/u-boot-v2009.03+git91+e60beb13cf0135dc71c541021487b5ccc4d269cb-r8/git/include/bmp_logo.h
-| /bin/sh: ./bmp_logo: cannot execute binary file
-
-Reverting to
-
-  EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX}'
-
-seems to fix this problem.
-
-Steffen
+ .../packagegroups/packagegroup-core-tools-profile.bb        |  4 +++-
+ .../latencytop/latencytop-0.5/latencytop-makefile.patch     | 13 +++++++------
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb            |  6 ++++--
+ meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb            |  2 +-
+ 4 files changed, 15 insertions(+), 10 deletions(-)
 
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.8.0
+
 
 
