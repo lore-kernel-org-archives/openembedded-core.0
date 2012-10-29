@@ -1,32 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TSmZU-0000Kx-Aj for openembedded-core@lists.openembedded.org;
-	Mon, 29 Oct 2012 11:27:52 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TAEG0L002813;
-	Mon, 29 Oct 2012 10:14:16 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22738-04; Mon, 29 Oct 2012 10:14:12 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9TAE8Ee002805
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 29 Oct 2012 10:14:09 GMT
-Message-ID: <1351505648.2828.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-Date: Mon, 29 Oct 2012 10:14:08 +0000
-In-Reply-To: <CAOHjBZswZPW6f_4ugCJcJ9w4=y9bt6ADvVd0gjtEnFuiXB-1kw@mail.gmail.com>
-References: <CAOHjBZsdfnhLumBym4ZO+wxxzAyCq0yONSbRDc4XZS3TH_mJ=Q@mail.gmail.com>
-	<CAMKF1spobVWMY=F9X45930GmYJZ9fWCCak=zdxKNKab7ZD4x2w@mail.gmail.com>
-	<CAOHjBZswZPW6f_4ugCJcJ9w4=y9bt6ADvVd0gjtEnFuiXB-1kw@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: uclibc sdk issue
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1TSncl-0005Mb-E9
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Oct 2012 12:35:21 +0100
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 29 Oct 2012 04:21:14 -0700
+Received: by mail-lb0-f197.google.com with SMTP id b5so3591262lbd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Oct 2012 04:21:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=MG4HnpmpKfmZ/uCfSFnATAUCTb6smfJh/HGq0Tq/G20=;
+	b=exjfpaAk4UQCB6ed5jRR75rWqDHlpy9HT2dZkVLPtghVQcfDiXwN1oPO+FwdpOG8P4
+	GdI3VACFP+Hnm0ATDMuY8APed9aoCKxnL9HqwAEpGC4GruTROUWnbzMjao7pjM3r4tN/
+	o5c3H4likqyjUTskJKcsTuG5LbsKh4D470SP7eAVnAJJDHXXV4U7mqcG9UwM8oJMBGVh
+	wTo69u2t+0RYkrNuYxh/HsnjUW1aXSM/ne/MeRZZYAYRM+ZilLu8TzGoDQS3KJo/IKlh
+	9+RVl08s+6kzsIoRWiCBb02tPDW7+QoWZr2PuXbVEO/+AEV1OkEBs+OHQ/oTrAefzkLg
+	oZCQ==
+Received: by 10.180.8.134 with SMTP id r6mr14554547wia.18.1351509701181;
+	Mon, 29 Oct 2012 04:21:41 -0700 (PDT)
+Received: by 10.180.8.134 with SMTP id r6mr14554527wia.18.1351509701053;
+	Mon, 29 Oct 2012 04:21:41 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id bn7sm10844252wib.8.2012.10.29.04.21.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 29 Oct 2012 04:21:39 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Oct 2012 11:20:28 +0000
+Message-Id: <1351509628-12898-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlfcq0CW23nlf+ORrGoYf6QkJSS7uy2fcQUfVx8mgJrnSrXTLdzXYPibX5cmXIjuysQgmJHcysNeTDNQPpBUSOfR9Vmts2FGzg2crSRWGcaJiMmyVPhHkg8CbMVXDBgkwBGyXxzhNhGcX4rUZdadzpLFarx3/VRhs7xySVMYem5rLoMt6f8C4m4WOGJGaL5XAfxtFpz
+Subject: [PATCH] clutter-box2d: add missing glib-2.0 build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Oct 2012 10:27:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Oct 2012 11:35:29 -0000
 
-On Mon, 2012-10-29 at 09:48 +0100, Giuseppe Condorelli wrote:
-> Hi Khem,
->  
-> what I want to build is the meta-toolchain (uclibc) and looking at the
-> build I can see system tries to build also eglibc packages.
-> Maybe I'm wrong in something.
-> Welcome advice.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/clutter/clutter-box2d_git.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-So that the toolchain can be used on many different systems the
-toolchain binaries themselves link against their own libc which ships as
-part of meta-toolchain. We use eglibc for this and uclibc is not
-supported. 
-
-The target libc that ships with the toolchain can be uclibc though, that
-is perfectly fine. Build it and have a look at the result as I think it
-will be fine.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+index d256a28..86e0711 100644
+--- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
++++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+@@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://box2d/License.txt;md5=e5d39ad91f7dc4692dcdb1d85139ec6
+ 
+ SRCREV = "de5452e56b537a11fd7f9453d048ff4b4793b5a2"
+ PV = "0.12.1+git${SRCPV}"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "git://git.gnome.org/clutter-box2d.git"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DEPENDS += "clutter-1.8"
++DEPENDS += "glib-2.0 clutter-1.8"
+ PROVIDES = "clutter-box2d-1.6"
+-- 
+1.7.10
 
 
 
