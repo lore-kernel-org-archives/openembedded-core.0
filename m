@@ -1,49 +1,54 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TTEXc-0006xF-PT
+	(envelope-from <B29882@freescale.com>) id 1TTH6j-0002V2-TV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 17:19:48 +0100
-Received: by mail-we0-f175.google.com with SMTP id t44so192362wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 09:06:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=y4F+vQBdAqVMHx45cxue26x8HX+nyE7+IoPyQIIlatk=;
-	b=FHTzyO0IH6O3c4gOPQyfc2LeK7SHQSajS18KPDBCio5oAOAd+ioH2dy+Pe7OJ1w3pN
-	1/runFS5ThQcLImExG+8I3+cvwVUaqvh3G3xlpCit50kNgY5exjxpKvmAeIHnUOtNGDm
-	1zjNrb5a0FdAP+611qwzJEFinDc23Dg4IyEgKHRZujQYNy9oNGrpnttTgr+PNq42qeeY
-	XWjARYq8Fqn3B0woKoiDc7eBJ49uvjsSqLM/2/m8udTj9ye49Wr5tT1Wk6Iq2/WE2jbb
-	8ppYHqi//xu3NO3Fahk61BF3IlRrVDw4ZHrzfgRGERRbUtyknHI15dSh+BZkYb26boqX
-	O60g==
-Received: by 10.216.204.19 with SMTP id g19mr16385062weo.189.1351613173112;
-	Tue, 30 Oct 2012 09:06:13 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id o3sm1807419wiz.9.2012.10.30.09.06.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 30 Oct 2012 09:06:10 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LZ1=uTF26dn2MdE6ZwRgOYcVS9i-uqGWYab4uEXnAGTtA@mail.gmail.com>
-Date: Tue, 30 Oct 2012 17:06:12 +0100
-Message-Id: <0C90FBC6-CB11-48BC-AC3F-C6562AD4977A@dominion.thruhere.net>
-References: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
-	<CAK18fxFzwdCszev=Ss+rMdytAqUgDcnA4e9HEC4_psz2SAJbxw@mail.gmail.com>
-	<CAJTo0LZ=t_sWFtkbdt=uwyCEGuMmHnWdu7cO3=qMmseiMtVTHQ@mail.gmail.com>
-	<CAK18fxGFUy_+pzBvGtvknjj3AQFkGqBA6mjkHDgJTamXOMr5RQ@mail.gmail.com>
-	<CAJTo0LZcHi16POq8_bQpURnjLxvj7fy=9m_LX27+Nz_RADQT2w@mail.gmail.com>
-	<CAK18fxFcMPNVPXy6QcFAKAUmgyF83fBAX_BdUS8nLG=f=KQgyw@mail.gmail.com>
-	<CAJTo0LZ1=uTF26dn2MdE6ZwRgOYcVS9i-uqGWYab4uEXnAGTtA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1498)
-X-Gm-Message-State: ALoCoQlTt4RmHAKCg1jrl4cdk7Qol/6ysCtI6JCWlJNeIvznhdg68edmuh1AJHhj5IkO2hNAjHPP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] pulseaudio: add GConf dependency
+	Tue, 30 Oct 2012 20:04:14 +0100
+Received: from mail203-va3-R.bigfish.com (10.7.14.237) by
+	VA3EHSOBE009.bigfish.com (10.7.40.29) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 30 Oct 2012 18:50:36 +0000
+Received: from mail203-va3 (localhost [127.0.0.1])	by
+	mail203-va3-R.bigfish.com (Postfix) with ESMTP id 6C99E7C02CA;
+	Tue, 30 Oct 2012 18:50:36 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bhbe9i1155h)
+Received: from mail203-va3 (localhost.localdomain [127.0.0.1]) by mail203-va3
+	(MessageSwitch) id 1351623034153360_19136;
+	Tue, 30 Oct 2012 18:50:34 +0000 (UTC)
+Received: from VA3EHSMHS025.bigfish.com (unknown [10.7.14.242])	by
+	mail203-va3.bigfish.com (Postfix) with ESMTP id 236286200A2;
+	Tue, 30 Oct 2012 18:50:34 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS025.bigfish.com
+	(10.7.99.35) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 30 Oct 2012 18:50:33 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.121]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0318.003; Tue, 30 Oct 2012 18:50:33 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [OE-core] [PATCH] cryptodev kernel module recipe
+Thread-Index: AQHNts9wc2/Ph/iHv0quNrquEzw2Eg==
+Date: Tue, 30 Oct 2012 18:50:32 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A73724E@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
+	<CADkTA4MzmofTtk7qvhU_2fsfKgmGRPmxf-zUzcj4FkzBDAP_rQ@mail.gmail.com>
+In-Reply-To: <CADkTA4MzmofTtk7qvhU_2fsfKgmGRPmxf-zUzcj4FkzBDAP_rQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: Dutta Yashpal-B05456 <B05456@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cryptodev kernel module recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -53,67 +58,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 16:19:49 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 30 Oct 2012 19:04:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <2DEABD8FC1B56242B56FB102DE567347@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
+On Thu, Oct 18, 2012 at 8:33 AM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Thu, Oct 18, 2012 at 5:57 AM, Yashpal Dutta
+> <yashpal.dutta@freescale.com> wrote:
+>> This is a /dev/crypto device driver, equivalent to those in OpenBSD or F=
+reeBSD.
+>> The main idea is to access of existing ciphers in kernel space from user=
+space,
+>> thus enabling re-use of a hardware implementation of a cipher.
+>
+> I always use OCF for an overlapping set of functionality. To make this ex=
+ternal
+> module gracefully deal with a situation such as this, maybe a check for O=
+CF
+> in the kernel config ?
+>
+> The same thing could be said about having a kernel with this functionalit=
+y
+> already integrated (I have several of those as well).
+>
+> That's a more general question about what's the best way to gracefully de=
+al
+> with out of tree modules detecting that they are being built against a ke=
+rnel
+> that already has the functionality merged. The easy answer is that
+> it's something
+> the distro maintainer needs to know, and manage, and maybe that's the
+> final answer. But I'm more wondering about this with respect to
+> inter-operability
+> of layers, if something in a layer depends/rdepends on this module, it wi=
+ll be
+> pulled in, and won't that limit the mix/match/stacking of the various lay=
+ers ?
+>
+> I added Richard for comment on the above.
+>
+> But that of course raises the question, why should this be in oe-core ver=
+sus
+> something like OCF ? This is definitely simpler, but OCF has it's use cas=
+es and
+> advantages as well, that are an overlapping set of functionality.
+>
+> I don't have all the answers, just plenty of questions :)
 
-Op 30 okt. 2012, om 12:00 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+I'm not overly familiar with OCF. Does this just RCONFLICT with ocf-linux?
 
-> On 30 October 2012 10:31, Andrei Gherzan <andrei@gherzan.ro> wrote:
->>> Oh joy, one of those instances where GPLv3 isn't actually a problem.
->>>=20
->>> gnome-common is some scripts and tools used at configure time, so
->>> there isn't any linkage, so there isn't any GPLv3 in the images, so
->>> there isn't a problem.
->>>=20
->>> The question is how do we express this?
->>=20
->> Should it be whitelisted?
->=20
-> So I did some digging.  The file in git that is explicitly v3 only
-> appeared in 3.6, so I considered reverting to 3.5.5 before it
-> appeared.  Then I noticed that we're still shipping gnome-common 2.28
-> from 2009, which doesn't have any v3 code in (to be honest it barely
-> has any license at all, but it's definitely not v3.  I've pinged
-> upstream.
->=20
-> The v3 license in the metadata came from:
->=20
-> commit 8a2b4e2a5e85f4937e72f03e579b1aaa264074a1
-> Author: Zhai Edwin <edwin.zhai@intel.com>
-> Date:   Thu Jul 1 15:35:11 2010 +0800
->=20
->    gnome-common: Fix the metadata
->=20
->    Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
->=20
-> diff --git a/meta/packages/gnome/gnome-common_2.20.0.bb
-> b/meta/packages/gnome/gnome-common_2.20.0.bb
-> index 075ac14..c2eae72 100644
-> --- a/meta/packages/gnome/gnome-common_2.20.0.bb
-> +++ b/meta/packages/gnome/gnome-common_2.20.0.bb
-> @@ -1,7 +1,11 @@
-> -LICENSE =3D "GPL"
-> +DESCRIPTION =3D "Common macros for building GNOME applications"
-> +HOMEPAGE =3D "http://www.gnome.org/"
-> +BUGTRACKER =3D "https://bugzilla.gnome.org/"
-> +
-> +LICENSE =3D "GPLv3"
->=20
-> Looks like a misguided attempt at fixing a warning from not specifying
-> what version of GPL was in use.  Traditionally the bulk of GNOME is
-> LGPLv2.1
->=20
-> But following the dependencies, gnomebase adds DEPENDS=3Dgnome-common.
-> Shouldn't that be gnome-common-native? =20
+-M
 
-No, it checks for the files in the target sysroot. I can't say it that's =
-a bug or not, though.
+>
+> Cheers,
+>
+> Bruce
+>
+>
+>>
+>> Signed-off-by: Yashpal Dutta <yashpal.dutta@freescale.com>
+>> ---
+>>  meta/recipes-kernel/cryptodev/cryptodev_1.5.bb     |   18 +++++++++++++
+>>  .../cryptodev/files/makefile_fixup.patch           |   26 +++++++++++++=
++++++++
+>>  2 files changed, 44 insertions(+), 0 deletions(-)
+>>  create mode 100644 meta/recipes-kernel/cryptodev/cryptodev_1.5.bb
+>>  create mode 100644 meta/recipes-kernel/cryptodev/files/makefile_fixup.p=
+atch
+>>
+>> diff --git a/meta/recipes-kernel/cryptodev/cryptodev_1.5.bb b/meta/recip=
+es-kernel/cryptodev/cryptodev_1.5.bb
+>> new file mode 100644
+>> index 0000000..5125710
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/cryptodev/cryptodev_1.5.bb
+>> @@ -0,0 +1,18 @@
+>> +SECTION =3D "devel"
+>> +SUMMARY =3D "Linux Cryptodev KERNEL MODULE"
+>> +DESCRIPTION =3D "The Cryptodev package contains the kernel /dev/crypto =
+module"
+>> +LICENSE =3D "GPLv2"
+>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a=
+4263"
+>> +
+>> +DEPENDS =3D "virtual/kernel"
+>> +
+>> +inherit module
+>> +
+>> +SRCREV =3D "1c24a0aa996630518d47826a2e3fea129ea094c7"
+>> +
+>> +SRC_URI =3D "git://repo.or.cz/cryptodev-linux.git;protocol=3Dgit \
+>> +         file://makefile_fixup.patch"
+>> +
+>> +EXTRA_OEMAKE=3D'KERNEL_DIR=3D"${STAGING_KERNEL_DIR}" PREFIX=3D"${D}"'
+>> +
+>> +S =3D "${WORKDIR}/git"
+>> diff --git a/meta/recipes-kernel/cryptodev/files/makefile_fixup.patch b/=
+meta/recipes-kernel/cryptodev/files/makefile_fixup.patch
+>> new file mode 100644
+>> index 0000000..323aacd
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/cryptodev/files/makefile_fixup.patch
+>> @@ -0,0 +1,26 @@
+>> +diff --git a/Makefile b/Makefile
+>> +index 2be8825..b36d68c 100644
+>> +--- a/Makefile
+>> ++++ b/Makefile
+>> +@@ -1,6 +1,7 @@
+>> + KBUILD_CFLAGS +=3D -I$(src)
+>> + KERNEL_DIR =3D /lib/modules/$(shell uname -r)/build
+>> + VERSION =3D 1.5
+>> ++PREFIX =3D
+>> +
+>> + cryptodev-objs =3D ioctl.o main.o cryptlib.o authenc.o zc.o util.o
+>> +
+>> +@@ -12,10 +13,10 @@ build: version.h
+>> + version.h: Makefile
+>> +       @echo "#define VERSION \"$(VERSION)\"" > version.h
+>> +
+>> +-install:
+>> ++modules_install:
+>> +       make -C $(KERNEL_DIR) SUBDIRS=3D`pwd` modules_install
+>> +-      @echo "Installing cryptodev.h in /usr/include/crypto ..."
+>> +-      @install -D crypto/cryptodev.h /usr/include/crypto/cryptodev.h
+>> ++      @echo "Installing cryptodev.h in $(PREFIX)/usr/include/crypto ..=
+."
+>> ++      @install -D crypto/cryptodev.h $(PREFIX)/usr/include/crypto/cryp=
+todev.h
+>> +
+>> + clean:
+>> +       make -C $(KERNEL_DIR) SUBDIRS=3D`pwd` clean
+>> --
+>> 1.7.0.4
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
-regards,
-
-Koen=
 
 
