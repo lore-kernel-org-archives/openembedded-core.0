@@ -1,29 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1TTCdy-0001cs-1S
+	(envelope-from <otavio.salvador@gmail.com>) id 1TTCnA-0001o7-Uw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 15:18:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9UE4ZrB008533
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Oct 2012 07:04:35 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 30 Oct 2012 07:04:33 -0700
-Message-ID: <508FDE70.5010405@windriver.com>
-Date: Tue, 30 Oct 2012 22:04:32 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
+	Tue, 30 Oct 2012 15:27:45 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so119302dak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Oct 2012 07:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=kPhm9GDYVDwUgPitDuxmiDDtREpAL99rwdbAFhyyQeE=;
+	b=QHsn6owKcceqxzTtRvAfpMldKollxcPC9BBqrwdkKljGGYK/843pOI3uo5z0T2TYw6
+	l5aljLJ8CXd5GGSUPyNwBq3t/ftVwgWHajf9QBqvfOqneNm9kYsrhwKAUIbQZVlisJKc
+	QX6tPgwaPupnIYorFeGzxPt4Lr2nfvUScdNEOUYi7/za3gbQPLJhH9hb/1/MlNI9Ja8X
+	ZCs+n3b952xVo2HRzM/iGMXjG/NyMI5QWtHO/X/L/S9ONtsCqA93lu5ta1VSxyhhYzsQ
+	ZbAawqUZ7+9Q2CMdlYxrCikystxP7JQhfkKNypopUkpClWubV5tB0g/WzVWx2vUXf8E9
+	QCeA==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1351496696.git.liezhi.yang@windriver.com>
-	<8757dbc0cba44d712d24bea43a3ed78c37b0f991.1351496696.git.liezhi.yang@windriver.com>
-	<1351590871.2828.62.camel@ted>
-In-Reply-To: <1351590871.2828.62.camel@ted>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/11] multilib.bbclass: add class-multilib to override
+Received: by 10.68.204.34 with SMTP id kv2mr19463623pbc.136.1351606448793;
+	Tue, 30 Oct 2012 07:14:08 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.40.201 with HTTP; Tue, 30 Oct 2012 07:14:08 -0700 (PDT)
+In-Reply-To: <508FA924.4030301@communistcode.co.uk>
+References: <508FA924.4030301@communistcode.co.uk>
+Date: Tue, 30 Oct 2012 12:14:08 -0200
+X-Google-Sender-Auth: iBxJGT9ziKOczdCGLIxQYMa8mp8
+Message-ID: <CAP9ODKqDYeu8ywdGPE_v3LjxG=_NLopzcd=XwZ1pTf9d7JZx+g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ml@communistcode.co.uk
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Removing netbase from an image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,79 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 14:18:14 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Oct 2012 14:27:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Tue, Oct 30, 2012 at 8:17 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> I am attempting to remove netbase from a custom image. I would like to
+> replace it with connman. I have added connman through EXTRA_IMAGE_INSTALL,
+> however netbase is brought in via packagegroup-core-boot.bb which funnily
+> enough has some very important features and I would like to keep.
+>
+> What would be the best way to make this replacement. Should I copy
+> packagegroup-core-boot.bb and keep a local copy, while keeping it in sync
+> manually? Alternatively, I notice quite a few packages in
+> packagegroup-core-boot have a VIRTUAL-RUNTIME_* define. Would it be worth
+> having a VIRTUAL-RUNTIME_network ?= "netbase" which could be overridden?
+>
+> Thoughts?
 
-Hi Richard,
+Even though I agree with Ross that you most probably want to override
+the interfaces file I think it is nice to be able to override it and
+the VIRTUAL-RUNTIME_network-base would be a good addition for it.
 
-I've pushed the new patches again (removed the old branch, and create
-a new one):
-
-git://git.pokylinux.org/poky-contrib robert/virtclass
-
-Now only change the native/nativesdk values. I think that the virtclass-cross
-should be changed to class-cross, too, but I didn't do it in these patches,
-I will send another pull request for the virtclass-cross if it is fine.
-
-// Robert
-
-On 10/30/2012 05:54 PM, Richard Purdie wrote:
-> On Tue, 2012-10-30 at 17:33 +0800, Robert Yang wrote:
->> Add the new override way CLASSOVERRIDE = "class-multilib" to
->> multilib.bbclass, and add the check code to sanity.bbclass, we keep both
->> the old and new way, which means, both of the following are supported:
->>
->> virtclass-multilib
->> class-multilib
->>
->> [YOCTO #3297]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/multilib.bbclass | 2 ++
->>   meta/classes/sanity.bbclass   | 3 ++-
->>   2 files changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
->> index 77ccce4..2dd2f85 100644
->> --- a/meta/classes/multilib.bbclass
->> +++ b/meta/classes/multilib.bbclass
->> @@ -1,3 +1,5 @@
->> +CLASSOVERRIDE = "class-multilib"
->> +
->>   python multilib_virtclass_handler () {
->>       if not isinstance(e, bb.event.RecipePreFinalise):
->>           return
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index 3806bc5..ba1cd6d 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -122,7 +122,8 @@ def check_toolchain(data):
->>                   tune_error_set.append("The multilib '%s' appears more than once." % lib)
->>               else:
->>                   seen_libs.append(lib)
->> -            tune = data.getVar("DEFAULTTUNE_virtclass-multilib-%s" % lib, True)
->> +            tune = data.getVar("DEFAULTTUNE_virtclass-multilib-%s" % lib, True) or \
->> +                   data.getVar("DEFAULTTUNE_class-multilib-%s" % lib, True)
->>               if tune in seen_tunes:
->>                   tune_error_set.append("The tuning '%s' appears in more than one multilib." % tune)
->>               else:
->
-> Sorry but this isn't right. The multilib case is special since it sets
-> "class-multilib-xxx", not "class-multilib" without the suffix. The above
-> changes are just going to confuse people and depending on what you do in
-> other patches, may or may not work.
->
-> Can you resend the patch set just changing the native/nativesdk values
-> please? We can then look at multilib specifically as a follow up.
->
-> Cheers,
->
-> Richard
->
->
->
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
