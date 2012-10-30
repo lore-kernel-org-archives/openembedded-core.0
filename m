@@ -1,27 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1TT8M0-0002t4-WB
-	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 10:43:25 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9U9TjE1000313
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 02:29:45 -0700 (PDT)
-Received: from localhost.localdomain (128.224.163.124) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Tue, 30 Oct 2012 02:29:43 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Oct 2012 17:33:52 +0800
-Message-ID: <64ad1e6ebfac0523ea6cccd5140bf78c20352e52.1351496696.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1351496696.git.liezhi.yang@windriver.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TT8k2-00040t-AQ for openembedded-core@lists.openembedded.org;
+	Tue, 30 Oct 2012 11:08:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9U9scIW014936;
+	Tue, 30 Oct 2012 09:54:38 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12691-08; Tue, 30 Oct 2012 09:54:34 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9U9sVBs014930
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 30 Oct 2012 09:54:32 GMT
+Message-ID: <1351590871.2828.62.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 30 Oct 2012 09:54:31 +0000
+In-Reply-To: <8757dbc0cba44d712d24bea43a3ed78c37b0f991.1351496696.git.liezhi.yang@windriver.com>
 References: <cover.1351496696.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 11/11] recipes-connectivity: replace virtclass-native(sdk) with class-native(sdk)
+	<8757dbc0cba44d712d24bea43a3ed78c37b0f991.1351496696.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/11] multilib.bbclass: add class-multilib to override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 09:43:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Oct 2012 10:08:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The overrides virtclass-native and virtclass-nativesdk are deprecated,
-which should be replaced by class-native and class-nativesdk.
+On Tue, 2012-10-30 at 17:33 +0800, Robert Yang wrote:
+> Add the new override way CLASSOVERRIDE = "class-multilib" to
+> multilib.bbclass, and add the check code to sanity.bbclass, we keep both
+> the old and new way, which means, both of the following are supported:
+> 
+> virtclass-multilib
+> class-multilib
+> 
+> [YOCTO #3297]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/multilib.bbclass | 2 ++
+>  meta/classes/sanity.bbclass   | 3 ++-
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+> index 77ccce4..2dd2f85 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -1,3 +1,5 @@
+> +CLASSOVERRIDE = "class-multilib"
+> +
+>  python multilib_virtclass_handler () {
+>      if not isinstance(e, bb.event.RecipePreFinalise):
+>          return
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 3806bc5..ba1cd6d 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -122,7 +122,8 @@ def check_toolchain(data):
+>                  tune_error_set.append("The multilib '%s' appears more than once." % lib)
+>              else:
+>                  seen_libs.append(lib)
+> -            tune = data.getVar("DEFAULTTUNE_virtclass-multilib-%s" % lib, True)
+> +            tune = data.getVar("DEFAULTTUNE_virtclass-multilib-%s" % lib, True) or \
+> +                   data.getVar("DEFAULTTUNE_class-multilib-%s" % lib, True)
+>              if tune in seen_tunes:
+>                  tune_error_set.append("The tuning '%s' appears in more than one multilib." % tune)
+>              else:
 
-[YOCTO #3297]
+Sorry but this isn't right. The multilib case is special since it sets
+"class-multilib-xxx", not "class-multilib" without the suffix. The above
+changes are just going to confuse people and depending on what you do in
+other patches, may or may not work.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can you resend the patch set just changing the native/nativesdk values
+please? We can then look at multilib specifically as a follow up.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 089b9a4..c88b77a 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -23,7 +23,7 @@ CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_END
- 
- # Avoid binaries being marked as requiring an executable stack (which causes 
- # issues with SELinux on the host)
--CFLAG_append_virtclass-native = " -Wa,--noexecstack"
-+CFLAG_append_class-native = " -Wa,--noexecstack"
- 
- # -02 does not work on mipsel: ssh hangs when it tries to read /dev/urandom
- CFLAG_mtx-1 := "${@'${CFLAG}'.replace('-O2', '')}"
--- 
-1.7.11.2
+Cheers,
+
+Richard
 
 
 
