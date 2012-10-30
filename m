@@ -1,41 +1,37 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TT8zJ-0004IL-JS
+	(envelope-from <ml@communistcode.co.uk>) id 1TT93w-0004Ni-8F
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 11:24:01 +0100
-Received: by mail-vb0-f47.google.com with SMTP id ez10so72954vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 03:10:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=MBaDXYhH2id1ovgd4p6cMxm/SqoTdzRZobDrk5sUugk=;
-	b=oHrKXZgjTvoc54FpHEC6lLyqD8cYllG6ACIfAyxM0TxH7bqaY6NkT2eyT9YWr457b6
-	j75FIYWqSgDCzMicRrbvaOYJioViZkUrLnScEwEPes8JJhv3oLtnAxUOBH43gNIU6tIY
-	PYTcUIXcbR0Lpxe/uzc8ahhN468/K15tQI02hQZ0Z6xh+y5mC8VpvBPQ7WUKu1V5jwRR
-	8wk3TMsIKLxaxAZUYwTN2L4t3b1DypcNJQ25OmLSX0qOc5+XPK+9bbFkSM5uN0DTa5y5
-	hNeIZFnomsoNn9OhPAJPwuJkmne15i5k/O5NP1uWRk+bB0fCHS8s1Sdkqp8yhFBGeLkv
-	Twww==
-Received: by 10.52.30.39 with SMTP id p7mr44206095vdh.16.1351591825993; Tue,
-	30 Oct 2012 03:10:25 -0700 (PDT)
+	Tue, 30 Oct 2012 11:28:48 +0100
+Received: from localhost ([127.0.0.1]:46154 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TT8qm-0002CC-9b
+	for openembedded-core@lists.openembedded.org;
+	Tue, 30 Oct 2012 10:15:12 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:content-type
+	:content-transfer-encoding; s=default; bh=nJuKLoZAGd+Q2osmQ4vZKs
+	wApO4=; b=AvJt7k2abzmIDMrg2iRw7CT4L2UKB4pvcbmb+BXaGBKdnsDPpBVoEG
+	3qpQYXdcvVB5E1SLbmoZP96K2MNEgnUcI5wZPOKoTgevZqu3SE4jj63KMLB/m0ib
+	rA5YFsxJOjtjlc9B0nz2MD5z4+v2u5aYti0eKYCCZk0KzRWgnFa+Y=
+Received: from [195.171.99.130] (port=60510 helo=[192.168.0.60])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TT8qm-0002C9-7O
+	for openembedded-core@lists.openembedded.org;
+	Tue, 30 Oct 2012 10:15:12 +0000
+Message-ID: <508FA924.4030301@communistcode.co.uk>
+Date: Tue, 30 Oct 2012 10:17:08 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121012 Thunderbird/16.0.1
 MIME-Version: 1.0
-Received: by 10.59.0.10 with HTTP; Tue, 30 Oct 2012 03:10:05 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-In-Reply-To: <CAJTo0LZ=t_sWFtkbdt=uwyCEGuMmHnWdu7cO3=qMmseiMtVTHQ@mail.gmail.com>
-References: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
-	<CAK18fxFzwdCszev=Ss+rMdytAqUgDcnA4e9HEC4_psz2SAJbxw@mail.gmail.com>
-	<CAJTo0LZ=t_sWFtkbdt=uwyCEGuMmHnWdu7cO3=qMmseiMtVTHQ@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Tue, 30 Oct 2012 12:10:05 +0200
-Message-ID: <CAK18fxGFUy_+pzBvGtvknjj3AQFkGqBA6mjkHDgJTamXOMr5RQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnpTwKMIoBEQFhZMuzAVmJngauqWl6RkeUCaOQ5t+FnMZEIYcBPn76BFFMBPXBlE3ZDwhQj
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] pulseaudio: add GConf dependency
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Removing netbase from an image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -45,47 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 10:24:01 -0000
-Content-Type: multipart/alternative; boundary=20cf3079bebaab71f204cd43fe57
+X-List-Received-Date: Tue, 30 Oct 2012 10:28:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---20cf3079bebaab71f204cd43fe57
-Content-Type: text/plain; charset=ISO-8859-1
+I am attempting to remove netbase from a custom image. I would like to 
+replace it with connman. I have added connman through 
+EXTRA_IMAGE_INSTALL, however netbase is brought in via 
+packagegroup-core-boot.bb which funnily enough has some very important 
+features and I would like to keep.
 
-On Tue, Oct 30, 2012 at 12:02 PM, Burton, Ross <ross.burton@intel.com>wrote:
+What would be the best way to make this replacement. Should I copy 
+packagegroup-core-boot.bb and keep a local copy, while keeping it in 
+sync manually? Alternatively, I notice quite a few packages in 
+packagegroup-core-boot have a VIRTUAL-RUNTIME_* define. Would it be 
+worth having a VIRTUAL-RUNTIME_network ?= "netbase" which could be 
+overridden?
 
-> On 30 October 2012 09:59, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> > This commit made pulseaudio unbuildable for builds with no GPLv3
-> packages.
->
-> What causes gconf to not build without GPLv3?
->
+Thoughts?
 
-pulseaudio depends on gconf (because of that racing issues). Now, gconf
-inherits gnomebase which adds to gconf's DEPENDS gnome-common package which
-is GPLv3. So this is the chain.
+-- 
 
-ag
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
 
---20cf3079bebaab71f204cd43fe57
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+--
 
-<div class=3D"gmail_quote">On Tue, Oct 30, 2012 at 12:02 PM, Burton, Ross <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_bl=
-ank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
 
-On 30 October 2012 09:59, Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherz=
-an.ro">andrei@gherzan.ro</a>&gt; wrote:<br>
-&gt; This commit made pulseaudio unbuildable for builds with no GPLv3 packa=
-ges.<br>
-<br>
-What causes gconf to not build without GPLv3?<br></blockquote><div><br></di=
-v><div>pulseaudio depends on gconf (because of that racing issues). Now, gc=
-onf inherits gnomebase which adds to gconf&#39;s DEPENDS=A0gnome-common pac=
-kage which is GPLv3. So this is the chain.=A0</div>
 
-<div><br></div><div>ag</div></div>
-
---20cf3079bebaab71f204cd43fe57--
