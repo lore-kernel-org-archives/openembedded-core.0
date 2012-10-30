@@ -1,38 +1,38 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TTAG1-0006Du-9K
+	(envelope-from <ross.burton@intel.com>) id 1TTAlH-0007Ck-1k
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 12:45:21 +0100
-Received: from mail-ea0-f197.google.com ([209.85.215.197])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 30 Oct 2012 04:31:43 -0700
-Received: by mail-ea0-f197.google.com with SMTP id i1so143717eaa.0
+	Tue, 30 Oct 2012 13:17:39 +0100
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 30 Oct 2012 05:04:00 -0700
+Received: by mail-bk0-f69.google.com with SMTP id jg15so170560bkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 04:31:41 -0700 (PDT)
+	Tue, 30 Oct 2012 05:03:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=pXvgCIfdhDWwQFvNoyG9jrHhSjJU5T9g/9tJWirjpTo=;
-	b=QCVNaIc43Y5isVaJay5mszyYGjIh7HGxq97Oj1kj/mFf7TuXpc5sReGMPyPW3J5bwh
-	XoHNDl5Uc5E0XPpXdICgxWUxdkOV4I+0hR7YJ7OSvVizmE5HDuk7yojbhVwZFels83p6
-	wjBprniVbjUTLmrZG7E7xrTuQtE1xaAdXyaVjHr0dm6DovgwToAL/JXzCZFpWoxej0sa
-	+F92GJ4YrYGTtwXs2FzmX3eLBFfLypuDHonnS+gTlUP3nbsLLrLJlNVWGQMWxbVPg0D4
-	SOHOq3jNMVYH/h6k/dAk29Ue/lD8y/41Ozd1GLGu/rFvl+SDSKM/onfMgz3oI2XO4IzR
-	VjWA==
-Received: by 10.216.135.85 with SMTP id t63mr16897658wei.93.1351596701875;
-	Tue, 30 Oct 2012 04:31:41 -0700 (PDT)
-Received: by 10.216.135.85 with SMTP id t63mr16897655wei.93.1351596701792;
-	Tue, 30 Oct 2012 04:31:41 -0700 (PDT)
+	bh=bMuGq+Li+xYJrexfEVLxrnwQSX/fjSjRgQGwxOnyeNM=;
+	b=CALbCLYO4RPJb6xzuSDWOJuQJplA7lI8Joq6pcMGI5LxhZyHl1ShpCTGO4sNsvV0TR
+	HKVZeqIe/4jT8fuNWkz3UEw+M9AX3x5XDYXc8l7V3oCGO0D+vz/tf3lmYFYw1yuQuNW+
+	TtjLu26kQv2G7nIB6fchK4qHuvfZGrGpvqpqQgQRuXIWqu77fqNA9XR6AqsXlyPj9KIZ
+	LDLZ6zwHo98fYVsSoN94+6lDM+eTtPNna8zEpc2WQ2fOmnVSCtCqEWkr12ijinLhPbHL
+	B7XUwYMPKsyrZcaqQnOQCeJG3VojsBHWizjNRK896JfePU2RFgmuzYmVPIwb6Vy2C1ZX
+	64Qw==
+Received: by 10.180.91.71 with SMTP id cc7mr2426142wib.2.1351598639061;
+	Tue, 30 Oct 2012 05:03:59 -0700 (PDT)
+Received: by 10.180.91.71 with SMTP id cc7mr2426130wib.2.1351598638978;
+	Tue, 30 Oct 2012 05:03:58 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id dm3sm793471wib.3.2012.10.30.04.31.40
+	by mx.google.com with ESMTPS id ei1sm899560wid.7.2012.10.30.05.03.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 30 Oct 2012 04:31:40 -0700 (PDT)
+	Tue, 30 Oct 2012 05:03:58 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Oct 2012 11:30:26 +0000
-Message-Id: <1351596626-6603-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 30 Oct 2012 12:02:45 +0000
+Message-Id: <1351598565-7424-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmc05H8eTohL3ccvaqSKBwQXgYA2QQD3hzMwnuQqv/c8WbOrQvZ7FJVgLIBxjDyRD7Vk2SPVf2Pn0yUDt9Drc6Q/pHIQq8qik3jYwiLKW4fKravZwIk5uCaPMo/NxPEXRHjupgYypiIEZt7wRM28Pzd8cK/V6A3I5Nsd/hgTh+0+WfSV04shYwhXx8cFIKg46ON3z6p
-Subject: [PATCH] gnomebase: depend on gnome-common-native
+X-Gm-Message-State: ALoCoQkk+EymMsmHYbf4kLoMzsZKADLHy6DHD/kpqGTUNuZM3S5RESeWWul6HJ+WxOz+VjOXk6STNvFtPgm8oRZne9wXsoIPC59D+A0dnskVPbIkFklAxr1RSEEtLbC4zVljhK9yK7VZ6SnIXpe4daVzSvRn6p0BjlY5R3FKiq4/UMMMW6IW2eNSAt/J82ZwHoR/c++wZBQv
+Subject: [PATCH] gnome-common: Fix license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,33 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 11:45:21 -0000
+X-List-Received-Date: Tue, 30 Oct 2012 12:17:39 -0000
 
-gnome-common is a build-only dependency so we should depend on the native
-variant.  This also resolves an (incorrect) GPLv3 license issue in gnome-common
-at build-time.
+gnome-common 2.28 is GPLv2+.  From Christian Persch, upstream:
 
-This will also remove the pointless gnome-common-dev RRECOMMENDS in any -dev
-package that uses gnomebase.
+  The licence is presumed GPL2+, although it's not there explicitly.  GPL2+
+  because as far as I could figure out when I tried to, gnome-autogen started in
+  gnome-core which had a GPL2 COPYING file.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/gnomebase.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-gnome/gnome/gnome-common_2.28.0.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-index 19c7f71..91c476c 100644
---- a/meta/classes/gnomebase.bbclass
-+++ b/meta/classes/gnomebase.bbclass
-@@ -7,7 +7,7 @@ GNOME_COMPRESS_TYPE ?= "bz2"
- SECTION ?= "x11/gnome"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
+diff --git a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb b/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
+index 8936dbd..e094ccf 100644
+--- a/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
++++ b/meta/recipes-gnome/gnome/gnome-common_2.28.0.bb
+@@ -2,11 +2,11 @@ DESCRIPTION = "Common macros for building GNOME applications"
+ HOMEPAGE = "http://www.gnome.org/"
+ BUGTRACKER = "https://bugzilla.gnome.org/"
  
--DEPENDS += "gnome-common"
-+DEPENDS += "gnome-common-native"
+-LICENSE = "GPLv3"
++LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- FILES_${PN} += "${datadir}/application-registry  \
- 	${datadir}/mime-info \
+ SECTION = "x11/gnome"
+-PR = "r1"
++PR = "r3"
+ inherit gnome allarch
+ 
+ # The omf.make file failed if scrollkeeper doesn't happen to be
 -- 
 1.7.10
 
