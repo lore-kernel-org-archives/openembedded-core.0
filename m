@@ -1,25 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TTJg0-000337-I6
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 22:48:48 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9ULZAv1006071
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 14:35:10 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 30 Oct 2012 14:35:10 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Oct 2012 16:45:01 -0500
-Message-ID: <1351633501-5701-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	(envelope-from <andrei@gherzan.ro>) id 1TTLTF-00058R-Fk
+	for openembedded-core@lists.openembedded.org;
+	Wed, 31 Oct 2012 00:43:45 +0100
+Received: by mail-vc0-f175.google.com with SMTP id p1so955317vcq.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Oct 2012 16:30:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=Z4zJxQsax8cBD4T+qplwsA663ypM0OIWU9JLtPS2oA4=;
+	b=Opz6psiXavHPvsIxO/GtuTMVy0cVoX54HUhzAKYlu83JtKJkzyBUI8w8fOIEcR6Gfj
+	PrrJZNuYQdL3VeOGlaciyxtqT7WAMOo1E85kXct3TzdfaPPw6L6ztlMZfYZeMVd/n0LO
+	qNpu/u0VhkkbnBOuhD9x5qckQ4tRVT8TvmtorCfqakZNnnDKye7TOqTtZkC5EvRDRqKZ
+	XC1Okx2nHlPQoM3/DlnTlBrNEDt5ltb2sks1BUjQHVDr79gkviK42oNtshG+Z/HvyRx4
+	rYk4AZJkPZp84IcvjDnu+kq3omq55JkEEDMXiXqunWBxTofZytuhbhqQOdbokFcDf91R
+	BqIA==
+Received: by 10.58.200.39 with SMTP id jp7mr8402171vec.26.1351639809161; Tue,
+	30 Oct 2012 16:30:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] rpm: Slightly change the way python-rpm is constructed
+Received: by 10.59.0.10 with HTTP; Tue, 30 Oct 2012 16:29:48 -0700 (PDT)
+X-Originating-IP: [5.13.215.9]
+In-Reply-To: <1351596626-6603-1-git-send-email-ross.burton@intel.com>
+References: <1351596626-6603-1-git-send-email-ross.burton@intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Wed, 31 Oct 2012 01:29:48 +0200
+Message-ID: <CAK18fxG12=LiGzfjpisrVHFHF5Z6qsq2v5bYBeARWNG7fry1Vg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkjgm8F0SfY8XE6VqAu9q0L0xLRDk0u7N6/sMS7PdM4s2O0Xev4Fdp9ZVAA+iOvJccdara4
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gnomebase: depend on gnome-common-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,118 +43,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 21:48:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Oct 2012 23:43:45 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc06aab07ab604cd4f2ad9
 
-If python support is enabled we want to make sure that the RPM python support
-is packaged properly.
+--047d7bdc06aab07ab604cd4f2ad9
+Content-Type: text/plain; charset=ISO-8859-1
 
-Move the components into the site-packages directory, move the .la files to a
-new -dev package.
-
-Add "rpm" as a dependency of python-rpm, otherwise rpm and the associated
-libraries won't be available.
-
-Fixup python wrapper to handle automatic relocation, as supported by the
-vendor WINDRIVER configuration.  (Based on a patch from Paul Eggleton)
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/rpm/rpm/rpm-py-init.patch |   27 +++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb          |   16 ++++++++-----
- 2 files changed, 37 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
-
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-py-init.patch b/meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
-new file mode 100644
-index 0000000..b65abc24
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
-@@ -0,0 +1,27 @@
-+python/rpmmodules.c: Change the way the python module loads the RPM config
-+
-+In order to support the RPM_VENDOR_WINDRIVER enhancement of dynamic
-+runtime relocation paths, we need to call rpmcliInit instead of 
-+rpmReadConfigFiles.  The rpmcliInit will end up calling rpmReadConfigFiles
-+after the necessary relocation processing (if enabled).
-+
-+Code derived from changes suggested by Paul Eggleton.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff --git a/python/rpmmodule.c b/python/rpmmodule.c
-+index f7282bc..dde68ca 100644
-+--- a/python/rpmmodule.c
-++++ b/python/rpmmodule.c
-+@@ -392,7 +392,8 @@ void init_rpm(void)
-+     if (Py_AtExit(rpm_exithook) == -1)
-+ 	return;
-+ 
-+-    rpmReadConfigFiles(NULL, NULL);
-++    const char *argv[1] = {"rpmmodule", 0};
-++    rpmcliInit(1, argv, NULL);
-+ 
-+     d = PyModule_GetDict(m);
-+ 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index e838f40..ee28061 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
--PR = "r52"
-+PR = "r53"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -80,6 +80,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
- 	   file://makefile-am-exec-hook.patch \
- 	   file://rpm-stub-out-git_strerror.patch \
- 	   file://rpm-db_buffer_small.patch \
-+	   file://rpm-py-init.patch \
- 	  "
- 
- SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
-@@ -107,7 +108,7 @@ PACKAGECONFIG[xar] = "--with-xar,--without-xar,xar,"
- 
- WITH_PYTHON = " --with-python=${PYTHON_BASEVERSION} \
- 		--with-python-inc-dir=${STAGING_INCDIR}/python${PYTHON_BASEVERSION} \
--		--with-python-lib-dir=${libdir}/python${PYTHON_BASEVERSION} \
-+		--with-python-lib-dir=${libdir}/python${PYTHON_BASEVERSION}/site-packages \
- 		--without-pythonembed"
- PACKAGECONFIG[python] = "${WITH_PYTHON},--without-python,python,"
- 
-@@ -189,7 +190,7 @@ CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE"
- 
- LDFLAGS_append_libc-uclibc = "-lrt -lpthread"
- 
--PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
-+PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm-dev python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
- 
- SOLIBS = "5.4.so"
- 
-@@ -302,9 +303,12 @@ RDEPENDS_${PN} = "base-files"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}-build = "file"
- 
--FILES_python-rpm-dbg = "${libdir}/python*/rpm/.debug/_*"
--FILES_python-rpm-staticdev = "${libdir}/python*/rpm/*.a"
--FILES_python-rpm = "${libdir}/python*/rpm"
-+RDEPENDS_python-rpm = "${PN}"
-+
-+FILES_python-rpm-dbg = "${libdir}/python*/site-packages/rpm/.debug/_*"
-+FILES_python-rpm-dev = "${libdir}/python*/site-packages/rpm/*.la"
-+FILES_python-rpm-staticdev = "${libdir}/python*/site-packages/rpm/*.a"
-+FILES_python-rpm = "${libdir}/python*/site-packages/rpm"
- 
- FILES_perl-module-rpm = "${libdir}/perl/*/* \
- 		"
--- 
-1.7.3.4
+Acked.
 
 
+On Tue, Oct 30, 2012 at 1:30 PM, Ross Burton <ross.burton@intel.com> wrote:
 
+> gnome-common is a build-only dependency so we should depend on the native
+> variant.  This also resolves an (incorrect) GPLv3 license issue in
+> gnome-common
+> at build-time.
+>
+> This will also remove the pointless gnome-common-dev RRECOMMENDS in any
+> -dev
+> package that uses gnomebase.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/gnomebase.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/gnomebase.bbclass
+> b/meta/classes/gnomebase.bbclass
+> index 19c7f71..91c476c 100644
+> --- a/meta/classes/gnomebase.bbclass
+> +++ b/meta/classes/gnomebase.bbclass
+> @@ -7,7 +7,7 @@ GNOME_COMPRESS_TYPE ?= "bz2"
+>  SECTION ?= "x11/gnome"
+>  SRC_URI =
+> "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
+>
+> -DEPENDS += "gnome-common"
+> +DEPENDS += "gnome-common-native"
+>
+>  FILES_${PN} += "${datadir}/application-registry  \
+>         ${datadir}/mime-info \
+> --
+> 1.7.10
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+--047d7bdc06aab07ab604cd4f2ad9
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Acked.<br>
+<br><br><div class=3D"gmail_quote">On Tue, Oct 30, 2012 at 1:30 PM, Ross Bu=
+rton <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+
+gnome-common is a build-only dependency so we should depend on the native<b=
+r>
+variant. =A0This also resolves an (incorrect) GPLv3 license issue in gnome-=
+common<br>
+at build-time.<br>
+<br>
+This will also remove the pointless gnome-common-dev RRECOMMENDS in any -de=
+v<br>
+package that uses gnomebase.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;<br>
+---<br>
+=A0meta/classes/gnomebase.bbclass | =A0 =A02 +-<br>
+=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclas=
+s<br>
+index 19c7f71..91c476c 100644<br>
+--- a/meta/classes/gnomebase.bbclass<br>
++++ b/meta/classes/gnomebase.bbclass<br>
+@@ -7,7 +7,7 @@ GNOME_COMPRESS_TYPE ?=3D &quot;bz2&quot;<br>
+=A0SECTION ?=3D &quot;x11/gnome&quot;<br>
+=A0SRC_URI =3D &quot;${GNOME_MIRROR}/${BPN}/${@gnome_verdir(&quot;${PV}&quo=
+t;)}/${BPN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=3Darchive&quot;<br>
+<br>
+-DEPENDS +=3D &quot;gnome-common&quot;<br>
++DEPENDS +=3D &quot;gnome-common-native&quot;<br>
+<br>
+=A0FILES_${PN} +=3D &quot;${datadir}/application-registry =A0\<br>
+=A0 =A0 =A0 =A0 ${datadir}/mime-info \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.7.10<br>
+<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</font></span></blockquote></div><br>
+
+--047d7bdc06aab07ab604cd4f2ad9--
