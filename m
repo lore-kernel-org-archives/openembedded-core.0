@@ -1,28 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@WINDRIVER.COM>) id 1TT74k-0001AE-Kz
-	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 09:21:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q9U87qDH016777
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Oct 2012 01:07:53 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 30 Oct 2012 01:07:52 -0700
-Message-ID: <508F8AD7.2000006@windriver.com>
-Date: Tue, 30 Oct 2012 16:07:51 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: Andrea Adami <andrea.adami@gmail.com>
-References: <CAAQYJAtxfQDkODhaPZP1Z8honP1azA1B6PuQ_DfjtuB--8YnvA@mail.gmail.com>
-In-Reply-To: <CAAQYJAtxfQDkODhaPZP1Z8honP1azA1B6PuQ_DfjtuB--8YnvA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: devshell spawning twice
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TT77b-0001Ec-Dg for openembedded-core@lists.openembedded.org;
+	Tue, 30 Oct 2012 09:24:27 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9U8AoQW014164;
+	Tue, 30 Oct 2012 08:10:50 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12522-04; Tue, 30 Oct 2012 08:10:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9U8AhTl014158
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 30 Oct 2012 08:10:44 GMT
+Message-ID: <1351584642.2828.58.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <philb@gnu.org>
+Date: Tue, 30 Oct 2012 08:10:42 +0000
+In-Reply-To: <1351534455.13864.25.camel@phil-desktop>
+References: <1351534455.13864.25.camel@phil-desktop>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools: Attempt to clean build directory when rerunning configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 08:21:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 30 Oct 2012 08:24:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2012-10-29 at 18:14 +0000, Phil Blundell wrote:
+> Existing logic in autotools_preconfigure() will clean the build directory
+> before rerunning configure in the case where ${S} != ${B}.  It is, however,
+> desirable to make at least some attempt to clean the build artifacts for
+> in-tree builds since many packages lack the appropriate dependency rules
+> to force a recompile if (for example) CFLAGS has changed.  Making distclean
+> would be better but is not practical because many packages don't support it
+> properly.  Even "make clean" is not universally available, so we ignore any
+> failure from that command and just carry on regardless.
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/classes/autotools.bbclass |   13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 
-I met the same problem on openSUSE 12.1 64 bit.
+How extensively has this been tested? I have a suspicion that we might
+run into a number of issues doing this throughout the tree :(
 
-I used ssh -X to opensuse, and my client is Ubuntu 11.10 32bit
+I'm wondering how many recipes will suffer from issues with "make clean"
+verses how many recipes would struggle if we defaulted ${B} != ${S}?
 
-// Robert
+Cheers,
 
-On 10/28/2012 07:55 AM, Andrea Adami wrote:
-> Since commit c76da87511d2668479745c2f18b8a9b8116c7489 (terminal: Add
-> support for running custom terminals.) screen opens also in the master
-> terminal, waiting for input.
->
-> Reverting the patch fixes the funny behavior.
->
-> This on Gentoo, using xterm.
->
-> Regards
->
-> Andrea
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+Richard
+
+
+> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+> index b97d74b..6539df9 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -93,10 +93,15 @@ CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+>  
+>  autotools_preconfigure() {
+>  	if [ -n "${CONFIGURESTAMPFILE}" -a -e "${CONFIGURESTAMPFILE}" ]; then
+> -		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a "${S}" != "${B}" ]; then
+> -			echo "Previously configured separate build directory detected, cleaning ${B}"
+> -			rm -rf ${B}
+> -			mkdir ${B}
+> +		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
+> +			if [ "${S}" != "${B}" ]; then
+> +				echo "Previously configured separate build directory detected, cleaning ${B}"
+> +				rm -rf ${B}
+> +				mkdir ${B}
+> +			else
+> +				echo "Previously configured source directory detected, cleaning ${S}"
+> +				( oe_runmake clean ) || true
+> +			fi
+>  		fi
+>  	fi
+>  }
+
+
 
 
