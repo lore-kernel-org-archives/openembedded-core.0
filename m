@@ -1,40 +1,40 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TT9B9-0004Yh-EV
+	(envelope-from <andrei@gherzan.ro>) id 1TT9Jc-0004iV-HE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 11:36:15 +0100
-Received: from mail-ia0-f197.google.com ([209.85.210.197])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 30 Oct 2012 03:22:38 -0700
-Received: by mail-ia0-f197.google.com with SMTP id j5so158926iaf.0
+	Tue, 30 Oct 2012 11:45:00 +0100
+Received: by mail-vc0-f175.google.com with SMTP id p1so91316vcq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 03:22:36 -0700 (PDT)
+	Tue, 30 Oct 2012 03:31:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=dIiy//WCrZA88MgJdoA31AOllWRr9YVXthX0FeIzLwU=;
-	b=CouW3otzjhN9CewnsKyOwLsxzbMmm9FpVCZ1QD4XYd+B1EWt2XCoJTfJPTM5hzjxrO
-	XF7DgOXMMewCk8h99V6eO3r72bWw3Y7dpHTxgmIE4pqZG++h/F2RdIPs8Ydp0V8MSNRD
-	YZBXkDTEuieNB6gQhPvPUkoeujB65GCTw3TX4JvVowuC2DcjNL0AUa6gS/+RViBPngq/
-	qzVJx7iZb1KENdL1dStL6rmcPhBjE356ldoKmTCDGQJWvAIIslqfLf5tGeYiacsWppS/
-	u+HIJhq3CS6zvZOM15whhnwfeu95VqBqhjvCIiJ5Oaf/70fK+MNyFJRq+GXp7Znmtl9K
-	wV9g==
-Received: by 10.60.32.210 with SMTP id l18mr28904148oei.79.1351592556718;
-	Tue, 30 Oct 2012 03:22:36 -0700 (PDT)
-Received: by 10.60.32.210 with SMTP id l18mr28904145oei.79.1351592556665; Tue,
-	30 Oct 2012 03:22:36 -0700 (PDT)
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=fwl4V16X2ElllQqCgaXmjKbArVuCnpTAOjTbvJqY2Z8=;
+	b=T4q7TbQ66Xa8Mh4PSqaQIRCRXizJ1ho7T/NNmDcdD+pe8imAP1/Ys4VvybuB/cWDc4
+	/fYrmg9JB2Bc91fz5DckCvehGuQDy71e3j8lrofJk0PQjOkK5vhoHIU94Y3H4r/r2gmp
+	1R6ZU+ptZazoOJcMMsIvfBZeq2hXHFrXVhhQWOdgttVjZDZyoXZ1gaODA0n92s4cFDaG
+	ezYobtCQzH9GDDSttioK8q0ejrXsJ7wh97E5NwX6o+z3SjAqEHvHKn3NeIjHvbj1FP5/
+	TQA+tNq8KCHrp1g7NUhLuqIIxELdTD63GHtvEHxJifmIoklff9ZrDGkOvrv/BknY2Ji/
+	VDJw==
+Received: by 10.220.154.68 with SMTP id n4mr12853775vcw.22.1351593085001; Tue,
+	30 Oct 2012 03:31:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.182.68.135 with HTTP; Tue, 30 Oct 2012 03:22:16 -0700 (PDT)
-In-Reply-To: <508FA924.4030301@communistcode.co.uk>
-References: <508FA924.4030301@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Oct 2012 10:22:16 +0000
-Message-ID: <CAJTo0LZg4x6GpDHAop6aCMNfOE-zK_hnr=T4SxfgSYEucRVWkA@mail.gmail.com>
-To: ml@communistcode.co.uk
-X-Gm-Message-State: ALoCoQkaousDBy9HcXYO1A3AkvrIlljyKavERegVxZUvX1nGMkzK6HNpSvFY92qznB8DwZmfMZVqYnRZjblQnu2n9VohwaqRtbyIM8ecXYVFuPYKva+IiY4q/TYqd/hlvywG/YxgBaQnshda9tvzRRdcI/7EPARxJzrQ8pLYSKtd6fRP+Ji8lRO3GcnQk0sPm/rfhytRPHGV
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Removing netbase from an image
+Received: by 10.59.0.10 with HTTP; Tue, 30 Oct 2012 03:31:04 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <CAJTo0LZcHi16POq8_bQpURnjLxvj7fy=9m_LX27+Nz_RADQT2w@mail.gmail.com>
+References: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
+	<CAK18fxFzwdCszev=Ss+rMdytAqUgDcnA4e9HEC4_psz2SAJbxw@mail.gmail.com>
+	<CAJTo0LZ=t_sWFtkbdt=uwyCEGuMmHnWdu7cO3=qMmseiMtVTHQ@mail.gmail.com>
+	<CAK18fxGFUy_+pzBvGtvknjj3AQFkGqBA6mjkHDgJTamXOMr5RQ@mail.gmail.com>
+	<CAJTo0LZcHi16POq8_bQpURnjLxvj7fy=9m_LX27+Nz_RADQT2w@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 30 Oct 2012 12:31:04 +0200
+Message-ID: <CAK18fxFcMPNVPXy6QcFAKAUmgyF83fBAX_BdUS8nLG=f=KQgyw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQl5PwlIZfFxKLpXOLBjdo9swKS92QEq911RNHzZZZCbX1xh8UYylw1uthw2dB49hS6jXv8M
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] pulseaudio: add GConf dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,31 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 10:36:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 30 Oct 2012 10:45:00 -0000
+Content-Type: multipart/alternative; boundary=f46d043be0beb65f5504cd444925
 
-On 30 October 2012 10:17, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> I am attempting to remove netbase from a custom image. I would like to
-> replace it with connman. I have added connman through EXTRA_IMAGE_INSTALL,
-> however netbase is brought in via packagegroup-core-boot.bb which funnily
-> enough has some very important features and I would like to keep.
+--f46d043be0beb65f5504cd444925
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Tue, Oct 30, 2012 at 12:19 PM, Burton, Ross <ross.burton@intel.com>wrote:
+
+> On 30 October 2012 10:10, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> >> What causes gconf to not build without GPLv3?
+> >
+> > pulseaudio depends on gconf (because of that racing issues). Now, gconf
+> > inherits gnomebase which adds to gconf's DEPENDS gnome-common package
+> which
+> > is GPLv3. So this is the chain.
 >
-> What would be the best way to make this replacement. Should I copy
-> packagegroup-core-boot.bb and keep a local copy, while keeping it in sync
-> manually? Alternatively, I notice quite a few packages in
-> packagegroup-core-boot have a VIRTUAL-RUNTIME_* define. Would it be worth
-> having a VIRTUAL-RUNTIME_network ?= "netbase" which could be overridden?
+> Oh joy, one of those instances where GPLv3 isn't actually a problem.
+>
+> gnome-common is some scripts and tools used at configure time, so
+> there isn't any linkage, so there isn't any GPLv3 in the images, so
+> there isn't a problem.
+>
+> The question is how do we express this?
+>
+>
+Should it be whitelisted?
+ag
 
-You don't want to remove netbase, you just want to remove the
-/etc/network/interfaces file.  The rest of netbase is very important
-to have.
+--f46d043be0beb65f5504cd444925
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Dig on the list and you'll find patches to split that file out but
-they didn't get into 1.3.  Unless you're working against master and
-willing to help get those patches tested and merged, the easy solution
-is to use a .bbappend and ship an empty interfaces file
-(meta-guacamayo does this if you want prior art).
+<div class=3D"gmail_quote">On Tue, Oct 30, 2012 at 12:19 PM, Burton, Ross <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_bl=
+ank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">
 
-Ross
+<div class=3D"im">On 30 October 2012 10:10, Andrei Gherzan &lt;<a href=3D"m=
+ailto:andrei@gherzan.ro">andrei@gherzan.ro</a>&gt; wrote:<br>
+&gt;&gt; What causes gconf to not build without GPLv3?<br>
+&gt;<br>
+&gt; pulseaudio depends on gconf (because of that racing issues). Now, gcon=
+f<br>
+&gt; inherits gnomebase which adds to gconf&#39;s DEPENDS gnome-common pack=
+age which<br>
+&gt; is GPLv3. So this is the chain.<br>
+<br>
+</div>Oh joy, one of those instances where GPLv3 isn&#39;t actually a probl=
+em.<br>
+<br>
+gnome-common is some scripts and tools used at configure time, so<br>
+there isn&#39;t any linkage, so there isn&#39;t any GPLv3 in the images, so=
+<br>
+there isn&#39;t a problem.<br>
+<br>
+The question is how do we express this?<br><br></blockquote><div>=A0</div><=
+div>Should it be whitelisted?=A0</div><div>ag</div></div>
 
-
+--f46d043be0beb65f5504cd444925--
