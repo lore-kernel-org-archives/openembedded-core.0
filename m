@@ -1,44 +1,38 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TT9mD-0005bX-72
+	(envelope-from <ross.burton@intel.com>) id 1TTAG1-0006Du-9K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 30 Oct 2012 12:14:33 +0100
-Received: from mail-ie0-f197.google.com ([209.85.223.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 30 Oct 2012 04:00:56 -0700
-Received: by mail-ie0-f197.google.com with SMTP id 9so346899iec.0
+	Tue, 30 Oct 2012 12:45:21 +0100
+Received: from mail-ea0-f197.google.com ([209.85.215.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 30 Oct 2012 04:31:43 -0700
+Received: by mail-ea0-f197.google.com with SMTP id i1so143717eaa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Oct 2012 04:00:55 -0700 (PDT)
+	Tue, 30 Oct 2012 04:31:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=KzOJYmf4pfA4sxu8yQk6F30jZLPxIKVcH0/9Cxz2m7k=;
-	b=aC8bMqoDZAvIF7W92ZPphYiguXAIn5c8ftP8fnRFrPZu4kzwHpxasHzT2SBvptbcv3
-	cSGp2V8J4wA6sEMtl4Oz23ItjfBoFEyyy+V6Co9E9Y1CELYQImjOwEvY8lCFpnXX62IQ
-	mP21sPtvA7a0Gn/u0B+coIFwA+jQDhIt1EZ0eT9lOS3Y3e97tGFfMsI98jlQ7I2uf9Sz
-	DJaFAxv6hsKM36SDQCI/hSOnCFtl/R9iYedtrj0H9IFxLQ+uju9HWupacJTPujL04ETw
-	0yt5s5OJkNc4v/aNAxY1Vh4F367HmPrsT0c2NrPNUQy4yejc164WBr9E2KeBWBi3OGTV
-	Vgvg==
-Received: by 10.50.237.6 with SMTP id uy6mr1066083igc.31.1351594855727;
-	Tue, 30 Oct 2012 04:00:55 -0700 (PDT)
-Received: by 10.50.237.6 with SMTP id uy6mr1066071igc.31.1351594855544; Tue,
-	30 Oct 2012 04:00:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.68.41 with HTTP; Tue, 30 Oct 2012 04:00:35 -0700 (PDT)
-In-Reply-To: <CAK18fxFcMPNVPXy6QcFAKAUmgyF83fBAX_BdUS8nLG=f=KQgyw@mail.gmail.com>
-References: <1351096656-32438-1-git-send-email-ross.burton@intel.com>
-	<CAK18fxFzwdCszev=Ss+rMdytAqUgDcnA4e9HEC4_psz2SAJbxw@mail.gmail.com>
-	<CAJTo0LZ=t_sWFtkbdt=uwyCEGuMmHnWdu7cO3=qMmseiMtVTHQ@mail.gmail.com>
-	<CAK18fxGFUy_+pzBvGtvknjj3AQFkGqBA6mjkHDgJTamXOMr5RQ@mail.gmail.com>
-	<CAJTo0LZcHi16POq8_bQpURnjLxvj7fy=9m_LX27+Nz_RADQT2w@mail.gmail.com>
-	<CAK18fxFcMPNVPXy6QcFAKAUmgyF83fBAX_BdUS8nLG=f=KQgyw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Oct 2012 11:00:35 +0000
-Message-ID: <CAJTo0LZ1=uTF26dn2MdE6ZwRgOYcVS9i-uqGWYab4uEXnAGTtA@mail.gmail.com>
-To: Andrei Gherzan <andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQkEr63vjA9mvmhE79OiAFmmKp5p83XYfY9xV4Uvp/yUZ9XDHJMnavOtJ6+3Qi4Oe03s0NeShDzM5i7zlrP9AtN/L/H7MTTEXcj0YcYqmOqinHHsbys1H4LpQCf8UP42AgT9ZGr2qVk5WGY4oV9yAmz3yBNEmR1VEI4MYE/ftmCidWEB0+o28YdTE/g77uslTuBVOjt8
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] pulseaudio: add GConf dependency
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=pXvgCIfdhDWwQFvNoyG9jrHhSjJU5T9g/9tJWirjpTo=;
+	b=QCVNaIc43Y5isVaJay5mszyYGjIh7HGxq97Oj1kj/mFf7TuXpc5sReGMPyPW3J5bwh
+	XoHNDl5Uc5E0XPpXdICgxWUxdkOV4I+0hR7YJ7OSvVizmE5HDuk7yojbhVwZFels83p6
+	wjBprniVbjUTLmrZG7E7xrTuQtE1xaAdXyaVjHr0dm6DovgwToAL/JXzCZFpWoxej0sa
+	+F92GJ4YrYGTtwXs2FzmX3eLBFfLypuDHonnS+gTlUP3nbsLLrLJlNVWGQMWxbVPg0D4
+	SOHOq3jNMVYH/h6k/dAk29Ue/lD8y/41Ozd1GLGu/rFvl+SDSKM/onfMgz3oI2XO4IzR
+	VjWA==
+Received: by 10.216.135.85 with SMTP id t63mr16897658wei.93.1351596701875;
+	Tue, 30 Oct 2012 04:31:41 -0700 (PDT)
+Received: by 10.216.135.85 with SMTP id t63mr16897655wei.93.1351596701792;
+	Tue, 30 Oct 2012 04:31:41 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dm3sm793471wib.3.2012.10.30.04.31.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 30 Oct 2012 04:31:40 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Oct 2012 11:30:26 +0000
+Message-Id: <1351596626-6603-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmc05H8eTohL3ccvaqSKBwQXgYA2QQD3hzMwnuQqv/c8WbOrQvZ7FJVgLIBxjDyRD7Vk2SPVf2Pn0yUDt9Drc6Q/pHIQq8qik3jYwiLKW4fKravZwIk5uCaPMo/NxPEXRHjupgYypiIEZt7wRM28Pzd8cK/V6A3I5Nsd/hgTh+0+WfSV04shYwhXx8cFIKg46ON3z6p
+Subject: [PATCH] gnomebase: depend on gnome-common-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,61 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Oct 2012 11:14:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 30 Oct 2012 11:45:21 -0000
 
-On 30 October 2012 10:31, Andrei Gherzan <andrei@gherzan.ro> wrote:
->> Oh joy, one of those instances where GPLv3 isn't actually a problem.
->>
->> gnome-common is some scripts and tools used at configure time, so
->> there isn't any linkage, so there isn't any GPLv3 in the images, so
->> there isn't a problem.
->>
->> The question is how do we express this?
->
-> Should it be whitelisted?
+gnome-common is a build-only dependency so we should depend on the native
+variant.  This also resolves an (incorrect) GPLv3 license issue in gnome-common
+at build-time.
 
-So I did some digging.  The file in git that is explicitly v3 only
-appeared in 3.6, so I considered reverting to 3.5.5 before it
-appeared.  Then I noticed that we're still shipping gnome-common 2.28
-from 2009, which doesn't have any v3 code in (to be honest it barely
-has any license at all, but it's definitely not v3.  I've pinged
-upstream.
+This will also remove the pointless gnome-common-dev RRECOMMENDS in any -dev
+package that uses gnomebase.
 
-The v3 license in the metadata came from:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/gnomebase.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit 8a2b4e2a5e85f4937e72f03e579b1aaa264074a1
-Author: Zhai Edwin <edwin.zhai@intel.com>
-Date:   Thu Jul 1 15:35:11 2010 +0800
+diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
+index 19c7f71..91c476c 100644
+--- a/meta/classes/gnomebase.bbclass
++++ b/meta/classes/gnomebase.bbclass
+@@ -7,7 +7,7 @@ GNOME_COMPRESS_TYPE ?= "bz2"
+ SECTION ?= "x11/gnome"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@gnome_verdir("${PV}")}/${BPN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
+ 
+-DEPENDS += "gnome-common"
++DEPENDS += "gnome-common-native"
+ 
+ FILES_${PN} += "${datadir}/application-registry  \
+ 	${datadir}/mime-info \
+-- 
+1.7.10
 
-    gnome-common: Fix the metadata
-
-    Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-
-diff --git a/meta/packages/gnome/gnome-common_2.20.0.bb
-b/meta/packages/gnome/gnome-common_2.20.0.bb
-index 075ac14..c2eae72 100644
---- a/meta/packages/gnome/gnome-common_2.20.0.bb
-+++ b/meta/packages/gnome/gnome-common_2.20.0.bb
-@@ -1,7 +1,11 @@
--LICENSE = "GPL"
-+DESCRIPTION = "Common macros for building GNOME applications"
-+HOMEPAGE = "http://www.gnome.org/"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
-+
-+LICENSE = "GPLv3"
-
-Looks like a misguided attempt at fixing a warning from not specifying
-what version of GPL was in use.  Traditionally the bulk of GNOME is
-LGPLv2.1
-
-But following the dependencies, gnomebase adds DEPENDS=gnome-common.
-Shouldn't that be gnome-common-native?  It won't make much difference
-to the structure of the sysroot as it's allarch already, but it makes
-it clear that in this instance it's a build dependency only.
-
-(patch coming)
-
-Ross
 
 
