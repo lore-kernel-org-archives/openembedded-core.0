@@ -1,58 +1,26 @@
-Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from plesk3.srihosting.com ([69.19.236.78])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TTe4J-0005fs-Bx
+	(envelope-from <tmiket@recipes4linux.com>) id 1TTedF-0006Y8-Ka
 	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Oct 2012 20:35:15 +0100
-Received: from mail140-tx2-R.bigfish.com (10.9.14.249) by
-	TX2EHSOBE004.bigfish.com (10.9.40.24) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 31 Oct 2012 19:21:37 +0000
-Received: from mail140-tx2 (localhost [127.0.0.1])	by
-	mail140-tx2-R.bigfish.com (Postfix) with ESMTP id AFC4F201D3;
-	Wed, 31 Oct 2012 19:21:37 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz98dI9371I1521I1432Izz1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839h8e2h8e3hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bhbe9i1155h)
-Received: from mail140-tx2 (localhost.localdomain [127.0.0.1]) by mail140-tx2
-	(MessageSwitch) id 1351711295383503_28549;
-	Wed, 31 Oct 2012 19:21:35 +0000 (UTC)
-Received: from TX2EHSMHS001.bigfish.com (unknown [10.9.14.245])	by
-	mail140-tx2.bigfish.com (Postfix) with ESMTP id 55FE080060;
-	Wed, 31 Oct 2012 19:21:35 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS001.bigfish.com
-	(10.9.99.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 31 Oct 2012 19:21:33 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.121]) by
-	039-SN1MMR1-005.039d.mgd.msft.net ([::1]) with mapi id 14.02.0318.003;
-	Wed, 31 Oct 2012 19:21:33 +0000
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] cryptodev kernel module recipe
-Thread-Index: AQHNts9wc2/Ph/iHv0quNrquEzw2EpfTp9SAgAAkUoA=
-Date: Wed, 31 Oct 2012 19:21:32 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A73BE8F@039-SN1MPN1-002.039d.mgd.msft.net>
-References: <1350554279-8975-1-git-send-email-yashpal.dutta@freescale.com>
-	<CADkTA4MzmofTtk7qvhU_2fsfKgmGRPmxf-zUzcj4FkzBDAP_rQ@mail.gmail.com>
-	<70CC66F5C30A414DADDA6973E4CA391A73724E@039-SN1MPN1-002.039d.mgd.msft.net>
-	<CADkTA4NBu0-M-N8VOQM470MgZszo5Bv+DXwmMazrqKKAxjVBSA@mail.gmail.com>
-In-Reply-To: <CADkTA4NBu0-M-N8VOQM470MgZszo5Bv+DXwmMazrqKKAxjVBSA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Wed, 31 Oct 2012 21:11:22 +0100
+Received: (qmail 12306 invoked by uid 48); 31 Oct 2012 12:57:42 -0700
+Received: from 69.199.146.210 ([69.199.146.210]) by
+	webmail.recipes4linux.com (Horde Framework) with HTTP; Wed, 31 Oct 2012
+	12:57:42 -0700
+Message-ID: <20121031125742.78794k4e3lgpz30g@webmail.recipes4linux.com>
+Date: Wed, 31 Oct 2012 12:57:42 -0700
+From: "T.Michael Turney" <tmiket@recipes4linux.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <20121030115615.77684awm7w5p1fqc@webmail.recipes4linux.com>
+	<1720082.VE0UplCuMC@helios>
+In-Reply-To: <1720082.VE0UplCuMC@helios>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Phillips Kim-R1AAHA <R1AAHA@freescale.com>,
-	Dutta Yashpal-B05456 <B05456@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cryptodev kernel module recipe
+User-Agent: Internet Messaging Program (IMP) H3 (4.3.6)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: gtk+ native recipe question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -62,119 +30,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2012 19:35:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <418ED2E288C9594FA18F3553508E88A6@mgd.freescale.com>
+X-List-Received-Date: Wed, 31 Oct 2012 20:11:22 -0000
+Content-Type: text/plain;
+ charset=ISO-8859-1;
+ DelSp="Yes";
+ format="flowed"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 31, 2012 at 12:11 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
+Quoting Paul Eggleton <paul.eggleton@linux.intel.com>:
+
+> Hi there,
 >
-> On Tue, Oct 30, 2012 at 2:50 PM, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
+> On Tuesday 30 October 2012 11:56:15 T.Michael Turney wrote:
+>> My first post, chose -core over -devel somewhat arbitrarily as I don't
+>> understand distinction of OE-classic yet.
+>
+> Basically, OE-Classic is largely unmaintained (aside from critical update=
+s to
+> the 2011.3-maintenance branch) and should not be used for new work - use =
+OE-
+> Core for that instead. So you're on the right path already :)
+>
+>> In order to get an existing OE system (builds on Fedora) to build correc=
+tly
+>> on 64-bit Ubuntu 12.04 I had to modify a number of recipe files.
+>
+> That's definitely not expected...
+
+These package recipes were modified for reason:
+gtk+  : issue mentioned in this post, pulling in host glib
+orc   : bad code in examples, honestly no idea how it built on Fedora
+pango : add libxrender-native to DEPENDS_virtclass-native
+perl  : change glibpth to reference Ubuntu 64-bit library paths
+soci  : added configure.in.patch to correctly set SQLITE3_DIRS, as =20
+with orc, no idea how this built on Fedora
+
+>
+>> In order to get native gtk+ to build I had to add no-demos.patch
+>> to SRC_URI_append.  The patch file already existed in recipes tree
+>> but wasn't being referenced in the .bb file.
 >>
->> On Thu, Oct 18, 2012 at 8:33 AM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->> > On Thu, Oct 18, 2012 at 5:57 AM, Yashpal Dutta
->> > <yashpal.dutta@freescale.com> wrote:
->> >> This is a /dev/crypto device driver, equivalent to those in OpenBSD o=
-r
->> >> FreeBSD.
->> >> The main idea is to access of existing ciphers in kernel space from
->> >> userspace,
->> >> thus enabling re-use of a hardware implementation of a cipher.
->> >
->> > I always use OCF for an overlapping set of functionality. To make this
->> > external
->> > module gracefully deal with a situation such as this, maybe a check fo=
-r
->> > OCF
->> > in the kernel config ?
->> >
->> > The same thing could be said about having a kernel with this
->> > functionality
->> > already integrated (I have several of those as well).
->> >
->> > That's a more general question about what's the best way to gracefully
->> > deal
->> > with out of tree modules detecting that they are being built against a
->> > kernel
->> > that already has the functionality merged. The easy answer is that
->> > it's something
->> > the distro maintainer needs to know, and manage, and maybe that's the
->> > final answer. But I'm more wondering about this with respect to
->> > inter-operability
->> > of layers, if something in a layer depends/rdepends on this module, it
->> > will be
->> > pulled in, and won't that limit the mix/match/stacking of the various
->> > layers ?
->> >
->> > I added Richard for comment on the above.
->> >
->> > But that of course raises the question, why should this be in oe-core
->> > versus
->> > something like OCF ? This is definitely simpler, but OCF has it's use
->> > cases and
->> > advantages as well, that are an overlapping set of functionality.
->> >
->> > I don't have all the answers, just plenty of questions :)
->>
->> I'm not overly familiar with OCF. Does this just RCONFLICT with ocf-linu=
-x?
+>> Second change was adding glib-2.0-native to DEPEND_virtclass-native in
+>> same file.
 >
+> So, the version in master and the danny branch (most recent stable, just
+> branched the other day) already includes this. Are you using a different
+> branch/release?
+
+We took snapshot at beginning of 2011, last commit in git tree prior
+to our mods is:
+
+af8541c1ba14f5b075f5fdf93fc7f0689656432c
+Author: Alex Ferguson <thoughtmonster@gmail.com>  2011-01-31 08:43:44
+
+I realize this somewhat limits interest in this issue, hence my original
+query to just better understand the build system and an idea of what I
+should be looking at in terms of bitbake/openembedded dependencies.
+
 >
-> I missed this yesterday, sorry about that. gmail just left this in the
-> thread and
-> not in my inbox .. but anyway.
->
-> I only see parts ocf in oe-core, but maybe I'm just not understanding wha=
+>> Problem was manifested with unresolved reference to g_bytes_unref when
+>> building gtk+ native.  Ubuntu 12.04 has more recent glib install than in
+>> OE project I'm building and g_bytes_unref is visible in host glib but no=
 t
-> the
-> recipe is doing (are you seeing more) ? i.e. ocf-linux is buried under th=
-e
-> open-ssl recipe, and really looks to be just providing headers.
+>> OE version.
+>>
+>> With this change and a few other similar minor changes in .bb files, the
+>> system builds.  However, the bitbake build line has to be invoked twice.
+>>
+>> For example, let's say I'm building foo-image and foo1-image, and I run:
+>>
+>> bitbake foo-image foo1-image
+>>
+>> This command fails building gtk+ native.
 >
-> I'm doing some builds now to learn more .. which I just did .. and from w=
-hat
-> I
-> can see, it is just the headers, which isn't all that useful without the
-> kernel
-> underpinning.
+> Fails how? Can you mention the actual error you're receiving?
 
-ocf-linux recipe does infact appear to be just headers. As far as what
-it's used for I'm not even sure. I'll ask the crypto guys to chime in
-here.
+This is tail-end of build log that fails, with last command-line =20
+issued from bitbake...
 
-> OCF does definitely accelerate openssl when properly used in both the ker=
-nel
-> and
-> userspace, but I'm not seeing the full offload kernel framework anywhere.
+| x86_64-linux-libtool: link: gcc -shared  -fPIC -DPIC  =20
+.libs/gtkimcontextxim.o .libs/imxim.o   -Wl,-rpath =20
+-Wl,home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1=
+-r10.4/gtk+-2.20.1/gdk-pixbuf/.libs -Wl,-rpath -Wl,home/tturney/gitrepos/be=
+ngalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r10.4/gtk+-2.20.1/gdk/.libs=
+ -Wl,-rpath -Wl,home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-n=
+ative-2.20.1-r10.4/gtk+-2.20.1/gtk/.libs -Wl,-rpath -Wl,/home/tturney/gitre=
+pos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib -Wl,-rpath -Wl,home/tturney/=
+gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib -L/home/tturney/gitrepo=
+s/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r10.4/gtk+-2.20.1/gdk-p=
+ixbuf/.libs -L/home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-na=
+tive-2.20.1-r10.4/gtk+-2.20.1/gdk/.libs -L/home/tturney/gitrepos/bengalbb/t=
+mp/sysroots/x86_64-linux/usr/lib ../../gdk-pixbuf/.libs/libgdk_pixbuf-2.0.s=
+o -L=3Dhome/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib -L/=
+/home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib ../../gdk=
+/.libs/libgdk-x11-2.0.so -L=3D/usr/lib ../../gtk/.libs/libgtk-x11-2.0.so /h=
+ome/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r10.=
+4/gtk+-2.20.1/gdk/.libs/libgdk-x11-2.0.so //home/tturney/gitrepos/bengalbb/=
+tmp/sysroots/x86_64-linux/usr/lib/libXext.so /home/tturney/gitrepos/bengalb=
+b/tmp/work/x86_64-linux/gtk+-native-2.20.1-r10.4/gtk+-2.20.1/gdk-pixbuf/.li=
+bs/libgdk_pixbuf-2.0.so //home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_6=
+4-linux/usr/lib/libpangocairo-1.0.so //home/tturney/gitrepos/bengalbb/tmp/s=
+ysroots/x86_64-linux/usr/lib/libatk-1.0.so //home/tturney/gitrepos/bengalbb=
+/tmp/sysroots/x86_64-linux/usr/lib/libcairo.so //home/tturney/gitrepos/beng=
+albb/tmp/sysroots/x86_64-linux/usr/lib/libpixman-1.so //home/tturney/gitrep=
+os/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libpng12.so //home/tturney/gi=
+trepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libX11.so //home/tturney/=
+gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libxcb.so //home/tturne=
+y/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libpthread-stubs.so /=
+/home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libXau.so=
+ //home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libXdmc=
+p.so //home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/lib=
+Xrender.so //home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/l=
+ib/libgio-2.0.so -lresolv //home/tturney/gitrepos/bengalbb/tmp/sysroots/x86=
+_64-linux/usr/lib/libpangoft2-1.0.so //home/tturney/gitrepos/bengalbb/tmp/s=
+ysroots/x86_64-linux/usr/lib/libpango-1.0.so //home/tturney/gitrepos/bengal=
+bb/tmp/sysroots/x86_64-linux/usr/lib/libfontconfig.so //home/tturney/gitrep=
+os/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libfreetype.so //home/tturney=
+/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libz.so //home/tturney=
+/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libexpat.so //home/ttu=
+rney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libgobject-2.0.so =
+//home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib/libgmodu=
+le-2.0.so -ldl //home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/u=
+sr/lib/libgthread-2.0.so -lpthread -lrt //home/tturney/gitrepos/bengalbb/tm=
+p/sysroots/x86_64-linux/usr/lib/libglib-2.0.so -lm  -O2 -Wl,-rpath-link -Wl=
+,/home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib -Wl,-rpa=
+th -Wl,/home/tturney/gitrepos/bengalbb/tmp/sysroots/x86_64-linux/usr/lib -W=
+l,-O1 -pthread   -pthread -Wl,-soname -Wl,im-xim.so -o =20
+.libs/im-xim.so
+| x86_64-linux-libtool: link: ( cd ".libs" && rm -f "im-xim.la" && ln =20
+-s "../im-xim.la" "im-xim.la" )
+| ../../gtk/gtk-query-immodules-2.0 im-am-et.la im-cedilla.la =20
+im-cyrillic-translit.la  im-inuktitut.la im-ipa.la im-multipress.la =20
+im-thai.la im-ti-er.la im-ti-et.la im-viqr.la im-xim.la  > gtk.immodules
+| =20
+/home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r1=
+0.4/gtk+-2.20.1/gtk/.libs/lt-gtk-query-immodules-2.0: symbol lookup error: =
+/usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0: undefined symbol: =20
+g_bytes_unref
+| make[3]: *** [gtk.immodules] Error 127
+| make[3]: Leaving directory =20
+`/home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r=
+10.4/gtk+-2.20.1/modules/input'
+| make[2]: *** [all-recursive] Error 1
+| make[2]: Leaving directory =20
+`/home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r=
+10.4/gtk+-2.20.1/modules'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory =20
+`/home/tturney/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20.1-r=
+10.4/gtk+-2.20.1'
+| make: *** [all] Error 2
+| FATAL: oe_runmake failed
+| ERROR: Function do_compile failed
+NOTE: package gtk+-native-2.20.1-r10.4: task do_compile: Failed
+ERROR: TaskFailed event exception, aborting
+ERROR: Build of =20
+virtual:native:/home/tturney/gitrepos/bengalbb/openembedded-dev/recipes/gtk=
++/gtk+_2.20.1.bb do_compile =20
+failed
+ERROR: Task 1918 =20
+(virtual:native:/home/tturney/gitrepos/bengalbb/openembedded-dev/recipes/gt=
+k+/gtk+_2.20.1.bb, do_compile) failed with =20
+256
+ERROR: =20
+'virtual:native:/home/tturney/gitrepos/bengalbb/openembedded-dev/recipes/gt=
+k+/gtk+_2.20.1.bb' =20
+failed
+ERROR: =20
+'virtual:native:/home/tturney/gitrepos/bengalbb/openembedded-dev/recipes/gt=
+k+/gtk+_2.20.1.bb' =20
+failed
+tturney@twt20274:~/gitrepos/bengalbb$
 
-Can't comment what others do, it would be ideal if we got all users
-talking here though.
+I am assuming the collision comes from...
+tturney@twt20274:~/gitrepos/bengalbb/tmp/work/x86_64-linux/gtk+-native-2.20=
+.1-r10.4/gtk+-2.20.1/gtk/.libs$ ldd =20
+lt-gtk-query-immodules-2.0
+         ...
+=09libgdk_pixbuf-2.0.so.0 =3D> =20
+/usr/lib/x86_64-linux-gnu/libgdk_pixbuf-2.0.so.0 (0x00007fc24a80d000)
+         ...
 
-> I wonder if anyone actually uses it :)
+tturney@twt20274:/usr/lib/x86_64-linux-gnu$ ldd libgdk_pixbuf-2.0.so.0
+         ...
+=09libglib-2.0.so.0 =3D> /lib/x86_64-linux-gnu/libglib-2.0.so.0 =20
+(0x00007f77f0ce7000)
+         ...
 
-Good question, it was added by Saul so maybe he can chime in here.
+libglib-2.0.so.0: symbolic link to `libglib-2.0.so.0.3200.3'
 
-> But yes AFAIC, if you had a full OCF, you need these to conflict, since
-> they'll both
-> try and enable/provide cryptodev.
+Host version of glib is newer than OE version and has g_bytes_unref.
 
-Yashpal,
+What is not clear to me yet is why the OE bb recipe for gtk+-native is =20
+falling back on the host version of glib the first time through the =20
+build.
 
-You should to add
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>
 
-RCONFLICTS_${PN} =3D "ocf-linux"
-
-and/or maybe
-
-RCONFLICTS_${PN}-dev =3D "ocf-linux-dev"
-
-to your v2 of the patch.
-
--M=
 
 
 
