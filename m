@@ -1,27 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TTfkj-0007kj-D4
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TTh2L-0000i9-OG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Oct 2012 22:23:09 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q9VL9WhS012411
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2012 14:09:32 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 31 Oct 2012 14:09:31 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Oct 2012 16:19:26 -0500
-Message-ID: <2af18f94bad2ed1f02d5a14cfbd7b0d3de0966d3.1351718092.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1351718092.git.mark.hatle@windriver.com>
-References: <cover.1351718092.git.mark.hatle@windriver.com>
+	Wed, 31 Oct 2012 23:45:25 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 31 Oct 2012 15:31:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,688,1344236400"; d="scan'208";a="213703959"
+Received: from unknown (HELO helios.localnet) ([10.252.122.137])
+	by orsmga001.jf.intel.com with ESMTP; 31 Oct 2012 15:31:45 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "T.Michael Turney" <tmiket@recipes4linux.com>
+Date: Wed, 31 Oct 2012 22:31:44 +0000
+Message-ID: <2138001.Tz6ct7Q5r8@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
+In-Reply-To: <20121031125742.78794k4e3lgpz30g@webmail.recipes4linux.com>
+References: <20121030115615.77684awm7w5p1fqc@webmail.recipes4linux.com>
+	<1720082.VE0UplCuMC@helios>
+	<20121031125742.78794k4e3lgpz30g@webmail.recipes4linux.com>
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 4/4] python-smartpm: Add basic knowledge of RPMSENSE_MISSINGOK
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: gtk+ native recipe question
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,92 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2012 21:23:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 31 Oct 2012 22:45:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Currently smart does not support recommend dependencies.  Add the first set
-of 'support' for RPMSENSE_MISSINGOK (the flag that makes something a
-recommend).  This initial support ends up ignoring the recommendation, but is
-written in a way that it will be the basis of eventual support.
+On Wednesday 31 October 2012 12:57:42 T.Michael Turney wrote:
+> These package recipes were modified for reason:
+> gtk+  : issue mentioned in this post, pulling in host glib
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../python/python-smartpm/smart-missingok.patch    |   43 ++++++++++++++++++++
- .../python/python-smartpm_1.4.1.bb                 |    3 +-
- 2 files changed, 45 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
+Looks like this one has already been fixed.
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch b/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
-new file mode 100644
-index 0000000..7e13869
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
-@@ -0,0 +1,43 @@
-+backends/rpm: Identify recommended packages
-+
-+We identify and store recommended packages (and later throw that data away.)
-+
-+This is indended to be the starting work to add support for recommended
-+packages to smart.
-+
-+Upstream-status: Inappropriate [ Code isn't finished! ]
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+Index: smart-1.4.1/smart/backends/rpm/header.py
-+===================================================================
-+--- smart-1.4.1.orig/smart/backends/rpm/header.py
-++++ smart-1.4.1/smart/backends/rpm/header.py
-+@@ -292,6 +292,7 @@ class RPMHeaderLoader(Loader):
-+                     f = [0]
-+                 elif type(f) != list:
-+                     f = [f]
-++                recdict = {}
-+                 reqdict = {}
-+                 for i in range(len(n)):
-+                     ni = n[i]
-+@@ -308,10 +309,17 @@ class RPMHeaderLoader(Loader):
-+                             # RPMSENSE_SCRIPT_PREUN |
-+                             # RPMSENSE_SCRIPT_POST |
-+                             # RPMSENSE_SCRIPT_POSTUN == 7744
-+-                            reqdict[(f[i]&7744 and PreReq or Req,
-+-                                     intern(ni), r, vi)] = True
-++                            if (f[i]&rpm.RPMSENSE_MISSINGOK):
-++                                print "Ignoring Recommend Dependency: %s" % (ni)
-++                                recdict[(f[i]&7744 and PreReq or Req,
-++                                         intern(ni), r, vi)] = True
-++                            else:
-++                                reqdict[(f[i]&7744 and PreReq or Req,
-++                                         intern(ni), r, vi)] = True
-++                recargs = collapse_libc_requires(recdict.keys())
-+                 reqargs = collapse_libc_requires(reqdict.keys())
-+             else:
-++                recargs = None
-+                 reqargs = None
-+ 
-+             n = h[1054] # RPMTAG_CONFLICTNAME
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index 485cec3..f69bd83 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -11,13 +11,14 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
- 
- DEPENDS = "python rpm"
--PR = "r0"
-+PR = "r1"
- SRCNAME = "smart"
- 
- SRC_URI = "\
-           http://launchpad.net/smart/trunk/${PV}/+download/${SRCNAME}-${PV}.tar.bz2 \
-           file://smartpm-rpm5-nodig.patch \
-           file://smart-rpm-root.patch \
-+          file://smart-missingok.patch \
-           "
- 
- SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
+> orc   : bad code in examples, honestly no idea how it built on Fedora
+
+Not sure about this one; it's not one that I build regularly myself, perhaps 
+someone else can shed some light but one suspects you'd need to be more 
+specific about the actual error.
+
+> pango : add libxrender-native to DEPENDS_virtclass-native
+
+libxrender(-native) does seem to be missing in DEPENDS(_virtclass-native) and 
+the configure script does refer to it. I suspect we haven't hit it often due to 
+the order of dependencies being built that themselves do have libxrender in 
+DEPENDS, but we still need to fix it in the pango recipe.
+
+> perl  : change glibpth to reference Ubuntu 64-bit library paths
+
+We've fixed a lot of perl issues since early 2011. Searching through, I think 
+that this was fixed in March 2011.
+
+> soci  : added configure.in.patch to correctly set SQLITE3_DIRS, as
+> with orc, no idea how this built on Fedora
+
+soci? I can't seem to find a recipe here for that - is that a recipe you have 
+created?
+
+> > So, the version in master and the danny branch (most recent stable, just
+> > branched the other day) already includes this. Are you using a different
+> > branch/release?
+> 
+> We took snapshot at beginning of 2011, last commit in git tree prior
+> to our mods is:
+> 
+> af8541c1ba14f5b075f5fdf93fc7f0689656432c
+> Author: Alex Ferguson <thoughtmonster@gmail.com>  2011-01-31 08:43:44
+> 
+> I realize this somewhat limits interest in this issue, hence my original
+> query to just better understand the build system and an idea of what I
+> should be looking at in terms of bitbake/openembedded dependencies.
+
+I would strongly recommend using one of the stable branches / tags rather than 
+just taking an arbitrary snapshot, in conjunction with an appropriate stable 
+release of bitbake. Do otherwise and it becomes more difficult for us to 
+support. FWIW, the denzil branch is the oldest branch which we actively 
+support now, although folks in the community are welcome to continue support 
+for older stable branches if they wish.
+
+It's also worth noting that Ubuntu 12.04 wasn't released until April 2012, so 
+it's not surprising that you would find issues with it as a host for the 
+metadata that's only as up-to-date as early 2011.
+
+Cheers,
+Paul
+
 -- 
-1.7.3.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
