@@ -1,24 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TTZBD-0005NM-BA
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TTaAg-0006Xi-P2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Oct 2012 15:22:03 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 31 Oct 2012 07:08:25 -0700
+	Wed, 31 Oct 2012 16:25:35 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Oct 2012 08:11:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,687,1344236400"; d="scan'208";a="235174520"
+X-IronPort-AV: E=Sophos;i="4.80,687,1344236400"; d="scan'208";a="240847281"
 Received: from unknown (HELO helios.localnet) ([10.252.122.123])
-	by orsmga002.jf.intel.com with ESMTP; 31 Oct 2012 07:08:05 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 31 Oct 2012 08:11:53 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Oct 2012 14:07:51 +0000
-Message-ID: <1720082.VE0UplCuMC@helios>
+To: Andrea Adami <andrea.adami@gmail.com>
+Date: Wed, 31 Oct 2012 15:11:51 +0000
+Message-ID: <14856362.dnuymTkSFD@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
-In-Reply-To: <20121030115615.77684awm7w5p1fqc@webmail.recipes4linux.com>
-References: <20121030115615.77684awm7w5p1fqc@webmail.recipes4linux.com>
+In-Reply-To: <CAAQYJAu+7f+HLBp5xTw8fQk7H5b91=pc5pbkvMB4wEXXhcCpEQ@mail.gmail.com>
+References: <CAAQYJAtxfQDkODhaPZP1Z8honP1azA1B6PuQ_DfjtuB--8YnvA@mail.gmail.com>
+	<CAAQYJAvPAht4KDRwcYUyTjYteQu7wiXbbE4JT8H2+rR7tv=KNw@mail.gmail.com>
+	<CAAQYJAu+7f+HLBp5xTw8fQk7H5b91=pc5pbkvMB4wEXXhcCpEQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: gtk+ native recipe question
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: devshell spawning twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,51 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2012 14:22:03 -0000
+X-List-Received-Date: Wed, 31 Oct 2012 15:25:35 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi there,
-
-On Tuesday 30 October 2012 11:56:15 T.Michael Turney wrote:
-> My first post, chose -core over -devel somewhat arbitrarily as I don't
-> understand distinction of OE-classic yet.
-
-Basically, OE-Classic is largely unmaintained (aside from critical updates to 
-the 2011.3-maintenance branch) and should not be used for new work - use OE-
-Core for that instead. So you're on the right path already :)
-
-> In order to get an existing OE system (builds on Fedora) to build correctly
-> on 64-bit Ubuntu 12.04 I had to modify a number of recipe files.
-
-That's definitely not expected...
-
-> In order to get native gtk+ to build I had to add no-demos.patch
-> to SRC_URI_append.  The patch file already existed in recipes tree
-> but wasn't being referenced in the .bb file.
+On Tuesday 30 October 2012 00:23:52 Andrea Adami wrote:
+> On Sun, Oct 28, 2012 at 1:59 AM, Andrea Adami <andrea.adami@gmail.com> 
+wrote:
+> > On Sun, Oct 28, 2012 at 1:55 AM, Andrea Adami <andrea.adami@gmail.com> 
+wrote:
+> >> Since commit c76da87511d2668479745c2f18b8a9b8116c7489 (terminal: Add
+> >> support for running custom terminals.) screen opens also in the master
+> >> terminal, waiting for input.
+> >> 
+> >> Reverting the patch fixes the funny behavior.
+> >> 
+> >> This on Gentoo, using xterm.
+> > 
+> > Sorry, is gnome-terminal on this host.
+> > 
+> >> Regards
+> >> 
+> >> Andrea
 > 
-> Second change was adding glib-2.0-native to DEPEND_virtclass-native in
-> same file.
+> Same happens using Ubuntu as build host: bitbake -c devshell foo
+> launched in uXterm does spawn two gnome-terminals.
+> This has also other bad effects on do_menuconfig task for linux-yocto.
+> 
+> I can confirm that reverting c76da87 fixes the things.
 
-So, the version in master and the danny branch (most recent stable, just 
-branched the other day) already includes this. Are you using a different 
-branch/release?
+Confirmed here. I have filed a bug:
 
-> Problem was manifested with unresolved reference to g_bytes_unref when
-> building gtk+ native.  Ubuntu 12.04 has more recent glib install than in
-> OE project I'm building and g_bytes_unref is visible in host glib but not
-> OE version.
-> 
-> With this change and a few other similar minor changes in .bb files, the
-> system builds.  However, the bitbake build line has to be invoked twice.
-> 
-> For example, let's say I'm building foo-image and foo1-image, and I run:
-> 
-> bitbake foo-image foo1-image
-> 
-> This command fails building gtk+ native.  
-
-Fails how? Can you mention the actual error you're receiving?
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3371
 
 Cheers,
 Paul
