@@ -1,26 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TTaAg-0006Xi-P2
-	for openembedded-core@lists.openembedded.org;
-	Wed, 31 Oct 2012 16:25:35 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Oct 2012 08:11:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,687,1344236400"; d="scan'208";a="240847281"
-Received: from unknown (HELO helios.localnet) ([10.252.122.123])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Oct 2012 08:11:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Date: Wed, 31 Oct 2012 15:11:51 +0000
-Message-ID: <14856362.dnuymTkSFD@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
-In-Reply-To: <CAAQYJAu+7f+HLBp5xTw8fQk7H5b91=pc5pbkvMB4wEXXhcCpEQ@mail.gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TTbD2-0007gR-5n for openembedded-core@lists.openembedded.org;
+	Wed, 31 Oct 2012 17:32:04 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9VGINFJ025258;
+	Wed, 31 Oct 2012 16:18:23 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15538-02; Wed, 31 Oct 2012 16:18:16 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q9VGIBhA025251
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 31 Oct 2012 16:18:13 GMT
+Message-ID: <1351671493.2828.71.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, Morten Minde Neergaard
+	<mneergaa@cisco.com>
+In-Reply-To: <508F8AD7.2000006@windriver.com>
 References: <CAAQYJAtxfQDkODhaPZP1Z8honP1azA1B6PuQ_DfjtuB--8YnvA@mail.gmail.com>
-	<CAAQYJAvPAht4KDRwcYUyTjYteQu7wiXbbE4JT8H2+rR7tv=KNw@mail.gmail.com>
-	<CAAQYJAu+7f+HLBp5xTw8fQk7H5b91=pc5pbkvMB4wEXXhcCpEQ@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<508F8AD7.2000006@windriver.com>
+Date: Wed, 31 Oct 2012 08:18:13 +0000
+Mime-Version: 1.0
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches, the oe-core layer <openembedded-core@lists.openembedded.org>
 Subject: Re: devshell spawning twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,45 +39,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Oct 2012 15:25:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 31 Oct 2012 16:32:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 30 October 2012 00:23:52 Andrea Adami wrote:
-> On Sun, Oct 28, 2012 at 1:59 AM, Andrea Adami <andrea.adami@gmail.com> 
-wrote:
-> > On Sun, Oct 28, 2012 at 1:55 AM, Andrea Adami <andrea.adami@gmail.com> 
-wrote:
-> >> Since commit c76da87511d2668479745c2f18b8a9b8116c7489 (terminal: Add
-> >> support for running custom terminals.) screen opens also in the master
-> >> terminal, waiting for input.
-> >> 
-> >> Reverting the patch fixes the funny behavior.
-> >> 
-> >> This on Gentoo, using xterm.
-> > 
-> > Sorry, is gnome-terminal on this host.
-> > 
-> >> Regards
-> >> 
-> >> Andrea
+On Tue, 2012-10-30 at 16:07 +0800, Robert Yang wrote:
+> I met the same problem on openSUSE 12.1 64 bit.
 > 
-> Same happens using Ubuntu as build host: bitbake -c devshell foo
-> launched in uXterm does spawn two gnome-terminals.
-> This has also other bad effects on do_menuconfig task for linux-yocto.
-> 
-> I can confirm that reverting c76da87 fixes the things.
+> I used ssh -X to opensuse, and my client is Ubuntu 11.10 32bit
 
-Confirmed here. I have filed a bug:
+The trouble is the removal of:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3371
+os.environ[export] = str(value)
+
+I think we're going to have to add this back since it looks like we need
+the parent environment adjusted as well as that of the child.
+
+For now I'm tempted to add that line back...
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+
 
 
