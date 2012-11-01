@@ -1,26 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1TTsiS-0005c1-91
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Nov 2012 12:13:40 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qA18rNl0000714
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Nov 2012 01:53:23 -0700 (PDT)
-Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.239) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 1 Nov 2012 01:53:22 -0700
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 1 Nov 2012 16:53:10 +0800
-Message-ID: <97f30a7d4fa7b7ed6a9992512f5c727af5dc4504.1351759577.git.Xin.Ouyang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1351759577.git.Xin.Ouyang@windriver.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TTtQN-0006Ba-WE for openembedded-core@lists.openembedded.org;
+	Thu, 01 Nov 2012 12:59:04 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qA1BjQ1T007745;
+	Thu, 1 Nov 2012 11:45:26 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15538-05; Thu,  1 Nov 2012 11:45:21 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qA1BjILA007739
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 1 Nov 2012 11:45:19 GMT
+Message-ID: <1351770317.6502.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Xin Ouyang <Xin.Ouyang@windriver.com>
+Date: Thu, 01 Nov 2012 11:45:17 +0000
+In-Reply-To: <97f30a7d4fa7b7ed6a9992512f5c727af5dc4504.1351759577.git.Xin.Ouyang@windriver.com>
 References: <cover.1351759577.git.Xin.Ouyang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] glib-2.0: inherit pythonnative
+	<97f30a7d4fa7b7ed6a9992512f5c727af5dc4504.1351759577.git.Xin.Ouyang@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] glib-2.0: inherit pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2012 11:13:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 01 Nov 2012 11:59:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-glib-2.0 needs to inherit pythonnative because it will run python
-scripts to generate codes while do_compile.
+On Thu, 2012-11-01 at 16:53 +0800, Xin Ouyang wrote:
+> glib-2.0 needs to inherit pythonnative because it will run python
+> scripts to generate codes while do_compile.
+> 
+> This has caused problems on some hosts(SLED11.2) if no python-xml
+> installed.
+> 
+> [Yocto 2843]
+> 
+> Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+> ---
+>  meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-This has caused problems on some hosts(SLED11.2) if no python-xml
-installed.
+This is going to adversely affect build speed. Can we not document that
+python-xml needs to be installed on these hosts? I'd have thought that
+would be available on most systems we support running on these days?
 
-[Yocto 2843]
+Cheers,
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
----
- meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-index 10c0b61..5181f9d 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-@@ -1,8 +1,10 @@
- require glib.inc
- 
--PR = "r6"
-+PR = "r7"
- PE = "1"
- 
-+inherit pythonnative
-+
- DEPENDS += "libffi python-argparse-native zlib"
- DEPENDS_virtclass-native += "libffi-native python-argparse-native"
- DEPENDS_virtclass-nativesdk += "nativesdk-libffi python-argparse-native nativesdk-zlib ${BPN}-native"
--- 
-1.7.10.4
+Richard
 
 
 
