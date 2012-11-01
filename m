@@ -1,21 +1,30 @@
-Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andy.ross@windriver.com>) id 1TTzJt-0004Ce-Ps
-	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Nov 2012 19:16:46 +0100
-Received: from cougar.plausible.org (c-67-171-188-207.hsd1.or.comcast.net
-	[67.171.188.207]) (Authenticated sender: andy-wrs)
-	by plausible.org (Postfix) with ESMTPSA id 3A3B02136F;
-	Thu,  1 Nov 2012 11:03:08 -0700 (PDT)
-From: Andy Ross <andy.ross@windriver.com>
-To: openembedded-core@lists.openembedded.org,
-	Mark Hatle <mark.hatle@windriver.com>
-Date: Thu,  1 Nov 2012 11:02:59 -0700
-Message-Id: <1351792979-6672-2-git-send-email-andy.ross@windriver.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <1351792979-6672-1-git-send-email-andy.ross@windriver.com>
-References: <1351792979-6672-1-git-send-email-andy.ross@windriver.com>
-Subject: [PATCH] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TU0iT-0008Mz-VB for openembedded-core@lists.openembedded.org;
+	Thu, 01 Nov 2012 20:46:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qA1JWS9X010865;
+	Thu, 1 Nov 2012 19:32:28 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10650-03-2; Thu,  1 Nov 2012 19:32:19 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qA1JW0q3010713
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 1 Nov 2012 19:32:01 GMT
+Message-ID: <1351798319.6502.19.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+Date: Thu, 01 Nov 2012 19:31:59 +0000
+In-Reply-To: <1351780335-12617-1-git-send-email-alexandru.damian@intel.com>
+References: <1351780335-12617-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] initrdscripts: fix udevd path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,198 +37,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2012 18:16:46 -0000
+X-List-Received-Date: Thu, 01 Nov 2012 19:46:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Allow INCOMPATIBLE_LICENSE to be a whitespace-separated list of
-incompatible license strings and/or glob patterns.
+On Thu, 2012-11-01 at 16:32 +0200, Alex DAMIAN wrote:
+> From: Ross Burton <ross.burton@intel.com>
+> 
+> udevd moved location and isn't in $PATH anymore, so use an absolute path to
+> start it.
+> 
+> The control socket path moved too, so mkdir the directory it's in.
 
-Also fix wildcarding: the string in INCOMPATIBLE_LICENSE was clearly
-intended to match with wildcards (e.g. "*GPLv3" to match both GPLv3
-and LGPLv3), but this was broken because of a bug in return_spdx()
-which would die with a runtime error when there was no SPDXLICENSEMAP
-entry for the string.
+This patch looks to do a little more than that...
 
-Signed-off-by: Andy Ross <andy.ross@windriver.com>
----
- meta/classes/base.bbclass    | 67 ++++++++++++++++++++++--------------------
- meta/classes/license.bbclass | 69 +++++++++++++++++---------------------------
- 2 files changed, 61 insertions(+), 75 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 783b64d..f53b59c 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -524,41 +524,44 @@ python () {
-                     raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
- 
- 
--        dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', True)
--
--        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-cross-canadian-%s" % d.getVar('TRANSLATED_TARGET_ARCH', True)) and not pn.startswith("nativesdk-"):
--        # Internally, we'll use the license mapping. This way INCOMPATIBLE_LICENSE = "GPLv2" and
--        # INCOMPATIBLE_LICENSE = "GPLv2.0" will pick up all variations of GPL-2.0
--            spdx_license = return_spdx(d, dont_want_license)
--            hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
--            lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
--            dont_want_whitelist = (d.getVar('WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
--            if pn not in hosttools_whitelist and pn not in lgplv2_whitelist and pn not in dont_want_whitelist:
--                this_license = d.getVar('LICENSE', True)
--                # At this point we know the recipe contains an INCOMPATIBLE_LICENSE, however it may contain packages that do not.
--                packages = d.getVar('PACKAGES', True).split()
--                dont_skip_recipe = False
--                skipped_packages = {}
--                unskipped_packages = []
--                for pkg in packages:
--                    if incompatible_license(d, dont_want_license, pkg):
--                            skipped_packages[pkg] = this_license
--                            dont_skip_recipe = True
-+        bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
-+
-+        check_license = True
-+        for t in ["-native", "-cross", "-cross-initial", "-cross-intermediate", "-crosssdk-intermediate", "-crosssdk", "-crosssdk-initial", "-nativesdk"]:
-+            if pn.endswith(t):
-+                check_license = False
-+
-+        if check_license and bad_licenses:
-+            whitelist = []
-+            for lic in bad_licenses:
-+                for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
-+                    whitelist.extend((d.getVar(w + lic, True) or "").split())
-+                spdx_license = return_spdx(d, lic)
-+                if spdx_license:
-+                    whitelist.extend((d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split())
-+            if not pn in whitelist:
-+                recipe_license = d.getVar('LICENSE', True)
-+                pkgs = d.getVar('PACKAGES', True).split()
-+                skipped_pkgs = []
-+                unskipped_pkgs = []
-+                for pkg in pkgs:
-+                    if incompatible_license(d, bad_licenses, pkg):
-+                        skipped_pkgs.append(pkg)
-                     else:
--                        unskipped_packages.append(pkg)
--                if not unskipped_packages:
--                    # if we hit here and have excluded all packages, then we can just exclude the recipe
--                    dont_skip_recipe = False
--                elif skipped_packages and unskipped_packages:
--                    for pkg, license in skipped_packages.iteritems():
--                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + this_license)
-+                        unskipped_pkgs.append(pkg)
-+
-+                some_skipped = skipped_pkgs and unskipped_pkgs
-+                all_skipped = skipped_pkgs and not unskipped_pkgs
-+
-+                if some_skipped:
-+                    for pkg in skipped_pkgs:
-+                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + recipe_license)
-                         d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
--                    for index, pkg in enumerate(unskipped_packages):
-+                    for pkg in unskipped_pkgs:
-                         bb.note("INCLUDING the package " + pkg)
--
--                if dont_skip_recipe is False and incompatible_license(d, dont_want_license):
--                    bb.note("SKIPPING recipe %s because it's %s" % (pn, this_license))
--                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
-+                elif all_skipped or incompatible_license(d, bad_licenses):
-+                    bb.note("SKIPPING recipe %s because it's %s" % (pn, recipe_license))
-+                    raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
- 
- 
- 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index a66933f..3ae2510 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -207,14 +207,11 @@ python do_populate_lic() {
- 
- def return_spdx(d, license):
-     """
--    This function returns the spdx mapping of a license.
-+    This function returns the spdx mapping of a license if it exists.
-     """
--    if d.getVarFlag('SPDXLICENSEMAP', license) != None:
--        return license
--    else:
--        return d.getVarFlag('SPDXLICENSEMAP', license_type)
-+    return d.getVarFlag('SPDXLICENSEMAP', license, True)
- 
--def incompatible_license(d, dont_want_license, package=""):
-+def incompatible_license(d, dont_want_licenses, package=None):
-     """
-     This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
-     operand.
-@@ -222,46 +219,32 @@ def incompatible_license(d, dont_want_license, package=""):
-     import re
-     import oe.license
-     from fnmatch import fnmatchcase as fnmatch
-+
-     pn = d.getVar('PN', True)
--    dont_want_licenses = []
--    dont_want_licenses.append(d.getVar('INCOMPATIBLE_LICENSE', True))
--    recipe_license = d.getVar('LICENSE', True)
--    if package != "":
--        if d.getVar('LICENSE_' + pn + '-' + package, True):
--            license = d.getVar('LICENSE_' + pn + '-' + package, True)
--        else:
--            license = recipe_license
--    else:
--        license = recipe_license
--    spdx_license = return_spdx(d, dont_want_license)
--    dont_want_licenses.append(spdx_license)
--
--    def include_license(license):
--        if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
--            return False
--        else:
--            return True
-+    license = d.getVar("LICENSE_%s-%s" % (pn, package), True) if package else None
-+    if not license:
-+        license = d.getVar('LICENSE', True)
-+
-+    def license_ok(license):
-+        for dwl in dont_want_licenses:
-+            # If you want to exclude license named generically 'X', we
-+            # surely want to exclude 'X+' as well.  In consequence, we
-+            # will exclude a trailing '+' character from LICENSE in
-+            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
-+            lic = license
-+	    if not re.search('\+$', dwl):
-+                lic = re.sub('\+', '', license)
-+            if fnmatch(lic, dwl):
-+                return False
-+        return True
- 
--    def choose_licenses(a, b):
--        if all(include_license(lic) for lic in a):
--            return a
--        else:
--            return b
-+    # Handles an "or" or two license sets provided by
-+    # flattened_licenses(), pick one that works if possible.
-+    def choose_lic_set(a, b):
-+        return a if all(license_ok(lic) for lic in a) else b
- 
--    """
--    If you want to exlude license named generically 'X', we surely want to exlude 'X+' as well.
--    In consequence, we will exclude the '+' character from LICENSE in case INCOMPATIBLE_LICENSE
--    is not a 'X+' license.
--    """
--    if not re.search(r'[+]',dont_want_license):
--        licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', license), choose_licenses)
--    else:
--        licenses=oe.license.flattened_licenses(license, choose_licenses)
--
--    for onelicense in licenses:
--        if not include_license(onelicense):
--            return True
--    return False
-+    licenses=oe.license.flattened_licenses(license, choose_lic_set)
-+    return any(not license_ok(l) for l in licenses)
- 
- def check_license_flags(d):
-     """
--- 
-1.7.11.4
+Richard
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-core/initrdscripts/files/init-live.sh |   50 +++++++++++++++++---
+>  .../initrdscripts/initramfs-framework/udev         |    6 +--
+>  .../initrdscripts/initramfs-framework_1.0.bb       |    2 +
+>  .../initrdscripts/initramfs-live-boot_1.0.bb       |    2 +-
+>  4 files changed, 50 insertions(+), 10 deletions(-)
+> 
+> diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+> index 5682fd1..fdea892 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-live.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+> @@ -19,7 +19,8 @@ early_setup() {
+>      modprobe isofs 2> /dev/null
+>  
+>      mkdir -p /run
+> -    udevd --daemon
+> +    mkdir -p /var/run
+> +    /lib/udev/udevd --daemon
+>      udevadm trigger --action=add
+>  }
+>  
+> @@ -68,13 +69,49 @@ fatal() {
+>  
+>  early_setup
+>  
+> +# wait for the udevd to settle
+> +echo "Waiting for udev to settle..."
+> +sleep 3
+> +
+>  [ -z "$CONSOLE" ] && CONSOLE="/dev/console"
+>  
+>  read_args
+>  
+> -echo "Waiting for removable media..."
+> -while true
+> +# boot partiton menu, if one or more bootable partitions exist
+> +BOOTMENU=`ls /media/sd*/sbin/init 2>/dev/null | wc -l`
+> +if [ $BOOTMENU -gt 0 ]; then
+> +	choice=0
+> +	while [ $choice -le 0 ]; do
+> +		echo "1). boot live ramfs image"
+> +		count=2
+> +		for i in `ls /media/sd*/sbin/init 2>/dev/null | cut -d "/" -f 3`; do
+> +			echo $count"). boot /dev/"$i
+> +			choicecmd[$count]=$i
+> +			count=$(( count + 1))
+> +		done
+> +		echo
+> +		echo -n "Your choice: "
+> +		read choice
+> +	done
+> +	
+> +	if [ $choice -gt 1 ]; then 
+> +		#ROOT_MOUNT=/media/${choicecmd[${choice}]}
+> +		ROOT_MOUNT=none	#testing
+> +		echo "Booting local root ... $ROOT_MOUNT"
+> +		if [ -d $ROOT_MOUNT ]; then
+> +			boot_live_root
+> +		else
+> +			fatal "Rootfs partition not mounted"
+> +		fi
+> +	fi
+> +fi	
+> +
+> +echo -n "Waiting for removable media... "
+> +CNT=0
+> +while [ $CNT -le 3 ];
+>  do
+> +  echo -n "$CNT "
+> +  CNT=$(( $CNT + 1 ))
+>    for i in `ls /media 2>/dev/null`; do
+>        if [ -f /media/$i/$ROOT_IMAGE ] ; then
+>  		found="yes"
+> @@ -82,7 +119,7 @@ do
+>  	  elif [ -f /media/$i/isolinux/$ROOT_IMAGE ]; then
+>  		found="yes"
+>  		ISOLINUX="isolinux"
+> -		break	
+> +		break
+>        fi
+>    done
+>    if [ "$found" = "yes" ]; then
+> @@ -90,13 +127,14 @@ do
+>    fi
+>    sleep 1
+>  done
+> +if [ "$found" != "yes" ]; then
+> +	fatal "...could not mount removable media, drop to shell"
+> +fi
+>  
+>  case $label in
+>      boot)
+>  	mkdir $ROOT_MOUNT
+>  	mknod /dev/loop0 b 7 0 2>/dev/null
+> -
+> -	
+>  	if [ "$UNIONFS" = "yes" ]; then
+>  	    mkdir /rootfs-tmp
+>  
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> index 9ea8aa3..15a1d5b 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> @@ -3,8 +3,8 @@
+>  # Licensed on MIT
+>  
+>  udev_enabled() {
+> -	if [ ! -e /sbin/udevd ]; then
+> -		debug "/sbin/udev doesn't exist"
+> +	if [ ! -e /lib/udev/udevd ]; then
+> +		debug "/lib/udev/udev doesn't exist"
+>  		return 1
+>  	fi
+>  
+> @@ -14,7 +14,7 @@ udev_enabled() {
+>  udev_run() {
+>  	mkdir -p /run
+>  
+> -	udevd --daemon > /dev/null
+> +	/lib/udev/udevd --daemon > /dev/null
+>  	udevadm trigger --action=add
+>  	udevadm settle
+>  
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> index 58e41d4..45d6592 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> @@ -3,6 +3,8 @@ LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>  RDEPENDS = "busybox"
+>  
+> +PR = "r1"
+> +
+>  inherit allarch
+>  
+>  SRC_URI = "file://init \
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+> index 137a401..55a8600 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+> @@ -5,7 +5,7 @@ RDEPENDS = "udev"
+>  DEPENDS = "virtual/kernel"
+>  SRC_URI = "file://init-live.sh"
+>  
+> -PR = "r10"
+> +PR = "r11"
+>  
+>  do_compile() {
+>  	#if grep -q "CONFIG_UNION_FS=y" ${STAGING_KERNEL_DIR}/.config; then
+
 
 
 
