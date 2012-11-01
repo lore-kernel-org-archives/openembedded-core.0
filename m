@@ -1,25 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TTozc-0005OZ-EW
+	(envelope-from <sgw@linux.intel.com>) id 1TTpTM-0005ga-TW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 01 Nov 2012 08:15:08 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qA16lSoh020988
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Oct 2012 23:47:29 -0700 (PDT)
-Received: from chenqi-OptiPlex-760.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 31 Oct 2012 23:47:26 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 1 Nov 2012 14:47:45 +0800
-Message-ID: <cover.1351749303.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/1] *** Improve hwclock.sh script ***
+	Thu, 01 Nov 2012 08:45:54 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Nov 2012 00:32:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,691,1344236400"; d="scan'208";a="242812414"
+Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.14.238])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Nov 2012 00:32:13 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Nov 2012 00:32:11 -0700
+Message-Id: <1351755131-22192-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] builder: Add password for user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,32 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Nov 2012 07:15:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 01 Nov 2012 07:45:54 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+This is needed to allow openssh to work correctly for the Eclipse
+plugin to have access to the build appliance to view/modify recipes
+and lauch builds
 
-*** BLURB HERE ***
-The following changes since commit e9e3285e1397cfd2d34f4eb7b5aa59311eea861d:
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-graphics/builder/builder_0.1.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-  openssl: Use ${CFLAGS} not ${FULL_OPTIMIZATION} (2012-10-30 11:06:38 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/hwclock
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/hwclock
-
-Chen Qi (1):
-  hwclock.sh: improve hwclock.sh script to use UTC variable
-
- meta/recipes-core/busybox/busybox_1.20.2.bb     |    2 +-
- meta/recipes-core/busybox/files/hwclock.sh      |    9 +++++----
- meta/recipes-core/sysvinit/sysvinit/rcS-default |    4 ++--
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb  |    2 +-
- 4 files changed, 9 insertions(+), 8 deletions(-)
-
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index 5c12c14..d46e960 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -18,7 +18,8 @@ inherit useradd
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--system --create-home \
+                        --groups video,tty,audio \
+-                       --user-group ${PN}"
++                       --user-group ${PN} \
++                       --password ${PN}"
+ 
+ do_install () {
+ 	install -d -m 755 ${D}${sysconfdir}/mini_x/session.d
 -- 
-1.7.9.5
+1.7.7.6
 
 
 
