@@ -1,31 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TUloi-0004RG-4A; Sat, 03 Nov 2012 23:03:48 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qA3Lo1DK003021;
-	Sat, 3 Nov 2012 21:50:01 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27857-10; Sat,  3 Nov 2012 21:49:57 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qA3Lnnb2003015
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Sat, 3 Nov 2012 21:49:51 GMT
-Message-ID: <1351979389.8362.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 03 Nov 2012 21:49:49 +0000
-In-Reply-To: <20121103195435.GE30165@jama.jama.net>
-References: <20121102161855.814CC102E2@opal>
-	<20121103195435.GE30165@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Daniel Stone : mesa: Build separate GLU library
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <seba.dos1@gmail.com>) id 1TUmwa-0007b5-4I
+	for openembedded-core@lists.openembedded.org;
+	Sun, 04 Nov 2012 00:16:00 +0100
+Received: by mail-vb0-f47.google.com with SMTP id ez10so4909441vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Nov 2012 16:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=k1rbaZVMrGfSSzgez8tSTD4+W1wyjxkBA9/2wluBq7s=;
+	b=CWqbzOediuhR29ldvMduMhCmJWnLC0vfw/Avpc4YIfJ4sTkUYIGhmUT4mCz7q2NAXc
+	P7e7SFpnpVco5u1PWB3KcifQZsmXcCWtTEchPSSUvHMNzu0tnFiPB/0AvRXin3NaGx58
+	9Tk6qcd5jwbQXMGqiaP9IYBsyrGHbepsmVu/l4bd2pgJbanim2vQXz0/8HxVxBn2nLJk
+	WrwB8afI/7OvF9CnHc1b7+NqsFc8nxqwv1vDltN5V5wbgNz9OMW9JFzOkcvVwVopUWSf
+	sLjIMNtGTVy+Nq2p+4AYridyuoybsssl5uONOZXGxJSV5u6NTbWLPSiBUPWg12QqSZS/
+	OQOw==
+Received: by 10.220.220.5 with SMTP id hw5mr5388407vcb.53.1351983738458; Sat,
+	03 Nov 2012 16:02:18 -0700 (PDT)
+MIME-Version: 1.0
+Sender: seba.dos1@gmail.com
+Received: by 10.58.116.131 with HTTP; Sat, 3 Nov 2012 16:01:58 -0700 (PDT)
+In-Reply-To: <CABnTX73jsT2yd74jkBzob4S8U_LdP_ju4VuLK+UiE-yvEOrP4g@mail.gmail.com>
+References: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
+	<CABnTX73jsT2yd74jkBzob4S8U_LdP_ju4VuLK+UiE-yvEOrP4g@mail.gmail.com>
+From: Sebastian Krzyszkowiak <dos@dosowisko.net>
+Date: Sun, 4 Nov 2012 00:01:58 +0100
+X-Google-Sender-Auth: cAhr2vwG5qrrTHfFi0EvanIc-Lw
+Message-ID: <CAMkzfpZ-VBmrE2s8D9c329VmnmfvmwZGPVK=sD1VCH8_WJ1W6A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PING v3] [PATCH 0/2] Support additional user-defined package metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,54 +43,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Nov 2012 22:03:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 03 Nov 2012 23:16:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sat, 2012-11-03 at 20:54 +0100, Martin Jansa wrote:
-> On Fri, Nov 02, 2012 at 04:18:55PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 4395691a44b198ba0b9a969cbade669e8de07a4f
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D4395691a44b198ba0b9a969cbade669e8de07a4f
-> >=20
-> > Author: Daniel Stone <daniel@fooishbar.org>
-> > Date:   Fri Oct 26 16:00:09 2012 +0100
-> >=20
-> > mesa: Build separate GLU library
->=20
-> This seems to cause incremental qt4-x11-free builds to fail with:
-> | arm-oe-linux-gnueabi-g++  -march=3Darmv4t -marm -mthumb-interwork -mtun=
-e=3Darm920t --sysroot=3D/var/lib/jenkins/jobs/shr-core-branches/workspace/s=
-hr-core/tmp-eglibc/sysroots/om-gta02 -Wl,-rpath-link,/var/lib/jenkins/jobs/=
-shr-core-branches/workspace/shr-core/tmp-eglibc/sysroots/om-gta02/usr/lib -=
-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -Wl,-rpath-link,/var/lib/jenk=
-ins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/work/armv4t-oe-lin=
-ux-gnueabi/qt4-x11-free-4.8.3-r48.0/qt-everywhere-opensource-src-4.8.3/lib =
--Wl,-rpath-link,/var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/=
-tmp-eglibc/work/armv4t-oe-linux-gnueabi/qt4-x11-free-4.8.3-r48.0/qt-everywh=
-ere-opensource-src-4.8.3/lib -shared -o libqglgraphicssystem.so .obj/releas=
-e-shared/main.o   -L/var/lib/jenkins/jobs/shr-core-branches/workspace/shr-c=
-ore/tmp-eglibc/sysroots/om-gta02/usr/lib -L/var/lib/jenkins/jobs/shr-core-b=
-ranches/workspace/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/qt4-x11-=
-free-4.8.3-r48.0/qt-everywhere-opensource-src-4.8.3/lib -lQtOpenGL -L/var/l=
-ib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/sysroots/om=
--gta02/usr/lib -L/var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core=
-/tmp-eglibc/work/armv4t-oe-linux-gnueabi/qt4-x11-free-4.8.3-r48.0/qt-everyw=
-here-opensource-src-4.8.3/lib -lQtGui -lQtCore -lGLU -lGL -lpthread
-> | /var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/s=
-ysroots/x86_64-linux/usr/libexec/armv4t-oe-linux-gnueabi/gcc/arm-oe-linux-g=
-nueabi/4.7.2/ld: cannot find -lGLU
-> | collect2: error: ld returned 1 exit status
-> | make[3]: *** [../../../../plugins/graphicssystems/libqglgraphicssystem.=
-so] Error 1
+Has it got rejected, applied, forgotten or what?
 
-We need a DEPENDS +=3D "libglu" for qt4?
+I think it would make sense to support it. There was just one answer
+asking if RDEPENDS won't be enough and Ive had good point in my
+opinion. It's a shame that patch, even after few pings, goes without
+proper reply...
 
-Cheers,
+On Wed, Jun 6, 2012 at 9:28 AM, Ive Found <ive.found@gmail.com> wrote:
+>
+> Please, apply patches. They are small, atomic, tested and doesn't ruin
+> anything, just adding the feature.
+>
+> It is essential feature for us, so we've put efforts into implementing
+> it. We'd like to see it merged into upstream. We are small group of
+> enthusiasts, it will be very hard for us to maintain fork of OE (it
+> will be impossible in fact).
+>
+> On Sun, May 13, 2012 at 4:28 PM, Leonid Borisenko <ive.found@gmail.com> wrote:
+> > I'm an owner of Kindle Touch. It's basically a computer with ARM
+> > Cortex-A8 based CPU and Linux. There is a [small] community of
+> > enthuasists developing homebrew modifications for stock software. For
+> > distributing of these modifications .ipk package format had been chosen
+> > with OE as build infrastructure.
+> >
+> > There are already several firmware versions for device and some more are
+> > expected. Every firmware can introduce unpredictable changes, so
+> > modifications for previous firmware versions could stop working.
+> >
+> > Custom metadata field with supported firmware version(s) could be
+> > included into package control file for preventing of installing packaged
+> > modifications onto unsupported firmware.
+> >
+> > But OE currently doesn't allow to define additional package metadata in
+> > recipes. Patch fixes it.
+> >
+> > There is already RPMSPEC_PREAMBLE variable used in package_rpm.bbclass.
+> > I think, it is still useful for defining custom macros in header of spec
+> > file (while additional user-defined metadata is placed somewhere between
+> > common tags).
+> >
+> > I didn't found any way to define newline character inside variable value
+> > and it is needed to allow multiple [one-line] metadata fields/tags. So
+> > I've used ability of OE to split list-typed variables (and re-joined
+> > splitted value with real newline character).
+> >
+> > The following changes since commit cab85fd0b481cdbf36477348de75352be3f38ca2:
+> >
+> >  gdk-pixbuf: Drop unneeded RPROVIDES (2012-05-12 11:23:27 +0100)
+> >
+> > up to 052d78ed7f986e76afb1ce6ef02e94ba1bbc9719:
+> >
+> >  package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata (2012-05-13 14:51:26 +0300)
+> >
+> > ----------------------------------------------------------------
+> > Leonid Borisenko (2):
+> >      package.bbclass: add getter of additional metadata
+> >      package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata
+> >
+> >  meta/classes/package.bbclass     |   11 +++++++++++
+> >  meta/classes/package_deb.bbclass |    5 +++++
+> >  meta/classes/package_ipk.bbclass |    5 +++++
+> >  meta/classes/package_rpm.bbclass |    7 +++++++
+> >  4 files changed, 28 insertions(+)
+> >
 
-Richard
-
+--
+Sebastian Krzyszkowiak
+dos
 
 
