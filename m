@@ -1,20 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TVMbf-0003LB-Aj
+	(envelope-from <ross.burton@intel.com>) id 1TVPgR-0000Rn-24
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Nov 2012 14:20:50 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Nov 2012 05:07:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,714,1344236400"; d="scan'208";a="244279793"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2012 05:07:01 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 05 Nov 2012 17:37:55 +0100
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 05 Nov 2012 08:23:37 -0800
+Received: by mail-lb0-f197.google.com with SMTP id b5so4515873lbd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Nov 2012 08:24:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=H30afBdjAlzaixSd71jcB60KsUU1t7SZ3KDjCKJHP0o=;
+	b=QSF2Rcq/LAAVXmMu8rw20umYXlmuL/Y0Zh6iqF9Rhs36A53wi8jgDYmscm+Mw/iL0G
+	dDSYk9fFJ9ZsaHInej5M738iernQ+dZFgapvE/s5po/RbU6x1N0spCMzWxrrRu0jAnKY
+	EkhqQbahRufwXqGx6qs1CBpLR5qQo0E+Ql0UVLVk+SlwJW6VA7v5yqdJQkvb08uNDVgd
+	JMxvjsrXKPLgnaZFAuoZVJMO93hWSKPEaXAYgvB0kPVV05aQuJUYBCsSg62af7kcPTh9
+	exckEi/uzY0/PRbVYvtjZzK8ra4W/Gxem3KBizgrYHsAzaPnKluzt1wUgVUxt10EpMJp
+	QMEw==
+Received: by 10.180.87.230 with SMTP id bb6mr14222029wib.6.1352132647518;
+	Mon, 05 Nov 2012 08:24:07 -0800 (PST)
+Received: by 10.180.87.230 with SMTP id bb6mr14222010wib.6.1352132647289;
+	Mon, 05 Nov 2012 08:24:07 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id ey2sm12345074wib.9.2012.11.05.08.24.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 05 Nov 2012 08:24:06 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Nov 2012 15:06:59 +0200
-Message-Id: <1352120820-21261-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] populate_sdk_base.bbclass: use SDK_ARCH instead of SDKMACHINE
+Date: Mon,  5 Nov 2012 16:22:47 +0000
+Message-Id: <1352132568-6476-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnIP7LsLwlujNQDiKQnhXf5alkqfAwgfMJv/SbdzEXhhJUvPvainmWFr6yPdFWEPWINI+TRULrQdTC88OhV9vELlEb9UnZCXiBAN3VCFfv1um725DYwdm4tEBWYrJ0Al7Xr2MngQAPgDWRcMXE8wZ7l/rPDUOKI0CMkqhDxdXUA54mqO1xM7EC1r3dzmTQ3VQd+Pfzz
+Subject: [PATCH 1/2] glib-2.0: remove zip build dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,35 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2012 13:20:51 -0000
+X-List-Received-Date: Mon, 05 Nov 2012 16:37:55 -0000
 
-If SDKMACHINE is not set, the toolchain will be built but the tarball
-installer will not run. A better choice is to use SDK_ARCH because, even
-if SDKMACHINE is not set, SDK_ARCH is set, by default, to BUILD_HOST.
+This dependency mysteriously appeared a long time ago for no good reason, remove
+it.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/glib-2.0/glib.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index dc715c4..ac34c32 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -119,9 +119,9 @@ fakeroot create_shar() {
- #!/bin/bash
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 6e2b5d2..586e45a 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+ BUGTRACKER = "http://bugzilla.gnome.org"
+ SECTION = "libs"
  
- INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
--SDKMACHINE=$(echo ${SDKMACHINE} | sed -e "s/i[5-6]86/ix86/")
-+SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[5-6]86/ix86/")
- 
--if [ "$INST_ARCH" != "$SDKMACHINE" ]; then
-+if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
- 	echo "Error: Installation machine not supported!"
- 	exit -1
- fi
+-DEPENDS = "glib-2.0-native zip virtual/libiconv"
++DEPENDS = "glib-2.0-native virtual/libiconv"
+ DEPENDS_class-native = "pkgconfig-native gettext-native"
+ DEPENDS_class-nativesdk = "nativesdk-libtool"
+ PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
 -- 
-1.7.9.5
+1.7.10
 
 
 
