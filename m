@@ -1,41 +1,37 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TVPgT-0000Ro-94
+	(envelope-from <martin.jansa@gmail.com>) id 1TVQOm-0001KY-Px
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Nov 2012 17:37:57 +0100
-Received: from mail-fa0-f69.google.com ([209.85.161.69])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Nov 2012 08:24:10 -0800
-Received: by mail-fa0-f69.google.com with SMTP id t1so5425511fae.0
+	Mon, 05 Nov 2012 18:23:44 +0100
+Received: by mail-ee0-f47.google.com with SMTP id t10so3021831eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Nov 2012 08:24:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=z67bLGcaepzwLSNC8FKNgNg84XTCDlPHUOqi5Cn3ehQ=;
-	b=np6YS73PrXGy/bLso173hible351Chi6acyMKL/4wToMZEgyqGeWUFBOJPF8Uxcpm/
-	hUw1fXczONDzB/SJ9XwPeBz9qsksz3x7t5LdCrNMcNj9KJrm1apspWooKk+cwDhRXkJ0
-	O9g+ov5W7TFXIF8WVE9lHWv7BzBDJZKYNMZFwYkgkY+rjO7Zeh9+yZP32lzZq1SJkeVL
-	rdEthc7Oaiknqi3UMmv2+qBZMvrEnNeSvh211gETu/UmveegQNQyXV7BNcDhPWm2JfLu
-	fW4zBpLAnCGEZjA3m9Gm9mRje+k1K6lqOwZffUykL+P/j01JyZq2njOo0IQK+EHxNUoo
-	rthQ==
-Received: by 10.180.90.201 with SMTP id by9mr14211805wib.5.1352132648987;
-	Mon, 05 Nov 2012 08:24:08 -0800 (PST)
-Received: by 10.180.90.201 with SMTP id by9mr14211789wib.5.1352132648744;
-	Mon, 05 Nov 2012 08:24:08 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ey2sm12345074wib.9.2012.11.05.08.24.07
+	Mon, 05 Nov 2012 09:10:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=fPTGLw45BGFNgHk4C4HXzj15ilW4MAu8v/39dxVXto8=;
+	b=G8lrEuocDd6zAjgl5zseqjbna32EOruql+1OkscwI+VMhWRwgeo9ZKyyu4PEOTPJw8
+	iY/ej2KcLqJxhGmfMWyD+J+QLQXKqEDab1IXJRlk1aaBULBlCGUTznfY/qZxfIVlN+Hd
+	YKLXBiGR8rFhzMsgH/RnotkQN0gNAnTdt99BL0YzG3RzKTLdsPU+gbYeLhw+TuCKyYiz
+	o3aHKQ0rjArMNqBPkAFxR39S03P0H0XMsp8bq01bMcdles5L+uiL5YvwtJEs7FwISrs+
+	ZjyNgOlnTfy5lvUntdfmcGjkLxjTUsljxo/LDv1keaBdcKuww3QZ/XlCBv62VEzCrqFX
+	uXpg==
+Received: by 10.14.173.137 with SMTP id v9mr38761530eel.41.1352135401018;
+	Mon, 05 Nov 2012 09:10:01 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b44sm49368657eep.12.2012.11.05.09.09.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 05 Nov 2012 08:24:08 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Nov 2012 16:22:48 +0000
-Message-Id: <1352132568-6476-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1352132568-6476-1-git-send-email-ross.burton@intel.com>
-References: <1352132568-6476-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQktvOJmp5VpcRFIZ3V5/dfNj+7WgrXCANzObygR0PVYKx93z4tNrvdR5cLx8ohkV1ZvKpj52ypR8DIqjHPYlTqezuKk0lL9tjdTsIxJnsd3IKdmrWvDMNt0Hd31kgNwEiQXNR+hk0yZ4XjZdjO/zohvbQXFoauQP1g7Ia1HKo3xuAS9eHb1RYsMWScaN2/pfZwibNI+
-Subject: [PATCH 2/2] glib-2.0: upgrade to latest stable, 2.34.1.
+	Mon, 05 Nov 2012 09:09:59 -0800 (PST)
+Date: Mon, 5 Nov 2012 18:09:57 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20121105170957.GG30165@jama.jama.net>
+References: <1352111511-22618-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1352111511-22618-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qt4: add missing libglu dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,257 +44,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2012 16:37:58 -0000
+X-List-Received-Date: Mon, 05 Nov 2012 17:23:44 -0000
+X-Groupsio-MsgNum: 31157
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ulDeV4rPMk/y39in"
+Content-Disposition: inline
 
-Also explicitly disable the test suite (as we can't run it), subsequently
-dropping 60_wait-longer-for-threads-to-die.patch and nodbus.patch.
+--ulDeV4rPMk/y39in
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-nolibelf.patch has been merged upstream, drop.
+On Mon, Nov 05, 2012 at 10:31:51AM +0000, Ross Burton wrote:
+> Qt4 needs to explicitly depend on libglu now that it's been split out of =
+the
+> Mesa recipe.
 
-Upstream has dropped the pre-generated man pages, to generate them again we'd
-need libxslt and the DocBook infrastructure.  We can live without the man pages
-as those build-dependencies are non-trivial.
+I'll try to remove -lGLU from our linux.conf which seems to be only
+reason why we depend on it.
+=2E/linux.conf:QMAKE_LIBS_OPENGL     =3D -lGLU -lGL
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../60_wait-longer-for-threads-to-die.patch        |   33 ---------------
- meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch   |   25 ------------
- meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch |   40 ------------------
- meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb      |   43 --------------------
- meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb      |   39 ++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc                |    2 +-
- 6 files changed, 40 insertions(+), 142 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
+Upstream has only -lGL in QMAKE_LIBS_OPENGL.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch b/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch
-deleted file mode 100644
-index 4ff7b80..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--copy from OE, said to borrow from Ubuntu. Not in glib-2.0 upstream yet. Add for sanity.
--Added to poky by Kevin Tian <kevin.tian@intel.com>, 06/25/2010
--Rebased for glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>, 11/16/2010
--
--Upstream-Status: Inappropriate [patches for test code]
--
--diff -ruN glib-2.30.0-orig/tests/threadpool-test.c glib-2.30.0/tests/threadpool-test.c
----- glib-2.30.0-orig/tests/threadpool-test.c	2009-04-01 07:04:21.000000000 +0800
--+++ glib-2.30.0/tests/threadpool-test.c	2010-11-16 12:28:09.002172678 +0800
--@@ -5,8 +5,8 @@
-- 
-- #include <glib.h>
-- 
---#define DEBUG_MSG(x)
---/* #define DEBUG_MSG(args) g_printerr args ; g_printerr ("\n");  */
--+/* #define DEBUG_MSG(x) */
--+#define DEBUG_MSG(args) g_printerr args ; g_printerr ("\n");
-- 
-- #define WAIT                5    /* seconds */
-- #define MAX_THREADS         10
--@@ -130,10 +130,10 @@
--            test_count_threads () == 0)
--          break;
-- 
---       DEBUG_MSG (("[unused] waiting ONE second for threads to die"));
--+       DEBUG_MSG (("[unused] waiting FIVE second for threads to die"));
-- 
--        /* Some time for threads to die. */
---       g_usleep (G_USEC_PER_SEC);
--+       g_usleep (5 * G_USEC_PER_SEC);
--      }
-- 
--    DEBUG_MSG (("[unused] stopped idle threads, %d remain, %d threads still exist",
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch b/meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch
-deleted file mode 100644
-index 1e65643..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/nodbus.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--Disable dbus dependency. Autodetecting isn't deterministic, we don't have the DEPENDS
--and we don't want to built this piece so hardcode it off.
--
--Upstream-Status: Inappropriate [configuration]
--
--RP 2012/2/25
--
--Index: glib-2.30.2/configure.ac
--===================================================================
----- glib-2.30.2.orig/configure.ac	2012-02-25 14:50:07.444242397 +0000
--+++ glib-2.30.2/configure.ac	2012-02-25 14:51:28.096240485 +0000
--@@ -3769,10 +3769,9 @@
-- # Check for libdbus1 - Optional - is only used in the GDBus test cases
-- #
-- # 1.2.14 required for dbus_message_set_serial
---PKG_CHECK_MODULES(DBUS1,
---                  dbus-1 >= 1.2.14,
---                  [AC_DEFINE(HAVE_DBUS1, 1, [Define if dbus-1 is available]) have_dbus1=yes],
---                  have_dbus1=no)
--+DBUS1_CFLAGS=
--+DBUS1_LIBS=
--+$have_dbus1=no      
-- AC_SUBST(DBUS1_CFLAGS)
-- AC_SUBST(DBUS1_LIBS)
-- AM_CONDITIONAL(HAVE_DBUS1, [test "x$have_dbus1" = "xyes"])
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch b/meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch
-deleted file mode 100644
-index d310041..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From e1252cbf65001487ff3b94bbc141acacf6e528b6 Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Wed, 16 May 2012 20:03:34 +0200
--Subject: [PATCH] configure: add option to disable libelf support
--
--Upstream-Status: Backport 
--Applied in master
--http://git.gnome.org/browse/glib/commit/?id=9e1d4da14d8e69fb60da1a9733ac1d58d0dcd8b2
--can be dropped when upgrading to 2.34.* or newer
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- configure.ac |    4 ++++
-- 1 files changed, 4 insertions(+), 0 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index ed4c10e..210df90 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1815,6 +1815,9 @@ AC_SUBST(XATTR_LIBS)
-- dnl ************************
-- dnl *** check for libelf ***
-- dnl ************************
--+AC_ARG_ENABLE(libelf,
--+              AC_HELP_STRING([--disable-libelf], [build without libelf support]))
--+if test "x$enable_libelf" != "xno"; then
-- 
-- PKG_CHECK_MODULES([LIBELF], [libelf >= 0.8.12], [have_libelf=yes], [have_libelf=maybe])
-- 
--@@ -1835,6 +1838,7 @@ fi
-- if test $have_libelf = yes; then
--   AC_DEFINE(HAVE_LIBELF, 1, [Define if libelf is available])
-- fi
--+fi
-- 
-- dnl ****************************************
-- dnl *** platform dependent source checks ***
---- 
--1.7.8.6
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-deleted file mode 100644
-index 22c6c7b..0000000
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-+++ /dev/null
-@@ -1,43 +0,0 @@
--require glib.inc
--
--PR = "r6"
--PE = "1"
--
--DEPENDS += "libffi python-argparse-native zlib"
--DEPENDS_class-native += "libffi-native python-argparse-native"
--DEPENDS_class-nativesdk += "nativesdk-libffi python-argparse-native nativesdk-zlib ${BPN}-native"
--
--SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
--
--SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
--           file://configure-libtool.patch \
--           file://60_wait-longer-for-threads-to-die.patch \
--           file://glib-2.0_fix_for_x32.patch \
--           file://nodbus.patch \
--           file://nolibelf.patch \
--          "
--SRC_URI[md5sum] = "bf84fefd9c1a5b5a7a38736f4ddd674a"
--SRC_URI[sha256sum] = "a5d742a4fda22fb6975a8c0cfcd2499dd1c809b8afd4ef709bda4d11b167fae2"
--
--SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
--BBCLASSEXTEND = "native nativesdk"
--
--do_configure_prepend() {
--	sed -i -e "s:TEST_PROGS += gdbus-serialization::g"  ${S}/gio/tests/Makefile.am
--	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
--}
--
--do_install_append() {
--  # remove some unpackaged files
--  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
--  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
--  # and empty dirs
--  rmdir ${D}${libdir}/gio/modules/
--  rmdir ${D}${libdir}/gio/
--
--  # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
--  # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
--  if [ -f ${D}${bindir}/glib-mkenums ]; then
--    sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
--  fi
--}
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
-new file mode 100644
-index 0000000..18a155d
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
-@@ -0,0 +1,39 @@
-+require glib.inc
-+
-+PR = "r0"
-+PE = "1"
-+
-+DEPENDS += "libffi python-argparse-native zlib"
-+DEPENDS_class-native += "libffi-native python-argparse-native"
-+DEPENDS_class-nativesdk += "nativesdk-libffi python-argparse-native nativesdk-zlib ${BPN}-native"
-+
-+SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
-+
-+SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-+           file://configure-libtool.patch \
-+           file://glib-2.0_fix_for_x32.patch \
-+          "
-+SRC_URI[md5sum] = "ee779493b083be9348a841e0a51f1b27"
-+SRC_URI[sha256sum] = "6e84dc9d84b104725b34d255421ed7ac3629e49f437d37addde5ce3891c2e2f1"
-+
-+SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
-+BBCLASSEXTEND = "native nativesdk"
-+
-+do_configure_prepend() {
-+	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
-+}
-+
-+do_install_append() {
-+  # remove some unpackaged files
-+  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
-+  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
-+  # and empty dirs
-+  rmdir ${D}${libdir}/gio/modules/
-+  rmdir ${D}${libdir}/gio/
-+
-+  # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
-+  # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
-+  if [ -f ${D}${bindir}/glib-mkenums ]; then
-+    sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-mkenums
-+  fi
-+}
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 586e45a..ed9bed9 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -25,7 +25,7 @@ inherit autotools gettext gtk-doc pkgconfig
- 
- S = "${WORKDIR}/glib-${PV}"
- 
--CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap"
-+CORECONF = "--disable-dtrace --disable-fam --disable-libelf --disable-systemtap --disable-modular-tests"
- 
- EXTRA_OECONF = "--enable-included-printf=no ${CORECONF}"
- EXTRA_OECONF_class-native = "${CORECONF}"
--- 
-1.7.10
+Cheers,
 
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-qt/qt4/qt4-x11-free.inc |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/q=
+t4-x11-free.inc
+> index 20ad30c..ef3ff81 100644
+> --- a/meta/recipes-qt/qt4/qt4-x11-free.inc
+> +++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+> @@ -3,11 +3,11 @@ require qt4.inc
+>  DESCRIPTION =3D "Qt is a versatile cross-platform application framework =
+-- this is the X11 version."
+>  HOMEPAGE =3D "http://qt.nokia.com"
+>  SECTION =3D "x11/libs"
+> -DEPENDS +=3D "virtual/libgl virtual/libx11 fontconfig libxft libxext lib=
+xrender libxrandr libxcursor"
+> +DEPENDS +=3D "virtual/libgl libglu virtual/libx11 fontconfig libxft libx=
+ext libxrender libxrandr libxcursor"
+>  PROVIDES +=3D "qt4-x11"
+>  QT4DEPENDS =3D ""
+> =20
+> -INC_PR =3D "r47"
+> +INC_PR =3D "r48"
+> =20
+>  QT_GLFLAGS ?=3D "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl'=
+, '-no-opengl', d)} "
+>  QT_GLFLAGS_qemux86 =3D "-opengl"
+> --=20
+> 1.7.10
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--ulDeV4rPMk/y39in
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCX8uUACgkQN1Ujt2V2gBzKPQCeJuHtuZA03WVZzJ94jTUWwlI1
+10EAmwZuxK32jYNoyBy8PXoya+fg8RM+
+=9yoQ
+-----END PGP SIGNATURE-----
+
+--ulDeV4rPMk/y39in--
