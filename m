@@ -1,26 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TVLQa-0002Jm-Vf
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TVMbf-0003LB-Aj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Nov 2012 13:05:17 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Nov 2012 03:51:32 -0800
+	Mon, 05 Nov 2012 14:20:50 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Nov 2012 05:07:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,714,1344236400"; d="scan'208";a="242645471"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Nov 2012 03:51:31 -0800
-Message-ID: <5097A842.9030302@intel.com>
-Date: Mon, 05 Nov 2012 13:51:30 +0200
+X-IronPort-AV: E=Sophos;i="4.80,714,1344236400"; d="scan'208";a="244279793"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2012 05:07:01 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <1351776182-26414-1-git-send-email-laurentiu.palcu@intel.com>
-	<50971D45.6010608@windriver.com> <509770C2.8070202@windriver.com>
-In-Reply-To: <509770C2.8070202@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] populate_sdk_base.bbclass: check installation machine before installing SDK
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Nov 2012 15:06:59 +0200
+Message-Id: <1352120820-21261-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] populate_sdk_base.bbclass: use SDK_ARCH instead of SDKMACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,86 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2012 12:05:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Nov 2012 13:20:51 -0000
 
+If SDKMACHINE is not set, the toolchain will be built but the tarball
+installer will not run. A better choice is to use SDK_ARCH because, even
+if SDKMACHINE is not set, SDK_ARCH is set, by default, to BUILD_HOST.
 
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/classes/populate_sdk_base.bbclass |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 11/05/2012 09:54 AM, Robert Yang wrote:
-> 
-> 
-> On 11/05/2012 09:58 AM, Robert Yang wrote:
->>
->>
->> On 11/01/2012 09:23 PM, Laurentiu Palcu wrote:
->>> Do not allow installer to continue if the installation machine architecture
->>> does not match the intended SDK machine architecture.
->>>
->>> [YOCTO: #3269]
->>>
->>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->>> ---
->>>   meta/classes/populate_sdk_base.bbclass |    8 ++++++++
->>>   1 file changed, 8 insertions(+)
->>>
->>> diff --git a/meta/classes/populate_sdk_base.bbclass
->>> b/meta/classes/populate_sdk_base.bbclass
->>> index a3ac757..dc715c4 100644
->>> --- a/meta/classes/populate_sdk_base.bbclass
->>> +++ b/meta/classes/populate_sdk_base.bbclass
->>> @@ -118,6 +118,14 @@ fakeroot create_shar() {
->>>       cat << "EOF" > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
->>>   #!/bin/bash
->>>
->>> +INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
->>> +SDKMACHINE=$(echo ${SDKMACHINE} | sed -e "s/i[5-6]86/ix86/")
->>> +
->>
->> I'm afraid this doesn't work, how does the script know the SDKMACHINE ?
->> The SDKMACHINE would always be null in
->> poky-eglibc-x86_64-i586-toolchain-gmae-1.3+snapshot-20121104.sh
->>
-> 
-> This was because i didn't set the SDKMACHINE, I seldom set it when build
-> the sdk, but it seems that we should set it since it needs
-> 
-> include conf/machine-sdk/${SDKMACHINE}.conf
-Hmm, I had it set in my local.conf... I missed the fact that, by
-default, the local.conf had it commented out.
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index dc715c4..ac34c32 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -119,9 +119,9 @@ fakeroot create_shar() {
+ #!/bin/bash
+ 
+ INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
+-SDKMACHINE=$(echo ${SDKMACHINE} | sed -e "s/i[5-6]86/ix86/")
++SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[5-6]86/ix86/")
+ 
+-if [ "$INST_ARCH" != "$SDKMACHINE" ]; then
++if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
+ 	echo "Error: Installation machine not supported!"
+ 	exit -1
+ fi
+-- 
+1.7.9.5
 
-
-> 
-> Can we check whether the SDKMACHINE is null before build the SDK or use
-> SDK_ARCH rather than the SDKMACHINE here ? Otherwise, if we don't set the
-> SDKMACHINE, the SDK would be built, but it can't be installed, we would
-> always get this error:
-I suppose we can safely use SDK_ARCH here, instead of SDKMACHINE. I'll
-prepare a patch asap.
-
-> 
-> Error: Installation machine not supported!
-> 
-> // Robert
-> 
->> // Robert
->>
->>
->>> +if [ "$INST_ARCH" != "$SDKMACHINE" ]; then
->>> +    echo "Error: Installation machine not supported!"
->>> +    exit -1
->>> +fi
->>> +
->>>   DEFAULT_INSTALL_DIR="${SDKPATH}"
->>>   COMPONENTS_LEN=$(echo ".${SDKPATH}" | sed "s/\// /g" | wc -w)
->>>
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
 
 
