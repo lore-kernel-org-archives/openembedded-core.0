@@ -1,25 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1TVT8S-0006kz-PI
+	(envelope-from <martin.jansa@gmail.com>) id 1TVWRE-0003Ex-3s
 	for openembedded-core@lists.openembedded.org;
-	Mon, 05 Nov 2012 21:19:05 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qA5K5KXH000155
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 06 Nov 2012 00:50:40 +0100
+Received: by mail-ee0-f47.google.com with SMTP id t10so3211256eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Nov 2012 12:05:20 -0800 (PST)
-Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Mon, 5 Nov 2012 12:05:18 -0800
-Date: Mon, 5 Nov 2012 14:05:01 -0600
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "openembedded-core@"
-	<lists.openembedded.org.openembedded-core@lists.openembedded.org>
-Message-ID: <20121105140501.78255c6a@e6410-2>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: Pseudo patch/change, sanity check requested
+	Mon, 05 Nov 2012 15:36:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=jgChAAE/bac6Il3YuHA+Tm2+qDjiFY3SoZrBJp3KYrA=;
+	b=GaQTFsBcmw8oRAfTkacRXkLNFqiN+3WWEG+r2HD5bFH58kVSdv06M+gHROSMAUQ7Yj
+	BCBoc2dqdi65UI8LWlB/OWs1F3rWYugeO1RLyh18ApRBEShGP3grdBGq5VwnIV6SQBZE
+	QKq69gjKcEwfeVrPV1ubteHX7pmzDbMUZGzszkSXpIUCfhn/8CtlOaW+6pRC/a4bwZ82
+	+Z4fXGo0u4nzFKuUhED0/JwYk4v6O5Y2wWS2WjF52d+sKGMunXzwCv2UBq7ekIqPKtb+
+	708t4BerDAmkWI5jrN7Zv4bqi74FFV7JrAaePyVKJWBHt9mZOc51R73Cc6dwG2E0fjWk
+	3Lrg==
+Received: by 10.14.214.2 with SMTP id b2mr42039844eep.32.1352158615752;
+	Mon, 05 Nov 2012 15:36:55 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id g47sm51728572eeo.6.2012.11.05.15.36.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 05 Nov 2012 15:36:54 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Nov 2012 00:36:47 +0100
+Message-Id: <1352158607-7197-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.0
+In-Reply-To: <20121105170957.GG30165@jama.jama.net>
+References: <20121105170957.GG30165@jama.jama.net>
+Subject: [PATCH] qt4: remove -lGLU from QMAKE_LIBS_OPENGL in our linux.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,107 +41,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2012 20:19:05 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Nov 2012 23:50:40 -0000
 
-Okay, this is a little odd.
+upstream does not need GLU since:
+commit e7eed096a0c33607a7a37baaf06e5952dc9d556b
+Author: Bj<C3><B8>rn Erik Nilsen <bjorn.nilsen@nokia.com>
+Date:   Mon Aug 9 14:07:01 2010 +0200
 
-We had a build failure of pseudo for a 64-bit target. I looked. I found
-an easy fix.
+    Remove dependency of OpenGL Utility Library (GLU).
 
-I'm sending this out to the list before I check it in, for one simple
-reason: It is absolutely obvious to me that, without this fix, the
---enable-static-sqlite feature should never have worked on 64-bit
-systems.
+    GLU is not part of standard OpenGL and is not used internally in Qt,
+    so we should not depend on it.
 
-Obviously, it's been in use for months. Which means there's SOMETHING
-going on which I don't understand. And I am soliciting feedback because
-I am not comfortable checking in a fix I don't understand, and I
-recognize that changes to pseudo are relatively high risk.
+    Task-number: QT-12227
+    Reviewed-by: kim
 
-What I'm looking for:
-1. Reports from anyone who's been bitten by this.
-2. Feedback on how it could be that the build system has worked despite
-the obvious bug.
-
-The bug is simply that --enable-static-sqlite has been hard-coding the
-path to $(SQLITE)/lib/libsqlite3.a. This obviously can't work on
-systems where the library directory is lib64. So why haven't we seen it
-before last week?
-
--s
-
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-commit b6c2409d786e53f62accc1c7a6538f39dd0ab601
-Author: Peter Seebach <peter.seebach@windriver.com>
-Date:   Fri Nov 2 19:55:57 2012 -0500
+ meta/recipes-qt/qt4/qt4-4.8.1/linux.conf | 2 +-
+ meta/recipes-qt/qt4/qt4-4.8.3/linux.conf | 2 +-
+ meta/recipes-qt/qt4/qt4-embedded.inc     | 2 +-
+ meta/recipes-qt/qt4/qt4-native.inc       | 2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc     | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-    Makefile.in/configure: Use $(LIB), not hardcoded lib, for sqlite
-    
-    It turns out that the -L usage mostly doesn't matter (usually something
-    else has requested the right directory, or it's the default), but the
-    explicit path to libsqlite3.a hardcoded "lib", and on some systems
-    it should be something else, such as "lib64". Solution: Use $(LIB) for
-    that directory.
-    
-    Note that this may not resolve things if, say, you're doing MIPS n32 on a
-    target where that lives in /usr/lib32, but I think in that case you'd
-    be specifying $libdir, so it should still work out.
-    
-    Also added --with-static-sqlite=/path as an option in case people need
-    to further outsmart this.
-    
-    Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-
-diff --git a/Makefile.in b/Makefile.in
-index 83fc89f..56ea5e2 100644
---- a/Makefile.in
-+++ b/Makefile.in
-@@ -38,7 +38,7 @@ CFLAGS_BASE=-pipe -std=gnu99 -Wall -W -Wextra
- CFLAGS_CODE=-fPIC -D_LARGEFILE64_SOURCE -D_ATFILE_SOURCE $(ARCH_FLAGS)
- CFLAGS_DEFS=-DPSEUDO_PREFIX='"$(PREFIX)"' -DPSEUDO_SUFFIX='"$(SUFFIX)"' -DPSEUDO_BINDIR='"$(BIN)"' -DPSEUDO_LIBDIR='"$(LIB)"' -DPSEUDO_LOCALSTATEDIR='"$(LOCALSTATE)"' -DPSEUDO_VERSION='"$(VERSION)"'
- CFLAGS_DEBUG=-O2 -g
--CFLAGS_SQL=-L$(SQLITE)/lib -I$(SQLITE)/include $(RPATH)
-+CFLAGS_SQL=-L$(SQLITE)/$(LIB) -I$(SQLITE)/include $(RPATH)
- CFLAGS_PSEUDO=$(CFLAGS_BASE) $(CFLAGS_CODE) $(CFLAGS_DEFS) \
- 	$(CFLAGS_DEBUG) $(CFLAGS_SQL)
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.1/linux.conf b/meta/recipes-qt/qt4/qt4-4.8.1/linux.conf
+index a541355..8670381 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.1/linux.conf
++++ b/meta/recipes-qt/qt4/qt4-4.8.1/linux.conf
+@@ -29,7 +29,7 @@ QMAKE_LIBS_X11        = $(OE_QMAKE_LIBS_X11)
+ QMAKE_LIBS_X11SM      = $(OE_QMAKE_LIBS_X11SM)
+ QMAKE_LIBS_NIS        = -lnsl
+ QMAKE_LIBS_EGL        = -lEGL
+-QMAKE_LIBS_OPENGL     = -lGLU -lGL
++QMAKE_LIBS_OPENGL     = -lGL
+ QMAKE_LIBS_OPENGL_QT  = -lGL
+ QMAKE_LIBS_OPENGL_ES1 = -lGLES_CM
+ QMAKE_LIBS_OPENGL_ES2 = -lGLESv2
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.3/linux.conf b/meta/recipes-qt/qt4/qt4-4.8.3/linux.conf
+index a541355..8670381 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.3/linux.conf
++++ b/meta/recipes-qt/qt4/qt4-4.8.3/linux.conf
+@@ -29,7 +29,7 @@ QMAKE_LIBS_X11        = $(OE_QMAKE_LIBS_X11)
+ QMAKE_LIBS_X11SM      = $(OE_QMAKE_LIBS_X11SM)
+ QMAKE_LIBS_NIS        = -lnsl
+ QMAKE_LIBS_EGL        = -lEGL
+-QMAKE_LIBS_OPENGL     = -lGLU -lGL
++QMAKE_LIBS_OPENGL     = -lGL
+ QMAKE_LIBS_OPENGL_QT  = -lGL
+ QMAKE_LIBS_OPENGL_ES1 = -lGLES_CM
+ QMAKE_LIBS_OPENGL_ES2 = -lGLESv2
+diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+index afca7f8..fbd8c28 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded.inc
++++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+@@ -2,7 +2,7 @@ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is
+ SECTION = "libs"
+ HOMEPAGE = "http://qt.nokia.com"
+ DEPENDS += "directfb tslib"
+-INC_PR = "r49"
++INC_PR = "r50"
  
-diff --git a/configure b/configure
-index 4a41943..c536f58 100755
---- a/configure
-+++ b/configure
-@@ -37,6 +37,7 @@ usage()
-     echo >&2 "           [--suffix=...]"
-     echo >&2 "           [--with-sqlite=...]"
-     echo >&2 "           [--enable-static-sqlite]"
-+    echo >&2 "           [--with-static-sqlite=...]"
-     echo >&2 "           [--with-rpath=...|--without-rpath]"
-     echo >&2 "           [--cflags='']"
-     echo >&2 "           [--bits=32|64]"
-@@ -58,14 +59,19 @@ do
-     --libdir=*)
-         opt_libdir=${arg#--libdir=}
-         ;;
-+    --with-static-sqlite=*)
-+        opt_sqlite_ldarg=${arg#--with-static-sqlite=}
-+        sqlite_ldarg=$opt_sqlite_ldarg
-+        use_maybe_rpath=false
-+        ;;
-     --enable-static-sqlite)
--        sqlite_ldarg='$(SQLITE)/lib/libsqlite3.a'
-+        sqlite_ldarg='$(SQLITE)/$(LIB)/libsqlite3.a'
-         use_maybe_rpath=false
-         ;;
-     --with-sqlite=*)
-         opt_sqlite=${arg#--with-sqlite=}
-         # assign new value if unset
--        maybe_rpath='-Wl,-R$(SQLITE)/lib'
-+        maybe_rpath='-Wl,-R$(SQLITE)/$(LIB)'
-         ;;
-     --without-rpath)
-         opt_rpath=''
+ QT4EDEPENDS = ""
+ QT_BASE_LIB  ?= "libqt-embedded"
+diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4-native.inc
+index 5f0fce1..ad20723 100644
+--- a/meta/recipes-qt/qt4/qt4-native.inc
++++ b/meta/recipes-qt/qt4/qt4-native.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+                     file://LICENSE.GPL3;md5=babc5b6b77441da277f5c06b2e547720 \
+                     file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
+ 
+-INC_PR = "r17"
++INC_PR = "r18"
+ 
+ inherit native
+ 
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index 20ad30c..a50b0c7 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -7,7 +7,7 @@ DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender li
+ PROVIDES += "qt4-x11"
+ QT4DEPENDS = ""
+ 
+-INC_PR = "r47"
++INC_PR = "r48"
+ 
+ QT_GLFLAGS ?= "${@base_contains('DISTRO_FEATURES', 'opengl', '-opengl', '-no-opengl', d)} "
+ QT_GLFLAGS_qemux86 = "-opengl"
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.8.0
+
 
 
