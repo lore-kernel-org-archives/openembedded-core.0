@@ -1,32 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TX89d-0008Pv-W2 for openembedded-core@lists.openembedded.org;
-	Sat, 10 Nov 2012 11:19:10 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAAA5HmR030334;
-	Sat, 10 Nov 2012 10:05:17 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22363-06; Sat, 10 Nov 2012 10:05:12 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAAA56vM030328
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Sat, 10 Nov 2012 10:05:07 GMT
-Message-ID: <1352541905.9083.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1TX9Bt-0001FX-AW
+	for openembedded-core@lists.openembedded.org;
+	Sat, 10 Nov 2012 12:25:33 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TX8yX-0005PC-6U; Sat, 10 Nov 2012 12:11:45 +0100
+Message-ID: <1352545898.6869.103.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Sat, 10 Nov 2012 10:05:05 +0000
+Date: Sat, 10 Nov 2012 11:11:38 +0000
 In-Reply-To: <CAP9ODKpa0gkf5ZQGVemLYRNKVKA4cWbV4v1E_SZwAs9RuMd61A@mail.gmail.com>
 References: <cover.1352455397.git.ross.burton@intel.com>
 	<154a30032b03a9ce269752adbf5bbec85205720e.1352455397.git.ross.burton@intel.com>
 	<CAP9ODKor1L_sv0hLi_-FTCY383fyE0NguXEeMp1U0=KcPQrk1A@mail.gmail.com>
 	<1352501827.9083.21.camel@ted>
 	<CAP9ODKpa0gkf5ZQGVemLYRNKVKA4cWbV4v1E_SZwAs9RuMd61A@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] meta: remove redundant _FOR_BUILD variables
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,55 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Nov 2012 10:19:10 -0000
+X-List-Received-Date: Sat, 10 Nov 2012 11:25:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Fri, 2012-11-09 at 21:23 -0200, Otavio Salvador wrote:
-> On Fri, Nov 9, 2012 at 8:57 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         On Fri, 2012-11-09 at 20:32 -0200, Otavio Salvador wrote:
->         > On Fri, Nov 9, 2012 at 8:09 AM, Ross Burton
->         <ross.burton@intel.com>
->         > wrote:
->         >         Signed-off-by: Ross Burton <ross.burton@intel.com>
->         >
->         > Please bump PR. Even it might not change the end result we
->         need to
->         > force a rebuild as we did change the meta-data and we risk
->         having a
->         > subtle bug somewhere.
->
->         This patch set adds a number of exports to autotools.bbclass.
->         In doing
->         so, the sstate checksums will change for pretty much
->         everything and
->         hence pretty much everything will rebuild. Using PR
->         specifically to
->         force a rebuild is therefore unnecessary.
->
 > If it rebuilds it might get a different binary package and for
 > preserve the upgrade path PR bumps are need, aren't they?
 
-Technically you are correct (I took your comment above to refer to
-rebuilding the recipes). Technically we should bump PR for every recipe
-using the autotools class.
+Binary upgrade paths have always been a DISTRO issue.  If you want to
+bump PR on everything in your distro config then you certainly can do
+that, though from the point of view of an end-user I don't think that
+performing a phony "upgrade" of every autotools-using package without
+any functional change would necessarily be a desirable thing.
 
-We don't however bump PR of every recipe every time we change the core
-classes and there is plenty of precedent for not doing that.
+The whole PR-bumping thing is just a massive pain in the backside and,
+now that all the metadata is hashed into the signature files anyway, I
+think we should consider just ditching PR from oe-core altogether.
+Distros that want to go on using PR can do so, either by maintaining it
+manually or by using some sort of automated PR server.  Distros that
+don't use binary feeds and/or support online upgrades will generally
+have less of a requirement for PR and might prefer just to do without it
+altogether.
 
-This is basically why I think the whole "PR bump" thing is flawed and we
-should stop doing it in favour of some automated mechanism like PR
-service. This is why its high on the 1.4 feature list since I've had
-enough of this madness.
+p.
 
-I'm not going to ask Ross to spend the hour it would take to manually
-bump PR for each recipe using autotools and even that won't account for
-PR in other layers.
-
-Cheers,
-
-Richard
 
 
 
