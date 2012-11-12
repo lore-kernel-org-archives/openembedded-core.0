@@ -1,24 +1,38 @@
-Received: from new.bec-systems.com ([74.208.70.121] helo=bec-systems.com)
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cliff.brake@gmail.com>)
-	id 1TXy3t-0001fP-Mv; Mon, 12 Nov 2012 18:44:42 +0100
-Received: from oh-69-34-21-229.sta.embarqhsd.net ([69.34.21.229]
-	helo=happy.bec-systems.com)
-	by bec-systems.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cliff.brake@gmail.com>)
-	id 1TXxhn-0004BE-Tu; Mon, 12 Nov 2012 12:21:53 -0500
+	(envelope-from <general@angri.ru>) id 1TXyEy-0001y4-1O
+	for openembedded-core@lists.openembedded.org;
+	Mon, 12 Nov 2012 18:56:08 +0100
+Received: by mail-vb0-f47.google.com with SMTP id ez10so6502445vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Nov 2012 09:42:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:x-gm-message-state;
+	bh=ZTgkfyYsgfyNqdx0EmTOZWXKGp/3DcIiskOcdxHtUcU=;
+	b=P4XQ21vNznVRlvx8Pd0vDejCPmZHMalMEF3RQ6k4HY6h7ZlpuoBTPeX8F5uFoanDEK
+	qLB39pf3Z79SPgAP47IVHIQJD6y3T+qn96+DFzgXhuqGPzSJzrA+mGbO3wt9uFMFR9Ms
+	UqJVAblqls173CnZDT7961RWpRNT3f3AVk8Xs239nNR3I2pGGhRqAC+QuQCPtYDELyo1
+	p51B1Ovckq3zZTkRe0KkRKLY5rN/W4wmyZJWdio7rqz9RNsqBjtkyivdNRzpPyRo+aXH
+	RjPKQWElgpWgSh1mlvupzIdwpM/A+NqiEY0TYn5Q/6Z7zfvV6We5m3amioKJ3ojUO5yG
+	Ji7g==
 MIME-Version: 1.0
-X-Mailer: Nodemailer (0.3.22; +http://andris9.github.com/Nodemailer/)
-Date: Mon, 12 Nov 2012 17:30:39 GMT
-Message-Id: <1352741439745.dfac8a69@Nodemailer>
-From: cliff.brake@gmail.com
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org,
-	angstrom-distro-devel@linuxtogo.org, meta-ti@yoctoproject.org
-X-Spam_score: -2.9
-X-Spam_score_int: -28
-X-Spam_bar: --
-Subject: OE Changelog since 2012-11-04 until 2012-11-11
+Received: by 10.52.26.81 with SMTP id j17mr23569250vdg.63.1352742134562; Mon,
+	12 Nov 2012 09:42:14 -0800 (PST)
+Sender: general@angri.ru
+Received: by 10.58.102.197 with HTTP; Mon, 12 Nov 2012 09:42:14 -0800 (PST)
+Received: by 10.58.102.197 with HTTP; Mon, 12 Nov 2012 09:42:14 -0800 (PST)
+In-Reply-To: <CAKmrg8OVpDG58t_jARYGvjBSenbdL7S0C077b7+ivHmpfveeDA@mail.gmail.com>
+References: <CAKmrg8OVpDG58t_jARYGvjBSenbdL7S0C077b7+ivHmpfveeDA@mail.gmail.com>
+Date: Mon, 12 Nov 2012 20:42:14 +0300
+X-Google-Sender-Auth: jrcTJDZ_EH8LrpnppLUt2Wmvaik
+Message-ID: <CAKmrg8MS91e7tQK2HWr7SogsNpXhw+oyGS_rbROcQDm+u6aPQQ@mail.gmail.com>
+From: anton@angri.ru
+To: openembedded-core@lists.openembedded.org
+X-Gm-Message-State: ALoCoQkl0O8sQxjvLVstlUvmvlUV1Pl94eI+RhtT7c5+53eRocgOz2dgDuCqhBmkkDZsXl9QdAwa
+Subject: device node creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,262 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 17:44:42 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Mon, 12 Nov 2012 17:56:08 -0000
+Content-Type: multipart/alternative; boundary=20cf307d0386673f4a04ce4fd236
+
+--20cf307d0386673f4a04ce4fd236
+Content-Type: text/plain; charset=UTF-8
+
+Hello,
+
+I'm trying to create a device node in the generated rootfs image:
+/dev/net/tun. It is required for openvpn to work. Adding it in the living
+system is as trivial as "mkdir /dev/net; mknod /dev/net/tun c 10 200", but
+I want it to be there with no manual intrusion required.
+
+I tried several ways:
+
+* IMAGE_DEVICE_TABLES
+* IMAGE_DEVICE_TABLE
+* adding /dev/net/tun file to the package
+* adding a node file to the IMAGE_ROOTFS in rootfs postprocess script
+* using postinst script that creates the node
+
+None of it worked.
+
+What is the way /dev is populated? Where do all those 256 (why so many
+btw?) pty* nodes come from? How do I create the new node?
+
+Thanks!
+
+--
+Anton
+
+--20cf307d0386673f4a04ce4fd236
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Changelog since 2012-11-04 until 2012-11-11.  Projects included in this =
-report:
+<p>Hello,</p>
+<p>I&#39;m trying to create a device node in the generated rootfs image: /d=
+ev/net/tun. It is required for openvpn to work. Adding it in the living sys=
+tem is as trivial as &quot;mkdir /dev/net; mknod /dev/net/tun c 10 200&quot=
+;, but I want it to be there with no manual intrusion required.</p>
 
-bitbake: git://git.openembedded.org/bitbake
-openembedded-core: git://git.openembedded.org/openembedded-core
-meta-openembedded: git://git.openembedded.org/meta-openembedded
-meta-smartphone: http://git.shr-project.org/repo/meta-smartphone.git
-meta-micro: git://git.openembedded.org/meta-micro
-meta-slugos: git://github.com/kraj/meta-slugos
-meta-nslu2: git://github.com/kraj/meta-nslu2
-meta-intel: git://git.yoctoproject.org/meta-intel
-meta-handheld: git://git.openembedded.org/meta-handheld
-meta-opie: git://git.openembedded.org/meta-opie
-openembedded: git://git.openembedded.org/openembedded
-meta-bug: git://github.com/buglabs/meta-bug.git
-meta-efikamx: git://github.com/kraj/meta-efikamx.git
-meta-ettus: http://github.com/koenkooi/meta-ettus.git
-meta-fsl-ppc: git://git.yoctoproject.org/meta-fsl-ppc
-meta-igep: http://github.com/ebutera/meta-igep.git
-meta-netbookpro: git://github.com/tworaz/meta-netbookpro
-meta-xilinx: git://git.yoctoproject.org/meta-xilinx
-meta-chicken: git://github.com/OSSystems/meta-chicken
-meta-java: git://github.com/woglinde/meta-java
-meta-qt3: git://git.yoctoproject.org/meta-qt3
-meta-telephony: git://gitorious.org/sysmocom-openembedded/meta-telephony.git
-meta-ti: git://git.yoctoproject.org/meta-ti
-meta-angstrom: git://github.com/Angstrom-distribution/meta-angstrom.git
-meta-browser: git://github.com/OSSystems/meta-browser.git
-meta-mono: git://git.yoctoproject.org/meta-mono.git
-meta-raspberrypi: git://github.com/djwillis/meta-raspberrypi.git
-meta-kde: git://gitorious.org/openembedded-core-layers/meta-kde.git
-meta-yocto: git://git.yoctoproject.org/meta-yocto
-meta-webos: git://github.com/openwebos/meta-webos.git
-meta-arago: git://arago-project.org/git/meta-arago.git
-meta-ivi: git://git.yoctoproject.org/meta-ivi
-meta-systemd: git://git.yoctoproject.org/meta-systemd
-meta-guacamayo: git://github.com/Guacamayo/meta-guacamayo.git
-meta-beagleboard: git://github.com/beagleboard/meta-beagleboard.git
-meta-gumstix: git://github.com/gumstix/meta-gumstix.git
-meta-gumstix-community: =
-git://gitorious.org/schnitzeltony-oe-meta/meta-gumstix-community.git
-meta-fsl-arm: git://git.yoctoproject.org/meta-fsl-arm
-meta-fsl-arm-extra: git://github.com/Freescale/meta-fsl-arm-extra.git
+<p>I tried several ways:</p>
+<p>* IMAGE_DEVICE_TABLES<br>
+* IMAGE_DEVICE_TABLE<br>
+* adding /dev/net/tun file to the package<br>
+* adding a node file to the IMAGE_ROOTFS in rootfs postprocess script<br>
+* using postinst script that creates the node</p>
+<p>None of it worked.</p>
+<p>What is the way /dev is populated? Where do all those 256 (why so many b=
+tw?) pty* nodes come from? How do I create the new node?</p>
+<p>Thanks!</p>
+<p>--<br>
+Anton</p>
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for bitbake:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for openembedded-core:
-
-Richard Purdie (1):
-=20=20lib/oe/classextend: Ensure we don't extend expressions more than once
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-openembedded:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-smartphone:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-micro:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-slugos:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-nslu2:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-intel:
-
-Kishore Bodke (1):
-=20=20romley: Update README Instructions
-
-Ross Burton (4):
-=20=20meta-cedartrail: really fix mesa-dri version (typo'd)
-=20=20xserver-xorg: bump PR to get the new xorg-abi- RPROVIDES
-=20=20cdv-pvr-driver: add xorg-abi-video- dependency
-=20=20emgd-driver-bin: add xorg-abi-video- dependency
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-handheld:
-
-Paul Eggleton (1):
-=20=20kbdd: add from OE-Classic
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-opie:
-
-Paul Eggleton (1):
-=20=20Remove NATIVE_INSTALL_WORKS
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for openembedded:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-bug:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-efikamx:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ettus:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-ppc:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-igep:
-
-Enric Balletbo i Serra (6):
-=20=20x-loader: Remove this package in favour of u-boot SPL.
-=20=20u-boot: update to 2012.10 version.
-=20=20igep00x0: add SPL support.
-=20=20formfactor: add igep00x0 formfactor file.
-=20=20xserver-xf86-config: add xorg config for IGEP Tech boards.
-=20=20README: update for 8.0 "Danny" release.
-
-Enrico Butera (3):
-=20=20Merge pull request #9 from eballetbo/danny
-=20=20igep00x0: add OneNAND and NAND UBIFS args
-=20=20README: master branch depends on poky master branch
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-netbookpro:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-xilinx:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-chicken:
-
-Mario Domenech Goulart (1):
-=20=20chicken_4.7.4: add useless-rpaths to INSANE_SKIP for chicken and =
-libchicken
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-java:
-
-Henning Heinold (2):
-=20=20icedtea-native: remove 1.7 version because of version 1.8 works very =
-well
-=20=20openjdk-6: dependcy on libxp was removed with version 1.11.5
-
-Steffen Sledz (2):
-=20=20icedtea6-native: fix compile error
-=20=20icedtea6-native: fix build problem
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-qt3:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-telephony:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ti:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-angstrom:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-browser:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-mono:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-raspberrypi:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-kde:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-yocto:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-webos:
-
-Eric Blade (1):
-=20=20Remove unnecessary FILES_${PN} items
-
-Herb Kuta (1):
-=20=20task-webos-extended: Restore packages dropped from webos-image
-
-Martin Jansa (9):
-=20=20distro: webos: set PREFERRED_PROVIDER_jpeg to jpeg
-=20=20qt4-webos: replace python functions with simpler variable
-=20=20qmake-webos-native: remove dependency on target MACHINE in native =
-recipe
-=20=20qt4-webos: move shared parts between qt4-webos.bb and =
-qmake-webos-native.bb=20
-=20=20qt4-webos: don't export wrong STAGING_LIBDIR/STAGING_INCDIR values
-=20=20qt4-webos: fix creating /include directory in build host root
-=20=20qt4-webos: add patch to fix build for qemux86-64
-=20=20qt4-webos: set correct arch and endian like oe-core does
-=20=20qt4-webos, qmake-webos-native: use INC_PR
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-arago:
-
-Denys Dmytriyenko (9):
-=20=20meta-toolchain-arago: de-bashify...
-=20=20meta-toolchain-arago-qte: use consistent indentation for shell code
-=20=20meta-toolchain-arago-qte: de-bashify...
-=20=20m4: backport remove-gets.patch for eglibc-2.16 from OE-Core
-=20=20bison: backport remove-gets.patch for eglibc-2.16 from OE-Core
-=20=20gettext: backport remove-gets.patch for eglibc-2.16 from OE-Core
-=20=20meta-toolchain-arago: make SDK/devkit relocatable
-=20=20meta-toolchain-arago: move LD_LIBRARY_PATH setting into each shell =
-stub
-=20=20external-arago-toolchain: move C++ headers to the proper location
-
-Franklin S Cooper Jr (1):
-=20=20task-arago-tisdk-connectivity: Create new connectivity tasks
-
-Franklin S. Cooper Jr (7):
-=20=20ti-tisdk-setup: Port ti-tisdk-setup from arago
-=20=20libjpeg-turbo: Mimic RPROVIDES fix from meta-oe master
-=20=20libjpeg-turbo: Fix jpeg-tools error
-=20=20meta-toolchain-arago-qte: Fix Qt library and include files path
-=20=20meta-toolchain-arago-qte: Add qt.conf file
-=20=20meta-toolchain-arago: Pull in additional environmental variables =
-settings
-=20=20meta-toolchain-arago-qte: Add force option to symbolic link command
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ivi:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-systemd:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-guacamayo:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-beagleboard:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-gumstix:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-gumstix-community:
-
-Andreas M=C3=BCller (1):
-=20=20linux-mainline-3.6: update 3.6.6
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-arm:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-arm-extra:
-
-
-
-
+--20cf307d0386673f4a04ce4fd236--
