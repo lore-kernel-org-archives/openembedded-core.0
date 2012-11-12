@@ -1,25 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1TXkxT-0004h1-9F
+	(envelope-from <Jackie.Huang@windriver.com>) id 1TXkxU-0004h2-Pe
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Nov 2012 04:45:11 +0100
+	Mon, 12 Nov 2012 04:45:13 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAC3VIUO025226
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAC3VJTm011309
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Nov 2012 19:31:18 -0800 (PST)
+	Sun, 11 Nov 2012 19:31:19 -0800 (PST)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Sun, 11 Nov 2012 19:31:17 -0800
+	14.2.318.4; Sun, 11 Nov 2012 19:31:18 -0800
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Nov 2012 11:31:14 +0800
-Message-ID: <cover.1352690328.git.jackie.huang@windriver.com>
+Date: Mon, 12 Nov 2012 11:31:15 +0800
+Message-ID: <88778c5a8e868a75c53ed8e60bb80a2cda17bc8d.1352690328.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4
+In-Reply-To: <cover.1352690328.git.jackie.huang@windriver.com>
+References: <cover.1352690328.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
 Cc: Jackie.Huang@windriver.com, Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/1] eglibc: always compile with optimization.
+Subject: [PATCH 1/1] eglibc: always compile with optimization.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,25 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 03:45:12 -0000
+X-List-Received-Date: Mon, 12 Nov 2012 03:45:13 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-The following changes since commit 5e4714a454f9f742bf8af70dad2aa66ccb87e3fd:
+eglibc fails to compile if someone tries to compile an entire image as -O0:
+error "glibc cannot be compiled without optimization"
+so in this case, force to use -O2 and give a note about it.
 
-  lib/oe/classextend: Ensure we don't extend expressions more than once (2012-11-06 09:29:03 +0100)
+[YOCTO #3405]
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib jhuang0/d_eglibc_1112_1
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_eglibc_1112_1
-
-Jackie Huang (1):
-  eglibc: always compile with optimization.
-
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
  meta/recipes-core/eglibc/eglibc_2.16.bb |   11 +++++++++++
  1 files changed, 11 insertions(+), 0 deletions(-)
 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index aa9256c..0047c1c 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -87,6 +87,17 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+ 
+ EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
+ 
++# eglibc can't be built without optimization, if someone tries to compile an
++# entire image as -O0, we override it with -O2 here and give a note about it.
++def get_optimization(d):
++    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
++        bb.note("eglibc can't be built with -O0, -O2 will be used instead.")
++        selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
++        return selected_optimization.replace("-O0", "-O2")
++    return selected_optimization
++
++SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
++
+ do_unpack_append() {
+     bb.build.exec_func('do_move_ports', d)
+ }
 -- 
 1.7.4
 
