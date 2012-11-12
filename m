@@ -1,28 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TXq0u-0007Ym-IQ
-	for openembedded-core@lists.linuxtogo.org;
-	Mon, 12 Nov 2012 10:09:10 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Nov 2012 00:54:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,761,1344236400"; d="scan'208";a="218182674"
-Received: from unknown (HELO helios.localnet) ([10.252.122.159])
-	by orsmga001.jf.intel.com with ESMTP; 12 Nov 2012 00:54:04 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-devel@lists.openembedded.org
-Date: Mon, 12 Nov 2012 08:54:03 +0000
-Message-ID: <5245949.8fOfhN9Jo3@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.2 (Linux/3.2.0-32-generic-pae; KDE/4.9.2; i686; ; )
-In-Reply-To: <CAP9ODKoiaAJzAZEcH0doQkNZSXuqaOzM0_rsopLCswR-uHOOAA@mail.gmail.com>
-References: <12301427.Yf0uchSh3U@helios> <4701269.Boc8pSq2zM@helios>
-	<CAP9ODKoiaAJzAZEcH0doQkNZSXuqaOzM0_rsopLCswR-uHOOAA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.linuxtogo.org,
-	Martin Jansa <martin.jansa@gmail.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [oe] OE-Classic recipe migration status
+	(envelope-from <philb@gnu.org>) id 1TXqrq-0000VX-A5
+	for openembedded-core@lists.openembedded.org;
+	Mon, 12 Nov 2012 11:03:47 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TXqdJ-0008KI-Qy; Mon, 12 Nov 2012 10:48:46 +0100
+Message-ID: <1352713720.6869.107.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: jackie.huang@windriver.com
+Date: Mon, 12 Nov 2012 09:48:40 +0000
+In-Reply-To: <88778c5a8e868a75c53ed8e60bb80a2cda17bc8d.1352690328.git.jackie.huang@windriver.com>
+References: <cover.1352690328.git.jackie.huang@windriver.com>
+	<88778c5a8e868a75c53ed8e60bb80a2cda17bc8d.1352690328.git.jackie.huang@windriver.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] eglibc: always compile with optimization.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 09:09:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 12 Nov 2012 10:03:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sunday 11 November 2012 21:24:55 Otavio Salvador wrote:
-> On Sun, Nov 11, 2012 at 6:49 PM, Paul Eggleton <
-> paul.eggleton@linux.intel.com> wrote:
-> > On Sunday 11 November 2012 21:16:13 Martin Jansa wrote:
-> > > I've noticed e.g this:
-> > > libfsobasics  [distro]
-> > > libfsoresource        [distro]
-> > > libfsosystem  [distro]
-> > > libfsotransport       [distro]
-> > > but those are now provided by single libfsoframework recipe and I've
-> > > forgot this change
-> > 
-> > https://github.com/shr-distribution/meta-smartphone/commit/0298befc97dc5dc
-> > a2> 
-> > > a3721fb0ff9d4caf8d24f84
-> > > 
-> > > So I'll just update [distro] flag to something like obsoleted by
-> > > libfsoframework.
-> > 
-> > Ah ok, sounds good.
+On Mon, 2012-11-12 at 11:31 +0800, jackie.huang@windriver.com wrote:
+> +# eglibc can't be built without optimization, if someone tries to compile an
+> +# entire image as -O0, we override it with -O2 here and give a note about it.
+> +def get_optimization(d):
+> +    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+> +        bb.note("eglibc can't be built with -O0, -O2 will be used instead.")
+> +        selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
+> +        return selected_optimization.replace("-O0", "-O2")
+> +    return selected_optimization
 
-FYI I've updated these entries now.
+Did you test this patch at all?
 
-> > > The rest is probably also not 1:1 like qfsodbusxml2cpp-native
-> > > ./meta-fso/recipes-freesmartphone/freesmartphone/qfsodbusxml2cpp_git.bb
-> > > 
-> > > Maybe you can try to update scripts to show matches after "-native"
-> > > suffix strip?
-> > 
-> > I'd prefer to handle this manually - there are cases when newer recipes
-> > haven't been BBCLASSEXTENDed to handle -native so I've been checking this
-> > by hand.
-> 
-> You might grep for it and match it properly. So it drops a manual step.
+p.
 
-OK, I've added some script code to check for BBCLASSEXTEND and have added 
-notes next to the following items that I had missed:
 
-cup-native
-devio-native
-jamvm-native
-jlex-native
-python-pygobject-native
-qfsodbusxml2cpp-native
-usbpath-native
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
