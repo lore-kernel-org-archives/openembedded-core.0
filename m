@@ -1,27 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TXsTc-000238-Qs
-	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Nov 2012 12:46:53 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qACBWw1d014502
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2012 03:32:59 -0800 (PST)
-Received: from chenqi-OptiPlex-760.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 12 Nov 2012 03:32:58 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Nov 2012 19:33:34 +0800
-Message-ID: <6a877019d44db98a110eafd29d66010ac22fae5a.1352714690.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1352714690.git.Qi.Chen@windriver.com>
-References: <cover.1352714690.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] initscripts: improve the way initscripts handle volatile storage
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TXtlr-0004QC-Dq for openembedded-core@lists.openembedded.org;
+	Mon, 12 Nov 2012 14:09:48 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qACCtqCh025696;
+	Mon, 12 Nov 2012 12:55:52 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25592-01; Mon, 12 Nov 2012 12:55:48 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qACCtfwa025690
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 12 Nov 2012 12:55:43 GMT
+Message-ID: <1352724941.9083.32.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Nov 2012 12:55:41 +0000
+In-Reply-To: <CAJTo0LZE56zn8UeSZ8OHs_oCX2U+y=L+F+HD9Dm74JPZyp_Eow@mail.gmail.com>
+References: <1352455242-5171-1-git-send-email-constantinx.musca@intel.com>
+	<CAJTo0LZE56zn8UeSZ8OHs_oCX2U+y=L+F+HD9Dm74JPZyp_Eow@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Constantin Musca <constantinx.musca@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libxslt: upgrade to 1.1.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,137 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 11:46:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Nov 2012 13:09:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Fri, 2012-11-09 at 10:15 +0000, Burton, Ross wrote:
+> On 9 November 2012 10:00, Constantin Musca <constantinx.musca@intel.com> wrote:
+> > --- a/meta/recipes-support/libxslt/libxslt/pkgconfig_fix.patch
+> > +++ b/meta/recipes-support/libxslt/libxslt/pkgconfig_fix.patch
+> > @@ -1,24 +1,24 @@
+> >  Upstream-Status: Inappropriate [configuration]
+> 
+> This doesn't look "inappropriate" or "configuration" but a genuine
+> build fix.  Has anyone approached upstream?
+> 
+> (I'm genuinely dismayed at the number of build fixes that get marked
+> as inappropriate when they are clearly genuine build fixes)
 
-Change the way how populate_volatile.sh handles link-type config
-items. Previously, if a link-type config item is encountered, the
-script does not handle it correctly. If the target exists as a link,
-the config item is skipped no matter where the target actually points.
-If the target exists as a file or a directory, it does nothing.
-This behavious is sometimes confusing; for example, if /run has been
-created by other recipes, it will not be updated to a symlink as the
-config file states.
+I'm not going to reject the patch on this since its not a new issue
+being introduced but I do support what you're saying 100% here, the
+categories do seem to have gotten a little misplaced and people should
+take the time to validate them when upgrading recipes...
 
-This patch makes populate_volatile.sh do things as the config file
-tells it. As for link-type config items, it creates them properly
-with an effort to avoid data loss.
+Cheers,
 
-Besides, it's not appropriate to divide volatile storage handling
-into two files. Operations for /tmp directory in bootmisc.sh should
-also be done by populate_volatile.sh.
-
-[YOCTO #3404]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../initscripts/initscripts-1.0/bootmisc.sh        |    7 -----
- .../initscripts-1.0/populate-volatile.sh           |   28 +++++++++-----------
- .../initscripts/initscripts-1.0/volatiles          |    1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- 4 files changed, 15 insertions(+), 23 deletions(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-index 4f76cb4..80f7ead 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
-@@ -54,13 +54,6 @@ fi
- 
- #
- # This is as good a place as any for a sanity check
--# /tmp should be a symlink to /var/tmp to cut down on the number
--# of mounted ramdisks.
--if test ! -L /tmp && test -d /var/tmp
--then
--	rm -rf /tmp
--	ln -sf /var/tmp /tmp
--fi
- 
- # Set the system clock from hardware clock
- # If the timestamp is more recent than the current time,
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index d2175d7..baee2ef 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -47,15 +47,16 @@ mk_dir() {
- }
- 
- link_file() {
--	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1" 
--
--	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
--	
--	[ -e "$2" ] && {
--	  echo "Cannot create link over existing -${TNAME}-." >&2
--	} || {
--	  eval $EXEC &
--	}
-+	EXEC="
-+	if [ -L \"$2\" ]; then
-+		rm -f \"$2\";
-+	elif [ -d \"$2\" ]; then
-+		cp -rf \"$2/*\" \"$1\";
-+		rm -rf \"$2\";
-+	fi;
-+	ln -sf \"$1\" \"$2\" "
-+        test "$VOLATILE_ENABLE_CACHE" = yes && echo "   $EXEC" >> /etc/volatile.
-+        eval $EXEC &
- }
- 
- check_requirements() {
-@@ -119,20 +120,17 @@ apply_cfgfile() {
-     return 1
-     }
- 
--  cat ${CFGFILE} | grep -v "^#" | \
-+  cat ${CFGFILE} | grep -v "^#" | sed -e '/^$/ d' | \
-   while read LINE; do
- 
-     eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
- 
-     [ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
- 
--
-     [ "${TTYPE}" = "l" ] && {
-       TSOURCE="$TLTARGET"
--      [ -L "${TNAME}" ] || {
--        [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
--        link_file "${TSOURCE}" "${TNAME}" &
--        }
-+      [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
-+      link_file "${TSOURCE}" "${TNAME}" &
-       continue
-       }
- 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index e0741aa..f7e2ef7 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
- l root root 0755 /var/log /var/volatile/log
- l root root 0755 /var/run /var/volatile/run
- l root root 1777 /var/tmp /var/volatile/tmp
-+l root root 1777 /tmp /var/tmp
- d root root 0755 /var/lock/subsys none
- f root root 0664 /var/log/wtmp none
- f root root 0664 /var/run/utmp none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index d25838b..251dd06 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r137"
-+PR = "r138"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--- 
-1.7.9.5
+Richard
 
 
 
