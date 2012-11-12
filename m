@@ -1,33 +1,21 @@
-Received: from sirius.lasnet.de ([78.47.116.19])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <stefan@datenfreihafen.org>)
-	id 1TXzQt-0003kX-VN; Mon, 12 Nov 2012 20:12:32 +0100
-Received: from host-92-24-38-206.ppp.as43234.net ([92.24.38.206]
-	helo=novatech.datenfreihafen.org) by sirius.lasnet.de with esmtpsa 
-	(Cipher TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.69 #1)
-	id 1TXyiE-0004OQ-4W by authid <stefan@sostec.de> with srv_auth_cram_md5;
-	Mon, 12 Nov 2012 19:26:24 +0100
-Received: from stefan by novatech.datenfreihafen.org with local (Exim 4.80)
-	(envelope-from <stefan@novatech.datenfreihafen.org>)
-	id 1TXyi8-0001mZ-Re; Mon, 12 Nov 2012 18:26:16 +0000
-Date: Mon, 12 Nov 2012 18:26:16 +0000
-From: Stefan Schmidt <stefan@datenfreihafen.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20121112182616.GB22235@novatech.datenfreihafen.org>
-References: <12301427.Yf0uchSh3U@helios>
-MIME-Version: 1.0
-In-Reply-To: <12301427.Yf0uchSh3U@helios>
-X-Mailer: Mutt http://www.mutt.org/
-X-KeyID: 0xDDF51665
-X-Website: http://www.datenfreihafen.org/
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Spam-Checker-Version: SpamAssassin 3.2.5 (2008-06-10) on sirius.lasnet.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=5.0 tests=ALL_TRUSTED,AWL,BAYES_00
-	autolearn=ham version=3.2.5
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: OE-Classic recipe migration status
+	(envelope-from <radu.moisan@intel.com>) id 1TY0CK-0003H8-Fv
+	for openembedded-core@lists.openembedded.org;
+	Mon, 12 Nov 2012 21:01:32 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 12 Nov 2012 11:47:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,764,1344236400"; d="scan'208";a="167352644"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Nov 2012 11:47:36 -0800
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Nov 2012 21:52:11 +0200
+Message-Id: <1352749931-10687-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Alexandru Damian <alexandru.damian@intel.com>
+Subject: [PATCH] initrd: add recovery feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +28,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 19:12:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Nov 2012 20:01:32 -0000
 
-Hello.
+Allows you to use as root a partition instead of the rootfs.img
+for recovering an old install, and fails safe when no rootfs is
+found, dropping the user to a shell if something goes wrong.
 
-On Sun, 2012-11-11 at 19:11, Paul Eggleton wrote:
-> 
->    1484 other
->     218 BSP
->     211 BugLabs
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Alexandru Damian <alexandru.damian@intel.com>
+---
+ meta/recipes-core/initrdscripts/files/init-live.sh |   44 +++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 2 deletions(-)
 
-I now longer work for BugLabs but  during my last months there I split
-up our bunch of recipes according to what we think was sane at that
-time. Think end of last year here.
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 5682fd1..0ef30ea 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -68,13 +68,49 @@ fatal() {
+ 
+ early_setup
+ 
++# wait for the udevd to settle
++echo "Waiting for udev to settle..."
++sleep 3
++
+ [ -z "$CONSOLE" ] && CONSOLE="/dev/console"
+ 
+ read_args
+ 
+-echo "Waiting for removable media..."
+-while true
++# boot partiton menu, if one or more bootable partitions exist
++BOOTMENU=`ls /media/sd*/sbin/init 2>/dev/null | wc -l`
++if [ $BOOTMENU -gt 0 ]; then
++   choice=0
++   while [ $choice -le 0 ]; do
++       echo "1). boot live ramfs image"
++       count=2
++       for i in `ls /media/sd*/sbin/init 2>/dev/null | cut -d "/" -f 3`; do
++           echo $count"). boot /dev/"$i
++           choicecmd[$count]=$i
++           count=$(( count + 1))
++       done
++       echo
++       echo -n "Your choice: "
++       read choice
++   done
++
++   if [ $choice -gt 1 ]; then
++       #ROOT_MOUNT=/media/${choicecmd[${choice}]}
++       ROOT_MOUNT=none #testing
++       echo "Booting local root ... $ROOT_MOUNT"
++       if [ -d $ROOT_MOUNT ]; then
++           boot_live_root
++       else
++           fatal "Rootfs partition not mounted"
++       fi
++   fi
++fi
++
++echo -n "Waiting for removable media... "
++CNT=0
++while [ $CNT -le 3 ];
+ do
++  echo -n "$CNT "
++  CNT=$(( $CNT + 1 ))
+   for i in `ls /media 2>/dev/null`; do
+       if [ -f /media/$i/$ROOT_IMAGE ] ; then
+ 		found="yes"
+@@ -91,6 +127,10 @@ do
+   sleep 1
+ done
+ 
++if [ "$found" != "yes" ]; then
++   fatal "...could not mount removable media, drop to shell"
++fi
++
+ case $label in
+     boot)
+ 	mkdir $ROOT_MOUNT
+-- 
+1.7.9.5
 
-The BSP layer can be found here:
-https://github.com/buglabs/meta-bug
-
-And BugLabs specific recipes here:
-https://github.com/buglabs/meta-buglabs
-
-All OpenJDK related stuff was going directly into upstream through
-Tarent anyway. This should cover all stuff that was worth bringing
-over.
-
->      11 EFL
-
-I think everything worth working with is in meta-efl in meta-oe.
-Martin is doing a great job catching up with everything we do
-upstream. If something is really missing it might now longer work or
-is just not worth bringing over.
-
-regards
-Stefan Schmidt
 
 
