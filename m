@@ -1,38 +1,38 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <general@angri.ru>) id 1TXyEy-0001y4-1O
+	(envelope-from <ross.burton@intel.com>) id 1TXyQL-0002Ty-MI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 12 Nov 2012 18:56:08 +0100
-Received: by mail-vb0-f47.google.com with SMTP id ez10so6502445vbb.6
+	Mon, 12 Nov 2012 19:07:54 +0100
+Received: from mail-we0-f197.google.com ([74.125.82.197])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 12 Nov 2012 09:53:58 -0800
+Received: by mail-we0-f197.google.com with SMTP id x43so4591599wey.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Nov 2012 09:42:14 -0800 (PST)
+	Mon, 12 Nov 2012 09:53:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:x-gm-message-state;
-	bh=ZTgkfyYsgfyNqdx0EmTOZWXKGp/3DcIiskOcdxHtUcU=;
-	b=P4XQ21vNznVRlvx8Pd0vDejCPmZHMalMEF3RQ6k4HY6h7ZlpuoBTPeX8F5uFoanDEK
-	qLB39pf3Z79SPgAP47IVHIQJD6y3T+qn96+DFzgXhuqGPzSJzrA+mGbO3wt9uFMFR9Ms
-	UqJVAblqls173CnZDT7961RWpRNT3f3AVk8Xs239nNR3I2pGGhRqAC+QuQCPtYDELyo1
-	p51B1Ovckq3zZTkRe0KkRKLY5rN/W4wmyZJWdio7rqz9RNsqBjtkyivdNRzpPyRo+aXH
-	RjPKQWElgpWgSh1mlvupzIdwpM/A+NqiEY0TYn5Q/6Z7zfvV6We5m3amioKJ3ojUO5yG
-	Ji7g==
-MIME-Version: 1.0
-Received: by 10.52.26.81 with SMTP id j17mr23569250vdg.63.1352742134562; Mon,
-	12 Nov 2012 09:42:14 -0800 (PST)
-Sender: general@angri.ru
-Received: by 10.58.102.197 with HTTP; Mon, 12 Nov 2012 09:42:14 -0800 (PST)
-Received: by 10.58.102.197 with HTTP; Mon, 12 Nov 2012 09:42:14 -0800 (PST)
-In-Reply-To: <CAKmrg8OVpDG58t_jARYGvjBSenbdL7S0C077b7+ivHmpfveeDA@mail.gmail.com>
-References: <CAKmrg8OVpDG58t_jARYGvjBSenbdL7S0C077b7+ivHmpfveeDA@mail.gmail.com>
-Date: Mon, 12 Nov 2012 20:42:14 +0300
-X-Google-Sender-Auth: jrcTJDZ_EH8LrpnppLUt2Wmvaik
-Message-ID: <CAKmrg8MS91e7tQK2HWr7SogsNpXhw+oyGS_rbROcQDm+u6aPQQ@mail.gmail.com>
-From: anton@angri.ru
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=MymBOB70FnxsZMJyYESDaTTql9TdfE/8n9iyOae6w54=;
+	b=hCFpUhVZKFh28xYTpOPI7cGZfusGot5MGE3ZF6hPsnqZi0I6T3vNvfIxxyDY/GboRL
+	f1NTqrYOyOIQtB27X3GMSDdRxPh6Amt+n+0RK1svD1w4NfuWU7uQJwvXQISKsZvrnInt
+	uLC8YCLFD6ZLwiheJ+HNflv14zAU79q5gIII8sq1jPGkYiQ5tgnygbYVcw05z0+HcZp1
+	9v7L5D6/quS/r/SpOLFMu5c9AQFl9bRfiripaq0B3i7XG6lYtwoTm0VjR8QBxjJ7aIUe
+	sfgoQMCpyaEHedLui8gYxzsznSwANIqqusvL05FKEIltGiIxt+DO8lBZdQY2tRaw2ax0
+	GB5g==
+Received: by 10.216.135.148 with SMTP id u20mr7917137wei.149.1352742837075;
+	Mon, 12 Nov 2012 09:53:57 -0800 (PST)
+Received: by 10.216.135.148 with SMTP id u20mr7917133wei.149.1352742836860;
+	Mon, 12 Nov 2012 09:53:56 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id hv4sm15472183wib.0.2012.11.12.09.53.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 12 Nov 2012 09:53:56 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQkl0O8sQxjvLVstlUvmvlUV1Pl94eI+RhtT7c5+53eRocgOz2dgDuCqhBmkkDZsXl9QdAwa
-Subject: device node creation
+Date: Mon, 12 Nov 2012 17:52:36 +0000
+Message-Id: <1352742756-8491-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnpdOyt7dQogzL56bZGf4K8ZqyVLbPEXz/an2O5HLoJSxQNcNJ0Db9yMrT/61oDa58MTTdRuJ/2SpBfNXkC4VKT1sAVjsQ5qmB8DaYIwDBuWYpBb5Oj6CQAQeKfsX4rD/8iiwTnBtx+uFkR/M/iaxLlfUUQNgYlkpFM3IPbcA85wBcZUcA7M/o89aN1Y+3bqwk2P3OI
+Subject: [PATCH] libunique: fix compilation with GLib 2.34
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,58 +45,474 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 17:56:08 -0000
-Content-Type: multipart/alternative; boundary=20cf307d0386673f4a04ce4fd236
+X-List-Received-Date: Mon, 12 Nov 2012 18:07:54 -0000
 
---20cf307d0386673f4a04ce4fd236
-Content-Type: text/plain; charset=UTF-8
+The new GLib has deprecated some functions, and libunique was building with
+-Werror.  Take a patch from upstream to update the build system and rationalise
+the warning flags.
 
-Hello,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/libunique/libunique/build.patch |  421 ++++++++++++++++++++
+ meta/recipes-gnome/libunique/libunique_1.1.6.bb    |    7 +-
+ 2 files changed, 425 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-gnome/libunique/libunique/build.patch
 
-I'm trying to create a device node in the generated rootfs image:
-/dev/net/tun. It is required for openvpn to work. Adding it in the living
-system is as trivial as "mkdir /dev/net; mknod /dev/net/tun c 10 200", but
-I want it to be there with no manual intrusion required.
+diff --git a/meta/recipes-gnome/libunique/libunique/build.patch b/meta/recipes-gnome/libunique/libunique/build.patch
+new file mode 100644
+index 0000000..46a5c62
+--- /dev/null
++++ b/meta/recipes-gnome/libunique/libunique/build.patch
+@@ -0,0 +1,421 @@
++Upstream-Status: Backport [http://git.gnome.org/browse/unique/commit/?h=unique-1.1&id=f75ca2d7aad7d27686acca6090c1c569a79d7e63]
++Signed-off-By: Ross Burton <ross.burton@intel.com>
++
++From f75ca2d7aad7d27686acca6090c1c569a79d7e63 Mon Sep 17 00:00:00 2001
++From: Emmanuele Bassi <ebassi@gnome.org>
++Date: Sat, 08 May 2010 11:17:21 +0000
++Subject: build: Update the build environment
++
++Require autoconf 2.63, automake 1.11 and libtool 2.2.6 to remove Shave.
++
++Also bump up the requirement for gobject-introspection to 0.6.7.
++---
++diff --git a/build/autotools/Makefile.am b/build/autotools/Makefile.am
++index 5f35b85..b78428f 100644
++--- a/build/autotools/Makefile.am
+++++ b/build/autotools/Makefile.am
++@@ -1,7 +1,4 @@
++ EXTRA_DIST = \
++-	shave-libtool.in 	\
++-	shave.in 		\
++-	shave.m4 		\
++ 	as-compiler-flag.m4	\
++ 	introspection.m4	\
++ 	Makefile.am.enums	\
++diff --git a/build/autotools/Makefile.am.silent b/build/autotools/Makefile.am.silent
++index 249f6af..8576846 100644
++--- a/build/autotools/Makefile.am.silent
+++++ b/build/autotools/Makefile.am.silent
++@@ -1,10 +1,5 @@
++ # custom rules for quiet builds
++ 
++-if USE_SHAVE
++-QUIET_GEN = $(Q:@=@echo '  GEN   '$@;)
++-QUIET_LN  = $(Q:@=@echo '  LN    '$@;)
++-QUIET_RM  = $(Q:@=@echo '  RM    '$@;)
++-else
++ QUIET_GEN = $(AM_V_GEN)
++ 
++ QUIET_LN   = $(QUIET_LN_$(V))
++@@ -14,4 +9,3 @@ QUIET_LN_0 = @echo '  LN     '$@;
++ QUIET_RM   = $(QUIET_RM_$(V))
++ QUIET_RM_  = $(QUIET_RM_$(AM_DEFAULT_VERBOSITY))
++ QUIET_RM_0 = @echo '  RM     '$@;
++-endif # USE_SHAVE
++diff --git a/build/autotools/introspection.m4 b/build/autotools/introspection.m4
++index f9ce49c..589721c 100644
++--- a/build/autotools/introspection.m4
+++++ b/build/autotools/introspection.m4
++@@ -59,12 +59,18 @@ m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
++        INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
++        INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
++        INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+++       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
+++       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
+++       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
++     fi
++     AC_SUBST(INTROSPECTION_SCANNER)
++     AC_SUBST(INTROSPECTION_COMPILER)
++     AC_SUBST(INTROSPECTION_GENERATE)
++     AC_SUBST(INTROSPECTION_GIRDIR)
++     AC_SUBST(INTROSPECTION_TYPELIBDIR)
+++    AC_SUBST(INTROSPECTION_CFLAGS)
+++    AC_SUBST(INTROSPECTION_LIBS)
+++    AC_SUBST(INTROSPECTION_MAKEFILE)
++ 
++     AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
++ ])
++diff --git a/build/autotools/shave-libtool.in b/build/autotools/shave-libtool.in
++deleted file mode 100644
++index 1f3a720..0000000
++--- a/build/autotools/shave-libtool.in
+++++ b/dev/null
++@@ -1,69 +0,0 @@
++-#!/bin/sh
++-
++-# we need sed
++-SED=@SED@
++-if test -z "$SED" ; then
++-SED=sed
++-fi
++-
++-lt_unmangle ()
++-{
++-   last_result=`echo $1 | $SED -e 's#.libs/##' -e 's#[0-9a-zA-Z_\-\.]*_la-##'`
++-}
++-
++-# the real libtool to use
++-LIBTOOL="$1"
++-shift
++-
++-# if 1, don't print anything, the underlaying wrapper will do it
++-pass_though=0
++-
++-# scan the arguments, keep the right ones for libtool, and discover the mode
++-preserved_args=
++-while test "$#" -gt 0; do
++-    opt="$1"
++-    shift
++-
++-    case $opt in
++-    --mode=*)
++-        mode=`echo $opt | $SED -e 's/[-_a-zA-Z0-9]*=//'`
++-        preserved_args="$preserved_args $opt"
++-        ;;
++-    -o)
++-        lt_output="$1"
++-        preserved_args="$preserved_args $opt"
++-	;;
++-    *)
++-        preserved_args="$preserved_args $opt"
++-        ;;
++-      esac
++-done
++-
++-case "$mode" in
++-compile)
++-    # shave will be called and print the actual CC/CXX/LINK line
++-    preserved_args="$preserved_args --shave-mode=$mode"
++-    pass_though=1
++-    ;;
++-link)
++-    preserved_args="$preserved_args --shave-mode=$mode"
++-    Q="  LINK  "
++-    ;;
++-*)
++-    # let's u
++-    # echo "*** libtool: Unimplemented mode: $mode, fill a bug report"
++-    ;;
++-esac
++-
++-lt_unmangle "$lt_output"
++-output=$last_result
++-
++-if test -z $V; then
++-    if test $pass_though -eq 0; then
++-        echo "$Q$output"
++-    fi
++-    $LIBTOOL --silent $preserved_args
++-else
++-    echo $LIBTOOL $preserved_args
++-    $LIBTOOL $preserved_args
++-fi
++diff --git a/build/autotools/shave.in b/build/autotools/shave.in
++deleted file mode 100644
++index 5c16f27..0000000
++--- a/build/autotools/shave.in
+++++ b/dev/null
++@@ -1,79 +0,0 @@
++-#!/bin/sh
++-
++-# we need sed
++-SED=@SED@
++-if test -z "$SED" ; then
++-SED=sed
++-fi
++-
++-lt_unmangle ()
++-{
++-   last_result=`echo $1 | $SED -e 's#.libs/##' -e 's#[0-9a-zA-Z_\-\.]*_la-##'`
++-}
++-
++-# the tool to wrap (cc, cxx, ar, ranlib, ..)
++-tool="$1"
++-shift
++-
++-# the reel tool (to call)
++-REEL_TOOL="$1"
++-shift
++-
++-pass_through=0
++-preserved_args=
++-while test "$#" -gt 0; do
++-    opt="$1"
++-    shift
++-
++-    case $opt in
++-    --shave-mode=*)
++-        mode=`echo $opt | $SED -e 's/[-_a-zA-Z0-9]*=//'`
++-	;;
++-    -o)
++-        lt_output="$1"
++-        preserved_args="$preserved_args $opt"
++-	;;
++-    *)
++-        preserved_args="$preserved_args $opt"
++-        ;;
++-      esac
++-done
++-
++-# mode=link is handled in the libtool wrapper
++-case "$mode,$tool" in
++-link,*)
++-    pass_through=1
++-    ;;
++-*,cxx)
++-    Q="  CXX   "
++-    ;;
++-*,cc)
++-    Q="  CC    "
++-    ;;
++-*,fc)
++-    Q="  FC    "
++-    ;;
++-*,f77)
++-    Q="  F77   "
++-    ;;
++-*,objc)
++-    Q="  OBJC   "
++-    ;;
++-*,*)
++-    # should not happen
++-    Q="  CC    "
++-    ;;
++-esac
++-
++-lt_unmangle "$lt_output"
++-output=$last_result
++-
++-if test -z $V; then
++-    if test $pass_through -eq 0; then
++-        echo "$Q$output"
++-    fi
++-    $REEL_TOOL $preserved_args
++-else
++-    echo $REEL_TOOL $preserved_args
++-    $REEL_TOOL $preserved_args
++-fi
++diff --git a/build/autotools/shave.m4 b/build/autotools/shave.m4
++deleted file mode 100644
++index 0a3509e..0000000
++--- a/build/autotools/shave.m4
+++++ b/dev/null
++@@ -1,77 +0,0 @@
++-dnl Make automake/libtool output more friendly to humans
++-dnl  Damien Lespiau <damien.lespiau@gmail.com>
++-dnl
++-dnl SHAVE_INIT([shavedir],[default_mode])
++-dnl
++-dnl shavedir: the directory where the shave scripts are, it defaults to
++-dnl           $(top_builddir)
++-dnl default_mode: (enable|disable) default shave mode.  This parameter
++-dnl               controls shave's behaviour when no option has been
++-dnl               given to configure.  It defaults to disable.
++-dnl
++-dnl * SHAVE_INIT should be called late in your configure.(ac|in) file (just
++-dnl   before AC_CONFIG_FILE/AC_OUTPUT is perfect.  This macro rewrites CC and
++-dnl   LIBTOOL, you don't want the configure tests to have these variables
++-dnl   re-defined.
++-dnl * This macro requires GNU make's -s option.
++-
++-AC_DEFUN([_SHAVE_ARG_ENABLE],
++-[
++-  AC_ARG_ENABLE([shave],
++-    AS_HELP_STRING(
++-      [--enable-shave],
++-      [use shave to make the build pretty [[default=$1]]]),,
++-      [enable_shave=$1]
++-    )
++-])
++-
++-AC_DEFUN([SHAVE_INIT],
++-[
++-  dnl you can tweak the default value of enable_shave
++-  m4_if([$2], [enable], [_SHAVE_ARG_ENABLE(yes)], [_SHAVE_ARG_ENABLE(no)])
++-
++-  if test x"$enable_shave" = xyes; then
++-    dnl where can we find the shave scripts?
++-    m4_if([$1],,
++-      [shavedir="$ac_pwd"],
++-      [shavedir="$ac_pwd/$1"])
++-    AC_SUBST(shavedir)
++-
++-    dnl make is now quiet
++-    AC_SUBST([MAKEFLAGS], [-s])
++-    AC_SUBST([AM_MAKEFLAGS], ['`test -z $V && echo -s`'])
++-
++-    dnl we need sed
++-    AC_CHECK_PROG(SED,sed,sed,false)
++-
++-    dnl substitute libtool
++-    SHAVE_SAVED_LIBTOOL=$LIBTOOL
++-    LIBTOOL="${SHELL} ${shavedir}/shave-libtool '${SHAVE_SAVED_LIBTOOL}'"
++-    AC_SUBST(LIBTOOL)
++-
++-    dnl substitute cc/cxx
++-    SHAVE_SAVED_CC=$CC
++-    SHAVE_SAVED_CXX=$CXX
++-    SHAVE_SAVED_FC=$FC
++-    SHAVE_SAVED_F77=$F77
++-    SHAVE_SAVED_OBJC=$OBJC
++-    CC="${SHELL} ${shavedir}/shave cc ${SHAVE_SAVED_CC}"
++-    CXX="${SHELL} ${shavedir}/shave cxx ${SHAVE_SAVED_CXX}"
++-    FC="${SHELL} ${shavedir}/shave fc ${SHAVE_SAVED_FC}"
++-    F77="${SHELL} ${shavedir}/shave f77 ${SHAVE_SAVED_F77}"
++-    OBJC="${SHELL} ${shavedir}/shave objc ${SHAVE_SAVED_OBJC}"
++-    AC_SUBST(CC)
++-    AC_SUBST(CXX)
++-    AC_SUBST(FC)
++-    AC_SUBST(F77)
++-    AC_SUBST(OBJC)
++-
++-    V=@
++-  else
++-    V=1
++-  fi
++-  Q='$(V:1=)'
++-  AC_SUBST(V)
++-  AC_SUBST(Q)
++-])
++-
++diff --git a/configure.ac b/configure.ac
++index a3ed3ee..bc3163a 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -14,7 +14,7 @@ m4_define([unique_api_version], [1.0])
++ # This is the X.Y used in the protocol negotiation
++ m4_define([unique_protocol_version], [1.0])
++ 
++-AC_PREREQ([2.59])
+++AC_PREREQ([2.63])
++ 
++ AC_INIT([unique], [unique_version],
++         [http://bugzilla.gnome.org/enter_bug.cgi?product=libunique],
++@@ -23,9 +23,21 @@ AC_INIT([unique], [unique_version],
++ AC_CONFIG_SRCDIR([unique/unique.h])
++ AC_CONFIG_MACRO_DIR([build/autotools])
++ 
++-AM_INIT_AUTOMAKE([1.10])
+++AM_INIT_AUTOMAKE([1.11 no-define -Wno-portability dist-bzip2])
++ AM_CONFIG_HEADER([config.h])
++ 
+++AM_SILENT_RULES([yes])
+++
+++AC_PROG_CC_C_O
+++
+++AM_PATH_GLIB_2_0
+++
+++LT_PREREQ([2.2.6])
+++LT_INIT([disable-static])
+++
+++# Honor aclocal flags
+++ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
+++
++ # version symbols
++ UNIQUE_MAJOR_VERSION=unique_major_version
++ UNIQUE_MINOR_VERSION=unique_minor_version
++@@ -49,21 +61,6 @@ UNIQUE_LT_CURRENT_MINUS_AGE=m4_eval(lt_current - lt_age)
++ AC_SUBST(UNIQUE_LT_VERSION_INFO)
++ AC_SUBST(UNIQUE_LT_CURRENT_MINUS_AGE)
++ 
++-AC_ISC_POSIX
++-AC_PROG_CC
++-AC_PROG_INSTALL
++-AC_PROG_MAKE_SET
++-AC_C_CONST
++-AC_PROG_LIBTOOL
++-AC_PATH_PROG(GLIB_MKENUMS, [glib-mkenums])
++-AC_PATH_PROG(GLIB_GENMARSHAL, [glib-genmarshal])
++-
++-AM_SANITY_CHECK
++-AM_PROG_CC_STDC
++-
++-# Honor aclocal flags
++-ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
++-
++ m4_define([glib_required], [2.12.0])
++ m4_define([gtk_required],  [2.11.0])
++ m4_define([dbus_required], [0.70])
++@@ -122,7 +119,6 @@ AM_CONDITIONAL([HAVE_DBUS], [test "x$have_dbus" = "xyes"])
++ dnl Bacon backend
++ dnl This is the fallback backend, so we *need* these headers and functions
++ dnl even if we end up using D-Bus
++-dnl D-Bus backend dependencies
++ m4_define([have_bacon_default], [yes])
++ AC_ARG_ENABLE([bacon],
++               [AC_HELP_STRING([--enable-bacon=@<:@yes/no@:>@],
++@@ -178,9 +174,9 @@ AC_ARG_ENABLE([maintainer-flags],
++ AS_IF([test "x$enable_maintainer_flags" = "xyes" &&  test "x$GCC" = "xyes"],
++       [
++         AS_COMPILER_FLAGS([MAINTAINER_CFLAGS],
++-                          ["-Werror -Wall -Wshadow -Wcast-align
++-                            -Wno-uninitialized -Wempty-body -Wformat-security
++-                            -Winit-self"])
+++                          ["-Wall -Wshadow -Wcast-align
+++                            -Wno-uninitialized -Wempty-body
+++                            -Wformat-security -Winit-self"])
++       ]
++ )
++ 
++@@ -230,27 +226,10 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],
++ AM_GLIB_DEFINE_LOCALEDIR(UNIQUE_LOCALEDIR)
++ 
++ # introspection
++-GOBJECT_INTROSPECTION_CHECK([0.6.3])
+++GOBJECT_INTROSPECTION_CHECK([0.6.7])
++ 
++ # gtk-doc
++-GTK_DOC_CHECK([1.11])
++-
++-# nice builds
++-m4_ifdef([AM_SILENT_RULES],
++-         [
++-           AM_SILENT_RULES([yes])
++-           use_shave=no
++-         ],
++-         [
++-           SHAVE_INIT([build/autotools], [enable])
++-           AC_CONFIG_FILES([
++-                build/autotools/shave-libtool
++-                build/autotools/shave
++-           ])
++-           use_shave=yes
++-         ])
++-
++-AM_CONDITIONAL([USE_SHAVE], [test "x$use_shave" = "xyes"])
+++GTK_DOC_CHECK([1.13])
++ 
++ AC_CONFIG_FILES([
++         Makefile
++--
++cgit v0.9.0.2
+diff --git a/meta/recipes-gnome/libunique/libunique_1.1.6.bb b/meta/recipes-gnome/libunique/libunique_1.1.6.bb
+index 7061cf6..adb9525 100644
+--- a/meta/recipes-gnome/libunique/libunique_1.1.6.bb
++++ b/meta/recipes-gnome/libunique/libunique_1.1.6.bb
+@@ -4,17 +4,18 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=libunique"
+ 
+ SRC_URI = "${GNOME_MIRROR}/libunique/1.1/libunique-${PV}.tar.bz2 \
+ 	file://fix_for_compile_with_gcc-4.6.0.patch \
+-	file://noconst.patch"
++	file://noconst.patch \
++        file://build.patch"
+ 
+ SRC_URI[md5sum] = "7955769ef31f1bc4f83446dbb3625e6d"
+ SRC_URI[sha256sum] = "e5c8041cef8e33c55732f06a292381cb345db946cf792a4ae18aa5c66cdd4fbb"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ DEPENDS = "glib-2.0 gtk+ dbus"
+ 
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+-#S = "${WORKDIR}/unique-${PV}"
++
+ 
+ inherit autotools
+-- 
+1.7.10
 
-I tried several ways:
 
-* IMAGE_DEVICE_TABLES
-* IMAGE_DEVICE_TABLE
-* adding /dev/net/tun file to the package
-* adding a node file to the IMAGE_ROOTFS in rootfs postprocess script
-* using postinst script that creates the node
 
-None of it worked.
-
-What is the way /dev is populated? Where do all those 256 (why so many
-btw?) pty* nodes come from? How do I create the new node?
-
-Thanks!
-
---
-Anton
-
---20cf307d0386673f4a04ce4fd236
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p>Hello,</p>
-<p>I&#39;m trying to create a device node in the generated rootfs image: /d=
-ev/net/tun. It is required for openvpn to work. Adding it in the living sys=
-tem is as trivial as &quot;mkdir /dev/net; mknod /dev/net/tun c 10 200&quot=
-;, but I want it to be there with no manual intrusion required.</p>
-
-<p>I tried several ways:</p>
-<p>* IMAGE_DEVICE_TABLES<br>
-* IMAGE_DEVICE_TABLE<br>
-* adding /dev/net/tun file to the package<br>
-* adding a node file to the IMAGE_ROOTFS in rootfs postprocess script<br>
-* using postinst script that creates the node</p>
-<p>None of it worked.</p>
-<p>What is the way /dev is populated? Where do all those 256 (why so many b=
-tw?) pty* nodes come from? How do I create the new node?</p>
-<p>Thanks!</p>
-<p>--<br>
-Anton</p>
-
---20cf307d0386673f4a04ce4fd236--
