@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TYFfQ-0006Rw-DB
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TYFfR-0006Rw-3X
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 13:32:36 +0100
+	Tue, 13 Nov 2012 13:32:37 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Nov 2012 04:18:43 -0800
+	by orsmga101.jf.intel.com with ESMTP; 13 Nov 2012 04:18:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,765,1344236400"; d="scan'208";a="218907417"
+X-IronPort-AV: E=Sophos;i="4.80,765,1344236400"; d="scan'208";a="218907426"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
-	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2012 04:18:41 -0800
+	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2012 04:18:43 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 14:18:21 +0200
-Message-Id: <ddc0228e24bef901eff0152c519d64c3f63e7fd5.1352808309.git.laurentiu.palcu@intel.com>
+Date: Tue, 13 Nov 2012 14:18:22 +0200
+Message-Id: <edbd990ef3db5d2d3290e9bc1fb4e9018b2bdce1.1352808309.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1352808309.git.laurentiu.palcu@intel.com>
 References: <cover.1352808309.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1352808309.git.laurentiu.palcu@intel.com>
 References: <cover.1352808309.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 04/12] xkeyboard-config: upgrade to 2.7
+Subject: [PATCH 05/12] xcb-proto: upgrade to 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 12:32:36 -0000
-
-A couple of extra changes:
- * changed the SRC_URI to the new, valid, one
- * added dependency of gettext (do_qa_configure detected is needed)
+X-List-Received-Date: Tue, 13 Nov 2012 12:32:37 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- ...board-config_2.1.bb => xkeyboard-config_2.7.bb} |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.1.bb => xkeyboard-config_2.7.bb} (75%)
+ .../xcb/{xcb-proto_1.7.1.bb => xcb-proto_1.8.bb}   |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xcb/{xcb-proto_1.7.1.bb => xcb-proto_1.8.bb} (61%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb
-similarity index 75%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb
-index 1b28208..96c6188 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb
-@@ -12,14 +12,14 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-confi
- LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+diff --git a/meta/recipes-graphics/xcb/xcb-proto_1.7.1.bb b/meta/recipes-graphics/xcb/xcb-proto_1.8.bb
+similarity index 61%
+rename from meta/recipes-graphics/xcb/xcb-proto_1.7.1.bb
+rename to meta/recipes-graphics/xcb/xcb-proto_1.8.bb
+index 27050d2..785156a 100644
+--- a/meta/recipes-graphics/xcb/xcb-proto_1.7.1.bb
++++ b/meta/recipes-graphics/xcb/xcb-proto_1.8.bb
+@@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
  
--SRC_URI = "http://people.freedesktop.org/~svu/xkeyboard-config-${PV}.tar.bz2"
--SRC_URI[md5sum] = "6ce65480445fb2d9c071ad1f002a7675"
--SRC_URI[sha256sum] = "e293aa4b0dd259dbb4f0e7f56fdd95db5047d052c7b3b80922fe5663923a805d"
-+SRC_URI="${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
-+SRC_URI[md5sum] = "6ad7b43062f123eacf8ff0eb3a4e0678"
-+SRC_URI[sha256sum] = "e43478a12fb0fe6757a7bad3a04fd3747ec53e53d5af22a9d9829dfb9aac8321"
+ PR = "r0"
  
- SECTION = "x11/libs"
--DEPENDS = "intltool-native xkbcomp-native glib-2.0"
-+DEPENDS = "intltool-native xkbcomp-native glib-2.0 virtual/gettext"
- 
--PR = "r2"
-+PR = "r0"
- 
- EXTRA_OECONF = "--with-xkb-rules-symlink=xorg"
- 
+-SRC_URI[md5sum] = "948fec39dd42f3694edd5d9689735ec4"
+-SRC_URI[sha256sum] = "ad5d99887d811c9817f1916d7b3f5dc6c21414c093256cbeffb945aacdc34437"
++SRC_URI[md5sum] = "a5de3432cc6e43cc6a27f241dbb991b1"
++SRC_URI[sha256sum] = "233d16c7a019235b3092111e7c11429119357eb13754a607b75eea04453121b0"
 -- 
 1.7.9.5
 
