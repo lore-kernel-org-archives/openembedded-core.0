@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TYFfR-0006Rw-3X
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TYFfR-0006Rw-V3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 13:32:37 +0100
+	Tue, 13 Nov 2012 13:32:38 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Nov 2012 04:18:44 -0800
+	by orsmga101.jf.intel.com with ESMTP; 13 Nov 2012 04:18:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,765,1344236400"; d="scan'208";a="218907426"
+X-IronPort-AV: E=Sophos;i="4.80,765,1344236400"; d="scan'208";a="218907448"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
-	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2012 04:18:43 -0800
+	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2012 04:18:44 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 14:18:22 +0200
-Message-Id: <edbd990ef3db5d2d3290e9bc1fb4e9018b2bdce1.1352808309.git.laurentiu.palcu@intel.com>
+Date: Tue, 13 Nov 2012 14:18:23 +0200
+Message-Id: <7bb2d382a566d910b3ed783e561b514dd5ff4cc3.1352808309.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1352808309.git.laurentiu.palcu@intel.com>
 References: <cover.1352808309.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1352808309.git.laurentiu.palcu@intel.com>
 References: <cover.1352808309.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 05/12] xcb-proto: upgrade to 1.8
+Subject: [PATCH 06/12] fontconfig: upgrade to 2.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,29 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 12:32:37 -0000
+X-List-Received-Date: Tue, 13 Nov 2012 12:32:38 -0000
+
+A couple of changes:
+ * licence snippet in fccache.c moved down the file;
+ * new files appeared in this version, added them to fontconfig package
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../xcb/{xcb-proto_1.7.1.bb => xcb-proto_1.8.bb}   |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xcb/{xcb-proto_1.7.1.bb => xcb-proto_1.8.bb} (61%)
+ .../97_fontconfig                                  |    0
+ .../fix-pkgconfig.patch                            |    0
+ ...native_2.9.0.bb => fontconfig-native_2.10.1.bb} |    0
+ .../{fontconfig_2.9.0.bb => fontconfig_2.10.1.bb}  |    7 ++++---
+ 4 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-2.9.0 => fontconfig-2.10.1}/97_fontconfig (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-2.9.0 => fontconfig-2.10.1}/fix-pkgconfig.patch (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.9.0.bb => fontconfig-native_2.10.1.bb} (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.9.0.bb => fontconfig_2.10.1.bb} (91%)
 
-diff --git a/meta/recipes-graphics/xcb/xcb-proto_1.7.1.bb b/meta/recipes-graphics/xcb/xcb-proto_1.8.bb
-similarity index 61%
-rename from meta/recipes-graphics/xcb/xcb-proto_1.7.1.bb
-rename to meta/recipes-graphics/xcb/xcb-proto_1.8.bb
-index 27050d2..785156a 100644
---- a/meta/recipes-graphics/xcb/xcb-proto_1.7.1.bb
-+++ b/meta/recipes-graphics/xcb/xcb-proto_1.8.bb
-@@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig b/meta/recipes-graphics/fontconfig/fontconfig-2.10.1/97_fontconfig
+similarity index 100%
+rename from meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig
+rename to meta/recipes-graphics/fontconfig/fontconfig-2.10.1/97_fontconfig
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch b/meta/recipes-graphics/fontconfig/fontconfig-2.10.1/fix-pkgconfig.patch
+similarity index 100%
+rename from meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
+rename to meta/recipes-graphics/fontconfig/fontconfig-2.10.1/fix-pkgconfig.patch
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb b/meta/recipes-graphics/fontconfig/fontconfig-native_2.10.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb
+rename to meta/recipes-graphics/fontconfig/fontconfig-native_2.10.1.bb
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.10.1.bb
+similarity index 91%
+rename from meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
+rename to meta/recipes-graphics/fontconfig/fontconfig_2.10.1.bb
+index 7f3f111..268a3cb 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.10.1.bb
+@@ -14,7 +14,7 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
+ LICENSE = "MIT-style & MIT & PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=dc5b39c592e47a22dbec44855988d2a0 \
+                     file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
+-                    file://src/fccache.c;beginline=1077;endline=1092;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
++                    file://src/fccache.c;beginline=1109;endline=1124;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
  
- PR = "r0"
+ SECTION = "libs"
  
--SRC_URI[md5sum] = "948fec39dd42f3694edd5d9689735ec4"
--SRC_URI[sha256sum] = "ad5d99887d811c9817f1916d7b3f5dc6c21414c093256cbeffb945aacdc34437"
-+SRC_URI[md5sum] = "a5de3432cc6e43cc6a27f241dbb991b1"
-+SRC_URI[sha256sum] = "233d16c7a019235b3092111e7c11429119357eb13754a607b75eea04453121b0"
+@@ -26,12 +26,13 @@ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+            file://fix-pkgconfig.patch \
+            file://97_fontconfig"
+ 
+-SRC_URI[md5sum] = "26c83855ed256b5c032baae032fadc4f"
+-SRC_URI[sha256sum] = "ca7e25071cf044bdcdaf7c48845243c115b9269b4e369c6bd78a29e71f01b41a"
++SRC_URI[md5sum] = "c94e380eea42f2f23ca9537035ef1899"
++SRC_URI[sha256sum] = "c3912bf909c0057e50a67f58fc1b0ae644f1ebf532a0d97864588d9599280222"
+ 
+ PACKAGES =+ "fontconfig-utils-dbg fontconfig-utils "
+ FILES_fontconfig-utils-dbg = "${bindir}/*.dbg"
+ FILES_fontconfig-utils = "${bindir}/*"
++FILES_${PN} =+ "${datadir}/xml/*"
+ 
+ # Work around past breakage in debian.bbclass
+ RPROVIDES_fontconfig-utils = "libfontconfig-utils"
 -- 
 1.7.9.5
 
