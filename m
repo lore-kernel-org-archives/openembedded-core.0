@@ -1,30 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TYQGf-0006br-Uk
+	(envelope-from <kergoth@gmail.com>) id 1TYQLv-0006ip-3E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 00:51:46 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qADNblGN005352
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 14 Nov 2012 00:57:11 +0100
+Received: by mail-lb0-f175.google.com with SMTP id j7so3750687lbo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 15:37:47 -0800 (PST)
-Received: from msp-dhcp30.wrs.com (172.25.34.30) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 13 Nov 2012 15:37:47 -0800
-Message-ID: <50A2D9CB.30709@windriver.com>
-Date: Tue, 13 Nov 2012 17:37:47 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121026 Thunderbird/16.0.2
+	Tue, 13 Nov 2012 15:43:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=sbBxjCzLORgVZuNt30mWj6YghAd5h9yygBwMivt133E=;
+	b=Vcios0Dtl58linUbmnb4lD3Xu3NZqyimVsGKsXbWKzw54MTmk+TYl276Vb7APyPcsi
+	cfYXGtFuKkSuJUVtXuyJBI4nCWZkAwKtAZWJjpJPFGTXJutM9tQkyH2GpUQucXKFpgzU
+	QxU383dJjrP/RwiqI2b/b7DQFc+BdsD+3QYieduVT35/XBLJGfmDu+5dX/WE/Os9S4xf
+	nbB3cd5+SXYS1Ho/u6KWMdHfPywC6OosOljRGRFpJp4dJHalkkBP2pIUSQwcXf5O36eD
+	ru0Qh8SgwJgsJIv7l2mKpQQTuIsAMVjv2xq0ZRmPunqLw/iu0QQ9FPUQylvqWjbM1lUU
+	ZsWw==
+Received: by 10.152.108.42 with SMTP id hh10mr22895343lab.4.1352850188741;
+	Tue, 13 Nov 2012 15:43:08 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <506DCF4A.5020101@windriver.com>
-In-Reply-To: <506DCF4A.5020101@windriver.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	qADNblGN005352
-Subject: RFC: Secondary Toolchain -- Followup
+Sender: kergoth@gmail.com
+Received: by 10.114.18.239 with HTTP; Tue, 13 Nov 2012 15:42:48 -0800 (PST)
+In-Reply-To: <1352815159.24487.122.camel@ted>
+References: <1352815159.24487.122.camel@ted>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 13 Nov 2012 16:42:48 -0700
+X-Google-Sender-Auth: cfkMiHKWNbHzAJjZgPdGGG-F2lM
+Message-ID: <CABcZANkMe=Bxfr5=PJkDUDT0LS1uN3AL=Sigo9OXS-rQyaexzQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: Add fix for cross compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,135 +42,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 23:51:46 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 13 Nov 2012 23:57:11 -0000
+Content-Type: multipart/alternative; boundary=bcaec54fb9c6ef2c7e04ce68fa0a
+
+--bcaec54fb9c6ef2c7e04ce68fa0a
+Content-Type: text/plain; charset=UTF-8
+
+On Tue, Nov 13, 2012 at 6:59 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> new file mode 100644
+> index 0000000..f587c34
+> --- a/dev/null
+> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> @@ -0,0 +1,28 @@
+> +Adding @CROSS_COMPILE@ to CFLAGS_FOR_BUILD causes errors like:
+> +
+> +mkbuiltins.o: In function `open':
+> +/usr/include/x86_64-linux-gnu/bits/fcntl2.h:54: undefined reference to
+> `xopen'
+> +mkbuiltins.o: In function `read':
+> +/usr/include/x86_64-linux-gnu/bits/unistd.h:45: undefined reference to
+> `xread'
+> +collect2: ld returned 1 exit status
+> +
+> +when compiling on a 64 bit x86 build system for a 32 bit x86 target since
+> +config.h confuses the compiler about settings. By removing the option,
+> config.h
+> +isn't used and the compiler stops getting confused.
+> +
+> +Upstream-Status: Pending
+> +RP 2012/11/13
+>
+
+Relying on the target config.h to build a host tool could fail if the build
+and target environments differ greatly, which is likely why mkbuiltins.c
+has hardcoded defines assuming less about the host (just POSIX) based on
+the CROSS_COMPILE define. I don't think removing that is the best fix,
+personally.
+
+The reason for this failure has to do with a particular set of
+circumstances. A header in the bash source tree defines STRING() based on
+HAVE_STRINGIZE. This define overwrites the unistd.h define of the same
+macro. The unistd.h definitions of read() and open() wrap the call to the
+real functions to implement FORTIFY_SOURCES, and those wrappers use
+STRING() to do it. As a result, for any host that defaults to
+-DFORTIFY_SOURCES, STRING() returns 'x' resulting in a concatenation rather
+than an assembly level rename of the function being called.
+
+If we add -DHAVE_STRINGIZE in the CROSS_COMPILE case, then STRING() will be
+defined to something useful, and therefore the FORTIFY_SOURCES wrappers
+don't get hosed.
+
+See http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?id=da0ff91for
+an alternative fix which may be more likely to be accepted upstream.
+-- 
+Christopher Larson
+
+--bcaec54fb9c6ef2c7e04ce68fa0a
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-I have taken the RFC added it to the OE Wiki -- as well as added example=20
-details.  I've got most of the information implemented now, only the SDK=20
-specific items are remaining.
+<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Tue, Nov 1=
+3, 2012 at 6:59 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxf=
+oundation.org</a>&gt;</span> wrote:<br>
 
-I'm looking for people to review this and let me know if the contents are=
-=20
-reasonable or not -- and if you have any suggestions or comments.
-
-http://www.openembedded.org/wiki/Adding_a_secondary_toolchain
-
-Once the document is complete, and all of the comments are addressed, I e=
-xpect=20
-this will become the 'standard' way to implement and control a secondary =
-toolchain.
-
-On 10/4/12 1:02 PM, Mark Hatle wrote:
-> We have an issue where we'd like to have an alternative toolchain (asse=
-mbler,
-> linker, compiler) available for our customers to selectively use.  Howe=
-ver,
-> before we just go off and implement something, I'd like at least some b=
-asic
-> consensus on what the best practice is for doing this work.  Below is m=
-y attempt
-> at an early proposal.
->
-> Background
-> ----------------
->
-> Many companies have commercial / highly optimized toolchains for specif=
-ic
-> purpose, such as ICC from Intel, LLVM, ARM specific toolchain, etc..  F=
-or
-> (potentially) better performance with some applications a mechanism to =
-both
-> provide the hooks for the alternative toolchain as well as a way to act=
-ive it
-> per-package is desired.
->
-> This work assumes that the third party toolchain is generally compatibl=
-e with
-> the idea of sysroots, linking to the libc provided by OE, and generally
-> compatible with GNU conventions.
->
-> However, as part of the third party toolchain, it may not be GNU compat=
-ible.
-> This means many Open Source applications simply may not work with this
-> toolchain.  That means that we need to have a way for a toolchain to bl=
-acklist
-> (or whitelist) specific recipes.  This way only supported components ca=
-n be
-> built by the user, avoiding numerous complaints.
->
-> Currently OE has a method to generate an SDK based on the GNU toolchain=
-.  We
-> would like to be able to also export the external toolchain along with =
-the SDK,
-> effectively providing both the GNU toolchain and the third party toolch=
-ain using
-> the common sysroot.
->
-> We need a way to active the third party toolchain on a per-package basi=
-s.  This
-> activation will need to use the existing sysroot, but be able to pass d=
-ifferent
-> C, C++, LD, AS and other flags as specified by the third party toolchai=
-n.
->
-> Finally third party toolchains should be implemented as layers that can=
- easily
-> plug into OE.
->
-> Implementation
-> ---------------------
->
-> Add an OVERRIDE to specify the alternative toolchain.  Can this be done=
- within
-> the layer by doing something like:
->
-> OVERRIDE_append =3D ":toolchain-${TOOLCHAIN}"
->
-> TOOLCHAIN =3D "gnu" (or "icc")
->
-> To activate the toolchain you would use things like:
->
-> TOOLCHAIN_pn-bash =3D 'icc'
->
-> To define the correct behavior for the toolchain, the following would n=
-eed to be
-> defined (with _toolchain-<toolchain>):
->
-> TARGET_CPPFLAGS
-> TARGET_CFLAGS
-> TARGET_CXXFLAGS
-> TARGET_LDFLAGS
-> CC
-> CXX
-> F77
-> CPP
-> LD
-> CCLD
-> AR
-> AS
-> RANLIB
-> STRIP
-> OBJCOPY
-> OBJDUMP
-> NM
-> FULL_OPTIMIZATIONS
-> DEBUG_OPTIMIZATION
->
-> Is anyone aware of any other items that may require additional items?  =
-Will the
-> above actually work?  Using the override of the TOOLCHAIN_=85 will that=
- actually
-> change the override values or do we get stuck?
->
-> Comments/suggestions appreciated!
-> --Mark
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":24b">Signed-off-by: Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt;<br>
 
 
+---<br>
+diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch b/meta/reci=
+pes-extended/bash/bash-4.2/crossfix.patch<br>
+new file mode 100644<br>
+index 0000000..f587c34<br>
+--- a/dev/null<br>
++++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch<br>
+@@ -0,0 +1,28 @@<br>
++Adding @CROSS_COMPILE@ to CFLAGS_FOR_BUILD causes errors like:<br>
++<br>
++mkbuiltins.o: In function `open&#39;:<br>
++/usr/include/x86_64-linux-gnu/bits/fcntl2.h:54: undefined reference to `xo=
+pen&#39;<br>
++mkbuiltins.o: In function `read&#39;:<br>
++/usr/include/x86_64-linux-gnu/bits/unistd.h:45: undefined reference to `xr=
+ead&#39;<br>
++collect2: ld returned 1 exit status<br>
++<br>
++when compiling on a 64 bit x86 build system for a 32 bit x86 target since<=
+br>
++config.h confuses the compiler about settings. By removing the option, con=
+fig.h<br>
++isn&#39;t used and the compiler stops getting confused.<br>
++<br>
++Upstream-Status: Pending<br>
++RP 2012/11/13</div></blockquote></div><br>Relying on the target config.h t=
+o build a host tool could fail if the build and target environments differ =
+greatly, which is likely why mkbuiltins.c has hardcoded defines assuming le=
+ss about the host (just POSIX) based on the CROSS_COMPILE define. I don&#39=
+;t think removing that is the best fix, personally.</div>
 
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">The reason =
+for this failure has to do with a particular set of circumstances. A header=
+ in the bash source tree defines STRING() based on HAVE_STRINGIZE. This def=
+ine overwrites the unistd.h define of the same macro. The unistd.h definiti=
+ons of read() and open() wrap the call to the real functions to implement F=
+ORTIFY_SOURCES, and those wrappers use STRING() to do it. As a result, for =
+any host that defaults to -DFORTIFY_SOURCES, STRING() returns &#39;x&#39; r=
+esulting in a concatenation rather than an assembly level rename of the fun=
+ction being called.</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">If we add -=
+DHAVE_STRINGIZE in the CROSS_COMPILE case, then STRING() will be defined to=
+ something useful, and therefore the FORTIFY_SOURCES wrappers don&#39;t get=
+ hosed.</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">See=C2=A0<a=
+ href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?id=
+=3Dda0ff91">http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?i=
+d=3Dda0ff91</a> for an alternative fix which may be more likely to be accep=
+ted upstream.<br>
+
+-- <br>Christopher Larson<br>
+</div>
+
+--bcaec54fb9c6ef2c7e04ce68fa0a--
