@@ -1,21 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from host46-141-dynamic.2-87-r.retail.telecomitalia.it
+	([87.2.141.46] helo=router.workgroup)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TYHNd-0001og-KZ
+	(envelope-from <gnutoo@no-log.org>) id 1TYHR5-00023w-Ml
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 15:22:21 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Nov 2012 06:08:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,767,1344236400"; d="scan'208";a="167777920"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.49])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Nov 2012 06:08:25 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 16:08:49 +0200
-Message-Id: <1352815729-7409-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] insane.bbclass: add qa_package_check_name
+	Tue, 13 Nov 2012 15:25:55 +0100
+Received: from [192.168.1.121] (helo=gnutoo-desktop)
+	by router.workgroup with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.76) (envelope-from <gnutoo@no-log.org>)
+	id 1TYHCg-00027B-D7; Tue, 13 Nov 2012 15:11:02 +0100
+Date: Tue, 13 Nov 2012 15:11:34 +0100
+From: Denis 'GNUtoo' Carikli <gnutoo@no-log.org>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20121113151134.3407091b@gnutoo-desktop>
+In-Reply-To: <0793c2728cde3530f6d21c865aa017bb00007de5.1352808309.git.laurentiu.palcu@intel.com>
+References: <cover.1352808309.git.laurentiu.palcu@intel.com>
+	<0793c2728cde3530f6d21c865aa017bb00007de5.1352808309.git.laurentiu.palcu@intel.com>
+X-Mailer: Claws Mail 3.7.9 (GTK+ 2.24.6; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 12/12] xf86-video-omapfb: upgrade to 0.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,50 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 14:22:21 -0000
+X-List-Received-Date: Tue, 13 Nov 2012 14:25:55 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Check if package names match the [a-z0-9.+-]+ regular
-expression
+On Tue, 13 Nov 2012 14:18:29 +0200
+Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
 
-[YOCTO #3139]
+> Other changes:
+>  * changed the recipe's SRC_URI to track the new (maintained) repo;
+>  * removed all old patches as the latest driver's structure has
+> changed drastically;
+>  * license file changed quite a bit: MIT -> GPLv2 (needs to be
+> reviewed by somebody with a better understanding of these things
+> though);
+>  * xf86-video-omapfb changed its name to xf86-video-omap: change the
+>    recipe name and config files accordingly;
+>  * add dependency of libdrm-omap;
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta-yocto-bsp/conf/machine/beagleboard.conf       |    2 +-
+>  ...-video-omapfb_git.bb => xf86-video-omap_git.bb} |   23
+> ++++++++------------ .../target/arch/arm/conf/machine/{{=machine}}.conf
+> |    2 +- 3 files changed, 11 insertions(+), 16 deletions(-)
+>  rename meta/recipes-graphics/xorg-driver/{xf86-video-omapfb_git.bb
+> => xf86-video-omap_git.bb} (43%)
+> 
+> diff --git a/meta-yocto-bsp/conf/machine/beagleboard.conf
+> b/meta-yocto-bsp/conf/machine/beagleboard.conf index 6633880..204be95
+> 100644 --- a/meta-yocto-bsp/conf/machine/beagleboard.conf
+> +++ b/meta-yocto-bsp/conf/machine/beagleboard.conf
+> @@ -6,7 +6,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+>  XSERVER ?= "xserver-xorg \
+>             xf86-input-evdev \
+>             xf86-input-mouse \
+> -           xf86-video-omapfb \
+> +           xf86-video-omap \
+>             xf86-input-keyboard"
+Since xf86-video-omap is a totally different driver and depend on:
+* omap DRM video driver that is in staging only in recent kernels.
+* enabling the omap DRM in the board file(providing you don't use
+  device tree), which is not straingtforward(there are tricks required).
+* omap enabled in libdrm.
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/classes/insane.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Could you instead make a new xf86-video-omap recipe instead of
+modifying the xf86-video-omapfb one?
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index d51d1a1..f22e620 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -235,6 +235,15 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
-         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
-                  (name, package_qa_clean_path(path,d)))
- 
-+def package_qa_check_name(name, d):
-+    """
-+    Check if the package name matches the [a-z0-9.+-]+ regular expression
-+    """
-+    import re
-+    pattern = re.compile("^[a-z0-9.+-]+$")
-+    if not pattern.match(name):
-+        package_qa_handle_error("pkgname", "%s doesn't match the [a-z0-9.+-]+ regex\n" % name, d)
-+
- def package_qa_check_libdir(d):
-     """
-     Check for wrong library installation paths. For instance, catch
-@@ -780,6 +789,9 @@ python do_package_qa () {
-                 errorchecks.append(g[testmatrix[e]])
- 
-         bb.note("Checking Package: %s" % package)
-+        # Check package name
-+        package_qa_check_name(package, d)
-+
-         path = "%s/%s" % (pkgdest, package)
-         if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
-             walk_sane  = False
--- 
-1.7.11.7
+Note that xf86-video-omap should support rotation(xrandr -o 1) for
+omap4 (from #xorg-devel ) :
+Oct 22 00:52:32 <robclark>      it supports rotation, but only on
+omap4..
 
+(I know all that because I tried to make it work on the GTA04 machine,
+to have rotation but at the end I discovered that the rotation was
+only for omap4(because the rotation is based on tiler), so I
+abandoned.).
+
+Denis.
 
 
