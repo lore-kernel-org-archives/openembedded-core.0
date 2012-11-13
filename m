@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TYKVT-0007Ku-5i
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TYKVU-0007Kx-EM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 18:42:39 +0100
+	Tue, 13 Nov 2012 18:42:40 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 13 Nov 2012 09:28:44 -0800
+	by azsmga102.ch.intel.com with ESMTP; 13 Nov 2012 09:28:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,768,1344236400"; d="scan'208";a="217197535"
+X-IronPort-AV: E=Sophos;i="4.80,768,1344236400"; d="scan'208";a="217197561"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.166])
-	by azsmga001.ch.intel.com with ESMTP; 13 Nov 2012 09:28:19 -0800
+	by azsmga001.ch.intel.com with ESMTP; 13 Nov 2012 09:28:21 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 17:27:57 +0000
-Message-Id: <85ec5ad79c29da24057789a862b5a326b8e78574.1352827498.git.paul.eggleton@linux.intel.com>
+Date: Tue, 13 Nov 2012 17:27:59 +0000
+Message-Id: <c6cca731e4843b4d3be9c17773a8fb57ca876ba2.1352827498.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1352827498.git.paul.eggleton@linux.intel.com>
 References: <cover.1352827498.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1352827498.git.paul.eggleton@linux.intel.com>
 References: <cover.1352827498.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 2/4] python-smartpm: Add smartpm recipe
+Subject: [PATCH v2 4/4] python-smartpm: Add basic knowledge of RPMSENSE_MISSINGOK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,287 +35,87 @@ X-List-Received-Date: Tue, 13 Nov 2012 17:42:40 -0000
 
 From: Mark Hatle <mark.hatle@windriver.com>
 
-This is the initial integration, basic functionality such as 'smart query'
-has been tested.  Active use of remote feeds and such has not yet been
-verified.
-
-Thanks to Paul Eggleton for corrections and bug fixes for the initial
-integration.
+Currently smart does not support recommend dependencies.  Add the first set
+of 'support' for RPMSENSE_MISSINGOK (the flag that makes something a
+recommend).  This initial support ends up ignoring the recommendation, but is
+written in a way that it will be the basis of eventual support.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../python/python-smartpm/smart-rpm-root.patch     |   80 +++++++++++++
- .../python/python-smartpm/smartpm-rpm5-nodig.patch |   46 ++++++++
- .../python/python-smartpm_1.4.1.bb                 |  119 ++++++++++++++++++++
- 3 files changed, 245 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-rpm-root.patch
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-nodig.patch
- create mode 100644 meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+ .../python/python-smartpm/smart-missingok.patch    |   43 ++++++++++++++++++++
+ .../python/python-smartpm_1.4.1.bb                 |    3 +-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-rpm-root.patch b/meta/recipes-devtools/python/python-smartpm/smart-rpm-root.patch
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch b/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
 new file mode 100644
-index 0000000..b2629ef
+index 0000000..7e13869
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-rpm-root.patch
-@@ -0,0 +1,80 @@
-+Fix smart RPM backend to handle rpm-dbpath/rpm-root properly
++++ b/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
+@@ -0,0 +1,43 @@
++backends/rpm: Identify recommended packages
 +
-+Don't assume that if the dbpath starts with / that it is an absolute
-+path. This matches the behaviour of rpm itself. (If the root path is
-+specified and does not start with /, rpm will prepend the root path
-+twice and fail).
++We identify and store recommended packages (and later throw that data away.)
 +
-+Upstream-Status: Pending
++This is indended to be the starting work to add support for recommended
++packages to smart.
 +
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+diff --git a/smart/backends/rpm/base.py b/smart/backends/rpm/base.py
-+index 7092332..0489e11 100644
-+--- a/smart/backends/rpm/base.py
-++++ b/smart/backends/rpm/base.py
-+@@ -46,6 +46,12 @@ __all__ = ["RPMPackage", "RPMProvides", "RPMNameProvides", "RPMPreRequires",
-+            "rpm", "getTS", "getArchScore", "getArchColor", "system_provides",
-+            "collapse_libc_requires"]
-+ 
-++def rpm_join_dbpath(root, dbpath):
-++    if dbpath.startswith('/') and root:
-++        return os.path.join(root, dbpath[1:])
-++    else:
-++        return os.path.join(root, dbpath)
-++
-+ def getTS(new=False):
-+     rpm_root = os.path.abspath(sysconf.get("rpm-root", "/"))
-+     if not hasattr(getTS, "ts") or getTS.root != rpm_root:
-+@@ -56,7 +62,7 @@ def getTS(new=False):
-+         #if not sysconf.get("rpm-check-signatures", False):
-+         #    getTS.ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
-+         rpm_dbpath = sysconf.get("rpm-dbpath", "var/lib/rpm")
-+-        dbdir = os.path.join(getTS.root, rpm_dbpath)
-++        dbdir = rpm_join_dbpath(getTS.root, rpm_dbpath)
-+         if not os.path.isdir(dbdir):
-+             try:
-+                 os.makedirs(dbdir)
-+diff --git a/smart/channels/rpm_sys.py b/smart/channels/rpm_sys.py
-+index efcb10e..b9fda27 100644
-+--- a/smart/channels/rpm_sys.py
-++++ b/smart/channels/rpm_sys.py
-+@@ -20,7 +20,7 @@
-+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ #
-+ from smart.backends.rpm.header import RPMDBLoader
-+-from smart.backends.rpm.base import getTS
-++from smart.backends.rpm.base import getTS, rpm_join_dbpath
-+ from smart.channel import PackageChannel
-+ from smart import *
-+ import os
-+@@ -32,9 +32,9 @@ class RPMSysChannel(PackageChannel):
-+ 
-+     def fetch(self, fetcher, progress):
-+         getTS() # Make sure the db exists.
-+-        path = os.path.join(sysconf.get("rpm-root", "/"),
-+-                            sysconf.get("rpm-dbpath", "var/lib/rpm"),
-+-                            "Packages")
-++        dbdir = rpm_join_dbpath(sysconf.get("rpm-root", "/"),
-++                            sysconf.get("rpm-dbpath", "var/lib/rpm"))
-++        path = os.path.join(dbdir, "Packages")
-+         digest = os.path.getmtime(path)
-+         if digest == self._digest:
-+             return True
-+diff --git a/smart/plugins/detectsys.py b/smart/plugins/detectsys.py
-+index 2cd49ad..3959d07 100644
-+--- a/smart/plugins/detectsys.py
-++++ b/smart/plugins/detectsys.py
-+@@ -20,10 +20,11 @@
-+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ #
-+ from smart import *
-++from smart.backends.rpm.base import rpm_join_dbpath
-+ import os
-+ 
-+ def detectRPMSystem():
-+-    dir = os.path.join(sysconf.get("rpm-root", "/"),
-++    dir = rpm_join_dbpath(sysconf.get("rpm-root", "/"),
-+                        sysconf.get("rpm-dbpath", "var/lib/rpm"))
-+     file = os.path.join(dir, "Packages")
-+     if os.path.exists(file):
-diff --git a/meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-nodig.patch b/meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-nodig.patch
-new file mode 100644
-index 0000000..9919a94
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-nodig.patch
-@@ -0,0 +1,46 @@
-+RPM5 has removed support for RPMVSF_NOSIGNATURES
-+
-+Patch smart to no longer use this flag
-+
-+Upstream-Status: Pending
++Upstream-status: Inappropriate [ Code isn't finished! ]
 +
 +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +
-+diff -ur smart-1.4.1.orig/smart/backends/rpm/base.py smart-1.4.1/smart/backends/rpm/base.py
-+--- smart-1.4.1.orig/smart/backends/rpm/base.py	2012-10-04 11:22:11.229351164 -0500
-++++ smart-1.4.1/smart/backends/rpm/base.py	2012-10-04 11:22:44.820170786 -0500
-+@@ -53,8 +53,8 @@
-+         if sysconf.get("rpm-dbpath"):
-+             rpm.addMacro('_dbpath', "/" + sysconf.get("rpm-dbpath"))
-+         getTS.ts = rpm.ts(getTS.root)
-+-        if not sysconf.get("rpm-check-signatures", False):
-+-            getTS.ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
-++        #if not sysconf.get("rpm-check-signatures", False):
-++        #    getTS.ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
-+         rpm_dbpath = sysconf.get("rpm-dbpath", "var/lib/rpm")
-+         dbdir = os.path.join(getTS.root, rpm_dbpath)
-+         if not os.path.isdir(dbdir):
-+@@ -82,8 +82,8 @@
-+         if sysconf.get("rpm-dbpath"):
-+             rpm.addMacro('_dbpath', "/" + sysconf.get("rpm-dbpath"))
-+         ts = rpm.ts(getTS.root)
-+-        if not sysconf.get("rpm-check-signatures", False):
-+-            ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
-++        #if not sysconf.get("rpm-check-signatures", False):
-++        #    ts.setVSFlags(rpm._RPMVSF_NOSIGNATURES)
-+         return ts
-+     else:
-+         return getTS.ts
-+diff -ur smart-1.4.1.orig/smart/plugins/yumchannelsync.py smart-1.4.1/smart/plugins/yumchannelsync.py
-+--- smart-1.4.1.orig/smart/plugins/yumchannelsync.py	2010-12-06 03:11:05.000000000 -0600
-++++ smart-1.4.1/smart/plugins/yumchannelsync.py	2012-10-04 11:23:09.799350924 -0500
-+@@ -56,7 +56,8 @@
++Index: smart-1.4.1/smart/backends/rpm/header.py
++===================================================================
++--- smart-1.4.1.orig/smart/backends/rpm/header.py
+++++ smart-1.4.1/smart/backends/rpm/header.py
++@@ -292,6 +292,7 @@ class RPMHeaderLoader(Loader):
++                     f = [0]
++                 elif type(f) != list:
++                     f = [f]
+++                recdict = {}
++                 reqdict = {}
++                 for i in range(len(n)):
++                     ni = n[i]
++@@ -308,10 +309,17 @@ class RPMHeaderLoader(Loader):
++                             # RPMSENSE_SCRIPT_PREUN |
++                             # RPMSENSE_SCRIPT_POST |
++                             # RPMSENSE_SCRIPT_POSTUN == 7744
++-                            reqdict[(f[i]&7744 and PreReq or Req,
++-                                     intern(ni), r, vi)] = True
+++                            if (f[i]&rpm.RPMSENSE_MISSINGOK):
+++                                print "Ignoring Recommend Dependency: %s" % (ni)
+++                                recdict[(f[i]&7744 and PreReq or Req,
+++                                         intern(ni), r, vi)] = True
+++                            else:
+++                                reqdict[(f[i]&7744 and PreReq or Req,
+++                                         intern(ni), r, vi)] = True
+++                recargs = collapse_libc_requires(recdict.keys())
++                 reqargs = collapse_libc_requires(reqdict.keys())
++             else:
+++                recargs = None
++                 reqargs = None
 + 
-+     rpmroot = sysconf.get("rpm-root", "/")
-+     ts = rpmUtils.transaction.initReadOnlyTransaction(root=rpmroot)
-+-    ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
-++    #ts.pushVSFlags(~(rpm._RPMVSF_NOSIGNATURES|rpm._RPMVSF_NODIGESTS))
-++    ts.pushVSFlags(~(rpm._RPMVSF_NODIGESTS))
-+     releasever = None
-+     # HACK: we're hard-coding the most used distros, will add more if needed
-+     idx = ts.dbMatch('provides', 'fedora-release')
++             n = h[1054] # RPMTAG_CONFLICTNAME
 diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-new file mode 100644
-index 0000000..bc0c1f9
---- /dev/null
+index bc0c1f9..4314564 100644
+--- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
 +++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -0,0 +1,119 @@
-+SUMMARY = "The Smart Package Manager"
-+
-+DESCRIPTION = "The Smart Package Manager project has the ambitious objective of creating \
-+smart and portable algorithms for solving adequately the problem of managing software \
-+upgrades and installation. This tool works in all major distributions and will bring \
-+notable advantages over native tools currently in use (APT, APT-RPM, YUM, URPMI, etc)."
-+
-+HOMEPAGE = "http://smartpm.org/"
-+SECTION = "devel/python"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
-+
-+DEPENDS = "python rpm"
-+PR = "r0"
-+SRCNAME = "smart"
-+
-+SRC_URI = "\
-+          http://launchpad.net/smart/trunk/${PV}/+download/${SRCNAME}-${PV}.tar.bz2 \
-+          file://smartpm-rpm5-nodig.patch \
-+          file://smart-rpm-root.patch \
-+          "
-+
-+SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
-+SRC_URI[sha256sum] = "b1d519ddb43d60f293b065c28870a5d9e8b591cd49e8c68caea48ace91085eba"
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+# Options - rpm, qt4, gtk
-+PACKAGECONFIG ??= "rpm"
-+
-+RPM_RDEP = "python-smartpm-backend-rpm"
-+QT_RDEP = "python-smartpm-interface-qt4"
-+GTK_RDEP = "python-smartpm-interface-gtk"
-+
-+RPM_RDEP_virtclass-native = ""
-+QT_RDEP_virtclass-native = ""
-+GTK_RDEP_virtclass-native = ""
-+
-+PACKAGECONFIG[rpm] = ",,rpm,${RPM_RDEP}"
-+PACKAGECONFIG[qt4] = ",,qt4-x11,${QT_RDEP}"
-+PACKAGECONFIG[gtk] = ",,gtk+,${GTK_RDEP}"
-+
-+inherit distutils
-+
-+do_install_append() {
-+   # Cleanup unused item...
-+   rmdir ${D}${datadir}/share
-+
-+   # We don't support the following items
-+   rm -rf ${D}${libdir}/python*/site-packages/smart/backends/slack
-+   rm -rf ${D}${libdir}/python*/site-packages/smart/backends/arch
-+   rm -rf ${D}${libdir}/python*/site-packages/smart/interfaces/qt
-+
-+   # Temporary, debian support in OE is missing the python module
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/aptchannelsync.py*
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/debdir.py*
-+   rm -rf ${D}${libdir}/python*/site-packages/smart/backends/deb
-+
-+   # Disable automatic channel detection
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/detectsys.py*
-+
-+   # Disable landscape support
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/landscape.py*
-+
-+   # Disable urpmi channel support
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/urpmichannelsync.py*
-+
-+   # Disable yum channel support
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/yumchannelsync.py*
-+
-+   # Disable zypper channel support
-+   rm -f ${D}${libdir}/python*/site-packages/smart/plugins/zyppchannelsync.py*
-+
-+   if [ -z "${@base_contains('PACKAGECONFIG', 'rpm', 'rpm', '', d)}" ]; then
-+      rm -f ${D}${libdir}/python*/site-packages/smart/plugins/rpmdir.py*
-+      rm -rf ${D}${libdir}/python*/site-packages/smart/backends/rpm
-+   fi
-+
-+   if [ -z "${@base_contains('PACKAGECONFIG', 'qt4', 'qt4', '', d)}" ]; then
-+      rm -rf ${D}${libdir}/python*/site-packages/smart/interfaces/qt4
-+   fi
-+
-+   if [ -z "${@base_contains('PACKAGECONFIG', 'gtk+', 'gtk', '', d)}" ]; then
-+      rm -rf ${D}${libdir}/python*/site-packages/smart/interfaces/gtk
-+   fi
-+}
-+
-+PACKAGES  = "python-smartpm-dev python-smartpm-dbg python-smartpm-doc smartpm"
-+PACKAGES += "${@base_contains('PACKAGECONFIG', 'rpm', 'python-smartpm-backend-rpm', '', d)}"
-+PACKAGES += "${@base_contains('PACKAGECONFIG', 'qt4', 'python-smartpm-interface-qt4', '', d)}"
-+PACKAGES += "${@base_contains('PACKAGECONFIG', 'gtk', 'python-smartpm-interface-gtk', '', d)}"
-+PACKAGES += "python-smartpm-interface-images"
-+PACKAGES += "python-smartpm"
-+
-+RDEPENDS_smartpm = 'python-smartpm'
-+
-+RDEPENDS_python-smartpm_append = " virtual/python-smartpm-backend python-codecs python-textutils python-xml"
-+RDEPENDS_python-smartpm_append += " python-fcntl python-pickle python-crypt python-compression python-shell"
-+RDEPENDS_python-smartpm_append += " python-resource python-netclient python-threading python-unixadmin"
-+
-+#RDEPENDS_python-smartpm_append += " python-modules"
-+
-+RDEPENDS_python-smartpm-backend-rpm = 'python-rpm'
-+RPROVIDES_python-smartpm-backend-rpm = 'virtual/python-smartpm-backend'
-+
-+RDEPENDS_python-smartpm-interface-qt4 = 'qt4-x11 python-smartpm-interface-images'
-+RDEPENDS_python-smartpm-interface-gtk = 'gtk+ python-smartpm-interface-images'
-+
-+FILES_smartpm = "${bindir}/smart"
-+
-+FILES_${PN}-dbg += "${libdir}/python*/site-packages/smart/backends/rpm/.debug"
-+
-+FILES_python-smartpm-backend-rpm = "${libdir}/python*/site-packages/smart/backends/rpm"
-+
-+FILES_python-smartpm-interface-qt4 = "${libdir}/python*/site-packages/smart/interfaces/qt4"
-+FILES_python-smartpm-interface-gtk = "${libdir}/python*/site-packages/smart/interfaces/gtk"
-+FILES_python-smartpm-interface-images = "${datadir}/${baselib}/python*/site-packages/smart/interfaces/images"
-+
-+BBCLASSEXTEND = "native"
-+
+@@ -11,13 +11,14 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+ 
+ DEPENDS = "python rpm"
+-PR = "r0"
++PR = "r1"
+ SRCNAME = "smart"
+ 
+ SRC_URI = "\
+           http://launchpad.net/smart/trunk/${PV}/+download/${SRCNAME}-${PV}.tar.bz2 \
+           file://smartpm-rpm5-nodig.patch \
+           file://smart-rpm-root.patch \
++          file://smart-missingok.patch \
+           "
+ 
+ SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
 -- 
 1.7.9.5
 
