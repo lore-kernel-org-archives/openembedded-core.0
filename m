@@ -1,38 +1,27 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TYFzs-0007L4-2f
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TYG9R-0007wp-Pu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 13:53:44 +0100
-Received: by mail-bk0-f47.google.com with SMTP id jk7so2744706bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 04:39:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=nPobST6yD1AOkvsetpIBEJFHY+11Nu404fJHjWy1MTw=;
-	b=HgyXna1q+OjIInSBvcxVFAVzCq37xVLI3jEQKbxwcYrhfmfcSYMv9IFnslJH2T78C1
-	ZPoVyhWqrNjSBTDpvW1AfSGk6d0hw3kvlzugRXhWHTcjpSLNet39tCDZuZWmtiYfopct
-	G9rHw8//YmpA71qLcGLw8SIXQhUbJ0F9YzQpudAUTBgrad33o/wavth2R0zkSDaCcawA
-	FD2pAfJncCUOX7luxOxle837bAsqmjfRs3Szzt9uLc9p9ZLJ2LsEIHqtjoGk4FNqCO3p
-	ggDejc0gtrlU2y/EUfWTtcrqxwq+1kW6QXzqKsyuoSZx0fgizF3o8+zWnxMjS1j7Da9n
-	Wn2Q==
-Received: by 10.204.0.71 with SMTP id 7mr7879962bka.102.1352810389839;
-	Tue, 13 Nov 2012 04:39:49 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id gy18sm5409474bkc.4.2012.11.13.04.39.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 13 Nov 2012 04:39:48 -0800 (PST)
-Date: Tue, 13 Nov 2012 13:39:59 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20121113123959.GD3928@jama.jama.net>
-References: <cover.1352808309.git.laurentiu.palcu@intel.com>
-	<69a45cc5b2e02a92be884bf0e7c8d0d5f6092985.1352808309.git.laurentiu.palcu@intel.com>
+	Tue, 13 Nov 2012 14:03:38 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Nov 2012 04:49:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,765,1344236400"; d="scan'208";a="246297656"
+Received: from lpalcu-linux (HELO [10.237.105.42]) ([10.237.105.42])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Nov 2012 04:49:40 -0800
+Message-ID: <50A241E4.9050801@intel.com>
+Date: Tue, 13 Nov 2012 14:49:40 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
 MIME-Version: 1.0
-In-Reply-To: <69a45cc5b2e02a92be884bf0e7c8d0d5f6092985.1352808309.git.laurentiu.palcu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1352808309.git.laurentiu.palcu@intel.com>
+	<2964a05f2b16c3c55862251ab0d509d258c57d19.1352808309.git.laurentiu.palcu@intel.com>
+	<20121113123743.GC3928@jama.jama.net>
+In-Reply-To: <20121113123743.GC3928@jama.jama.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 07/12] libdrm: upgrade to 2.4.40
+Subject: Re: [PATCH 08/12] xserver-xorg: upgrade to 1.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,224 +34,340 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 12:53:44 -0000
-X-Groupsio-MsgNum: 31242
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="hoZxPH4CaxYzWscb"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 13 Nov 2012 13:03:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---hoZxPH4CaxYzWscb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 13, 2012 at 02:18:24PM +0200, Laurentiu Palcu wrote:
-> Other changes:
->  * removed a backported patch;
->  * activated libdrm-omap helper layer which is needed by the latest
->    xf86-video-omap xorg driver;
->  * split libdrm-drivers package into libdrm-radeon, libdrm-nouveau and
->    libdrm-omap;
 
-Why? What about upgrade path on target?
+On 11/13/2012 02:37 PM, Martin Jansa wrote:
+> On Tue, Nov 13, 2012 at 02:18:25PM +0200, Laurentiu Palcu wrote:
+>> The patch contains several aditional changes:
+>>  * removed one backported patch (included in the new release);
+>>  * changed mips64-compiler.patch to apply properly;
+>>  * licence checksum for COPYING file changed: some copyright years have
+>>    been changed
+>>
+>> The following external modules are now built-in:
+>>  * DBE
+>>  * DRI2
+>>  * DRI
+>>  * RECORD
+> 
+> Can you also say why?
+This was done upstream. I just updated the recipe accordingly.
+> 
+> And is this patch for oe-core or poky? because meta-yocto-bsp does not
+> belong here.
+You are right, I included the meta-yocto-bsp changes by mistake... I'll
+resend a new patchset.
 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/recipes-graphics/drm/libdrm.inc               |   15 ++--
->  .../drm/libdrm/disable-cairo.patch                 |   74 --------------=
-------
->  .../drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb}     |    5 +-
->  meta/recipes-graphics/drm/libdrm_git.bb            |    4 +-
->  4 files changed, 13 insertions(+), 85 deletions(-)
->  delete mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.patch
->  rename meta/recipes-graphics/drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb=
-} (44%)
->=20
-> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics=
-/drm/libdrm.inc
-> index a64a5df..2584e02 100644
-> --- a/meta/recipes-graphics/drm/libdrm.inc
-> +++ b/meta/recipes-graphics/drm/libdrm.inc
-> @@ -8,20 +8,23 @@ SECTION =3D "x11/base"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://xf86drm.c;beginline=3D9;endline=3D32;md5=3D=
-c8a3b961af7667c530816761e949dc71"
->  SRC_URI =3D "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
-> -PROVIDES =3D "drm"
-> +PROVIDES =3D "drm libdrm-radeon libdrm-nouveau libdrm-omap"
+> 
+> Cheers,
+> 
+>>
+>> The extmod module was completely removed.
+>>
+>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> ---
+>>  meta-yocto-bsp/conf/machine/atom-pc.conf           |    3 -
+>>  meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf      |    1 -
+>>  meta-yocto-bsp/conf/machine/routerstationpro.conf  |    1 -
+>>  meta/conf/machine/include/ia32-base.inc            |    5 +-
+>>  .../xserver-xorg-1.11.4/pkgconfig-deps.patch       |   70 --------------------
+>>  .../crosscompile.patch                             |    0
+>>  .../fix_open_max_preprocessor_error.patch          |    0
+>>  .../macro_tweak.patch                              |    0
+>>  .../mips64-compiler.patch                          |   28 ++++----
+>>  .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   14 +---
+>>  ...erver-xorg_1.11.4.bb => xserver-xorg_1.13.0.bb} |    5 +-
+>>  .../arch/powerpc/conf/machine/{{=machine}}.conf    |    1 -
+>>  12 files changed, 19 insertions(+), 109 deletions(-)
+>>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/pkgconfig-deps.patch
+>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/crosscompile.patch (100%)
+>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/fix_open_max_preprocessor_error.patch (100%)
+>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/macro_tweak.patch (100%)
+>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/mips64-compiler.patch (42%)
+>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.11.4.bb => xserver-xorg_1.13.0.bb} (56%)
+>>
+>> diff --git a/meta-yocto-bsp/conf/machine/atom-pc.conf b/meta-yocto-bsp/conf/machine/atom-pc.conf
+>> index 46bc71b..77dd7fb 100644
+>> --- a/meta-yocto-bsp/conf/machine/atom-pc.conf
+>> +++ b/meta-yocto-bsp/conf/machine/atom-pc.conf
+>> @@ -13,10 +13,7 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+>>  PREFERRED_VERSION_linux-yocto ?= "3.0%"
+>>  PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+>>  XSERVER ?= "xserver-xorg \
+>> -           xserver-xorg-extension-dri2 \
+>>             xserver-xorg-extension-glx \
+>> -           xserver-xorg-extension-extmod \
+>> -           xserver-xorg-extension-dbe \
+>>             xf86-input-mouse \
+>>             xf86-input-keyboard \
+>>             xf86-input-evdev \
+>> diff --git a/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf b/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf
+>> index 7aa498d..252f4cc 100644
+>> --- a/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf
+>> +++ b/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf
+>> @@ -19,7 +19,6 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+>>  
+>>  PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+>>  XSERVER ?= "xserver-xorg \
+>> -            xserver-xorg-extension-extmod \
+>>              xf86-input-evdev \
+>>              xf86-video-fbdev"
+>>  
+>> diff --git a/meta-yocto-bsp/conf/machine/routerstationpro.conf b/meta-yocto-bsp/conf/machine/routerstationpro.conf
+>> index feaa26e..e5e4d1a 100644
+>> --- a/meta-yocto-bsp/conf/machine/routerstationpro.conf
+>> +++ b/meta-yocto-bsp/conf/machine/routerstationpro.conf
+>> @@ -14,7 +14,6 @@ PREFERRED_VERSION_linux-yocto ?= "3.4%"
+>>  
+>>  PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+>>  XSERVER ?= "xserver-xorg \
+>> -            xserver-xorg-extension-extmod \
+>>              xf86-input-evdev \
+>>              xf86-video-fbdev"
+>>  
+>> diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
+>> index 4b10183..c2d267a 100644
+>> --- a/meta/conf/machine/include/ia32-base.inc
+>> +++ b/meta/conf/machine/include/ia32-base.inc
+>> @@ -33,11 +33,8 @@ XSERVER_IA32_BASE = "xserver-xorg \
+>>             xf86-input-synaptics \
+>>             "
+>>  
+>> -XSERVER_IA32_EXT = "xserver-xorg-extension-dri \
+>> -           xserver-xorg-extension-dri2 \
+>> +XSERVER_IA32_EXT = "
+>>             xserver-xorg-extension-glx \
+>> -           xserver-xorg-extension-extmod \
+>> -           xserver-xorg-extension-dbe \
+>>             xserver-xorg-module-libint10 \
+>>             "
+>>  
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/pkgconfig-deps.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/pkgconfig-deps.patch
+>> deleted file mode 100644
+>> index fee8d76..0000000
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/pkgconfig-deps.patch
+>> +++ /dev/null
+>> @@ -1,70 +0,0 @@
+>> -Upstream-Status: Backport
+>> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> -
+>> -commit 41d903918a5721e53ed694880eab44170f9717cc
+>> -Author: Jeremy Huddleston <jeremyhu@apple.com>
+>> -Date:   Wed Sep 14 13:45:18 2011 -0500
+>> -
+>> -    xorg-server.pc.in: Remove libpciaccess and pixman-1 from Requires
+>> -    
+>> -    Every module building against xorg-server does not *Require* pixman nor
+>> -    libpciaccess.  If such modules need pixman or pciaccess, they should be
+>> -    depending on them directly rather than inheriting a dependency from
+>> -    xorg-server.  To do this, they should use PKG_CHECK_MODULES in configure.ac
+>> -    to check for pixman-1 or pciaccess and include the apporpriate _LIBS variable
+>> -    to the appropriate _LDFLAGS variable in Makefile.am
+>> -    
+>> -    This also moves pixman-1 to Requires.private, so CPPFLAGS is set right to
+>> -    to satisfy include dependencies but avoid linking needlessly.
+>> -    
+>> -    Signed-off-by: Jeremy Huddleston <jeremyhu@apple.com>
+>> -    Reviewed-by: Gaetan Nadon <memsize@videotron.ca>
+>> -
+>> -diff --git a/configure.ac b/configure.ac
+>> -index 50beb01..4bfa82c 100644
+>> ---- a/configure.ac
+>> -+++ b/configure.ac
+>> -@@ -780,11 +780,6 @@ VIDMODEPROTO="xf86vidmodeproto >= 2.2.99.1"
+>> - WINDOWSWMPROTO="windowswmproto"
+>> - APPLEWMPROTO="applewmproto >= 1.4"
+>> - 
+>> --dnl Core modules for most extensions, et al.
+>> --SDK_REQUIRED_MODULES="[xproto >= 7.0.22] [randrproto >= 1.2.99.3] [renderproto >= 0.11] [xextproto >= 7.1.99] [inputproto >= 1.9.99.902] [kbproto >= 1.0.3] fontsproto"
+>> --# Make SDK_REQUIRED_MODULES available for inclusion in xorg-server.pc
+>> --AC_SUBST(SDK_REQUIRED_MODULES)
+>> --
+>> - dnl List of libraries that require a specific version
+>> - LIBAPPLEWM="applewm >= 1.4"
+>> - LIBDMX="dmx >= 1.0.99.1"
+>> -@@ -806,6 +801,11 @@ dnl specific modules against it
+>> - PKG_CHECK_MODULES(PIXMAN, $LIBPIXMAN)
+>> - REQUIRED_LIBS="$REQUIRED_LIBS $LIBPIXMAN $LIBXFONT xau"
+>> - 
+>> -+dnl Core modules for most extensions, et al.
+>> -+SDK_REQUIRED_MODULES="[xproto >= 7.0.22] [randrproto >= 1.2.99.3] [renderproto >= 0.11] [xextproto >= 7.1.99] [inputproto >= 1.99.99.902] [kbproto >= 1.0.3] fontsproto $LIBPIXMAN"
+>> -+# Make SDK_REQUIRED_MODULES available for inclusion in xorg-server.pc
+>> -+AC_SUBST(SDK_REQUIRED_MODULES)
+>> -+
+>> - REQUIRED_MODULES="[fixesproto >= 5.0] [damageproto >= 1.1] [xcmiscproto >= 1.2.0] [xtrans >= 1.2.2] [bigreqsproto >= 1.1.0] $SDK_REQUIRED_MODULES"
+>> - 
+>> - if test "x$CONFIG_UDEV" = xyes &&
+>> -@@ -1583,6 +1583,7 @@ if test "x$XORG" = xyes; then
+>> - 	if test "x$PCI" = xyes; then
+>> - 
+>> - 	PKG_CHECK_MODULES([PCIACCESS], $LIBPCIACCESS)
+>> -+	SDK_REQUIRED_MODULES="$SDK_REQUIRED_MODULES $LIBPCIACCESS"
+>> -	SAVE_LIBS=$LIBS
+>> -	SAVE_CFLAGS=$CFLAGS
+>> -	CFLAGS=$PCIACCESS_CFLAGS
+>> -diff --git a/xorg-server.pc.in b/xorg-server.pc.in
+>> -index fb238b5..a98eca8 100644
+>> ---- a/xorg-server.pc.in
+>> -+++ b/xorg-server.pc.in
+>> -@@ -15,7 +15,6 @@ abi_extension=@abi_extension@
+>> - Name: xorg-server
+>> - Description: Modular X.Org X Server
+>> - Version: @PACKAGE_VERSION@
+>> --Requires: pixman-1 pciaccess
+>> - Requires.private: @SDK_REQUIRED_MODULES@
+>> - Cflags: -I${sdkdir} @symbol_visibility@
+>> - Libs: -L${libdir}
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/crosscompile.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/crosscompile.patch
+>> similarity index 100%
+>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/crosscompile.patch
+>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/crosscompile.patch
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/fix_open_max_preprocessor_error.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/fix_open_max_preprocessor_error.patch
+>> similarity index 100%
+>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/fix_open_max_preprocessor_error.patch
+>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/fix_open_max_preprocessor_error.patch
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/macro_tweak.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/macro_tweak.patch
+>> similarity index 100%
+>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/macro_tweak.patch
+>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/macro_tweak.patch
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/mips64-compiler.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/mips64-compiler.patch
+>> similarity index 42%
+>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/mips64-compiler.patch
+>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/mips64-compiler.patch
+>> index e6bc95b..168368e 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/mips64-compiler.patch
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.13.0/mips64-compiler.patch
+>> @@ -6,24 +6,24 @@ This patch choses the right values for mips64
+>>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>  
+>>  Upstream-Status: Pending
+>> -Index: xorg-server-1.11.2/hw/xfree86/common/compiler.h
+>> +Index: xorg-server-1.13.0/hw/xfree86/common/compiler.h
+>>  ===================================================================
+>> ---- xorg-server-1.11.2.orig/hw/xfree86/common/compiler.h	2012-05-10 12:19:59.485599046 -0700
+>> -+++ xorg-server-1.11.2/hw/xfree86/common/compiler.h	2012-05-10 12:20:53.109602488 -0700
+>> -@@ -104,6 +104,7 @@
+>> - 
+>> - #  if !defined(__arm__)
+>> - #   if !defined(__sparc__) && !defined(__sparc) && !defined(__arm32__) && !defined(__nds32__) \
+>> +--- xorg-server-1.13.0-orig/hw/xfree86/common/compiler.h	2012-06-14 23:04:29.000000000 +0300
+>> ++++ xorg-server-1.13.0/hw/xfree86/common/compiler.h	2012-11-08 10:06:50.865831783 +0200
+>> +@@ -101,6 +101,7 @@
+>> + #if defined(NO_INLINE) || defined(DO_PROTOTYPES)
+>> + #if !defined(__arm__)
+>> + #if !defined(__sparc__) && !defined(__sparc) && !defined(__arm32__) && !defined(__nds32__) \
+>>  +      && !defined(__mips64) \
+>>         && !(defined(__alpha__) && defined(linux)) \
+>>         && !(defined(__ia64__) && defined(linux)) \
+>>   
+>> -@@ -708,7 +709,7 @@
+>> +@@ -721,7 +722,7 @@
+>>   }
+>>   
+>> - #   elif defined(__mips__) || (defined(__arm32__) && !defined(__linux__))
+>> --#    ifdef __arm32__
+>> -+#    if defined (__arm32__) || defined (__mips64)
+>> - #     define PORT_SIZE long
+>> - #    else
+>> - #     define PORT_SIZE short
+>> + #elif defined(__mips__) || (defined(__arm32__) && !defined(__linux__))
+>> +-#ifdef __arm32__
+>> ++#if defined (__arm32__) || defined (__mips64)
+>> + #define PORT_SIZE long
+>> + #else
+>> + #define PORT_SIZE short
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> index 33564eb..9d5e1c2 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+>> @@ -2,7 +2,7 @@ DESCRIPTION = "The X.Org X server"
+>>  HOMEPAGE = "http://www.x.org"
+>>  SECTION = "x11/base"
+>>  LICENSE = "MIT-X"
+>> -LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=bc098b9774ed096943f6c37b5beeef13"
+>>  
+>>  # xf86-*-* packages depend on an X server built with the xfree86 DDX
+>>  # so we have a virtual to represent that:
+>> @@ -13,7 +13,7 @@ PROVIDES = "virtual/xserver-xf86"
+>>  PROVIDES += "virtual/xserver"
+>>  
+>>  PE = "2"
+>> -INC_PR = "r3"
+>> +INC_PR = "r5"
+>>  
+>>  XORG_PN = "xorg-server"
+>>  SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
+>> @@ -48,12 +48,7 @@ PACKAGES =+ "${PN}-security-policy \
+>>               ${PN}-utils \
+>>               ${PN}-xephyr \
+>>               ${PN}-multimedia-modules \
+>> -             ${PN}-extension-dri \
+>> -             ${PN}-extension-dri2 \
+>>               ${PN}-extension-glx \
+>> -             ${PN}-extension-record \
+>> -             ${PN}-extension-extmod \
+>> -             ${PN}-extension-dbe \
+>>               ${PN}-module-libint10 \
+>>               ${PN}-module-libafb \
+>>               ${PN}-module-libwfb  \
+>> @@ -82,12 +77,7 @@ FILES_${PN}-xvfb = "${bindir}/Xvfb"
+>>  FILES_${PN}-utils = "${bindir}/scanpci ${bindir}/pcitweak ${bindir}/ioport ${bindir}/in[bwl] ${bindir}/out[bwl] ${bindir}/mmap[rw] ${bindir}/gtf ${bindir}/getconfig ${bindir}/getconfig.pl"
+>>  FILES_${PN}-xephyr = "${bindir}/Xephyr"
+>>  FILES_${PN}-multimedia-modules = "${libdir}/xorg/modules/multimedia/*drv*"
+>> -FILES_${PN}-extension-dri = "${libdir}/xorg/modules/extensions/libdri.so"
+>> -FILES_${PN}-extension-dri2 = "${libdir}/xorg/modules/extensions/libdri2.so"
+>>  FILES_${PN}-extension-glx = "${libdir}/xorg/modules/extensions/libglx.so"
+>> -FILES_${PN}-extension-record = "${libdir}/xorg/modules/extensions/librecord.so"
+>> -FILES_${PN}-extension-extmod = "${libdir}/xorg/modules/extensions/libextmod.so"
+>> -FILES_${PN}-extension-dbe = "${libdir}/xorg/modules/extensions/libdbe.so"
+>>  FILES_${PN}-module-libint10 = "${libdir}/xorg/modules/libint10.so"
+>>  FILES_${PN}-module-libafb = "${libdir}/xorg/modules/libafb.so"
+>>  FILES_${PN}-module-libwfb = "${libdir}/xorg/modules/libwfb.so"
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.4.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.13.0.bb
+>> similarity index 56%
+>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.4.bb
+>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.13.0.bb
+>> index 4739ee2..8ad87b8 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.11.4.bb
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.13.0.bb
+>> @@ -4,10 +4,9 @@ require xserver-xorg.inc
+>>  SRC_URI += "file://crosscompile.patch \
+>>              file://fix_open_max_preprocessor_error.patch \
+>>              file://mips64-compiler.patch \
+>> -            file://pkgconfig-deps.patch \
+>>             "
+>>  
+>> -SRC_URI[md5sum] = "256325e9b17dff479d92bed97f6b0adb"
+>> -SRC_URI[sha256sum] = "3e2935bc400612df58d5b5e6840829e2c63af02c2e7d2893092500358a4366fc"
+>> +SRC_URI[md5sum] = "bde3d178b756597d2ec2a19ef60d2e1f"
+>> +SRC_URI[sha256sum] = "548b91cb01087ad4f892428e7ac4955251cf12393e86c70420436b33848ef28a"
+>>  
+>>  PR = "${INC_PR}.0"
+>> diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf b/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf
+>> index cbf3c32..1d6143a 100644
+>> --- a/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf
+>> +++ b/scripts/lib/bsp/substrate/target/arch/powerpc/conf/machine/{{=machine}}.conf
+>> @@ -43,7 +43,6 @@ PREFERRED_VERSION_{{=preferred_kernel}} ?= "{{=preferred_kernel_version}}%"
+>>  {{ if xserver == "y": }}
+>>  PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
+>>  XSERVER = "xserver-xorg \
+>> -           xserver-xorg-extension-extmod \
+>>             xf86-input-evdev \
+>>             xf86-video-fbdev"
+>>  
+>> -- 
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
-Is this needed at all?
 
-Cheers,
-
->  DEPENDS =3D "libpthread-stubs udev"
-> =20
-> -INC_PR =3D "r3"
-> +INC_PR =3D "r4"
-> =20
->  #libpciaccess is required starting from libdrm 2.4.26
->  DEPENDS +=3D " libpciaccess"
-> =20
->  inherit autotools pkgconfig
-> =20
-> -EXTRA_OECONF +=3D "--disable-cairo-tests"
-> +EXTRA_OECONF +=3D "--disable-cairo-tests \
-> +                 --enable-omap-experimental-api \
-> +                "
-> =20
-> -PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-kms"
-> +PACKAGES =3D+ "${PN}-tests ${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-k=
-ms"
->  FILES_${PN}-tests =3D "${bindir}/dr* ${bindir}/mode*"
-> -FILES_${PN}-drivers =3D "${libdir}/libdrm_*.so.*"
-> +FILES_${PN}-radeon =3D "${libdir}/libdrm_radeon.so.*"
-> +FILES_${PN}-nouveau =3D "${libdir}/libdrm_nouveau.so.*"
-> +FILES_${PN}-omap =3D "${libdir}/libdrm_omap.so.*"
->  FILES_${PN}-kms =3D "${libdir}/libkms*.so.*"
-> -
-> diff --git a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch b/meta/=
-recipes-graphics/drm/libdrm/disable-cairo.patch
-> deleted file mode 100644
-> index 90e79d4..0000000
-> --- a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
-> +++ /dev/null
-> @@ -1,74 +0,0 @@
-> -commit c81d1df4926072d24b4dad1b488e618e57eff1c6
-> -Author: Daniel Stone <daniel@fooishbar.org>
-> -Date:   Thu Oct 4 10:26:37 2012 +1000
-> -
-> -    configure.ac: Allow forcible disabling of Cairo support
-> -   =20
-> -    We don't want to build libdrm tests with Cairo support under Poky, s=
-ince
-> -    they're never used and also cause a build loop from libdrm -> cairo =
-->
-> -    mesa-dri -> libdrm.
-> -   =20
-> -    To avoid variance in build results, introduce a --disable-cairo-tests
-> -    switch.
-> -   =20
-> -    Upstream-Status: Backport
-> -   =20
-> -    Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 290362c..8c28107 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -222,11 +222,23 @@ if test "x$EXYNOS" =3D xyes; then
-> - 	AC_DEFINE(HAVE_EXYNOS, 1, [Have EXYNOS support])
-> - fi
-> -=20
-> -+AC_ARG_ENABLE([cairo-tests],
-> -+              [AS_HELP_STRING([--enable-cairo-tests],
-> -+                              [Enable support for Cairo rendering in te=
-sts (default: auto)])],
-> -+              [CAIRO=3D$enableval], [CAIRO=3Dauto])
-> - PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=3Dyes], [HAVE_CAIRO=3Dno])
-> --if test "x$HAVE_CAIRO" =3D xyes; then
-> --	AC_DEFINE(HAVE_CAIRO, 1, [Have cairo support])
-> -+AC_MSG_CHECKING([whether to enable Cairo tests])
-> -+if test "x$CAIRO" =3D xauto; then
-> -+	CAIRO=3D"$HAVE_CAIRO"
-> - fi
-> --AM_CONDITIONAL(HAVE_CAIRO, [test "x$HAVE_CAIRO" =3D xyes])
-> -+if test "x$CAIRO" =3D xyes; then
-> -+	if ! test "x$HAVE_CAIRO" =3D xyes; then
-> -+		AC_MSG_ERROR([Cairo support required but not present])
-> -+	fi
-> -+	AC_DEFINE(HAVE_CAIRO, 1, [Have Cairo support])
-> -+fi
-> -+AC_MSG_RESULT([$CAIRO])
-> -+AM_CONDITIONAL(HAVE_CAIRO, [test "x$CAIRO" =3D xyes])
-> -=20
-> - # For enumerating devices in test case
-> - PKG_CHECK_MODULES(LIBUDEV, libudev, [HAVE_LIBUDEV=3Dyes], [HAVE_LIBUDEV=
-=3Dno])
-> -diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
-> -index b5ec771..065ae13 100644
-> ---- a/tests/modetest/Makefile.am
-> -+++ b/tests/modetest/Makefile.am
-> -@@ -1,8 +1,7 @@
-> - AM_CFLAGS =3D \
-> - 	-I$(top_srcdir)/include/drm \
-> - 	-I$(top_srcdir)/libkms/ \
-> --	-I$(top_srcdir) \
-> --	$(CAIRO_CFLAGS)
-> -+	-I$(top_srcdir)
-> -=20
-> - noinst_PROGRAMS =3D \
-> - 	modetest
-> -@@ -12,5 +11,9 @@ modetest_SOURCES =3D \
-> -=20
-> - modetest_LDADD =3D \
-> - 	$(top_builddir)/libdrm.la \
-> --	$(top_builddir)/libkms/libkms.la \
-> --	$(CAIRO_LIBS)
-> -+	$(top_builddir)/libkms/libkms.la
-> -+
-> -+if HAVE_CAIRO
-> -+AM_CFLAGS +=3D $(CAIRO_CFLAGS)
-> -+modetest_LDADD +=3D $(CAIRO_LIBS)
-> -+endif
-> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.39.bb b/meta/recipes-gr=
-aphics/drm/libdrm_2.4.40.bb
-> similarity index 44%
-> rename from meta/recipes-graphics/drm/libdrm_2.4.39.bb
-> rename to meta/recipes-graphics/drm/libdrm_2.4.40.bb
-> index f3ce2b1..42f860a 100644
-> --- a/meta/recipes-graphics/drm/libdrm_2.4.39.bb
-> +++ b/meta/recipes-graphics/drm/libdrm_2.4.40.bb
-> @@ -4,8 +4,7 @@ PR =3D "${INC_PR}.0"
-> =20
->  SRC_URI +=3D "file://installtests.patch \
->              file://GNU_SOURCE_definition.patch \
-> -            file://disable-cairo.patch \
->             "
-> =20
-> -SRC_URI[md5sum] =3D "9a299e021d81bab6c82307582c78319d"
-> -SRC_URI[sha256sum] =3D "386b17388980504bca16ede81ceed4c77b12c3488f46ecb7=
-f4d48e48512a733d"
-> +SRC_URI[md5sum] =3D "626a3dc44a40ef37565b61732b688567"
-> +SRC_URI[sha256sum] =3D "48c14e4600ea0fde522292893eb4055d2f6d86a69d093d37=
-9c827deaccffaa1f"
-> diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graph=
-ics/drm/libdrm_git.bb
-> index 5d7f953..e3051c7 100644
-> --- a/meta/recipes-graphics/drm/libdrm_git.bb
-> +++ b/meta/recipes-graphics/drm/libdrm_git.bb
-> @@ -6,7 +6,7 @@ S =3D "${WORKDIR}/git"
-> =20
->  DEFAULT_PREFERENCE =3D "-1"
-> =20
-> -SRCREV =3D "14db948127e549ea9234e02d8e112de3871f8f9f"
-> -PV =3D "2.4.39+git${SRCPV}"
-> +SRCREV =3D "e01d68f9f3acfc35fe164283904b5d058c2ab378"
-> +PV =3D "2.4.40+git${SRCPV}"
->  PR =3D "${INC_PR}.0"
-> =20
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---hoZxPH4CaxYzWscb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlCiP58ACgkQN1Ujt2V2gBygsQCgg9U44cBgLVQoslhwT5eJuRp+
-jYIAn3VlV32qb6IVdC6E623pf2wZ5EKg
-=vLBk
------END PGP SIGNATURE-----
-
---hoZxPH4CaxYzWscb--
