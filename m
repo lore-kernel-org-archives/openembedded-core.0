@@ -1,25 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TYKUY-0007JI-JY
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TYKVR-0007Kt-PK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 18:41:42 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Nov 2012 09:26:29 -0800
+	Tue, 13 Nov 2012 18:42:38 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 13 Nov 2012 09:28:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,768,1344236400"; d="scan'208";a="241536037"
-Received: from unknown (HELO localhost) ([10.255.12.144])
-	by orsmga002.jf.intel.com with ESMTP; 13 Nov 2012 09:26:26 -0800
-From: tom.zanussi@intel.com
-To: ross.burton@intel.com,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 11:26:19 -0600
-Message-Id: <52f8f0337b41ef0744b0dd3ec8afd8db2414a1c9.1352826909.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <cover.1352826909.git.tom.zanussi@intel.com>
-References: <cover.1352826909.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1352826909.git.tom.zanussi@intel.com>
-References: <cover.1352826909.git.tom.zanussi@intel.com>
-Subject: [PATCH 3/3] lttng-modules: remove unused lttng-syscalls patch
+X-IronPort-AV: E=Sophos;i="4.80,768,1344236400"; d="scan'208";a="217197499"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.166])
+	by azsmga001.ch.intel.com with ESMTP; 13 Nov 2012 09:28:17 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Nov 2012 17:27:55 +0000
+Message-Id: <cover.1352827498.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2 0/4] First pass at implementing Smart
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,73 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 17:41:42 -0000
+X-List-Received-Date: Tue, 13 Nov 2012 17:42:38 -0000
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+Since V1 that Mark originally posted, remove the BBCLASSEXTEND for
+nativesdk in python-smartpm as it is currently broken when building
+for nativesdk.
 
-commit b7e184508 (lttng-2.0: fix srcrev/pv to match the recipe
-filenames) removed the
-lttng-sycalls-protect-is_compat_task-from-redefiniti.patch from the
-SRC_URI but forgot to remove the patch itself.
 
-(From OE-Core rev: 6745b927a40e523cfda4ce2ca6422d69a6791e8a)
+The following changes since commit fa7fb44d1ca2b8a57509806bde19672c68ef157d:
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...ls-protect-is_compat_task-from-redefiniti.patch | 41 ----------------------
- 1 file changed, 41 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
+  mesa-demos: fix --with-glut check (2012-11-12 22:31:41 +0000)
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch b/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
-deleted file mode 100644
-index 0056633..0000000
---- a/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 415a1a678cb2fcf603f9777f2c7b71c1e38f8101 Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@windriver.com>
--Date: Mon, 19 Mar 2012 13:30:31 -0400
--Subject: [PATCH] lttng-sycalls: protect is_compat_task from redefinition
--
--recent -stable kernels have their own fallback definition of is_compat_task
--
--   #define is_compat_task() (0)
--
--To protect against this double definition of is_compat_task we can check
--to see if it is already defined, and skip the lttng variant.
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-----
-- lttng-syscalls.c |    4 ++++
-- 1 files changed, 4 insertions(+), 0 deletions(-)
--
--diff --git a/lttng-syscalls.c b/lttng-syscalls.c
--index 9de3c07..80d0f05 100644
----- a/lttng-syscalls.c
--+++ b/lttng-syscalls.c
--@@ -17,12 +17,16 @@
-- #include "ltt-events.h"
-- 
-- #ifndef CONFIG_COMPAT
--+
--+#ifndef is_compat_task
-- static inline int is_compat_task(void)
-- {
-- 	return 0;
-- }
-- #endif
-- 
--+#endif
--+
-- static
-- void syscall_entry_probe(void *__data, struct pt_regs *regs, long id);
-- 
---- 
--1.7.5.4
--
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/smart
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/smart
+
+Mark Hatle (4):
+  rpm: Slightly change the way python-rpm is constructed
+  python-smartpm: Add smartpm recipe
+  rpm: Add additional RPMSENSE values to python module
+  python-smartpm: Add basic knowledge of RPMSENSE_MISSINGOK
+
+ .../python/python-smartpm/smart-missingok.patch    |   43 +++++++
+ .../python/python-smartpm/smart-rpm-root.patch     |   80 +++++++++++++
+ .../python/python-smartpm/smartpm-rpm5-nodig.patch |   46 ++++++++
+ .../python/python-smartpm_1.4.1.bb                 |  120 ++++++++++++++++++++
+ .../rpm/rpm/python-rpm-rpmsense.patch              |   33 ++++++
+ meta/recipes-devtools/rpm/rpm/rpm-py-init.patch    |   27 +++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   17 ++-
+ 7 files changed, 360 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-rpm-root.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smartpm-rpm5-nodig.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+ create mode 100644 meta/recipes-devtools/rpm/rpm/python-rpm-rpmsense.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-py-init.patch
+
 -- 
-1.7.11.4
+1.7.9.5
 
 
 
