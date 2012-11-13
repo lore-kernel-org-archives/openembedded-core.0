@@ -1,24 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jessica.zhang@intel.com>) id 1TY369-0007cA-2T
+	(envelope-from <daniel@fooishbar.org>) id 1TY4X5-0005sv-LK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 00:07:21 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 12 Nov 2012 14:52:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,764,1344236400"; d="scan'208";a="240990420"
-Received: from jzhang-desktop.jf.intel.com (HELO localhost) ([10.7.201.69])
-	by orsmga002.jf.intel.com with ESMTP; 12 Nov 2012 14:53:26 -0800
-From: Jessica Zhang <jessica.zhang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Nov 2012 15:04:40 -0800
-Message-Id: <65cdcc44ab7a640a227a2605f9a93433745f37eb.1352761226.git.jessica.zhang@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1352761226.git.jessica.zhang@intel.com>
-References: <cover.1352761226.git.jessica.zhang@intel.com>
-In-Reply-To: <cover.1352761226.git.jessica.zhang@intel.com>
-References: <cover.1352761226.git.jessica.zhang@intel.com>
-Subject: [PATCH 1/1] Fix the first line typo of adt-installer [YOCTO#3384]
+	Tue, 13 Nov 2012 01:39:19 +0100
+Received: by mail-vc0-f175.google.com with SMTP id p1so6976288vcq.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Nov 2012 16:25:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=1lUxFNrzbINJh459WlUJq500SWwrHvJKeAgACOez8no=;
+	b=bAVlsIfYNiQF6kObMjXG9UaAeglJdv+5YeL9ohZF74xtQ6BHR5vExRZo9Bs6/J8Wgc
+	XiVkoIU1ztEARad4Ib7EsQUT9+LLF12jugKqhyahVgu22o59WgX1/RR0AvuvW9CPIOZN
+	DMRrsbWI0eh6jELUFDhg3xpHQk+/IWuykRO/Y2LzMRFZ3JhaKs30Wv+hqfRWueANYLsa
+	o3hRskYZ4k6rQcAR8Ipa9mnX2V0icsZ+yeJfUrYKwHzpOBAZjaPK57CG3w9Xqnveyxdh
+	jO4+n2t4Bs2e68ZIHeL++YQsQr6roMvM5DJ3BpZKh+DiayP9PMR+AxIssEzosMaKB3U+
+	Gm3Q==
+MIME-Version: 1.0
+Received: by 10.220.214.199 with SMTP id hb7mr2909124vcb.21.1352766321801;
+	Mon, 12 Nov 2012 16:25:21 -0800 (PST)
+Received: by 10.58.240.38 with HTTP; Mon, 12 Nov 2012 16:25:21 -0800 (PST)
+X-Originating-IP: [115.64.155.100]
+In-Reply-To: <1352732608-9517-1-git-send-email-ross.burton@intel.com>
+References: <1352732608-9517-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 13 Nov 2012 11:25:21 +1100
+Message-ID: <CAPj87rPgLqsH08iE3n75b-NmN1jrePnhT3agfRnZiLUCNtgmDA@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+To: Ross Burton <ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQnSP34swBnXU0Ko6WSh/S+X4MnQohtMoFYNviYjq4MPd7ScWr4Oj8KbadMZR9VLa8dUux73
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa-demos: fix --with-glut check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,25 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Nov 2012 23:07:21 -0000
+X-List-Received-Date: Tue, 13 Nov 2012 00:39:19 -0000
+Content-Type: multipart/alternative; boundary=bcaec54fb4f0133a8304ce557412
 
-Signed-off-by: Jessica Zhang <jessica.zhang@intel.com>
----
- .../installer/adt-installer/adt_installer          |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--bcaec54fb4f0133a8304ce557412
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
-index 0be5a1d..c012391 100755
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
-@@ -1,4 +1,4 @@
--#/bin/bash
-+#!/bin/bash
- # Yocto ADT Installer
- #
- # Copyright 2010-2011 by Intel Corp.
--- 
-1.7.9.5
+Hi,
 
+On 13 November 2012 02:03, Ross Burton <ross.burton@intel.com> wrote:
 
+> The GLUT check was automatic and couldn't be disabled, so mesa-demos would
+> gain
+> a GLUT dependency if it was present when built.
+>
+> So, fix configure.ac so that --without-glut works as expected.
+>
 
+Has this been sent upstream?
+
+Cheers,
+Daniel
+
+--bcaec54fb4f0133a8304ce557412
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi,<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 13 November=
+ 2012 02:03, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burto=
+n@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">
+The GLUT check was automatic and couldn&#39;t be disabled, so mesa-demos wo=
+uld gain<br>
+a GLUT dependency if it was present when built.<br>
+<br>
+So, fix <a href=3D"http://configure.ac" target=3D"_blank">configure.ac</a> =
+so that --without-glut works as expected.<br></blockquote><div><br></div><d=
+iv>Has this been sent upstream?</div><div><br></div><div>Cheers,</div><div>
+Daniel=C2=A0</div></div></div>
+
+--bcaec54fb4f0133a8304ce557412--
