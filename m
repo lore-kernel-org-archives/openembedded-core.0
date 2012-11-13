@@ -1,39 +1,30 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TYGaQ-0000F9-GY
-	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 14:31:30 +0100
-Received: by mail-bk0-f47.google.com with SMTP id jk7so2764478bkc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TYHEu-0001YT-DH for openembedded-core@lists.openembedded.org;
+	Tue, 13 Nov 2012 15:13:20 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qADDxQov004286
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 05:17:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qlVEFUa/iCE7KJ7fhDXagJJLdDve6Fcs5wja3/eQBOY=;
-	b=YvENcPMxtNbXoLNH7j0Y1C2Zie7R2shf0GEtaw3Smjt6vRhOZ1MVxBXmRbY8NW3cv+
-	8U9wnRJWfbHmP5ZDuvLxe3VAVqnzmFIDpjGaOhPjLGkyzZsFM29JpYqyD2m1WHQXMdMB
-	9d8l8cTUkw4iZhSUabOM5z/ed8cWwHVgPcnketHnWfNcmaweX1PBdCZoghizjExa7Wcd
-	XMa5UETfX/mxlk6qm5bK8kpTG/g81BZnd5Gqnf2kGMcqXrald10aqXSqgFzZrkiC0PMO
-	Ajq78MqEYN9Ast0UirlLFqUaY9vks5fUHdFBU+0SK9PSNvlSl6d1VefvoAmNtG1tyNm7
-	b4MA==
-Received: by 10.204.9.147 with SMTP id l19mr1320069bkl.15.1352812656164;
-	Tue, 13 Nov 2012 05:17:36 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id hw7sm1480277bkc.9.2012.11.13.05.17.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 13 Nov 2012 05:17:35 -0800 (PST)
-Date: Tue, 13 Nov 2012 14:17:39 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20121113131739.GF3928@jama.jama.net>
-References: <cover.1352808309.git.laurentiu.palcu@intel.com>
-	<69a45cc5b2e02a92be884bf0e7c8d0d5f6092985.1352808309.git.laurentiu.palcu@intel.com>
-	<20121113123959.GD3928@jama.jama.net> <50A2431E.5050804@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <50A2431E.5050804@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 07/12] libdrm: upgrade to 2.4.40
+	Tue, 13 Nov 2012 13:59:26 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04019-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Nov 2012 13:59:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qADDxJXc004280
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Nov 2012 13:59:20 GMT
+Message-ID: <1352815159.24487.122.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Nov 2012 13:59:19 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] bash: Add fix for cross compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,249 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 13:31:30 -0000
-X-Groupsio-MsgNum: 31249
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ULyIDA2m8JTe+TiX"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 13 Nov 2012 14:13:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---ULyIDA2m8JTe+TiX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+new file mode 100644
+index 0000000..f587c34
+--- a/dev/null
++++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+@@ -0,0 +1,28 @@
++Adding @CROSS_COMPILE@ to CFLAGS_FOR_BUILD causes errors like:
++
++mkbuiltins.o: In function `open':
++/usr/include/x86_64-linux-gnu/bits/fcntl2.h:54: undefined reference to `xopen'
++mkbuiltins.o: In function `read':
++/usr/include/x86_64-linux-gnu/bits/unistd.h:45: undefined reference to `xread'
++collect2: ld returned 1 exit status
++
++when compiling on a 64 bit x86 build system for a 32 bit x86 target since
++config.h confuses the compiler about settings. By removing the option, config.h 
++isn't used and the compiler stops getting confused.
++
++Upstream-Status: Pending
++RP 2012/11/13
++
++Index: bash-4.2/builtins/Makefile.in
++===================================================================
++--- bash-4.2.orig/builtins/Makefile.in	2010-12-21 13:37:18.000000000 +0000
+++++ bash-4.2/builtins/Makefile.in	2012-11-13 11:36:47.761417446 +0000
++@@ -56,7 +56,7 @@
++ 
++ PROFILE_FLAGS = @PROFILE_FLAGS@
++ CFLAGS = @CFLAGS@
++-CFLAGS_FOR_BUILD = @CFLAGS_FOR_BUILD@ @CROSS_COMPILE@
+++CFLAGS_FOR_BUILD = @CFLAGS_FOR_BUILD@
++ CPPFLAGS = @CPPFLAGS@
++ CPPFLAGS_FOR_BUILD = @CPPFLAGS_FOR_BUILD@
++ LOCAL_CFLAGS = @LOCAL_CFLAGS@ ${DEBUG}
+diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
+index 5a0f015..18ddc7e 100644
+--- a/meta/recipes-extended/bash/bash_4.2.bb
++++ b/meta/recipes-extended/bash/bash_4.2.bb
+@@ -4,7 +4,7 @@ require bash.inc
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-009;apply=yes;striplevel=0;name=patch009 \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-010;apply=yes;striplevel=0;name=patch010 \
+            file://execute_cmd.patch;striplevel=0 \
++           file://crossfix.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "3fb927c7c33022f1c327f14a81c0d4b0"
 
-On Tue, Nov 13, 2012 at 02:54:54PM +0200, Laurentiu Palcu wrote:
->=20
->=20
-> On 11/13/2012 02:39 PM, Martin Jansa wrote:
-> > On Tue, Nov 13, 2012 at 02:18:24PM +0200, Laurentiu Palcu wrote:
-> >> Other changes:
-> >>  * removed a backported patch;
-> >>  * activated libdrm-omap helper layer which is needed by the latest
-> >>    xf86-video-omap xorg driver;
-> >>  * split libdrm-drivers package into libdrm-radeon, libdrm-nouveau and
-> >>    libdrm-omap;
-> >=20
-> > Why?=20
-> xf86-video-omap configure script checks the existence of libdrm-omap in
-> order to build. So, I though it was best to split the drivers in order
-> to be able to install only the one we need.
->=20
-> > What about upgrade path on target?
-> I'm afraid I don't understand the question. Can you be more specific?
 
-If someone had libdrm-drivers 2.4.39 installed on target providing e.g.
-nouveau, then he won't get libdrm-nouveau 2.4.40 installed or
-libdrm-drivers upgraded.
 
-Cheers,
 
->=20
-> Thanks,
-> Laurentiu
->=20
-> >=20
-> >> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> >> ---
-> >>  meta/recipes-graphics/drm/libdrm.inc               |   15 ++--
-> >>  .../drm/libdrm/disable-cairo.patch                 |   74 -----------=
----------
-> >>  .../drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb}     |    5 +-
-> >>  meta/recipes-graphics/drm/libdrm_git.bb            |    4 +-
-> >>  4 files changed, 13 insertions(+), 85 deletions(-)
-> >>  delete mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.pat=
-ch
-> >>  rename meta/recipes-graphics/drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40=
-=2Ebb} (44%)
-> >>
-> >> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graph=
-ics/drm/libdrm.inc
-> >> index a64a5df..2584e02 100644
-> >> --- a/meta/recipes-graphics/drm/libdrm.inc
-> >> +++ b/meta/recipes-graphics/drm/libdrm.inc
-> >> @@ -8,20 +8,23 @@ SECTION =3D "x11/base"
-> >>  LICENSE =3D "MIT"
-> >>  LIC_FILES_CHKSUM =3D "file://xf86drm.c;beginline=3D9;endline=3D32;md5=
-=3Dc8a3b961af7667c530816761e949dc71"
-> >>  SRC_URI =3D "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
-> >> -PROVIDES =3D "drm"
-> >> +PROVIDES =3D "drm libdrm-radeon libdrm-nouveau libdrm-omap"
-> >=20
-> > Is this needed at all?
-> >=20
-> > Cheers,
-> >=20
-> >>  DEPENDS =3D "libpthread-stubs udev"
-> >> =20
-> >> -INC_PR =3D "r3"
-> >> +INC_PR =3D "r4"
-> >> =20
-> >>  #libpciaccess is required starting from libdrm 2.4.26
-> >>  DEPENDS +=3D " libpciaccess"
-> >> =20
-> >>  inherit autotools pkgconfig
-> >> =20
-> >> -EXTRA_OECONF +=3D "--disable-cairo-tests"
-> >> +EXTRA_OECONF +=3D "--disable-cairo-tests \
-> >> +                 --enable-omap-experimental-api \
-> >> +                "
-> >> =20
-> >> -PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-kms"
-> >> +PACKAGES =3D+ "${PN}-tests ${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN=
-}-kms"
-> >>  FILES_${PN}-tests =3D "${bindir}/dr* ${bindir}/mode*"
-> >> -FILES_${PN}-drivers =3D "${libdir}/libdrm_*.so.*"
-> >> +FILES_${PN}-radeon =3D "${libdir}/libdrm_radeon.so.*"
-> >> +FILES_${PN}-nouveau =3D "${libdir}/libdrm_nouveau.so.*"
-> >> +FILES_${PN}-omap =3D "${libdir}/libdrm_omap.so.*"
-> >>  FILES_${PN}-kms =3D "${libdir}/libkms*.so.*"
-> >> -
-> >> diff --git a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch b/me=
-ta/recipes-graphics/drm/libdrm/disable-cairo.patch
-> >> deleted file mode 100644
-> >> index 90e79d4..0000000
-> >> --- a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
-> >> +++ /dev/null
-> >> @@ -1,74 +0,0 @@
-> >> -commit c81d1df4926072d24b4dad1b488e618e57eff1c6
-> >> -Author: Daniel Stone <daniel@fooishbar.org>
-> >> -Date:   Thu Oct 4 10:26:37 2012 +1000
-> >> -
-> >> -    configure.ac: Allow forcible disabling of Cairo support
-> >> -   =20
-> >> -    We don't want to build libdrm tests with Cairo support under Poky=
-, since
-> >> -    they're never used and also cause a build loop from libdrm -> cai=
-ro ->
-> >> -    mesa-dri -> libdrm.
-> >> -   =20
-> >> -    To avoid variance in build results, introduce a --disable-cairo-t=
-ests
-> >> -    switch.
-> >> -   =20
-> >> -    Upstream-Status: Backport
-> >> -   =20
-> >> -    Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-> >> -
-> >> -diff --git a/configure.ac b/configure.ac
-> >> -index 290362c..8c28107 100644
-> >> ---- a/configure.ac
-> >> -+++ b/configure.ac
-> >> -@@ -222,11 +222,23 @@ if test "x$EXYNOS" =3D xyes; then
-> >> - 	AC_DEFINE(HAVE_EXYNOS, 1, [Have EXYNOS support])
-> >> - fi
-> >> -=20
-> >> -+AC_ARG_ENABLE([cairo-tests],
-> >> -+              [AS_HELP_STRING([--enable-cairo-tests],
-> >> -+                              [Enable support for Cairo rendering in=
- tests (default: auto)])],
-> >> -+              [CAIRO=3D$enableval], [CAIRO=3Dauto])
-> >> - PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=3Dyes], [HAVE_CAIRO=3Dno=
-])
-> >> --if test "x$HAVE_CAIRO" =3D xyes; then
-> >> --	AC_DEFINE(HAVE_CAIRO, 1, [Have cairo support])
-> >> -+AC_MSG_CHECKING([whether to enable Cairo tests])
-> >> -+if test "x$CAIRO" =3D xauto; then
-> >> -+	CAIRO=3D"$HAVE_CAIRO"
-> >> - fi
-> >> --AM_CONDITIONAL(HAVE_CAIRO, [test "x$HAVE_CAIRO" =3D xyes])
-> >> -+if test "x$CAIRO" =3D xyes; then
-> >> -+	if ! test "x$HAVE_CAIRO" =3D xyes; then
-> >> -+		AC_MSG_ERROR([Cairo support required but not present])
-> >> -+	fi
-> >> -+	AC_DEFINE(HAVE_CAIRO, 1, [Have Cairo support])
-> >> -+fi
-> >> -+AC_MSG_RESULT([$CAIRO])
-> >> -+AM_CONDITIONAL(HAVE_CAIRO, [test "x$CAIRO" =3D xyes])
-> >> -=20
-> >> - # For enumerating devices in test case
-> >> - PKG_CHECK_MODULES(LIBUDEV, libudev, [HAVE_LIBUDEV=3Dyes], [HAVE_LIBU=
-DEV=3Dno])
-> >> -diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
-> >> -index b5ec771..065ae13 100644
-> >> ---- a/tests/modetest/Makefile.am
-> >> -+++ b/tests/modetest/Makefile.am
-> >> -@@ -1,8 +1,7 @@
-> >> - AM_CFLAGS =3D \
-> >> - 	-I$(top_srcdir)/include/drm \
-> >> - 	-I$(top_srcdir)/libkms/ \
-> >> --	-I$(top_srcdir) \
-> >> --	$(CAIRO_CFLAGS)
-> >> -+	-I$(top_srcdir)
-> >> -=20
-> >> - noinst_PROGRAMS =3D \
-> >> - 	modetest
-> >> -@@ -12,5 +11,9 @@ modetest_SOURCES =3D \
-> >> -=20
-> >> - modetest_LDADD =3D \
-> >> - 	$(top_builddir)/libdrm.la \
-> >> --	$(top_builddir)/libkms/libkms.la \
-> >> --	$(CAIRO_LIBS)
-> >> -+	$(top_builddir)/libkms/libkms.la
-> >> -+
-> >> -+if HAVE_CAIRO
-> >> -+AM_CFLAGS +=3D $(CAIRO_CFLAGS)
-> >> -+modetest_LDADD +=3D $(CAIRO_LIBS)
-> >> -+endif
-> >> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.39.bb b/meta/recipes=
--graphics/drm/libdrm_2.4.40.bb
-> >> similarity index 44%
-> >> rename from meta/recipes-graphics/drm/libdrm_2.4.39.bb
-> >> rename to meta/recipes-graphics/drm/libdrm_2.4.40.bb
-> >> index f3ce2b1..42f860a 100644
-> >> --- a/meta/recipes-graphics/drm/libdrm_2.4.39.bb
-> >> +++ b/meta/recipes-graphics/drm/libdrm_2.4.40.bb
-> >> @@ -4,8 +4,7 @@ PR =3D "${INC_PR}.0"
-> >> =20
-> >>  SRC_URI +=3D "file://installtests.patch \
-> >>              file://GNU_SOURCE_definition.patch \
-> >> -            file://disable-cairo.patch \
-> >>             "
-> >> =20
-> >> -SRC_URI[md5sum] =3D "9a299e021d81bab6c82307582c78319d"
-> >> -SRC_URI[sha256sum] =3D "386b17388980504bca16ede81ceed4c77b12c3488f46e=
-cb7f4d48e48512a733d"
-> >> +SRC_URI[md5sum] =3D "626a3dc44a40ef37565b61732b688567"
-> >> +SRC_URI[sha256sum] =3D "48c14e4600ea0fde522292893eb4055d2f6d86a69d093=
-d379c827deaccffaa1f"
-> >> diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-gr=
-aphics/drm/libdrm_git.bb
-> >> index 5d7f953..e3051c7 100644
-> >> --- a/meta/recipes-graphics/drm/libdrm_git.bb
-> >> +++ b/meta/recipes-graphics/drm/libdrm_git.bb
-> >> @@ -6,7 +6,7 @@ S =3D "${WORKDIR}/git"
-> >> =20
-> >>  DEFAULT_PREFERENCE =3D "-1"
-> >> =20
-> >> -SRCREV =3D "14db948127e549ea9234e02d8e112de3871f8f9f"
-> >> -PV =3D "2.4.39+git${SRCPV}"
-> >> +SRCREV =3D "e01d68f9f3acfc35fe164283904b5d058c2ab378"
-> >> +PV =3D "2.4.40+git${SRCPV}"
-> >>  PR =3D "${INC_PR}.0"
-> >> =20
-> >> --=20
-> >> 1.7.9.5
-> >>
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ULyIDA2m8JTe+TiX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlCiSHMACgkQN1Ujt2V2gBxADgCfVKpZuTS0t6NNcxrwm1Ulh5ud
-q1UAniV8pUcpWZF4NDdzYO79uax7PkpN
-=xYlc
------END PGP SIGNATURE-----
-
---ULyIDA2m8JTe+TiX--
