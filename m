@@ -1,30 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYHMJ-0001kR-Mp for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 15:20:59 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qADE74BP004393
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 14:07:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03956-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 14:06:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qADE6uCV004386
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 14:06:57 GMT
-Message-ID: <1352815617.24487.126.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Nov 2012 14:06:57 +0000
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] utils.bbclass: Fix documentation of create_cmdline_wrapper
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <constantinx.musca@intel.com>) id 1TYHNd-0001og-KZ
+	for openembedded-core@lists.openembedded.org;
+	Tue, 13 Nov 2012 15:22:21 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 13 Nov 2012 06:08:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.80,767,1344236400"; d="scan'208";a="167777920"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.49])
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Nov 2012 06:08:25 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Nov 2012 16:08:49 +0200
+Message-Id: <1352815729-7409-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] insane.bbclass: add qa_package_check_name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,45 +28,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 14:21:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Nov 2012 14:22:21 -0000
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Check if package names match the [a-z0-9.+-]+ regular
+expression
+
+[YOCTO #3139]
+
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index c47ad69..52e511f 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -246,12 +246,12 @@ oe_machinstall() {
- }
- 
- create_cmdline_wrapper () {
--	# Create a wrapper script
-+	# Create a wrapper script where commandline options are needed
- 	#
--	# These are useful to work around relocation issues, by setting environment
--	# variables which point to paths in the filesystem.
-+	# These are useful to work around relocation issues, by passing extra options 
-+	# to a program
- 	#
--	# Usage: create_wrapper FILENAME [[VAR=VALUE]..]
-+	# Usage: create_cmdline_wrapper FILENAME <extra-options>
- 
- 	cmd=$1
- 	shift
-@@ -269,7 +269,7 @@ END
- }
- 
- create_wrapper () {
--	# Create a wrapper script
-+	# Create a wrapper script where extra environment variables are needed
- 	#
- 	# These are useful to work around relocation issues, by setting environment
- 	# variables which point to paths in the filesystem.
---
-cgit v0.9.0.3-4-gf50b
+ meta/classes/insane.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index d51d1a1..f22e620 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -235,6 +235,15 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
+         messages.append("non -staticdev package contains static .a library: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d)))
+ 
++def package_qa_check_name(name, d):
++    """
++    Check if the package name matches the [a-z0-9.+-]+ regular expression
++    """
++    import re
++    pattern = re.compile("^[a-z0-9.+-]+$")
++    if not pattern.match(name):
++        package_qa_handle_error("pkgname", "%s doesn't match the [a-z0-9.+-]+ regex\n" % name, d)
++
+ def package_qa_check_libdir(d):
+     """
+     Check for wrong library installation paths. For instance, catch
+@@ -780,6 +789,9 @@ python do_package_qa () {
+                 errorchecks.append(g[testmatrix[e]])
+ 
+         bb.note("Checking Package: %s" % package)
++        # Check package name
++        package_qa_check_name(package, d)
++
+         path = "%s/%s" % (pkgdest, package)
+         if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
+             walk_sane  = False
+-- 
+1.7.11.7
 
 
 
