@@ -1,24 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TYKVU-0007Kx-EM
+	(envelope-from <radu.moisan@intel.com>) id 1TYNwX-0006Pc-JJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 13 Nov 2012 18:42:40 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 13 Nov 2012 09:28:45 -0800
+	Tue, 13 Nov 2012 22:22:50 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2012 13:07:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.80,768,1344236400"; d="scan'208";a="217197561"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.166])
-	by azsmga001.ch.intel.com with ESMTP; 13 Nov 2012 09:28:21 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.83,768,1352102400"; d="scan'208";a="246539782"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Nov 2012 13:07:48 -0800
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 17:27:59 +0000
-Message-Id: <c6cca731e4843b4d3be9c17773a8fb57ca876ba2.1352827498.git.paul.eggleton@linux.intel.com>
+Date: Tue, 13 Nov 2012 23:12:24 +0200
+Message-Id: <1352841144-31228-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1352827498.git.paul.eggleton@linux.intel.com>
-References: <cover.1352827498.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1352827498.git.paul.eggleton@linux.intel.com>
-References: <cover.1352827498.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 4/4] python-smartpm: Add basic knowledge of RPMSENSE_MISSINGOK
+Cc: Alexandru Damian <alexandru.damian@intel.com>
+Subject: [PATCH v2] initrd: add recovery feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,91 +28,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Nov 2012 17:42:40 -0000
+X-List-Received-Date: Tue, 13 Nov 2012 21:22:50 -0000
 
-From: Mark Hatle <mark.hatle@windriver.com>
+Allows you to use as root a partition instead of the rootfs.img
+for recovering an old install, and fails safe when no rootfs is
+found, dropping the user to a shell if something goes wrong.
 
-Currently smart does not support recommend dependencies.  Add the first set
-of 'support' for RPMSENSE_MISSINGOK (the flag that makes something a
-recommend).  This initial support ends up ignoring the recommendation, but is
-written in a way that it will be the basis of eventual support.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Alexandru Damian <alexandru.damian@intel.com>
 ---
- .../python/python-smartpm/smart-missingok.patch    |   43 ++++++++++++++++++++
- .../python/python-smartpm_1.4.1.bb                 |    3 +-
- 2 files changed, 45 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
+ meta/recipes-core/initrdscripts/files/init-live.sh |   44 +++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch b/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
-new file mode 100644
-index 0000000..7e13869
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
-@@ -0,0 +1,43 @@
-+backends/rpm: Identify recommended packages
-+
-+We identify and store recommended packages (and later throw that data away.)
-+
-+This is indended to be the starting work to add support for recommended
-+packages to smart.
-+
-+Upstream-status: Inappropriate [ Code isn't finished! ]
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+Index: smart-1.4.1/smart/backends/rpm/header.py
-+===================================================================
-+--- smart-1.4.1.orig/smart/backends/rpm/header.py
-++++ smart-1.4.1/smart/backends/rpm/header.py
-+@@ -292,6 +292,7 @@ class RPMHeaderLoader(Loader):
-+                     f = [0]
-+                 elif type(f) != list:
-+                     f = [f]
-++                recdict = {}
-+                 reqdict = {}
-+                 for i in range(len(n)):
-+                     ni = n[i]
-+@@ -308,10 +309,17 @@ class RPMHeaderLoader(Loader):
-+                             # RPMSENSE_SCRIPT_PREUN |
-+                             # RPMSENSE_SCRIPT_POST |
-+                             # RPMSENSE_SCRIPT_POSTUN == 7744
-+-                            reqdict[(f[i]&7744 and PreReq or Req,
-+-                                     intern(ni), r, vi)] = True
-++                            if (f[i]&rpm.RPMSENSE_MISSINGOK):
-++                                print "Ignoring Recommend Dependency: %s" % (ni)
-++                                recdict[(f[i]&7744 and PreReq or Req,
-++                                         intern(ni), r, vi)] = True
-++                            else:
-++                                reqdict[(f[i]&7744 and PreReq or Req,
-++                                         intern(ni), r, vi)] = True
-++                recargs = collapse_libc_requires(recdict.keys())
-+                 reqargs = collapse_libc_requires(reqdict.keys())
-+             else:
-++                recargs = None
-+                 reqargs = None
-+ 
-+             n = h[1054] # RPMTAG_CONFLICTNAME
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index bc0c1f9..4314564 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -11,13 +11,14 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 5682fd1..81686b9 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -68,13 +68,49 @@ fatal() {
  
- DEPENDS = "python rpm"
--PR = "r0"
-+PR = "r1"
- SRCNAME = "smart"
+ early_setup
  
- SRC_URI = "\
-           http://launchpad.net/smart/trunk/${PV}/+download/${SRCNAME}-${PV}.tar.bz2 \
-           file://smartpm-rpm5-nodig.patch \
-           file://smart-rpm-root.patch \
-+          file://smart-missingok.patch \
-           "
++# wait for the udevd to settle
++echo "Waiting for udev to settle..."
++udevadm settle --timeout=3
++
+ [ -z "$CONSOLE" ] && CONSOLE="/dev/console"
  
- SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
+ read_args
+ 
+-echo "Waiting for removable media..."
+-while true
++# boot partiton menu, if one or more bootable partitions exist
++BOOTMENU=`ls /media/sd*/sbin/init 2>/dev/null | wc -l`
++if [ $BOOTMENU -gt 0 ]; then
++   choice=0
++   while [ $choice -le 0 ]; do
++       echo "1). boot live ramfs image"
++       count=2
++       for i in `ls /media/sd*/sbin/init 2>/dev/null | cut -d "/" -f 3`; do
++           echo $count"). boot /dev/"$i
++           choicecmd[$count]=$i
++           count=$(( count + 1))
++       done
++       echo
++       echo -n "Your choice: "
++       read choice
++   done
++
++   if [ $choice -gt 1 ]; then
++       #ROOT_MOUNT=/media/${choicecmd[${choice}]}
++       ROOT_MOUNT=none #testing
++       echo "Booting local root ... $ROOT_MOUNT"
++       if [ -d $ROOT_MOUNT ]; then
++           boot_live_root
++       else
++           fatal "Rootfs partition not mounted"
++       fi
++   fi
++fi
++
++echo -n "Waiting for removable media... "
++CNT=0
++while [ $CNT -le 3 ];
+ do
++  echo -n "$CNT "
++  CNT=$(( $CNT + 1 ))
+   for i in `ls /media 2>/dev/null`; do
+       if [ -f /media/$i/$ROOT_IMAGE ] ; then
+ 		found="yes"
+@@ -91,6 +127,10 @@ do
+   sleep 1
+ done
+ 
++if [ "$found" != "yes" ]; then
++   fatal "...could not mount removable media, drop to shell"
++fi
++
+ case $label in
+     boot)
+ 	mkdir $ROOT_MOUNT
 -- 
 1.7.9.5
 
