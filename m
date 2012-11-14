@@ -1,37 +1,29 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TYcK6-0004Hw-Lo
+	(envelope-from <anders@chargestorm.se>) id 1TYcWG-0004yz-01
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 13:44:08 +0100
-Received: by mail-bk0-f47.google.com with SMTP id jk7so156606bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 04:30:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=u0Q/pr/2suGvCyx9XfW1euwtWdI1GlfmXe7wPObruVc=;
-	b=JUEumG0WBYtKqcFxqfr6C/6geLye8l89ohMAGf44oUjbSAMru3qwoymGM0/fumoxvr
-	OmGfQ4WADFEh48t+RiJ9I0YXDBpMXRL6RS/79XK+wz+RT+b/SRFZkcXXCgcqmoCmPj0A
-	6xZJCD8RB4bCnQ0OL6C2vglwjclYo1wEMyQLoHTi5JpsXPzM9Tc6NO5+CAM+BLjXeqYW
-	vtRhDwpWQchlJlfCJSVm9IASkOzH6xPlk8qG0uTkRW9YZkD8y9UMvnbmM9OeqZUrli1T
-	7Wckq3z/J5yFddqbW5R2/kd4nnfBvbzw/WgTIFoWlQ9vpbNm2Iq5jdlpgfL+STQd+/eH
-	qCCQ==
-Received: by 10.204.148.146 with SMTP id p18mr9248991bkv.51.1352896211166;
-	Wed, 14 Nov 2012 04:30:11 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id hm4sm5732237bkc.7.2012.11.14.04.30.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Nov 2012 04:30:09 -0800 (PST)
-Date: Wed, 14 Nov 2012 13:30:26 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20121114123026.GK3928@jama.jama.net>
-References: <1352815159.24487.122.camel@ted>
+	Wed, 14 Nov 2012 13:56:40 +0100
+Received: from localhost (193.41.119.134) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.279.1; Wed, 14 Nov 2012
+	13:42:26 +0100
+Date: Wed, 14 Nov 2012 13:42:39 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Elizabeth Flanagan
+	<elizabeth.flanagan@intel.com>
+Message-ID: <20121114124239.GB6908@ad.chargestorm.se>
+Mail-Followup-To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1352815159.24487.122.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: Add fix for cross compile issues
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.20 (2009-12-10)
+X-GFI-SMTP-Submission: 1
+Subject: License of xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,65 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 12:44:08 -0000
-X-Groupsio-MsgNum: 31324
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="q6mBvMCt6oafMx9a"
+X-List-Received-Date: Wed, 14 Nov 2012 12:56:40 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
 
---q6mBvMCt6oafMx9a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 13, 2012 at 01:59:19PM +0000, Richard Purdie wrote:
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch b/meta/re=
-cipes-extended/bash/bash-4.2/crossfix.patch
-> new file mode 100644
-> index 0000000..f587c34
-> --- a/dev/null
-> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
-> @@ -0,0 +1,28 @@
+I've recently started to look into building internal images with 
+INCOMPATIBLE_LICENSE = "GPLv3"
 
-Are you using some special tool to generate git patches or some weird
-git version?
+Sofar, I've mainly identified one issue, which is with the xz-package.
+(This is currently a dependency of systemd).
 
-Patches from you where you add some file usually does not apply here,
-It's caused by:
---- a/dev/null
-+++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
-which usually looks like
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+xz sets LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
 
-2012-11-14 13:22:27 URL:http://patchwork.openembedded.org/patch/38919/mbox/=
- [2833] -> "pw-am-38919.patch" [1]
-Applying: bash: Add fix for cross compile issues
-fatal: git apply: bad git-diff - expected /dev/null on line 7
-Patch failed at 0001 bash: Add fix for cross compile issues
-The copy of the patch that failed is found in:
-   /OE/openembedded-core/.git/rebase-apply/patch
-When you have resolved this problem, run "git am --resolved".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+If the info in COPYING from xz sources is correct, I guess that we
+should be able to remove GPLv3 from the target packages. Would you agree
+with that, or have I overlooked something?
 
-Cheers,
+If my interpretation is correct, I'll try to find more time to look into
+the actual source files a bit more closely.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---q6mBvMCt6oafMx9a
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+/Anders
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlCjjuIACgkQN1Ujt2V2gBwDugCdFEgiYdSqjZExKJjH6BP/qLh/
-HjsAnAvfEkX7IZxIhl3nVP14D812ByGQ
-=K0sC
------END PGP SIGNATURE-----
+Extract from COPYING:
+ 
 
---q6mBvMCt6oafMx9a--
+XZ Utils Licensing
+==================
+
+    Different licenses apply to different files in this package. Here
+    is a rough summary of which licenses apply to which parts of this
+    package (but check the individual files to be sure!):
+
+      - liblzma is in the public domain.
+
+      - xz, xzdec, and lzmadec command line tools are in the public
+        domain unless GNU getopt_long had to be compiled and linked
+        in from the lib directory. The getopt_long code is under
+        GNU LGPLv2.1+.
+
+      - The scripts to grep, diff, and view compressed files have been
+        adapted from gzip. These scripts and their documentation are
+        under GNU GPLv2+.
+
+      - All the documentation in the doc directory and most of the
+        XZ Utils specific documentation files in other directories
+        are in the public domain.
+
+      - Translated messages are in the public domain.
+
+      - The build system contains public domain files, and files that
+        are under GNU GPLv2+ or GNU GPLv3+. None of these files end up
+        in the binaries being built.
+
+      - Test files and test code in the tests directory, and debugging
+        utilities in the debug directory are in the public domain.
+
+      - The extra directory may contain public domain files, and files
+        that are under various free software licenses.
+
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
+
+
