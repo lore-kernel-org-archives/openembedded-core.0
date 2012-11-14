@@ -1,18 +1,18 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TYXQk-0006OZ-W0
+	(envelope-from <Qi.Chen@windriver.com>) id 1TYXfA-0006kT-Ck
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 08:30:39 +0100
+	Wed, 14 Nov 2012 08:45:32 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAE7FwOB024793
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAE7Ux7E025020
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Nov 2012 23:16:02 -0800 (PST)
+	Tue, 13 Nov 2012 23:30:59 -0800 (PST)
 Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 13 Nov 2012 23:15:58 -0800
-Message-ID: <50A3452D.60407@windriver.com>
-Date: Wed, 14 Nov 2012 15:15:57 +0800
+	Tue, 13 Nov 2012 23:30:58 -0800
+Message-ID: <50A348B0.7070500@windriver.com>
+Date: Wed, 14 Nov 2012 15:30:56 +0800
 From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 07:30:39 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 07:45:32 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -194,23 +194,17 @@ On 11/14/2012 07:14 AM, Saul Wold wrote:
 >>
 >
 Hi Saul:
-Good point! I did miss that.
-However, after a second thinking, I think we probably don't need to 
-change it. Here's my reasons.
 
-1. No matter rootfs is read-only or writable, this script would work 
-correctly. This is because it will first check whether 
-'/etc/volatile.cache' exists before using it. (Of course,  this is based 
-on the assumption that users don't change /etc/volatile.cache manually.)
+After looking at bug#3406 and bug#3407, I realize that it is much more 
+complex than I thought to make this script work on a read-only rootfs. 
+After all, if the rootfs is read-only, we cannot delete things like 
+/tmp, /var/run and so on.
 
-2. There are some other initscripts that assume rootfs to be writable, 
-for example, udev-cache, bootmisc.sh, avahi-daemon, rmnologin.sh, 
-save-rtc.sh.   They have 'mkdir', 'cp' or 'mv' operation on /etc without 
-checking whether rootfs is read-only.
+Besides, as I mentioned in the last email, there are some other 
+initscripts that assume rootfs to be writable. So as far as I can see, 
+support for read-only rootfs would not be trivial.
 
 Cheers,
 Chen Qi
-
-
 
 
