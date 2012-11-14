@@ -1,41 +1,26 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TYft3-0003ZU-6v
+	(envelope-from <sgw@linux.intel.com>) id 1TYg2s-0003tT-Ek
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 17:32:36 +0100
-Received: from mail-ia0-f197.google.com ([209.85.210.197])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Nov 2012 08:18:28 -0800
-Received: by mail-ia0-f197.google.com with SMTP id j38so1068294iad.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 08:18:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=7xxs+KbMfGHz91xwHik8VURKKz6hojAbzoNt2SPGZhM=;
-	b=mc+Y+AzbtTZaGUNxFXLXIkSMEQZXHsnGNWK/nstWZJ9uKgb41WxOd4WYr3s4wW/2UU
-	ChRyEm/2ikJPtAt3stsNBWJn84e3Yi5mt3Z2gz1h6wXjVqvrxi1BP9tpV4fm6nCTjg26
-	1OwAKOJwpaRSbdZRZjIZn69VCGihUfNgLgfAUfkrZKJZ6zS2B9t1tE3RfNIQ6BFXPl9W
-	rOUkEymlSJXYgyGnAaTGnGPeaPQgECB20L8LdchBvWNeQ8Jer+LqY6LNjMzM4PgRcnqJ
-	vcqBLs1u99nTYLHezbJ80MVvfvmrA9kNch2Fm5UxvBsZVmYSaIL4vj1KU6yc5Qxej3H4
-	MXoA==
-Received: by 10.42.37.17 with SMTP id w17mr24669983icd.32.1352909903709;
-	Wed, 14 Nov 2012 08:18:23 -0800 (PST)
-Received: by 10.42.37.17 with SMTP id w17mr24669976icd.32.1352909903621; Wed,
-	14 Nov 2012 08:18:23 -0800 (PST)
+	Wed, 14 Nov 2012 17:42:36 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Nov 2012 08:28:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,251,1352102400"; d="scan'208";a="249039772"
+Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2012 08:28:37 -0800
+Message-ID: <50A3C6B5.3050909@linux.intel.com>
+Date: Wed, 14 Nov 2012 08:28:37 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
 MIME-Version: 1.0
-Received: by 10.64.58.197 with HTTP; Wed, 14 Nov 2012 08:18:02 -0800 (PST)
-In-Reply-To: <CAJTo0La_f26GzRCXGj-5fquqWheT_EnU_1Qu-ghjXz2Qdb1gpA@mail.gmail.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<a7f0c78da3a41c3d7a57966ba15b3013f3da1744.1352898505.git.laurentiu.palcu@intel.com>
-	<CAJTo0La_f26GzRCXGj-5fquqWheT_EnU_1Qu-ghjXz2Qdb1gpA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Nov 2012 16:18:02 +0000
-Message-ID: <CAJTo0LbwRx7D9u58NnGaAzQX+EZR4k1-ArSXHkHB2UYdk=k5Wg@mail.gmail.com>
 To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQlsb71uM7Du3/TwUI/cgmxx6cVYBFz4tsIT+DKkvFmuh9DtmwQa6q0UdjXHCQ1p3rw/JeRy9e7y1y/UiA91UpM94/umTqY4N3V5TNEtfpn5jkc74inn6Bj+LZoPt6ApV5c2hQIcpiVo0ZjJGyAEWUMvVRJENSj3fHHmHXuhKjuNYcc4huAowX8cPZE81JmRlQmDAQUd
+References: <cover.1352884713.git.laurentiu.palcu@intel.com>
+	<5467b530a59b1d698e8171b4a7c77104593dde40.1352884713.git.laurentiu.palcu@intel.com>
+In-Reply-To: <5467b530a59b1d698e8171b4a7c77104593dde40.1352884713.git.laurentiu.palcu@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 08/12] xserver-xorg: upgrade to 1.13.0
+Subject: Re: [PATCH v2 12/12] xf86-video-omapfb: upgrade to 0.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,24 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 16:32:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 14 Nov 2012 16:42:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 November 2012 15:03, Burton, Ross <ross.burton@intel.com> wrote:
-> I'd like to see the upgrade path verified just to make sure we don't
-> have a repeat of the EXA farce...
+On 11/14/2012 01:28 AM, Laurentiu Palcu wrote:
+> Other changes:
+>   * changed the recipe's SRC_URI to track the new (maintained) repo;
+>   * removed all old patches as the latest driver's structure has changed
+>     drastically;
+>   * license file changed quite a bit: MIT -> GPLv2 (needs to be reviewed
+>     by somebody with a better understanding of these things though);
+>   * xf86-video-omapfb changed its name to xf86-video-omap: change the
+>     recipe name acordingly;
+>   * add dependency of libdrm-omap;
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>   ...-video-omapfb_git.bb => xf86-video-omap_git.bb} |   27 ++++++++++----------
+>   1 file changed, 13 insertions(+), 14 deletions(-)
+>   rename meta/recipes-graphics/xorg-driver/{xf86-video-omapfb_git.bb => xf86-video-omap_git.bb} (43%)
+>
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> similarity index 43%
+> rename from meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
+> rename to meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> index f16441e..fec3365 100644
+> --- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> @@ -6,19 +6,18 @@ DESCRIPTION = "omapfb driver supports the basic Texas Instruments OMAP \
+>   framebuffer."
+>
+>   LICENSE = "MIT-X & GPLv2+"
+If the license changed to GPLv2, then why is MIT-X still listed, if the 
+MIT bits are gone the remove MIT here.
 
-Just did an upgrade.  There is the drm breakage I talked about in the
-other mail, and then some very odd breakage I wasn't expecting with
-Xorg ABI versions.
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=63e2cbac53863f60e2f43343fb34367f"
+> -DEPENDS += "virtual/libx11"
+> -
+> -SRCREV = "28c006c94e57ea71df11ec4fff79d7ffcfc4860f"
+> -PR = "${INC_PR}.6"
+> -PV = "0.1.1+gitr${SRCPV}"
+> -
+> -SRC_URI = "git://git.pingu.fi/xf86-video-omapfb;protocol=http \
+> -            file://omap-revert-set-CRTC-limit.patch \
+> -            file://omap-revert-set-virtual-size.patch \
+> -            file://omap-force-plain-mode.patch  \
+> -            file://omap-blacklist-tv-out.patch  \
+> -            file://0004-Attempt-to-fix-VRFB.patch \
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
+> +DEPENDS += "virtual/libx11 libdrm-omap"
+> +
+Why did you move LIC_FILES_CHKSUM and DEPENDS down here, they were in 
+the correct location above.
 
-The xorg server/drivers upgraded fine, but then on startup we got the
-ABI errors.  This shouldn't have happened - the ABI version in the
-code should have matched the ABI in the dependencies, but they are
-different.
-
-I'm digging into this now.
-
-Ross
+> +RPROVIDES = "xf86-video-omapfb"
+> +RCONFLICTS = "xf86-video-omapfb"
+> +RREPLACES = "xf86-video-omapfb"
+> +
+> +SRCREV = "ae0394e687f1a77e966cf72f895da91840dffb8f"
+> +PR = "${INC_PR}.0"
+> +PV = "0.4.2+gitr${SRCPV}"
+> +
+> +SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;protocol=git \
+>   "
+>
+>   S = "${WORKDIR}/git"
+> @@ -28,5 +27,5 @@ CFLAGS += " -I${STAGING_INCDIR}/xorg "
+>
+>   # Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dmai or omapfbplay)
+>   do_compile_prepend_armv7a () {
+> -        sed -i -e s:fb1:fb2:g ${S}/src/omapfb-xv.c
+> +        sed -i -e s:fb1:fb2:g ${S}/src/omap_xv.c
+>   }
+>
 
 
