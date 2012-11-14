@@ -1,32 +1,38 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TYZW8-0001v3-9p
+	(envelope-from <martin.jansa@gmail.com>) id 1TYZf8-0002UC-OF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 10:44:21 +0100
-Received: by mail-ie0-f175.google.com with SMTP id c13so265358ieb.6
+	Wed, 14 Nov 2012 10:53:39 +0100
+Received: by mail-bk0-f47.google.com with SMTP id jk7so73346bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 01:30:24 -0800 (PST)
+	Wed, 14 Nov 2012 01:39:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=AIVMQDCTw2IlHv+0m+/i6oWJKR2NfWFDj3vwkJ2gdWc=;
-	b=ayz4dv2jhwXMMIAfjqRdnH3Xy/Kd5RO7JUbj9zqqV1p562DIACKnsTGq5973HasKBX
-	/G/ZiWLpq7WEA6BnH5Aac1cd+L7KVGAaHmrYizrdJAXz0LMKTPUUdfgJAbqN/bHQRHyj
-	Cterui+SW5H+62M6rqkIfitg+sWRIlDsvha84J+0KjJKezv+ebWUGpV2+VzajZQLwGK1
-	XaQBrUaWTXUojgLPq/b2THK7iZWXbpxXNscD/h+X2TGA3HfSVkt6LhnmxcL4cXWMjrkc
-	KkcuZIzPEItRCEstb4KB3u9PDTEof+1jc+tHLxaw+22mwx05iyfe6STYOIXe9vgx4hSS
-	uz9Q==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=w06BYslB6UGQszbyMxfHXO7pdshy4jQDJ2NqiJKFCr8=;
+	b=XNfjOYBYqUooEQIuVzZF1cgTZSwjdFmGAbZ+nHlyAaYO9RXYn+DoXnPnEZLMFg3Qer
+	orIpvGHG2vrGC4PDRMZ+3EU4h3JrN64exNLfHUREv6G2+CEMxhVN5KiU/SSaYs+BkfZq
+	++GKpgtfsiCis2YZPmdptgbn8dW7n0GqdD9AP7qMetDFYxIduv8/TJC2c5RjchZk4Dsm
+	M6ykaU5pDqk0vYuI7HCs6wT0x7LE7bTk4gqK+yxjmSMOFh9dh8XvABfIu0A3em11uW6F
+	hFXZVzqs2TcEhwgF3SR58LDvq3mu2lILPxu0c2pXQP3ACFbBVhHWSzQ6A7sWWdaP1mhV
+	WVoQ==
+Received: by 10.204.136.207 with SMTP id s15mr1318731bkt.5.1352885983269;
+	Wed, 14 Nov 2012 01:39:43 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id gy18sm7334934bkc.4.2012.11.14.01.39.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Nov 2012 01:39:40 -0800 (PST)
+Date: Wed, 14 Nov 2012 10:39:52 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20121114093952.GI3928@jama.jama.net>
+References: <cover.1352884713.git.laurentiu.palcu@intel.com>
+	<5786bf6c7e3cdf08e1fc966f37cc9779aaa03b7e.1352884713.git.laurentiu.palcu@intel.com>
 MIME-Version: 1.0
-Received: by 10.42.147.74 with SMTP id m10mr23741258icv.0.1352885424516; Wed,
-	14 Nov 2012 01:30:24 -0800 (PST)
-Received: by 10.64.20.113 with HTTP; Wed, 14 Nov 2012 01:30:24 -0800 (PST)
-In-Reply-To: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
-References: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
-Date: Wed, 14 Nov 2012 10:30:24 +0100
-Message-ID: <CALbNGRShXafNdCYR62h3tpQ4RLTXyZTgvrs0xBOhsn_Z57=sdg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: Build failure
+In-Reply-To: <5786bf6c7e3cdf08e1fc966f37cc9779aaa03b7e.1352884713.git.laurentiu.palcu@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 07/12] libdrm: upgrade to 2.4.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,77 +45,225 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 09:44:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 14 Nov 2012 09:53:39 -0000
+X-Groupsio-MsgNum: 31314
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gJNQRAHI5jiYqw2y"
+Content-Disposition: inline
+
+--gJNQRAHI5jiYqw2y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 14, 2012 at 10:15 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> Ciao,
->
-> with latest layer HEADS and build from scratch I get:
->
-> KeyError: 'getpwnam(): name not found: root'
->
-> ERROR: The stack trace of python calls that resulted in this
-> exception/failure was:
-> ERROR:   File "fixup_perms", line 227, in <module>
-> ERROR:
-> ERROR:   File "fixup_perms", line 155, in fixup_perms
-> ERROR:
-> ERROR:   File "fixup_perms", line 32, in __init__
-> ERROR:
-> ERROR:   File "fixup_perms", line 42, in _setdir
-> ERROR:
-> ERROR:   File "fixup_perms", line 66, in _procuid
-> ERROR:
-> ERROR: The code that was being executed was:
-> ERROR:      0223:                    each_file =3D os.path.join(root, f)
-> ERROR:      0224:                    fix_perms(each_file,
-> fs_perms_table[dir].fmode, fs_perms_table[dir].fuid,
-> fs_perms_table[dir].fgid, dir)
-> ERROR:      0225:
-> ERROR:      0226:
-> ERROR:  *** 0227:fixup_perms(d)
-> ERROR:      0228:
-> ERROR: [From file: 'fixup_perms', lineno: 227, function: <module>]
-> ERROR:      0151:    for path in target_path_vars:
-> ERROR:      0152:        dir =3D d.getVar(path, True) or ""
-> ERROR:      0153:        if dir =3D=3D "":
-> ERROR:      0154:            continue
-> ERROR:  *** 0155:        fs_perms_table[dir] =3D
-> fs_perms_entry(bb.data.expand("%s 0755 root root false - - -" % (dir),
-> d))
-> ERROR:      0156:
-> ERROR:      0157:    # Now we actually load from the configuration files
-> ERROR:      0158:    for conf in get_fs_perms_list(d).split():
-> ERROR:      0159:        if os.path.exists(conf):
-> ERROR: [From file: 'fixup_perms', lineno: 155, function: fixup_perms]
-> ERROR: Function failed: fixup_perms
-> ERROR: Logfile of failure stored in:
-> /home/andreas/tmp/oe-core-eglibc/work/armv7a-vfp-neon-angstrom-linux-gnue=
-abi/util-macros-1_1.17-r0/temp/log.do_package.28653
-> ERROR: Task 4450
-> (/home/andreas/data/oe-core/sources/openembedded-core/meta/recipes-graphi=
-cs/xorg-util/util-macros_1.17.bb,
-> do_package) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 3985 tasks of which 397 didn't need to
-> be rerun and 1 failed.
->
-> The only additional information I found up to now:
->
-> * the code mentioned in error message is found in package.bbclass.
-> * in sysroot/etc/passwd there is a line 'root::0:0:root:/home/root:/bin/s=
-h'
->
-> Any ideas?
->
-Additional info: After running
+On Wed, Nov 14, 2012 at 11:28:04AM +0200, Laurentiu Palcu wrote:
+> Other changes:
+>  * removed a backported patch;
+>  * activated libdrm-omap helper layer which is needed by the latest
+>    xf86-video-omap xorg driver;
+>  * split libdrm-drivers package into libdrm-radeon, libdrm-nouveau and
+>    libdrm-omap;
+>=20
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/recipes-graphics/drm/libdrm.inc               |   18 +++--
+>  .../drm/libdrm/disable-cairo.patch                 |   74 --------------=
+------
+>  .../drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb}     |    5 +-
+>  meta/recipes-graphics/drm/libdrm_git.bb            |    4 +-
+>  4 files changed, 16 insertions(+), 85 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.patch
+>  rename meta/recipes-graphics/drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb=
+} (44%)
+>=20
+> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics=
+/drm/libdrm.inc
+> index a64a5df..e10eae5 100644
+> --- a/meta/recipes-graphics/drm/libdrm.inc
+> +++ b/meta/recipes-graphics/drm/libdrm.inc
+> @@ -8,20 +8,26 @@ SECTION =3D "x11/base"
+>  LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://xf86drm.c;beginline=3D9;endline=3D32;md5=3D=
+c8a3b961af7667c530816761e949dc71"
+>  SRC_URI =3D "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
+> -PROVIDES =3D "drm"
+> +PROVIDES =3D "drm libdrm-nouveau libdrm-radeon libdrm-omap"
 
-bitbake -ccleansstate util-macros util-macros-native
+Is this needed at all?
 
-the build continues as without issues. Some missing dependency race?
+Cheers,
 
-Andreas
+>  DEPENDS =3D "libpthread-stubs udev"
+> =20
+> -INC_PR =3D "r3"
+> +INC_PR =3D "r4"
+> =20
+>  #libpciaccess is required starting from libdrm 2.4.26
+>  DEPENDS +=3D " libpciaccess"
+> =20
+>  inherit autotools pkgconfig
+> =20
+> -EXTRA_OECONF +=3D "--disable-cairo-tests"
+> +EXTRA_OECONF +=3D "--disable-cairo-tests \
+> +                 --enable-omap-experimental-api \
+> +                "
+> +ALLOW_EMPTY_${PN}-drivers =3D "1"
+> +PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN=
+}-omap ${PN}-kms"
+> +
+> +RDEPENDS_${PN}-drivers =3D "${PN}-radeon ${PN}-nouveau ${PN}-omap"
+> =20
+> -PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-kms"
+>  FILES_${PN}-tests =3D "${bindir}/dr* ${bindir}/mode*"
+> -FILES_${PN}-drivers =3D "${libdir}/libdrm_*.so.*"
+> +FILES_${PN}-radeon =3D "${libdir}/libdrm_radeon.so.*"
+> +FILES_${PN}-nouveau =3D "${libdir}/libdrm_nouveau.so.*"
+> +FILES_${PN}-omap =3D "${libdir}/libdrm_omap.so.*"
+>  FILES_${PN}-kms =3D "${libdir}/libkms*.so.*"
+> -
+> diff --git a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch b/meta/=
+recipes-graphics/drm/libdrm/disable-cairo.patch
+> deleted file mode 100644
+> index 90e79d4..0000000
+> --- a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
+> +++ /dev/null
+> @@ -1,74 +0,0 @@
+> -commit c81d1df4926072d24b4dad1b488e618e57eff1c6
+> -Author: Daniel Stone <daniel@fooishbar.org>
+> -Date:   Thu Oct 4 10:26:37 2012 +1000
+> -
+> -    configure.ac: Allow forcible disabling of Cairo support
+> -   =20
+> -    We don't want to build libdrm tests with Cairo support under Poky, s=
+ince
+> -    they're never used and also cause a build loop from libdrm -> cairo =
+->
+> -    mesa-dri -> libdrm.
+> -   =20
+> -    To avoid variance in build results, introduce a --disable-cairo-tests
+> -    switch.
+> -   =20
+> -    Upstream-Status: Backport
+> -   =20
+> -    Signed-off-by: Daniel Stone <daniel@fooishbar.org>
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 290362c..8c28107 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -222,11 +222,23 @@ if test "x$EXYNOS" =3D xyes; then
+> - 	AC_DEFINE(HAVE_EXYNOS, 1, [Have EXYNOS support])
+> - fi
+> -=20
+> -+AC_ARG_ENABLE([cairo-tests],
+> -+              [AS_HELP_STRING([--enable-cairo-tests],
+> -+                              [Enable support for Cairo rendering in te=
+sts (default: auto)])],
+> -+              [CAIRO=3D$enableval], [CAIRO=3Dauto])
+> - PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=3Dyes], [HAVE_CAIRO=3Dno])
+> --if test "x$HAVE_CAIRO" =3D xyes; then
+> --	AC_DEFINE(HAVE_CAIRO, 1, [Have cairo support])
+> -+AC_MSG_CHECKING([whether to enable Cairo tests])
+> -+if test "x$CAIRO" =3D xauto; then
+> -+	CAIRO=3D"$HAVE_CAIRO"
+> - fi
+> --AM_CONDITIONAL(HAVE_CAIRO, [test "x$HAVE_CAIRO" =3D xyes])
+> -+if test "x$CAIRO" =3D xyes; then
+> -+	if ! test "x$HAVE_CAIRO" =3D xyes; then
+> -+		AC_MSG_ERROR([Cairo support required but not present])
+> -+	fi
+> -+	AC_DEFINE(HAVE_CAIRO, 1, [Have Cairo support])
+> -+fi
+> -+AC_MSG_RESULT([$CAIRO])
+> -+AM_CONDITIONAL(HAVE_CAIRO, [test "x$CAIRO" =3D xyes])
+> -=20
+> - # For enumerating devices in test case
+> - PKG_CHECK_MODULES(LIBUDEV, libudev, [HAVE_LIBUDEV=3Dyes], [HAVE_LIBUDEV=
+=3Dno])
+> -diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
+> -index b5ec771..065ae13 100644
+> ---- a/tests/modetest/Makefile.am
+> -+++ b/tests/modetest/Makefile.am
+> -@@ -1,8 +1,7 @@
+> - AM_CFLAGS =3D \
+> - 	-I$(top_srcdir)/include/drm \
+> - 	-I$(top_srcdir)/libkms/ \
+> --	-I$(top_srcdir) \
+> --	$(CAIRO_CFLAGS)
+> -+	-I$(top_srcdir)
+> -=20
+> - noinst_PROGRAMS =3D \
+> - 	modetest
+> -@@ -12,5 +11,9 @@ modetest_SOURCES =3D \
+> -=20
+> - modetest_LDADD =3D \
+> - 	$(top_builddir)/libdrm.la \
+> --	$(top_builddir)/libkms/libkms.la \
+> --	$(CAIRO_LIBS)
+> -+	$(top_builddir)/libkms/libkms.la
+> -+
+> -+if HAVE_CAIRO
+> -+AM_CFLAGS +=3D $(CAIRO_CFLAGS)
+> -+modetest_LDADD +=3D $(CAIRO_LIBS)
+> -+endif
+> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.39.bb b/meta/recipes-gr=
+aphics/drm/libdrm_2.4.40.bb
+> similarity index 44%
+> rename from meta/recipes-graphics/drm/libdrm_2.4.39.bb
+> rename to meta/recipes-graphics/drm/libdrm_2.4.40.bb
+> index f3ce2b1..42f860a 100644
+> --- a/meta/recipes-graphics/drm/libdrm_2.4.39.bb
+> +++ b/meta/recipes-graphics/drm/libdrm_2.4.40.bb
+> @@ -4,8 +4,7 @@ PR =3D "${INC_PR}.0"
+> =20
+>  SRC_URI +=3D "file://installtests.patch \
+>              file://GNU_SOURCE_definition.patch \
+> -            file://disable-cairo.patch \
+>             "
+> =20
+> -SRC_URI[md5sum] =3D "9a299e021d81bab6c82307582c78319d"
+> -SRC_URI[sha256sum] =3D "386b17388980504bca16ede81ceed4c77b12c3488f46ecb7=
+f4d48e48512a733d"
+> +SRC_URI[md5sum] =3D "626a3dc44a40ef37565b61732b688567"
+> +SRC_URI[sha256sum] =3D "48c14e4600ea0fde522292893eb4055d2f6d86a69d093d37=
+9c827deaccffaa1f"
+> diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graph=
+ics/drm/libdrm_git.bb
+> index 5d7f953..e3051c7 100644
+> --- a/meta/recipes-graphics/drm/libdrm_git.bb
+> +++ b/meta/recipes-graphics/drm/libdrm_git.bb
+> @@ -6,7 +6,7 @@ S =3D "${WORKDIR}/git"
+> =20
+>  DEFAULT_PREFERENCE =3D "-1"
+> =20
+> -SRCREV =3D "14db948127e549ea9234e02d8e112de3871f8f9f"
+> -PV =3D "2.4.39+git${SRCPV}"
+> +SRCREV =3D "e01d68f9f3acfc35fe164283904b5d058c2ab378"
+> +PV =3D "2.4.40+git${SRCPV}"
+>  PR =3D "${INC_PR}.0"
+> =20
+> --=20
+> 1.7.9.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--gJNQRAHI5jiYqw2y
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCjZugACgkQN1Ujt2V2gBxG1gCfeUivHTSEibmKzSCNB2wzqfUc
+3qIAn0DjTWFbrAeEyr0jj0qBnGIH2Uwf
+=86fx
+-----END PGP SIGNATURE-----
+
+--gJNQRAHI5jiYqw2y--
