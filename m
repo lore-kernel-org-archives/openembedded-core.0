@@ -1,20 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TYVoK-0003N6-Ph
+	(envelope-from <sgw@linux.intel.com>) id 1TYVoM-0003N6-EV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 06:46:53 +0100
+	Wed, 14 Nov 2012 06:47:04 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2012 21:32:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,248,1352102400"; d="scan'208";a="246693775"
+X-IronPort-AV: E=Sophos;i="4.83,248,1352102400"; d="scan'208";a="246693783"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.71])
 	by fmsmga001.fm.intel.com with ESMTP; 13 Nov 2012 21:32:56 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Nov 2012 21:32:42 -0800
-Message-Id: <cover.1352871028.git.sgw@linux.intel.com>
+Date: Tue, 13 Nov 2012 21:32:44 -0800
+Message-Id: <ced593109000abdca328d606f02ced75f30a9ca5.1352871028.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH 0/9] Fixes and Updates
+In-Reply-To: <cover.1352871028.git.sgw@linux.intel.com>
+References: <cover.1352871028.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1352871028.git.sgw@linux.intel.com>
+References: <cover.1352871028.git.sgw@linux.intel.com>
+Subject: [PATCH 2/9] builder: Add password for user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,61 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 05:46:54 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 05:47:05 -0000
 
-Richard,
+This is needed to allow openssh to work correctly for the Eclipse
+plugin to have access to the build appliance to view/modify recipes
+and lauch builds
 
-This is a batch of changes that I have had pending in my
-queue for the last couple of weeks, got around to final
-testing.  
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-graphics/builder/builder_0.1.bb |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-The self-hosted and builder changes are for enabling the
-Build Appliance with Windows and Eclipse
-
-The pulseaudio change should also be marked for Danny to
-address a meta-guacamayo issue.
-
-Thanks
-	Sau!
-
-
-The following changes since commit fa7fb44d1ca2b8a57509806bde19672c68ef157d:
-
-  mesa-demos: fix --with-glut check (2012-11-12 22:31:41 +0000)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
-
-Saul Wold (9):
-  packagegroup-self-hosted: add sftp server
-  builder: Add password for user
-  less: Update to 451
-  psmisc: Update to 22.20
-  kconfig-frontends: Update to 3.6
-  sysstat: Update to 10.1.2
-  mx: Update to 1.4.7
-  sqlite3: Update to 3.7.14.1
-  pulse: fix Bashism in string test
-
- .../packagegroups/packagegroup-self-hosted.bb      |    3 ++-
- ...g-frontends_3.5.bb => kconfig-frontends_3.6.bb} |    9 +++++----
- .../less/{less_444.bb => less_451.bb}              |    8 ++++----
- .../psmisc/{psmisc_22.19.bb => psmisc_22.20.bb}    |    4 ++--
- .../{sysstat_10.1.1.bb => sysstat_10.1.2.bb}       |    5 +++--
- meta/recipes-graphics/builder/builder_0.1.bb       |    5 +++--
- .../mx/{mx_1.4.6.bb => mx_1.4.7.bb}                |   13 ++++++-------
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
- .../pulseaudio/pulseaudio_2.1.bb                   |    2 +-
- .../{sqlite3_3.7.13.bb => sqlite3_3.7.14.1.bb}     |    5 +----
- 10 files changed, 28 insertions(+), 28 deletions(-)
- rename meta/recipes-devtools/kconfig-frontends/{kconfig-frontends_3.5.bb => kconfig-frontends_3.6.bb} (88%)
- rename meta/recipes-extended/less/{less_444.bb => less_451.bb} (82%)
- rename meta/recipes-extended/psmisc/{psmisc_22.19.bb => psmisc_22.20.bb} (46%)
- rename meta/recipes-extended/sysstat/{sysstat_10.1.1.bb => sysstat_10.1.2.bb} (44%)
- rename meta/recipes-graphics/mx/{mx_1.4.6.bb => mx_1.4.7.bb} (66%)
- rename meta/recipes-support/sqlite/{sqlite3_3.7.13.bb => sqlite3_3.7.14.1.bb} (58%)
-
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index 5c12c14..7ac531c 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "New user to do specific job"
+ DESCRIPTION = "This recipe create a new user named ${PN}, who is used for specific jobs like building. The task can be auto started via mini X"
+ SECTION = "x11"
+-PR = "r4"
++PR = "r5"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://builder_hob_start.sh;endline=5;md5=84796c3c41785d86100fdabcbdade00e"
+ 
+@@ -18,7 +18,8 @@ inherit useradd
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--system --create-home \
+                        --groups video,tty,audio \
+-                       --user-group ${PN}"
++                       --user-group ${PN} \
++                       --password .gLibiNXn0P12"
+ 
+ do_install () {
+ 	install -d -m 755 ${D}${sysconfdir}/mini_x/session.d
 -- 
 1.7.7.6
 
