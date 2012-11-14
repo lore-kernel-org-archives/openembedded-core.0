@@ -1,26 +1,41 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TYfgh-000377-FW
+	(envelope-from <ross.burton@intel.com>) id 1TYft3-0003ZU-6v
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 17:19:39 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 08:05:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,251,1352102400"; d="scan'208";a="219568638"
-Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
-	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 08:05:33 -0800
-Message-ID: <50A3C14B.7080707@linux.intel.com>
-Date: Wed, 14 Nov 2012 08:05:31 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+	Wed, 14 Nov 2012 17:32:36 +0100
+Received: from mail-ia0-f197.google.com ([209.85.210.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Nov 2012 08:18:28 -0800
+Received: by mail-ia0-f197.google.com with SMTP id j38so1068294iad.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2012 08:18:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=7xxs+KbMfGHz91xwHik8VURKKz6hojAbzoNt2SPGZhM=;
+	b=mc+Y+AzbtTZaGUNxFXLXIkSMEQZXHsnGNWK/nstWZJ9uKgb41WxOd4WYr3s4wW/2UU
+	ChRyEm/2ikJPtAt3stsNBWJn84e3Yi5mt3Z2gz1h6wXjVqvrxi1BP9tpV4fm6nCTjg26
+	1OwAKOJwpaRSbdZRZjIZn69VCGihUfNgLgfAUfkrZKJZ6zS2B9t1tE3RfNIQ6BFXPl9W
+	rOUkEymlSJXYgyGnAaTGnGPeaPQgECB20L8LdchBvWNeQ8Jer+LqY6LNjMzM4PgRcnqJ
+	vcqBLs1u99nTYLHezbJ80MVvfvmrA9kNch2Fm5UxvBsZVmYSaIL4vj1KU6yc5Qxej3H4
+	MXoA==
+Received: by 10.42.37.17 with SMTP id w17mr24669983icd.32.1352909903709;
+	Wed, 14 Nov 2012 08:18:23 -0800 (PST)
+Received: by 10.42.37.17 with SMTP id w17mr24669976icd.32.1352909903621; Wed,
+	14 Nov 2012 08:18:23 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1352871028.git.sgw@linux.intel.com>
-	<ced593109000abdca328d606f02ced75f30a9ca5.1352871028.git.sgw@linux.intel.com>
-	<50A3A633.2040801@windriver.com>
-In-Reply-To: <50A3A633.2040801@windriver.com>
-Subject: Re: [PATCH 2/9] builder: Add password for user
+Received: by 10.64.58.197 with HTTP; Wed, 14 Nov 2012 08:18:02 -0800 (PST)
+In-Reply-To: <CAJTo0La_f26GzRCXGj-5fquqWheT_EnU_1Qu-ghjXz2Qdb1gpA@mail.gmail.com>
+References: <cover.1352898505.git.laurentiu.palcu@intel.com>
+	<a7f0c78da3a41c3d7a57966ba15b3013f3da1744.1352898505.git.laurentiu.palcu@intel.com>
+	<CAJTo0La_f26GzRCXGj-5fquqWheT_EnU_1Qu-ghjXz2Qdb1gpA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Nov 2012 16:18:02 +0000
+Message-ID: <CAJTo0LbwRx7D9u58NnGaAzQX+EZR4k1-ArSXHkHB2UYdk=k5Wg@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQlsb71uM7Du3/TwUI/cgmxx6cVYBFz4tsIT+DKkvFmuh9DtmwQa6q0UdjXHCQ1p3rw/JeRy9e7y1y/UiA91UpM94/umTqY4N3V5TNEtfpn5jkc74inn6Bj+LZoPt6ApV5c2hQIcpiVo0ZjJGyAEWUMvVRJENSj3fHHmHXuhKjuNYcc4huAowX8cPZE81JmRlQmDAQUd
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 08/12] xserver-xorg: upgrade to 1.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,68 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 16:19:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2012 16:32:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/14/2012 06:09 AM, Mark Hatle wrote:
-> On 11/13/12 11:32 PM, Saul Wold wrote:
->> This is needed to allow openssh to work correctly for the Eclipse
->> plugin to have access to the build appliance to view/modify recipes
->> and lauch builds
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>   meta/recipes-graphics/builder/builder_0.1.bb |    5 +++--
->>   1 files changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/builder/builder_0.1.bb
->> b/meta/recipes-graphics/builder/builder_0.1.bb
->> index 5c12c14..7ac531c 100644
->> --- a/meta/recipes-graphics/builder/builder_0.1.bb
->> +++ b/meta/recipes-graphics/builder/builder_0.1.bb
->> @@ -1,7 +1,7 @@
->>   SUMMARY = "New user to do specific job"
->>   DESCRIPTION = "This recipe create a new user named ${PN}, who is
->> used for specific jobs like building. The task can be auto started via
->> mini X"
->>   SECTION = "x11"
->> -PR = "r4"
->> +PR = "r5"
->>   LICENSE = "MIT"
->>   LIC_FILES_CHKSUM =
->> "file://builder_hob_start.sh;endline=5;md5=84796c3c41785d86100fdabcbdade00e"
->>
->>
->> @@ -18,7 +18,8 @@ inherit useradd
->>   USERADD_PACKAGES = "${PN}"
->>   USERADD_PARAM_${PN} = "--system --create-home \
->>                          --groups video,tty,audio \
->> -                       --user-group ${PN}"
->> +                       --user-group ${PN} \
->> +                       --password .gLibiNXn0P12"
->
-> This should work, but can you add a comment that indicates the
-> plain-text for the password?
->
-Ahh, that would take all the fun out!
+On 14 November 2012 15:03, Burton, Ross <ross.burton@intel.com> wrote:
+> I'd like to see the upgrade path verified just to make sure we don't
+> have a repeat of the EXA farce...
 
-v2 coming with Otavio's suggestion also!
+Just did an upgrade.  There is the drm breakage I talked about in the
+other mail, and then some very odd breakage I wasn't expecting with
+Xorg ABI versions.
 
-Sau!
+The xorg server/drivers upgraded fine, but then on startup we got the
+ABI errors.  This shouldn't have happened - the ABI version in the
+code should have matched the ABI in the dependencies, but they are
+different.
 
-> --Mark
->
->>   do_install () {
->>       install -d -m 755 ${D}${sysconfdir}/mini_x/session.d
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+I'm digging into this now.
+
+Ross
 
 
