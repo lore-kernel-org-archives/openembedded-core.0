@@ -1,35 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYeZh-0007cs-UR for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 16:08:22 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEEsOpa020761;
-	Wed, 14 Nov 2012 14:54:24 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19887-06; Wed, 14 Nov 2012 14:54:20 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEEsGmC020754
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 14 Nov 2012 14:54:17 GMT
-Message-ID: <1352904857.15477.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Wed, 14 Nov 2012 14:54:17 +0000
-In-Reply-To: <CAP9ODKo=i=tKcKSTucvZHBShtfbvEp-F4TbE93+Vrs_wxasXgQ@mail.gmail.com>
-References: <cover.1352871028.git.sgw@linux.intel.com>
-	<0c604e38ddcd6597371775a9c51625bf71c9f359.1352871028.git.sgw@linux.intel.com>
-	<CAP9ODKpOi5tf6Tgdwv7sm=YeXL21Q9i=7ATiDLjVtvvZ-UddVw@mail.gmail.com>
-	<3022446.WMq39sgvYG@helios>
-	<CAP9ODKo=i=tKcKSTucvZHBShtfbvEp-F4TbE93+Vrs_wxasXgQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/9] less: Update to 451
+Received: from mail-da0-f47.google.com ([209.85.210.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1TYeaa-0007fq-Mq
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2012 16:09:16 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so200800dak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2012 06:55:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=txZCAzRuDo3QArAz9rUGZyok3mAQMM2wA6L5zGcKMOM=;
+	b=ppKrO/atM9K2T0oD/4vTiBIIxCgtTav0gvaVlJMAE4mp2JWjbUJUBXhEazrjXBvhMF
+	y51WSFXha14D35KxBbVmSbzNnm4+2OdoeEW9OjVZfOVDoHVUGxxQRSkjTR2tU+c7+WhA
+	uqH4zyHGLnLFOfA+3qAJz3s+7g92CBtecoXK6RAEnnESYUJE2StSCXxUUNJC8V/+C9ZV
+	Cl1XUH1oFkRUVIVNyUNdMIdh1yKD5Vs7Bl6t/sjX90f+wTr2sbf7MTv4+Ty6ObNBhi2q
+	SKkrsMnxRD/21eCGKjtxqUidRK7a3Kl5xpN8vbGddN/bz1F+WYdGPM7x4DFH83rPJxHO
+	9YCQ==
+Received: by 10.68.235.2 with SMTP id ui2mr71982872pbc.163.1352904920398;
+	Wed, 14 Nov 2012 06:55:20 -0800 (PST)
+Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id ue7sm7842719pbc.53.2012.11.14.06.55.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Nov 2012 06:55:19 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2012 07:55:09 -0700
+Message-Id: <1352904909-28460-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.12.4
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] bash: fix mkbuiltins build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +40,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 15:08:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2012 15:09:17 -0000
 
-On Wed, 2012-11-14 at 09:36 -0200, Otavio Salvador wrote:
-> On Wed, Nov 14, 2012 at 9:33 AM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->         On Wednesday 14 November 2012 09:26:53 Otavio Salvador wrote:
->         > > -PR = "r3"
->         > > +PR = "r0"
->         >
->         > Please drop PR as r0 is the default.
->
->         We don't do that in OE-Core.
->
-> Well, as far as I remember I always drop the PR when it is going to be
-> r0.
->
-> But OK.
+From: Christopher Larson <chris_larson@mentor.com>
 
-We've taken patches doing either, I find it hard to get worked up about
-this either way.
+On hosts with FORTIFY_SOURCES, stringize support is required, as it's used by
+the macros to wrap functions (e.g. read and open in unistd.h). Those wrappers
+use the STRING() macro from unistd.h. A header in the bash sources overrides
+the unistd.h macro to 'x' when HAVE_STRINGIZE is not defined, causing the
+wrappers to generate calls to 'xread' and 'xopen', which do not exist,
+resulting in a failure to link.
 
-I am totally fed up with the PR nonsense in general though and want the
-PR service sorted out ASAP.
+Assume we have stringize support when cross-compiling, which works around the
+issue.
 
-Cheers,
+It may be best for upstream to either give up on supporting compilers without
+stringize support, or to not define STRING() at all when FORTIFY_SOURCES is
+defined, letting the unistd.h one be used, instead.
 
-Richard
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ .../bash/bash-4.2/mkbuiltins_have_stringize.patch  | 26 ++++++++++++++++++++++
+ meta/recipes-extended/bash/bash_4.2.bb             |  3 ++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bash/bash-4.2/mkbuiltins_have_stringize.patch
+
+diff --git a/meta/recipes-extended/bash/bash-4.2/mkbuiltins_have_stringize.patch b/meta/recipes-extended/bash/bash-4.2/mkbuiltins_have_stringize.patch
+new file mode 100644
+index 0000000..a9391d6
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash-4.2/mkbuiltins_have_stringize.patch
+@@ -0,0 +1,26 @@
++On hosts with FORTIFY_SOURCES, stringize support is required, as it's used by
++the macros to wrap functions (e.g. read and open in unistd.h). Those wrappers
++use the STRING() macro from unistd.h. A header in the bash sources overrides
++the unistd.h macro to 'x' when HAVE_STRINGIZE is not defined, causing the
++wrappers to generate calls to 'xread' and 'xopen', which do not exist,
++resulting in a failure to link.
++
++Assume we have stringize support when cross-compiling, which works around the
++issue.
++
++It may be best for upstream to either give up on supporting compilers without
++stringize support, or to not define STRING() at all when FORTIFY_SOURCES is
++defined, letting the unistd.h one be used, instead.
++
++Upstream-Status: Pending
++
++--- bash-4.2.orig/builtins/mkbuiltins.c
+++++ bash-4.2/builtins/mkbuiltins.c
++@@ -28,6 +28,7 @@
++ #  define HAVE_STDLIB_H
++
++ #  define HAVE_RENAME
+++#  define HAVE_STRINGIZE
++ #endif /* CROSS_COMPILING */
++
++ #if defined (HAVE_UNISTD_H)
+diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
+index 5a0f015..07dda09 100644
+--- a/meta/recipes-extended/bash/bash_4.2.bb
++++ b/meta/recipes-extended/bash/bash_4.2.bb
+@@ -4,7 +4,7 @@ require bash.inc
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-009;apply=yes;striplevel=0;name=patch009 \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-010;apply=yes;striplevel=0;name=patch010 \
+            file://execute_cmd.patch;striplevel=0 \
++           file://mkbuiltins_have_stringize.patch \
+            "
+ 
+ SRC_URI[tarball.md5sum] = "3fb927c7c33022f1c327f14a81c0d4b0"
+-- 
+1.7.12.4
 
 
 
