@@ -1,30 +1,38 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TYXfA-0006kT-Ck
+	(envelope-from <martin.jansa@gmail.com>) id 1TYYZX-0008LK-EZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 08:45:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAE7Ux7E025020
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Nov 2012 23:30:59 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 13 Nov 2012 23:30:58 -0800
-Message-ID: <50A348B0.7070500@windriver.com>
-Date: Wed, 14 Nov 2012 15:30:56 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
-MIME-Version: 1.0
+	Wed, 14 Nov 2012 09:43:47 +0100
+Received: by mail-bk0-f47.google.com with SMTP id jk7so40713bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2012 00:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Nq0DRBWDlYJKYuDtMMlrkBjZ8IvUWCt6mSL9RHnNcP4=;
+	b=ThsBHF5c5SPaVTWOozonPaocDiJaEr5JDHEKhGOPxF3YjuvgzAlThBr2i7F89+eX7U
+	lPRyhnhKfmPd62FN1LW6FWGN9hmO2JNLwNs2ZCrnsaEc7dfkZ9So2qngtzaypnxrn4NG
+	e9ksbgG/9fQymlocifzXiMHq0CtstyrJka5IhJUTlT6+1ss3t2z6HUpnc2RUCRopkQw0
+	1GqqpiZp8l8iXWR2c9Nt8zDLarKnh+OkURqSjEOG79odqYdZMhV9rJ+xOttkA+yiWe0N
+	eGAThjVnzdO4vGi0JEa3haKTkbylZhHFSa8IPwlZSIPmS7/kQs8xXeC5pc7BZdBVW2ju
+	6SPQ==
+Received: by 10.205.126.131 with SMTP id gw3mr8958444bkc.137.1352881792046;
+	Wed, 14 Nov 2012 00:29:52 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ht18sm7157583bkc.14.2012.11.14.00.29.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 14 Nov 2012 00:29:50 -0800 (PST)
+Date: Wed, 14 Nov 2012 09:30:03 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1352714690.git.Qi.Chen@windriver.com>
-	<6a877019d44db98a110eafd29d66010ac22fae5a.1352714690.git.Qi.Chen@windriver.com>
-	<50A2D460.8070207@linux.intel.com>
-In-Reply-To: <50A2D460.8070207@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] initscripts: improve the way initscripts handle volatile storage
+Message-ID: <20121114083003.GH3928@jama.jama.net>
+References: <cover.1352871028.git.sgw@linux.intel.com>
+	<4ccf95a0983379ca7b87f9d7affdba2b824f9a09.1352871028.git.sgw@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <4ccf95a0983379ca7b87f9d7affdba2b824f9a09.1352871028.git.sgw@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 8/9] sqlite3: Update to 3.7.14.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,174 +45,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 07:45:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2012 08:43:47 -0000
+X-Groupsio-MsgNum: 31298
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WRT3RXLOp/bBMgTI"
+Content-Disposition: inline
 
-On 11/14/2012 07:14 AM, Saul Wold wrote:
-> On 11/12/2012 03:33 AM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Change the way how populate_volatile.sh handles link-type config
->> items. Previously, if a link-type config item is encountered, the
->> script does not handle it correctly. If the target exists as a link,
->> the config item is skipped no matter where the target actually points.
->> If the target exists as a file or a directory, it does nothing.
->> This behavious is sometimes confusing; for example, if /run has been
->> created by other recipes, it will not be updated to a symlink as the
->> config file states.
->>
->> This patch makes populate_volatile.sh do things as the config file
->> tells it. As for link-type config items, it creates them properly
->> with an effort to avoid data loss.
->>
->> Besides, it's not appropriate to divide volatile storage handling
->> into two files. Operations for /tmp directory in bootmisc.sh should
->> also be done by populate_volatile.sh.
->>
->> [YOCTO #3404]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   .../initscripts/initscripts-1.0/bootmisc.sh        |    7 -----
->>   .../initscripts-1.0/populate-volatile.sh           |   28 
->> +++++++++-----------
->>   .../initscripts/initscripts-1.0/volatiles          |    1 +
->>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
->>   4 files changed, 15 insertions(+), 23 deletions(-)
->>
->> diff --git 
->> a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh 
->> b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
->> index 4f76cb4..80f7ead 100755
->> --- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
->> +++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
->> @@ -54,13 +54,6 @@ fi
->>
->>   #
->>   # This is as good a place as any for a sanity check
->> -# /tmp should be a symlink to /var/tmp to cut down on the number
->> -# of mounted ramdisks.
->> -if test ! -L /tmp && test -d /var/tmp
->> -then
->> -    rm -rf /tmp
->> -    ln -sf /var/tmp /tmp
->> -fi
->>
->>   # Set the system clock from hardware clock
->>   # If the timestamp is more recent than the current time,
->> diff --git 
->> a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh 
->> b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
->> index d2175d7..baee2ef 100755
->> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
->> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
->> @@ -47,15 +47,16 @@ mk_dir() {
->>   }
->>
->>   link_file() {
->> -    EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 
->> 2>&1"
->> -
->> -    test "$VOLATILE_ENABLE_CACHE" = yes && echo "    $EXEC" >> 
->> /etc/volatile.cache.build
->> -
->> -    [ -e "$2" ] && {
->> -      echo "Cannot create link over existing -${TNAME}-." >&2
->> -    } || {
->> -      eval $EXEC &
->> -    }
->> +    EXEC="
->> +    if [ -L \"$2\" ]; then
->> +        rm -f \"$2\";
->> +    elif [ -d \"$2\" ]; then
->> +        cp -rf \"$2/*\" \"$1\";
->> +        rm -rf \"$2\";
->> +    fi;
->> +    ln -sf \"$1\" \"$2\" "
->> +        test "$VOLATILE_ENABLE_CACHE" = yes && echo "   $EXEC" >> 
->> /etc/volatile.
-> I wonder if we should be testing /etc for writablity here first?  We 
-> need to make sure we respect the possibility that the root filesystem 
-> with read-only.
->
-> Sau!
->
->> +        eval $EXEC &
->>   }
->>
->>   check_requirements() {
->> @@ -119,20 +120,17 @@ apply_cfgfile() {
->>       return 1
->>       }
->>
->> -  cat ${CFGFILE} | grep -v "^#" | \
->> +  cat ${CFGFILE} | grep -v "^#" | sed -e '/^$/ d' | \
->>     while read LINE; do
->>
->>       eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ 
->> \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 
->> TLTARGET=\6/p"`
->>
->>       [ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
->>
->> -
->>       [ "${TTYPE}" = "l" ] && {
->>         TSOURCE="$TLTARGET"
->> -      [ -L "${TNAME}" ] || {
->> -        [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- 
->> pointing to -${TSOURCE}-."
->> -        link_file "${TSOURCE}" "${TNAME}" &
->> -        }
->> +      [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- 
->> pointing to -${TSOURCE}-."
->> +      link_file "${TSOURCE}" "${TNAME}" &
->>         continue
->>         }
->>
->> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles 
->> b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
->> index e0741aa..f7e2ef7 100644
->> --- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
->> +++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
->> @@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
->>   l root root 0755 /var/log /var/volatile/log
->>   l root root 0755 /var/run /var/volatile/run
->>   l root root 1777 /var/tmp /var/volatile/tmp
->> +l root root 1777 /tmp /var/tmp
->>   d root root 0755 /var/lock/subsys none
->>   f root root 0664 /var/log/wtmp none
->>   f root root 0664 /var/run/utmp none
->> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb 
->> b/meta/recipes-core/initscripts/initscripts_1.0.bb
->> index d25838b..251dd06 100644
->> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
->> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
->> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system 
->> startup initialization scrip
->>   SECTION = "base"
->>   LICENSE = "GPLv2"
->>   LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
->> -PR = "r137"
->> +PR = "r138"
->>
->>   INHIBIT_DEFAULT_DEPS = "1"
->>
->>
->
-Hi Saul:
+--WRT3RXLOp/bBMgTI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-After looking at bug#3406 and bug#3407, I realize that it is much more 
-complex than I thought to make this script work on a read-only rootfs. 
-After all, if the rootfs is read-only, we cannot delete things like 
-/tmp, /var/run and so on.
+On Tue, Nov 13, 2012 at 09:32:50PM -0800, Saul Wold wrote:
+> [YOCTO #3283]
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../{sqlite3_3.7.13.bb =3D> sqlite3_3.7.14.1.bb}     |    5 +----
+>  1 files changed, 1 insertions(+), 4 deletions(-)
+>  rename meta/recipes-support/sqlite/{sqlite3_3.7.13.bb =3D> sqlite3_3.7.1=
+4.1.bb} (58%)
+>=20
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.13.bb b/meta/recipes=
+-support/sqlite/sqlite3_3.7.14.1.bb
+> similarity index 58%
+> rename from meta/recipes-support/sqlite/sqlite3_3.7.13.bb
+> rename to meta/recipes-support/sqlite/sqlite3_3.7.14.1.bb
+> index 48b50ac..00a3081 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3.7.13.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.7.14.1.bb
+> @@ -2,10 +2,7 @@ require sqlite3.inc
+> =20
+>  LIC_FILES_CHKSUM =3D "file://sqlite3.h;endline=3D11;md5=3D65f0a57ca69287=
+10b418c094b3570bb0"
+> =20
+> -PR =3D "r1"
+> +PR =3D "r0"
+> =20
+>  SRC_URI =3D "http://www.sqlite.org/sqlite-autoconf-3071300.tar.gz"
+>  S =3D "${WORKDIR}/sqlite-autoconf-3071300"
+> -
+> -SRC_URI[md5sum] =3D "c97df403e8a3d5b67bb408fcd6aabd8e"
+> -SRC_URI[sha256sum] =3D "ac566819f82ec4cc2ff6c5cc90987ca38e589efbd79ff263=
+838bbc62356ab119"
 
-Besides, as I mentioned in the last email, there are some other 
-initscripts that assume rootfs to be writable. So as far as I can see, 
-support for read-only rootfs would not be trivial.
+Where is checksum for 3.7.14.1?
 
 Cheers,
-Chen Qi
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--WRT3RXLOp/bBMgTI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlCjVooACgkQN1Ujt2V2gBzfpgCgi6vUREifCZxZzH8gFOeQSSmM
+V1YAnAswz3UqlPwh41vAUaLAsWpuZ7qU
+=HIg9
+-----END PGP SIGNATURE-----
+
+--WRT3RXLOp/bBMgTI--
