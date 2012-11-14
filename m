@@ -1,28 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TYSeG-0005JB-7H
+	(envelope-from <sgw@linux.intel.com>) id 1TYVoK-0003N6-Ph
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 03:24:18 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAE29gbG025796
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Nov 2012 18:10:17 -0800 (PST)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 13 Nov 2012 18:10:06 -0800
-Message-ID: <50A2FDA9.3090508@windriver.com>
-Date: Wed, 14 Nov 2012 10:10:49 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1352101205.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1352101205.git.kai.kang@windriver.com>
-X-Originating-IP: [128.224.162.205]
-Subject: Re: [PATCH 0/2] Update perl populate_package and dependency creating scripts
+	Wed, 14 Nov 2012 06:46:53 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2012 21:32:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,248,1352102400"; d="scan'208";a="246693775"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.71])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Nov 2012 21:32:56 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Nov 2012 21:32:42 -0800
+Message-Id: <cover.1352871028.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 0/9] Fixes and Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,80 +27,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 02:24:19 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010407020800050205040909"
+X-List-Received-Date: Wed, 14 Nov 2012 05:46:54 -0000
 
---------------010407020800050205040909
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+Richard,
 
-On 2012?11?05? 16:56, Kang Kai wrote:
-> The following changes since commit e421e95de0ce430cc2c6db9b0712a66ab96288a1:
->
->    gnome-desktop: Now we depend on gnome-common-native, use the correct sysroot (2012-11-02 16:18:32 +0000)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib kangkai/update-perl
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-perl
->
-> Kang Kai (2):
->    perl: update dependency creating script
->    perl: update RPROVIDES and popuate_package script
->
->   .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2335 +++++++++++++++++++-
->   meta/recipes-devtools/perl/perl_5.14.2.bb          |    8 +-
->   2 files changed, 2292 insertions(+), 51 deletions(-)
->
+This is a batch of changes that I have had pending in my
+queue for the last couple of weeks, got around to final
+testing.  
 
-Recall these two patches. Dependencies between same name .pm and .so 
-files(A.pm Vs. A.so) need update.
+The self-hosted and builder changes are for enabling the
+Build Appliance with Windows and Eclipse
 
-Sorry for inconvenience.
+The pulseaudio change should also be marked for Danny to
+address a meta-guacamayo issue.
 
-Regards,
-Kai
+Thanks
+	Sau!
 
---------------010407020800050205040909
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 2012&#24180;11&#26376;05&#26085; 16:56, Kang Kai wrote:
-    <blockquote cite="mid:cover.1352101205.git.kai.kang@windriver.com"
-      type="cite">
-      <pre wrap="">The following changes since commit e421e95de0ce430cc2c6db9b0712a66ab96288a1:
+The following changes since commit fa7fb44d1ca2b8a57509806bde19672c68ef157d:
 
-  gnome-desktop: Now we depend on gnome-common-native, use the correct sysroot (2012-11-02 16:18:32 +0000)
+  mesa-demos: fix --with-glut check (2012-11-12 22:31:41 +0000)
 
 are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/update-perl
-  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-perl">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-perl</a>
+  git://git.openembedded.org/openembedded-core-contrib sgw/updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
 
-Kang Kai (2):
-  perl: update dependency creating script
-  perl: update RPROVIDES and popuate_package script
+Saul Wold (9):
+  packagegroup-self-hosted: add sftp server
+  builder: Add password for user
+  less: Update to 451
+  psmisc: Update to 22.20
+  kconfig-frontends: Update to 3.6
+  sysstat: Update to 10.1.2
+  mx: Update to 1.4.7
+  sqlite3: Update to 3.7.14.1
+  pulse: fix Bashism in string test
 
- .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2335 +++++++++++++++++++-
- meta/recipes-devtools/perl/perl_5.14.2.bb          |    8 +-
- 2 files changed, 2292 insertions(+), 51 deletions(-)
+ .../packagegroups/packagegroup-self-hosted.bb      |    3 ++-
+ ...g-frontends_3.5.bb => kconfig-frontends_3.6.bb} |    9 +++++----
+ .../less/{less_444.bb => less_451.bb}              |    8 ++++----
+ .../psmisc/{psmisc_22.19.bb => psmisc_22.20.bb}    |    4 ++--
+ .../{sysstat_10.1.1.bb => sysstat_10.1.2.bb}       |    5 +++--
+ meta/recipes-graphics/builder/builder_0.1.bb       |    5 +++--
+ .../mx/{mx_1.4.6.bb => mx_1.4.7.bb}                |   13 ++++++-------
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
+ .../pulseaudio/pulseaudio_2.1.bb                   |    2 +-
+ .../{sqlite3_3.7.13.bb => sqlite3_3.7.14.1.bb}     |    5 +----
+ 10 files changed, 28 insertions(+), 28 deletions(-)
+ rename meta/recipes-devtools/kconfig-frontends/{kconfig-frontends_3.5.bb => kconfig-frontends_3.6.bb} (88%)
+ rename meta/recipes-extended/less/{less_444.bb => less_451.bb} (82%)
+ rename meta/recipes-extended/psmisc/{psmisc_22.19.bb => psmisc_22.20.bb} (46%)
+ rename meta/recipes-extended/sysstat/{sysstat_10.1.1.bb => sysstat_10.1.2.bb} (44%)
+ rename meta/recipes-graphics/mx/{mx_1.4.6.bb => mx_1.4.7.bb} (66%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.7.13.bb => sqlite3_3.7.14.1.bb} (58%)
 
-</pre>
-    </blockquote>
-    <font size="+1"><br>
-      Recall these two patches. Dependencies between same name .pm and
-      .so files(A.pm Vs. A.so) need update.</font> <br>
-    <br>
-    Sorry for inconvenience.<br>
-    <br>
-    Regards,<br>
-    Kai<br>
-  </body>
-</html>
+-- 
+1.7.7.6
 
---------------010407020800050205040909--
+
+
