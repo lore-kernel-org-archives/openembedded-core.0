@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TYlY7-0000K7-PD
+	(envelope-from <sgw@linux.intel.com>) id 1TYlY7-0000MD-Nu
 	for openembedded-core@lists.openembedded.org;
 	Wed, 14 Nov 2012 23:35:12 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 14 Nov 2012 14:21:06 -0800
+	by azsmga102.ch.intel.com with ESMTP; 14 Nov 2012 14:21:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,252,1352102400"; d="scan'208";a="168490571"
+X-IronPort-AV: E=Sophos;i="4.83,252,1352102400"; d="scan'208";a="168490564"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.71])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Nov 2012 14:21:06 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Nov 2012 14:21:05 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Nov 2012 14:20:58 -0800
-Message-Id: <4689f94cdd79c26c8976038320f8d13760a5c3da.1352931528.git.sgw@linux.intel.com>
+Date: Wed, 14 Nov 2012 14:20:56 -0800
+Message-Id: <7585e8e535230d1c328dd6a4019d4601e5b0bae5.1352931528.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1352931528.git.sgw@linux.intel.com>
 References: <cover.1352931528.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1352931528.git.sgw@linux.intel.com>
 References: <cover.1352931528.git.sgw@linux.intel.com>
-Subject: [PATCH 05/10] less: Update to 451
+Subject: [PATCH 03/10] kconfig-frontends: Update to 3.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,43 +32,42 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Nov 2012 22:35:13 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 22:35:13 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 22:35:13 -0000
 
-LICENSE file was changed to match the BSD-2 Clause
-
-(From OE-Core rev: 5982fa16ba67e3cd0a0191eca452bb61282e1cda)
+(From OE-Core rev: 800ec42d0cb3c994ba15c0ce7e4f5a6e312012a4)
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../less/{less_444.bb => less_451.bb}              |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/less/{less_444.bb => less_451.bb} (82%)
+ ...g-frontends_3.5.bb => kconfig-frontends_3.6.bb} |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/kconfig-frontends/{kconfig-frontends_3.5.bb => kconfig-frontends_3.6.bb} (88%)
 
-diff --git a/meta/recipes-extended/less/less_444.bb b/meta/recipes-extended/less/less_451.bb
-similarity index 82%
-rename from meta/recipes-extended/less/less_444.bb
-rename to meta/recipes-extended/less/less_451.bb
-index 1ce9d92..93e4bbf 100644
---- a/meta/recipes-extended/less/less_444.bb
-+++ b/meta/recipes-extended/less/less_451.bb
-@@ -21,14 +21,14 @@ SECTION = "console/utils"
- 
- LICENSE = "GPLv3+ | BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://LICENSE;md5=1237c0f825bb36122b0b2b486ffbe6be"
-+                    file://LICENSE;md5=866cc220f330b04ae4661fc3cdfedea7"
- DEPENDS = "ncurses"
--PR = "r3"
+diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.5.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.6.bb
+similarity index 88%
+rename from meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.5.bb
+rename to meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.6.bb
+index 96899b8..d1fdc0e 100644
+--- a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.5.bb
++++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.6.bb
+@@ -11,12 +11,13 @@ LICENSE = "GPL-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
+ SECTION = "devel"
+ DEPENDS += "ncurses flex bison gperf"
+-PR = "r1"
+-PV = "3.5.0"
 +PR = "r0"
++PV = "3.6.0"
+ SPIN = "0"
+ SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
+-SRC_URI[md5sum] = "0e476b35f321234e0c2bea953461b46f"
+-SRC_URI[sha256sum] = "567a556db5dc5f5c63e9d9fc9a45918ce870e3423407715a495e11b67e70b2f2"
++
++SRC_URI[md5sum] = "91ca87abb3c99c3fd40a7babb05ec507"
++SRC_URI[sha256sum] = "3084989a9b146688f318b5524dfb7ab3ba47c9cef355d1aebaa520befdb48da0"
  
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "56f9f76ffe13f70155f47f6b3c87d421"
--SRC_URI[sha256sum] = "be64ad3e22d6d4aa19fe7024d998563a1ce1671ee3625f8851d26b16dedcdeeb"
-+SRC_URI[md5sum] = "765f082658002b2b46b86af4a0da1842"
-+SRC_URI[sha256sum] = "9fe8287c647afeafb4149c5dedaeacfd20971ed7c26c7553794bb750536b5f57"
- 
- inherit autotools update-alternatives
+ S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
  
 -- 
 1.7.7.6
