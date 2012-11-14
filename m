@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYe49-0005Na-Nd for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 15:35:46 +0100
+	id 1TYeDW-0005gK-91 for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2012 15:45:26 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEELo30020536
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEEVVSE020594
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 14:21:50 GMT
+	Wed, 14 Nov 2012 14:31:31 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 19887-04 for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 14:21:45 +0000 (GMT)
+	id 20196-02 for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2012 14:31:27 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEELhQA020529
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEEVND7020588
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 14:21:44 GMT
-Message-ID: <1352902904.13332.10.camel@ted>
+	Wed, 14 Nov 2012 14:31:24 GMT
+Message-ID: <1352903484.13332.13.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Nov 2012 14:21:44 +0000
+Date: Wed, 14 Nov 2012 14:31:24 +0000
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] make-3.82: Add patch for archive expression expansion issues
+Subject: [PATCH] python: Resolve intermediate staging issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,228 +37,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 14:35:46 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 14:45:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-bitbake make-native; MACHINE=qemuarm bitbake icu
+Its bad practise to poke into the sysroot without knowledge of sstate.
 
-would fail with:
+This adds a patch to python allowing us to account for cross compiling
+and allow it to find the Makefile/pyconfig.h files without needing them 
+in the sysroot for do_compile/do_install to complete.
 
-*** No rule to make target `uconvmsg/libuconvmsg.a(uconvmsg/uconvmsg_dat.ao', needed by `uconvmsg/libuconvmsg.a'.  Stop
-
-which is caused by a bug in make 3.82 which the attached patch fixes.
+Tested on two architectures and compared with buildhistory with no 
+significant delta.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-devtools/make/make-3.82/make-savannah-bug30612-handling_of_archives.patch b/meta/recipes-devtools/make/make-3.82/make-savannah-bug30612-handling_of_archives.patch
+diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
+index d450949..b0b3503 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.3.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
+@@ -15,6 +15,7 @@ SRC_URI += "file://04-default-is-optimized.patch \
+            file://nohostlibs.patch \
+            file://multilib.patch \
+            file://add-md5module-support.patch \
++           file://builddir.patch \
+            "
+ S = "${WORKDIR}/Python-${PV}"
+ 
+diff --git a/meta/recipes-devtools/python/python/builddir.patch b/meta/recipes-devtools/python/python/builddir.patch
 new file mode 100644
-index 0000000..2502ac7
+index 0000000..930170b
 --- /dev/null
-+++ b/meta/recipes-devtools/make/make-3.82/make-savannah-bug30612-handling_of_archives.patch
-@@ -0,0 +1,188 @@
-+Upstream-Status: Backport
++++ b/meta/recipes-devtools/python/python/builddir.patch
+@@ -0,0 +1,55 @@
++When cross compiling python, we used to need to install the Makefile, pyconfig.h 
++and the python library to their final location before being able to compile the 
++rest of python. This change allows us to point python at its own source when
++building, avoiding a variety of sysroot staging issues and simplifying the main
++python recipe.
 +
-+2010-08-13  Paul Smith  <psmith@gnu.org>
++Upstream-Status: Inappropriate
++RP 2012/11/13
 +
-+* NEWS: Accidentally forgot to back out the sorted wildcard
-+enhancement in 3.82, so update NEWS.
-+Also add NEWS about the error check for explicit and pattern
-+targets in the same rule, added to 3.82.
-+
-+* main.c (main): Add "oneshell" to $(.FEATURES) (forgot to add
-+this in 3.82!)
-+
-+* read.c (parse_file_seq): Fix various errors parsing archives
-+with multiple objects in the parenthesis, as well as wildcards.
-+Fixes Savannah bug #30612.
-+
-+
-+Index: NEWS
++Index: Python-2.7.3/Lib/sysconfig.py
 +===================================================================
-+--- NEWS.orig	2010-07-28 05:39:50.000000000 +0000
-++++ NEWS	2012-11-14 11:07:26.427456125 +0000
-+@@ -18,14 +18,6 @@
-+ * Compiling GNU make now requires a conforming ISO C 1989 compiler and
-+   standard runtime library.
++--- Python-2.7.3.orig/Lib/sysconfig.py	2012-11-13 14:36:08.429167199 +0000
+++++ Python-2.7.3/Lib/sysconfig.py	2012-11-13 21:58:31.788551800 +0000
++@@ -93,6 +93,7 @@
++ _EXEC_PREFIX = os.path.normpath(sys.exec_prefix)
++ _CONFIG_VARS = None
++ _USER_BASE = None
+++_PYTHONBUILDDIR = os.environ.get("PYTHONBUILDDIR", None)
 + 
-+-* WARNING: Future backward-incompatibility!
-+-  Wildcards are not documented as returning sorted values, but up to and
-+-  including this release the results have been sorted and some makefiles are
-+-  apparently depending on that.  In the next release of GNU make, for
-+-  performance reasons, we may remove that sorting.  If your makefiles
-+-  require sorted results from wildcard expansions, use the $(sort ...)
-+-  function to request it explicitly.
-+-
-+ * WARNING: Backward-incompatibility!
-+   The POSIX standard for make was changed in the 2008 version in a
-+   fundamentally incompatible way: make is required to invoke the shell as if
-+@@ -42,6 +34,21 @@
-+   existing targets were provided in $?).
++ def _safe_realpath(path):
++     try:
++@@ -100,7 +102,9 @@
++     except OSError:
++         return path
 + 
-+ * WARNING: Backward-incompatibility!
-++  Wildcards were not documented as returning sorted values, but the results
-++  have been sorted up until this release..  If your makefiles require sorted
-++  results from wildcard expansions, use the $(sort ...)  function to request
-++  it explicitly.
-++
-++* WARNING: Backward-incompatibility!
-++  In previous versions of make it was acceptable to list one or more explicit
-++  targets followed by one or more pattern targets in the same rule and it
-++  worked "as expected".  However, this was not documented as acceptable and if
-++  you listed any explicit targets AFTER the pattern targets, the entire rule
-++  would be mis-parsed.  This release removes this ability completely: make
-++  will generate an error message if you mix explicit and pattern targets in
-++  the same rule.
-++
-++* WARNING: Backward-incompatibility!
-+   As a result of parser enhancements, three backward-compatibility issues
-+   exist: first, a prerequisite containing an "=" cannot be escaped with a
-+   backslash any longer.  You must create a variable containing an "=" and
-+Index: main.c
++-if sys.executable:
+++if _PYTHONBUILDDIR:
+++    _PROJECT_BASE = _PYTHONBUILDDIR
+++elif sys.executable:
++     _PROJECT_BASE = os.path.dirname(_safe_realpath(sys.executable))
++ else:
++     # sys.executable can be empty if argv[0] has been changed and Python is
++Index: Python-2.7.3/Lib/distutils/sysconfig.py
 +===================================================================
-+--- main.c.orig	2012-11-14 11:07:25.000000000 +0000
-++++ main.c	2012-11-14 11:07:26.427456125 +0000
-+@@ -1138,7 +1138,7 @@
-+      a macro and some compilers (MSVC) don't like conditionals in macros.  */
-+   {
-+     const char *features = "target-specific order-only second-expansion"
-+-                           " else-if shortest-stem undefine"
-++                           " else-if shortest-stem undefine oneshell"
-+ #ifndef NO_ARCHIVES
-+                            " archives"
-+ #endif
-+Index: read.c
-+===================================================================
-+--- read.c.orig	2010-07-13 01:20:42.000000000 +0000
-++++ read.c	2012-11-14 11:07:26.431456125 +0000
-+@@ -3028,7 +3028,7 @@
-+             {
-+               /* This looks like the first element in an open archive group.
-+                  A valid group MUST have ')' as the last character.  */
-+-              const char *e = p + nlen;
-++              const char *e = p;
-+               do
-+                 {
-+                   e = next_token (e);
-+@@ -3084,19 +3084,19 @@
-+          Go to the next item in the string.  */
-+       if (flags & PARSEFS_NOGLOB)
-+         {
-+-          NEWELT (concat (2, prefix, tp));
-++          NEWELT (concat (2, prefix, tmpbuf));
-+           continue;
-+         }
++--- Python-2.7.3.orig/Lib/distutils/sysconfig.py	2012-11-13 14:36:08.005167209 +0000
+++++ Python-2.7.3/Lib/distutils/sysconfig.py	2012-11-13 22:07:05.644540695 +0000
++@@ -26,6 +26,9 @@
++ # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
++ # it'll live in project/PCbuild/amd64.
++ project_base = os.path.dirname(os.path.abspath(sys.executable))
+++_PYTHONBUILDDIR = os.environ.get("PYTHONBUILDDIR", None)
+++if _PYTHONBUILDDIR:
+++    project_base = _PYTHONBUILDDIR
++ if os.name == "nt" and "pcbuild" in project_base[-8:].lower():
++     project_base = os.path.abspath(os.path.join(project_base, os.path.pardir))
++ # PC/VS7.1
++@@ -247,7 +250,7 @@
++ def get_makefile_filename():
++     """Return full pathname of installed Makefile from the Python build."""
++     if python_build:
++-        return os.path.join(os.path.dirname(sys.executable), "Makefile")
+++        return os.path.join(project_base, "Makefile")
++     lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
++     return os.path.join(lib_dir, "config", "Makefile")
 + 
-+       /* If we get here we know we're doing glob expansion.
-+          TP is a string in tmpbuf.  NLEN is no longer used.
-+          We may need to do more work: after this NAME will be set.  */
-+-      name = tp;
-++      name = tmpbuf;
-+ 
-+       /* Expand tilde if applicable.  */
-+-      if (tp[0] == '~')
-++      if (tmpbuf[0] == '~')
-+ 	{
-+-	  tildep = tilde_expand (tp);
-++	  tildep = tilde_expand (tmpbuf);
-+ 	  if (tildep != 0)
-+             name = tildep;
-+ 	}
-+@@ -3152,7 +3152,10 @@
-+             else
-+               {
-+                 /* We got a chain of items.  Attach them.  */
-+-                (*newp)->next = found;
-++                if (*newp)
-++                  (*newp)->next = found;
-++                else
-++                  *newp = found;
-+ 
-+                 /* Find and set the new end.  Massage names if necessary.  */
-+                 while (1)
-+Index: tests/run_make_tests.pl
-+===================================================================
-+--- tests/run_make_tests.pl.orig	2010-07-13 01:20:43.000000000 +0000
-++++ tests/run_make_tests.pl	2012-11-14 11:07:26.431456125 +0000
-+@@ -29,6 +29,7 @@
-+ # You should have received a copy of the GNU General Public License along with
-+ # this program.  If not, see <http://www.gnu.org/licenses/>.
-+ 
-++%FEATURES = ();
-+ 
-+ $valgrind = 0;              # invoke make with valgrind
-+ $valgrind_args = '';
-+@@ -367,6 +368,8 @@
-+      $parallel_jobs = 1;
-+    }
-+ 
-++   %FEATURES = map { $_ => 1 } split /\s+/, `sh -c "echo '\\\$(info \\\$(.FEATURES))' | $make_path -f- 2>/dev/null"`;
-++
-+    # Set up for valgrind, if requested.
-+ 
-+    if ($valgrind) {
-+Index: tests/scripts/features/archives
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ tests/scripts/features/archives	2012-11-14 11:07:26.431456125 +0000
-+@@ -0,0 +1,42 @@
-++#                                                              -*-mode: perl-*-
-++
-++$description = "Test GNU make's archive management features.";
-++
-++$details = "\
-++This only works on systems that support it.";
-++
-++# If this instance of make doesn't support archives, skip it
-++exists $FEATURES{archives} or return -1;
-++
-++# Create some .o files to work with
-++utouch(-60, qw(a1.o a2.o a3.o));
-++
-++# Very simple
-++run_make_test('all: libxx.a(a1.o)',
-++              '', "ar rv libxx.a a1.o\nar: creating libxx.a\na - a1.o\n");
-++
-++# Multiple .o's.  Add a new one to the existing library
-++run_make_test('all: libxx.a(a1.o a2.o)',
-++              '', "ar rv libxx.a a2.o\na - a2.o\n");
-++
-++# Touch one of the .o's so it's rebuilt
-++utouch(-40, 'a1.o');
-++run_make_test(undef, '', "ar rv libxx.a a1.o\nr - a1.o\n");
-++
-++# Use wildcards
-++run_make_test('all: libxx.a(*.o)',
-++              '', "#MAKE#: Nothing to be done for `all'.\n");
-++
-++# Touch one of the .o's so it's rebuilt
-++utouch(-30, 'a1.o');
-++run_make_test(undef, '', "ar rv libxx.a a1.o\nr - a1.o\n");
-++
-++# Use both wildcards and simple names
-++utouch(-50, 'a2.o');
-++run_make_test('all: libxx.a(a3.o *.o)', '',
-++              "ar rv libxx.a a3.o\na - a3.o\nar rv libxx.a a2.o\nr - a2.o\n");
-++
-++rmfiles(qw(a1.o a2.o a3.o libxx.a));
-++
-++# This tells the test driver that the perl test script executed properly.
-++1;
-diff --git a/meta/recipes-devtools/make/make_3.82.bb b/meta/recipes-devtools/make/make_3.82.bb
-index 8167c01..127dec2 100644
---- a/meta/recipes-devtools/make/make_3.82.bb
-+++ b/meta/recipes-devtools/make/make_3.82.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
- require make.inc
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 3a17c85..f0d5c90 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -27,6 +27,7 @@ SRC_URI += "\
+   file://avoid_warning_for_sunos_specific_module.patch \
+   file://python-2.7.3-berkeley-db-5.3.patch \
+   file://python-2.7.3-remove-bsdb-rpath.patch \
++  file://builddir.patch \
+ "
  
--SRC_URI += "file://expand_MAKEFLAGS.patch"
-+SRC_URI += "file://expand_MAKEFLAGS.patch \
-+            file://make-savannah-bug30612-handling_of_archives.patch;striplevel=0"
+ S = "${WORKDIR}/Python-${PV}"
+@@ -55,17 +56,6 @@ do_compile() {
+         sed -e 's,${STAGING_DIR_HOST},,g' -i *.py
+         cd -
  
- SRC_URI[md5sum] = "1a11100f3c63fcf5753818e59d63088f"
- SRC_URI[sha256sum] = "e2c1a73f179c40c71e2fe8abf8a8a0688b8499538512984da4a76958d0402966"
+-	#
+-	# Copy config.h and an appropriate Makefile for distutils.sysconfig,
+-	# which laters uses the information out of these to compile extensions
+-	#
+-	# The following part (until python compilation) should probably moved to an
+-	# -initial recipe to handle staging better
+-	#
+-	install -d ${STAGING_INCDIR}/python${PYTHON_MAJMIN}/
+-	install -d ${STAGING_LIBDIR}/python${PYTHON_MAJMIN}/config/
+-	install -m 0644 pyconfig.h ${STAGING_INCDIR}/python${PYTHON_MAJMIN}/
+-
+ 	# remove hardcoded ccache, see http://bugs.openembedded.net/show_bug.cgi?id=4144
+ 	sed -i -e s,ccache,'$(CCACHE)', Makefile
+ 
+@@ -83,22 +73,12 @@ do_compile() {
+ 		-e 's,^INCLUDEDIR=.*,INCLUDE=${STAGING_INCDIR},g' \
+ 		-e 's,^CONFINCLUDEDIR=.*,CONFINCLUDE=${STAGING_INCDIR},g' \
+ 		Makefile
+-	install -m 0644 Makefile ${STAGING_LIBDIR}/python${PYTHON_MAJMIN}/config/
+ 	# save copy of it now, because if we do it in do_install and 
+ 	# then call do_install twice we get Makefile.orig == Makefile.sysroot
+ 	install -m 0644 Makefile Makefile.sysroot
+ 
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+-
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+-		STAGING_LIBDIR=${STAGING_LIBDIR} \
+-		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+-		STAGING_INCDIR=${STAGING_INCDIR} \
+-		BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+-		OPT="${CFLAGS}" libpython${PYTHON_MAJMIN}.so
+-
+-	oe_libinstall -so libpython${PYTHON_MAJMIN} ${STAGING_LIBDIR}
++	export PYTHONBUILDDIR="${S}"
+ 
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+@@ -115,6 +95,7 @@ do_install() {
+ 	install -m 0644 Makefile.orig Makefile
+ 
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
++	export PYTHONBUILDDIR="${S}"
+ 	
+ 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
 
 
 
