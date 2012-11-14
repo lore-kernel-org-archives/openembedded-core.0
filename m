@@ -1,24 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TYd7n-0002VG-Bv
-	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 14:35:27 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 05:21:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,250,1352102400"; d="scan'208";a="219485940"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
-	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 05:21:25 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Nov 2012 15:21:09 +0200
-Message-Id: <1fe701d823a2b8fcf58f4b33b91dc54a35ee8254.1352898505.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1352898505.git.laurentiu.palcu@intel.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1352898505.git.laurentiu.palcu@intel.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v3 11/12] xf86-input-synaptics: add mtdev dependency
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TYdAO-00031K-FL for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2012 14:38:08 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEDOAWG020090;
+	Wed, 14 Nov 2012 13:24:10 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17794-09; Wed, 14 Nov 2012 13:24:05 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEDO1DD020084
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 14 Nov 2012 13:24:02 GMT
+Message-ID: <1352899442.13332.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 14 Nov 2012 13:24:02 +0000
+In-Reply-To: <20121114123026.GK3928@jama.jama.net>
+References: <1352815159.24487.122.camel@ted>
+	<20121114123026.GK3928@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Michael, openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: Add fix for cross compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,53 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 13:35:27 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 13:38:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-After upgrading xserver to 1.13, multitouch support is automatically
-enabled in xf86-input-synaptics. Hence, the need for mtdev dependency.
+On Wed, 2012-11-14 at 13:30 +0100, Martin Jansa wrote:
+> On Tue, Nov 13, 2012 at 01:59:19PM +0000, Richard Purdie wrote:
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> > new file mode 100644
+> > index 0000000..f587c34
+> > --- a/dev/null
+> > +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> > @@ -0,0 +1,28 @@
+> 
+> Are you using some special tool to generate git patches or some weird
+> git version?
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../xorg-driver/xf86-input-synaptics_1.6.2.bb      |    4 ++--
- .../xorg-driver/xf86-input-synaptics_git.bb        |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Basically, the data from cgit in the web interface is broken and that is
+causing this.
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb
-index 193bd08..8a94bfd 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb
-@@ -12,11 +12,11 @@ advanced features of the touchpad to become available."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e395e21f3c21d4fc3a243783e85e9ab5"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- SRC_URI[md5sum] = "9914022a173e3f0ccfe7137ab84f6133"
- SRC_URI[sha256sum] = "c3f7d6a085d480c352f030aeb43db2e5560d1468ed34be24d44a0fc3fda25920"
- 
--DEPENDS += "libxi"
-+DEPENDS += "libxi mtdev"
- 
- FILES_${PN} += "${datadir}/X11/xorg.conf.d"
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
-index 3b3db59..73b8089 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
-@@ -10,9 +10,9 @@ advanced features of the touchpad to become available."
- 
- SRCREV = "934bc0012f948c52aadc8eda912f7728fb7394a2"
- PV = "0.15.2+git${SRCPV}"
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/xorg/driver/xf86-input-synaptics;protocol=git"
- S = "${WORKDIR}/git"
- 
--DEPENDS += "libxi"
-+DEPENDS += "libxi mtdev"
--- 
-1.7.9.5
+> Patches from you where you add some file usually does not apply here,
+> It's caused by:
+> --- a/dev/null
+> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> which usually looks like
+> --- /dev/null
+> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+
+Right, there is a bug in cgit. I'm not sure if anyone fancies trying to
+find/fix it?
+
+Cheers,
+
+Richard
 
 
 
