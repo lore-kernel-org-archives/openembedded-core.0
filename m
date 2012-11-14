@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TYlY7-0000MD-Nu
+	(envelope-from <sgw@linux.intel.com>) id 1TYlY7-0000G3-Or
 	for openembedded-core@lists.openembedded.org;
 	Wed, 14 Nov 2012 23:35:12 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 14 Nov 2012 14:21:05 -0800
+	by azsmga102.ch.intel.com with ESMTP; 14 Nov 2012 14:21:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,252,1352102400"; d="scan'208";a="168490564"
+X-IronPort-AV: E=Sophos;i="4.83,252,1352102400"; d="scan'208";a="168490568"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.71])
 	by AZSMGA002.ch.intel.com with ESMTP; 14 Nov 2012 14:21:05 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Nov 2012 14:20:56 -0800
-Message-Id: <7585e8e535230d1c328dd6a4019d4601e5b0bae5.1352931528.git.sgw@linux.intel.com>
+Date: Wed, 14 Nov 2012 14:20:57 -0800
+Message-Id: <0524f1007f25ff3a49c701931156c1a2a8d1cf8a.1352931528.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1352931528.git.sgw@linux.intel.com>
 References: <cover.1352931528.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1352931528.git.sgw@linux.intel.com>
 References: <cover.1352931528.git.sgw@linux.intel.com>
-Subject: [PATCH 03/10] kconfig-frontends: Update to 3.6
+Subject: [PATCH 04/10] psmisc: Update to 22.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,43 +32,31 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Nov 2012 22:35:13 -0000
-X-List-Received-Date: Wed, 14 Nov 2012 22:35:13 -0000
-X-List-Received-Date: Wed, 14 Nov 2012 22:35:13 -0000
 
-(From OE-Core rev: 800ec42d0cb3c994ba15c0ce7e4f5a6e312012a4)
+(From OE-Core rev: c1d3fbf49ac6ea2a6d56370311874ab99ddf57d1)
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...g-frontends_3.5.bb => kconfig-frontends_3.6.bb} |    9 +++++----
- 1 files changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/kconfig-frontends/{kconfig-frontends_3.5.bb => kconfig-frontends_3.6.bb} (88%)
+ .../psmisc/{psmisc_22.19.bb => psmisc_22.20.bb}    |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/psmisc/{psmisc_22.19.bb => psmisc_22.20.bb} (46%)
 
-diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.5.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.6.bb
-similarity index 88%
-rename from meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.5.bb
-rename to meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.6.bb
-index 96899b8..d1fdc0e 100644
---- a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.5.bb
-+++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.6.bb
-@@ -11,12 +11,13 @@ LICENSE = "GPL-2.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
- SECTION = "devel"
- DEPENDS += "ncurses flex bison gperf"
--PR = "r1"
--PV = "3.5.0"
-+PR = "r0"
-+PV = "3.6.0"
- SPIN = "0"
- SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
--SRC_URI[md5sum] = "0e476b35f321234e0c2bea953461b46f"
--SRC_URI[sha256sum] = "567a556db5dc5f5c63e9d9fc9a45918ce870e3423407715a495e11b67e70b2f2"
-+
-+SRC_URI[md5sum] = "91ca87abb3c99c3fd40a7babb05ec507"
-+SRC_URI[sha256sum] = "3084989a9b146688f318b5524dfb7ab3ba47c9cef355d1aebaa520befdb48da0"
+diff --git a/meta/recipes-extended/psmisc/psmisc_22.19.bb b/meta/recipes-extended/psmisc/psmisc_22.20.bb
+similarity index 46%
+rename from meta/recipes-extended/psmisc/psmisc_22.19.bb
+rename to meta/recipes-extended/psmisc/psmisc_22.20.bb
+index 7c34de9..f0ee79c 100644
+--- a/meta/recipes-extended/psmisc/psmisc_22.19.bb
++++ b/meta/recipes-extended/psmisc/psmisc_22.20.bb
+@@ -3,5 +3,5 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ PR = "r0"
  
- S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
- 
+-SRC_URI[md5sum] = "38563b4760ffce54b0eadf99cb5b16e8"
+-SRC_URI[sha256sum] = "e112ccadd4694c98f5ea4a02cd6944fdc5a2a1985f20e2b3f74f4dbca83a2a31"
++SRC_URI[md5sum] = "a25fc99a6dc7fa7ae6e4549be80b401f"
++SRC_URI[sha256sum] = "b17224e2385f6a799ffebba27eb7870771d42555e86814ef56b6d7e955765514"
 -- 
 1.7.7.6
 
