@@ -1,31 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYcoE-00009I-BJ for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 14:15:14 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAED1H2Q019958;
-	Wed, 14 Nov 2012 13:01:17 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17794-08; Wed, 14 Nov 2012 13:01:13 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAED1821019952
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 14 Nov 2012 13:01:10 GMT
-Message-ID: <1352898069.11419.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chris Larson <clarson@kergoth.com>
-Date: Wed, 14 Nov 2012 13:01:09 +0000
-In-Reply-To: <CABcZANkMe=Bxfr5=PJkDUDT0LS1uN3AL=Sigo9OXS-rQyaexzQ@mail.gmail.com>
-References: <1352815159.24487.122.camel@ted>
-	<CABcZANkMe=Bxfr5=PJkDUDT0LS1uN3AL=Sigo9OXS-rQyaexzQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: Add fix for cross compile issues
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TYd7X-0002VE-Ng
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2012 14:35:12 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 05:21:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,250,1352102400"; d="scan'208";a="219485839"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
+	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 05:21:13 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Nov 2012 15:20:58 +0200
+Message-Id: <cover.1352898505.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v3 00/12] xorg upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,76 +27,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 13:15:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2012 13:35:12 -0000
 
-On Tue, 2012-11-13 at 16:42 -0700, Chris Larson wrote:
+Changes in v3:
+ * reintroduced the old xf86-video-omapfb recipe. However, this will not build
+   because it needs to be ported to work with the compat-api. The new recipe
+   has this, though. So there will still be work to be done in order to have
+   this work with the 1.13 xorg server;
+ * addressed Martin's comments;
 
-> On Tue, Nov 13, 2012 at 6:59 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         Signed-off-by: Richard Purdie
->         <richard.purdie@linuxfoundation.org>
->         ---
->         diff --git
->         a/meta/recipes-extended/bash/bash-4.2/crossfix.patch
->         b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
->         new file mode 100644
->         index 0000000..f587c34
->         --- a/dev/null
->         +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
->         @@ -0,0 +1,28 @@
->         +Adding @CROSS_COMPILE@ to CFLAGS_FOR_BUILD causes errors
->         like:
->         +
->         +mkbuiltins.o: In function `open':
->         +/usr/include/x86_64-linux-gnu/bits/fcntl2.h:54: undefined
->         reference to `xopen'
->         +mkbuiltins.o: In function `read':
->         +/usr/include/x86_64-linux-gnu/bits/unistd.h:45: undefined
->         reference to `xread'
->         +collect2: ld returned 1 exit status
->         +
->         +when compiling on a 64 bit x86 build system for a 32 bit x86
->         target since
->         +config.h confuses the compiler about settings. By removing
->         the option, config.h
->         +isn't used and the compiler stops getting confused.
->         +
->         +Upstream-Status: Pending
->         +RP 2012/11/13
-> 
-> Relying on the target config.h to build a host tool could fail if the
-> build and target environments differ greatly, which is likely why
-> mkbuiltins.c has hardcoded defines assuming less about the host (just
-> POSIX) based on the CROSS_COMPILE define. I don't think removing that
-> is the best fix, personally.
+Changes in v2:
+ * changes to yocto BSP related files were separated and will be sent to the
+   appropriate list;
+ * added RPROVIDES/RREPLACES/RCONFLICTS where applicable (libdrm, xserver-xorg
+   and xf86-video-omap recipes). Had a little help from Ross with these, thanks!
 
-Agreed. I'd actually misread that file and thought that it was using
-config.h in the CROSS_COMPILE case.
+Hi,
 
-> The reason for this failure has to do with a particular set of
-> circumstances. A header in the bash source tree defines STRING() based
-> on HAVE_STRINGIZE. This define overwrites the unistd.h define of the
-> same macro. The unistd.h definitions of read() and open() wrap the
-> call to the real functions to implement FORTIFY_SOURCES, and those
-> wrappers use STRING() to do it. As a result, for any host that
-> defaults to -DFORTIFY_SOURCES, STRING() returns 'x' resulting in a
-> concatenation rather than an assembly level rename of the function
-> being called.
->
-> If we add -DHAVE_STRINGIZE in the CROSS_COMPILE case, then STRING()
-> will be defined to something useful, and therefore the FORTIFY_SOURCES
-> wrappers don't get hosed.
->
-> See http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?id=da0ff91 for an alternative fix which may be more likely to be accepted upstream.
-> 
-This is better, yes. Is there a reason this is in meta-mentor and not
-OE-Core? I'd really like to pull it into OE-Core...
+This patchset contains, mainly, xorg server/drivers upgrades and an unrelated
+one: mdadm. The yocto autobuilder nightlies (x86/x86_64/ppc/arm/mips) compiled
+successfully. Compilations were done on top of the following commit:
+78983e939ab17f02f8911c8b0d0e326b419856b9.
 
-Cheers,
+The tests done were basic functionality tests in qemu. xf86-input-synaptics and
+xf86-video-omap were not tested due to lack of hardware. If anybody is willing
+to give them a try, they're welcome.
 
-Richard
+Thanks,
+Laurentiu
+
+The following changes since commit 41125ddc8651494ffcf888d3b5efce1ae6d953bb:
+
+  bitbake: print clear message for "bitbake -e ASSUME_PROVIDED" (2012-11-13 14:21:16 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades
+
+Laurentiu Palcu (12):
+  xf86-video-vesa: upgrade to 2.3.2
+  xf86-video-intel: upgrade to 2.20.12
+  xf86-input-mouse: upgrade to 1.8.1
+  xkeyboard-config: upgrade to 2.7
+  xcb-proto: upgrade to 1.8
+  fontconfig: upgrade to 2.10.1
+  libdrm: upgrade to 2.4.40
+  xserver-xorg: upgrade to 1.13.0
+  mdadm: upgrade to 3.2.6
+  xf86-video-vmware: Add compat API
+  xf86-input-synaptics: add mtdev dependency
+  xf86-video-omap: add new recipe to follow the maintained repo
+
+ meta/conf/machine/include/ia32-base.inc            |    5 +-
+ .../mdadm/{mdadm_3.2.5.bb => mdadm_3.2.6.bb}       |    6 +-
+ meta/recipes-graphics/drm/libdrm.inc               |   16 +-
+ .../drm/libdrm/disable-cairo.patch                 |   74 ---
+ .../drm/{libdrm_2.4.39.bb => libdrm_2.4.40.bb}     |    5 +-
+ meta/recipes-graphics/drm/libdrm_git.bb            |    4 +-
+ .../97_fontconfig                                  |    0
+ .../fix-pkgconfig.patch                            |    0
+ ...native_2.9.0.bb => fontconfig-native_2.10.1.bb} |    0
+ .../{fontconfig_2.9.0.bb => fontconfig_2.10.1.bb}  |    7 +-
+ .../xcb/{xcb-proto_1.7.1.bb => xcb-proto_1.8.bb}   |    4 +-
+ ...ut-mouse_1.7.2.bb => xf86-input-mouse_1.8.1.bb} |    7 +-
+ .../xorg-driver/xf86-input-synaptics_1.6.2.bb      |    4 +-
+ .../xorg-driver/xf86-input-synaptics_git.bb        |    4 +-
+ ...intel_2.20.8.bb => xf86-video-intel_2.20.12.bb} |    6 +-
+ .../xorg-driver/xf86-video-omap_git.bb             |   31 +
+ ...ideo-vesa_2.3.1.bb => xf86-video-vesa_2.3.2.bb} |    6 +-
+ ...ware-port-vmware-driver-to-new-compat-API.patch |  655 ++++++++++++++++++++
+ .../xorg-driver/xf86-video-vmware_12.0.2.bb        |    3 +-
+ ...board-config_2.1.bb => xkeyboard-config_2.7.bb} |   10 +-
+ .../xserver-xorg-1.11.4/pkgconfig-deps.patch       |   70 ---
+ .../crosscompile.patch                             |    0
+ .../fix_open_max_preprocessor_error.patch          |    0
+ .../macro_tweak.patch                              |    0
+ .../mips64-compiler.patch                          |   28 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   32 +-
+ ...erver-xorg_1.11.4.bb => xserver-xorg_1.13.0.bb} |    5 +-
+ 27 files changed, 768 insertions(+), 214 deletions(-)
+ rename meta/recipes-extended/mdadm/{mdadm_3.2.5.bb => mdadm_3.2.6.bb} (86%)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.39.bb => libdrm_2.4.40.bb} (44%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-2.9.0 => fontconfig-2.10.1}/97_fontconfig (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-2.9.0 => fontconfig-2.10.1}/fix-pkgconfig.patch (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.9.0.bb => fontconfig-native_2.10.1.bb} (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.9.0.bb => fontconfig_2.10.1.bb} (91%)
+ rename meta/recipes-graphics/xcb/{xcb-proto_1.7.1.bb => xcb-proto_1.8.bb} (61%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.7.2.bb => xf86-input-mouse_1.8.1.bb} (64%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.20.8.bb => xf86-video-intel_2.20.12.bb} (84%)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-vesa_2.3.1.bb => xf86-video-vesa_2.3.2.bb} (80%)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmware-port-vmware-driver-to-new-compat-API.patch
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.1.bb => xkeyboard-config_2.7.bb} (75%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.4/pkgconfig-deps.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/crosscompile.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/fix_open_max_preprocessor_error.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/macro_tweak.patch (100%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.11.4 => xserver-xorg-1.13.0}/mips64-compiler.patch (42%)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.11.4.bb => xserver-xorg_1.13.0.bb} (56%)
+
+-- 
+1.7.9.5
 
 
 
