@@ -1,38 +1,29 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-ia0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TYYZX-0008LK-EZ
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TYZHa-0001Cd-VP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 09:43:47 +0100
-Received: by mail-bk0-f47.google.com with SMTP id jk7so40713bkc.6
+	Wed, 14 Nov 2012 10:29:19 +0100
+Received: by mail-ia0-f175.google.com with SMTP id z3so128555iad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 00:29:52 -0800 (PST)
+	Wed, 14 Nov 2012 01:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Nq0DRBWDlYJKYuDtMMlrkBjZ8IvUWCt6mSL9RHnNcP4=;
-	b=ThsBHF5c5SPaVTWOozonPaocDiJaEr5JDHEKhGOPxF3YjuvgzAlThBr2i7F89+eX7U
-	lPRyhnhKfmPd62FN1LW6FWGN9hmO2JNLwNs2ZCrnsaEc7dfkZ9So2qngtzaypnxrn4NG
-	e9ksbgG/9fQymlocifzXiMHq0CtstyrJka5IhJUTlT6+1ss3t2z6HUpnc2RUCRopkQw0
-	1GqqpiZp8l8iXWR2c9Nt8zDLarKnh+OkURqSjEOG79odqYdZMhV9rJ+xOttkA+yiWe0N
-	eGAThjVnzdO4vGi0JEa3haKTkbylZhHFSa8IPwlZSIPmS7/kQs8xXeC5pc7BZdBVW2ju
-	6SPQ==
-Received: by 10.205.126.131 with SMTP id gw3mr8958444bkc.137.1352881792046;
-	Wed, 14 Nov 2012 00:29:52 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ht18sm7157583bkc.14.2012.11.14.00.29.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Nov 2012 00:29:50 -0800 (PST)
-Date: Wed, 14 Nov 2012 09:30:03 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20121114083003.GH3928@jama.jama.net>
-References: <cover.1352871028.git.sgw@linux.intel.com>
-	<4ccf95a0983379ca7b87f9d7affdba2b824f9a09.1352871028.git.sgw@linux.intel.com>
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=0h0pob29clBC1OPouQfl2NhdSFqbWT5U3xqB2ZFrJrw=;
+	b=ArkkxBrhAGIYduKcjl738N1V18RyceX7lo2JO4iElsWE5edWOJGXceMKQmcm6y7+iC
+	CIFEN9uY8M523qXnEmyU4WhxXzLyiZBrWrx+xabmgQzRSbTTDOhNSZp4MemTBbdAX0kM
+	uWhGHUR4hSAHOfDLC4Cvcfs6lxo07sLgtsD0yc7uYfbVcqCJQEQM8JOtfTFWnuKVWQgK
+	GdWMEuQRlansASHY0Vprohqem5OrI2T+pqjSdbYsOF2b2ET9lpGlyHC5lzIhCzgVN7Tw
+	VLqcqeZkK9Qs9AnmIJQB/G/L/8m5aQ6QRx3FqhXqk9JM0OEGtRaS/Ojo6eQWzzF1txMI
+	OkKQ==
 MIME-Version: 1.0
-In-Reply-To: <4ccf95a0983379ca7b87f9d7affdba2b824f9a09.1352871028.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/9] sqlite3: Update to 3.7.14.1
+Received: by 10.43.7.132 with SMTP id oo4mr23709900icb.6.1352884522996; Wed,
+	14 Nov 2012 01:15:22 -0800 (PST)
+Received: by 10.64.20.113 with HTTP; Wed, 14 Nov 2012 01:15:22 -0800 (PST)
+Date: Wed, 14 Nov 2012 10:15:22 +0100
+Message-ID: <CALbNGRR3cOLUR+HBKkfSqLMRL75sn7uzEace23KJLYy43F1Vtg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,67 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 08:43:47 -0000
-X-Groupsio-MsgNum: 31298
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WRT3RXLOp/bBMgTI"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Nov 2012 09:29:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
---WRT3RXLOp/bBMgTI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ciao,
 
-On Tue, Nov 13, 2012 at 09:32:50PM -0800, Saul Wold wrote:
-> [YOCTO #3283]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../{sqlite3_3.7.13.bb =3D> sqlite3_3.7.14.1.bb}     |    5 +----
->  1 files changed, 1 insertions(+), 4 deletions(-)
->  rename meta/recipes-support/sqlite/{sqlite3_3.7.13.bb =3D> sqlite3_3.7.1=
-4.1.bb} (58%)
->=20
-> diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.13.bb b/meta/recipes=
--support/sqlite/sqlite3_3.7.14.1.bb
-> similarity index 58%
-> rename from meta/recipes-support/sqlite/sqlite3_3.7.13.bb
-> rename to meta/recipes-support/sqlite/sqlite3_3.7.14.1.bb
-> index 48b50ac..00a3081 100644
-> --- a/meta/recipes-support/sqlite/sqlite3_3.7.13.bb
-> +++ b/meta/recipes-support/sqlite/sqlite3_3.7.14.1.bb
-> @@ -2,10 +2,7 @@ require sqlite3.inc
-> =20
->  LIC_FILES_CHKSUM =3D "file://sqlite3.h;endline=3D11;md5=3D65f0a57ca69287=
-10b418c094b3570bb0"
-> =20
-> -PR =3D "r1"
-> +PR =3D "r0"
-> =20
->  SRC_URI =3D "http://www.sqlite.org/sqlite-autoconf-3071300.tar.gz"
->  S =3D "${WORKDIR}/sqlite-autoconf-3071300"
-> -
-> -SRC_URI[md5sum] =3D "c97df403e8a3d5b67bb408fcd6aabd8e"
-> -SRC_URI[sha256sum] =3D "ac566819f82ec4cc2ff6c5cc90987ca38e589efbd79ff263=
-838bbc62356ab119"
+with latest layer HEADS and build from scratch I get:
 
-Where is checksum for 3.7.14.1?
+KeyError: 'getpwnam(): name not found: root'
 
-Cheers,
+ERROR: The stack trace of python calls that resulted in this
+exception/failure was:
+ERROR:   File "fixup_perms", line 227, in <module>
+ERROR:
+ERROR:   File "fixup_perms", line 155, in fixup_perms
+ERROR:
+ERROR:   File "fixup_perms", line 32, in __init__
+ERROR:
+ERROR:   File "fixup_perms", line 42, in _setdir
+ERROR:
+ERROR:   File "fixup_perms", line 66, in _procuid
+ERROR:
+ERROR: The code that was being executed was:
+ERROR:      0223:                    each_file = os.path.join(root, f)
+ERROR:      0224:                    fix_perms(each_file,
+fs_perms_table[dir].fmode, fs_perms_table[dir].fuid,
+fs_perms_table[dir].fgid, dir)
+ERROR:      0225:
+ERROR:      0226:
+ERROR:  *** 0227:fixup_perms(d)
+ERROR:      0228:
+ERROR: [From file: 'fixup_perms', lineno: 227, function: <module>]
+ERROR:      0151:    for path in target_path_vars:
+ERROR:      0152:        dir = d.getVar(path, True) or ""
+ERROR:      0153:        if dir == "":
+ERROR:      0154:            continue
+ERROR:  *** 0155:        fs_perms_table[dir] =
+fs_perms_entry(bb.data.expand("%s 0755 root root false - - -" % (dir),
+d))
+ERROR:      0156:
+ERROR:      0157:    # Now we actually load from the configuration files
+ERROR:      0158:    for conf in get_fs_perms_list(d).split():
+ERROR:      0159:        if os.path.exists(conf):
+ERROR: [From file: 'fixup_perms', lineno: 155, function: fixup_perms]
+ERROR: Function failed: fixup_perms
+ERROR: Logfile of failure stored in:
+/home/andreas/tmp/oe-core-eglibc/work/armv7a-vfp-neon-angstrom-linux-gnueabi/util-macros-1_1.17-r0/temp/log.do_package.28653
+ERROR: Task 4450
+(/home/andreas/data/oe-core/sources/openembedded-core/meta/recipes-graphics/xorg-util/util-macros_1.17.bb,
+do_package) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 3985 tasks of which 397 didn't need to
+be rerun and 1 failed.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+The only additional information I found up to now:
 
---WRT3RXLOp/bBMgTI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+* the code mentioned in error message is found in package.bbclass.
+* in sysroot/etc/passwd there is a line 'root::0:0:root:/home/root:/bin/sh'
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Any ideas?
 
-iEYEARECAAYFAlCjVooACgkQN1Ujt2V2gBzfpgCgi6vUREifCZxZzH8gFOeQSSmM
-V1YAnAswz3UqlPwh41vAUaLAsWpuZ7qU
-=HIg9
------END PGP SIGNATURE-----
+Andreas
 
---WRT3RXLOp/bBMgTI--
+
