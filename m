@@ -1,38 +1,38 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TYZf8-0002UC-OF
+	(envelope-from <martin.jansa@gmail.com>) id 1TYZk1-0002fH-9c
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 10:53:39 +0100
-Received: by mail-bk0-f47.google.com with SMTP id jk7so73346bkc.6
+	Wed, 14 Nov 2012 10:58:41 +0100
+Received: by mail-bk0-f47.google.com with SMTP id jk7so75746bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 01:39:43 -0800 (PST)
+	Wed, 14 Nov 2012 01:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=w06BYslB6UGQszbyMxfHXO7pdshy4jQDJ2NqiJKFCr8=;
-	b=XNfjOYBYqUooEQIuVzZF1cgTZSwjdFmGAbZ+nHlyAaYO9RXYn+DoXnPnEZLMFg3Qer
-	orIpvGHG2vrGC4PDRMZ+3EU4h3JrN64exNLfHUREv6G2+CEMxhVN5KiU/SSaYs+BkfZq
-	++GKpgtfsiCis2YZPmdptgbn8dW7n0GqdD9AP7qMetDFYxIduv8/TJC2c5RjchZk4Dsm
-	M6ykaU5pDqk0vYuI7HCs6wT0x7LE7bTk4gqK+yxjmSMOFh9dh8XvABfIu0A3em11uW6F
-	hFXZVzqs2TcEhwgF3SR58LDvq3mu2lILPxu0c2pXQP3ACFbBVhHWSzQ6A7sWWdaP1mhV
-	WVoQ==
-Received: by 10.204.136.207 with SMTP id s15mr1318731bkt.5.1352885983269;
-	Wed, 14 Nov 2012 01:39:43 -0800 (PST)
+	bh=yJ6swD80WyS9sSkfkMMWOL89UjIoz5r1UPunjRcfhPY=;
+	b=Xs2k4iLOKUzBX685smCtSzstq1lh0OdZLIaivyij5K92gbzk2YBumLcrgHfFk0G0v7
+	5Pyw5kmwhnTQImemSHdSpcvX6qj0oyv0gsKEvA19ZyqzYOy73itBNqUs4Sgfz879GDzu
+	Z3QvjL6/WJ3fkSP3PrYiflKr0VDA+Pqm3Hce7BBAGwoZ67pGPsuFX7kabJIgVKvQQtHp
+	k6Gr+i9Yag7x88jE/yAGXJLdhMska+AZQCA9hq0OlHpLvNWrKjP9eMn2JZKaeHDs8SMR
+	mCB83O1b0tgVLALSiCr8czyL0TiqsRshP0eA0+4M0OjJ671PTwAwpcdU9iwu3rSTbzF/
+	/wdg==
+Received: by 10.204.9.9 with SMTP id j9mr8984599bkj.12.1352886286065;
+	Wed, 14 Nov 2012 01:44:46 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id gy18sm7334934bkc.4.2012.11.14.01.39.39
+	by mx.google.com with ESMTPS id ht18sm7377096bkc.14.2012.11.14.01.44.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 14 Nov 2012 01:39:40 -0800 (PST)
-Date: Wed, 14 Nov 2012 10:39:52 +0100
+	Wed, 14 Nov 2012 01:44:45 -0800 (PST)
+Date: Wed, 14 Nov 2012 10:44:57 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20121114093952.GI3928@jama.jama.net>
+Message-ID: <20121114094457.GJ3928@jama.jama.net>
 References: <cover.1352884713.git.laurentiu.palcu@intel.com>
-	<5786bf6c7e3cdf08e1fc966f37cc9779aaa03b7e.1352884713.git.laurentiu.palcu@intel.com>
+	<5467b530a59b1d698e8171b4a7c77104593dde40.1352884713.git.laurentiu.palcu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <5786bf6c7e3cdf08e1fc966f37cc9779aaa03b7e.1352884713.git.laurentiu.palcu@intel.com>
+In-Reply-To: <5467b530a59b1d698e8171b4a7c77104593dde40.1352884713.git.laurentiu.palcu@intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 07/12] libdrm: upgrade to 2.4.40
+Subject: Re: [PATCH v2 12/12] xf86-video-omapfb: upgrade to 0.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,203 +45,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 09:53:39 -0000
-X-Groupsio-MsgNum: 31314
+X-List-Received-Date: Wed, 14 Nov 2012 09:58:41 -0000
+X-Groupsio-MsgNum: 31315
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="gJNQRAHI5jiYqw2y"
+	protocol="application/pgp-signature"; boundary="bgQAstJ9X1Eg13Dy"
 Content-Disposition: inline
 
---gJNQRAHI5jiYqw2y
+--bgQAstJ9X1Eg13Dy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 14, 2012 at 11:28:04AM +0200, Laurentiu Palcu wrote:
+On Wed, Nov 14, 2012 at 11:28:09AM +0200, Laurentiu Palcu wrote:
 > Other changes:
->  * removed a backported patch;
->  * activated libdrm-omap helper layer which is needed by the latest
->    xf86-video-omap xorg driver;
->  * split libdrm-drivers package into libdrm-radeon, libdrm-nouveau and
->    libdrm-omap;
+>  * changed the recipe's SRC_URI to track the new (maintained) repo;
+>  * removed all old patches as the latest driver's structure has changed
+>    drastically;
+>  * license file changed quite a bit: MIT -> GPLv2 (needs to be reviewed
+>    by somebody with a better understanding of these things though);
+>  * xf86-video-omapfb changed its name to xf86-video-omap: change the
+>    recipe name acordingly;
+>  * add dependency of libdrm-omap;
 >=20
 > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 > ---
->  meta/recipes-graphics/drm/libdrm.inc               |   18 +++--
->  .../drm/libdrm/disable-cairo.patch                 |   74 --------------=
-------
->  .../drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb}     |    5 +-
->  meta/recipes-graphics/drm/libdrm_git.bb            |    4 +-
->  4 files changed, 16 insertions(+), 85 deletions(-)
->  delete mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.patch
->  rename meta/recipes-graphics/drm/{libdrm_2.4.39.bb =3D> libdrm_2.4.40.bb=
-} (44%)
+>  ...-video-omapfb_git.bb =3D> xf86-video-omap_git.bb} |   27 ++++++++++--=
+--------
+>  1 file changed, 13 insertions(+), 14 deletions(-)
+>  rename meta/recipes-graphics/xorg-driver/{xf86-video-omapfb_git.bb =3D> =
+xf86-video-omap_git.bb} (43%)
 >=20
-> diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics=
-/drm/libdrm.inc
-> index a64a5df..e10eae5 100644
-> --- a/meta/recipes-graphics/drm/libdrm.inc
-> +++ b/meta/recipes-graphics/drm/libdrm.inc
-> @@ -8,20 +8,26 @@ SECTION =3D "x11/base"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://xf86drm.c;beginline=3D9;endline=3D32;md5=3D=
-c8a3b961af7667c530816761e949dc71"
->  SRC_URI =3D "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
-> -PROVIDES =3D "drm"
-> +PROVIDES =3D "drm libdrm-nouveau libdrm-radeon libdrm-omap"
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb b=
+/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> similarity index 43%
+> rename from meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
+> rename to meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> index f16441e..fec3365 100644
+> --- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> @@ -6,19 +6,18 @@ DESCRIPTION =3D "omapfb driver supports the basic Texas=
+ Instruments OMAP \
+>  framebuffer."
+> =20
+>  LICENSE =3D "MIT-X & GPLv2+"
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D63e2cbac53863f60e2f43343fb343=
+67f"
+> -DEPENDS +=3D "virtual/libx11"
+> -
+> -SRCREV =3D "28c006c94e57ea71df11ec4fff79d7ffcfc4860f"
+> -PR =3D "${INC_PR}.6"
+> -PV =3D "0.1.1+gitr${SRCPV}"
+> -
+> -SRC_URI =3D "git://git.pingu.fi/xf86-video-omapfb;protocol=3Dhttp \
+> -            file://omap-revert-set-CRTC-limit.patch \
+> -            file://omap-revert-set-virtual-size.patch \
+> -            file://omap-force-plain-mode.patch  \
+> -            file://omap-blacklist-tv-out.patch  \
+> -            file://0004-Attempt-to-fix-VRFB.patch \
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10ce5de3b111315ea652a5f74ec0c=
+602"
+> +DEPENDS +=3D "virtual/libx11 libdrm-omap"
 
-Is this needed at all?
+Ah, now I see why you added them in libdrm PROVIDES, but why not use
+libdrm in DEPENDS and libdrm-omap added to RDEPENDS by shlibs?
+
+I also don't see GNUtoo comment resolved.
 
 Cheers,
 
->  DEPENDS =3D "libpthread-stubs udev"
-> =20
-> -INC_PR =3D "r3"
-> +INC_PR =3D "r4"
-> =20
->  #libpciaccess is required starting from libdrm 2.4.26
->  DEPENDS +=3D " libpciaccess"
-> =20
->  inherit autotools pkgconfig
-> =20
-> -EXTRA_OECONF +=3D "--disable-cairo-tests"
-> +EXTRA_OECONF +=3D "--disable-cairo-tests \
-> +                 --enable-omap-experimental-api \
-> +                "
-> +ALLOW_EMPTY_${PN}-drivers =3D "1"
-> +PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN=
-}-omap ${PN}-kms"
+> +RPROVIDES =3D "xf86-video-omapfb"
+> +RCONFLICTS =3D "xf86-video-omapfb"
+> +RREPLACES =3D "xf86-video-omapfb"
 > +
-> +RDEPENDS_${PN}-drivers =3D "${PN}-radeon ${PN}-nouveau ${PN}-omap"
+> +SRCREV =3D "ae0394e687f1a77e966cf72f895da91840dffb8f"
+> +PR =3D "${INC_PR}.0"
+> +PV =3D "0.4.2+gitr${SRCPV}"
+> +
+> +SRC_URI =3D "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;p=
+rotocol=3Dgit \
+>  "
 > =20
-> -PACKAGES =3D+ "${PN}-tests ${PN}-drivers ${PN}-kms"
->  FILES_${PN}-tests =3D "${bindir}/dr* ${bindir}/mode*"
-> -FILES_${PN}-drivers =3D "${libdir}/libdrm_*.so.*"
-> +FILES_${PN}-radeon =3D "${libdir}/libdrm_radeon.so.*"
-> +FILES_${PN}-nouveau =3D "${libdir}/libdrm_nouveau.so.*"
-> +FILES_${PN}-omap =3D "${libdir}/libdrm_omap.so.*"
->  FILES_${PN}-kms =3D "${libdir}/libkms*.so.*"
-> -
-> diff --git a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch b/meta/=
-recipes-graphics/drm/libdrm/disable-cairo.patch
-> deleted file mode 100644
-> index 90e79d4..0000000
-> --- a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
-> +++ /dev/null
-> @@ -1,74 +0,0 @@
-> -commit c81d1df4926072d24b4dad1b488e618e57eff1c6
-> -Author: Daniel Stone <daniel@fooishbar.org>
-> -Date:   Thu Oct 4 10:26:37 2012 +1000
-> -
-> -    configure.ac: Allow forcible disabling of Cairo support
-> -   =20
-> -    We don't want to build libdrm tests with Cairo support under Poky, s=
-ince
-> -    they're never used and also cause a build loop from libdrm -> cairo =
-->
-> -    mesa-dri -> libdrm.
-> -   =20
-> -    To avoid variance in build results, introduce a --disable-cairo-tests
-> -    switch.
-> -   =20
-> -    Upstream-Status: Backport
-> -   =20
-> -    Signed-off-by: Daniel Stone <daniel@fooishbar.org>
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 290362c..8c28107 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -222,11 +222,23 @@ if test "x$EXYNOS" =3D xyes; then
-> - 	AC_DEFINE(HAVE_EXYNOS, 1, [Have EXYNOS support])
-> - fi
-> -=20
-> -+AC_ARG_ENABLE([cairo-tests],
-> -+              [AS_HELP_STRING([--enable-cairo-tests],
-> -+                              [Enable support for Cairo rendering in te=
-sts (default: auto)])],
-> -+              [CAIRO=3D$enableval], [CAIRO=3Dauto])
-> - PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=3Dyes], [HAVE_CAIRO=3Dno])
-> --if test "x$HAVE_CAIRO" =3D xyes; then
-> --	AC_DEFINE(HAVE_CAIRO, 1, [Have cairo support])
-> -+AC_MSG_CHECKING([whether to enable Cairo tests])
-> -+if test "x$CAIRO" =3D xauto; then
-> -+	CAIRO=3D"$HAVE_CAIRO"
-> - fi
-> --AM_CONDITIONAL(HAVE_CAIRO, [test "x$HAVE_CAIRO" =3D xyes])
-> -+if test "x$CAIRO" =3D xyes; then
-> -+	if ! test "x$HAVE_CAIRO" =3D xyes; then
-> -+		AC_MSG_ERROR([Cairo support required but not present])
-> -+	fi
-> -+	AC_DEFINE(HAVE_CAIRO, 1, [Have Cairo support])
-> -+fi
-> -+AC_MSG_RESULT([$CAIRO])
-> -+AM_CONDITIONAL(HAVE_CAIRO, [test "x$CAIRO" =3D xyes])
-> -=20
-> - # For enumerating devices in test case
-> - PKG_CHECK_MODULES(LIBUDEV, libudev, [HAVE_LIBUDEV=3Dyes], [HAVE_LIBUDEV=
-=3Dno])
-> -diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
-> -index b5ec771..065ae13 100644
-> ---- a/tests/modetest/Makefile.am
-> -+++ b/tests/modetest/Makefile.am
-> -@@ -1,8 +1,7 @@
-> - AM_CFLAGS =3D \
-> - 	-I$(top_srcdir)/include/drm \
-> - 	-I$(top_srcdir)/libkms/ \
-> --	-I$(top_srcdir) \
-> --	$(CAIRO_CFLAGS)
-> -+	-I$(top_srcdir)
-> -=20
-> - noinst_PROGRAMS =3D \
-> - 	modetest
-> -@@ -12,5 +11,9 @@ modetest_SOURCES =3D \
-> -=20
-> - modetest_LDADD =3D \
-> - 	$(top_builddir)/libdrm.la \
-> --	$(top_builddir)/libkms/libkms.la \
-> --	$(CAIRO_LIBS)
-> -+	$(top_builddir)/libkms/libkms.la
-> -+
-> -+if HAVE_CAIRO
-> -+AM_CFLAGS +=3D $(CAIRO_CFLAGS)
-> -+modetest_LDADD +=3D $(CAIRO_LIBS)
-> -+endif
-> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.39.bb b/meta/recipes-gr=
-aphics/drm/libdrm_2.4.40.bb
-> similarity index 44%
-> rename from meta/recipes-graphics/drm/libdrm_2.4.39.bb
-> rename to meta/recipes-graphics/drm/libdrm_2.4.40.bb
-> index f3ce2b1..42f860a 100644
-> --- a/meta/recipes-graphics/drm/libdrm_2.4.39.bb
-> +++ b/meta/recipes-graphics/drm/libdrm_2.4.40.bb
-> @@ -4,8 +4,7 @@ PR =3D "${INC_PR}.0"
+>  S =3D "${WORKDIR}/git"
+> @@ -28,5 +27,5 @@ CFLAGS +=3D " -I${STAGING_INCDIR}/xorg "
 > =20
->  SRC_URI +=3D "file://installtests.patch \
->              file://GNU_SOURCE_definition.patch \
-> -            file://disable-cairo.patch \
->             "
-> =20
-> -SRC_URI[md5sum] =3D "9a299e021d81bab6c82307582c78319d"
-> -SRC_URI[sha256sum] =3D "386b17388980504bca16ede81ceed4c77b12c3488f46ecb7=
-f4d48e48512a733d"
-> +SRC_URI[md5sum] =3D "626a3dc44a40ef37565b61732b688567"
-> +SRC_URI[sha256sum] =3D "48c14e4600ea0fde522292893eb4055d2f6d86a69d093d37=
-9c827deaccffaa1f"
-> diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graph=
-ics/drm/libdrm_git.bb
-> index 5d7f953..e3051c7 100644
-> --- a/meta/recipes-graphics/drm/libdrm_git.bb
-> +++ b/meta/recipes-graphics/drm/libdrm_git.bb
-> @@ -6,7 +6,7 @@ S =3D "${WORKDIR}/git"
-> =20
->  DEFAULT_PREFERENCE =3D "-1"
-> =20
-> -SRCREV =3D "14db948127e549ea9234e02d8e112de3871f8f9f"
-> -PV =3D "2.4.39+git${SRCPV}"
-> +SRCREV =3D "e01d68f9f3acfc35fe164283904b5d058c2ab378"
-> +PV =3D "2.4.40+git${SRCPV}"
->  PR =3D "${INC_PR}.0"
-> =20
+>  # Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dma=
+i or omapfbplay)
+>  do_compile_prepend_armv7a () {
+> -        sed -i -e s:fb1:fb2:g ${S}/src/omapfb-xv.c
+> +        sed -i -e s:fb1:fb2:g ${S}/src/omap_xv.c
+>  }
 > --=20
 > 1.7.9.5
 >=20
@@ -254,16 +146,16 @@ ics/drm/libdrm_git.bb
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---gJNQRAHI5jiYqw2y
+--bgQAstJ9X1Eg13Dy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlCjZugACgkQN1Ujt2V2gBxG1gCfeUivHTSEibmKzSCNB2wzqfUc
-3qIAn0DjTWFbrAeEyr0jj0qBnGIH2Uwf
-=86fx
+iEYEARECAAYFAlCjaBkACgkQN1Ujt2V2gBzvqQCgm/g9H+BWWTiaJU9DSA+mXfDp
+QI0AmQHVDk9I+r0I6MCqjSAr9uE8tRNJ
+=qLH2
 -----END PGP SIGNATURE-----
 
---gJNQRAHI5jiYqw2y--
+--bgQAstJ9X1Eg13Dy--
