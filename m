@@ -1,32 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYfb5-0002k2-Tq for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 17:13:52 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEFxtmL021270;
-	Wed, 14 Nov 2012 15:59:55 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20196-07; Wed, 14 Nov 2012 15:59:51 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEFxmhu021264
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 14 Nov 2012 15:59:49 GMT
-Message-ID: <1352908789.15477.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 14 Nov 2012 15:59:49 +0000
-In-Reply-To: <20121114152206.GO3928@jama.jama.net>
-References: <1352815500.24487.123.camel@ted>
-	<20121114150945.GN3928@jama.jama.net>
-	<20121114152206.GO3928@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes: Be consistent about sstate-inputdirs/outputdirs ending with '/'
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1TYfdz-0002vX-8a
+	for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2012 17:16:51 +0100
+Received: by mail-pb0-f47.google.com with SMTP id ro12so416825pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Nov 2012 08:02:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=kIUAYEkDsPwWqXLr3LIg9/mgSUZysPkwqrHk7sB4L4s=;
+	b=KyO56Bu80kNOcvrG7sN6pkx/7OQGYy79um1dGvlrHBmDFHkQykODHndspQQk2xQilv
+	PC13K103oww9p1Zw6UY1gCZT5Qltyz71F/lC5BnpGL1sL/BoK6BbQTmnA9mBzk0sPyke
+	XvoX/x+JxNNeC8oKqH42ljYF9XWZyT/YyiKRpRTslmEBt/nYFrlOuRzLeYuBpWXr3gVC
+	WeokxspN8vmQC+FE4QmT3Q0DYBrvh+ijW1/+dH2h+8xK+C0cAFCR9vhld/ukQ0IQwH7q
+	yRHP7A5TgezfE0isN1RUMZp/hs7ZkaitxEEf4Dp+bqhJXTfKScsYsbPoMo/8qfE3KXv0
+	dAkA==
+MIME-Version: 1.0
+Received: by 10.68.254.10 with SMTP id ae10mr73681626pbd.126.1352908974931;
+	Wed, 14 Nov 2012 08:02:54 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Wed, 14 Nov 2012 08:02:54 -0800 (PST)
+In-Reply-To: <20121114124239.GB6908@ad.chargestorm.se>
+References: <20121114124239.GB6908@ad.chargestorm.se>
+Date: Wed, 14 Nov 2012 14:02:54 -0200
+X-Google-Sender-Auth: 9_bGAGykqbQEhJv1sxgiyWBTA-8
+Message-ID: <CAP9ODKpiPpUMSsOuStLepKt03gwY1EHxkRc+pLxrsSTdmVAGyA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+Subject: Re: License of xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,54 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 16:13:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Nov 2012 16:16:51 -0000
+Content-Type: multipart/alternative; boundary=047d7b2e0da1dd401d04ce76aa03
 
-On Wed, 2012-11-14 at 16:22 +0100, Martin Jansa wrote:
-> On Wed, Nov 14, 2012 at 04:09:45PM +0100, Martin Jansa wrote:
-> > On Tue, Nov 13, 2012 at 02:05:00PM +0000, Richard Purdie wrote:
-> > > If sstate-inputdirs and sstate-outputdirs don't match with ending '/'
-> > > characters, the manifest file can end up corrupted. This change
-> > > ensures the metadata is consistent in ending do_populate_root tasks
-> > > with this character to avoid manifest file corruption.
-> > > 
-> > > diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> > > index ff6556c..1ac1db6 100644
-> > > --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> > > +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> > > @@ -74,6 +74,6 @@ sysroot_stage_all() {
-> > >  	mv ${SYSROOT_DESTDIR}${target_libdir}/* ${SYSROOT_DESTDIR}${STAGING_DIR_TARGET}${target_libdir}/ || true
-> > >  }
-> > >  
-> > > -do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_HOST} ${SYSROOT_DESTDIR}/${STAGING_DIR_TARGET}/${target_base_libdir}"
-> > > -do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_HOST} ${STAGING_DIR_TCBOOTSTRAP}/${target_base_libdir}"
-> > > +do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_HOST}/ ${SYSROOT_DESTDIR}/${STAGING_DIR_TARGET}/${target_base_libdir}/"
-> > > +do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_HOST}/ ${STAGING_DIR_TCBOOTSTRAP}/${target_base_libdir}/"
-> > 
-> > Not sure if it can be caused by this, but building from scratch fails
-> > today with:
-> > 
-> 
-> with some added debug output it looks like trying to move the same directory twice:
-> WARNING: Moving
-> /OE/oe-core/tmp-eglibc/work/x86_64-oe-linux/gcc-cross-initial-4.7.2-r13/sstate-install-populate-sysroot/
-> to
-> /OE/oe-core/tmp-eglibc/work/x86_64-oe-linux/gcc-cross-initial-4.7.2-r13/sysroot-destdir///OE/oe-core/tmp-eglibc/sysroots/x86_64-linux/
-> WARNING: Moving
-> /OE/oe-core/tmp-eglibc/work/x86_64-oe-linux/gcc-cross-initial-4.7.2-r13/sstate-install-populate-sysroot/
-> to
-> /OE/oe-core/tmp-eglibc/work/x86_64-oe-linux/gcc-cross-initial-4.7.2-r13/sysroot-destdir///OE/oe-core/tmp-eglibc/sysroots/qemux86-64//lib/
-> ERROR: Error executing a python function in
-> /OE/oe-core/openembedded-core/meta/recipes-devtools/gcc/gcc-cross-initial_4.7.bb:
+--047d7b2e0da1dd401d04ce76aa03
+Content-Type: text/plain; charset=ISO-8859-1
 
-There is something missing from after sstate-install-populate-sysroot/.
-I've pushed a fix into master. Its only appearing when installing from
-sstate.
+On Wed, Nov 14, 2012 at 10:42 AM, Anders Darander <anders@chargestorm.se>wrote:
 
-Cheers,
+> ...
 
-Richard
+If my interpretation is correct, I'll try to find more time to look into
+> the actual source files a bit more closely.
+> ...
 
+      - The build system contains public domain files, and files that
+>         are under GNU GPLv2+ or GNU GPLv3+. None of these files end up
+>         in the binaries being built.
+>
 
+From my understanding, if you remove the generated files from the source
+and rebuild those you'd be GPLv2 compatible.
 
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--047d7b2e0da1dd401d04ce76aa03
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<br><br><div class=3D"gmail_quote">On Wed, Nov 14, 2012 at 10:42 AM, Anders=
+ Darander <span dir=3D"ltr">&lt;<a href=3D"mailto:anders@chargestorm.se" ta=
+rget=3D"_blank">anders@chargestorm.se</a>&gt;</span> wrote:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">
+...=A0</blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">If my interpretation is c=
+orrect, I&#39;ll try to find more time to look into<br>
+the actual source files a bit more closely.<br>...=A0</blockquote><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">
+=A0 =A0 =A0 - The build system contains public domain files, and files that=
+<br>
+=A0 =A0 =A0 =A0 are under GNU GPLv2+ or GNU GPLv3+. None of these files end=
+ up<br>
+=A0 =A0 =A0 =A0 in the binaries being built.<br></blockquote><div><br></div=
+><div>From my understanding, if you remove the generated files from the sou=
+rce and rebuild those you&#39;d be GPLv2 compatible.</div></div><div><br></=
+div>
+-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" t=
+arget=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossys=
+tems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+
+--047d7b2e0da1dd401d04ce76aa03--
