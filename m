@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TYd7m-0002Xc-TV
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TYd7n-0002VG-Bv
 	for openembedded-core@lists.openembedded.org;
 	Wed, 14 Nov 2012 14:35:27 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 05:21:27 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 05:21:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,250,1352102400"; d="scan'208";a="219485952"
+X-IronPort-AV: E=Sophos;i="4.83,250,1352102400"; d="scan'208";a="219485940"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
-	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 05:21:26 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 05:21:25 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Nov 2012 15:21:10 +0200
-Message-Id: <7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
+Date: Wed, 14 Nov 2012 15:21:09 +0200
+Message-Id: <1fe701d823a2b8fcf58f4b33b91dc54a35ee8254.1352898505.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1352898505.git.laurentiu.palcu@intel.com>
 References: <cover.1352898505.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1352898505.git.laurentiu.palcu@intel.com>
 References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+Subject: [PATCH v3 11/12] xf86-input-synaptics: add mtdev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,52 +33,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Nov 2012 13:35:27 -0000
 
-This new recipe is needed because the old driver is unmaintained. This
-new recipe will follow the new repo.
+After upgrading xserver to 1.13, multitouch support is automatically
+enabled in xf86-input-synaptics. Hence, the need for mtdev dependency.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../xorg-driver/xf86-video-omap_git.bb             |   31 ++++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+ .../xorg-driver/xf86-input-synaptics_1.6.2.bb      |    4 ++--
+ .../xorg-driver/xf86-input-synaptics_git.bb        |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-new file mode 100644
-index 0000000..b3177eb
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-@@ -0,0 +1,31 @@
-+require xorg-driver-video.inc
-+
-+SUMMARY = "X.Org X server -- Texas Instruments OMAP framebuffer driver"
-+
-+DESCRIPTION = "omap driver supports the basic Texas Instruments OMAP \
-+framebuffer."
-+
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
-+DEPENDS += "virtual/libx11 libdrm"
-+
-+RPROVIDES = "xf86-video-omapfb"
-+RCONFLICTS = "xf86-video-omapfb"
-+RREPLACES = "xf86-video-omapfb"
-+
-+SRCREV = "ae0394e687f1a77e966cf72f895da91840dffb8f"
-+PR = "${INC_PR}.0"
-+PV = "0.4.2+gitr${SRCPV}"
-+
-+SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;protocol=git \
-+"
-+
-+S = "${WORKDIR}/git"
-+
-+EXTRA_OECONF_armv7a = " --enable-neon "
-+CFLAGS += " -I${STAGING_INCDIR}/xorg "
-+
-+# Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dmai or omapfbplay)
-+do_compile_prepend_armv7a () {
-+        sed -i -e s:fb1:fb2:g ${S}/src/omap_xv.c
-+}
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb
+index 193bd08..8a94bfd 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.6.2.bb
+@@ -12,11 +12,11 @@ advanced features of the touchpad to become available."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e395e21f3c21d4fc3a243783e85e9ab5"
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ SRC_URI[md5sum] = "9914022a173e3f0ccfe7137ab84f6133"
+ SRC_URI[sha256sum] = "c3f7d6a085d480c352f030aeb43db2e5560d1468ed34be24d44a0fc3fda25920"
+ 
+-DEPENDS += "libxi"
++DEPENDS += "libxi mtdev"
+ 
+ FILES_${PN} += "${datadir}/X11/xorg.conf.d"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
+index 3b3db59..73b8089 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_git.bb
+@@ -10,9 +10,9 @@ advanced features of the touchpad to become available."
+ 
+ SRCREV = "934bc0012f948c52aadc8eda912f7728fb7394a2"
+ PV = "0.15.2+git${SRCPV}"
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/xorg/driver/xf86-input-synaptics;protocol=git"
+ S = "${WORKDIR}/git"
+ 
+-DEPENDS += "libxi"
++DEPENDS += "libxi mtdev"
 -- 
 1.7.9.5
 
