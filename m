@@ -1,36 +1,41 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TYfdz-0002vX-8a
+	(envelope-from <ross.burton@intel.com>) id 1TYfg7-00034Z-85
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 17:16:51 +0100
-Received: by mail-pb0-f47.google.com with SMTP id ro12so416825pbb.6
+	Wed, 14 Nov 2012 17:19:03 +0100
+Received: from mail-ie0-f197.google.com ([209.85.223.197])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 14 Nov 2012 08:05:06 -0800
+Received: by mail-ie0-f197.google.com with SMTP id 9so1957265iec.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 08:02:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=kIUAYEkDsPwWqXLr3LIg9/mgSUZysPkwqrHk7sB4L4s=;
-	b=KyO56Bu80kNOcvrG7sN6pkx/7OQGYy79um1dGvlrHBmDFHkQykODHndspQQk2xQilv
-	PC13K103oww9p1Zw6UY1gCZT5Qltyz71F/lC5BnpGL1sL/BoK6BbQTmnA9mBzk0sPyke
-	XvoX/x+JxNNeC8oKqH42ljYF9XWZyT/YyiKRpRTslmEBt/nYFrlOuRzLeYuBpWXr3gVC
-	WeokxspN8vmQC+FE4QmT3Q0DYBrvh+ijW1/+dH2h+8xK+C0cAFCR9vhld/ukQ0IQwH7q
-	yRHP7A5TgezfE0isN1RUMZp/hs7ZkaitxEEf4Dp+bqhJXTfKScsYsbPoMo/8qfE3KXv0
-	dAkA==
+	Wed, 14 Nov 2012 08:05:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=Eso73UdifcfD+yQx+A7GlgJI2oYKNV/vA4o6qlzFd0w=;
+	b=KwIAV2mfKs6aXUa8/ALMqd52p71vmXwd6JV5YYdC9OY5J2ai8p361Mi5a8YuQ+WOkS
+	dvNf51n4N/UBrf0s5NWgU38RCXYXlVUwXXuZe+dgy7/ZqP11o1nXc1GfyajBQV8P2V8u
+	Uij5Ox71uQ490wz5RorcKENQVUvq/+jhnEjhtnGLDBLWoyVyq7SCN0YTXEIVpyxZxHxS
+	ldtf4wNj9lKN5THnLYZPPNe99V89dwqgAwfLnVSIFlMLYPBNDryumGhoW4yGh7k1KLOY
+	VdMkhzFjQT2AOit9sQff91ZCLF2FrxHtPoszLtTG8shnTcmI+3Hcf95WKS1m/YEmAG9r
+	BptA==
+Received: by 10.43.132.65 with SMTP id ht1mr24493933icc.1.1352909105299;
+	Wed, 14 Nov 2012 08:05:05 -0800 (PST)
+Received: by 10.43.132.65 with SMTP id ht1mr24493894icc.1.1352909104785; Wed,
+	14 Nov 2012 08:05:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.254.10 with SMTP id ae10mr73681626pbd.126.1352908974931;
-	Wed, 14 Nov 2012 08:02:54 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Wed, 14 Nov 2012 08:02:54 -0800 (PST)
-In-Reply-To: <20121114124239.GB6908@ad.chargestorm.se>
-References: <20121114124239.GB6908@ad.chargestorm.se>
-Date: Wed, 14 Nov 2012 14:02:54 -0200
-X-Google-Sender-Auth: 9_bGAGykqbQEhJv1sxgiyWBTA-8
-Message-ID: <CAP9ODKpiPpUMSsOuStLepKt03gwY1EHxkRc+pLxrsSTdmVAGyA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-Subject: Re: License of xz
+Received: by 10.64.58.197 with HTTP; Wed, 14 Nov 2012 08:04:42 -0800 (PST)
+In-Reply-To: <CAJTo0LafpqVfYPSmO4aYDKZyenrr+w5WQvPOhRMRyZ4wRXjYJA@mail.gmail.com>
+References: <cover.1352898505.git.laurentiu.palcu@intel.com>
+	<f819ea4994858356c0f33c7b754ae85a11b764b9.1352898505.git.laurentiu.palcu@intel.com>
+	<CAJTo0LafpqVfYPSmO4aYDKZyenrr+w5WQvPOhRMRyZ4wRXjYJA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Nov 2012 16:04:42 +0000
+Message-ID: <CAJTo0LaNKBszH_WMgMLAwrmyita5CHAtxigowz5-h2avPmP2CA@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQmE8iifDzsXiL6qM8LUQYvYgYNJWzFVEPZo7Ell3/9uIhNHrc/NN1tWov5S5Ux+5RmlsinyvVPH14OK2ef0UaGaqyvZD8uNYB4DH4p1G8DjNAHisyAtsb6WZONOmDbAp45/vg8EMWnpLkOvUoM58ldQinLOETZhnXiAOZNOYGy4eDfuciaMQqFoLpE7wdm4st2h5457
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 07/12] libdrm: upgrade to 2.4.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,62 +48,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 16:16:51 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e0da1dd401d04ce76aa03
+X-List-Received-Date: Wed, 14 Nov 2012 16:19:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
---047d7b2e0da1dd401d04ce76aa03
-Content-Type: text/plain; charset=ISO-8859-1
+On 14 November 2012 14:56, Burton, Ross <ross.burton@intel.com> wrote:
+> Acked-By: Ross Burton <ross.burton@intel.com>
 
-On Wed, Nov 14, 2012 at 10:42 AM, Anders Darander <anders@chargestorm.se>wrote:
+Retracted.  There isn't a libdrm-intel package for the Intel driver,
+so it goes into libdrm.  This then messes up the renaming and upgrades
+become impossible.
 
-> ...
+Ross
 
-If my interpretation is correct, I'll try to find more time to look into
-> the actual source files a bit more closely.
-> ...
 
-      - The build system contains public domain files, and files that
->         are under GNU GPLv2+ or GNU GPLv3+. None of these files end up
->         in the binaries being built.
->
-
-From my understanding, if you remove the generated files from the source
-and rebuild those you'd be GPLv2 compatible.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---047d7b2e0da1dd401d04ce76aa03
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><br><div class=3D"gmail_quote">On Wed, Nov 14, 2012 at 10:42 AM, Anders=
- Darander <span dir=3D"ltr">&lt;<a href=3D"mailto:anders@chargestorm.se" ta=
-rget=3D"_blank">anders@chargestorm.se</a>&gt;</span> wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">
-...=A0</blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">If my interpretation is c=
-orrect, I&#39;ll try to find more time to look into<br>
-the actual source files a bit more closely.<br>...=A0</blockquote><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">
-=A0 =A0 =A0 - The build system contains public domain files, and files that=
-<br>
-=A0 =A0 =A0 =A0 are under GNU GPLv2+ or GNU GPLv3+. None of these files end=
- up<br>
-=A0 =A0 =A0 =A0 in the binaries being built.<br></blockquote><div><br></div=
-><div>From my understanding, if you remove the generated files from the sou=
-rce and rebuild those you&#39;d be GPLv2 compatible.</div></div><div><br></=
-div>
--- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" t=
-arget=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossys=
-tems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-
---047d7b2e0da1dd401d04ce76aa03--
