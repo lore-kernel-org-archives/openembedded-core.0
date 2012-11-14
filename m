@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TYd7a-0002VG-W0
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TYd7c-0002VG-1R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 14:35:15 +0100
+	Wed, 14 Nov 2012 14:35:16 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 05:21:21 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2012 05:21:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,250,1352102400"; d="scan'208";a="219485901"
+X-IronPort-AV: E=Sophos;i="4.83,250,1352102400"; d="scan'208";a="219485909"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
-	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 05:21:20 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2012 05:21:21 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Nov 2012 15:21:04 +0200
-Message-Id: <02fe2cb7dad9358760f0dd7fd00ae05ce8f8f4b7.1352898505.git.laurentiu.palcu@intel.com>
+Date: Wed, 14 Nov 2012 15:21:05 +0200
+Message-Id: <f819ea4994858356c0f33c7b754ae85a11b764b9.1352898505.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1352898505.git.laurentiu.palcu@intel.com>
 References: <cover.1352898505.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1352898505.git.laurentiu.palcu@intel.com>
 References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v3 06/12] fontconfig: upgrade to 2.10.1
+Subject: [PATCH v3 07/12] libdrm: upgrade to 2.4.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,68 +31,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 13:35:15 -0000
+X-List-Received-Date: Wed, 14 Nov 2012 13:35:16 -0000
 
-A couple of changes:
- * licence snippet in fccache.c moved down the file;
- * new files appeared in this version, added them to fontconfig package
+Other changes:
+ * removed a backported patch;
+ * activated libdrm-omap helper layer which is needed by the latest
+   xf86-video-omap xorg driver;
+ * split libdrm-drivers package into libdrm-radeon, libdrm-nouveau and
+   libdrm-omap;
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../97_fontconfig                                  |    0
- .../fix-pkgconfig.patch                            |    0
- ...native_2.9.0.bb => fontconfig-native_2.10.1.bb} |    0
- .../{fontconfig_2.9.0.bb => fontconfig_2.10.1.bb}  |    7 ++++---
- 4 files changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/fontconfig/{fontconfig-2.9.0 => fontconfig-2.10.1}/97_fontconfig (100%)
- rename meta/recipes-graphics/fontconfig/{fontconfig-2.9.0 => fontconfig-2.10.1}/fix-pkgconfig.patch (100%)
- rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.9.0.bb => fontconfig-native_2.10.1.bb} (100%)
- rename meta/recipes-graphics/fontconfig/{fontconfig_2.9.0.bb => fontconfig_2.10.1.bb} (91%)
+ meta/recipes-graphics/drm/libdrm.inc               |   16 +++--
+ .../drm/libdrm/disable-cairo.patch                 |   74 --------------------
+ .../drm/{libdrm_2.4.39.bb => libdrm_2.4.40.bb}     |    5 +-
+ meta/recipes-graphics/drm/libdrm_git.bb            |    4 +-
+ 4 files changed, 15 insertions(+), 84 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/disable-cairo.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.39.bb => libdrm_2.4.40.bb} (44%)
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig b/meta/recipes-graphics/fontconfig/fontconfig-2.10.1/97_fontconfig
-similarity index 100%
-rename from meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig
-rename to meta/recipes-graphics/fontconfig/fontconfig-2.10.1/97_fontconfig
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch b/meta/recipes-graphics/fontconfig/fontconfig-2.10.1/fix-pkgconfig.patch
-similarity index 100%
-rename from meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-rename to meta/recipes-graphics/fontconfig/fontconfig-2.10.1/fix-pkgconfig.patch
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb b/meta/recipes-graphics/fontconfig/fontconfig-native_2.10.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb
-rename to meta/recipes-graphics/fontconfig/fontconfig-native_2.10.1.bb
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.10.1.bb
-similarity index 91%
-rename from meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-rename to meta/recipes-graphics/fontconfig/fontconfig_2.10.1.bb
-index 7f3f111..268a3cb 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.10.1.bb
-@@ -14,7 +14,7 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
- LICENSE = "MIT-style & MIT & PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=dc5b39c592e47a22dbec44855988d2a0 \
-                     file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
--                    file://src/fccache.c;beginline=1077;endline=1092;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
-+                    file://src/fccache.c;beginline=1109;endline=1124;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
+diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
+index a64a5df..95d0942 100644
+--- a/meta/recipes-graphics/drm/libdrm.inc
++++ b/meta/recipes-graphics/drm/libdrm.inc
+@@ -11,17 +11,23 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
+ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs udev"
  
- SECTION = "libs"
+-INC_PR = "r3"
++INC_PR = "r4"
  
-@@ -26,12 +26,13 @@ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://fix-pkgconfig.patch \
-            file://97_fontconfig"
+ #libpciaccess is required starting from libdrm 2.4.26
+ DEPENDS += " libpciaccess"
  
--SRC_URI[md5sum] = "26c83855ed256b5c032baae032fadc4f"
--SRC_URI[sha256sum] = "ca7e25071cf044bdcdaf7c48845243c115b9269b4e369c6bd78a29e71f01b41a"
-+SRC_URI[md5sum] = "c94e380eea42f2f23ca9537035ef1899"
-+SRC_URI[sha256sum] = "c3912bf909c0057e50a67f58fc1b0ae644f1ebf532a0d97864588d9599280222"
+ inherit autotools pkgconfig
  
- PACKAGES =+ "fontconfig-utils-dbg fontconfig-utils "
- FILES_fontconfig-utils-dbg = "${bindir}/*.dbg"
- FILES_fontconfig-utils = "${bindir}/*"
-+FILES_${PN} =+ "${datadir}/xml/*"
+-EXTRA_OECONF += "--disable-cairo-tests"
++EXTRA_OECONF += "--disable-cairo-tests \
++                 --enable-omap-experimental-api \
++                "
++ALLOW_EMPTY_${PN}-drivers = "1"
++PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-kms"
++
++RDEPENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap"
  
- # Work around past breakage in debian.bbclass
- RPROVIDES_fontconfig-utils = "libfontconfig-utils"
+-PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-kms"
+ FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode*"
+-FILES_${PN}-drivers = "${libdir}/libdrm_*.so.*"
++FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
++FILES_${PN}-nouveau = "${libdir}/libdrm_nouveau.so.*"
++FILES_${PN}-omap = "${libdir}/libdrm_omap.so.*"
+ FILES_${PN}-kms = "${libdir}/libkms*.so.*"
+-
+diff --git a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch b/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
+deleted file mode 100644
+index 90e79d4..0000000
+--- a/meta/recipes-graphics/drm/libdrm/disable-cairo.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-commit c81d1df4926072d24b4dad1b488e618e57eff1c6
+-Author: Daniel Stone <daniel@fooishbar.org>
+-Date:   Thu Oct 4 10:26:37 2012 +1000
+-
+-    configure.ac: Allow forcible disabling of Cairo support
+-    
+-    We don't want to build libdrm tests with Cairo support under Poky, since
+-    they're never used and also cause a build loop from libdrm -> cairo ->
+-    mesa-dri -> libdrm.
+-    
+-    To avoid variance in build results, introduce a --disable-cairo-tests
+-    switch.
+-    
+-    Upstream-Status: Backport
+-    
+-    Signed-off-by: Daniel Stone <daniel@fooishbar.org>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 290362c..8c28107 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -222,11 +222,23 @@ if test "x$EXYNOS" = xyes; then
+- 	AC_DEFINE(HAVE_EXYNOS, 1, [Have EXYNOS support])
+- fi
+- 
+-+AC_ARG_ENABLE([cairo-tests],
+-+              [AS_HELP_STRING([--enable-cairo-tests],
+-+                              [Enable support for Cairo rendering in tests (default: auto)])],
+-+              [CAIRO=$enableval], [CAIRO=auto])
+- PKG_CHECK_MODULES(CAIRO, cairo, [HAVE_CAIRO=yes], [HAVE_CAIRO=no])
+--if test "x$HAVE_CAIRO" = xyes; then
+--	AC_DEFINE(HAVE_CAIRO, 1, [Have cairo support])
+-+AC_MSG_CHECKING([whether to enable Cairo tests])
+-+if test "x$CAIRO" = xauto; then
+-+	CAIRO="$HAVE_CAIRO"
+- fi
+--AM_CONDITIONAL(HAVE_CAIRO, [test "x$HAVE_CAIRO" = xyes])
+-+if test "x$CAIRO" = xyes; then
+-+	if ! test "x$HAVE_CAIRO" = xyes; then
+-+		AC_MSG_ERROR([Cairo support required but not present])
+-+	fi
+-+	AC_DEFINE(HAVE_CAIRO, 1, [Have Cairo support])
+-+fi
+-+AC_MSG_RESULT([$CAIRO])
+-+AM_CONDITIONAL(HAVE_CAIRO, [test "x$CAIRO" = xyes])
+- 
+- # For enumerating devices in test case
+- PKG_CHECK_MODULES(LIBUDEV, libudev, [HAVE_LIBUDEV=yes], [HAVE_LIBUDEV=no])
+-diff --git a/tests/modetest/Makefile.am b/tests/modetest/Makefile.am
+-index b5ec771..065ae13 100644
+---- a/tests/modetest/Makefile.am
+-+++ b/tests/modetest/Makefile.am
+-@@ -1,8 +1,7 @@
+- AM_CFLAGS = \
+- 	-I$(top_srcdir)/include/drm \
+- 	-I$(top_srcdir)/libkms/ \
+--	-I$(top_srcdir) \
+--	$(CAIRO_CFLAGS)
+-+	-I$(top_srcdir)
+- 
+- noinst_PROGRAMS = \
+- 	modetest
+-@@ -12,5 +11,9 @@ modetest_SOURCES = \
+- 
+- modetest_LDADD = \
+- 	$(top_builddir)/libdrm.la \
+--	$(top_builddir)/libkms/libkms.la \
+--	$(CAIRO_LIBS)
+-+	$(top_builddir)/libkms/libkms.la
+-+
+-+if HAVE_CAIRO
+-+AM_CFLAGS += $(CAIRO_CFLAGS)
+-+modetest_LDADD += $(CAIRO_LIBS)
+-+endif
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.39.bb b/meta/recipes-graphics/drm/libdrm_2.4.40.bb
+similarity index 44%
+rename from meta/recipes-graphics/drm/libdrm_2.4.39.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.40.bb
+index f3ce2b1..42f860a 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.39.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.40.bb
+@@ -4,8 +4,7 @@ PR = "${INC_PR}.0"
+ 
+ SRC_URI += "file://installtests.patch \
+             file://GNU_SOURCE_definition.patch \
+-            file://disable-cairo.patch \
+            "
+ 
+-SRC_URI[md5sum] = "9a299e021d81bab6c82307582c78319d"
+-SRC_URI[sha256sum] = "386b17388980504bca16ede81ceed4c77b12c3488f46ecb7f4d48e48512a733d"
++SRC_URI[md5sum] = "626a3dc44a40ef37565b61732b688567"
++SRC_URI[sha256sum] = "48c14e4600ea0fde522292893eb4055d2f6d86a69d093d379c827deaccffaa1f"
+diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graphics/drm/libdrm_git.bb
+index 5d7f953..e3051c7 100644
+--- a/meta/recipes-graphics/drm/libdrm_git.bb
++++ b/meta/recipes-graphics/drm/libdrm_git.bb
+@@ -6,7 +6,7 @@ S = "${WORKDIR}/git"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
+-SRCREV = "14db948127e549ea9234e02d8e112de3871f8f9f"
+-PV = "2.4.39+git${SRCPV}"
++SRCREV = "e01d68f9f3acfc35fe164283904b5d058c2ab378"
++PV = "2.4.40+git${SRCPV}"
+ PR = "${INC_PR}.0"
+ 
 -- 
 1.7.9.5
 
