@@ -1,29 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TYdsc-0004p3-SG
-	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 15:23:51 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAEE9sZT005028
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 06:09:54 -0800 (PST)
-Received: from msp-dhcp30.wrs.com (172.25.34.30) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Wed, 14 Nov 2012 06:09:53 -0800
-Message-ID: <50A3A633.2040801@windriver.com>
-Date: Wed, 14 Nov 2012 08:09:55 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121026 Thunderbird/16.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1352871028.git.sgw@linux.intel.com>
-	<ced593109000abdca328d606f02ced75f30a9ca5.1352871028.git.sgw@linux.intel.com>
-In-Reply-To: <ced593109000abdca328d606f02ced75f30a9ca5.1352871028.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 2/9] builder: Add password for user
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TYdxd-00054t-A8 for openembedded-core@lists.openembedded.org;
+	Wed, 14 Nov 2012 15:29:01 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEEF4Jw020484;
+	Wed, 14 Nov 2012 14:15:04 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20196-01; Wed, 14 Nov 2012 14:14:59 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAEEErAe020472
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 14 Nov 2012 14:14:54 GMT
+Message-ID: <1352902494.13332.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chris Larson <clarson@kergoth.com>
+Date: Wed, 14 Nov 2012 14:14:54 +0000
+In-Reply-To: <CABcZAN=sRNMPhR=FAWKyObYZt1XVnyr6tjj1ceg9Tf0bw8pjPg@mail.gmail.com>
+References: <1352815159.24487.122.camel@ted>
+	<CABcZANkMe=Bxfr5=PJkDUDT0LS1uN3AL=Sigo9OXS-rQyaexzQ@mail.gmail.com>
+	<1352898069.11419.2.camel@ted>
+	<CABcZAN=sRNMPhR=FAWKyObYZt1XVnyr6tjj1ceg9Tf0bw8pjPg@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: Add fix for cross compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 14:23:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 14 Nov 2012 14:29:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/13/12 11:32 PM, Saul Wold wrote:
-> This is needed to allow openssh to work correctly for the Eclipse
-> plugin to have access to the build appliance to view/modify recipes
-> and lauch builds
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/recipes-graphics/builder/builder_0.1.bb |    5 +++--
->   1 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
-> index 5c12c14..7ac531c 100644
-> --- a/meta/recipes-graphics/builder/builder_0.1.bb
-> +++ b/meta/recipes-graphics/builder/builder_0.1.bb
-> @@ -1,7 +1,7 @@
->   SUMMARY = "New user to do specific job"
->   DESCRIPTION = "This recipe create a new user named ${PN}, who is used for specific jobs like building. The task can be auto started via mini X"
->   SECTION = "x11"
-> -PR = "r4"
-> +PR = "r5"
->   LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://builder_hob_start.sh;endline=5;md5=84796c3c41785d86100fdabcbdade00e"
->
-> @@ -18,7 +18,8 @@ inherit useradd
->   USERADD_PACKAGES = "${PN}"
->   USERADD_PARAM_${PN} = "--system --create-home \
->                          --groups video,tty,audio \
-> -                       --user-group ${PN}"
-> +                       --user-group ${PN} \
-> +                       --password .gLibiNXn0P12"
+On Wed, 2012-11-14 at 07:08 -0700, Chris Larson wrote:
+> On Wed, Nov 14, 2012 at 6:01 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>         > The reason for this failure has to do with a particular set
+>         of
+>         > circumstances. A header in the bash source tree defines
+>         STRING() based
+>         > on HAVE_STRINGIZE. This define overwrites the unistd.h
+>         define of the
+>         > same macro. The unistd.h definitions of read() and open()
+>         wrap the
+>         > call to the real functions to implement FORTIFY_SOURCES, and
+>         those
+>         > wrappers use STRING() to do it. As a result, for any host
+>         that
+>         > defaults to -DFORTIFY_SOURCES, STRING() returns 'x'
+>         resulting in a
+>         > concatenation rather than an assembly level rename of the
+>         function
+>         > being called.
+>         >
+>         > If we add -DHAVE_STRINGIZE in the CROSS_COMPILE case, then
+>         STRING()
+>         > will be defined to something useful, and therefore the
+>         FORTIFY_SOURCES
+>         > wrappers don't get hosed.
+>         >
+>         > See
+>         http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor/commit/?id=da0ff91 for an alternative fix which may be more likely to be accepted upstream.
+>         >
+>         
+>         This is better, yes. Is there a reason this is in meta-mentor
+>         and not
+>         OE-Core? I'd really like to pull it into OE-Core...
+> 
+> Nope, it's just in the pending upstream pile. I'll send a patch
+> against oe-core to the list today if you'd like.
 
-This should work, but can you add a comment that indicates the plain-text for 
-the password?
+Please, I'd like to get that problem fixed.
 
---Mark
+Cheers,
 
->   do_install () {
->   	install -d -m 755 ${D}${sysconfdir}/mini_x/session.d
->
+Richard
+
 
 
 
