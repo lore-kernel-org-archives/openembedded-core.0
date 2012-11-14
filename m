@@ -1,38 +1,41 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TYbU7-0002Ng-AG
+	(envelope-from <ross.burton@intel.com>) id 1TYbcM-0002hn-Ov
 	for openembedded-core@lists.openembedded.org;
-	Wed, 14 Nov 2012 12:50:23 +0100
-Received: by mail-pb0-f47.google.com with SMTP id ro12so286047pbb.6
+	Wed, 14 Nov 2012 12:58:54 +0100
+Received: from mail-ie0-f197.google.com ([209.85.223.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Nov 2012 03:44:21 -0800
+Received: by mail-ie0-f197.google.com with SMTP id 9so1078093iec.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 03:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=hbQz4E5LS5mxbTvW+y3+WeIrL0DMZlcolBs4eWMNYgU=;
-	b=EjptRFnX7YYxuVokTBuiWHT6DXKfDxQ2mcFzj7CTKS24lHyLTaQnUnbgp8jNFV5+Bi
-	nv453QRp79hM1LKwq8X4CplmPY4imUrxdciBfmOxDDUvOiO+MMkUTc3JYoCfc4TSU0jK
-	3YxZ3UsvTWOrgDj+jBb50bJLCkfp6YCDICJiyXcpWSAtqdVFIvvwnJHZhw0G1IZNi1Et
-	BtCMQDVOHI8ME70repl/Adz65ldFmhMbTE1hgXF9ZrNh5vEU4MCzi5XSThOgld3yeGL2
-	T7Wv/f0TMZtpx1amT3b3o07wQZmVRUJHQ7i4YC6nZJNz7wLoRb6u0LTDbmFfjMbaUv5A
-	U9VA==
+	Wed, 14 Nov 2012 03:44:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=weO1le4gMmWWRVD3IUznm150kNjzEZjKl/lErK+pm/s=;
+	b=ZaAq+ePWYnOvXrkEYwgAAjdN+rJnIuYHKNtMraozIasRzXjRHy/ugCKCiBkLaxtvkY
+	0euAsoVPBlmVBq5V4FnVonPy2tu5tc43VbLonVw5MIsfE2kLzHqL5xq0Rwbf5SuW4WC/
+	cfR/f3ktl2Kbuaxrma0VKnbksPtimWXxcop1Nnp0NbAY+agqjKeDmVbnIOy3JCJGEBi+
+	kes00O77KYC9EBIsIiojXcI7/py075/d2zDlLblrAINMyZ78bVNUbfI61FTSwZvUVtez
+	9EW/bQhGvZVnBafQ2iGy66b00iFsKiJA2cH/d7JT4EKyr1Rct6jBok2r3YSVCGrNIrs6
+	iO6g==
+Received: by 10.60.10.201 with SMTP id k9mr8538030oeb.105.1352893497315;
+	Wed, 14 Nov 2012 03:44:57 -0800 (PST)
+Received: by 10.60.10.201 with SMTP id k9mr8538027oeb.105.1352893497204; Wed,
+	14 Nov 2012 03:44:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.213.33 with SMTP id np1mr76889496pbc.64.1352892987269; Wed,
-	14 Nov 2012 03:36:27 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Wed, 14 Nov 2012 03:36:27 -0800 (PST)
-In-Reply-To: <3022446.WMq39sgvYG@helios>
-References: <cover.1352871028.git.sgw@linux.intel.com>
-	<0c604e38ddcd6597371775a9c51625bf71c9f359.1352871028.git.sgw@linux.intel.com>
-	<CAP9ODKpOi5tf6Tgdwv7sm=YeXL21Q9i=7ATiDLjVtvvZ-UddVw@mail.gmail.com>
-	<3022446.WMq39sgvYG@helios>
-Date: Wed, 14 Nov 2012 09:36:27 -0200
-X-Google-Sender-Auth: 7Z1GnTBokaBPbF1nojDR8j2Bals
-Message-ID: <CAP9ODKo=i=tKcKSTucvZHBShtfbvEp-F4TbE93+Vrs_wxasXgQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Received: by 10.182.68.135 with HTTP; Wed, 14 Nov 2012 03:44:36 -0800 (PST)
+In-Reply-To: <CAP9ODKpNb6RuJ7Yg5dX_0Xi6uvNDfTuqM-PQLBMYF2fH4HpyEA@mail.gmail.com>
+References: <cover.1352884713.git.laurentiu.palcu@intel.com>
+	<fe918e16f7c7d4e01ab317c3f29ff7dab1ba9537.1352884713.git.laurentiu.palcu@intel.com>
+	<CAP9ODKpNb6RuJ7Yg5dX_0Xi6uvNDfTuqM-PQLBMYF2fH4HpyEA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Nov 2012 11:44:36 +0000
+Message-ID: <CAJTo0LbqG2SgOGY7kocoWWabsF0epT8owF3O_UCOb0+jshdcMg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Gm-Message-State: ALoCoQnXuAvKCyL4oh1Jv0WLAVyDFGdYE1UUqMx4YM8PPGTc/tM4eaG9M+ZCD10ibfat6U2c+bEascOEgfKE9jrNUyHq7EpvO3tz91378EPlfZhmynszdsHXRnTXBQcFgqSk1wCk58m3cfB2iiAK0hyLBcJWfDjNmd9Zx3AYoJC48iLs8vx7jAU1Jvph0727geGKz77iiYsZ
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/9] less: Update to 451
+Subject: Re: [PATCH v2 08/12] xserver-xorg: upgrade to 1.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,59 +48,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 11:50:23 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c12eece0a204ce72f1a0
+X-List-Received-Date: Wed, 14 Nov 2012 11:58:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
---e89a8ff1c12eece0a204ce72f1a0
-Content-Type: text/plain; charset=ISO-8859-1
+On 14 November 2012 11:28, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> Why those are now built-in?
 
-On Wed, Nov 14, 2012 at 9:33 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
+Because upstream made them builtin.
 
-> On Wednesday 14 November 2012 09:26:53 Otavio Salvador wrote:
-> > > -PR = "r3"
-> > > +PR = "r0"
-> >
-> > Please drop PR as r0 is the default.
->
-> We don't do that in OE-Core.
->
+Ross
 
-Well, as far as I remember I always drop the PR when it is going to be r0.
 
-But OK.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---e89a8ff1c12eece0a204ce72f1a0
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><br><div class=3D"gmail_quote">On Wed, Nov 14, 2012 at 9:33 AM, Paul Eg=
-gleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.co=
-m" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
-<div class=3D"im">On Wednesday 14 November 2012 09:26:53 Otavio Salvador wr=
-ote:<br>
-&gt; &gt; -PR =3D &quot;r3&quot;<br>
-&gt; &gt; +PR =3D &quot;r0&quot;<br>
-&gt;<br>
-&gt; Please drop PR as r0 is the default.<br>
-<br>
-</div>We don&#39;t do that in OE-Core.<br></blockquote><div><br></div><div>=
-Well, as far as I remember I always drop the PR when it is going to be r0.<=
-/div><div><br></div><div>But OK.</div><div>=A0</div></div>-- <br>Otavio Sal=
-vador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. System=
-s<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
-@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
-_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
-=3D"_blank">http://projetos.ossystems.com.br</a><br>
-<br>
-
---e89a8ff1c12eece0a204ce72f1a0--
