@@ -1,38 +1,22 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TZ0rO-0001UC-D2
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TZ19m-0002aA-At
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Nov 2012 15:56:06 +0100
-Received: by mail-da0-f47.google.com with SMTP id s35so641389dak.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2012 06:42:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=xSE0Gy3JZ+aen+YXHyeEMhCNKxZ9n/JfqhchoqccpKI=;
-	b=Jc1LEdFQTuNJMlJk0gdwH6dWwpF99X8Nbizfv97k6N0O7gyMGsPwHZ9gklqdVHaH+E
-	EuVkvAjHj5TDyShQRSKGd4swE+howBEEK33zWJ6JScmsSnVnDXur0WetsRKaBjGHRWaI
-	JoefB1p07JkiaPqDBk7OymOD8Pb7SgVBhzY4jdBHPZhD0/l1mSgK47+UDscz7YEx5uZw
-	sr7/RePumHmXionAsrKQeFEoUefqsn0E7yBtxPX7Kh8LGnCU0GgYvRYExPMzhZDNYhgW
-	aScFKetgGf6hezI/F3wwBnK6Dz39y2LSuKLkozk07IkDo4fUL6s8+HqpsGtGPTou671I
-	wVqg==
-MIME-Version: 1.0
-Received: by 10.68.197.9 with SMTP id iq9mr5251128pbc.130.1352990528807; Thu,
-	15 Nov 2012 06:42:08 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Thu, 15 Nov 2012 06:42:08 -0800 (PST)
-In-Reply-To: <CAJTo0LY8JXsCKPZyWQ2xMDWy57nXb3BL1Ur_+Lck7AitPU3=9Q@mail.gmail.com>
-References: <1352841144-31228-1-git-send-email-radu.moisan@intel.com>
-	<50A2D2BD.9090703@linux.intel.com> <50A3F364.1010509@intel.com>
-	<CAJTo0LY8JXsCKPZyWQ2xMDWy57nXb3BL1Ur_+Lck7AitPU3=9Q@mail.gmail.com>
-Date: Thu, 15 Nov 2012 12:42:08 -0200
-X-Google-Sender-Auth: g6IQzlll_Xn1ItQLyvXwcMPwZ98
-Message-ID: <CAP9ODKrt_PSQzvR2GqwAQHo33sYQHoWwwyyixo-X55_HRo0osA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Alexandru Damian <alexandru.damian@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] initrd: add recovery feature
+	Thu, 15 Nov 2012 16:15:07 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Nov 2012 07:01:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,258,1352102400"; d="scan'208";a="218219849"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.42])
+	by azsmga001.ch.intel.com with ESMTP; 15 Nov 2012 07:01:06 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Nov 2012 17:01:03 +0200
+Message-Id: <1352991663-31177-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <96e8a890aa256c71895cabe5f36c3c42edc1a086.1352898505.git.laurentiu.palcu@intel.com>
+References: <96e8a890aa256c71895cabe5f36c3c42edc1a086.1352898505.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v4 04/12] xkeyboard-config: upgrade to 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,72 +29,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2012 14:56:06 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c85cdaa35004ce89a7a3
+X-List-Received-Date: Thu, 15 Nov 2012 15:15:07 -0000
 
---e89a8ff1c85cdaa35004ce89a7a3
-Content-Type: text/plain; charset=ISO-8859-1
+A few extra changes:
+ * changed the SRC_URI to the new, valid, one
+ * added dependency of gettext (do_qa_configure detected is needed)
+ * disable runtime dependency checks at configure time
 
-On Thu, Nov 15, 2012 at 8:19 AM, Burton, Ross <ross.burton@intel.com> wrote:
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../xorg-lib/xkeyboard-config_2.1.bb               |   34 --------------------
+ .../xorg-lib/xkeyboard-config_2.7.bb               |   34 ++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb
 
-> On 14 November 2012 19:39, Radu Moisan <radu.moisan@intel.com> wrote:
-> > Well, I didn't see any side effects. If there are side effects I'll
-> remove
-> > the timeout but please point out to me some of those. Anyway, I thought
-> > about this more like a safety net because I've noticed "settle" has some
-> > history with hanging the system boot more that it should in some
-> > circumstances.
->
-> Your average Intel, qemu, or fast ARM test hardware can easily settle
-> in under three seconds.  The problem is when you have either slow
-> hardware, or hardware with lots of storage devices to enumerate.
->
-
-Radu, please drop it or set it for 20s or so. I am against the timeout as a
-whole as in case this causes a boot fail it will be quite difficult to
-average user to come up to realize the cause of the problem so my opinion
-would be to drop it completely.
-
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
+deleted file mode 100644
+index 1b28208..0000000
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
++++ /dev/null
+@@ -1,34 +0,0 @@
+-SUMMARY = "Keyboard configuration database for X Window"
+-
+-DESCRIPTION = "The non-arch keyboard configuration database for X \
+-Window.  The goal is to provide the consistent, well-structured, \
+-frequently released open source of X keyboard configuration data for X \
+-Window System implementations.  The project is targeted to XKB-based \
+-systems."
+-
+-HOMEPAGE = "http://freedesktop.org/wiki/Software/XKeyboardConfig"
+-BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-config"
+-
+-LICENSE = "MIT & MIT-style"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+-
+-SRC_URI = "http://people.freedesktop.org/~svu/xkeyboard-config-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "6ce65480445fb2d9c071ad1f002a7675"
+-SRC_URI[sha256sum] = "e293aa4b0dd259dbb4f0e7f56fdd95db5047d052c7b3b80922fe5663923a805d"
+-
+-SECTION = "x11/libs"
+-DEPENDS = "intltool-native xkbcomp-native glib-2.0"
+-
+-PR = "r2"
+-
+-EXTRA_OECONF = "--with-xkb-rules-symlink=xorg"
+-
+-RDEPENDS_${PN} += "xkbcomp"
+-FILES_${PN} += "${datadir}/X11/xkb"
+-
+-inherit autotools pkgconfig
+-
+-do_install_append () {
+-    install -d ${D}${datadir}/X11/xkb/compiled
+-    cd ${D}${datadir}/X11/xkb/rules && ln -sf base xorg
+-}
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb
+new file mode 100644
+index 0000000..08d03a5
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.7.bb
+@@ -0,0 +1,34 @@
++SUMMARY = "Keyboard configuration database for X Window"
++
++DESCRIPTION = "The non-arch keyboard configuration database for X \
++Window.  The goal is to provide the consistent, well-structured, \
++frequently released open source of X keyboard configuration data for X \
++Window System implementations.  The project is targeted to XKB-based \
++systems."
++
++HOMEPAGE = "http://freedesktop.org/wiki/Software/XKeyboardConfig"
++BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-config"
++
++LICENSE = "MIT & MIT-style"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
++
++SRC_URI="${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
++SRC_URI[md5sum] = "6ad7b43062f123eacf8ff0eb3a4e0678"
++SRC_URI[sha256sum] = "e43478a12fb0fe6757a7bad3a04fd3747ec53e53d5af22a9d9829dfb9aac8321"
++
++SECTION = "x11/libs"
++DEPENDS = "intltool-native xkbcomp-native glib-2.0 virtual/gettext"
++
++PR = "r0"
++
++EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
++
++RDEPENDS_${PN} += "xkbcomp"
++FILES_${PN} += "${datadir}/X11/xkb"
++
++inherit autotools pkgconfig
++
++do_install_append () {
++    install -d ${D}${datadir}/X11/xkb/compiled
++    cd ${D}${datadir}/X11/xkb/rules && ln -sf base xorg
++}
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.9.5
 
---e89a8ff1c85cdaa35004ce89a7a3
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<br><br><div class=3D"gmail_quote">On Thu, Nov 15, 2012 at 8:19 AM, Burton,=
- Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
-=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">
-<div class=3D"im">On 14 November 2012 19:39, Radu Moisan &lt;<a href=3D"mai=
-lto:radu.moisan@intel.com">radu.moisan@intel.com</a>&gt; wrote:<br>
-&gt; Well, I didn&#39;t see any side effects. If there are side effects I&#=
-39;ll remove<br>
-&gt; the timeout but please point out to me some of those. Anyway, I though=
-t<br>
-&gt; about this more like a safety net because I&#39;ve noticed &quot;settl=
-e&quot; has some<br>
-&gt; history with hanging the system boot more that it should in some<br>
-&gt; circumstances.<br>
-<br>
-</div>Your average Intel, qemu, or fast ARM test hardware can easily settle=
-<br>
-in under three seconds. =A0The problem is when you have either slow<br>
-hardware, or hardware with lots of storage devices to enumerate.<br></block=
-quote><div><br></div><div>Radu, please drop it or set it for 20s or so. I a=
-m against the timeout as a whole as in case this causes a boot fail it will=
- be quite difficult to average user to come up to realize the cause of the =
-problem so my opinion would be to drop it completely.</div>
-<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
-@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
-=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
-.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
 
---e89a8ff1c85cdaa35004ce89a7a3--
