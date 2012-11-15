@@ -1,42 +1,34 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TYx8l-0007VO-2w
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Nov 2012 11:57:47 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 15 Nov 2012 02:43:48 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so6080700oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2012 02:43:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=XSDx/1/SX90RS/4t1Zjfz4Hka8C0nLAvpI+QeKi0uOc=;
-	b=VUMmTNMx/aDqs4t8RIqiSXM90U9nFB0cLXpAPZf/goU0ghaslomwDT3HmKhovtoAc6
-	6O8FoyGxX6gySJMvWm/SiuSnzLU2inSjbh/4u1mMQ+9uhb0tC2X/O04j/BaRGIXq5Fzh
-	fN3YO5HXUdTtkZKHIlWFHRGCjwgX4kNm7PxsU3ix8oKdB0oG0BVcdFjMVAtQa6Lal1CV
-	G6ddgEJakb2gjfTE6pP9kynQoOeepNpjsPxJL2n9njb2NfAo/pOiYoSgh9/ED6h8VwO+
-	hFJOcv7CLziElT2jnpje7K0WNvoHpsfDWn+EyrXlsfVD0yIOIGZY9sQi3PItygGSwKgs
-	cp+g==
-Received: by 10.60.7.6 with SMTP id f6mr449775oea.138.1352976227839;
-	Thu, 15 Nov 2012 02:43:47 -0800 (PST)
-Received: by 10.60.7.6 with SMTP id f6mr449774oea.138.1352976227762; Thu, 15
-	Nov 2012 02:43:47 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.182.68.135 with HTTP; Thu, 15 Nov 2012 02:43:26 -0800 (PST)
-In-Reply-To: <CAJTo0LbwRx7D9u58NnGaAzQX+EZR4k1-ArSXHkHB2UYdk=k5Wg@mail.gmail.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<a7f0c78da3a41c3d7a57966ba15b3013f3da1744.1352898505.git.laurentiu.palcu@intel.com>
-	<CAJTo0La_f26GzRCXGj-5fquqWheT_EnU_1Qu-ghjXz2Qdb1gpA@mail.gmail.com>
-	<CAJTo0LbwRx7D9u58NnGaAzQX+EZR4k1-ArSXHkHB2UYdk=k5Wg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Nov 2012 10:43:26 +0000
-Message-ID: <CAJTo0La+7W6WUWE-5PgrDSTVFMFEneY2dLKXLsrj1BqTsHY+zQ@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQnTKFYCB+DgFSxV8Z1SBhL3f5GL+QZkHLhbSV5cg/qu5ooxdzglwJcGeOJvoGLSwgPl9y+a7wJz1Mex8VrKdecqjiz+u229vyugvv1HTq9o1BU9EM/xq+lWPne9DrL+HHmrw0d6mn4rXcnhNdJuLxSdNlmtnizMGJ8pr4p+acNpgdJ2SjgXWEb17Xllc4wTZlAR5/Fk
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 08/12] xserver-xorg: upgrade to 1.13.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TYxHG-0008FZ-U0 for openembedded-core@lists.openembedded.org;
+	Thu, 15 Nov 2012 12:06:35 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAFAqbgr020580;
+	Thu, 15 Nov 2012 10:52:37 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20552-01; Thu, 15 Nov 2012 10:52:33 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAFAqTS6020574
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 15 Nov 2012 10:52:30 GMT
+Message-ID: <1352976748.3709.57.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Michael Halstead <michael@yoctoproject.org>
+Date: Thu, 15 Nov 2012 10:52:28 +0000
+In-Reply-To: <50A4080D.6050906@yoctoproject.org>
+References: <1352815159.24487.122.camel@ted>
+	<20121114123026.GK3928@jama.jama.net> <1352899442.13332.2.camel@ted>
+	<1352899832.13332.7.camel@ted> <50A3F4F1.2080008@yoctoproject.org>
+	<50A4080D.6050906@yoctoproject.org>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: Add fix for cross compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,20 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2012 10:57:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 Nov 2012 11:06:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 14 November 2012 16:18, Burton, Ross <ross.burton@intel.com> wrote:
-> The xorg server/drivers upgraded fine, but then on startup we got the
-> ABI errors.  This shouldn't have happened - the ABI version in the
-> code should have matched the ABI in the dependencies, but they are
-> different.
->
-> I'm digging into this now.
+On Wed, 2012-11-14 at 13:07 -0800, Michael Halstead wrote:
+> On 11/14/2012 11:45 AM, Michael Halstead wrote:
+> > On 11/14/2012 05:30 AM, Richard Purdie wrote:
+> >> On Wed, 2012-11-14 at 13:24 +0000, Richard Purdie wrote:
+> >>> On Wed, 2012-11-14 at 13:30 +0100, Martin Jansa wrote:
+> >>>> On Tue, Nov 13, 2012 at 01:59:19PM +0000, Richard Purdie wrote:
+> >>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >>>>> ---
+> >>>>> diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> >>>>> new file mode 100644
+> >>>>> index 0000000..f587c34
+> >>>>> --- a/dev/null
+> >>>>> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> >>>>> @@ -0,0 +1,28 @@
+> >>>> Are you using some special tool to generate git patches or some weird
+> >>>> git version?
+> >>> Basically, the data from cgit in the web interface is broken and that is
+> >>> causing this.
+> >>>
+> >>>> Patches from you where you add some file usually does not apply here,
+> >>>> It's caused by:
+> >>>> --- a/dev/null
+> >>>> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> >>>> which usually looks like
+> >>>> --- /dev/null
+> >>>> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
+> >>> Right, there is a bug in cgit. I'm not sure if anyone fancies trying to
+> >>> find/fix it?
+> >> Actually, its not hard to find:
+> >>
+> >> http://hjemli.net/git/cgit/tree/ui-patch.c
+> >>
+> >>
+> >> In header(), the:
+> >> 		htmlf("\n--- a/%s\n", path1);
+> >> 		htmlf("+++ b/%s\n", path2);
+> >> needs to be conditional on is_null_sha1(sha1)/is_null_sha1(sha2) with
+> >> the alternative of:
+> >> 		htmlf("\n--- /%s\n", path1);
+> >> 		htmlf("+++ /%s\n", path2);
+> >> which there are a variety of ways to achieve...
+> >>
+> >> Michael: Fancy fixing that on the server and sending a patch
+> >> upstream? :)
+> >>
+> >> Cheers,
+> >>
+> >> Richard
+> >>
+> > I'm happy to. I've fixed the code you've tracked down and recompiled for
+> > git.yoctoproject.org. You can see the result at
+> > https://git.yoctoproject.org/cgit/cgit.cgi/poky/patch/?id=ed234aca98d0867c7b32801fc63820b19cf67df9
+> > but I am still working on fixing the shared UI for this view
+> > https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=ed234aca98d0867c7b32801fc63820b19cf67df9.
+> >
+> >
+> > Once I have both fixes I'll upgrade http://cgit.openembedded.org/ with
+> > the new version and submit my patch upstream.
+> >
+> I've submitted the patch upstream and installed a fixed copy of cgit on
+> cgit.openembedded.org. Please let me know if any errors in the
+> formatting remain.
 
-For a start, bump the PR in the video and input driver includes, so
-that all drivers get rebuilt - both the video and input ABIs changed.
+Thanks for the fast turnaround, its much appreciated! :)
 
-Ross
+Cheers,
+
+Richard
+
 
 
