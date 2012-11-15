@@ -1,39 +1,40 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TZ32y-0004Pn-I8
+	(envelope-from <martin.jansa@gmail.com>) id 1TZ344-0004SC-8U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Nov 2012 18:16:12 +0100
-Received: by mail-pb0-f47.google.com with SMTP id ro12so1173357pbb.6
+	Thu, 15 Nov 2012 18:17:20 +0100
+Received: by mail-bk0-f47.google.com with SMTP id jk7so796924bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2012 09:02:14 -0800 (PST)
+	Thu, 15 Nov 2012 09:03:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=tnbThVKnkKZGVVRDjw7Og43SKiKf39Z+LYyRTmCPs0c=;
-	b=jIP3gnomWt29B6CMENF+oozrQVKAam8ykvR+btrfCQsUT3MgQPyoCXyu7LcDWDNQLi
-	aaOjCygTC86TMHWCWj9PI6V72Jqxr5Xbxvv080t9bqu5MPicjsVcOQuuXnO2JFImZgHr
-	hUPKEID0eoEsfv/wKbQwFUaveq9KPc3Bg76C5lPjVxFB0NueKlbytXNr4vj8XWwjBGIl
-	AZYevDal8S1910KlKBKYfH6V/25yaGNSsXtUqY8xzDjGdIM79sO/uhoYSLf//sB6/1Bv
-	acZ4Xy9QE1Y/ZpTgBzcPf+q141JpNpLJd2WZ21MgzphSDSZj51TJMzf0V1HPDUQQqTM2
-	uC/A==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=6e46OCcJWN2iiocG6e1YQ0AVVw6rPi+HlwGow2ryoBw=;
+	b=NQepgfAePqQRL0ZdxysaSLFyIQOX33FTd7yALWUcHD2sLa79KQrwjpMWFsDuFH61dg
+	8D2/0vn5yU3BiV9Hhf0nYkp59wCWSuRnny/LeRFyo7PUwPM73ZboPmYoRnS1g+l6KtH3
+	P1q+1nQRGGWs3zGdMIt/wtZObGssy5o3gPr6tRRDoH8jyAF0KQodRP/x5oBDk9EV3huC
+	D8RGcjWXGP4ZIlod9IAnShdtisdHHw5JBrfkTn4IHLiLQP81DqA/tgtPzTBfDoUwSbf2
+	Zc/TEezQvIYAkScaVl34S1owFbxj8sQTpIBUcw19MTvEuo1JQUqhMCzm7nNwCS4fccGl
+	8Jxw==
+Received: by 10.205.139.16 with SMTP id iu16mr721431bkc.88.1352999003311;
+	Thu, 15 Nov 2012 09:03:23 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n27sm10882746bkw.0.2012.11.15.09.03.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Nov 2012 09:03:21 -0800 (PST)
+Date: Thu, 15 Nov 2012 18:03:40 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20121115170340.GD17521@jama.jama.net>
+References: <1351077301-7744-1-git-send-email-Martin.Jansa@gmail.com>
+	<CABcZAN=W_E+Qtox5XF7nBcMY9tN4vCCA51vcy=Hx1GDVGMwVbQ@mail.gmail.com>
+	<20121115161907.GC17521@jama.jama.net> <2167600.lqqak59AbM@helios>
 MIME-Version: 1.0
-Received: by 10.66.90.101 with SMTP id bv5mr4885298pab.42.1352998934569; Thu,
-	15 Nov 2012 09:02:14 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Thu, 15 Nov 2012 09:02:14 -0800 (PST)
-In-Reply-To: <50A50BE1.2030305@balister.org>
-References: <70CC66F5C30A414DADDA6973E4CA391A780B30@039-SN1MPN1-001.039d.mgd.msft.net>
-	<50A50BE1.2030305@balister.org>
-Date: Thu, 15 Nov 2012 15:02:14 -0200
-X-Google-Sender-Auth: pA_Q6fjbdI8t_ao2GT-Jf5kziOc
-Message-ID: <CAP9ODKoT=n2Uxee7Weuh65OJ3ODat1pfnPmOAa0TxM05QLmB6Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Philip Balister <philip@balister.org>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] meta-freescale general mailing list
+In-Reply-To: <2167600.lqqak59AbM@helios>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv4] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,89 +47,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2012 17:16:12 -0000
-Content-Type: multipart/alternative; boundary=f46d042de579e064a004ce8b9c1a
+X-List-Received-Date: Thu, 15 Nov 2012 17:17:20 -0000
+X-Groupsio-MsgNum: 31429
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="iVCmgExH7+hIHJ1A"
+Content-Disposition: inline
 
---f46d042de579e064a004ce8b9c1a
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Thu, Nov 15, 2012 at 1:36 PM, Philip Balister <philip@balister.org>wrote:
-
-> On 11/14/2012 11:58 AM, McClintock Matthew-B29882 wrote:
->
->> YoctoProject.org is now hosting a meta-freescale mailing list that are
->> going to unify the communities of meta-fsl-ppc and meta-fsl-arm.
->>
->>  From now on all patches affecting meta-fsl-ppc and meta-fsl-arm can be
->>>
->> sent to meta-freescale@yoctoproject.**org<meta-freescale@yoctoproject.org>and have the respective tag in
->> the patch. Please check the README in respective layer about the
->> command line to use for git format-patch.
->>
->> Please subscribe here: https://lists.yoctoproject.**
->> org/listinfo/meta-freescale<https://lists.yoctoproject.org/listinfo/meta-freescale>
->> Archives here: https://lists.yoctoproject.**org/pipermail/meta-freescale/<https://lists.yoctoproject.org/pipermail/meta-freescale/>
->>
->
-> Can you register the list with gmane? I find it is much easier to follow
-> lists there.
->
-> Do we have a standard for yocto/OE list names on gmane?
->
-
-I tried to add it but it did not work.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---f46d042de579e064a004ce8b9c1a
-Content-Type: text/html; charset=ISO-8859-1
+--iVCmgExH7+hIHJ1A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<br><br><div class=3D"gmail_quote">On Thu, Nov 15, 2012 at 1:36 PM, Philip =
-Balister <span dir=3D"ltr">&lt;<a href=3D"mailto:philip@balister.org" targe=
-t=3D"_blank">philip@balister.org</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<div class=3D"im">On 11/14/2012 11:58 AM, McClintock Matthew-B29882 wrote:<=
-br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-YoctoProject.org is now hosting a meta-freescale mailing list that are<br>
-going to unify the communities of meta-fsl-ppc and meta-fsl-arm.<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From now on all patches affecting meta-fsl-ppc and meta-fsl-arm can be<br>
-</blockquote>
-sent to <a href=3D"mailto:meta-freescale@yoctoproject.org" target=3D"_blank=
-">meta-freescale@yoctoproject.<u></u>org</a> and have the respective tag in=
-<br>
-the patch. Please check the README in respective layer about the<br>
-command line to use for git format-patch.<br>
-<br>
-Please subscribe here: <a href=3D"https://lists.yoctoproject.org/listinfo/m=
-eta-freescale" target=3D"_blank">https://lists.yoctoproject.<u></u>org/list=
-info/meta-freescale</a><br>
-Archives here: <a href=3D"https://lists.yoctoproject.org/pipermail/meta-fre=
-escale/" target=3D"_blank">https://lists.yoctoproject.<u></u>org/pipermail/=
-meta-freescale/</a><br>
-</blockquote>
-<br></div>
-Can you register the list with gmane? I find it is much easier to follow li=
-sts there.<br>
-<br>
-Do we have a standard for yocto/OE list names on gmane?<br></blockquote><di=
-v><br></div><div>I tried to add it but it did not work.</div><div>=A0</div>=
-</div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0O.S. Systems<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
-@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
-_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
-=3D"_blank">http://projetos.ossystems.com.br</a><br>
-<br>
+On Thu, Nov 15, 2012 at 04:49:01PM +0000, Paul Eggleton wrote:
+> On Thursday 15 November 2012 17:19:07 Martin Jansa wrote:
+> > I didn't want to use bitbake -e, so that this script can be executed
+> > when some other bitbake process is running.
+>=20
+> You really should not be trying to touch anything under TMPDIR let alone=
+=20
+> sstate files while bitbake is actually running against that same director=
+y. I'm=20
+> not sure why you would want to though...
 
---f46d042de579e064a004ce8b9c1a--
+While running builds for 8 MACHINEs in for loop I find it usefull to
+test one sysroot (from 1st MACHINE already built) while keeping
+build for remaining machines running for rest of night and sometimes
+following days..
+
+At least that was my use-case when I wrote this script..
+
+Yes I could have execute build only for 1st machine, wait till it's
+finished, then run script wait till it's finished and then start for
+loop for remainig 7, but that does not allow me to fall asleep while
+it's still building 1st :) or I have to plan it in advance and build
+with much longer one-liner.
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--iVCmgExH7+hIHJ1A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlClIGwACgkQN1Ujt2V2gByj8wCfZqMoYmbQx8sF8vuodd9nCPiZ
+BJgAoI3O6+pn0RF7FPHIPLvK6x8NozFI
+=L2uE
+-----END PGP SIGNATURE-----
+
+--iVCmgExH7+hIHJ1A--
