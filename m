@@ -1,30 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYmll-0006wu-J6 for openembedded-core@lists.openembedded.org;
-	Thu, 15 Nov 2012 00:53:21 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAENdPKl013027
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Rongqing.Li@windriver.com>) id 1TYphY-0007iK-G7
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Nov 2012 04:01:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAF2lFgT014705
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 23:39:25 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12861-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 23:39:21 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAENdIUY013002
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Nov 2012 23:39:19 GMT
-Message-ID: <1352936359.3709.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Nov 2012 23:39:19 +0000
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate: Bump version number to deal with layout fixes
+	Wed, 14 Nov 2012 18:47:15 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.143) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Wed, 14 Nov 2012 18:47:15 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Nov 2012 10:47:15 +0800
+Message-ID: <cover.1352947538.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] Change some applets dirs to make them FHS and LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,45 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Nov 2012 23:53:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Nov 2012 03:01:13 -0000
+Content-Type: text/plain
 
+From: Roy.Li <rongqing.li@windriver.com>
 
-The recent proceeding sstate directory layout fixes made the code do
-what it was originally intended to do, as can be clearly seen from the
-code. Unfortunately this changed the contents and layout of the sstate
-files themselves since the bug was leading to a directory prefix being
-missing.
+The following changes since commit b53ea6687b6201c8c5ab5cb0d2a845ef7e7b2abe:
 
-This is now resulting in chaotic messages on the console since things
-are getting confused with the two different layouts. The simplest way to
-resolve this is to bump the version number, hence moving the new layout
-into its own new namespace.
+  sstate: Bump version number to deal with layout fixes (2012-11-14 23:37:26 +0000)
 
-Its worth noting that whilst the failure messages are scary, the failure
-mode is relatively harmless since it will just fall back to building the
-data rather than installing from sstate.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib roy/change-applets-dir
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/change-applets-dir
 
-Usually I'd give more notice of a change like this but under the
-circumstances, I'm just going to push this in to resolve the failures
-people are seeing. Initially I thought the problem was limited to
-some of the -cross packages and therefore of low impact but that is
-clearly not the case.
+Roy.Li (1):
+  Change some applets dirs to make them FHS and LSB compliance
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c1925b2..cfda40d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -1,4 +1,4 @@
--SSTATE_VERSION = "2"
-+SSTATE_VERSION = "3"
- 
- SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
- SSTATE_MANFILEBASE = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-"
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb        |    6 +-
+ meta/recipes-connectivity/iproute2/iproute2.inc    |    2 +-
+ .../iproute2/iproute2_3.5.1.bb                     |    2 +-
+ ...-several-applets-to-different-install-dir.patch |  174 ++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    5 +-
+ meta/recipes-core/kbd/kbd_1.15.2.bb                |    9 +-
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |   22 ++-
+ meta/recipes-core/util-linux/util-linux.inc        |    5 +-
+ meta/recipes-core/util-linux/util-linux_2.21.2.bb  |    2 +-
+ 9 files changed, 214 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/Move-several-applets-to-different-install-dir.patch
 
+-- 
+1.7.4.1
 
 
 
