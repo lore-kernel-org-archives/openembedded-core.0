@@ -1,43 +1,38 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TZ0n8-0001HL-GD
+	(envelope-from <otavio.salvador@gmail.com>) id 1TZ0rO-0001UC-D2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Nov 2012 15:51:49 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 15 Nov 2012 06:37:44 -0800
-Received: by mail-ob0-f197.google.com with SMTP id tb18so6875044obb.0
+	Thu, 15 Nov 2012 15:56:06 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so641389dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2012 06:37:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=mziULzFyTXJAvxWRvN64rbFkNS68W0UzTMVKn4N0rZg=;
-	b=lQmPAKeI7SO/kKnaakO7W68yDZ/ffW/qX/A8GH0LNos2hXgWQZTdy3c3dfm1fDEVhz
-	fyTY1sB/7JsiiraVvjLophPUoaXmcvpN6Crjnh3hgutoN5iWJBB1k3JfsdM0sEn/K9NW
-	qgJ8p8MpV2HX5k1r3VDF8yv6FarjsaSFtlVOtnnQJjMx+E9YhjdTo6wqW5se+P8qqE5Z
-	zBuvRwTVcLUQV5C1az66nxFZC6CK6AQ2mgoiRy9cZulgjRI6uQvO1AQ1t0oTvOqCwwW6
-	NP1+iltbLpGZtfrYm7Md3xsaiToFTS2FThnbRSZI0KSn9sq0UUTONWRZ4nW5Is9LsTT5
-	UrnA==
-Received: by 10.182.8.10 with SMTP id n10mr1021542oba.19.1352990262796;
-	Thu, 15 Nov 2012 06:37:42 -0800 (PST)
-Received: by 10.182.8.10 with SMTP id n10mr1021534oba.19.1352990262680; Thu,
-	15 Nov 2012 06:37:42 -0800 (PST)
+	Thu, 15 Nov 2012 06:42:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=xSE0Gy3JZ+aen+YXHyeEMhCNKxZ9n/JfqhchoqccpKI=;
+	b=Jc1LEdFQTuNJMlJk0gdwH6dWwpF99X8Nbizfv97k6N0O7gyMGsPwHZ9gklqdVHaH+E
+	EuVkvAjHj5TDyShQRSKGd4swE+howBEEK33zWJ6JScmsSnVnDXur0WetsRKaBjGHRWaI
+	JoefB1p07JkiaPqDBk7OymOD8Pb7SgVBhzY4jdBHPZhD0/l1mSgK47+UDscz7YEx5uZw
+	sr7/RePumHmXionAsrKQeFEoUefqsn0E7yBtxPX7Kh8LGnCU0GgYvRYExPMzhZDNYhgW
+	aScFKetgGf6hezI/F3wwBnK6Dz39y2LSuKLkozk07IkDo4fUL6s8+HqpsGtGPTou671I
+	wVqg==
 MIME-Version: 1.0
-Received: by 10.182.68.135 with HTTP; Thu, 15 Nov 2012 06:37:22 -0800 (PST)
-In-Reply-To: <F50B87185088EB4790E240C070C3DF4B160E6AE1@IRSMSX104.ger.corp.intel.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<96e8a890aa256c71895cabe5f36c3c42edc1a086.1352898505.git.laurentiu.palcu@intel.com>
-	<1352987675.3709.69.camel@ted>
-	<F50B87185088EB4790E240C070C3DF4B160E6AE1@IRSMSX104.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Nov 2012 14:37:22 +0000
-Message-ID: <CAJTo0Lahg4qAjaozvAO-hr7NVKQ8BE_bK9zfw91N2udS46fzhA@mail.gmail.com>
-To: "Palcu, Laurentiu" <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQlq5vvC+CxJ6QrRgFeedXD9nxmxDhlpn1qEaf4dVBaPbw3QRUuKP0T8yAtzexjMdwl9Uld1g08kfL5IT2B1MfVTQA8fd4n3u8JI8ayEiPk5hok0nP0dL6dnEg5UMpsG82mgfRcJeSelj+ATGZVVjXT8RS4idupbpwQy01vA3/kVv7A/TUTIB3ugOdC9Ui4vpZSzNfjK
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 04/12] xkeyboard-config: upgrade to 2.7
+Received: by 10.68.197.9 with SMTP id iq9mr5251128pbc.130.1352990528807; Thu,
+	15 Nov 2012 06:42:08 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Thu, 15 Nov 2012 06:42:08 -0800 (PST)
+In-Reply-To: <CAJTo0LY8JXsCKPZyWQ2xMDWy57nXb3BL1Ur_+Lck7AitPU3=9Q@mail.gmail.com>
+References: <1352841144-31228-1-git-send-email-radu.moisan@intel.com>
+	<50A2D2BD.9090703@linux.intel.com> <50A3F364.1010509@intel.com>
+	<CAJTo0LY8JXsCKPZyWQ2xMDWy57nXb3BL1Ur_+Lck7AitPU3=9Q@mail.gmail.com>
+Date: Thu, 15 Nov 2012 12:42:08 -0200
+X-Google-Sender-Auth: g6IQzlll_Xn1ItQLyvXwcMPwZ98
+Message-ID: <CAP9ODKrt_PSQzvR2GqwAQHo33sYQHoWwwyyixo-X55_HRo0osA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Alexandru Damian <alexandru.damian@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] initrd: add recovery feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,21 +45,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2012 14:51:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 15 Nov 2012 14:56:06 -0000
+Content-Type: multipart/alternative; boundary=e89a8ff1c85cdaa35004ce89a7a3
 
-On 15 November 2012 14:20, Palcu, Laurentiu <laurentiu.palcu@intel.com> wrote:
-> That's weird... I tested the compilation using the Yocto autobuilder nightly targets for
-> all architectures with/without shared state. All were successful. However, I applied the
-> patches on top of the commit I specified in the cover letter. A didn't retest with the
-> latest changes in master...
+--e89a8ff1c85cdaa35004ce89a7a3
+Content-Type: text/plain; charset=ISO-8859-1
 
-Ordering issue - it doesn't depend on x11 but checks at configure.  We
-need to add --disable-runtime-deps to the configure invocation  - I
-thought I'd already done this but obviously not.
+On Thu, Nov 15, 2012 at 8:19 AM, Burton, Ross <ross.burton@intel.com> wrote:
 
-Laurentiu - can you add this to your branch?
+> On 14 November 2012 19:39, Radu Moisan <radu.moisan@intel.com> wrote:
+> > Well, I didn't see any side effects. If there are side effects I'll
+> remove
+> > the timeout but please point out to me some of those. Anyway, I thought
+> > about this more like a safety net because I've noticed "settle" has some
+> > history with hanging the system boot more that it should in some
+> > circumstances.
+>
+> Your average Intel, qemu, or fast ARM test hardware can easily settle
+> in under three seconds.  The problem is when you have either slow
+> hardware, or hardware with lots of storage devices to enumerate.
+>
 
-Ross
+Radu, please drop it or set it for 20s or so. I am against the timeout as a
+whole as in case this causes a boot fail it will be quite difficult to
+average user to come up to realize the cause of the problem so my opinion
+would be to drop it completely.
 
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--e89a8ff1c85cdaa35004ce89a7a3
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<br><br><div class=3D"gmail_quote">On Thu, Nov 15, 2012 at 8:19 AM, Burton,=
+ Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+<div class=3D"im">On 14 November 2012 19:39, Radu Moisan &lt;<a href=3D"mai=
+lto:radu.moisan@intel.com">radu.moisan@intel.com</a>&gt; wrote:<br>
+&gt; Well, I didn&#39;t see any side effects. If there are side effects I&#=
+39;ll remove<br>
+&gt; the timeout but please point out to me some of those. Anyway, I though=
+t<br>
+&gt; about this more like a safety net because I&#39;ve noticed &quot;settl=
+e&quot; has some<br>
+&gt; history with hanging the system boot more that it should in some<br>
+&gt; circumstances.<br>
+<br>
+</div>Your average Intel, qemu, or fast ARM test hardware can easily settle=
+<br>
+in under three seconds. =A0The problem is when you have either slow<br>
+hardware, or hardware with lots of storage devices to enumerate.<br></block=
+quote><div><br></div><div>Radu, please drop it or set it for 20s or so. I a=
+m against the timeout as a whole as in case this causes a boot fail it will=
+ be quite difficult to average user to come up to realize the cause of the =
+problem so my opinion would be to drop it completely.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+
+--e89a8ff1c85cdaa35004ce89a7a3--
