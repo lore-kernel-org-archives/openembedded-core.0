@@ -1,34 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TYxHG-0008FZ-U0 for openembedded-core@lists.openembedded.org;
-	Thu, 15 Nov 2012 12:06:35 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAFAqbgr020580;
-	Thu, 15 Nov 2012 10:52:37 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20552-01; Thu, 15 Nov 2012 10:52:33 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAFAqTS6020574
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 15 Nov 2012 10:52:30 GMT
-Message-ID: <1352976748.3709.57.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Michael Halstead <michael@yoctoproject.org>
-Date: Thu, 15 Nov 2012 10:52:28 +0000
-In-Reply-To: <50A4080D.6050906@yoctoproject.org>
-References: <1352815159.24487.122.camel@ted>
-	<20121114123026.GK3928@jama.jama.net> <1352899442.13332.2.camel@ted>
-	<1352899832.13332.7.camel@ted> <50A3F4F1.2080008@yoctoproject.org>
-	<50A4080D.6050906@yoctoproject.org>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: Add fix for cross compile issues
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1TYxJt-0008RC-CA
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Nov 2012 12:09:17 +0100
+Received: by mail-bk0-f47.google.com with SMTP id jk7so602426bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Nov 2012 02:55:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=if1HdqDt+imSw7l5uzRJxa4remqLrcAsnwRRLuXjVdo=;
+	b=ynXVD9sSCh9MAFzJhd0vJ9Fbvcdzm4z50xJU4BhSQ/JN7bLT7G9d+Nnpe3nakWnzlz
+	uFSwyOhetlb92V+rGTgppoC1XHiPWjHiPNGOh10hM7HjtLzmr2aZvLDNx8+byMhlFXTC
+	ph0KHUvdcv4m+tHg7Ay6JZs/3Uy38wMXMuX2P0AdZNdNb10z4ttr50nacx5XkbyWMRVK
+	70Ch/W1Al7G/BxixQB9Ws8hZdYdqzFkFJA1VhvNC/mnwgWSRs/UPvz9ShMzFM7trAqCy
+	oprI3ZJ3vmYwvM0BnV6npzlgFeBq0dPvk8h+Tl9RecxylZg+Wc7BEzz7xgs3NL8h6+VT
+	Npkg==
+Received: by 10.204.9.147 with SMTP id l19mr230159bkl.15.1352976920675;
+	Thu, 15 Nov 2012 02:55:20 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id hm4sm7731146bkc.7.2012.11.15.02.55.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 15 Nov 2012 02:55:19 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Nov 2012 11:55:31 +0100
+Message-Id: <1352976932-4150-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH 1/2] udev-extraconf: drop allarch to allow setting to MACHINE_ARCH in some .bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,78 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Nov 2012 11:06:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Nov 2012 11:09:17 -0000
 
-On Wed, 2012-11-14 at 13:07 -0800, Michael Halstead wrote:
-> On 11/14/2012 11:45 AM, Michael Halstead wrote:
-> > On 11/14/2012 05:30 AM, Richard Purdie wrote:
-> >> On Wed, 2012-11-14 at 13:24 +0000, Richard Purdie wrote:
-> >>> On Wed, 2012-11-14 at 13:30 +0100, Martin Jansa wrote:
-> >>>> On Tue, Nov 13, 2012 at 01:59:19PM +0000, Richard Purdie wrote:
-> >>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >>>>> ---
-> >>>>> diff --git a/meta/recipes-extended/bash/bash-4.2/crossfix.patch b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
-> >>>>> new file mode 100644
-> >>>>> index 0000000..f587c34
-> >>>>> --- a/dev/null
-> >>>>> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
-> >>>>> @@ -0,0 +1,28 @@
-> >>>> Are you using some special tool to generate git patches or some weird
-> >>>> git version?
-> >>> Basically, the data from cgit in the web interface is broken and that is
-> >>> causing this.
-> >>>
-> >>>> Patches from you where you add some file usually does not apply here,
-> >>>> It's caused by:
-> >>>> --- a/dev/null
-> >>>> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
-> >>>> which usually looks like
-> >>>> --- /dev/null
-> >>>> +++ b/meta/recipes-extended/bash/bash-4.2/crossfix.patch
-> >>> Right, there is a bug in cgit. I'm not sure if anyone fancies trying to
-> >>> find/fix it?
-> >> Actually, its not hard to find:
-> >>
-> >> http://hjemli.net/git/cgit/tree/ui-patch.c
-> >>
-> >>
-> >> In header(), the:
-> >> 		htmlf("\n--- a/%s\n", path1);
-> >> 		htmlf("+++ b/%s\n", path2);
-> >> needs to be conditional on is_null_sha1(sha1)/is_null_sha1(sha2) with
-> >> the alternative of:
-> >> 		htmlf("\n--- /%s\n", path1);
-> >> 		htmlf("+++ /%s\n", path2);
-> >> which there are a variety of ways to achieve...
-> >>
-> >> Michael: Fancy fixing that on the server and sending a patch
-> >> upstream? :)
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >>
-> > I'm happy to. I've fixed the code you've tracked down and recompiled for
-> > git.yoctoproject.org. You can see the result at
-> > https://git.yoctoproject.org/cgit/cgit.cgi/poky/patch/?id=ed234aca98d0867c7b32801fc63820b19cf67df9
-> > but I am still working on fixing the shared UI for this view
-> > https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=ed234aca98d0867c7b32801fc63820b19cf67df9.
-> >
-> >
-> > Once I have both fixes I'll upgrade http://cgit.openembedded.org/ with
-> > the new version and submit my patch upstream.
-> >
-> I've submitted the patch upstream and installed a fixed copy of cgit on
-> cgit.openembedded.org. Please let me know if any errors in the
-> formatting remain.
+* if bsp needs some special rule for udev
+* see https://bugzilla.yoctoproject.org/show_bug.cgi?id=3390 for details
 
-Thanks for the fast turnaround, its much appreciated! :)
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/udev/udev-extraconf_1.0.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+index 2c4a4f1..fd9a333 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.0.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+@@ -4,9 +4,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-inherit allarch
+-
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = " \
+        file://automount.rules \
+-- 
+1.8.0
 
 
 
