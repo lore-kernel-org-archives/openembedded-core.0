@@ -1,36 +1,22 @@
-Received: from plane.gmane.org ([80.91.229.3])
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1TZRMP-00023F-5O for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 20:13:53 +0100
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1TZR92-0008AW-9G for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 20:00:04 +0100
-Received: from 75-94-142-70.sfo.clearwire-wmx.net
-	([75-94-142-70.sfo.clearwire-wmx.net])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 20:00:04 +0100
-Received: from ruslan by 75-94-142-70.sfo.clearwire-wmx.net with local (Gmexim
-	0.1 (Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 20:00:04 +0100
-X-Injected-Via-Gmane: http://gmane.org/
+	(envelope-from <andy.ross@windriver.com>) id 1TZRVU-0005M5-2r
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Nov 2012 20:23:16 +0100
+Received: from [0.0.0.0] (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id B31E02141E;
+	Fri, 16 Nov 2012 11:09:18 -0800 (PST)
+Message-ID: <50A68F5D.6050100@windriver.com>
+Date: Fri, 16 Nov 2012 11:09:17 -0800
+From: Andy Ross <andy.ross@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-From: Ruslan Babayev <ruslan@babayev.com>
-Date: Fri, 16 Nov 2012 18:57:41 +0000 (UTC)
-Message-ID: <loom.20121116T195308-35@post.gmane.org>
-References: <1349156215-16686-1-git-send-email-raj.khem@gmail.com>
-	<CAMKF1soLwgEoyR0RkYLpjsGGNi07gLsjVcZtzbR=arHuGt9wbg@mail.gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 75.94.142.70 (Mozilla/5.0 (Macintosh;
-	Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko)
-	Version/6.0.2 Safari/536.26.17)
-Subject: Re: [PATCH] binutils-crossdk: Fix interp size expansion
+References: <1351792979-6672-1-git-send-email-andy.ross@windriver.com>
+In-Reply-To: <1351792979-6672-1-git-send-email-andy.ross@windriver.com>
+Subject: Re: [PATCH 0/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,34 +29,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 19:13:53 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 16 Nov 2012 19:23:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Khem Raj <raj.khem@...> writes:
+On 11/01/2012 11:02 AM, Andy Ross wrote:
+> We hit a problem trying to exclude L/GPLv3 recipes where
+> INCOMPATIBLE_LICENSE could only match exactly one license.  The older
+> wildcard syntax had been broken by a more recent SPDX change
+> (specifying a string without a SPDXLICENSEMAP entry could crash), so
+> "*GPLv3" wouldn't work.
 
-> 
-> i need to check it with 1 more case. Please hold on for applying it. I
-> welcome testing
-> 
-
-I tried 'bitbake meta-toolchain' with poky danny branch.
-Your patch fixes the following eror in nativesdk-eglibc-2.16-r15+svnr20393
-
-built in linker script:11 cannot move location counter backwards
-(from 0000000000401048 to 0000000000401000)
-collect2: error: ld returned 1 exit status
-
-But now I get:
-
-..tmp/work/x86_64-nativesdk-pokysdk-linux/
-nativesdk-qemu-1.2.0-r3/qemu-1.2.0/x86_64.ld:9 
-cannot move location counter backwards (from 0000000060001048
- to 0000000060001000)
-collect2: error: ld returned 1 exit status
-
-
-
+Ping
 
 
 
