@@ -1,33 +1,37 @@
-Received: from plane.gmane.org ([80.91.229.3])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1TZSgd-0006z6-SN for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 21:38:51 +0100
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1TZSTH-00084W-F6 for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 21:25:03 +0100
-Received: from cpc16-hawk13-2-0-cust49.18-1.cable.virginmedia.com
-	([82.45.45.50]) by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 21:25:03 +0100
-Received: from quentinstrydom8 by
-	cpc16-hawk13-2-0-cust49.18-1.cable.virginmedia.com with local
-	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
+	(envelope-from <martin.jansa@gmail.com>) id 1TZTnp-00008X-Bm
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Nov 2012 22:50:21 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so1208737eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 21:25:03 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Quentin <quentinstrydom8@yahoo.co.uk>
-Date: Fri, 16 Nov 2012 20:11:08 +0000 (UTC)
-Message-ID: <loom.20121116T205858-268@post.gmane.org>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 82.45.45.50 (Mozilla/5.0 (X11; Linux i686;
-	rv:16.0) Gecko/20100101 Firefox/16.0)
-Subject: Python failure
+	Fri, 16 Nov 2012 13:36:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=5oWQqAZnBH0J0PmH8SKLzd7XdS4ObM2lCHiSwT+FvVA=;
+	b=xTa8wfdEMoBOxEEkv9uYnakHFZaoByp68uFVGCfog8qNquke12y8nz3TmlquTdkJLM
+	5L8qjrbhrydFvBMsuGAi8+HKVHVguFIr8/sYd3/UTIVcls4IleAF1As7j9uV88FLOVBz
+	bwPlmVqIXor7n7CmkX7lARFMz7KHlsgNz3cqR4WG1vqwv54PJHNChfKCZxDXuqn4Ykah
+	xzHn/9MJzqT9fSmRnTpeY5UdIqCYFYH4vGmiYKmrbOjArMD5DYlpJBtSYsssip7p3cib
+	LH89M08C1gF/0Y7xUKCI/NtzPiIB4hbJQe6bIk2WQ6eJK+Xi5OaJO/QTsSmZVRy2LAs8
+	zWtg==
+Received: by 10.14.205.198 with SMTP id j46mr885502eeo.27.1353101782786;
+	Fri, 16 Nov 2012 13:36:22 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id s1sm5927962eem.9.2012.11.16.13.36.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 16 Nov 2012 13:36:21 -0800 (PST)
+Date: Fri, 16 Nov 2012 22:36:36 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: dromede@gmail.com
+Message-ID: <20121116213636.GC3411@jama.jama.net>
+References: <1353096699-19130-1-git-send-email-dromede@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1353096699-19130-1-git-send-email-dromede@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] [PATCH] udev: Remove deprecated binaries from packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,80 +44,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 20:38:52 -0000
+X-List-Received-Date: Fri, 16 Nov 2012 21:50:21 -0000
+X-Groupsio-MsgNum: 31467
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="mvpLiMfbWzRoNl4x"
+Content-Disposition: inline
+
+--mvpLiMfbWzRoNl4x
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ERROR: Multiple .bb files are due to be built which each provide udev
-(/oe-core/meta-openembedded/meta-oe/recipes-core/udev/udev_182.bb
-/oe-core/meta-openembedded/meta-systemd/recipes-core/systemd/systemd_git.bb).
- This usually means one provides something the other doesn't and should.
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: Variable populate_packages contains tabs, please remove these
-(/oe-core/meta-openembedded/meta-systemd/recipes-core/systemd/systemd_git.bb)
-ERROR: Error executing a python function in
-/oe-core/meta-openembedded/meta-systemd/recipes-core/systemd/systemd_git.bb:
-OSError: [Errno 2] No such file or directory:
-'/oe-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/udev-182-r1/packages-
-split/systemd-gui'
+On Fri, Nov 16, 2012 at 09:11:39PM +0100, dromede@gmail.com wrote:
+> From: Marko Katic <dromede.gmail.com>
+>=20
+> udev provides a udev-utils package that once provided utility binaries
+> such as udevadm, udevtest and udevinfo. udevtest and udevinfo are
+> deprecated and their functions are now handled by udevadm.
+>=20
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D597539
+>=20
+> remove udevinfo and udevtest from the udev-utils package.
 
-ERROR: The stack trace of python calls that resulted in this exception/failure 
-was:
-ERROR:   File "do_package_ipk", line 193, in <module>
-ERROR: 
-ERROR:   File "do_package_ipk", line 45, in do_package_ipk
-ERROR: 
-ERROR: The code that was being executed was:
-ERROR:      0189:        bb.utils.unlockfile(lf)
-ERROR:      0190:
-ERROR:      0191:
-ERROR:      0192:
-ERROR:  *** 0193:do_package_ipk(d)
-ERROR:      0194:
-ERROR: [From file: 'do_package_ipk', lineno: 193, function: <module>]
-ERROR:      0041:        basedir = os.path.join(os.path.dirname(root))
-ERROR:      0042:        arch = localdata.getVar('PACKAGE_ARCH', True)
-ERROR:      0043:        pkgoutdir = "%s/%s" % (outdir, arch)
-ERROR:      0044:        bb.mkdirhier(pkgoutdir)
-ERROR:  *** 0045:        os.chdir(root)
-ERROR:      0046:        from glob import glob
-ERROR:      0047:        g = glob('*')
-ERROR:      0048:        try:
-ERROR:      0049:            del g[g.index('CONTROL')]
-ERROR: [From file: 'do_package_ipk', lineno: 45, function: do_package_ipk]
-ERROR: Function failed: do_package_ipk
-ERROR: Execution of event handler 'run_buildstats' failed
-Traceback (most recent call last):
-  File "run_buildstats(e)", line 104, in run_buildstats(e=<bb.build.TaskFailed
-object at 0xb0066cc>)
-  File "buildstats.bbclass", line 5, in write_task_data(status='failed',
-logfile='/oe-core/tmp-eglibc/buildstats/xfce-nm-image-igep00x0/201211161930
-udev-182-r1/do_package_write_ipk',
-dev='dm-0', e=<bb.build.TaskFailed object at 0xb0066cc>)
-IOError: [Errno 2] No such file or directory:
-'/oe-core/tmp-eglibc/buildstats/xfce-nm-image-igep00x0/201211161930/udev-182-r1
-do_package_write_ipk'
+Are they still built? If yes then there should be warning about
+unpackaged files (you would need to delete them in do_install) or they
+are picked by some other package (PN probably).
 
-ERROR: Logfile of failure stored in:
-/oe-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/systemd-git-r10
-temp/log.do_package_write_ipk.28897
-ERROR: Task 785
-(/oe-core/meta-openembedded/meta-systemd/recipes-core/systemd/systemd_git.bb,
+Cheers,
 
-do_package_write_ipk) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2852 tasks of which 2851 didn't need to be rerun
-and 1 failed.
-No currently running tasks (2852 of 5124)
+>=20
+> Signed-off-by: Marko Katic <dromede.gmail.com>
+> ---
+>  meta/recipes-core/udev/udev.inc |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/ude=
+v.inc
+> index 4705b9b..7133cc4 100644
+> --- a/meta/recipes-core/udev/udev.inc
+> +++ b/meta/recipes-core/udev/udev.inc
+> @@ -74,7 +74,7 @@ FILES_udev-cache =3D "${sysconfdir}/init.d/udev-cache $=
+{sysconfdir}/default/udev-c
+> =20
+>  FILES_udev-acl =3D "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rul=
+es.d/70-acl.rules"
+> =20
+> -FILES_udev-utils =3D "${bindir}/udevinfo ${bindir}/udevtest ${base_sbind=
+ir}/udevadm"
+> +FILES_udev-utils =3D "${bindir}/udevadm"
+> =20
+>  RDEPENDS_udev-consolekit +=3D "udev-acl"
+>  FILES_udev-consolekit =3D "${libdir}/ConsoleKit"
+> --=20
+> 1.7.9.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Summary: 1 task failed:
-  /oe-core/meta-openembedded/meta-systemd/recipes-core/systemd/systemd_git.bb,
-do_package_write_ipk
+--mvpLiMfbWzRoNl4x
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Summary: There were 1801 WARNING messages shown.
-Summary: There were 27 ERROR messages shown, returning a non-zero exit code.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCmseQACgkQN1Ujt2V2gByxLQCfSERe34/E140epUYC/B0kl1j8
+F6oAn0EVIhCpWoItr8FrPTvcWDNN+m4U
+=Cz7U
+-----END PGP SIGNATURE-----
 
-
-
+--mvpLiMfbWzRoNl4x--
