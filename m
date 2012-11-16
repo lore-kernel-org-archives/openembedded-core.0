@@ -1,34 +1,35 @@
 Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1TZQtf-0001Ej-Ij
+	(envelope-from <ive.found@gmail.com>) id 1TZQtg-0001Ek-NQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 19:44:11 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so2216583lag.6
+	Fri, 16 Nov 2012 19:44:13 +0100
+Received: by mail-la0-f47.google.com with SMTP id u2so2216595lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 10:30:13 -0800 (PST)
+	Fri, 16 Nov 2012 10:30:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=HK9LI5308BYz85x32xEtZVKlwPvGmAxGZ8nS+WXhUTE=;
-	b=AnAwRhkSRjXi8Q7u8ucTpgNHiEkh6sdayoQneqGgsDf7ARSrFy+2cNh3oVcGJC+B+m
-	rRsVK2bJHCvfjrmxBAiymA5QRRT44DHnwKlOCvdUv3dxpQ/Jh7qCpAetFOFmY8mvft6I
-	H+s3psQrI+47+m+A0B6tXCxbg5sjz5AL7nEDUnQdGvW3DUqT4MtopieZmZFc6tcYJr9U
-	dnJwVmb/KFncPo3mAIXLYVFxM0eRVsViAKQqWagzu8gt/F8fhtUXiyHyLl5J6EOk6pJv
-	Cw8mcZvIyoxf8gyHaXPWw//LEI/zgqjNDPTzG9L30QfTSvh2HdBw8ef2KGFhpX9FXvBn
-	cMMQ==
-Received: by 10.152.106.237 with SMTP id gx13mr4940646lab.46.1353090612959;
-	Fri, 16 Nov 2012 10:30:12 -0800 (PST)
+	bh=/KdUlihCI8OlE45mFsWR9TBUsOUvqr3Emr0UNiT03lA=;
+	b=MHtEDwxFBsNR5aC+tZKDt+5SUFRdhPjkLXIq5nJkVj0LmCy0ohZuX7VP5WYSmoA7vP
+	G+759GAfXSzC7IBTt47N1SSrZ3z2BYhmZfUWM9hiRwXwrBqTT6040f2msJ96sn4r07og
+	pXuJL4As/tPTxyZyEvlJoV9hTGrHf6cTLNdc6MAqDesSgzNRlQLSPDdjSyQnp1OVzhdR
+	t2w7QG7gVTfJkvvUU5vg0jjstvA+OpxsPxuQ6bXSearNDHM9V6kq+Y6/cTJzyo3k42HU
+	xG3Ur9tcFueqBVgWkQFXMxbp+2VIEAXHMzPr0nnMa/30P6bGqBRpt0/WoyTWcrRdolZH
+	dk9g==
+Received: by 10.112.86.232 with SMTP id s8mr2297135lbz.86.1353090614128;
+	Fri, 16 Nov 2012 10:30:14 -0800 (PST)
 Received: from blackbox.local ([178.123.142.146])
-	by mx.google.com with ESMTPS id sx3sm860948lab.9.2012.11.16.10.30.11
+	by mx.google.com with ESMTPS id sx3sm860948lab.9.2012.11.16.10.30.13
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 16 Nov 2012 10:30:12 -0800 (PST)
+	Fri, 16 Nov 2012 10:30:13 -0800 (PST)
 From: Leonid Borisenko <ive.found@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Nov 2012 21:29:24 +0300
-Message-Id: <1353090566-16318-1-git-send-email-ive.found@gmail.com>
+Date: Fri, 16 Nov 2012 21:29:25 +0300
+Message-Id: <1353090566-16318-2-git-send-email-ive.found@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <CAP9ODKo1mQFcR6+HM3A4cE6-vB5RpjyXe1eNiq+-RCKzS71DNw@mail.gmail.com>
+In-Reply-To: <1353090566-16318-1-git-send-email-ive.found@gmail.com>
 References: <CAP9ODKo1mQFcR6+HM3A4cE6-vB5RpjyXe1eNiq+-RCKzS71DNw@mail.gmail.com>
-Subject: [PATCH v2 0/2] Support additional user-defined metadata
+	<1353090566-16318-1-git-send-email-ive.found@gmail.com>
+Subject: [PATCH v2 1/2] package.bbclass: add getter of additional metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,30 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 18:44:11 -0000
+X-List-Received-Date: Fri, 16 Nov 2012 18:44:13 -0000
 
-Hi. Here are rebased patches. Thanks for attention!
+Two variables are searched for value of additional package metadata:
 
-The following changes since commit b53ea6687b6201c8c5ab5cb0d2a845ef7e7b2abe:
+  * PACKAGE_ADD_METADATA_<PKGTYPE>
+  * PACKAGE_ADD_METADATA
 
-  sstate: Bump version number to deal with layout fixes (2012-11-14 23:37:26 +0000)
+First found variable with defined value wins.
 
-up to 899ead84c843641a6732621b9b96960d9bef6ecf:
+<PKGTYPE> is a parameter of getter and expected to be a distinct name
+of specific package type. For example: 'DEB' or 'RPM'.
 
-  package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata (2012-11-16 20:54:14 +0300)
+Variable can contain multiple [one-line] metadata fields, separated by
+literal sequence '\n'. Separator can be redefined through variable flag
+'separator'. Getter returns found value with separator replaced with
+newline character.
 
-----------------------------------------------------------------
-Leonid Borisenko (2):
-  package.bbclass: add getter of additional metadata
-  package_{ipk, deb, rpm}.bbclass: support additional user-defined
-    metadata
+As side-effect, searched variables acquired flags 'type' (equals to
+'list') and 'separator'.
 
- meta/classes/package.bbclass     |   11 +++++++++++
- meta/classes/package_deb.bbclass |    5 +++++
- meta/classes/package_ipk.bbclass |    5 +++++
- meta/classes/package_rpm.bbclass |    7 +++++++
- 4 files changed, 28 insertions(+)
+Signed-off-by: Leonid Borisenko <ive.found@gmail.com>
+---
+ meta/classes/package.bbclass |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 15e505d..6398edf 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -372,6 +372,17 @@ def get_package_mapping (pkg, d):
+ 
+     return pkg
+ 
++def get_package_additional_metadata (pkg_type, d):
++    base_key = "PACKAGE_ADD_METADATA"
++    for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
++        if d.getVar(key) is None:
++            continue
++        d.setVarFlag(key, "type", "list")
++        if d.getVarFlag(key, "separator") is None:
++            d.setVarFlag(key, "separator", "\\n")
++        metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
++        return "\n".join(metadata_fields).strip()
++
+ def runtime_mapping_rename (varname, d):
+     #bb.note("%s before: %s" % (varname, d.getVar(varname, True)))
+ 
 -- 
 1.7.10.4
 
