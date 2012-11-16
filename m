@@ -1,28 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TZFpI-00026V-Ir
+	(envelope-from <martin.jansa@gmail.com>) id 1TZHAW-0005vP-Qf
 	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 07:54:56 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAG6evho004221
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 16 Nov 2012 09:20:56 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so935218eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Nov 2012 22:40:57 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Thu, 15 Nov 2012 22:40:57 -0800
-From: Kang Kai <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Nov 2012 14:41:25 +0800
-Message-ID: <4a33588b40ff957aaa91b1da9554d7b850f98cff.1353031471.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1353031471.git.kai.kang@windriver.com>
-References: <cover.1353031471.git.kai.kang@windriver.com>
+	Fri, 16 Nov 2012 00:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=P5/F+adohRnwFXgjeguTLSref7eApV9IDUnCJisBqs0=;
+	b=bpCdQOceQC+IwJN6x6dPGTE+1zutdl/Awg5VBmPBbz0NyoAnsZzeCHns46QJtpvCFT
+	yR4bEh8nBGI91D/Qk1NXqgLtDvpKLSiOA1AGcVrIfzyMooM2sYMEWECgolyG7f5JRa80
+	jkwpuYRdDQIYIIQIRP38pU/dhMx9Sa5LoDMEPa0f+6qzf8f76G1m/MCCEn6wKFzZtD8N
+	VT9P5JdPhsHgDbQIGcpieWC9ujUjN+Wjw/jDAtRY5Zy7eYvrnntheD9WM03B01OolSy7
+	35zzwSqcDzkvolb5O6+8x1/DZnfv9IdtNKCcA/D2yIBAbIwJJzrUHHH8JrI0UMTpvTpr
+	T3sQ==
+Received: by 10.14.209.136 with SMTP id s8mr11323997eeo.33.1353053218843;
+	Fri, 16 Nov 2012 00:06:58 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id f3sm1984649eeo.13.2012.11.16.00.06.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 16 Nov 2012 00:06:58 -0800 (PST)
+Date: Fri, 16 Nov 2012 09:07:12 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20121116080712.GA3411@jama.jama.net>
+References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] lsbsetup: remove it
+In-Reply-To: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: binutils 2.23 call for testing the recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,372 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 06:54:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Nov 2012 08:20:56 -0000
+X-Groupsio-MsgNum: 31440
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
+Content-Disposition: inline
 
-lsbsetup provides script LSB_Setup.sh to setup LSB test on image. But
-script LSB_Test.sh provided by lsbtest replace its function now. So drop
-lsbsetup and remove it from packagegroup-core-lsb.
+--ZPt4rx8FFjLCG7dd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Even without linking /etc/localtime to HongKong zoneinfo file, the test
-case for wcsftime in lsb test PASS now(Yocto 1079), so remove this link.
+On Wed, Aug 08, 2012 at 10:45:19AM -0700, Khem Raj wrote:
+> Hi
+>=20
+> Binutils 2.23 branch has started upstream. Given that toolchain
+> components require a lot of soak time, I have created the recipes
+> for binutils 2.23 and pushed it here
+>=20
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/binut=
+ils-2.23
+>=20
+> If you are using angstrom set
+>=20
+> ANGSTROM_BINUTILS_VERSION =3D "2.23" in local.conf after pulling that bra=
+nch
+> for OE-Core it will work as it is
+>=20
+> Let me know if you see any errors.
+>=20
+> I will keep updating it until 2.23 release
 
-Other links created by lsbsetup are moved to packages msmtp and
-chkconfig that they provides commands "sendmail" and "chkconfig".
+Now with danny released, can this be merged? Maybe updated to 2.23.1 too.
 
-[Yocto 3278]
+Cheers,
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../recipes-extended/chkconfig/chkconfig_1.3.58.bb |   10 +-
- meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh    |  230 --------------------
- meta/recipes-extended/lsb/lsbsetup_1.0.bb          |   26 ---
- meta/recipes-extended/msmtp/msmtp_1.4.24.bb        |    9 +-
- .../packagegroups/packagegroup-core-lsb.bb         |    3 +-
- 5 files changed, 18 insertions(+), 260 deletions(-)
- delete mode 100644 meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh
- delete mode 100644 meta/recipes-extended/lsb/lsbsetup_1.0.bb
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-index 0f6398f..fd7bd1a 100644
---- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-+++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
- 
- DEPENDS = "libnewt popt"
- 
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "http://fedorahosted.org/releases/c/h/chkconfig/${BPN}-${PV}.tar.bz2"
- 
-@@ -30,3 +30,11 @@ do_install_append() {
-     mkdir -p ${D}${sysconfdir}/chkconfig.d
-     rm -f ${D}${sbindir}/update-alternatives
- }
-+
-+do_install_append_linuxstdbase() {
-+	install -d ${D}${libdir}/lsb/
-+	ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
-+	ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
-+}
-+
-+FILES_${PN}_append_linuxstdbase += "${libdir}/lsb"
-diff --git a/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh b/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh
-deleted file mode 100644
-index aec1858..0000000
---- a/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh
-+++ /dev/null
-@@ -1,230 +0,0 @@
--#!/bin/bash
--
--# Copyright (C) 2010-2011 Wind River Systems, Inc.
--#
--# This program is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License version 2 as
--# published by the Free Software Foundation.
--#
--# This program is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
--# See the GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program; if not, write to the Free Software
--# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
--
--##Prepare Steps
--# Confirm the installed LSB Packages
--ARCH=`uname -m`
--APP_FILE=`ls /lsb-Application/*.rpm`
--if [ ! -f /opt/lsb/test/manager/bin/dist-checker-start.pl ]
--then
--        if [ -d /lsb-dist-testkit ];then
--		if [ ${ARCH} == i686 ];then
--                	echo "i486-suse" >> /etc/rpm/platform
--                	echo "i486-noarch" >> /etc/rpm/platform
--                	echo "i486-pc" >> /etc/rpm/platform
--                	echo "noarch-suse" >> /etc/rpm/platform
--		else
--                	echo "${ARCH}-suse" >> /etc/rpm/platform
--                	echo "${ARCH}-noarch" >> /etc/rpm/platform
--                	echo "${ARCH}-pc" >> /etc/rpm/platform
--                	echo "noarch-suse" >> /etc/rpm/platform
--                fi      
--                cd /lsb-dist-testkit && sh install.sh && cd ../lsb-Application
--                for i in ${APP_FILE}
--                do
--                    echo "$i" |grep -q "apache"
--                    if [ $? -eq 0 ]
--                    then
--                        rpm -ivh $i --noscripts --nodeps --force
--                    else
--                        rpm -ivh $i --nodeps --force
--                    fi
--                done
--                mkdir -p /var/opt/lsb/test/manager/packages/ftp.linuxfoundation.org/pub/lsb/snapshots/appbat/tests/
--                mkdir -p  /var/opt/lsb/test/manager/packages/ftp.linuxfoundation.org/pub/lsb/app-battery/tests/ 
--		cp expect-tests.tar  test1.pdf  test2.pdf /var/opt/lsb/test/manager/packages/ftp.linuxfoundation.org/pub/lsb/app-battery/tests/
--                cp raptor-tests.tar  tcl-tests.tar /var/opt/lsb//test/manager/packages/ftp.linuxfoundation.org/pub/lsb/snapshots/appbat/tests/
--		cd ..
--        else 
--                echo "Please install the realted LSB Packages"
--                exit 1
--        fi
--fi
--
--# Deleted existed user tester
--id tester
--if [ $? -eq  0 ]
--then 
--        echo "User tester was existed"
--        sleep 1
--        userdel -rf tester
--        if [ $? -eq 0 ] || [ $? -eq 6 ]
--        then
--                echo "Success to delete user tester"
--       else
--                echo "Fail to delete user tester"
--        fi
--else 
--        echo "There was not User tester"
--fi
--
--##Funs
--check ()
--{
--if [ $? -eq 0 ]
--then
--        echo "PASS"
--else 
--        echo "FAIL"
--        exit 1
--fi
--}
--
--###Start 
--# Add tester group
--echo ""
--echo "---------------------------------"
--echo "Step 1:Add Group tester"
--groupadd tester
--check
--
--
--# Add User tester 
--echo ""
--echo "---------------------------------"
--echo "Step 2:Add User tester"
--useradd -g tester tester
--check 
--
--echo "Check the tester user"
--id tester
--check 
--
--# Stop Boa server
--#echo ""
--#echo "---------------------------------"
--#echo "Step 3:Stop BOA server"
--#/etc/init.d/boa stop
--#check
--
--# Create Dirnames file for RPM
--echo ""
--echo "---------------------------------"
--echo "Step 4:Create the Dirnames on target"
--
--mkdir -pv /etc/rpm/sysinfo 
--
--cat > /etc/rpm/sysinfo/Dirnames << EOF
--/etc/opt/lsb
--/home/tet/LSB.tools
--/opt/lsb-tet3-lite/lib/ksh
--/opt/lsb-tet3-lite/lib/perl
--/opt/lsb-tet3-lite/lib/posix_sh
--/opt/lsb-tet3-lite/lib/tet3
--/opt/lsb-tet3-lite/lib/xpg3sh
--/opt/lsb/appbat/lib/python2.4/site-packages/qm
--/opt/lsb/appbat/lib/python2.4/site-packages/qm/external
--/opt/lsb/appbat/lib/python2.4/site-packages/qm/external/DocumentTemplate
--/opt/lsb/appbat/lib/python2.4/site-packages/qm/test
--/opt/lsb/appbat/lib/python2.4/site-packages/qm/test/classes
--/opt/lsb/appbat/lib/python2.4/site-packages/qm/test/web
--/opt/lsb/test/doc
--/opt/lsb/test/lib
--/opt/lsb/test/qm/diagnostics
--/opt/lsb/test/qm/doc
--/opt/lsb/test/qm/doc/test/html
--/opt/lsb/test/qm/doc/test/print
--/opt/lsb/test/qm/dtml
--/opt/lsb/test/qm/dtml/test
--/opt/lsb/test/qm/messages/test
--/opt/lsb/test/qm/tutorial/test/tdb
--/opt/lsb/test/qm/tutorial/test/tdb/QMTest
--/opt/lsb/test/qm/web
--/opt/lsb/test/qm/web/images
--/opt/lsb/test/qm/web/stylesheets
--/opt/lsb/test/qm/xml
--/opt/lsb/test/share
--/usr/share/doc/lsb-runtime-test
--/var/opt/lsb
--/opt/lsb/test/desktop
--/opt/lsb/test/desktop/fontconfig
--/opt/lsb/test/desktop/freetype
--/opt/lsb/test/desktop/gtkvts
--/opt/lsb/test/desktop/libpng
--/opt/lsb/test/desktop/qt3
--/opt/lsb/test/desktop/xft
--/opt/lsb/test/desktop/xml
--/opt/lsb/test/desktop/xrender
--
--
--EOF
--
--if [ -f /etc/rpm/sysinfo/Dirnames ]
--then
--        echo "Success to creat Dirnames file"
--else 
--        echo "Fail to creat Dirnames file"
--fi
--
--# ldconfig 
--echo ""
--echo "---------------------------------"
--echo "Step 5:"
--ldconfig -v
--check;
--
--
--# Insmod look.ko
--insmod /lib/modules/2.6.*/kernel/drivers/block/loop.ko
--if [ $? != 0 ];then
--	echo "Please insmod loop.ko  manully"
--fi
--# Start lsb 
--echo ""
--if [ -f /opt/lsb/test/manager/bin/dist-checker-start.pl ];then
--        /opt/lsb/test/manager/bin/dist-checker-start.pl
--fi
--
--# Get ip address for target platform
--addr=`ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}'|sed s/[[:space:]][[:space:]]Bcast//g`
--echo -e "you should input ${addr}:8888 on your browser"
--
--# Workaround to add part of locales for LSB test
--localedef -i ja_JP -f EUC-JP ja_JP.eucjp
--localedef -i en_US -f ISO-8859-15  en_US.ISO-8859-15
--localedef -i en_US -f ISO-8859-1  en_US.ISO-8859-1
--localedef -i en_US -f ISO-8859-1 en_US
--localedef -i de_DE -f UTF-8  de_DE.UTF-8
--localedef -i de_DE@euro -f ISO-8859-15 de_DE@euro
--localedef -i en_US -f UTF-8 en_US.UTF-8
--localedef -i se_NO -f UTF-8 se_NO.UTF-8
--localedef -i de_DE -f ISO-8859-1 de_DE
--localedef -i de_DE -f ISO-8859-15 de_DE.ISO-8859-15
--localedef -i en_US -f ISO-8859-1 en_US.ISO8859-1
--localedef -i fr_FR -f ISO-8859-1 fr_FR
--localedef -i it_IT -f ISO-8859-1 it_IT
--localedef -i es_MX  -f ISO-8859-1 es_MX
--localedef -i en_HK -f ISO-8859-1 en_HK
--localedef -i en_PH -f ISO-8859-1 en_PH
--localedef -i ta_IN -f UTF-8 ta_IN
--
--# Resolve localhost 
--LOCALHOST=`hostname`
--if ! `grep -F -q "$LOCALHOST" /etc/hosts`; then
--    echo "127.0.0.1 $LOCALHOST" >> /etc/hosts
--fi
--
--# Start avahi-daemon                                      
--/etc/init.d/avahi-daemon start                           
--ln -s /etc/init.d/avahi-daemon /etc/rc5.d/S88avahi-daemon 
--
--# Done
--echo "Done!!"
--
--###End
--
--
-diff --git a/meta/recipes-extended/lsb/lsbsetup_1.0.bb b/meta/recipes-extended/lsb/lsbsetup_1.0.bb
-deleted file mode 100644
-index 2792d51..0000000
---- a/meta/recipes-extended/lsb/lsbsetup_1.0.bb
-+++ /dev/null
-@@ -1,26 +0,0 @@
--DESCRIPTION = "auto-setup environment for lsb test"
--SECTION = "console/utils"
--LICENSE = "GPLv2"
--PR = "r4"
--
--LIC_FILES_CHKSUM = "file://LSB_Setup.sh;beginline=3;endline=16;md5=97451c7c0786ce5bbe9ac58042945583"
--
--SRC_URI = "file://LSB_Setup.sh"
--
--S = "${WORKDIR}"
--
--do_install() {
--    # Only install file if it has a contents
--    install -d ${D}${bindir}
--    install -d ${D}/${sysconfdir}
--    install -m 0755 ${S}/LSB_Setup.sh ${D}${bindir}
--    install -d  ${D}/${libdir}/lsb
--    ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
--    ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
--    ln -sf ${sbindir}/sendmail ${D}/${libdir}/sendmail
--    ln -sf ${datadir}/zoneinfo/Asia/Hong_Kong ${D}${sysconfdir}/localtime
--}
--
--FILES_${PN} += "${libdir}/lsb \
--               ${libdir}/* \
--               "
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-index 13de167..5a290a4 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-@@ -5,7 +5,7 @@ SECTION = "console/network"
- 
- LICENSE = "GPLv3"
- DEPENDS = "zlib gnutls"
--PR = "r4"
-+PR = "r5"
- 
- 
- #COPYING or Licence
-@@ -25,3 +25,10 @@ ALTERNATIVE_${PN} = "sendmail"
- ALTERNATIVE_TARGET[sendmail] = "${bindir}/msmtp"
- ALTERNATIVE_LINK_NAME[sendmail] = "${sbindir}/sendmail"
- ALTERNATIVE_PRIORITY = "100"
-+
-+do_install_append_linuxstdbase() {
-+	install -d ${D}${libdir}/
-+	ln -sf ${sbindir}/sendmail ${D}/${libdir}/sendmail
-+}
-+
-+FILES_${PN}_append_linuxstdbase += "${libdir}/sendmail"
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-index 32dc58e..51517dc 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-@@ -4,7 +4,7 @@
- 
- SUMMARY = "Linux Standard Base (LSB)"
- DESCRIPTION = "Packages required to satisfy the Linux Standard Base (LSB) specification"
--PR = "r9"
-+PR = "r10"
- LICENSE = "MIT"
- 
- inherit packagegroup
-@@ -101,7 +101,6 @@ RDEPENDS_packagegroup-core-lsb-misc = "\
-     gettext-runtime \
-     groff \
-     lsbinitscripts \
--    lsbsetup \
-     lsbtest \
-     lsof \
-     strace \
--- 
-1.7.5.4
+--ZPt4rx8FFjLCG7dd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCl9DAACgkQN1Ujt2V2gBze+gCfTcq4CDjZfsPX4ZYz1OYQAe3o
+9CMAn2GulVsAcTfLEfXtxjr0OS15fXWJ
+=F3Hs
+-----END PGP SIGNATURE-----
 
+--ZPt4rx8FFjLCG7dd--
