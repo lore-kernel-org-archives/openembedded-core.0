@@ -1,29 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TZOkg-00038r-Bo for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 17:26:46 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAGGCmVY001104;
-	Fri, 16 Nov 2012 16:12:48 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01049-01; Fri, 16 Nov 2012 16:12:44 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAGGCcuA001096
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 16 Nov 2012 16:12:39 GMT
-Message-ID: <1353082360.3709.108.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 16 Nov 2012 16:12:40 +0000
-In-Reply-To: <CAP9ODKrfu8CMJ+ZWqkwQUCP+56WU_4sLf0Js9j_fYYGfDr7a0w@mail.gmail.com>
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1TZOtR-0003lh-2S
+	for openembedded-core@lists.openembedded.org;
+	Fri, 16 Nov 2012 17:35:49 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa11so1803050pad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Nov 2012 08:21:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=GJp3rpcyh0uYVz+zmzg+5irBASxESK0tUEFakVKP6nw=;
+	b=a2VEhdq3MZdi8fb7YPr1P1ChtHmcOjMr62Q4TlDKoHeUDawaRfoitu+zRqEBsLXsNw
+	lN6S4O9N6uewztnYHcJdp26WnLaM6bjUjzSI8F2qg7bBKM7BPD1vAg15G+hmiGWeHfH8
+	s/k2d17TyfqEHGpYDqJf4hagdplnJwG8P58dfBS20NE9EjdEMgDs3sn6NV+MgmRiCAwp
+	7FPE96tDn+orOonhnD7YGKKowP/sU3AANZrq96r2PYPaGAe7pkPi60nO2780PiYMm0GM
+	rv6yWsfbRABlGvnCgL6WLiub9q8ZVcLhGc6bAogEtPmxyslUqQ06qLvJoNBVQowPCrmp
+	S0RQ==
+MIME-Version: 1.0
+Received: by 10.66.80.194 with SMTP id t2mr14122063pax.43.1353082910077; Fri,
+	16 Nov 2012 08:21:50 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Fri, 16 Nov 2012 08:21:50 -0800 (PST)
+In-Reply-To: <CAJTo0LY8kKnOVuPj5AKYDy1gtFph5QBNd0tiRv416Dog7i=vLQ@mail.gmail.com>
 References: <1353079960.3709.93.camel@ted>
 	<CAP9ODKrfu8CMJ+ZWqkwQUCP+56WU_4sLf0Js9j_fYYGfDr7a0w@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<CAJTo0LY8kKnOVuPj5AKYDy1gtFph5QBNd0tiRv416Dog7i=vLQ@mail.gmail.com>
+Date: Fri, 16 Nov 2012 14:21:50 -0200
+X-Google-Sender-Auth: jA-UypfU-G-UI7rDQBH1v2HXho0
+Message-ID: <CAP9ODKpYwY8cjdBAuZxOOXaebP-3JjFe9N-KhCt7P9RfDo4iAw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] sstate: Implement a setscene dependency validation routine to allow skipping of some sstate installation
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,41 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 16:26:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Nov 2012 16:35:49 -0000
+Content-Type: multipart/alternative; boundary=f46d042f942e34f18f04ce9f2a64
 
-On Fri, 2012-11-16 at 13:58 -0200, Otavio Salvador wrote:
-> On Fri, Nov 16, 2012 at 1:32 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         This is a first attempt at logic to determine when a sstate
->         dependency needs
->         to be installed and when it does not. Its a start at the logic
->         and errs on the
+--f46d042f942e34f18f04ce9f2a64
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Nov 16, 2012 at 2:09 PM, Burton, Ross <ross.burton@intel.com> wrote:
+
+> On 16 November 2012 15:58, Otavio Salvador <otavio@ossystems.com.br>
+> wrote:
+> >> Its a start at the logic and errs on the
+> >
+> > s/errs/errors/
 >
-> s/errs/errors/
+> http://www.thefreedictionary.com/errs+on+the+side
 
-It is actually meant to be errs :)
 
->         +        # do_package_write_* and do_package doesn't need
->         do_package
->         +        if taskdependees[task][1] == "do_package" and
->         taskdependees[dep][1] in ['do_package',
->         'do_package_write_deb', 'do_package_write_ipk',
->         'do_package_write_rpm']:
->         +            continue
+Cool!
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--f46d042f942e34f18f04ce9f2a64
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<br><br><div class=3D"gmail_quote">On Fri, Nov 16, 2012 at 2:09 PM, Burton,=
+ Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+<div class=3D"im">On 16 November 2012 15:58, Otavio Salvador &lt;<a href=3D=
+"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt; wrote:<br>
+&gt;&gt; Its a start at the logic and errs on the<br>
+&gt;<br>
+&gt; s/errs/errors/<br>
+<br>
+</div><a href=3D"http://www.thefreedictionary.com/errs+on+the+side" target=
+=3D"_blank">http://www.thefreedictionary.com/errs+on+the+side</a></blockquo=
+te><div><br></div><div>Cool!</div><div>=A0</div></div>-- <br>Otavio Salvado=
+r=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br=
 >
-> I understand why you does this but it would be better if we had a
-> central place to have the do_package_write_$pkg recorded or when
-> adding new type this could be forgotten.
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
+@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
+_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
+=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
+=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
 
-Its a nice idea but I can't see any practical way to do this at the
-moment.
-
-Cheers,
-
-Richard
-
-
-
-
+--f46d042f942e34f18f04ce9f2a64--
