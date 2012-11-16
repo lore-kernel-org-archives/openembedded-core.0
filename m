@@ -1,35 +1,36 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from plane.gmane.org ([80.91.229.3])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1TZQth-0001Em-SJ
-	for openembedded-core@lists.openembedded.org;
-	Fri, 16 Nov 2012 19:44:13 +0100
-Received: by mail-lb0-f175.google.com with SMTP id j7so2244261lbo.6
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1TZRMP-00023F-5O for openembedded-core@lists.openembedded.org;
+	Fri, 16 Nov 2012 20:13:53 +0100
+Received: from list by plane.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1TZR92-0008AW-9G for openembedded-core@lists.openembedded.org;
+	Fri, 16 Nov 2012 20:00:04 +0100
+Received: from 75-94-142-70.sfo.clearwire-wmx.net
+	([75-94-142-70.sfo.clearwire-wmx.net])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Nov 2012 20:00:04 +0100
+Received: from ruslan by 75-94-142-70.sfo.clearwire-wmx.net with local (Gmexim
+	0.1 (Debian)) id 1AlnuQ-0007hv-00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 10:30:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=ff5hUduWnXTPLbEVUmgjJYWIwIH26wHfjGT6Tc5aZc8=;
-	b=I0eGykPOD1i0H0fkp9qNOQ0hXgdBzg25cDcb09Zsp9L4Vw45iROgXVpv6S9bHW+tgz
-	FlSIAf6nW97rQEwf71DF521iJVUzDu9ODSsjR8ZAqWUP2u6d1npkwAhw3VqeFTZhKo3Q
-	VVOxylziRIYW6DufSHMY0Vr2afuYqKP+bL8HYe7b2hbNBbjXhrMYbmcDvxyMVus4kNeE
-	sGkjAp+clV+aZaQrBusC8jB4TStTSSeqDjBpvZgo9IW0DIHLykNDzp1THYo7Q4fiWRJ1
-	mvc/skKhCp74Zocq9J9vB0qfaW/L5zw6NIJ7YiNzMWmBDZDQcMEyXMDNor5jtW0kV2fL
-	LR6A==
-Received: by 10.112.25.6 with SMTP id y6mr2301115lbf.17.1353090615330;
-	Fri, 16 Nov 2012 10:30:15 -0800 (PST)
-Received: from blackbox.local ([178.123.142.146])
-	by mx.google.com with ESMTPS id sx3sm860948lab.9.2012.11.16.10.30.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 16 Nov 2012 10:30:14 -0800 (PST)
-From: Leonid Borisenko <ive.found@gmail.com>
+	Fri, 16 Nov 2012 20:00:04 +0100
+X-Injected-Via-Gmane: http://gmane.org/
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Nov 2012 21:29:26 +0300
-Message-Id: <1353090566-16318-3-git-send-email-ive.found@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1353090566-16318-1-git-send-email-ive.found@gmail.com>
-References: <CAP9ODKo1mQFcR6+HM3A4cE6-vB5RpjyXe1eNiq+-RCKzS71DNw@mail.gmail.com>
-	<1353090566-16318-1-git-send-email-ive.found@gmail.com>
-Subject: [PATCH v2 2/2] package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata
+From: Ruslan Babayev <ruslan@babayev.com>
+Date: Fri, 16 Nov 2012 18:57:41 +0000 (UTC)
+Message-ID: <loom.20121116T195308-35@post.gmane.org>
+References: <1349156215-16686-1-git-send-email-raj.khem@gmail.com>
+	<CAMKF1soLwgEoyR0RkYLpjsGGNi07gLsjVcZtzbR=arHuGt9wbg@mail.gmail.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@ger.gmane.org
+X-Gmane-NNTP-Posting-Host: sea.gmane.org
+User-Agent: Loom/3.14 (http://gmane.org/)
+X-Loom-IP: 75.94.142.70 (Mozilla/5.0 (Macintosh;
+	Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko)
+	Version/6.0.2 Safari/536.26.17)
+Subject: Re: [PATCH] binutils-crossdk: Fix interp size expansion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,111 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 18:44:14 -0000
+X-List-Received-Date: Fri, 16 Nov 2012 19:13:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Additional metadata from user-defined variable is written into
-control/spec file of binary package.
+Khem Raj <raj.khem@...> writes:
 
-Three variables are searched for adiitional package metadata:
+> 
+> i need to check it with 1 more case. Please hold on for applying it. I
+> welcome testing
+> 
 
-  * PACKAGE_ADD_METADATA_<PKGTYPE>_<PN>
-  * PACKAGE_ADD_METADATA_<PKGTYPE>
-  * PACKAGE_ADD_METADATA
+I tried 'bitbake meta-toolchain' with poky danny branch.
+Your patch fixes the following eror in nativesdk-eglibc-2.16-r15+svnr20393
 
-First found variable with defined value wins.
+built in linker script:11 cannot move location counter backwards
+(from 0000000000401048 to 0000000000401000)
+collect2: error: ld returned 1 exit status
 
-<PN> is a package name. <PKGTYPE> is a distinct name of specific
-package type:
+But now I get:
 
-  * IPK for .ipk packages
-  * DEB for .deb packages
-  * RPM for .rpm packages
+..tmp/work/x86_64-nativesdk-pokysdk-linux/
+nativesdk-qemu-1.2.0-r3/qemu-1.2.0/x86_64.ld:9 
+cannot move location counter backwards (from 0000000060001048
+ to 0000000060001000)
+collect2: error: ld returned 1 exit status
 
-Variable can contain multiple [one-line] metadata fields separated by
-literal sequence '\n'. Separator can be redefined through variable flag
-'separator'. In package control/spec file separator is replaced by
-newline character.
 
-Signed-off-by: Leonid Borisenko <ive.found@gmail.com>
----
- meta/classes/package_deb.bbclass |    5 +++++
- meta/classes/package_ipk.bbclass |    5 +++++
- meta/classes/package_rpm.bbclass |    7 +++++++
- 3 files changed, 17 insertions(+)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index d273cb0..d59a93d 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -332,6 +332,11 @@ python do_package_deb () {
-             raise bb.build.FuncFailed("Missing field for deb generation: %s" % value)
-         # more fields
- 
-+        custom_fields_chunk = get_package_additional_metadata("deb", localdata)
-+        if custom_fields_chunk is not None:
-+            ctrlfile.write(unicode(custom_fields_chunk))
-+            ctrlfile.write("\n")
-+
-         mapping_rename_hook(localdata)
- 
-         def debian_cmp_remap(var):
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 4bf1b10..47f5091 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -370,6 +370,11 @@ python do_package_ipk () {
-             raise bb.build.FuncFailed("Missing field for ipk generation: %s" % value)
-         # more fields
- 
-+        custom_fields_chunk = get_package_additional_metadata("ipk", localdata)
-+        if custom_fields_chunk is not None:
-+            ctrlfile.write(custom_fields_chunk)
-+            ctrlfile.write("\n")
-+
-         mapping_rename_hook(localdata)
- 
-         def debian_cmp_remap(var):
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 1ff92ce..6545701 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -720,6 +720,7 @@ python write_specfile () {
-     srcmaintainer  = d.getVar('MAINTAINER', True)
-     srchomepage    = d.getVar('HOMEPAGE', True)
-     srcdescription = d.getVar('DESCRIPTION', True) or "."
-+    srccustomtagschunk = get_package_additional_metadata("rpm", d)
- 
-     srcdepends     = strip_multilib_deps(d.getVar('DEPENDS', True), d)
-     srcrdepends    = []
-@@ -773,6 +774,7 @@ python write_specfile () {
-         splitlicense = (localdata.getVar('LICENSE', True) or "")
-         splitsection = (localdata.getVar('SECTION', True) or "")
-         splitdescription = (localdata.getVar('DESCRIPTION', True) or ".")
-+        splitcustomtagschunk = get_package_additional_metadata("rpm", localdata)
- 
-         translate_vers('RDEPENDS', localdata)
-         translate_vers('RRECOMMENDS', localdata)
-@@ -837,6 +839,9 @@ python write_specfile () {
-             spec_preamble_bottom.append('License: %s' % splitlicense)
-         spec_preamble_bottom.append('Group: %s' % splitsection)
- 
-+        if srccustomtagschunk != splitcustomtagschunk:
-+            spec_preamble_bottom.append(splitcustomtagschunk)
-+
-         # Replaces == Obsoletes && Provides
-         robsoletes = bb.utils.explode_dep_versions2(splitrobsoletes or "")
-         rprovides = bb.utils.explode_dep_versions2(splitrprovides or "")
-@@ -927,6 +932,8 @@ python write_specfile () {
-     spec_preamble_top.append('Group: %s' % srcsection)
-     spec_preamble_top.append('Packager: %s' % srcmaintainer)
-     spec_preamble_top.append('URL: %s' % srchomepage)
-+    if srccustomtagschunk:
-+        spec_preamble_top.append(srccustomtagschunk)
-     tail_source(d)
- 
-     # Replaces == Obsoletes && Provides
--- 
-1.7.10.4
 
 
 
