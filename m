@@ -1,38 +1,39 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TZnVg-0006u9-Cg
+	(envelope-from <otavio.salvador@gmail.com>) id 1TZnl4-0007YK-B0
 	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Nov 2012 19:52:57 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so2693204lag.6
+	Sat, 17 Nov 2012 20:08:50 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa11so2322809pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Nov 2012 10:38:56 -0800 (PST)
+	Sat, 17 Nov 2012 10:54:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=FjEmtPEHhkrCOZ6iY6dMOJuv+A2UiXgjR71gEnHgLOs=;
-	b=j5RD1mSk3XanKV8RC7apXBmRfy5QALbj4IjemvqrTYVPuCUeN9FKxtvKZdI4xX6nzD
-	rILOUCJZ9bB6oYtFHKyWBNl18daH85F8X3smNaxpIT6tkQw/gWGeNUjlJPlpVN19/H8A
-	4Bl/S9dMiPIrfB3tQYayL4U2Fyov74keguQx7VpZLYbNJru3KrLG/tW7h1TgSapXSryp
-	r2Lf0SzxozbvnF6yJ37fgl7mXGLquxacQoWBpFNXp2CRQv1bzmY0uff8CRXCW5YT9Xhz
-	c7mjJJBbW1UkLxPZ8X3OU0W7b7XeS4Yu/khN9jvOJYI97XXu2TtX37evtKKpn4Egs1Om
-	+1Ew==
-Received: by 10.112.24.6 with SMTP id q6mr3416980lbf.24.1353177536245; Sat, 17
-	Nov 2012 10:38:56 -0800 (PST)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=EV24X/zt4O1PJKgCgT5n0ygDgnwYgM78gsLKBQNoWNo=;
+	b=eZUpLlM4bmkbrg4dvwWZ5bzWCckfq4cHZrfMQVvyf6MGz0ZnTsontZMxRGcxxcdiGc
+	aS1qSVPCOr58EbaGytlK74zqhKTmheAOWrwKWnqsFXLghYUjuT5suJfohEVyAlsWxn3D
+	Wu5Vi82kl2qOdVaQJiJHjDilw8ticshWMUU+78fRHv68wQg2W3ovn0Re+1gEXv2Vwdu7
+	TKG670HjAFSJ3n/xD7GEh6kmUMOIYv6JqGxUEdznU7WrhGj6ZHUBEiFfW6/OHFcrIEQY
+	DR/seJed6L01LR65agrS0xzuYRW5fBV3BKX5fxw7jWeUZvT3JiKouj33malp6T8sjlSl
+	DSGw==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.18.239 with HTTP; Sat, 17 Nov 2012 10:38:36 -0800 (PST)
-In-Reply-To: <CAHod+GeYEUMW6z25i0xOEqGvRHfKrWV3TNHyEO8B9ZjFeDEBOA@mail.gmail.com>
+Received: by 10.68.204.103 with SMTP id kx7mr20525260pbc.33.1353178489831;
+	Sat, 17 Nov 2012 10:54:49 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Sat, 17 Nov 2012 10:54:49 -0800 (PST)
+In-Reply-To: <CABcZANksE98pw4N6hGntTGtm4__gSO1cy4GSx6ULsqkg_yUAZQ@mail.gmail.com>
 References: <1353096699-19130-1-git-send-email-dromede@gmail.com>
 	<20121116213636.GC3411@jama.jama.net>
 	<CAHod+GfAof60ycR5EXosair15O87dvZhnxWSouhdF49x8sZQqQ@mail.gmail.com>
 	<20121116222855.GD3411@jama.jama.net>
 	<CABcZANnSgJYUvwPFzcHaD-W7aBK+7Q=uh785-sQzbokSrq2UoQ@mail.gmail.com>
 	<CAHod+GeYEUMW6z25i0xOEqGvRHfKrWV3TNHyEO8B9ZjFeDEBOA@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sat, 17 Nov 2012 11:38:36 -0700
-X-Google-Sender-Auth: uK3c1YMDEdDPkLjLiNJb0fut21Y
-Message-ID: <CABcZANksE98pw4N6hGntTGtm4__gSO1cy4GSx6ULsqkg_yUAZQ@mail.gmail.com>
-To: =?UTF-8?B?TWFya28gS2F0acSH?= <dromede@gmail.com>
+	<CABcZANksE98pw4N6hGntTGtm4__gSO1cy4GSx6ULsqkg_yUAZQ@mail.gmail.com>
+Date: Sat, 17 Nov 2012 16:54:49 -0200
+X-Google-Sender-Auth: 9utJUbD73MENRQ8Z0FIDrBjst2U
+Message-ID: <CAP9ODKrzkB0qje_8zcXOfRGcf+T=4yMR2kJJ0Lb2eCa2e9FrJw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Chris Larson <clarson@kergoth.com>
 Cc: Martin Jansa <martin.jansa@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -49,49 +50,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Nov 2012 18:52:57 -0000
-Content-Type: multipart/alternative; boundary=e0cb4efe2a0a5daf5604ceb5328f
+X-List-Received-Date: Sat, 17 Nov 2012 19:08:50 -0000
+Content-Type: multipart/alternative; boundary=047d7b10d18534413204ceb56b05
 
---e0cb4efe2a0a5daf5604ceb5328f
+--047d7b10d18534413204ceb56b05
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 17, 2012 at 11:02 AM, Marko Kati=C4=87 <dromede@gmail.com> wrot=
-e:
+On Sat, Nov 17, 2012 at 4:38 PM, Chris Larson <clarson@kergoth.com> wrote:
 
-> A proper solution might be to:
+> On Sat, Nov 17, 2012 at 11:02 AM, Marko Kati=C4=87 <dromede@gmail.com> wr=
+ote:
 >
-> a) Leave udevtest and udevinfo in udev-utils to properly support older
-> versions of udev that have these packages.
-> b) Move udevadm into the main udev package. This makes a lot of sense
-> since udevadm is crucial for proper udev operation.
-> c) Remove udev-utils from RRECOMMENDS.
+>> A proper solution might be to:
+>>
+>> a) Leave udevtest and udevinfo in udev-utils to properly support older
+>> versions of udev that have these packages.
+>> b) Move udevadm into the main udev package. This makes a lot of sense
+>> since udevadm is crucial for proper udev operation.
+>> c) Remove udev-utils from RRECOMMENDS.
+>>
+>
+> This sounds like a clean, solid route to me. Hopefully someone else will
+> chime in with input on it as well.
 >
 
-This sounds like a clean, solid route to me. Hopefully someone else will
-chime in with input on it as well.
+I see no value in having the others and deprecated tools available. Having
+udevadm available in udev-utils allows for it use with mdev for trigger the
+events in kernel, for example. I like to have this possibility.
+
 --=20
-Christopher Larson
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
---e0cb4efe2a0a5daf5604ceb5328f
+--047d7b10d18534413204ceb56b05
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_extra">On Sat, Nov 17, 2012 at 11:02 AM, Marko Kati=C4=
-=87 <span dir=3D"ltr">&lt;<a href=3D"mailto:dromede@gmail.com" target=3D"_b=
-lank">dromede@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_quote"=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
+<br><br><div class=3D"gmail_quote">On Sat, Nov 17, 2012 at 4:38 PM, Chris L=
+arson <span dir=3D"ltr">&lt;<a href=3D"mailto:clarson@kergoth.com" target=
+=3D"_blank">clarson@kergoth.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<div class=3D"gmail_extra"><div class=3D"im">On Sat, Nov 17, 2012 at 11:02 =
+AM, Marko Kati=C4=87 <span dir=3D"ltr">&lt;<a href=3D"mailto:dromede@gmail.=
+com" target=3D"_blank">dromede@gmail.com</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
 
-<div id=3D":17f">A proper solution might be to:<br>
+<div>A proper solution might be to:<br>
 <br>
 a) Leave udevtest and udevinfo in udev-utils to properly support older<br>
 versions of udev that have these packages.<br>
 b) Move udevadm into the main udev package. This makes a lot of sense<br>
 since udevadm is crucial for proper udev operation.<br>
-c) Remove udev-utils from RRECOMMENDS.</div></blockquote></div><br>This sou=
-nds like a clean, solid route to me. Hopefully someone else will chime in w=
-ith input on it as well.<br>-- <br>Christopher Larson<br>
-</div>
+c) Remove udev-utils from RRECOMMENDS.</div></blockquote></div><br></div>Th=
+is sounds like a clean, solid route to me. Hopefully someone else will chim=
+e in with input on it as well.</div></blockquote><div><br></div><div>I see =
+no value in having the others and deprecated tools available. Having udevad=
+m available in udev-utils allows for it use with mdev for trigger the event=
+s in kernel, for example. I like to have this possibility.</div>
+<div>=C2=A0</div></div>-- <br>Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" targe=
+t=3D"_blank">otavio@ossystems.com.br</a>=C2=A0 <a href=3D"http://www.ossyst=
+ems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0<a href=3D"http://projetos.ossystems.com.br" target=3D"_blank">http://pr=
+ojetos.ossystems.com.br</a><br><br>
 
---e0cb4efe2a0a5daf5604ceb5328f--
+--047d7b10d18534413204ceb56b05--
