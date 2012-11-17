@@ -1,39 +1,17 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TZVYJ-0002ex-OE
+	(envelope-from <gilbert_coville@mentor.com>) id 1TZbWZ-0004Wp-LN
 	for openembedded-core@lists.openembedded.org;
-	Sat, 17 Nov 2012 00:42:27 +0100
-Received: by mail-lb0-f175.google.com with SMTP id j7so2417789lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Nov 2012 15:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=ctygk/J/eJkrqLEd1D8/qpakz/Lx0jVk3CbGJ0PjfZQ=;
-	b=FI0l0P98feMfzqVWVU9hb3GnwiQfYNn3eZCK/oTn6oOppy/+JwrY1wIuNsFBLHzqiC
-	382MpDRQmYlUgl7XWZb8x6K17zgxdhm5afhXxovByavIw4/L1fsiAv+VE4QJj6OpWCh2
-	p0ty77GQUVBK0oJTbtr3ttKcTTYE9DLc8bc3vYBPLQphfbPFUE7Ntp30HN8SWLXeaxOA
-	eKC+BY7PC3BvgOdkxv+ExE08Pt0ayZFlLNMggmgHd2sbNPVMn4iSmw3L7HVOuXrzBa5a
-	zkTMjSp3IzyVS3ASZJbEJT60NRYgPtz5ZFbRXXLudsR7wFZ9l0GXJGTdsFoDckpBbZzN
-	/ypQ==
-Received: by 10.152.108.197 with SMTP id hm5mr5656483lab.45.1353108508892;
-	Fri, 16 Nov 2012 15:28:28 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.18.239 with HTTP; Fri, 16 Nov 2012 15:28:08 -0800 (PST)
-In-Reply-To: <20121116222855.GD3411@jama.jama.net>
-References: <1353096699-19130-1-git-send-email-dromede@gmail.com>
-	<20121116213636.GC3411@jama.jama.net>
-	<CAHod+GfAof60ycR5EXosair15O87dvZhnxWSouhdF49x8sZQqQ@mail.gmail.com>
-	<20121116222855.GD3411@jama.jama.net>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 16 Nov 2012 16:28:08 -0700
-X-Google-Sender-Auth: FhYmcCRDd3x7aKQRZyxGiavFf-I
-Message-ID: <CABcZANnSgJYUvwPFzcHaD-W7aBK+7Q=uh785-sQzbokSrq2UoQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] udev: Remove deprecated binaries from packaging
+	Sat, 17 Nov 2012 07:05:03 +0100
+Received: from ghc.alm.mentorg.com ([134.86.96.237])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qAH5p2gE023036;
+	Fri, 16 Nov 2012 23:51:02 -0600
+From: Gilbert Coville <gilbert_coville@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Nov 2012 23:49:54 -0600
+Message-Id: <1353131394-31310-1-git-send-email-gilbert_coville@mentor.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH] gst-plugins-base: add dep on libsm and libice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,60 +24,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2012 23:42:27 -0000
-Content-Type: multipart/alternative; boundary=bcaec54fbd3a03de6904cea5202a
+X-List-Received-Date: Sat, 17 Nov 2012 06:05:04 -0000
 
---bcaec54fbd3a03de6904cea5202a
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Gilbert Coville <gilbert_coville@mentor.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Fri, Nov 16, 2012 at 3:28 PM, Martin Jansa <martin.jansa@gmail.com>wrote=
-:
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+index 88fa74d..2648864 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                     file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+ 
+-DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
++DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv libsm libice', '', d)}"
+ DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora util-linux tremor"
+ 
+ SRC_URI += "file://gst-plugins-base-tremor.patch \
+@@ -15,7 +15,7 @@ SRC_URI += "file://gst-plugins-base-tremor.patch \
+ SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
+ SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ inherit gettext
+ 
+-- 
+1.8.0
 
-> On Fri, Nov 16, 2012 at 10:48:41PM +0100, Marko Kati=C4=87 wrote:
-> > Udevtest and udevinfo are not being built because they no longer exist =
-in
-> > udev 182 sources.
->
-> Ah, so this change is only cosmetic and does not change package output
-> (otherwise missing PR bump).
->
 
 
-Changing udev.inc like this when you're specifically addressing one version
-is cause for concern.
-
-Exactly which udev version deprecated the utilities? oe-core might not have
-many udev versions around, but other layers still do, for machines running
-older kernels.
---=20
-Christopher Larson
-
---bcaec54fbd3a03de6904cea5202a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Fri, Nov 1=
-6, 2012 at 3:28 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:ma=
-rtin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</spa=
-n> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":1j6">On Fri, Nov 16, 2012 at 10:=
-48:41PM +0100, Marko Kati=C4=87 wrote:<br>
-&gt; Udevtest and udevinfo are not being built because they no longer exist=
- in<br>
-&gt; udev 182 sources.<br>
-<br>
-Ah, so this change is only cosmetic and does not change package output<br>
-(otherwise missing PR bump).<br></div></blockquote></div><br><br clear=3D"a=
-ll"><div>Changing udev.inc like this when you&#39;re specifically addressin=
-g one version is cause for concern.</div><div><br></div><div>Exactly which =
-udev version deprecated the utilities? oe-core might not have many udev ver=
-sions around, but other layers still do, for machines running older kernels=
-.</div>
-
--- <br>Christopher Larson<br>
-</div>
-
---bcaec54fbd3a03de6904cea5202a--
