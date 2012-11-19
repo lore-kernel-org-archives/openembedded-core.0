@@ -1,22 +1,30 @@
-Received: from host46-141-dynamic.2-87-r.retail.telecomitalia.it
-	([87.2.141.46] helo=router.workgroup)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gnutoo@no-log.org>)
-	id 1TaT0i-0004Og-Aq; Mon, 19 Nov 2012 16:11:44 +0100
-Received: from [192.168.1.121] (helo=gnutoo-desktop)
-	by router.workgroup with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.76) (envelope-from <gnutoo@no-log.org>)
-	id 1TaSmC-0003EY-T9; Mon, 19 Nov 2012 15:56:44 +0100
-Date: Mon, 19 Nov 2012 15:56:57 +0100
-From: Denis 'GNUtoo' Carikli <gnutoo@no-log.org>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20121119155657.620d6dbe@gnutoo-desktop>
-In-Reply-To: <12301427.Yf0uchSh3U@helios>
-References: <12301427.Yf0uchSh3U@helios>
-X-Mailer: Claws Mail 3.7.9 (GTK+ 2.24.6; i686-pc-linux-gnu)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TaT5I-0004Zh-Ph for openembedded-core@lists.openembedded.org;
+	Mon, 19 Nov 2012 16:16:28 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAJF2PHa027878
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2012 15:02:25 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26887-06 for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2012 15:02:18 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAJF2G9c027871
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2012 15:02:17 GMT
+Message-ID: <1353337338.3709.168.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Nov 2012 15:02:18 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [oe] OE-Classic recipe migration status
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] scripts/pybootchart: Fix missing entries bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,133 +37,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 15:11:44 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 19 Nov 2012 15:16:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 11 Nov 2012 19:11:28 +0000
-Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+If two entries have the same start time, the data store used will cause
+all but one of the entries to be lost. This patch enhances the data
+storage structure to avoid this problem and allow more than one
+event to start at the same time.
 
-> Hi all,
-> 
-> Whilst the OE-Core-based layer landscape has grown quite a bit over
-> the last year and we now have a wealth of clean and up-to-date
-> recipes, I've heard a few people commenting that we've still lost
-> quite a few recipes along the way. Nobody who did make that comment
-> has seemed to be able to be specific about what they thought we were
-> missing however, so I figured it would be worth trying to determine
-> exactly which recipes are only available in OE-Classic.
-> 
-> With the help of some scripts I've produced a list of the recipes,
-> made some notes and categorised some of them. I've published the list
-> on the wiki (unfortunately I had to split it into two pages since it
-> was too large to put into one):
-> 
->  http://www.openembedded.org/wiki/OE-Classic_Recipes_A-I
->  http://www.openembedded.org/wiki/OE-Classic_Recipes_J-Z
-> 
-> I don't know much about a lot of these recipes, so if you can help to
-> fill in the gaps particularly by marking the obsolete ones as such or
-> adding other comments, that would be great. Either edit the pages
-> directly or make your comments here and I'll merge them.
-Having the following software would be nice:
-* 0xffff,0xffff-native //used for flashing the n900 and for interacting
-  with the n900 NAND partition(decoding what's on an MTD partition such
-  as wifi calibration, MAC address etc...)
-* abiword plugins
-* accelges : gesture recognition for the openmoko freerunner (gta02)
-* asterisk recipes? could still be usefull...
-* batctl	//for mesh networking
-* batmand	//for mesh networking
-* wscan,dvb*	//for looking at dvb-t, some of my devices have USB
-host.
-* ekiga //would be nice for VOIP 
-* fennec //renamed to firefox mobile?
-* flashrom //could be definitely usefull to flash BIOS from embedded
-  devices, I cross compiled it by hand for now, devices that have SPI
-  can flash SPI BIOS chips, such as the bug 2.0 or the rasberry pi
-* geoclue // could be usefull if it can uses gpsd
-* gnash //usefull to see flash animations even if now there is html5
-  for youtube
-* gnuchess //nice chess engine but a bit too hard.
-* gnumeric //should be very nice. like ooo/libreoffice calc.
-* gst-ducati // would be really usefull for omap4.
-* gst-player? //isn't it gst-123 or something like that in the new oe?
-* intone-video //would be nice, like intone which is an efl music
-  player but for video.
-* irssi //nice command line IRC client.
-* linphone //VOIP client, no VOIP client seem present in the new oe.
-* mpd-alsa, mpc, // do we have mpd in the new oe? if so that's nice.
-  what about graphical clients?
-* mumudvb //would be nice, for straming dvb.
-* nmap //nice for nmap -sP (for finding IP of local computers).
-* openbmap-logger //same kind of softwaer than cellhunter(see below)
-* privoxy //a proxy that can filter request, usefull for anonimizing
-  the connection or with tor.
-* sflphone-common  //is slfphone in the new oe?
-* tesseract //could be usefull for making apps that uses a camera and
-  recognize text?
-* totem
-* tor //anonymity network.
-* tshark,wireshark //usefull for debugging modem protocol in some
-phones.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
+index 16830fa..1b872de 100644
+--- a/scripts/pybootchartgui/pybootchartgui/draw.py
++++ b/scripts/pybootchartgui/pybootchartgui/draw.py
+@@ -287,32 +287,33 @@ def render(ctx, res):
+ 
+         offset = min(res.start.keys())
+         for s in sorted(res.start.keys()):
+-            task = res.start[s].split(":")[1]
+-            #print res.start[s]
+-            #print res.processes[res.start[s]][1]
+-            #print s
+-            x = (s - offset) * sec_w
+-            w = ((res.processes[res.start[s]][1] - s) * sec_w)
+-
+-            #print "proc at %s %s %s %s" % (x, y, w, proc_h)
+-            col = None
+-            if task == "do_compile":
+-                col = TASK_COLOR_COMPILE
+-            elif task == "do_configure":
+-                col = TASK_COLOR_CONFIGURE
+-            elif task == "do_install":
+-                col = TASK_COLOR_INSTALL
+-            elif task == "do_package":
+-                col = TASK_COLOR_PACKAGE
+-            elif task == "do_populate_sysroot":
+-                col = TASK_COLOR_SYSROOT
+-
+-            draw_rect(ctx, PROC_BORDER_COLOR, (x, y, w, proc_h))
+-            if col:
+-                draw_fill_rect(ctx, col, (x, y, w, proc_h))
+-
+-            draw_label_in_box(ctx, PROC_TEXT_COLOR, res.start[s], x, y + proc_h - 4, w, proc_h)
+-            y = y + proc_h
++            for val in sorted(res.start[s]):
++                task = val.split(":")[1]
++                #print val
++                #print res.processes[val][1]
++                #print s
++                x = (s - offset) * sec_w
++                w = ((res.processes[val][1] - s) * sec_w)
++
++                #print "proc at %s %s %s %s" % (x, y, w, proc_h)
++                col = None
++                if task == "do_compile":
++                    col = TASK_COLOR_COMPILE
++                elif task == "do_configure":
++                    col = TASK_COLOR_CONFIGURE
++                elif task == "do_install":
++                    col = TASK_COLOR_INSTALL
++                elif task == "do_package":
++                    col = TASK_COLOR_PACKAGE
++                elif task == "do_populate_sysroot":
++                    col = TASK_COLOR_SYSROOT
++
++                draw_rect(ctx, PROC_BORDER_COLOR, (x, y, w, proc_h))
++                if col:
++                    draw_fill_rect(ctx, col, (x, y, w, proc_h))
++
++                draw_label_in_box(ctx, PROC_TEXT_COLOR, val, x, y + proc_h - 4, w, proc_h)
++                y = y + proc_h
+ 
+ 	# draw process boxes
+ 	#draw_process_bar_chart(ctx, proc_tree, curr_y + bar_h, w, h)
+diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
+index c64eba0..a0f6e8e 100644
+--- a/scripts/pybootchartgui/pybootchartgui/parsing.py
++++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
+@@ -184,9 +184,16 @@ def _do_parse(state, filename, file):
+         elif line.startswith("Ended:"):
+             end = int(float(line.split()[-1]))
+     if start and end and (end - start) > 8:
++        k = pn + ":" + task
+         state.processes[pn + ":" + task] = [start, end]
+-        state.start[start] = pn + ":" + task
+-        state.end[end] = pn + ":" + task
++        if start not in state.start:
++            state.start[start] = []
++        if k not in state.start[start]:
++            state.start[start].append(pn + ":" + task)
++        if end not in state.end:
++            state.end[end] = []
++        if k not in state.end[end]:
++            state.end[end].append(pn + ":" + task)
+     return state
+ 
+ def parse_file(state, filename):
+@@ -248,12 +255,18 @@ def split_res(res, n):
+                 #state.processes[pn + ":" + task] = [start, end]
+                 #state.start[start] = pn + ":" + task
+                 #state.end[end] = pn + ":" + task
+-                p = res.start[s_list[i]]
+-                s = s_list[i]
+-                e = res.processes[p][1]
+-                state.processes[p] = [s, e]
+-                state.start[s] = p
+-                state.end[e] = p
++                for p in res.start[s_list[i]]:
++                    s = s_list[i]
++                    e = res.processes[p][1]
++                    state.processes[p] = [s, e]
++                    if s not in state.start:
++                        state.start[s] = []
++                    if p not in state.start[s]:
++                        state.start[s].append(p)
++                    if e not in state.end:
++                        state.end[e] = []
++                    if p not in state.end[e]:
++                        state.end[e].append(p)
+             start = end
+             end = end + frag_size
+             if end > len(s_list):
 
-Games(All the free games that don't require 3d if possible):
-* abuse (arcade game)
-* bzflag? doesn't it require 3d acceleration?
-* bzflag-server? is it required for bzflag?
-* cellhunter //not really a game, it's rather a tool for mapping cell
-* crimsonfields
-  towers with the freerunner, would be nice to have.
-* freedoom // free software data (.wad) for the game named doom.
-* frozen-bubble
-* openttd* //train simulation
-* opentryan
-* rocksndiamonds
-* supertux,supertux-qvga
-* wordwarvi //great game
-* xboard //also need a chess engine such as gnuchess or another one
-* prboom  ??? //not in the list, but probably not in the newer oe
-  either. doom game.
 
-
-Misc comments:
-* Aurora is in meta-smartphone I think.
-* Eukrea uses barebox in its layers.
-* We have a generic compat wireless that has almost all modules in the
-  new oe.
-* concierge is an osgi implementation that was used in the buglabs bug
-  1.x and not used anymore in the buglabs bug 2.x
-* emacs-x11 is already in the new oe, under the name of emacs(yes it
-  works with X11).
-* fso2-demo-image //obsolete, probably doesn't work anymore because of
-zhone
-* fso2-console-image //available in meta-fso
-* fso-console-image //replaced by fso2-console-image
-* gnuradio-image //probably in meta-ettus?
-* gpsd-device-config //obsolete?
-* linux-bug //kernel too old but no replacement, a 2.6.30 exist without
-  display and only serial is in mainline.
-* linux-leviathan //obsolete, was for htc dream but got renamed.
-* lowpan-tools //seem usefull for the nanonote and it's lowpan sdio
-  card. what's the status of the nanonote in the new oe? was there a
-  layer somewhere on some git hosting websites?
-* madwifi-ng //obsoleted by the ath5k driver
-* mokonnect //obsoleted by iliwi
-* msmcomm-specs, palmpre-audio-scripts  //palm pre got dropped by
-freesmartphone and msmcommd was the deamon that talked to its modem
-* remoko* // uses bluez3, bluetooth mouse,keyboard,etc...
-  implementation.
-* sms-sentry //don't work anymore, need to be updated to the new
-  freesmartphone API, usefull for finding the position of your lost
-  phone.
-* tichy // not tested but may be really old...for the openmoko
-* wesnoth-wvga // wesnoth-wvga is the equivalent of wesnoth in the new
-  oe, and the old "wesnoth" is a sub wvga version, which is dropped
-  upstream.
-* xfce46-image,xfce-image there is an xfce image in angstrom in the
-  newer oe.
-
-Denis.
 
 
