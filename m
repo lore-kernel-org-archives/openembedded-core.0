@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TaKXq-000444-GF
+	(envelope-from <sgw@linux.intel.com>) id 1TaKXr-00043w-Hz
 	for openembedded-core@lists.openembedded.org;
 	Mon, 19 Nov 2012 07:09:23 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 18 Nov 2012 21:54:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,276,1352102400"; d="scan'208";a="221530211"
+X-IronPort-AV: E=Sophos;i="4.83,276,1352102400"; d="scan'208";a="221530213"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.202])
 	by orsmga001.jf.intel.com with ESMTP; 18 Nov 2012 21:54:57 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 18 Nov 2012 21:54:46 -0800
-Message-Id: <afbbb55f2a37873e4986e222bc3ab21f396dbe93.1353304234.git.sgw@linux.intel.com>
+Date: Sun, 18 Nov 2012 21:54:47 -0800
+Message-Id: <d3d921e5893d008e4597ada22556e7c9e62dfeba.1353304234.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1353304234.git.sgw@linux.intel.com>
 References: <cover.1353304234.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1353304234.git.sgw@linux.intel.com>
 References: <cover.1353304234.git.sgw@linux.intel.com>
-Subject: [PATCH 13/17] tiff: Update to 4.0.3
+Subject: [PATCH 14/17] rt-tests/hwlatdetect: Update to 0.84
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,32 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 06:09:23 -0000
+X-List-Received-Date: Mon, 19 Nov 2012 06:09:24 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libtiff/{tiff_4.0.2.bb => tiff_4.0.3.bb}       |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/libtiff/{tiff_4.0.2.bb => tiff_4.0.3.bb} (85%)
+ .../{hwlatdetect_0.84.bb => hwlatdetect_0.85.bb}   |    0
+ .../{rt-tests_0.84.bb => rt-tests_0.85.bb}         |    0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_0.84.bb => hwlatdetect_0.85.bb} (100%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.84.bb => rt-tests_0.85.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.2.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-similarity index 85%
-rename from meta/recipes-multimedia/libtiff/tiff_4.0.2.bb
-rename to meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-index 5188963..256e75e 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.2.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-@@ -8,8 +8,8 @@ PR = "r0"
- SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
-            file://libtool2.patch"
- 
--SRC_URI[md5sum] = "04a08fa1e07e696e820a0c3f32465a13"
--SRC_URI[sha256sum] = "aa29f1f5bfe3f443c3eb4dac472ebde15adc8ff0464b83376f35e3b2fef935da"
-+SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
-+SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
- 
- inherit autotools
- 
+diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.84.bb b/meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/hwlatdetect_0.84.bb
+rename to meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.84.bb b/meta/recipes-rt/rt-tests/rt-tests_0.85.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/rt-tests_0.84.bb
+rename to meta/recipes-rt/rt-tests/rt-tests_0.85.bb
 -- 
 1.7.7.6
 
