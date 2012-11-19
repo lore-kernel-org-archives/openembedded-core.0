@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tab9B-0003Ez-Ah for openembedded-core@lists.openembedded.org;
-	Tue, 20 Nov 2012 00:53:02 +0100
+	id 1Tab9Y-0003Nx-AQ for openembedded-core@lists.openembedded.org;
+	Tue, 20 Nov 2012 00:53:25 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAJNcxk6032646
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAJNdKfV032655
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2012 23:38:59 GMT
+	Mon, 19 Nov 2012 23:39:20 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 32096-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2012 23:38:51 +0000 (GMT)
+	id 32123-03 for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2012 23:39:15 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAJNcNbm032411
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAJNdCdF032649
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2012 23:38:25 GMT
-Message-ID: <1353368303.3709.204.camel@ted>
+	Mon, 19 Nov 2012 23:39:14 GMT
+Message-ID: <1353368352.3709.205.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Nov 2012 23:38:23 +0000
+Date: Mon, 19 Nov 2012 23:39:12 +0000
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] x-load: Replace FILESDIR with FILESPATH
+Subject: [PATCH] bitbake.conf: Drop obsolete FILESDIR setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,24 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 23:53:02 -0000
+X-List-Received-Date: Mon, 19 Nov 2012 23:53:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+FILESPATH is the preferred way of finding files now. Having a value
+for FILESDIR which defaults to paths which will have already been
+searched is pointless at best. This is the final step in letting
+us drop FILESDIR support entirely from bitbake at some future date.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-bsp/x-load/x-load_git.bb b/meta/recipes-bsp/x-load/x-load_git.bb
-index 87fc16f..220419e 100644
---- a/meta/recipes-bsp/x-load/x-load_git.bb
-+++ b/meta/recipes-bsp/x-load/x-load_git.bb
-@@ -1,6 +1,6 @@
- require x-load.inc
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 450a0ee..7c939f5 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -319,7 +319,6 @@ FILES_${PN}-locale = "${datadir}/locale"
+ FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE'))}"
+ # FILESPATH is set in base.bbclass
+ #FILESPATH = "${FILE_DIRNAME}/${PF}:${FILE_DIRNAME}/${P}:${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/${BP}:${FILE_DIRNAME}/${BPN}:${FILE_DIRNAME}/files:${FILE_DIRNAME}"
+-FILESDIR = "${@bb.which(d.getVar('FILESPATH', True), '.')}"
  
--FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/x-load-git/${MACHINE}"
-+FILESPATH = "${FILE_DIRNAME}/x-load-git/${MACHINE}:${FILE_DIRNAME}/x-load-git/"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;beginline=1;endline=25;md5=ef08d08cb99057bbb5b9d6d0c5a4396f"
+ ##################################################################
+ # General work and output directories for the build system.
 
 
 
