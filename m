@@ -1,33 +1,35 @@
-Received: from mail-yh0-f47.google.com ([209.85.213.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1TaVAe-0000OZ-MF; Mon, 19 Nov 2012 18:30:08 +0100
-Received: by mail-yh0-f47.google.com with SMTP id g23so258126yhg.6
-	for <multiple recipients>; Mon, 19 Nov 2012 09:16:05 -0800 (PST)
+	(envelope-from <otavio.salvador@gmail.com>) id 1TaVTW-0000tb-E5
+	for openembedded-core@lists.openembedded.org;
+	Mon, 19 Nov 2012 18:49:40 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so1963899pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2012 09:35:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=OubPatR6rt/j2QCeptS80XNXxLh2FxrjNSvPC/NrJTg=;
-	b=utQXiwsXORBJe7NwsKbKZDdDofsBOqpiA3YSg3iY9AxHHGe4xe0w6xjO67wtDcFH5q
-	XQhlrkn0tS/i+nYF/Q3t8GRKTI029o0xS32IkJVIBfCF+XmxcFvrsK0tgl3qk46dc7aZ
-	MJyHY8nmx7xPBkl4byik9g0P2RT+4oXi+1xCSuyEnNb4x+I3v3rMn0fbB5ALZX/22jeN
-	p9tiD00YanpLlbvgpdOeVc2HQB4tVMEgq/SOOFibs0F2X6qQTtNHurXRmZgcLkGy5hMc
-	tKBsZ0orWIpnB+OcNeBegNRX67lHtJh/eQjbx/3hPizxmGlolLY3bDrxQwctd7B6DC2y
-	dd/A==
-Received: by 10.236.92.6 with SMTP id i6mr12700157yhf.40.1353345365825; Mon,
-	19 Nov 2012 09:16:05 -0800 (PST)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=YSoFo/SWkGFvABapgk2JXspm92F8iP9kiSwAwrGrFtM=;
+	b=lsiGt8O6Cdq9AjKyLOKQBxLgyTvsk3lLr/gAbdmtvdS5TB9Lq8XQvTIHdEbkdirlG+
+	lrrXZ3vbpIT3E65aHWFNOLopqn+S8nb0gNpW6jVRt1Du9CSKziP9+I3LjRFdrr369KqJ
+	IXaIDEDVVIOih2/XLTihZygDQHb8NNyJwWNV4GYmC+D3VHeyieQQ7lWpmseurxI4ebs3
+	HCErRKtY1XbjACIzfNXS8eWGwfSWWyUd8dMdvaxSmmqxQkjLxqQ9H58UdMOzBeF8DDqH
+	IbDwHQ87nfHTfY159b3lSAcX2B+ImoApdLi0DiVyQRHgJTx/5rGyrzJVmTg90reQSF9S
+	zunA==
 MIME-Version: 1.0
-Received: by 10.147.128.37 with HTTP; Mon, 19 Nov 2012 09:15:35 -0800 (PST)
-In-Reply-To: <12301427.Yf0uchSh3U@helios>
-References: <12301427.Yf0uchSh3U@helios>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Nov 2012 09:15:35 -0800
-Message-ID: <CAMKF1sp0rd5V5dFAX3kmayht9M7iJcEmOQ4QLnurH51q_ZRaaA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OE-Classic recipe migration status
+Received: by 10.68.204.103 with SMTP id kx7mr35101475pbc.33.1353346535088;
+	Mon, 19 Nov 2012 09:35:35 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Mon, 19 Nov 2012 09:35:34 -0800 (PST)
+In-Reply-To: <1353334954-4909-1-git-send-email-ross.burton@intel.com>
+References: <1353334954-4909-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 19 Nov 2012 15:35:34 -0200
+X-Google-Sender-Auth: 6qrGxEZr7BwcjDpiemzhQ-EO5SM
+Message-ID: <CAP9ODKrjHJ60u+Aca0eAhq54PJJBp3hHCWbUDXSR=Z7onMQeLg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] qt4: remove negative preference on 4.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,90 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 17:30:09 -0000
-Content-Type: multipart/alternative; boundary=20cf3010e315c9d69604cedc45d3
+X-List-Received-Date: Mon, 19 Nov 2012 17:49:40 -0000
+Content-Type: multipart/alternative; boundary=047d7b10d1857b62cb04cedc8b6a
 
---20cf3010e315c9d69604cedc45d3
-Content-Type: text/plain; charset=UTF-8
+--047d7b10d1857b62cb04cedc8b6a
+Content-Type: text/plain; charset=ISO-8859-1
 
- good work Paul
+On Mon, Nov 19, 2012 at 12:22 PM, Ross Burton <ross.burton@intel.com> wrote:
 
-On Sun, Nov 11, 2012 at 11:11 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
-
->    1484 other
->     218 BSP
->     211 BugLabs
->     195 libs
->     193 obsolete
->     155 obsolete directory (OE-Classic)
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 >
 
+This change ought to be commited before removal of 4.8.1 version.
 
-I think obsolete can be ignored.
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-
->      136 PERL
->     119 python
->      92 distro
->      89 tasks
->      84 nonworking directory (OE-Classic)
->
-
-
-non working too.
-
-
->      80 GPE
->      79 X11 drivers
->      59 images
->      59 games
->      41 fonts
->      23 security
->      20 in another layer
->      18 pending
->      11 EFL
->
-
---20cf3010e315c9d69604cedc45d3
-Content-Type: text/html; charset=UTF-8
+--047d7b10d1857b62cb04cedc8b6a
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_extra"><br>=C2=A0good work Paul<br><br><div class=3D"gm=
-ail_quote">On Sun, Nov 11, 2012 at 11:11 AM, Paul Eggleton <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">pa=
-ul.eggleton@linux.intel.com</a>&gt;</span> wrote:<br>
+<br><br><div class=3D"gmail_quote">On Mon, Nov 19, 2012 at 12:22 PM, Ross B=
+urton <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;<br></blockquote><div><br></div><div>This change =
+ought to be commited before removal of 4.8.1 version.</div><div>=A0</div></=
+div>
+-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" t=
+arget=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossys=
+tems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":65">=C2=A0 =C2=A01484 other<br>
-=C2=A0 =C2=A0 218 BSP<br>
-=C2=A0 =C2=A0 211 BugLabs<br>
-=C2=A0 =C2=A0 195 libs<br>
-=C2=A0 =C2=A0 193 obsolete<br>
-=C2=A0 =C2=A0 155 obsolete directory (OE-Classic)<br></div></blockquote><di=
-v><br><br>I think obsolete can be ignored.<br>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-
-<div id=3D":65">
-=C2=A0 =C2=A0 136 PERL<br>
-=C2=A0 =C2=A0 119 python<br>
-=C2=A0 =C2=A0 =C2=A092 distro<br>
-=C2=A0 =C2=A0 =C2=A089 tasks<br>
-=C2=A0 =C2=A0 =C2=A084 nonworking directory (OE-Classic)<br></div></blockqu=
-ote><div><br><br>non working too.<br>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":65">
-
-
-=C2=A0 =C2=A0 =C2=A080 GPE<br>
-=C2=A0 =C2=A0 =C2=A079 X11 drivers<br>
-=C2=A0 =C2=A0 =C2=A059 images<br>
-=C2=A0 =C2=A0 =C2=A059 games<br>
-=C2=A0 =C2=A0 =C2=A041 fonts<br>
-=C2=A0 =C2=A0 =C2=A023 security<br>
-=C2=A0 =C2=A0 =C2=A020 in another layer<br>
-=C2=A0 =C2=A0 =C2=A018 pending<br>
-=C2=A0 =C2=A0 =C2=A011 EFL</div></blockquote></div><br></div>
-
---20cf3010e315c9d69604cedc45d3--
+--047d7b10d1857b62cb04cedc8b6a--
