@@ -1,38 +1,31 @@
-Received: from 7.mo1.mail-out.ovh.net ([87.98.158.110]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1TaZKB-0008Lk-Mx
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1TaaAe-00015u-Uz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Nov 2012 22:56:15 +0100
-Received: from mail405.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 84BB5FFA750
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2012 15:47:22 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 19 Nov 2012 16:36:10 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO eb-e6520)
-	(eric%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 19 Nov 2012 16:36:10 +0200
-Date: Mon, 19 Nov 2012 15:36:05 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Message-ID: <20121119153605.24b92fe2@eb-e6520>
-In-Reply-To: <1353334954-4909-1-git-send-email-ross.burton@intel.com>
-References: <1353334954-4909-1-git-send-email-ross.burton@intel.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.1 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-X-Ovh-Tracer-Id: 4889220346229861826
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehgedrudefucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehgedrudefucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
-Subject: Re: [PATCH 1/2] qt4: remove negative preference on 4.8.3
+	Mon, 19 Nov 2012 23:50:29 +0100
+Received: from cpebcc8100fb8db-cmbcc8100fb8d8.cpe.net.cable.rogers.com
+	([174.116.196.46]:37953 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TaZ5k-0005QQ-8Q for openembedded-core@lists.openembedded.org;
+	Mon, 19 Nov 2012 16:41:20 -0500
+Date: Mon, 19 Nov 2012 16:41:17 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1211191639570.4955@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: any new candidates for ASSUME_PROVIDED?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,17 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 21:56:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 19 Nov 2012 22:50:29 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Le Mon, 19 Nov 2012 14:22:33 +0000,
-Ross Burton <ross.burton@intel.com> a =E9crit :
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-Acked-by: Eric B=E9nard <eric@eukrea.com>
-Tested on ARMv7 targets using danny.
+  just perusing the latest bitbake.conf and recalled this:
 
-Eric
+ASSUME_PROVIDED = "\
+    bzip2-native \
+    chrpath-native \
+    git-native \
+    grep-native \
+    diffstat-native \
+    patch-native \
+    perl-native-runtime \
+    python-native-runtime \
+    tar-native \
+    virtual/libintl-native \
+    "
+# gzip-native should be listed above?
+
+  any other utilities that would be reasonable to add to that list?
+like perhaps the gzip that's sitting there in the comment? :-)
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
