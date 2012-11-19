@@ -1,30 +1,59 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TaW3G-00042p-VS
+	(envelope-from <B29882@freescale.com>) id 1TaWBU-00083E-UN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Nov 2012 19:26:35 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Nov 2012 10:12:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,280,1352102400"; d="scan'208";a="249534119"
-Received: from unknown (HELO [10.255.12.202]) ([10.255.12.202])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Nov 2012 10:12:28 -0800
-Message-ID: <50AA768C.3030503@linux.intel.com>
-Date: Mon, 19 Nov 2012 10:12:28 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120911 Thunderbird/15.0.1
+	Mon, 19 Nov 2012 19:35:14 +0100
+Received: from mail111-tx2-R.bigfish.com (10.9.14.239) by
+	TX2EHSOBE008.bigfish.com (10.9.40.28) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 19 Nov 2012 18:21:01 +0000
+Received: from mail111-tx2 (localhost [127.0.0.1])	by
+	mail111-tx2-R.bigfish.com (Postfix) with ESMTP id 9787A180237;
+	Mon, 19 Nov 2012 18:21:01 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VS1(zzbb2dI98dI9371I1432Izz1de0h1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh162dh1631hbe9i15d0l1155h)
+Received: from mail111-tx2 (localhost.localdomain [127.0.0.1]) by mail111-tx2
+	(MessageSwitch) id 1353349238980032_7505;
+	Mon, 19 Nov 2012 18:20:38 +0000 (UTC)
+Received: from TX2EHSMHS001.bigfish.com (unknown [10.9.14.238])	by
+	mail111-tx2.bigfish.com (Postfix) with ESMTP id C77DB8013A;
+	Mon, 19 Nov 2012 18:20:36 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS001.bigfish.com
+	(10.9.99.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 19 Nov 2012 18:20:36 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.103]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0318.003; Mon, 19 Nov 2012 18:20:36 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Leon Woestenberg <sidebranch.openembedded@gmail.com>
+Thread-Topic: [yocto] [OE-core] meta-freescale general mailing list
+Thread-Index: AQHNxlaQXFNguGe5MkaAKeNcvNYg2JfxeFuA
+Date: Mon, 19 Nov 2012 18:20:35 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A7951DE@039-SN1MPN1-001.039d.mgd.msft.net>
+References: <70CC66F5C30A414DADDA6973E4CA391A780B30@039-SN1MPN1-001.039d.mgd.msft.net>
+	<50A50BE1.2030305@balister.org>
+	<CAP9ODKoT=n2Uxee7Weuh65OJ3ODat1pfnPmOAa0TxM05QLmB6Q@mail.gmail.com>
+	<CAP9ODKqKvxEwDeoTeYZ3WogzZHbMMo8X9v9MLqqDk0e2xDOKmA@mail.gmail.com>
+	<CAMvUbCwwJ+Y9B8V4GwnA2BVqzBiEhm_bePkA4Y+OXL3vfpwLtQ@mail.gmail.com>
+In-Reply-To: <CAMvUbCwwJ+Y9B8V4GwnA2BVqzBiEhm_bePkA4Y+OXL3vfpwLtQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1353304234.git.sgw@linux.intel.com>
-	<a18406267008e5a694bc33da212bde6e8cce0038.1353304234.git.sgw@linux.intel.com>
-	<CAP9ODKqqud-1kvFVWqgoe_CJgyro4=eBSNfV_g02FP77EAvFWA@mail.gmail.com>
-In-Reply-To: <CAP9ODKqqud-1kvFVWqgoe_CJgyro4=eBSNfV_g02FP77EAvFWA@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 16/17] cmake: Update to 2.8.10.1
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] meta-freescale general mailing list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -34,54 +63,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 18:26:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Nov 2012 18:35:24 -0000
+X-List-Received-Date: Mon, 19 Nov 2012 18:35:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <1DEE53BAF40AC9489EEA7CE386020894@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 11/19/2012 02:20 AM, Otavio Salvador wrote:
+On Mon, Nov 19, 2012 at 7:05 AM, Leon Woestenberg
+<sidebranch.openembedded@gmail.com> wrote:
+> Hello Otavio, all,
+>
+> On Sun, Nov 18, 2012 at 9:00 PM, Otavio Salvador <otavio@ossystems.com.br=
+>
+> wrote:
+>>
+>>
+>> On Thu, Nov 15, 2012 at 3:02 PM, Otavio Salvador <otavio@ossystems.com.b=
+r>
+>> wrote:
+>>>
+>>>
+>>> On Thu, Nov 15, 2012 at 1:36 PM, Philip Balister <philip@balister.org>
+>>> wrote:
+>>>>
+>>>> On 11/14/2012 11:58 AM, McClintock Matthew-B29882 wrote:
+>>>> Do we have a standard for yocto/OE list names on gmane?
+>>>
+>>> I tried to add it but it did not work.
+>>
+>> It is now done.
+>>
+>> You can see it at
+>> http://blog.gmane.org/gmane.linux.embedded.yocto.meta-freescale
+>> Regards,
+>> Otavio
 >
 >
-> On Mon, Nov 19, 2012 at 3:54 AM, Saul Wold <sgw@linux.intel.com
-> <mailto:sgw@linux.intel.com>> wrote:
+> Thanks. There is a small typo in the gmane: Leyers vs Layers.
 >
->     Rebase the patches due to macro name changes.
->
->     Signed-off-by: Saul Wold <sgw@linux.intel.com
->     <mailto:sgw@linux.intel.com>>
->     ...
->
->     -PR = "${INC_PR}.0"
->     -
->     -SRC_URI[md5sum] = "ba74b22c788a0c8547976b880cd02b17"
->     -SRC_URI[sha256sum] =
->     "2b59897864d6220ff20aa8eac64cac8994e004898a1c0f899c8cb4d7b7570b46"
->
->
-> I find it hard to spot the checksums to be in the .inc file.
->
-> I'd prefer to have them in the .bb recipes (even if in this case it'd be
-> a duplication).
->
-I am not sure why this is an issue, we already have about a dozen places 
-where the SRC_URI and checksum info is located in the .inc file.
+> -Freescale OpenEmbedded/Yocto Leyers discussion list ()
+> +Freescale OpenEmbedded/Yocto Layers discussion list ()
 
-> In case you would like to avoid the duplication (which I agree) you
-> might before, or later, merge the native handle onto the cmake_<ver>.bb
-> recipe.
->
-> What do you think?
->
-Looks like there are bigger issues with trying to merge native into the 
-standard recipe, mostly due to the fact that the target recipe inherits 
-cmake, while the native version does not.
+I've sent a request to fix this.
 
-Sau!
+-M=
 
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br <mailto:otavio@ossystems.com.br>
-> http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854 http://projetos.ossystems.com.br
->
 
 
