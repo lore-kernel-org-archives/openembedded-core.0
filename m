@@ -1,59 +1,41 @@
-Received: from tx2ehsobe002.messaging.microsoft.com ([65.55.88.12]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1TaWBU-00083E-UN
+	(envelope-from <otavio.salvador@gmail.com>) id 1TaWOC-0002tQ-IG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 19 Nov 2012 19:35:14 +0100
-Received: from mail111-tx2-R.bigfish.com (10.9.14.239) by
-	TX2EHSOBE008.bigfish.com (10.9.40.28) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 19 Nov 2012 18:21:01 +0000
-Received: from mail111-tx2 (localhost [127.0.0.1])	by
-	mail111-tx2-R.bigfish.com (Postfix) with ESMTP id 9787A180237;
-	Mon, 19 Nov 2012 18:21:01 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 1
-X-BigFish: VS1(zzbb2dI98dI9371I1432Izz1de0h1202h1d1ah1d2ahzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh162dh1631hbe9i15d0l1155h)
-Received: from mail111-tx2 (localhost.localdomain [127.0.0.1]) by mail111-tx2
-	(MessageSwitch) id 1353349238980032_7505;
-	Mon, 19 Nov 2012 18:20:38 +0000 (UTC)
-Received: from TX2EHSMHS001.bigfish.com (unknown [10.9.14.238])	by
-	mail111-tx2.bigfish.com (Postfix) with ESMTP id C77DB8013A;
-	Mon, 19 Nov 2012 18:20:36 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS001.bigfish.com
-	(10.9.99.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 19 Nov 2012 18:20:36 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.103]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0318.003; Mon, 19 Nov 2012 18:20:36 +0000
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Leon Woestenberg <sidebranch.openembedded@gmail.com>
-Thread-Topic: [yocto] [OE-core] meta-freescale general mailing list
-Thread-Index: AQHNxlaQXFNguGe5MkaAKeNcvNYg2JfxeFuA
-Date: Mon, 19 Nov 2012 18:20:35 +0000
-Message-ID: <70CC66F5C30A414DADDA6973E4CA391A7951DE@039-SN1MPN1-001.039d.mgd.msft.net>
-References: <70CC66F5C30A414DADDA6973E4CA391A780B30@039-SN1MPN1-001.039d.mgd.msft.net>
-	<50A50BE1.2030305@balister.org>
-	<CAP9ODKoT=n2Uxee7Weuh65OJ3ODat1pfnPmOAa0TxM05QLmB6Q@mail.gmail.com>
-	<CAP9ODKqKvxEwDeoTeYZ3WogzZHbMMo8X9v9MLqqDk0e2xDOKmA@mail.gmail.com>
-	<CAMvUbCwwJ+Y9B8V4GwnA2BVqzBiEhm_bePkA4Y+OXL3vfpwLtQ@mail.gmail.com>
-In-Reply-To: <CAMvUbCwwJ+Y9B8V4GwnA2BVqzBiEhm_bePkA4Y+OXL3vfpwLtQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Mon, 19 Nov 2012 19:48:13 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so1998937pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Nov 2012 10:34:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=DubgwtKktOK5IGOMtHs3ChMX4/K3OPWI9DVqX99EfXg=;
+	b=ZIh/vcHVZCxTTX8kqhwufazFQx1Y5Mb250PHxqh7b1bMjYW0V8meiqdkgMuqCAE2gl
+	enFcC6oYlNDO2szxaHfrL34WkpqWwTUNdnTaxgXssw/wxrDRXsyFlnhqn+Jdsiszks6t
+	d40dCW3QZbjcfZ8VqOWFII4nwfI8glcj4Y1WoLT9svPc928m+YFOmQAibe8Pa6YCR6a7
+	Grsy6Hm58PR3q3mw4Ar3G/NNkjFgv5P/aSndGcaNwnDd59UwTBUk9WU7po1snkrAESqY
+	haDSvIZzIHvn1Be0KAM5A1SJ1L0pF8V32oa47ywz4wM21M53+dePSdLSflHC+HQ2hLx8
+	O7GA==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] meta-freescale general mailing list
+Received: by 10.68.132.196 with SMTP id ow4mr41871153pbb.49.1353350049353;
+	Mon, 19 Nov 2012 10:34:09 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Mon, 19 Nov 2012 10:34:09 -0800 (PST)
+In-Reply-To: <50AA768C.3030503@linux.intel.com>
+References: <cover.1353304234.git.sgw@linux.intel.com>
+	<a18406267008e5a694bc33da212bde6e8cce0038.1353304234.git.sgw@linux.intel.com>
+	<CAP9ODKqqud-1kvFVWqgoe_CJgyro4=eBSNfV_g02FP77EAvFWA@mail.gmail.com>
+	<50AA768C.3030503@linux.intel.com>
+Date: Mon, 19 Nov 2012 16:34:09 -0200
+X-Google-Sender-Auth: b_zvR6mzTSy50TfE8xHs0ZTettY
+Message-ID: <CAP9ODKpq-Vogu6o7L4XGcm4oadtd2SYU1ar=_dagp+BjDa=K=g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 16/17] cmake: Update to 2.8.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -63,51 +45,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Nov 2012 18:35:24 -0000
-X-List-Received-Date: Mon, 19 Nov 2012 18:35:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <1DEE53BAF40AC9489EEA7CE386020894@mgd.freescale.com>
+X-List-Received-Date: Mon, 19 Nov 2012 18:48:15 -0000
+Content-Type: multipart/alternative; boundary=047d7b15a8dff2d08304cedd5c87
+
+--047d7b15a8dff2d08304cedd5c87
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Mon, Nov 19, 2012 at 4:12 PM, Saul Wold <sgw@linux.intel.com> wrote:
+
+> On 11/19/2012 02:20 AM, Otavio Salvador wrote:
+>
+>> On Mon, Nov 19, 2012 at 3:54 AM, Saul Wold <sgw@linux.intel.com
+>> <mailto:sgw@linux.intel.com>> wrote:
+>>
+>>     Rebase the patches due to macro name changes.
+>>
+>>     Signed-off-by: Saul Wold <sgw@linux.intel.com
+>>     <mailto:sgw@linux.intel.com>>
+>>
+>>     ...
+>>
+>>     -PR = "${INC_PR}.0"
+>>     -
+>>     -SRC_URI[md5sum] = "**ba74b22c788a0c8547976b880cd02b**17"
+>>     -SRC_URI[sha256sum] =
+>>     "**2b59897864d6220ff20aa8eac64cac**8994e004898a1c0f899c8cb4d7b757**
+>> 0b46"
+>>
+>>
+>> I find it hard to spot the checksums to be in the .inc file.
+>>
+>> I'd prefer to have them in the .bb recipes (even if in this case it'd be
+>> a duplication).
+>>
+>>  I am not sure why this is an issue, we already have about a dozen places
+> where the SRC_URI and checksum info is located in the .inc file.
+
+
+We have two recipes and nothing force them to be always in sync so the
+checksum seems to be better placed in the .bb file
+
+
+>
+>  In case you would like to avoid the duplication (which I agree) you
+>> might before, or later, merge the native handle onto the cmake_<ver>.bb
+>> recipe.
+>>
+>> What do you think?
+>>
+>>  Looks like there are bigger issues with trying to merge native into the
+> standard recipe, mostly due to the fact that the target recipe inherits
+> cmake, while the native version does not.
+>
+
+Yes; I think I did a brief try in past and gave up.
+
+So please, think about my comment above...
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--047d7b15a8dff2d08304cedd5c87
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 19, 2012 at 7:05 AM, Leon Woestenberg
-<sidebranch.openembedded@gmail.com> wrote:
-> Hello Otavio, all,
->
-> On Sun, Nov 18, 2012 at 9:00 PM, Otavio Salvador <otavio@ossystems.com.br=
->
-> wrote:
->>
->>
->> On Thu, Nov 15, 2012 at 3:02 PM, Otavio Salvador <otavio@ossystems.com.b=
-r>
->> wrote:
->>>
->>>
->>> On Thu, Nov 15, 2012 at 1:36 PM, Philip Balister <philip@balister.org>
->>> wrote:
->>>>
->>>> On 11/14/2012 11:58 AM, McClintock Matthew-B29882 wrote:
->>>> Do we have a standard for yocto/OE list names on gmane?
->>>
->>> I tried to add it but it did not work.
->>
->> It is now done.
->>
->> You can see it at
->> http://blog.gmane.org/gmane.linux.embedded.yocto.meta-freescale
->> Regards,
->> Otavio
->
->
-> Thanks. There is a small typo in the gmane: Leyers vs Layers.
->
-> -Freescale OpenEmbedded/Yocto Leyers discussion list ()
-> +Freescale OpenEmbedded/Yocto Layers discussion list ()
+On Mon, Nov 19, 2012 at 4:12 PM, Saul Wold <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;<=
+/span> wrote:<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"im">On 11/19/2012 02:20 AM, Otavio Salvador wrote:<br>
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div class=3D"im">On Mon, Nov 19, 2012=
+ at 3:54 AM, Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com" target=3D=
+"_blank">sgw@linux.intel.com</a></div>
+<div class=3D"im">
+&lt;mailto:<a href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@lin=
+ux.intel.com</a>&gt;&gt; wrote:<br>
+<br>
+=A0 =A0 Rebase the patches due to macro name changes.<br>
+<br>
+=A0 =A0 Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com"=
+ target=3D"_blank">sgw@linux.intel.com</a><br></div>
+=A0 =A0 &lt;mailto:<a href=3D"mailto:sgw@linux.intel.com" target=3D"_blank"=
+>sgw@linux.intel.com</a>&gt;&gt;<div class=3D"im"><br>
+=A0 =A0 ...<br>
+<br>
+=A0 =A0 -PR =3D &quot;${INC_PR}.0&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRC_URI[md5sum] =3D &quot;<u></u>ba74b22c788a0c8547976b880cd02b<u>=
+</u>17&quot;<br>
+=A0 =A0 -SRC_URI[sha256sum] =3D<br>
+=A0 =A0 &quot;<u></u>2b59897864d6220ff20aa8eac64cac<u></u>8994e004898a1c0f8=
+99c8cb4d7b757<u></u>0b46&quot;<br>
+<br>
+<br>
+I find it hard to spot the checksums to be in the .inc file.<br>
+<br>
+I&#39;d prefer to have them in the .bb recipes (even if in this case it&#39=
+;d be<br>
+a duplication).<br>
+<br>
+</div></blockquote>
+I am not sure why this is an issue, we already have about a dozen places wh=
+ere the SRC_URI and checksum info is located in the .inc file.</blockquote>=
+<div><br></div><div>We have two recipes and nothing force them to be always=
+ in sync so the checksum seems to be better placed in the .bb file</div>
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div class=3D"im">
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+In case you would like to avoid the duplication (which I agree) you<br>
+might before, or later, merge the native handle onto the cmake_&lt;ver&gt;.=
+bb<br>
+recipe.<br>
+<br>
+What do you think?<br>
+<br>
+</blockquote></div>
+Looks like there are bigger issues with trying to merge native into the sta=
+ndard recipe, mostly due to the fact that the target recipe inherits cmake,=
+ while the native version does not.<br></blockquote><div><br></div><div>
+Yes; I think I did a brief try in past and gave up.</div><div><br></div><di=
+v>So please, think about my comment above...</div><div><br></div></div>-- <=
+br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" targe=
+t=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems=
+.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-I've sent a request to fix this.
-
--M=
-
-
-
+--047d7b15a8dff2d08304cedd5c87--
