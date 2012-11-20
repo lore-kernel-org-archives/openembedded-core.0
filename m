@@ -1,36 +1,35 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TadEE-0006hF-Ig
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tai5k-0007Dx-MA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Nov 2012 03:06:22 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so2209968pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Nov 2012 17:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=YtzyD5gptkmAUmdh/u0pC1keu6kUFUVQOUb4YGaxGF4=;
-	b=TT7Vf8cLXwuvhJhgnkTrkCDHoSPhJbtmy1L3MVuaIqhRh0/31KkRH9ZGCGw8x5KhnU
-	GUZ6NFM4RNuBm7QuV1CV6JBvzXgKFBKEBKmVHMXHUzX1on0XNF0MEH6tEIwSZJePXgdX
-	UTBYR9SzJ/mOC2LsR2iUBdHfyHrMa5eiy0Rkm2Baao6z7GiGmWklWXWIOX20ATQlqXY+
-	oDmH4KlzifOIoJtFrBq+Zh+1b3j6XapvwnUYQCdXWG3oVHK8sb06cWovyxJ9xduvQA8g
-	c+15DMtVKPPo6fRAXl7mL2kDJvOpzdvP2nyg7M0TVbuUITGC9sn0EqYSgU0t2bPEUX9l
-	htTQ==
+	Tue, 20 Nov 2012 08:17:58 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id D1DFDD22CD; Tue, 20 Nov 2012 08:04:02 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id EE0C8D224F;
+	Tue, 20 Nov 2012 08:03:31 +0100 (CET)
+Message-ID: <50AB2B39.4030707@linaro.org>
+Date: Tue, 20 Nov 2012 08:03:21 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.68.234.98 with SMTP id ud2mr38757142pbc.136.1353376335673;
-	Mon, 19 Nov 2012 17:52:15 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Mon, 19 Nov 2012 17:52:15 -0800 (PST)
-In-Reply-To: <accf99081d61ccd85804b53505322da81d2a82dd.1353374801.git.sgw@linux.intel.com>
-References: <cover.1353374801.git.sgw@linux.intel.com>
-	<accf99081d61ccd85804b53505322da81d2a82dd.1353374801.git.sgw@linux.intel.com>
-Date: Mon, 19 Nov 2012 23:52:15 -0200
-X-Google-Sender-Auth: OP2NQZhfzLYa3HZjWu2xTCN6wDw
-Message-ID: <CAP9ODKp8J2mYKa7rDLzATBpYZeO+ipJmEa5zu8yPyER+khmGKg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
+To: Phil Blundell <philb@gnu.org>
+References: <1353351129-7108-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<1353365526.11617.16.camel@x121e.pbcl.net>
+In-Reply-To: <1353365526.11617.16.camel@x121e.pbcl.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 10/13] rt-tests/hwlatdetect: Update to 0.85
+Subject: Re: [PATCH] strace: backport AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +42,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2012 02:06:22 -0000
-Content-Type: multipart/alternative; boundary=047d7b33cf6abc395304cee37bfc
+X-List-Received-Date: Tue, 20 Nov 2012 07:17:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---047d7b33cf6abc395304cee37bfc
-Content-Type: text/plain; charset=ISO-8859-1
+W dniu 19.11.2012 23:52, Phil Blundell pisze:
+> On Mon, 2012-11-19 at 19:52 +0100, Marcin Juszkiewicz wrote:
+>> @@ -1,11 +1,10 @@
+>> -Upstream-Status: Backport
+>> +Upstream-status: Backport
+> 
+> Why did you make that change?  "Upstream-Status" is the canonical
+> spelling.
 
-On Mon, Nov 19, 2012 at 11:30 PM, Saul Wold <sgw@linux.intel.com> wrote:
+Ops, copy/pasted that from one file and had to do it wrong. Will update.
 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
 
-Please move the SRCREV to the bb file; the .inc is not a version but common
-packaging and common code.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---047d7b33cf6abc395304cee37bfc
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><br><div class=3D"gmail_quote">On Mon, Nov 19, 2012 at 11:30 PM, Saul W=
-old <span dir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com" target=3D"=
-_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">
-Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
-ux.intel.com</a>&gt;<br></blockquote><div><br></div><div>Please move the SR=
-CREV to the bb file; the .inc is not a version but common packaging and com=
-mon code.</div>
-<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
-@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
-=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
-.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-
---047d7b33cf6abc395304cee37bfc--
