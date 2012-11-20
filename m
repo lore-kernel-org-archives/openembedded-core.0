@@ -1,35 +1,30 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tai5k-0007Dx-MA
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Nov 2012 08:17:58 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id D1DFDD22CD; Tue, 20 Nov 2012 08:04:02 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id EE0C8D224F;
-	Tue, 20 Nov 2012 08:03:31 +0100 (CET)
-Message-ID: <50AB2B39.4030707@linaro.org>
-Date: Tue, 20 Nov 2012 08:03:21 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Phil Blundell <philb@gnu.org>
-References: <1353351129-7108-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<1353365526.11617.16.camel@x121e.pbcl.net>
-In-Reply-To: <1353365526.11617.16.camel@x121e.pbcl.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] strace: backport AArch64 support
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TajFS-0008Uc-QC for openembedded-core@lists.openembedded.org;
+	Tue, 20 Nov 2012 09:32:04 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAK8Hx2J003433
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Nov 2012 08:17:59 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02860-01 for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Nov 2012 08:17:55 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAK8Hptm003419
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Nov 2012 08:17:53 GMT
+Message-ID: <1353399470.1190.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Nov 2012 08:17:50 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] classes: Drop do_package stamp-extra-info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,20 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2012 07:17:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Nov 2012 08:32:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-W dniu 19.11.2012 23:52, Phil Blundell pisze:
-> On Mon, 2012-11-19 at 19:52 +0100, Marcin Juszkiewicz wrote:
->> @@ -1,11 +1,10 @@
->> -Upstream-Status: Backport
->> +Upstream-status: Backport
-> 
-> Why did you make that change?  "Upstream-Status" is the canonical
-> spelling.
+This was needed when do_package for target recipes was target specific
+however since it now isn't we can remove these stale references.
 
-Ops, copy/pasted that from one file and had to do it wrong. Will update.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index d191cd7..21157e5 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -21,4 +21,3 @@ EXCLUDE_FROM_SHLIBS = "1"
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+ INHIBIT_PACKAGE_STRIP = "1"
+ 
+-do_package[stamp-extra-info] = ""
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 7dc20c6..7ab36ac 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -94,4 +94,3 @@ SHLIBSDIRS = "${TMPDIR}/pkgdata/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}/
+ SHLIBSDIR = "${TMPDIR}/pkgdata/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}/shlibs/"
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
+-do_package[stamp-extra-info] = ""
+diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
+index f3a502a..32b14d3 100644
+--- a/meta/classes/crosssdk.bbclass
++++ b/meta/classes/crosssdk.bbclass
+@@ -27,7 +27,6 @@ target_exec_prefix = "${SDKPATHNATIVE}${exec_prefix_nativesdk}"
+ baselib = "lib"
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
+-do_package[stamp-extra-info] = ""
+ 
+ # Need to force this to ensure consitency accross architectures
+ EXTRA_OECONF_FPU = ""
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 1462ffb..c08ca19 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -156,4 +156,3 @@ do_package_write_deb[noexec] = "1"
+ do_package_write_rpm[noexec] = "1"
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
+-do_package[stamp-extra-info] = ""
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 94365e3..8b689e7 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -91,4 +91,3 @@ python () {
+ addhandler nativesdk_virtclass_handler
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
+-do_package[stamp-extra-info] = ""
+
 
 
 
