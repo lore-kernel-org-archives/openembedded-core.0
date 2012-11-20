@@ -1,45 +1,28 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TarI1-00078o-1B
+	(envelope-from <denis@denix.org>) id 1Tareu-0007dk-Ac
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Nov 2012 18:07:20 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 20 Nov 2012 08:53:05 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so31342589oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2012 08:52:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=Ss4aVIKH4wxRazHmcSaaAEQPEp2LvPaQf6FweMZj1DM=;
-	b=SyQLO5gJksdrLylly9t+qod3XA+t1KhxWc/JJu61/cR6fpZg1RaM2H8vjwVmpuVVCR
-	biPvVJkGw+xN400/fkmdMd+2gBgUEn+yFrSgJi1cMZl9N6M0gbLdFwWsnG5tALxrIaFk
-	XMpW8Hp/tw7y3vbj3LINv86/o21ntxPQYwYkAr21MuDBvfMtquZRyrtAXqc6AwSPT0O/
-	5jB5gboDRAwf9e9Ek45MIM//rCRQLgvvFsvlAPn9rPJ9UYkyfZkU13YUN3FCSYkh8xqW
-	esshMUUYfFWLCCQMboSooeZG49XyiwHVCkZqMDjidSDe6SM3XUOAp5wP24v3Do+MK4r8
-	wM4Q==
-Received: by 10.50.87.199 with SMTP id ba7mr10867596igb.6.1353430374269;
-	Tue, 20 Nov 2012 08:52:54 -0800 (PST)
-Received: by 10.50.87.199 with SMTP id ba7mr10867585igb.6.1353430374087; Tue,
-	20 Nov 2012 08:52:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.64.58.197 with HTTP; Tue, 20 Nov 2012 08:52:31 -0800 (PST)
-In-Reply-To: <CAJTo0LbCB2K2wfbMF2sb=qosAYheFNc2zncOFfZqoj7c7eBDvw@mail.gmail.com>
-References: <CAJTo0LboPRF7Oxnwh8QS6b6ReS-1-P+=r04L54QRptPnHfV5oQ@mail.gmail.com>
-	<5085800A.4060600@r-finger.com>
-	<CAPj87rOXzZ5EwKYCrBnYtYAQo3cUyXtXyyDSh2nKh05Gy=uY9A@mail.gmail.com>
-	<50865733.40007@r-finger.com>
-	<CAPj87rOZokkPT_a7kbaqmai2bWwV5xLL8oV2UNOfoxkARHfwCg@mail.gmail.com>
-	<50866812.10408@r-finger.com>
-	<CAJTo0LbCB2K2wfbMF2sb=qosAYheFNc2zncOFfZqoj7c7eBDvw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Nov 2012 16:52:31 +0000
-Message-ID: <CAJTo0LYbJPG57e-gyE83Sx6f64LS=QqnJ2f_0WnGRpD+HkzomA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OE-devel <openembedded-devel@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmLwlwS878noc9QJ8LZ0RgB6VJtfdrU7p+gIKWqay8sIZNErlSSeVASlpOThkRNQe9OEPP9Rd5n3pOwFcav4YMlgt4nRTqP24eFO5eh0cQAj+aS6+QvEfT/b/JFZIDpVJKHFryGbKmLt316vowNoDV5eAFwg2oqyI+GZPLwlbMGMQU/PZj7PvPdB28lWu5tIXMmUmbI
-Subject: Re: [RFC] OpenGL packaging/staging policy
+	Tue, 20 Nov 2012 18:30:54 +0100
+Received: from gandalf.denix.org ([unknown] [71.191.205.12])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0MDS00A3GQNIGJR0@vms173001.mailsrvcs.net>; Tue,
+	20 Nov 2012 11:16:31 -0600 (CST)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id A4664201CF; Tue,
+	20 Nov 2012 12:16:30 -0500 (EST)
+Date: Tue, 20 Nov 2012 12:16:30 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-id: <20121120171630.GA19309@denix.org>
+References: <alpine.DEB.2.02.1211201114100.29485@oneiric>
+MIME-version: 1.0
+In-reply-to: <alpine.DEB.2.02.1211201114100.29485@oneiric>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: meta-ti mailing list <meta-ti@yoctoproject.org>,
+	bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [meta-ti] building for pandaboard fails fetching u-boot *way* into the build phase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,17 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2012 17:07:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Nov 2012 17:30:54 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Hi,
+On Tue, Nov 20, 2012 at 11:24:20AM -0500, Robert P. J. Day wrote:
+> 
+>   i'm sure there's a trivial workaround/explanation for this, but i
+> wanted to build the basic meta-ti based build for my panda ES, so i
+> started with oe-core and added the meta-ti layer.  then, because of
+> some license issues (and based on a quick google search), i added this
+> to my local.conf:
+> 
+>   BBMASK = "meta-ti/recipes-misc"
+> 
+> at that point, after selecting "pandaboard" as the machine, i wanted
+> to prefetch everything:
+> 
+> $ bitbake -c fetchall core-image-minimal
+> 
+> which used solely my pre-mirror directory so that didn't take long.
+> 
+>   *then*, because i allegedly had fetched everything i needed for the
+> build, i edited my site.conf file and added:
+> 
+> BB_NO_NETWORK = "1"
+> 
+> which, AIUI, should be perfectly safe since i had just done a
+> fetchall.  not so:
+> 
+> ERROR: Function failed: Network access disabled through BB_NO_NETWORK
+> but access requested with command git clone --bare --mirror
+> git://www.denx.de/git/u-boot.git
+> /home/rpjday/y/builds/ti/panda/downloads/git2/www.denx.de.git.u-boot.git
+> (for url None)
+> ERROR: Logfile of failure stored in:
+> /home/rpjday/y/builds/ti/panda/tmp-eglibc/work/pandaboard-oe-linux-gnueabi/u-boot-2011.12-r8/temp/log.do_fetch.29635
+> 
+> hmmmmmm ...
+> 
+> $ bitbake -s | grep u-boot
+> nativesdk-u-boot-mkimage                          :2011.06-r0
+> u-boot                                            :2011.12-r8
+> u-boot-fw-utils                                   :2011.06-r1
+> u-boot-mkimage                                    :2011.06-r0
+> u-boot-mkimage-native                             :2011.06-r0
+> $
+> 
+>   ok, now i'm confused.  the above suggests that the version of u-boot
+> to be used here is 2011.12-r8, but that was never fetched, and it's
+> only now toward the end of the build that the fetch is attempted.
+> 
+>   can someone clarify what's happening here?  why did my "fetchall"
+> operation not fetch everything the build was going to need?
 
-In case anyone didn't notice, Mesa in oe-core just renamed the binary
-packages to libgl-mesa etc, and enabled EGL/GLES on all platforms.
-Hopefully there isn't any fallout (there are
-replaces/conflicts/provides in place) but if you maintain a GL recipe,
-please consider adopting a similar naming scheme.
+Is that because u-boot is not in a standard DEPENDS/RDEPENDS dependency tree, 
+but rather in EXTRA_IMAGEDEPENDS list? I'm copying bitbake and oe-core lists, 
+as I don't think it's meta-ti specific issue - u-boot recipe looks fine.
 
-Ross
+-- 
+Denys
 
 
