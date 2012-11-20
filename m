@@ -1,19 +1,32 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gilbert_coville@mentor.com>) id 1TawdK-0005OR-OB
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Nov 2012 23:49:36 +0100
-Received: from ghc.alm.mentorg.com ([134.86.96.237])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qAKMZTgE027238;
-	Tue, 20 Nov 2012 16:35:29 -0600
-From: Gilbert Coville <gilbert_coville@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Nov 2012 16:34:11 -0600
-Message-Id: <1353450851-7252-1-git-send-email-gilbert_coville@mentor.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <CAJTo0LaB=Qhd5wmhhJCRHqL+Fb4=AxSCaPVDi7tqoV_Giwghqw@mail.gmail.com>
-References: <CAJTo0LaB=Qhd5wmhhJCRHqL+Fb4=AxSCaPVDi7tqoV_Giwghqw@mail.gmail.com>
-Subject: [PATCHv2] gst-plugins-base: add dep on libsm and libice
+	(envelope-from <philip.balister@gmail.com>) id 1TawzM-00060V-Km
+	for openembedded-core@openembedded.org; Wed, 21 Nov 2012 00:12:20 +0100
+Received: by mail-vb0-f47.google.com with SMTP id e21so4040382vbm.6
+	for <openembedded-core@openembedded.org>;
+	Tue, 20 Nov 2012 14:58:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=xmGFH94Aa5i9Hkc52u6a763VRe75PpV5pLzqAj6PisQ=;
+	b=DTsRjcjKp1f+xmjklL3qQ8E6Lbm6vMG7Ln1d51KhCPMtvrajOWn0kUzRLTvm6Haz4m
+	jQvtoWdTtIYbN2js91HCL9BtJGfh3Bk2+ea5zEnFOfvBM4MVDtQ6q2b/HQnvmo7uisPh
+	q5yJT2gS3dZ777mbBfAkB/8cqy0ZhSp3mdKQK5eL/6PIzzolVLzRUiUY5rkQp+6lHCQh
+	w7h7oIDlCGXWd57uziHljICK3LBnj+nfK1AKisoYYW6fzGBzOt5g7ZUB01bbOvVnPnr3
+	PB3fcEEEoi/IWOoW1uJc/58aYl/ZzbgKC7wJ26KJy1oYOUiipGeAHnoyRqS/6gREyGtS
+	on7g==
+Received: by 10.52.100.5 with SMTP id eu5mr22396291vdb.34.1353452296127;
+	Tue, 20 Nov 2012 14:58:16 -0800 (PST)
+Received: from localhost.localdomain ([96.240.166.19])
+	by mx.google.com with ESMTPS id dh10sm7473166veb.8.2012.11.20.14.58.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 20 Nov 2012 14:58:15 -0800 (PST)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
+To: openembedded-core@openembedded.org
+Date: Tue, 20 Nov 2012 17:58:11 -0500
+Message-Id: <1353452291-3503-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] distutils-common : Add -staticdev to PACKAGES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,42 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2012 22:49:36 -0000
+X-List-Received-Date: Tue, 20 Nov 2012 23:12:20 -0000
 
-If libICE exists when this package configures, libICE and libSM are
-added to the list of included libraries.  Adding libsm and libice to the
-list of dependencies ensures they'll be present and makes the contents
-of this package more deterministic.
+Some python recipes may build static libraries that need packaging in
+{PN}-static-dev.
 
-Signed-off-by: Gilbert Coville <gilbert_coville@mentor.com>
+This change fixes a QA error in python-numpy.
+
+Signed-off-by: Philip Balister <philip@balister.org>
 ---
- meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/distutils-common-base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-index 88fa74d..2648864 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
-                     file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+index f66a5cd..36c1e83 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -5,7 +5,7 @@ EXTRA_OEMAKE = ""
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
  
--DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
-+DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv libsm libice', '', d)}"
- DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora util-linux tremor"
+-PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
++PACKAGES = "${PN}-staticdev ${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
  
- SRC_URI += "file://gst-plugins-base-tremor.patch \
-@@ -15,7 +15,7 @@ SRC_URI += "file://gst-plugins-base-tremor.patch \
- SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
- SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
- 
--PR = "r5"
-+PR = "r6"
- 
- inherit gettext
+ FILES_${PN} = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
  
 -- 
-1.8.0
+1.7.11.7
 
 
 
