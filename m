@@ -1,35 +1,38 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tao9K-0000fd-S0
+	(envelope-from <ross.burton@intel.com>) id 1TaqvP-0006Bd-Pd
 	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Nov 2012 14:46:03 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa11so3800146pad.6
+	Tue, 20 Nov 2012 17:43:54 +0100
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Nov 2012 08:29:45 -0800
+Received: by mail-bk0-f69.google.com with SMTP id jg9so2206800bkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Nov 2012 05:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=U2Qv1XMqpwMuT87aay8glkY/n+DYKV+Nc7awicHxQYk=;
-	b=iUL/xgKydA22Jujau+eHju3FSzArThHD6H2wyWBrl4PxvTWTKgz2T+q0dXSoxNBzOQ
-	tfgcaVwjTwOOFQBlbst9TklYzFl8A/pgPB+cqtcxQSRS9L81Hps2X3TRdfqafddA4V3L
-	drAnsVq0FTwBtIx3w39n6W/3Zcg2nSE/UPevNN3p5rNOVVz2jaGsiKzA3FIQ39k8+4n4
-	sSfEMCWA5kMmMWXGeuCXnVn0T3U1sqQ+OIItm5QQeGpSMOnqzTrJ2OkH5m8++OXtbMJ9
-	VIHhgi5riBlVrpt15wlk1ed4vmlDytH3nHxVXFlExHqJaOhA4D/SRmiYkr+Sm2Wyvn5N
-	ZRCA==
-MIME-Version: 1.0
-Received: by 10.68.132.196 with SMTP id ow4mr49626572pbb.49.1353418318602;
-	Tue, 20 Nov 2012 05:31:58 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Tue, 20 Nov 2012 05:31:58 -0800 (PST)
-In-Reply-To: <1353417464.23758.6.camel@ted>
-References: <1353417464.23758.6.camel@ted>
-Date: Tue, 20 Nov 2012 11:31:58 -0200
-X-Google-Sender-Auth: t0RnrGbsMfQpxL3kKtZPubK8M0g
-Message-ID: <CAP9ODKrzr3nXFoGoGBQP_uc5QFK1CkrAMCia3R=LjfU-jcNuTg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] build-appliance-image: Simplify fetch/unpack execution
+	Tue, 20 Nov 2012 08:29:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=kXzapxrrsV1cmA+8RhOAZMb4iUpCaZ3+gJWjieOP4EI=;
+	b=blGNOHwQ+B2+zwgVQQuNS/5OkWLJfIQjPMcmX4O7iUPfqYP7ICRiyq+sSKwLyTcXRe
+	xC6BqcrU0+inEs8QNyiM5lkjN2xwk974mAbPqo/G8NNBGMK+DhByIEhKid9TA6KKgYTA
+	cSKAsJIWf2FPXPT4UsEXEdjigA2IUvrTnJmUOBamWvj7PLBK3IQyjgkN23bLydiMvAZB
+	DCn8Tur/v/xmBtgclyPMobLfaXHTWhE6PQvyOz5uBUnT42e1YXwzSK7FBsnR5rAiVgg5
+	AV9GRh4GaKbwBjbvdUN7I+ylV1CbEoEMe+l6Hh1IXwR1vxonfhrhyI8kmyUWMFUXfjzh
+	pLqQ==
+Received: by 10.180.102.166 with SMTP id fp6mr15419473wib.9.1353428979681;
+	Tue, 20 Nov 2012 08:29:39 -0800 (PST)
+Received: by 10.180.102.166 with SMTP id fp6mr15419455wib.9.1353428979513;
+	Tue, 20 Nov 2012 08:29:39 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id n11sm1122046wiw.6.2012.11.20.08.29.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 20 Nov 2012 08:29:37 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Nov 2012 16:28:13 +0000
+Message-Id: <1353428893-21856-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQk3v0+kTE+bJSFBJsGCn0rqCzXODdyJ+9YPPpP9rSiwn2sYq5E7W81NXlMm8A2p/Z1G441b3eEFGbrCKxzIJHYGn12Nl10XqNfdruQ3lf8z6E0IAOE4EXgXF6qEGSeRrnLDXRM7wgEY1tBlDvELI9CYZaLGmus6kuke8TLNPU8LVZgLEgGCh/mR85QTyeythoMdWETu
+Subject: [PATCH] ia32-base: fix typo in XSERVER_IA32_EXT definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,135 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2012 13:46:03 -0000
-Content-Type: multipart/alternative; boundary=047d7b15a8df1ce31e04ceed4288
+X-List-Received-Date: Tue, 20 Nov 2012 16:43:54 -0000
 
---047d7b15a8df1ce31e04ceed4288
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/machine/include/ia32-base.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, Nov 20, 2012 at 11:17 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> This provides a slightly neater way of ensuring fetch/unpack get
-> executed (image.bbclass marks them as noexec) since I found the
-> current approach harder to understand at first glance.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-
-Agreed.
-
-
-> ---
-> diff --git a/meta/recipes-core/images/build-appliance-image.bbb/meta/recipes-core/images/
-> build-appliance-image.bb
-> index 59ccb98..bf1e585 100644
-> --- a/meta/recipes-core/images/build-appliance-image.bb
-> +++ b/meta/recipes-core/images/build-appliance-image.bb
-> @@ -68,11 +68,11 @@ fakeroot do_populate_poky_src () {
->
->  IMAGE_PREPROCESS_COMMAND += "do_populate_poky_src; "
->
-> -python do_get_poky_src () {
-> -    bb.build.exec_func('base_do_fetch', d)
-> -    bb.build.exec_func('base_do_unpack', d)
-> +python () {
-> +       # Ensure we run these usually noexec tasks
-> +       d.delVarFlag("do_fetch", "noexec")
-> +       d.delVarFlag("do_unpack", "noexec")
->  }
-> -addtask do_get_poky_src before do_rootfs
->
-
-I'd say for include a comment in code so it is easy to understand why
-you're drpping the flag.
-
-
->  create_bundle_files () {
->         cd ${WORKDIR}
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
+index c2d267a..ab8ef65 100644
+--- a/meta/conf/machine/include/ia32-base.inc
++++ b/meta/conf/machine/include/ia32-base.inc
+@@ -33,7 +33,7 @@ XSERVER_IA32_BASE = "xserver-xorg \
+            xf86-input-synaptics \
+            "
+ 
+-XSERVER_IA32_EXT = "
++XSERVER_IA32_EXT = " \
+            xserver-xorg-extension-glx \
+            xserver-xorg-module-libint10 \
+            "
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.10
 
---047d7b15a8df1ce31e04ceed4288
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<br><br><div class=3D"gmail_quote">On Tue, Nov 20, 2012 at 11:17 AM, Richar=
-d Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfounda=
-tion.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</spa=
-n> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">This provides a slightly neater way of ensur=
-ing fetch/unpack get<br>
-executed (image.bbclass marks them as noexec) since I found the<br>
-current approach harder to understand at first glance.<br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org">richard.purdie@linuxfoundation.org</a>&gt;<br></blockquote><di=
-v><br></div><div>Agreed.</div><div>=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 
----<br>
-diff --git a/meta/recipes-core/images/<a href=3D"http://build-appliance-ima=
-ge.bb" target=3D"_blank">build-appliance-image.bb</a> b/meta/recipes-core/i=
-mages/<a href=3D"http://build-appliance-image.bb" target=3D"_blank">build-a=
-ppliance-image.bb</a><br>
-
-index 59ccb98..bf1e585 100644<br>
---- a/meta/recipes-core/images/<a href=3D"http://build-appliance-image.bb" =
-target=3D"_blank">build-appliance-image.bb</a><br>
-+++ b/meta/recipes-core/images/<a href=3D"http://build-appliance-image.bb" =
-target=3D"_blank">build-appliance-image.bb</a><br>
-@@ -68,11 +68,11 @@ fakeroot do_populate_poky_src () {<br>
-<br>
-=A0IMAGE_PREPROCESS_COMMAND +=3D &quot;do_populate_poky_src; &quot;<br>
-<br>
--python do_get_poky_src () {<br>
-- =A0 =A0bb.build.exec_func(&#39;base_do_fetch&#39;, d)<br>
-- =A0 =A0bb.build.exec_func(&#39;base_do_unpack&#39;, d)<br>
-+python () {<br>
-+ =A0 =A0 =A0 # Ensure we run these usually noexec tasks<br>
-+ =A0 =A0 =A0 d.delVarFlag(&quot;do_fetch&quot;, &quot;noexec&quot;)<br>
-+ =A0 =A0 =A0 d.delVarFlag(&quot;do_unpack&quot;, &quot;noexec&quot;)<br>
-=A0}<br>
--addtask do_get_poky_src before do_rootfs<br></blockquote><div><br></div><d=
-iv>I&#39;d say for include a comment in code so it is easy to understand wh=
-y you&#39;re drpping the flag.</div><div>=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">
-
-=A0create_bundle_files () {<br>
-=A0 =A0 =A0 =A0 cd ${WORKDIR}<br>
-<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>Otavio Salva=
-dor=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<=
-br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">ota=
-vio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=
-=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-
---047d7b15a8df1ce31e04ceed4288--
