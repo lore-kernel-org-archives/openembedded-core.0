@@ -1,24 +1,24 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TbCNt-0002EI-7s
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TbCNt-0002EI-FM
 	for openembedded-core@lists.openembedded.org;
 	Wed, 21 Nov 2012 16:38:41 +0100
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
 	Wed, 21 Nov 2012 16:23:32 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id AF599291438;
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id BC21B29143B;
 	Wed, 21 Nov 2012 16:23:32 +0100 (CET)
 From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2012 16:23:09 +0100
-Message-ID: <1353511391-60570-3-git-send-email-bjst@enea.com>
+Date: Wed, 21 Nov 2012 16:23:11 +0100
+Message-ID: <1353511391-60570-5-git-send-email-bjst@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1353511391-60570-1-git-send-email-bjst@enea.com>
 References: <1353511391-60570-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
 	permitted sender hosts)
-Subject: [PATCH 2/4] New recipe: ptest-runner
+Subject: [PATCH 4/4] Add ptest for dbus.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,84 +35,187 @@ X-List-Received-Date: Wed, 21 Nov 2012 15:38:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-This recipe installs a simple shell script which searches for all installed
-ptests on the rootfs and runs each test in sequence.
+This patch adds a new recipe dbus-test to build and package the dbus test
+suite. The reason for a separate recipe is that the dbus test suite depends
+on dbus-glib, so it cannot be compiled at the same time as dbus.
+
+An RDEPENDS rule is added to the dbus recipe to include the dbus-test
+package into the image when ptest is enabled, since the standard -ptest
+suffix mechanism does not apply to this package.
 
 Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 ---
- meta/conf/bitbake.conf                             |    2 +-
- .../ptest-runner/files/ptest-runner                |   16 ++++++++++++++++
- .../ptest-runner/ptest-runner_1.0.bb               |   17 ++++++++++++++++=
-+
- 3 files changed, 34 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-support/ptest-runner/files/ptest-runner
- create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_1.0.bb
+ meta/recipes-core/dbus/dbus-1.6.4/run-ptest        |    3 +
+ .../dbus/dbus-1.6.4/test-run-path.patch            |   26 ++++++
+ meta/recipes-core/dbus/dbus-test_1.6.4.bb          |   84 ++++++++++++++++=
+++++
+ meta/recipes-core/dbus/dbus.inc                    |    3 +
+ 4 files changed, 116 insertions(+), 0 deletions(-)
+ create mode 100755 meta/recipes-core/dbus/dbus-1.6.4/run-ptest
+ create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
+ create mode 100644 meta/recipes-core/dbus/dbus-test_1.6.4.bb
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 783ca37..64014d3 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -225,7 +225,7 @@ This package contains ELF symbols and related sources f=
-or debugging purposes."
-=20
- SUMMARY_${PN}-ptest ?=3D "${SUMMARY} - Package test files"
- DESCRIPTION_${PN}-ptest ?=3D "${DESCRIPTION}  \
--This package contains test directory with the name ${PTEST_NAME} for packa=
-ge test purposes."
-+This package contains a test directory ${PTEST_PATH} for package test purp=
-oses."
-=20
- SUMMARY_${PN}-dev ?=3D "${SUMMARY} - Development files"
- DESCRIPTION_${PN}-dev ?=3D "${DESCRIPTION}  \
-diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/re=
-cipes-support/ptest-runner/files/ptest-runner
-new file mode 100644
-index 0000000..4f3c7ce
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/run-ptest b/meta/recipes-cor=
+e/dbus/dbus-1.6.4/run-ptest
+new file mode 100755
+index 0000000..e08ecb1
 --- /dev/null
-+++ b/meta/recipes-support/ptest-runner/files/ptest-runner
-@@ -0,0 +1,16 @@
++++ b/meta/recipes-core/dbus/dbus-1.6.4/run-ptest
+@@ -0,0 +1,3 @@
 +#!/bin/sh
-+
-+echo "START: $0"
-+cd /usr/lib
-+for x in *
-+do
-+    if [ -x "/usr/lib/$x/ptest/run-ptest" ]; then
-+       date "+%Y-%m-%dT%H:%M"
-+        echo "BEGIN: $x"
-+        cd /usr/lib/$x/ptest
-+        ./run-ptest
-+        echo "END: $x"
-+       date "+%Y-%m-%dT%H:%M"
-+    fi
-+done
-+echo "STOP: $0"
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_1.0.bb b/meta/r=
-ecipes-support/ptest-runner/ptest-runner_1.0.bb
++cd test
++make -k runtest-TESTS
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch b/meta/r=
+ecipes-core/dbus/dbus-1.6.4/test-run-path.patch
 new file mode 100644
-index 0000000..6b866d4
+index 0000000..5c08c93
 --- /dev/null
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_1.0.bb
-@@ -0,0 +1,17 @@
-+SRC_URI +=3D "file://ptest-runner"
++++ b/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
+@@ -0,0 +1,26 @@
 +
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285e=
-c7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788=
-c80a0384361b4de20420"
 +
-+INHIBIT_DEFAULT_DEPS =3D "1"
++Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
++Upstream-Status: Pending
 +
-+do_install () {
-+    mkdir -p ${D}${bindir}
-+    install -m 0755 ${WORKDIR}/ptest-runner ${D}${bindir}
++--- a/test/Makefile.am	2012-06-15 15:25:43.000000000 +0200
+++++ b/test/Makefile.am	2012-11-16 09:24:44.263140840 +0100
++@@ -119,12 +119,13 @@
++ 	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
++ 	DBUS_TEST_SYSCONFDIR=3D$(DESTDIR)$(sysconfdir)
++=20
+++ptest_run_dir =3D ..
+++
++ TESTS_ENVIRONMENT =3D \
++-	DBUS_BLOCK_ON_ABORT=3D1 \
++-	DBUS_FATAL_WARNINGS=3D1 \
++-	DBUS_TEST_DAEMON=3D@abs_top_builddir@/bus/dbus-daemon$(EXEEXT) \
++-	DBUS_TEST_DATA=3D@abs_top_builddir@/test/data \
++-	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
+++	DBUS_FATAL_WARNINGS=3D0 \
+++	DBUS_TEST_DAEMON=3D$(ptest_run_dir)/bus/dbus-daemon$(EXEEXT) \
+++	DBUS_TEST_DATA=3D$(ptest_run_dir)/test/data \
+++	DBUS_TEST_HOMEDIR=3D$(ptest_run_dir)/dbus \
++ 	$(NULL)
++=20
++ test_corrupt_SOURCES =3D corrupt.c
+diff --git a/meta/recipes-core/dbus/dbus-test_1.6.4.bb b/meta/recipes-core/=
+dbus/dbus-test_1.6.4.bb
+new file mode 100644
+index 0000000..84829f7
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-test_1.6.4.bb
+@@ -0,0 +1,84 @@
++DESCRIPTION =3D "D-Bus test package, only used for D-bus functionality tes=
+t."
++HOMEPAGE =3D "http://dbus.freedesktop.org"
++SECTION =3D "base"
++LICENSE =3D "AFL-2 | GPLv2+"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10dded3b58148f3f1fd804b26354af3=
+e \
++                    file://dbus/dbus.h;firstline=3D6;endline=3D20;md5=3D6e=
+ea2e0c7750dd8e620dcb1437312fa5"
++
++DEPENDS =3D "python-pygobject dbus dbus-glib"
++
++SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
++           file://tmpdir.patch \
++           file://test-run-path.patch \
++           file://dbus-1.init  \
++           file://run-ptest \
++           "
++
++S=3D"${WORKDIR}/dbus-${PV}"
++FILESPATH =3D "${FILE_DIRNAME}/dbus-${PV}"
++
++inherit autotools pkgconfig gettext
++
++EXTRA_OECONF_X =3D "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x',=
+ '--without-x', d)}"
++EXTRA_OECONF_X_virtclass-native =3D "--without-x"
++
++EXTRA_OECONF =3D "--enable-tests \
++                --enable-checks \
++                --enable-asserts \
++                --enable-verbose-mode \
++                --disable-xml-docs \
++                --disable-doxygen-docs \
++                --disable-libaudit \
++                --with-xml=3Dexpat \
++                --with-systemdsystemunitdir=3D${systemd_unitdir}/system/ \
++                ${EXTRA_OECONF_X}"
++
++FILES_${PN}-dbg =3D "\
++                   ${PTEST_PATH}/test/name-test/.debug \
++                   ${PTEST_PATH}/test/.debug \
++                   ${PTEST_PATH}/test/.libs/.debug \
++                   ${PTEST_PATH}/.debug \
++                   ${PTEST_PATH}/bus/.debug \
++                   ${PTEST_PATH}/dbus/.debug \
++                   ${PTEST_PATH}/tools/.debug \
++                   ${PTEST_PATH}/tools/.libs/.debug \
++                   /usr/src \
++                   /usr/src/debug \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/test/name-test/.d=
+ebug \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/test/.debug \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/test/.libs/.debug=
+ \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/.debug \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/bus/.debug \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/tools/.debug \
++                   /usr/src/debug/${PN}-${PV}/dbus-${PV}/tools/.libs/.debu=
+g \
++                  "
++
++FILES_${PN}-staticdev =3D "${PTEST_PATH}/test/.libs \
++                         ${PTEST_PATH}/tools/.libs \
++                        "
++do_install() {
++    mkdir -p ${D}${libdir}/${PN}
++    touch ${D}${libdir}/${PN}/empty_file
++
++    if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ] ; then
++        mkdir -p ${D}${PTEST_PATH}
++        install -m 0755 ${WORKDIR}/run-ptest ${D}${PTEST_PATH}
++        cp ${S}/Makefile ${D}${PTEST_PATH}
++
++        for subdir in dbus bus tools test doc; do
++            mkdir -p ${D}${PTEST_PATH}/$subdir
++        done
++
++        cp ${S}/bus/bus-test*   ${D}${PTEST_PATH}/bus
++        cp ${S}/bus/dbus-daemon ${D}${PTEST_PATH}/bus
++        cp ${S}/dbus/dbus-test  ${D}${PTEST_PATH}/dbus
++        cp ${S}/tools/.libs/*   ${D}${PTEST_PATH}/tools
++
++        cp -r ${S}/test         ${D}${PTEST_PATH}
++        find ${D}${PTEST_PATH}/test -name "*.[choa]" -o -name "*.la" | xar=
+gs rm
++        mv -f ${D}${PTEST_PATH}/test/.libs/* ${D}${PTEST_PATH}/test
++        rm -rf ${D}${PTEST_PATH}/test/.libs
++
++        find ${D}${PTEST_PATH} -name Makefile | xargs sed -i 's/^Makefile:=
+/_Makefile:/'
++    fi
 +}
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.=
+inc
+index 550eb0a..9e791d2 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -9,6 +9,9 @@ X11DEPENDS =3D "virtual/libx11 libsm"
+ DEPENDS =3D "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x1=
+1', '${X11DEPENDS}', '', d)}"
+ DEPENDS_virtclass-native =3D "expat-native virtual/libintl-native"
+ DEPENDS_virtclass-nativesdk =3D "nativesdk-expat virtual/nativesdk-libintl=
+ virtual/libx11"
++RDEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-test', ''=
+, d)}"
++RDEPENDS_virtclass-native =3D ""
 +
-+do_patch[noexec] =3D "1"
-+do_configure[noexec] =3D "1"
-+do_compile[noexec] =3D "1"
-+do_build[noexec] =3D "1"
+=20
+ INC_PR =3D "r5"
+=20
 --=20
 1.7.5.4
 
