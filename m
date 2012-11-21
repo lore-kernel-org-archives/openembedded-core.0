@@ -1,26 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1Tb9Xx-0006Z5-7d
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 13:36:53 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAL9Od7M009462
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 01:24:39 -0800 (PST)
-Received: from jiahongxu-OptiPlex-990.corp.ad.wrs.com (128.224.162.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 21 Nov 2012 01:24:38 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2012 17:24:35 +0800
-Message-ID: <0a514b84b1550c095623ddf495059bbe084c0bf5.1353488396.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1353488396.git.hongxu.jia@windriver.com>
-References: <cover.1353488396.git.hongxu.jia@windriver.com>
+Received: from starfish.geekisp.com ([216.168.135.166])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <philip@balister.org>) id 1TbAEN-0007Zy-E6
+	for openembedded-core@openembedded.org; Wed, 21 Nov 2012 14:20:52 +0100
+Received: (qmail 26393 invoked by uid 1003); 21 Nov 2012 12:59:57 -0000
+Received: from unknown (HELO ?192.168.1.105?)
+	(philip@opensdr.com@96.240.166.19)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	21 Nov 2012 12:59:57 -0000
+Message-ID: <50ACD04B.4020009@balister.org>
+Date: Wed, 21 Nov 2012 07:59:55 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] binutils-native: do_compile failed on Ubuntu 12.10
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+References: <1353452291-3503-1-git-send-email-philip@balister.org>
+	<50AC6EA2.60708@herbrechtsmeier.net>
+In-Reply-To: <50AC6EA2.60708@herbrechtsmeier.net>
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH] distutils-common : Add -staticdev to PACKAGES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,118 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 12:36:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Nov 2012 13:20:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-binutils-native do_compile failed on Ubuntu 12.10:
-...
-error: call to '__warn_memset_zero_len' declared with attribute warning:
-memset used with constant zero length parameter; this could be due to
-transposed parameters [-Werror]
-...
+On 11/21/2012 01:03 AM, Stefan Herbrechtsmeier wrote:
+> Am 20.11.2012 23:58, schrieb Philip Balister:
+>> Some python recipes may build static libraries that need packaging in
+>> {PN}-static-dev.
+>>
+>> This change fixes a QA error in python-numpy.
+>>
+>> Signed-off-by: Philip Balister <philip@balister.org>
+>> ---
+>>   meta/classes/distutils-common-base.bbclass | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/distutils-common-base.bbclass
+>> b/meta/classes/distutils-common-base.bbclass
+>> index f66a5cd..36c1e83 100644
+>> --- a/meta/classes/distutils-common-base.bbclass
+>> +++ b/meta/classes/distutils-common-base.bbclass
+>> @@ -5,7 +5,7 @@ EXTRA_OEMAKE = ""
+>>   export STAGING_INCDIR
+>>   export STAGING_LIBDIR
+>> -PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
+>> +PACKAGES = "${PN}-staticdev ${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
+>>   FILES_${PN} = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+> Hi,
+>
+> I post a similarly patch parallel with the python-numpy fix:
+> http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/29575
 
-When compiling binutils-native, option "--enable-targets=all" makes
-oasys.c compiled and option "-Werror" makes warning treated as error,
-so both of the options make the compile warning of oasys.c cause
-binutils-native compile failed.
+Provided the:
 
-The warning caused by /usr/include/x86_64-linux-gnu/bits/string3.h:82
-in Ubuntu 12.10, here is the code:
-__extern_always_inline void *
-__NTH (memset (void *__dest, int __ch, size_t __len))
-{
-  if (__builtin_constant_p (__len) && __len == 0
-      && (!__builtin_constant_p (__ch) || __ch != 0))
-    {
-      __warn_memset_zero_len ();
-      return __dest;
-    }
-  return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
-}
++FILES_${PN}-staticdev += "\
++  ${PYTHON_SITEPACKAGES_DIR}/*.a \
++"
 
-In oasys.c, invoking memset without checking len nonzero caused the
-warning.
+Actually catches a lot of the .a files, I prefer Stefan's version. Numpy 
+still needs to to override the FILES though.
 
-Add len nonzero checking when invoke memset in oasys.c to remove the
-compile warning could fix the problem.
+Philip
 
-[YOCTO #3464]
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/binutils/binutils-2.22.inc   |    3 +-
- .../binutils-check-size-before-memset.patch        |   43 ++++++++++++++++++++
- 2 files changed, 45 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
+PS: WARNING, I am not a python expert, just trying to help fix QA issues 
+as they come up.
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.22.inc b/meta/recipes-devtools/binutils/binutils-2.22.inc
-index 9697242..94cd17f 100644
---- a/meta/recipes-devtools/binutils/binutils-2.22.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.22.inc
-@@ -1,4 +1,4 @@
--PR = "r17"
-+PR = "r18"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
-@@ -45,6 +45,7 @@ SRC_URI = "\
-      file://0144-timer.cc-include-unistd.h.patch \
-      file://0166-2012-04-27-Doug-Kwan-dougkwan-google.com.patch \
-      file://0182-PR-ld-13991.patch \
-+     file://binutils-check-size-before-memset.patch \
-      "
- 
- SRC_URI[md5sum] = "ee0f10756c84979622b992a4a61ea3f5"
-diff --git a/meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch b/meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
-new file mode 100644
-index 0000000..0baf42e
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
-@@ -0,0 +1,43 @@
-+bfd/oasys.c: check size before memset
-+
-+On Ubuntu 12.10 /usr/include/x86_64-linux-gnu/bits/string3.h:77
-+
-+__extern_always_inline void *
-+__NTH (memset (void *__dest, int __ch, size_t __len))
-+{
-+  if (__builtin_constant_p (__len) && __len == 0
-+      && (!__builtin_constant_p (__ch) || __ch != 0)) 
-+    {   
-+      __warn_memset_zero_len (); 
-+      return __dest;
-+    }   
-+  return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
-+}
-+
-+The "memset(void *s, int c, size_t n)" will warn if the "n" is zero,
-+check the value of "n" before memset will fix the problem.
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+Upstream-Status: Pending
-+---
-+ binutils-2.22/bfd/oasys.c |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/oasys.c b/bfd/oasys.c
-+--- a/bfd/oasys.c
-++++ b/bfd/oasys.c
-+@@ -908,7 +908,9 @@ oasys_write_header (bfd *abfd)
-+     length = sizeof (r.module_name);
-+ 
-+   (void) memcpy (r.module_name, abfd->filename, length);
-+-  (void) memset (r.module_name + length, ' ', sizeof (r.module_name) - length);
-++
-++  if (sizeof (r.module_name) > length)
-++    (void) memset (r.module_name + length, ' ', sizeof (r.module_name) - length);
-+ 
-+   r.version_number = OASYS_VERSION_NUMBER;
-+   r.rev_number = OASYS_REV_NUMBER;
-+-- 
-+1.7.10.4
-+
--- 
-1.7.10.4
-
+>
+> Regards,
+>    Stefan
+>
 
 
