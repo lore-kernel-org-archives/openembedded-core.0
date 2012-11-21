@@ -1,32 +1,20 @@
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1TbEyi-0002aG-QM
+	(envelope-from <cristian.iorga@intel.com>) id 1TbGas-0005xz-FZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 19:24:52 +0100
-Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id DA3FB20349
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 13:01:06 -0500 (EST)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute4.internal (MEProxy); Wed, 21 Nov 2012 13:01:06 -0500
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:date
-	:content-type:mime-version; s=smtpout; bh=ubrnOwZpHqxf18LcB/8kJK
-	Zqlrk=; b=P6DM21FNDZ91rIyUX7qY9TRlxKD1NhG9xawPaanHzhQeEpp+r0XiVM
-	eLuHFJ81CPhzfB2A/Em9RV4aYyoQqvh0ocKgxW5OdLgHMEVHNF41W4F5t0wNULuW
-	qpAenFJyOrZnDvRkj9cIAwDBnDbABPM3aJhypwCbOFBCZxhY4Hk7k=
-X-Sasl-enc: J3LFU0mk+l9C8uMzxGTiw1S2f/WBRd2Sg4Ks0SroGL9Z 1353520866
-Received: from [192.168.1.6] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 97A9C482656
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 13:01:06 -0500 (EST)
-Message-ID: <1353520830.11924.2.camel@lenny>
-From: Colin Walters <walters@verbum.org>
+	Wed, 21 Nov 2012 21:08:28 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 21 Nov 2012 11:54:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,294,1352102400"; d="scan'208";a="220785923"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
+	by azsmga001.ch.intel.com with ESMTP; 21 Nov 2012 11:54:10 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Nov 2012 13:00:30 -0500
-X-Mailer: Evolution 3.4.4 (3.4.4-2.fc17) 
-Mime-Version: 1.0
-Subject: [PATCH] gcc: Add --enable-linker-build-id
+Date: Wed, 21 Nov 2012 21:54:23 +0200
+Message-Id: <1353527664-4464-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] build-appliance-image: Update to dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,69 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 18:24:53 -0000
-X-Groupsio-MsgNum: 31624
-Content-Type: multipart/mixed; boundary="=-VJRBd/WDC6jx0XeyKS29"
+X-List-Received-Date: Wed, 21 Nov 2012 20:08:28 -0000
 
---=-VJRBd/WDC6jx0XeyKS29
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+There are a lot of improvements in Hob
+and a critical fix to bitbake affecting
+Build Appliance, so the poky revision
+is upped to include these changes.
 
-See https://fedoraproject.org/wiki/Releases/FeatureBuildId for the
-benefits this brings.  As far as I can tell from searching the
-discussion archives, there doesn't appear to be a reason not to enable
-this, and the benefits are real.
-
-Both the Red Hat Enterprise Linux 6, all Fedora, and Ubuntu Quantal
-GCC builds are configured with this on.  I plan to use it in
-gnome-ostree.
-
-Signed-off-by: Colin Walters <walters@verbum.org>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.7.inc |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/recipes-core/images/build-appliance-image.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-
---=-VJRBd/WDC6jx0XeyKS29
-Content-Disposition: attachment; filename="0001-gcc-Add-enable-linker-build-id.patch"
-Content-Type: text/x-patch; name="0001-gcc-Add-enable-linker-build-id.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-From 89fefde42161eb17973538c5958967663bd32cd0 Mon Sep 17 00:00:00 2001
-From: Colin Walters <walters@verbum.org>
-Date: Wed, 21 Nov 2012 12:49:30 -0500
-Subject: [PATCH] gcc: Add --enable-linker-build-id
-
-See https://fedoraproject.org/wiki/Releases/FeatureBuildId for the
-benefits this brings.  As far as I can tell from searching the
-discussion archives, there doesn't appear to be a reason not to enable
-this, and the benefits are real.
-
-Both the Red Hat Enterprise Linux 6, all Fedora, and Ubuntu Quantal
-GCC builds are configured with this on.  I plan to use it in
-gnome-ostree.
-
-Signed-off-by: Colin Walters <walters@verbum.org>
----
- meta/recipes-devtools/gcc/gcc-4.7.inc |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 1a3e09b..378caf0 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -92,6 +92,7 @@ EXTRA_OECONF_BASE = " --enable-lto \
- 			--disable-libmudflap \
- 			--with-system-zlib \
- 			--with-linker-hash-style=${LINKER_HASH_STYLE} \
-+			--enable-linker-build-id \
- 			--with-ppl=no \
- 			--with-cloog=no \
- 			--enable-checking=release \
+diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
+index 59ccb98..30c3648 100644
+--- a/meta/recipes-core/images/build-appliance-image.bb
++++ b/meta/recipes-core/images/build-appliance-image.bb
+@@ -6,7 +6,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-PR = "r16"
++PR = "r17"
+ 
+ IMAGE_FEATURES += "x11-base package-management splash"
+ 
+@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
+ 
+ inherit core-image
+ 
+-SRCREV = "f0f23f1741c29baa9601c5fa6b6b4a18175be7c5"
++SRCREV = "dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf"
+ SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
 -- 
-1.7.7.6
+1.7.10.4
 
 
---=-VJRBd/WDC6jx0XeyKS29--
+
