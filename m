@@ -1,36 +1,24 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tb8hd-0005JA-5D
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1Tb9Bt-0006AD-F0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 12:42:49 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so3227511pbc.6
+	Wed, 21 Nov 2012 13:14:06 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAL9Ob1p021505
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 03:28:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=+W6Qhs0AmxgSagef/rNczkk+F8oFoky6eWWprWKCNmE=;
-	b=Xdrl89auWWl3IT1vkPXhpPAPwcW2pyTnDMS1TqEksLk8VgU1F5lRwMfaJvDR0Si3qy
-	Kir1Da+KeTI1j9MyS3ig62KxnHk1lhiQ3YlKdu9XimCDt3yUoOR8iScIQ6Zhw1eyCDi9
-	IURQ53j2hWMpETWNmSs/KjZJvhlpdEp6i8uw7T+FFUJtQVsYwBqXigg9rGLH73K8WVqz
-	7eFA8ofTYuLEtqLjjDJxJsVKrEmRhwLEDtPrtfccw1V0fh4g/nuvkxlywBbuu1X0wD4o
-	4k8Cxw4scTc2Zlok8Ksz1UKJTvHnY+fHW3KQApA5QyLMjOvBSgKXvJ6FnlH4o/GIMXRv
-	YYTA==
+	Wed, 21 Nov 2012 01:24:37 -0800 (PST)
+Received: from jiahongxu-OptiPlex-990.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Wed, 21 Nov 2012 01:24:37 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Nov 2012 17:24:34 +0800
+Message-ID: <cover.1353488396.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.66.80.194 with SMTP id t2mr16666281pax.43.1353497323170; Wed,
-	21 Nov 2012 03:28:43 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Wed, 21 Nov 2012 03:28:43 -0800 (PST)
-In-Reply-To: <bbf45c7739e8d08864c771446b487a5169e1f488.1353490311.git.kai.kang@windriver.com>
-References: <cover.1353490311.git.kai.kang@windriver.com>
-	<bbf45c7739e8d08864c771446b487a5169e1f488.1353490311.git.kai.kang@windriver.com>
-Date: Wed, 21 Nov 2012 09:28:43 -0200
-X-Google-Sender-Auth: jT0E_ETK1TYAoT4vu22bbbDGRp8
-Message-ID: <CAP9ODKoae1cD-qkN=VfSpLDRZO=yrcCXyhEmE+5+ZQbjahpU5w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 4/4] msmtp: add link to ${libdir}/sendmail
+Subject: [PATCH 0/1] binutils-native:do_compile failed on Ubuntu 12.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,20 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 11:42:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 21 Nov 2012 12:14:06 -0000
+Content-Type: text/plain
 
-On Wed, Nov 21, 2012 at 7:38 AM, Kang Kai <kai.kang@windriver.com> wrote:
-> LSB tests check file ${libdir}/sendmail, and the file was created by
-> package lsbsetup. Because lsbsetup is dropped, create the link in msmtp.
->
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+The following changes since commit 66861cce918eb7ed1f16f829d652c9d7105152b7:
 
-I think it is wrong. You should to use alternatives for it.
+  Revert "gcc: Use FILESPATH instead of FILESDIR and cleanup/simplify" (2012-11-20 16:47:11 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/binutils
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/binutils
+
+Hongxu Jia (1):
+  binutils-native: do_compile failed on Ubuntu 12.10
+
+ meta/recipes-devtools/binutils/binutils-2.22.inc   |    3 +-
+ .../binutils-check-size-before-memset.patch        |   43 ++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.10.4
+
 
 
