@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI82-00087X-AL
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI81-00087V-8o
 	for openembedded-core@lists.openembedded.org;
 	Wed, 21 Nov 2012 22:46:47 +0100
 Received: from yow-bashfiel-d3.corp.ad.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKr020293;
-	Wed, 21 Nov 2012 13:32:33 -0800 (PST)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKq020293;
+	Wed, 21 Nov 2012 13:32:32 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Wed, 21 Nov 2012 16:32:25 -0500
-Message-Id: <b667b1f0d7eb0abf19abc9c369ca14e17d6d85f5.1353532567.git.bruce.ashfield@windriver.com>
+Date: Wed, 21 Nov 2012 16:32:24 -0500
+Message-Id: <afda12a746bb9f13954a914fa93f949a4e954ca7.1353532567.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
 References: <cover.1353532567.git.bruce.ashfield@windriver.com>
@@ -18,7 +18,7 @@ In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
 References: <cover.1353532567.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, linux-yocto@yoctoproject.org,
 	openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] kernel-yocto: clarify KMETA branch comments
+Subject: [PATCH 2/4] linux-yocto/3.4: uprobes: reinstate config options for 'uprobe' feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,62 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Nov 2012 21:46:47 -0000
 
-Having a meta branch is not strictly required by the tools (and
-recipes like linux-yocto-custom do not have meta branches), but the
-comments in the kernel-yocto.bbclass could lead someone to think that
-it was required.
+bumping the meta SRCREV to import the following fix:
 
-This commit clearifies the comment to the following:
+[
+    uprobes: reinstate config options for 'uprobe' feature
 
-  # We can fix up the kernel repository even if it wasn't a bare clone.
-  # If KMETA is defined, the branch must exist, but a machine branch
-  # can be missing since it may be created later by the tools.
+    commit 17ec51adfff (meta: cleanup invalid/obselete 3.4 CONFIG options)
+    removed the uprobes config options, this restores them.
+]
 
-[YOCTO #3422]
-
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb      |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index f78d63b..0d4ed21 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -130,8 +130,9 @@ do_kernel_checkout() {
- 		echo "WARNING. ${WORKDIR}/git is not a bare clone."
- 		echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
- 		
--		# we can fix up the kernel repository, but at the least the meta
--		# branch must be present. The machine branch may be created later.
-+		# We can fix up the kernel repository even if it wasn't a bare clone.
-+		# If KMETA is defined, the branch must exist, but a machine branch
-+		# can be missing since it may be created later by the tools.
- 		mv ${WORKDIR}/git/.git ${S}
- 		rm -rf ${WORKDIR}/git/
- 		cd ${S}
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index 1176404..76ee542 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -10,7 +10,7 @@ KMETA = "meta"
+ 
+ SRCREV_machine ?= "2572b13999da8129c37eb2bf7e9a8fa68dc2a4bf"
+ SRCREV_machine_qemuppc ?= "2004632314104d4f31bb1577e955da53796f517c"
+-SRCREV_meta ?= "553a8512fd924420db5cc2320ece4a6fd9b1e486"
++SRCREV_meta ?= "472aaf880c9176a40de98c97e14355fe77478598"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+index 6cfec92..50890a3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+@@ -13,7 +13,7 @@ LINUX_VERSION ?= "3.4.18"
+ KMETA = "meta"
+ 
+ SRCREV_machine ?= "f1c2320544eaffd6ecc7fcb8b18f8a0ed4ba2e14"
+-SRCREV_meta ?= "553a8512fd924420db5cc2320ece4a6fd9b1e486"
++SRCREV_meta ?= "472aaf880c9176a40de98c97e14355fe77478598"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 7a58e1c..587bdd6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -9,7 +9,7 @@ SRCREV_machine_qemuppc ?= "ae8e2cd14e47bceb9c2bdcb927b3a0ea61f6c311"
+ SRCREV_machine_qemux86 ?= "f1c2320544eaffd6ecc7fcb8b18f8a0ed4ba2e14"
+ SRCREV_machine_qemux86-64 ?= "f1c2320544eaffd6ecc7fcb8b18f8a0ed4ba2e14"
+ SRCREV_machine ?= "f1c2320544eaffd6ecc7fcb8b18f8a0ed4ba2e14"
+-SRCREV_meta ?= "553a8512fd924420db5cc2320ece4a6fd9b1e486"
++SRCREV_meta ?= "472aaf880c9176a40de98c97e14355fe77478598"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
 -- 
 1.7.10.4
 
