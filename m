@@ -1,41 +1,34 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TbGkl-00068p-Ty
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 21:18:38 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 21 Nov 2012 12:04:29 -0800
-Received: by mail-ob0-f197.google.com with SMTP id za17so27969164obc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 12:04:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=iQWlmiu9491wz1icTeCURwqYF1xRaiPHc9wAJNiWKYk=;
-	b=PidVo0t9ONRNMmLHFdBdcW1bQIF4I//kR4m7TOHwE+w1BRVequrT5KsKveNqEG2Txq
-	XCvvZzb/jqUDvkHdPvK5K8i/cPEMJC3iEbEVsgXucKOSZ9XqCDyZv3X81XoazPOUTRKB
-	EOmp+QIdCEArGdnXYwzfD5b2OhfdRRPe3jb2swPm71y2Nzj4sgNanVE8QP+C/otz6pgt
-	wwCqquNY1wJ+/i3OGKhVOtptGXv5wCbZyFR2JBZH0Zdb+IuFoEIMUbvsCO71mgRgmzFD
-	kHqN0H9EOllyD6jKZgOhl2Jj3i9sD/btwtpb/jK2nI5jghK20qze36OAKtOaCrFPBqMM
-	86wQ==
-Received: by 10.60.13.73 with SMTP id f9mr9736733oec.131.1353528268317;
-	Wed, 21 Nov 2012 12:04:28 -0800 (PST)
-Received: by 10.60.13.73 with SMTP id f9mr9736722oec.131.1353528268202; Wed,
-	21 Nov 2012 12:04:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.182.154.37 with HTTP; Wed, 21 Nov 2012 12:04:08 -0800 (PST)
-In-Reply-To: <20121121172155.GL12637@jama.jama.net>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
-	<20121121162051.GK12637@jama.jama.net> <1353517951.10459.21.camel@ted>
-	<20121121172155.GL12637@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Nov 2012 20:04:08 +0000
-Message-ID: <CAJTo0LZrWEW8-CwmBMY8+=e6KJ_yQv6=gTtRODrrRnQ6ELwQkA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQkH5sq2qQx6EPf5I7LN2nuqOCPeuG8bt10WsuDibsTWDpD5huiqXGR4Or7+9bNnbDIwaKNrB2m/9vpGTEz3QsAntIlZibJN4wyugFzYmw+Vz7AvcTAZlL9KsK6HV90erv83MbKdd/OZZOUDzliLZ+Pvf+nfatYQK7gYumBcQ6uRlMY1KgI/RbDFmWEipYHT0wFV8Ex5
-Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TbHYn-0007Wf-Lr for openembedded-core@lists.openembedded.org;
+	Wed, 21 Nov 2012 22:10:17 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qALKuCKX020432;
+	Wed, 21 Nov 2012 20:56:12 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20162-03; Wed, 21 Nov 2012 20:56:07 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qALKu23N020424
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 21 Nov 2012 20:56:04 GMT
+Message-ID: <1353531361.10459.27.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Wed, 21 Nov 2012 20:56:01 +0000
+In-Reply-To: <CAP9ODKp1gmCuvfnowtK2kyPajCOZoAS4b+0ocW0=-eNs1HUK8w@mail.gmail.com>
+References: <cover.1353490311.git.kai.kang@windriver.com>
+	<bbf45c7739e8d08864c771446b487a5169e1f488.1353490311.git.kai.kang@windriver.com>
+	<CAP9ODKoae1cD-qkN=VfSpLDRZO=yrcCXyhEmE+5+ZQbjahpU5w@mail.gmail.com>
+	<1353519268.10459.22.camel@ted>
+	<CAP9ODKp1gmCuvfnowtK2kyPajCOZoAS4b+0ocW0=-eNs1HUK8w@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] msmtp: add link to ${libdir}/sendmail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,25 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 20:18:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 21 Nov 2012 21:10:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 21 November 2012 17:21, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > So I'm wondering if it was tested at all.
->> >
->> > With xf86-video-omapfb not ported to xserver-1.13 video API it makes new
->> > default xserver from oe-core unusable on many armv7a machines..
->>
->> /usr/include/xorg/dri.h probably existed on the machine it was tested
->> on. I appreciate this needs to get fixed but I know it was tested.
->
-> Doesn't AC_CHECK_FILE macro fail the same when it does exist?
+On Wed, 2012-11-21 at 15:37 -0200, Otavio Salvador wrote:
+> On Wed, Nov 21, 2012 at 3:34 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2012-11-21 at 09:28 -0200, Otavio Salvador wrote:
+> >> On Wed, Nov 21, 2012 at 7:38 AM, Kang Kai <kai.kang@windriver.com> wrote:
+> >> > LSB tests check file ${libdir}/sendmail, and the file was created by
+> >> > package lsbsetup. Because lsbsetup is dropped, create the link in msmtp.
+> >> >
+> >> > Signed-off-by: Kang Kai <kai.kang@windriver.com>
+> >>
+> >> I think it is wrong. You should to use alternatives for it.
+> >
+> > Not necessarily, its not a file conflict problem, it just needs to exist
+> > at all...
+> 
+> What if I want to use another smtp and still be lsb compliance?
 
-AC_CHECK_FILE always fails when cross-compiling. Any instances of it
-should be replaced with something more useful - especially header
-checks that should be using pkgconfig. I recommend patching the build
-to use pkgconfig and sending the patch upstream.
+The issue is we already have the "sendmail" bindir entry under update
+alternatives control so this means adding an alternative of the
+alternative which I think is getting convoluted. Ideally this symlink
+just needs to exist which ever smtp is installed.
 
-Ross
+So I think the better answer may be to move the link to the lsbtest
+suite, or some kind of lsb-collateral package.
+
+Cheers,
+
+Richard
+
+
 
 
