@@ -1,39 +1,24 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TbI2K-00081g-8D
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI81-00087U-8J
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 22:40:48 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so2896746eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 13:26:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=71DLGJnyOw6wd3dZysj8Hf9Ol7rwqdWf/fEJ4Cs34AY=;
-	b=gz3RV5VtqmqG3sn7jXGyNIjE5hbSZ70+9KyHGImBfe66tDMpcW7yaiBJzkwUqnfoeR
-	kII7+i/atefd9NhLGH/xlZiXSwcGLbtgq6z39NPXl/P57DYTMrfDGYfJ4e3Kjl5e/yjB
-	3+Ct1sVaKzrr0//Ywrl8kPvXIdlB61nd3yXLk6pK6og22FnSoDbf7UUZ6vy/gD5m+sh9
-	s0ZFoTRIFg+c6NYcdbja+SdND3Tb4hYfVOryjEmG8XCvN7mhXd9kPP6JlcmizlBaIRaT
-	x2dqemHnDp8JfEIKWD+04wBCtX8iJLeSrWVcGXc4wLinxjVRYgpI9KKYI3XKwv2p2Wpo
-	j6dg==
-Received: by 10.14.205.3 with SMTP id i3mr49669628eeo.18.1353533202695;
-	Wed, 21 Nov 2012 13:26:42 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 46sm2706326eeg.4.2012.11.21.13.26.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Nov 2012 13:26:42 -0800 (PST)
-Date: Wed, 21 Nov 2012 22:26:38 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <20121121212638.GR12637@jama.jama.net>
-References: <1353465025-13655-1-git-send-email-fupan.li@windriver.com>
-	<20121121074659.GF12637@jama.jama.net>
-	<50AC89D9.2080601@windriver.com> <50AD44B0.5040307@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <50AD44B0.5040307@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] move the benchmark package bonnie++ from meta-oe layer to oe-core and upgrade bonnie++ from 1.03c to 1.03e
+	Wed, 21 Nov 2012 22:46:47 +0100
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKp020293;
+	Wed, 21 Nov 2012 13:32:31 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 21 Nov 2012 16:32:23 -0500
+Message-Id: <0c7e7c3d7d82d194f552e35002e7433d3b674922.1353532567.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
+References: <cover.1353532567.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
+References: <cover.1353532567.git.bruce.ashfield@windriver.com>
+Cc: dvhart@linux.intel.com, linux-yocto@yoctoproject.org,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] linux-yocto/3.0: fix virtio configuration typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,70 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 21:40:48 -0000
-X-Groupsio-MsgNum: 31630
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="a+0P3INHs7aeI7wh"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 21 Nov 2012 21:46:47 -0000
 
---a+0P3INHs7aeI7wh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The recent tools updates in master exposed a typo that has existed
+in the 3.0 kernel meta data and that breaks the build for boards still
+using the 3.0 kernel.
 
-On Wed, Nov 21, 2012 at 04:16:32PM -0500, Randy MacLeod wrote:
-> On 12-11-21 02:59 AM, fupan.li wrote:
-> > On 11/21/2012 03:46 PM, Martin Jansa wrote:
-> >> On Wed, Nov 21, 2012 at 10:30:25AM +0800, fupan.li@windriver.com wrote:
-> >>> From: fli <fupan.li@windriver.com>
-> >> Why do you think that bonnie++ is "core" enough to be in oe-core?
-> >>
-> >> Cheers,
-> > I think it's better to afford those benchmark packages such as lmbench,
-> > iozone3, bonnie++ and so on
-> > in the oe-core, so that the users can benchmark its built system easily!
-> > Benchmark test for an embedded system is essential, especially for those
-> > projects based on the OE.
->=20
-> Right it shouldn't be in oe-core, sorry for suggeting that Fupan.
-> What do you suggest Martin? I haven't been following how people
-> choose to make a YP layer or add things to meta-oe in OpenEmbedded.
->=20
-> Should we make meta-benchmark layer for the YP or
-> should we try to re-use:
-> =20
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-bench=
-mark
-> =09
-> d---------	bonnie
-> d---------	cpuburn
-> d---------	dbench
-> d---------	fio
-> d---------	iozone3
-> d---------	iperf
-> d---------	lmbench
-> d---------	memtester
-> d---------	nbench-byte
-> d---------	netperf
-> d---------	tiobench
+Bumping the meta SRCREV to pickup the following fix:
 
-Yes, using meta-oe is easiest way.
+[
+  commit fa9b8c24e84bb9d75d08d197c84c50ce4f99c424
+  Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+  Date:   Wed Nov 21 09:24:46 2012 -0500
 
-And bonnie is already there, so why to move it.
+    meta: fix typo in virtio.scc
 
-Cheers,
+    virtio.scc was referring to an invalid/incorrect virto.cfg. Fixing
+    this typo fixes the build for boards still using the 3.0 kernel.
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index e917beb..b7fbf23 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -17,7 +17,7 @@ SRCREV_machine_qemuppc ?= "d8779a6245d13c3b56eabac36a14c8896f448566"
+ SRCREV_machine_qemux86 ?= "33d5d1ea371dad280e5bcfadd12c3a360c6bc5b8"
+ SRCREV_machine_qemux86-64 ?= "fe23c7dd94eb94dd5887028683093615ac921086"
+ SRCREV_machine ?= "cef17a18d72eae749dc78de3c83772f52815d842"
+-SRCREV_meta ?= "bf5ee4945ee6d748e6abe16356f2357f76b5e2f0"
++SRCREV_meta ?= "fa9b8c24e84bb9d75d08d197c84c50ce4f99c424"
+ 
+ PR = "${INC_PR}.1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-- 
+1.7.10.4
 
 
---a+0P3INHs7aeI7wh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlCtRw4ACgkQN1Ujt2V2gBxD+wCgjw40TksJkGqcw0SBw+6CQCdC
-vbsAoI5PZ2adW9wqgxFMGT64twsL5wMN
-=5Bp/
------END PGP SIGNATURE-----
-
---a+0P3INHs7aeI7wh--
