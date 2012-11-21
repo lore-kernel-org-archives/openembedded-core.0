@@ -1,36 +1,20 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1TbBlK-0001SZ-4s
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TbBxw-0001zL-QP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 15:58:52 +0100
-Received: by mail-wi0-f177.google.com with SMTP id c10so1707823wiw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 06:44:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=qYdZwA0IJEKHZ5q2WTeQ/f8VYDPZ/5Rx+ZxyfQ3Z02g=;
-	b=QbElVMHboVN/kxXvX0cSn8sDy/Fvite8rtmoHJ4LU302Uot8zISbebpY/G9+JKo6rt
-	Ap7YOG9wby8taFsvWXSHGE/RfhE0fa7lyt4/YPp1s4hi0XYZ5YhtB3QuNnc+EIncGZx/
-	KSLrNIHkxPL/w2ri4nTAp1PgKfeeE8oA9vS1c3LYibC5NLmsLDI3aD1U0SYIJJ63zn4J
-	wOCSi4pngjhFEb1W35PyQnHOkgaW5dIeuTNY7xrHcLNY7U6NUF3BIdkorHjQNmYCtLI5
-	vhkk5BTsgUIeFRFGl1+C0Aybm3cPrhHoeORiTzytFo8bUcrBF1U+gbRTgbvpEK5jVOKg
-	Hirg==
-Received: by 10.180.100.97 with SMTP id ex1mr14291608wib.1.1353509079559;
-	Wed, 21 Nov 2012 06:44:39 -0800 (PST)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id s12sm22276357wik.11.2012.11.21.06.44.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Nov 2012 06:44:38 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Wed, 21 Nov 2012 16:11:53 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 21 Nov 2012 06:57:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,293,1352102400"; d="scan'208";a="220667009"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 21 Nov 2012 06:57:44 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Nov 2012 15:44:34 +0100
-Message-Id: <1353509074-16375-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.7.6
-X-Gm-Message-State: ALoCoQmOQMoFsO2GFNypaaKxtfzKwCf7Lkcrtf0mYXtWcfhm8WwUrvFbqFCuhgd1IqedYFyoQvlM
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] image classes: use PN for depends, not IMAGE_BASE_NAME
+Date: Wed, 21 Nov 2012 16:57:42 +0200
+Message-Id: <1353509863-8314-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] binutils-crosssdk: do not set .interp size to 0x1000 for partial linked objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +27,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 14:58:57 -0000
+X-List-Received-Date: Wed, 21 Nov 2012 15:11:53 -0000
 
-Some images override IMAGE_BASE_NAME in the recipe causing targets using image-{live,vmdk} to fail.
+When building the SDK, the final .interp section size should be set to a
+bigger value (0x1000) in order to be able to change the dynamic loader's
+path later. However, we shouldn't do that for partial linked objects
+(when -r or -rU is used). That's because those objects will then have an
+.interp section of 0x1000 even if it contains no data and when the final
+linking is done we will end up with a "cannot move location counter
+backwards" error. That's because the linker will try to squeeze all the data in
+the .interp sections found in various partial linked objects into one 0x1000
+bytes final .interp section.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+[YOCTO #3264]
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/image-live.bbclass |    2 +-
- meta/classes/image-vmdk.bbclass |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../binutils/binutils/relocatable_sdk.patch        |   37 +++++++++++++++++---
+ 1 file changed, 32 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 2f3261e..bfb59f8 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -10,6 +10,6 @@ LABELS_append = " ${SYSLINUX_LABELS} "
- ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+diff --git a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
+index 33f9e68..7408c31 100644
+--- a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
++++ b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
+@@ -7,15 +7,42 @@ by the relocating script.
  
- do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
--do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
-+do_bootimg[depends] += "${PN}:do_rootfs"
+ Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
  
- inherit bootimg
-diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
-index 736d1d7..6f7df3f 100644
---- a/meta/classes/image-vmdk.bbclass
-+++ b/meta/classes/image-vmdk.bbclass
-@@ -8,7 +8,7 @@ SYSLINUX_LABELS = "boot"
- LABELS_append = " ${SYSLINUX_LABELS} "
- 
- # need to define the dependency and the ROOTFS for directdisk
--do_bootdirectdisk[depends] += "${IMAGE_BASENAME}:do_rootfs"
-+do_bootdirectdisk[depends] += "${PN}:do_rootfs"
- ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
- 
- # creating VMDK relies on having a live hddimg so ensure we
+-Index: binutils-2.22/ld/scripttempl/elf.sc
++Index: binutils_git/ld/genscripts.sh
+ ===================================================================
+---- binutils-2.22.orig/ld/scripttempl/elf.sc
+-+++ binutils-2.22/ld/scripttempl/elf.sc
+-@@ -116,7 +116,7 @@ if test -n "${COMMONPAGESIZE}"; then
++--- binutils_git.orig/ld/genscripts.sh	2012-11-21 11:58:23.325441925 +0200
+++++ binutils_git/ld/genscripts.sh	2012-11-21 12:03:42.106815400 +0200
++@@ -290,6 +290,7 @@
++ LD_FLAG=r
++ DATA_ALIGNMENT=${DATA_ALIGNMENT_r}
++ DEFAULT_DATA_ALIGNMENT="ALIGN(${SEGMENT_SIZE})"
+++PARTIAL_LINKING=" "
++ ( echo "/* Script for ld -r: link without relocation */"
++   . ${CUSTOMIZER_SCRIPT}
++   . ${srcdir}/scripttempl/${SCRIPT_NAME}.sc
++@@ -298,10 +299,12 @@
++ LD_FLAG=u
++ DATA_ALIGNMENT=${DATA_ALIGNMENT_u}
++ CONSTRUCTING=" "
+++PARTIAL_LINKING=" "
++ ( echo "/* Script for ld -Ur: link w/out relocation, do create constructors */"
++   . ${CUSTOMIZER_SCRIPT}
++   . ${srcdir}/scripttempl/${SCRIPT_NAME}.sc
++ ) | sed -e '/^ *$/d;s/[ 	]*$//' > ldscripts/${EMULATION_NAME}.xu
+++unset PARTIAL_LINKING
++ 
++ LD_FLAG=
++ DATA_ALIGNMENT=${DATA_ALIGNMENT_}
++Index: binutils_git/ld/scripttempl/elf.sc
++===================================================================
++--- binutils_git.orig/ld/scripttempl/elf.sc	2012-11-21 12:02:26.800377384 +0200
+++++ binutils_git/ld/scripttempl/elf.sc	2012-11-21 12:04:16.166109621 +0200
++@@ -124,8 +124,8 @@
++   DATA_SEGMENT_END=". = DATA_SEGMENT_END (.);"
+    DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT-0}, .);"
+  fi
+- if test -z "${INITIAL_READONLY_SECTIONS}${CREATE_SHLIB}"; then
++-if test -z "${INITIAL_READONLY_SECTIONS}${CREATE_SHLIB}"; then
+ -  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp) }"
+++if test -z "${INITIAL_READONLY_SECTIONS}${CREATE_SHLIB}${PARTIAL_LINKING}"; then
+ +  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp); . = 0x1000; }"
+  fi
+  if test -z "$PLT"; then
 -- 
-1.7.7.6
+1.7.9.5
 
 
 
