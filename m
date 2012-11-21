@@ -1,31 +1,36 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Tb7xl-0001Mn-SU
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tb8fe-0005ER-JD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 11:55:26 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:41800 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Tb7kA-0003NJ-Bu for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 05:41:22 -0500
-Date: Wed, 21 Nov 2012 05:41:12 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1211210534120.29954@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Wed, 21 Nov 2012 12:40:46 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so3226493pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Nov 2012 03:26:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=3CNZ9hSYYHc1HN8fy863tJU2D33rOG0rABzMSnGbBt8=;
+	b=fHup8EurdC2bM8+9B1P3R9JLvBCJWdj5lYX/pGBjpmwziM4ApsfKRqxTSgLnp+Nsyn
+	o//Mwa7B+HZCvPzovA+eVuUJ0VQCbJgLMY/1f02ToKWPM8uJwOgCfrOcN/RUzwmYY3Cz
+	STvieDHzEBKtuC7B3es6x7GiETac8N6YkQcyiNaqSQKbjdStNMf0HWWAXw/ilQ2UBGcC
+	ikTW9WFcuULs1Xmpxeer3Dm9Pi/7NzCF8TpYotmrPQ52M1l8ckj26t3wKz16a8qkxVvr
+	cVYXcPmy9E5HzRLdnKT1oxIRGxMyakLV7IgRFUvJbK5TDY1pMefqnJj/LRsyCoklV6Hp
+	3S4w==
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: "bitbake -c fetchall" doesn't appear to process EXTRA_IMAGEDEPENDS values
+Received: by 10.68.197.9 with SMTP id iq9mr57344968pbc.130.1353497201098; Wed,
+	21 Nov 2012 03:26:41 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Wed, 21 Nov 2012 03:26:41 -0800 (PST)
+In-Reply-To: <CAPhnLPAx0bgPRk-YT3uWLfETOhE9ECu0Akxv5i8UGDU+L3-hKg@mail.gmail.com>
+References: <CAPhnLPAx0bgPRk-YT3uWLfETOhE9ECu0Akxv5i8UGDU+L3-hKg@mail.gmail.com>
+Date: Wed, 21 Nov 2012 09:26:41 -0200
+X-Google-Sender-Auth: Fy6CLFAt6UbG8g8Zv9PeBCi4X2I
+Message-ID: <CAP9ODKo1RqiYCgUgt+Xd6Hf7PyPw+mPsCwxRxt=NpAyAYy0PXg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] license.bbclass: Collect LICENSE level packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,63 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 10:55:26 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 21 Nov 2012 11:40:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Tue, Nov 20, 2012 at 7:49 PM, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
+> Some bad logic in license.bbclass misses certain package level
+> LICENSEs.
+>
+> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 
-  short followup to yesterday, it seems that running
-
-  $ bitbake -c fetchall ... whatever ...
-
-won't fetch anything defined solely with EXTRA_IMAGEDEPENDS, although
-the fetching *will* be done during the build.
-
-  in my case, using oe-core and meta-ti layers to build for
-pandaboard, and here's the versions of u-boot allegedly part of the
-process:
-
-$ bitbake -s | grep u-boot
-nativesdk-u-boot-mkimage                          :2011.06-r0
-u-boot                                            :2011.12-r8 <- there
-u-boot-fw-utils                                   :2011.06-r1
-u-boot-mkimage                                    :2011.06-r0
-u-boot-mkimage-native                             :2011.06-r0
-$
-
-but the fetchall fetches only the 2011.06 version.  a simple kludge
-was to simply force the fetch by adding:
-
-  CORE_IMAGE_EXTRA_INSTALL = "u-boot"
-
-to my local.conf before starting the fetch.
-
-  just FYI, the meta-ti layer uses this extensively:
-
-$ grep -r EXTRA_IMAGEDEPENDS *
-conf/machine/beagleboard.conf:EXTRA_IMAGEDEPENDS = "u-boot"
-conf/machine/keystone-evm.conf:#EXTRA_IMAGEDEPENDS = "u-boot"
-conf/machine/beaglebone.conf:EXTRA_IMAGEDEPENDS = "u-boot"
-conf/machine/include/keystone.inc:EXTRA_IMAGEDEPENDS += "u-boot"
-conf/machine/include/ti814x.inc:EXTRA_IMAGEDEPENDS += "u-boot"
-conf/machine/include/davinci.inc:EXTRA_IMAGEDEPENDS += "u-boot"
-conf/machine/include/omap4.inc:EXTRA_IMAGEDEPENDS += "u-boot"
-conf/machine/include/omap3.inc:EXTRA_IMAGEDEPENDS += "u-boot x-load"
-conf/machine/include/ti33x.inc:EXTRA_IMAGEDEPENDS += "u-boot"
-conf/machine/include/ti816x.inc:EXTRA_IMAGEDEPENDS += "u-boot"
-$
-
-  so is this an actual bug?  or am i doing something silly?
-
-rday
+Does it also affects Danny?
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
