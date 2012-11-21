@@ -1,40 +1,36 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tb8hZ-0005Iy-Gp
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tb8hd-0005JA-5D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 12:42:45 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 21 Nov 2012 03:28:39 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so35263408oag.0
+	Wed, 21 Nov 2012 12:42:49 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so3227511pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 03:28:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=mHpDI0moiyygmbNgAJBAPyyZhTAzY2+o9UL6z0L+nH0=;
-	b=h7yoNB8IT9EeotyaT37HJa5LOZRqjm3LbyQWr/+EBBCtw01BCfjkel50y7DiHqcLcx
-	0tV+30pE6GQljmdmfnpfGHah4ahryoqHSlG0woyvtikXpIreR6P/guKXNkTykgwWHivB
-	U8JXByZVHo0wBQ8etcI6u3hzjc1/7r7EboIssEU1A+3HukO+ZaMWP++oNYNvTVBeAOAh
-	gcOD5OS9+KJlqxq36QWygEXGC+4ZYf+o3TQ1dkbkxyNKDcVAoXOg0Igla3mfUmlqlum3
-	G1uoZ7jpnJkqb96HIXR3PwuHykrGEt61adqDNkicPGPw7Wyg0ruBTiiNb36hMtgyPkCv
-	34Qg==
-Received: by 10.182.53.3 with SMTP id x3mr2867350obo.87.1353497318195;
-	Wed, 21 Nov 2012 03:28:38 -0800 (PST)
-Received: by 10.182.53.3 with SMTP id x3mr2867345obo.87.1353497318098; Wed, 21
-	Nov 2012 03:28:38 -0800 (PST)
+	Wed, 21 Nov 2012 03:28:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=+W6Qhs0AmxgSagef/rNczkk+F8oFoky6eWWprWKCNmE=;
+	b=Xdrl89auWWl3IT1vkPXhpPAPwcW2pyTnDMS1TqEksLk8VgU1F5lRwMfaJvDR0Si3qy
+	Kir1Da+KeTI1j9MyS3ig62KxnHk1lhiQ3YlKdu9XimCDt3yUoOR8iScIQ6Zhw1eyCDi9
+	IURQ53j2hWMpETWNmSs/KjZJvhlpdEp6i8uw7T+FFUJtQVsYwBqXigg9rGLH73K8WVqz
+	7eFA8ofTYuLEtqLjjDJxJsVKrEmRhwLEDtPrtfccw1V0fh4g/nuvkxlywBbuu1X0wD4o
+	4k8Cxw4scTc2Zlok8Ksz1UKJTvHnY+fHW3KQApA5QyLMjOvBSgKXvJ6FnlH4o/GIMXRv
+	YYTA==
 MIME-Version: 1.0
-Received: by 10.182.154.37 with HTTP; Wed, 21 Nov 2012 03:28:16 -0800 (PST)
-In-Reply-To: <1353450851-7252-1-git-send-email-gilbert_coville@mentor.com>
-References: <CAJTo0LaB=Qhd5wmhhJCRHqL+Fb4=AxSCaPVDi7tqoV_Giwghqw@mail.gmail.com>
-	<1353450851-7252-1-git-send-email-gilbert_coville@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 21 Nov 2012 11:28:16 +0000
-Message-ID: <CAJTo0LbYNQDXewFXHUwY_=KiDr0FfH-j7jb4xWb+_nY0iS5YJA@mail.gmail.com>
-To: Gilbert Coville <gilbert_coville@mentor.com>
-X-Gm-Message-State: ALoCoQmMcjtzz0r+ooB0OwnSSNhN3FlMHHPBGYjrFdlXbJzbg6BlBJU2QLinUp+UGbAr4oi1USrASErHtam9ACttLEvZjT527P1oqCZiG3MhXsL/Ovo4jPeIDlzYnOayi1cO6VSSaDIRcmWJvPYAmnke8fSbWFrYHJSTGQ8hfXS1eBoMwv7cw/2vKveE2PyEFwgftIRwrTpR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] gst-plugins-base: add dep on libsm and libice
+Received: by 10.66.80.194 with SMTP id t2mr16666281pax.43.1353497323170; Wed,
+	21 Nov 2012 03:28:43 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Wed, 21 Nov 2012 03:28:43 -0800 (PST)
+In-Reply-To: <bbf45c7739e8d08864c771446b487a5169e1f488.1353490311.git.kai.kang@windriver.com>
+References: <cover.1353490311.git.kai.kang@windriver.com>
+	<bbf45c7739e8d08864c771446b487a5169e1f488.1353490311.git.kai.kang@windriver.com>
+Date: Wed, 21 Nov 2012 09:28:43 -0200
+X-Google-Sender-Auth: jT0E_ETK1TYAoT4vu22bbbDGRp8
+Message-ID: <CAP9ODKoae1cD-qkN=VfSpLDRZO=yrcCXyhEmE+5+ZQbjahpU5w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Kang Kai <kai.kang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 4/4] msmtp: add link to ${libdir}/sendmail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,21 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 11:42:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 21 Nov 2012 11:42:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 20 November 2012 22:34, Gilbert Coville <gilbert_coville@mentor.com> wrote:
-> If libICE exists when this package configures, libICE and libSM are
-> added to the list of included libraries.  Adding libsm and libice to the
-> list of dependencies ensures they'll be present and makes the contents
-> of this package more deterministic.
+On Wed, Nov 21, 2012 at 7:38 AM, Kang Kai <kai.kang@windriver.com> wrote:
+> LSB tests check file ${libdir}/sendmail, and the file was created by
+> package lsbsetup. Because lsbsetup is dropped, create the link in msmtp.
+>
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
 
-I suspected this was the reason.  That's AC_PATH_XTRA being stupid as
-usual.   I wonder if upstream would replace that with a PKG_CONFIG
-call for x11.pc.
+I think it is wrong. You should to use alternatives for it.
 
-Grudingly Acked-By: Ross Burton <ross.burton@intel.com>
-
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
