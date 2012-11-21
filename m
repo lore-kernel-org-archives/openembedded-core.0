@@ -1,24 +1,24 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TbCNw-0002Ec-WA
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TbCNx-0002Ec-H4
 	for openembedded-core@lists.openembedded.org;
 	Wed, 21 Nov 2012 16:38:45 +0100
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
 	Wed, 21 Nov 2012 16:23:33 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id B5C5A29143A;
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id AB876291436;
 	Wed, 21 Nov 2012 16:23:32 +0100 (CET)
 From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2012 16:23:10 +0100
-Message-ID: <1353511391-60570-4-git-send-email-bjst@enea.com>
+Date: Wed, 21 Nov 2012 16:23:08 +0100
+Message-ID: <1353511391-60570-2-git-send-email-bjst@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1353511391-60570-1-git-send-email-bjst@enea.com>
 References: <1353511391-60570-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
 	permitted sender hosts)
-Subject: [PATCH 3/4] Add ptest for glib-2.0.
+Subject: [PATCH 1/4] Add a new distro feature "ptest"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,170 +35,176 @@ X-List-Received-Date: Wed, 21 Nov 2012 15:38:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+This patch creates a new distro feature "ptest", which creates -ptest
+packages containing the test suite of the package for running on the
+target. Test files are installed in /usr/lib/<pkg>/ptest.
+
+The patch also includes a change to automake, splitting the "make check"
+target into separate steps for building and running the tests.
+
 Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 ---
- .../glib-2.0/glib-2.0/Makefile-ptest.patch         |   30 ++++++++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |    3 +
- meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb      |   57 ++++++++++++++++=
+ meta/classes/image.bbclass                         |    6 ++-
+ meta/classes/packagegroup.bbclass                  |    2 +-
+ meta/conf/bitbake.conf                             |   15 ++++++++-
+ .../automake/automake/buildtest.patch              |   33 ++++++++++++++++=
 ++++
- .../ptest-runner/files/ptest-runner                |    3 +
- 4 files changed, 93 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patc=
-h
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+ meta/recipes-devtools/automake/automake_1.12.3.bb  |    3 +-
+ 5 files changed, 54 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-devtools/automake/automake/buildtest.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch b/met=
-a/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ab212b3..94182d1 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -29,13 +29,13 @@ ROOTFS_BOOTSTRAP_INSTALL =3D "${@base_contains("IMAGE_F=
+EATURES", "package-manageme
+ FEATURE_INSTALL =3D "${@' '.join(oe.packagegroup.required_packages(oe.data=
+.typed_value('IMAGE_FEATURES', d), d))}"
+ FEATURE_INSTALL_OPTIONAL =3D "${@' '.join(oe.packagegroup.optional_package=
+s(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
+=20
+-# packages to install from features, excluding dev/dbg/doc
++# packages to install from features, excluding dev/dbg/doc/ptest
+ NORMAL_FEATURE_INSTALL =3D "${@' '.join(oe.packagegroup.required_packages(=
+normal_groups(d), d))}"
+ NORMAL_FEATURE_INSTALL_OPTIONAL =3D "${@' '.join(oe.packagegroup.optional_=
+packages(normal_groups(d), d))}"
+=20
+ def normal_groups(d):
+     """Return all the IMAGE_FEATURES, with the exception of our special pa=
+ckage groups"""
+-    extras =3D set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs'])
++    extras =3D set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs', =
+'ptest-pkgs'])
+     features =3D set(oe.data.typed_value('IMAGE_FEATURES', d))
+     return features.difference(extras)
+=20
+@@ -57,6 +57,8 @@ def complementary_globs(featurevar, d):
+             globs.append('*-doc')
+         elif feature =3D=3D 'dbg-pkgs':
+             globs.append('*-dbg')
++        elif feature =3D=3D 'ptest-pkgs':
++            globs.append('*-ptest')
+     return ' '.join(globs)
+=20
+ IMAGE_INSTALL_COMPLEMENTARY =3D '${@complementary_globs("IMAGE_FEATURES", =
+d)}'
+diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.=
+bbclass
+index e0e5b1c..b5be048 100644
+--- a/meta/classes/packagegroup.bbclass
++++ b/meta/classes/packagegroup.bbclass
+@@ -25,7 +25,7 @@ python () {
+     packages =3D d.getVar('PACKAGES', True).split()
+     genpackages =3D []
+     for pkg in packages:
+-        for postfix in ['-dbg', '-dev']:
++        for postfix in ['-dbg', '-dev', '-ptest']:
+             genpackages.append(pkg+postfix)
+     d.setVar('PACKAGES', ' '.join(packages+genpackages))
+ }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5cb5b13..783ca37 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -223,6 +223,10 @@ SUMMARY_${PN}-dbg ?=3D "${SUMMARY} - Debugging files"
+ DESCRIPTION_${PN}-dbg ?=3D "${DESCRIPTION}  \
+ This package contains ELF symbols and related sources for debugging purpos=
+es."
+=20
++SUMMARY_${PN}-ptest ?=3D "${SUMMARY} - Package test files"
++DESCRIPTION_${PN}-ptest ?=3D "${DESCRIPTION}  \
++This package contains test directory with the name ${PTEST_NAME} for packa=
+ge test purposes."
++
+ SUMMARY_${PN}-dev ?=3D "${SUMMARY} - Development files"
+ DESCRIPTION_${PN}-dev ?=3D "${DESCRIPTION}  \
+ This package contains symbolic links, header files, and \
+@@ -266,7 +270,7 @@ SOLIBSDEV_darwin8 =3D ".dylib"
+ SOLIBSDEV_darwin9 =3D ".dylib"
+=20
+ PACKAGE_BEFORE_PN ?=3D ""
+-PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale $=
+{PACKAGE_BEFORE_PN} ${PN}"
++PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale $=
+{PN}-ptest ${PACKAGE_BEFORE_PN} ${PN}"
+ PACKAGES_DYNAMIC =3D "${PN}-locale-*"
+ FILES =3D ""
+=20
+@@ -310,6 +314,15 @@ SECTION_${PN}-dbg =3D "devel"
+ ALLOW_EMPTY_${PN}-dbg =3D "1"
+ RRECOMMENDS_${PN}-dbg =3D "${PN} (=3D ${EXTENDPKGV})"
+=20
++PTEST_PATH ?=3D "${libdir}/${PN}/ptest"
++FILES_${PN}-ptest =3D "${PTEST_PATH}/*"
++SECTION_${PN}-ptest =3D "devel"
++ALLOW_EMPTY_${PN}-ptest =3D "1"
++RDEPENDS_${PN}-ptest =3D "${PN} (=3D ${EXTENDPKGV})"
++PTEST_ENABLED =3D "${@base_contains("DISTRO_FEATURES", "ptest", "1", "0", =
+d)}"
++RDEPENDS_${PN}-ptest_virtclass-native =3D ""
++RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
++
+ FILES_${PN}-locale =3D "${datadir}/locale"
+=20
+ # File manifest
+diff --git a/meta/recipes-devtools/automake/automake/buildtest.patch b/meta=
+/recipes-devtools/automake/automake/buildtest.patch
 new file mode 100644
-index 0000000..b5b1498
+index 0000000..7efff6b
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
-@@ -0,0 +1,30 @@
-+Add 'ptest' target to Makefile, to run tests without checking dependencies=
-.
++++ b/meta/recipes-devtools/automake/automake/buildtest.patch
+@@ -0,0 +1,33 @@
++Split "check-TESTS" into a buildtest and runtest target, so that they can
++be run separately.
 +
 +Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
-+Upstream-status: Pending
-+---
-+ Makefile.decl |   13 +++++++++++++
-+ 1 file changed, 13 insertions(+)
++Upstream-Status: Pending
 +
-+--- a/Makefile.decl	2012-03-12 01:42:39.000000000 +0100
-++++ b/Makefile.decl	2012-11-12 17:02:36.838107381 +0100
-+@@ -25,6 +25,19 @@
-+ test-nonrecursive:
-+ endif
-+=20
-++ptest: ptest-nonrecursive
-++if OS_UNIX
-++	@ for subdir in $(SUBDIRS) .; do \
-++	    test -d "$$subdir" -a "$$subdir" !=3D "." -a "$$subdir" !=3D "po" &&=
- \
-++	    ( test -d $$subdir && cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $@ ) \
-++	  done
++--- a/lib/am/check.am	2012-11-14 13:46:16.335475995 +0100
+++++ b/lib/am/check.am	2012-08-13 18:40:12.000000000 +0200
++@@ -44,7 +44,7 @@
++ am__tty_colors =3D $(am__tty_colors_dummy)
++ endif !%?COLOR%
++
++-.PHONY: check-TESTS
+++.PHONY: check-TESTS buildtest-TESTS runtest-TESTS
++
++ if %?PARALLEL_TESTS%
++
++@@ -465,7 +465,14 @@
++
++ else !%?PARALLEL_TESTS%
++
++-check-TESTS: $(TESTS)
+++AM_RECURSIVE_TARGETS +=3D buildtest runtest
 ++
-++ptest-nonrecursive:
-++	@test -z "${TEST_PROGS}" || ${GTESTER} --keep-going --verbose ${TEST_PRO=
-GS}
-++else
-++ptest-nonrecursive:
-++endif
+++buildtest-TESTS: $(TESTS)
 ++
-+ # test-report: run tests in subdirs and generate report
-+ # perf-report: run tests in subdirs with -m perf and generate report
-+ # full-report: like test-report: with -m perf and -m slow
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-c=
-ore/glib-2.0/glib-2.0/run-ptest
-new file mode 100644
-index 0000000..3deb586
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make -k ptest
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-c=
-ore/glib-2.0/glib-2.0_2.32.4.bb
-index 10c0b61..343b458 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-@@ -15,6 +15,8 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.=
-tar.xz \
-            file://glib-2.0_fix_for_x32.patch \
-            file://nodbus.patch \
-            file://nolibelf.patch \
-+           file://Makefile-ptest.patch \
-+           file://run-ptest \
-           "
- SRC_URI[md5sum] =3D "bf84fefd9c1a5b5a7a38736f4ddd674a"
- SRC_URI[sha256sum] =3D "a5d742a4fda22fb6975a8c0cfcd2499dd1c809b8afd4ef709b=
-da4d11b167fae2"
-@@ -22,6 +24,38 @@ SRC_URI[sha256sum] =3D "a5d742a4fda22fb6975a8c0cfcd2499d=
-d1c809b8afd4ef709bda4d11b1
- SRC_URI_append_virtclass-native =3D " file://glib-gettextize-dir.patch"
- BBCLASSEXTEND =3D "native nativesdk"
+++check-TESTS: buildtest-TESTS
+++	$(MAKE) $(AM_MAKEFLAGS) runtest-TESTS
+++
+++runtest-TESTS:
++	@failed=3D0; all=3D0; xfail=3D0; xpass=3D0; skip=3D0; \
++	srcdir=3D$(srcdir); export srcdir; \
++ ## Make sure Solaris VPATH-expands all members of this list, even
+diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recip=
+es-devtools/automake/automake_1.12.3.bb
+index af99dfa..40169d3 100644
+--- a/meta/recipes-devtools/automake/automake_1.12.3.bb
++++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
+@@ -37,7 +37,8 @@ PATHFIXPATCH_virtclass-nativesdk =3D ""
+ SRC_URI +=3D "${PATHFIXPATCH} \
+ 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
+ 	    file://python-libdir.patch \
+-            file://py-compile-compile-only-optimized-byte-code.patch"
++            file://py-compile-compile-only-optimized-byte-code.patch \
++            file://buildtest.patch"
 =20
-+RDEPENDS_${PN}-ptest +=3D "\
-+            eglibc-gconv-utf-16 \
-+            eglibc-charmap-utf-8 \
-+            eglibc-gconv-cp1255 \
-+            eglibc-charmap-cp1255 \
-+            eglibc-gconv-utf-32 \
-+            eglibc-gconv-utf-7 \
-+            eglibc-charmap-invariant \
-+            eglibc-localedata-translit-cjk-variants \
-+            tzdata \
-+            tzdata-americas \
-+            tzdata-asia \
-+            tzdata-europe \
-+            tzdata-posix \
-+            python-pygobject \
-+            python-dbus \
-+           "
-+
-+FILES_${PN}-dbg +=3D "${PTEST_PATH}/gio/.libs/.debug \
-+                    ${PTEST_PATH}/gio/tests/.debug \
-+                    ${PTEST_PATH}/gio/tests/.libs/.debug \
-+                    ${PTEST_PATH}/glib/.debug \
-+                    ${PTEST_PATH}/glib/.libs/.debug \
-+                    ${PTEST_PATH}/glib/tests/.debug \
-+                    ${PTEST_PATH}/glib/tests/.libs/.debug \
-+                    ${PTEST_PATH}/gobject/.libs/.debug \
-+                    ${PTEST_PATH}/gobject/tests/.debug \
-+                    ${PTEST_PATH}/gobject/tests/.libs/.debug \
-+                    ${PTEST_PATH}/tests/.debug \
-+                    ${PTEST_PATH}/tests/.libs/.debug \
-+                    ${PTEST_PATH}/tests/refcount/.libs/.debug"
-+
- do_configure_prepend() {
- 	sed -i -e "s:TEST_PROGS +=3D gdbus-serialization::g"  ${S}/gio/tests/Make=
-file.am
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codege=
-n/gdbus-codegen.in
-@@ -40,4 +74,27 @@ do_install_append() {
-   if [ -f ${D}${bindir}/glib-mkenums ]; then
-     sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-=
-mkenums
-   fi
-+
-+  if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
-+      mkdir -p ${D}${PTEST_PATH}=20
-+      install -m 0755 ${WORKDIR}/run-ptest ${D}${PTEST_PATH}
-+
-+      for subdir in tests glib/tests gobject/tests gio/tests; do
-+          mkdir -p ${D}${PTEST_PATH}/$subdir
-+          cp ${S}/$subdir/Makefile ${D}${PTEST_PATH}/$subdir
-+          cp ${S}/$subdir/.libs/* ${D}${PTEST_PATH}/$subdir
-+      done
-+
-+      cp ${S}/Makefile ${D}${PTEST_PATH}
-+      cp ${S}/glib/Makefile ${D}${PTEST_PATH}/glib
-+      cp ${S}/glib/.libs/gtester ${D}${PTEST_PATH}/glib
-+      cp ${S}/glib/tests/pages.ini       ${D}${PTEST_PATH}/glib/tests
-+      cp ${S}/glib/tests/keyfiletest.ini ${D}${PTEST_PATH}/glib/tests
-+      cp ${S}/glib/tests/empty           ${D}${PTEST_PATH}/glib/tests
-+      cp ${S}/glib/tests/echo-script     ${D}${PTEST_PATH}/glib/tests
-+      cp -r ${S}/glib/tests/bookmarks    ${D}${PTEST_PATH}/glib/tests
-+      cp -r ${S}/glib/tests/markups      ${D}${PTEST_PATH}/glib/tests
-+
-+      find ${D}${PTEST_PATH} -name Makefile | xargs sed -i 's/^Makefile:/_=
-Makefile:/'
-+  fi
- }
-diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/re=
-cipes-support/ptest-runner/files/ptest-runner
-index 4f3c7ce..5022218 100644
---- a/meta/recipes-support/ptest-runner/files/ptest-runner
-+++ b/meta/recipes-support/ptest-runner/files/ptest-runner
-@@ -1,5 +1,8 @@
- #!/bin/sh
-=20
-+export MALLOC_CHECK_=3D2
-+export MALLOC_PERTURB_=3D$(($RANDOM % 255 + 1))
-+
- echo "START: $0"
- cd /usr/lib
- for x in *
+ SRC_URI[md5sum] =3D "d2af8484de94cdee16d89c50aaa1c729"
+ SRC_URI[sha256sum] =3D "095ffaa3ac887d1eb3511bf13d7f1fc9ec0503c6a06aeae05c=
+93730cdda9a5a0"
 --=20
 1.7.5.4
 
