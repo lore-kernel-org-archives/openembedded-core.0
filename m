@@ -1,32 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TbE4e-0005WJ-DO for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 18:26:59 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qALHChrH017559;
-	Wed, 21 Nov 2012 17:12:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14440-02; Wed, 21 Nov 2012 17:12:38 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qALHCWFM017553
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 21 Nov 2012 17:12:34 GMT
-Message-ID: <1353517951.10459.21.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 21 Nov 2012 17:12:31 +0000
-In-Reply-To: <20121121162051.GK12637@jama.jama.net>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
-	<20121121162051.GK12637@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philip.balister@gmail.com>) id 1TbECq-0005iW-FP
+	for openembedded-core@openembedded.org; Wed, 21 Nov 2012 18:35:24 +0100
+Received: by mail-vc0-f175.google.com with SMTP id m8so3319789vcd.6
+	for <openembedded-core@openembedded.org>;
+	Wed, 21 Nov 2012 09:21:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=efbJ1dbkM1ey/HsTnQ5Ht5bAcO7/92i9W7xQMk2U0mQ=;
+	b=q8AItysAMgJ5PkCmhhiCeW8JhohFxuz3Y5pb+BiWM0ZG2/2k0puXdQJcnmwDi9q8P/
+	c+AxXhSnc1SSxmFN/grQeumqUQ9rorxz+MRiIoBe4uQ1sj3sPHPzjOv0fuYyPHwb7t9o
+	3ufPDWVL3QKYJ+lldhAjCec3qlq2gbcuhAvRpJWVBZOjmWVet+ifJjCuonYQ3i4vSpC4
+	tVubiRIHeWbumQF7+qN1NX2KwtYTAvcRFdIsynCPknfH7irfut7XFqf0dqb7/AsJJK+/
+	bDqOTHEsX/2obiLTUqFWxocSJE12TLD9rB3lsnKNYmp5e6a8aCltPEfJiTatn3T8sM8L
+	LYCA==
+Received: by 10.52.89.172 with SMTP id bp12mr25871480vdb.19.1353518478849;
+	Wed, 21 Nov 2012 09:21:18 -0800 (PST)
+Received: from localhost.localdomain ([96.240.166.19])
+	by mx.google.com with ESMTPS id cz16sm363216vdb.15.2012.11.21.09.21.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Nov 2012 09:21:17 -0800 (PST)
+Sender: Philip Balister <philip.balister@gmail.com>
+From: Philip Balister <philip@balister.org>
+To: openembedded-core@openembedded.org
+Date: Wed, 21 Nov 2012 12:21:13 -0500
+Message-Id: <1353518473-27252-1-git-send-email-philip@balister.org>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] insane.bbclass : Disable tests for unsafe references in binaries and scripts.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,32 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 17:26:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Nov 2012 17:35:24 -0000
 
-On Wed, 2012-11-21 at 17:20 +0100, Martin Jansa wrote:
-> On Wed, Nov 14, 2012 at 03:21:10PM +0200, Laurentiu Palcu wrote:
-> > This new recipe is needed because the old driver is unmaintained. This
-> > new recipe will follow the new repo.
-> 
-> On which MACHINE did you test this? Here it fails in do_configure with:
-> | configure:18796: result: yes
-> | configure:18808: checking whether to include DRI support
-> | configure:18812: checking for /usr/include/xorg/dri.h
-> | configure:18818: error: cannot check for file existence when cross compiling
-> 
-> So I'm wondering if it was tested at all.
-> 
-> With xf86-video-omapfb not ported to xserver-1.13 video API it makes new
-> default xserver from oe-core unusable on many armv7a machines..
+These test look for programs in / that depend on programs in /usr. After
+a brief discussion in #oe, we decided these tests should be disabled so
+we can focus on more serious QA issues.
 
-/usr/include/xorg/dri.h probably existed on the machine it was tested
-on. I appreciate this needs to get fixed but I know it was tested.
+If you are working on a system where / and /usr are on different partitions,
+you should turn these tests back on and resolving the QA warnings.
 
-Cheers,
+Signed-off-by: Philip Balister <philip@balister.org>
+---
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 237ee82..c5c84b8 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -113,7 +113,7 @@ def package_qa_get_machine_dict():
+ 
+ 
+ # Currently not being used by default "desktop"
+-WARN_QA ?= "ldflags useless-rpaths rpaths unsafe-references-in-binaries unsafe-references-in-scripts staticdev libdir xorg-driver-abi textrel"
++WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi textrel"
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch la2 pkgconfig la perms dep-cmp"
+ 
+ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+-- 
+1.7.11.7
 
 
 
