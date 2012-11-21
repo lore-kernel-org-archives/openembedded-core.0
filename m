@@ -1,32 +1,25 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip.balister@gmail.com>) id 1TawzM-00060V-Km
-	for openembedded-core@openembedded.org; Wed, 21 Nov 2012 00:12:20 +0100
-Received: by mail-vb0-f47.google.com with SMTP id e21so4040382vbm.6
-	for <openembedded-core@openembedded.org>;
-	Tue, 20 Nov 2012 14:58:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=xmGFH94Aa5i9Hkc52u6a763VRe75PpV5pLzqAj6PisQ=;
-	b=DTsRjcjKp1f+xmjklL3qQ8E6Lbm6vMG7Ln1d51KhCPMtvrajOWn0kUzRLTvm6Haz4m
-	jQvtoWdTtIYbN2js91HCL9BtJGfh3Bk2+ea5zEnFOfvBM4MVDtQ6q2b/HQnvmo7uisPh
-	q5yJT2gS3dZ777mbBfAkB/8cqy0ZhSp3mdKQK5eL/6PIzzolVLzRUiUY5rkQp+6lHCQh
-	w7h7oIDlCGXWd57uziHljICK3LBnj+nfK1AKisoYYW6fzGBzOt5g7ZUB01bbOvVnPnr3
-	PB3fcEEEoi/IWOoW1uJc/58aYl/ZzbgKC7wJ26KJy1oYOUiipGeAHnoyRqS/6gREyGtS
-	on7g==
-Received: by 10.52.100.5 with SMTP id eu5mr22396291vdb.34.1353452296127;
-	Tue, 20 Nov 2012 14:58:16 -0800 (PST)
-Received: from localhost.localdomain ([96.240.166.19])
-	by mx.google.com with ESMTPS id dh10sm7473166veb.8.2012.11.20.14.58.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 20 Nov 2012 14:58:15 -0800 (PST)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
-To: openembedded-core@openembedded.org
-Date: Tue, 20 Nov 2012 17:58:11 -0500
-Message-Id: <1353452291-3503-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH] distutils-common : Add -staticdev to PACKAGES.
+	(envelope-from <Fupan.Li@windriver.com>) id 1Tb1ok-00032e-OP
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Nov 2012 05:21:43 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAL2URC4020291
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Nov 2012 18:30:27 -0800 (PST)
+Received: from fli-OptiPlex-760.corp.ad.wrs.com (128.224.158.242) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 20 Nov 2012 18:30:27 -0800
+From: <fupan.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Nov 2012 10:30:25 +0800
+Message-ID: <1353465025-13655-1-git-send-email-fupan.li@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Randy.MacLeod@windriver.com
+Subject: [PATCH] move the benchmark package bonnie++ from meta-oe layer to oe-core and upgrade bonnie++ from 1.03c to 1.03e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,33 +32,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Nov 2012 23:12:20 -0000
+X-List-Received-Date: Wed, 21 Nov 2012 04:21:43 -0000
+Content-Type: text/plain
 
-Some python recipes may build static libraries that need packaging in
-{PN}-static-dev.
+From: fli <fupan.li@windriver.com>
 
-This change fixes a QA error in python-numpy.
-
-Signed-off-by: Philip Balister <philip@balister.org>
+Signed-off-by: fli <fupan.li@windriver.com>
 ---
- meta/classes/distutils-common-base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-benchmark/bonnie/bonnie++_1.03e.bb         |   32 ++++++++++++++++++++
+ .../bonnie/files/compiler-error-fix.patch          |   14 +++++++++
+ 2 files changed, 46 insertions(+)
+ create mode 100644 recipes-benchmark/bonnie/bonnie++_1.03e.bb
+ create mode 100644 recipes-benchmark/bonnie/files/compiler-error-fix.patch
 
-diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
-index f66a5cd..36c1e83 100644
---- a/meta/classes/distutils-common-base.bbclass
-+++ b/meta/classes/distutils-common-base.bbclass
-@@ -5,7 +5,7 @@ EXTRA_OEMAKE = ""
- export STAGING_INCDIR
- export STAGING_LIBDIR
- 
--PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
-+PACKAGES = "${PN}-staticdev ${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
- 
- FILES_${PN} = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
- 
+diff --git a/recipes-benchmark/bonnie/bonnie++_1.03e.bb b/recipes-benchmark/bonnie/bonnie++_1.03e.bb
+new file mode 100644
+index 0000000..848b206
+--- /dev/null
++++ b/recipes-benchmark/bonnie/bonnie++_1.03e.bb
+@@ -0,0 +1,32 @@
++# bonnie OE build file
++# Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
++# Released under the GPLv4 license (see copyright.tx)
++
++DESCRIPTION="Tests large file IO and creation/deletion of small files."
++HOMEPAGE = "http://www.coker.com.au/bonnie++"
++SECTION = "benchmark/tests"
++LICENSE="GPLv2"
++
++SRC_URI="http://www.coker.com.au/bonnie++/${PN}-${PV}.tgz \
++	file://compiler-error-fix.patch"
++
++SRC_URI[md5sum] = "750aa5b5051263a99c6c195888c74968"
++SRC_URI[sha256sum] = "cb3866116634bf65760b6806be4afa7e24a1cad6f145c876df8721f01ba2e2cb"
++LIC_FILES_CHKSUM = "file://copyright.txt;md5=cd4dde95a6b9d122f0a9150ae9cc3ee0"
++
++inherit autotools
++
++EXES="bonnie++ zcav"
++SCRIPTS="bon_csv2html bon_csv2txt"
++
++PACKAGES += "bonnie-scripts"
++
++do_install () {
++	install -d ${D}/${bindir}
++	install -d ${D}/${sbindir}
++	install -m 0755 ${EXES} ${D}/${sbindir}
++	install -m 0755 ${SCRIPTS} ${D}/${bindir}
++}
++
++FILES_${PN} = "${sbindir}"
++FILES_bonnie-scripts="${bindir}"
+diff --git a/recipes-benchmark/bonnie/files/compiler-error-fix.patch b/recipes-benchmark/bonnie/files/compiler-error-fix.patch
+new file mode 100644
+index 0000000..6655b88
+--- /dev/null
++++ b/recipes-benchmark/bonnie/files/compiler-error-fix.patch
+@@ -0,0 +1,14 @@
++---
++ zcav.cpp |    1 +
++ 1 file changed, 1 insertion(+)
++
++Index: bonnie++-1.03a/zcav.cpp
++===================================================================
++--- bonnie++-1.03a.orig/zcav.cpp
+++++ bonnie++-1.03a/zcav.cpp
++@@ -15,6 +15,7 @@ using namespace std;
++ #else
++ #include <vector.h>
++ #endif
+++#include <string.h>
++
 -- 
-1.7.11.7
+1.7.9.5
 
 
 
