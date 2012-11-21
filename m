@@ -1,20 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI81-00087T-0L
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI82-00087X-AL
 	for openembedded-core@lists.openembedded.org;
 	Wed, 21 Nov 2012 22:46:47 +0100
 Received: from yow-bashfiel-d3.corp.ad.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKo020293;
-	Wed, 21 Nov 2012 13:32:30 -0800 (PST)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKr020293;
+	Wed, 21 Nov 2012 13:32:33 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Wed, 21 Nov 2012 16:32:22 -0500
-Message-Id: <cover.1353532567.git.bruce.ashfield@windriver.com>
+Date: Wed, 21 Nov 2012 16:32:25 -0500
+Message-Id: <b667b1f0d7eb0abf19abc9c369ca14e17d6d85f5.1353532567.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
+References: <cover.1353532567.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
+References: <cover.1353532567.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, linux-yocto@yoctoproject.org,
 	openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] linux-yocto: consolidated pull request
+Subject: [PATCH 3/4] kernel-yocto: clarify KMETA branch comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,62 +33,40 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Nov 2012 21:46:47 -0000
 
-Richard/Saul,
+Having a meta branch is not strictly required by the tools (and
+recipes like linux-yocto-custom do not have meta branches), but the
+comments in the kernel-yocto.bbclass could lead someone to think that
+it was required.
 
-Here's another small queue of patches, some minor updates to
-kernel configs and fixes for YOCTO #3422 and YOCTO #3473.
+This commit clearifies the comment to the following:
 
-patch 1/4 [linux-yocto/3.0: fix virtio configuration typo] fixes 
-a build error atom-pc build in master by fixing the kernel fragment.
+  # We can fix up the kernel repository even if it wasn't a bare clone.
+  # If KMETA is defined, the branch must exist, but a machine branch
+  # can be missing since it may be created later by the tools.
 
-atom-pc should probably be using the 3.4 kernel, but that's a 
-question for Darren/Tom/Nitin (so I've added them to the cc), since
-there may be a reason (with respect to graphics) as to why it is on
-3.0.
+[YOCTO #3422]
 
-While fixing that build error, I also modified the kern tools to
-clearly report the error and avoid needing to go to the logs for
-diagnosis, that's patch 4/4 [kern-tools: report missing config fragments by name].
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-The other change is a comment fixup for YOCTO #3422, just to make
-it clear if meta branches do or do not need to exist.
-
-And finally, Tom noticed that a bad merge dropped some uprobes
-configuration and sent a fixup patch.
-
-cc: Tom Zanussi <tom.zanussi@intel.com>
-cc: Darren Hart <dvhart@linux.intel.com>
-cc: Nitin Kamble <nitin.a.kamble@intel.com>
-
-Cheers,
-
-Bruce
-
-
-The following changes since commit 1b4dcf10b0fe9b4e95ca84f32de0c7dcfee2b729:
-
-  ldconfig/cdrtools/icecc-create-env/linuxdoc-tools/python: Set FILESPATH to find -native files (2012-11-21 16:56:04 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (4):
-  linux-yocto/3.0: fix virtio configuration typo
-  linux-yocto/3.4: uprobes: reinstate config options for 'uprobe'
-    feature
-  kernel-yocto: clarify KMETA branch comments
-  kern-tools: report missing config fragments by name
-
- meta/classes/kernel-yocto.bbclass                       |    5 +++--
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb         |    2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb       |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb            |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb            |    2 +-
- 6 files changed, 8 insertions(+), 7 deletions(-)
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index f78d63b..0d4ed21 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -130,8 +130,9 @@ do_kernel_checkout() {
+ 		echo "WARNING. ${WORKDIR}/git is not a bare clone."
+ 		echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
+ 		
+-		# we can fix up the kernel repository, but at the least the meta
+-		# branch must be present. The machine branch may be created later.
++		# We can fix up the kernel repository even if it wasn't a bare clone.
++		# If KMETA is defined, the branch must exist, but a machine branch
++		# can be missing since it may be created later by the tools.
+ 		mv ${WORKDIR}/git/.git ${S}
+ 		rm -rf ${WORKDIR}/git/
+ 		cd ${S}
 -- 
 1.7.10.4
 
