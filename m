@@ -1,24 +1,38 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TbCNx-0002Ec-H4
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1TbDGO-0003aN-T4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 16:38:45 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Wed, 21 Nov 2012 16:23:33 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id AB876291436;
-	Wed, 21 Nov 2012 16:23:32 +0100 (CET)
-From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Nov 2012 16:23:08 +0100
-Message-ID: <1353511391-60570-2-git-send-email-bjst@enea.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1353511391-60570-1-git-send-email-bjst@enea.com>
-References: <1353511391-60570-1-git-send-email-bjst@enea.com>
+	Wed, 21 Nov 2012 17:35:01 +0100
+Received: by mail-ee0-f47.google.com with SMTP id l10so4011968eei.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Nov 2012 08:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=TrkAmnOK4sbIsyNvJC3pIT4PpdwrMjGBrIo+Ha82nMA=;
+	b=00Q4wW0xwhruy4Qv52mwBKXm/LC+wSm7WDsBJZLERVGLzu8+YddxDBd31TLSrjYHLZ
+	1qzxyC0jZGTs34G5BBuvnkYZ5MFNywaw0Cj6QTJm1KrO/toBca/vGlP+ro7Ryrmc1Ikb
+	DUq1lfXrHlMkY8oTrCgNPOPNfv/KDCA9H1Svf5bKCQmnOPSNixd+f4KljMtsZo4bbXZa
+	V+I7+yBLCee8LZUc02x4v3/8oy5FsCHZ0IUcjB+fOgLMI4DkkvPWkbhGWaP0Xpj9WdMA
+	serY1CxfDOOzNaTMSNtfevvk38aGZMnY7srvBtQvdv2zLgOpECuSR7yVSk/i+AcIBNfy
+	ckDA==
+Received: by 10.14.1.69 with SMTP id 45mr47152397eec.23.1353514855875;
+	Wed, 21 Nov 2012 08:20:55 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id q2sm1040319eem.13.2012.11.21.08.20.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Nov 2012 08:20:55 -0800 (PST)
+Date: Wed, 21 Nov 2012 17:20:51 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20121121162051.GK12637@jama.jama.net>
+References: <cover.1352898505.git.laurentiu.palcu@intel.com>
+	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Subject: [PATCH 1/4] Add a new distro feature "ptest"
+In-Reply-To: <7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,182 +45,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 15:38:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 21 Nov 2012 16:35:01 -0000
+X-Groupsio-MsgNum: 31613
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HcXnUX77nabWBLF4"
+Content-Disposition: inline
+
+--HcXnUX77nabWBLF4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This patch creates a new distro feature "ptest", which creates -ptest
-packages containing the test suite of the package for running on the
-target. Test files are installed in /usr/lib/<pkg>/ptest.
+On Wed, Nov 14, 2012 at 03:21:10PM +0200, Laurentiu Palcu wrote:
+> This new recipe is needed because the old driver is unmaintained. This
+> new recipe will follow the new repo.
 
-The patch also includes a change to automake, splitting the "make check"
-target into separate steps for building and running the tests.
+On which MACHINE did you test this? Here it fails in do_configure with:
+| configure:18796: result: yes
+| configure:18808: checking whether to include DRI support
+| configure:18812: checking for /usr/include/xorg/dri.h
+| configure:18818: error: cannot check for file existence when cross compil=
+ing
 
-Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
----
- meta/classes/image.bbclass                         |    6 ++-
- meta/classes/packagegroup.bbclass                  |    2 +-
- meta/conf/bitbake.conf                             |   15 ++++++++-
- .../automake/automake/buildtest.patch              |   33 ++++++++++++++++=
-++++
- meta/recipes-devtools/automake/automake_1.12.3.bb  |    3 +-
- 5 files changed, 54 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-devtools/automake/automake/buildtest.patch
+So I'm wondering if it was tested at all.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index ab212b3..94182d1 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -29,13 +29,13 @@ ROOTFS_BOOTSTRAP_INSTALL =3D "${@base_contains("IMAGE_F=
-EATURES", "package-manageme
- FEATURE_INSTALL =3D "${@' '.join(oe.packagegroup.required_packages(oe.data=
-.typed_value('IMAGE_FEATURES', d), d))}"
- FEATURE_INSTALL_OPTIONAL =3D "${@' '.join(oe.packagegroup.optional_package=
-s(oe.data.typed_value('IMAGE_FEATURES', d), d))}"
-=20
--# packages to install from features, excluding dev/dbg/doc
-+# packages to install from features, excluding dev/dbg/doc/ptest
- NORMAL_FEATURE_INSTALL =3D "${@' '.join(oe.packagegroup.required_packages(=
-normal_groups(d), d))}"
- NORMAL_FEATURE_INSTALL_OPTIONAL =3D "${@' '.join(oe.packagegroup.optional_=
-packages(normal_groups(d), d))}"
-=20
- def normal_groups(d):
-     """Return all the IMAGE_FEATURES, with the exception of our special pa=
-ckage groups"""
--    extras =3D set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs'])
-+    extras =3D set(['dev-pkgs', 'staticdev-pkgs', 'doc-pkgs', 'dbg-pkgs', =
-'ptest-pkgs'])
-     features =3D set(oe.data.typed_value('IMAGE_FEATURES', d))
-     return features.difference(extras)
-=20
-@@ -57,6 +57,8 @@ def complementary_globs(featurevar, d):
-             globs.append('*-doc')
-         elif feature =3D=3D 'dbg-pkgs':
-             globs.append('*-dbg')
-+        elif feature =3D=3D 'ptest-pkgs':
-+            globs.append('*-ptest')
-     return ' '.join(globs)
-=20
- IMAGE_INSTALL_COMPLEMENTARY =3D '${@complementary_globs("IMAGE_FEATURES", =
-d)}'
-diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.=
-bbclass
-index e0e5b1c..b5be048 100644
---- a/meta/classes/packagegroup.bbclass
-+++ b/meta/classes/packagegroup.bbclass
-@@ -25,7 +25,7 @@ python () {
-     packages =3D d.getVar('PACKAGES', True).split()
-     genpackages =3D []
-     for pkg in packages:
--        for postfix in ['-dbg', '-dev']:
-+        for postfix in ['-dbg', '-dev', '-ptest']:
-             genpackages.append(pkg+postfix)
-     d.setVar('PACKAGES', ' '.join(packages+genpackages))
- }
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 5cb5b13..783ca37 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -223,6 +223,10 @@ SUMMARY_${PN}-dbg ?=3D "${SUMMARY} - Debugging files"
- DESCRIPTION_${PN}-dbg ?=3D "${DESCRIPTION}  \
- This package contains ELF symbols and related sources for debugging purpos=
-es."
-=20
-+SUMMARY_${PN}-ptest ?=3D "${SUMMARY} - Package test files"
-+DESCRIPTION_${PN}-ptest ?=3D "${DESCRIPTION}  \
-+This package contains test directory with the name ${PTEST_NAME} for packa=
-ge test purposes."
-+
- SUMMARY_${PN}-dev ?=3D "${SUMMARY} - Development files"
- DESCRIPTION_${PN}-dev ?=3D "${DESCRIPTION}  \
- This package contains symbolic links, header files, and \
-@@ -266,7 +270,7 @@ SOLIBSDEV_darwin8 =3D ".dylib"
- SOLIBSDEV_darwin9 =3D ".dylib"
-=20
- PACKAGE_BEFORE_PN ?=3D ""
--PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale $=
-{PACKAGE_BEFORE_PN} ${PN}"
-+PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale $=
-{PN}-ptest ${PACKAGE_BEFORE_PN} ${PN}"
- PACKAGES_DYNAMIC =3D "${PN}-locale-*"
- FILES =3D ""
-=20
-@@ -310,6 +314,15 @@ SECTION_${PN}-dbg =3D "devel"
- ALLOW_EMPTY_${PN}-dbg =3D "1"
- RRECOMMENDS_${PN}-dbg =3D "${PN} (=3D ${EXTENDPKGV})"
-=20
-+PTEST_PATH ?=3D "${libdir}/${PN}/ptest"
-+FILES_${PN}-ptest =3D "${PTEST_PATH}/*"
-+SECTION_${PN}-ptest =3D "devel"
-+ALLOW_EMPTY_${PN}-ptest =3D "1"
-+RDEPENDS_${PN}-ptest =3D "${PN} (=3D ${EXTENDPKGV})"
-+PTEST_ENABLED =3D "${@base_contains("DISTRO_FEATURES", "ptest", "1", "0", =
-d)}"
-+RDEPENDS_${PN}-ptest_virtclass-native =3D ""
-+RDEPENDS_${PN}-ptest_virtclass-nativesdk =3D ""
-+
- FILES_${PN}-locale =3D "${datadir}/locale"
-=20
- # File manifest
-diff --git a/meta/recipes-devtools/automake/automake/buildtest.patch b/meta=
-/recipes-devtools/automake/automake/buildtest.patch
-new file mode 100644
-index 0000000..7efff6b
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/buildtest.patch
-@@ -0,0 +1,33 @@
-+Split "check-TESTS" into a buildtest and runtest target, so that they can
-+be run separately.
-+
-+Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
-+Upstream-Status: Pending
-+
-+--- a/lib/am/check.am	2012-11-14 13:46:16.335475995 +0100
-++++ b/lib/am/check.am	2012-08-13 18:40:12.000000000 +0200
-+@@ -44,7 +44,7 @@
-+ am__tty_colors =3D $(am__tty_colors_dummy)
-+ endif !%?COLOR%
-+
-+-.PHONY: check-TESTS
-++.PHONY: check-TESTS buildtest-TESTS runtest-TESTS
-+
-+ if %?PARALLEL_TESTS%
-+
-+@@ -465,7 +465,14 @@
-+
-+ else !%?PARALLEL_TESTS%
-+
-+-check-TESTS: $(TESTS)
-++AM_RECURSIVE_TARGETS +=3D buildtest runtest
-++
-++buildtest-TESTS: $(TESTS)
-++
-++check-TESTS: buildtest-TESTS
-++	$(MAKE) $(AM_MAKEFLAGS) runtest-TESTS
-++
-++runtest-TESTS:
-+	@failed=3D0; all=3D0; xfail=3D0; xpass=3D0; skip=3D0; \
-+	srcdir=3D$(srcdir); export srcdir; \
-+ ## Make sure Solaris VPATH-expands all members of this list, even
-diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recip=
-es-devtools/automake/automake_1.12.3.bb
-index af99dfa..40169d3 100644
---- a/meta/recipes-devtools/automake/automake_1.12.3.bb
-+++ b/meta/recipes-devtools/automake/automake_1.12.3.bb
-@@ -37,7 +37,8 @@ PATHFIXPATCH_virtclass-nativesdk =3D ""
- SRC_URI +=3D "${PATHFIXPATCH} \
- 	    file://prefer-cpio-over-pax-for-ustar-archives.patch \
- 	    file://python-libdir.patch \
--            file://py-compile-compile-only-optimized-byte-code.patch"
-+            file://py-compile-compile-only-optimized-byte-code.patch \
-+            file://buildtest.patch"
-=20
- SRC_URI[md5sum] =3D "d2af8484de94cdee16d89c50aaa1c729"
- SRC_URI[sha256sum] =3D "095ffaa3ac887d1eb3511bf13d7f1fc9ec0503c6a06aeae05c=
-93730cdda9a5a0"
+With xf86-video-omapfb not ported to xserver-1.13 video API it makes new
+default xserver from oe-core unusable on many armv7a machines..
+
+Cheers,
+
+>=20
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  .../xorg-driver/xf86-video-omap_git.bb             |   31 ++++++++++++++=
+++++++
+>  1 file changed, 31 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap_git=
+=2Ebb
+>=20
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb b/m=
+eta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> new file mode 100644
+> index 0000000..b3177eb
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+> @@ -0,0 +1,31 @@
+> +require xorg-driver-video.inc
+> +
+> +SUMMARY =3D "X.Org X server -- Texas Instruments OMAP framebuffer driver"
+> +
+> +DESCRIPTION =3D "omap driver supports the basic Texas Instruments OMAP \
+> +framebuffer."
+> +
+> +LICENSE =3D "GPLv2+"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10ce5de3b111315ea652a5f74ec0c=
+602"
+> +DEPENDS +=3D "virtual/libx11 libdrm"
+> +
+> +RPROVIDES =3D "xf86-video-omapfb"
+> +RCONFLICTS =3D "xf86-video-omapfb"
+> +RREPLACES =3D "xf86-video-omapfb"
+> +
+> +SRCREV =3D "ae0394e687f1a77e966cf72f895da91840dffb8f"
+> +PR =3D "${INC_PR}.0"
+> +PV =3D "0.4.2+gitr${SRCPV}"
+> +
+> +SRC_URI =3D "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;p=
+rotocol=3Dgit \
+> +"
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +EXTRA_OECONF_armv7a =3D " --enable-neon "
+> +CFLAGS +=3D " -I${STAGING_INCDIR}/xorg "
+> +
+> +# Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dma=
+i or omapfbplay)
+> +do_compile_prepend_armv7a () {
+> +        sed -i -e s:fb1:fb2:g ${S}/src/omap_xv.c
+> +}
+> --=20
+> 1.7.9.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 --=20
-1.7.5.4
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--HcXnUX77nabWBLF4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCs/2MACgkQN1Ujt2V2gBwWxACfTIr12yTjfjuF0trkB/ttOeW0
+y9EAmgKOig8LyPKdNNSFl3EXkucGAaf8
+=jncR
+-----END PGP SIGNATURE-----
+
+--HcXnUX77nabWBLF4--
