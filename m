@@ -1,24 +1,36 @@
-Received: from starfish.geekisp.com ([216.168.135.166])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1TbAEN-0007Zy-E6
-	for openembedded-core@openembedded.org; Wed, 21 Nov 2012 14:20:52 +0100
-Received: (qmail 26393 invoked by uid 1003); 21 Nov 2012 12:59:57 -0000
-Received: from unknown (HELO ?192.168.1.105?)
-	(philip@opensdr.com@96.240.166.19)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	21 Nov 2012 12:59:57 -0000
-Message-ID: <50ACD04B.4020009@balister.org>
-Date: Wed, 21 Nov 2012 07:59:55 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
-MIME-Version: 1.0
-To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-References: <1353452291-3503-1-git-send-email-philip@balister.org>
-	<50AC6EA2.60708@herbrechtsmeier.net>
-In-Reply-To: <50AC6EA2.60708@herbrechtsmeier.net>
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] distutils-common : Add -staticdev to PACKAGES.
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1TbBlK-0001SZ-4s
+	for openembedded-core@lists.openembedded.org;
+	Wed, 21 Nov 2012 15:58:52 +0100
+Received: by mail-wi0-f177.google.com with SMTP id c10so1707823wiw.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Nov 2012 06:44:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=qYdZwA0IJEKHZ5q2WTeQ/f8VYDPZ/5Rx+ZxyfQ3Z02g=;
+	b=QbElVMHboVN/kxXvX0cSn8sDy/Fvite8rtmoHJ4LU302Uot8zISbebpY/G9+JKo6rt
+	Ap7YOG9wby8taFsvWXSHGE/RfhE0fa7lyt4/YPp1s4hi0XYZ5YhtB3QuNnc+EIncGZx/
+	KSLrNIHkxPL/w2ri4nTAp1PgKfeeE8oA9vS1c3LYibC5NLmsLDI3aD1U0SYIJJ63zn4J
+	wOCSi4pngjhFEb1W35PyQnHOkgaW5dIeuTNY7xrHcLNY7U6NUF3BIdkorHjQNmYCtLI5
+	vhkk5BTsgUIeFRFGl1+C0Aybm3cPrhHoeORiTzytFo8bUcrBF1U+gbRTgbvpEK5jVOKg
+	Hirg==
+Received: by 10.180.100.97 with SMTP id ex1mr14291608wib.1.1353509079559;
+	Wed, 21 Nov 2012 06:44:39 -0800 (PST)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPS id s12sm22276357wik.11.2012.11.21.06.44.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 21 Nov 2012 06:44:38 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Nov 2012 15:44:34 +0100
+Message-Id: <1353509074-16375-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.7.6
+X-Gm-Message-State: ALoCoQmOQMoFsO2GFNypaaKxtfzKwCf7Lkcrtf0mYXtWcfhm8WwUrvFbqFCuhgd1IqedYFyoQvlM
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] image classes: use PN for depends, not IMAGE_BASE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,55 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 13:20:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Nov 2012 14:58:57 -0000
 
-On 11/21/2012 01:03 AM, Stefan Herbrechtsmeier wrote:
-> Am 20.11.2012 23:58, schrieb Philip Balister:
->> Some python recipes may build static libraries that need packaging in
->> {PN}-static-dev.
->>
->> This change fixes a QA error in python-numpy.
->>
->> Signed-off-by: Philip Balister <philip@balister.org>
->> ---
->>   meta/classes/distutils-common-base.bbclass | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/distutils-common-base.bbclass
->> b/meta/classes/distutils-common-base.bbclass
->> index f66a5cd..36c1e83 100644
->> --- a/meta/classes/distutils-common-base.bbclass
->> +++ b/meta/classes/distutils-common-base.bbclass
->> @@ -5,7 +5,7 @@ EXTRA_OEMAKE = ""
->>   export STAGING_INCDIR
->>   export STAGING_LIBDIR
->> -PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
->> +PACKAGES = "${PN}-staticdev ${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
->>   FILES_${PN} = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
-> Hi,
->
-> I post a similarly patch parallel with the python-numpy fix:
-> http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/29575
+Some images override IMAGE_BASE_NAME in the recipe causing targets using image-{live,vmdk} to fail.
 
-Provided the:
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/image-live.bbclass |    2 +-
+ meta/classes/image-vmdk.bbclass |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-+FILES_${PN}-staticdev += "\
-+  ${PYTHON_SITEPACKAGES_DIR}/*.a \
-+"
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 2f3261e..bfb59f8 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -10,6 +10,6 @@ LABELS_append = " ${SYSLINUX_LABELS} "
+ ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+ 
+ do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
+-do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
++do_bootimg[depends] += "${PN}:do_rootfs"
+ 
+ inherit bootimg
+diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
+index 736d1d7..6f7df3f 100644
+--- a/meta/classes/image-vmdk.bbclass
++++ b/meta/classes/image-vmdk.bbclass
+@@ -8,7 +8,7 @@ SYSLINUX_LABELS = "boot"
+ LABELS_append = " ${SYSLINUX_LABELS} "
+ 
+ # need to define the dependency and the ROOTFS for directdisk
+-do_bootdirectdisk[depends] += "${IMAGE_BASENAME}:do_rootfs"
++do_bootdirectdisk[depends] += "${PN}:do_rootfs"
+ ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+ 
+ # creating VMDK relies on having a live hddimg so ensure we
+-- 
+1.7.7.6
 
-Actually catches a lot of the .a files, I prefer Stefan's version. Numpy 
-still needs to to override the FILES though.
-
-Philip
-
-PS: WARNING, I am not a python expert, just trying to help fix QA issues 
-as they come up.
-
->
-> Regards,
->    Stefan
->
 
 
