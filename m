@@ -1,36 +1,40 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tb8fe-0005ER-JD
+	(envelope-from <ross.burton@intel.com>) id 1Tb8hZ-0005Iy-Gp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Nov 2012 12:40:46 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so3226493pbc.6
+	Wed, 21 Nov 2012 12:42:45 +0100
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 21 Nov 2012 03:28:39 -0800
+Received: by mail-oa0-f69.google.com with SMTP id j6so35263408oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Nov 2012 03:26:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=3CNZ9hSYYHc1HN8fy863tJU2D33rOG0rABzMSnGbBt8=;
-	b=fHup8EurdC2bM8+9B1P3R9JLvBCJWdj5lYX/pGBjpmwziM4ApsfKRqxTSgLnp+Nsyn
-	o//Mwa7B+HZCvPzovA+eVuUJ0VQCbJgLMY/1f02ToKWPM8uJwOgCfrOcN/RUzwmYY3Cz
-	STvieDHzEBKtuC7B3es6x7GiETac8N6YkQcyiNaqSQKbjdStNMf0HWWAXw/ilQ2UBGcC
-	ikTW9WFcuULs1Xmpxeer3Dm9Pi/7NzCF8TpYotmrPQ52M1l8ckj26t3wKz16a8qkxVvr
-	cVYXcPmy9E5HzRLdnKT1oxIRGxMyakLV7IgRFUvJbK5TDY1pMefqnJj/LRsyCoklV6Hp
-	3S4w==
+	Wed, 21 Nov 2012 03:28:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=mHpDI0moiyygmbNgAJBAPyyZhTAzY2+o9UL6z0L+nH0=;
+	b=h7yoNB8IT9EeotyaT37HJa5LOZRqjm3LbyQWr/+EBBCtw01BCfjkel50y7DiHqcLcx
+	0tV+30pE6GQljmdmfnpfGHah4ahryoqHSlG0woyvtikXpIreR6P/guKXNkTykgwWHivB
+	U8JXByZVHo0wBQ8etcI6u3hzjc1/7r7EboIssEU1A+3HukO+ZaMWP++oNYNvTVBeAOAh
+	gcOD5OS9+KJlqxq36QWygEXGC+4ZYf+o3TQ1dkbkxyNKDcVAoXOg0Igla3mfUmlqlum3
+	G1uoZ7jpnJkqb96HIXR3PwuHykrGEt61adqDNkicPGPw7Wyg0ruBTiiNb36hMtgyPkCv
+	34Qg==
+Received: by 10.182.53.3 with SMTP id x3mr2867350obo.87.1353497318195;
+	Wed, 21 Nov 2012 03:28:38 -0800 (PST)
+Received: by 10.182.53.3 with SMTP id x3mr2867345obo.87.1353497318098; Wed, 21
+	Nov 2012 03:28:38 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.197.9 with SMTP id iq9mr57344968pbc.130.1353497201098; Wed,
-	21 Nov 2012 03:26:41 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Wed, 21 Nov 2012 03:26:41 -0800 (PST)
-In-Reply-To: <CAPhnLPAx0bgPRk-YT3uWLfETOhE9ECu0Akxv5i8UGDU+L3-hKg@mail.gmail.com>
-References: <CAPhnLPAx0bgPRk-YT3uWLfETOhE9ECu0Akxv5i8UGDU+L3-hKg@mail.gmail.com>
-Date: Wed, 21 Nov 2012 09:26:41 -0200
-X-Google-Sender-Auth: Fy6CLFAt6UbG8g8Zv9PeBCi4X2I
-Message-ID: <CAP9ODKo1RqiYCgUgt+Xd6Hf7PyPw+mPsCwxRxt=NpAyAYy0PXg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] license.bbclass: Collect LICENSE level packages
+Received: by 10.182.154.37 with HTTP; Wed, 21 Nov 2012 03:28:16 -0800 (PST)
+In-Reply-To: <1353450851-7252-1-git-send-email-gilbert_coville@mentor.com>
+References: <CAJTo0LaB=Qhd5wmhhJCRHqL+Fb4=AxSCaPVDi7tqoV_Giwghqw@mail.gmail.com>
+	<1353450851-7252-1-git-send-email-gilbert_coville@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Nov 2012 11:28:16 +0000
+Message-ID: <CAJTo0LbYNQDXewFXHUwY_=KiDr0FfH-j7jb4xWb+_nY0iS5YJA@mail.gmail.com>
+To: Gilbert Coville <gilbert_coville@mentor.com>
+X-Gm-Message-State: ALoCoQmMcjtzz0r+ooB0OwnSSNhN3FlMHHPBGYjrFdlXbJzbg6BlBJU2QLinUp+UGbAr4oi1USrASErHtam9ACttLEvZjT527P1oqCZiG3MhXsL/Ovo4jPeIDlzYnOayi1cO6VSSaDIRcmWJvPYAmnke8fSbWFrYHJSTGQ8hfXS1eBoMwv7cw/2vKveE2PyEFwgftIRwrTpR
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] gst-plugins-base: add dep on libsm and libice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,21 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Nov 2012 11:40:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 21 Nov 2012 11:42:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Nov 20, 2012 at 7:49 PM, Flanagan, Elizabeth
-<elizabeth.flanagan@intel.com> wrote:
-> Some bad logic in license.bbclass misses certain package level
-> LICENSEs.
->
-> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+On 20 November 2012 22:34, Gilbert Coville <gilbert_coville@mentor.com> wrote:
+> If libICE exists when this package configures, libICE and libSM are
+> added to the list of included libraries.  Adding libsm and libice to the
+> list of dependencies ensures they'll be present and makes the contents
+> of this package more deterministic.
 
-Does it also affects Danny?
+I suspected this was the reason.  That's AC_PATH_XTRA being stupid as
+usual.   I wonder if upstream would replace that with a PKG_CONFIG
+call for x11.pc.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Grudingly Acked-By: Ross Burton <ross.burton@intel.com>
+
+Ross
 
 
