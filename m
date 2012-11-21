@@ -1,24 +1,20 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI81-00087U-8J
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TbI81-00087T-0L
 	for openembedded-core@lists.openembedded.org;
 	Wed, 21 Nov 2012 22:46:47 +0100
 Received: from yow-bashfiel-d3.corp.ad.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKp020293;
-	Wed, 21 Nov 2012 13:32:31 -0800 (PST)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qALLWUKo020293;
+	Wed, 21 Nov 2012 13:32:30 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Wed, 21 Nov 2012 16:32:23 -0500
-Message-Id: <0c7e7c3d7d82d194f552e35002e7433d3b674922.1353532567.git.bruce.ashfield@windriver.com>
+Date: Wed, 21 Nov 2012 16:32:22 -0500
+Message-Id: <cover.1353532567.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
-References: <cover.1353532567.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1353532567.git.bruce.ashfield@windriver.com>
-References: <cover.1353532567.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, linux-yocto@yoctoproject.org,
 	openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] linux-yocto/3.0: fix virtio configuration typo
+Subject: [PATCH 0/4] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +29,62 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 21 Nov 2012 21:46:47 -0000
 
-The recent tools updates in master exposed a typo that has existed
-in the 3.0 kernel meta data and that breaks the build for boards still
-using the 3.0 kernel.
+Richard/Saul,
 
-Bumping the meta SRCREV to pickup the following fix:
+Here's another small queue of patches, some minor updates to
+kernel configs and fixes for YOCTO #3422 and YOCTO #3473.
 
-[
-  commit fa9b8c24e84bb9d75d08d197c84c50ce4f99c424
-  Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-  Date:   Wed Nov 21 09:24:46 2012 -0500
+patch 1/4 [linux-yocto/3.0: fix virtio configuration typo] fixes 
+a build error atom-pc build in master by fixing the kernel fragment.
 
-    meta: fix typo in virtio.scc
+atom-pc should probably be using the 3.4 kernel, but that's a 
+question for Darren/Tom/Nitin (so I've added them to the cc), since
+there may be a reason (with respect to graphics) as to why it is on
+3.0.
 
-    virtio.scc was referring to an invalid/incorrect virto.cfg. Fixing
-    this typo fixes the build for boards still using the 3.0 kernel.
-]
+While fixing that build error, I also modified the kern tools to
+clearly report the error and avoid needing to go to the logs for
+diagnosis, that's patch 4/4 [kern-tools: report missing config fragments by name].
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto_3.0.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The other change is a comment fixup for YOCTO #3422, just to make
+it clear if meta branches do or do not need to exist.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index e917beb..b7fbf23 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -17,7 +17,7 @@ SRCREV_machine_qemuppc ?= "d8779a6245d13c3b56eabac36a14c8896f448566"
- SRCREV_machine_qemux86 ?= "33d5d1ea371dad280e5bcfadd12c3a360c6bc5b8"
- SRCREV_machine_qemux86-64 ?= "fe23c7dd94eb94dd5887028683093615ac921086"
- SRCREV_machine ?= "cef17a18d72eae749dc78de3c83772f52815d842"
--SRCREV_meta ?= "bf5ee4945ee6d748e6abe16356f2357f76b5e2f0"
-+SRCREV_meta ?= "fa9b8c24e84bb9d75d08d197c84c50ce4f99c424"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+And finally, Tom noticed that a bad merge dropped some uprobes
+configuration and sent a fixup patch.
+
+cc: Tom Zanussi <tom.zanussi@intel.com>
+cc: Darren Hart <dvhart@linux.intel.com>
+cc: Nitin Kamble <nitin.a.kamble@intel.com>
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 1b4dcf10b0fe9b4e95ca84f32de0c7dcfee2b729:
+
+  ldconfig/cdrtools/icecc-create-env/linuxdoc-tools/python: Set FILESPATH to find -native files (2012-11-21 16:56:04 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto/3.0: fix virtio configuration typo
+  linux-yocto/3.4: uprobes: reinstate config options for 'uprobe'
+    feature
+  kernel-yocto: clarify KMETA branch comments
+  kern-tools: report missing config fragments by name
+
+ meta/classes/kernel-yocto.bbclass                       |    5 +++--
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb         |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb       |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb            |    2 +-
+ 6 files changed, 8 insertions(+), 7 deletions(-)
+
 -- 
 1.7.10.4
 
