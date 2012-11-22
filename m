@@ -1,27 +1,37 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <bjst@sestofb10.enea.se>) id 1TbW74-0003uQ-Sr
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ndec13@gmail.com>) id 1TbWCy-00040I-6z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 13:42:38 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Thu, 22 Nov 2012 13:28:32 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 5B007291437;
-	Thu, 22 Nov 2012 13:28:32 +0100 (CET)
-Date: Thu, 22 Nov 2012 13:28:32 +0100
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20121122122832.GD11155@sestofb10.enea.se>
-References: <1353511391-60570-1-git-send-email-bjst@enea.com>
-	<20121122120442.GB11155@sestofb10.enea.se>
-	<CAP9ODKrMYinP351hyVNbkW9jZqVj7UNy1GkokXtG-V0rsqAZ4g@mail.gmail.com>
+	Thu, 22 Nov 2012 13:48:44 +0100
+Received: by mail-vc0-f175.google.com with SMTP id m8so4156640vcd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2012 04:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=O5EBBOGCUyhJKaJSUmZD8ULL5EFmTbgf6UFQtL7cFzc=;
+	b=f/9v78vaO/xuaSeqHd/uUJrWuvwWuZ0+OpOavYC3sQ1bR8yMCZa11MdhYGw2UmM7CN
+	WDfaIXhWxjVq7kGyBlqtjWrZAlhGpbRzcgqZ3QMMhlNFTk5tgdk9EV0broJ6nngVWxj3
+	IwrhhfkqOLdyg1iziB8BZp/XzXwU6Ew2igPr8GHaDM1S5LUWKpIW70ggzUzm9zPloo6d
+	/CS4Z5hkXMwjJ/2pfvHa+RH+7imn0B5ir6EwB2e0WceoB7DUg05WIsqcNbJvj2MmsZSF
+	sj4Ecl9056+tK9OlInZJ3Iqv7FQnzQCg5dusWEkvGhh8lZY9c8fGOaDR+5iPJMRwx3OR
+	6FCQ==
+Received: by 10.58.94.109 with SMTP id db13mr545525veb.39.1353587677620; Thu,
+	22 Nov 2012 04:34:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKrMYinP351hyVNbkW9jZqVj7UNy1GkokXtG-V0rsqAZ4g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] RFC: ptest for danny
+Received: by 10.58.248.74 with HTTP; Thu, 22 Nov 2012 04:34:17 -0800 (PST)
+In-Reply-To: <50ADE966.4060300@intel.com>
+References: <cover.1352898505.git.laurentiu.palcu@intel.com>
+	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
+	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
+	<20121122083735.GU12637@jama.jama.net> <50ADE966.4060300@intel.com>
+From: Nicolas Dechesne <ndec13@gmail.com>
+Date: Thu, 22 Nov 2012 13:34:17 +0100
+Message-ID: <CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,21 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 12:42:39 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Nov 2012 12:48:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Otavio Salvador wrote:
-> > What do I have to do to take them from "unpacked" to "installed"?
-> Your package postinst needs to be able to be run offline.
+On Thu, Nov 22, 2012 at 9:59 AM, Laurentiu Palcu
+<laurentiu.palcu@intel.com> wrote:
+>
+> The autobuilder nightly for arm (for example) does, among other things,
+> the following:
+> * Builds core-image-sato, core-image-sato-dev, core-image-sato-sdk,
+> core-image-minimal, core-image-minimal-dev for qemuarm
+> * Builds core-image-sato, core-image-sato-sdk, core-image-minimal for
+> beagleboard
+> * Builds the meta-toolchain-gmae
+>
+> Here's a link to one of the latest arm nightly builds. You can see that,
+> for beagleboard, it includes xf86-video-omap driver:
+>
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727
+>
+> This is the production autobuilder. The autobuilder server I used to
+> test the patches is internal and cannot be accessed from outside.
 
-But they don't have any postinst. There are no .postinst files installed fo=
-r these packages in /var/lib/opkg/info. run-postinst.awk goes through the m=
-otions and prints "Configuring:" for these packages only because the packag=
-e status says "unpacked" instead of "installed". Nothing is ever ran.
 
---=20
-Bj=F6rn
+and we can see that the build failed with
+
+| checking for ANSI C header files... (cached) yes
+| checking whether to include DRI support... checking for
+/usr/include/xorg/dri.h... configure: error: cannot check for file
+existence when cross compiling
+| Configure failed. The contents of all config.log files follows to
+aid debugging
+| /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xf86-video-omap/2_0.4.2+gitr1+ae0394e687f1a77e966cf72f895da91840dffb8f-r20.0/git/config.log
+| This file contains any messages produced by compilers while
+| running configure, to aid debugging if configure makes a mistake.
+|
+| It was created by xf86-video-omap configure 0.4.2, which was
+| generated by GNU Autoconf 2.69.  Invocation command line was
+
+from http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727/steps/shell_55/logs/stdio
+
+I am looking at Ross patch, as our configure.ac file is clearly wrong
+here in xf86-video-omap (in fact most of the testing for this X11
+driver was done in ubuntu, so using native compilation...). will make
+sure to get that fixed upstream asap.
 
 
