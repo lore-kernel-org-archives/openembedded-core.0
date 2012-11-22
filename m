@@ -1,30 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TbeiR-0000sZ-4G for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 22:53:48 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAMLdet2029682
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 21:39:40 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26715-09 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 21:39:35 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAMLdT94029676
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 21:39:30 GMT
-Message-ID: <1353620368.10459.62.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Nov 2012 21:39:28 +0000
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1Tbesj-0001Mr-Pr
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Nov 2012 23:04:25 +0100
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1Tbef7-0003mN-2z; Thu, 22 Nov 2012 22:50:21 +0100
+Message-ID: <1353621014.2000.16.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Nov 2012 21:50:14 +0000
+In-Reply-To: <1353620179.10459.59.camel@ted>
+References: <1353620179.10459.59.camel@ted>
+X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate: Explicitly define populate_sysroot task relationships
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-cross: Explicitly depend on linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,62 +30,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 21:53:48 -0000
+X-List-Received-Date: Thu, 22 Nov 2012 22:04:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Clean up and clarify the populate_sysroot task dependencies. Target sysroot
-packages do need their dependencies installed, as do some target/cross
-relationships. We can whitelist the *-initial dependencies as these are
-never needed indirectly.
+On Thu, 2012-11-22 at 21:36 +0000, Richard Purdie wrote:
+> -DEPENDS = "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}libc-for-gcc ${NATIVEDEPS}"
+> +DEPENDS = "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}libc-for-gcc linux-libc-headers ${NATIVEDEPS}"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index b8a766b..e1bc89d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -633,7 +633,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-     def isNativeCross(x):
-         return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
-     def isSafeDep(x):
--        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross"]:
-+        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
-             return True
-         return False
- 
-@@ -660,16 +660,23 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
-         # Native/Cross packages don't exist and are noexec anyway
-         if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
-             continue
--        # Native/Cross populate_sysroot need their dependencies
--        if isNativeCross(taskdependees[task][0]) and isNativeCross(taskdependees[dep][0]) and taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
--            return False
--        # Target populate_sysroot depended on by cross tools need to be installed
--        if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot' and isNativeCross(taskdependees[dep][0]):
--            return False
- 
--        # Target populate_sysroot do not need their dependencies
-+        # Consider sysroot depending on sysroot tasks
-         if taskdependees[task][1] == 'do_populate_sysroot' and taskdependees[dep][1] == 'do_populate_sysroot':
--            continue
-+            # Nothing need depend on libc-initial/gcc-cross-initial
-+            if taskdependees[task][0].endswith("-initial"):
-+                continue
-+            # Native/Cross populate_sysroot need their dependencies
-+            if isNativeCross(taskdependees[task][0]) and isNativeCross(taskdependees[dep][0]):
-+                return False
-+            # Target populate_sysroot depended on by cross tools need to be installed
-+            if isNativeCross(taskdependees[dep][0]):
-+                return False
-+            # Native/cross tools depended upon by target sysroot are not needed
-+            if isNativeCross(taskdependees[task][0]):
-+                continue
-+            # Target populate_sysroot need their dependencies
-+            return False
- 
-         # Safe fallthrough default
-         bb.debug(2, " Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])))
+gcc-cross isn't particularly specific to linux targets and ideally we
+don't want to be adding more linuxisms to the recipe.  It is,
+admittedly, not entirely obvious how we could conveniently get that
+dependency added only for linux targets (since I don't think there's any
+existing OVERRIDE that's helpful here) but perhaps we should find a way
+to address that problem rather than just sticking it in unconditionally.
+
+p.
 
 
 
