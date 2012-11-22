@@ -1,41 +1,28 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TbSnD-0005xl-NW
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TbSqk-00063L-Vw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 10:09:55 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Nov 2012 00:55:08 -0800
-Received: by mail-ob0-f197.google.com with SMTP id za17so30485895obc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 00:55:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=kuCMvSf2hgwtvjq9dswhWL/48xa+4RoHpsdZJiQ66mk=;
-	b=GDCNAYWkFr8RrKHccID/MGwjxjL32pStO8kiNzv8FPcLxbteujsEItqlhR72VSrWdc
-	mzce5eQ0/mpFjOqVZJfCqS8k18vcEZoBA0lBLclRELj/U77BulfeIEHJU6ar/GrwC6MC
-	5jk9u7MokgSBqeLkMDaMX9EoqYlx1W3rLnLc7UrXNurNIVnwBfxZ/u+IBlhdBdRom1fM
-	76EfWZLq+8yGjnFV0kGiY9/sY+OmMkt2udX0v4LAXmE5ouWeZcOy8oziEIaX4l9prG3d
-	7Gj6pABXV/DPztrVts2mif0HMHOBKzoqB8jTeVEO4uKeW4wUkQc9SDhjWOcViisYSDgB
-	6gXg==
-Received: by 10.60.172.138 with SMTP id bc10mr18975673oec.33.1353574547572;
-	Thu, 22 Nov 2012 00:55:47 -0800 (PST)
-Received: by 10.60.172.138 with SMTP id bc10mr18975666oec.33.1353574547466;
-	Thu, 22 Nov 2012 00:55:47 -0800 (PST)
+	Thu, 22 Nov 2012 10:13:37 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Nov 2012 00:58:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,299,1352102400"; d="scan'208";a="222992797"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2012 00:59:19 -0800
+Message-ID: <50ADE966.4060300@intel.com>
+Date: Thu, 22 Nov 2012 10:59:18 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Thu, 22 Nov 2012 00:55:26 -0800 (PST)
-In-Reply-To: <6ef7001b467caa7cebe92e399a94a9680265efb8.1353564658.git.jackie.huang@windriver.com>
-References: <cover.1353564658.git.jackie.huang@windriver.com>
-	<6ef7001b467caa7cebe92e399a94a9680265efb8.1353564658.git.jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Nov 2012 08:55:26 +0000
-Message-ID: <CAJTo0LYHjhAfak4gFoRWeo+R7g86P9q4rgmWreAnOosr0A+a-Q@mail.gmail.com>
-To: jackie.huang@windriver.com
-X-Gm-Message-State: ALoCoQnxX6eLSnllQNIRE4oygsn3iaKN3Vys8LVdNPCb0Mi595vtkfOqR/UHICQRHyZrTxD2q8SCsAqQHGE23DybMSxnCEKG6DBPVgopAv6zq3h7FlFfr+J5GDAeoJC0eRrqcAF6wTuAu+Z4AoGwuoyyTuOxPD/OYDDkq7Nxocfl2sKJm8hnIFUHaFRaMDcWLEv0pJDxdcH0
-Cc: saul.wold@intel.com, Shiqun.Lin@windriver.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] pulseaudio: fix compilation on RHEL-5.8 64bit machine
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1352898505.git.laurentiu.palcu@intel.com>
+	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
+	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
+	<20121122083735.GU12637@jama.jama.net>
+In-Reply-To: <20121122083735.GU12637@jama.jama.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,37 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 09:09:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Nov 2012 09:13:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-This patch is too hacky to go in at the moment.
+> 
+> Does qemuarm include this driver? I guess not. I don't know what exactly
+> is "autobuilder nightlies" but did it include xf86-video-omap explicitly
+> or just some generic image?
+The autobuilder nightly for arm (for example) does, among other things,
+the following:
+* Builds core-image-sato, core-image-sato-dev, core-image-sato-sdk,
+core-image-minimal, core-image-minimal-dev for qemuarm
+* Builds core-image-sato, core-image-sato-sdk, core-image-minimal for
+beagleboard
+* Builds the meta-toolchain-gmae
 
-On 22 November 2012 06:46,  <jackie.huang@windriver.com> wrote:
-> ../bitbake_build/tmp/sysroots/qemux86-64/usr/lib64/libgdk-x11-2.0.so: undefined reference to `XRRGetOutputInfo'
+Here's a link to one of the latest arm nightly builds. You can see that,
+for beagleboard, it includes xf86-video-omap driver:
 
-Which means your GTK+ linkage is broken, because libgdk should be
-linking to libXrandr.  Mine is, can you verify that yours is too?
+http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727
 
-> +-AM_LDADD = $(PTHREAD_LIBS) $(INTLLIBS)
-> ++AM_LDADD = $(PTHREAD_LIBS) $(INTLLIBS) -lXrandr
+This is the production autobuilder. The autobuilder server I used to
+test the patches is internal and cannot be accessed from outside.
+> 
+> Also I cannot find this commit in oe-core as well as poky (I'm using
+> oe-core).
+Here's the link:
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=78983e939ab17f02f8911c8b0d0e326b419856b9
 
-You're adding linkage to libXrandr to every part of PulseAudio.  What
-binary in pulseaudio is failing to compile with this error?
-
-> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-> +DEPENDS += "libjson gdbm speex libxml-parser-perl-native \
-> +  ${@base_contains('DISTRO_FEATURES', 'x11', 'libxrandr', '', d)}"
-
-pulseaudio.inc has:
-
-DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
-           ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11
-libxtst libice libsm libxcb gtk+', '', d)}"
-
-As gtk+ pulls in libxrandr, this is redundant.
-
-Ross
+Thanks,
+Laurentiu
 
 
