@@ -1,39 +1,41 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TbSVb-000507-N3
+	(envelope-from <ross.burton@intel.com>) id 1TbSnD-0005xl-NW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 09:51:43 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so3040672eaa.6
+	Thu, 22 Nov 2012 10:09:55 +0100
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Nov 2012 00:55:08 -0800
+Received: by mail-ob0-f197.google.com with SMTP id za17so30485895obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 00:37:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5++bl7L0YFXImzu4VGgYQfl345ZeXpacTT4sMqYBufg=;
-	b=LyzlNN0PMl2e8LQdd8P82cAIh+vMZqOdQxs+ii6ubCHcxoWbWg9XoCZoZfqbOdNQ7Q
-	fY4r+GXnXheZeSAvuk8BeohqPGK9K1VEQjruk+kOdQrcwULDeK8mjHVYA44rCB6wusqa
-	et/nGVSIwYal5tdRE9CXKEr5+4+on3asMdvh6gZi0B4xjXoQzLInkdH3NSi76pghPv1B
-	mlvdIgYluGBjA7tVSU0iGwptWVfcmo/04NuBolpgg+QA8fQ2SAEXXBc/GyDkZDYijIaL
-	8ClIWacBuyzBISOrHmnRyiIvfkwAILjp56/elojTOX7gYL/x5d+4PEU5+HJmVzK38l6F
-	B9SA==
-Received: by 10.14.223.200 with SMTP id v48mr55449606eep.24.1353573457792;
-	Thu, 22 Nov 2012 00:37:37 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 42sm5627383eee.0.2012.11.22.00.37.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Nov 2012 00:37:37 -0800 (PST)
-Date: Thu, 22 Nov 2012 09:37:35 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20121122083735.GU12637@jama.jama.net>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
-	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
+	Thu, 22 Nov 2012 00:55:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=kuCMvSf2hgwtvjq9dswhWL/48xa+4RoHpsdZJiQ66mk=;
+	b=GDCNAYWkFr8RrKHccID/MGwjxjL32pStO8kiNzv8FPcLxbteujsEItqlhR72VSrWdc
+	mzce5eQ0/mpFjOqVZJfCqS8k18vcEZoBA0lBLclRELj/U77BulfeIEHJU6ar/GrwC6MC
+	5jk9u7MokgSBqeLkMDaMX9EoqYlx1W3rLnLc7UrXNurNIVnwBfxZ/u+IBlhdBdRom1fM
+	76EfWZLq+8yGjnFV0kGiY9/sY+OmMkt2udX0v4LAXmE5ouWeZcOy8oziEIaX4l9prG3d
+	7Gj6pABXV/DPztrVts2mif0HMHOBKzoqB8jTeVEO4uKeW4wUkQc9SDhjWOcViisYSDgB
+	6gXg==
+Received: by 10.60.172.138 with SMTP id bc10mr18975673oec.33.1353574547572;
+	Thu, 22 Nov 2012 00:55:47 -0800 (PST)
+Received: by 10.60.172.138 with SMTP id bc10mr18975666oec.33.1353574547466;
+	Thu, 22 Nov 2012 00:55:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <50ADE2F7.4070904@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+Received: by 10.76.132.198 with HTTP; Thu, 22 Nov 2012 00:55:26 -0800 (PST)
+In-Reply-To: <6ef7001b467caa7cebe92e399a94a9680265efb8.1353564658.git.jackie.huang@windriver.com>
+References: <cover.1353564658.git.jackie.huang@windriver.com>
+	<6ef7001b467caa7cebe92e399a94a9680265efb8.1353564658.git.jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 22 Nov 2012 08:55:26 +0000
+Message-ID: <CAJTo0LYHjhAfak4gFoRWeo+R7g86P9q4rgmWreAnOosr0A+a-Q@mail.gmail.com>
+To: jackie.huang@windriver.com
+X-Gm-Message-State: ALoCoQnxX6eLSnllQNIRE4oygsn3iaKN3Vys8LVdNPCb0Mi595vtkfOqR/UHICQRHyZrTxD2q8SCsAqQHGE23DybMSxnCEKG6DBPVgopAv6zq3h7FlFfr+J5GDAeoJC0eRrqcAF6wTuAu+Z4AoGwuoyyTuOxPD/OYDDkq7Nxocfl2sKJm8hnIFUHaFRaMDcWLEv0pJDxdcH0
+Cc: saul.wold@intel.com, Shiqun.Lin@windriver.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] pulseaudio: fix compilation on RHEL-5.8 64bit machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,71 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 08:51:43 -0000
-X-Groupsio-MsgNum: 31651
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KAk/33nSS6LK84p9"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Nov 2012 09:09:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
---KAk/33nSS6LK84p9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, Nov 22, 2012 at 10:31:51AM +0200, Laurentiu Palcu wrote:
->=20
->=20
-> On 11/21/2012 06:20 PM, Martin Jansa wrote:
-> > On Wed, Nov 14, 2012 at 03:21:10PM +0200, Laurentiu Palcu wrote:
-> >> > This new recipe is needed because the old driver is unmaintained. Th=
-is
-> >> > new recipe will follow the new repo.
-> > On which MACHINE did you test this? Here it fails in do_configure with:
-> > | configure:18796: result: yes
-> > | configure:18808: checking whether to include DRI support
-> > | configure:18812: checking for /usr/include/xorg/dri.h
-> > | configure:18818: error: cannot check for file existence when cross co=
-mpiling
-> >=20
-> > So I'm wondering if it was tested at all.
-> >=20
-> Martin,
->=20
-> I remember that I clearly mentioned, in the cover letter, the commit
-> upon which I applied the patches before compiling the nightlies for all
-> architectures. Here it is:
->=20
-> "The yocto autobuilder nightlies (x86/x86_64/ppc/arm/mips) compiled
-> successfully. Compilations were done on top of the following commit:
-> 78983e939ab17f02f8911c8b0d0e326b419856b9."
+This patch is too hacky to go in at the moment.
 
-Does qemuarm include this driver? I guess not. I don't know what exactly
-is "autobuilder nightlies" but did it include xf86-video-omap explicitly
-or just some generic image?
+On 22 November 2012 06:46,  <jackie.huang@windriver.com> wrote:
+> ../bitbake_build/tmp/sysroots/qemux86-64/usr/lib64/libgdk-x11-2.0.so: undefined reference to `XRRGetOutputInfo'
 
-Also I cannot find this commit in oe-core as well as poky (I'm using
-oe-core).
+Which means your GTK+ linkage is broken, because libgdk should be
+linking to libXrandr.  Mine is, can you verify that yours is too?
 
-> At the moment I was working on the xorg upgrades this was the last
-> commit... Did you try the patches on top of this commit? Does the
-> compilation fail?
+> +-AM_LDADD = $(PTHREAD_LIBS) $(INTLLIBS)
+> ++AM_LDADD = $(PTHREAD_LIBS) $(INTLLIBS) -lXrandr
 
-No I try to use master.
+You're adding linkage to libXrandr to every part of PulseAudio.  What
+binary in pulseaudio is failing to compile with this error?
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+> +DEPENDS += "libjson gdbm speex libxml-parser-perl-native \
+> +  ${@base_contains('DISTRO_FEATURES', 'x11', 'libxrandr', '', d)}"
 
---KAk/33nSS6LK84p9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+pulseaudio.inc has:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
+           ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11
+libxtst libice libsm libxcb gtk+', '', d)}"
 
-iEYEARECAAYFAlCt5E8ACgkQN1Ujt2V2gBy5+ACfb+1o0AzOiViaJAoMHmCxFCTf
-Ve8An0EiQoUXeUb75U85jg8z63Fcr52u
-=I0ie
------END PGP SIGNATURE-----
+As gtk+ pulls in libxrandr, this is redundant.
 
---KAk/33nSS6LK84p9--
+Ross
+
+
