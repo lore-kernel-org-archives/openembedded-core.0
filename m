@@ -1,28 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TbSqk-00063L-Vw
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TbT9r-00071D-22
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 10:13:37 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Nov 2012 00:58:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,299,1352102400"; d="scan'208";a="222992797"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2012 00:59:19 -0800
-Message-ID: <50ADE966.4060300@intel.com>
-Date: Thu, 22 Nov 2012 10:59:18 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
-	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
-	<20121122083735.GU12637@jama.jama.net>
-In-Reply-To: <20121122083735.GU12637@jama.jama.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+	Thu, 22 Nov 2012 10:33:19 +0100
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 8074ED22C0;
+	Thu, 22 Nov 2012 10:19:21 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Nov 2012 10:19:10 +0100
+Message-Id: <1353575950-7484-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH] archiver.bbclass: DISTRO is not required variable so deal with it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 09:13:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Nov 2012 09:33:19 -0000
 
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ meta/classes/archiver.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> 
-> Does qemuarm include this driver? I guess not. I don't know what exactly
-> is "autobuilder nightlies" but did it include xf86-video-omap explicitly
-> or just some generic image?
-The autobuilder nightly for arm (for example) does, among other things,
-the following:
-* Builds core-image-sato, core-image-sato-dev, core-image-sato-sdk,
-core-image-minimal, core-image-minimal-dev for qemuarm
-* Builds core-image-sato, core-image-sato-sdk, core-image-minimal for
-beagleboard
-* Builds the meta-toolchain-gmae
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 160a3aa..ac6e401 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -8,7 +8,6 @@
+ 
+ ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
+ ARCHIVE_TYPE ?= "tar srpm"
+-DISTRO ?= "poky"
+ PATCHES_ARCHIVE_WITH_SERIES = 'yes'
+ SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= '${@d.getVarFlag('ARCHIVER_MODE', 'log_type') \
+     if d.getVarFlag('ARCHIVER_MODE', 'log_type') != 'none' else 'logs_with_scripts'}'
+@@ -492,6 +491,8 @@ def create_diff_gz(d):
+ 
+     s=d.getVar('S', True)
+     distro = d.getVar('DISTRO',True)
++    if not distro:
++        distro = ""
+     dest = s + '/' + distro + '/files'
+     if not os.path.exists(dest):
+         bb.mkdirhier(dest)
+-- 
+1.8.0
 
-Here's a link to one of the latest arm nightly builds. You can see that,
-for beagleboard, it includes xf86-video-omap driver:
-
-http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727
-
-This is the production autobuilder. The autobuilder server I used to
-test the patches is internal and cannot be accessed from outside.
-> 
-> Also I cannot find this commit in oe-core as well as poky (I'm using
-> oe-core).
-Here's the link:
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=78983e939ab17f02f8911c8b0d0e326b419856b9
-
-Thanks,
-Laurentiu
 
 
