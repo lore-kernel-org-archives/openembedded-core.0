@@ -1,22 +1,37 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TbZRk-000430-OT
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1TbZW5-0004cm-K7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 17:16:12 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Thu, 22 Nov 2012 17:02:04 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 72C71291438;
-	Thu, 22 Nov 2012 17:02:04 +0100 (CET)
-From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Nov 2012 17:01:56 +0100
-Message-ID: <1353600120-22967-1-git-send-email-bjst@enea.com>
-X-Mailer: git-send-email 1.7.5.4
+	Thu, 22 Nov 2012 17:20:42 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so832491pad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2012 08:06:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=oZ49QirG+m0v95s7Blhd9aFF9chDcl2hl+5/KNvKqOA=;
+	b=mQoj9S82C6OMiQO3ZCUlul7i4EFt2NrBfOCP0QDUDuO+XcteEeziGbRjd92Z2oB30w
+	0BXwOKZCRuciI36DzQ9kjeROhaAWnQ+bb0kQBpS79QDjJ3mjVWYXsYJ8kFZsluPasQAP
+	YToGZ1SLRBkzPSa+df4jXREWZRE1gCPb2yNPG8121SpuKbOkLp9qr0E3EtcLjENkaabo
+	tW+9cmZeg5RCKMib9kG1mW9nnyIKOzNf7ZVg3bXoz2VRnaiEVC6lmJx7pncG3qOFGw1Y
+	AtYibZp+85sngflLikDgJFLzmbLFU4cLOYk6bTOAQQO2VH6bcMBomUxdDM2hjM10Eavv
+	vCAA==
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Subject: [PATCH 0/4] ptest for master
+Received: by 10.68.252.4 with SMTP id zo4mr5791867pbc.126.1353600394273; Thu,
+	22 Nov 2012 08:06:34 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Thu, 22 Nov 2012 08:06:34 -0800 (PST)
+In-Reply-To: <1353600120-22967-5-git-send-email-bjst@enea.com>
+References: <1353600120-22967-1-git-send-email-bjst@enea.com>
+	<1353600120-22967-5-git-send-email-bjst@enea.com>
+Date: Thu, 22 Nov 2012 14:06:34 -0200
+X-Google-Sender-Auth: M5_yYyaSUSQRamACLCKaTogq1k4
+Message-ID: <CAP9ODKqRcLvYPi1CyTxUe7g7UVN=7UEJAPD6e-Vr-ii56LEHjQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Bj=F6rn_Stenberg?= <bjst@enea.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] Add ptest for dbus.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,68 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 16:16:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Nov 2012 16:20:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi all.
+On Thu, Nov 22, 2012 at 2:02 PM, Bj=F6rn Stenberg <bjst@enea.com> wrote:
+> This patch adds a new recipe dbus-test to build and package the dbus test
+> suite. The reason for a separate recipe is that the dbus test suite depen=
+ds
+> on dbus-glib, so it cannot be compiled at the same time as dbus.
+>
+> An RDEPENDS rule is added to the dbus recipe to include the dbus-test
+> package into the image when ptest is enabled, since the standard -ptest
+> suffix mechanism does not apply to this package.
+>
+> Signed-off-by: Bj=F6rn Stenberg <bjst@enea.com>
+...
+> @@ -9,6 +9,9 @@ X11DEPENDS =3D "virtual/libx11 libsm"
+>  DEPENDS =3D "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', '=
+x11', '${X11DEPENDS}', '', d)}"
+>  DEPENDS_class-native =3D "expat-native virtual/libintl-native"
+>  DEPENDS_class-nativesdk =3D "nativesdk-expat virtual/nativesdk-libintl v=
+irtual/libx11"
+> +RDEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-test', =
+'', d)}"
+> +RDEPENDS_class-native =3D ""
 
-[Repeating the description here for completeness.]
-
-Here is an update of the "ptest" concept I introduced a few months back.
-The idea is to create a new package group called -ptest which contains the
-test suites included with many source packages, compiled to run on
-target.
-
-A new package, ptest-runnner, contains a simple shell script to find and
-run all installed ptests.
-
-Making ptest package recipes present a number of challenges. First, the
-task of building and running the tests have to be split in two. Then, the
-test files must be installed in the file system in a sane way.
-
-I have included recipe patches for glib-2.0 and dbus here. They solve the
-building and running relatively cleanly but the install bit is still a
-rather kludgy list of cp and sed lines. I'm working on a more generic
-"make ptest-install" solution.
-
-These patches are against the "master" branch.
-
-Bj=C3=B6rn Stenberg (4):
-  Add a new distro feature "ptest".
-  New package: ptest-runner
-  Add ptest package for glib-2.0.
-  Add ptest for dbus.
-
- meta/classes/image.bbclass                         |    6 +-
- meta/classes/packagegroup.bbclass                  |    2 +-
- meta/conf/bitbake.conf                             |   15 +++-
- meta/recipes-core/dbus/dbus-1.6.4/run-ptest        |    3 +
- .../dbus/dbus-1.6.4/test-run-path.patch            |   26 ++++++
- meta/recipes-core/dbus/dbus-test_1.6.4.bb          |   84 ++++++++++++++++=
-++++
- meta/recipes-core/dbus/dbus.inc                    |    3 +
- .../glib-2.0/glib-2.0/Makefile-ptest.patch         |   30 +++++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |    3 +
- meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb      |   57 +++++++++++++
- meta/recipes-core/glib-2.0/glib.inc                |    5 +-
- .../automake/automake/buildtest.patch              |   33 ++++++++
- meta/recipes-devtools/automake/automake_1.12.3.bb  |    3 +-
- .../ptest-runner/files/ptest-runner                |   16 ++++
- .../ptest-runner/ptest-runner_1.0.bb               |   17 ++++
- 15 files changed, 296 insertions(+), 7 deletions(-)
- create mode 100755 meta/recipes-core/dbus/dbus-1.6.4/run-ptest
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
- create mode 100644 meta/recipes-core/dbus/dbus-test_1.6.4.bb
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patc=
-h
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
- create mode 100644 meta/recipes-devtools/automake/automake/buildtest.patch
- create mode 100644 meta/recipes-support/ptest-runner/files/ptest-runner
- create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_1.0.bb
+Maybe this could be handled in the native.bbclass?
 
 --=20
-1.7.5.4
-
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
