@@ -1,36 +1,36 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ndec13@gmail.com>) id 1TbWCy-00040I-6z
+	(envelope-from <martin.jansa@gmail.com>) id 1TbWLW-0004GB-7n
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 13:48:44 +0100
-Received: by mail-vc0-f175.google.com with SMTP id m8so4156640vcd.6
+	Thu, 22 Nov 2012 13:57:34 +0100
+Received: by mail-wi0-f173.google.com with SMTP id hn17so633577wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 04:34:37 -0800 (PST)
+	Thu, 22 Nov 2012 04:43:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=O5EBBOGCUyhJKaJSUmZD8ULL5EFmTbgf6UFQtL7cFzc=;
-	b=f/9v78vaO/xuaSeqHd/uUJrWuvwWuZ0+OpOavYC3sQ1bR8yMCZa11MdhYGw2UmM7CN
-	WDfaIXhWxjVq7kGyBlqtjWrZAlhGpbRzcgqZ3QMMhlNFTk5tgdk9EV0broJ6nngVWxj3
-	IwrhhfkqOLdyg1iziB8BZp/XzXwU6Ew2igPr8GHaDM1S5LUWKpIW70ggzUzm9zPloo6d
-	/CS4Z5hkXMwjJ/2pfvHa+RH+7imn0B5ir6EwB2e0WceoB7DUg05WIsqcNbJvj2MmsZSF
-	sj4Ecl9056+tK9OlInZJ3Iqv7FQnzQCg5dusWEkvGhh8lZY9c8fGOaDR+5iPJMRwx3OR
-	6FCQ==
-Received: by 10.58.94.109 with SMTP id db13mr545525veb.39.1353587677620; Thu,
-	22 Nov 2012 04:34:37 -0800 (PST)
+	bh=BuDZw7Dg4HctbJ4oVtkznTRZU9BBFaPyPRQHtH+UPwI=;
+	b=02eRXaNNF782PpQyz6/4JxmhWFa8AZOEIyPq1lXBXkUqADGHGe8FO/aXwg2bMogHDe
+	HVXzEoxGZ/9xuF89SrngjdfrvjKhaE9M+E+wQGJDL2ujNFs6b3a5DHyk/FmiT7NGv1Sc
+	kbtMmi6Ym1UsTGXm4VIsQDz/gyFCwNXQb3pykTwh2DFkPJK74KEDNCC/GsMVpOpHTEp1
+	1CZLHj+p81OzBFfh6IX4vbGnv3j8H3jjAjomOj23KmgQouieY3eeVDQfmV1h0XgDBGT0
+	e9jwke3Bm5pcSUUsWOej/qaQQy1fWv2vNWcbAPl4Q1o+NvL0qbYYSwiDAETzlMHc8z9Q
+	9VqA==
 MIME-Version: 1.0
-Received: by 10.58.248.74 with HTTP; Thu, 22 Nov 2012 04:34:17 -0800 (PST)
-In-Reply-To: <50ADE966.4060300@intel.com>
+Received: by 10.216.212.131 with SMTP id y3mr231544weo.62.1353588208045; Thu,
+	22 Nov 2012 04:43:28 -0800 (PST)
+Received: by 10.194.44.138 with HTTP; Thu, 22 Nov 2012 04:43:27 -0800 (PST)
+In-Reply-To: <CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
 References: <cover.1352898505.git.laurentiu.palcu@intel.com>
 	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
 	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
 	<20121122083735.GU12637@jama.jama.net> <50ADE966.4060300@intel.com>
-From: Nicolas Dechesne <ndec13@gmail.com>
-Date: Thu, 22 Nov 2012 13:34:17 +0100
-Message-ID: <CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
+	<CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
+Date: Thu, 22 Nov 2012 13:43:27 +0100
+Message-ID: <CA+chaQf1MWGeSP=BsZBtTG+mOgGEL7dm51yUcBu_36co9bZz4g@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Nicolas Dechesne <ndec13@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,49 +44,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 12:48:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 22 Nov 2012 12:57:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Nov 22, 2012 at 9:59 AM, Laurentiu Palcu
-<laurentiu.palcu@intel.com> wrote:
+On Thu, Nov 22, 2012 at 1:34 PM, Nicolas Dechesne <ndec13@gmail.com> wrote:
+> On Thu, Nov 22, 2012 at 9:59 AM, Laurentiu Palcu
+> <laurentiu.palcu@intel.com> wrote:
+>>
+>> The autobuilder nightly for arm (for example) does, among other things,
+>> the following:
+>> * Builds core-image-sato, core-image-sato-dev, core-image-sato-sdk,
+>> core-image-minimal, core-image-minimal-dev for qemuarm
+>> * Builds core-image-sato, core-image-sato-sdk, core-image-minimal for
+>> beagleboard
+>> * Builds the meta-toolchain-gmae
+>>
+>> Here's a link to one of the latest arm nightly builds. You can see that,
+>> for beagleboard, it includes xf86-video-omap driver:
+>>
+>> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727
+>>
+>> This is the production autobuilder. The autobuilder server I used to
+>> test the patches is internal and cannot be accessed from outside.
 >
-> The autobuilder nightly for arm (for example) does, among other things,
-> the following:
-> * Builds core-image-sato, core-image-sato-dev, core-image-sato-sdk,
-> core-image-minimal, core-image-minimal-dev for qemuarm
-> * Builds core-image-sato, core-image-sato-sdk, core-image-minimal for
-> beagleboard
-> * Builds the meta-toolchain-gmae
 >
-> Here's a link to one of the latest arm nightly builds. You can see that,
-> for beagleboard, it includes xf86-video-omap driver:
+> and we can see that the build failed with
 >
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727
+> | checking for ANSI C header files... (cached) yes
+> | checking whether to include DRI support... checking for
+> /usr/include/xorg/dri.h... configure: error: cannot check for file
+> existence when cross compiling
+> | Configure failed. The contents of all config.log files follows to
+> aid debugging
+> | /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xf86-video-omap/2_0.4.2+gitr1+ae0394e687f1a77e966cf72f895da91840dffb8f-r20.0/git/config.log
+> | This file contains any messages produced by compilers while
+> | running configure, to aid debugging if configure makes a mistake.
+> |
+> | It was created by xf86-video-omap configure 0.4.2, which was
+> | generated by GNU Autoconf 2.69.  Invocation command line was
 >
-> This is the production autobuilder. The autobuilder server I used to
-> test the patches is internal and cannot be accessed from outside.
+> from http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727/steps/shell_55/logs/stdio
+>
+> I am looking at Ross patch, as our configure.ac file is clearly wrong
+> here in xf86-video-omap (in fact most of the testing for this X11
+> driver was done in ubuntu, so using native compilation...). will make
+> sure to get that fixed upstream asap.
 
+Ross's patch fixes the build issue, but then xf86-video-omap does not
+work in runtime (at least on nokia900)
 
-and we can see that the build failed with
+[   275.922] (II) Module omap: vendor="X.Org Foundation"
+[   275.922]    compiled for 1.13.0, module version = 0.83.0
+[   275.922]    Module class: X.Org Video Driver
+[   275.922]    ABI class: X.Org Video Driver, version 13.0
+[   275.924] (II) OMAP: Driver for TI OMAP: OMAP3430 with PowerVR SGX530,
+        OMAP3630 with PowerVR SGX530, OMAP4430 with PowerVR SGX540,
+        OMAP4460 with PowerVR SGX540, OMAP5430 with PowerVR SGX544 MP,
+        OMAP5432 with PowerVR SGX544 MP
+[   275.925] (--) using VT number 2
 
-| checking for ANSI C header files... (cached) yes
-| checking whether to include DRI support... checking for
-/usr/include/xorg/dri.h... configure: error: cannot check for file
-existence when cross compiling
-| Configure failed. The contents of all config.log files follows to
-aid debugging
-| /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xf86-video-omap/2_0.4.2+gitr1+ae0394e687f1a77e966cf72f895da91840dffb8f-r20.0/git/config.log
-| This file contains any messages produced by compilers while
-| running configure, to aid debugging if configure makes a mistake.
-|
-| It was created by xf86-video-omap configure 0.4.2, which was
-| generated by GNU Autoconf 2.69.  Invocation command line was
+[   275.944] (WW) Falling back to old probe method for omap
+[   276.469] (EE) No devices detected.
 
-from http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727/steps/shell_55/logs/stdio
+Well that's probably the same issue GNUtoo reported on xf86-video-omap
+patch, before it was merged and xf86-video-omapfb removed..
 
-I am looking at Ross patch, as our configure.ac file is clearly wrong
-here in xf86-video-omap (in fact most of the testing for this X11
-driver was done in ubuntu, so using native compilation...). will make
-sure to get that fixed upstream asap.
+Pity that bits of red in autobuilder logs are the most important
+quality indicator for some people...
+
+Cheers,
 
 
