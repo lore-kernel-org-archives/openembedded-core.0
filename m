@@ -1,22 +1,39 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TbU1v-0000cO-LU
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]
+	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1TbULK-0000zB-7b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 11:29:11 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 94375D224F;
-	Thu, 22 Nov 2012 11:15:14 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Nov 2012 11:15:01 +0100
-Message-Id: <1353579301-1209-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1424745.oM7gvEqakJ@helios>
-References: <1424745.oM7gvEqakJ@helios>
-Subject: [PATCH] archiver.bbclass: DISTRO is not required variable so deal with it
+	Thu, 22 Nov 2012 11:49:14 +0100
+Received: from mail616.ha.ovh.net (b7.ovh.net [213.186.33.57])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id C9C71DC5487
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Nov 2012 11:23:43 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 22 Nov 2012 12:16:08 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO eb-e6520)
+	(eric%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 22 Nov 2012 12:16:06 +0200
+Date: Thu, 22 Nov 2012 11:15:52 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
+Message-ID: <20121122111552.77470adb@eb-e6520>
+In-Reply-To: <1353334373-16509-1-git-send-email-eric@eukrea.com>
+References: <1353334373-16509-1-git-send-email-eric@eukrea.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.1 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+X-Ovh-Tracer-Id: 18115166552153238978
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehgedrudekucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpphhrohhfuhhsihhonhdrmhhosghinecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehgedrudekucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpphhrohhfuhhsihhonhdrmhhosghinecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kmod: fix git repo URL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 10:29:11 -0000
+X-List-Received-Date: Thu, 22 Nov 2012 10:49:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- meta/classes/archiver.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi Saul,
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 160a3aa..a4a2158 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -8,7 +8,6 @@
- 
- ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
- ARCHIVE_TYPE ?= "tar srpm"
--DISTRO ?= "poky"
- PATCHES_ARCHIVE_WITH_SERIES = 'yes'
- SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= '${@d.getVarFlag('ARCHIVER_MODE', 'log_type') \
-     if d.getVarFlag('ARCHIVER_MODE', 'log_type') != 'none' else 'logs_with_scripts'}'
-@@ -491,7 +490,7 @@ def create_diff_gz(d):
-     f.close()
- 
-     s=d.getVar('S', True)
--    distro = d.getVar('DISTRO',True)
-+    distro = d.getVar('DISTRO',True) or ""
-     dest = s + '/' + distro + '/files'
-     if not os.path.exists(dest):
-         bb.mkdirhier(dest)
--- 
-1.8.0
+is it possible to include this patch in danny as it fix a fetching
+error ?
+In master that's commit 156e0fca979585f72323041f8d8aeafcbd43dfc3
+
+Thanks
+Eric
+
+Le Mon, 19 Nov 2012 15:12:53 +0100,
+Eric B=E9nard <eric@eukrea.com> a =E9crit :
+
+> Signed-off-by: Eric B=E9nard <eric@eukrea.com>
+> ---
+>  meta/recipes-kernel/kmod/kmod.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod=
+/kmod.inc
+> index e4b4a98..3cd963f 100644
+> --- a/meta/recipes-kernel/kmod/kmod.inc
+> +++ b/meta/recipes-kernel/kmod/kmod.inc
+> @@ -17,7 +17,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa9=
+54499f7abaabaa882bbe \
+>                     "
+>  inherit autotools gtk-doc
+> =20
+> -SRC_URI =3D "git://git.profusion.mobi/kmod.git;protocol=3Dgit;branch=3Dm=
+aster \
+> +SRC_URI =3D "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+>             file://depmod-search.conf \
+>             file://0001-man-disable-man-page-generation-because-we-don-t-=
+hav.patch \
+>            "
 
 
 
