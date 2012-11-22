@@ -1,37 +1,39 @@
-Received: from mail-wi0-f173.google.com ([209.85.212.173])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TbWLW-0004GB-7n
+	(envelope-from <otavio.salvador@gmail.com>) id 1TbWWc-0004my-W1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 13:57:34 +0100
-Received: by mail-wi0-f173.google.com with SMTP id hn17so633577wib.6
+	Thu, 22 Nov 2012 14:09:03 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so746871pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 04:43:28 -0800 (PST)
+	Thu, 22 Nov 2012 04:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=BuDZw7Dg4HctbJ4oVtkznTRZU9BBFaPyPRQHtH+UPwI=;
-	b=02eRXaNNF782PpQyz6/4JxmhWFa8AZOEIyPq1lXBXkUqADGHGe8FO/aXwg2bMogHDe
-	HVXzEoxGZ/9xuF89SrngjdfrvjKhaE9M+E+wQGJDL2ujNFs6b3a5DHyk/FmiT7NGv1Sc
-	kbtMmi6Ym1UsTGXm4VIsQDz/gyFCwNXQb3pykTwh2DFkPJK74KEDNCC/GsMVpOpHTEp1
-	1CZLHj+p81OzBFfh6IX4vbGnv3j8H3jjAjomOj23KmgQouieY3eeVDQfmV1h0XgDBGT0
-	e9jwke3Bm5pcSUUsWOej/qaQQy1fWv2vNWcbAPl4Q1o+NvL0qbYYSwiDAETzlMHc8z9Q
-	9VqA==
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=cADf9reXkcq0RnpylVRYPFu76cON0svDy3W/jabDdMk=;
+	b=cQzm8IApIuh/GlBm/NT6p1/Xu0GsymJ2+1t7JHokNsnbyaZNKEHrzbLS227Vp1qSxI
+	UjT+0MnaYC2pNAEXxxn9V/LTSMhYCSy9OX5uKeLQpnRsifgyuT+eXz1vTx1C2dp2oQdY
+	H//vLxJOq+IOQGB6hHrPJuJ7zR55zea7j1KR2FtlKqg1E4MM6frLPbaD3b5jJlMMP/5c
+	C4+O0n/jrcyaPLKkjEPNeilJV4WmlLWEe/nXQf97dZaVstLhKWh4kIBIC+Zxu0p+wCO1
+	cV+EY9QljeC64ltw9YY3b0HAd3nsb+b0S0E3Tl4UsxSaZz8oonbZFX5amI7dZJEBK6Me
+	y/qA==
 MIME-Version: 1.0
-Received: by 10.216.212.131 with SMTP id y3mr231544weo.62.1353588208045; Thu,
-	22 Nov 2012 04:43:28 -0800 (PST)
-Received: by 10.194.44.138 with HTTP; Thu, 22 Nov 2012 04:43:27 -0800 (PST)
-In-Reply-To: <CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
-	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
-	<20121122083735.GU12637@jama.jama.net> <50ADE966.4060300@intel.com>
-	<CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
-Date: Thu, 22 Nov 2012 13:43:27 +0100
-Message-ID: <CA+chaQf1MWGeSP=BsZBtTG+mOgGEL7dm51yUcBu_36co9bZz4g@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Nicolas Dechesne <ndec13@gmail.com>
+Received: by 10.68.189.8 with SMTP id ge8mr4847187pbc.24.1353588895994; Thu,
+	22 Nov 2012 04:54:55 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Thu, 22 Nov 2012 04:54:55 -0800 (PST)
+In-Reply-To: <20121122122832.GD11155@sestofb10.enea.se>
+References: <1353511391-60570-1-git-send-email-bjst@enea.com>
+	<20121122120442.GB11155@sestofb10.enea.se>
+	<CAP9ODKrMYinP351hyVNbkW9jZqVj7UNy1GkokXtG-V0rsqAZ4g@mail.gmail.com>
+	<20121122122832.GD11155@sestofb10.enea.se>
+Date: Thu, 22 Nov 2012 10:54:55 -0200
+X-Google-Sender-Auth: JU9SZftszvwPXurVkyUaGYWcZXs
+Message-ID: <CAP9ODKpGP0_LxVtrjfrcEKdPvuSMvNyFB3yO_22Q2XsWL-gQcw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Bj=F6rn_Stenberg?= <bjst@enea.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+Subject: Re: [PATCH 0/4] RFC: ptest for danny
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,74 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 12:57:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Nov 2012 13:09:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 22, 2012 at 1:34 PM, Nicolas Dechesne <ndec13@gmail.com> wrote:
-> On Thu, Nov 22, 2012 at 9:59 AM, Laurentiu Palcu
-> <laurentiu.palcu@intel.com> wrote:
->>
->> The autobuilder nightly for arm (for example) does, among other things,
->> the following:
->> * Builds core-image-sato, core-image-sato-dev, core-image-sato-sdk,
->> core-image-minimal, core-image-minimal-dev for qemuarm
->> * Builds core-image-sato, core-image-sato-sdk, core-image-minimal for
->> beagleboard
->> * Builds the meta-toolchain-gmae
->>
->> Here's a link to one of the latest arm nightly builds. You can see that,
->> for beagleboard, it includes xf86-video-omap driver:
->>
->> http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727
->>
->> This is the production autobuilder. The autobuilder server I used to
->> test the patches is internal and cannot be accessed from outside.
+On Thu, Nov 22, 2012 at 10:28 AM, Bj=F6rn Stenberg <bjst@enea.com> wrote:
+> Otavio Salvador wrote:
+>> > What do I have to do to take them from "unpacked" to "installed"?
+>> Your package postinst needs to be able to be run offline.
 >
->
-> and we can see that the build failed with
->
-> | checking for ANSI C header files... (cached) yes
-> | checking whether to include DRI support... checking for
-> /usr/include/xorg/dri.h... configure: error: cannot check for file
-> existence when cross compiling
-> | Configure failed. The contents of all config.log files follows to
-> aid debugging
-> | /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xf86-video-omap/2_0.4.2+gitr1+ae0394e687f1a77e966cf72f895da91840dffb8f-r20.0/git/config.log
-> | This file contains any messages produced by compilers while
-> | running configure, to aid debugging if configure makes a mistake.
-> |
-> | It was created by xf86-video-omap configure 0.4.2, which was
-> | generated by GNU Autoconf 2.69.  Invocation command line was
->
-> from http://autobuilder.yoctoproject.org:8010/builders/nightly-arm/builds/727/steps/shell_55/logs/stdio
->
-> I am looking at Ross patch, as our configure.ac file is clearly wrong
-> here in xf86-video-omap (in fact most of the testing for this X11
-> driver was done in ubuntu, so using native compilation...). will make
-> sure to get that fixed upstream asap.
+> But they don't have any postinst. There are no .postinst files installed =
+for these packages in /var/lib/opkg/info. run-postinst.awk goes through the=
+ motions and prints "Configuring:" for these packages only because the pack=
+age status says "unpacked" instead of "installed". Nothing is ever ran.
 
-Ross's patch fixes the build issue, but then xf86-video-omap does not
-work in runtime (at least on nokia900)
+When first booting it always try to run the post insts; this is need
+to finish the configuration for the cases where it cannot be done
+offline.
 
-[   275.922] (II) Module omap: vendor="X.Org Foundation"
-[   275.922]    compiled for 1.13.0, module version = 0.83.0
-[   275.922]    Module class: X.Org Video Driver
-[   275.922]    ABI class: X.Org Video Driver, version 13.0
-[   275.924] (II) OMAP: Driver for TI OMAP: OMAP3430 with PowerVR SGX530,
-        OMAP3630 with PowerVR SGX530, OMAP4430 with PowerVR SGX540,
-        OMAP4460 with PowerVR SGX540, OMAP5430 with PowerVR SGX544 MP,
-        OMAP5432 with PowerVR SGX544 MP
-[   275.925] (--) using VT number 2
+I think something is failing in your rootfs; please check the rootfs log.
 
-[   275.944] (WW) Falling back to old probe method for omap
-[   276.469] (EE) No devices detected.
-
-Well that's probably the same issue GNUtoo reported on xf86-video-omap
-patch, before it was merged and xf86-video-omapfb removed..
-
-Pity that bits of red in autobuilder logs are the most important
-quality indicator for some people...
-
-Cheers,
+--=20
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
