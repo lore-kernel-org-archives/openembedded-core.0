@@ -1,40 +1,20 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ndec13@gmail.com>) id 1TbXy4-0007Qo-IH
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TbYpU-0001cg-VE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 15:41:28 +0100
-Received: by mail-vb0-f47.google.com with SMTP id e21so5748261vbm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 06:27:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=uq3V1YDU970d67jnmtn4zYNU2VIqn6o+6mWZDelmKM8=;
-	b=mNt4ZI6SJRs28CeODGIM+OvMfc0exoEjTzF6CogNxsTUY3p0Pbok0sJ1UDcIiE0P/K
-	GGyV1qOzxSY5L0v6VXeyBBAEW3c+hKe7UMV6XYzG44SQeYRq1E64AXZliWEUdK8tglEt
-	haDGlKsytPnCCkuEMnooQtxeuuXpeDQkOnowesMn/sYR7cODZs2iM2YLKYYrVSQ6HJJK
-	7GC1wHEgLSIHAfjLqVvVzAsIDftQ50TA1hROyOfuVYqicjfo0SCaOXwoLLMupGZS511M
-	94bPZ1nX8y6hnwby3v0SZDHeznN3gs4x0bnFSwPSPGvoS+2NSfz+Ly2pXBIQESt6fhsS
-	WGlA==
-Received: by 10.52.180.10 with SMTP id dk10mr863263vdc.101.1353594440024; Thu,
-	22 Nov 2012 06:27:20 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.248.74 with HTTP; Thu, 22 Nov 2012 06:26:59 -0800 (PST)
-In-Reply-To: <20121122140917.GF12637@jama.jama.net>
-References: <cover.1352898505.git.laurentiu.palcu@intel.com>
-	<7f73d8a0aee08a41e949ec7a1297f5edbf12ed57.1352898505.git.laurentiu.palcu@intel.com>
-	<20121121162051.GK12637@jama.jama.net> <50ADE2F7.4070904@intel.com>
-	<20121122083735.GU12637@jama.jama.net> <50ADE966.4060300@intel.com>
-	<CAOT3mi+kr6mg4tPwkY9uHohFw9w2vWVnLPDNaZV2XDuyWbL52Q@mail.gmail.com>
-	<CA+chaQf1MWGeSP=BsZBtTG+mOgGEL7dm51yUcBu_36co9bZz4g@mail.gmail.com>
-	<CAJTo0LYTJD=QWk8pL+EEs-jsFvCPS+R_HxbD6N9tquiuCjR9=A@mail.gmail.com>
-	<20121122140917.GF12637@jama.jama.net>
-From: Nicolas Dechesne <ndec13@gmail.com>
-Date: Thu, 22 Nov 2012 15:26:59 +0100
-Message-ID: <CAOT3miLCzZ+XPBuUWUfLB51vQQaDMqHd0bsfczOxjnoAE3xa9A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>, robclark@gmail.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 12/12] xf86-video-omap: add new recipe to follow the maintained repo
+	Thu, 22 Nov 2012 16:36:41 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2012 07:22:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,301,1352102400"; d="scan'208";a="251104048"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2012 07:22:12 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Nov 2012 17:22:10 +0200
+Message-Id: <1353597730-11208-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] perl: use the exported LDDLFLAGS in generate_config_sh script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,36 +27,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 14:41:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 22 Nov 2012 15:36:41 -0000
 
-On Thu, Nov 22, 2012 at 3:09 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> As said in other thread I did that already for xf86-video-glamo in
-> meta-oe, so I agree that it's not *that* difficult.
->
-> But I'm not sending xf86-video-glamo change before it's tested not only
-> to build, but also to work in runtime.
->
-> And I cannot work on xf86-video-omapfb now, because builder is still
-> rebuilding armv7a after last layout changes.
+The perl shared libraries did not have RPATHs set and that made
+autoreconf fail when using the SDK. The LDDLFLAGS environment variable
+was already exported in the recipe but was not used when generating the
+config.sh.
 
-xf86-video-omap was largely developped and tested on OMAP4 and OMAP5
-(Panda). it was tested at some point on OMAP3 (beagle), but not
-intensively.
+[YOCTO #3338]
 
-when i introduced it in our meta-ti layer, we took care of using it
-for Panda only, see:
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../perl/perl-5.14.2/generate-sh.patch             |   16 ++++++++++++----
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    2 +-
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/commit/?id=410dc026f2ee24a2346e7563a83f0181c79809cf
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/commit/?id=95e12712ddffcc7ec0789a8700137afe2e449445
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/generate-sh.patch b/meta/recipes-devtools/perl/perl-5.14.2/generate-sh.patch
+index 47f91c5..27f6e69 100644
+--- a/meta/recipes-devtools/perl/perl-5.14.2/generate-sh.patch
++++ b/meta/recipes-devtools/perl/perl-5.14.2/generate-sh.patch
+@@ -3,10 +3,10 @@ Upstream-Status:Inappropriate [embedded specific]
+ Use the ld flags from the supplied configuration file. For sh we need the
+ flags that specify to build PIC code so that the shared libraries work.
+ 
+-Index: perl-5.8.8/Cross/generate_config_sh
++Index: perl-5.14.2/Cross/generate_config_sh
+ ===================================================================
+---- perl-5.8.8.orig/Cross/generate_config_sh	2003-09-05 18:31:08.000000000 +1000
+-+++ perl-5.8.8/Cross/generate_config_sh	2007-05-30 09:12:50.000000000 +1000
++--- perl-5.14.2.orig/Cross/generate_config_sh	2010-12-30 04:07:14.000000000 +0200
+++++ perl-5.14.2/Cross/generate_config_sh	2012-11-22 15:58:49.852852805 +0200
+ @@ -19,10 +19,10 @@
+  $callbacks->{'ar'} = [\&simple_process, ["AR", "arm-linux-ar"]];
+  $callbacks->{'archname'} = [\&simple_process, ["SYS", "armv4l-linux"]];
+@@ -22,7 +22,15 @@ Index: perl-5.8.8/Cross/generate_config_sh
+  $callbacks->{'ccname'} = [\&simple_process, ["CC", "arm-linux-gcc"]];
+  $callbacks->{'cpp'} = [\&simple_process, ["CCP", "arm-linux-cpp"]];
+  $callbacks->{'cppflags'} = [\&simple_process, ["CCPFLAGS", "-fno-strict-aliasing"]];
+-@@ -105,6 +105,23 @@
++@@ -30,6 +30,7 @@
++ $callbacks->{'cppstdin'} = [\&simple_process_append, ["CC", "arm-linux-gcc -E", "-E"]];
++ $callbacks->{'full_ar'} = [\&backtick, ["AR", "which $ENV{AR}", "/usr/local/arm/2.95.3/bin/arm-linux-ar"]];
++ $callbacks->{'ld'} = [\&simple_process, ["LD", "arm-linux-ld"]];
+++$callbacks->{'lddlflags'} = [\&simple_process, ["LDDLFLAGS", ""]];
++ $callbacks->{'ldflags'} = [\&simple_process, ["LDFLAGS", ""]];
++ $callbacks->{'ldflags_uselargefiles'} = [\&simple_process, ["LDFLAGS", ""]];
++ $callbacks->{'myarchname'} = [\&simple_process, ["SYS", "armv4l-linux"]];
++@@ -105,6 +106,23 @@
+  
+  }
+  
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index bfc34d5..4dac5ce 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ # We need gnugrep (for -I)
+ DEPENDS = "virtual/db grep-native"
+ DEPENDS += "gdbm zlib"
+-PR = "r14"
++PR = "r15"
+ 
+ # 5.10.1 has Module::Build built-in
+ PROVIDES += "libmodule-build-perl"
+-- 
+1.7.9.5
 
-what I would suggest given the current situation is to fallback to
-fbdev until either someone properly tests this new driver on OMAP3, or
-someone ports omapfb on new X11. I would not recommend to remove
-xf86-video-omap as we are using it for Panda.
-
-Also note that as mentioned here, video-omap needs omapdrm driver
-(from staging) as well as CMA support. these bits need to make it in
-the kernel before video-omap can be safely used on OMAP3.
 
 
