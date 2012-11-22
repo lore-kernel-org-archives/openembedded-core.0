@@ -1,32 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TbUS6-0001Fy-AA for openembedded-core@lists.openembedded.org;
-	Thu, 22 Nov 2012 11:56:16 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAMAg8Iu025025;
-	Thu, 22 Nov 2012 10:42:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24528-01; Thu, 22 Nov 2012 10:42:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAMAfunM025019
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 22 Nov 2012 10:41:59 GMT
-Message-ID: <1353580914.10459.39.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Thu, 22 Nov 2012 10:41:54 +0000
-In-Reply-To: <CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com>
-References: <cover.1353553772.git.kai.kang@windriver.com>
-	<109a6ebf14ab5d312954f371eaf3bbfbcb6fb2d0.1353553774.git.kai.kang@windriver.com>
-	<CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] lsb: move links from lsbsetup to here
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <bjst@sestofb10.enea.se>) id 1TbVl4-0003T1-Ev
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Nov 2012 13:19:54 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 22 Nov 2012 13:04:42 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id C77FF291437;
+	Thu, 22 Nov 2012 13:04:42 +0100 (CET)
+Date: Thu, 22 Nov 2012 13:04:42 +0100
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20121122120442.GB11155@sestofb10.enea.se>
+References: <1353511391-60570-1-git-send-email-bjst@enea.com>
+MIME-Version: 1.0
+In-Reply-To: <1353511391-60570-1-git-send-email-bjst@enea.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Subject: Re: [PATCH 0/4] RFC: ptest for danny
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,24 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Nov 2012 10:56:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Nov 2012 12:19:55 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2012-11-22 at 08:37 -0200, Otavio Salvador wrote:
-> On Thu, Nov 22, 2012 at 1:25 AM, Kang Kai <kai.kang@windriver.com> wrote:
-> > Because package lsbsetup is dropped, move the links created for LSB test
-> > to package lsb.
-> >
-> > Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> 
-> This ought to be done before of dropping lsbsetup too.
+I have a few specific issues I would like help and/or feedback on:
 
-I've queued them that way around in master-next.
+- The -ptest .ipk packages get installed with "Status: install user unpacke=
+d" rather than "install user installed", causing them to be processed by po=
+stinst. What do I have to do to take them from "unpacked" to "installed"?
 
-Cheers,
+- I have to add a lot of paths to the FILES-dbg to avoid QA warnings. It fe=
+els a bit kludgy, is there a cleaner way to handle this?
 
-Richard
+- What should we do with packages that don't have an upstream test suite? M=
+y first thought was to just ignore them, but one could also argue that a "S=
+KIP: no package test" message would be more informative than no message at =
+all, since it separate the package from yet-to-be-processed ones. Opinions?
 
+- We have modified our buildbot to parse and collect the ptest output. Wher=
+e would be a suitable place to discuss these modifications?
+
+--=20
+Bj=F6rn
 
 
