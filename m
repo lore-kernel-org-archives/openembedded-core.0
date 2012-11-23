@@ -1,30 +1,32 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TbotO-00053D-SP
+	(envelope-from <martin.jansa@gmail.com>) id 1TbpU3-0005qo-Mi
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 09:45:47 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAN8Vd5b024205
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 23 Nov 2012 00:31:39 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Fri, 23 Nov 2012 00:31:36 -0800
-Message-ID: <50AF3476.1000401@windriver.com>
-Date: Fri, 23 Nov 2012 16:31:50 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1352439901.git.Qi.Chen@windriver.com>
-	<e4558ca77d64a8f3702c05599a630a00ddc0170f.1352439901.git.Qi.Chen@windriver.com>
-	<50AD6F8E.50807@linux.intel.com>
-In-Reply-To: <50AD6F8E.50807@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] autotools.bbclass: use relative path for acpaths whenever possible
+	Fri, 23 Nov 2012 10:23:39 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so3413149eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Nov 2012 01:09:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=oBX56AU1nBEPECpOjASGlxjDOICfgYCicaWdMzy8OWk=;
+	b=d3L2qQM1BbHIed7FXzZ9IMb9FAoxZpi+yexrQjL2GxwSjFzoekXlC3s/2rldZn0VHc
+	h+X5FrRcwvweHPlNVGvoDEp1w9RARY3n0i1la8iiHi1UnMbKEwo617vRzEicHvtOvHVd
+	cjXJXqML2yQHAjfezZn0LiR34DtV6CW7rcqK6ilwTYZoUeH/aPHqdI8IB3nT0FcyiU2z
+	+nO2J5JKuSkUQ3AP6IQCYBXUgc5IML7hu/HTLrmdw1DZBM6g4pH/VcRoRkiYEWkWbY/b
+	eHZ6Xz8N+8AV8AWyZHFqxwL4cezZSj7lUBrC/UdaEEXnQeBl2B5xiQKr39NyACnZB8/W
+	NZ0w==
+Received: by 10.14.213.7 with SMTP id z7mr11121900eeo.39.1353661772305;
+	Fri, 23 Nov 2012 01:09:32 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id v47sm12365146eeo.9.2012.11.23.01.09.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Nov 2012 01:09:31 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Nov 2012 10:09:27 +0100
+Message-Id: <1353661767-13873-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [RFC][PATCH] arch-armv4.inc: add --fix-v4bx to TARGET_LD_KERNEL_ARCH only for armv4 and strongarm1100
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,299 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 08:45:47 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030405090600040306010904"
+X-List-Received-Date: Fri, 23 Nov 2012 09:23:39 -0000
 
---------------030405090600040306010904
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+* without this patch it does apply --fix-v4bx not only to armv4, but
+  also all higher (because they also have armv4 in TUNE_FEATURES)
+* it causes SIGILL on armv4t
+  http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-November/042298.html
+* someone please test on armv4 device (I tested only bitbake -e output
+  that it's correctly applied with DEFAULTTUNE == armv4
+* maybe we can should fix this in binutils instead (both 2.22 and 2.23
+  are affected)
 
-On 11/22/2012 08:19 AM, Saul Wold wrote:
-> On 11/08/2012 09:47 PM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> When the TMPDIR is very long, say, 410 characters, aclocal would
->> fail because the argument list is too long. This patch is an effort
->> to use relative path for acpaths whenever possible, aiming at
->> making the build system work correctly when the sanity check says OK.
->>
->> With the current implementation of autoreconf, it's impossible to
->> thoroughly replace absolute path with relative path. Therefore, we
->> use relative path when there's on subdirectory to configure; otherwise,
->> we use absolute path.
->>
-> Have you done a world build long path names with this patch on 1.4 and 
-> does it cause any failures with autoreconf and subdirs?
->
-> Sau!
->
-Hi Saul,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-armv4.inc     | 2 +-
+ meta/conf/machine/include/tune-strongarm1100.inc | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Thank you for your suggestion.
-
-I did do the test before I sent out the patch, but at that time I only 
-used 'bitbake core-image-sato'.
-However when I re-tested it yesterday with 'bitbake world', qt4-native 
-configure failed.
-(Sorry for my carelessness.)
-
-The failure is not caused by the changes in autotools.bbclass.
-It failed to configure because *the path is too long to be fitted into 
-the static char array defined in its qconfig.cpp file*.
-
-Below are some details:
-src/corelib/global/qconfig.cpp:11:67: *error: initializer-string for 
-array of chars is too long* [-fpermissive]
-The statements in qconfig.cpp that caused this failure are:
-static const char qt_configure_prefix_path_str       [*256* + 12] = 
-"qt_prfxpath=/buildarea/qchen1/poky/build-autotools-test/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs\
-/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/s\
-ubs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs0/sysroots/x86_64-linux/usr";
-static const char qt_configure_documentation_path_str[*256* + 12] = 
-"qt_docspath=/buildarea/qchen1/poky/build-autotools-test/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs\
-/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/s\
-ubs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs0/sysroots/x86_64-linux/usr/doc";
-...
-
-
-Anyway it should be fixed as part of bug#2766 (long TMPDIR problem).
-Thus, I'll rework on bug#2766 and try to fix it.
-
-However, statements in qconfig.cpp lead me to doubt about the length 
-limit of TMPDIR (currently 410).
-As we see in qconfig.cpp, */if the TMPDIR has chars more than 256, it 
-would fail for certain./*
-
-*I think we should re-consider the length limit for TMPDIR.*
-
-
-Thanks,
-Chen Qi
+diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
+index cb747ac..f028ca6 100644
+--- a/meta/conf/machine/include/arm/arch-armv4.inc
++++ b/meta/conf/machine/include/arm/arch-armv4.inc
+@@ -4,7 +4,7 @@ ARMPKGARCH ?= "armv4"
+ 
+ TUNEVALID[armv4] = "Enable instructions for ARMv4"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv4", "-march=armv4${ARMPKGSFX_THUMB}", "", d)}"
+-TARGET_LD_KERNEL_ARCH += "${@bb.utils.contains("TUNE_FEATURES", "armv4", "--fix-v4bx", "", d)}"
++TARGET_LD_KERNEL_ARCH += "${@bb.utils.contains("DEFAULTTUNE", "armv4", "--fix-v4bx", "", d)}"
+ MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv4", ":armv4", "" ,d)}"
+ 
+ require conf/machine/include/arm/arch-arm.inc
+diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
+index 66bab8e..66885eb 100644
+--- a/meta/conf/machine/include/tune-strongarm1100.inc
++++ b/meta/conf/machine/include/tune-strongarm1100.inc
+@@ -8,5 +8,4 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "strongarm", "-mtune=stron
+ AVAILTUNES += "strongarm"
+ TUNE_FEATURES_tune-strongarm = "${TUNE_FEATURES_tune-armv4} strongarm"
+ PACKAGE_EXTRA_ARCHS_tune-strongarm = "${PACKAGE_EXTRA_ARCHS_tune-armv4}"
+-
+-
++TARGET_LD_KERNEL_ARCH += "${@bb.utils.contains("DEFAULTTUNE", "strongarm", "--fix-v4bx", "", d)}"
+-- 
+1.8.0
 
 
 
->
->> [YOCTO #2766]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/autotools.bbclass |   14 +++++++++-----
->>   1 file changed, 9 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/classes/autotools.bbclass 
->> b/meta/classes/autotools.bbclass
->> index b97d74b..86d8939 100644
->> --- a/meta/classes/autotools.bbclass
->> +++ b/meta/classes/autotools.bbclass
->> @@ -123,8 +123,11 @@ autotools_do_configure() {
->>           rm -f `dirname $ac`/configure
->>           done )
->>       if [ -e ${S}/configure.in -o -e ${S}/configure.ac ]; then
->> +               [ -e configure.in ] && CONFIGURE_AC=configure.in || 
->> CONFIGURE_AC=configure.ac
->>           olddir=`pwd`
->>           cd ${S}
->> +        # Determine whether there's subdirs to configure
->> +        grep -q -m 1 AC_CONFIG_SUBDIRS $CONFIGURE_AC && sub_cfg=1 || 
->> sub_cfg=0
->>           # Remove any previous copy of the m4 macros
->>           rm -rf ${B}/aclocal-copy/
->>           ACLOCAL="aclocal --system-acdir=${B}/aclocal-copy/"
->> @@ -132,6 +135,11 @@ autotools_do_configure() {
->>               acpaths=
->>               for i in `find ${S} -maxdepth 2 -name \*.m4|grep -v 
->> 'aclocal.m4'| \
->>                   grep -v 'acinclude.m4' | grep -v 'aclocal-copy' | 
->> sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
->> +                    # If no subdirs to configure, we use relative path
->> +                    # This is used for supporting long TMPDIR in Yocto
->> +                    if [ $sub_cfg == 0 ]; then
->> +                        i=`echo $i | sed -e 's#${S}#\.#'`
->> +                fi
->>                   acpaths="$acpaths -I $i"
->>               done
->>           else
->> @@ -161,11 +169,7 @@ autotools_do_configure() {
->>           if ! echo ${EXTRA_AUTORECONF} | grep -q "aclocal"; then
->>               rm -f aclocal.m4
->>           fi
->> -        if [ -e configure.in ]; then
->> -            CONFIGURE_AC=configure.in
->> -        else
->> -            CONFIGURE_AC=configure.ac
->> -        fi
->> +
->>           if grep "^[[:space:]]*AM_GLIB_GNU_GETTEXT" $CONFIGURE_AC 
->> >/dev/null; then
->>               if grep "sed.*POTFILES" $CONFIGURE_AC >/dev/null; then
->>                   : do nothing -- we still have an old unmodified 
->> configure.ac
->>
->
-
-
-
---------------030405090600040306010904
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 11/22/2012 08:19 AM, Saul Wold wrote:
-    <blockquote cite="mid:50AD6F8E.50807@linux.intel.com" type="cite">On
-      11/08/2012 09:47 PM, <a class="moz-txt-link-abbreviated"
-        href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>
-      wrote: <br>
-      <blockquote type="cite">From: Chen Qi <a
-          class="moz-txt-link-rfc2396E"
-          href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
-        <br>
-        <br>
-        When the TMPDIR is very long, say, 410 characters, aclocal would
-        <br>
-        fail because the argument list is too long. This patch is an
-        effort <br>
-        to use relative path for acpaths whenever possible, aiming at <br>
-        making the build system work correctly when the sanity check
-        says OK. <br>
-        <br>
-        With the current implementation of autoreconf, it's impossible
-        to <br>
-        thoroughly replace absolute path with relative path. Therefore,
-        we <br>
-        use relative path when there's on subdirectory to configure;
-        otherwise, <br>
-        we use absolute path. <br>
-        <br>
-      </blockquote>
-      Have you done a world build long path names with this patch on 1.4
-      and does it cause any failures with autoreconf and subdirs? <br>
-      <br>
-      Sau! <br>
-      <br>
-    </blockquote>
-    Hi Saul,<br>
-    <br>
-    Thank you for your suggestion. <br>
-    <br>
-    I did do the test before I sent out the patch, but at that time I
-    only used 'bitbake core-image-sato'.<br>
-    However when I re-tested it yesterday with 'bitbake world',
-    qt4-native configure failed.<br>
-    (Sorry for my carelessness.)<br>
-    <br>
-    The failure is not caused by the changes in autotools.bbclass. <br>
-    It failed to configure because <b>the path is too long to be fitted
-      into the static char array defined in its qconfig.cpp file</b>.&nbsp; <br>
-    <br>
-    Below are some details:<br>
-    src/corelib/global/qconfig.cpp:11:67: <b>error: initializer-string
-      for array of chars is too long</b> [-fpermissive]<br>
-    The statements in qconfig.cpp that caused this failure are:<br>
-    static const char qt_configure_prefix_path_str&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<b>256</b> +
-    12] =
-"qt_prfxpath=/buildarea/qchen1/poky/build-autotools-test/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs\<br>
-/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/s\<br>
-ubs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs0/sysroots/x86_64-linux/usr";<br>
-    static const char qt_configure_documentation_path_str[<b>256</b> +
-    12] =
-"qt_docspath=/buildarea/qchen1/poky/build-autotools-test/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs\<br>
-/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/s\<br>
-ubs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs/subs0/sysroots/x86_64-linux/usr/doc";<br>
-    ...<br>
-    <br>
-    <br>
-    Anyway it should be fixed as part of bug#2766 (long TMPDIR problem).<br>
-    Thus, I'll rework on bug#2766 and try to fix it.<br>
-    <br>
-    However, statements in qconfig.cpp lead me to doubt about the length
-    limit of TMPDIR (currently 410).<br>
-    As we see in qconfig.cpp, <b><i>if the TMPDIR has chars more than
-        256, it would fail for certain.</i></b><br>
-    <br>
-    <b>I think we should re-consider the length limit for TMPDIR.</b><br>
-    <br>
-    <br>
-    Thanks,<br>
-    Chen Qi<br>
-    <br>
-    <br>
-    <br>
-    <blockquote cite="mid:50AD6F8E.50807@linux.intel.com" type="cite"> <br>
-      <blockquote type="cite">[YOCTO #2766] <br>
-        <br>
-        Signed-off-by: Chen Qi <a class="moz-txt-link-rfc2396E"
-          href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
-        <br>
-        --- <br>
-        &nbsp; meta/classes/autotools.bbclass |&nbsp;&nbsp; 14 +++++++++----- <br>
-        &nbsp; 1 file changed, 9 insertions(+), 5 deletions(-) <br>
-        <br>
-        diff --git a/meta/classes/autotools.bbclass
-        b/meta/classes/autotools.bbclass <br>
-        index b97d74b..86d8939 100644 <br>
-        --- a/meta/classes/autotools.bbclass <br>
-        +++ b/meta/classes/autotools.bbclass <br>
-        @@ -123,8 +123,11 @@ autotools_do_configure() { <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm -f `dirname $ac`/configure <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; done ) <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -e ${S}/configure.in -o -e ${S}/configure.ac ]; then
-        <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ -e configure.in ] &amp;&amp;
-        CONFIGURE_AC=configure.in || CONFIGURE_AC=configure.ac <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; olddir=`pwd` <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cd ${S} <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Determine whether there's subdirs to configure <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grep -q -m 1 AC_CONFIG_SUBDIRS $CONFIGURE_AC &amp;&amp;
-        sub_cfg=1 || sub_cfg=0 <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Remove any previous copy of the m4 macros <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm -rf ${B}/aclocal-copy/ <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ACLOCAL="aclocal --system-acdir=${B}/aclocal-copy/" <br>
-        @@ -132,6 +135,11 @@ autotools_do_configure() { <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acpaths= <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for i in `find ${S} -maxdepth 2 -name \*.m4|grep
-        -v 'aclocal.m4'| \ <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grep -v 'acinclude.m4' | grep -v
-        'aclocal-copy' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # If no subdirs to configure, we use
-        relative path <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # This is used for supporting long TMPDIR
-        in Yocto <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ $sub_cfg == 0 ]; then <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i=`echo $i | sed -e 's#${S}#\.#'` <br>
-        +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; acpaths="$acpaths -I $i" <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; done <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else <br>
-        @@ -161,11 +169,7 @@ autotools_do_configure() { <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ! echo ${EXTRA_AUTORECONF} | grep -q "aclocal";
-        then <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm -f aclocal.m4 <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi <br>
-        -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -e configure.in ]; then <br>
-        -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONFIGURE_AC=configure.in <br>
-        -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else <br>
-        -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONFIGURE_AC=configure.ac <br>
-        -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi <br>
-        + <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if grep "^[[:space:]]*AM_GLIB_GNU_GETTEXT"
-        $CONFIGURE_AC &gt;/dev/null; then <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if grep "sed.*POTFILES" $CONFIGURE_AC
-        &gt;/dev/null; then <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : do nothing -- we still have an old
-        unmodified configure.ac <br>
-        <br>
-      </blockquote>
-      <br>
-    </blockquote>
-    <br>
-    <br>
-  </body>
-</html>
-
---------------030405090600040306010904--
