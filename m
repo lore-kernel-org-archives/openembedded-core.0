@@ -1,30 +1,30 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TbiV0-0000UW-KZ
+	(envelope-from <Qi.Chen@windriver.com>) id 1TbjpQ-0002fW-RM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 02:56:11 +0100
+	Fri, 23 Nov 2012 04:21:23 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAN1fvMw008962
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAN378S8016949
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Nov 2012 17:41:57 -0800 (PST)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	Thu, 22 Nov 2012 19:07:09 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Thu, 22 Nov 2012 17:41:57 -0800
-Message-ID: <50AED492.4000101@windriver.com>
-Date: Fri, 23 Nov 2012 09:42:42 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
+	Thu, 22 Nov 2012 19:07:08 -0800
+Message-ID: <50AEE869.7010801@windriver.com>
+Date: Fri, 23 Nov 2012 11:07:21 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1353553772.git.kai.kang@windriver.com>
-	<109a6ebf14ab5d312954f371eaf3bbfbcb6fb2d0.1353553774.git.kai.kang@windriver.com>
-	<CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.205]
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1353311649.git.Qi.Chen@windriver.com>
+	<442aa8576f4be75369fe4068794573f257a4d083.1353311649.git.Qi.Chen@windriver.com>
+	<1353413229.23758.5.camel@ted>
+In-Reply-To: <1353413229.23758.5.camel@ted>
+X-Originating-IP: [128.224.163.154]
 Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] lsb: move links from lsbsetup to here
+Subject: Re: [PATCH 1/1] mdadm: make udev rules dir configurable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,82 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 01:56:11 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020009000804080309030801"
-
---------------020009000804080309030801
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 23 Nov 2012 03:21:23 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2012?11?22? 18:37, Otavio Salvador wrote:
-> On Thu, Nov 22, 2012 at 1:25 AM, Kang Kai<kai.kang@windriver.com>  wrote:
->> Because package lsbsetup is dropped, move the links created for LSB test
->> to package lsb.
+On 11/20/2012 08:07 PM, Richard Purdie wrote:
+> On Tue, 2012-11-20 at 17:34 +0800, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi<Qi.Chen@windriver.com>
 >>
->> Signed-off-by: Kang Kai<kai.kang@windriver.com>
-> This ought to be done before of dropping lsbsetup too.
+>> mdadm hardcodes the udev rules dir to be '/lib/udev/rules.d'.
+>> However, udev configs its base library directory to be ${base_libdir}
+>> instead of '/lib'. Thus if the target has powerpc64 architecture,
+>> the mdraid.rules file will be missing on the target, as the library
+>> directory is 'lib64'.
+>>
+>> This patch makes the udev rules dir of mdadm configurable, so that
+>> the mdraid.rules file will not be missing on any target.
+>>
+>> [YOCTO #2804]
+> This is a bit of a tricky one. I suspect in this case we need to install
+> all the udev rules to one place and have an udev look in that place,
+> regardless of which multilib it was compiled for.
 >
+> We already have this problem with systemd_unitdir. I think we need to do
+> something like set:
+>
+> nonarchlib = "/lib"
+>
+> and then use this value in places where we want it to be invariant (yet
+> still allow the layout to be configurable).
+>
+> So your patch starts to help with this but there is more we need to do.
+>
+> Cheers,
+>
+> Richard
+>
+>
+Hi Richard,
 
-Hi Otavio,
+Do you mean that what needs to be fixed is udev instead of mdadm?
+Should I rework on this patch?
 
-Thanks a lot for your comments.
+Thanks,
 
-About the patch of packagegroup-core-lsb, I agree with you that lsbsetup 
-should be removed from the list before drop the package.
-
-But for this patch, if do links before drop the lsbsetup, when do 
-install it may warn something like 'there already a file 
-${D}/${libdir}/lsb/install_initd'.
-
-Regards,
-Kai
+Chen Qi
 
 
---------------020009000804080309030801
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    On 2012&#24180;11&#26376;22&#26085; 18:37, Otavio Salvador wrote:
-    <blockquote
-cite="mid:CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com"
-      type="cite">
-      <pre wrap="">On Thu, Nov 22, 2012 at 1:25 AM, Kang Kai <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Because package lsbsetup is dropped, move the links created for LSB test
-to package lsb.
-
-Signed-off-by: Kang Kai <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
-</pre>
-      </blockquote>
-      <pre wrap="">
-This ought to be done before of dropping lsbsetup too.
-
-</pre>
-    </blockquote>
-    <font size="+1"><br>
-      Hi </font>Otavio,<br>
-    <br>
-    Thanks a lot for your comments.<br>
-    <br>
-    About the patch of packagegroup-core-lsb, I agree with you that
-    lsbsetup should be removed from the list before drop the package.<br>
-    <br>
-    But for this patch, if do links before drop the lsbsetup, when do
-    install it may warn something like 'there already a file
-    ${D}/${libdir}/lsb/install_initd'.<br>
-    <br>
-    Regards,<br>
-    Kai<br>
-    <br>
-  </body>
-</html>
-
---------------020009000804080309030801--
