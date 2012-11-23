@@ -1,33 +1,38 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ndec13@gmail.com>) id 1TbqZS-0007Fe-Lp
+	(envelope-from <martin.jansa@gmail.com>) id 1Tbqd8-0007O1-RC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 11:33:18 +0100
-Received: by mail-vc0-f175.google.com with SMTP id m8so4966640vcd.6
+	Fri, 23 Nov 2012 11:37:07 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so3435269eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2012 02:19:11 -0800 (PST)
+	Fri, 23 Nov 2012 02:22:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=owBB+2tbuDtJaKURtkHrQAVNS6+7VIWE+5dV1iNxT00=;
-	b=HCxCNg6SRYoM0Vc1wtYINgWUx0d9/MSjRDHpEyWIdXfLyZNB2tkN5+M+219eCGzDea
-	TR7OsvFYFz5eHmF9ADShAE8IedJnkggM9sqw83eMW2M6o4AxGDRU7U3V7+WM66r+Use+
-	tpNSgIGJFSrtZP3zitK28gMedPRofEZWB6+W9zR+e/6N44TXySAkKNOioUPdEEx2psXR
-	+LKKMazRwDkWS1F01JbykEWx1CuKqPsxNQMODsSom1/ZXmHa4W1/65OdlKyDWq94kuYE
-	gGNvir+6ioJmOrMYPVugkp+m8zIYvoUVkZfluPCwg6F3u/UosEaz9uDN0+nwhPs11N+i
-	shBg==
-Received: by 10.220.119.196 with SMTP id a4mr5254545vcr.19.1353665950858; Fri,
-	23 Nov 2012 02:19:10 -0800 (PST)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+wM7vls5pgMe10fbt7Euq2BNSwZruEBHWTzMVURMVXo=;
+	b=oq65xRGcjbf+AwM2+l5sthyLk1TaepR4/M5NB2LmgMCfZmwmZxvBzwYGJ/IB6sE4Jz
+	HjM/GZ4hg8kn4roVETSlxi4DRsGxuO053Nfc95WvEA0g9OQWSvimkynEILz83dCI5hd5
+	4MMc4l8/vR9t7JkApfhHIwdso8zdH9yCiLaxRQD2S9hBB1wsIxw/S5WNzZTyg2KBvYsG
+	LbXueFqHodJPp4uEein/tVPmJr6PruqaNlA5yw5x1eDQpl27C9x5RsU3meeiB9UPHZmr
+	ztJpdFdJM01NjpLVtlQmer1mT5U/IyzEqgx9GSHFiypXrqFzzcny9g36fQLeGn/xNmHW
+	tIAA==
+Received: by 10.14.223.200 with SMTP id v48mr12051711eep.24.1353666179332;
+	Fri, 23 Nov 2012 02:22:59 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id u45sm6595329eep.0.2012.11.23.02.22.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 23 Nov 2012 02:22:58 -0800 (PST)
+Date: Fri, 23 Nov 2012 11:22:58 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Phil Blundell <philb@gnu.org>
+Message-ID: <20121123102258.GJ12637@jama.jama.net>
+References: <1353661767-13873-1-git-send-email-Martin.Jansa@gmail.com>
+	<1353664350.13864.701.camel@phil-desktop>
 MIME-Version: 1.0
-Received: by 10.58.248.74 with HTTP; Fri, 23 Nov 2012 02:18:50 -0800 (PST)
-In-Reply-To: <cover.1353631583.git.Martin.Jansa@gmail.com>
-References: <cover.1353631583.git.Martin.Jansa@gmail.com>
-From: Nicolas Dechesne <ndec13@gmail.com>
-Date: Fri, 23 Nov 2012 11:18:50 +0100
-Message-ID: <CAOT3miLTTjGDPTj=dbNgnTvKXSg3bc+CL5nu8ASfEgMtxZBdHg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <1353664350.13864.701.camel@phil-desktop>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Fixes for xserver and omap* drivers
+Subject: Re: [RFC][PATCH] arch-armv4.inc: add --fix-v4bx to TARGET_LD_KERNEL_ARCH only for armv4 and strongarm1100
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,58 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 10:33:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 23 Nov 2012 10:37:07 -0000
+X-Groupsio-MsgNum: 31704
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="i57Ucs80xkCVE1Ce"
+Content-Disposition: inline
 
-hi,
+--i57Ucs80xkCVE1Ce
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 23, 2012 at 1:47 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Martin Jansa (4):
->   xf86-video-omap: add xf86driproto dependency, drop --enable-neon and
->     improve DESCRIPTION
->   xserver-xorg: disable dri2 too when building without glx
->     PACKAGECONFIG
->   xf86-video-omapfb: revive driver which actually works and is tested
->     on real devices
->   xf86-video-omap: drop RPROVIDES/RREPLACES/RCONFLICTS
+On Fri, Nov 23, 2012 at 09:52:28AM +0000, Phil Blundell wrote:
+> On Fri, 2012-11-23 at 10:09 +0100, Martin Jansa wrote:
+> > -TARGET_LD_KERNEL_ARCH +=3D "${@bb.utils.contains("TUNE_FEATURES", "arm=
+v4", "--fix-v4bx", "", d)}"
+> > +TARGET_LD_KERNEL_ARCH +=3D "${@bb.utils.contains("DEFAULTTUNE", "armv4=
+", "--fix-v4bx", "", d)}"
+>=20
+> Testing DEFAULTTUNE doesn't really seem like the right thing.  Not that
+> I am any expert in the twisty maze of tune variables, but I would have
+> thought this should be:
+>=20
+> TARGET_LD_KERNEL_ARCH +=3D "${@bb.utils.contains("TUNE_FEATURES", "thumb"=
+, "", "--fix-v4bx", d)}"
 
-so, I have tested this serie on pandaboard, using meta-ti layer for
-the BSP and poky (i used master-next branch which has these patches).
-I have tested with a couple of patches that I sent to meta-ti to
-revert the xf86-video-omap that we had in meta-ti. For the reference,
-i tested with this:
-https://github.com/ndechesne/meta-ti/commits/test_new_xf-v-o (my new
-patches aren't merged yet in master).
+Depends if we want to apply it on e.g. armv5te device without thumb in
+TUNE_FEATURES.
 
-i tested with xf86-video-omap, not -omapfb, and with a v3.4 kernel
-which I know has a working omapdrm driver.
+> Or maybe it could just be fixed in the kernel, since its own build
+> system already knows whether Thumb is available or not.
 
-it all looks good, the driver is loaded, and I tested resolution
-change, as well as rotation , both with xrandr command (i tested
-core-image-x11 image).
+True, but then we need to fix every kernel recipe and because it took me
+quite long time to find commit which caused it, I fear that it will
+reappear in future when some layer adds kernel recipe without such fix.
 
-many thanks for sorting this out...
+Cheers,
 
-i have some questions... xf86-video-omap now clearly depends on opengl
-DISTRO_FEATURE (since dri cannot be disabled) for the xserver build.
-So if i build oe-core + meta-ti, it won't build as the xserver is
-built without dri/glx support there, and then xf86-video-omap won't
-build.
- - how should we handle that? it doesn't sound quite right to enfore a
-DISTRO feature in a recipe... but is it possible to have a check for
-opengl in the recipe? that would avoid a more cryptic build error..
- - how can I make an oe-core+meta-ti to build for Panda with this
-video driver? e.g. where should I set this DISTRO_FEATURE in meta-ti,
-outside of 'poky' distro, e.g. in a BSP layer?. I recall that we have
-this in the xserver recipe:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl',
-'glx', '', d)}"
-PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
-PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
-                      --disable-dri --disable-dri2 --disable-glx,\
-                      xf86driproto dri2proto mesa-dri"
+--i57Ucs80xkCVE1Ce
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-thx
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCvToIACgkQN1Ujt2V2gByKzwCfQBFQPp3+Mfk5+l1XFzYDGfU6
+dEUAn1w5xCyuaU1QtqSCNRlv3ADdgAmD
+=RPYu
+-----END PGP SIGNATURE-----
 
+--i57Ucs80xkCVE1Ce--
