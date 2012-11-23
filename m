@@ -1,37 +1,37 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TbheC-0005fB-Hf
+	(envelope-from <martin.jansa@gmail.com>) id 1TbheG-0005el-Ua
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 02:01:37 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so3319904eaa.6
+	Fri, 23 Nov 2012 02:01:40 +0100
+Received: by mail-ee0-f47.google.com with SMTP id l10so4771205eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 16:47:29 -0800 (PST)
+	Thu, 22 Nov 2012 16:47:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=jrsBuib3nOC0/VqtiWbeEXE1EkV9lIvlgTUHrb6r3sU=;
-	b=mqAs/UAPX7H91J53HTMXneZhXvBD85s2NU3xLLgJXwnfgi99EKFCMe2E+aGD1Qnx+X
-	puPzG+nG9PgNpuYwzOyNrYeSgZKFWHPAiGSsu4MoIU1e8xyAhy5VE9vO5MbzI8EGRa+4
-	g/zJUbmYJc3nLgvLImomqukxetlWRETaHTj585OpNMZS2TdiLlFLFCerxu31p+KuX0Fy
-	vGsNGr5X6lSw0Z8VU8DaP9KisoVAjtyWL+0NxMJrlBeBIOqynmkJi29AzE/leKtr6Cz2
-	qSNdiTlAcpdiikB4andiTpBovtCfagypNho19ST9dEHZCBZgmhVjPxFk0RU81/x8omCg
-	n/Cw==
-Received: by 10.14.205.65 with SMTP id i41mr7272479eeo.2.1353631649770;
-	Thu, 22 Nov 2012 16:47:29 -0800 (PST)
+	bh=SuJgxUaCjA2Ak4CDQet+H54BJul1PQklzAbjkwPtmEA=;
+	b=YHHowA06GZFexgpw+KqAQRmea8eKDuOZhQvJez4+W09Fc9ElcFzobhwhVq+W3E/QkG
+	13Vt2hmA5YoVXvd2J6RXNm4Yw5DXZjTdEEsjBVDCNp1LC1hPwX5oPDL6yUDauPU6OP+p
+	rFQF+l1Ne+3Xa34cdfvMOCx3tXguBpmtZdX1MAjlxZdgtdM7nvY5rDtuU6mN2hl6Zek0
+	GUl4volH8agoPUFqjwxqS69UAlOhh6QB1AFzJ+3j9I49TbfQZOxBvjcezalsUnO/rIsU
+	jeEJpu3vXoxJcDWRp/QLZHg/42e3CqTz/kB7dD1e1FNv0JD5TbkmBjwOZiZMjlF5Xe7T
+	6gEA==
+Received: by 10.14.216.70 with SMTP id f46mr7183854eep.12.1353631656335;
+	Thu, 22 Nov 2012 16:47:36 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o49sm10285133eep.5.2012.11.22.16.47.29
+	by mx.google.com with ESMTPS id e2sm10271992eeo.8.2012.11.22.16.47.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Nov 2012 16:47:29 -0800 (PST)
+	Thu, 22 Nov 2012 16:47:35 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2012 01:47:15 +0100
-Message-Id: <07143fcfc10a82a506227ab7979f13451c8efb12.1353631583.git.Martin.Jansa@gmail.com>
+Date: Fri, 23 Nov 2012 01:47:16 +0100
+Message-Id: <c72e7b4c61ac2a309ba3454feda1a579ce6bdbf8.1353631583.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <cover.1353631583.git.Martin.Jansa@gmail.com>
 References: <cover.1353631583.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1353631583.git.Martin.Jansa@gmail.com>
 References: <cover.1353631583.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/4] xf86-video-omap: add xf86driproto dependency, drop --enable-neon and improve DESCRIPTION
+Subject: [PATCH 2/4] xserver-xorg: disable dri2 too when building without glx PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,73 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 01:01:37 -0000
+X-List-Received-Date: Fri, 23 Nov 2012 01:01:41 -0000
 
-* xf86driproto was missing
-* --enable-neon isn't supported by omap driver
-* DESCRIPTION merged from meta-ti
-  http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/tree/recipes-graphics/xorg-driver/xf86-video-omap_git.bb?id=410dc026f2ee24a2346e7563a83f0181c79809cf
-* this driver also depends PACKAGECONFIG[glx] used in xserver-xorg,
-  without it dri2.h sometimes isn't built (it is autodetected only
-  when dri2proto is built before xserver-xorg) and without dri2.h it now
-  passes do_configure but fails later in do_compile
+* it was enabled when dri2proto was built before xserver-xorg
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../xorg-driver/xf86-video-omap_git.bb             | 24 +++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-index 2371f96..a965859 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-@@ -2,19 +2,34 @@ require xorg-driver-video.inc
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 4135a8b..d410707 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -13,7 +13,7 @@ PROVIDES = "virtual/xserver-xf86"
+ PROVIDES += "virtual/xserver"
  
- SUMMARY = "X.Org X server -- Texas Instruments OMAP framebuffer driver"
+ PE = "2"
+-INC_PR = "r5"
++INC_PR = "r6"
  
--DESCRIPTION = "omap driver supports the basic Texas Instruments OMAP \
--framebuffer."
-+SUMMARY = "X.Org X server -- TI OMAP integrated graphics chipsets driver"
-+
-+DESCRIPTION = "Open-source X.org graphics driver for TI OMAP graphics \
-+Currently relies on a closed-source submodule for EXA acceleration on \
-+the following chipsets: \
-+  + OMAP3430 \
-+  + OMAP3630 \
-+  + OMAP4430 \
-+  + OMAP4460 \
-+  + OMAP5430 \
-+  + OMAP5432 \
-+\
-+NOTE: this driver is work in progress..  you probably don't want to try \
-+and use it yet.  The API/ABI between driver and kernel, and driver and \
-+acceleration submodules is not stable yet.  This driver requires the \
-+omapdrm kernel driver w/ GEM support. \
-+"
+ XORG_PN = "xorg-server"
+ SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
+@@ -133,7 +133,7 @@ EXTRA_OECONF += "--with-fop=no \
+ PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'glx', '', d)}"
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+ PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
+-                      --disable-dri --disable-glx,\
++                      --disable-dri --disable-dri2 --disable-glx,\
+                       xf86driproto dri2proto mesa-dri"
  
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
--DEPENDS += "virtual/libx11 libdrm"
-+DEPENDS += "virtual/libx11 libdrm xf86driproto"
- 
- RPROVIDES = "xf86-video-omapfb"
- RCONFLICTS = "xf86-video-omapfb"
- RREPLACES = "xf86-video-omapfb"
- 
- SRCREV = "ae0394e687f1a77e966cf72f895da91840dffb8f"
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- PV = "0.4.2+gitr${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;protocol=git \
-@@ -23,7 +38,6 @@ SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;protocol=gi
- 
- S = "${WORKDIR}/git"
- 
--EXTRA_OECONF_armv7a = " --enable-neon "
- CFLAGS += " -I${STAGING_INCDIR}/xorg "
- 
- # Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dmai or omapfbplay)
+ do_install_append () {
 -- 
 1.8.0
 
