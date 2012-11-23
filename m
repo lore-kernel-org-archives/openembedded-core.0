@@ -1,40 +1,28 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tbw1v-0002fg-2M
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 17:23:03 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so4607603pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Nov 2012 08:08:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=3Yj5OuifRP60o6Pp7zPh9vBd9cG0feE3G3MJr8jqpPo=;
-	b=f6gBOF9J2engCe54WvjuynPVW5eMEBdPl6VMVstNWOpGEFTlZSUXn72+b5tYim+r2f
-	9gT7cIqqR7iALg1KoQoGM3Ncp/i3F17zd1J0YXu2ANDPkyrx9lXGYK0rnLRqMC97r5X5
-	oSU2yS77+1WWF925moZ0xpLNcj/BDi+rxP57ShMhEbIIjJaogmEAfHw/rcU5FH04IWPx
-	cCkhadwvI/ZS0YDnE9lHmZz8inssXS35eLQ66ha9dQD7SKZDjO6Qd6DDuWJNeRLExe0q
-	t+bq5sWQY70QKSvXGb3HyGAiDV+8NPL1IebftcpM1Cfx26ZzaJKVGIaDRfGJ4FpE7Wg4
-	CjSA==
-MIME-Version: 1.0
-Received: by 10.68.189.8 with SMTP id ge8mr15731857pbc.24.1353686934076; Fri,
-	23 Nov 2012 08:08:54 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Fri, 23 Nov 2012 08:08:53 -0800 (PST)
-In-Reply-To: <1353672970.13864.739.camel@phil-desktop>
-References: <1353620179.10459.59.camel@ted>
-	<1353621014.2000.16.camel@x121e.pbcl.net>
-	<1353621779.10459.67.camel@ted>
-	<1353665804.13864.713.camel@phil-desktop>
-	<1353672077.1361.4.camel@ted>
-	<1353672970.13864.739.camel@phil-desktop>
-Date: Fri, 23 Nov 2012 14:08:53 -0200
-X-Google-Sender-Auth: r-yPDnXVPBy9E4mVnKthOwNToFI
-Message-ID: <CAP9ODKrFwPDLn4t-cXSmHa3ieFR-i7p05K7wM21hCez5F28eNQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <philb@gnu.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-cross: Explicitly depend on linux-libc-headers
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TbxFY-0004cU-AN; Fri, 23 Nov 2012 18:41:12 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qANHR1UT005001;
+	Fri, 23 Nov 2012 17:27:01 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04292-04; Fri, 23 Nov 2012 17:26:57 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qANHQqmR004953
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 23 Nov 2012 17:26:53 GMT
+Message-ID: <1353691611.1361.28.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bitbake-devel <bitbake-devel@lists.openembedded.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Nov 2012 17:26:51 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: RFC: Versioning of git recipes (and incremental PR)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 16:23:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 23 Nov 2012 17:41:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 23, 2012 at 10:16 AM, Phil Blundell <philb@gnu.org> wrote:
-> On Fri, 2012-11-23 at 12:01 +0000, Richard Purdie wrote:
->> I'm not sure "gratuitous" is entirely fair, the metadata as it stands
->> today is fairly linux centric.
->
-> For some (maybe large) parts of the metadata that's probably true, but
-> gcc-cross does happen to be usable on non-linux with only minor
-> adjustments to EXTRA_OECONF and it would be nice to keep it that way.
+Currently we have some rather complex and potentially broken code in the
+fetcher code to deal with the the fact that you don't get incremental
+versions from git revisions easily. The system currently has a database
+and generates incremental numbers so PV becomes something like:
 
-I am curious, what you use it for?
+0.1+git1-deadbeefdecafbad
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+or for perverse recipes with more than one git source:
+
+0.1+git1-deadbeefdecafbad-git3-decafbaddeadbeef
+
+We currently have a bug that this doesn't interact well with sstate
+feeds since you have to have a single persistdb for any given sstate
+feed. It won't break in that sstate will just not be used but that is
+inefficient.
+
+The fact we need to have increasing values in the field is a very
+similar problem to the incremental PR for package fields that we're
+addressing with the PR server.
+
+I've therefore taken a step back and considered things and am proposing
+that we adapt the PR server to handle this issue and then drop the code
+from the fetcher. The rough implementation of this would mean that:
+
+* PV would become 0.1+gitAUTOINC-deadbeefdecafbad-decafbaddeadbeef
+
+* We'd have one incrementing value rather than several.
+
+* That the code would detect a PV containing AUTOINC and set PKGV to the
+same thing with AUTOINC replaced with the "auto PR" value
+
+* We'd do this in parallel with the usual auto PR value. In PR server
+terms this means likely in the same data table using "git-PV" as the key
+and just call the API with a different key name.
+
+* If the PR server isn't running, this would just set PKGV to PV but
+with AUTOINC set to 0. This would mean you wouldn't get updating package
+feeds but usual image creation would be just fine.
+
+* There are some complexities for data import and export we need to
+consider and work through.
+
+All things considered I think this would be a nice improvement and allow
+us to have one good set of "incremental" code and simplify the fetchers.
+
+I'm open to discussion... :)
+
+Cheers,
+
+Richard
+
 
 
