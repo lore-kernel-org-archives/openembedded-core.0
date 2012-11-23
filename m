@@ -1,37 +1,30 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TbheU-0005fB-Ov
+	(envelope-from <Kai.Kang@windriver.com>) id 1TbiV0-0000UW-KZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 02:01:54 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so3319904eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Nov 2012 16:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=FZa3lmLQ1RlW5pmHA1YD+kIs+IoDQrkIDysMQNXQIQQ=;
-	b=gMccDUuKDGIRXGRmmNiHAIQfKzhnyDBoEKPS6uAUL/F2d+vVWLy+bqLKLq4NJDZ4JT
-	G8j2dMlXhv4dNZhgjFL36jVIp64F2w+WI9OkudoW1AxqIyGdmEoYjCztVeheWyk4j2o0
-	MRlzaWSPcNIxWDuQEe99vo+WT5MYpDfCld3xu+We1aOB0wkhjX3RdSua1vhfMY84vQgh
-	PNwjwkqjHVdr4UuIPt+BZtu2RPLih4w6+2NFmFg3cPr1b/+zwfkdsDvIZ5ZpugKVBHtv
-	I6VVFSGqmBdkb0gAcUOow4B2VJEv7In2iqYmlIh+C35GQ0mJgc8y0MCcv/76RuYyQ9Dm
-	kSvA==
-Received: by 10.14.194.71 with SMTP id l47mr7142809een.6.1353631669966;
-	Thu, 22 Nov 2012 16:47:49 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id b44sm10260022eep.12.2012.11.22.16.47.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Nov 2012 16:47:49 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Nov 2012 01:47:18 +0100
-Message-Id: <726eb45be2db3fb3b2263953112b4194f81c018c.1353631583.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <cover.1353631583.git.Martin.Jansa@gmail.com>
-References: <cover.1353631583.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1353631583.git.Martin.Jansa@gmail.com>
-References: <cover.1353631583.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 4/4] xf86-video-omap: drop RPROVIDES/RREPLACES/RCONFLICTS
+	Fri, 23 Nov 2012 02:56:11 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAN1fvMw008962
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Nov 2012 17:41:57 -0800 (PST)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Thu, 22 Nov 2012 17:41:57 -0800
+Message-ID: <50AED492.4000101@windriver.com>
+Date: Fri, 23 Nov 2012 09:42:42 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1353553772.git.kai.kang@windriver.com>
+	<109a6ebf14ab5d312954f371eaf3bbfbcb6fb2d0.1353553774.git.kai.kang@windriver.com>
+	<CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.205]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] lsb: move links from lsbsetup to here
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 01:01:54 -0000
+X-List-Received-Date: Fri, 23 Nov 2012 01:56:11 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020009000804080309030801"
 
-* without _${PN} suffix they are invalid:
-  opkg install bash-4.2# opkg install xf86-video-omapfb
-  Package xf86-video-omap-doc is already installed on root.
+--------------020009000804080309030801
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* it's not upgrade to omapfb driver but different driver,
-  so let BSP maintainers decide which one works for their MACHINE
+On 2012?11?22? 18:37, Otavio Salvador wrote:
+> On Thu, Nov 22, 2012 at 1:25 AM, Kang Kai<kai.kang@windriver.com>  wrote:
+>> Because package lsbsetup is dropped, move the links created for LSB test
+>> to package lsb.
+>>
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+> This ought to be done before of dropping lsbsetup too.
+>
 
-* without this xf86-video-omap (or -doc, -dbg, ...) can be pulled
-  to image even when XSERVER clearly says xf86-video-omapfb
+Hi Otavio,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Thanks a lot for your comments.
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-index a965859..dea8ca2 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
-@@ -24,12 +24,8 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
- DEPENDS += "virtual/libx11 libdrm xf86driproto"
- 
--RPROVIDES = "xf86-video-omapfb"
--RCONFLICTS = "xf86-video-omapfb"
--RREPLACES = "xf86-video-omapfb"
--
- SRCREV = "ae0394e687f1a77e966cf72f895da91840dffb8f"
--PR = "${INC_PR}.2"
-+PR = "${INC_PR}.3"
- PV = "0.4.2+gitr${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap;protocol=git \
--- 
-1.8.0
+About the patch of packagegroup-core-lsb, I agree with you that lsbsetup 
+should be removed from the list before drop the package.
+
+But for this patch, if do links before drop the lsbsetup, when do 
+install it may warn something like 'there already a file 
+${D}/${libdir}/lsb/install_initd'.
+
+Regards,
+Kai
 
 
+--------------020009000804080309030801
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    On 2012&#24180;11&#26376;22&#26085; 18:37, Otavio Salvador wrote:
+    <blockquote
+cite="mid:CAP9ODKpd5BQDEn8tigirfCkA0ejfW6-Sd4HdWnwDe8Vrj5s4nQ@mail.gmail.com"
+      type="cite">
+      <pre wrap="">On Thu, Nov 22, 2012 at 1:25 AM, Kang Kai <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">Because package lsbsetup is dropped, move the links created for LSB test
+to package lsb.
+
+Signed-off-by: Kang Kai <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+This ought to be done before of dropping lsbsetup too.
+
+</pre>
+    </blockquote>
+    <font size="+1"><br>
+      Hi </font>Otavio,<br>
+    <br>
+    Thanks a lot for your comments.<br>
+    <br>
+    About the patch of packagegroup-core-lsb, I agree with you that
+    lsbsetup should be removed from the list before drop the package.<br>
+    <br>
+    But for this patch, if do links before drop the lsbsetup, when do
+    install it may warn something like 'there already a file
+    ${D}/${libdir}/lsb/install_initd'.<br>
+    <br>
+    Regards,<br>
+    Kai<br>
+    <br>
+  </body>
+</html>
+
+--------------020009000804080309030801--
