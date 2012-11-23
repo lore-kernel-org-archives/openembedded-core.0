@@ -1,25 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1TbqX4-0007BV-12
+	(envelope-from <ndec13@gmail.com>) id 1TbqZS-0007Fe-Lp
 	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Nov 2012 11:30:50 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TbqJQ-0005I4-Ie; Fri, 23 Nov 2012 11:16:44 +0100
-From: Phil Blundell <philb@gnu.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 23 Nov 2012 10:16:43 +0000
-In-Reply-To: <1353621779.10459.67.camel@ted>
-References: <1353620179.10459.59.camel@ted>
-	<1353621014.2000.16.camel@x121e.pbcl.net>
-	<1353621779.10459.67.camel@ted>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1353665804.13864.713.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-cross: Explicitly depend on linux-libc-headers
+	Fri, 23 Nov 2012 11:33:18 +0100
+Received: by mail-vc0-f175.google.com with SMTP id m8so4966640vcd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Nov 2012 02:19:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=owBB+2tbuDtJaKURtkHrQAVNS6+7VIWE+5dV1iNxT00=;
+	b=HCxCNg6SRYoM0Vc1wtYINgWUx0d9/MSjRDHpEyWIdXfLyZNB2tkN5+M+219eCGzDea
+	TR7OsvFYFz5eHmF9ADShAE8IedJnkggM9sqw83eMW2M6o4AxGDRU7U3V7+WM66r+Use+
+	tpNSgIGJFSrtZP3zitK28gMedPRofEZWB6+W9zR+e/6N44TXySAkKNOioUPdEEx2psXR
+	+LKKMazRwDkWS1F01JbykEWx1CuKqPsxNQMODsSom1/ZXmHa4W1/65OdlKyDWq94kuYE
+	gGNvir+6ioJmOrMYPVugkp+m8zIYvoUVkZfluPCwg6F3u/UosEaz9uDN0+nwhPs11N+i
+	shBg==
+Received: by 10.220.119.196 with SMTP id a4mr5254545vcr.19.1353665950858; Fri,
+	23 Nov 2012 02:19:10 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.248.74 with HTTP; Fri, 23 Nov 2012 02:18:50 -0800 (PST)
+In-Reply-To: <cover.1353631583.git.Martin.Jansa@gmail.com>
+References: <cover.1353631583.git.Martin.Jansa@gmail.com>
+From: Nicolas Dechesne <ndec13@gmail.com>
+Date: Fri, 23 Nov 2012 11:18:50 +0100
+Message-ID: <CAOT3miLTTjGDPTj=dbNgnTvKXSg3bc+CL5nu8ASfEgMtxZBdHg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] Fixes for xserver and omap* drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,42 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Nov 2012 10:30:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Nov 2012 10:33:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2012-11-22 at 22:02 +0000, Richard Purdie wrote:
-> On Thu, 2012-11-22 at 21:50 +0000, Phil Blundell wrote:
-> > On Thu, 2012-11-22 at 21:36 +0000, Richard Purdie wrote:
-> > > -DEPENDS = "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}libc-for-gcc ${NATIVEDEPS}"
-> > > +DEPENDS = "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}libc-for-gcc linux-libc-headers ${NATIVEDEPS}"
-> > 
-> > gcc-cross isn't particularly specific to linux targets and ideally we
-> > don't want to be adding more linuxisms to the recipe.  It is,
-> > admittedly, not entirely obvious how we could conveniently get that
-> > dependency added only for linux targets (since I don't think there's any
-> > existing OVERRIDE that's helpful here) but perhaps we should find a way
-> > to address that problem rather than just sticking it in unconditionally.
-> 
-> virtual/${TARGET_OS}-headers with a suitable provider entry?
+hi,
 
-I think a better approach would be to use a python fragment which
-appends linux-libc-headers if ${TARGET_OS} starts with "linux".  Your
-suggestion would work as well but it seems a bit ugly, and would still
-be slightly annoying for targets where no such headers are required.
+On Fri, Nov 23, 2012 at 1:47 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Martin Jansa (4):
+>   xf86-video-omap: add xf86driproto dependency, drop --enable-neon and
+>     improve DESCRIPTION
+>   xserver-xorg: disable dri2 too when building without glx
+>     PACKAGECONFIG
+>   xf86-video-omapfb: revive driver which actually works and is tested
+>     on real devices
+>   xf86-video-omap: drop RPROVIDES/RREPLACES/RCONFLICTS
 
-> I was assuming someone who cares about non-linux wouldn't find this
-> particularly hard to deal with...
+so, I have tested this serie on pandaboard, using meta-ti layer for
+the BSP and poky (i used master-next branch which has these patches).
+I have tested with a couple of patches that I sent to meta-ti to
+revert the xf86-video-omap that we had in meta-ti. For the reference,
+i tested with this:
+https://github.com/ndechesne/meta-ti/commits/test_new_xf-v-o (my new
+patches aren't merged yet in master).
 
-Well, indeed, but equally it doesn't seem especially polite to introduce
-gratuitous target-specific bits into core recipes on the assumption that
-someone else will run around after you cleaning them up.  If I was to
-start sending patches for gcc which worked for my employer's favourite
-target but broke everything else then you would presumably reject them,
-and rightly so.
+i tested with xf86-video-omap, not -omapfb, and with a v3.4 kernel
+which I know has a working omapdrm driver.
 
-p.
+it all looks good, the driver is loaded, and I tested resolution
+change, as well as rotation , both with xrandr command (i tested
+core-image-x11 image).
 
+many thanks for sorting this out...
 
+i have some questions... xf86-video-omap now clearly depends on opengl
+DISTRO_FEATURE (since dri cannot be disabled) for the xserver build.
+So if i build oe-core + meta-ti, it won't build as the xserver is
+built without dri/glx support there, and then xf86-video-omap won't
+build.
+ - how should we handle that? it doesn't sound quite right to enfore a
+DISTRO feature in a recipe... but is it possible to have a check for
+opengl in the recipe? that would avoid a more cryptic build error..
+ - how can I make an oe-core+meta-ti to build for Panda with this
+video driver? e.g. where should I set this DISTRO_FEATURE in meta-ti,
+outside of 'poky' distro, e.g. in a BSP layer?. I recall that we have
+this in the xserver recipe:
+
+PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl',
+'glx', '', d)}"
+PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+PACKAGECONFIG[glx] = "--enable-dri --enable-dri2 --enable-glx --enable-glx-tls,\
+                      --disable-dri --disable-dri2 --disable-glx,\
+                      xf86driproto dri2proto mesa-dri"
+
+thx
 
 
