@@ -1,30 +1,35 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TcBTn-00080z-4i
+	(envelope-from <cazfi74@gmail.com>) id 1TcCMF-0000VK-6i
 	for openembedded-core@lists.openembedded.org;
-	Sat, 24 Nov 2012 09:52:51 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so1640817pad.6
+	Sat, 24 Nov 2012 10:49:07 +0100
+Received: by mail-lb0-f175.google.com with SMTP id gg13so4493949lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Nov 2012 00:38:41 -0800 (PST)
+	Sat, 24 Nov 2012 01:34:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=pSTXdrP782s7fxQaDWd8het8Pug3yWUd4tjOylPZZ7Q=;
-	b=e3jqWc5JnznWXU6E5nzs7x8vBLw5J81b8WLrCHk2kUKEVmMZQhSgARY5UWLIimRt3a
-	mrUG0b2nXNKGuxh9Yg7Utpi7btIZtGfLq5aNn5y0MC8QFs8Thac05nqjyjU3jMlZltrl
-	t8HQ5np62Sg/odUrgDiBSgjXCyV+DNb6iGCu5hfRDrg90omat83kOd9ENVccheBK2QHn
-	6kkINpIgyQCiAQp5z1Gtln+ZSCaNLNqSmbXYIeLGHtkv9qPm8Rzg9AWLRasw+caFZXsd
-	8ywUqEpdjw8otQC0Yv+eRqfLlVA4ooyv/jgcY8ewa0wk7uDNRSQ3SYK7w5PQSdSqiZFa
-	X24g==
-MIME-Version: 1.0
-Received: by 10.68.233.201 with SMTP id ty9mr21103938pbc.14.1353746321594;
-	Sat, 24 Nov 2012 00:38:41 -0800 (PST)
-Received: by 10.68.63.6 with HTTP; Sat, 24 Nov 2012 00:38:41 -0800 (PST)
-Date: Sat, 24 Nov 2012 10:38:41 +0200
-Message-ID: <CAF6bG8eXXWEVesfiXapwdHDrZ-C6hSB5wTF617+waaKhGfrdHg@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Hn3ONNpoB9dMXdhL9qjc3fYMjkiuL451dp9lRtrctOQ=;
+	b=rR0nSO9YWyZYhw4Bl9qz7Bul0nIaEpXYavZD/EN32k+rKWQ+E8/vshRQU8XlHV0uMt
+	ozZbSIV37s68u24wmwhZ23tfg2l9F4pOA/0QDpfpWLcwm+9fERtcOpcCteSEkKjJS97X
+	BeRJOjKixVPA/fqMPEX0575UudDmzEEyQrYNsYOyaDIumlNPlLDvTpZaj82edc/PkQFN
+	WFhlOEehXgKUw+lh70SAejL8EHFf3rBwtozsnGzDvYRv4ahcfGRv522npt7Iw4ZXYoaV
+	GxG1uisc2P+BN6BQqLkS7SqvjuiFZFYF+5BAQRtqKo/QwFeaf3tbqas7db+sBiZHwaIn
+	ORjw==
+Received: by 10.112.25.6 with SMTP id y6mr2774914lbf.17.1353749698136;
+	Sat, 24 Nov 2012 01:34:58 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id e4sm3384183lby.12.2012.11.24.01.34.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 24 Nov 2012 01:34:57 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1TcC8U-0003HZ-SC; Sat, 24 Nov 2012 11:34:54 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: xz compressed autotools
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 24 Nov 2012 11:34:45 +0200
+Message-Id: <1353749685-12585-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] automake: update to upstream version 1.12.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,23 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Nov 2012 08:52:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 24 Nov 2012 09:49:07 -0000
 
- I just noticed that xz compressed packages of autotools cannot be
-used as that would lead to circular dependency. xz decompressor cannot
-be built without autotools.
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ .../automake/{automake_1.12.3.bb => automake_1.12.5.bb}          |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/automake/{automake_1.12.3.bb => automake_1.12.5.bb} (90%)
 
- Before autoconf-2.69 was released, there was speculation that release
-would be provided as tar.xz only. They decided to release at least
-2.69 with tar.gz too, but future is not certain.
+diff --git a/meta/recipes-devtools/automake/automake_1.12.3.bb b/meta/recipes-devtools/automake/automake_1.12.5.bb
+similarity index 90%
+rename from meta/recipes-devtools/automake/automake_1.12.3.bb
+rename to meta/recipes-devtools/automake/automake_1.12.5.bb
+index aaa5ee5..ee85617 100644
+--- a/meta/recipes-devtools/automake/automake_1.12.3.bb
++++ b/meta/recipes-devtools/automake/automake_1.12.5.bb
+@@ -25,10 +25,10 @@ SRC_URI += "${PATHFIXPATCH} \
+ 	    file://python-libdir.patch \
+             file://py-compile-compile-only-optimized-byte-code.patch"
+ 
+-SRC_URI[md5sum] = "d2af8484de94cdee16d89c50aaa1c729"
+-SRC_URI[sha256sum] = "095ffaa3ac887d1eb3511bf13d7f1fc9ec0503c6a06aeae05c93730cdda9a5a0"
++SRC_URI[md5sum] = "674f6d28f8723e0f478cb03de30f36f1"
++SRC_URI[sha256sum] = "82089e23b384d3e64efa4f09f133a02dadb91c0593d4f1d4e12c29d806be9925"
+ 
+-PR = "r2"
++PR = "r1"
+ 
+ do_install () {
+     oe_runmake 'DESTDIR=${D}' install
+-- 
+1.7.10.4
 
- I already sent email to autoconf mailing list too, noting that
-(currently) OpenEmbedded depends on .tar.gz packages being available,
-but maybe that dependency should also be somehow removed from future
-OpenEmbedded versions.
-
-
- - ML
 
 
