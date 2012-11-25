@@ -1,40 +1,39 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tcwb5-0001E6-K4
-	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 12:11:32 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 26 Nov 2012 02:57:18 -0800
-Received: by mail-ob0-f197.google.com with SMTP id za17so43269594obc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 02:57:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=zo4k3npJZTXy/ailIj6gvJV3r7rLZhEb8POm6c4uFc0=;
-	b=IlTdop0H8Sj+JGefYwpcbYnrlDPEgAb2GHCQ6P4PxYtvcXe8eyTV8zvo+WQ+uRbtSZ
-	vuGhjne3d1/g9wVKaScQXrSN9UjqJZ6ly/7/ekxVuhMqjf8ngEiZav15us0NRf7VKfWo
-	f413mlV2w1OBqJrny1RfXiTP/JKeDFgGAwwie0APH/DpZWUp6kdjicDvYX4eomeT6L00
-	fBn5qgUEY6Mr7XlLUj/geMeUgeg5ZwGH00S4MGWFC2MhKrtaLLWC8+AMEdtWpptCiyIC
-	LYDLYL3hl6BQACpzeyawKsbgTogphaNoPTHxid1EZXQ3Y9vHcJ0P32ANkj/NxF1njrMp
-	2rOw==
-Received: by 10.60.12.99 with SMTP id x3mr5528283oeb.71.1353927437310;
-	Mon, 26 Nov 2012 02:57:17 -0800 (PST)
-Received: by 10.60.12.99 with SMTP id x3mr5528280oeb.71.1353927437246; Mon, 26
-	Nov 2012 02:57:17 -0800 (PST)
+	(envelope-from <otavio.salvador@gmail.com>)
+	id 1TcwlA-0001SS-UM; Mon, 26 Nov 2012 12:21:57 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so5671760pbc.6
+	for <multiple recipients>; Mon, 26 Nov 2012 03:07:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=Qxiu2iJO7fiCaF3zhCBka1ok0k5pFNO9tnXaoQ60424=;
+	b=luM9t6ixy9IrFCXjn+WSnTNZDzWnWdHCHCGCMAiqsQagRSJFyys1DGFxtH2oMzRT7t
+	+zGSQ2aRSCS/6k4sRsNtCHNlEEYJel7BnbyfiVlnsnJuSQYebia+LLQ9+w1gvRTkiUy7
+	Pk3M+ucMAT8LKAgOUJXFzVqKo5ghdxwgYeO428affagjsj3lUu/dTC6esqBi1K7wD5wx
+	WCs5qkS1vIwOY/2mmWFyHDl7Suh9pKWPD4IYi6uH/4/6/CevGlm10xUdP9oz06wNL0fX
+	c5Bd8BPjM1RMdPU0hjt1kIf5tAeoO66EBncepjIPMWiqKgp6fgV/5HMnQ6iiXwAZg6nm
+	ydHA==
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Mon, 26 Nov 2012 02:56:57 -0800 (PST)
-In-Reply-To: <c355ac9e108b74b1d4e970f8e0f32c33d1dd4366.1353582422.git.Qi.Chen@windriver.com>
-References: <cover.1353582422.git.Qi.Chen@windriver.com>
-	<c355ac9e108b74b1d4e970f8e0f32c33d1dd4366.1353582422.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 26 Nov 2012 10:56:57 +0000
-Message-ID: <CAJTo0LbwopMuuPzBnav27ELgpizOkZrBrBoW=cdoqg_MRfqOhA@mail.gmail.com>
-To: Qi.Chen@windriver.com
-X-Gm-Message-State: ALoCoQmt0+ggvh7672CEJ9RxR9FYswzPtZUFo8eYkkNZXk8hxqlLMTWtSH5hc16EenZq8YRwXyE4m3conAYdn3ekzNmHbR9opKR2hC20xjbH0mL0DoJTZCxvbvc+bxWwQo8xzBwZWB3Llu8fqhhUQQyf2xTy/Rr6FngSwx1hnfIOrP/cQ9KUTmciru8sp9FOxisUnrR2c4u8
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] icu: add pkgconfig support
+Received: by 10.66.81.198 with SMTP id c6mr16981991pay.50.1353879845224; Sun,
+	25 Nov 2012 13:44:05 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Sun, 25 Nov 2012 13:44:05 -0800 (PST)
+In-Reply-To: <1353878494.21863.26.camel@ted>
+References: <1353691611.1361.28.camel@ted>
+	<CAP9ODKqPx8AE9O66ALLkpwXDFxr1outs_tdeDG2DnyZdw9Q=Ag@mail.gmail.com>
+	<1353699909.7352.2.camel@ted>
+	<CAP9ODKqQnj4ot2kF7FPYj2QxtT+hr5QTaD_UJhVQM6cSLP3cfg@mail.gmail.com>
+	<1353878494.21863.26.camel@ted>
+Date: Sun, 25 Nov 2012 19:44:05 -0200
+X-Google-Sender-Auth: NuYe-eRwPFtYS-u4z81owAe0FkU
+Message-ID: <CAP9ODKo1a-R-r2X+PWuPYuE9zJLtpz+nYhZgBwEx-sw3DCG-Mg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	Constantin Musca <constantinx.musca@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Versioning of git recipes (and incremental PR)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,14 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 11:11:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 26 Nov 2012 11:21:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 26 November 2012 09:36,  <Qi.Chen@windriver.com> wrote:
-> +Upstream-Status: Inappropriate [distribution]
+On Sun, Nov 25, 2012 at 7:21 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sat, 2012-11-24 at 11:55 -0200, Otavio Salvador wrote:
+>> On Fri, Nov 23, 2012 at 5:45 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > On Fri, 2012-11-23 at 17:23 -0200, Otavio Salvador wrote:
+>> >> I like to idea of a single updating place. What I dislike is AUTOINC
+>> >> not being taken care in the fetcher.
+>> >>
+>> >> In this case any GIT revision changes, the AUTOINC won't bump as usual
+>> >> (without PR server)?
+>> >
+>> > Why do you need AUTOINC to bump? The only reason we have increments in
+>> > the fetcher is for package upgrading...
+>>
+>> Yes but in this case the fetcher won't change AUTOINC and you'll have
+>> same revision even when changing SRCREVs. This will break the upgrade
+>> path for people not using PR server, no?
+>
+> We're going to need the PR server for upgrade paths in future regardless
+> so that shouldn't be an issue.
 
-Surely this (and all others) should be submitted upstream.
+Yes I agree but in this case this change would need to wait for PR
+server to be the default before be applied.
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
