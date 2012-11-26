@@ -1,30 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tcv6w-00044g-7J for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 10:36:19 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAPKcmgr017544;
-	Sun, 25 Nov 2012 20:38:48 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15876-02; Sun, 25 Nov 2012 20:38:43 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAPKce44017538
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Sun, 25 Nov 2012 20:38:41 GMT
-Message-ID: <1353875920.21863.23.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 25 Nov 2012 20:38:40 +0000
-In-Reply-To: <1352976932-4150-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1352976932-4150-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] udev-extraconf: drop allarch to allow setting to MACHINE_ARCH in some .bbappend
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TcvGG-0004wq-DN
+	for openembedded-core@lists.openembedded.org;
+	Mon, 26 Nov 2012 10:45:56 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Nov 2012 01:31:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,319,1352102400"; d="scan'208";a="172548371"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Nov 2012 01:31:42 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Nov 2012 11:31:40 +0200
+Message-Id: <1353922300-22538-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] populate_sdk_base: tarball installer: SDK overwrite warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,28 +27,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 09:36:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Nov 2012 09:45:56 -0000
 
-On Thu, 2012-11-15 at 11:55 +0100, Martin Jansa wrote:
-> * if bsp needs some special rule for udev
-> * see https://bugzilla.yoctoproject.org/show_bug.cgi?id=3390 for details
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/udev/udev-extraconf_1.0.bb | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+This patch contains two fixes:
+  * if the user wants to install the SDK in a directory that already
+    contains a SDK for the same architecture, a warning will be shown;
+  * when the symbolic links are relocated use -n option. Otherwise,
+    symbolic links to existing directories will be created in the
+	directory itself;
 
-I've been thinking about this and some other related problems. There is
-a pattern and we need to be able to inherit allarch but disable it's
-functionality.
+[YOCTO #3401]
 
-I've therefore just posted an alternative proposed fix for this.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/classes/populate_sdk_base.bbclass |   15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index ac34c32..f1fcde6 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -143,11 +143,20 @@ else
+ 	target_sdk_dir=$(readlink -m $target_sdk_dir)
+ fi
+ 
+-printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
++if [ -e "$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}" ]; then
++	echo "The directory \"$target_sdk_dir\" already contains a SDK for this architecture."
++	printf "If you continue, existing files will be overwritten! Proceed[y/N]?"
++
++	default_answer="n"
++else
++	printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
++
++	default_answer="y"
++fi
+ read answer
+ 
+ if [ "$answer" = "" ]; then
+-	answer="y"
++	answer="$default_answer"
+ fi
+ 
+ if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+@@ -188,7 +197,7 @@ find $native_sysroot -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut -d':'
+ 
+ # change all symlinks pointing to ${SDKPATH}
+ for l in $(find $native_sysroot -type l); do
+-	ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
++	ln -sfn $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+ done
+ 
+ echo done
+-- 
+1.7.9.5
 
 
 
