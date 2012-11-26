@@ -1,38 +1,40 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TcyrU-0005bH-Uf
+Received: from 13.mo4.mail-out.ovh.net ([178.33.251.8]
+	helo=mo4.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1Tcz0B-0005nW-8i
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 14:36:37 +0100
-Received: from mail-ie0-f197.google.com ([209.85.223.197])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 26 Nov 2012 05:22:24 -0800
-Received: by mail-ie0-f197.google.com with SMTP id 9so11505760iec.0
+	Mon, 26 Nov 2012 14:45:35 +0100
+Received: from mail413.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo4.mail-out.ovh.net (Postfix) with SMTP id 8859E10503E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 05:22:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=dm5Z5abDXMNWNUaoQOj76WMD5zlhY3YrSbPKQeG7oeo=;
-	b=KKH8lR9AXRoPscd2FyKr1l5A7DPp3aZSvflHbbfKhWG7ee6vUNjzfUMPP2KzH1z/e0
-	FTka/LJqFWstngvakYuf/Oy/ZhHZK6k4nG/HeiOSgOmP4eIE2UG6G3HIk8UlItc6A+T1
-	9SQEX9/kjrCHS0dI1QXDAZI1shfTftepa4FUmfRHH7GBJJ8cwV2RobjGxpjsKdmoJsN7
-	AfMICP8uy9ArokaXByZ7FbcfUYrkpWkstGbFjzK3jrfKWp+CKHUA7e0dSM1DQ6hoAJBg
-	4/sxDe4boj/8IoEw57RX3OYJRaZ5VH9DNwcaAOX+XrBiIUgNToduWLYDJQugBjZR6ff1
-	P0Qw==
-Received: by 10.60.169.140 with SMTP id ae12mr9081579oec.52.1353936143133;
-	Mon, 26 Nov 2012 05:22:23 -0800 (PST)
-Received: by 10.60.169.140 with SMTP id ae12mr9081576oec.52.1353936143063;
-	Mon, 26 Nov 2012 05:22:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Mon, 26 Nov 2012 05:22:02 -0800 (PST)
-In-Reply-To: <20121126085909.64b59d37@eb-e6520>
+	Mon, 26 Nov 2012 14:39:22 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 26 Nov 2012 15:31:25 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO eb-e6520)
+	(eric%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 26 Nov 2012 15:31:23 +0200
+Date: Mon, 26 Nov 2012 14:31:23 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Ovh-Mailout: 178.32.228.4 (mo4.mail-out.ovh.net)
+Message-ID: <20121126143123.564e8f45@eb-e6520>
+In-Reply-To: <CAJTo0La0t4t+tArOcCQodE-LLDFuOr8O_vdS1iveij6P70_6LQ@mail.gmail.com>
 References: <1353334373-16509-1-git-send-email-eric@eukrea.com>
-	<20121122111552.77470adb@eb-e6520> <20121126085909.64b59d37@eb-e6520>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 26 Nov 2012 13:22:02 +0000
-Message-ID: <CAJTo0La0t4t+tArOcCQodE-LLDFuOr8O_vdS1iveij6P70_6LQ@mail.gmail.com>
-To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-X-Gm-Message-State: ALoCoQku3KH5GzCgt+BHv3R0vzhU988fpFfc3NTNa+MQYQZlB4trRJmtBM3JbNiOANIrkFkL6RQCqS69uRHP4cAmTuEMn+sfY6WrBJEtFmaX0GsnvVdNiALAJLj5P5V4Kad+GR61VUEsqechX/mImH35U9NMj/y+JeVop1iva84QdyTH2OI3kT1x12ez5O9ycWOOlXm5164P
+	<20121122111552.77470adb@eb-e6520>
+	<20121126085909.64b59d37@eb-e6520>
+	<CAJTo0La0t4t+tArOcCQodE-LLDFuOr8O_vdS1iveij6P70_6LQ@mail.gmail.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.1 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+X-Ovh-Tracer-Id: 8010496362277612857
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehhedrtddtucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehhedrtddtucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] kmod: fix git repo URL
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,15 +49,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 13:36:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 26 Nov 2012 13:45:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On 26 November 2012 07:59, Eric B=C3=A9nard <eric@eukrea.com> wrote:
-> Is it possible to merge it into oe-core's danny branch ?
+Hi Ross,
 
-Done locally for danny-next.
+Le Mon, 26 Nov 2012 13:22:02 +0000,
+"Burton, Ross" <ross.burton@intel.com> a =E9crit :
 
-Ross
+> On 26 November 2012 07:59, Eric B=E9nard <eric@eukrea.com> wrote:
+> > Is it possible to merge it into oe-core's danny branch ?
+>=20
+> Done locally for danny-next.
+>=20
+thanks, so you are the maintainer of danny-next ?
+
+Eric
 
 
