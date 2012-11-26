@@ -1,32 +1,37 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1TczHk-0006ZY-Fj
+	(envelope-from <martin.jansa@gmail.com>) id 1TczPo-0006tL-RF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 15:03:47 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so8041998lag.6
+	Mon, 26 Nov 2012 15:12:04 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so4329180eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 05:49:32 -0800 (PST)
+	Mon, 26 Nov 2012 05:57:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lG3K1gnnEQbs6ur8HS4O3Rw5Hwba+JnyVUkkqTs5YMY=;
-	b=GmeartsYAzucvX7xUzIimKEWGbeA6ambpLPQzC6XcsI5KzJwxjMfeaHqEkZEGuMPKU
-	T+a1hQKaNvQkGv684RLDEk74pZce7hPl3cOAAMDbAzAD/t7S7giRVZC6k6ZHtWcFIZyR
-	xx5Yzx8Mb9uUmuaF0PKtJwYIAnkH1PefrmmSWTFVCYkWTYlInRt3jbH1pf5Pa0095NTJ
-	LqI3k5G3CFYIEuQXm3HstLVwclN01hA2jhgbiVKbt7dkMaDnvNjbv4FV3on+uMW+JMsh
-	WoapTHaHYBR2Ge7PUcBLDml2LFfbjLIooX+RpM2aq5/CaKMsdSXtsP5GobREaQ0PDuhv
-	lsqg==
-MIME-Version: 1.0
-Received: by 10.112.17.234 with SMTP id r10mr5155786lbd.72.1353937772460; Mon,
-	26 Nov 2012 05:49:32 -0800 (PST)
-Received: by 10.114.17.8 with HTTP; Mon, 26 Nov 2012 05:49:32 -0800 (PST)
-In-Reply-To: <1353933452-13251-1-git-send-email-Martin.Jansa@gmail.com>
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=2nYQRmskKViQ0pa1XDS5doExFXkcr+pw4BVXKQCuRNo=;
+	b=nwvU+D96DwRLAJqWoKb9FE6/ALj5rwpahhs5JZgM4yMe4Wqfl6qusVrvmgEVDIDjpm
+	6moW0/ZgCFmyxvNpXO7o7kSP/Gdb51aKlzTDApRIFTqD6BH7Rddu1BpEPdMNwKa+22Ek
+	PvcCG/6DfOaiZ5HCWZsWbZHQLJ8yj4fNcQCBCDouy9jvGSOQ0/2toDcu3g5Z5YuiDuhO
+	Lk95z3qMODDO+uxl8G4C96YeFiNKeehPu6LLDZoR0vUFOxWHJhxytlc5BRqFR65okj6s
+	iem4tv9Ce1enmEccKkrBRfIIfIgql+z//bMUq8oD5VSC7ui5srEINUIIW7Bz/RKzdHzq
+	e5Bw==
+Received: by 10.14.173.65 with SMTP id u41mr145256eel.13.1353938273157;
+	Mon, 26 Nov 2012 05:57:53 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k2sm34288935eep.15.2012.11.26.05.57.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 26 Nov 2012 05:57:52 -0800 (PST)
+Date: Mon, 26 Nov 2012 14:57:58 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20121126135758.GB3401@jama.jama.net>
 References: <1348318001-18232-1-git-send-email-Martin.Jansa@gmail.com>
 	<1353933452-13251-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Mon, 26 Nov 2012 08:49:32 -0500
-Message-ID: <CADkTA4N2mbhBgh4o3W9mwa3Jg7ohZEB13FsEGoOLQZ04t1fAcQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CADkTA4N2mbhBgh4o3W9mwa3Jg7ohZEB13FsEGoOLQZ04t1fAcQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4N2mbhBgh4o3W9mwa3Jg7ohZEB13FsEGoOLQZ04t1fAcQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] kernel.bbclass: use the same versioning schema for modules.tgz and provide link to latest
@@ -42,184 +47,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 14:03:47 -0000
-Content-Type: multipart/alternative; boundary=bcaec5540740f9bcc804cf663386
+X-List-Received-Date: Mon, 26 Nov 2012 14:12:04 -0000
+X-Groupsio-MsgNum: 31760
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="jq0ap7NbKX2Kqbes"
+Content-Disposition: inline
 
---bcaec5540740f9bcc804cf663386
-Content-Type: text/plain; charset=ISO-8859-1
+--jq0ap7NbKX2Kqbes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 26, 2012 at 7:37 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+On Mon, Nov 26, 2012 at 08:49:32AM -0500, Bruce Ashfield wrote:
+> On Mon, Nov 26, 2012 at 7:37 AM, Martin Jansa <martin.jansa@gmail.com>wro=
+te:
+>=20
+> > * so it will work look KERNEL_IMAGE
+> > * also we were recreating modules.tgz with every kernel build, but
+> >   overwritting the same output file
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/classes/kernel.bbclass | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > index ee59aaf..9c70e70 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -497,6 +497,10 @@ KERNEL_IMAGE_BASE_NAME ?=3D
+> > "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DA
+> >  # Don't include the DATETIME variable in the sstate package signatures
+> >  KERNEL_IMAGE_BASE_NAME[vardepsexclude] =3D "DATETIME"
+> >  KERNEL_IMAGE_SYMLINK_NAME ?=3D "${KERNEL_IMAGETYPE}-${MACHINE}"
+> > +MODULE_TARBALL_BASE_NAME ?=3D
+> > "modules-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}.tgz"
+> > +# Don't include the DATETIME variable in the sstate package signatures
+> > +MODULE_TARBALL_BASE_NAME[vardepsexclude] =3D "DATETIME"
+> > +MODULE_TARBALL_SYMLINK_NAME ?=3D "modules-${MACHINE}.tgz"
+> >
+> >  do_uboot_mkimage() {
+> >         if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then
+> > @@ -526,7 +530,8 @@ addtask uboot_mkimage before do_install after
+> > do_compile
+> >  kernel_do_deploy() {
+> >         install -m 0644 ${KERNEL_OUTPUT}
+> > ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+> >         if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
+> > -               tar -cvzf
+> > ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
+> > +               tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C $=
+{D}
+> > lib
+> > +               ln -sf ${MODULE_TARBALL_BASE_NAME}.bin
+> > ${MODULE_TARBALL_SYMLINK_NAME}
+> >
+>=20
+> Just a quick question, are there any concerns about existing users of the
+> old tgz name ? Obviously, if they were in oe-core, we'd know about them
+> and update them, but I have no idea myself how much (if anything) was bas=
+ed
+> on the old name. I'm not sure of the best practices oe-core/oe uses for
+> cases
+> like this in the past, so I thought I'd ask.
 
-> * so it will work look KERNEL_IMAGE
-> * also we were recreating modules.tgz with every kernel build, but
->   overwritting the same output file
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ee59aaf..9c70e70 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -497,6 +497,10 @@ KERNEL_IMAGE_BASE_NAME ?=
-> "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DA
->  # Don't include the DATETIME variable in the sstate package signatures
->  KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
->  KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
-> +MODULE_TARBALL_BASE_NAME ?=
-> "modules-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}.tgz"
-> +# Don't include the DATETIME variable in the sstate package signatures
-> +MODULE_TARBALL_BASE_NAME[vardepsexclude] = "DATETIME"
-> +MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
->
->  do_uboot_mkimage() {
->         if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
-> @@ -526,7 +530,8 @@ addtask uboot_mkimage before do_install after
-> do_compile
->  kernel_do_deploy() {
->         install -m 0644 ${KERNEL_OUTPUT}
-> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
->         if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> -               tar -cvzf
-> ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
-> +               tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D}
-> lib
-> +               ln -sf ${MODULE_TARBALL_BASE_NAME}.bin
-> ${MODULE_TARBALL_SYMLINK_NAME}
->
+I remember seeing some thread about making whole modules tarball
+creation optional and disabled by default, so I guess there is only a
+few users of this.
 
-Just a quick question, are there any concerns about existing users of the
-old tgz name ? Obviously, if they were in oe-core, we'd know about them
-and update them, but I have no idea myself how much (if anything) was based
-on the old name. I'm not sure of the best practices oe-core/oe uses for
-cases
-like this in the past, so I thought I'd ask.
+> The old shorter name was nice, but I agree that having it different than
+> the image
+> name makes it non obvious how to associate the image and modules, and tha=
+t's
+> a nice thing to fix.
 
-The old shorter name was nice, but I agree that having it different than
-the image
-name makes it non obvious how to associate the image and modules, and that's
-a nice thing to fix.
+True, but since oldname was the same for different kernel images I
+always found misleading to see 5 different uImages and only one modules
+tarball (which we know was created during build of latest uImage - but
+maybe not newest uImage version wise - so quite confusing for someone
+just trying to download matching uImage and modules).
 
-Since we are already making a symlink, I guess we could consider
-a transnational
-symlink with the old name ? (but then again, if the link is there, people
-will continue
-to have dependencies on it and not update their own code).
+> Since we are already making a symlink, I guess we could consider
+> a transnational
+> symlink with the old name ? (but then again, if the link is there, people
+> will continue
+> to have dependencies on it and not update their own code).
+
+I don't mind having 2 symlinks if there is the need for old name.
 
 Cheers,
 
-Bruce
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--jq0ap7NbKX2Kqbes
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->         fi
->
->         cd ${DEPLOYDIR}
-> --
-> 1.8.0
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlCzdWYACgkQN1Ujt2V2gBwPxgCfX3q3SnhJRsPu+rmsBbJ2iaoK
+LBgAn0HVfwJNXm9a2DJMvxC+IDZ0X3IU
+=/6DJ
+-----END PGP SIGNATURE-----
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---bcaec5540740f9bcc804cf663386
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Nov 26, 2012 at 7:37 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
-</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_qu=
-ote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">
-* so it will work look KERNEL_IMAGE<br>
-* also we were recreating modules.tgz with every kernel build, but<br>
-=A0 overwritting the same output file<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com">M=
-artin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=A0meta/classes/kernel.bbclass | 7 ++++++-<br>
-=A01 file changed, 6 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
-index ee59aaf..9c70e70 100644<br>
---- a/meta/classes/kernel.bbclass<br>
-+++ b/meta/classes/kernel.bbclass<br>
-@@ -497,6 +497,10 @@ KERNEL_IMAGE_BASE_NAME ?=3D &quot;${KERNEL_IMAGETYPE}-=
-${PE}-${PV}-${PR}-${MACHINE}-${DA<br>
-=A0# Don&#39;t include the DATETIME variable in the sstate package signatur=
-es<br>
-=A0KERNEL_IMAGE_BASE_NAME[vardepsexclude] =3D &quot;DATETIME&quot;<br>
-=A0KERNEL_IMAGE_SYMLINK_NAME ?=3D &quot;${KERNEL_IMAGETYPE}-${MACHINE}&quot=
-;<br>
-+MODULE_TARBALL_BASE_NAME ?=3D &quot;modules-${PE}-${PV}-${PR}-${MACHINE}-$=
-{DATETIME}.tgz&quot;<br>
-+# Don&#39;t include the DATETIME variable in the sstate package signatures=
-<br>
-+MODULE_TARBALL_BASE_NAME[vardepsexclude] =3D &quot;DATETIME&quot;<br>
-+MODULE_TARBALL_SYMLINK_NAME ?=3D &quot;modules-${MACHINE}.tgz&quot;<br>
-<br>
-=A0do_uboot_mkimage() {<br>
-=A0 =A0 =A0 =A0 if test &quot;x${KERNEL_IMAGETYPE}&quot; =3D &quot;xuImage&=
-quot; ; then<br>
-@@ -526,7 +530,8 @@ addtask uboot_mkimage before do_install after do_compil=
-e<br>
-=A0kernel_do_deploy() {<br>
-=A0 =A0 =A0 =A0 install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAG=
-E_BASE_NAME}.bin<br>
-=A0 =A0 =A0 =A0 if (grep -q -i -e &#39;^CONFIG_MODULES=3Dy$&#39; .config); =
-then<br>
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSI=
-ON}-${PR}-${MACHINE}.tgz -C ${D} lib<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_=
-NAME} -C ${D} lib<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODU=
-LE_TARBALL_SYMLINK_NAME}<br></blockquote><div><br></div><div>Just a quick q=
-uestion, are there any concerns about existing users of the</div><div>old t=
-gz name ?=A0Obviously,=A0if they were in oe-core, we&#39;d know about them<=
-/div>
-<div>and update them, but I have no idea myself how much (if anything) was =
-based</div><div>on the old name. I&#39;m not sure of the best=A0practices o=
-e-core/oe uses for cases</div><div>like this in the past, so I thought I&#3=
-9;d ask.=A0</div>
-<div><br></div><div>The old shorter name was nice, but I agree that having =
-it different than the image</div><div>name makes it non obvious how to asso=
-ciate the image and modules, and that&#39;s</div><div>a nice thing to fix.<=
-/div>
-<div><br></div><div>Since we are already making a symlink, I guess we could=
- consider a=A0transnational</div><div>symlink with the old name ? (but then=
- again, if the link is there, people will continue</div><div>to have depend=
-encies on it and not update their own code).</div>
-<div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-=A0 =A0 =A0 =A0 fi<br>
-<br>
-=A0 =A0 =A0 =A0 cd ${DEPLOYDIR}<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.8.0<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r>&quot;Thou shalt not follow the NULL pointer, for chaos and madness await=
- thee at its end&quot;<br>
-</div>
-
---bcaec5540740f9bcc804cf663386--
+--jq0ap7NbKX2Kqbes--
