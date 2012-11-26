@@ -1,20 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TcvGG-0004wq-DN
+	(envelope-from <Qi.Chen@windriver.com>) id 1TcvKc-00057Y-8G
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 10:45:56 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 26 Nov 2012 01:31:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,319,1352102400"; d="scan'208";a="172548371"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Nov 2012 01:31:42 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Nov 2012 11:31:40 +0200
-Message-Id: <1353922300-22538-1-git-send-email-laurentiu.palcu@intel.com>
+	Mon, 26 Nov 2012 10:50:26 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAQ9aDNk018647
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Nov 2012 01:36:13 -0800 (PST)
+Received: from chenqi-OptiPlex-760.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 26 Nov 2012 01:36:13 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Nov 2012 17:36:29 +0800
+Message-ID: <cover.1353582422.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] populate_sdk_base: tarball installer: SDK overwrite warning
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/4] Add pkgconfig support to four packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,58 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 09:45:56 -0000
+X-List-Received-Date: Mon, 26 Nov 2012 09:50:26 -0000
+Content-Type: text/plain
 
-This patch contains two fixes:
-  * if the user wants to install the SDK in a directory that already
-    contains a SDK for the same architecture, a warning will be shown;
-  * when the symbolic links are relocated use -n option. Otherwise,
-    symbolic links to existing directories will be created in the
-	directory itself;
+From: Chen Qi <Qi.Chen@windriver.com>
 
-[YOCTO #3401]
+We have 26 recipes / packages that deliver *-config tools for development,
+these packages should deliver pkgconfig (.pc) files instead. Among these 26
+recipes / packages, only four of them don't deliver pkgconfig (.pc) files.
+So we add pkgconfig support for these four packages.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/classes/populate_sdk_base.bbclass |   15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+The following changes since commit 0d7d413d64bab8d3c758414c6c8c653ccc325653:
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index ac34c32..f1fcde6 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -143,11 +143,20 @@ else
- 	target_sdk_dir=$(readlink -m $target_sdk_dir)
- fi
- 
--printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
-+if [ -e "$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}" ]; then
-+	echo "The directory \"$target_sdk_dir\" already contains a SDK for this architecture."
-+	printf "If you continue, existing files will be overwritten! Proceed[y/N]?"
-+
-+	default_answer="n"
-+else
-+	printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
-+
-+	default_answer="y"
-+fi
- read answer
- 
- if [ "$answer" = "" ]; then
--	answer="y"
-+	answer="$default_answer"
- fi
- 
- if [ "$answer" != "Y" -a "$answer" != "y" ]; then
-@@ -188,7 +197,7 @@ find $native_sysroot -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut -d':'
- 
- # change all symlinks pointing to ${SDKPATH}
- for l in $(find $native_sysroot -type l); do
--	ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
-+	ln -sfn $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
- done
- 
- echo done
+  build-appliance-image: Update to dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf commit (2012-11-21 20:40:43 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/pkgconfig
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/pkgconfig
+
+Chen Qi (4):
+  libksba: add pkgconfig support
+  icu: add pkgconfig support
+  pth: add pkgconfig support
+  libassuan: add pkgconfig support
+
+ .../icu/files/icu-add-pkgconfig-support.patch      |   40 ++++++++++++++++++
+ meta/recipes-support/icu/icu-3.6.inc               |   11 +++++
+ meta/recipes-support/icu/icu_3.6.bb                |    2 +-
+ .../files/libassuan-add-pkgconfig-support.patch    |   33 +++++++++++++++
+ meta/recipes-support/libassuan/libassuan_2.0.3.bb  |   10 ++++-
+ .../libksba/ksba-add-pkgconfig-support.patch       |   40 ++++++++++++++++++
+ meta/recipes-support/libksba/libksba_1.3.0.bb      |   13 ++++--
+ .../pth/files/pth-add-pkgconfig-support.patch      |   44 ++++++++++++++++++++
+ meta/recipes-support/pth/pth_2.0.7.bb              |   12 ++++--
+ 9 files changed, 196 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+ create mode 100644 meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
+ create mode 100644 meta/recipes-support/libksba/libksba/ksba-add-pkgconfig-support.patch
+ create mode 100644 meta/recipes-support/pth/files/pth-add-pkgconfig-support.patch
+
 -- 
 1.7.9.5
 
