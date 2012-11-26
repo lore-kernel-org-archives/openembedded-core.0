@@ -1,35 +1,38 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Td4e7-0000Gu-1r
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]
+	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1Td8Gl-0007z3-DS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 20:47:11 +0100
-Received: by mail-ee0-f47.google.com with SMTP id l10so6309801eei.6
+	Tue, 27 Nov 2012 00:39:19 +0100
+Received: from mail641.ha.ovh.net (b9.ovh.net [213.186.33.59])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id EFA56DC6128
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 11:32:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=lmvLjQ0kl8aaa3ucKvMQ0EaWbRQbxyKrcLCwaalD+OQ=;
-	b=T62nLwBJI25blzAki14g+Z3dZ9p2ofuhI2Mr9ub7aVgTWl4cWZnh/fq4+Vgfuv4n+A
-	zwsEtkhwxxjp8JzYkYSPNwS9YDWUhpiH9FGhTdmecZaL82/TwAPF8OiaHKkJjN0Yz3fN
-	ROPbKB/3XqfEcX1jlQto1oxJYGtBSVRalAFzF1ICKHT+68ZiIgb4TmbnuAj5HwNAPEgS
-	F+xp18imhHrG6Ap9Xrifg6g7g2ozONZuHSs9lW300IQ8eoz8yvmyDoVtc2LzsZmFtorY
-	1G251drsS51yY/hkdufQdGZ4QtXhLxuNK+LsbiYDGvxxme8EHQ+lFzWbon5bT2ZBXqvL
-	S9xQ==
-Received: by 10.14.172.195 with SMTP id t43mr49139502eel.17.1353958378635;
-	Mon, 26 Nov 2012 11:32:58 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id a45sm35382956eep.16.2012.11.26.11.32.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 26 Nov 2012 11:32:58 -0800 (PST)
-Date: Mon, 26 Nov 2012 20:33:04 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 26 Nov 2012 20:53:23 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 26 Nov 2012 21:45:43 +0200
+Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO eb-e6520)
+	(eric%eukrea.com@82.233.81.124)
+	by ns0.ovh.net with SMTP; 26 Nov 2012 21:45:40 +0200
+Date: Mon, 26 Nov 2012 20:45:23 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20121126193304.GD18943@jama.jama.net>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Flanagan@jama.jama.net
-Subject: Including license metadata in target package
+X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
+Message-ID: <20121126204523.254f0a7f@eb-e6520>
+In-Reply-To: <20121126193304.GD18943@jama.jama.net>
+References: <20121126193304.GD18943@jama.jama.net>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.8.1 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+X-Ovh-Tracer-Id: 14331579914796248514
+X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehhedrtdduucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
+X-Spam-Check: DONE|U 0.500217/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehhedrtdduucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
+Subject: Re: Including license metadata in target package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,45 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 19:47:11 -0000
-X-Groupsio-MsgNum: 31769
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="osDK9TLjxFScVI/L"
-Content-Disposition: inline
-
---osDK9TLjxFScVI/L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Nov 2012 23:39:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Martin,
 
-we'll have to provide some proprietary packages for our feed/images and
-because of that we're thinking about adding functionality to package
-LICENSE files (referenced by LIC_FILES_CHKSUM) to PN (something like=20
-${datadir}/licenses/${PN}/file), probably reusing some code from=20
-license.bbclass
+Le Mon, 26 Nov 2012 20:33:04 +0100,
+Martin Jansa <martin.jansa@gmail.com> a =E9crit :
+> we'll have to provide some proprietary packages for our feed/images and
+> because of that we're thinking about adding functionality to package
+> LICENSE files (referenced by LIC_FILES_CHKSUM) to PN (something like=20
+> ${datadir}/licenses/${PN}/file), probably reusing some code from=20
+> license.bbclass
+>=20
+> Does something like this already exist somewhere or does it look
+> usefull for someone else too, so it could be integrated into
+> license.bbclass and controlled by some variable (per package=20
+> or by distro config)?
+>=20
+IIRC with these settings you will get the license in the image
+COPY_LIC_MANIFEST =3D "1"
+COPY_LIC_DIRS =3D "1"
+INHERIT +=3D "copyleft_compliance"
+so maybe you can add the capability to add the license to each package
+starting from here.
 
-Does something like this already exist somewhere or does it look
-usefull for someone else too, so it could be integrated into
-license.bbclass and controlled by some variable (per package=20
-or by distro config)?
+Eric
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---osDK9TLjxFScVI/L
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlCzw/AACgkQN1Ujt2V2gBwmegCfQyYO0NvSXl3h2EbKbiAgK0lv
-hoYAnjfKwpaYUv6ufWfgUyfm/RYKuWbX
-=Ja2j
------END PGP SIGNATURE-----
-
---osDK9TLjxFScVI/L--
