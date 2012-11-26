@@ -1,35 +1,24 @@
-Received: from mail-qa0-f54.google.com ([209.85.216.54])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TcxZc-00035U-RB
+	(envelope-from <Ming.Liu@windriver.com>) id 1Tcxi4-0003VO-UP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 13:14:07 +0100
-Received: by mail-qa0-f54.google.com with SMTP id g24so3748254qab.6
+	Mon, 26 Nov 2012 13:22:49 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAQ2O6b3001620
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 03:59:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=ZlLxtSrQEH6UkqJ56J5ZorcxnERluzX/cT5RFH2fMus=;
-	b=pq3d+ifG8rPs34ljZ9jwFlMTdzR/DQaO3Ml16mmg8WdnOmKHqcNzho5VHrkCzmaSTh
-	MRrnQHvcX2ialHDB9YXtfqQ+e+47j5WjvYfQFR1LF1Lojxba59GaHWKYP3WgraC09S3+
-	Crb+Lp8XCe6NnJb60UwplyyxcTKurtNLbeCvikwEdPNh9IvHaWdpP1N4BqV0xabU+bZM
-	Zv9cZED8zhdY/cMCu1EJ4VX3/6zqEOZYpaVy2YEvtalPXPZkYXm2TFP0qYfXe3wVRBwP
-	G/yoeByuBoPfFAYMtv/f3M1xx8JTEyuAzGSb1IxPTaAk5rt7mfqctKrSwLlik0dLz6Cp
-	1u0Q==
-Received: by 10.229.106.76 with SMTP id w12mr2254068qco.66.1353871511946;
-	Sun, 25 Nov 2012 11:25:11 -0800 (PST)
-Received: from nano.lab.ossystems.com.br.lab.ossystems.com.br
-	([177.100.163.15])
-	by mx.google.com with ESMTPS id hw8sm7427056qab.9.2012.11.25.11.25.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 25 Nov 2012 11:25:10 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Nov 2012 17:27:27 -0200
-Message-Id: <1353871647-15156-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] initramfs-framework: init: Stop mount warnings during boot
+	Sun, 25 Nov 2012 18:24:07 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Sun, 25 Nov 2012 18:24:06 -0800
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Nov 2012 10:24:03 +0800
+Message-ID: <1353896643-25812-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+MIME-Version: 1.0
+Subject: [PATCH] rootfs_rpm.bbclass: normalize arch output of list_installed_packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 12:14:07 -0000
+X-List-Received-Date: Mon, 26 Nov 2012 12:22:49 -0000
+Content-Type: text/plain
 
-For a completely quiet boot using recent versions of utilities, the
-/etc/fstab and /var/lock need to be available.
+list_installed_packages should output uniform formatted archs for all
+packaging system(deb, rpm and ipk), for they are used by common code to
+grab the package infos. Otherwise, it will lead some -dbg packages to be
+missed processing in come cases.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+It's introduced by commit: fc985f51, package_rpm.bbclass: fix the arch
+(replace "-" with "_").
+
+Fixed by replacing "_" back to "-" in list_installed_packages, make it
+output real arch values which can be safely used.
+
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/init |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/rootfs_rpm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
-index fc4b0db..0be8f4d 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-@@ -68,8 +68,11 @@ MODULE_PRE_HOOKS=""  # functions to call before running each module
- MODULE_POST_HOOKS="" # functions to call after running each module
- MODULES_DIR=/init.d  # place to look for modules
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index c86cd09..300dd5f 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -153,7 +153,7 @@ list_installed_packages() {
  
--# initialize /proc and /sys
--mkdir -p /proc /sys
-+# make mount stop complaining about missing /etc/fstab
-+touch /etc/fstab
-+
-+# initialize /proc, /sys and /var/lock
-+mkdir -p /proc /sys /var/lock
- mount -t proc proc /proc
- mount -t sysfs sysfs /sys
- 
+ 	# print the info, need to different return counts
+ 	if [ "$1" = "arch" ] ; then
+-		echo "$GET_LIST" | awk '{print $1, $2}'
++		echo "$GET_LIST" | awk '{gsub("_", "-", $2); print $1, $2}'
+         elif [ "$1" = "file" ] ; then
+ 		echo "$GET_LIST" | awk '{print $1, $3}'
+         else
 -- 
-1.7.10.4
+1.7.11
 
 
 
