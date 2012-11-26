@@ -1,20 +1,18 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TcvVs-0005tk-0V
+	(envelope-from <noor_ahsan@mentor.com>) id 1TcvaS-00068m-BC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 26 Nov 2012 11:02:04 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2012 22:15:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.83,318,1352102400"; d="scan'208";a="252417586"
-Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.12.35])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Nov 2012 22:15:11 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 26 Nov 2012 11:06:48 +0100
+Received: from pkl-ahsann-ubuntu.mgc.mentorg.com ([137.202.157.70])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qAQ8NUFE012285;
+	Mon, 26 Nov 2012 02:23:32 -0600
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 25 Nov 2012 22:15:11 -0800
-Message-Id: <1353910511-12931-1-git-send-email-sgw@linux.intel.com>
+Date: Mon, 26 Nov 2012 13:23:17 +0500
+Message-Id: <1353918197-17776-1-git-send-email-noor_ahsan@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gst-meta-base: Make ximagesing optional on x11 DISTRO_FEATURE
+MIME-Version: 1.0
+Subject: =?UTF-8?B?W1BBVENIXSBzeXNwcm9mOiBGaXhlcyB1bmRlZmluZWTigIIgcmVmZXJlbmNlIHRv4oCCYHJtYic=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,32 +25,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Nov 2012 10:02:04 -0000
+X-List-Received-Date: Mon, 26 Nov 2012 10:06:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-If x11 is disabled from DISTRO_FEATURE we don't build the ximagesink
-package, but it still becomes a dependency in the final image which
-causes a failure
+From: Noor Ahsan <noor_ahsan@mentor.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+* Recipe already contains a patch for mips arch but not for mips64.
+For mips64 arch 'mips' was not available in OVERRIDES, rather mips64
+was there. So added the same patch for mips64 arch using mips64.
+
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
 ---
- .../gstreamer/gst-meta-base_0.10.bb                |    3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-kernel/sysprof/sysprof_git.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-index 2fb39d5..0889437 100644
---- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-@@ -16,7 +16,10 @@ PACKAGES = "\
+diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
+index bd34f00..64414c0 100644
+--- a/meta/recipes-kernel/sysprof/sysprof_git.bb
++++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://git.gnome.org/sysprof;protocol=git \
  
- ALLOW_EMPTY = "1"
+ SRC_URI_append_arm  = " file://rmb-arm.patch"
+ SRC_URI_append_mips = " file://rmb-mips.patch"
++SRC_URI_append_mips64 = " file://rmb-mips.patch"
  
-+X11_RDEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', 'gst-plugin-base-ximagesink', '', d)}"
-+
- RDEPENDS_gst-meta-base = "\
-+    ${X11_RDEPENDS} \
-     gstreamer \
-     gst-plugins-base-playbin \
-     gst-plugins-base-decodebin \
+ S = "${WORKDIR}/git"
+ 
 -- 
 1.7.9.5
 
