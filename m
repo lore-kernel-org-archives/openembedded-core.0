@@ -1,37 +1,37 @@
-Received: from mail-ye0-f175.google.com ([209.85.213.175])
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TdKKx-0007JL-07
+	(envelope-from <otavio.salvador@gmail.com>) id 1TdKKw-0007JN-W3
 	for openembedded-core@lists.openembedded.org;
 	Tue, 27 Nov 2012 13:32:42 +0100
-Received: by mail-ye0-f175.google.com with SMTP id q7so976268yen.6
+Received: by mail-gh0-f175.google.com with SMTP id z2so1321906ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2012 04:17:54 -0800 (PST)
+	Tue, 27 Nov 2012 04:17:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=FnUmOtuGut0meWb1mxdxj7nJdu1fMMMbe/P3VoB/xO8=;
-	b=FWIQzs8/45jnM0ou5wsZxc8yAX9UDlP4ucUQy2Wu2OcyLQPDJyL+mheCd31toiZ29L
-	BK1PMkRITOZeiFYeum0f1ZH7+Q8ChuzJlcRd9Id+gs37abJ0OEnUmVBtjnSjDmt9R9oU
-	IamWUmNNrsksFKOvzLE6gLu8PzGVxwILUmZYhKzBn6emCiH03a1zhZQPZIjOJwsCzekx
-	+ksP3J4KsJ8fJ43x9slQ6hTzPC5lr/O3tuXG9KkOGYLljHYJktzc6AJ57qlfPk7wzuLs
-	kcZAjCrEqcyNXZiG8y3vvckS+FTfXGjm35t7u2n2FeqPl6PpmiON7MX/II8lmMc8Usu8
-	a7EA==
-Received: by 10.236.133.174 with SMTP id q34mr15123047yhi.5.1354018674141;
-	Tue, 27 Nov 2012 04:17:54 -0800 (PST)
+	:references; bh=YLBH2BMwzJbAiayqNQyz4H33yxRb5V58OPjP3JFgR8w=;
+	b=pxP99zIkDbX5/g5bZUr+S0NuSoWs/25itJrXjS+y/UNhwPj9sLgsBE9iltXhTPUhLM
+	qlk73K+iMuRz5ALatozqwWl0j2NkzRbF6qdTvkhXx2ozlZOtHHpA7TbiZ+lIIK3JeaNw
+	BgyVu4q2hfzY5VN10oBE8G7+lQn3RxRRuWnDgPZlOzWkql8uAy8XeobzoAqWuHa7JLUC
+	B+BZQyLaML2WTQrx9jNOld1QUBq3EQJ7vUxhfjnfCiEpmWET5I1g02fZaA+7+RfaJ6hw
+	/CkfslBKb0YEQYP5zJJI+x79J2sVZqE/W6r+yOw2c4iolQFW2M2yxBPRx1PfzNmAZ5L/
+	1q/g==
+Received: by 10.236.81.209 with SMTP id m57mr14744204yhe.84.1354018676205;
+	Tue, 27 Nov 2012 04:17:56 -0800 (PST)
 Received: from nano.lab.ossystems.com.br.lab.ossystems.com.br
 	([177.100.163.15])
-	by mx.google.com with ESMTPS id v8sm18136452yhi.15.2012.11.27.04.17.52
+	by mx.google.com with ESMTPS id v8sm18136452yhi.15.2012.11.27.04.17.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 27 Nov 2012 04:17:53 -0800 (PST)
+	Tue, 27 Nov 2012 04:17:55 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Nov 2012 10:20:06 -0200
-Message-Id: <1354018807-23083-2-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 27 Nov 2012 10:20:07 -0200
+Message-Id: <1354018807-23083-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1354018807-23083-1-git-send-email-otavio@ossystems.com.br>
 References: <1354018807-23083-1-git-send-email-otavio@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [for-danny][PATCH 2/3] initramfs-framework: udev: Handle alternative binary paths
+Subject: [for-danny][PATCH 3/3] initramfs-framework: init: Stop mount warnings during boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,70 +46,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 27 Nov 2012 12:32:43 -0000
 
-This allows use of udev daemon for different installation destinations
-so allowing use of udev's from systemd code for initramfs.
+For a completely quiet boot using recent versions of utilities, the
+/etc/fstab and /var/lock need to be available.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../initrdscripts/initramfs-framework/udev         |   25 ++++++++++++++++----
- .../initrdscripts/initramfs-framework_1.0.bb       |    2 +-
- 2 files changed, 21 insertions(+), 6 deletions(-)
+ meta/recipes-core/initrdscripts/initramfs-framework/init   |    7 +++++--
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb |    2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index 15a1d5b..7fbcc61 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -1,10 +1,25 @@
- #!/bin/sh
--# Copyright (C) 2011 O.S. Systems Software LTDA.
-+# Copyright (C) 2011, 2012 O.S. Systems Software LTDA.
- # Licensed on MIT
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+index fc4b0db..0be8f4d 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -68,8 +68,11 @@ MODULE_PRE_HOOKS=""  # functions to call before running each module
+ MODULE_POST_HOOKS="" # functions to call after running each module
+ MODULES_DIR=/init.d  # place to look for modules
  
-+udev_daemon() {
-+	OPTIONS="/sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
+-# initialize /proc and /sys
+-mkdir -p /proc /sys
++# make mount stop complaining about missing /etc/fstab
++touch /etc/fstab
 +
-+	for o in $OPTIONS; do
-+		if [ -x "$o" ]; then
-+			echo $o
-+			return 0
-+		fi
-+	done
-+
-+	return 1
-+}
-+
-+_UDEV_DAEMON=`udev_daemon`
-+
- udev_enabled() {
--	if [ ! -e /lib/udev/udevd ]; then
--		debug "/lib/udev/udev doesn't exist"
-+	if [ -z "$_UDEV_DAEMON" ]; then
-+		msg "WARNING: Cannot find the udev daemon; daemon will not be started in initramfs."
- 		return 1
- 	fi
++# initialize /proc, /sys and /var/lock
++mkdir -p /proc /sys /var/lock
+ mount -t proc proc /proc
+ mount -t sysfs sysfs /sys
  
-@@ -14,9 +29,9 @@ udev_enabled() {
- udev_run() {
- 	mkdir -p /run
- 
--	/lib/udev/udevd --daemon > /dev/null
-+	$_UDEV_DAEMON --daemon
- 	udevadm trigger --action=add
- 	udevadm settle
- 
--	killall udevd 2>/dev/null
-+	killall `basename $_UDEV_DAEMON` 2>/dev/null
- }
 diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 45d6592..cbb4a39 100644
+index cbb4a39..fac356c 100644
 --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
 +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
 @@ -3,7 +3,7 @@ LICENSE = "MIT"
  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
  RDEPENDS = "busybox"
  
--PR = "r1"
-+PR = "r2"
+-PR = "r2"
++PR = "r3"
  
  inherit allarch
  
