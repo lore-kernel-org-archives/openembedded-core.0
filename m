@@ -1,35 +1,24 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TdCTJ-00064N-NF
+	(envelope-from <Li.Wang@windriver.com>) id 1TdEe0-0003lj-FR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 05:08:39 +0100
-Received: by mail-lb0-f175.google.com with SMTP id gg13so6081211lbb.6
+	Tue, 27 Nov 2012 07:27:44 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAR6DV1F028103
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 19:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=BFf5irRROv+1DxUm8LnxLILD9Y/cxcHwDz5zIu86Y3k=;
-	b=OIlLjvhrU+TQtQQ94sjK39hWHuDSIfbKZgli12JStsE+qoKqQew8MTzT85MCDUsOjL
-	EQRcA2sP8WI+tAWJB/Xyl+T4iJLNV49Pva81XNgJ4tDdAjf3boobyY2HgTnVchRsD12l
-	uMHI5e1qvM8xAPtWkZtF2NtNkccD/5O+qDnNL0u8NXJH65/YXVxnU2w+WPFXq1JVJBOR
-	MsSfVoseZQWPBjnPbYyws4mimtzJlR6LLqOg+kd2DwcSynPduYM7l4C3yWAQdmoc3rGE
-	Cx4d/d3oBnFNYqPLQY/JvWJXimPky53IPptur8we4pE3KzqZY2TpFY6koHAIYlsh7V9V
-	/pHg==
-Received: by 10.152.47.75 with SMTP id b11mr13011766lan.14.1353988461149;
-	Mon, 26 Nov 2012 19:54:21 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id p9sm6443562lbc.3.2012.11.26.19.54.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 26 Nov 2012 19:54:20 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TdCFV-0008JZ-Jl; Tue, 27 Nov 2012 05:54:17 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Nov 2012 05:54:16 +0200
-Message-Id: <1353988456-31930-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] cairo: update to upstream version 1.12.8
+	Mon, 26 Nov 2012 22:13:31 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 26 Nov 2012 22:13:30 -0800
+From: Li Wang <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Nov 2012 14:13:21 +0800
+Message-ID: <1353996801-28402-1-git-send-email-li.wang@windriver.com>
+X-Mailer: git-send-email 1.7.11
+MIME-Version: 1.0
+Subject: [PATCH] openssh: CVE-2011-4327
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 04:08:39 -0000
+X-List-Received-Date: Tue, 27 Nov 2012 06:27:44 -0000
+Content-Type: text/plain
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+A security flaw was found in the way ssh-keysign,
+a ssh helper program for host based authentication,
+attempted to retrieve enough entropy information on configurations that
+lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
+be executed to retrieve the entropy from the system environment).
+A local attacker could use this flaw to obtain unauthorized access to host keys
+via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
+http://www.openssh.com/txt/portable-keysign-rand-helper.adv
+
+[YOCTO #3493]
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
 ---
- meta/recipes-graphics/cairo/{cairo_1.12.2.bb => cairo_1.12.8.bb} |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/cairo/{cairo_1.12.2.bb => cairo_1.12.8.bb} (92%)
+ .../openssh-6.0p1/openssh-CVE-2011-4327.patch      | 27 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_6.0p1.bb |  3 ++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.12.2.bb b/meta/recipes-graphics/cairo/cairo_1.12.8.bb
-similarity index 92%
-rename from meta/recipes-graphics/cairo/cairo_1.12.2.bb
-rename to meta/recipes-graphics/cairo/cairo_1.12.8.bb
-index f4c2d58..058854c 100644
---- a/meta/recipes-graphics/cairo/cairo_1.12.2.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.12.8.bb
-@@ -2,12 +2,12 @@ require cairo.inc
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
+new file mode 100644
+index 0000000..8489edc
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
+@@ -0,0 +1,27 @@
++openssh-CVE-2011-4327
++
++A security flaw was found in the way ssh-keysign,
++a ssh helper program for host based authentication,
++attempted to retrieve enough entropy information on configurations that
++lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
++be executed to retrieve the entropy from the system environment).
++A local attacker could use this flaw to obtain unauthorized access to host keys
++via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
++
++https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
++http://www.openssh.com/txt/portable-keysign-rand-helper.adv
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++--- a/ssh-keysign.c
+++++ b/ssh-keysign.c
++@@ -170,6 +170,10 @@
++ 	key_fd[i++] = open(_PATH_HOST_DSA_KEY_FILE, O_RDONLY);
++ 	key_fd[i++] = open(_PATH_HOST_ECDSA_KEY_FILE, O_RDONLY);
++ 	key_fd[i++] = open(_PATH_HOST_RSA_KEY_FILE, O_RDONLY);
+++	if (fcntl(key_fd[0], F_SETFD, FD_CLOEXEC) != 0 ||
+++	    fcntl(key_fd[1], F_SETFD, FD_CLOEXEC) != 0 ||
+++	    fcntl(key_fd[2], F_SETFD, FD_CLOEXEC) != 0)
+++		fatal("fcntl failed");
++ 
++ 	original_real_uid = getuid();	/* XXX readconf.c needs this */
++ 	if ((pw = getpwuid(original_real_uid)) == NULL)
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+index 31202d4..df77040 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+@@ -7,7 +7,7 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+-PR = "r3"
++PR = "r4"
  
--PR = "r1"
-+PR = "r0"
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://sshd_config \
+            file://ssh_config \
+            file://init \
++           file://openssh-CVE-2011-4327.patch \
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
  
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "87649eb75789739d517c743e94879e51"
--SRC_URI[sha256sum] = "b786bc4a70542bcb09f2d9d13e5e6a0c86408cbf6d1edde5f0de807eecf93f96"
-+SRC_URI[md5sum] = "8b3dcade859c44fb7e56fc68edfe9a45"
-+SRC_URI[sha256sum] = "8fbb6fc66117ab4100bad830cb4479497e53c6f3facb98bf05c8d298554ebdd9"
- 
- PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
- 
+ PAM_SRC_URI = "file://sshd"
 -- 
-1.7.10.4
+1.7.11
 
 
 
