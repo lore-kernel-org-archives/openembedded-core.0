@@ -1,37 +1,18 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TdKKw-0007JN-W3
+	(envelope-from <muhammad_shakeel@mentor.com>) id 1TdLoH-0001K3-3x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 13:32:42 +0100
-Received: by mail-gh0-f175.google.com with SMTP id z2so1321906ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2012 04:17:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=YLBH2BMwzJbAiayqNQyz4H33yxRb5V58OPjP3JFgR8w=;
-	b=pxP99zIkDbX5/g5bZUr+S0NuSoWs/25itJrXjS+y/UNhwPj9sLgsBE9iltXhTPUhLM
-	qlk73K+iMuRz5ALatozqwWl0j2NkzRbF6qdTvkhXx2ozlZOtHHpA7TbiZ+lIIK3JeaNw
-	BgyVu4q2hfzY5VN10oBE8G7+lQn3RxRRuWnDgPZlOzWkql8uAy8XeobzoAqWuHa7JLUC
-	B+BZQyLaML2WTQrx9jNOld1QUBq3EQJ7vUxhfjnfCiEpmWET5I1g02fZaA+7+RfaJ6hw
-	/CkfslBKb0YEQYP5zJJI+x79J2sVZqE/W6r+yOw2c4iolQFW2M2yxBPRx1PfzNmAZ5L/
-	1q/g==
-Received: by 10.236.81.209 with SMTP id m57mr14744204yhe.84.1354018676205;
-	Tue, 27 Nov 2012 04:17:56 -0800 (PST)
-Received: from nano.lab.ossystems.com.br.lab.ossystems.com.br
-	([177.100.163.15])
-	by mx.google.com with ESMTPS id v8sm18136452yhi.15.2012.11.27.04.17.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 27 Nov 2012 04:17:55 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Tue, 27 Nov 2012 15:06:49 +0100
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
+	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qARCvTFE031277;
+	Tue, 27 Nov 2012 06:57:31 -0600
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Nov 2012 10:20:07 -0200
-Message-Id: <1354018807-23083-3-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1354018807-23083-1-git-send-email-otavio@ossystems.com.br>
-References: <1354018807-23083-1-git-send-email-otavio@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [for-danny][PATCH 3/3] initramfs-framework: init: Stop mount warnings during boot
+Date: Tue, 27 Nov 2012 17:57:18 +0500
+Message-Id: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,50 +25,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 12:32:43 -0000
+X-List-Received-Date: Tue, 27 Nov 2012 14:06:49 -0000
 
-For a completely quiet boot using recent versions of utilities, the
-/etc/fstab and /var/lock need to be available.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+From udev 174 changelog:
+"The udev daemon moved to /lib/udev/udevd. Non-systemd init systems
+and non-dracut initramfs image generators need to change the init
+scripts. Alternatively the udev build needs to move udevd back to
+/sbin or create a symlink in /sbin, which is not done by default."
+
+Also for 64 bit architectures there exists /lib64/udev instead of
+/lib/udev and current init script fails to start udev.
+
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/init   |    7 +++++--
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb |    2 +-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-core/udev/udev.inc    |    4 ++++
+ meta/recipes-core/udev/udev/init   |    4 ++--
+ meta/recipes-core/udev/udev_182.bb |    2 +-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
-index fc4b0db..0be8f4d 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-@@ -68,8 +68,11 @@ MODULE_PRE_HOOKS=""  # functions to call before running each module
- MODULE_POST_HOOKS="" # functions to call after running each module
- MODULES_DIR=/init.d  # place to look for modules
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 4705b9b..a882efe 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -96,5 +96,9 @@ do_install_append () {
+ 	# hid2hci has moved to bluez4. removed in udev as of version 169
+ 	rm -f ${D}${base_libdir}/udev/hid2hci
  
--# initialize /proc and /sys
--mkdir -p /proc /sys
-+# make mount stop complaining about missing /etc/fstab
-+touch /etc/fstab
++        # Create a symlink of /lib/udev/udevd in /sbin
++        install -d ${D}${base_sbindir}
++        ln -s ..${base_libdir}/udev/udevd ${D}${base_sbindir}/udevd
 +
-+# initialize /proc, /sys and /var/lock
-+mkdir -p /proc /sys /var/lock
- mount -t proc proc /proc
- mount -t sysfs sysfs /sys
+ 	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
+ }
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index 74449fe..84631ac 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -13,7 +13,7 @@ export TZ=/etc/localtime
  
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index cbb4a39..fac356c 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS = "busybox"
+ [ -d /sys/class ] || exit 1
+ [ -r /proc/mounts ] || exit 1
+-[ -x /lib/udev/udevd ] || exit 1
++[ -x /sbin/udevd ] || exit 1
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+ [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
+ 
+@@ -69,7 +69,7 @@ kill_udevd > "/dev/null" 2>&1
+ 
+ # trigger the sorted events
+ echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
+-/lib/udev/udevd -d
++/sbin/udevd -d
+ 
+ /usr/bin/udevadm control --env=STARTUP=1
+ if [ "$not_first_boot" != "" ];then
+diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
+index c41de9f..0ae9f8c 100644
+--- a/meta/recipes-core/udev/udev_182.bb
++++ b/meta/recipes-core/udev/udev_182.bb
+@@ -1,6 +1,6 @@
+ include udev.inc
  
 -PR = "r2"
 +PR = "r3"
  
- inherit allarch
- 
+ # module-init-tools from kmod_git will provide libkmod runtime
+ DEPENDS += "module-init-tools"
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
