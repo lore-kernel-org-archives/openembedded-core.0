@@ -1,24 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Li.Wang@windriver.com>) id 1TdGQM-0006KS-RE
-	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 09:21:48 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAR5rqca025733
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 21:53:52 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 26 Nov 2012 21:53:51 -0800
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Nov 2012 13:53:47 +0800
-Message-ID: <1353995627-635-1-git-send-email-li.wang@windriver.com>
-X-Mailer: git-send-email 1.7.11
-MIME-Version: 1.0
-Subject: [PATCH] openssh: CVE-2011-4327
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TdHAK-000848-0F for openembedded-core@lists.openembedded.org;
+	Tue, 27 Nov 2012 10:09:18 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAR8t2Qx001069;
+	Tue, 27 Nov 2012 08:55:02 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32720-03; Tue, 27 Nov 2012 08:54:58 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAR8sq7i001057
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 27 Nov 2012 08:54:54 GMT
+Message-ID: <1354006492.21863.97.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marko Lindqvist <cazfi74@gmail.com>
+Date: Tue, 27 Nov 2012 08:54:52 +0000
+In-Reply-To: <1353986291-9144-1-git-send-email-cazfi74@gmail.com>
+References: <1353986291-9144-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libpng: update to upstream version 1.2.50
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,85 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 08:21:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Nov 2012 09:09:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-A security flaw was found in the way ssh-keysign,
-a ssh helper program for host based authentication,
-attempted to retrieve enough entropy information on configurations that
-lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
-be executed to retrieve the entropy from the system environment).
-A local attacker could use this flaw to obtain unauthorized access to host keys
-via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
+On Tue, 2012-11-27 at 05:18 +0200, Marko Lindqvist wrote:
+> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
-http://www.openssh.com/txt/portable-keysign-rand-helper.adv
+What changed in the LICENSE? We try and mention this in the commit
+message...
 
-[YOCTO #3493]
+Cheers,
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- .../openssh-6.0p1/openssh-CVE-2011-4327.patch      | 27 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_6.0p1.bb |  3 ++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
+Richard
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
-new file mode 100644
-index 0000000..8489edc
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
-@@ -0,0 +1,27 @@
-+openssh-CVE-2011-4327
-+
-+A security flaw was found in the way ssh-keysign,
-+a ssh helper program for host based authentication,
-+attempted to retrieve enough entropy information on configurations that
-+lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
-+be executed to retrieve the entropy from the system environment).
-+A local attacker could use this flaw to obtain unauthorized access to host keys
-+via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
-+
-+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
-+http://www.openssh.com/txt/portable-keysign-rand-helper.adv
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+--- a/ssh-keysign.c
-++++ b/ssh-keysign.c
-+@@ -170,6 +170,10 @@
-+ 	key_fd[i++] = open(_PATH_HOST_DSA_KEY_FILE, O_RDONLY);
-+ 	key_fd[i++] = open(_PATH_HOST_ECDSA_KEY_FILE, O_RDONLY);
-+ 	key_fd[i++] = open(_PATH_HOST_RSA_KEY_FILE, O_RDONLY);
-++	if (fcntl(key_fd[0], F_SETFD, FD_CLOEXEC) != 0 ||
-++	    fcntl(key_fd[1], F_SETFD, FD_CLOEXEC) != 0 ||
-++	    fcntl(key_fd[2], F_SETFD, FD_CLOEXEC) != 0)
-++		fatal("fcntl failed");
-+ 
-+ 	original_real_uid = getuid();	/* XXX readconf.c needs this */
-+ 	if ((pw = getpwuid(original_real_uid)) == NULL)
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-index 31202d4..df77040 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-@@ -7,7 +7,7 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
- 
--PR = "r3"
-+PR = "r4"
- 
- DEPENDS = "zlib openssl"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://sshd_config \
-            file://ssh_config \
-            file://init \
-+           file://openssh-CVE-2011-4327.patch \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
- 
- PAM_SRC_URI = "file://sshd"
--- 
-1.7.11
+
+> ---
+>  .../libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb}          |   12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>  rename meta/recipes-multimedia/libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb} (52%)
+> 
+> diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
+> similarity index 52%
+> rename from meta/recipes-multimedia/libpng/libpng_1.2.49.bb
+> rename to meta/recipes-multimedia/libpng/libpng_1.2.50.bb
+> index d33a9f5..211e357 100644
+> --- a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb
+> +++ b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
+> @@ -3,15 +3,15 @@ DESCRIPTION = "PNG Library"
+>  HOMEPAGE = "http://www.libpng.org/"
+>  SECTION = "libs"
+>  LICENSE = "Libpng"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=20110633230abd47fe8680afa75f1492 \
+> -                    file://png.h;startline=308;endline=422;md5=edd1c552386a8c3773d90e278ae30891"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
+> +                    file://png.h;startline=310;endline=424;md5=62968b88b0425ceeb919de3fd21b03e5"
+>  DEPENDS = "zlib"
+> -PR = "r1"
+> +PR = "r0"
+>  
+> -SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
+>  
+> -SRC_URI[md5sum] = "d5106b70b4f8b464a7da66bffe4565fb"
+> -SRC_URI[sha256sum] = "fbf8faa70ebca2ed2ee6df6f2249f4722517b581af5b6c3c71bbdaf925d5954e"
+> +SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
+> +SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
+>  
+>  inherit autotools binconfig pkgconfig
+>  
+
 
 
 
