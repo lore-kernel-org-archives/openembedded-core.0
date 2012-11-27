@@ -1,24 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Li.Wang@windriver.com>) id 1TdEe0-0003lj-FR
+	(envelope-from <cristian.iorga@intel.com>) id 1TdGKl-0006EL-8P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 07:27:44 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAR6DV1F028103
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Nov 2012 22:13:31 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 26 Nov 2012 22:13:30 -0800
-From: Li Wang <li.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Nov 2012 14:13:21 +0800
-Message-ID: <1353996801-28402-1-git-send-email-li.wang@windriver.com>
-X-Mailer: git-send-email 1.7.11
-MIME-Version: 1.0
-Subject: [PATCH] openssh: CVE-2011-4327
+	Tue, 27 Nov 2012 09:15:59 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Nov 2012 00:01:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.83,326,1352102400"; d="scan'208";a="254817717"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Nov 2012 00:01:44 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Nov 2012 10:01:59 +0200
+Message-Id: <1354003319-4695-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] build-appliance-image: Updated to wget mixed-up commands fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,85 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 06:27:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Nov 2012 08:16:00 -0000
 
-A security flaw was found in the way ssh-keysign,
-a ssh helper program for host based authentication,
-attempted to retrieve enough entropy information on configurations that
-lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
-be executed to retrieve the entropy from the system environment).
-A local attacker could use this flaw to obtain unauthorized access to host keys
-via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
+Fixes Hob network test failing inside BA.
 
-https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
-http://www.openssh.com/txt/portable-keysign-rand-helper.adv
-
-[YOCTO #3493]
-
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../openssh-6.0p1/openssh-CVE-2011-4327.patch      | 27 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_6.0p1.bb |  3 ++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
+ meta/recipes-core/images/build-appliance-image.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
-new file mode 100644
-index 0000000..8489edc
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.0p1/openssh-CVE-2011-4327.patch
-@@ -0,0 +1,27 @@
-+openssh-CVE-2011-4327
-+
-+A security flaw was found in the way ssh-keysign,
-+a ssh helper program for host based authentication,
-+attempted to retrieve enough entropy information on configurations that
-+lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
-+be executed to retrieve the entropy from the system environment).
-+A local attacker could use this flaw to obtain unauthorized access to host keys
-+via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
-+
-+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
-+http://www.openssh.com/txt/portable-keysign-rand-helper.adv
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+--- a/ssh-keysign.c
-++++ b/ssh-keysign.c
-+@@ -170,6 +170,10 @@
-+ 	key_fd[i++] = open(_PATH_HOST_DSA_KEY_FILE, O_RDONLY);
-+ 	key_fd[i++] = open(_PATH_HOST_ECDSA_KEY_FILE, O_RDONLY);
-+ 	key_fd[i++] = open(_PATH_HOST_RSA_KEY_FILE, O_RDONLY);
-++	if (fcntl(key_fd[0], F_SETFD, FD_CLOEXEC) != 0 ||
-++	    fcntl(key_fd[1], F_SETFD, FD_CLOEXEC) != 0 ||
-++	    fcntl(key_fd[2], F_SETFD, FD_CLOEXEC) != 0)
-++		fatal("fcntl failed");
-+ 
-+ 	original_real_uid = getuid();	/* XXX readconf.c needs this */
-+ 	if ((pw = getpwuid(original_real_uid)) == NULL)
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-index 31202d4..df77040 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-@@ -7,7 +7,7 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
+index 35c6abe..b89354e 100644
+--- a/meta/recipes-core/images/build-appliance-image.bb
++++ b/meta/recipes-core/images/build-appliance-image.bb
+@@ -6,7 +6,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
  
--PR = "r3"
-+PR = "r4"
+-PR = "r17"
++PR = "r18"
  
- DEPENDS = "zlib openssl"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://sshd_config \
-            file://ssh_config \
-            file://init \
-+           file://openssh-CVE-2011-4327.patch \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+ IMAGE_FEATURES += "x11-base package-management splash"
  
- PAM_SRC_URI = "file://sshd"
+@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
+ 
+ inherit core-image
+ 
+-SRCREV = "dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf"
++SRCREV = "a0cf759537260f00311450e0dac41bf45b474454"
+ SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
 -- 
-1.7.11
+1.7.10.4
 
 
 
