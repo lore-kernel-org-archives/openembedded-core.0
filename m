@@ -1,33 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TdSbA-00089D-9V
+	(envelope-from <Aws.Ismail@windriver.com>) id 1TdVXw-00049y-3a
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 22:21:44 +0100
+	Wed, 28 Nov 2012 01:30:40 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qARL7TMm012306
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2012 13:07:29 -0800 (PST)
-Received: from msp-dhcp39.wrs.com (172.25.34.39) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 27 Nov 2012 13:07:28 -0800
-Message-ID: <50B52B94.6020700@windriver.com>
-Date: Tue, 27 Nov 2012 15:07:32 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qARM4C2M002125
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Nov 2012 14:04:16 -0800 (PST)
+Received: from [128.224.147.212] (128.224.147.212) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 27 Nov 2012 14:04:13 -0800
+Message-ID: <50B5380F.4030401@windriver.com>
+Date: Tue, 27 Nov 2012 17:00:47 -0500
+From: Aws Ismail <aws.ismail@windriver.com>
 Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121026 Thunderbird/16.0.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120827 Thunderbird/15.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20121127154129.GC3692@jama.jama.net>
-	<1354047102.21863.105.camel@ted>
-	<20121127202356.GJ3692@jama.jama.net>
-In-Reply-To: <20121127202356.GJ3692@jama.jama.net>
-Subject: Re: RDEPENDS of packages created by PACKAGES_DYNAMIC not built before image rootfs
+To: jhuang0 <jackie.huang@windriver.com>
+References: <cover.1353564658.git.jackie.huang@windriver.com>
+	<6ef7001b467caa7cebe92e399a94a9680265efb8.1353564658.git.jackie.huang@windriver.com>
+	<CAJTo0LYHjhAfak4gFoRWeo+R7g86P9q4rgmWreAnOosr0A+a-Q@mail.gmail.com>
+	<50B426C4.3020108@windriver.com>
+In-Reply-To: <50B426C4.3020108@windriver.com>
+Cc: saul.wold@intel.com, Shiqun.Lin@windriver.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] pulseaudio: fix compilation on RHEL-5.8 64bit machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: aws.ismail@windriver.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -37,85 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 21:21:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 28 Nov 2012 00:30:40 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/27/12 2:23 PM, Martin Jansa wrote:
-> On Tue, Nov 27, 2012 at 08:11:42PM +0000, Richard Purdie wrote:
->> On Tue, 2012-11-27 at 16:41 +0100, Martin Jansa wrote:
->>> Hi,
->>>
->>> pulseaudio has
->>> RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
->>>
->>> and pulseaudio-module-console-kit is dynamic package
->>> PACKAGES_DYNAMIC += "^pulseaudio-lib.* ^pulseaudio-module.* ^libpulse-lib.* ^libpulse-module.* "
->>>
->>> If you have image where consolekit is pulled to image only by
->>> pulseaudio-module-console-kit (e.g. through pulseaudio-server).
->>> Then consolekit is not built before image do_rootfs is executed and do_rootfs fails.
->>>
->>> Easy way to reproduce this is to build e.g. core-image-minimal with
->>> pulseaudio-module-console-kit or pulseaudio-server added to IMAGE_INSTALL.
->>> Will fail with:
->>>    * satisfy_dependencies_for: Cannot satisfy the following dependencies for pulseaudio-server:
->>>    *    consolekit *
->>>    * opkg_install_cmd: Cannot install package pulseaudio-server.
->>>
->>>
->>> Not sure what's proper fix, bitbake probably just checks that right provider for
->>> pulseaudio-module-console-kit is pulseaudio because of PACKAGES_DYNAMIC, but does not check
->>> RDEPENDS_pulseaudio-module-console-kit after that.
->>>
->>> We can add consolekit to build time deps like it was before, but that's just
->>> work around and not correct fix.
->>>
->>> Also filled as
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3498
+On 11/26/2012 09:34 PM, jhuang0 wrote:
+>
+>
+> On 11/22/2012 4:55 PM, Burton, Ross wrote:
+>> Hi,
 >>
->> Well, you can't have this both ways :)
+>> This patch is too hacky to go in at the moment.
 >
-> IMHO Only one way is correct and that would be enough :).
+> Hi Ross,
 >
->> Bitbake doesn't know which modules this package will produce since its
->> using PACKAGES_DYNAMIC. It does its best effort to try and find DEPENDS
->> but it can't take the regexps and come up with
->> "pulseaudio-module-console-kit", hence it doesn't see the RDEPENDS.
->> There isn't any generic way we can teach it to do that either. If it
->> did, it would simply always build consolekit which you say you don't
->> want so its not relevant anyway.
+> Thanks for your comments, in fact the patch was for a weird edge case 
+> in the old version, I looked for the history and it seemed to be added 
+> as a workaround. And I tried some days but couldn't reproduce the issue
+> in current pulseaudio 2.1, so I shouldn't have send this, sorry about 
+> that.
+>
+> Aws, please correct me if I'm wrong, thanks!
+Agreed. This was a quick fix for a very specific case. If you can 
+confirm that it is not there anymore, which, by the looks of it, seems 
+that you have done; then let's get rid of it.
+
+Thanks Jackie.
+
+Aws\
+>
+> Thanks,
+> Jackie
+>
 >>
->> So basically, you need to decide whether you want consolekit enabled or
->> not and build accordingly, there is nothing you can do within bitbake to
->> "mind read" what the image is going to want...
-
-For the resolver, it has to use the RPROVIDES, PACKAGES and PACKAGES_DYNAMIC...
-
-> No, you know that you will need pulseaudio-module-console-kit because
-> pulseaudio-server RDEPENDs on it (not on any pulseaudio-module-* but
-> pulseaudio-module-console-kit exactly). So it's not really mind reading.
-
-But after the recipe has been built, the required item from PACKAGES_DYNAMIC 
-should now be in PACKAGES... and if it doesn't end up in the PACKAGES list, it 
-would be a good idea to at a minimum trigger a warning...  The catch is, is 
-there any way to tell if something from PACKAGES_DYNAMIC was used..
-
---Mark
-
-> If it's not possible with current code-base then we should document it
-> and add some work around in pulseaudio (I'm fine with building
-> consolekit even when it's not used later).
+>> On 22 November 2012 06:46,  <jackie.huang@windriver.com> wrote:
+>>> ../bitbake_build/tmp/sysroots/qemux86-64/usr/lib64/libgdk-x11-2.0.so: undefined 
+>>> reference to `XRRGetOutputInfo'
+>>
+>> Which means your GTK+ linkage is broken, because libgdk should be
+>> linking to libXrandr.  Mine is, can you verify that yours is too?
+>>
+>>> +-AM_LDADD = $(PTHREAD_LIBS) $(INTLLIBS)
+>>> ++AM_LDADD = $(PTHREAD_LIBS) $(INTLLIBS) -lXrandr
+>>
+>> You're adding linkage to libXrandr to every part of PulseAudio. What
+>> binary in pulseaudio is failing to compile with this error?
+>>
+>>> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+>>> +DEPENDS += "libjson gdbm speex libxml-parser-perl-native \
+>>> +  ${@base_contains('DISTRO_FEATURES', 'x11', 'libxrandr', '', d)}"
+>>
+>> pulseaudio.inc has:
+>>
+>> DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 
+>> libtool \
+>>             ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11
+>> libxtst libice libsm libxcb gtk+', '', d)}"
+>>
+>> As gtk+ pulls in libxrandr, this is redundant.
+>>
+>> Ross
+>>
+>>
 >
-> Cheers,
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+
+-- 
 
 
 
