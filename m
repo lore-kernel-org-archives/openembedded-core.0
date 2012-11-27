@@ -1,34 +1,35 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TdHKw-0008JX-5C
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TdHYG-00005h-IP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 10:20:17 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so11871825ieb.6
+	Tue, 27 Nov 2012 10:34:00 +0100
+Received: by mail-ee0-f47.google.com with SMTP id l10so6590016eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2012 01:06:00 -0800 (PST)
+	Tue, 27 Nov 2012 01:19:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=YYnGAU1jViD0JOtm2MlB3y9IZi2RQrU4HKcT6v9G/aA=;
-	b=PNZ9f/jO805d/gudxvXRNfg4l6E9/Oqy3tD6Fk6PubHiJxhAl6oQZNoLV5azUlnU/D
-	ZVuQsAbDmMmetoH0qLSYW/plw1iToD1KdqWduLKlO60kOuu03aGlzfslHJyzPbCpObj7
-	0YLwewZvJao21nntoBCSOjF4B1xx/chKbdUvpUK1bJy96jMxuIqDUe2dKMYjtjp+NCHt
-	7JkwQmT4Crs94RLqv7gHSToEKPAjYTDvXX6JbqLFq2SUp8vvEVyEG4pdaUFo6UhHWPaa
-	zI/vZTtuf6+M+72GiXuefa2f3o++vhJRgUxlLSWr+ODYOAazkU2ju4Pkq3z0h3h/oCaN
-	tbkw==
+	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
+	:content-transfer-encoding;
+	bh=3+Yfi3EYuBNBb9Y5BmCUcVVw1YmRjJvCoCJwZ6Goz9w=;
+	b=R4qRS02HtLq16EQAx2taHuxaNdfDESc5Ed1Q4x2gv7W81/NNW/v6ECD0gNM+oPd6D7
+	YhCiA7/tGXjWLue5rw53vg9y0YxBRnEoJcu0/LUzYB4V15HnFrvvr/UWNh7ipvCWRzwe
+	YCTUeGWvFHqkYofBStlONgA7lWsVt+qRX7GPCmHOmBBw/LKA93ukSikIFgMRKO5Uokdh
+	NP767RAVTTyobxyF7BrCBlRTxrxsk2bShb3xsq+OJg1PNKGa4/+gIaKAPgrXICC/cvAa
+	H6CO2QRX8gE77KRURW44l9T6+ymdTxJ2IDeto1HBnBR94GxDsVv5060xy0LwjbPaYGfK
+	4Cwg==
+Received: by 10.14.215.197 with SMTP id e45mr56419119eep.0.1354007987736;
+	Tue, 27 Nov 2012 01:19:47 -0800 (PST)
+Received: from localhost.localdomain (ip-109-91-251-94.unitymediagroup.de.
+	[109.91.251.94])
+	by mx.google.com with ESMTPS id y44sm39569154eel.14.2012.11.27.01.19.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 27 Nov 2012 01:19:46 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Nov 2012 10:18:17 +0100
+Message-Id: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.7.6.5
 MIME-Version: 1.0
-Received: by 10.50.152.132 with SMTP id uy4mr14702648igb.3.1354007160876; Tue,
-	27 Nov 2012 01:06:00 -0800 (PST)
-Received: by 10.64.24.175 with HTTP; Tue, 27 Nov 2012 01:06:00 -0800 (PST)
-In-Reply-To: <1354006492.21863.97.camel@ted>
-References: <1353986291-9144-1-git-send-email-cazfi74@gmail.com>
-	<1354006492.21863.97.camel@ted>
-Date: Tue, 27 Nov 2012 11:06:00 +0200
-Message-ID: <CAF6bG8dAVr-7S2EVQVyOQ0SJtxLCSZdiF-nA1t3yrTL0=jvLSw@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpng: update to upstream version 1.2.50
+Subject: [PATCH] gtk+: do not prelight GtkButton in touchscreen mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +42,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 09:20:17 -0000
+X-List-Received-Date: Tue, 27 Nov 2012 09:34:00 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 27 November 2012 10:54, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2012-11-27 at 05:18 +0200, Marko Lindqvist wrote:
->> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
->
-> What changed in the LICENSE?
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ ...utton-do-not-prelight-in-touchscreen-mode.patch |   48 ++++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+_2.24.13.bb            |    3 +-
+ 2 files changed, 50 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
 
- Version number and release date.
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+new file mode 100644
+index 0000000..671fd2f
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+@@ -0,0 +1,48 @@
++From d1f7a894674dfdd6769f1bbae31eb1a69e451a5c Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
++Date: Fri, 16 Nov 2012 22:07:28 +0100
++Subject: [PATCH] GtkButton: do not prelight in touchscreen mode
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Code was copied from GtkToggleButton.
++
++Upstream-status: pending [1]
++
++https://bugzilla.gnome.org/show_bug.cgi?id=689138
++
++Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
++---
++ gtk/gtkbutton.c |    8 ++++++--
++ 1 files changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/gtk/gtkbutton.c b/gtk/gtkbutton.c
++index f472007..1beb1b6 100644
++--- a/gtk/gtkbutton.c
+++++ b/gtk/gtkbutton.c
++@@ -2079,15 +2079,19 @@ _gtk_button_set_depressed (GtkButton *button,
++ static void
++ gtk_button_update_state (GtkButton *button)
++ {
++-  gboolean depressed;
+++  gboolean depressed, touchscreen;
++   GtkStateType new_state;
++ 
+++  g_object_get (gtk_widget_get_settings (GTK_WIDGET (button)),
+++                "gtk-touchscreen-mode", &touchscreen,
+++                NULL);
+++
++   if (button->activate_timeout)
++     depressed = button->depress_on_activate;
++   else
++     depressed = button->in_button && button->button_down;
++ 
++-  if (button->in_button && (!button->button_down || !depressed))
+++  if (!touchscreen && button->in_button && (!button->button_down || !depressed))
++     new_state = GTK_STATE_PRELIGHT;
++   else
++     new_state = depressed ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
++-- 
++1.7.6.5
++
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
+index b358b7f..bc88284 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+            file://toggle-font.diff;striplevel=0 \
+            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
+            file://doc-fixes.patch \
++           file://0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch \
+ 	  "
+ 
+ # TO MERGE
+@@ -27,7 +28,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+ #        file://combo-arrow-size.patch;striplevel=0
+ #            file://configurefix.patch
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "e949406751df51e1e40e85628005a069"
+ SRC_URI[sha256sum] = "35e1a01e46b02970b02ee9f299390d0aa57c1215ad2667bcd584b72f4ea6513d"
+-- 
+1.7.6.5
 
->
-> Cheers,
->
-> Richard
->
->
->> ---
->>  .../libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb}          |   12 ++++++------
->>  1 file changed, 6 insertions(+), 6 deletions(-)
->>  rename meta/recipes-multimedia/libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb} (52%)
->>
->> diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->> similarity index 52%
->> rename from meta/recipes-multimedia/libpng/libpng_1.2.49.bb
->> rename to meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->> index d33a9f5..211e357 100644
->> --- a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb
->> +++ b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->> @@ -3,15 +3,15 @@ DESCRIPTION = "PNG Library"
->>  HOMEPAGE = "http://www.libpng.org/"
->>  SECTION = "libs"
->>  LICENSE = "Libpng"
->> -LIC_FILES_CHKSUM = "file://LICENSE;md5=20110633230abd47fe8680afa75f1492 \
->> -                    file://png.h;startline=308;endline=422;md5=edd1c552386a8c3773d90e278ae30891"
->> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
->> +                    file://png.h;startline=310;endline=424;md5=62968b88b0425ceeb919de3fd21b03e5"
->>  DEPENDS = "zlib"
->> -PR = "r1"
->> +PR = "r0"
->>
->> -SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
->> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
->>
->> -SRC_URI[md5sum] = "d5106b70b4f8b464a7da66bffe4565fb"
->> -SRC_URI[sha256sum] = "fbf8faa70ebca2ed2ee6df6f2249f4722517b581af5b6c3c71bbdaf925d5954e"
->> +SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
->> +SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
->>
->>  inherit autotools binconfig pkgconfig
->>
->
->
 
 
