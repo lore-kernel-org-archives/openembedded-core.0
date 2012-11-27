@@ -1,39 +1,31 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TdHgN-0000G8-A1
+	(envelope-from <rpjday@crashcourse.ca>) id 1TdHhi-0000JI-1C
 	for openembedded-core@lists.openembedded.org;
-	Tue, 27 Nov 2012 10:42:31 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 27 Nov 2012 01:28:07 -0800
-Received: by mail-ob0-f197.google.com with SMTP id v19so522985obq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2012 01:28:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=pn6z92pVv+JLwqrhqHQcjCvxJFOg+7Z8/6e6rhPNNZc=;
-	b=SPyqGYDRCvIrDcJNOFMzFSl1W2Tbkf6Me48TMKHlFBARc5Vk25vdqdXnPsJGn1h/oa
-	oC/JVafQynwnPADNu2f+lw9yqurz22yegRHWTzJ9GOZ35TK3gGrITyHE7cIAhTU148+E
-	2u/zfrKNtLsXG2Wt9lsNaB7gPvtPvA6Zos2MtwjobqgoSjNZ69BZhHyz5ZaRb5MRAi5M
-	8vc10ndxmBdAFvA1veXHVcKLE56DmVtT23Z2LflinIvDQBaMqMwiZjId8oKjGfkaEb4K
-	1TBrNoBrM3zV45OlsEJtFsF0tAFcWOf6QzDW/rW/jgke9+t4sxbwKk6eEMXXEl33VLGQ
-	XCvQ==
-Received: by 10.60.1.169 with SMTP id 9mr6411485oen.93.1354008486763;
-	Tue, 27 Nov 2012 01:28:06 -0800 (PST)
-Received: by 10.60.1.169 with SMTP id 9mr6411480oen.93.1354008486689; Tue, 27
-	Nov 2012 01:28:06 -0800 (PST)
+	Tue, 27 Nov 2012 10:43:46 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:35178 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TdHTx-0003ak-Pn for openembedded-core@lists.openembedded.org;
+	Tue, 27 Nov 2012 04:29:33 -0500
+Date: Tue, 27 Nov 2012 04:29:28 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1211270427320.17683@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Tue, 27 Nov 2012 01:27:46 -0800 (PST)
-In-Reply-To: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 27 Nov 2012 09:27:46 +0000
-Message-ID: <CAJTo0LZ4OznwYPaCEE8q2YQa4b-KosjfVosHxY+-T_gMsgrvFw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQkWHH9Pq/cB8N0ayMvKH49P4qJKf8RhGsXOU+SbhCmE3XQerIdvamoyI00dEeDtS3EoJfsFttkdHA5vnepXGFefIWLh8R/1FxGHjg8Uel5/VjftLNueN40h+NGebAc1L1cFutl7Oi4Sos6QOqInOrgs+JoU5n5G/X1stBzmZPsWWeCxkARTbbQte8JIIXOUi9Pm5YLO
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gtk+: do not prelight GtkButton in touchscreen mode
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: qemuarm: configure of bison fails, claims to need flex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,16 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Nov 2012 09:42:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Nov 2012 09:43:46 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 27 November 2012 09:18, Andreas M=C3=BCller <schnitzeltony@googlemail.co=
-m> wrote:
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+  trying to build absolutely stock qemuarm image with current oe-core,
+got:
 
-Ross
+ERROR: Task 800
+(virtual:native:/home/rpjday/OE/dist/layers/oe-core/meta/recipes-devtools/bison/bison_2.5.1.bb,
+do_configure) failed with exit code '1'
+
+and the log file claimed that bison needed flex.  i'm doing it all
+over again from scratch just to make sure it wasn't something silly i
+did, i'll report back if i can reproduce it.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
