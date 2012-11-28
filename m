@@ -1,38 +1,26 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TdpcJ-0005mA-2R
+	(envelope-from <sgw@linux.intel.com>) id 1Tdpd7-0005oV-2j
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 22:56:27 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so5353535eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 13:42:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7Vp0l5XYdPmpF3vEa2lLq+i6G6MVt/b+FyJZ8sMa8oE=;
-	b=kcTPK/C9S/ZG7fCQPaLnNWCTy5XRDnfGNC0tRcqdF36r3DtMIyopmxPJ0s9xVvfu6i
-	1Q/PEWC4VUgfSOS3G6gUujxpXgKqBHPh1gEp/1LIjtAXyfOjXkOh+xb0FLeD0R+lpbiY
-	/8O70cuRpG/lWtWjAs8RJjrixQhjhWwbukKxdlAeOrUZkBLQAFUT4VdXkUm0pssSdCS9
-	SkfQsbbrmmL6JC8R0yh/Lxsn0hf/8nt6KQDIaM9jlCHe55vbx2utEgRe1RHNcbOd6GrD
-	5hpvrfUzZ6M8l4ZyEt+y8Ye9UZX82ieGo1MmnF/4sgI2wKDfwJyyBjt3GklGwqSr6vOx
-	/6ZQ==
-Received: by 10.14.194.4 with SMTP id l4mr24908490een.42.1354138932146;
-	Wed, 28 Nov 2012 13:42:12 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n7sm31891068eeo.2.2012.11.28.13.42.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Nov 2012 13:42:11 -0800 (PST)
-Date: Wed, 28 Nov 2012 22:42:08 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <20121128214208.GE3477@jama.jama.net>
-References: <50B6546E.5070308@mlbassoc.com>
+	Wed, 28 Nov 2012 22:57:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 28 Nov 2012 13:43:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,180,1355126400"; d="scan'208";a="223910726"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.127])
+	by azsmga001.ch.intel.com with ESMTP; 28 Nov 2012 13:43:00 -0800
+Message-ID: <50B68564.3040100@linux.intel.com>
+Date: Wed, 28 Nov 2012 13:43:00 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <50B6546E.5070308@mlbassoc.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: New ARM error
+To: Hongxu Jia <hongxu.jia@windriver.com>
+References: <cover.1353488396.git.hongxu.jia@windriver.com>
+	<0a514b84b1550c095623ddf495059bbe084c0bf5.1353488396.git.hongxu.jia@windriver.com>
+In-Reply-To: <0a514b84b1550c095623ddf495059bbe084c0bf5.1353488396.git.hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] binutils-native: do_compile failed on Ubuntu 12.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,75 +33,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 21:56:27 -0000
-X-Groupsio-MsgNum: 31897
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZInfyf7laFu/Kiw7"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Nov 2012 21:57:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---ZInfyf7laFu/Kiw7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/21/2012 01:24 AM, Hongxu Jia wrote:
+> binutils-native do_compile failed on Ubuntu 12.10:
+> ...
+> error: call to '__warn_memset_zero_len' declared with attribute warning:
+> memset used with constant zero length parameter; this could be due to
+> transposed parameters [-Werror]
+> ...
+>
+> When compiling binutils-native, option "--enable-targets=all" makes
+> oasys.c compiled and option "-Werror" makes warning treated as error,
+> so both of the options make the compile warning of oasys.c cause
+> binutils-native compile failed.
+>
+This patch is not needed for 2.23 since it's been fixed there.
 
-On Wed, Nov 28, 2012 at 11:14:06AM -0700, Gary Thomas wrote:
-> I build for an OMAP4 platform using
->    DEFAULTTUNE =3D "cortexa9hf-neon"
->=20
-> This has been working fine, but after updating to the latest master, I'm =
-getting this error
->=20
->      Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (cor=
-texa9hf-neonhf-vfp-neon).
->      PACKAGE_ARCHS =3D (all any noarch armv5hf-vfp armv5ehf-vfp armv6hf-v=
-fp armv7ahf-vfp armv7ahf-vfp-neon cobra4430p82)
->=20
-> (I added the print of the expanded PACKAGE_ARCHS for clarity)
->=20
-> I bisected change this to this commit (Poky/Yocto tree):
->=20
-> commit c5b670e4c9f020ed951d5499a888c50b1d703b62
-> Author: Martin Jansa <Martin.Jansa@gmail.com>
-> Date:   Tue Oct 2 17:22:00 2012 +0000
->=20
->      arm/arch-arm*: define ARMPKGARCH_tune-* for default tunes
->=20
->      * tune-foo is not valid override, for it to work I had to add
->        ARMPKGARCH =3D "${ARMPKGARCH_tune-${DEFAULTTUNE}}"
->        but that doesn't work without value defined for every supported
->        DEFAULTTUNE value, otherwise it's expanded like this
->        TUNE_PKGARCH (${ARMPKGARCH_tune-armv5te}te).
->=20
->      (From OE-Core rev: 31e4f2dee990ee7f5d7491b65565e71d7d580209)
->=20
->      Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> Any ideas how I can fix this?
+Sau!
 
-I've noticed the same problem today and I'm working on fix. No idea why
-I haven't seen this with my tests done with contrib/jansa/tune2-test
-branch.
+> The warning caused by /usr/include/x86_64-linux-gnu/bits/string3.h:82
+> in Ubuntu 12.10, here is the code:
+> __extern_always_inline void *
+> __NTH (memset (void *__dest, int __ch, size_t __len))
+> {
+>    if (__builtin_constant_p (__len) && __len == 0
+>        && (!__builtin_constant_p (__ch) || __ch != 0))
+>      {
+>        __warn_memset_zero_len ();
+>        return __dest;
+>      }
+>    return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
+> }
+>
+> In oasys.c, invoking memset without checking len nonzero caused the
+> warning.
+>
+> Add len nonzero checking when invoke memset in oasys.c to remove the
+> compile warning could fix the problem.
+>
+> [YOCTO #3464]
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-devtools/binutils/binutils-2.22.inc   |    3 +-
+>   .../binutils-check-size-before-memset.patch        |   43 ++++++++++++++++++++
+>   2 files changed, 45 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.22.inc b/meta/recipes-devtools/binutils/binutils-2.22.inc
+> index 9697242..94cd17f 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.22.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.22.inc
+> @@ -1,4 +1,4 @@
+> -PR = "r17"
+> +PR = "r18"
+>
+>   LIC_FILES_CHKSUM="\
+>       file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
+> @@ -45,6 +45,7 @@ SRC_URI = "\
+>        file://0144-timer.cc-include-unistd.h.patch \
+>        file://0166-2012-04-27-Doug-Kwan-dougkwan-google.com.patch \
+>        file://0182-PR-ld-13991.patch \
+> +     file://binutils-check-size-before-memset.patch \
+>        "
+>
+>   SRC_URI[md5sum] = "ee0f10756c84979622b992a4a61ea3f5"
+> diff --git a/meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch b/meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
+> new file mode 100644
+> index 0000000..0baf42e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/binutils-check-size-before-memset.patch
+> @@ -0,0 +1,43 @@
+> +bfd/oasys.c: check size before memset
+> +
+> +On Ubuntu 12.10 /usr/include/x86_64-linux-gnu/bits/string3.h:77
+> +
+> +__extern_always_inline void *
+> +__NTH (memset (void *__dest, int __ch, size_t __len))
+> +{
+> +  if (__builtin_constant_p (__len) && __len == 0
+> +      && (!__builtin_constant_p (__ch) || __ch != 0))
+> +    {
+> +      __warn_memset_zero_len ();
+> +      return __dest;
+> +    }
+> +  return __builtin___memset_chk (__dest, __ch, __len, __bos0 (__dest));
+> +}
+> +
+> +The "memset(void *s, int c, size_t n)" will warn if the "n" is zero,
+> +check the value of "n" before memset will fix the problem.
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +
+> +Upstream-Status: Pending
+> +---
+> + binutils-2.22/bfd/oasys.c |    4 +++-
+> + 1 file changed, 3 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/bfd/oasys.c b/bfd/oasys.c
+> +--- a/bfd/oasys.c
+> ++++ b/bfd/oasys.c
+> +@@ -908,7 +908,9 @@ oasys_write_header (bfd *abfd)
+> +     length = sizeof (r.module_name);
+> +
+> +   (void) memcpy (r.module_name, abfd->filename, length);
+> +-  (void) memset (r.module_name + length, ' ', sizeof (r.module_name) - length);
+> ++
+> ++  if (sizeof (r.module_name) > length)
+> ++    (void) memset (r.module_name + length, ' ', sizeof (r.module_name) - length);
+> +
+> +   r.version_number = OASYS_VERSION_NUMBER;
+> +   r.rev_number = OASYS_REV_NUMBER;
+> +--
+> +1.7.10.4
+> +
+>
 
-First part of fix is:
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/tun=
-e-fix&id=3Da63f9cc754b16a9ac35a1952f70960ec118d6b80
 
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ZInfyf7laFu/Kiw7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlC2hTAACgkQN1Ujt2V2gBycpQCgsKzMrJP8o1obEyb3AdWgT9Bi
-vvAAmwbstRyvMaNLSoEeaEDLOW13e03g
-=Do95
------END PGP SIGNATURE-----
-
---ZInfyf7laFu/Kiw7--
