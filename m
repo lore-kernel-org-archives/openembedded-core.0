@@ -1,31 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Tdked-0006Ke-Pm
+	(envelope-from <otavio.salvador@gmail.com>) id 1TdkfN-0006OK-S0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 17:38:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qASGOEvJ016931
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 Nov 2012 08:24:15 -0800 (PST)
-Received: from msp-dhcp42.wrs.com (172.25.34.42) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Wed, 28 Nov 2012 08:24:12 -0800
-Message-ID: <50B63AAD.4080506@windriver.com>
-Date: Wed, 28 Nov 2012 10:24:13 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121026 Thunderbird/16.0.2
+	Wed, 28 Nov 2012 17:39:18 +0100
+Received: by mail-gg0-f175.google.com with SMTP id y1so1537266ggc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 08:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=0ovWyYKnr/M+tB8sK/inu4OH/gcvcLgaQD7Dmjc7cag=;
+	b=In1QOFAWhQr2aE3SxZO4NNHz3DQz+XHO236oaUGNjuM45lkfqcFt9CR96hVorKt4Nu
+	Lm58JJ26qcyDlE/FWjMcm/i5lsyI3OwxQeiz2hrsHXkldEX/Ot/pq1RMbCZB6jn5Szg8
+	I49Sl5AUP1zV1ARf8lGdCk7OWu3nF38zdYfCAi9ARaxua2TZq7Uy6zy7RNnUyKFkuzlc
+	RkewB7ttSKqJbMSMfwHfTqaKFwler70wOBAS+y1B4Ps/YWVbklw2GOYFmbdc9T5lrH2F
+	t+PvUeTjzPlpe8F8yviSwKv+NtnQFD8arMavPSM/cV/ZwQNxjd5Zr7tLKdGve+MDbO20
+	Tpbw==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20121127154129.GC3692@jama.jama.net>
-	<1354047102.21863.105.camel@ted>
-	<20121127202356.GJ3692@jama.jama.net>
-	<50B52B94.6020700@windriver.com> <1354080360.21863.111.camel@ted>
-In-Reply-To: <1354080360.21863.111.camel@ted>
+Received: by 10.58.240.107 with SMTP id vz11mr29814003vec.45.1354119902344;
+	Wed, 28 Nov 2012 08:25:02 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.116.17 with HTTP; Wed, 28 Nov 2012 08:25:02 -0800 (PST)
+In-Reply-To: <CAJTo0LbDv-c2cyAfvWzfo7wiH2_F9+pCx-CC4QFyzM_e1havEw@mail.gmail.com>
+References: <1354116528-21598-1-git-send-email-ross.burton@intel.com>
+	<CAP9ODKo4+FnG=c1m88HeG-MxbzQD-+MyLo85G47Qh_uNcxKJEw@mail.gmail.com>
+	<CAJTo0LZXgDtv_EsxnCvLv5nyHpf5FBtFYRYtXyCj+7D=uKpWDA@mail.gmail.com>
+	<CAP9ODKqBNJ7QpJq7M_-0=G=rq3EZiCeBeWpBHGiGju53o9a2ZA@mail.gmail.com>
+	<CAJTo0LbDv-c2cyAfvWzfo7wiH2_F9+pCx-CC4QFyzM_e1havEw@mail.gmail.com>
+Date: Wed, 28 Nov 2012 14:25:02 -0200
+X-Google-Sender-Auth: bSBqyFutrOLe9r5c2LZzkdDDO6k
+Message-ID: <CAP9ODKqEL9D-YTs4npXKWyiLhhHVdKoz=mdc0G9afOFqWnPcPA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: RDEPENDS of packages created by PACKAGES_DYNAMIC not built before image rootfs
+Subject: Re: [PATCH] xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,74 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 16:38:32 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Nov 2012 16:39:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 11/27/12 11:26 PM, Richard Purdie wrote:
-> On Tue, 2012-11-27 at 15:07 -0600, Mark Hatle wrote:
->> On 11/27/12 2:23 PM, Martin Jansa wrote:
->>>> Bitbake doesn't know which modules this package will produce since its
->>>> using PACKAGES_DYNAMIC. It does its best effort to try and find DEPENDS
->>>> but it can't take the regexps and come up with
->>>> "pulseaudio-module-console-kit", hence it doesn't see the RDEPENDS.
->>>> There isn't any generic way we can teach it to do that either. If it
->>>> did, it would simply always build consolekit which you say you don't
->>>> want so its not relevant anyway.
->>>>
->>>> So basically, you need to decide whether you want consolekit enabled or
->>>> not and build accordingly, there is nothing you can do within bitbake to
->>>> "mind read" what the image is going to want...
->>
->> For the resolver, it has to use the RPROVIDES, PACKAGES and PACKAGES_DYNAMIC...
+On Wed, Nov 28, 2012 at 2:11 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 28 November 2012 16:02, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Well but in this case we would be better to have 1.9 in oe-core, in this case.
 >
-> and it does to the limits that are reasonable...
->
->>> No, you know that you will need pulseaudio-module-console-kit because
->>> pulseaudio-server RDEPENDs on it (not on any pulseaudio-module-* but
->>> pulseaudio-module-console-kit exactly). So it's not really mind reading.
->>
->> But after the recipe has been built, the required item from PACKAGES_DYNAMIC
->> should now be in PACKAGES... and if it doesn't end up in the PACKAGES list, it
->> would be a good idea to at a minimum trigger a warning...  The catch is, is
->> there any way to tell if something from PACKAGES_DYNAMIC was used..
->
-> "After it is built" is no good to bitbake. It has to know what its doing
-> without building things.
->
-> All Bitbake can see is that there is some regexp in PACKAGES_DYNAMIC.
->
-> Yes, Bitbake could take all the keys in the datastore, expand each one
-> (since it could be constructed using another variable name) and find the
-> ones starting with RDEPENDS, then apply the rexexp to each key and see
-> if it matches. We one tried something like this and it is extremely
-> slow, parsing would take a massive speed hit.
+> meta-intel alone contains 1.9.3 (for EMGD) and 1.7.99.2 (for emenlow).
+>  I don't think it's reasonable to collect every xserver version that
+> binary drivers have built against into oe-core, nor is it reasonable
+> to force them to do all of the packaging themselves (at least whilst
+> the fix to make the same inc build for old and new is to add a few
+> package definitions).
 
-I was more thinking in the oe-core recipe QA stuff..  if there was a way to know 
-that the following items were matched in PACKAGES_DYNAMIC for this item, and 
-then check to see if they ended up in PACKAGES.  Then warn/error as appropriate 
-if they don't match.
+Yes I understand; well as I said I understand your point and why you
+wish to do that.
 
-> The rule is therefore in corner cases like this (which are rather
-> unusual), you add something to DEPENDS and be done with it.
->
-> It is not a reasonable expectation for bitbake to figure this kind of
-> thing out.
-
-Ya, I wasn't advocating a change in bitbake for the detection, just a way to 
-pass the data to the recipe and do it at that point.
-
-> I agree that if it builds things and discovers some kind of missing
-> dependency, that would be good to tell the user about.
-
---Mark
-
-> Cheers,
->
-> Richard
->
->
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
