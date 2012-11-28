@@ -1,35 +1,35 @@
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TdltQ-0007rJ-Eb
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Tdlv1-0007tx-Hv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 18:57:52 +0100
-Received: by mail-ia0-f175.google.com with SMTP id z3so9691811iad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 09:43:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=1baGCK3ionosGeb7Wek1/6XmHJOM/E/sXxJesARLa5Q=;
-	b=W+pRvtaRX2RWSwZPoefDyUJ0bHWTFFWQ8NbkFRgtsUTdrFCzsVgiNdsFqEtum+VyQD
-	DjAzFIxKc9MfElFhoXKcVPooCKVT6TdjEw9mKpwna973HdRblzOGMc7y/Ki4waUbBlCu
-	35cn32lKqDbwTSBycpL+xp87J7ATN5XVZIltSCPhLwBRa9E1B2jD/jxE0lKC+cXcGJSO
-	33Td7cmq6oCQnD6qJWaz9WFQvkPPpC9vLQUCJiGyuEIO+8JlMj8T9jXrW3SMhlQZD6a4
-	FEBfaU/NV3n6i1KtgOHaYWPz2CmrDsZsTCvwSBkjHbu2f+5lh12IdUeOyOqPyODgab3b
-	kDZA==
-Received: by 10.43.92.72 with SMTP id bp8mr17767360icc.49.1354124617340; Wed,
-	28 Nov 2012 09:43:37 -0800 (PST)
+	Wed, 28 Nov 2012 18:59:31 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qASHjETI025067
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 28 Nov 2012 18:45:15 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TdlhC-0008NH-AN; Wed, 28 Nov 2012 18:45:14 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1354122393-26636-1-git-send-email-cazfi74@gmail.com>
+Date: Wed, 28 Nov 2012 18:45:14 +0100
+In-Reply-To: <1354122393-26636-1-git-send-email-cazfi74@gmail.com> (Marko
+	Lindqvist's message of "Wed, 28 Nov 2012 19:06:33 +0200")
+Message-ID: <lyd2yx39lh.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.64.19.8 with HTTP; Wed, 28 Nov 2012 09:43:06 -0800 (PST)
-In-Reply-To: <50B6301B.3010106@linaro.org>
-References: <cover.1354116375.git.raj.khem@gmail.com>
-	<50B6301B.3010106@linaro.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 28 Nov 2012 09:43:06 -0800
-Message-ID: <CAMKF1sr3h8gHmhPbjXa-VfoSfsNsmmWANyNi_Eshp+xcwv5oCw@mail.gmail.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Upgrade binutils to 2.23.1
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Marko Lindqvist <cazfi74-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] readline: apply upstream patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,83 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 17:57:52 -0000
-Content-Type: multipart/alternative; boundary=bcaec517c8c8cc582604cf91b4da
+X-List-Received-Date: Wed, 28 Nov 2012 17:59:31 -0000
+Content-Type: text/plain
 
---bcaec517c8c8cc582604cf91b4da
-Content-Type: text/plain; charset=UTF-8
+Marko Lindqvist <cazfi74-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-On Wed, Nov 28, 2012 at 7:39 AM, Marcin Juszkiewicz <
-marcin.juszkiewicz@linaro.org> wrote:
+> -SRC_URI = "${GNU_MIRROR}/readline/${BPN}-${PV}.tar.gz \
+> +SRC_URI = "${GNU_MIRROR}/readline/${BPN}-${PV}.tar.gz;name=archive \
+> +           ${GNU_MIRROR}/readline/readline-5.2-patches/readline52-001;name=patch1 \
+> ...
+> +readline_patch () {
+> +	# patch-command used to fail because of garbage value in $TMPDIR
+> +	unset TMPDIR
+> +	patch -p0 -d ${S} < ${WORKDIR}/readline52-001
 
-> W dniu 28.11.2012 16:29, Khem Raj pisze:
-> > This patchset updates binutils to 2.23 branch I have tested systemd-image
-> > meta-toolchain and core-image-sato target with it they all built fine
-> > I did not (yet) delete the 2.22 recipes since there must be some time
-> > given for folks to try 2.23 in couple of weeks 2.22 recipes will move
-> > out of OE-Core. Preferably deleted if need be moved into toolchain-layer
->
-> I did builds for AArch64 with 2.23 and they were working fine. Will do
-> 2.23.1 build as well.
->
+I think, SRC_URI entries with ';apply=yes;striplevel=0' attributes are a
+better way to solve this. E.g.
 
-
-thanks. let me know of any fallouts.
++SRC_URI = "${GNU_MIRROR}/readline/${BPN}-${PV}.tar.gz;name=archive \
++           ${GNU_MIRROR}/readline/readline-5.2-patches/readline52-001;name=patch1;apply=yes;striplevel=0 \
 
 
->
-> Acked-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---bcaec517c8c8cc582604cf91b4da
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<font><font face=3D"courier new,monospace"><br></font></font><div class=3D"=
-gmail_extra"><br><br><div class=3D"gmail_quote">On Wed, Nov 28, 2012 at 7:3=
-9 AM, Marcin Juszkiewicz <span dir=3D"ltr">&lt;<a href=3D"mailto:marcin.jus=
-zkiewicz@linaro.org" target=3D"_blank">marcin.juszkiewicz@linaro.org</a>&gt=
-;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">W dniu 28.11.2012 16:29, Khem Raj pisze:<br>
-<div class=3D"im">&gt; This patchset updates binutils to 2.23 branch I have=
- tested systemd-image<br>
-&gt; meta-toolchain and core-image-sato target with it they all built fine<=
-br>
-&gt; I did not (yet) delete the 2.22 recipes since there must be some time<=
-br>
-&gt; given for folks to try 2.23 in couple of weeks 2.22 recipes will move<=
-br>
-&gt; out of OE-Core. Preferably deleted if need be moved into toolchain-lay=
-er<br>
-<br>
-</div>I did builds for AArch64 with 2.23 and they were working fine. Will d=
-o<br>
-2.23.1 build as well.<br></blockquote><div><br></div><div><br></div><div>th=
-anks. let me know of any fallouts.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
 
 
-<br>
-Acked-by: Marcin Juszkiewicz &lt;<a href=3D"mailto:marcin.juszkiewicz@linar=
-o.org">marcin.juszkiewicz@linaro.org</a>&gt;<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div><br></div>
+Enrico
 
---bcaec517c8c8cc582604cf91b4da--
+
