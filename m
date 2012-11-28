@@ -1,27 +1,42 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TdiXh-0001xt-DK
+	(envelope-from <martin.jansa@gmail.com>) id 1TdibQ-00024d-1e
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 15:23:30 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Nov 2012 06:08:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,177,1355126400"; d="scan'208";a="255916382"
-Received: from unknown (HELO helios.localnet) ([10.252.122.248])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Nov 2012 06:08:57 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Wed, 28 Nov 2012 14:08:56 +0000
-Message-ID: <2817873.ANYiItS1vX@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.3 (Linux/3.2.0-33-generic-pae; KDE/4.9.3; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1211280849310.26034@oneiric>
-References: <alpine.DEB.2.02.1211272315510.29858@oneiric>
-	<5890106.Vb1bZqkAH2@helios>
-	<alpine.DEB.2.02.1211280849310.26034@oneiric>
+	Wed, 28 Nov 2012 15:27:05 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so5184727eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 06:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=u6ev2so8x2w2Qm0HD5ecRlFCGCqxkZz13L0MD2/DKdo=;
+	b=aXNseifpycTqvX/gATsIOr1HeMnib5+WJ+PeT70Jl+jgeVj45HIf/1Rx0V+qX0Wdf/
+	m+4dVg6eiEVGFK1F0H2F4fKJfU78QBcUEXCZJVbrO686K+2iMuGx6/Kuj2m+i47yJKZ2
+	sOKTEO4XMvsrKEFfz9LSAesKtx3vowfonGUBzFKYkPNZcasGQDknAj7oLT+TjdSugimR
+	wRIU0l6wgouW1fAhju0Uxv2eKuW0WyC8IdB6OXOzW/y5zsSA0QV/7LgpmBa329SWakAf
+	TnWC1i9zMIuIXhLnvdFfB75i/hKt7XR/3WJDuNdtVb7da3EfAdqGc8TsnquOL0Vyvz4P
+	6Qlw==
+Received: by 10.14.173.69 with SMTP id u45mr46645016eel.21.1354111969512;
+	Wed, 28 Nov 2012 06:12:49 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id y44sm47299595eel.14.2012.11.28.06.12.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Nov 2012 06:12:49 -0800 (PST)
+Date: Wed, 28 Nov 2012 15:12:45 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20121128141245.GD3477@jama.jama.net>
+References: <20121127182306.GE3692@jama.jama.net>
+	<50B50A05.9020201@windriver.com>
+	<20121128085726.GA3477@jama.jama.net>
+	<1354093560.21863.164.camel@ted>
+	<20121128125301.GB3477@jama.jama.net>
+	<lyzk213k6t.fsf@ensc-virt.intern.sigma-chemnitz.de>
 MIME-Version: 1.0
+In-Reply-To: <lyzk213k6t.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: what is "packagegroup-core-nfs-server"?
+Subject: Re: locale data broken in gstreamer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +49,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 14:23:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 28 Nov 2012 14:27:06 -0000
+X-Groupsio-MsgNum: 31850
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KdquIMZPjGJQvRdI"
+Content-Disposition: inline
 
-On Wednesday 28 November 2012 08:55:59 Robert P. J. Day wrote:
->   and to finalize the confusion, there's this from
-> meta/classes/image.bbclass:
-> 
-> # IMAGE_FEATURES may contain any available package group
-> 
-> which would appear to be untrue at this point.  
+--KdquIMZPjGJQvRdI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm pretty sure this has never been true. We should just remove that comment.
+On Wed, Nov 28, 2012 at 02:56:26PM +0100, Enrico Scholz wrote:
+> Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> writes:
+>=20
+> > Other option is to include the same hack in our Makefile.in.in
+> > GETTEXT_PACKAGE =3D @GETTEXT_PACKAGE@
+> > if we test that this does not break some other packages.
+>=20
+> oe_runconf_prepend() {
+>     sed -i -e "1a\\" -e 'GETTEXT_PACKAGE =3D @GETTEXT_PACKAGE@' po/Makefi=
+le.in.in
+> }
 
-> i think a better way to approach this would be to discuss the possible types
-> of entries you might find in IMAGE_FEATURES, which appear to be:
-> 
-> * actual package groups
-> * individual recipes(?)
+Ah interesting I was expecting that we need to do this before
+autoreconf, but if this works then it looks like easiers solution.
 
-I don't think this is the way to explain it. They can be values defined as 
-PACKAGE_GROUP_valuename (in which you can specify one or more packages to be 
-installed when the feature is enabled - where the packages could be any kind 
-of runtime package including packagegroups). The term "recipe" should be 
-avoided here.
+I'll try to add this to all gst* package and rebuild image.
 
-> * values processed totally independently by other recipes that are
-> neither package groups nor recipes (eg, "read-only-rootfs")
+Thanks,
 
-True. FWIW, this aspect is along the same lines as how DISTRO_FEATURES, 
-MACHINE_FEATURES etc. are handled - we check for values contained in them in 
-the places in the metadata where we need to be conditional upon those values.
+>=20
+> seems to work too (at least for gst-plugins-good)
+>=20
+>=20
+>=20
+> Enrico
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Cheers,
-Paul
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
--- 
+--KdquIMZPjGJQvRdI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Paul Eggleton
-Intel Open Source Technology Centre
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlC2G90ACgkQN1Ujt2V2gBw9mgCdEp7H7xHqSRMqZYV/619eA1KF
+PHgAoJjjK4zu1Dk8fNzSKrJ/Rr7mObO4
+=btA8
+-----END PGP SIGNATURE-----
 
+--KdquIMZPjGJQvRdI--
