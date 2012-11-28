@@ -1,25 +1,27 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <bjst@sestofb10.enea.se>) id 1TdhyF-0000o4-Om
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Tdi2n-0000xP-Oj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 14:46:36 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Wed, 28 Nov 2012 14:32:21 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id ABBA9290C5D;
-	Wed, 28 Nov 2012 14:32:20 +0100 (CET)
-Date: Wed, 28 Nov 2012 14:32:20 +0100
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20121128133220.GH44729@sestofb10.enea.se>
-References: <1353600120-22967-1-git-send-email-bjst@enea.com>
-	<1353600120-22967-4-git-send-email-bjst@enea.com>
+	Wed, 28 Nov 2012 14:51:21 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 28 Nov 2012 05:37:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,177,1355126400"; d="scan'208";a="225769745"
+Received: from unknown (HELO helios.localnet) ([10.252.122.248])
+	by orsmga001.jf.intel.com with ESMTP; 28 Nov 2012 05:37:01 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Wed, 28 Nov 2012 13:37 +0000
+Message-ID: <5890106.Vb1bZqkAH2@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.3 (Linux/3.2.0-33-generic-pae; KDE/4.9.3; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1211280808130.578@oneiric>
+References: <alpine.DEB.2.02.1211272315510.29858@oneiric>
+	<20121128130121.GC3477@jama.jama.net>
+	<alpine.DEB.2.02.1211280808130.578@oneiric>
 MIME-Version: 1.0
-In-Reply-To: <1353600120-22967-4-git-send-email-bjst@enea.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Subject: [PATCH 3/4] Add ptest for glib.
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: what is "packagegroup-core-nfs-server"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,198 +34,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 13:46:37 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 28 Nov 2012 13:51:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Moved install logic from recipe to makefiles.
+On Wednesday 28 November 2012 08:14:44 Robert P. J. Day wrote:
+> On Wed, 28 Nov 2012, Martin Jansa wrote:
+> > On Wed, Nov 28, 2012 at 07:58:45AM -0500, Robert P. J. Day wrote:
+> > > On Tue, 27 Nov 2012, Saul Wold wrote:
+> > > > On 11/27/2012 08:18 PM, Robert P. J. Day wrote:
+> > > > >    poking around core-image.bbclass, and noticed this:
+> > > > > PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
+> > > > > 
+> > > > > except i don't see the corresponding packagegroup-core-nfs-server.bb
+> > > > > recipe file.  there *is* a packagegroup-core-nfs.bb file; how is the
+> > > > > above processed?
+> > > > 
+> > > > It's defined in recipes-core/packagegroups/packagegroup-core-nfs.bb
+> > > > 
+> > > > The line
+> > > > PACKAGES = "${PN}-server"
+> > > > provides the key you are looking for.
+> > > > 
+> > >   a followup, for which i'm quite prepared to embarrass myself --
+> > > 
+> > > where is the "splash" package group defined?  i can see this in
+> > > image.bbclass:
+> > > 
+> > > SPLASH ?= "psplash"
+> > > PACKAGE_GROUP_splash = "${SPLASH}"
+> > > 
+> > > and numerous images add that "splash" package group.  but my first
+> > > impression was that any package would be defined under some
+> > > "packagegroups/" directory, and would necessarily need to "inherit
+> > > packagegroup".
+> > > 
+> > >   so what am i missing?
+> > 
+> > PACKAGE_GROUP_foo can be provided by any recipe, not only
+> > packagegroup-*
+> 
+>   ok, that's useful information that doesn't seem to be documented
+> anywhere (or is it?).
+> 
+>   however, if a regular recipe can be used as the basis for a package
+> group, would it not still have to contain "inherit packagegroup" to be
+> defined as a package group?  or can any regular recipe act as its own
+> package group?  i examined the "psplash" recipe and i saw nothing that
+> suggested it was available as a package group.
+> 
+>   i realize these are nitpicky questions but it's the sort of thing
+> someone's guaranteed to ask me at some point, so i want to nail it
+> down.
 
-Signed-off-by: Bj=F6rn Stenberg <bjst@enea.com>
----
- .../glib-2.0/glib-2.0/Makefile-ptest.patch         |   61 ++++++++++++++++=
-++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |    3 +
- meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb      |   40 +++++++++++++
- meta/recipes-core/glib-2.0/glib.inc                |    5 +-
- 4 files changed, 107 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patc=
-h
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+So the bit that might be missing here is that the PACKAGE_GROUP structure and 
+the packagegroup recipes/class are actually not really related, except that 
+the latter may be used to populate the former. "packagegroup" is the new name 
+for what used to be known as a "task" in versions before danny and much better 
+reflects what these recipes do. PACKAGE_GROUP_* actually came first as a way to 
+define items for IMAGE_FEATURES that map to one or more packages, and I'm not 
+sure the name choice was a particularly good one - I wonder if it would be 
+worth considering renaming it to something like IMAGE_FEATURE_PACKAGES in 
+order to avoid confusion, although obviously every rename like this has a cost 
+associated.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch b/met=
-a/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
-new file mode 100644
-index 0000000..a6cc719
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
-@@ -0,0 +1,61 @@
-+Add 'ptest' target to Makefile, to run tests without checking dependencies=
-.
-+Add 'install-ptest' target, to copy needed files to ptest dir.
-+
-+Signed-off-by: Bj=F6rn Stenberg <bjst@enea.com>
-+Upstream-status: Pending
-+---
-+ Makefile.decl |   43 +++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 43 insertions(+)
-+
-+--- a/Makefile.decl	2012-03-12 01:42:39.000000000 +0100
-++++ b/Makefile.decl	2012-11-26 13:42:08.436865192 +0100
-+@@ -25,6 +25,49 @@
-+ test-nonrecursive:
-+ endif
-+=20
-++ptest: ptest-nonrecursive
-++	@ for subdir in $(SUBDIRS) .; do \
-++	    test -d "$$subdir" -a "$$subdir" !=3D "." -a "$$subdir" !=3D "po" &&=
- \
-++	    ( test -d $$subdir && cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $@ ) \
-++	  done
-++
-++ptest-nonrecursive:
-++	@test -z "${TEST_PROGS}" || ${GTESTER} --keep-going --verbose ${TEST_PRO=
-GS}
-++
-++install-ptest: install-ptest-nonrecursive
-++	@test -z "$(SUBDIRS)" || for subdir in $(SUBDIRS); do \
-++	    test "$$subdir" =3D=3D "." || \
-++	    (cd $$subdir && $(MAKE) PTESTDIR=3D$(PTESTDIR)/$$subdir $@ ) \
-++	done
-++
-++# install files used for ptest:
-++# - copy EXTRA_DIST (for test data in glib/tests)
-++# - run dist-hook (for glib/tests/bookmarks/ and glib/tests/markups)
-++# - copy TEST_PROGS (the test programs)
-++# - copy INSTALL_PROGS (for glib/gtester)
-++# - avoid libtool wrappers by copying binaries from .libs
-++# - strip Makefile: target from all Makefiles
-++install-ptest-nonrecursive:
-++	@mkdir -p $(PTESTDIR)
-++	@if [ -n "${TEST_PROGS}" ]; then \
-++		if [ -n "${EXTRA_DIST}" ]; then \
-++			cp ${EXTRA_DIST} $(PTESTDIR); \
-++		fi; \
-++		grep -q dist-hook: Makefile && \
-++			$(MAKE) distdir=3D$(PTESTDIR) dist-hook; \
-++		if [ -d .libs ] ; then \
-++			cd .libs; \
-++		fi; \
-++		cp ${TEST_PROGS} $(PTESTDIR); \
-++	fi;
-++	@if [ -n "${INSTALL_PROGS}" ]; then \
-++		if [ -d .libs ]  ; then \
-++			cd .libs; \
-++		fi; \
-++		cp ${INSTALL_PROGS} $(PTESTDIR); \
-++	fi
-++	@test -f Makefile && sed 's/^Makefile:/_Makefile:/' <Makefile >$(PTESTDI=
-R)/Makefile
-++
-+ # test-report: run tests in subdirs and generate report
-+ # perf-report: run tests in subdirs with -m perf and generate report
-+ # full-report: like test-report: with -m perf and -m slow
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-c=
-ore/glib-2.0/glib-2.0/run-ptest
-new file mode 100644
-index 0000000..3deb586
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make -k ptest
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb b/meta/recipes-c=
-ore/glib-2.0/glib-2.0_2.34.1.bb
-index 18a155d..9b51c56 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
-@@ -12,6 +12,8 @@ SHRT_VER =3D "${@d.getVar('PV',1).split('.')[0]}.${@d.get=
-Var('PV',1).split('.')[1]
- SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://configure-libtool.patch \
-            file://glib-2.0_fix_for_x32.patch \
-+           file://Makefile-ptest.patch \
-+           file://run-ptest \
-           "
- SRC_URI[md5sum] =3D "ee779493b083be9348a841e0a51f1b27"
- SRC_URI[sha256sum] =3D "6e84dc9d84b104725b34d255421ed7ac3629e49f437d37addd=
-e5ce3891c2e2f1"
-@@ -19,6 +21,38 @@ SRC_URI[sha256sum] =3D "6e84dc9d84b104725b34d255421ed7ac=
-3629e49f437d37addde5ce3891
- SRC_URI_append_class-native =3D " file://glib-gettextize-dir.patch"
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-+RDEPENDS_${PN}-ptest +=3D "\
-+            eglibc-gconv-utf-16 \
-+            eglibc-charmap-utf-8 \
-+            eglibc-gconv-cp1255 \
-+            eglibc-charmap-cp1255 \
-+            eglibc-gconv-utf-32 \
-+            eglibc-gconv-utf-7 \
-+            eglibc-charmap-invariant \
-+            eglibc-localedata-translit-cjk-variants \
-+            tzdata \
-+            tzdata-americas \
-+            tzdata-asia \
-+            tzdata-europe \
-+            tzdata-posix \
-+            python-pygobject \
-+            python-dbus \
-+           "
-+
-+FILES_${PN}-dbg +=3D "${PTEST_PATH}/gio/.libs/.debug \
-+                    ${PTEST_PATH}/gio/tests/.debug \
-+                    ${PTEST_PATH}/gio/tests/.libs/.debug \
-+                    ${PTEST_PATH}/glib/.debug \
-+                    ${PTEST_PATH}/glib/.libs/.debug \
-+                    ${PTEST_PATH}/glib/tests/.debug \
-+                    ${PTEST_PATH}/glib/tests/.libs/.debug \
-+                    ${PTEST_PATH}/gobject/.libs/.debug \
-+                    ${PTEST_PATH}/gobject/tests/.debug \
-+                    ${PTEST_PATH}/gobject/tests/.libs/.debug \
-+                    ${PTEST_PATH}/tests/.debug \
-+                    ${PTEST_PATH}/tests/.libs/.debug \
-+                    ${PTEST_PATH}/tests/refcount/.libs/.debug"
-+
- do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codege=
-n/gdbus-codegen.in
- }
-@@ -36,4 +70,10 @@ do_install_append() {
-   if [ -f ${D}${bindir}/glib-mkenums ]; then
-     sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-=
-mkenums
-   fi
-+
-+  if [ "${PN}" =3D "${BPN}" -a ${PTEST_ENABLED} =3D "1" ]; then
-+      mkdir -p ${D}${PTEST_PATH}=20
-+      install -m 0755 ${WORKDIR}/run-ptest ${D}${PTEST_PATH}
-+      make PTESTDIR=3D${D}${PTEST_PATH} install-ptest
-+  fi
- }
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2=
-.0/glib.inc
-index ed9bed9..1c83f96 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -25,9 +25,10 @@ inherit autotools gettext gtk-doc pkgconfig
-=20
- S =3D "${WORKDIR}/glib-${PV}"
-=20
--CORECONF =3D "--disable-dtrace --disable-fam --disable-libelf --disable-sy=
-stemtap --disable-modular-tests"
-+CORECONF =3D "--disable-dtrace --disable-fam --disable-libelf --disable-sy=
-stemtap"
-=20
--EXTRA_OECONF =3D "--enable-included-printf=3Dno ${CORECONF}"
-+PTEST_CONF =3D "${@base_contains('DISTRO_FEATURES', 'ptest', '', '--disabl=
-e-modular-tests', d)}"
-+EXTRA_OECONF =3D "--enable-included-printf=3Dno ${CORECONF} ${PTEST_CONF}"
- EXTRA_OECONF_class-native =3D "${CORECONF}"
- EXTRA_OECONF_linuxstdbase =3D "--enable-included-printf=3Dno ${CORECONF}"
-=20
---=20
-1.7.5.4
+In any case, I would definitely recommend using the term "package group" to 
+refer to packagegroup recipes only, otherwise you're only likely to increase 
+people's level of confusion.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
