@@ -1,26 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1Tdb5p-0007Za-W7
+	(envelope-from <rpjday@crashcourse.ca>) id 1TdbCU-0007mW-AT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 07:25:59 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAS6BcMx020732
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Nov 2012 22:11:38 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Tue, 27 Nov 2012 22:11:37 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Nov 2012 14:11:31 +0800
-Message-ID: <16914f95513f9405bbe1371e83647bf8855c2f9a.1354081123.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4
-In-Reply-To: <cover.1354081123.git.jackie.huang@windriver.com>
-References: <cover.1354081123.git.jackie.huang@windriver.com>
+	Wed, 28 Nov 2012 07:32:53 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:52828 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Tdayi-0004DF-V7; Wed, 28 Nov 2012 01:18:37 -0500
+Date: Wed, 28 Nov 2012 01:18:32 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <50B592B2.1060903@linux.intel.com>
+Message-ID: <alpine.DEB.2.02.1211280117550.30152@oneiric>
+References: <alpine.DEB.2.02.1211272315510.29858@oneiric>
+	<50B592B2.1060903@linux.intel.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: Jackie.Huang@windriver.com, saul.wold@intel.com
-Subject: [PATCH 2/2] eglibc: always compile with optimization.
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what is "packagegroup-core-nfs-server"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 06:26:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Nov 2012 06:32:53 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Tue, 27 Nov 2012, Saul Wold wrote:
 
-eglibc fails to compile if someone tries to compile an entire image as -O0:
-error "glibc cannot be compiled without optimization"
-so in this case, force to use -O2 and give a note about it.
+> On 11/27/2012 08:18 PM, Robert P. J. Day wrote:
+> >
+> >    poking around core-image.bbclass, and noticed this:
+> >
+> > PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
+> >
+> > except i don't see the corresponding packagegroup-core-nfs-server.bb
+> > recipe file.  there *is* a packagegroup-core-nfs.bb file; how is the
+> > above processed?
+> >
+> It's defined in recipes-core/packagegroups/packagegroup-core-nfs.bb
+>
+> The line
+> PACKAGES = "${PN}-server"
+> provides the key you are looking for.
 
-[YOCTO #3405]
+  ah, quite so, thanks.  i figured it was something obvious.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-core/eglibc/eglibc.inc |   11 +++++++++++
- 1 files changed, 11 insertions(+), 0 deletions(-)
+rday
 
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index 3d136bf..1e04197 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -8,6 +8,17 @@ PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
- 
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
- 
-+# eglibc can't be built without optimization, if someone tries to compile an
-+# entire image as -O0, we override it with -O2 here and give a note about it.
-+def get_optimization(d):
-+    selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
-+    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
-+        bb.note("eglibc can't be built with -O0, -O2 will be used instead.")
-+        return selected_optimization.replace("-O0", "-O2")
-+    return selected_optimization
-+
-+SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
-+
- # siteconfig.bbclass runs configure which needs a working compiler
- # For the compiler to work we need a working libc yet libc isn't 
- # in the sysroots directory at this point. This means the libc.so
 -- 
-1.7.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
