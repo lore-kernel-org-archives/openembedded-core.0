@@ -1,27 +1,29 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TdWg8-00060v-3s
+	(envelope-from <Qi.Chen@windriver.com>) id 1TdXZ9-00074i-6k
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 02:43:10 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Nov 2012 17:28:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,174,1355126400"; d="scan'208";a="255455707"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.47])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Nov 2012 17:28:51 -0800
-Message-ID: <50B568D3.40505@linux.intel.com>
-Date: Tue, 27 Nov 2012 17:28:51 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 28 Nov 2012 03:39:59 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAS2PiLP006087
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Nov 2012 18:25:44 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 27 Nov 2012 18:25:42 -0800
+Message-ID: <50B5763B.1040107@windriver.com>
+Date: Wed, 28 Nov 2012 10:26:03 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <1353986291-9144-1-git-send-email-cazfi74@gmail.com>
-	<1354006492.21863.97.camel@ted>
-	<CAF6bG8dAVr-7S2EVQVyOQ0SJtxLCSZdiF-nA1t3yrTL0=jvLSw@mail.gmail.com>
-In-Reply-To: <CAF6bG8dAVr-7S2EVQVyOQ0SJtxLCSZdiF-nA1t3yrTL0=jvLSw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
+	<CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
+In-Reply-To: <CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
+X-Originating-IP: [128.224.163.154]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpng: update to upstream version 1.2.50
+Subject: Re: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,72 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 01:43:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 28 Nov 2012 02:39:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/27/2012 01:06 AM, Marko Lindqvist wrote:
-> On 27 November 2012 10:54, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2012-11-27 at 05:18 +0200, Marko Lindqvist wrote:
->>> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+On 11/27/2012 10:15 PM, Otavio Salvador wrote:
+> On Tue, Nov 27, 2012 at 10:57 AM, Shakeel, Muhammad
+> <muhammad_shakeel@mentor.com>  wrote:
+>> From: Muhammad Shakeel<muhammad_shakeel@mentor.com>
 >>
->> What changed in the LICENSE?
+>>  From udev 174 changelog:
+>> "The udev daemon moved to /lib/udev/udevd. Non-systemd init systems
+>> and non-dracut initramfs image generators need to change the init
+>> scripts. Alternatively the udev build needs to move udevd back to
+>> /sbin or create a symlink in /sbin, which is not done by default."
+>>
+>> Also for 64 bit architectures there exists /lib64/udev instead of
+>> /lib/udev and current init script fails to start udev.
+>>
+>> Signed-off-by: Muhammad Shakeel<muhammad_shakeel@mentor.com>
+> As far as I know, all code in master now handles it properly (the
+> missing bits I sent a patch today) so why to include this symlink?
 >
->   Version number and release date.
->
-Please resend the pull request with this in the commit header
+I'm not sure about this.
 
-Thanks
-	Sau!
+Two things:
 
->>
->> Cheers,
->>
->> Richard
->>
->>
->>> ---
->>>   .../libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb}          |   12 ++++++------
->>>   1 file changed, 6 insertions(+), 6 deletions(-)
->>>   rename meta/recipes-multimedia/libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb} (52%)
->>>
->>> diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->>> similarity index 52%
->>> rename from meta/recipes-multimedia/libpng/libpng_1.2.49.bb
->>> rename to meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->>> index d33a9f5..211e357 100644
->>> --- a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb
->>> +++ b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->>> @@ -3,15 +3,15 @@ DESCRIPTION = "PNG Library"
->>>   HOMEPAGE = "http://www.libpng.org/"
->>>   SECTION = "libs"
->>>   LICENSE = "Libpng"
->>> -LIC_FILES_CHKSUM = "file://LICENSE;md5=20110633230abd47fe8680afa75f1492 \
->>> -                    file://png.h;startline=308;endline=422;md5=edd1c552386a8c3773d90e278ae30891"
->>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
->>> +                    file://png.h;startline=310;endline=424;md5=62968b88b0425ceeb919de3fd21b03e5"
->>>   DEPENDS = "zlib"
->>> -PR = "r1"
->>> +PR = "r0"
->>>
->>> -SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
->>> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
->>>
->>> -SRC_URI[md5sum] = "d5106b70b4f8b464a7da66bffe4565fb"
->>> -SRC_URI[sha256sum] = "fbf8faa70ebca2ed2ee6df6f2249f4722517b581af5b6c3c71bbdaf925d5954e"
->>> +SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
->>> +SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
->>>
->>>   inherit autotools binconfig pkgconfig
->>>
->>
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+1) Have we ever tested udev on a target where its ${base_libdir} is 
+'/lib64'?
+Apparently, if udevd is intalled under '/lib64', its init script cannot 
+start udev correctly.
+
+2) Bug#2804 is related to to udev and ${base_libdir}.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2804
+(Some packages hardcode their udev rules directory to be 
+'/lib/udev/rules.d/'. So can udev find them if the ${base_libdir} is 
+'/lib64'? )
+
+
+
 
 
