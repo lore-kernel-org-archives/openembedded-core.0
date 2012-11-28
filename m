@@ -1,42 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TdkSD-00062X-2g
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <David.Nystrom@enea.com>) id 1TdkSc-00065M-99
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 17:25:41 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 28 Nov 2012 08:10:42 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so65519958oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 08:11:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=JZkS2+ue/Nc1Aqa+ZFfuLEBdWH9MvTBvpwNNjjrYZaA=;
-	b=DFw1/SJX16pLBbUCl9ADFeYLlKfyVtYyPKYi5WmAz/Z3uWZCSoaMJMgj+KwesV3OMh
-	mVUIbw9prVFgZIJjP9H0clnfrdwIJ13hIEQQK7WhqhBgTbYU+3DzuIfJ+302v+s/OsF2
-	Jv4BQiSxWkEJopOWWPG0+/ftMNzMELGSj09RMjyEI8bOj5Cbuf5eytoy3ZkKmfaEpM3v
-	+TMWBYz6ZnOuYqsWrGTMpVV0Nxp0Mo58Ei8zSXmmg/bRxavo8cPzx7U2Y7+MOvrN8zT9
-	bgEjlA99v7xJ/gH4VtdBgInMGk7d1E0VhiM9i/p5/jDXEL7VIbOxYdiR0SrCUaRj/C25
-	lQCg==
-Received: by 10.182.64.101 with SMTP id n5mr4148198obs.11.1354119084426;
-	Wed, 28 Nov 2012 08:11:24 -0800 (PST)
-Received: by 10.182.64.101 with SMTP id n5mr4148185obs.11.1354119084359; Wed,
-	28 Nov 2012 08:11:24 -0800 (PST)
+	Wed, 28 Nov 2012 17:26:06 +0100
+Received: from [172.16.140.28] (172.16.140.28) by smtp.enea.com (172.21.1.209)
+	with Microsoft SMTP Server id 14.2.318.1;
+	Wed, 28 Nov 2012 17:10:47 +0100
+Message-ID: <50B63784.5050502@enea.com>
+Date: Wed, 28 Nov 2012 17:10:44 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Wed, 28 Nov 2012 08:11:04 -0800 (PST)
-In-Reply-To: <CAP9ODKqBNJ7QpJq7M_-0=G=rq3EZiCeBeWpBHGiGju53o9a2ZA@mail.gmail.com>
-References: <1354116528-21598-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKo4+FnG=c1m88HeG-MxbzQD-+MyLo85G47Qh_uNcxKJEw@mail.gmail.com>
-	<CAJTo0LZXgDtv_EsxnCvLv5nyHpf5FBtFYRYtXyCj+7D=uKpWDA@mail.gmail.com>
-	<CAP9ODKqBNJ7QpJq7M_-0=G=rq3EZiCeBeWpBHGiGju53o9a2ZA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Nov 2012 16:11:04 +0000
-Message-ID: <CAJTo0LbDv-c2cyAfvWzfo7wiH2_F9+pCx-CC4QFyzM_e1havEw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQk3cfMSPEu2Mo3OZvap5Ci6OsBBulinjJ8TZSSFoWqgel46lSH6rA3h6LgUQ6KpaklHq/jLxBpPwPp2Rf1c24qV5kX+qVE/Z7HwIBgMI29H8/JnlmCtXm+zSTIsM7L6rtdLkoVa39D0GtwmOa0nYmP1kg2JvYw/hDHtwo0aPFKWbbtJrcy3yMH1dmRoldvkgKsuRxib
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [172.16.140.28]
+Subject: meta-cloud layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +27,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 16:25:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 28 Nov 2012 16:26:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 28 November 2012 16:02, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> Well but in this case we would be better to have 1.9 in oe-core, in this case.
+Hello everyone,
 
-meta-intel alone contains 1.9.3 (for EMGD) and 1.7.99.2 (for emenlow).
- I don't think it's reasonable to collect every xserver version that
-binary drivers have built against into oe-core, nor is it reasonable
-to force them to do all of the packaging themselves (at least whilst
-the fix to make the same inc build for old and new is to add a few
-package definitions).
+I'm working on getting a minimal Yocto/oe-core based OpenStack setup 
+running with the meta-cloud layer, with bits and pieces "borrowed" from 
+the meta-xen layer.
 
-Ross
+Still in its infancy, and lots of stuff is still missing and/or not 
+working properly.
+
+Have a look if your interested, not much to see yet though.
+
+https://github.com/nysan/meta-cloud.git
+
+Any thoughts on floating layer ML:s, i.e. an ML for so called 
+"out-of-tree" layers ?  Or is the common thought that all new recipes
+should eventually go into oe-core ?
+
+Best Regards,
+David
 
 
