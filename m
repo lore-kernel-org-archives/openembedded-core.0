@@ -1,40 +1,26 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Muhammad_Shakeel@mentor.com>) id 1TdgLu-0006mU-B0
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TdgX5-0006zR-Jp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 13:02:55 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1TdfWO-0001H0-F1 from Muhammad_Shakeel@mentor.com ;
-	Wed, 28 Nov 2012 03:09:40 -0800
-Received: from SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 28 Nov 2012 03:09:40 -0800
-Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.64]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.01.0289.001; Wed, 28 Nov 2012 11:09:38 +0000
-From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] udev 182: Create a symlink of
-	/lib/udev/udevd in /sbin
-Thread-Index: AQHNzJ7JpGfa0ptP6EK4B5ZTGlUnlpf9uhCAgADMHoCAAI1PAIAAAVGw
-Date: Wed, 28 Nov 2012 11:09:37 +0000
-Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F85BC7EE51@EU-MBX-04.mgc.mentorg.com>
-References: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
-	<50B5763B.1040107@windriver.com>
-	<CAP9ODKpyi3Hs1B8C9OovatGG2VxukWU9pdip2HMTMFjJn9FSJQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKpyi3Hs1B8C9OovatGG2VxukWU9pdip2HMTMFjJn9FSJQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Wed, 28 Nov 2012 13:14:29 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qASADlMP010248
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 02:13:47 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Wed, 28 Nov 2012 02:13:45 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Nov 2012 18:13:42 +0800
+Message-ID: <1354097622-27424-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+In-Reply-To: <3487>
+References: <3487>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 28 Nov 2012 11:09:40.0336 (UTC)
-	FILETIME=[DC793700:01CDCD58]
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
+Subject: [oe][PATCH] libproxy: Fix for CVE-2012-4504
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,74 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 12:02:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 28 Nov 2012 12:14:29 -0000
+Content-Type: text/plain
 
-If we ensure that udev will always be found in /lib/udev/udevd then this pa=
-tch will not be required.
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-Actually I needed this patch to start udev on a mips64 target where ${base_=
-libdir} is '/lib64' and original udev init script was failing to start udev=
-.
-(I am not using initramfs).
+Reference:https://code.google.com/p/libproxy/source/detail?r=853
 
---Shakeel
+Stack-based buffer overflow in the url::get_pac function in url.cpp
+in libproxy 0.4.x before 0.4.9 allows remote servers to have an
+unspecified impact via a large proxy.pac file.
 
------Original Message-----
-From: otavio.salvador@gmail.com [mailto:otavio.salvador@gmail.com] On Behal=
-f Of Otavio Salvador
-Sent: Wednesday, November 28, 2012 3:52 PM
-To: ChenQi
-Cc: Shakeel, Muhammad; openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] udev 182: Create a symlink of /lib/udev/udev=
-d in /sbin
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
 
-On Wed, Nov 28, 2012 at 12:26 AM, ChenQi <Qi.Chen@windriver.com> wrote:
-> On 11/27/2012 10:15 PM, Otavio Salvador wrote:
->>
->> On Tue, Nov 27, 2012 at 10:57 AM, Shakeel, Muhammad=20
->> <muhammad_shakeel@mentor.com>  wrote:
->>>
->>> From: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>>
->>>  From udev 174 changelog:
->>> "The udev daemon moved to /lib/udev/udevd. Non-systemd init systems=20
->>> and non-dracut initramfs image generators need to change the init=20
->>> scripts. Alternatively the udev build needs to move udevd back to=20
->>> /sbin or create a symlink in /sbin, which is not done by default."
->>>
->>> Also for 64 bit architectures there exists /lib64/udev instead of=20
->>> /lib/udev and current init script fails to start udev.
->>>
->>> Signed-off-by: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>
->> As far as I know, all code in master now handles it properly (the=20
->> missing bits I sent a patch today) so why to include this symlink?
->>
-> I'm not sure about this.
->
-> Two things:
->
-> 1) Have we ever tested udev on a target where its ${base_libdir} is=20
-> '/lib64'?
-> Apparently, if udevd is intalled under '/lib64', its init script=20
-> cannot start udev correctly.
->
-> 2) Bug#2804 is related to to udev and ${base_libdir}.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2804
-> (Some packages hardcode their udev rules directory to be=20
-> '/lib/udev/rules.d/'. So can udev find them if the ${base_libdir} is=20
-> '/lib64'? )
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+---
+ .../libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch  | 15 +++++++++++++++
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb           |  1 +
+ 2 files changed, 16 insertions(+)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
 
-It seems the right fix for it is to ensure udev is always installed in /lib=
-/udev/udevd (for all targets) as you propose to do for the rules.d director=
-y.
+diff --git a/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+new file mode 100644
+index 0000000..323a571
+--- /dev/null
++++ b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+@@ -0,0 +1,15 @@
++diff -urpN a/libproxy/url.cpp b/libproxy/url.cpp
++--- a/libproxy/url.cpp	2012-11-26 10:08:47.000000000 +0800
+++++ b/libproxy/url.cpp	2012-11-26 10:05:54.000000000 +0800
++@@ -472,9 +472,10 @@ char* url::get_pac() {
++ 				// Add this chunk to our content length,
++ 				// ensuring that we aren't over our max size
++ 				content_length += chunk_length;
++-				if (content_length >= PAC_MAX_SIZE) break;
++ 			}
++ 
+++			if (content_length >= PAC_MAX_SIZE) break;
+++
++ 			while (recvd != content_length) {
++ 				int r = recv(sock, buffer + recvd, content_length - recvd, 0);
++ 				if (r < 0) break;
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index e3721a8..fc32f57 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -13,6 +13,7 @@ PR = "r4"
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+            file://g++-namepace.patch \
+            file://libproxy_fix_for_gcc4.7.patch \
++           file://libproxy-0.4.7-CVE-2012-4504.patch \
+           "
+ 
+ SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
+-- 
+1.7.11
 
---=20
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
