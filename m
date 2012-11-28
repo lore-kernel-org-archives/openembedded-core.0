@@ -1,40 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TdkE8-0005lS-8M
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TdkEG-0005nN-IE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 17:11:08 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 28 Nov 2012 07:55:50 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so65446039oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 07:56:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=t1seOgsDE4As83746hloCDn6AeERPLUIUoZWYrEuk08=;
-	b=Uc/MOD9+yCA4T/bCQCcidKI0jC6gqDwwJDgkORYpLmezBrc6JK0sa6nZ48/jeZb9XW
-	F5xH00t2gN5RfudAEDMr5FNHo5ZcVZrNb4UvOB/Kp7tHSWGolYiYyrcC53DD3tQjmJoR
-	P7Jg9OZe+pCkwWORNkRyo93f5a8Z5As0pt+zr7eIDSiOeso+OknvwAz+2EteGqwUx5Te
-	723WfRZ/NpNovFxCQAhd2yTBiE+vkmBPmRkMKMgsJaeQOclh0Vh+l6ImrsBRJgW7usfj
-	eKGz+bdp8vRm8XKCDQVm26SoUAMEPnw/UUh8RmxGIvnn4TtJi5ub2OdWETQd0bES3W/7
-	qefA==
-Received: by 10.182.64.101 with SMTP id n5mr4064273obs.11.1354118192354;
-	Wed, 28 Nov 2012 07:56:32 -0800 (PST)
-Received: by 10.182.64.101 with SMTP id n5mr4064259obs.11.1354118192175; Wed,
-	28 Nov 2012 07:56:32 -0800 (PST)
+	Wed, 28 Nov 2012 17:11:16 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qASFv0mZ012178
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 28 Nov 2012 16:57:01 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Tdk0S-0003vO-5K; Wed, 28 Nov 2012 16:57:00 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1354116375.git.raj.khem@gmail.com>
+	<8a0cdf9a8789439bc86ca4a8b3cbb77408659ac6.1354116375.git.raj.khem@gmail.com>
+Date: Wed, 28 Nov 2012 16:57:00 +0100
+In-Reply-To: <8a0cdf9a8789439bc86ca4a8b3cbb77408659ac6.1354116375.git.raj.khem@gmail.com>
+	(Khem Raj's message of "Wed, 28 Nov 2012 07:29:37 -0800")
+Message-ID: <lylidl3elv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Wed, 28 Nov 2012 07:56:11 -0800 (PST)
-In-Reply-To: <CAP9ODKo4+FnG=c1m88HeG-MxbzQD-+MyLo85G47Qh_uNcxKJEw@mail.gmail.com>
-References: <1354116528-21598-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKo4+FnG=c1m88HeG-MxbzQD-+MyLo85G47Qh_uNcxKJEw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Nov 2012 15:56:11 +0000
-Message-ID: <CAJTo0LZXgDtv_EsxnCvLv5nyHpf5FBtFYRYtXyCj+7D=uKpWDA@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQms3GVq+m1EOC2TnIhUkRb9AyXcD/zzUBonwbEUprJpHumCrkxzApcnMUMaULaxFuARP7vbPtvNXOimGgZLFiUJmLd0yL9CRv3ZFkvPlCjwi2bBdOQlVao2vTgWEjVuM8GGEK8X0fLXySw3JJIGv+uk04hFwDoYTgvMhkyhkCsm10s8OTjCxkBBlrpzl1gGuMWq5+Qs
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/3] binutils-2.23.1: Add recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 16:11:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 28 Nov 2012 16:11:16 -0000
+Content-Type: text/plain
 
-On 28 November 2012 15:51, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Wed, Nov 28, 2012 at 1:28 PM, Ross Burton <ross.burton@intel.com> wrote:
->> Even though the current xserver in oe-core (1.13) doesn't ship these as
->> standalone extensions, older X servers required by binary drives
->> (e.g. meta-intel's 1.9) still install them separately.  As the packages didn't
->> exist in xserver-xorg.inc the extensions were not packaged, and X didn't work.
->>
->> Revolve this by restoring the package definitions, and moving the upgrade path
->> dependencies to xserver-xorg_1.13.bb.
->>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> Wouldn't be better for this packaging be done in meta-intel in this case?
->
-> My concern here is to leave unused meta-data; I am not a big fan of it at first.
+Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 
-That's a valid concern, and I almost did that.  The fact that binary
-drivers locked to specific version of X are so common swayed me into
-being nice to them, so they don't need to replicate all of the
-packaging themselves.
+> +EXTRA_OECONF_virtclass-native = "--enable-target=all ..."
 
-Ross
+again: this option does not exist.  You want '--enable-targets=all'.
+
+
+Enrico
 
 
