@@ -1,27 +1,26 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TdaNk-0006KM-QL for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 06:40:26 +0100
+	id 1TdaWq-0006WC-1r for openembedded-core@lists.openembedded.org;
+	Wed, 28 Nov 2012 06:49:54 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS5QAaY010410;
-	Wed, 28 Nov 2012 05:26:10 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS5ZXIr010453;
+	Wed, 28 Nov 2012 05:35:33 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 09454-03; Wed, 28 Nov 2012 05:26:04 +0000 (GMT)
+	id 09001-05; Wed, 28 Nov 2012 05:35:27 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS5Q1np010404
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS5ZLsW010447
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 28 Nov 2012 05:26:03 GMT
-Message-ID: <1354080360.21863.111.camel@ted>
+	Wed, 28 Nov 2012 05:35:22 GMT
+Message-ID: <1354080920.21863.119.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 28 Nov 2012 05:26:00 +0000
-In-Reply-To: <50B52B94.6020700@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 28 Nov 2012 05:35:20 +0000
+In-Reply-To: <20121127202356.GJ3692@jama.jama.net>
 References: <20121127154129.GC3692@jama.jama.net>
 	<1354047102.21863.105.camel@ted> <20121127202356.GJ3692@jama.jama.net>
-	<50B52B94.6020700@windriver.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
@@ -39,62 +38,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 05:40:26 -0000
+X-List-Received-Date: Wed, 28 Nov 2012 05:49:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-11-27 at 15:07 -0600, Mark Hatle wrote:
-> On 11/27/12 2:23 PM, Martin Jansa wrote:
-> >> Bitbake doesn't know which modules this package will produce since its
-> >> using PACKAGES_DYNAMIC. It does its best effort to try and find DEPENDS
-> >> but it can't take the regexps and come up with
-> >> "pulseaudio-module-console-kit", hence it doesn't see the RDEPENDS.
-> >> There isn't any generic way we can teach it to do that either. If it
-> >> did, it would simply always build consolekit which you say you don't
-> >> want so its not relevant anyway.
-> >>
-> >> So basically, you need to decide whether you want consolekit enabled or
-> >> not and build accordingly, there is nothing you can do within bitbake to
-> >> "mind read" what the image is going to want...
+On Tue, 2012-11-27 at 21:23 +0100, Martin Jansa wrote:
+> On Tue, Nov 27, 2012 at 08:11:42PM +0000, Richard Purdie wrote:
+> > On Tue, 2012-11-27 at 16:41 +0100, Martin Jansa wrote:
+> > So basically, you need to decide whether you want consolekit enabled or
+> > not and build accordingly, there is nothing you can do within bitbake to
+> > "mind read" what the image is going to want...
 > 
-> For the resolver, it has to use the RPROVIDES, PACKAGES and PACKAGES_DYNAMIC...
+> No, you know that you will need pulseaudio-module-console-kit because
+> pulseaudio-server RDEPENDs on it (not on any pulseaudio-module-* but
+> pulseaudio-module-console-kit exactly). So it's not really mind reading.
 
-and it does to the limits that are reasonable...
+Bitbake sees "pulseaudio-module-console-kit" and is has to ask "Which
+recipe provides this". To answer that question, it looks first at
+PACKAGES and then at PACKAGES_DYNAMIC. In this case it will find a match
+for PACKAGES_DYNAMIC but bitbake considers this a fuzzy match.
 
-> > No, you know that you will need pulseaudio-module-console-kit because
-> > pulseaudio-server RDEPENDs on it (not on any pulseaudio-module-* but
-> > pulseaudio-module-console-kit exactly). So it's not really mind reading.
-> 
-> But after the recipe has been built, the required item from PACKAGES_DYNAMIC 
-> should now be in PACKAGES... and if it doesn't end up in the PACKAGES list, it 
-> would be a good idea to at a minimum trigger a warning...  The catch is, is 
-> there any way to tell if something from PACKAGES_DYNAMIC was used..
+We only match dynamic packages right at the end of processing and they
+are "fuzzy". Basically, they are just a sanity check in bitbake to
+ensure there is some chance of the thing getting built.
 
-"After it is built" is no good to bitbake. It has to know what its doing
-without building things.
+I can see in this case that a dependency exists that BitBake could use
+to enhance its knowledge, the trouble is that is would have to first
+decide which provider is providing PACKAGES_DYNAMIC, and then search
+that package for extra RDEPENDS. In this case its "easier" since its all
+the same package but with our generic providers mechanism, this could
+just as easily be split between two recipes which makes the problem at
+lot more complex and the code has to be written for the general case.
 
-All Bitbake can see is that there is some regexp in PACKAGES_DYNAMIC.
+> If it's not possible with current code-base then we should document it
+> and add some work around in pulseaudio (I'm fine with building
+> consolekit even when it's not used later).
 
-Yes, Bitbake could take all the keys in the datastore, expand each one
-(since it could be constructed using another variable name) and find the
-ones starting with RDEPENDS, then apply the rexexp to each key and see
-if it matches. We one tried something like this and it is extremely
-slow, parsing would take a massive speed hit.
+I suspect we'll just have to add this. I agree it would be possible to
+try and figure out this corner case but whether its worth the complexity
+and extra parse time I'm not sure. The risk of adding further bugs
+trying to add this functionality would worry me, as would the extra
+complexity and the time taken to do it...
 
-The rule is therefore in corner cases like this (which are rather
-unusual), you add something to DEPENDS and be done with it.
-
-It is not a reasonable expectation for bitbake to figure this kind of
-thing out.
-
-I agree that if it builds things and discovers some kind of missing
-dependency, that would be good to tell the user about.
+As such I'd probably mark the bug report "LATER" and suggest working
+around this. If we were hitting this on many recipes, fine but we're not
+as far as I know.
 
 Cheers,
 
 Richard
-
-
 
 
 
