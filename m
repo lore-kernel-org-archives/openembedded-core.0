@@ -1,35 +1,30 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TdcFS-0000sj-Mm
-	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 08:40:05 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so9653725lag.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TdcQu-00016O-Jb for openembedded-core@lists.openembedded.org;
+	Wed, 28 Nov 2012 08:51:48 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS7bYgw011081
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Nov 2012 23:25:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=iLTDxBuwyDskIyVB8UykHeGUHptsECieh8CQJ/MLGX4=;
-	b=huWJOvPBQF1oeIqR905r9V5wyurlXc2os3F2d5CN+9F+HDsu6TLUrDGZmHFOIEpOmw
-	+v7eXQLusSsZMskjHVTN0AeSlrTqZNaOB/lXdSm8xtDKmkUAQWMEPIgktz6WrPg6MLo8
-	t5v3wvxEEzqs94WF2kQa/A5G8EWPJ/WxWnCfRz1Q1+5d3slm68/AocImqCT6om7vxdOk
-	vXIa1hpscfyPvy4Zw5XE24LXMi/Xo3PTMfNpn2qjcO3bBAM0ipj793JR/kTrLDOwr4eO
-	kkwpWiPOuZWAXlvSB3QfMzsNANEjEdW/JJ6wzkEJtkynpgLSCr8ClSd+r9WgFWW5vKtt
-	GPPA==
-Received: by 10.112.83.42 with SMTP id n10mr3885996lby.116.1354087544091;
-	Tue, 27 Nov 2012 23:25:44 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id gt17sm7633103lab.6.2012.11.27.23.25.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 27 Nov 2012 23:25:40 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1Tdc1Z-0002YJ-Hv; Wed, 28 Nov 2012 09:25:37 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2012 09:25:31 +0200
-Message-Id: <1354087531-9781-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] libpng: update to upstream version 1.2.50
+	Wed, 28 Nov 2012 07:37:34 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09454-08 for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 07:37:30 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS7bQaZ011075
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 07:37:27 GMT
+Message-ID: <1354088245.21863.133.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Nov 2012 07:37:25 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: local.conf.sample: Enable disk space monitoring by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 07:40:06 -0000
+X-List-Received-Date: Wed, 28 Nov 2012 07:51:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-License md5sum changed only because libpng version numbers and
-release dates mentioned in it.
+Running out of space is a serious issue and can corrupt the build. Since
+we can prevent it at minimal overhead, we might as well enable it by default.
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb}          |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.2.49.bb => libpng_1.2.50.bb} (52%)
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index d181e75..859eb93 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -184,6 +184,22 @@ USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+ PATCHRESOLVE = "noop"
+ 
+ #
++# Disk Space Monitoring during the build
++#
++# Monitor the disk space during the build. If there is less that 1GB of space or less
++# than 100K inodes in any key build location (TMPDIR, DL_DIR, SSTATE_DIR), gracefully
++# shutdown the build. If there is less that 100MB or 1K inodes, perform a hard abort
++# of the build. The reason for this is that running completely out of space can corrupt
++# files and damages the build in ways which may not be easily recoverable.
++BB_DISKMON_DIRS = "\
++    STOPTASKS,${TMPDIR},1G,100K \
++    STOPTASKS,${DL_DIR},1G,100K \
++    STOPTASKS,${SSTATE_DIR},1G,100K \
++    ABORT,${TMPDIR},100M,1K \
++    ABORT,${DL_DIR},100M,1K \
++    ABORT,${SSTATE_DIR},100M,1K" 
++
++#
+ # Shared-state files from other locations
+ #
+ # As mentioned above, shared state files are prebuilt cache data objects which can 
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-similarity index 52%
-rename from meta/recipes-multimedia/libpng/libpng_1.2.49.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-index d33a9f5..211e357 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.2.49.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-@@ -3,15 +3,15 @@ DESCRIPTION = "PNG Library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=20110633230abd47fe8680afa75f1492 \
--                    file://png.h;startline=308;endline=422;md5=edd1c552386a8c3773d90e278ae30891"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
-+                    file://png.h;startline=310;endline=424;md5=62968b88b0425ceeb919de3fd21b03e5"
- DEPENDS = "zlib"
--PR = "r1"
-+PR = "r0"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "d5106b70b4f8b464a7da66bffe4565fb"
--SRC_URI[sha256sum] = "fbf8faa70ebca2ed2ee6df6f2249f4722517b581af5b6c3c71bbdaf925d5954e"
-+SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
-+SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
- 
- inherit autotools binconfig pkgconfig
- 
--- 
-1.7.10.4
 
 
 
