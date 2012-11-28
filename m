@@ -1,34 +1,35 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tdjxy-0004xh-Dx
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tdk8u-0005fU-4Z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 16:54:26 +0100
-Received: by mail-ee0-f47.google.com with SMTP id l10so7420858eei.6
+	Wed, 28 Nov 2012 17:05:54 +0100
+Received: by mail-vb0-f47.google.com with SMTP id e21so11183671vbm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 07:40:12 -0800 (PST)
+	Wed, 28 Nov 2012 07:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=0NCgfSdQhAbg5XdaME0t4Nl2lp/HGF6zfgouha+BUyE=;
-	b=qA8jDmZYzm7FO5OHLbVEc8/UjNaasoPDe7SATLmdHP/2UUBzlHaMeqnc3wOYcXT5yc
-	2/KC5zyawY2tUi8O6PSvLDIrVTmo7AhHMJYY33vPtiG6XFa/RkDivX+Kjw5gHqi3aABo
-	B04zcgDieKSzvWip0zT80XQD8gRKOkFBo3/gCUO7AhN9pyI6s9THAhEdw4mXiip0Ogq7
-	wbLXA7jLyGeVPwdqknhC/2U46qcQaRPzt1ljk+9NBFrFwtkNNc++IfpUTGIB/QOEYUOA
-	qlDSpG5HJF5DXmSdPwsF6xvQXYot5+RSu+Sxih4Xa0vUAwQSxZmS7V1sNwqK86kUM3nJ
-	uIgQ==
-Received: by 10.14.209.193 with SMTP id s41mr33476880eeo.9.1354117212080;
-	Wed, 28 Nov 2012 07:40:12 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 46sm47729998eeg.4.2012.11.28.07.40.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Nov 2012 07:40:11 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2012 16:40:07 +0100
-Message-Id: <1354117207-24728-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1354115058-6847-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1354115058-6847-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [RFC][PATCHv2] rootfs_ipk, package_ipk: drop --force-overwrite
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=VySP07lxTow3w5cYP44R4Ex0jbs0iU5DaISI7ilzlB0=;
+	b=qnKGuf3Kv1pyg3eH1W863aDf7gkuG0jwm9S/VNE5qwq7fGF819t0mBmdY78bPawixG
+	4r4f/19lFgTZCSRLCL2J/Q7Ig6w9JhRlMKimdZMNUcEYuIFSpNBJ7C5j0X9WE2TI3Hhy
+	TpO8GSG+FW7RGmD9CVrR2k4I9LYeGMQw8GGixdzEtH6EuGIE7QBJBv8g9MqO23tPOpCA
+	hMT+pUjixr4hY0SBwH9/Jp2CrMs0GOZQ05z++awiWuK9RFzONq5FpaIWXsCZvF3+NuLu
+	0FXiMWEfBxuTlwYgdusnjBRbxpQXmeBI3I/Ba/hDAGPI2Mj1hMw7OsMPBurpeko5QWaC
+	5AqA==
+MIME-Version: 1.0
+Received: by 10.220.220.7 with SMTP id hw7mr28375717vcb.17.1354117889285; Wed,
+	28 Nov 2012 07:51:29 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.116.17 with HTTP; Wed, 28 Nov 2012 07:51:29 -0800 (PST)
+In-Reply-To: <1354116528-21598-1-git-send-email-ross.burton@intel.com>
+References: <1354116528-21598-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 28 Nov 2012 13:51:29 -0200
+X-Google-Sender-Auth: J3KzNDBFb12J9CgzU6ftl5ITGrY
+Message-ID: <CAP9ODKo4+FnG=c1m88HeG-MxbzQD-+MyLo85G47Qh_uNcxKJEw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,58 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 15:54:26 -0000
+X-List-Received-Date: Wed, 28 Nov 2012 16:05:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* it was introduced in 2010 by 8c3a7ebac8bed700bcc37f778d5a883cfeee8de8
-  but doesn't seem needed anymore
-* also such do_rootfs failure is good indication that runtime packages
-  installed are not sane, ignoring this error in do_rootfs just
-  transfers the issue to end user when he does "opkg upgrade" later
-  on device
-* tested on SHR images with whole feed included and only issue was
-  gstreamer/gst-plugins-* locale packages (and there is patch for this
-  on oe-core ML)
+On Wed, Nov 28, 2012 at 1:28 PM, Ross Burton <ross.burton@intel.com> wrote:
+> Even though the current xserver in oe-core (1.13) doesn't ship these as
+> standalone extensions, older X servers required by binary drives
+> (e.g. meta-intel's 1.9) still install them separately.  As the packages didn't
+> exist in xserver-xorg.inc the extensions were not packaged, and X didn't work.
+>
+> Revolve this by restoring the package definitions, and moving the upgrade path
+> dependencies to xserver-xorg_1.13.bb.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
+Wouldn't be better for this packaging be done in meta-intel in this case?
 
-v2: rebase after --force_postinstall was added in master
+My concern here is to leave unused meta-data; I am not a big fan of it at first.
 
- meta/classes/package_ipk.bbclass | 2 +-
- meta/classes/rootfs_ipk.bbclass  | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 4bf1b10..f916cf5 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -139,7 +139,7 @@ package_install_internal_ipk() {
- 
- 	mkdir -p ${target_rootfs}${localstatedir}/lib/opkg/
- 
--	local ipkg_args="-f ${conffile} -o ${target_rootfs} --force-overwrite --force_postinstall --prefer-arch-to-version"
-+	local ipkg_args="-f ${conffile} -o ${target_rootfs} --force_postinstall --prefer-arch-to-version"
- 
- 	opkg-cl ${ipkg_args} update
- 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 21fe40c..1c7136a 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -15,9 +15,9 @@ do_rootfs[vardepsexclude] += "BUILDNAME"
- 
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- 
--IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force-overwrite --force_postinstall --prefer-arch-to-version"
-+IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force_postinstall --prefer-arch-to-version"
- # The _POST version also works when constructing the matching SDK
--IPKG_ARGS_POST = "-f ${IPKGCONF_TARGET} -o $INSTALL_ROOTFS_IPK --force-overwrite --force_postinstall --prefer-arch-to-version"
-+IPKG_ARGS_POST = "-f ${IPKGCONF_TARGET} -o $INSTALL_ROOTFS_IPK --force_postinstall --prefer-arch-to-version"
- 
- OPKG_PREPROCESS_COMMANDS = "package_update_index_ipk; package_generate_ipkg_conf"
- 
 -- 
-1.8.0
-
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
