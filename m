@@ -1,20 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TdjY7-0003kP-HT
+	(envelope-from <philb@gnu.org>) id 1Tdja5-0003o9-AY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 16:27:43 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Nov 2012 07:13:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,179,1355126400"; d="scan'208";a="255945727"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Nov 2012 07:13:27 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2012 17:13:25 +0200
-Message-Id: <1354115605-29287-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] rootfs_ipk.bbclass: add missing --force_postinstall option
+	Wed, 28 Nov 2012 16:29:45 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1TdjMJ-00044N-3o; Wed, 28 Nov 2012 16:15:31 +0100
+From: Phil Blundell <philb@gnu.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 28 Nov 2012 15:15:29 +0000
+In-Reply-To: <CAJTo0LYHS+j4s_=+2t1v7yXQ6tPxkStOwMJUsAOy9U3BXoN2SA@mail.gmail.com>
+References: <1350481324.3259.185.camel@phil-desktop>
+	<CAJTo0LYHS+j4s_=+2t1v7yXQ6tPxkStOwMJUsAOy9U3BXoN2SA@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1354115731.23886.94.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH] autotools: Don't install .la files if the distro doesn't want them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 15:27:43 -0000
+X-List-Received-Date: Wed, 28 Nov 2012 15:29:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The force_postinstall option was missing and some packages were
-configured on target rather than on host at rootfs time.
+On Wed, 2012-11-28 at 15:09 +0000, Burton, Ross wrote:
+> On 17 October 2012 14:42, Phil Blundell <philb@gnu.org> wrote:
+> > It's not obvious that libtool's .la files serve any very useful purpose
+> > on a modern system and they can be positively vexatious under some
+> > circumstances.  Make installation of this stuff conditional on the new
+> > "libtool-garbage" flag in DISTRO_FEATURES and backfill it for existing
+> > distros.
+> 
+> I never saw a patch with a less inflammatory (albeit accurate) name.
+> Libtool has been causing me pain again so I'd love to turn this on.
+> Is this still good for merging with a different name (libtool-la?)
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/classes/rootfs_ipk.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The only minor roadblock to this is that RP wasn't very keen on the
+clean-on-reconfigure patch when I submitted that one independently, see:
 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index f69cc0e..d5792e5 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -14,9 +14,9 @@ do_rootfs[recrdeptask] += "do_package_write_ipk"
- 
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- 
--IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force-overwrite --prefer-arch-to-version"
-+IPKG_ARGS = "-f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} --force-overwrite --force_postinstall --prefer-arch-to-version"
- # The _POST version also works when constructing the matching SDK
--IPKG_ARGS_POST = "-f ${IPKGCONF_TARGET} -o $INSTALL_ROOTFS_IPK --force-overwrite --prefer-arch-to-version"
-+IPKG_ARGS_POST = "-f ${IPKGCONF_TARGET} -o $INSTALL_ROOTFS_IPK --force-overwrite --force_postinstall --prefer-arch-to-version"
- 
- OPKG_PREPROCESS_COMMANDS = "package_update_index_ipk; package_generate_ipkg_conf"
- 
--- 
-1.7.9.5
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/031449.html
+
+Without some equivalent of that thing, turning off .la files in an
+existing build tree will cause you to start getting failures.  I guess
+we could just accept that as an occupational hazard, and say that people
+who turn off libtool-la need to take care of the necessary cleaning for
+themselves.
+
+Other than that, yes, I would also like to see this patch get merged.
+
+p.
+
 
 
 
