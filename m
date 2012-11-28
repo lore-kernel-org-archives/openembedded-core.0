@@ -1,37 +1,35 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TdfSt-0005a7-65
+	(envelope-from <cazfi74@gmail.com>) id 1Tdg7s-00069Z-6c
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 12:06:03 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so3970546pad.6
+	Wed, 28 Nov 2012 12:48:24 +0100
+Received: by mail-la0-f47.google.com with SMTP id u2so9799563lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 02:51:48 -0800 (PST)
+	Wed, 28 Nov 2012 03:34:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=K692386QV9NHa8NCsJlMcFR+zknJpr1c5RVkp09RNwI=;
-	b=cjXjcozdZTUJbTdBtaS4mwQKoC25Ex+RJB7u87kZLhVJRCUcuBjvgumQImjdVyhlob
-	B0QKb45e+dlkINqeUjCMeTjiMiopCB62xDPMElCvRgSu6YlSyAHLDV8g1nwzjfdypBVe
-	pfc3LQdHjK8MhfrEHLS5A9yNsgcaegzwzL6y2o1FRR7hvjJS1myIoBfdCmw7OD99cB5i
-	2Ufk6tVuBSgh0/A6GxjJGFK1VoOtRTXBoi15etPu2X3uPbJD2bP5XVeXfRzOeX61iksy
-	7yjyb+qiF8RrnR6MUDQYaVdvl3jnhi9F0O3dE1AnFd9vwR+n4WtWsfYb4hRWOdIZmS71
-	DBFQ==
-MIME-Version: 1.0
-Received: by 10.66.88.41 with SMTP id bd9mr51297548pab.46.1354099908120; Wed,
-	28 Nov 2012 02:51:48 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Wed, 28 Nov 2012 02:51:48 -0800 (PST)
-In-Reply-To: <50B5763B.1040107@windriver.com>
-References: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
-	<50B5763B.1040107@windriver.com>
-Date: Wed, 28 Nov 2012 08:51:48 -0200
-X-Google-Sender-Auth: l5zzdzRSJLBJUD-2TSIxUK30E8c
-Message-ID: <CAP9ODKpyi3Hs1B8C9OovatGG2VxukWU9pdip2HMTMFjJn9FSJQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=jSuK690+Rkgy14WUcRshbOnz2vPmBiCONwNrXF2zj9Y=;
+	b=Pib4RGgqoguCUz0zWZ6pnhZfY+/gNa6Y1/cC8AVrHiZRAcmlZc+KWvQ6rLwqlALDoQ
+	IiLHZT0WkFSxPoragzFuoVYeuZTHDevU4pi+1hhEMkLF9xA5rSupMsOX4yjAe8G0wN+x
+	0D5xpmpHTD4JoY+RasPKPhkHPxh01ZiZ64WCwnq5wemR1tbPyhhDwdu9qZVqaab29YVh
+	BhjEYYNc+5A6cCyxbeCo9Vzi97dw3uindMIBjzdrf2TQluKEr91w+5P26Hx2gqqTKOcJ
+	ziWrFJ9XJrxyPdJXOqvu1Nf+UuinVn9fQkeK9/qtoTe5WyUxp38FELBwQdk040heZVcS
+	62bQ==
+Received: by 10.152.104.50 with SMTP id gb18mr18180354lab.9.1354102449618;
+	Wed, 28 Nov 2012 03:34:09 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id hu6sm7928586lab.13.2012.11.28.03.34.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Nov 2012 03:34:08 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1Tdfu2-0007ky-J5; Wed, 28 Nov 2012 13:34:06 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Nov 2012 13:34:05 +0200
+Message-Id: <1354102445-29004-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] pango: update to upstream version 1.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,53 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 11:06:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 28 Nov 2012 11:48:24 -0000
 
-On Wed, Nov 28, 2012 at 12:26 AM, ChenQi <Qi.Chen@windriver.com> wrote:
-> On 11/27/2012 10:15 PM, Otavio Salvador wrote:
->>
->> On Tue, Nov 27, 2012 at 10:57 AM, Shakeel, Muhammad
->> <muhammad_shakeel@mentor.com>  wrote:
->>>
->>> From: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>>
->>>  From udev 174 changelog:
->>> "The udev daemon moved to /lib/udev/udevd. Non-systemd init systems
->>> and non-dracut initramfs image generators need to change the init
->>> scripts. Alternatively the udev build needs to move udevd back to
->>> /sbin or create a symlink in /sbin, which is not done by default."
->>>
->>> Also for 64 bit architectures there exists /lib64/udev instead of
->>> /lib/udev and current init script fails to start udev.
->>>
->>> Signed-off-by: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>
->> As far as I know, all code in master now handles it properly (the
->> missing bits I sent a patch today) so why to include this symlink?
->>
-> I'm not sure about this.
->
-> Two things:
->
-> 1) Have we ever tested udev on a target where its ${base_libdir} is
-> '/lib64'?
-> Apparently, if udevd is intalled under '/lib64', its init script cannot
-> start udev correctly.
->
-> 2) Bug#2804 is related to to udev and ${base_libdir}.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2804
-> (Some packages hardcode their udev rules directory to be
-> '/lib/udev/rules.d/'. So can udev find them if the ${base_libdir} is
-> '/lib64'? )
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ .../{pango-1.30.0 => pango-1.30.1}/multilib-fix-clean.patch      |    0
+ .../pango/{pango-1.30.0 => pango-1.30.1}/no-tests.patch          |    0
+ meta/recipes-graphics/pango/{pango_1.30.0.bb => pango_1.30.1.bb} |    6 +++---
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/pango/{pango-1.30.0 => pango-1.30.1}/multilib-fix-clean.patch (100%)
+ rename meta/recipes-graphics/pango/{pango-1.30.0 => pango-1.30.1}/no-tests.patch (100%)
+ rename meta/recipes-graphics/pango/{pango_1.30.0.bb => pango_1.30.1.bb} (57%)
 
-It seems the right fix for it is to ensure udev is always installed in
-/lib/udev/udevd (for all targets) as you propose to do for the rules.d
-directory.
-
+diff --git a/meta/recipes-graphics/pango/pango-1.30.0/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
+similarity index 100%
+rename from meta/recipes-graphics/pango/pango-1.30.0/multilib-fix-clean.patch
+rename to meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
+diff --git a/meta/recipes-graphics/pango/pango-1.30.0/no-tests.patch b/meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch
+similarity index 100%
+rename from meta/recipes-graphics/pango/pango-1.30.0/no-tests.patch
+rename to meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch
+diff --git a/meta/recipes-graphics/pango/pango_1.30.0.bb b/meta/recipes-graphics/pango/pango_1.30.1.bb
+similarity index 57%
+rename from meta/recipes-graphics/pango/pango_1.30.0.bb
+rename to meta/recipes-graphics/pango/pango_1.30.1.bb
+index de562b1..7254321 100644
+--- a/meta/recipes-graphics/pango/pango_1.30.0.bb
++++ b/meta/recipes-graphics/pango/pango_1.30.1.bb
+@@ -2,14 +2,14 @@ require pango.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ GNOME_COMPRESS_TYPE="xz"
+ 
+ SRC_URI += "file://no-tests.patch \
+             file://multilib-fix-clean.patch"
+ 
+-SRC_URI[archive.md5sum] = "2a70627ffd9f43c52c04cc0b05fe359f"
+-SRC_URI[archive.sha256sum] = "7c6d2ab024affaed0e942f9279b818235f9c6a36d9fc50688f48d387f4102dff"
++SRC_URI[archive.md5sum] = "ec3c1f236ee9bd4a982a5f46fcaff7b9"
++SRC_URI[archive.sha256sum] = "3a8c061e143c272ddcd5467b3567e970cfbb64d1d1600a8f8e62435556220cbe"
+ 
+ #PARALLEL_MAKE = ""
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.10.4
+
 
 
