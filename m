@@ -1,24 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Tdja5-0003o9-AY
+	(envelope-from <raj.khem@gmail.com>) id 1TdjoC-0004ax-L0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 16:29:45 +0100
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1TdjMJ-00044N-3o; Wed, 28 Nov 2012 16:15:31 +0100
-From: Phil Blundell <philb@gnu.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Nov 2012 15:15:29 +0000
-In-Reply-To: <CAJTo0LYHS+j4s_=+2t1v7yXQ6tPxkStOwMJUsAOy9U3BXoN2SA@mail.gmail.com>
-References: <1350481324.3259.185.camel@phil-desktop>
-	<CAJTo0LYHS+j4s_=+2t1v7yXQ6tPxkStOwMJUsAOy9U3BXoN2SA@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1354115731.23886.94.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH] autotools: Don't install .la files if the distro doesn't want them
+	Wed, 28 Nov 2012 16:44:21 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so4111473pad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 07:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=H3BWvboAs8GyY8YD4MtSgiSzJ8QIDyMOUR4yP0s6/MA=;
+	b=lLk3d3uGGj+hb3q88h7wId+3seZaq35mYYG0+Y+jckIXtL/2gjnTGNcTQ+h9O0aun0
+	TFKrKMH8KxFH9BPzHSr+TYIPiB+hQZtE5DpCC4TQyXuCO37A1GeYibhGvtj7nTqgukeg
+	1u0KPuTSCKkZGwVbSdQHEuxylr0Q9r+iRtmVX8m7t3OwlqSGukYeVD+Zaz1Gq+UpmhM6
+	E9mLuUJ7Zz8+98nvhTyUapn8iKrxkU2Lc17Ag11oum8hCa24soB/R0hozOztBFtm/t2r
+	BfwMPjQh2mmKe/l/h3C+nEQ4MN5rnl4dOk6yHLNwT/gcqGfbGB4FAUxAYPF5obN23b/o
+	MB7A==
+Received: by 10.68.213.33 with SMTP id np1mr58923581pbc.64.1354116605372;
+	Wed, 28 Nov 2012 07:30:05 -0800 (PST)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id gu5sm12607809pbc.10.2012.11.28.07.30.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Nov 2012 07:30:04 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Nov 2012 07:29:24 -0800
+Message-Id: <cover.1354116375.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/3] Upgrade binutils to 2.23.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,37 +40,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 15:29:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Nov 2012 15:44:21 -0000
 
-On Wed, 2012-11-28 at 15:09 +0000, Burton, Ross wrote:
-> On 17 October 2012 14:42, Phil Blundell <philb@gnu.org> wrote:
-> > It's not obvious that libtool's .la files serve any very useful purpose
-> > on a modern system and they can be positively vexatious under some
-> > circumstances.  Make installation of this stuff conditional on the new
-> > "libtool-garbage" flag in DISTRO_FEATURES and backfill it for existing
-> > distros.
-> 
-> I never saw a patch with a less inflammatory (albeit accurate) name.
-> Libtool has been causing me pain again so I'd love to turn this on.
-> Is this still good for merging with a different name (libtool-la?)
+This patchset updates binutils to 2.23 branch I have tested systemd-image
+meta-toolchain and core-image-sato target with it they all built fine
+I did not (yet) delete the 2.22 recipes since there must be some time
+given for folks to try 2.23 in couple of weeks 2.22 recipes will move
+out of OE-Core. Preferably deleted if need be moved into toolchain-layer
 
-The only minor roadblock to this is that RP wasn't very keen on the
-clean-on-reconfigure patch when I submitted that one independently, see:
 
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-October/031449.html
+The following changes since commit bdce08215396e5ab99ada5fa0f62c3b002a44582:
 
-Without some equivalent of that thing, turning off .la files in an
-existing build tree will cause you to start getting failures.  I guess
-we could just accept that as an occupational hazard, and say that people
-who turn off libtool-la need to take care of the necessary cleaning for
-themselves.
+  openssh: CVE-2011-4327 (2012-11-28 07:38:26 +0000)
 
-Other than that, yes, I would also like to see this patch get merged.
+are available in the git repository at:
 
-p.
+  git://git.openembedded.org/openembedded-core-contrib kraj/binutils-2.23
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/binutils-2.23
 
+Khem Raj (3):
+  binutils-2.23.1: Add recipes
+  oprofile: Define PACKAGE and PACKAGE_VERSION
+  tcmode-default.inc: Use binutils 2.23.1
+
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ meta/recipes-devtools/binutils/binutils-2.23.1.inc |   46 +
+ .../binutils-2.23.1/backport/0001-bfd.patch        |   58 +
+ ...3-Assemble-all-sources-files-in-each-test.patch |  187 +
+ .../binutils-2.23.1/backport/0005-bfd.patch        |  103 +
+ .../backport/0010-bfd-ChangeLog.patch              |   95 +
+ ...012-Fix-TLS-LD-to-LE-optimization-for-x32.patch |   57 +
+ .../backport/0013-gas-ChangeLog.patch              |   43 +
+ .../0014-Fix-opcode-for-64-bit-jecxz.patch         |  112 +
+ ...-data.exp-Add-XFAIL-for-arm-targets-refer.patch |   40 +
+ .../binutils-2.23.1/backport/0018-bfd.patch        |   78 +
+ .../binutils-2.23.1/backport/0024-bfd.patch        |   49 +
+ .../backport/0026-ld-testsuite.patch               |   65 +
+ .../binutils/binutils-2.23.1/binutils-armv5e.patch |   25 +
+ .../binutils/binutils-2.23.1/binutils-poison.patch |  259 +
+ .../binutils-uclibc-100-uclibc-conf.patch          |   40 +
+ ...binutils-uclibc-300-001_ld_makefile_patch.patch |   55 +
+ ...binutils-uclibc-300-006_better_file_error.patch |   45 +
+ ...ils-uclibc-300-012_check_ldrunpath_length.patch |   49 +
+ .../binutils-uclibc-gas-needs-libm.patch           |   38 +
+ .../binutils-x86_64_i386_biarch.patch              |   29 +
+ .../binutils-2.23.1/libiberty_path_fix.patch       |   22 +
+ .../binutils-2.23.1/libtool-2.4-update.patch       |19407 ++++++++++++++++++++
+ .../binutils-2.23.1/libtool-rpath-fix.patch        |   39 +
+ .../mips64-default-ld-emulation.patch              |   49 +
+ .../binutils/binutils-2.23.1/relocatable_sdk.patch |   49 +
+ .../binutils/binutils-cross-canadian_2.23.1.bb     |    3 +
+ .../binutils/binutils-cross_2.23.1.bb              |    3 +
+ .../binutils/binutils-crosssdk_2.23.1.bb           |   14 +
+ meta/recipes-devtools/binutils/binutils_2.23.1.bb  |   35 +
+ meta/recipes-kernel/oprofile/oprofile.inc          |    4 +-
+ 31 files changed, 21097 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1.inc
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0001-bfd.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0003-Assemble-all-sources-files-in-each-test.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0005-bfd.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0010-bfd-ChangeLog.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0012-Fix-TLS-LD-to-LE-optimization-for-x32.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0013-gas-ChangeLog.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0014-Fix-opcode-for-64-bit-jecxz.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0017-ld-elf-comm-data.exp-Add-XFAIL-for-arm-targets-refer.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0018-bfd.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0024-bfd.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/backport/0026-ld-testsuite.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-armv5e.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-poison.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-uclibc-100-uclibc-conf.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-uclibc-300-001_ld_makefile_patch.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-uclibc-300-006_better_file_error.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-uclibc-300-012_check_ldrunpath_length.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-uclibc-gas-needs-libm.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/binutils-x86_64_i386_biarch.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/libiberty_path_fix.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/libtool-2.4-update.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/libtool-rpath-fix.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/mips64-default-ld-emulation.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-2.23.1/relocatable_sdk.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils-cross-canadian_2.23.1.bb
+ create mode 100644 meta/recipes-devtools/binutils/binutils-cross_2.23.1.bb
+ create mode 100644 meta/recipes-devtools/binutils/binutils-crosssdk_2.23.1.bb
+ create mode 100644 meta/recipes-devtools/binutils/binutils_2.23.1.bb
+
+-- 
+1.7.9.5
 
 
 
