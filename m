@@ -1,39 +1,26 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TdhUJ-0000A7-CY
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Tdhbi-0000J5-2b
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 14:15:39 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so5157568eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 05:01:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=P8vlsJTZj/v2ym/fquKAtYSi7IMHahnwS4y6Z5VESdA=;
-	b=jareQhY44A7XOh1eKh6BMHTQWf+QGgTtZ599MYCTv7L4u7RSbb3XxLvspcaDx5Te1b
-	9aj8G7QFmJLFBc+POFlVhsW/Ecnwg5pHJ/PcwccrhXQix6Hx0eVD1ndCd0Bh2BOR+xd2
-	/No64pmXyxOBeE3KjFey59V0cXtjmKJCg5ExT4jI8Qcal7pBNKYswDOl3PWpDahtcSqc
-	jI2y8c8FQ3NchrYKksYXDWQ+Gdltfgc5hyb5Pz5lHAX44ivX3JztnSwhAg0DjqtdCcE7
-	ocsavsgWN1DX7+wjhi/UhsQ1Bg/tGinoRwNC43LRMDaKU9lyyqwm7GvTtL28EM/vhAc1
-	zpWg==
-Received: by 10.14.216.193 with SMTP id g41mr69561650eep.37.1354107684982;
-	Wed, 28 Nov 2012 05:01:24 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w3sm26121361eel.17.2012.11.28.05.01.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Nov 2012 05:01:24 -0800 (PST)
-Date: Wed, 28 Nov 2012 14:01:21 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20121128130121.GC3477@jama.jama.net>
-References: <alpine.DEB.2.02.1211272315510.29858@oneiric>
-	<50B592B2.1060903@linux.intel.com>
-	<alpine.DEB.2.02.1211280753190.407@oneiric>
+	Wed, 28 Nov 2012 14:23:18 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Nov 2012 05:09:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,177,1355126400"; d="scan'208";a="248497179"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 28 Nov 2012 05:08:55 -0800
+Message-ID: <50B60CE6.2090208@intel.com>
+Date: Wed, 28 Nov 2012 15:08:54 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.02.1211280753190.407@oneiric>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what is "packagegroup-core-nfs-server"?
+To: Hongxu Jia <hongxu.jia@windriver.com>
+References: <cover.1353662831.git.hongxu.jia@windriver.com>
+	<09c8bb8e48152f7887694be2aa7f69d5b135986e.1353662831.git.hongxu.jia@windriver.com>
+In-Reply-To: <09c8bb8e48152f7887694be2aa7f69d5b135986e.1353662831.git.hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] Toolchain installation:adds sudo prompt and optins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,67 +33,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 13:15:39 -0000
-X-Groupsio-MsgNum: 31839
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 28 Nov 2012 13:23:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---L6iaP+gRLNZHKoI4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, Nov 28, 2012 at 07:58:45AM -0500, Robert P. J. Day wrote:
-> On Tue, 27 Nov 2012, Saul Wold wrote:
->=20
-> > On 11/27/2012 08:18 PM, Robert P. J. Day wrote:
-> > >
-> > >    poking around core-image.bbclass, and noticed this:
-> > >
-> > > PACKAGE_GROUP_nfs-server =3D "packagegroup-core-nfs-server"
-> > >
-> > > except i don't see the corresponding packagegroup-core-nfs-server.bb
-> > > recipe file.  there *is* a packagegroup-core-nfs.bb file; how is the
-> > > above processed?
-> > >
-> > It's defined in recipes-core/packagegroups/packagegroup-core-nfs.bb
-> >
-> > The line
-> > PACKAGES =3D "${PN}-server"
-> > provides the key you are looking for.
->=20
->   a followup, for which i'm quite prepared to embarrass myself --
-> where is the "splash" package group defined?  i can see this in
-> image.bbclass:
->=20
-> SPLASH ?=3D "psplash"
-> PACKAGE_GROUP_splash =3D "${SPLASH}"
->=20
-> and numerous images add that "splash" package group.  but my first
-> impression was that any package would be defined under some
-> "packagegroups/" directory, and would necessarily need to "inherit
-> packagegroup".
->=20
->   so what am i missing?
+This patch is on a collision course with this one:
 
-PACKAGE_GROUP_foo can be provided by any recipe, not only packagegroup-*
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=86d4b94bf29d68307cc02b235ab737136de70619
 
-Cheers,
+Would you please rebase on master-next and then resubmit?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Also, see my comments below.
 
---L6iaP+gRLNZHKoI4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Thanks,
+Laurentiu
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+On 11/28/2012 02:14 PM, Hongxu Jia wrote:
+> 1.Adds a sudo passwd prompt during installation if the
+>   user couldn't install on the dir.
+> 2.Adds option -d <dir>  to let user input dir without prompts.
+> 3.Adds option -y for automatic yes to all prompts, a non-
+>   interactive method.
+> 
+> [YOCTO# 3153]
+> [YOCTO# 3309]
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass |   70 +++++++++++++++++++++++---------
+>  1 file changed, 51 insertions(+), 19 deletions(-)
+> 
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index ac34c32..c817b83 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -128,12 +128,33 @@ fi
+>  
+>  DEFAULT_INSTALL_DIR="${SDKPATH}"
+>  COMPONENTS_LEN=$(echo ".${SDKPATH}" | sed "s/\// /g" | wc -w)
+> +SUDO_EXEC=""
+> +target_sdk_dir=""
+> +answer=""
+> +while getopts ":yd:" OPT; do
+> +    case $OPT in
+> +    y)  
+> +        answer="Y"
+> +        [ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
+> +        ;;  
+> +    d)    
+> +        target_sdk_dir=$OPTARG
+> +        ;;  
+> +    *)  
+> +        echo "Usage: $(basename $0) [-y] [-d <dir>]"
+> +        echo "  -y         Automatic yes to all prompts"
+> +        echo "  -d <dir>   Install the SDK to <dir>"
+> +        exit 1 
+> +        ;;    
+> +    esac   
+> +done
+Please, don't use spaces for indentation. The rest of the script uses tabs.
+>  
+>  printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
+> -read target_sdk_dir
+> -
+>  if [ "$target_sdk_dir" = "" ]; then
+> -	target_sdk_dir=$DEFAULT_INSTALL_DIR
+> +	read target_sdk_dir
+> +	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
+> +else
+> +	echo "$target_sdk_dir"
+>  fi
+>  
+>  eval target_sdk_dir=$target_sdk_dir
+> @@ -144,10 +165,11 @@ else
+>  fi
+>  
+>  printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
+> -read answer
+> -
+>  if [ "$answer" = "" ]; then
+> -	answer="y"
+> +	read answer
+> +	[ "$answer" = "" ] && answer="y"
+> +else
+> +	echo $answer
+>  fi
+>  
+>  if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+> @@ -155,47 +177,57 @@ if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+>  	exit 1
+>  fi
+>  
+> +# create dir and don't care about the result. 
+>  mkdir -p $target_sdk_dir >/dev/null 2>&1
+> -if [ $? -ne 0 ]; then
+> -	echo "Error: Unable to create target directory. Do you have permissions?"
+> -	exit 1
+> +
+> +# if don't have the right to access dir, gain by sudo 
+> +if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
+> +	SUDO_EXEC=$(which "sudo")
+> +	if [ -z $SUDO_EXEC ]; then
+> +		echo "No command 'sudo' found, please install sduo first. Abort!"
+s/sduo/sudo/
+> +		exit 1
+> +	fi
+> +
+> +	# test sudo could gain root right
+> +	$SUDO_EXEC pwd >/dev/null 2>&1
+> +	[ $? -ne 0 ] && echo "Sorry, you are not allowed to execute as root." && exit 1
+>  fi
+>  
+>  payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
+>  
+>  printf "Extracting SDK..."
+> -tail -n +$payload_offset $0| tar xj --strip-components=$COMPONENTS_LEN -C $target_sdk_dir
+> +tail -n +$payload_offset $0| $SUDO_EXEC tar xj --strip-components=$COMPONENTS_LEN -C $target_sdk_dir
+>  echo "done"
+>  
+>  printf "Setting it up..."
+>  # fix environment paths
+>  for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
+> -  sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+> +  $SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+>  done
+>  
+>  # fix dynamic loader paths in all ELF SDK binaries
+> -native_sysroot=$(cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
+> -dl_path=$(find $native_sysroot/lib -name "ld-linux*")
+> -executable_files=$(find $native_sysroot -type f -perm +111)
+> -${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+> +native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
+> +dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
+> +executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
+> +$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+>  if [ $? -ne 0 ]; then
+>  	echo "SDK could not be set up. Relocate script failed. Abort!"
+>  	exit 1
+>  fi
+>  
+>  # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
+> -find $native_sysroot -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut -d':' -f1|xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+> +$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|$SUDO_EXEC grep ":.*ASCII.*text"|cut -d':' -f1|$SUDO_EXEC xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+>  
+>  # change all symlinks pointing to ${SDKPATH}
+> -for l in $(find $native_sysroot -type l); do
+> -	ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+> +for l in $($SUDO_EXEC find $native_sysroot -type l); do
+> +	$SUDO_EXEC ln -sf $(readlink $l| $SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+>  done
+>  
+>  echo done
+>  
+>  # delete the relocating script, so that user is forced to re-run the installer
+>  # if he/she wants another location for the sdk
+> -rm ${env_setup_script%/*}/relocate_sdk.py
+> +$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py
+>  
+>  echo "SDK has been successfully set up and is ready to be used."
+>  
+> 
 
-iEYEARECAAYFAlC2CyEACgkQN1Ujt2V2gBxuLwCfWyXHOisYkOoyAeJvRpnqYIly
-gvAAoJ9XNA7h+yHnRrAM4zAp4KppCyxO
-=BpTd
------END PGP SIGNATURE-----
 
---L6iaP+gRLNZHKoI4--
