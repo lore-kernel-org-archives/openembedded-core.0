@@ -1,26 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TdgX5-0006zR-Jp
+	(envelope-from <cazfi74@gmail.com>) id 1TdgfH-00079m-Su
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 13:14:29 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qASADlMP010248
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 28 Nov 2012 13:22:56 +0100
+Received: by mail-lb0-f175.google.com with SMTP id gg13so7245449lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 02:13:47 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 28 Nov 2012 02:13:45 -0800
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Nov 2012 18:13:42 +0800
-Message-ID: <1354097622-27424-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: git-send-email 1.7.11
-In-Reply-To: <3487>
-References: <3487>
-MIME-Version: 1.0
-Subject: [oe][PATCH] libproxy: Fix for CVE-2012-4504
+	Wed, 28 Nov 2012 04:08:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=giVVkL+P21EpEQ8gu5jPeUvI9Lg8OKgjKLAP7LRGpMQ=;
+	b=qVA7Qbh+Td3XB6KNeUFwL4hcKhjt9YJMRBBBHK2jMNy7MHOVFZPYtR2m1eZYYaytiW
+	YhYxF8DC5NR0u4gMBqw5Wu3kW7HiSn0zjSHHjlKs+jRErhOGRzCd9ITMrpW+BfovpgDO
+	c+JFgzG4+EG/JNsA157LTesr38DeiSeH+QbOhIPnBNKIXCKArMQcRXCYJCdplWEOge/v
+	m7HySZg2Fv8h0m4XFDeM7LJ22VMoWPUCOhLLjYQfDpeRzHjlWYIlvBR6BoNdSZ7FIE48
+	imEAHC9864xrrdoTKDGKoLrQPVmO3c6jH+uowHTF9CZiBSBI+rcQYTJ7uuK3rBDpXQCH
+	/W3Q==
+Received: by 10.112.44.135 with SMTP id e7mr3009431lbm.55.1354104521173;
+	Wed, 28 Nov 2012 04:08:41 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id oj5sm7981705lab.8.2012.11.28.04.08.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 28 Nov 2012 04:08:39 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1TdgRS-0006Le-2H; Wed, 28 Nov 2012 14:08:38 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Nov 2012 14:08:36 +0200
+Message-Id: <1354104516-22540-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] glib-2.0: update to upstream version 2.34.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,61 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 12:14:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Nov 2012 12:22:56 -0000
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
-
-Reference:https://code.google.com/p/libproxy/source/detail?r=853
-
-Stack-based buffer overflow in the url::get_pac function in url.cpp
-in libproxy 0.4.x before 0.4.9 allows remote servers to have an
-unspecified impact via a large proxy.pac file.
-
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
-
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch  | 15 +++++++++++++++
- meta/recipes-support/libproxy/libproxy_0.4.7.bb           |  1 +
- 2 files changed, 16 insertions(+)
- create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+ .../glib-2.0/{glib-2.0_2.34.1.bb => glib-2.0_2.34.3.bb}            |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.34.1.bb => glib-2.0_2.34.3.bb} (89%)
 
-diff --git a/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
-new file mode 100644
-index 0000000..323a571
---- /dev/null
-+++ b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
-@@ -0,0 +1,15 @@
-+diff -urpN a/libproxy/url.cpp b/libproxy/url.cpp
-+--- a/libproxy/url.cpp	2012-11-26 10:08:47.000000000 +0800
-++++ b/libproxy/url.cpp	2012-11-26 10:05:54.000000000 +0800
-+@@ -472,9 +472,10 @@ char* url::get_pac() {
-+ 				// Add this chunk to our content length,
-+ 				// ensuring that we aren't over our max size
-+ 				content_length += chunk_length;
-+-				if (content_length >= PAC_MAX_SIZE) break;
-+ 			}
-+ 
-++			if (content_length >= PAC_MAX_SIZE) break;
-++
-+ 			while (recvd != content_length) {
-+ 				int r = recv(sock, buffer + recvd, content_length - recvd, 0);
-+ 				if (r < 0) break;
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index e3721a8..fc32f57 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -13,6 +13,7 @@ PR = "r4"
- SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
-            file://g++-namepace.patch \
-            file://libproxy_fix_for_gcc4.7.patch \
-+           file://libproxy-0.4.7-CVE-2012-4504.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+similarity index 89%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+index 18a155d..966a851 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.1.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+@@ -13,8 +13,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://configure-libtool.patch \
+            file://glib-2.0_fix_for_x32.patch \
            "
+-SRC_URI[md5sum] = "ee779493b083be9348a841e0a51f1b27"
+-SRC_URI[sha256sum] = "6e84dc9d84b104725b34d255421ed7ac3629e49f437d37addde5ce3891c2e2f1"
++SRC_URI[md5sum] = "a4ca31e258273c3761e3de2edd607661"
++SRC_URI[sha256sum] = "855fcbf87cb93065b488358e351774d8a39177281023bae58c286f41612658a7"
  
- SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-1.7.11
+1.7.10.4
 
 
 
