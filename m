@@ -1,36 +1,32 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TdiAn-00015t-4j
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TdiKs-0001ck-2g
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 14:59:33 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:56330 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Tdhx1-0004U4-O6; Wed, 28 Nov 2012 08:45:20 -0500
-Date: Wed, 28 Nov 2012 08:45:15 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <5890106.Vb1bZqkAH2@helios>
-Message-ID: <alpine.DEB.2.02.1211280839110.1431@oneiric>
-References: <alpine.DEB.2.02.1211272315510.29858@oneiric>
-	<20121128130121.GC3477@jama.jama.net>
-	<alpine.DEB.2.02.1211280808130.578@oneiric>
-	<5890106.Vb1bZqkAH2@helios>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Wed, 28 Nov 2012 15:09:59 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 08FC3D22DB; Wed, 28 Nov 2012 14:55:55 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 4E162D22D2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Nov 2012 14:55:35 +0100 (CET)
+Message-ID: <50B617CA.3070309@linaro.org>
+Date: Wed, 28 Nov 2012 14:55:22 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: what is "packagegroup-core-nfs-server"?
+To: openembedded-core@lists.openembedded.org
+Subject: Why hostname is not in /etc/hosts?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,61 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 13:59:33 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 28 Nov 2012 14:10:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 28 Nov 2012, Paul Eggleton wrote:
+When I start Apache on my target I get this:
 
-... snip for brevity...
+AH00557: httpd: apr_sockaddr_info_get() failed for genericarmv8
+AH00558: httpd: Could not reliably determine the server's fully
+qualified domain name, using 127.0.0.1. Set the 'ServerName' directive
+globally to suppress this message
 
-> So the bit that might be missing here is that the PACKAGE_GROUP
-> structure and the packagegroup recipes/class are actually not really
-> related, except that the latter may be used to populate the former.
-> "packagegroup" is the new name for what used to be known as a "task"
-> in versions before danny and much better reflects what these recipes
-> do. PACKAGE_GROUP_* actually came first as a way to define items for
-> IMAGE_FEATURES that map to one or more packages, and I'm not sure
-> the name choice was a particularly good one - I wonder if it would
-> be worth considering renaming it to something like
-> IMAGE_FEATURE_PACKAGES in order to avoid confusion, although
-> obviously every rename like this has a cost associated.
->
-> In any case, I would definitely recommend using the term "package
-> group" to refer to packagegroup recipes only, otherwise you're only
-> likely to increase people's level of confusion.
+Solution is "echo '127.0.0.1 genericarmv8' >>/etc/hosts" but this is not
+what I would like to have to do on each first boot.
 
-  one more observation just to mess things up a bit more -- the fact
-that, despite what one reads in core-image.bbclass, the IMAGE_FEATURES
-variable can be used to customize your image in ways that have nothing
-to do with packages or package groups.
+I looked more and found that /etc/hostname is set in base-files
+(package_arch:machine) while /etc/hosts is in netbase
+(package_arch:$arch (while package_arch:all would be enough)).
 
-  witness this from meta/classes/rootfs_ipk.bbclass:
+One solution which comes to my mind is to add $MACHINE entry in netbase
+and make it p_arch:$MACHINE.
 
-        if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
-                if grep Status:.install.ok.unpacked ${STATUS}; then
-                        echo "Some packages could not be configured offline and rootfs is read-only."
-                        exit 1
-                fi
-        fi
+Other is do that in postinst but this will generate more work as upgrade
+paths should not be broken.
 
-so there's a potential "image feature" called "read-only-rootfs" which
-is clearly not a package group or a package, and of which there is no
-mention in core-image.bbclass.
-
-  i had a nice little tutorial going for IMAGE_FEATURES, now i'm going
-to have to go back and rethink it.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Any other ideas?
 
 
