@@ -1,35 +1,31 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tdg7s-00069Z-6c
+	(envelope-from <rpjday@crashcourse.ca>) id 1TdgIo-0006LG-GR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 12:48:24 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so9799563lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 03:34:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=jSuK690+Rkgy14WUcRshbOnz2vPmBiCONwNrXF2zj9Y=;
-	b=Pib4RGgqoguCUz0zWZ6pnhZfY+/gNa6Y1/cC8AVrHiZRAcmlZc+KWvQ6rLwqlALDoQ
-	IiLHZT0WkFSxPoragzFuoVYeuZTHDevU4pi+1hhEMkLF9xA5rSupMsOX4yjAe8G0wN+x
-	0D5xpmpHTD4JoY+RasPKPhkHPxh01ZiZ64WCwnq5wemR1tbPyhhDwdu9qZVqaab29YVh
-	BhjEYYNc+5A6cCyxbeCo9Vzi97dw3uindMIBjzdrf2TQluKEr91w+5P26Hx2gqqTKOcJ
-	ziWrFJ9XJrxyPdJXOqvu1Nf+UuinVn9fQkeK9/qtoTe5WyUxp38FELBwQdk040heZVcS
-	62bQ==
-Received: by 10.152.104.50 with SMTP id gb18mr18180354lab.9.1354102449618;
-	Wed, 28 Nov 2012 03:34:09 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id hu6sm7928586lab.13.2012.11.28.03.34.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Nov 2012 03:34:08 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1Tdfu2-0007ky-J5; Wed, 28 Nov 2012 13:34:06 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2012 13:34:05 +0200
-Message-Id: <1354102445-29004-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] pango: update to upstream version 1.30.1
+	Wed, 28 Nov 2012 12:59:42 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:55452 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Tdg53-0007Fr-B4 for openembedded-core@lists.openembedded.org;
+	Wed, 28 Nov 2012 06:45:29 -0500
+Date: Wed, 28 Nov 2012 06:45:21 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1211280631130.31857@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: some simple questions/observations about package groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,53 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 11:48:24 -0000
+X-List-Received-Date: Wed, 28 Nov 2012 11:59:42 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../{pango-1.30.0 => pango-1.30.1}/multilib-fix-clean.patch      |    0
- .../pango/{pango-1.30.0 => pango-1.30.1}/no-tests.patch          |    0
- meta/recipes-graphics/pango/{pango_1.30.0.bb => pango_1.30.1.bb} |    6 +++---
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/pango/{pango-1.30.0 => pango-1.30.1}/multilib-fix-clean.patch (100%)
- rename meta/recipes-graphics/pango/{pango-1.30.0 => pango-1.30.1}/no-tests.patch (100%)
- rename meta/recipes-graphics/pango/{pango_1.30.0.bb => pango_1.30.1.bb} (57%)
 
-diff --git a/meta/recipes-graphics/pango/pango-1.30.0/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
-similarity index 100%
-rename from meta/recipes-graphics/pango/pango-1.30.0/multilib-fix-clean.patch
-rename to meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
-diff --git a/meta/recipes-graphics/pango/pango-1.30.0/no-tests.patch b/meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch
-similarity index 100%
-rename from meta/recipes-graphics/pango/pango-1.30.0/no-tests.patch
-rename to meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch
-diff --git a/meta/recipes-graphics/pango/pango_1.30.0.bb b/meta/recipes-graphics/pango/pango_1.30.1.bb
-similarity index 57%
-rename from meta/recipes-graphics/pango/pango_1.30.0.bb
-rename to meta/recipes-graphics/pango/pango_1.30.1.bb
-index de562b1..7254321 100644
---- a/meta/recipes-graphics/pango/pango_1.30.0.bb
-+++ b/meta/recipes-graphics/pango/pango_1.30.1.bb
-@@ -2,14 +2,14 @@ require pango.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- 
--PR = "r1"
-+PR = "r0"
- 
- GNOME_COMPRESS_TYPE="xz"
- 
- SRC_URI += "file://no-tests.patch \
-             file://multilib-fix-clean.patch"
- 
--SRC_URI[archive.md5sum] = "2a70627ffd9f43c52c04cc0b05fe359f"
--SRC_URI[archive.sha256sum] = "7c6d2ab024affaed0e942f9279b818235f9c6a36d9fc50688f48d387f4102dff"
-+SRC_URI[archive.md5sum] = "ec3c1f236ee9bd4a982a5f46fcaff7b9"
-+SRC_URI[archive.sha256sum] = "3a8c061e143c272ddcd5467b3567e970cfbb64d1d1600a8f8e62435556220cbe"
- 
- #PARALLEL_MAKE = ""
+  perusing package groups, and a few simple questions and probably a
+couple things i can submit patches for.
+
+  first, is IMAGE_FEATURES *exclusively* for selecting package groups
+and not individual packages?  since core-image.bbclass reads:
+
+# By default we install packagegroup-core-boot and packagegroup-base packages -
+
+for that comment to read "packages" is a little ambiguous, yes?
+
+  that same comment seems inaccurate as well, since it refers to
+"packagegroup-base" when, below, it's actually:
+
+
+CORE_IMAGE_BASE_INSTALL = '\
+    packagegroup-core-boot \
+    packagegroup-base-extended \     <-- see?
+
+so that's just a quick doc fix.
+
+  again, back at the top, we read:
+
+# IMAGE_FEATURES control content of the core reference images
+
+but it's not just the *core* reference images, is it?  in fact, the
+list of available IMAGE_FEATURES in that file doesn't include
+"splash", which is inherited from image.bbclass.  should that not be
+in the list?  that also means that PACKAGE_GROUP_splash is available
+to non-core images.
+
+  finally, meta/conf/local.conf.sample also allegedly lists the
+possibilities for EXTRA_IMAGE_FEATURES, but that list is noticeably
+incomplete.  why not just refer the reader to core-image.bbclass,
+rather than try to keep a current list in both places?
+
+  lots of pedantry ...
+
+rday
+
+p.s. as with other things i've put on my wish list, it would be great
+if a variation of bitbake could list the available package groups.
+
 -- 
-1.7.10.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
