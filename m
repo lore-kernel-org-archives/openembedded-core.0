@@ -1,29 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TdXZ9-00074i-6k
+	(envelope-from <rpjday@crashcourse.ca>) id 1TdZKk-0000q6-CJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 03:39:59 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAS2PiLP006087
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Nov 2012 18:25:44 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 27 Nov 2012 18:25:42 -0800
-Message-ID: <50B5763B.1040107@windriver.com>
-Date: Wed, 28 Nov 2012 10:26:03 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	Wed, 28 Nov 2012 05:33:14 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:52590 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TdZ6z-00087i-In for openembedded-core@lists.openembedded.org;
+	Tue, 27 Nov 2012 23:19:01 -0500
+Date: Tue, 27 Nov 2012 23:18:57 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1211272315510.29858@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
-In-Reply-To: <CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what is "packagegroup-core-nfs-server"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,44 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 02:39:59 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 11/27/2012 10:15 PM, Otavio Salvador wrote:
-> On Tue, Nov 27, 2012 at 10:57 AM, Shakeel, Muhammad
-> <muhammad_shakeel@mentor.com>  wrote:
->> From: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>
->>  From udev 174 changelog:
->> "The udev daemon moved to /lib/udev/udevd. Non-systemd init systems
->> and non-dracut initramfs image generators need to change the init
->> scripts. Alternatively the udev build needs to move udevd back to
->> /sbin or create a symlink in /sbin, which is not done by default."
->>
->> Also for 64 bit architectures there exists /lib64/udev instead of
->> /lib/udev and current init script fails to start udev.
->>
->> Signed-off-by: Muhammad Shakeel<muhammad_shakeel@mentor.com>
-> As far as I know, all code in master now handles it properly (the
-> missing bits I sent a patch today) so why to include this symlink?
->
-I'm not sure about this.
-
-Two things:
-
-1) Have we ever tested udev on a target where its ${base_libdir} is 
-'/lib64'?
-Apparently, if udevd is intalled under '/lib64', its init script cannot 
-start udev correctly.
-
-2) Bug#2804 is related to to udev and ${base_libdir}.
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=2804
-(Some packages hardcode their udev rules directory to be 
-'/lib/udev/rules.d/'. So can udev find them if the ${base_libdir} is 
-'/lib64'? )
+X-List-Received-Date: Wed, 28 Nov 2012 04:33:14 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
+  poking around core-image.bbclass, and noticed this:
 
+PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
+
+except i don't see the corresponding packagegroup-core-nfs-server.bb
+recipe file.  there *is* a packagegroup-core-nfs.bb file; how is the
+above processed?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
