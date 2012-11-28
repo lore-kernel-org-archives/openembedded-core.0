@@ -1,31 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TdaWq-0006WC-1r for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 06:49:54 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS5ZXIr010453;
-	Wed, 28 Nov 2012 05:35:33 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09001-05; Wed, 28 Nov 2012 05:35:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qAS5ZLsW010447
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 28 Nov 2012 05:35:22 GMT
-Message-ID: <1354080920.21863.119.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 28 Nov 2012 05:35:20 +0000
-In-Reply-To: <20121127202356.GJ3692@jama.jama.net>
-References: <20121127154129.GC3692@jama.jama.net>
-	<1354047102.21863.105.camel@ted> <20121127202356.GJ3692@jama.jama.net>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: RDEPENDS of packages created by PACKAGES_DYNAMIC not built before image rootfs
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Jackie.Huang@windriver.com>) id 1Tdb5i-0007ZG-IS
+	for openembedded-core@lists.openembedded.org;
+	Wed, 28 Nov 2012 07:25:51 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAS6BYm3020729
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Nov 2012 22:11:34 -0800 (PST)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 27 Nov 2012 22:11:32 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Nov 2012 14:11:29 +0800
+Message-ID: <cover.1354081123.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4
+MIME-Version: 1.0
+Cc: Jackie.Huang@windriver.com, saul.wold@intel.com
+Subject: [PATCH 0/2] eglibc: move the fix code for optimization isssue to .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,55 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 05:49:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Nov 2012 06:25:51 -0000
+Content-Type: text/plain
 
-On Tue, 2012-11-27 at 21:23 +0100, Martin Jansa wrote:
-> On Tue, Nov 27, 2012 at 08:11:42PM +0000, Richard Purdie wrote:
-> > On Tue, 2012-11-27 at 16:41 +0100, Martin Jansa wrote:
-> > So basically, you need to decide whether you want consolekit enabled or
-> > not and build accordingly, there is nothing you can do within bitbake to
-> > "mind read" what the image is going to want...
-> 
-> No, you know that you will need pulseaudio-module-console-kit because
-> pulseaudio-server RDEPENDs on it (not on any pulseaudio-module-* but
-> pulseaudio-module-console-kit exactly). So it's not really mind reading.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Bitbake sees "pulseaudio-module-console-kit" and is has to ask "Which
-recipe provides this". To answer that question, it looks first at
-PACKAGES and then at PACKAGES_DYNAMIC. In this case it will find a match
-for PACKAGES_DYNAMIC but bitbake considers this a fuzzy match.
+I made a patch against the eglibc_2.16.bb for the optimization issue two weeks ago,
+but it's not a version specific issue and we still keep the versions 2.13 and 2.15
+(and not having the 2.16 yet), so it would be more appropriate to move the code to
+the .inc file. 
+And we also want to cherry-pick this commit to our oe-core branch so I revert the
+previous one and make a new commit against the .inc file but I'm not sure if it is
+proper to do that. Please correct me if it is not, thanks!
 
-We only match dynamic packages right at the end of processing and they
-are "fuzzy". Basically, they are just a sanity check in bitbake to
-ensure there is some chance of the thing getting built.
+* Test info:
+1) MACHINE=qemux86-64/qemuppc/qemumips
+$ bitbake core-image-sato 
+$ bitbake eglibc
 
-I can see in this case that a dependency exists that BitBake could use
-to enhance its knowledge, the trouble is that is would have to first
-decide which provider is providing PACKAGES_DYNAMIC, and then search
-that package for extra RDEPENDS. In this case its "easier" since its all
-the same package but with our generic providers mechanism, this could
-just as easily be split between two recipes which makes the problem at
-lot more complex and the code has to be written for the general case.
+2) MACHINE=qemux86-64/qemuppc/qemumips
+   DEBUG_OPTIMIZATION = "-O0 -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+   DEBUG_BUILD = "1" or SELECTED_OPTIMIZATION = "${DEBUG_OPTIMIZATION}"
+$ bitbake core-image-sato
+$ bitbake eglibc
 
-> If it's not possible with current code-base then we should document it
-> and add some work around in pulseaudio (I'm fine with building
-> consolekit even when it's not used later).
+The following changes since commit 764cc1eb3043c84121f597d2271108b91052095e:
 
-I suspect we'll just have to add this. I agree it would be possible to
-try and figure out this corner case but whether its worth the complexity
-and extra parse time I'm not sure. The risk of adding further bugs
-trying to add this functionality would worry me, as would the extra
-complexity and the time taken to do it...
+  bitbake.conf: Change build output message to list BUILD_SYS, TARGET_SYS and NATIVELSBSTRING (2012-11-27 08:57:39 +0000)
 
-As such I'd probably mark the bug report "LATER" and suggest working
-around this. If we were hitting this on many recipes, fine but we're not
-as far as I know.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/d_eglibc_1128_1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_eglibc_1128_1
 
-Cheers,
+Jackie Huang (2):
+  Revert "eglibc: always compile with optimization."
+  eglibc: always compile with optimization.
 
-Richard
+ meta/recipes-core/eglibc/eglibc.inc     |   11 +++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb |   11 -----------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+
+-- 
+1.7.4
 
 
 
