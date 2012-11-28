@@ -1,38 +1,38 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TdlJg-0007Gs-8p
+	(envelope-from <ross.burton@intel.com>) id 1TdlLQ-0007Lv-UU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 28 Nov 2012 18:20:56 +0100
-Received: from mail-fa0-f69.google.com ([209.85.161.69])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 28 Nov 2012 09:06:39 -0800
-Received: by mail-fa0-f69.google.com with SMTP id v1so9165157fav.0
+	Wed, 28 Nov 2012 18:22:45 +0100
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 28 Nov 2012 09:08:28 -0800
+Received: by mail-lb0-f197.google.com with SMTP id go10so8114687lbb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 09:06:36 -0800 (PST)
+	Wed, 28 Nov 2012 09:08:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=IWnim1jltTpOalkJG3BNr/6oEbuIvsb4d28CV4wRqmk=;
-	b=oupIwdvMr2SkDZjN7a0L7S+4xy8eWACS3UatvfguOnlsIzW7PPIxKn/q+tK7ODBcj+
-	0w/boQpzUyc/G8FAUCM2qIkix4lTOOkG2oT9kSpq9Lzru3E/XCTU3vIxSmD8/x9tAD5/
-	SYycgj3xjdakxe2ipfv1wU/Say2W3I/5IkyxHiT2HnZmqM2y68E+l2Nzh7comKIddgVL
-	nuoXHlK1eJZKwWUfcJ0YB5bjHAUCitrYmnbqcgm9CeZr4iB/1uArRodxOIxdUXWXV26Y
-	vMEs1UKNsZ4RMOGh5uZ6ZKCCcEs/gB2hWDdan4Fu0gJYmuF8nQ+WFREYjKmPYiarqxNv
-	Nk9w==
-Received: by 10.216.93.138 with SMTP id l10mr7986989wef.194.1354122396058;
-	Wed, 28 Nov 2012 09:06:36 -0800 (PST)
-Received: by 10.216.93.138 with SMTP id l10mr7986980wef.194.1354122395755;
-	Wed, 28 Nov 2012 09:06:35 -0800 (PST)
+	bh=FcWwSRV891/fuIikMEUogumSQjKTGuzhxgQafv45tgw=;
+	b=L8Z/JsNzvGB0eptuGUF6sdzuHZ2bH6U/pOrgwZ9mgajxq0865fEdn/C6aHFmJJiYwS
+	TtBaw/uZYv63YFSACo/r4n2D/gvV/19xxhWP/Rlhcdn+NLnoU1FchTSF4+etfxy+Wbz0
+	cROgI5GdFd9D50kt5xM7yc1VHKN062F0f4SbDfUspmeVBh2jiBauns5vH6KzamLXocgj
+	0VujAPpsjkI4WocrzE7UszZWgm/zE4cKv3H0MovIsH+ESOxcujQc4/A6CSntT26u8N9h
+	4CoJE3hnMEVVQbZwRhnguyWJbmIWFcgsmLbxwBVCDwmRDf8FcOvUMKTQmXubvXFP4rUC
+	ovkg==
+Received: by 10.180.86.39 with SMTP id m7mr33304947wiz.1.1354122505936;
+	Wed, 28 Nov 2012 09:08:25 -0800 (PST)
+Received: by 10.180.86.39 with SMTP id m7mr33304938wiz.1.1354122505804;
+	Wed, 28 Nov 2012 09:08:25 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cf6sm7408437wib.3.2012.11.28.09.06.33
+	by mx.google.com with ESMTPS id cf6sm7415357wib.3.2012.11.28.09.08.24
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Nov 2012 09:06:34 -0800 (PST)
+	Wed, 28 Nov 2012 09:08:25 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Nov 2012 17:05:04 +0000
-Message-Id: <1354122304-23877-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 28 Nov 2012 17:06:53 +0000
+Message-Id: <1354122413-24028-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQngXniylstwJYXpdqIlHa2/n/dLAPJPNfPacyuV7XHmR8afDw3FrcSGCBq/jX/+99mks3jSF1EPsJjOXSaeq6I1XZ+/Pay0R9fGC6G5pUq/lfhifD4IlQGlgx+Ly9dL7eCyYEak0DS1guTNjYAOu+PpUcA++I2GTAeq/JSNYltEiT0cAM0msNPp/+j+2FklqC/Wf2Mb
-Subject: [PATCH] guile: fix bashism in script
+X-Gm-Message-State: ALoCoQlOhQcvP3O7BE0u6De2dCSx1UdHe7+HzuvDnV4yMjokcFe6BnazDLM1hCHd9bJdZ8zGUnuQiNQTn09TcnMcigYoV0CbHRy0zn9JNtSXgzjek5D11mYL9c4z9jFBH0iCsoiPKKjt9hexfkQfuD8Lb2Xvn+yD+jv1PTcVGqEMHA88NQ+HanlG2xCRiwNhonab8GiE+Ucm
+Subject: [PATCH V2] guile: fix bashism in script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,15 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2012 17:20:56 -0000
+X-List-Received-Date: Wed, 28 Nov 2012 17:22:45 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/guile/guile_2.0.6.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/guile/guile_2.0.6.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-devtools/guile/guile_2.0.6.bb b/meta/recipes-devtools/guile/guile_2.0.6.bb
-index b5f55af..1f39e25 100644
+index b5f55af..89fedcb 100644
 --- a/meta/recipes-devtools/guile/guile_2.0.6.bb
 +++ b/meta/recipes-devtools/guile/guile_2.0.6.bb
 @@ -28,6 +28,8 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.gz \
@@ -65,6 +65,15 @@ index b5f55af..1f39e25 100644
  inherit autotools gettext
  BBCLASSEXTEND = "native"
  
+@@ -45,7 +47,7 @@ export GUILE_FOR_BUILD="${BUILD_SYS}-guile"
+ 
+ do_compile_append() {
+ 	# just for target recipe
+-	if [ "${PN}" == "guile" ]
++	if [ "${PN}" = "guile" ]
+ 	then
+ 		sed -i -e s:${STAGING_DIR_TARGET}::g \
+ 	               -e s:/${TARGET_SYS}::g \
 @@ -71,7 +73,7 @@ SYSROOT_PREPROCESS_FUNCS = "guile_cross_config"
  
  guile_cross_config() {
