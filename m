@@ -1,26 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TdzH9-0007VN-Uf
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TdzUN-0007k6-7X
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 09:15:16 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 29 Nov 2012 00:00:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,182,1355126400"; d="scan'208";a="224117783"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 29 Nov 2012 00:00:48 -0800
-Message-ID: <50B7162F.5050108@intel.com>
-Date: Thu, 29 Nov 2012 10:00:47 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:15.0) Gecko/20120912 Thunderbird/15.0.1
+	Thu, 29 Nov 2012 09:28:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAT8EdRE027977
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2012 00:14:39 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Thu, 29 Nov 2012 00:14:37 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Nov 2012 16:14:34 +0800
+Message-ID: <cover.1354176753.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1354169442.git.hongxu.jia@windriver.com>
-	<e5340a75b4d8dcdc897814eb2620828498cb8328.1354169442.git.hongxu.jia@windriver.com>
-In-Reply-To: <e5340a75b4d8dcdc897814eb2620828498cb8328.1354169442.git.hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] populate_sdk_base:tarball installer:add sudo prompt
+Subject: [PATCH 0/1] populate_sdk_base:tarball installer:add sudo prompt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 08:15:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Nov 2012 08:28:55 -0000
+Content-Type: text/plain
 
-The small typo I mentioned in the previous mail is still there...
+The following changes since commit d7670ab74b2c10001c22f116cb27b39fd8354c61:
 
-Thanks,
-Laurentiu
+  bitbake: build.py: Preserve sigdata files in the stamps directory (2012-11-28 20:26:56 +0000)
 
-On 11/29/2012 08:15 AM, Hongxu Jia wrote:
-> +# if don't have the right to access dir, gain by sudo 
-> +if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
-> +	SUDO_EXEC=$(which "sudo")
-> +	if [ -z $SUDO_EXEC ]; then
-> +		echo "No command 'sudo' found, please install sduo first. Abort!"
-s/sduo/sudo/                                                  ^^^^
+are available in the git repository at:
 
-> +		exit 1
-> +	fi
-> +
-> +	# test sudo could gain root right
-> +	$SUDO_EXEC pwd >/dev/null 2>&1
-> +	[ $? -ne 0 ] && echo "Sorry, you are not allowed to execute as root." && exit 1
->  fi
+  git://git.pokylinux.org/poky-contrib hongxu/toolchain
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/toolchain
+
+Hongxu Jia (1):
+  populate_sdk_base:tarball installer:add sudo prompt
+
+ meta/classes/populate_sdk_base.bbclass |   69 +++++++++++++++++++++++---------
+ 1 file changed, 51 insertions(+), 18 deletions(-)
+
+-- 
+1.7.10.4
+
 
 
