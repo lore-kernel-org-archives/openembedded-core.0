@@ -1,41 +1,27 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Te2Vl-0006JQ-SC
-	for Openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 12:42:38 +0100
-Received: from mail-ia0-f197.google.com ([209.85.210.197])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 29 Nov 2012 03:28:16 -0800
-Received: by mail-ia0-f197.google.com with SMTP id r13so5887783iar.0
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 03:28:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=UCrxBxMLZSWFav4XHlzJ5iY7q/bDHyx+6DlOcvUWUCM=;
-	b=lNNKzeFulh0xHZtwfyvkDrpMv7gLjZu+puSb5kcikS4FQeYbgoo8VB4JzliHDAOVZd
-	Ji7LKmk7Gq60z2F5whrdJ9QZOE9Zr8lB1Yr7IkH1KdyLj1a2EDbNitJIyTnWp/QB6BYQ
-	ZAXxpOhYIfc5ef52SWa17rvhO8m+FIxoHnYRyFZbJnz8riuh+zNZ2DwO+mntbomu2sTy
-	6IHNBCIZBV+IEeW67LaCtAonkdpxY8X8BSn0MYN1+VIEHGiHuurpVM+1smIZKcP7vT0d
-	YeTtPVJYRQd1MbzDV/x2sTFh61NbB78ZY8SYcEnP9yeGgRRM6p9qhW2dzjNPDpL56Qe1
-	xfEA==
-Received: by 10.182.240.109 with SMTP id vz13mr7473345obc.81.1354188494821;
-	Thu, 29 Nov 2012 03:28:14 -0800 (PST)
-Received: by 10.182.240.109 with SMTP id vz13mr7473341obc.81.1354188494733;
-	Thu, 29 Nov 2012 03:28:14 -0800 (PST)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Te2hZ-0006Sc-7V
+	for openembedded-core@lists.openembedded.org;
+	Thu, 29 Nov 2012 12:54:45 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 Nov 2012 03:40:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,184,1355126400"; d="scan'208";a="249122465"
+Received: from unknown (HELO helios.localnet) ([10.252.122.249])
+	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2012 03:40:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 29 Nov 2012 11:40:26 +0000
+Message-ID: <5097983.bapmtWeVbY@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.3 (Linux/3.5.0-18-generic; KDE/4.9.3; i686; ; )
+In-Reply-To: <CABcZAN=Z1y8ZsX9p8_eLhsDcyS+P6kYsoRjSgoE98-L9TaV6JA@mail.gmail.com>
+References: <alpine.DEB.2.02.1211280631130.31857@oneiric>
+	<CABcZAN=m3EwpqUi8D_hmBzqHwsmVg6W+EUXm6Q3_geFgtsJyTA@mail.gmail.com>
+	<CABcZAN=Z1y8ZsX9p8_eLhsDcyS+P6kYsoRjSgoE98-L9TaV6JA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Thu, 29 Nov 2012 03:27:53 -0800 (PST)
-In-Reply-To: <1354133261.28084.102.camel@empanada>
-References: <cover.1354126748.git.nitin.a.kamble@intel.com>
-	<1354133261.28084.102.camel@empanada>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 29 Nov 2012 11:27:53 +0000
-Message-ID: <CAJTo0LbshbjjaDKaj63BABuF0mkLfgo7mnhEwwqiUOw2UHV7nQ@mail.gmail.com>
-To: Tom Zanussi <tom.zanussi@intel.com>
-X-Gm-Message-State: ALoCoQkJ5ueA6/3aaavSO2HIYHnT/cDKNM6NTpxL5NxGdNFHOSPcfFBptMs8bokA6MDktQtt7JCPvkmJifg+JqkeEOCYG8/FGNZbRVo6XS5hkL68TnE1SkbeGm2UoTNdb6YxyEQPEqvIokGcsN3zyb6RRQwgXHoqSVm/o0OK8k3JGpkNDfEP//MlS8B1OciuR69yUuIReiUB
-Cc: meta-intel@yoctoproject.org, darren.hart@intel.com,
-	Openembedded-core@lists.openembedded.org
-Subject: Re: [meta-intel patch 0/3] Fixes for rescent X breakages in meta-intel layer
+Subject: Re: some simple questions/observations about package groups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,17 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 11:42:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 29 Nov 2012 11:54:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 28 November 2012 20:07, Tom Zanussi <tom.zanussi@intel.com> wrote:
-> So does this conflict with Ross's patch, which seems simpler...
+On Wednesday 28 November 2012 15:27:58 Chris Larson wrote:
+> Also, to comment on something tangentially related from a different thread,
+> technically the PACKAGE_GROUP_ variables were the first to use the term as
+> far as I'm aware. *tasks* were then renamed to use that name as well, which
+> is where a bunch of the confusion probably got introduced.
 
-I do prefer my patch as the same breakage will occur for anyone else
-using oe-core master but also building their own older X server.
-Whilst the delta is so minimal, I don't see the problem in supporting
-both in oe-core.
+I did mention that:
 
-Ross
+> PACKAGE_GROUP_* actually came first as a way to 
+> define items for IMAGE_FEATURES that map to one or more packages, and I'm
+> not  sure the name choice was a particularly good one - I wonder if it
+> would be worth considering renaming it to something like
+> IMAGE_FEATURE_PACKAGES in order to avoid confusion, although obviously
+> every rename like this has a cost associated.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
