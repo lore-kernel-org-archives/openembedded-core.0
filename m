@@ -1,32 +1,42 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Te1cW-0004ry-1B for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 11:45:28 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qATAUvdp023261;
-	Thu, 29 Nov 2012 10:30:57 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21537-07-3; Thu, 29 Nov 2012 10:30:51 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qATATGPX023155
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 29 Nov 2012 10:30:04 GMT
-Message-ID: <1354178102.4840.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAMKF1sopwPYzEsD8S0MmyH=7V+9cuV-oo+KdXRQj3Q9fO8ppRA@mail.gmail.com>
-References: <CAMKF1sqEyMsmSAOtZkv2JGKhfByADi0eJ-jA5E+aY_1tsh1XgQ@mail.gmail.com>
-	<50B6652E.8060306@linux.intel.com>
-	<CAMKF1sopwPYzEsD8S0MmyH=7V+9cuV-oo+KdXRQj3Q9fO8ppRA@mail.gmail.com>
-Date: Thu, 29 Nov 2012 08:35:02 +0000
-Mime-Version: 1.0
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>, Patches
-Subject: Re: build logs of all images in or-core
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1Te1u3-0005dw-Mc
+	for openembedded-core@lists.openembedded.org;
+	Thu, 29 Nov 2012 12:03:41 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so7930992pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2012 02:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=60jF1Pi4XjURqFt7/1RKiIleL6NAQ6xbehBYbtb4ZRs=;
+	b=B0otrYjI0KTu1wGHHQhC9rhClZQvMv1b4D2+gwCdfJYmE1kiXNUgvw0WU3K0Z2yv39
+	4eXpO8JOzoKizZKc7FDsJiFqX24KB0iGpkynKS6ZvLMWW6HJavHTgfwEWtSqj7EYwwFW
+	reWVHPcRe0eMB6WLkg4z/7hbdAA5WpGgVjbCLFXR47AaA4sKP7BCSNAsn0d2hVZzVIto
+	WoAJenNqHdaNydgk1taH94pwM4w4Ehyh9hWpiIV9LU+KVGRQfoKeoKXTA+SWNjuu8P8d
+	D4s5ssj4KhftLPVrjHVHZiIARFZkrd0IB4EDSdyB5GUOGwC/8tnzI7WHPSQ+OIHkFOWN
+	l2Mw==
+MIME-Version: 1.0
+Received: by 10.68.189.8 with SMTP id ge8mr68299527pbc.24.1354186159263; Thu,
+	29 Nov 2012 02:49:19 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Thu, 29 Nov 2012 02:49:19 -0800 (PST)
+In-Reply-To: <50B72A4E.4010107@windriver.com>
+References: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
+	<CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
+	<50B5763B.1040107@windriver.com>
+	<CAP9ODKpyi3Hs1B8C9OovatGG2VxukWU9pdip2HMTMFjJn9FSJQ@mail.gmail.com>
+	<A8A2F4C5E3D3D0468DDA3544476725F85BC7EE51@EU-MBX-04.mgc.mentorg.com>
+	<50B72A4E.4010107@windriver.com>
+Date: Thu, 29 Nov 2012 08:49:19 -0200
+X-Google-Sender-Auth: SeWcxH6LaOEcQXQmS6CawxnvFMQ
+Message-ID: <CAP9ODKoKcuRhPyZVAnAfMkyguW4RDY=g=7vVh0qRx=QYcXjpfQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,71 +49,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 10:45:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Nov 2012 11:03:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-I had a look through these and we can group them as follows:
+On Thu, Nov 29, 2012 at 7:26 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+> So the question would be:
+> Is it reasonable to always intall udev under /lib?
+>
+> udev's user manual seems to imply this behavior.
 
-Unsupported configuration and sensible error given to user:
+I think so.
 
-  [x11 instead of directfb enabled]
-  eglibc.qemuarm.core-image-gtk-directfb.log
-  eglibc.qemumips.core-image-gtk-directfb.log
-  eglibc.qemuppc.core-image-gtk-directfb.log
-  eglibc.qemux86-64.core-image-gtk-directfb.log
-  eglibc.qemux86.core-image-gtk-directfb.log
-
-  [live image doesn't work on architecture]
-  eglibc.qemuarm.core-image-minimal-initramfs.log
-  eglibc.qemumips.core-image-minimal-initramfs.log
-  eglibc.qemuppc.core-image-minimal-initramfs.log
-
-  [Built ok but was misconfigured (two kernels)]
-  eglibc.qemuarm.core-image-rt-sdk.log
-  eglibc.qemuarm.core-image-rt.log
-  eglibc.qemux86-64.core-image-rt-sdk.log
-  eglibc.qemux86-64.core-image-rt.log
-  eglibc.qemux86.core-image-rt-sdk.log
-  eglibc.qemux86.core-image-rt.log
-
-  [No linux-yocto-rt]
-  eglibc.qemumips.core-image-rt-sdk.log
-  eglibc.qemumips.core-image-rt.log
-  eglibc.qemuppc.core-image-rt-sdk.log
-  eglibc.qemuppc.core-image-rt.log	
-
-In the above list, I would say that the two kernels being built is a bug
-we should really fix, the only way to fix it is to make the bitbake
-warning about multiple providers an error.
-
-The "interesting" build failures:
-
-  [download issue, enable to fetch sources]
-  eglibc.qemuarm.core-image-lsb-sdk.log
-
-  [weird license build failures]
-  eglibc.qemuarm.core-image-minimal.log
-  eglibc.qemumips.core-image-minimal-dev.log
-  eglibc.qemumips.core-image-sato-dev.log
-  eglibc.qemuppc.core-image-lsb-dev.log
-  eglibc.qemuppc.core-image-minimal-dev.log
-  eglibc.qemuppc.core-image-minimal.log
-  eglibc.qemux86-64.core-image-basic.log	
-  eglibc.qemux86-64.core-image-minimal-dev.log
-  eglibc.qemux86.core-image-basic.log
-  eglibc.qemux86.core-image-minimal-dev.log
-  eglibc.qemux86.core-image-x11.log
-
-Of which this weird license issue is definitely the biggest problem and
-the one we need to figure out. The download issue looks to be transient.
-
-Cheers,
-
-Richard
-
-
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
