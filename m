@@ -1,25 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Te8kx-0005ss-DQ
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Te9IG-0006XR-E3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 19:22:47 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2012 10:08:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,186,1355126400"; d="scan'208";a="256748088"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.127])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2012 10:08:21 -0800
-Message-ID: <50B7A494.8080009@linux.intel.com>
-Date: Thu, 29 Nov 2012 10:08:20 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-References: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
-In-Reply-To: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
+	Thu, 29 Nov 2012 19:57:05 +0100
+Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qATIge1S007078;
+	Thu, 29 Nov 2012 10:42:41 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Thu, 29 Nov 2012 13:42:22 -0500
+Message-Id: <e7403df2bde00da021302a58fed6e782784ca629.1354214034.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1354214034.git.bruce.ashfield@windriver.com>
+References: <cover.1354214034.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1354214034.git.bruce.ashfield@windriver.com>
+References: <cover.1354214034.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gtk+: do not prelight GtkButton in touchscreen mode
+Subject: [PATCH 1/1] kernel-yocto: checkout known branch before leaving do_validate_branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,99 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 18:22:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Nov 2012 18:57:05 -0000
 
-On 11/27/2012 01:18 AM, Andreas Müller wrote:
-> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-> ---
->   ...utton-do-not-prelight-in-touchscreen-mode.patch |   48 ++++++++++++++++++++
->   meta/recipes-gnome/gtk+/gtk+_2.24.13.bb            |    3 +-
->   2 files changed, 50 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
->
-> diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
-> new file mode 100644
-> index 0000000..671fd2f
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
-> @@ -0,0 +1,48 @@
-> +From d1f7a894674dfdd6769f1bbae31eb1a69e451a5c Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-> +Date: Fri, 16 Nov 2012 22:07:28 +0100
-> +Subject: [PATCH] GtkButton: do not prelight in touchscreen mode
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Code was copied from GtkToggleButton.
-> +
-> +Upstream-status: pending [1]
+We should always leave the tree on a BSP branch or master when
+do_validate_branches completes to avoid modifying version tracked
+files are part of the build process. Modifying these files will lead
+to errors when changing branches, since the contents would be lost.
 
-Proper tag format is Upstream-Status:
+This is evident in the case that a the meta branch is reset to a
+known SRCREV and the tree was left on the meta branch. This branch
+tracks the meta/meta-series, and other artifacts of the original
+tree construction. When the build process runs, it updates these same
+files, which creates a conflict when switching branches.
 
-Thanks
-	Sau!
+This has been fixed in the tree construction scripts to not track
+these files, but a secondary fix is also required of not leaving
+the build on these branches, to allow arbitrary trees to be built.
 
-> +
-> +https://bugzilla.gnome.org/show_bug.cgi?id=689138
-> +
-> +Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-> +---
-> + gtk/gtkbutton.c |    8 ++++++--
-> + 1 files changed, 6 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/gtk/gtkbutton.c b/gtk/gtkbutton.c
-> +index f472007..1beb1b6 100644
-> +--- a/gtk/gtkbutton.c
-> ++++ b/gtk/gtkbutton.c
-> +@@ -2079,15 +2079,19 @@ _gtk_button_set_depressed (GtkButton *button,
-> + static void
-> + gtk_button_update_state (GtkButton *button)
-> + {
-> +-  gboolean depressed;
-> ++  gboolean depressed, touchscreen;
-> +   GtkStateType new_state;
-> +
-> ++  g_object_get (gtk_widget_get_settings (GTK_WIDGET (button)),
-> ++                "gtk-touchscreen-mode", &touchscreen,
-> ++                NULL);
-> ++
-> +   if (button->activate_timeout)
-> +     depressed = button->depress_on_activate;
-> +   else
-> +     depressed = button->in_button && button->button_down;
-> +
-> +-  if (button->in_button && (!button->button_down || !depressed))
-> ++  if (!touchscreen && button->in_button && (!button->button_down || !depressed))
-> +     new_state = GTK_STATE_PRELIGHT;
-> +   else
-> +     new_state = depressed ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
-> +--
-> +1.7.6.5
-> +
-> diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-> index b358b7f..bc88284 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-> +++ b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-> @@ -13,6 +13,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
->              file://toggle-font.diff;striplevel=0 \
->              file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
->              file://doc-fixes.patch \
-> +           file://0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch \
->   	  "
->
->   # TO MERGE
-> @@ -27,7 +28,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
->   #        file://combo-arrow-size.patch;striplevel=0
->   #            file://configurefix.patch
->
-> -PR = "r1"
-> +PR = "r2"
->
->   SRC_URI[md5sum] = "e949406751df51e1e40e85628005a069"
->   SRC_URI[sha256sum] = "35e1a01e46b02970b02ee9f299390d0aa57c1215ad2667bcd584b72f4ea6513d"
->
+[YOCTO #3413]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 0d4ed21..c74317e 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -327,6 +327,8 @@ do_validate_branches() {
+ 	if [ $? -eq 0 ]; then
+ 		# restore the branch for builds
+ 		git checkout -q -f ${KBRANCH}
++        else
++	        git checkout -q master
+ 	fi
+ }
+ 
+-- 
+1.7.10.4
+
 
 
