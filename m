@@ -1,32 +1,27 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Te5tw-0002jX-Go
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <bjst@sestofb10.enea.se>) id 1Te6d9-00057y-5Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 16:19:45 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so5640527eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 07:05:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=QrMoIU0xtfhUmRR2SiCJxb38/FCyST/eDcbYBfk/aVI=;
-	b=xggGNHofhlf/H4kziCvSUPKb1fyQHfiBf7NvxTUfQRiaXTHJ5DkwTNEEn27o9yW9cC
-	Ay9s5VfM67Swyn7QIztxu0vWX83UVDsAsLZWRGTY2F11KzHCHAacFM6Gl/rwTT6AtjdV
-	+x7DWWpQ8U/A4kX4T/Vg+u1Cjgy4lXO1J1EdGlJMkjeFSkb/O7+4Hbu+htc25P8wxN0k
-	jwX2z6H2TorAdMSlEJk9+hfVo56UguC+Mt8q68xO+WhN5Z2zkzGE7zpZUpbZLbAHOGIm
-	5KpAkDiixM/uxQnYRlh8fcnG8d9vYlun23OpxLBik/wMTeugQqRwGRfUv/HwnzIBNImI
-	HyOA==
-Received: by 10.14.199.134 with SMTP id x6mr83164258een.31.1354201528704;
-	Thu, 29 Nov 2012 07:05:28 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 46sm4110186eeg.4.2012.11.29.07.05.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Nov 2012 07:05:27 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2012 16:05:23 +0100
-Message-Id: <1354201523-18600-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-Subject: [PATCH] libcgroup: fix INSANE_SKIP
+	Thu, 29 Nov 2012 17:06:29 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 29 Nov 2012 16:52:10 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id AE458290C60;
+	Thu, 29 Nov 2012 16:52:10 +0100 (CET)
+Date: Thu, 29 Nov 2012 16:52:10 +0100
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20121129155210.GC25784@sestofb10.enea.se>
+References: <1353600120-22967-1-git-send-email-bjst@enea.com>
+	<1353600120-22967-2-git-send-email-bjst@enea.com>
+	<1353707361.21863.4.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1353707361.21863.4.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/4] Add a new distro feature "ptest".
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,36 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 15:19:45 -0000
+X-List-Received-Date: Thu, 29 Nov 2012 16:06:30 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* that .so file is in cgroups-pam-plugin not PN
+Richard Purdie wrote:
+> >  meta/classes/image.bbclass                         |    6 ++-
+> >  meta/classes/packagegroup.bbclass                  |    2 +-
+> >  meta/conf/bitbake.conf                             |   15 ++++++++-
+>=20
+> Whilst we're in bootstrapping mode for this work, how about we make
+> these changes a "ptest.bbclass" file which we'd inherit in the recipes
+> where we've got ptest enabled?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/libcgroup/libcgroup_0.37.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Having looked into it a bit, I'm not sure I understand how you mean.
 
-diff --git a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-index 3ef1dad..e74f831 100644
---- a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-+++ b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-@@ -3,7 +3,7 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
--PR = "r1"
-+PR = "r2"
- 
- inherit autotools pkgconfig
- 
-@@ -24,4 +24,4 @@ FILES_${PN}-dbg += "${base_libdir}/security/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la"
- 
- # We really need the symlink so :(
--INSANE_SKIP_${PN} = "dev-so"
-+INSANE_SKIP_cgroups-pam-plugin = "dev-so"
--- 
-1.8.0
+First, I don't quite see how this would be done in an elegant way for the i=
+n-function changes in image.bbclass and packagegroup.bbclass.=20
 
+And the lines added to bitbake.conf were put there because they mirror othe=
+r complementary packages like -dbg and -dev. Is it really a good idea to in=
+vent a new way of doing this for -ptest packages?
+
+--=20
+Bj=F6rn
 
 
