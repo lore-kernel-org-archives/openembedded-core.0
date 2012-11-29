@@ -1,43 +1,30 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Tds5N-0000oM-LL
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TdswF-00025R-KL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 01:34:37 +0100
-Received: from mail-vb0-f69.google.com ([209.85.212.69])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 28 Nov 2012 16:20:20 -0800
-Received: by mail-vb0-f69.google.com with SMTP id fn1so17184761vbb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 16:20:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=rR1YHFBsawTiPo1WGxHk70jrtojdnMzKZQyNOvXhnao=;
-	b=MWW2YFj6nBzMmEtNSQ8ZIsvEWsROy95n9PRgBfpY0zeOlX2Bcfoi1u3v1ArforMwDZ
-	VBJvoWKWKVRPwOgSwmYmJAUc6gJVEE8vKRO3eXnRDfF40WnVJYjpZYbe9hN/YtCwPiVs
-	BFTGbsfITnWO06lqg1RdgrrsIFGTw1JmoK5IG99VX8veR02I18OLW71roe9rtGSedJfO
-	XvHLbT+2Wot3PScV6AzN9esA2bnZD+IvkPPVzIZ8sdxXJZ1WVhSQQTfGPb9fFPqzYi0N
-	DIeC06ccgjNVrpeZNcz4TUU1F36tuMq7Cmh0+wzd7EpWFS103xv33i+0Nq3td1pMAquK
-	98Og==
-Received: by 10.224.111.78 with SMTP id r14mr23119326qap.31.1354148419513;
-	Wed, 28 Nov 2012 16:20:19 -0800 (PST)
+	Thu, 29 Nov 2012 02:29:15 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAT1ExK0024354
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 28 Nov 2012 17:14:59 -0800 (PST)
+Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Wed, 28 Nov 2012 17:14:57 -0800
+Message-ID: <50B6B70B.5090301@windriver.com>
+Date: Thu, 29 Nov 2012 09:14:51 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.224.111.78 with SMTP id r14mr23119315qap.31.1354148419249;
-	Wed, 28 Nov 2012 16:20:19 -0800 (PST)
-Received: by 10.49.12.136 with HTTP; Wed, 28 Nov 2012 16:20:19 -0800 (PST)
-In-Reply-To: <50B69C16.6090700@windriver.com>
-References: <1351792979-6672-1-git-send-email-andy.ross@windriver.com>
-	<50A68F5D.6050100@windriver.com> <1353343072.3709.183.camel@ted>
-	<CAPhnLPBpv_LKEKjoqsv7TY2NhiJLB8kCtPU9im+r34hqKHtNVg@mail.gmail.com>
-	<50B69C16.6090700@windriver.com>
-Date: Wed, 28 Nov 2012 16:20:19 -0800
-Message-ID: <CAPhnLPBzeQjQezgfamVX54EWsPAhS7d_=64s238P9Njj254+TQ@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Andy Ross <andy.ross@windriver.com>
-X-Gm-Message-State: ALoCoQmN8QppuNLirIXYGGQdxDOGDP5458u9DrHWTEzJNaAVWMNB9+1TdDUp0TYepWypCnhG6Jf9B81/+wlbIS/sLGUEmNQQAR3YK/2Tpcgn5TdP6Crla74MY34JPnR116lYuftoFAZ6EAVKJhMtbCmMrMQ8YR3N/97gu3WUJyB1WrN3+O0XWOqViGXcEAGaFU8SVOc+5Bfr
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+References: <cover.1353662831.git.hongxu.jia@windriver.com>
+	<09c8bb8e48152f7887694be2aa7f69d5b135986e.1353662831.git.hongxu.jia@windriver.com>
+	<50B60CE6.2090208@intel.com>
+In-Reply-To: <50B60CE6.2090208@intel.com>
+Cc: Robert, openembedded-core@lists.openembedded.org, "Kang,
+	Kai" <Kai.Kang@windriver.com>, Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 1/1] Toolchain installation:adds sudo prompt and optins
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,43 +37,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 00:34:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 29 Nov 2012 01:29:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 28, 2012 at 3:19 PM, Andy Ross <andy.ross@windriver.com> wrote:
-> On 11/28/2012 03:14 PM, Flanagan, Elizabeth wrote:
+Hi Laurentiu,
+
+Got it, and I will resubmit the patch.
+
+Thanks,
+Hongxu
+
+
+On 11/28/2012 09:08 PM, Laurentiu Palcu wrote:
+> Hi,
+>
+> This patch is on a collision course with this one:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=86d4b94bf29d68307cc02b235ab737136de70619
+>
+> Would you please rebase on master-next and then resubmit?
+>
+> Also, see my comments below.
+>
+> Thanks,
+> Laurentiu
+>
+> On 11/28/2012 02:14 PM, Hongxu Jia wrote:
+>> 1.Adds a sudo passwd prompt during installation if the
+>>    user couldn't install on the dir.
+>> 2.Adds option -d <dir>  to let user input dir without prompts.
+>> 3.Adds option -y for automatic yes to all prompts, a non-
+>>    interactive method.
 >>
->> This patch needs a rebase and a minor bit of whitespace work. I've
->> done some work to make it apply to the current master head and tested
->> it out and it does improve the utility of INCOMPATIBLE_LICENSE quite a
->> bit.
->
->
-> Hm... AFAICT the content of the patch still seems to apply cleanly
-> with git am on a just-pulled poky (don't have an oe-core tree on this
-> machine) master HEAD.  Am I looking at a wrong branch?
->
+>> [YOCTO# 3153]
+>> [YOCTO# 3309]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/classes/populate_sdk_base.bbclass |   70 +++++++++++++++++++++++---------
+>>   1 file changed, 51 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+>> index ac34c32..c817b83 100644
+>> --- a/meta/classes/populate_sdk_base.bbclass
+>> +++ b/meta/classes/populate_sdk_base.bbclass
+>> @@ -128,12 +128,33 @@ fi
+>>   
+>>   DEFAULT_INSTALL_DIR="${SDKPATH}"
+>>   COMPONENTS_LEN=$(echo ".${SDKPATH}" | sed "s/\// /g" | wc -w)
+>> +SUDO_EXEC=""
+>> +target_sdk_dir=""
+>> +answer=""
+>> +while getopts ":yd:" OPT; do
+>> +    case $OPT in
+>> +    y)
+>> +        answer="Y"
+>> +        [ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
+>> +        ;;
+>> +    d)
+>> +        target_sdk_dir=$OPTARG
+>> +        ;;
+>> +    *)
+>> +        echo "Usage: $(basename $0) [-y] [-d <dir>]"
+>> +        echo "  -y         Automatic yes to all prompts"
+>> +        echo "  -d <dir>   Install the SDK to <dir>"
+>> +        exit 1
+>> +        ;;
+>> +    esac
+>> +done
+> Please, don't use spaces for indentation. The rest of the script uses tabs.
+>>   
+>>   printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
+>> -read target_sdk_dir
+>> -
+>>   if [ "$target_sdk_dir" = "" ]; then
+>> -	target_sdk_dir=$DEFAULT_INSTALL_DIR
+>> +	read target_sdk_dir
+>> +	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
+>> +else
+>> +	echo "$target_sdk_dir"
+>>   fi
+>>   
+>>   eval target_sdk_dir=$target_sdk_dir
+>> @@ -144,10 +165,11 @@ else
+>>   fi
+>>   
+>>   printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
+>> -read answer
+>> -
+>>   if [ "$answer" = "" ]; then
+>> -	answer="y"
+>> +	read answer
+>> +	[ "$answer" = "" ] && answer="y"
+>> +else
+>> +	echo $answer
+>>   fi
+>>   
+>>   if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+>> @@ -155,47 +177,57 @@ if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+>>   	exit 1
+>>   fi
+>>   
+>> +# create dir and don't care about the result.
+>>   mkdir -p $target_sdk_dir >/dev/null 2>&1
+>> -if [ $? -ne 0 ]; then
+>> -	echo "Error: Unable to create target directory. Do you have permissions?"
+>> -	exit 1
+>> +
+>> +# if don't have the right to access dir, gain by sudo
+>> +if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then
+>> +	SUDO_EXEC=$(which "sudo")
+>> +	if [ -z $SUDO_EXEC ]; then
+>> +		echo "No command 'sudo' found, please install sduo first. Abort!"
+> s/sduo/sudo/
+>> +		exit 1
+>> +	fi
+>> +
+>> +	# test sudo could gain root right
+>> +	$SUDO_EXEC pwd >/dev/null 2>&1
+>> +	[ $? -ne 0 ] && echo "Sorry, you are not allowed to execute as root." && exit 1
+>>   fi
+>>   
+>>   payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
+>>   
+>>   printf "Extracting SDK..."
+>> -tail -n +$payload_offset $0| tar xj --strip-components=$COMPONENTS_LEN -C $target_sdk_dir
+>> +tail -n +$payload_offset $0| $SUDO_EXEC tar xj --strip-components=$COMPONENTS_LEN -C $target_sdk_dir
+>>   echo "done"
+>>   
+>>   printf "Setting it up..."
+>>   # fix environment paths
+>>   for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
+>> -  sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+>> +  $SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
+>>   done
+>>   
+>>   # fix dynamic loader paths in all ELF SDK binaries
+>> -native_sysroot=$(cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
+>> -dl_path=$(find $native_sysroot/lib -name "ld-linux*")
+>> -executable_files=$(find $native_sysroot -type f -perm +111)
+>> -${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+>> +native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
+>> +dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
+>> +executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm +111)
+>> +$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+>>   if [ $? -ne 0 ]; then
+>>   	echo "SDK could not be set up. Relocate script failed. Abort!"
+>>   	exit 1
+>>   fi
+>>   
+>>   # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
+>> -find $native_sysroot -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut -d':' -f1|xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+>> +$SUDO_EXEC find $native_sysroot -type f -exec file '{}' \;|$SUDO_EXEC grep ":.*ASCII.*text"|cut -d':' -f1|$SUDO_EXEC xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
+>>   
+>>   # change all symlinks pointing to ${SDKPATH}
+>> -for l in $(find $native_sysroot -type l); do
+>> -	ln -sf $(readlink $l|sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+>> +for l in $($SUDO_EXEC find $native_sysroot -type l); do
+>> +	$SUDO_EXEC ln -sf $(readlink $l| $SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:") $l
+>>   done
+>>   
+>>   echo done
+>>   
+>>   # delete the relocating script, so that user is forced to re-run the installer
+>>   # if he/she wants another location for the sdk
+>> -rm ${env_setup_script%/*}/relocate_sdk.py
+>> +$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py
+>>   
+>>   echo "SDK has been successfully set up and is ready to be used."
+>>   
+>>
 
-Let me recheck. It wasn't applying clean for me but it may be on my end.
-
--b
-
->
->> If it's ok with you, Andy, I'll just submit my modifications to your
->> patch.
->
->
-> Fine with me.
->
-> Andy
->
->
-
-
-
--- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
 
 
