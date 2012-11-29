@@ -1,39 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TeDWE-0006N9-SP
+	(envelope-from <martin.jansa@gmail.com>) id 1TeDWM-0006NS-80
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 00:27:46 +0100
-Received: by mail-ee0-f47.google.com with SMTP id l10so8324614eei.6
+	Fri, 30 Nov 2012 00:27:54 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so5816649eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 15:13:32 -0800 (PST)
+	Thu, 29 Nov 2012 15:13:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:mime-version:content-type
-	:content-transfer-encoding;
-	bh=aOuYtA4tsBtZhXzHJa5xz+qwbu4Jop9wp6ceMhS3aaM=;
-	b=RwnttrypE1yIG5Uho8lIPX0425sZqiXe7gxm0x1dkRp5bmLUvY4HD9+kBmsQgOIt7c
-	G0ch2TkkP5OrGMyuIHth6Y6x7loDLAQ1k58/18B/fO/l3gisfCOCGQRSUfxwv+8FAWG/
-	Dfu3wMrOO/DJjrHjMDoCZklDtwLL7E5tUe+a6GVwaRkYr8dRkKWehKnKGu2JEeFIcHQk
-	28eoZV96cV0hg8mU7QLHB2sK6MRv7VXRkfnL58jgpDjuHGBMTTlq8poyS4soZF4UeDIo
-	NrAK8OYrox/8ixZEKsc/FQD1R5P4NbMVxHLSDm+ZEF6jS9tl32mTqStgxAb6mNYgg+sI
-	1hiQ==
-Received: by 10.14.223.200 with SMTP id v48mr87487873eep.24.1354230812863;
-	Thu, 29 Nov 2012 15:13:32 -0800 (PST)
+	:in-reply-to:references;
+	bh=uQuKeiDvGHxeeX5ms3pVyH033ao61ow44J78Dk0mHeY=;
+	b=KAhYE6oAut4RjGyraduQ9FkFV02+QGmhu70Op2h5LzF5EXiw1kUnWqRVxY4ALIO78f
+	LIyIQmc7UL0cBxmBG/KkBub2PBh1bDQ+hIDWLPAzWNyehIeKdblb91+6GR2wNb4PumI0
+	Lo8DkEeJVcYl1uZqFgwvVI89PRNF/pbe8SOap4dYWPF+XIL1O59S4RNEhgxrBi2Bam4m
+	pFYF2m0cscvhqFp6hFh10MRdy66VTtiKtaicKGeE9kMCfoUlvLcBz1gKLNpFwhVaTQlJ
+	9ueyIe4/yDDcixPQFuzBXYY+B6MypjzGodvaP6LXpy6h9fYuwftJ1VUpPhXPf+tyHROC
+	hBbw==
+Received: by 10.14.175.133 with SMTP id z5mr87387036eel.15.1354230820249;
+	Thu, 29 Nov 2012 15:13:40 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e2sm6713433eeo.8.2012.11.29.15.13.31
+	by mx.google.com with ESMTPS id q2sm6698509eem.13.2012.11.29.15.13.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Nov 2012 15:13:32 -0800 (PST)
+	Thu, 29 Nov 2012 15:13:39 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2012 00:12:38 +0100
-Message-Id: <e7326c22cb5e6facb8f788178ac7775b396dc2f9.1354230112.git.Martin.Jansa@gmail.com>
+Date: Fri, 30 Nov 2012 00:12:39 +0100
+Message-Id: <d3e6d22128b822914322942d5084a02bf3a57ecc.1354230112.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <cover.1354230112.git.Martin.Jansa@gmail.com>
 References: <cover.1354230112.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1354230112.git.Martin.Jansa@gmail.com>
 References: <cover.1354230112.git.Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 7/8] arch-armv6: add tunes without vfp enabled
+Subject: [PATCH 8/8] tune-cortexa*: add another TUNE which allows to enable cortexa* together with thumb and neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,84 +44,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 23:27:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Nov 2012 23:27:54 -0000
 
-From: Víctor Enríquez <victor.quicksilver@gmail.com>
+* like we have with tune-armv7at-neon
 
-This work was made by Victor Enriquez and then modified by Denis Carikli
-who was helped by Mark Hatle comments. And in the end modified by Martin
-Jansa to support different ARMPKGARCH and removed explicit -novfp suffix.
-
-The changes are for adding support to armv6-novfp, for building binaries
-for armv6 machines without vfp, for example the htc dream.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
-Signed-off-by: Víctor Enríquez <victor.quicksilver@gmail.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/machine/include/arm/arch-armv6.inc | 29 +++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
+ meta/conf/machine/include/tune-cortexa8.inc | 10 ++++++++--
+ meta/conf/machine/include/tune-cortexa9.inc | 10 ++++++++--
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-index 4c6548c..ea6d73d 100644
---- a/meta/conf/machine/include/arm/arch-armv6.inc
-+++ b/meta/conf/machine/include/arm/arch-armv6.inc
-@@ -8,32 +8,43 @@ MACHINEOVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "armv6", ":armv6", ""
- require conf/machine/include/arm/arch-armv5-dsp.inc
+diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
+index bfc58a1..12b5f66 100644
+--- a/meta/conf/machine/include/tune-cortexa8.inc
++++ b/meta/conf/machine/include/tune-cortexa8.inc
+@@ -6,25 +6,31 @@ TUNEVALID[cortexa8] = "Enable Cortex-A8 specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa8", "-mtune=cortex-a8", "", d)}"
  
- # Little Endian
--AVAILTUNES += "armv6 armv6t armv6hf armv6thf"
-+AVAILTUNES += "armv6-novfp armv6t-novfp armv6 armv6t armv6hf armv6thf"
-+ARMPKGARCH_tune-armv6-novfp ?= "armv6"
-+ARMPKGARCH_tune-armv6t-novfp ?= "armv6"
- ARMPKGARCH_tune-armv6 ?= "armv6"
- ARMPKGARCH_tune-armv6t ?= "armv6"
- ARMPKGARCH_tune-armv6hf ?= "armv6"
- ARMPKGARCH_tune-armv6thf ?= "armv6"
--TUNE_FEATURES_tune-armv6 ?= "armv6 vfp"
--TUNE_FEATURES_tune-armv6t ?= "${TUNE_FEATURES_tune-armv6} thumb"
-+TUNE_FEATURES_tune-armv6-novfp ?= "armv6"
-+TUNE_FEATURES_tune-armv6t-novfp ?= "${TUNE_FEATURES_tune-armv6-novfp} thumb"
-+TUNE_FEATURES_tune-armv6 ?= "${TUNE_FEATURES_tune-armv6-novfp} vfp"
-+TUNE_FEATURES_tune-armv6t ?= "${TUNE_FEATURES_tune-armv6t-novfp} vfp"
- TUNE_FEATURES_tune-armv6hf ?= "${TUNE_FEATURES_tune-armv6} callconvention-hard"
- TUNE_FEATURES_tune-armv6thf ?= "${TUNE_FEATURES_tune-armv6t} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6-vfp armv6t-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5e} armv6"
-+PACKAGE_EXTRA_ARCHS_tune-armv6t-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5te} armv6 armv6t"
-+PACKAGE_EXTRA_ARCHS_tune-armv6 = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6 armv6-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6t = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6 armv6t armv6-vfp armv6t-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv6hf = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehf-vfp} armv6hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv6thf = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp} armv6hf-vfp armv6thf-vfp"
+ # Little Endian base configs
+-AVAILTUNES += "cortexa8 cortexa8t cortexa8-neon"
++AVAILTUNES += "cortexa8 cortexa8t cortexa8-neon cortexa8t-neon"
+ ARMPKGARCH_tune-cortexa8 = "cortexa8"
+ ARMPKGARCH_tune-cortexa8t = "cortexa8"
+ ARMPKGARCH_tune-cortexa8-neon = "cortexa8"
++ARMPKGARCH_tune-cortexa8t-neon = "cortexa8"
+ TUNE_FEATURES_tune-cortexa8 = "${TUNE_FEATURES_tune-armv7a} cortexa8"
+ TUNE_FEATURES_tune-cortexa8t = "${TUNE_FEATURES_tune-armv7at} cortexa8"
+ TUNE_FEATURES_tune-cortexa8-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa8"
++TUNE_FEATURES_tune-cortexa8t-neon = "${TUNE_FEATURES_tune-armv7at-neon} cortexa8"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa8-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa8-vfp cortexa8t2-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa8-vfp cortexa8-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa8t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa8-vfp cortexa8-vfp-neon cortexa8t2-vfp cortexa8t2-vfp-neon"
  
- # Big Endian
--AVAILTUNES += "armv6b armv6tb armv6hfb armv6thfb"
-+AVAILTUNES += "armv6b-novfp armv6tb-novfp armv6b armv6tb armv6hfb armv6thfb"
-+ARMPKGARCH_tune-armv6b-novfp ?= "armv6"
-+ARMPKGARCH_tune-armv6tb-novfp ?= "armv6"
- ARMPKGARCH_tune-armv6b ?= "armv6"
- ARMPKGARCH_tune-armv6tb ?= "armv6"
- ARMPKGARCH_tune-armv6hfb ?= "armv6"
- ARMPKGARCH_tune-armv6thfb ?= "armv6"
-+TUNE_FEATURES_tune-armv6b-novfp ?= "${TUNE_FEATURES_tune-armv6-novfp} bigendian"
-+TUNE_FEATURES_tune-armv6tb-novfp ?= "${TUNE_FEATURES_tune-armv6t-novfp} bigendian"
- TUNE_FEATURES_tune-armv6b ?= "${TUNE_FEATURES_tune-armv6} bigendian"
- TUNE_FEATURES_tune-armv6tb ?= "${TUNE_FEATURES_tune-armv6t} bigendian"
- TUNE_FEATURES_tune-armv6hfb ?= "${TUNE_FEATURES_tune-armv6hf} bigendian"
- TUNE_FEATURES_tune-armv6thfb ?= "${TUNE_FEATURES_tune-armv6thf} bigendian"
--PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-vfp armv6tb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6b-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb} armv6b"
-+PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb} armv6b armv6tb"
-+PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b armv6b-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b armv6tb armv6b-vfp armv6tb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb-vfp"
--
+ # VFP Tunes
+-AVAILTUNES += "cortexa8hf cortexa8thf cortexa8hf-neon"
++AVAILTUNES += "cortexa8hf cortexa8thf cortexa8hf-neon cortexa8thf-neon"
+ ARMPKGARCH_tune-cortexa8hf = "cortexa8"
+ ARMPKGARCH_tune-cortexa8thf = "cortexa8"
+ ARMPKGARCH_tune-cortexa8hf-neon = "cortexa8"
++ARMPKGARCH_tune-cortexa8thf-neon = "cortexa8"
+ TUNE_FEATURES_tune-cortexa8hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa8"
+ TUNE_FEATURES_tune-cortexa8thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa8"
+ TUNE_FEATURES_tune-cortexa8hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa8"
++TUNE_FEATURES_tune-cortexa8thf-neon ?= "${TUNE_FEATURES_tune-armv7athf-neon} cortexa8"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa8hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa8hf-vfp cortexa8t2hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa8hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa8hf-vfp cortexa8hf-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa8thf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa8hf-vfp cortexa8hf-vfp-neon cortexa8t2hf-vfp cortexa8t2hf-vfp-neon"
+diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
+index f56b088..bebf3fc 100644
+--- a/meta/conf/machine/include/tune-cortexa9.inc
++++ b/meta/conf/machine/include/tune-cortexa9.inc
+@@ -6,25 +6,31 @@ TUNEVALID[cortexa9] = "Enable Cortex-A9 specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa9", "-mtune=cortex-a9", "", d)}"
+ 
+ # Little Endian base configs
+-AVAILTUNES += "cortexa9 cortexa9t cortexa9-neon"
++AVAILTUNES += "cortexa9 cortexa9t cortexa9-neon cortexa9t-neon"
+ ARMPKGARCH_tune-cortexa9 = "cortexa9"
+ ARMPKGARCH_tune-cortexa9t = "cortexa9"
+ ARMPKGARCH_tune-cortexa9-neon = "cortexa9"
++ARMPKGARCH_tune-cortexa9t-neon = "cortexa9"
+ TUNE_FEATURES_tune-cortexa9 = "${TUNE_FEATURES_tune-armv7a} cortexa9"
+ TUNE_FEATURES_tune-cortexa9t = "${TUNE_FEATURES_tune-armv7at} cortexa9"
+ TUNE_FEATURES_tune-cortexa9-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa9"
++TUNE_FEATURES_tune-cortexa9t-neon = "${TUNE_FEATURES_tune-armv7at-neon} cortexa9"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa9 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa9-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa9t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa9-vfp cortexa9t2-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa9-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa9-vfp cortexa9-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa9t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa9-vfp cortexa9-vfp-neon cortexa9t2-vfp cortexa9t2-vfp-neon"
+ 
+ # VFP Tunes
+-AVAILTUNES += "cortexa9hf cortexa9thf cortexa9hf-neon"
++AVAILTUNES += "cortexa9hf cortexa9thf cortexa9hf-neon cortexa9thf-neon"
+ ARMPKGARCH_tune-cortexa9hf = "cortexa9"
+ ARMPKGARCH_tune-cortexa9thf = "cortexa9"
+ ARMPKGARCH_tune-cortexa9hf-neon = "cortexa9"
++ARMPKGARCH_tune-cortexa9thf-neon = "cortexa9"
+ TUNE_FEATURES_tune-cortexa9hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa9"
+ TUNE_FEATURES_tune-cortexa9thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa9"
+ TUNE_FEATURES_tune-cortexa9hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa9"
++TUNE_FEATURES_tune-cortexa9thf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa9"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa9hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa9hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa9thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa9hf-vfp cortexa9t2hf-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa9hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa9hf-vfp cortexa9hf-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa9thf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa9hf-vfp cortexa9hf-vfp-neon cortexa9t2-vfp cortexa9t2hf-vfp-neon"
 -- 
 1.8.0
 
