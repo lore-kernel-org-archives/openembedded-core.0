@@ -1,32 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Te4nY-00019O-4q for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 15:09:04 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qATDsf3u021238;
-	Thu, 29 Nov 2012 13:54:41 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21012-02; Thu, 29 Nov 2012 13:54:35 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qATDEddh020694
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 29 Nov 2012 13:54:29 GMT
-Message-ID: <1354197267.4053.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Raymond Danks <ray.danks@se-eng.com>
-Date: Thu, 29 Nov 2012 13:54:27 +0000
-In-Reply-To: <50B766CC.4030904@se-eng.com>
-References: <50B63784.5050502@enea.com> <1354119751.15992.2.camel@ted>
-	<CADkTA4P8=aLSXNTAENp+WW7xX+ttYAPhPufRE=+yn9KXOY8Sag@mail.gmail.com>
-	<50B71FD4.3090304@enea.com> <50B766CC.4030904@se-eng.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tom.zanussi@intel.com>) id 1Te5DW-0001gM-QM
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 29 Nov 2012 15:35:55 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 29 Nov 2012 06:21:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,184,1355126400"; d="scan'208";a="173995034"
+Received: from unknown (HELO [10.255.13.102]) ([10.255.13.102])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Nov 2012 06:21:37 -0800
+Message-ID: <1354198897.1530.0.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 29 Nov 2012 08:21:37 -0600
+In-Reply-To: <CAJTo0LbshbjjaDKaj63BABuF0mkLfgo7mnhEwwqiUOw2UHV7nQ@mail.gmail.com>
+References: <cover.1354126748.git.nitin.a.kamble@intel.com>
+	<1354133261.28084.102.camel@empanada>
+	<CAJTo0LbshbjjaDKaj63BABuF0mkLfgo7mnhEwwqiUOw2UHV7nQ@mail.gmail.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches, Bruce, oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-cloud layer
+Cc: meta-intel@yoctoproject.org, darren.hart@intel.com,
+	Openembedded-core@lists.openembedded.org
+Subject: Re: [meta-intel patch 0/3] Fixes for rescent X breakages in meta-intel layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,54 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 14:09:04 -0000
+X-List-Received-Date: Thu, 29 Nov 2012 14:35:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-11-29 at 06:44 -0700, Raymond Danks wrote:
-> Thanks for looping me in here David. The initial goal for the meta-xen 
-> layer was in fact to encompass Xen Cloud Platform.  As such, the intent 
-> was to contain both hypervisor and user-space applications.  Indeed, the 
-> xen distribution itself includes xm/libxl; hypervisor abstraction would 
-> be somewhat tedious in my opinion.
+On Thu, 2012-11-29 at 11:27 +0000, Burton, Ross wrote:
+> On 28 November 2012 20:07, Tom Zanussi <tom.zanussi@intel.com> wrote:
+> > So does this conflict with Ross's patch, which seems simpler...
 > 
-> The layer just received commits for expanding the libvirt build to 
-> support qemu.  The commonalities and shared packaged between xen, qemu, 
-> and kvm implementations are such that I would also agree that meta-xen 
-> should be expanded/renamed to encompass all virtualization types; I also 
-> support the move to meta-virtualization.
+> I do prefer my patch as the same breakage will occur for anyone else
+> using oe-core master but also building their own older X server.
+> Whilst the delta is so minimal, I don't see the problem in supporting
+> both in oe-core.
 > 
-> As far as a meta-cloud layer is concerned, I'm not sure I am 
-> knowledgeable enough in this area to weigh in.  I'm currently 
-> researching a filesystem implementation for OpenStack and have stumbled 
-> across Ceph/RBD and Gluster modules that look promising. On top of this, 
-> XCP is documented to include support for VastSky and can be integrated 
-> with DRBD.  And, the storage and hypervisor are only two pieces of the 
-> puzzle for a cloud implementation!
-> 
-> I think I would encourage you to also include OpenStack in a 
-> meta-virtualization layer until it has matured to the point where 
-> abstraction is more warranted.  Since you've already created a presence 
-> at github, would it be possible to rename your layer to 
-> meta-virtualization and absorb the entire meta-xen layer?  I can push 
-> any changes for Xen/XCP here, it sounds like it is a central place for 
-> libvirt and could also contain Bruce's kernel modifications.
-> 
-> Alternatively, I can create a meta-virtualization project.  In any case, 
-> those on the To and CC list should receive access to this layer as a 
-> starting point.
-> 
-> Just my two cents.  :)
 
-I'd like to offer to host this combined layer (whatever we decide to
-call it) on git.yoctoproject.org if that would help people and people
-are interested. My only concern is in the area of maintainership, we
-need to clearly define who maintains what and what the patch submission
-process is in the README.
+I'll second that...
 
-Cheers,
+Tom
 
-Richard
+> Ross
 
 
 
