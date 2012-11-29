@@ -1,23 +1,19 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Te9IG-0006XR-E3
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Te9IG-0006XS-Lm
 	for openembedded-core@lists.openembedded.org;
 	Thu, 29 Nov 2012 19:57:05 +0100
 Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qATIge1S007078;
-	Thu, 29 Nov 2012 10:42:41 -0800 (PST)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qATIge1R007078;
+	Thu, 29 Nov 2012 10:42:40 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Thu, 29 Nov 2012 13:42:22 -0500
-Message-Id: <e7403df2bde00da021302a58fed6e782784ca629.1354214034.git.bruce.ashfield@windriver.com>
+Date: Thu, 29 Nov 2012 13:42:21 -0500
+Message-Id: <cover.1354214034.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1354214034.git.bruce.ashfield@windriver.com>
-References: <cover.1354214034.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1354214034.git.bruce.ashfield@windriver.com>
-References: <cover.1354214034.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] kernel-yocto: checkout known branch before leaving do_validate_branches
+Subject: [PATCH 0/1 master/for-danny] kernel-yocto: validate branches fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,43 +26,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 18:57:05 -0000
+X-List-Received-Date: Thu, 29 Nov 2012 18:57:06 -0000
 
-We should always leave the tree on a BSP branch or master when
-do_validate_branches completes to avoid modifying version tracked
-files are part of the build process. Modifying these files will lead
-to errors when changing branches, since the contents would be lost.
+Richard/Saul/Ross,
 
-This is evident in the case that a the meta branch is reset to a
-known SRCREV and the tree was left on the meta branch. This branch
-tracks the meta/meta-series, and other artifacts of the original
-tree construction. When the build process runs, it updates these same
-files, which creates a conflict when switching branches.
+This is a fix for YOCTO #3478, and it fixes a problem that was
+being seen when BSPs created by yocto-bsp. It turned out to be
+triggered by meta branch SRCREVs that triggered a branch reset,
+which then prevented the tools from doing the rest of their job.
 
-This has been fixed in the tree construction scripts to not track
-these files, but a secondary fix is also required of not leaving
-the build on these branches, to allow arbitrary trees to be built.
+The fix is both for master and for danny, I've tested it, TomZ
+has tested it, and so has the bug submitter, we are all happy 
+with the results.
 
-[YOCTO #3413]
+Cheers,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+Bruce
+
+
+The following changes since commit 247b6a3754c2c50318e2a73d79981ba0e9cb560b:
+
+  gstreamer, gst-plugins*: fix localdata (2012-11-28 15:25:33 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel-fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-fixes
+
+Bruce Ashfield (1):
+  kernel-yocto: checkout known branch before leaving
+    do_validate_branches
+
  meta/classes/kernel-yocto.bbclass |    2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 0d4ed21..c74317e 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -327,6 +327,8 @@ do_validate_branches() {
- 	if [ $? -eq 0 ]; then
- 		# restore the branch for builds
- 		git checkout -q -f ${KBRANCH}
-+        else
-+	        git checkout -q master
- 	fi
- }
- 
 -- 
 1.7.10.4
 
