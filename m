@@ -1,37 +1,37 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TeDVs-0006NS-EB
+	(envelope-from <martin.jansa@gmail.com>) id 1TeDVx-0006N9-Kq
 	for openembedded-core@lists.openembedded.org;
 	Fri, 30 Nov 2012 00:27:30 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so5816649eaa.6
+Received: by mail-ee0-f47.google.com with SMTP id l10so8324614eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 15:13:08 -0800 (PST)
+	Thu, 29 Nov 2012 15:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=Q9jrVeWH0+nb1Ucb3bvfpireUHWmLXRJ6RxFXu+awGc=;
-	b=hvWPZF3iFpTqv61QDTeSE+k1CcE6Kad9sOe03Q6RkCYFxYLxiV88TbYsZ1Z5QMcYq3
-	pAuJ2yq2TtiVF9J+bi5vtMKpWiyLbNWIar5mk0YXEP6HsCBKR/e61F+h2WfZG6FafaEz
-	k+GwcIF3qNV/Pc8hI/NUN0WGb/GzFRzfgf0CCXELFpyGj96AiYuz9Cb6utL4ulNoH5yk
-	5YQQUovv9eS02rYAvWfhGpG6ilJkXcPa02UVi0Mj6FTYxNr4Zu3RLGnHqJr9Iarorpny
-	ugJdIX3Js+0GjjL6nMALL+msYtBEJrEGlzAIzUR+Bt2GG3dx6LIOBS/SK+RJe7mRe350
-	7YAw==
-Received: by 10.14.203.2 with SMTP id e2mr87108621eeo.20.1354230788395;
-	Thu, 29 Nov 2012 15:13:08 -0800 (PST)
+	bh=5QFE8vrkU4/Z75vdoB6++Wxz/oZCr8SUSnVRnetekLk=;
+	b=MY6d7L+S8cODh6jxKvQV29HSyLqhDbg+MS03HBckbZjXPdvOc03n7Sch+0W0geEFhL
+	BF9pXnd4/CMnNPlT+Gx+Kbdu97i/yI/ZFoCFro3pjIPwtjgsGu3q2fZa05XzfhXxE7Qb
+	USgfY7yP3jHW0WeHqOt+o7PIVYyBiLVWgkifP1fGuqgJGArO+0IEoegJWVJaioXYkcrf
+	Bpu0LFnxakebWzQG+WVlywLO10Mj2GGjItI9mlo28IP19+fun5MBseBO46tsuvxEqMfv
+	VJqnKtM32XRaxvc2hCgAhdGRRYLeZibEknAnVuVtKllaYjHFVH/I87aIapc5tDiYJ5h4
+	NszA==
+Received: by 10.14.205.65 with SMTP id i41mr87702073eeo.2.1354230795653;
+	Thu, 29 Nov 2012 15:13:15 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 43sm6704801eed.10.2012.11.29.15.13.07
+	by mx.google.com with ESMTPS id e2sm6712020eeo.8.2012.11.29.15.13.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Nov 2012 15:13:07 -0800 (PST)
+	Thu, 29 Nov 2012 15:13:14 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2012 00:12:34 +0100
-Message-Id: <c72488b779d6fe10baff82689d6939993859befe.1354230112.git.Martin.Jansa@gmail.com>
+Date: Fri, 30 Nov 2012 00:12:35 +0100
+Message-Id: <9a18520ed5195be6f2f67f175026c71afc70f01e.1354230112.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <cover.1354230112.git.Martin.Jansa@gmail.com>
 References: <cover.1354230112.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1354230112.git.Martin.Jansa@gmail.com>
 References: <cover.1354230112.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 3/8] arch-armv5: fix missing thumb TUNE_FEATURE in armv5t-vfp and following tunes
+Subject: [PATCH 4/8] arch-armv[457]*: fix PACKAGE_EXTRA_ARCHS for bigendian TUNEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,26 +46,72 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 29 Nov 2012 23:27:33 -0000
 
+* bigendian should not include little endian PACKAGE_ARCHS
+
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/machine/include/arm/arch-armv5.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/arm/arch-armv4.inc  |  3 +--
+ meta/conf/machine/include/arm/arch-armv5.inc  | 10 ++++------
+ meta/conf/machine/include/arm/arch-armv7a.inc |  8 ++++----
+ 3 files changed, 9 insertions(+), 12 deletions(-)
 
+diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
+index 07e8eec..f3c3391 100644
+--- a/meta/conf/machine/include/arm/arch-armv4.inc
++++ b/meta/conf/machine/include/arm/arch-armv4.inc
+@@ -24,5 +24,4 @@ ARMPKGARCH_tune-armv4tb ?= "armv4"
+ TUNE_FEATURES_tune-armv4b ?= "${TUNE_FEATURES_tune-armv4} bigendian"
+ TUNE_FEATURES_tune-armv4tb ?= "${TUNE_FEATURES_tune-armv4t} bigendian"
+ PACKAGE_EXTRA_ARCHS_tune-armv4b = "armeb armv4b"
+-PACKAGE_EXTRA_ARCHS_tune-armv4tb = "${PACKAGE_EXTRA_ARCHS_tune-armv4} armv4tb"
+-
++PACKAGE_EXTRA_ARCHS_tune-armv4tb = "${PACKAGE_EXTRA_ARCHS_tune-armv4b} armv4tb"
 diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta/conf/machine/include/arm/arch-armv5.inc
-index 5ed56bc..c6d4fc1 100644
+index c6d4fc1..0bcc1f0 100644
 --- a/meta/conf/machine/include/arm/arch-armv5.inc
 +++ b/meta/conf/machine/include/arm/arch-armv5.inc
-@@ -25,8 +25,8 @@ ARMPKGARCH_tune-armv5-vfp ?= "armv5"
- ARMPKGARCH_tune-armv5t-vfp ?= "armv5"
- ARMPKGARCH_tune-armv5hf-vfp ?= "armv5"
- ARMPKGARCH_tune-armv5thf-vfp ?= "armv5"
--TUNE_FEATURES_tune-armv5-vfp ?= "armv5 vfp"
--TUNE_FEATURES_tune-armv5t-vfp ?= "armv5 vfp"
-+TUNE_FEATURES_tune-armv5-vfp ?= "${TUNE_FEATURES_tune-armv5} vfp"
-+TUNE_FEATURES_tune-armv5t-vfp ?= "${TUNE_FEATURES_tune-armv5t} vfp"
- TUNE_FEATURES_tune-armv5hf-vfp ?= "${TUNE_FEATURES_tune-armv5-vfp} callconvention-hard"
- TUNE_FEATURES_tune-armv5thf-vfp ?= "${TUNE_FEATURES_tune-armv5t-vfp} callconvention-hard"
- PACKAGE_EXTRA_ARCHS_tune-armv5-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5} armv5-vfp"
+@@ -41,8 +41,8 @@ ARMPKGARCH_tune-armv5b ?= "armv5"
+ ARMPKGARCH_tune-armv5tb ?= "armv5"
+ TUNE_FEATURES_tune-armv5b ?= "${TUNE_FEATURES_tune-armv5} bigendian"
+ TUNE_FEATURES_tune-armv5tb ?= "${TUNE_FEATURES_tune-armv5t} bigendian"
+-PACKAGE_EXTRA_ARCHS_tune-armv5b = "${PACKAGE_EXTRA_ARCHS_tune-armv4} armv5b"
+-PACKAGE_EXTRA_ARCHS_tune-armv5tb = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} armv5b armv5tb"
++PACKAGE_EXTRA_ARCHS_tune-armv5b = "${PACKAGE_EXTRA_ARCHS_tune-armv4b} armv5b"
++PACKAGE_EXTRA_ARCHS_tune-armv5tb = "${PACKAGE_EXTRA_ARCHS_tune-armv4tb} armv5b armv5tb"
+ 
+ # Big Endian + VFP/DSP
+ AVAILTUNES += "armv5b-vfp armv5tb-vfp armv5hfb-vfp armv5thfb-vfp"
+@@ -54,9 +54,7 @@ TUNE_FEATURES_tune-armv5b-vfp ?= "${TUNE_FEATURES_tune-armv5-vfp} bigendian"
+ TUNE_FEATURES_tune-armv5tb-vfp ?= "${TUNE_FEATURES_tune-armv5t-vfp} bigendian"
+ TUNE_FEATURES_tune-armv5hfb-vfp ?= "${TUNE_FEATURES_tune-armv5b-vfp} callconvention-hard"
+ TUNE_FEATURES_tune-armv5thfb-vfp ?= "${TUNE_FEATURES_tune-armv5tb-vfp} callconvention-hard"
+-PACKAGE_EXTRA_ARCHS_tune-armv5b-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5} armv5b-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv5tb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5t} armv5b-vfp armv5tb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv5b-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5b} armv5b-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv5tb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5tb} armv5b-vfp armv5tb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv5hfb-vfp = "armv5hfb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv5thfb-vfp = "armv5hfb-vfp armv5thfb-vfp"
+-
+-
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index d4a1d02..827b426 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -48,10 +48,10 @@ TUNE_FEATURES_tune-armv7ab ?= "${TUNE_FEATURES_tune-armv7a} bigendian"
+ TUNE_FEATURES_tune-armv7atb ?= "${TUNE_FEATURES_tune-armv7at} bigendian"
+ TUNE_FEATURES_tune-armv7ab-neon ?= "${TUNE_FEATURES_tune-armv7a-neon} bigendian"
+ TUNE_FEATURES_tune-armv7atb-neon ?= "${TUNE_FEATURES_tune-armv7at-neon} bigendian"
+-PACKAGE_EXTRA_ARCHS_tune-armv7ab = "${PACKAGE_EXTRA_ARCHS_tune-armv6} armv7ab-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv7atb = "${PACKAGE_EXTRA_ARCHS_tune-armv6t} armv7ab-vfp armv7at2b-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7ab-vfp-neon"
+-PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7ab-vfp-neon armv7at2b-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-armv7ab = "${PACKAGE_EXTRA_ARCHS_tune-armv6b} armv7ab-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7atb = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb} armv7ab-vfp armv7at2b-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab} armv7ab-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb} armv7ab-vfp-neon armv7at2b-vfp-neon"
+ 
+ # Big Endian + VFP
+ AVAILTUNES += "armv7ahfb armv7athfb armv7ahfb-neon armv7athfb-neon"
 -- 
 1.8.0
 
