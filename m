@@ -1,24 +1,24 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1Tdxd9-0004Qs-0t
+	(envelope-from <Rongqing.Li@windriver.com>) id 1Tdxxn-0004vN-PD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 07:30:04 +0100
+	Thu, 29 Nov 2012 07:51:12 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAT6Fa8E026759
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAT6aufZ026972
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 22:15:36 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.141) by
+	Wed, 28 Nov 2012 22:36:56 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.143) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 28 Nov 2012 22:15:33 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	14.2.318.4; Wed, 28 Nov 2012 22:36:54 -0800
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Nov 2012 14:15:31 +0800
-Message-ID: <cover.1354169442.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+Date: Thu, 29 Nov 2012 14:36:55 +0800
+Message-ID: <cover.1354170824.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Subject: [PATCH 0/1] populate_sdk_base:tarball installer:add sudo prompt
+Subject: [PATCH 0/1] apr: set flag of inheriting O_NONBLOCK as no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,26 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 06:30:14 -0000
+X-List-Received-Date: Thu, 29 Nov 2012 06:51:12 -0000
 Content-Type: text/plain
 
-The following changes since commit d7670ab74b2c10001c22f116cb27b39fd8354c61:
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-  bitbake: build.py: Preserve sigdata files in the stamps directory (2012-11-28 20:26:56 +0000)
+The following changes since commit 99f003356be43bb361634359a5d3c520f72f0a08:
+
+  local.conf.sample: Enable disk space monitoring by default (2012-11-28 15:25:14 +0000)
 
 are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib roy/apr
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/apr
 
-  git://git.pokylinux.org/poky-contrib hongxu/toolchain
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/toolchain
+Roy.Li (1):
+  apr: set flag of inheriting O_NONBLOCK as no
 
-Hongxu Jia (1):
-  populate_sdk_base:tarball installer:add sudo prompt
-
- meta/classes/populate_sdk_base.bbclass |   69 +++++++++++++++++++++++---------
- 1 file changed, 51 insertions(+), 18 deletions(-)
+ meta/recipes-support/apr/apr_1.4.6.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
 -- 
-1.7.10.4
+1.7.5.4
 
 
 
