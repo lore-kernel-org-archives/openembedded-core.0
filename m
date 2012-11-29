@@ -1,25 +1,31 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <David.Nystrom@enea.com>) id 1Tdzuo-0000Fy-5f
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Rongqing.Li@windriver.com>) id 1TdzwH-0000Zb-Rz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 09:56:22 +0100
-Received: from [172.16.140.28] (172.16.140.28) by smtp.enea.com (172.21.1.209)
-	with Microsoft SMTP Server id 14.2.318.1;
-	Thu, 29 Nov 2012 09:41:58 +0100
-Message-ID: <50B71FD4.3090304@enea.com>
-Date: Thu, 29 Nov 2012 09:41:56 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+	Thu, 29 Nov 2012 09:57:48 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAT8hTCv025345
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 29 Nov 2012 00:43:29 -0800 (PST)
+Received: from [128.224.162.143] (128.224.162.143) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Thu, 29 Nov 2012 00:43:28 -0800
+Message-ID: <50B72032.8060905@windriver.com>
+Date: Thu, 29 Nov 2012 16:43:30 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <50B63784.5050502@enea.com> <1354119751.15992.2.camel@ted>
-	<CADkTA4P8=aLSXNTAENp+WW7xX+ttYAPhPufRE=+yn9KXOY8Sag@mail.gmail.com>
-In-Reply-To: <CADkTA4P8=aLSXNTAENp+WW7xX+ttYAPhPufRE=+yn9KXOY8Sag@mail.gmail.com>
-X-Originating-IP: [172.16.140.28]
-Cc: Patches, discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-cloud layer
+To: Ross Burton <ross.burton@intel.com>
+References: <cover.1354170824.git.rongqing.li@windriver.com>
+	<cb54673a133a17e2be78912491a696de62c6e431.1354170824.git.rongqing.li@windriver.com>
+	<8CEBF7D0731E4F6A92279327C7C8C74D@intel.com>
+In-Reply-To: <8CEBF7D0731E4F6A92279327C7C8C74D@intel.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	qAT8hTCv025345
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] apr: set flag of inheriting O_NONBLOCK as no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,107 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 08:56:22 -0000
-X-List-Received-Date: Thu, 29 Nov 2012 08:56:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 29 Nov 2012 08:57:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Adding Ray Danks to CC.
-
-Ray, how do you want to go forward with the meta-xen layer ?
-
- From my perspective, having the actual hypervisor technology abstracted
-from the userspace virtualization stuff is preferable. So a user could=20
-pick-and-place hypervisor layer/s depending on needs. (And good for=20
-use-case benchmarks as well).
-
-libvirt package and others are smart enough to autodetect underlying=20
-hypervisor tech capabilities, and should work out-of-the-box from that=20
-aspect.
-
-As to where all this will finally end up, anything goes as far as I'm=20
-concerned. I'll continue working in meta-cloud for now, until consensus=20
-is reached on the final whereabouts for the virtualization specific recipes=
-.
-
-If anyone want to join me on github, send me an email.
-
-Best Regards,
-David
 
 
-On 11/28/2012 06:25 PM, Bruce Ashfield wrote:
-> On Wed, Nov 28, 2012 at 11:22 AM, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
+On 2012=E5=B9=B411=E6=9C=8829=E6=97=A5 15:08, Ross Burton wrote:
+> On Thursday, 29 November 2012 at 06:36, rongqing.li@windriver.com wrote=
+:
+>> The flag ac_cv_o_nonblock_inherited is always set to yes in cross comp=
+iling
+>> environment. This flag is intended to think the socket, returned from
+>> accept(), inherit file status flags such as O_NONBLOCK from the listen=
+ing
+>> socket, but socket never inherits file status from the listening socke=
+t on
+>> Linux (more information to man accept).
 >
->> On Wed, 2012-11-28 at 17:10 +0100, David Nystr=F6m wrote:
->>> Hello everyone,
->>>
->>> I'm working on getting a minimal Yocto/oe-core based OpenStack setup
->>> running with the meta-cloud layer, with bits and pieces "borrowed" from
->>> the meta-xen layer.
->>
->> Great news!
->>
->> It might be worth growing meta-xen into a meta-virtualisation layer
->> since kvm, openstack and xen all seem to be sharing a lot of pieces.
->> This depends on the maintainers but it would seem to be logical rather
->> than many small interdependent layers.
->>
+> meta/site/powerpc32-linux already sets this to no, so if this Linux-wid=
+e behaviour it should be moved to site/common-linux instead of being spec=
+ific to apr.
 >
-> FWIW. I'd like to see this as well, and can contribute/help where possibl=
-e.
-> I
-> was considering a meta-ovs (Open Virtualization Solutions), but if there =
-are
-> already plans afoot for a meta-virtualization, then anything I did could =
-be
-> pushed down keeping any other layers small.
->
-> In particular I'm keen to drive some common kernel configuration, and wor=
-k
-> on consolidating kernel features in trees versus having a whole set of ou=
-t
-> of
-> tree modules with better tie in's to userspace enabling features
-> dynamically.
->
-> So I'll keep an eye out for things as well and help where possible.
->
-> Cheers,
->
-> Bruce
+> Ross
+
+You reminds me, powerpc does not have this bug, but other arch have.
+
+ From man accept(), this is a Linux-wide behaviour, and it should be
+put to sit/common-linux.
+
+-Roy
+
 >
 >
->>
->>> Still in its infancy, and lots of stuff is still missing and/or not
->>> working properly.
->>>
->>> Have a look if your interested, not much to see yet though.
->>>
->>> https://github.com/nysan/meta-cloud.git
->>>
->>> Any thoughts on floating layer ML:s, i.e. an ML for so called
->>> "out-of-tree" layers ?  Or is the common thought that all new recipes
->>> should eventually go into oe-core ?
->>
->> The Yocto Project has been using the Yocto list for that and
->> OpenEmbedded has openembedded-devel. Its not expected for everything to
->> end up in OE-Core, quite the opposite.
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
->
->
+
+--=20
+Best Reagrds,
+Roy | RongQing Li
+
+
 
 
