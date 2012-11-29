@@ -1,25 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Te8Sd-0001Ja-4k
+	(envelope-from <sgw@linux.intel.com>) id 1Te8kx-0005ss-DQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 19:04:27 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2012 09:49:19 -0800
+	Thu, 29 Nov 2012 19:22:47 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Nov 2012 10:08:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,186,1355126400"; d="scan'208";a="255153323"
+X-IronPort-AV: E=Sophos;i="4.84,186,1355126400"; d="scan'208";a="256748088"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.127])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2012 09:49:17 -0800
-Message-ID: <50B7A01D.2060508@linux.intel.com>
-Date: Thu, 29 Nov 2012 09:49:17 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2012 10:08:21 -0800
+Message-ID: <50B7A494.8080009@linux.intel.com>
+Date: Thu, 29 Nov 2012 10:08:20 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: "yanjun.zhu" <yanjun.zhu@windriver.com>
-References: <3513> <1354180448-14858-1-git-send-email-yanjun.zhu@windriver.com>
-In-Reply-To: <1354180448-14858-1-git-send-email-yanjun.zhu@windriver.com>
+To: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+References: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
+In-Reply-To: <1354007897-16888-1-git-send-email-schnitzeltony@googlemail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe][PATCH 1/1] squashfs: fix for CVE-2012-4024
+Subject: Re: [PATCH] gtk+: do not prelight GtkButton in touchscreen mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,127 +32,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 18:04:54 -0000
+X-List-Received-Date: Thu, 29 Nov 2012 18:22:48 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/29/2012 01:14 AM, yanjun.zhu wrote:
-> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
->
-> Reference:http://squashfs.git.sourceforge.net/git/gitweb.cgi?p=
-> squashfs/squashfs;a=commit;h=19c38fba0be1ce949ab44310d7f49887576cc123
->
-> Fix potential stack overflow in get_component() where an individual
-> pathname component in an extract file (specified on the command line
-> or in an extract file) could exceed the 1024 byte sized targname
-> allocated on the stack.
->
-> Fix by dynamically allocating targname rather than storing it as
-> a fixed size on the stack.
->
-> [YOCTO #3513]
->
-> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+On 11/27/2012 01:18 AM, Andreas Müller wrote:
+> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 > ---
->   .../patches/squashfs-4.2-fix-CVE-2012-4024.patch   | 58 ++++++++++++++++++++++
->   .../squashfs-tools/squashfs-tools_4.2.bb           |  3 ++
->   2 files changed, 61 insertions(+)
->   create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4024.patch
+>   ...utton-do-not-prelight-in-touchscreen-mode.patch |   48 ++++++++++++++++++++
+>   meta/recipes-gnome/gtk+/gtk+_2.24.13.bb            |    3 +-
+>   2 files changed, 50 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
 >
-> diff --git a/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4024.patch b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4024.patch
+> diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
 > new file mode 100644
-> index 0000000..10f6bb2
+> index 0000000..671fd2f
 > --- /dev/null
-> +++ b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4024.patch
+> +++ b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+> @@ -0,0 +1,48 @@
+> +From d1f7a894674dfdd6769f1bbae31eb1a69e451a5c Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+> +Date: Fri, 16 Nov 2012 22:07:28 +0100
+> +Subject: [PATCH] GtkButton: do not prelight in touchscreen mode
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Code was copied from GtkToggleButton.
+> +
+> +Upstream-status: pending [1]
 
-Thank you for your work on the the CVE updates, please make sure you 
-also let the Danny Stable maintainer know if these are for Danny also.
-
-You also need to add Signed-off-by and Upstream-Status to the patch.
+Proper tag format is Upstream-Status:
 
 Thanks
 	Sau!
 
-> @@ -0,0 +1,58 @@
-> +diff -urpN a/unsquashfs.c b/unsquashfs.c
-> +--- a/unsquashfs.c	2012-11-29 17:04:08.000000000 +0800
-> ++++ b/unsquashfs.c	2012-11-29 17:04:25.000000000 +0800
-> +@@ -1034,15 +1034,18 @@ void squashfs_closedir(struct dir *dir)
-> + }
 > +
+> +https://bugzilla.gnome.org/show_bug.cgi?id=689138
 > +
-> +-char *get_component(char *target, char *targname)
-> ++char *get_component(char *target, char **targname)
+> +Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> +---
+> + gtk/gtkbutton.c |    8 ++++++--
+> + 1 files changed, 6 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gtk/gtkbutton.c b/gtk/gtkbutton.c
+> +index f472007..1beb1b6 100644
+> +--- a/gtk/gtkbutton.c
+> ++++ b/gtk/gtkbutton.c
+> +@@ -2079,15 +2079,19 @@ _gtk_button_set_depressed (GtkButton *button,
+> + static void
+> + gtk_button_update_state (GtkButton *button)
 > + {
-> ++	char *start;
+> +-  gboolean depressed;
+> ++  gboolean depressed, touchscreen;
+> +   GtkStateType new_state;
+> +
+> ++  g_object_get (gtk_widget_get_settings (GTK_WIDGET (button)),
+> ++                "gtk-touchscreen-mode", &touchscreen,
+> ++                NULL);
 > ++
-> + 	while(*target == '/')
-> + 		target ++;
+> +   if (button->activate_timeout)
+> +     depressed = button->depress_on_activate;
+> +   else
+> +     depressed = button->in_button && button->button_down;
 > +
-> ++	start = target;
-> + 	while(*target != '/' && *target!= '\0')
-> +-		*targname ++ = *target ++;
-> ++		target ++;
+> +-  if (button->in_button && (!button->button_down || !depressed))
+> ++  if (!touchscreen && button->in_button && (!button->button_down || !depressed))
+> +     new_state = GTK_STATE_PRELIGHT;
+> +   else
+> +     new_state = depressed ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
+> +--
+> +1.7.6.5
 > +
-> +-	*targname = '\0';
-> ++	*targname = strndup(start, target - start);
-> +
-> + 	return target;
-> + }
-> +@@ -1068,12 +1071,12 @@ void free_path(struct pathname *paths)
-> +
-> + struct pathname *add_path(struct pathname *paths, char *target, char *alltarget)
-> + {
-> +-	char targname[1024];
-> ++	char *targname;
-> + 	int i, error;
-> +
-> + 	TRACE("add_path: adding \"%s\" extract file\n", target);
-> +
-> +-	target = get_component(target, targname);
-> ++	target = get_component(target, &targname);
-> +
-> + 	if(paths == NULL) {
-> + 		paths = malloc(sizeof(struct pathname));
-> +@@ -1097,7 +1100,7 @@ struct pathname *add_path(struct pathnam
-> + 			sizeof(struct path_entry));
-> + 		if(paths->name == NULL)
-> + 			EXIT_UNSQUASH("Out of memory in add_path\n");	
-> +-		paths->name[i].name = strdup(targname);
-> ++		paths->name[i].name = targname;
-> + 		paths->name[i].paths = NULL;
-> + 		if(use_regex) {
-> + 			paths->name[i].preg = malloc(sizeof(regex_t));
-> +@@ -1130,6 +1133,8 @@ struct pathname *add_path(struct pathnam
-> + 		/*
-> + 		 * existing matching entry
-> + 		 */
-> ++		free(targname);
-> ++
-> + 		if(paths->name[i].paths == NULL) {
-> + 			/*
-> + 			 * No sub-directory which means this is the leaf
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-> index c54081b..9922f1e 100644
-> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-> @@ -3,6 +3,7 @@
->   DESCRIPTION = "Tools to manipulate Squashfs filesystems."
->   SECTION = "base"
->   LICENSE = "GPL-2 & PD"
-> +FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
->   LIC_FILES_CHKSUM = "file://../COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->                       file://../../7zC.txt;beginline=12;endline=16;md5=2056cd6d919ebc3807602143c7449a7c \
->                      "
-> @@ -12,6 +13,8 @@ PR = "1"
->   SRC_URI = "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=squashfs \
->              http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
->             "
-> +SRC_URI += "file://squashfs-4.2-fix-CVE-2012-4024.patch \
-> +           "
->   SRC_URI[squashfs.md5sum] = "1b7a781fb4cf8938842279bd3e8ee852"
->   SRC_URI[squashfs.sha256sum] = "d9e0195aa922dbb665ed322b9aaa96e04a476ee650f39bbeadb0d00b24022e96"
->   SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
+> diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
+> index b358b7f..bc88284 100644
+> --- a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
+> +++ b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
+> @@ -13,6 +13,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+>              file://toggle-font.diff;striplevel=0 \
+>              file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
+>              file://doc-fixes.patch \
+> +           file://0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch \
+>   	  "
+>
+>   # TO MERGE
+> @@ -27,7 +28,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+>   #        file://combo-arrow-size.patch;striplevel=0
+>   #            file://configurefix.patch
+>
+> -PR = "r1"
+> +PR = "r2"
+>
+>   SRC_URI[md5sum] = "e949406751df51e1e40e85628005a069"
+>   SRC_URI[sha256sum] = "35e1a01e46b02970b02ee9f299390d0aa57c1215ad2667bcd584b72f4ea6513d"
 >
 
 
