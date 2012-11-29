@@ -1,26 +1,44 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1Tdxxo-0004vO-Jq
+	(envelope-from <ross.burton@intel.com>) id 1TdySl-00060j-NX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Nov 2012 07:51:12 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAT6au8D010223
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 29 Nov 2012 08:23:11 +0100
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 28 Nov 2012 23:08:54 -0800
+Received: by mail-bk0-f69.google.com with SMTP id jg9so8464648bkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Nov 2012 22:36:56 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.143) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 28 Nov 2012 22:36:56 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Nov 2012 14:36:56 +0800
-Message-ID: <cb54673a133a17e2be78912491a696de62c6e431.1354170824.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1354170824.git.rongqing.li@windriver.com>
+	Wed, 28 Nov 2012 23:08:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=date:from:to:cc:message-id:in-reply-to:references:subject:x-mailer
+	:mime-version:content-type:content-transfer-encoding
+	:content-disposition:x-gm-message-state;
+	bh=2CSU0d3ek/X/HvL8fqxhClwn9HcFzG1p/B+524cNrAE=;
+	b=dl9MInNwDre/YQ49QM6hp2l6dSC3mlmx0ifv+WyhMSy6MqdCLp0bDkQ+yT/yseqde3
+	J2/zUtAVoVb7Z5OJtkYIN4jqp0scW4zhBhuXwTBnnKi86Yh0XJwt8Ev1C3AaWSJDqZL2
+	3x7r3j8Vk2ep8Gtrj1JncQJ+N3YIuBBG1Pvv1XtwHlEWfaf8CjYEPm603+V9ExJGIRLS
+	r+NSg+N/vLhapiQUI6Rx6kh5SJI+7sbBqaCP4zAoy5rB68yDqTp/1Ajy1P54F/Wrbi8b
+	24yCxsG8gs6iGFGGwVGTzaeFo/hcysTP9h0z2vBH4KSNxWbSLRDx7f2d03Sb+Xiaa7Rs
+	8lLQ==
+Received: by 10.216.29.211 with SMTP id i61mr8324402wea.175.1354172931582;
+	Wed, 28 Nov 2012 23:08:51 -0800 (PST)
+Received: by 10.216.29.211 with SMTP id i61mr8324397wea.175.1354172931455;
+	Wed, 28 Nov 2012 23:08:51 -0800 (PST)
+Received: from [192.168.1.6] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id d9sm10313285wiw.0.2012.11.28.23.08.48
+	(version=SSLv3 cipher=OTHER); Wed, 28 Nov 2012 23:08:49 -0800 (PST)
+Date: Thu, 29 Nov 2012 07:08:49 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: rongqing.li@windriver.com
+Message-ID: <8CEBF7D0731E4F6A92279327C7C8C74D@intel.com>
+In-Reply-To: <cb54673a133a17e2be78912491a696de62c6e431.1354170824.git.rongqing.li@windriver.com>
 References: <cover.1354170824.git.rongqing.li@windriver.com>
+	<cb54673a133a17e2be78912491a696de62c6e431.1354170824.git.rongqing.li@windriver.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] apr: set flag of inheriting O_NONBLOCK as no
+X-Gm-Message-State: ALoCoQnIIxDg7BCGyyWu0aer1rnLQSqB/YDY9w/hPXYWEn7qm4oTfn1qHig9PS9molOoPSO9UsCam3odAackuWR4l9qJqTcbvpMwv5pNerF+NsqYtgVALyHhViOFjOT7UKRL+mmTxts63wrZITA16pZWOagzpePZiyMXsJjMkYW/hdTrTQuhn1MNxXAZGc7Azi0B4d4pQvlP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] apr: set flag of inheriting O_NONBLOCK as no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,49 +51,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2012 06:51:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Nov 2012 07:23:12 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On Thursday, 29 November 2012 at 06:36, rongqing.li@windriver.com wrote:
+> The flag ac_cv_o_nonblock_inherited is always set to yes in cross compiling
+> environment. This flag is intended to think the socket, returned from
+> accept(), inherit file status flags such as O_NONBLOCK from the listening
+> socket, but socket never inherits file status from the listening socket on
+> Linux (more information to man accept).
 
-The flag ac_cv_o_nonblock_inherited is always set to yes in cross compiling
-environment. This flag is intended to think the socket, returned from
-accept(), inherit file status flags such as O_NONBLOCK from the listening
-socket, but socket never inherits file status from the listening socket on
-Linux (more information to man accept).
+meta/site/powerpc32-linux already sets this to no, so if this Linux-wide behaviour it should be moved to site/common-linux instead of being specific to apr.
 
-If ac_cv_o_nonblock_inherited is set to yes on Linux, clients can not access the
-same ip address(URL) with Apache web server via http(port 80) and https(port443)
-without redirection
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- meta/recipes-support/apr/apr_1.4.6.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support/apr/apr_1.4.6.bb
-index 896f79f..3e7b0a9 100644
---- a/meta/recipes-support/apr/apr_1.4.6.bb
-+++ b/meta/recipes-support/apr/apr_1.4.6.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
- 
- BBCLASSEXTEND = "native"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://configure_fixes.patch \
-@@ -22,6 +22,7 @@ SRC_URI[sha256sum] = "9b635e60feb163e6fc6c375721f71f44d7e26d6b9cd52f6b86b04e65d2
- inherit autotools lib_package binconfig multilib_header
- 
- OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
-+EXTRA_OECONF = "ac_cv_o_nonblock_inherited=no"
- 
- do_configure_prepend() {
- 	cd ${S}
--- 
-1.7.5.4
-
+Ross
 
 
