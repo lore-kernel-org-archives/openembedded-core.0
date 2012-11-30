@@ -1,34 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TeJsC-0005bg-Ag
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TeJvx-0005hg-BS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 07:14:54 +0100
+	Fri, 30 Nov 2012 07:18:45 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAU60Y2B016913
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Nov 2012 22:00:35 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Thu, 29 Nov 2012 22:00:34 -0800
-Message-ID: <50B84B9A.5020502@windriver.com>
-Date: Fri, 30 Nov 2012 14:00:58 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAU64Sg3016942
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Nov 2012 22:04:28 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Thu, 29 Nov 2012 22:04:27 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Nov 2012 14:04:24 +0800
+Message-ID: <1354255464-688-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+In-Reply-To: <3487>
+References: <3487>
 MIME-Version: 1.0
-To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
-References: <1354021038-26183-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAP9ODKqLkqZ=AtU9SNVfXRFxs04LnsQEe-9iE0nsU34Yru2pnw@mail.gmail.com>
-	<50B5763B.1040107@windriver.com>
-	<CAP9ODKpyi3Hs1B8C9OovatGG2VxukWU9pdip2HMTMFjJn9FSJQ@mail.gmail.com>
-	<A8A2F4C5E3D3D0468DDA3544476725F85BC7EE51@EU-MBX-04.mgc.mentorg.com>
-In-Reply-To: <A8A2F4C5E3D3D0468DDA3544476725F85BC7EE51@EU-MBX-04.mgc.mentorg.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
+Subject: [PATCH 1/1] libproxy: Fix for CVE-2012-4504
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,90 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 06:14:54 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2012 06:18:45 -0000
+Content-Type: text/plain
 
-On 11/28/2012 07:09 PM, Shakeel, Muhammad wrote:
-> If we ensure that udev will always be found in /lib/udev/udevd then this patch will not be required.
->
-> Actually I needed this patch to start udev on a mips64 target where ${base_libdir} is '/lib64' and original udev init script was failing to start udev.
-> (I am not using initramfs).
->
-> --Shakeel
-Hi Muhammad,
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-I'm somewhat confused by this 'baselib' problem. I just built udev on a 
-test machine which has mips64 arch. But it turned out that its baselib 
-was '/lib' instead of '/lib64'.
+Reference:https://code.google.com/p/libproxy/source/detail?r=853
 
-How did you get '/lib64' on a mips64 target?
+Stack-based buffer overflow in the url::get_pac function in url.cpp
+in libproxy 0.4.x before 0.4.9 allows remote servers to have an
+unspecified impact via a large proxy.pac file.
 
-My test machine's conf file is:
-"
-require conf/machine/include/tune-mips64.inc
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
 
-KERNEL_IMAGETYPE = "vmlinux"
-KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+[YOCTO #3487]
 
-SERIAL_CONSOLE = "115200 ttyS0"
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+---
+ .../libproxy/libproxy-0.4.7-CVE-2012-4504.patch    | 27 ++++++++++++++++++++++
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb    |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
 
-MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
-"
-
-Besides, I tried it on x86-64.  As long as we don't explicitly specify 
-multilib (lib64) for udev, it defaults to '/lib'.
-
-I seems that the baselib defaults to '/lib64' only when the target has 
-powerpc64 arch.
-
-Could you please give me some more information to help me?
-
-Thanks,
-Chen Qi
-
-> -----Original Message-----
-> From: otavio.salvador@gmail.com [mailto:otavio.salvador@gmail.com] On Behalf Of Otavio Salvador
-> Sent: Wednesday, November 28, 2012 3:52 PM
-> To: ChenQi
-> Cc: Shakeel, Muhammad; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] udev 182: Create a symlink of /lib/udev/udevd in /sbin
->
-> On Wed, Nov 28, 2012 at 12:26 AM, ChenQi<Qi.Chen@windriver.com>  wrote:
->> On 11/27/2012 10:15 PM, Otavio Salvador wrote:
->>> On Tue, Nov 27, 2012 at 10:57 AM, Shakeel, Muhammad
->>> <muhammad_shakeel@mentor.com>   wrote:
->>>> From: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>>>
->>>>    From udev 174 changelog:
->>>> "The udev daemon moved to /lib/udev/udevd. Non-systemd init systems
->>>> and non-dracut initramfs image generators need to change the init
->>>> scripts. Alternatively the udev build needs to move udevd back to
->>>> /sbin or create a symlink in /sbin, which is not done by default."
->>>>
->>>> Also for 64 bit architectures there exists /lib64/udev instead of
->>>> /lib/udev and current init script fails to start udev.
->>>>
->>>> Signed-off-by: Muhammad Shakeel<muhammad_shakeel@mentor.com>
->>> As far as I know, all code in master now handles it properly (the
->>> missing bits I sent a patch today) so why to include this symlink?
->>>
->> I'm not sure about this.
->>
->> Two things:
->>
->> 1) Have we ever tested udev on a target where its ${base_libdir} is
->> '/lib64'?
->> Apparently, if udevd is intalled under '/lib64', its init script
->> cannot start udev correctly.
->>
->> 2) Bug#2804 is related to to udev and ${base_libdir}.
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2804
->> (Some packages hardcode their udev rules directory to be
->> '/lib/udev/rules.d/'. So can udev find them if the ${base_libdir} is
->> '/lib64'? )
-> It seems the right fix for it is to ensure udev is always installed in /lib/udev/udevd (for all targets) as you propose to do for the rules.d directory.
->
+diff --git a/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+new file mode 100644
+index 0000000..b4def86
+--- /dev/null
++++ b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+@@ -0,0 +1,27 @@
++libproxy - CVE-2012-4504:
++
++Reference:https://code.google.com/p/libproxy/source/detail?r=853
++
++Stack-based buffer overflow in the url::get_pac function in url.cpp
++in libproxy 0.4.x before 0.4.9 allows remote servers to have an
++unspecified impact via a large proxy.pac file.
++
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
++
++Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
++
++diff -urpN a/libproxy/url.cpp b/libproxy/url.cpp
++--- a/libproxy/url.cpp	2012-11-26 10:08:47.000000000 +0800
+++++ b/libproxy/url.cpp	2012-11-26 10:05:54.000000000 +0800
++@@ -472,9 +472,10 @@ char* url::get_pac() {
++ 				// Add this chunk to our content length,
++ 				// ensuring that we aren't over our max size
++ 				content_length += chunk_length;
++-				if (content_length >= PAC_MAX_SIZE) break;
++ 			}
++ 
+++			if (content_length >= PAC_MAX_SIZE) break;
+++
++ 			while (recvd != content_length) {
++ 				int r = recv(sock, buffer + recvd, content_length - recvd, 0);
++ 				if (r < 0) break;
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index e3721a8..fc32f57 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -13,6 +13,7 @@ PR = "r4"
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+            file://g++-namepace.patch \
+            file://libproxy_fix_for_gcc4.7.patch \
++           file://libproxy-0.4.7-CVE-2012-4504.patch \
+           "
+ 
+ SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
+-- 
+1.7.11
 
 
 
