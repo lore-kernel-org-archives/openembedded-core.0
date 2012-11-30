@@ -1,21 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TePUB-0006vi-B8
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TePcs-00076X-Ks
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 13:14:27 +0100
+	Fri, 30 Nov 2012 13:23:26 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAUB2YE0013187
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAUBMHE5022652
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 03:02:34 -0800 (PST)
+	Fri, 30 Nov 2012 03:24:59 -0800 (PST)
 Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Fri, 30 Nov 2012 03:02:32 -0800
+	14.2.318.4; Fri, 30 Nov 2012 03:23:51 -0800
 From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2012 19:02:30 +0800
-Message-ID: <1354273350-6453-1-git-send-email-yanjun.zhu@windriver.com>
+Date: Fri, 30 Nov 2012 19:23:48 +0800
+Message-ID: <1354274628-7016-1-git-send-email-yanjun.zhu@windriver.com>
 X-Mailer: git-send-email 1.7.11
 In-Reply-To: <3450>
 References: <3450>
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 12:14:27 -0000
+X-List-Received-Date: Fri, 30 Nov 2012 12:23:27 -0000
 Content-Type: text/plain
 
 From: "yanjun.zhu" <yanjun.zhu@windriver.com>
