@@ -1,26 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TeOge-0005JN-59
+	(envelope-from <cazfi74@gmail.com>) id 1TeOmR-0005TC-8E
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 12:23:17 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAUB8wif014202
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 30 Nov 2012 12:29:16 +0100
+Received: by mail-ie0-f175.google.com with SMTP id qd14so404599ieb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 03:08:58 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Fri, 30 Nov 2012 03:08:58 -0800
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2012 19:08:56 +0800
-Message-ID: <1354273736-6652-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: git-send-email 1.7.11
-In-Reply-To: <3487>
-References: <3487>
+	Fri, 30 Nov 2012 03:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ra/e+DYBm6nWUHhs1yUZXiVr1f1rkiym1C5A44hngqc=;
+	b=F6DDTVWtjrpINyYraXTAKJ+l3pPtUj2hRQrIMHWcb7oirHet0SAzGeWS/Fs+Z0xXeS
+	eBot42fGxpcB5LEHHTbLLutJLSb1JYEIh4dtNnbzaQMeTsao7UgZPr16oHj1Sa5r8aNN
+	QnUmVRVJuuJ56FCk0oqSpSSmwMFXUPZlOqcGDWjfQC3iD/ZhSzSLw10iPJDuvs00QVql
+	XG8kIoA9rxtUmuNZ2pwlGa/U/6tWNbtjBgCJcbJqg8oQ+QtFjo9oYHIKoMaHEP4lcQAN
+	Mohd75kmTqrVPyULmFiavn0NMaqnDVLxvaRzstvMu/2wmVzKOoPn+0Kz0mjNA+R7mXlq
+	GMdg==
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libproxy: Fix for CVE-2012-4504
+Received: by 10.50.153.169 with SMTP id vh9mr642575igb.67.1354274097687; Fri,
+	30 Nov 2012 03:14:57 -0800 (PST)
+Received: by 10.64.24.175 with HTTP; Fri, 30 Nov 2012 03:14:57 -0800 (PST)
+In-Reply-To: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
+References: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
+Date: Fri, 30 Nov 2012 13:14:57 +0200
+Message-ID: <CAF6bG8fYO6Ent8JqYyfo+oqScYytWqbuYCRh=VyKS=c3zmtqGA@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] coreutils: update to upstream version 8.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,77 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 11:23:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Nov 2012 11:29:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+On 30 November 2012 13:08, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> * License texts are identical to old, but old md5sum was
+>   erronously calculated from the beginning of the ls.c file, and
+>   not from the beginning of license text segment.
 
-Reference:https://code.google.com/p/libproxy/source/detail?r=853
+Google finds quite a lot of documentation/examples to use startline=x
+when it seems to be beginline=x which works. Judging from output of
+"grep -r startline openembedded-core", there are several other
+affected recipes. I can make patchset to replace those with
+"beginline" and corrent md5sums.
 
-Stack-based buffer overflow in the url::get_pac function in url.cpp
-in libproxy 0.4.x before 0.4.9 allows remote servers to have an
-unspecified impact via a large proxy.pac file.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
-
-[YOCTO #3487]
-
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
----
- .../libproxy/libproxy-0.4.7-CVE-2012-4504.patch    | 29 ++++++++++++++++++++++
- meta/recipes-support/libproxy/libproxy_0.4.7.bb    |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
-
-diff --git a/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
-new file mode 100644
-index 0000000..7f2d93a
---- /dev/null
-+++ b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Backport
-+
-+libproxy - CVE-2012-4504:
-+
-+Reference:https://code.google.com/p/libproxy/source/detail?r=853
-+
-+Stack-based buffer overflow in the url::get_pac function in url.cpp
-+in libproxy 0.4.x before 0.4.9 allows remote servers to have an
-+unspecified impact via a large proxy.pac file.
-+
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
-+
-+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
-+
-+diff -urpN a/libproxy/url.cpp b/libproxy/url.cpp
-+--- a/libproxy/url.cpp	2012-11-26 10:08:47.000000000 +0800
-++++ b/libproxy/url.cpp	2012-11-26 10:05:54.000000000 +0800
-+@@ -472,9 +472,10 @@ char* url::get_pac() {
-+ 				// Add this chunk to our content length,
-+ 				// ensuring that we aren't over our max size
-+ 				content_length += chunk_length;
-+-				if (content_length >= PAC_MAX_SIZE) break;
-+ 			}
-+ 
-++			if (content_length >= PAC_MAX_SIZE) break;
-++
-+ 			while (recvd != content_length) {
-+ 				int r = recv(sock, buffer + recvd, content_length - recvd, 0);
-+ 				if (r < 0) break;
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index e3721a8..fc32f57 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -13,6 +13,7 @@ PR = "r4"
- SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
-            file://g++-namepace.patch \
-            file://libproxy_fix_for_gcc4.7.patch \
-+           file://libproxy-0.4.7-CVE-2012-4504.patch \
-           "
- 
- SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
--- 
-1.7.11
-
+ - ML
 
 
