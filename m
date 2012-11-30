@@ -1,34 +1,25 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TeTr8-0008US-VA
+	(envelope-from <andy.ross@windriver.com>) id 1TeTyi-0000YI-L2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 17:54:28 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so392783eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 08:40:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=2abbkBF8odtj9VXZ16jTeeiqcsZ8xO4CeDC+8TCZtoI=;
-	b=vNkLrJZJD4V87NZLP0S2HyLVb1DVp8/NAPq/SLGdZhf+iIrLBcv7ascOnNlByxRkjb
-	Rkxi96ft/2C+pog4cBaQkWLUnKo/XPPoIlFgRNnhZekdvD3mzwrgcqwX11TfT8bmiDMY
-	T4YWwq9MLtk/pErujseXwv0pTPUb26aIm5kGFeS/IJHBFPcrrw5F0IeGLV8wIXspGTEM
-	0PWz9WiT/bF/FtuoJ8919ceiARMpNkHeJ15kHbO83bdX5aHv4VTzd6dJXPnHtSFKEOzI
-	VXOjJFy/f37sCxzW/ol9ly7fN/EfOLKKuNsmUyELP2DxwQY8JbFU/zEnIHwjlhz4ugkl
-	ohag==
-Received: by 10.14.178.7 with SMTP id e7mr6196220eem.44.1354293609700;
-	Fri, 30 Nov 2012 08:40:09 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e1sm11458936eem.3.2012.11.30.08.40.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Nov 2012 08:40:09 -0800 (PST)
-Date: Fri, 30 Nov 2012 17:40:07 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121130163855.GG3436@jama.jama.net>
+	Fri, 30 Nov 2012 18:02:18 +0100
+Received: from [0.0.0.0] (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id A70422137C;
+	Fri, 30 Nov 2012 08:47:58 -0800 (PST)
+Message-ID: <50B8E33D.8000101@windriver.com>
+Date: Fri, 30 Nov 2012 08:47:57 -0800
+From: Andy Ross <andy.ross@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: some variables not expanded corectly before BUILDCFG_VARS are shown
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1354208369.git.elizabeth.flanagan@intel.com>
+	<037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
+	<50B83691.5040800@linux.intel.com>
+In-Reply-To: <50B83691.5040800@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,114 +32,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 16:54:28 -0000
-X-Groupsio-MsgNum: 32030
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+ZmrHH5cGjskQnY1"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Nov 2012 17:02:18 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---+ZmrHH5cGjskQnY1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/29/2012 08:31 PM, Saul Wold wrote:
+> There still seems to be a problem with this patch, try building
+> core-image-minimal and core-image-basic, checkout the failure from
+> the autobuilder:
+>
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/372/steps/shell_28/logs/stdio
 
-Hi,
+Oops, that was my goof.  The nativesdk packages were being tested
+vs. INCOMPATIBLE_LICENSE because I incorrectly folded them in with the
+other types when refactoring; endswith/startswith, what's the
+difference?  And of course I don't build nativesdk stuff routinely.
 
-when testing tune files I've noticed that TUNE_FEATURES are always shown
-the same, even when build uses different value set from local.conf:
+Fixed:
 
-I've added DEFAULTTUNE to BUILDCFG_VARS to be sure:
-BUILDCFG_VARS =3D "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE
-DISTRO DISTRO_VERSION TUNE_FEATURES DEFAULTTUNE TARGET_FPU"
+ From 9796edb4e5a7a9a7c2d6d51fc68ea1ffa2b4d9ea Mon Sep 17 00:00:00 2001
+From: Andy Ross <andy.ross@windriver.com>
+Date: Thu, 29 Nov 2012 11:08:47 -0800
+Subject: [PATCH] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
 
-I was changing DEFAULTTUNE with machine override in local.conf or .inc
-file required from local.conf.
+Allow INCOMPATIBLE_LICENSE to be a whitespace-separated list of
+incompatible license strings and/or glob patterns.
 
-$ grep DEFAULTTUNE conf/local.conf=20
-DEFAULTTUNE_om-gta02 =3D "arm920t"
-DEFAULTTUNE_nokia900 =3D "cortexa8t-neon"
-DEFAULTTUNE_tuna =3D "cortexa9t-neon"
+Also fix wildcarding: the string in INCOMPATIBLE_LICENSE was clearly
+intended to match with wildcards (e.g. "*GPLv3" to match both GPLv3
+and LGPLv3), but this was broken because of a bug in return_spdx()
+which would die with a runtime error when there was no SPDXLICENSEMAP
+entry for the string.
 
-But the output at the beginning of build log was still the same.=20
-1st is without any change to DEFAULTTUNE (so correctly armv4t and armv7a-ne=
-on)
-2nd is with DEFAULTTUNE set in conf/local.conf with machine override
-3rd is with default DEFAULTTUNE changed in tune-* file
+Signed-off-by: Andy Ross <andy.ross@windriver.com>
+Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+---
+  meta/classes/base.bbclass    | 67 +++++++++++++++++++++----------------------
+  meta/classes/license.bbclass | 68 ++++++++++++++++----------------------------
+  2 files changed, 58 insertions(+), 77 deletions(-)
 
-2nd and 3rd correctly uses cortexa9t-neon/cortexa8t-neon/arm920t tune, but =
-only 3rd shows it:
-nokia900/20121130041857.log:DEFAULTTUNE       =3D "armv7a-neon"
-nokia900/20121130041857.log:TUNE_FEATURES     =3D "armv7a vfp neon"
-nokia900/20121130101904.log:DEFAULTTUNE       =3D "armv7a-neon"
-nokia900/20121130101904.log:TUNE_FEATURES     =3D "armv7a vfp neon"
-nokia900/20121130135815.log:DEFAULTTUNE       =3D "cortexa8t-neon"
-nokia900/20121130135815.log:TUNE_FEATURES     =3D "armv7a vfp thumb neon co=
-rtexa8"
-om-gta02/20121130042112.log:DEFAULTTUNE       =3D "armv4t"
-om-gta02/20121130042112.log:TUNE_FEATURES     =3D "armv4 thumb"
-om-gta02/20121130102310.log:DEFAULTTUNE       =3D "armv4t"
-om-gta02/20121130102310.log:TUNE_FEATURES     =3D "armv4 thumb"
-om-gta02/20121130140126.log:DEFAULTTUNE       =3D "arm920t"
-om-gta02/20121130140126.log:TUNE_FEATURES     =3D "armv4 thumb arm920t"
-tuna/20121130041547.log:DEFAULTTUNE       =3D "armv7a-neon"
-tuna/20121130041547.log:TUNE_FEATURES     =3D "armv7a vfp neon"
-tuna/20121130101500.log:DEFAULTTUNE       =3D "armv7a-neon"
-tuna/20121130101500.log:TUNE_FEATURES     =3D "armv7a vfp neon"
-tuna/20121130135506.log:DEFAULTTUNE       =3D "cortexa8t-neon"
-tuna/20121130135506.log:TUNE_FEATURES     =3D "armv7a vfp thumb neon cortex=
-a8"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0ee9d2e..d01edb6 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -524,43 +524,42 @@ python () {
+                      raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
 
-What's even more strange is that "thumb" override get applied in different =
-order in 3rd build:
-$ bitbake-diffsigs  tmp-eglibc/sstate-diff/13542[78]*/nokia900/cor*/libmad*=
-/*do_con*
-basehash changed from 8ad5d9c1803fed09a89e626c07581cb1 to 7e316bb3c389fe3cd=
-a6652ac1476a883
-Variable EXTRA_OECONF value changed from=20
--enable-speed --enable-shared --enable-fpm=3Darm --disable-aso --enable-fpm=
-=3Ddefault=20
-to=20
--enable-speed --enable-shared --disable-aso --enable-fpm=3Ddefault --enable=
--fpm=3Darm
-# because libmad has:
-# The ASO's don't take any account of thumb...
-EXTRA_OECONF_append_thumb =3D " --disable-aso --enable-fpm=3Ddefault"
-EXTRA_OECONF_append_arm =3D " --enable-fpm=3Darm"
-But both 2srd and 3rd got --mtune=3Dcortexa8.
 
-buildhistory.bbclass seems to read the same TUNE_PKGARCH (armv4t),=20
-all other builds are in arm920tt-oe-linux-gnueabi:
-$ find ~/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers/1.0-r0
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers/1.0-r0/bblaye=
-rs-1.0
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers/1.0-r0/temp
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers/1.0-r0/temp/r=
-un.buildhistory_commit.4401
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers/1.0-r0/temp/r=
-un.buildhistory_commit.6566
-/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/bblayers/1.0-r0/temp/r=
-un.buildhistory_commit.11843
+-        dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', True)
+-
+-        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-cross-canadian-%s" % d.getVar('TRANSLATED_TARGET_ARCH', True)) and not pn.startswith("nativesdk-"):
+-        # Internally, we'll use the license mapping. This way INCOMPATIBLE_LICENSE = "GPLv2" and
+-        # INCOMPATIBLE_LICENSE = "GPLv2.0" will pick up all variations of GPL-2.0
+-            spdx_license = return_spdx(d, dont_want_license)
+-            hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
+-            lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
+-            dont_want_whitelist = (d.getVar('WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
+-            if pn not in hosttools_whitelist and pn not in lgplv2_whitelist and pn not in dont_want_whitelist:
+-                this_license = d.getVar('LICENSE', True)
+-                # At this point we know the recipe contains an INCOMPATIBLE_LICENSE, however it may contain packages that do not.
+-                packages = d.getVar('PACKAGES', True).split()
+-                dont_skip_recipe = False
+-                skipped_packages = {}
+-                unskipped_packages = []
+-                for pkg in packages:
+-                    if incompatible_license(d, dont_want_license, pkg):
+-                            skipped_packages[pkg] = this_license
+-                            dont_skip_recipe = True
++        bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
++
++        check_license = False if pn.startswith("nativesdk-") else True
++        for t in ["-native", "-cross", "-cross-initial", "-cross-intermediate", "-crosssdk-intermediate", "-crosssdk", "-crosssdk-initial"]:
++            if pn.endswith(t):
++                check_license = False
++
++        if check_license and bad_licenses:
++            whitelist = []
++            for lic in bad_licenses:
++                for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
++                    whitelist.extend((d.getVar(w + lic, True) or "").split())
++                spdx_license = return_spdx(d, lic)
++                if spdx_license:
++                    whitelist.extend((d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split())
++            if not pn in whitelist:
++                recipe_license = d.getVar('LICENSE', True)
++                pkgs = d.getVar('PACKAGES', True).split()
++                skipped_pkgs = []
++                unskipped_pkgs = []
++                for pkg in pkgs:
++                    if incompatible_license(d, bad_licenses, pkg):
++                        skipped_pkgs.append(pkg)
+                      else:
+-                        unskipped_packages.append(pkg)
+-                if not unskipped_packages:
+-                    # if we hit here and have excluded all packages, then we can just exclude the recipe
+-                    dont_skip_recipe = False
+-                elif skipped_packages and unskipped_packages:
+-                    for pkg, license in skipped_packages.iteritems():
+-                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + this_license)
++                        unskipped_pkgs.append(pkg)
++                some_skipped = skipped_pkgs and unskipped_pkgs
++                all_skipped = skipped_pkgs and not unskipped_pkgs
++                if some_skipped:
++                    for pkg in skipped_pkgs:
++                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + recipe_license)
+                          d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
+-                    for index, pkg in enumerate(unskipped_packages):
++                    for pkg in unskipped_pkgs:
+                          bb.note("INCLUDING the package " + pkg)
+-
+-                if dont_skip_recipe is False and incompatible_license(d, dont_want_license):
+-                    bb.note("SKIPPING recipe %s because it's %s" % (pn, this_license))
+-                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+-
+-
++                elif all_skipped or incompatible_license(d, bad_licenses):
++                    bb.note("SKIPPING recipe %s because it's %s" % (pn, recipe_license))
++                    raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
 
-Any idea what is causing that?
+      srcuri = d.getVar('SRC_URI', True)
+      # Svn packages should DEPEND on subversion-native
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c7ca4a6..7bca8e7 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -207,14 +207,11 @@ python do_populate_lic() {
 
-Cheers,
+  def return_spdx(d, license):
+      """
+-    This function returns the spdx mapping of a license.
+-    """
+-    if d.getVarFlag('SPDXLICENSEMAP', license) != None:
+-        return license
+-    else:
+-        return d.getVarFlag('SPDXLICENSEMAP', license_type)
++    This function returns the spdx mapping of a license if it exists.
++     """
++    return d.getVarFlag('SPDXLICENSEMAP', license, True)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-def incompatible_license(d, dont_want_license, package=""):
++def incompatible_license(d, dont_want_licenses, package=None):
+      """
+      This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
+      operand.
+@@ -223,45 +220,30 @@ def incompatible_license(d, dont_want_license, package=""):
+      import oe.license
+      from fnmatch import fnmatchcase as fnmatch
+      pn = d.getVar('PN', True)
+-    dont_want_licenses = []
+-    dont_want_licenses.append(d.getVar('INCOMPATIBLE_LICENSE', True))
+-    recipe_license = d.getVar('LICENSE', True)
+-    if package != "":
+-        if d.getVar('LICENSE_' + pn + '-' + package, True):
+-            license = d.getVar('LICENSE_' + pn + '-' + package, True)
+-        else:
+-            license = recipe_license
+-    else:
+-        license = recipe_license
+-    spdx_license = return_spdx(d, dont_want_license)
+-    dont_want_licenses.append(spdx_license)
+-
+-    def include_license(license):
+-        if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
++    license = d.getVar("LICENSE_%s-%s" % (pn, package), True) if package else None
++    if not license:
++        license = d.getVar('LICENSE', True)
++
++    def license_ok(license):
++        for dwl in dont_want_licenses:
++            # If you want to exclude license named generically 'X', we
++            # surely want to exclude 'X+' as well.  In consequence, we
++            # will exclude a trailing '+' character from LICENSE in
++            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
++            lic = license
++        if not re.search('\+$', dwl):
++            lic = re.sub('\+', '', license)
++        if fnmatch(lic, dwl):
+              return False
+-        else:
+-            return True
++        return True
 
---+ZmrHH5cGjskQnY1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-    def choose_licenses(a, b):
+-        if all(include_license(lic) for lic in a):
+-            return a
+-        else:
+-            return b
++    # Handles an "or" or two license sets provided by
++    # flattened_licenses(), pick one that works if possible.
++    def choose_lic_set(a, b):
++        return a if all(license_ok(lic) for lic in a) else b
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+-    """
+-    If you want to exlude license named generically 'X', we surely want to exlude 'X+' as well.
+-    In consequence, we will exclude the '+' character from LICENSE in case INCOMPATIBLE_LICENSE
+-    is not a 'X+' license.
+-    """
+-    if not re.search(r'[+]',dont_want_license):
+-        licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', license), choose_licenses)
+-    else:
+-        licenses=oe.license.flattened_licenses(license, choose_licenses)
+-
+-    for onelicense in licenses:
+-        if not include_license(onelicense):
+-            return True
+-    return False
++    licenses=oe.license.flattened_licenses(license, choose_lic_set)
++    return any(not license_ok(l) for l in licenses)
 
-iEYEARECAAYFAlC44WcACgkQN1Ujt2V2gBwVtQCgjj0ci5GZim4uPK1mnXu90zta
-z/YAoKRE5L6g8IOeJFzRA9bmU6SuXzim
-=4kMn
------END PGP SIGNATURE-----
+  def check_license_flags(d):
+      """
+-- 
+1.7.11.7
 
---+ZmrHH5cGjskQnY1--
+
+
+
+
