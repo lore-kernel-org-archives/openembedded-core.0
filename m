@@ -1,29 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TeOBx-0004GV-NW
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TeOMN-0004y6-UC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 11:51:34 +0100
+	Fri, 30 Nov 2012 12:02:20 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAUAbG8Q009737
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAUAm2Gd019708
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 02:37:16 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Fri, 30 Nov 2012 02:37:15 -0800
-Message-ID: <50B88C74.5040001@windriver.com>
-Date: Fri, 30 Nov 2012 18:37:40 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	Fri, 30 Nov 2012 02:48:02 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Fri, 30 Nov 2012 02:48:02 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Nov 2012 18:47:59 +0800
+Message-ID: <1354272479-5995-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+In-Reply-To: <3450>
+References: <3450>
 MIME-Version: 1.0
-To: <Qi.Chen@windriver.com>
-References: <cover.1354084523.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1354084523.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] [V2] Make poky work correctly with long TMPDIR
+Subject: [PATCH 1/1] Python: Fix for CVE-2012-2135
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,50 +33,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 10:51:34 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2012 11:02:20 -0000
+Content-Type: text/plain
 
-On 11/30/2012 06:33 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi<Qi.Chen@windriver.com>
->
-> Poky had a problem with long TMPDIR.
-> If the TMPDIR had a length of 410 chars, for example, the world building
-> would fail for three reasons.
-> 1) autotools.bbclass: With long TMPDIR, aclocal would have a very long argument
->     list whick makes building some packages (coretuils for example) fail.
-> 2) qt4-native: It hardcodes some static char arrays to be 256.
-> 3) ghostscript: It configures its MAX_TOKEN to be 256.
->
-> This series of patches are aimed at making poky building system working correctly with long TMPDIR.
-> The three patches solve the three above problems respectively.
->
-> [Version 2 fixes the indentation problem in my last patch]
->
-> The following changes since commit 0d7d413d64bab8d3c758414c6c8c653ccc325653:
->
->    build-appliance-image: Update to dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf commit (2012-11-21 20:40:43 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib ChenQi/autotools
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/autotools
->
-> Chen Qi (3):
->    autotools.bbclass: use relative path for acpaths whenever possible
->    qt4-native: make qt4-native work with long building path
->    ghostscript: make ghostscript work with long building path
->
->   meta/classes/autotools.bbclass                     |   14 ++--
->   ...tscript-work-with-long-building-directory.patch |   19 +++++
->   .../ghostscript/ghostscript_9.05.bb                |   10 +--
->   ...e-qt4-native-work-with-long-building-path.patch |   82 ++++++++++++++++++++
->   meta/recipes-qt/qt4/qt4-native.inc                 |    3 +-
->   5 files changed, 116 insertions(+), 12 deletions(-)
->   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
->   create mode 100644 meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch
->
-Sorry for my carelessness. Please ignore this version.
-The upstream status is incorrect.
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+
+Reference:http://bugs.python.org/issue14579
+
+The utf-16 decoder in Python 3.1 through 3.3 does not update the
+aligned_end variable after calling the unicode_decode_call_errorhandler
+function, which allows remote attackers to obtain sensitive information
+(process memory) or cause a denial of service (memory corruption and crash)
+via unspecified vectors.
+
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-2135
+
+[YOCTO #3450]
+
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+---
+ .../python/python/python-2.7.2-CVE-2012-2135.patch | 25 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch
+
+diff --git a/meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch b/meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch
+new file mode 100644
+index 0000000..e317ebe
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch
+@@ -0,0 +1,25 @@
++Reference:http://bugs.python.org/issue14579
++
++This is backport from http://bugs.python.org/file25367/
++utf16_error_handling-2.7.patch
++
++The utf-16 decoder in Python 3.1 through 3.3 does not update the
++aligned_end variable after calling the unicode_decode_call_errorhandler
++function, which allows remote attackers to obtain sensitive information
++(process memory) or cause a denial of service (memory corruption and crash)
++via unspecified vectors.
++
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-2135
++Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
++diff -urpN a/Objects/unicodeobject.c b/Objects/unicodeobject.c
++--- a/Objects/unicodeobject.c	2012-11-12 16:25:33.000000000 +0800
+++++ b/Objects/unicodeobject.c	2012-11-12 16:26:22.000000000 +0800
++@@ -2568,7 +2568,7 @@ PyUnicode_DecodeUTF16Stateful(const char
++         }
++ 
++         /* UTF-16 code pair: */
++-        if (q >= e) {
+++        if (e - q < 2) {
++             errmsg = "unexpected end of data";
++             startinpos = (((const char *)q)-2)-starts;
++             endinpos = ((const char *)e)-starts;
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index 2adb4e4..9dabfb7 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -24,6 +24,7 @@ SRC_URI += "\
+   file://setuptweaks.patch \
+   file://check-if-target-is-64b-not-host.patch \
+   file://search_db_h_in_inc_dirs_and_avoid_warning.patch \
++  file://python-2.7.2-CVE-2012-2135.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+-- 
+1.7.11
+
 
 
