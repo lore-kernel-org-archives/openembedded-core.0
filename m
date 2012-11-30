@@ -1,23 +1,23 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TeEGU-0007iy-FM
+	(envelope-from <sgw@linux.intel.com>) id 1TeEGV-0007j5-Aw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 01:15:34 +0100
+	Fri, 30 Nov 2012 01:15:35 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 29 Nov 2012 16:01:11 -0800
+	by azsmga102.ch.intel.com with ESMTP; 29 Nov 2012 16:01:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,188,1355126400"; d="scan'208";a="224515810"
+X-IronPort-AV: E=Sophos;i="4.84,188,1355126400"; d="scan'208";a="224515830"
 Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
 	([10.255.13.127])
-	by azsmga001.ch.intel.com with ESMTP; 29 Nov 2012 16:00:47 -0800
+	by azsmga001.ch.intel.com with ESMTP; 29 Nov 2012 16:00:48 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Nov 2012 16:00:41 -0800
-Message-Id: <1354233643-3385-3-git-send-email-sgw@linux.intel.com>
+Date: Thu, 29 Nov 2012 16:00:43 -0800
+Message-Id: <1354233643-3385-5-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <1354233643-3385-1-git-send-email-sgw@linux.intel.com>
 References: <1354233643-3385-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/4] sysvinit: Update ALTERNATIVES List for utmpdump
+Subject: [PATCH 4/4] build-appliance-image: Allow SRCREV to be overriden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,35 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 00:15:34 -0000
+X-List-Received-Date: Fri, 30 Nov 2012 00:15:35 -0000
+
+This will allow use to automagically set the SRCREV for builds on the
+autobuilder. It will still require manual updating for releases.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/images/build-appliance-image.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 1647a0f..de073b8 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r8"
-+PR = "r9"
+diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
+index b89354e..a8b787c 100644
+--- a/meta/recipes-core/images/build-appliance-image.bb
++++ b/meta/recipes-core/images/build-appliance-image.bb
+@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
  
- RDEPENDS_${PN} = "${PN}-inittab"
+ inherit core-image
  
-@@ -27,7 +27,7 @@ B = "${S}/src"
- 
- inherit update-alternatives
- 
--ALTERNATIVE_${PN} = "init mountpoint halt reboot runlevel shutdown poweroff last mesg wall"
-+ALTERNATIVE_${PN} = "init mountpoint halt reboot runlevel shutdown poweroff last mesg utmpdump wall"
- 
- ALTERNATIVE_PRIORITY = "200"
- 
+-SRCREV = "a0cf759537260f00311450e0dac41bf45b474454"
++SRCREV ?= "a0cf759537260f00311450e0dac41bf45b474454"
+ SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
+            file://Yocto_Build_Appliance.vmx \
+            file://Yocto_Build_Appliance.vmxf \
 -- 
 1.8.0
 
