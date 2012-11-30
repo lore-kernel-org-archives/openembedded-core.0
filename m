@@ -1,35 +1,44 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TeG0j-0004Ks-Ui
+	(envelope-from <scott.a.garman@intel.com>) id 1TeH0K-0005lL-Qi
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 03:07:30 +0100
-Received: by mail-ee0-f47.google.com with SMTP id l10so8370229eei.6
+	Fri, 30 Nov 2012 04:11:06 +0100
+Received: from mail-pa0-f69.google.com ([209.85.220.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 29 Nov 2012 18:56:47 -0800
+Received: by mail-pa0-f69.google.com with SMTP id rl6so19981pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 17:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=5VV0aeFMHAsaD3JyZ3Pz3ZiKwnyQpWX9w4eu7G5q4To=;
-	b=n2qk2AUkJhV1mgmhFJHV6OOfxrs8OWuFU0zhtk4/kfKq8Nc/AouNswmFFaImLWaLb5
-	a/7tn2UUoIgo9orkT4gWkvmISMhFMj3prMgpw+qBmyZArf7xVFtsuBqiZIaN0eGFgRR+
-	UmTkSw0IySZsMaIU481Yp5dzqxapNr2u3/5S6FsakZHJN9rYeYMqAeCWH65ZsKCQ5Aza
-	F6HNPlZA5SwzAqenfxda1vysB0tIK01nVvCWDcaodTzKLktUYW/GPQ0CRmmtlHSi5b9T
-	BlkzbSQAMwiZz/2CPK6A0g9Q4xlfcUV3UgjhgUGvClmWQdfBP36Vj7gs/dROvmyyfXW9
-	wvDA==
-Received: by 10.14.203.132 with SMTP id f4mr88893581eeo.11.1354240389367;
-	Thu, 29 Nov 2012 17:53:09 -0800 (PST)
-Received: from localhost.localdomain (p5B0A28F6.dip.t-dialin.net.
-	[91.10.40.246])
-	by mx.google.com with ESMTPS id e1sm7397344eem.3.2012.11.29.17.53.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 29 Nov 2012 17:53:08 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2012 02:52:56 +0100
-Message-Id: <1354240376-3009-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.4.4
+	Thu, 29 Nov 2012 18:56:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=N78nHDaVYo6N82dyMSmUaGtqo3ZQrNgv0J3STJZAIck=;
+	b=Uf84d4g+M75whJyVWgsHvRbYC9AOdL+wNhWKZne2Uc/kc4v1Sj4n/7XByN2L4NKnq+
+	eCOajBTiadS/g4uyHMvYcnYXjuPDI8g2avOFVfMf6RzyG1fi+Fknza7P0Ck+lBCUFQX5
+	W57G24tKg6e2A7Q9JDaTi+3zDb0J4MriqCYLhx0r0jpt2hYKi14LwrrOm0Eu6FReQz+i
+	wbyXUoj0qESHjFLuHZ2gbDb539i1f/oATCZ2A5xH/cZoNTCQyTVLtmoztW78gomjN/jS
+	qXPin1Q+nGtuuJCZwcTke0ltvCwBvuchbzt2yCeDBNWBC2j2CJ2IJlbVAKqODANEz7m1
+	x0Bg==
+Received: by 10.68.143.129 with SMTP id se1mr1701615pbb.67.1354244203234;
+	Thu, 29 Nov 2012 18:56:43 -0800 (PST)
+Received: by 10.68.143.129 with SMTP id se1mr1701601pbb.67.1354244203038;
+	Thu, 29 Nov 2012 18:56:43 -0800 (PST)
+Received: from [192.168.1.104] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id m7sm2071269paz.3.2012.11.29.18.56.41
+	(version=SSLv3 cipher=OTHER); Thu, 29 Nov 2012 18:56:42 -0800 (PST)
+Message-ID: <50B82068.6020601@intel.com>
+Date: Thu, 29 Nov 2012 18:56:40 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Subject: [V2] gtk+: do not prelight GtkButton in touchscreen mode
+To: openembedded-core@lists.openembedded.org
+References: <1352218848-19801-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1352218848-19801-1-git-send-email-msm@freescale.com>
+X-Gm-Message-State: ALoCoQlxoFPHqeUFHuVxMXCNp4gNR6z+I8/E7CPuPB9xrchI3J7HxVl7khqR4d56oFgT5FyoD4Cwr2JMQY8OA7rejr1LNT2hRGQzIO8MRRgHpgoCEXYxy+6Q31MPkBMsFxhAXGMBO0JL/7nqE6OM8h7J5W2Xw0ibdDZWqDAptxJab5iiMmQIr5ROKD2VVTo2k/BJ/PKn1y8T
+Subject: Re: [for-denzil] bitbake: compile tar-replacement firstly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,94 +51,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 02:09:05 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Nov 2012 03:11:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- ...utton-do-not-prelight-in-touchscreen-mode.patch |   48 ++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+_2.24.13.bb            |    3 +-
- 2 files changed, 50 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+On 11/06/2012 08:20 AM, Matthew McClintock wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> Compiling tar-replacement or not is decided by version of host tar,
+> if the host tar version is lower than 1.23, Compiling tar-replacement
+> is needed.
+>
+> When doing popoluate tar-replacement sysroot to write the tar to
+> sysroot, but writing is not finished. other packages probably
+> use the being written tar to unzip file, which will lead to failure
+> and report the below error:
+> "bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tar: Text file busy"
+>
+> Now we compile tar-replacement firstly to ensure that a being written
+> tar command will not be used.
+>
+> (From OE-Core rev: 3c1c4719fc96f6f1fbb257413d6baf3d91fdf4e8)
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   scripts/bitbake |    7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/bitbake b/scripts/bitbake
+> index 3772d82..c52d5d2 100755
+> --- a/scripts/bitbake
+> +++ b/scripts/bitbake
+> @@ -134,7 +134,12 @@ if [ $buildpseudo -gt 0 ]; then
+>               fi
+>           done
+>       done
+> -    bitbake pseudo-native $TARTARGET $additionalopts -c populate_sysroot
+> +
+> +    if [ $needtar = "1" ]; then
+> +	bitbake $TARTARGET -c populate_sysroot
+> +    fi
+> +
+> +    bitbake pseudo-native $additionalopts -c populate_sysroot
+>       ret=$?
+>       if [ "$ret" != "0" ]; then
+>           exit 1
+>
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
-new file mode 100644
-index 0000000..19245a8
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
-@@ -0,0 +1,48 @@
-+From d1f7a894674dfdd6769f1bbae31eb1a69e451a5c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Fri, 16 Nov 2012 22:07:28 +0100
-+Subject: [PATCH] GtkButton: do not prelight in touchscreen mode
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Code was copied from GtkToggleButton.
-+
-+Upstream-Status: pending [1]
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=689138
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ gtk/gtkbutton.c |    8 ++++++--
-+ 1 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/gtk/gtkbutton.c b/gtk/gtkbutton.c
-+index f472007..1beb1b6 100644
-+--- a/gtk/gtkbutton.c
-++++ b/gtk/gtkbutton.c
-+@@ -2079,15 +2079,19 @@ _gtk_button_set_depressed (GtkButton *button,
-+ static void
-+ gtk_button_update_state (GtkButton *button)
-+ {
-+-  gboolean depressed;
-++  gboolean depressed, touchscreen;
-+   GtkStateType new_state;
-+ 
-++  g_object_get (gtk_widget_get_settings (GTK_WIDGET (button)),
-++                "gtk-touchscreen-mode", &touchscreen,
-++                NULL);
-++
-+   if (button->activate_timeout)
-+     depressed = button->depress_on_activate;
-+   else
-+     depressed = button->in_button && button->button_down;
-+ 
-+-  if (button->in_button && (!button->button_down || !depressed))
-++  if (!touchscreen && button->in_button && (!button->button_down || !depressed))
-+     new_state = GTK_STATE_PRELIGHT;
-+   else
-+     new_state = depressed ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
-+-- 
-+1.7.6.5
-+
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-index b358b7f..bc88284 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
-            file://toggle-font.diff;striplevel=0 \
-            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
-            file://doc-fixes.patch \
-+           file://0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch \
- 	  "
- 
- # TO MERGE
-@@ -27,7 +28,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
- #        file://combo-arrow-size.patch;striplevel=0
- #            file://configurefix.patch
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI[md5sum] = "e949406751df51e1e40e85628005a069"
- SRC_URI[sha256sum] = "35e1a01e46b02970b02ee9f299390d0aa57c1215ad2667bcd584b72f4ea6513d"
+Pulled into sgarman/denzil-next.
+
+Thanks,
+
+Scott
+
 -- 
-1.7.4.4
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
