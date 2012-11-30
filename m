@@ -1,35 +1,26 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TeOgc-0005JM-I7
+	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TeOge-0005JN-59
 	for openembedded-core@lists.openembedded.org;
 	Fri, 30 Nov 2012 12:23:17 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so233550lag.6
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAUB8wif014202
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 03:08:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=qdhyPrv1UXrk1z5y7yDbRp+AI6hCNbWn5XClGymLPbA=;
-	b=jXEN+UOsgKDOXlZllHVRrx4SeLe5UIYTPyR6l9d40gtuXto9nEa/r/ONsA8mZTlACI
-	2kbPGOmlihO2VFoLbs/3cGthkgqYFZroP5RBP4it1EA0kWfnH33LZqP7tiuW9sVG7XmF
-	A3TOyGDrx+HoP4i2HTCcmgW87DqzmuHGn75XeipGRHQD5xfq3bya16IeixvbDYGF9ZqM
-	RHBbezVe8A0ZWhvdI16cJV0E71j14xiFzt4hORvwdNqn2osmYZ1KhK/JYTGzfeSjk2J8
-	t0VaLnSgfCotLsTj/IZagSqs8VplFmTeeCOmKGBoIZqcGRFIvRogp11BlA6Qe19awjzg
-	ueAw==
-Received: by 10.152.145.202 with SMTP id sw10mr932109lab.22.1354273737225;
-	Fri, 30 Nov 2012 03:08:57 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id ma15sm1866514lab.4.2012.11.30.03.08.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Nov 2012 03:08:56 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TeOSl-0001r7-7Z; Fri, 30 Nov 2012 13:08:55 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2012 13:08:54 +0200
-Message-Id: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] coreutils: update to upstream version 8.20
+	Fri, 30 Nov 2012 03:08:58 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Fri, 30 Nov 2012 03:08:58 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Nov 2012 19:08:56 +0800
+Message-ID: <1354273736-6652-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.11
+In-Reply-To: <3487>
+References: <3487>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] libproxy: Fix for CVE-2012-4504
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,165 +34,76 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 30 Nov 2012 11:23:17 -0000
+Content-Type: text/plain
 
-* remove-gets.patch removed as issue is fixed upstream
-* cross-prime-list.patch added to fix cross-compilation
-* noman.patch added to disable manpage creation that does not
-  work while cross-compiling
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-* License texts are identical to old, but old md5sum was
-  erronously calculated from the beginning of the ls.c file, and
-  not from the beginning of license text segment.
+Reference:https://code.google.com/p/libproxy/source/detail?r=853
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+Stack-based buffer overflow in the url::get_pac function in url.cpp
+in libproxy 0.4.x before 0.4.9 allows remote servers to have an
+unspecified impact via a large proxy.pac file.
+
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
+
+[YOCTO #3487]
+
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
 ---
- .../coreutils/coreutils-8.14/remove-gets.patch     |   23 ----------------
- .../coreutils-build-with-acl.patch                 |    0
- .../coreutils-8.20/cross-prime-list.patch          |   29 ++++++++++++++++++++
- .../coreutils/coreutils-8.20/noman.patch           |   19 +++++++++++++
- .../remove-usr-local-lib-from-m4.patch             |    0
- .../{coreutils_8.14.bb => coreutils_8.20.bb}       |   11 ++++----
- 6 files changed, 54 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
- rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.20}/coreutils-build-with-acl.patch (100%)
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.20/cross-prime-list.patch
- create mode 100644 meta/recipes-core/coreutils/coreutils-8.20/noman.patch
- rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.20}/remove-usr-local-lib-from-m4.patch (100%)
- rename meta/recipes-core/coreutils/{coreutils_8.14.bb => coreutils_8.20.bb} (91%)
+ .../libproxy/libproxy-0.4.7-CVE-2012-4504.patch    | 29 ++++++++++++++++++++++
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb    |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch b/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
-deleted file mode 100644
-index 4f61c92..0000000
---- a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--use gets iff its defined. eglibc 2.16 removed gets
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--
--Index: coreutils-8.14/lib/stdio.in.h
--===================================================================
----- coreutils-8.14.orig/lib/stdio.in.h	2011-09-24 04:20:48.000000000 -0700
--+++ coreutils-8.14/lib/stdio.in.h	2012-07-03 10:36:19.886296576 -0700
--@@ -713,11 +713,13 @@
-- _GL_CXXALIAS_SYS (gets, char *, (char *s));
-- #  undef gets
-- # endif
--+# if defined gets
-- _GL_CXXALIASWARN (gets);
-- /* It is very rare that the developer ever has full control of stdin,
--    so any use of gets warrants an unconditional warning.  Assume it is
--    always declared, since it is required by C89.  */
-- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
--+# endif
-- #endif
-- 
-- 
-diff --git a/meta/recipes-core/coreutils/coreutils-8.14/coreutils-build-with-acl.patch b/meta/recipes-core/coreutils/coreutils-8.20/coreutils-build-with-acl.patch
-similarity index 100%
-rename from meta/recipes-core/coreutils/coreutils-8.14/coreutils-build-with-acl.patch
-rename to meta/recipes-core/coreutils/coreutils-8.20/coreutils-build-with-acl.patch
-diff --git a/meta/recipes-core/coreutils/coreutils-8.20/cross-prime-list.patch b/meta/recipes-core/coreutils/coreutils-8.20/cross-prime-list.patch
+diff --git a/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
 new file mode 100644
-index 0000000..524c636
+index 0000000..7f2d93a
 --- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.20/cross-prime-list.patch
++++ b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
 @@ -0,0 +1,29 @@
-+Build make-prime-list for build system
++Upstream-Status: Backport
 +
-+make-prime-list is used in build time only for generating the prime list.
-+Build it executable in build system.
++libproxy - CVE-2012-4504:
 +
-+Upstream-Status: Pending
++Reference:https://code.google.com/p/libproxy/source/detail?r=853
 +
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd coreutils-8.20/src/local.mk coreutils-8.20/src/local.mk
-+--- coreutils-8.20/src/local.mk	2012-10-23 17:14:12.000000000 +0300
-++++ coreutils-8.20/src/local.mk	2012-11-30 11:47:11.155372281 +0200
-+@@ -37,7 +37,6 @@
-+ # Needed by the testsuite.
-+ noinst_PROGRAMS =		\
-+   src/getlimits			\
-+-  src/make-prime-list		\
-+   src/setuidgid
++Stack-based buffer overflow in the url::get_pac function in url.cpp
++in libproxy 0.4.x before 0.4.9 allows remote servers to have an
++unspecified impact via a large proxy.pac file.
++
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
++
++Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
++
++diff -urpN a/libproxy/url.cpp b/libproxy/url.cpp
++--- a/libproxy/url.cpp	2012-11-26 10:08:47.000000000 +0800
+++++ b/libproxy/url.cpp	2012-11-26 10:05:54.000000000 +0800
++@@ -472,9 +472,10 @@ char* url::get_pac() {
++ 				// Add this chunk to our content length,
++ 				// ensuring that we aren't over our max size
++ 				content_length += chunk_length;
++-				if (content_length >= PAC_MAX_SIZE) break;
++ 			}
 + 
-+ noinst_HEADERS =		\
-+@@ -370,6 +369,9 @@
-+ src_libstdbuf_so_LDFLAGS = -shared
-+ src_libstdbuf_so_CFLAGS = -fPIC $(AM_CFLAGS)
-+ 
-++src/make-prime-list: src/make-prime-list.c
-++	$(CC_FOR_BUILD) -o src/make-prime-list -I$(top_builddir)/lib $(srcdir)/src/make-prime-list.c
+++			if (content_length >= PAC_MAX_SIZE) break;
 ++
-+ BUILT_SOURCES += src/dircolors.h
-+ src/dircolors.h: src/dcgen src/dircolors.hin
-+ 	$(AM_V_GEN)rm -f $@ $@-t
-diff --git a/meta/recipes-core/coreutils/coreutils-8.20/noman.patch b/meta/recipes-core/coreutils/coreutils-8.20/noman.patch
-new file mode 100644
-index 0000000..90521e2
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-8.20/noman.patch
-@@ -0,0 +1,19 @@
-+Do not build man pages
-+
-+Coreutils manpage creation does not work when cross-compiling and
-+produced binaries are not executable in build system. Don't even try.
-+
-+Upstream-Status: Inappropriate [Other]
-+Workaround suitable for OpenEmbedded, but not acceptable in generic case
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd coreutils-8.20/Makefile.am coreutils-8.20/Makefile.am
-+--- coreutils-8.20/Makefile.am	2012-10-23 17:14:12.000000000 +0300
-++++ coreutils-8.20/Makefile.am	2012-11-30 11:58:00.123358042 +0200
-+@@ -205,5 +205,5 @@
-+ include $(top_srcdir)/lib/local.mk
-+ include $(top_srcdir)/src/local.mk
-+ include $(top_srcdir)/doc/local.mk
-+-include $(top_srcdir)/man/local.mk
-++# include $(top_srcdir)/man/local.mk
-+ include $(top_srcdir)/tests/local.mk
-diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.20/remove-usr-local-lib-from-m4.patch
-similarity index 100%
-rename from meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
-rename to meta/recipes-core/coreutils/coreutils-8.20/remove-usr-local-lib-from-m4.patch
-diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.20.bb
-similarity index 91%
-rename from meta/recipes-core/coreutils/coreutils_8.14.bb
-rename to meta/recipes-core/coreutils/coreutils_8.20.bb
-index 3f58cfd..456d928 100644
---- a/meta/recipes-core/coreutils/coreutils_8.14.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.20.bb
-@@ -6,8 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
- BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
--                    file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
--PR = "r5"
-+                    file://src/ls.c;beginline=4;endline=15;md5=2e9acd8818fe6db4c2981d20ca632553"
-+PR = "r0"
- DEPENDS = "gmp libcap"
- DEPENDS_class-native = ""
- 
-@@ -15,11 +15,12 @@ inherit autotools gettext
- 
- SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://remove-usr-local-lib-from-m4.patch \
--           file://remove-gets.patch \
-            file://coreutils-build-with-acl.patch \
-+           file://cross-prime-list.patch \
-+           file://noman.patch \
++ 			while (recvd != content_length) {
++ 				int r = recv(sock, buffer + recvd, content_length - recvd, 0);
++ 				if (r < 0) break;
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index e3721a8..fc32f57 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -13,6 +13,7 @@ PR = "r4"
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+            file://g++-namepace.patch \
+            file://libproxy_fix_for_gcc4.7.patch \
++           file://libproxy-0.4.7-CVE-2012-4504.patch \
            "
--SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
--SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
-+SRC_URI[md5sum] = "3d69af8f561fce512538a9fe85f147ff"
-+SRC_URI[sha256sum] = "dbcb798764827a0f74be738662ecb516705cf520330cd3d7b2640fdffa499eb2"
  
- EXTRA_OECONF_class-native = "--without-gmp"
- 
+ SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
 -- 
-1.7.10.4
+1.7.11
 
 
 
