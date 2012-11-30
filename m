@@ -1,46 +1,32 @@
-Received: from tx2ehsobe003.messaging.microsoft.com ([65.55.88.13]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1TeM6w-0000xQ-Pk
+	(envelope-from <Qi.Chen@windriver.com>) id 1TeMkw-00020i-AT
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 09:38:16 +0100
-Received: from mail269-tx2-R.bigfish.com (10.9.14.243) by
-	TX2EHSOBE015.bigfish.com (10.9.40.35) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 30 Nov 2012 08:08:50 +0000
-Received: from mail269-tx2 (localhost [127.0.0.1])	by
-	mail269-tx2-R.bigfish.com (Postfix) with ESMTP id AE2137C007F	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 08:08:50 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1de0h1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1155h)
-Received: from mail269-tx2 (localhost.localdomain [127.0.0.1]) by mail269-tx2
-	(MessageSwitch) id 1354262928600527_19952;
-	Fri, 30 Nov 2012 08:08:48 +0000 (UTC)
-Received: from TX2EHSMHS017.bigfish.com (unknown [10.9.14.243])	by
-	mail269-tx2.bigfish.com (Postfix) with ESMTP id 90346C006D	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 08:08:48 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS017.bigfish.com
-	(10.9.99.117) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 30 Nov 2012 08:08:48 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-004.039d.mgd.msft.net (10.84.1.14) with Microsoft SMTP
-	Server (TLS) id 14.2.318.3; Fri, 30 Nov 2012 08:08:48 +0000
-Received: from bjsimics-desktop.ap.freescale.net
-	(bjsimics-desktop.ap.freescale.net [10.192.208.197])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id qAU88icR020201;
-	Fri, 30 Nov 2012 01:08:45 -0700
-From: Zhenhua Luo <b19537@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2012 16:31:57 +0800
-Message-ID: <1354264317-20895-1-git-send-email-b19537@freescale.com>
-X-Mailer: git-send-email 1.7.9.5
+	Fri, 30 Nov 2012 10:19:36 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAU95F5m025338
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 30 Nov 2012 01:05:15 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Fri, 30 Nov 2012 01:05:14 -0800
+Message-ID: <50B876E4.9030300@windriver.com>
+Date: Fri, 30 Nov 2012 17:05:40 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: B29882@freescale.com
-Subject: [oe-core v2] libxml2: add --with-fexceptions in configure flags to support exception handling in C++ programs
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1354084523.git.Qi.Chen@windriver.com>
+	<fe9165f254427054e95569b22c840e3f3443a8be.1354084523.git.Qi.Chen@windriver.com>
+	<20121130074602.GA3436@jama.jama.net>
+	<50B867BC.10801@windriver.com>
+	<20121130081102.GC3436@jama.jama.net>
+In-Reply-To: <20121130081102.GC3436@jama.jama.net>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] qt4-native: make qt4-native work with long building path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,41 +39,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 08:38:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Nov 2012 09:19:36 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Without this flag, the library has a problem with C++ programs using exception handling.
+On 11/30/2012 04:11 PM, Martin Jansa wrote:
+> On Fri, Nov 30, 2012 at 04:01:00PM +0800, ChenQi wrote:
+>> On 11/30/2012 03:46 PM, Martin Jansa wrote:
+>>> On Fri, Nov 30, 2012 at 11:08:43AM +0800, Qi.Chen@windriver.com wrote:
+>>>> From: Chen Qi<Qi.Chen@windriver.com>
+>>>>
+>>>> If the TMPDIR has more than 256 chars, building qt4-native fails.
+>>>> This violates the 410 length limit of TMPDIR.
+>>>>
+>>>> This patch makes building qt4-native succeed with a long building
+>>>> path (410 for example) by extending its static arrays' sizes by
+>>>> 256 chars.
+>>>>
+>>>> [YOCTO #2766]
+>>>>
+>>>> Signed-off-by: Chen Qi<Qi.Chen@windriver.com>
+>>>> ---
+>>>>    ...e-qt4-native-work-with-long-building-path.patch |   82 ++++++++++++++++++++
+>>>>    meta/recipes-qt/qt4/qt4-native.inc                 |    3 +-
+>>>>    2 files changed, 84 insertions(+), 1 deletion(-)
+>>>>    create mode 100644 meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch
+>>>>
+>>>> diff --git a/meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch b/meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch
+>>>> new file mode 100644
+>>>> index 0000000..74f4e1a
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch
+>>>> @@ -0,0 +1,82 @@
+>>>> +Upstream-Status: Pending
+>>> Why not submit this upstream? And isn't the same problem in target
+>>> recipes?
+>> I've tried and are now waiting for their reply.
+> OK, so it's Submitted now, right?
+>
+>> There's no such problem in target recipe.
+>>
+>>>> +Make qt4-native work with long building path.
+>>>> +
+>>>> +Signed-off-by: Chen Qi<Qi.Chen@windriver.com>
+>>>> +
+>>>> +Index: configure
+>>>> +=====================================================================
+>>>> +--- a/configure
+>>>> ++++ b/configure
+>>>> +@@ -4764,8 +4764,8 @@ DEMOS_PATH_STR=`"$relpath/config.tests/unix/padstring" 268 "qt_demopath=$QT_INST
+>>>> + TODAY=`date +%Y-%m-%d`
+>>>> + cat>   "$outpath/src/corelib/global/qconfig.cpp.new"<<EOF
+>>>> + /* License Info */
+>>>> +-static const char qt_configure_licensee_str          [256 + 12] = "$LICENSE_USER_STR";
+>>>> +-static const char qt_configure_licensed_products_str [256 + 12] = "$LICENSE_PRODUCTS_STR";
+>>>> ++static const char qt_configure_licensee_str          [512 + 12] = "$LICENSE_USER_STR";
+>>>> ++static const char qt_configure_licensed_products_str [512 + 12] = "$LICENSE_PRODUCTS_STR";
+>>>> +
+>>>> + /* Installation date */
+>>>> + static const char qt_configure_installation          [12+11]    = "qt_instdate=$TODAY";
+>>>> +@@ -4790,36 +4790,36 @@ if [ ! -z "$QT_HOST_PREFIX" ]; then
+>>>> +
+>>>> + #if defined(QT_BOOTSTRAPPED) || defined(QT_BUILD_QMAKE)
+>>>> + /* Installation Info */
+>>>> +-static const char qt_configure_prefix_path_str       [256 + 12] = "$HOSTPREFIX_PATH_STR";
+>>>> +-static const char qt_configure_documentation_path_str[256 + 12] = "$HOSTDOCUMENTATION_PATH_STR";
+>>>> +-static const char qt_configure_headers_path_str      [256 + 12] = "$HOSTHEADERS_PATH_STR";
+>>>> +-static const char qt_configure_libraries_path_str    [256 + 12] = "$HOSTLIBRARIES_PATH_STR";
+>>>> +-static const char qt_configure_binaries_path_str     [256 + 12] = "$HOSTBINARIES_PATH_STR";
+>>>> +-static const char qt_configure_plugins_path_str      [256 + 12] = "$HOSTPLUGINS_PATH_STR";
+>>>> +-static const char qt_configure_imports_path_str      [256 + 12] = "$HOSTIMPORTS_PATH_STR";
+>>>> +-static const char qt_configure_data_path_str         [256 + 12] = "$HOSTDATA_PATH_STR";
+>>>> +-static const char qt_configure_translations_path_str [256 + 12] = "$HOSTTRANSLATIONS_PATH_STR";
+>>>> +-static const char qt_configure_settings_path_str     [256 + 12] = "$HOSTSETTINGS_PATH_STR";
+>>>> +-static const char qt_configure_examples_path_str     [256 + 12] = "$HOSTEXAMPLES_PATH_STR";
+>>>> +-static const char qt_configure_demos_path_str        [256 + 12] = "$HOSTDEMOS_PATH_STR";
+>>>> ++static const char qt_configure_prefix_path_str       [512 + 12] = "$HOSTPREFIX_PATH_STR";
+>>>> ++static const char qt_configure_documentation_path_str[512 + 12] = "$HOSTDOCUMENTATION_PATH_STR";
+>>>> ++static const char qt_configure_headers_path_str      [512 + 12] = "$HOSTHEADERS_PATH_STR";
+>>>> ++static const char qt_configure_libraries_path_str    [512 + 12] = "$HOSTLIBRARIES_PATH_STR";
+>>>> ++static const char qt_configure_binaries_path_str     [512 + 12] = "$HOSTBINARIES_PATH_STR";
+>>>> ++static const char qt_configure_plugins_path_str      [512 + 12] = "$HOSTPLUGINS_PATH_STR";
+>>>> ++static const char qt_configure_imports_path_str      [512 + 12] = "$HOSTIMPORTS_PATH_STR";
+>>>> ++static const char qt_configure_data_path_str         [512 + 12] = "$HOSTDATA_PATH_STR";
+>>>> ++static const char qt_configure_translations_path_str [512 + 12] = "$HOSTTRANSLATIONS_PATH_STR";
+>>>> ++static const char qt_configure_settings_path_str     [512 + 12] = "$HOSTSETTINGS_PATH_STR";
+>>>> ++static const char qt_configure_examples_path_str     [512 + 12] = "$HOSTEXAMPLES_PATH_STR";
+>>>> ++static const char qt_configure_demos_path_str        [512 + 12] = "$HOSTDEMOS_PATH_STR";
+>>>> + #else // QT_BOOTSTRAPPED
+>>>> + EOF
+>>>> + fi
+>>>> +
+>>>> + cat>>   "$outpath/src/corelib/global/qconfig.cpp.new"<<EOF
+>>>> + /* Installation Info */
+>>>> +-static const char qt_configure_prefix_path_str       [256 + 12] = "$PREFIX_PATH_STR";
+>>>> +-static const char qt_configure_documentation_path_str[256 + 12] = "$DOCUMENTATION_PATH_STR";
+>>>> +-static const char qt_configure_headers_path_str      [256 + 12] = "$HEADERS_PATH_STR";
+>>>> +-static const char qt_configure_libraries_path_str    [256 + 12] = "$LIBRARIES_PATH_STR";
+>>>> +-static const char qt_configure_binaries_path_str     [256 + 12] = "$BINARIES_PATH_STR";
+>>>> +-static const char qt_configure_plugins_path_str      [256 + 12] = "$PLUGINS_PATH_STR";
+>>>> +-static const char qt_configure_imports_path_str      [256 + 12] = "$IMPORTS_PATH_STR";
+>>>> +-static const char qt_configure_data_path_str         [256 + 12] = "$DATA_PATH_STR";
+>>>> +-static const char qt_configure_translations_path_str [256 + 12] = "$TRANSLATIONS_PATH_STR";
+>>>> +-static const char qt_configure_settings_path_str     [256 + 12] = "$SETTINGS_PATH_STR";
+>>>> +-static const char qt_configure_examples_path_str     [256 + 12] = "$EXAMPLES_PATH_STR";
+>>>> +-static const char qt_configure_demos_path_str        [256 + 12] = "$DEMOS_PATH_STR";
+>>>> ++static const char qt_configure_prefix_path_str       [512 + 12] = "$PREFIX_PATH_STR";
+>>>> ++static const char qt_configure_documentation_path_str[512 + 12] = "$DOCUMENTATION_PATH_STR";
+>>>> ++static const char qt_configure_headers_path_str      [512 + 12] = "$HEADERS_PATH_STR";
+>>>> ++static const char qt_configure_libraries_path_str    [512 + 12] = "$LIBRARIES_PATH_STR";
+>>>> ++static const char qt_configure_binaries_path_str     [512 + 12] = "$BINARIES_PATH_STR";
+>>>> ++static const char qt_configure_plugins_path_str      [512 + 12] = "$PLUGINS_PATH_STR";
+>>>> ++static const char qt_configure_imports_path_str      [512 + 12] = "$IMPORTS_PATH_STR";
+>>>> ++static const char qt_configure_data_path_str         [512 + 12] = "$DATA_PATH_STR";
+>>>> ++static const char qt_configure_translations_path_str [512 + 12] = "$TRANSLATIONS_PATH_STR";
+>>>> ++static const char qt_configure_settings_path_str     [512 + 12] = "$SETTINGS_PATH_STR";
+>>>> ++static const char qt_configure_examples_path_str     [512 + 12] = "$EXAMPLES_PATH_STR";
+>>>> ++static const char qt_configure_demos_path_str        [512 + 12] = "$DEMOS_PATH_STR";
+>>>> + EOF
+>>>> +
+>>>> + if [ ! -z "$QT_HOST_PREFIX" ]; then
+>>>> diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4-native.inc
+>>>> index ad20723..42e2801 100644
+>>>> --- a/meta/recipes-qt/qt4/qt4-native.inc
+>>>> +++ b/meta/recipes-qt/qt4/qt4-native.inc
+>>>> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+>>>>                        file://LICENSE.GPL3;md5=babc5b6b77441da277f5c06b2e547720 \
+>>>>                        file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
+>>>>
+>>>> -INC_PR = "r18"
+>>>> +INC_PR = "r19"
+>>>>
+>>>>    inherit native
+>>>>
+>>>> @@ -17,6 +17,7 @@ SRC_URI = "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-sr
+>>>>               file://0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch \
+>>>>               file://0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch \
+>>>>               file://0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch \
+>>>> +	   file://0001-make-qt4-native-work-with-long-building-path.patch \
+>>> Please don't mix tabs and spaces for indentation.
+>> I didn't fix indentation. I'm also curious about why it appears this
+>> way. On my computer, it's ok.
+> Lines above are using only spaces, your line has tab followed by 3
+> spaces.
+>
+> Cheers,
+>
+Thanks a lot. I didn't notice that.
+I'll fix this and send out this series of patches again.
 
-Signed-off-by: Zhenhua Luo <b19537@freescale.com>
----
- meta/recipes-core/libxml/libxml2.inc |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+About the qt4 patch:
+I sent the patch to its mailing list. I also opened a bug for it in case 
+of accident.
+https://bugreports.qt-project.org/browse/QTBUG-28292
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 9ec507b..615c89e 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=bb90c48926316d9af6e2d70ca7013ade \
-                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
-                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
- 
-+INC_PR = "r1"
-+
- DEPENDS_class-native = "python-native"
- DEPENDS =+ "zlib"
- 
-@@ -24,7 +26,7 @@ do_configure_prepend () {
- 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
- }
- 
--EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma"
-+EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
- EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
- EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
- EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-catalog --with-docbook --with-c14n --without-lzma"
--- 
-1.7.9.5
-
-
+Thanks,
+Chen Qi
 
 
