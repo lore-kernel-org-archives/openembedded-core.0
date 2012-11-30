@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yanjun.Zhu@windriver.com>) id 1TeP26-0005vB-7l
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TeP9j-00066B-Ew
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 12:45:26 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAUBTtLm022702
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 03:30:41 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Fri, 30 Nov 2012 03:29:30 -0800
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2012 19:29:28 +0800
-Message-ID: <1354274968-7181-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: git-send-email 1.7.11
-In-Reply-To: <3450>
-References: <3450>
+	Fri, 30 Nov 2012 12:53:19 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 Nov 2012 03:39:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,191,1355126400"; d="scan'208";a="224716149"
+Received: from unknown (HELO helios.localnet) ([10.252.123.9])
+	by azsmga001.ch.intel.com with ESMTP; 30 Nov 2012 03:39:00 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+Date: Fri, 30 Nov 2012 11:38:59 +0000
+Message-ID: <1932884.RUTkbRsFAt@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.3 (Linux/3.5.0-18-generic; KDE/4.9.3; i686; ; )
+In-Reply-To: <CAF6bG8fYO6Ent8JqYyfo+oqScYytWqbuYCRh=VyKS=c3zmtqGA@mail.gmail.com>
+References: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
+	<CAF6bG8fYO6Ent8JqYyfo+oqScYytWqbuYCRh=VyKS=c3zmtqGA@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] Python: Fix for CVE-2012-2135
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] coreutils: update to upstream version 8.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,74 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 11:45:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Nov 2012 11:53:19 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+On Friday 30 November 2012 13:14:57 Marko Lindqvist wrote:
+> On 30 November 2012 13:08, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> > * License texts are identical to old, but old md5sum was
+> > 
+> >   erronously calculated from the beginning of the ls.c file, and
+> >   not from the beginning of license text segment.
+> 
+> Google finds quite a lot of documentation/examples to use startline=x
+> when it seems to be beginline=x which works. Judging from output of
+> "grep -r startline openembedded-core", there are several other
+> affected recipes. I can make patchset to replace those with
+> "beginline" and corrent md5sums.
 
-Reference:http://bugs.python.org/issue14579
+Whoops - turns out I've made this mistake in a number of recipes I submitted 
+recently for meta-oe and meta-networking. I can correct those, but if you 
+could fix the OE-Core ones that would be very much appreciated.
 
-The utf-16 decoder in Python 3.1 through 3.3 does not update the
-aligned_end variable after calling the unicode_decode_call_errorhandler
-function, which allows remote attackers to obtain sensitive information
-(process memory) or cause a denial of service (memory corruption and crash)
-via unspecified vectors.
+Cheers,
+Paul
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-2135
-
-[YOCTO #3450]
-
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
----
- .../python/python/python-2.7.2-CVE-2012-2135.patch | 24 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.2.bb       |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch
-
-diff --git a/meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch b/meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch
-new file mode 100644
-index 0000000..ad118b0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-2.7.2-CVE-2012-2135.patch
-@@ -0,0 +1,24 @@
-+Upstream-Status: Backport
-+
-+Reference:http://bugs.python.org/issue14579
-+
-+The utf-16 decoder in Python 3.1 through 3.3 does not update the
-+aligned_end variable after calling the unicode_decode_call_errorhandler
-+function, which allows remote attackers to obtain sensitive information
-+(process memory) or cause a denial of service (memory corruption and crash)
-+via unspecified vectors.
-+
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-2135
-+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
-+diff -urpN a/Objects/unicodeobject.c b/Objects/unicodeobject.c
-+--- a/Objects/unicodeobject.c	2012-11-12 16:25:33.000000000 +0800
-++++ b/Objects/unicodeobject.c	2012-11-12 16:26:22.000000000 +0800
-+@@ -2568,7 +2568,7 @@ PyUnicode_DecodeUTF16Stateful(const char
-+         }
-+ 
-+         /* UTF-16 code pair: */
-+-        if (q >= e) {
-++        if (e - q < 2) {
-+             errmsg = "unexpected end of data";
-+             startinpos = (((const char *)q)-2)-starts;
-+             endinpos = ((const char *)e)-starts;
-diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
-index 2adb4e4..9dabfb7 100644
---- a/meta/recipes-devtools/python/python_2.7.2.bb
-+++ b/meta/recipes-devtools/python/python_2.7.2.bb
-@@ -24,6 +24,7 @@ SRC_URI += "\
-   file://setuptweaks.patch \
-   file://check-if-target-is-64b-not-host.patch \
-   file://search_db_h_in_inc_dirs_and_avoid_warning.patch \
-+  file://python-2.7.2-CVE-2012-2135.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
 -- 
-1.7.11
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
