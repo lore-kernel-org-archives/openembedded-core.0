@@ -1,25 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TeZQd-0001oQ-D9
+	(envelope-from <scott.a.garman@intel.com>) id 1TeZV1-000213-NP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 23:51:27 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Nov 2012 14:36:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,194,1355126400"; 
-	d="scan'208,223";a="227386407"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.208])
-	by orsmga001.jf.intel.com with ESMTP; 30 Nov 2012 14:37:07 -0800
-Message-ID: <50B93513.4020209@linux.intel.com>
-Date: Fri, 30 Nov 2012 14:37:07 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 30 Nov 2012 23:56:00 +0100
+Received: from mail-da0-f69.google.com ([209.85.210.69])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 30 Nov 2012 14:41:39 -0800
+Received: by mail-da0-f69.google.com with SMTP id x4so820333daj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2012 14:41:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=nYi+yt116rRXDKH8maLkB0qCWe+jGxt5Rf9TMpy7xy0=;
+	b=V0WCggEYHuCMczVWr0g182cdXPDZS0IbiLoOm7e4kRzvzcDy/e3sTtk1sZKFpsjHdw
+	pykp3/9eic+rkq2RbiAKrwPtC2fyAzbt7bIcD0gJlZdAM278RjnULGmvZQs6QDlG/yIB
+	ZSxP0FzRwthgFthtf3zjE+cZdVnEhI1uUHZrXh+V0YSxUIg1mQ1HatP5RgV7GQBWT7EC
+	0LMpJIzy/OWkz3MMcpQbempqiqevnRbUraCKkTAKFuHlNB6W4G/qhVgRlTEt+JDkGCYb
+	nH1w13dPgcoUPTxrxYmf25oimnXT54XXTZ7DzuPN02g+CV6aN0aKYaNGPA/Dr7zBvu6D
+	e63Q==
+Received: by 10.68.218.97 with SMTP id pf1mr9358856pbc.96.1354315298982;
+	Fri, 30 Nov 2012 14:41:38 -0800 (PST)
+Received: by 10.68.218.97 with SMTP id pf1mr9358845pbc.96.1354315298829;
+	Fri, 30 Nov 2012 14:41:38 -0800 (PST)
+Received: from [192.168.88.206] ([199.223.125.134])
+	by mx.google.com with ESMTPS id is6sm3668470pbc.55.2012.11.30.14.41.37
+	(version=SSLv3 cipher=OTHER); Fri, 30 Nov 2012 14:41:37 -0800 (PST)
+Message-ID: <50B93620.6050203@intel.com>
+Date: Fri, 30 Nov 2012 14:41:36 -0800
+From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: Danny - backport - gst-meta-base x11 fix
+To: openembedded-core@lists.openembedded.org
+References: <1353996801-28402-1-git-send-email-li.wang@windriver.com>
+In-Reply-To: <1353996801-28402-1-git-send-email-li.wang@windriver.com>
+X-Gm-Message-State: ALoCoQlRG86MjDnf5X9qkNvYsMgBA+zOZDI2NthT81AZBr/FWKgKGRgs0n52rc0sT/jaJ2rXCQwrgwgO39VCTKVW7DKLNboPRsVhGSCRVh22DLJA/WowUCIYuXJdP2uxJjo2nRuFrQ8S6Ys265zQrWlA+NAwk5vLhkVPEPC73ath6bUH9oL3d4AJr+FTz98t03llRCdrkSDa
+Subject: Re: [PATCH] openssh: CVE-2011-4327
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,90 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 22:51:27 -0000
-X-Groupsio-MsgNum: 32044
-Content-Type: multipart/mixed; boundary="------------090900070908020309080303"
-
---------------090900070908020309080303
+X-List-Received-Date: Fri, 30 Nov 2012 22:56:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 11/26/2012 10:13 PM, Li Wang wrote:
+> A security flaw was found in the way ssh-keysign,
+> a ssh helper program for host based authentication,
+> attempted to retrieve enough entropy information on configurations that
+> lacked a built-in entropy pool in OpenSSL (a ssh-rand-helper program would
+> be executed to retrieve the entropy from the system environment).
+> A local attacker could use this flaw to obtain unauthorized access to host keys
+> via ptrace(2) process trace attached to the 'ssh-rand-helper' program.
+>
+> https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2011-4327
+> http://www.openssh.com/txt/portable-keysign-rand-helper.adv
+>
+> [YOCTO #3493]
+>
+> Signed-off-by: Li Wang <li.wang@windriver.com>
 
-Ross,
+Hi Li,
 
-Since we have a fix in master (1.4) already for this, we should just 
-backport it.
+The second link you referenced above explains that the vulnerability 
+exists in versions prior to openssh 5.8p2, and yet your patch was 
+submitted against openssh 6.0p1. So it seems that this would not apply. 
+Or am I misunderstanding the nature of the bug?
 
-OE-Core: 6e44bf71fd4645ea09b3e34b907b17e92b5225e3
-Poky: 115076c0d8fa0e9f100136b8f060e59d978c4fca
+Thanks,
 
-Thanks
+Scott
 
 -- 
-     Sau!
-
-Saul Wold
-Yocto Component Wrangler @ Intel
-Yocto Project / Poky Build System
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
---------------090900070908020309080303
-Content-Type: text/x-patch;
- name="0001-gst-meta-base-include-ximagesink-plugin-when-x11-is-.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-gst-meta-base-include-ximagesink-plugin-when-x11-is-.pa";
- filename*1="tch"
-
-From 115076c0d8fa0e9f100136b8f060e59d978c4fca Mon Sep 17 00:00:00 2001
-From: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 24 Oct 2012 13:52:17 -0700
-Subject: [PATCH] gst-meta-base: include ximagesink plugin when x11 is a
- feature
-
-(From OE-Core rev: 6e44bf71fd4645ea09b3e34b907b17e92b5225e3)
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-index 1788104..2fb39d5 100644
---- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-@@ -5,10 +5,11 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
- 
--PR = "r10"
-+PR = "r11"
- 
- PACKAGES = "\
-     gst-meta-base \
-+    gst-meta-x11-base \
-     gst-meta-audio \
-     gst-meta-debug \
-     gst-meta-video"
-@@ -23,7 +24,6 @@ RDEPENDS_gst-meta-base = "\
-     gst-plugins-base-gio \
-     gst-plugins-base-alsa \
-     gst-plugins-base-volume \
--    gst-plugins-base-ximagesink \
-     gst-plugins-base-audioconvert \
-     gst-plugins-base-audioresample \
-     gst-plugins-base-typefindfunctions \
-@@ -32,6 +32,7 @@ RDEPENDS_gst-meta-base = "\
-     gst-plugins-good-autodetect \
-     gst-plugins-good-souphttpsrc"
- 
-+RDEPENDS_gst-meta-x11-base = "${@base_contains('DISTRO_FEATURES', 'x11', 'gst-plugins-base-ximagesink', '', d)}"
- 
- RDEPENDS_gst-meta-audio = "\
-     gst-meta-base \
--- 
-1.8.0
-
-
---------------090900070908020309080303--
