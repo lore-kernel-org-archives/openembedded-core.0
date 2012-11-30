@@ -1,28 +1,37 @@
-Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andy.ross@windriver.com>) id 1TeTyi-0000YI-L2
+Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
+	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ray.danks@se-eng.com>) id 1TeUOc-0001Jl-3S
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 18:02:18 +0100
-Received: from [0.0.0.0] (c-67-171-188-207.hsd1.or.comcast.net
-	[67.171.188.207]) (Authenticated sender: andy-wrs)
-	by plausible.org (Postfix) with ESMTPSA id A70422137C;
-	Fri, 30 Nov 2012 08:47:58 -0800 (PST)
-Message-ID: <50B8E33D.8000101@windriver.com>
-Date: Fri, 30 Nov 2012 08:47:57 -0800
-From: Andy Ross <andy.ross@windriver.com>
+	Fri, 30 Nov 2012 18:29:03 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id A2905138077;
+	Fri, 30 Nov 2012 10:14:43 -0700 (MST)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id CMdVKn0LGeHh; Fri, 30 Nov 2012 10:14:36 -0700 (MST)
+Received: from [172.20.202.50] (beast.camp.se-eng.com [172.20.202.50])
+	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 1C94B13806E;
+	Fri, 30 Nov 2012 10:14:36 -0700 (MST)
+Message-ID: <50B8E97A.3040703@se-eng.com>
+Date: Fri, 30 Nov 2012 10:14:34 -0700
+From: Raymond Danks <ray.danks@se-eng.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1354208369.git.elizabeth.flanagan@intel.com>
-	<037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
-	<50B83691.5040800@linux.intel.com>
-In-Reply-To: <50B83691.5040800@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+References: <50B63784.5050502@enea.com> <1354119751.15992.2.camel@ted>
+	<CADkTA4P8=aLSXNTAENp+WW7xX+ttYAPhPufRE=+yn9KXOY8Sag@mail.gmail.com>
+	<50B71FD4.3090304@enea.com> <50B766CC.4030904@se-eng.com>
+	<1354197267.4053.4.camel@ted> <50B89887.3070003@gmail.com>
+In-Reply-To: <50B89887.3070003@gmail.com>
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-cloud layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ray.danks@se-eng.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -32,220 +41,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 17:02:18 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2012 17:29:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 11/29/2012 08:31 PM, Saul Wold wrote:
-> There still seems to be a problem with this patch, try building
-> core-image-minimal and core-image-basic, checkout the failure from
-> the autobuilder:
+On 11/30/2012 04:29 AM, David Nystr=F6m wrote:
+> On 11/29/2012 02:54 PM, Richard Purdie wrote:
+>> On Thu, 2012-11-29 at 06:44 -0700, Raymond Danks wrote:
+>>> Thanks for looping me in here David. The initial goal for the meta-xe=
+n
+>>> layer was in fact to encompass Xen Cloud Platform.  As such, the inte=
+nt
+>>> was to contain both hypervisor and user-space applications. Indeed, t=
+he
+>>> xen distribution itself includes xm/libxl; hypervisor abstraction wou=
+ld
+>>> be somewhat tedious in my opinion.
+>>>
+>>> The layer just received commits for expanding the libvirt build to
+>>> support qemu.  The commonalities and shared packaged between xen, qem=
+u,
+>>> and kvm implementations are such that I would also agree that meta-xe=
+n
+>>> should be expanded/renamed to encompass all virtualization types; I=20
+>>> also
+>>> support the move to meta-virtualization.
+>>>
 >
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/372/steps/shell_28/logs/stdio
+> meta-virtualization sounds good, let co-op on this so we don't=20
+> duplicate work.
+Yes. Agreed.
+>
+>>> As far as a meta-cloud layer is concerned, I'm not sure I am
+>>> knowledgeable enough in this area to weigh in.  I'm currently
+>>> researching a filesystem implementation for OpenStack and have stumbl=
+ed
+>>> across Ceph/RBD and Gluster modules that look promising. On top of=20
+>>> this,
+>>> XCP is documented to include support for VastSky and can be integrate=
+d
+>>> with DRBD.  And, the storage and hypervisor are only two pieces of th=
+e
+>>> puzzle for a cloud implementation!
+>>>
+>
+> Cool !
+> I know, the meta-"cloud" name is quite/too ambitious, it was not meant=20
+> to be a one week effort. But why aim low :).
+>
+>>> I think I would encourage you to also include OpenStack in a
+>>> meta-virtualization layer until it has matured to the point where
+>>> abstraction is more warranted.
+>
+> Agree.
+>
+>>> Since you've already created a presence
+>>> at github, would it be possible to rename your layer to
+>>> meta-virtualization and absorb the entire meta-xen layer?  I can push
+>>> any changes for Xen/XCP here, it sounds like it is a central place fo=
+r
+>>> libvirt and could also contain Bruce's kernel modifications.
+>>>
+>>> Alternatively, I can create a meta-virtualization project.  In any=20
+>>> case,
+>>> those on the To and CC list should receive access to this layer as a
+>>> starting point.
+>>>
+>>> Just my two cents.  :)
+>>
+>> I'd like to offer to host this combined layer (whatever we decide to
+>> call it) on git.yoctoproject.org if that would help people and people
+>> are interested. My only concern is in the area of maintainership, we
+>> need to clearly define who maintains what and what the patch submissio=
+n
+>> process is in the README.
+>>
+>
+> Thanks,
+>
+> Sounds good to centralize everything, since Raymond is the majority=20
+> code contributor, perhaps he, if willing, can maintain the=20
+> meta-virtualization layer.
+> If you want a co/sub-maintainer I'll be happy to help out.
+>
+Yes.  Thanks Richard.  I was looking at some of the Yocto projects and=20
+the meta-ti stood out as one that might be a model for this. Would it be=20
+possible to configure a mailing list for meta-virtualization as well? =20
+Once you've got the repo in place I'll push up what's in meta-xen. =20
+Maybe David can come behind with what's in meta-cloud.  I also saw that=20
+Mihai mentioned having a KVM tree that might integrate.  Once we've got=20
+this setup we should also rename the link on the OE layers index wiki.
 
-Oops, that was my goof.  The nativesdk packages were being tested
-vs. INCOMPATIBLE_LICENSE because I incorrectly folded them in with the
-other types when refactoring; endswith/startswith, what's the
-difference?  And of course I don't build nativesdk stuff routinely.
+I'm happy with a co-maintainer type setup as well.  In fact, I prefer=20
+that.  I've done work with the xen part of this, but kvm and openstack=20
+are still somewhat foreign.
 
-Fixed:
+At any rate, I'll pay closer attention to the lists as they pertain to=20
+this layer especially going forward.  I think this will work well to=20
+combine our efforts here.
 
- From 9796edb4e5a7a9a7c2d6d51fc68ea1ffa2b4d9ea Mon Sep 17 00:00:00 2001
-From: Andy Ross <andy.ross@windriver.com>
-Date: Thu, 29 Nov 2012 11:08:47 -0800
-Subject: [PATCH] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
-
-Allow INCOMPATIBLE_LICENSE to be a whitespace-separated list of
-incompatible license strings and/or glob patterns.
-
-Also fix wildcarding: the string in INCOMPATIBLE_LICENSE was clearly
-intended to match with wildcards (e.g. "*GPLv3" to match both GPLv3
-and LGPLv3), but this was broken because of a bug in return_spdx()
-which would die with a runtime error when there was no SPDXLICENSEMAP
-entry for the string.
-
-Signed-off-by: Andy Ross <andy.ross@windriver.com>
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
----
-  meta/classes/base.bbclass    | 67 +++++++++++++++++++++----------------------
-  meta/classes/license.bbclass | 68 ++++++++++++++++----------------------------
-  2 files changed, 58 insertions(+), 77 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 0ee9d2e..d01edb6 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -524,43 +524,42 @@ python () {
-                      raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
-
-
--        dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', True)
--
--        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-cross-canadian-%s" % d.getVar('TRANSLATED_TARGET_ARCH', True)) and not pn.startswith("nativesdk-"):
--        # Internally, we'll use the license mapping. This way INCOMPATIBLE_LICENSE = "GPLv2" and
--        # INCOMPATIBLE_LICENSE = "GPLv2.0" will pick up all variations of GPL-2.0
--            spdx_license = return_spdx(d, dont_want_license)
--            hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
--            lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
--            dont_want_whitelist = (d.getVar('WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
--            if pn not in hosttools_whitelist and pn not in lgplv2_whitelist and pn not in dont_want_whitelist:
--                this_license = d.getVar('LICENSE', True)
--                # At this point we know the recipe contains an INCOMPATIBLE_LICENSE, however it may contain packages that do not.
--                packages = d.getVar('PACKAGES', True).split()
--                dont_skip_recipe = False
--                skipped_packages = {}
--                unskipped_packages = []
--                for pkg in packages:
--                    if incompatible_license(d, dont_want_license, pkg):
--                            skipped_packages[pkg] = this_license
--                            dont_skip_recipe = True
-+        bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
-+
-+        check_license = False if pn.startswith("nativesdk-") else True
-+        for t in ["-native", "-cross", "-cross-initial", "-cross-intermediate", "-crosssdk-intermediate", "-crosssdk", "-crosssdk-initial"]:
-+            if pn.endswith(t):
-+                check_license = False
-+
-+        if check_license and bad_licenses:
-+            whitelist = []
-+            for lic in bad_licenses:
-+                for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
-+                    whitelist.extend((d.getVar(w + lic, True) or "").split())
-+                spdx_license = return_spdx(d, lic)
-+                if spdx_license:
-+                    whitelist.extend((d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split())
-+            if not pn in whitelist:
-+                recipe_license = d.getVar('LICENSE', True)
-+                pkgs = d.getVar('PACKAGES', True).split()
-+                skipped_pkgs = []
-+                unskipped_pkgs = []
-+                for pkg in pkgs:
-+                    if incompatible_license(d, bad_licenses, pkg):
-+                        skipped_pkgs.append(pkg)
-                      else:
--                        unskipped_packages.append(pkg)
--                if not unskipped_packages:
--                    # if we hit here and have excluded all packages, then we can just exclude the recipe
--                    dont_skip_recipe = False
--                elif skipped_packages and unskipped_packages:
--                    for pkg, license in skipped_packages.iteritems():
--                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + this_license)
-+                        unskipped_pkgs.append(pkg)
-+                some_skipped = skipped_pkgs and unskipped_pkgs
-+                all_skipped = skipped_pkgs and not unskipped_pkgs
-+                if some_skipped:
-+                    for pkg in skipped_pkgs:
-+                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + recipe_license)
-                          d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
--                    for index, pkg in enumerate(unskipped_packages):
-+                    for pkg in unskipped_pkgs:
-                          bb.note("INCLUDING the package " + pkg)
--
--                if dont_skip_recipe is False and incompatible_license(d, dont_want_license):
--                    bb.note("SKIPPING recipe %s because it's %s" % (pn, this_license))
--                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
--
--
-+                elif all_skipped or incompatible_license(d, bad_licenses):
-+                    bb.note("SKIPPING recipe %s because it's %s" % (pn, recipe_license))
-+                    raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
-
-      srcuri = d.getVar('SRC_URI', True)
-      # Svn packages should DEPEND on subversion-native
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c7ca4a6..7bca8e7 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -207,14 +207,11 @@ python do_populate_lic() {
-
-  def return_spdx(d, license):
-      """
--    This function returns the spdx mapping of a license.
--    """
--    if d.getVarFlag('SPDXLICENSEMAP', license) != None:
--        return license
--    else:
--        return d.getVarFlag('SPDXLICENSEMAP', license_type)
-+    This function returns the spdx mapping of a license if it exists.
-+     """
-+    return d.getVarFlag('SPDXLICENSEMAP', license, True)
-
--def incompatible_license(d, dont_want_license, package=""):
-+def incompatible_license(d, dont_want_licenses, package=None):
-      """
-      This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
-      operand.
-@@ -223,45 +220,30 @@ def incompatible_license(d, dont_want_license, package=""):
-      import oe.license
-      from fnmatch import fnmatchcase as fnmatch
-      pn = d.getVar('PN', True)
--    dont_want_licenses = []
--    dont_want_licenses.append(d.getVar('INCOMPATIBLE_LICENSE', True))
--    recipe_license = d.getVar('LICENSE', True)
--    if package != "":
--        if d.getVar('LICENSE_' + pn + '-' + package, True):
--            license = d.getVar('LICENSE_' + pn + '-' + package, True)
--        else:
--            license = recipe_license
--    else:
--        license = recipe_license
--    spdx_license = return_spdx(d, dont_want_license)
--    dont_want_licenses.append(spdx_license)
--
--    def include_license(license):
--        if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
-+    license = d.getVar("LICENSE_%s-%s" % (pn, package), True) if package else None
-+    if not license:
-+        license = d.getVar('LICENSE', True)
-+
-+    def license_ok(license):
-+        for dwl in dont_want_licenses:
-+            # If you want to exclude license named generically 'X', we
-+            # surely want to exclude 'X+' as well.  In consequence, we
-+            # will exclude a trailing '+' character from LICENSE in
-+            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
-+            lic = license
-+        if not re.search('\+$', dwl):
-+            lic = re.sub('\+', '', license)
-+        if fnmatch(lic, dwl):
-              return False
--        else:
--            return True
-+        return True
-
--    def choose_licenses(a, b):
--        if all(include_license(lic) for lic in a):
--            return a
--        else:
--            return b
-+    # Handles an "or" or two license sets provided by
-+    # flattened_licenses(), pick one that works if possible.
-+    def choose_lic_set(a, b):
-+        return a if all(license_ok(lic) for lic in a) else b
-
--    """
--    If you want to exlude license named generically 'X', we surely want to exlude 'X+' as well.
--    In consequence, we will exclude the '+' character from LICENSE in case INCOMPATIBLE_LICENSE
--    is not a 'X+' license.
--    """
--    if not re.search(r'[+]',dont_want_license):
--        licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', license), choose_licenses)
--    else:
--        licenses=oe.license.flattened_licenses(license, choose_licenses)
--
--    for onelicense in licenses:
--        if not include_license(onelicense):
--            return True
--    return False
-+    licenses=oe.license.flattened_licenses(license, choose_lic_set)
-+    return any(not license_ok(l) for l in licenses)
-
-  def check_license_flags(d):
-      """
--- 
-1.7.11.7
-
-
+Ray
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
 
 
 
