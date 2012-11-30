@@ -1,33 +1,24 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TeWZY-0005HG-65
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 20:48:28 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so1187365ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 11:34:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=w7Zwm1JhSw+AKz+VnQ7S2ziJ6qXLNUKNnfeEN+eS63I=;
-	b=QrrX4duVRZ9IANU0D8dGcFWcmvC8Y9rmSsyEwAWsTq/3LW4KSmU5adOlP5+liID1V2
-	XBZCkUUmslczLgNfJzmBvOmg1aWnqLZ4OBrNa5CLLd1kkWm8CExhBBBVVpsFD/+ImYLN
-	/radramR9ELLKFHqLT7BtvJTQi3bf9hNEtGwzoI7nO7n8+8Dv9VOOWDA7jy6Ey/oLw7V
-	NOLp84pti4SFLkKFycByJSwV9mQSA82Vx6kI5/F0mIvpS78N4PMDIysWonnyIkNsFGXT
-	ieNBOyPvHvdEe1J65XGRDQLYy3Pk5/5hNzEiaHdo6gtS2VbJiNSSm/RQLTSC54Qy5C57
-	ZQTQ==
+	(envelope-from <jason.wessel@windriver.com>) id 1TeWyl-0006Az-7m
+	for Openembedded-core@lists.openembedded.org;
+	Fri, 30 Nov 2012 21:14:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAUJYBj5003991
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2012 11:34:11 -0800 (PST)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Fri, 30 Nov 2012 11:34:10 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Nov 2012 13:34:08 -0600
+Message-ID: <1354304048-17216-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Received: by 10.42.179.8 with SMTP id bo8mr1909369icb.0.1354304050114; Fri, 30
-	Nov 2012 11:34:10 -0800 (PST)
-Received: by 10.64.20.113 with HTTP; Fri, 30 Nov 2012 11:34:09 -0800 (PST)
-In-Reply-To: <1354201523-18600-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1354201523-18600-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Fri, 30 Nov 2012 20:34:09 +0100
-Message-ID: <CALbNGRQwF9yi32uOJj-MTpwX2-02+tGY1DisqqCKkLYo5gN06A@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libcgroup: fix INSANE_SKIP
+Subject: [PATCH] populate_sdk_base.bbclass: make failure to find ld-linux.so a hard error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,43 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 19:48:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Nov 2012 20:14:33 -0000
+Content-Type: text/plain
 
-On Thu, Nov 29, 2012 at 4:05 PM, Martin Jansa <martin.jansa@gmail.com> wrot=
-e:
-> * that .so file is in cgroups-pam-plugin not PN
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/libcgroup/libcgroup_0.37.1.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb b/meta/recip=
-es-core/libcgroup/libcgroup_0.37.1.bb
-> index 3ef1dad..e74f831 100644
-> --- a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-> +++ b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
-> @@ -3,7 +3,7 @@ SECTION =3D "libs"
->  LICENSE =3D "LGPLv2.1"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D2d5025d4aa3495befef8f17206a5b=
-0a1"
->
-> -PR =3D "r1"
-> +PR =3D "r2"
->
->  inherit autotools pkgconfig
->
-> @@ -24,4 +24,4 @@ FILES_${PN}-dbg +=3D "${base_libdir}/security/.debug"
->  FILES_${PN}-dev +=3D "${base_libdir}/security/*.la"
->
->  # We really need the symlink so :(
-> -INSANE_SKIP_${PN} =3D "dev-so"
-> +INSANE_SKIP_cgroups-pam-plugin =3D "dev-so"
-> --
-> 1.8.0
->
-Acked-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+The shell archive that populates the external SDK should fail if it
+cannot find the ld-linux.so else it will corrupt all binaries because
+a random path will be used from the list of executables when dl_path
+is empty.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/classes/populate_sdk_base.bbclass |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index ac34c32..73bd44d 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -176,6 +176,10 @@ done
+ # fix dynamic loader paths in all ELF SDK binaries
+ native_sysroot=$(cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
+ dl_path=$(find $native_sysroot/lib -name "ld-linux*")
++if [ "$dl_path" = "" ] ; then
++	echo "SDK could not be set up. Relocate script to find ld-linux.so. Abort!"
++	exit 1
++fi
+ executable_files=$(find $native_sysroot -type f -perm +111)
+ ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
+ if [ $? -ne 0 ]; then
+-- 
+1.7.1
+
 
 
