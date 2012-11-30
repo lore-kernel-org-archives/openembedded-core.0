@@ -1,27 +1,46 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from tx2ehsobe004.messaging.microsoft.com ([65.55.88.14]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TeHBX-00060a-Dt
+	(envelope-from <B19537@freescale.com>) id 1TeHmx-000757-4B
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 04:23:02 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAU38Nog015481
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 19:08:23 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 29 Nov 2012 19:08:22 -0800
-From: <Qi.Chen@windriver.com>
+	Fri, 30 Nov 2012 05:01:19 +0100
+Received: from mail204-tx2-R.bigfish.com (10.9.14.253) by
+	TX2EHSOBE015.bigfish.com (10.9.40.35) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 30 Nov 2012 03:16:51 +0000
+Received: from mail204-tx2 (localhost [127.0.0.1])	by
+	mail204-tx2-R.bigfish.com (Postfix) with ESMTP id 073421801E6	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2012 03:16:51 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1de0h1202h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1155h)
+Received: from mail204-tx2 (localhost.localdomain [127.0.0.1]) by mail204-tx2
+	(MessageSwitch) id 1354245408833602_29973;
+	Fri, 30 Nov 2012 03:16:48 +0000 (UTC)
+Received: from TX2EHSMHS005.bigfish.com (unknown [10.9.14.239])	by
+	mail204-tx2.bigfish.com (Postfix) with ESMTP id C889274004D	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2012 03:16:48 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS005.bigfish.com
+	(10.9.99.105) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 30 Nov 2012 03:16:47 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.318.3; Fri, 30 Nov 2012 03:16:46 +0000
+Received: from bjsimics-desktop.ap.freescale.net
+	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id qAU3Gh7t003429;
+	Thu, 29 Nov 2012 20:16:44 -0700
+From: Zhenhua Luo <b19537@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2012 11:08:44 +0800
-Message-ID: <97b67e0fc00c8fe7d076275e1ace2e13d47e27cd.1354084523.git.Qi.Chen@windriver.com>
+Date: Fri, 30 Nov 2012 11:39:55 +0800
+Message-ID: <1354246795-17672-1-git-send-email-b19537@freescale.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1354084523.git.Qi.Chen@windriver.com>
-References: <cover.1354084523.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 3/3] ghostscript: make ghostscript work with long building path
+X-OriginatorOrg: freescale.com
+Cc: B29882@freescale.com
+Subject: libxml2: add --with-fexceptions in configure flags to support exception handling in C++ programs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,88 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 03:23:02 -0000
+X-List-Received-Date: Fri, 30 Nov 2012 04:01:19 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Without this flag, the library has a problem with C++ programs using exception handling.
 
-If TMPDIR has more than 256 chars, building ghostscript fails.
-This violates the 410 length limit of TMPDIR.
-
-This patch makes building ghostscript succeed by changing its
-MAX_TOKEN from 256 to 512.
-
-[YOCTO #2766]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
 ---
- ...tscript-work-with-long-building-directory.patch |   19 +++++++++++++++++++
- .../ghostscript/ghostscript_9.05.bb                |   10 ++++------
- 2 files changed, 23 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
+ meta/recipes-core/libxml/libxml2.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch b/meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
-new file mode 100644
-index 0000000..a4ce70a
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
-@@ -0,0 +1,19 @@
-+Upstream-Status: Accepted
-+
-+Make ghost script work with long building directory
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
-+Index: base/genconf.c
-+==============================================================
-+--- a/base/genconf.c
-++++ b/base/genconf.c
-+@@ -682,7 +682,7 @@ read_dev(config_t * pconf, const char *arg)
-+     string_item_t *item;
-+     const char *in;
-+ 
-+-#define MAX_TOKEN 256
-++#define MAX_TOKEN 512
-+     char *token = malloc(MAX_TOKEN + 1);
-+     char *category = malloc(MAX_TOKEN + 1);
-+     int file_index;
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-index 1fdcb99..2789897 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-@@ -15,7 +15,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c5326026692dbed183f0558f926580f8"
- 
--PR = "r3"
-+PR = "r4"
- 
- DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
- DEPENDS_class-native = ""
-@@ -30,7 +30,9 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://ghostscript-9.05-NOT-check-endian.patch \
-            "
- 
--SRC_URI_class-native = "${SRC_URI_BASE}"
-+SRC_URI_class-native = "${SRC_URI_BASE} \
-+		        file://0001-make-ghostscript-work-with-long-building-directory.patch \
-+		        "
- 
- SRC_URI[md5sum] = "f7c6f0431ca8d44ee132a55d583212c1"
- SRC_URI[sha256sum] = "593f77f7584704bdf9de41598a084a4208c3ad3b940a1de1faaf8f59a15cc207"
-@@ -80,10 +82,6 @@ do_install_append () {
-     chown -R root:lp ${D}${sysconfdir}/cups
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 9ec507b..8794247 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -24,7 +24,7 @@ do_configure_prepend () {
+ 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
  }
  
--python do_patch_class-native () {
--    pass
--}
--
- do_compile_class-native () {
-     mkdir -p obj
-     for i in genarch genconf mkromfs echogs gendev genht; do
+-EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma"
++EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+ EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+ EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+ EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-catalog --with-docbook --with-c14n --without-lzma"
 -- 
 1.7.9.5
+
 
 
 
