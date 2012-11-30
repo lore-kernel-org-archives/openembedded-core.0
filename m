@@ -1,46 +1,38 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TeSXl-00066d-7R
+	(envelope-from <koen@dominion.thruhere.net>) id 1TeTq7-0008Rz-5q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 16:30:44 +0100
-Received: by mail-lb0-f175.google.com with SMTP id gg13so507830lbb.6
+	Fri, 30 Nov 2012 17:53:23 +0100
+Received: by mail-bk0-f47.google.com with SMTP id j4so310202bkw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 07:16:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=U6TeVtAO10/Kkm4Upno9LqXlrzuT6eVJ9uhSY973xFk=;
-	b=i8v84+XcKp9CwPdqEKItMDLk44uTRMAgur96px7343t9IoruKi/nAyqFBpzsK06bEx
-	Cvf0iVQWOmIeTgGWS4AfCzm/XcMGp1Rpf8b8WVHi5px6988dV9LS/O18RMwpvIsvG0mI
-	BSCbyHBQLpf2+bDI4575z1MNQfC4p8nh2n12NsGxxH/LzJLlfqrPYx/B14zmGTA4cPla
-	TZ0YLdQPsjYCCF8oLsradca+fYMFumLgRD+KVOjbdNLr1qpUQsldRyQRDfNFHCjZUE0P
-	/V6fAyGfA9mLWGyGgi+c72wBhPosG1mJer+Ioi9wTSGuq9xjAOADhXacFtwXdtoT3npN
-	TxiQ==
-Received: by 10.152.135.139 with SMTP id ps11mr1572075lab.29.1354288566061;
-	Fri, 30 Nov 2012 07:16:06 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id l1sm2218899lbm.1.2012.11.30.07.16.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Nov 2012 07:16:04 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TeSJr-00032H-SH; Fri, 30 Nov 2012 17:15:59 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
+	Fri, 30 Nov 2012 08:39:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=Xp7hBszHJ8Sh8tZUqXyQlu0dRY094/mxprqvXZ8N7Vk=;
+	b=bS4Ulrx4byModEsxa19loFemBGY+lrqI02a7U/Dz+AxVnnwjkgvi2fbcex8pPNrhqJ
+	QD0S3ISI/0udAlaeCAopczZvafhj2fsIQWY1sNDbuhGqzSsi+RwxXEHzGaDXdXmU7PnW
+	V0MYJD/NK2AwxQ5mSWizS5rAu/tKIwyFuZ0SCRrM500iMvaf9Tq/kJNBHiaDwMTCnl/7
+	T/etXjNCXNavbcJv3584u1OgrMD01laN6O6dj11lQBX5LX8yaPzyNPtCai/rkZXU+gFm
+	ifoqKRz2CtqJH2G1QKpTw1tY7o1+HiS74iA9SywFAhRuTHO86a9KVD5mHSoqZexDu9yc
+	es9Q==
+Received: by 10.204.12.202 with SMTP id y10mr593100bky.51.1354293545324;
+	Fri, 30 Nov 2012 08:39:05 -0800 (PST)
+Received: from [172.20.0.22] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id 18sm3950402bkv.0.2012.11.30.08.39.02
+	(version=SSLv3 cipher=OTHER); Fri, 30 Nov 2012 08:39:04 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1353509074-16375-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 30 Nov 2012 17:39:03 +0100
+Message-Id: <4294A763-939F-4201-BF2A-DE11519DD740@dominion.thruhere.net>
+References: <1353509074-16375-1-git-send-email-koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2012 17:15:44 +0200
-Message-Id: <1354288544-10778-11-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1354288544-10778-10-git-send-email-cazfi74@gmail.com>
-References: <1354288544-10778-1-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-2-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-3-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-4-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-5-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-6-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-7-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-8-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-9-git-send-email-cazfi74@gmail.com>
-	<1354288544-10778-10-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH 10/10] xorg-app: fix license segment md5sum boundary
+X-Mailer: Apple Mail (2.1499)
+X-Gm-Message-State: ALoCoQm4S+syejCB3dQdS69kwdsmP5E8aNsM6l5hMXeVvrrzEDQ+Tpu78iZwzwbyCVoD0+i0YX4T
+Subject: Re: [PATCH] image classes: use PN for depends, not IMAGE_BASE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,30 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 15:30:52 -0000
+X-List-Received-Date: Fri, 30 Nov 2012 16:53:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Replaced incorrect "startline" with correct "beginline" for telling
-where license segment in file begins. This change has no effect on
-md5sum as license segments from the beginning of the file.
+ping
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- meta/recipes-graphics/xorg-app/xev_1.2.0.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Op 21 nov. 2012, om 15:44 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
 
-diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.0.bb b/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
-index 8d45e2e..5248ea1 100644
---- a/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
-@@ -1,5 +1,5 @@
- require xorg-app-common.inc
--LIC_FILES_CHKSUM = "file://xev.c;startline=0;endline=35;md5=2f39a0038b59269c1e62efae64cfd056"
-+LIC_FILES_CHKSUM = "file://xev.c;beginline=1;endline=35;md5=2f39a0038b59269c1e62efae64cfd056"
- DESCRIPTION = "X Event Viewer"
- LICENSE = "MIT"
- PE = "1"
--- 
-1.7.10.4
+> Some images override IMAGE_BASE_NAME in the recipe causing targets =
+using image-{live,vmdk} to fail.
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+> meta/classes/image-live.bbclass |    2 +-
+> meta/classes/image-vmdk.bbclass |    2 +-
+> 2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/image-live.bbclass =
+b/meta/classes/image-live.bbclass
+> index 2f3261e..bfb59f8 100644
+> --- a/meta/classes/image-live.bbclass
+> +++ b/meta/classes/image-live.bbclass
+> @@ -10,6 +10,6 @@ LABELS_append =3D " ${SYSLINUX_LABELS} "
+> ROOTFS ?=3D "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+>=20
+> do_bootimg[depends] +=3D "${INITRD_IMAGE}:do_rootfs"
+> -do_bootimg[depends] +=3D "${IMAGE_BASENAME}:do_rootfs"
+> +do_bootimg[depends] +=3D "${PN}:do_rootfs"
+>=20
+> inherit bootimg
+> diff --git a/meta/classes/image-vmdk.bbclass =
+b/meta/classes/image-vmdk.bbclass
+> index 736d1d7..6f7df3f 100644
+> --- a/meta/classes/image-vmdk.bbclass
+> +++ b/meta/classes/image-vmdk.bbclass
+> @@ -8,7 +8,7 @@ SYSLINUX_LABELS =3D "boot"
+> LABELS_append =3D " ${SYSLINUX_LABELS} "
+>=20
+> # need to define the dependency and the ROOTFS for directdisk
+> -do_bootdirectdisk[depends] +=3D "${IMAGE_BASENAME}:do_rootfs"
+> +do_bootdirectdisk[depends] +=3D "${PN}:do_rootfs"
+> ROOTFS ?=3D "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
+>=20
+> # creating VMDK relies on having a live hddimg so ensure we
+> --=20
+> 1.7.7.6
+>=20
 
 
 
