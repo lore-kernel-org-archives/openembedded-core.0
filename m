@@ -1,45 +1,25 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TeH2O-0005pg-Bz
+	(envelope-from <Qi.Chen@windriver.com>) id 1TeHBT-00060U-I7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 04:13:16 +0100
-Received: from mail-pa0-f69.google.com ([209.85.220.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 29 Nov 2012 18:57:50 -0800
-Received: by mail-pa0-f69.google.com with SMTP id rl6so20927pac.0
+	Fri, 30 Nov 2012 04:22:36 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAU38I94015985
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Nov 2012 18:57:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=mLBPXmELl50kZKIDOyqRM8uz1IEy2PMhNrI7DBXK6SA=;
-	b=W5YSIbevh/xMYfIuPlfSTVvdkUrd7TvNKnlLKrhp3SakjSK5yiTgAn4yMFDmhWkNJ+
-	I9VM0LiWgolSgrcuTNAlyMh/PPT9HqFu0xNTnz4mU2xMt2AwJTgR86p9YiDqsxtwVEMl
-	vnCGPgB5NcqijpzcVcIsP+DiFUad+NcaNeS043FFlU1WXDTkLeEaVN+LSsr8ma84gAo9
-	sSA1oHcY3HYSKIN9/Y9aIYC3s/HJdtjcmEDGVMGjdMi3R/1G+1JiVCt3AZaHAzQbCkSg
-	GCZI46JHsYj7EeiUlGO+EATHuXiVyGwr/ZfdzlWHdwL8SbyoIhanVgHkabZQctjolZCf
-	Yeaw==
-Received: by 10.66.88.196 with SMTP id bi4mr67347402pab.16.1354244270017;
-	Thu, 29 Nov 2012 18:57:50 -0800 (PST)
-Received: by 10.66.88.196 with SMTP id bi4mr67347396pab.16.1354244269951;
-	Thu, 29 Nov 2012 18:57:49 -0800 (PST)
-Received: from [192.168.1.104] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id x6sm2054754pav.29.2012.11.29.18.57.48
-	(version=SSLv3 cipher=OTHER); Thu, 29 Nov 2012 18:57:49 -0800 (PST)
-Message-ID: <50B820AB.5060905@intel.com>
-Date: Thu, 29 Nov 2012 18:57:47 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 29 Nov 2012 19:08:18 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Thu, 29 Nov 2012 19:08:18 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Nov 2012 11:08:41 +0800
+Message-ID: <cover.1354084523.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1352807729.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1352807729.git.liezhi.yang@windriver.com>
-X-Gm-Message-State: ALoCoQnxe+86Ayjikv8ItuB5XknBOcVS+gCqp4xoEwnLBMoSyRESrrGUTLwntmfJqMDHck0ktrD18GXEGrl1CIk5g/+eIh3YMZ5QStFhLfMAEkb7dsUkxmbF/QEKbO3blxkUL3KznZV+Qiv7IOi5bf+mufl5KVb4U4CeG47X64L0hhGCyBQZ/q8N+BbVaNYO1HMyG6kLS931
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [for-denzil] [PATCH 0/2] Fix incremental rpm image generation
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/3] Make poky work correctly with long TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,42 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 03:13:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Nov 2012 03:22:38 -0000
+X-List-Received-Date: Fri, 30 Nov 2012 03:22:38 -0000
+Content-Type: text/plain
 
-On 11/13/2012 04:56 AM, Robert Yang wrote:
-> Port the patches from the master branch to denzil, and have tested on
-> our local autobuilder. They are already on danny.
->
-> // Robert
->
-> The following changes since commit 846b7c388738f382e83576e77b705aa547c1dd9b:
->
->    bitbake: lib/bb/siggen.py: log when tainting the signature of a task (2012-10-12 08:58:48 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib robert/denzil_rpm
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/denzil_rpm
->
-> Robert Yang (2):
->    package_rpm.bbclass: Fix incremental rpm image generation
->    rootfs_rpm.bbclass: save rpmlib rather than remove it
->
->   meta/classes/image.bbclass       |    6 ++++++
->   meta/classes/package_rpm.bbclass |   20 ++++++++------------
->   meta/classes/rootfs_rpm.bbclass  |    6 +++++-
->   3 files changed, 19 insertions(+), 13 deletions(-)
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Pulled into sgarman/denzil-next.
+Poky had a problem with long TMPDIR. 
+If the TMPDIR had a length of 410 chars, for example, the world building
+would fail for three reasons.
+1) autotools.bbclass: With long TMPDIR, aclocal would have a very long argument
+   list whick makes building some packages (coretuils for example) fail.
+2) qt4-native: It hardcodes some static char arrays to be 256.
+3) ghostscript: It configures its MAX_TOKEN to be 256.
 
-Thanks,
+This series of patches are aimed at making poky building system working correctly with long TMPDIR.
+The three patches solve the three above problems respectively.
 
-Scott
+The following changes since commit 0d7d413d64bab8d3c758414c6c8c653ccc325653:
+
+  build-appliance-image: Update to dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf commit (2012-11-21 20:40:43 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/autotools
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/autotools
+
+Chen Qi (3):
+  autotools.bbclass: use relative path for acpaths whenever possible
+  qt4-native: make qt4-native work with long building path
+  ghostscript: make ghostscript work with long building path
+
+ meta/classes/autotools.bbclass                     |   14 ++--
+ ...tscript-work-with-long-building-directory.patch |   19 +++++
+ .../ghostscript/ghostscript_9.05.bb                |   10 +--
+ ...e-qt4-native-work-with-long-building-path.patch |   82 ++++++++++++++++++++
+ meta/recipes-qt/qt4/qt4-native.inc                 |    3 +-
+ 5 files changed, 116 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch
 
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.9.5
+
 
 
