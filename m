@@ -1,34 +1,36 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TeROy-0004LV-JF
+	(envelope-from <cazfi74@gmail.com>) id 1TeSXY-000664-4e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 15:17:12 +0100
-Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
-	([99.253.156.71]:49524 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TeRBA-0007U5-D3; Fri, 30 Nov 2012 09:02:56 -0500
-Date: Fri, 30 Nov 2012 09:02:53 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Chris Larson <clarson@kergoth.com>
-In-Reply-To: <CABcZANkyWNGTucmeb4Rft0Ko4nT1+-NNUXrahaj+MG_UPp6VxA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1211300902130.2185@oneiric>
-References: <alpine.DEB.2.02.1211300802160.22736@oneiric>
-	<CABcZANkyWNGTucmeb4Rft0Ko4nT1+-NNUXrahaj+MG_UPp6VxA@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Q about terminology: bitbake "fetch" vs "fetchall"
+	Fri, 30 Nov 2012 16:30:14 +0100
+Received: by mail-la0-f47.google.com with SMTP id u2so413161lag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Nov 2012 07:15:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=W8UoJkG5HE6p0SBaC9X0pq1uqQimnLVDLlUKiKl9mUg=;
+	b=sP+PIZLQ+yg8YPFFiyOeft7D9qr5t1V35INGpOwUyfHy+98HMhZS2Iwbowvg7rC8PV
+	/GWXDFB2DYDlzOg4Kzkg+QFt3XxEqhWa6MKog3kY0LKoZH79KAwz7XlUtLqasgk1Gdmp
+	baVZwemtC7rAq7oiWeghR3rN//ZxmZUyEdJwuIM/+kcAyg8w39+mx0JRL25yGjtqTRhw
+	fyHVAF4J1j/sRmzgT6TadqDYC4Rur40G4eVGSa4LXYIbWQeCguPxI4qR97tc0qp/BXah
+	JQ8aJUaTVIA+O/+s5hi5eQulqsLJ0JWJO1gY6K8gq6nfYMJoFWX0jGKCcGaBO8aqqdIP
+	ZL7g==
+Received: by 10.152.144.10 with SMTP id si10mr1514638lab.55.1354288550738;
+	Fri, 30 Nov 2012 07:15:50 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id bf3sm2206640lbb.16.2012.11.30.07.15.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 30 Nov 2012 07:15:48 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>) id 1TeSJd-0002oZ-Uk
+	for openembedded-core@lists.openembedded.org;
+	Fri, 30 Nov 2012 17:15:46 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Nov 2012 17:15:34 +0200
+Message-Id: <1354288544-10778-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: Fix license segment md5sum boundary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,70 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 14:17:12 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-731116401-1354284176=:2185"
+X-List-Received-Date: Fri, 30 Nov 2012 15:30:14 -0000
 
---8323329-731116401-1354284176=:2185
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Fri, 30 Nov 2012, Chris Larson wrote:
+Fix most cases where "startline" is used instead of correct "beginline"
+to tell where license segment begins in file.
+Two cases are not handle here, to avoid conflict with other patches
+in progress:
+- coreutils-8.14 is fixed in update to -> 8.20 patch
+- libpng
 
-> On Fri, Nov 30, 2012 at 6:06 AM, Robert P. J. Day <rpjday@crashcourse.ca>=
- wrote:
->       =C2=A0 need some advice about terminology -- for the sake of descri=
-bing
->       this accurately, what is a good way to describe the packages
->       downloaded by:
->
->       =C2=A0 $ bitbake -c fetch
->       =C2=A0 $ bitbake -c fetchall
->
->       =C2=A0 for a simple "fetch", i get only this in my downloads/ direc=
-tory:
->
->       autoconf-2.69.tar.gz
->       automake-1.12.5.tar.gz
->       gnu-config-20120814.tar.bz2
->       libtool-2.4.2.tar.gz
->       m4-1.4.16.tar.gz
->       pkg-config-0.25.tar.gz
->       pseudo-1.4.1.tar.bz2
->       quilt-0.60.tar.gz
->       sqlite-autoconf-3071401.tar.gz
->
->       while a "fetchall", of course, should fetch everything needed for t=
-he
->       build of my selected recipe/image.
->
->       =C2=A0 so what word/phrase can i use to describe what is downloaded=
- by a
->       simple "fetch"? =C2=A0for the sake of docs/tutorial, of course.
->
->
->
-> Fetch runs just against the target you request it run against,
-> whereas fetchall runs against that and all of its dependencies. The
-> reason additional sources end up in downloads when using fetch is
-> due to the up front build of pseudo-native which is needed to do
-> subsequent builds.
 
-  ok, that works for me, thanks.
-
-rday
-
---=20
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
---8323329-731116401-1354284176=:2185--
