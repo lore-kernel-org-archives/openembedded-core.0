@@ -1,35 +1,31 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1TeQ2R-0007cz-DH
+	(envelope-from <rpjday@crashcourse.ca>) id 1TeQWM-00008n-9Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 13:49:53 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so236842eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 04:35:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=rdGeavBFCMFwzR7mq+Wo/JwHhOLbn/qg/QTfZaNenOI=;
-	b=AkWfrBka4rCMI2ixCXw3QencoYXaIHL6cah4W5QdeSlse4m2Eqd1Ac1kLjneGP4hWJ
-	MMUWAcfxUUv73mQCie44e6n6NYulnMs1OiP2pxBZ6vbgDg0ZxIg4+aeMIEI8DqpbIhI2
-	N+XfNgqFoqOPEiePP2//3hptacacmlyirXDBTuNVDel49yg1qN+KekLpl6QxxUDMq2NI
-	XGLqWDMWvAsZpOSuV4BqJrYF4wrjzCrkyHmI/doj4rI/6S0PJZeTuzT5zgovNQphQQKj
-	gQD0lAtqBCK7vvGJK8QuF7lpaIaeoWDjqyZrQ3NspTCT4nghihayqThCOjEOYgHODlUn
-	Gx/g==
-Received: by 10.14.172.195 with SMTP id t43mr4221036eel.17.1354278934379;
-	Fri, 30 Nov 2012 04:35:34 -0800 (PST)
-Received: from localhost.localdomain (ip-109-91-251-94.unitymediagroup.de.
-	[109.91.251.94])
-	by mx.google.com with ESMTPS id y44sm10234690eel.14.2012.11.30.04.35.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 30 Nov 2012 04:35:32 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Nov 2012 13:34:06 +0100
-Message-Id: <1354278846-11811-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
+	Fri, 30 Nov 2012 14:20:46 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:49159 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TeQIY-0004zs-Bm for openembedded-core@lists.openembedded.org;
+	Fri, 30 Nov 2012 08:06:30 -0500
+Date: Fri, 30 Nov 2012 08:06:29 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1211300802160.22736@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Subject: [V3] gtk+: do not prelight GtkButton in touchscreen mode
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Q about terminology: bitbake "fetch" vs "fetchall"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,94 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 12:49:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Nov 2012 13:20:46 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- ...utton-do-not-prelight-in-touchscreen-mode.patch |   48 ++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+_2.24.13.bb            |    3 +-
- 2 files changed, 50 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
-new file mode 100644
-index 0000000..71e334d
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+-2.24.13/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
-@@ -0,0 +1,48 @@
-+From d1f7a894674dfdd6769f1bbae31eb1a69e451a5c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-+Date: Fri, 16 Nov 2012 22:07:28 +0100
-+Subject: [PATCH] GtkButton: do not prelight in touchscreen mode
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Code was copied from GtkToggleButton.
-+
-+Upstream-Status: submitted [1]
-+
-+[1] https://bugzilla.gnome.org/show_bug.cgi?id=689138
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-+---
-+ gtk/gtkbutton.c |    8 ++++++--
-+ 1 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/gtk/gtkbutton.c b/gtk/gtkbutton.c
-+index f472007..1beb1b6 100644
-+--- a/gtk/gtkbutton.c
-++++ b/gtk/gtkbutton.c
-+@@ -2079,15 +2079,19 @@ _gtk_button_set_depressed (GtkButton *button,
-+ static void
-+ gtk_button_update_state (GtkButton *button)
-+ {
-+-  gboolean depressed;
-++  gboolean depressed, touchscreen;
-+   GtkStateType new_state;
-+ 
-++  g_object_get (gtk_widget_get_settings (GTK_WIDGET (button)),
-++                "gtk-touchscreen-mode", &touchscreen,
-++                NULL);
-++
-+   if (button->activate_timeout)
-+     depressed = button->depress_on_activate;
-+   else
-+     depressed = button->in_button && button->button_down;
-+ 
-+-  if (button->in_button && (!button->button_down || !depressed))
-++  if (!touchscreen && button->in_button && (!button->button_down || !depressed))
-+     new_state = GTK_STATE_PRELIGHT;
-+   else
-+     new_state = depressed ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
-+-- 
-+1.7.6.5
-+
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-index b358b7f..bc88284 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.13.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
-            file://toggle-font.diff;striplevel=0 \
-            file://0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch \
-            file://doc-fixes.patch \
-+           file://0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch \
- 	  "
- 
- # TO MERGE
-@@ -27,7 +28,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
- #        file://combo-arrow-size.patch;striplevel=0
- #            file://configurefix.patch
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI[md5sum] = "e949406751df51e1e40e85628005a069"
- SRC_URI[sha256sum] = "35e1a01e46b02970b02ee9f299390d0aa57c1215ad2667bcd584b72f4ea6513d"
+  need some advice about terminology -- for the sake of describing
+this accurately, what is a good way to describe the packages
+downloaded by:
+
+  $ bitbake -c fetch
+  $ bitbake -c fetchall
+
+  for a simple "fetch", i get only this in my downloads/ directory:
+
+autoconf-2.69.tar.gz
+automake-1.12.5.tar.gz
+gnu-config-20120814.tar.bz2
+libtool-2.4.2.tar.gz
+m4-1.4.16.tar.gz
+pkg-config-0.25.tar.gz
+pseudo-1.4.1.tar.bz2
+quilt-0.60.tar.gz
+sqlite-autoconf-3071401.tar.gz
+
+while a "fetchall", of course, should fetch everything needed for the
+build of my selected recipe/image.
+
+  so what word/phrase can i use to describe what is downloaded by a
+simple "fetch"?  for the sake of docs/tutorial, of course.
+
+
+rday
+
 -- 
-1.7.6.5
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
