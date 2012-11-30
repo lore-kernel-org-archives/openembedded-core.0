@@ -1,27 +1,29 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TeO7z-00042C-M2
+	(envelope-from <Qi.Chen@windriver.com>) id 1TeOBx-0004GV-NW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Nov 2012 11:47:28 +0100
+	Fri, 30 Nov 2012 11:51:34 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qAUAXC3r019552
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qAUAbG8Q009737
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Nov 2012 02:33:12 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Fri, 30 Nov 2012 02:33:10 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Nov 2012 18:33:32 +0800
-Message-ID: <f8d34130fd56c696f784cdae5b6de28e25958391.1354265260.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1354265260.git.Qi.Chen@windriver.com>
-References: <cover.1354265260.git.Qi.Chen@windriver.com>
+	Fri, 30 Nov 2012 02:37:16 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Fri, 30 Nov 2012 02:37:15 -0800
+Message-ID: <50B88C74.5040001@windriver.com>
+Date: Fri, 30 Nov 2012 18:37:40 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 3/3] ghostscript: make ghostscript work with long building path
+To: <Qi.Chen@windriver.com>
+References: <cover.1354084523.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1354084523.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] [V2] Make poky work correctly with long TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,88 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2012 10:47:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Nov 2012 10:51:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
-
-If TMPDIR has more than 256 chars, building ghostscript fails.
-This violates the 410 length limit of TMPDIR.
-
-This patch makes building ghostscript succeed by changing its
-MAX_TOKEN from 256 to 512.
-
-[YOCTO #2766]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...tscript-work-with-long-building-directory.patch |   19 +++++++++++++++++++
- .../ghostscript/ghostscript_9.05.bb                |   10 ++++------
- 2 files changed, 23 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
-
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch b/meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
-new file mode 100644
-index 0000000..a4ce70a
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
-@@ -0,0 +1,19 @@
-+Upstream-Status: Inappropriate [distribution]
-+
-+Make ghost script work with long building directory
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
-+Index: base/genconf.c
-+==============================================================
-+--- a/base/genconf.c
-++++ b/base/genconf.c
-+@@ -682,7 +682,7 @@ read_dev(config_t * pconf, const char *arg)
-+     string_item_t *item;
-+     const char *in;
-+ 
-+-#define MAX_TOKEN 256
-++#define MAX_TOKEN 512
-+     char *token = malloc(MAX_TOKEN + 1);
-+     char *category = malloc(MAX_TOKEN + 1);
-+     int file_index;
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-index 1fdcb99..2789897 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-@@ -15,7 +15,7 @@ SECTION = "console/utils"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c5326026692dbed183f0558f926580f8"
- 
--PR = "r3"
-+PR = "r4"
- 
- DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
- DEPENDS_class-native = ""
-@@ -30,7 +30,9 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://ghostscript-9.05-NOT-check-endian.patch \
-            "
- 
--SRC_URI_class-native = "${SRC_URI_BASE}"
-+SRC_URI_class-native = "${SRC_URI_BASE} \
-+		        file://0001-make-ghostscript-work-with-long-building-directory.patch \
-+		        "
- 
- SRC_URI[md5sum] = "f7c6f0431ca8d44ee132a55d583212c1"
- SRC_URI[sha256sum] = "593f77f7584704bdf9de41598a084a4208c3ad3b940a1de1faaf8f59a15cc207"
-@@ -80,10 +82,6 @@ do_install_append () {
-     chown -R root:lp ${D}${sysconfdir}/cups
- }
- 
--python do_patch_class-native () {
--    pass
--}
--
- do_compile_class-native () {
-     mkdir -p obj
-     for i in genarch genconf mkromfs echogs gendev genht; do
--- 
-1.7.9.5
-
+On 11/30/2012 06:33 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi<Qi.Chen@windriver.com>
+>
+> Poky had a problem with long TMPDIR.
+> If the TMPDIR had a length of 410 chars, for example, the world building
+> would fail for three reasons.
+> 1) autotools.bbclass: With long TMPDIR, aclocal would have a very long argument
+>     list whick makes building some packages (coretuils for example) fail.
+> 2) qt4-native: It hardcodes some static char arrays to be 256.
+> 3) ghostscript: It configures its MAX_TOKEN to be 256.
+>
+> This series of patches are aimed at making poky building system working correctly with long TMPDIR.
+> The three patches solve the three above problems respectively.
+>
+> [Version 2 fixes the indentation problem in my last patch]
+>
+> The following changes since commit 0d7d413d64bab8d3c758414c6c8c653ccc325653:
+>
+>    build-appliance-image: Update to dee77eca39f406f90e60d9c5ef7a66fcc8f57dbf commit (2012-11-21 20:40:43 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/autotools
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/autotools
+>
+> Chen Qi (3):
+>    autotools.bbclass: use relative path for acpaths whenever possible
+>    qt4-native: make qt4-native work with long building path
+>    ghostscript: make ghostscript work with long building path
+>
+>   meta/classes/autotools.bbclass                     |   14 ++--
+>   ...tscript-work-with-long-building-directory.patch |   19 +++++
+>   .../ghostscript/ghostscript_9.05.bb                |   10 +--
+>   ...e-qt4-native-work-with-long-building-path.patch |   82 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt4-native.inc                 |    3 +-
+>   5 files changed, 116 insertions(+), 12 deletions(-)
+>   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-make-ghostscript-work-with-long-building-directory.patch
+>   create mode 100644 meta/recipes-qt/qt4/qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch
+>
+Sorry for my carelessness. Please ignore this version.
+The upstream status is incorrect.
 
 
