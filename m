@@ -1,32 +1,36 @@
-Received: from mail-ie0-f170.google.com ([209.85.223.170])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tf33D-0007yg-3f
+	(envelope-from <cazfi74@gmail.com>) id 1Tf3km-0000fe-JY
 	for openembedded-core@lists.openembedded.org;
-	Sun, 02 Dec 2012 07:29:17 +0100
-Received: by mail-ie0-f170.google.com with SMTP id k10so2517762iea.15
+	Sun, 02 Dec 2012 08:14:16 +0100
+Received: by mail-la0-f47.google.com with SMTP id u2so1282660lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Dec 2012 22:14:55 -0800 (PST)
+	Sat, 01 Dec 2012 22:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=CHA2gT0TPcIOYhgqk5E/L1qdJPCpQPfNfY2hxTAEgzg=;
-	b=y6i34v5lgeMjAJWGwnAhGzWiilyPnAyrVdW2Oz0kX5chH8wUT2FafzMMPg44ihnhxE
-	G21yFJAuenYOw8L3L8IBhSfLH21BJuqYm/fdV9DrkFmXCctoJvs3scHaLU+6Dfx2JjRO
-	PcmgnMzsJUpytFedvNTVheWvR8w5YRGcfUfAdk+UZnyWf3WSGI1m9O/0kaQ53qz/rFMp
-	zBY+XUdh/w/fnFewbqOrNyjMGZgcNcyQqbVr8M+9BJCiuPtm7oyzInbcX+r9wrFxa7It
-	+ydy9cjvlZ1lKuIsJ8S8gm9tEy82M1LIDawmldhAqrYFmka9Rrx15d5PF0iVH+7ckxT4
-	xFmg==
-MIME-Version: 1.0
-Received: by 10.50.173.106 with SMTP id bj10mr2915515igc.13.1354428895046;
-	Sat, 01 Dec 2012 22:14:55 -0800 (PST)
-Received: by 10.64.24.175 with HTTP; Sat, 1 Dec 2012 22:14:54 -0800 (PST)
-In-Reply-To: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
-References: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
-Date: Sun, 2 Dec 2012 08:14:54 +0200
-Message-ID: <CAF6bG8cVQr-XKTUY1WjNnmNE=jH0Vr2+38c=cZqY92zN80jPGA@mail.gmail.com>
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=zriSuTzHaAzmmv61QhvULzNZ8ka8CdWKm6cnh3SEsDk=;
+	b=mxQZPevxnBDBSP7PrGmW38xW2lvRz37Ys5gvM+SpN9E2otNyX3ZZRO22Wc9JaujnJk
+	9qr9uFvseJfv0FcXduqNEXVEmZbPys5ATUDvwAYCYC4OZH4pHFZ2aP4GXW9X7urnqkME
+	vpApXMPA9Qlp/uyH/aZ0p2Dbwdx3xhSepJT8sidzZAQJbeR5s+aQ5lV1qLUr+6WPtBMH
+	0HZMyRJv8wy0iS9J9zQ5z5gOST5af2RgSUeohJ/xd4YWXITvD8VcF1FPMmMiV1nJNmYv
+	58PtE/Y6qk9nRNQEAnz9S8GMVrTE4sFtBWQmDODbY6ZaeHL7eQ6Fq0O7DxE9SMJ+oncp
+	Tm+Q==
+Received: by 10.152.144.10 with SMTP id si10mr5911792lab.55.1354431596902;
+	Sat, 01 Dec 2012 22:59:56 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id l1sm3865273lbm.1.2012.12.01.22.59.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 01 Dec 2012 22:59:55 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>) id 1Tf3Wr-0004Ic-1D
+	for openembedded-core@lists.openembedded.org;
+	Sun, 02 Dec 2012 08:59:53 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: update to upstream version 8.20
+Date: Sun,  2 Dec 2012 08:59:50 +0200
+Message-Id: <1354431591-16490-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: Fix libpng license segment md5sum boundary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,24 +43,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Dec 2012 06:29:17 -0000
-Content-Type: text/plain; charset=UTF-8
-
-On 30 November 2012 13:08, Marko Lindqvist <cazfi74@gmail.com> wrote:
-> * cross-prime-list.patch added to fix cross-compilation
-
-Upstream has fixed the problem by providing primes.h in the tarball,
-so there's no need to build it all -> no need to run make-prime-list
-in build system.
-
-http://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=f16e251dae43117c2cd19359c26ce7b5e05165b6
-
-They say that primes.h is not architecture-specific, but it should be
-created on host where integer width is greatest (128 bits). I've yet
-to check if that means that my patch is broken in the unlikely case
-that build system has narrower int than target system.
+X-List-Received-Date: Sun, 02 Dec 2012 07:14:16 -0000
 
 
- - ML
+Applies on top of libpng update -> 1.2.50.
 
 
