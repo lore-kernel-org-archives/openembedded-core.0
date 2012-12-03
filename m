@@ -1,36 +1,33 @@
-Received: from mail-ia0-f177.google.com ([209.85.210.177])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1TfPIk-0006ol-VT
+	(envelope-from <niqingliang2003@gmail.com>) id 1TfPMW-0006yH-72
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 07:14:54 +0100
-Received: by mail-ia0-f177.google.com with SMTP id u21so2372599ial.22
+	Mon, 03 Dec 2012 07:18:48 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so972487dak.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Dec 2012 22:00:25 -0800 (PST)
+	Sun, 02 Dec 2012 22:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=RXX/whgObr1kR94b4s8ablcxFCWLvyevBrnyXIsefYs=;
-	b=Q7gxtcWdSWbDmYuFhQviPHioZMb/JxUZiEVRxtaBZ36Dka1/0/aC/78Y8ER40b9lck
-	05ORyvYg2FMUtBbTSuUmFe6BUpF7pqG2sduuGmfXf5x7Dvti2IXfMbvcitpmOJk+z1RG
-	ca2htueBjHY6z+qjgxoGxNUEG+vHpkYnVrHd45Mto51g2QHbLE/Kc96aVj5jYr1kU0pn
-	j8awb2Yd84BOyyRe2z+UcZY4sUi1TLXS4zvKiCdYoXWmnn0y2ZZOitx2jIUorJKUOFJw
-	AOG+MwsAyd5RV1SoeUWTcOfEssYpRUcm5AcHTUNwwFKLWBFYt2L31G/IlDWfICYUwmiW
-	h7JA==
-Received: by 10.50.178.67 with SMTP id cw3mr5045900igc.53.1354514425623; Sun,
-	02 Dec 2012 22:00:25 -0800 (PST)
+	h=from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=ZZYxfO6hNfiLS1kf8iY6eYV8/OT9BqahygBXQhtDTCE=;
+	b=Sp9wZCEfk4OuIMZoPW1aHB/lQoHNwGE4UR1RnM7HzDWtbvWNGoLy6CxaUNhkxU0VNv
+	kyIFvWrBgRCNQgpJNj7dl/8fnoHmTV8+M36O4vgCv/JCsajBzskt2pt/eUMhMcYHDFH+
+	ZKQuoYhThXpDWh+sHiV770W0lOYb+lVWcQDZz2GQKPmKnzFg/Ii5YOjWRSRAt98oz4la
+	5cPhRxklld4kn2/3noUKI9IFQFRgZ9noJvILF9pbDB8YALCgdgri1PPzoXDIgl0cFdz7
+	HdwO2shTQYxAKtovcJ7VCrFEwddIHdUeNzYGAdmz+guUSYN0LYYfJ74J66REDd2X5NPx
+	JdtQ==
+Received: by 10.68.134.130 with SMTP id pk2mr26473240pbb.31.1354514658594;
+	Sun, 02 Dec 2012 22:04:18 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([180.109.155.111])
+	by mx.google.com with ESMTPS id p5sm7471550paz.22.2012.12.02.22.04.16
+	(version=SSLv3 cipher=OTHER); Sun, 02 Dec 2012 22:04:17 -0800 (PST)
+From: niqingliang2003@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Dec 2012 14:03:03 +0000
+Message-ID: <3752816.NQS16Yy7Ff@yiqingliang-pc>
+User-Agent: KMail/4.9.3 (Linux/3.6.8-1-ARCH; KDE/4.9.3; x86_64; ; )
 MIME-Version: 1.0
-Received: by 10.64.19.8 with HTTP; Sun, 2 Dec 2012 21:59:55 -0800 (PST)
-In-Reply-To: <7327098.TAKnqlOXbO@helios>
-References: <59c6eb39edcf9308a81c9ad84f248e30e526f6ba.1354480962.git.raj.khem@gmail.com>
-	<8db2a8dab66febf2844ac62cd207e9e40edec11c.1354480962.git.raj.khem@gmail.com>
-	<7327098.TAKnqlOXbO@helios>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 2 Dec 2012 21:59:55 -0800
-Message-ID: <CAMKF1srR1jMHR-SfJF+-mjFpmfkP8Qa4=8rCiS9Ex1zACBsz-Q@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libcgroup: Fix QA error about .so symlink
+Subject: why remove yaffs2?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +40,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 06:14:58 -0000
-Content-Type: multipart/alternative; boundary=e89a8f6438962eb31e04cfec7720
+X-List-Received-Date: Mon, 03 Dec 2012 06:18:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
---e89a8f6438962eb31e04cfec7720
-Content-Type: text/plain; charset=UTF-8
+Hi, All:
 
-On Sun, Dec 2, 2012 at 3:26 PM, Paul Eggleton <paul.eggleton@linux.intel.com
-> wrote:
-
-> FWIW, Martin already sent this patch.
+I have untouched oe for several months, and recently found that yaffs is 
+dropped, and also in official kernel, why?
 
 
-OK as long as it gets fixed.
+Yi qingliang
+Nanjing Jilong
 
---e89a8f6438962eb31e04cfec7720
-Content-Type: text/html; charset=UTF-8
 
-<div class="gmail_extra"><br><br><div class="gmail_quote">On Sun, Dec 2, 2012 at 3:26 PM, Paul Eggleton <span dir="ltr">&lt;<a href="mailto:paul.eggleton@linux.intel.com" target="_blank">paul.eggleton@linux.intel.com</a>&gt;</span> wrote:<br>
-
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">FWIW, Martin already sent this patch.</blockquote></div><br>OK as long as it gets fixed.<br></div>
-
---e89a8f6438962eb31e04cfec7720--
