@@ -1,30 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TfXaE-00057R-T6 for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 16:05:23 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB3Ep0pU025392;
-	Mon, 3 Dec 2012 14:51:00 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23966-08; Mon,  3 Dec 2012 14:50:55 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB3EoqZY025386
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 3 Dec 2012 14:50:53 GMT
-Message-ID: <1354546241.5970.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Marko Lindqvist <cazfi74@gmail.com>
-Date: Mon, 03 Dec 2012 14:50:41 +0000
-In-Reply-To: <1354288544-10778-1-git-send-email-cazfi74@gmail.com>
-References: <1354288544-10778-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Fix license segment md5sum boundary
+Received: from eumx.net ([91.82.101.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1TfXgX-0005Kn-Iw
+	for openembedded-core@lists.openembedded.org;
+	Mon, 03 Dec 2012 16:11:53 +0100
+Received: from localhost ([127.0.0.1]:43684 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TfXSd-0001Ku-Sn; Mon, 03 Dec 2012 14:57:31 +0000
+Received: from [195.171.99.130] (port=33675 helo=archhp.dbnet.local)
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1TfXSd-0001Kb-OI; Mon, 03 Dec 2012 14:57:31 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Dec 2012 14:59:14 +0000
+Message-Id: <1354546754-18857-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.0.1
+Cc: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+Subject: [PATCH] latencytop: add missing signed-off-by and re-add upstream status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,23 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 15:05:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Dec 2012 15:11:54 -0000
 
-On Fri, 2012-11-30 at 17:15 +0200, Marko Lindqvist wrote:
-> Fix most cases where "startline" is used instead of correct "beginline"
-> to tell where license segment begins in file.
-> Two cases are not handle here, to avoid conflict with other patches
-> in progress:
-> - coreutils-8.14 is fixed in update to -> 8.20 patch
-> - libpng
+From: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
 
-Thanks for these fixes, they've merged to master.
+When I made a change to this patch in git commit 1b41a4660d0
+I accidently removed the Upstream Status line and also didn't
+add the required signed-off-by tag.
 
-Cheers,
+Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
+---
+ .../latencytop/latencytop-0.5/latencytop-makefile.patch    | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-Richard
+diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
+index 596450c..0cf217f 100644
+--- a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
++++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-makefile.patch
+@@ -1,9 +1,13 @@
+---- a/Makefile 2010-07-20 18:51:32.000000000 +0800
+-+++ b/Makefile 2010-07-20 18:54:54.000000000 +0800
+-@@ -1,10 +1,8 @@
++diff --git a/Makefile.orig b/Makefile
++index 16a2369..fa797a2 100644
++--- a/Makefile.orig
+++++ b/Makefile
++@@ -1,10 +1,11 @@
+ -# FIXME: Use autoconf ?
+ -HAS_GTK_GUI = 1
+--
+++# Upstream-Status: Inappropriate [configuration]
+++# Signed-off-by: Jack Mitchell <jack.mitchell@dbbroadcast.co.uk>
++ 
+  DESTDIR =
+  SBINDIR = /usr/sbin
+  XCFLAGS = -W  -g `pkg-config --cflags glib-2.0` -D_FORTIFY_SOURCE=2 -Wno-sign-compare
+@@ -13,7 +17,7 @@
+  
+  OBJS= latencytop.o text_display.o translate.o fsync.o
+  
+-@@ -26,16 +24,17 @@
++@@ -26,16 +27,17 @@ endif
+  
+  # We write explicity this "implicit rule"
+  %.o : %.c
+-- 
+1.8.0.1
 
 
 
