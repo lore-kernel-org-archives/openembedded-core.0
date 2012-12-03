@@ -1,27 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TfThN-0005eu-Rk
+	(envelope-from <Qi.Chen@windriver.com>) id 1TfThP-0005fA-3o
 	for openembedded-core@lists.openembedded.org;
 	Mon, 03 Dec 2012 11:56:36 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB3Ag8v1001834
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qB3AgAux027902
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Dec 2012 02:42:08 -0800 (PST)
+	Mon, 3 Dec 2012 02:42:10 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 3 Dec 2012 02:42:08 -0800
+	14.2.318.4; Mon, 3 Dec 2012 02:42:09 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Dec 2012 18:42:34 +0800
-Message-ID: <d0cc337d8d8334a0df5712ce72cac0efb0e53da5.1354531187.git.Qi.Chen@windriver.com>
+Date: Mon, 3 Dec 2012 18:42:35 +0800
+Message-ID: <3da8aa341fcd5908e8d6d943c70982aca51fc50e.1354531187.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1354531187.git.Qi.Chen@windriver.com>
 References: <cover.1354531187.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 3/4] pth: add pkgconfig support
+Subject: [PATCH 4/4] libassuan: add pkgconfig support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,161 +39,97 @@ Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Add pkgconfig support to pth.
+Add pkgconfig support to libassuan.
 
 [YOCTO #2453]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../pth/files/pth-add-pkgconfig-support.patch      |  105 ++++++++++++++++++++
- meta/recipes-support/pth/pth_2.0.7.bb              |    7 +-
- 2 files changed, 109 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/pth/files/pth-add-pkgconfig-support.patch
+ .../files/libassuan-add-pkgconfig-support.patch    |   57 ++++++++++++++++++++
+ meta/recipes-support/libassuan/libassuan_2.0.3.bb  |    5 +-
+ 2 files changed, 60 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
 
-diff --git a/meta/recipes-support/pth/files/pth-add-pkgconfig-support.patch b/meta/recipes-support/pth/files/pth-add-pkgconfig-support.patch
+diff --git a/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
 new file mode 100644
-index 0000000..67a28ab
+index 0000000..d0f3067
 --- /dev/null
-+++ b/meta/recipes-support/pth/files/pth-add-pkgconfig-support.patch
-@@ -0,0 +1,105 @@
++++ b/meta/recipes-support/libassuan/files/libassuan-add-pkgconfig-support.patch
+@@ -0,0 +1,57 @@
 +Upstream-Status: Pending
 +
-+Add pkgconfig support to pth.
++Add pkgconfig support to libassuan.
 +
 +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +
-+Index: Makefile.in
-+===========================================================
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -47,6 +47,9 @@ datadir     = @datadir@
++Index: Makefile.am
++==============================================================
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -21,11 +21,14 @@
++ ACLOCAL_AMFLAGS = -I m4
++ AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip
 + 
-+ DESTDIR     =
-+ 
-++pkgconfigdir = ${libdir}/pkgconfig
-++pkgconfig_DATA = pth.pc
+++pkgconfigdir = $(libdir)/pkgconfig
+++pkgconfig_DATA = assuan.pc
 ++
-+ ##
-+ ##  ____ TOOL DEFINITIONS ___________________________________________
-+ ##
-+@@ -216,7 +219,7 @@ test_pthread: test_pthread.o test_common.o libpthread.la
++ EXTRA_DIST = config.rpath autogen.sh README.GIT                  	\
++              ChangeLog-2011 doc/ChangeLog-2011 src/ChangeLog-2011 	\
++              tests/ChangeLog-2011 contrib/ChangeLog-2011     		\
++              build-aux/gitlog-to-changelog build-aux/git-log-footer	\
++-             build-aux/git-log-fix
+++             build-aux/git-log-fix assuan.pc.in
 + 
-+ #   install the package
-+ install: all-for-install
-+-	@$(MAKE) $(MKFLAGS) install-dirs install-pth @INSTALL_PTHREAD@
-++	@$(MAKE) $(MKFLAGS) install-dirs install-pth @INSTALL_PTHREAD@ install-pkgconfigDATA
-+ 	@touch .done-install >/dev/null 2>&1 || $(TRUE)
-+ 	@$(MAKE) $(MKFLAGS) what-next
-+ install-dirs:
-+@@ -227,6 +230,7 @@ install-dirs:
-+ 	$(SHTOOL) mkdir -f -p -m 755 $(DESTDIR)$(mandir)/man1
-+ 	$(SHTOOL) mkdir -f -p -m 755 $(DESTDIR)$(mandir)/man3
-+ 	$(SHTOOL) mkdir -f -p -m 755 $(DESTDIR)$(datadir)/aclocal
-++	$(SHTOOL) mkdir -f -p -m 755 $(DESTDIR)$(pkgconfigdir)
-+ install-pth:
-+ 	$(SHTOOL) install -c -m 755 pth-config $(DESTDIR)$(bindir)/pth-config
-+ 	$(SHTOOL) install -c -m 644 $(S)pth-config.1 $(DESTDIR)$(mandir)/man1/pth-config.1
-+@@ -242,12 +246,16 @@ install-pthread:
-+ 	$(SHTOOL) install -c -m 644 $(S)pthread.3 $(DESTDIR)$(mandir)/man3/pthread.3
-+ 	@umask 022; $(LIBTOOL) --mode=install \
-+ 	$(SHTOOL) install -c libpthread.la $(DESTDIR)$(libdir)/libpthread.la
-++install-pkgconfigDATA: $(pkgconfig_DATA)
-++	$(SHTOOL) install -c -m 644 $(pkgconfig_DATA) $(DESTDIR)$(pkgconfigdir)/$(pkgconfig_DATA)
++ SUBDIRS = m4 src doc tests
 + 
-+ #   uninstall the package
-+ uninstall:
-+-	@$(MAKE) $(MKFLAGS) @UNINSTALL_PTHREAD@ uninstall-pth uninstall-dirs
-++	@$(MAKE) $(MKFLAGS) uninstall-pkgconfigDATA @UNINSTALL_PTHREAD@ uninstall-pth uninstall-dirs
-+ 	@touch .done-uninstall >/dev/null 2>&1 || $(TRUE)
-+ 	@$(MAKE) $(MKFLAGS) what-next
-++uninstall-pkgconfigDATA:
-++	$(RM) $(DESTDIR)$(pkgconfigdir)/$(pkgconfig_DATA)
-+ uninstall-pthread:
-+ 	$(RM) $(DESTDIR)$(bindir)/pthread-config
-+ 	$(RM) $(DESTDIR)$(mandir)/man1/pthread-config.1
-+@@ -271,6 +279,7 @@ uninstall-dirs:
-+ 	-$(RMDIR) $(DESTDIR)$(includedir) >/dev/null 2>&1 || $(TRUE)
-+ 	-$(RMDIR) $(DESTDIR)$(bindir) >/dev/null 2>&1 || $(TRUE)
-+ 	-$(RMDIR) $(DESTDIR)$(prefix) >/dev/null 2>&1 || $(TRUE)
-++	-$(RMDIR) $(DESTDIR)$(pkgconfigdir) > /dev/null 2>&1 ||$(TRUE)
-+ 
-+ #   strip down the source tree to its minimum
-+ striptease:
-+Index: configure.ac
-+===========================================================
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -656,6 +656,13 @@ pth_acmac.h dnl
-+ chmod +rx pthread-config
-+ chmod +rx pth-config
-+ )dnl
-++
-++PTH_VERSION=`echo $PTH_VERSION_STR | cut -d' ' -f1`
-++AC_SUBST(PTH_VERSION)
-++
-++AC_CONFIG_FILES([pth.pc])
-++AC_OUTPUT
-++
-+ if test ".$enable_pthread" = .no; then
-+     rm -f pthread-config
-+     rm -f pthread.h
-+Index: pth.pc.in
-+===========================================================
++Index: assuan.pc.in
++==============================================================
 +--- /dev/null
-++++ b/pth.pc.in
-+@@ -0,0 +1,16 @@
+++++ b/assuan.pc.in
++@@ -0,0 +1,12 @@
 ++prefix=@prefix@
 ++exec_prefix=@exec_prefix@
 ++libdir=@libdir@
 ++includedir=@includedir@
-++bindir=@bindir@
-++mandir=@mandir@
-++datadir=@datadir@
-++acdir=@datadir@/aclocal
 ++
-++Name: pth
-++Description: GNU Portable Threads
+++Name: libassuan
+++Description: IPC library used by GnuPG and GPGME
 ++Requires:
-++Version: @PTH_VERSION@
-++Libs: -L${libdir} -lpth
-++Libs.private: 
+++Version: @VERSION@
+++Libs: -L${libdir} -lassuan
+++Libs.private: -lgpg-error
 ++Cflags: -I${includedir}
++Index: configure.ac
++==============================================================
++--- a/configure.ac
+++++ b/configure.ac
++@@ -380,5 +380,5 @@ AC_CONFIG_FILES([doc/Makefile])
++ AC_CONFIG_FILES([tests/Makefile])
++ AC_CONFIG_FILES([src/libassuan-config], [chmod +x src/libassuan-config])
++ AC_CONFIG_FILES([src/versioninfo.rc])
++-
+++AC_CONFIG_FILES([assuan.pc])
++ AC_OUTPUT
 +-- 
 +1.7.5.4
 +
-diff --git a/meta/recipes-support/pth/pth_2.0.7.bb b/meta/recipes-support/pth/pth_2.0.7.bb
-index 83a03b3..fc9ed16 100644
---- a/meta/recipes-support/pth/pth_2.0.7.bb
-+++ b/meta/recipes-support/pth/pth_2.0.7.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/pth/"
- SECTION = "libs"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;beginline=12;endline=15;md5=a48af114a80c222cafd37f24370a77b1"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-support/libassuan/libassuan_2.0.3.bb b/meta/recipes-support/libassuan/libassuan_2.0.3.bb
+index 2a8963e..f0d7c9f 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.0.3.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.0.3.bb
+@@ -10,9 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
  
- python __anonymous () {
-     import re
-@@ -13,16 +13,17 @@ python __anonymous () {
- }
+ DEPENDS = "libgpg-error"
  
- SRC_URI = "${GNU_MIRROR}/pth/pth-${PV}.tar.gz \
--          "
-+          file://pth-add-pkgconfig-support.patch"
+-SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2"
++SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2 \
++	   file://libassuan-add-pkgconfig-support.patch"
  
- SRC_URI[md5sum] = "9cb4a25331a4c4db866a31cbe507c793"
- SRC_URI[sha256sum] = "72353660c5a2caafd601b20e12e75d865fd88f6cf1a088b306a3963f0bc77232"
- 
- PARALLEL_MAKE=""
+ SRC_URI[md5sum] = "179d1918325fdb928c7bd90b8a514fc7"
+ SRC_URI[sha256sum] = "bad5682374c76bcc0abb1a7a34c9557af6874a477500748e64a7d3def79cac1b"
  
 -inherit autotools binconfig
 +inherit autotools binconfig pkgconfig
- 
- do_configure() {
- 	gnu-configize
-+	autoconf
- 	oe_runconf
- }
 -- 
 1.7.9.5
 
