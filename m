@@ -1,40 +1,40 @@
 Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TfWhk-00084t-IA
+	(envelope-from <ross.burton@intel.com>) id 1TfX0D-0002ND-QU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 15:09:24 +0100
-Received: from mail-ie0-f197.google.com ([209.85.223.197])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 03 Dec 2012 05:54:41 -0800
-Received: by mail-ie0-f197.google.com with SMTP id 16so12856709iea.0
+	Mon, 03 Dec 2012 15:28:12 +0100
+Received: from mail-ia0-f197.google.com ([209.85.210.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 03 Dec 2012 06:13:46 -0800
+Received: by mail-ia0-f197.google.com with SMTP id x26so4180405iak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 05:54:41 -0800 (PST)
+	Mon, 03 Dec 2012 06:13:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=oKQQ/WzNmOdeL9dIWuUdOtbOvTYqTyTEpuh8macFBsQ=;
-	b=SRUj7UHKWDUpl+LHKP7CEbA1N1EAO9XOr7cTUCSkoW2yb0SH68nZ7ogwZOSQSJrAb8
-	CAevchzWxNuKWnOB/NH9+r7VQILuwvDm+STzMZDRNAougSeeEQySGH2A2ZsIc2PVPSmG
-	tLouhNrtbm3B0jU6aD6ilxE7sAih3CovvhWvw0xApo6kL+Z7nwWPfLmh8D6NgIRrkmmc
-	wdud7cgwWp15wJK5SNmtOlWPc25OF5f00tATiZhPH/liZEdRiyk6MPc4z7pD4QRMxpNG
-	DUsaAR59cPS9LMkc4P8RFIOkT6+txxX5j7aO9gY/Qgf4ukDdhSw6FRaAnnLSqKZb30F0
-	kmTA==
-Received: by 10.60.1.169 with SMTP id 9mr8055327oen.93.1354542880639;
-	Mon, 03 Dec 2012 05:54:40 -0800 (PST)
-Received: by 10.60.1.169 with SMTP id 9mr8055321oen.93.1354542880528; Mon, 03
-	Dec 2012 05:54:40 -0800 (PST)
+	bh=Kat/lzKT952UUD0ZiXSU1BV9nUAdmMfgSzoKiIskubQ=;
+	b=JTVS9y8AQ8zu57CS5aPBqWVwTR42zFok17N6KVumFXyoszLH40IgLKMJtByIYW/AAu
+	XZ6taWdKcQVQgIZJAyxS4G5yvseLG8ydpgXiHjniX9zJ+e67CEFIioDNYALOY+Tyupam
+	fV0Gw8rVdN+UFFUfqbkC4mJensJcfNxGepm1V0NeFAilNhEMx7/G6dtilhYNIo3u9rzN
+	MydZgAiiDSqX/olKvsPcFjG/zJYggccQ9krZM1csVAtJ7YgfEo37X3nyN6Ymt56VG7cq
+	8knKV7WrWVCILP/oLhCySUbSgCWWNtYyxQMNpT+hQQy/WLObwzOUnZEkrwvXD811I5FM
+	hFWA==
+Received: by 10.60.1.169 with SMTP id 9mr8116971oen.93.1354544024992;
+	Mon, 03 Dec 2012 06:13:44 -0800 (PST)
+Received: by 10.60.1.169 with SMTP id 9mr8116964oen.93.1354544024924; Mon, 03
+	Dec 2012 06:13:44 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Mon, 3 Dec 2012 05:54:20 -0800 (PST)
-In-Reply-To: <50B93513.4020209@linux.intel.com>
-References: <50B93513.4020209@linux.intel.com>
+Received: by 10.76.132.198 with HTTP; Mon, 3 Dec 2012 06:13:24 -0800 (PST)
+In-Reply-To: <50B93620.6050203@intel.com>
+References: <1353996801-28402-1-git-send-email-li.wang@windriver.com>
+	<50B93620.6050203@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Dec 2012 13:54:20 +0000
-Message-ID: <CAJTo0Lafx8m-UqsSNx_Su5N0_zAxvrYZGxMb+9t_pysrRQrTZA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQl7oJzKqDiRN2tgzDIWxB3GImSICZl8EM4q9FOW+v6qVOKN2Lf37fiPlQY5s0Z+wfpmG5u7V0RrQ56/LH9IBJnVRJDvlp6EMecG2lRpEI8SRKnYtB+Z8X/mw91+HIWnjbVkWAMO0y07cXzxzfpVcQ1aHCXicPaj5tclqPMMzHpjWs46updRV2+Sbxf44MuFS2pVnmjD
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Danny - backport - gst-meta-base x11 fix
+Date: Mon, 3 Dec 2012 14:13:24 +0000
+Message-ID: <CAJTo0LY0WG_QNWT-aPW1jSnz9Ox8sHLfDQUs6KbXCEgF7zgo0g@mail.gmail.com>
+To: Scott Garman <scott.a.garman@intel.com>, li.wang@windriver.com
+X-Gm-Message-State: ALoCoQlmJlwA5yPxYEwrJf+EixhJDMkEq4m37XurRSvJGHXRy262i2yiGc8RIME8yCGdHlf7o47qzCUnflwNfDt8eZZX5YU4/ijOlW047rR6adA6rycW/ckYDeMRvsqZ38LpjjTU5An/inoDnZJ6TvxT8NL9Yfe7QBhwrz/DQ2hZ1rpe1YsEn07H88cLuqrIy8Eeacwd7MP6
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssh: CVE-2011-4327
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,18 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 14:09:45 -0000
+X-List-Received-Date: Mon, 03 Dec 2012 14:28:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 30 November 2012 22:37, Saul Wold <sgw@linux.intel.com> wrote:
-> Since we have a fix in master (1.4) already for this, we should just
-> backport it.
->
-> OE-Core: 6e44bf71fd4645ea09b3e34b907b17e92b5225e3
-> Poky: 115076c0d8fa0e9f100136b8f060e59d978c4fca
+On 30 November 2012 22:41, Scott Garman <scott.a.garman@intel.com> wrote:
+> The second link you referenced above explains that the vulnerability exists
+> in versions prior to openssh 5.8p2, and yet your patch was submitted against
+> openssh 6.0p1. So it seems that this would not apply. Or am I
+> misunderstanding the nature of the bug?
 
-Without any other changes, doesn't that mean that ximagesink doesn't
-get into the images anymore?
+Prior to 5.8p2 *and* not Linux:
+
+2. Affected configurations
+
+        Portable OpenSSH prior to version 5.8p2 only on platforms
+        that are configured to use ssh-rand-helper for entropy
+        collection.
+
+        ssh-rand-helper is enabled at configure time when it is
+        detected that OpenSSL does not have a built-in source of
+        randomness, and only used at runtime if this condition
+        remains. Platforms that support /dev/random or otherwise
+        configure OpenSSL with a random number provider are not
+        vulnerable.
+
+        In particular, *BSD, OS X, Cygwin and Linux are not
+        affected.
 
 Ross
 
