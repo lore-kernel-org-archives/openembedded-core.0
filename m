@@ -1,34 +1,40 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1TfWfs-0007m0-Cj
+	(envelope-from <ross.burton@intel.com>) id 1TfWhk-00084t-IA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 15:07:16 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so1995166lag.6
+	Mon, 03 Dec 2012 15:09:24 +0100
+Received: from mail-ie0-f197.google.com ([209.85.223.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 03 Dec 2012 05:54:41 -0800
+Received: by mail-ie0-f197.google.com with SMTP id 16so12856709iea.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 05:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=wBLY0szQZ2e1BH3C1Gfd2V2MygkAqsCJyNJKHwNhgBs=;
-	b=MJlQklTmu2m1TNJCEGSvjgEFG7Bq2q3Dna8RqumRuTEbjDgURF+p9gyTBZQzDdblqG
-	Hq9GpmNaiLofwOeThL2dmg5LbMpy7KZuyjE+AIvZ+6QnlcqCIl4oyGhvGbP22160266l
-	Q20J9fQy8xvlJgpE0FnNQkChpQEfhAcChA93f7UjpQGc+v8y+JGtAOUPC2H602QogICx
-	fa4QkiMDwIa3KF5Z/SB6rvjOw68N/Sc+0lkN5iKeGSbhrw2ZVRCqdyevME7PCpth1O04
-	0EOf0RyNqSVPOl6FFNHUn13ldFX9czzGzUl5K2OALhd3f0fBnxJMRmqnlgCjn9VGAMB3
-	3phQ==
+	Mon, 03 Dec 2012 05:54:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=oKQQ/WzNmOdeL9dIWuUdOtbOvTYqTyTEpuh8macFBsQ=;
+	b=SRUj7UHKWDUpl+LHKP7CEbA1N1EAO9XOr7cTUCSkoW2yb0SH68nZ7ogwZOSQSJrAb8
+	CAevchzWxNuKWnOB/NH9+r7VQILuwvDm+STzMZDRNAougSeeEQySGH2A2ZsIc2PVPSmG
+	tLouhNrtbm3B0jU6aD6ilxE7sAih3CovvhWvw0xApo6kL+Z7nwWPfLmh8D6NgIRrkmmc
+	wdud7cgwWp15wJK5SNmtOlWPc25OF5f00tATiZhPH/liZEdRiyk6MPc4z7pD4QRMxpNG
+	DUsaAR59cPS9LMkc4P8RFIOkT6+txxX5j7aO9gY/Qgf4ukDdhSw6FRaAnnLSqKZb30F0
+	kmTA==
+Received: by 10.60.1.169 with SMTP id 9mr8055327oen.93.1354542880639;
+	Mon, 03 Dec 2012 05:54:40 -0800 (PST)
+Received: by 10.60.1.169 with SMTP id 9mr8055321oen.93.1354542880528; Mon, 03
+	Dec 2012 05:54:40 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.152.105.33 with SMTP id gj1mr9507302lab.49.1354542766352; Mon,
-	03 Dec 2012 05:52:46 -0800 (PST)
-Received: by 10.114.17.8 with HTTP; Mon, 3 Dec 2012 05:52:46 -0800 (PST)
-In-Reply-To: <3752816.NQS16Yy7Ff@yiqingliang-pc>
-References: <3752816.NQS16Yy7Ff@yiqingliang-pc>
-Date: Mon, 3 Dec 2012 08:52:46 -0500
-Message-ID: <CADkTA4Ma2+H12cF21C5w5Rh6ULKiwGPf+49ZLdsUEp9Zudxi5A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: niqingliang2003@gmail.com
+Received: by 10.76.132.198 with HTTP; Mon, 3 Dec 2012 05:54:20 -0800 (PST)
+In-Reply-To: <50B93513.4020209@linux.intel.com>
+References: <50B93513.4020209@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Dec 2012 13:54:20 +0000
+Message-ID: <CAJTo0Lafx8m-UqsSNx_Su5N0_zAxvrYZGxMb+9t_pysrRQrTZA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQl7oJzKqDiRN2tgzDIWxB3GImSICZl8EM4q9FOW+v6qVOKN2Lf37fiPlQY5s0Z+wfpmG5u7V0RrQ56/LH9IBJnVRJDvlp6EMecG2lRpEI8SRKnYtB+Z8X/mw91+HIWnjbVkWAMO0y07cXzxzfpVcQ1aHCXicPaj5tclqPMMzHpjWs46updRV2+Sbxf44MuFS2pVnmjD
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: why remove yaffs2?
+Subject: Re: Danny - backport - gst-meta-base x11 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,91 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 14:07:17 -0000
-Content-Type: multipart/alternative; boundary=f46d040716e36be81304cff31082
+X-List-Received-Date: Mon, 03 Dec 2012 14:09:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
---f46d040716e36be81304cff31082
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Mon, Dec 3, 2012 at 9:03 AM, <niqingliang2003@gmail.com> wrote:
-
-> Hi, All:
+On 30 November 2012 22:37, Saul Wold <sgw@linux.intel.com> wrote:
+> Since we have a fix in master (1.4) already for this, we should just
+> backport it.
 >
-> I have untouched oe for several months, and recently found that yaffs is
-> dropped, and also in official kernel, why?
->
+> OE-Core: 6e44bf71fd4645ea09b3e34b907b17e92b5225e3
+> Poky: 115076c0d8fa0e9f100136b8f060e59d978c4fca
 
-Can you clarify ? Which kernel ? Yaffs has never been a mainline
-filesystem, but
-I have it in the yocto released kernels.
+Without any other changes, doesn't that mean that ximagesink doesn't
+get into the images anymore?
 
-http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.4/commit/?h=standard/base&id=a8291fa6f723b0182d2b7033b5d59f412ba7cf72
-
-Cheers,
-
-Bruce
+Ross
 
 
-
->
->
-> Yi qingliang
-> Nanjing Jilong
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---f46d040716e36be81304cff31082
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 3, 2012 at 9:03 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:ni=
-qingliang2003@gmail.com" target=3D"_blank">niqingliang2003@gmail.com</a>&gt=
-;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;pad=
-ding-left:1ex">
-Hi, All:<br>
-<br>
-I have untouched oe for several months, and recently found that yaffs is<br=
->
-dropped, and also in official kernel, why?<br></blockquote><div><br></div><=
-div>Can you clarify ? Which kernel ? Yaffs has never been a mainline filesy=
-stem, but</div><div>I have it in the yocto released kernels.</div><div>
-<br></div><div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/linux-y=
-octo-3.4/commit/?h=3Dstandard/base&amp;id=3Da8291fa6f723b0182d2b7033b5d59f4=
-12ba7cf72">http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.4/commit=
-/?h=3Dstandard/base&amp;id=3Da8291fa6f723b0182d2b7033b5d59f412ba7cf72</a><b=
-r>
-</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=
-<br></div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex">
-
-<br>
-<br>
-Yi qingliang<br>
-Nanjing Jilong<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>&quot;Thou s=
-halt not follow the NULL pointer, for chaos and madness await thee at its e=
-nd&quot;<br>
-</div>
-
---f46d040716e36be81304cff31082--
