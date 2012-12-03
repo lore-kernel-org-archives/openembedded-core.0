@@ -1,40 +1,30 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TfY63-0005nz-G8
-	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 16:38:15 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 03 Dec 2012 07:23:52 -0800
-Received: by mail-ob0-f197.google.com with SMTP id v19so12315739obq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 07:23:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=LuPUfTBD5fOZ5h2Y4fcdeudiGqdpH2X+741Ek3hdIkw=;
-	b=gZmIRuO7eCYLpjFj8QQV3pH4OAHlYeyzhGgWf8LeKfdHhyvxGsMOe7HwEftaBnfNQ+
-	8AageCHWZT/3cbxExO6JTZzbiZiz4uH4Km6cpY82NsWVgidSiXsAUW24w+VTEb0smsEK
-	sDk0JgJm7XFh3d1psREjHqLIq0cEx5OYpbAzyM4/Kjp6L4aVePEgbuulWcAHvTjts9Z2
-	AJMi0JNagIUZvTrpj6c3IfmsXwWpu+ZDfvzt2JlGNqgn6CThjP1wvTyG3Y7dsV1EiW1W
-	dA7rSBP+t0pcdUyjLLNwRLcSHX0Tb54PZ4w+sPerScQtQsgPOZtEEpAoFejN/Kf9ZTjy
-	NjeQ==
-Received: by 10.182.48.69 with SMTP id j5mr4593490obn.17.1354548231870;
-	Mon, 03 Dec 2012 07:23:51 -0800 (PST)
-Received: by 10.182.48.69 with SMTP id j5mr4593485obn.17.1354548231771; Mon,
-	03 Dec 2012 07:23:51 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Mon, 3 Dec 2012 07:23:31 -0800 (PST)
-In-Reply-To: <20121203151331.GD3354@jama.jama.net>
-References: <20121112132247.3BB7D102EC@opal>
-	<20121203151331.GD3354@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 3 Dec 2012 15:23:31 +0000
-Message-ID: <CAJTo0LZvTpbSs-bO2Ov-oxqZnhg1uPTdmsD2PU0t_uM1rFkHQw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQl92SAdGU16QDQt1RKLka3eQBv1K19UB4NKQzHhza6Yivviaav05V5cLk9Kro/RgxduQZFp/ab/adxLgWztiuwhGachGa24gb4VlFRPJUjrPMYfnbwJQ8jzQTLvcF21Fu8T0ISbYVE/kWOBtDxNFzIidqNDod6MiFBz3LBwMmIYYHK4lEHXu7HrG2VOj0GlWxxvYH/P
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TfYa2-0006aM-FW for openembedded-core@lists.openembedded.org;
+	Mon, 03 Dec 2012 17:09:14 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB3FsqTY027155;
+	Mon, 3 Dec 2012 15:54:52 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25756-03; Mon,  3 Dec 2012 15:54:48 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB3Fsgqr027134
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 3 Dec 2012 15:54:43 GMT
+Message-ID: <1354550072.5970.14.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: niqingliang2003@gmail.com
+Date: Mon, 03 Dec 2012 15:54:32 +0000
+In-Reply-To: <3752816.NQS16Yy7Ff@yiqingliang-pc>
+References: <3752816.NQS16Yy7Ff@yiqingliang-pc>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : glib-2.0: upgrade to latest stable, 2.34.1.
+Subject: Re: why remove yaffs2?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,16 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 15:38:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 03 Dec 2012 16:09:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 3 December 2012 15:13, Martin Jansa <martin.jansa@gmail.com> wrote:
-> [-Werror=deprecated-declarations]
+On Mon, 2012-12-03 at 14:03 +0000, niqingliang2003@gmail.com wrote:
+> Hi, All:
+> 
+> I have untouched oe for several months, and recently found that yaffs is 
+> dropped, and also in official kernel, why?
 
-I wish people wouldn't use that.
+We removed it from OE-Core 18 months ago. The code was old, not working
+particularly well and lacking someone to maintain it so it got moved
+out. I'm sure the tools would be accepted into meta-oe if someone
+updated and cleaned up the recipe for it. For OE-Core you'd have to show
+a larger user base than there currently appears to be...
 
-Sure.
+Cheers,
 
-Ross
+Richard
+
 
 
