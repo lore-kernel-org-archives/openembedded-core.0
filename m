@@ -1,40 +1,40 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mihai.prica@intel.com>) id 1TfY4h-0005kT-Tu
+	(envelope-from <ross.burton@intel.com>) id 1TfY63-0005nz-G8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 16:36:53 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Dec 2012 07:21:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,208,1355126400"; d="scan'208";a="258265001"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2012 07:21:22 -0800
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.13]) by
-	IRSMSX103.ger.corp.intel.com ([169.254.3.74]) with mapi id
-	14.01.0355.002; Mon, 3 Dec 2012 15:20:45 +0000
-From: "Prica, Mihai" <mihai.prica@intel.com>
-To: =?iso-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>, Michael
-	Halstead <michael@yoctoproject.org>
-Thread-Topic: [OE-core] meta-cloud layer
-Thread-Index: AQHNzYMv6hD+nrknv0yyMh3txQVlx5f/bhqAgAARlQCAAQARAIAAVJoAgAACt4CAAWm+gIAAYKWAgAADIACAAAp1AIAAJWcAgAAz/oCAAWWrAIACyfRQ
-Date: Mon, 3 Dec 2012 15:20:44 +0000
-Message-ID: <97BD068FB200C44AA73C2B641F162ECF8F2064@IRSMSX101.ger.corp.intel.com>
-References: <50B63784.5050502@enea.com> <1354119751.15992.2.camel@ted>
-	<CADkTA4P8=aLSXNTAENp+WW7xX+ttYAPhPufRE=+yn9KXOY8Sag@mail.gmail.com>
-	<50B71FD4.3090304@enea.com> <50B766CC.4030904@se-eng.com>
-	<1354197267.4053.4.camel@ted> <50B89887.3070003@gmail.com>
-	<50B8E999.2050109@linux.intel.com>
-	<CADkTA4OPBKm6c1BPx3PGVuN9AHsmJZbG7Z7XhZd2OzT==Q5mHg@mail.gmail.com>
-	<50B8F4FE.1070003@yoctoproject.org> <50B9145E.9080005@se-eng.com>
-	<50B93FFB.9050505@yoctoproject.org> <50BA6C04.9040900@gmail.com>
-In-Reply-To: <50BA6C04.9040900@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Mon, 03 Dec 2012 16:38:15 +0100
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 03 Dec 2012 07:23:52 -0800
+Received: by mail-ob0-f197.google.com with SMTP id v19so12315739obq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Dec 2012 07:23:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=LuPUfTBD5fOZ5h2Y4fcdeudiGqdpH2X+741Ek3hdIkw=;
+	b=gZmIRuO7eCYLpjFj8QQV3pH4OAHlYeyzhGgWf8LeKfdHhyvxGsMOe7HwEftaBnfNQ+
+	8AageCHWZT/3cbxExO6JTZzbiZiz4uH4Km6cpY82NsWVgidSiXsAUW24w+VTEb0smsEK
+	sDk0JgJm7XFh3d1psREjHqLIq0cEx5OYpbAzyM4/Kjp6L4aVePEgbuulWcAHvTjts9Z2
+	AJMi0JNagIUZvTrpj6c3IfmsXwWpu+ZDfvzt2JlGNqgn6CThjP1wvTyG3Y7dsV1EiW1W
+	dA7rSBP+t0pcdUyjLLNwRLcSHX0Tb54PZ4w+sPerScQtQsgPOZtEEpAoFejN/Kf9ZTjy
+	NjeQ==
+Received: by 10.182.48.69 with SMTP id j5mr4593490obn.17.1354548231870;
+	Mon, 03 Dec 2012 07:23:51 -0800 (PST)
+Received: by 10.182.48.69 with SMTP id j5mr4593485obn.17.1354548231771; Mon,
+	03 Dec 2012 07:23:51 -0800 (PST)
 MIME-Version: 1.0
-Cc: oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-cloud layer
+Received: by 10.76.132.198 with HTTP; Mon, 3 Dec 2012 07:23:31 -0800 (PST)
+In-Reply-To: <20121203151331.GD3354@jama.jama.net>
+References: <20121112132247.3BB7D102EC@opal>
+	<20121203151331.GD3354@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 3 Dec 2012 15:23:31 +0000
+Message-ID: <CAJTo0LZvTpbSs-bO2Ov-oxqZnhg1uPTdmsD2PU0t_uM1rFkHQw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQl92SAdGU16QDQt1RKLka3eQBv1K19UB4NKQzHhza6Yivviaav05V5cLk9Kro/RgxduQZFp/ab/adxLgWztiuwhGachGa24gb4VlFRPJUjrPMYfnbwJQ8jzQTLvcF21Fu8T0ISbYVE/kWOBtDxNFzIidqNDod6MiFBz3LBwMmIYYHK4lEHXu7HrG2VOj0GlWxxvYH/P
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Ross Burton : glib-2.0: upgrade to latest stable, 2.34.1.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,114 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 15:36:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 03 Dec 2012 15:38:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of David Nystr=F6m
-Sent: Saturday, December 01, 2012 10:44 PM
-To: Michael Halstead
-Cc: oe-core layer
-Subject: Re: [OE-core] meta-cloud layer
+On 3 December 2012 15:13, Martin Jansa <martin.jansa@gmail.com> wrote:
+> [-Werror=deprecated-declarations]
 
-On 12/01/2012 12:23 AM, Michael Halstead wrote:
-> On 11/30/2012 12:17 PM, Raymond Danks wrote:
->> On 11/30/2012 11:03 AM, Michael Halstead wrote:
->>> On 11/30/2012 09:26 AM, Bruce Ashfield wrote:
->>>>
->>>>
->>>>
->>>> On Fri, Nov 30, 2012 at 12:15 PM, Saul Wold <sgw@linux.intel.com=20
->>>> <mailto:sgw@linux.intel.com>> wrote:
->>>>
->>>>      On 11/30/2012 03:29 AM, David Nystr=F6m wrote:
->>>>
->>>>          On 11/29/2012 02:54 PM, Richard Purdie wrote:
->>>>
->>>>              On Thu, 2012-11-29 at 06:44 -0700, Raymond Danks wrote:
->>>>
->>>>                  Thanks for looping me in here David. The initial
->>>>                  goal for the meta-xen
->>>>                  layer was in fact to encompass Xen Cloud Platform.
->>>>                   As such, the intent
->>>>                  was to contain both hypervisor and user-space
->>>>                  applications.  Indeed, the
->>>>                  xen distribution itself includes xm/libxl;
->>>>                  hypervisor abstraction would
->>>>                  be somewhat tedious in my opinion.
->>>>
->>>>                  The layer just received commits for expanding the
->>>>                  libvirt build to
->>>>                  support qemu.  The commonalities and shared packaged
->>>>                  between xen, qemu,
->>>>                  and kvm implementations are such that I would also
->>>>                  agree that meta-xen
->>>>                  should be expanded/renamed to encompass all
->>>>                  virtualization types; I also
->>>>                  support the move to meta-virtualization.
->>>>
->>>>
->>>>          meta-virtualization sounds good, let co-op on this so we
->>>>          don't duplicate
->>>>          work.
->>>>
->>>>      If everyone is OK with this, I will have Michael Halstead create
->>>>      a repo, please send him your keys so that you will have write
->>>>      access to it.
->>>>
->>>>
->>>> This works for me. If Michael already has our keys, do we need to=20
->>>> resend or can a local copy happen ?
->>> I already have keys for,
->>>
->>> David Nystrom df:2d:b1:59:f3:d7:73:fc:59:36:7b:cf:85:28:a7:50
->>> Bruce Ashfield  4f:93:90:b2:c7:a1:45:21:f2:47:31:6f:60:f9:60:02
->>>
->>> Either of you can currently add
->>> git@git.yoctoproject.org:meta-virtualization as a git remote and
->>> start the repository. Once we have initial code and the maintainers
->>> and patch submission guidelines in the readme I can publicly list the
->>> new repository.
->>>
->>> I require an ssh public key for Raymond Danks.
->> Thanks Michael.  I got your response and was able to push meta-xen to
->> the newly created repository on meta-virtualization.  I added one
->> commit to tweak the README and conf/layer.conf for the new name.
->>>
->>>
->>> We also need a short description for the listing on
->>> git.yoctoproject.org. I could be something similar to, but better
->>> than, "Layer enabling virtualization support. "
->> How about "Layer enabling hypervisor, virtualization tool stack, and
->> cloud support."
->>
-> Sounds good to me. Thank you.
->> Also - I referenced the mail alias meta-virtualization at yoctoproject
->> in the README.  When you publish this, can we use something like that
->> as well?
->>
-> I can add a private list for meta-virtualization@yoctoproject.org. Who
-> shall I add to membership?
->
->
-> I would like to be added, since it seems I can't add myself at=20
-> https://lists.yoctoproject.org/listinfo
->
-> Best Regards,
-> David
+I wish people wouldn't use that.
 
-I would like to be added as well to the private list.
+Sure.
 
-Thanks,
-Mihai
-
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Ross
 
 
