@@ -1,37 +1,40 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TfXw6-0005Wp-G3
+	(envelope-from <mihai.prica@intel.com>) id 1TfY4h-0005kT-Tu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Dec 2012 16:27:58 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so1166352eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 07:13:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kcJDxE0cLJg7J5015ZF4gJ/xz4iueYEzpnbGcVLYOhY=;
-	b=UZu8BqEfK4Fv74ITlQWx86mU3LU7WnEAqtexSQOUqB1Ll6+GeGpJlvi8NqqBz3E45E
-	L2t0jQ/JIaoACSeC06gK74/KhhXpe5G4OIbX9lBXZ6Bs0s4oIy2iiFB+YPrmAKbvneCR
-	LPXQWKNSbnlMiAqodwdYJwYufEvJTMpU/x/gCVnilxbFuizaQn96DB+KCY6/Jve8IlaH
-	/V2ojBz83NJ56hXvJHhNbiIU4FLY7qPTZ04Q6MiYD3Wt+e8B8RcjcU/uD1tMQ1utVr8t
-	FY4Ymoqe6NyFVVIjrbUq1hnmSBfL4sZslVCfi0Lsg/4rgA4tF/WL0+lQEfEsMgbwT9+Z
-	tePw==
-Received: by 10.14.178.7 with SMTP id e7mr37300691eem.44.1354547617241;
-	Mon, 03 Dec 2012 07:13:37 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id i49sm5128800eem.6.2012.12.03.07.13.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Dec 2012 07:13:36 -0800 (PST)
-Date: Mon, 3 Dec 2012 16:13:31 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20121203151331.GD3354@jama.jama.net>
-References: <20121112132247.3BB7D102EC@opal>
+	Mon, 03 Dec 2012 16:36:53 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Dec 2012 07:21:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,208,1355126400"; d="scan'208";a="258265001"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2012 07:21:22 -0800
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.13]) by
+	IRSMSX103.ger.corp.intel.com ([169.254.3.74]) with mapi id
+	14.01.0355.002; Mon, 3 Dec 2012 15:20:45 +0000
+From: "Prica, Mihai" <mihai.prica@intel.com>
+To: =?iso-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>, Michael
+	Halstead <michael@yoctoproject.org>
+Thread-Topic: [OE-core] meta-cloud layer
+Thread-Index: AQHNzYMv6hD+nrknv0yyMh3txQVlx5f/bhqAgAARlQCAAQARAIAAVJoAgAACt4CAAWm+gIAAYKWAgAADIACAAAp1AIAAJWcAgAAz/oCAAWWrAIACyfRQ
+Date: Mon, 3 Dec 2012 15:20:44 +0000
+Message-ID: <97BD068FB200C44AA73C2B641F162ECF8F2064@IRSMSX101.ger.corp.intel.com>
+References: <50B63784.5050502@enea.com> <1354119751.15992.2.camel@ted>
+	<CADkTA4P8=aLSXNTAENp+WW7xX+ttYAPhPufRE=+yn9KXOY8Sag@mail.gmail.com>
+	<50B71FD4.3090304@enea.com> <50B766CC.4030904@se-eng.com>
+	<1354197267.4053.4.camel@ted> <50B89887.3070003@gmail.com>
+	<50B8E999.2050109@linux.intel.com>
+	<CADkTA4OPBKm6c1BPx3PGVuN9AHsmJZbG7Z7XhZd2OzT==Q5mHg@mail.gmail.com>
+	<50B8F4FE.1070003@yoctoproject.org> <50B9145E.9080005@se-eng.com>
+	<50B93FFB.9050505@yoctoproject.org> <50BA6C04.9040900@gmail.com>
+In-Reply-To: <50BA6C04.9040900@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-In-Reply-To: <20121112132247.3BB7D102EC@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : glib-2.0: upgrade to latest stable, 2.34.1.
+Cc: oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-cloud layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,64 +47,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Dec 2012 15:27:58 -0000
-X-Groupsio-MsgNum: 32091
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="C1iGAkRnbeBonpVg"
-Content-Disposition: inline
-
---C1iGAkRnbeBonpVg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Dec 2012 15:36:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 12, 2012 at 01:22:47PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: ce5fcad59fff19dbffc2d7b49c0c8bf3701d17ed
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Dce5fcad59fff19dbffc2d7b49c0c8bf3701d17ed
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Mon Nov  5 16:22:48 2012 +0000
->=20
-> glib-2.0: upgrade to latest stable, 2.34.1.
->=20
-> Also explicitly disable the test suite (as we can't run it), subsequently
-> dropping 60_wait-longer-for-threads-to-die.patch and nodbus.patch.
->=20
-> nolibelf.patch has been merged upstream, drop.
->=20
-> Upstream has dropped the pre-generated man pages, to generate them again =
-we'd
-> need libxslt and the DocBook infrastructure.  We can live without the man=
- pages
-> as those build-dependencies are non-trivial.
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of David Nystr=F6m
+Sent: Saturday, December 01, 2012 10:44 PM
+To: Michael Halstead
+Cc: oe-core layer
+Subject: Re: [OE-core] meta-cloud layer
 
-openembedded-core/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+On 12/01/2012 12:23 AM, Michael Halstead wrote:
+> On 11/30/2012 12:17 PM, Raymond Danks wrote:
+>> On 11/30/2012 11:03 AM, Michael Halstead wrote:
+>>> On 11/30/2012 09:26 AM, Bruce Ashfield wrote:
+>>>>
+>>>>
+>>>>
+>>>> On Fri, Nov 30, 2012 at 12:15 PM, Saul Wold <sgw@linux.intel.com=20
+>>>> <mailto:sgw@linux.intel.com>> wrote:
+>>>>
+>>>>      On 11/30/2012 03:29 AM, David Nystr=F6m wrote:
+>>>>
+>>>>          On 11/29/2012 02:54 PM, Richard Purdie wrote:
+>>>>
+>>>>              On Thu, 2012-11-29 at 06:44 -0700, Raymond Danks wrote:
+>>>>
+>>>>                  Thanks for looping me in here David. The initial
+>>>>                  goal for the meta-xen
+>>>>                  layer was in fact to encompass Xen Cloud Platform.
+>>>>                   As such, the intent
+>>>>                  was to contain both hypervisor and user-space
+>>>>                  applications.  Indeed, the
+>>>>                  xen distribution itself includes xm/libxl;
+>>>>                  hypervisor abstraction would
+>>>>                  be somewhat tedious in my opinion.
+>>>>
+>>>>                  The layer just received commits for expanding the
+>>>>                  libvirt build to
+>>>>                  support qemu.  The commonalities and shared packaged
+>>>>                  between xen, qemu,
+>>>>                  and kvm implementations are such that I would also
+>>>>                  agree that meta-xen
+>>>>                  should be expanded/renamed to encompass all
+>>>>                  virtualization types; I also
+>>>>                  support the move to meta-virtualization.
+>>>>
+>>>>
+>>>>          meta-virtualization sounds good, let co-op on this so we
+>>>>          don't duplicate
+>>>>          work.
+>>>>
+>>>>      If everyone is OK with this, I will have Michael Halstead create
+>>>>      a repo, please send him your keys so that you will have write
+>>>>      access to it.
+>>>>
+>>>>
+>>>> This works for me. If Michael already has our keys, do we need to=20
+>>>> resend or can a local copy happen ?
+>>> I already have keys for,
+>>>
+>>> David Nystrom df:2d:b1:59:f3:d7:73:fc:59:36:7b:cf:85:28:a7:50
+>>> Bruce Ashfield  4f:93:90:b2:c7:a1:45:21:f2:47:31:6f:60:f9:60:02
+>>>
+>>> Either of you can currently add
+>>> git@git.yoctoproject.org:meta-virtualization as a git remote and
+>>> start the repository. Once we have initial code and the maintainers
+>>> and patch submission guidelines in the readme I can publicly list the
+>>> new repository.
+>>>
+>>> I require an ssh public key for Raymond Danks.
+>> Thanks Michael.  I got your response and was able to push meta-xen to
+>> the newly created repository on meta-virtualization.  I added one
+>> commit to tweak the README and conf/layer.conf for the new name.
+>>>
+>>>
+>>> We also need a short description for the listing on
+>>> git.yoctoproject.org. I could be something similar to, but better
+>>> than, "Layer enabling virtualization support. "
+>> How about "Layer enabling hypervisor, virtualization tool stack, and
+>> cloud support."
+>>
+> Sounds good to me. Thank you.
+>> Also - I referenced the mail alias meta-virtualization at yoctoproject
+>> in the README.  When you publish this, can we use something like that
+>> as well?
+>>
+> I can add a private list for meta-virtualization@yoctoproject.org. Who
+> shall I add to membership?
+>
+>
+> I would like to be added, since it seems I can't add myself at=20
+> https://lists.yoctoproject.org/listinfo
+>
+> Best Regards,
+> David
 
-is not compatible with this glib version
+I would like to be added as well to the private list.
 
-gstomx_base_filter.c:846:3: error: 'g_mutex_new' is deprecated
-(declared at
-/OE/jansa-test/shr-core/tmp-eglibc/sysroots/tuna/usr/include/glib-2.0/glib/=
-deprecated/gthread.h:271)
-[-Werror=3Ddeprecated-declarations]
+Thanks,
+Mihai
 
-Can you check that?
 
-Cheers,
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---C1iGAkRnbeBonpVg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlC8wZsACgkQN1Ujt2V2gBxBaACeNX3uwoe3lsB/FrT0fUI1UddY
-FDcAn3QZgPPWnCEOEIUX0AOse5iHE7lJ
-=wiek
------END PGP SIGNATURE-----
-
---C1iGAkRnbeBonpVg--
