@@ -1,37 +1,33 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TfhaX-0000lD-84
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 02:46:21 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so1371848eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 17:32:01 -0800 (PST)
+	(envelope-from <jefro.net@gmail.com>)
+	id 1Tfhv8-0001fk-9z; Tue, 04 Dec 2012 03:08:12 +0100
+Received: by mail-ie0-f175.google.com with SMTP id qd14so5462757ieb.34
+	for <multiple recipients>; Mon, 03 Dec 2012 17:53:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=SR8uCNnxWHWOHtMxiZ96b8uNqRbBKPpVVbPpJShtjKY=;
-	b=xuU8GVfRPbppsL3fb21Rr4ouY9ylmv1WaOi8h9mL7lX3dSx8bog8xR8yhhq5pMCSvV
-	YMITxvbcAZYkSWGqZCKP7VUl6cwT2BE1HlNNTd601eJvsjQbjqIW9L60c0tJHnLOxr4h
-	tR1hA5UqfREzCLNtFqYsuI+RZzxBPFSbV7RdQYTXR7lv/XkWjIxMBCLor3zD0gJe5BxG
-	3vM9nxPvouprU/pFsVXjig3jtsNR+6g/UMsFR7UytQ+8OWRAt20AKpNKKgl7RZBpUYUU
-	fFsbr9L8JIMkzrzLM6qj7g7ytt7cLaaVM3CT8Az2QT90mbxbeNsCPt3GIjlMB5ly84mx
-	7NDA==
-Received: by 10.14.0.133 with SMTP id 5mr16834616eeb.29.1354584721674;
-	Mon, 03 Dec 2012 17:32:01 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id i49sm8048362eem.6.2012.12.03.17.32.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Dec 2012 17:32:01 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 02:31:15 +0100
-Message-Id: <8e7d8383609d7cfb2c2681d6890a248b841d9898.1354584580.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <cover.1354584580.git.Martin.Jansa@gmail.com>
-References: <cover.1354584580.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1354584580.git.Martin.Jansa@gmail.com>
-References: <cover.1354584580.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 6/6] sstate.bbclass: fix detection of owners matching sstate files
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=a9yC3c6FibgJmje1drtBkADTHiEmDr1gaO9QMQ728xo=;
+	b=tyF/9g2O/EEjehsL66ZbejuPgsiHZ3FfGAF5f0EQ1olPqlTyom4KEDy9p9p1/pucOX
+	NNnXNbxu/Fu++pMOGo/u2hSDzCsaNZtcUAaun/zC2aoUOyQS1VlcUMKza6tr7Ny1sgys
+	4KCfYfVBdBy6FEiM1vGSd+hnkmdyHJpmM6MyId9AcBdNVJ12BtNrpPyJMOdOgdr9RzCc
+	z1KI/fCJEHumkN+y3qHuq3lOq4tY9+TnATV9yclZWrkv25o2OicVySmHLc+quzvf2BTp
+	Ei11iAH6fNsO5iFWRvjOodX5QUf20Zv0MqaqfDt6Bd6IP4L0Y03hBTLn/DiyWQ2M90br
+	GFuQ==
+MIME-Version: 1.0
+Received: by 10.50.91.169 with SMTP id cf9mr1042139igb.44.1354585995559; Mon,
+	03 Dec 2012 17:53:15 -0800 (PST)
+Sender: jefro.net@gmail.com
+Received: by 10.64.147.37 with HTTP; Mon, 3 Dec 2012 17:53:15 -0800 (PST)
+Date: Mon, 3 Dec 2012 17:53:15 -0800
+X-Google-Sender-Auth: WsUrVhi-Z-5Uo1x3etdesjsmhEU
+Message-ID: <CA+YB3rb2gftzzJBNDGFgWki4U3=OTSGZXeQ9AAf_wNa3J7uC3w@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	tsc <tsc@lists.openembedded.org>
+Subject: OpenEmbedded TSC Minutes 6 November 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,50 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 01:46:21 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 02:08:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* without this patch:
-  Python 2.7.3
-  >>> sstate_search_cmd = "grep -rl /OE/jansa-test/shr-core/tmp-eglibc/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtime-reverse/vim-common /OE/jansa-test/shr-core/tmp-eglibc/sstate-control --exclude=master.list | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'"
-  >>> cmd_array = sstate_search_cmd.split(' ')
-  >>> search_output = subprocess.Popen(cmd_array, stdout=subprocess.PIPE).communicate()[0]
-  grep: |: No such file or directory
-  grep: sed: No such file or directory
+Attendees: Paul, Mark, Koen, Khem, Richard
+Minutes taken by Richard
 
-* Adding shell=True and using cmd string instead of array makes it work:
-  >>> search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
-  >>> print search_output
-  manifest-armv7a-vfp-neon-gvim.package
-  manifest-armv7a-vfp-neon-vim-tiny.package
-  manifest-armv7a-vfp-neon-vim.package
+ELC-E presented an opportunity for a face to face meeting so there are
+no irc logs.
 
-  But still isn't 100% reliable, I guess it's caused by some other package
-  being removed from sstate while grep is already running.
-  So sometimes grep can show error on STDERR
-  >>> search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
-  grep: /OE/jansa-test/shr-core/tmp-eglibc/sstate-control/manifest-armv7a-vfp-neon-systemtap.package: No such file or directory
+The only topic we were asked to discuss was ntp. We agreed that creating
+an ntp namespace for OE was a good idea for non-commercial use. We
+agreed that either:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/sstate.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+1) This should be commented out by default requiring a user to enable it
+or
+2) We should put in a licence flag that excludes the ntp recipe unless
+the user explicitly agrees to it
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 967ae9b..832b39e 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -169,8 +169,7 @@ def sstate_install(ss, d):
-             if realmatch:
-                 match.append(f)
-                 sstate_search_cmd = "grep -rl %s %s --exclude=master.list | sed -e 's:^.*/::' -e 's:\.populate-sysroot::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
--                cmd_array = sstate_search_cmd.split(' ')
--                search_output = subprocess.Popen(cmd_array, stdout=subprocess.PIPE).communicate()[0]
-+                search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
-                 if search_output != "":
-                     match.append("Matched in %s" % search_output.rstrip())
-     if match:
--- 
-1.8.0
+which are ideas designed to stop people accidentally using the namespace
+commercially.
 
+Richard has taken the action to raise ntp with the Yocto Project as they
+may wish to use their own namespace too.
+
+Other topics raised:
+
+We have some issues around overwriting of files in areas like the deploy
+directory for allarch packages. These are not new issues but have been
+there for a long time. New sanity checks are exposing them and there are
+real world bugs these cause. It explains several "mystery" bug reports
+we've seen over the past couple of years. This topic doesn't lend itself
+to f2f discussion so we'll do it on the mailing list but the end result
+may be some restrictions on when you can mark a package as allarch and
+vice versa.
+
+There was a lot of "misc" discussion about other aspects of the project
+but nothing specific I want to capture in the notes. It was useful to
+have the TSC face to face to discuss things for a change.
+
+--
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
 
