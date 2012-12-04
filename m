@@ -1,26 +1,35 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tfuv0-00078V-FZ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 17:00:22 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Dec 2012 07:45:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,215,1355126400"; d="scan'208";a="258853586"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.44])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2012 07:45:57 -0800
-Message-ID: <50BE1AB5.1020701@linux.intel.com>
-Date: Tue, 04 Dec 2012 07:45:57 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1354584580.git.Martin.Jansa@gmail.com>
-	<a2b1d1a87fa1a13ce1433972ef65b23a001eb7d3.1354584580.git.Martin.Jansa@gmail.com>
-In-Reply-To: <a2b1d1a87fa1a13ce1433972ef65b23a001eb7d3.1354584580.git.Martin.Jansa@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Tfvuh-00088Y-89 for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 18:04:13 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4GnegC009132;
+	Tue, 4 Dec 2012 16:49:40 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08149-09; Tue,  4 Dec 2012 16:49:36 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4GnXSj009126
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 4 Dec 2012 16:49:34 GMT
+Message-ID: <1354639762.25268.54.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+Date: Tue, 04 Dec 2012 16:49:22 +0000
+In-Reply-To: <20121129155210.GC25784@sestofb10.enea.se>
+References: <1353600120-22967-1-git-send-email-bjst@enea.com>
+	<1353600120-22967-2-git-send-email-bjst@enea.com>
+	<1353707361.21863.4.camel@ted>
+	<20121129155210.GC25784@sestofb10.enea.se>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	qB4GnegC009132
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] at: drop initscript dependency
+Subject: Re: [PATCH 1/4] Add a new distro feature "ptest".
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 16:00:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 17:04:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/03/2012 05:31 PM, Martin Jansa wrote:
-> * doesn't look like build dependency
-> * and for runtime dependency if needed we should use VIRTUAL-RUNTIME_initscripts
+On Thu, 2012-11-29 at 16:52 +0100, Bj=C3=B6rn Stenberg wrote:
+> Richard Purdie wrote:
+> > >  meta/classes/image.bbclass                         |    6 ++-
+> > >  meta/classes/packagegroup.bbclass                  |    2 +-
+> > >  meta/conf/bitbake.conf                             |   15 ++++++++=
+-
+> >=20
+> > Whilst we're in bootstrapping mode for this work, how about we make
+> > these changes a "ptest.bbclass" file which we'd inherit in the recipe=
+s
+> > where we've got ptest enabled?
+>=20
+> Having looked into it a bit, I'm not sure I understand how you mean.
 >
-Agreed on the VIRTUAL-RUNTIME, which I think is needed for the 
-populate-volatiles script for the /var and /run directories.
+> First, I don't quite see how this would be done in an elegant way for
+> the in-function changes in image.bbclass and packagegroup.bbclass.=20
 
-Sau!
+Those are pretty non-invasive so I think we can just add these pieces in
+directly as you have them now.
 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->   meta/recipes-extended/at/at_3.1.13.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/at/at_3.1.13.bb b/meta/recipes-extended/at/at_3.1.13.bb
-> index 3580e09..96cc34a 100644
-> --- a/meta/recipes-extended/at/at_3.1.13.bb
-> +++ b/meta/recipes-extended/at/at_3.1.13.bb
-> @@ -4,7 +4,7 @@ the system load levels drop to a particular level."
->   SECTION = "base"
->   LICENSE="GPLv2+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
-> -DEPENDS = "flex flex-native initscripts \
-> +DEPENDS = "flex flex-native \
->   	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->   RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
->   PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
->
+> And the lines added to bitbake.conf were put there because they mirror
+> other complementary packages like -dbg and -dev. Is it really a good
+> idea to invent a new way of doing this for -ptest packages?
+
+This isn't a "new way". We can easily put these in a .bbclass for now.
+Pretty much every package has a -dev and -dbg package but for now, the
+number of packages which will have ptest is limited. Its a waste of
+build time having the -ptest metadata being processed for every package,
+its also confusing.
+
+So I think my proposal stands, lets put the pieces from bitbake.conf
+into a bbclass file for now, the other pieces can merge into the core
+code. As and when we have more than say 60% of the metadata with ptest
+we can think about making -ptest packages the default.
+
+Cheers,
+
+Richard
+>=20
+
+
 
 
