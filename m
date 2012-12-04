@@ -1,37 +1,34 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TfuJp-0006HA-HC
+	(envelope-from <martin.jansa@gmail.com>) id 1Tfuaj-0006Tv-HT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 16:21:57 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so2442605pad.6
+	Tue, 04 Dec 2012 16:39:27 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e51so2274285eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 07:07:34 -0800 (PST)
+	Tue, 04 Dec 2012 07:25:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=BhTIeNdDITRwBTCU1PHoUuMCad0cqv1B7+ORsEICoR4=;
-	b=EVqIi4pxEAkhqYBuH1YAs1+z6taVkajCmWPrNzyLzIDeDDN26UWUU2GVHJ/HKEeWLK
-	ROdM5Jui2pt0sjDBJjHBHLtpZXNeh7QSPtPbQbj8iKQ8cNbJw2Icgxh0MYL+djZ/iZfX
-	ICI/SiBPaH+Ik/9Yjfr8pguS/QdErIWVIkpFT7SboH8ulYzdoKwEJ4IQrOtuyUyPNIHC
-	eMtJeV4wUzQepxGPEXVkxmVrxXV8iLsowM0Uor9GwoCwhFxQunUGKPV2mwCcinWDo5He
-	tOz06YfAGs81lweC/8pHNIbJ/Xz4ED2/qI4MDiBmOIkbhpMl+9GDZBi5T6J16qcZ4vrZ
-	h4+w==
-MIME-Version: 1.0
-Received: by 10.68.213.33 with SMTP id np1mr39273988pbc.64.1354633654034; Tue,
-	04 Dec 2012 07:07:34 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Tue, 4 Dec 2012 07:07:33 -0800 (PST)
-In-Reply-To: <02baf1072c98ba7c93c92bda589a1500ebbadba6.1354626535.git.laurentiu.palcu@intel.com>
-References: <cover.1354626535.git.laurentiu.palcu@intel.com>
-	<02baf1072c98ba7c93c92bda589a1500ebbadba6.1354626535.git.laurentiu.palcu@intel.com>
-Date: Tue, 4 Dec 2012 13:07:33 -0200
-X-Google-Sender-Auth: MmREVM5p2KqC8mJ72brwitf4vf8
-Message-ID: <CAP9ODKpZjFRF3FYWzf3BMWYuEBzbb1YrXyG3zpj5OJVdkrNEYw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] rootfs generation: export two new variables to postinst scriptlets
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=xA3gJB2iT8HIZd02oCDz2xRDQ1F8hGwzEKYjl0VjA40=;
+	b=URuyonFiTl++x933NKagqe86+fFG4bE8qxWExQLVIIOxj6bj/7ZOqbeNqYNb0Lv6xP
+	zGLI9f5EUgoyGhierxLgRvBskzxcz6y0dnWbD7EPw+8knsmjqjUCrEUChu8Ku5iPZN7l
+	QIGRFrsWaV05eYSShqgbIpJdz22dWkHtvbI6WfbHFQ6XQTuKqgNPVScjBU+D3VfB+0x0
+	N0jhyG2UXyoDDPbMJFJXnMxhmwixjTk6PNUFPwbpfGwjDzypryMb6mAdK8n6ZW3w6iiT
+	Zsp19646wKTluprkbWUgGgelzxH78+rFLkXp63+AuynEV99sqybVydnSPzeq048i+39c
+	DVJA==
+Received: by 10.14.198.67 with SMTP id u43mr50048613een.7.1354634702908;
+	Tue, 04 Dec 2012 07:25:02 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id z8sm3136328eeo.11.2012.12.04.07.25.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 04 Dec 2012 07:25:02 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2012 16:24:52 +0100
+Message-Id: <1354634692-4344-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.0
+In-Reply-To: <1354626180.25268.47.camel@ted>
+References: <1354626180.25268.47.camel@ted>
+Subject: [PATCHv3] scripts/sstate-diff.sh: add simple script to compare sstate checksums between MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,182 +41,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 15:21:57 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c12ebfe27704d0083967
+X-List-Received-Date: Tue, 04 Dec 2012 15:39:27 -0000
 
---e89a8ff1c12ebfe27704d0083967
-Content-Type: text/plain; charset=ISO-8859-1
+* takes tmpdir, machines and targets from command arguments or env variables
 
-On Tue, Dec 4, 2012 at 11:59 AM, Laurentiu Palcu
-<laurentiu.palcu@intel.com>wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ scripts/sstate-diff-machines.sh | 107 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+ create mode 100755 scripts/sstate-diff-machines.sh
 
-> In order for the postinst scriptlets to be able to run once we need to
-> export the location of the intercept scripts and also the location of
-> native sysrootfs. The gdk-pixbuf binaries will need the latter because
-> in order to generate the loaders.cache it will need to scan some shared
-> libraries that must be native. Even though the output is a text file.
->
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/classes/package_rpm.bbclass |    2 ++
->  meta/classes/rootfs_deb.bbclass  |    2 ++
->  meta/classes/rootfs_ipk.bbclass  |    2 ++
->  3 files changed, 6 insertions(+)
->
-> diff --git a/meta/classes/package_rpm.bbclass
-> b/meta/classes/package_rpm.bbclass
-> index 1ff92ce..c7ac07a 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -475,6 +475,8 @@ export D="${target_rootfs}"
->  export OFFLINE_ROOT="\$D"
->  export IPKG_OFFLINE_ROOT="\$D"
->  export OPKG_OFFLINE_ROOT="\$D"
-> +export INTERCEPT_DIR="${WORKDIR}/intercept_scripts"
-> +export NATIVE_ROOT=${STAGING_DIR_NATIVE}
->
-
-The NATIVE_ROOT seems a duplication, I'd prefer you to use
-STAGING_DIR_NATIVE in code as this is a known variable name and makes it
-easy to understand.
-
-
->  \$2 \$1/\$3 \$4
->  if [ \$? -ne 0 ]; then
-> diff --git a/meta/classes/rootfs_deb.bbclass
-> b/meta/classes/rootfs_deb.bbclass
-> index 881fdbd..955382f 100644
-> --- a/meta/classes/rootfs_deb.bbclass
-> +++ b/meta/classes/rootfs_deb.bbclass
-> @@ -48,6 +48,8 @@ fakeroot rootfs_deb_do_rootfs () {
->         export OFFLINE_ROOT=${IMAGE_ROOTFS}
->         export IPKG_OFFLINE_ROOT=${IMAGE_ROOTFS}
->         export OPKG_OFFLINE_ROOT=${IMAGE_ROOTFS}
-> +       export INTERCEPT_DIR=${WORKDIR}/intercept_scripts
-> +       export NATIVE_ROOT=${STAGING_DIR_NATIVE}
->
->         # Attempt to run preinsts
->         # Mark packages with preinst failures as unpacked
-> diff --git a/meta/classes/rootfs_ipk.bbclass
-> b/meta/classes/rootfs_ipk.bbclass
-> index fc69b7e..8766d24 100644
-> --- a/meta/classes/rootfs_ipk.bbclass
-> +++ b/meta/classes/rootfs_ipk.bbclass
-> @@ -69,6 +69,8 @@ fakeroot rootfs_ipk_do_rootfs () {
->         export OFFLINE_ROOT=${IMAGE_ROOTFS}
->         export IPKG_OFFLINE_ROOT=${IMAGE_ROOTFS}
->         export OPKG_OFFLINE_ROOT=${IPKG_OFFLINE_ROOT}
-> +       export INTERCEPT_DIR=${WORKDIR}/intercept_scripts
-> +       export NATIVE_ROOT=${STAGING_DIR_NATIVE}
->
->         package_install_internal_ipk
->
-> --
-> 1.7.9.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/scripts/sstate-diff-machines.sh b/scripts/sstate-diff-machines.sh
+new file mode 100755
+index 0000000..f2c151a
+--- /dev/null
++++ b/scripts/sstate-diff-machines.sh
+@@ -0,0 +1,107 @@
++#!/bin/sh
++
++# Used to compare sstate checksums between MACHINES
++# Execute script and compare generated list.M files
++
++# It's also usefull to keep older sstate checksums
++# to be able to find out why something is rebuilding 
++# after updating metadata
++
++# $ diff \
++#     sstate-diff/1349348392/fake-cortexa8/list.M \
++#     sstate-diff/1349348392/fake-cortexa9/list.M \
++#     | wc -l
++# 538
++
++# Then to compare sigdata use something like:
++# $ ls sstate-diff/1349348392/*/armv7a-vfp-neon*/linux-libc-headers/*do_configure*sigdata*
++#   sstate-diff/1349348392/fake-cortexa8/armv7a-vfp-neon-oe-linux-gnueabi/linux-libc-headers/3.4.3-r0.do_configure.sigdata.cb73b3630a7b8191e72fc469c5137025
++#   sstate-diff/1349348392/fake-cortexa9/armv7a-vfp-neon-oe-linux-gnueabi/linux-libc-headers/3.4.3-r0.do_configure.sigdata.f37ada177bf99ce8af85914df22b5a0b
++# $ bitbake-diffsigs stamps.1349348392/*/armv7a-vfp-neon*/linux-libc-headers/*do_configure*sigdata*
++#   basehash changed from 8d0bd67bb1da6f68717760fc3ef43171 to e869fa61426e88e9c30726ba88a1216a
++#   Variable TUNE_CCARGS value changed from  -march=armv7-a     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 to  -march=armv7-a     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a9
++
++# Global vars
++tmpdir=
++machines=
++targets=
++default_machines="qemuarm qemux86 qemux86-64"
++default_targets="core-image-base"
++
++usage () {
++  cat << EOF
++Welcome to utility to compare sstate checksums between different MACHINEs.
++$0 <OPTION>
++
++Options:
++  -h, --help
++        Display this help and exit.
++
++  --tmpdir=<tmpdir>
++        Specify tmpdir, will use the environment variable TMPDIR if it is not specified.
++        Something like /OE/oe-core/tmp-eglibc (no / at the end).
++  
++  --machines=<machines>
++        List of MACHINEs separated by space, will use the environment variable MACHINES if it is not specified.
++        Default value is "qemuarm qemux86 qemux86-64".
++  
++  --targets=<targets>
++        List of targets separated by space, will use the environment variable TARGETS if it is not specified.
++        Default value is "core-image-base".
++EOF
++}
++
++# Print error information and exit.
++echo_error () {
++  echo "ERROR: $1" >&2
++  exit 1
++}
++
++while [ -n "$1" ]; do
++  case $1 in
++    --tmpdir=*)
++      tmpdir=`echo $1 | sed -e 's#^--tmpdir=##' | xargs readlink -e`
++      [ -d "$tmpdir" ] || echo_error "Invalid argument to --tmpdir"
++      shift
++        ;;
++    --machines=*)
++      machines=`echo $1 | sed -e 's#^--machines="*\([^"]*\)"*#\1#'`
++      shift
++        ;;
++    --targets=*)
++      targets=`echo $1 | sed -e 's#^--targets="*\([^"]*\)"*#\1#'`
++      shift
++        ;;
++    --help|-h)
++      usage
++      exit 0
++        ;;
++    *)
++      echo "Invalid arguments $*"
++      echo_error "Try '$0 -h' for more information."
++        ;;
++  esac
++done
++
++# tmpdir directory, use environment variable TMPDIR
++# if it was not specified, otherwise, error.
++[ -n "$tmpdir" ] || tmpdir=$TMPDIR
++[ -n "$tmpdir" ] || echo_error "No tmpdir found!"
++[ -d "$tmpdir" ] || echo_error "Invalid tmpdir \"$tmpdir\""
++[ -n "$machines" ] || machines=$MACHINES
++[ -n "$machines" ] || machines=$default_machines
++[ -n "$targets" ] || targets=$TARGETS
++[ -n "$targets" ] || targets=$default_targets
++
++OUTPUT=${tmpdir}/sstate-diff/`date "+%s"`
++
++for M in ${machines}; do
++  find ${tmpdir}/stamps/ -name \*sigdata\* | xargs rm -f
++  mkdir -p ${OUTPUT}/${M}
++  export MACHINE=${M}; bitbake -S ${targets} | tee -a ${OUTPUT}/${M}/log;
++  cp -ra ${tmpdir}/stamps/* ${OUTPUT}/${M}
++  find ${OUTPUT}/${M} -name \*sigdata\* | sed "s#${OUTPUT}/${M}/##g" | sort > ${OUTPUT}/${M}/list
++  M_UNDERSCORE=`echo ${M} | sed 's/-/_/g'`
++  sed "s/${M_UNDERSCORE}/MACHINE/g; s/${M}/MACHINE/g" ${OUTPUT}/${M}/list | sort > ${OUTPUT}/${M}/list.M
++  find ${tmpdir}/stamps/ -name \*sigdata\* | xargs rm -f
++done
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.8.0
 
---e89a8ff1c12ebfe27704d0083967
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Tue, D=
-ec 4, 2012 at 11:59 AM, Laurentiu Palcu <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:laurentiu.palcu@intel.com" target=3D"_blank">laurentiu.palcu@intel.com=
-</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">In order for the postinst scriptlets to be a=
-ble to run once we need to<br>
-export the location of the intercept scripts and also the location of<br>
-native sysrootfs. The gdk-pixbuf binaries will need the latter because<br>
-in order to generate the loaders.cache it will need to scan some shared<br>
-libraries that must be native. Even though the output is a text file.<br>
-<br>
-Signed-off-by: Laurentiu Palcu &lt;<a href=3D"mailto:laurentiu.palcu@intel.=
-com">laurentiu.palcu@intel.com</a>&gt;<br>
----<br>
-=A0meta/classes/package_rpm.bbclass | =A0 =A02 ++<br>
-=A0meta/classes/rootfs_deb.bbclass =A0| =A0 =A02 ++<br>
-=A0meta/classes/rootfs_ipk.bbclass =A0| =A0 =A02 ++<br>
-=A03 files changed, 6 insertions(+)<br>
-<br>
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bb=
-class<br>
-index 1ff92ce..c7ac07a 100644<br>
---- a/meta/classes/package_rpm.bbclass<br>
-+++ b/meta/classes/package_rpm.bbclass<br>
-@@ -475,6 +475,8 @@ export D=3D&quot;${target_rootfs}&quot;<br>
-=A0export OFFLINE_ROOT=3D&quot;\$D&quot;<br>
-=A0export IPKG_OFFLINE_ROOT=3D&quot;\$D&quot;<br>
-=A0export OPKG_OFFLINE_ROOT=3D&quot;\$D&quot;<br>
-+export INTERCEPT_DIR=3D&quot;${WORKDIR}/intercept_scripts&quot;<br>
-+export NATIVE_ROOT=3D${STAGING_DIR_NATIVE}<br></blockquote><div><br></div>=
-<div>The NATIVE_ROOT seems a duplication, I&#39;d prefer you to use STAGING=
-_DIR_NATIVE in code as this is a known variable name and makes it easy to u=
-nderstand.</div>
-<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">
-=A0\$2 \$1/\$3 \$4<br>
-=A0if [ \$? -ne 0 ]; then<br>
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbcl=
-ass<br>
-index 881fdbd..955382f 100644<br>
---- a/meta/classes/rootfs_deb.bbclass<br>
-+++ b/meta/classes/rootfs_deb.bbclass<br>
-@@ -48,6 +48,8 @@ fakeroot rootfs_deb_do_rootfs () {<br>
-=A0 =A0 =A0 =A0 export OFFLINE_ROOT=3D${IMAGE_ROOTFS}<br>
-=A0 =A0 =A0 =A0 export IPKG_OFFLINE_ROOT=3D${IMAGE_ROOTFS}<br>
-=A0 =A0 =A0 =A0 export OPKG_OFFLINE_ROOT=3D${IMAGE_ROOTFS}<br>
-+ =A0 =A0 =A0 export INTERCEPT_DIR=3D${WORKDIR}/intercept_scripts<br>
-+ =A0 =A0 =A0 export NATIVE_ROOT=3D${STAGING_DIR_NATIVE}<br>
-<br>
-=A0 =A0 =A0 =A0 # Attempt to run preinsts<br>
-=A0 =A0 =A0 =A0 # Mark packages with preinst failures as unpacked<br>
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbcl=
-ass<br>
-index fc69b7e..8766d24 100644<br>
---- a/meta/classes/rootfs_ipk.bbclass<br>
-+++ b/meta/classes/rootfs_ipk.bbclass<br>
-@@ -69,6 +69,8 @@ fakeroot rootfs_ipk_do_rootfs () {<br>
-=A0 =A0 =A0 =A0 export OFFLINE_ROOT=3D${IMAGE_ROOTFS}<br>
-=A0 =A0 =A0 =A0 export IPKG_OFFLINE_ROOT=3D${IMAGE_ROOTFS}<br>
-=A0 =A0 =A0 =A0 export OPKG_OFFLINE_ROOT=3D${IPKG_OFFLINE_ROOT}<br>
-+ =A0 =A0 =A0 export INTERCEPT_DIR=3D${WORKDIR}/intercept_scripts<br>
-+ =A0 =A0 =A0 export NATIVE_ROOT=3D${STAGING_DIR_NATIVE}<br>
-<br>
-=A0 =A0 =A0 =A0 package_install_internal_ipk<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-1.7.9.5<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" targe=
-t=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems=
-.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-</div>
 
---e89a8ff1c12ebfe27704d0083967--
