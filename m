@@ -1,30 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ie0-f175.google.com ([209.85.223.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TfodF-0007XY-70
+	(envelope-from <s.stirtzel@googlemail.com>) id 1TfojW-0007iN-DG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 10:17:37 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB493D7t015831
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Dec 2012 01:03:13 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 4 Dec 2012 01:03:12 -0800
-Message-ID: <50BDBC70.701@windriver.com>
-Date: Tue, 4 Dec 2012 17:03:44 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	Tue, 04 Dec 2012 10:24:15 +0100
+Received: by mail-ie0-f175.google.com with SMTP id qd14so5664207ieb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Dec 2012 01:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=m/EFAjjAY2ggKbJ3C3Tg0APlGbfzXQmeXIBkLeH2L7A=;
+	b=kbzB8NM8M0FvkgnUGXzMk05vgt59ZAMgq5htvXiR/ORpnSrvEPwxamqiP6jHHKqs6S
+	OYZh/dcUoYoENkWDdU3mE5XHmcZuTn22eGqd1fux6KdvD0hdx1zSEeSsmx+Sa0Jcpve6
+	P1ib4GGSm/l87v9jvp17zbAfLRnV7TF9cAewYBoeHXWtzi7skEdaMgYARzxP/BuiWU/E
+	7eIVqlhy00b6cCo073pE1JZTNWfmEddoxupm98pkY/2RV4O2vN+I6ce2e1qjComrxMpl
+	xyGOvkU84CW8+u7iQ9ivPkLF4UawPT/Pby1hm/QHevkK/VBKzSfL86kCbgypoi9ePUov
+	+sgQ==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1354084523.git.Qi.Chen@windriver.com>
-	<22684c7fc852e5c43d241e760fe8e1af7095f9ff.1354084523.git.Qi.Chen@windriver.com>
-	<50BD667C.6040005@windriver.com> <1354610385.25268.28.camel@ted>
-In-Reply-To: <1354610385.25268.28.camel@ted>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] autotools.bbclass: use relative path for acpaths whenever possible
+Received: by 10.43.49.199 with SMTP id vb7mr10480282icb.6.1354612183464; Tue,
+	04 Dec 2012 01:09:43 -0800 (PST)
+Received: by 10.64.24.179 with HTTP; Tue, 4 Dec 2012 01:09:43 -0800 (PST)
+Date: Tue, 4 Dec 2012 10:09:43 +0100
+Message-ID: <CAGiJk9c_5nDZbTwTo1DvHXMEtOXgO=4-YvbsDoD-ZXqY=cTi8g@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: EGL / GLES issues (mesa)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 09:17:37 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 09:24:15 -0000
+Content-Type: multipart/alternative; boundary=bcaec5299f8b00fc1e04d0033a02
 
-On 12/04/2012 04:39 PM, Richard Purdie wrote:
-> On Tue, 2012-12-04 at 10:57 +0800, ChenQi wrote:
->> Hi Richard,
->>
->> I saw that this series of patches have been merged except this one.
->> Is there any problem with this patch?
->>
->> The thing is, if we don't fix autotool.bbclass like this, building
->> coreutils will fail with a long TMPDIR (bug#2766). I tried to build
->> coretuils with TMPDIR of 200 char length, it failed.
-> I know but I'm rather unhappy having the autotools code work two rather
-> different ways depending on the number of configure scripts a project
-> has, it all seems like a bit of a hack :(
->
-> I don't like the fix but I haven't found time to propose any
-> alternative...
->
-> Cheers,
->
-> Richard
->
->
-OK. I see.
-I've tried a lot but I can't figure out a better way to do it.
-Hope someone could come up with a better proposal to this problem:)
+--bcaec5299f8b00fc1e04d0033a02
+Content-Type: text/plain; charset=UTF-8
 
-Thanks,
-Chen Qi
+Hi,
+
+this regards to "e79987bc4bac1d739f92790f8e9840cd02f073d3 mesa: default to
+enabling EGL and GLES"
+
+So with my last update the behaviour changed and applications using EGL now
+link against mesa instead of libgles-omap3, but deployed in my rootfs is
+libgles-omap3.
+
+This results in all Qt applications being broken (as I test EGL enabled Qt),
+the resulting error message:  "application-name: error while loading shared
+libraries: /usr/lib/libEGL.so: file too short"
 
 
+Any ideas how this can be resolved gracefully?
+
+-- 
+Regards
+Samuel
+
+--bcaec5299f8b00fc1e04d0033a02
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi,<br><br>this regards to &quot;e79987bc4bac1d739f92790f8e9840cd02f073d3 m=
+esa: default to enabling EGL and GLES&quot;<br><br clear=3D"all">So with my=
+ last update the behaviour changed and applications using EGL now link agai=
+nst mesa instead of libgles-omap3, but deployed in my rootfs is libgles-oma=
+p3.<br>
+<br>This results in all Qt applications being broken (as I test EGL enabled=
+ Qt),<br>the resulting error message:=C2=A0 &quot;application-name: error w=
+hile loading shared libraries: /usr/lib/libEGL.so: file too short&quot;<br>=
+<br>
+<br>Any ideas how this can be resolved gracefully?<br><br>-- <br>Regards<br=
+>Samuel<br>
+
+--bcaec5299f8b00fc1e04d0033a02--
