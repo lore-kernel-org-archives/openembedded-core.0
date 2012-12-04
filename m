@@ -1,30 +1,20 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1TfojW-0007iN-DG
+	(envelope-from <constantinx.musca@intel.com>) id 1Tfosq-0007zW-Pa
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 10:24:15 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so5664207ieb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 01:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=m/EFAjjAY2ggKbJ3C3Tg0APlGbfzXQmeXIBkLeH2L7A=;
-	b=kbzB8NM8M0FvkgnUGXzMk05vgt59ZAMgq5htvXiR/ORpnSrvEPwxamqiP6jHHKqs6S
-	OYZh/dcUoYoENkWDdU3mE5XHmcZuTn22eGqd1fux6KdvD0hdx1zSEeSsmx+Sa0Jcpve6
-	P1ib4GGSm/l87v9jvp17zbAfLRnV7TF9cAewYBoeHXWtzi7skEdaMgYARzxP/BuiWU/E
-	7eIVqlhy00b6cCo073pE1JZTNWfmEddoxupm98pkY/2RV4O2vN+I6ce2e1qjComrxMpl
-	xyGOvkU84CW8+u7iQ9ivPkLF4UawPT/Pby1hm/QHevkK/VBKzSfL86kCbgypoi9ePUov
-	+sgQ==
-MIME-Version: 1.0
-Received: by 10.43.49.199 with SMTP id vb7mr10480282icb.6.1354612183464; Tue,
-	04 Dec 2012 01:09:43 -0800 (PST)
-Received: by 10.64.24.179 with HTTP; Tue, 4 Dec 2012 01:09:43 -0800 (PST)
-Date: Tue, 4 Dec 2012 10:09:43 +0100
-Message-ID: <CAGiJk9c_5nDZbTwTo1DvHXMEtOXgO=4-YvbsDoD-ZXqY=cTi8g@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: EGL / GLES issues (mesa)
+	Tue, 04 Dec 2012 10:33:44 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2012 01:18:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,214,1355126400"; d="scan'208";a="228661808"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2012 01:18:15 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2012 11:19:00 +0200
+Message-Id: <cover.1354611254.git.constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH 0/5] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 09:24:15 -0000
-Content-Type: multipart/alternative; boundary=bcaec5299f8b00fc1e04d0033a02
+X-List-Received-Date: Tue, 04 Dec 2012 09:33:45 -0000
 
---bcaec5299f8b00fc1e04d0033a02
-Content-Type: text/plain; charset=UTF-8
+This is a set of package upgrades tested using core-image-sato.
+The following changes since commit da6c266b1184eed8b1bc851f24a9ee17ab56d562:
 
-Hi,
+  xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions (2012-12-03 16:38:35 +0000)
 
-this regards to "e79987bc4bac1d739f92790f8e9840cd02f073d3 mesa: default to
-enabling EGL and GLES"
+are available in the git repository at:
 
-So with my last update the behaviour changed and applications using EGL now
-link against mesa instead of libgles-omap3, but deployed in my rootfs is
-libgles-omap3.
+  git://git.pokylinux.org/poky-contrib cmuscax/pus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/pus
 
-This results in all Qt applications being broken (as I test EGL enabled Qt),
-the resulting error message:  "application-name: error while loading shared
-libraries: /usr/lib/libEGL.so: file too short"
+Constantin Musca (5):
+  ethtool: upgrade to 3.6
+  libxcb: upgrade to 1.9
+  libxslt: upgrade to 1.1.28
+  lighttpd: upgrade to 1.4.32
+  puzzles: upgrade to r9712
 
-
-Any ideas how this can be resolved gracefully?
+ .../ethtool/{ethtool_3.5.bb => ethtool_3.6.bb}     |  4 +--
+ .../files/lighttpd_fix_for_automake-1.12.patch     | 37 ----------------------
+ .../{lighttpd_1.4.31.bb => lighttpd_1.4.32.bb}     |  5 ++-
+ .../xcb/{libxcb_1.8.1.bb => libxcb_1.9.bb}         |  4 +--
+ .../puzzles/{puzzles_r9660.bb => puzzles_r9712.bb} |  2 +-
+ .../{libxslt_1.1.27.bb => libxslt_1.1.28.bb}       |  4 +--
+ 6 files changed, 9 insertions(+), 47 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_3.5.bb => ethtool_3.6.bb} (79%)
+ delete mode 100644 meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.31.bb => lighttpd_1.4.32.bb} (90%)
+ rename meta/recipes-graphics/xcb/{libxcb_1.8.1.bb => libxcb_1.9.bb} (55%)
+ rename meta/recipes-sato/puzzles/{puzzles_r9660.bb => puzzles_r9712.bb} (96%)
+ rename meta/recipes-support/libxslt/{libxslt_1.1.27.bb => libxslt_1.1.28.bb} (87%)
 
 -- 
-Regards
-Samuel
+1.7.11.7
 
---bcaec5299f8b00fc1e04d0033a02
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi,<br><br>this regards to &quot;e79987bc4bac1d739f92790f8e9840cd02f073d3 m=
-esa: default to enabling EGL and GLES&quot;<br><br clear=3D"all">So with my=
- last update the behaviour changed and applications using EGL now link agai=
-nst mesa instead of libgles-omap3, but deployed in my rootfs is libgles-oma=
-p3.<br>
-<br>This results in all Qt applications being broken (as I test EGL enabled=
- Qt),<br>the resulting error message:=C2=A0 &quot;application-name: error w=
-hile loading shared libraries: /usr/lib/libEGL.so: file too short&quot;<br>=
-<br>
-<br>Any ideas how this can be resolved gracefully?<br><br>-- <br>Regards<br=
->Samuel<br>
 
---bcaec5299f8b00fc1e04d0033a02--
