@@ -1,31 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TfsNb-0005Tt-Gh for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 14:17:43 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4D3KHq007078;
-	Tue, 4 Dec 2012 13:03:20 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07032-02; Tue,  4 Dec 2012 13:03:16 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4D3A3W007072
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 4 Dec 2012 13:03:11 GMT
-Message-ID: <1354626180.25268.47.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 04 Dec 2012 13:03:00 +0000
-In-Reply-To: <1354622874-4038-1-git-send-email-Martin.Jansa@gmail.com>
-References: <cc05da7f236a0c8367c3cff3b4a0d297fe6a8dd7.1349356755.git.Martin.Jansa@gmail.com>
-	<1354622874-4038-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] scripts/sstate-diff.sh: add simple script to compare sstate checksums between MACHINEs
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TftFw-0000Sj-19
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 15:13:52 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 04 Dec 2012 05:59:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,215,1355126400"; d="scan'208";a="226378546"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 04 Dec 2012 05:59:27 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	schnitzeltony@googlemail.com
+Date: Tue,  4 Dec 2012 15:59:07 +0200
+Message-Id: <cover.1354626535.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/5] Postinstall improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,27 +28,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 13:17:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 14:13:52 -0000
 
-On Tue, 2012-12-04 at 13:07 +0100, Martin Jansa wrote:
-> * takes tmpdir, machines and targets from command arguments or env variables
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  scripts/sstate-diff.sh | 107 +++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 107 insertions(+)
->  create mode 100755 scripts/sstate-diff.sh
-> 
-> diff --git a/scripts/sstate-diff.sh b/scripts/sstate-diff.sh
+Hi,
 
-Can we call this something a little more intuitive like
-sstate-diff-machines ?
+This is the former RFC that was on the mailing list a couple of months ago.
+Hopefully, this time the patches will make it in since last time the release
+was to close to have these changes in.
 
-Cheers,
+So, the main improvement this patchset brings is running the icon cache
+generation on host, at rootfs time, after all packages have been installed. This
+will cut off a lot from the target's first boot time. Also, postinstalls for
+gconf and gdk-pixbuf were also changed to run on host at rootfs time.
 
-Richard
+With these changes, just a handful of packages will need to run the postinstalls
+on target (did the tests with core-image-sato). I prefer to approach the
+remaining packages one by one.
+
+My preliminary tests show no issues but, since there are lots of setups out there,
+testing is always welcomed. Andreas, I know you have such a setup, could you take
+these patches for a spin if you find some time?
+
+Thanks,
+Laurentiu
+
+The following changes since commit da6c266b1184eed8b1bc851f24a9ee17ab56d562:
+
+  xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions (2012-12-03 16:38:35 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/postinst
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/postinst
+
+Laurentiu Palcu (5):
+  image.bbclass: run postinst scripts once, at rootfs time
+  rootfs generation: export two new variables to postinst scriptlets
+  gtk-icon-cache: run the icon generation at rootfs time
+  gdk-pixbuf: generate the pixbuf loader's cache ar rootfs time
+  gconf.bbclass: run postinstalls at rootfs time
+
+ meta/classes/gconf.bbclass                         |   11 +++++++----
+ meta/classes/gtk-icon-cache.bbclass                |   18 ++++++++++++++----
+ meta/classes/image.bbclass                         |   20 +++++++++++++++++---
+ meta/classes/package_rpm.bbclass                   |    2 ++
+ meta/classes/rootfs_deb.bbclass                    |    2 ++
+ meta/classes/rootfs_ipk.bbclass                    |    2 ++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |   17 +++++++++++++++--
+ 7 files changed, 59 insertions(+), 13 deletions(-)
+
+-- 
+1.7.9.5
 
 
 
