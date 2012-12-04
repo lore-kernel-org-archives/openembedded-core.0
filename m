@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tfosr-0007zW-HP
+	(envelope-from <constantinx.musca@intel.com>) id 1Tfoss-0007zw-P7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 10:33:45 +0100
+	Tue, 04 Dec 2012 10:33:48 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2012 01:18:18 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2012 01:18:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,214,1355126400"; d="scan'208";a="228661823"
+X-IronPort-AV: E=Sophos;i="4.84,214,1355126400"; d="scan'208";a="228661848"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2012 01:18:17 -0800
+	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2012 01:18:21 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 11:19:01 +0200
-Message-Id: <18a5edebab7521f121c9542ad12c1c1369befbde.1354611254.git.constantinx.musca@intel.com>
+Date: Tue,  4 Dec 2012 11:19:03 +0200
+Message-Id: <be5d06a9ed199aad63e2749dda3c44e3c5f4ba9d.1354611254.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1354611254.git.constantinx.musca@intel.com>
 References: <cover.1354611254.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1354611254.git.constantinx.musca@intel.com>
 References: <cover.1354611254.git.constantinx.musca@intel.com>
-Subject: [PATCH 1/5] ethtool: upgrade to 3.6
+Subject: [PATCH 3/5] libxslt: upgrade to 1.1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 09:33:45 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 09:33:48 -0000
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-extended/ethtool/{ethtool_3.5.bb => ethtool_3.6.bb} | 4 ++--
+ meta/recipes-support/libxslt/{libxslt_1.1.27.bb => libxslt_1.1.28.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_3.5.bb => ethtool_3.6.bb} (79%)
+ rename meta/recipes-support/libxslt/{libxslt_1.1.27.bb => libxslt_1.1.28.bb} (87%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool_3.5.bb b/meta/recipes-extended/ethtool/ethtool_3.6.bb
-similarity index 79%
-rename from meta/recipes-extended/ethtool/ethtool_3.5.bb
-rename to meta/recipes-extended/ethtool/ethtool_3.6.bb
-index b9caab6..576fca5 100644
---- a/meta/recipes-extended/ethtool/ethtool_3.5.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_3.6.bb
-@@ -9,7 +9,7 @@ PR = "r0"
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.27.bb b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+similarity index 87%
+rename from meta/recipes-support/libxslt/libxslt_1.1.27.bb
+rename to meta/recipes-support/libxslt/libxslt_1.1.28.bb
+index 925c860..3f89e78 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.27.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+@@ -12,8 +12,8 @@ PR = "r0"
+ SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch"
  
- SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz"
+-SRC_URI[md5sum] = "4d01ff464b9ea7236925a1adf147c7f8"
+-SRC_URI[sha256sum] = "b6a8d9a421f2630999ca91d9f8c091ee8ea2d580e6be84c1d21b2a45e11e7e26"
++SRC_URI[md5sum] = "9667bf6f9310b957254fdcf6596600b7"
++SRC_URI[sha256sum] = "5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"
+ S = "${WORKDIR}/libxslt-${PV}"
  
--SRC_URI[md5sum] = "f2dd81ecc515f25372503501f9b7ea1b"
--SRC_URI[sha256sum] = "e87e232ba927aecca5be565e7bea20c533ade97758b17e65b8941df35b3c6f59"
-+SRC_URI[md5sum] = "1f4fb25590d26cb622bf3bf03413cfac"
-+SRC_URI[sha256sum] = "a0305779bc35893cf4683a9cbc47bbd1d726a142ce2b34384ae3d87fa8e44891"
- 
- inherit autotools
+ inherit autotools pkgconfig binconfig lib_package
 -- 
 1.7.11.7
 
