@@ -1,39 +1,21 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tg1Sc-0000mY-KC
+	(envelope-from <sgw@linux.intel.com>) id 1Tg26L-0001c7-IA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 23:59:30 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 921DCD22C1; Tue,  4 Dec 2012 23:45:21 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 69FF2D22B4;
-	Tue,  4 Dec 2012 23:44:50 +0100 (CET)
-Message-ID: <50BE7CD3.7090706@linaro.org>
-Date: Tue, 04 Dec 2012 23:44:35 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1354116375.git.raj.khem@gmail.com>
-	<50B6301B.3010106@linaro.org>
-	<CAMKF1sr3h8gHmhPbjXa-VfoSfsNsmmWANyNi_Eshp+xcwv5oCw@mail.gmail.com>
-	<50BDC045.1030804@linaro.org>
-	<CAMKF1sr2xvJDTP4+r+5F_GpE0E=peREQ2OKacfuWDTgpMAn-2A@mail.gmail.com>
-In-Reply-To: <CAMKF1sr2xvJDTP4+r+5F_GpE0E=peREQ2OKacfuWDTgpMAn-2A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Upgrade binutils to 2.23.1
+	Wed, 05 Dec 2012 00:40:34 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 04 Dec 2012 15:26:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,217,1355126400"; d="scan'208";a="176214779"
+Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
+	([10.255.13.117])
+	by AZSMGA002.ch.intel.com with ESMTP; 04 Dec 2012 15:26:08 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2012 15:25:59 -0800
+Message-Id: <1354663559-19870-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH] sstate: fetch .siginfo files from SSTATE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,18 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 22:59:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 23:40:34 -0000
 
-W dniu 04.12.2012 20:48, Khem Raj pisze:
-> can you point out ?
-> is it branch issue or some patch that I dropped
+This would be useful for doing siginfo compares to understand why a build
+is not reusing something when using SSTATE_MIRROR. No error will be reported
+if it fails to find the .siginfo file
 
-There were some updates in binutils trunk from ARM people and we need
-those to get gdb trunk running as well. Maybe in January I will have
-more time to take a look at it and merge them in 2.23.1 recipe.
+[YOCTO #2898]
 
-So nothing related to your updates.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/sstate.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 832b39e..6b4b5a1 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -212,10 +212,14 @@ def sstate_installpkg(ss, d):
+ 
+     sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['name'])
+     sstatefetch = d.getVar('SSTATE_PKGNAME', True) + '_' + ss['name'] + ".tgz"
++    siginfofetch = d.getVar('SSTATE_PKGNAME', True) + '_' + ss['name'] + ".tgz.siginfo"
+     sstatepkg = d.getVar('SSTATE_PKG', True) + '_' + ss['name'] + ".tgz"
++    siginfopkg = d.getVar('SSTATE_PKG', True) + '_' + ss['name'] + ".tgz.siginfo"
+ 
+     if not os.path.exists(sstatepkg):
+         pstaging_fetch(sstatefetch, sstatepkg, d)
++    if not os.path.exists(siginfopkg):
++        pstaging_fetch(siginfofetch, siginfopkg, d)
+ 
+     if not os.path.isfile(sstatepkg):
+         bb.note("Staging package %s does not exist" % sstatepkg)
+-- 
+1.8.0
+
 
 
