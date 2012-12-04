@@ -1,32 +1,39 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1TfrXz-0005Rw-77
+	(envelope-from <ross.burton@intel.com>) id 1Tfrck-0005gg-8Q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 13:24:23 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so5877618ieb.6
+	Tue, 04 Dec 2012 13:29:21 +0100
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 04 Dec 2012 04:14:54 -0800
+Received: by mail-oa0-f69.google.com with SMTP id j6so17925438oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 04:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Fv8qbUDBPgUJq9+6a2NmfoAtvs7mowKXUY+PA9djR/g=;
-	b=Mc9uFZcieI+klf3KKi8cSigWzidVpgZPa7EaogjZziUx+GluJSXUyv/YYg/gQkAbT0
-	xcrwj85qhZWw8LPfGXeXhjS75RYA53FOZ6xWrzS8q/jCYhD9YavNleJeSI9fHqLBteZ6
-	Pqg3uQ/Wfo295iQah5BDLz37iSSOFLozUC4F0t5bIxgrdZ98zURz990bp8Meg8WMBgu8
-	huraVucjR3iLzZK9DcGiwOmZiis+zEG8hvZhGQYUNB4Mz5ZbqUMeMyMEmfJH02IKUUCX
-	RuSJKZEBpeg9Ah9C1SiJGvnLYqAwDv6l4tnF/L7jYK2Wd4Dr1eaKfIE5Z9EFo7WmZ6/s
-	xuwQ==
+	Tue, 04 Dec 2012 04:14:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=hJkhBzhnOf5kkHPA93LyZkf5UTLfhpX81mRd60hsu2I=;
+	b=kGMh9bKtDOKqna9HeZsiAfHcJ2JJFLr3M0+g8wWjIjxpqk/p/RPbApp3Es1NxX9Ok+
+	ML9hnBVPKTvXDOHzhk9faO5DkxeII1SNCXKkA40bx1YTqsDgvpFH94Ir0+/Q0l3AK3JH
+	cGCBHIWBq2tD6dnlhiITuhncQKLb9nykafFwQ5uF54B2urq+uQhtZ4jq1iV/Kp8BO8O+
+	kSMRtpwn5tCazxAIXJ/WjDOV9x64nMvRfL23kZoB/lID5CLw/zEcO4xUsR/MaDrcf3Dc
+	WTiq0ukyuY+4IPg0nN0zvEUGHXGm/FOI1V2X5b7IFG6+QHnE/ps2/ox6f7wj6VA867t0
+	Fvmg==
+Received: by 10.60.170.10 with SMTP id ai10mr11517573oec.72.1354623293494;
+	Tue, 04 Dec 2012 04:14:53 -0800 (PST)
+Received: by 10.60.170.10 with SMTP id ai10mr11517568oec.72.1354623293417;
+	Tue, 04 Dec 2012 04:14:53 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.216.201 with SMTP id os9mr2413429igc.5.1354623000257; Tue,
-	04 Dec 2012 04:10:00 -0800 (PST)
-Received: by 10.64.24.179 with HTTP; Tue, 4 Dec 2012 04:10:00 -0800 (PST)
-In-Reply-To: <CAJTo0LahtxpX1G5BKkYxCaN7hyJkkS9riXF0btP8XMWFJzzxfQ@mail.gmail.com>
+Received: by 10.76.132.198 with HTTP; Tue, 4 Dec 2012 04:14:33 -0800 (PST)
+In-Reply-To: <CAGiJk9dStPRuWzJVMQhVziNt+EW4ShNm3CkqCJBaTuYgrbSaog@mail.gmail.com>
 References: <CAGiJk9c_5nDZbTwTo1DvHXMEtOXgO=4-YvbsDoD-ZXqY=cTi8g@mail.gmail.com>
 	<CAJTo0LahtxpX1G5BKkYxCaN7hyJkkS9riXF0btP8XMWFJzzxfQ@mail.gmail.com>
-Date: Tue, 4 Dec 2012 13:10:00 +0100
-Message-ID: <CAGiJk9dStPRuWzJVMQhVziNt+EW4ShNm3CkqCJBaTuYgrbSaog@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAGiJk9dStPRuWzJVMQhVziNt+EW4ShNm3CkqCJBaTuYgrbSaog@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 4 Dec 2012 12:14:33 +0000
+Message-ID: <CAJTo0LZKGRT=hn0uT9hM34EYpg-MwDFWaQuxOWmohwJVvT+s9Q@mail.gmail.com>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+X-Gm-Message-State: ALoCoQlOVIE2kmRKKCBj8m0eLIE6ipbt2Rviw8DVzOnQWoo+r7nbXKxBVENAWy8oNfeOxq4Z0wEcoU6SQaopQPjrtOpAgUu59IsQFdRK9yP9trBJMPzaLNuRO3Mv81TjBqQ/p3EU32SHk2VfMEOw4E4HuqyxqnFDm9H64VIQdii6KneeaAy8z2Hlqrb1nHbRLHLFWaohzYgd
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: EGL / GLES issues (mesa)
@@ -42,64 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 12:24:23 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 12:29:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
-2012/12/4 Burton, Ross <ross.burton@intel.com>
->
-> On 4 December 2012 09:09, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
-> > So with my last update the behaviour changed and applications using EGL now
-> > link against mesa instead of libgles-omap3, but deployed in my rootfs is
-> > libgles-omap3.
-> >
-> > This results in all Qt applications being broken (as I test EGL enabled Qt),
-> > the resulting error message:  "application-name: error while loading shared
-> > libraries: /usr/lib/libEGL.so: file too short"
->
-> Why is mesa being built at all?
+On 4 December 2012 12:10, Samuel Stirtzel <s.stirtzel@googlemail.com> wrote:
+> root@overo:~# ls -l /usr/lib/libEGL.so*
+> lrwxrwxrwx    1 root     root            21 Dec  4  2012
+> /usr/lib/libEGL.so -> libEGL.so.1.6.16.4117
+> lrwxrwxrwx    1 root     root            21 Dec  4  2012
+> /usr/lib/libEGL.so.1 -> libEGL.so.1.6.16.4117
+> lrwxrwxrwx    1 root     root            21 Dec  4  2012
+> /usr/lib/libEGL.so.1.6 -> libEGL.so.1.6.16.4117
+> -rwxr-xr-x    1 root     avahi-au         0 Dec  3  2012
+> /usr/lib/libEGL.so.1.6.16.4117
 
-To be honest I don't get it either.
+Have you tried recreating an image?  The different group ownership and
+timestamp is odd.  Who does opkg think provided each of those files,
+not just the versioned .so.?
 
-"bitbake -g -u depexp ..." shows only mesa-dri as reverse depends.
-
-"opkg whatdepends" shows nothing on the target and it is not installed.
-
->
-> "file too short" is a very interesting error message that implies the
-> files in your rootfs are corrupted. Can you verify where
-> /usr/lib/libEGL.so* come from and provide ls -l of them?
->
-> Ross
-
-root@overo:~# ls -l /usr/lib/libEGL.so*
-lrwxrwxrwx    1 root     root            21 Dec  4  2012
-/usr/lib/libEGL.so -> libEGL.so.1.6.16.4117
-lrwxrwxrwx    1 root     root            21 Dec  4  2012
-/usr/lib/libEGL.so.1 -> libEGL.so.1.6.16.4117
-lrwxrwxrwx    1 root     root            21 Dec  4  2012
-/usr/lib/libEGL.so.1.6 -> libEGL.so.1.6.16.4117
--rwxr-xr-x    1 root     avahi-au         0 Dec  3  2012
-/usr/lib/libEGL.so.1.6.16.4117
-
-In the work/image dir this looks like the following:
--rwxr-xr-x 1 samuel samuel 16079 Okt 11  2011 libEGL.so.1.6.16.4117
-
-On the build sysroot there is libEGL.so.1.0 and libEGL.so.1.6.16.4117,
-both with size > 0
-In the .tar.bz2 packed rootfs the file has also a size > 0
-
-
-root@overo:~# opkg search /usr/lib/libEGL.so.1.6.16.4117
-libgles-omap3 - 4.05.00.03-r35
-
-
-
-Seems pretty corrupted, but how could this happen related to the latest changes?
-
-
-
---
-Regards
-Samuel
+Ross
 
 
