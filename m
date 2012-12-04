@@ -1,28 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TfqI7-0002tB-Qg for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 12:03:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4AnWUX006032;
-	Tue, 4 Dec 2012 10:49:32 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04999-04; Tue,  4 Dec 2012 10:49:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4AnQtn006026
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 4 Dec 2012 10:49:26 GMT
-Message-ID: <1354618155.25268.46.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1TfqLj-0002y1-3Q
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 12:07:39 +0100
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1Tfq7q-0007HF-PV; Tue, 04 Dec 2012 11:53:18 +0100
+From: Phil Blundell <philb@gnu.org>
 To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Date: Tue, 04 Dec 2012 10:49:15 +0000
+Date: Tue, 04 Dec 2012 10:53:17 +0000
 In-Reply-To: <50BDC8E4.1010303@linaro.org>
 References: <50B744CC.4050906@linaro.org> <50BDC8E4.1010303@linaro.org>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1354618398.23886.217.camel@phil-desktop>
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Patching eglibc for AArch64
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 11:03:56 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 11:07:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -57,17 +50,11 @@ On Tue, 2012-12-04 at 10:56 +0100, Marcin Juszkiewicz wrote:
 > 
 > ping?
 
-The main thing worrying me about these now is the size of the patches.
-I'd prefer not to add them into the main repository since they then
-become part of history and increase the repo size. I'd really therefore
-like to host the patches somewhere and then point SRC_URI at them.
+Rather than importing a huge patch, can we not just provide a recipe for
+eglibc trunk?  Or wait for a 2.17 release and roll it in then.
 
-Is that something linaro can do or should we find somewhere on the
-yoctoproject.org infrastructure?
+p.
 
-Cheers,
-
-Richard
 
 
 
