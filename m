@@ -1,33 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tfzcb-0005qd-AQ for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 22:01:41 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4KlHmX011060;
-	Tue, 4 Dec 2012 20:47:17 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09167-10; Tue,  4 Dec 2012 20:47:13 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4Kl7Gr011054
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 4 Dec 2012 20:47:09 GMT
-Message-ID: <1354654017.25268.65.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 04 Dec 2012 20:46:57 +0000
-In-Reply-To: <50BE342E.1070401@windriver.com>
-References: <cover.1354641032.git.mark.hatle@windriver.com>
-	<13c1d96727b678dc95430f1144b3017c9e62948f.1354641032.git.mark.hatle@windriver.com>
-	<20121204170432.GH14870@jama.jama.net> <50BE342E.1070401@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 03/22] update-alternatives.bbclass: Add missing runtime dependency
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1Tfzoe-000655-Ty
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 22:14:09 +0100
+Received: from mail-lb0-f197.google.com ([209.85.217.197])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Dec 2012 12:59:43 -0800
+Received: by mail-lb0-f197.google.com with SMTP id go10so3569814lbb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Dec 2012 12:59:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=DQCyNNoeH0JFl/ppwgMjIgxwnRkYVr2RFlkBgiNWzRQ=;
+	b=YmTqCvXMoFIc5NCfeV3loEUxAimJSnJkTQE1SZdET8mEZR+3mgTDC+QN20GofWInfi
+	TugdglBsOHxBkBdSiIjDJxtgRTddy15zxhPt5kVQcjwQRcPtkzaYFU2DOW37bkALE3sD
+	Xn0Z8kgQ100+B3hrYSWG6Gg9APrl4JtWq1mSmVrKY7k98/ssjvh9neV1R5tMC7QUyBat
+	gxkZVsfZClED7lPpbcQV6Ep6ZugaF4FZJa+IgWcZdRLn1mUYTMfGE1RcWqqvDkuj/P3D
+	bObKuV0fsAALnByTRxANxrEV+oJYe6HGiZpdL8ucnQEusZ+GV6jH7pfoFq89SOODfs91
+	dWIA==
+Received: by 10.180.102.40 with SMTP id fl8mr6711917wib.22.1354654778894;
+	Tue, 04 Dec 2012 12:59:38 -0800 (PST)
+Received: by 10.180.102.40 with SMTP id fl8mr6711907wib.22.1354654778708;
+	Tue, 04 Dec 2012 12:59:38 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id fv2sm16544949wib.4.2012.12.04.12.59.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 04 Dec 2012 12:59:37 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2012 20:58:03 +0000
+Message-Id: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQllb/qbl6+YaHOA+f05gepAgWW+aLGkNClOj+ed1TbD/bDtRk+u7eF/GheVkqmSnP/2DmD8CW5ztQmcA/CKm+GGLhvhXh7mJE6kvh9WnR4hhTvBZrpMkKDK8FXyG/AmRlaT469Rdu2FUprnStD5DAnWMXugBLlkocoTEmaGNa5msWqIbwgTlQZuISA2+bpCXgkb5fI6
+Subject: [PATCH] gst-meta-base: pull in X11 plugins when using X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,80 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 21:01:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 21:14:09 -0000
 
-On Tue, 2012-12-04 at 11:34 -0600, Mark Hatle wrote:
-> On 12/4/12 11:04 AM, Martin Jansa wrote:
-> > On Tue, Dec 04, 2012 at 11:14:35AM -0600, Mark Hatle wrote:
-> >> When using update-alternatives, there should be a runtime dependency on
-> >> update-alternatives.  Without this, it's possible to get into a situation
-> >> where the package is not installable.
-> >>
-> >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> >> ---
-> >>   meta/classes/update-alternatives.bbclass |    6 ++++++
-> >>   1 files changed, 6 insertions(+), 0 deletions(-)
-> >>
-> >> diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-> >> index 4e1ff27..e432506 100644
-> >> --- a/meta/classes/update-alternatives.bbclass
-> >> +++ b/meta/classes/update-alternatives.bbclass
-> >> @@ -304,6 +304,12 @@ python populate_packages_prepend () {
-> >>               alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
-> >>
-> >>           if alt_setup_links:
-> >> +            # RDEPENDS setup
-> >> +            bb.note('adding runtime requirement for update-alternatives for %s' % pkg)
-> >> +            rdepends = d.getVar('RDEPENDS_%s' % pkg, True) or ""
-> >> +            rdepends += ' ' + d.getVar('MLPREFIX') + 'update-alternatives'
-> >> +            d.setVar("RDEPENDS_%s" % pkg, rdepends)
-> >> +
-> >
-> > I guess you should use VIRTUAL-RUNTIME_update-alternatives here
-> 
-> I believe what I have here is correct.
+The splitting out of X11 plugins wasn't complete, which lead to no X11 plugins
+being installed.
 
-No, Martin is right.
+If the X11 distro feature is present, make gst-meta-base depend on
+gst-meta-x11-base.  Also make -x11-base RDEPEND on xvimagesink for video
+playback performance.
 
->   We don't care which update-alternatives 
-> we use, just that one is used.
-> 
-> recipes-devtools/dpkg/dpkg.inc:RPROVIDES_update-alternatives-dpkg += 
-> "update-alternatives"
-> recipes-devtools/opkg/opkg.inc:RPROVIDES_update-alternatives-cworth += 
-> "update-alternatives"
-> 
-> If I use the ${VIRTUAL-RUNTIME_update-alternatives} that has the effect or hard 
-> coding which specific version of update-alternatives we're going to use.. (-dpg 
-> vs -cworth)  I'm not sure this is really the desired behavior in this case -- if 
-> it is, it's easy enough to change of course.
+[ YOCTO #3458 ]
 
-I keep telling people this and people keep ignoring me.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-We DO NOT SUPPORT switching providers at runtime since its a package
-manager specific problem for which we currently have no general
-abstraction.
-
-This leads to patches like:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=fe21ace36e19e06cbfdb83f73e60623bd4e382af
-
-since the virtual/ space does not somehow magically work at runtime,
-worse it breaks the deb package backend.
-
-PREFERRED_PROVIDER is a build time thing. virtual/ is a build time
-thing. How do I explain this any clearer?
-
-The only mechanism for distro selection of runtime is VIRTUAL-RUNTIME_
-which is pretty horrible and likely would be better done with something
-debian package renaming like since we already have that mangling code.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+index 2fb39d5..21243c6 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ 
+-PR = "r11"
++PR = "r12"
+ 
+ PACKAGES = "\
+     gst-meta-base \
+@@ -17,6 +17,7 @@ PACKAGES = "\
+ ALLOW_EMPTY = "1"
+ 
+ RDEPENDS_gst-meta-base = "\
++    ${@base_contains('DISTRO_FEATURES', 'x11', 'gst-meta-x11-base', '', d)} \
+     gstreamer \
+     gst-plugins-base-playbin \
+     gst-plugins-base-decodebin \
+@@ -32,7 +33,9 @@ RDEPENDS_gst-meta-base = "\
+     gst-plugins-good-autodetect \
+     gst-plugins-good-souphttpsrc"
+ 
+-RDEPENDS_gst-meta-x11-base = "${@base_contains('DISTRO_FEATURES', 'x11', 'gst-plugins-base-ximagesink', '', d)}"
++RDEPENDS_gst-meta-x11-base = "\
++    gst-plugins-base-ximagesink \
++    gst-plugins-base-xvimagesink"
+ 
+ RDEPENDS_gst-meta-audio = "\
+     gst-meta-base \
+-- 
+1.7.10
 
 
 
