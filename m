@@ -1,34 +1,26 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tfuby-0006Yt-Uz
+	(envelope-from <sgw@linux.intel.com>) id 1Tfuv0-00078V-FZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 16:40:43 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so1613240eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 07:26:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=xA3gJB2iT8HIZd02oCDz2xRDQ1F8hGwzEKYjl0VjA40=;
-	b=mAbNn6O6GIDcSFMouR4On0DUt4ImegwuOYUXj0F+tM7pIzRnlIUpaQry98O3MYozRu
-	WdlxAoJOGwgM26a3cknvc7caRe7VDjchu+mKdaEO7sjtmpK96pwFgjbUk/xq8d56FxtQ
-	8/tWJe03utZn69PqFoOdOX+mcI2bHtaqj1gI5SeIsaFWa5/LPwAnTLyXi4tEbzgTAquH
-	WSuV+g/84VbO/u5iQkCvHi8PD2eX7KSU1cWfnIaMgxe+avq96i67Z57lttBLDA7HHcdJ
-	KbU3q8AVQ1TNLjVS+HXNuX1gyono7KzJXaQ0jAaJvWd+e2dYfMuwsAGjgjsTbm5/d01T
-	4nxQ==
-Received: by 10.14.215.197 with SMTP id e45mr49876631eep.0.1354634779738;
-	Tue, 04 Dec 2012 07:26:19 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id y44sm3130679eel.14.2012.12.04.07.26.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Dec 2012 07:26:19 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 16:26:13 +0100
-Message-Id: <1354634773-7765-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1354626180.25268.47.camel@ted>
-References: <1354626180.25268.47.camel@ted>
-Subject: [PATCHv4] scripts/sstate-diff-machines.sh: add simple script to compare sstate checksums between MACHINEs
+	Tue, 04 Dec 2012 17:00:22 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Dec 2012 07:45:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,215,1355126400"; d="scan'208";a="258853586"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.44])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2012 07:45:57 -0800
+Message-ID: <50BE1AB5.1020701@linux.intel.com>
+Date: Tue, 04 Dec 2012 07:45:57 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1354584580.git.Martin.Jansa@gmail.com>
+	<a2b1d1a87fa1a13ce1433972ef65b23a001eb7d3.1354584580.git.Martin.Jansa@gmail.com>
+In-Reply-To: <a2b1d1a87fa1a13ce1433972ef65b23a001eb7d3.1354584580.git.Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] at: drop initscript dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,131 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 15:40:43 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 16:00:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* takes tmpdir, machines and targets from command arguments or env variables
+On 12/03/2012 05:31 PM, Martin Jansa wrote:
+> * doesn't look like build dependency
+> * and for runtime dependency if needed we should use VIRTUAL-RUNTIME_initscripts
+>
+Agreed on the VIRTUAL-RUNTIME, which I think is needed for the 
+populate-volatiles script for the /var and /run directories.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/sstate-diff-machines.sh | 107 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 107 insertions(+)
- create mode 100755 scripts/sstate-diff-machines.sh
+Sau!
 
-diff --git a/scripts/sstate-diff-machines.sh b/scripts/sstate-diff-machines.sh
-new file mode 100755
-index 0000000..f2c151a
---- /dev/null
-+++ b/scripts/sstate-diff-machines.sh
-@@ -0,0 +1,107 @@
-+#!/bin/sh
-+
-+# Used to compare sstate checksums between MACHINES
-+# Execute script and compare generated list.M files
-+
-+# It's also usefull to keep older sstate checksums
-+# to be able to find out why something is rebuilding 
-+# after updating metadata
-+
-+# $ diff \
-+#     sstate-diff/1349348392/fake-cortexa8/list.M \
-+#     sstate-diff/1349348392/fake-cortexa9/list.M \
-+#     | wc -l
-+# 538
-+
-+# Then to compare sigdata use something like:
-+# $ ls sstate-diff/1349348392/*/armv7a-vfp-neon*/linux-libc-headers/*do_configure*sigdata*
-+#   sstate-diff/1349348392/fake-cortexa8/armv7a-vfp-neon-oe-linux-gnueabi/linux-libc-headers/3.4.3-r0.do_configure.sigdata.cb73b3630a7b8191e72fc469c5137025
-+#   sstate-diff/1349348392/fake-cortexa9/armv7a-vfp-neon-oe-linux-gnueabi/linux-libc-headers/3.4.3-r0.do_configure.sigdata.f37ada177bf99ce8af85914df22b5a0b
-+# $ bitbake-diffsigs stamps.1349348392/*/armv7a-vfp-neon*/linux-libc-headers/*do_configure*sigdata*
-+#   basehash changed from 8d0bd67bb1da6f68717760fc3ef43171 to e869fa61426e88e9c30726ba88a1216a
-+#   Variable TUNE_CCARGS value changed from  -march=armv7-a     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 to  -march=armv7-a     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a9
-+
-+# Global vars
-+tmpdir=
-+machines=
-+targets=
-+default_machines="qemuarm qemux86 qemux86-64"
-+default_targets="core-image-base"
-+
-+usage () {
-+  cat << EOF
-+Welcome to utility to compare sstate checksums between different MACHINEs.
-+$0 <OPTION>
-+
-+Options:
-+  -h, --help
-+        Display this help and exit.
-+
-+  --tmpdir=<tmpdir>
-+        Specify tmpdir, will use the environment variable TMPDIR if it is not specified.
-+        Something like /OE/oe-core/tmp-eglibc (no / at the end).
-+  
-+  --machines=<machines>
-+        List of MACHINEs separated by space, will use the environment variable MACHINES if it is not specified.
-+        Default value is "qemuarm qemux86 qemux86-64".
-+  
-+  --targets=<targets>
-+        List of targets separated by space, will use the environment variable TARGETS if it is not specified.
-+        Default value is "core-image-base".
-+EOF
-+}
-+
-+# Print error information and exit.
-+echo_error () {
-+  echo "ERROR: $1" >&2
-+  exit 1
-+}
-+
-+while [ -n "$1" ]; do
-+  case $1 in
-+    --tmpdir=*)
-+      tmpdir=`echo $1 | sed -e 's#^--tmpdir=##' | xargs readlink -e`
-+      [ -d "$tmpdir" ] || echo_error "Invalid argument to --tmpdir"
-+      shift
-+        ;;
-+    --machines=*)
-+      machines=`echo $1 | sed -e 's#^--machines="*\([^"]*\)"*#\1#'`
-+      shift
-+        ;;
-+    --targets=*)
-+      targets=`echo $1 | sed -e 's#^--targets="*\([^"]*\)"*#\1#'`
-+      shift
-+        ;;
-+    --help|-h)
-+      usage
-+      exit 0
-+        ;;
-+    *)
-+      echo "Invalid arguments $*"
-+      echo_error "Try '$0 -h' for more information."
-+        ;;
-+  esac
-+done
-+
-+# tmpdir directory, use environment variable TMPDIR
-+# if it was not specified, otherwise, error.
-+[ -n "$tmpdir" ] || tmpdir=$TMPDIR
-+[ -n "$tmpdir" ] || echo_error "No tmpdir found!"
-+[ -d "$tmpdir" ] || echo_error "Invalid tmpdir \"$tmpdir\""
-+[ -n "$machines" ] || machines=$MACHINES
-+[ -n "$machines" ] || machines=$default_machines
-+[ -n "$targets" ] || targets=$TARGETS
-+[ -n "$targets" ] || targets=$default_targets
-+
-+OUTPUT=${tmpdir}/sstate-diff/`date "+%s"`
-+
-+for M in ${machines}; do
-+  find ${tmpdir}/stamps/ -name \*sigdata\* | xargs rm -f
-+  mkdir -p ${OUTPUT}/${M}
-+  export MACHINE=${M}; bitbake -S ${targets} | tee -a ${OUTPUT}/${M}/log;
-+  cp -ra ${tmpdir}/stamps/* ${OUTPUT}/${M}
-+  find ${OUTPUT}/${M} -name \*sigdata\* | sed "s#${OUTPUT}/${M}/##g" | sort > ${OUTPUT}/${M}/list
-+  M_UNDERSCORE=`echo ${M} | sed 's/-/_/g'`
-+  sed "s/${M_UNDERSCORE}/MACHINE/g; s/${M}/MACHINE/g" ${OUTPUT}/${M}/list | sort > ${OUTPUT}/${M}/list.M
-+  find ${tmpdir}/stamps/ -name \*sigdata\* | xargs rm -f
-+done
--- 
-1.8.0
-
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-extended/at/at_3.1.13.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/at/at_3.1.13.bb b/meta/recipes-extended/at/at_3.1.13.bb
+> index 3580e09..96cc34a 100644
+> --- a/meta/recipes-extended/at/at_3.1.13.bb
+> +++ b/meta/recipes-extended/at/at_3.1.13.bb
+> @@ -4,7 +4,7 @@ the system load levels drop to a particular level."
+>   SECTION = "base"
+>   LICENSE="GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+> -DEPENDS = "flex flex-native initscripts \
+> +DEPENDS = "flex flex-native \
+>   	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>   RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
+>   PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
+>
 
 
