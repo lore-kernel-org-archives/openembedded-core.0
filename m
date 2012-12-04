@@ -1,24 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tfosv-000802-9V
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tfotx-0008E4-8o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 10:33:49 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2012 01:18:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,214,1355126400"; d="scan'208";a="228661882"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2012 01:18:25 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 11:19:05 +0200
-Message-Id: <17449685449d3969ebb6d46afe78e5b69cdb446d.1354611254.git.constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1354611254.git.constantinx.musca@intel.com>
-References: <cover.1354611254.git.constantinx.musca@intel.com>
-In-Reply-To: <cover.1354611254.git.constantinx.musca@intel.com>
-References: <cover.1354611254.git.constantinx.musca@intel.com>
-Subject: [PATCH 5/5] puzzles: upgrade to r9712
+	Tue, 04 Dec 2012 10:34:58 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 3593CD22C0; Tue,  4 Dec 2012 10:20:45 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 97AF4D22B4;
+	Tue,  4 Dec 2012 10:20:21 +0100 (CET)
+Message-ID: <50BDC045.1030804@linaro.org>
+Date: Tue, 04 Dec 2012 10:20:05 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1354116375.git.raj.khem@gmail.com>
+	<50B6301B.3010106@linaro.org>
+	<CAMKF1sr3h8gHmhPbjXa-VfoSfsNsmmWANyNi_Eshp+xcwv5oCw@mail.gmail.com>
+In-Reply-To: <CAMKF1sr3h8gHmhPbjXa-VfoSfsNsmmWANyNi_Eshp+xcwv5oCw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Upgrade binutils to 2.23.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 09:33:49 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 09:34:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-License checksum change due to:
-< Schmidt and Steffen Bauer.
-> Schmidt, Steffen Bauer and Lennard Sprong.
+W dniu 28.11.2012 18:43, Khem Raj pisze:
+> On Wed, Nov 28, 2012 at 7:39 AM, Marcin Juszkiewicz
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-sato/puzzles/{puzzles_r9660.bb => puzzles_r9712.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/puzzles/{puzzles_r9660.bb => puzzles_r9712.bb} (96%)
+>     I did builds for AArch64 with 2.23 and they were working fine. Will do
+>     2.23.1 build as well.
+>
+> thanks. let me know of any fallouts.
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_r9660.bb b/meta/recipes-sato/puzzles/puzzles_r9712.bb
-similarity index 96%
-rename from meta/recipes-sato/puzzles/puzzles_r9660.bb
-rename to meta/recipes-sato/puzzles/puzzles_r9712.bb
-index 37536c6..5ab3161 100644
---- a/meta/recipes-sato/puzzles/puzzles_r9660.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_r9712.bb
-@@ -6,7 +6,7 @@ PR = "r0"
- MOD_PV = "${@d.getVar('PV',1)[1:]}"
- 
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=87478fe5bc9ea8f356c5479a5617324a"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=31790deb1e1aac4626e7d1bc04587eb0"
- 
- # Upstream updates puzzles.tar.gz for the new release, so checksums seem to be changing regularly right now
- SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV};protocol=svn"
--- 
-1.7.11.7
-
+Due to some updates I had to move to trunk again.
 
 
