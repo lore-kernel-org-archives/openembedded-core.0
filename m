@@ -1,30 +1,32 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1TfnHN-0004Il-OT
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 08:51:09 +0100
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1Tfn3V-0037C9-O4>; Tue, 04 Dec 2012 08:36:37 +0100
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1Tfn3U-00115B-Ez>; Tue, 04 Dec 2012 08:36:36 +0100
-Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
-	Exim 4.72) id 1Tfn3S-00056H-CA; Tue, 04 Dec 2012 08:36:34 +0100
-Date: Tue, 4 Dec 2012 08:36:34 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121204073634.GB18488@mi.fu-berlin.de>
-References: <20121112132247.3BB7D102EC@opal>
-	<20121203151331.GD3354@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20121203151331.GD3354@jama.jama.net>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Subject: Re: [oe-commits] Ross Burton : glib-2.0: upgrade to latest stable, 2.34.1.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TfoGm-0006GI-P5 for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 09:54:24 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB48e2Ks004852;
+	Tue, 4 Dec 2012 08:40:02 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01558-09; Tue,  4 Dec 2012 08:39:58 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB48dukk004842
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 4 Dec 2012 08:39:57 GMT
+Message-ID: <1354610385.25268.28.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ChenQi <Qi.Chen@windriver.com>
+Date: Tue, 04 Dec 2012 08:39:45 +0000
+In-Reply-To: <50BD667C.6040005@windriver.com>
+References: <cover.1354084523.git.Qi.Chen@windriver.com>
+	<22684c7fc852e5c43d241e760fe8e1af7095f9ff.1354084523.git.Qi.Chen@windriver.com>
+	<50BD667C.6040005@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] autotools.bbclass: use relative path for acpaths whenever possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,15 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 07:51:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 04 Dec 2012 08:54:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 2012-12-04 at 10:57 +0800, ChenQi wrote:
+> Hi Richard,
+> 
+> I saw that this series of patches have been merged except this one.
+> Is there any problem with this patch?
+> 
+> The thing is, if we don't fix autotool.bbclass like this, building 
+> coreutils will fail with a long TMPDIR (bug#2766). I tried to build 
+> coretuils with TMPDIR of 200 char length, it failed.
 
-I started to fix it for the tegra gst-openmax stuff. The fix is not that hard,
-but I am not finished yet.
+I know but I'm rather unhappy having the autotools code work two rather
+different ways depending on the number of configure scripts a project
+has, it all seems like a bit of a hack :(
 
-Bye Henning
+I don't like the fix but I haven't found time to propose any
+alternative...
+
+Cheers,
+
+Richard
+
 
 
