@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tg29h-0001gG-JQ
+	(envelope-from <sgw@linux.intel.com>) id 1Tg29l-0001gN-I8
 	for openembedded-core@lists.openembedded.org;
 	Wed, 05 Dec 2012 00:44:08 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2012 15:29:21 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Dec 2012 15:29:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,217,1355126400"; d="scan'208";a="229008980"
+X-IronPort-AV: E=Sophos;i="4.84,217,1355126400"; d="scan'208";a="229008986"
 Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
 	([10.255.13.117])
-	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2012 15:29:21 -0800
+	by orsmga001.jf.intel.com with ESMTP; 04 Dec 2012 15:29:22 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 15:29:15 -0800
-Message-Id: <1354663759-20022-7-git-send-email-sgw@linux.intel.com>
+Date: Tue,  4 Dec 2012 15:29:17 -0800
+Message-Id: <1354663759-20022-9-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <1354663759-20022-1-git-send-email-sgw@linux.intel.com>
 References: <1354663759-20022-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/3] wpa-supplicant: configured to work with libnl 3.2.14
+Subject: [PATCH 3/4] wpa-supplicant: configured to work with libnl 3.2.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
