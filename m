@@ -1,26 +1,21 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tg2CP-000275-OC
+	(envelope-from <sgw@linux.intel.com>) id 1Tg2DE-00029S-Cy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 00:46:58 +0100
+	Wed, 05 Dec 2012 00:47:41 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Dec 2012 15:31:39 -0800
+	by orsmga102.jf.intel.com with ESMTP; 04 Dec 2012 15:32:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,217,1355126400"; d="scan'208";a="252022242"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
-	by orsmga002.jf.intel.com with ESMTP; 04 Dec 2012 15:31:59 -0800
-Message-ID: <50BE87EF.9050502@linux.intel.com>
-Date: Tue, 04 Dec 2012 15:31:59 -0800
+X-IronPort-AV: E=Sophos;i="4.84,217,1355126400"; d="scan'208";a="252022630"
+Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
+	([10.255.13.117])
+	by orsmga002.jf.intel.com with ESMTP; 04 Dec 2012 15:33:14 -0800
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1354663759-20022-1-git-send-email-sgw@linux.intel.com>
-	<1354663759-20022-2-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1354663759-20022-2-git-send-email-sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] gst-meta-base: pull in X11 plugins when using X11
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Dec 2012 15:33:11 -0800
+Message-Id: <1354663994-20221-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH 0/3 v2] libnl update and friends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,69 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 23:47:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 23:47:41 -0000
 
-
-My bad, I send mulitple copies due to sheer stupidity today.  Sorry 
-about that.
-
-Ingore this whole thread, will resent a v2!
+Mihai sent these patches a couple weeks ago, and they got
+stuck someplace, so I am resending them here.
 
 Sau!
 
+v2: Just the patches please!
 
-On 12/04/2012 03:29 PM, Saul Wold wrote:
-> From: Ross Burton <ross.burton@intel.com>
->
-> The splitting out of X11 plugins wasn't complete, which lead to no X11 plugins
-> being installed.
->
-> If the X11 distro feature is present, make gst-meta-base depend on
-> gst-meta-x11-base.  Also make -x11-base RDEPEND on xvimagesink for video
-> playback performance.
->
-> [ YOCTO #3458 ]
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> index 2fb39d5..21243c6 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
->                       file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->
->
-> -PR = "r11"
-> +PR = "r12"
->
->   PACKAGES = "\
->       gst-meta-base \
-> @@ -17,6 +17,7 @@ PACKAGES = "\
->   ALLOW_EMPTY = "1"
->
->   RDEPENDS_gst-meta-base = "\
-> +    ${@base_contains('DISTRO_FEATURES', 'x11', 'gst-meta-x11-base', '', d)} \
->       gstreamer \
->       gst-plugins-base-playbin \
->       gst-plugins-base-decodebin \
-> @@ -32,7 +33,9 @@ RDEPENDS_gst-meta-base = "\
->       gst-plugins-good-autodetect \
->       gst-plugins-good-souphttpsrc"
->
-> -RDEPENDS_gst-meta-x11-base = "${@base_contains('DISTRO_FEATURES', 'x11', 'gst-plugins-base-ximagesink', '', d)}"
-> +RDEPENDS_gst-meta-x11-base = "\
-> +    gst-plugins-base-ximagesink \
-> +    gst-plugins-base-xvimagesink"
->
->   RDEPENDS_gst-meta-audio = "\
->       gst-meta-base \
->
+Mihai Prica (3):
+  libnl: upgrade to 3.2.14
+  wpa-supplicant: configured to work with libnl 3.2.14
+  libpcap: PR bump because of PU for libnl
+
+ meta/recipes-connectivity/libpcap/libpcap.inc      |  2 +-
+ .../wpa-supplicant/wpa-supplicant-1.0.inc          |  1 +
+ .../wpa-supplicant-1.0/defconfig-gnutls            |  2 +-
+ .../wpa-supplicant/wpa-supplicant_1.0.bb           |  2 +-
+ .../libnl/{libnl-2.0 => libnl}/fix-pc-file.patch   | 14 ++++----
+ .../fix-pktloc_syntax_h-race.patch                 | 27 ++++++++------
+ meta/recipes-support/libnl/libnl_2.0.bb            | 27 --------------
+ meta/recipes-support/libnl/libnl_3.2.14.bb         | 41 ++++++++++++++++++++++
+ 8 files changed, 69 insertions(+), 47 deletions(-)
+ rename meta/recipes-support/libnl/{libnl-2.0 => libnl}/fix-pc-file.patch (52%)
+ rename meta/recipes-support/libnl/{libnl-2.0 => libnl}/fix-pktloc_syntax_h-race.patch (57%)
+ delete mode 100644 meta/recipes-support/libnl/libnl_2.0.bb
+ create mode 100644 meta/recipes-support/libnl/libnl_3.2.14.bb
+
+-- 
+1.8.0
+
 
 
