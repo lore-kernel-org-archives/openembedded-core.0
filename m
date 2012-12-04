@@ -1,32 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TfhZw-0000ij-QH
+	(envelope-from <martin.jansa@gmail.com>) id 1Tfha3-0000l3-3u
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 02:45:44 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so1918643eek.6
+	Tue, 04 Dec 2012 02:45:55 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so1371814eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 17:31:23 -0800 (PST)
+	Mon, 03 Dec 2012 17:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer;
-	bh=dJj044hE3mR8ZQPPxffMtm1MB6mwgoFBWqD13dPZBOQ=;
-	b=w1SP2u8EfX/BFN9MK3IVKXAJozllNYl9C4u8yXldiZmXGTiVoSPtn0U/uEAtjGnmAk
-	342myx0M4QMcrZHbLy9S8PtxGdCkpa4rUuF6X7Upu+r4KwuksArkZKPpyCJkEwt/or+4
-	nHKv2e4wxcJNmMydgwyepCyW/RPJUKT5EDuFqHueV8euUKMYI5rgBWYwKS5+l2LV5gUX
-	8BtuTQfQsUpa86y8ireGMFr5yBmh3oaORm57NE5VGqDTod06MHxOu3IrBFJB5AXXt5g4
-	9wX2kZY84YVznAFUFYzueyQed8GnkglMODt9jEC6e6h/6FwDIVwZGXGydfa8YprC7Uny
-	T+Rw==
-Received: by 10.14.3.195 with SMTP id 43mr42436587eeh.36.1354584682937;
-	Mon, 03 Dec 2012 17:31:22 -0800 (PST)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=C2bAdaND0eE4P5ytCEF0EpiW9bLkyujFnzPzDmG125A=;
+	b=vZylRMCSacfpxa4/HMSK+ex5X1jKWt2Yx0hMk/apYW7YODnrrPTK0jf/rkeWgxNHJc
+	ANmdoxDwvdb3h55w6CYMORni1icCX1bsJ05U54RW5KnDkcoyWnEtqEAqmci3AKhzBzjF
+	9w3joBBapyk0oZ6EuokDc7Lld12T6paG9kutkYpm99Yly2Z2LZQQhinYqQFsjONYVD/I
+	F+3zadkpSsG7o/ZrelDWvKzuqNjFPA27KN0AMBb1V+HVr1/INOobuqV1TNyzoUDGXJdg
+	tyPhQCcL9lsc0V1BpCJ/VQ/UFF617y4eGkkCRymjNWaDQn0sXBusDqj+JRB7xmTYjiRO
+	gmNQ==
+Received: by 10.14.219.72 with SMTP id l48mr3966329eep.37.1354584689490;
+	Mon, 03 Dec 2012 17:31:29 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f49sm34681120eep.12.2012.12.03.17.31.21
+	by mx.google.com with ESMTPS id q44sm34688504eep.5.2012.12.03.17.31.28
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 03 Dec 2012 17:31:22 -0800 (PST)
+	Mon, 03 Dec 2012 17:31:29 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 02:31:09 +0100
-Message-Id: <cover.1354584580.git.Martin.Jansa@gmail.com>
+Date: Tue,  4 Dec 2012 02:31:10 +0100
+Message-Id: <a2b1d1a87fa1a13ce1433972ef65b23a001eb7d3.1354584580.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
-Subject: [PATCH 0/6] Small fixes from bitbake world
+In-Reply-To: <cover.1354584580.git.Martin.Jansa@gmail.com>
+References: <cover.1354584580.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1354584580.git.Martin.Jansa@gmail.com>
+References: <cover.1354584580.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 1/6] at: drop initscript dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 01:45:44 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 01:45:55 -0000
 
-The following changes since commit 24b954253dd1aa626835352c4dc8d085a19aae35:
+* doesn't look like build dependency
+* and for runtime dependency if needed we should use VIRTUAL-RUNTIME_initscripts
 
-  xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions (2012-12-03 16:38:28 +0000)
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/at/at_3.1.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib jansa/pull
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
-
-Enrico Scholz (1):
-  sstate.bbclass: fixed file-conflict check
-
-Martin Jansa (5):
-  at: drop initscript dependency
-  packagegroup-core-basic: use VIRTUAL-RUNTIME_initscripts and
-    VIRTUAL-RUNTIME_init_manager
-  distutils: remove empty datadir/share after it's content is moved to
-    datadir
-  util-linux: use u-a for eject
-  sstate.bbclass: fix detection of owners matching sstate files
-
- meta/classes/distutils.bbclass                                 | 1 +
- meta/classes/sstate.bbclass                                    | 5 ++---
- meta/recipes-core/util-linux/util-linux.inc                    | 3 ++-
- meta/recipes-core/util-linux/util-linux_2.22.1.bb              | 2 +-
- meta/recipes-extended/at/at_3.1.13.bb                          | 2 +-
- meta/recipes-extended/packagegroups/packagegroup-core-basic.bb | 8 +++++---
- 6 files changed, 12 insertions(+), 9 deletions(-)
-
+diff --git a/meta/recipes-extended/at/at_3.1.13.bb b/meta/recipes-extended/at/at_3.1.13.bb
+index 3580e09..96cc34a 100644
+--- a/meta/recipes-extended/at/at_3.1.13.bb
++++ b/meta/recipes-extended/at/at_3.1.13.bb
+@@ -4,7 +4,7 @@ the system load levels drop to a particular level."
+ SECTION = "base"
+ LICENSE="GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+-DEPENDS = "flex flex-native initscripts \
++DEPENDS = "flex flex-native \
+ 	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
 -- 
 1.8.0
 
