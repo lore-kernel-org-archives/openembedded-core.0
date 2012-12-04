@@ -1,37 +1,29 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1Tfj9Y-0000iN-79
+	(envelope-from <Ming.Liu@windriver.com>) id 1Tfjtm-0002Rj-Ci
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 04:26:36 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so2080026pad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Dec 2012 19:12:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:organization:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding
-	:content-type; bh=7oQ//vYwl+eADJiemO2qIW3bVCktwkZl+AHyU3fSplY=;
-	b=m/v+3FLQM1obby1LffvK3qgUwOIEIMJhe/MLVZqCYd9yegydzAqNaOqS9HMU/D6tOn
-	XScjDRuiriMnrAnDT9f8WPXODUglyUttuMXZpla7ffFhuUWLTDwazh6Y/JeiZE4G1GzN
-	OwmzvgqflDlM6+OkzHFQUppQnr1rmX1oHRW9yrYuG7ISlrtmHt25nC/J0iFn+HbnlCWu
-	rWHMDq5KD1qMQHd8YKUX36WXB7nfnoUIlnaSY0rj07OcdZkTbvzwWyMrtC2oX/wVW9QC
-	7TSg0nB6KCpE5PYrCxyYcskl3TRFeT7Pk0uVnO9vVmOMiJ5zuflQcZIp8BmpLbWj1ioj
-	RTRg==
-Received: by 10.68.253.226 with SMTP id ad2mr34774381pbd.38.1354590733438;
-	Mon, 03 Dec 2012 19:12:13 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([121.237.170.22])
-	by mx.google.com with ESMTPS id p10sm9090878pax.27.2012.12.03.19.12.10
-	(version=SSLv3 cipher=OTHER); Mon, 03 Dec 2012 19:12:12 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 04 Dec 2012 11:10:55 +0000
-Message-ID: <21849320.A8AIqssvdU@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.3 (Linux/3.6.8-1-ARCH; KDE/4.9.3; x86_64; ; )
-In-Reply-To: <1354550072.5970.14.camel@ted>
-References: <3752816.NQS16Yy7Ff@yiqingliang-pc> <1354550072.5970.14.camel@ted>
+	Tue, 04 Dec 2012 05:14:26 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qB43QGJu014982
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Dec 2012 19:26:16 -0800 (PST)
+Received: from [128.224.162.133] (128.224.162.133) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Mon, 3 Dec 2012 19:26:14 -0800
+Message-ID: <50BD6D53.5010406@windriver.com>
+Date: Tue, 4 Dec 2012 11:26:11 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1354270768-5265-1-git-send-email-ming.liu@windriver.com>
+	<50B907DC.7020303@linux.intel.com>
+In-Reply-To: <50B907DC.7020303@linux.intel.com>
+X-Originating-IP: [128.224.162.133]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: why remove yaffs2?
+Subject: Re: [PATCH] initscripts/urandom: change random-seed directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +36,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 03:26:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 04 Dec 2012 04:14:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-clear, thanks!!!
+On 12/01/2012 03:24 AM, Saul Wold wrote:
+> On 11/30/2012 02:19 AM, Ming Liu wrote:
+>> /etc/init.d/urandom fails to start/stop because it tries to save
+>> random-seed into /var/lib/urandom folder which does not exist in the
+>> file system.
+>>
+> Why not create it in the recipe's do_install?  Or possibly add it to 
+> volatiles file.
 
-On Monday, December 03, 2012 03:54:32 PM Richard Purdie wrote:
-> On Mon, 2012-12-03 at 14:03 +0000, niqingliang2003@gmail.com wrote:
-> > Hi, All:
-> > 
-> > I have untouched oe for several months, and recently found that yaffs is
-> > dropped, and also in official kernel, why?
-> 
-> We removed it from OE-Core 18 months ago. The code was old, not working
-> particularly well and lacking someone to maintain it so it got moved
-> out. I'm sure the tools would be accepted into meta-oe if someone
-> updated and cleaned up the recipe for it. For OE-Core you'd have to show
-> a larger user base than there currently appears to be...
-> 
-> Cheers,
-> 
-> Richard
+OK, It may be a more reasonable solution creating it in do_install, I 
+will send the V1 patch.
+>
+> Also talk with Qi Chen about the readonly FS stuff to make sure this 
+> will work.
+>
+
+OK, I will talk to Qi.
+
+> Sau!
+>
+>> Fixed by using /var/lib/misc instead of /var/lib/urandom.
+>>
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> ---
+>>   meta/recipes-core/initscripts/initscripts-1.0/urandom | 11 ++++++-----
+>>   1 file changed, 6 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/urandom 
+>> b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+>> index eb3a7c3..1cf7c5c 100755
+>> --- a/meta/recipes-core/initscripts/initscripts-1.0/urandom
+>> +++ b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+>> @@ -14,18 +14,19 @@
+>>   test -c /dev/urandom || exit 0
+>>   . /etc/default/rcS
+>>
+>> +SAVEDFILE=/var/lib/misc/random-seed
+>>   case "$1" in
+>>       start|"")
+>>           test "$VERBOSE" != no && echo "Initializing random number 
+>> generator..."
+>>           # Load and then save 512 bytes,
+>>           # which is the size of the entropy pool
+>> -        if test -f /var/lib/urandom/random-seed
+>> +        if test -f $SAVEDFILE
+>>           then
+>> -            cat /var/lib/urandom/random-seed >/dev/urandom
+>> +            cat $SAVEDFILE >/dev/urandom
+>>           fi
+>> -        rm -f /var/lib/urandom/random-seed
+>> +        rm -f $SAVEDFILE
+>>           umask 077
+>> -        dd if=/dev/urandom of=/var/lib/urandom/random-seed count=1 \
+>> +        dd if=/dev/urandom of=$SAVEDFILE count=1 \
+>>               >/dev/null 2>&1 || echo "urandom start: failed."
+>>           umask 022
+>>           ;;
+>> @@ -34,7 +35,7 @@ case "$1" in
+>>           # see documentation in linux/drivers/char/random.c
+>>           test "$VERBOSE" != no && echo "Saving random seed..."
+>>           umask 077
+>> -        dd if=/dev/urandom of=/var/lib/urandom/random-seed count=1 \
+>> +        dd if=/dev/urandom of=$SAVEDFILE count=1 \
+>>               >/dev/null 2>&1 || echo "urandom stop: failed."
+>>           ;;
+>>       *)
+>>
+>
+>
+
 
 
