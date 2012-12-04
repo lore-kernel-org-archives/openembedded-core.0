@@ -1,34 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tfuaj-0006Tv-HT
+	(envelope-from <martin.jansa@gmail.com>) id 1Tfuby-0006Yt-Uz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 16:39:27 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so2274285eek.6
+	Tue, 04 Dec 2012 16:40:43 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so1613240eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 07:25:03 -0800 (PST)
+	Tue, 04 Dec 2012 07:26:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
 	bh=xA3gJB2iT8HIZd02oCDz2xRDQ1F8hGwzEKYjl0VjA40=;
-	b=URuyonFiTl++x933NKagqe86+fFG4bE8qxWExQLVIIOxj6bj/7ZOqbeNqYNb0Lv6xP
-	zGLI9f5EUgoyGhierxLgRvBskzxcz6y0dnWbD7EPw+8knsmjqjUCrEUChu8Ku5iPZN7l
-	QIGRFrsWaV05eYSShqgbIpJdz22dWkHtvbI6WfbHFQ6XQTuKqgNPVScjBU+D3VfB+0x0
-	N0jhyG2UXyoDDPbMJFJXnMxhmwixjTk6PNUFPwbpfGwjDzypryMb6mAdK8n6ZW3w6iiT
-	Zsp19646wKTluprkbWUgGgelzxH78+rFLkXp63+AuynEV99sqybVydnSPzeq048i+39c
-	DVJA==
-Received: by 10.14.198.67 with SMTP id u43mr50048613een.7.1354634702908;
-	Tue, 04 Dec 2012 07:25:02 -0800 (PST)
+	b=mAbNn6O6GIDcSFMouR4On0DUt4ImegwuOYUXj0F+tM7pIzRnlIUpaQry98O3MYozRu
+	WdlxAoJOGwgM26a3cknvc7caRe7VDjchu+mKdaEO7sjtmpK96pwFgjbUk/xq8d56FxtQ
+	8/tWJe03utZn69PqFoOdOX+mcI2bHtaqj1gI5SeIsaFWa5/LPwAnTLyXi4tEbzgTAquH
+	WSuV+g/84VbO/u5iQkCvHi8PD2eX7KSU1cWfnIaMgxe+avq96i67Z57lttBLDA7HHcdJ
+	KbU3q8AVQ1TNLjVS+HXNuX1gyono7KzJXaQ0jAaJvWd+e2dYfMuwsAGjgjsTbm5/d01T
+	4nxQ==
+Received: by 10.14.215.197 with SMTP id e45mr49876631eep.0.1354634779738;
+	Tue, 04 Dec 2012 07:26:19 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z8sm3136328eeo.11.2012.12.04.07.25.01
+	by mx.google.com with ESMTPS id y44sm3130679eel.14.2012.12.04.07.26.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Dec 2012 07:25:02 -0800 (PST)
+	Tue, 04 Dec 2012 07:26:19 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 16:24:52 +0100
-Message-Id: <1354634692-4344-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue,  4 Dec 2012 16:26:13 +0100
+Message-Id: <1354634773-7765-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
 In-Reply-To: <1354626180.25268.47.camel@ted>
 References: <1354626180.25268.47.camel@ted>
-Subject: [PATCHv3] scripts/sstate-diff.sh: add simple script to compare sstate checksums between MACHINEs
+Subject: [PATCHv4] scripts/sstate-diff-machines.sh: add simple script to compare sstate checksums between MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 15:39:27 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 15:40:43 -0000
 
 * takes tmpdir, machines and targets from command arguments or env variables
 
