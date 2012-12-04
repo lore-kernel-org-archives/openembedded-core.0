@@ -1,19 +1,30 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muhammad_shakeel@mentor.com>) id 1Tfq9q-0002PR-5O
-	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 11:55:22 +0100
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
-	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qB4AeuFE007893;
-	Tue, 4 Dec 2012 04:40:57 -0600
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 15:40:59 +0500
-Message-Id: <1354617659-30238-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] qa.py: Toolchain path should not be hardcoded to execute objdump
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TfqI7-0002tB-Qg for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 12:03:56 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4AnWUX006032;
+	Tue, 4 Dec 2012 10:49:32 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04999-04; Tue,  4 Dec 2012 10:49:27 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4AnQtn006026
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 4 Dec 2012 10:49:26 GMT
+Message-ID: <1354618155.25268.46.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Date: Tue, 04 Dec 2012 10:49:15 +0000
+In-Reply-To: <50BDC8E4.1010303@linaro.org>
+References: <50B744CC.4050906@linaro.org> <50BDC8E4.1010303@linaro.org>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Patching eglibc for AArch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,44 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 10:55:22 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 11:03:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On Tue, 2012-12-04 at 10:56 +0100, Marcin Juszkiewicz wrote:
+> W dniu 29.11.2012 12:19, Marcin Juszkiewicz pisze:
+> > I would like to merge AArch64 eglibc support into OE-Core. As patch is
+> > nearly 0.5MB I provide it in hrw/aarch64-support branch:
+> > 
+> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=hrw/aarch64-support&id=aaa36e3ae6ff39682555ac6f21384b44d6f631e3
+> > 
+> > Commit adds two patches which add AArch64 support for 2.16 version of
+> > eglibc. Both were merged upstream but with some alterations to fit into
+> > trunk properly. As such trunk patches depend on other patches which can
+> > alter state of other architectures which I prefer to avoid.
+> > 
+> > At Linaro we do daily builds of minimal, lamp, sdk images with this patch.
+> 
+> ping?
 
-Currently objdump command is invoked from the STAGING_BINDIR_TOOLCHAIN
-directory. In case of external toolchain if this directory doesn't
-exist then objdump fails to execute. Instead of hardcoding the path
-it should search PATH to find it.
+The main thing worrying me about these now is the size of the patches.
+I'd prefer not to add them into the main repository since they then
+become part of history and increase the repo size. I'd really therefore
+like to host the patches somewhere and then point SRC_URI at them.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/lib/oe/qa.py |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Is that something linaro can do or should we find somewhere on the
+yoctoproject.org infrastructure?
 
-diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
-index 2c51141..d9848c8 100644
---- a/meta/lib/oe/qa.py
-+++ b/meta/lib/oe/qa.py
-@@ -97,14 +97,14 @@ class ELFFile:
-             return self.objdump_output[cmd]
- 
-         objdump = d.getVar('OBJDUMP', True)
--        staging_dir = d.getVar('STAGING_BINDIR_TOOLCHAIN', True)
- 
-         env = os.environ.copy()
-         env["LC_ALL"] = "C"
-+        env["PATH"] = d.getVar('PATH', True)
- 
-         try:
-             bb.note("%s %s %s" % (objdump, cmd, self.name))
--            self.objdump_output[cmd] = bb.process.run([ os.path.join(staging_dir, objdump), cmd, self.name ], env=env, shell=False)[0]
-+            self.objdump_output[cmd] = bb.process.run([objdump, cmd, self.name], env=env, shell=False)[0]
-             return self.objdump_output[cmd]
-         except Exception, e:
-             bb.note("%s %s %s failed: %s" % (objdump, cmd, self.name, e))
--- 
-1.7.9.5
+Cheers,
+
+Richard
 
 
 
