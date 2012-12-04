@@ -1,21 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TftFw-0000Sj-19
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TftFx-0000Sj-9R
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 15:13:52 +0100
+	Tue, 04 Dec 2012 15:13:53 +0100
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 04 Dec 2012 05:59:28 -0800
+	by azsmga102.ch.intel.com with ESMTP; 04 Dec 2012 05:59:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,215,1355126400"; d="scan'208";a="226378546"
+X-IronPort-AV: E=Sophos;i="4.84,215,1355126400"; d="scan'208";a="226378555"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 04 Dec 2012 05:59:27 -0800
+	by azsmga001.ch.intel.com with ESMTP; 04 Dec 2012 05:59:28 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	schnitzeltony@googlemail.com
-Date: Tue,  4 Dec 2012 15:59:07 +0200
-Message-Id: <cover.1354626535.git.laurentiu.palcu@intel.com>
+Date: Tue,  4 Dec 2012 15:59:08 +0200
+Message-Id: <1636e75017b72bc97347f4cca038a8bc1efdb4ff.1354626535.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/5] Postinstall improvements
+In-Reply-To: <cover.1354626535.git.laurentiu.palcu@intel.com>
+References: <cover.1354626535.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1354626535.git.laurentiu.palcu@intel.com>
+References: <cover.1354626535.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/5] image.bbclass: run postinst scripts once, at rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,55 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 14:13:52 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 14:13:53 -0000
 
-Hi,
+This patch will allow the repeating postinst scriptlets to be run
+only once, on host, at do_rootfs time. This will lower the time for
+rootfs generation and, also, instead of running some time consuming
+scriptlets at target's first boot, we will do on the host.
 
-This is the former RFC that was on the mailing list a couple of months ago.
-Hopefully, this time the patches will make it in since last time the release
-was to close to have these changes in.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/classes/image.bbclass |   20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-So, the main improvement this patchset brings is running the icon cache
-generation on host, at rootfs time, after all packages have been installed. This
-will cut off a lot from the target's first boot time. Also, postinstalls for
-gconf and gdk-pixbuf were also changed to run on host at rootfs time.
-
-With these changes, just a handful of packages will need to run the postinstalls
-on target (did the tests with core-image-sato). I prefer to approach the
-remaining packages one by one.
-
-My preliminary tests show no issues but, since there are lots of setups out there,
-testing is always welcomed. Andreas, I know you have such a setup, could you take
-these patches for a spin if you find some time?
-
-Thanks,
-Laurentiu
-
-The following changes since commit da6c266b1184eed8b1bc851f24a9ee17ab56d562:
-
-  xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions (2012-12-03 16:38:35 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/postinst
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/postinst
-
-Laurentiu Palcu (5):
-  image.bbclass: run postinst scripts once, at rootfs time
-  rootfs generation: export two new variables to postinst scriptlets
-  gtk-icon-cache: run the icon generation at rootfs time
-  gdk-pixbuf: generate the pixbuf loader's cache ar rootfs time
-  gconf.bbclass: run postinstalls at rootfs time
-
- meta/classes/gconf.bbclass                         |   11 +++++++----
- meta/classes/gtk-icon-cache.bbclass                |   18 ++++++++++++++----
- meta/classes/image.bbclass                         |   20 +++++++++++++++++---
- meta/classes/package_rpm.bbclass                   |    2 ++
- meta/classes/rootfs_deb.bbclass                    |    2 ++
- meta/classes/rootfs_ipk.bbclass                    |    2 ++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |   17 +++++++++++++++--
- 7 files changed, 59 insertions(+), 13 deletions(-)
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 7b24e4e..719d871 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -156,7 +156,7 @@ inherit ${IMAGE_CLASSES}
+ 
+ IMAGE_POSTPROCESS_COMMAND ?= ""
+ MACHINE_POSTPROCESS_COMMAND ?= ""
+-ROOTFS_POSTPROCESS_COMMAND ?= ""
++ROOTFS_POSTPROCESS_COMMAND_prepend = "run_intercept_scriptlets; "
+ 
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+@@ -166,15 +166,29 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}"
+ 
+ do_rootfs[nostamp] = "1"
+-do_rootfs[dirs] = "${TOPDIR}"
++do_rootfs[dirs] = "${TOPDIR} ${WORKDIR}/intercept_scripts"
+ do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
+-do_rootfs[cleandirs] += "${S}"
++do_rootfs[cleandirs] += "${S} ${WORKDIR}/intercept_scripts"
+ do_build[nostamp] = "1"
+ 
+ # Must call real_do_rootfs() from inside here, rather than as a separate
+ # task, so that we have a single fakeroot context for the whole process.
+ do_rootfs[umask] = "022"
+ 
++
++run_intercept_scriptlets () {
++	if [ -d ${WORKDIR}/intercept_scripts ]; then
++		cd ${WORKDIR}/intercept_scripts
++		echo "Running intercept scripts:"
++		for script in *; do
++			if [ "$script" = "*" ]; then break; fi
++			echo "> Executing $script"
++			chmod +x $script
++			./$script
++		done
++	fi
++}
++
+ fakeroot do_rootfs () {
+ 	#set -x
+ 	# When use the rpm incremental image generation, don't remove the rootfs
 -- 
 1.7.9.5
 
