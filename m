@@ -1,35 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tfvuh-00088Y-89 for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 18:04:13 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4GnegC009132;
-	Tue, 4 Dec 2012 16:49:40 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08149-09; Tue,  4 Dec 2012 16:49:36 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB4GnXSj009126
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 4 Dec 2012 16:49:34 GMT
-Message-ID: <1354639762.25268.54.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-Date: Tue, 04 Dec 2012 16:49:22 +0000
-In-Reply-To: <20121129155210.GC25784@sestofb10.enea.se>
-References: <1353600120-22967-1-git-send-email-bjst@enea.com>
-	<1353600120-22967-2-git-send-email-bjst@enea.com>
-	<1353707361.21863.4.camel@ted>
-	<20121129155210.GC25784@sestofb10.enea.se>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	qB4GnegC009132
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] Add a new distro feature "ptest".
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1Tfw4o-0008G4-7Q
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 18:14:34 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB4H09fi008183
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Dec 2012 09:00:09 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 4 Dec 2012 09:00:09 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Dec 2012 11:14:32 -0600
+Message-ID: <cover.1354641032.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 00/22] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,50 +32,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 17:04:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Dec 2012 17:14:34 -0000
+Content-Type: text/plain
 
-On Thu, 2012-11-29 at 16:52 +0100, Bj=C3=B6rn Stenberg wrote:
-> Richard Purdie wrote:
-> > >  meta/classes/image.bbclass                         |    6 ++-
-> > >  meta/classes/packagegroup.bbclass                  |    2 +-
-> > >  meta/conf/bitbake.conf                             |   15 ++++++++=
--
-> >=20
-> > Whilst we're in bootstrapping mode for this work, how about we make
-> > these changes a "ptest.bbclass" file which we'd inherit in the recipe=
-s
-> > where we've got ptest enabled?
->=20
-> Having looked into it a bit, I'm not sure I understand how you mean.
->
-> First, I don't quite see how this would be done in an elegant way for
-> the in-function changes in image.bbclass and packagegroup.bbclass.=20
+While working on the Smart integration PaulE and I fixed a number of 
+small defect that we found.  Some of the RPM package defects were not 
+visible with the previous integration (it had silently worked around 
+them), while other issues are small and nobody seems to have noticed 
+them before.
 
-Those are pretty non-invasive so I think we can just add these pieces in
-directly as you have them now.
+The following changes since commit 24b954253dd1aa626835352c4dc8d085a19aae35:
 
-> And the lines added to bitbake.conf were put there because they mirror
-> other complementary packages like -dbg and -dev. Is it really a good
-> idea to invent a new way of doing this for -ptest packages?
+  xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions (2012-12-03 16:38:28 +0000)
 
-This isn't a "new way". We can easily put these in a .bbclass for now.
-Pretty much every package has a -dev and -dbg package but for now, the
-number of packages which will have ptest is limited. Its a waste of
-build time having the -ptest metadata being processed for every package,
-its also confusing.
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib mhatle/misc
+  http://git.yoctoproject.org/cgit.cgi//log/?h=mhatle/misc
 
-So I think my proposal stands, lets put the pieces from bitbake.conf
-into a bbclass file for now, the other pieces can merge into the core
-code. As and when we have more than say 60% of the metadata with ptest
-we can think about making -ptest packages the default.
+Mark Hatle (13):
+  cpio: Split RMT from cpio
+  tar: Split RMT from tar
+  update-alternatives.bbclass: Add missing runtime dependency
+  package_rpm.bbclass: Add the runtime dependencies to the pre/post
+    scriptlets
+  rpm: Move rpmdb_loadcvt from base to dev package
+  rpm: Fix rpm relocation macro usage
+  rpm: Fixup platform matching code
+  rpm: Fix Upstream-Status fields
+  python-smartpm: Fix incorrect comparison arguments
+  package_deb: Dependencies with a ( or ) in them are invalid in debs
+  pkgconfig: Add a manual dependency of pkgconfig(pkg-config)
+  pseudo: Rework target, native and nativesdk pseudo intergration
+  license.bbclass: Avoid grep error message
 
-Cheers,
+Paul Eggleton (9):
+  rpm: enable _openall_before_chroot by default
+  createrepo: implement support for recommends
+  python-smartpm: add support for recommends
+  python-smartpm: style fixes
+  python-smartpm: fix package metadata not being read from rpm-md feeds
+  python-smartpm: don't create /var/tmp on every rpm database open
+  python-smartpm: support nolinktos and noparentdirs rpm options
+  python-smartpm: allow setting arbitrary macros in smart config
+  shadow: add runtime dependency on base-passwd
 
-Richard
->=20
+ meta/classes/license.bbclass                       |    3 +-
+ meta/classes/package_deb.bbclass                   |   10 +
+ meta/classes/package_rpm.bbclass                   |   86 +-
+ meta/classes/update-alternatives.bbclass           |    6 +
+ meta/recipes-devtools/pkgconfig/pkgconfig.inc      |    5 +
+ meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb  |    2 +-
+ meta/recipes-devtools/pkgconfig/pkgconfig_git.bb   |    1 +
+ meta/recipes-devtools/pseudo/pseudo.inc            |   58 +-
+ meta/recipes-devtools/pseudo/pseudo_1.4.1.bb       |    2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |    2 +-
+ .../python/python-smartpm/smart-dflags.patch       |   40 +
+ .../python-smartpm/smart-metadata-match.patch      |   28 +
+ .../python/python-smartpm/smart-missingok.patch    |   43 -
+ .../python/python-smartpm/smart-recommends.patch   | 1362 ++++++++++++++++++++
+ .../python-smartpm/smart-rpm-extra-macros.patch    |   27 +
+ .../python/python-smartpm/smart-rpm-md-parse.patch |   26 +
+ .../python/python-smartpm/smart-tmpdir.patch       |   30 +
+ .../python/python-smartpm_1.4.1.bb                 |   57 +-
+ .../rpm/rpm/python-rpm-rpmsense.patch              |    2 +-
+ .../rpm/rpm/rpm-db_buffer_small.patch              |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |   56 +
+ .../rpm/rpm/rpm-reloc-macros.patch                 |   31 +
+ .../rpm/rpm/rpm-stub-out-git_strerror.patch        |    2 +-
+ .../rpm/rpm/rpm-uuid-include.patch                 |    2 +
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   11 +-
+ meta/recipes-extended/cpio/cpio_2.11.bb            |    2 +-
+ meta/recipes-extended/cpio/cpio_2.8.bb             |    2 +-
+ meta/recipes-extended/cpio/cpio_v2.inc             |   11 +-
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
+ meta/recipes-extended/tar/tar.inc                  |   11 +-
+ meta/recipes-extended/tar/tar_1.17.bb              |    2 +-
+ meta/recipes-extended/tar/tar_1.26.bb              |    2 +-
+ .../createrepo/createrepo/recommends.patch         |   71 +
+ .../createrepo/createrepo_0.4.11.bb                |    3 +-
+ 34 files changed, 1852 insertions(+), 151 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-dflags.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-metadata-match.patch
+ delete mode 100644 meta/recipes-devtools/python/python-smartpm/smart-missingok.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-recommends.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-rpm-extra-macros.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-rpm-md-parse.patch
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-tmpdir.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-platform2.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-reloc-macros.patch
+ create mode 100644 meta/recipes-support/createrepo/createrepo/recommends.patch
 
+-- 
+1.7.3.4
 
 
 
