@@ -1,33 +1,30 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>)
-	id 1Tfhv8-0001fk-9z; Tue, 04 Dec 2012 03:08:12 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so5462757ieb.34
-	for <multiple recipients>; Mon, 03 Dec 2012 17:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=a9yC3c6FibgJmje1drtBkADTHiEmDr1gaO9QMQ728xo=;
-	b=tyF/9g2O/EEjehsL66ZbejuPgsiHZ3FfGAF5f0EQ1olPqlTyom4KEDy9p9p1/pucOX
-	NNnXNbxu/Fu++pMOGo/u2hSDzCsaNZtcUAaun/zC2aoUOyQS1VlcUMKza6tr7Ny1sgys
-	4KCfYfVBdBy6FEiM1vGSd+hnkmdyHJpmM6MyId9AcBdNVJ12BtNrpPyJMOdOgdr9RzCc
-	z1KI/fCJEHumkN+y3qHuq3lOq4tY9+TnATV9yclZWrkv25o2OicVySmHLc+quzvf2BTp
-	Ei11iAH6fNsO5iFWRvjOodX5QUf20Zv0MqaqfDt6Bd6IP4L0Y03hBTLn/DiyWQ2M90br
-	GFuQ==
+	(envelope-from <Qi.Chen@windriver.com>) id 1Tfi57-0003Uz-P9
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Dec 2012 03:17:58 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB423YR0024896
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Dec 2012 18:03:34 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Mon, 3 Dec 2012 18:03:33 -0800
+Message-ID: <50BD5A15.3020806@windriver.com>
+Date: Tue, 4 Dec 2012 10:04:05 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.50.91.169 with SMTP id cf9mr1042139igb.44.1354585995559; Mon,
-	03 Dec 2012 17:53:15 -0800 (PST)
-Sender: jefro.net@gmail.com
-Received: by 10.64.147.37 with HTTP; Mon, 3 Dec 2012 17:53:15 -0800 (PST)
-Date: Mon, 3 Dec 2012 17:53:15 -0800
-X-Google-Sender-Auth: WsUrVhi-Z-5Uo1x3etdesjsmhEU
-Message-ID: <CA+YB3rb2gftzzJBNDGFgWki4U3=OTSGZXeQ9AAf_wNa3J7uC3w@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	tsc <tsc@lists.openembedded.org>
-Subject: OpenEmbedded TSC Minutes 6 November 2012
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1354531187.git.Qi.Chen@windriver.com>
+	<4973f2f88641f8a8c02b0062b31f159977d9ba0a.1354531187.git.Qi.Chen@windriver.com>
+	<CAJTo0LZOOuZ7RJ+f+hXPckxRrPr9CU8c4KPT5sgSSo1rm7q=eQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZOOuZ7RJ+f+hXPckxRrPr9CU8c4KPT5sgSSo1rm7q=eQ@mail.gmail.com>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] ICU: add pkgconfig support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,47 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 02:08:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 04 Dec 2012 02:17:58 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Attendees: Paul, Mark, Koen, Khem, Richard
-Minutes taken by Richard
+On 12/03/2012 07:50 PM, Burton, Ross wrote:
+> On 3 December 2012 10:42,<Qi.Chen@windriver.com>  wrote:
+>> +ICU-3.6 has no pkgconfig, so I add it here.
+>> +But ICU has had pkgconfig support since 4.6.
+> Is there a reason we can't just bump oe-core to 4.6?
+>
+> Ross
+>
 
-ELC-E presented an opportunity for a face to face meeting so there are
-no irc logs.
+I'm not sure. Maybe we bump ICU to the latest version later. (If nobody 
+does it, I'll find time to do it, and test it.)
+The reason I add pkgconfig to ICU-3.6 is that I think it's better to do 
+one thing at a time.
 
-The only topic we were asked to discuss was ntp. We agreed that creating
-an ntp namespace for OE was a good idea for non-commercial use. We
-agreed that either:
-
-1) This should be commented out by default requiring a user to enable it
-or
-2) We should put in a licence flag that excludes the ntp recipe unless
-the user explicitly agrees to it
-
-which are ideas designed to stop people accidentally using the namespace
-commercially.
-
-Richard has taken the action to raise ntp with the Yocto Project as they
-may wish to use their own namespace too.
-
-Other topics raised:
-
-We have some issues around overwriting of files in areas like the deploy
-directory for allarch packages. These are not new issues but have been
-there for a long time. New sanity checks are exposing them and there are
-real world bugs these cause. It explains several "mystery" bug reports
-we've seen over the past couple of years. This topic doesn't lend itself
-to f2f discussion so we'll do it on the mailing list but the end result
-may be some restrictions on when you can mark a package as allarch and
-vice versa.
-
-There was a lot of "misc" discussion about other aspects of the project
-but nothing specific I want to capture in the notes. It was useful to
-have the TSC face to face to discuss things for a change.
-
---
-Jeff Osier-Mixon http://jefro.net/blog
-Yocto Project Community Manager @Intel http://yoctoproject.org
+Thanks,
+Chen Qi
 
 
