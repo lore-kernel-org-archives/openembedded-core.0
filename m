@@ -1,38 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tfzoe-000655-Ty
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tg0Pk-0006Yk-1l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 22:14:09 +0100
-Received: from mail-lb0-f197.google.com ([209.85.217.197])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Dec 2012 12:59:43 -0800
-Received: by mail-lb0-f197.google.com with SMTP id go10so3569814lbb.0
+	Tue, 04 Dec 2012 22:52:28 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so2742869pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 12:59:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=DQCyNNoeH0JFl/ppwgMjIgxwnRkYVr2RFlkBgiNWzRQ=;
-	b=YmTqCvXMoFIc5NCfeV3loEUxAimJSnJkTQE1SZdET8mEZR+3mgTDC+QN20GofWInfi
-	TugdglBsOHxBkBdSiIjDJxtgRTddy15zxhPt5kVQcjwQRcPtkzaYFU2DOW37bkALE3sD
-	Xn0Z8kgQ100+B3hrYSWG6Gg9APrl4JtWq1mSmVrKY7k98/ssjvh9neV1R5tMC7QUyBat
-	gxkZVsfZClED7lPpbcQV6Ep6ZugaF4FZJa+IgWcZdRLn1mUYTMfGE1RcWqqvDkuj/P3D
-	bObKuV0fsAALnByTRxANxrEV+oJYe6HGiZpdL8ucnQEusZ+GV6jH7pfoFq89SOODfs91
-	dWIA==
-Received: by 10.180.102.40 with SMTP id fl8mr6711917wib.22.1354654778894;
-	Tue, 04 Dec 2012 12:59:38 -0800 (PST)
-Received: by 10.180.102.40 with SMTP id fl8mr6711907wib.22.1354654778708;
-	Tue, 04 Dec 2012 12:59:38 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fv2sm16544949wib.4.2012.12.04.12.59.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 04 Dec 2012 12:59:37 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Dec 2012 20:58:03 +0000
-Message-Id: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQllb/qbl6+YaHOA+f05gepAgWW+aLGkNClOj+ed1TbD/bDtRk+u7eF/GheVkqmSnP/2DmD8CW5ztQmcA/CKm+GGLhvhXh7mJE6kvh9WnR4hhTvBZrpMkKDK8FXyG/AmRlaT469Rdu2FUprnStD5DAnWMXugBLlkocoTEmaGNa5msWqIbwgTlQZuISA2+bpCXgkb5fI6
-Subject: [PATCH] gst-meta-base: pull in X11 plugins when using X11
+	Tue, 04 Dec 2012 13:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=TTfpKrW5p1pl5h4sSG4pICrH7K+PRLZ6X9iQTfnmHVU=;
+	b=JU2AAZUlnOJQ6OqI3iuSNk9IX9+CxxZICHwzlsll6kYdRtB3Gsm+I7orpN0xsO8gjL
+	hMPKTht/fqPoZcP+A26WwoBQKR8NOKDUISYe/f2NORJAXuRBnC5ot7hdtiv4b8lq6/C2
+	Y+fw3Bz5zzXjuUY8T0SFAZsLqKmB4M5bNTl2SexyCURJaXlAMEtUiEStDS2q65sZODqC
+	9cfU9JF9PGEfU39mix2GP4SXlbRP7NdSaGhkeq549Nwmp/NskQVsaav0utne68Eod/lD
+	OV5BAU7r6ifISZjWRThFPrWW+ubtbiZwuDsReIN3dHo/wvupkZn/XY6zpunuGN+YkemS
+	LZSQ==
+MIME-Version: 1.0
+Received: by 10.68.204.103 with SMTP id kx7mr42719922pbc.33.1354657084219;
+	Tue, 04 Dec 2012 13:38:04 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Tue, 4 Dec 2012 13:38:04 -0800 (PST)
+In-Reply-To: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
+References: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 4 Dec 2012 19:38:04 -0200
+X-Google-Sender-Auth: ygtzibbK3Y-fNJMYAAe5RCMIqXA
+Message-ID: <CAP9ODKr0TG3LRah3rCjwwUCkka=kHW3Ed4LXNpWA+81Eb2t=GA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gst-meta-base: pull in X11 plugins when using X11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,56 +43,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 21:14:09 -0000
+X-List-Received-Date: Tue, 04 Dec 2012 21:52:28 -0000
+Content-Type: multipart/alternative; boundary=047d7b10d1854c204b04d00dae4c
 
-The splitting out of X11 plugins wasn't complete, which lead to no X11 plugins
-being installed.
+--047d7b10d1854c204b04d00dae4c
+Content-Type: text/plain; charset=ISO-8859-1
 
-If the X11 distro feature is present, make gst-meta-base depend on
-gst-meta-x11-base.  Also make -x11-base RDEPEND on xvimagesink for video
-playback performance.
+On Tue, Dec 4, 2012 at 6:58 PM, Ross Burton <ross.burton@intel.com> wrote:
 
-[ YOCTO #3458 ]
+> The splitting out of X11 plugins wasn't complete, which lead to no X11
+> plugins
+> being installed.
+>
+> If the X11 distro feature is present, make gst-meta-base depend on
+> gst-meta-x11-base.  Also make -x11-base RDEPEND on xvimagesink for video
+> playback performance.
+>
+> [ YOCTO #3458 ]
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Would be better to use a RRECOMMENDS on xvimagesink? It makes more sense.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-index 2fb39d5..21243c6 100644
---- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
- 
--PR = "r11"
-+PR = "r12"
- 
- PACKAGES = "\
-     gst-meta-base \
-@@ -17,6 +17,7 @@ PACKAGES = "\
- ALLOW_EMPTY = "1"
- 
- RDEPENDS_gst-meta-base = "\
-+    ${@base_contains('DISTRO_FEATURES', 'x11', 'gst-meta-x11-base', '', d)} \
-     gstreamer \
-     gst-plugins-base-playbin \
-     gst-plugins-base-decodebin \
-@@ -32,7 +33,9 @@ RDEPENDS_gst-meta-base = "\
-     gst-plugins-good-autodetect \
-     gst-plugins-good-souphttpsrc"
- 
--RDEPENDS_gst-meta-x11-base = "${@base_contains('DISTRO_FEATURES', 'x11', 'gst-plugins-base-ximagesink', '', d)}"
-+RDEPENDS_gst-meta-x11-base = "\
-+    gst-plugins-base-ximagesink \
-+    gst-plugins-base-xvimagesink"
- 
- RDEPENDS_gst-meta-audio = "\
-     gst-meta-base \
 -- 
-1.7.10
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--047d7b10d1854c204b04d00dae4c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Tue, D=
+ec 4, 2012 at 6:58 PM, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</spa=
+n> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">The splitting out of X11 plugins wasn&#39;t =
+complete, which lead to no X11 plugins<br>
+being installed.<br>
+<br>
+If the X11 distro feature is present, make gst-meta-base depend on<br>
+gst-meta-x11-base. =A0Also make -x11-base RDEPEND on xvimagesink for video<=
+br>
+playback performance.<br>
+<br>
+[ YOCTO #3458 ]<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;<br></blockquote><div><br></div><div>Would be bet=
+ter to use a RRECOMMENDS on xvimagesink? It makes more sense.</div><div>
+=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@oss=
+ystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"=
+http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br<=
+/a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+</div>
 
+--047d7b10d1854c204b04d00dae4c--
