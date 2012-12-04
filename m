@@ -1,36 +1,39 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tg0Pk-0006Yk-1l
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Tg1Sc-0000mY-KC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 04 Dec 2012 22:52:28 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so2742869pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 13:38:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=TTfpKrW5p1pl5h4sSG4pICrH7K+PRLZ6X9iQTfnmHVU=;
-	b=JU2AAZUlnOJQ6OqI3iuSNk9IX9+CxxZICHwzlsll6kYdRtB3Gsm+I7orpN0xsO8gjL
-	hMPKTht/fqPoZcP+A26WwoBQKR8NOKDUISYe/f2NORJAXuRBnC5ot7hdtiv4b8lq6/C2
-	Y+fw3Bz5zzXjuUY8T0SFAZsLqKmB4M5bNTl2SexyCURJaXlAMEtUiEStDS2q65sZODqC
-	9cfU9JF9PGEfU39mix2GP4SXlbRP7NdSaGhkeq549Nwmp/NskQVsaav0utne68Eod/lD
-	OV5BAU7r6ifISZjWRThFPrWW+ubtbiZwuDsReIN3dHo/wvupkZn/XY6zpunuGN+YkemS
-	LZSQ==
+	Tue, 04 Dec 2012 23:59:30 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 921DCD22C1; Tue,  4 Dec 2012 23:45:21 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 69FF2D22B4;
+	Tue,  4 Dec 2012 23:44:50 +0100 (CET)
+Message-ID: <50BE7CD3.7090706@linaro.org>
+Date: Tue, 04 Dec 2012 23:44:35 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.68.204.103 with SMTP id kx7mr42719922pbc.33.1354657084219;
-	Tue, 04 Dec 2012 13:38:04 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Tue, 4 Dec 2012 13:38:04 -0800 (PST)
-In-Reply-To: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
-References: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
-Date: Tue, 4 Dec 2012 19:38:04 -0200
-X-Google-Sender-Auth: ygtzibbK3Y-fNJMYAAe5RCMIqXA
-Message-ID: <CAP9ODKr0TG3LRah3rCjwwUCkka=kHW3Ed4LXNpWA+81Eb2t=GA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1354116375.git.raj.khem@gmail.com>
+	<50B6301B.3010106@linaro.org>
+	<CAMKF1sr3h8gHmhPbjXa-VfoSfsNsmmWANyNi_Eshp+xcwv5oCw@mail.gmail.com>
+	<50BDC045.1030804@linaro.org>
+	<CAMKF1sr2xvJDTP4+r+5F_GpE0E=peREQ2OKacfuWDTgpMAn-2A@mail.gmail.com>
+In-Reply-To: <CAMKF1sr2xvJDTP4+r+5F_GpE0E=peREQ2OKacfuWDTgpMAn-2A@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gst-meta-base: pull in X11 plugins when using X11
+Subject: Re: [PATCH 0/3] Upgrade binutils to 2.23.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,65 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 21:52:28 -0000
-Content-Type: multipart/alternative; boundary=047d7b10d1854c204b04d00dae4c
+X-List-Received-Date: Tue, 04 Dec 2012 22:59:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---047d7b10d1854c204b04d00dae4c
-Content-Type: text/plain; charset=ISO-8859-1
+W dniu 04.12.2012 20:48, Khem Raj pisze:
+> can you point out ?
+> is it branch issue or some patch that I dropped
 
-On Tue, Dec 4, 2012 at 6:58 PM, Ross Burton <ross.burton@intel.com> wrote:
+There were some updates in binutils trunk from ARM people and we need
+those to get gdb trunk running as well. Maybe in January I will have
+more time to take a look at it and merge them in 2.23.1 recipe.
 
-> The splitting out of X11 plugins wasn't complete, which lead to no X11
-> plugins
-> being installed.
->
-> If the X11 distro feature is present, make gst-meta-base depend on
-> gst-meta-x11-base.  Also make -x11-base RDEPEND on xvimagesink for video
-> playback performance.
->
-> [ YOCTO #3458 ]
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
->
+So nothing related to your updates.
 
-Would be better to use a RRECOMMENDS on xvimagesink? It makes more sense.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---047d7b10d1854c204b04d00dae4c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Tue, D=
-ec 4, 2012 at 6:58 PM, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</spa=
-n> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">The splitting out of X11 plugins wasn&#39;t =
-complete, which lead to no X11 plugins<br>
-being installed.<br>
-<br>
-If the X11 distro feature is present, make gst-meta-base depend on<br>
-gst-meta-x11-base. =A0Also make -x11-base RDEPEND on xvimagesink for video<=
-br>
-playback performance.<br>
-<br>
-[ YOCTO #3458 ]<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br></blockquote><div><br></div><div>Would be bet=
-ter to use a RRECOMMENDS on xvimagesink? It makes more sense.</div><div>
-=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@oss=
-ystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"=
-http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br<=
-/a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-</div>
-
---047d7b10d1854c204b04d00dae4c--
