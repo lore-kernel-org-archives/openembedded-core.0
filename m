@@ -1,21 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TgJEA-0003oK-Hb
+	(envelope-from <martin.jansa@gmail.com>) id 1TgJIe-00079Y-5D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 18:57:47 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Dec 2012 09:43:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,223,1355126400"; d="scan'208";a="176559932"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Dec 2012 09:43:07 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 19:43:26 +0200
-Message-Id: <1354729406-19146-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] connman: upgrade to 1.9
+	Wed, 05 Dec 2012 19:02:24 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e51so3041408eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Dec 2012 09:48:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=FVzC4OLjQ2PlNpK5Rv6KKw/UiXkuJCZjo5jRi6icrUc=;
+	b=qtnJS+odBkBVPPDRxbmtQpHYaLC6VHsZ/Y8hPLzzAeBzU9XbXjOQPqeLZQWxcbd91x
+	A0iQaTtbN/Gt4lwuJblZ2q8IIkiUrgoP8PORRYsE80+JPXwi3g7T1uUG2Empc003F9Tl
+	P6kPvRs7cltQSAxmYBUF8OamdRnPxqxlW31VK5i7i5vjg/I8wDt0mGncUpTLkf7vcN3g
+	gDU6n5IqdO8FgrVNcKAHXTk0ZQpRwJxghvSCdXfzcAmXt0HBI9kcraugJymn+ujRV1dp
+	f4KQN3g9Nxj3YeFO0YxWXPDGJKuF2iURGGKRDyEKud4034innT/z41J2mvQP7QB8bL0d
+	TX/A==
+Received: by 10.14.208.137 with SMTP id q9mr62866258eeo.28.1354729679941;
+	Wed, 05 Dec 2012 09:47:59 -0800 (PST)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b49sm10442961eem.16.2012.12.05.09.47.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 05 Dec 2012 09:47:59 -0800 (PST)
+Date: Wed, 5 Dec 2012 18:47:56 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20121205174756.GE3396@jama.jama.net>
+References: <1354724029-9230-1-git-send-email-sgw@linux.intel.com>
+	<50BF87A1.2050404@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <50BF87A1.2050404@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: Fix build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,230 +45,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 17:57:47 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 18:02:24 -0000
+X-Groupsio-MsgNum: 32280
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="9l24NVCWtSuIVIod"
+Content-Disposition: inline
 
-From: Constantin Musca <constantinx.musca@intel.com>
+--9l24NVCWtSuIVIod
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-    - adapted to the new version
+On Wed, Dec 05, 2012 at 11:42:57AM -0600, Mark Hatle wrote:
+> On 12/5/12 10:13 AM, Saul Wold wrote:
+> > datadir is normally /usr/share so we don't need to add /share to it.
+> >
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> >   meta/recipes-devtools/python/python-smartpm_1.4.1.bb | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/met=
+a/recipes-devtools/python/python-smartpm_1.4.1.bb
+> > index 254318c..3617fde 100644
+> > --- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> > +++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> > @@ -44,7 +44,7 @@ inherit distutils
+> >
+> >   do_install_append() {
+> >      # Cleanup unused item...
+> > -   rmdir ${D}${datadir}/share
+> > +   rmdir ${D}${datadir}
+>=20
+> I believe this is wrong.  There are things in /usr/share that we want fro=
+m smart.
+>=20
+> There are docs and locales and associated files...
+>=20
+> I believe that was there because an errant "/usr/share/share" directory w=
+as=20
+> generated and that caused problems.
 
-0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
-    - patch removed (it is included in the new version)
+It really was in /usr/share/share and I've moved this fix to
+distutils.bbclass in=20
+http://git.openembedded.org/openembedded-core/commit/?id=3D10457e343b27e63b=
+35e0278b00e9c25106b0cc1b
 
-inet-fix-ip-cleanup-functions.patch: added
-    - fix for ip cleanup functions
+So rmdir in python-smartpm should be dropped completely... I've fix for
+that too, but still testing it together with other changes, but will
+submit that pull-request today.
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...If-there-is-no-d_type-support-use-fstatat.patch |   61 --------------------
- ...If-there-is-no-d_type-support-use-fstatat.patch |   38 +++++++-----
- .../connman/inet-fix-ip-cleanup-functions.patch    |   40 +++++++++++++
- .../connman/{connman_1.4.bb => connman_1.9.bb}     |    6 +-
- 4 files changed, 65 insertions(+), 80 deletions(-)
- delete mode 100644 meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
- rename meta/recipes-connectivity/connman/{connman_1.4.bb => connman_1.9.bb} (72%)
+Cheers,
 
-diff --git a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
-deleted file mode 100644
-index 3bced52..0000000
---- a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
-+++ /dev/null
-@@ -1,61 +0,0 @@
--From f2094e6b2e4542adf458d8fa58d7bccd5edb762e Mon Sep 17 00:00:00 2001
--From: Andrei Gherzan <andrei@gherzan.ro>
--Date: Tue, 17 Jul 2012 17:27:39 +0300
--Subject: [PATCH V3 1/2] timezone.c: If there is no d_type support use
-- fstatat()
--
--This is useful for filesystems where d_type is always DT_UNKNOWN.
--In this case use fstatat() function.
--
--Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
--Upstream-Status: Submitted
-- 
-----
-- src/timezone.c |   24 ++++++++++++++++++++++++
-- 1 file changed, 24 insertions(+)
--
--diff --git a/src/timezone.c b/src/timezone.c
--index 173d658..f951f6b 100644
----- a/src/timezone.c
--+++ b/src/timezone.c
--@@ -157,6 +157,8 @@ static char *find_origin(void *src_map, struct stat *src_st,
-- 	DIR *dir;
-- 	struct dirent *d;
-- 	char *str, pathname[PATH_MAX];
--+	struct stat buf;
--+	int ret;
-- 
-- 	if (subpath == NULL)
-- 		strncpy(pathname, basepath, sizeof(pathname));
--@@ -205,6 +207,28 @@ static char *find_origin(void *src_map, struct stat *src_st,
-- 				return str;
-- 			}
-- 			break;
--+		case DT_UNKNOWN:
--+			/*
--+			 * If there is no d_type support use fstatat()
--+			 * to check if directory
--+			 */
--+			ret = fstatat(dirfd(dir), d->d_name, &buf, 0);
--+			if (ret < 0)
--+				continue;
--+			if (!(buf.st_mode & S_IFDIR))
--+				continue;
--+			if (subpath == NULL)
--+				strncpy(pathname, d->d_name, sizeof(pathname));
--+			else
--+				snprintf(pathname, sizeof(pathname),
--+						"%s/%s", subpath, d->d_name);
--+
--+			str = find_origin(src_map, src_st, basepath, pathname);
--+			if (str != NULL) {
--+				closedir(dir);
--+				return str;
--+			}
--+			break;
-- 		}
-- 	}
-- 
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-index d3205c0..7315545 100644
---- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-+++ b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-@@ -8,20 +8,33 @@ This is useful for filesystems where d_type is always DT_UNKNOWN.
- In this case use fstatat() function.
- 
- Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
- Upstream-Status: Submitted
-  
- ---
-  src/storage.c |   19 +++++++++++++++++++
-  1 file changed, 19 insertions(+)
- 
--diff --git a/src/storage.c b/src/storage.c
--index 47bd0cb..0491a52 100644
----- a/src/storage.c
--+++ b/src/storage.c
--@@ -206,6 +206,25 @@ gchar **connman_storage_get_services()
-+Index: git/src/storage.c
-+===================================================================
-+--- git.orig/src/storage.c
-++++ git/src/storage.c
-+@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
-  
-- 			g_string_append_printf(result, "%s/", d->d_name);
-- 			break;
-+ 		switch (d->d_type) {
-+ 		case DT_DIR:
-+-		case DT_UNKNOWN:
-+ 			/*
-+ 			 * If the settings file is not found, then
-+ 			 * assume this directory is not a services dir.
-+@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
-+ 			ret = stat(str, &buf);
-+ 			g_free(str);
-+ 			if (ret < 0)
-++				continue;
-++
-++			g_string_append_printf(result, "%s/", d->d_name);
-++			break;
- +		case DT_UNKNOWN:
- +			/*
- +			 * If there is no d_type support use fstatat()
-@@ -37,13 +50,6 @@ index 47bd0cb..0491a52 100644
- +			ret = stat(str, &buf);
- +			g_free(str);
- +			if (ret < 0)
--+				continue;
--+
--+			g_string_append_printf(result, "%s/", d->d_name);
--+			break;
-- 		}
-- 	}
-+ 				continue;
-  
---- 
--1.7.9.5
--
-+ 			g_string_append_printf(result, "%s/", d->d_name);
-diff --git a/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
-new file mode 100644
-index 0000000..3071549
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
-@@ -0,0 +1,40 @@
-+From 100353e10f60a50ca1ba78daa6bc4dfebf5b3297 Mon Sep 17 00:00:00 2001
-+From: Constantin Musca <constantinx.musca@intel.com>
-+Date: Wed, 5 Dec 2012 15:07:21 +0200
-+Subject: [PATCH] inet: fix ip cleanup functions
-+
-+Upstream-Status: Pending
-+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-+---
-+ src/inet.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/src/inet.c b/src/inet.c
-+index be69aca..e76a1f1 100644
-+--- a/src/inet.c
-++++ b/src/inet.c
-+@@ -626,6 +626,10 @@ int connman_inet_clear_ipv6_address(int index, const char *address,
-+ 
-+ 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
-+ 
-++	if (address == NULL) {
-++		return -1;
-++	}
-++
-+ 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET6,
-+ 				address, NULL, prefix_len, NULL);
-+ 	if (err < 0) {
-+@@ -649,6 +653,10 @@ int connman_inet_clear_address(int index, struct connman_ipaddress *ipaddress)
-+ 
-+ 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
-+ 
-++	if (address == NULL) {
-++		return -1;
-++	}
-++
-+ 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET,
-+ 				address, peer, prefix_len, broadcast);
-+ 	if (err < 0) {
-+-- 
-+1.7.11.7
-+
-diff --git a/meta/recipes-connectivity/connman/connman_1.4.bb b/meta/recipes-connectivity/connman/connman_1.9.bb
-similarity index 72%
-rename from meta/recipes-connectivity/connman/connman_1.4.bb
-rename to meta/recipes-connectivity/connman/connman_1.9.bb
-index bd8ba65..3cbabc6 100644
---- a/meta/recipes-connectivity/connman/connman_1.4.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.9.bb
-@@ -1,12 +1,12 @@
- require connman.inc
- 
--# 1.4 tag
--SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
-+# 1.9 tag
-+SRCREV = "4bf217329babf4f7792b43d70228af8269c3332c"
- SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
-             file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
--            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
-+            file://inet-fix-ip-cleanup-functions.patch"
- S = "${WORKDIR}/git"
- PR = "${INC_PR}.0"
--- 
-1.7.10.4
+>=20
+> >
+> >      # We don't support the following items
+> >      rm -rf ${D}${libdir}/python*/site-packages/smart/backends/slack
+> >
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--9l24NVCWtSuIVIod
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlC/iMwACgkQN1Ujt2V2gBy6nACeIh3GZiPHW+bMGc26IjWi7ESg
+8B0An0eZ21VT2/kFDqAERTUqBO64UDgJ
+=jUlp
+-----END PGP SIGNATURE-----
+
+--9l24NVCWtSuIVIod--
