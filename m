@@ -1,21 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TgB1u-0004Ew-9T
-	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 10:12:38 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Dec 2012 00:58:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,220,1355126400"; d="scan'208";a="176376328"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Dec 2012 00:58:08 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 10:58:58 +0200
-Message-Id: <1354697938-19969-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH 2/2] prs: use the PRServer to replace the BB_URI_LOCALCOUNT functionality
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TgBKc-0004YV-4q for openembedded-core@lists.openembedded.org;
+	Wed, 05 Dec 2012 10:31:54 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB59HSTG015592;
+	Wed, 5 Dec 2012 09:17:28 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12860-10; Wed,  5 Dec 2012 09:17:25 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB59HIwo015585
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 5 Dec 2012 09:17:20 GMT
+Message-ID: <1354699028.25268.79.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 05 Dec 2012 09:17:08 +0000
+In-Reply-To: <50BEA7A8.2070600@windriver.com>
+References: <cover.1354641032.git.mark.hatle@windriver.com>
+	<13c1d96727b678dc95430f1144b3017c9e62948f.1354641032.git.mark.hatle@windriver.com>
+	<20121204170432.GH14870@jama.jama.net> <50BE342E.1070401@windriver.com>
+	<1354654017.25268.65.camel@ted> <50BEA7A8.2070600@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 03/22] update-alternatives.bbclass: Add missing runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,109 +41,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 09:12:38 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 09:31:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-- adapt the PRServer to generate an incremental number for every revision set
-associated with a (PN, PV)
-- use one incrementing value rather than several
-- PV becomes 0.1+gitAUTOINC+deadbeefdecafbad_decafbaddeadbeef
-- if PV contains 'AUTOINC' set PKGV to the same thing with AUTOINC replaced
-with the "auto PR" value
-- if the PRServer isn't running replace AUTOINC with 0 (no package feeds, but usual
-image creation would work)
-- use the PR table with "AUTOINC-${PV-without-SRCREVs}" as key
-- modify prexport/primport to address the generated srcrev entries
-- this patch addresses the following proposal:
-http://lists.linuxtogo.org/pipermail/bitbake-devel/2012-November/003878.html
+On Tue, 2012-12-04 at 19:47 -0600, Mark Hatle wrote:
+> On 12/4/12 2:46 PM, Richard Purdie wrote:
+> > On Tue, 2012-12-04 at 11:34 -0600, Mark Hatle wrote:
+> > I keep telling people this and people keep ignoring me.
+> >
+> > We DO NOT SUPPORT switching providers at runtime since its a package
+> > manager specific problem for which we currently have no general
+> > abstraction.
+> 
+> We do support switching providers already, that's the whole alternatives system 
+> itself.  What is different is in this case we can't use the update-alternatives.
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/classes/package.bbclass  |  4 ++++
- meta/classes/prexport.bbclass | 10 ++++++++++
- meta/classes/prserv.bbclass   | 22 +++++++++++++++++-----
- 3 files changed, 31 insertions(+), 5 deletions(-)
+We do support update alternatives, yes. We're talking about something
+else here though.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 3278d37..993ce98 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -411,6 +411,10 @@ python package_get_auto_pr() {
-                 bb.fatal("Can NOT get PRAUTO from remote PR service")
-             return
-         d.setVar('PRAUTO',str(auto_pr))
-+    else:
-+        pv = d.getVar("PV", True)
-+        if 'AUTOINC' in pv:
-+            d.setVar("PKGV", pv.replace("AUTOINC", "0"))
- }
- 
- LOCALEBASEPN ??= "${PN}"
-diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
-index b990c2b..6b9d540 100644
---- a/meta/classes/prexport.bbclass
-+++ b/meta/classes/prexport.bbclass
-@@ -24,6 +24,16 @@ python prexport_handler () {
-             bb.warn("prexport_handler: No AUTOPR values found for %s" % ver)
-             return
-         oe.prservice.prserv_export_tofile(e.data, None, datainfo, False)
-+        if 'AUTOINC' in ver:
-+            import re
-+            srcpv =  bb.fetch2.get_srcrev(e.data)
-+            base_ver = "AUTOINC-%s" % ver[:ver.find(srcpv)]
-+            e.data.setVar('PRSERV_DUMPOPT_VERSION', base_ver)
-+            retval = oe.prservice.prserv_dump_db(e.data)
-+            if not retval:
-+                bb.fatal("prexport_handler: export failed!")
-+            (metainfo, datainfo) = retval
-+            oe.prservice.prserv_export_tofile(e.data, None, datainfo, False)
-     elif isinstance(e, bb.event.ParseStarted):
-         import bb.utils
-         import oe.prservice
-diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
-index 0825306..33547f9 100644
---- a/meta/classes/prserv.bbclass
-+++ b/meta/classes/prserv.bbclass
-@@ -1,6 +1,11 @@
- def prserv_get_pr_auto(d):
-     import oe.prservice
-+    import re
-+
-+    pv = d.getVar("PV", True)
-     if d.getVar('USE_PR_SERV', True) != "1":
-+        if 'AUTOINC' in pv:
-+            d.setVar("PKGV", pv.replace("AUTOINC", "0"))
-         bb.warn("Not using network based PR service")
-         return None
- 
-@@ -8,14 +13,21 @@ def prserv_get_pr_auto(d):
-     pkgarch = d.getVar("PACKAGE_ARCH", True)
-     checksum = d.getVar("BB_TASKHASH", True)
- 
-+    conn = d.getVar("__PRSERV_CONN", True)
-+    if conn is None:
-+        conn = oe.prservice.prserv_make_conn(d)
-+        if conn is None:
-+            return None
-+
-+    if "AUTOINC" in pv:
-+        srcpv = bb.fetch2.get_srcrev(d)
-+        base_ver = "AUTOINC-%s" % version[:version.find(srcpv)]
-+        value = conn.getPR(base_ver, pkgarch, srcpv)
-+        d.setVar("PKGV", pv.replace("AUTOINC", str(value)))
-+
-     if d.getVar('PRSERV_LOCKDOWN', True):
-         auto_rev = d.getVar('PRAUTO_' + version + '_' + pkgarch, True) or d.getVar('PRAUTO_' + version, True) or None
-     else:
--        conn = d.getVar("__PRSERV_CONN", True)
--        if conn is None:
--            conn = oe.prservice.prserv_make_conn(d)
--            if conn is None:
--                return None
-         auto_rev = conn.getPR(version, pkgarch, checksum)
- 
-     return auto_rev
--- 
-1.7.11.7
+> But with the RPROVIDE of update-alternatives within the dpkg and opkg code..  We 
+> can certainly require 'update-alterantives' and the packaging systems will do 
+> the right thing (they have so far...)
+
+Ok, let me put this a different way. What exactly tells tells the
+package manager what it should be installing as "update-alternatives"?
+Where is the variable that controls this?
+
+I think you will find there isn't any mechanism for it. The only reason
+it does the right thing is a combination of:
+
+a) We've configured things to only build one provider in most cases
+b) We use the VIRTUAL-RUNTIME_update-alternatives substitution that 
+   Martin mentions.
+
+> > This leads to patches like:
+> >
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=fe21ace36e19e06cbfdb83f73e60623bd4e382af
+> >
+> > since the virtual/ space does not somehow magically work at runtime,
+> > worse it breaks the deb package backend.
+> 
+> It works in RPM... but if it doesn't in deb (and ipk) I understand the 
+> limitations we are bound to.  Limiting the character space (i.e. no '/') is 
+> different then saying we don't support RPROVIDES...
+
+We support RPROVIDES, no argument. What we don't have is any mechanism
+to indicate to *any* of the package managers that if there are two
+providers, which one should be preferred.
+
+The character was just a detail, the whole approach was also flawed, at
+least as the system stands today :(.
+
+> > PREFERRED_PROVIDER is a build time thing. virtual/ is a build time
+> > thing. How do I explain this any clearer?
+> 
+> I'm still confused on the PREFERRED_PROVIDER honestly.
+
+That much is clear from the email :/. It only works for build time
+resolution, not package management.
+
+> conf/distro/include/default-providers.inc:PREFERRED_PROVIDER_virtual/update-alternatives 
+> ?= "update-alternatives-cworth"
+> conf/distro/include/default-providers.inc:PREFERRED_PROVIDER_virtual/update-alternatives-native 
+> ?= "opkg-native"
+> 
+> There is no 'update-alternatives-cworth' recipe.. but there is an opkg recipe 
+> that happens to provide an update-alternatives-cworth -package-.  So does 
+> PREFERRED_PROVIDER select packages or recipes?
+
+It works in "build" namespace, namely DEPENDS and PROVIDES, so recipes.
+
+Recipes can have additional PROVIDES other than their name, not to be
+confused with RPROVIDES which is package namespace and separate.
+
+We have no support for PREFERRED_RPROVIDER for example since that would
+have to get communicated to the package manager. It would be interesting
+to see that work...
+
+> > The only mechanism for distro selection of runtime is VIRTUAL-RUNTIME_
+> > which is pretty horrible and likely would be better done with something
+> > debian package renaming like since we already have that mangling code.
+> 
+> And the VIRTUAL-RUNTIME isn't a runtime selection, it's a build-time selection. 
+
+I realise that. As I said earlier, we don't support runtime selection
+and we allow distro selection of some things (at build time) using this
+rather ugly mechanism. I'd love to have something neater but its hard to
+interface that into all the packaging backends.
+
+>   If we need to select this at build-time, we can.
+
+Rightly or wrongly, we need to.
+
+>   I'm happy with changing the 
+> patch, but as a distribution person I really don't care who provides this as 
+> long as something does.
+
+We care about deterministic builds so we have to care about details like
+this.
+
+Cheers,
+
+Richard
 
 
 
