@@ -1,36 +1,34 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1TgBfi-0004vc-2f
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TgBnK-0005Or-Oc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 10:53:42 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so3094620pbc.6
+	Wed, 05 Dec 2012 11:01:34 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 2557ED22C0; Wed,  5 Dec 2012 10:47:24 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id F32A7D22B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 01:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:organization:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding
-	:content-type; bh=z6wvbFdWJpOxMFqM99P8LTu37lFIdCKw+vv6zcGGATc=;
-	b=azPnI53VEm+P8ARHlXi1AgEHEcqsUHyH80EyNMkcdxqt/T/JP9NggbTcSqN176IYA2
-	3uBnX7Ga3m9vRIzOXWAh5/d9+mPib7dOay0YoQ2MfWul7DDwyRZMsEeLi2OJUHlyfjl+
-	32ChSwMQTLwolo1F/F0fAU3sYK+LIdWoYGzK9D1mESIBf2wgPIEQDK1OzQ7qLwlxXO7v
-	6CwAK1xaS2kSajCRbV/k33LkQKYnZZxgOQx8M4v431lZcET0U9MDoHW3z4iZ3w1TLqO6
-	H8r/vfGukvtBFI0m6dPeHyUPdneDXsGxn8FNzAFVzVOVCG3/fXw5TbTCbzBREERUBNdu
-	uqxg==
-Received: by 10.69.1.71 with SMTP id be7mr45792587pbd.45.1354700357516;
-	Wed, 05 Dec 2012 01:39:17 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([121.237.170.22])
-	by mx.google.com with ESMTPS id vx2sm2617607pbc.33.2012.12.05.01.39.13
-	(version=SSLv3 cipher=OTHER); Wed, 05 Dec 2012 01:39:16 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 05 Dec 2012 17:37:58 +0000
-Message-ID: <1824060.mVimSNr8td@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.3 (Linux/3.6.8-1-ARCH; KDE/4.9.3; x86_64; ; )
-In-Reply-To: <1354699758.25268.86.camel@ted>
-References: <1370507.95j740KEpU@yiqingliang-pc> <1354699758.25268.86.camel@ted>
+	Wed,  5 Dec 2012 10:46:53 +0100 (CET)
+Message-ID: <50BF17FF.30507@linaro.org>
+Date: Wed, 05 Dec 2012 10:46:39 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+To: openembedded-core@lists.openembedded.org
+References: <1370507.95j740KEpU@yiqingliang-pc> <1354699758.25268.86.camel@ted>
+	<1824060.mVimSNr8td@yiqingliang-pc>
+In-Reply-To: <1824060.mVimSNr8td@yiqingliang-pc>
 Subject: Re: why recompile gcc-cross/eglibc when update linux package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,34 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 09:53:42 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 05 Dec 2012 10:01:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-that's it!!!
+W dniu 05.12.2012 18:37, Yi Qingliang pisze:
+> I think the version of linux-libc-headers should be same as kernel, in other 
+> words, use same source code, so I have updated both of them.
 
-I think the version of linux-libc-headers should be same as kernel, in other 
-words, use same source code, so I have updated both of them.
-
-VERY THANKS!!!
-
-On Wednesday, December 05, 2012 09:29:18 AM Richard Purdie wrote:
-> On Wed, 2012-12-05 at 10:16 +0000, Yi Qingliang wrote:
-> > I update the kernel from 3.6.6 to 3.6.9, and recompile it: bitbake linux
-> > 
-> > but it will recompile eglibc/gcc-cross first, so long time:( why?
-> > the eglibc will use kernel header? if so, understand.
-> > but what about gcc-cross?
-> 
-> Did you change linux-libc-headers or the kernel itself?
-> 
-> If you change the libc-headers, gcc-cross will rebuild since it depends
-> on eglibc and as you mention, eglibc depends on the headers.
-> 
-> Changing the target kernel recipe shouldn't rebuild any of those.
-> 
-> Cheers,
-> 
-> Richard
+They do not have to. We used 2.6 linux-libc-headers with 2.4 kernels in
+past.
 
 
