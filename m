@@ -1,29 +1,21 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <bjst@sestofb10.enea.se>) id 1TgCGZ-0005mJ-PB
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TgCar-000641-Hv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 11:31:52 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1; Wed, 5 Dec 2012
-	11:17:23 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 6B0432917AD;
-	Wed,  5 Dec 2012 11:17:23 +0100 (CET)
-Date: Wed, 5 Dec 2012 11:17:23 +0100
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20121205101723.GK25784@sestofb10.enea.se>
-References: <1353600120-22967-1-git-send-email-bjst@enea.com>
-	<1353600120-22967-2-git-send-email-bjst@enea.com>
-	<1353707361.21863.4.camel@ted>
-	<20121129155210.GC25784@sestofb10.enea.se>
-	<1354639762.25268.54.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1354639762.25268.54.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] Add a new distro feature "ptest".
+	Wed, 05 Dec 2012 11:52:45 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Dec 2012 02:37:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,221,1355126400"; d="scan'208";a="259303839"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2012 02:37:15 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Dec 2012 12:40:19 +0200
+Message-Id: <1354704019-10240-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH] nasm: upgrade to 2.10.05
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,19 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 10:31:52 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 05 Dec 2012 10:52:45 -0000
 
-Richard Purdie wrote:
-> So I think my proposal stands, lets put the pieces from bitbake.conf
-> into a bbclass file for now, the other pieces can merge into the core
-> code.
+From: Constantin Musca <constantinx.musca@intel.com>
 
-Fair enough. I'll get a new patch set together.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+---
+ meta/recipes-devtools/nasm/{nasm_2.10.01.bb => nasm_2.10.05.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/nasm/{nasm_2.10.01.bb => nasm_2.10.05.bb} (81%)
 
---=20
-Bj=F6rn
+diff --git a/meta/recipes-devtools/nasm/nasm_2.10.01.bb b/meta/recipes-devtools/nasm/nasm_2.10.05.bb
+similarity index 81%
+rename from meta/recipes-devtools/nasm/nasm_2.10.01.bb
+rename to meta/recipes-devtools/nasm/nasm_2.10.05.bb
+index 2864462..d430b1e 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.10.01.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.10.05.bb
+@@ -7,8 +7,8 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+ PR = "r0"
+ 
+ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
+-SRC_URI[md5sum] = "2e02cb6e90f52950eaaa8cce7a9f2327"
+-SRC_URI[sha256sum] = "ac9b37d265c35492ab1bc29dd5a4f3da11b42dd9fea7a31d95f6cb4c812bda84"
++SRC_URI[md5sum] = "d3c50875fd923b782749f883294336ed"
++SRC_URI[sha256sum] = "de5af263ce344d3a89711c61802e3ad8a4e14a61d539f521f7554cdbbe04ed0f"
+ 
+ inherit autotools
+ 
+-- 
+1.7.11.7
+
 
 
