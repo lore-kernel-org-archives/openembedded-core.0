@@ -1,19 +1,20 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muhammad_shakeel@mentor.com>) id 1TgDYb-0007Iz-MO
+	(envelope-from <radu.moisan@intel.com>) id 1TgEgb-000103-RZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 12:54:29 +0100
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
-	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qB5Be1FE019575;
-	Wed, 5 Dec 2012 05:40:03 -0600
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+	Wed, 05 Dec 2012 14:06:50 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Dec 2012 04:52:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,221,1355126400"; d="scan'208";a="229266781"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
+	by orsmga001.jf.intel.com with ESMTP; 05 Dec 2012 04:52:23 -0800
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 16:40:06 +0500
-Message-Id: <1354707606-7374-1-git-send-email-muhammad_shakeel@mentor.com>
+Date: Wed,  5 Dec 2012 14:57:34 +0200
+Message-Id: <cover.1354711738.git.radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] libaio: Remove QA warning: No GNU_HASH in the elf binary
+Subject: [PATCH 0/4] Pacage Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,34 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 11:54:29 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 13:06:50 -0000
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+This is a bunch of updates I received from Constantin.
+Everything looks good to me, signing off ...
 
-Update the LINK_FLAGS in the Makefile to remove warning:
-QA Issue: No GNU_HASH in the elf binary
+The following changes since commit 600fde2acd1b889a4edbb2ac4661cbf562072db6:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/recipes-extended/libaio/libaio_0.3.109.bb |    4 ++++
- 1 file changed, 4 insertions(+)
+  libxkbcommon: make the build do something (2012-12-04 20:52:02 +0000)
 
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-index 161b712..0712d04 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-@@ -18,6 +18,10 @@ SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288
- 
- EXTRA_OEMAKE =+ "prefix=${prefix} includedir=${includedir} libdir=${libdir}"
- 
-+do_configure () {
-+    sed -i 's#LINK_FLAGS=.*#LINK_FLAGS=$(LDFLAGS)#' src/Makefile
-+}
-+
- do_install () {
-     oe_runmake install DESTDIR=${D}
- }
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib rmoisan/updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/updates
+
+Constantin Musca (4):
+  babeltrace: upgrade to 1.0.0
+  liburcu: upgrade to 0.7.4
+  u-boot-mkimage: upgrade to 2012.07
+  curl: upgrade to 7.27.0
+
+ ...kimage_2011.06.bb => u-boot-mkimage_2012.07.bb} |    6 ++---
+ .../{babeltrace_0.12.bb => babeltrace_1.0.0.bb}    |    8 +++----
+ meta/recipes-support/curl/curl/pkgconfig_fix.patch |   25 +++++++++-----------
+ .../curl/{curl_7.26.0.bb => curl_7.27.0.bb}        |    6 ++---
+ .../liburcu/{liburcu_0.6.7.bb => liburcu_0.7.4.bb} |    8 +++----
+ 5 files changed, 25 insertions(+), 28 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2011.06.bb => u-boot-mkimage_2012.07.bb} (71%)
+ rename meta/recipes-kernel/lttng-2.0/{babeltrace_0.12.bb => babeltrace_1.0.0.bb} (81%)
+ rename meta/recipes-support/curl/{curl_7.26.0.bb => curl_7.27.0.bb} (92%)
+ rename meta/recipes-support/liburcu/{liburcu_0.6.7.bb => liburcu_0.7.4.bb} (76%)
+
 -- 
 1.7.9.5
 
