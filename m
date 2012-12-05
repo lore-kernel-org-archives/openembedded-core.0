@@ -1,38 +1,39 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TgO0o-0000s8-Cr
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1TgOm2-0001OO-Ax
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 00:04:20 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qB5Mnpdt031234
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 5 Dec 2012 23:49:52 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1TgNmp-00084Y-2a; Wed, 05 Dec 2012 23:49:51 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1354731942.git.Martin.Jansa@gmail.com>
-	<8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
-	<lyehj48gmo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20121205193523.GG3396@jama.jama.net>
-Date: Wed, 05 Dec 2012 23:49:51 +0100
-In-Reply-To: <20121205193523.GG3396@jama.jama.net> (Martin Jansa's message of
-	"Wed, 5 Dec 2012 20:35:23 +0100")
-Message-ID: <lywqwwglm8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.83
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/5] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
+	Thu, 06 Dec 2012 00:53:06 +0100
+Received: from mail-pb0-f69.google.com ([209.85.160.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Dec 2012 15:37:35 -0800
+Received: by mail-pb0-f69.google.com with SMTP id un15so7454016pbc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Dec 2012 15:37:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=iIPJSh88n5eo4TG3OhP8aCNrL+r3fkgpo1YIxPqo8LQ=;
+	b=l72f0W8MlSSIJhW8HTJRoETL/QVX+blW55whMQKvBDi1+NZGHGyTyJpasI9Im7JMFB
+	56aSmkhtn8ue9V3PWhPcN8pyDnW7F2eJ5egEakQIQv706RCprowVKb0SI2uk5MjjAGCx
+	jU9WdGfVFFQD3DH+tqqNoj4A3TlU9/5xm+arb00dXGWh2N1+6zprb5YFLoV3Fo1eikzG
+	szdJrK1KFKvzRwWMcc1scB17sbjj7b2lyGk1v5tttFptS49Xc0Lotqdu4pefun8KEE0J
+	ma3P0gW3Hr1qHPAymVViR+h81PSa0/lZGbWt65hWxg48hsf++if3Pv5leZRUXbgOEtt6
+	vwMg==
+Received: by 10.68.241.73 with SMTP id wg9mr781325pbc.3.1354750652086;
+	Wed, 05 Dec 2012 15:37:32 -0800 (PST)
+Received: by 10.68.241.73 with SMTP id wg9mr781309pbc.3.1354750651949;
+	Wed, 05 Dec 2012 15:37:31 -0800 (PST)
+Received: from avartita.hsd1.or.comcast.net.
+	(c-71-236-152-235.hsd1.or.comcast.net. [71.236.152.235])
+	by mx.google.com with ESMTPS id x2sm3489381paw.8.2012.12.05.15.37.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 05 Dec 2012 15:37:31 -0800 (PST)
+From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Dec 2012 15:37:22 -0800
+Message-Id: <cover.1354748735.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQkMp3vgR0VPX6tm/vZosObvFb4z0IUAV0D1XIuHpFpUz9eE+ufqJZL47cRUX1bl6MdHCp2Yuqv5QxsadXTiVLoHsnCgIqFnIhR7Y7ch+H8ceCC6XGpRPEpzFOXkvwFenX08MypWJNyOm6Rhu20ApIW4Y0XrFFwbnK6ld7hLfocqh6ljBh1DsSfwkfJmyjxsXoi9Daal
+Subject: [PATCH 0/1] Include locale in the package manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,24 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 23:04:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Dec 2012 23:53:06 -0000
 
-Martin Jansa <martin.jansa@gmail.com> writes:
+This patch is removes the exclusion of *locale* from the package and license
+manifests. Doing so, allows us to accurately audit the packages installed
+on an image with what the manifests contain.
 
-> .*/var/pseudo
-> and
-> .*/var/pseudo/somefile$
->
-> which matches also /var/pseudosomepath, I can split it in 2 regexps if
-> that's likely to show in sysroot, or use "\/var\/pseudo\($\|\/[^\/]*$\)"
+This was tested by:
 
-A basic regexp '/var/pseudo\(/.*\)\?$' should suffice.  Btw, to avoid
-escaping of '/', you can write
+ssh root@192.168.7.4 'rpm -qa|sort' >> pkg_list
+pr -m -t -s package.manifest pkg_list | gawk '{print $2 " " $1}'
 
-  sed -i "\!${var}!d"
+and then manually comparing the results.
 
+The following changes since commit 381c4b69c7e8b452f4d3de2f8214e6e5f6a9abe7:
 
-Enrico
+  sstate.bbclass: fix detection of owners matching sstate files (2012-12-05 15:34:07 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib eflanagan/locale_license
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=eflanagan/locale_license
+
+Elizabeth Flanagan (1):
+  license.bbclass: Including locale packages
+
+ meta/classes/license.bbclass |    7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+-- 
+1.7.9.5
+
 
 
