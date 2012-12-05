@@ -1,39 +1,38 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TgNw7-0000Pq-H4
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TgO0o-0000s8-Cr
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 23:59:28 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Dec 2012 14:45:01 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so26120462oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 14:45:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=yhQGAEaY6vtj51gPFi3GPBwAOgQBwU7QGBHz9GxBxW8=;
-	b=dtQO6y895BMach+Kh5MF4B/WbrbVDwfa1XCzzMDPyiKuX9D83qUtqZPsW6S5tEtBnY
-	4mogFQAhwfy1kRfzv5zALJTXRcQXPXpSrIvIFeG5GzfUF5j7NHtjgin5/vCM5c4p0d1T
-	AJ5rQjexCSWE9IFh99Tex9TyqWnfPXTTxVOxl3eVry5DQiokSZlplYE1xk7+JwSicRch
-	7rvdYu0jmzFXfCJ/4CnhKeb8PXUaQvxBGNm1rNOXYUPbcwnseBV8PuC/XiABHnP3oGnW
-	Wrf/E4wa9ploMLsYSq7gbGB93CnUN5cmcsgHQHkJdITWAgWMw1vjdYEIbwjjOv+pgldk
-	D2NA==
-Received: by 10.60.31.49 with SMTP id x17mr15498355oeh.33.1354747500656;
-	Wed, 05 Dec 2012 14:45:00 -0800 (PST)
-Received: by 10.60.31.49 with SMTP id x17mr15498351oeh.33.1354747500583; Wed,
-	05 Dec 2012 14:45:00 -0800 (PST)
+	Thu, 06 Dec 2012 00:04:20 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qB5Mnpdt031234
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 5 Dec 2012 23:49:52 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TgNmp-00084Y-2a; Wed, 05 Dec 2012 23:49:51 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1354731942.git.Martin.Jansa@gmail.com>
+	<8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
+	<lyehj48gmo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20121205193523.GG3396@jama.jama.net>
+Date: Wed, 05 Dec 2012 23:49:51 +0100
+In-Reply-To: <20121205193523.GG3396@jama.jama.net> (Martin Jansa's message of
+	"Wed, 5 Dec 2012 20:35:23 +0100")
+Message-ID: <lywqwwglm8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Wed, 5 Dec 2012 14:44:40 -0800 (PST)
-In-Reply-To: <1354746794-24290-1-git-send-email-cazfi74@gmail.com>
-References: <1354746794-24290-1-git-send-email-cazfi74@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 5 Dec 2012 22:44:40 +0000
-Message-ID: <CAJTo0LaEnxc5GwZbxP2iqy943LSbE0AonKYaJkRBkciCVs4g9Q@mail.gmail.com>
-To: Marko Lindqvist <cazfi74@gmail.com>
-X-Gm-Message-State: ALoCoQkGnIeXZD35NTmYMGgsXCE/lXrZ1/zoEVa4D8s3rfBAlXzo/K8A2pTD6YWEKUC9DCe5ToitZ4BF0rBXTf5M4Kv/4DAmtqtgehXHcMUdcDcw2R/1LENrt00+N+krN1wnHfHGNxFyG3ncXzBtmjUK7p7qyZaVcKXUv5jv2JEmKTi+tUGsRZ6VBlHm78eobVlbOlM35ACz
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.83
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libmatchbox: fix build against libpng15
+Subject: Re: [PATCH 3/5] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,14 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 22:59:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Dec 2012 23:04:20 -0000
+Content-Type: text/plain
 
-Hi Marko,
+Martin Jansa <martin.jansa@gmail.com> writes:
 
-Is this backwards compatible with libpng12, or should libmatchbox
-check it has libpng15?
+> .*/var/pseudo
+> and
+> .*/var/pseudo/somefile$
+>
+> which matches also /var/pseudosomepath, I can split it in 2 regexps if
+> that's likely to show in sysroot, or use "\/var\/pseudo\($\|\/[^\/]*$\)"
 
-Ross
+A basic regexp '/var/pseudo\(/.*\)\?$' should suffice.  Btw, to avoid
+escaping of '/', you can write
+
+  sed -i "\!${var}!d"
+
+
+Enrico
 
 
