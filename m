@@ -1,34 +1,25 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1Tg4mm-0005me-JW
+	(envelope-from <Qi.Chen@windriver.com>) id 1Tg4n9-0005pW-DA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 03:32:34 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so2876260pbc.6
+	Wed, 05 Dec 2012 03:32:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB52IUGi005159
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Dec 2012 18:18:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:organization:user-agent
-	:mime-version:content-transfer-encoding:content-type;
-	bh=0GrouUFvw8WsDtRiIoIE2Kx3dS98oLblM/C13hDVbMM=;
-	b=buBE7yJ4kxmx0qHqcFyolSw55wvQxxSmi+lJ3pZnmSi+IIhD8tLe+aA1C/PWrTADeM
-	o4yoM+hMHNMWGEiheTtuiaDD9Kp+iVphPza/rYt30VzSHrzFP/98NE7ZwJm6o+d15qPk
-	bekivbcmJewQMjwqyHTB1Kd2VSOwifClQX+KQD0ccvzrqzFlKIshiCcKdUB5q7PNMW4h
-	xKu0mxPPZ/X0+ZAfWvzG7xXSqTSFmr4635ZtoFG4Ecu42BoH0PFhg89R2IHo2yzeHaW7
-	lBzKPW8QD6w2ygg281nUXbzl1iEV5a+jwOeU5O8QKClA2uL8uKiI4xkrEoiQdT1F56jY
-	b2Cg==
-Received: by 10.69.1.71 with SMTP id be7mr42859356pbd.45.1354673888390;
-	Tue, 04 Dec 2012 18:18:08 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([121.237.170.22])
-	by mx.google.com with ESMTPS id j9sm1778336paw.2.2012.12.04.18.18.06
-	(version=SSLv3 cipher=OTHER); Tue, 04 Dec 2012 18:18:07 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 05 Dec 2012 10:16:50 +0000
-Message-ID: <1370507.95j740KEpU@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.3 (Linux/3.6.8-1-ARCH; KDE/4.9.3; x86_64; ; )
+	Tue, 4 Dec 2012 18:18:30 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 4 Dec 2012 18:18:30 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Dec 2012 10:19:03 +0800
+Message-ID: <cover.1354615572.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: why recompile gcc-cross/eglibc when update linux package?
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] qt4-native & ghostscript: fix upstream status for patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,17 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 02:32:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 05 Dec 2012 02:32:55 -0000
+Content-Type: text/plain
 
-I update the kernel from 3.6.6 to 3.6.9, and recompile it: bitbake linux
+From: Chen Qi <Qi.Chen@windriver.com>
 
-but it will recompile eglibc/gcc-cross first, so long time:( why?
-the eglibc will use kernel header? if so, understand.
-but what about gcc-cross?
+Update upstream status for patches related to long TMPDIR.
 
-Yi Qingliang
-Nanjing Jilong
+The following changes since commit da6c266b1184eed8b1bc851f24a9ee17ab56d562:
+
+  xserver-xorg: restore packaging for the DRI/DRI2/DBE extensions (2012-12-03 16:38:35 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/fixpatchstatus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/fixpatchstatus
+
+Chen Qi (1):
+  qt4-native & ghostscript: update upstream status for their patches
+
+ ...tscript-work-with-long-building-directory.patch |    2 +-
+ ...e-qt4-native-work-with-long-building-path.patch |    3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+-- 
+1.7.9.5
+
 
 
