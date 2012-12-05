@@ -1,35 +1,39 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TgNkl-0002bo-QA
+	(envelope-from <ross.burton@intel.com>) id 1TgNw7-0000Pq-H4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 23:47:43 +0100
-Received: by mail-lb0-f175.google.com with SMTP id gg13so4424964lbb.6
+	Wed, 05 Dec 2012 23:59:28 +0100
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Dec 2012 14:45:01 -0800
+Received: by mail-oa0-f69.google.com with SMTP id j6so26120462oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 14:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=FMksXmvq4GinEOwHKIXg+9ehQAxgPTJk/17lJAbaCLE=;
-	b=C3+Uc80bfeTvDgwIr2ufgRilAA34o1qz14U9Z2bAsoG29x75FIkzoeyR79a18Zn8g6
-	FUmdRlvqhpnevbHH4C1NSKtvC9yAfH90CsWxDY1Phb1KygBlloyp0kMEtpVqcl0U/pYs
-	HymIYF8G1foY5kLaCaH1dYGnTRBv9bu61pK+ueMuTQRdrY2LPb1XUmwjLhMxJSpMeAI1
-	D9WOIYX/wRtmoNeklVQv4aO9x1xNSlUyBghG41TPP969IfH9tw4Md/H5MKAws3uUPHDZ
-	iXPs0dzVAiqljFErvcgUNOejcPLnZm14S1ESQPePNYCSsQIT+2gdQhjTd9EPAODrFn3l
-	vaTw==
-Received: by 10.152.103.38 with SMTP id ft6mr18000665lab.40.1354746798861;
-	Wed, 05 Dec 2012 14:33:18 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id b7sm2725688lbk.17.2012.12.05.14.33.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Dec 2012 14:33:17 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TgNWl-00071U-0M; Thu, 06 Dec 2012 00:33:15 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Dec 2012 00:33:14 +0200
-Message-Id: <1354746794-24290-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] libmatchbox: fix build against libpng15
+	Wed, 05 Dec 2012 14:45:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=yhQGAEaY6vtj51gPFi3GPBwAOgQBwU7QGBHz9GxBxW8=;
+	b=dtQO6y895BMach+Kh5MF4B/WbrbVDwfa1XCzzMDPyiKuX9D83qUtqZPsW6S5tEtBnY
+	4mogFQAhwfy1kRfzv5zALJTXRcQXPXpSrIvIFeG5GzfUF5j7NHtjgin5/vCM5c4p0d1T
+	AJ5rQjexCSWE9IFh99Tex9TyqWnfPXTTxVOxl3eVry5DQiokSZlplYE1xk7+JwSicRch
+	7rvdYu0jmzFXfCJ/4CnhKeb8PXUaQvxBGNm1rNOXYUPbcwnseBV8PuC/XiABHnP3oGnW
+	Wrf/E4wa9ploMLsYSq7gbGB93CnUN5cmcsgHQHkJdITWAgWMw1vjdYEIbwjjOv+pgldk
+	D2NA==
+Received: by 10.60.31.49 with SMTP id x17mr15498355oeh.33.1354747500656;
+	Wed, 05 Dec 2012 14:45:00 -0800 (PST)
+Received: by 10.60.31.49 with SMTP id x17mr15498351oeh.33.1354747500583; Wed,
+	05 Dec 2012 14:45:00 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.132.198 with HTTP; Wed, 5 Dec 2012 14:44:40 -0800 (PST)
+In-Reply-To: <1354746794-24290-1-git-send-email-cazfi74@gmail.com>
+References: <1354746794-24290-1-git-send-email-cazfi74@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 5 Dec 2012 22:44:40 +0000
+Message-ID: <CAJTo0LaEnxc5GwZbxP2iqy943LSbE0AonKYaJkRBkciCVs4g9Q@mail.gmail.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+X-Gm-Message-State: ALoCoQkGnIeXZD35NTmYMGgsXCE/lXrZ1/zoEVa4D8s3rfBAlXzo/K8A2pTD6YWEKUC9DCe5ToitZ4BF0rBXTf5M4Kv/4DAmtqtgehXHcMUdcDcw2R/1LENrt00+N+krN1wnHfHGNxFyG3ncXzBtmjUK7p7qyZaVcKXUv5jv2JEmKTi+tUGsRZ6VBlHm78eobVlbOlM35ACz
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libmatchbox: fix build against libpng15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,78 +46,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 22:47:43 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 22:59:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../libmatchbox/files/libpng15.patch               |   34 ++++++++++++++++++++
- .../libmatchbox/libmatchbox_1.9.bb                 |    6 ++--
- 2 files changed, 38 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/libmatchbox/files/libpng15.patch
+Hi Marko,
 
-diff --git a/meta/recipes-graphics/libmatchbox/files/libpng15.patch b/meta/recipes-graphics/libmatchbox/files/libpng15.patch
-new file mode 100644
-index 0000000..a463d9e
---- /dev/null
-+++ b/meta/recipes-graphics/libmatchbox/files/libpng15.patch
-@@ -0,0 +1,34 @@
-+diff -Nurd libmatchbox-1.9/libmb/mbpixbuf.c libmatchbox-1.9/libmb/mbpixbuf.c
-+--- libmatchbox-1.9/libmb/mbpixbuf.c	2006-07-26 22:12:25.000000000 +0300
-++++ libmatchbox-1.9/libmb/mbpixbuf.c	2012-12-06 00:08:28.645988727 +0200
-+@@ -224,6 +224,7 @@
-+   png_structp png_ptr;
-+   png_infop info_ptr;
-+   png_bytep *row_pointers;
-++  png_byte ct;
-+ 
-+   if ((fd = fopen( file, "rb" )) == NULL) return NULL;
-+ 
-+@@ -247,7 +248,7 @@
-+     return NULL;
-+   }
-+ 
-+-  if ( setjmp( png_ptr->jmpbuf ) ) {
-++  if ( setjmp( png_jmpbuf( png_ptr ) ) ) {
-+     png_destroy_read_struct( &png_ptr, &info_ptr, NULL);
-+     fclose(fd);
-+     return NULL;
-+@@ -268,9 +269,11 @@
-+   if (( color_type == PNG_COLOR_TYPE_GRAY )||
-+       ( color_type == PNG_COLOR_TYPE_GRAY_ALPHA ))
-+     png_set_gray_to_rgb(png_ptr);
-++
-++  ct = png_get_color_type(png_ptr, info_ptr);
-+  
-+-  if ( info_ptr->color_type == PNG_COLOR_TYPE_RGB_ALPHA 
-+-       || info_ptr->color_type == PNG_COLOR_TYPE_GRAY_ALPHA
-++  if ( ct == PNG_COLOR_TYPE_RGB_ALPHA 
-++       || ct == PNG_COLOR_TYPE_GRAY_ALPHA
-+        )
-+     *has_alpha = 1;
-+   else
-diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb
-index 2fcd1b0..559f9b5 100644
---- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb
-+++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb
-@@ -1,12 +1,14 @@
- require libmatchbox.inc
- 
--PR = "r10"
-+PR = "r11"
- 
- SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/${BPN}/${PV}/${BPN}-${PV}.tar.gz \
-            file://16bppfixes.patch \
-            file://configure_fixes.patch \
-            file://check.m4 \
--           file://matchbox-start-fix.patch"
-+           file://matchbox-start-fix.patch \
-+           file://libpng15.patch \
-+"
- 
- SRC_URI[md5sum] = "465fa15c43bf0091a3810e7702fe143f"
- SRC_URI[sha256sum] = "f7054f93c57ba6b758d0e4f47d4d2dd96a7fe487e1157eb70a4d642910275aea"
--- 
-1.7.10.4
+Is this backwards compatible with libpng12, or should libmatchbox
+check it has libpng15?
 
+Ross
 
 
