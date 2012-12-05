@@ -1,37 +1,32 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TgHCV-0007cc-6S
-	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 16:47:55 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so3284128pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 07:33:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=oPoobcSj5nw2iFB2D23267XABzjMdX21SGNCPcmKpwY=;
-	b=DqEzUnHKMYfIFSJU5xclKjTaXcMf02cXv6aJwErOB8keaFPThsYXx1LVaefytAerpy
-	nFTepcAbsuaMZtlLtym7WjE+VqsIjEhuVtwQ8c1tGY49PcPNaYf3hzaRliXQbBUAuwdI
-	wEhiJsZHBQE8jGCi0qFIEgbmvEfDy4H17I6KhgNrtS+bF+CttxaqgjHS6twdkkOw4A7K
-	w9m9n0+9a7xKDLmTaZX3RRXfQ1jnaQMXnS0qsHyKXmLehpQRznzLar7gbPZWONTCMS6o
-	oWJ5G1YPltFLoVXnEHj2SrP7JYNmhcPsL+bYWZ0urhPnDriOqybLoy11P2HhhY4cUtiN
-	A8ZA==
-MIME-Version: 1.0
-Received: by 10.68.213.33 with SMTP id np1mr49659332pbc.64.1354721610367; Wed,
-	05 Dec 2012 07:33:30 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Wed, 5 Dec 2012 07:33:30 -0800 (PST)
-In-Reply-To: <d69418647adf8bc836c8880a4caa59076a8c498f.1354711738.git.radu.moisan@intel.com>
-References: <cover.1354711738.git.radu.moisan@intel.com>
-	<d69418647adf8bc836c8880a4caa59076a8c498f.1354711738.git.radu.moisan@intel.com>
-Date: Wed, 5 Dec 2012 13:33:30 -0200
-X-Google-Sender-Auth: DPLhCRdy6tvhar_5iCCj-DSJ7-s
-Message-ID: <CAP9ODKocfW+WBGY_5nzKny43cTot_mE5UzTVwOGwjDAhoa3H+Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Radu Moisan <radu.moisan@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] u-boot-mkimage: upgrade to 2012.07
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TgHGZ-0007oG-HA for openembedded-core@lists.openembedded.org;
+	Wed, 05 Dec 2012 16:52:07 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB5FbhtX019400;
+	Wed, 5 Dec 2012 15:37:43 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18639-07; Wed,  5 Dec 2012 15:37:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB5FbZAZ019394
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 5 Dec 2012 15:37:35 GMT
+Message-ID: <1354721845.25268.118.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 05 Dec 2012 15:37:25 +0000
+In-Reply-To: <20121205152442.GC3396@jama.jama.net>
+References: <1354716839.25268.105.camel@ted>
+	<20121205144539.GA3396@jama.jama.net> <1354720793.25268.115.camel@ted>
+	<20121205152442.GC3396@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Switch to PR server model for PR bumps - 1 week
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 15:47:55 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c12e5b036504d01cb4b9
+X-List-Received-Date: Wed, 05 Dec 2012 15:52:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---e89a8ff1c12e5b036504d01cb4b9
-Content-Type: text/plain; charset=ISO-8859-1
+On Wed, 2012-12-05 at 16:24 +0100, Martin Jansa wrote:
+> On Wed, Dec 05, 2012 at 03:19:53PM +0000, Richard Purdie wrote:
+> > On Wed, 2012-12-05 at 15:45 +0100, Martin Jansa wrote:
+> > Added to the page: "As implemented, values from the PR service are
+> > included into the PR field as an addition of the form ".X" so r0 becomes
+> > r0.1, r0.2 and so on. This allows existing PR values to be used for
+> > whatever reasons allowing manual PR bumps should it be necessary."
+> > 
+> > (should cover both questions)
+> > 
+> > As for removing PR, as recipes are upgraded, I'm expecting we will
+> > remove PR values so we should get a smooth transition. We can still have
+> > PR values, it will just become an exception rather than the rule.
+> 
+> So default "hidden" r0 is still used in such cases and PRSERV adds again
+> just .X.
 
-On Wed, Dec 5, 2012 at 10:57 AM, Radu Moisan <radu.moisan@intel.com> wrote:
+Exactly.
 
-> From: Constantin Musca <constantinx.musca@intel.com>
->
-> License checksum change due to README diff (only the
-> instructions have changed)
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->
+> Thanks for answers.
 
-I'd say to go to 2012.10 as this is the last release.
+They were good questions :)
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Cheers,
 
---e89a8ff1c12e5b036504d01cb4b9
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Wed, D=
-ec 5, 2012 at 10:57 AM, Radu Moisan <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:radu.moisan@intel.com" target=3D"_blank">radu.moisan@intel.com</a>&gt;</sp=
-an> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">From: Constantin Musca &lt;<a href=3D"mailto=
-:constantinx.musca@intel.com">constantinx.musca@intel.com</a>&gt;<br>
-<br>
-License checksum change due to README diff (only the<br>
-instructions have changed)<br>
-<br>
-Signed-off-by: Constantin Musca &lt;<a href=3D"mailto:constantinx.musca@int=
-el.com">constantinx.musca@intel.com</a>&gt;<br>
-Signed-off-by: Radu Moisan &lt;<a href=3D"mailto:radu.moisan@intel.com">rad=
-u.moisan@intel.com</a>&gt;<br>
----<br></blockquote></div><div><br></div><div>I&#39;d say to go to 2012.10 =
-as this is the last release.</div><div><br></div>-- <br>Otavio Salvador=A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-ma=
-il: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@oss=
-ystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_bla=
-nk">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-</div>
 
---e89a8ff1c12e5b036504d01cb4b9--
+
+
