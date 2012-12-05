@@ -1,33 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Tg4og-0005xd-4C
+	(envelope-from <Ming.Liu@windriver.com>) id 1TgA5W-0003Cb-Ke
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 03:34:33 +0100
+	Wed, 05 Dec 2012 09:12:15 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB52K5RD005393
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Dec 2012 18:20:05 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 4 Dec 2012 18:20:05 -0800
-Message-ID: <50BEAF76.9010608@windriver.com>
-Date: Wed, 5 Dec 2012 10:20:38 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB57vnjg010061
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Dec 2012 23:57:49 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 4 Dec 2012 23:57:49 -0800
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Dec 2012 15:57:44 +0800
+Message-ID: <1354694264-23741-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.11
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1354265260.git.Qi.Chen@windriver.com>
-	<df75410d0032ada41e657f6bd01a5d185281d541.1354265260.git.Qi.Chen@windriver.com>
-	<20121203081842.GA3354@jama.jama.net>
-	<50BC628B.1030905@windriver.com>
-	<CA+chaQdUszJUVsHhDoM-vZh+gWDVuFf3A-50jLQ1RuBkLh95Qw@mail.gmail.com>
-In-Reply-To: <CA+chaQdUszJUVsHhDoM-vZh+gWDVuFf3A-50jLQ1RuBkLh95Qw@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] qt4-native: make qt4-native work with long building path
+Subject: [PATCH V1] initscripts/urandom: create directory before staging into it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,26 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 02:34:33 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Dec 2012 08:12:15 -0000
+Content-Type: text/plain
 
-On 12/04/2012 04:51 PM, Martin Jansa wrote:
-> On Mon, Dec 3, 2012 at 9:27 AM, ChenQi<Qi.Chen@windriver.com>  wrote:
->> I've changed it to "Submitted" and sent the patches again.
->> Could you please have a look at it to see whether there are other problems?
->> (By the way, what's the difference between "Submitted" and "Pending"? If the
->> patch hasn't been sent to upstream but will be, we call it "Pending"?)
-> It looks like older version of your patch was applied, can you rebase
-> that branch and send what was left as followup patches?
->
-> Cheers,
->
-Thank you for reminding me about it.
-I've sent out a patch to fix the upstream status.
-Please help have a look at it :)
+/etc/init.d/urandom fails to start/stop because it tries to save
+random-seed into /var/lib/urandom folder which does not exist in the
+file system.
 
-Thanks,
-Chen Qi
+Fixed by creating /var/lib/urandom at do_install time.
+
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-core/initscripts/initscripts_1.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index d25838b..39be9a8 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r137"
++PR = "r138"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+@@ -133,4 +133,6 @@ do_install () {
+ 	fi
+ 
+ 	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
++	# Holds state information pertaining to urandom
++	install -d ${D}/var/lib/urandom
+ }
+-- 
+1.7.11
+
 
 
