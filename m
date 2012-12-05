@@ -1,26 +1,32 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tg2ON-0002PN-N9
+	(envelope-from <mark.hatle@windriver.com>) id 1Tg4J0-0005Oy-6k
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 00:59:14 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 04 Dec 2012 15:44:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,217,1355126400"; d="scan'208";a="226638433"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
-	by azsmga001.ch.intel.com with ESMTP; 04 Dec 2012 15:44:46 -0800
-Message-ID: <50BE8AEE.5090202@linux.intel.com>
-Date: Tue, 04 Dec 2012 15:44:46 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Wed, 05 Dec 2012 03:01:52 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qB51lJXT003863
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Dec 2012 17:47:20 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 4 Dec 2012 17:47:18 -0800
+Message-ID: <50BEA7A8.2070600@windriver.com>
+Date: Tue, 4 Dec 2012 19:47:20 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:16.0) Gecko/20121026 Thunderbird/16.0.2
 MIME-Version: 1.0
-To: Mihai Prica <mihai.prica@intel.com>
-References: <1354663994-20221-1-git-send-email-sgw@linux.intel.com>
-	<1354663994-20221-2-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1354663994-20221-2-git-send-email-sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3 v2] libnl: upgrade to 3.2.14
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1354641032.git.mark.hatle@windriver.com>
+	<13c1d96727b678dc95430f1144b3017c9e62948f.1354641032.git.mark.hatle@windriver.com>
+	<20121204170432.GH14870@jama.jama.net>
+	<50BE342E.1070401@windriver.com> <1354654017.25268.65.camel@ted>
+In-Reply-To: <1354654017.25268.65.camel@ted>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 03/22] update-alternatives.bbclass: Add missing runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,192 +39,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 23:59:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 05 Dec 2012 02:01:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/04/2012 03:33 PM, Saul Wold wrote:
-> From: Mihai Prica <mihai.prica@intel.com>
+On 12/4/12 2:46 PM, Richard Purdie wrote:
+> On Tue, 2012-12-04 at 11:34 -0600, Mark Hatle wrote:
+>> On 12/4/12 11:04 AM, Martin Jansa wrote:
+>>> On Tue, Dec 04, 2012 at 11:14:35AM -0600, Mark Hatle wrote:
+>>>> When using update-alternatives, there should be a runtime dependency on
+>>>> update-alternatives.  Without this, it's possible to get into a situation
+>>>> where the package is not installable.
+>>>>
+>>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>>>> ---
+>>>>    meta/classes/update-alternatives.bbclass |    6 ++++++
+>>>>    1 files changed, 6 insertions(+), 0 deletions(-)
+>>>>
+>>>> diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+>>>> index 4e1ff27..e432506 100644
+>>>> --- a/meta/classes/update-alternatives.bbclass
+>>>> +++ b/meta/classes/update-alternatives.bbclass
+>>>> @@ -304,6 +304,12 @@ python populate_packages_prepend () {
+>>>>                alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
+>>>>
+>>>>            if alt_setup_links:
+>>>> +            # RDEPENDS setup
+>>>> +            bb.note('adding runtime requirement for update-alternatives for %s' % pkg)
+>>>> +            rdepends = d.getVar('RDEPENDS_%s' % pkg, True) or ""
+>>>> +            rdepends += ' ' + d.getVar('MLPREFIX') + 'update-alternatives'
+>>>> +            d.setVar("RDEPENDS_%s" % pkg, rdepends)
+>>>> +
+>>>
+>>> I guess you should use VIRTUAL-RUNTIME_update-alternatives here
+>>
+>> I believe what I have here is correct.
 >
-> * Based on the 3.2.9 recipe from meta-oe
-> * Modified the patches to work with the new name of the library file (libnl-3.so)
+> No, Martin is right.
 >
-> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   .../libnl/{libnl-2.0 => libnl}/fix-pc-file.patch   | 14 ++++----
->   .../fix-pktloc_syntax_h-race.patch                 | 27 ++++++++------
->   meta/recipes-support/libnl/libnl_2.0.bb            | 27 --------------
->   meta/recipes-support/libnl/libnl_3.2.14.bb         | 41 ++++++++++++++++++++++
->   4 files changed, 65 insertions(+), 44 deletions(-)
->   rename meta/recipes-support/libnl/{libnl-2.0 => libnl}/fix-pc-file.patch (52%)
->   rename meta/recipes-support/libnl/{libnl-2.0 => libnl}/fix-pktloc_syntax_h-race.patch (57%)
->   delete mode 100644 meta/recipes-support/libnl/libnl_2.0.bb
->   create mode 100644 meta/recipes-support/libnl/libnl_3.2.14.bb
+>>    We don't care which update-alternatives
+>> we use, just that one is used.
+>>
+>> recipes-devtools/dpkg/dpkg.inc:RPROVIDES_update-alternatives-dpkg +=
+>> "update-alternatives"
+>> recipes-devtools/opkg/opkg.inc:RPROVIDES_update-alternatives-cworth +=
+>> "update-alternatives"
+>>
+>> If I use the ${VIRTUAL-RUNTIME_update-alternatives} that has the effect or hard
+>> coding which specific version of update-alternatives we're going to use.. (-dpg
+>> vs -cworth)  I'm not sure this is really the desired behavior in this case -- if
+>> it is, it's easy enough to change of course.
 >
-> diff --git a/meta/recipes-support/libnl/libnl-2.0/fix-pc-file.patch b/meta/recipes-support/libnl/libnl/fix-pc-file.patch
-> similarity index 52%
-> rename from meta/recipes-support/libnl/libnl-2.0/fix-pc-file.patch
-> rename to meta/recipes-support/libnl/libnl/fix-pc-file.patch
-> index 85afe8f..fe8b833 100644
-> --- a/meta/recipes-support/libnl/libnl-2.0/fix-pc-file.patch
-> +++ b/meta/recipes-support/libnl/libnl/fix-pc-file.patch
-> @@ -4,14 +4,14 @@ Some packages are asking only for libnl-2.0, but expects to get also
->   libnl-genl, libnl-nf libnl-route, easiest way to fix them is here.
+> I keep telling people this and people keep ignoring me.
 >
->   Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> -Index: libnl-2.0/libnl-2.0.pc.in
-> +Index: libnl-3.2.14/libnl-3.0.pc.in
->   ===================================================================
-> ---- libnl-2.0.orig/libnl-2.0.pc.in
-> -+++ libnl-2.0/libnl-2.0.pc.in
-> -@@ -6,5 +6,5 @@
-> +--- libnl-3.2.14.orig/libnl-3.0.pc.in
-> ++++ libnl-3.2.14/libnl-3.0.pc.in
-> +@@ -6,5 +6,5 @@ includedir=@includedir@
->    Name: libnl
->    Description: Convenience library for netlink sockets
->    Version: @PACKAGE_VERSION@
-> --Libs: -L${libdir} -lnl
-> -+Libs: -L${libdir} -lnl -lnl-genl -lnl-nf -lnl-route
-> - Cflags: -I${includedir}
-> +-Libs: -L${libdir} -lnl-@MAJ_VERSION@
-> ++Libs: -L${libdir} -lnl-@MAJ_VERSION@ -lnl-genl-@MAJ_VERSION@ -lnl-nf-@MAJ_VERSION@ -lnl-route-@MAJ_VERSION@
-> + Cflags: -I${includedir}/libnl@MAJ_VERSION@
-> diff --git a/meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-> similarity index 57%
-> rename from meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
-> rename to meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-> index ea32e82..332ec01 100644
-> --- a/meta/recipes-support/libnl/libnl-2.0/fix-pktloc_syntax_h-race.patch
-> +++ b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-> @@ -6,24 +6,31 @@ newer version so we can assume this issue is fixed upstream
->
->   Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
->
-> -Index: libnl-2.0/lib/Makefile.am
-> +Index: libnl-3.2.14/lib/Makefile.am
->   ===================================================================
-> ---- libnl-2.0.orig/lib/Makefile.am
-> -+++ libnl-2.0/lib/Makefile.am
-> -@@ -27,11 +27,16 @@ CLEANFILES = \
-> - 	route/pktloc_grammar.c route/pktloc_grammar.h \
-> - 	route/pktloc_syntax.c route/pktloc_syntax.h
-> +--- libnl-3.2.14.orig/lib/Makefile.am
-> ++++ libnl-3.2.14/lib/Makefile.am
-> +@@ -39,9 +39,12 @@ CLEANFILES = \
->
-> -+BUILT_SOURCES = route/pktloc_syntax.h route/pktloc_grammar.h
-> -+
->    # Hack to avoid using ylwrap. It does not function correctly in combination
->    # with --header-file=
->   +route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
->   +route/pktloc_grammar.h: route/pktloc_grammar.c
->    route/pktloc_grammar.c: route/pktloc_grammar.l
-> - 	$(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
-> + 	$(AM_V_GEN) $(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
->
->   +route/pktloc_syntax.h: route/pktloc_syntax.c
->    route/pktloc_syntax.c: route/pktloc_syntax.y
-> - 	$(YACC) -d $(YFLAGS) -o $@ $^
-> + 	$(AM_V_GEN) $(YACC) -d $(YFLAGS) -o $@ $^
->
-> +@@ -89,7 +92,9 @@ BUILT_SOURCES = \
-> + 	route/cls/ematch_grammar.c \
-> + 	route/cls/ematch_syntax.c \
-> + 	route/pktloc_grammar.c \
-> +-	route/pktloc_syntax.c
-> ++   route/pktloc_syntax.c \
-> ++   route/pktloc_syntax.h \
-> ++   route/pktloc_grammar.h
-> +
-> + EXTRA_DIST = \
-> + 	route/pktloc_grammar.l \
-> diff --git a/meta/recipes-support/libnl/libnl_2.0.bb b/meta/recipes-support/libnl/libnl_2.0.bb
-> deleted file mode 100644
-> index c96e7db..0000000
-> --- a/meta/recipes-support/libnl/libnl_2.0.bb
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -DESCRIPTION = "libnl is a library for applications dealing with netlink sockets."
-> -HOMEPAGE = "http://www.infradead.org/~tgr/libnl/"
-> -SECTION = "libs/network"
-> -
-> -LICENSE = "LGPLv2.1"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=2b41e13261a330ee784153ecbb6a82bc"
-> -
-> -DEPENDS = "flex-native bison-native"
-> -PE = "1"
-> -PR = "r6"
-> -
-I did not catch this at first because it came as, but you need to 
-preserve the PE for package updates, it stands for Package Epoch and 
-needs to be preserved.
+> We DO NOT SUPPORT switching providers at runtime since its a package
+> manager specific problem for which we currently have no general
+> abstraction.
 
-Sau!
-> -SRC_URI = "\
-> -  http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
-> -  file://fix-pktloc_syntax_h-race.patch \
-> -  file://fix-pc-file.patch \
-> -"
-> -
-> -SRC_URI[md5sum] = "6aaf1e9802a17a7d702bb0638044ffa7"
-> -SRC_URI[sha256sum] = "5a40dc903d3ca1074da7424b908bec8ff16936484798c7e46e53e9db8bc87a9c"
-> -
-> -inherit autotools pkgconfig
-> -
-> -PACKAGES =+ "${PN}-route ${PN}-nf ${PN}-genl ${PN}-cli"
-> -FILES_${PN}-route = "${libdir}/libnl-route.so.*"
-> -FILES_${PN}-nf    = "${libdir}/libnl-nf.so.*"
-> -FILES_${PN}-genl  = "${libdir}/libnl-genl.so.*"
-> -FILES_${PN}-cli   = "${libdir}/libnl-cli.so.*"
-> diff --git a/meta/recipes-support/libnl/libnl_3.2.14.bb b/meta/recipes-support/libnl/libnl_3.2.14.bb
-> new file mode 100644
-> index 0000000..70920f3
-> --- /dev/null
-> +++ b/meta/recipes-support/libnl/libnl_3.2.14.bb
-> @@ -0,0 +1,41 @@
-> +DESCRIPTION = "libnl is a library for applications dealing with netlink sockets."
-> +HOMEPAGE = "http://www.infradead.org/~tgr/libnl/"
-> +SECTION = "libs/network"
-> +
-> +PR = "r0"
-> +
-> +LICENSE = "LGPLv2.1"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-> +
-> +DEPENDS = "flex-native bison-native"
-> +
-> +SRC_URI = "http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
-> +           file://fix-pktloc_syntax_h-race.patch \
-> +           file://fix-pc-file.patch "
-> +
-> +SRC_URI[md5sum] = "81d44f530aa0af1638a220c413baec05"
-> +SRC_URI[sha256sum] = "6bb043eea08765bada37a053d932f073db9d51e7a8cd419e237c785ba6369e2c"
-> +
-> +inherit autotools pkgconfig
-> +
-> +FILES_${PN} = "${libdir}/libnl-3.so.* \
-> +               ${libdir}/libnl.so.* \
-> +               ${sysconfdir}"
-> +RREPLACES_${PN} = "libnl2"
-> +RCONFLICTS_${PN} = "libnl2"
-> +FILES_${PN}-dbg += "${libdir}/libnl/cli/*/.debug"
-> +FILES_${PN}-dev += "${libdir}/libnl/cli/*/*.so \
-> +                    ${libdir}/libnl/cli/*/*.la"
-> +FILES_${PN}-staticdev += "${libdir}/libnl/cli/*/*.a"
-> +
-> +PACKAGES += "${PN}-cli ${PN}-route ${PN}-nf ${PN}-genl"
-> +FILES_${PN}-cli   = "${libdir}/libnl-cli-3.so.* \
-> +                     ${libdir}/libnl/cli/*/*.so.* \
-> +                     ${sbindir}/nl-*"
-> +FILES_${PN}-route = "${libdir}/libnl-route-3.so.*"
-> +FILES_${PN}-nf    = "${libdir}/libnl-nf-3.so.*"
-> +FILES_${PN}-genl  = "${libdir}/libnl-genl-3.so.* \
-> +                     ${libdir}/libnl-genl.so.* \
-> +                     ${sbindir}/genl-ctrl-list"
-> +RREPLACES_${PN}-genl = "libnl-genl2 libnl-genl-3-200"
-> +RCONFLICTS_${PN}-genl = "libnl-genl2 libnl-genl-3-200"
+We do support switching providers already, that's the whole alternatives system 
+itself.  What is different is in this case we can't use the update-alternatives.
+
+But with the RPROVIDE of update-alternatives within the dpkg and opkg code..  We 
+can certainly require 'update-alterantives' and the packaging systems will do 
+the right thing (they have so far...)
+
+> This leads to patches like:
 >
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=fe21ace36e19e06cbfdb83f73e60623bd4e382af
+>
+> since the virtual/ space does not somehow magically work at runtime,
+> worse it breaks the deb package backend.
+
+It works in RPM... but if it doesn't in deb (and ipk) I understand the 
+limitations we are bound to.  Limiting the character space (i.e. no '/') is 
+different then saying we don't support RPROVIDES...
+
+> PREFERRED_PROVIDER is a build time thing. virtual/ is a build time
+> thing. How do I explain this any clearer?
+
+I'm still confused on the PREFERRED_PROVIDER honestly.
+
+conf/distro/include/default-providers.inc:PREFERRED_PROVIDER_virtual/update-alternatives 
+?= "update-alternatives-cworth"
+conf/distro/include/default-providers.inc:PREFERRED_PROVIDER_virtual/update-alternatives-native 
+?= "opkg-native"
+
+There is no 'update-alternatives-cworth' recipe.. but there is an opkg recipe 
+that happens to provide an update-alternatives-cworth -package-.  So does 
+PREFERRED_PROVIDER select packages or recipes?
+
+> The only mechanism for distro selection of runtime is VIRTUAL-RUNTIME_
+> which is pretty horrible and likely would be better done with something
+> debian package renaming like since we already have that mangling code.
+
+And the VIRTUAL-RUNTIME isn't a runtime selection, it's a build-time selection. 
+  If we need to select this at build-time, we can.  I'm happy with changing the 
+patch, but as a distribution person I really don't care who provides this as 
+long as something does.
+
+--Mark
+
+> Cheers,
+>
+> Richard
+>
+>
+
 
 
