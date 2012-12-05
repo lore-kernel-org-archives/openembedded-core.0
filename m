@@ -1,41 +1,31 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TgGwB-000782-Mh
-	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 16:31:03 +0100
-Received: from mail-ia0-f197.google.com ([209.85.210.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 05 Dec 2012 07:16:38 -0800
-Received: by mail-ia0-f197.google.com with SMTP id x26so9788165iak.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 07:16:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=j00DLDcsw29ASBunIJYAukxCnNFPwYIIrEKkXiqQLdg=;
-	b=Lpm15WU7LtqdewZL9mv13f5+rLR2bZKjsgSaSzh3aw2anENfUdkX/yN3rjWLURmjzX
-	1BKJFcRD0hb1cnNGoWJ7H+Ak9z0jockYVHZ0CsBMheD4Xx4oAGX4Dr4nPfyA9X7fgsQI
-	bk8QDHzrONUNS1tmJ/XlaJNxxXdypQ34adIn/oaP6HH7ovCEhb/brw4A/xNLBOxE5xWZ
-	6TUrqUd0uM3Vo3gkPI4uzakwNL3k/i5B9ffMxie9ut/kRC2+vaPhWv1BS8gpa9X0vyeF
-	5mkXBTvm13BI1H15LN4rspR1uoJqDLCkxgroz9/wF9xzD9BzNW1YZWEqfBehm2+NYQTp
-	BABA==
-Received: by 10.60.4.226 with SMTP id n2mr14259410oen.63.1354720597548;
-	Wed, 05 Dec 2012 07:16:37 -0800 (PST)
-Received: by 10.60.4.226 with SMTP id n2mr14259395oen.63.1354720597355; Wed,
-	05 Dec 2012 07:16:37 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Wed, 5 Dec 2012 07:16:17 -0800 (PST)
-In-Reply-To: <CAP9ODKr0TG3LRah3rCjwwUCkka=kHW3Ed4LXNpWA+81Eb2t=GA@mail.gmail.com>
-References: <1354654683-16793-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKr0TG3LRah3rCjwwUCkka=kHW3Ed4LXNpWA+81Eb2t=GA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 5 Dec 2012 15:16:17 +0000
-Message-ID: <CAJTo0LatQogGTmc41DMtyJi3mjtNRqWgX65Xw4AfwNra+37bGw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQl2v6lFYbL+RwuRtdlmlOdYtIjzJvEvz19og5wZNnfN3Cy320Ydo/HLoXADBvEgktBPMp4HxfUvIWwyHZUp88oGvMGaoF+az6OfplXp5Cs8XboZzqMuaR0Ipw+VnkdrE07NTsS5EfOoeyuPX+oplx/zvefk6m6/JbM2usFz1qOd0NzonnvHUYajM4g57u5cSKiLA/29
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gst-meta-base: pull in X11 plugins when using X11
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TgGzc-0007Gf-SH for openembedded-core@lists.openembedded.org;
+	Wed, 05 Dec 2012 16:34:37 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB5FKCsV019048;
+	Wed, 5 Dec 2012 15:20:12 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18639-04; Wed,  5 Dec 2012 15:20:07 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB5FK3cC019033
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 5 Dec 2012 15:20:05 GMT
+Message-ID: <1354720793.25268.115.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 05 Dec 2012 15:19:53 +0000
+In-Reply-To: <20121205144539.GA3396@jama.jama.net>
+References: <1354716839.25268.105.camel@ted>
+	<20121205144539.GA3396@jama.jama.net>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Switch to PR server model for PR bumps - 1 week
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,15 +38,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 15:31:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 05 Dec 2012 15:34:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 4 December 2012 21:38, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> Would be better to use a RRECOMMENDS on xvimagesink? It makes more sense.
+On Wed, 2012-12-05 at 15:45 +0100, Martin Jansa wrote:
+> On Wed, Dec 05, 2012 at 02:13:59PM +0000, Richard Purdie wrote:
+> > I've made it clear we want and need to switch to the PR service for
+> > handling PR bumps. I'd now like to put a deadline in place for doing
+> > this, namely that I'm going to stop requiring PR bumps in patches as of
+> > 1 week's time. The TSC did discuss this and our conclusion was that we
+> > need to switch early in this release cycle to give time for any issues
+> > to get resolved. Now is a good time to do this as I think we're ready.
+> > 
+> > There were a number of open bugs related to the PR service[1]. We've
+> > looked through them and they are now resolved with the exception of one
+> > related to the incremental git PV issue for which we have a plan in
+> > place and patches ready.
+> > 
+> > We've taken on board feedback about documentation and the following wiki
+> > page has been setup which details the current situation:
+> > 
+> > https://wiki.yoctoproject.org/wiki/PR_Service
+> > 
+> > I appreciate this is going to be a disruptive change for some but I
+> > believe it is in the best interests of the project longer term and that
+> > we will have a better system as an end result of this. If people do run
+> > into problems, please send email or file bugs. I'm trying to ensure
+> > there are some people with time available to look into these issues as a
+> > priority so we can make a smooth transition.
+> 
+> After reading this wiki page I have few questions (I admit I haven't
+> tried it yet).
+> 
+> 1) How do you limit access to shared prserv instance?
+>    Can you define some group as RO, some RW?
+>    For RO access it would be great to export state from remote PRSERV 
+>    on first connection and then continue to increment locally (with
+>    PRSERV running on localhost)
 
-None of the other dependencies are recommends, so are you suggesting
-they all become recommends or just that xvimagesink in particular?
+This isn't implemented as things stand. As you point out, a true RO
+connection causes problems...
 
-Ross
+> 2) If you have slightly different builder (e.g. someone with extra BSP
+>    or different host distro), then he will have different checksums, so
+>    different AUTOPR values and you cannot share binary feed with such
+>    builder, right? I know this wasn't possible (or at least safe) to use
+>    before too. But it should be more clear from documentation.
+
+If the extra BSP uses its own package_arch it would probably be ok,
+otherwise not. The host distro only affects native/cross packages and
+not the checksum itself so again, that should also be ok?
+
+> 3) Is it possible to use OEBasic together with PRSERV or should bitbake
+>    show fatal error when PRSERV is used toghether with OEBasic?
+
+
+Added to the page: "The service works with both OEBasic and OEBasicHash
+generators, with the understanding that PR bumps happen when the
+checksum changes and the different generator mechanisms change
+signatures under different circumstances."
+
+> 4) Is there plan to import current PR values from recipes, so that
+>    bitbake can parse all enabled layers, gather checksum-PR values and
+>    export it for bitbake-prserv-tool to import it as inital state?
+> 5) Is there plan to remove PR from all recipes or are they ignored with
+>    PRSERV in use and can stay in for some time? If there is functionality 
+>    for 4) then we should tag all layers just before PR/PRINC are removed, 
+>    so someone can create own initial export from last known PR state.
+
+Added to the page: "As implemented, values from the PR service are
+included into the PR field as an addition of the form ".X" so r0 becomes
+r0.1, r0.2 and so on. This allows existing PR values to be used for
+whatever reasons allowing manual PR bumps should it be necessary."
+
+(should cover both questions)
+
+As for removing PR, as recipes are upgraded, I'm expecting we will
+remove PR values so we should get a smooth transition. We can still have
+PR values, it will just become an exception rather than the rule.
+
+Cheers,
+
+Richard
+
 
 
