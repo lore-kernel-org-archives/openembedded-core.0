@@ -1,37 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TgLLp-00010X-P2
+	(envelope-from <martin.jansa@gmail.com>) id 1TgLMJ-00014G-Kj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 21:13:49 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so3119047eek.6
+	Wed, 05 Dec 2012 21:14:19 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so2153988eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 11:59:25 -0800 (PST)
+	Wed, 05 Dec 2012 11:59:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=P4egx/MDVL4oz7W2SC5av4NOpPqCgaq/VqfbUT8zvAg=;
-	b=T9mDGOaL6FB8d9uXyhsBtudFL2UTbhoJYdj67nhGzHNIpupsStcpfFvFLHEZOpPiUi
-	rzy/pPzZOmonFd45kT/ze2dcc0jd8BLBNRgaQ48zc/0nzXyJGy1HyYPWXnwBlmolyGKH
-	C/fOQdlBzP0Il+xxp3CNyudQooXvT1oAX9Xreyft3E92UrigxWTEzGRffJO8xz98/74K
-	9z80OLvEYfhdl7shl6rEkfxUhDLvDkxVOID3jmxii7pSjIFt80VXrxWxfDAY1jMHq1wg
-	DiPLZIDY3SvMnOOICK1PhkvgKZfo2N0jyMCl4QFsP2mhdnac9piSuyQZMEqxBzwFcSEh
-	aJhw==
-Received: by 10.14.221.9 with SMTP id q9mr64753549eep.3.1354737565669;
-	Wed, 05 Dec 2012 11:59:25 -0800 (PST)
+	bh=W3aM46My6M7noDeOgxJo+5BiKSGv4X+aaeurGn9JrIk=;
+	b=v3FfTJ+2QmoVJVGNh4QDkRZtkfvvTASk4WRlZq/MhL3Co+e7d9tlrew4PRKfxYnJWu
+	aDJPJCUiyJPpXXk+H72ZU2J8TxlUQXy26Aa9xezIuIEvviwKEfpR1AWuSRKvpCh9Wh6G
+	iXObb0Q7SyQX8YGUQL3MRA7kIgo/iXX8rYveGEJYPZa59b9al+AGdSYSIWH9Y1kBFWmr
+	UM59f5X/oAGe1VHHi0bvWxfmfZ5CxjqPVpUze0C4dwNLsIqa4LwamE8gOdsyGbI3KgsW
+	qG4A4I3ud2Fuk17xNf8QCb2Z9PFSaCK5pguZ0ThEF4GmtzZdV2Vyvf9TpdwPpQPDbGm4
+	XtHw==
+Received: by 10.14.202.3 with SMTP id c3mr33693160eeo.4.1354737595470;
+	Wed, 05 Dec 2012 11:59:55 -0800 (PST)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e1sm11169375eem.3.2012.12.05.11.59.24
+	by mx.google.com with ESMTPS id f49sm11140014eep.12.2012.12.05.11.59.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Dec 2012 11:59:25 -0800 (PST)
+	Wed, 05 Dec 2012 11:59:55 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 20:59:21 +0100
-Message-Id: <326e3c72501f2a4283e28f26bbca2aafe5e1bef3.1354737450.git.Martin.Jansa@gmail.com>
+Date: Wed,  5 Dec 2012 20:59:51 +0100
+Message-Id: <d14951f1a0d4ae245780a6520d18588ce8594e40.1354737450.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
-In-Reply-To: <8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
-References: <8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
+In-Reply-To: <3ea1d54a3b1673540257592c1cfdaa9faf7a5d43.1354731942.git.Martin.Jansa@gmail.com>
+References: <3ea1d54a3b1673540257592c1cfdaa9faf7a5d43.1354731942.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1354737450.git.Martin.Jansa@gmail.com>
 References: <cover.1354737450.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 3/5] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
+Subject: [PATCHv2 4/5] git: fix unpackaged python files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,101 +44,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 20:13:49 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 20:14:19 -0000
+
+* EXTRA_OEMAKE is needed after inheriting autotools which sets it to empty
+* fixes:
+git-1.7.7: git: Files/directories were installed but not shipped
+  /usr/lib64
+  /usr/lib64/python2.7
+  /usr/lib64/python2.7/site-packages
+  /usr/lib64/python2.7/site-packages/git_remote_helpers-0.1.0-py2.7.egg-info
+  /usr/lib64/python2.7/site-packages/git_remote_helpers
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/__init__.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/util.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/__init__.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/util.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/__init__.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/importer.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/non_local.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/exporter.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/git.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/repo.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/__init__.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/importer.py
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/exporter.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/repo.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/git.pyc
+  /usr/lib64/python2.7/site-packages/git_remote_helpers/git/non_local.py
+
+* fixes [YOCTO #3344]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
 
-v2: fixed WHITELIST for var/pseudo* as Enrico reported
+v2: should be disabled correctly now, instead of packaging them
 
- scripts/sstate-sysroot-cruft.sh | 78 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
- create mode 100755 scripts/sstate-sysroot-cruft.sh
+ meta/recipes-devtools/git/git.inc      | 4 ++--
+ meta/recipes-devtools/git/git_1.7.7.bb | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
-new file mode 100755
-index 0000000..530b20d
---- /dev/null
-+++ b/scripts/sstate-sysroot-cruft.sh
-@@ -0,0 +1,78 @@
-+#!/bin/sh
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 55e1482..82df6e3 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -14,10 +14,10 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
+ 		--without-tcltk \
+ "
+ 
+-EXTRA_OEMAKE = "NO_PYTHON=1"
+-
+ inherit autotools perlnative
+ 
++EXTRA_OEMAKE = "NO_PYTHON=1"
 +
-+# Used to find files installed in sysroot which are not tracked by sstate manifest
-+
-+# Global vars
-+tmpdir=
-+
-+usage () {
-+  cat << EOF
-+Welcome to sysroot cruft finding utility.
-+$0 <OPTION>
-+
-+Options:
-+  -h, --help
-+        Display this help and exit.
-+
-+  --tmpdir=<tmpdir>
-+        Specify tmpdir, will use the environment variable TMPDIR if it is not specified.
-+	Something like /OE/oe-core/tmp-eglibc (no / at the end).
-+EOF
-+}
-+
-+# Print error information and exit.
-+echo_error () {
-+  echo "ERROR: $1" >&2
-+  exit 1
-+}
-+
-+while [ -n "$1" ]; do
-+  case $1 in
-+    --tmpdir=*)
-+      tmpdir=`echo $1 | sed -e 's#^--tmpdir=##' | xargs readlink -e`
-+      [ -d "$tmpdir" ] || echo_error "Invalid argument to --tmpdir"
-+      shift
-+        ;;
-+    --help|-h)
-+      usage
-+      exit 0
-+        ;;
-+    *)
-+      echo "Invalid arguments $*"
-+      echo_error "Try '$0 -h' for more information."
-+        ;;
-+  esac
-+done
-+
-+# sstate cache directory, use environment variable TMPDIR
-+# if it was not specified, otherwise, error.
-+[ -n "$tmpdir" ] || tmpdir=$TMPDIR
-+[ -n "$tmpdir" ] || echo_error "No tmpdir found!"
-+[ -d "$tmpdir" ] || echo_error "Invalid tmpdir \"$tmpdir\""
-+
-+OUTPUT=${tmpdir}/sysroot.cruft.`date "+%s"`
-+WHITELIST="\/var\/pseudo\($\|\/[^\/]*$\) \/shlibs$ \.pyc$ \.pyo$"
-+
-+mkdir ${OUTPUT}
-+find ${tmpdir}/sstate-control -name \*.populate-sysroot\* -o -name \*.package\* | xargs cat | grep sysroots | \
-+  sed 's#/$##g; s#///*#/#g' | \
-+  # work around for paths ending with / for directories and multiplied // (e.g. paths to native sysroot)
-+  sort > ${OUTPUT}/master.list.all
-+sort -u ${OUTPUT}/master.list.all > ${OUTPUT}/master.list # -u because some directories are listed for more recipes
-+find ${tmpdir}/sysroots/ | \
-+  sort > ${OUTPUT}/sysroot.list
-+
-+diff ${OUTPUT}/master.list.all ${OUTPUT}/master.list > ${OUTPUT}/duplicates
-+diff ${OUTPUT}/master.list ${OUTPUT}/sysroot.list > ${OUTPUT}/diff.all
-+
-+cp ${OUTPUT}/diff.all ${OUTPUT}/diff
-+for item in ${WHITELIST}; do 
-+  sed -i "/${item}/d" ${OUTPUT}/diff;
-+done
-+
-+# too many false positives for directories
-+# echo "Following files are installed in sysroot at least twice"
-+# cat ${OUTPUT}/duplicates
-+
-+echo "Following files are installed in sysroot, but not tracked by sstate"
-+cat ${OUTPUT}/diff
+ do_compile_prepend () {
+ 	# Remove perl/perl.mak to fix the out-of-date perl.mak error
+ 	# during rebuild
+diff --git a/meta/recipes-devtools/git/git_1.7.7.bb b/meta/recipes-devtools/git/git_1.7.7.bb
+index 9d24911..6b6e04b 100644
+--- a/meta/recipes-devtools/git/git_1.7.7.bb
++++ b/meta/recipes-devtools/git/git_1.7.7.bb
+@@ -1,6 +1,6 @@
+ require git.inc
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
+ SRC_URI[md5sum] = "5d645884e688921e773186783b65ce33"
 -- 
 1.8.0
 
