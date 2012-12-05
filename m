@@ -1,32 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TgHA4-0007Ye-EY for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 16:45:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB5FUwjs019291;
-	Wed, 5 Dec 2012 15:30:58 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18639-05; Wed,  5 Dec 2012 15:30:54 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB5FUpve019285
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 5 Dec 2012 15:30:52 GMT
-Message-ID: <1354721441.25268.117.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Wed, 05 Dec 2012 15:30:41 +0000
-In-Reply-To: <CAP9ODKpZjFRF3FYWzf3BMWYuEBzbb1YrXyG3zpj5OJVdkrNEYw@mail.gmail.com>
-References: <cover.1354626535.git.laurentiu.palcu@intel.com>
-	<02baf1072c98ba7c93c92bda589a1500ebbadba6.1354626535.git.laurentiu.palcu@intel.com>
-	<CAP9ODKpZjFRF3FYWzf3BMWYuEBzbb1YrXyG3zpj5OJVdkrNEYw@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches, about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] rootfs generation: export two new variables to postinst scriptlets
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1TgHCV-0007cc-6S
+	for openembedded-core@lists.openembedded.org;
+	Wed, 05 Dec 2012 16:47:55 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so3284128pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Dec 2012 07:33:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=oPoobcSj5nw2iFB2D23267XABzjMdX21SGNCPcmKpwY=;
+	b=DqEzUnHKMYfIFSJU5xclKjTaXcMf02cXv6aJwErOB8keaFPThsYXx1LVaefytAerpy
+	nFTepcAbsuaMZtlLtym7WjE+VqsIjEhuVtwQ8c1tGY49PcPNaYf3hzaRliXQbBUAuwdI
+	wEhiJsZHBQE8jGCi0qFIEgbmvEfDy4H17I6KhgNrtS+bF+CttxaqgjHS6twdkkOw4A7K
+	w9m9n0+9a7xKDLmTaZX3RRXfQ1jnaQMXnS0qsHyKXmLehpQRznzLar7gbPZWONTCMS6o
+	oWJ5G1YPltFLoVXnEHj2SrP7JYNmhcPsL+bYWZ0urhPnDriOqybLoy11P2HhhY4cUtiN
+	A8ZA==
+MIME-Version: 1.0
+Received: by 10.68.213.33 with SMTP id np1mr49659332pbc.64.1354721610367; Wed,
+	05 Dec 2012 07:33:30 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Wed, 5 Dec 2012 07:33:30 -0800 (PST)
+In-Reply-To: <d69418647adf8bc836c8880a4caa59076a8c498f.1354711738.git.radu.moisan@intel.com>
+References: <cover.1354711738.git.radu.moisan@intel.com>
+	<d69418647adf8bc836c8880a4caa59076a8c498f.1354711738.git.radu.moisan@intel.com>
+Date: Wed, 5 Dec 2012 13:33:30 -0200
+X-Google-Sender-Auth: DPLhCRdy6tvhar_5iCCj-DSJ7-s
+Message-ID: <CAP9ODKocfW+WBGY_5nzKny43cTot_mE5UzTVwOGwjDAhoa3H+Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Radu Moisan <radu.moisan@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] u-boot-mkimage: upgrade to 2012.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,61 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 15:45:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Dec 2012 15:47:55 -0000
+Content-Type: multipart/alternative; boundary=e89a8ff1c12e5b036504d01cb4b9
 
-On Tue, 2012-12-04 at 13:07 -0200, Otavio Salvador wrote:
-> 
-> 
-> 
-> On Tue, Dec 4, 2012 at 11:59 AM, Laurentiu Palcu
-> <laurentiu.palcu@intel.com> wrote:
->         In order for the postinst scriptlets to be able to run once we
->         need to
->         export the location of the intercept scripts and also the
->         location of
->         native sysrootfs. The gdk-pixbuf binaries will need the latter
->         because
->         in order to generate the loaders.cache it will need to scan
->         some shared
->         libraries that must be native. Even though the output is a
->         text file.
->         
->         Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->         ---
->          meta/classes/package_rpm.bbclass |    2 ++
->          meta/classes/rootfs_deb.bbclass  |    2 ++
->          meta/classes/rootfs_ipk.bbclass  |    2 ++
->          3 files changed, 6 insertions(+)
->         
->         diff --git a/meta/classes/package_rpm.bbclass
->         b/meta/classes/package_rpm.bbclass
->         index 1ff92ce..c7ac07a 100644
->         --- a/meta/classes/package_rpm.bbclass
->         +++ b/meta/classes/package_rpm.bbclass
->         @@ -475,6 +475,8 @@ export D="${target_rootfs}"
->          export OFFLINE_ROOT="\$D"
->          export IPKG_OFFLINE_ROOT="\$D"
->          export OPKG_OFFLINE_ROOT="\$D"
->         +export INTERCEPT_DIR="${WORKDIR}/intercept_scripts"
->         +export NATIVE_ROOT=${STAGING_DIR_NATIVE}
-> 
-> 
-> The NATIVE_ROOT seems a duplication, I'd prefer you to use
-> STAGING_DIR_NATIVE in code as this is a known variable name and makes
-> it easy to understand.
- 
-I'm going to disagree on that, I think this does make sense in the
-context of the functions we're changing here.
+--e89a8ff1c12e5b036504d01cb4b9
+Content-Type: text/plain; charset=ISO-8859-1
 
-On the other hand I'd love to simplify the whole *OFFLINE_ROOT mess but
-that is for a different patch...
+On Wed, Dec 5, 2012 at 10:57 AM, Radu Moisan <radu.moisan@intel.com> wrote:
 
-Cheers,
+> From: Constantin Musca <constantinx.musca@intel.com>
+>
+> License checksum change due to README diff (only the
+> instructions have changed)
+>
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> ---
+>
 
-Richard
+I'd say to go to 2012.10 as this is the last release.
 
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--e89a8ff1c12e5b036504d01cb4b9
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Wed, D=
+ec 5, 2012 at 10:57 AM, Radu Moisan <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:radu.moisan@intel.com" target=3D"_blank">radu.moisan@intel.com</a>&gt;</sp=
+an> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">From: Constantin Musca &lt;<a href=3D"mailto=
+:constantinx.musca@intel.com">constantinx.musca@intel.com</a>&gt;<br>
+<br>
+License checksum change due to README diff (only the<br>
+instructions have changed)<br>
+<br>
+Signed-off-by: Constantin Musca &lt;<a href=3D"mailto:constantinx.musca@int=
+el.com">constantinx.musca@intel.com</a>&gt;<br>
+Signed-off-by: Radu Moisan &lt;<a href=3D"mailto:radu.moisan@intel.com">rad=
+u.moisan@intel.com</a>&gt;<br>
+---<br></blockquote></div><div><br></div><div>I&#39;d say to go to 2012.10 =
+as this is the last release.</div><div><br></div>-- <br>Otavio Salvador=A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-ma=
+il: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@oss=
+ystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_bla=
+nk">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+</div>
 
+--e89a8ff1c12e5b036504d01cb4b9--
