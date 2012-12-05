@@ -1,37 +1,36 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TgJu6-0006W8-KA
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TgKV1-0004w0-7q
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 19:41:07 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so3064473eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 10:26:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=pV+lFBIRHDpnctArd9p4wmciuX+lM5bpyrIyl4+49JY=;
-	b=xaCPmxBxYrfX2ZmO/T43M7YOIfrjPO/s9ZyYHRZpMV6G5NUahzPNLHp08bpmai8Es+
-	ELqwffilVIiFfOboecTwwRylTlC2hCLRDUAArQpl33M4Fz6YLmDu7jNZyLimV3w/y4Pv
-	9Ff/NKHIOWvwdMJOh55R4ICoPc1bjYDkPA2/TgP6xxxczL5baUAigD+4GRLVjaAwPKUn
-	ACkKtPTObhnY3Kn3ANF5bCWJonH0Ce4m6zeiE7VYbTdns2k4NjJr976yaqNn5RrZ1PN2
-	DyqlfMRkPsEKhnt7z2lkIHF2iUTsbuGCOGGC/oYgBY8iEc4wqUTw2ZZULnKQguToOljJ
-	XAbQ==
-Received: by 10.14.175.198 with SMTP id z46mr63263356eel.26.1354732004727;
-	Wed, 05 Dec 2012 10:26:44 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f49sm10651915eep.12.2012.12.05.10.26.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Dec 2012 10:26:44 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 05 Dec 2012 20:19:26 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qB5J4m2h005418
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 5 Dec 2012 20:04:49 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TgKH1-0005q2-72; Wed, 05 Dec 2012 20:04:48 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 19:26:07 +0100
-Message-Id: <a713a0395df34f4d6543069b6c7538bea7fc33c0.1354731942.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <cover.1354731942.git.Martin.Jansa@gmail.com>
 References: <cover.1354731942.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1354731942.git.Martin.Jansa@gmail.com>
-References: <cover.1354731942.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 5/5] python-smartpm: don't try to remove /usr/share/share twice
+	<8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
+Date: Wed, 05 Dec 2012 20:04:47 +0100
+In-Reply-To: <8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
+	(Martin Jansa's message of "Wed, 5 Dec 2012 19:26:05 +0100")
+Message-ID: <lyehj48gmo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 3/5] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 18:41:08 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 19:19:37 -0000
+Content-Type: text/plain
 
-* distutils.bbclass now removes that directory
+Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/python/python-smartpm_1.4.1.bb | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+> +WHITELIST="\/var\/pseudo\/*[^\/]*$ \/shlibs$ \.pyc$ \.pyo$"
 
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index 254318c..b896c89 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -11,7 +11,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
- 
- DEPENDS = "python rpm"
--PR = "r1"
-+PR = "r2"
- SRCNAME = "smart"
- 
- SRC_URI = "\
-@@ -43,9 +43,6 @@ PACKAGECONFIG[gtk] = ",,gtk+,${GTK_RDEP}"
- inherit distutils
- 
- do_install_append() {
--   # Cleanup unused item...
--   rmdir ${D}${datadir}/share
--
-    # We don't support the following items
-    rm -rf ${D}${libdir}/python*/site-packages/smart/backends/slack
-    rm -rf ${D}${libdir}/python*/site-packages/smart/backends/arch
--- 
-1.8.0
+Is it really wanted that this matches paths like '/var/pseudosomepath'?
 
+
+
+Enrico
 
 
