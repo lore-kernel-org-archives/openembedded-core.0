@@ -1,37 +1,25 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TgKVU-0004zS-7K
+	(envelope-from <sgw@linux.intel.com>) id 1TgKuF-00039r-5v
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 20:19:44 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so3087150eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 11:05:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=RoTgZ/Gj5S1oCOPsF9yj0kcFh4c0Kgey/qifTb5oDy8=;
-	b=i5PsA+GX2+OJ5ftcfDhEfyVty5Rp73ScV0GEkLDTyw7TCHXajvmPmKElk7JurirL+l
-	iDl310ewVO0+L3IXbdsTGXxHYyNTF/rsJegj5tVuFMVtTemCBDSdvzzoFdw1ds2O8NZi
-	kz1nAACfuUwrJEMmXDNzILhdja8asr0CyUyF03DhLGre7e0gUDQPciuc66Gb1coaaOQX
-	Ke6eRW2kRs5Z7kZ1lYRXfpMg8XtDBBvrB11tmiQgdVF48AttvzPTJ9zn6h9BlFepY8xM
-	cy5xK20qO3K50ANIIWMtOJGryUVf3/Nqct9qSfWRlB2geYtGCgHN3g2394lMgb1Q7Wom
-	sxXQ==
-Received: by 10.14.184.131 with SMTP id s3mr63458664eem.38.1354734320025;
-	Wed, 05 Dec 2012 11:05:20 -0800 (PST)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 43sm10859379eed.10.2012.12.05.11.05.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 05 Dec 2012 11:05:19 -0800 (PST)
-Date: Wed, 5 Dec 2012 20:05:16 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121205190516.GF3396@jama.jama.net>
-References: <cover.1354731942.git.Martin.Jansa@gmail.com>
-	<3ea1d54a3b1673540257592c1cfdaa9faf7a5d43.1354731942.git.Martin.Jansa@gmail.com>
+	Wed, 05 Dec 2012 20:45:35 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Dec 2012 11:30:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,224,1355126400"; d="scan'208";a="229437469"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
+	by orsmga001.jf.intel.com with ESMTP; 05 Dec 2012 11:30:53 -0800
+Message-ID: <50BFA0ED.2030303@linux.intel.com>
+Date: Wed, 05 Dec 2012 11:30:53 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <3ea1d54a3b1673540257592c1cfdaa9faf7a5d43.1354731942.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 4/5] git: fix unpackaged python files
+To: Ming Liu <ming.liu@windriver.com>
+References: <1354694264-23741-1-git-send-email-ming.liu@windriver.com>
+In-Reply-To: <1354694264-23741-1-git-send-email-ming.liu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V1] initscripts/urandom: create directory before staging into it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,109 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 19:19:44 -0000
-X-Groupsio-MsgNum: 32290
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="A9z/3b/E4MkkD+7G"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 05 Dec 2012 19:45:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---A9z/3b/E4MkkD+7G
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 05, 2012 at 07:26:06PM +0100, Martin Jansa wrote:
-> * fixes:
-> git-1.7.7: git: Files/directories were installed but not shipped
->   /usr/lib64
->   /usr/lib64/python2.7
->   /usr/lib64/python2.7/site-packages
->   /usr/lib64/python2.7/site-packages/git_remote_helpers-0.1.0-py2.7.egg-i=
-nfo
->   /usr/lib64/python2.7/site-packages/git_remote_helpers
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/__init__.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/util.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/__init__.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/util.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/__init__.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/importer.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/non_local.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/exporter.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/git.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/repo.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/__init__.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/importer.py
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/exporter.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/repo.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/git.pyc
->   /usr/lib64/python2.7/site-packages/git_remote_helpers/git/non_local.py
->=20
-> * fixes [YOCTO #3344]
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+On 12/04/2012 11:57 PM, Ming Liu wrote:
+> /etc/init.d/urandom fails to start/stop because it tries to save
+> random-seed into /var/lib/urandom folder which does not exist in the
+> file system.
+>
+> Fixed by creating /var/lib/urandom at do_install time.
+>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
 > ---
->  meta/recipes-devtools/git/git.inc      | 4 ++--
->  meta/recipes-devtools/git/git_1.7.7.bb | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/gi=
-t/git.inc
-> index 55e1482..80a88c2 100644
-> --- a/meta/recipes-devtools/git/git.inc
-> +++ b/meta/recipes-devtools/git/git.inc
-> @@ -16,7 +16,7 @@ EXTRA_OECONF =3D "--with-perl=3D${STAGING_BINDIR_NATIVE=
-}/perl-native/perl \
-> =20
->  EXTRA_OEMAKE =3D "NO_PYTHON=3D1"
-> =20
-> -inherit autotools perlnative
-> +inherit autotools perlnative python-dir
-> =20
->  do_compile_prepend () {
->  	# Remove perl/perl.mak to fix the out-of-date perl.mak error
-> @@ -58,7 +58,7 @@ FILES_${PN}-perltools +=3D " \
->  RDEPENDS_${PN}-perltools =3D "${PN} perl perl-module-file-path findutils"
-> =20
->  PACKAGES =3D+ "${PN}-python"
-> -FILES_${PN}-python =3D "${libdir}/python*"
-> +FILES_${PN}-python =3D "${libdir}/python* ${PYTHON_SITEPACKAGES_DIR}"
-> =20
-> =20
->  # git-tk package with gitk and git-gui
-> diff --git a/meta/recipes-devtools/git/git_1.7.7.bb b/meta/recipes-devtoo=
-ls/git/git_1.7.7.bb
-> index 9d24911..6b6e04b 100644
-> --- a/meta/recipes-devtools/git/git_1.7.7.bb
-> +++ b/meta/recipes-devtools/git/git_1.7.7.bb
-> @@ -1,6 +1,6 @@
->  require git.inc
-> =20
-> -PR =3D "r2"
-> +PR =3D "r3"
-> =20
->  SRC_URI =3D "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
->  SRC_URI[md5sum] =3D "5d645884e688921e773186783b65ce33"
+>   meta/recipes-core/initscripts/initscripts_1.0.bb | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index d25838b..39be9a8 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+>   SECTION = "base"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+> -PR = "r137"
+> +PR = "r138"
+>
+>   INHIBIT_DEFAULT_DEPS = "1"
+>
+> @@ -133,4 +133,6 @@ do_install () {
+>   	fi
+>
+>   	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
+> +	# Holds state information pertaining to urandom
+> +	install -d ${D}/var/lib/urandom
 
-Oh, this isn't sometimes enough.. in some cases like commit message it's
-using wrong python-config and installing to paths like on host (lib64).
+I thought this would go in volatiles, not here.
 
-Sending v2 soon
+Sau!
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>   }
+>
 
---A9z/3b/E4MkkD+7G
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlC/muwACgkQN1Ujt2V2gBx5gwCffz6t0/zyrssoASXVwYBA1+A9
-0R4An1uo3htAEBGa0PPS0zb6fzflP5SD
-=N4xr
------END PGP SIGNATURE-----
-
---A9z/3b/E4MkkD+7G--
