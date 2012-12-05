@@ -1,21 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TgCbA-00066N-EV
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TgCvs-0006m3-Bp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 11:53:04 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Dec 2012 02:37:34 -0800
+	Wed, 05 Dec 2012 12:14:28 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2012 03:00:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,221,1355126400"; d="scan'208";a="176405277"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Dec 2012 02:37:33 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,221,1355126400"; d="scan'208";a="257574942"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2012 03:00:01 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 12:40:37 +0200
-Message-Id: <1354704037-10299-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] libconvert-asn1-perl: upgrade to 0.26
+Date: Wed,  5 Dec 2012 13:00:00 +0200
+Message-Id: <1354705200-18575-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] populate_sdk_base: fix directory creation as normal user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,47 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 10:53:04 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 11:14:28 -0000
 
-From: Constantin Musca <constantinx.musca@intel.com>
+My previous patch removed the mkdir and added it at the end of the
+"gaining SUDO rights" block in order to fix directory creation when
+installing in a location without proper rights. Unfortunately this
+messed up the directory creation as normal user as it will ask for
+sudo right in order to create it...
 
-License md5sum change due to:
-- README is removed
-- README.md contains license info
+Hopefully, this will fix both cases.
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- ...{libconvert-asn1-perl_0.22.bb => libconvert-asn1-perl_0.26.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/perl/{libconvert-asn1-perl_0.22.bb => libconvert-asn1-perl_0.26.bb} (60%)
+ meta/classes/populate_sdk_base.bbclass |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb
-similarity index 60%
-rename from meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-rename to meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb
-index dc950f1..f6937ec 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb
-@@ -1,13 +1,13 @@
- DESCRIPTION = "Convert::ASN1 - ASN.1 Encode/Decode library"
- SECTION = "libs"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
--LIC_FILES_CHKSUM = "file://README;beginline=10;endline=12;md5=a64b291b13ffddeef33b14f047ee8b26"
--PR = "r3"
-+LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8e8e0d3d23e096a63f"
-+PR = "r0"
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index f0b88b3..c15a4d4 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -187,6 +187,9 @@ if [ "$answer" != "Y" -a "$answer" != "y" ]; then
+ 	exit 1
+ fi
  
- SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Convert-ASN1-${PV}.tar.gz"
++# Try to create the directory (this will not succeed if user doesn't have rights)
++mkdir -p $target_sdk_dir >/dev/null 2>&1
++
+ # if don't have the right to access dir, gain by sudo 
+ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
+ 	SUDO_EXEC=$(which "sudo")
+@@ -198,10 +201,10 @@ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; the
+ 	# test sudo could gain root right
+ 	$SUDO_EXEC pwd >/dev/null 2>&1
+ 	[ $? -ne 0 ] && echo "Sorry, you are not allowed to execute as root." && exit 1
+-fi
  
--SRC_URI[md5sum] = "64a555e44adc79d92072b9fc7a6779c4"
--SRC_URI[sha256sum] = "be63d5cc715d7306e54b41d3c68c3617ca306289cff619a2ca43505e35f2f6ee"
-+SRC_URI[md5sum] = "1c846c8c1125e6a075444abe65d99b63"
-+SRC_URI[sha256sum] = "5db8b62fa0d036bd0cabc869ffe17941ad587d9a2af1ff030d554872adbc1ca1"
+-# create dir and don't care about the result.
+-$SUDO_EXEC mkdir -p $target_sdk_dir >/dev/null 2>&1
++	# now that we have sudo rights, create the directory
++	$SUDO_EXEC mkdir -p $target_sdk_dir >/dev/null 2>&1
++fi
  
- S = "${WORKDIR}/Convert-ASN1-${PV}"
+ payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
  
 -- 
-1.7.11.7
+1.7.9.5
 
 
 
