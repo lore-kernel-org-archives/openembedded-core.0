@@ -1,20 +1,19 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TgCvs-0006m3-Bp
+	(envelope-from <muhammad_shakeel@mentor.com>) id 1TgDYb-0007Iz-MO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 05 Dec 2012 12:14:28 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2012 03:00:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,221,1355126400"; d="scan'208";a="257574942"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2012 03:00:01 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Wed, 05 Dec 2012 12:54:29 +0100
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
+	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qB5Be1FE019575;
+	Wed, 5 Dec 2012 05:40:03 -0600
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Dec 2012 13:00:00 +0200
-Message-Id: <1354705200-18575-1-git-send-email-laurentiu.palcu@intel.com>
+Date: Wed,  5 Dec 2012 16:40:06 +0500
+Message-Id: <1354707606-7374-1-git-send-email-muhammad_shakeel@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] populate_sdk_base: fix directory creation as normal user
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] libaio: Remove QA warning: No GNU_HASH in the elf binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,49 +26,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 11:14:28 -0000
+X-List-Received-Date: Wed, 05 Dec 2012 11:54:29 -0000
 
-My previous patch removed the mkdir and added it at the end of the
-"gaining SUDO rights" block in order to fix directory creation when
-installing in a location without proper rights. Unfortunately this
-messed up the directory creation as normal user as it will ask for
-sudo right in order to create it...
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Hopefully, this will fix both cases.
+Update the LINK_FLAGS in the Makefile to remove warning:
+QA Issue: No GNU_HASH in the elf binary
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- meta/classes/populate_sdk_base.bbclass |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-extended/libaio/libaio_0.3.109.bb |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index f0b88b3..c15a4d4 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -187,6 +187,9 @@ if [ "$answer" != "Y" -a "$answer" != "y" ]; then
- 	exit 1
- fi
+diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
+index 161b712..0712d04 100644
+--- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
++++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
+@@ -18,6 +18,10 @@ SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288
  
-+# Try to create the directory (this will not succeed if user doesn't have rights)
-+mkdir -p $target_sdk_dir >/dev/null 2>&1
+ EXTRA_OEMAKE =+ "prefix=${prefix} includedir=${includedir} libdir=${libdir}"
+ 
++do_configure () {
++    sed -i 's#LINK_FLAGS=.*#LINK_FLAGS=$(LDFLAGS)#' src/Makefile
++}
 +
- # if don't have the right to access dir, gain by sudo 
- if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
- 	SUDO_EXEC=$(which "sudo")
-@@ -198,10 +201,10 @@ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; the
- 	# test sudo could gain root right
- 	$SUDO_EXEC pwd >/dev/null 2>&1
- 	[ $? -ne 0 ] && echo "Sorry, you are not allowed to execute as root." && exit 1
--fi
- 
--# create dir and don't care about the result.
--$SUDO_EXEC mkdir -p $target_sdk_dir >/dev/null 2>&1
-+	# now that we have sudo rights, create the directory
-+	$SUDO_EXEC mkdir -p $target_sdk_dir >/dev/null 2>&1
-+fi
- 
- payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
- 
+ do_install () {
+     oe_runmake install DESTDIR=${D}
+ }
 -- 
 1.7.9.5
 
