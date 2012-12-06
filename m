@@ -1,27 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TgTn2-0001b3-8w
+	(envelope-from <sgw@linux.intel.com>) id 1TgTsu-0001hm-Li
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 06:14:36 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Dec 2012 21:00:02 -0800
+	Thu, 06 Dec 2012 06:20:33 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2012 21:06:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,227,1355126400"; d="scan'208";a="176805577"
+X-IronPort-AV: E=Sophos;i="4.84,228,1355126400"; d="scan'208";a="259739908"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Dec 2012 21:00:01 -0800
-Message-ID: <50C02651.30201@linux.intel.com>
-Date: Wed, 05 Dec 2012 21:00:01 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2012 21:06:06 -0800
+Message-ID: <50C027BE.2020501@linux.intel.com>
+Date: Wed, 05 Dec 2012 21:06:06 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Elizabeth Flanagan <elizabeth.flanagan@intel.com>, 
-	Andy Ross <andy.ross@windriver.com>
-References: <cover.1354208369.git.elizabeth.flanagan@intel.com>
-	<037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
-In-Reply-To: <037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1354641032.git.mark.hatle@windriver.com>
+	<4f0221babbdf3b316dbb0a23dd84ac0e6eeaa658.1354641032.git.mark.hatle@windriver.com>
+In-Reply-To: <4f0221babbdf3b316dbb0a23dd84ac0e6eeaa658.1354641032.git.mark.hatle@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
+Subject: Re: [PATCH 21/22] pseudo: Rework target, native and nativesdk pseudo intergration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,220 +33,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 05:14:38 -0000
+X-List-Received-Date: Thu, 06 Dec 2012 05:20:33 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/29/2012 11:08 AM, Elizabeth Flanagan wrote:
-> From: Andy Ross <andy.ross@windriver.com>
+On 12/04/2012 09:14 AM, Mark Hatle wrote:
+> Pseudo was not building and installing properly for systems where baselib
+> was not 'lib'.  This change reworks the three scenerios to work properly.
 >
-> Allow INCOMPATIBLE_LICENSE to be a whitespace-separated list of
-> incompatible license strings and/or glob patterns.
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>   meta/recipes-devtools/pseudo/pseudo.inc      |   58 ++++++++++++-------------
+>   meta/recipes-devtools/pseudo/pseudo_1.4.1.bb |    2 +-
+>   meta/recipes-devtools/pseudo/pseudo_git.bb   |    2 +-
+>   3 files changed, 30 insertions(+), 32 deletions(-)
 >
-> Also fix wildcarding: the string in INCOMPATIBLE_LICENSE was clearly
-> intended to match with wildcards (e.g. "*GPLv3" to match both GPLv3
-> and LGPLv3), but this was broken because of a bug in return_spdx()
-> which would die with a runtime error when there was no SPDXLICENSEMAP
-> entry for the string.
+> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+> index 98f706c..8dc7d72 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -13,34 +13,28 @@ SRC_URI_append_class-nativesdk = " file://symver.patch"
 >
+>   SRC_URI_append_class-native = " file://symver.patch"
+>
+> -FILES_${PN} = "${libdir}/pseudo/lib*/libpseudo.so ${bindir}/* ${localstatedir}/pseudo ${prefix}/var/pseudo"
+> -FILES_${PN}-dbg += "${libdir}/pseudo/lib*/.debug"
+> +FILES_${PN} = "${prefix}/lib/pseudo/lib*/libpseudo.so ${bindir}/* ${localstatedir}/pseudo ${prefix}/var/pseudo"
+> +FILES_${PN}-dbg += "${prefix}/lib/pseudo/lib*/.debug"
+>   PROVIDES += "virtual/fakeroot"
+>
+>   MAKEOPTS = ""
+>
+>   inherit siteinfo
+>
+> -do_configure () {
+> -	:
+> -}
+> -
+> -NO32LIBS ??= "1"
+> -
+> -# Compile for the local machine arch...
+> -do_compile () {
+> +do_configure_class-target () {
+>   	if [ "${SITEINFO_BITS}" = "64" ]; then
+> -	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
+> +		mylibdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS}
+>   	else
+> -	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
+> +		mylibdir=${prefix}/lib/pseudo/lib
+>   	fi
+> -	oe_runmake ${MAKEOPTS}
+> +	${S}/configure --prefix=${prefix} --libdir=$mylibdir --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
 
-Bad news!
+You seem to have dropped the --with-sqlite and now it does not find 
+sqlite3.h for the target build as can be seen in the build appliance 
+failure.
 
-This patch is still having problems, see the Autobuilder recently build 
-(link below).  This is on MUT with the updated binutils, I am not sure 
-if that is part of the problem or not, but binutils was working before.
-
-Partially it's failing with binutils-cross-canadian-<target arch>
-
-Dropping from mut for now, sorry.
+http://autobuilder.yoctoproject.org:8010/builders/build-appliance/builds/154/steps/shell_46/logs/stdio
 
 Sau!
 
-Failure Log:
-
-http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/380/steps/shell_29/logs/stdio
-
-
-
-> Signed-off-by: Andy Ross <andy.ross@windriver.com>
-> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-> ---
->   meta/classes/base.bbclass    |   67 ++++++++++++++++++++--------------------
->   meta/classes/license.bbclass |   70 ++++++++++++++++--------------------------
->   2 files changed, 59 insertions(+), 78 deletions(-)
+>   }
 >
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 0ee9d2e..4fc0559 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -524,43 +524,42 @@ python () {
->                       raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
->
->
-> -        dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', True)
-> -
-> -        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-cross-canadian-%s" % d.getVar('TRANSLATED_TARGET_ARCH', True)) and not pn.startswith("nativesdk-"):
-> -        # Internally, we'll use the license mapping. This way INCOMPATIBLE_LICENSE = "GPLv2" and
-> -        # INCOMPATIBLE_LICENSE = "GPLv2.0" will pick up all variations of GPL-2.0
-> -            spdx_license = return_spdx(d, dont_want_license)
-> -            hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
-> -            lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
-> -            dont_want_whitelist = (d.getVar('WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
-> -            if pn not in hosttools_whitelist and pn not in lgplv2_whitelist and pn not in dont_want_whitelist:
-> -                this_license = d.getVar('LICENSE', True)
-> -                # At this point we know the recipe contains an INCOMPATIBLE_LICENSE, however it may contain packages that do not.
-> -                packages = d.getVar('PACKAGES', True).split()
-> -                dont_skip_recipe = False
-> -                skipped_packages = {}
-> -                unskipped_packages = []
-> -                for pkg in packages:
-> -                    if incompatible_license(d, dont_want_license, pkg):
-> -                            skipped_packages[pkg] = this_license
-> -                            dont_skip_recipe = True
-> +        bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
+> -# Two below are the same
+> +NO32LIBS ??= "1"
 > +
-> +        check_license = True
-> +        for t in ["-native", "-cross", "-cross-initial", "-cross-intermediate", "-crosssdk-intermediate", "-crosssdk", "-crosssdk-initial", "-nativesdk"]:
-> +            if pn.endswith(t):
-> +                check_license = False
+>   # If necessary compile for the alternative machine arch.  This is only
+>   # necessary in a native build.
+> -do_compile_prepend_class-native () {
+> +do_compile_native() {
+>   	if [ "${SITEINFO_BITS}" = "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
+>   		# We need the 32-bit libpseudo on a 64-bit machine...
+>                   # ... and we really, really, hope that the native host is
+> @@ -56,18 +50,20 @@ do_compile_prepend_class-native () {
+>   		# prevent it from removing the lib, but remove everything else
+>   		make 'LIB=foo' ${MAKEOPTS} distclean
+>   	fi
+> +	if [ "${SITEINFO_BITS}" = "64" ]; then
+> +	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
+> +	else
+> +	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
+> +	fi
+> +	oe_runmake ${MAKEOPTS}
+>   }
+>
+> -do_compile_prepend_class-nativesdk () {
+> -	if [ "${SITEINFO_BITS}" = "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
+> -		# We need the 32-bit libpseudo on a 64-bit machine...
+> -                # ... and we really, really, hope that the native host is
+> -                # x86, or else --bits may not work.
+> -		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
+> -		oe_runmake ${MAKEOPTS} libpseudo
+> -		# prevent it from removing the lib, but remove everything else
+> -		make 'LIB=foo' ${MAKEOPTS} distclean
+> -	fi
+> +do_compile_class-native () {
+> +	do_compile_native
+> +}
 > +
-> +        if check_license and bad_licenses:
-> +            whitelist = []
-> +            for lic in bad_licenses:
-> +                for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
-> +                    whitelist.extend((d.getVar(w + lic, True) or "").split())
-> +                spdx_license = return_spdx(d, lic)
-> +                if spdx_license:
-> +                    whitelist.extend((d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split())
-> +            if not pn in whitelist:
-> +                recipe_license = d.getVar('LICENSE', True)
-> +                pkgs = d.getVar('PACKAGES', True).split()
-> +                skipped_pkgs = []
-> +                unskipped_pkgs = []
-> +                for pkg in pkgs:
-> +                    if incompatible_license(d, bad_licenses, pkg):
-> +                        skipped_pkgs.append(pkg)
->                       else:
-> -                        unskipped_packages.append(pkg)
-> -                if not unskipped_packages:
-> -                    # if we hit here and have excluded all packages, then we can just exclude the recipe
-> -                    dont_skip_recipe = False
-> -                elif skipped_packages and unskipped_packages:
-> -                    for pkg, license in skipped_packages.iteritems():
-> -                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + this_license)
-> +                        unskipped_pkgs.append(pkg)
-> +                some_skipped = skipped_pkgs and unskipped_pkgs
-> +                all_skipped = skipped_pkgs and not unskipped_pkgs
-> +                if some_skipped:
-> +                    for pkg in skipped_pkgs:
-> +                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + recipe_license)
->                           d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
-> -                    for index, pkg in enumerate(unskipped_packages):
-> +                    for pkg in unskipped_pkgs:
->                           bb.note("INCLUDING the package " + pkg)
-> -
-> -                if dont_skip_recipe is False and incompatible_license(d, dont_want_license):
-> -                    bb.note("SKIPPING recipe %s because it's %s" % (pn, this_license))
-> -                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
-> -
-> -
-> +                elif all_skipped or incompatible_license(d, bad_licenses):
-> +                    bb.note("SKIPPING recipe %s because it's %s" % (pn, recipe_license))
-> +                    raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
+> +do_compile_class-nativesdk () {
+> +	do_compile_native
+>   }
 >
->       srcuri = d.getVar('SRC_URI', True)
->       # Svn packages should DEPEND on subversion-native
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index c7ca4a6..9205cde 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -207,14 +207,11 @@ python do_populate_lic() {
->
->   def return_spdx(d, license):
->       """
-> -    This function returns the spdx mapping of a license.
-> -    """
-> -    if d.getVarFlag('SPDXLICENSEMAP', license) != None:
-> -        return license
-> -    else:
-> -        return d.getVarFlag('SPDXLICENSEMAP', license_type)
-> -
-> -def incompatible_license(d, dont_want_license, package=""):
-> +    This function returns the spdx mapping of a license if it exists.
-> +     """
-> +    return d.getVarFlag('SPDXLICENSEMAP', license, True)
+>   do_install () {
+> @@ -77,18 +73,20 @@ do_install () {
+>   # Two below are the same
+>   # If necessary install for the alternative machine arch.  This is only
+>   # necessary in a native build.
+> -do_install_append_class-native () {
+> +do_install_native () {
+>   	if [ "${SITEINFO_BITS}" = "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
+>   		mkdir -p ${D}${prefix}/lib/pseudo/lib
+>   		cp lib/pseudo/lib/libpseudo.so ${D}${prefix}/lib/pseudo/lib/.
+>   	fi
+> +	oe_runmake 'DESTDIR=${D}' ${MAKEOPTS} 'LIB=lib/pseudo/lib$(MARK64)' install
+> +}
 > +
-> +def incompatible_license(d, dont_want_licenses, package=None):
->       """
->       This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
->       operand.
-> @@ -223,45 +220,30 @@ def incompatible_license(d, dont_want_license, package=""):
->       import oe.license
->       from fnmatch import fnmatchcase as fnmatch
->       pn = d.getVar('PN', True)
-> -    dont_want_licenses = []
-> -    dont_want_licenses.append(d.getVar('INCOMPATIBLE_LICENSE', True))
-> -    recipe_license = d.getVar('LICENSE', True)
-> -    if package != "":
-> -        if d.getVar('LICENSE_' + pn + '-' + package, True):
-> -            license = d.getVar('LICENSE_' + pn + '-' + package, True)
-> -        else:
-> -            license = recipe_license
-> -    else:
-> -        license = recipe_license
-> -    spdx_license = return_spdx(d, dont_want_license)
-> -    dont_want_licenses.append(spdx_license)
-> -
-> -    def include_license(license):
-> -        if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
-> +    license = d.getVar("LICENSE_%s-%s" % (pn, package), True) if package else None
-> +    if not license:
-> +        license = d.getVar('LICENSE', True)
-> +
-> +    def license_ok(license):
-> +        for dwl in dont_want_licenses:
-> +            # If you want to exclude license named generically 'X', we
-> +            # surely want to exclude 'X+' as well.  In consequence, we
-> +            # will exclude a trailing '+' character from LICENSE in
-> +            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
-> +            lic = license
-> +        if not re.search('\+$', dwl):
-> +            lic = re.sub('\+', '', license)
-> +        if fnmatch(lic, dwl):
->               return False
-> -        else:
-> -            return True
-> +        return True
+> +do_install_class-native () {
+> +	do_install_native
+>   }
 >
-> -    def choose_licenses(a, b):
-> -        if all(include_license(lic) for lic in a):
-> -            return a
-> -        else:
-> -            return b
-> +    # Handles an "or" or two license sets provided by
-> +    # flattened_licenses(), pick one that works if possible.
-> +    def choose_lic_set(a, b):
-> +        return a if all(license_ok(lic) for lic in a) else b
+>   do_install_append_class-nativesdk () {
+> -	if [ "${SITEINFO_BITS}" = "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
+> -		mkdir -p ${D}${prefix}/lib/pseudo/lib
+> -		cp lib/pseudo/lib/libpseudo.so ${D}${prefix}/lib/pseudo/lib/.
+> -	fi
+> +	do_install_native
+>   }
 >
-> -    """
-> -    If you want to exlude license named generically 'X', we surely want to exlude 'X+' as well.
-> -    In consequence, we will exclude the '+' character from LICENSE in case INCOMPATIBLE_LICENSE
-> -    is not a 'X+' license.
-> -    """
-> -    if not re.search(r'[+]',dont_want_license):
-> -        licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', license), choose_licenses)
-> -    else:
-> -        licenses=oe.license.flattened_licenses(license, choose_licenses)
-> -
-> -    for onelicense in licenses:
-> -        if not include_license(onelicense):
-> -            return True
-> -    return False
-> +    licenses=oe.license.flattened_licenses(license, choose_lic_set)
-> +    return any(not license_ok(l) for l in licenses)
+>   BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+> index 70fe9c0..8367a34 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+> @@ -1,6 +1,6 @@
+>   require pseudo.inc
 >
->   def check_license_flags(d):
->       """
+> -PR = "r13"
+> +PR = "r14"
+>
+>   SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+>
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> index e394ffb..c8ec5ad 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> @@ -2,7 +2,7 @@ require pseudo.inc
+>
+>   SRCREV = "398a264490713c912b4ce465251a8a82a7905f45"
+>   PV = "1.4.1+git${SRCPV}"
+> -PR = "r28"
+> +PR = "r29"
+>
+>   DEFAULT_PREFERENCE = "-1"
+>
 >
 
 
