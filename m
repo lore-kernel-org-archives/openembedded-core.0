@@ -1,28 +1,26 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tgfe5-0006gZ-S5
+	(envelope-from <sgw@linux.intel.com>) id 1Tgfqy-0007FD-EL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 18:54:02 +0100
+	Thu, 06 Dec 2012 19:07:21 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Dec 2012 09:38:48 -0800
+	by orsmga102.jf.intel.com with ESMTP; 06 Dec 2012 09:52:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,230,1355126400"; d="scan'208";a="229922568"
+X-IronPort-AV: E=Sophos;i="4.84,230,1355126400"; d="scan'208";a="229928576"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
-	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2012 09:39:33 -0800
-Message-ID: <50C0D855.4000601@linux.intel.com>
-Date: Thu, 06 Dec 2012 09:39:33 -0800
+	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2012 09:52:48 -0800
+Message-ID: <50C0DB6F.7090701@linux.intel.com>
+Date: Thu, 06 Dec 2012 09:52:47 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <cover.1354641032.git.mark.hatle@windriver.com>
-	<4f0221babbdf3b316dbb0a23dd84ac0e6eeaa658.1354641032.git.mark.hatle@windriver.com>
-	<50C027BE.2020501@linux.intel.com> <50C0CFE5.7000707@windriver.com>
-	<50C0D41F.1050706@linux.intel.com> <50C0D5DA.2030200@windriver.com>
-In-Reply-To: <50C0D5DA.2030200@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 21/22] pseudo: Rework target, native and nativesdk pseudo intergration
+To: Cristian Iorga <cristian.iorga@intel.com>
+References: <1354729406-19146-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1354729406-19146-1-git-send-email-cristian.iorga@intel.com>
+Cc: Constantin Musca <constantinx.musca@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: upgrade to 1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,272 +33,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 17:54:02 -0000
+X-List-Received-Date: Thu, 06 Dec 2012 18:07:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/06/2012 09:28 AM, Mark Hatle wrote:
-> On 12/6/12 11:21 AM, Saul Wold wrote:
->> On 12/06/2012 09:03 AM, Mark Hatle wrote:
->>> On 12/5/12 11:06 PM, Saul Wold wrote:
->>>> On 12/04/2012 09:14 AM, Mark Hatle wrote:
->>>>> Pseudo was not building and installing properly for systems where
->>>>> baselib
->>>>> was not 'lib'.  This change reworks the three scenerios to work
->>>>> properly.
->>>>>
->>>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->>>>> ---
->>>>>     meta/recipes-devtools/pseudo/pseudo.inc      |   58
->>>>> ++++++++++++-------------
->>>>>     meta/recipes-devtools/pseudo/pseudo_1.4.1.bb |    2 +-
->>>>>     meta/recipes-devtools/pseudo/pseudo_git.bb   |    2 +-
->>>>>     3 files changed, 30 insertions(+), 32 deletions(-)
->>>>>
->>>>> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc
->>>>> b/meta/recipes-devtools/pseudo/pseudo.inc
->>>>> index 98f706c..8dc7d72 100644
->>>>> --- a/meta/recipes-devtools/pseudo/pseudo.inc
->>>>> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
->>>>> @@ -13,34 +13,28 @@ SRC_URI_append_class-nativesdk = "
->>>>> file://symver.patch"
->>>>>
->>>>>     SRC_URI_append_class-native = " file://symver.patch"
->>>>>
->>>>> -FILES_${PN} = "${libdir}/pseudo/lib*/libpseudo.so ${bindir}/*
->>>>> ${localstatedir}/pseudo ${prefix}/var/pseudo"
->>>>> -FILES_${PN}-dbg += "${libdir}/pseudo/lib*/.debug"
->>>>> +FILES_${PN} = "${prefix}/lib/pseudo/lib*/libpseudo.so ${bindir}/*
->>>>> ${localstatedir}/pseudo ${prefix}/var/pseudo"
->>>>> +FILES_${PN}-dbg += "${prefix}/lib/pseudo/lib*/.debug"
->>>>>     PROVIDES += "virtual/fakeroot"
->>>>>
->>>>>     MAKEOPTS = ""
->>>>>
->>>>>     inherit siteinfo
->>>>>
->>>>> -do_configure () {
->>>>> -    :
->>>>> -}
->>>>> -
->>>>> -NO32LIBS ??= "1"
->>>>> -
->>>>> -# Compile for the local machine arch...
->>>>> -do_compile () {
->>>>> +do_configure_class-target () {
->>>>>         if [ "${SITEINFO_BITS}" = "64" ]; then
->>>>> -      ${S}/configure --prefix=${prefix}
->>>>> --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS}
->>>>> --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix}
->>>>> --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite
->>>>> --without-rpath
->>>>> +        mylibdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS}
->>>>>         else
->>>>> -      ${S}/configure --prefix=${prefix}
->>>>> --libdir=${prefix}/lib/pseudo/lib
->>>>> --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix}
->>>>> --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite
->>>>> --without-rpath
->>>>> +        mylibdir=${prefix}/lib/pseudo/lib
->>>>>         fi
->>>>> -    oe_runmake ${MAKEOPTS}
->>>>> +    ${S}/configure --prefix=${prefix} --libdir=$mylibdir
->>>>> --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
->>>>
->>>> You seem to have dropped the --with-sqlite and now it does not find
->>>> sqlite3.h for the target build as can be seen in the build appliance
->>>> failure.
->>>
->>> It should be sourcing it from the compiler with a #include.  It was
->>> working on all of my test builds.
->>>
->> Not that I am aware of, the configure script defaults to /usr, is it
->> possible you have a host contamination issue with sqlite3 installed on
->> your machine?
->>
->>> But either way, there are two bugs here.. the first is pseudo isn't
->>> building for the target -- it wasn't before either.
->>>
->> It has been building on the target in the past since we need it for the
->> Build Appliance and it builds in world.
+On 12/05/2012 09:43 AM, Cristian Iorga wrote:
+> From: Constantin Musca <constantinx.musca@intel.com>
 >
-> Enable multilibs, pseudo (target) will no longer build.  The integration
-> is hard coded currently to be looking for things in the 'lib' directory,
-> which may not exist.  In otherwords, it is broken -- and the autobuilds
-> are missing any build-time tests for multilibs at this point.
+> 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+>      - adapted to the new version
 >
->>> But the real issue is -why on earth- are we building pseudo at all for
->>> the target.  It serves no purpose that I am aware of.
->>>
->> Build Appliance needs it.
+> 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+>      - patch removed (it is included in the new version)
 >
-> People keep telling me this, but honestly I can't figure out why it's
-> needed. What actually uses pseudo in the build appliance?
+> inet-fix-ip-cleanup-functions.patch: added
+>      - fix for ip cleanup functions
 >
-The build appliance uses it to save time at start of HOB, since pseudo 
-is needed to run hob first.  If we needed to build it first that can 
-cause issues.  We have the sources available in the appliance, but it 
-still does some network start up.
+This seemed to introduce some regression on the Autobuilder and caused 
+all Sanity tests to fail, apparently connman is taking longer to start 
+up and longer to aquire an IP address.
 
-We want the hob to come up quickly, not have to wait for pseudo to be 
-build.
+This needs to be understood before we merge this change.
 
-> I can easily build a system today, boot it, download OE-Core/Bitbake (or
-> Poky) and build it on that system.  It's that the purpose of the build
-> appliance?  Why is it needed?
->
-Yes, it builds pseudo first as normal you have a network in place
+Thanks
+	Sau!
 
->>> I'd prefer if the fix was simply to disable pseudo for target-class
->>> builds, and only build it for -native and -nativesdk cases.
->>>
->> Not really an option
->>
->>> Just drop this patch for now -- we can focus on fixing it a different
->>> way if target builds of pseudo are needed for some reason.
->>>
->> consider it dropped.
->>
->> Sau!
->>
->>> --Mark
->>>
->>>> http://autobuilder.yoctoproject.org:8010/builders/build-appliance/builds/154/steps/shell_46/logs/stdio
->>>>
->>>>
->>>>
->>>> Sau!
->>>>
->>>>>     }
->>>>>
->>>>> -# Two below are the same
->>>>> +NO32LIBS ??= "1"
->>>>> +
->>>>>     # If necessary compile for the alternative machine arch.  This is
->>>>> only
->>>>>     # necessary in a native build.
->>>>> -do_compile_prepend_class-native () {
->>>>> +do_compile_native() {
->>>>>         if [ "${SITEINFO_BITS}" = "64" -a -e
->>>>> "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a
->>>>> "${NO32LIBS}" != "1" ]; then
->>>>>             # We need the 32-bit libpseudo on a 64-bit machine...
->>>>>                     # ... and we really, really, hope that the native
->>>>> host is
->>>>> @@ -56,18 +50,20 @@ do_compile_prepend_class-native () {
->>>>>             # prevent it from removing the lib, but remove everything
->>>>> else
->>>>>             make 'LIB=foo' ${MAKEOPTS} distclean
->>>>>         fi
->>>>> +    if [ "${SITEINFO_BITS}" = "64" ]; then
->>>>> +      ${S}/configure --prefix=${prefix}
->>>>> --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS}
->>>>> --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix}
->>>>> --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite
->>>>> --without-rpath
->>>>> +    else
->>>>> +      ${S}/configure --prefix=${prefix}
->>>>> --libdir=${prefix}/lib/pseudo/lib
->>>>> --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix}
->>>>> --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite
->>>>> --without-rpath
->>>>> +    fi
->>>>> +    oe_runmake ${MAKEOPTS}
->>>>>     }
->>>>>
->>>>> -do_compile_prepend_class-nativesdk () {
->>>>> -    if [ "${SITEINFO_BITS}" = "64" -a -e
->>>>> "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a
->>>>> "${NO32LIBS}" != "1" ]; then
->>>>> -        # We need the 32-bit libpseudo on a 64-bit machine...
->>>>> -                # ... and we really, really, hope that the native
->>>>> host is
->>>>> -                # x86, or else --bits may not work.
->>>>> -        ./configure --prefix=${prefix}
->>>>> --libdir=${prefix}/lib/pseudo/lib
->>>>> --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32
->>>>> --without-rpath
->>>>> -        oe_runmake ${MAKEOPTS} libpseudo
->>>>> -        # prevent it from removing the lib, but remove everything
->>>>> else
->>>>> -        make 'LIB=foo' ${MAKEOPTS} distclean
->>>>> -    fi
->>>>> +do_compile_class-native () {
->>>>> +    do_compile_native
->>>>> +}
->>>>> +
->>>>> +do_compile_class-nativesdk () {
->>>>> +    do_compile_native
->>>>>     }
->>>>>
->>>>>     do_install () {
->>>>> @@ -77,18 +73,20 @@ do_install () {
->>>>>     # Two below are the same
->>>>>     # If necessary install for the alternative machine arch.  This is
->>>>> only
->>>>>     # necessary in a native build.
->>>>> -do_install_append_class-native () {
->>>>> +do_install_native () {
->>>>>         if [ "${SITEINFO_BITS}" = "64" -a -e
->>>>> "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a
->>>>> "${NO32LIBS}" != "1" ]; then
->>>>>             mkdir -p ${D}${prefix}/lib/pseudo/lib
->>>>>             cp lib/pseudo/lib/libpseudo.so
->>>>> ${D}${prefix}/lib/pseudo/lib/.
->>>>>         fi
->>>>> +    oe_runmake 'DESTDIR=${D}' ${MAKEOPTS}
->>>>> 'LIB=lib/pseudo/lib$(MARK64)' install
->>>>> +}
->>>>> +
->>>>> +do_install_class-native () {
->>>>> +    do_install_native
->>>>>     }
->>>>>
->>>>>     do_install_append_class-nativesdk () {
->>>>> -    if [ "${SITEINFO_BITS}" = "64" -a -e
->>>>> "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a
->>>>> "${NO32LIBS}" != "1" ]; then
->>>>> -        mkdir -p ${D}${prefix}/lib/pseudo/lib
->>>>> -        cp lib/pseudo/lib/libpseudo.so ${D}${prefix}/lib/pseudo/lib/.
->>>>> -    fi
->>>>> +    do_install_native
->>>>>     }
->>>>>
->>>>>     BBCLASSEXTEND = "native nativesdk"
->>>>> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
->>>>> b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
->>>>> index 70fe9c0..8367a34 100644
->>>>> --- a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
->>>>> +++ b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
->>>>> @@ -1,6 +1,6 @@
->>>>>     require pseudo.inc
->>>>>
->>>>> -PR = "r13"
->>>>> +PR = "r14"
->>>>>
->>>>>     SRC_URI =
->>>>> "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
->>>>>
->>>>> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb
->>>>> b/meta/recipes-devtools/pseudo/pseudo_git.bb
->>>>> index e394ffb..c8ec5ad 100644
->>>>> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
->>>>> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
->>>>> @@ -2,7 +2,7 @@ require pseudo.inc
->>>>>
->>>>>     SRCREV = "398a264490713c912b4ce465251a8a82a7905f45"
->>>>>     PV = "1.4.1+git${SRCPV}"
->>>>> -PR = "r28"
->>>>> +PR = "r29"
->>>>>
->>>>>     DEFAULT_PREFERENCE = "-1"
->>>>>
->>>>>
->>>
->>>
->>>
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   ...If-there-is-no-d_type-support-use-fstatat.patch |   61 --------------------
+>   ...If-there-is-no-d_type-support-use-fstatat.patch |   38 +++++++-----
+>   .../connman/inet-fix-ip-cleanup-functions.patch    |   40 +++++++++++++
+>   .../connman/{connman_1.4.bb => connman_1.9.bb}     |    6 +-
+>   4 files changed, 65 insertions(+), 80 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+>   create mode 100644 meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+>   rename meta/recipes-connectivity/connman/{connman_1.4.bb => connman_1.9.bb} (72%)
 >
+> diff --git a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+> deleted file mode 100644
+> index 3bced52..0000000
+> --- a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -From f2094e6b2e4542adf458d8fa58d7bccd5edb762e Mon Sep 17 00:00:00 2001
+> -From: Andrei Gherzan <andrei@gherzan.ro>
+> -Date: Tue, 17 Jul 2012 17:27:39 +0300
+> -Subject: [PATCH V3 1/2] timezone.c: If there is no d_type support use
+> - fstatat()
+> -
+> -This is useful for filesystems where d_type is always DT_UNKNOWN.
+> -In this case use fstatat() function.
+> -
+> -Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+> -Upstream-Status: Submitted
+> -
+> ----
+> - src/timezone.c |   24 ++++++++++++++++++++++++
+> - 1 file changed, 24 insertions(+)
+> -
+> -diff --git a/src/timezone.c b/src/timezone.c
+> -index 173d658..f951f6b 100644
+> ---- a/src/timezone.c
+> -+++ b/src/timezone.c
+> -@@ -157,6 +157,8 @@ static char *find_origin(void *src_map, struct stat *src_st,
+> - 	DIR *dir;
+> - 	struct dirent *d;
+> - 	char *str, pathname[PATH_MAX];
+> -+	struct stat buf;
+> -+	int ret;
+> -
+> - 	if (subpath == NULL)
+> - 		strncpy(pathname, basepath, sizeof(pathname));
+> -@@ -205,6 +207,28 @@ static char *find_origin(void *src_map, struct stat *src_st,
+> - 				return str;
+> - 			}
+> - 			break;
+> -+		case DT_UNKNOWN:
+> -+			/*
+> -+			 * If there is no d_type support use fstatat()
+> -+			 * to check if directory
+> -+			 */
+> -+			ret = fstatat(dirfd(dir), d->d_name, &buf, 0);
+> -+			if (ret < 0)
+> -+				continue;
+> -+			if (!(buf.st_mode & S_IFDIR))
+> -+				continue;
+> -+			if (subpath == NULL)
+> -+				strncpy(pathname, d->d_name, sizeof(pathname));
+> -+			else
+> -+				snprintf(pathname, sizeof(pathname),
+> -+						"%s/%s", subpath, d->d_name);
+> -+
+> -+			str = find_origin(src_map, src_st, basepath, pathname);
+> -+			if (str != NULL) {
+> -+				closedir(dir);
+> -+				return str;
+> -+			}
+> -+			break;
+> - 		}
+> - 	}
+> -
+> ---
+> -1.7.9.5
+> -
+> diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+> index d3205c0..7315545 100644
+> --- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+> +++ b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+> @@ -8,20 +8,33 @@ This is useful for filesystems where d_type is always DT_UNKNOWN.
+>   In this case use fstatat() function.
 >
+>   Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>   Upstream-Status: Submitted
+>
+>   ---
+>    src/storage.c |   19 +++++++++++++++++++
+>    1 file changed, 19 insertions(+)
+>
+> -diff --git a/src/storage.c b/src/storage.c
+> -index 47bd0cb..0491a52 100644
+> ---- a/src/storage.c
+> -+++ b/src/storage.c
+> -@@ -206,6 +206,25 @@ gchar **connman_storage_get_services()
+> +Index: git/src/storage.c
+> +===================================================================
+> +--- git.orig/src/storage.c
+> ++++ git/src/storage.c
+> +@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
+>
+> - 			g_string_append_printf(result, "%s/", d->d_name);
+> - 			break;
+> + 		switch (d->d_type) {
+> + 		case DT_DIR:
+> +-		case DT_UNKNOWN:
+> + 			/*
+> + 			 * If the settings file is not found, then
+> + 			 * assume this directory is not a services dir.
+> +@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
+> + 			ret = stat(str, &buf);
+> + 			g_free(str);
+> + 			if (ret < 0)
+> ++				continue;
+> ++
+> ++			g_string_append_printf(result, "%s/", d->d_name);
+> ++			break;
+>   +		case DT_UNKNOWN:
+>   +			/*
+>   +			 * If there is no d_type support use fstatat()
+> @@ -37,13 +50,6 @@ index 47bd0cb..0491a52 100644
+>   +			ret = stat(str, &buf);
+>   +			g_free(str);
+>   +			if (ret < 0)
+> -+				continue;
+> -+
+> -+			g_string_append_printf(result, "%s/", d->d_name);
+> -+			break;
+> - 		}
+> - 	}
+> + 				continue;
+>
+> ---
+> -1.7.9.5
+> -
+> + 			g_string_append_printf(result, "%s/", d->d_name);
+> diff --git a/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+> new file mode 100644
+> index 0000000..3071549
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+> @@ -0,0 +1,40 @@
+> +From 100353e10f60a50ca1ba78daa6bc4dfebf5b3297 Mon Sep 17 00:00:00 2001
+> +From: Constantin Musca <constantinx.musca@intel.com>
+> +Date: Wed, 5 Dec 2012 15:07:21 +0200
+> +Subject: [PATCH] inet: fix ip cleanup functions
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> +---
+> + src/inet.c | 8 ++++++++
+> + 1 file changed, 8 insertions(+)
+> +
+> +diff --git a/src/inet.c b/src/inet.c
+> +index be69aca..e76a1f1 100644
+> +--- a/src/inet.c
+> ++++ b/src/inet.c
+> +@@ -626,6 +626,10 @@ int connman_inet_clear_ipv6_address(int index, const char *address,
+> +
+> + 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
+> +
+> ++	if (address == NULL) {
+> ++		return -1;
+> ++	}
+> ++
+> + 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET6,
+> + 				address, NULL, prefix_len, NULL);
+> + 	if (err < 0) {
+> +@@ -649,6 +653,10 @@ int connman_inet_clear_address(int index, struct connman_ipaddress *ipaddress)
+> +
+> + 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
+> +
+> ++	if (address == NULL) {
+> ++		return -1;
+> ++	}
+> ++
+> + 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET,
+> + 				address, peer, prefix_len, broadcast);
+> + 	if (err < 0) {
+> +--
+> +1.7.11.7
+> +
+> diff --git a/meta/recipes-connectivity/connman/connman_1.4.bb b/meta/recipes-connectivity/connman/connman_1.9.bb
+> similarity index 72%
+> rename from meta/recipes-connectivity/connman/connman_1.4.bb
+> rename to meta/recipes-connectivity/connman/connman_1.9.bb
+> index bd8ba65..3cbabc6 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.4.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.9.bb
+> @@ -1,12 +1,12 @@
+>   require connman.inc
+>
+> -# 1.4 tag
+> -SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
+> +# 1.9 tag
+> +SRCREV = "4bf217329babf4f7792b43d70228af8269c3332c"
+>   SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+>               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>               file://add_xuser_dbus_permission.patch \
+>               file://connman \
+>               file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
+> -            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
+> +            file://inet-fix-ip-cleanup-functions.patch"
+>   S = "${WORKDIR}/git"
+>   PR = "${INC_PR}.0"
 >
 
 
