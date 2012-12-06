@@ -1,29 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TgRL8-00071z-Cx
+	(envelope-from <martin.jansa@gmail.com>) id 1TgTAk-0000lm-Qm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 03:37:33 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qB62N61Z024649
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 06 Dec 2012 05:34:55 +0100
+Received: by mail-we0-f175.google.com with SMTP id z53so2297521wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Dec 2012 18:23:06 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 5 Dec 2012 18:23:04 -0800
-Message-ID: <50C00182.3070102@windriver.com>
-Date: Thu, 6 Dec 2012 10:22:58 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	Wed, 05 Dec 2012 20:20:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=VeyEDAqFI+C9+BoFOidrPekusMQk8xcyqC7Ctjy/0FU=;
+	b=eysViOHLKpK8j1OH5WFX8E9tcV3wc0ZxmlCUEsxKHOcWeGXAgYI3WYM4eR8GjUmPeR
+	9ceciKPCkMtI7rJl+cowd7GL5cgAE7xmSv3eTQdgnhFpbQmorsGDZ++IgiJk8kw1TlCJ
+	o6WyBvElix/q8PjmZcQtyRmjurU9fAIctq92YzlZ4AtqfJxqmSP6XSRttEm2vnkkDcRl
+	8qHNsMHIng/Bu/78QR1uwfjoIatPlm3MXNvVT62ir1qYtATelMB5FB/J+Hdh6qV0hpIh
+	Ixe7TL+RIZmZNVMx/9VsFWKtu9fBPF9rJkbOKbiVKR9X2iXpaCZ85mqF0YBTTK1sHDK9
+	QXIg==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1354694264-23741-1-git-send-email-ming.liu@windriver.com>
-	<50BFA0ED.2030303@linux.intel.com>
-In-Reply-To: <50BFA0ED.2030303@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [PATCH V1] initscripts/urandom: create directory before staging into it
+Received: by 10.216.212.131 with SMTP id y3mr83248weo.62.1354767629948; Wed,
+	05 Dec 2012 20:20:29 -0800 (PST)
+Received: by 10.194.84.103 with HTTP; Wed, 5 Dec 2012 20:20:29 -0800 (PST)
+Received: by 10.194.84.103 with HTTP; Wed, 5 Dec 2012 20:20:29 -0800 (PST)
+In-Reply-To: <1354721845.25268.118.camel@ted>
+References: <1354716839.25268.105.camel@ted>
+	<20121205144539.GA3396@jama.jama.net>
+	<1354720793.25268.115.camel@ted>
+	<20121205152442.GC3396@jama.jama.net>
+	<1354721845.25268.118.camel@ted>
+Date: Thu, 6 Dec 2012 05:20:29 +0100
+Message-ID: <CA+chaQdgmi9r9H4_JKUbD+ASUba_x5L=yAikkR78dQ5v_xv4kQ@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Switch to PR server model for PR bumps - 1 week
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,72 +46,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 02:37:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Dec 2012 04:34:55 -0000
+Content-Type: multipart/alternative; boundary=0016e6db2bff5618da04d0276b30
 
-On 12/06/2012 03:30 AM, Saul Wold wrote:
-> On 12/04/2012 11:57 PM, Ming Liu wrote:
->> /etc/init.d/urandom fails to start/stop because it tries to save
->> random-seed into /var/lib/urandom folder which does not exist in the
->> file system.
->>
->> Fixed by creating /var/lib/urandom at do_install time.
->>
->> Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> ---
->>   meta/recipes-core/initscripts/initscripts_1.0.bb | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb 
->> b/meta/recipes-core/initscripts/initscripts_1.0.bb
->> index d25838b..39be9a8 100644
->> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
->> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
->> @@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system 
->> startup initialization scrip
->>   SECTION = "base"
->>   LICENSE = "GPLv2"
->>   LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
->> -PR = "r137"
->> +PR = "r138"
->>
->>   INHIBIT_DEFAULT_DEPS = "1"
->>
->> @@ -133,4 +133,6 @@ do_install () {
->>       fi
->>
->>       install -m 0755        ${WORKDIR}/device_table.txt        
->> ${D}${sysconfdir}/device_table
->> +    # Holds state information pertaining to urandom
->> +    install -d ${D}/var/lib/urandom
+--0016e6db2bff5618da04d0276b30
+Content-Type: text/plain; charset=UTF-8
+
+Ah and one more:
+6) what about export of LOCALCOUNT from bb persistent cache to import it as
+initial values of AUTOINC for git recipes?
+
+Cheers,
+On Dec 5, 2012 4:37 PM, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
+
+> On Wed, 2012-12-05 at 16:24 +0100, Martin Jansa wrote:
+> > On Wed, Dec 05, 2012 at 03:19:53PM +0000, Richard Purdie wrote:
+> > > On Wed, 2012-12-05 at 15:45 +0100, Martin Jansa wrote:
+> > > Added to the page: "As implemented, values from the PR service are
+> > > included into the PR field as an addition of the form ".X" so r0
+> becomes
+> > > r0.1, r0.2 and so on. This allows existing PR values to be used for
+> > > whatever reasons allowing manual PR bumps should it be necessary."
+> > >
+> > > (should cover both questions)
+> > >
+> > > As for removing PR, as recipes are upgraded, I'm expecting we will
+> > > remove PR values so we should get a smooth transition. We can still
+> have
+> > > PR values, it will just become an exception rather than the rule.
+> >
+> > So default "hidden" r0 is still used in such cases and PRSERV adds again
+> > just .X.
 >
-> I thought this would go in volatiles, not here.
+> Exactly.
 >
-> Sau!
+> > Thanks for answers.
 >
-Hi Saul,
-
- From my understanding, volatiles is a configuration file which deals 
-with files related with volatile storage.
-Files, directories and links related to volatile storage should be in 
-this file, as it's a final method to check and make sure they are 
-created properly. But files under /var/lib should not there.
-
-So in my option, this patch is ok.
-
-Thanks,
-Chen Qi
-
->>   }
->>
+> They were good questions :)
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Cheers,
+>
+> Richard
+>
+>
 >
 
+--0016e6db2bff5618da04d0276b30
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p dir=3D"ltr">Ah and one more:<br>
+6) what about export of LOCALCOUNT from bb persistent cache to import it as=
+ initial values of AUTOINC for git recipes?</p>
+<p dir=3D"ltr">Cheers,</p>
+<div class=3D"gmail_quote">On Dec 5, 2012 4:37 PM, &quot;Richard Purdie&quo=
+t; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br type=3D"attribution"><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">
+On Wed, 2012-12-05 at 16:24 +0100, Martin Jansa wrote:<br>
+&gt; On Wed, Dec 05, 2012 at 03:19:53PM +0000, Richard Purdie wrote:<br>
+&gt; &gt; On Wed, 2012-12-05 at 15:45 +0100, Martin Jansa wrote:<br>
+&gt; &gt; Added to the page: &quot;As implemented, values from the PR servi=
+ce are<br>
+&gt; &gt; included into the PR field as an addition of the form &quot;.X&qu=
+ot; so r0 becomes<br>
+&gt; &gt; r0.1, r0.2 and so on. This allows existing PR values to be used f=
+or<br>
+&gt; &gt; whatever reasons allowing manual PR bumps should it be necessary.=
+&quot;<br>
+&gt; &gt;<br>
+&gt; &gt; (should cover both questions)<br>
+&gt; &gt;<br>
+&gt; &gt; As for removing PR, as recipes are upgraded, I&#39;m expecting we=
+ will<br>
+&gt; &gt; remove PR values so we should get a smooth transition. We can sti=
+ll have<br>
+&gt; &gt; PR values, it will just become an exception rather than the rule.=
+<br>
+&gt;<br>
+&gt; So default &quot;hidden&quot; r0 is still used in such cases and PRSER=
+V adds again<br>
+&gt; just .X.<br>
+<br>
+Exactly.<br>
+<br>
+&gt; Thanks for answers.<br>
+<br>
+They were good questions :)<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div>
 
+--0016e6db2bff5618da04d0276b30--
