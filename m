@@ -1,31 +1,25 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TgiH3-0002Gq-8m
+	(envelope-from <mark.hatle@windriver.com>) id 1TgiP1-0002Qc-PT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 21:42:28 +0100
-Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
-	([99.253.156.71]:47379 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Tgi36-0006ey-To for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 15:28:00 -0500
-Date: Thu, 6 Dec 2012 15:27:58 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1212061522350.31684@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 06 Dec 2012 21:50:40 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qB6KaEFS010364
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Dec 2012 12:36:14 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Thu, 6 Dec 2012 12:36:12 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Dec 2012 14:51:13 -0600
+Message-ID: <1354827073-25487-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: what exactly is the proper way to use FILESEXTRAPATHS?
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 3/22 v3] update-alternatives.bbclass: Add missing runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,64 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 20:42:28 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 06 Dec 2012 20:50:40 -0000
+Content-Type: text/plain
 
+When using update-alternatives, there should be a runtime dependency on
+${VIRTUAL-RUNTIME_update-alternatives}.  Without this, it's possible to
+get into a situation where the package is not installable.
 
-  continuing my trek through coding pedantry and was wondering about
-the exact purpose of the common line in .bbappend files:
+(If VIRTUAL-RUNTIME_update-alternatives is not defined, no requirement
+is added.)
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/update-alternatives.bbclass |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-or some slight variation thereof.
-
-  i *thought* i knew what it did, so i did a small experiment with the
-meta-ti layer and netbase (since i was already messing around with
-it), and i replaced the contents of the netbase .bbappend file with
-the single line:
-
-FILESEXTRAPATHS_prepend := "rday"
-
-and checked the environment for the value of FILESPATH for the netbase
-recipe and, after formatting to read it clearly, what i saw was:
-
-FILESPATH="rday/linux-gnueabi
-rday/arm
-rday/build-linux
-rday/pn-netbase
-rday/beagleboard
-rday/omap3
-rday/armv7a
-rday/
-rday/class-target
-rday/forcevariable
-rday/libc-glibc
-rday/
-/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/linux-gnueabi
-/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/arm
-/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/build-linux
-/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/pn-netbase
-/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/beagleboard
-/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/omap3
-... snip ...
-
-  what the heck?  if that's what FILESEXTRAPATHS is supposed to do,
-that is definitely *not* how it's being used in many, many bbappend
-files.
-
-  is there an explanation somewhere as to what the above is supposed
-to represent?
-
-rday
-
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 4e1ff27..a3631ec 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -304,6 +304,12 @@ python populate_packages_prepend () {
+             alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
+ 
+         if alt_setup_links:
++            # RDEPENDS setup
++            provider = d.getVar('VIRTUAL-RUNTIME_update-alternatives', True)
++            if provider:
++                #bb.note('adding runtime requirement for update-alternatives for %s' % pkg)
++                d.appendVar('RDEPENDS_%s' % pkg, ' ' + d.getVar('MLPREFIX') + provider)
++
+             bb.note('adding update-alternatives calls to postinst/postrm for %s' % pkg)
+             bb.note('%s' % alt_setup_links)
+             postinst = (d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)) or '#!/bin/sh\n'
 -- 
+1.7.3.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
