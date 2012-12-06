@@ -1,42 +1,21 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Tggeb-0008IU-9H
+	(envelope-from <sgw@linux.intel.com>) id 1TghhY-0001dC-Vk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 19:58:39 +0100
-Received: from mail-qc0-f197.google.com ([209.85.216.197])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 06 Dec 2012 10:43:13 -0800
-Received: by mail-qc0-f197.google.com with SMTP id x40so10018405qcs.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Dec 2012 10:43:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=Xfv4VpLIyQx9mtayM74Mbvt7bKP4qPOAxvrJ9Y6JlS0=;
-	b=CKvrxJgGYWrRKzwymzv8TEaW4ZUKxucup69f+0zo7E9Z+0XOtduzb+MRoLdcEhufKg
-	JqUSrErvCAJbSSeIj4N7G/GU37a+2JzGXOoWCHyrJHX8NaQD6/RKrWCtX9l/pAnq8cyU
-	C+/yz8V8hDAQPyclnpgEbukgSAsqMqxPSjhpmfildt7CCvCbObRLcNtgnd64yq+Org+y
-	Ohnp8s5GepX45EO+3thUgVrsXmOrbq6ZJGbAcBmJ0A1u/SrN5tNvkyYrJrTkR6nJGj+E
-	ul6HZfqfwQbqBqokiNYjhJdbaiLUhhw09N0L9yDZ479Ef4hpbA9EU9wS7xUWL5iywP4V
-	jtXA==
-Received: by 10.49.60.33 with SMTP id e1mr4670882qer.4.1354819436100;
-	Thu, 06 Dec 2012 10:43:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.49.60.33 with SMTP id e1mr4670848qer.4.1354819435716; Thu, 06
-	Dec 2012 10:43:55 -0800 (PST)
-Received: by 10.49.12.136 with HTTP; Thu, 6 Dec 2012 10:43:55 -0800 (PST)
-In-Reply-To: <CAP9ODKp_YuFAKA8xS72DM_MtuZnMRBpengyi656p30oJ0EuJvQ@mail.gmail.com>
-References: <cover.1354748735.git.elizabeth.flanagan@intel.com>
-	<18ff48823dac8258feb94958f9ebe3dcaab32815.1354748735.git.elizabeth.flanagan@intel.com>
-	<CAP9ODKp_YuFAKA8xS72DM_MtuZnMRBpengyi656p30oJ0EuJvQ@mail.gmail.com>
-Date: Thu, 6 Dec 2012 10:43:55 -0800
-Message-ID: <CAPhnLPC5rwLd5b6vspJPLEcrwJfC+VPGJirz-huMtwMb1svf8w@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQkmS+BeMVijowyfA2dgrk9aQhVIQD2fC1YVNl65IFC9vx690YoFJ8SzmoWyH6xZoeAuig71ilb3WjTG6DSIjNl3ab7CfRO0xB842xtMB0U3tpvgSVhyljpTsHAj2/UWeYdprf99/LV2xZYtMY7Zk79peYjD+Q6pQpQMjMQa/RLYXzES1gGKDl4/327omfI73tBL6u0w
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] license.bbclass: Including locale packages
+	Thu, 06 Dec 2012 21:05:46 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Dec 2012 11:50:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,232,1355126400"; d="scan'208";a="229984193"
+Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
+	([10.255.12.65])
+	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2012 11:51:17 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Dec 2012 11:51:17 -0800
+Message-Id: <1354823477-7424-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.1
+Subject: [PATCH] sstate: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,45 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 18:58:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 06 Dec 2012 20:05:47 -0000
 
-On Thu, Dec 6, 2012 at 4:01 AM, Otavio Salvador <otavio@ossystems.com.br> wrote:
->
->
->
-> On Wed, Dec 5, 2012 at 9:37 PM, Elizabeth Flanagan
-> <elizabeth.flanagan@intel.com> wrote:
->>
->> As locale packages are installed on the image, we should
->> be including them in the package/license manifest.
->>
->> This ensures that the manifests are accurate and complete.
->>
->> [ YOCTO #2461 ]
->>
->> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
->
->
-> Do you see any problem in it being add to danny as well?
->
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If it applies cleanly, no, I don't see an issue. It may not apply
-clean though, so we may need to cherry-pick a few commits.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--b
-
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
->
-
-
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 29c1007..d1dbb5a 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -217,7 +217,7 @@ def sstate_installpkg(ss, d):
+     if not os.path.exists(sstatepkg):
+         pstaging_fetch(sstatefetch, sstatepkg, d)
+     if not os.path.exists(sstagepkg + ".siginfo"):
+-        pstaging_fetch(sstatefetch + ".siginfo", ssstatepkg + ".siginfo", d)
++        pstaging_fetch(sstatefetch + ".siginfo", sstatepkg + ".siginfo", d)
+ 
+     if not os.path.isfile(sstatepkg):
+         bb.note("Staging package %s does not exist" % sstatepkg)
 -- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+1.8.0.1
+
 
 
