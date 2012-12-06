@@ -1,20 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TgZay-0004uc-Mt
-	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 12:26:24 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Dec 2012 03:11:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,229,1355126400"; d="scan'208";a="259859724"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.5])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2012 03:11:57 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Dec 2012 11:11:51 +0000
-Message-Id: <1354792311-17216-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] buildhistory_analysis: fix broken list length checks
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TgZz8-0005Ii-T8 for openembedded-core@lists.openembedded.org;
+	Thu, 06 Dec 2012 12:51:23 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6Bav2a028337
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Dec 2012 11:36:57 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28027-01 for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Dec 2012 11:36:53 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6Banil028331
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 6 Dec 2012 11:36:50 GMT
+Message-ID: <1354793799.25268.172.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 06 Dec 2012 11:36:39 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] bootimg: Remove now unnecessary dummy inherit usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,40 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 11:26:24 -0000
+X-List-Received-Date: Thu, 06 Dec 2012 11:51:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix erroneous use of .count instead of len(), which unfortunately is not
-reported by Python as an error in a numeric comparison.
+bitbake now supports empty expansions for inherit usage so we can simplify
+these statements.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/buildhistory_analysis.py |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index ad57f00..7b5ee45 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -185,7 +185,7 @@ def blob_to_dict(blob):
-     adict = {}
-     for line in alines:
-         splitv = [i.strip() for i in line.split('=',1)]
--        if splitv.count > 1:
-+        if len(splitv) > 1:
-             adict[splitv[0]] = splitv[1]
-     return adict
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index 11a29cd..17c329a 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -36,7 +36,7 @@ BOOTIMG_VOLUME_ID   ?= "boot"
+ BOOTIMG_EXTRA_SPACE ?= "512"
  
-@@ -231,7 +231,7 @@ def compare_file_lists(alines, blines):
-                 filechanges.append(FileChange(path, FileChange.changetype_ownergroup, oldvalue, newvalue))
-             # Check symlink target
-             if newsplitv[0][0] == 'l':
--                if splitv.count > 3:
-+                if len(splitv) > 3:
-                     oldvalue = splitv[3]
-                 else:
-                     oldvalue = None
--- 
-1.7.10.4
+ EFI = "${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
+-EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "dummy", d)}"
++EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "", d)}"
+ 
+ # Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
+ # contain "efi". This way legacy is supported by default if neither is
+@@ -50,7 +50,7 @@ def pcbios(d):
+ def pcbios_class(d):
+     if d.getVar("PCBIOS", True) == "1":
+         return "syslinux"
+-    return "dummy"
++    return ""
+ 
+ PCBIOS = "${@pcbios(d)}"
+ PCBIOS_CLASS = "${@pcbios_class(d)}"
+diff --git a/meta/classes/dummy.bbclass b/meta/classes/dummy.bbclass
+deleted file mode 100644
+index 8c30071..0000000
+--- a/meta/classes/dummy.bbclass
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# An empty bbclass to facilitate dynamic inherit, include,
+-# and require statements.
+
 
 
 
