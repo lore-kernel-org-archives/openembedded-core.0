@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tgfqy-0007FD-EL
+	(envelope-from <rpjday@crashcourse.ca>) id 1Tgg1f-0007TM-AE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 19:07:21 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Dec 2012 09:52:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,230,1355126400"; d="scan'208";a="229928576"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
-	by orsmga001.jf.intel.com with ESMTP; 06 Dec 2012 09:52:48 -0800
-Message-ID: <50C0DB6F.7090701@linux.intel.com>
-Date: Thu, 06 Dec 2012 09:52:47 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 06 Dec 2012 19:18:23 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:44919 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Tgfnj-0007Bq-1a for openembedded-core@lists.openembedded.org;
+	Thu, 06 Dec 2012 13:03:59 -0500
+Date: Thu, 6 Dec 2012 13:03:52 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1212061253340.15222@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Cristian Iorga <cristian.iorga@intel.com>
-References: <1354729406-19146-1-git-send-email-cristian.iorga@intel.com>
-In-Reply-To: <1354729406-19146-1-git-send-email-cristian.iorga@intel.com>
-Cc: Constantin Musca <constantinx.musca@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: upgrade to 1.9
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: slightly confused about .bbappend file and FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,240 +38,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 18:07:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Dec 2012 18:18:23 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 12/05/2012 09:43 AM, Cristian Iorga wrote:
-> From: Constantin Musca <constantinx.musca@intel.com>
->
-> 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
->      - adapted to the new version
->
-> 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
->      - patch removed (it is included in the new version)
->
-> inet-fix-ip-cleanup-functions.patch: added
->      - fix for ip cleanup functions
->
-This seemed to introduce some regression on the Autobuilder and caused 
-all Sanity tests to fail, apparently connman is taking longer to start 
-up and longer to aquire an IP address.
 
-This needs to be understood before we merge this change.
+  currently writing a tutorial page on how .bbappend files and
+FILESPATH work, and i wanted to use a live example, but now i'm
+confused.
 
-Thanks
-	Sau!
+  using meta-ti layer, i chose to build core-image-minimal for a
+beagleboard, for which the meta-ti layer has the following under
+recipes-core/netbase/ that i want to use as an example:
 
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   ...If-there-is-no-d_type-support-use-fstatat.patch |   61 --------------------
->   ...If-there-is-no-d_type-support-use-fstatat.patch |   38 +++++++-----
->   .../connman/inet-fix-ip-cleanup-functions.patch    |   40 +++++++++++++
->   .../connman/{connman_1.4.bb => connman_1.9.bb}     |    6 +-
->   4 files changed, 65 insertions(+), 80 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
->   create mode 100644 meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
->   rename meta/recipes-connectivity/connman/{connman_1.4.bb => connman_1.9.bb} (72%)
->
-> diff --git a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
-> deleted file mode 100644
-> index 3bced52..0000000
-> --- a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
-> +++ /dev/null
-> @@ -1,61 +0,0 @@
-> -From f2094e6b2e4542adf458d8fa58d7bccd5edb762e Mon Sep 17 00:00:00 2001
-> -From: Andrei Gherzan <andrei@gherzan.ro>
-> -Date: Tue, 17 Jul 2012 17:27:39 +0300
-> -Subject: [PATCH V3 1/2] timezone.c: If there is no d_type support use
-> - fstatat()
-> -
-> -This is useful for filesystems where d_type is always DT_UNKNOWN.
-> -In this case use fstatat() function.
-> -
-> -Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> -Upstream-Status: Submitted
-> -
-> ----
-> - src/timezone.c |   24 ++++++++++++++++++++++++
-> - 1 file changed, 24 insertions(+)
-> -
-> -diff --git a/src/timezone.c b/src/timezone.c
-> -index 173d658..f951f6b 100644
-> ---- a/src/timezone.c
-> -+++ b/src/timezone.c
-> -@@ -157,6 +157,8 @@ static char *find_origin(void *src_map, struct stat *src_st,
-> - 	DIR *dir;
-> - 	struct dirent *d;
-> - 	char *str, pathname[PATH_MAX];
-> -+	struct stat buf;
-> -+	int ret;
-> -
-> - 	if (subpath == NULL)
-> - 		strncpy(pathname, basepath, sizeof(pathname));
-> -@@ -205,6 +207,28 @@ static char *find_origin(void *src_map, struct stat *src_st,
-> - 				return str;
-> - 			}
-> - 			break;
-> -+		case DT_UNKNOWN:
-> -+			/*
-> -+			 * If there is no d_type support use fstatat()
-> -+			 * to check if directory
-> -+			 */
-> -+			ret = fstatat(dirfd(dir), d->d_name, &buf, 0);
-> -+			if (ret < 0)
-> -+				continue;
-> -+			if (!(buf.st_mode & S_IFDIR))
-> -+				continue;
-> -+			if (subpath == NULL)
-> -+				strncpy(pathname, d->d_name, sizeof(pathname));
-> -+			else
-> -+				snprintf(pathname, sizeof(pathname),
-> -+						"%s/%s", subpath, d->d_name);
-> -+
-> -+			str = find_origin(src_map, src_st, basepath, pathname);
-> -+			if (str != NULL) {
-> -+				closedir(dir);
-> -+				return str;
-> -+			}
-> -+			break;
-> - 		}
-> - 	}
-> -
-> ---
-> -1.7.9.5
-> -
-> diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-> index d3205c0..7315545 100644
-> --- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-> +++ b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-> @@ -8,20 +8,33 @@ This is useful for filesystems where d_type is always DT_UNKNOWN.
->   In this case use fstatat() function.
->
->   Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->   Upstream-Status: Submitted
->
->   ---
->    src/storage.c |   19 +++++++++++++++++++
->    1 file changed, 19 insertions(+)
->
-> -diff --git a/src/storage.c b/src/storage.c
-> -index 47bd0cb..0491a52 100644
-> ---- a/src/storage.c
-> -+++ b/src/storage.c
-> -@@ -206,6 +206,25 @@ gchar **connman_storage_get_services()
-> +Index: git/src/storage.c
-> +===================================================================
-> +--- git.orig/src/storage.c
-> ++++ git/src/storage.c
-> +@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
->
-> - 			g_string_append_printf(result, "%s/", d->d_name);
-> - 			break;
-> + 		switch (d->d_type) {
-> + 		case DT_DIR:
-> +-		case DT_UNKNOWN:
-> + 			/*
-> + 			 * If the settings file is not found, then
-> + 			 * assume this directory is not a services dir.
-> +@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
-> + 			ret = stat(str, &buf);
-> + 			g_free(str);
-> + 			if (ret < 0)
-> ++				continue;
-> ++
-> ++			g_string_append_printf(result, "%s/", d->d_name);
-> ++			break;
->   +		case DT_UNKNOWN:
->   +			/*
->   +			 * If there is no d_type support use fstatat()
-> @@ -37,13 +50,6 @@ index 47bd0cb..0491a52 100644
->   +			ret = stat(str, &buf);
->   +			g_free(str);
->   +			if (ret < 0)
-> -+				continue;
-> -+
-> -+			g_string_append_printf(result, "%s/", d->d_name);
-> -+			break;
-> - 		}
-> - 	}
-> + 				continue;
->
-> ---
-> -1.7.9.5
-> -
-> + 			g_string_append_printf(result, "%s/", d->d_name);
-> diff --git a/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
-> new file mode 100644
-> index 0000000..3071549
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
-> @@ -0,0 +1,40 @@
-> +From 100353e10f60a50ca1ba78daa6bc4dfebf5b3297 Mon Sep 17 00:00:00 2001
-> +From: Constantin Musca <constantinx.musca@intel.com>
-> +Date: Wed, 5 Dec 2012 15:07:21 +0200
-> +Subject: [PATCH] inet: fix ip cleanup functions
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> +---
-> + src/inet.c | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
-> +
-> +diff --git a/src/inet.c b/src/inet.c
-> +index be69aca..e76a1f1 100644
-> +--- a/src/inet.c
-> ++++ b/src/inet.c
-> +@@ -626,6 +626,10 @@ int connman_inet_clear_ipv6_address(int index, const char *address,
-> +
-> + 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
-> +
-> ++	if (address == NULL) {
-> ++		return -1;
-> ++	}
-> ++
-> + 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET6,
-> + 				address, NULL, prefix_len, NULL);
-> + 	if (err < 0) {
-> +@@ -649,6 +653,10 @@ int connman_inet_clear_address(int index, struct connman_ipaddress *ipaddress)
-> +
-> + 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
-> +
-> ++	if (address == NULL) {
-> ++		return -1;
-> ++	}
-> ++
-> + 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET,
-> + 				address, peer, prefix_len, broadcast);
-> + 	if (err < 0) {
-> +--
-> +1.7.11.7
-> +
-> diff --git a/meta/recipes-connectivity/connman/connman_1.4.bb b/meta/recipes-connectivity/connman/connman_1.9.bb
-> similarity index 72%
-> rename from meta/recipes-connectivity/connman/connman_1.4.bb
-> rename to meta/recipes-connectivity/connman/connman_1.9.bb
-> index bd8ba65..3cbabc6 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.4.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.9.bb
-> @@ -1,12 +1,12 @@
->   require connman.inc
->
-> -# 1.4 tag
-> -SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
-> +# 1.9 tag
-> +SRCREV = "4bf217329babf4f7792b43d70228af8269c3332c"
->   SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
->               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->               file://add_xuser_dbus_permission.patch \
->               file://connman \
->               file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
-> -            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
-> +            file://inet-fix-ip-cleanup-functions.patch"
->   S = "${WORKDIR}/git"
->   PR = "${INC_PR}.0"
->
+$ find
+.
+./netbase_5.0.bbappend
+./netbase-5.0
+./netbase-5.0/beagleboard
+./netbase-5.0/beagleboard/interfaces
+$
+
+where the .bbappend file contains only:
+
+THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
+FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
+
+
+  so my *understanding* is that this should result in nothing more
+than the "interfaces" file from the original oe-core recipe being
+overridden, based on the enhanced entries at the front of FILESPATH
+that should search in the meta-ti layer first.
+
+  but here's the problem -- for fun, i used chris larson's bitbake-env
+to print the value of FILESPATH for that recipe when building for
+beagle, and formatted to get:
+
+FILESPATH="/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/linux-gnueabi
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/arm
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/build-linux
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/pn-netbase
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/beagleboard
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/omap3
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/armv7a
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/class-target
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/forcevariable
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/libc-glibc
+/home/rpjday/OE/dist/layers/meta-ti/recipes-core/netbase/netbase/
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/linux-gnueabi
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/arm
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/build-linux
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/pn-netbase
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/beagleboard
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/omap3
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/armv7a
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/class-target
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/forcevariable
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/libc-glibc
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/linux-gnueabi
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/arm
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/build-linux
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/pn-netbase
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/beagleboard
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/omap3
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/armv7a
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/class-target
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/forcevariable
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/libc-glibc
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase/
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/linux-gnueabi
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/arm
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/build-linux
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/pn-netbase
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/beagleboard
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/omap3
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/armv7a
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/class-target
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/forcevariable
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/libc-glibc
+/home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/files/"
+
+  see the oddity?  the first few entries will *not* find the
+interfaces file in the meta-ti layer, as they don't refer to the
+"netbase-5.0" directory (as do the ones in oe-core).
+
+  am i just not understanding something basic here?  i'm building a
+core-image-minimal for a beagle right now to see what i end up with,
+but given the FILESPATH above, how is the build supposed to pick up
+the beagle-specific "intxgerfaces" file without a reference to that
+meta-ti directory "netbase-5.0"?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
