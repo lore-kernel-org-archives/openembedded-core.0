@@ -1,29 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TgdL7-0006iH-BT for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 16:26:18 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6FBo9g030052;
-	Thu, 6 Dec 2012 15:11:50 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29127-06; Thu,  6 Dec 2012 15:11:46 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6FBg7V030045
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 6 Dec 2012 15:11:44 GMT
-Message-ID: <1354806692.25268.191.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Thu, 06 Dec 2012 15:11:32 +0000
-In-Reply-To: <cover.1354779942.git.sgw@linux.intel.com>
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tgdbu-0006xO-As
+	for openembedded-core@lists.openembedded.org;
+	Thu, 06 Dec 2012 16:43:38 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so3988332pad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Dec 2012 07:29:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=O2ygyyZsn0d/+IlJDgxVhVitqCIiH/7ttBR+pm2yXqw=;
+	b=YFQJ+mHVhjWZ45xZ6Rjifu3uySUE6BUQJbw5lRU7klEU49dnE350aBUABk/XWhK9GO
+	aQpn3TwLGZRCwAU4aOE3GJP9md+WIuls6aqhODRsEM+uUVqLSywcIEmRwHi0fR11J6/8
+	pAXmTf3H60ycGEM4zyuCcndnFu0fO2TLCaXS3y55WXNzZquTEHJ5eS4ip4dTsyxqAbV+
+	pEIX4AJ2mMm4Z7jvMniIN2zeQEOof/oL5tOHW7VzoLCFf943y6CImCt4sZBersrR8uwP
+	r/tdzKNS3oqMRHByjCGp30Tuj8MEhorOfFoq5vSnesngXfiyqyuOgkU/XstwxTZ/QlqQ
+	wt5w==
+MIME-Version: 1.0
+Received: by 10.66.76.6 with SMTP id g6mr4852636paw.61.1354807752073; Thu, 06
+	Dec 2012 07:29:12 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Thu, 6 Dec 2012 07:29:12 -0800 (PST)
+In-Reply-To: <1354806692.25268.191.camel@ted>
 References: <cover.1354779942.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
+	<1354806692.25268.191.camel@ted>
+Date: Thu, 6 Dec 2012 13:29:12 -0200
+X-Google-Sender-Auth: 06Pud2PVqQPH8CHTX4Jq5iyuKsQ
+Message-ID: <CAP9ODKpmK+OJqyzr+rYAq8+Np0rfnhO4YQCrtOg1pwa6etr4KA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [CONSOLIDATED PULL 00/71] Updates and Patches (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,102 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 15:26:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Dec 2012 15:43:38 -0000
+Content-Type: multipart/alternative; boundary=f46d042f9c28cd213d04d030c2da
 
-On Wed, 2012-12-05 at 23:52 -0800, Saul Wold wrote:
-> Richard,
-> 
-> This has been brewing for a few days now, I have built this locally and
-> done some testing as well as a run on the Autobuilder and I have either
-> address the failures (backed out pseudo change) 
-> 
-> High Level Items:  
-> 
-> SMART: 
-> I have included some of Marks initial SMART changes, but not the changes
-> that pull the lever to convert to SMART, there are still some issues there 
-> that need resolving.
-> 
-> Package Updates:
-> They are tested and look good.
-> 
-> BinUtils:
-> Things are building and behaving correctly.
-> 
-> PR Server changes:
-> I have not reviewed or tested, but they build I need more information 
-> myself on reviewing and testing these.
-> 
-> 
-> Overall I think this is a good set to take in early M2, I have replied to
-> patches that caused problems with the build.
-> 
-> Please do a final review and take what you see as appropriate.
+--f46d042f9c28cd213d04d030c2da
+Content-Type: text/plain; charset=ISO-8859-1
 
-There are patches in here which have never been posted on the mailing
-list as far as I can tell :/.
+On Thu, Dec 6, 2012 at 1:11 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-I've ended up tweaking some patches since I really don't want to
-overhead of rejecting and getting them back again...
-
-> Andrei Dinu (1):
->   Added regex functionality to distrodata.bbclass
-
-This one has "import os" and "import bb" statements which are unneeded.
-I've removed them.
-
-> Khem Raj (6):
->   kernel.bbclass,module-base.bbclass: Use CC to form KERNEL_CC
-
-I've pushed back on this one again. There are some things I want to
-double check.
-
->   util-linux: Package systemd files correctly
-
-This has a weird commented out line in it. I removed it.
-
-> Mark Hatle (12):
->   update-alternatives.bbclass: Add missing runtime dependency
-
-I've replied to this patch.
-
-> 
-> Martin Jansa (5):
->   scripts/sstate-diff-machines.sh: add simple script to compare sstate
->     checksums between MACHINEs
->   scripts/sstate-sysroot-cruft.sh: add simple script to find files in
->     sysroots not tracked by sstate
-
-Further discussion looks to be happening about one of these so I held
-off for now.
-
->   git: fix unpackaged python files
-
-This was superceeded.
-
-> Otavio Salvador (1):
->   initramfs-framework: init: Stop mount warnings during boot
-
-This just has a PR bump in it? Corrupted?
-
-> Ross Burton (1):
->   mesa: merge internal libraries into mesa-dri package
-
-Dropped at Ross' request.
-
-> Saul Wold (3):
->   sstate: fetch .siginfo files from SSTATE_MIRROR
-
-I tweaked this one ;-).
+> > Otavio Salvador (1):
+> >   initramfs-framework: init: Stop mount warnings during boot
+>
+> This just has a PR bump in it? Corrupted?
 
 
-Cheers,
+I think you have merged it already; you can drop it.
 
-Richard
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--f46d042f9c28cd213d04d030c2da
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Thu, D=
+ec 6, 2012 at 1:11 PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@lin=
+uxfoundation.org</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">&gt; Otavio Salvador (1):<=
+br></div><div class=3D"im">
+&gt; =A0 initramfs-framework: init: Stop mount warnings during boot<br>
+<br>
+</div>This just has a PR bump in it? Corrupted?</blockquote><div><br></div>=
+<div>I think you have merged it already; you can drop it.</div><div>=A0</di=
+v></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0O.S. Systems<br>
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
+@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
+_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
+=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
+=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
+</div>
 
-
-
+--f46d042f9c28cd213d04d030c2da--
