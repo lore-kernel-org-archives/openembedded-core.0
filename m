@@ -1,36 +1,25 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <daniel@fooishbar.org>) id 1TgUVO-0006T4-Rg
+	(envelope-from <andy.ross@windriver.com>) id 1TgUc5-0006dT-LB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 07:00:18 +0100
-Received: by mail-vc0-f175.google.com with SMTP id fy7so5517916vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 21:45:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
-	bh=VVL6vp+rXTJAvZcA6c1sGmIW28oeyVU6ztHqTeW1AN8=;
-	b=Nz3Mv0zUXSOIQy6O5GZWlxiV4LRGKN+fVZ+Lm2mRmDsoWnlT3ZAW2/WS4iUKxG13Pm
-	w5VL21U3E+suaKt7VDOHOOMVcwClH5mXM7kZcl++85NZy1EX79JRM5+mcnK8Z4UE1cJ9
-	XzKwy12fxJT/jdQ1QKVdvAKM0fdKHv8ZijS3lqEShCOYDrqVU51XoSVtNICCefIeiBSd
-	cEeR6cs4so9gBnUVwbZGS58KbG7O/nmh+bRXtCDEmaGyaizuZzQZT0UhVREF2uDHzVmw
-	1WyTHSfcImwqKIbOPMJj8yf/BG6MilE/AwBlaa/LgsEaCBnoJORH3aAAMApWer/ScTxz
-	qtgg==
+	Thu, 06 Dec 2012 07:07:18 +0100
+Received: from [0.0.0.0] (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id E9BAA2137C;
+	Wed,  5 Dec 2012 21:52:49 -0800 (PST)
+Message-ID: <50C032B1.90501@windriver.com>
+Date: Wed, 05 Dec 2012 21:52:49 -0800
+From: Andy Ross <andy.ross@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.52.69.176 with SMTP id f16mr187312vdu.97.1354772753663; Wed,
-	05 Dec 2012 21:45:53 -0800 (PST)
-Received: by 10.58.240.38 with HTTP; Wed, 5 Dec 2012 21:45:53 -0800 (PST)
-X-Originating-IP: [203.173.40.32]
-In-Reply-To: <1354700795-17864-1-git-send-email-ross.burton@intel.com>
-References: <1354700795-17864-1-git-send-email-ross.burton@intel.com>
-Date: Thu, 6 Dec 2012 16:45:53 +1100
-Message-ID: <CAPj87rMCDQdTyiQKBC1cCY81-MLHJzhx859vP9s3adeDUXuxcw@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-To: Ross Burton <ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlTNQAnxHR6V3Aj7cLWYmWXv4zvVnJV6byH/JB1IGY1igUIz184mR8nmImRb54hCoybsi0Q
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: merge internal libraries into mesa-dri package
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1354208369.git.elizabeth.flanagan@intel.com>
+	<037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
+	<50C02651.30201@linux.intel.com>
+In-Reply-To: <50C02651.30201@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,47 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 06:00:19 -0000
-Content-Type: multipart/alternative; boundary=20cf307f3aa0bbc78704d0289cba
+X-List-Received-Date: Thu, 06 Dec 2012 06:07:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---20cf307f3aa0bbc78704d0289cba
-Content-Type: text/plain; charset=UTF-8
+On 12/05/2012 09:00 PM, Saul Wold wrote:
+> This patch is still having problems, see the Autobuilder recently build (link below).  This is on MUT with the updated binutils, I am not sure if that is part of the problem or not, but binutils was working before.
 
-Hi,
+Ah, fun fun.  It's not binutils.  Something (I'm not sure what -- is
+"yocto-autobuild" a recipe?)  is pulling in the cross-canadian
+toolchain, and I had missed the appended architecture in the
+license.bbclass test.  I'll get you a fixed and tested patch tomorrow
+morning.
 
-On 5 December 2012 20:46, Ross Burton <ross.burton@intel.com> wrote:
+But there's a serious question here: *should* this have worked?  The
+toolchain is GPLv3, and a canadian cross toolchain is presumably
+intended to be distributed (because by defintion, it doesn't run on
+the local machine), no?
 
-> libglapi and libgbm are specific to Mesa and it's unlikely that they'll be
-> used
-> on their own.  Mesa 9 also adds another internal library, libdricore, so
-> prepare
-> for that by putting these mesa-specific libraries into the mesa-dri
-> package.
->
+Andy
 
-Wayland's DRM compositor uses libgbm, so please don't merge that.  libglapi
-and libdricore should definitely be internal though.
 
-Cheers,
-Daniel
 
---20cf307f3aa0bbc78704d0289cba
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi,<br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 5 Decem=
-ber 2012 20:46, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.bu=
-rton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">
-libglapi and libgbm are specific to Mesa and it&#39;s unlikely that they&#3=
-9;ll be used<br>
-on their own. =C2=A0Mesa 9 also adds another internal library, libdricore, =
-so prepare<br>
-for that by putting these mesa-specific libraries into the mesa-dri package=
-.<br></blockquote><div><br></div><div>Wayland&#39;s DRM compositor uses lib=
-gbm, so please don&#39;t merge that. =C2=A0libglapi and libdricore should d=
-efinitely be internal though.</div>
-<div><br></div><div>Cheers,</div><div>Daniel</div></div></div>
-
---20cf307f3aa0bbc78704d0289cba--
