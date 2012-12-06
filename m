@@ -1,28 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tgktc-00060z-D4 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 00:30:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6NFsc2001268;
-	Thu, 6 Dec 2012 23:15:54 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01099-01; Thu,  6 Dec 2012 23:15:50 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6NFiNX001262
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 6 Dec 2012 23:15:46 GMT
-Message-ID: <1354835735.12928.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Thu, 06 Dec 2012 23:15:35 +0000
-In-Reply-To: <alpine.DEB.2.02.1212061522350.31684@oneiric>
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1TgkyD-00068O-J9
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Dec 2012 00:35:09 +0100
+Received: from statdsl152.travel-net.com ([206.132.183.152]:53097
+	helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TgkkG-0005yj-Kr; Thu, 06 Dec 2012 18:20:44 -0500
+Date: Thu, 6 Dec 2012 18:20:42 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1354835735.12928.15.camel@ted>
+Message-ID: <alpine.DEB.2.02.1212061818500.3731@oneiric>
 References: <alpine.DEB.2.02.1212061522350.31684@oneiric>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1354835735.12928.15.camel@ted>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: what exactly is the proper way to use FILESEXTRAPATHS?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,68 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 23:30:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Dec 2012 23:35:09 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 2012-12-06 at 15:27 -0500, Robert P. J. Day wrote:
-> continuing my trek through coding pedantry and was wondering about
-> the exact purpose of the common line in .bbappend files:
-> 
-> FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> 
-> or some slight variation thereof.
-> 
->   i *thought* i knew what it did, so i did a small experiment with the
-> meta-ti layer and netbase (since i was already messing around with
-> it), and i replaced the contents of the netbase .bbappend file with
-> the single line:
-> 
-> FILESEXTRAPATHS_prepend := "rday"
-> 
-> and checked the environment for the value of FILESPATH for the netbase
-> recipe and, after formatting to read it clearly, what i saw was:
-> 
-> FILESPATH="rday/linux-gnueabi
-> rday/arm
-> rday/build-linux
-> rday/pn-netbase
-> rday/beagleboard
-> rday/omap3
-> rday/armv7a
-> rday/
-> rday/class-target
-> rday/forcevariable
-> rday/libc-glibc
-> rday/
-> /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/linux-gnueabi
-> /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/arm
-> /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/build-linux
-> /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/pn-netbase
-> /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/beagleboard
-> /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/omap3
-> ... snip ...
-> 
->   what the heck?  if that's what FILESEXTRAPATHS is supposed to do,
-> that is definitely *not* how it's being used in many, many bbappend
-> files.
-> 
->   is there an explanation somewhere as to what the above is supposed
-> to represent?
+On Thu, 6 Dec 2012, Richard Purdie wrote:
 
-What is puzzling about the above? Its doing what it was designed to do.
+> On Thu, 2012-12-06 at 15:27 -0500, Robert P. J. Day wrote:
+> > continuing my trek through coding pedantry and was wondering about
+> > the exact purpose of the common line in .bbappend files:
+> >
+> > FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> >
+> > or some slight variation thereof.
+> >
+> >   i *thought* i knew what it did, so i did a small experiment with the
+> > meta-ti layer and netbase (since i was already messing around with
+> > it), and i replaced the contents of the netbase .bbappend file with
+> > the single line:
+> >
+> > FILESEXTRAPATHS_prepend := "rday"
+> >
+> > and checked the environment for the value of FILESPATH for the netbase
+> > recipe and, after formatting to read it clearly, what i saw was:
+> >
+> > FILESPATH="rday/linux-gnueabi
+> > rday/arm
+> > rday/build-linux
+> > rday/pn-netbase
+> > rday/beagleboard
+> > rday/omap3
+> > rday/armv7a
+> > rday/
+> > rday/class-target
+> > rday/forcevariable
+> > rday/libc-glibc
+> > rday/
+> > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/linux-gnueabi
+> > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/arm
+> > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/build-linux
+> > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/pn-netbase
+> > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/beagleboard
+> > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/omap3
+> > ... snip ...
+> >
+> >   what the heck?  if that's what FILESEXTRAPATHS is supposed to do,
+> > that is definitely *not* how it's being used in many, many bbappend
+> > files.
+> >
+> >   is there an explanation somewhere as to what the above is supposed
+> > to represent?
+>
+> What is puzzling about the above? Its doing what it was designed to do.
+>
+> The idea is to add the directory listed to the set of directories that
+> get "autogenerated" from OVERRIDES as search locations. What did you
+> expect it to do?
 
-The idea is to add the directory listed to the set of directories that
-get "autogenerated" from OVERRIDES as search locations. What did you
-expect it to do?
+  i am, right this minute, looking at the explanation of
+FILESEXTRAPATHS in the poky reference manual glossary.  i see
+absolutely no mention of the word "OVERRIDES".
 
-FWIW there is no need to use := with FILESEXTRAPATHS, or prepend for
-that matter, just use +=/=+.
+  signing off for the evening as i'm starting to get annoyed ...
 
-Cheers,
+rday
 
-Richard
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
