@@ -1,26 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Andrei.Gherzan@windriver.com>) id 1TgaLd-0005xq-Ji
+	(envelope-from <otavio.salvador@gmail.com>) id 1TgaMf-00061L-8z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 13:14:48 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qB6BbfU6002161
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 06 Dec 2012 13:15:41 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so3925172pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Dec 2012 03:37:41 -0800 (PST)
-Received: from localhost.localdomain (128.224.171.81) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Thu, 6 Dec 2012 03:37:41 -0800
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Dec 2012 13:37:29 +0200
-Message-ID: <1354793849-9595-1-git-send-email-andrei.gherzan@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
+	Thu, 06 Dec 2012 04:01:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=9rXarnpk5YPGX+O1TCgAa+xpDCA41/IWC2tYHd+BxNs=;
+	b=zVA43HG76uvhAiC7goYEw8kZqsTRc9V42x3nlGFD+qOBsqxzHYy5ujSRNRPioBYudR
+	S4kTJcm654OmzXr6gzJdpX8lNJ7dfvCvWS/smDiQ9g2hOgdYpAffoZXsBSy2LjiXrr0M
+	vVBWskXK50QGknh5o8sljGGlvV9HNn6bo/CD9/pCDav5e4A0BagwAZ89hEcRWGsR4rtf
+	SpkfkBk/s8XeprEsIGK3byfLanwFFBzGolEbnXCQ1KAiljhSEGdcMGTNX9VBND3Pe76E
+	wnwdnkHPDlQ0Z1VjspLKDq50uj2GcQjwBRmkxFuBXYqlTPeXzFx11vRwnWG2ascdryIC
+	O3hg==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.171.81]
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH] util-linux: Rebase remove-lscpu.patch for the current version
+Received: by 10.66.80.194 with SMTP id t2mr3566688pax.43.1354795275269; Thu,
+	06 Dec 2012 04:01:15 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.16.225 with HTTP; Thu, 6 Dec 2012 04:01:15 -0800 (PST)
+In-Reply-To: <18ff48823dac8258feb94958f9ebe3dcaab32815.1354748735.git.elizabeth.flanagan@intel.com>
+References: <cover.1354748735.git.elizabeth.flanagan@intel.com>
+	<18ff48823dac8258feb94958f9ebe3dcaab32815.1354748735.git.elizabeth.flanagan@intel.com>
+Date: Thu, 6 Dec 2012 10:01:15 -0200
+X-Google-Sender-Auth: IMgFIXLAz7KDw-HFY2UDRYfS1o0
+Message-ID: <CAP9ODKp_YuFAKA8xS72DM_MtuZnMRBpengyi656p30oJ0EuJvQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] license.bbclass: Including locale packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 12:14:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Dec 2012 12:15:41 -0000
+Content-Type: multipart/alternative; boundary=f46d042f942e20347a04d02ddb63
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
----
- .../util-linux/util-linux/remove-lscpu.patch       |   30 +++++++++----------
- meta/recipes-core/util-linux/util-linux_2.22.1.bb  |    2 +-
- 2 files changed, 15 insertions(+), 17 deletions(-)
+--f46d042f942e20347a04d02ddb63
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch b/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-index a15c1e3..4d0b311 100644
---- a/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-+++ b/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-@@ -3,12 +3,13 @@ Upstream-Status: Inappropriate [distribution]
- Take out lscpu stuff from the code
- 
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
- 
--Index: util-linux-2.21/configure.ac
-+Index: util-linux-2.22.1/configure.ac
- ===================================================================
----- util-linux-2.21.orig/configure.ac
--+++ util-linux-2.21/configure.ac
--@@ -871,7 +871,7 @@ UL_REQUIRES_BUILD([lsblk], [libblkid])
-+--- util-linux-2.22.1.orig/configure.ac	2012-12-06 13:22:58.209874400 +0200
-++++ util-linux-2.22.1/configure.ac	2012-12-06 13:23:18.721873663 +0200
-+@@ -934,7 +934,7 @@
-  AM_CONDITIONAL(BUILD_LSBLK, test "x$build_lsblk" = xyes)
-  
-  
-@@ -17,24 +18,21 @@ Index: util-linux-2.21/configure.ac
-  UL_REQUIRES_LINUX([lscpu])
-  UL_REQUIRES_HAVE([lscpu], [cpu_set_t], [cpu_set_t type])
-  AM_CONDITIONAL(BUILD_LSCPU, test "x$build_lscpu" = xyes)
--Index: util-linux-2.21/sys-utils/Makefile.am
-+Index: util-linux-2.22.1/sys-utils/Makemodule.am
- ===================================================================
----- util-linux-2.21.orig/sys-utils/Makefile.am
--+++ util-linux-2.21/sys-utils/Makefile.am
--@@ -108,16 +108,6 @@ swapon_CFLAGS = $(AM_CFLAGS) -I$(ul_libb
-- swapon_LDADD = $(ul_libblkid_la)
-+--- util-linux-2.22.1.orig/sys-utils/Makemodule.am	2012-12-06 13:23:07.585874063 +0200
-++++ util-linux-2.22.1/sys-utils/Makemodule.am	2012-12-06 13:23:34.217873111 +0200
-+@@ -224,13 +224,6 @@
-+ swapoff_LDADD = $(LDADD) libmount.la
-  endif
-  
- -if BUILD_LSCPU
- -usrbin_exec_PROGRAMS += lscpu
---lscpu_SOURCES = lscpu.c $(top_srcdir)/lib/cpuset.c \
---			$(top_srcdir)/lib/strutils.c \
---			$(top_srcdir)/lib/mbsalign.c \
---			$(top_srcdir)/lib/tt.c \
---			$(top_srcdir)/lib/path.c
---dist_man_MANS += lscpu.1
-+-lscpu_SOURCES = sys-utils/lscpu.c
-+-lscpu_LDADD = $(LDADD) libcommon.la
-+-dist_man_MANS += sys-utils/lscpu.1
- -endif
- -
-  if BUILD_CHCPU
-  sbin_PROGRAMS += chcpu
-- chcpu_SOURCES = chcpu.c $(top_srcdir)/lib/cpuset.c \
-+ chcpu_SOURCES = sys-utils/chcpu.c
-diff --git a/meta/recipes-core/util-linux/util-linux_2.22.1.bb b/meta/recipes-core/util-linux/util-linux_2.22.1.bb
-index 0177bba..f5d777f 100644
---- a/meta/recipes-core/util-linux/util-linux_2.22.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.22.1.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.22"
--PR = "r1"
-+PR = "r2"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
+On Wed, Dec 5, 2012 at 9:37 PM, Elizabeth Flanagan <
+elizabeth.flanagan@intel.com> wrote:
+
+> As locale packages are installed on the image, we should
+> be including them in the package/license manifest.
+>
+> This ensures that the manifests are accurate and complete.
+>
+> [ YOCTO #2461 ]
+>
+> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+>
+
+Do you see any problem in it being add to danny as well?
+
 -- 
-1.7.5.4
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
+--f46d042f942e20347a04d02ddb63
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Wed, D=
+ec 5, 2012 at 9:37 PM, Elizabeth Flanagan <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:elizabeth.flanagan@intel.com" target=3D"_blank">elizabeth.flanagan@i=
+ntel.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">As locale packages are installed on the imag=
+e, we should<br>
+be including them in the package/license manifest.<br>
+<br>
+This ensures that the manifests are accurate and complete.<br>
+<br>
+[ YOCTO #2461 ]<br>
+<br>
+Signed-off-by: Elizabeth Flanagan &lt;<a href=3D"mailto:elizabeth.flanagan@=
+intel.com">elizabeth.flanagan@intel.com</a>&gt;<br></blockquote><div><br></=
+div><div>Do you see any problem in it being add to danny as well?=A0</div>
+</div><div><br></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+</div>
 
+--f46d042f942e20347a04d02ddb63--
