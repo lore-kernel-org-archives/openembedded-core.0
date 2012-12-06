@@ -1,26 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from r-finger.com ([178.79.160.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TgcC8-0001L3-79
+	(envelope-from <tf+lists.yocto@r-finger.com>) id 1TgdC9-0006ad-0p
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 15:12:56 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Dec 2012 05:58:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,230,1355126400"; d="scan'208";a="259918112"
-Received: from unknown (HELO helios.localnet) ([10.252.123.5])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2012 05:58:28 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 06 Dec 2012 13:58:27 +0000
-Message-ID: <3221241.HMtLP26WOa@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.3 (Linux/3.5.0-19-generic; KDE/4.9.3; i686; ; )
-In-Reply-To: <50C0286B.60406@linux.intel.com>
-References: <cover.1354650148.git.mark.hatle@windriver.com>
-	<50C0286B.60406@linux.intel.com>
+	Thu, 06 Dec 2012 16:17:01 +0100
+Received: from [192.168.0.2] (host86-137-76-236.range86-137.btcentralplus.com
+	[86.137.76.236]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 984B89BE3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Dec 2012 15:02:37 +0000 (GMT)
+Message-ID: <50C0B38C.2050608@r-finger.com>
+Date: Thu, 06 Dec 2012 15:02:36 +0000
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Integrate Smart for RPM image generation
+To: openembedded-core@lists.openembedded.org
+References: <1354746794-24290-1-git-send-email-cazfi74@gmail.com>
+	<CAJTo0LaEnxc5GwZbxP2iqy943LSbE0AonKYaJkRBkciCVs4g9Q@mail.gmail.com>
+	<CAF6bG8eaPKiBWELJG+7DcVPiiah1v626hcix0XN0Eh8tk3EDJw@mail.gmail.com>
+In-Reply-To: <CAF6bG8eaPKiBWELJG+7DcVPiiah1v626hcix0XN0Eh8tk3EDJw@mail.gmail.com>
+Subject: Re: [PATCH] libmatchbox: fix build against libpng15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 14:12:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 06 Dec 2012 15:17:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 05 December 2012 21:08:59 Saul Wold wrote:
-> On 12/04/2012 11:49 AM, Mark Hatle wrote:
-> > The following patch set relies on the previous "Misc fixes" sent out
-> > earlier today.
-> > 
-> > The set replaces the existing rootfs generation with one based on Smart.
-> > The work was tested using buildhistory over a wide range of image types:
-> > core-image-minimal
-> > core-image-base
-> > core-image-basic
-> > core-image-lsb
-> > core-image-sato
-> > build-appliance
+On 06/12/12 08:30, Marko Lindqvist wrote:
+> On 6 December 2012 00:44, Burton, Ross <ross.burton@intel.com> wrote:
+>> Hi Marko,
+>>
+>> Is this backwards compatible with libpng12, or should libmatchbox
+>> check it has libpng15?
+>>
+>> Ross
 > 
-> Did you try with the DISTRO = poky-lsb when doing the lsb build?  There
-> are failures across the board with the LSB builds
+>  This is backwards compatible. Those functions exist in libpng12.
 
-I just did with core-image-lsb, and apart from the pkgconfig issue which I have 
-worked around, it built fine - I did not see this error. The only thing I can 
-think of is that it has something to do with these running concurrently, 
-although I'm not sure how that could be a problem especially as we have 
-locking for the rpm backend.
+This should go directly into matchbox rather than being an OE patch I think.
 
-I'm now running a concurrent build of all of the four images that failed, 
-we'll see if I get the same failure or not fairly soon.
-
-Cheers,
-Paul
+Tomas
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+http://sleepfive.com
 
 
