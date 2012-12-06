@@ -1,39 +1,27 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TgTKV-0000v0-2e
+	(envelope-from <sgw@linux.intel.com>) id 1TgTn2-0001b3-8w
 	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 05:44:59 +0100
-Received: by mail-wi0-f169.google.com with SMTP id hq12so146585wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Dec 2012 20:30:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=zpN7ZKQTK4l8kYvAfm5wcC9hitdVqsvu64PXwDgmBVY=;
-	b=sxhjSVnUBZ5SgIYyLr48PYkxDrzjz+x1nj7876lnI3JURjy/oZLADJczQbdkHgOF1X
-	Utka4e9JCWWsS0zygGOd1EgvUgKsdj1F0AV66nnbCYk+5HARmNy+Wu2kdgX7Huezz/yh
-	B4esKX57TcxrJ+lsShBaADZVZfTCkRqVQiwolWZOP6uheszP13RAn24349Ta7XwrXsMf
-	g/doyLXJYS/pZ4qnM6iO3WGo8Z/SnED7gN90siyQ89l/DKwPyTpD+sc+FdlPupox31HW
-	GFsGqp+qJU5f/XA9iQI+ZfzGiG4Pot5lHUIWkEDLCiyVGkSIgmDAADOj11up73uuKZ/m
-	CSIw==
+	Thu, 06 Dec 2012 06:14:36 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 05 Dec 2012 21:00:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,227,1355126400"; d="scan'208";a="176805577"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.117])
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Dec 2012 21:00:01 -0800
+Message-ID: <50C02651.30201@linux.intel.com>
+Date: Wed, 05 Dec 2012 21:00:01 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.180.7.199 with SMTP id l7mr362633wia.15.1354768234454; Wed, 05
-	Dec 2012 20:30:34 -0800 (PST)
-Received: by 10.194.84.103 with HTTP; Wed, 5 Dec 2012 20:30:34 -0800 (PST)
-Received: by 10.194.84.103 with HTTP; Wed, 5 Dec 2012 20:30:34 -0800 (PST)
-In-Reply-To: <lywqwwglm8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <cover.1354731942.git.Martin.Jansa@gmail.com>
-	<8184c008606ece423da0122a9fa6087509dfa0f5.1354731942.git.Martin.Jansa@gmail.com>
-	<lyehj48gmo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20121205193523.GG3396@jama.jama.net>
-	<lywqwwglm8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Thu, 6 Dec 2012 05:30:34 +0100
-Message-ID: <CA+chaQef1QfEjrvVwPk4Uc5LrVUZoQq62PjW2g4iZ1LwRN6pOw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] scripts/sstate-sysroot-cruft.sh: add simple script to find files in sysroots not tracked by sstate
+To: Elizabeth Flanagan <elizabeth.flanagan@intel.com>, 
+	Andy Ross <andy.ross@windriver.com>
+References: <cover.1354208369.git.elizabeth.flanagan@intel.com>
+	<037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
+In-Reply-To: <037305f0450c08ec555f5588ad6f3600d2d4a2c8.1354208369.git.elizabeth.flanagan@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,68 +34,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 04:44:59 -0000
-Content-Type: multipart/alternative; boundary=f46d044404905e1d8904d0278f37
+X-List-Received-Date: Thu, 06 Dec 2012 05:14:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d044404905e1d8904d0278f37
-Content-Type: text/plain; charset=UTF-8
-
-That would match .*/var/pseudo/too/bar,wouldn't it? but true that making
-that group optional is probably easier to read.. But who doesn't read
-regexps fluently nowadays? :)
-On Dec 5, 2012 11:49 PM, "Enrico Scholz" <enrico.scholz@sigma-chemnitz.de>
-wrote:
-
-> Martin Jansa <martin.jansa@gmail.com> writes:
+On 11/29/2012 11:08 AM, Elizabeth Flanagan wrote:
+> From: Andy Ross <andy.ross@windriver.com>
 >
-> > .*/var/pseudo
-> > and
-> > .*/var/pseudo/somefile$
-> >
-> > which matches also /var/pseudosomepath, I can split it in 2 regexps if
-> > that's likely to show in sysroot, or use "\/var\/pseudo\($\|\/[^\/]*$\)"
+> Allow INCOMPATIBLE_LICENSE to be a whitespace-separated list of
+> incompatible license strings and/or glob patterns.
 >
-> A basic regexp '/var/pseudo\(/.*\)\?$' should suffice.  Btw, to avoid
-> escaping of '/', you can write
->
->   sed -i "\!${var}!d"
->
->
-> Enrico
+> Also fix wildcarding: the string in INCOMPATIBLE_LICENSE was clearly
+> intended to match with wildcards (e.g. "*GPLv3" to match both GPLv3
+> and LGPLv3), but this was broken because of a bug in return_spdx()
+> which would die with a runtime error when there was no SPDXLICENSEMAP
+> entry for the string.
 >
 
---f46d044404905e1d8904d0278f37
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Bad news!
 
-<p dir=3D"ltr">That would match .*/var/pseudo/too/bar,wouldn&#39;t it? but =
-true that making that group optional is probably easier to read.. But who d=
-oesn&#39;t read regexps fluently nowadays? :)</p>
-<div class=3D"gmail_quote">On Dec 5, 2012 11:49 PM, &quot;Enrico Scholz&quo=
-t; &lt;<a href=3D"mailto:enrico.scholz@sigma-chemnitz.de">enrico.scholz@sig=
-ma-chemnitz.de</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
-Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gma=
-il.com</a>&gt; writes:<br>
-<br>
-&gt; .*/var/pseudo<br>
-&gt; and<br>
-&gt; .*/var/pseudo/somefile$<br>
-&gt;<br>
-&gt; which matches also /var/pseudosomepath, I can split it in 2 regexps if=
-<br>
-&gt; that&#39;s likely to show in sysroot, or use &quot;\/var\/pseudo\($\|\=
-/[^\/]*$\)&quot;<br>
-<br>
-A basic regexp &#39;/var/pseudo\(/.*\)\?$&#39; should suffice. =C2=A0Btw, t=
-o avoid<br>
-escaping of &#39;/&#39;, you can write<br>
-<br>
-=C2=A0 sed -i &quot;\!${var}!d&quot;<br>
-<br>
-<br>
-Enrico<br>
-</blockquote></div>
+This patch is still having problems, see the Autobuilder recently build 
+(link below).  This is on MUT with the updated binutils, I am not sure 
+if that is part of the problem or not, but binutils was working before.
 
---f46d044404905e1d8904d0278f37--
+Partially it's failing with binutils-cross-canadian-<target arch>
+
+Dropping from mut for now, sorry.
+
+Sau!
+
+Failure Log:
+
+http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/380/steps/shell_29/logs/stdio
+
+
+
+> Signed-off-by: Andy Ross <andy.ross@windriver.com>
+> Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+> ---
+>   meta/classes/base.bbclass    |   67 ++++++++++++++++++++--------------------
+>   meta/classes/license.bbclass |   70 ++++++++++++++++--------------------------
+>   2 files changed, 59 insertions(+), 78 deletions(-)
+>
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 0ee9d2e..4fc0559 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -524,43 +524,42 @@ python () {
+>                       raise bb.parse.SkipPackage("incompatible with machine %s (not in COMPATIBLE_MACHINE)" % this_machine)
+>
+>
+> -        dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', True)
+> -
+> -        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-cross-canadian-%s" % d.getVar('TRANSLATED_TARGET_ARCH', True)) and not pn.startswith("nativesdk-"):
+> -        # Internally, we'll use the license mapping. This way INCOMPATIBLE_LICENSE = "GPLv2" and
+> -        # INCOMPATIBLE_LICENSE = "GPLv2.0" will pick up all variations of GPL-2.0
+> -            spdx_license = return_spdx(d, dont_want_license)
+> -            hosttools_whitelist = (d.getVar('HOSTTOOLS_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
+> -            lgplv2_whitelist = (d.getVar('LGPLv2_WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
+> -            dont_want_whitelist = (d.getVar('WHITELIST_%s' % dont_want_license, True) or d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split()
+> -            if pn not in hosttools_whitelist and pn not in lgplv2_whitelist and pn not in dont_want_whitelist:
+> -                this_license = d.getVar('LICENSE', True)
+> -                # At this point we know the recipe contains an INCOMPATIBLE_LICENSE, however it may contain packages that do not.
+> -                packages = d.getVar('PACKAGES', True).split()
+> -                dont_skip_recipe = False
+> -                skipped_packages = {}
+> -                unskipped_packages = []
+> -                for pkg in packages:
+> -                    if incompatible_license(d, dont_want_license, pkg):
+> -                            skipped_packages[pkg] = this_license
+> -                            dont_skip_recipe = True
+> +        bad_licenses = (d.getVar('INCOMPATIBLE_LICENSE', True) or "").split()
+> +
+> +        check_license = True
+> +        for t in ["-native", "-cross", "-cross-initial", "-cross-intermediate", "-crosssdk-intermediate", "-crosssdk", "-crosssdk-initial", "-nativesdk"]:
+> +            if pn.endswith(t):
+> +                check_license = False
+> +
+> +        if check_license and bad_licenses:
+> +            whitelist = []
+> +            for lic in bad_licenses:
+> +                for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
+> +                    whitelist.extend((d.getVar(w + lic, True) or "").split())
+> +                spdx_license = return_spdx(d, lic)
+> +                if spdx_license:
+> +                    whitelist.extend((d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split())
+> +            if not pn in whitelist:
+> +                recipe_license = d.getVar('LICENSE', True)
+> +                pkgs = d.getVar('PACKAGES', True).split()
+> +                skipped_pkgs = []
+> +                unskipped_pkgs = []
+> +                for pkg in pkgs:
+> +                    if incompatible_license(d, bad_licenses, pkg):
+> +                        skipped_pkgs.append(pkg)
+>                       else:
+> -                        unskipped_packages.append(pkg)
+> -                if not unskipped_packages:
+> -                    # if we hit here and have excluded all packages, then we can just exclude the recipe
+> -                    dont_skip_recipe = False
+> -                elif skipped_packages and unskipped_packages:
+> -                    for pkg, license in skipped_packages.iteritems():
+> -                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + this_license)
+> +                        unskipped_pkgs.append(pkg)
+> +                some_skipped = skipped_pkgs and unskipped_pkgs
+> +                all_skipped = skipped_pkgs and not unskipped_pkgs
+> +                if some_skipped:
+> +                    for pkg in skipped_pkgs:
+> +                        bb.note("SKIPPING the package " + pkg + " at do_rootfs because it's " + recipe_license)
+>                           d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
+> -                    for index, pkg in enumerate(unskipped_packages):
+> +                    for pkg in unskipped_pkgs:
+>                           bb.note("INCLUDING the package " + pkg)
+> -
+> -                if dont_skip_recipe is False and incompatible_license(d, dont_want_license):
+> -                    bb.note("SKIPPING recipe %s because it's %s" % (pn, this_license))
+> -                    raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+> -
+> -
+> +                elif all_skipped or incompatible_license(d, bad_licenses):
+> +                    bb.note("SKIPPING recipe %s because it's %s" % (pn, recipe_license))
+> +                    raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
+>
+>       srcuri = d.getVar('SRC_URI', True)
+>       # Svn packages should DEPEND on subversion-native
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index c7ca4a6..9205cde 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -207,14 +207,11 @@ python do_populate_lic() {
+>
+>   def return_spdx(d, license):
+>       """
+> -    This function returns the spdx mapping of a license.
+> -    """
+> -    if d.getVarFlag('SPDXLICENSEMAP', license) != None:
+> -        return license
+> -    else:
+> -        return d.getVarFlag('SPDXLICENSEMAP', license_type)
+> -
+> -def incompatible_license(d, dont_want_license, package=""):
+> +    This function returns the spdx mapping of a license if it exists.
+> +     """
+> +    return d.getVarFlag('SPDXLICENSEMAP', license, True)
+> +
+> +def incompatible_license(d, dont_want_licenses, package=None):
+>       """
+>       This function checks if a recipe has only incompatible licenses. It also take into consideration 'or'
+>       operand.
+> @@ -223,45 +220,30 @@ def incompatible_license(d, dont_want_license, package=""):
+>       import oe.license
+>       from fnmatch import fnmatchcase as fnmatch
+>       pn = d.getVar('PN', True)
+> -    dont_want_licenses = []
+> -    dont_want_licenses.append(d.getVar('INCOMPATIBLE_LICENSE', True))
+> -    recipe_license = d.getVar('LICENSE', True)
+> -    if package != "":
+> -        if d.getVar('LICENSE_' + pn + '-' + package, True):
+> -            license = d.getVar('LICENSE_' + pn + '-' + package, True)
+> -        else:
+> -            license = recipe_license
+> -    else:
+> -        license = recipe_license
+> -    spdx_license = return_spdx(d, dont_want_license)
+> -    dont_want_licenses.append(spdx_license)
+> -
+> -    def include_license(license):
+> -        if any(fnmatch(license, pattern) for pattern in dont_want_licenses):
+> +    license = d.getVar("LICENSE_%s-%s" % (pn, package), True) if package else None
+> +    if not license:
+> +        license = d.getVar('LICENSE', True)
+> +
+> +    def license_ok(license):
+> +        for dwl in dont_want_licenses:
+> +            # If you want to exclude license named generically 'X', we
+> +            # surely want to exclude 'X+' as well.  In consequence, we
+> +            # will exclude a trailing '+' character from LICENSE in
+> +            # case INCOMPATIBLE_LICENSE is not a 'X+' license.
+> +            lic = license
+> +        if not re.search('\+$', dwl):
+> +            lic = re.sub('\+', '', license)
+> +        if fnmatch(lic, dwl):
+>               return False
+> -        else:
+> -            return True
+> +        return True
+>
+> -    def choose_licenses(a, b):
+> -        if all(include_license(lic) for lic in a):
+> -            return a
+> -        else:
+> -            return b
+> +    # Handles an "or" or two license sets provided by
+> +    # flattened_licenses(), pick one that works if possible.
+> +    def choose_lic_set(a, b):
+> +        return a if all(license_ok(lic) for lic in a) else b
+>
+> -    """
+> -    If you want to exlude license named generically 'X', we surely want to exlude 'X+' as well.
+> -    In consequence, we will exclude the '+' character from LICENSE in case INCOMPATIBLE_LICENSE
+> -    is not a 'X+' license.
+> -    """
+> -    if not re.search(r'[+]',dont_want_license):
+> -        licenses=oe.license.flattened_licenses(re.sub(r'[+]', '', license), choose_licenses)
+> -    else:
+> -        licenses=oe.license.flattened_licenses(license, choose_licenses)
+> -
+> -    for onelicense in licenses:
+> -        if not include_license(onelicense):
+> -            return True
+> -    return False
+> +    licenses=oe.license.flattened_licenses(license, choose_lic_set)
+> +    return any(not license_ok(l) for l in licenses)
+>
+>   def check_license_flags(d):
+>       """
+>
+
+
