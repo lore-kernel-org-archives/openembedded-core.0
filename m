@@ -1,37 +1,31 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tgdbu-0006xO-As
-	for openembedded-core@lists.openembedded.org;
-	Thu, 06 Dec 2012 16:43:38 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so3988332pad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Dec 2012 07:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=O2ygyyZsn0d/+IlJDgxVhVitqCIiH/7ttBR+pm2yXqw=;
-	b=YFQJ+mHVhjWZ45xZ6Rjifu3uySUE6BUQJbw5lRU7klEU49dnE350aBUABk/XWhK9GO
-	aQpn3TwLGZRCwAU4aOE3GJP9md+WIuls6aqhODRsEM+uUVqLSywcIEmRwHi0fR11J6/8
-	pAXmTf3H60ycGEM4zyuCcndnFu0fO2TLCaXS3y55WXNzZquTEHJ5eS4ip4dTsyxqAbV+
-	pEIX4AJ2mMm4Z7jvMniIN2zeQEOof/oL5tOHW7VzoLCFf943y6CImCt4sZBersrR8uwP
-	r/tdzKNS3oqMRHByjCGp30Tuj8MEhorOfFoq5vSnesngXfiyqyuOgkU/XstwxTZ/QlqQ
-	wt5w==
-MIME-Version: 1.0
-Received: by 10.66.76.6 with SMTP id g6mr4852636paw.61.1354807752073; Thu, 06
-	Dec 2012 07:29:12 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.16.225 with HTTP; Thu, 6 Dec 2012 07:29:12 -0800 (PST)
-In-Reply-To: <1354806692.25268.191.camel@ted>
-References: <cover.1354779942.git.sgw@linux.intel.com>
-	<1354806692.25268.191.camel@ted>
-Date: Thu, 6 Dec 2012 13:29:12 -0200
-X-Google-Sender-Auth: 06Pud2PVqQPH8CHTX4Jq5iyuKsQ
-Message-ID: <CAP9ODKpmK+OJqyzr+rYAq8+Np0rfnhO4YQCrtOg1pwa6etr4KA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/71] Updates and Patches (cover letter only)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TgdeM-00072C-Vn for openembedded-core@lists.openembedded.org;
+	Thu, 06 Dec 2012 16:46:11 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6FVjLr030263;
+	Thu, 6 Dec 2012 15:31:45 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29258-08; Thu,  6 Dec 2012 15:31:41 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB6FVakW030257
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 6 Dec 2012 15:31:37 GMT
+Message-ID: <1354807886.12928.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Thu, 06 Dec 2012 15:31:26 +0000
+In-Reply-To: <04747ce39a3fbbd538556c67247452b931a3ccc5.1354650148.git.mark.hatle@windriver.com>
+References: <cover.1354650148.git.mark.hatle@windriver.com>
+	<04747ce39a3fbbd538556c67247452b931a3ccc5.1354650148.git.mark.hatle@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/6] classes/*_rpm: integrate Smart into RPM filesystem construction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 15:43:38 -0000
-Content-Type: multipart/alternative; boundary=f46d042f9c28cd213d04d030c2da
+X-List-Received-Date: Thu, 06 Dec 2012 15:46:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---f46d042f9c28cd213d04d030c2da
-Content-Type: text/plain; charset=ISO-8859-1
+On Tue, 2012-12-04 at 13:49 -0600, Mark Hatle wrote:
+> From: Paul Eggleton <paul.eggleton@linux.intel.com>
+> 
+> Use Smart to construct the root filesystem for images and the contents
+> of SDKs rather than the custom scripts around rpm we had previously.
+> This ensures the result when producing an updated image will be the
+> same as upgrading to the same package versions from an older image on
+> the target, as well as allowing us to remove a substantial amount of
+> code making the rpm classes much easier to follow.
+> 
+> Some bugfixes from Bogdan Marinescu <bogdan.marinescu@intel.com>.
+> SDK implementation and testing as well as a number of bugfixes from
+> Mark Hatle <mark.hatle@windriver.com>.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/classes/package_rpm.bbclass      |  533 ++++++---------------------------
+>  meta/classes/populate_sdk_rpm.bbclass |   48 +---
+>  meta/classes/rootfs_rpm.bbclass       |   31 +-
+>  3 files changed, 117 insertions(+), 495 deletions(-)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 200a941..aa5b156 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -8,6 +8,8 @@ RPMBUILD="rpmbuild"
+>  PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+>  PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
+>  
+> +EXTRANATIVEPATH += "python-native"
+> +
 
-On Thu, Dec 6, 2012 at 1:11 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Er, no!
 
-> > Otavio Salvador (1):
-> >   initramfs-framework: init: Stop mount warnings during boot
->
-> This just has a PR bump in it? Corrupted?
+Why do we need to do this? We now need python-native at package
+generation time? Why?
+
+There is no dependency for that and this would totally kill build
+performance if we did add it.
+
+Cheers,
+
+Richard
 
 
-I think you have merged it already; you can drop it.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---f46d042f9c28cd213d04d030c2da
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Thu, D=
-ec 6, 2012 at 1:11 PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@lin=
-uxfoundation.org</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">&gt; Otavio Salvador (1):<=
-br></div><div class=3D"im">
-&gt; =A0 initramfs-framework: init: Stop mount warnings during boot<br>
-<br>
-</div>This just has a PR bump in it? Corrupted?</blockquote><div><br></div>=
-<div>I think you have merged it already; you can drop it.</div><div>=A0</di=
-v></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0O.S. Systems<br>
-E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio=
-@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"=
-_blank">http://www.ossystems.com.br</a><br>Mobile: +55 53 9981-7854=A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=
-=3D"_blank">http://projetos.ossystems.com.br</a><br>
-<br>
-</div>
-
---f46d042f9c28cd213d04d030c2da--
