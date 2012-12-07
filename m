@@ -1,31 +1,38 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>)
-	id 1TgvMb-0002aN-HO; Fri, 07 Dec 2012 11:41:02 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qB7AQXXR002302
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 7 Dec 2012 11:26:34 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Tgv8a-0002xB-VI; Fri, 07 Dec 2012 11:26:33 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 07 Dec 2012 11:26:32 +0100
-Message-ID: <lyfw3ii2ef.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.85
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Complete rebuilds due to random hashes
+	(envelope-from <ross.burton@intel.com>) id 1Tgwsx-0005Iz-NI
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Dec 2012 13:18:31 +0100
+Received: from mail-wg0-f69.google.com ([74.125.82.69])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 Dec 2012 04:04:02 -0800
+Received: by mail-wg0-f69.google.com with SMTP id es5so296271wgb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Dec 2012 04:04:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=6nokwsMxMFu0ts3UHJsXeLufqG0eLG1G388Iow19hXA=;
+	b=HqsAYUBQtNd0Q34FngLe7h9dJoXdTlPISqn4z/nzjr34TpiOzw1liK9EXTLFN0YGBu
+	YMSBgri7i57q58C17lfpNk6+SK5piXAcb4mZauV0+9RvDuQM8aWQo9Di3DD6zD+UfOir
+	G7s0sTddK+nUci37oO5GY1w/tBEMTJzAcwQ4xVyfkhZ2uRo3cHLTcpjSunsjlBIURzPl
+	V7IVTgqHVkcaNwLIYgFBO9mUYowFi3ECPb/LniGdNIvbuC3thFlUNj2IJKX5x86+vHmP
+	R57A172wOgpwcfUkUlG9QqDRQG6bXlyFyqU9brYal0dFCIF9axOXaC2rrSBBHpSLTsGE
+	S+jg==
+Received: by 10.216.88.12 with SMTP id z12mr2011518wee.136.1354881841021;
+	Fri, 07 Dec 2012 04:04:01 -0800 (PST)
+Received: by 10.216.88.12 with SMTP id z12mr2011514wee.136.1354881840787;
+	Fri, 07 Dec 2012 04:04:00 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dw4sm15341218wib.1.2012.12.07.04.03.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 07 Dec 2012 04:03:59 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Dec 2012 12:02:24 +0000
+Message-Id: <1354881744-1827-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmTKxTsAE36I12dRnVCw4Gjt34l7IWV5io9CEP8VwbOi9M+jy1oL/YFrI0cosHHVauAHbyCa6FqiMK7gUlo4Ys0srJXF7Tc1VbrcXqzH29oSRbNIO5ly9Dds/XwrxjK5iATpXexaIo4iZGrubAwdmGyKF3DsqYSqgFV7vN5Fc8rg4Te8ByRWetyMXi2KZTVKRbDeM3J
+Subject: [PATCH] rt-tests: add missing build dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,53 +45,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 10:41:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Dec 2012 12:18:32 -0000
 
-Hello,
+hackbench links to but doesn't depend on librttest.a, so parallel builds can
+randomly fail.
 
-I have encountered the problem the whole distribution gets rebuilt when
-I change a single, completely unrelated variable (e.g. BB_DISKMON_DIRS).
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...d-missing-build-dependencies-to-hackbench.patch |   32 ++++++++++++++++++++
+ meta/recipes-rt/rt-tests/rt-tests.inc              |    5 +--
+ 2 files changed, 35 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-rt/rt-tests/files/0001-Add-missing-build-dependencies-to-hackbench.patch
 
-Dumping data in _build_data() (siggen.py) revealed that sometimes a
-gitpkgv_do_configure() (or _do_compile/install...) function is in the
-deps, sometimes not.  The recipes where this happens (e.g. m4) do not
-inherit gitpkgv and it is not included globally either.
-
-Further debugging[1] shows
-
-| ERROR: calledvar=autotools_do_configure, vars=[['gitpkgv_do_configure', 'autotools_do_configure'], ['do_configure', 'gitpkgv_do_configure']], allvars=['do_configure', 'autotools_do_configure', 'gitpkgv_do_configure'], classes=[None, 'gitpkgv', 'autotools']
-
-for such a recipe (note the 'gitpkgv_do_configure')
-
-
-For me, it seems that this depends on the (random) order in which recipes
-are read.  E.g. when a recipe using 'gitpkgv' is read first, the global
-'classes' array will contain 'gitpkgv' and ExportFuncsNode() is constructed
-with it.
-
-But when m4 is read before the first recipe using 'gitpkgv', it won't be
-contained in 'classes' and the corresponding ExportFuncsNode() will not
-create this variable.
-
-
-Does somebody know how to fix this?
-
-
-Enrico
-
-Footnotes: 
-[1]  
---- a/lib/bb/parse/ast.py
-+++ b/lib/bb/parse/ast.py
-@@ -207,6 +207,8 @@ class ExportFuncsNode(AstNode):
+diff --git a/meta/recipes-rt/rt-tests/files/0001-Add-missing-build-dependencies-to-hackbench.patch b/meta/recipes-rt/rt-tests/files/0001-Add-missing-build-dependencies-to-hackbench.patch
+new file mode 100644
+index 0000000..c4d221d
+--- /dev/null
++++ b/meta/recipes-rt/rt-tests/files/0001-Add-missing-build-dependencies-to-hackbench.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Submitted [email]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 640aea5bd51ea380d299df16cb90b290a0b54ac9 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Fri, 7 Dec 2012 11:58:12 +0000
++Subject: [PATCH] Add missing build dependencies to hackbench
++
++hackbench links to librttest.a but doesn't depend on it, so building it
++explicitly or in parallel builds this can fail.
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ Makefile |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index fd3cdb3..95030d9 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -96,7 +96,7 @@ sendme: sendme.o librttest.a
++ pip_stress: pip_stress.o librttest.a
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
++ 
++-hackbench: hackbench.o
+++hackbench: hackbench.o librttest.a
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
++ 
++ librttest.a: rt-utils.o error.o rt-get_cpu.o
++-- 
++1.7.10
++
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 6a699fc..9cc1638 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -5,9 +5,10 @@ PR = "r0"
  
-                 for flag in [ "func", "python" ]:
-                     if data.getVarFlag(calledvar, flag):
-+                        if var == 'gitpkgv_do_configure':
-+                            bb.error("calledvar=%s, vars=%s, allvars=%s, classes=%s" % (calledvar,vars,allvars,self.classes))
-                         data.setVarFlag(var, flag, data.getVarFlag(calledvar, flag))
-                 for flag in [ "dirs" ]:
-                     if data.getVarFlag(var, flag):
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
+            file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
+-           file://0002-rt-tests-Break-out-install_hwlatdetect.patch"
++           file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
++           file://0001-Add-missing-build-dependencies-to-hackbench.patch"
+ 
+-INC_PR = "r0"
++INC_PR = "r1"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+1.7.10
+
 
 
