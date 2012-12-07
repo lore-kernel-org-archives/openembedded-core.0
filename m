@@ -1,28 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Th5FU-0001Wl-NC
+	(envelope-from <cazfi74@gmail.com>) id 1Th70g-0003mX-S9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 22:14:21 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB7KxqUf005472
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 08 Dec 2012 00:07:10 +0100
+Received: by mail-lb0-f175.google.com with SMTP id gg13so751606lbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Dec 2012 12:59:53 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Fri, 7 Dec 2012 12:59:52 -0800
-Message-ID: <50C258D6.4020506@windriver.com>
-Date: Fri, 7 Dec 2012 15:00:06 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:16.0) Gecko/20121026 Thunderbird/16.0.2
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1354914756-9488-1-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1354914756-9488-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [PATCH 4/6 v2] package_rpm: Update the way the multilib package names are translated
+	Fri, 07 Dec 2012 14:52:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=CyMVRRRz0fkL0XnhvVXo5YzKhevK343fRFChFGlKxnw=;
+	b=S1msPEGMiP68IowEVunGZq0C3hkpMGLUON8vRsxm9Simxv5TKkMcBE0s0ohAGiQhM5
+	e0PjX+BovQTjX6x4ZSWy+iPqxXYGkYC7P7L64JaPAAUHWciImnl822ExRF/z4VCLTjlm
+	hBrf90drz0KmZ3gzuIdmjS4ya+m14UNJYwXfPxLXdAJ0R5OnJtkIDzwKFxV/vCi1tjJw
+	tfeuPlS43Z+vX+uX5z7JxOyWczrRiDO4+MF53b/4bkSDO+pbc66t1ckpK3GusmNjuYjb
+	Qt7Ct+Mw1YsmgUReVUZui+g1SNC9f3oDnrvIy/v3hC/6jySON8z+OCoHeqqVc9GmryW9
+	VWLQ==
+Received: by 10.152.105.68 with SMTP id gk4mr6772843lab.48.1354920763484;
+	Fri, 07 Dec 2012 14:52:43 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id jc2sm5094287lab.16.2012.12.07.14.52.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 07 Dec 2012 14:52:42 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>) id 1Th6md-0006gm-Q4
+	for openembedded-core@lists.openembedded.org;
+	Sat, 08 Dec 2012 00:52:39 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Dec 2012 00:52:30 +0200
+Message-Id: <1354920751-21102-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: libpng update to 1.5.13 V2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,58 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 21:14:21 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Dec 2012 23:07:11 -0000
 
-Fix a minor mistake in the original patch...
 
-Original:
-+	sdk_archs=${SDK_PACKAGE_ARCH}
+In openembedded-core itself, libmatchbox does not compile
+against libpng15. Patch for that sent already.
 
-new:
-+	sdk_archs="${SDK_PACKAGE_ARCHS}"
+In meta-openembedded, libsdl-image is known not to compile
+against libpng15. Patch for that too sent already.
 
-Somehow I must have cleaned up something at the last minute and forgotten to 
-verify the SDK_PACKAGE_ARCHS worked correctly.  Not only was there a typo, but 
-missing ".  Fixed now and verified locally.
+I have not been systematically testing build of all the
+possible components. Above two problems are just the ones
+I've encountered as part of my typical builds.
 
---Mark
 
-On 12/7/12 3:12 PM, Mark Hatle wrote:
-> The variable MULTILIB_PACKAGE_ARCHS has been removed in favor of a
-> repurposed MULTILIB_PREFIX_LIST.  The format of this item is now
-> <libid>:<arch>:<arch1>:...:<archN>.  This ensures that we can correctly
-> translate the libid to one of the supported archs in a tri-lib system.
->
-> All of the users of MULTILIB_PREFIX_LIST and MULTILIB_PACKAGE_ARCHS have
-> been modified accordingly.
->
-> Also change the way attempted packages are installed, verify the package
-> exists in the translate functions, then perform the install in one single
-> operation.  This results in a significantly faster install time.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->   meta/classes/package_rpm.bbclass      |  167 ++++++++++++++++++++++++++++++---
->   meta/classes/populate_sdk_rpm.bbclass |   26 ++++--
->   meta/classes/rootfs_rpm.bbclass       |   47 +++++-----
->   3 files changed, 195 insertions(+), 45 deletions(-)
->
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index 4b81b68..091880e 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -24,11 +24,25 @@ package_update_index_rpm () {
->   		return
->   	fi
->
-> -	base_archs="`echo ${PACKAGE_ARCHS} | sed 's/-/_/g'`"
-> -	ml_archs="`echo ${MULTILIB_PACKAGE_ARCHS} | sed 's/-/_/g'`"
-> -	sdk_archs="`echo ${SDK_PACKAGE_ARCHS} | sed 's/-/_/g'`"
-> +	sdk_archs="${SDK_PACKAGE_ARCHS}"
-> +	sdk_archs=${sdk_archs//-/_}
-> +
-....
+ - ML
 
 
