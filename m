@@ -1,32 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Th0kq-0003Bn-C1 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 17:26:24 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7GBllu006491;
-	Fri, 7 Dec 2012 16:11:47 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05693-02; Fri,  7 Dec 2012 16:11:43 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7GBeFj006485
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 7 Dec 2012 16:11:41 GMT
-Message-ID: <1354896691.12928.34.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, "Rifenbark, Scott M"
-	<scott.m.rifenbark@intel.com>
-Date: Fri, 07 Dec 2012 16:11:31 +0000
-In-Reply-To: <alpine.DEB.2.02.1212061818500.3731@oneiric>
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1Th0p1-0003Jp-QM
+	for openembedded-core@lists.openembedded.org;
+	Fri, 07 Dec 2012 17:30:45 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:46707 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Th0ax-00038s-Oo; Fri, 07 Dec 2012 11:16:11 -0500
+Date: Fri, 7 Dec 2012 11:16:08 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1354896691.12928.34.camel@ted>
+Message-ID: <alpine.DEB.2.02.1212071114070.8450@oneiric>
 References: <alpine.DEB.2.02.1212061522350.31684@oneiric>
 	<1354835735.12928.15.camel@ted>
 	<alpine.DEB.2.02.1212061818500.3731@oneiric>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+	<1354896691.12928.34.camel@ted>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: what exactly is the proper way to use FILESEXTRAPATHS?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,88 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 16:26:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Dec 2012 16:30:45 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 2012-12-06 at 18:20 -0500, Robert P. J. Day wrote:
-> On Thu, 6 Dec 2012, Richard Purdie wrote:
-> 
-> > On Thu, 2012-12-06 at 15:27 -0500, Robert P. J. Day wrote:
-> > > continuing my trek through coding pedantry and was wondering about
-> > > the exact purpose of the common line in .bbappend files:
-> > >
-> > > FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> > >
-> > > or some slight variation thereof.
-> > >
-> > >   i *thought* i knew what it did, so i did a small experiment with the
-> > > meta-ti layer and netbase (since i was already messing around with
-> > > it), and i replaced the contents of the netbase .bbappend file with
-> > > the single line:
-> > >
-> > > FILESEXTRAPATHS_prepend := "rday"
-> > >
-> > > and checked the environment for the value of FILESPATH for the netbase
-> > > recipe and, after formatting to read it clearly, what i saw was:
-> > >
-> > > FILESPATH="rday/linux-gnueabi
-> > > rday/arm
-> > > rday/build-linux
-> > > rday/pn-netbase
-> > > rday/beagleboard
-> > > rday/omap3
-> > > rday/armv7a
-> > > rday/
-> > > rday/class-target
-> > > rday/forcevariable
-> > > rday/libc-glibc
-> > > rday/
-> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/linux-gnueabi
-> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/arm
-> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/build-linux
-> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/pn-netbase
-> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/beagleboard
-> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/omap3
-> > > ... snip ...
-> > >
-> > >   what the heck?  if that's what FILESEXTRAPATHS is supposed to do,
-> > > that is definitely *not* how it's being used in many, many bbappend
-> > > files.
-> > >
-> > >   is there an explanation somewhere as to what the above is supposed
-> > > to represent?
-> >
-> > What is puzzling about the above? Its doing what it was designed to do.
-> >
-> > The idea is to add the directory listed to the set of directories that
-> > get "autogenerated" from OVERRIDES as search locations. What did you
-> > expect it to do?
-> 
->   i am, right this minute, looking at the explanation of
-> FILESEXTRAPATHS in the poky reference manual glossary.  i see
-> absolutely no mention of the word "OVERRIDES".
+On Fri, 7 Dec 2012, Richard Purdie wrote:
+
+> It sounds like the docs are missing some details about how this
+> works and what its designed to do. We should add the information and
+> there are several of us who will happily work with Scott on fixing
+> that.
 >
->   signing off for the evening as i'm starting to get annoyed ...
+> Getting annoyed isn't going to help.
+>
+> I'd also add that we're about to change the way this works a little
+> so we'd perhaps better hold off fixing the manual until we've made
+> that change (which will simplify the lists of search paths you've
+> been seeing further).
+>
+> Scott: Looks like we need to tweak the manual in this location.
+> Could you open a bug or otherwise track this please?
 
-It sounds like the docs are missing some details about how this works
-and what its designed to do. We should add the information and there are
-several of us who will happily work with Scott on fixing that.
+  i'm in the midst of writing a wiki page on this for my upcoming
+class, so once i'm done, feel free to steal.
 
-Getting annoyed isn't going to help.
+  and on a related note, my profuse apologies for my snottiness
+earlier -- i was totally missing the critical point about bbappend
+files being stacked which made all the difference and cleared
+everything up.
 
-I'd also add that we're about to change the way this works a little so
-we'd perhaps better hold off fixing the manual until we've made that
-change (which will simplify the lists of search paths you've been seeing
-further).
+  grrrrrrr ... my bad.
 
-Scott: Looks like we need to tweak the manual in this location. Could
-you open a bug or otherwise track this please?
+rday
 
-Cheers,
+-- 
 
-Richard
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
