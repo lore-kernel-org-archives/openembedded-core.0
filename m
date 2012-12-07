@@ -1,30 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Th0e0-00031o-32 for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 17:19:20 +0100
+	id 1Th0kq-0003Bn-C1 for openembedded-core@lists.openembedded.org;
+	Fri, 07 Dec 2012 17:26:24 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7G4pdU006445;
-	Fri, 7 Dec 2012 16:04:51 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7GBllu006491;
+	Fri, 7 Dec 2012 16:11:47 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 01099-10; Fri,  7 Dec 2012 16:04:47 +0000 (GMT)
+	id 05693-02; Fri,  7 Dec 2012 16:11:43 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7G4hXC006439
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7GBeFj006485
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 7 Dec 2012 16:04:43 GMT
-Message-ID: <1354896273.12928.31.camel@ted>
+	Fri, 7 Dec 2012 16:11:41 GMT
+Message-ID: <1354896691.12928.34.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Scott Garman <scott.a.garman@intel.com>
-Date: Fri, 07 Dec 2012 16:04:33 +0000
-In-Reply-To: <cover.1354855433.git.scott.a.garman@intel.com>
-References: <cover.1354855433.git.scott.a.garman@intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, "Rifenbark, Scott M"
+	<scott.m.rifenbark@intel.com>
+Date: Fri, 07 Dec 2012 16:11:31 +0000
+In-Reply-To: <alpine.DEB.2.02.1212061818500.3731@oneiric>
+References: <alpine.DEB.2.02.1212061522350.31684@oneiric>
+	<1354835735.12928.15.camel@ted>
+	<alpine.DEB.2.02.1212061818500.3731@oneiric>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/16] denzil pull request 4
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what exactly is the proper way to use FILESEXTRAPATHS?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +40,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 16:19:20 -0000
+X-List-Received-Date: Fri, 07 Dec 2012 16:26:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-12-06 at 21:01 -0800, Scott Garman wrote:
-> Hello,
+On Thu, 2012-12-06 at 18:20 -0500, Robert P. J. Day wrote:
+> On Thu, 6 Dec 2012, Richard Purdie wrote:
 > 
-> The following changes since commit c15fae372cf75403facc28cf76f973b1279425dd:
+> > On Thu, 2012-12-06 at 15:27 -0500, Robert P. J. Day wrote:
+> > > continuing my trek through coding pedantry and was wondering about
+> > > the exact purpose of the common line in .bbappend files:
+> > >
+> > > FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> > >
+> > > or some slight variation thereof.
+> > >
+> > >   i *thought* i knew what it did, so i did a small experiment with the
+> > > meta-ti layer and netbase (since i was already messing around with
+> > > it), and i replaced the contents of the netbase .bbappend file with
+> > > the single line:
+> > >
+> > > FILESEXTRAPATHS_prepend := "rday"
+> > >
+> > > and checked the environment for the value of FILESPATH for the netbase
+> > > recipe and, after formatting to read it clearly, what i saw was:
+> > >
+> > > FILESPATH="rday/linux-gnueabi
+> > > rday/arm
+> > > rday/build-linux
+> > > rday/pn-netbase
+> > > rday/beagleboard
+> > > rday/omap3
+> > > rday/armv7a
+> > > rday/
+> > > rday/class-target
+> > > rday/forcevariable
+> > > rday/libc-glibc
+> > > rday/
+> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/linux-gnueabi
+> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/arm
+> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/build-linux
+> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/pn-netbase
+> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/beagleboard
+> > > /home/rpjday/OE/dist/layers/oe-core/meta/recipes-core/netbase/netbase-5.0/omap3
+> > > ... snip ...
+> > >
+> > >   what the heck?  if that's what FILESEXTRAPATHS is supposed to do,
+> > > that is definitely *not* how it's being used in many, many bbappend
+> > > files.
+> > >
+> > >   is there an explanation somewhere as to what the above is supposed
+> > > to represent?
+> >
+> > What is puzzling about the above? Its doing what it was designed to do.
+> >
+> > The idea is to add the directory listed to the set of directories that
+> > get "autogenerated" from OVERRIDES as search locations. What did you
+> > expect it to do?
 > 
->   openssl: add deprecated and unmaintained find.pl from perl-5.14 to fix perlpath.pl (2012-10-04 09:08:16 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-pull4
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull4
+>   i am, right this minute, looking at the explanation of
+> FILESEXTRAPATHS in the poky reference manual glossary.  i see
+> absolutely no mention of the word "OVERRIDES".
+>
+>   signing off for the evening as i'm starting to get annoyed ...
 
-Merged into denzil, thanks.
+It sounds like the docs are missing some details about how this works
+and what its designed to do. We should add the information and there are
+several of us who will happily work with Scott on fixing that.
+
+Getting annoyed isn't going to help.
+
+I'd also add that we're about to change the way this works a little so
+we'd perhaps better hold off fixing the manual until we've made that
+change (which will simplify the lists of search paths you've been seeing
+further).
+
+Scott: Looks like we need to tweak the manual in this location. Could
+you open a bug or otherwise track this please?
+
+Cheers,
 
 Richard
+
 
 
 
