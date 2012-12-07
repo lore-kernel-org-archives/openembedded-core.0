@@ -1,21 +1,30 @@
-Received: from mailout-de.gmx.net ([213.165.64.22])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <cheepeero@gmx.net>) id 1TgzUU-0001Gc-LB
-	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 16:05:26 +0100
-Received: (qmail invoked by alias); 07 Dec 2012 14:44:20 -0000
-Received: from unknown (EHLO pink.cheepee.homedns.org) [78.96.83.205]
-	by mail.gmx.net (mp072) with SMTP; 07 Dec 2012 15:44:20 +0100
-X-Authenticated: #14774724
-X-Provags-ID: V01U2FsdGVkX19ysO8mc6JymGn8sPK1UeqEZgq0tvlIA/5E2qUqMt
-	HhHVqDb+5f4JUM
-From: Ciprian Ciubotariu <cheepeero@gmx.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Dec 2012 16:44:15 +0200
-Message-Id: <1354891455-6846-1-git-send-email-cheepeero@gmx.net>
-X-Mailer: git-send-email 1.7.8.6
-X-Y-GMX-Trusted: 0
-Subject: [PATCH] packagroup-base: use virtual runtime instead of keymap
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Th0e0-00031o-32 for openembedded-core@lists.openembedded.org;
+	Fri, 07 Dec 2012 17:19:20 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7G4pdU006445;
+	Fri, 7 Dec 2012 16:04:51 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01099-10; Fri,  7 Dec 2012 16:04:47 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7G4hXC006439
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 7 Dec 2012 16:04:43 GMT
+Message-ID: <1354896273.12928.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Scott Garman <scott.a.garman@intel.com>
+Date: Fri, 07 Dec 2012 16:04:33 +0000
+In-Reply-To: <cover.1354855433.git.scott.a.garman@intel.com>
+References: <cover.1354855433.git.scott.a.garman@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/16] denzil pull request 4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,27 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 15:05:26 -0000
+X-List-Received-Date: Fri, 07 Dec 2012 16:19:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
----
- .../packagegroups/packagegroup-base.bb             |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On Thu, 2012-12-06 at 21:01 -0800, Scott Garman wrote:
+> Hello,
+> 
+> The following changes since commit c15fae372cf75403facc28cf76f973b1279425dd:
+> 
+>   openssl: add deprecated and unmaintained find.pl from perl-5.14 to fix perlpath.pl (2012-10-04 09:08:16 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-pull4
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull4
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 347a7e1..3e75190 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -141,7 +141,7 @@ RRECOMMENDS_packagegroup-machine-base = "${MACHINE_EXTRA_RRECOMMENDS}"
- 
- SUMMARY_packagegroup-base-keyboard = "Keyboard support"
- RDEPENDS_packagegroup-base-keyboard = "\
--    keymaps"
-+    ${VIRTUAL-RUNTIME_keymaps}"
- 
- SUMMARY_packagegroup-base-pci = "PCI bus support"
- RDEPENDS_packagegroup-base-pci = "\
--- 
-1.7.8.6
+Merged into denzil, thanks.
+
+Richard
 
 
 
