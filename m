@@ -1,34 +1,30 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1Th1y5-00054w-4p
-	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 18:44:10 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so427196eek.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Th26n-0005KY-L5 for openembedded-core@lists.openembedded.org;
+	Fri, 07 Dec 2012 18:53:11 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7HchEg007412
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Dec 2012 09:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=WqOzSdjxzaA6WkLKPtFTi7V9Ve2l6CiZe/Zu68vJFPs=;
-	b=O3Kj509/hHs0STsrrDSoi5HuPNgNEfJR7S+7lP78vnyUFAlFsdStuun9FrZhj8bT+u
-	BEX3ZGFNi5XsO/Z4h3wyPBU+FsMCAI+wHK//QJAdDohYqpjMrX/1Z43SgOIGrc4pwifX
-	BzvIL7/qAj3m/dtFBqCPESsmYq5N+FgLZ8QxeoRKRjN9r4dBemdox/belOUApzKNpxsN
-	d2Lz2LY2VyUHObCpZWCyIZ6XnnO8aMU+Z5bIYXgFl68A4VZloXnaUCWo+x98icUf3pDB
-	VIi2kzPTE7F1l6iTD1QR9fkfw98j/YOw8dubHFiDt+hkEoijUNMAZ5nKI99PBHJ6U62t
-	Kupg==
-Received: by 10.14.177.1 with SMTP id c1mr18978180eem.8.1354901382289;
-	Fri, 07 Dec 2012 09:29:42 -0800 (PST)
-Received: from blackbox.local ([178.123.71.177])
-	by mx.google.com with ESMTPS id 43sm23857101eed.10.2012.12.07.09.29.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 07 Dec 2012 09:29:41 -0800 (PST)
-From: Leonid Borisenko <ive.found@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Dec 2012 20:28:58 +0300
-Message-Id: <1354901338-8272-1-git-send-email-ive.found@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1353090566-16318-1-git-send-email-ive.found@gmail.com>
-References: <1353090566-16318-1-git-send-email-ive.found@gmail.com>
-Subject: [PING] [PATCH v2] Support additional user-defined metadata
+	Fri, 7 Dec 2012 17:38:43 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06954-04 for <openembedded-core@lists.openembedded.org>;
+	Fri,  7 Dec 2012 17:38:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qB7HcXVV007406
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Dec 2012 17:38:34 GMT
+Message-ID: <1354901903.12928.38.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 07 Dec 2012 17:38:23 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] bitbake.conf/utils: Drop some OVERRIDES from FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,8 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 17:44:11 -0000
+X-List-Received-Date: Fri, 07 Dec 2012 17:53:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi. Any comments?
+There are several overrides that don't make sense as part of FILESPATH. This
+introduces FILESOVERRIDES and allows us to drop some of the pointless ones,
+simplifying the files search path further and improving the user experience.
+
+If needed by specific recipes, other overrides can be added back in for
+specific cases.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index c1de2f6..be0a25a 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -308,7 +308,7 @@ def base_set_filespath(path, d):
+     if extrapaths != "":
+         path = extrapaths.split(":") + path
+     # The ":" ensures we have an 'empty' override
+-    overrides = ((d.getVar("OVERRIDES", True) or "") + ":").split(":")
++    overrides = ((d.getVar("FILESOVERRIDES", True) or "") + ":").split(":")
+     for p in path:
+         if p != "": 
+             for o in overrides:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 420bdfa..be3bfc2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -671,6 +671,8 @@ DISTROOVERRIDES ?= "${@d.getVar('DISTRO', True) or ''}"
+ MACHINEOVERRIDES ?= "${MACHINE}"
+ MACHINEOVERRIDES[vardepsexclude] = "MACHINE"
+ 
++FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
++
+ CPU_FEATURES ?= ""
+ CPU_FEATURES_arm ?= "vfp"
+ 
+
+
 
 
