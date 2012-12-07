@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TgqbZ-0001Ln-Os
+	(envelope-from <scott.a.garman@intel.com>) id 1TgqbZ-0001Lq-UG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 06:36:09 +0100
+	Fri, 07 Dec 2012 06:36:10 +0100
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id DEDF9303F2
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id D22A5303F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Dec 2012 00:02:35 -0500 (EST)
+	Fri,  7 Dec 2012 00:02:33 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Dec 2012 21:02:03 -0800
-Message-Id: <cf84ebac391b243099fe0d05223433ecb8e71641.1354855433.git.scott.a.garman@intel.com>
+Date: Thu,  6 Dec 2012 21:02:02 -0800
+Message-Id: <543d608ae6251956b84e6423ec66f146f926d4b8.1354855433.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1354855433.git.scott.a.garman@intel.com>
 References: <cover.1354855433.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1354855433.git.scott.a.garman@intel.com>
 References: <cover.1354855433.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: DEDF9303F2.B646D
+X-MailScanner-ID: D22A5303F1.0CCFB
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 10/16] openssl: upgrade to 1.0.0j
+Subject: [PATCH 09/16] libproxy: Fix for CVE-2012-4504
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,139 +40,74 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 07 Dec 2012 05:36:10 -0000
 
-Addresses CVE-2012-2333
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-Fixes [YOCTO #2682]
+Reference:https://code.google.com/p/libproxy/source/detail?r=853
 
-Fixes denzil [YOCTO #2701]
+Stack-based buffer overflow in the url::get_pac function in url.cpp
+in libproxy 0.4.x before 0.4.9 allows remote servers to have an
+unspecified impact via a large proxy.pac file.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
+
+[YOCTO #3487]
+
+Fixes denzil [YOCTO #3511]
+
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
 ---
- .../configure-targets.patch                        |    0
- .../debian/c_rehash-compat.patch                   |    0
- .../debian/ca.patch                                |    0
- .../debian/debian-targets.patch                    |    0
- .../debian/make-targets.patch                      |    0
- .../debian/man-dir.patch                           |    0
- .../debian/man-section.patch                       |    0
- .../debian/no-rpath.patch                          |    0
- .../debian/no-symbolic.patch                       |    0
- .../debian/pic.patch                               |    0
- .../debian/version-script.patch                    |    0
- .../engines-install-in-libdir-ssl.patch            |    0
- .../{openssl-1.0.0i => openssl-1.0.0j}/find.pl     |    0
- .../oe-ldflags.patch                               |    0
- .../openssl-fix-link.patch                         |    0
- .../openssl_fix_for_x32.patch                      |    0
- .../shared-libs.patch                              |    0
- .../{openssl_1.0.0i.bb => openssl_1.0.0j.bb}       |    4 ++--
- 18 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/configure-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/c_rehash-compat.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/ca.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/debian-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/make-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/man-dir.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/man-section.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/no-rpath.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/no-symbolic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/pic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/engines-install-in-libdir-ssl.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/find.pl (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/oe-ldflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/openssl-fix-link.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/openssl_fix_for_x32.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/shared-libs.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl_1.0.0i.bb => openssl_1.0.0j.bb} (90%)
+ .../libproxy/libproxy-0.4.7-CVE-2012-4504.patch    |   29 ++++++++++++++++++++
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/configure-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/configure-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/c_rehash-compat.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/c_rehash-compat.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/ca.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/ca.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/make-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/make-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-dir.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-dir.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-section.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-section.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-rpath.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-rpath.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-symbolic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-symbolic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/engines-install-in-libdir-ssl.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/engines-install-in-libdir-ssl.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl b/meta/recipes-connectivity/openssl/openssl-1.0.0j/find.pl
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/find.pl
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/oe-ldflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/oe-ldflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl-fix-link.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl-fix-link.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl_fix_for_x32.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl_fix_for_x32.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/shared-libs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/shared-libs.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-similarity index 90%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-index c233ba1..7dac79c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-@@ -32,8 +32,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://find.pl \
-            "
+diff --git a/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+new file mode 100644
+index 0000000..7f2d93a
+--- /dev/null
++++ b/meta/recipes-support/libproxy/libproxy/libproxy-0.4.7-CVE-2012-4504.patch
+@@ -0,0 +1,29 @@
++Upstream-Status: Backport
++
++libproxy - CVE-2012-4504:
++
++Reference:https://code.google.com/p/libproxy/source/detail?r=853
++
++Stack-based buffer overflow in the url::get_pac function in url.cpp
++in libproxy 0.4.x before 0.4.9 allows remote servers to have an
++unspecified impact via a large proxy.pac file.
++
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4504
++
++Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
++
++diff -urpN a/libproxy/url.cpp b/libproxy/url.cpp
++--- a/libproxy/url.cpp	2012-11-26 10:08:47.000000000 +0800
+++++ b/libproxy/url.cpp	2012-11-26 10:05:54.000000000 +0800
++@@ -472,9 +472,10 @@ char* url::get_pac() {
++ 				// Add this chunk to our content length,
++ 				// ensuring that we aren't over our max size
++ 				content_length += chunk_length;
++-				if (content_length >= PAC_MAX_SIZE) break;
++ 			}
++ 
+++			if (content_length >= PAC_MAX_SIZE) break;
+++
++ 			while (recvd != content_length) {
++ 				int r = recv(sock, buffer + recvd, content_length - recvd, 0);
++ 				if (r < 0) break;
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index e3721a8..fc32f57 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -13,6 +13,7 @@ PR = "r4"
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+            file://g++-namepace.patch \
+            file://libproxy_fix_for_gcc4.7.patch \
++           file://libproxy-0.4.7-CVE-2012-4504.patch \
+           "
  
--SRC_URI[md5sum] = "b4df9c11af454fd68178c85a1d5f328f"
--SRC_URI[sha256sum] = "548262d15777c504be1ab9bb8fabef1e14a3de54837a6593c8f403dd843d5e57"
-+SRC_URI[md5sum] = "cbe4ac0d8f598680f68a951e04b0996b"
-+SRC_URI[sha256sum] = "626fb8fcb3eb7e966edbe71553ff993d137f6e8a87b05051a3695e621098b8af"
- 
- PACKAGES =+ " \
- 	${PN}-engines \
+ SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
 -- 
 1.7.9.5
 
