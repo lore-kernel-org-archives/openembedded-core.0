@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1TgqbY-0001Lo-S6
+	(envelope-from <scott.a.garman@intel.com>) id 1TgqbY-0001Lq-SN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 07 Dec 2012 06:36:08 +0100
+	Fri, 07 Dec 2012 06:36:09 +0100
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id ADBA4303EF
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id F068A303FC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Dec 2012 00:02:29 -0500 (EST)
+	Fri,  7 Dec 2012 00:02:39 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Dec 2012 21:02:00 -0800
-Message-Id: <dadfb4914b25a970c61e7f2354c01086d4823fd6.1354855433.git.scott.a.garman@intel.com>
+Date: Thu,  6 Dec 2012 21:02:05 -0800
+Message-Id: <dd1b77c473ee92608ad0a5bdbea0880d2f613c2c.1354855433.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1354855433.git.scott.a.garman@intel.com>
 References: <cover.1354855433.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1354855433.git.scott.a.garman@intel.com>
 References: <cover.1354855433.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: ADBA4303EF.5FE45
+X-MailScanner-ID: F068A303FC.534CB
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 07/16] opkg-utils: Add needed python modules as RDEPENDS
+Subject: [PATCH 12/16] libxml2: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +40,60 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 07 Dec 2012 05:36:09 -0000
 
-From: Andrei Gherzan <andrei@gherzan.ro>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libxml2/libxml2_fix_for_automake_1.12.patch    |   23 ++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.7.8.bb          |    5 +++--
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 92e6624..825c927 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -4,11 +4,11 @@ HOMEPAGE = "http://wiki.openmoko.org/wiki/Opkg"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
--RDEPENDS_${PN} = "python"
-+RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
- RDEPENDS_${PN}_virtclass-native = ""
- SRCREV = "49cc783d8e0415059d126ae22c892988717ffda7"
- PV = "0.1.8+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch b/meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
+new file mode 100644
+index 0000000..5c25882
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Pending
++
++automake 1.12 has decpricated automatic de-ANSI-fication support
++
++this patch fixes this build issue:
++
++| configure.in:67: error: automatic de-ANSI-fication support has been removed
++Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/05/02
++
++Index: libxml2-2.7.8/configure.in
++===================================================================
++--- libxml2-2.7.8.orig/configure.in
+++++ libxml2-2.7.8/configure.in
++@@ -63,8 +63,6 @@ AC_PATH_PROG(WGET, wget, /usr/bin/wget)
++ AC_PATH_PROG(XMLLINT, xmllint, /usr/bin/xmllint)
++ AC_PATH_PROG(XSLTPROC, xsltproc, /usr/bin/xsltproc)
++ 
++-dnl Make sure we have an ANSI compiler
++-AM_C_PROTOTYPES
++ test "x$U" != "x" && AC_MSG_ERROR(Compiler not ANSI compliant)
++ 
++ AC_LIBTOOL_WIN32_DLL
+diff --git a/meta/recipes-core/libxml/libxml2_2.7.8.bb b/meta/recipes-core/libxml/libxml2_2.7.8.bb
+index 1de73da..9111120 100644
+--- a/meta/recipes-core/libxml/libxml2_2.7.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.7.8.bb
+@@ -1,8 +1,9 @@
+ require libxml2.inc
  
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=git \
-            "
+-PR = "r7"
++PR = "r8"
+ 
+-SRC_URI += "file://fix_version_info.patch"
++SRC_URI += "file://fix_version_info.patch \
++            file://libxml2_fix_for_automake_1.12.patch"
+ 
+ SRC_URI[md5sum] = "8127a65e8c3b08856093099b52599c86"
+ SRC_URI[sha256sum] = "cda23bc9ebd26474ca8f3d67e7d1c4a1f1e7106364b690d822e009fdc3c417ec"
 -- 
 1.7.9.5
 
