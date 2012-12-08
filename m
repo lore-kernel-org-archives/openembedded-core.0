@@ -1,29 +1,45 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1ThO9G-00088V-Mj
+	(envelope-from <scott.a.garman@intel.com>) id 1ThTLM-0004ol-54
 	for openembedded-core@lists.openembedded.org;
-	Sat, 08 Dec 2012 18:25:12 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qB8HAeof023876
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 8 Dec 2012 09:10:40 -0800 (PST)
-Received: from msp-dhcp51.wrs.com (172.25.34.51) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Sat, 8 Dec 2012 09:10:40 -0800
-Message-ID: <50C37491.3030603@windriver.com>
-Date: Sat, 8 Dec 2012 11:10:41 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	Sat, 08 Dec 2012 23:58:00 +0100
+Received: from mail-pa0-f69.google.com ([209.85.220.69])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 08 Dec 2012 14:43:30 -0800
+Received: by mail-pa0-f69.google.com with SMTP id rl6so2492064pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Dec 2012 14:43:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=zbLwVqzDkTQ5iSoZza8N+/Lb/H76ybKmTZ+Nn/R82Bc=;
+	b=ER39n+qGPIT9992KT2vCCP0IB2X72Uvs7GqKXiC8iNqjg5CmTqas2ax/sY/1haUjPF
+	35T7X3q9Q7PAuTMo93hWJLQ7/ixBRdPQhXz7AkbinJYRxA0yN6xI+swHqXtD13HwKMU8
+	ZhPiq7B2+PJ6ZUl8wsc0MeJeHGo05X4bESLdVYf2A09MTwAW4YE8ttKwXC/ILL4Kt55d
+	jmAniB5FBNP045uSCxS+filVFg2gs8or7a1Qfw6zOz5pCYGEX4cYcy2gF5b7kNqUK4Qt
+	WjTVddSM0JuE0+fFmxhWb8Ial956dlejsMtYsUM3QbpbWuPjnByphP0VvfxiZQR10mEH
+	UQwQ==
+Received: by 10.68.239.198 with SMTP id vu6mr26619719pbc.109.1355006609423;
+	Sat, 08 Dec 2012 14:43:29 -0800 (PST)
+Received: by 10.68.239.198 with SMTP id vu6mr26619695pbc.109.1355006609174;
+	Sat, 08 Dec 2012 14:43:29 -0800 (PST)
+Received: from [192.168.10.207] (c-71-237-161-120.hsd1.or.comcast.net.
+	[71.237.161.120])
+	by mx.google.com with ESMTPS id nf9sm9049160pbc.17.2012.12.08.14.43.27
+	(version=SSLv3 cipher=OTHER); Sat, 08 Dec 2012 14:43:28 -0800 (PST)
+Message-ID: <50C3C28E.1020409@intel.com>
+Date: Sat, 08 Dec 2012 14:43:26 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1354650148.git.mark.hatle@windriver.com>
-	<50C2E018.6000408@linux.intel.com>
-In-Reply-To: <50C2E018.6000408@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Integrate Smart for RPM image generation
+To: openembedded-core@lists.openembedded.org
+References: <1354740033-18500-1-git-send-email-cazfi74@gmail.com>
+	<50C0E34E.8010108@linux.intel.com>
+In-Reply-To: <50C0E34E.8010108@linux.intel.com>
+X-Gm-Message-State: ALoCoQnJ8N7YM0gkfoIVFlzglrVArphSx6KpzRBEZ0ZmLdQZizaL5+xZg1QUbbuE/sNO8nO84MeAtbE2OvWNGjcG9qgF8CvlqBqZUG15KdyKKB9kFg+xBZDvf7BvWBspVta5MO6bOpCRV4ipPityZ5NwR0aGMGoJSi9wRO9UDtwskZLlZRbilywNP7cviSuGj4jiDmhWxMFg
+Subject: Re: libpng-1.5.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,93 +52,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Dec 2012 17:25:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Sat, 08 Dec 2012 22:58:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-What is the build configuration for this chunk?
+On 12/06/2012 10:26 AM, Saul Wold wrote:
+> On 12/05/2012 12:40 PM, Marko Lindqvist wrote:
+>>
+>> First preparatory patch makes it easier to add multiple major versions of
+>> libpng. You may choose to commit this one only.
+>>
+>> Second patch adds 1.5.13 recipe. This produces library named libpng15,
+>> while
+>> old 1.2.50 recipe produces libpng12. Some older programs (and their
+>> recipes)
+>> may fail to find newer library. So far I'm aware of one such case in
+>> meta-openembedded; libsdl-image-1.2.10 needs update. I've already
+>> submitted
+>> patch for that one.
+>>
+> Overall, it's great to see the recipes updated, but we don't typically
+> keep the older versions of recipes around.  So if you want to preserve
+> the older version, it should be moved meta-oe.  The only case we keep
+> older recipes is for License changes from GPLv2 -> GPLv3 where it makes
+> sense.
+>
+> So, the request would be a v2 that also removes the 1.2.50 recipe.
 
-Also this looks like it might be something within the license class, not the 
-rootfs, but I'm not sure.
+libpng has an entry in upstream_tracking.inc with a 
+RECIPE_NO_UPDATE_REASON of "1.4.3 and later changes the API and breaks 
+libmatchbox. Sticking with the 1.2.x series instead"
 
---Mark
+So if libmatchbox now builds with 1.5, we can remove the 1.2.x recipe 
+for good. Otherwise we may need both versions, and need to ensure 
+libmatchbox will use 1.2.x if it still requires it.
 
-On 12/8/12 12:37 AM, Saul Wold wrote:
->
-> There still seems to be a problem with the multilib build that I believe
-> comes from this set of changes.
->
->> | Running intercept scripts:
->> | WARNING: The license listed MIT was not in the licenses collected for lib32-packagegroup-core-boot
->> | ls: cannot access /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-multilib/build/build/tmp/pkgdata/*/runtime-reverse/udev-extraconf: No such file or directory
->> | readlink: missing operand
->> | Try `readlink --help' for more information.
->> | basename: missing operand
->> | Try `basename --help' for more information.
->> | ERROR: Function failed: do_rootfs (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-multilib/build/build/tmp/work/qemux86_64-poky-linux/lib32-core-image-minimal/1.0-r0/temp/log.do_rootfs.14393 for further information)
->> NOTE: recipe lib32-core-image-minimal-1.0-r0: task do_rootfs: Failed
->> ERROR: Task 7 (virtual:multilib:lib32:/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-multilib/build/meta/recipes-core/images/core-image-minimal.bb, do_rootfs) failed with exit code '1'
->> NOTE: Tasks Summary: Attempted 1867 tasks of which 425 didn't need to be rerun and 1 failed.
->
-> Sau!
->
->
-> On 12/04/2012 11:49 AM, Mark Hatle wrote:
->> The following patch set relies on the previous "Misc fixes" sent out earlier
->> today.
->>
->> The set replaces the existing rootfs generation with one based on Smart.
->> The work was tested using buildhistory over a wide range of image types:
->> core-image-minimal
->> core-image-base
->> core-image-basic
->> core-image-lsb
->> core-image-sato
->> build-appliance
->>
->> Each of which contained minor changes from the former version, but the changes
->> can all be explained by a different package resolver.
->>
->> Multilib configurations of each of the above images were also verified on
->> qemux86_64 configuration with a few lib32 items added to the mix.  This was
->> shown, by buildhistory, to result in a more compact install solution.
->>
->> "populate_sdk" was also verified after this patch.  Buildhistory does not
->> verify SDKs, so these were verified by hand.  The target items all appeared
->> to match the expected image components.
->>
->> The incremental RPM installation code was verified as well.. This code was
->> verified in both multilib and non-multilib configurations.
->>
->> Finally, each of these were verified on: qemux86_64, qemumips, qemuppc, qemuarm,
->> and qemuarm configured w/ hardware float API.  This verifies that both the
->> ARM specific "gnueabi" issues and the _ to - in the arch names both work
->> properly.
->>
->> The following changes since commit 0c69e555dda2fa412ba12fa90886b0b92dc60e44:
->>
->>     license.bbclass: Avoid grep error message (2012-12-04 11:10:18 -0600)
->>
->> are available in the git repository at:
->>     git://git.yoctoproject.org/poky-contrib mhatle/smart
->>     http://git.yoctoproject.org/cgit.cgi//log/?h=mhatle/smart
->>
->> Mark Hatle (4):
->>     rootfs_rpm.bbclass: Revert to default shell logging behavior
->>     package_rpm: Update the way the multilib package names are translated
->>     package_rpm.bbclass: Add additional logging
->>     package_rpm.bbclass: Add support for incremental installs
->>
->> Paul Eggleton (2):
->>     classes/*_rpm: integrate Smart into RPM filesystem construction
->>     classes/rootfs_rpm: install smart instead of zypper in rpm-based
->>       images
->>
->>    meta/classes/package_rpm.bbclass      |  691 +++++++++++++--------------------
->>    meta/classes/populate_sdk_rpm.bbclass |   74 ++---
->>    meta/classes/rootfs_rpm.bbclass       |   86 ++---
->>    3 files changed, 338 insertions(+), 513 deletions(-)
->>
+Scott
 
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
