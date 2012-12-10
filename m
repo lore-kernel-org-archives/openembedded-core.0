@@ -1,27 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ti694-0001Ql-Jy; Mon, 10 Dec 2012 17:24:10 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBAG9N4o003171;
-	Mon, 10 Dec 2012 16:09:23 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02629-03; Mon, 10 Dec 2012 16:09:19 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBAG9GDC003164
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 10 Dec 2012 16:09:17 GMT
-Message-ID: <1355155747.29967.31.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bitbake-devel <bitbake-devel@lists.openembedded.org>, openembedded-core
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1Ti6J8-00023J-5y
+	for openembedded-core@lists.openembedded.org;
+	Mon, 10 Dec 2012 17:34:18 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so1873670pad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Dec 2012 08:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=caaq+vOO7kRfXN46tiblzTYCNUVd/MsyPmPTBSBOwEk=;
+	b=zVGuDo837InkTq8V/2CK27WUF3ANCj56/zHq4UaGaxqbLYwALIRgu2x6dWSl+gCqJu
+	lVJHIDEGuTiCdT2m6Z7YKgICms6NIQgujfag8Twe0Hz0VRq7FXy+FPoLaYh0gUziRj6o
+	8ZNAopLH6u2IFl2dFnwEXTFFRDIEJZ9mWhKOEMGMekZvPW+GHpyBDwtVXk50RX11P9NZ
+	gccYWTZxqlY1/qENsW5OcfiXxkKWB0cIIWSPsm5Q+pvq2ZVRo+1G59+/wsOHcCVIRbUV
+	WUHrvOzeNr4X+aE8YrJwvIyxorCaWwMfgmLxe1gyfRyMxK65VnrP3NTnRVNWLnvUD5+c
+	v0AQ==
+MIME-Version: 1.0
+Received: by 10.68.204.103 with SMTP id kx7mr40798846pbc.33.1355156386543;
+	Mon, 10 Dec 2012 08:19:46 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.125.227 with HTTP; Mon, 10 Dec 2012 08:19:46 -0800 (PST)
+In-Reply-To: <d5c9acb38b6e2d962818f15119bb6748d1320dff.1355154246.git.laurentiu.palcu@intel.com>
+References: <cover.1355154246.git.laurentiu.palcu@intel.com>
+	<d5c9acb38b6e2d962818f15119bb6748d1320dff.1355154246.git.laurentiu.palcu@intel.com>
+Date: Mon, 10 Dec 2012 14:19:46 -0200
+X-Google-Sender-Auth: V3pyFjtfkybvegz0RqG_vyFx2A8
+Message-ID: <CAP9ODKpggcjrxP+soQ-69cTWat8pg5sMq8XCKOsfNwCyqWpyRQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Dec 2012 16:09:07 +0000
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: EXPORT_FUNCTIONS - change in behaviour proposal
+Subject: Re: [PATCH 1/2] populate_sdk_(deb|ipk|rpm): export NATIVE_ROOT and INTERCEPT_DIR variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,123 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 16:24:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Dec 2012 16:34:19 -0000
+Content-Type: multipart/alternative; boundary=047d7b10d18508fa2404d081efe5
 
-After Enrico's reported problem, I've been poking around the
-EXPORT_FUNCTIONS code. Currently OE-Core metadata generates list A
-below. In particular, this leads to code like:
+--047d7b10d18508fa2404d081efe5
+Content-Type: text/plain; charset=ISO-8859-1
 
- do_configure calls gnomebase_do_configure
- gnomebase_do_configure calls autotools_do_configure
+On Mon, Dec 10, 2012 at 2:09 PM, Laurentiu Palcu
+<laurentiu.palcu@intel.com>wrote:
 
-which has a level of indirection. The gnomebase class never references
-do_configure. I can appreciate adding in a default mapping of:
+> In order for the postinstall scripts to have access to the recent
+> improvements when generating the target SDK sysroot, export these
+> variables in populate_sdk.
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ...
 
- do_configure calls autotools_do_configure
++       export NATIVE_ROOT=${STAGING_DIR_NATIVE}
+> ...
+>
 
-since it allows a user to call into autotools_do_configure from a custom
-do_configure but I can't see the value of the intermediary
-gnomebase_do_configure. Does anyone know of a use for it?
+Why you don't use STAGING_DIR_NATIVE directly? This seems to have no good
+reason for a variable with same content of a well known variable.
 
-I have a suspicion that if it ever did do anything useful, it stopped
-being useful long ago.
+Regards,
 
-I'm therefore strongly tempted to remove the intermediaries from the
-code. This would result in list B below which is a more direct set of
-mappings.
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-Any thoughts/comments from anyone?
+--047d7b10d18508fa2404d081efe5
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, D=
+ec 10, 2012 at 2:09 PM, Laurentiu Palcu <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:laurentiu.palcu@intel.com" target=3D"_blank">laurentiu.palcu@intel.com=
+</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">In order for the postinstall scripts to have=
+ access to the recent<br>
+improvements when generating the target SDK sysroot, export these<br>
+variables in populate_sdk.<br>
+<br>
+Signed-off-by: Laurentiu Palcu &lt;<a href=3D"mailto:laurentiu.palcu@intel.=
+com">laurentiu.palcu@intel.com</a>&gt;<br>...=A0</blockquote><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex">
++ =A0 =A0 =A0 export NATIVE_ROOT=3D${STAGING_DIR_NATIVE}<br>...<br></blockq=
+uote><div><br></div><div>Why you don&#39;t use STAGING_DIR_NATIVE directly?=
+ This seems to have no good reason for a variable with same content of a we=
+ll known variable.</div>
+<div><br></div><div>Regards,</div></div><div><br></div>-- <br>Otavio Salvad=
+or=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<b=
+r>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otav=
+io@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=
+=3D"_blank">http://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+</div>
 
-Richard
-
-List A:
- autotools_do_siteconfig calls siteconfig_do_siteconfig
- autotools_do_siteconfig_gencache calls siteconfig_do_siteconfig_gencache
- base_do_patch calls patch_do_patch
- cmake_do_configure calls autotools_do_configure
- cmake_do_install calls autotools_do_install
- core-image_do_rootfs calls image_do_rootfs
- core-image_make_zimage_symlink_relative calls image_make_zimage_symlink_relative
- core-image_remove_init_link calls image_remove_init_link
- core-image_rootfs_no_x_startup calls image_rootfs_no_x_startup
- core-image_rootfs_update_timestamp calls image_rootfs_update_timestamp
- core-image_set_image_autologin calls image_set_image_autologin
- core-image_zap_root_password calls image_zap_root_password
- do_compile calls base_do_compile
- do_compile calls cmake_do_compile
- do_compile calls cpan_do_compile
- do_compile calls distutils_do_compile
- do_compile calls kernel_do_compile
- do_compile calls module_do_compile
- do_compile calls setuptools_do_compile
- do_configure calls autotools_do_configure
- do_configure calls base_do_configure
- do_configure calls cmake_do_configure
- do_configure calls cml1_do_configure
- do_configure calls cpan_do_configure
- do_configure calls gnomebase_do_configure
- do_configure calls kernel_do_configure
- do_configure calls qmake2_do_configure
- do_configure calls qmake_base_do_configure
- do_deploy calls kernel_do_deploy
- do_fetch calls base_do_fetch
- do_generate_toolchain_file calls cmake_do_generate_toolchain_file
- do_install calls autotools_do_install
- do_install calls base_do_install
- do_install calls cmake_do_install
- do_install calls cpan_do_install
- do_install calls distutils_do_install
- do_install calls gnomebase_do_install
- do_install calls kernel_do_install
- do_install calls module_do_install
- do_install calls setuptools_do_install
- do_package calls base_do_package
- do_patch calls base_do_patch
- do_siteconfig calls autotools_do_siteconfig
- do_siteconfig_gencache calls autotools_do_siteconfig_gencache
- do_unpack calls base_do_unpack
- gnomebase_do_configure calls autotools_do_configure
- gnomebase_do_install calls autotools_do_install
- package_name_hook calls debian_package_name_hook
- qmake2_do_configure calls qmake_base_do_configure
- setuptools_do_compile calls distutils_do_compile
- setuptools_do_install calls distutils_do_install
-
-
-List B:
- do_compile calls base_do_compile
- do_compile calls cmake_do_compile
- do_compile calls cpan_do_compile
- do_compile calls distutils_do_compile
- do_compile calls kernel_do_compile
- do_compile calls module_do_compile
- do_configure calls autotools_do_configure
- do_configure calls base_do_configure
- do_configure calls cmake_do_configure
- do_configure calls cml1_do_configure
- do_configure calls cpan_do_configure
- do_configure calls kernel_do_configure
- do_configure calls qmake_base_do_configure
- do_deploy calls kernel_do_deploy
- do_fetch calls base_do_fetch
- do_generate_toolchain_file calls cmake_do_generate_toolchain_file
- do_install calls autotools_do_install
- do_install calls base_do_install
- do_install calls cmake_do_install
- do_install calls cpan_do_install
- do_install calls distutils_do_install
- do_install calls kernel_do_install
- do_install calls module_do_install
- do_package calls base_do_package
- do_patch calls patch_do_patch
- do_siteconfig calls siteconfig_do_siteconfig
- do_siteconfig_gencache calls siteconfig_do_siteconfig_gencache
- do_unpack calls base_do_unpack
- package_name_hook calls debian_package_name_hook
-
-
-
+--047d7b10d18508fa2404d081efe5--
