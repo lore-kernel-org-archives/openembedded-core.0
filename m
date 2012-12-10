@@ -1,38 +1,38 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Ti5Rz-0008ED-Gc
+	(envelope-from <otavio.salvador@gmail.com>) id 1Ti5wo-00014V-RO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 16:39:28 +0100
-Received: from mail-wg0-f69.google.com ([74.125.82.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 10 Dec 2012 07:24:50 -0800
-Received: by mail-wg0-f69.google.com with SMTP id es5so2156536wgb.0
+	Mon, 10 Dec 2012 17:11:15 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so1858780pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2012 07:24:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=NkIG7zWx9m51RaJWhAWynJ6Fv26S0gMTbLDMuY4Yuk4=;
-	b=KJqXR9LYjEb08SRtjmvJhP7umtax1QGWhoapK+HSCdcCfxvKfJ0BX6xPn3fQlJB8ea
-	VTzFsSOpIFWGZ65tITL165/W57vYfJEFDOcIK4TWl5hNXpEkr6W4NOqCD70FNBYTgQRS
-	PAsyIqCGt58Ftsowt3QdF688fDQaVRcSdrx5hm3kmyaoLESonUxzF7vgyCoGgTi7jh5P
-	J3RQPvjaA1Ru1p84zEcYure1dL0tCrAYIMBF+6WD6oiaf+qmgQArtnVq/SKsAAxdL9YM
-	0YBcgqWyyow+oN4cCaHTRuavDztx22IaTszE3AbTH7+fh7qvNTcYnOFG2tGHkQ68FzHv
-	G8aA==
-Received: by 10.180.73.80 with SMTP id j16mr11406804wiv.5.1355153088631;
-	Mon, 10 Dec 2012 07:24:48 -0800 (PST)
-Received: by 10.180.73.80 with SMTP id j16mr11406778wiv.5.1355153088355;
-	Mon, 10 Dec 2012 07:24:48 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p3sm10403021wic.8.2012.12.10.07.24.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 10 Dec 2012 07:24:46 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2012 15:23:07 +0000
-Message-Id: <1355152987-6438-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmoLyV0iR7DLdG1hGqzWH9dxMtJ2N9vqLG7Fvla4/w7aI1HPgj7mO05FW0cjYyDQ/aYR19Pi2OnyOU7b2C8pVV8cvjmMYBHXT5n4PO/4DzdpKkVOgFDSCRxKkvJtiR8478SeWF+bqqCDMkDdODdZ5hX8Nz5z/1zbT2Sr9QJRsNf6choqBeaIg6I6denKTq3vHdRQ8S8
-Subject: [PATCH] telepathy-glib: remove pkgconfig dependency in pkgconfig
+	Mon, 10 Dec 2012 07:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=sxNt7A5w29o8ELlYhLmaNiG1KCs7V9vmuEZEyjS+4q8=;
+	b=rLv0UclvcjVvLV0UFMwH26Gx4d8Aj3T02R8L0eJfEbcoDbRw2wmQlCMKHDskdWZyQs
+	5c6GzVMXXCXv+P+lDTrdpcfXc+nc0iAdKLMRwuWqQkpKFssfbDyTTUO5Dqm9uBmzbBks
+	JUNB6vb2MTeiKo2GkK9+bL5UuiHZ8O/wPPMVUTiEJ6NeqtH3OO280TObzlTklgZjAhiL
+	Wkk4ZtL8HwdjWcvtjZAvi4P192aQkbZQ135by46+DAo9odg4MWz+wNnwjYiGzs9LNbiG
+	BQXxXJtpNcA7se6dg87OUxP5Umm8CCWCFR0kZrUJ5yyDuLxIxPncbLB87VqRkehEHYYT
+	Wucw==
+MIME-Version: 1.0
+Received: by 10.66.85.101 with SMTP id g5mr37137105paz.17.1355155002179; Mon,
+	10 Dec 2012 07:56:42 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.125.227 with HTTP; Mon, 10 Dec 2012 07:56:42 -0800 (PST)
+In-Reply-To: <1F1FCC0D09F8D74A800E2DC9C69FFD1A1882D6@039-SN2MPN1-011.039d.mgd.msft.net>
+References: <1F1FCC0D09F8D74A800E2DC9C69FFD1A1882D6@039-SN2MPN1-011.039d.mgd.msft.net>
+Date: Mon, 10 Dec 2012 13:56:42 -0200
+X-Google-Sender-Auth: NanIlGk0ZvBsoTO3KN7IRXYpZiw
+Message-ID: <CAP9ODKqg98_eOTh=495QxgNwd2-3ZmScVZc5sDbr21KfsaU=KQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mangaud Philippe-R49081 <R49081@freescale.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	"Burton, Ross" <ross.burton@intel.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
+Subject: Re: [meta-freescale] Building sato-icon-theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,84 +45,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 15:39:28 -0000
+X-List-Received-Date: Mon, 10 Dec 2012 16:11:15 -0000
+Content-Type: multipart/alternative; boundary=f46d042ef5498540a104d0819c4b
 
-A pkg-config file depending on pkg-config doesn't really make sense, and this is
-causing unexpected dependencies on pkg-config at image contruction time (see
+--f46d042ef5498540a104d0819c4b
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../telepathy/telepathy-glib/pkgconfig.patch       |   41 ++++++++++++++++++++
- .../telepathy/telepathy-glib_0.19.8.bb             |    5 ++-
- 2 files changed, 44 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/telepathy/telepathy-glib/pkgconfig.patch
+On Mon, Dec 10, 2012 at 11:08 AM, Mangaud Philippe-R49081 <
+R49081@freescale.com> wrote:
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib/pkgconfig.patch b/meta/recipes-connectivity/telepathy/telepathy-glib/pkgconfig.patch
-new file mode 100644
-index 0000000..8f0ac28
---- /dev/null
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib/pkgconfig.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 4acc51d5b848359211bb8a00f0daa8e0bc44eb65 Mon Sep 17 00:00:00 2001
-+From: Will Thompson <will.thompson@collabora.co.uk>
-+Date: Mon, 10 Dec 2012 14:11:05 +0000
-+Subject: Remove pkg-config dependency from .pc files
-+
-+This causes problems for Yocto, since they use pc files when choosing
-+package dependencies. It doesn't make a huge amount of sense for a
-+.pc file to depend on pkg-config: by the time you've parsed the file,
-+you've got pkg-config. And the versioned dependency is checked by
-+configure, as commit 1154794 (which added this) mentions, so if you've
-+compiled telepathy-glib, your pkg-config is new enough.
-+---
-+diff --git a/telepathy-glib/telepathy-glib-uninstalled.pc.in b/telepathy-glib/telepathy-glib-uninstalled.pc.in
-+index 932983c..3dbefb2 100644
-+--- a/telepathy-glib/telepathy-glib-uninstalled.pc.in
-++++ b/telepathy-glib/telepathy-glib-uninstalled.pc.in
-+@@ -6,7 +6,6 @@ abs_top_builddir=@abs_top_builddir@
-+ Name: Telepathy-GLib (uninstalled copy)
-+ Description: GLib utility library for the Telepathy framework
-+ Version: @VERSION@
-+-Requires: pkg-config >= 0.21
-+ Requires.private: dbus-1 >= 0.95, dbus-glib-1 >= 0.90, glib-2.0 >= 2.30, gobject-2.0 >= 2.30, gio-2.0 >= 2.30
-+ Libs: ${abs_top_builddir}/telepathy-glib/libtelepathy-glib.la
-+ Cflags: -I${abs_top_srcdir} -I${abs_top_builddir}
-+diff --git a/telepathy-glib/telepathy-glib.pc.in b/telepathy-glib/telepathy-glib.pc.in
-+index 1c5f4b6..75ac275 100644
-+--- a/telepathy-glib/telepathy-glib.pc.in
-++++ b/telepathy-glib/telepathy-glib.pc.in
-+@@ -6,7 +6,6 @@ includedir=@includedir@
-+ Name: Telepathy-GLib
-+ Description: GLib utility library for the Telepathy framework
-+ Version: @VERSION@
-+-Requires: pkg-config >= 0.21
-+ Requires.private: dbus-1 >= 0.95, dbus-glib-1 >= 0.90, glib-2.0 >= 2.30, gobject-2.0 >= 2.30, gio-2.0 >= 2.30
-+ Libs: -L${libdir} -ltelepathy-glib
-+ Cflags: -I${includedir}/telepathy-1.0
-+--
-+cgit v0.9.0.2-2-gbebe
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-index 6bf27b2..370a822 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-@@ -3,9 +3,10 @@ DESCRIPTION = "Telepathy Framework: GLib-based helper library for connection man
- HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
- DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib"
- LICENSE = "LGPLv2.1+"
--PR = "r1"
-+PR = "r2"
- 
--SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
-+SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz \
-+           file://pkgconfig.patch"
- 
- SRC_URI[md5sum] = "ffd0953953981473fcd9c373ccb9e882"
- SRC_URI[sha256sum] = "581682a937ee33bd4ce01e17d09b338155a79dff44925b988b0701fdbee50b20"
+>  Hello,
+>
+
+Hello Philippe,
+
+Thanks by finding this out.
+
+
+> **
+>
+> Actually building fsl-image-gui for SabreSD using master branch, had to
+> modify recipe to add perlnative and libxml-simple-perl-native to compile
+> this package as explained in
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=5b1d45c9fb2394418bb0a8c915c34a8c2fdb0d49
+> ****
+>
+> ** **
+>
+> Might be brave enough to commit my first patch if you think it is relevant
+> for this rev 4 :****
+>
+> ** **
+>
+> *--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc?id=c8e2f1447dd93792626cabf5e238b00cce8c6e70>
+> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc?id=5b1d45c9fb2394418bb0a8c915c34a8c2fdb0d49>
+> *
+>
+> -inherit autotools pkgconfig allarch gtk-icon-cache****
+>
+> +inherit autotools pkgconfig allarch gtk-icon-cache perlnative****
+>
+> ****
+>
+> *--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb?id=c8e2f1447dd93792626cabf5e238b00cce8c6e70>
+> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb?id=5b1d45c9fb2394418bb0a8c915c34a8c2fdb0d49>
+> *
+>
+> require sato-icon-theme.inc****
+>
+> -DEPENDS += "icon-naming-utils-native"****
+>
+> +DEPENDS += "icon-naming-utils-native libxml-simple-perl-native"
+>
+
+I am adding OpenEmbedded-Core and Ross Burton (responsable by danny
+maintainence) in CC.
+
+Ross, the above commit (which is included in master) should be backported
+to danny if you have no objection.
+
+Please, take a look.
+
+Regards,
+
+
 -- 
-1.7.10
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--f46d042ef5498540a104d0819c4b
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, D=
+ec 10, 2012 at 11:08 AM, Mangaud Philippe-R49081 <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:R49081@freescale.com" target=3D"_blank">R49081@freescale.com<=
+/a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
 
 
 
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div>
+<p class=3D"MsoNormal">Hello,</p></div></div></blockquote><div><br></div><d=
+iv>Hello Philippe,</div><div><br></div><div>Thanks by finding this out.</di=
+v><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple"><p class=3D"MsoNormal"><=
+u></u></p>
+<p class=3D"MsoNormal">Actually building fsl-image-gui for SabreSD using ma=
+ster branch, had to modify recipe to add perlnative and libxml-simple-perl-=
+native to compile this package as explained in
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D5b1d45c9f=
+b2394418bb0a8c915c34a8c2fdb0d49" target=3D"_blank">
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D5b1d45c9fb2394418bb0=
+a8c915c34a8c2fdb0d49</a><u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
+<p class=3D"MsoNormal">Might be brave enough to commit my first patch if yo=
+u think it is relevant for this rev 4 :<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
+;Courier New&quot;;color:white">--- a/<a href=3D"http://git.yoctoproject.or=
+g/cgit.cgi/poky/tree/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc?=
+id=3Dc8e2f1447dd93792626cabf5e238b00cce8c6e70" target=3D"_blank">meta/recip=
+es-sato/sato-icon-theme/sato-icon-theme.inc</a><br>
+
++++ b/<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipe=
+s-sato/sato-icon-theme/sato-icon-theme.inc?id=3D5b1d45c9fb2394418bb0a8c915c=
+34a8c2fdb0d49" target=3D"_blank">meta/recipes-sato/sato-icon-theme/sato-ico=
+n-theme.inc</a><u></u><u></u></span></b></p>
+
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
+urier New&quot;;color:red">-inherit autotools pkgconfig allarch gtk-icon-ca=
+che<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
+urier New&quot;;color:green">+inherit autotools pkgconfig allarch gtk-icon-=
+cache perlnative<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
+urier New&quot;;color:white"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
+;Courier New&quot;;color:white">--- a/<a href=3D"http://git.yoctoproject.or=
+g/cgit.cgi/poky/tree/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.=
+1.bb?id=3Dc8e2f1447dd93792626cabf5e238b00cce8c6e70" target=3D"_blank">meta/=
+recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb</a><br>
+
++++ b/<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/recipe=
+s-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb?id=3D5b1d45c9fb2394418bb0a8=
+c915c34a8c2fdb0d49" target=3D"_blank">meta/recipes-sato/sato-icon-theme/sat=
+o-icon-theme_0.4.1.bb</a><u></u><u></u></span></b></p>
+
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
+urier New&quot;;color:white">require sato-icon-theme.inc<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
+urier New&quot;;color:red">-DEPENDS +=3D &quot;icon-naming-utils-native&quo=
+t;<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Co=
+urier New&quot;;color:green">+DEPENDS +=3D &quot;icon-naming-utils-native l=
+ibxml-simple-perl-native&quot;</span></p></div></blockquote><div><br></div>=
+<div>
+I am adding OpenEmbedded-Core and Ross Burton (responsable by danny maintai=
+nence) in CC.</div><div><br></div><div>Ross, the above commit (which is inc=
+luded in master) should be backported to danny if you have no objection.</d=
+iv>
+<div><br></div><div>Please, take a look.</div><div><br></div><div>Regards,<=
+/div><div><br></div><div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a h=
+ref=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.c=
+om.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=3D"_blank">http=
+://www.ossystems.com.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
+</div>
+
+--f46d042ef5498540a104d0819c4b--
