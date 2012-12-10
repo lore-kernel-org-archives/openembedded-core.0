@@ -1,25 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TiCOZ-0002V3-TB
+	(envelope-from <martin.jansa@gmail.com>) id 1TiCbz-0007R9-La
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 00:04:21 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Dec 2012 14:49:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,254,1355126400"; d="scan'208";a="262101709"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.85])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Dec 2012 14:49:31 -0800
-Message-ID: <50C666FB.90001@linux.intel.com>
-Date: Mon, 10 Dec 2012 14:49:31 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 11 Dec 2012 00:18:11 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so1296982eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Dec 2012 15:03:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=GLAoobatBy4lHEnAN8ePXyccOhvRgtCP/MI0NneJr7g=;
+	b=R6e1JKYILJv9kAUrgY3hqtSeC1ZKSHjmpFwjSrwJ4jSuGmQMF24Du5ynL5Yc/VK6Rp
+	d9clHI8KAGPx730SQgW2hCiO1LoZJaXJtGG+mk0z/vIzNddvmxUrHsWdWm5N6qSKJIv0
+	3YWE78ZmkarnqaomAAVVjdJIyKb/VVFv1bnRKOoaIfhEIrlw7qxTLP0hcO3TF/gJtkr3
+	G1xX0eXnCm2i6RxoqcEk0v/e07dsoPjD/JtfboFuvfd/BDgJihRatqGeJWbSjDXRGpb3
+	Br4idxtKd+GgqOx/WTy5VR0bbZdbde3gkYkQY08pK8QDEhhrZC98mK52MVOWfoFnjG0z
+	aeyg==
+Received: by 10.14.223.135 with SMTP id v7mr54303709eep.41.1355180620387;
+	Mon, 10 Dec 2012 15:03:40 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id 46sm46201220eeg.4.2012.12.10.15.03.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 10 Dec 2012 15:03:39 -0800 (PST)
+Date: Tue, 11 Dec 2012 00:03:53 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20121210230353.GA11623@jama.jama.net>
+References: <alpine.DEB.2.02.1212061253340.15222@oneiric>
+	<50C0E055.4070105@windriver.com>
+	<alpine.DEB.2.02.1212061316510.16942@oneiric>
 MIME-Version: 1.0
-To: Andrei Gherzan <andrei.gherzan@windriver.com>
-References: <1354793849-9595-1-git-send-email-andrei.gherzan@windriver.com>
-In-Reply-To: <1354793849-9595-1-git-send-email-andrei.gherzan@windriver.com>
+In-Reply-To: <alpine.DEB.2.02.1212061316510.16942@oneiric>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: Rebase remove-lscpu.patch for the current version
+Subject: Re: slightly confused about .bbappend file and FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,91 +46,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 23:04:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Dec 2012 23:18:11 -0000
+X-Groupsio-MsgNum: 32476
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
+Content-Disposition: inline
 
+--qMm9M+Fa2AknHoGS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Andrei,
+On Thu, Dec 06, 2012 at 01:19:57PM -0500, Robert P. J. Day wrote:
+> On Thu, 6 Dec 2012, Mark Hatle wrote:
+>=20
+> > On 12/6/12 12:03 PM, Robert P. J. Day wrote:
+> > >
+> > >    currently writing a tutorial page on how .bbappend files and
+> > > FILESPATH work, and i wanted to use a live example, but now i'm
+> > > confused.
+> >
+> > The way it works is the same way as PATH in the shell.  It's just a set=
+ of
+> > search paths.
+> >
+> > >    using meta-ti layer, i chose to build core-image-minimal for a
+> > > beagleboard, for which the meta-ti layer has the following under
+> > > recipes-core/netbase/ that i want to use as an example:
+> > >
+> > > $ find
+> > > .
+> > > ./netbase_5.0.bbappend
+> > > ./netbase-5.0
+> > > ./netbase-5.0/beagleboard
+> > > ./netbase-5.0/beagleboard/interfaces
+> > > $
+> > >
+> > > where the .bbappend file contains only:
+> > >
+> > > THISDIR :=3D "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
+> >
+> > I believe this is the default value of 'THISDIR' already, so there is no
+> > reason to specify it in the .bbappend itself.
+> >
+> > > FILESPATH =3D. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
+> >
+> > In this example, it's incorrect.  As you have a directory named
+> > "netbase-5.0", so your FILESPATH should be: ${THISDIR}/${PN}-${PV}
+>=20
+>   ok, so that's just a bug in the setting of FILESPATH in that one
+> example?  whew.  i was seriously wondering how badly i misunderstood
+> how this feature worked.
+>=20
+>   as soon as my beagle core-image-minimal finishes building, i should
+> be able to trivially check that the interfaces file used to populate
+> the rootfs image is the one from oe-core and not the one that should
+> have come from meta-ti.
 
-I think our patches crossed on the list, already applied a similar patch.
+See FILESEXTRAPATHS in other bbappends and
 
-Sau!
+meta/classes/base.bbclass:FILESPATH =3D "${@base_set_filespath(["${FILE_DIR=
+NAME}/${BP}","${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
 
-On 12/06/2012 03:37 AM, Andrei Gherzan wrote:
-> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> ---
->   .../util-linux/util-linux/remove-lscpu.patch       |   30 +++++++++----------
->   meta/recipes-core/util-linux/util-linux_2.22.1.bb  |    2 +-
->   2 files changed, 15 insertions(+), 17 deletions(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch b/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-> index a15c1e3..4d0b311 100644
-> --- a/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-> +++ b/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-> @@ -3,12 +3,13 @@ Upstream-Status: Inappropriate [distribution]
->   Take out lscpu stuff from the code
->
->   Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> +Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
->
-> -Index: util-linux-2.21/configure.ac
-> +Index: util-linux-2.22.1/configure.ac
->   ===================================================================
-> ---- util-linux-2.21.orig/configure.ac
-> -+++ util-linux-2.21/configure.ac
-> -@@ -871,7 +871,7 @@ UL_REQUIRES_BUILD([lsblk], [libblkid])
-> +--- util-linux-2.22.1.orig/configure.ac	2012-12-06 13:22:58.209874400 +0200
-> ++++ util-linux-2.22.1/configure.ac	2012-12-06 13:23:18.721873663 +0200
-> +@@ -934,7 +934,7 @@
->    AM_CONDITIONAL(BUILD_LSBLK, test "x$build_lsblk" = xyes)
->
->
-> @@ -17,24 +18,21 @@ Index: util-linux-2.21/configure.ac
->    UL_REQUIRES_LINUX([lscpu])
->    UL_REQUIRES_HAVE([lscpu], [cpu_set_t], [cpu_set_t type])
->    AM_CONDITIONAL(BUILD_LSCPU, test "x$build_lscpu" = xyes)
-> -Index: util-linux-2.21/sys-utils/Makefile.am
-> +Index: util-linux-2.22.1/sys-utils/Makemodule.am
->   ===================================================================
-> ---- util-linux-2.21.orig/sys-utils/Makefile.am
-> -+++ util-linux-2.21/sys-utils/Makefile.am
-> -@@ -108,16 +108,6 @@ swapon_CFLAGS = $(AM_CFLAGS) -I$(ul_libb
-> - swapon_LDADD = $(ul_libblkid_la)
-> +--- util-linux-2.22.1.orig/sys-utils/Makemodule.am	2012-12-06 13:23:07.585874063 +0200
-> ++++ util-linux-2.22.1/sys-utils/Makemodule.am	2012-12-06 13:23:34.217873111 +0200
-> +@@ -224,13 +224,6 @@
-> + swapoff_LDADD = $(LDADD) libmount.la
->    endif
->
->   -if BUILD_LSCPU
->   -usrbin_exec_PROGRAMS += lscpu
-> --lscpu_SOURCES = lscpu.c $(top_srcdir)/lib/cpuset.c \
-> --			$(top_srcdir)/lib/strutils.c \
-> --			$(top_srcdir)/lib/mbsalign.c \
-> --			$(top_srcdir)/lib/tt.c \
-> --			$(top_srcdir)/lib/path.c
-> --dist_man_MANS += lscpu.1
-> +-lscpu_SOURCES = sys-utils/lscpu.c
-> +-lscpu_LDADD = $(LDADD) libcommon.la
-> +-dist_man_MANS += sys-utils/lscpu.1
->   -endif
->   -
->    if BUILD_CHCPU
->    sbin_PROGRAMS += chcpu
-> - chcpu_SOURCES = chcpu.c $(top_srcdir)/lib/cpuset.c \
-> + chcpu_SOURCES = sys-utils/chcpu.c
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.22.1.bb b/meta/recipes-core/util-linux/util-linux_2.22.1.bb
-> index 0177bba..f5d777f 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.22.1.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.22.1.bb
-> @@ -1,5 +1,5 @@
->   MAJOR_VERSION = "2.22"
-> -PR = "r1"
-> +PR = "r2"
->   require util-linux.inc
->
->   # note that `lscpu' is under GPLv3+
->
++ definition of fce base_set_filespath:
+meta/classes/utils.bbclass:def base_set_filespath(path, d):
 
+Cheers,
 
+>=20
+>   thanks.
+>=20
+> rday
+>=20
+> --=20
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>=20
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--qMm9M+Fa2AknHoGS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDGalkACgkQN1Ujt2V2gBxU0gCdEEZ8KNraNzWGy9lH/47+3HSZ
+nzUAnAjza7dd9tsmZO23h2LoXPhmwCUl
+=umva
+-----END PGP SIGNATURE-----
+
+--qMm9M+Fa2AknHoGS--
