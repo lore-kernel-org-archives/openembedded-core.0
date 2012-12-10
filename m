@@ -1,27 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Ti00v-0001nS-B9
+	(envelope-from <rpjday@crashcourse.ca>) id 1Ti18u-0003WU-6d
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 10:51:05 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBA9aZSe024696
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Dec 2012 01:36:35 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Mon, 10 Dec 2012 01:36:33 -0800
-From: Kang Kai <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Mon, 10 Dec 2012 17:37:15 +0800
-Message-ID: <50cb04b8d9570e48685dd1f1f09bd8b638cab8fa.1355131760.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1355131760.git.kai.kang@windriver.com>
-References: <cover.1355131760.git.kai.kang@windriver.com>
+	Mon, 10 Dec 2012 12:03:24 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:52570 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Ti0us-0003zc-KI; Mon, 10 Dec 2012 05:48:54 -0500
+Date: Mon, 10 Dec 2012 05:48:53 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Tom Zanussi <tom.zanussi@intel.com>
+In-Reply-To: <1355116759.26722.4.camel@empanada>
+Message-ID: <alpine.DEB.2.02.1212100548251.5958@oneiric>
+References: <alpine.DEB.2.02.1212090822170.4715@oneiric>
+	<1355116759.26722.4.camel@empanada>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] libuser: enable python support
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: what means "LICENSE_FLAGS = "license_${PN}_${PV}" ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 09:51:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Dec 2012 11:03:24 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Compile libuser with python support and add python to DEPENDS.
+On Sun, 9 Dec 2012, Tom Zanussi wrote:
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-extended/libuser/libuser_0.57.1.bb |   14 ++++++++++----
- 1 files changed, 10 insertions(+), 4 deletions(-)
+> On Sun, 2012-12-09 at 08:23 -0500, Robert P. J. Day wrote:
+> > scanning a number of OE layers for examples of things to demo in
+> > class, and i ran across this in the meta-intel layer:
+> >
+> > LICENSE_FLAGS = "license_${PN}_${PV}"
+> >
+> >   not sure what that means, and still not conversant enough in python
+> > to read the source.
+> >
+>
+> Hi,
+>
+> See section '3.4.2. Enabling Commercially Licensed Recipes' in the Yocto
+> reference manual for details on that variable:
+>
+> http://www.yoctoproject.org/docs/1.4/poky-ref-manual/poky-ref-manual.html#enabling-commercially-licensed-recipes
 
-diff --git a/meta/recipes-extended/libuser/libuser_0.57.1.bb b/meta/recipes-extended/libuser/libuser_0.57.1.bb
-index 99b661b..105bacf 100644
---- a/meta/recipes-extended/libuser/libuser_0.57.1.bb
-+++ b/meta/recipes-extended/libuser/libuser_0.57.1.bb
-@@ -15,10 +15,16 @@ SRC_URI = "https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz"
- 
- SRC_URI[md5sum] = "be82c6941264d0b4bd04f95fb342ec7d"
- SRC_URI[sha256sum] = "a61289867581fa715354a3fafe09c3e481173ce0a2dcb33b04588b6ac13cead5"
--PR = "r2"
-+PR = "r3"
- 
--DEPENDS = "popt libpam glib-2.0 xz-native docbook-utils-native linuxdoc-tools-native"
-+DEPENDS = "popt libpam glib-2.0 xz-native docbook-utils-native linuxdoc-tools-native python"
- 
--EXTRA_OECONF += "--without-python"
-+inherit autotools gettext pythonnative python-dir
-+
-+EXTRA_OEMAKE = "PYTHON_CPPFLAGS=-I${STAGING_INCDIR}/${PYTHON_DIR}"
-+
-+PACKAGES += "${PN}-python "
-+
-+FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug"
-+FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}"
- 
--inherit autotools gettext
+  ah, thanks, i really do need to finish reading *all* the docs one of
+these days.
+
+rday
+
 -- 
-1.7.5.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
