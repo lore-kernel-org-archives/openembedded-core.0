@@ -1,37 +1,41 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Ti6J8-00023J-5y
+	(envelope-from <ross.burton@intel.com>) id 1Ti6T6-00042y-A6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 17:34:18 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so1873670pad.6
+	Mon, 10 Dec 2012 17:44:38 +0100
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 10 Dec 2012 08:30:01 -0800
+Received: by mail-oa0-f69.google.com with SMTP id j6so14438890oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2012 08:19:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=caaq+vOO7kRfXN46tiblzTYCNUVd/MsyPmPTBSBOwEk=;
-	b=zVGuDo837InkTq8V/2CK27WUF3ANCj56/zHq4UaGaxqbLYwALIRgu2x6dWSl+gCqJu
-	lVJHIDEGuTiCdT2m6Z7YKgICms6NIQgujfag8Twe0Hz0VRq7FXy+FPoLaYh0gUziRj6o
-	8ZNAopLH6u2IFl2dFnwEXTFFRDIEJZ9mWhKOEMGMekZvPW+GHpyBDwtVXk50RX11P9NZ
-	gccYWTZxqlY1/qENsW5OcfiXxkKWB0cIIWSPsm5Q+pvq2ZVRo+1G59+/wsOHcCVIRbUV
-	WUHrvOzeNr4X+aE8YrJwvIyxorCaWwMfgmLxe1gyfRyMxK65VnrP3NTnRVNWLnvUD5+c
-	v0AQ==
+	Mon, 10 Dec 2012 08:30:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=z49slbqkC+haO13CquEaQK7VNMnBlANeQNTSWt7PC6U=;
+	b=neTgykH3DdZ5U/vmbX0T9TI9feUrZozRqR6dy71t2o0YAgHh0b4+aW22ExSfUsagS8
+	E+1fgPHGFQREs+D0OMJIULDbhioaDzTB2pQUb0pBdEv2gLjQ1vY9ubhtH9plo1p3BnUV
+	jseSyT4TJQ12ZeKEF3LAGWx0IfRLpY0v6ku3axyCBXv3JJwoTh5fMtWvCT0eNFgeoaoZ
+	+4RtFidOp47Vh+tR5KB5idAWCPuM1eSU+72sW/XAehnJKtorC4OLbUYmMRjvK6JKG0kM
+	0zSk24xrWwGFLrL27UMndH8Pun1LByGW12MQI+9GGIBOd6uOrEGM0840zYYyqjiWkpb6
+	Jdnw==
+Received: by 10.182.48.69 with SMTP id j5mr7614832obn.17.1355157000520;
+	Mon, 10 Dec 2012 08:30:00 -0800 (PST)
+Received: by 10.182.48.69 with SMTP id j5mr7614828obn.17.1355157000440; Mon,
+	10 Dec 2012 08:30:00 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.204.103 with SMTP id kx7mr40798846pbc.33.1355156386543;
-	Mon, 10 Dec 2012 08:19:46 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.125.227 with HTTP; Mon, 10 Dec 2012 08:19:46 -0800 (PST)
-In-Reply-To: <d5c9acb38b6e2d962818f15119bb6748d1320dff.1355154246.git.laurentiu.palcu@intel.com>
-References: <cover.1355154246.git.laurentiu.palcu@intel.com>
-	<d5c9acb38b6e2d962818f15119bb6748d1320dff.1355154246.git.laurentiu.palcu@intel.com>
-Date: Mon, 10 Dec 2012 14:19:46 -0200
-X-Google-Sender-Auth: V3pyFjtfkybvegz0RqG_vyFx2A8
-Message-ID: <CAP9ODKpggcjrxP+soQ-69cTWat8pg5sMq8XCKOsfNwCyqWpyRQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] populate_sdk_(deb|ipk|rpm): export NATIVE_ROOT and INTERCEPT_DIR variables
+Received: by 10.76.132.198 with HTTP; Mon, 10 Dec 2012 08:29:40 -0800 (PST)
+In-Reply-To: <20121210142435.29c6a1db@eb-e6520>
+References: <1351065917-14779-1-git-send-email-schnitzeltony@googlemail.com>
+	<1351065917-14779-4-git-send-email-schnitzeltony@googlemail.com>
+	<20121210142435.29c6a1db@eb-e6520>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Dec 2012 16:29:40 +0000
+Message-ID: <CAJTo0LZKTGxpDLyG2yRESATjhwCkHMMa4TFSFPC_VVaPy2pePg@mail.gmail.com>
+To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+X-Gm-Message-State: ALoCoQmbFPZTokNnsQFKUVedTVn+q6ICkVjyfghjE5kz4+Yb4vzFl3jvIWg8UPHjrDXA0+grPLtAYoC3+WHp/8/m8FGdz6mpf6dN2nbgbKoKXuSot+CtYfB37E4TKaDb3DORV75xvAPCe72aqU32XILiMqe+JXRHqtAjXljPGwos11fekDWzbzv1lHsWYzsX6IVdG14vkxoy
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [V3 3/4] sato-icon-theme: fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,66 +48,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 16:34:19 -0000
-Content-Type: multipart/alternative; boundary=047d7b10d18508fa2404d081efe5
-
---047d7b10d18508fa2404d081efe5
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Mon, Dec 10, 2012 at 2:09 PM, Laurentiu Palcu
-<laurentiu.palcu@intel.com>wrote:
-
-> In order for the postinstall scripts to have access to the recent
-> improvements when generating the target SDK sysroot, export these
-> variables in populate_sdk.
->
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ...
-
-+       export NATIVE_ROOT=${STAGING_DIR_NATIVE}
-> ...
->
-
-Why you don't use STAGING_DIR_NATIVE directly? This seems to have no good
-reason for a variable with same content of a well known variable.
-
-Regards,
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---047d7b10d18508fa2404d081efe5
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Mon, 10 Dec 2012 16:44:38 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, D=
-ec 10, 2012 at 2:09 PM, Laurentiu Palcu <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:laurentiu.palcu@intel.com" target=3D"_blank">laurentiu.palcu@intel.com=
-</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">In order for the postinstall scripts to have=
- access to the recent<br>
-improvements when generating the target SDK sysroot, export these<br>
-variables in populate_sdk.<br>
-<br>
-Signed-off-by: Laurentiu Palcu &lt;<a href=3D"mailto:laurentiu.palcu@intel.=
-com">laurentiu.palcu@intel.com</a>&gt;<br>...=A0</blockquote><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">
-+ =A0 =A0 =A0 export NATIVE_ROOT=3D${STAGING_DIR_NATIVE}<br>...<br></blockq=
-uote><div><br></div><div>Why you don&#39;t use STAGING_DIR_NATIVE directly?=
- This seems to have no good reason for a variable with same content of a we=
-ll known variable.</div>
-<div><br></div><div>Regards,</div></div><div><br></div>-- <br>Otavio Salvad=
-or=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<b=
-r>E-mail: <a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otav=
-io@ossystems.com.br</a>=A0 <a href=3D"http://www.ossystems.com.br" target=
-=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
-</div>
+On 10 December 2012 13:24, Eric B=C3=A9nard <eric@eukrea.com> wrote:
+> is it possible to get this patch into danny ?
+> commit ID : 61233b05ad299a34b5d3c06fe3c0162cba8fb273
 
---047d7b10d18508fa2404d081efe5--
+Two requests on the same day, sure.  Merged to danny-next.
+
+There'll be a danny-next run tonight, if it's green then I'll submit a
+merge to danny tomorrow.
+
+Ross
+
+
