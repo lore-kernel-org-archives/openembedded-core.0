@@ -1,34 +1,36 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Ti18u-0003WU-6d
-	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 12:03:24 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:52570 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Ti0us-0003zc-KI; Mon, 10 Dec 2012 05:48:54 -0500
-Date: Mon, 10 Dec 2012 05:48:53 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Tom Zanussi <tom.zanussi@intel.com>
-In-Reply-To: <1355116759.26722.4.camel@empanada>
-Message-ID: <alpine.DEB.2.02.1212100548251.5958@oneiric>
-References: <alpine.DEB.2.02.1212090822170.4715@oneiric>
-	<1355116759.26722.4.camel@empanada>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>)
+	id 1Ti1JS-0003qu-PN; Mon, 10 Dec 2012 12:14:18 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qBAAxiKf016244
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 10 Dec 2012 11:59:45 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Ti15L-0006I0-UI; Mon, 10 Dec 2012 11:59:44 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <lyfw3ii2ef.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1354882981.12928.24.camel@ted>
+Date: Mon, 10 Dec 2012 11:59:43 +0100
+In-Reply-To: <1354882981.12928.24.camel@ted> (Richard Purdie's message of
+	"Fri, 07 Dec 2012 12:23:01 +0000")
+Message-ID: <ly8v96mau8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what means "LICENSE_FLAGS = "license_${PN}_${PV}" ?
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [bitbake-devel] Complete rebuilds due to random hashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,41 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 11:03:24 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 10 Dec 2012 11:14:18 -0000
+Content-Type: text/plain
 
-On Sun, 9 Dec 2012, Tom Zanussi wrote:
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-> On Sun, 2012-12-09 at 08:23 -0500, Robert P. J. Day wrote:
-> > scanning a number of OE layers for examples of things to demo in
-> > class, and i ran across this in the meta-intel layer:
-> >
-> > LICENSE_FLAGS = "license_${PN}_${PV}"
-> >
-> >   not sure what that means, and still not conversant enough in python
-> > to read the source.
-> >
->
-> Hi,
->
-> See section '3.4.2. Enabling Commercially Licensed Recipes' in the Yocto
-> reference manual for details on that variable:
->
-> http://www.yoctoproject.org/docs/1.4/poky-ref-manual/poky-ref-manual.html#enabling-commercially-licensed-recipes
+>> I have encountered the problem the whole distribution gets rebuilt when
+>> I change a single, completely unrelated variable (e.g. BB_DISKMON_DIRS).
+>> 
+>> Dumping data in _build_data() (siggen.py) revealed that sometimes a
+>> gitpkgv_do_configure() (or _do_compile/install...) function is in the
+>> deps, sometimes not.
+> ...
+> I would add some debug code into gitpkgv.bbclass around the functions
+> there, perhaps a try:/except: and see if there is some kind of uncaught
+> exception happening for one of your recipes. If that isn't it, I would
+> be intersted to understand what you have which is breaking out the
+> fetcher. It could be a SkipPackage exception under some circumstance for
+> example.
 
-  ah, thanks, i really do need to finish reading *all* the docs one of
-these days.
+Sorry, my fault.  I patched bitbake to ignore SkipPackage[1] and missed
+that the global 'classes' variable was not reset.
 
-rday
+fwiw, patch was required to allow 'gitpkgv' recipes to be skipped
+e.g. because no git branch exists for the corresponding setup. Expansion
+of PV will fail in this case with a fetcher error.
 
--- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+
+Enrico
+
+Footnotes: 
+[1]  https://github.com/ensc/bitbake/commit/fe0093b34dabe979c81a9b428de96ba73a4e3edb
+     (working variant)
 
 
