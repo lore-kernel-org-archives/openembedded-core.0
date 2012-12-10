@@ -1,36 +1,34 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ia0-f170.google.com ([209.85.210.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>)
-	id 1Ti1JS-0003qu-PN; Mon, 10 Dec 2012 12:14:18 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qBAAxiKf016244
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 10 Dec 2012 11:59:45 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Ti15L-0006I0-UI; Mon, 10 Dec 2012 11:59:44 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <lyfw3ii2ef.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1354882981.12928.24.camel@ted>
-Date: Mon, 10 Dec 2012 11:59:43 +0100
-In-Reply-To: <1354882981.12928.24.camel@ted> (Richard Purdie's message of
-	"Fri, 07 Dec 2012 12:23:01 +0000")
-Message-ID: <ly8v96mau8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	(envelope-from <cazfi74@gmail.com>) id 1Ti1OA-000465-O0
+	for openembedded-core@lists.openembedded.org;
+	Mon, 10 Dec 2012 12:19:31 +0100
+Received: by mail-ia0-f170.google.com with SMTP id i1so3917749iaa.29
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Dec 2012 03:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=OTkHCianNS3Uj/j/chxnDyBAG0gKSeC5md/LsKU9TG8=;
+	b=EjH+LD80vJaArmZbD/oOHkbhTfW9Jj+RmTAf05k9gUhEOLK5xK1H7wAD0exjN5LMwn
+	CdU+1l7GLn7+D9Dh+e84IgOUOa5QF8dmwUxUGeyuXlZKnPDg+C5zw4jdS8jj/yIPV9zL
+	KRVpRuC9m6pw1rV0lrJhZQWjTMxfSgZinfPVjPZefSwE7mrhCr1XMxqDKjKByz7AtEl7
+	GBlWAX75r+zgVsXwQCWA2N3wq9EpMqCP1uMF96WVGFXXcFXEhkm5ZfsKmSDEB1Dcy8rd
+	hOag0bzwYOH6ud5rsaD08ursKQKBF6Cag+rbR3dDJErnXlgR0dwu2x0nmJ4rGYpv/rKq
+	gCZA==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [bitbake-devel] Complete rebuilds due to random hashes
+Received: by 10.50.152.132 with SMTP id uy4mr6166824igb.3.1355137479620; Mon,
+	10 Dec 2012 03:04:39 -0800 (PST)
+Received: by 10.64.24.175 with HTTP; Mon, 10 Dec 2012 03:04:39 -0800 (PST)
+In-Reply-To: <50C2CB51.7030308@linux.intel.com>
+References: <1354920751-21102-1-git-send-email-cazfi74@gmail.com>
+	<50C2CB51.7030308@linux.intel.com>
+Date: Mon, 10 Dec 2012 13:04:39 +0200
+Message-ID: <CAF6bG8eQqHroZ0g-VwST02BcxoqdA8tXuJA=kozBgwPh1QKo7w@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: libpng update to 1.5.13 V2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,39 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 11:14:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Dec 2012 11:19:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+On 8 December 2012 07:08, Saul Wold <sgw@linux.intel.com> wrote:
+> On 12/07/2012 02:52 PM, Marko Lindqvist wrote:
+>>
+>>
+>> In openembedded-core itself, libmatchbox does not compile
+>> against libpng15. Patch for that sent already.
+>>
+>> In meta-openembedded, libsdl-image is known not to compile
+>> against libpng15. Patch for that too sent already.
+>>
+>> I have not been systematically testing build of all the
+>> possible components. Above two problems are just the ones
+>> I've encountered as part of my typical builds.
+>>
+> Did you at least try to build all the recipes that are in OE-Core that
+> depend on libpng, not just typical builds?  A quick grep in OE-Core shows
+> that the following depend on libpng:
+>
+> transfig-native
+> cups
+> gdk-pixbuf
+> gthumb
+> gtk+
+> cairo
+> directfb
+> libmatchbox
+> pixman
+> gst-plugins-good
+> qt4
+>
+> So I would strongly recommend building and doing somekind of basic
+> validation of these to ensure there are not any more API issues.
 
->> I have encountered the problem the whole distribution gets rebuilt when
->> I change a single, completely unrelated variable (e.g. BB_DISKMON_DIRS).
->> 
->> Dumping data in _build_data() (siggen.py) revealed that sometimes a
->> gitpkgv_do_configure() (or _do_compile/install...) function is in the
->> deps, sometimes not.
-> ...
-> I would add some debug code into gitpkgv.bbclass around the functions
-> there, perhaps a try:/except: and see if there is some kind of uncaught
-> exception happening for one of your recipes. If that isn't it, I would
-> be intersted to understand what you have which is breaking out the
-> fetcher. It could be a SkipPackage exception under some circumstance for
-> example.
-
-Sorry, my fault.  I patched bitbake to ignore SkipPackage[1] and missed
-that the global 'classes' variable was not reset.
-
-fwiw, patch was required to allow 'gitpkgv' recipes to be skipped
-e.g. because no git branch exists for the corresponding setup. Expansion
-of PV will fail in this case with a fetcher error.
+ All built succesfully. As for validation, build already proves that
+they are not trying to use removed data members directly (linking at
+least would have failed).
 
 
-
-
-Enrico
-
-Footnotes: 
-[1]  https://github.com/ensc/bitbake/commit/fe0093b34dabe979c81a9b428de96ba73a4e3edb
-     (working variant)
+ - ML
 
 
