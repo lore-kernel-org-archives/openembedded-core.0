@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Ti690-0001QH-R6
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Ti693-0001Qh-P9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 17:23:53 +0100
+	Mon, 10 Dec 2012 17:24:10 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Dec 2012 08:08:30 -0800
+	by orsmga102.jf.intel.com with ESMTP; 10 Dec 2012 08:08:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,252,1355126400"; d="scan'208";a="231728642"
+X-IronPort-AV: E=Sophos;i="4.84,252,1355126400"; d="scan'208";a="231728667"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 10 Dec 2012 08:09:18 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Dec 2012 08:09:20 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2012 18:09:05 +0200
-Message-Id: <cover.1355154246.git.laurentiu.palcu@intel.com>
+Date: Mon, 10 Dec 2012 18:09:07 +0200
+Message-Id: <5b86bb05d41072383cb1de31946e03f7e90edb31.1355154246.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/2] Postinstall fixes
+In-Reply-To: <cover.1355154246.git.laurentiu.palcu@intel.com>
+References: <cover.1355154246.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1355154246.git.laurentiu.palcu@intel.com>
+References: <cover.1355154246.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 2/2] gdk-pixbuf: handle postinstall errors differently
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,42 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 16:24:14 -0000
-X-List-Received-Date: Mon, 10 Dec 2012 16:24:14 -0000
+X-List-Received-Date: Mon, 10 Dec 2012 16:24:15 -0000
 
-Hi,
+Apparently gdk-pixbuf-query-loaders always returns 0 but writes any
+errors to stderr. So, the conditional exit at the end of the command was
+useless. Write the errors to a file and exit only if the file size is
+greater than 0.
 
-This patchset contains two fixes:
-* when generating the SDK target sysroot, postinstall scriptlets could
-  not benefit of the latest postinstall improvements because NATIVE_ROOT and
-  INTERCEPT_DIR were not exported in populate_sdk_(deb|ipk|rpm).bbclass.
-* gdk-pixbuf-query-loaders always returns 0 and the exit condition was not effective.
-  Without this change the SDK builds failed because sed -i created some temporary
-  files that could not be tarred and tar_sdk function failed;
-
-Thanks,
-Laurentiu
-
-The following changes since commit c607095894cab60493ddfc4b967b0325e1c313b4:
-
-  bitbake: Revert "BBHandler: Ensure parser state engine is correctly reset for new parsing" (2012-12-07 18:09:01 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/postinst
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/postinst
-
-Laurentiu Palcu (2):
-  populate_sdk_(deb|ipk|rpm): export NATIVE_ROOT and INTERCEPT_DIR
-    variables
-  gdk-pixbuf: handle postinstall errors differently
-
- meta/classes/populate_sdk_deb.bbclass              |    2 ++
- meta/classes/populate_sdk_ipk.bbclass              |    2 ++
- meta/classes/populate_sdk_rpm.bbclass              |    2 ++
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |   20 +++++++++++++++++---
- 4 files changed, 23 insertions(+), 3 deletions(-)
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
+index 2377d0e..33a43be 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
+@@ -63,12 +63,26 @@ if [ "x$D" != "x" ]; then
+ # we trick the gdk-pixbuf-query-loaders into scanning the native shared
+ # objects and then we remove the NATIVE_ROOT prefix from the paths in
+ # loaders.cache.
+-gdk-pixbuf-query-loaders $(find $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders \
+-        -name *.so | sed -e "s:$D:$NATIVE_ROOT:g") > \
+-        $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.cache || exit 1
++gdk-pixbuf-query-loaders $(ls -d -1 $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders/*.so |\
++        sed -e "s:$D:$NATIVE_ROOT:g") > \
++        $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.cache \
++        2>$D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.err
++
++# gdk-pixbuf-query-loaders always returns 0, so we need to check if loaders.err
++# has anything in it
++if [ -s $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.err ]; then
++	echo "${PN} postinstall scriptlet failed:"
++	cat $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.err
++	rm $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.err
++	# we've got errors, postpone postinstall for first boot
++	exit 1
++fi
+ 
+ sed -i -e "s:$NATIVE_ROOT:/:g" $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.cache
+ 
++# remove the empty loaders.err
++rm $D/${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders.err
++
+ exit 0
+ fi
+ 
 -- 
 1.7.9.5
 
