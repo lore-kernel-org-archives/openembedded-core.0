@@ -1,34 +1,31 @@
-Received: from mail-ia0-f170.google.com ([209.85.210.170])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Ti1OA-000465-O0
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Ti255-0007mm-8f
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 12:19:31 +0100
-Received: by mail-ia0-f170.google.com with SMTP id i1so3917749iaa.29
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2012 03:04:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=OTkHCianNS3Uj/j/chxnDyBAG0gKSeC5md/LsKU9TG8=;
-	b=EjH+LD80vJaArmZbD/oOHkbhTfW9Jj+RmTAf05k9gUhEOLK5xK1H7wAD0exjN5LMwn
-	CdU+1l7GLn7+D9Dh+e84IgOUOa5QF8dmwUxUGeyuXlZKnPDg+C5zw4jdS8jj/yIPV9zL
-	KRVpRuC9m6pw1rV0lrJhZQWjTMxfSgZinfPVjPZefSwE7mrhCr1XMxqDKjKByz7AtEl7
-	GBlWAX75r+zgVsXwQCWA2N3wq9EpMqCP1uMF96WVGFXXcFXEhkm5ZfsKmSDEB1Dcy8rd
-	hOag0bzwYOH6ud5rsaD08ursKQKBF6Cag+rbR3dDJErnXlgR0dwu2x0nmJ4rGYpv/rKq
-	gCZA==
+	Mon, 10 Dec 2012 13:03:31 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id qBABmvEN022297
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 10 Dec 2012 12:48:59 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Ti1qz-0006sH-P3; Mon, 10 Dec 2012 12:48:57 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Dec 2012 12:48:57 +0100
+Message-ID: <lywqwqktzq.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.50.152.132 with SMTP id uy4mr6166824igb.3.1355137479620; Mon,
-	10 Dec 2012 03:04:39 -0800 (PST)
-Received: by 10.64.24.175 with HTTP; Mon, 10 Dec 2012 03:04:39 -0800 (PST)
-In-Reply-To: <50C2CB51.7030308@linux.intel.com>
-References: <1354920751-21102-1-git-send-email-cazfi74@gmail.com>
-	<50C2CB51.7030308@linux.intel.com>
-Date: Mon, 10 Dec 2012 13:04:39 +0200
-Message-ID: <CAF6bG8eQqHroZ0g-VwST02BcxoqdA8tXuJA=kozBgwPh1QKo7w@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: libpng update to 1.5.13 V2
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: binutils: regression on kernel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,47 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 11:19:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 10 Dec 2012 12:03:35 -0000
+Content-Type: text/plain
 
-On 8 December 2012 07:08, Saul Wold <sgw@linux.intel.com> wrote:
-> On 12/07/2012 02:52 PM, Marko Lindqvist wrote:
->>
->>
->> In openembedded-core itself, libmatchbox does not compile
->> against libpng15. Patch for that sent already.
->>
->> In meta-openembedded, libsdl-image is known not to compile
->> against libpng15. Patch for that too sent already.
->>
->> I have not been systematically testing build of all the
->> possible components. Above two problems are just the ones
->> I've encountered as part of my typical builds.
->>
-> Did you at least try to build all the recipes that are in OE-Core that
-> depend on libpng, not just typical builds?  A quick grep in OE-Core shows
-> that the following depend on libpng:
->
-> transfig-native
-> cups
-> gdk-pixbuf
-> gthumb
-> gtk+
-> cairo
-> directfb
-> libmatchbox
-> pixman
-> gst-plugins-good
-> qt4
->
-> So I would strongly recommend building and doing somekind of basic
-> validation of these to ensure there are not any more API issues.
+Hi,
 
- All built succesfully. As for validation, build already proves that
-they are not trying to use removed data members directly (linking at
-least would have failed).
+with recent binutils, kernel build fails with
+
+| arm-linux-gnueabi-ld: error: arch/arm/boot/compressed/piggy.gzip.o: unknown CPU architecture
+
+I am able to reproduce it with
+
+$ > /tmp/x.s
+$ arm-linux-gnueabi-as  -march=armv7-a -march=all -o x0.o /tmp/x.s
+$ arm-linux-gnueabi-as  -march=armv7-a  -o x1.o /tmp/x.s
+$ arm-linux-gnueabi-ld.gold x0.o x1.o
+arm-linux-gnueabi-ld: error: x1.o: unknown CPU architecture
+$ arm-linux-gnueabi-ld.bfd x0.o x1.o
+arm-linux-gnueabi-ld.bfd: warning: cannot find entry symbol _start; defaulting to 0000000000008034
 
 
- - ML
+(kernel sets '-Wa,-march=all' when building piggy.gzip.o)
+
+
+This works fine with binutils 2.22 and when using the BFD linker.
+
+
+
+Enrico
 
 
