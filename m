@@ -1,40 +1,37 @@
-Received: from 6.mo5.mail-out.ovh.net ([178.32.119.138]
-	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1Ti4nE-0007DW-Ck
+Received: from mail-wi0-f179.google.com ([209.85.212.179])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <fahad.usman@gmail.com>) id 1Ti4wA-0007jk-5K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 10 Dec 2012 15:57:23 +0100
-Received: from mail188.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo5.mail-out.ovh.net (Postfix) with SMTP id 97A48104C0AE
+	Mon, 10 Dec 2012 16:06:30 +0100
+Received: by mail-wi0-f179.google.com with SMTP id o1so1194749wic.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Dec 2012 14:33:07 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 10 Dec 2012 15:24:37 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO eb-e6520)
-	(eric%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 10 Dec 2012 15:24:35 +0200
-Date: Mon, 10 Dec 2012 14:24:35 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Burton, Ross" <ross.burton@intel.com>
-X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
-Message-ID: <20121210142435.29c6a1db@eb-e6520>
-In-Reply-To: <1351065917-14779-4-git-send-email-schnitzeltony@googlemail.com>
-References: <1351065917-14779-1-git-send-email-schnitzeltony@googlemail.com>
-	<1351065917-14779-4-git-send-email-schnitzeltony@googlemail.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-X-Ovh-Tracer-Id: 16326393075100724674
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: 0
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehiedrtdejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecuffhomhgrihhnpehpohhkhihlihhnuhigrdhorhhgpdhpvghrlhehrdgrthenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehjedrtddtucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecunecuhfhrohhmpefgrhhitgcuueornhgrrhguuceovghrihgtsegvuhhkrhgvrgdrtghomheqnecuffhomhgrihhnpehpohhkhihlihhnuhigrdhorhhgpdhpvghrlhehrdgrthenucfjughrpeffhffvuffkjghfohfogggtgfesthhqredtredtud
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [V3 3/4] sato-icon-theme: fix build
+	Mon, 10 Dec 2012 06:51:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=5t1TilzVf0OWYzNLa/vRblCzW5O3tcP2Nce/RXUeTc4=;
+	b=HBQD0kSjfDyTSpuU5SKzaFGTrpWvDYjKrSB5I30oLGuHf45SGcv1Y0zEiBsWwqTfh6
+	jVsYDTMtt3yZIllnzmENxGBA4x9DaBqUeHs8WQOQELjrhO+W9LETM2vCHZmCoAL8qhUw
+	QDd79AY4pqsSbFJb2UVmbQxCAW6T1d693PnYjBLU8/nFtZpNoqcAxwMuDFKUDeaGSF9H
+	a4WIMz/pK2ew/OYmOfTALNhB8ahdBT1saS1O9IFoNEmFTq/Wfjh8MeTZ1K0JcjyvxE/g
+	mU5ssLqwm6uM5bAGmIJIupcvWiJp7/xkGQ0/m/7lME0zo6plu9vB9NBsbmA32oaMV0Dj
+	Hg/Q==
+Received: by 10.180.107.130 with SMTP id hc2mr10111329wib.12.1355151119370;
+	Mon, 10 Dec 2012 06:51:59 -0800 (PST)
+Received: from fahad-u1204.mgc.mentorg.com ([110.93.212.98])
+	by mx.google.com with ESMTPS id u6sm11843592wif.2.2012.12.10.06.51.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 10 Dec 2012 06:51:58 -0800 (PST)
+Sender: Fahad Usman <fahad.usman@gmail.com>
+From: Fahad Usman <fahad_usman@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Dec 2012 19:51:20 +0500
+Message-Id: <1355151081-4889-1-git-send-email-fahad_usman@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <fahad_usman@mentor.com>
+References: <fahad_usman@mentor.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Fahad Usman <fahad_usman@mentor.com>
+Subject: [PATCH 1/2] libpcre: upgrade to 8.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,80 +44,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Dec 2012 14:57:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Dec 2012 15:06:30 -0000
 
-hi Ross,
+- Also improve description
+- Add summary and homepage
 
-is it possible to get this patch into danny ?
-commit ID : 61233b05ad299a34b5d3c06fe3c0162cba8fb273
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 
-Thanks
-Eric
+- the patch was imported from meta-mentor layer on yoctoproject git server
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit id
+62f819b97e356c1d7468fbccbf3a3ceed78b09a8
 
-Le Wed, 24 Oct 2012 10:05:16 +0200,
-Andreas M=FCller <schnitzeltony@googlemail.com> a =E9crit :
+- broken up the original patch in two parts, this first part upgrades the
+version to 8.32
 
-> | Can't locate XML/Simple.pm in @INC (@INC contains: /usr/local/lib64/per=
-l5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/ven=
-dor_perl /usr/lib64/perl5 /usr/share/perl5 .) at /home/andreas/tmp/oe-core-=
-eglibc/sysroots/x86_64-linux/usr/lib/icon-naming-utils/icon-name-mapping li=
-ne 12.
-> | BEGIN failed--compilation aborted at /home/andreas/tmp/oe-core-eglibc/s=
-ysroots/x86_64-linux/usr/lib/icon-naming-utils/icon-name-mapping line 12.
-> | make[3]: *** [install-data-local] Error 2
-> | make[3]: Leaving directory `/home/andreas/tmp/oe-core-eglibc/work/all-a=
-ngstrom-linux/sato-icon-theme-0.4.1-r5/sato-icon-theme-0.4.1/16x16/actions'
-> | make[2]: *** [install-am] Error 2
-> | make[2]: Leaving directory `/home/andreas/tmp/oe-core-eglibc/work/all-a=
-ngstrom-linux/sato-icon-theme-0.4.1-r5/sato-icon-theme-0.4.1/16x16/actions'
-> | make[1]: *** [install-recursive] Error 1
-> | make[1]: Leaving directory `/home/andreas/tmp/oe-core-eglibc/work/all-a=
-ngstrom-linux/sato-icon-theme-0.4.1-r5/sato-icon-theme-0.4.1/16x16'
-> | make: *** [install-recursive] Error 1
-> | ERROR: oe_runmake failed
-> | ERROR: Function failed: do_install (see /home/andreas/tmp/oe-core-eglib=
-c/work/all-angstrom-linux/sato-icon-theme-0.4.1-r5/temp/log.do_install.2150=
-2 for further information)
->=20
-> Signed-off-by: Andreas M=FCller <schnitzeltony@googlemail.com>
-> ---
->  .../sato-icon-theme/sato-icon-theme.inc            |    2 +-
->  .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta=
-/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-> index 476e925..e014a7d 100644
-> --- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D56a830bbe6e469=
-7fe6cbbae01bb7c2b2"
->  SECTION =3D "x11"
->  DEPENDS =3D ""
-> =20
-> -inherit autotools pkgconfig allarch gtk-icon-cache
-> +inherit autotools pkgconfig allarch gtk-icon-cache perlnative
-> =20
->  FILES_${PN} +=3D "${datadir}"
-> =20
-> diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b=
-/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-> index cd34cac..ead2f7d 100644
-> --- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
-> @@ -1,8 +1,8 @@
->  require sato-icon-theme.inc
-> =20
-> -DEPENDS +=3D "icon-naming-utils-native"
-> +DEPENDS +=3D "icon-naming-utils-native libxml-simple-perl-native"
-> =20
-> -PR =3D "r5"
-> +PR =3D "r6"
-> =20
->  SRC_URI =3D "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
->             file://iconpath-option.patch \
+Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+---
+ .../libpcre/{libpcre_8.31.bb => libpcre_8.32.bb}   |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre_8.31.bb => libpcre_8.32.bb} (74%)
+
+diff --git a/meta/recipes-support/libpcre/libpcre_8.31.bb b/meta/recipes-support/libpcre/libpcre_8.32.bb
+similarity index 74%
+rename from meta/recipes-support/libpcre/libpcre_8.31.bb
+rename to meta/recipes-support/libpcre/libpcre_8.32.bb
+index e1dad8b..b6847e8 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.31.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.32.bb
+@@ -1,9 +1,9 @@
+-DESCRIPTION = "Perl-compatible regular expression library. PCRE has its own native \
+-API, but a set of 'wrapper' functions that are based on the POSIX API \
+-are also supplied in the library libpcreposix. Note that this just \
+-provides a POSIX calling interface to PCRE; the regular expressions \
+-themselves still follow Perl syntax and semantics. The header file for \
+-the POSIX-style functions is called pcreposix.h."
++DESCRIPTION = "The PCRE library is a set of functions that implement regular \
++expression pattern matching using the same syntax and semantics as Perl 5. PCRE \
++has its own native API, as well as a set of wrapper functions that correspond \
++to the POSIX regular expression API."
++SUMMARY = "Perl Compatible Regular Expressions"
++HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ PR = "r0"
+ LICENSE = "BSD"
+@@ -12,8 +12,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+            file://fix-pcre-name-collision.patch"
+ 
+-SRC_URI[md5sum] = "1c9a276af932b5599157f96e945391f0"
+-SRC_URI[sha256sum] = "5778a02535473c7ee7838ea598c19f451e63cf5eec0bf0307a688301c9078c3c"
++SRC_URI[md5sum] = "62f02a76bb57a40bc66681760ed511d5"
++SRC_URI[sha256sum] = "a913fb9bd058ef380a2d91847c3c23fcf98e92dc3b47cd08a53c021c5cde0f55"
+ 
+ S = "${WORKDIR}/pcre-${PV}"
+ 
+-- 
+1.7.9.5
 
 
 
