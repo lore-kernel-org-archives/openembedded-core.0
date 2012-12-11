@@ -1,31 +1,19 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TiFRW-0001DR-Fz
+	(envelope-from <muhammad_shakeel@mentor.com>) id 1TiLBW-00055A-BV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 03:19:47 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBB250u7012388
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Dec 2012 18:05:00 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Mon, 10 Dec 2012 18:04:59 -0800
-Message-ID: <50C694D1.8070703@windriver.com>
-Date: Tue, 11 Dec 2012 10:05:05 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1354531187.git.Qi.Chen@windriver.com>
-	<4973f2f88641f8a8c02b0062b31f159977d9ba0a.1354531187.git.Qi.Chen@windriver.com>
-	<50C6126F.3020401@linux.intel.com>
-	<50C657CD.2040103@linux.intel.com>
-In-Reply-To: <50C657CD.2040103@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] ICU: add pkgconfig support
+	Tue, 11 Dec 2012 09:27:26 +0100
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
+	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qBB8CnaF001224;
+	Tue, 11 Dec 2012 02:12:50 -0600
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Dec 2012 13:12:48 +0500
+Message-Id: <1355213568-2341-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] libacpi: Remove QA warning: No GNU_HASH in the elf binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,175 +26,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 02:19:49 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Dec 2012 08:27:26 -0000
 
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
->> Not sure what exactly is happening.
->>
->> Please look into this.
->>
->> Thanks
->>      Sau!
->>
->>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> ---
->>>   .../icu/files/icu-add-pkgconfig-support.patch      |   43
->>> ++++++++++++++++++++
->>>   meta/recipes-support/icu/icu-3.6.inc               |   11 +++++
->>>   meta/recipes-support/icu/icu_3.6.bb                |    2 +-
->>>   3 files changed, 55 insertions(+), 1 deletion(-)
->>>   create mode 100644
->>> meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
->>>
->>> diff --git
->>> a/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
->>> b/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
->>> new file mode 100644
->>> index 0000000..c7cd9d5
->>> --- /dev/null
->>> +++ b/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
->>> @@ -0,0 +1,43 @@
->>> +Upstream-Status: Inappropriate [version]
->>> +ICU-3.6 has no pkgconfig, so I add it here.
->>> +But ICU has had pkgconfig support since 4.6.
->>> +So this patch is inappropriate to upstream.
->>> +
->>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> +
->>> +Index: configure.in
->>> +=============================================================
->>> +--- a/configure.in
->>> ++++ b/configure.in
->>> +@@ -1057,4 +1057,7 @@ echo "This may cause ICU to fail to build.
->>> Please make sure that GNU make"
->>> + echo "is in your PATH so that this configure script can detect its
->>> location."
->>> + fi
->>> +
->>> ++AC_CONFIG_FILES([icu.pc])
->>> ++AC_OUTPUT
->>> ++
->>> + $as_unset _CXX_CXXSUFFIX
->>> +
->>> +Index: icu.pc.in
->>> +=============================================================
->>> +--- /dev/null
->>> ++++ b/icu.pc.in
->>> +@@ -0,0 +1,15 @@
->>> ++# Process this file with autoconf to produce a pkg-config metadata
->>> file.
->>> ++
->>> ++prefix=@prefix@
->>> ++exec_prefix=@exec_prefix@
->>> ++libdir=@libdir@
->>> ++includedir=@includedir@
->>> ++unicode_version=@UNICODE_VERSION@
->>> ++
->>> ++Name: ICU
->>> ++Description: International Component for Unicode libraries
->>> ++Requires:
->>> ++Version: @VERSION@
->>> ++Libs: -L${libdir} -licui18n -licuuc -licudata
->>> ++Libs.private: -L{libdir} -lpthread -lm
->>> ++Cflags: -I${includedir} -O2 -pipe -g -feliminate-unused-debug-types
->>> +--
->>> +1.7.11.2
->>> +
->>> diff --git a/meta/recipes-support/icu/icu-3.6.inc
->>> b/meta/recipes-support/icu/icu-3.6.inc
->>> index 272f6d1..8caf71c 100644
->>> --- a/meta/recipes-support/icu/icu-3.6.inc
->>> +++ b/meta/recipes-support/icu/icu-3.6.inc
->>> @@ -7,6 +7,7 @@ BASE_SRC_URI =
->>> "ftp://ftp.software.ibm.com/software/globalization/icu/3.6/icu4c-
->>>              file://fix-parallel-build.patch \
->>>              file://use-g++-for-linking.patch \
->>>              file://larger-cmd-size.patch \
->>> +       file://icu-add-pkgconfig-support.patch \
->>>              "
->>>   SRC_URI = "${BASE_SRC_URI} \
->>>              file://noldlibpath.patch \
->>> @@ -28,6 +29,12 @@ inherit autotools pkgconfig binconfig
->>>   do_configure() {
->>>       libtoolize --force
->>>       gnu-configize --force
->>> +    if [ "${PN}" != "icu-native" ]; then
->>> +        OLD=`pwd`
->>> +        cd ${S}
->>> +        autoconf
->>> +        cd ${OLD}
->>> +    fi
->
-> I had some time this morning to investigate this more deeply.  What I 
-> found was that the ICU tarball was being delivered with a "configure" 
-> and that the do_configure was avoiding the "autoconf" conversion of 
-> configure.in -> configure.  I am not sure if this is historical or if 
-> this is truly needed.
->
-> So by doing the autoconf above you changed the "configure" script, 
-> this in turn caused some configuration changes to occur in the 
-> platform.h file.  Why these changed (particularly the U_HAVE_NAMESPACE 
-> define) then caused the ICU libraries to be built with different 
-> namespace.
->
-> So a couple of key questions that need to be resolved:
-> 1) Will updating to 4.6 solve this issue, if not then we need to dive 
-> into 2 + 3 Below:
->
-> 2) Why does icu tarball have a generated configure?
->
-> 3) Why does the autoconf generated configure fail to configure things 
-> correctly?
->
-> Sau!
->
->
-Thanks a lot!
-I'll look into this immediately.
+Handle LDFLAGS properly in the Makefile to remove warning:
+QA Issue: No GNU_HASH in the elf binary
 
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/recipes-bsp/libacpi/files/ldflags.patch |   34 ++++++++++++++++++++++++++
+ meta/recipes-bsp/libacpi/libacpi_0.2.bb      |    3 ++-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
-Chen Qi
-
->>>       oe_runconf
->>>       if [ "${PN}" != "icu-native" ]; then
->>>           # In the non-native case we need to make substitutions to use
->>> @@ -45,6 +52,10 @@ do_compile() {
->>>
->>>   do_install_append() {
->>>           chmod +x ${D}${libdir}/lib*
->>> +    if [ "${PN}" != "icu-native" ]; then
->>> +        install -d ${D}/${libdir}/pkgconfig
->>> +            install -m 0644 ${S}/icu.pc ${D}/${libdir}/pkgconfig
->>> +    fi
->>>   }
->>>
->>>   PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx
->>> libicutu libicuio"
->>> diff --git a/meta/recipes-support/icu/icu_3.6.bb
->>> b/meta/recipes-support/icu/icu_3.6.bb
->>> index f941acf..f50abe2 100644
->>> --- a/meta/recipes-support/icu/icu_3.6.bb
->>> +++ b/meta/recipes-support/icu/icu_3.6.bb
->>> @@ -1,6 +1,6 @@
->>>   require icu-3.6.inc
->>>
->>> -PR = "r9"
->>> +PR = "r10"
->>>
->>>   SRC_URI[md5sum] = "6243f7a19e03e05403ce84e597510d4c"
->>>   SRC_URI[sha256sum] =
->>> "5135e8d69d6206d320515df7aeee7027711ab1aef9d8dbf29571a97a9746b041"
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
+diff --git a/meta/recipes-bsp/libacpi/files/ldflags.patch b/meta/recipes-bsp/libacpi/files/ldflags.patch
+new file mode 100644
+index 0000000..8049aa8
+--- /dev/null
++++ b/meta/recipes-bsp/libacpi/files/ldflags.patch
+@@ -0,0 +1,34 @@
++---
++ Makefile  |    3 ++-
++ config.mk |    1 +
++ 2 files changed, 3 insertions(+), 1 deletion(-)
++
++--- libacpi-0.2.orig/Makefile
+++++ libacpi-0.2/Makefile
++@@ -19,6 +19,7 @@ options:
++ 	@echo "CFLAGS   = ${CFLAGS}"
++ 	@echo "CC       = ${CC}"
++ 	@echo "SOFLAGS  = ${SOFLAGS}"
+++	@echo "LDFLAGS  = ${LDFLAGS}"
++ 	@echo "LD       = ${LD}"
++ 
++ .c.o:
++@@ -34,7 +35,7 @@ libacpi.a: ${OBJ}
++ 
++ libacpi.so: ${OBJ}
++ 	@echo LD $@
++-	@${CC} ${SOFLAGS} -o $@.${SOVERSION} ${OBJ}
+++	@${CC} ${SOFLAGS} ${LDFLAGS} -o $@.${SOVERSION} ${OBJ}
++ 
++ test-libacpi: ${OBJ_test}
++ 	@echo LD $@
++--- libacpi-0.2.orig/config.mk
+++++ libacpi-0.2/config.mk
++@@ -10,6 +10,7 @@ MANPREFIX = ${PREFIX}/share/man
++ SOFLAGS = -shared -Wl,-soname,${SONAME}
++ CFLAGS += -fPIC -g --pedantic -Wall -Wextra
++ ARFLAGS = cr
+++LDFLAGS =
++ 
++ # Compiler and linker
++ CC = cc
+diff --git a/meta/recipes-bsp/libacpi/libacpi_0.2.bb b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+index b0fbf0b..f4c323d 100644
+--- a/meta/recipes-bsp/libacpi/libacpi_0.2.bb
++++ b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+@@ -10,7 +10,8 @@ PR = "r6"
+ SRC_URI = "http://www.ngolde.de/download/libacpi-${PV}.tar.gz \
+ 	   file://makefile-fix.patch \
+ 	   file://libacpi_fix_for_x32.patch \
+-	   file://use_correct_strip_in_cross_environment.patch"
++	   file://use_correct_strip_in_cross_environment.patch \
++	   file://ldflags.patch "
+ 
+ SRC_URI[md5sum] = "05b53dd7bead66dda35fec502b91066c"
+ SRC_URI[sha256sum] = "13086e31d428b9c125954d48ac497b754bbbce2ef34ea29ecd903e82e25bad29"
+-- 
+1.7.9.5
 
 
 
