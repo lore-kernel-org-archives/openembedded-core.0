@@ -1,34 +1,32 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mail-wi0-f173.google.com ([209.85.212.173])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1TiNfn-0001G6-SQ
+	(envelope-from <martin.jansa@gmail.com>) id 1TiNx0-0001Wr-LC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 12:06:58 +0100
-Received: by mail-la0-f47.google.com with SMTP id u2so2677823lag.6
+	Tue, 11 Dec 2012 12:24:38 +0100
+Received: by mail-wi0-f173.google.com with SMTP id hn17so1903171wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 02:52:20 -0800 (PST)
+	Tue, 11 Dec 2012 03:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=FHSS6u6Xc1pePxpPPtRy6UGlhvZqg+obddaH5Vt4jDI=;
-	b=hPAXbdftytjMGactcZ77yHN2F+eKqJ3GB4dPaCbhZSP3FeTxIptXI13Ygid6e1TObX
-	BOfVMnJ2UHSig+M6DG74NOH2izEBHK3lndKfWuMcu0OBOcjI4Ge65D/JpznNEs5gt4xE
-	LnVIwSrDwVqMb+AZJL+mg2McSzGyoD+czc6d0Lxgrjm9J2y9uqTjxpgsB12sZvYIF1r6
-	IS0jJUbB+wuwE7IQs5WqgHpDkqpMjV5X2b6YwP3JDUTDHu88DKpG0qsSy8AhlwIgB7ho
-	JtyGFHawov9Weepm0HC0e5YAnVboRUzVjGpRrjZtVk7qBmA1KNeZVNKdsFd8KQguM/Q3
-	DLaA==
-MIME-Version: 1.0
-Received: by 10.112.49.65 with SMTP id s1mr7381543lbn.123.1355223139858; Tue,
-	11 Dec 2012 02:52:19 -0800 (PST)
-Received: by 10.114.77.164 with HTTP; Tue, 11 Dec 2012 02:52:19 -0800 (PST)
-In-Reply-To: <1355220771-32095-1-git-send-email-marcin.juszkiewicz@linaro.org>
-References: <1355220771-32095-1-git-send-email-marcin.juszkiewicz@linaro.org>
-Date: Tue, 11 Dec 2012 05:52:19 -0500
-Message-ID: <CADkTA4NLkvWThY4fzqzqDc5FO+U+CMJGEjOD9oJsLXDidfoapg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Add 3.7 version of linux-libc-headers
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=A9coBHU+een3MHzmGpSKB7Ti0drPQIgcv1eR8mxHX1o=;
+	b=EktdmXgswoEermY6a77LGAjuFVU/SPW707UZx2hgO11JzXcsRKl39eT/IaU193O+cd
+	ufyzl7HcNkd+1lkMNiFiLrMOKKkpcpn6I1s4+A7kTZ3WahBr0qAU56+eHpqh1U6NhMNn
+	jCRGg07eE1oaeTNYa7hiuO39zK7QyE23q/lSiRFumts0xnqZSpFYM/Gsplv3dtQi6nMx
+	T6kCmXdRgH8FNzvIaHfwyV9lx7YBOzCWeUhMEzDTmU5HIiMt0+kiEugVDGUW2s3GBHB3
+	Cz6akSdMKgA/iL8eW7cRrRLnMhXrltDr9/Fqqg1d1kEOEewy1D9e/WVmvu9x3poJDKuI
+	iOpw==
+Received: by 10.180.107.130 with SMTP id hc2mr15027934wib.12.1355224206870;
+	Tue, 11 Dec 2012 03:10:06 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id w5sm6740547wif.11.2012.12.11.03.10.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 11 Dec 2012 03:10:06 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Dec 2012 12:10:18 +0100
+Message-Id: <1355224219-16454-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH] autotools: copy also remove-potcdate.sin from ${STAGING_DATADIR_NATIVE}/gettext/po
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,105 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 11:06:58 -0000
-Content-Type: multipart/alternative; boundary=f46d040167bbd7bb0004d09179c2
+X-List-Received-Date: Tue, 11 Dec 2012 11:24:38 -0000
 
---f46d040167bbd7bb0004d09179c2
-Content-Type: text/plain; charset=ISO-8859-1
+* some packages (e.g. uptime, cpu, forecasts, news from meta-efl)
+  don't have remove-potcdate.sin in po subdirectory, but Makefile.in.in
+  supplied by autotools.bbclass depends on it and fails without like this:
+  | make[3]: Entering directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
+  | make[3]: *** No rule to make target `remove-potcdate.sin', needed by `remove-potcdate.sed'.  Stop.
+  | make[3]: Leaving directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
+  | make[2]: *** [uptime.pot] Error 2
 
-On Tue, Dec 11, 2012 at 5:12 AM, Marcin Juszkiewicz <
-marcin.juszkiewicz@linaro.org> wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/autotools.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-> I would like to know are there plans to use 3.7 kernel for libc headers.
-> This will allow me to drop own copy which I need to keep due to AArch64
-> stuff which got added in 3.7 cycle.
->
-
-There aren't any plans to use 3.7 for the headers, since we are tracking
-the headers
-with the same cadence as the yocto release kernels. Otherwise, we'd really
-need
-to have all versions available, and keeping things clean and focussed was
-the
-goal.
-
-3.8 is the next likely update.
-
-That being said,  since the libc-headers version is controlled by the
-LINUXLIBCVERSION in tcmode-default.inc, simply having 3.7 headers
-available shouldn't cause any problems or disconnects.
-
-So we can open up the discussion if we want to carry extra libc headers or
-keep with the current strategy. I've added Richard explicitly to the cc' so
-he
-can jump in as appropriate.
-
-Cheers,
-
-Bruce
-
-
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index ca981ec..3154435 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -193,6 +193,7 @@ autotools_do_configure() {
+ 				cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
+ 				if [ -d ${S}/po/ ]; then
+ 					cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
++					cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
+ 				fi
+ 				for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
+ 					for j in `find ${S} -name $i | grep -v aclocal-copy`; do
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---f46d040167bbd7bb0004d09179c2
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Tue, D=
-ec 11, 2012 at 5:12 AM, Marcin Juszkiewicz <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:marcin.juszkiewicz@linaro.org" target=3D"_blank">marcin.juszkiewicz=
-@linaro.org</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex">I would like to know are there plans to use 3.7 kernel for=
- libc headers.<br>
+1.8.0
 
 
-This will allow me to drop own copy which I need to keep due to AArch64<br>
-stuff which got added in 3.7 cycle.<br></blockquote><div><br></div><div>The=
-re aren&#39;t any plans to use 3.7 for the headers, since we are tracking t=
-he headers</div><div>with the same cadence as the yocto release kernels. Ot=
-herwise, we&#39;d really need=A0</div>
-<div>to have all versions available, and keeping things clean and focussed =
-was the</div><div>goal.</div>
-<div><br></div><div>3.8 is the next likely update.</div><div><br></div><div=
->That being said, =A0since the libc-headers version is controlled by the</d=
-iv><div>LINUXLIBCVERSION in=A0tcmode-default.inc, simply having 3.7 headers=
-</div>
-<div>available shouldn&#39;t cause any problems or disconnects.=A0</div><di=
-v><br></div><div>So we can open up the discussion if we want to carry extra=
- libc headers or</div><div>keep with the current strategy. I&#39;ve added R=
-ichard explicitly to the cc&#39; so he</div>
-<div>can jump in as appropriate.</div><div><br></div><div>Cheers,</div><div=
-><br></div><div>Bruce</div><div>
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
-e:solid;padding-left:1ex">
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>&quot;Thou s=
-halt not follow the NULL pointer, for chaos and madness await thee at its e=
-nd&quot;<br>
-</div>
 
---f46d040167bbd7bb0004d09179c2--
