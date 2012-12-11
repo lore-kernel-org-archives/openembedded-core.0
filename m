@@ -1,20 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TiQPn-0004qb-30
+	(envelope-from <cristian.iorga@intel.com>) id 1TiQYE-00051h-9e
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 15:02:45 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Dec 2012 05:47:58 -0800
+	Tue, 11 Dec 2012 15:11:18 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Dec 2012 05:55:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,259,1355126400"; d="scan'208";a="262387216"
+X-IronPort-AV: E=Sophos;i="4.84,259,1355126400"; d="scan'208";a="232226625"
 Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Dec 2012 05:47:56 -0800
+	by orsmga001.jf.intel.com with ESMTP; 11 Dec 2012 05:55:35 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Dec 2012 15:48:18 +0200
-Message-Id: <1355233698-11302-1-git-send-email-cristian.iorga@intel.com>
+Date: Tue, 11 Dec 2012 15:55:54 +0200
+Message-Id: <1355234154-11495-1-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] build-appliance: Updated to include bblayers.conf.sample fix
+Subject: [PATCH] build-appliance: provides git proxified acces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,38 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 14:02:55 -0000
+X-List-Received-Date: Tue, 11 Dec 2012 14:11:18 -0000
 
-In Build Appliance, Hob didn't start because it crashed
-checking bblayers.conf
+Inside Build Appliance, external repos can be
+accesed using the git protocol through a proxy
+
+Fixes [YOCTO #3175]
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-core/images/build-appliance-image.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/builder/files/builder_hob_start.sh |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/images/build-appliance-image.bb b/meta/recipes-core/images/build-appliance-image.bb
-index a8b787c..2359eca 100644
---- a/meta/recipes-core/images/build-appliance-image.bb
-+++ b/meta/recipes-core/images/build-appliance-image.bb
-@@ -6,7 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+index 883535b..1c6884e 100644
+--- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
++++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+@@ -7,6 +7,7 @@
+ export PSEUDO_PREFIX=/usr
+ export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo
+ export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64
++export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy-socks-command
  
--PR = "r18"
-+PR = "r19"
- 
- IMAGE_FEATURES += "x11-base package-management splash"
- 
-@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
- 
- inherit core-image
- 
--SRCREV ?= "a0cf759537260f00311450e0dac41bf45b474454"
-+SRCREV ?= "4493b107a7f0f9b4f441f661c16176157d950245"
- SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
+ cd /home/builder/poky
+ . ./oe-init-build-env
 -- 
 1.7.10.4
 
