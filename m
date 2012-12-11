@@ -1,34 +1,19 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TiMyS-000871-M4
+	(envelope-from <muhammad_shakeel@mentor.com>) id 1TiMzG-0008B7-4W
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 11:22:05 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id D6E93D22C1; Tue, 11 Dec 2012 11:07:48 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id B9F4FD22B5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 11:07:17 +0100 (CET)
-Message-ID: <50C705C4.8010501@linaro.org>
-Date: Tue, 11 Dec 2012 11:07:00 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
+	Tue, 11 Dec 2012 11:22:57 +0100
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
+	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qBBA8IaF030654;
+	Tue, 11 Dec 2012 04:08:19 -0600
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-References: <1725092.zIXSmU5oUM@yiqingliang-pc>
-In-Reply-To: <1725092.zIXSmU5oUM@yiqingliang-pc>
-Subject: Re: how to change the resolution of qemux86 machine to 320x240?
+Date: Tue, 11 Dec 2012 15:08:16 +0500
+Message-Id: <1355220496-8878-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] wireless-tools: Remove QA warning: No GNU_HASH in the elf binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,24 +26,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 10:22:05 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Dec 2012 10:22:57 -0000
 
-W dniu 11.12.2012 17:54, Yi Qingliang pisze:
-> Hi!
-> 
-> I have a s3c2442 system with 320x240 touch screen, and I want use qemux86 to 
-> simulate it on pc.
-> 
-> I googled, got "vga=xxx" in kernel arguments, but no success.
-> use "vga=ask" can select resolution, but no "320x240".
-> what's the right way?
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-IIRC one option is to patch vgabios which qemu uses and add new VESA
-mode with this resolution.
+Handle LDFLAGS properly in the Makefile to remove warning:
+QA Issue: No GNU_HASH in the elf binary
 
-We did such thing long time ago for one customer but I do not remember
-details.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../wireless-tools/wireless-tools/ldflags.patch    |   15 +++++++++++++++
+ .../wireless-tools/wireless-tools_29.bb            |    3 ++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
+new file mode 100644
+index 0000000..84144ac
+--- /dev/null
++++ b/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
+@@ -0,0 +1,15 @@
++---
++ Makefile |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- wireless_tools.29.orig/Makefile
+++++ wireless_tools.29/Makefile
++@@ -144,7 +144,7 @@ wireless.h:
++ 
++ # Compilation of the dynamic library
++ $(DYNAMIC): $(OBJS:.o=.so)
++-	$(CC) -shared -o $@ -Wl,-soname,$@ $(STRIPFLAGS) $(LIBS) -lc $^
+++	$(CC) -shared -o $@ -Wl,-soname,$@ $(LDFLAGS) $(STRIPFLAGS) $(LIBS) -lc $^
++ 
++ # Compilation of the static library
++ $(STATIC): $(OBJS:.o=.so)
+diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+index 209f29a..b4d34bb 100644
+--- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
++++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+@@ -14,7 +14,8 @@ SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.2
+ 	   file://man.patch \
+ 	   file://wireless-tools.if-pre-up \
+ 	   file://zzz-wireless.if-pre-up \
+-	   file://avoid_strip.patch"
++	   file://avoid_strip.patch \
++	   file://ldflags.patch"
+ 
+ SRC_URI[md5sum] = "e06c222e186f7cc013fd272d023710cb"
+ SRC_URI[sha256sum] = "6fb80935fe208538131ce2c4178221bab1078a1656306bce8909c19887e2e5a1"
+-- 
+1.7.9.5
+
 
 
