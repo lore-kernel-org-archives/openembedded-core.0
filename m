@@ -1,40 +1,40 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TiXAw-0008B3-2w
+	(envelope-from <ross.burton@intel.com>) id 1TiXDx-0008Ef-UQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 22:15:38 +0100
+	Tue, 11 Dec 2012 22:18:46 +0100
 Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Dec 2012 13:00:59 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so21550181oag.0
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 11 Dec 2012 13:04:05 -0800
+Received: by mail-oa0-f69.google.com with SMTP id j6so21564943oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 13:00:58 -0800 (PST)
+	Tue, 11 Dec 2012 13:04:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=j7+st49cYxjM2kuhsDq2SbICbz6IImi2BW5nB1Aj70U=;
-	b=bNKlPWmfc17u6dyCE7fHJDEyTtZPIHW0a3jASvAQs6UF2f6EyxybYiPFmLQOLqs7UQ
-	wSA28Prm2rusAPRXIlUozT8YvcDh+/TMoXqxgqLDfmZLxCswlV2YHujJF03XSgLK4Tfc
-	2Ql59OIgrOapj9YSm9yWEDzBZ0WSi1KqqwZuzKSii3Jh4goSW0VoF1FooXev+pHOriSO
-	L/NHjgn0sEpR/2S2tVLDsopnpwgCKYMf5cww5NEa9qfkboJ6UJ7yLBoGJCIxJiazKIZl
-	iUnpB7A9eZOz9UWTXBnG1bFyN36wVAOVPGPNDIyA8JHddLzLHdwFUuJtixyPcFdlX2Qg
-	oGDw==
-Received: by 10.60.31.49 with SMTP id x17mr10356354oeh.33.1355259658269;
-	Tue, 11 Dec 2012 13:00:58 -0800 (PST)
-Received: by 10.60.31.49 with SMTP id x17mr10356349oeh.33.1355259658175; Tue,
-	11 Dec 2012 13:00:58 -0800 (PST)
+	bh=xL+Ij/tb3KdPCJ9mKip8HVTl5uJGY0nbpsIScJ1LsSI=;
+	b=PTZGgx2j56HiSaUr7TUTWIDYiquCMSlvbYRVZNMoAv5wuBF7Vme9bS+fX/CGBMkp58
+	qwnsBSjDcfl1OENhAsZFdf7DG2ADbm/15On49llxZ0nHbE45ZUwdG4WLdH1JJaX7HLXX
+	niU6giFEy8g5yxeC8NfUgd7NcXa/BR8C08r8bo2zMeGuFMrbU2GUgKDSwLgzvHwgKhCa
+	GaboV2fNQMSmw+SyOfv5rrLzIjoNTGgdSWHAKNmIOZFcmcDv+LSEgZsb9MexTQg5G8SF
+	KYLzjTHBrZQlzXKONFbsA7j2VKAHMDRK8I06GQGyAKUhEBy5e4dc1NZBSKiIiuVQAX4U
+	jEvg==
+Received: by 10.182.89.103 with SMTP id bn7mr10402232obb.35.1355259844557;
+	Tue, 11 Dec 2012 13:04:04 -0800 (PST)
+Received: by 10.182.89.103 with SMTP id bn7mr10402227obb.35.1355259844476;
+	Tue, 11 Dec 2012 13:04:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Tue, 11 Dec 2012 13:00:37 -0800 (PST)
-In-Reply-To: <a8fd6c6c5b82bf945b16ac50a63420c918c6acb4.1355214185.git.alexandru.damian@intel.com>
+Received: by 10.76.132.198 with HTTP; Tue, 11 Dec 2012 13:03:44 -0800 (PST)
+In-Reply-To: <a6833e686fb416a1bfa86c1f07c1460b679519e5.1355214185.git.alexandru.damian@intel.com>
 References: <cover.1355214185.git.alexandru.damian@intel.com>
-	<a8fd6c6c5b82bf945b16ac50a63420c918c6acb4.1355214185.git.alexandru.damian@intel.com>
+	<a6833e686fb416a1bfa86c1f07c1460b679519e5.1355214185.git.alexandru.damian@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Dec 2012 21:00:37 +0000
-Message-ID: <CAJTo0LYmts5_GjaEahxrE_t0+W6m_B1g-0bdfnyG6Q6_aAuS-w@mail.gmail.com>
+Date: Tue, 11 Dec 2012 21:03:44 +0000
+Message-ID: <CAJTo0LY6NW-Y373sTJHGunFDNfXX9TQtdvntELXq_+Pfo-wFWQ@mail.gmail.com>
 To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQmP/lqgJkwidG1uyewZZ//eTL7tzBsLvOlHfJV6s+EAH9542c+7hI6GUnSSL34KF5mk/PucXfuOdCYmVES5tiqkYgQ98gg88GKtETL3w402gPDurAnSHcBbdD+IhKkyCBqChgALoEPpLeI4/U3+NJJJfoLYQ+7vwymJyxdSIB4gSUZoWietps1cXPdUsvK2x7SrF0rf
-Cc: damien.lespiau@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/8] Wayland userspace library initial 1.0.2
+X-Gm-Message-State: ALoCoQkBPhIekKd0xYe6FwFFzoHhEzu29z3AlZiE/dJawZdVtCOtzamBO4Ro+wTdbiBu5BvlrOfqFJt5RXwlLuNT8B4NP2i6UJTSJSdTb74Q60uVK3jKpVPb4XoMWthWqaLy0RvT8/r9xnvzxypI9nGjDVnxjALqY6soSZQvn6No3KxrsAR+xkcZkWHAvqOT6VwDjx3F4sYw
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/8] Add Wayland image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,15 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 21:15:38 -0000
+X-List-Received-Date: Tue, 11 Dec 2012 21:18:46 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 11 December 2012 08:29, Alex DAMIAN <alexandru.damian@intel.com> wrote:
-> This patch is specifically based on work by Damien Lespiau for
-> collabora, but updated to build wayland 1.0.2.
+The commit summary is wrong, this is a package group not image type.
 
-Damien Lespiau is an Intel employee, nothing to do with Collabora.
-Anything mentioning Damien predates Collabora's interest in Yocto.
+On 11 December 2012 11:36, Alex DAMIAN <alexandru.damian@intel.com> wrote:
+> +RPROVIDES_${PN} = "task-wayland"
+> +RREPLACES_${PN} = "task-wayland"
+> +RCONFLICTS_${PN} = "task-wayland"
+
+These are only needed if there was a task-wayland to provide a
+migration path, as there wasn't these can be removed.
 
 Ross
 
