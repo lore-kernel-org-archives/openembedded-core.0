@@ -1,34 +1,20 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TiNx8-0001Xp-JB
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TiPNq-00039o-9U
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 12:24:47 +0100
-Received: by mail-wi0-f169.google.com with SMTP id hq12so1745813wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 03:10:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=A9coBHU+een3MHzmGpSKB7Ti0drPQIgcv1eR8mxHX1o=;
-	b=ey+8TF/0JSU3KQLlwFTrN8nIoKoAzmqtfl1GgOVMP59QkJXCx0ovpPTF/ACtFhOKby
-	2qJbrSZ6a/l9QN/pvJQAtz4J+6Jy3NyeP3ZjxxAfpO2/JXECgLFapSCplODlasw+5DNT
-	89mk/OUed1wuIiVwyvrXqtq4368EepvVkSWbxWuSar/lycwaIlTqTp+HI06yCWq905+4
-	aEIXsQJj+FOCJeRL8XtpLBLcovCrMctI8ulXz8lKGUG2roSnDmjnVg6/hiFuCJhkqN6p
-	vi+AVtRF+aWTT1emkT2U+9+PJeq2rscxppTiNzuJzCGJdeO7pcjasjHh5+732HDKoVEF
-	kyCg==
-Received: by 10.180.99.227 with SMTP id et3mr16102205wib.6.1355224214856;
-	Tue, 11 Dec 2012 03:10:14 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id gz3sm13831179wib.2.2012.12.11.03.10.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 11 Dec 2012 03:10:14 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 11 Dec 2012 13:56:26 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 11 Dec 2012 04:41:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,259,1355126400"; d="scan'208";a="229880194"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 11 Dec 2012 04:41:51 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Dec 2012 12:10:19 +0100
-Message-Id: <1355224219-16454-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1355224219-16454-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1355224219-16454-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH] autotools: copy also remove-potcdate.sin from ${STAGING_DATADIR_NATIVE}/gettext/po
+Date: Tue, 11 Dec 2012 14:41:49 +0200
+Message-Id: <1355229709-19296-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] x11vnc: bind vnc server to port 5900
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,35 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 11:24:47 -0000
+X-List-Received-Date: Tue, 11 Dec 2012 12:56:26 -0000
 
-* some packages (e.g. uptime, cpu, forecasts, news from meta-efl)
-  don't have remove-potcdate.sin in po subdirectory, but Makefile.in.in
-  supplied by autotools.bbclass depends on it and fails without like this:
-  | make[3]: Entering directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
-  | make[3]: *** No rule to make target `remove-potcdate.sin', needed by `remove-potcdate.sed'.  Stop.
-  | make[3]: Leaving directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
-  | make[2]: *** [uptime.pot] Error 2
+At the moment, if one clicks on X11VNC Server icon, a new vnc server is
+started on an automatically assigned port (starting with 5900). The
+problem is that the user can click multiple times on the icon and a new
+vnc server is started on another port. So, we'll end up with multiple
+vnc servers, wasting memory.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This patch will restrict the x11vnc server port to 5900 (default VNC
+port) and another process will not be started (because the port is
+already used), unless the user chooses to start the server manually,
+from the command line, in which case the port can be changed as the
+user wishes.
+
+[YOCTO #3369]
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/autotools.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../x11vnc/files/starting-fix.patch                |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index ca981ec..3154435 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -193,6 +193,7 @@ autotools_do_configure() {
- 				cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
- 				if [ -d ${S}/po/ ]; then
- 					cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
-+					cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
- 				fi
- 				for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
- 					for j in `find ${S} -name $i | grep -v aclocal-copy`; do
+diff --git a/meta/recipes-graphics/x11vnc/files/starting-fix.patch b/meta/recipes-graphics/x11vnc/files/starting-fix.patch
+index 11c55e6..cfaa797 100644
+--- a/meta/recipes-graphics/x11vnc/files/starting-fix.patch
++++ b/meta/recipes-graphics/x11vnc/files/starting-fix.patch
+@@ -15,7 +15,7 @@ Index: x11vnc-0.9.12/x11vnc/x11vnc.desktop
+  Name=X11VNC Server
+  Comment=Share this desktop by VNC
+ -Exec=x11vnc -gui tray=setpass -rfbport PROMPT -bg -o %%HOME/.x11vnc.log.%%VNCDISPLAY
+-+Exec=x11vnc -bg -o %%HOME/.x11vnc.log.%%VNCDISPLAY
+++Exec=x11vnc -bg -rfbport 5900 -o %%HOME/.x11vnc.log.%%VNCDISPLAY
+  Icon=computer
+  Terminal=false
+  Type=Application
 -- 
-1.8.0
+1.7.9.5
 
 
 
