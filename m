@@ -1,21 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ie0-f171.google.com ([209.85.223.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TiDh8-00062n-T3
+	(envelope-from <schnitzeltony@googlemail.com>) id 1TiEXy-00087r-Kn
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 01:27:38 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Dec 2012 16:13:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,254,1355126400"; d="scan'208";a="262131950"
-Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
-	([10.255.12.85])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Dec 2012 16:13:02 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Dec 2012 16:13:01 -0800
-Message-Id: <cover.1355184740.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.1
-Subject: [CONSOLIDATED PULL v2 0/9] Fixes and updates (cover letter only)
+	Tue, 11 Dec 2012 02:22:11 +0100
+Received: by mail-ie0-f171.google.com with SMTP id 17so12589670iea.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Dec 2012 17:07:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=2ae//W2Gbheq77oqtYfFDLZa7ntBRjZpkRxYZt3y7EU=;
+	b=XT2cBVapzB+Oam6ghHr7TcgVfQTzai1CDFyUrGqb73pBRtYvkxATeSWzhuqSQQhGp4
+	g3ZQZNDa4SVOWU9xtR98V5w0U6RZKTMCssxfN54F5skulMTbOcyJkMrJZ+X5jX55XPko
+	0IYAhW+fxiiltn/tRQJpqBDd3JwubV93hIJWaG91FFrwwrs4mZCrn0+m+g4MJR5XDC27
+	vygoL2UlA45z50OTrDH+79jhIb8AvtKoWcdfQMLF0aReWY2GPnvApy9dNo0Z2PM7+F48
+	vd48MKSY1EV7nScPJnYVI3JPXAxVon0Kr3C90p1y8CH62cJnhOU5CjN54fe1g2UPQJ+2
+	ITQw==
+MIME-Version: 1.0
+Received: by 10.50.45.168 with SMTP id o8mr8432068igm.50.1355188058591; Mon,
+	10 Dec 2012 17:07:38 -0800 (PST)
+Received: by 10.64.20.113 with HTTP; Mon, 10 Dec 2012 17:07:38 -0800 (PST)
+In-Reply-To: <50C657CD.2040103@linux.intel.com>
+References: <cover.1354531187.git.Qi.Chen@windriver.com>
+	<4973f2f88641f8a8c02b0062b31f159977d9ba0a.1354531187.git.Qi.Chen@windriver.com>
+	<50C6126F.3020401@linux.intel.com>
+	<50C657CD.2040103@linux.intel.com>
+Date: Tue, 11 Dec 2012 02:07:38 +0100
+Message-ID: <CALbNGRT1RmSpKaH9ZJf+aaDoNddqgQckUR2BK8sYCc3em4b-8A@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] ICU: add pkgconfig support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,136 +43,547 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 00:27:38 -0000
+X-List-Received-Date: Tue, 11 Dec 2012 01:22:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Richard,
+On Mon, Dec 10, 2012 at 10:44 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 12/10/2012 08:48 AM, Saul Wold wrote:
+>>
+>> On 12/04/2012 12:46 AM, Qi.Chen@windriver.com wrote:
+>>>
+>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>
+>>> Add pkgconfig support to ICU.
+>>>
+>>> [YOCTO #2453]
+>>>
+>> This patch seems to have introduced a problem with webkit-gtk
+>>
+>>> | mv -f
+>>>
+>>> Source/WebKit/gtk/WebCoreSupport/.deps/libwebkitgtk_1_0_la-AcceleratedCompositingContextClutter.Tpo
+>>>
+>>> Source/WebKit/gtk/WebCoreSupport/.deps/libwebkitgtk_1_0_la-AcceleratedCompositingContextClutter.Plo
+>>>
+>>> | ./i586-poky-linux-libtool  --tag=CXX   --mode=compile
+>>> i586-poky-linux-g++  -m32   -march=i586
+>>>
+>>> --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86
+>>> -DHAVE_CONFIG_H -I.  -DBUILDING_WEBKIT -Wall -W -Wcast-align
+>>> -Wchar-subscripts -Wreturn-type -Wformat -Wformat-security
+>>> -Wno-format-y2k -Wundef -Wmissing-format-attribute -Wpointer-arith
+>>> -Wwrite-strings -Wno-unused-parameter -Wno-parentheses -fno-exceptions
+>>> -DENABLE_GLIB_SUPPORT=1 -DBUILDING_CAIRO__=1 -DBUILDING_GTK__=1
+>>> -DWTF_CHANGES -DXP_UNIX  -DWTF_USE_ICU_UNICODE=1
+>>> -DWTF_USE_GSTREAMER=1     -DGTK_API_VERSION_2=1 -DNDEBUG
+>>> -I./Source/ThirdParty/ANGLE/src -I./Source/ThirdParty/ANGLE/include
+>>> -I./Source/ThirdParty/ANGLE/include/GLSLANG -I./Source/WebCore
+>>> -I./Source/WebCore/accessibility -I./Source/WebCore/bindings
+>>> -I./Source/WebCore/bindings/generic -I./Source/WebCore/bindings/js
+>>> -I./Source/WebCore/bindings/js/specialization
+>>> -I./Source/WebCore/bridge -I./Source/WebCore/bridge/c -I.
+>>
+>> /Source/WebCore/bridge/jni/jsc -I./Source/WebCore/bridge/jsc
+>> -I./Source/WebCore/css -I./Source/WebCore/dom
+>> -I./Source/WebCore/dom/default -I./Source/WebCore/editing
+>> -I./Source/WebCore/fileapi -I./Source/WebCore/history
+>> -I./Source/WebCore/html -I./Source/WebCore/html/canvas
+>> -I./Source/WebCore/html/parser -I./Source/WebCore/html/shadow
+>> -I./Source/WebCore/html/track -I./Source/WebCore/inspector
+>> -I./Source/WebCore/loader -I./Source/WebCore/loader/appcache
+>> -I./Source/WebCore/loader/archive -I./Source/WebCore/loader/cache
+>> -I./Source/WebCore/loader/icon -I./Source/WebCore/mathml
+>> -I./Source/WebCore/mediastream -I./Source/WebCore/notifications
+>> -I./Source/WebCore/page -I./Source/WebCore/page/animation
+>> -I./Source/WebCore/page/scrolling -I./Source/WebCore/platform
+>> -I./Source/WebCore/platform/animation -I./Source/WebCore/platform/audio
+>> -I./Source/WebCore/platform/graphics
+>> -I./Source/WebCore/platform/graphics/filters
+>> -I./Source/WebCore/platform/graphics/filters/arm
+>> -I./Source/WebCore/platform/graph
+>> ics/gpu -I./Source/WebCore/platform/graphics/opengl
+>> -I./Source/WebCore/platform/graphics/opentype
+>> -I./Source/WebCore/platform/graphics/transforms
+>> -I./Source/WebCore/platform/image-decoders
+>> -I./Source/WebCore/platform/image-decoders/bmp
+>> -I./Source/WebCore/platform/image-decoders/gif
+>> -I./Source/WebCore/platform/image-decoders/ico
+>> -I./Source/WebCore/platform/image-decoders/jpeg
+>> -I./Source/WebCore/platform/image-decoders/webp
+>> -I./Source/WebCore/platform/image-decoders/png
+>> -I./Source/WebCore/platform/leveldb
+>> -I./Source/WebCore/platform/mediastream -I./Source/WebCore/platform/mock
+>> -I./Source/WebCore/platform/network -I./Source/WebCore/platform/sql
+>> -I./Source/WebCore/platform/text
+>> -I./Source/WebCore/platform/text/transcoder
+>> -I./Source/WebCore/platform/win -I./Source/WebCore/plugins
+>> -I./Source/WebCore/plugins/win -I./Source/WebCore/rendering
+>> -I./Source/WebCore/rendering/mathml -I./Source/WebCore/rendering/style
+>> -I./Source/WebCore/rendering/svg -I./Source/WebCore/storage
+>> -I./Source/WebCore/svg
+>> -I./Source/WebCore/svg/animation -I./Source/WebCore/svg/graphics
+>> -I./Source/WebCore/svg/graphics/filters
+>> -I./Source/WebCore/svg/properties -I./Source/WebCore/testing
+>> -I./Source/WebCore/testing/js -I./Source/WebCore/webaudio
+>> -I./Source/WebCore/websockets -I./Source/WebCore/workers
+>> -I./Source/WebCore/xml -I./Source/WebCore/xml/parser
+>> -I./WebCore/bindings/js -I./DerivedSources/WebCore -I./DerivedSources
+>> -I./DerivedSources/JavaScriptCore -DDATA_DIR=\"/usr/share\"
+>> -DENABLE_CHANNEL_MESSAGING=1   -DENABLE_METER_TAG=1
+>> -DENABLE_PROGRESS_TAG=1 -DENABLE_JAVASCRIPT_DEBUGGER=1
+>> -DENABLE_GAMEPAD=0 -DENABLE_SQL_DATABASE=1  -DENABLE_DATALIST=1
+>> -DENABLE_DIRECTORY_UPLOAD=0     -DENABLE_TOUCH_ICON_LOADING=0
+>> -DENABLE_INPUT_COLOR=0  -DENABLE_INPUT_SPEECH=0
+>> -DENABLE_ICONDATABASE=1   -DENABLE_VIDEO=1   -DENABLE_MEDIA_SOURCE=0
+>> -DENABLE_MEDIA_STATISTICS=0 -DENABLE_FULLSCREEN_API=1
+>> -DENABLE_VIDEO_TRACK=0  -DENABLE_MEDIA_STREAM=0 -DENABLE_XSLT=1
+>> -DENABLE_WORKERS=1 -DENABLE_SHADOW_DOM=1 -DENABLE_SHARED_
+>> WORKERS=1 -DENABLE_FILTERS=1  -DENABLE_MATHML=1  -DENABLE_SVG=1
+>> -DENABLE_SVG_FONTS=1   -DENABLE_WEB_SOCKETS=1  -DENABLE_BLOB=1
+>> -DENABLE_REQUEST_ANIMATION_FRAME=1 -DENABLE_WEBGL=1
+>> -DWEBKITGTK_API_VERSION_STRING=\"1.0\" -DWTF_USE_SOUP=1
+>> -I./Source/WebCore/accessibility/gtk -I./Source/WebCore/loader/gtk
+>> -I./Source/WebCore/page/gtk -I./Source/WebCore/platform/cairo
+>> -I./Source/WebCore/platform/audio/gstreamer
+>> -I./Source/WebCore/platform/graphics/cairo
+>> -I./Source/WebCore/platform/graphics/glx
+>> -I./Source/WebCore/platform/graphics/gstreamer
+>> -I./Source/WebCore/platform/graphics/gtk -I./Source/WebCore/platform/gtk
+>> -I./Source/WebCore/platform/network/soup -DWTF_USE_FREETYPE=1
+>> -I./Source/WebCore/platform/graphics/freetype   -I./Source
+>> -I./Source/JavaScriptCore -I./Source/JavaScriptCore/API
+>> -I./Source/JavaScriptCore/assembler -I./Source/JavaScriptCore/bytecode
+>> -I./Source/JavaScriptCore/bytecompiler -I./Source/JavaScriptCore/dfg
+>> -I./Source/JavaScriptCore/heap -I./Source/JavaScriptCore/debug
+>> ger -I./Source/JavaScriptCore/ForwardingHeaders
+>> -I./Source/JavaScriptCore/interpreter -I./Source/JavaScriptCore/jit
+>> -I./Source/JavaScriptCore/jit -I./Source/JavaScriptCore/parser
+>> -I./Source/JavaScriptCore/profiler -I./Source/JavaScriptCore/runtime
+>> -I./Source/JavaScriptCore/tools -I./Source/JavaScriptCore/wtf
+>> -I./Source/JavaScriptCore/wtf -I./Source/JavaScriptCore/wtf/gobject
+>> -I./Source/JavaScriptCore/wtf/gtk -I./Source/JavaScriptCore/wtf/text
+>> -I./Source/JavaScriptCore/wtf/unicode -I./Source/JavaScriptCore/yarr
+>> -I./DerivedSources/JavaScriptCore -I./Source/WTF -fno-strict-aliasing
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/cairo
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/
+>> nightly-world/build/build/tmp/sysroots/qemux86/usr/include/pixman-1
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/freetype2
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libpng12
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/enchant
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>> -pthread -I/srv/home/pokybuild/yocto-autobuilder/yocto-s
+>>
+>> lave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/gstreamer-0.10
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libsoup-2.4
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightl
+>> y-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/pango-1.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/freetype2
+>> -D_REENTRANT     -fvisibility-inlines-hidden -fno-rtti -O2 -pipe -g
+>> -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden
+>> -Wno-c++0x-compat -O2 -MT
+>> Source/WebCore/bridge/libWebCore_la-runtime_root.lo -MD -MP -MF
+>> Source/WebCore/bridge/.deps/libWebCore_la-runtime_root.Tpo -c -o
+>> Source/WebCore/bridge/
+>> libWebCore_la-runtime_root.lo `test -f
+>> 'Source/WebCore/bridge/runtime_root.cpp' || echo
+>> './'`Source/WebCore/bridge/runtime_root.cpp
+>>>
+>>> | i586-poky-linux-libtool: compile:  i586-poky-linux-g++ -m32
+>>> -march=i586
+>>>
+>>> --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86
+>>> -DHAVE_CONFIG_H -I. -DBUILDING_WEBKIT -Wall -W -Wcast-align
+>>> -Wchar-subscripts -Wreturn-type -Wformat -Wformat-security
+>>> -Wno-format-y2k -Wundef -Wmissing-format-attribute -Wpointer-arith
+>>> -Wwrite-strings -Wno-unused-parameter -Wno-parentheses -fno-exceptions
+>>> -DENABLE_GLIB_SUPPORT=1 -DBUILDING_CAIRO__=1 -DBUILDING_GTK__=1
+>>> -DWTF_CHANGES -DXP_UNIX -DWTF_USE_ICU_UNICODE=1 -DWTF_USE_GSTREAMER=1
+>>> -DGTK_API_VERSION_2=1 -DNDEBUG -I./Source/ThirdParty/ANGLE/src
+>>> -I./Source/ThirdParty/ANGLE/include
+>>> -I./Source/ThirdParty/ANGLE/include/GLSLANG -I./Source/WebCore
+>>> -I./Source/WebCore/accessibility -I./Source/WebCore/bindings
+>>> -I./Source/WebCore/bindings/generic -I./Source/WebCore/bindings/js
+>>> -I./Source/WebCore/bindings/js/specialization
+>>> -I./Source/WebCore/bridge -I./Source/WebCore/bridge/c
+>>> -I./Source/WebCore/bridge/jni/jsc -
+>>
+>> I./Source/WebCore/bridge/jsc -I./Source/WebCore/css
+>> -I./Source/WebCore/dom -I./Source/WebCore/dom/default
+>> -I./Source/WebCore/editing -I./Source/WebCore/fileapi
+>> -I./Source/WebCore/history -I./Source/WebCore/html
+>> -I./Source/WebCore/html/canvas -I./Source/WebCore/html/parser
+>> -I./Source/WebCore/html/shadow -I./Source/WebCore/html/track
+>> -I./Source/WebCore/inspector -I./Source/WebCore/loader
+>> -I./Source/WebCore/loader/appcache -I./Source/WebCore/loader/archive
+>> -I./Source/WebCore/loader/cache -I./Source/WebCore/loader/icon
+>> -I./Source/WebCore/mathml -I./Source/WebCore/mediastream
+>> -I./Source/WebCore/notifications -I./Source/WebCore/page
+>> -I./Source/WebCore/page/animation -I./Source/WebCore/page/scrolling
+>> -I./Source/WebCore/platform -I./Source/WebCore/platform/animation
+>> -I./Source/WebCore/platform/audio -I./Source/WebCore/platform/graphics
+>> -I./Source/WebCore/platform/graphics/filters
+>> -I./Source/WebCore/platform/graphics/filters/arm
+>> -I./Source/WebCore/platform/graphics/gpu -I./Source/WebCore/platf
+>> orm/graphics/opengl -I./Source/WebCore/platform/graphics/opentype
+>> -I./Source/WebCore/platform/graphics/transforms
+>> -I./Source/WebCore/platform/image-decoders
+>> -I./Source/WebCore/platform/image-decoders/bmp
+>> -I./Source/WebCore/platform/image-decoders/gif
+>> -I./Source/WebCore/platform/image-decoders/ico
+>> -I./Source/WebCore/platform/image-decoders/jpeg
+>> -I./Source/WebCore/platform/image-decoders/webp
+>> -I./Source/WebCore/platform/image-decoders/png
+>> -I./Source/WebCore/platform/leveldb
+>> -I./Source/WebCore/platform/mediastream -I./Source/WebCore/platform/mock
+>> -I./Source/WebCore/platform/network -I./Source/WebCore/platform/sql
+>> -I./Source/WebCore/platform/text
+>> -I./Source/WebCore/platform/text/transcoder
+>> -I./Source/WebCore/platform/win -I./Source/WebCore/plugins
+>> -I./Source/WebCore/plugins/win -I./Source/WebCore/rendering
+>> -I./Source/WebCore/rendering/mathml -I./Source/WebCore/rendering/style
+>> -I./Source/WebCore/rendering/svg -I./Source/WebCore/storage
+>> -I./Source/WebCore/svg -I./Source/WebCore/svg/animatio
+>> n -I./Source/WebCore/svg/graphics
+>> -I./Source/WebCore/svg/graphics/filters
+>> -I./Source/WebCore/svg/properties -I./Source/WebCore/testing
+>> -I./Source/WebCore/testing/js -I./Source/WebCore/webaudio
+>> -I./Source/WebCore/websockets -I./Source/WebCore/workers
+>> -I./Source/WebCore/xml -I./Source/WebCore/xml/parser
+>> -I./WebCore/bindings/js -I./DerivedSources/WebCore -I./DerivedSources
+>> -I./DerivedSources/JavaScriptCore -DDATA_DIR=\"/usr/share\"
+>> -DENABLE_CHANNEL_MESSAGING=1 -DENABLE_METER_TAG=1
+>> -DENABLE_PROGRESS_TAG=1 -DENABLE_JAVASCRIPT_DEBUGGER=1
+>> -DENABLE_GAMEPAD=0 -DENABLE_SQL_DATABASE=1 -DENABLE_DATALIST=1
+>> -DENABLE_DIRECTORY_UPLOAD=0 -DENABLE_TOUCH_ICON_LOADING=0
+>> -DENABLE_INPUT_COLOR=0 -DENABLE_INPUT_SPEECH=0 -DENABLE_ICONDATABASE=1
+>> -DENABLE_VIDEO=1 -DENABLE_MEDIA_SOURCE=0 -DENABLE_MEDIA_STATISTICS=0
+>> -DENABLE_FULLSCREEN_API=1 -DENABLE_VIDEO_TRACK=0 -DENABLE_MEDIA_STREAM=0
+>> -DENABLE_XSLT=1 -DENABLE_WORKERS=1 -DENABLE_SHADOW_DOM=1
+>> -DENABLE_SHARED_WORKERS=1 -DENABLE_FILTERS=1 -DENABLE_MATHML=1 -DENABL
+>> E_SVG=1 -DENABLE_SVG_FONTS=1 -DENABLE_WEB_SOCKETS=1 -DENABLE_BLOB=1
+>> -DENABLE_REQUEST_ANIMATION_FRAME=1 -DENABLE_WEBGL=1
+>> -DWEBKITGTK_API_VERSION_STRING=\"1.0\" -DWTF_USE_SOUP=1
+>> -I./Source/WebCore/accessibility/gtk -I./Source/WebCore/loader/gtk
+>> -I./Source/WebCore/page/gtk -I./Source/WebCore/platform/cairo
+>> -I./Source/WebCore/platform/audio/gstreamer
+>> -I./Source/WebCore/platform/graphics/cairo
+>> -I./Source/WebCore/platform/graphics/glx
+>> -I./Source/WebCore/platform/graphics/gstreamer
+>> -I./Source/WebCore/platform/graphics/gtk -I./Source/WebCore/platform/gtk
+>> -I./Source/WebCore/platform/network/soup -DWTF_USE_FREETYPE=1
+>> -I./Source/WebCore/platform/graphics/freetype -I./Source
+>> -I./Source/JavaScriptCore -I./Source/JavaScriptCore/API
+>> -I./Source/JavaScriptCore/assembler -I./Source/JavaScriptCore/bytecode
+>> -I./Source/JavaScriptCore/bytecompiler -I./Source/JavaScriptCore/dfg
+>> -I./Source/JavaScriptCore/heap -I./Source/JavaScriptCore/debugger
+>> -I./Source/JavaScriptCore/ForwardingHeaders -I./Source/JavaScript
+>> Core/interpreter -I./Source/JavaScriptCore/jit
+>> -I./Source/JavaScriptCore/jit -I./Source/JavaScriptCore/parser
+>> -I./Source/JavaScriptCore/profiler -I./Source/JavaScriptCore/runtime
+>> -I./Source/JavaScriptCore/tools -I./Source/JavaScriptCore/wtf
+>> -I./Source/JavaScriptCore/wtf -I./Source/JavaScriptCore/wtf/gobject
+>> -I./Source/JavaScriptCore/wtf/gtk -I./Source/JavaScriptCore/wtf/text
+>> -I./Source/JavaScriptCore/wtf/unicode -I./Source/JavaScriptCore/yarr
+>> -I./DerivedSources/JavaScriptCore -I./Source/WTF -fno-strict-aliasing
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/cairo
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/pixman-1
+>> -
+>>
+>> I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/freetype2
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libpng12
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/enchant
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/gstreamer-0.10
+>>
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libsoup-2.4
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>> -I/srv/home/pokybuild
+>>
+>> /yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/libxml2
+>> -pthread
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/pango-1.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/glib-2.0
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/glib-2.0/include
+>>
+>> -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/freetype2
+>> -D_REENTRANT -fvisibility-inlines-hidden -fno-rtti -O2 -pipe -g
+>> -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden
+>> -Wno-c++0x-compat -O2 -MT
+>> Source/WebCore/bridge/libWebCore_la-runtime_root.lo -MD -MP -MF
+>> Source/WebCore/bridge/.deps/libWebCore_la-runtime_root.Tpo -c
+>> Source/WebCore/bridge/runtime_root.cpp  -fPIC -DPIC -o
+>> Source/WebCore/bridge/.libs/libWebCore_la-runtime_root.o
+>>>
+>>> | In file included from ./Source/WebCore/dom/EventTarget.h:35:0,
+>>> |                  from ./Source/WebCore/dom/Node.h:29,
+>>> |                  from ./Source/WebCore/editing/VisiblePosition.h:30,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AccessibilityObject.h:35,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AXObjectCache.h:29,
+>>> |                  from ./Source/WebCore/page/ChromeClient.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.cpp:26:
+>>> | ./Source/WebCore/dom/EventListenerMap.h:55:56: error:
+>>> 'EventListener_3_6' was not declared in this scope
+>>> | ./Source/WebCore/dom/EventListenerMap.h:55:69: error: template
+>>> argument 1 is invalid
+>>> | ./Source/WebCore/dom/EventListenerMap.h:56:48: error:
+>>> 'EventListener_3_6' has not been declared
+>>> | In file included from ./Source/WebCore/dom/EventTarget.h:35:0,
+>>> |                  from ./Source/WebCore/dom/Node.h:29,
+>>> |                  from ./Source/WebCore/editing/VisiblePosition.h:30,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AccessibilityObject.h:35,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AXObjectCache.h:29,
+>>> |                  from ./Source/WebCore/page/ChromeClient.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.cpp:26:
+>>> | ./Source/WebCore/dom/EventListenerMap.h:94:5: error:
+>>> 'EventListener_3_6' does not name a type
+>>> | In file included from ./Source/WebCore/dom/Node.h:29:0,
+>>> |                  from ./Source/WebCore/editing/VisiblePosition.h:30,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AccessibilityObject.h:35,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AXObjectCache.h:29,
+>>> |                  from ./Source/WebCore/page/ChromeClient.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.cpp:26:
+>>> | ./Source/WebCore/dom/EventTarget.h: In member function 'void
+>>> WebCore::EventTarget::visitJSEventListeners(JSC::SlotVisitor&)':
+>>> | ./Source/WebCore/dom/EventTarget.h:190:51: error: 'class
+>>> WebCore::EventListenerIterator' has no member named 'nextListener'
+>>> | ./Source/WebCore/dom/EventTarget.h:191:21: error: invalid use of
+>>> incomplete type 'class WebCore::EventListener_3_6'
+>>> | In file included from ./Source/WebCore/dom/Node.h:29:0,
+>>> |                  from ./Source/WebCore/editing/VisiblePosition.h:30,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AccessibilityObject.h:35,
+>>> |                  from
+>>> ./Source/WebCore/accessibility/AXObjectCache.h:29,
+>>> |                  from ./Source/WebCore/page/ChromeClient.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.h:24,
+>>> |                  from
+>>> Source/WebKit/gtk/WebCoreSupport/ChromeClientGtk.cpp:26:
+>>> | ./Source/WebCore/dom/EventTarget.h:48:11: error: forward declaration
+>>> of 'class WebCore::EventListener_3_6'
+>>
+>>
+>> Not sure what exactly is happening.
+>>
+>> Please look into this.
+>>
+>> Thanks
+>>      Sau!
+>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>   .../icu/files/icu-add-pkgconfig-support.patch      |   43
+>>> ++++++++++++++++++++
+>>>   meta/recipes-support/icu/icu-3.6.inc               |   11 +++++
+>>>   meta/recipes-support/icu/icu_3.6.bb                |    2 +-
+>>>   3 files changed, 55 insertions(+), 1 deletion(-)
+>>>   create mode 100644
+>>> meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+>>> b/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+>>> new file mode 100644
+>>> index 0000000..c7cd9d5
+>>> --- /dev/null
+>>> +++ b/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+>>> @@ -0,0 +1,43 @@
+>>> +Upstream-Status: Inappropriate [version]
+>>> +ICU-3.6 has no pkgconfig, so I add it here.
+>>> +But ICU has had pkgconfig support since 4.6.
+>>> +So this patch is inappropriate to upstream.
+>>> +
+>>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> +
+>>> +Index: configure.in
+>>> +=============================================================
+>>> +--- a/configure.in
+>>> ++++ b/configure.in
+>>> +@@ -1057,4 +1057,7 @@ echo "This may cause ICU to fail to build.
+>>> Please make sure that GNU make"
+>>> + echo "is in your PATH so that this configure script can detect its
+>>> location."
+>>> + fi
+>>> +
+>>> ++AC_CONFIG_FILES([icu.pc])
+>>> ++AC_OUTPUT
+>>> ++
+>>> + $as_unset _CXX_CXXSUFFIX
+>>> +
+>>> +Index: icu.pc.in
+>>> +=============================================================
+>>> +--- /dev/null
+>>> ++++ b/icu.pc.in
+>>> +@@ -0,0 +1,15 @@
+>>> ++# Process this file with autoconf to produce a pkg-config metadata
+>>> file.
+>>> ++
+>>> ++prefix=@prefix@
+>>> ++exec_prefix=@exec_prefix@
+>>> ++libdir=@libdir@
+>>> ++includedir=@includedir@
+>>> ++unicode_version=@UNICODE_VERSION@
+>>> ++
+>>> ++Name: ICU
+>>> ++Description: International Component for Unicode libraries
+>>> ++Requires:
+>>> ++Version: @VERSION@
+>>> ++Libs: -L${libdir} -licui18n -licuuc -licudata
+>>> ++Libs.private: -L{libdir} -lpthread -lm
+>>> ++Cflags: -I${includedir} -O2 -pipe -g -feliminate-unused-debug-types
+>>> +--
+>>> +1.7.11.2
+>>> +
+>>> diff --git a/meta/recipes-support/icu/icu-3.6.inc
+>>> b/meta/recipes-support/icu/icu-3.6.inc
+>>> index 272f6d1..8caf71c 100644
+>>> --- a/meta/recipes-support/icu/icu-3.6.inc
+>>> +++ b/meta/recipes-support/icu/icu-3.6.inc
+>>> @@ -7,6 +7,7 @@ BASE_SRC_URI =
+>>> "ftp://ftp.software.ibm.com/software/globalization/icu/3.6/icu4c-
+>>>              file://fix-parallel-build.patch \
+>>>              file://use-g++-for-linking.patch \
+>>>              file://larger-cmd-size.patch \
+>>> +       file://icu-add-pkgconfig-support.patch \
+>>>              "
+>>>   SRC_URI = "${BASE_SRC_URI} \
+>>>              file://noldlibpath.patch \
+>>> @@ -28,6 +29,12 @@ inherit autotools pkgconfig binconfig
+>>>   do_configure() {
+>>>       libtoolize --force
+>>>       gnu-configize --force
+>>> +    if [ "${PN}" != "icu-native" ]; then
+>>> +        OLD=`pwd`
+>>> +        cd ${S}
+>>> +        autoconf
+>>> +        cd ${OLD}
+>>> +    fi
+>
+>
+> I had some time this morning to investigate this more deeply.  What I found
+> was that the ICU tarball was being delivered with a "configure" and that the
+> do_configure was avoiding the "autoconf" conversion of configure.in ->
+> configure.  I am not sure if this is historical or if this is truly needed.
+>
+> So by doing the autoconf above you changed the "configure" script, this in
+> turn caused some configuration changes to occur in the platform.h file.  Why
+> these changed (particularly the U_HAVE_NAMESPACE define) then caused the ICU
+> libraries to be built with different namespace.
+>
+> So a couple of key questions that need to be resolved:
+> 1) Will updating to 4.6 solve this issue, if not then we need to dive into 2
+> + 3 Below:
+>
+> 2) Why does icu tarball have a generated configure?
+>
+> 3) Why does the autoconf generated configure fail to configure things
+> correctly?
+>
+> Sau!
+>
+Also got this error but reported it to the wrong mailing list - sorry.
+I also looked around for this. The patch added pkg-config to icu. Just
+a guess: webkit-gtk fails due to a mixture of renamed symbols
+(EventListener_3_6 - see sysroot/usr/include/unicode/urename.h) and
+unrenamed symbols. Before the icu-patch this did not happen because
+(icu's) urename.h was not included and no symbols were renamed or
+renamed differently. My problem: The error gives me information about
+renamed symbol but I did not yet find the time to search for
+unrenamed. As I said: Just a guess
 
-Here is a request of fixes that have been build and
-basic tested.  I excudled the SMART changes due to 
-some continuing issues.
-
-I hope to get those resolved next week so we can have
-SMART integrated.
-
-Sau!
-
-
-
-The following changes since commit 28c06a32201351894546b3095f80daa84acf7b39:
-
-  base.bbclass: Remove implicit dependency on license.bbclass (2012-12-07 17:35:33 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andy Ross (1):
-  base/license.bbclass: handle multiple INCOMPATIBLE_LICENSEs
-
-Chunrong Guo (1):
-  mtd-utils:fix corrupt cleanmarker with flash_erase -j command
-
-Laurentiu Palcu (1):
-  populate_sdk_deb.bbclass: put back INSTALL_PACKAGES_NORMAL_DEB
-
-Martin Jansa (2):
-  qt4: upgrade to 4.8.4
-  nativesdk-qt4-tools: fix do_configure to be reentrant
-
-Ross Burton (4):
-  package.bbclass: make do_split_packages handle non-existent root
-    directories
-  mesa: common packaging cleanup
-  mesa: upgrade to 8.0.5
-  mesa-dri: upgrade -git version to current master
-
- meta/classes/base.bbclass                          |  69 +++++------
- meta/classes/license.bbclass                       |  68 ++++-------
- meta/classes/package.bbclass                       |   8 +-
- meta/classes/populate_sdk_deb.bbclass              |   4 +-
- ...t-cleanmarker-with-flash_erase--j-command.patch | 133 +++++++++++++++++++++
- meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb       |   5 +-
- .../mesa/{mesa-8.0.4.inc => mesa-8.0.5.inc}        |   6 +-
- meta/recipes-graphics/mesa/mesa-common.inc         |  22 ++--
- ...tive_8.0.4.bb => mesa-dri-glsl-native_8.0.5.bb} |   6 +-
- .../mesa/mesa-dri-glsl-native_git.bb               |  23 ----
- .../mesa/{mesa-dri_8.0.4.bb => mesa-dri_8.0.5.bb}  |   2 +-
- meta/recipes-graphics/mesa/mesa-dri_git.bb         |   2 +-
- meta/recipes-graphics/mesa/mesa-git.inc            |  17 +--
- meta/recipes-graphics/mesa/mesa-git/uclibc.patch   |  57 ---------
- meta/recipes-qt/qt4/nativesdk-qt4-tools.inc        |   8 +-
- ...tools_4.8.3.bb => nativesdk-qt4-tools_4.8.4.bb} |   4 +-
- .../qt4/{qt4-4.8.3.inc => qt4-4.8.4.inc}           |   8 +-
- ...o-allow-to-set-qt.conf-from-the-outside-u.patch |   8 +-
- ...tty_qws-fix-build-with-old-kernel-headers.patch |   8 +-
- ...003-webkit2-set-OUTPUT_DIR-value-if-empty.patch |   6 +-
- ...make-is-already-built-in-qt4-tools-native.patch |   8 +-
- ...e-set-LFLAGS-to-pick-up-zlib-from-staging.patch |   8 +-
- ...se-OE_QMAKE_-values-to-specify-Qt-utility.patch |  10 +-
- ...-const-usage-that-causes-compile-failure-.patch |  10 +-
- ...llow-building-a-separate-qmake-for-the-ta.patch |   6 +-
- ...e-fix-source-file-references-in-qmake.pri.patch |   6 +-
- ...ack-to-not-use-the-pg_config-of-the-host-.patch |  10 +-
- .../0011-freetype-host-includes.patch              |   6 +-
- .../0012-Add-2bpp-support.patch                    |  16 +--
- .../0013-configure-add-crossarch-option.patch      |  14 +--
- ...tions-fix-phony-translation-linking-error.patch |   6 +-
- ...-configure-add-nostrip-for-debug-packages.patch |   8 +-
- .../0016-configure-eval-QMAKE_CXX.patch            |  17 +--
- ...nsure-we-identify-the-compiler-as-g-in-co.patch |  10 +-
- ...ure-make-pulseaudio-a-configurable-option.patch |  12 +-
- ...xes-for-gcc-4.7.0-particularly-on-qemux86.patch |   6 +-
- ...0020-webkit-disable-the-fuse-ld-gold-flag.patch |   6 +-
- ...ke-qt4-native-work-with-long-building-pa.patch} |  22 +++-
- .../qt4/{qt4-4.8.3 => qt4-4.8.4}/g++.conf          |   0
- .../qt4/{qt4-4.8.3 => qt4-4.8.4}/linux.conf        |   0
- .../recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/qte.sh |   0
- ...qt4-embedded_4.8.3.bb => qt4-embedded_4.8.4.bb} |   0
- meta/recipes-qt/qt4/qt4-native.inc                 |   6 +-
- meta/recipes-qt/qt4/qt4-native_4.8.3.bb            |   8 --
- meta/recipes-qt/qt4/qt4-native_4.8.4.bb            |   8 ++
- ...qt4-x11-free_4.8.3.bb => qt4-x11-free_4.8.4.bb} |   0
- 46 files changed, 362 insertions(+), 305 deletions(-)
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils-1.5.0/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch
- rename meta/recipes-graphics/mesa/{mesa-8.0.4.inc => mesa-8.0.5.inc} (80%)
- rename meta/recipes-graphics/mesa/{mesa-dri-glsl-native_8.0.4.bb => mesa-dri-glsl-native_8.0.5.bb} (66%)
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_git.bb
- rename meta/recipes-graphics/mesa/{mesa-dri_8.0.4.bb => mesa-dri_8.0.5.bb} (78%)
- delete mode 100644 meta/recipes-graphics/mesa/mesa-git/uclibc.patch
- rename meta/recipes-qt/qt4/{nativesdk-qt4-tools_4.8.3.bb => nativesdk-qt4-tools_4.8.4.bb} (48%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3.inc => qt4-4.8.4.inc} (88%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch (88%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch (89%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch (90%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch (78%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch (82%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch (82%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch (84%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch (82%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0009-qmake-fix-source-file-references-in-qmake.pri.patch (92%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch (87%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0011-freetype-host-includes.patch (89%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0012-Add-2bpp-support.patch (97%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0013-configure-add-crossarch-option.patch (83%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0014-translations-fix-phony-translation-linking-error.patch (90%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0015-configure-add-nostrip-for-debug-packages.patch (82%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0016-configure-eval-QMAKE_CXX.patch (72%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch (84%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0018-configure-make-pulseaudio-a-configurable-option.patch (90%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch (95%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/0020-webkit-disable-the-fuse-ld-gold-flag.patch (89%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3/0001-make-qt4-native-work-with-long-building-path.patch => qt4-4.8.4/0021-configure-make-qt4-native-work-with-long-building-pa.patch} (89%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/g++.conf (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/linux.conf (100%)
- rename meta/recipes-qt/qt4/{qt4-4.8.3 => qt4-4.8.4}/qte.sh (100%)
- rename meta/recipes-qt/qt4/{qt4-embedded_4.8.3.bb => qt4-embedded_4.8.4.bb} (100%)
- delete mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.3.bb
- create mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.4.bb
- rename meta/recipes-qt/qt4/{qt4-x11-free_4.8.3.bb => qt4-x11-free_4.8.4.bb} (100%)
-
--- 
-1.8.0.1
-
+Andreas
 
 
