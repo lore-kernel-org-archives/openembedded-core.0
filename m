@@ -1,40 +1,40 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TiXPN-00008B-0j
+	(envelope-from <ross.burton@intel.com>) id 1TiXT1-0000DJ-PR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 22:30:36 +0100
-Received: from mail-ie0-f197.google.com ([209.85.223.197])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Dec 2012 13:15:54 -0800
-Received: by mail-ie0-f197.google.com with SMTP id 16so19765613iea.0
+	Tue, 11 Dec 2012 22:34:21 +0100
+Received: from mail-ia0-f197.google.com ([209.85.210.197])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Dec 2012 13:19:45 -0800
+Received: by mail-ia0-f197.google.com with SMTP id x26so10647805iak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 13:15:54 -0800 (PST)
+	Tue, 11 Dec 2012 13:19:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=SifIabEiU9ZolaHGa508RlTsn/3RUFTpBnnTawpNXeE=;
-	b=Rz536elVm1tccQopmKZJt0cGPyZQHDzIP1hTRIbLSRHD4UR5COzBcxX/nJi/WvB6Nn
-	uxIB7bNNOIu7h4x+SxH87DvxXwFoQ2KzvgbdXa3zdpORDSMYoF17mHs0Jo8wJ+Feero9
-	Eszl3/8Z2OSmanyFpg15I/gu6ykbTaeKtzLTISFPlBQRPAExHFiWrA7RMKAFSt4DiaYP
-	zr6UxIwMSeSlNX8hj20zB/ONb9hFZcjbTtVTeki7YXXcwePXRFByPVZ3LacPF9pczQUG
-	ux+h5Ng5xP1oHmBHCCKslCUHGkkm3nm/AxfJlvEN9gi5CtFaajY7wxRVlQXIjSNC6cXa
-	OLOg==
-Received: by 10.60.12.99 with SMTP id x3mr10475950oeb.71.1355260553960;
-	Tue, 11 Dec 2012 13:15:53 -0800 (PST)
-Received: by 10.60.12.99 with SMTP id x3mr10475947oeb.71.1355260553886; Tue,
-	11 Dec 2012 13:15:53 -0800 (PST)
+	bh=GlltHuGQ/hfOkD73aX5HnTmlVlI0Pz3hN2XhQCA7R3M=;
+	b=Re2ovqswwJDu0z/58yyaxhrGlITEU84+VYhq0C6CZaQ+nGBY+feYtLMH0LpdSXMvhQ
+	TYINJ75Ry4hJ30lKiyu1BRgLbZTOzdE1tpV62aChN4boEMi8YqQL9phu7Jgy1HdLnhRV
+	UHWklBilS6rxTMtulCcFrs6DAKuuOxvW94KO+S9u/mccQbDun23lWb71Uc3bzlipGSTl
+	wg8inbscqQb1gGlWzb5VUNTGzj4o2PapcZsxMpitlT4rcOOOrl3NH4QFmVBQkNIBwm9D
+	0Yh8Nz+VaW+LSU/3Q56xr4rskR4U1tkDS8dv/6QsuF+JxuM1cW53L+At9+MlmwkxUQ91
+	QWqg==
+Received: by 10.60.4.165 with SMTP id l5mr10323702oel.84.1355260784838;
+	Tue, 11 Dec 2012 13:19:44 -0800 (PST)
+Received: by 10.60.4.165 with SMTP id l5mr10323699oel.84.1355260784746; Tue,
+	11 Dec 2012 13:19:44 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Tue, 11 Dec 2012 13:15:33 -0800 (PST)
-In-Reply-To: <5f3ae296667128f06fab2b1660dcc120d81ad6fd.1355214185.git.alexandru.damian@intel.com>
+Received: by 10.76.132.198 with HTTP; Tue, 11 Dec 2012 13:19:24 -0800 (PST)
+In-Reply-To: <690eb2a2b704d5129634f956349f9d8fdc4864d8.1355214185.git.alexandru.damian@intel.com>
 References: <cover.1355214185.git.alexandru.damian@intel.com>
-	<5f3ae296667128f06fab2b1660dcc120d81ad6fd.1355214185.git.alexandru.damian@intel.com>
+	<690eb2a2b704d5129634f956349f9d8fdc4864d8.1355214185.git.alexandru.damian@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Dec 2012 21:15:33 +0000
-Message-ID: <CAJTo0LaN=Qm8U3jAUuvQMbu9tstNhXDCJK7==_6DZKEsdV0t5w@mail.gmail.com>
+Date: Tue, 11 Dec 2012 21:19:24 +0000
+Message-ID: <CAJTo0LbeOJvSexKNDCSdJyT5yGOU=atZ9=joBz8iT3RHg4Y17Q@mail.gmail.com>
 To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQnXiW4RRvM61uaem6CfF3SfSfwg0LBDqasdUuEP/QQND/PBcP62tfhlAOp4COh5MbpnoJAAOHDI/8bUoJgq7zD73bB6ON/C0PtPYhNuAZtLzhRh0cL3UBBSrQV8fU8RUDAKaymDA6ncO2hOJcmKfT0NxZBSX0kUL6QPpNRi/oRsF5OSqnONBoEFEKtgTNbPdpCl+6o7
+X-Gm-Message-State: ALoCoQmHEL9u1mPc5sK9UH7DQz7/g7BrW1L9Zbw9AgmPhugQA/RnzR+RdJ5gA4CQcIGfqfPDILgQhebsvG/DuvNbPBqqfVHjeKglv2+M4DfkbfRvgN7DjAxAsnEAkycf2ehWXJTQbY8vb7RsRF/O37fgpDDPNVBDIQr7KNO9HK3Er8Cs+PjeH4TmCiXZAElal3A4cL947uw+
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/8] Fixes for the mesa-dri recipe
+Subject: Re: [PATCH 7/8] Adds wayland/weston recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 21:30:36 -0000
+X-List-Received-Date: Tue, 11 Dec 2012 21:34:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 11 December 2012 08:29, Alex DAMIAN <alexandru.damian@intel.com> wrote:
-> From: Alexandru DAMIAN <alexandru.damian@intel.com>
->
-> This set of changes fix packaging and compilation
-> options for the mesa-dri.
->
-> It also affects priority so that the git version is preffered.
+> +EXTRA_OECONF += "--enable-clients --enable-drm-compositor --enable-xwayland"
 
-Why can't "use mesa-dri git" be part of the pre-requisites for now?
-We may be happy with a well chose git snapshot of Mesa but the current
-revision is literally just HEAD when I changed mesa-git for the new
-build system in master.
+--enable-drm-compositor is repeated in the (commented out) "kms" packageconfig.
 
->  DRIDRIVERS = "swrast"
-> -DRIDRIVERS_append_x86 = ",i915,i965"
-> -DRIDRIVERS_append_x86-64 = ",i915,i965"
-> +#DRIDRIVERS_append_x86 = ",i915,i965"
-> +#DRIDRIVERS_append_x86-64 = ",i915,i965"
+XWayland should be a packageconfig option.
 
-That's not a "fix"...
+> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+
+What's the point of this?
+
+> +                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+> +                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
+> +                  "
+> +#PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm virtual/libgbm udev"
+
+Presumably this is the "DRM compositor" that the commit message refers to?
 
 Ross
 
