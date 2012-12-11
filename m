@@ -1,34 +1,37 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mail-wg0-f45.google.com ([74.125.82.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1TiLr0-0006Dw-J7
+	(envelope-from <martin.jansa@gmail.com>) id 1TiMCx-0006aK-OW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 11 Dec 2012 10:10:19 +0100
-Received: by mail-da0-f47.google.com with SMTP id s35so1412347dak.6
+	Tue, 11 Dec 2012 10:33:00 +0100
+Received: by mail-wg0-f45.google.com with SMTP id dq12so2105604wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 00:55:46 -0800 (PST)
+	Tue, 11 Dec 2012 01:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:organization:user-agent
-	:mime-version:content-transfer-encoding:content-type;
-	bh=InkUUy2945Fgq1cCC1lqIrfnO+hOlVSJly0C9NUsdYE=;
-	b=uPfD7Yq+qnxrtTIj7bgmDo++6X7UFEqhHJgcdnAfhO+45d7gJ2CDD5f11mjRL1azlo
-	ESySUeCNVi7n+WEtz/IpaIRi4E7ShnJxXJ63Zzx1zAeVWYL1XI99g4BX5D0qKY94/Go+
-	vwsfIgLstSSLHkK4IsKON3zVEYqkO8CLgkRe59wf2ZKGUYjnuWKv0lMQ6Uuv6wzAuEj3
-	uPF6f6mj6y9HyFAu5HBGGtGcXHN6KQXQMnoxOgX1B33sYu+Nmm61pRu8UnhDaBrGKJWx
-	zwP+B1OhL6KHwhY/kUexIpkhcxa2piKgNWcCINzpJTPbNjgPRGKxslT4/YZXRDLpO3IH
-	h7nw==
-Received: by 10.68.223.131 with SMTP id qu3mr46414714pbc.89.1355216145885;
-	Tue, 11 Dec 2012 00:55:45 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([117.89.76.27])
-	by mx.google.com with ESMTPS id nv2sm13414189pbc.44.2012.12.11.00.55.43
-	(version=SSLv3 cipher=OTHER); Tue, 11 Dec 2012 00:55:44 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Dec 2012 16:54:22 +0000
-Message-ID: <1725092.zIXSmU5oUM@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.3 (Linux/3.6.8-1-ARCH; KDE/4.9.3; x86_64; ; )
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=6RKtZz1koFbgH3z7ITSjn1qxbaYUzN3tQybx2cfSmzg=;
+	b=WTKBzuggvTxE1/XmafT+cdFCgGq+a8IOQcJm5+MiU+UIMy6EhAGM4sDk2QagV6NmzJ
+	eM6H22Yml63RKdDzO9YQTqFzfqCkEF7nvUoSdNtj0Q+npNq3uAmMrr2aIuR8jNFk7UOO
+	AwJmFjG9AkLpMr4CkglF1f3cjLrT1uhw+W7swnzpVQu88lYx/FUL0DNy5nLo7NQ59LcV
+	MWU8rplvmO4srBtyRzTFNJMPlgeIEIAi+oS9Ds/LUhPQt+xiyFh0nizMpOIn+Be1vMKh
+	tDWu1rX8tBTv++/rO0fxIbFB9uukteHB82PjYxKSZX7wHFq6I3GYYbsVbBKgb3AQsTIH
+	GBzA==
+Received: by 10.216.209.223 with SMTP id s73mr388914weo.30.1355217507571;
+	Tue, 11 Dec 2012 01:18:27 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id bd7sm15433842wib.8.2012.12.11.01.18.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 11 Dec 2012 01:18:27 -0800 (PST)
+Date: Tue, 11 Dec 2012 10:18:41 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ciprian Ciubotariu <cheepeero@gmx.net>
+Message-ID: <20121211091841.GC11693@jama.jama.net>
+References: <1354891455-6846-1-git-send-email-cheepeero@gmx.net>
 MIME-Version: 1.0
-Subject: how to change the resolution of qemux86 machine to 320x240?
+In-Reply-To: <1354891455-6846-1-git-send-email-cheepeero@gmx.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] packagroup-base: use virtual runtime instead of keymap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,21 +44,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Dec 2012 09:10:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 11 Dec 2012 09:33:00 -0000
+X-Groupsio-MsgNum: 32490
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LwW0XdcUbUexiWVK"
+Content-Disposition: inline
 
-Hi!
+--LwW0XdcUbUexiWVK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have a s3c2442 system with 320x240 touch screen, and I want use qemux86 to 
-simulate it on pc.
+On Fri, Dec 07, 2012 at 04:44:15PM +0200, Ciprian Ciubotariu wrote:
+> ---
+>  .../packagegroups/packagegroup-base.bb             |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
+recipes-core/packagegroups/packagegroup-base.bb
+> index 347a7e1..3e75190 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> @@ -141,7 +141,7 @@ RRECOMMENDS_packagegroup-machine-base =3D "${MACHINE_=
+EXTRA_RRECOMMENDS}"
+> =20
+>  SUMMARY_packagegroup-base-keyboard =3D "Keyboard support"
+>  RDEPENDS_packagegroup-base-keyboard =3D "\
+> -    keymaps"
+> +    ${VIRTUAL-RUNTIME_keymaps}"
 
-I googled, got "vga=xxx" in kernel arguments, but no success.
-use "vga=ask" can select resolution, but no "320x240".
-what's the right way?
+you need to specify default value with weak assignment like
+packagegroup-core-boot.bb does
 
+Cheers,
 
-Yi Qingliang
-Nanjing Jilong
+> =20
+>  SUMMARY_packagegroup-base-pci =3D "PCI bus support"
+>  RDEPENDS_packagegroup-base-pci =3D "\
+> --=20
+> 1.7.8.6
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--LwW0XdcUbUexiWVK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDG+nEACgkQN1Ujt2V2gBzVIgCgghaFIwAIfWYcs30TjwCvj/pi
+8pgAn2muluuP06EyxzsgAHCCuVNj4HzZ
+=0lZG
+-----END PGP SIGNATURE-----
+
+--LwW0XdcUbUexiWVK--
