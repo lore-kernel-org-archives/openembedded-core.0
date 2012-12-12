@@ -1,35 +1,23 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tiv63-00029U-Aq
+	(envelope-from <dvhart@linux.intel.com>) id 1TivAf-0002JH-DK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 23:48:11 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so417838eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 14:33:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=V7UXPoeKeFZ/gTGzp40rF70J7GumxsXPSLtOwroOrpc=;
-	b=ilDuUPiIky67bp9Jth2lj30RVKEelBEE25SVXVjA5n76E7ESs+Dn5VmUvEMbkutBav
-	AcI9fahMiYIN99V4uayHkNxKDpjYY0Q5K3HuALJDa8kLMsq5R4u2UMOhpCL+IVFVHNsS
-	Nt6km/ZX3Bw8UdVb6a/iULLbFLyOZQdmI9BD+gNPOA2neixe/bgYU6N7R1krvMS3GMys
-	ZBW8c4FVZCcZipTEIlgk5tL38DGWJQgakX6c9lAK0HokwUcYKOjt0sATq9RdhvmaXFr4
-	rwL53PGgDVZTt2rvQeCFaacHzoPkculTsSwFDAK6i0XqhLzBCzL1K3bNuVOfDpuXwXGk
-	IdCg==
-Received: by 10.14.205.199 with SMTP id j47mr6560057eeo.26.1355351617396;
-	Wed, 12 Dec 2012 14:33:37 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id r1sm58659858eeo.2.2012.12.12.14.33.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Dec 2012 14:33:36 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 12 Dec 2012 23:52:57 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2012 14:37:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,269,1355126400"; d="scan'208";a="233049596"
+Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
+	by orsmga001.jf.intel.com with ESMTP; 12 Dec 2012 14:38:16 -0800
+From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Dec 2012 23:33:44 +0100
-Message-Id: <1355351624-16993-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <1355351624-16993-1-git-send-email-Martin.Jansa@gmail.com>
-References: <20121212212745.GD1756@jama.jama.net>
-	<1355351624-16993-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] gettext: move remove-potcdate.sin from gettext-native to gettext-minimal-native
+Date: Wed, 12 Dec 2012 14:39:12 -0800
+Message-Id: <cover.1355351817.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: Przemek Czesnowicz <przemyslawx.czesnowicz@intel.com>,
+	Darren Hart <dvhart@linux.intel.com>, Joshua Immanuel <josh@hipro.co.in>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH 0/1] bootimg: Use FAT 32 for images larger than 512MB
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,91 +30,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 22:48:11 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 22:52:58 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../gettext-minimal-0.18.1.1/remove-potcdate.sin      | 19 +++++++++++++++++++
- .../gettext/gettext-minimal-native_0.18.1.1.bb        |  4 +++-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb         |  3 ++-
- 3 files changed, 24 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
+The following changes since commit b8b1b39961332c99d62ee466f7859bd62a0f806f:
 
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
-new file mode 100644
-index 0000000..2436c49
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
-@@ -0,0 +1,19 @@
-+# Sed script that remove the POT-Creation-Date line in the header entry
-+# from a POT file.
-+#
-+# The distinction between the first and the following occurrences of the
-+# pattern is achieved by looking at the hold space.
-+/^"POT-Creation-Date: .*"$/{
-+x
-+# Test if the hold space is empty.
-+s/P/P/
-+ta
-+# Yes it was empty. First occurrence. Remove the line.
-+g
-+d
-+bb
-+:a
-+# The hold space was nonempty. Following occurrences. Do nothing.
-+x
-+:b
-+}
-diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
-index a46a40d..f008a79 100644
---- a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
-@@ -1,6 +1,7 @@
- SRC_URI = "file://aclocal.tgz \
-            file://config.rpath \
-            file://Makefile.in.in \
-+           file://remove-potcdate.sin \
-            file://COPYING"
- 
- INHIBIT_DEFAULT_DEPS = "1"
-@@ -11,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0854da868a929923087141d9d7aba7d5"
- 
- inherit native
- 
--PR = "r4"
-+PR = "r5"
- 
- S = "${WORKDIR}"
- 
-@@ -21,4 +22,5 @@ do_install () {
- 	install -d ${D}${datadir}/gettext/po/
- 	cp ${WORKDIR}/config.rpath ${D}${datadir}/gettext/
- 	cp ${WORKDIR}/Makefile.in.in ${D}${datadir}/gettext/po/
-+	cp ${WORKDIR}/remove-potcdate.sin ${D}${datadir}/gettext/po/
- }
-diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-index c3265e1..4639481 100644
---- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-@@ -5,7 +5,7 @@ SECTION = "libs"
- LICENSE = "GPLv3+ & LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--PR = "r18"
-+PR = "r19"
- DEPENDS = "gettext-native virtual/libiconv ncurses expat"
- DEPENDS_class-native = "gettext-minimal-native"
- PROVIDES = "virtual/libintl virtual/gettext"
-@@ -104,6 +104,7 @@ do_install_append_class-native () {
- 	rm ${D}${datadir}/aclocal/*
- 	rm ${D}${datadir}/gettext/config.rpath
- 	rm ${D}${datadir}/gettext/po/Makefile.in.in
-+	rm ${D}${datadir}/gettext/po/remove-potcdate.sin
- }
- 
- BBCLASSEXTEND = "native nativesdk"
+  bitbake.conf/utils: Drop some OVERRIDES from FILESPATH (2012-12-11 15:58:27 +0000)
+
+are available in the git repository at:
+  git://git.infradead.org/users/dvhart/oe-core.git dvhart/bug/2138-bootimg-fatsize
+  http://git.infradead.org/users/dvhart/oe-core.git/shortlog/refs/heads/dvhart/bug/2138-bootimg-fatsize
+
+Darren Hart (1):
+  bootimg: Use FAT 32 for images larger than 512MB
+
+ meta/classes/bootimg.bbclass |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
+
 -- 
-1.8.0
+1.7.5.4
 
 
 
