@@ -1,38 +1,35 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Til8e-00011W-Vd
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Tilry-0001aD-7U
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 13:10:13 +0100
-Received: from mail-wi0-f197.google.com ([209.85.212.197])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 12 Dec 2012 03:55:38 -0800
-Received: by mail-wi0-f197.google.com with SMTP id hm6so586729wib.0
+	Wed, 12 Dec 2012 13:57:02 +0100
+Received: by mail-la0-f47.google.com with SMTP id u2so525449lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 03:55:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=58cyHF5OAUbnTLTybMZ30L9fUCG4WNPJ+CWS8RucaQE=;
-	b=RKbUCHu6A40BqIyf+UAyrYz90BlXiifQXynGVE0C+/G0u/ZeaorcImIrUbajdNBNko
-	KA4yVgAOSGn4QV3cAMXYxIt0B/6+O1CWT2cQsfvuZpwRMUUQo20ASYUNWaYYjt0ahbIH
-	ApbUJU3sbzBux1ADP7nb5+NnpAuHJSVwBjUr2QIOhDqBbFUkqqkGCWIz2jTQxSPUQlSx
-	LH5im1Q3ap3HGG4CFmy6HYu3vPYI0lQkk2MdqhgqdWT2/MjwEd5XiYoirw3M3FDswmF0
-	G5xr5d+ChQl7crphfqWMq6RtEZXecV8DUIBONcdFdEO2MYJZSc+RG8FjrHIciANIK4lT
-	uouQ==
-Received: by 10.194.71.140 with SMTP id v12mr1445956wju.36.1355313336594;
-	Wed, 12 Dec 2012 03:55:36 -0800 (PST)
-Received: by 10.194.71.140 with SMTP id v12mr1445941wju.36.1355313336372;
-	Wed, 12 Dec 2012 03:55:36 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id b1sm20926879wix.11.2012.12.12.03.55.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Dec 2012 03:55:35 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Dec 2012 11:53:57 +0000
-Message-Id: <1355313237-32367-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnKZJc3qOvUhOzQzF4ry+KcNVWKtbgs0e1qoObLVoWA9gmYfxKHD81YL7/fcG3Mo+0gQcxHdfRsCuOBCXaSzQxvZYuxsPwTSYdZ0vrBJXGedwjLVMfkuv1vcDzDhv4Al+8ip/PLklvemB1lzcGUWoxNoTOdd51JFC8pNUZe9Oyt6j7AHHMzsT5BycVEfAxKiPm4DT9C
-Subject: [PATCH] matchbox-keyboard: fix the build with libpng15
+	Wed, 12 Dec 2012 04:42:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=nsKuwgqmbu76WJAbhGgEQ871w7KJmQB5eccmQcT7R7o=;
+	b=W/SIYMtuiwUuI+TRQ4Ei+CRN/QKVXJTNn4AFRJJWRNoAcWyg3UbHNoNj03GZZ2MoEp
+	erkgG78gkSZhSOHNrDypFEdCjXGPxpuvLJXnXDkZWfxk6Bw+rh6hIxeYzQ5vzF7gO19B
+	Vf48op4SkmhOB+ComM5JObAm3iHgiLJoep3j3P3wvtIhJB6d/0Qv2WHYAiP7uvwmaDP2
+	FN0Mb7bZ/sxrbm8ENtBA6qXORwkALkTJUI51J1I+00Lm1S03W/8yckwwytfikDCE7rrG
+	p9pNo1tyR+0TYFDc8WG1rEiihzwqN0SoaR5ozG1juT/R8RYjtjjlybpj2090wi/kNE9k
+	nhBw==
+MIME-Version: 1.0
+Received: by 10.112.46.199 with SMTP id x7mr390119lbm.109.1355316148748; Wed,
+	12 Dec 2012 04:42:28 -0800 (PST)
+Received: by 10.114.77.164 with HTTP; Wed, 12 Dec 2012 04:42:28 -0800 (PST)
+In-Reply-To: <1355296117-6980-1-git-send-email-fahad_usman@mentor.com>
+References: <1355296117-6980-1-git-send-email-fahad_usman@mentor.com>
+Date: Wed, 12 Dec 2012 07:42:28 -0500
+Message-ID: <CADkTA4OO6yh4rqRESBwFK1DLa_bRCw8=p8LicS2XQOG-0MRGVw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Fahad Usman <fahad_usman@mentor.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: kill -Werror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,93 +42,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 12:10:13 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 12:57:02 -0000
+Content-Type: multipart/alternative; boundary=bcaec55405689ac13d04d0a7219c
+
+--bcaec55405689ac13d04d0a7219c
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Wed, Dec 12, 2012 at 2:08 AM, Fahad Usman <fahad_usman@mentor.com> wrote:
+
+> this fails to build using a recent sourcery toolchain due to
+> unused-but-set-variable
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
+> the patch was imported from meta-mentor layer on yoctoproject git server
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit ids
+> 82e96b3baa1c64d03412871fce56d496a338f167 and
+> ae325d011bd50501fe677c8b37295ae83030c526
+>
+> Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+> ---
+>  meta/recipes-kernel/perf/perf_3.4.bb |    6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf_3.4.bbb/meta/recipes-kernel/perf/
+> perf_3.4.bb
+> index b094362..4e6d03d 100644
+> --- a/meta/recipes-kernel/perf/perf_3.4.bb
+> +++ b/meta/recipes-kernel/perf/perf_3.4.bb
+> @@ -9,7 +9,7 @@ as well."
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+>
+> -PR = "r5"
+> +PR = "r6"
+>
+>  require perf.inc
+>
+> @@ -79,6 +79,10 @@ do_install() {
+>         fi
+>  }
+>
+> +do_configure_prepend () {
+> +    sed -i 's,-Werror ,,' ${S}/tools/perf/Makefile
+> +}
+>
+
+Is this still an outstanding issue in the latest kernel with perf ?
+I don't mean the removal of the -Werror, but the unused variable ?
+I'm just trying to make sure that a patch is going upstream to the source,
+so
+we can eventually drop something like this from the perf build.
+
+Cheers,
+
+Bruce
 
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../matchbox-keyboard/files/png-fix.patch          |   49 ++++++++++++++++++++
- .../matchbox-keyboard/matchbox-keyboard_git.bb     |    5 +-
- 2 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-sato/matchbox-keyboard/files/png-fix.patch
+> +
+>  PACKAGE_ARCH = "${MACHINE_ARCH}"
+>
+>  FILES_${PN} += "${libexecdir}/perf-core"
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-diff --git a/meta/recipes-sato/matchbox-keyboard/files/png-fix.patch b/meta/recipes-sato/matchbox-keyboard/files/png-fix.patch
-new file mode 100644
-index 0000000..e3834f5
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-keyboard/files/png-fix.patch
-@@ -0,0 +1,49 @@
-+Change matchbox-keyboard to look for "libpng" instead of "libpng12", and fix the
-+code so that it works with the 1.2 and 1.5 API.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/configure.ac b/configure.ac
-+index 9678cf7..9bbbd76 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -171,24 +171,7 @@ dnl ------ Expat ------------------------------------------------------------
-+ 
-+ dnl ------ Check for PNG ---------------------------------------------------
-+ 
-+-AC_MSG_CHECKING(for libpng12)
-+-
-+-if $PKG_CONFIG --exists libpng12; then
-+-        AC_MSG_RESULT(yes)
-+-        PNG_LIBS=`$PKG_CONFIG --libs libpng12`
-+-        PNG_CFLAGS=`$PKG_CONFIG --cflags libpng12`
-+-else
-+-        AC_MSG_RESULT(no)
-+-        AC_CHECK_LIB([png], [png_create_read_struct],
-+-                      [have_png="yes"], [have_png="no"])
-+-
-+-        if test x$have_png=xyes && test x$have_png_h=xyes; then
-+-            PNG_LIBS="-lpng -lz"
-+-        else
-+-            AC_MSG_ERROR([*** Cannot find libpng12 ****])
-+-        fi
-+-fi
-+-
-++PKG_CHECK_MODULES(PNG, libpng)
-+ 
-+ dnl ------ Debug Build ------------------------------------------------------
-+ 
-+diff --git a/src/matchbox-keyboard-image.c b/src/matchbox-keyboard-image.c
-+index 8accc3e..6b4b0e8 100644
-+--- a/src/matchbox-keyboard-image.c
-++++ b/src/matchbox-keyboard-image.c
-+@@ -65,7 +65,7 @@ png_file_load (const char *file,
-+     return NULL;
-+   }
-+ 
-+-  if ( setjmp( png_ptr->jmpbuf ) ) {
-++  if (setjmp (png_jmpbuf (png_ptr))) {
-+     png_destroy_read_struct( &png_ptr, &info_ptr, NULL);
-+     fclose(fd);
-+     return NULL;
-diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-index 430e343..adde25b 100644
---- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-+++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-@@ -12,12 +12,13 @@ RDEPENDS_${PN} = "formfactor dbus-wait"
- SECTION = "x11"
- SRCREV = "b38f24036cff3be6c2fbcf9ca9881803e69003ac"
- PV = "0.0+git${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://configure_fix.patch;maxrev=1819 \
-            file://single-instance.patch \
--	   file://80matchboxkeyboard.shbg"
-+           file://80matchboxkeyboard.shbg \
-+           file://png-fix.patch"
- 
- S = "${WORKDIR}/git"
- 
+
+
 -- 
-1.7.10
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--bcaec55405689ac13d04d0a7219c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Wed, D=
+ec 12, 2012 at 2:08 AM, Fahad Usman <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:fahad_usman@mentor.com" target=3D"_blank">fahad_usman@mentor.com</a>&gt;</=
+span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">this fails to build using a recent sourcery =
+toolchain due to<br>
+unused-but-set-variable<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
+.com">chris_larson@mentor.com</a>&gt;<br>
+<br>
+the patch was imported from meta-mentor layer on yoctoproject git server<br=
+>
+<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor" target=3D=
+"_blank">http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor</a> as of co=
+mmit ids<br>
+82e96b3baa1c64d03412871fce56d496a338f167 and<br>
+ae325d011bd50501fe677c8b37295ae83030c526<br>
+<br>
+Signed-off-by: Fahad Usman &lt;<a href=3D"mailto:fahad_usman@mentor.com">fa=
+had_usman@mentor.com</a>&gt;<br>
+---<br>
+=A0meta/recipes-kernel/perf/<a href=3D"http://perf_3.4.bb" target=3D"_blank=
+">perf_3.4.bb</a> | =A0 =A06 +++++-<br>
+=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-kernel/perf/<a href=3D"http://perf_3.4.bb" target=
+=3D"_blank">perf_3.4.bb</a> b/meta/recipes-kernel/perf/<a href=3D"http://pe=
+rf_3.4.bb" target=3D"_blank">perf_3.4.bb</a><br>
+index b094362..4e6d03d 100644<br>
+--- a/meta/recipes-kernel/perf/<a href=3D"http://perf_3.4.bb" target=3D"_bl=
+ank">perf_3.4.bb</a><br>
++++ b/meta/recipes-kernel/perf/<a href=3D"http://perf_3.4.bb" target=3D"_bl=
+ank">perf_3.4.bb</a><br>
+@@ -9,7 +9,7 @@ as well.&quot;<br>
+=A0LICENSE =3D &quot;GPLv2&quot;<br>
+=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd7810fab7487fb0aad327b76=
+f1be7cd7&quot;<br>
+<br>
+-PR =3D &quot;r5&quot;<br>
++PR =3D &quot;r6&quot;<br>
+<br>
+=A0require perf.inc<br>
+<br>
+@@ -79,6 +79,10 @@ do_install() {<br>
+=A0 =A0 =A0 =A0 fi<br>
+=A0}<br>
+<br>
++do_configure_prepend () {<br>
++ =A0 =A0sed -i &#39;s,-Werror ,,&#39; ${S}/tools/perf/Makefile<br>
++}<br></blockquote><div><br></div><div>Is this still an outstanding issue i=
+n the latest kernel with perf ?</div><div>I don&#39;t mean the removal of t=
+he -Werror, but the unused variable ?</div><div>I&#39;m just trying to make=
+ sure that a patch is going upstream to the source, so</div>
+<div>we can eventually drop something like this from the perf build.</div><=
+div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">
 
++<br>
+=A0PACKAGE_ARCH =3D &quot;${MACHINE_ARCH}&quot;<br>
+<br>
+=A0FILES_${PN} +=3D &quot;${libexecdir}/perf-core&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.7.9.5<br>
+<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r>&quot;Thou shalt not follow the NULL pointer, for chaos and madness await=
+ thee at its end&quot;<br>
+</div>
+
+--bcaec55405689ac13d04d0a7219c--
