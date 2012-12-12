@@ -1,25 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ia0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1TivAg-0002JH-Pf
+	(envelope-from <cazfi74@gmail.com>) id 1TivKd-0005HQ-BD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 23:52:59 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2012 14:37:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,269,1355126400"; d="scan'208";a="233049617"
-Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
-	by orsmga001.jf.intel.com with ESMTP; 12 Dec 2012 14:38:19 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Dec 2012 14:39:15 -0800
-Message-Id: <a1bd748798d32f922ce2c70fbcaa93891903b096.1355351817.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1355351817.git.dvhart@linux.intel.com>
-References: <cover.1355351817.git.dvhart@linux.intel.com>
-Cc: Przemek Czesnowicz <przemyslawx.czesnowicz@intel.com>,
-	Darren Hart <dvhart@linux.intel.com>, Joshua Immanuel <josh@hipro.co.in>,
-	Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH 1/1] bootimg: Use FAT 32 for images larger than 512MB
+	Thu, 13 Dec 2012 00:03:15 +0100
+Received: by mail-ia0-f175.google.com with SMTP id z3so1379749iad.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Dec 2012 14:48:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=J+g7a4EhK+phfu6qYxgVW6L15jlP8rs03jIam8v3TKk=;
+	b=kTleAjWrOMCMqxlOp5ELbAB7JFWA8OynLxPiMKPZEMYUuuNUxGBv9m2Ur5vphKg1Ii
+	hOFuwsHxLB7WHdn97ywcl0P8OTSe/cF3VTFzxkXDgPZWvKYCwgJtUVo4OpQWTw5cbTb0
+	95NFrtS0Gg9ay9PzbDEqgtR8wGWWmUg76L+2Q2+fGQmyJMPHf3GqI+IyZy1vEHYjWO84
+	qgVoIxB0P7EVIgD2JQrMLRtBHt9bdQStFGcJSuQkcdR/d31G8HvyaNPZD+o0bHtUROqN
+	9ZRGGITruQNSLv457BKTH9gidh4PFOK3VzFVARXzTqqCJ7iClXufGOmvWEEpPATj91iE
+	2pcw==
+MIME-Version: 1.0
+Received: by 10.43.133.197 with SMTP id hz5mr31454icc.6.1355352520834; Wed, 12
+	Dec 2012 14:48:40 -0800 (PST)
+Received: by 10.64.24.175 with HTTP; Wed, 12 Dec 2012 14:48:40 -0800 (PST)
+In-Reply-To: <50C8062C.9050408@linux.intel.com>
+References: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
+	<50C8062C.9050408@linux.intel.com>
+Date: Thu, 13 Dec 2012 00:48:40 +0200
+Message-ID: <CAF6bG8daZ1x-XxCoTqrLh=1=8BjT4iwQxYuTem1M1hUR9qnyAw@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] coreutils: update to upstream version 8.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,82 +41,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 22:52:59 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 23:03:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixes [YOCTO #2138]
+On 12 December 2012 06:21, Saul Wold <sgw@linux.intel.com> wrote:
+> On 11/30/2012 03:08 AM, Marko Lindqvist wrote:
+>>
+>> * remove-gets.patch removed as issue is fixed upstream
+>> * cross-prime-list.patch added to fix cross-compilation
+>> * noman.patch added to disable manpage creation that does not
+>>    work while cross-compiling
+>>
+>> * License texts are identical to old, but old md5sum was
+>>    erronously calculated from the beginning of the ls.c file, and
+>>    not from the beginning of license text segment.
+>>
+>> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+>> ---
+>>   .../coreutils/coreutils-8.14/remove-gets.patch     |   23
+>> ----------------
+>>   .../coreutils-build-with-acl.patch                 |    0
+>>   .../coreutils-8.20/cross-prime-list.patch          |   29
+>> ++++++++++++++++++++
+>>   .../coreutils/coreutils-8.20/noman.patch           |   19 +++++++++++++
+>>   .../remove-usr-local-lib-from-m4.patch             |    0
+>>   .../{coreutils_8.14.bb => coreutils_8.20.bb}       |   11 ++++----
+>>   6 files changed, 54 insertions(+), 28 deletions(-)
+>>   delete mode 100644
+>> meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+>>   rename meta/recipes-core/coreutils/{coreutils-8.14 =>
+>> coreutils-8.20}/coreutils-build-with-acl.patch (100%)
+>>   create mode 100644
+>> meta/recipes-core/coreutils/coreutils-8.20/cross-prime-list.patch
+>>   create mode 100644
+>> meta/recipes-core/coreutils/coreutils-8.20/noman.patch
+>>   rename meta/recipes-core/coreutils/{coreutils-8.14 =>
+>> coreutils-8.20}/remove-usr-local-lib-from-m4.patch (100%)
+>>   rename meta/recipes-core/coreutils/{coreutils_8.14.bb =>
+>> coreutils_8.20.bb} (91%)
+>>
+> This patch has been in and out of Master_Under_Test for a week or so, I keep
+> seeing a failure and had not kept the right build, this time I have it and
+> here's the failure:
+>>
+>> | mips-poky-linux-gcc  -meb -mabi=32   -mhard-float -march=mips32
+>> --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/build/tmp/sysroots/qemumips
+>> -std=gnu99  -I. -I./lib  -Ilib -I./lib -Isrc -I./src    -O2 -pipe -g
+>> -feliminate-unused-debug-types -c -o src/false.o src/false.c
+>> | src/factor.c: In function 'factor_using_division':
+>> | src/factor.c:766:11: error: unable to emulate 'TI'
 
-Commit 217584211625b1c496fe5b78aa4765ccf605d2b9 dropped the forced use
-of FAT32 for the hddimg generation as it broke with very small images
-(< 32MB). Unfortunately, left to its own devices, mkdosfs appears to select
-FAT16 even for very large images, resulting in 2.2GB images being
-generated as FAT16:
+ As I wrote 2-Dec, the prime list generation patch is likely to have
+issues. I've been considering to just leave coreutils update for now
+and to wait for next upstream version with no need for such a patch.
+ As for your mips build failure, I'm investigating it so that I can at
+least report bug for upstream to fix.
 
-$ ls -lah core-image-lsb-sdk-atom-pc-20121010233936.hddimg
--rw-rw-r-- 1 dvhart dvhart 2.2G 2012-10-17 08:00 core-image-lsb-sdk-atom-pc-20121010233936.hddimg
 
-$ file !$
-file core-image-lsb-sdk-atom-pc-20121010233936.hddimg
-core-image-lsb-sdk-atom-pc-20121010233936.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 128, root entries 512, Media descriptor 0xf8, sectors/FAT 138, heads 64, sectors 4502496 (volumes > 32 MB) , serial number 0x50761926, label: "boot       ", FAT (16 bit)
-
-The result was a runtime boot error from SYSLINUX and a failure to boot
-live images greater than 1GB in size.
-
-While strictly speaking it is the cluster count that determines which
-FAT size is used, that calculation requires more information than we
-have readily available (such as sectors per cluster). If we let mkdosfs
-determine sectors per cluster and just set a sane threshold above which
-FAT32 is used, we get correct bootable images. With this patch the 2.2GB
-core-image-lsb-sdk uses FAT32 and the 21 MB core-image-minimal uses
-FAT16, and both boot in qemu successfully:
-
-$ ls -lah tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
--rw-r--r-- 1 dvhart dvhart 2.2G 2012-12-12 14:18 tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
-
-$ file !$
-file tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
-tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 8, Media descriptor 0xf8, heads 64, sectors 4470304 (volumes > 32 MB) , FAT (32 bit), sectors/FAT 4357, reserved3 0x800000, serial number 0x50c902b7, label: "boot       "
-
-$ ls -lah tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
--rw-r--r-- 1 dvhart dvhart 21M 2012-12-12 14:06 tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
-
-$ file !$
-file tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
-tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 4, root entries 512, sectors 41408 (volumes <=32 MB) , Media descriptor 0xf8, sectors/FAT 41, heads 64, serial number 0x50c8ffec, label: "boot       ", FAT (16 bit)
-
-I have tested and booted core-image-minimal and core-image-lsb-sdk for
-atom-pc with qemu-system-i386 using this patch.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Steve Sakoman <steve@sakoman.com>
-Cc: Joshua Immanuel <josh@hipro.co.in>
-Cc: Przemek Czesnowicz <przemyslawx.czesnowicz@intel.com>
----
- meta/classes/bootimg.bbclass |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 17c329a..b7ddf42 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -163,8 +163,15 @@ build_hddimg() {
- 		# done in blocks, thus the mod by 16 instead of 32.
- 		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
- 
-+		# mkdosfs will sometimes use FAT16 when it is not appropriate,
-+		# resulting in a boot failure from SYSLINUX. Use FAT32 for
-+		# images larger than 512MB, otherwise let mkdosfs decide.
-+		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
-+			FATSIZE="-F 32"
-+		fi
-+
- 		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--		mkdosfs -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
-+		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
- 		# Copy HDDDIR recursively into the image file directly
- 		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
- 
--- 
-1.7.5.4
-
+ - ML
 
 
