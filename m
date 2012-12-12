@@ -1,40 +1,36 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TigbT-00045q-19
+	(envelope-from <fahad.usman@gmail.com>) id 1Tigf9-0004Bq-T3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 08:19:39 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Dec 2012 23:05:04 -0800
-Received: by mail-ob0-f197.google.com with SMTP id v19so1828116obq.0
+	Wed, 12 Dec 2012 08:23:28 +0100
+Received: by mail-la0-f47.google.com with SMTP id u2so259674lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Dec 2012 23:05:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=fkWc8LjTS22eGS6IPn/N0VUTBPHgdCB58uA27Y5cSRE=;
-	b=Qg0oeXB3DpABUT8osVSv8lACq44ekhR6KUC2eK4GSdJeblVzwhE9CMRGvFeRCAD+A6
-	ZM8/cI1Iy9hEBYMfDt8+PMZvYmXsAaU2v/uZx44lbhfnjZKtrFUqe77zcUXLd2AyJ9GF
-	T4SHpprI2cP54H0yvppBaaom94oytR4X9AZstvj4hc8XaSZF9XCcQV4+2ezsa0reGUEZ
-	nzX+yHG9I46zHTODjOK32KRNT2XqyafhQbe211kUKRwfrJ+3jUZDwlRGAzDddKD8lfGo
-	plkKE2JuE6zONcQ0fuEfgaXypX1grAAXg6jXzscjFEros7sG6zsYOAf5qB6TYqBWEZRb
-	QGTA==
-Received: by 10.182.212.99 with SMTP id nj3mr2127obc.11.1355295903324;
-	Tue, 11 Dec 2012 23:05:03 -0800 (PST)
-Received: by 10.182.212.99 with SMTP id nj3mr2122obc.11.1355295903205; Tue, 11
-	Dec 2012 23:05:03 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Tue, 11 Dec 2012 23:04:43 -0800 (PST)
-In-Reply-To: <50C806D7.4030606@linux.intel.com>
-References: <1355262869-4600-1-git-send-email-ross.burton@intel.com>
-	<50C806D7.4030606@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Dec 2012 07:04:43 +0000
-Message-ID: <CAJTo0LZtA3kn01UtQk-H-BWfqyAcXhAWrP=L3LCBqENfpamJhA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQmpCLQJxq+tTh5AW/iXutOM+3fAXw92wrwXY3em9cjbULrAyto7CcZXseWiLoEtEwVmN78Q58G+IHgrAkdeanXi6Y0IOjUthb8T5FBmhi40ArKkVzgnPyTAaZVe/+d84xnhqi0qM7gOsWSDgzUUh/49gRpnTk/Tr3ucCMu5jm0j4j+jPJDUBi3l39t88U4ywgIRZNe9
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libmatchbox: upgrade to 1.10, drop git
+	Tue, 11 Dec 2012 23:08:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=Bbfq7s35mg6Eyyic7TCO3XxOTlg9L3ZRK9vJa2ztKIY=;
+	b=xba/AhKYyu1Xt/PzNjrl+14TxnO7zQ+NeejyiUhWpTULsQ4ekq66rcmQdAr+e0+2gy
+	8YeFF4WAu2j9pTP3JZyOePL1P38Hvn1Oe9ld81z4v+DJ/c/Y7Ap3uv/VJMjPVGYDqumm
+	bd2nPuCUJv+u7IUwW0icJwbWS7rowDIFjmotaFmulFAbXYFzp3VPA073k4czpFPu1atw
+	d/eupJNNAU0uXwqggmdINiHQHAcC+F5bdhQBPWq1zEoSPEidJt+z4tDEe72b3YGdSyFG
+	65Xi/8RdDR2MXST4L5sh0Vhgn+JwHpaCv1c9gNBOAzm+XmEBrz2kuTshrNc6sKbRDxs7
+	8f3A==
+Received: by 10.152.124.68 with SMTP id mg4mr11376lab.51.1355296134619;
+	Tue, 11 Dec 2012 23:08:54 -0800 (PST)
+Received: from fahad-u1204.mgc.mentorg.com ([110.93.212.98])
+	by mx.google.com with ESMTPS id
+	ps11sm10188831lab.12.2012.12.11.23.08.51
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 11 Dec 2012 23:08:53 -0800 (PST)
+Sender: Fahad Usman <fahad.usman@gmail.com>
+From: Fahad Usman <fahad_usman@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Dec 2012 12:08:37 +0500
+Message-Id: <1355296117-6980-1-git-send-email-fahad_usman@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Fahad Usman <fahad_usman@mentor.com>
+Subject: [PATCH] perf: kill -Werror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,16 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 07:19:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Dec 2012 07:23:28 -0000
 
-On 12 December 2012 04:23, Saul Wold <sgw@linux.intel.com> wrote:
->> | matchbox-keyboard-image.c:68:8: error: dereferencing pointer to
->> incomplete type
+this fails to build using a recent sourcery toolchain due to
+unused-but-set-variable
 
-This is due to libpng15, not libmatchbox.  I'll get a fix using the
-libmatchbox patch as a model.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 
-Ross
+the patch was imported from meta-mentor layer on yoctoproject git server
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit ids
+82e96b3baa1c64d03412871fce56d496a338f167 and
+ae325d011bd50501fe677c8b37295ae83030c526
+
+Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+---
+ meta/recipes-kernel/perf/perf_3.4.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+index b094362..4e6d03d 100644
+--- a/meta/recipes-kernel/perf/perf_3.4.bb
++++ b/meta/recipes-kernel/perf/perf_3.4.bb
+@@ -9,7 +9,7 @@ as well."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ require perf.inc
+ 
+@@ -79,6 +79,10 @@ do_install() {
+ 	fi
+ }
+ 
++do_configure_prepend () {
++    sed -i 's,-Werror ,,' ${S}/tools/perf/Makefile
++}
++
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ FILES_${PN} += "${libexecdir}/perf-core"
+-- 
+1.7.9.5
+
 
 
