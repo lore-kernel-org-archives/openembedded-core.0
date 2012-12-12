@@ -1,25 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Tik4Y-00074N-Bk
+	(envelope-from <fahad.usman@gmail.com>) id 1TikgO-0008Uh-Gf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 12:02:15 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBCAlKkk003951
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Dec 2012 02:47:20 -0800 (PST)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Wed, 12 Dec 2012 02:47:19 -0800
-From: Kang Kai <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Wed, 12 Dec 2012 18:48:06 +0800
-Message-ID: <cover.1355309061.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] V3: Enable python support for libnewt and libuser
+	Wed, 12 Dec 2012 12:41:00 +0100
+Received: by mail-we0-f175.google.com with SMTP id z53so226112wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Dec 2012 03:26:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=id0HdhMR5fIo5UHSEosj80g5QTKL/L/AkZ2cCrdd9w0=;
+	b=U2oLvwj61kwmLlVdKpiuQ/SGZCfecN6LdBZqdpmo3L2NirZzEmoI+zk9qu15cGTDZv
+	0U6ExfvfYrqx62E3+RLsNxbNIskJ1M2/vgKfOjO4pPgXiGH4Bm7at9rNY/oYu05M8n73
+	Y/PgKcviBogD+5inFkyh9sMFeyvN9h5zDb3rB6gnmjSnDqbHOOxJ+so0dKIzyRyGosqq
+	MgoBd2SVPwKvxK2mT3CVX7C4YeiLwYBIYmdakjYg9oa7t4kygX7vCZtkMvhGWvrpBsKZ
+	7uEH78e2naqwjDo+wK28dsR+7EwWxcU6i/Mekz+6hxhBcjTJirz/ba0T3durIKwO9GUk
+	PNzA==
+Received: by 10.194.71.140 with SMTP id v12mr1284522wju.36.1355311587362;
+	Wed, 12 Dec 2012 03:26:27 -0800 (PST)
+Received: from fahad-u1204.mgc.mentorg.com ([110.93.212.98])
+	by mx.google.com with ESMTPS id w5sm2773399wif.11.2012.12.12.03.26.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 12 Dec 2012 03:26:26 -0800 (PST)
+Sender: Fahad Usman <fahad.usman@gmail.com>
+From: Fahad Usman <fahad_usman@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Dec 2012 16:26:11 +0500
+Message-Id: <1355311572-10461-1-git-send-email-fahad_usman@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Fahad Usman <fahad_usman@mentor.com>
+Subject: [PATCH 1/2] perf: pass CFLAGS and LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 11:02:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Dec 2012 11:41:00 -0000
 
-V3: add libnewt patch header.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit 45915123a727f86b106da7ccb761b23067b1ff88:
+the patch was imported from meta-mentor layer on yoctoproject git server
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit id
+9d698004137c1a888d40d6a4808d94afa22387e7
 
-  Documentation: poky-ref-manual - Updates to WORKDIR structure (2012-12-11 16:17:57 +0000)
+Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
+---
+ meta/recipes-kernel/perf/perf_3.4.bb |   10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/with-python
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=with-python:kangkai/with-python
-
-Kang Kai (2):
-  newt: enable python support
-  libuser: enable python support
-
- meta/recipes-extended/libuser/libuser_0.57.1.bb    |   14 ++++++++---
- .../newt/files/fix_python_fpic.patch               |   24 ++++++++++++++++++++
- meta/recipes-extended/newt/libnewt_0.52.14.bb      |   24 +++++++++++++++-----
- 3 files changed, 52 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-extended/newt/files/fix_python_fpic.patch
-
+diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+index 4e6d03d..8d1b232 100644
+--- a/meta/recipes-kernel/perf/perf_3.4.bb
++++ b/meta/recipes-kernel/perf/perf_3.4.bb
+@@ -9,7 +9,7 @@ as well."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+-PR = "r6"
++PR = "r8"
+ 
+ require perf.inc
+ 
+@@ -67,6 +67,14 @@ EXTRA_OEMAKE = \
+ 		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+ 		'
+ 
++# We already pass the correct arguments to our compiler for the CFLAGS (if we
++# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was failing
++# to find bfd symbols.
++EXTRA_OEMAKE += "\
++	'CFLAGS=${CFLAGS}' \
++	'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
++"
++
+ do_compile() {
+ 	oe_runmake all
+ }
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
