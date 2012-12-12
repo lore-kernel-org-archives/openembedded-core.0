@@ -1,34 +1,35 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tiv61-00029R-7b
+	(envelope-from <martin.jansa@gmail.com>) id 1Tiv63-00029U-Aq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 23:48:09 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so830943eek.6
+	Wed, 12 Dec 2012 23:48:11 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so417838eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 14:33:35 -0800 (PST)
+	Wed, 12 Dec 2012 14:33:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=kiqaYVKEEPJ/No0X0H5Bi24N1gi3w6JcPJOp9T4oqrM=;
-	b=pAwH2zn5OFYWKMjfImyvYLUgfV3QhMT8X8rzVsyhEF1EMZz2A8wU0t73ZqAPPHlZ/8
-	08JCKSIR9MLOSXbU0fx9H5Pbm32br7tM79kDg1D6604KqWqWD7aDG8whs8ZYN5Vmba7z
-	wt/RovYfP8otWk7UQyXiEtOHkvBZ39Dfu/5JO2/9FApJT9mzA+CKrRS37LQ7qW1GRCJV
-	chcelZP1ciHWwe93MwCd/MWhPFUFffup4omDlvY34jSxq+8Zv9/efIPLfVid8bq7JhUr
-	ndfc7WU88gXUW/5kamPoGk8etmq0dLQESz+8NNuwMsJgHQzYIYDlJRFDD5aua5Oh9dKB
-	HrjQ==
-Received: by 10.14.199.5 with SMTP id w5mr6616830een.31.1355351615162;
-	Wed, 12 Dec 2012 14:33:35 -0800 (PST)
+	bh=V7UXPoeKeFZ/gTGzp40rF70J7GumxsXPSLtOwroOrpc=;
+	b=ilDuUPiIky67bp9Jth2lj30RVKEelBEE25SVXVjA5n76E7ESs+Dn5VmUvEMbkutBav
+	AcI9fahMiYIN99V4uayHkNxKDpjYY0Q5K3HuALJDa8kLMsq5R4u2UMOhpCL+IVFVHNsS
+	Nt6km/ZX3Bw8UdVb6a/iULLbFLyOZQdmI9BD+gNPOA2neixe/bgYU6N7R1krvMS3GMys
+	ZBW8c4FVZCcZipTEIlgk5tL38DGWJQgakX6c9lAK0HokwUcYKOjt0sATq9RdhvmaXFr4
+	rwL53PGgDVZTt2rvQeCFaacHzoPkculTsSwFDAK6i0XqhLzBCzL1K3bNuVOfDpuXwXGk
+	IdCg==
+Received: by 10.14.205.199 with SMTP id j47mr6560057eeo.26.1355351617396;
+	Wed, 12 Dec 2012 14:33:37 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id 46sm58659251eeg.4.2012.12.12.14.33.33
+	by mx.google.com with ESMTPS id r1sm58659858eeo.2.2012.12.12.14.33.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Dec 2012 14:33:34 -0800 (PST)
+	Wed, 12 Dec 2012 14:33:36 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Dec 2012 23:33:43 +0100
-Message-Id: <1355351624-16993-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed, 12 Dec 2012 23:33:44 +0100
+Message-Id: <1355351624-16993-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0
-In-Reply-To: <20121212212745.GD1756@jama.jama.net>
+In-Reply-To: <1355351624-16993-1-git-send-email-Martin.Jansa@gmail.com>
 References: <20121212212745.GD1756@jama.jama.net>
-Subject: [PATCHv2 1/2] autotools: copy also remove-potcdate.sin from ${STAGING_DATADIR_NATIVE}/gettext/po
+	<1355351624-16993-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/2] gettext: move remove-potcdate.sin from gettext-native to gettext-minimal-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 22:48:09 -0000
-
-* some packages (e.g. uptime, cpu, forecasts, news from meta-efl)
-  don't have remove-potcdate.sin in po subdirectory, but Makefile.in.in
-  supplied by autotools.bbclass depends on it and fails without like this:
-  | make[3]: Entering directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
-  | make[3]: *** No rule to make target `remove-potcdate.sin', needed by `remove-potcdate.sed'.  Stop.
-  | make[3]: Leaving directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
-  | make[2]: *** [uptime.pot] Error 2
+X-List-Received-Date: Wed, 12 Dec 2012 22:48:11 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
+ .../gettext-minimal-0.18.1.1/remove-potcdate.sin      | 19 +++++++++++++++++++
+ .../gettext/gettext-minimal-native_0.18.1.1.bb        |  4 +++-
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb         |  3 ++-
+ 3 files changed, 24 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
 
- v2: added if to test existence of that file, because bash has it with wrong permissions
-     -r--r--r-- 1 bitbake bitbake 432 Dec  9  2003 ../work/armv7a-vfp-neon-oe-linux-gnueabi/bash/4.2-r6/bash-4.2/po/remove-potcdate.sin
-
- meta/classes/autotools.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index ca981ec..9d1a299 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -193,6 +193,9 @@ autotools_do_configure() {
- 				cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
- 				if [ -d ${S}/po/ ]; then
- 					cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
-+					if [ ! -e ${S}/po/remove-potcdate.sin ]; then
-+						cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
-+					fi
- 				fi
- 				for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
- 					for j in `find ${S} -name $i | grep -v aclocal-copy`; do
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
+new file mode 100644
+index 0000000..2436c49
+--- /dev/null
++++ b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
+@@ -0,0 +1,19 @@
++# Sed script that remove the POT-Creation-Date line in the header entry
++# from a POT file.
++#
++# The distinction between the first and the following occurrences of the
++# pattern is achieved by looking at the hold space.
++/^"POT-Creation-Date: .*"$/{
++x
++# Test if the hold space is empty.
++s/P/P/
++ta
++# Yes it was empty. First occurrence. Remove the line.
++g
++d
++bb
++:a
++# The hold space was nonempty. Following occurrences. Do nothing.
++x
++:b
++}
+diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
+index a46a40d..f008a79 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
+@@ -1,6 +1,7 @@
+ SRC_URI = "file://aclocal.tgz \
+            file://config.rpath \
+            file://Makefile.in.in \
++           file://remove-potcdate.sin \
+            file://COPYING"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+@@ -11,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0854da868a929923087141d9d7aba7d5"
+ 
+ inherit native
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ S = "${WORKDIR}"
+ 
+@@ -21,4 +22,5 @@ do_install () {
+ 	install -d ${D}${datadir}/gettext/po/
+ 	cp ${WORKDIR}/config.rpath ${D}${datadir}/gettext/
+ 	cp ${WORKDIR}/Makefile.in.in ${D}${datadir}/gettext/po/
++	cp ${WORKDIR}/remove-potcdate.sin ${D}${datadir}/gettext/po/
+ }
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index c3265e1..4639481 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3+ & LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-PR = "r18"
++PR = "r19"
+ DEPENDS = "gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_class-native = "gettext-minimal-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+@@ -104,6 +104,7 @@ do_install_append_class-native () {
+ 	rm ${D}${datadir}/aclocal/*
+ 	rm ${D}${datadir}/gettext/config.rpath
+ 	rm ${D}${datadir}/gettext/po/Makefile.in.in
++	rm ${D}${datadir}/gettext/po/remove-potcdate.sin
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.8.0
 
