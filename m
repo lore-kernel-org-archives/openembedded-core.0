@@ -1,26 +1,29 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TibgZ-0001HN-MB
+	(envelope-from <Qi.Chen@windriver.com>) id 1Tibx0-0001fF-Ei
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 03:04:38 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Dec 2012 17:50:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,263,1355126400"; d="scan'208";a="262731655"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.105])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Dec 2012 17:50:01 -0800
-Message-ID: <50C7E2C9.3010100@linux.intel.com>
-Date: Tue, 11 Dec 2012 17:50:01 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 12 Dec 2012 03:21:34 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBC26xMH010648
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Dec 2012 18:06:59 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 11 Dec 2012 18:06:59 -0800
+Message-ID: <50C7E6CB.50002@windriver.com>
+Date: Wed, 12 Dec 2012 10:07:07 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1355224219-16454-1-git-send-email-Martin.Jansa@gmail.com>
-	<1355224219-16454-2-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1355224219-16454-2-git-send-email-Martin.Jansa@gmail.com>
+To: Constantin Musca <constantinx.musca@intel.com>
+References: <cover.1355236839.git.constantinx.musca@intel.com>
+	<5078335c2652b28a2613b3395cd95665675c1626.1355236839.git.constantinx.musca@intel.com>
+In-Reply-To: <5078335c2652b28a2613b3395cd95665675c1626.1355236839.git.constantinx.musca@intel.com>
+X-Originating-IP: [128.224.163.154]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] autotools: copy also remove-potcdate.sin from ${STAGING_DATADIR_NATIVE}/gettext/po
+Subject: Re: [PATCH 1/4] alsa-utils: Pass udev-rules-dir as parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +36,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 02:04:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 12 Dec 2012 02:21:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/11/2012 03:10 AM, Martin Jansa wrote:
-> * some packages (e.g. uptime, cpu, forecasts, news from meta-efl)
->    don't have remove-potcdate.sin in po subdirectory, but Makefile.in.in
->    supplied by autotools.bbclass depends on it and fails without like this:
->    | make[3]: Entering directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
->    | make[3]: *** No rule to make target `remove-potcdate.sin', needed by `remove-potcdate.sed'.  Stop.
->    | make[3]: Leaving directory `/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/uptime/0.0.2+svnr80477-r0.0/E-MODULES-EXTRA/uptime/po'
->    | make[2]: *** [uptime.pot] Error 2
+On 12/11/2012 11:29 PM, Constantin Musca wrote:
+> Fix the following warning:
+> WARNING: QA Issue: alsa-utils: Files/directories were installed but not shipped
+>    /lib
+>    /lib/udev
+>    /lib/udev/rules.d
+>    /lib/udev/rules.d/90-alsa-restore.rules
 >
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> [YOCTO #3440]
+>
+> Signed-off-by: Constantin Musca<constantinx.musca@intel.com>
 > ---
->   meta/classes/autotools.bbclass | 1 +
->   1 file changed, 1 insertion(+)
+>   meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index ca981ec..3154435 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -193,6 +193,7 @@ autotools_do_configure() {
->   				cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
->   				if [ -d ${S}/po/ ]; then
->   					cp ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
-> +					cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
->   				fi
->   				for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
->   					for j in `find ${S} -name $i | grep -v aclocal-copy`; do
+> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+> index 597e8b6..8f28a48 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
+> @@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+>                       file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
+>   DEPENDS = "alsa-lib ncurses libsamplerate0"
+> -PR = "r2"
+> +PR = "r3"
 >
-This patch seems to have an adverse affect on a number of other packages 
-some how. I saw a number patch failures and configure failures with this 
-patch.
+>   SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+>              file://ncursesfix.patch \
+> @@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "2e676a2f634bbfe279b260e10a96f617cb72ee63c5bbf6c5f96bb61570
+>   # http://bugs.openembedded.org/show_bug.cgi?id=2348
+>   # please close bug and remove this comment when properly fixed
+>   #
+> -EXTRA_OECONF = "--disable-xmlto"
+> +EXTRA_OECONF = "--disable-xmlto --with-udev-rules-dir=${base_libdir}/udev/rules.d"
+>   EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
+>
+>   inherit autotools gettext
+Hi Musca,
+Another bug is related to the udev rules directory. It's similar to this 
+one.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2804
+(You could also use 'udev' to filter the message in oe-core list to see 
+the previous discussions on this topic.)
+It seems alsa-utils does not seem to be the only package that hardcodes 
+its udev-rules-dir.
+Besides, udev cannot start properly if installed under /lib64.
 
-See the Autobuilder for examples.
+#!/bin/sh
 
-http://autobuilder.yoctoproject.org:8010/builders/nightly-x86/builds/830/steps/shell_29/logs/stdio
+### BEGIN INIT INFO
+# Provides:          udev
+# Required-Start:    mountvirtfs
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Start udevd, populate /dev and load drivers.
+### END INIT INFO
 
+export TZ=/etc/localtime
 
-Sau!
+[ -d /sys/class ] || exit 1
+[ -r /proc/mounts ] || exit 1
+[ -x /lib/udev/udevd ] || exit 1
+[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+[ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
 
+The question here is:
+Whether we should always install udev under /lib or patch all packages 
+that hardcodes udev-rules-dir to be under '/lib'. Maybe there are other 
+better approaches?
+
+Please have a look at these and let me know your opinions.
+
+Thanks a lot,
+Chen Qi
 
 
