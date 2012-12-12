@@ -1,25 +1,27 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tie5S-0005OZ-NA
+	(envelope-from <sgw@linux.intel.com>) id 1TieFX-0005YY-2n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 05:38:28 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 11 Dec 2012 20:23:52 -0800
+	Wed, 12 Dec 2012 05:48:51 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 11 Dec 2012 20:34:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,264,1355126400"; d="scan'208";a="230288800"
+X-IronPort-AV: E=Sophos;i="4.84,264,1355126400"; d="scan'208";a="179748181"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.105])
-	by azsmga001.ch.intel.com with ESMTP; 11 Dec 2012 20:23:51 -0800
-Message-ID: <50C806D7.4030606@linux.intel.com>
-Date: Tue, 11 Dec 2012 20:23:51 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Dec 2012 20:33:56 -0800
+Message-ID: <50C80933.4060109@linux.intel.com>
+Date: Tue, 11 Dec 2012 20:33:55 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1355262869-4600-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1355262869-4600-1-git-send-email-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libmatchbox: upgrade to 1.10, drop git
+To: yzhu1 <Yanjun.Zhu@windriver.com>
+References: <3564> <1355220032-8914-1-git-send-email-yanjun.zhu@windriver.com>
+	<50C783D9.2000908@linux.intel.com> <50C7E92F.5070704@windriver.com>
+In-Reply-To: <50C7E92F.5070704@windriver.com>
+Cc: "Garman, Scott A" <scott.a.garman@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] squashfs: fix CVE-2012-4025
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,664 +34,593 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 04:38:28 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 04:48:51 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/11/2012 01:54 PM, Ross Burton wrote:
-> All patches have been upstreamed so drop them, and as upstream isn't heavily
-> developed drop the git recipe.
+On 12/11/2012 06:17 PM, yzhu1 wrote:
+> On 12/12/2012 03:04 AM, Saul Wold wrote:
+>> On 12/11/2012 02:00 AM, yanjun.zhu wrote:
+>>> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+>>>
+>>> CQID:WIND00366813
+>>>
+>>> Reference: http://squashfs.git.sourceforge.net/git/gitweb.cgi?
+>>> p=squashfs/squashfs;a=patch;h=8515b3d420f502c5c0236b86e2d6d7e3b23c190e
+>>>
+>>> Integer overflow in the queue_init function in unsquashfs.c in
+>>> unsquashfs in Squashfs 4.2 and earlier allows remote attackers
+>>> to execute arbitrary code via a crafted block_log field in the
+>>> superblock of a .sqsh file, leading to a heap-based buffer overflow.
+>>>
+>>> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4025
+>>>
+>>> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+>>>
+>>
+>> This was merged on Nov 30th, or is shit intended for danny, possibly
+>> denzil.
+>>
+>> Sau!
+>>
+> Hi, Saul
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   .../libmatchbox/files/16bppfixes-2.patch           |  260 --------------------
->   .../libmatchbox/files/16bppfixes.patch             |   38 ---
->   .../libmatchbox/files/autofoo.patch                |   21 --
->   .../libmatchbox/files/configure_fixes.patch        |   81 ------
->   .../libmatchbox/files/fix-configure-for-1.9.patch  |   16 --
->   .../libmatchbox/files/matchbox-start-fix.patch     |   23 --
->   meta/recipes-graphics/libmatchbox/libmatchbox.inc  |   17 --
->   .../libmatchbox/libmatchbox_1.10.bb                |   28 +++
->   .../libmatchbox/libmatchbox_1.9.bb                 |   16 --
->   .../libmatchbox/libmatchbox_git.bb                 |   16 --
->   10 files changed, 28 insertions(+), 488 deletions(-)
->   delete mode 100644 meta/recipes-graphics/libmatchbox/files/16bppfixes-2.patch
->   delete mode 100644 meta/recipes-graphics/libmatchbox/files/16bppfixes.patch
->   delete mode 100644 meta/recipes-graphics/libmatchbox/files/autofoo.patch
->   delete mode 100644 meta/recipes-graphics/libmatchbox/files/configure_fixes.patch
->   delete mode 100644 meta/recipes-graphics/libmatchbox/files/fix-configure-for-1.9.patch
->   delete mode 100644 meta/recipes-graphics/libmatchbox/files/matchbox-start-fix.patch
->   delete mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox.inc
->   create mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb
->   delete mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb
->   delete mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox_git.bb
+> Thanks for your reply. Maybe you are mistaken. Just now I checked the
+> latest
+> source code. This patch is not merged. Please check it again.
 >
 
-Seems to introduce and issue with matchbox_keyboard:
-> ERROR: Function failed: do_compile (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/temp/log.do_compile.8278 for further information)
-> ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/temp/log.do_compile.8278
-> Log data follows:
-> | DEBUG: SITE files ['endian-big', 'bit-32', 'powerpc-common', 'common-linux', 'common-glibc', 'powerpc32-linux', 'powerpc-linux', 'common']
-> | DEBUG: Executing shell function do_compile
-> | NOTE: make -j 16
-> | make  all-recursive
-> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/git'
-> | Making all in src
-> | make[2]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/git/src'
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-image.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-layout.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-row.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-key.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-ui.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-xembed.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-remote.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c config-parser.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c util-list.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c util.c
-> | powerpc-poky-linux-gcc  -m32 -mhard-float  -mcpu=603e --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc -DHAVE_CONFIG_H -I. -I.. -DDATADIR=\"/usr/share\" -DPKGDATADIR=\"/usr/share/matchbox-keyboard\" -DPREFIX=\"/usr\" -g -Wall -fno-strict-aliasing   -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc/usr/include/freetype2         -O2 -pipe -g -feliminate-unused-debug-types -c matchbox-keyboard-ui-xft-backend.c
-> | matchbox-keyboard-image.c: In function 'png_file_load':
-> | matchbox-keyboard-image.c:68:8: error: dereferencing pointer to incomplete type
-> | make[2]: *** [matchbox-keyboard-image.o] Error 1
-> | make[2]: *** Waiting for unfinished jobs....
-> | util.c: In function 'util_utf8_char_cnt':
-> | util.c:87:15: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-> | config-parser.c: In function 'mb_kbd_config_load':
-> | config-parser.c:605:6: warning: format '%d' expects argument of type 'int', but argument 4 has type 'XML_Size' [-Wformat]
-> | matchbox-keyboard-ui.c: In function 'mb_kbd_ui_resources_create':
-> | matchbox-keyboard-ui.c:629:6: warning: variable 'atom_NET_WM_WINDOW_TYPE_DOCK' set but not used [-Wunused-but-set-variable]
-> | matchbox-keyboard-ui.c: In function 'mb_kbd_ui_event_loop':
-> | matchbox-keyboard-ui.c:1106:20: warning: variable 'press_y' set but not used [-Wunused-but-set-variable]
-> | matchbox-keyboard-ui.c:1106:7: warning: variable 'press_x' set but not used [-Wunused-but-set-variable]
-> | make[2]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/git/src'
-> | make[1]: *** [all-recursive] Error 1
-> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/git'
-> | make: *** [all] Error 2
-> | ERROR: oe_runmake failed
-> | ERROR: Function failed: do_compile (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/matchbox-keyboard/0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3/temp/log.do_compile.8278 for further information)
-> NOTE: recipe matchbox-keyboard-0.0+git1+b38f24036cff3be6c2fbcf9ca9881803e69003ac-r3: task do_compile: Failed
+You are correct, the problem I encountered is that this patch did not 
+apply correctly or cleanly with git am, and then I checked saw that a 
+CVE was applied and thought that was why.  I see this is 4025 vs the 
+older one is 4024.
 
+Please rebase this patch and resend a v2
 
+Thanks
+	Sau!
 
-Sau!
-
-
-> diff --git a/meta/recipes-graphics/libmatchbox/files/16bppfixes-2.patch b/meta/recipes-graphics/libmatchbox/files/16bppfixes-2.patch
-> deleted file mode 100644
-> index 9bcd582..0000000
-> --- a/meta/recipes-graphics/libmatchbox/files/16bppfixes-2.patch
-> +++ /dev/null
-> @@ -1,260 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> ---- libmatchbox/libmb/mbpixbuf.c.orig	2007-05-04 14:41:55.000000000 +0100
-> -+++ libmatchbox/libmb/mbpixbuf.c	2007-05-04 14:41:55.000000000 +0100
-> -@@ -710,46 +710,19 @@
-> -   return colnum;
-> - }
-> -
-> --
-> --static unsigned long
-> --mb_pixbuf_get_pixel(MBPixbuf *pb, int r, int g, int b, int a)
-> -+/*
-> -+ * Split the mb_pixbuf_get_pixel() function into several specialized
-> -+ * functions which we will inline; this allows us to optimize
-> -+ * mb_pixbuf_img_render_to_drawable_with_gc () by taking some of the
-> -+ * decision taking outside of the double loop
-> -+ */
-> -+
-> -+/*
-> -+ * Get pixel value for rgb values and pixel depth <= 8
-> -+ */
-> -+static inline unsigned long
-> -+mb_pixbuf_get_pixel_le8_rgb (MBPixbuf *pb, int r, int g, int b)
-> - {
-> --  if (pb->depth > 8)
-> --    {
-> --      switch (pb->depth)
-> --	{
-> --	case 15:
-> --	  return ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
-> --	case 16:
-> --	  return ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
-> --	case 24:
-> --	case 32:
-> --	  switch (pb->byte_order)
-> --	    {
-> --	    case BYTE_ORD_24_RGB:
-> --	      return ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
-> --	    case BYTE_ORD_24_RBG:
-> --	      return ((r & 0xff) << 16) | ((b & 0xff) << 8) | (g & 0xff);
-> --	    case BYTE_ORD_24_BRG:
-> --	      return ((b & 0xff) << 16) | ((r & 0xff) << 8) | (g & 0xff);
-> --	    case BYTE_ORD_24_BGR:
-> --	      return ((b & 0xff) << 16) | ((g & 0xff) << 8) | (r & 0xff);
-> --	    case BYTE_ORD_24_GRB:
-> --	      return ((g & 0xff) << 16) | ((r & 0xff) << 8) | (b & 0xff);
-> --	    case BYTE_ORD_24_GBR:
-> --	      return ((g & 0xff) << 16) | ((b & 0xff) << 8) | (r & 0xff);
-> --	    case BYTE_ORD_32_ARGB:
-> --	      return  (a << 24) | (r << 16) | (g << 8) | b;
-> --	    default:
-> --	      return 0;
-> --	    }
-> --	default:
-> --	  return 0;
-> --	}
-> --      return 0;
-> --    }
-> --
-> --  /* pb->depth <= 8 */
-> -   switch(pb->vis->class)
-> -     {
-> -     case PseudoColor:
-> -@@ -794,6 +767,111 @@
-> -   return 0;
-> - }
-> -
-> -+/*
-> -+ * Get pixel value from a pointer to 16bbp value for pixel depth <= 8
-> -+ * and advance the pointer
-> -+ */
-> -+static inline unsigned long
-> -+mb_pixbuf_get_pixel_le8_16bpp_advance (MBPixbuf *pb, unsigned char ** p)
-> -+{
-> -+  unsigned short s = SHORT_FROM_2BYTES(*p);
-> -+  int r, b, g;
-> -+
-> -+  r = (s & 0xf800) >> 8;
-> -+  g = (s & 0x07e0) >> 3;
-> -+  b = (s & 0x001f) << 3;
-> -+
-> -+  *p += 2;
-> -+
-> -+  return mb_pixbuf_get_pixel_le8_rgb (pb, r, g, b);
-> -+}
-> -+
-> -+/*
-> -+ * Get pixel value for rgba values and pixel depth > 8
-> -+ *
-> -+ */
-> -+static inline unsigned long
-> -+mb_pixbuf_get_pixel_gt8_rgba (MBPixbuf *pb, int r, int g, int b, int a)
-> -+{
-> -+  switch (pb->depth)
-> -+    {
-> -+    case 15:
-> -+      switch (pb->byte_order)
-> -+	{
-> -+	case BYTE_ORD_24_RGB:
-> -+	  return ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
-> -+	case BYTE_ORD_24_BGR:
-> -+	  return ((b & 0xf8) << 7) | ((g & 0xf8) << 2) | ((r & 0xf8) >> 3);
-> -+	}
-> -+    case 16:
-> -+      switch (pb->byte_order)
-> -+	{
-> -+	case BYTE_ORD_24_RGB:
-> -+	  return ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
-> -+	case BYTE_ORD_24_BGR:
-> -+	  return ((b & 0xf8) << 8) | ((g & 0xfc) << 3) | ((r & 0xf8) >> 3);
-> -+	}
-> -+    case 24:
-> -+    case 32:
-> -+      switch (pb->byte_order)
-> -+	{
-> -+	case BYTE_ORD_24_RGB:
-> -+	  return ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
-> -+	case BYTE_ORD_24_RBG:
-> -+	  return ((r & 0xff) << 16) | ((b & 0xff) << 8) | (g & 0xff);
-> -+	case BYTE_ORD_24_BRG:
-> -+	  return ((b & 0xff) << 16) | ((r & 0xff) << 8) | (g & 0xff);
-> -+	case BYTE_ORD_24_BGR:
-> -+	  return ((b & 0xff) << 16) | ((g & 0xff) << 8) | (r & 0xff);
-> -+	case BYTE_ORD_24_GRB:
-> -+	  return ((g & 0xff) << 16) | ((r & 0xff) << 8) | (b & 0xff);
-> -+	case BYTE_ORD_24_GBR:
-> -+	  return ((g & 0xff) << 16) | ((b & 0xff) << 8) | (r & 0xff);
-> -+	case BYTE_ORD_32_ARGB:
-> -+	  return  (a << 24) | (r << 16) | (g << 8) | b;
-> -+	default:
-> -+	  return 0;
-> -+	}
-> -+    default:
-> -+      return 0;
-> -+    }
-> -+}
-> -+
-> -+/*
-> -+ * Get pixel value from pointer to 16bpp data for pixel depth > 8
-> -+ * and advance the pointer
-> -+ *
-> -+ * TODO ? We could take the 32bit case out of here, which would allow
-> -+ * to ignore the alpha value for <15, 24>, but we might not gain that
-> -+ * much by this on arm due to the conditional execution.
-> -+ */
-> -+static inline unsigned long
-> -+mb_pixbuf_get_pixel_gt8_16bpp_advance (MBPixbuf *pb, unsigned char ** p,
-> -+				       int has_alpha)
-> -+{
-> -+  unsigned short s = SHORT_FROM_2BYTES(*p);
-> -+  int r, b, g, a;
-> -+
-> -+  r = (s & 0xf800) >> 8;
-> -+  g = (s & 0x07e0) >> 3;
-> -+  b = (s & 0x001f) << 3;
-> -+
-> -+  *p += 2;
-> -+
-> -+  a = has_alpha ?  *(*p)++ : 0xff;
-> -+
-> -+  return mb_pixbuf_get_pixel_gt8_rgba (pb, r, g, b, a);
-> -+}
-> -+
-> -+static inline unsigned long
-> -+mb_pixbuf_get_pixel(MBPixbuf *pb, int r, int g, int b, int a)
-> -+{
-> -+  if (pb->depth > 8)
-> -+    return mb_pixbuf_get_pixel_gt8_rgba (pb, r, g, b, a);
-> -+
-> -+  return mb_pixbuf_get_pixel_le8_rgb (pb, r, g, b);
-> -+}
-> -+
-> - unsigned long
-> - mb_pixbuf_lookup_x_pixel(MBPixbuf *pb, int r, int g, int b, int a)
-> - {
-> -@@ -1825,7 +1903,6 @@
-> -   mb_pixbuf_img_render_to_drawable_with_gc(pb, img, drw, drw_x, drw_y, pb->gc);
-> - }
-> -
-> --
-> - void
-> - mb_pixbuf_img_render_to_drawable_with_gc(MBPixbuf    *pb,
-> - 					 MBPixbufImage *img,
-> -@@ -1883,31 +1960,57 @@
-> -
-> -       if (pb->internal_bytespp == 2)
-> - 	{
-> --	  for(y=0; y<img->height; y++)
-> --	    for(x=0; x<img->width; x++)
-> --	      {
-> --		/* Below is potentially dangerous.
-> --		 */
-> --		pixel =  ( *p | (*(p+1) << 8));
-> --
-> --		p +=  ((img->has_alpha) ?  3 : 2);
-> --		
-> --		XPutPixel(img->ximg, x, y, pixel);
-> --	      }
-> -+	  if (pb->depth > 8)
-> -+	    {
-> -+	      for(y=0; y<img->height; y++)
-> -+		for(x=0; x<img->width; x++)
-> -+		  {
-> -+		    pixel = mb_pixbuf_get_pixel_gt8_16bpp_advance(pb, &p,
-> -+								  img->has_alpha);
-> -+		    XPutPixel(img->ximg, x, y, pixel);
-> -+		  }
-> -+	    }
-> -+	  else
-> -+	    {
-> -+	      for(y=0; y<img->height; y++)
-> -+		for(x=0; x<img->width; x++)
-> -+		  {
-> -+		    pixel = mb_pixbuf_get_pixel_le8_16bpp_advance(pb, &p);
-> -+		    XPutPixel(img->ximg, x, y, pixel);
-> -+		  }
-> -+	    }
-> - 	}
-> -       else
-> - 	{
-> --	  for(y=0; y<img->height; y++)
-> -+	  if (pb->depth > 8)
-> - 	    {
-> --	      for(x=0; x<img->width; x++)
-> -+	      for(y=0; y<img->height; y++)
-> - 		{
-> --		  r = ( *p++ );
-> --		  g = ( *p++ );
-> --		  b = ( *p++ );
-> --		  a = ((img->has_alpha) ?  *p++ : 0xff);
-> -+		  for(x=0; x<img->width; x++)
-> -+		    {
-> -+		      r = ( *p++ );
-> -+		      g = ( *p++ );
-> -+		      b = ( *p++ );
-> -+		      a = ((img->has_alpha) ?  *p++ : 0xff);
-> - 		
-> --		  pixel = mb_pixbuf_get_pixel(pb, r, g, b, a);
-> --		  XPutPixel(img->ximg, x, y, pixel);
-> -+		      pixel = mb_pixbuf_get_pixel_gt8_rgba(pb, r, g, b, a);
-> -+		      XPutPixel(img->ximg, x, y, pixel);
-> -+		    }
-> -+		}
-> -+	    }
-> -+	  else
-> -+	    {
-> -+	      for(y=0; y<img->height; y++)
-> -+		{
-> -+		  for(x=0; x<img->width; x++)
-> -+		    {
-> -+		      r = ( *p++ );
-> -+		      g = ( *p++ );
-> -+		      b = ( *p++ );
-> -+		
-> -+		      pixel = mb_pixbuf_get_pixel_le8_rgb(pb, r, g, b);
-> -+		      XPutPixel(img->ximg, x, y, pixel);
-> -+		    }
-> - 		}
-> - 	    }
-> - 	}
-> diff --git a/meta/recipes-graphics/libmatchbox/files/16bppfixes.patch b/meta/recipes-graphics/libmatchbox/files/16bppfixes.patch
-> deleted file mode 100644
-> index ac22b99..0000000
-> --- a/meta/recipes-graphics/libmatchbox/files/16bppfixes.patch
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -Upstream-Status: Accepted
-> -
-> -Index: libmb/mbpixbuf.c
-> -===================================================================
-> ---- libmatchbox/libmb.orig/mbpixbuf.c	2006-02-01 12:45:55.000000000 +0000
-> -+++ libmatchbox/libmb/mbpixbuf.c	2006-03-11 15:20:47.000000000 +0000
-> -@@ -716,7 +716,13 @@
-> - 	case 15:
-> - 	  return ((r & 0xf8) << 7) | ((g & 0xf8) << 2) | ((b & 0xf8) >> 3);
-> - 	case 16:
-> --	  return ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
-> -+	  switch (pb->byte_order)
-> -+	    {
-> -+	    case BYTE_ORD_24_RGB:
-> -+	      return ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | ((b & 0xf8) >> 3);
-> -+	    case BYTE_ORD_24_BGR:
-> -+	      return ((b & 0xf8) << 8) | ((g & 0xfc) << 3) | ((r & 0xf8) >> 3);
-> -+	    }
-> - 	case 24:
-> - 	case 32:
-> - 	  switch (pb->byte_order)
-> -@@ -1880,12 +1886,11 @@
-> - 	  for(y=0; y<img->height; y++)
-> - 	    for(x=0; x<img->width; x++)
-> - 	      {
-> --		/* Below is potentially dangerous.
-> --		 */
-> --		pixel =  ( *p | (*(p+1) << 8));
-> -+		internal_16bpp_pixel_to_rgb(p, r, g, b);
-> -+		internal_16bpp_pixel_next(p);
-> -+		a = ((img->has_alpha) ?  *p++ : 0xff);
-> -
-> --		p +=  ((img->has_alpha) ?  3 : 2);
-> --		
-> -+		pixel = mb_pixbuf_get_pixel(pb, r, g, b, a);
-> - 		XPutPixel(img->ximg, x, y, pixel);
-> - 	      }
-> - 	}
-> diff --git a/meta/recipes-graphics/libmatchbox/files/autofoo.patch b/meta/recipes-graphics/libmatchbox/files/autofoo.patch
-> deleted file mode 100644
-> index 78849a4..0000000
-> --- a/meta/recipes-graphics/libmatchbox/files/autofoo.patch
-> +++ /dev/null
-> @@ -1,21 +0,0 @@
-> -
-> -#
-> -# Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
-> -#
-> -
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> ---- libmatchbox-1.5/configure.ac~autofoo	2004-12-21 12:56:46.000000000 -0500
-> -+++ libmatchbox-1.5/configure.ac	2005-01-18 16:40:04.421179624 -0500
-> -@@ -1,10 +1,10 @@
-> - AC_PREREQ(2.53)
-> - AC_INIT([libmatchbox], 1.5, [mallum@handhelds.org])
-> - AC_CONFIG_SRCDIR([libmb/mbtray.c])
-> -+AC_CONFIG_AUX_DIR(.)
-> -
-> - AM_INIT_AUTOMAKE()
-> - AM_CONFIG_HEADER([config.h])
-> --AC_CONFIG_AUX_DIR(.)
-> -
-> - # Checks for programs.
-> - AC_GNU_SOURCE
-> diff --git a/meta/recipes-graphics/libmatchbox/files/configure_fixes.patch b/meta/recipes-graphics/libmatchbox/files/configure_fixes.patch
-> deleted file mode 100644
-> index 30fd67b..0000000
-> --- a/meta/recipes-graphics/libmatchbox/files/configure_fixes.patch
-> +++ /dev/null
-> @@ -1,81 +0,0 @@
-> ----
-> - configure.ac |   15 +++++++--------
-> - libmb.pc.in  |    2 +-
-> - 2 files changed, 8 insertions(+), 9 deletions(-)
-> -
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> -Index: libmatchbox-1.9/configure.ac
-> -===================================================================
-> ---- libmatchbox-1.9.orig/configure.ac	2007-11-11 22:26:43.000000000 +0000
-> -+++ libmatchbox-1.9/configure.ac	2007-11-11 22:52:09.000000000 +0000
-> -@@ -84,6 +84,7 @@ if test $have_libx11pc = yes; then
-> -       xft_pkg=xft
-> -       SUPPORTS_XFT=1
-> -       AC_DEFINE(USE_XFT, [1], [Use Xft])	
-> -+      XFT_REQUIRED="xft"
-> -    fi
-> - # XXX : xau is missing from x11.pc - workaround is too add here
-> -    PKG_CHECK_MODULES(XLIBS, x11 xext  $xft_pkg)
-> -@@ -108,6 +109,7 @@ if test x$enable_xft != xno; then
-> -     AC_DEFINE(USE_XFT, [1], [Use Xft])
-> -     SUPPORTS_XFT=1
-> -     AC_MSG_RESULT(yes)
-> -+    XFT_REQUIRED="xft"
-> -   else
-> -
-> -     AC_PATH_PROG(XFT_CONFIG, xft-config, no)
-> -@@ -122,21 +124,17 @@ if test x$enable_xft != xno; then
-> -       AC_DEFINE(USE_XFT, [1], [Use Xft])
-> -       SUPPORTS_XFT=1
-> -       AC_MSG_RESULT(yes)
-> -+      MB_EXTRA_CFLAGS="$MB_EXTRA_CFLAGS $XFT_CFLAGS"
-> -+      MB_EXTRA_LIBS="$MB_EXTRA_LIBS $XFT_LIBS"
-> -     fi
-> -   fi
-> - fi
-> -
-> - XLIBS_CFLAGS="$XLIBS_CLAGS $XFT_CFLAGS"
-> --XLIBS_LIBS="$X_LIBS $XFT_LIBS -lX11 -lXext"
-> --
-> --MB_EXTRA_LIBS="$MB_EXTRA_LIBS $XLIBS_LIBS"
-> -+XLIBS_LIBS="$XLIBS_LIBS $XFT_LIBS -lX11 -lXext"
-> -
-> - fi
-> -
-> --# do this here for freetype include
-> --MB_EXTRA_CFLAGS="$MB_EXTRA_CFLAGS $XLIBS_CFLAGS"
-> --
-> --
-> - dnl ------ Check for Pango ---------------------------------------------------
-> -
-> - if test x$enable_pango != xno; then
-> -@@ -172,7 +170,7 @@ if test x$enable_png != xno; then
-> -             AC_DEFINE(USE_PNG, [1], [Use Png])
-> - 	    SUPPORTS_PNG=1
-> -             PNG_LIBS="-lpng -lz"
-> --            MB_EXTRA_LIBS="$MB_EXTRA_LIBS $XLIBS_LIBS $PNG_LIBS"
-> -+            MB_EXTRA_LIBS="$MB_EXTRA_LIBS $PNG_LIBS"
-> -         else
-> - 	    AC_MSG_WARN([*** Cannot find PNG, disabling support])
-> -             enable_png=no
-> -@@ -340,6 +338,7 @@ AC_SUBST(MB_EXTRA_CFLAGS)
-> - AC_SUBST(XLIBS_REQUIRED)
-> - AC_SUBST(PANGO_REQUIRED)
-> - AC_SUBST(PNG_REQUIRED)
-> -+AC_SUBST(XFT_REQUIRED)
-> -
-> - dnl ------ Below used for mbconfig.h ----------------------------------------
-> -
-> -Index: libmatchbox-1.9/libmb.pc.in
-> -===================================================================
-> ---- libmatchbox-1.9.orig/libmb.pc.in	2007-11-11 22:30:47.000000000 +0000
-> -+++ libmatchbox-1.9/libmb.pc.in	2007-11-11 22:31:01.000000000 +0000
-> -@@ -7,6 +7,6 @@ Name: libmb
-> - Description: Utility Library used by Matchbox utilities.
-> - Version: @VERSION@
-> -
-> --Requires: @XLIBS_REQUIRED@ @PANGO_REQUIRED@ @PNG_REQUIRED@
-> -+Requires: @XLIBS_REQUIRED@ @PANGO_REQUIRED@ @PNG_REQUIRED@ @XFT_REQUIRED@
-> - Libs: -L${libdir} -lmb @MB_EXTRA_LIBS@
-> - Cflags: -I${includedir} @MB_EXTRA_CFLAGS@
-> diff --git a/meta/recipes-graphics/libmatchbox/files/fix-configure-for-1.9.patch b/meta/recipes-graphics/libmatchbox/files/fix-configure-for-1.9.patch
-> deleted file mode 100644
-> index 2f147eb..0000000
-> --- a/meta/recipes-graphics/libmatchbox/files/fix-configure-for-1.9.patch
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> -diff -urNd ../libmatchbox-1.6-r1/libmatchbox-1.6/configure.ac libmatchbox-1.6/configure.ac
-> ---- ../libmatchbox-1.6-r1/libmatchbox-1.6/configure.ac	2005-01-11 21:47:39 +00:00
-> -+++ libmatchbox-1.6/configure.ac	2005-03-14 03:06:25 +00:00
-> -@@ -2,9 +2,9 @@
-> - AC_INIT([libmatchbox], 1.6, [mallum@handhelds.org])
-> - AC_CONFIG_SRCDIR([libmb/mbtray.c])
-> -
-> -+AC_CONFIG_AUX_DIR(.)
-> - AM_INIT_AUTOMAKE()
-> - AM_CONFIG_HEADER([config.h])
-> --AC_CONFIG_AUX_DIR(.)
-> -
-> - # Checks for programs.
-> - AC_GNU_SOURCE
-> diff --git a/meta/recipes-graphics/libmatchbox/files/matchbox-start-fix.patch b/meta/recipes-graphics/libmatchbox/files/matchbox-start-fix.patch
-> deleted file mode 100644
-> index 88f5d70..0000000
-> --- a/meta/recipes-graphics/libmatchbox/files/matchbox-start-fix.patch
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -matchbox environment start fail on x86-64 target, while ok on x86 target. Root
-> -cause is libmatchbox use "0"(int) as termination indicator when calling
-> -XftFontOpen, which in turn called FcPatternVapBuild(in fontconfig). It try to
-> -get the "0" as char* and fetch wrong value, as int and char* has different size
-> -on x86-64. This patch forces a NULL pointer as terminator to fix it.
-> -
-> -Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-> -
-> -Upstream-Status: Accepted
-> -
-> -Index: libmatchbox-1.9/libmb/mbexp.c
-> -===================================================================
-> ---- libmatchbox-1.9.orig/libmb/mbexp.c	2010-08-28 06:33:25.000000000 +0800
-> -+++ libmatchbox-1.9/libmb/mbexp.c	2010-08-28 06:30:05.000000000 +0800
-> -@@ -348,7 +348,7 @@
-> - 			    XFT_SIZE, XftTypeDouble   , (double)font->pt_size,
-> - 			    XFT_WEIGHT, XftTypeInteger, weight,
-> - 			    XFT_SLANT, XftTypeInteger , slant,
-> --			    0);
-> -+			    NULL);
-> -
-> -   if (font->font != NULL ) result = 2;
-> -
-> diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox.inc b/meta/recipes-graphics/libmatchbox/libmatchbox.inc
-> deleted file mode 100644
-> index fdc866f..0000000
-> --- a/meta/recipes-graphics/libmatchbox/libmatchbox.inc
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -DESCRIPTION = "Matchbox window manager core library"
-> -HOMEPAGE = "http://matchbox-project.org/"
-> -BUGTRACKER = "http://bugzilla.openedhand.com/"
-> -
-> -LICENSE = "LGPLv2+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
-> -                    file://libmb/mbexp.c;endline=20;md5=28c0aef3b23e308464f5dae6a11b0d2f \
-> -                    file://libmb/mbdotdesktop.c;endline=21;md5=5a287156b3207e851c1d68d09c439b51"
-> -
-> -SECTION = "x11/libs"
-> -DEPENDS = "virtual/libx11 libxext expat libxft jpeg libpng zlib libxsettings-client startup-notification"
-> -
-> -inherit autotools pkgconfig
-> -
-> -EXTRA_OECONF = "--enable-jpeg --enable-expat --enable-xsettings --enable-startup-notification"
-> -
-> -S = "${WORKDIR}/libmatchbox-${PV}"
-> diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb
-> new file mode 100644
-> index 0000000..a1531b8
-> --- /dev/null
-> +++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb
-> @@ -0,0 +1,28 @@
-> +DESCRIPTION = "Matchbox window manager core library"
-> +SECTION = "x11/libs"
-> +HOMEPAGE = "http://matchbox-project.org/"
-> +BUGTRACKER = "http://bugzilla.yoctoproject.com/"
-> +
-> +LICENSE = "LGPLv2+"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
-> +                    file://libmb/mbexp.c;endline=20;md5=28c0aef3b23e308464f5dae6a11b0d2f \
-> +                    file://libmb/mbdotdesktop.c;endline=21;md5=5a287156b3207e851c1d68d09c439b51"
-> +
-> +DEPENDS = "virtual/libx11 libxext expat libxft jpeg libpng zlib libxsettings-client startup-notification"
-> +
-> +SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/${BPN}/${PV}/${BPN}-${PV}.tar.gz \
-> +           file://check.m4"
-> +SRC_URI[md5sum] = "042c5874631dfb95151aa793dc1434b8"
-> +SRC_URI[sha256sum] = "d14d4844840e3e1e4faa9f9e90060915d39b6033f6979464ab3ea3fe1c4f9293"
-> +
-> +PR = "r0"
-> +
-> +inherit autotools pkgconfig
-> +
-> +S = "${WORKDIR}/libmatchbox-${PV}"
-> +
-> +do_configure_prepend () {
-> +	cp ${WORKDIR}/check.m4 ${S}/
-> +}
-> +
-> +EXTRA_OECONF = "--enable-jpeg --enable-expat --enable-xsettings --enable-startup-notification"
-> diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb
-> deleted file mode 100644
-> index 2fcd1b0..0000000
-> --- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -require libmatchbox.inc
-> -
-> -PR = "r10"
-> -
-> -SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/${BPN}/${PV}/${BPN}-${PV}.tar.gz \
-> -           file://16bppfixes.patch \
-> -           file://configure_fixes.patch \
-> -           file://check.m4 \
-> -           file://matchbox-start-fix.patch"
-> -
-> -SRC_URI[md5sum] = "465fa15c43bf0091a3810e7702fe143f"
-> -SRC_URI[sha256sum] = "f7054f93c57ba6b758d0e4f47d4d2dd96a7fe487e1157eb70a4d642910275aea"
-> -
-> -do_configure_prepend () {
-> -	cp ${WORKDIR}/check.m4 ${S}/
-> -}
-> diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_git.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_git.bb
-> deleted file mode 100644
-> index ac329e5..0000000
-> --- a/meta/recipes-graphics/libmatchbox/libmatchbox_git.bb
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -require libmatchbox.inc
-> -
-> -SRCREV = "d9dd0ac810de4f0b93cd813ce14aee34c722c2cf"
-> -PV = "1.9+git${SRCPV}"
-> -PR = "r0"
-> -DEFAULT_PREFERENCE = "-1"
-> -
-> -SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-> -           file://configure_fixes.patch \
-> -	   file://check.m4"
-> -
-> -S = "${WORKDIR}/git"
-> -
-> -do_configure_prepend () {
-> -        cp ${WORKDIR}/check.m4 ${S}/
-> -}
+> Thanks a lot.
+> Zhu Yanjun
+>>> [YOCTO #3564]
+>>> ---
+>>>   .../patches/squashfs-4.2-fix-CVE-2012-4025.patch   | 190
+>>> ++++++++++++++++++
+>>>   ...dd-a-commment-and-fix-some-other-comments.patch |  38 ++++
+>>>   .../patches/squashfs-fix-open-file-limit.patch     | 215
+>>> +++++++++++++++++++++
+>>>   .../squashfs-tools/squashfs-tools_4.2.bb           |   3 +
+>>>   4 files changed, 446 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
+>>>
+>>>   create mode 100644
+>>> meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
+>>>
+>>>   create mode 100644
+>>> meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
+>>>
+>>>
+>>> diff --git
+>>> a/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
+>>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..0dabfba
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
+>>>
+>>> @@ -0,0 +1,190 @@
+>>> +Upstream-Status: Backport
+>>> +
+>>> +Reference: http://squashfs.git.sourceforge.net/git/gitweb.cgi?
+>>> +p=squashfs/squashfs;a=patch;h=8515b3d420f502c5c0236b86e2d6d7e3b23c190e
+>>> +
+>>> +Integer overflow in the queue_init function in unsquashfs.c in
+>>> +unsquashfs in Squashfs 4.2 and earlier allows remote attackers
+>>> +to execute arbitrary code via a crafted block_log field in the
+>>> +superblock of a .sqsh file, leading to a heap-based buffer overflow.
+>>> +
+>>> +http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4025
+>>> +
+>>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+>>> +
+>>> +--- a/unsquashfs.c    2012-11-30 17:57:57.000000000 +0800
+>>> ++++ b/unsquashfs.c    2012-11-30 17:58:09.000000000 +0800
+>>> +@@ -33,6 +33,7 @@
+>>> + #include <sys/types.h>
+>>> + #include <sys/time.h>
+>>> + #include <sys/resource.h>
+>>> ++#include <limits.h>
+>>> +
+>>> + struct cache *fragment_cache, *data_cache;
+>>> + struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
+>>> +@@ -138,6 +139,24 @@ void sigalrm_handler()
+>>> + }
+>>> +
+>>> +
+>>> ++int add_overflow(int a, int b)
+>>> ++{
+>>> ++    return (INT_MAX - a) < b;
+>>> ++}
+>>> ++
+>>> ++
+>>> ++int shift_overflow(int a, int shift)
+>>> ++{
+>>> ++    return (INT_MAX >> shift) < a;
+>>> ++}
+>>> ++
+>>> ++
+>>> ++int multiply_overflow(int a, int multiplier)
+>>> ++{
+>>> ++    return (INT_MAX / multiplier) < a;
+>>> ++}
+>>> ++
+>>> ++
+>>> + struct queue *queue_init(int size)
+>>> + {
+>>> +     struct queue *queue = malloc(sizeof(struct queue));
+>>> +@@ -145,6 +164,10 @@ struct queue *queue_init(int size)
+>>> +     if(queue == NULL)
+>>> +         EXIT_UNSQUASH("Out of memory in queue_init\n");
+>>> +
+>>> ++    if(add_overflow(size, 1) ||
+>>> ++                multiply_overflow(size + 1, sizeof(void *)))
+>>> ++        EXIT_UNSQUASH("Size too large in queue_init\n");
+>>> ++
+>>> +     queue->data = malloc(sizeof(void *) * (size + 1));
+>>> +     if(queue->data == NULL)
+>>> +         EXIT_UNSQUASH("Out of memory in queue_init\n");
+>>> +@@ -1948,13 +1971,30 @@ void initialise_threads(int fragment_buf
+>>> +      * allocate to_reader, to_deflate and to_writer queues. Set
+>>> based on
+>>> +      * open file limit and cache size, unless open file limit is
+>>> unlimited,
+>>> +      * in which case set purely based on cache limits
+>>> ++     *
+>>> ++     * In doing so, check that the user supplied values do not
+>>> overflow
+>>> ++     * a signed int
+>>> +      */
+>>> +     if (max_files != -1) {
+>>> ++        if(add_overflow(data_buffer_size, max_files) ||
+>>> ++                add_overflow(data_buffer_size, max_files * 2))
+>>> ++            EXIT_UNSQUASH("Data queue size is too large\n");
+>>> ++
+>>> +         to_reader = queue_init(max_files + data_buffer_size);
+>>> +         to_deflate = queue_init(max_files + data_buffer_size);
+>>> +         to_writer = queue_init(max_files * 2 + data_buffer_size);
+>>> +     } else {
+>>> +-        int all_buffers_size = fragment_buffer_size +
+>>> data_buffer_size;
+>>> ++        int all_buffers_size;
+>>> ++
+>>> ++        if(add_overflow(fragment_buffer_size, data_buffer_size))
+>>> ++            EXIT_UNSQUASH("Data and fragment queues combined are"
+>>> ++                            " too large\n");
+>>> ++
+>>> ++        all_buffers_size = fragment_buffer_size + data_buffer_size;
+>>> ++
+>>> ++        if(add_overflow(all_buffers_size, all_buffers_size))
+>>> ++            EXIT_UNSQUASH("Data and fragment queues combined are"
+>>> ++                            " too large\n");
+>>> +
+>>> +         to_reader = queue_init(all_buffers_size);
+>>> +         to_deflate = queue_init(all_buffers_size);
+>>> +@@ -2059,6 +2099,32 @@ void progress_bar(long long current, lon
+>>> + }
+>>> +
+>>> +
+>>> ++int parse_number(char *arg, int *res)
+>>> ++{
+>>> ++    char *b;
+>>> ++    long number = strtol(arg, &b, 10);
+>>> ++
+>>> ++    /* check for trailing junk after number */
+>>> ++    if(*b != '\0')
+>>> ++        return 0;
+>>> ++
+>>> ++    /* check for strtol underflow or overflow in conversion */
+>>> ++    if(number == LONG_MIN || number == LONG_MAX)
+>>> ++        return 0;
+>>> ++
+>>> ++    /* reject negative numbers as invalid */
+>>> ++    if(number < 0)
+>>> ++        return 0;
+>>> ++
+>>> ++    /* check if long result will overflow signed int */
+>>> ++    if(number > INT_MAX)
+>>> ++        return 0;
+>>> ++
+>>> ++    *res = number;
+>>> ++    return 1;
+>>> ++}
+>>> ++
+>>> ++
+>>> + #define VERSION() \
+>>> +     printf("unsquashfs version 4.2 (2011/02/28)\n");\
+>>> +     printf("copyright (C) 2011 Phillip Lougher "\
+>>> +@@ -2140,8 +2206,8 @@ int main(int argc, char *argv[])
+>>> +         } else if(strcmp(argv[i], "-data-queue") == 0 ||
+>>> +                      strcmp(argv[i], "-da") == 0) {
+>>> +             if((++i == argc) ||
+>>> +-                    (data_buffer_size = strtol(argv[i], &b,
+>>> +-                     10), *b != '\0')) {
+>>> ++                    !parse_number(argv[i],
+>>> ++                        &data_buffer_size)) {
+>>> +                 ERROR("%s: -data-queue missing or invalid "
+>>> +                     "queue size\n", argv[0]);
+>>> +                 exit(1);
+>>> +@@ -2154,8 +2220,8 @@ int main(int argc, char *argv[])
+>>> +         } else if(strcmp(argv[i], "-frag-queue") == 0 ||
+>>> +                     strcmp(argv[i], "-fr") == 0) {
+>>> +             if((++i == argc) ||
+>>> +-                    (fragment_buffer_size = strtol(argv[i],
+>>> +-                     &b, 10), *b != '\0')) {
+>>> ++                    !parse_number(argv[i],
+>>> ++                        &fragment_buffer_size)) {
+>>> +                 ERROR("%s: -frag-queue missing or invalid "
+>>> +                     "queue size\n", argv[0]);
+>>> +                 exit(1);
+>>> +@@ -2280,11 +2346,39 @@ options:
+>>> +     block_log = sBlk.s.block_log;
+>>> +
+>>> +     /*
+>>> ++     * Sanity check block size and block log.
+>>> ++     *
+>>> ++     * Check they're within correct limits
+>>> ++     */
+>>> ++    if(block_size > SQUASHFS_FILE_MAX_SIZE ||
+>>> ++                    block_log > SQUASHFS_FILE_MAX_LOG)
+>>> ++        EXIT_UNSQUASH("Block size or block_log too large."
+>>> ++            "  File system is corrupt.\n");
+>>> ++
+>>> ++    /*
+>>> ++     * Check block_size and block_log match
+>>> ++     */
+>>> ++    if(block_size != (1 << block_log))
+>>> ++        EXIT_UNSQUASH("Block size and block_log do not match."
+>>> ++            "  File system is corrupt.\n");
+>>> ++
+>>> ++    /*
+>>> +      * convert from queue size in Mbytes to queue size in
+>>> +-     * blocks
+>>> ++     * blocks.
+>>> ++     *
+>>> ++     * In doing so, check that the user supplied values do not
+>>> ++     * overflow a signed int
+>>> +      */
+>>> +-    fragment_buffer_size <<= 20 - block_log;
+>>> +-    data_buffer_size <<= 20 - block_log;
+>>> ++    if(shift_overflow(fragment_buffer_size, 20 - block_log))
+>>> ++        EXIT_UNSQUASH("Fragment queue size is too large\n");
+>>> ++    else
+>>> ++        fragment_buffer_size <<= 20 - block_log;
+>>> ++
+>>> ++    if(shift_overflow(data_buffer_size, 20 - block_log))
+>>> ++        EXIT_UNSQUASH("Data queue size is too large\n");
+>>> ++    else
+>>> ++        data_buffer_size <<= 20 - block_log;
+>>> ++
+>>> +     initialise_threads(fragment_buffer_size, data_buffer_size);
+>>> +
+>>> +     fragment_data = malloc(block_size);
+>>> diff --git
+>>> a/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
+>>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..fa075f9
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
+>>>
+>>> @@ -0,0 +1,38 @@
+>>> +Upstream-Status: Backport
+>>> +
+>>> +unsquashfs: add a commment and fix some other comments
+>>> +
+>>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+>>> +
+>>> +diff -urpN a/unsquashfs.c b/unsquashfs.c
+>>> +--- a/unsquashfs.c    2012-11-30 15:27:14.000000000 +0800
+>>> ++++ b/unsquashfs.c    2012-11-30 15:27:56.000000000 +0800
+>>> +@@ -814,7 +814,7 @@ int write_file(struct inode *inode, char
+>>> +
+>>> +     /*
+>>> +      * the writer thread is queued a squashfs_file structure
+>>> describing the
+>>> +-      * file.  If the file has one or more blocks or a fragments
+>>> they are
+>>> ++      * file.  If the file has one or more blocks or a fragment
+>>> they are
+>>> +       * queued separately (references to blocks in the cache).
+>>> +       */
+>>> +     file->fd = file_fd;
+>>> +@@ -838,7 +838,7 @@ int write_file(struct inode *inode, char
+>>> +         block->offset = 0;
+>>> +         block->size = i == file_end ? inode->data & (block_size - 1) :
+>>> +             block_size;
+>>> +-        if(block_list[i] == 0) /* sparse file */
+>>> ++        if(block_list[i] == 0) /* sparse block */
+>>> +             block->buffer = NULL;
+>>> +         else {
+>>> +             block->buffer = cache_get(data_cache, start,
+>>> +@@ -2161,6 +2161,10 @@ options:
+>>> +     block_size = sBlk.s.block_size;
+>>> +     block_log = sBlk.s.block_log;
+>>> +
+>>> ++    /*
+>>> ++     * convert from queue size in Mbytes to queue size in
+>>> ++     * blocks
+>>> ++     */
+>>> +     fragment_buffer_size <<= 20 - block_log;
+>>> +     data_buffer_size <<= 20 - block_log;
+>>> +     initialise_threads(fragment_buffer_size, data_buffer_size);
+>>> diff --git
+>>> a/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
+>>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..c60f7b4
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
+>>>
+>>> @@ -0,0 +1,215 @@
+>>> +Upstream-Status: Backport
+>>> +
+>>> +unsquashfs: fix open file limit
+>>> +
+>>> +Previously Unsquashfs relied on the to_writer queue being
+>>> +set to 1000 to limit the amount of open file read-ahead to a
+>>> +maximum of 500.  For the default process limit of 1024 open files
+>>> +this was perhaps acceptable, but it obviously breaks if ulimit has
+>>> +been used to set the open file limit to below 504 (this includes
+>>> +stdin, stdout, stderr and the Squashfs filesystem being unsquashed).
+>>> +
+>>> +More importantly setting the to_writer queue to 1000 to limit
+>>> +the amount of files open has always been an inherent performance
+>>> +hit because the to_writer queue queues blocks.  It limits the
+>>> +block readhead to 1000 blocks, irrespective of how many files
+>>> +that represents.  A single file containing more than 1000 blocks
+>>> +will still be limited to a 1000 block readahead even though the
+>>> +data block cache typically can buffer more than this (at the
+>>> +default data cache size of 256 Mbytes and the default block size
+>>> +of 128 Kbytes, it can buffer 2048 blocks).  Obviously the
+>>> +caches serve more than just a read-ahead role (they also
+>>> +cache decompressed blocks in case they're referenced later e.g.
+>>> +by duplicate files), but the artificial limit imposed on
+>>> +the read-ahead due to setting the to_writer queue to 1000 is
+>>> +unnecessary.
+>>> +
+>>> +This commit does away with the need to limit the to_writer queue,
+>>> +by introducing open_wait() and close_wake() calls which correctly
+>>> +track the amount of open files.
+>>> +
+>>> +Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
+>>> +
+>>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+>>> +
+>>> +diff -urpN a/unsquashfs.c b/unsquashfs.c
+>>> +--- a/unsquashfs.c    2012-11-30 15:31:29.000000000 +0800
+>>> ++++ b/unsquashfs.c    2012-11-30 15:32:03.000000000 +0800
+>>> +@@ -31,6 +31,8 @@
+>>> +
+>>> + #include <sys/sysinfo.h>
+>>> + #include <sys/types.h>
+>>> ++#include <sys/time.h>
+>>> ++#include <sys/resource.h>
+>>> +
+>>> + struct cache *fragment_cache, *data_cache;
+>>> + struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
+>>> +@@ -784,6 +786,46 @@ failure:
+>>> + }
+>>> +
+>>> +
+>>> ++pthread_mutex_t open_mutex = PTHREAD_MUTEX_INITIALIZER;
+>>> ++pthread_cond_t open_empty = PTHREAD_COND_INITIALIZER;
+>>> ++int open_unlimited, open_count;
+>>> ++#define OPEN_FILE_MARGIN 10
+>>> ++
+>>> ++
+>>> ++void open_init(int count)
+>>> ++{
+>>> ++    open_count = count;
+>>> ++    open_unlimited = count == -1;
+>>> ++}
+>>> ++
+>>> ++
+>>> ++int open_wait(char *pathname, int flags, mode_t mode)
+>>> ++{
+>>> ++    if (!open_unlimited) {
+>>> ++        pthread_mutex_lock(&open_mutex);
+>>> ++        while (open_count == 0)
+>>> ++            pthread_cond_wait(&open_empty, &open_mutex);
+>>> ++        open_count --;
+>>> ++        pthread_mutex_unlock(&open_mutex);
+>>> ++    }
+>>> ++
+>>> ++    return open(pathname, flags, mode);
+>>> ++}
+>>> ++
+>>> ++
+>>> ++void close_wake(int fd)
+>>> ++{
+>>> ++    close(fd);
+>>> ++
+>>> ++    if (!open_unlimited) {
+>>> ++        pthread_mutex_lock(&open_mutex);
+>>> ++        open_count ++;
+>>> ++        pthread_cond_signal(&open_empty);
+>>> ++        pthread_mutex_unlock(&open_mutex);
+>>> ++    }
+>>> ++}
+>>> ++
+>>> ++
+>>> + int write_file(struct inode *inode, char *pathname)
+>>> + {
+>>> +     unsigned int file_fd, i;
+>>> +@@ -794,8 +836,8 @@ int write_file(struct inode *inode, char
+>>> +
+>>> +     TRACE("write_file: regular file, blocks %d\n", inode->blocks);
+>>> +
+>>> +-    file_fd = open(pathname, O_CREAT | O_WRONLY | (force ? O_TRUNC
+>>> : 0),
+>>> +-        (mode_t) inode->mode & 0777);
+>>> ++    file_fd = open_wait(pathname, O_CREAT | O_WRONLY |
+>>> ++        (force ? O_TRUNC : 0), (mode_t) inode->mode & 0777);
+>>> +     if(file_fd == -1) {
+>>> +         ERROR("write_file: failed to create file %s, because %s\n",
+>>> +             pathname, strerror(errno));
+>>> +@@ -1712,7 +1754,7 @@ void *writer(void *arg)
+>>> +             }
+>>> +         }
+>>> +
+>>> +-        close(file_fd);
+>>> ++        close_wake(file_fd);
+>>> +         if(failed == FALSE)
+>>> +             set_attributes(file->pathname, file->mode, file->uid,
+>>> +                 file->gid, file->time, file->xattr, force);
+>>> +@@ -1803,9 +1845,9 @@ void *progress_thread(void *arg)
+>>> +
+>>> + void initialise_threads(int fragment_buffer_size, int
+>>> data_buffer_size)
+>>> + {
+>>> +-    int i;
+>>> ++    struct rlimit rlim;
+>>> ++    int i, max_files, res;
+>>> +     sigset_t sigmask, old_mask;
+>>> +-    int all_buffers_size = fragment_buffer_size + data_buffer_size;
+>>> +
+>>> +     sigemptyset(&sigmask);
+>>> +     sigaddset(&sigmask, SIGINT);
+>>> +@@ -1841,10 +1883,86 @@ void initialise_threads(int fragment_buf
+>>> +         EXIT_UNSQUASH("Out of memory allocating thread
+>>> descriptors\n");
+>>> +     deflator_thread = &thread[3];
+>>> +
+>>> +-    to_reader = queue_init(all_buffers_size);
+>>> +-    to_deflate = queue_init(all_buffers_size);
+>>> +-    to_writer = queue_init(1000);
+>>> ++    /*
+>>> ++     * dimensioning the to_reader and to_deflate queues.  The size of
+>>> ++     * these queues is directly related to the amount of block
+>>> ++     * read-ahead possible.  To_reader queues block read requests to
+>>> ++     * the reader thread and to_deflate queues block decompression
+>>> ++     * requests to the deflate thread(s) (once the block has been
+>>> read by
+>>> ++     * the reader thread).  The amount of read-ahead is determined by
+>>> ++     * the combined size of the data_block and fragment caches which
+>>> ++     * determine the total number of blocks which can be "in flight"
+>>> ++     * at any one time (either being read or being decompressed)
+>>> ++     *
+>>> ++     * The maximum file open limit, however, affects the read-ahead
+>>> ++     * possible, in that for normal sizes of the fragment and data
+>>> block
+>>> ++     * caches, where the incoming files have few data blocks or one
+>>> fragment
+>>> ++     * only, the file open limit is likely to be reached before the
+>>> ++     * caches are full.  This means the worst case sizing of the
+>>> combined
+>>> ++     * sizes of the caches is unlikely to ever be necessary.
+>>> However, is is
+>>> ++     * obvious read-ahead up to the data block cache size is always
+>>> possible
+>>> ++     * irrespective of the file open limit, because a single file
+>>> could
+>>> ++     * contain that number of blocks.
+>>> ++     *
+>>> ++     * Choosing the size as "file open limit + data block cache
+>>> size" seems
+>>> ++     * to be a reasonable estimate.  We can reasonably assume the
+>>> maximum
+>>> ++     * likely read-ahead possible is data block cache size + one
+>>> fragment
+>>> ++     * per open file.
+>>> ++     *
+>>> ++     * dimensioning the to_writer queue.  The size of this queue is
+>>> ++     * directly related to the amount of block read-ahead possible.
+>>> ++     * However, unlike the to_reader and to_deflate queues, this is
+>>> ++     * complicated by the fact the to_writer queue not only contains
+>>> ++     * entries for fragments and data_blocks but it also contains
+>>> ++     * file entries, one per open file in the read-ahead.
+>>> ++     *
+>>> ++     * Choosing the size as "2 * (file open limit) +
+>>> ++     * data block cache size" seems to be a reasonable estimate.
+>>> ++     * We can reasonably assume the maximum likely read-ahead possible
+>>> ++     * is data block cache size + one fragment per open file, and then
+>>> ++     * we will have a file_entry for each open file.
+>>> ++     */
+>>> ++    res = getrlimit(RLIMIT_NOFILE, &rlim);
+>>> ++    if (res == -1) {
+>>> ++        ERROR("failed to get open file limit!  Defaulting to 1\n");
+>>> ++        rlim.rlim_cur = 1;
+>>> ++    }
+>>> ++
+>>> ++    if (rlim.rlim_cur != RLIM_INFINITY) {
+>>> ++        /*
+>>> ++         * leave OPEN_FILE_MARGIN free (rlim_cur includes fds used by
+>>> ++         * stdin, stdout, stderr and filesystem fd
+>>> ++         */
+>>> ++        if (rlim.rlim_cur <= OPEN_FILE_MARGIN)
+>>> ++            /* no margin, use minimum possible */
+>>> ++            max_files = 1;
+>>> ++        else
+>>> ++            max_files = rlim.rlim_cur - OPEN_FILE_MARGIN;
+>>> ++    } else
+>>> ++        max_files = -1;
+>>> ++
+>>> ++    /* set amount of available files for use by open_wait and
+>>> close_wake */
+>>> ++    open_init(max_files);
+>>> ++
+>>> ++    /*
+>>> ++     * allocate to_reader, to_deflate and to_writer queues. Set
+>>> based on
+>>> ++     * open file limit and cache size, unless open file limit is
+>>> unlimited,
+>>> ++     * in which case set purely based on cache limits
+>>> ++     */
+>>> ++    if (max_files != -1) {
+>>> ++        to_reader = queue_init(max_files + data_buffer_size);
+>>> ++        to_deflate = queue_init(max_files + data_buffer_size);
+>>> ++        to_writer = queue_init(max_files * 2 + data_buffer_size);
+>>> ++    } else {
+>>> ++        int all_buffers_size = fragment_buffer_size +
+>>> data_buffer_size;
+>>> ++
+>>> ++        to_reader = queue_init(all_buffers_size);
+>>> ++        to_deflate = queue_init(all_buffers_size);
+>>> ++        to_writer = queue_init(all_buffers_size * 2);
+>>> ++    }
+>>> ++
+>>> +     from_writer = queue_init(1);
+>>> ++
+>>> +     fragment_cache = cache_init(block_size, fragment_buffer_size);
+>>> +     data_cache = cache_init(block_size, data_buffer_size);
+>>> +     pthread_create(&thread[0], NULL, reader, NULL);
+>>> diff --git
+>>> a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+>>> b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+>>> index 213a700..5b3e644 100644
+>>> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+>>> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
+>>> @@ -14,6 +14,9 @@ SRC_URI =
+>>> "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=squashfs \
+>>> http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
+>>>             "
+>>>   SRC_URI += "file://squashfs-4.2-fix-CVE-2012-4024.patch \
+>>> + file://squashfs-add-a-commment-and-fix-some-other-comments.patch \
+>>> +            file://squashfs-fix-open-file-limit.patch \
+>>> +            file://squashfs-4.2-fix-CVE-2012-4025.patch \
+>>>              "
+>>>
+>>>   SRC_URI[squashfs.md5sum] = "1b7a781fb4cf8938842279bd3e8ee852"
+>>>
+>
+>
 >
 
 
