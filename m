@@ -1,34 +1,29 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TiwGU-0002Lk-Ex
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TiwKN-0002PZ-4v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 01:03:02 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e51so858907eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 15:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=k2ZqqvKal8d0LqJaifZaaA7WxrsaNRq4r6vdFUhK3og=;
-	b=p3cpQaeTeTwQgWi6neafKvXS2mMibACCuID2XbyZkrVO/bhJ3ql41VWHs7wmaQ+VyL
-	yBQ+9ZYBnAegbrI42I1xcO/J8+sRM3WNPzDx7Mi+Tlb+UU5qyOW673PH+AI56cCu6/My
-	nZUairPCC6BWvGISQChpo/BB1r4r9m0HwQnaIUI8FIH320n2UAfP7TNNbZiLRvqzJ3j8
-	dv7LkZOKadzvIS105PfJGZ62yaJFD7Xb2Ll7PI5hVPlD8kJpbryJr1Cw73xPHhnuTMgZ
-	Ui6gIrulde/sYm6C6FsZGwNYy6a+zU79n8q21eb8N3Ft9K5TKShu2hiluBuaj0CxP2wU
-	Kf/Q==
-Received: by 10.14.223.200 with SMTP id v48mr7073034eep.24.1355356108302;
-	Wed, 12 Dec 2012 15:48:28 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id e2sm58921764eeo.8.2012.12.12.15.48.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Dec 2012 15:48:27 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Dec 2012 00:48:40 +0100
-Message-Id: <1355356120-20313-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <50C91323.10204@linux.intel.com>
-References: <50C91323.10204@linux.intel.com>
-Subject: [PATCHv2 2/2] gettext: move remove-potcdate.sin from gettext-native to gettext-minimal-native
+	Thu, 13 Dec 2012 01:07:03 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBCNqRNu019063
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Dec 2012 15:52:28 -0800 (PST)
+Received: from [128.224.162.141] (128.224.162.141) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Wed, 12 Dec 2012 15:52:26 -0800
+Message-ID: <50C918B5.3040105@windriver.com>
+Date: Thu, 13 Dec 2012 07:52:21 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1355302441.git.hongxu.jia@windriver.com>
+	<a865b540a43bfce79677902ec1700cf981aa5336.1355302441.git.hongxu.jia@windriver.com>
+	<CA+chaQf3duuv42xXigRdQ40eBDkTNGGp3G+nrWO8ouy0gAQv+g@mail.gmail.com>
+In-Reply-To: <CA+chaQf3duuv42xXigRdQ40eBDkTNGGp3G+nrWO8ouy0gAQv+g@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ghostscript-native: disable libtiff support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,100 +36,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 00:03:02 -0000
+X-List-Received-Date: Thu, 13 Dec 2012 00:07:03 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* now autotools.bbclass are copying not only Makefile.in.in but also 
-  remove-potcdate.sin which is used by Makefile.in.in, so we need to
-  provide this file already in gettext-minimal-native otherwise build 
-  can fail, when autotools.bbclass is used before gettext-native (full) 
-  is built.
+On 12/13/2012 03:49 AM, Martin Jansa wrote:
+> On Wed, Dec 12, 2012 at 11:00 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> The ghostscript-native will check libtiff
+>> automatically at configure time and libtiff
+>> needs libjpeg. If libtiff and libjpeg is
+>> just populated to staging native directories
+>> and the host doesn't install them, the libjpeg
+>> could not be linked, fail with:
+> Can you disable freetype/fontconfig too? It's underlinking.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
+All right, I will work on it.
 
- v2: only commit message
+Thanks,
+Hongxu
 
- .../gettext-minimal-0.18.1.1/remove-potcdate.sin      | 19 +++++++++++++++++++
- .../gettext/gettext-minimal-native_0.18.1.1.bb        |  4 +++-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb         |  3 ++-
- 3 files changed, 24 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
-
-diff --git a/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
-new file mode 100644
-index 0000000..2436c49
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
-@@ -0,0 +1,19 @@
-+# Sed script that remove the POT-Creation-Date line in the header entry
-+# from a POT file.
-+#
-+# The distinction between the first and the following occurrences of the
-+# pattern is achieved by looking at the hold space.
-+/^"POT-Creation-Date: .*"$/{
-+x
-+# Test if the hold space is empty.
-+s/P/P/
-+ta
-+# Yes it was empty. First occurrence. Remove the line.
-+g
-+d
-+bb
-+:a
-+# The hold space was nonempty. Following occurrences. Do nothing.
-+x
-+:b
-+}
-diff --git a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
-index a46a40d..f008a79 100644
---- a/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext-minimal-native_0.18.1.1.bb
-@@ -1,6 +1,7 @@
- SRC_URI = "file://aclocal.tgz \
-            file://config.rpath \
-            file://Makefile.in.in \
-+           file://remove-potcdate.sin \
-            file://COPYING"
- 
- INHIBIT_DEFAULT_DEPS = "1"
-@@ -11,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0854da868a929923087141d9d7aba7d5"
- 
- inherit native
- 
--PR = "r4"
-+PR = "r5"
- 
- S = "${WORKDIR}"
- 
-@@ -21,4 +22,5 @@ do_install () {
- 	install -d ${D}${datadir}/gettext/po/
- 	cp ${WORKDIR}/config.rpath ${D}${datadir}/gettext/
- 	cp ${WORKDIR}/Makefile.in.in ${D}${datadir}/gettext/po/
-+	cp ${WORKDIR}/remove-potcdate.sin ${D}${datadir}/gettext/po/
- }
-diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-index c3265e1..4639481 100644
---- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-@@ -5,7 +5,7 @@ SECTION = "libs"
- LICENSE = "GPLv3+ & LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--PR = "r18"
-+PR = "r19"
- DEPENDS = "gettext-native virtual/libiconv ncurses expat"
- DEPENDS_class-native = "gettext-minimal-native"
- PROVIDES = "virtual/libintl virtual/gettext"
-@@ -104,6 +104,7 @@ do_install_append_class-native () {
- 	rm ${D}${datadir}/aclocal/*
- 	rm ${D}${datadir}/gettext/config.rpath
- 	rm ${D}${datadir}/gettext/po/Makefile.in.in
-+	rm ${D}${datadir}/gettext/po/remove-potcdate.sin
- }
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.8.0
+> | gcc -O2 -isystem/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include
+>   -Wall -Wstrict-prototypes -Wundef -Wmissing-declarations
+> -Wmissing-prototypes -Wwrite-strings -Wno-strict-aliasing
+> -Wdeclaration-after-statement -fno-builtin -fno-common
+> -DHAVE_STDINT_H=1 -DHAVE_SYS_TIME_H=1 -DGX_COLOR_INDEX_TYPE="unsigned
+> long int" -isystem/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include
+> -O2 -pipe -DHAVE_SYS_TIME_H=1    -O2
+> -isystem/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include
+>   -Wall -Wstrict-prototypes -Wundef -Wmissing-declarations
+> -Wmissing-prototypes -Wwrite-strings -Wno-strict-aliasing
+> -Wdeclaration-after-statement -fno-builtin -fno-common
+> -DHAVE_STDINT_H=1 -DHAVE_SYS_TIME_H=1 -DGX_COLOR_INDEX_TYPE="unsigned
+> long int" -isystem/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include
+> -O2 -pipe -DHAVE_SYS_TIME_H=1   -I./base -I./obj/ -Izlib
+> ./base/mkromfs.c -o ./obj/aux/mkromfs_0 ./obj/aux/compress.o
+> ./obj/aux/deflate.o ./obj/aux/zutil.o ./obj/aux/adler32.o
+> ./obj/aux/crc32.o ./obj/aux/trees.o ./obj/aux/gscdefs.o
+> ./obj/aux/gsmisc.o ./obj/aux/gpmisc.o ./obj/aux/gslibctx.o
+> ./obj/aux/gp_getnv.o ./obj/aux/gp_unix.o ./obj/aux/gp_unifs.o
+> ./obj/aux/gp_unifn.o ./obj/aux/gp_stdia.o ./obj/aux/gsutil.o
+> ./obj/aux/memento.o -lm  -ldl -lm  -rdynamic -ldl
+> -L/OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib
+> -lfontconfig
+> | /usr/lib/gcc/x86_64-pc-linux-gnu/4.7.2/../../../../x86_64-pc-linux-gnu/bin/ld:
+> warning: libfreetype.so.6, needed by
+> /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so,
+> not found (try using -rpath or -rpath-link)
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_Sfnt_Name_Count'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_Glyph_Name'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Load_Glyph'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_X11_Font_Format'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Load_Sfnt_Table'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Done_Face'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Done_FreeType'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_New_Face'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Init_FreeType'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_First_Char'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_PS_Font_Info'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Select_Charmap'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_Sfnt_Table'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Select_Size'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_Char_Index'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_Next_Char'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Has_PS_Glyph_Names'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_BDF_Property'
+> | /OE/jansa-test/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libfontconfig.so:
+> undefined reference to `FT_Get_Sfnt_Name'
+> | collect2: error: ld returned 1 exit status
+> | make: *** [obj/aux/mkromfs_0] Error 1
+> | ERROR: oe_runmake failed
+> | ERROR: Function failed: do_compile (see
+> /OE/jansa-test/shr-core/tmp-eglibc/work/x86_64-linux/ghostscript-native/9.05-r5/temp/log.do_compile.21213
+> for further information)
+> NOTE: recipe ghostscript-native-9.05-r5: task do_compile: Failed
+>
+> Cheers,
 
 
 
