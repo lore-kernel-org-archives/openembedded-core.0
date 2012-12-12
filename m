@@ -1,27 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TieFX-0005YY-2n
+	(envelope-from <sgw@linux.intel.com>) id 1TieTw-0006E4-3O
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 05:48:51 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 11 Dec 2012 20:34:17 -0800
+	Wed, 12 Dec 2012 06:03:46 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Dec 2012 20:49:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,264,1355126400"; d="scan'208";a="179748181"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.105])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Dec 2012 20:33:56 -0800
-Message-ID: <50C80933.4060109@linux.intel.com>
-Date: Tue, 11 Dec 2012 20:33:55 -0800
+X-IronPort-AV: E=Sophos;i="4.84,264,1355126400"; d="scan'208";a="262793776"
+Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
+	([10.255.13.105])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Dec 2012 20:49:09 -0800
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: yzhu1 <Yanjun.Zhu@windriver.com>
-References: <3564> <1355220032-8914-1-git-send-email-yanjun.zhu@windriver.com>
-	<50C783D9.2000908@linux.intel.com> <50C7E92F.5070704@windriver.com>
-In-Reply-To: <50C7E92F.5070704@windriver.com>
-Cc: "Garman, Scott A" <scott.a.garman@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] squashfs: fix CVE-2012-4025
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Dec 2012 20:49:08 -0800
+Message-Id: <cover.1355287689.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.1
+Subject: [CONSOLIDATED PULL 00/13] Various Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,593 +28,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 04:48:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Dec 2012 05:03:46 -0000
 
-On 12/11/2012 06:17 PM, yzhu1 wrote:
-> On 12/12/2012 03:04 AM, Saul Wold wrote:
->> On 12/11/2012 02:00 AM, yanjun.zhu wrote:
->>> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
->>>
->>> CQID:WIND00366813
->>>
->>> Reference: http://squashfs.git.sourceforge.net/git/gitweb.cgi?
->>> p=squashfs/squashfs;a=patch;h=8515b3d420f502c5c0236b86e2d6d7e3b23c190e
->>>
->>> Integer overflow in the queue_init function in unsquashfs.c in
->>> unsquashfs in Squashfs 4.2 and earlier allows remote attackers
->>> to execute arbitrary code via a crafted block_log field in the
->>> superblock of a .sqsh file, leading to a heap-based buffer overflow.
->>>
->>> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4025
->>>
->>> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
->>>
->>
->> This was merged on Nov 30th, or is shit intended for danny, possibly
->> denzil.
->>
->> Sau!
->>
-> Hi, Saul
->
-> Thanks for your reply. Maybe you are mistaken. Just now I checked the
-> latest
-> source code. This patch is not merged. Please check it again.
->
+Richard,
 
-You are correct, the problem I encountered is that this patch did not 
-apply correctly or cleanly with git am, and then I checked saw that a 
-CVE was applied and thought that was why.  I see this is 4025 vs the 
-older one is 4024.
+I mostly did a build test of this patch set, there were
+a couple of failures in other patches that I did not include
+notably the consoletools in mips and the libmatchbox from
+Ross seems to have broken matchbox_keyboard.
 
-Please rebase this patch and resend a v2
+There are a couple of changes also pending for meta-yocto, check the
+MUT branch.
 
-Thanks
-	Sau!
+Sau!
 
-> Thanks a lot.
-> Zhu Yanjun
->>> [YOCTO #3564]
->>> ---
->>>   .../patches/squashfs-4.2-fix-CVE-2012-4025.patch   | 190
->>> ++++++++++++++++++
->>>   ...dd-a-commment-and-fix-some-other-comments.patch |  38 ++++
->>>   .../patches/squashfs-fix-open-file-limit.patch     | 215
->>> +++++++++++++++++++++
->>>   .../squashfs-tools/squashfs-tools_4.2.bb           |   3 +
->>>   4 files changed, 446 insertions(+)
->>>   create mode 100644
->>> meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
->>>
->>>   create mode 100644
->>> meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
->>>
->>>   create mode 100644
->>> meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
->>>
->>>
->>> diff --git
->>> a/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
->>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
->>>
->>> new file mode 100644
->>> index 0000000..0dabfba
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
->>>
->>> @@ -0,0 +1,190 @@
->>> +Upstream-Status: Backport
->>> +
->>> +Reference: http://squashfs.git.sourceforge.net/git/gitweb.cgi?
->>> +p=squashfs/squashfs;a=patch;h=8515b3d420f502c5c0236b86e2d6d7e3b23c190e
->>> +
->>> +Integer overflow in the queue_init function in unsquashfs.c in
->>> +unsquashfs in Squashfs 4.2 and earlier allows remote attackers
->>> +to execute arbitrary code via a crafted block_log field in the
->>> +superblock of a .sqsh file, leading to a heap-based buffer overflow.
->>> +
->>> +http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4025
->>> +
->>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
->>> +
->>> +--- a/unsquashfs.c    2012-11-30 17:57:57.000000000 +0800
->>> ++++ b/unsquashfs.c    2012-11-30 17:58:09.000000000 +0800
->>> +@@ -33,6 +33,7 @@
->>> + #include <sys/types.h>
->>> + #include <sys/time.h>
->>> + #include <sys/resource.h>
->>> ++#include <limits.h>
->>> +
->>> + struct cache *fragment_cache, *data_cache;
->>> + struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
->>> +@@ -138,6 +139,24 @@ void sigalrm_handler()
->>> + }
->>> +
->>> +
->>> ++int add_overflow(int a, int b)
->>> ++{
->>> ++    return (INT_MAX - a) < b;
->>> ++}
->>> ++
->>> ++
->>> ++int shift_overflow(int a, int shift)
->>> ++{
->>> ++    return (INT_MAX >> shift) < a;
->>> ++}
->>> ++
->>> ++
->>> ++int multiply_overflow(int a, int multiplier)
->>> ++{
->>> ++    return (INT_MAX / multiplier) < a;
->>> ++}
->>> ++
->>> ++
->>> + struct queue *queue_init(int size)
->>> + {
->>> +     struct queue *queue = malloc(sizeof(struct queue));
->>> +@@ -145,6 +164,10 @@ struct queue *queue_init(int size)
->>> +     if(queue == NULL)
->>> +         EXIT_UNSQUASH("Out of memory in queue_init\n");
->>> +
->>> ++    if(add_overflow(size, 1) ||
->>> ++                multiply_overflow(size + 1, sizeof(void *)))
->>> ++        EXIT_UNSQUASH("Size too large in queue_init\n");
->>> ++
->>> +     queue->data = malloc(sizeof(void *) * (size + 1));
->>> +     if(queue->data == NULL)
->>> +         EXIT_UNSQUASH("Out of memory in queue_init\n");
->>> +@@ -1948,13 +1971,30 @@ void initialise_threads(int fragment_buf
->>> +      * allocate to_reader, to_deflate and to_writer queues. Set
->>> based on
->>> +      * open file limit and cache size, unless open file limit is
->>> unlimited,
->>> +      * in which case set purely based on cache limits
->>> ++     *
->>> ++     * In doing so, check that the user supplied values do not
->>> overflow
->>> ++     * a signed int
->>> +      */
->>> +     if (max_files != -1) {
->>> ++        if(add_overflow(data_buffer_size, max_files) ||
->>> ++                add_overflow(data_buffer_size, max_files * 2))
->>> ++            EXIT_UNSQUASH("Data queue size is too large\n");
->>> ++
->>> +         to_reader = queue_init(max_files + data_buffer_size);
->>> +         to_deflate = queue_init(max_files + data_buffer_size);
->>> +         to_writer = queue_init(max_files * 2 + data_buffer_size);
->>> +     } else {
->>> +-        int all_buffers_size = fragment_buffer_size +
->>> data_buffer_size;
->>> ++        int all_buffers_size;
->>> ++
->>> ++        if(add_overflow(fragment_buffer_size, data_buffer_size))
->>> ++            EXIT_UNSQUASH("Data and fragment queues combined are"
->>> ++                            " too large\n");
->>> ++
->>> ++        all_buffers_size = fragment_buffer_size + data_buffer_size;
->>> ++
->>> ++        if(add_overflow(all_buffers_size, all_buffers_size))
->>> ++            EXIT_UNSQUASH("Data and fragment queues combined are"
->>> ++                            " too large\n");
->>> +
->>> +         to_reader = queue_init(all_buffers_size);
->>> +         to_deflate = queue_init(all_buffers_size);
->>> +@@ -2059,6 +2099,32 @@ void progress_bar(long long current, lon
->>> + }
->>> +
->>> +
->>> ++int parse_number(char *arg, int *res)
->>> ++{
->>> ++    char *b;
->>> ++    long number = strtol(arg, &b, 10);
->>> ++
->>> ++    /* check for trailing junk after number */
->>> ++    if(*b != '\0')
->>> ++        return 0;
->>> ++
->>> ++    /* check for strtol underflow or overflow in conversion */
->>> ++    if(number == LONG_MIN || number == LONG_MAX)
->>> ++        return 0;
->>> ++
->>> ++    /* reject negative numbers as invalid */
->>> ++    if(number < 0)
->>> ++        return 0;
->>> ++
->>> ++    /* check if long result will overflow signed int */
->>> ++    if(number > INT_MAX)
->>> ++        return 0;
->>> ++
->>> ++    *res = number;
->>> ++    return 1;
->>> ++}
->>> ++
->>> ++
->>> + #define VERSION() \
->>> +     printf("unsquashfs version 4.2 (2011/02/28)\n");\
->>> +     printf("copyright (C) 2011 Phillip Lougher "\
->>> +@@ -2140,8 +2206,8 @@ int main(int argc, char *argv[])
->>> +         } else if(strcmp(argv[i], "-data-queue") == 0 ||
->>> +                      strcmp(argv[i], "-da") == 0) {
->>> +             if((++i == argc) ||
->>> +-                    (data_buffer_size = strtol(argv[i], &b,
->>> +-                     10), *b != '\0')) {
->>> ++                    !parse_number(argv[i],
->>> ++                        &data_buffer_size)) {
->>> +                 ERROR("%s: -data-queue missing or invalid "
->>> +                     "queue size\n", argv[0]);
->>> +                 exit(1);
->>> +@@ -2154,8 +2220,8 @@ int main(int argc, char *argv[])
->>> +         } else if(strcmp(argv[i], "-frag-queue") == 0 ||
->>> +                     strcmp(argv[i], "-fr") == 0) {
->>> +             if((++i == argc) ||
->>> +-                    (fragment_buffer_size = strtol(argv[i],
->>> +-                     &b, 10), *b != '\0')) {
->>> ++                    !parse_number(argv[i],
->>> ++                        &fragment_buffer_size)) {
->>> +                 ERROR("%s: -frag-queue missing or invalid "
->>> +                     "queue size\n", argv[0]);
->>> +                 exit(1);
->>> +@@ -2280,11 +2346,39 @@ options:
->>> +     block_log = sBlk.s.block_log;
->>> +
->>> +     /*
->>> ++     * Sanity check block size and block log.
->>> ++     *
->>> ++     * Check they're within correct limits
->>> ++     */
->>> ++    if(block_size > SQUASHFS_FILE_MAX_SIZE ||
->>> ++                    block_log > SQUASHFS_FILE_MAX_LOG)
->>> ++        EXIT_UNSQUASH("Block size or block_log too large."
->>> ++            "  File system is corrupt.\n");
->>> ++
->>> ++    /*
->>> ++     * Check block_size and block_log match
->>> ++     */
->>> ++    if(block_size != (1 << block_log))
->>> ++        EXIT_UNSQUASH("Block size and block_log do not match."
->>> ++            "  File system is corrupt.\n");
->>> ++
->>> ++    /*
->>> +      * convert from queue size in Mbytes to queue size in
->>> +-     * blocks
->>> ++     * blocks.
->>> ++     *
->>> ++     * In doing so, check that the user supplied values do not
->>> ++     * overflow a signed int
->>> +      */
->>> +-    fragment_buffer_size <<= 20 - block_log;
->>> +-    data_buffer_size <<= 20 - block_log;
->>> ++    if(shift_overflow(fragment_buffer_size, 20 - block_log))
->>> ++        EXIT_UNSQUASH("Fragment queue size is too large\n");
->>> ++    else
->>> ++        fragment_buffer_size <<= 20 - block_log;
->>> ++
->>> ++    if(shift_overflow(data_buffer_size, 20 - block_log))
->>> ++        EXIT_UNSQUASH("Data queue size is too large\n");
->>> ++    else
->>> ++        data_buffer_size <<= 20 - block_log;
->>> ++
->>> +     initialise_threads(fragment_buffer_size, data_buffer_size);
->>> +
->>> +     fragment_data = malloc(block_size);
->>> diff --git
->>> a/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
->>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
->>>
->>> new file mode 100644
->>> index 0000000..fa075f9
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
->>>
->>> @@ -0,0 +1,38 @@
->>> +Upstream-Status: Backport
->>> +
->>> +unsquashfs: add a commment and fix some other comments
->>> +
->>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
->>> +
->>> +diff -urpN a/unsquashfs.c b/unsquashfs.c
->>> +--- a/unsquashfs.c    2012-11-30 15:27:14.000000000 +0800
->>> ++++ b/unsquashfs.c    2012-11-30 15:27:56.000000000 +0800
->>> +@@ -814,7 +814,7 @@ int write_file(struct inode *inode, char
->>> +
->>> +     /*
->>> +      * the writer thread is queued a squashfs_file structure
->>> describing the
->>> +-      * file.  If the file has one or more blocks or a fragments
->>> they are
->>> ++      * file.  If the file has one or more blocks or a fragment
->>> they are
->>> +       * queued separately (references to blocks in the cache).
->>> +       */
->>> +     file->fd = file_fd;
->>> +@@ -838,7 +838,7 @@ int write_file(struct inode *inode, char
->>> +         block->offset = 0;
->>> +         block->size = i == file_end ? inode->data & (block_size - 1) :
->>> +             block_size;
->>> +-        if(block_list[i] == 0) /* sparse file */
->>> ++        if(block_list[i] == 0) /* sparse block */
->>> +             block->buffer = NULL;
->>> +         else {
->>> +             block->buffer = cache_get(data_cache, start,
->>> +@@ -2161,6 +2161,10 @@ options:
->>> +     block_size = sBlk.s.block_size;
->>> +     block_log = sBlk.s.block_log;
->>> +
->>> ++    /*
->>> ++     * convert from queue size in Mbytes to queue size in
->>> ++     * blocks
->>> ++     */
->>> +     fragment_buffer_size <<= 20 - block_log;
->>> +     data_buffer_size <<= 20 - block_log;
->>> +     initialise_threads(fragment_buffer_size, data_buffer_size);
->>> diff --git
->>> a/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
->>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
->>>
->>> new file mode 100644
->>> index 0000000..c60f7b4
->>> --- /dev/null
->>> +++
->>> b/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
->>>
->>> @@ -0,0 +1,215 @@
->>> +Upstream-Status: Backport
->>> +
->>> +unsquashfs: fix open file limit
->>> +
->>> +Previously Unsquashfs relied on the to_writer queue being
->>> +set to 1000 to limit the amount of open file read-ahead to a
->>> +maximum of 500.  For the default process limit of 1024 open files
->>> +this was perhaps acceptable, but it obviously breaks if ulimit has
->>> +been used to set the open file limit to below 504 (this includes
->>> +stdin, stdout, stderr and the Squashfs filesystem being unsquashed).
->>> +
->>> +More importantly setting the to_writer queue to 1000 to limit
->>> +the amount of files open has always been an inherent performance
->>> +hit because the to_writer queue queues blocks.  It limits the
->>> +block readhead to 1000 blocks, irrespective of how many files
->>> +that represents.  A single file containing more than 1000 blocks
->>> +will still be limited to a 1000 block readahead even though the
->>> +data block cache typically can buffer more than this (at the
->>> +default data cache size of 256 Mbytes and the default block size
->>> +of 128 Kbytes, it can buffer 2048 blocks).  Obviously the
->>> +caches serve more than just a read-ahead role (they also
->>> +cache decompressed blocks in case they're referenced later e.g.
->>> +by duplicate files), but the artificial limit imposed on
->>> +the read-ahead due to setting the to_writer queue to 1000 is
->>> +unnecessary.
->>> +
->>> +This commit does away with the need to limit the to_writer queue,
->>> +by introducing open_wait() and close_wake() calls which correctly
->>> +track the amount of open files.
->>> +
->>> +Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
->>> +
->>> +Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
->>> +
->>> +diff -urpN a/unsquashfs.c b/unsquashfs.c
->>> +--- a/unsquashfs.c    2012-11-30 15:31:29.000000000 +0800
->>> ++++ b/unsquashfs.c    2012-11-30 15:32:03.000000000 +0800
->>> +@@ -31,6 +31,8 @@
->>> +
->>> + #include <sys/sysinfo.h>
->>> + #include <sys/types.h>
->>> ++#include <sys/time.h>
->>> ++#include <sys/resource.h>
->>> +
->>> + struct cache *fragment_cache, *data_cache;
->>> + struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
->>> +@@ -784,6 +786,46 @@ failure:
->>> + }
->>> +
->>> +
->>> ++pthread_mutex_t open_mutex = PTHREAD_MUTEX_INITIALIZER;
->>> ++pthread_cond_t open_empty = PTHREAD_COND_INITIALIZER;
->>> ++int open_unlimited, open_count;
->>> ++#define OPEN_FILE_MARGIN 10
->>> ++
->>> ++
->>> ++void open_init(int count)
->>> ++{
->>> ++    open_count = count;
->>> ++    open_unlimited = count == -1;
->>> ++}
->>> ++
->>> ++
->>> ++int open_wait(char *pathname, int flags, mode_t mode)
->>> ++{
->>> ++    if (!open_unlimited) {
->>> ++        pthread_mutex_lock(&open_mutex);
->>> ++        while (open_count == 0)
->>> ++            pthread_cond_wait(&open_empty, &open_mutex);
->>> ++        open_count --;
->>> ++        pthread_mutex_unlock(&open_mutex);
->>> ++    }
->>> ++
->>> ++    return open(pathname, flags, mode);
->>> ++}
->>> ++
->>> ++
->>> ++void close_wake(int fd)
->>> ++{
->>> ++    close(fd);
->>> ++
->>> ++    if (!open_unlimited) {
->>> ++        pthread_mutex_lock(&open_mutex);
->>> ++        open_count ++;
->>> ++        pthread_cond_signal(&open_empty);
->>> ++        pthread_mutex_unlock(&open_mutex);
->>> ++    }
->>> ++}
->>> ++
->>> ++
->>> + int write_file(struct inode *inode, char *pathname)
->>> + {
->>> +     unsigned int file_fd, i;
->>> +@@ -794,8 +836,8 @@ int write_file(struct inode *inode, char
->>> +
->>> +     TRACE("write_file: regular file, blocks %d\n", inode->blocks);
->>> +
->>> +-    file_fd = open(pathname, O_CREAT | O_WRONLY | (force ? O_TRUNC
->>> : 0),
->>> +-        (mode_t) inode->mode & 0777);
->>> ++    file_fd = open_wait(pathname, O_CREAT | O_WRONLY |
->>> ++        (force ? O_TRUNC : 0), (mode_t) inode->mode & 0777);
->>> +     if(file_fd == -1) {
->>> +         ERROR("write_file: failed to create file %s, because %s\n",
->>> +             pathname, strerror(errno));
->>> +@@ -1712,7 +1754,7 @@ void *writer(void *arg)
->>> +             }
->>> +         }
->>> +
->>> +-        close(file_fd);
->>> ++        close_wake(file_fd);
->>> +         if(failed == FALSE)
->>> +             set_attributes(file->pathname, file->mode, file->uid,
->>> +                 file->gid, file->time, file->xattr, force);
->>> +@@ -1803,9 +1845,9 @@ void *progress_thread(void *arg)
->>> +
->>> + void initialise_threads(int fragment_buffer_size, int
->>> data_buffer_size)
->>> + {
->>> +-    int i;
->>> ++    struct rlimit rlim;
->>> ++    int i, max_files, res;
->>> +     sigset_t sigmask, old_mask;
->>> +-    int all_buffers_size = fragment_buffer_size + data_buffer_size;
->>> +
->>> +     sigemptyset(&sigmask);
->>> +     sigaddset(&sigmask, SIGINT);
->>> +@@ -1841,10 +1883,86 @@ void initialise_threads(int fragment_buf
->>> +         EXIT_UNSQUASH("Out of memory allocating thread
->>> descriptors\n");
->>> +     deflator_thread = &thread[3];
->>> +
->>> +-    to_reader = queue_init(all_buffers_size);
->>> +-    to_deflate = queue_init(all_buffers_size);
->>> +-    to_writer = queue_init(1000);
->>> ++    /*
->>> ++     * dimensioning the to_reader and to_deflate queues.  The size of
->>> ++     * these queues is directly related to the amount of block
->>> ++     * read-ahead possible.  To_reader queues block read requests to
->>> ++     * the reader thread and to_deflate queues block decompression
->>> ++     * requests to the deflate thread(s) (once the block has been
->>> read by
->>> ++     * the reader thread).  The amount of read-ahead is determined by
->>> ++     * the combined size of the data_block and fragment caches which
->>> ++     * determine the total number of blocks which can be "in flight"
->>> ++     * at any one time (either being read or being decompressed)
->>> ++     *
->>> ++     * The maximum file open limit, however, affects the read-ahead
->>> ++     * possible, in that for normal sizes of the fragment and data
->>> block
->>> ++     * caches, where the incoming files have few data blocks or one
->>> fragment
->>> ++     * only, the file open limit is likely to be reached before the
->>> ++     * caches are full.  This means the worst case sizing of the
->>> combined
->>> ++     * sizes of the caches is unlikely to ever be necessary.
->>> However, is is
->>> ++     * obvious read-ahead up to the data block cache size is always
->>> possible
->>> ++     * irrespective of the file open limit, because a single file
->>> could
->>> ++     * contain that number of blocks.
->>> ++     *
->>> ++     * Choosing the size as "file open limit + data block cache
->>> size" seems
->>> ++     * to be a reasonable estimate.  We can reasonably assume the
->>> maximum
->>> ++     * likely read-ahead possible is data block cache size + one
->>> fragment
->>> ++     * per open file.
->>> ++     *
->>> ++     * dimensioning the to_writer queue.  The size of this queue is
->>> ++     * directly related to the amount of block read-ahead possible.
->>> ++     * However, unlike the to_reader and to_deflate queues, this is
->>> ++     * complicated by the fact the to_writer queue not only contains
->>> ++     * entries for fragments and data_blocks but it also contains
->>> ++     * file entries, one per open file in the read-ahead.
->>> ++     *
->>> ++     * Choosing the size as "2 * (file open limit) +
->>> ++     * data block cache size" seems to be a reasonable estimate.
->>> ++     * We can reasonably assume the maximum likely read-ahead possible
->>> ++     * is data block cache size + one fragment per open file, and then
->>> ++     * we will have a file_entry for each open file.
->>> ++     */
->>> ++    res = getrlimit(RLIMIT_NOFILE, &rlim);
->>> ++    if (res == -1) {
->>> ++        ERROR("failed to get open file limit!  Defaulting to 1\n");
->>> ++        rlim.rlim_cur = 1;
->>> ++    }
->>> ++
->>> ++    if (rlim.rlim_cur != RLIM_INFINITY) {
->>> ++        /*
->>> ++         * leave OPEN_FILE_MARGIN free (rlim_cur includes fds used by
->>> ++         * stdin, stdout, stderr and filesystem fd
->>> ++         */
->>> ++        if (rlim.rlim_cur <= OPEN_FILE_MARGIN)
->>> ++            /* no margin, use minimum possible */
->>> ++            max_files = 1;
->>> ++        else
->>> ++            max_files = rlim.rlim_cur - OPEN_FILE_MARGIN;
->>> ++    } else
->>> ++        max_files = -1;
->>> ++
->>> ++    /* set amount of available files for use by open_wait and
->>> close_wake */
->>> ++    open_init(max_files);
->>> ++
->>> ++    /*
->>> ++     * allocate to_reader, to_deflate and to_writer queues. Set
->>> based on
->>> ++     * open file limit and cache size, unless open file limit is
->>> unlimited,
->>> ++     * in which case set purely based on cache limits
->>> ++     */
->>> ++    if (max_files != -1) {
->>> ++        to_reader = queue_init(max_files + data_buffer_size);
->>> ++        to_deflate = queue_init(max_files + data_buffer_size);
->>> ++        to_writer = queue_init(max_files * 2 + data_buffer_size);
->>> ++    } else {
->>> ++        int all_buffers_size = fragment_buffer_size +
->>> data_buffer_size;
->>> ++
->>> ++        to_reader = queue_init(all_buffers_size);
->>> ++        to_deflate = queue_init(all_buffers_size);
->>> ++        to_writer = queue_init(all_buffers_size * 2);
->>> ++    }
->>> ++
->>> +     from_writer = queue_init(1);
->>> ++
->>> +     fragment_cache = cache_init(block_size, fragment_buffer_size);
->>> +     data_cache = cache_init(block_size, data_buffer_size);
->>> +     pthread_create(&thread[0], NULL, reader, NULL);
->>> diff --git
->>> a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
->>> b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
->>> index 213a700..5b3e644 100644
->>> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
->>> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
->>> @@ -14,6 +14,9 @@ SRC_URI =
->>> "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=squashfs \
->>> http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
->>>             "
->>>   SRC_URI += "file://squashfs-4.2-fix-CVE-2012-4024.patch \
->>> + file://squashfs-add-a-commment-and-fix-some-other-comments.patch \
->>> +            file://squashfs-fix-open-file-limit.patch \
->>> +            file://squashfs-4.2-fix-CVE-2012-4025.patch \
->>>              "
->>>
->>>   SRC_URI[squashfs.md5sum] = "1b7a781fb4cf8938842279bd3e8ee852"
->>>
->
->
->
+The following changes since commit b8b1b39961332c99d62ee466f7859bd62a0f806f:
+
+  bitbake.conf/utils: Drop some OVERRIDES from FILESPATH (2012-12-11 15:58:27 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Constantin Musca (3):
+  pixman: upgrade to 0.28.0
+  qemu: upgrade to 1.3.0
+  libpng: enable nativesdk variant
+
+Fahad Usman (2):
+  libpcre: upgrade to 8.32
+  libpcre: Improve the recipe
+
+Kang Kai (1):
+  libuser: enable python support
+
+Laurentiu Palcu (2):
+  populate_sdk_(deb|ipk|rpm): export NATIVE_ROOT and INTERCEPT_DIR
+    variables
+  gdk-pixbuf: handle postinstall errors differently
+
+Marcin Juszkiewicz (1):
+  eglibc: add AArch64 support
+
+Marko Lindqvist (1):
+  libpng: update to upstream version 1.5.13
+
+Nitin A Kamble (1):
+  create-pull-request: detect trailing white space
+
+Robert P. J. Day (1):
+  documentation-audit.sh: Add/fix checks for skipped lines.
+
+Ross Burton (1):
+  telepathy-glib: remove pkgconfig dependency in pkgconfig
+
+ meta/classes/populate_sdk_deb.bbclass              |   2 +
+ meta/classes/populate_sdk_ipk.bbclass              |   2 +
+ meta/classes/populate_sdk_rpm.bbclass              |   2 +
+ .../telepathy/telepathy-glib/pkgconfig.patch       |  41 +++++++
+ .../telepathy/telepathy-glib_0.19.8.bb             |   5 +-
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |   7 +-
+ ...re_vga-Add-back-some-info-in-local-state-.patch | 114 ++++++++++++++++++
+ .../qemu/{qemu-1.2.0 => files}/arm-bgr.patch       |   0
+ .../enable-i386-linux-user.patch                   |   0
+ .../fallback-to-safe-mmap_min_addr.patch           |   0
+ .../fix-configure-checks.patch                     |   0
+ .../qemu/{qemu-1.2.0 => files}/init-info.patch     |   0
+ .../larger_default_ram_size.patch                  |   0
+ .../qemu/{qemu-1.2.0 => files}/linker-flags.patch  |   0
+ .../qemu/{qemu-1.2.0 => files}/no-strip.patch      |   0
+ .../qemu/{qemu-1.2.0 => files}/powerpc_rom.bin     | Bin
+ .../{qemu-1.2.0 => files}/relocatable_sdk.patch    |   0
+ .../qemu/qemu-1.2.0/qemu-vmware-vga-depth.patch    | 106 -----------------
+ .../qemu/qemu-1.2.0/remove-hardcoded-libexec.patch |  41 -------
+ .../qemu/qemu-git/enable-i386-linux-user.patch     |  55 ---------
+ .../qemu/qemu-git/linker-flags.patch               |  25 ----
+ meta/recipes-devtools/qemu/qemu-git/no-strip.patch |  15 ---
+ .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin | Bin 4096 -> 0 bytes
+ .../qemu/qemu-git/qemu-vmware-vga-depth.patch      | 118 -------------------
+ .../qemu/qemu-git/remove-hardcoded-libexec.patch   |  41 -------
+ meta/recipes-devtools/qemu/qemu.inc                |  66 ++++++++---
+ meta/recipes-devtools/qemu/qemu_1.2.0.bb           |  52 --------
+ meta/recipes-devtools/qemu/qemu_1.3.0.bb           |  10 ++
+ meta/recipes-devtools/qemu/qemu_git.bb             |  11 +-
+ meta/recipes-extended/libuser/libuser_0.57.1.bb    |  14 ++-
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |  20 +++-
+ ...plementation-of-pixman_blt-with-overlapp.patch} | 131 ++++++++++-----------
+ .../{pixman_0.27.2.bb => pixman_0.28.0.bb}         |  10 +-
+ meta/recipes-multimedia/libpng/libpng_1.2.50.bb    |  23 ----
+ meta/recipes-multimedia/libpng/libpng_1.5.13.bb    |  24 ++++
+ .../recipes-support/libpcre/files/pcre-cross.patch |  53 ++++++---
+ meta/recipes-support/libpcre/libpcre_8.31.bb       |  53 ---------
+ meta/recipes-support/libpcre/libpcre_8.32.bb       |  58 +++++++++
+ scripts/contrib/documentation-audit.sh             |   3 +-
+ scripts/create-pull-request                        |   8 ++
+ 40 files changed, 458 insertions(+), 652 deletions(-)
+ create mode 100644 meta/recipes-connectivity/telepathy/telepathy-glib/pkgconfig.patch
+ create mode 100644 meta/recipes-devtools/qemu/files/Revert-vmware_vga-Add-back-some-info-in-local-state-.patch
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/arm-bgr.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/enable-i386-linux-user.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/fallback-to-safe-mmap_min_addr.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/fix-configure-checks.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/init-info.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/larger_default_ram_size.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/linker-flags.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/no-strip.patch (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/powerpc_rom.bin (100%)
+ rename meta/recipes-devtools/qemu/{qemu-1.2.0 => files}/relocatable_sdk.patch (100%)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/qemu-vmware-vga-depth.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-1.2.0/remove-hardcoded-libexec.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-git/enable-i386-linux-user.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-git/linker-flags.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-git/no-strip.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-git/qemu-vmware-vga-depth.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu-git/remove-hardcoded-libexec.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu_1.2.0.bb
+ create mode 100644 meta/recipes-devtools/qemu/qemu_1.3.0.bb
+ rename meta/recipes-graphics/xorg-lib/pixman/{0002-Generic-C-implementation-of-pixman_blt-with-overlapp.patch => Generic-C-implementation-of-pixman_blt-with-overlapp.patch} (45%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.27.2.bb => pixman_0.28.0.bb} (80%)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.2.50.bb
+ create mode 100644 meta/recipes-multimedia/libpng/libpng_1.5.13.bb
+ delete mode 100644 meta/recipes-support/libpcre/libpcre_8.31.bb
+ create mode 100644 meta/recipes-support/libpcre/libpcre_8.32.bb
+
+-- 
+1.8.0.1
+
 
 
