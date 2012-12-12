@@ -1,35 +1,39 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-ea0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fahad.usman@gmail.com>) id 1TimAe-00027F-6A
+	(envelope-from <martin.jansa@gmail.com>) id 1Timbc-0002gv-7g
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 14:16:20 +0100
-Received: by mail-bk0-f47.google.com with SMTP id j4so318826bkw.6
+	Wed, 12 Dec 2012 14:44:15 +0100
+Received: by mail-ea0-f175.google.com with SMTP id h11so226953eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 05:01:46 -0800 (PST)
+	Wed, 12 Dec 2012 05:29:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=eoGErXA8Zvb9mB8D4dflabwgVp5uHP3QHGJcYjE9SLs=;
-	b=GLPWVlkHyFg7j98IcsMF57rFGRoYDeTWA2GkBXS0oLXdKcBe2v2UZCAu0ZMhsjmWDw
-	uLtuevmRFvvUNb6GEIrU1HczShK3tlxLPMND04oOCpEz8FuSVNgj/uLZ9sjyySED04MJ
-	BzefBYaILmCNk+yEsqT+p7N4toLx1EGWZfj1C7+MVIOlGOfFMm7gi2OtUKJOslBbjZAt
-	eNYYWXWJSQB6KpziGyK2ixa1O6Hz9Z/aKo/LVUKK1ViQFe8HnOdnNdDkjCIg0ru0Zfb/
-	O3WMEXw8RCNoaZfSKHI/vVT2aBCBHA02F7NklUKsBXZfg4YFG4x3yAMMP54i7SnInQr4
-	t4RQ==
-Received: by 10.204.129.202 with SMTP id p10mr496438bks.56.1355317306742;
-	Wed, 12 Dec 2012 05:01:46 -0800 (PST)
-Received: from fahad-u1204.mgc.mentorg.com ([110.93.212.98])
-	by mx.google.com with ESMTPS id m20sm20069236bkw.4.2012.12.12.05.01.44
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=8NDA6gNDmRe2tkPywtfANyxuRHn/Ba4cJUULHMJ6nwk=;
+	b=t6FpwC6xI/fcgRig+qettVXVyHs0OMMtxbPn9/MPoo9fEWIUSBkJiVO6pLcyt0+G4V
+	/fLax/p8vmfUJjI0ShKjVJU2IAQZ/XVKcEAyy3AucjQmVAZfNOnSo65IdyMGVzLfjvTl
+	85zTG4GFP6Ktb3Ttno0JnJGMcVVyMRTZdfrnqsdXAWVkK+YuZluEbd/moY/Gj7hpUday
+	wyaqMMO9bTTWJMIu/ohDs/zsHOB1Kjk3NiQ9AKvF7OgdNEt20HHzUSz2MzlnKcOJUGVt
+	v8jJckJ2mBLFqpYMwFA7YCpE9Yq4LyVH4YSZqtWNjjM7NgJ1LG6BBg+FunP1DKAlgMkf
+	RYEQ==
+Received: by 10.14.225.72 with SMTP id y48mr2848013eep.46.1355318978748;
+	Wed, 12 Dec 2012 05:29:38 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id f49sm55975666eep.12.2012.12.12.05.29.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Dec 2012 05:01:45 -0800 (PST)
-Sender: Fahad Usman <fahad.usman@gmail.com>
-From: Fahad Usman <fahad_usman@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Dec 2012 18:01:32 +0500
-Message-Id: <1355317292-25318-1-git-send-email-fahad_usman@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Fahad Usman <fahad_usman@mentor.com>
-Subject: [PATCH] tar: apply fedora patch for fortify sources sigabort
+	Wed, 12 Dec 2012 05:29:38 -0800 (PST)
+Date: Wed, 12 Dec 2012 14:29:51 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20121212132951.GA1756@jama.jama.net>
+References: <lywqwqktzq.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CA+chaQe8uniTRz5pm+kWcC2kH=1836UkVgfyRMBO1p3M2Ldf=Q@mail.gmail.com>
+	<lysj7bpgpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+MIME-Version: 1.0
+In-Reply-To: <lysj7bpgpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: binutils: regression on kernel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,83 +46,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 13:16:20 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 13:44:15 -0000
+X-Groupsio-MsgNum: 32563
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
+Content-Disposition: inline
 
-See https://qa.mandriva.com/show_bug.cgi?id=61419 for details.
+--cNdxnHkX5QqsyA0e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+On Wed, Dec 12, 2012 at 02:01:36PM +0100, Enrico Scholz wrote:
+> Martin Jansa <martin.jansa@gmail.com> writes:
+>=20
+> >> | arm-linux-gnueabi-ld: error: arch/arm/boot/compressed/piggy.gzip.o: =
+unknown CPU architecture
+> >> ...
+> >> This works fine with binutils 2.22 and when using the BFD linker.
+> >
+> > You need to patch your kernel sources, some examples for different
+> > kernel versions (please ignore incorrect commit message)
+>=20
+> I am not sure who (gold linker or kernel) is the responsible party.  But
+> based on my experiences with low level programs (e.g. bootloaders and
+> kernel) which are having serious problems with the gold linker, I set
+> for now
+>=20
+> | KERNEL_LDSUFFIX =3D .bfd
 
-the patch was imported from meta-mentor layer on yoctoproject git server
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit id
-333d2e0510a1e052cb83a6f8beed6d8bcea59b2c
+FWIW: those patches I've referenced work for me fine (last 4 months
+since binutils-2.23 patches first appeared on ML) on all 4 devices I'm usin=
+g.
 
-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
----
- .../tar-1.26/tar-1.26-fortifysourcessigabrt.patch  |   36 ++++++++++++++++++++
- meta/recipes-extended/tar/tar_1.26.bb              |    3 +-
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/tar/tar-1.26/tar-1.26-fortifysourcessigabrt.patch
+Cheers,
 
-diff --git a/meta/recipes-extended/tar/tar-1.26/tar-1.26-fortifysourcessigabrt.patch b/meta/recipes-extended/tar/tar-1.26/tar-1.26-fortifysourcessigabrt.patch
-new file mode 100644
-index 0000000..6aef096
---- /dev/null
-+++ b/meta/recipes-extended/tar/tar-1.26/tar-1.26-fortifysourcessigabrt.patch
-@@ -0,0 +1,36 @@
-+port fedora patch for fortify sources sigabort. See 
-+https://qa.mandriva.com/show_bug.cgi?id=61419 for details.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
-+
-+---
-+ src/create.c |    8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+--- tar-1.26.orig/src/create.c
-++++ tar-1.26/src/create.c
-+@@ -562,8 +562,8 @@ write_gnu_long_link (struct tar_stat_inf
-+   GNAME_TO_CHARS (tmpname, header->header.gname);
-+   free (tmpname);
-+
-+-  strcpy (header->buffer + offsetof (struct posix_header, magic),
-+-	  OLDGNU_MAGIC);
-++  strncpy (header->buffer + offsetof (struct posix_header, magic),
-++	  OLDGNU_MAGIC, sizeof(header->header.magic));
-+   header->header.typeflag = type;
-+   finish_header (st, header, -1);
-+
-+@@ -900,8 +900,8 @@ start_header (struct tar_stat_info *st)
-+     case OLDGNU_FORMAT:
-+     case GNU_FORMAT:   /*FIXME?*/
-+       /* Overwrite header->header.magic and header.version in one blow.  */
-+-      strcpy (header->buffer + offsetof (struct posix_header, magic),
-+-	      OLDGNU_MAGIC);
-++      strncpy (header->buffer + offsetof (struct posix_header, magic),
-++	      OLDGNU_MAGIC, sizeof(header->header.magic));
-+       break;
-+
-+     case POSIX_FORMAT:
-diff --git a/meta/recipes-extended/tar/tar_1.26.bb b/meta/recipes-extended/tar/tar_1.26.bb
-index 03a35c3..d45c2b1 100644
---- a/meta/recipes-extended/tar/tar_1.26.bb
-+++ b/meta/recipes-extended/tar/tar_1.26.bb
-@@ -3,9 +3,10 @@ require tar.inc
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI += "file://remove-gets.patch \
-+           file://tar-1.26-fortifysourcessigabrt.patch\
-            "
- 
- SRC_URI[md5sum] = "2cee42a2ff4f1cd4f9298eeeb2264519"
--- 
-1.7.9.5
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--cNdxnHkX5QqsyA0e
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEUEARECAAYFAlDIhs8ACgkQN1Ujt2V2gByt5ACgkygNXeAr0oaGsJ8zSuN/nlJA
+k8wAliFLyQXl65Q5mbV9Uyw+T0BnKeA=
+=igoI
+-----END PGP SIGNATURE-----
+
+--cNdxnHkX5QqsyA0e--
