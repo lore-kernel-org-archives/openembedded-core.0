@@ -1,33 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wi0-f182.google.com ([209.85.212.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TiiDT-00018a-Qy
+	(envelope-from <martin.jansa@gmail.com>) id 1TiiDT-00018b-50
 	for openembedded-core@lists.openembedded.org;
 	Wed, 12 Dec 2012 10:03:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBC8mOpe022441
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Dec 2012 00:48:24 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 12 Dec 2012 00:48:24 -0800
-Message-ID: <50C844E0.2080904@windriver.com>
-Date: Wed, 12 Dec 2012 16:48:32 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+Received: by mail-wi0-f182.google.com with SMTP id hn14so277118wib.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Dec 2012 00:48:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=bgEMHn/gQsHoXlnQJmx4szRJn37+af56//0Zy9AJJAo=;
+	b=sQzS60WZfZqA+wFe9StROraxqvF6kIF0kS23DDxZ4d/94/j88fUK2b0R2sOoIjtKLK
+	8+/U7hz2X/F9I3etHFMYhrN7rwYF0T0U5UxAvR/rmsFmnyeZu4Huidyiwxw9H6zuKw4i
+	h3PLcvdk8EPOkkdYy90IjXScrz5tL6MfcYzZrJO2p40uA4fqWW3iEMSNC3MK0PkU3WvV
+	2Ce+GZiEcjNcsHt1LsRrev5mDUu2mlcq+pazF5O++u2PmHP91oBkxNf/jSZwhv/se71n
+	1osoT6Cy5o/qn+uY8zzD6NpMRkF9vxGSufUYp0oNszqJ00J3bzg5+omq2Dw/wQas6Uhu
+	DW3A==
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1354531187.git.Qi.Chen@windriver.com>
-	<4973f2f88641f8a8c02b0062b31f159977d9ba0a.1354531187.git.Qi.Chen@windriver.com>
-	<50C6126F.3020401@linux.intel.com>
-	<50C657CD.2040103@linux.intel.com>
-	<CALbNGRT1RmSpKaH9ZJf+aaDoNddqgQckUR2BK8sYCc3em4b-8A@mail.gmail.com>
-	<50C69367.7000801@linux.intel.com>
-In-Reply-To: <50C69367.7000801@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] ICU: add pkgconfig support
+Received: by 10.180.74.108 with SMTP id s12mr1609079wiv.12.1355302106026; Wed,
+	12 Dec 2012 00:48:26 -0800 (PST)
+Received: by 10.194.84.103 with HTTP; Wed, 12 Dec 2012 00:48:25 -0800 (PST)
+In-Reply-To: <1354806692.25268.191.camel@ted>
+References: <cover.1354779942.git.sgw@linux.intel.com>
+	<1354806692.25268.191.camel@ted>
+Date: Wed, 12 Dec 2012 09:48:25 +0100
+Message-ID: <CA+chaQdM0_=XGogBBaG8LCsv57e0VCdFQMStA4KqEi0uoLPCCA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/71] Updates and Patches (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,144 +42,28 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 12 Dec 2012 09:03:18 -0000
-X-Groupsio-MsgNum: 32543
-Content-Type: multipart/mixed; boundary="------------050702000107040209080803"
+Content-Type: text/plain; charset=UTF-8
 
---------------050702000107040209080803
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id qBC8mOpe022441
-
-On 12/11/2012 09:59 AM, Saul Wold wrote:
-> On 12/10/2012 05:07 PM, Andreas M=C3=BCller wrote:
->> On Mon, Dec 10, 2012 at 10:44 PM, Saul Wold <sgw@linux.intel.com> wrot=
-e:
->>> On 12/10/2012 08:48 AM, Saul Wold wrote:
->>>>
->>>> On 12/04/2012 12:46 AM, Qi.Chen@windriver.com wrote:
->>>>>
-> <SNIP>
->>>>>               "
->>>>>    SRC_URI =3D "${BASE_SRC_URI} \
->>>>>               file://noldlibpath.patch \
->>>>> @@ -28,6 +29,12 @@ inherit autotools pkgconfig binconfig
->>>>>    do_configure() {
->>>>>        libtoolize --force
->>>>>        gnu-configize --force
->>>>> +    if [ "${PN}" !=3D "icu-native" ]; then
->>>>> +        OLD=3D`pwd`
->>>>> +        cd ${S}
->>>>> +        autoconf
->>>>> +        cd ${OLD}
->>>>> +    fi
->>>
->>>
->>> I had some time this morning to investigate this more deeply.  What=20
->>> I found
->>> was that the ICU tarball was being delivered with a "configure" and=20
->>> that the
->>> do_configure was avoiding the "autoconf" conversion of configure.in -=
+On Thu, Dec 6, 2012 at 4:11 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-12-05 at 23:52 -0800, Saul Wold wrote:
+>> Martin Jansa (5):
+>>   scripts/sstate-diff-machines.sh: add simple script to compare sstate
+>>     checksums between MACHINEs
+>>   scripts/sstate-sysroot-cruft.sh: add simple script to find files in
+>>     sysroots not tracked by sstate
 >
->>> configure.  I am not sure if this is historical or if this is truly=20
->>> needed.
->>>
->>> So by doing the autoconf above you changed the "configure" script,=20
->>> this in
->>> turn caused some configuration changes to occur in the platform.h=20
->>> file.  Why
->>> these changed (particularly the U_HAVE_NAMESPACE define) then caused=20
->>> the ICU
->>> libraries to be built with different namespace.
->>>
->>> So a couple of key questions that need to be resolved:
->>> 1) Will updating to 4.6 solve this issue, if not then we need to=20
->>> dive into 2
->>> + 3 Below:
->>>
->>> 2) Why does icu tarball have a generated configure?
->>>
->>> 3) Why does the autoconf generated configure fail to configure things
->>> correctly?
->>>
->>> Sau!
->>>
->> Also got this error but reported it to the wrong mailing list - sorry.
->> I also looked around for this. The patch added pkg-config to icu. Just
->> a guess: webkit-gtk fails due to a mixture of renamed symbols
->> (EventListener_3_6 - see sysroot/usr/include/unicode/urename.h) and
->> unrenamed symbols. Before the icu-patch this did not happen because
->> (icu's) urename.h was not included and no symbols were renamed or
->> renamed differently. My problem: The error gives me information about
->> renamed symbol but I did not yet find the time to search for
->> unrenamed. As I said: Just a guess
->>
-> I am not sure that's it, the renaming is actually in the NAMESPACE,=20
-> the older (no pkg-config) sets HAVE_NAMESPACE in the platform.h file=20
-> and then the symbols have icu_2_6 in them, that's the real issue,=20
-> which is caused by running autoconf and getting a bad/wrong=20
-> "configure" script vs the one suplied in the tarball.
->
-> Sau!
->
->> Andreas
->>
->>
->
-Hi Saul,
+> Further discussion looks to be happening about one of these so I held
+> off for now.
 
-The errors are:
-configure.in:219: error: possibly undefined macro: AC_CHECK_STRICT_COMPIL=
-E
-       If this token and others are legitimate, please use m4_pattern_all=
-ow.
-       See the Autoconf documentation.
-configure.in:222: error: possibly undefined macro: AC_CHECK_64BIT_LIBS
-configure.in:492: error: possibly undefined macro: AC_SEARCH_LIBS_FIRST
+Comment from Enrico Scholz on sstate-sysroot-cruft.sh was resolved in PATCHv2.
 
-The recipe's in attachment.
+Further discussion was only about preferred regexp style without any
+change to functionality.
 
-I first tried it on my own computer without yocto, everything's OK. The=20
-autoconf-generated configure is the same with the shipped one. So I=20
-figured maybe we don't need to override the do_configure and do_compile=20
-method here.
+So this version is still valid AFAIK:
+http://patchwork.openembedded.org/patch/40491/
+
+Cheers,
 
 
-
---------------050702000107040209080803
-Content-Type: text/plain; charset="UTF-8"; name="icu_50.bb"
-Content-Disposition: attachment; filename="icu_50.bb"
-Content-Transfer-Encoding: base64
-
-cmVxdWlyZSBpY3UtNTAuaW5jCgpQUiA9ICJyMSIKClNSQ19VUklbbWQ1c3VtXSA9ICJjZjdiZjll
-NTZhYTZjMjA1N2E4YjZmNDY0MDQ2NDgzZSIKU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY4NTkyYjNj
-MDdkOWI4NjEwMGY0MWQwMTcyZWIxYTgxZjNmZmIyYThmZWYxMTA0ZDczOTUwOTkwNzliYTczNTAi
-
---------------050702000107040209080803
-Content-Type: text/plain; charset="UTF-8"; name="icu-50.inc"
-Content-Disposition: attachment; filename="icu-50.inc"
-Content-Transfer-Encoding: base64
-
-U1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBmb3IgVW5pY29kZSBsaWJyYXJpZXMi
-CkRFU0NSSVBUSU9OID0gIlRoZSBJbnRlcm5hdGlvbmFsIENvbXBvbmVudCBmb3IgVW5pY29kZSAo
-SUNVKSBpcyBhIG1hdHVyZSwgcG9ydGFibGUgc2V0IG9mIEMvQysrIGFuZCBKYXZhIGxpYnJhcmll
-cyBmb3IgVW5pY29kZSBzdXBwb3J0LCBzb2Z0d2FyZSBpbnRlcm5hdGlvbmFsaXphdGlvbiAoSTE4
-TikgYW5kIGdsb2JhbGl6YXRpb24gKEcxMU4pLCBnaXZpbmcgYXBwbGljYXRpb25zIHRoZSBzYW1l
-IHJlc3VsdHMgb24gYWxsIHBsYXRmb3Jtcy4iCkhPTUVQQUdFID0gImh0dHA6Ly9zaXRlLmljdS1w
-cm9qZWN0Lm9yZy8iCgpCQVNFX1NSQ19VUkkgPSAiaHR0cDovL2Rvd25sb2FkLmljdS1wcm9qZWN0
-Lm9yZy9maWxlcy9pY3U0Yy81MC4xL2ljdTRjLTUwXzEtc3JjLnRneiIKClNSQ19VUkkgPSAiJHtC
-QVNFX1NSQ19VUkl9IgoKU1JDX1VSSV9jbGFzcy1uYXRpdmUgPSAiJHtCQVNFX1NSQ19VUkl9IgoK
-TElDRU5TRSA9ICJJQ1UiCkxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovLy4uL2xpY2Vuc2UuaHRt
-bDttZDU9NWM5NDc2N2NlZGI1ZDY5ODdjOTAyYWM4NTBkZWQyYzYiCkRFUEVORFMgPSAiaWN1LW5h
-dGl2ZSIKREVQRU5EU19jbGFzcy1uYXRpdmUgPSAiIgoKUyA9ICIke1dPUktESVJ9L2ljdS9zb3Vy
-Y2UiCgpQQVJBTExFTF9NQUtFID0gIiIKRlVMTF9PUFRJTUlaQVRJT05fYXJtID0gIi1PcyIKCmlu
-aGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBiaW5jb25maWcKClBBQ0tBR0VTID0rICJsaWJpY3Vk
-YXRhIGxpYmljdXVjIGxpYmljdWkxOG4gbGliaWN1bGUgbGliaWN1bHggbGliaWN1dHUgbGliaWN1
-aW8iCgpGSUxFU18ke1BOfS1kZXYgKz0gIiR7bGliZGlyfS8ke0JQTn0vIgoKRklMRVNfbGliaWN1
-ZGF0YSA9ICIke2xpYmRpcn0vbGliaWN1ZGF0YS5zby4qIgpGSUxFU19saWJpY3V1YyA9ICIke2xp
-YmRpcn0vbGliaWN1dWMuc28uKiIKRklMRVNfbGliaWN1aTE4biA9ICIke2xpYmRpcn0vbGliaWN1
-aTE4bi5zby4qIgpGSUxFU19saWJpY3VsZSA9ICIke2xpYmRpcn0vbGliaWN1bGUuc28uKiIKRklM
-RVNfbGliaWN1bHggPSAiJHtsaWJkaXJ9L2xpYmljdWx4LnNvLioiCkZJTEVTX2xpYmljdXR1ID0g
-IiR7bGliZGlyfS9saWJpY3V0dS5zby4qIgpGSUxFU19saWJpY3VpbyA9ICIke2xpYmRpcn0vbGli
-aWN1aW8uc28uKiIKCkJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIgo=
-
---------------050702000107040209080803--
