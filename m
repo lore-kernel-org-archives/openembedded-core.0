@@ -1,33 +1,26 @@
-Received: from mail-wi0-f179.google.com ([209.85.212.179])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TiilG-0001eb-BH
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TijL6-0002U4-AB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 12 Dec 2012 10:37:54 +0100
-Received: by mail-wi0-f179.google.com with SMTP id o1so296586wic.6
+	Wed, 12 Dec 2012 11:14:57 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBCA0LKn002319
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 01:23:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=HByyJkhRn782pSZjLd+xxrHzs6tEY6kfqhcPfA8tzyk=;
-	b=lznYMezl/2hDqcNfPa2XJROuhzm3Bi25onTC5XCgNRXqM6TiRWCtqcLoV1MVshoRvm
-	Hq9duAdeo8YLkXqg7sVER3j8ne5/Dyenzp4m9Exd5DPziw50gXNtUFfapfOc6uxv6mFc
-	vL6aLXDq5Y+JAjP9xB4VCP1DblhIID3jWRlkBRLnX8kyMXUxjtbQV3tSxwSuryu+ACT1
-	hVj8nBYKi5UktnOB38QIQUib5qTGLDYzwTGFVCfjsRk1JgtdurTSYNwF4B1mJAxy2LUR
-	rOH2lu2I74oY+DRMqIr494HT1ml28tE0Cm+29pJIEY9PNyKK/oBnoKb+BgPzVTsv6Z+5
-	f6LQ==
+	Wed, 12 Dec 2012 02:00:22 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.141) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Wed, 12 Dec 2012 02:00:21 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Dec 2012 18:00:15 +0800
+Message-ID: <a865b540a43bfce79677902ec1700cf981aa5336.1355302441.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1355302441.git.hongxu.jia@windriver.com>
+References: <cover.1355302441.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Received: by 10.180.19.99 with SMTP id d3mr590732wie.4.1355304201241; Wed, 12
-	Dec 2012 01:23:21 -0800 (PST)
-Received: by 10.194.84.103 with HTTP; Wed, 12 Dec 2012 01:23:21 -0800 (PST)
-In-Reply-To: <lywqwqktzq.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lywqwqktzq.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Wed, 12 Dec 2012 10:23:21 +0100
-Message-ID: <CA+chaQe8uniTRz5pm+kWcC2kH=1836UkVgfyRMBO1p3M2Ldf=Q@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: binutils: regression on kernel builds
+Subject: [PATCH 1/1] ghostscript-native: disable libtiff support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,41 +33,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2012 09:37:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Dec 2012 10:14:58 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 10:14:58 -0000
+Content-Type: text/plain
 
-On Mon, Dec 10, 2012 at 12:48 PM, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> Hi,
->
-> with recent binutils, kernel build fails with
->
-> | arm-linux-gnueabi-ld: error: arch/arm/boot/compressed/piggy.gzip.o: unknown CPU architecture
->
-> I am able to reproduce it with
->
-> $ > /tmp/x.s
-> $ arm-linux-gnueabi-as  -march=armv7-a -march=all -o x0.o /tmp/x.s
-> $ arm-linux-gnueabi-as  -march=armv7-a  -o x1.o /tmp/x.s
-> $ arm-linux-gnueabi-ld.gold x0.o x1.o
-> arm-linux-gnueabi-ld: error: x1.o: unknown CPU architecture
-> $ arm-linux-gnueabi-ld.bfd x0.o x1.o
-> arm-linux-gnueabi-ld.bfd: warning: cannot find entry symbol _start; defaulting to 0000000000008034
->
->
-> (kernel sets '-Wa,-march=all' when building piggy.gzip.o)
->
->
-> This works fine with binutils 2.22 and when using the BFD linker.
+The ghostscript-native will check libtiff
+automatically at configure time and libtiff
+needs libjpeg. If libtiff and libjpeg is
+just populated to staging native directories
+and the host doesn't install them, the libjpeg
+could not be linked, fail with:
 
-You need to patch your kernel sources, some examples for different
-kernel versions (please ignore incorrect commit message)
+|libjpeg.so.8, needed by libtiff.so, not found
+|libtiff.so: undefined reference to
+`jpeg_set_defaults@LIBJPEG_8.0'
+|collect2: error: ld returned 1 exit status
 
-https://github.com/shr-distribution/linux/commit/e465ff7527fb085b4854b0e68aa6bc592229bf43
-https://github.com/shr-distribution/linux/commit/627c638794d61c27858d6220cf55c27c74dc9450
-https://github.com/shr-distribution/linux/commit/37b0bacc00e81811dc113265a9ef826fe9aab788
-https://github.com/shr-distribution/linux/commit/ec1ac589d49081286164246fbaaba0012ae7ecac
+Disable libtiff support to fix this issue.
+We also modify configure to let disable system
+libtiff could work.
 
-Cheers,
+[YOCTO #3562]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...tscript-native-fix-disable-system-libtiff.patch |   51 ++++++++++++++++++++
+ .../ghostscript/ghostscript_9.05.bb                |   11 +++--
+ 2 files changed, 59 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
+new file mode 100644
+index 0000000..ce254f6
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
+@@ -0,0 +1,51 @@
++ghostscript-native:fix disable-system-libtiff
++
++Modify configure to add the check to make sure
++ghostscrip could work while system-libtiff is
++disabled.
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Upstream-Status: Pending
++---
++diff --git a/base/configure.ac b/base/configure.ac
++index bb05105..4b817ac 100644
++--- a/base/configure.ac
+++++ b/base/configure.ac
++@@ -814,17 +814,23 @@ Disabling tiff output devices.])
++ esac
++ 
++ if test $SHARE_LIBTIFF -eq 0; then
++-      echo
++-      echo "Running libtiff configure script..."
++-      olddir=`pwd`
++-      cd $LIBTIFFDIR && ./configure --disable-jbig $SUBCONFIG_OPTS
++-      status=$?
++-      if test "$status" -ne 0 ; then
++-        AC_MSG_ERROR([libtiff configure script failed], $status)
++-      fi
++-      cd $olddir
++-      echo
++-      echo "Continuing with Ghostscript configuration..."
+++    if test -e $LIBTIFFDIR/configure; then
+++        echo
+++        echo "Running libtiff configure script..."
+++        olddir=`pwd`
+++        cd $LIBTIFFDIR && ./configure --disable-jbig $SUBCONFIG_OPTS
+++        status=$?
+++        if test "$status" -ne 0 ; then
+++          AC_MSG_ERROR([libtiff configure script failed], $status)
+++        fi
+++        cd $olddir
+++        echo
+++        echo "Continuing with Ghostscript configuration..."
+++    else
+++        AC_MSG_NOTICE([Could not find local copy of libtiff.
+++Disabling tiff output devices.])
+++    fi
+++
++ fi
++ 
++ AC_SUBST(SHARE_LIBTIFF)
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+index 2789897..5de70d0 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+@@ -15,7 +15,7 @@ SECTION = "console/utils"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c5326026692dbed183f0558f926580f8"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ DEPENDS = "ghostscript-native tiff jpeg fontconfig cups"
+ DEPENDS_class-native = ""
+@@ -31,8 +31,9 @@ SRC_URI = "${SRC_URI_BASE} \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+-		        file://0001-make-ghostscript-work-with-long-building-directory.patch \
+-		        "
++                        file://0001-make-ghostscript-work-with-long-building-directory.patch \
++                        file://ghostscript-native-fix-disable-system-libtiff.patch \
++                        "
+ 
+ SRC_URI[md5sum] = "f7c6f0431ca8d44ee132a55d583212c1"
+ SRC_URI[sha256sum] = "593f77f7584704bdf9de41598a084a4208c3ad3b940a1de1faaf8f59a15cc207"
+@@ -40,6 +41,10 @@ SRC_URI[sha256sum] = "593f77f7584704bdf9de41598a084a4208c3ad3b940a1de1faaf8f59a1
+ EXTRA_OECONF = "--without-x --with-system-libtiff --without-jbig2dec --without-jasper \
+                 --with-fontpath=${datadir}/fonts --with-install-cups --without-libidn"
+ 
++# Explicity disable libtiff for ghostscript-native
++EXTRA_OECONF_class-native = "--without-x --with-system-libtiff=no --without-jbig2dec --without-jasper \
++                --with-fontpath=${datadir}/fonts --with-install-cups --without-libidn"
++
+ # This has been fixed upstream but for now we need to subvert the check for time.h
+ # http://bugs.ghostscript.com/show_bug.cgi?id=692443
+ # http://bugs.ghostscript.com/show_bug.cgi?id=692426
+-- 
+1.7.10.4
+
 
 
