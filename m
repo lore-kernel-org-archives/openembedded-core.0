@@ -1,21 +1,21 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Tj7lf-0005t7-Fm
+	(envelope-from <rpjday@crashcourse.ca>) id 1Tj7wM-00066B-3B
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 13:19:59 +0100
+	Thu, 13 Dec 2012 13:31:02 +0100
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:47040 helo=crashcourse.ca)
+	([174.115.5.73]:47196 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Tj7XZ-0003ex-OV; Thu, 13 Dec 2012 07:05:25 -0500
-Date: Thu, 13 Dec 2012 07:05:21 -0500 (EST)
+	id 1Tj7iG-00043k-9d; Thu, 13 Dec 2012 07:16:28 -0500
+Date: Thu, 13 Dec 2012 07:16:25 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <1444001.YHLHxItvIU@helios>
-Message-ID: <alpine.DEB.2.02.1212130704180.4281@oneiric>
-References: <alpine.DEB.2.02.1212122024470.1116@oneiric>
-	<1444001.YHLHxItvIU@helios>
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <20121213070049.GA3356@jama.jama.net>
+Message-ID: <alpine.DEB.2.02.1212130715580.4466@oneiric>
+References: <alpine.DEB.2.02.1212122013560.917@oneiric>
+	<20121213070049.GA3356@jama.jama.net>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -27,8 +27,8 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] patch.bbclass: Finally remove support for deprecated "pnum=".
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta-openembedded: Replace vestiges of "pnum=" with "striplevel=".
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,42 +41,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 12:19:59 -0000
+X-List-Received-Date: Thu, 13 Dec 2012 12:31:02 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 13 Dec 2012, Paul Eggleton wrote:
+On Thu, 13 Dec 2012, Martin Jansa wrote:
 
-> On Wednesday 12 December 2012 20:25:50 Robert P. J. Day wrote:
+> On Wed, Dec 12, 2012 at 08:16:16PM -0500, Robert P. J. Day wrote:
+> >
 > > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> >
-> > ---
-> >
-> >   someone else is welcome to apply this if it seems appropriate.
-> >
-> > diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> > index ed12802..31f76f6 100644
-> > --- a/meta/classes/patch.bbclass
-> > +++ b/meta/classes/patch.bbclass
-> > @@ -33,9 +33,6 @@ def src_patches(d, all = False ):
-> >          patchparm = {'patchname': patchname}
-> >          if "striplevel" in parm:
-> >              striplevel = parm["striplevel"]
-> > -        elif "pnum" in parm:
-> > -            #bb.msg.warn(None, "Deprecated usage of 'pnum' url parameter in
-> > '%s', please use 'striplevel'" % url) -            striplevel =
-> > parm["pnum"]
-> >          else:
-> >              striplevel = '1'
-> >          patchparm['striplevel'] = striplevel
 >
-> I'm not sure I see a pressing need to remove this support, but I am
-> puzzled as to why the "deprecated" message is commented out - that
-> should definitely be fixed if nothing else.
+> This belongs to openembedded-devel@lists.openembedded.org ML with
+> [meta-oe] tag in subject, please read README in layer top directory.
 
-  i believe i'll leave this decision in the hands of someone higher up
-the food chain.  i will only observe that, with the exception of that
-parameter in a single recipe i'm about to send in a patch for, i'm not
-aware of it anywhere else.
+  ah, quite so, will resend shortly.
 
 rday
 
