@@ -1,24 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1Tiyaz-0004fT-7z
+	(envelope-from <Li.Wang@windriver.com>) id 1Tiz1H-0004y3-4w
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 03:32:36 +0100
+	Thu, 13 Dec 2012 03:59:31 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBD2HkbF020834
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBD2itVr009322
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 18:17:46 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.141) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 12 Dec 2012 18:17:44 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Dec 2012 10:17:42 +0800
-Message-ID: <cover.1355363862.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Wed, 12 Dec 2012 18:44:55 -0800 (PST)
+Received: from [128.224.162.210] (128.224.162.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Wed, 12 Dec 2012 18:44:55 -0800
+Message-ID: <50C94123.6020701@windriver.com>
+Date: Thu, 13 Dec 2012 10:44:51 +0800
+From: "Li.Wang" <Li.Wang@windriver.com>
+User-Agent: Thunderbird 2.0.0.24 (X11/20101027)
 MIME-Version: 1.0
-Subject: [PATCH 0/1]ghostscript-native:fix host underlinking issues
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [128.224.162.210]
+Subject: only test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,28 +32,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 02:32:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Dec 2012 02:59:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit d3154aa9f8b111066a4e2f5287f8d49075ed6253:
+I can not receive the patch email from 
+"openembedded-core@lists.openembedded.org".
 
-  sstate: fix typo (2012-12-06 22:59:10 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/ghostscript-native
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/ghostscript-native
-
-Hongxu Jia (1):
-  ghostscript-native:fix host underlinking issues
-
- ...tscript-native-fix-disable-system-libtiff.patch |   51 ++++++++++++++++++++
- .../ghostscript/ghostscript_9.05.bb                |   15 ++++--
- 2 files changed, 63 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
-
--- 
-1.7.10.4
-
+Thanks,
+LiWang.
 
 
