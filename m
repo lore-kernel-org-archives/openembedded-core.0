@@ -1,25 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Tj5Ny-0007o9-G7
+	(envelope-from <anders@chargestorm.se>) id 1Tj5Pr-0007ri-EK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 10:47:22 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Dec 2012 01:32:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,273,1355126400"; d="scan'208";a="233337675"
-Received: from unknown (HELO helios.localnet) ([10.252.122.249])
-	by orsmga001.jf.intel.com with ESMTP; 13 Dec 2012 01:32:29 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Thu, 13 Dec 2012 09:32:28 +0000
-Message-ID: <1444001.YHLHxItvIU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.3 (Linux/3.5.0-19-generic; KDE/4.9.3; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1212122024470.1116@oneiric>
-References: <alpine.DEB.2.02.1212122024470.1116@oneiric>
+	Thu, 13 Dec 2012 10:49:32 +0100
+Received: from localhost (83.252.253.85) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.279.1; Thu, 13 Dec 2012
+	10:34:11 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Dec 2012 10:35:40 +0100
+Message-ID: <cover.1355391318.git.anders@chargestorm.se>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] patch.bbclass: Finally remove support for deprecated "pnum=".
+X-GFI-SMTP-Submission: 1
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: [PATCH 0/1] Split out ralink firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,43 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 09:47:22 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 13 Dec 2012 09:49:32 -0000
+Content-Type: text/plain
 
-On Wednesday 12 December 2012 20:25:50 Robert P. J. Day wrote:
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> 
-> ---
-> 
->   someone else is welcome to apply this if it seems appropriate.
-> 
-> diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-> index ed12802..31f76f6 100644
-> --- a/meta/classes/patch.bbclass
-> +++ b/meta/classes/patch.bbclass
-> @@ -33,9 +33,6 @@ def src_patches(d, all = False ):
->          patchparm = {'patchname': patchname}
->          if "striplevel" in parm:
->              striplevel = parm["striplevel"]
-> -        elif "pnum" in parm:
-> -            #bb.msg.warn(None, "Deprecated usage of 'pnum' url parameter in
-> '%s', please use 'striplevel'" % url) -            striplevel =
-> parm["pnum"]
->          else:
->              striplevel = '1'
->          patchparm['striplevel'] = striplevel
+This splits out the ralink drivers in a linux-firmware-ralink package.
 
-I'm not sure I see a pressing need to remove this support, but I am puzzled as 
-to why the "deprecated" message is commented out - that should definitely be 
-fixed if nothing else.
+It's done in the same style as the other splits previously done.
 
-Cheers,
-Paul
+The following changes since commit b8b1b39961332c99d62ee466f7859bd62a0f806f:
+
+  bitbake.conf/utils: Drop some OVERRIDES from FILESPATH (2012-12-11 15:58:27 +0000)
+
+are available in the git repository at:
+
+  git://github.com/darander/oe-core linux-firmware
+  https://github.com/darander/oe-core/tree/linux-firmware
+
+Anders Darander (1):
+  linux-firmware: split out ralink drivers
+
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb |   10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
