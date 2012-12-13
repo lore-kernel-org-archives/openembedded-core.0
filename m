@@ -1,24 +1,26 @@
-Received: from r-finger.com ([178.79.160.5])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tf+lists.yocto@r-finger.com>) id 1Tj46C-0006Cp-Uw
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Tj5LC-0007ka-Ay
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 09:25:02 +0100
-Received: from [192.168.0.2] (host86-137-81-183.range86-137.btcentralplus.com
-	[86.137.81.183]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 060DE9BE3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2012 08:10:23 +0000 (GMT)
-Message-ID: <50C98D6F.8050308@r-finger.com>
-Date: Thu, 13 Dec 2012 08:10:23 +0000
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
+	Thu, 13 Dec 2012 10:44:44 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Dec 2012 01:29:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,273,1355126400"; d="scan'208";a="263426533"
+Received: from unknown (HELO helios.localnet) ([10.252.122.249])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2012 01:29:54 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Li.Wang" <Li.Wang@windriver.com>
+Date: Thu, 13 Dec 2012 09:29:52 +0000
+Message-ID: <3126648.F3OLjlJLPU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.3 (Linux/3.5.0-19-generic; KDE/4.9.3; i686; ; )
+In-Reply-To: <50C9639E.10104@windriver.com>
+References: <50C94123.6020701@windriver.com> <50C94525.1080605@windriver.com>
+	<50C9639E.10104@windriver.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <alpine.DEB.2.02.1212122024470.1116@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1212122024470.1116@oneiric>
-Subject: Re: [PATCH] patch.bbclass: Finally remove support for deprecated "pnum=".
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: only test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,26 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 08:25:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Dec 2012 09:44:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Thursday 13 December 2012 13:11:58 Li.Wang wrote:
+> test once more after unsub, sub.
+> 
+> LiWang.
 
-On 13/12/12 01:25, Robert P. J. Day wrote:
-> -        elif "pnum" in parm:
-> -            #bb.msg.warn(None, "Deprecated usage of 'pnum' url parameter in '%s', please use 'striplevel'" % url)
-> -            striplevel = parm["pnum"]
+Well, FWIW, we are getting the mails you're sending :)
 
-Not sure what the rationale is for needing to remove it at all, but if
-you do, it should error on pnum use, so that folk who might have any
-custom recipes using it get a clear error message, rather than letting
-it fail inside the patch task.
-
-Tomas
-
-
+Cheers,
+Paul
 
 -- 
-http://sleepfive.com
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
