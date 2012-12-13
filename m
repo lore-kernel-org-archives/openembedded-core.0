@@ -1,28 +1,26 @@
 Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1TjC76-0006i8-LB
+	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1TjCJ2-0007N4-Ey
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 17:58:33 +0100
-Received: from [192.168.101.14] (afplatform.bmw-carit.intra [192.168.101.14])
+	Thu, 13 Dec 2012 18:10:54 +0100
+Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
+	[192.168.101.14])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 28DB440043;
-	Thu, 13 Dec 2012 17:07:40 +0100 (CET)
-Message-ID: <50CA05C6.8040509@oss.bmw-carit.de>
-Date: Thu, 13 Dec 2012 17:43:50 +0100
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 4FF4E40043;
+	Thu, 13 Dec 2012 17:20:01 +0100 (CET)
 From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1354787367-18543-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-	<1354787367-18543-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-	<50C66DAA.8090800@linux.intel.com>
-In-Reply-To: <50C66DAA.8090800@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	sgw@linux.intel.com
+Date: Thu, 13 Dec 2012 17:55:38 +0100
+Message-Id: <1355417738-6285-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <0C66DAA.8090800@linux.intel.com>
+References: <0C66DAA.8090800@linux.intel.com>
 Cc: Lukas Bulwahn <lukas.bulwahn@bmw-carit.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] distutils: Replacing path to native python by path to python in the image to support python packages with console-script setup
+	Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
+Subject: [PATCH] distutils: Replacing path to native python by path to python in the image to support python packages with console-script setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,17 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 16:58:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Dec 2012 17:10:54 -0000
 
-On 12/11/2012 12:18 AM, Saul Wold wrote:
-> Thanks for the patch, good catch, but need a slight tweak.
->
-> Sau!
->
-Thanks for the hint. I refined the patch.
+From: Lukas Bulwahn <lukas.bulwahn@bmw-carit.de>
 
-Lukas
+When using distutils for a python package based on a python-setuptools
+installation script that sets up a console script, the header
+of the console script created by setuptools points to the
+python-native path.
+
+The console scripts are commonly executed in the image, but not
+in the sysroot environment. Therefore, the header of the
+console scripts should point to the python interpreter in the
+image.
+
+Setuptools does not allow to set the path of the python
+interpreter via some command-line argument.
+Hence after the installation script ran, the distutils
+class replaces the path in the console script files created by
+the installation.
+
+Signed-off-by: Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
+---
+ meta/classes/distutils.bbclass |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 552e5f3..02f5cb6 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -47,12 +47,14 @@ distutils_do_install() {
+ 
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
++                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env python:g $i
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
+ 
+         if test -e ${D}${sbindir}; then
+             for i in ${D}${sbindir}/* ; do \
++                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env python:g $i
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
+-- 
+1.7.9.5
+
 
 
