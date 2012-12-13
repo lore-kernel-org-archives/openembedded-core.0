@@ -1,38 +1,31 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TjAzt-0004BK-2y
+	(envelope-from <rpjday@crashcourse.ca>) id 1TjB7o-0004MF-4Q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 16:46:53 +0100
-Received: from mail-lb0-f197.google.com ([209.85.217.197])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 13 Dec 2012 07:32:15 -0800
-Received: by mail-lb0-f197.google.com with SMTP id go10so1568765lbb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Dec 2012 07:32:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=UQQJkDMKS/Rc6OZwp8/4ppTY1wWPEHIYxC7Zgvtc0FI=;
-	b=jOYk0v6WbVBmWhg34jCJx27cnutL/C3RhhwpZ2vhN89ZZluAjN4AwU4gZtEYgwRscx
-	AeuJvv3UoFlyXTiqpVnY7xEakciKmPj43Iyg3lRkSwML2NCDO0MrfYd6HccTPrSRQc4n
-	nSXd0TKT0Si98J1K8Nc/ebYB5szH4AqX9FfWii1lyAkurMVx9gjP4LPBpXM6qLLg1grM
-	YGNL2W2sjdc8VJBj584HWxITTsiZ/en8UmduvbmhjVpiREvz/un4B3BcfJvT1iZUki/I
-	SpNYdHnuLYfPYbCaleybnaXkAXaWzujvRQz1cjamC0GcVu/bTldZCJWf234xaplHyjZh
-	2VAA==
-Received: by 10.180.86.39 with SMTP id m7mr29805147wiz.1.1355412732495;
-	Thu, 13 Dec 2012 07:32:12 -0800 (PST)
-Received: by 10.180.86.39 with SMTP id m7mr29805142wiz.1.1355412732424;
-	Thu, 13 Dec 2012 07:32:12 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ec3sm8233311wib.10.2012.12.13.07.32.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 13 Dec 2012 07:32:11 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Dec 2012 15:30:31 +0000
-Message-Id: <1355412631-29499-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQkUvHn5eMyTLwl3WYwV3rq45bdiHNLWf+LXLPAi4L/2iDWG0ZfEP2SOPktaYcZCqmuNqIuf9C3G5cpMICmqxDUte+qe7lTup2rYupiO7iRn/WvJmAxIqic9u0WlAT2spZmLZHjxa1SMaz953yBWi6LyHLnMBT8dtzrwFLmfukpyJWAuHNBTIjw+keVdp84w6Tp/mz7F
-Subject: [PATCH] mesa: remove dependency on mesa-dri in mesa-dri-dev
+	Thu, 13 Dec 2012 16:55:06 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:50895 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TjAti-00056Y-C6 for openembedded-core@lists.openembedded.org;
+	Thu, 13 Dec 2012 10:40:30 -0500
+Date: Thu, 13 Dec 2012 10:40:27 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1212131040220.7313@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: in SRC_URI, is "name=" necessary for a single tarball?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,51 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 15:46:53 -0000
+X-List-Received-Date: Thu, 13 Dec 2012 15:55:06 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Move /etc/drirc to libdricommon so mesa-dri is empty, and remove the automatic
-dependency on mesa-dri in mesa-dri-dev.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/mesa/mesa-common.inc |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+just noticed this in busybox_1.20.2.bb:
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index 1d3655f..70957eb 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -12,7 +12,7 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
- 
--INC_PR = "r8"
-+INC_PR = "r9"
- PE = "2"
- 
- DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
-@@ -37,6 +37,9 @@ PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
- # Multiple virtual/gl providers being built breaks staging
- EXCLUDE_FROM_WORLD = "1"
- 
-+# Remove the mesa-dri dependency on mesa-dri-dev, as mesa-dri is empty
-+RDEPENDS_${PN}-dev = ""
-+
- PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libosmesa libosmesa-dev \
-              libgl-mesa libgl-mesa-dev \
-@@ -79,8 +82,7 @@ python __anonymous() {
-         d.appendVar("RCONFLICTS_" + fullp, pkgs)
- }
- 
--FILES_${PN} = "${sysconfdir}/drirc"
--FILES_libdricore = "${libdir}/libdricore*.so.*"
-+FILES_libdricore = "${sysconfdir}/drirc ${libdir}/libdricore*.so.*"
- FILES_libegl-mesa = "${libdir}/libEGL.so.*"
- FILES_libgbm = "${libdir}/libgbm.so.*"
- FILES_libgles1-mesa = "${libdir}/libGLESv1*.so.*"
+SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+           file://B921600.patch \
+           file://get_header_tar.patch \
+           ... snip ...
+
+SRC_URI[tarball.md5sum] = "e025414bc6cd79579cc7a32a45d3ae1c"
+SRC_URI[tarball.sha256sum] = "eb13ff01dae5618ead2ef6f92ba879e9e0390f9583bd545d8789d27cf39b6882"
+
+  in the above, does "name=tarball" actually serve any purpose?  i was
+under the impression that if you had just the single tarball, you
+could:
+
+SRC_URI = "http://www.ijg.org/files/jpegsrc.v${PV}.tar.gz \
+           file://debian-libjpeg7_7-1.diff \
+           file://fix_for_automake_1.12.1.patch"
+
+SRC_URI[md5sum] = "52654eb3b2e60c35731ea8fc87f1bd29"
+SRC_URI[sha256sum] = "00029b1473f0f0ea72fbca3230e8cb25797fbb27e58ae2e46bb8bf5a806fe0b3"
+
+  obviously in the case of busybox, it won't *hurt*, it just looks
+unnecessary.
+
+rday
+
+
 -- 
-1.7.10
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
