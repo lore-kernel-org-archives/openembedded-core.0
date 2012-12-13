@@ -1,37 +1,24 @@
-Received: from mail-ea0-f175.google.com ([209.85.215.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tj30f-0004yh-32
+	(envelope-from <Li.Wang@windriver.com>) id 1Tj3NZ-0005Co-NU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 08:15:10 +0100
-Received: by mail-ea0-f175.google.com with SMTP id h11so523445eaa.6
+	Thu, 13 Dec 2012 08:38:50 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBD7OD72023210
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Dec 2012 23:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=/oqol3Hqfd6vYq8S89riWEQJoeyy6bCmpq7JRjhsAD4=;
-	b=GWNcpfM2mB2IVslkpRSz54tjjvbR1Jt0PyuC6FOXo9PTsZG8rDE9RNM1TAkX+RvpfZ
-	HXdcHOd7YsPhr7+qnmpPajn8bWuBlOH+KUynYQLGm3680sOdvRhdXHeB++ghdBFyooJ0
-	O2nKq3kD6fAjCnOwuaYiqFr5aI8yAaZVWEQ0G/Jiq7Z1dhJec42gub0xfSLbZ53PqOSl
-	Ag/4mTNe6d+2o+ll37BAcCX3T52zPPfnqeDXFFI9YXoda0IK94VzJlwHYuIOvITDeJ9s
-	t0xNm2MRPJnZ1scrDvJ1R2qIRn6oeBBsRW5ibxNVqSpdqKp7rsYmZ5Vlio4EGGenUlsg
-	U89g==
-Received: by 10.14.225.194 with SMTP id z42mr2555193eep.22.1355382034451;
-	Wed, 12 Dec 2012 23:00:34 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id d3sm1171357eeo.13.2012.12.12.23.00.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 12 Dec 2012 23:00:33 -0800 (PST)
-Date: Thu, 13 Dec 2012 08:00:49 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20121213070049.GA3356@jama.jama.net>
-References: <alpine.DEB.2.02.1212122013560.917@oneiric>
+	Wed, 12 Dec 2012 23:24:13 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Wed, 12 Dec 2012 23:24:12 -0800
+From: Li Wang <li.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Dec 2012 15:24:06 +0800
+Message-ID: <1355383447-1138-1-git-send-email-li.wang@windriver.com>
+X-Mailer: git-send-email 1.7.11
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.02.1212122013560.917@oneiric>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-openembedded: Replace vestiges of "pnum=" with "striplevel=".
+Subject: [PATCH 1/2] cups - CVE-2011-2896
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,97 +31,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 07:15:11 -0000
-X-Groupsio-MsgNum: 32612
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Dec 2012 07:38:51 -0000
+Content-Type: text/plain
 
---W/nzBZO5zC0uMSeA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+the patch come from:
+http://cups.org/strfiles/3867/str3867.patch
 
-On Wed, Dec 12, 2012 at 08:16:16PM -0500, Robert P. J. Day wrote:
->=20
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+The LZW decompressor in the LWZReadByte function in giftoppm.c
+in the David Koblas GIF decoder in PBMPLUS, as used in the
+gif_read_lzw function in filter/image-gif.c in CUPS before 1.4.7,
+the LZWReadByte function in plug-ins/common/file-gif-load.c
+in GIMP 2.6.11 and earlier, the LZWReadByte function in img/gifread.c
+in XPCE in SWI-Prolog 5.10.4 and earlier, and other products,
+does not properly handle code words that are absent from the
+decompression table when encountered, which allows remote attackers to
+trigger an infinite loop or a heap-based buffer overflow, and possibly
+execute arbitrary code, via a crafted compressed stream, a related
+issue to CVE-2006-1168 and CVE-2011-2895.
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-2896
 
-This belongs to openembedded-devel@lists.openembedded.org ML with
-[meta-oe] tag in subject, please read README in layer top directory.
+[YOCTO #3582]
+[ CQID: WIND00299595 ]
+Upstream-Status: Backport
 
-Cheers,
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ .../cups/cups-1.4.6/cups-CVE-2011-2896.patch       | 140 +++++++++++++++++++++
+ meta/recipes-extended/cups/cups_1.4.6.bb           |   3 +-
+ 2 files changed, 142 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2011-2896.patch
 
->=20
-> ---
->=20
->   given that these were the last usages of "pnum=3D" that i'm aware of,
-> i'll submit a patch to remove the processing from patch.bbclass --
-> someone else can decide whether or not to apply it.
->=20
-> diff --git a/meta-oe/recipes-support/vim/vim_7.2.446.bb b/meta-oe/recipes=
--support/vim/vim_7.2.446.bb
-> index 62d76d7..ea922f5 100644
-> --- a/meta-oe/recipes-support/vim/vim_7.2.446.bb
-> +++ b/meta-oe/recipes-support/vim/vim_7.2.446.bb
-> @@ -12,11 +12,11 @@ require vim.inc
->  PR =3D "${INC_PR}.3"
->=20
->  # 001-446; 401-446 are not yet available online
-> -SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.001-100.gz;name=
-=3Dp001-100;apply=3Dyes;patchdir=3D..;pnum=3D0"
-> -SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.101-200.gz;name=
-=3Dp101-200;apply=3Dyes;patchdir=3D..;pnum=3D0"
-> -SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.201-300.gz;name=
-=3Dp201-300;apply=3Dyes;patchdir=3D..;pnum=3D0"
-> -SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.301-400.gz;name=
-=3Dp301-400;apply=3Dyes;patchdir=3D..;pnum=3D0"
-> -SRC_URI +=3D "file://401-446.diff;patchdir=3D..;pnum=3D0"
-> +SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.001-100.gz;name=
-=3Dp001-100;apply=3Dyes;patchdir=3D..;striplevel=3D0"
-> +SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.101-200.gz;name=
-=3Dp101-200;apply=3Dyes;patchdir=3D..;striplevel=3D0"
-> +SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.201-300.gz;name=
-=3Dp201-300;apply=3Dyes;patchdir=3D..;striplevel=3D0"
-> +SRC_URI +=3D "http://ftp.vim.org/pub/vim/patches/7.2/7.2.301-400.gz;name=
-=3Dp301-400;apply=3Dyes;patchdir=3D..;striplevel=3D0"
-> +SRC_URI +=3D "file://401-446.diff;patchdir=3D..;striplevel=3D0"
->=20
->  SRC_URI[p001-100.md5sum] =3D "ba91b19374cee90f71b8f4ab1d92dc0f"
->  SRC_URI[p001-100.sha256sum] =3D "519f4fea460e4f7a737ea8006c0dc1684982f83=
-72d1581fb963a5d58f8007f67"
->=20
-> --=20
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->=20
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2011-2896.patch b/meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2011-2896.patch
+new file mode 100644
+index 0000000..7c6f75b
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2011-2896.patch
+@@ -0,0 +1,140 @@
++cups - CVE-2011-2896
++
++the patch come from:
++http://cups.org/strfiles/3867/str3867.patch
++
++The LZW decompressor in the LWZReadByte function in giftoppm.c
++in the David Koblas GIF decoder in PBMPLUS, as used in the
++gif_read_lzw function in filter/image-gif.c in CUPS before 1.4.7,
++the LZWReadByte function in plug-ins/common/file-gif-load.c
++in GIMP 2.6.11 and earlier, the LZWReadByte function in img/gifread.c
++in XPCE in SWI-Prolog 5.10.4 and earlier, and other products,
++does not properly handle code words that are absent from the
++decompression table when encountered, which allows remote attackers to
++trigger an infinite loop or a heap-based buffer overflow, and possibly
++execute arbitrary code, via a crafted compressed stream, a related
++issue to CVE-2006-1168 and CVE-2011-2895.
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-2896
++
++Integrated-by: Li Wang <li.wang@windriver.com>
++---
++ filter/image-gif.c |   46 ++++++++++++++++++++--------------------------
++ 1 files changed, 20 insertions(+), 26 deletions(-)
++
++diff --git a/filter/image-gif.c b/filter/image-gif.c
++index 3857c21..fa9691e 100644
++--- a/filter/image-gif.c
+++++ b/filter/image-gif.c
++@@ -353,7 +353,7 @@ gif_get_code(FILE *fp,			/* I - File to read from */
++     * Read in another buffer...
++     */
++ 
++-    if ((count = gif_get_block (fp, buf + last_byte)) <= 0)
+++    if ((count = gif_get_block(fp, buf + last_byte)) <= 0)
++     {
++      /*
++       * Whoops, no more data!
++@@ -582,19 +582,13 @@ gif_read_lzw(FILE *fp,			/* I - File to read from */
++     gif_get_code(fp, 0, 1);
++ 
++    /*
++-    * Wipe the decompressor table...
+++    * Wipe the decompressor table (already mostly 0 due to the calloc above...)
++     */
++ 
++     fresh = 1;
++ 
++-    for (i = 0; i < clear_code; i ++)
++-    {
++-      table[0][i] = 0;
+++    for (i = 1; i < clear_code; i ++)
++       table[1][i] = i;
++-    }
++-
++-    for (; i < 4096; i ++)
++-      table[0][i] = table[1][0] = 0;
++ 
++     sp = stack;
++ 
++@@ -605,29 +599,30 @@ gif_read_lzw(FILE *fp,			/* I - File to read from */
++     fresh = 0;
++ 
++     do
+++    {
++       firstcode = oldcode = gif_get_code(fp, code_size, 0);
+++    }
++     while (firstcode == clear_code);
++ 
++-    return (firstcode);
+++    return (firstcode & 255);
++   }
++   else if (!table)
++     return (0);
++ 
++   if (sp > stack)
++-    return (*--sp);
+++    return ((*--sp) & 255);
++ 
++-  while ((code = gif_get_code (fp, code_size, 0)) >= 0)
+++  while ((code = gif_get_code(fp, code_size, 0)) >= 0)
++   {
++     if (code == clear_code)
++     {
++-      for (i = 0; i < clear_code; i ++)
++-      {
++-	table[0][i] = 0;
++-	table[1][i] = i;
++-      }
+++     /*
+++      * Clear/reset the compression table...
+++      */
++ 
++-      for (; i < 4096; i ++)
++-	table[0][i] = table[1][i] = 0;
+++      memset(table, 0, 2 * sizeof(gif_table_t));
+++      for (i = 1; i < clear_code; i ++)
+++	table[1][i] = i;
++ 
++       code_size     = set_code_size + 1;
++       max_code_size = 2 * clear_code;
++@@ -637,12 +632,11 @@ gif_read_lzw(FILE *fp,			/* I - File to read from */
++ 
++       firstcode = oldcode = gif_get_code(fp, code_size, 0);
++ 
++-      return (firstcode);
+++      return (firstcode & 255);
++     }
++-    else if (code == end_code)
+++    else if (code == end_code || code > max_code)
++     {
++-      unsigned char	buf[260];
++-
+++      unsigned char	buf[260];	/* Block buffer */
++ 
++       if (!gif_eof)
++         while (gif_get_block(fp, buf) > 0);
++@@ -652,7 +646,7 @@ gif_read_lzw(FILE *fp,			/* I - File to read from */
++ 
++     incode = code;
++ 
++-    if (code >= max_code)
+++    if (code == max_code)
++     {
++       if (sp < (stack + 8192))
++ 	*sp++ = firstcode;
++@@ -690,10 +684,10 @@ gif_read_lzw(FILE *fp,			/* I - File to read from */
++     oldcode = incode;
++ 
++     if (sp > stack)
++-      return (*--sp);
+++      return ((*--sp) & 255);
++   }
++ 
++-  return (code);
+++  return (code & 255);
++ }
++ 
++ 
++-- 
++1.7.0.5
++
+diff --git a/meta/recipes-extended/cups/cups_1.4.6.bb b/meta/recipes-extended/cups/cups_1.4.6.bb
+index 53dc149..7cecd7f 100644
+--- a/meta/recipes-extended/cups/cups_1.4.6.bb
++++ b/meta/recipes-extended/cups/cups_1.4.6.bb
+@@ -1,6 +1,6 @@
+ require cups14.inc
+ 
+-PR = "r7"
++PR = "r8"
+ DEPENDS += "libusb \
+        ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+@@ -9,6 +9,7 @@ SRC_URI += " \
+             file://use_echo_only_in_init.patch \
+             file://0001-don-t-try-to-run-generated-binaries.patch \
+             file://cups_serverbin.patch \
++            file://cups-CVE-2011-2896.patch \
+             file://cups-CVE-2012-5519.patch \
+ 	"
+ 
+-- 
+1.7.11
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---W/nzBZO5zC0uMSeA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDJfSEACgkQN1Ujt2V2gBwd2QCgj+/uGFBCWcBFKI+zo1Qmd6wU
-RjQAoKD8MDHL7VgkPdnfGpm2nr7j5xpi
-=WjR+
------END PGP SIGNATURE-----
-
---W/nzBZO5zC0uMSeA--
