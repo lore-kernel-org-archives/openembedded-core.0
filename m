@@ -1,26 +1,38 @@
-Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1TjCJ2-0007N4-Ey
+	(envelope-from <ross.burton@intel.com>) id 1TjCxU-00081F-BR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Dec 2012 18:10:54 +0100
-Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
-	[192.168.101.14])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 4FF4E40043;
-	Thu, 13 Dec 2012 17:20:01 +0100 (CET)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org,
-	sgw@linux.intel.com
-Date: Thu, 13 Dec 2012 17:55:38 +0100
-Message-Id: <1355417738-6285-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <0C66DAA.8090800@linux.intel.com>
-References: <0C66DAA.8090800@linux.intel.com>
-Cc: Lukas Bulwahn <lukas.bulwahn@bmw-carit.de>,
-	Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
-Subject: [PATCH] distutils: Replacing path to native python by path to python in the image to support python packages with console-script setup
+	Thu, 13 Dec 2012 18:52:32 +0100
+Received: from mail-wi0-f197.google.com ([209.85.212.197])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 13 Dec 2012 09:37:55 -0800
+Received: by mail-wi0-f197.google.com with SMTP id hm6so2063070wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Dec 2012 09:37:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=ksIPDTHHWcitzhFzRNQzHHWBZog+sAcH1QFAOAdV0nU=;
+	b=bYbo85x8TuU0nqGVIMmHJIjJvHdDCjw0qZx/mugp7HrmfTLpnKIufNhU16lm7c1Pt+
+	SZ9kSeXVFDsWjEScfBJ3wkuqPXUJ6eJBgrOI+SZOmPtCcDFKfpUkmguI8flSLJENV/hm
+	TVjVl50VjDw1Xrs9trz4xwYK6w8GMFtg9YX9k+Gs15H9RkkT2Nig9WJ+EMol/xNwa+2n
+	3qd5GwhXc7hQIfEH5308h5u9nes831LlYmev6IgLh9tbO+HkAGkPCFMi1tidpl0RpPzr
+	zl2blUo8t2AxBOYi/feiyUh4TtDQSwOHNrLGLHFf05nwKVDFOaQRcWxFAvfx8MJfAojo
+	Eypw==
+Received: by 10.180.75.208 with SMTP id e16mr30528047wiw.3.1355420270414;
+	Thu, 13 Dec 2012 09:37:50 -0800 (PST)
+Received: by 10.180.75.208 with SMTP id e16mr30528041wiw.3.1355420270245;
+	Thu, 13 Dec 2012 09:37:50 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id d9sm8991002wiw.0.2012.12.13.09.37.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 13 Dec 2012 09:37:49 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Dec 2012 17:36:08 +0000
+Message-Id: <1355420169-10533-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQn4M2bdQP8awAGfcCtUA9BzTtO1SeMOWv39q0+h0L3OuQEJqc3U8r94NV6A5g+LML8Y8Gha1CeW5J4xaKNNGkpZlnmhG15LMHKbdl2WhE0q9SqRgbIbhRWXAV2IxybPJQAfXocqnVPpeKYFNop2bvWZyfudjGpSuGAIL5unFAsfz7jI05eJjFKwl/CLOeLmlb4yIIrp
+Subject: [PATCH 1/2] mesa-dri-git: remove patch that doesn't apply to 9.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,52 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2012 17:10:54 -0000
+X-List-Received-Date: Thu, 13 Dec 2012 17:52:32 -0000
 
-From: Lukas Bulwahn <lukas.bulwahn@bmw-carit.de>
 
-When using distutils for a python package based on a python-setuptools
-installation script that sets up a console script, the header
-of the console script created by setuptools points to the
-python-native path.
-
-The console scripts are commonly executed in the image, but not
-in the sysroot environment. Therefore, the header of the
-console scripts should point to the python interpreter in the
-image.
-
-Setuptools does not allow to set the path of the python
-interpreter via some command-line argument.
-Hence after the installation script ran, the distutils
-class replaces the path in the console script files created by
-the installation.
-
-Signed-off-by: Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/distutils.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/mesa/mesa-git.inc |    2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index 552e5f3..02f5cb6 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -47,12 +47,14 @@ distutils_do_install() {
+diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graphics/mesa/mesa-git.inc
+index d558d0b..25093af 100644
+--- a/meta/recipes-graphics/mesa/mesa-git.inc
++++ b/meta/recipes-graphics/mesa/mesa-git.inc
+@@ -9,6 +9,4 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
+            file://0002-cross-compile.patch \
+            "
  
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env python:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if test -e ${D}${sbindir}; then
-             for i in ${D}${sbindir}/* ; do \
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env python:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
+-SRC_URI += "${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://0004-gross-hack-to-prevent-from-install-libgl.patch', d)}"
+-
+ S = "${WORKDIR}/git"
 -- 
-1.7.9.5
+1.7.10
 
 
 
