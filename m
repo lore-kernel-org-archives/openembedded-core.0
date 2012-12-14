@@ -1,27 +1,38 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1TjYU1-0001on-Uu
+	(envelope-from <ross.burton@intel.com>) id 1TjYXw-0001y2-1W
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 17:51:34 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 1315AF8120B; Fri, 14 Dec 2012 09:36:59 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 828D4F811EC;
-	Fri, 14 Dec 2012 09:36:58 -0700 (MST)
-Message-ID: <50CB55C3.2070409@mlbassoc.com>
-Date: Fri, 14 Dec 2012 09:37:23 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Fri, 14 Dec 2012 17:55:36 +0100
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 08:40:58 -0800
+Received: by mail-ob0-f197.google.com with SMTP id v19so15010443obq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Dec 2012 08:40:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=0mVNk2yjo7VTbHckB45BMK513b6+botO4ZjvphUd9io=;
+	b=E8wFr2D0l+XxBZyAngId+62gBC4/g/0nI0J8Jf3JDBcZR3OPeLjgTSDLfYYljnOjzP
+	E5DtR+9rKpFTMmxHZ4cvmf5kckZcJZijWnaX4JghI033Hr7YCxzl9/nAOG/MuIv0Dp01
+	hD+bb+kqtOp/m5A3iRJ99S3Yn6BbugDDcnBilzSdzsB+pPxvDHKeyjXFejMPGzow5bos
+	4i06IbG3+gyV26wwl5eUeIL/t0me5ngoAi8SoOjyJlIITqrIP6LrtsxTNbeoEPM8tVxQ
+	N4eYxzfpG0DICOxua7TrHJIHVo4phLaD69J5Xmh6Ign1I+SOVOvlDHq2oX3Blhl3S54L
+	DHcQ==
+Received: by 10.60.4.165 with SMTP id l5mr5166129oel.84.1355503257369;
+	Fri, 14 Dec 2012 08:40:57 -0800 (PST)
+Received: by 10.60.4.165 with SMTP id l5mr5166123oel.84.1355503257253; Fri, 14
+	Dec 2012 08:40:57 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <50CB4B04.2080202@mlbassoc.com>
-In-Reply-To: <50CB4B04.2080202@mlbassoc.com>
+Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 08:40:37 -0800 (PST)
+In-Reply-To: <50CB55C3.2070409@mlbassoc.com>
+References: <50CB4B04.2080202@mlbassoc.com> <50CB55C3.2070409@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Dec 2012 16:40:37 +0000
+Message-ID: <CAJTo0LY+E06ZHUL5awbtS6bET2WMS7s0NoHrd73ReTe5jZnAuw@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+X-Gm-Message-State: ALoCoQlLzADyr49+dzY9WyqAVerWEffUBd/JxCNpcKSI/85spXoIz3h885tReyWf8JfPA9QD0xg68f3T/PTE8tvwyut7WizaMULLVaO41CFqS8Um+9oDSFF7LIkf3/SBGwIij299nqnMo6QoE86HnEHU80u6rvQatDJKYKP1B5GrW75CS+SYKGNREepO8d3DygdcGvyrDMqV
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: libsoup and gnutls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,28 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 16:51:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Dec 2012 16:55:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2012-12-14 08:51, Gary Thomas wrote:
-> Using the latest recipes (libsoup-2.4_2.38.1.bb, gnutls_2.12.21.bb)
-> I am unable to open an HTTPS server.  It always gets this error:
->    TLS support is not available
+On 14 December 2012 16:37, Gary Thomas <gary@mlbassoc.com> wrote:
+> Solution: install glib-networking
 >
-> I can't tell how to configure/use libsoup so it will only try to
-> make an SSLv3 connection instead of TLS.
->
-> Any ideas?
+> Perhaps this should be in RRECOMMENDS for libsoup?
 
-Solution: install glib-networking
+Yes.  Patch hitting the list shortly.
 
-Perhaps this should be in RRECOMMENDS for libsoup?
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ross
 
 
