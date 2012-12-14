@@ -1,39 +1,41 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TjWSk-0002Oj-Ay
+	(envelope-from <ross.burton@intel.com>) id 1TjWrd-0001Ai-AF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 15:42:10 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 06:27:28 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so14533550oag.0
+	Fri, 14 Dec 2012 16:07:49 +0100
+Received: from mail-ee0-f69.google.com ([74.125.83.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 06:53:11 -0800
+Received: by mail-ee0-f69.google.com with SMTP id d41so2723352eek.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 06:27:27 -0800 (PST)
+	Fri, 14 Dec 2012 06:53:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=MMNxtFqIqDcNZdMlJb3NQhphsKf1T8GqjckX2S6ok2M=;
-	b=kcG5FhCIHrRlIKGwG9+P/DZKbbcslbNTKdkbskSrtkoi3TL+bc4MqEcsZz8r61ZPou
-	8rBpBd1oIw2ygjI/cEufbHOcBB9Gbq2C3cCXpNbKUO0U2fty9lTirp99Gt7bgnm3funp
-	XlHjtVmcnIQqsPWyt8pPqUM7OExXQetEaiOfTyvEuKgBoAjf7r+JNGxNzDWKIe6aZLgb
-	hJ9OvLZI5QmgRxZjNb67FTWQmik8Q2P5QfZiSkFD41IZTpOBtzoEKUl+PTCpDXn09YKg
-	MpxayMcJE+OttYdIlYDaWviCrrPqZRqYfbXEUdzItZKmhBwQrYzDo+154KLljJ6MvQYh
-	jg1Q==
-Received: by 10.60.31.49 with SMTP id x17mr4839039oeh.33.1355495247322;
-	Fri, 14 Dec 2012 06:27:27 -0800 (PST)
-Received: by 10.60.31.49 with SMTP id x17mr4839028oeh.33.1355495247111; Fri,
-	14 Dec 2012 06:27:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 06:27:07 -0800 (PST)
-In-Reply-To: <2617323.R94UMbB4eu@yiqingliang-pc>
-References: <2617323.R94UMbB4eu@yiqingliang-pc>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Dec 2012 14:27:07 +0000
-Message-ID: <CAJTo0LbppwkY5qww=Utyxh=8=SfHWsfU3OFPLs017AjQ2Gtvdw@mail.gmail.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-X-Gm-Message-State: ALoCoQkeQKjtozKugV6Wf9uoKiL98d+yBNAioZku5oCsMhJr0gXyclasRZazyl26QVaOZ9uF8lkiu7n345RcGL23wCGbM+Mkkzkp6eWE9FBtd2zd9Wkdr0AUUeYp468FvC2gUPjU+pJPI0Q4xQiJFW1yxntsg/9oMQAI6/jc4qsp59HsBxh+Q023rRxLgeBBCEABrCPczsne
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how about the 'systemd' status?
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=HkAVTk1tCHIhaJkgMuJYrolhzrpAlxjxuKpI+Qlixy8=;
+	b=AbRZLrMjFScbjXDHjouGst/UqJjZQNCVS4Ikmj2OyZx4HtuK0atwvhOe6/99JTYeYQ
+	KuHzQyKTPiSA8d7BK28LQx+IYIHI2BVI6Td/H++WFh5UH/L21CJW8d0aQMEUCmkwsD3F
+	ZwLgFFGJgTa+rOSNeu1cQWjHk2OPT9Oy66Mo/8+6dth3CPgLQhbkfmswKzZCTAkG5Hzr
+	cgTFj9lGEejlFgVjxMFTrycA+dObuAlikKZRHciJR42n+MENohJ1rQNyhDY5+bH1eWYA
+	yFoUR1BvMDfVaRbG5eOV4jniz1qo2P2stAuGWVE9AonwxozihifwVxQzkXOM1JZXbghI
+	kXHw==
+Received: by 10.180.88.70 with SMTP id be6mr3107635wib.14.1355496789930;
+	Fri, 14 Dec 2012 06:53:09 -0800 (PST)
+Received: by 10.180.88.70 with SMTP id be6mr3107624wib.14.1355496789860;
+	Fri, 14 Dec 2012 06:53:09 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dm3sm12612555wib.9.2012.12.14.06.53.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 14 Dec 2012 06:53:09 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Dec 2012 14:51:17 +0000
+Message-Id: <1355496684-1498-3-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <1355496684-1498-1-git-send-email-ross.burton@intel.com>
+References: <1355496684-1498-1-git-send-email-ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmbXDdkYYDCSzCFizbj9kxBF4dmD76YgIrbInsoZYU/EPIXYU3zw66DZ7LdEJlRhaqAswLx++hirAFTmMsbltJajZcfWDH7WQiK+nrSfHL6ouqxlTKfahg1B44sg82slz8G0bi2XJL8tAKDouYlnN4GEa6rqbgp0uFHM27MxGb5KkULp68U/a105Xd6IELX7BfYOvVY
+Subject: [PATCH 2/9] apr: fix out-of-tree builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,27 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 14:42:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 14 Dec 2012 15:07:50 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 15:07:50 -0000
 
-On 12 December 2012 16:13, Yi Qingliang <niqingliang2003@gmail.com> wrote:
-> So I doubt the systemd status about yocto.
-> (the "meta-systemd' is labed deprecated.)
->
-> on the openembedded.org, the systemd is meta-openembedded, indeed, I'm
-> confused by the `openembedded-core' and `meta-openembedded'.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/apr/apr_1.4.6.bb |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-For a description of oe-core vs meta-oe, I recommend the
-documentation.  Also
-http://www.openembedded.org/wiki/OpenEmbedded-Core is a good start.
+diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support/apr/apr_1.4.6.bb
+index 896f79f..b7220e0 100644
+--- a/meta/recipes-support/apr/apr_1.4.6.bb
++++ b/meta/recipes-support/apr/apr_1.4.6.bb
+@@ -33,9 +33,8 @@ FILES_${PN}-dev += "${libdir}/apr.exp ${datadir}/build-1/*"
+ #for some reason, build/libtool.m4 handled by buildconf still be overwritten
+ #when autoconf, so handle it again.
+ do_configure_append() {
+-	cd ${S}
+-	sed -i -e 's/LIBTOOL=\(.*\)top_build/LIBTOOL=\1apr_build/' build/libtool.m4
+-	sed -i -e 's/LIBTOOL=\(.*\)top_build/LIBTOOL=\1apr_build/' build/apr_rules.mk
++	sed -i -e 's/LIBTOOL=\(.*\)top_build/LIBTOOL=\1apr_build/' ${S}/build/libtool.m4
++	sed -i -e 's/LIBTOOL=\(.*\)top_build/LIBTOOL=\1apr_build/' ${S}/build/apr_rules.mk
+ }
+ 
+ do_install_append() {
+-- 
+1.7.10
 
-The meta-systemd on yocto is - as far as I know - tied to meta-ivi.
-If you want to use systemd then you need the meta-systemd layer that
-is inside meta-openembedded.
-
-True integration of systemd is a key feature for oe-core 1.4 so expect
-to see it integrated fairly shortly.
-
-Ross
 
 
