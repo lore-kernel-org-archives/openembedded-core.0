@@ -1,30 +1,38 @@
-Received: from mail-oa0-f47.google.com ([209.85.219.47])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TjYYn-000221-2t
+	(envelope-from <ross.burton@intel.com>) id 1TjYZL-00025H-0w
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 17:56:31 +0100
-Received: by mail-oa0-f47.google.com with SMTP id h1so3661668oag.6
+	Fri, 14 Dec 2012 17:57:07 +0100
+Received: from mail-wg0-f69.google.com ([74.125.82.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 08:41:57 -0800
+Received: by mail-wg0-f69.google.com with SMTP id es5so2444724wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 08:41:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=QEeKPeisZdNg9KAVX32qwWGfOoFfYkNb5ejx/bNTODU=;
-	b=McCqrxo8Ogaijv9n8tp3ro+NdU/ncq3t0abNDmAwrxjyFVruZotG+ydJ2tcui2+9Gl
-	uYlp6sxoruD4zps+Xreccy0ElFz4sXZQlabQMi4rTmNZpKXqOmLTmg/EJoj5OoUsvtWk
-	FBddv2veo5HEng4m5cfm5AWychbylylHHeEeXBvkbDqluMFcIavMF0KQRay2rsuWqHam
-	o7nnrzbyBuYiJ6bPCIKetXWMdyLIH+ydJIhP9Q9x9rkB26frB/Y7x9/hDLIjU4M5r1Vu
-	Gy4fTBbcf8NNu64U9yAbBRUNAyQs53DfQ+0nKbfVQKABxivjuS3x/hTgCby/xZo5xder
-	k+Ag==
-MIME-Version: 1.0
-Received: by 10.60.169.177 with SMTP id af17mr4941798oec.103.1355503312196;
-	Fri, 14 Dec 2012 08:41:52 -0800 (PST)
-Received: by 10.60.8.39 with HTTP; Fri, 14 Dec 2012 08:41:52 -0800 (PST)
-Date: Fri, 14 Dec 2012 17:41:52 +0100
-Message-ID: <CAOHjBZvW_wovoRDXuk=sbc-sgf64zLjsZYwDv+1UnXgkrLE_Nw@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: gcc-4.7.inc wrong FILESPATH setting?
+	Fri, 14 Dec 2012 08:41:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=ONWI4w1VdcONGdl76Y9xzqcxikSzIm2SLciFvXayUaE=;
+	b=aLNzTzflz8H/6ScugM4XfpsmLtok7me/5LQntJrbMKHbo4rr+l3BCRqWGVd34yvMIP
+	uchwe/tMVwigMfwxKiwu9Ydgzrfg4e+snoNQ0hj2vEryKrJEYqpQAIg4ItRfb7M12jaP
+	9GPn1ldf1cFHagq8ItsettP8hqr1SraFrb8QshZF2CUl0tkylBn7H/yaYzA5RyR07ImV
+	n2jA8fNwuHXVtakRA1ToXXbOns5iUKtK9OUUacwyb+e817xgbz5DdHAqAc6kIUvjlKY5
+	lPpyGj67v/zjM8xOIMTIPAIA/cHaIEo7aiAASKx0loak9vHyH/XHJ4S1cbIgDA1Izljj
+	MUQg==
+Received: by 10.180.88.70 with SMTP id be6mr3704535wib.14.1355503316164;
+	Fri, 14 Dec 2012 08:41:56 -0800 (PST)
+Received: by 10.180.88.70 with SMTP id be6mr3704522wib.14.1355503315990;
+	Fri, 14 Dec 2012 08:41:55 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id hg17sm13018222wib.1.2012.12.14.08.41.53
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 14 Dec 2012 08:41:54 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Dec 2012 16:40:15 +0000
+Message-Id: <1355503215-8637-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnXWTCLgjEyx/YafGyLjijpOUIbJiRtKKPQiIyp6sSWaV/xt2iaIf/vVBaFbtb7HQpTJyGTtYBApWBrF8f8FXhCkImQ6ahFNRkE4f5TKVlldQ/1L85cIGD8xmgwbmKMsNNhhrT3kcDMwsWreTBYUAtHWJ7nJx4X/jaH+XijH1yJE3Fv2QscN9qRn3/wHcsym/qumaLV
+Subject: [PATCH] libsoup: RRECOMMEND glib-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 16:56:31 -0000
-Content-Type: multipart/alternative; boundary=bcaec517a6ba6a53ed04d0d2b520
+X-List-Received-Date: Fri, 14 Dec 2012 16:57:08 -0000
 
---bcaec517a6ba6a53ed04d0d2b520
-Content-Type: text/plain; charset=ISO-8859-1
+Without glib-networking, libsoup can't do SSL, proxies, and probably more.
 
-Hi All,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I've seen that, in the given .inc file, the FILESPATH is statically set to
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb
+index 486c38b..4a4d59a 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SECTION = "x11/gnome/libs"
+ 
+@@ -21,3 +21,5 @@ S = "${WORKDIR}/libsoup-${PV}"
+ 
+ inherit autotools pkgconfig
+ 
++# glib-networking is needed for SSL, proxies, etc.
++RRECOMMENDS_${PN} = "glib-networking"
+-- 
+1.7.10
 
-FILESPATH = "${FILE_DIRNAME}/gcc-4.7"
 
-This seems to avoid any FILESEXTRAPATHS_prepend usage on append file.
-I need to add further patches for gcc-4.7.2 in my own meta layer but if I
-set the FILESEXTRAPATHS_prepend as usual
-nothing happens, sources are taken only from the directory set by FILESPATH.
-Also I saw this setting was different in the past
-FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
 
-Comments are welcome.
-Cheers,
-Giuseppe
-
---bcaec517a6ba6a53ed04d0d2b520
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi All,</div><div>=A0</div><div>I&#39;ve seen that, in the given .inc =
-file, the FILESPATH is statically set to</div><div>=A0</div><div>FILESPATH =
-=3D &quot;${FILE_DIRNAME}/gcc-4.7&quot;</div><div>=A0</div><div>This seems =
-to avoid any FILESEXTRAPATHS_prepend usage on append file.</div>
-<div>I need to add further patches for gcc-4.7.2 in my own meta layer but i=
-f I set the FILESEXTRAPATHS_prepend as usual</div><div>nothing happens, sou=
-rces are taken only from the directory set by FILESPATH.</div><div>Also I s=
-aw this setting was different in the past<br>
-</div><div>FILESPATH =3D &quot;<a href=3D"mailto:${@base_set_filespath">${@=
-base_set_filespath</a>([ &#39;${FILE_DIRNAME}/gcc-4.7&#39; ], d)}&quot;</di=
-v><div>=A0</div><div>Comments are welcome.</div><div>Cheers,</div><div>Gius=
-eppe</div>
-
---bcaec517a6ba6a53ed04d0d2b520--
