@@ -1,35 +1,27 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TjTuu-0003Cp-Gy
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TjV4b-0005Y8-I0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 12:59:01 +0100
-Received: by mail-bk0-f47.google.com with SMTP id j4so1548051bkw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 03:44:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=MbE7iqw85GHRm9mBMRm2igJmDAb/9IUer7PP8AmtsLs=;
-	b=ha/w1C/efSkkbqAzJQ6UnQXtzaaMSO97siOpb7uiB+3ZVbHQZygZPxcM3LRfmna56o
-	rqg/dOjhixoehYp8fsnPEStC5VWFymmRxDzQFl7G43UOillhzNzGm5OI5k7cAfO2L57j
-	hJ99Al3i7K6ps95Jd7lKEKMZCvGATzWI7H4RJHN9iLAIReeUhOERwcMenB13+fgYsG9N
-	D0PgrJS0wDAbc5vVl3OcNVVu9VjyYV0XaTB8CJi4cs50T/vh2ArIaMB12j+buzlb+L73
-	X0MJKMqK9VAUgJmXcmpEzcJVWAXFT47EWLTzMoWA6s+eK9VrdbPbkPEs8OoYm1KrMD6a
-	XO/g==
-Received: by 10.204.131.76 with SMTP id w12mr2602734bks.44.1355485464531;
-	Fri, 14 Dec 2012 03:44:24 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id u3sm4109201bkw.9.2012.12.14.03.44.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 03:44:23 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TjTgj-0008Q1-FS; Fri, 14 Dec 2012 13:44:21 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2012 13:44:20 +0200
-Message-Id: <1355485460-32319-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] gdk-pixbuf: update to upstream version 2.26.5
+	Fri, 14 Dec 2012 14:13:14 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Dec 2012 04:58:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,280,1355126400"; d="scan'208";a="257406619"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 14 Dec 2012 04:58:10 -0800
+Message-ID: <50CB2261.5030700@intel.com>
+Date: Fri, 14 Dec 2012 14:58:09 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1355451303-1014-1-git-send-email-andrei.gherzan@windriver.com>
+	<50CAD9C9.4040502@linux.intel.com>
+In-Reply-To: <50CAD9C9.4040502@linux.intel.com>
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] chrpath.bbclass: Normalize rpath only of it doesn't contain ORIGIN variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,100 +34,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 11:59:01 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 13:13:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../gdk-pixbuf-2.24.1/configure_nm.patch           |   21 --------------------
- .../configure_fix.patch                            |    0
- .../extending-libinstall-dependencies.patch        |    0
- .../hardcoded_libtool.patch                        |    0
- .../{gdk-pixbuf_2.24.1.bb => gdk-pixbuf_2.26.5.bb} |   10 +++++-----
- 5 files changed, 5 insertions(+), 26 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_nm.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.24.1 => gdk-pixbuf-2.26.5}/configure_fix.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.24.1 => gdk-pixbuf-2.26.5}/extending-libinstall-dependencies.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.24.1 => gdk-pixbuf-2.26.5}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.24.1.bb => gdk-pixbuf_2.26.5.bb} (95%)
+Hi Saul,
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_nm.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_nm.patch
-deleted file mode 100644
-index 54f7c3a..0000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_nm.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Pick up ${NM} from the environment.
--
--Upstream-Status: Pending
--https://bugzilla.gnome.org/show_bug.cgi?id=671516
--
--Signed-off-by: James Limbouris <james@digitalmatter.com.au>
--
--Index: gdk-pixbuf-2.24.0/configure.ac
--===================================================================
--diff -uNr gdk-pixbuf-2.24.0/configure.ac gdk-pixbuf-2.24.0.mod/configure.ac
----- gdk-pixbuf-2.24.0/configure.ac	2011-08-27 11:27:52.000000000 +0800
--+++ gdk-pixbuf-2.24.0.mod/configure.ac	2012-02-28 14:48:36.481126410 +0800
--@@ -147,7 +147,7 @@
-- AC_SYS_LARGEFILE
-- 
-- AM_PROG_AS
---AC_PATH_PROG(NM, nm, nm)
--+AC_CHECK_TOOLS(NM, [$NM nm], nm)
-- 
-- AC_MSG_CHECKING([for some Win32 platform])
-- AS_CASE(["$host"],
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_fix.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/configure_fix.patch
-similarity index 100%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_fix.patch
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/configure_fix.patch
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/extending-libinstall-dependencies.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/extending-libinstall-dependencies.patch
-similarity index 100%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/extending-libinstall-dependencies.patch
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/extending-libinstall-dependencies.patch
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/hardcoded_libtool.patch
-similarity index 100%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/hardcoded_libtool.patch
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.26.5/hardcoded_libtool.patch
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-similarity index 95%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-index 33a43be..5a9cd9b 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.26.5.bb
-@@ -11,17 +11,16 @@ SECTION = "libs"
- DEPENDS = "libpng glib-2.0 jpeg"
- DEPENDS_append_linuxstdbase = " virtual/libx11"
- 
--SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${PV}.tar.xz \
--           file://configure_nm.patch \
-+SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.26/gdk-pixbuf-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
-            file://configure_fix.patch \
-            file://extending-libinstall-dependencies.patch \
-            "
- 
--SRC_URI[md5sum] = "72f39b34b20f68148c1609bd27415412"
--SRC_URI[sha256sum] = "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1"
-+SRC_URI[md5sum] = "339329e6d619ee3e1cb93979111b04c0"
-+SRC_URI[sha256sum] = "77696fd163bca95a130a1883dbd78d0ae4d782de2fc85a9a38556d13681f5c84"
- 
--PR = "r7"
-+PR = "r0"
- 
- inherit autotools pkgconfig gettext
- 
-@@ -43,6 +42,7 @@ FILES_${PN}-xlib = "${libdir}/*pixbuf_xlib*${SOLIBS}"
- ALLOW_EMPTY_${PN}-xlib = "1"
- 
- FILES_${PN} = "${bindir}/gdk-pixbuf-query-loaders \
-+	${bindir}/gdk-pixbuf-pixdata \
- 	${libdir}/lib*.so.*"
- 
- FILES_${PN}-dev += " \
--- 
-1.7.10.4
+I just did a fresh meta-toolchain-gmae build and the RPATH for the file
+you mentioned looks fine...
 
+$ chrpath -l tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file
+tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file:
+RPATH=$ORIGIN/../../../../usr/lib:$ORIGIN/../../../../lib
+
+The latest commit on master, when I did the build, was this:
+1b0c0f290290ff62fa7773379eb3898442d539c4
+
+Does this problem happen only for apt-native package?
+
+Thanks,
+Laurentiu
+
+On 12/14/2012 09:48 AM, Saul Wold wrote:
+> On 12/13/2012 06:15 PM, Andrei Gherzan wrote:
+>> If we normalize a rpath which contains ORIGIN variable, the binary will end
+>> up without those rpaths at all. So check first if rpath contains ORIGIN variable
+>> and if not, move on and normalize it.
+>>
+>> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+>> ---
+>>   meta/classes/chrpath.bbclass |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
+>> index 82329d1..0c7ab77 100644
+>> --- a/meta/classes/chrpath.bbclass
+>> +++ b/meta/classes/chrpath.bbclass
+>> @@ -49,10 +49,10 @@ def process_dir (directory, d):
+>>               new_rpaths = []
+>>               for rpath in rpaths:
+>>                   # If rpath is already dynamic copy it to new_rpath and continue
+>> -                rpath =  os.path.normpath(rpath)
+>>                   if rpath.find("$ORIGIN") != -1:
+>>                       new_rpaths.append(rpath.strip())
+>>                       continue
+>> +                rpath =  os.path.normpath(rpath)
+>>                   # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
+>>                   # base_prefix shared root
+>>                   if rpath.find(basedir) != -1:
+>>
+> I found this to be the same fix, but I am still seeing some kind of failure.
+> 
+> I can build apt-native with populate-sysroot and it looks correct and 
+> then try to build the meta-toolchain-game and it fails.
+>> sgw@yujin:/intel/builds/deb$ bitbake apt-native -f -c populate_sysrootLoading cache: 100% |#####################################################| ETA:  00:00:00
+>> Loaded 1130 entries from dependency cache.
+>>
+>> Build Configuration:
+>> BB_VERSION        = "1.17.0"
+>> BUILD_SYS         = "x86_64-linux"
+>> NATIVELSBSTRING   = "Ubuntu-12.04"
+>> TARGET_SYS        = "mips-poky-linux"
+>> MACHINE           = "qemumips"
+>> DISTRO            = "poky"
+>> DISTRO_VERSION    = "1.3+snapshot-20121214"
+>> TUNE_FEATURES     = "o32 bigendian fpu-hard mips32"
+>> TARGET_FPU        = ""
+>> meta
+>> meta-yocto
+>> meta-yocto-bsp    = "mut:5c8feac210a9de9fd705e9774b76514d3ffa7121"
+>>
+>> NOTE: Resolving any missing task queue dependencies
+>> NOTE: Preparing runqueue
+>> NOTE: Tainting hash to force rebuild of task /intel/distro/meta/recipes-devtools/apt/apt-native_0.7.14.bb, do_populate_sysroot
+>> NOTE: Executing SetScene Tasks
+>> NOTE: Executing RunQueue Tasks
+>> NOTE: Tasks Summary: Attempted 253 tasks of which 252 didn't need to be rerun and all succeeded.
+>> sgw@yujin:/intel/builds/deb$ chrpath -l /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file
+>> /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file: RPATH=$ORIGIN/../../../../usr/lib:$ORIGIN/../../../../lib
+> 
+> This succeeds correctly and has the correct RPATH in the 
+> apt/methods/file binary.
+> 
+>> sgw@yujin:/intel/builds/deb$ bitbake meta-toolchain-gmaeLoading cache: 100% |#####################################################| ETA:  00:00:00
+>> Loaded 1130 entries from dependency cache.
+>>
+>> Build Configuration:
+>> BB_VERSION        = "1.17.0"
+>> BUILD_SYS         = "x86_64-linux"
+>> NATIVELSBSTRING   = "Ubuntu-12.04"
+>> TARGET_SYS        = "mips-poky-linux"
+>> MACHINE           = "qemumips"
+>> DISTRO            = "poky"
+>> DISTRO_VERSION    = "1.3+snapshot-20121214"
+>> TUNE_FEATURES     = "o32 bigendian fpu-hard mips32"
+>> TARGET_FPU        = ""
+>> meta
+>> meta-yocto
+>> meta-yocto-bsp    = "mut:5c8feac210a9de9fd705e9774b76514d3ffa7121"
+>>
+>> NOTE: Resolving any missing task queue dependencies
+>> NOTE: Preparing runqueue
+>> NOTE: Executing SetScene Tasks
+>> NOTE: Executing RunQueue Tasks
+>> ERROR: Function failed: populate_sdk_image (see /intel/builds/deb/tmp/work/mips32-poky-linux/meta-toolchain-gmae/1.0-r7/temp/log.do_populate_sdk.11912 for further information)
+>> ERROR: Logfile of failure stored in: /intel/builds/deb/tmp/work/mips32-poky-linux/meta-toolchain-gmae/1.0-r7/temp/log.do_populate_sdk.11912
+>> Log data follows:
+>> | DEBUG: Executing python function do_populate_sdk
+>> | DEBUG: Executing shell function populate_sdk_image
+>> | dpkg-scanpackages.real: info: Wrote 18 entries to output Packages file.
+>> | dpkg-scanpackages.real: info: Wrote 3565 entries to output Packages file.
+>> | dpkg-scanpackages.real: info: Wrote 6 entries to output Packages file.
+>> | dpkg-scanpackages.real: info: Wrote 18 entries to output Packages file.
+>> | dpkg-scanpackages.real: info: Wrote 1047 entries to output Packages file.
+>> | Installing TARGET packages
+>> | /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file: error while loading shared libraries: libapt-pkg-libc6.3.so.4.6: cannot open shared object file: No such file or directory
+>> | /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file: error while loading shared libraries: libapt-pkg-libc6.3.so.4.6: cannot open shared object file: No such file or directory
+>> | E: Method file has died unexpectedly!
+>> | E: Method /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file did not start correctly
+>> | E: Method file has died unexpectedly!
+>> | E: Method /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file did not start correctly
+>> | DEBUG: Python function do_populate_sdk finished
+>> | ERROR: Function failed: populate_sdk_image (see /intel/builds/deb/tmp/work/mips32-poky-linux/meta-toolchain-gmae/1.0-r7/temp/log.do_populate_sdk.11912 for further information)
+>> ERROR: Task 7 (/intel/distro/meta/recipes-core/meta/meta-toolchain-gmae.bb, do_populate_sdk) failed with exit code '1'
+>> NOTE: Tasks Summary: Attempted 4056 tasks of which 4055 didn't need to be rerun and 1 failed.
+>> No currently running tasks (4055 of 4057)
+>>
+>> Summary: 1 task failed:
+>>   /intel/distro/meta/recipes-core/meta/meta-toolchain-gmae.bb, do_populate_sdk
+>> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>> sgw@yujin:/intel/builds/deb$ chrpath -l /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file
+>> /intel/builds/deb/tmp/sysroots/x86_64-linux/usr/lib/apt/methods/file: RPATH=../../../usr/lib:../../../lib
+> This fails and has the wrong RPATH, something is still tweaking the 
+> RPATH, it should not change, but it is.
+> 
+> Very Frustrating!
+> 
+> Sau!
+> 
+> 
+> 
 
 
