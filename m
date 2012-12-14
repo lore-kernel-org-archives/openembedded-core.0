@@ -1,28 +1,30 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1TjZ5y-0005bY-Rm
-	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 18:31:03 +0100
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id D8E8DF81228; Fri, 14 Dec 2012 10:16:11 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id E39B8F8120B;
-	Fri, 14 Dec 2012 10:16:09 -0700 (MST)
-Message-ID: <50CB5EF2.4070807@mlbassoc.com>
-Date: Fri, 14 Dec 2012 10:16:34 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1355503215-8637-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1355503215-8637-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH] libsoup: RRECOMMEND glib-networking
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TjZAt-0004fY-BI for openembedded-core@lists.openembedded.org;
+	Fri, 14 Dec 2012 18:35:53 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBEHLFlc013724
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Dec 2012 17:21:15 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12514-07 for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Dec 2012 17:21:11 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBEHL5K1013718
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Dec 2012 17:21:06 GMT
+Message-ID: <1355505665.32519.29.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Dec 2012 17:21:05 +0000
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] lib/oe/patch: Use force option when creating symlinks to patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 17:31:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 14 Dec 2012 17:35:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2012-12-14 09:40, Ross Burton wrote:
-> Without glib-networking, libsoup can't do SSL, proxies, and probably more.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+Under the scenario where you have an existing source tree and you then
+change one of the patches, maybe to be architecture or machine specific,
+then rebuild, the build will fail since the symlink already exists
+but should now point at a different file.
 
-Acked-by: Gary Thomas <gary@mlbassoc.com>
+The easiest fix is to tell the system to remove and recreate the link
+which is done with the force option.
 
-> ---
->   meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb |    4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb
-> index 486c38b..4a4d59a 100644
-> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.38.1.bb
-> @@ -5,7 +5,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
->   LICENSE = "LGPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   SECTION = "x11/gnome/libs"
->
-> @@ -21,3 +21,5 @@ S = "${WORKDIR}/libsoup-${PV}"
->
->   inherit autotools pkgconfig
->
-> +# glib-networking is needed for SSL, proxies, etc.
-> +RRECOMMENDS_${PN} = "glib-networking"
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index bc86bb5..7ab74fa 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -278,7 +278,7 @@ class QuiltTree(PatchSet):
+         if not self.initialized:
+             self.InitFromDir()
+         PatchSet.Import(self, patch, force)
+-        oe.path.symlink(patch["file"], self._quiltpatchpath(patch["file"]))
++        oe.path.symlink(patch["file"], self._quiltpatchpath(patch["file"]), force=True)
+         f = open(os.path.join(self.dir, "patches","series"), "a");
+         f.write(os.path.basename(patch["file"]) + " -p" + patch["strippath"]+"\n")
+         f.close()
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
 
 
