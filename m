@@ -1,35 +1,28 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dromede@gmail.com>) id 1TjYO8-0007Xp-1J
+	(envelope-from <gary@mlbassoc.com>) id 1TjYU1-0001on-Uu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 17:45:28 +0100
-Received: by mail-bk0-f47.google.com with SMTP id j4so1739407bkw.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 08:30:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:date:content-type:x-mailer:mime-version
-	:content-transfer-encoding;
-	bh=rMRD/WpVtneGanrqH1EwVW4EloCBehY6pG4wnWW0hGQ=;
-	b=fypx001EhvBZExAMrjFETuIjyvUwWNSUP16Wz/MrqMWxoXHcGchqZCXzDayAdPEjbJ
-	dHyDQDRr6yZC5FJnHZx7rV1WTPLgTd075uVHmLw5VzpebiFGAf0vmCgyu2gVsJ32p66s
-	9SW3w7z+snDNQLuXOSNtCr2omMB2RRCgzZeK1gBH2lJ+/cq03RQ8Eoxx/oqbN692cJsl
-	KWRpFYFrxO3L8Kz1ck12mnx1TdcfAw5tjfhVvi9bTjngKDR7wmgRjvxyG5wzcpJ7Mqfe
-	ksfzrG/vIjBbPdF4sagRdy9ENftHZWxQIvdS/L2fsHpvN/PRpxNdf8OHd5nHPeDyqVyN
-	a6WA==
-Received: by 10.204.149.11 with SMTP id r11mr2973729bkv.93.1355502651574;
-	Fri, 14 Dec 2012 08:30:51 -0800 (PST)
-Received: from [192.168.1.25] (93-139-163-243.adsl.net.t-com.hr.
-	[93.139.163.243])
-	by mx.google.com with ESMTPS id y11sm5091163bkw.8.2012.12.14.08.30.48
-	(version=SSLv3 cipher=OTHER); Fri, 14 Dec 2012 08:30:50 -0800 (PST)
-Message-ID: <1355502646.9104.25.camel@dromedary>
-From: Marko =?UTF-8?Q?Kati=C4=87?= <dromede@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Dec 2012 17:30:46 +0100
-X-Mailer: Evolution 3.6.0-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] udev: make sure udev-utils package always includes udevadm
+	Fri, 14 Dec 2012 17:51:34 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 1315AF8120B; Fri, 14 Dec 2012 09:36:59 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 828D4F811EC;
+	Fri, 14 Dec 2012 09:36:58 -0700 (MST)
+Message-ID: <50CB55C3.2070409@mlbassoc.com>
+Date: Fri, 14 Dec 2012 09:37:23 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <50CB4B04.2080202@mlbassoc.com>
+In-Reply-To: <50CB4B04.2080202@mlbassoc.com>
+Subject: Re: libsoup and gnutls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,74 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 16:45:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 14 Dec 2012 16:51:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Default installation path of udevadm was changed 
-from ${base_sbindir} to ${bindir} in udev v176.
+On 2012-12-14 08:51, Gary Thomas wrote:
+> Using the latest recipes (libsoup-2.4_2.38.1.bb, gnutls_2.12.21.bb)
+> I am unable to open an HTTPS server.  It always gets this error:
+>    TLS support is not available
+>
+> I can't tell how to configure/use libsoup so it will only try to
+> make an SSLv3 connection instead of TLS.
+>
+> Any ideas?
 
-Also, udevinfo and udevtest no longer exist in
-current (v182) udev sources.
+Solution: install glib-networking
 
-This can break udev-utils packaging since udev-utils 
-package expects udevadm only in ${base_sbindir}.
-And since udevinfo and udevtest no longer exist in
-current udev versions,
-udev-utils could be empty and thus will not be created.
-This can break do_rootfs stages when building images
-that depend on udev since we have RRECOMMENDS += udev-utils.
-We should also make sure that udevadm stays in udev-utils
-since it might be needed for other packages i.e, busybox
-and mdev.
+Perhaps this should be in RRECOMMENDS for libsoup?
 
-Udev.inc should support all versions of udev. This patch
-makes udevadm always available in udev-utils package and
-it also makes sure that udevadm is available in both 
-${base_sbindir} and ${bindir} paths.
-
-
-Signed-off-by: Marko Katić <dromede@gmail.com>
----
-diff --git a/meta/recipes-core/udev/udev.inc
-b/meta/recipes-core/udev/udev.inc
-index 4705b9b..b46ad2c 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -74,7 +74,7 @@ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache
-${sysconfdir}/default/udev-c
- 
- FILES_udev-acl = "${base_libdir}/udev/udev-acl
-${base_libdir}/udev/rules.d/70-acl.rules"
- 
--FILES_udev-utils = "${bindir}/udevinfo ${bindir}/udevtest
-${base_sbindir}/udevadm"
-+FILES_udev-utils = "${bindir}/udevinfo ${bindir}/udevtest
-${base_sbindir}/udevadm ${bindir}/udevadm"
- 
- RDEPENDS_udev-consolekit += "udev-acl"
- FILES_udev-consolekit = "${libdir}/ConsoleKit"
-@@ -97,4 +97,19 @@ do_install_append () {
- 	rm -f ${D}${base_libdir}/udev/hid2hci
- 
- 	echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
-+
-+	#Starting from udev v176, udevadm is by default installed in
-${bindir}.
-+	#Make sure udevadm is available both in ${bindir} and ${base_sbindir}
-+	#so we can support all versions of udev.
-+	
-+	if [ "${PV}" -gt "175" ]
-+	then
-+		install -d ${D}${base_sbindir}
-+		ln -s ${bindir}/udevadm ${D}${base_sbindir}/udevadm
-+
-+	else
-+		install -d ${D}${bindir}
-+		ln -s ${base_sbindir}/udevadm ${D}${bindir}/udevadm
-+
-+	fi
- }
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
