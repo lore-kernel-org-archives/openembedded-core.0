@@ -1,35 +1,40 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TjT8Q-0002Fb-KG
+	(envelope-from <ross.burton@intel.com>) id 1TjTH4-0002MY-NM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 12:08:57 +0100
-Received: by mail-bk0-f47.google.com with SMTP id j4so1516315bkw.6
+	Fri, 14 Dec 2012 12:17:51 +0100
+Received: from mail-ia0-f197.google.com ([209.85.210.197])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 03:03:13 -0800
+Received: by mail-ia0-f197.google.com with SMTP id x26so7992601iak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 02:54:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=i7TVc43nHYwasjxKa8EohO0t/RHjRivp4/HivmNMARA=;
-	b=Mv7aRQNohCxnwLtaAsqHmuvVid0TLNAat0KtvITJhq+6wvD2w9brF6gg+YMil/FbDA
-	C1w4HNuLlGq3xssJC/W7Gs8FVv8XcvrQWckWuq8jZFKtmJqJE9AX13BlnL52re1cHFeN
-	uYH8ZCYrfrnBcJGnflrt21CvUSR0JCWXJg7bSPuI7+QL3Wra8JibZ9meJhTBSXzbDYae
-	zFslJbxf1SUnEhtoSh8cYXvO2QlBUxBEpocBSNzbGktq7bZ5bsSeTClJkqxo5wZTq7fn
-	ivQ62Qzz31XGzWITtC/WX/hIkE5CaNOkE/6LIXg6c+at/ZHNpxny9nTEHACaMWWfKAt7
-	rrOw==
-Received: by 10.204.148.195 with SMTP id q3mr2495966bkv.122.1355482458406;
-	Fri, 14 Dec 2012 02:54:18 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id z5sm3930809bkv.11.2012.12.14.02.54.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 02:54:17 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TjSuF-0006bJ-1X; Fri, 14 Dec 2012 12:54:15 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2012 12:54:13 +0200
-Message-Id: <1355482453-24777-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH V2] gdb: update to upstream version 7.5.1
+	Fri, 14 Dec 2012 03:03:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=gg3vAkWATri64waivpV2f6YQmDgBJA/5LY7HEeSgya4=;
+	b=iLQPitNPRlIimRA0loT5BUPwXFp+ew85hGbmPGm+No6c4zczkN/ATNn6QOoXVTnkfm
+	o/mVZNM0pf20yQ8h7fB6d3caqU+Mbac7oFRuPD4lbOVrJ771nbR8WEiQOSipcS41CyyZ
+	smfZ+kINSEwvmZT/AFvpdprLCNVUetyHzXo/DR1rvSokqCYGcjYA9/u24IWfp3py4m3f
+	k8ZyzhdHmruaInx0F5z8lXIPKaJMwIxbyPreOnYP12UwbHrCFyl+dJ6PfDUJ7MPVdNHc
+	EWRKhswjGrBylVtyp4qI7e8fI9FEPogEKfPkhbINO12ORt7pGobUTq9QPLHFTiWsrmFW
+	3t/Q==
+Received: by 10.60.31.131 with SMTP id a3mr4160489oei.93.1355482992152;
+	Fri, 14 Dec 2012 03:03:12 -0800 (PST)
+Received: by 10.60.31.131 with SMTP id a3mr4160485oei.93.1355482991956; Fri,
+	14 Dec 2012 03:03:11 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 03:02:51 -0800 (PST)
+In-Reply-To: <2ff77d8cdc19c9040f3ede2203700ee91e878e5f.1355479412.git.Qi.Chen@windriver.com>
+References: <cover.1355479412.git.Qi.Chen@windriver.com>
+	<2ff77d8cdc19c9040f3ede2203700ee91e878e5f.1355479412.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Dec 2012 11:02:51 +0000
+Message-ID: <CAJTo0LYYv0hTsTTP20x1w2Q7Xg51F_EBbF_ajC-NKinEUfnAaw@mail.gmail.com>
+To: Qi.Chen@windriver.com
+X-Gm-Message-State: ALoCoQmn1Kk/7ikgkhkto541jApFfg4Pd08Q4Q3oMEQHn23s9lWz3TGDJVmECCiR4H5aYdYhStdIWqpK/yYWPkOk+8CAYEr+LyGGmbPhAKGShZW1kWr9n48QMkikLsysAB92jVMcvDke0TjqbChM16a7K5SfVlkoNcoUow9eCrOMQ0ry+FByKeAyKVoKiS6RP0aqcL4CK5f6
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/1] ICU: upgrade to 50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +47,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 11:08:57 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 11:17:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- meta/recipes-devtools/gdb/gdb-common.inc                           |    4 ++--
- .../gdb/{gdb-cross-canadian_7.5.bb => gdb-cross-canadian_7.5.1.bb} |    0
- meta/recipes-devtools/gdb/{gdb-cross_7.5.bb => gdb-cross_7.5.1.bb} |    0
- meta/recipes-devtools/gdb/{gdb_7.5.bb => gdb_7.5.1.bb}             |    0
- 4 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.5.bb => gdb-cross-canadian_7.5.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_7.5.bb => gdb-cross_7.5.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb_7.5.bb => gdb_7.5.1.bb} (100%)
+On 14 December 2012 10:08,  <Qi.Chen@windriver.com> wrote:
+> +do_configure_prepend() {
+> +    [ -f acinclude.m4 ] || cp aclocal.m4 acinclude.m4
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index ea4098c..9eb6b60 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -22,8 +22,8 @@ inherit autotools
- 
- SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.gz \
-           "
--SRC_URI[md5sum] = "c9f5ed81008194f8f667f131234f3ef0"
--SRC_URI[sha256sum] = "8dcf38dd04f7f031b51d0672050d6b14626302ddc24d74e486b4666335de2df3"
-+SRC_URI[md5sum] = "b1519bf899890d21d4774845a6e602fe"
-+SRC_URI[sha256sum] = "f99f26e2c1127f12ba14ece0947a9a9948be45e96b69ef363131e469a698636e"
- 
- export CC_FOR_BUILD = "${BUILD_CC}"
- export CXX_FOR_BUILD = "${BUILD_CXX}"
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.5.bb b/meta/recipes-devtools/gdb/gdb-cross_7.5.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_7.5.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_7.5.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb_7.5.bb b/meta/recipes-devtools/gdb/gdb_7.5.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_7.5.bb
-rename to meta/recipes-devtools/gdb/gdb_7.5.1.bb
--- 
-1.7.10.4
+Great to see a version bump that's mostly removing patches and hacks.
+Can you add a comment on this prepend to explain what it's doing
+(referring to http://bugs.icu-project.org/trac/ticket/9790).
 
+Ross
 
 
