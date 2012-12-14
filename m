@@ -1,37 +1,37 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pa0-f47.google.com ([209.85.220.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tjf6M-0003m5-16
+	(envelope-from <martin.jansa@gmail.com>) id 1Tjf6R-0003ny-7l
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Dec 2012 00:55:34 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so2447079pbc.6
+	Sat, 15 Dec 2012 00:55:47 +0100
+Received: by mail-pa0-f47.google.com with SMTP id fa10so2485906pad.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 15:40:56 -0800 (PST)
+	Fri, 14 Dec 2012 15:41:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=+hHrAyi2wCWbLJiPgoJdzZP58pvxTKAx9Qk8uYtdzRI=;
-	b=ivrsOfm+u/c/yGm1greN+am3PgSjJZy+b14o5ZuT9exEjc2DiNALaaL7p8x1DpeWYQ
-	6N+niyFRmoj2Y05pmdRxg6pif1qsUPUZboH6FOK7lLhkWf3OKPmeDcejsOIio3SBc0Wm
-	7X16jN2ya7j/TloVwNQb8J4prxqOApF6tJXw3PiPR5rDS1aVMallEAThX1NnQbhFsiOB
-	aESxtOUd9xIJFxB1aqZhXabBvViRWbQv6or/c0vpdopgTH7h17UqtygyuEFJ+XCOkYu8
-	jNuKgLg6K/8zeZ8PgZWeePU0bgCiTQ+WEkQICn5E5FzAPcafYMzeGUWtnsNiuv1TEyiw
-	oFYQ==
-Received: by 10.66.79.163 with SMTP id k3mr19966702pax.60.1355528456586;
-	Fri, 14 Dec 2012 15:40:56 -0800 (PST)
+	bh=IPmOeDI0wK1AYxS7L+WmdjGybfcIG44XTXqOCvO8G8k=;
+	b=A9KFnarpVki8RTgoSldMJB0b/2baM+dM6M+xp/WNS12WBW1qUnYaoUyXGcPLmjdzOJ
+	J46piRXBwIXLck1JckR58tGSV2auWd3QqBJ1Sj8fX2KpUkN6k69F2g6uwTvjug4Afu9q
+	/m0jYIlcJyOwWFYHoRQ/wqO5oBb77NTZobMJRwgwjuAvNT5YBe58mPb+goyMvrsdCTmy
+	liNMMDwn27C0tdxJnOzBxQCyfvB0TdiGoxhf5JsXmOS90HSHLojYjFBJlZkp8CCEhXNf
+	rxx4TqmveJrc+NB2DIEdsGGPdNn9Qo3jbFoALQnphP2kpeoNbX+kexQKOHjOZ3Pwl7Z3
+	ot8A==
+Received: by 10.68.233.196 with SMTP id ty4mr20374415pbc.23.1355528461801;
+	Fri, 14 Dec 2012 15:41:01 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id kb3sm3673603pbc.27.2012.12.14.15.40.54
+	by mx.google.com with ESMTPS id gv9sm3675238pbc.21.2012.12.14.15.40.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 15:40:55 -0800 (PST)
+	Fri, 14 Dec 2012 15:41:01 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Dec 2012 00:40:42 +0100
-Message-Id: <6f66c4d3bf4444f3dac8a2f1dc325609c7eec7fc.1355475937.git.Martin.Jansa@gmail.com>
+Date: Sat, 15 Dec 2012 00:40:43 +0100
+Message-Id: <0c1b701becb70a8e3f784a39c86bb026fc5cecc6.1355475937.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1355475937.git.Martin.Jansa@gmail.com>
 References: <cover.1355475937.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1355475937.git.Martin.Jansa@gmail.com>
 References: <cover.1355475937.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 04/10] bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
+Subject: [PATCH 05/10] kernel.bbclass: include PE in KERNEL_IMAGE_BASE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 23:55:34 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 23:55:49 -0000
 
-* resolves ERROR shown when bitbake -S is used for image:
-  ERROR: Bitbake's cached basehash does not match the one we just generated
-  (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
-  ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
+* without this you it's harder to see which kernel is newer version
+  e.g. after branch change LOCALCOUNT in SRCPV is reset to 0, so it needs PE bump for upgrade path
+  but then it's clear why gitr1+HASH has newer DATETIME then gitrN+HASH, so include PE in name
+* it will sort alphabetically wrong in deploy dir for a while until old images are removed
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index be3bfc2..578c29f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -407,6 +407,7 @@ STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
- IMAGE_ROOTFS = "${WORKDIR}/rootfs"
- IMAGE_BASENAME = "${PN}"
- IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
-+IMAGE_NAME[vardepsexclude] += "DATETIME"
- IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 8e13662..ee59aaf 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -493,7 +493,7 @@ do_sizecheck() {
  
- # This option allows for a percentage overage of the actual image size rather than a
+ addtask sizecheck before do_install after do_compile
+ 
+-KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
+ # Don't include the DATETIME variable in the sstate package signatures
+ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
 -- 
 1.8.0.2
 
