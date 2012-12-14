@@ -1,39 +1,42 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TjVyH-0007Xr-P6
+	(envelope-from <ross.burton@intel.com>) id 1TjWQ6-0002K9-EW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 15:10:38 +0100
-Received: from mail-oa0-f69.google.com ([209.85.219.69])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 05:55:10 -0800
-Received: by mail-oa0-f69.google.com with SMTP id j6so14399810oag.0
+	Fri, 14 Dec 2012 15:39:23 +0100
+Received: from mail-ob0-f197.google.com ([209.85.214.197])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 06:24:44 -0800
+Received: by mail-ob0-f197.google.com with SMTP id v19so14467481obq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 05:55:59 -0800 (PST)
+	Fri, 14 Dec 2012 06:24:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=/48ogmAVCwsvBlI9B8qw9YEw3KFGTtRpMfceXeTv/IU=;
-	b=D4R+8zRs/SToRA1ot1b7WVFiA14RvMW98bvucbc4S2669SmK02E12nFZncokRibC/n
-	ryJyeSIxTwk0B1dSPbh75ziqOKKusXnmA3ErOY3QulZ91C75W3h8tPlieFtFJZh+0HtN
-	fh7rN9uMj1GNRyP4DJdAIcjdeT6qwHNwoXmd8KMP2roJFP7Ovgmavdr9yhM93LbfuA0G
-	YOBFyWrCHbT6kftP5JT/SGBL8g9JHVgMM30LZDoHxm61j1rp1NcgcP9Kpk3BWyL9Ol9G
-	EoodBJaYBxNrGMCiNVIixUBQQ+S4t0e2MrTxQfNB4Fh95hyhHa93lnOcHYa2SKVuzumW
-	kvgg==
-Received: by 10.60.12.99 with SMTP id x3mr4766705oeb.71.1355493359673;
-	Fri, 14 Dec 2012 05:55:59 -0800 (PST)
-Received: by 10.60.12.99 with SMTP id x3mr4766698oeb.71.1355493359600; Fri, 14
-	Dec 2012 05:55:59 -0800 (PST)
+	bh=0JLZglOwmebWDy6xLnkXoTcHnewGB/GMnsDWcgLPX6c=;
+	b=UgN8XsytI5nEmy0ea9YlUd8aaLESRzyyk1BvsznsDKRH7l+vM97PVLM0dO61Mmt0G6
+	XxekLV7jCN9HKJBPoOk9+5XkFRjnqOCdaUbJLd+rUFEiGuaSUtKY1ama0xlar4dDTYC4
+	GyU3WF0UH0is535HAZMxnUnsEp9/Ln66AFmv5MobFIZAGRHS+iAhjka0Eexygb5j2AKu
+	drH+eZE+Ws24CGrvqaE5azwvLe0DZGdpru0DM7EPrlwMh79E/0z1GOZCoWOQrUlLZMv1
+	aEnqoUHZx8nZTJ5CunwSmLTGNHxRuDt4AeSCZ7MkpAfqCz6JyC7V97pd9lbLwmikfbNO
+	S20Q==
+Received: by 10.60.4.226 with SMTP id n2mr4693664oen.63.1355495082500;
+	Fri, 14 Dec 2012 06:24:42 -0800 (PST)
+Received: by 10.60.4.226 with SMTP id n2mr4693658oen.63.1355495082353; Fri, 14
+	Dec 2012 06:24:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 05:55:38 -0800 (PST)
-In-Reply-To: <CADV-EXFeZX3RiZZZ1zxZtLaq9bnDUBQ4cEGndecKOvtSog6xwQ@mail.gmail.com>
-References: <CADV-EXFeZX3RiZZZ1zxZtLaq9bnDUBQ4cEGndecKOvtSog6xwQ@mail.gmail.com>
+Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 06:24:22 -0800 (PST)
+In-Reply-To: <50BF13CA.1050808@intel.com>
+References: <cover.1354626535.git.laurentiu.palcu@intel.com>
+	<e5441f19f27ed7063c8bda010ea21bcf7af5a43a.1354626535.git.laurentiu.palcu@intel.com>
+	<CAJTo0LbK78yAM1H3n7Sdra9y6dEo9VHHdx8L6Qp2zULLKgT7RQ@mail.gmail.com>
+	<50BF13CA.1050808@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Dec 2012 13:55:38 +0000
-Message-ID: <CAJTo0LZnqnDgeVUOKxWaxjt+Hp_ptdr_Z3AM66vi4WpK5oFe4w@mail.gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-X-Gm-Message-State: ALoCoQnfiZ2VbHTv5eUfqI3H0GLCS/cp24FfodbwMVjZbtSQFAXeYqO2yAbsxt6+gutoW1K2QinebkGwJ9VEeYRcaM+4luVpAgYpC7IPoNyAXlPmnY5f5tTNlsc0CRQpMzbnCRxepI3UfG86ZiiqajfqHOt6uVLIaKlVrhRa1cpmsOidh9ltIPwr6Sa5x9jK+60if5/HSI1l
+Date: Fri, 14 Dec 2012 14:24:22 +0000
+Message-ID: <CAJTo0LYuuu8EFZy-cGH910zd5hch8g0oaS-h6U=hi-tVQc3d5A@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQkexfcJn55oxQZg5YDlTT4sEQwtkFQ0How5EijezG67nX8+ZV0eA9NdT4ZdML8HLgK9iY9bMKk9YOnoVULB/MlnbnaE+Znc2wK4Fv7TKjRa01FYQGQEOr4HmDkSCVg9ae2ASnDlYGTCBf1GFFCglQ/60oce5H+PcuZe6Xe/RLKgGk/l4DOjemVsadlsiWQwLhzVETTC
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: systemd
+Subject: Re: [PATCH 4/5] gdk-pixbuf: generate the pixbuf loader's cache ar rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,13 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 14:10:39 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 14:39:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 14 December 2012 13:12, Yevhen Kyriukha <kirgene@gmail.com> wrote:
-> Is there any way to use systemd for starting system services in yocto v1.3?
+On 5 December 2012 09:28, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> However, if we want to be able to run all postinstall scriptlets on host
+> in order to support read-only rootfs, we might need to have
+> librsvg-native built too so that we generate the pixbuf loader cache on
+> host at rootfs install time.
 
-Use meta-systemd from meta-openembedded.
+Not true - the icon cache explicitly only loads .png and .xpm, so my
+point was that it's entirely safe to run gtk-update-icon-cache at
+rootfs time as those loaders are part of gdk-pixbuf, which must be
+available natively if we're running gtk-update-icon-cache.
 
 Ross
 
