@@ -1,37 +1,37 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tjf6H-0003ka-2z
+	(envelope-from <martin.jansa@gmail.com>) id 1Tjf6M-0003m5-16
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Dec 2012 00:55:29 +0100
-Received: by mail-da0-f47.google.com with SMTP id s35so1554552dak.6
+	Sat, 15 Dec 2012 00:55:34 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so2447079pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 15:40:51 -0800 (PST)
+	Fri, 14 Dec 2012 15:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=UtJIm1inmHX1JnR4QAxwEISLpOLMTVxvTyIQLN26WvQ=;
-	b=1Dojim+a9kWZffS+vcNHRK3Gshezunzr8X2XSfmcU+5dVjIS2tEWyzG/UIM8n5L8IL
-	heDBOeV6mPdv8V0v0Ugoj1C/5cFZN2g5Or+OGypGcdRSr0cTFjW6F1xZuW2TlmmKP+Uc
-	+6d0yHMruVSXk6eyhWbM+LOh6biaZ3xVh+3n92qErTUZas5TF7EJ2ozSf47DCOquBBuZ
-	xdfuWf+0PlUwI9c8Nl6luv/Zxykmz46Lxzv3YVvIwuQMEomiDMegg3Ai+cogOvW7queW
-	oc169sG3nncQ74PnLy092cogJEE8ZfYEmbmDytLDoEEwfk1Gf5/LpS3Q7bMeXI68EtLl
-	TNCg==
-Received: by 10.68.225.70 with SMTP id ri6mr20262768pbc.41.1355528451613;
-	Fri, 14 Dec 2012 15:40:51 -0800 (PST)
+	bh=+hHrAyi2wCWbLJiPgoJdzZP58pvxTKAx9Qk8uYtdzRI=;
+	b=ivrsOfm+u/c/yGm1greN+am3PgSjJZy+b14o5ZuT9exEjc2DiNALaaL7p8x1DpeWYQ
+	6N+niyFRmoj2Y05pmdRxg6pif1qsUPUZboH6FOK7lLhkWf3OKPmeDcejsOIio3SBc0Wm
+	7X16jN2ya7j/TloVwNQb8J4prxqOApF6tJXw3PiPR5rDS1aVMallEAThX1NnQbhFsiOB
+	aESxtOUd9xIJFxB1aqZhXabBvViRWbQv6or/c0vpdopgTH7h17UqtygyuEFJ+XCOkYu8
+	jNuKgLg6K/8zeZ8PgZWeePU0bgCiTQ+WEkQICn5E5FzAPcafYMzeGUWtnsNiuv1TEyiw
+	oFYQ==
+Received: by 10.66.79.163 with SMTP id k3mr19966702pax.60.1355528456586;
+	Fri, 14 Dec 2012 15:40:56 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id gq10sm3666340pbc.54.2012.12.14.15.40.49
+	by mx.google.com with ESMTPS id kb3sm3673603pbc.27.2012.12.14.15.40.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 15:40:50 -0800 (PST)
+	Fri, 14 Dec 2012 15:40:55 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Dec 2012 00:40:41 +0100
-Message-Id: <d909934e2f6cca0b4ca34975445404f8867555ba.1355475937.git.Martin.Jansa@gmail.com>
+Date: Sat, 15 Dec 2012 00:40:42 +0100
+Message-Id: <6f66c4d3bf4444f3dac8a2f1dc325609c7eec7fc.1355475937.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.0.2
 In-Reply-To: <cover.1355475937.git.Martin.Jansa@gmail.com>
 References: <cover.1355475937.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1355475937.git.Martin.Jansa@gmail.com>
 References: <cover.1355475937.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 03/10] rootfs_*.bbclass: exclude BUILDNAME var dependency from do_rootfs
+Subject: [PATCH 04/10] bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 23:55:29 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 23:55:34 -0000
 
-* I have kernel recipe which depends on other recipe to build tiny initramfs
-  image, without this change it rebuilds not only that initramfs image
-  but also whole kernel when DATE or TIME is changed and OEBasicHash enabled
-* also resolves ERROR shown when bitbake -S is used for image:
+* resolves ERROR shown when bitbake -S is used for image:
   ERROR: Bitbake's cached basehash does not match the one we just generated
   (/OE/oe-core/openembedded-core/meta/recipes-core/images/core-image-minimal.bb.do_rootfs)!
   ERROR: The mismatched hashes were 8c35cdf8a5d09c03941f081dd9f6d8dc and b5d6e2e5952770557c48c5779ddb73fc
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/rootfs_deb.bbclass | 1 +
- meta/classes/rootfs_ipk.bbclass | 1 +
- meta/classes/rootfs_rpm.bbclass | 1 +
- 3 files changed, 3 insertions(+)
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 955382f..293953d 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -7,6 +7,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index be3bfc2..578c29f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -407,6 +407,7 @@ STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
+ IMAGE_ROOTFS = "${WORKDIR}/rootfs"
+ IMAGE_BASENAME = "${PN}"
+ IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
++IMAGE_NAME[vardepsexclude] += "DATETIME"
+ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
  
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb"
-+do_rootfs[vardepsexclude] += "BUILDNAME"
- 
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 02b1d57..5c962de 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -11,6 +11,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- 
- do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_ipk"
-+do_rootfs[vardepsexclude] += "BUILDNAME"
- 
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 2bb1b08..91bf108 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -20,6 +20,7 @@ do_rootfs[depends] += "opkg-native:do_populate_sysroot"
- do_rootfs[depends] += "createrepo-native:do_populate_sysroot"
- 
- do_rootfs[recrdeptask] += "do_package_write_rpm"
-+do_rootfs[vardepsexclude] += "BUILDNAME"
- 
- RPM_PREPROCESS_COMMANDS = "package_update_index_rpm; package_generate_rpm_conf; "
- RPM_POSTPROCESS_COMMANDS = ""
+ # This option allows for a percentage overage of the actual image size rather than a
 -- 
 1.8.0.2
 
