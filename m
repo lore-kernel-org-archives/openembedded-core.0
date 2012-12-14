@@ -1,30 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TjXaz-0000sF-Er for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 16:54:41 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBEFe4GP013093
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 15:40:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11710-10 for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 15:39:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBEFdvGP013083
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 15:39:58 GMT
-Message-ID: <1355499596.32519.22.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Dec 2012 15:39:56 +0000
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate.bbclass: Improve stamp-extra-info task handling to avoid warnings
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1TjXlf-0006Ju-Sw
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Dec 2012 17:05:44 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id F17BFF811FA; Fri, 14 Dec 2012 08:51:08 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id B2264F811EC;
+	Fri, 14 Dec 2012 08:51:07 -0700 (MST)
+Message-ID: <50CB4B04.2080202@mlbassoc.com>
+Date: Fri, 14 Dec 2012 08:51:32 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: libsoup and gnutls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 15:54:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Dec 2012 16:05:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-If you change a machine to a different package architecture, you will see sstate
-errors about overwriting files as the code stands today. Instead it should clean
-out the files safely and correctly. This patch changes the naming of stamp-extra-info
-manifest files to avoid this problem. It will potentially trigger warnings during
-builds in existing TMPDIRs until the system adjusts to the new naming, these are
-harmless.
+Using the latest recipes (libsoup-2.4_2.38.1.bb, gnutls_2.12.21.bb)
+I am unable to open an HTTPS server.  It always gets this error:
+   TLS support is not available
 
-[YOCTO #3521]
+I can't tell how to configure/use libsoup so it will only try to
+make an SSLv3 connection instead of TLS.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d3daf1c..94be3ce 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -124,10 +124,12 @@ def sstate_install(ss, d):
-     sharedfiles = []
-     shareddirs = []
-     bb.mkdirhier(d.expand("${SSTATE_MANIFESTS}"))
--    manifest = d.expand("${SSTATE_MANFILEPREFIX}.%s" % ss['name'])
-+
-+    d2 = d.createCopy()
-     extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
-     if extrainf:
--        manifest = manifest + "." + extrainf
-+        d2.setVar("SSTATE_MANMACH", extrainf)
-+    manifest = d2.expand("${SSTATE_MANFILEPREFIX}.%s" % ss['name'])
- 
-     if os.access(manifest, os.R_OK):
-         bb.fatal("Package already staged (%s)?!" % manifest)
-@@ -315,10 +317,12 @@ def sstate_clean_manifest(manifest, d):
- def sstate_clean(ss, d):
-     import oe.path
- 
--    manifest = d.expand("${SSTATE_MANFILEPREFIX}.%s" % ss['name'])
-+    d2 = d.createCopy()
-     extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
-     if extrainf:
--        manifest = manifest + "." + extrainf
-+        d2.setVar("SSTATE_MANMACH", extrainf)
-+    manifest = d2.expand("${SSTATE_MANFILEPREFIX}.%s" % ss['name'])
-+    bb.error(str(manifest))
- 
-     if os.path.exists(manifest):
-         locks = []
+Any ideas?
 
+Thanks
 
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
