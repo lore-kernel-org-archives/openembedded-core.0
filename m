@@ -1,37 +1,35 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tjb1g-0002AW-HN
+	(envelope-from <cazfi74@gmail.com>) id 1TjbWp-0004jt-Rr
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 20:34:28 +0100
-Received: by mail-bk0-f47.google.com with SMTP id j4so1821272bkw.6
+	Fri, 14 Dec 2012 21:06:47 +0100
+Received: by mail-bk0-f47.google.com with SMTP id j4so1831970bkw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 11:19:52 -0800 (PST)
+	Fri, 14 Dec 2012 11:52:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=FVncm/fCqI+foVIqNkuAXz9OUgv6J8prz9QYaJUPPoM=;
-	b=NXbQhlVBWur5G1EhandbE7Xm065L2gdOJ4JSrG9qtpCEyY9ZNurs6rWs+V8bYkbHQp
-	QohYzAqZdSzs2nEorMK5S00htb56RSNLVop6kvL4zbWkYa7Xx2SBBXEaNYSz0VAgH4C0
-	ovf4jTAzciQN8s33blfnbOrd14eb7yUum/WPJ+tg2FKscgffp4HdQ/5q3b6jPUT0g2Oq
-	qEgs5XscXMHHo1JMsl3Y+llr6VOmoHTA/Wnsk5KeGHHk/b9tGo0V9mej/+EX3pAuMg1V
-	oPNt7Lw2OIazHeBNof8iaf+JAoNUdwjUnr9t6e8sp+MXH6vVLZN7FFMKgBPsMLgi8rUe
-	KyxQ==
-Received: by 10.204.154.202 with SMTP id p10mr3245014bkw.29.1355512791909;
-	Fri, 14 Dec 2012 11:19:51 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=iPikHotw8Su0/Gm1votT1cIe947hKQxDO010GSvpo6E=;
+	b=ah7ksGF+EllqN5FGMCWnwPmctOrT+kKh3Ek1+aS5Z3LClFzcUkcRzc7Zj1yg/MiIL5
+	xvUKlld+lzP5Kylt47T6+LAPPzK/6+0yXicQwXJjlraV7LbptaS7vybhqSRoS3fQ0C3e
+	j+F6EPObFWaCy8reaeLZZ3K+WCKB4s7DOdfl81qyO+vYX1tLOEi2I0xR7fZLudqdPF1u
+	HpY1FqlxlzdY2LBtBjo58/Rd7a5Y9pUE85UKayjVIXgfh1Jkrfns7Q+r07s1ijLg366i
+	HiND41ADM8/ESPzTsyB7prK6s1T7g0huKcEFX4QWd3n6+aZDkqnbyIZKrrv0GswAzHMu
+	o7bg==
+Received: by 10.204.153.15 with SMTP id i15mr3339341bkw.64.1355514723187;
+	Fri, 14 Dec 2012 11:52:03 -0800 (PST)
 Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id z5sm5492876bkv.11.2012.12.14.11.19.50
+	by mx.google.com with ESMTPS id o7sm5540023bkv.13.2012.12.14.11.52.01
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 11:19:50 -0800 (PST)
+	Fri, 14 Dec 2012 11:52:02 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TjanU-0001dw-Sa; Fri, 14 Dec 2012 21:19:48 +0200
+	id 1TjbId-0004Md-W4; Fri, 14 Dec 2012 21:52:00 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Dec 2012 21:19:44 +0200
-Message-Id: <1355512785-6255-2-git-send-email-cazfi74@gmail.com>
+Date: Fri, 14 Dec 2012 21:51:59 +0200
+Message-Id: <1355514719-14798-1-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1355512785-6255-1-git-send-email-cazfi74@gmail.com>
-References: <1355512785-6255-1-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH] help2man: update to upstream version 1.40.13
+Subject: [PATCH] coreutils: fix license segment md5sum boundary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 19:34:28 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 20:06:48 -0000
+
+Replaced incorrect "startline" with correct "beginline" for telling
+where license segment in file begins. Old md5sum was calculated
+from the beginning of the file, not beginning of the license segment.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../{help2man-native_1.38.2.bb => help2man-native_1.40.13.bb}    |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.38.2.bb => help2man-native_1.40.13.bb} (78%)
+ meta/recipes-core/coreutils/coreutils_8.14.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb b/meta/recipes-devtools/help2man/help2man-native_1.40.13.bb
-similarity index 78%
-rename from meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
-rename to meta/recipes-devtools/help2man/help2man-native_1.40.13.bb
-index bea7fe9..9413f52 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
-+++ b/meta/recipes-devtools/help2man/help2man-native_1.40.13.bb
-@@ -3,11 +3,11 @@ SECTION = "devel"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "autoconf-native automake-native"
--PR = "r2"
-+PR = "r0"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
--SRC_URI[md5sum] = "426671c6fe79e5ef2233303367eab5a6"
--SRC_URI[sha256sum] = "952c29561bce8b233aa10af7f0e0c79c8243712810bf8ddf01e6efd82ce250d1"
-+SRC_URI[md5sum] = "ecbc98f1f146e404e85d7bef520b34d8"
-+SRC_URI[sha256sum] = "15d3b6ebbac90f6d2a21480ba5e33c03b480a342ce498a84b1804f03d75358ba"
- 
- inherit autotools native
- 
+diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
+index 3f58cfd..04c9eb2 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.14.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
++                    file://src/ls.c;beginline=5;endline=16;md5=2e9acd8818fe6db4c2981d20ca632553"
+ PR = "r5"
+ DEPENDS = "gmp libcap"
+ DEPENDS_class-native = ""
 -- 
 1.7.10.4
 
