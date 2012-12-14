@@ -1,38 +1,27 @@
-Received: from mail-pa0-f47.google.com ([209.85.220.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TjRVI-0008WT-JG
+	(envelope-from <Qi.Chen@windriver.com>) id 1TjSQJ-0001FH-8f
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 10:24:24 +0100
-Received: by mail-pa0-f47.google.com with SMTP id fa10so2048199pad.6
+	Fri, 14 Dec 2012 11:23:20 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBEA8f8t028467
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 01:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=NFfojE6NafQrl7gR2IUDy7WcokyaHTZpGI6PNqghj0o=;
-	b=RjzAx6bETP/Bkon8WvrJJ8isT00GdCOWMEDBVdhwhbCu8evGqWbNW3vj0BzQ0Vnxci
-	1acmMBbI/xtaxpVVcbKVwni5bOfb4y0eVjBT+FQxPbHR5owkvGugKcfBsipuHfXKdXjf
-	FsS/JDGCSKz/k/QGUDZkogDxGaPmz1EhcXbAOkXKrt/6IjLXWxXwOnmykE7uVlg785LK
-	Yi8MiudEzi+tdCBjCXlmiTtlly+rQmqHHCsNOaVFcr9sScgdiiJWIYIQi/Vyyc0XZlc0
-	PigDNj56Ll8DkOrfcLeXx35RRS0FYd1CWuxDupGzTUThX6WfPWIZdBCux34yskhqxqtM
-	vFbA==
-Received: by 10.68.225.232 with SMTP id rn8mr13974563pbc.34.1355476187860;
-	Fri, 14 Dec 2012 01:09:47 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id jq1sm2083137pbb.71.2012.12.14.01.09.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 01:09:45 -0800 (PST)
-Date: Fri, 14 Dec 2012 10:09:57 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20121214090957.GB5567@jama.jama.net>
-References: <cover.1355363862.git.hongxu.jia@windriver.com>
-	<475c322eafe0f825ead42e582dfa0ed1a4497f06.1355363862.git.hongxu.jia@windriver.com>
+	Fri, 14 Dec 2012 02:08:41 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Fri, 14 Dec 2012 02:08:41 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Dec 2012 18:08:52 +0800
+Message-ID: <2ff77d8cdc19c9040f3ede2203700ee91e878e5f.1355479412.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1355479412.git.Qi.Chen@windriver.com>
+References: <cover.1355479412.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <475c322eafe0f825ead42e582dfa0ed1a4497f06.1355363862.git.hongxu.jia@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ghostscript-native:fix host underlinking issues
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH V2 1/1] ICU: upgrade to 50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,186 +34,425 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 09:24:25 -0000
-X-Groupsio-MsgNum: 32660
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4bRzO86E/ozDv8r1"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 14 Dec 2012 10:23:20 -0000
+Content-Type: text/plain
 
---4bRzO86E/ozDv8r1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Chen Qi <Qi.Chen@windriver.com>
 
-On Thu, Dec 13, 2012 at 10:17:43AM +0800, Hongxu Jia wrote:
-> The ghostscript-native will check libtiff
-> automatically at configure time and libtiff
-> needs libjpeg. If libtiff and libjpeg is
-> just populated to staging native directories
-> and the host doesn't install them, the libjpeg
-> could not be linked, fail with:
->=20
-> |libjpeg.so.8, needed by libtiff.so, not found
-> |libtiff.so: undefined reference to
-> `jpeg_set_defaults@LIBJPEG_8.0'
-> |collect2: error: ld returned 1 exit status
->=20
-> Disable libtiff support to fix this issue and
-> modify configure to let disable system libtiff
-> could work.
-> We also explicity disable fontconfig, freetype,
-> cups for ghostscript-native to avoid the similar
-> issues.
+Upgrade ICU to 50.1.
+All unnecessary patches of previous version are dropped.
 
-Fixes issues I was seeing:
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../icu/files/fix-parallel-build.patch             |   19 -----
+ meta/recipes-support/icu/files/gccfix.patch        |   19 -----
+ .../icu/files/icu-add-pkgconfig-support.patch      |   43 ------------
+ .../icu/files/larger-cmd-size.patch                |   27 -------
+ meta/recipes-support/icu/files/noldlibpath.patch   |   52 --------------
+ .../icu/files/use-g++-for-linking.patch            |   74 --------------------
+ meta/recipes-support/icu/{icu-3.6.inc => icu.inc}  |   54 ++++----------
+ meta/recipes-support/icu/icu_3.6.bb                |    6 --
+ meta/recipes-support/icu/icu_50.1.bb               |   11 +++
+ 9 files changed, 24 insertions(+), 281 deletions(-)
+ delete mode 100644 meta/recipes-support/icu/files/fix-parallel-build.patch
+ delete mode 100644 meta/recipes-support/icu/files/gccfix.patch
+ delete mode 100644 meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+ delete mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
+ delete mode 100644 meta/recipes-support/icu/files/noldlibpath.patch
+ delete mode 100644 meta/recipes-support/icu/files/use-g++-for-linking.patch
+ rename meta/recipes-support/icu/{icu-3.6.inc => icu.inc} (42%)
+ delete mode 100644 meta/recipes-support/icu/icu_3.6.bb
+ create mode 100644 meta/recipes-support/icu/icu_50.1.bb
 
-Thanks!
+diff --git a/meta/recipes-support/icu/files/fix-parallel-build.patch b/meta/recipes-support/icu/files/fix-parallel-build.patch
+deleted file mode 100644
+index 5b01a4c..0000000
+--- a/meta/recipes-support/icu/files/fix-parallel-build.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Upstream-Status: pending
+-
+-Fix parallel builds
+-
+-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+-
+-Index: source/data/Makefile.in
+-===================================================================
+---- source.orig/data/Makefile.in	2011-09-02 02:03:37.000000000 +0400
+-+++ source/data/Makefile.in	2011-09-02 02:06:26.000000000 +0400
+-@@ -351,8 +351,8 @@
+- endif
+-
+-
+--build-dir: $(BUILD_DIRS)
+--$(BUILD_DIRS):
+-+$(MAINBUILDDIR) $(BUILD_DIRS): build-dir
+-+build-dir:
+-	-$(MKINSTALLDIRS) $(BUILD_DIRS)
+diff --git a/meta/recipes-support/icu/files/gccfix.patch b/meta/recipes-support/icu/files/gccfix.patch
+deleted file mode 100644
+index 755341f..0000000
+--- a/meta/recipes-support/icu/files/gccfix.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Fixes an error which prevents compilation
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-Index: source/layoutex/ParagraphLayout.cpp
+-===================================================================
+---- source.orig/layoutex/ParagraphLayout.cpp	2009-06-30 11:48:47.000000000 +0100
+-+++ source/layoutex/ParagraphLayout.cpp	2009-06-30 11:49:06.000000000 +0100
+-@@ -798,7 +798,7 @@
+- 
+-     return nullLanguageCode;
+- }
+--#elif
+-+#else
+- 
+- // TODO - dummy implementation for right now...
+- le_int32 ParagraphLayout::getLanguageCode(const Locale *locale)
+diff --git a/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch b/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
+deleted file mode 100644
+index c7cd9d5..0000000
+--- a/meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-Upstream-Status: Inappropriate [version]
+-ICU-3.6 has no pkgconfig, so I add it here. 
+-But ICU has had pkgconfig support since 4.6.
+-So this patch is inappropriate to upstream.
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+-
+-Index: configure.in
+-=============================================================
+---- a/configure.in
+-+++ b/configure.in
+-@@ -1057,4 +1057,7 @@ echo "This may cause ICU to fail to build. Please make sure that GNU make"
+- echo "is in your PATH so that this configure script can detect its location."
+- fi
+- 
+-+AC_CONFIG_FILES([icu.pc])
+-+AC_OUTPUT
+-+
+- $as_unset _CXX_CXXSUFFIX
+-
+-Index: icu.pc.in
+-=============================================================
+---- /dev/null
+-+++ b/icu.pc.in
+-@@ -0,0 +1,15 @@
+-+# Process this file with autoconf to produce a pkg-config metadata file.
+-+
+-+prefix=@prefix@
+-+exec_prefix=@exec_prefix@
+-+libdir=@libdir@
+-+includedir=@includedir@
+-+unicode_version=@UNICODE_VERSION@
+-+
+-+Name: ICU
+-+Description: International Component for Unicode libraries
+-+Requires:
+-+Version: @VERSION@
+-+Libs: -L${libdir} -licui18n -licuuc -licudata
+-+Libs.private: -L{libdir} -lpthread -lm
+-+Cflags: -I${includedir} -O2 -pipe -g -feliminate-unused-debug-types
+--- 
+-1.7.11.2
+-
+diff --git a/meta/recipes-support/icu/files/larger-cmd-size.patch b/meta/recipes-support/icu/files/larger-cmd-size.patch
+deleted file mode 100644
+index 74a84f1..0000000
+--- a/meta/recipes-support/icu/files/larger-cmd-size.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Allocate a larger memory size for cmd
+-
+-The length of the command line can be longer than 1024 sometimes,
+-which will cause a "Segmentation fault" error.
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+-Upstream-Status: Pending
+----
+- tools/pkgdata/pkgdata.c |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tools/pkgdata/pkgdata.c b/tools/pkgdata/pkgdata.c
+---- a/tools/pkgdata/pkgdata.c
+-+++ b/tools/pkgdata/pkgdata.c
+-@@ -439,7 +439,7 @@ main(int argc, char* argv[]) {
+- /* POSIX - execute makefile */
+- static int executeMakefile(const UPKGOptions *o)
+- {
+--    char cmd[1024];
+-+    char cmd[2048];
+-     /*char pwd[1024];*/
+-     const char *make;
+-     int rc;
+--- 
+-1.7.10.2
+-
+diff --git a/meta/recipes-support/icu/files/noldlibpath.patch b/meta/recipes-support/icu/files/noldlibpath.patch
+deleted file mode 100644
+index 8543044..0000000
+--- a/meta/recipes-support/icu/files/noldlibpath.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-Setting LD_LIBRARY_PATH is a really bad idea when cross compiling. Simplest way
+-to disable this is to rename the variable as per the patch below, then its 
+-harmless. This is a hack.
+-
+-RP 10/6/2010
+-
+-Upstream-Status: Inappropriate [Other]
+-Hacky workaround not likely to be accepted upstream.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-Index: source/config/Makefile.inc.in
+-===================================================================
+---- source.orig/config/Makefile.inc.in	2010-06-10 21:49:19.000000000 +0100
+-+++ source/config/Makefile.inc.in	2010-06-10 21:49:46.000000000 +0100
+-@@ -126,7 +126,7 @@
+- ##################################################################
+- # Environment variable to set a runtime search path
+- #   (Overridden when necessary in -mh files)
+--LDLIBRARYPATH_ENVVAR = LD_LIBRARY_PATH
+-+LDLIBRARYPATH_ENVVAR = LD_LIBRARY_PATH2
+- 
+- # Versioned target for a shared library
+- FINAL_SO_TARGET = $(SO_TARGET).$(SO_TARGET_VERSION)
+-Index: source/icudefs.mk.in
+-===================================================================
+---- source.orig/icudefs.mk.in	2010-06-10 21:51:03.000000000 +0100
+-+++ source/icudefs.mk.in	2010-06-10 21:51:09.000000000 +0100
+-@@ -150,7 +150,7 @@
+- SHLIB.cc=     $(CXX) $(CXXFLAGS) $(LDFLAGS) -shared
+- 
+- # Environment variable to set a runtime search path
+--LDLIBRARYPATH_ENVVAR = LD_LIBRARY_PATH
+-+LDLIBRARYPATH_ENVVAR = LD_LIBRARY_PATH2
+- 
+- # Versioned target for a shared library.
+- FINAL_SO_TARGET = $(SO_TARGET).$(SO_TARGET_VERSION)
+-Index: source/tools/genrb/gendtjar.pl
+-===================================================================
+---- source.orig/tools/genrb/gendtjar.pl	2010-06-10 21:51:36.000000000 +0100
+-+++ source/tools/genrb/gendtjar.pl	2010-06-10 21:52:03.000000000 +0100
+-@@ -68,8 +68,8 @@
+-         $icuLibDir = abs_path($icuBinDir."/../lib");
+-         $path .=":$icuBinDir:$icuLibDir";
+-         
+--        $libpath = $ENV{'LD_LIBRARY_PATH'}.":$icuLibDir";
+--        $ENV{'LD_LIBRARY_PATH'} = $libpath;
+-+        $libpath = $ENV{'LD_LIBRARY_PATH2'}.":$icuLibDir";
+-+        $ENV{'LD_LIBRARY_PATH2'} = $libpath;
+-         
+-         #print ("#####  LD_LIBRARY_PATH = $ENV{'LD_LIBRARY_PATH'}\n");
+-     
+diff --git a/meta/recipes-support/icu/files/use-g++-for-linking.patch b/meta/recipes-support/icu/files/use-g++-for-linking.patch
+deleted file mode 100644
+index f477dad..0000000
+--- a/meta/recipes-support/icu/files/use-g++-for-linking.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-Use g++ for linking.
+-
+-Upstream-Status: Inappropriate [Other]
+-Build system specific
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+----
+- tools/genccode/Makefile.in |    2 +-
+- tools/gencmn/Makefile.in   |    2 +-
+- tools/genrb/Makefile.in    |    2 +-
+- tools/pkgdata/Makefile.in  |    2 +-
+- 4 files changed, 4 insertions(+), 4 deletions(-)
+-
+---- source.orig/tools/genccode/Makefile.in
+-+++ source/tools/genccode/Makefile.in
+-@@ -76,11 +76,11 @@ check-local: all-local
+- Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+- 	cd $(top_builddir) \
+- 	 && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+- 
+- $(TARGET) : $(OBJECTS)
+--	$(LINK.c) $(OUTOPT)$@ $^ $(LIBS)
+-+	$(LINK.cc) $(OUTOPT)$@ $^ $(LIBS)
+- 
+- 
+- %.$(SECTION): $(srcdir)/%.$(SECTION).in
+- 	cd $(top_builddir) \
+- 	 && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+---- source.orig/tools/gencmn/Makefile.in
+-+++ source/tools/gencmn/Makefile.in
+-@@ -76,11 +76,11 @@ check-local: all-local
+- Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+- 	cd $(top_builddir) \
+- 	 && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+- 
+- $(TARGET) : $(OBJECTS)
+--	$(LINK.c) $(OUTOPT)$@ $^ $(LIBS)
+-+	$(LINK.cc) $(OUTOPT)$@ $^ $(LIBS)
+- 
+- %.$(SECTION): $(srcdir)/%.$(SECTION).in
+- 	cd $(top_builddir) \
+- 	 && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+- 
+---- source.orig/tools/genrb/Makefile.in
+-+++ source/tools/genrb/Makefile.in
+-@@ -84,11 +84,11 @@ Makefile: $(srcdir)/Makefile.in  $(top_b
+- 
+- $(TARGET) : $(OBJECTS)
+- 	$(LINK.cc) $(OUTOPT)$@ $^ $(LIBS) 
+- 
+- $(DERB) : $(DERB_OBJ)
+--	$(LINK.c) $(OUTOPT)$@ $^ $(LIBS) 
+-+	$(LINK.cc) $(OUTOPT)$@ $^ $(LIBS)
+- 
+- 
+- # This line is needed to serialize builds when the gmake -j option is used.
+- $(TARGET_STUB_NAME).$(SECTION): $(DERB_STUB_NAME).$(SECTION)
+- 
+---- source.orig/tools/pkgdata/Makefile.in
+-+++ source/tools/pkgdata/Makefile.in
+-@@ -81,11 +81,11 @@ check-local: all-local
+- Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+- 	cd $(top_builddir) \
+- 	 && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+- 
+- $(TARGET) : $(OBJECTS)
+--	$(LINK.c) $(OUTOPT)$@ $^ $(LIBS) 
+-+	$(LINK.cc) $(OUTOPT)$@ $^ $(LIBS)
+- 
+- 
+- %.$(SECTION): $(srcdir)/%.$(SECTION).in
+- 	cd $(top_builddir) \
+- 	 && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+diff --git a/meta/recipes-support/icu/icu-3.6.inc b/meta/recipes-support/icu/icu.inc
+similarity index 42%
+rename from meta/recipes-support/icu/icu-3.6.inc
+rename to meta/recipes-support/icu/icu.inc
+index 8caf71c..e7d6189 100644
+--- a/meta/recipes-support/icu/icu-3.6.inc
++++ b/meta/recipes-support/icu/icu.inc
+@@ -1,61 +1,34 @@
+ SUMMARY = "International Component for Unicode libraries"
+ DESCRIPTION = "The International Component for Unicode (ICU) is a mature, portable set of C/C++ and Java libraries for Unicode support, software internationalization (I18N) and globalization (G11N), giving applications the same results on all platforms."
+-HOMEPAGE = "http://www-01.ibm.com/software/globalization/icu/index.jsp"
+-
+-BASE_SRC_URI = "ftp://ftp.software.ibm.com/software/globalization/icu/3.6/icu4c-3_6-src.tgz \
+-           file://gccfix.patch \
+-           file://fix-parallel-build.patch \
+-           file://use-g++-for-linking.patch \
+-           file://larger-cmd-size.patch \
+-	   file://icu-add-pkgconfig-support.patch \
+-           "
+-SRC_URI = "${BASE_SRC_URI} \
+-           file://noldlibpath.patch \
+-           "
+-SRC_URI_class-native = "${BASE_SRC_URI}"
++HOMEPAGE = "http://site.icu-project.org/"
+ 
+ LICENSE = "ICU"
+-LIC_FILES_CHKSUM = "file://../license.html;md5=5c94767cedb5d6987c902ac850ded2c6"
+ DEPENDS = "icu-native"
+ DEPENDS_class-native = ""
+ 
+ S = "${WORKDIR}/icu/source"
++STAGING_ICU_SOURCE_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/icu"
+ 
+ PARALLEL_MAKE = ""
+ FULL_OPTIMIZATION_arm = "-Os"
+ 
+ inherit autotools pkgconfig binconfig
+ 
+-do_configure() {
+-	libtoolize --force
+-	gnu-configize --force
+-	if [ "${PN}" != "icu-native" ]; then
+-		OLD=`pwd`
+-		cd ${S}
+-		autoconf
+-		cd ${OLD}
+-	fi
+-	oe_runconf
+-	if [ "${PN}" != "icu-native" ]; then
+-		# In the non-native case we need to make substitutions to use
+-		# the native versions of the tools
+-		for i in */Makefile* */*.inc */*/Makefile* */*/*.inc */*/*.inc.in ; do
+-			sed -i -e 's:$(INVOKE) $(BINDIR)/:$(INVOKE) :g' $i 
+-			sed -i -e 's:$(BINDIR)/::g' $i 
+-		done
+-	fi
+-}
++# ICU needs the native build directory as an argument to its --with-cross-build option when
++# cross-compiling. Taken the situation that different builds may share a common sstate-cache
++# into consideration, the native build directory needs to be staged.
++EXTRA_OECONF = "--with-cross-build=${STAGING_DATADIR_NATIVE}/icu/source"
++EXTRA_OECONF_class-native = ""
+ 
+-do_compile() {
+-	oe_runmake 'CXX=${CXX}'
++do_configure_prepend() {
++    [ -f acinclude.m4 ] || cp aclocal.m4 acinclude.m4
+ }
+ 
+ do_install_append() {
+-        chmod +x ${D}${libdir}/lib*
+-	if [ "${PN}" != "icu-native" ]; then
+-		install -d ${D}/${libdir}/pkgconfig
+-        	install -m 0644 ${S}/icu.pc ${D}/${libdir}/pkgconfig
+-	fi
++    if [ ${PN} == 'icu-native' ]; then
++	mkdir -p ${D}/${STAGING_ICU_SOURCE_DIR_NATIVE}
++	cp -r ${S} ${D}/${STAGING_ICU_SOURCE_DIR_NATIVE}
++    fi
+ }
+ 
+ PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx libicutu libicuio"
+@@ -72,4 +45,3 @@ FILES_libicuio = "${libdir}/libicuio.so.*"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-SSTATE_SCAN_FILES += "Makefile.inc"
+diff --git a/meta/recipes-support/icu/icu_3.6.bb b/meta/recipes-support/icu/icu_3.6.bb
+deleted file mode 100644
+index f50abe2..0000000
+--- a/meta/recipes-support/icu/icu_3.6.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require icu-3.6.inc
+-
+-PR = "r10"
+-
+-SRC_URI[md5sum] = "6243f7a19e03e05403ce84e597510d4c"
+-SRC_URI[sha256sum] = "5135e8d69d6206d320515df7aeee7027711ab1aef9d8dbf29571a97a9746b041"
+diff --git a/meta/recipes-support/icu/icu_50.1.bb b/meta/recipes-support/icu/icu_50.1.bb
+new file mode 100644
+index 0000000..8f65c6d
+--- /dev/null
++++ b/meta/recipes-support/icu/icu_50.1.bb
+@@ -0,0 +1,11 @@
++require icu.inc
++
++LIC_FILES_CHKSUM = "file://../license.html;md5=4ee45701e87d34303281978e3b78ecda"
++
++PR = "r1"
++
++BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/50.1/icu4c-50_1-src.tgz"
++SRC_URI = "${BASE_SRC_URI}"
++
++SRC_URI[md5sum] = "cf7bf9e56aa6c2057a8b6f464046483e"
++SRC_URI[sha256sum] = "68592b3c07d9b86100f41d0172eb1a81f3ffb2a8fef1104d7395099079ba7350"
+\ No newline at end of file
+-- 
+1.7.9.5
 
->=20
-> [YOCTO #3562]
->=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  ...tscript-native-fix-disable-system-libtiff.patch |   51 ++++++++++++++=
-++++++
->  .../ghostscript/ghostscript_9.05.bb                |   15 ++++--
->  2 files changed, 63 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostsc=
-ript-native-fix-disable-system-libtiff.patch
->=20
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-na=
-tive-fix-disable-system-libtiff.patch b/meta/recipes-extended/ghostscript/g=
-hostscript/ghostscript-native-fix-disable-system-libtiff.patch
-> new file mode 100644
-> index 0000000..ce254f6
-> --- /dev/null
-> +++ b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fi=
-x-disable-system-libtiff.patch
-> @@ -0,0 +1,51 @@
-> +ghostscript-native:fix disable-system-libtiff
-> +
-> +Modify configure to add the check to make sure
-> +ghostscrip could work while system-libtiff is
-> +disabled.
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +Upstream-Status: Pending
-> +---
-> +diff --git a/base/configure.ac b/base/configure.ac
-> +index bb05105..4b817ac 100644
-> +--- a/base/configure.ac
-> ++++ b/base/configure.ac
-> +@@ -814,17 +814,23 @@ Disabling tiff output devices.])
-> + esac
-> +=20
-> + if test $SHARE_LIBTIFF -eq 0; then
-> +-      echo
-> +-      echo "Running libtiff configure script..."
-> +-      olddir=3D`pwd`
-> +-      cd $LIBTIFFDIR && ./configure --disable-jbig $SUBCONFIG_OPTS
-> +-      status=3D$?
-> +-      if test "$status" -ne 0 ; then
-> +-        AC_MSG_ERROR([libtiff configure script failed], $status)
-> +-      fi
-> +-      cd $olddir
-> +-      echo
-> +-      echo "Continuing with Ghostscript configuration..."
-> ++    if test -e $LIBTIFFDIR/configure; then
-> ++        echo
-> ++        echo "Running libtiff configure script..."
-> ++        olddir=3D`pwd`
-> ++        cd $LIBTIFFDIR && ./configure --disable-jbig $SUBCONFIG_OPTS
-> ++        status=3D$?
-> ++        if test "$status" -ne 0 ; then
-> ++          AC_MSG_ERROR([libtiff configure script failed], $status)
-> ++        fi
-> ++        cd $olddir
-> ++        echo
-> ++        echo "Continuing with Ghostscript configuration..."
-> ++    else
-> ++        AC_MSG_NOTICE([Could not find local copy of libtiff.
-> ++Disabling tiff output devices.])
-> ++    fi
-> ++
-> + fi
-> +=20
-> + AC_SUBST(SHARE_LIBTIFF)
-> +--=20
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb b/meta=
-/recipes-extended/ghostscript/ghostscript_9.05.bb
-> index 2789897..93c503f 100644
-> --- a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
-> @@ -15,7 +15,7 @@ SECTION =3D "console/utils"
->  LICENSE =3D "GPLv3"
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dc5326026692dbed183f0558f92658=
-0f8"
-> =20
-> -PR =3D "r4"
-> +PR =3D "r5"
-> =20
->  DEPENDS =3D "ghostscript-native tiff jpeg fontconfig cups"
->  DEPENDS_class-native =3D ""
-> @@ -31,8 +31,9 @@ SRC_URI =3D "${SRC_URI_BASE} \
->             "
-> =20
->  SRC_URI_class-native =3D "${SRC_URI_BASE} \
-> -		        file://0001-make-ghostscript-work-with-long-building-directory=
-=2Epatch \
-> -		        "
-> +                        file://0001-make-ghostscript-work-with-long-buil=
-ding-directory.patch \
-> +                        file://ghostscript-native-fix-disable-system-lib=
-tiff.patch \
-> +                        "
-> =20
->  SRC_URI[md5sum] =3D "f7c6f0431ca8d44ee132a55d583212c1"
->  SRC_URI[sha256sum] =3D "593f77f7584704bdf9de41598a084a4208c3ad3b940a1de1=
-faaf8f59a15cc207"
-> @@ -40,6 +41,14 @@ SRC_URI[sha256sum] =3D "593f77f7584704bdf9de41598a084a=
-4208c3ad3b940a1de1faaf8f59a1
->  EXTRA_OECONF =3D "--without-x --with-system-libtiff --without-jbig2dec -=
--without-jasper \
->                  --with-fontpath=3D${datadir}/fonts --with-install-cups -=
--without-libidn"
-> =20
-> +# Explicity disable libtiff, fontconfig,
-> +# freetype, cups for ghostscript-native
-> +EXTRA_OECONF_class-native =3D "--without-x --with-system-libtiff=3Dno \
-> +                             --without-jbig2dec --without-jasper \
-> +                             --with-fontpath=3D${datadir}/fonts \
-> +                             --without-libidn --disable-fontconfig \
-> +                             --disable-freetype --disable-cups"
-> +
->  # This has been fixed upstream but for now we need to subvert the check =
-for time.h
->  # http://bugs.ghostscript.com/show_bug.cgi?id=3D692443
->  # http://bugs.ghostscript.com/show_bug.cgi?id=3D692426
-> --=20
-> 1.7.10.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---4bRzO86E/ozDv8r1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDK7OUACgkQN1Ujt2V2gBzSuQCdHpQ6+4Yt466t9+htlTD0Aan8
-eNIAnAt/bli8T50mQhmsE0Truevv/7mq
-=jJAa
------END PGP SIGNATURE-----
-
---4bRzO86E/ozDv8r1--
