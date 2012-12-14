@@ -1,39 +1,30 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-oa0-f47.google.com ([209.85.219.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TjYXw-0001y2-1W
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1TjYYn-000221-2t
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 17:55:36 +0100
-Received: from mail-ob0-f197.google.com ([209.85.214.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 08:40:58 -0800
-Received: by mail-ob0-f197.google.com with SMTP id v19so15010443obq.0
+	Fri, 14 Dec 2012 17:56:31 +0100
+Received: by mail-oa0-f47.google.com with SMTP id h1so3661668oag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 08:40:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=0mVNk2yjo7VTbHckB45BMK513b6+botO4ZjvphUd9io=;
-	b=E8wFr2D0l+XxBZyAngId+62gBC4/g/0nI0J8Jf3JDBcZR3OPeLjgTSDLfYYljnOjzP
-	E5DtR+9rKpFTMmxHZ4cvmf5kckZcJZijWnaX4JghI033Hr7YCxzl9/nAOG/MuIv0Dp01
-	hD+bb+kqtOp/m5A3iRJ99S3Yn6BbugDDcnBilzSdzsB+pPxvDHKeyjXFejMPGzow5bos
-	4i06IbG3+gyV26wwl5eUeIL/t0me5ngoAi8SoOjyJlIITqrIP6LrtsxTNbeoEPM8tVxQ
-	N4eYxzfpG0DICOxua7TrHJIHVo4phLaD69J5Xmh6Ign1I+SOVOvlDHq2oX3Blhl3S54L
-	DHcQ==
-Received: by 10.60.4.165 with SMTP id l5mr5166129oel.84.1355503257369;
-	Fri, 14 Dec 2012 08:40:57 -0800 (PST)
-Received: by 10.60.4.165 with SMTP id l5mr5166123oel.84.1355503257253; Fri, 14
-	Dec 2012 08:40:57 -0800 (PST)
+	Fri, 14 Dec 2012 08:41:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=QEeKPeisZdNg9KAVX32qwWGfOoFfYkNb5ejx/bNTODU=;
+	b=McCqrxo8Ogaijv9n8tp3ro+NdU/ncq3t0abNDmAwrxjyFVruZotG+ydJ2tcui2+9Gl
+	uYlp6sxoruD4zps+Xreccy0ElFz4sXZQlabQMi4rTmNZpKXqOmLTmg/EJoj5OoUsvtWk
+	FBddv2veo5HEng4m5cfm5AWychbylylHHeEeXBvkbDqluMFcIavMF0KQRay2rsuWqHam
+	o7nnrzbyBuYiJ6bPCIKetXWMdyLIH+ydJIhP9Q9x9rkB26frB/Y7x9/hDLIjU4M5r1Vu
+	Gy4fTBbcf8NNu64U9yAbBRUNAyQs53DfQ+0nKbfVQKABxivjuS3x/hTgCby/xZo5xder
+	k+Ag==
 MIME-Version: 1.0
-Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 08:40:37 -0800 (PST)
-In-Reply-To: <50CB55C3.2070409@mlbassoc.com>
-References: <50CB4B04.2080202@mlbassoc.com> <50CB55C3.2070409@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Dec 2012 16:40:37 +0000
-Message-ID: <CAJTo0LY+E06ZHUL5awbtS6bET2WMS7s0NoHrd73ReTe5jZnAuw@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-X-Gm-Message-State: ALoCoQlLzADyr49+dzY9WyqAVerWEffUBd/JxCNpcKSI/85spXoIz3h885tReyWf8JfPA9QD0xg68f3T/PTE8tvwyut7WizaMULLVaO41CFqS8Um+9oDSFF7LIkf3/SBGwIij299nqnMo6QoE86HnEHU80u6rvQatDJKYKP1B5GrW75CS+SYKGNREepO8d3DygdcGvyrDMqV
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: libsoup and gnutls
+Received: by 10.60.169.177 with SMTP id af17mr4941798oec.103.1355503312196;
+	Fri, 14 Dec 2012 08:41:52 -0800 (PST)
+Received: by 10.60.8.39 with HTTP; Fri, 14 Dec 2012 08:41:52 -0800 (PST)
+Date: Fri, 14 Dec 2012 17:41:52 +0100
+Message-ID: <CAOHjBZvW_wovoRDXuk=sbc-sgf64zLjsZYwDv+1UnXgkrLE_Nw@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: gcc-4.7.inc wrong FILESPATH setting?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,16 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 16:55:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 14 Dec 2012 16:56:31 -0000
+Content-Type: multipart/alternative; boundary=bcaec517a6ba6a53ed04d0d2b520
 
-On 14 December 2012 16:37, Gary Thomas <gary@mlbassoc.com> wrote:
-> Solution: install glib-networking
->
-> Perhaps this should be in RRECOMMENDS for libsoup?
+--bcaec517a6ba6a53ed04d0d2b520
+Content-Type: text/plain; charset=ISO-8859-1
 
-Yes.  Patch hitting the list shortly.
+Hi All,
 
-Ross
+I've seen that, in the given .inc file, the FILESPATH is statically set to
 
+FILESPATH = "${FILE_DIRNAME}/gcc-4.7"
 
+This seems to avoid any FILESEXTRAPATHS_prepend usage on append file.
+I need to add further patches for gcc-4.7.2 in my own meta layer but if I
+set the FILESEXTRAPATHS_prepend as usual
+nothing happens, sources are taken only from the directory set by FILESPATH.
+Also I saw this setting was different in the past
+FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
+
+Comments are welcome.
+Cheers,
+Giuseppe
+
+--bcaec517a6ba6a53ed04d0d2b520
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi All,</div><div>=A0</div><div>I&#39;ve seen that, in the given .inc =
+file, the FILESPATH is statically set to</div><div>=A0</div><div>FILESPATH =
+=3D &quot;${FILE_DIRNAME}/gcc-4.7&quot;</div><div>=A0</div><div>This seems =
+to avoid any FILESEXTRAPATHS_prepend usage on append file.</div>
+<div>I need to add further patches for gcc-4.7.2 in my own meta layer but i=
+f I set the FILESEXTRAPATHS_prepend as usual</div><div>nothing happens, sou=
+rces are taken only from the directory set by FILESPATH.</div><div>Also I s=
+aw this setting was different in the past<br>
+</div><div>FILESPATH =3D &quot;<a href=3D"mailto:${@base_set_filespath">${@=
+base_set_filespath</a>([ &#39;${FILE_DIRNAME}/gcc-4.7&#39; ], d)}&quot;</di=
+v><div>=A0</div><div>Comments are welcome.</div><div>Cheers,</div><div>Gius=
+eppe</div>
+
+--bcaec517a6ba6a53ed04d0d2b520--
