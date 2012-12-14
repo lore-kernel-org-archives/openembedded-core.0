@@ -1,25 +1,21 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TjNZi-00087J-W0
+	(envelope-from <tom.zanussi@intel.com>) id 1TjO1n-0004HA-Cg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 06:12:48 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Dec 2012 20:58:05 -0800
+	Fri, 14 Dec 2012 06:41:45 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Dec 2012 21:27:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,277,1355126400"; d="scan'208";a="180760590"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.3])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Dec 2012 20:58:03 -0800
-Message-ID: <50CAB1DB.3080001@linux.intel.com>
-Date: Thu, 13 Dec 2012 20:58:03 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <1355448493-18006-1-git-send-email-cazfi74@gmail.com>
-In-Reply-To: <1355448493-18006-1-git-send-email-cazfi74@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gdb: update to upstream version 7.5.1
+X-IronPort-AV: E=Sophos;i="4.84,277,1355126400"; d="scan'208";a="231415058"
+Received: from unknown (HELO localhost) ([10.255.13.223])
+	by azsmga001.ch.intel.com with ESMTP; 13 Dec 2012 21:27:05 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org,
+	bruce.ashfield@windriver.com
+Date: Thu, 13 Dec 2012 23:27:05 -0600
+Message-Id: <cover.1355462107.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] Fix for build lttng-modules build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,117 +28,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 05:12:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Dec 2012 05:41:46 -0000
 
-On 12/13/2012 05:28 PM, Marko Lindqvist wrote:
-> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> ---
->   meta/recipes-devtools/gdb/gdb-common.inc           |    4 ++--
->   ...canadian_7.5.bb => gdb-cross-canadian_7.5.1.bb} |    0
->   .../gdb/{gdb-cross_7.5.bb => gdb-cross_7.5.1.bb}   |    0
->   .../gdb/{gdb_7.5.bb => gdb_7.5.1.bb}               |    0
->   meta/recipes-multimedia/libpng/libpng_1.2.50.bb    |   23 -------------------
->   meta/recipes-multimedia/libpng/libpng_1.5.13.bb    |   24 ++++++++++++++++++++
->   6 files changed, 26 insertions(+), 25 deletions(-)
->   rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.5.bb => gdb-cross-canadian_7.5.1.bb} (100%)
->   rename meta/recipes-devtools/gdb/{gdb-cross_7.5.bb => gdb-cross_7.5.1.bb} (100%)
->   rename meta/recipes-devtools/gdb/{gdb_7.5.bb => gdb_7.5.1.bb} (100%)
->   delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.2.50.bb
->   create mode 100644 meta/recipes-multimedia/libpng/libpng_1.5.13.bb
->
-This patch includes libpng also, please seperate them out.
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Thanks
-	Sau!
+This is an untested patch for a build error seen on the Yocto autobuilder.
+I'm unable to reproduce the problem locally, so can't say whether it
+actually fixes the problem or not - hoping it can be tested under mut
+first to see if it works.
 
-> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-> index ea4098c..9eb6b60 100644
-> --- a/meta/recipes-devtools/gdb/gdb-common.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
-> @@ -22,8 +22,8 @@ inherit autotools
->
->   SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.gz \
->             "
-> -SRC_URI[md5sum] = "c9f5ed81008194f8f667f131234f3ef0"
-> -SRC_URI[sha256sum] = "8dcf38dd04f7f031b51d0672050d6b14626302ddc24d74e486b4666335de2df3"
-> +SRC_URI[md5sum] = "b1519bf899890d21d4774845a6e602fe"
-> +SRC_URI[sha256sum] = "f99f26e2c1127f12ba14ece0947a9a9948be45e96b69ef363131e469a698636e"
->
->   export CC_FOR_BUILD = "${BUILD_CC}"
->   export CXX_FOR_BUILD = "${BUILD_CXX}"
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.5.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.5.bb b/meta/recipes-devtools/gdb/gdb-cross_7.5.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb-cross_7.5.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross_7.5.1.bb
-> diff --git a/meta/recipes-devtools/gdb/gdb_7.5.bb b/meta/recipes-devtools/gdb/gdb_7.5.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/gdb/gdb_7.5.bb
-> rename to meta/recipes-devtools/gdb/gdb_7.5.1.bb
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.50.bb b/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-> deleted file mode 100644
-> index 7015538..0000000
-> --- a/meta/recipes-multimedia/libpng/libpng_1.2.50.bb
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -SUMMARY = "PNG Library"
-> -DESCRIPTION = "PNG Library"
-> -HOMEPAGE = "http://www.libpng.org/"
-> -SECTION = "libs"
-> -LICENSE = "Libpng"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=c3d807a85c09ebdff087f18b4969ff96 \
-> -                    file://png.h;beginline=310;endline=424;md5=b87b5e9252a3e14808a27b92912d268d"
-> -DEPENDS = "zlib"
-> -PR = "r0"
-> -
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.xz"
-> -
-> -SRC_URI[md5sum] = "a3e00fccbfe356174ab515b5c00641c7"
-> -SRC_URI[sha256sum] = "4724f81f8c92ac7f360ad1fbf173396ea7c535923424db9fbaff07bfd9d8e8e7"
-> -
-> -inherit autotools binconfig pkgconfig
-> -
-> -PACKAGES =+ "${PN}12"
-> -
-> -FILES_${PN}12 = "${libdir}/libpng12${SOLIBS}"
-> -RPROVIDES_${PN}-dev += "${PN}12-dev"
-> -
-> -BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.5.13.bb b/meta/recipes-multimedia/libpng/libpng_1.5.13.bb
-> new file mode 100644
-> index 0000000..28220ad
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.5.13.bb
-> @@ -0,0 +1,24 @@
-> +SUMMARY = "PNG Library"
-> +DESCRIPTION = "PNG Library"
-> +HOMEPAGE = "http://www.libpng.org/"
-> +SECTION = "libs"
-> +LICENSE = "Libpng"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=00b5b35853278d508806c2e5860e82cb \
-> +                    file://png.h;beginline=207;endline=321;md5=50e583fb60bb36f37ab5023b2a3715d1"
-> +DEPENDS = "zlib"
-> +PR = "r0"
-> +LIBV = "15"
-> +
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz"
-> +
-> +SRC_URI[md5sum] = "0b607a685da977f1bfc96e1c47055183"
-> +SRC_URI[sha256sum] = "b843f9cb01d10ae22acd9aaf58aceaa4a6aeb9cf78943b41588004b271257aee"
-> +
-> +inherit autotools binconfig pkgconfig
-> +
-> +PACKAGES =+ "${PN}${LIBV}"
-> +
-> +FILES_${PN}${LIBV} = "${libdir}/libpng${LIBV}${SOLIBS}"
-> +RPROVIDES_${PN}-dev += "${PN}${LIBV}-dev"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
->
+Basically the problem is that do_make_scripts with lttng-modules fails
+because it can't cd into the workdir:
+
+/srv/home/pokybuild/yocto-autobuilder/yocto-slave/cedartrail/build/build/tmp/work/cedartrail-poky-linux/lttng-modules/2.0.5-r0/temp/run.do_make_scripts.27949: line 113: cd: /srv/home/pokybuild/yocto-autobuilder/yocto-slave/cedartrail/build/build/tmp/work/cedartrail-poky-linux/lttng-modules/2.0.5-r0/git: No such file or directory
+
+Looking at the build I see that that directory is actually there, but
+it obviously wasn't when do_make_scripts() was run.  So apparently
+we have a race and in the failed case the unpack happened after
+do_make_scripts() instead of before as expected.  So the patch makes
+sure that doesn't happen
+
+The following changes since commit da598d4f0fcf6faa62055084a51d70d735399d33:
+
+  eglibc: fix checksums of fetched patches (2012-12-13 18:02:21 +0000)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/module-do-make-scripts-fix
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/module-do-make-scripts-fix
+
+Tom Zanussi (1):
+  module.bbclass: make sure do_make_scripts() executes after do_patch()
+
+ meta/classes/module.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+-- 
+1.7.4.1
+
 
 
