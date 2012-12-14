@@ -1,25 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1TjeZV-0003DA-UC
+	(envelope-from <sgw@linux.intel.com>) id 1TjepO-0003Nu-LM
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Dec 2012 00:21:38 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Dec 2012 15:06:58 -0800
+	Sat, 15 Dec 2012 00:38:03 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Dec 2012 15:22:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,284,1355126400"; d="scan'208";a="264241787"
-Received: from unknown (HELO localhost) ([10.255.13.198])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2012 15:06:58 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	scott.a.garman@intel.com
-Date: Fri, 14 Dec 2012 15:06:54 -0800
-Message-Id: <d86ad486f3435c58c5c89128f333ba4447dff78f.1355526236.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1355526236.git.dvhart@linux.intel.com>
-References: <cover.1355526236.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1355526236.git.dvhart@linux.intel.com>
-References: <cover.1355526236.git.dvhart@linux.intel.com>
-Subject: [PATCH 1/1] bootimg: Use FAT 32 for images larger than 512MB
+X-IronPort-AV: E=Sophos;i="4.84,285,1355126400"; d="scan'208";a="234328783"
+Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com) ([10.255.14.3])
+	by orsmga001.jf.intel.com with ESMTP; 14 Dec 2012 15:23:24 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Dec 2012 15:23:23 -0800
+Message-Id: <cover.1355527172.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.1
+Subject: [CONSOLIDATED PULL 00/32] SMART, CVEs and fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,83 +27,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 23:21:38 -0000
+X-List-Received-Date: Fri, 14 Dec 2012 23:38:03 -0000
 
-Fixes [YOCTO #2138]
+Richard,
 
-Commit 217584211625b1c496fe5b78aa4765ccf605d2b9 dropped the forced use
-of FAT32 for the hddimg generation as it broke with very small images
-(< 32MB). Unfortunately, left to its own devices, mkdosfs appears to select
-FAT16 even for very large images, resulting in 2.2GB images being
-generated as FAT16:
+Finally got a clean set of changes with the SMART set, this also
+includes Martin's gettext-minimal change which may requires some
+to need to do a cleansstate on gettext-native and gettext-minimal-native
 
-$ ls -lah core-image-lsb-sdk-atom-pc-20121010233936.hddimg
--rw-rw-r-- 1 dvhart dvhart 2.2G 2012-10-17 08:00 core-image-lsb-sdk-atom-pc-20121010233936.hddimg
+If you get strange failures with the remove_potcdate.sin patch then
+you need to do the cleansstate per Martin's email.
 
-$ file !$
-file core-image-lsb-sdk-atom-pc-20121010233936.hddimg
-core-image-lsb-sdk-atom-pc-20121010233936.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 128, root entries 512, Media descriptor 0xf8, sectors/FAT 138, heads 64, sectors 4502496 (volumes > 32 MB) , serial number 0x50761926, label: "boot       ", FAT (16 bit)
+Sau!
 
-The result was a runtime boot error from SYSLINUX and a failure to boot
-live images greater than 1GB in size.
+The following changes since commit ad79360c1d992830d4f0e06a3bbf0622658c0540:
 
-While strictly speaking it is the cluster count that determines which
-FAT size is used, that calculation requires more information than we
-have readily available (such as sectors per cluster). If we let mkdosfs
-determine sectors per cluster and just set a sane threshold above which
-FAT32 is used, we get correct bootable images. With this patch the 2.2GB
-core-image-lsb-sdk uses FAT32 and the 21 MB core-image-minimal uses
-FAT16, and both boot in qemu successfully:
+  populate_sdk_base: Add perl modules as needing to be relocated (2012-12-14 17:30:41 +0000)
 
-$ ls -lah tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
--rw-r--r-- 1 dvhart dvhart 2.2G 2012-12-12 14:18 tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
+are available in the git repository at:
 
-$ file !$
-file tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
-tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 8, Media descriptor 0xf8, heads 64, sectors 4470304 (volumes > 32 MB) , FAT (32 bit), sectors/FAT 4357, reserved3 0x800000, serial number 0x50c902b7, label: "boot       "
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-$ ls -lah tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
--rw-r--r-- 1 dvhart dvhart 21M 2012-12-12 14:06 tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
+Anders Darander (1):
+  linux-firmware: split out ralink drivers
 
-$ file !$
-file tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
-tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 4, root entries 512, sectors 41408 (volumes <=32 MB) , Media descriptor 0xf8, sectors/FAT 41, heads 64, serial number 0x50c8ffec, label: "boot       ", FAT (16 bit)
+Fahad Usman (3):
+  perf: kill -Werror
+  perf: pass CFLAGS and LDFLAGS
+  iperf: pass in target path vars
 
-I have tested and booted core-image-minimal and core-image-lsb-sdk for
-atom-pc with qemu-system-i386 using this patch.
+Hongxu Jia (3):
+  mkelfimage-native:make failed if libz not in host
+  native tools set packagegroup
+  ghostscript-native:fix host underlinking issues
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Steve Sakoman <steve@sakoman.com>
-Cc: Joshua Immanuel <josh@hipro.co.in>
-Cc: Przemek Czesnowicz <przemyslawx.czesnowicz@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/bootimg.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Kang Kai (1):
+  newt: enable python support
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 11a29cd..83c8ac4 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -163,8 +163,15 @@ build_hddimg() {
- 		# done in blocks, thus the mod by 16 instead of 32.
- 		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
- 
-+		# mkdosfs will sometimes use FAT16 when it is not appropriate,
-+		# resulting in a boot failure from SYSLINUX. Use FAT32 for
-+		# images larger than 512MB, otherwise let mkdosfs decide.
-+		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
-+			FATSIZE="-F 32"
-+		fi
-+
- 		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--		mkdosfs -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
-+		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
- 		# Copy HDDDIR recursively into the image file directly
- 		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
- 
+Li Wang (5):
+  cups: CVE-2012-5519
+  libxml2 CVE-2012-2871
+  librsvg: CVE-2011-3146
+  cups - CVE-2011-2896
+  cups CVE-2011-3170
+
+Lukas Bulwahn (1):
+  distutils: Replacing path to native python by path to python in the
+    image to support python packages with console-script setup
+
+Mark Hatle (8):
+  package_rpm: Update the way the multilib package names are translated
+  package_rpm.bbclass: Fix the way the RPM platform file is generated
+  package_rpm.bbclass: Add additional logging
+  package_rpm.bbclass: Add support for incremental installs
+  package_rpm.bbclass: Add additional install error detection
+  rpm/smart: Fix runtime-relocation issues w/ RPM and Smart
+  package_rpm.bbclass: Add a simply way to enable RPM debugging
+  package_rpm: Workaround for 'all' arch multilib package naming
+
+Marko Lindqvist (1):
+  xserver-xorg: add libgcrypt dependency
+
+Martin Jansa (2):
+  gettext: move remove-potcdate.sin from gettext-native to
+    gettext-minimal-native
+  autotools: copy also remove-potcdate.sin from
+    ${STAGING_DATADIR_NATIVE}/gettext/po
+
+Paul Eggleton (3):
+  classes/*_rpm: integrate Smart into RPM filesystem construction
+  classes/rootfs_rpm: install smart instead of zypper in rpm-based
+    images
+  Update sanity tests to use smart instead of zypper
+
+Richard Purdie (1):
+  lib/oe/patch: Use force option when creating symlinks to patches
+
+Ross Burton (1):
+  mesa: remove dependency on mesa-dri in mesa-dri-dev
+
+Trevor Woerner (1):
+  runqemu: add support for FSTYPE=vmdk
+
+yanjun.zhu (1):
+  squashfs: fix CVE-2012-4025
+
+ meta/classes/autotools.bbclass                     |    3 +
+ meta/classes/distutils.bbclass                     |    2 +
+ meta/classes/imagetest-qemu.bbclass                |    6 +-
+ meta/classes/package_rpm.bbclass                   |  739 +++--
+ meta/classes/populate_sdk_rpm.bbclass              |   79 +-
+ meta/classes/rootfs_rpm.bbclass                    |   87 +-
+ meta/lib/oe/patch.py                               |    2 +-
+ .../gettext-minimal-0.18.1.1/remove-potcdate.sin   |   19 +
+ .../gettext/gettext-minimal-native_0.18.1.1.bb     |    4 +-
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    3 +-
+ .../libxml/libxml2/libxml2-CVE-2012-2871.patch     |   34 +
+ meta/recipes-core/libxml/libxml2_2.9.0.bb          |    5 +-
+ .../mkelfimage/fix-makefile-to-find-libz.patch     |   30 +
+ meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb |    3 +-
+ .../python/python-smartpm_1.4.1.bb                 |   17 +-
+ .../rpm/rpm/rpm-debug-platform.patch               |   65 +
+ meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |    2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |   87 +-
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   41 +-
+ .../patches/squashfs-4.2-fix-CVE-2012-4025.patch   |  190 ++
+ ...dd-a-commment-and-fix-some-other-comments.patch |   38 +
+ .../patches/squashfs-fix-open-file-limit.patch     |  215 ++
+ .../squashfs-tools/squashfs-tools_4.2.bb           |    5 +-
+ .../cups/cups-1.4.6/cups-CVE-2011-2896.patch       |  140 +
+ .../cups/cups-1.4.6/cups-CVE-2011-3170.patch       |   54 +
+ .../cups/cups-1.4.6/cups-CVE-2012-5519.patch       | 2965 ++++++++++++++++++++
+ meta/recipes-extended/cups/cups_1.4.6.bb           |    5 +-
+ ...tscript-native-fix-disable-system-libtiff.patch |   51 +
+ .../ghostscript/ghostscript_9.05.bb                |   15 +-
+ .../newt/files/fix_python_fpic.patch               |   24 +
+ meta/recipes-extended/newt/libnewt_0.52.14.bb      |   24 +-
+ .../librsvg-2.32.1/librsvg-CVE-2011-3146.patch     | 1088 +++++++
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    6 +-
+ .../packagegroups/packagegroup-toolset-native.bb   |  236 ++
+ meta/recipes-graphics/mesa/mesa-common.inc         |    8 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
+ .../linux-firmware/linux-firmware_git.bb           |   10 +-
+ meta/recipes-kernel/perf/perf_3.4.bb               |   25 +-
+ .../sanity/{zypper_help => smart_help}             |   24 +-
+ .../sanity/{zypper_search => smart_query}          |   24 +-
+ .../scenario/qemuarm/core-image-lsb                |    4 +-
+ .../scenario/qemuarm/core-image-sato               |    4 +-
+ .../scenario/qemuarm/core-image-sato-sdk           |    4 +-
+ .../scenario/qemumips/core-image-lsb               |    4 +-
+ .../scenario/qemumips/core-image-sato              |    4 +-
+ .../scenario/qemumips/core-image-sato-sdk          |    4 +-
+ .../scenario/qemuppc/core-image-lsb                |    4 +-
+ .../scenario/qemuppc/core-image-sato               |    4 +-
+ .../scenario/qemuppc/core-image-sato-sdk           |    4 +-
+ .../scenario/qemux86-64/core-image-lsb             |    4 +-
+ .../scenario/qemux86-64/core-image-sato            |    4 +-
+ .../scenario/qemux86-64/core-image-sato-sdk        |    4 +-
+ .../scenario/qemux86/core-image-lsb                |    4 +-
+ .../scenario/qemux86/core-image-sato               |    4 +-
+ .../scenario/qemux86/core-image-sato-sdk           |    4 +-
+ .../tools/{zypper_test.sh => smart_test.sh}        |   22 +-
+ scripts/runqemu                                    |   39 +-
+ scripts/runqemu-internal                           |   20 +-
+ 58 files changed, 5856 insertions(+), 662 deletions(-)
+ create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.1.1/remove-potcdate.sin
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch
+ create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage/fix-makefile-to-find-libz.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-debug-platform.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
+ create mode 100644 meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2011-2896.patch
+ create mode 100644 meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2011-3170.patch
+ create mode 100644 meta/recipes-extended/cups/cups-1.4.6/cups-CVE-2012-5519.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/ghostscript-native-fix-disable-system-libtiff.patch
+ create mode 100644 meta/recipes-extended/newt/files/fix_python_fpic.patch
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg-2.32.1/librsvg-CVE-2011-3146.patch
+ create mode 100644 meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+ rename scripts/qemuimage-tests/sanity/{zypper_help => smart_help} (52%)
+ rename scripts/qemuimage-tests/sanity/{zypper_search => smart_query} (50%)
+ rename scripts/qemuimage-tests/tools/{zypper_test.sh => smart_test.sh} (46%)
+
 -- 
-1.7.11.7
+1.8.0.1
 
 
 
