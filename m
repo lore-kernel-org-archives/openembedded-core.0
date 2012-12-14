@@ -1,29 +1,39 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kirgene@gmail.com>) id 1TjVIE-0005kg-Ou
+	(envelope-from <ross.burton@intel.com>) id 1TjVyH-0007Xr-P6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Dec 2012 14:27:12 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so5652645ieb.6
+	Fri, 14 Dec 2012 15:10:38 +0100
+Received: from mail-oa0-f69.google.com ([209.85.219.69])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Dec 2012 05:55:10 -0800
+Received: by mail-oa0-f69.google.com with SMTP id j6so14399810oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 05:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=N9ePrlnCNZl/N3kC/7i9WhDfM3cig5/0Lqk3HMsIzWc=;
-	b=xDMxTRfsFjty+Wh0BlyPr46rvHcguhqH8BplwNKh4TdIpdAbt1eMzPRmIp8WJRCy+L
-	GhgL9P+84XQLYt/NbzRT+ZHS7xx7kNQvLqXJJ/nWYpFKvSplJyciGxttjp/JIOPXpNBm
-	0nl87vb7UFd+d2Teqydxap7OT9J4jKthVeofnPOIdOXiQCjlysj9fCAB62znDRhYgNCa
-	615HT3EA59gGvwufgz2PQW/z03Bxv4bLRKjHxbebTVd3kp5M19XFobTBPPIf+g4yTjMc
-	xrn945VwSAQKmvFo4SZrTG1q+fxNSjT1TPZJt43eY4XFvBzD5NELOBZvfg1Bq+z2wmGL
-	uxyQ==
+	Fri, 14 Dec 2012 05:55:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=/48ogmAVCwsvBlI9B8qw9YEw3KFGTtRpMfceXeTv/IU=;
+	b=D4R+8zRs/SToRA1ot1b7WVFiA14RvMW98bvucbc4S2669SmK02E12nFZncokRibC/n
+	ryJyeSIxTwk0B1dSPbh75ziqOKKusXnmA3ErOY3QulZ91C75W3h8tPlieFtFJZh+0HtN
+	fh7rN9uMj1GNRyP4DJdAIcjdeT6qwHNwoXmd8KMP2roJFP7Ovgmavdr9yhM93LbfuA0G
+	YOBFyWrCHbT6kftP5JT/SGBL8g9JHVgMM30LZDoHxm61j1rp1NcgcP9Kpk3BWyL9Ol9G
+	EoodBJaYBxNrGMCiNVIixUBQQ+S4t0e2MrTxQfNB4Fh95hyhHa93lnOcHYa2SKVuzumW
+	kvgg==
+Received: by 10.60.12.99 with SMTP id x3mr4766705oeb.71.1355493359673;
+	Fri, 14 Dec 2012 05:55:59 -0800 (PST)
+Received: by 10.60.12.99 with SMTP id x3mr4766698oeb.71.1355493359600; Fri, 14
+	Dec 2012 05:55:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.171.101 with SMTP id at5mr1424826igc.60.1355490754053; Fri,
-	14 Dec 2012 05:12:34 -0800 (PST)
-Received: by 10.64.13.177 with HTTP; Fri, 14 Dec 2012 05:12:33 -0800 (PST)
-Date: Fri, 14 Dec 2012 15:12:33 +0200
-Message-ID: <CADV-EXFeZX3RiZZZ1zxZtLaq9bnDUBQ4cEGndecKOvtSog6xwQ@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: systemd
+Received: by 10.76.132.198 with HTTP; Fri, 14 Dec 2012 05:55:38 -0800 (PST)
+In-Reply-To: <CADV-EXFeZX3RiZZZ1zxZtLaq9bnDUBQ4cEGndecKOvtSog6xwQ@mail.gmail.com>
+References: <CADV-EXFeZX3RiZZZ1zxZtLaq9bnDUBQ4cEGndecKOvtSog6xwQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Dec 2012 13:55:38 +0000
+Message-ID: <CAJTo0LZnqnDgeVUOKxWaxjt+Hp_ptdr_Z3AM66vi4WpK5oFe4w@mail.gmail.com>
+To: Yevhen Kyriukha <kirgene@gmail.com>
+X-Gm-Message-State: ALoCoQnfiZ2VbHTv5eUfqI3H0GLCS/cp24FfodbwMVjZbtSQFAXeYqO2yAbsxt6+gutoW1K2QinebkGwJ9VEeYRcaM+4luVpAgYpC7IPoNyAXlPmnY5f5tTNlsc0CRQpMzbnCRxepI3UfG86ZiiqajfqHOt6uVLIaKlVrhRa1cpmsOidh9ltIPwr6Sa5x9jK+60if5/HSI1l
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,24 +46,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Dec 2012 13:27:13 -0000
-Content-Type: multipart/alternative; boundary=e89a8f235435e4456504d0cfc83a
+X-List-Received-Date: Fri, 14 Dec 2012 14:10:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
---e89a8f235435e4456504d0cfc83a
-Content-Type: text/plain; charset=ISO-8859-1
+On 14 December 2012 13:12, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+> Is there any way to use systemd for starting system services in yocto v1.3?
 
-Hi!
+Use meta-systemd from meta-openembedded.
 
-Is there any way to use systemd for starting system services in yocto v1.3?
+Ross
 
--- 
-Best regards,
-Yevhen
 
---e89a8f235435e4456504d0cfc83a
-Content-Type: text/html; charset=ISO-8859-1
-
-Hi!<div><br></div><div>Is there any way to use systemd for starting system services in yocto v1.3?<br clear="all"><div><br></div>-- <br>Best regards,<br>Yevhen<br>
-</div>
-
---e89a8f235435e4456504d0cfc83a--
