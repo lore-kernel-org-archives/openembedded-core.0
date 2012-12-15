@@ -1,35 +1,37 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tjpl3-0001f9-HM
+	(envelope-from <otavio.salvador@gmail.com>) id 1TjuN3-0007T3-Ox
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Dec 2012 12:18:20 +0100
-Received: by mail-bk0-f47.google.com with SMTP id j4so1978709bkw.6
+	Sat, 15 Dec 2012 17:13:51 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so2721176pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Dec 2012 03:03:40 -0800 (PST)
+	Sat, 15 Dec 2012 07:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=BqXgCgdb85WP6l9mTG1RKEryN6/YXuR7qOVMVfTeU4c=;
-	b=WoJanaZm3gpqPOOakEhfdgsfa7GsP72r7XxCWfEGec6k17SaMsxupVdxjx0ruiTdK0
-	j9FmxD34wP0LZWd/QQoEdP1fM/KTvIMF1XcJodxSHwiMEmmykKUfv75OLxlc7SSVnhbB
-	wA86L+N0R3fKrZtXEKUhEe4WmalUztIpnDvaCOBMqaqSWJVVyflmIZrM4CJF99Vv8bHb
-	UwNsPv0UGSBXsRK8DWmIBzIhBUR5BGmyg8OGiNiMSCOsK3tE++ankBvn2Yw0vxHZta8d
-	Jqw08y4wyiea14xEN6wyiKsts1TEeqXYKz3zwB/E5nfRq4y/8Urc7YA5lQfn7ONNAdH9
-	7AzQ==
-Received: by 10.204.11.78 with SMTP id s14mr3843047bks.118.1355569420080;
-	Sat, 15 Dec 2012 03:03:40 -0800 (PST)
-Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
-	by mx.google.com with ESMTPS id e22sm6171674bke.14.2012.12.15.03.03.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 15 Dec 2012 03:03:39 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TjpWr-0001Ac-C9; Sat, 15 Dec 2012 13:03:37 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Dec 2012 13:03:36 +0200
-Message-Id: <1355569416-4468-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] pixman: update to upstream version 0.28.2
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=ri4vMGmCq15HWNDVV3us7rRuf/ydogRDfRWSxJv6/NQ=;
+	b=kXDNZfK0Chk+1JqF/Z1ZSpJj/Rw2PM87u4RrYUo0FwqP3mym5NZU5vlxOGJjGL9SCW
+	bO+mcpFgLPVLqHRKQ5xgQv1RrXwojcxMUwZpdSsfr+l1DtqmekR3Lh5jorBaFv2Nj3RO
+	P/EM2GSh35D5/4pfF+5BbZf1LVEwz4ok2kvuQqc0GrLob5gr0TLbQetZ4Zl3rUSJ0Aly
+	h+bQLGuJrQ69e+l29oSsllPOITeKjCKBXXrok2ML2kL3P0/fvnT56lW2eEPmuXB28n40
+	EAjT2loPKEM00bvRB8i4XgBWyI/QqBeI7hDz3TG3bDqgz6yyZAtDcQY3l0J+U3amDmsW
+	phMA==
+MIME-Version: 1.0
+Received: by 10.68.189.8 with SMTP id ge8mr26679362pbc.24.1355587151063; Sat,
+	15 Dec 2012 07:59:11 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.51.193 with HTTP; Sat, 15 Dec 2012 07:59:11 -0800 (PST)
+In-Reply-To: <20121215003045.3891e66a@eb-e6520>
+References: <20121215003045.3891e66a@eb-e6520>
+Date: Sat, 15 Dec 2012 13:59:11 -0200
+X-Google-Sender-Auth: UWShT999iS9h6kFlS0uTYjOjihY
+Message-ID: <CAP9ODKocUdSZOc_B9m9iLT-WPTHP94e2ckzUZOyosXgetnvy5w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Acceptance criteria of barebox bootloader in OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Dec 2012 11:18:21 -0000
+X-List-Received-Date: Sat, 15 Dec 2012 16:13:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../xorg-lib/{pixman_0.28.0.bb => pixman_0.28.2.bb}               |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{pixman_0.28.0.bb => pixman_0.28.2.bb} (89%)
+On Fri, Dec 14, 2012 at 9:30 PM, Eric B=E9nard <eric@eukrea.com> wrote:
+> Hi,
+>
+> I have some recipes building barebox bootloader http://barebox.org/
+> which I'm using in custom BSP and in meta-fsl-arm :
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-fsl-arm/tree/recipes-bsp/b=
+arebox
+>
+> This recipe needs a little bit of polish but before doing that I wanted
+> to know if it could be integrated in oe-core like is actually u-boot ?
+> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-bsp/u-bo=
+ot
+>
+> If yes, I'll provide a patch with a working barebox for at least
+> qemuarm.
+>
+> This would allow BSP to share at least the barebox.inc of oe-core/Yocto.
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.28.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb
-similarity index 89%
-rename from meta/recipes-graphics/xorg-lib/pixman_0.28.0.bb
-rename to meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb
-index a3012f9..4ec0490 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.28.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb
-@@ -32,5 +32,6 @@ SRC_URI += "\
-             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
-             file://Generic-C-implementation-of-pixman_blt-with-overlapp.patch \
- "
--SRC_URI[md5sum] = "703c3f62437b161c610056e076560570"
--SRC_URI[sha256sum] = "6056f9aa0e0578a0492e34fc2ce6dd7bfb181090ed687993c03b969c8cec4828"
-+
-+SRC_URI[md5sum] = "f6e3294c4edb7b6bca8459e604286348"
-+SRC_URI[sha256sum] = "583686afbfa5a1dfc40a21e888a3eacf31fe0e02469d20b821b5d8f719165a51"
--- 
-1.7.10.4
+I support the addition of barebox as this is a nice and popular
+bootloader; I see no problem in supporting one more alternative and
+this reduces the duplication and overlapping work.
 
+
+
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
