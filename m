@@ -1,38 +1,37 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tjlx4-0004PO-VP
+	(envelope-from <cazfi74@gmail.com>) id 1Tjpjh-0001Yx-Rt
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Dec 2012 08:14:29 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so2571482pbc.6
+	Sat, 15 Dec 2012 12:16:56 +0100
+Received: by mail-bk0-f47.google.com with SMTP id j4so1978429bkw.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 22:59:44 -0800 (PST)
+	Sat, 15 Dec 2012 03:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Mcf61TCnZnPU5/APU409dpKP+NKtshmqXkDk6ARL9gI=;
-	b=WisviNPl829aZFlatB4znOGyZbWdhdsMYPOlj4npYGgqbrAULVhRYQJeYR8Uxfa/Np
-	P0vd32NkiDt+cdepNPlJQXGMoNmo0vMLIq/uCQOM4K+VOCttvtudpY2iOeMeWjwCML+S
-	vkLtSQFLvoC9zRfOYrlDACOL54izRBMnzxBMdM3qWbPKAZpg49pGYBK4Zctm2RCcM4fJ
-	Az8K/C/OxkZmlT7sC9gktBRtX+N4ejidNmCwFYDXVqVFNCy4W081fTGNwMFODXidnZAs
-	sj7zVoXO/CvJ8FCz5Ag17KdgZzAbRiZ6LBDR/JvnMW0Xk8sQ0jKUuLBPN9n4AqmK41Rm
-	+3nQ==
-Received: by 10.66.89.9 with SMTP id bk9mr22261389pab.67.1355554784645;
-	Fri, 14 Dec 2012 22:59:44 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id rk9sm4268468pbc.24.2012.12.14.22.59.41
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=ILA9XwS/gxpnmTPh6J79ieAzgmCZtQu3raHDPYQYWhw=;
+	b=wypHtOaGnqNnetMXH01odAfcpeukvHlZyQakvET+DGz8yjUFkuWbCAc9baVEIUqs/0
+	SKpQkm3W/i/zOwF6RlPSgiTHo2S+Gn663LL93Cf2TztXA44dJxt5rYWFjofhMDt6mycA
+	SITFEIX2ALKT7lUpRuq+12JLIcj4MyXWQ2oXfPoP4sib/wTl10E1QrXECEWQ5BxpP4q9
+	PpBUKn3iVF9ahz3uqycUoegbX8X7fNsBmhieZh5uXGbBFtfcSnZ3zRLLWQcqa11N1zf/
+	883wTXNuf65Mi9kC6Gvd+JLFQ5/ZFgYxdbAgo1EA5E5tvJzYFg+dhHWmL9HwtaxFeSgS
+	QqmQ==
+Received: by 10.204.156.81 with SMTP id v17mr3775622bkw.18.1355569336383;
+	Sat, 15 Dec 2012 03:02:16 -0800 (PST)
+Received: from prime (a91-153-8-136.elisa-laajakaista.fi. [91.153.8.136])
+	by mx.google.com with ESMTPS id l17sm6159995bkw.12.2012.12.15.03.02.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 14 Dec 2012 22:59:43 -0800 (PST)
-Date: Sat, 15 Dec 2012 07:59:58 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ciprian Ciubotariu <cheepeero@gmx.net>
-Message-ID: <20121215065958.GA3113@jama.jama.net>
-References: <4610754.7ihuexEZvz@helios>
-	<1355532614-5923-1-git-send-email-cheepeero@gmx.net>
-MIME-Version: 1.0
-In-Reply-To: <1355532614-5923-1-git-send-email-cheepeero@gmx.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] packagegroup-base: use virtual runtime instead of keymap
+	Sat, 15 Dec 2012 03:02:15 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1TjpVV-00018C-3U; Sat, 15 Dec 2012 13:02:13 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Dec 2012 13:02:08 +0200
+Message-Id: <1355569328-4307-2-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1355569328-4307-1-git-send-email-cazfi74@gmail.com>
+References: <1355569328-4307-1-git-send-email-cazfi74@gmail.com>
+Subject: [PATCH] coreutils: update to upstream version 8.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,58 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Dec 2012 07:14:29 -0000
-X-Groupsio-MsgNum: 32728
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 15 Dec 2012 11:16:57 -0000
 
---45Z9DzgjV8m4Oswq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ .../coreutils/coreutils-8.14/remove-gets.patch     |   23 --------------------
+ .../coreutils-build-with-acl.patch                 |    0
+ .../remove-usr-local-lib-from-m4.patch             |    0
+ .../{coreutils_8.14.bb => coreutils_8.19.bb}       |    9 ++++----
+ 4 files changed, 4 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+ rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.19}/coreutils-build-with-acl.patch (100%)
+ rename meta/recipes-core/coreutils/{coreutils-8.14 => coreutils-8.19}/remove-usr-local-lib-from-m4.patch (100%)
+ rename meta/recipes-core/coreutils/{coreutils_8.14.bb => coreutils_8.19.bb} (92%)
 
-On Sat, Dec 15, 2012 at 02:50:14AM +0200, Ciprian Ciubotariu wrote:
-> This makes it consistent with packagegroup-core-base, and also avoids
-> unneeded dependencies towards sysvinit packages.
-> ---
->  .../packagegroups/packagegroup-base.bb             |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
-recipes-core/packagegroups/packagegroup-base.bb
-> index 347a7e1..3e75190 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> @@ -141,7 +141,7 @@ RRECOMMENDS_packagegroup-machine-base =3D "${MACHINE_=
-EXTRA_RRECOMMENDS}"
-> =20
->  SUMMARY_packagegroup-base-keyboard =3D "Keyboard support"
->  RDEPENDS_packagegroup-base-keyboard =3D "\
-> -    keymaps"
-> +    ${VIRTUAL-RUNTIME_keymaps}"
-> =20
->  SUMMARY_packagegroup-base-pci =3D "PCI bus support"
->  RDEPENDS_packagegroup-base-pci =3D "\
+diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch b/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+deleted file mode 100644
+index 4f61c92..0000000
+--- a/meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-use gets iff its defined. eglibc 2.16 removed gets
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: coreutils-8.14/lib/stdio.in.h
+-===================================================================
+---- coreutils-8.14.orig/lib/stdio.in.h	2011-09-24 04:20:48.000000000 -0700
+-+++ coreutils-8.14/lib/stdio.in.h	2012-07-03 10:36:19.886296576 -0700
+-@@ -713,11 +713,13 @@
+- _GL_CXXALIAS_SYS (gets, char *, (char *s));
+- #  undef gets
+- # endif
+-+# if defined gets
+- _GL_CXXALIASWARN (gets);
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+# endif
+- #endif
+- 
+- 
+diff --git a/meta/recipes-core/coreutils/coreutils-8.14/coreutils-build-with-acl.patch b/meta/recipes-core/coreutils/coreutils-8.19/coreutils-build-with-acl.patch
+similarity index 100%
+rename from meta/recipes-core/coreutils/coreutils-8.14/coreutils-build-with-acl.patch
+rename to meta/recipes-core/coreutils/coreutils-8.19/coreutils-build-with-acl.patch
+diff --git a/meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils-8.19/remove-usr-local-lib-from-m4.patch
+similarity index 100%
+rename from meta/recipes-core/coreutils/coreutils-8.14/remove-usr-local-lib-from-m4.patch
+rename to meta/recipes-core/coreutils/coreutils-8.19/remove-usr-local-lib-from-m4.patch
+diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.19.bb
+similarity index 92%
+rename from meta/recipes-core/coreutils/coreutils_8.14.bb
+rename to meta/recipes-core/coreutils/coreutils_8.19.bb
+index 04c9eb2..bd01704 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.14.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.19.bb
+@@ -6,8 +6,8 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;beginline=5;endline=16;md5=2e9acd8818fe6db4c2981d20ca632553"
+-PR = "r5"
++                    file://src/ls.c;beginline=4;endline=15;md5=2e9acd8818fe6db4c2981d20ca632553"
++PR = "r0"
+ DEPENDS = "gmp libcap"
+ DEPENDS_class-native = ""
+ 
+@@ -15,11 +15,10 @@ inherit autotools gettext
+ 
+ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+-           file://remove-gets.patch \
+            file://coreutils-build-with-acl.patch \
+           "
+-SRC_URI[md5sum] = "bcb135ce553493a45aba01b39eb3920a"
+-SRC_URI[sha256sum] = "0d120817c19292edb19e92ae6b8eac9020e03d51e0af9cb116cf82b65d18b02d"
++SRC_URI[md5sum] = "1a01231a2f3ed37c0efc073ccdda9375"
++SRC_URI[sha256sum] = "ad3873183fd8cfc7672b3ba54644672e59352f9b2dc7e3ad251c1174dde8a9e7"
+ 
+ EXTRA_OECONF_class-native = "--without-gmp"
+ 
+-- 
+1.7.10.4
 
-Same comment as last time:
-http://patchwork.openembedded.org/patch/40649/
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---45Z9DzgjV8m4Oswq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDMH+4ACgkQN1Ujt2V2gBzMeQCgjcT1cgves5//EbIIR78CLGfO
-sosAn1niylUz2+reL0VKRKaWVyFA+p3B
-=xxbF
------END PGP SIGNATURE-----
-
---45Z9DzgjV8m4Oswq--
