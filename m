@@ -1,35 +1,24 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1TjgZX-0005wj-PD
+	(envelope-from <Peter.Seebach@windriver.com>) id 1TjhRd-0004Bf-Pq
 	for openembedded-core@lists.openembedded.org;
-	Sat, 15 Dec 2012 02:29:48 +0100
-Received: by mail-lb0-f175.google.com with SMTP id gg13so3291196lbb.6
+	Sat, 15 Dec 2012 03:25:42 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBF2B38K010533
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Dec 2012 17:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=znHB5QI37w9iAMi4pIopMvxJKFNf+De7wOrR55MmuDk=;
-	b=PTevwwEUv2li73ihdBRWD4CwmgQAdmDMTn1z6jlcBY/be/qDw7QL6T1ZEAEzrwWsum
-	KnctCvF4nHFdHYiSx12q/HenUqBREY1CcbioS0Dj1x/DIM2IKtmJMPwRvHZB33MLcShN
-	//j+YPZEaJOAU2zpmphkWUEMkbuYTA0fyy+Q101yfzCArcfEhs0itF4J10gXmmI0o2tH
-	HkDwy/Jx+79FOVCefNIS5T25jQ7cqv4HzTB+M62gThRPHN2ulGCJLs8UOsMapF5h1FZC
-	pT6Dtw8rQ7l6bmYvGhZXUGv7UP/ZQuqBn7TxdKXOmTrcPS6O0vrAKJqzJ01LyMci6SUv
-	xwog==
+	Fri, 14 Dec 2012 18:11:03 -0800 (PST)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Fri, 14 Dec 2012 18:11:03 -0800
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Dec 2012 20:10:56 -0600
+Message-ID: <cover.1355536994.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.152.148.129 with SMTP id ts1mr4243165lab.19.1355534110634;
-	Fri, 14 Dec 2012 17:15:10 -0800 (PST)
-Received: by 10.112.127.35 with HTTP; Fri, 14 Dec 2012 17:15:10 -0800 (PST)
-In-Reply-To: <85c9d0997a3446625d74b890d722f039345b6a9e.1355475937.git.Martin.Jansa@gmail.com>
-References: <cover.1355475937.git.Martin.Jansa@gmail.com>
-	<85c9d0997a3446625d74b890d722f039345b6a9e.1355475937.git.Martin.Jansa@gmail.com>
-Date: Fri, 14 Dec 2012 20:15:10 -0500
-Message-ID: <CADkTA4Py2VRePEsx+57fU4mrqw2O6Fwhofhi5up2ax1Kahui8w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/10] kernel.bbclass: use the same versioning schema for modules.tgz and provide link to latest
+Subject: [PATCH 0/1] pseudo 1.4.2: linkat() and bitrot cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,159 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Dec 2012 01:29:50 -0000
-Content-Type: multipart/alternative; boundary=e89a8f22c7012530ea04d0d9e142
+X-List-Received-Date: Sat, 15 Dec 2012 02:25:42 -0000
+Content-Type: text/plain
 
---e89a8f22c7012530ea04d0d9e142
-Content-Type: text/plain; charset=ISO-8859-1
+The major change here is the addition of linkat(), and the change of link()
+to be written in terms of it (for consistency with othe *at() calls).
 
-On Fri, Dec 14, 2012 at 6:40 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
+I checked this out on Darwin (which hasn't got *at() functions) and picked
+off a couple little bits of bitrot.
 
-> * so it will work look KERNEL_IMAGE
-> * also we were recreating modules.tgz with every kernel build, but
->   overwritting the same output file
->
+The other change is that the WR build system turns out to have reasons to,
+in some cases, actually use a lib64 directory for things like the host
+sqlite3 library. So I cleaned up the computation of the sqlite library
+path; of course, this then broke oe-core on 64-bit hosts, but I'd anticipated
+that, and pseudo's configure can take an explicit full path to libsqlite3.a
+if it's not in a directory with the same name as $(LIB). Did that to the
+various 32-bit and 64-bit forms. Note that on 64-bit hosts, this means
+that 32-bit libpseudo (if it's being built) is being configured with the
+explicit path to our 64-bit libsqlite3.a; that's okay, because we only
+build libpseudo for the 32-bit case. Confirmed that, with NO32LIBS = 0,
+I get both 32-bit and 64-bit libpseudo.
 
-And I recall that no one ever showed a strong preference for keeping the old
-name around via a symlink. So I know that I don't have any objections to
-changing
-the naming.
+I did have build failures in perl-native when I was first testing this,
+but updating oe-core made them go away, so it was probably just my tree
+being pretty old before I started on the pull request.
 
-Cheers,
+The tarball is already on yoctoproject.org (thanks, pidge!) and I have
+verified that the build still succeeds.
 
-Bruce
+The following changes since commit ad79360c1d992830d4f0e06a3bbf0622658c0540:
+  Mark Hatle (1):
+        populate_sdk_base: Add perl modules as needing to be relocated
 
+are available in the git repository at:
 
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ee59aaf..9c70e70 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -497,6 +497,10 @@ KERNEL_IMAGE_BASE_NAME ?=
-> "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DA
->  # Don't include the DATETIME variable in the sstate package signatures
->  KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
->  KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
-> +MODULE_TARBALL_BASE_NAME ?=
-> "modules-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}.tgz"
-> +# Don't include the DATETIME variable in the sstate package signatures
-> +MODULE_TARBALL_BASE_NAME[vardepsexclude] = "DATETIME"
-> +MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
->
->  do_uboot_mkimage() {
->         if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
-> @@ -526,7 +530,8 @@ addtask uboot_mkimage before do_install after
-> do_compile
->  kernel_do_deploy() {
->         install -m 0644 ${KERNEL_OUTPUT}
-> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
->         if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> -               tar -cvzf
-> ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
-> +               tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D}
-> lib
-> +               ln -sf ${MODULE_TARBALL_BASE_NAME}.bin
-> ${MODULE_TARBALL_SYMLINK_NAME}
->         fi
->
->         cd ${DEPLOYDIR}
-> --
-> 1.8.0.2
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo_1_4_2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo_1_4_2
+
+Peter Seebach (1):
+  pseudo_git.bb and friends: Update to 1.4.2.
+
+ meta/recipes-devtools/pseudo/pseudo.inc      |    9 +++++----
+ meta/recipes-devtools/pseudo/pseudo_1.4.1.bb |    8 --------
+ meta/recipes-devtools/pseudo/pseudo_1.4.2.bb |    8 ++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
+ 4 files changed, 16 insertions(+), 15 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.2.bb
 
 
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---e89a8f22c7012530ea04d0d9e142
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Fri, D=
-ec 14, 2012 at 6:40 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;<=
-/span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">* so it will work look KERNEL_IMAGE<br>
-* also we were recreating modules.tgz with every kernel build, but<br>
-=A0 overwritting the same output file<br></blockquote><div><br></div><div>A=
-nd I recall that no one ever showed a strong preference for keeping the old=
-</div><div>name around via a symlink. So I know that I don&#39;t have any o=
-bjections to changing</div>
-<div>the naming.</div><div><br></div><div>Cheers,</div><div><br></div><div>=
-Bruce</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com">M=
-artin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=A0meta/classes/kernel.bbclass | 7 ++++++-<br>
-=A01 file changed, 6 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
-index ee59aaf..9c70e70 100644<br>
---- a/meta/classes/kernel.bbclass<br>
-+++ b/meta/classes/kernel.bbclass<br>
-@@ -497,6 +497,10 @@ KERNEL_IMAGE_BASE_NAME ?=3D &quot;${KERNEL_IMAGETYPE}-=
-${PE}-${PV}-${PR}-${MACHINE}-${DA<br>
-=A0# Don&#39;t include the DATETIME variable in the sstate package signatur=
-es<br>
-=A0KERNEL_IMAGE_BASE_NAME[vardepsexclude] =3D &quot;DATETIME&quot;<br>
-=A0KERNEL_IMAGE_SYMLINK_NAME ?=3D &quot;${KERNEL_IMAGETYPE}-${MACHINE}&quot=
-;<br>
-+MODULE_TARBALL_BASE_NAME ?=3D &quot;modules-${PE}-${PV}-${PR}-${MACHINE}-$=
-{DATETIME}.tgz&quot;<br>
-+# Don&#39;t include the DATETIME variable in the sstate package signatures=
-<br>
-+MODULE_TARBALL_BASE_NAME[vardepsexclude] =3D &quot;DATETIME&quot;<br>
-+MODULE_TARBALL_SYMLINK_NAME ?=3D &quot;modules-${MACHINE}.tgz&quot;<br>
-<br>
-=A0do_uboot_mkimage() {<br>
-=A0 =A0 =A0 =A0 if test &quot;x${KERNEL_IMAGETYPE}&quot; =3D &quot;xuImage&=
-quot; ; then<br>
-@@ -526,7 +530,8 @@ addtask uboot_mkimage before do_install after do_compil=
-e<br>
-=A0kernel_do_deploy() {<br>
-=A0 =A0 =A0 =A0 install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAG=
-E_BASE_NAME}.bin<br>
-=A0 =A0 =A0 =A0 if (grep -q -i -e &#39;^CONFIG_MODULES=3Dy$&#39; .config); =
-then<br>
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSI=
-ON}-${PR}-${MACHINE}.tgz -C ${D} lib<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_=
-NAME} -C ${D} lib<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 ln -sf ${MODULE_TARBALL_BASE_NAME}.bin ${MODU=
-LE_TARBALL_SYMLINK_NAME}<br>
-=A0 =A0 =A0 =A0 fi<br>
-<br>
-=A0 =A0 =A0 =A0 cd ${DEPLOYDIR}<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.8.0.2<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r>&quot;Thou shalt not follow the NULL pointer, for chaos and madness await=
- thee at its end&quot;<br>
-</div>
-
---e89a8f22c7012530ea04d0d9e142--
