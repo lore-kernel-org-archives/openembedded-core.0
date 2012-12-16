@@ -1,33 +1,38 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TkIzg-0008Hm-U7
+	(envelope-from <martin.jansa@gmail.com>) id 1TkJY7-0000mx-AY
 	for openembedded-core@lists.openembedded.org;
-	Sun, 16 Dec 2012 19:31:21 +0100
-Received: by mail-pb0-f47.google.com with SMTP id un1so3039522pbc.6
+	Sun, 16 Dec 2012 20:06:55 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e51so2720112eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Dec 2012 10:16:40 -0800 (PST)
+	Sun, 16 Dec 2012 10:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=Hf2uIJj5XQhjnxd2P69CophuRGadOdOo8+Fu9ECzNHw=;
-	b=Es6hQ8QzzU43AIZNhktx5gSdXUypuCNTwVOCLjLrK5Qw45YBvvjqXWB7fgZh4+9+9f
-	rvf3enkKb9dbhLT25rzPAWKKd5DMNVqvgJ1U6q3vLQ7tV3ShzEPCBt+xd4cMQGpXQctw
-	F6nkedlR6JKUrxFp6BYch8jAqHdAHh32xG+3WvT8kKk/oo51aBt/b1eOc2K9ilONMir/
-	EHsSFCHUhMzzLekIsvdgdYi5gM0ilJetOIhVNfe/mAcNVLCQ05lmRB/5MqErT2G3Zohz
-	3+WrZlayIYOGXJh/HqKsBCVyuL8YYjDxxU+4UlsMfvPXkxp5xrLdwi6TPoEAKdpiE+5h
-	IP1A==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=O04bcAh6rToAx7UBlIi6LxvDOKbGpkhq4MCvnn5u01E=;
+	b=yK3zudNKV9eJa9pzj6caCh7xG/QpPM4AZubbfaWZKUDhlTi2i0bbKlaIJ7vLmQFNuy
+	0dIi1tjDXcFqazaawTO+qyG52B8P+ETwyCsQFGIuaJiTnkPv8aqfQXO8yPuyUmblDgNZ
+	wDOaZMV2yWFABxXUEMB7ED2r9TZF/1Ma99LsgGUDC1MWDzIjTlx+rGo5pwi9wc6I0rnI
+	tG7ES/hlp9ho0DI6ypZmSxiyFtL0pOIzNptvYPDsLdz0N0lDEngtYBPzAWMjiWHj4itK
+	5H7XXdslxjLwp4LIPQ3UUKm6euUU0e3eFT9uo6EUVHT36YnNjiPLExkROw1rA8lfvCvR
+	9SjA==
+Received: by 10.14.215.194 with SMTP id e42mr34207831eep.32.1355683936280;
+	Sun, 16 Dec 2012 10:52:16 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id e2sm24154096eeo.8.2012.12.16.10.52.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 16 Dec 2012 10:52:15 -0800 (PST)
+Date: Sun, 16 Dec 2012 19:52:15 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20121216185215.GE3448@jama>
+References: <CAP9ODKoRws=EzHxyNumYnj-F2S5h_66wkCfL42-yrJK7KGYBOQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.66.87.133 with SMTP id ay5mr35282942pab.59.1355681800774; Sun,
-	16 Dec 2012 10:16:40 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.51.193 with HTTP; Sun, 16 Dec 2012 10:16:40 -0800 (PST)
-Date: Sun, 16 Dec 2012 16:16:40 -0200
-X-Google-Sender-Auth: rLEGH9s19Nvpk_aMvp3zRWOdhPM
-Message-ID: <CAP9ODKoRws=EzHxyNumYnj-F2S5h_66wkCfL42-yrJK7KGYBOQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+In-Reply-To: <CAP9ODKoRws=EzHxyNumYnj-F2S5h_66wkCfL42-yrJK7KGYBOQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Build fail in kconfig-frontends
+Subject: Re: Build fail in kconfig-frontends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,22 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Dec 2012 18:31:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 16 Dec 2012 19:06:55 -0000
+X-Groupsio-MsgNum: 32738
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/2994txjAzEdQwm5"
+Content-Disposition: inline
 
-Hello,
+--/2994txjAzEdQwm5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Today I did a sync and kconfig-frontends fails to build. I submitted a
-bug report (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3610).
+On Sun, Dec 16, 2012 at 04:16:40PM -0200, Otavio Salvador wrote:
+> Hello,
+>=20
+> Today I did a sync and kconfig-frontends fails to build. I submitted a
+> bug report (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3610).
+>=20
+> I am sending it here as well so people can confirm if it is
+> reproducable in some other environment?
 
-I am sending it here as well so people can confirm if it is
-reproducable in some other environment?
+It failed exactly the same here, but only once (on Friday) after cleansstat=
+e=20
+it built OK.
 
-Regards,
+Cheers,
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--/2994txjAzEdQwm5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDOGF8ACgkQN1Ujt2V2gBxJXACdGXR2q4jWEnA36FE2tA7Xfko3
+77wAn0V2owzfECd4EpNwcWf1Gl4q6xHI
+=oZq/
+-----END PGP SIGNATURE-----
+
+--/2994txjAzEdQwm5--
