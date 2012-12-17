@@ -1,41 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TkedL-0000NJ-SO
-	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 18:37:46 +0100
-Received: from mail-bk0-f69.google.com ([209.85.214.69])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 09:22:09 -0800
-Received: by mail-bk0-f69.google.com with SMTP id jg9so4410913bkc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 09:22:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:in-reply-to:references:x-gm-message-state;
-	bh=LjJC+Qla414kBwqwZyRZjgzOyemUP9V8PvfnQZJlMnY=;
-	b=hcYzfxQxq4r1a70NW+rFvPX6VVhvXVcefG4WyYYKMzbSfaI8xU0J5xcGrYc/vgB/8k
-	xDhLR4w1QjZu2uKtm9gArwLMpGKka3sO7coLBIkiY0Bt1BvDw+62yvePcX4VS2y/uzd+
-	KjYfsDSovG3UHkcLKeFExjEnHLNsJre3Y4Ksg9VBP9ZsvtFGaCXl1nCkOUJSDd2K4Bqy
-	ifh9dghTucA6gHG27TF6PjXCYz5BBT2cCX8i8t2crF9V7IbDqfrno7TeaY8AL3PELk9y
-	74as42kH/TqpId7AJswBW/Z7arlOrw21pByWf4XRNJFYHF1Mst2L7ss+H2yEtKJd3X3t
-	qiUQ==
-X-Received: by 10.180.101.104 with SMTP id ff8mr17140109wib.11.1355764975575; 
-	Mon, 17 Dec 2012 09:22:55 -0800 (PST)
-X-Received: by 10.180.101.104 with SMTP id ff8mr17140088wib.11.1355764975336; 
-	Mon, 17 Dec 2012 09:22:55 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p2sm13460213wic.7.2012.12.17.09.22.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Dec 2012 09:22:54 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 17:21:11 +0000
-Message-Id: <1355764871-1813-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1355764871-1813-1-git-send-email-ross.burton@intel.com>
-References: <1355764871-1813-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkcx2CNachALvH5xY9GrDezlo8JM25yGtGEGTUXuxuMlMvueBXyCbr9BKwZoO/NBniZT8HfbZd6xzPlK/dfwPM9O2ucg41R8lqbeiNQXZdKtTXJ6OsQkx3CQIJsQHrskJlVXYx750gxE7cgQ8vaua1XT/oRERvKBdjYGEQKo7xV6dezHkkYOfcVdSjAvZ4BcplfcjCo
-Subject: [PATCH 2/2] gst-openmax: fix build with newer GLib
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TkejE-0001g7-0q for openembedded-core@lists.openembedded.org;
+	Mon, 17 Dec 2012 18:44:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBHHT5Hg019486;
+	Mon, 17 Dec 2012 17:29:05 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19105-03; Mon, 17 Dec 2012 17:29:01 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBHHStfc019479
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 17 Dec 2012 17:28:56 GMT
+Message-ID: <1355765335.32519.84.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Constantin Musca <constantinx.musca@intel.com>
+Date: Mon, 17 Dec 2012 17:28:55 +0000
+In-Reply-To: <fc5ac72e09b464ee6eee1c1489de718238944b9a.1355732782.git.constantinx.musca@intel.com>
+References: <cover.1355732782.git.constantinx.musca@intel.com>
+	<fc5ac72e09b464ee6eee1c1489de718238944b9a.1355732782.git.constantinx.musca@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/7] udev: replace base_libdir with nonarch_base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,39 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 17:37:46 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 17:44:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The new GLib deprecated some threading API, but gst-openmax wasn't detecting
-release vs development at all so assuming development, and thus building with
--Werror.  Set the variable that the configure script is assuming to exist, so
-that -Werror isn't used.
+On Mon, 2012-12-17 at 11:16 +0200, Constantin Musca wrote:
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> ---
+>  meta/recipes-core/udev/udev.inc    | 24 ++++++++++++------------
+>  meta/recipes-core/udev/udev_182.bb |  2 +-
+>  2 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+> index 4705b9b..9f83821 100644
+> --- a/meta/recipes-core/udev/udev.inc
+> +++ b/meta/recipes-core/udev/udev.inc
+> @@ -32,16 +32,16 @@ inherit autotools pkgconfig update-rc.d
+>  
+>  # udevd/udevadm -> /sbin/, libudev.so.* -> /lib/
+>  sbindir = "${base_sbindir}"
+> -libexecdir = "${base_libdir}" 
+> +libexecdir = "${nonarch_base_libdir}"
+>  EXTRA_OECONF = "--disable-introspection \
+> -                --with-rootlibdir=${base_libdir} \
+> +                --with-rootlibdir=${nonarch_base_libdir} \
+>                  --with-pci-ids-path=${datadir}/pci.ids \
+>                  ac_cv_file__usr_share_pci_ids=no \
+>                  ac_cv_file__usr_share_hwdata_pci_ids=no \
+>                  ac_cv_file__usr_share_misc_pci_ids=yes \
+>                  --sbindir=${base_sbindir} \
+> -                --libexecdir=${base_libdir} \
+> -                --with-rootlibdir=${base_libdir} \
+> +                --libexecdir=${nonarch_base_libdir} \
+> +                --with-rootlibdir=${nonarch_base_libdir} \
+>                  --with-rootprefix= \
+>                 "
+>  
+> @@ -59,20 +59,20 @@ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
+>  RRECOMMENDS_${PN} += "udev-utils"
+>  
+>  FILES_${PN}-dbg += "${libexecdir}/.debug"
+> -FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
+> -FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
+> +FILES_${PN}-dbg += "${nonarch_base_libdir}/udev/.debug/"
+> +FILES_${PN}-dbg += "${nonarch_base_libdir}/udev/.debug/*"
+>  FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+> -FILES_libudev = "${base_libdir}/libudev.so.*"
+> -FILES_libudev-dbg = "${base_libdir}/.debug/libudev.so.*"
+> +FILES_libudev = "${nonarch_base_libdir}/libudev.so.*"
+> +FILES_libudev-dbg = "${nonarch_base_libdir}/.debug/libudev.so.*"
+>  FILES_libudev-dev = "${includedir}/libudev.h ${libdir}/libudev.so ${libdir}/libudev.la \
+>                       ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
+> -FILES_libgudev = "${base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
+> -FILES_libgudev-dbg = "${base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
+> +FILES_libgudev = "${nonarch_base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
+> +FILES_libgudev-dbg = "${nonarch_base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
+>  FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
+>                       ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
+>  FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
+>  
+> -FILES_udev-acl = "${base_libdir}/udev/udev-acl ${base_libdir}/udev/rules.d/70-acl.rules"
+> +FILES_udev-acl = "${nonarch_base_libdir}/udev/udev-acl ${nonarch_base_libdir}/udev/rules.d/70-acl.rules"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+This doesn't look right.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
-index 76c8135..af482ed 100644
---- a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
-@@ -11,9 +11,13 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-openmax/gst-openmax-${PV}.ta
- 
- inherit autotools
- 
-+# Tell configure that this isn't a development snapshot so we don't want
-+# -Werror (hopefully fixed in 0.10.2)
-+export GST_CVS="no"
-+
- EXTRA_OECONF += "--disable-valgrind"
- 
--PR = "r3"
-+PR = "r4"
- 
- FILES_${PN} += "${libdir}/gstreamer-0.10/libgstomx.so"
- FILES_${PN}-dev += "${libdir}/gstreamer-0.10/libgstomx.la"
--- 
-1.7.10
+Binaries and libraries need to go into ${base_libdir}, rules and other
+files that don't vary by architecture need to go into
+${nonarch_base_libdir}.
+
+Cheers,
+
+Richard
 
 
 
