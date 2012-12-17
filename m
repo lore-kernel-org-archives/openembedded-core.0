@@ -1,22 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TkXVt-0005BF-U5
+	(envelope-from <ddalex@intel.com>) id 1TkYU6-0006Hv-Ib
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 11:01:34 +0100
+	Mon, 17 Dec 2012 12:03:46 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 17 Dec 2012 01:46:52 -0800
+	by azsmga101.ch.intel.com with ESMTP; 17 Dec 2012 02:48:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="181811030"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2012 01:46:50 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 11:46:47 +0200
-Message-Id: <1355737607-8007-3-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1355737607-8007-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1355737607-8007-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 2/2] distcc: use useradd.bbclass to add the distcc user
+X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="181830720"
+Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2012 02:47:58 -0800
+Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
+	id 9B16F560743; Mon, 17 Dec 2012 12:48:09 +0200 (EET)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org, paul.eggleton@linux.intel.com,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 17 Dec 2012 12:48:07 +0200
+Message-Id: <1355741287-8655-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH] Core image base ssh access and package management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,61 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 10:01:34 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 11:03:46 -0000
 
-This is needed for the postinstalls to run at do_rootfs time.
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-[YOCTO #3601]
+Since core-image-base is a default image that developers should
+use for developing headless applications, it should have
+package management and ssh access.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/recipes-devtools/distcc/distcc_2.18.3.bb |   19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ meta/recipes-core/images/core-image-base.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index de181e5..bd2af4a 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -4,7 +4,7 @@ compilation of C/C++/ObjC code across machines on a network."
- SECTION = "devel"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PR = "r8"
-+PR = "r9"
+diff --git a/meta/recipes-core/images/core-image-base.bb b/meta/recipes-core/images/core-image-base.bb
+index 8ef3376..a78417f 100644
+--- a/meta/recipes-core/images/core-image-base.bb
++++ b/meta/recipes-core/images/core-image-base.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "A console-only image that fully supports the target device \
+ hardware."
  
- DEPENDS = "avahi"
+-IMAGE_FEATURES += "splash"
++IMAGE_FEATURES += "splash package-management ssh-server-dropbear"
  
-@@ -28,7 +28,14 @@ SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "0d6b80a1efc3a3d816c4f4175f63eaa2"
- SRC_URI[sha256sum] = "6500f1bc2a30b1f044ebed79c6ce15457d1712263e65f0db7d6046af262ba434"
+ LICENSE = "MIT"
  
--inherit autotools pkgconfig update-rc.d
-+inherit autotools pkgconfig update-rc.d useradd
-+
-+USERADD_PACKAGES = "${PN}"
-+USERADD_PARAM_${PN} = "--system \
-+                       --home /dev/null \
-+                       --no-create-home \
-+                       --gid nogroup \
-+                       distcc"
- 
- INITSCRIPT_NAME = "distcc"
- 
-@@ -53,10 +60,6 @@ FILES_${PN} = " ${sysconfdir} \
- FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
- 				${datadir}/distcc"
- 
--pkg_postinst_${PN} () {
--	if test "x$D" != "x"; then
--		exit 1
--	else
--		grep distcc /etc/passwd || adduser --system --home /dev/null --no-create-home --empty-password --ingroup nogroup distcc
--	fi
-+pkg_postrm_${PN} () {
-+	deluser distcc || true
- }
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
