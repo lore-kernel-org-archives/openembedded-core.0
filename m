@@ -1,39 +1,27 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TkaEO-0008IY-3z
+	(envelope-from <ddalex@intel.com>) id 1TkaTX-0000Uc-0h
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 13:55:40 +0100
-Received: from mail-yh0-f69.google.com ([209.85.213.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 04:40:58 -0800
-Received: by mail-yh0-f69.google.com with SMTP id 3so7835911yhp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 04:40:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=6wIN/DBydYkXm5C2EX2+d24VVhjwNIWcN9xtUt5bFcI=;
-	b=eEZhvks0xp+yBhw5OBar01sw7yjnoaR26Oko2y/zaLKscB3Sp9RkHDiWt+RzclxTK5
-	3BNs49QfjXDsVIQmi9eMP9prJF1dCPFv4pWPXUwkOOJGNh/Bn9UtbJ1HIyU+TY/Zf7hM
-	0mZfWvseDSHVnfFdrPU8VFVeUT/6+4H3zUzZTq5likkCshAOrwyP9PrIhQeZhUlEQEbD
-	u+CYecrbkvI3Qc0XWuJaSx9YBdlr6mukfHIe+pF0Pu5KLIvjSXOwQ/g3oCl/Hve8BRgC
-	gQc3Hq3J38w6GwwYNV6TuBJ8/dhE4a2ifh3V4lCYg6Wxkh5gvQW4HkRXz4OJX0rBr/g1
-	3owA==
-Received: by 10.52.37.9 with SMTP id u9mr19919562vdj.83.1355748057608;
-	Mon, 17 Dec 2012 04:40:57 -0800 (PST)
-Received: by 10.52.37.9 with SMTP id u9mr19919554vdj.83.1355748057490; Mon, 17
-	Dec 2012 04:40:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Mon, 17 Dec 2012 04:40:37 -0800 (PST)
-In-Reply-To: <cover.1355526236.git.dvhart@linux.intel.com>
-References: <cover.1355526236.git.dvhart@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Dec 2012 12:40:37 +0000
-Message-ID: <CAJTo0LZuVEBhvA4bbvuMftNnnbbTMFYcthqHfjY3i0S-swb7GA@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-X-Gm-Message-State: ALoCoQkqISnJOjfKi8Q0OPQb/IN6rgnezb9/xZjYDVcNGlZnp0p/+8nhrGpP0cOLKmT613PG5CKw0CpHgCN7+I08Jh98bmD/DY9AImw7fCa1TgUi30Ck40ku3E2MppHFe0G7Ctm/hVQqusgL3LXKFlWfVzmg5VY4y7eooguPp+s4/XVAu7XLzSPW+8elr2t7jXlt8yFueo/J
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1][for-danny]bootimg: Use FAT 32 for images larger than 512MB
+	Mon, 17 Dec 2012 14:11:19 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2012 04:55:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="263108763"
+Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2012 04:55:19 -0800
+Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
+	id ACE255608B4; Mon, 17 Dec 2012 14:55:30 +0200 (EET)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
+	damien.lespiau@intel.com, dvhart@linux.intel.com, radu.moisan@intel.com,
+	otavio@ossystems.com.br
+Date: Mon, 17 Dec 2012 14:55:23 +0200
+Message-Id: <1355748923-24459-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
+References: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH v2] init-live: default to initrd shell if image isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,32 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 12:55:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Dec 2012 13:11:19 -0000
 
-Hi Darren,.
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-On 14 December 2012 23:06, Darren Hart <dvhart@linux.intel.com> wrote:
-> Please apply to danny (already in master).
->
-> The following changes since commit f609bf5525450bfdb8e0864d44c41cce7f9319c9:
->
->   gdbm: Resolve host contamination issue (2012-10-10 22:44:51 +0100)
->
-> are available in the git repository at:
->
->   git://git.infradead.org/users/dvhart/oe-core.git dvhart/danny/fixes
->   http://git.infradead.org/users/dvhart/oe-core.git/shortlog/refs/heads/dvhart/danny/fixes
->
-> Darren Hart (1):
->   bootimg: Use FAT 32 for images larger than 512MB
->
->  meta/classes/bootimg.bbclass | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+Adds "debugshell" command line parameter for live/install images.
 
-Merged to ross/danny-next.
+If the init live fails to find and mount a root-fs image,
+dumps to a shell after timeout so that the developer can figure
+what's wrong.
 
-Thanks,
-Ross
+Timeout defaults to 30 seconds, but it can be changed as param
+argument.
+
+Prior art in Ubuntu. Also, leaving a system stale isn't good form.
+
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/recipes-core/initrdscripts/files/init-live.sh |   18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index c591f0d..d99a8ea 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -45,7 +45,13 @@ read_args() {
+                     console_params=$arg
+                 else
+                     console_params="$console_params $arg"
+-                fi
++                fi ;;
++            debugshell*)
++                if [ -z "$optarg" ]; then
++                        shelltimeout=30
++                else
++                        shelltimeout=$optarg
++                fi 
+         esac
+     done
+ }
+@@ -75,6 +81,7 @@ early_setup
+ read_args
+ 
+ echo "Waiting for removable media..."
++C=0
+ while true
+ do
+   for i in `ls /media 2>/dev/null`; do
+@@ -90,6 +97,15 @@ do
+   if [ "$found" = "yes" ]; then
+       break;
+   fi
++  # don't wait for more than $shelltimeout seconds, if it's set
++  if [ -n "$shelltimeout" ]; then
++      echo -n " " $(( $shelltimeout - $C ))
++      if [ $C -ge $shelltimeout ]; then
++           echo "..."
++           fatal "Cannot find root image on media, dropping to shell "
++      fi
++      C=$(( C + 1 ))
++  fi
+   sleep 1
+ done
+ 
+-- 
+1.7.10.4
+
 
 
