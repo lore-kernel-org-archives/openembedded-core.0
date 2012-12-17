@@ -1,27 +1,38 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1TkeNB-0008L7-6U
+	(envelope-from <otavio.salvador@gmail.com>) id 1TkeQ9-0008RB-Np
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 18:21:02 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Dec 2012 09:06:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,303,1355126400"; d="scan'208";a="235170224"
-Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.59])
-	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2012 09:06:19 -0800
-Message-ID: <50CF510B.7040705@linux.intel.com>
-Date: Mon, 17 Dec 2012 09:06:19 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Mon, 17 Dec 2012 18:24:06 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so3640959pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2012 09:09:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=DtLaychH3t8UYA7b1f0gGGUO3HzPbZ6byiH6i6AKzhc=;
+	b=lxePDIjCe7PAAxTS6F3eJhmoU2MjvOWDRjrWyYYw5g7xkhB07YKzArj2bGUhmgeocG
+	377z5qBtg98pDSyWGUX0jBVXlTrmpxuPFJ+vEzaVjTiQ7kb1dfhw7WKHeS/opFAgTSgE
+	HxqTMGDoSZHRnZeNLSR8kcPl0HwHsJew7xxdxnBUFykF0mP/lpI1vJX+m9dlubnx3kLq
+	q5YrMBIgej2l6HO58dWirU6/0NV/vdBK4c3UlwdzmCQ37QHaQTy8hqugUbt3VFukLFZR
+	/OEVfnyq5cdme3MzXVMMcGjPCswNhnAWZMVeoyRaz7pstlpGlmlPUTO9CLGB3aPGClyP
+	bBcA==
 MIME-Version: 1.0
-To: Alex DAMIAN <alexandru.damian@intel.com>
+Received: by 10.66.81.198 with SMTP id c6mr44096490pay.50.1355764164213; Mon,
+	17 Dec 2012 09:09:24 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.51.193 with HTTP; Mon, 17 Dec 2012 09:09:24 -0800 (PST)
+In-Reply-To: <50CF510B.7040705@linux.intel.com>
 References: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
 	<1355748923-24459-1-git-send-email-alexandru.damian@intel.com>
-In-Reply-To: <1355748923-24459-1-git-send-email-alexandru.damian@intel.com>
-X-Enigmail-Version: 1.4.6
-Cc: damien.lespiau@intel.com, otavio@ossystems.com.br,
-	openembedded-core@lists.openembedded.org
+	<50CF510B.7040705@linux.intel.com>
+Date: Mon, 17 Dec 2012 15:09:24 -0200
+X-Google-Sender-Auth: OznNQ82aLjN4BnbyBY-nOMuoNSY
+Message-ID: <CAP9ODKrDoJ8fSYtV0__F2m=n5tP+44RphzFCYEUM9jjXuPk6tQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: damien.lespiau@intel.com, Alex DAMIAN <alexandru.damian@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] init-live: default to initrd shell if image isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,88 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 17:21:03 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 17:24:06 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
+On Mon, Dec 17, 2012 at 3:06 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+>
+>
+> On 12/17/2012 04:55 AM, Alex DAMIAN wrote:
+>> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>>
+>> Adds "debugshell" command line parameter for live/install images.
+>>
+>> If the init live fails to find and mount a root-fs image,
+>> dumps to a shell after timeout so that the developer can figure
+>> what's wrong.
+>>
+>> Timeout defaults to 30 seconds, but it can be changed as param
+>> argument.
+>>
+>> Prior art in Ubuntu. Also, leaving a system stale isn't good form.
+>>
+>> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 
+One possible improvement (not for this patch but long term) is to use
+initramfs-framework for this. It provides a modular system and has
+some nice featues for debug and shell handling so you can say:
 
-On 12/17/2012 04:55 AM, Alex DAMIAN wrote:
-> From: Alexandru DAMIAN <alexandru.damian@intel.com>
-> 
-> Adds "debugshell" command line parameter for live/install images.
-> 
-> If the init live fails to find and mount a root-fs image,
-> dumps to a shell after timeout so that the developer can figure
-> what's wrong.
-> 
-> Timeout defaults to 30 seconds, but it can be changed as param
-> argument.
-> 
-> Prior art in Ubuntu. Also, leaving a system stale isn't good form.
-> 
-> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-> ---
->  meta/recipes-core/initrdscripts/files/init-live.sh |   18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-> index c591f0d..d99a8ea 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-live.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-> @@ -45,7 +45,13 @@ read_args() {
->                      console_params=$arg
->                  else
->                      console_params="$console_params $arg"
-> -                fi
-> +                fi ;;
-> +            debugshell*)
-> +                if [ -z "$optarg" ]; then
-> +                        shelltimeout=30
-> +                else
-> +                        shelltimeout=$optarg
-> +                fi 
->          esac
->      done
->  }
-> @@ -75,6 +81,7 @@ early_setup
->  read_args
->  
->  echo "Waiting for removable media..."
-> +C=0
->  while true
->  do
->    for i in `ls /media 2>/dev/null`; do
-> @@ -90,6 +97,15 @@ do
->    if [ "$found" = "yes" ]; then
->        break;
->    fi
-> +  # don't wait for more than $shelltimeout seconds, if it's set
-> +  if [ -n "$shelltimeout" ]; then
-> +      echo -n " " $(( $shelltimeout - $C ))
-> +      if [ $C -ge $shelltimeout ]; then
-> +           echo "..."
-> +           fatal "Cannot find root image on media, dropping to shell "
+debug=before:udev shell=after:e2fs
 
-I'd recommend being explicity about what it is looking for when
-debugshell is used. Which devices where probed, what was the file it
-looked for. Save the developer from having to find this script in the
-repository and look it up.
+Just an example. Another good thing about it is it allow for less code
+duplication.
 
 --
-Darren
-
-> +      fi
-> +      C=$(( C + 1 ))
-> +  fi
->    sleep 1
->  done
->  
-> 
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
