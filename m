@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TkX1q-00046R-Hd
+	(envelope-from <constantinx.musca@intel.com>) id 1TkX1x-000470-E9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 10:30:30 +0100
+	Mon, 17 Dec 2012 10:30:39 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2012 01:15:52 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2012 01:15:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,299,1355126400"; d="scan'208";a="265310991"
+X-IronPort-AV: E=Sophos;i="4.84,299,1355126400"; d="scan'208";a="265311018"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2012 01:15:51 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2012 01:15:54 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 11:16:20 +0200
-Message-Id: <6e221cf8c8dc11db2762fd21fa309a32759027ca.1355732782.git.constantinx.musca@intel.com>
+Date: Mon, 17 Dec 2012 11:16:22 +0200
+Message-Id: <23ce21241cd9ea2a513679a8c5033dfd58b2410f.1355732782.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1355732782.git.constantinx.musca@intel.com>
 References: <cover.1355732782.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1355732782.git.constantinx.musca@intel.com>
 References: <cover.1355732782.git.constantinx.musca@intel.com>
-Subject: [PATCH 4/7] pcmciautils: set correct udevdir and add missing debug files
+Subject: [PATCH 6/7] polkit: fix multilib packaging issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,55 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 09:30:39 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 09:30:40 -0000
 
-Fix the following warning:
-WARNING: QA Issue: pcmciautils: Files/directories were installed but not shipped
-  /usr/lib
-  /usr/lib/udev
-  /usr/lib/udev/pcmcia-socket-startup
-  /usr/lib/udev/pcmcia-check-broken-cis
-  /usr/lib/udev/.debug
-  /usr/lib/udev/.debug/pcmcia-socket-startup
-  /usr/lib/udev/.debug/pcmcia-check-broken-cis
+- use BPN instead of PN (PN includes MLPREFIX)
+- fix the following warning:
+WARNING: QA Issue: lib32-polkit: Files/directories were installed but not shipped
+  /usr/share/polkit-1
+  /usr/share/polkit-1/actions
+  /usr/share/polkit-1/actions/org.freedesktop.policykit.policy
+  /usr/share/polkit-1/actions/org.freedesktop.policykit.examples.pkexec.policy
+  /usr/lib/polkit-1
+  /usr/lib/polkit-1/extensions
+  /usr/lib/polkit-1/extensions/libnullbackend.so
+  /usr/lib/polkit-1/extensions/libnullbackend.a
+  /usr/lib/polkit-1/extensions/libnullbackend.la
+  /usr/lib/polkit-1/extensions/.debug
+  /usr/lib/polkit-1/extensions/.debug/libnullbackend.so
 
-[YOCTO #3440]
+[YOCTO #3438]
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-bsp/pcmciautils/pcmciautils.inc    | 3 ++-
- meta/recipes-bsp/pcmciautils/pcmciautils_018.bb | 6 +++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-extended/polkit/polkit_0.104.bb | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
-index fa35daf..24231f5 100644
---- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
-+++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
-@@ -16,7 +16,8 @@ export HOSTCC = "${BUILD_CC}"
- export etcdir = "${sysconfdir}"
- export sbindir = "${base_sbindir}"
- export pcmciaconfdir = "${sysconfdir}/pcmcia"
--export udevrulesdir = "${sysconfdir}/udev/rules.d"
-+export udevdir = "${nonarch_base_libdir}/udev"
-+export udevrulesdir = "${nonarch_base_libdir}/udev/rules.d"
- export UDEV = "1"
- LD = "${CC}"
- CFLAGS =+ "-I${S}/src"
-diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-index 202437a..3dd8a0d 100644
---- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-+++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-@@ -5,7 +5,7 @@ SRC_URI += "file://makefile_fix.patch"
- SRC_URI[md5sum] = "5d85669b3440baa4532363da6caaf1b4"
- SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0dc8ed5"
+diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
+index 67c375a..74b5379 100644
+--- a/meta/recipes-extended/polkit/polkit_0.104.bb
++++ b/meta/recipes-extended/polkit/polkit_0.104.bb
+@@ -10,7 +10,7 @@ DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub"
+ PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+ PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
  
--PR = "r0"
-+PR = "r1"
+-PR = "r7"
++PR = "r8"
  
--FILES_${PN}-dbg += "${libdir}/udev/.debug"
--FILES_${PN} += "${libdir}/udev"
-+FILES_${PN}-dbg += "${nonarch_base_libdir}/udev/.debug"
-+FILES_${PN} += "${nonarch_base_libdir}/udev"
+ PAM_SRC_URI = "file://polkit-1_pam.patch"
+ SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
+@@ -27,12 +27,12 @@ EXTRA_OECONF = "--with-os-type=moblin --disable-man-pages --disable-introspectio
+ inherit autotools gtk-doc pkgconfig
+ 
+ do_install_append() {
+-	rm -f ${D}${libdir}/${PN}-1/extensions/*.a
++	rm -f ${D}${libdir}/${BPN}-1/extensions/*.a
+ }
+ 
+-FILES_${PN} += "${libdir}/${PN}-1/extensions/*.so \
+-                ${datadir}/${PN}-1/actions/* \
++FILES_${PN} += "${libdir}/${BPN}-1/extensions/*.so \
++                ${datadir}/${BPN}-1/actions/* \
+                 ${datadir}/dbus-1/system-services/*"
+-FILES_${PN}-dbg += "${libdir}/${PN}-1/extensions/.debug/*.so"
+-FILES_${PN}-dev += "${libdir}/${PN}-1/extensions/*.la "
++FILES_${PN}-dbg += "${libdir}/${BPN}-1/extensions/.debug/*.so"
++FILES_${PN}-dev += "${libdir}/${BPN}-1/extensions/*.la "
+ 
 -- 
 1.7.11.7
 
