@@ -1,25 +1,40 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1TkZ7x-0006qe-Qf
+	(envelope-from <ross.burton@intel.com>) id 1TkZfp-0007bl-VB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 12:44:59 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2012 03:29:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="265377381"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2012 03:29:05 -0800
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 877A55606CE; Mon, 17 Dec 2012 13:29:15 +0200 (EET)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
-	damien.lespiau@intel.com, dvhart@linux.intel.com, radu.moisan@intel.com,
-	otavio@ossystems.com.br
-Date: Mon, 17 Dec 2012 13:29:13 +0200
-Message-Id: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH] init-live: default to initrd shell if image isn't found
+	Mon, 17 Dec 2012 13:19:58 +0100
+Received: from mail-vc0-f197.google.com ([209.85.220.197])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 04:05:16 -0800
+Received: by mail-vc0-f197.google.com with SMTP id m8so8105727vcd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2012 04:05:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=+C5oB5aJMkFwAWUX80y6ZwHChSDi4ivR6SBBdJ0JjuM=;
+	b=UrgLOS5FWRnHzw+c9+PZvmzdr4Oj4aJl6cXaOTEYdzBf9ieUNv1ofgSQFEhMaFow6h
+	QIgBUzvQtC2pITvLKM9snZ3E5mPcKIoFP9agLGoN7xiHhpDfgbBCLZAmWi7600TtEjUr
+	wufY75UzoIhY1no+LcomxcjWmo7szGOHcNVCpgGVmFI4BgF+68C8LwUfNXzgSx3w7FcJ
+	vwWhn9kjZEG+JQxVjKKLxO8EYqXhtJHuIFxqBlloZPnRdeP8dCbfIqJ/kLSqU66SWzV3
+	c+bjwXTtDImf/op4nEfYXXLVQRJLwCAqRTwQB0xXrLJG9x1JpvnkwF3LSZiayFQz/4F8
+	SfUw==
+Received: by 10.52.75.105 with SMTP id b9mr19855816vdw.28.1355745915091;
+	Mon, 17 Dec 2012 04:05:15 -0800 (PST)
+Received: by 10.52.75.105 with SMTP id b9mr19855809vdw.28.1355745914976; Mon,
+	17 Dec 2012 04:05:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.178.244 with HTTP; Mon, 17 Dec 2012 04:04:54 -0800 (PST)
+In-Reply-To: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
+References: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 17 Dec 2012 12:04:54 +0000
+Message-ID: <CAJTo0LauziyyE76hxLuuLqAzjZaB5UCF-yGxDYTNZsc3mYpR1A@mail.gmail.com>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+X-Gm-Message-State: ALoCoQkUTupof1lwcnQr7XVeIe28JHULWsTiQ1HKRX8AgjpyAF5CfUIAka08h3cfpaFcuaBEJ+vrl2fNJePfcEQ2u+ijeMGX8X4s4HuB6Spwhpcac//W/8VlAWgj8OY5IsItctTuHFWzikWg/WMMz6ccJajhWVl/VOyETS5asJwZ6s5cWO+wDiraQWMgdoSVu141fwtvRx+q
+Cc: damien.lespiau@intel.com, dvhart@linux.intel.com, otavio@ossystems.com.br,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] init-live: default to initrd shell if image isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,47 +47,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 11:44:59 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 12:19:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On 17 December 2012 11:29, Alex DAMIAN <alexandru.damian@intel.com> wrote:
+> +  # don't wait for more than 3 seconds
 
-If the init live fails to find and mount a root-fs image,
-we should dump to a shell so that the developer can figure
-what's wrong.
+3 is very short for slower hardware, please make the timeout a bit longer.
 
-Prior art in Ubuntu. Also, leaving a system stale isn't good form.
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh |    6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index c591f0d..2d6d6f6 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -75,6 +75,7 @@ early_setup
- read_args
- 
- echo "Waiting for removable media..."
-+C=0
- while true
- do
-   for i in `ls /media 2>/dev/null`; do
-@@ -90,6 +91,11 @@ do
-   if [ "$found" = "yes" ]; then
-       break;
-   fi
-+  # don't wait for more than 3 seconds
-+  C=$(( C + 1 ))
-+  if [ $C -gt 3 ]; then
-+      fatal "Cannot find root image on media"
-+  fi
-   sleep 1
- done
- 
--- 
-1.7.10.4
-
+Ross
 
 
