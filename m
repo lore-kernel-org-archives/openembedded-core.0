@@ -1,30 +1,28 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TkiRz-0001Q2-9t
+	(envelope-from <mark.hatle@windriver.com>) id 1Tkj5A-0003dj-Bo
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 22:42:18 +0100
-Received: from [66.195.107.13] (port=58328 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TkiDn-00014Q-KU for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 16:27:35 -0500
-Date: Mon, 17 Dec 2012 15:27:32 -0600 (CST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1212171522560.2766@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 17 Dec 2012 23:22:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBHM82KA005681
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2012 14:08:02 -0800 (PST)
+Received: from msp-dhcp56.wrs.com (172.25.34.56) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Mon, 17 Dec 2012 14:08:02 -0800
+Message-ID: <50CF97C1.4010800@windriver.com>
+Date: Mon, 17 Dec 2012 16:08:01 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: should BBFILES also refer to .inc files?
+To: <openembedded-core@lists.openembedded.org>
+References: <alpine.DEB.2.02.1212171522560.2766@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1212171522560.2766@oneiric>
+Subject: Re: should BBFILES also refer to .inc files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 21:42:18 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 17 Dec 2012 22:22:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 12/17/12 3:27 PM, Robert P. J. Day wrote:
+>
+>    looking at someone else's layer and there's this line in layer.conf:
+>
+> BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend ${LAYERDIR}/recipes*/*/*.inc"
+>
+> is there a rationale for including .inc files in BBFILES?  i don't
+> recall ever seeing that before.
 
-  looking at someone else's layer and there's this line in layer.conf:
+This is incorrect.  Only file that are processed by the recipe parser should be 
+listed.  Specifically '.bb' and '.bbappend' files.
 
-BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend ${LAYERDIR}/recipes*/*/*.inc"
+--Mark
 
-is there a rationale for including .inc files in BBFILES?  i don't
-recall ever seeing that before.
+> rday
+>
 
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
