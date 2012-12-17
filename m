@@ -1,38 +1,41 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TkedG-0000NC-NA
+	(envelope-from <ross.burton@intel.com>) id 1TkedL-0000NJ-SO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 18:37:38 +0100
-Received: from mail-la0-f69.google.com ([209.85.215.69])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 09:22:56 -0800
-Received: by mail-la0-f69.google.com with SMTP id w12so4333030lag.0
+	Mon, 17 Dec 2012 18:37:46 +0100
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 09:22:09 -0800
+Received: by mail-bk0-f69.google.com with SMTP id jg9so4410913bkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 09:22:54 -0800 (PST)
+	Mon, 17 Dec 2012 09:22:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=3kSgcAiEuEyhIs19426ZMF7Lw1XdJMIv7ZhIDKl4Iqc=;
-	b=RKe6Oi4OItQbwhmTFE+IHDF9BX43ysjm+ee7m7Dvwhfoa5vKOz3CgvS5spzqawROHR
-	Zwm8slctfXgs8oFPDAeJtoMd+vvpKyYoliT6a+N3lvjB7/CHTNMkbCJnFcvUvBTwCamy
-	ycpIJpPTR/9QpByMgPPAI1rcThLkQhnnW+20ORKcSAt3/HD6v6ZfiuqSruDGF1bvUpaB
-	ARAY7qN/nXYLknrQb80Gqeqj+p+yq+HmMTybc5Y/V6a8DIG6kRSV+hpRzKaMkUwWjf/S
-	9u5EsBb+A5NYVsnlgmDMuagJhZtvUmfnHy01ynJRirEtk0p/bc5B94I1jtsBEa+hVOGH
-	CICg==
-Received: by 10.180.88.99 with SMTP id bf3mr17097837wib.22.1355764973962;
-	Mon, 17 Dec 2012 09:22:53 -0800 (PST)
-Received: by 10.180.88.99 with SMTP id bf3mr17097828wib.22.1355764973854;
-	Mon, 17 Dec 2012 09:22:53 -0800 (PST)
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
+	:in-reply-to:references:x-gm-message-state;
+	bh=LjJC+Qla414kBwqwZyRZjgzOyemUP9V8PvfnQZJlMnY=;
+	b=hcYzfxQxq4r1a70NW+rFvPX6VVhvXVcefG4WyYYKMzbSfaI8xU0J5xcGrYc/vgB/8k
+	xDhLR4w1QjZu2uKtm9gArwLMpGKka3sO7coLBIkiY0Bt1BvDw+62yvePcX4VS2y/uzd+
+	KjYfsDSovG3UHkcLKeFExjEnHLNsJre3Y4Ksg9VBP9ZsvtFGaCXl1nCkOUJSDd2K4Bqy
+	ifh9dghTucA6gHG27TF6PjXCYz5BBT2cCX8i8t2crF9V7IbDqfrno7TeaY8AL3PELk9y
+	74as42kH/TqpId7AJswBW/Z7arlOrw21pByWf4XRNJFYHF1Mst2L7ss+H2yEtKJd3X3t
+	qiUQ==
+X-Received: by 10.180.101.104 with SMTP id ff8mr17140109wib.11.1355764975575; 
+	Mon, 17 Dec 2012 09:22:55 -0800 (PST)
+X-Received: by 10.180.101.104 with SMTP id ff8mr17140088wib.11.1355764975336; 
+	Mon, 17 Dec 2012 09:22:55 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p2sm13460213wic.7.2012.12.17.09.22.52
+	by mx.google.com with ESMTPS id p2sm13460213wic.7.2012.12.17.09.22.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Dec 2012 09:22:53 -0800 (PST)
+	Mon, 17 Dec 2012 09:22:54 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 17:21:10 +0000
-Message-Id: <1355764871-1813-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 17 Dec 2012 17:21:11 +0000
+Message-Id: <1355764871-1813-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmLGRmVR66zC4S5rYrSQ45vZ0hFAJEn7bQNuQZ5y2sFWTZjxOvUHStZaR/gvUjHLDL1S4hdBpzcbJxgs40rEl0FHb2zznTcQR8j17FB+BLRkowIhmvgIB4gJv/YNEX87fT1UKMcUclPIK562rxLgOqiN1jOo3RSqQS+k21nsAGHqAhUSM2LAEb4mfDdNwD0ybiGxLJ+
-Subject: [PATCH 1/2] gst-meta-base: don't rdepend on ximagesink/xvimagesink
+In-Reply-To: <1355764871-1813-1-git-send-email-ross.burton@intel.com>
+References: <1355764871-1813-1-git-send-email-ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkcx2CNachALvH5xY9GrDezlo8JM25yGtGEGTUXuxuMlMvueBXyCbr9BKwZoO/NBniZT8HfbZd6xzPlK/dfwPM9O2ucg41R8lqbeiNQXZdKtTXJ6OsQkx3CQIJsQHrskJlVXYx750gxE7cgQ8vaua1XT/oRERvKBdjYGEQKo7xV6dezHkkYOfcVdSjAvZ4BcplfcjCo
+Subject: [PATCH 2/2] gst-openmax: fix build with newer GLib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,38 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 17:37:39 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 17:37:46 -0000
 
-Loosen these dependencies to recommends, as some targets won't want or build
-these sinks.
+The new GLib deprecated some threading API, but gst-openmax wasn't detecting
+release vs development at all so assuming development, and thus building with
+-Werror.  Set the variable that the configure script is assuming to exist, so
+that -Werror isn't used.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-index 21243c6..37c70c2 100644
---- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+index 76c8135..af482ed 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+@@ -11,9 +11,13 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-openmax/gst-openmax-${PV}.ta
  
+ inherit autotools
  
--PR = "r12"
-+PR = "r13"
++# Tell configure that this isn't a development snapshot so we don't want
++# -Werror (hopefully fixed in 0.10.2)
++export GST_CVS="no"
++
+ EXTRA_OECONF += "--disable-valgrind"
  
- PACKAGES = "\
-     gst-meta-base \
-@@ -33,7 +33,7 @@ RDEPENDS_gst-meta-base = "\
-     gst-plugins-good-autodetect \
-     gst-plugins-good-souphttpsrc"
+-PR = "r3"
++PR = "r4"
  
--RDEPENDS_gst-meta-x11-base = "\
-+RRECOMMENDS_gst-meta-x11-base = "\
-     gst-plugins-base-ximagesink \
-     gst-plugins-base-xvimagesink"
- 
+ FILES_${PN} += "${libdir}/gstreamer-0.10/libgstomx.so"
+ FILES_${PN}-dev += "${libdir}/gstreamer-0.10/libgstomx.la"
 -- 
 1.7.10
 
