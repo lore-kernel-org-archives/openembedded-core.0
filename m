@@ -1,31 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Tkgvu-00031O-SX
+	(envelope-from <bjorn.forsman@gmail.com>) id 1Tkh40-0003Ct-Uq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 21:05:04 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Dec 2012 11:50:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,304,1355126400"; d="scan'208";a="235244296"
-Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.59])
-	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2012 11:50:20 -0800
-Message-ID: <50CF777C.8030705@linux.intel.com>
-Date: Mon, 17 Dec 2012 11:50:20 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Mon, 17 Dec 2012 21:13:24 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e51so3336661eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2012 11:58:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=tFlDdkBxvvnIGs7S+stOt1/qnFgLgJniKlcVC9iGlfY=;
+	b=eKA2F8ZYT5QBshdvbxabmIM1fsrtezzx2aqA7FUXml0FWgJn05gFyH3bulmqvq7QWl
+	XNW2eU7rdv6ahU7bZ60rxuwcVXvzAtwSO1LbAz9dSGiGabmLpJy8934zy6DkTSWRrCG/
+	Ugn5z7X3zj1iTOQxrTHPjawT77EuaD4ir7Uz2r3PPHFxoRvWJ7Tmawd4NXKw9RwWS7yo
+	uCg7OTHxNkgKw7ScXYDmZK33W9c5TdiB8vK6rp3guK87EA0Jfu0S4MGEi6fjyV1GYWef
+	DilpCYlG7RakuDkqVKkSJH76utCL2TrZzMM6j3OpsO5e+0UgH6kXa0d2nExe9STJZQ89
+	Zgeg==
 MIME-Version: 1.0
-To: "Damian, Alexandru" <alexandru.damian@intel.com>
-References: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
-	<1355748923-24459-1-git-send-email-alexandru.damian@intel.com>
-	<50CF510B.7040705@linux.intel.com>
-	<CAJ2CSBt1amQV=Mvkmp=vXaxQbYOFewMiYw-pnm31xv28aqWN=g@mail.gmail.com>
-In-Reply-To: <CAJ2CSBt1amQV=Mvkmp=vXaxQbYOFewMiYw-pnm31xv28aqWN=g@mail.gmail.com>
-X-Enigmail-Version: 1.4.6
-Cc: Damien Lespiau <damien.lespiau@intel.com>, otavio@ossystems.com.br,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] init-live: default to initrd shell if image isn't found
+Received: by 10.14.206.197 with SMTP id l45mr43870453eeo.17.1355774324271;
+	Mon, 17 Dec 2012 11:58:44 -0800 (PST)
+Received: by 10.14.135.145 with HTTP; Mon, 17 Dec 2012 11:58:44 -0800 (PST)
+In-Reply-To: <50CF3D03.3040301@windriver.com>
+References: <CAEYzJUHZYS8cA3KRRM2L+etHxAOxaU=vBzgaRbUc9hSg8AJODA@mail.gmail.com>
+	<50CF3D03.3040301@windriver.com>
+Date: Mon, 17 Dec 2012 20:58:44 +0100
+Message-ID: <CAEYzJUGVz4DTiqa8V6tOtQCg53C4TQ_zPb5jh6gEWks1+xP4vg@mail.gmail.com>
+From: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SDK confusion!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,122 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 20:05:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Dec 2012 20:13:25 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+Hi Mark,
 
+On 17 December 2012 16:40, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 12/17/12 9:31 AM, Bj=C3=B8rn Forsman wrote:
+>> Hi,
+>>
+>> I'm really confused about how to use/customize the generated SDK in
+>> openembedded. I've spent two days messing around with angstrom
+>> setup-scripts, poky and yocto and now I really need help.
+[...]
+> In oe-core with the branch tag 'denzil' or the master, there are two ways=
+ of
+> generating an SDK.
+>
+> The first (which is also present in the older oe-core systems) uses a
+> specific SDK recipe.  For instance, meta-toolchain.  This recipe simply
+> makes the toolchain elements available to you and you need to provide the
+> necessary sysroot for your SDK.  An alternative is something like
+> meta-toolchain-gmae which provides a specific set of sysroot components f=
+or
+> the 'gnome mobile applicable environment.'
+>
+> The advantage of this first way is it allows a product designer to releas=
+e a
+> targeted SDK for their application developers.  You don't have to put
+> everything that will end up on the target image into the SDK, only the
+> libraries, headers and interfaces that an app developer are allowed to us=
+e.
+>
+> The second way (which is newer) is the ability to generate an SDK based o=
+n
+> the contents of the image.  This uses a new task called "populate_sdk" th=
+at
+> can be run with any image recipe, i.e. "bitbake core-image-minimal -c
+> populate_sdk". This will generate an SDK image that includes the software
+> from the image, in addition to related -dev and -dbg packages.
+>
+> The advantage of this second way is that you have an SDK that enables
+> developing for the contents of the image, as well as system wide
+> cross-debugging with the -dbg packages.
+>
+> The items below are specific to one packaging system, opkg.  The items ab=
+ove
+> are generic and are expected to work in any of the supported methods.
 
-On 12/17/2012 11:21 AM, Damian, Alexandru wrote:
-> IMHO, if the system has to fatal() here, something VERY wrong is going on.
-> 
-> This isn't your general debug option, this is a last-resort emergency
-> rescue. I suppose that if you need to debug this, the system is so
-> problematic you need to deep-dive into it anyway.
-> 
-> I suggest taking it as it is now, and fill in a bugzilla entry about
-> handling it better in initramfs-framework as it should be.
-> 
+Thank you very much!
 
-I mentioned the below because it is something I've had to verify on
-several occasions. It is a fairly simple add, and you have the print
-statement there anyway. If you choose to skip the extra output, I
-suppose I can send a patch to add it next time I run into it.
+"bitbake <image-name> -c populate_sdk" is exactly what I want. Brilliant!
 
---
-Darren
-
-> Alex
-> 
-> 
-> On Mon, Dec 17, 2012 at 7:06 PM, Darren Hart <dvhart@linux.intel.com
-> <mailto:dvhart@linux.intel.com>> wrote:
-> 
-> 
-> 
->     On 12/17/2012 04:55 AM, Alex DAMIAN wrote:
->     > From: Alexandru DAMIAN <alexandru.damian@intel.com <mailto:alexandru.damian@intel.com>>
->     >
->     > Adds "debugshell" command line parameter for live/install images.
->     >
->     > If the init live fails to find and mount a root-fs image,
->     > dumps to a shell after timeout so that the developer can figure
->     > what's wrong.
->     >
->     > Timeout defaults to 30 seconds, but it can be changed as param
->     > argument.
->     >
->     > Prior art in Ubuntu. Also, leaving a system stale isn't good form.
->     >
->     > Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com <mailto:alexandru.damian@intel.com>>
->     > ---
->     >  meta/recipes-core/initrdscripts/files/init-live.sh |   18 +++++++++++++++++-
->     >  1 file changed, 17 insertions(+), 1 deletion(-)
->     >
->     > diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
->     > index c591f0d..d99a8ea 100644
->     > --- a/meta/recipes-core/initrdscripts/files/init-live.sh
->     > +++ b/meta/recipes-core/initrdscripts/files/init-live.sh
->     > @@ -45,7 +45,13 @@ read_args() {
->     >                      console_params=$arg
->     >                  else
->     >                      console_params="$console_params $arg"
->     > -                fi
->     > +                fi ;;
->     > +            debugshell*)
->     > +                if [ -z "$optarg" ]; then
->     > +                        shelltimeout=30
->     > +                else
->     > +                        shelltimeout=$optarg
->     > +                fi
->     >          esac
->     >      done
->     >  }
->     > @@ -75,6 +81,7 @@ early_setup
->     >  read_args
->     >
->     >  echo "Waiting for removable media..."
->     > +C=0
->     >  while true
->     >  do
->     >    for i in `ls /media 2>/dev/null`; do
->     > @@ -90,6 +97,15 @@ do
->     >    if [ "$found" = "yes" ]; then
->     >        break;
->     >    fi
->     > +  # don't wait for more than $shelltimeout seconds, if it's set
->     > +  if [ -n "$shelltimeout" ]; then
->     > +      echo -n " " $(( $shelltimeout - $C ))
->     > +      if [ $C -ge $shelltimeout ]; then
->     > +           echo "..."
->     > +           fatal "Cannot find root image on media, dropping to shell "
-> 
->     I'd recommend being explicity about what it is looking for when
->     debugshell is used. Which devices where probed, what was the file it
->     looked for. Save the developer from having to find this script in the
->     repository and look it up.
-> 
->     --
->     Darren
-> 
->     > +      fi
->     > +      C=$(( C + 1 ))
->     > +  fi
->     >    sleep 1
->     >  done
->     >
->     >
-> 
->     --
->     Darren Hart
->     Intel Open Source Technology Center
->     Yocto Project - Technical Lead - Linux Kernel
-> 
-> 
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+Best regards,
+Bj=C3=B8rn Forsman
 
 
