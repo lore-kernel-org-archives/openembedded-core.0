@@ -1,34 +1,20 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1TkVjJ-0002XN-Cm
+	(envelope-from <constantinx.musca@intel.com>) id 1TkX1m-00046J-Rk
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 09:07:20 +0100
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1TkVV9-002dch-JM>; Mon, 17 Dec 2012 08:52:39 +0100
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1TkVV9-001Ae2-Ho>; Mon, 17 Dec 2012 08:52:39 +0100
-Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
-	Exim 4.72) id 1TkVV8-0001Fp-FC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 08:52:38 +0100
-Date: Mon, 17 Dec 2012 08:52:38 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <20121217075238.GA4305@mi.fu-berlin.de>
-References: <alpine.DEB.2.02.1212160555200.745@oneiric>
-	<CAGfZjq49PpLifX4aRAJ1gq7L8mm45Wqm3w+3wRYRS6_QqMsfcA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAGfZjq49PpLifX4aRAJ1gq7L8mm45Wqm3w+3wRYRS6_QqMsfcA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Subject: Re: sprinkled references to "powerpc" vs "ppc" in adt-installer
+	Mon, 17 Dec 2012 10:30:27 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2012 01:15:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,299,1355126400"; d="scan'208";a="265310922"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2012 01:15:44 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Dec 2012 11:16:16 +0200
+Message-Id: <cover.1355732782.git.constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH 0/7] udev and multilib changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,23 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 08:07:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 17 Dec 2012 09:30:27 -0000
 
-On Sun, Dec 16, 2012 at 04:11:15PM -0500, Bill Traynor wrote:
-> On Dec 16, 2012 5:57 AM, "Robert P. J. Day" <rpjday@crashcourse.ca> wrote:
-> >
-> >
-> >   perusing adt-installer recipe and files and i notice there are a few
-> > mentions of "powerpc" whereas it seems that "ppc" is the correct
-> > architecture abbreviation.  obviously doesn't hurt anything but it
-> > might be confusing for people reading the source.
-> 
-> Isn't the architecture just called Power now?
+This patchset addresses the udevdir problem (some packages hardcode udevdir
+to /lib/udev) by using a arch independent variable (nonarch_base_libdir). It also includes some multilib fixes.
+The following changes since commit 958162e96b4a4f23bca94500b5f20975633dd5c6:
 
-Nope, POWER is the midiron architecture from IBM, where POWERPC is a subset of POWER.
+  bitbake: hob: use base image only if it was set (2012-12-14 17:31:31 +0000)
 
-Bye Henning.
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib cmuscax/udev
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/udev
+
+Constantin Musca (7):
+  bitbake.conf: add nonarch_base_lib variable
+  udev: replace base_libdir with nonarch_base_libdir
+  alsa-utils: Pass udev-rules-dir as parameter
+  pcmciautils: set correct udevdir and add missing debug files
+  bluez: set correct udevdir
+  polkit: fix multilib packaging issue
+  psplash: enable multilib
+
+ meta/classes/staging.bbclass                      |  4 ++++
+ meta/conf/bitbake.conf                            |  1 +
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc      |  3 ++-
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb   |  6 +++---
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb   |  6 +++---
+ meta/recipes-core/psplash/psplash_git.bb          | 16 +++++++++------
+ meta/recipes-core/udev/udev.inc                   | 24 +++++++++++------------
+ meta/recipes-core/udev/udev_182.bb                |  2 +-
+ meta/recipes-extended/polkit/polkit_0.104.bb      | 12 ++++++------
+ meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |  6 +++---
+ 10 files changed, 45 insertions(+), 35 deletions(-)
+
+-- 
+1.7.11.7
+
 
 
