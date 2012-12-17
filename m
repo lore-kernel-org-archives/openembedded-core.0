@@ -1,39 +1,36 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TkZfp-0007bl-VB
+	(envelope-from <otavio.salvador@gmail.com>) id 1TkZjZ-0007fk-TA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 13:19:58 +0100
-Received: from mail-vc0-f197.google.com ([209.85.220.197])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 04:05:16 -0800
-Received: by mail-vc0-f197.google.com with SMTP id m8so8105727vcd.0
+	Mon, 17 Dec 2012 13:23:51 +0100
+Received: by mail-pb0-f47.google.com with SMTP id un1so3464085pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 04:05:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=+C5oB5aJMkFwAWUX80y6ZwHChSDi4ivR6SBBdJ0JjuM=;
-	b=UrgLOS5FWRnHzw+c9+PZvmzdr4Oj4aJl6cXaOTEYdzBf9ieUNv1ofgSQFEhMaFow6h
-	QIgBUzvQtC2pITvLKM9snZ3E5mPcKIoFP9agLGoN7xiHhpDfgbBCLZAmWi7600TtEjUr
-	wufY75UzoIhY1no+LcomxcjWmo7szGOHcNVCpgGVmFI4BgF+68C8LwUfNXzgSx3w7FcJ
-	vwWhn9kjZEG+JQxVjKKLxO8EYqXhtJHuIFxqBlloZPnRdeP8dCbfIqJ/kLSqU66SWzV3
-	c+bjwXTtDImf/op4nEfYXXLVQRJLwCAqRTwQB0xXrLJG9x1JpvnkwF3LSZiayFQz/4F8
-	SfUw==
-Received: by 10.52.75.105 with SMTP id b9mr19855816vdw.28.1355745915091;
-	Mon, 17 Dec 2012 04:05:15 -0800 (PST)
-Received: by 10.52.75.105 with SMTP id b9mr19855809vdw.28.1355745914976; Mon,
-	17 Dec 2012 04:05:14 -0800 (PST)
+	Mon, 17 Dec 2012 04:09:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=5CiuHHmvh6QpQ6xmGQNjWTIkH9OBWJUstEfzicUC9jc=;
+	b=ZLQavCRHwpEuAIFAjKr9gHez3m6PCiPhkUY7wrjJ+Q+27ejXB7r9obP/MPfG/eW1LV
+	lX3QZtxEU/Zx/TKCa0dDNfeAOLYoonansn5PMpsMTNoDsL/Dqg4S2+IMBvWwaX/z4gmc
+	AZetoTrLciiXZQfxX3Mfu3D4iCq9EqyNv5mwbUTTjoboNruArE/hYB+auX2KlPry+KUd
+	mwWn62Dwj9dpgl+INB+bDstUITDBAHynU8AlFGSdYfIEiNvRTNwGT0dhNAEqxiaM5QAC
+	WHHE7LlmWTVd1SqAzDUgNAIlt+Plp+UBahAgUgAHTWxcqJVsGDxs7Yj6uYSA/6kkPOyO
+	DWXQ==
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Mon, 17 Dec 2012 04:04:54 -0800 (PST)
+Received: by 10.68.189.8 with SMTP id ge8mr43679073pbc.24.1355746148372; Mon,
+	17 Dec 2012 04:09:08 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.51.193 with HTTP; Mon, 17 Dec 2012 04:09:08 -0800 (PST)
 In-Reply-To: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
 References: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Dec 2012 12:04:54 +0000
-Message-ID: <CAJTo0LauziyyE76hxLuuLqAzjZaB5UCF-yGxDYTNZsc3mYpR1A@mail.gmail.com>
+Date: Mon, 17 Dec 2012 10:09:08 -0200
+X-Google-Sender-Auth: 8hE_Sp3vJuBwL7Yjxk6L4Uwp_dM
+Message-ID: <CAP9ODKpP9z+SfHdLP3StfgNEwrn_uNJw54YZxpNEj06GUphbKQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQkUTupof1lwcnQr7XVeIe28JHULWsTiQ1HKRX8AgjpyAF5CfUIAka08h3cfpaFcuaBEJ+vrl2fNJePfcEQ2u+ijeMGX8X4s4HuB6Spwhpcac//W/8VlAWgj8OY5IsItctTuHFWzikWg/WMMz6ccJajhWVl/VOyETS5asJwZ6s5cWO+wDiraQWMgdoSVu141fwtvRx+q
-Cc: damien.lespiau@intel.com, dvhart@linux.intel.com, otavio@ossystems.com.br,
-	openembedded-core@lists.openembedded.org
+Cc: Darren Hart <dvhart@linux.intel.com>, damien.lespiau@intel.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] init-live: default to initrd shell if image isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,14 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 12:19:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Dec 2012 12:23:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 17 December 2012 11:29, Alex DAMIAN <alexandru.damian@intel.com> wrote:
-> +  # don't wait for more than 3 seconds
+On Mon, Dec 17, 2012 at 9:29 AM, Alex DAMIAN <alexandru.damian@intel.com> wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> If the init live fails to find and mount a root-fs image,
+> we should dump to a shell so that the developer can figure
+> what's wrong.
+>
+> Prior art in Ubuntu. Also, leaving a system stale isn't good form.
+>
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-3 is very short for slower hardware, please make the timeout a bit longer.
+I don't like to get a shell at users as he might be an end user and
+don't know what to do so I'd prefer to have a proper error message and
+support the shell as fallback depending on a boot param or so (so it
+can be used during development).
 
-Ross
+Another issue is the amount of time waiting ... I have hardware that
+takes up to 8s to be ready so 3s is too short and the amount of time.
+The time to wait should be configurable by bootparam too (and
+documented in commitlog).
+
+Regards,
+
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
