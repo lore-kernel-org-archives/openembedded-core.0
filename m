@@ -1,38 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TkeIW-0008Gn-2Y
+	(envelope-from <sgw@linux.intel.com>) id 1TkeMl-0008Ku-MG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 18:16:13 +0100
-Received: from mail-wi0-f197.google.com ([209.85.212.197])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 17 Dec 2012 09:00:37 -0800
-Received: by mail-wi0-f197.google.com with SMTP id hm6so2706104wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 09:01:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=3kSgcAiEuEyhIs19426ZMF7Lw1XdJMIv7ZhIDKl4Iqc=;
-	b=KoGyrIpvK5Eduf3gJDiEZcs8jlqbZYVCerUUu0g2+JQVHVZfxYRTeRNeJHPa3Xy+MQ
-	WIh1ffXUrJTcfo4ldKTt6LgG+dDthNVr7lKfaQuxBaIqJXvSUwbnB/bFAVrlfT4/RxeO
-	wgBSaBsFnI6gpwnrS5edyxwKhhIhK9Sm0gRTI3kuOcQcZ3ASbkmSIAOUzrdc2k1Ckg+R
-	+s1x5ue6MFNZAjOhWzCjlmEh9Nr4oGdqIZ2d6KHnee7OeZhYC4E53rw7vjOvFbUFKBAH
-	NrytfX6A4B6/l899gYMF7dgz9LY9q6dD3Bcb52vlkr5eg9QzkeuVqZZheSYk3M/Tmyof
-	8r2A==
-Received: by 10.180.101.229 with SMTP id fj5mr16541498wib.7.1355763687375;
-	Mon, 17 Dec 2012 09:01:27 -0800 (PST)
-Received: by 10.180.101.229 with SMTP id fj5mr16541442wib.7.1355763686906;
-	Mon, 17 Dec 2012 09:01:26 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id fv2sm11928720wib.4.2012.12.17.09.01.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 17 Dec 2012 09:01:26 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 16:59:45 +0000
-Message-Id: <1355763585-984-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlPjkgB5g+8tf3IbJeqNwRSL3lm2uoz5I6V1VtFcTTfYo1pD4p2RMJm3OPkTdt85lfk4DgDyIfgLv6kpliuME94kXg/r7BLoowqqiazkDgvyz0S0tks4O6q4TSrQ3bQE+dH8wyBggdp4aLdkE5rAswnHoRmi11E0eFAoxO3M5ibagu+HgKBrR38C7Fc3rIrairn99dA
-Subject: [PATCH] gst-meta-base: don't rdepend on ximagesink/xvimagesink
+	Mon, 17 Dec 2012 18:20:38 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 Dec 2012 09:05:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,303,1355126400"; d="scan'208";a="258426065"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.212])
+	by orsmga002.jf.intel.com with ESMTP; 17 Dec 2012 09:05:53 -0800
+Message-ID: <50CF50F1.3040102@linux.intel.com>
+Date: Mon, 17 Dec 2012 09:05:53 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <1355741287-8655-1-git-send-email-alexandru.damian@intel.com>
+	<50CF38D4.8040701@windriver.com>
+In-Reply-To: <50CF38D4.8040701@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Core image base ssh access and package management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,40 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 17:16:13 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 17:20:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Loosen these dependencies to recommends, as some targets won't want or build
-these sinks.
+On 12/17/2012 07:23 AM, Mark Hatle wrote:
+> On 12/17/12 4:48 AM, Alex DAMIAN wrote:
+>> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>>
+>> Since core-image-base is a default image that developers should
+>> use for developing headless applications, it should have
+>> package management and ssh access.
+>
+> I'm not sure I agree with that.
+>
+> 'base' should be a small system, similar to minimal, but with discrete
+> executables.  If the user wants packaging and ssh they should be able to
+> add it.
+>
+I agree with Mark on this one.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Sau!
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-index 21243c6..37c70c2 100644
---- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
- 
--PR = "r12"
-+PR = "r13"
- 
- PACKAGES = "\
-     gst-meta-base \
-@@ -33,7 +33,7 @@ RDEPENDS_gst-meta-base = "\
-     gst-plugins-good-autodetect \
-     gst-plugins-good-souphttpsrc"
- 
--RDEPENDS_gst-meta-x11-base = "\
-+RRECOMMENDS_gst-meta-x11-base = "\
-     gst-plugins-base-ximagesink \
-     gst-plugins-base-xvimagesink"
- 
--- 
-1.7.10
-
+> --Mark
+>
+>> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+>> ---
+>>   meta/recipes-core/images/core-image-base.bb |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/images/core-image-base.bb
+>> b/meta/recipes-core/images/core-image-base.bb
+>> index 8ef3376..a78417f 100644
+>> --- a/meta/recipes-core/images/core-image-base.bb
+>> +++ b/meta/recipes-core/images/core-image-base.bb
+>> @@ -1,7 +1,7 @@
+>>   DESCRIPTION = "A console-only image that fully supports the target
+>> device \
+>>   hardware."
+>>
+>> -IMAGE_FEATURES += "splash"
+>> +IMAGE_FEATURES += "splash package-management ssh-server-dropbear"
+>>
+>>   LICENSE = "MIT"
+>>
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
