@@ -1,20 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TkcxU-0003Qx-PC
+	(envelope-from <mark.hatle@windriver.com>) id 1Tkd2T-0003bp-J0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 16:50:25 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Dec 2012 07:34:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,302,1355126400"; d="scan'208";a="235124901"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2012 07:34:37 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 17:37:44 +0200
-Message-Id: <1355758664-912-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] python-smartpm: improve error reporting
+	Mon, 17 Dec 2012 16:55:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBHFerNo027210
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2012 07:40:53 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 17 Dec 2012 07:40:52 -0800
+Message-ID: <50CF3D03.3040301@windriver.com>
+Date: Mon, 17 Dec 2012 09:40:51 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <CAEYzJUHZYS8cA3KRRM2L+etHxAOxaU=vBzgaRbUc9hSg8AJODA@mail.gmail.com>
+In-Reply-To: <CAEYzJUHZYS8cA3KRRM2L+etHxAOxaU=vBzgaRbUc9hSg8AJODA@mail.gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
+	qBHFerNo027210
+Subject: Re: SDK confusion!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,301 +37,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 15:50:25 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 15:55:34 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Add code to check proper command line arguments for various
-smart commands. Exit with error if erroneous/additional arguments
-are given in the command line.
+On 12/17/12 9:31 AM, Bj=C3=B8rn Forsman wrote:
+> Hi,
+>
+> I'm really confused about how to use/customize the generated SDK in
+> openembedded. I've spent two days messing around with angstrom
+> setup-scripts, poky and yocto and now I really need help.
+>
+> First I did "bitbake meta-toolchain" (and installed it). That gave me
+> a toolchain, but no extra libraries. Then I tried "bitbake
+> meta-toolchain-sdk" and I got some extra libraries (yay!). But looking
+> at the respective recipies for these meta-tasks and I have *no idea*
+> what libraries "meta-toolchain-sdk" includes. I'm not comfortable with
+> the latter target *accidentally* happen to include the libraries I
+> need.
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../smart-improve-error-reporting.patch            |  253 ++++++++++++++++++++
- .../python/python-smartpm_1.4.1.bb                 |    3 +-
- 2 files changed, 255 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
+In oe-core with the branch tag 'denzil' or the master, there are two ways=
+ of=20
+generating an SDK.
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch b/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
-new file mode 100644
-index 0000000..fece5b9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
-@@ -0,0 +1,253 @@
-+Improve error reporting in smart
-+
-+Add code to check proper command line arguments for various
-+smart commands. Exit with error if erroneous/additional arguments
-+are given in the command line.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-+
-+diff --git a/smart/commands/channel.py b/smart/commands/channel.py
-+index aa76f91..63fbb35 100644
-+--- a/smart/commands/channel.py
-++++ b/smart/commands/channel.py
-+@@ -157,7 +157,17 @@ def main(ctrl, opts):
-+                               opts.show is None and opts.yaml is None):
-+         iface.warning(_("Can't edit channels information."))
-+         raise Error, _("Configuration is in readonly mode.")
-+-    
-++
-++    # Argument check
-++    opts.check_args_of_option("set", -1)
-++    opts.check_args_of_option("remove", -1)
-++    opts.check_args_of_option("edit", 0)
-++    opts.check_args_of_option("enable", -1)
-++    opts.check_args_of_option("disable", -1)
-++    opts.ensure_action("channel", ["add", "set", "remove", "remove-all",
-++                       "list", "show", "yaml", "enable", "disable"])
-++    opts.check_remaining_args()
-++
-+     if opts.add is not None:
-+         if not opts.add and opts.args == ["-"]:
-+             newchannels = []
-+diff --git a/smart/commands/check.py b/smart/commands/check.py
-+index b08608a..506e852 100644
-+--- a/smart/commands/check.py
-++++ b/smart/commands/check.py
-+@@ -72,6 +72,9 @@ def parse_options(argv):
-+ 
-+ def main(ctrl, opts, reloadchannels=True):
-+ 
-++    # Argument check
-++    opts.check_args_of_option("channels", 1)
-++
-+     if sysconf.get("auto-update"):
-+         from smart.commands import update
-+         updateopts = update.parse_options([])
-+diff --git a/smart/commands/config.py b/smart/commands/config.py
-+index dd50dee..4fe4366 100644
-+--- a/smart/commands/config.py
-++++ b/smart/commands/config.py
-+@@ -80,6 +80,12 @@ def main(ctrl, opts):
-+     globals["false"] = False
-+     globals["no"] = False
-+ 
-++    # Check arguments
-++    opts.check_args_of_option("set", -1)
-++    opts.check_args_of_option("remove", -1)
-++    opts.ensure_action("config", ["set", "show", "yaml", "remove"])
-++    opts.check_remaining_args()
-++
-+     if opts.set:
-+         for opt in opts.set:
-+             m = SETRE.match(opt)
-+diff --git a/smart/commands/download.py b/smart/commands/download.py
-+index 6837993..b853c61 100644
-+--- a/smart/commands/download.py
-++++ b/smart/commands/download.py
-+@@ -81,6 +81,14 @@ def parse_options(argv):
-+ 
-+ def main(ctrl, opts):
-+ 
-++    # Argument check
-++    opts.check_args_of_option("target", 1)
-++    opts.check_args_of_option("output", 1)
-++    opts.check_args_of_option("from_urls", -1)
-++    opts.check_args_of_option("from_metalink", -1)
-++    if not opts.args and not opts.from_metalink and not opts.from_urls:
-++        raise Error, _("no package(s) given")
-++
-+     packages = []
-+     if opts.args:
-+         if sysconf.get("auto-update"):
-+diff --git a/smart/commands/info.py b/smart/commands/info.py
-+index 12f74f0..59fbe98 100644
-+--- a/smart/commands/info.py
-++++ b/smart/commands/info.py
-+@@ -58,6 +58,10 @@ def parse_options(argv):
-+ 
-+ def main(ctrl, opts, reloadchannels=True):
-+ 
-++    # Argument check
-++    if not opts.args:
-++      raise Error, _("No package(s) given")
-++
-+     if sysconf.get("auto-update"):
-+         from smart.commands import update
-+         updateopts = update.parse_options([])
-+diff --git a/smart/commands/install.py b/smart/commands/install.py
-+index 8a45954..590222c 100644
-+--- a/smart/commands/install.py
-++++ b/smart/commands/install.py
-+@@ -76,6 +76,10 @@ def parse_options(argv):
-+ 
-+ def main(ctrl, opts):
-+  
-++    # Argument check
-++    if not opts.args:
-++        raise Error, _("no package(s) given")
-++
-+     if opts.explain:
-+         sysconf.set("explain-changesets", True, soft=True)
-+ 
-+diff --git a/smart/commands/reinstall.py b/smart/commands/reinstall.py
-+index e59d896..32da3e6 100644
-+--- a/smart/commands/reinstall.py
-++++ b/smart/commands/reinstall.py
-+@@ -68,7 +68,11 @@ def parse_options(argv):
-+     return opts
-+ 
-+ def main(ctrl, opts):
-+-    
-++
-++    # Argument check
-++    if not opts.args:
-++        raise Error, _("no package(s) given")
-++
-+     if opts.explain:
-+         sysconf.set("explain-changesets", True, soft=True)
-+ 
-+diff --git a/smart/commands/remove.py b/smart/commands/remove.py
-+index b4823a6..acd3bbd 100644
-+--- a/smart/commands/remove.py
-++++ b/smart/commands/remove.py
-+@@ -74,6 +74,10 @@ def parse_options(argv):
-+ 
-+ def main(ctrl, opts):
-+ 
-++    # Argument check
-++    if not opts.args:
-++        raise Error, _("no package(s) given")
-++
-+     if opts.explain:
-+         sysconf.set("explain-changesets", True, soft=True)
-+ 
-+diff --git a/smart/commands/search.py b/smart/commands/search.py
-+index 0d0b573..44806b8 100644
-+--- a/smart/commands/search.py
-++++ b/smart/commands/search.py
-+@@ -44,6 +44,8 @@ def option_parser():
-+ def parse_options(argv):
-+     opts = query.parse_options(argv, usage=USAGE, \
-+                                description=DESCRIPTION, examples=EXAMPLES)
-++    if not argv:
-++      raise Error, _("Search expression not specified")
-+     opts.name = opts.args
-+     opts.summary = opts.args
-+     opts.description = opts.args
-+diff --git a/smart/commands/upgrade.py b/smart/commands/upgrade.py
-+index ec86290..7e290d8 100644
-+--- a/smart/commands/upgrade.py
-++++ b/smart/commands/upgrade.py
-+@@ -91,6 +91,9 @@ def parse_options(argv):
-+ 
-+ def main(ctrl, opts):
-+ 
-++    # Argument check
-++    opts.check_args_of_option("flag", 1)
-++
-+     if opts.explain:
-+         sysconf.set("explain-changesets", True, soft=True)
-+ 
-+diff --git a/smart/util/optparse.py b/smart/util/optparse.py
-+index 4a3d3a8..279b0bf 100644
-+--- a/smart/util/optparse.py
-++++ b/smart/util/optparse.py
-+@@ -70,6 +70,8 @@ import sys, os
-+ import types
-+ import textwrap
-+ from gettext import gettext as _
-++from smart import Error
-++import re
-+ 
-+ def _repr(self):
-+     return "<%s at 0x%x: %s>" % (self.__class__.__name__, id(self), self)
-+@@ -708,6 +710,12 @@ class Option:
-+             self.action, self.dest, opt, value, values, parser)
-+ 
-+     def take_action(self, action, dest, opt, value, values, parser):
-++        # Keep all the options in the command line in the '_given_opts' array
-++        # This will be used later to validate the command line
-++        given_opts = getattr(parser.values, "_given_opts", [])
-++        user_opt = re.sub(r"^\-*", "", opt).replace("-", "_")
-++        given_opts.append(user_opt)
-++        setattr(parser.values, "_given_opts", given_opts)
-+         if action == "store":
-+             setattr(values, dest, value)
-+         elif action == "store_const":
-+@@ -819,6 +827,54 @@ class Values:
-+             setattr(self, attr, value)
-+         return getattr(self, attr)
-+ 
-++    # Check if the given option has the specified number of arguments
-++    # Raise an error if the option has an invalid number of arguments
-++    # A negative number for 'nargs' means "at least |nargs| arguments are needed"
-++    def check_args_of_option(self, opt, nargs, err=None):
-++        given_opts = getattr(self, "_given_opts", [])
-++        if not opt in given_opts:
-++            return
-++        values = getattr(self, opt, [])
-++        if type(values) != type([]):
-++            return
-++        if nargs < 0:
-++            nargs = -nargs
-++            if len(values) >= nargs:
-++                return
-++            if not err:
-++                if nargs == 1:
-++                    err = _("Option '%s' requires at least one argument") % opt
-++                else:
-++                    err = _("Option '%s' requires at least %d arguments") % (opt, nargs)
-++            raise Error, err
-++        elif nargs == 0:
-++            if len( values ) == 0:
-++                return
-++            raise Error, err
-++        else:
-++            if len(values) == nargs:
-++                return
-++            if not err:
-++                if nargs == 1:
-++                    err = _("Option '%s' requires one argument") % opt
-++                else:
-++                    err = _("Option '%s' requires %d arguments") % (opt, nargs)
-++            raise Error, err
-++
-++    # Check that at least one of the options in 'actlist' was given as an argument
-++    # to the command 'cmdname'
-++    def ensure_action(self, cmdname, actlist):
-++        given_opts = getattr(self, "_given_opts", [])
-++        for action in actlist:
-++            if action in given_opts:
-++                return
-++        raise Error, _("No action specified for command '%s'") % cmdname
-++
-++    # Check if there are any other arguments left after parsing the command line and
-++    # raise an error if such arguments are found
-++    def check_remaining_args(self):
-++        if self.args:
-++            raise Error, _("Invalid argument(s) '%s'" % str(self.args))
-+ 
-+ class OptionContainer:
-+ 
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index 53f232b..ce1f435 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -11,7 +11,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
- 
- DEPENDS = "python rpm"
--PR = "r4"
-+PR = "r5"
- SRCNAME = "smart"
- 
- SRC_URI = "\
-@@ -24,6 +24,7 @@ SRC_URI = "\
-           file://smart-rpm-md-parse.patch \
-           file://smart-tmpdir.patch \
-           file://smart-metadata-match.patch \
-+          file://smart-improve-error-reporting.patch \
-           "
- 
- SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
--- 
-1.7.10.4
+The first (which is also present in the older oe-core systems) uses a spe=
+cific=20
+SDK recipe.  For instance, meta-toolchain.  This recipe simply makes the=20
+toolchain elements available to you and you need to provide the necessary=
+=20
+sysroot for your SDK.  An alternative is something like meta-toolchain-gm=
+ae=20
+which provides a specific set of sysroot components for the 'gnome mobile=
+=20
+applicable environment.'
+
+The advantage of this first way is it allows a product designer to releas=
+e a=20
+targeted SDK for their application developers.  You don't have to put eve=
+rything=20
+that will end up on the target image into the SDK, only the libraries, he=
+aders=20
+and interfaces that an app developer are allowed to use.
+
+The second way (which is newer) is the ability to generate an SDK based o=
+n the=20
+contents of the image.  This uses a new task called "populate_sdk" that c=
+an be=20
+run with any image recipe, i.e. "bitbake core-image-minimal -c populate_s=
+dk".=20
+This will generate an SDK image that includes the software from the image=
+, in=20
+addition to related -dev and -dbg packages.
+
+The advantage of this second way is that you have an SDK that enables dev=
+eloping=20
+for the contents of the image, as well as system wide cross-debugging wit=
+h the=20
+-dbg packages.
+
+
+The items below are specific to one packaging system, opkg.  The items ab=
+ove are=20
+generic and are expected to work in any of the supported methods.
+
+> After searching the web for a bit, I discovered the "opkg-target"
+> command. Turns out that this command (or alias) no longer exist. Now
+> I'm supposed to use "opkg-cl". The yocto documentation says I should
+> do this:
+>
+> $ opkg-cl =E2=80=93f <conf_file> -o <sysroot_dir> update
+> $ opkg-cl =E2=80=93f <cconf_file> -o <sysroot_dir> --force-overwrite in=
+stall libglade
+> $ opkg-cl =E2=80=93f <cconf_file> -o <sysroot_dir> --force-overwrite in=
+stall
+> libglade-dbg
+> $ opkg-cl =E2=80=93f <conf_file> -o <sysroot_dir> --force-overwrite ins=
+tall libglade-dev
+>
+> Let's see, there are two sysroots installed by the toolchain:
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux
+> /usr/local/oecore-x86_64/sysroots/armv7a-angstrom-linux-gnueabi/
+>
+> After messing around with the various combinations of <conf_file> and
+> <sysroot_dir>, the closest I get to somthing working is this:
+>
+> $ . /usr/local/oecore-x86_64/environment-setup-armv7a-angstrom-linux-gn=
+ueabi
+> $ opkg-cl -f /usr/local/oecore-x86_64/sysroots/armv7a-angstrom-linux-gn=
+ueabi/etc/opkg-sdk.conf
+> -o /usr/local/oecore-x86_64/sysroots/armv7a-angstrom-linux-gnueabi/
+> update
+> [snip lots of "Package XXX has no valid architecture, ignoring"]
+> Package libsystemd-id128-0 version v44-45-g3eff420-r28 has no valid
+> architecture, ignoring.
+> Package pam-plugin-shells version 1.1.5-r5 has no valid architecture, i=
+gnoring.
+> Package coreutils-dbg version 8.14-r3 has no valid architecture, ignori=
+ng.
+> Package ocf-linux version 20100325-r3.0 has no valid architecture, igno=
+ring.
+> Package libxdamage-dev version 1:1.1.3-r1 has no valid architecture, ig=
+noring.
+> Downloading file:/home/bfo/setup-scripts/build/tmp-angstrom_v2012_05-eg=
+libc/deploy/ipk/Packages.
+> Updated list of available packages in
+> /usr/local/oecore-x86_64/sysroots/armv7a-angstrom-linux-gnueabi///var/l=
+ib/opkg/lists/oe.
+> Downloading file:/home/bfo/setup-scripts/build/tmp-angstrom_v2012_05-eg=
+libc/deploy/ipk/all/Packages.
+> Updated list of available packages in
+> /usr/local/oecore-x86_64/sysroots/armv7a-angstrom-linux-gnueabi///var/l=
+ib/opkg/lists/oe-all.
+> Downloading file:/home/bfo/setup-scripts/build/tmp-angstrom_v2012_05-eg=
+libc/deploy/ipk/x86_64-nativesdk/Packages.
+> Updated list of available packages in
+> /usr/local/oecore-x86_64/sysroots/armv7a-angstrom-linux-gnueabi///var/l=
+ib/opkg/lists/oe-x86_64-nativesdk.
+>
+> I've also run "bitbake package-index", but it didn't change anything.
+>
+> Can someone please explain how to control what goes into the SDK?
+>
+> If possible, I'd like to configure the SDK contents in a file rather
+> than running a bunch of opkg-cl commands afterwards. I like
+> reproducible builds, and if I have to run opkg-cl commands afterwards
+> I will have to document/script that too. Configuration managment is
+> difficult enough as it is :-)
+>
+> Best regards,
+> Bj=C3=B8rn Forsman
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
