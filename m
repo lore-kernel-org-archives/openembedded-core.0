@@ -1,24 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1TkYU6-0006Hv-Ib
+	(envelope-from <ddalex@intel.com>) id 1TkZ7x-0006qe-Qf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 12:03:46 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Dec 2012 02:48:00 -0800
+	Mon, 17 Dec 2012 12:44:59 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2012 03:29:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="181830720"
+X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="265377381"
 Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2012 02:47:58 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2012 03:29:05 -0800
 Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 9B16F560743; Mon, 17 Dec 2012 12:48:09 +0200 (EET)
+	id 877A55606CE; Mon, 17 Dec 2012 13:29:15 +0200 (EET)
 From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org, paul.eggleton@linux.intel.com,
-	richard.purdie@linuxfoundation.org
-Date: Mon, 17 Dec 2012 12:48:07 +0200
-Message-Id: <1355741287-8655-1-git-send-email-alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
+	damien.lespiau@intel.com, dvhart@linux.intel.com, radu.moisan@intel.com,
+	otavio@ossystems.com.br
+Date: Mon, 17 Dec 2012 13:29:13 +0200
+Message-Id: <1355743753-12947-1-git-send-email-alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH] Core image base ssh access and package management
+Subject: [PATCH] init-live: default to initrd shell if image isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 11:03:46 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 11:44:59 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Since core-image-base is a default image that developers should
-use for developing headless applications, it should have
-package management and ssh access.
+If the init live fails to find and mount a root-fs image,
+we should dump to a shell so that the developer can figure
+what's wrong.
+
+Prior art in Ubuntu. Also, leaving a system stale isn't good form.
 
 Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/recipes-core/images/core-image-base.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/initrdscripts/files/init-live.sh |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-core/images/core-image-base.bb b/meta/recipes-core/images/core-image-base.bb
-index 8ef3376..a78417f 100644
---- a/meta/recipes-core/images/core-image-base.bb
-+++ b/meta/recipes-core/images/core-image-base.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "A console-only image that fully supports the target device \
- hardware."
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index c591f0d..2d6d6f6 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -75,6 +75,7 @@ early_setup
+ read_args
  
--IMAGE_FEATURES += "splash"
-+IMAGE_FEATURES += "splash package-management ssh-server-dropbear"
- 
- LICENSE = "MIT"
+ echo "Waiting for removable media..."
++C=0
+ while true
+ do
+   for i in `ls /media 2>/dev/null`; do
+@@ -90,6 +91,11 @@ do
+   if [ "$found" = "yes" ]; then
+       break;
+   fi
++  # don't wait for more than 3 seconds
++  C=$(( C + 1 ))
++  if [ $C -gt 3 ]; then
++      fatal "Cannot find root image on media"
++  fi
+   sleep 1
+ done
  
 -- 
 1.7.10.4
