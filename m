@@ -1,20 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TkXLo-0004gJ-9C
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TkXVr-0005BF-EG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 17 Dec 2012 10:51:19 +0100
+	Mon, 17 Dec 2012 11:01:32 +0100
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Dec 2012 01:36:27 -0800
+	by azsmga102.ch.intel.com with ESMTP; 17 Dec 2012 01:46:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="181808641"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2012 01:36:25 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,300,1355126400"; d="scan'208";a="181811021"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2012 01:46:48 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Dec 2012 11:37:05 +0200
-Message-Id: <1355737025-13222-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH v2] psplash: enable multilib
+Date: Mon, 17 Dec 2012 11:46:45 +0200
+Message-Id: <1355737607-8007-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] distcc,avahi - add users offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,53 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Dec 2012 09:51:21 -0000
+X-List-Received-Date: Mon, 17 Dec 2012 10:01:32 -0000
 
-[YOCTO #3438]
+Hi,
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-core/psplash/psplash_git.bb | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+This is part of "run all postinstalls at do_rootfs time" effort.
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 7c033e7..0b08bab 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85b
- 
- SRCREV = "de9979aefbc56af59b4d236a4b63dd19dcdcfb53"
- PV = "0.1+git${SRCPV}"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://psplash-init \
-@@ -50,13 +50,17 @@ python __anonymous() {
-         d.appendVar("DEPENDS", " gdk-pixbuf-native")
- 
-     d.prependVar("PACKAGES", "%s " % (" ".join(pkgs)))
-+    mlprefix = d.getVar('MLPREFIX', True) or ''
-+    pn = d.getVar('PN', True) or ''
-     for p in pkgs:
--        d.setVar("FILES_%s" % p, "${bindir}/%s" % p)
--        d.setVar("ALTERNATIVE_%s" % p, 'psplash')
--        d.setVarFlag("ALTERNATIVE_TARGET_%s" % p, 'psplash', '${bindir}/%s' % p)
--        d.appendVar("RDEPENDS_%s" % p, " ${PN}")
-+        ep = '%s%s' % (mlprefix, p)
-+        epsplash = '%s%s' % (mlprefix, 'psplash')
-+        d.setVar("FILES_%s" % ep, "${bindir}/%s" % p)
-+        d.setVar("ALTERNATIVE_%s" % ep, epsplash)
-+        d.setVarFlag("ALTERNATIVE_TARGET_%s" % ep, epsplash, '${bindir}/%s' % p)
-+        d.appendVar("RDEPENDS_%s" % ep, " %s" % pn)
-         if p == "psplash-default":
--            d.appendVar("RRECOMMENDS_${PN}", " %s" % p)
-+            d.appendVar("RRECOMMENDS_%s" %  pn, " %s" % ep)
- }
- 
- S = "${WORKDIR}/git"
+Thanks,
+Laurentiu
+
+Laurentiu Palcu (2):
+  avahi: use useradd.bbclass to add avahi-autoipd user
+  distcc: use useradd.bbclass to add the distcc user
+
+ meta/recipes-connectivity/avahi/avahi.inc     |   19 ++++++++-----------
+ meta/recipes-devtools/distcc/distcc_2.18.3.bb |   19 +++++++++++--------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
+
 -- 
-1.7.11.7
+1.7.9.5
 
 
 
