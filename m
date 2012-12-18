@@ -1,27 +1,21 @@
-Received: from mout.gmx.net ([212.227.15.19])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cheepeero@gmx.net>) id 1TkrSO-0003NT-0p
+	(envelope-from <sgw@linux.intel.com>) id 1TkrX0-0003Tx-BT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 08:19:16 +0100
-Received: from mailout-de.gmx.net ([10.1.76.70]) by mrigmx.server.lan
-	(mrigmx001) with ESMTP (Nemesis) id 0MM1FC-1TjkEw1zXo-007oj5 for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2012 08:04:34 +0100
-Received: (qmail invoked by alias); 18 Dec 2012 07:04:34 -0000
-Received: from unknown (EHLO pink.cheepee.homedns.org) [78.96.83.205]
-	by mail.gmx.net (mp070) with SMTP; 18 Dec 2012 08:04:34 +0100
-X-Authenticated: #14774724
-X-Provags-ID: V01U2FsdGVkX19opik7ydRoGs7C1iJnSPuIt3yRCsInHMYgbK+N5s
-	uNJXislE1xb1Rb
-From: Ciprian Ciubotariu <cheepeero@gmx.net>
+	Tue, 18 Dec 2012 08:24:02 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 17 Dec 2012 23:09:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,308,1355126400"; d="scan'208";a="182231442"
+Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
+	([10.255.13.212])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2012 23:09:19 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2012 09:04:14 +0200
-Message-Id: <1355814255-1946-1-git-send-email-cheepeero@gmx.net>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <20121215065958.GA3113@jama.jama.net>
-References: <20121215065958.GA3113@jama.jama.net>
-X-Y-GMX-Trusted: 0
-Subject: packagegroup-base notes
+Date: Mon, 17 Dec 2012 23:09:17 -0800
+Message-Id: <1355814558-19628-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH 1/2] standalone-sdk: Need to have an update-alternatives package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,9 +28,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 07:19:16 -0000
+X-List-Received-Date: Tue, 18 Dec 2012 07:24:02 -0000
 
-Please note that packagegroup-base also contains references to VIRTUAL-RUNTIME_apm and VIRTUAL-RUNTIME_alsa-state, which are not defined within the same recipe (I did a search to find a good place to add my own weak definition for keymaps).
+This is required to correctly install the SDK in a standalone
+situation
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../packagegroups/packagegroup-core-standalone-sdk-target.bb           | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index c8b5623..e5561e5 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -19,3 +19,6 @@ RDEPENDS_${PN} = "\
+     libstdc++-dev \
+     ${LIBC_DEPENDENCIES} \
+     "
++
++# We need the target update-alternative to install correctly
++RDEPENDS += "${VIRTUAL-RUNTIME_update-alternatives}"
+-- 
+1.8.0.2
 
 
 
