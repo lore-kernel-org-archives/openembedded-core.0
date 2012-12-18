@@ -1,34 +1,25 @@
-Received: from mail-pa0-f43.google.com ([209.85.220.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1Tktyk-00033j-RI
+	(envelope-from <Kai.Kang@windriver.com>) id 1TkuRK-0003mB-UI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 11:00:58 +0100
-Received: by mail-pa0-f43.google.com with SMTP id fb10so403676pad.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2012 01:46:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:organization:user-agent
-	:mime-version:content-transfer-encoding:content-type;
-	bh=2bVEvpRAYzVTo5e6F1S8dBHe5mqY03B6XiHvgGD5yTU=;
-	b=MoICg/Dq5GkuBXT+FP02xBKQWyIjoEt5HKRoGHvXrZrJeWKSfP3Bv0+NePtCZ5gcNd
-	XyE66xXwFPSUzf2zVL60sz3s40eab+Ys/YlzyFJbhL331tFB0Kb9x136Yz70Xi6aV7Z9
-	i4GWkwuJijaSp2DuAejhYvqUv5AVJmNxApAeT60BRnWglc+hkg/stydP4VEKjDRnFzsw
-	373rbeHH4xIaNdgeol1yijPbSrbtXXKaW+nV9s86cItUIY5yZ+miiyzUBB8wPlxlZo3j
-	nCoTqBHanoY5zTqgyvc6MIMD82fDvVNyK5yRVvVCQfrawzOpkK2LyvrAn1LbgNK1gOwi
-	CQig==
-X-Received: by 10.68.192.70 with SMTP id he6mr4880208pbc.142.1355823968455;
-	Tue, 18 Dec 2012 01:46:08 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([117.89.52.85])
-	by mx.google.com with ESMTPS id na4sm884594pbc.18.2012.12.18.01.46.06
-	(version=SSLv3 cipher=OTHER); Tue, 18 Dec 2012 01:46:07 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2012 17:44:41 +0000
-Message-ID: <3685219.sqIRCkcXgY@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.4 (Linux/3.6.9-1-ARCH; KDE/4.9.4; x86_64; ; )
+	Tue, 18 Dec 2012 11:30:24 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBIAFerJ011371
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Dec 2012 02:15:40 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Tue, 18 Dec 2012 02:15:39 -0800
+From: Kang Kai <kai.kang@windriver.com>
+To: <sgw@linux.intel.com>
+Date: Tue, 18 Dec 2012 18:16:27 +0800
+Message-ID: <cover.1355825643.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Subject: how to use "meta-toolchain-qte"?
+X-Originating-IP: [128.224.162.205]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] Add sub-package perl-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,25 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 10:01:06 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 18 Dec 2012 10:30:36 -0000
+Content-Type: text/plain
 
-Hi, All!
+Add sub-package perl-tests to run perl test cases on target.
 
-I'm making a qte image of my own. and when compiling qt app, I can't generate 
-the Makefile.
+The following changes since commit 2a9c574fd8b0800199b6569b6abf02634801013d:
 
-I have made "meta-ide-support", and used the env setup script under 
-'<build_dir>/tmp'.
+  gst-openmax: fix build with newer GLib (2012-12-17 17:53:52 +0000)
 
-I can only got "qmake2", but no "qmake".
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/perl-tests
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/perl-tests
 
-after googled, got the "meta-toolchain-qte", but how to use it?
-where is the coressponding env setup script?
+Kang Kai (1):
+  perl: add sub-package perl-tests
 
+ meta/recipes-devtools/perl/perl-5.14.2/config.sh |   18 +++++++++++-
+ meta/recipes-devtools/perl/perl-tests.inc        |   34 ++++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.14.2.bb        |    3 +-
+ 3 files changed, 53 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl/perl-tests.inc
 
-Yi Qingliang
-Nanjing Jilong
+-- 
+1.7.5.4
+
 
 
