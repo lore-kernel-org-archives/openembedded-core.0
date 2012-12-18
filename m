@@ -1,41 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tl3Vl-0002jA-KJ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 21:11:33 +0100
-Received: from mail-ye0-f199.google.com ([209.85.213.199])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 18 Dec 2012 11:55:57 -0800
-Received: by mail-ye0-f199.google.com with SMTP id l12so1631895yen.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2012 11:56:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=kVCp3xHeLgp8Yv+aocu+70l8ihghHaj3w8P1jlCZyu8=;
-	b=mEm8qiBA4EH9jOnBqGTGrK9dnmzZiICJB2Z19H8QToNo7GJMPX0uQgO085Qo71FoCm
-	knXKZX7iCRggO9nfeFgKGYuaGdcEPkcLpcLNuN4GT6L+sFguzeU9W1aUc7Tu/CDoX83h
-	KFHlEqeU1t0svejGl5QrwERhQk8vYLPxwKWeFnMOfI23Rk5O2Gxiy0cU5TMqVA1Y8Y5g
-	cFO9pc1UW6gktWEvi5kfMWQUR7XmPscDMJUq9U3w8QApLnKz0lacsziZsskSVAisoQxA
-	T+DsVIvavUJ1ugqPtviXtdEsxziR6CJjW0wKihmzt3wJH1DIXql6HVlOHDn3qcrycpqH
-	NUGg==
-X-Received: by 10.220.219.145 with SMTP id hu17mr4890468vcb.52.1355860609259; 
-	Tue, 18 Dec 2012 11:56:49 -0800 (PST)
-Received: by 10.220.219.145 with SMTP id hu17mr4890459vcb.52.1355860609177;
-	Tue, 18 Dec 2012 11:56:49 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Tue, 18 Dec 2012 11:56:29 -0800 (PST)
-In-Reply-To: <50D0C156.9050500@linux.intel.com>
-References: <1355821397-23458-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<1355821397-23458-2-git-send-email-marcin.juszkiewicz@linaro.org>
-	<50D0C156.9050500@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Dec 2012 19:56:29 +0000
-Message-ID: <CAJTo0LZDZjg3fycmeUdgHpkxQJBd3BQXiaSEB1hwJDE7NRO-yw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQnBLFq+G+AGsj8O7WZxTwk0uq5p9eh2B7890UdmjknadumLv7f/SOkok6rEz0MH9zhcdwvZHWlZcMvS/nP+JU2043Hu50NlRg009aXdOUCzL2zRzEEj0atr+55wtT4Qcmmn9IZTDaW5ggpByhbQ1pRmdm2VUVQLyLNiMEb2jK9u+oEfgj+G9SunN25B25scKRxEdjYC
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Tl4wE-0004Ni-UA for openembedded-core@lists.openembedded.org;
+	Tue, 18 Dec 2012 22:43:03 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBILSEAI031405;
+	Tue, 18 Dec 2012 21:28:14 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30306-04; Tue, 18 Dec 2012 21:28:10 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBILS5Il031399
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 18 Dec 2012 21:28:06 GMT
+Message-ID: <1355866085.18874.46.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Matthew McClintock <msm@freescale.com>
+Date: Tue, 18 Dec 2012 21:28:05 +0000
+In-Reply-To: <1355851135-31667-1-git-send-email-msm@freescale.com>
+References: <1355851135-31667-1-git-send-email-msm@freescale.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] slang: added gnu-configize for AArch64 support
+Subject: Re: [for-denzil] bitbake: command: add error to return of runCommand
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,31 +37,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 20:11:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Dec 2012 21:43:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18 December 2012 19:17, Saul Wold <sgw@linux.intel.com> wrote:
->> +do_configure_prepend() {
->> +    # slang keeps configure.ac and rest of autoconf files in autoconf/
->> directory
->> +    # we have to go there to be able to run gnu-configize cause it
->> expects configure.{in,ac}
->> +    # to be present. Resulting files land in autoconf/autoconf/ so we
->> need to move them.
->> +    cd ${S}/autoconf && gnu-configize --force && mv autoconf/config.* .
->> +    cd ${S}
->> +}
->
-> Should these be ${S} or ${B} (or some combination), I believe we are trying
-> to allow for builds to be in a different dir where ${S} != ${B}?
+On Tue, 2012-12-18 at 11:18 -0600, Matthew McClintock wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> Currently, command.py can return an error message from runCommand, due to
+> being unable to run the command, yet few of our UIs (just hob) can handle it
+> today. This can result in seeing a TypeError with traceback in certain rare
+> circumstances.
+> 
+> To resolve this, we need a clean way to get errors back from runCommand,
+> without having to isinstance() the return value. This implements such a thing
+> by making runCommand also return an error (or None if no error occurred).
+> 
+> As runCommand now has a method of returning errors, we can also alter the
+> getCmdLineAction bits such that the returned value is just the action, not an
+> additional message. If a sync command wants to return an error, it raises
+> CommandError(message), and the message will be passed to the caller
+> appropriately.
+> 
+> Example Usage:
+> 
+>     result, error = server.runCommand(...)
+>     if error:
+>         log.error('Unable to run command: %s' % error)
+>         return 1
+> 
+> (Bitbake rev: 717831b8315cb3904d9b590e633000bc897e8fb6)
 
-Yes, I would like people to consider $S and $B when writing things
-like this - whilst at the moment it's a disaster to attempt S!=B, I've
-a branch (ross/bnots on poky-contrib) where I'm fixing/disabling the
-problem recipes.
+This patch has bugs in it. See recent fixes in master.
 
-I this case, $S then $B should be right, afaik.
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  bitbake/lib/bb/command.py                   |   43 +++++++++++++++----------
+>  bitbake/lib/bb/server/process.py            |    2 +-
+>  bitbake/lib/bb/ui/crumbs/hobeventhandler.py |    5 ++-
+>  bitbake/lib/bb/ui/depexp.py                 |   38 ++++++++++++++--------
+>  bitbake/lib/bb/ui/goggle.py                 |   17 +++++-----
+>  bitbake/lib/bb/ui/knotty.py                 |   45 ++++++++++++++++++---------
+>  bitbake/lib/bb/ui/ncurses.py                |   21 ++++++++-----
+>  7 files changed, 112 insertions(+), 59 deletions(-)
+> 
+> diff --git a/bitbake/lib/bb/command.py b/bitbake/lib/bb/command.py
+> index fd8912a..00b854e 100644
+> --- a/bitbake/lib/bb/command.py
+> +++ b/bitbake/lib/bb/command.py
+> @@ -44,6 +44,9 @@ class CommandFailed(CommandExit):
+>          self.error = message
+>          CommandExit.__init__(self, 1)
+>  
+> +class CommandError(Exception):
+> +    pass
+> +
+>  class Command:
+>      """
+>      A queue of asynchronous commands for bitbake
+> @@ -57,21 +60,25 @@ class Command:
+>          self.currentAsyncCommand = None
+>  
+>      def runCommand(self, commandline):
+> -        try:
+> -            command = commandline.pop(0)
+> -            if command in CommandsSync.__dict__:
+> -                # Can run synchronous commands straight away
+> -                return getattr(CommandsSync, command)(self.cmds_sync, self, commandline)
+> -            if self.currentAsyncCommand is not None:
+> -                return "Busy (%s in progress)" % self.currentAsyncCommand[0]
+> -            if command not in CommandsAsync.__dict__:
+> -                return "No such command"
+> -            self.currentAsyncCommand = (command, commandline)
+> -            self.cooker.server_registration_cb(self.cooker.runCommands, self.cooker)
+> -            return True
+> -        except:
+> -            import traceback
+> -            return traceback.format_exc()
+> +        command = commandline.pop(0)
+> +        if hasattr(CommandsSync, command):
+> +            # Can run synchronous commands straight away
+> +            command_method = getattr(self.cmds_sync, command)
+> +            try:
+> +                result = command_method(self, commandline)
+> +            except CommandError as exc:
+> +                return None, exc.args[0]
+> +            except Exception:
+> +                return None, traceback.format_exc()
 
-Ross
+Missing import traceback.
+
+> +            else:
+> +                return result, None
+> +        if self.currentAsyncCommand is not None:
+> +            return None, "Busy (%s in progress)" % self.currentAsyncCommand[0]
+> +        if command not in CommandsAsync.__dict__:
+> +            return None, "No such command"
+> +        self.currentAsyncCommand = (command, commandline)
+> +        self.cooker.server_registration_cb(self.cooker.runCommands, self.cooker)
+> +        return True, None
+>  
+>      def runAsyncCommand(self):
+>          try:
+> @@ -139,7 +146,11 @@ class CommandsSync:
+>          """
+>          Get any command parsed from the commandline
+>          """
+> -        return command.cooker.commandlineAction
+> +        cmd_action = command.cooker.commandlineAction
+> +        if cmd_action['msg']:
+> +            raise CommandError(msg)
+
+Error, "msg" not defined.
+
+Cheers,
+
+Richard
+
 
 
