@@ -1,35 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Tl0qy-0007xn-Lz
-	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 18:21:18 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBIH6YTI018797
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Dec 2012 09:06:34 -0800 (PST)
-Received: from msp-dhcp56.wrs.com (172.25.34.56) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 18 Dec 2012 09:06:31 -0800
-Message-ID: <50D0A297.4010702@windriver.com>
-Date: Tue, 18 Dec 2012 11:06:31 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: =?UTF-8?B?QmrDuHJuIEZvcnNtYW4=?= <bjorn.forsman@gmail.com>
-References: <CAEYzJUHZYS8cA3KRRM2L+etHxAOxaU=vBzgaRbUc9hSg8AJODA@mail.gmail.com>
-	<50CF3D03.3040301@windriver.com>
-	<CAEYzJUGVz4DTiqa8V6tOtQCg53C4TQ_zPb5jh6gEWks1+xP4vg@mail.gmail.com>
-	<CAEYzJUG1fnyG53nx7DXYhSCnoxw44nW_hZXQX-gKij525dPYdA@mail.gmail.com>
-	<50CF9ABE.3000508@windriver.com>
-	<CAEYzJUGy1LR0YomqNEKnYPtVWAtMUpC=R21vZRZAx-SSe8GVVg@mail.gmail.com>
-In-Reply-To: <CAEYzJUGy1LR0YomqNEKnYPtVWAtMUpC=R21vZRZAx-SSe8GVVg@mail.gmail.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	qBIH6YTI018797
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: SDK confusion!
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Tl1GI-0008FG-CX for openembedded-core@lists.openembedded.org;
+	Tue, 18 Dec 2012 18:47:31 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBIHWfoX029711;
+	Tue, 18 Dec 2012 17:32:41 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28789-07; Tue, 18 Dec 2012 17:32:37 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBIHWXsv029704
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 18 Dec 2012 17:32:34 GMT
+Message-ID: <1355851953.18874.45.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 18 Dec 2012 17:32:33 +0000
+In-Reply-To: <CADkTA4OAKuK6Sk0=vSnr6P+M8_svdZ2VNEbH18HZNbWt_LpzuQ@mail.gmail.com>
+References: <1355220771-32095-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<CADkTA4NLkvWThY4fzqzqDc5FO+U+CMJGEjOD9oJsLXDidfoapg@mail.gmail.com>
+	<1355828839.18874.8.camel@ted>
+	<CADkTA4Nwm2VxcAfrX7p0qy6CVYHMpH+WKbwv4Mr6BkGaJ3+WFw@mail.gmail.com>
+	<50D0729C.2090703@linaro.org>
+	<CADkTA4OAKuK6Sk0=vSnr6P+M8_svdZ2VNEbH18HZNbWt_LpzuQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches, discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Add 3.7 version of linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,61 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 17:21:18 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Dec 2012 17:47:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 12/18/12 7:50 AM, Bj=C3=B8rn Forsman wrote:
-> On 17 December 2012 23:20, Mark Hatle <mark.hatle@windriver.com> wrote:
-> [...]
->> This is Yocto Project 1.2, the feature arrived sometime between 1.2 an=
-d 1.3.
->>
->> The 'danny' branch is 1.3, 'denzil' is 1.2.  I may have said 'denzil' =
-by
->> accident in the last email.
->>
->> Basically you need a newer oe-core to use this feature, or you need to
->> backport it.
->
-> Ok. I have switched branches now and got it working for
-> core-image-minimal. Thanks.
->
-> However, the systemd-image in Angstrom has an issue that breaks
-> "bitbake systemd-image -c populate_sdk". I have posted a message on
-> their list just now. But basically, the error is this:
->
-> $ bitbake systemd-image -c populate_sdk
-> [...]
-> | Package netbase-dbg (5.0-r1) installed in root is up to date.
-> | Collected errors:
-> |  * check_conflicts_for: The following packages conflict with openssh:
-> |  * check_conflicts_for: 	dropbear *
-> |  * opkg_install_cmd: Cannot install package openssh-dev.
-> |  * check_conflicts_for: The following packages conflict with openssh:
-> |  * check_conflicts_for: 	dropbear *
-> |  * opkg_install_cmd: Cannot install package openssh-dbg.
+On Tue, 2012-12-18 at 08:56 -0500, Bruce Ashfield wrote:
 
-Both dropbear and openssh appear to not be able to be installed at the sa=
-me time=20
-due to a stated package conflict.  As to why they are bothy trying to be=20
-installed, I'm not sure.  Sorry.
+> On Tue, Dec 18, 2012 at 8:41 AM, Marcin Juszkiewicz
+> <marcin.juszkiewicz@linaro.org> wrote:
+>         W dniu 18.12.2012 14:32, Bruce Ashfield pisze:
+>         > On Tue, Dec 18, 2012 at 6:07 AM, Richard Purdie On Tue,
+>         2012-12-11 
 
---Mark
+>         > If we bring this in, I'd prefer to completely drop the 3.4
+>         kernel
+>         > headers, since having just one recipe in the tree make
+>         sense, and it
+>         > won't tempt us to start having a trail of one libc-header
+>         per kernel
+>         > version (since there's always a layer somewhere that's using
+>         a given
+>         > version).
+>         
+>         > What about a middle ground ? I can pull this into my tree,
+>         since I'm
+>         > doing some 3.8 and 3.4-stable work at the moment, I'll
+>         remove the 3.4
+>         > kernel headers and then submit it again as part of my queue
+>         with some
+>         > extra tests run ?
+>         
+>         
+>         I am fine with it.
+> 
+> Thanks, I'll pull this in if Richard agrees.
+> 
 
-> | DEBUG: Python function do_populate_sdk finished
-> | ERROR: Function failed: populate_sdk_image (see
-> /home/bfo/setup-scripts/build/tmp-angstrom_v2012_05-eglibc/work/beagleb=
-one-angstrom-linux-gnueabi/systemd-image-1.0-r0/temp/log.do_populate_sdk.=
-18052
-> for further information)
-> ERROR: Task 10 (/home/bfo/setup-scripts/sources/meta-angstrom/recipes-i=
-mages/angstrom/systemd-image.bb,
-> do_populate_sdk) failed with exit code '1'
->
-> Best regards,
-> Bj=C3=B8rn Forsman
->
+Sounds like a plan to me.
+
+Cheers,
+
+Richard
+
 
 
 
