@@ -1,24 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Tl2fK-0001ic-Ip
+	(envelope-from <sgw@linux.intel.com>) id 1Tl2tv-0001sc-C3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 20:17:22 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBIJ2dML008666
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Dec 2012 11:02:39 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 18 Dec 2012 11:02:38 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Dec 2012 13:19:24 -0600
-Message-ID: <1355858364-26511-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Tue, 18 Dec 2012 20:32:27 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 18 Dec 2012 11:17:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,310,1355126400"; d="scan'208";a="233460458"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.212])
+	by azsmga001.ch.intel.com with ESMTP; 18 Dec 2012 11:17:43 -0800
+Message-ID: <50D0C156.9050500@linux.intel.com>
+Date: Tue, 18 Dec 2012 11:17:42 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH resend] gcc-cross-canadian.inc: Add dependency on cross-gcc
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+References: <1355821397-23458-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<1355821397-23458-2-git-send-email-marcin.juszkiewicz@linaro.org>
+In-Reply-To: <1355821397-23458-2-git-send-email-marcin.juszkiewicz@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] slang: added gnu-configize for AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,37 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 19:17:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Dec 2012 19:32:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Khem Raj <raj.khem@gmail.com>
+On 12/18/2012 01:03 AM, Marcin Juszkiewicz wrote:
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> ---
+>   meta/recipes-extended/slang/slang_2.2.4.bb | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+> index 60aac66..946e9f6 100644
+> --- a/meta/recipes-extended/slang/slang_2.2.4.bb
+> +++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+> @@ -29,6 +29,14 @@ SRC_URI[sha256sum] = "9a8257a9a2a55099af858b13338dc8f3a06dd2069f46f0df2c9c3bb84a
+>
+>   EXTRA_OECONF += " --without-z --without-png --without-onig --x-includes=${STAGING_DIR_HOST}/usr/include/X11 --x-libraries=${STAGING_DIR_HOST}/usr/lib"
+>
+> +do_configure_prepend() {
+> +    # slang keeps configure.ac and rest of autoconf files in autoconf/ directory
+> +    # we have to go there to be able to run gnu-configize cause it expects configure.{in,ac}
+> +    # to be present. Resulting files land in autoconf/autoconf/ so we need to move them.
+> +    cd ${S}/autoconf && gnu-configize --force && mv autoconf/config.* .
+> +    cd ${S}
+> +}
+Should these be ${S} or ${B} (or some combination), I believe we are 
+trying to allow for builds to be in a different dir where ${S} != ${B}?
 
-gcc-cross-canadian uses cross compiler during libgcc build
-when building from sstate the build failed when building
-gcc-cross-canadian since it did not populate gcc-cross
-therefore add an explicit dependency on virtual/${TARGET_PREFIX}gcc
-to make sure that gcc-cross is available before building
-gcc-cross-canadian
+Sau!
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 64cf54e..f1824fa 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -4,5 +4,5 @@ DESCRIPTION = "The cross-canadian GNU cc and gcc C compilers for ${TARGET_ARCH}
- PN = "gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "gcc"
- 
--DEPENDS = "virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext"
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext"
- 
--- 
-1.7.3.4
-
+> +
+>   do_install() {
+>   	oe_runmake install DESTDIR=${D} -e 'INST_LIB_DIR=${STAGING_DIR_HOST}/usr/lib'
+>   }
+>
 
 
