@@ -1,24 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mout.gmx.net ([212.227.15.19])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Ming.Liu@windriver.com>) id 1TkqoT-0002Do-JR
+	(envelope-from <cheepeero@gmx.net>) id 1TkrSO-0003NT-0p
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 07:38:03 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBI6NGan009022
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Dec 2012 22:23:16 -0800 (PST)
-Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 17 Dec 2012 22:23:15 -0800
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Dec 2012 14:23:11 +0800
-Message-ID: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.11
-MIME-Version: 1.0
-Subject: [PATCH V2] initscripts: add urandom directory into volatiles
+	Tue, 18 Dec 2012 08:19:16 +0100
+Received: from mailout-de.gmx.net ([10.1.76.70]) by mrigmx.server.lan
+	(mrigmx001) with ESMTP (Nemesis) id 0MM1FC-1TjkEw1zXo-007oj5 for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 18 Dec 2012 08:04:34 +0100
+Received: (qmail invoked by alias); 18 Dec 2012 07:04:34 -0000
+Received: from unknown (EHLO pink.cheepee.homedns.org) [78.96.83.205]
+	by mail.gmx.net (mp070) with SMTP; 18 Dec 2012 08:04:34 +0100
+X-Authenticated: #14774724
+X-Provags-ID: V01U2FsdGVkX19opik7ydRoGs7C1iJnSPuIt3yRCsInHMYgbK+N5s
+	uNJXislE1xb1Rb
+From: Ciprian Ciubotariu <cheepeero@gmx.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Dec 2012 09:04:14 +0200
+Message-Id: <1355814255-1946-1-git-send-email-cheepeero@gmx.net>
+X-Mailer: git-send-email 1.7.8.6
+In-Reply-To: <20121215065958.GA3113@jama.jama.net>
+References: <20121215065958.GA3113@jama.jama.net>
+X-Y-GMX-Trusted: 0
+Subject: packagegroup-base notes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,48 +34,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 06:38:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Dec 2012 07:19:16 -0000
 
-/etc/init.d/urandom fails to start/stop because it tries to save
-random-seed into /var/lib/urandom folder which does not exist in the
-file system.
-
-Fixed by adding /var/lib/urandom into volatiles.
-
-[YOCTO #3518]
-[ CQID: WIND00384168 ]
-
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-core/initscripts/initscripts-1.0/volatiles | 1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb        | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index e0741aa..66b2ed0 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -37,3 +37,4 @@ f root root 0664 /var/run/utmp none
- l root root 0644 /etc/resolv.conf /var/run/resolv.conf
- f root root 0644 /var/run/resolv.conf none
- l root root 0755 /run /var/run
-+d root root 0755 /var/lib/urandom none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index d25838b..251dd06 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r137"
-+PR = "r138"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--- 
-1.7.11
+Please note that packagegroup-base also contains references to VIRTUAL-RUNTIME_apm and VIRTUAL-RUNTIME_alsa-state, which are not defined within the same recipe (I did a search to find a good place to add my own weak definition for keymaps).
 
 
 
