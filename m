@@ -1,26 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tl2tv-0001sc-C3
+	(envelope-from <sgw@linux.intel.com>) id 1Tl36S-00023z-Gn
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 20:32:27 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 18 Dec 2012 11:17:44 -0800
+	Tue, 18 Dec 2012 20:45:24 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Dec 2012 11:30:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,310,1355126400"; d="scan'208";a="233460458"
+X-IronPort-AV: E=Sophos;i="4.84,310,1355126400"; d="scan'208";a="264002160"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.212])
-	by azsmga001.ch.intel.com with ESMTP; 18 Dec 2012 11:17:43 -0800
-Message-ID: <50D0C156.9050500@linux.intel.com>
-Date: Tue, 18 Dec 2012 11:17:42 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2012 11:30:41 -0800
+Message-ID: <50D0C461.7010901@linux.intel.com>
+Date: Tue, 18 Dec 2012 11:30:41 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-References: <1355821397-23458-1-git-send-email-marcin.juszkiewicz@linaro.org>
-	<1355821397-23458-2-git-send-email-marcin.juszkiewicz@linaro.org>
-In-Reply-To: <1355821397-23458-2-git-send-email-marcin.juszkiewicz@linaro.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
+	<CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] slang: added gnu-configize for AArch64 support
+Subject: Re: [PATCH V2] initscripts: add urandom directory into volatiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 19:32:27 -0000
+X-List-Received-Date: Tue, 18 Dec 2012 19:45:24 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/18/2012 01:03 AM, Marcin Juszkiewicz wrote:
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> ---
->   meta/recipes-extended/slang/slang_2.2.4.bb | 8 ++++++++
->   1 file changed, 8 insertions(+)
+On 12/18/2012 03:23 AM, Burton, Ross wrote:
+> On 18 December 2012 06:23, Ming Liu <ming.liu@windriver.com> wrote:
+>> /etc/init.d/urandom fails to start/stop because it tries to save
+>> random-seed into /var/lib/urandom folder which does not exist in the
+>> file system.
+>>
+>> Fixed by adding /var/lib/urandom into volatiles.
 >
-> diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-> index 60aac66..946e9f6 100644
-> --- a/meta/recipes-extended/slang/slang_2.2.4.bb
-> +++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-> @@ -29,6 +29,14 @@ SRC_URI[sha256sum] = "9a8257a9a2a55099af858b13338dc8f3a06dd2069f46f0df2c9c3bb84a
+> Doesn't this mean that the persistent state of urandom will be saved
+> to a ramdisk?
 >
->   EXTRA_OECONF += " --without-z --without-png --without-onig --x-includes=${STAGING_DIR_HOST}/usr/include/X11 --x-libraries=${STAGING_DIR_HOST}/usr/lib"
+> Mixing up persistent and transient state in /var is exactly why /run
+> exists, and why we should switch to support /run as soon as
+> possible...
 >
-> +do_configure_prepend() {
-> +    # slang keeps configure.ac and rest of autoconf files in autoconf/ directory
-> +    # we have to go there to be able to run gnu-configize cause it expects configure.{in,ac}
-> +    # to be present. Resulting files land in autoconf/autoconf/ so we need to move them.
-> +    cd ${S}/autoconf && gnu-configize --force && mv autoconf/config.* .
-> +    cd ${S}
-> +}
-Should these be ${S} or ${B} (or some combination), I believe we are 
-trying to allow for builds to be in a different dir where ${S} != ${B}?
+Sorry, this was my suggestion, It actually is creating /var/lib/urandom 
+which should be a persistent sub-dir of /var
+
+I was bouncing back and for about it being in the the recipe's 
+do_install vs  populate volaties file, I did not see any other 
+/var/lib/<dir> being created so I leaned toward this solution.  This was 
+on the list a week or so ago, we could go back to itbeing created in the 
+do_install()
 
 Sau!
 
-> +
->   do_install() {
->   	oe_runmake install DESTDIR=${D} -e 'INST_LIB_DIR=${STAGING_DIR_HOST}/usr/lib'
->   }
+
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 >
 
 
