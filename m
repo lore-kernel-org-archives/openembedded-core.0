@@ -1,38 +1,34 @@
-Received: from mail-ee0-f46.google.com ([74.125.83.46])
+Received: from mail-pa0-f43.google.com ([209.85.220.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TktJe-000727-BW
+	(envelope-from <niqingliang2003@gmail.com>) id 1Tktyk-00033j-RI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 10:18:24 +0100
-Received: by mail-ee0-f46.google.com with SMTP id e53so160468eek.19
+	Tue, 18 Dec 2012 11:00:58 +0100
+Received: by mail-pa0-f43.google.com with SMTP id fb10so403676pad.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2012 01:03:40 -0800 (PST)
+	Tue, 18 Dec 2012 01:46:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=SI9hnu06IIm7T+gv7zdwIjyE58DwP/2T3eJU25jEkNU=;
-	b=KbN3ztYyd+QpGvF25a6fBGYh3I3LW0LQbQACx4Tc6qUryS6GKzfGcC7a6Mo/ZoAMuq
-	IZP0GT5qtHm5mJkS+tiLRKmjQEfjCDC/kwxJNJj/bQlFiCo08q5mCu8nnnPcNnVE09hS
-	C6M12j24lUofrpOH2vHwTnuwcopOqXhqPNhYXHZ4un3/LOyeo5RIKAWALCfWKuuuE4w0
-	Ic9WuZZkpC9C+f2vPi5LQvP3DbimwBbspchinzcxYdtd1QieFBAInMy8t3xe6CS76696
-	0e5SNR+uownPuzNglObyLqizXQrYC8x8LHavbx3MbUKHaSfZEjVDeOk4ZVo+IYj7ll/G
-	q4yQ==
-X-Received: by 10.14.2.66 with SMTP id 42mr3988790eee.7.1355821420792;
-	Tue, 18 Dec 2012 01:03:40 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id 44sm2053969eek.0.2012.12.18.01.03.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Dec 2012 01:03:40 -0800 (PST)
-Date: Tue, 18 Dec 2012 10:03:39 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ciprian Ciubotariu <cheepeero@gmx.net>
-Message-ID: <20121218090339.GA3331@jama.palm1.palmone.com>
-References: <20121215065958.GA3113@jama.jama.net>
-	<1355814255-1946-1-git-send-email-cheepeero@gmx.net>
+	h=x-received:from:to:subject:date:message-id:organization:user-agent
+	:mime-version:content-transfer-encoding:content-type;
+	bh=2bVEvpRAYzVTo5e6F1S8dBHe5mqY03B6XiHvgGD5yTU=;
+	b=MoICg/Dq5GkuBXT+FP02xBKQWyIjoEt5HKRoGHvXrZrJeWKSfP3Bv0+NePtCZ5gcNd
+	XyE66xXwFPSUzf2zVL60sz3s40eab+Ys/YlzyFJbhL331tFB0Kb9x136Yz70Xi6aV7Z9
+	i4GWkwuJijaSp2DuAejhYvqUv5AVJmNxApAeT60BRnWglc+hkg/stydP4VEKjDRnFzsw
+	373rbeHH4xIaNdgeol1yijPbSrbtXXKaW+nV9s86cItUIY5yZ+miiyzUBB8wPlxlZo3j
+	nCoTqBHanoY5zTqgyvc6MIMD82fDvVNyK5yRVvVCQfrawzOpkK2LyvrAn1LbgNK1gOwi
+	CQig==
+X-Received: by 10.68.192.70 with SMTP id he6mr4880208pbc.142.1355823968455;
+	Tue, 18 Dec 2012 01:46:08 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([117.89.52.85])
+	by mx.google.com with ESMTPS id na4sm884594pbc.18.2012.12.18.01.46.06
+	(version=SSLv3 cipher=OTHER); Tue, 18 Dec 2012 01:46:07 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Dec 2012 17:44:41 +0000
+Message-ID: <3685219.sqIRCkcXgY@yiqingliang-pc>
+Organization: Nanjing Jilong
+User-Agent: KMail/4.9.4 (Linux/3.6.9-1-ARCH; KDE/4.9.4; x86_64; ; )
 MIME-Version: 1.0
-In-Reply-To: <1355814255-1946-1-git-send-email-cheepeero@gmx.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: packagegroup-base notes
+Subject: how to use "meta-toolchain-qte"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,42 +41,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 09:18:26 -0000
-X-Groupsio-MsgNum: 32814
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 18 Dec 2012 10:01:06 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
---4Ckj6UjgE2iN1+kY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi, All!
 
-On Tue, Dec 18, 2012 at 09:04:14AM +0200, Ciprian Ciubotariu wrote:
-> Please note that packagegroup-base also contains references to VIRTUAL-RU=
-NTIME_apm and VIRTUAL-RUNTIME_alsa-state, which are not defined within the =
-same recipe (I did a search to find a good place to add my own weak definit=
-ion for keymaps).
+I'm making a qte image of my own. and when compiling qt app, I can't generate 
+the Makefile.
 
-Those 2 have default values set in
-meta/conf/distro/include/default-providers.inc
-VIRTUAL-RUNTIME_keymaps has not.
+I have made "meta-ide-support", and used the env setup script under 
+'<build_dir>/tmp'.
 
-Cheers,
+I can only got "qmake2", but no "qmake".
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+after googled, got the "meta-toolchain-qte", but how to use it?
+where is the coressponding env setup script?
 
---4Ckj6UjgE2iN1+kY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Yi Qingliang
+Nanjing Jilong
 
-iEYEARECAAYFAlDQMWsACgkQN1Ujt2V2gBxMhQCeOqifUyOSdLYuSy3sHawouQbE
-78MAoIk7GXn0EcWVf46aB0qqR/VrHkD9
-=BcK6
------END PGP SIGNATURE-----
 
---4Ckj6UjgE2iN1+kY--
