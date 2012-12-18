@@ -1,24 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tkvu3-0006aP-NV
+	(envelope-from <rpjday@crashcourse.ca>) id 1TkvxZ-0006wz-Qp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 13:04:07 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2012 03:47:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,308,1355126400"; d="scan'208";a="258889705"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2012 03:48:24 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2012 13:48:47 +0200
-Message-Id: <623ca89ce743369488d219841fc0f3bf7f6ccd7c.1355830852.git.constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1355830852.git.constantinx.musca@intel.com>
-References: <cover.1355830852.git.constantinx.musca@intel.com>
-In-Reply-To: <cover.1355830852.git.constantinx.musca@intel.com>
-References: <cover.1355830852.git.constantinx.musca@intel.com>
-Subject: [PATCH v2 7/7] psplash: enable multilib
+	Tue, 18 Dec 2012 13:07:45 +0100
+Received: from rrcs-24-173-181-34.sw.biz.rr.com ([24.173.181.34]:55474
+	helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TkvjD-0006iw-Mc; Tue, 18 Dec 2012 06:52:55 -0500
+Date: Tue, 18 Dec 2012 05:52:51 -0600 (CST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Mark Hatle <mark.hatle@windriver.com>
+In-Reply-To: <50CF97C1.4010800@windriver.com>
+Message-ID: <alpine.DEB.2.02.1212180552050.8256@oneiric>
+References: <alpine.DEB.2.02.1212171522560.2766@oneiric>
+	<50CF97C1.4010800@windriver.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: should BBFILES also refer to .inc files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,53 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 12:04:07 -0000
+X-List-Received-Date: Tue, 18 Dec 2012 12:07:46 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-[YOCTO #3438]
+On Mon, 17 Dec 2012, Mark Hatle wrote:
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- meta/recipes-core/psplash/psplash_git.bb | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+> On 12/17/12 3:27 PM, Robert P. J. Day wrote:
+> >
+> >    looking at someone else's layer and there's this line in layer.conf:
+> >
+> > BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend
+> > ${LAYERDIR}/recipes*/*/*.inc"
+> >
+> > is there a rationale for including .inc files in BBFILES?  i don't
+> > recall ever seeing that before.
+>
+> This is incorrect.  Only file that are processed by the recipe parser should
+> be listed.  Specifically '.bb' and '.bbappend' files.
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 7c033e7..9bdcb37 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85b
- 
- SRCREV = "de9979aefbc56af59b4d236a4b63dd19dcdcfb53"
- PV = "0.1+git${SRCPV}"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://psplash-init \
-@@ -50,13 +50,17 @@ python __anonymous() {
-         d.appendVar("DEPENDS", " gdk-pixbuf-native")
- 
-     d.prependVar("PACKAGES", "%s " % (" ".join(pkgs)))
-+    mlprefix = d.getVar('MLPREFIX', True) or ''
-+    pn = d.getVar('PN', True) or ''
-     for p in pkgs:
--        d.setVar("FILES_%s" % p, "${bindir}/%s" % p)
--        d.setVar("ALTERNATIVE_%s" % p, 'psplash')
--        d.setVarFlag("ALTERNATIVE_TARGET_%s" % p, 'psplash', '${bindir}/%s' % p)
--        d.appendVar("RDEPENDS_%s" % p, " ${PN}")
-+        ep = '%s%s' % (mlprefix, p)
-+        epsplash = '%s%s' % (mlprefix, 'psplash')
-+        d.setVar("FILES_%s" % ep, "${bindir}/%s" % p)
-+        d.setVar("ALTERNATIVE_%s" % ep, epsplash)
-+        d.setVarFlag("ALTERNATIVE_TARGET_%s" % ep, epsplash, '${bindir}/%s' % p)
-+        d.appendVar("RDEPENDS_%s" % ep, " %s" % pn)
-         if p == "psplash-default":
--            d.appendVar("RRECOMMENDS_${PN}", " %s" % p)
-+            d.appendVar("RRECOMMENDS_%s" % pn, " %s" % ep)
- }
- 
- S = "${WORKDIR}/git"
+  i thought as much, i just never lose the ability to be surprised by
+oddities i run across.
+
+rday
+
 -- 
-1.7.11.7
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
