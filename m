@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tkvtu-0006aP-3F
+	(envelope-from <constantinx.musca@intel.com>) id 1Tkvtw-0006aP-O3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 13:03:58 +0100
+	Tue, 18 Dec 2012 13:04:01 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2012 03:47:24 -0800
+	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2012 03:47:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,308,1355126400"; d="scan'208";a="258889648"
+X-IronPort-AV: E=Sophos;i="4.84,308,1355126400"; d="scan'208";a="258889665"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2012 03:48:13 -0800
+	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2012 03:48:17 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2012 13:48:43 +0200
-Message-Id: <b08c8dc29efa286f20a93883acba3fe84b415e88.1355830852.git.constantinx.musca@intel.com>
+Date: Tue, 18 Dec 2012 13:48:44 +0200
+Message-Id: <5a5f493e2a1759e9db1c18dfb1346beef07879ee.1355830852.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1355830852.git.constantinx.musca@intel.com>
 References: <cover.1355830852.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1355830852.git.constantinx.musca@intel.com>
 References: <cover.1355830852.git.constantinx.musca@intel.com>
-Subject: [PATCH v2 3/7] alsa-utils: Pass udev-rules-dir as parameter
+Subject: [PATCH v2 4/7] pcmciautils: set correct udevdir and add missing debug files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,53 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 12:03:58 -0000
+X-List-Received-Date: Tue, 18 Dec 2012 12:04:01 -0000
 
 Fix the following warning:
-WARNING: QA Issue: alsa-utils: Files/directories were installed but not shipped
-  /lib
-  /lib/udev
-  /lib/udev/rules.d
-  /lib/udev/rules.d/90-alsa-restore.rules
+WARNING: QA Issue: pcmciautils: Files/directories were installed but not shipped
+  /usr/lib
+  /usr/lib/udev
+  /usr/lib/udev/pcmcia-socket-startup
+  /usr/lib/udev/pcmcia-check-broken-cis
+  /usr/lib/udev/.debug
+  /usr/lib/udev/.debug/pcmcia-socket-startup
+  /usr/lib/udev/.debug/pcmcia-check-broken-cis
 
 [YOCTO #3440]
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc    | 3 ++-
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-index 597e8b6..4990eb0 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
- DEPENDS = "alsa-lib ncurses libsamplerate0"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+index fa35daf..80271d6 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+@@ -16,7 +16,8 @@ export HOSTCC = "${BUILD_CC}"
+ export etcdir = "${sysconfdir}"
+ export sbindir = "${base_sbindir}"
+ export pcmciaconfdir = "${sysconfdir}/pcmcia"
+-export udevrulesdir = "${sysconfdir}/udev/rules.d"
++export udevdir = "${base_libdir}/udev"
++export udevrulesdir = "${nonarch_base_libdir}/udev/rules.d"
+ export UDEV = "1"
+ LD = "${CC}"
+ CFLAGS =+ "-I${S}/src"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+index 202437a..41fd799 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+@@ -5,7 +5,7 @@ SRC_URI += "file://makefile_fix.patch"
+ SRC_URI[md5sum] = "5d85669b3440baa4532363da6caaf1b4"
+ SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0dc8ed5"
  
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://ncursesfix.patch \
-@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "2e676a2f634bbfe279b260e10a96f617cb72ee63c5bbf6c5f96bb61570
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
- # please close bug and remove this comment when properly fixed
- #
--EXTRA_OECONF = "--disable-xmlto"
-+EXTRA_OECONF = "--disable-xmlto --with-udev-rules-dir=${nonarch_base_libdir}/udev/rules.d"
- EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
+-PR = "r0"
++PR = "r1"
  
- inherit autotools gettext
-@@ -61,7 +61,7 @@ FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bind
- FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
- FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
- FILES_alsa-utils-iecset      = "${bindir}/iecset"
--FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${base_libdir}/udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
-+FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${nonarch_base_libdir}/udev/rules.d ${systemd_unitdir} ${localstatedir}/lib/alsa ${datadir}/alsa/init/"
- FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
- FILES_alsa-utils-alsaconf    = "${sbindir}/alsaconf"
- FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
+-FILES_${PN}-dbg += "${libdir}/udev/.debug"
+-FILES_${PN} += "${libdir}/udev"
++FILES_${PN}-dbg += "${base_libdir}/udev/.debug"
++FILES_${PN} += "${base_libdir}/udev ${nonarch_base_libdir}/udev"
 -- 
 1.7.11.7
 
