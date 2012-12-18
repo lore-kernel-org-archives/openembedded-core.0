@@ -1,31 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Tkmxj-0000xc-EI
+	(envelope-from <Ming.Liu@windriver.com>) id 1TkqoT-0002Do-JR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 03:31:21 +0100
+	Tue, 18 Dec 2012 07:38:03 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBI2Ga2P008154
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Dec 2012 18:16:36 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Mon, 17 Dec 2012 18:16:36 -0800
-Message-ID: <50CFD215.6000008@windriver.com>
-Date: Tue, 18 Dec 2012 10:16:53 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBI6NGan009022
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Dec 2012 22:23:16 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 17 Dec 2012 22:23:15 -0800
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Dec 2012 14:23:11 +0800
+Message-ID: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.11
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1355479412.git.Qi.Chen@windriver.com>
-	<2ff77d8cdc19c9040f3ede2203700ee91e878e5f.1355479412.git.Qi.Chen@windriver.com>
-	<20121214205253.GE8699@jama.jama.net>
-	<50CE8230.6060209@windriver.com> <20121217194203.GI3448@jama>
-In-Reply-To: <20121217194203.GI3448@jama>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] ICU: upgrade to 50.1
+Subject: [PATCH V2] initscripts: add urandom directory into volatiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,56 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 02:31:21 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Dec 2012 06:38:03 -0000
+Content-Type: text/plain
 
-On 12/18/2012 03:42 AM, Martin Jansa wrote:
-> On Mon, Dec 17, 2012 at 10:23:44AM +0800, ChenQi wrote:
->> On 12/15/2012 04:52 AM, Martin Jansa wrote:
->>> On Fri, Dec 14, 2012 at 06:08:52PM +0800, Qi.Chen@windriver.com wrote:
->>>> From: Chen Qi<Qi.Chen@windriver.com>
->>>>
->>>> Upgrade ICU to 50.1.
->>>> All unnecessary patches of previous version are dropped.
->>> Here it fails with:
->>>
->>> ERROR: Logfile of failure stored in:
->>> /OE/jansa-test/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/icu/50.1-r1/temp/log.do_configure.5863
->>> | configure:3917: checking for gmake
->>> | configure:3935: found /usr/bin/gmake
->>> | configure:3947: result: /usr/bin/gmake
->>> | configure:3983: error: No such directory
->>> /OE/jansa-test/shr-core/tmp-eglibc/work/x86_64-linux/icu-native/50.1-r1/icu/source
->>> supplied as the argument to --with-cross-build. Use an absolute path.
->>>
->>> Notice native path when building for target (armv5te). Ah and I'm using
->>> rmwork so maybe it worked for you, because source from native build was
->>> still available when you started target build.
->>>
->>> Cheers,
->>>
->> Thank you for testing it :)
->> This failure should have been fixed in version 2. Are you using version
->> 1 of this patch?
-> Ah you're right, it was probably from version 1 you've sent me off list..
->
-> BTW: can we stage only parts of native build which are really needed
-> instead of whole workdir?
+/etc/init.d/urandom fails to start/stop because it tries to save
+random-seed into /var/lib/urandom folder which does not exist in the
+file system.
 
-I though about that too. In fact, I tried it out. I finally decided not 
-to do so because:
-1) The source dir is not very large.
-2) Copying all those necessary directories would make the code look 
-strange. After all, at least the following directories have to be 
-copied, config, bin, lib, stubdata, tools. I'd rather prefer a one-line 
-solution.
+Fixed by adding /var/lib/urandom into volatiles.
 
+[YOCTO #3518]
+[ CQID: WIND00384168 ]
 
-Cheers,
-Chen Qi
-> Cheers,
->
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/volatiles | 1 +
+ meta/recipes-core/initscripts/initscripts_1.0.bb        | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+index e0741aa..66b2ed0 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -37,3 +37,4 @@ f root root 0664 /var/run/utmp none
+ l root root 0644 /etc/resolv.conf /var/run/resolv.conf
+ f root root 0644 /var/run/resolv.conf none
+ l root root 0755 /run /var/run
++d root root 0755 /var/lib/urandom none
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index d25838b..251dd06 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r137"
++PR = "r138"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-- 
+1.7.11
 
 
 
