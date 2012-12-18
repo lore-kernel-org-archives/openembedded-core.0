@@ -1,21 +1,28 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tl1xA-0000qe-98
+	(envelope-from <mark.hatle@windriver.com>) id 1Tl2LN-00016q-0u
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 19:31:45 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Dec 2012 10:16:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,310,1355126400"; d="scan'208";a="266441780"
-Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
-	([10.255.13.212])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Dec 2012 10:16:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2012 10:16:54 -0800
-Message-Id: <cover.1355854182.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [CONSOLIDATED PULL 00/31] Package Updates and fixes (cover letter only)
+	Tue, 18 Dec 2012 19:56:53 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBIIg1Oi005409
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Dec 2012 10:42:01 -0800 (PST)
+Received: from msp-dhcp56.wrs.com (172.25.34.56) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 18 Dec 2012 10:42:01 -0800
+Message-ID: <50D0B8F8.60906@windriver.com>
+Date: Tue, 18 Dec 2012 12:42:00 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1355758664-912-1-git-send-email-bogdan.a.marinescu@intel.com>
+In-Reply-To: <1355758664-912-1-git-send-email-bogdan.a.marinescu@intel.com>
+Subject: Re: [PATCH] python-smartpm: improve error reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,217 +35,310 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 18:31:45 -0000
+X-List-Received-Date: Tue, 18 Dec 2012 18:56:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Richard,
+On 12/17/12 9:37 AM, Bogdan Marinescu wrote:
+> Add code to check proper command line arguments for various
+> smart commands. Exit with error if erroneous/additional arguments
+> are given in the command line.
+>
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 
-Updated a bunch of packages from various folks, this
-includes the ICU Upgrade which will fix the webkit-gtk
-issue in master.
+I've reviewed this.  It looks like a good addition to 'smart'.
 
-Thanks
-	Sau!
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
-The following changes since commit 26bf8f6a047ccc0f73eaa40093afddabfce8ea1b:
+--Mark
 
-  gst-openmax: fix build with newer GLib (2012-12-17 17:53:33 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Chen Qi (1):
-  ICU: upgrade to 50.1.
-
-Constantin Musca (6):
-  bitbake.conf: add nonarch_base_lib variable
-  alsa-utils: Pass udev-rules-dir as parameter
-  pcmciautils: set correct udevdir and add missing debug files
-  bluez: set correct udevdir
-  polkit: fix multilib packaging issue
-  psplash: enable multilib
-
-Laurentiu Palcu (6):
-  avahi: use useradd.bbclass to add avahi-autoipd user
-  distcc: use useradd.bbclass to add the distcc user
-  gconf: add gconftool-2 native wrapper
-  gtk+-native: add gtk-update-icon-cache wrapper
-  xserver-xorg: upgrade to 1.13.1
-  xf86-video-intel: upgrade to 2.20.16
-
-Marko Lindqvist (8):
-  fontconfig: update to upstream version 2.10.2
-  gtk+: update to upstream version 2.24.14
-  patch: drop global-reject-file patch
-  patch: update to upstream version 2.7.1
-  guile: update to upstream version 2.0.7
-  gdk-pixbuf: update to upstream version 2.26.5
-  gdb: update to upstream version 7.5.1
-  pixman: update to upstream version 0.28.2
-
-Martin Jansa (4):
-  rootfs_*.bbclass: exclude BUILDNAME var dependency from do_rootfs
-  bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
-  kernel.bbclass: use the same versioning schema for modules.tgz and
-    provide link to latest
-  iptables: include /usr/share/xtables/pf.os in PN if it's build
-
-Phil Blundell (1):
-  kernel.bbclass: Allow modules*.tar.gz generation to be inhibited
-
-Ross Burton (2):
-  mutter: remove
-  matchbox-wm-2: remove
-
-Saul Wold (3):
-  standalone-sdk: Need to have an update-alternatives package
-  matchbox-theme-sato-2: remove, depends on matchbox-wm-2
-  packagegroup-toolset-native: don't include mesa-dri-glsl-native
-
- meta/classes/gconf.bbclass                         |   1 -
- meta/classes/kernel.bbclass                        |  10 +-
- meta/classes/rootfs_deb.bbclass                    |   1 +
- meta/classes/rootfs_ipk.bbclass                    |   1 +
- meta/classes/rootfs_rpm.bbclass                    |   1 +
- meta/classes/staging.bbclass                       |   4 +
- meta/conf/bitbake.conf                             |   2 +
- meta/recipes-bsp/pcmciautils/pcmciautils.inc       |   3 +-
- meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |   6 +-
- meta/recipes-connectivity/avahi/avahi.inc          |  19 +--
- .../bluez/bluez4-4.101/fix-udev-paths.patch        |  37 ++++
- meta/recipes-connectivity/bluez/bluez4.inc         |   2 +
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   7 +-
- .../packagegroup-core-standalone-sdk-target.bb     |   3 +
- meta/recipes-core/psplash/psplash_git.bb           |  16 +-
- meta/recipes-devtools/distcc/distcc_2.18.3.bb      |  19 ++-
- meta/recipes-devtools/gdb/gdb-common.inc           |   4 +-
- ...canadian_7.5.bb => gdb-cross-canadian_7.5.1.bb} |   0
- .../gdb/{gdb-cross_7.5.bb => gdb-cross_7.5.1.bb}   |   0
- .../gdb/{gdb_7.5.bb => gdb_7.5.1.bb}               |   0
- ...all-data-hook-to-install-exec-hook-in-gui.patch |  36 ----
- .../guile/{guile_2.0.6.bb => guile_2.0.7.bb}       |   9 +-
- .../patch/patch-2.6.1/global-reject-file.diff      | 188 ---------------------
- meta/recipes-devtools/patch/patch_2.6.1.bb         |  14 --
- meta/recipes-devtools/patch/patch_2.7.1.bb         |  11 ++
- meta/recipes-extended/iptables/iptables_1.4.15.bb  |   4 +-
- meta/recipes-extended/polkit/polkit_0.104.bb       |  12 +-
- .../gdk-pixbuf-2.24.1/configure_nm.patch           |  21 ---
- .../configure_fix.patch                            |   0
- .../extending-libinstall-dependencies.patch        |   0
- .../hardcoded_libtool.patch                        |   0
- .../{gdk-pixbuf_2.24.1.bb => gdk-pixbuf_2.26.5.bb} |  10 +-
- meta/recipes-gnome/gnome/gconf_3.2.3.bb            |   7 +-
- ...utton-do-not-prelight-in-touchscreen-mode.patch |   0
- ...Duplicate-the-exec-string-returned-by-gtk.patch |   0
- .../cellrenderer-cairo.patch                       |   0
- .../configure-nm.patch                             |   0
- .../configurefix.patch                             |   0
- .../{gtk+-2.24.13 => gtk+-2.24.14}/doc-fixes.patch |   0
- .../entry-cairo.patch                              |   0
- .../hardcoded_libtool.patch                        |   0
- .../{gtk+-2.24.13 => gtk+-2.24.14}/no-demos.patch  |   0
- .../run-iconcache.patch                            |   0
- .../toggle-font.diff                               |   0
- .../{gtk+-2.24.13 => gtk+-2.24.14}/xsettings.patch |   0
- .../gtk+/{gtk+_2.24.13.bb => gtk+_2.24.14.bb}      |  11 +-
- .../packagegroups/packagegroup-toolset-native.bb   |   1 -
- .../97_fontconfig                                  |   0
- .../fix-pkgconfig.patch                            |   0
- ...ative_2.10.1.bb => fontconfig-native_2.10.2.bb} |   0
- .../{fontconfig_2.10.1.bb => fontconfig_2.10.2.bb} |   4 +-
- .../matchbox-wm-2/matchbox-wm-2/fix_makefile.patch |  21 ---
- .../matchbox-wm-2/matchbox-wm-2_git.bb             |  45 -----
- meta/recipes-graphics/mutter/mutter.inc            |  42 -----
- .../mutter/mutter/crosscompile.patch               |  57 -------
- .../mutter/fix_CGL_TEXTURE_RECTANGLE_ARB.patch     |  47 ------
- ...-7adb574bb3fa3880eb85dbc86e580cf3452d57c4.patch |  12 --
- .../mutter/mutter/fix_pkgconfig.patch              |  12 --
- meta/recipes-graphics/mutter/mutter/nodocs.patch   |  31 ----
- meta/recipes-graphics/mutter/mutter/nozenity.patch |  18 --
- meta/recipes-graphics/mutter/mutter_2.29.1.bb      |  13 --
- meta/recipes-graphics/mutter/mutter_git.bb         |  21 ---
- ...ntel_2.20.12.bb => xf86-video-intel_2.20.16.bb} |   4 +-
- .../{pixman_0.28.0.bb => pixman_0.28.2.bb}         |   5 +-
- .../crosscompile.patch                             |   0
- .../fix_open_max_preprocessor_error.patch          |   0
- .../macro_tweak.patch                              |   0
- .../mips64-compiler.patch                          |   0
- ...erver-xorg_1.13.0.bb => xserver-xorg_1.13.1.bb} |   4 +-
- meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb  |   6 +-
- .../matchbox-theme-sato-2_git.bb                   |  11 --
- .../icu/files/fix-parallel-build.patch             |  19 ---
- meta/recipes-support/icu/files/gccfix.patch        |  19 ---
- .../icu/files/icu-add-pkgconfig-support.patch      |  43 -----
- .../icu/files/larger-cmd-size.patch                |  27 ---
- meta/recipes-support/icu/files/noldlibpath.patch   |  52 ------
- .../icu/files/use-g++-for-linking.patch            |  74 --------
- meta/recipes-support/icu/{icu-3.6.inc => icu.inc}  |  61 +++----
- meta/recipes-support/icu/icu_3.6.bb                |   6 -
- meta/recipes-support/icu/icu_50.1.bb               |  11 ++
- 80 files changed, 183 insertions(+), 942 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-paths.patch
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.5.bb => gdb-cross-canadian_7.5.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_7.5.bb => gdb-cross_7.5.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb_7.5.bb => gdb_7.5.1.bb} (100%)
- delete mode 100644 meta/recipes-devtools/guile/files/change-install-data-hook-to-install-exec-hook-in-gui.patch
- rename meta/recipes-devtools/guile/{guile_2.0.6.bb => guile_2.0.7.bb} (93%)
- delete mode 100644 meta/recipes-devtools/patch/patch-2.6.1/global-reject-file.diff
- delete mode 100644 meta/recipes-devtools/patch/patch_2.6.1.bb
- create mode 100644 meta/recipes-devtools/patch/patch_2.7.1.bb
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/configure_nm.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.24.1 => gdk-pixbuf-2.26.5}/configure_fix.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.24.1 => gdk-pixbuf-2.26.5}/extending-libinstall-dependencies.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf-2.24.1 => gdk-pixbuf-2.26.5}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.24.1.bb => gdk-pixbuf_2.26.5.bb} (95%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/cellrenderer-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/configure-nm.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/configurefix.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/doc-fixes.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/entry-cairo.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/hardcoded_libtool.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/no-demos.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/run-iconcache.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/toggle-font.diff (100%)
- rename meta/recipes-gnome/gtk+/{gtk+-2.24.13 => gtk+-2.24.14}/xsettings.patch (100%)
- rename meta/recipes-gnome/gtk+/{gtk+_2.24.13.bb => gtk+_2.24.14.bb} (87%)
- rename meta/recipes-graphics/fontconfig/{fontconfig-2.10.1 => fontconfig-2.10.2}/97_fontconfig (100%)
- rename meta/recipes-graphics/fontconfig/{fontconfig-2.10.1 => fontconfig-2.10.2}/fix-pkgconfig.patch (100%)
- rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.10.1.bb => fontconfig-native_2.10.2.bb} (100%)
- rename meta/recipes-graphics/fontconfig/{fontconfig_2.10.1.bb => fontconfig_2.10.2.bb} (95%)
- delete mode 100644 meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2/fix_makefile.patch
- delete mode 100644 meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
- delete mode 100644 meta/recipes-graphics/mutter/mutter.inc
- delete mode 100644 meta/recipes-graphics/mutter/mutter/crosscompile.patch
- delete mode 100644 meta/recipes-graphics/mutter/mutter/fix_CGL_TEXTURE_RECTANGLE_ARB.patch
- delete mode 100644 meta/recipes-graphics/mutter/mutter/fix_pkgconfig-7adb574bb3fa3880eb85dbc86e580cf3452d57c4.patch
- delete mode 100644 meta/recipes-graphics/mutter/mutter/fix_pkgconfig.patch
- delete mode 100644 meta/recipes-graphics/mutter/mutter/nodocs.patch
- delete mode 100644 meta/recipes-graphics/mutter/mutter/nozenity.patch
- delete mode 100644 meta/recipes-graphics/mutter/mutter_2.29.1.bb
- delete mode 100644 meta/recipes-graphics/mutter/mutter_git.bb
- rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.20.12.bb => xf86-video-intel_2.20.16.bb} (86%)
- rename meta/recipes-graphics/xorg-lib/{pixman_0.28.0.bb => pixman_0.28.2.bb} (89%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.0 => xserver-xorg-1.13.1}/crosscompile.patch (100%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.0 => xserver-xorg-1.13.1}/fix_open_max_preprocessor_error.patch (100%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.0 => xserver-xorg-1.13.1}/macro_tweak.patch (100%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg-1.13.0 => xserver-xorg-1.13.1}/mips64-compiler.patch (100%)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.13.0.bb => xserver-xorg_1.13.1.bb} (88%)
- delete mode 100644 meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2_git.bb
- delete mode 100644 meta/recipes-support/icu/files/fix-parallel-build.patch
- delete mode 100644 meta/recipes-support/icu/files/gccfix.patch
- delete mode 100644 meta/recipes-support/icu/files/icu-add-pkgconfig-support.patch
- delete mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
- delete mode 100644 meta/recipes-support/icu/files/noldlibpath.patch
- delete mode 100644 meta/recipes-support/icu/files/use-g++-for-linking.patch
- rename meta/recipes-support/icu/{icu-3.6.inc => icu.inc} (42%)
- delete mode 100644 meta/recipes-support/icu/icu_3.6.bb
- create mode 100644 meta/recipes-support/icu/icu_50.1.bb
-
--- 
-1.8.0.2
+> ---
+>   .../smart-improve-error-reporting.patch            |  253 ++++++++++++++++++++
+>   .../python/python-smartpm_1.4.1.bb                 |    3 +-
+>   2 files changed, 255 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
+>
+> diff --git a/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch b/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
+> new file mode 100644
+> index 0000000..fece5b9
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python-smartpm/smart-improve-error-reporting.patch
+> @@ -0,0 +1,253 @@
+> +Improve error reporting in smart
+> +
+> +Add code to check proper command line arguments for various
+> +smart commands. Exit with error if erroneous/additional arguments
+> +are given in the command line.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> +
+> +diff --git a/smart/commands/channel.py b/smart/commands/channel.py
+> +index aa76f91..63fbb35 100644
+> +--- a/smart/commands/channel.py
+> ++++ b/smart/commands/channel.py
+> +@@ -157,7 +157,17 @@ def main(ctrl, opts):
+> +                               opts.show is None and opts.yaml is None):
+> +         iface.warning(_("Can't edit channels information."))
+> +         raise Error, _("Configuration is in readonly mode.")
+> +-
+> ++
+> ++    # Argument check
+> ++    opts.check_args_of_option("set", -1)
+> ++    opts.check_args_of_option("remove", -1)
+> ++    opts.check_args_of_option("edit", 0)
+> ++    opts.check_args_of_option("enable", -1)
+> ++    opts.check_args_of_option("disable", -1)
+> ++    opts.ensure_action("channel", ["add", "set", "remove", "remove-all",
+> ++                       "list", "show", "yaml", "enable", "disable"])
+> ++    opts.check_remaining_args()
+> ++
+> +     if opts.add is not None:
+> +         if not opts.add and opts.args == ["-"]:
+> +             newchannels = []
+> +diff --git a/smart/commands/check.py b/smart/commands/check.py
+> +index b08608a..506e852 100644
+> +--- a/smart/commands/check.py
+> ++++ b/smart/commands/check.py
+> +@@ -72,6 +72,9 @@ def parse_options(argv):
+> +
+> + def main(ctrl, opts, reloadchannels=True):
+> +
+> ++    # Argument check
+> ++    opts.check_args_of_option("channels", 1)
+> ++
+> +     if sysconf.get("auto-update"):
+> +         from smart.commands import update
+> +         updateopts = update.parse_options([])
+> +diff --git a/smart/commands/config.py b/smart/commands/config.py
+> +index dd50dee..4fe4366 100644
+> +--- a/smart/commands/config.py
+> ++++ b/smart/commands/config.py
+> +@@ -80,6 +80,12 @@ def main(ctrl, opts):
+> +     globals["false"] = False
+> +     globals["no"] = False
+> +
+> ++    # Check arguments
+> ++    opts.check_args_of_option("set", -1)
+> ++    opts.check_args_of_option("remove", -1)
+> ++    opts.ensure_action("config", ["set", "show", "yaml", "remove"])
+> ++    opts.check_remaining_args()
+> ++
+> +     if opts.set:
+> +         for opt in opts.set:
+> +             m = SETRE.match(opt)
+> +diff --git a/smart/commands/download.py b/smart/commands/download.py
+> +index 6837993..b853c61 100644
+> +--- a/smart/commands/download.py
+> ++++ b/smart/commands/download.py
+> +@@ -81,6 +81,14 @@ def parse_options(argv):
+> +
+> + def main(ctrl, opts):
+> +
+> ++    # Argument check
+> ++    opts.check_args_of_option("target", 1)
+> ++    opts.check_args_of_option("output", 1)
+> ++    opts.check_args_of_option("from_urls", -1)
+> ++    opts.check_args_of_option("from_metalink", -1)
+> ++    if not opts.args and not opts.from_metalink and not opts.from_urls:
+> ++        raise Error, _("no package(s) given")
+> ++
+> +     packages = []
+> +     if opts.args:
+> +         if sysconf.get("auto-update"):
+> +diff --git a/smart/commands/info.py b/smart/commands/info.py
+> +index 12f74f0..59fbe98 100644
+> +--- a/smart/commands/info.py
+> ++++ b/smart/commands/info.py
+> +@@ -58,6 +58,10 @@ def parse_options(argv):
+> +
+> + def main(ctrl, opts, reloadchannels=True):
+> +
+> ++    # Argument check
+> ++    if not opts.args:
+> ++      raise Error, _("No package(s) given")
+> ++
+> +     if sysconf.get("auto-update"):
+> +         from smart.commands import update
+> +         updateopts = update.parse_options([])
+> +diff --git a/smart/commands/install.py b/smart/commands/install.py
+> +index 8a45954..590222c 100644
+> +--- a/smart/commands/install.py
+> ++++ b/smart/commands/install.py
+> +@@ -76,6 +76,10 @@ def parse_options(argv):
+> +
+> + def main(ctrl, opts):
+> +
+> ++    # Argument check
+> ++    if not opts.args:
+> ++        raise Error, _("no package(s) given")
+> ++
+> +     if opts.explain:
+> +         sysconf.set("explain-changesets", True, soft=True)
+> +
+> +diff --git a/smart/commands/reinstall.py b/smart/commands/reinstall.py
+> +index e59d896..32da3e6 100644
+> +--- a/smart/commands/reinstall.py
+> ++++ b/smart/commands/reinstall.py
+> +@@ -68,7 +68,11 @@ def parse_options(argv):
+> +     return opts
+> +
+> + def main(ctrl, opts):
+> +-
+> ++
+> ++    # Argument check
+> ++    if not opts.args:
+> ++        raise Error, _("no package(s) given")
+> ++
+> +     if opts.explain:
+> +         sysconf.set("explain-changesets", True, soft=True)
+> +
+> +diff --git a/smart/commands/remove.py b/smart/commands/remove.py
+> +index b4823a6..acd3bbd 100644
+> +--- a/smart/commands/remove.py
+> ++++ b/smart/commands/remove.py
+> +@@ -74,6 +74,10 @@ def parse_options(argv):
+> +
+> + def main(ctrl, opts):
+> +
+> ++    # Argument check
+> ++    if not opts.args:
+> ++        raise Error, _("no package(s) given")
+> ++
+> +     if opts.explain:
+> +         sysconf.set("explain-changesets", True, soft=True)
+> +
+> +diff --git a/smart/commands/search.py b/smart/commands/search.py
+> +index 0d0b573..44806b8 100644
+> +--- a/smart/commands/search.py
+> ++++ b/smart/commands/search.py
+> +@@ -44,6 +44,8 @@ def option_parser():
+> + def parse_options(argv):
+> +     opts = query.parse_options(argv, usage=USAGE, \
+> +                                description=DESCRIPTION, examples=EXAMPLES)
+> ++    if not argv:
+> ++      raise Error, _("Search expression not specified")
+> +     opts.name = opts.args
+> +     opts.summary = opts.args
+> +     opts.description = opts.args
+> +diff --git a/smart/commands/upgrade.py b/smart/commands/upgrade.py
+> +index ec86290..7e290d8 100644
+> +--- a/smart/commands/upgrade.py
+> ++++ b/smart/commands/upgrade.py
+> +@@ -91,6 +91,9 @@ def parse_options(argv):
+> +
+> + def main(ctrl, opts):
+> +
+> ++    # Argument check
+> ++    opts.check_args_of_option("flag", 1)
+> ++
+> +     if opts.explain:
+> +         sysconf.set("explain-changesets", True, soft=True)
+> +
+> +diff --git a/smart/util/optparse.py b/smart/util/optparse.py
+> +index 4a3d3a8..279b0bf 100644
+> +--- a/smart/util/optparse.py
+> ++++ b/smart/util/optparse.py
+> +@@ -70,6 +70,8 @@ import sys, os
+> + import types
+> + import textwrap
+> + from gettext import gettext as _
+> ++from smart import Error
+> ++import re
+> +
+> + def _repr(self):
+> +     return "<%s at 0x%x: %s>" % (self.__class__.__name__, id(self), self)
+> +@@ -708,6 +710,12 @@ class Option:
+> +             self.action, self.dest, opt, value, values, parser)
+> +
+> +     def take_action(self, action, dest, opt, value, values, parser):
+> ++        # Keep all the options in the command line in the '_given_opts' array
+> ++        # This will be used later to validate the command line
+> ++        given_opts = getattr(parser.values, "_given_opts", [])
+> ++        user_opt = re.sub(r"^\-*", "", opt).replace("-", "_")
+> ++        given_opts.append(user_opt)
+> ++        setattr(parser.values, "_given_opts", given_opts)
+> +         if action == "store":
+> +             setattr(values, dest, value)
+> +         elif action == "store_const":
+> +@@ -819,6 +827,54 @@ class Values:
+> +             setattr(self, attr, value)
+> +         return getattr(self, attr)
+> +
+> ++    # Check if the given option has the specified number of arguments
+> ++    # Raise an error if the option has an invalid number of arguments
+> ++    # A negative number for 'nargs' means "at least |nargs| arguments are needed"
+> ++    def check_args_of_option(self, opt, nargs, err=None):
+> ++        given_opts = getattr(self, "_given_opts", [])
+> ++        if not opt in given_opts:
+> ++            return
+> ++        values = getattr(self, opt, [])
+> ++        if type(values) != type([]):
+> ++            return
+> ++        if nargs < 0:
+> ++            nargs = -nargs
+> ++            if len(values) >= nargs:
+> ++                return
+> ++            if not err:
+> ++                if nargs == 1:
+> ++                    err = _("Option '%s' requires at least one argument") % opt
+> ++                else:
+> ++                    err = _("Option '%s' requires at least %d arguments") % (opt, nargs)
+> ++            raise Error, err
+> ++        elif nargs == 0:
+> ++            if len( values ) == 0:
+> ++                return
+> ++            raise Error, err
+> ++        else:
+> ++            if len(values) == nargs:
+> ++                return
+> ++            if not err:
+> ++                if nargs == 1:
+> ++                    err = _("Option '%s' requires one argument") % opt
+> ++                else:
+> ++                    err = _("Option '%s' requires %d arguments") % (opt, nargs)
+> ++            raise Error, err
+> ++
+> ++    # Check that at least one of the options in 'actlist' was given as an argument
+> ++    # to the command 'cmdname'
+> ++    def ensure_action(self, cmdname, actlist):
+> ++        given_opts = getattr(self, "_given_opts", [])
+> ++        for action in actlist:
+> ++            if action in given_opts:
+> ++                return
+> ++        raise Error, _("No action specified for command '%s'") % cmdname
+> ++
+> ++    # Check if there are any other arguments left after parsing the command line and
+> ++    # raise an error if such arguments are found
+> ++    def check_remaining_args(self):
+> ++        if self.args:
+> ++            raise Error, _("Invalid argument(s) '%s'" % str(self.args))
+> +
+> + class OptionContainer:
+> +
+> diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> index 53f232b..ce1f435 100644
+> --- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> +++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
+> @@ -11,7 +11,7 @@ LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
+>
+>   DEPENDS = "python rpm"
+> -PR = "r4"
+> +PR = "r5"
+>   SRCNAME = "smart"
+>
+>   SRC_URI = "\
+> @@ -24,6 +24,7 @@ SRC_URI = "\
+>             file://smart-rpm-md-parse.patch \
+>             file://smart-tmpdir.patch \
+>             file://smart-metadata-match.patch \
+> +          file://smart-improve-error-reporting.patch \
+>             "
+>
+>   SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
+>
 
 
 
