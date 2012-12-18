@@ -1,26 +1,41 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tl36S-00023z-Gn
+	(envelope-from <ross.burton@intel.com>) id 1Tl3Vl-0002jA-KJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 20:45:24 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Dec 2012 11:30:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,310,1355126400"; d="scan'208";a="264002160"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.212])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2012 11:30:41 -0800
-Message-ID: <50D0C461.7010901@linux.intel.com>
-Date: Tue, 18 Dec 2012 11:30:41 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 18 Dec 2012 21:11:33 +0100
+Received: from mail-ye0-f199.google.com ([209.85.213.199])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 18 Dec 2012 11:55:57 -0800
+Received: by mail-ye0-f199.google.com with SMTP id l12so1631895yen.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Dec 2012 11:56:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=kVCp3xHeLgp8Yv+aocu+70l8ihghHaj3w8P1jlCZyu8=;
+	b=mEm8qiBA4EH9jOnBqGTGrK9dnmzZiICJB2Z19H8QToNo7GJMPX0uQgO085Qo71FoCm
+	knXKZX7iCRggO9nfeFgKGYuaGdcEPkcLpcLNuN4GT6L+sFguzeU9W1aUc7Tu/CDoX83h
+	KFHlEqeU1t0svejGl5QrwERhQk8vYLPxwKWeFnMOfI23Rk5O2Gxiy0cU5TMqVA1Y8Y5g
+	cFO9pc1UW6gktWEvi5kfMWQUR7XmPscDMJUq9U3w8QApLnKz0lacsziZsskSVAisoQxA
+	T+DsVIvavUJ1ugqPtviXtdEsxziR6CJjW0wKihmzt3wJH1DIXql6HVlOHDn3qcrycpqH
+	NUGg==
+X-Received: by 10.220.219.145 with SMTP id hu17mr4890468vcb.52.1355860609259; 
+	Tue, 18 Dec 2012 11:56:49 -0800 (PST)
+Received: by 10.220.219.145 with SMTP id hu17mr4890459vcb.52.1355860609177;
+	Tue, 18 Dec 2012 11:56:49 -0800 (PST)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
-	<CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
+Received: by 10.58.178.244 with HTTP; Tue, 18 Dec 2012 11:56:29 -0800 (PST)
+In-Reply-To: <50D0C156.9050500@linux.intel.com>
+References: <1355821397-23458-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<1355821397-23458-2-git-send-email-marcin.juszkiewicz@linaro.org>
+	<50D0C156.9050500@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Dec 2012 19:56:29 +0000
+Message-ID: <CAJTo0LZDZjg3fycmeUdgHpkxQJBd3BQXiaSEB1hwJDE7NRO-yw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQnBLFq+G+AGsj8O7WZxTwk0uq5p9eh2B7890UdmjknadumLv7f/SOkok6rEz0MH9zhcdwvZHWlZcMvS/nP+JU2043Hu50NlRg009aXdOUCzL2zRzEEj0atr+55wtT4Qcmmn9IZTDaW5ggpByhbQ1pRmdm2VUVQLyLNiMEb2jK9u+oEfgj+G9SunN25B25scKRxEdjYC
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] initscripts: add urandom directory into volatiles
+Subject: Re: [PATCH 2/3] slang: added gnu-configize for AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 19:45:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Dec 2012 20:11:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12/18/2012 03:23 AM, Burton, Ross wrote:
-> On 18 December 2012 06:23, Ming Liu <ming.liu@windriver.com> wrote:
->> /etc/init.d/urandom fails to start/stop because it tries to save
->> random-seed into /var/lib/urandom folder which does not exist in the
->> file system.
->>
->> Fixed by adding /var/lib/urandom into volatiles.
+On 18 December 2012 19:17, Saul Wold <sgw@linux.intel.com> wrote:
+>> +do_configure_prepend() {
+>> +    # slang keeps configure.ac and rest of autoconf files in autoconf/
+>> directory
+>> +    # we have to go there to be able to run gnu-configize cause it
+>> expects configure.{in,ac}
+>> +    # to be present. Resulting files land in autoconf/autoconf/ so we
+>> need to move them.
+>> +    cd ${S}/autoconf && gnu-configize --force && mv autoconf/config.* .
+>> +    cd ${S}
+>> +}
 >
-> Doesn't this mean that the persistent state of urandom will be saved
-> to a ramdisk?
->
-> Mixing up persistent and transient state in /var is exactly why /run
-> exists, and why we should switch to support /run as soon as
-> possible...
->
-Sorry, this was my suggestion, It actually is creating /var/lib/urandom 
-which should be a persistent sub-dir of /var
+> Should these be ${S} or ${B} (or some combination), I believe we are trying
+> to allow for builds to be in a different dir where ${S} != ${B}?
 
-I was bouncing back and for about it being in the the recipe's 
-do_install vs  populate volaties file, I did not see any other 
-/var/lib/<dir> being created so I leaned toward this solution.  This was 
-on the list a week or so ago, we could go back to itbeing created in the 
-do_install()
+Yes, I would like people to consider $S and $B when writing things
+like this - whilst at the moment it's a disaster to attempt S!=B, I've
+a branch (ross/bnots on poky-contrib) where I'm fixing/disabling the
+problem recipes.
 
-Sau!
+I this case, $S then $B should be right, afaik.
 
-
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+Ross
 
 
