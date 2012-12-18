@@ -1,39 +1,20 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TkvVA-0005qq-4G
+	(envelope-from <constantinx.musca@intel.com>) id 1Tkvtq-0006aP-CJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 18 Dec 2012 12:38:27 +0100
-Received: from mail-qa0-f70.google.com ([209.85.216.70])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 18 Dec 2012 03:23:41 -0800
-Received: by mail-qa0-f70.google.com with SMTP id hg5so1246857qab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2012 03:23:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=p6O4dBJ1oSyu5QYsxUYv1tJ1ttdirP7JauabLPs6LxU=;
-	b=U9WdZ6oUz/HYk4OD+35EGtFRkpxEYImXe9yQG/i2Pp6tK9JbvEhCw9NDXsA0Z08df9
-	vWUZoLVy1DDNfXzaRbrteZYm4dqOHOufTGpOaR3NCEDAnba+AvghgTDvgzFGJL0GRfQ2
-	1ugFVQvAalNpp4zyPLlsTNJIalrw73AzcFZ12ObUHGUZfQP8TbwP/4WmNpoth6PMkX6o
-	PuJxd2Y5OtyyX7rLdZk6Y5Uvcno05bOydPl0MfcJ5OKO0Xp4bP7iI+nQ/Z5o25fpUmQ7
-	hPC7CYZ0fLi5Cw6HfAJagajD0lqQR/70SirJPUyuVmGLp930oZIVtx8KcUi0iMYE/6Xk
-	CG5Q==
-X-Received: by 10.58.221.130 with SMTP id qe2mr2473896vec.14.1355829820375;
-	Tue, 18 Dec 2012 03:23:40 -0800 (PST)
-Received: by 10.58.221.130 with SMTP id qe2mr2473886vec.14.1355829820285; Tue,
-	18 Dec 2012 03:23:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Tue, 18 Dec 2012 03:23:20 -0800 (PST)
-In-Reply-To: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
-References: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Dec 2012 11:23:20 +0000
-Message-ID: <CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-X-Gm-Message-State: ALoCoQmr7hvMCwaPrN4OfcttUHyEbhcg06rWJYLAM15PT174rSEIb7XSO6abtAaEbiofeXchyToT0GIcmjFYUdatDTppqNP7peMuZnSmGj8eUzrKzWrMvLJxI7YJDps01bBqEXhqCQKAxWy4Hfh64+Uz1hMrfLiQl8HsoqeS6dg5yIe6zE4IDSFIINGXFmSBt2EdmspM0TX0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] initscripts: add urandom directory into volatiles
+	Tue, 18 Dec 2012 13:03:54 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2012 03:47:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,308,1355126400"; d="scan'208";a="258889599"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2012 03:48:06 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Dec 2012 13:48:40 +0200
+Message-Id: <cover.1355830852.git.constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v2 0/7] udev and multilib changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,23 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Dec 2012 11:38:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Dec 2012 12:03:54 -0000
 
-On 18 December 2012 06:23, Ming Liu <ming.liu@windriver.com> wrote:
-> /etc/init.d/urandom fails to start/stop because it tries to save
-> random-seed into /var/lib/urandom folder which does not exist in the
-> file system.
->
-> Fixed by adding /var/lib/urandom into volatiles.
+This patchset addresses the udevdir problem (some packages hardcode udevdir
+to /lib/udev) by using a arch independent variable (nonarch_base_libdir). It also includes some multilib fixes.
+The following changes since commit 958162e96b4a4f23bca94500b5f20975633dd5c6:
 
-Doesn't this mean that the persistent state of urandom will be saved
-to a ramdisk?
+  bitbake: hob: use base image only if it was set (2012-12-14 17:31:31 +0000)
 
-Mixing up persistent and transient state in /var is exactly why /run
-exists, and why we should switch to support /run as soon as
-possible...
+are available in the git repository at:
 
-Ross
+  git://git.pokylinux.org/poky-contrib cmuscax/udev
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/udev
+
+Constantin Musca (7):
+  bitbake.conf: add nonarch_base_lib variable
+  udev: use nonarch_base_libdir for files that don't vary by arch
+  alsa-utils: Pass udev-rules-dir as parameter
+  pcmciautils: set correct udevdir and add missing debug files
+  bluez: set correct udevdir
+  polkit: fix multilib packaging issue
+  psplash: enable multilib
+
+ meta/classes/staging.bbclass                       |  4 +
+ meta/conf/bitbake.conf                             |  1 +
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc       |  3 +-
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |  6 +-
+ .../bluez/bluez4-4.101/fix-udev-paths.patch        | 37 +++++++++
+ meta/recipes-connectivity/bluez/bluez4.inc         |  2 +
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  7 +-
+ meta/recipes-core/psplash/psplash_git.bb           | 16 ++--
+ meta/recipes-core/udev/udev.inc                    |  8 +-
+ meta/recipes-core/udev/udev/fix-udev-paths.patch   | 94 ++++++++++++++++++++++
+ meta/recipes-core/udev/udev_182.bb                 |  2 +-
+ meta/recipes-extended/polkit/polkit_0.104.bb       | 12 +--
+ meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb  |  6 +-
+ 13 files changed, 172 insertions(+), 26 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-udev-paths.patch
+ create mode 100644 meta/recipes-core/udev/udev/fix-udev-paths.patch
+
+-- 
+1.7.11.7
+
 
 
