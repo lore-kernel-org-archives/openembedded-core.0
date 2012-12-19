@@ -1,40 +1,35 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TlNn8-0005eM-FN
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TlNqQ-0007ZF-Ks
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 18:51:12 +0100
-Received: from mail-qc0-f199.google.com ([209.85.216.199])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 19 Dec 2012 09:36:05 -0800
-Received: by mail-qc0-f199.google.com with SMTP id b40so3315705qcq.6
+	Wed, 19 Dec 2012 18:54:20 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id DAD54D22E9; Wed, 19 Dec 2012 18:39:25 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id A84A5D22B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2012 09:36:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=WqRkSFwFiOulU1ToHWqvQV13VtVZ+/czr3+dB/2/Mss=;
-	b=alfWrxW4cjZUok6ZueV2yJs2r37z5+VKahoYtGbfF3iwpHT8GCho6ksu+rX8e9DawV
-	VIuqb1a8ArP+1DvnuiAqd7jDl+VBrNDMbsh2UOxdtSLSkR0LmVoYrvmHK2GJPshf+8BI
-	IxS+HIe0afFmFNx2MJoyafcCZCxCxOclZqjyAAYoIsjVjOLFHN9mWhOoAlJUHbi5uF3O
-	4uuJw/Z9FlaI+lTosmMvawvq/87COg0jzc+mjlNHh8pkqB5zuxaMTqEv9ZJiHGggpUVC
-	BzPcz5J3TfDseCz1O/HT1/e9ANzT/xE9Eq6HHABuRX3SCeNpaAx4JTG3OssY8b35Jr3G
-	FC2Q==
-X-Received: by 10.221.10.6 with SMTP id oy6mr8168700vcb.65.1355938564209;
-	Wed, 19 Dec 2012 09:36:04 -0800 (PST)
-Received: by 10.221.10.6 with SMTP id oy6mr8168691vcb.65.1355938564084; Wed,
-	19 Dec 2012 09:36:04 -0800 (PST)
+	Wed, 19 Dec 2012 18:38:23 +0100 (CET)
+Message-ID: <50D1FB8D.1010506@linaro.org>
+Date: Wed, 19 Dec 2012 18:38:21 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Wed, 19 Dec 2012 09:35:43 -0800 (PST)
-In-Reply-To: <1355932969-25071-3-git-send-email-laurentiu.palcu@intel.com>
-References: <1355932969-25071-1-git-send-email-laurentiu.palcu@intel.com>
-	<1355932969-25071-3-git-send-email-laurentiu.palcu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Dec 2012 17:35:43 +0000
-Message-ID: <CAJTo0LZhssWLSM=jzX4QBCoGbrMcESgR9fNJ4hCJNqg-AuWTdg@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQkGGQAOp+iiShiLNDbDcgc8bST6eIgHsdEKSuG8hC7CJTFCBaJSk+fB8HzTu52T9avlfnAkw+z1Ihz7bqnlw/554Fr1ut3NWkJEWuBvg1Ngs946jwRqeEfWqkghSKPvWWmnLOU/nR526w72xoOxU/lgoYt2FQxeuAw8Uk9KYDCUrqCFhfXbbIb5SCIH7FYZkhLO6hR+
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] matchbox-keyboard: use the gtk-immodules-cache.bbclass
+To: openembedded-core@lists.openembedded.org
+References: <1355933911-48562-1-git-send-email-bjst@enea.com>
+	<1355933911-48562-5-git-send-email-bjst@enea.com>
+In-Reply-To: <1355933911-48562-5-git-send-email-bjst@enea.com>
+Subject: Re: [PATCH 4/5] Add ptest for dbus.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,19 +42,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 17:51:18 -0000
+X-List-Received-Date: Wed, 19 Dec 2012 17:54:29 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 19 December 2012 16:02, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> Since the class was already present, use it. Also, this will have the
-> postinstalls run on host, at do_rootfs time.
->
-> [YOCTO #3602]
->
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+W dniu 19.12.2012 17:18, Bj=C3=B6rn Stenberg pisze:
+> This patch adds a new recipe dbus-test to build and package the dbus te=
+st
+> suite. The reason for a separate recipe is that the dbus test suite dep=
+ends
+> on dbus-glib, so it cannot be compiled at the same time as dbus.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Failed here:
 
-Ross
+18:33 hrw@puchatek:build$ bitbake linaro-image-sdk
+Loading cache: 100% |####################################################=
+#########################################################################=
+##| ETA:  00:00:00
+Loaded 1891 entries from dependency cache.
+Parsing recipes: 100% |##################################################=
+#########################################################################=
+##| Time: 00:00:04
+Parsing of 1515 .bb files complete (1507 cached, 8 parsed). 1899 targets,=
+ 62 skipped, 0 masked, 0 errors.
+
+Build Configuration:
+BB_VERSION        =3D "1.17.0"
+BUILD_SYS         =3D "x86_64-linux"
+NATIVELSBSTRING   =3D "Ubuntu-13.04"
+TARGET_SYS        =3D "aarch64-oe-linux"
+MACHINE           =3D "genericarmv8"
+DISTRO_VERSION    =3D "oe-core.0"
+TUNE_FEATURES     =3D "aarch64"
+meta-oe          =20
+meta-webserver   =20
+toolchain-layer  =20
+meta-gnome        =3D "meta-oe:ef5e1d752003e70d30ce8462c3cd09ce3794d783"
+meta-aarch64      =3D "master:c2d418c1da9c21c408511399b85861bcde8cffe3"
+meta-linaro       =3D "master:02a6a819c86ac95c57526ad93a81a63ca6649b35"
+meta              =3D "master:413ab5e9f525b02c2e8a701e96aee6b1c84c4939"
+meta-efl         =20
+meta-gpe         =20
+meta-initramfs   =20
+meta-multimedia  =20
+meta-networking  =20
+meta-xfce         =3D "meta-oe:ef5e1d752003e70d30ce8462c3cd09ce3794d783"
+
+NOTE: Resolving any missing task queue dependencies
+NOTE: multiple providers are available for jpeg (jpeg, libjpeg-turbo)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match jpeg
+NOTE: multiple providers are available for jpeg-native (jpeg-native, libj=
+peg-turbo-native)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match jpeg-native
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+ERROR: Error executing a python function in /home/hrw/HDD/devel/canonical=
+/aarch64/CLEAN/openembedded-core/meta/recipes-core/dbus/dbus_1.6.4.bb:
+ExpansionError: Failure expanding variable RDEPENDS_dbus-lib, expression =
+was 'ptest' 'dbus-ptest' ${@base_contains('DISTRO_FEATURES' '' d)} eglibc=
+ (>=3D 2.16) libgcc=20
+(>=3D linaro-4.7) which triggered exception SyntaxError: invalid syntax (=
+RDEPENDS_dbus-lib, line 1)
+
+ERROR: The stack trace of python calls that resulted in this exception/fa=
+ilure was:
+ERROR:   File "package_depchains", line 128, in <module>
+ERROR:=20
+ERROR:   File "package_depchains", line 75, in package_depchains
+ERROR:=20
+ERROR:   File "/home/hrw/HDD/devel/canonical/aarch64/CLEAN/openembedded-c=
+ore/bitbake/lib/bb/data_smart.py", line 295, in getVar
+ERROR:     return self.expand(value, var)
+ERROR:=20
+ERROR:   File "/home/hrw/HDD/devel/canonical/aarch64/CLEAN/openembedded-c=
+ore/bitbake/lib/bb/data_smart.py", line 159, in expand
+ERROR:     return self.expandWithRefs(s, varname).value
+ERROR:=20
+ERROR:   File "/home/hrw/HDD/devel/canonical/aarch64/CLEAN/openembedded-c=
+ore/bitbake/lib/bb/data_smart.py", line 149, in expandWithRefs
+ERROR:     raise ExpansionError(varname, s, exc)
+ERROR:=20
+ERROR: The code that was being executed was:
+ERROR:      0124:                    add_dep(rdeps, dep)
+ERROR:      0125:                pkg_addrrecs(pkg, base, suffix, func, rd=
+eps, d)
+ERROR:      0126:
+ERROR:      0127:
+ERROR:  *** 0128:package_depchains(d)
+ERROR:      0129:
+ERROR: [From file: 'package_depchains', lineno: 128, function: <module>]
+ERROR:      0071:    for dep in bb.utils.explode_deps(d.getVar('RDEPENDS'=
+, True) or ""):
+ERROR:      0072:        add_dep(rdepends, dep)
+ERROR:      0073:
+ERROR:      0074:    for pkg in packages.split():
+ERROR:  *** 0075:        for dep in bb.utils.explode_deps(d.getVar('RDEPE=
+NDS_' + pkg, True) or ""):
+ERROR:      0076:            add_dep(rdepends, dep)
+ERROR:      0077:
+ERROR:      0078:    #bb.note('rdepends is %s' % rdepends)
+ERROR:      0079:
+ERROR: [From file: 'package_depchains', lineno: 75, function: package_dep=
+chains]
+ERROR: Function failed: package_depchains
+ERROR: Logfile of failure stored in: /home/hrw/HDD/devel/canonical/aarch6=
+4/CLEAN/build/tmp-eglibc/work/aarch64-oe-linux/dbus/1.6.4-r5.0/temp/log.d=
+o_package.9925
+ERROR: Task 1880 (/home/hrw/HDD/devel/canonical/aarch64/CLEAN/openembedde=
+d-core/meta/recipes-core/dbus/dbus_1.6.4.bb, do_package) failed with exit=
+ code '1'
+NOTE: Tasks Summary: Attempted 2799 tasks of which 2792 didn't need to be=
+ rerun and 1 failed.
+Waiting for 0 running tasks to finish:
+
+Summary: 1 task failed:
+  /home/hrw/HDD/devel/canonical/aarch64/CLEAN/openembedded-core/meta/reci=
+pes-core/dbus/dbus_1.6.4.bb, do_package
+Summary: There were 34 ERROR messages shown, returning a non-zero exit co=
+de.
+
 
 
