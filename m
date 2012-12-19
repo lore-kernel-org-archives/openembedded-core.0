@@ -1,29 +1,44 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-da0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Tl9Uq-0003vh-U2
+	(envelope-from <sgw@bigsur.com>) id 1TlCDV-0002VJ-Ug
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 03:35:01 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBJ2KJkl026667
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 19 Dec 2012 06:29:22 +0100
+Received: by mail-da0-f47.google.com with SMTP id s35so710919dak.20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Dec 2012 18:20:19 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 18 Dec 2012 18:20:17 -0800
-Message-ID: <50D12475.3050204@windriver.com>
-Date: Wed, 19 Dec 2012 10:20:37 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120410 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
-	<CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Subject: Re: [PATCH V2] initscripts: add urandom directory into volatiles
+	Tue, 18 Dec 2012 21:14:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=x-received:sender:from:to:subject:date:message-id:x-mailer;
+	bh=8dZZ2y9q2RTEwDz/SKDf2Lv41a8PeSB8nv+JWhCuOVk=;
+	b=Pa/KPVf316ErE8EGhAczqVD/f/KHCU7BqTRJLXUdeUPc8ceN179JvFDAtXNo1KgRf0
+	CvoDD0nT02+a6twCSASxqhZTN0xkPJhHBIuPdF9EAVdyLN/YPm8Rt5XJjDpPP+r8s31u
+	wQrNOQ15cCyFxNVXhi2nCVgLklBNT4Bvi+v3Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:sender:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=8dZZ2y9q2RTEwDz/SKDf2Lv41a8PeSB8nv+JWhCuOVk=;
+	b=iwUkSc/dL2jF1GidvIf4N2BHFPgKDLKgUykvcoIEG48bYg8qKr841gqUPiIN/NA0Mj
+	9c2KrXmaUIsYswGFk7r0mAOEK4SRGhr2PFz4UB3QqX7LXt51FIGNGMbd1VSo7hy9LSj0
+	u7ynZhy6htfy/a4SaaJhU6tTu7E/1JehoX4Kq0/liBqkdOR1NM+6GXU2HtpJhMmXTLaT
+	R4usU1aoZi5YecrfLbYrae8OHp1XqH23FGc+bfYU7xl8eTeIsrVxAg1VtqQrmiuYywM6
+	svMssU1zAd59RcplCDYyMjJhkLOahIFctKDjE5LWJEXFe0XOca7LiPXZAqSSKphtL/dz
+	TWlg==
+X-Received: by 10.68.237.167 with SMTP id vd7mr14424048pbc.161.1355894074401; 
+	Tue, 18 Dec 2012 21:14:34 -0800 (PST)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id kc4sm2424942pbc.23.2012.12.18.21.14.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 18 Dec 2012 21:14:33 -0800 (PST)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Dec 2012 21:14:05 -0800
+Message-Id: <1355894045-17380-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQm1VdfHJ7WEul/yirz9dGGRoPFZCuJCQSc0/JGRB1A5wPwbdKxNEvsyHLXAkQ5R1GE7rOf7
+Subject: [PATCH 1/2] icu: reduce what's needed for cross tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +51,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 02:35:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Dec 2012 05:29:22 -0000
 
-On 12/18/2012 07:23 PM, Burton, Ross wrote:
-> On 18 December 2012 06:23, Ming Liu<ming.liu@windriver.com>  wrote:
->> /etc/init.d/urandom fails to start/stop because it tries to save
->> random-seed into /var/lib/urandom folder which does not exist in the
->> file system.
->>
->> Fixed by adding /var/lib/urandom into volatiles.
-> Doesn't this mean that the persistent state of urandom will be saved
-> to a ramdisk?
->
-> Mixing up persistent and transient state in /var is exactly why /run
-> exists, and why we should switch to support /run as soon as
-> possible...
-FWIW, there's bug about /run directory support -- 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3181.
+The ICU Update copied to complete source tree over, it only
+needed a couple of binaries and libraries, so only copy those.
 
-Cheers,
-Chen Qi
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-support/icu/icu.inc |   16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
+index f7257d1..1329635 100644
+--- a/meta/recipes-support/icu/icu.inc
++++ b/meta/recipes-support/icu/icu.inc
+@@ -7,7 +7,7 @@ DEPENDS = "icu-native"
+ DEPENDS_class-native = ""
+ 
+ S = "${WORKDIR}/icu/source"
+-STAGING_ICU_SOURCE_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/icu"
++STAGING_ICU_DIR_NATIVE = "${STAGING_DATADIR_NATIVE}/${BPN}/${PV}"
+ 
+ PARALLEL_MAKE = ""
+ FULL_OPTIMIZATION_arm = "-Os"
+@@ -17,7 +17,7 @@ inherit autotools pkgconfig binconfig
+ # ICU needs the native build directory as an argument to its --with-cross-build option when
+ # cross-compiling. Taken the situation that different builds may share a common sstate-cache
+ # into consideration, the native build directory needs to be staged.
+-EXTRA_OECONF = "--with-cross-build=${STAGING_DATADIR_NATIVE}/icu/source"
++EXTRA_OECONF = "--with-cross-build=${STAGING_ICU_DIR_NATIVE}"
+ EXTRA_OECONF_class-native = ""
+ 
+ # ICU puts custom m4 autoconf functions in aclocal.m4.
+@@ -29,11 +29,13 @@ do_configure_prepend() {
+     [ -f acinclude.m4 ] || cp aclocal.m4 acinclude.m4
+ }
+ 
+-do_install_append() {
+-    if [ ${PN} == 'icu-native' ]; then
+-	mkdir -p ${D}/${STAGING_ICU_SOURCE_DIR_NATIVE}
+-	cp -r ${S} ${D}/${STAGING_ICU_SOURCE_DIR_NATIVE}
+-    fi
++do_install_append_class-native() {
++	mkdir -p ${D}/${STAGING_ICU_DIR_NATIVE}/config
++	cp -r ${S}/config/icucross.mk ${D}/${STAGING_ICU_DIR_NATIVE}/config
++	cp -r ${S}/lib ${D}/${STAGING_ICU_DIR_NATIVE}
++	cp -r ${S}/bin ${D}/${STAGING_ICU_DIR_NATIVE}
++	cp -r ${S}/tools ${D}/${STAGING_ICU_DIR_NATIVE}
++
+ }
+ 
+ PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx libicutu libicuio"
+-- 
+1.7.9.5
 
 
 
