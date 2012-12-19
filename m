@@ -1,30 +1,22 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TlO2f-0000sE-IA for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 19:06:56 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBJHq87T009235;
-	Wed, 19 Dec 2012 17:52:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07237-08; Wed, 19 Dec 2012 17:52:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBJHpwE3009229
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 19 Dec 2012 17:51:59 GMT
-Message-ID: <1355939518.18874.48.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 19 Dec 2012 17:51:58 +0000
-In-Reply-To: <cover.1355903662.git.sgw@linux.intel.com>
-References: <cover.1355903662.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL v2 00/56] More Updates & Fixes
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TlPFn-0002Cr-LH
+	for openembedded-core@lists.openembedded.org;
+	Wed, 19 Dec 2012 20:24:34 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Dec 2012 11:09:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,318,1355126400"; d="scan'208";a="234033982"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 19 Dec 2012 11:09:46 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Dec 2012 21:09:44 +0200
+Message-Id: <1355944184-30294-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1355932969-25071-2-git-send-email-laurentiu.palcu@intel.com>
+References: <1355932969-25071-2-git-send-email-laurentiu.palcu@intel.com>
+Subject: [PATCH v2] gtk-immodules-cache.bbclass: allow for offline cache generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,107 +29,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 18:06:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Dec 2012 19:24:34 -0000
 
-Hi Saul,
+In order to support a RO rootfs, the cache generation during postinstall
+has to be done on host. However, gtk-query-immodules application will
+only be able to parse shared objects from the same ELF class.
+In order not to have a native package for all the recipes providing
+an input method, so we can generate the cache file natively, run
+gtk-query-immodules through qemu emulator.
 
-I merged this apart from two commits:
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
 
-On Wed, 2012-12-19 at 00:03 -0800, Saul Wold wrote:
-> The following changes since commit 26bf8f6a047ccc0f73eaa40093afddabfce8ea1b:
-> 
->   gst-openmax: fix build with newer GLib (2012-12-17 17:53:33 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+Changes in v2:
+ * Used qemu_target_binary() function, in order to obtain the qemu binary
+   corresponding to the current target, as suggested by Phil (thank you,
+   I didn't know that function existed);
 
-> Chen Qi (1):
->   ICU: upgrade to 50.1.
-> 
-> Ciprian Ciubotariu (1):
->   packagegroup-base: use virtual runtime instead of keymap
-> 
-> Constantin Musca (6):
->   bitbake.conf: add nonarch_base_lib variable
->   alsa-utils: Pass udev-rules-dir as parameter
->   pcmciautils: set correct udevdir and add missing debug files
->   bluez: set correct udevdir
->   polkit: fix multilib packaging issue
->   psplash: enable multilib
-> 
-> Johan Hovold (1):
->   udev: fix failed /dev/shm mount
-> 
-> Khem Raj (1):
->   gcc-cross-canadian.inc: Add dependency on cross-gcc
-> 
-> Laurentiu Palcu (7):
->   avahi: use useradd.bbclass to add avahi-autoipd user
->   distcc: use useradd.bbclass to add the distcc user
->   gconf: add gconftool-2 native wrapper
->   gtk+-native: add gtk-update-icon-cache wrapper
->   xserver-xorg: upgrade to 1.13.1
->   xf86-video-intel: upgrade to 2.20.16
->   matchbox-session-sato: use a proper schema file
-> 
-> Marcin Juszkiewicz (2):
->   net-tools: disable Token Ring and Strip support - both got removed in
->     3.7 kernel
->   xinetd: added gnu-configize for AArch64 support
-> 
-> Mark Hatle (1):
->   package_rpm.bbclass: Refactor the attempt only install
-> 
-> Marko Kati? (1):
->   udev: Remove deprecated binaries from packaging
+Thanks,
+Laurentiu
 
-The commit message for this looks wrong.
+ meta/classes/gtk-immodules-cache.bbclass |   21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-> Marko Lindqvist (9):
->   fontconfig: update to upstream version 2.10.2
->   gtk+: update to upstream version 2.24.14
->   patch: drop global-reject-file patch
->   patch: update to upstream version 2.7.1
->   guile: update to upstream version 2.0.7
->   gdk-pixbuf: update to upstream version 2.26.5
->   gdb: update to upstream version 7.5.1
->   pixman: update to upstream version 0.28.2
->   libpng: update to upstream version 1.5.13
-> 
-> Martin Jansa (4):
->   rootfs_*.bbclass: exclude BUILDNAME var dependency from do_rootfs
->   bitbake.conf: exclude DATETIME var dependency from IMAGE_NAME
->   kernel.bbclass: use the same versioning schema for modules.tgz and
->     provide link to latest
->   iptables: include /usr/share/xtables/pf.os in PN if it's build
-> 
-> Ming Liu (1):
->   initscripts/urandom: create directory before staging into it
-> 
-> Paul Eggleton (1):
->   classes/image: handle multilibs in complementary package lookup
-> 
-> Phil Blundell (1):
->   kernel.bbclass: Allow modules*.tar.gz generation to be inhibited
-> 
-> Ross Burton (2):
->   mutter: remove
->   matchbox-wm-2: remove
-> 
-> Saul Wold (15):
->   standalone-sdk: Need to have an update-alternatives package
-
-This doesn't look right and I'd like to understand why users of
-update-alternatives doesn't have a dependency on it themselves?
-
-
-Cheers,.
-
-Richard
+diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
+index 515d28b..72595ee 100644
+--- a/meta/classes/gtk-immodules-cache.bbclass
++++ b/meta/classes/gtk-immodules-cache.bbclass
+@@ -2,9 +2,28 @@
+ #
+ # Usage: Set GTKIMMODULES_PACKAGES to the packages that needs to update the inputmethod modules
+ 
++DEPENDS =+ "qemu-native"
++
++inherit qemu
++
+ gtk_immodule_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+-    exit 1
++
++for maj_ver in 2 3; do
++    if [ -x $D${bindir}/gtk-query-immodules-$maj_ver.0 ]; then
++        IMFILES=$(ls $D${libdir}/gtk-$maj_ver.0/*/immodules/*.so)
++        DYNAMIC_LOADER=$D$(readelf -a $D${bindir}/gtk-query-immodules-$maj_ver.0 |\
++            grep "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/')
++        LIBRARY_PATH=$D${base_libdir}:$D${libdir}
++        ${@qemu_target_binary(d)} $DYNAMIC_LOADER --library-path $LIBRARY_PATH \
++            $D${bindir}/gtk-query-immodules-$maj_ver.0 $IMFILES > $D/etc/gtk-$maj_ver.0/gtk.immodules 2>/dev/null && \
++            sed -i -e "s:$D::" $D/etc/gtk-$maj_ver.0/gtk.immodules
++
++        [ $? -ne 0 ] && exit 1
++    fi
++done
++
++exit 0
+ fi
+ if [ ! -z `which gtk-query-immodules-2.0` ]; then
+     gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+-- 
+1.7.9.5
 
 
 
