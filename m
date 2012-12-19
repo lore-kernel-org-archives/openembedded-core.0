@@ -1,21 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tl8U7-0002Rn-QD
+	(envelope-from <Ming.Liu@windriver.com>) id 1Tl8wb-0002p7-7R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 02:30:12 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2012 17:14:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,313,1355126400"; d="scan'208";a="236153372"
-Received: from unknown (HELO swold-linux.bigsur.com.bigsur.com)
-	([10.255.14.45])
-	by orsmga001.jf.intel.com with ESMTP; 18 Dec 2012 17:15:28 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Dec 2012 17:15:27 -0800
-Message-Id: <1355879727-506-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH] neon: added --disable-gssapi
+	Wed, 19 Dec 2012 02:59:39 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBJ1iqp3001651
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Dec 2012 17:44:52 -0800 (PST)
+Received: from [128.224.162.133] (128.224.162.133) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Tue, 18 Dec 2012 17:44:51 -0800
+Message-ID: <50D11C10.5090204@windriver.com>
+Date: Wed, 19 Dec 2012 09:44:48 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
+	<CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
+	<50D0C461.7010901@linux.intel.com>
+In-Reply-To: <50D0C461.7010901@linux.intel.com>
+X-Originating-IP: [128.224.162.133]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] initscripts: add urandom directory into volatiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,38 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 01:30:12 -0000
+X-List-Received-Date: Wed, 19 Dec 2012 01:59:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is to ensure determinism as it checks the host for krb5
-and can change if a host has krb5, this disables the check
+On 12/19/2012 03:30 AM, Saul Wold wrote:
+> On 12/18/2012 03:23 AM, Burton, Ross wrote:
+>> On 18 December 2012 06:23, Ming Liu <ming.liu@windriver.com> wrote:
+>>> /etc/init.d/urandom fails to start/stop because it tries to save
+>>> random-seed into /var/lib/urandom folder which does not exist in the
+>>> file system.
+>>>
+>>> Fixed by adding /var/lib/urandom into volatiles.
+>>
+>> Doesn't this mean that the persistent state of urandom will be saved
+>> to a ramdisk?
+>>
+>> Mixing up persistent and transient state in /var is exactly why /run
+>> exists, and why we should switch to support /run as soon as
+>> possible...
+>>
+> Sorry, this was my suggestion, It actually is creating 
+> /var/lib/urandom which should be a persistent sub-dir of /var
+>
+> I was bouncing back and for about it being in the the recipe's 
+> do_install vs  populate volaties file, I did not see any other 
+> /var/lib/<dir> being created so I leaned toward this solution.  This 
+> was on the list a week or so ago, we could go back to itbeing created 
+> in the do_install()
 
-[YOCTO #3499]
+OK, so I will resend the patch creating it in do_install() as V3 since 
+it's a bit long time ago.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-support/neon/neon_0.29.6.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+the best,
+thank you
 
-diff --git a/meta/recipes-support/neon/neon_0.29.6.bb b/meta/recipes-support/neon/neon_0.29.6.bb
-index 42d5e52..157f711 100644
---- a/meta/recipes-support/neon/neon_0.29.6.bb
-+++ b/meta/recipes-support/neon/neon_0.29.6.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://src/COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a
- DEPENDS = "zlib libxml2 expat time gnutls libproxy"
- DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
- 
--PR = "r2"
-+PR = "r3"
- 
- BBCLASSEXTEND = "native"
- 
-@@ -20,3 +20,4 @@ SRC_URI[sha256sum] = "9c640b728d6dc80ef1e48f83181166ab6bc95309cece5537e01ffdd01b
- inherit autotools binconfig lib_package pkgconfig
- 
- EXTRA_OECONF = "--with-ssl=gnutls --with-libxml2 --with-expat --enable-shared"
-+EXTRA_OECONF += "--without-gssapi"
--- 
-1.8.0.2
+>
+> Sau!
+>
+>
+>> Ross
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>
+>
 
 
 
