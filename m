@@ -1,22 +1,24 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TlMa6-0004uo-9u
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <radu.moisan@intel.com>) id 1TlNSk-0007Se-AS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 17:33:18 +0100
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Wed, 19 Dec 2012 17:18:33 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id E466E290C61;
-	Wed, 19 Dec 2012 17:18:32 +0100 (CET)
-From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Dec 2012 17:18:26 +0100
-Message-ID: <1355933911-48562-1-git-send-email-bjst@enea.com>
-X-Mailer: git-send-email 1.7.5.4
+	Wed, 19 Dec 2012 18:29:52 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2012 09:15:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,318,1355126400"; 
+	d="scan'208,217";a="267144990"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Dec 2012 09:15:01 -0800
+Message-ID: <50D1F76D.4070000@intel.com>
+Date: Wed, 19 Dec 2012 19:20:45 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Subject: [PATCH 0/5] ptest update
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: RFC: systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,65 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 16:33:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 19 Dec 2012 17:29:52 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000701060900080608030908"
 
-Here is an update of the ptest patch set.
+--------------000701060900080608030908
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The variables are now moved from bitbake.conf to a new ptest.bbclass, which
-packages inherit to create a ptest package.
+Hi guys,
+     I have prepared a branch on poky-contrib (rmoisan/systemd) where I 
+pulled systemd from meta-openembedded. The goal is to merge this into 
+oe-core, so please take a look and give me your feedback on stuff that 
+needs work or things that I might have done wrong, so that I can prepare 
+it for merge.
+     At this point core-image-minimal and core-image-sato both boot fine 
+with systemd. There still are a few warnings but not critical(at 
+runtime), at least in my opinion, you may want to take a look at those too.
+     You can activate systemd by *DISTRO_FEATURES_INITMAN = "systemd"*
 
-I have added patches for bash in this set, so it now includes ptest for
-glib, dbus and bash. The do_install bits are also much cleaner now.
+Radu
 
-Bj=C3=B6rn Stenberg (5):
-  Add a new distro feature "ptest".
-  New package: ptest-runner
-  Add ptest for glib.
-  Add ptest for dbus.
-  Add ptest for bash.
+--------------000701060900080608030908
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
- meta/classes/image.bbclass                         |    6 +-
- meta/classes/packagegroup.bbclass                  |    2 +-
- meta/classes/ptest.bbclass                         |   34 +++++
- meta/recipes-core/dbus/dbus-1.6.4/ptest.patch      |  144 ++++++++++++++++=
-++++
- meta/recipes-core/dbus/dbus-1.6.4/run-ptest        |    3 +
- .../dbus/dbus-1.6.4/test-run-path.patch            |   26 ++++
- meta/recipes-core/dbus/dbus-ptest_1.6.4.bb         |   46 ++++++
- meta/recipes-core/dbus/dbus.inc                    |    2 +
- .../glib-2.0/glib-2.0/Makefile-ptest.patch         |   61 ++++++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |    3 +
- meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   25 +++-
- meta/recipes-core/glib-2.0/glib.inc                |    7 +-
- .../automake/automake/buildtest.patch              |   33 +++++
- meta/recipes-devtools/automake/automake_1.12.5.bb  |    3 +-
- .../bash/bash-4.2/build-tests.patch                |   48 +++++++
- meta/recipes-extended/bash/bash-4.2/run-ptest      |    2 +
- .../bash/bash-4.2/test-output.patch                |   25 ++++
- meta/recipes-extended/bash/bash.inc                |   16 ++-
- meta/recipes-extended/bash/bash_4.2.bb             |    3 +
- .../ptest-runner/files/ptest-runner                |   16 ++
- .../ptest-runner/ptest-runner_1.0.bb               |   17 +++
- 21 files changed, 512 insertions(+), 10 deletions(-)
- create mode 100644 meta/classes/ptest.bbclass
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
- create mode 100755 meta/recipes-core/dbus/dbus-1.6.4/run-ptest
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
- create mode 100644 meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patc=
-h
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
- create mode 100644 meta/recipes-devtools/automake/automake/buildtest.patch
- create mode 100644 meta/recipes-extended/bash/bash-4.2/build-tests.patch
- create mode 100644 meta/recipes-extended/bash/bash-4.2/run-ptest
- create mode 100644 meta/recipes-extended/bash/bash-4.2/test-output.patch
- create mode 100644 meta/recipes-support/ptest-runner/files/ptest-runner
- create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_1.0.bb
+<html>
+  <head>
 
---=20
-1.7.5.4
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    Hi guys,<br>
+    &nbsp;&nbsp;&nbsp; I have prepared a branch on poky-contrib (rmoisan/systemd) where
+    I pulled systemd from meta-openembedded. The goal is to merge this
+    into oe-core, so please take a look and give me your feedback on
+    stuff that needs work or things that I might have done wrong, so
+    that I can prepare it for merge.<br>
+    &nbsp;&nbsp;&nbsp; At this point core-image-minimal and core-image-sato both boot
+    fine with systemd. There still are a few warnings but not
+    critical(at runtime), at least in my opinion, you may want to take a
+    look at those too.<br>
+    &nbsp;&nbsp;&nbsp; You can activate systemd by&nbsp; <b><small>DISTRO_FEATURES_INITMAN
+        = "systemd"</small></b><br>
+    <br>
+    Radu<br>
+  </body>
+</html>
 
-
-
+--------------000701060900080608030908--
