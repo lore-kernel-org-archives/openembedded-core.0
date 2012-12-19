@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TlLXu-0003Nl-85
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TlMKx-0004ZM-NG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 16:26:58 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBJFCDoc013979
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2012 07:12:13 -0800 (PST)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 19 Dec 2012 07:12:13 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Dec 2012 09:29:05 -0600
-Message-ID: <1355930945-16677-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] rootfs_rpm.bbclass: remove debug code
+	Wed, 19 Dec 2012 17:17:40 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2012 08:02:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,318,1355126400"; d="scan'208";a="264490047"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2012 08:02:52 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Dec 2012 18:02:47 +0200
+Message-Id: <1355932969-25071-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] have input method modules cached at do-rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,38 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 15:26:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Dec 2012 16:17:40 -0000
 
-Debugging code was accidently left in the previous commit.  Remove
-the code as it prevents multiple concurrent bitbake builds.
+Hi,
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/rootfs_rpm.bbclass |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+This patchset will change the postinstall routine in gtk-immodules-cache.bbclass,
+so it can run at do_rootfs time, and changes matchbox-keyboard recipe to use
+the class.
 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 5000956..6a81623 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -152,11 +152,11 @@ RPM_QUERY_CMD = '${RPM} --root $INSTALL_ROOTFS_RPM -D "_dbpath ${rpmlibdir}"'
- 
- list_installed_packages() {
- 	if [ "$1" = "arch" ]; then
--		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]" | translate_smart_to_oe arch | tee /tmp/arch_list
-+		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]" | translate_smart_to_oe arch
- 	elif [ "$1" = "file" ]; then
--		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH} %{PACKAGEORIGIN}\n]" | translate_smart_to_oe | tee /tmp/file_list
-+		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH} %{PACKAGEORIGIN}\n]" | translate_smart_to_oe
- 	else
--		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]" | translate_smart_to_oe | tee /tmp/default_list
-+		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]" | translate_smart_to_oe
- 	fi
- }
- 
+Thanks,
+Laurentiu
+
+Laurentiu Palcu (2):
+  gtk-immodules-cache.bbclass: allow for offline cache generation
+  matchbox-keyboard: use the gtk-immodules-cache.bbclass
+
+ meta/classes/gtk-immodules-cache.bbclass           |   22 +++++++++++++++++++-
+ .../matchbox-keyboard/matchbox-keyboard_git.bb     |   18 ++--------------
+ 2 files changed, 23 insertions(+), 17 deletions(-)
+
 -- 
-1.7.3.4
+1.7.9.5
 
 
 
