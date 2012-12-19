@@ -1,19 +1,33 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
+Received: from mail-ia0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muhammad_shakeel@mentor.com>) id 1TlDUc-0003qu-Lt
+	(envelope-from <raj.khem@gmail.com>) id 1TlERK-0007Nh-Sq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 07:51:03 +0100
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
-	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id qBJ6aDaF002117;
-	Wed, 19 Dec 2012 00:36:17 -0600
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Dec 2012 11:35:53 +0500
-Message-Id: <1355898953-1023-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2] wireless-tools: Remove QA warning: No GNU_HASH in the elf binary
+	Wed, 19 Dec 2012 08:52:03 +0100
+Received: by mail-ia0-f171.google.com with SMTP id k27so1464453iad.30
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Dec 2012 23:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=qPTnW1XNEcBU3acOy+Y9YFmIW2UfXez85OmJ0UNSpm4=;
+	b=0dAN1otYkfcrT37o7wUUb58DbzckTqkv9JW7KPWlI9DuCCb/8G61LGJ3a/jrDUEAwF
+	RN2rtrAazAcTew8HrSHVXAnEYztjicktHE9gkxHwvdEcSo/pvt0r1oDggVdp+stYTtk+
+	kSHundexqAu/9FDIgzvwRAFYIZlN5zIpk4arlTe73XY+erCrDHbinIhqyy/cfKk3JCNa
+	Z7raIQBETcCwFlTMRf0MClkXMEGh4dZEVfNb6Jvup9bYUBQWgNIbrBcdQz9Sgu5haGpB
+	CANIM+W1WXNLsBfSZ0gTFG3qaZ18qZ+9DVeDhLD/lLWfvrmCNXxCce/YmWU/pBtA3MQp
+	vl1w==
+Received: by 10.43.92.72 with SMTP id bp8mr5071504icc.49.1355902619577; Tue,
+	18 Dec 2012 23:36:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.64.19.8 with HTTP; Tue, 18 Dec 2012 23:36:29 -0800 (PST)
+In-Reply-To: <1355858364-26511-1-git-send-email-mark.hatle@windriver.com>
+References: <1355858364-26511-1-git-send-email-mark.hatle@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 18 Dec 2012 23:36:29 -0800
+Message-ID: <CAMKF1soqJZykXM65S0Rs2Ah-Pda2wqEM=2F=gKpYnkhrO9c3-A@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH resend] gcc-cross-canadian.inc: Add dependency on cross-gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,64 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 06:51:03 -0000
+X-List-Received-Date: Wed, 19 Dec 2012 07:52:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+this is needed on danny as well.
 
-Handle LDFLAGS properly in the Makefile to remove warning:
-QA Issue: No GNU_HASH in the elf binary
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- .../wireless-tools/wireless-tools/ldflags.patch    |   22 ++++++++++++++++++++
- .../wireless-tools/wireless-tools_29.bb            |    3 ++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
-new file mode 100644
-index 0000000..6c0d8cb
---- /dev/null
-+++ b/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
-@@ -0,0 +1,22 @@
-+wireless-tools: Remove QA warning: No GNU_HASH in the elf binary
-+
-+Upstream-Status: Inappropriate [other]
-+  Useful within bitbake environment only.
-+
-+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-+
-+---
-+ Makefile |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- wireless_tools.29.orig/Makefile
-++++ wireless_tools.29/Makefile
-+@@ -144,7 +144,7 @@ wireless.h:
-+ 
-+ # Compilation of the dynamic library
-+ $(DYNAMIC): $(OBJS:.o=.so)
-+-	$(CC) -shared -o $@ -Wl,-soname,$@ $(STRIPFLAGS) $(LIBS) -lc $^
-++	$(CC) -shared -o $@ -Wl,-soname,$@ $(LDFLAGS) $(STRIPFLAGS) $(LIBS) -lc $^
-+ 
-+ # Compilation of the static library
-+ $(STATIC): $(OBJS:.o=.so)
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-index 209f29a..b4d34bb 100644
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-+++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-@@ -14,7 +14,8 @@ SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.2
- 	   file://man.patch \
- 	   file://wireless-tools.if-pre-up \
- 	   file://zzz-wireless.if-pre-up \
--	   file://avoid_strip.patch"
-+	   file://avoid_strip.patch \
-+	   file://ldflags.patch"
- 
- SRC_URI[md5sum] = "e06c222e186f7cc013fd272d023710cb"
- SRC_URI[sha256sum] = "6fb80935fe208538131ce2c4178221bab1078a1656306bce8909c19887e2e5a1"
--- 
-1.7.9.5
-
+On Tue, Dec 18, 2012 at 11:19 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> From: Khem Raj <raj.khem@gmail.com>
+>
+> gcc-cross-canadian uses cross compiler during libgcc build
+> when building from sstate the build failed when building
+> gcc-cross-canadian since it did not populate gcc-cross
+> therefore add an explicit dependency on virtual/${TARGET_PREFIX}gcc
+> to make sure that gcc-cross is available before building
+> gcc-cross-canadian
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index 64cf54e..f1824fa 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -4,5 +4,5 @@ DESCRIPTION = "The cross-canadian GNU cc and gcc C compilers for ${TARGET_ARCH}
+>  PN = "gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+>  BPN = "gcc"
+>
+> -DEPENDS = "virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext"
+> +DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${HOST_PREFIX}binutils-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc nativesdk-gettext"
+>
+> --
+> 1.7.3.4
+>
 
 
