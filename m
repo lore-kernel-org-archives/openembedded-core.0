@@ -1,30 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Ming.Liu@windriver.com>) id 1Tl8wb-0002p7-7R
+	(envelope-from <Ming.Liu@windriver.com>) id 1Tl96r-0003RJ-LB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 02:59:39 +0100
+	Wed, 19 Dec 2012 03:10:24 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBJ1iqp3001651
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Dec 2012 17:44:52 -0800 (PST)
-Received: from [128.224.162.133] (128.224.162.133) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 18 Dec 2012 17:44:51 -0800
-Message-ID: <50D11C10.5090204@windriver.com>
-Date: Wed, 19 Dec 2012 09:44:48 +0800
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBJ1tUtK026409
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Dec 2012 17:55:30 -0800 (PST)
+Received: from pek-lpgbuild4.wrs.com (128.224.153.32) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 18 Dec 2012 17:55:29 -0800
 From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Dec 2012 09:55:26 +0800
+Message-ID: <1355882126-26376-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.11
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1355811791-4681-1-git-send-email-ming.liu@windriver.com>
-	<CAJTo0LYDMxZ+2u_mpTevCD6cCX3OZgxs2ABxGauhuNDc+hzSSg@mail.gmail.com>
-	<50D0C461.7010901@linux.intel.com>
-In-Reply-To: <50D0C461.7010901@linux.intel.com>
-X-Originating-IP: [128.224.162.133]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] initscripts: add urandom directory into volatiles
+Subject: [PATCH V3] initscripts/urandom: create directory before staging into it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,55 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 01:59:40 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Dec 2012 02:10:37 -0000
+Content-Type: text/plain
 
-On 12/19/2012 03:30 AM, Saul Wold wrote:
-> On 12/18/2012 03:23 AM, Burton, Ross wrote:
->> On 18 December 2012 06:23, Ming Liu <ming.liu@windriver.com> wrote:
->>> /etc/init.d/urandom fails to start/stop because it tries to save
->>> random-seed into /var/lib/urandom folder which does not exist in the
->>> file system.
->>>
->>> Fixed by adding /var/lib/urandom into volatiles.
->>
->> Doesn't this mean that the persistent state of urandom will be saved
->> to a ramdisk?
->>
->> Mixing up persistent and transient state in /var is exactly why /run
->> exists, and why we should switch to support /run as soon as
->> possible...
->>
-> Sorry, this was my suggestion, It actually is creating 
-> /var/lib/urandom which should be a persistent sub-dir of /var
->
-> I was bouncing back and for about it being in the the recipe's 
-> do_install vs  populate volaties file, I did not see any other 
-> /var/lib/<dir> being created so I leaned toward this solution.  This 
-> was on the list a week or so ago, we could go back to itbeing created 
-> in the do_install()
+/etc/init.d/urandom fails to start/stop because it tries to save
+random-seed into /var/lib/urandom folder which does not exist in the
+file system.
 
-OK, so I will resend the patch creating it in do_install() as V3 since 
-it's a bit long time ago.
+Fixed by creating /var/lib/urandom at do_install time.
 
-the best,
-thank you
+[YOCTO #3518]
+[ CQID: WIND00384168 ]
 
->
-> Sau!
->
->
->> Ross
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
->
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-core/initscripts/initscripts_1.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index d25838b..39be9a8 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r137"
++PR = "r138"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+@@ -133,4 +133,6 @@ do_install () {
+ 	fi
+ 
+ 	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
++	# Holds state information pertaining to urandom
++	install -d ${D}/var/lib/urandom
+ }
+-- 
+1.7.11
 
 
 
