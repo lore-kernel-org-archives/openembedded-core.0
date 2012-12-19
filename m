@@ -1,24 +1,24 @@
 Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
 	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TlMa5-0004un-VH
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TlMa5-0004uo-Vl
 	for openembedded-core@lists.openembedded.org;
 	Wed, 19 Dec 2012 17:33:18 +0100
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
 	Wed, 19 Dec 2012 17:18:33 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 06864290C63;
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 0C621290C64;
 	Wed, 19 Dec 2012 17:18:33 +0100 (CET)
 From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Dec 2012 17:18:29 +0100
-Message-ID: <1355933911-48562-4-git-send-email-bjst@enea.com>
+Date: Wed, 19 Dec 2012 17:18:30 +0100
+Message-ID: <1355933911-48562-5-git-send-email-bjst@enea.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1355933911-48562-1-git-send-email-bjst@enea.com>
 References: <1355933911-48562-1-git-send-email-bjst@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
 	permitted sender hosts)
-Subject: [PATCH 3/5] Add ptest for glib.
+Subject: [PATCH 4/5] Add ptest for dbus.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,188 +35,296 @@ X-List-Received-Date: Wed, 19 Dec 2012 16:33:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+This patch adds a new recipe dbus-test to build and package the dbus test
+suite. The reason for a separate recipe is that the dbus test suite depends
+on dbus-glib, so it cannot be compiled at the same time as dbus.
 
 Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 ---
- .../glib-2.0/glib-2.0/Makefile-ptest.patch         |   61 ++++++++++++++++=
+ meta/recipes-core/dbus/dbus-1.6.4/ptest.patch      |  144 ++++++++++++++++=
 ++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |    3 +
- meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   25 +++++++-
- meta/recipes-core/glib-2.0/glib.inc                |    7 +-
- 4 files changed, 91 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patc=
-h
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+ meta/recipes-core/dbus/dbus-1.6.4/run-ptest        |    3 +
+ .../dbus/dbus-1.6.4/test-run-path.patch            |   26 ++++
+ meta/recipes-core/dbus/dbus-ptest_1.6.4.bb         |   46 ++++++
+ meta/recipes-core/dbus/dbus.inc                    |    2 +
+ 5 files changed, 221 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
+ create mode 100755 meta/recipes-core/dbus/dbus-1.6.4/run-ptest
+ create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
+ create mode 100644 meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch b/met=
-a/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/ptest.patch b/meta/recipes-c=
+ore/dbus/dbus-1.6.4/ptest.patch
 new file mode 100644
-index 0000000..cb36c09
+index 0000000..106bfb4
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
-@@ -0,0 +1,61 @@
-+Add 'ptest' target to Makefile, to run tests without checking dependencies=
-.
-+Add 'install-ptest' target, to copy needed files to ptest dir.
++++ b/meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
+@@ -0,0 +1,144 @@
++Add install-ptest rules.
++Change TEST_ENVIRONMENT to allow running outside build dir.
++
++ Makefile.am                |    7 +++++++
++ bus/Makefile.am            |    6 ++++++
++ dbus/Makefile.am           |    6 ++++++
++ doc/Makefile.am            |    4 ++++
++ test/Makefile.am           |   25 ++++++++++++++++++++-----
++ test/name-test/Makefile.am |    9 +++++++++
++ tools/Makefile.am          |   12 ++++++++++++
++ 7 files changed, 64 insertions(+), 5 deletions(-)
 +
 +Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
-+Upstream-status: Pending
-+---
-+ Makefile.decl |   43 +++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 43 insertions(+)
++Upstream-Status: Pending
 +
-+--- a/Makefile.decl	2012-03-12 01:42:39.000000000 +0100
-++++ b/Makefile.decl	2012-11-26 13:42:08.436865192 +0100
-+@@ -25,6 +25,49 @@
-+ test-nonrecursive:
-+ endif
++diff -ur a/Makefile.am b/Makefile.am
++--- a/Makefile.am	2012-12-06 14:34:01.157414449 +0100
+++++ b/Makefile.am	2012-12-06 15:21:14.447113035 +0100
++@@ -30,4 +30,11 @@
 +=20
-++ptest: ptest-nonrecursive
-++	@ for subdir in $(SUBDIRS) .; do \
-++	    test -d "$$subdir" -a "$$subdir" !=3D "." -a "$$subdir" !=3D "po" &&=
- \
-++	    ( test -d $$subdir && cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $@ ) \
-++	  done
++ ACLOCAL_AMFLAGS =3D -I m4 ${ACLOCAL_FLAGS}
++=20
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@for subdir in $(SUBDIRS); do \
+++		$(MAKE) -C $$subdir DESTDIR=3D$(DESTDIR)/$$subdir $@; \
+++	done
+++endif
 ++
-++ptest-nonrecursive:
-++	@test -z "${TEST_PROGS}" || ${GTESTER} --keep-going --verbose ${TEST_PRO=
-GS}
++ include tools/lcov.am
++diff -ur a/bus/Makefile.am b/bus/Makefile.am
++--- a/bus/Makefile.am	2012-12-06 14:34:01.169413931 +0100
+++++ b/bus/Makefile.am	2012-12-06 15:21:14.463112346 +0100
++@@ -290,3 +290,9 @@
++ #### Extra dist
++=20
++ EXTRA_DIST=3D$(CONFIG_IN_FILES) $(SCRIPT_IN_FILES)
 ++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@install $(dbus_daemon_exec_PROGRAMS) $(noinst_PROGRAMS) $(DESTDIR)
+++endif
++diff -ur a/dbus/Makefile.am b/dbus/Makefile.am
++--- a/dbus/Makefile.am	2012-12-06 14:34:01.161414276 +0100
+++++ b/dbus/Makefile.am	2012-12-06 15:21:14.451112862 +0100
++@@ -310,3 +310,9 @@
++ update-systemd:
++ 	curl http://cgit.freedesktop.org/systemd/plain/src/sd-daemon.c > sd-daem=
+on.c
++ 	curl http://cgit.freedesktop.org/systemd/plain/src/sd-daemon.h > sd-daem=
+on.h
+++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@install $(noinst_PROGRAMS) $(DESTDIR)
+++endif
++diff -ur a/test/Makefile.am b/test/Makefile.am
++--- a/test/Makefile.am	2012-12-06 14:34:01.165414103 +0100
+++++ b/test/Makefile.am	2012-12-06 15:21:14.455112690 +0100
++@@ -119,12 +119,13 @@
++ 	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
++ 	DBUS_TEST_SYSCONFDIR=3D$(DESTDIR)$(sysconfdir)
++=20
+++ptest_run_dir =3D ..
+++
++ TESTS_ENVIRONMENT =3D \
++-	DBUS_BLOCK_ON_ABORT=3D1 \
++-	DBUS_FATAL_WARNINGS=3D1 \
++-	DBUS_TEST_DAEMON=3D@abs_top_builddir@/bus/dbus-daemon$(EXEEXT) \
++-	DBUS_TEST_DATA=3D@abs_top_builddir@/test/data \
++-	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
+++	DBUS_FATAL_WARNINGS=3D0 \
+++	DBUS_TEST_DAEMON=3D$(ptest_run_dir)/bus/dbus-daemon$(EXEEXT) \
+++	DBUS_TEST_DATA=3D$(ptest_run_dir)/test/data \
+++	DBUS_TEST_HOMEDIR=3D$(ptest_run_dir)/dbus \
++ 	$(NULL)
++=20
++ test_corrupt_SOURCES =3D corrupt.c
++@@ -325,3 +326,18 @@
++ data/valid-config-files/system.conf: $(top_builddir)/bus/system.conf
++ 	$(AM_V_at)$(MKDIR_P) data/valid-config-files
++ 	$(AM_V_GEN)cp $< $@
+++
+++if DBUS_BUILD_TESTS
 ++install-ptest: install-ptest-nonrecursive
-++	@test -z "$(SUBDIRS)" || for subdir in $(SUBDIRS); do \
-++	    test "$$subdir" =3D=3D "." || \
-++	    (cd $$subdir && $(MAKE) DESTDIR=3D$(DESTDIR)/$$subdir $@ ) \
+++	@for subdir in $(SUBDIRS); do \
+++		if [ $$subdir !=3D "." ]; then \
+++			$(MAKE) -C $$subdir DESTDIR=3D$(DESTDIR)/$$subdir $@; \
+++		fi; \
 ++	done
 ++
-++# install files used for ptest:
-++# - copy EXTRA_DIST (for test data in glib/tests)
-++# - run dist-hook (for glib/tests/bookmarks/ and glib/tests/markups)
-++# - copy TEST_PROGS (the test programs)
-++# - copy INSTALL_PROGS (for glib/gtester)
-++# - avoid libtool wrappers by copying binaries from .libs
-++# - strip Makefile: target from all Makefiles
 ++install-ptest-nonrecursive:
-++	@mkdir -p $(DESTDIR)
-++	@if [ -n "${TEST_PROGS}" ]; then \
-++		if [ -n "${EXTRA_DIST}" ]; then \
-++			cp ${EXTRA_DIST} $(DESTDIR); \
-++		fi; \
-++		grep -q dist-hook: Makefile && \
-++			$(MAKE) distdir=3D$(DESTDIR) dist-hook; \
-++		if [ -d .libs ] ; then \
-++			cd .libs; \
-++		fi; \
-++		cp ${TEST_PROGS} $(DESTDIR); \
-++	fi;
-++	@if [ -n "${INSTALL_PROGS}" ]; then \
-++		if [ -d .libs ]  ; then \
-++			cd .libs; \
-++		fi; \
-++		cp ${INSTALL_PROGS} $(DESTDIR); \
-++	fi
-++	@test -f Makefile && sed 's/^Makefile:/_Makefile:/' <Makefile >$(DESTDIR=
-)/Makefile
+++	@$(MKDIR_P) $(DESTDIR)/data/valid-config-files/session.d
+++	@for file in Makefile $(installable_tests) $(EXTRA_DIST) $(noinst_DATA);=
+ do \
+++		install -D $${file%.in} $(DESTDIR)/$${file%.in}; \
+++	done;
+++endif
++diff -ur a/test/name-test/Makefile.am b/test/name-test/Makefile.am
++--- a/test/name-test/Makefile.am	2012-12-06 14:34:01.169413931 +0100
+++++ b/test/name-test/Makefile.am	2012-12-06 15:21:14.459112518 +0100
++@@ -36,4 +36,13 @@
++ test_privserver_client_LDADD=3D../libdbus-testutils.la
++ test_autolaunch_LDADD=3D../libdbus-testutils.la
++=20
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@for file in Makefile $(noinst_PROGRAMS) $(EXTRA_DIST); do \
+++		if [ -f .libs/$$file ]; then \
+++			install .libs/$$file $(DESTDIR); \
+++		else \
+++			install $$file $(DESTDIR); \
+++		fi \
+++	done;
++ endif
++diff -ur a/tools/Makefile.am b/tools/Makefile.am
++--- a/tools/Makefile.am	2012-12-06 14:34:01.161414276 +0100
+++++ b/tools/Makefile.am	2012-12-06 15:21:14.455112690 +0100
++@@ -78,3 +78,15 @@
++=20
++ installcheck-local:
++ 	test -d $(DESTDIR)$(localstatedir)/lib/dbus
 ++
-+ # test-report: run tests in subdirs and generate report
-+ # perf-report: run tests in subdirs with -m perf and generate report
-+ # full-report: like test-report: with -m perf and -m slow
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-c=
-ore/glib-2.0/glib-2.0/run-ptest
-new file mode 100644
-index 0000000..3deb586
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@for file in $(bin_PROGRAMS); do \
+++		if [ -f .libs/$$file ]; then \
+++			install .libs/$$file $(DESTDIR); \
+++		else \
+++			install $$file $(DESTDIR); \
+++		fi; \
+++	done;
+++endif
++diff -ur a/doc/Makefile.am b/doc/Makefile.am
++--- a/doc/Makefile.am	2012-06-06 12:45:55.000000000 +0200
+++++ b/doc/Makefile.am	2012-12-06 16:04:58.990070587 +0100
++@@ -174,3 +174,7 @@
++=20
++ maintainer-clean-local:
++ 	rm -f $(XMLTO_OUTPUT)
+++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++endif
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/run-ptest b/meta/recipes-cor=
+e/dbus/dbus-1.6.4/run-ptest
+new file mode 100755
+index 0000000..e08ecb1
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
++++ b/meta/recipes-core/dbus/dbus-1.6.4/run-ptest
 @@ -0,0 +1,3 @@
 +#!/bin/sh
++cd test
++make -k runtest-TESTS
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch b/meta/r=
+ecipes-core/dbus/dbus-1.6.4/test-run-path.patch
+new file mode 100644
+index 0000000..5c08c93
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
+@@ -0,0 +1,26 @@
 +
-+make -k ptest
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recipes-c=
-ore/glib-2.0/glib-2.0_2.34.3.bb
-index 966a851..9854585 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
-@@ -12,6 +12,8 @@ SHRT_VER =3D "${@d.getVar('PV',1).split('.')[0]}.${@d.get=
-Var('PV',1).split('.')[1]
- SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://configure-libtool.patch \
-            file://glib-2.0_fix_for_x32.patch \
-+           file://Makefile-ptest.patch \
++
++Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
++Upstream-Status: Pending
++
++--- a/test/Makefile.am	2012-06-15 15:25:43.000000000 +0200
+++++ b/test/Makefile.am	2012-11-16 09:24:44.263140840 +0100
++@@ -119,12 +119,13 @@
++ 	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
++ 	DBUS_TEST_SYSCONFDIR=3D$(DESTDIR)$(sysconfdir)
++=20
+++ptest_run_dir =3D ..
+++
++ TESTS_ENVIRONMENT =3D \
++-	DBUS_BLOCK_ON_ABORT=3D1 \
++-	DBUS_FATAL_WARNINGS=3D1 \
++-	DBUS_TEST_DAEMON=3D@abs_top_builddir@/bus/dbus-daemon$(EXEEXT) \
++-	DBUS_TEST_DATA=3D@abs_top_builddir@/test/data \
++-	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
+++	DBUS_FATAL_WARNINGS=3D0 \
+++	DBUS_TEST_DAEMON=3D$(ptest_run_dir)/bus/dbus-daemon$(EXEEXT) \
+++	DBUS_TEST_DATA=3D$(ptest_run_dir)/test/data \
+++	DBUS_TEST_HOMEDIR=3D$(ptest_run_dir)/dbus \
++ 	$(NULL)
++=20
++ test_corrupt_SOURCES =3D corrupt.c
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.4.bb b/meta/recipes-core=
+/dbus/dbus-ptest_1.6.4.bb
+new file mode 100644
+index 0000000..2982439
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
+@@ -0,0 +1,46 @@
++DESCRIPTION =3D "D-Bus test package, only used for D-bus functionality tes=
+t."
++HOMEPAGE =3D "http://dbus.freedesktop.org"
++SECTION =3D "base"
++LICENSE =3D "AFL-2 | GPLv2+"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10dded3b58148f3f1fd804b26354af3=
+e \
++                    file://dbus/dbus.h;firstline=3D6;endline=3D20;md5=3D6e=
+ea2e0c7750dd8e620dcb1437312fa5"
++
++DEPENDS =3D "python-pygobject dbus dbus-glib"
++
++RDEPENDS =3D "make"
++
++SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
++           file://tmpdir.patch \
++           file://ptest.patch \
++           file://dbus-1.init  \
 +           file://run-ptest \
-           "
- SRC_URI[md5sum] =3D "a4ca31e258273c3761e3de2edd607661"
- SRC_URI[sha256sum] =3D "855fcbf87cb93065b488358e351774d8a39177281023bae58c=
-286f41612658a7"
-@@ -19,6 +21,24 @@ SRC_URI[sha256sum] =3D "855fcbf87cb93065b488358e351774d8=
-a39177281023bae58c286f4161
- SRC_URI_append_class-native =3D " file://glib-gettextize-dir.patch"
- BBCLASSEXTEND =3D "native nativesdk"
-=20
-+RDEPENDS_${PN}-ptest +=3D "\
-+            eglibc-gconv-utf-16 \
-+            eglibc-charmap-utf-8 \
-+            eglibc-gconv-cp1255 \
-+            eglibc-charmap-cp1255 \
-+            eglibc-gconv-utf-32 \
-+            eglibc-gconv-utf-7 \
-+            eglibc-charmap-invariant \
-+            eglibc-localedata-translit-cjk-variants \
-+            tzdata \
-+            tzdata-americas \
-+            tzdata-asia \
-+            tzdata-europe \
-+            tzdata-posix \
-+            python-pygobject \
-+            python-dbus \
 +           "
 +
- do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codege=
-n/gdbus-codegen.in
- }
-@@ -28,12 +48,13 @@ do_install_append() {
-   rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
-   rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
-   # and empty dirs
--  rmdir ${D}${libdir}/gio/modules/
--  rmdir ${D}${libdir}/gio/
-+  rm -rf ${D}${libdir}/gio
-=20
-   # Some distros have both /bin/perl and /usr/bin/perl, but we set perl lo=
-cation
-   # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
-   if [ -f ${D}${bindir}/glib-mkenums ]; then
-     sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/glib-=
-mkenums
-   fi
++SRC_URI[md5sum] =3D "5ec43dc4554cba638917317b2b4f7640"
++SRC_URI[sha256sum] =3D "5fba6b7a415d761a843fb8e0aee72db61cf13057a9ef8cdc79=
+5e5d369dc74cf1"
 +
-+  ptest_do_install
- }
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2=
-.0/glib.inc
-index bc831e6..53b20b6 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -21,13 +21,14 @@ PACKAGES =3D+ "${PN}-utils ${PN}-bash-completion ${PN}-=
-codegen"
- LEAD_SONAME =3D "libglib-2.0.*"
- FILES_${PN}-utils =3D "${bindir}/* ${datadir}/glib-2.0/gettext"
++S=3D"${WORKDIR}/dbus-${PV}"
++FILESPATH =3D "${FILE_DIRNAME}/dbus-${PV}"
++
++inherit autotools pkgconfig gettext ptest
++
++EXTRA_OECONF_X =3D "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x',=
+ '--without-x', d)}"
++EXTRA_OECONF_X_virtclass-native =3D "--without-x"
++
++EXTRA_OECONF =3D "--enable-tests \
++                --enable-modular-tests \
++                --enable-installed-tests \
++                --enable-checks \
++                --enable-asserts \
++                --enable-verbose-mode \
++                --disable-xml-docs \
++                --disable-doxygen-docs \
++                --disable-libaudit \
++                --with-xml=3Dexpat \
++                --with-systemdsystemunitdir=3D${systemd_unitdir}/system/ \
++                ${EXTRA_OECONF_X}"
++
++do_install() {
++    ptest_do_install
++    find ${D}${PTEST_PATH} -name Makefile | xargs sed -i 's/^Makefile:/_Ma=
+kefile:/'
++}
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.=
+inc
+index d165cdd..112400f 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -9,6 +9,8 @@ X11DEPENDS =3D "virtual/libx11 libsm"
+ DEPENDS =3D "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x1=
+1', '${X11DEPENDS}', '', d)}"
+ DEPENDS_class-native =3D "expat-native virtual/libintl-native"
+ DEPENDS_class-nativesdk =3D "nativesdk-expat virtual/nativesdk-libintl vir=
+tual/libx11"
++RDEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest', '=
+', d)}"
++RDEPENDS_class-native =3D ""
 =20
--inherit autotools gettext gtk-doc pkgconfig
-+inherit autotools gettext gtk-doc pkgconfig ptest
-=20
- S =3D "${WORKDIR}/glib-${PV}"
-=20
--CORECONF =3D "--disable-dtrace --disable-fam --disable-libelf --disable-sy=
-stemtap --disable-modular-tests"
-+CORECONF =3D "--disable-dtrace --disable-fam --disable-libelf --disable-sy=
-stemtap"
-=20
--EXTRA_OECONF =3D "--enable-included-printf=3Dno ${CORECONF}"
-+PTEST_CONF =3D "${@base_contains('DISTRO_FEATURES', 'ptest', '', '--disabl=
-e-modular-tests', d)}"
-+EXTRA_OECONF =3D "--enable-included-printf=3Dno ${CORECONF} ${PTEST_CONF}"
- EXTRA_OECONF_class-native =3D "${CORECONF}"
- EXTRA_OECONF_linuxstdbase =3D "--enable-included-printf=3Dno ${CORECONF}"
+ INC_PR =3D "r5"
 =20
 --=20
 1.7.5.4
