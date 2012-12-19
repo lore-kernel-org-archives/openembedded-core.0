@@ -1,22 +1,22 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TlMKy-0004ZM-SE
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TlMLN-0004fO-RT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 17:17:41 +0100
+	Wed, 19 Dec 2012 17:18:06 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2012 08:02:55 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2012 08:03:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,318,1355126400"; d="scan'208";a="264490087"
+X-IronPort-AV: E=Sophos;i="4.84,318,1355126400"; d="scan'208";a="264490100"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2012 08:02:53 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2012 08:02:55 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Dec 2012 18:02:48 +0200
-Message-Id: <1355932969-25071-2-git-send-email-laurentiu.palcu@intel.com>
+Date: Wed, 19 Dec 2012 18:02:49 +0200
+Message-Id: <1355932969-25071-3-git-send-email-laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1355932969-25071-1-git-send-email-laurentiu.palcu@intel.com>
 References: <1355932969-25071-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 1/2] gtk-immodules-cache.bbclass: allow for offline cache generation
+Subject: [PATCH 2/2] matchbox-keyboard: use the gtk-immodules-cache.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,55 +29,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 16:17:41 -0000
+X-List-Received-Date: Wed, 19 Dec 2012 16:18:06 -0000
 
-In order to support a RO rootfs, the cache generation during postinstall
-has to be done on host. However, gtk-query-immodules application will
-only be able to parse shared objects from the same ELF class.
-In order not to have a native package for all the recipes providing
-an input method, so we can generate the cache file natively, run
-gtk-query-immodules through qemu emulator.
+Since the class was already present, use it. Also, this will have the
+postinstalls run on host, at do_rootfs time.
+
+[YOCTO #3602]
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/gtk-immodules-cache.bbclass |   22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ .../matchbox-keyboard/matchbox-keyboard_git.bb     |   18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
-index 515d28b..d57dcae 100644
---- a/meta/classes/gtk-immodules-cache.bbclass
-+++ b/meta/classes/gtk-immodules-cache.bbclass
-@@ -2,9 +2,29 @@
- #
- # Usage: Set GTKIMMODULES_PACKAGES to the packages that needs to update the inputmethod modules
+diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+index adde25b..a7091d2 100644
+--- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
++++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+@@ -22,7 +22,7 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
  
-+DEPENDS =+ "qemu-native"
-+
- gtk_immodule_cache_postinst() {
- if [ "x$D" != "x" ]; then
--    exit 1
-+EMULATOR=qemu-$(echo ${TARGET_ARCH}| \
-+    sed -e 's/i[3-6]86/i386/' -e 's/x86[_-]64/x86_64/' \
-+        -e 's/powerpc/ppc/')
-+
-+for maj_ver in 2 3; do
-+    if [ -x $D${bindir}/gtk-query-immodules-$maj_ver.0 ]; then
-+        IMFILES=$(ls $D${libdir}/gtk-$maj_ver.0/*/immodules/*.so)
-+        DYNAMIC_LOADER=$D$(readelf -a $D${bindir}/gtk-query-immodules-$maj_ver.0 |\
-+            grep "Requesting program interpreter"|sed -e 's/^.*\[.*: \(.*\)\]/\1/')
-+        LIBRARY_PATH=$D${base_libdir}:$D${libdir}
-+        $EMULATOR $DYNAMIC_LOADER --library-path $LIBRARY_PATH \
-+            $D${bindir}/gtk-query-immodules-$maj_ver.0 $IMFILES > $D/etc/gtk-$maj_ver.0/gtk.immodules 2>/dev/null && \
-+            sed -i -e "s:$D::" $D/etc/gtk-$maj_ver.0/gtk.immodules
-+
-+        [ $? -ne 0 ] && exit 1
-+    fi
-+done
-+
-+exit 0
- fi
- if [ ! -z `which gtk-query-immodules-2.0` ]; then
-     gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools pkgconfig gettext
++inherit autotools pkgconfig gettext gtk-immodules-cache
+ 
+ EXTRA_OECONF = "--disable-cairo --enable-gtk-im --enable-applet"
+ 
+@@ -49,18 +49,4 @@ do_install_append () {
+ 	rm -f ${D}${libdir}/matchbox-panel/*.la
+ }
+ 
+-pkg_postinst_matchbox-keyboard-im () {
+-if [ "x$D" != "x" ]; then
+-  exit 1
+-fi
+-
+-gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+-}
+-
+-pkg_postrm_matchbox-keyboard-im () {
+-if [ "x$D" != "x" ]; then
+-  exit 1
+-fi
+-
+-gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+-}
++GTKIMMODULES_PACKAGES = "${PN}-im"
 -- 
 1.7.9.5
 
