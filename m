@@ -1,38 +1,27 @@
-Received: from mail-da0-f47.google.com ([209.85.210.47])
+Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TlHhj-0001Ch-NG
+	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1TlIpW-0007fS-HR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 12:20:55 +0100
-Received: by mail-da0-f47.google.com with SMTP id s35so863577dak.20
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2012 03:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=Yki5O4IM3MEjSBE9WwMS68xRZ3MR+iDzxP5rHHtyn10=;
-	b=RNB3Bt0v7n5J+kR2qilOmTW34eFicpy3wzpNP2Tn7d+WvgF0Ch+E/khQP8VeJMdSyD
-	SRxyr9bR65Qx1fwqIis8RuDt09bJkNJZg8yVOvox4dcMNtDoajugxXOEkl20MR/TJGCa
-	ovt5u9QFU6YpV8We7cEy537YlgpdsthvFc+NXclXplwbLT7WSaJ/1GyocjrpyxqqBv6c
-	boYk4ri0U3wjaPxwasBkirKYKD9EjOrE7/LzVfUYP6MzIvQ4hy3ZY5U2k4RhbUafO5Tq
-	gRCWbH30nwhVCtHMhqRN1zELJlDNp6JmqqiLKnIPIOcQEktxALwieEdyZXl4F9O7mB78
-	dsmw==
-X-Received: by 10.68.83.68 with SMTP id o4mr17730371pby.25.1355915167925;
-	Wed, 19 Dec 2012 03:06:07 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id bt2sm3261444pab.15.2012.12.19.03.06.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 19 Dec 2012 03:06:06 -0800 (PST)
-Date: Wed, 19 Dec 2012 12:06:04 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Message-ID: <20121219110604.GB3525@jama.palm1.palmone.com>
-References: <cover.1355902677.git.kai.kang@windriver.com>
-	<1d85ab32f49b6d3eaab89eb78afe131415b00794.1355902677.git.kai.kang@windriver.com>
+	Wed, 19 Dec 2012 13:33:01 +0100
+Received: from [192.168.101.56] (afplatform.bmw-carit.intra [192.168.101.56])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 1F1D44006A;
+	Wed, 19 Dec 2012 12:41:39 +0100 (CET)
+Message-ID: <50D1B088.3000009@oss.bmw-carit.de>
+Date: Wed, 19 Dec 2012 13:18:16 +0100
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <1d85ab32f49b6d3eaab89eb78afe131415b00794.1355902677.git.kai.kang@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] oprofile: use dynamic root home directory
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1355839120-12142-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<1355839120-12142-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<CAJTo0LavddUVfHnF2qVGgE9U2Vb7NtbL_B3M5PPtHNV6V6D8qg@mail.gmail.com>
+In-Reply-To: <CAJTo0LavddUVfHnF2qVGgE9U2Vb7NtbL_B3M5PPtHNV6V6D8qg@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] easyinstall: class to create and extend the easyinstall.pth file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,193 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 11:20:58 -0000
-X-Groupsio-MsgNum: 32880
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="dTy3Mrz/UPE2dbVg"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Dec 2012 12:33:04 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---dTy3Mrz/UPE2dbVg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 19, 2012 at 05:39:39PM +0800, Kang Kai wrote:
-> Use stub "ROOTHOME" to replace "/home/root" in oprofile-root.patch, then
-> we can substitute it with configured root home directory.
->=20
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> ---
->  meta/recipes-kernel/oprofile/oprofile.inc          |    1 +
->  .../oprofile/oprofile/oprofile-root.patch          |   23 ++++++++++++--=
------
->  2 files changed, 15 insertions(+), 9 deletions(-)
->=20
-> diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-ker=
-nel/oprofile/oprofile.inc
-> index b3ce852..0977065 100644
-> --- a/meta/recipes-kernel/oprofile/oprofile.inc
-> +++ b/meta/recipes-kernel/oprofile/oprofile.inc
-> @@ -31,6 +31,7 @@ inherit autotools
-> =20
->  EXTRA_OECONF =3D "--with-kernel-support --without-x"
->  do_configure () {
-> +        find . -type f | xargs sed -i 's#ROOTHOME#${ROOT_HOME}#'
->  	cp ${WORKDIR}/acinclude.m4 ${S}/
->  	autotools_do_configure
+On 12/18/2012 03:55 PM, Burton, Ross wrote:
+> On 18 December 2012 13:58, Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de> wrote:
+>> When installing python packages that are installed with python's easyinstall,
+>> the installation creates easyinstall.pth files. This file must exist in the
+>> root filesystem so that python 2.7 can locate and import the installed modules
+>> in the host system.
+> Is this the logic that where packages get installed as Eggs, so into
+> e.g. /usr/lib/python2.7/site-packages/Foo-1.0/ instead of
+> ../packages/foo)?  In that case we're basically having to deal with a
+> lot of complication.   I've been battling this a bit with python-mako
+> and this section of the setuptools document applies to us:
+>
+> "However, packaging tools that build binary distributions by running
+> setup.py install on the command line or as a subprocess will require
+> modification to work with setuptools. They should use the
+> --single-version-externally-managed option to the install command,
+> combined with the standard --root or --record options. See the install
+> command documentation below for more details."
+>
+> http://peak.telecommunity.com/DevCenter/setuptools#what-your-users-should-know
+> http://peak.telecommunity.com/DevCenter/setuptools#install-command
+I think your solution is a simpler and better one that I did not think of.
 
-You should use tab here.
+> I'm all in favour of a setuptools class, but I think it should follow
+> what the documentation says and use --s-v-e-m.   My recent python-mako
+> patch to oe-devel uses these options to do a "old-school" install
+> which doesn't mean dealing with .pth files, as we're a perfectly good
+> package management system already.
+I am also in favor of that.
 
-Cheers,
+ From your description I could not find the version of python-mako that 
+uses the --s-v-e-m option.
+Where can I find this version of the file? Maybe I was just looking at 
+the wrong repository...
 
->  }
-> diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch b/=
-meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
-> index db63a8e..f3fe4c9 100644
-> --- a/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
-> +++ b/meta/recipes-kernel/oprofile/oprofile/oprofile-root.patch
-> @@ -4,6 +4,11 @@ Upstream-Status: inappropriate [OE specific]
-> =20
->  Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> =20
-> +Replace "/home/root" with stub "ROOTHOME", then substitute it with
-> +real root home directory which is configured dymanically.
-> +
-> +Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> +
->  diff -ur oprofile-0.9.7.orig/doc/opcontrol.1.in oprofile-0.9.7/doc/opcon=
-trol.1.in
->  --- oprofile-0.9.7.orig/doc/opcontrol.1.in	2011-07-04 21:25:04.000000000=
- -0500
->  +++ oprofile-0.9.7/doc/opcontrol.1.in	2012-07-02 14:02:16.358865420 -0500
-> @@ -12,7 +17,7 @@ diff -ur oprofile-0.9.7.orig/doc/opcontrol.1.in oprofil=
-e-0.9.7/doc/opcontrol.1.i
->   .SH FILES
->   .TP
->  -.I /root/.oprofile/daemonrc
-> -+.I /home/root/.oprofile/daemonrc
-> ++.I ROOTHOME/.oprofile/daemonrc
->   Configuration file for opcontrol
->   .TP
->   .I /var/lib/oprofile/samples/
-> @@ -24,7 +29,7 @@ diff -ur oprofile-0.9.7.orig/doc/oprofile.1 oprofile-0.=
-9.7/doc/oprofile.1
->   Configuration files
->   .TP
->  -.I /root/.oprofile/daemonrc
-> -+.I /home/root/.oprofile/daemonrc
-> ++.I ROOTHOME/.oprofile/daemonrc
->   Configuration file for opcontrol
->   .TP
->   .I /opt/oprofile-0.9.7-rc3/share/oprofile/
-> @@ -36,7 +41,7 @@ diff -ur oprofile-0.9.7.orig/doc/oprofile.1.in oprofile=
--0.9.7/doc/oprofile.1.in
->   Configuration files
->   .TP
->  -.I /root/.oprofile/daemonrc
-> -+.I /home/root/.oprofile/daemonrc
-> ++.I ROOTHOME/.oprofile/daemonrc
->   Configuration file for opcontrol
->   .TP
->   .I @prefix@/share/oprofile/
-> @@ -48,7 +53,7 @@ diff -ur oprofile-0.9.7.orig/doc/oprofile.html oprofile=
--0.9.7/doc/oprofile.html
->                   <p>
->   		    Followed by list arguments for profiling set up. List of arguments
->  -		    saved in <code class=3D"filename">/root/.oprofile/daemonrc</code>.
-> -+		    saved in <code class=3D"filename">/home/root/.oprofile/daemonrc</=
-code>.
-> ++		    saved in <code class=3D"filename">ROOTHOME/.oprofile/daemonrc</co=
-de>.
->   		    Giving this option is not necessary; you can just directly pass o=
-ne
->   		    of the setup options, e.g. <span class=3D"command"><strong>opcont=
-rol --no-vmlinux</strong></span>.
->   		  </p>
-> @@ -57,7 +62,7 @@ diff -ur oprofile-0.9.7.orig/doc/oprofile.html oprofile=
--0.9.7/doc/oprofile.html
->                   <p>
->   		    Start data collection with either arguments provided by <code cla=
-ss=3D"option">--setup</code>
->  -		or information saved in <code class=3D"filename">/root/.oprofile/daem=
-onrc</code>. Specifying
-> -+		or information saved in <code class=3D"filename">/home/root/.oprofile=
-/daemonrc</code>. Specifying
-> ++		or information saved in <code class=3D"filename">ROOTHOME/.oprofile/d=
-aemonrc</code>. Specifying
->   		the addition <code class=3D"option">--verbose</code> makes the daemon=
- generate lots of debug data
->   		whilst it is running.
->   		</p>
-> @@ -69,7 +74,7 @@ diff -ur oprofile-0.9.7.orig/doc/oprofile.xml oprofile-=
-0.9.7/doc/oprofile.xml
->   		<listitem><para>
->   		    Followed by list arguments for profiling set up. List of arguments
->  -		    saved in <filename>/root/.oprofile/daemonrc</filename>.
-> -+		    saved in <filename>/home/root/.oprofile/daemonrc</filename>.
-> ++		    saved in <filename>ROOTHOME/.oprofile/daemonrc</filename>.
->   		    Giving this option is not necessary; you can just directly pass o=
-ne
->   		    of the setup options, e.g. <command>opcontrol --no-vmlinux</comma=
-nd>.
->   		  </para></listitem>
-> @@ -78,7 +83,7 @@ diff -ur oprofile-0.9.7.orig/doc/oprofile.xml oprofile-=
-0.9.7/doc/oprofile.xml
->   		<listitem><para>
->   		    Start data collection with either arguments provided by <option>-=
--setup</option>
->  -		or information saved in <filename>/root/.oprofile/daemonrc</filename>=
-=2E Specifying
-> -+		or information saved in <filename>/home/root/.oprofile/daemonrc</file=
-name>. Specifying
-> ++		or information saved in <filename>ROOTHOME/.oprofile/daemonrc</filena=
-me>. Specifying
->   		the addition <option>--verbose</option> makes the daemon generate lot=
-s of debug data
->   		whilst it is running.
->   		</para></listitem>
-> @@ -90,7 +95,7 @@ diff -ur oprofile-0.9.7.orig/gui/oprof_start_util.cpp o=
-profile-0.9.7/gui/oprof_s
->   string const get_config_dir()
->   {
->  -	return "/root";
-> -+	return "/home/root";
-> ++	return "ROOTHOME";
->   }
->  =20
->   string daemon_pid;
-> @@ -102,7 +107,7 @@ diff -ur oprofile-0.9.7.orig/utils/opcontrol oprofile=
--0.9.7/utils/opcontrol
->  =20
->   	# location for daemon setup information
->  -	SETUP_DIR=3D"/root/.oprofile"
-> -+	SETUP_DIR=3D"/home/root/.oprofile"
-> ++	SETUP_DIR=3D"ROOTHOME/.oprofile"
->   	SETUP_FILE=3D"$SETUP_DIR/daemonrc"
->   	SEC_SETUP_FILE=3D"$SETUP_DIR/daemonrc_new"
->  =20
-> --=20
-> 1.7.5.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Lukas
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---dTy3Mrz/UPE2dbVg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlDRn5wACgkQN1Ujt2V2gBxYyQCfRumUBUKr1vyxHMdtUhgsyBzi
-+oMAoLuVmGgsz7gkUSFsxTwbfNQ3JX3U
-=5p3t
------END PGP SIGNATURE-----
-
---dTy3Mrz/UPE2dbVg--
