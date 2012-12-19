@@ -1,40 +1,20 @@
-Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]
-	helo=mo5.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1TlR1b-0005or-2Q
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tom.zanussi@intel.com>) id 1TlRHM-0001Ue-R9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Dec 2012 22:17:59 +0100
-Received: from mail419.ha.ovh.net (b9.ovh.net [213.186.33.59])
-	by mo5.mail-out.ovh.net (Postfix) with SMTP id 50C841010166
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Dec 2012 22:06:34 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 19 Dec 2012 22:57:51 +0200
-Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO eb-e6520)
-	(eric%eukrea.com@82.233.81.124)
-	by ns0.ovh.net with SMTP; 19 Dec 2012 22:57:50 +0200
-Date: Wed, 19 Dec 2012 21:57:49 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Ovh-Mailout: 178.32.228.5 (mo5.mail-out.ovh.net)
-Message-ID: <20121219215749.1c511d83@eb-e6520>
-In-Reply-To: <50D1F76D.4070000@intel.com>
-References: <50D1F76D.4070000@intel.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-X-Ovh-Tracer-Id: 3048373997857778955
-X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -100
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrtdduucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucffohhmrghinhephihotghtohhprhhojhgvtghtrdhorhhgnecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrtdduucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfhrhhomhepgfhrihgtuceurohnrghrugcuoegvrhhitgesvghukhhrvggrrdgtohhmqeenucffohhmrghinhephihotghtohhprhhojhgvtghtrdhorhhgnecujfgurhepfffhvffukfgjfhhoofggtgfgsehtqhertdertddu
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: systemd integration
+	Wed, 19 Dec 2012 22:34:19 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Dec 2012 13:19:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,318,1355126400"; d="scan'208";a="267277200"
+Received: from unknown (HELO localhost) ([10.255.12.100])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Dec 2012 13:19:31 -0800
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Dec 2012 15:19:36 -0600
+Message-Id: <cover.1355951741.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] cmake build fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,45 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Dec 2012 21:17:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 19 Dec 2012 21:34:19 -0000
 
-Hi,
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-Le Wed, 19 Dec 2012 19:20:45 +0200,
-Radu Moisan <radu.moisan@intel.com> a =E9crit :
->      I have prepared a branch on poky-contrib (rmoisan/systemd) where I=20
-> pulled systemd from meta-openembedded. The goal is to merge this into=20
-> oe-core, so please take a look and give me your feedback on stuff that=20
-> needs work or things that I might have done wrong, so that I can prepare=
-=20
-> it for merge.
+After a fresh pull from master, I got the following build error:
 
-a nitpick :
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Drmoisan/=
-systemd&id=3D02f4027f7ccddaff3b0316962e7a86a04d31abbc
-here you add that to lighttpd recipe :
-+ file://lighttpd_fix_for_automake-1.12.patch \
-+ file://lighttpd.service
-but you don't add the patch
+ERROR: Fetcher failure for URL: 'http://www.cmake.org/files/v2.8/cmake-2.8.10.2\
+.tar.gz'. No checksum specified for /home/trz/work/sandbox/build/downloads/cmak\
+e-2.8.10.2.tar.gz, please add at least one to the recipe:
+SRC_URI[md5sum] = "097278785da7182ec0aea8769d06860c"
+SRC_URI[sha256sum] = "ce524fb39da06ee6d47534bbcec6e0b50422e18b62abc4781a4ba72ea\
+2910eb1"
+ERROR: Function failed: Fetcher failure for URL: 'http://www.cmake.org/files/v2\
+.8/cmake-2.8.10.2.tar.gz'. No checksum specified for /home/trz/work/sandbox/bui\
+ld/downloads/cmake-2.8.10.2.tar.gz, please add at least one to the recipe:
+SRC_URI[md5sum] = "097278785da7182ec0aea8769d06860c"
+SRC_URI[sha256sum] = "ce524fb39da06ee6d47534bbcec6e0b50422e18b62abc4781a4ba72ea\
+2910eb1"
+ERROR: Logfile of failure stored in: /usr/local/dev/yocto/nitin-test/build/tmp/\
+work/x86_64-linux/cmake-native/2.8.10.2-r0.0/temp/log.do_fetch.11057
+ERROR: Task 4772 (/usr/local/dev/yocto/nitin-test/meta/recipes-devtools/cmake/c\
+make-native_2.8.10.2.bb, do_fetch) failed with exit code '1'
 
-then here (several patches later)
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Drmoisan/=
-systemd&id=3D0b6a5d3f998d2f1bb346c403d512c33ee93052fb
-you fix that :
-- file://lighttpd_fix_for_automake-1.12.patch \
+This patch fixes that.
 
+The following changes since commit 80bc9a0643f31029558eda8cbc5365b7583f1a29:
 
->      At this point core-image-minimal and core-image-sato both boot fine=
-=20
-> with systemd. There still are a few warnings but not critical(at=20
-> runtime), at least in my opinion, you may want to take a look at those to=
-o.
->      You can activate systemd by *DISTRO_FEATURES_INITMAN =3D "systemd"*
->=20
-thanks, will try this.
+  icu: reduce what's needed for cross tools (2012-12-19 17:55:08 +0000)
 
-Eric
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/cmake-checksum-fix
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/cmake-checksum-fix
+
+Tom Zanussi (1):
+  cmake-native: add checksums
+
+ .../cmake/cmake-native_2.8.10.2.bb                 |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+-- 
+1.7.4.1
+
 
 
