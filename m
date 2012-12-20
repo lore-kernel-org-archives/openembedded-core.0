@@ -1,22 +1,27 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TldwR-0006jW-16
+	(envelope-from <radu.moisan@intel.com>) id 1TleOx-0007NT-E6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 12:05:37 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2B9CCD22B4;
-	Thu, 20 Dec 2012 11:50:47 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2012 11:50:38 +0100
-Message-Id: <1356000638-29732-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.0
-In-Reply-To: <CAJTo0LZDZjg3fycmeUdgHpkxQJBd3BQXiaSEB1hwJDE7NRO-yw@mail.gmail.com>
-References: <CAJTo0LZDZjg3fycmeUdgHpkxQJBd3BQXiaSEB1hwJDE7NRO-yw@mail.gmail.com>
-Subject: [PATCH] slang: added gnu-configize for AArch64 support
+	Thu, 20 Dec 2012 12:35:00 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2012 03:20:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,322,1355126400"; d="scan'208";a="267643815"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Dec 2012 03:20:12 -0800
+Message-ID: <50D2F5C6.6080807@intel.com>
+Date: Thu, 20 Dec 2012 13:25:58 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <50D1F76D.4070000@intel.com>
+	<EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
+In-Reply-To: <EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,34 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 11:05:39 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 11:35:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- meta/recipes-extended/slang/slang_2.2.4.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index 60aac66..b70e663 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -29,6 +29,14 @@ SRC_URI[sha256sum] = "9a8257a9a2a55099af858b13338dc8f3a06dd2069f46f0df2c9c3bb84a
- 
- EXTRA_OECONF += " --without-z --without-png --without-onig --x-includes=${STAGING_DIR_HOST}/usr/include/X11 --x-libraries=${STAGING_DIR_HOST}/usr/lib"
- 
-+do_configure_prepend() {
-+    # slang keeps configure.ac and rest of autoconf files in autoconf/ directory
-+    # we have to go there to be able to run gnu-configize cause it expects configure.{in,ac}
-+    # to be present. Resulting files land in autoconf/autoconf/ so we need to move them.
-+    cd ${S}/autoconf && gnu-configize --force && mv autoconf/config.* .
-+    cd ${B}
-+}
-+
- do_install() {
- 	oe_runmake install DESTDIR=${D} -e 'INST_LIB_DIR=${STAGING_DIR_HOST}/usr/lib'
- }
--- 
-1.8.0
+On 12/20/2012 12:47 PM, Koen Kooi wrote:
+> Op 19 dec. 2012, om 18:20 heeft Radu Moisan <radu.moisan@intel.com> het volgende geschreven:
+>
+>> Hi guys,
+>>      I have prepared a branch on poky-contrib (rmoisan/systemd) where I pulled systemd from meta-openembedded. The goal is to merge this into oe-core, so please take a look and give me your feedback on stuff that needs work or things that I might have done wrong, so that I can prepare it for merge.
+>>      At this point core-image-minimal and core-image-sato both boot fine with systemd. There still are a few warnings but not critical(at runtime), at least in my opinion, you may want to take a look at those too.
+>>      You can activate systemd by  DISTRO_FEATURES_INITMAN = "systemd"
+> What happens when I do DISTRO_FEATURES_INITMAN = "sysvinit systemd"?
+I think it would break your build. But what would be the point of doing 
+that?
 
+Radu
 
 
