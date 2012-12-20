@@ -1,24 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1TljXg-0001vp-BS
+	(envelope-from <radu.moisan@intel.com>) id 1Tljn1-0002Kz-0e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 18:04:23 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2012 08:47:36 -0800
+	Thu, 20 Dec 2012 18:20:12 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Dec 2012 09:05:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="260281721"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by orsmga002.jf.intel.com with ESMTP; 20 Dec 2012 08:48:24 -0800
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id A1BB9560480; Thu, 20 Dec 2012 18:48:26 +0200 (EET)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
-	richard.purdie@linuxfoundation.org, ross.burton@intel.com
-Date: Thu, 20 Dec 2012 18:48:24 +0200
-Message-Id: <cover.1356021837.git.alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 0/3] Initial wayland integration
+X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="237071487"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2012 09:05:23 -0800
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Dec 2012 19:11:03 +0200
+Message-Id: <cover.1356022882.git.radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 00/28][RFC] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,55 +27,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 17:04:24 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 17:20:12 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+I've rebased my branch, again :), with some cleanups here and there
+I also pushed a few patches suggested by Martin.
+Feel free to comment on everything.
 
-Hi,
+The following changes since commit 958162e96b4a4f23bca94500b5f20975633dd5c6:
 
-This is a set of patches that integrate Wayland/Weston 1.0.3 into mainline.
-
-All library dependencies are satisfied, and Weston works under X11 and DRM.
-
-A user must install separately (no hard dependency) the hardware DRM drivers
-to be able to run weston on barebone hardware. Hardware drivers built-in 
-are the swrast, i915 and i965 (i965 is tested on real hardware).
-
-There is no default integration in any distro, the packages may be installed
-through the package manager.
-
-Further improvements will include a wrapper script for weston and integration
-in the distro features.
-
-The following changes since commit 90c0eb29f0b41e4ac2d3d17ebad7295c2ebdc02a:
-
-  rootfs_rpm.bbclass: remove debug code (2012-12-19 21:43:55 +0000)
+  bitbake: hob: use base image only if it was set (2012-12-14 17:31:31 +0000)
 
 are available in the git repository at:
 
-  git://git.yoctoproject.org/poky-contrib adamian/wayland/upstream.1
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=adamian/wayland/upstream.1
+  git://git.yoctoproject.org/poky-contrib rmoisan/systemd
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
 
-Alexandru DAMIAN (3):
-  Wayland userspace library initial 1.0.3
-  Initial commit for wayland/weston 1.0.3
-  Prepare mesa-dri for weston compatibility
+Enrico Scholz (1):
+  systemd: move disable operation into prerm() script
 
- meta/recipes-graphics/mesa/mesa-common.inc     |    5 +++-
- meta/recipes-graphics/mesa/mesa-dri.inc        |    1 +
- meta/recipes-graphics/mesa/mesa-dri_git.bb     |    3 ++-
- meta/recipes-graphics/wayland/wayland.inc      |   32 ++++++++++++++++++++++++
- meta/recipes-graphics/wayland/wayland_1.0.3.bb |    7 ++++++
- meta/recipes-graphics/wayland/weston.inc       |   23 +++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.0.3.bb  |    9 +++++++
- 7 files changed, 78 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/wayland.inc
- create mode 100644 meta/recipes-graphics/wayland/wayland_1.0.3.bb
- create mode 100644 meta/recipes-graphics/wayland/weston.inc
- create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+Holger Hans Peter Freyther (2):
+  systemd: Make the main systemd files proper CONFFILES
+  systemd: Introduce a create-volatile to create tmp directories
+
+Khem Raj (1):
+  systemd: Fix build when base_libdir is not /lib
+
+Martin Donnelly (2):
+  cgroups: Add INSANE_SKIP to avoid warning about .so file
+  Remove sysvinit mount related services if systemd is enabled
+
+Martin Jansa (2):
+  systemd-systemctl-native: fix FILESPATH to find systemctl
+  systemd: add PACKAGES_DYNAMIC
+
+Radu Moisan (20):
+  Systemd initial integration
+  Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+  Automatically set PREFERRED_PROVIDER_udev
+  Add systemd_base.bbclass
+  Include systemd-compat-units and avahi-systemd
+  Inherit the systemd_base class
+  set default.target to multi-user.target
+  wpa-supplicant: Fix indentation
+  dropbear: Fix indentation and cleanup
+  systemd: Some more cleanup
+  systemd: disable  source rcS-default
+  polkit: merge together the two instances of PACKAGECONFIG
+  systemd-native: update FILESPATH with *-native directory
+  systemd: Remove gitpkgv.bbclass
+  systemd: (temporary) remove dependency on cairo
+  initscripts: Cleanup recipe
+  systemd: disable sysfs.service
+  xserver-nodm-init: add systemd support
+  util-linux: Enable systemd support
+  lighttpd: Remove automake patch
+
+ meta/classes/base.bbclass                          |    7 +
+ meta/classes/systemd.bbclass                       |    1 +
+ meta/classes/systemd_base.bbclass                  |  218 +++++++++++++
+ meta/conf/distro/include/default-distrovars.inc    |    3 +-
+ meta/recipes-bsp/keymaps/files/keymaps.service     |    9 +
+ meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    9 +-
+ meta/recipes-connectivity/avahi/avahi.inc          |   10 +-
+ meta/recipes-connectivity/connman/connman.inc      |    6 +
+ meta/recipes-connectivity/connman/connman_1.4.bb   |    3 +-
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   15 +-
+ meta/recipes-connectivity/dhcp/files/dhcpd.service |   12 +
+ .../dhcp/files/dhcrelay.service                    |   10 +
+ .../openssh/openssh-6.0p1/sshd.socket              |   11 +
+ .../openssh/openssh-6.0p1/sshd@.service            |    9 +
+ .../openssh/openssh-6.0p1/sshdgenkeys.service      |   10 +
+ meta/recipes-connectivity/openssh/openssh_6.0p1.bb |   14 +-
+ .../wpa-supplicant/wpa-supplicant-1.0.inc          |   74 +++--
+ .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
+ meta/recipes-core/busybox/busybox.inc              |   18 ++
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
+ .../busybox/files/busybox-klogd.service.in         |    8 +
+ .../busybox/files/busybox-syslog.service.in        |   13 +
+ meta/recipes-core/dropbear/dropbear.inc            |   81 ++---
+ .../recipes-core/dropbear/dropbear/dropbear.socket |   10 +
+ .../dropbear/dropbear/dropbear@.service            |    9 +
+ .../dropbear/dropbear/dropbearkey.service          |   10 +
+ .../initscripts-1.0/{urandom => urandom.sh}        |    0
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |  166 +++++-----
+ meta/recipes-core/libcgroup/libcgroup_0.37.1.bb    |    1 +
+ .../packagegroups/packagegroup-base.bb             |    4 +-
+ .../packagegroups/packagegroup-core-boot.bb        |    8 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |   59 ++++
+ .../systemd/systemd-compat-units/machineid.service |   16 +
+ .../systemd-compat-units/run-postinsts.service     |   17 +
+ .../systemd/systemd-machine-units_1.0.bb           |   14 +
+ meta/recipes-core/systemd/systemd-serialgetty.bb   |   46 +++
+ .../systemd/systemd-serialgetty/LICENSE            |  339 ++++++++++++++++++++
+ .../systemd-serialgetty/serial-getty@.service      |   32 ++
+ meta/recipes-core/systemd/systemd-speed-hacks.bb   |   18 ++
+ .../systemd/systemd-systemctl-native.bb            |   20 ++
+ .../systemd/systemd-systemctl-native/systemctl     |  126 ++++++++
+ .../systemd/systemd/create-volatile.conf           |   10 +
+ meta/recipes-core/systemd/systemd/gtk-doc.make     |  230 +++++++++++++
+ meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
+ .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
+ .../systemd/set_default_target_to_multi-user.patch |   13 +
+ .../systemd-pam-configure-check-uclibc.patch       |   26 ++
+ .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
+ .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
+ .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
+ .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
+ .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 +++++++++++++++++++
+ .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
+ meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
+ meta/recipes-core/systemd/systemd_git.bb           |  251 +++++++++++++++
+ meta/recipes-core/util-linux/util-linux.inc        |    9 +-
+ meta/recipes-extended/cronie/cronie/crond.service  |   10 +
+ meta/recipes-extended/cronie/cronie_1.4.8.bb       |   10 +-
+ .../lighttpd/files/lighttpd.service                |   13 +
+ meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 +-
+ meta/recipes-extended/pam/libpam_1.1.6.bb          |    5 +-
+ meta/recipes-extended/polkit/polkit_0.104.bb       |   11 +-
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
+ .../x11-common/xserver-nodm-init.bb                |   19 +-
+ .../x11-common/xserver-nodm-init/xserver-nodm.conf |    1 +
+ .../xserver-nodm-init/xserver-nodm.service         |    9 +
+ 66 files changed, 2604 insertions(+), 172 deletions(-)
+ create mode 100644 meta/classes/systemd.bbclass
+ create mode 100644 meta/classes/systemd_base.bbclass
+ create mode 100644 meta/recipes-bsp/keymaps/files/keymaps.service
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd.socket
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd@.service
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshdgenkeys.service
+ create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+ create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
+ rename meta/recipes-core/initscripts/initscripts-1.0/{urandom => urandom.sh} (100%)
+ create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
+ create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+ create mode 100644 meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/LICENSE
+ create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+ create mode 100644 meta/recipes-core/systemd/systemd-speed-hacks.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
+ create mode 100755 meta/recipes-core/systemd/systemd-systemctl-native/systemctl
+ create mode 100644 meta/recipes-core/systemd/systemd/create-volatile.conf
+ create mode 100644 meta/recipes-core/systemd/systemd/gtk-doc.make
+ create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
+ create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/set_default_target_to_multi-user.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
+ create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
+ create mode 100644 meta/recipes-core/systemd/systemd_git.bb
+ create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
+ create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd.service
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service
 
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
