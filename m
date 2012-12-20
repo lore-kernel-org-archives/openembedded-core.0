@@ -1,20 +1,46 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TlhNS-0003PJ-0a
+	(envelope-from <ross.burton@intel.com>) id 1TlhOV-0003SU-DK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 15:45:41 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2012 06:29:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="260216464"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
-	by orsmga002.jf.intel.com with ESMTP; 20 Dec 2012 06:30:50 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2012 16:31:15 +0200
-Message-Id: <1356013875-31929-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] telepathy-glib upgrade to 0.20.1
+	Thu, 20 Dec 2012 15:46:44 +0100
+Received: from mail-gh0-f199.google.com ([209.85.160.199])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 06:31:57 -0800
+Received: by mail-gh0-f199.google.com with SMTP id r16so919924ghr.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Dec 2012 06:31:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=mAmHoPrYM5cF4T+9VhL5ZAtVEbVZuAixHJYslpNxbNk=;
+	b=YZKq64L95iiR2PVuP4cZXk5X+i9Tu/V6ncmJFNRooz30gxN++UFMi0mLmfnTGXUmmH
+	2uJr+DeDqsoXwUauFyoLKo9Cii8t/Ly9OiJNGtYUlCytVO5v8DecXUhzWD6ZsZhBgTVp
+	uxlW4XlGYg+oHQSoLyq/dho3SXFwJUeL/I1YDsOmblnt3Lem48OpOXhlJ5A2eDu0/8ok
+	c/kFipYoJTnmnQ4R7tmEtPJycSN9nWbB8F9AZ8EsR4LGo/L7p0gm+GrX3wsStl5yolho
+	N2jSYgpekSIvQMphFu1iZBlFVSWmYJqrD3kP4fab1OZ6CJG5dO2N/4ym6QSh3RhWbTka
+	6MTQ==
+X-Received: by 10.220.157.9 with SMTP id z9mr14727368vcw.45.1356013915033;
+	Thu, 20 Dec 2012 06:31:55 -0800 (PST)
+Received: by 10.220.157.9 with SMTP id z9mr14727362vcw.45.1356013914908; Thu,
+	20 Dec 2012 06:31:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 06:31:33 -0800 (PST)
+In-Reply-To: <CAP9ODKpt8gcfkm=59q-HGFcN12uZ+qJ5ZPJanyNCBtYj3BEc7w@mail.gmail.com>
+References: <50D1F76D.4070000@intel.com>
+	<EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
+	<CAJTo0LYA9-__u-ptX+=2D61wjVEDDc=6mfdFDc_+8-9zr22s8g@mail.gmail.com>
+	<CAP9ODKrrSKgd4oFc06Ea=qero4i8Lc1awT7NH_+WwbZru0+XEQ@mail.gmail.com>
+	<CAJTo0La6DRoi8vfbn+qDad5Zm1fpceKfTpRZ=1e07XL79eBswA@mail.gmail.com>
+	<CAP9ODKpt8gcfkm=59q-HGFcN12uZ+qJ5ZPJanyNCBtYj3BEc7w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2012 14:31:33 +0000
+Message-ID: <CAJTo0LZPiEz6RcQuckppAfF0YZ9B=0pmsP+iJgNG3n0RvV1j4w@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Gm-Message-State: ALoCoQmfEDgeSYim3QaNt4+KY05kMBysB3RdgxroracOjo4P+El0wtbBKBXzdpZndL22S37O3CGa0kLcb5Gz1dma5V0tsWhbqSlJZN1FOjtx+SUTWoFRU9EA/YzElHwjHGPy3D/FgWxgnem/6RbmCZPvOmFviOUmVKXNoJthTYAApHkQZWxEx/f5PFtBMZ1y/fL9eO6jxXnj
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,45 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 14:45:45 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 14:46:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+On 20 December 2012 13:09, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> I think if I enable systemd feature I do expect to have some systemd
+> libraries in rootfs however I may opt to use it or not. If I do want
+> to have *no* systemd libraries, than I should not have systemd feature
+> enabled.
 
-upgrade from 0.19.8 to 0.20.1
+What's the point of enabling systemd, having the libraries installed,
+and then not using it?
 
-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../{telepathy-glib_0.19.8.bb => telepathy-glib_0.20.1.bb}       |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.19.8.bb => telepathy-glib_0.20.1.bb} (79%)
+I don't see what the appeal of supporting multiple init systems a
+single distribution, with the downsides of doubling the test space and
+wasting space in situations where you ship all the systemd libraries
+but don't actually boot with systemd.
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb
-similarity index 79%
-rename from meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-rename to meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb
-index 370a822..a0c3103 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.8.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb
-@@ -3,13 +3,13 @@ DESCRIPTION = "Telepathy Framework: GLib-based helper library for connection man
- HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
- DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib"
- LICENSE = "LGPLv2.1+"
--PR = "r2"
-+PR = "r0"
- 
- SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz \
-            file://pkgconfig.patch"
- 
--SRC_URI[md5sum] = "ffd0953953981473fcd9c373ccb9e882"
--SRC_URI[sha256sum] = "581682a937ee33bd4ce01e17d09b338155a79dff44925b988b0701fdbee50b20"
-+SRC_URI[md5sum] = "780034ff7433f33e6577b02fd7a2cb0a"
-+SRC_URI[sha256sum] = "01a0343f61fbd389fed9c819751aa75914150aa567472dcb480ced7f4ed261b6"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e413d83db6ee8f2c8e6055719096a48e"
- 
--- 
-1.7.10.4
-
+Ross
 
 
