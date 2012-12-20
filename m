@@ -1,42 +1,20 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TljEF-0000r0-VQ
+	(envelope-from <cristian.iorga@intel.com>) id 1TljI7-00010P-MJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 17:44:16 +0100
-Received: from mail-yh0-f69.google.com ([209.85.213.69])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 08:29:29 -0800
-Received: by mail-yh0-f69.google.com with SMTP id 3so5055625yhp.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 08:29:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=RSH2zh0MxNnyLIZnmdgx/sLmao5WuMiqHy+Xppto2fE=;
-	b=d2sKqiQJ6/dDNBO+1x8aGDOgT93af8727nTK+nk1LsSx96sMCEdep1eJa0+3zkuGSU
-	lIgHxCFleKomGjuSG0rnT3hSzf7xwLKiCvz52PjAWrSeU1iMZTLN90iC4o1Xd4X+HwW1
-	lVO0IMGLYzxzPrr/aC9JiV8UB20intWzlITsuLlXeQdc/Cip2UkZKv+wM3KwfGwY0ncT
-	b/AwOrUPniRgJ6GWnqVAm4zmGpiBRqHF8p7KXqLDqLdS+uxLcmAMEITXPK3KrejfVLo/
-	/skHINvN5chvvmSswt4ZuyhRM/Zq1b7C2VJ7WOmk/ObzeBOM00iir6u1xKnAU1D8eqHQ
-	E00g==
-X-Received: by 10.58.127.195 with SMTP id ni3mr15790227veb.30.1356020968891;
-	Thu, 20 Dec 2012 08:29:28 -0800 (PST)
-Received: by 10.58.127.195 with SMTP id ni3mr15790222veb.30.1356020968827;
-	Thu, 20 Dec 2012 08:29:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 08:29:08 -0800 (PST)
-In-Reply-To: <50D33B07.7020203@intel.com>
-References: <1355933032-25392-1-git-send-email-laurentiu.palcu@intel.com>
-	<1356016878.24487.187.camel@phil-desktop>
-	<CAJTo0Lb5Z67naXx-pFWd_ksEP5SYpd0qnDzv801UO9MpLB1PdQ@mail.gmail.com>
-	<50D33B07.7020203@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2012 16:29:08 +0000
-Message-ID: <CAJTo0La3aruvPrxHh1yAdq5WwcZyPWkcCFuCAB9mYSNio66_bQ@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQkrwq8lIwP/aEAj8jitfzKsQshJzzJjcBsFaRiAjhLZBRWRmyaHwBJFRWuwqZe5cQ42QkTyoFMkb+Y04wWS8DuziITpyVBSufqpnQnmeV8gN4fm7zQ7/yTOfa+gy9g3RdecfJAdIIXPSJfpI3fRobQPr1+6mgoGi1puxTIWKYFnfk+aS0DztT//PRwYle5cXLp5HfWl
-Cc: Phil Blundell <philb@gnu.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pango: have postinstalls run at do_rootfs time
+	Thu, 20 Dec 2012 17:48:17 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Dec 2012 08:33:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="237055460"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2012 08:33:28 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Dec 2012 18:33:53 +0200
+Message-Id: <1356021233-21573-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] ofono: upgrade to 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,18 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 16:44:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Dec 2012 16:48:17 -0000
 
-On 20 December 2012 16:21, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> How do they handle the cross-compiling issue? They cannot run the native
-> pango-querymodules on a cross-compiled shared object. It will fail.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../ofono/{ofono_1.10.bb => ofono_1.12.bb}                    |    9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.10.bb => ofono_1.12.bb} (53%)
 
-Sure, they don't have that problem.  But for us, any package that
-ships pango modules could use qemu to generate it's modules files.
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.10.bb b/meta/recipes-connectivity/ofono/ofono_1.12.bb
+similarity index 53%
+rename from meta/recipes-connectivity/ofono/ofono_1.10.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.12.bb
+index d150961..1767971 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.10.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.12.bb
+@@ -1,14 +1,13 @@
+ require ofono.inc
+ 
+ SRC_URI  = "\
+-  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.bz2 \
++  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+   file://ofono \
+ "
+-PR = "r1"
+-
+-SRC_URI[md5sum] = "dab284efb8cc4143d6f53d0fcc37b696"
+-SRC_URI[sha256sum] = "e7931ac0dbe165eb0e16a38b7cb4acca59b704f356ec13583d58027135e3efa5"
++PR = "r0"
+ 
++SRC_URI[md5sum] = "aa8924c0e8de3ec7ac5e41fe7df4cb99"
++SRC_URI[sha256sum] = "733b75bfd1b2a1925b6de532989c496b8ae17a746691120ef64cceb00b3ef751"
+ 
+ EXTRA_OECONF += "\
+     --enable-test \
+-- 
+1.7.10.4
 
-It was mainly an interesting comparison of packaging strategy.
-
-Ross
 
 
