@@ -1,34 +1,23 @@
-Received: from mail-ea0-f169.google.com ([209.85.215.169])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tld4v-0004qc-SZ
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Tld5D-0004u4-Ip
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 11:10:14 +0100
-Received: by mail-ea0-f169.google.com with SMTP id a12so1226933eaa.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 01:55:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=XzSudVnyyHbtWokdYGwXIK4/BpbS+1SE3D6vDR7nOGM=;
-	b=FhAGHZdQiRBAXcRkmdZNykLIGNyROx3iFoQTT09mILpgXzHdrr4N6MqEK8HCd2hfpF
-	CiQh1S7h7TO2SBfRiPbSvhA2Ls0LbxYxuVVNmBWfLsXEHzfsyk2mqp16qed3wfRiHl1i
-	FNALZye3V71W4vI9CliTuyH48QY6ieEiFk0cyISPafvvtcbTZM2/N3p0z7TDdv6v14ZH
-	hc0GhyV+CfLMMDS29uvA4mjVtuAE72CYObuTrhzYN58jOY6rkLKg2HtT+CqqyPK35At6
-	0gr3GEPnPu+Zvhu2NCuejkjKKhzcjQRiyqpx0YjFEFSBEwc/26UUNMqPutz7LQqB6pll
-	NC9Q==
-X-Received: by 10.14.215.6 with SMTP id d6mr21975854eep.40.1355997329616;
-	Thu, 20 Dec 2012 01:55:29 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id q44sm14411848eep.5.2012.12.20.01.55.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Dec 2012 01:55:28 -0800 (PST)
-Date: Thu, 20 Dec 2012 10:55:29 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 20 Dec 2012 11:10:32 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2012 01:54:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,322,1355126400"; d="scan'208";a="236880637"
+Received: from lpalcu-linux ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2012 01:55:39 -0800
+Date: Thu, 20 Dec 2012 11:55:39 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20121220095529.GF14543@jama.palm1.palmone.com>
+Message-ID: <20121220095537.GA31053@lpalcu-linux>
+References: <1355933032-25392-1-git-send-email-laurentiu.palcu@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <1355933032-25392-1-git-send-email-laurentiu.palcu@intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: PRserv issues?
+Subject: Re: [PATCH] pango: have postinstalls run at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,64 +30,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 10:10:14 -0000
-X-Groupsio-MsgNum: 32918
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VuQYccsttdhdIfIP"
-Content-Disposition: inline
-
---VuQYccsttdhdIfIP
+X-List-Received-Date: Thu, 20 Dec 2012 10:10:34 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-I'm trying to use PRserv, according to
-https://wiki.yoctoproject.org/wiki/PR_Service
-I've used:
-PRSERV_HOST =3D "localhost"
-PRSERV_PORT =3D "10001"
-USE_PR_SERV =3D "1"
-"Bitbake itself will take care of starting and stopping the server."
+On Wed, Dec 19, 2012 at 06:03:52PM +0200, Laurentiu Palcu wrote:
 
-Expecting that PRSERV_PORT is just TCP port and 10001 will work the same
-as 0 from wiki. It should be written on wiki that localhost:0 has special m=
-eaning.
+Ignore this patch, it is the same as the previous one.... I really have
+no idea why this mail appeared on the mailing list, hours after I sent
+the original patch. Weird... Probably a 'git send-mail' issue.
 
-lib/prserv/serv.py:
-def is_local_special(host, port):
-    if host.strip().upper() =3D=3D 'localhost'.upper() and (not port):
+Thanks,
+Laurentiu
 
-With 10001 it failed later with:
-ERROR: Can NOT get PRAUTO, exception [Errno 111] Connection refused
-ERROR: Function failed: package_get_auto_pr
-ERROR: Logfile of failure stored in: /OE/oe-core/tmp-eglibc/work/armv5te-oe=
--linux-gnueabi/qtbase/5.0.0-r0.0/temp/log.do_package.11135
-ERROR: Task 10 (/OE/oe-core/meta-qt5/recipes-qt/qt5/qtbase_5.0.0.bb, do_pac=
-kage) failed with exit code '1'
+> Since pango-native is built anyway and all the modules are in the native
+> sysroot, create the cache file by scanning those files instead of the
+> target files. The latter will fail because the shared objects wouldn't
+> be from the same ELF class.
+> 
+> [YOCTO #3600]
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/recipes-graphics/pango/pango.inc |   26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+> index 839c00d..81c2a7e 100644
+> --- a/meta/recipes-graphics/pango/pango.inc
+> +++ b/meta/recipes-graphics/pango/pango.inc
+> @@ -10,7 +10,7 @@ SECTION = "libs"
+>  LICENSE = "LGPLv2.0+"
+>  
+>  X11DEPENDS = "virtual/libx11 libxft"
+> -DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils"
+> +DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils pango-native"
+>  
+>  PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+>  PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
+> @@ -44,13 +44,31 @@ LEAD_SONAME = "libpango-1.0*"
+>  LIBV = "1.6.0"
+>  
+>  postinst_prologue() {
+> +if ! [ -e $D${sysconfdir}/pango ] ; then
+> +	mkdir -p $D${sysconfdir}/pango
+> +fi
+> +
+>  if [ "x$D" != "x" ]; then
+> -  exit 1
+> +pango-querymodules $(ls -d -1 $D${libdir}/pango/${LIBV}/modules/*.so|\
+> +    sed -e "s:$D:$NATIVE_ROOT:g") >\
+> +    $D${sysconfdir}/pango/${MLPREFIX}pango.modules \
+> +    2>$D${sysconfdir}/pango/${MLPREFIX}pango.err
+> +
+> +# pango-querymodules always returns 0, so we need to check if pango.err has
+> +# anything in it
+> +if [ -s $D${sysconfdir}/pango/${MLPREFIX}pango.err ]; then
+> +    rm $D${sysconfdir}/pango/${MLPREFIX}pango.err
+> +    exit 1
+>  fi
+>  
+> -if ! [ -e $D${sysconfdir}/pango ] ; then
+> -	mkdir -p $D${sysconfdir}/pango
+> +sed -i -e "s:$NATIVE_ROOT::g" $D${sysconfdir}/pango/${MLPREFIX}pango.modules
+> +
+> +# remove the empty pango.err
+> +rm $D${sysconfdir}/pango/${MLPREFIX}pango.err
+> +
+> +exit 0
+>  fi
+> +
+>  }
+>  
+>  do_install_append () {
+> -- 
+> 1.7.9.5
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-So I've tried to disable PRserv completely, again assuming that
-USE_PR_SERV controls whole PRserv use, setting USE_PR_SERV =3D "0"
-to finally build qtbase and new error:
-ERROR: PRservice localhost:10001 not available
 
-I know it's my fault I haven't read the source first, but maybe wiki
-should be more updated a bit.
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---VuQYccsttdhdIfIP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDS4JEACgkQN1Ujt2V2gBxJMwCgpBGk5LoxYyyv563kZX96pNyO
-yM0AniLfGXtqLsAv7ueG6CuxoBbdpZcz
-=wA7n
------END PGP SIGNATURE-----
-
---VuQYccsttdhdIfIP--
