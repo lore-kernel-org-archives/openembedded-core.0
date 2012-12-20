@@ -1,23 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Tld5D-0004u4-Ip
+	(envelope-from <radu.moisan@intel.com>) id 1TldCl-00054V-Ee
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 11:10:32 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2012 01:54:52 -0800
+	Thu, 20 Dec 2012 11:18:24 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2012 02:03:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,322,1355126400"; d="scan'208";a="236880637"
-Received: from lpalcu-linux ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2012 01:55:39 -0800
-Date: Thu, 20 Dec 2012 11:55:39 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121220095537.GA31053@lpalcu-linux>
-References: <1355933032-25392-1-git-send-email-laurentiu.palcu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,322,1355126400"; d="scan'208";a="264918873"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2012 02:03:12 -0800
+Message-ID: <50D2E3B9.7080506@intel.com>
+Date: Thu, 20 Dec 2012 12:08:57 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <1355933032-25392-1-git-send-email-laurentiu.palcu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] pango: have postinstalls run at do_rootfs time
+To: openembedded-core@lists.openembedded.org
+References: <50D1F76D.4070000@intel.com> <20121219215749.1c511d83@eb-e6520>
+	<50D2D1BD.20402@intel.com>
+In-Reply-To: <50D2D1BD.20402@intel.com>
+Subject: Re: RFC: systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,86 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 10:10:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 20 Dec 2012 10:18:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 19, 2012 at 06:03:52PM +0200, Laurentiu Palcu wrote:
 
-Ignore this patch, it is the same as the previous one.... I really have
-no idea why this mail appeared on the mailing list, hours after I sent
-the original patch. Weird... Probably a 'git send-mail' issue.
+On 12/20/2012 10:52 AM, Radu Moisan wrote:
+>
+> On 12/19/2012 10:57 PM, Eric Bénard wrote:
+>> Hi,
+>>
+>> Le Wed, 19 Dec 2012 19:20:45 +0200,
+>> Radu Moisan <radu.moisan@intel.com> a écrit :
+>>>       I have prepared a branch on poky-contrib (rmoisan/systemd) 
+>>> where I
+>>> pulled systemd from meta-openembedded. The goal is to merge this into
+>>> oe-core, so please take a look and give me your feedback on stuff that
+>>> needs work or things that I might have done wrong, so that I can 
+>>> prepare
+>>> it for merge.
+>> a nitpick :
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&id=02f4027f7ccddaff3b0316962e7a86a04d31abbc 
+>>
+>> here you add that to lighttpd recipe :
+>> + file://lighttpd_fix_for_automake-1.12.patch \
+>> + file://lighttpd.service
+>> but you don't add the patch
+>>
+>> then here (several patches later)
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&id=0b6a5d3f998d2f1bb346c403d512c33ee93052fb 
+>>
+>> you fix that :
+>> - file://lighttpd_fix_for_automake-1.12.patch \
+> that was a regression I introduced when I rebased on master a while 
+> back. I'll squash it with the initial commit.
+     It just got clearer what happened here. So, there was a regression, 
+systemd related changes were missing after rebase. However with automake 
+patch something alse happened.  Since my initial commit, lighttpd was 
+updated to 1.4.32 and it didn't need that patch anymore, so it got 
+removed. When I rebased, the patch was removed but the inclusion in .bb 
+file didn't so I got an error, which I had to fix.
+     For consistency, I'll squash systemd related changes back into the 
+first commit, but the removal of automake patch will stay in this last 
+patch.
 
-Thanks,
-Laurentiu
-
-> Since pango-native is built anyway and all the modules are in the native
-> sysroot, create the cache file by scanning those files instead of the
-> target files. The latter will fail because the shared objects wouldn't
-> be from the same ELF class.
-> 
-> [YOCTO #3600]
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/recipes-graphics/pango/pango.inc |   26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-> index 839c00d..81c2a7e 100644
-> --- a/meta/recipes-graphics/pango/pango.inc
-> +++ b/meta/recipes-graphics/pango/pango.inc
-> @@ -10,7 +10,7 @@ SECTION = "libs"
->  LICENSE = "LGPLv2.0+"
->  
->  X11DEPENDS = "virtual/libx11 libxft"
-> -DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils"
-> +DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils pango-native"
->  
->  PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
->  PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
-> @@ -44,13 +44,31 @@ LEAD_SONAME = "libpango-1.0*"
->  LIBV = "1.6.0"
->  
->  postinst_prologue() {
-> +if ! [ -e $D${sysconfdir}/pango ] ; then
-> +	mkdir -p $D${sysconfdir}/pango
-> +fi
-> +
->  if [ "x$D" != "x" ]; then
-> -  exit 1
-> +pango-querymodules $(ls -d -1 $D${libdir}/pango/${LIBV}/modules/*.so|\
-> +    sed -e "s:$D:$NATIVE_ROOT:g") >\
-> +    $D${sysconfdir}/pango/${MLPREFIX}pango.modules \
-> +    2>$D${sysconfdir}/pango/${MLPREFIX}pango.err
-> +
-> +# pango-querymodules always returns 0, so we need to check if pango.err has
-> +# anything in it
-> +if [ -s $D${sysconfdir}/pango/${MLPREFIX}pango.err ]; then
-> +    rm $D${sysconfdir}/pango/${MLPREFIX}pango.err
-> +    exit 1
->  fi
->  
-> -if ! [ -e $D${sysconfdir}/pango ] ; then
-> -	mkdir -p $D${sysconfdir}/pango
-> +sed -i -e "s:$NATIVE_ROOT::g" $D${sysconfdir}/pango/${MLPREFIX}pango.modules
-> +
-> +# remove the empty pango.err
-> +rm $D${sysconfdir}/pango/${MLPREFIX}pango.err
-> +
-> +exit 0
->  fi
-> +
->  }
->  
->  do_install_append () {
-> -- 
-> 1.7.9.5
-> 
-> 
+> Radu
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
