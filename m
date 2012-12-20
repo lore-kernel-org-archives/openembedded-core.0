@@ -1,40 +1,27 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TlhcC-0004Qg-Cj
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Tlhp1-0006Yf-L3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 16:00:53 +0100
-Received: from mail-qc0-f198.google.com ([209.85.216.198])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 06:46:06 -0800
-Received: by mail-qc0-f198.google.com with SMTP id l35so4916091qco.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 06:46:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=ljhCj9L+Q5HRfWWanWE9KTpiFc/DzGGc1wSZmzczjgk=;
-	b=MmZVu64l4DLO2Rn2RefI5vQqNkwa0489bnT0yOg5BSEEUfx1A7/0RRaL2zBtxlo8Wc
-	wnXj6DOaH9eK4R+GDPr9HGi/bXzo+SsPrxqnTZF6pUFp69rSaVUM0w1RLdELAmad7j0k
-	pVqb4sATenDRugut2nyNhuGgwMUn4VEtLK3MFz4SPvOOibOKDhxUzZ4OV65kt9jPIQie
-	sSm3E9Q/736rLGYN6Uj/NtF9NXBakw12DXs+tpipQpXC8Zhj/QTVxqBwajWN0GLn03vI
-	U6NHdDxvwmBHuhPnreGU+8DWi75LemKSNGKYAo+5uIDrPucLcydMFL1ei5XuD8w1KL6M
-	0cpg==
-X-Received: by 10.220.219.145 with SMTP id hu17mr14487471vcb.52.1356014765533; 
-	Thu, 20 Dec 2012 06:46:05 -0800 (PST)
-Received: by 10.220.219.145 with SMTP id hu17mr14487269vcb.52.1356014763329;
-	Thu, 20 Dec 2012 06:46:03 -0800 (PST)
+	Thu, 20 Dec 2012 16:14:09 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2012 06:59:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="267752439"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Dec 2012 06:59:21 -0800
+Message-ID: <50D327C8.4040703@intel.com>
+Date: Thu, 20 Dec 2012 16:59:20 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 06:45:43 -0800 (PST)
-In-Reply-To: <1356009340-15874-3-git-send-email-laurentiu.palcu@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1356009340-15874-1-git-send-email-laurentiu.palcu@intel.com>
-	<1356009340-15874-3-git-send-email-laurentiu.palcu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2012 14:45:43 +0000
-Message-ID: <CAJTo0LYma0w+_--ptZ5Tsrwqgc9CJOvGWCpKdWW30reOCXQoig@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQk7tFJtty4UMlZcPcXmS2A07HqzVxdrWszaZd8P7WKF04VSceE8qWV137PYD6OhQZlWTB7au0rDOMy9F8GPAyuI94OfQDbTDe0pHjW5p2PXrrHlZPB72KsxVjrgMLQQ69e0dhFSjc2Zs5GJ4fOLW5SlsaVFCIh+Nd9GSck98VAlh2mMUOTLxQLhsiihu6xnzaDo2fKw
+	<1356009340-15874-2-git-send-email-laurentiu.palcu@intel.com>
+	<CAJTo0LbMxNc4JJMw+F+sUnsQAWiBorty_Tfbyw+ZWuU0UPVg0Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LbMxNc4JJMw+F+sUnsQAWiBorty_Tfbyw+ZWuU0UPVg0Q@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/3] gtk-immodules-cache.bbclass: allow for offline cache generation
+Subject: Re: [PATCH v2 1/3] qemu.bbclass: add qemu_run_binary() function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,19 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 15:00:55 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 15:14:09 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 20 December 2012 13:15, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> In order to support a RO rootfs, the cache generation during postinstall
-> has to be done on host. However, gtk-query-immodules application will
-> only be able to parse shared objects from the same ELF class.
-> In order not to have a native package for all the recipes providing
-> an input method, so we can generate the cache file natively, run
-> gtk-query-immodules through qemu emulator.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+On 12/20/2012 04:45 PM, Burton, Ross wrote:
+> On 20 December 2012 13:15, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>> dynamic_loader = rootfs_path + '$(readelf -l ' + rootfs_path + \
+>>       binary + '| grep "Requesting program interpreter"|sed -e \'s/^.*\[.*: \(.*\)\]/\\1/\')'
+> 
+> Would it be easier to do the string manipulation in python?  Spawning
+> grep and sed when Python can do string manipulation seems excessive.
+Ok, I agree. But how do you call python routines from the postinstall
+scriptlets which run in do_rootfs context? readelf needs to run at
+postinstall time because the binary we run through qemu does not
+necessarily belong to the same package. Let's take, for example, the
+current patchset. You can have a recipe that provides an input method
+module and call gtk-query-modules-2.0 binary to create the cache.
 
-Ross
+If you know a method to do it, feel free to share.
+
+Thanks,
+Laurentiu
+
+> 
+> Nice addition to the class though.
+> 
+> Ross
+> 
 
 
