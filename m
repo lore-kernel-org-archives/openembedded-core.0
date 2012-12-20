@@ -1,40 +1,22 @@
-Received: from mail-la0-f43.google.com ([209.85.215.43])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Tldt6-0006dT-MP
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TldwR-0006jW-16
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 12:02:04 +0100
-Received: by mail-la0-f43.google.com with SMTP id z14so2730008lag.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 02:47:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:content-type:mime-version:subject:from:in-reply-to:date
-	:cc:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=T7ii/7fBcK4ws6jeXhVuI0dYziPeeRWA70alzyQUR4s=;
-	b=FedRVY7+/mdFjjP25QATZDyH+Vwr8t3hebQqFIBDtkxTGelGPoBcHHpryF60NRfJA6
-	1T74n22G38tihKsGXTctgbbxjuSf+A1OqYG7syo9dXy25p8PxZFOskSx8Jjq+41XzD+d
-	aVLjJ8zMRbBTlkupOkq3RJw7tLPJoKyYwzBNNYmfvmNdk1/Hlr20B7hOfI17K7Uy4bzP
-	pzl+/u6eOH15PlgTEXijSDn0gQ7A8dxPHv26ygmvgf6FGhQcQku7JMq7LA4msqQQXh9L
-	/WIjdKWkM2fdy2wX5mZ+ObEP0wQfMmAMz4E2k7902g+zY8kRorlljzarxHKFZDQdVGBC
-	Jeaw==
-X-Received: by 10.152.124.111 with SMTP id mh15mr8384614lab.20.1356000440389; 
-	Thu, 20 Dec 2012 02:47:20 -0800 (PST)
-Received: from [172.20.0.100] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id lx18sm3150774lab.14.2012.12.20.02.47.18
-	(version=SSLv3 cipher=OTHER); Thu, 20 Dec 2012 02:47:19 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <50D1F76D.4070000@intel.com>
-Date: Thu, 20 Dec 2012 11:47:19 +0100
-Message-Id: <EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
-References: <50D1F76D.4070000@intel.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Mailer: Apple Mail (2.1499)
-X-Gm-Message-State: ALoCoQlRQtwwf1OrXg52OYF04PV5xmw4hdVCSVCkMo8W9R1QPXhfJRTVmyXnxCM6p8dUzdKvtt9o
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: systemd integration
+	Thu, 20 Dec 2012 12:05:37 +0100
+Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2B9CCD22B4;
+	Thu, 20 Dec 2012 11:50:47 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Dec 2012 11:50:38 +0100
+Message-Id: <1356000638-29732-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.8.0
+In-Reply-To: <CAJTo0LZDZjg3fycmeUdgHpkxQJBd3BQXiaSEB1hwJDE7NRO-yw@mail.gmail.com>
+References: <CAJTo0LZDZjg3fycmeUdgHpkxQJBd3BQXiaSEB1hwJDE7NRO-yw@mail.gmail.com>
+Subject: [PATCH] slang: added gnu-configize for AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,28 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 11:02:04 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Dec 2012 11:05:39 -0000
 
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+---
+ meta/recipes-extended/slang/slang_2.2.4.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Op 19 dec. 2012, om 18:20 heeft Radu Moisan <radu.moisan@intel.com> het =
-volgende geschreven:
-
-> Hi guys,
->     I have prepared a branch on poky-contrib (rmoisan/systemd) where I =
-pulled systemd from meta-openembedded. The goal is to merge this into =
-oe-core, so please take a look and give me your feedback on stuff that =
-needs work or things that I might have done wrong, so that I can prepare =
-it for merge.
->     At this point core-image-minimal and core-image-sato both boot =
-fine with systemd. There still are a few warnings but not critical(at =
-runtime), at least in my opinion, you may want to take a look at those =
-too.
->     You can activate systemd by  DISTRO_FEATURES_INITMAN =3D "systemd"
-
-What happens when I do DISTRO_FEATURES_INITMAN =3D "sysvinit systemd"?
-
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 60aac66..b70e663 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -29,6 +29,14 @@ SRC_URI[sha256sum] = "9a8257a9a2a55099af858b13338dc8f3a06dd2069f46f0df2c9c3bb84a
+ 
+ EXTRA_OECONF += " --without-z --without-png --without-onig --x-includes=${STAGING_DIR_HOST}/usr/include/X11 --x-libraries=${STAGING_DIR_HOST}/usr/lib"
+ 
++do_configure_prepend() {
++    # slang keeps configure.ac and rest of autoconf files in autoconf/ directory
++    # we have to go there to be able to run gnu-configize cause it expects configure.{in,ac}
++    # to be present. Resulting files land in autoconf/autoconf/ so we need to move them.
++    cd ${S}/autoconf && gnu-configize --force && mv autoconf/config.* .
++    cd ${B}
++}
++
+ do_install() {
+ 	oe_runmake install DESTDIR=${D} -e 'INST_LIB_DIR=${STAGING_DIR_HOST}/usr/lib'
+ }
+-- 
+1.8.0
 
 
 
