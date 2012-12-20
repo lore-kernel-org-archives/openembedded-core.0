@@ -1,40 +1,31 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TldEx-00059m-2l
+	(envelope-from <rpjday@crashcourse.ca>) id 1TldT6-0005a3-AP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 11:20:59 +0100
-Received: from mail-qa0-f70.google.com ([209.85.216.70])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 02:05:49 -0800
-Received: by mail-qa0-f70.google.com with SMTP id hg5so5762591qab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 02:05:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=eZ2SDxHLzX9BtgTjkOssEkzfdta0c6Je3d3V2zaqB1M=;
-	b=pteN7RfnJb24fdV6otNamgCCoDL5qr06aqiZA4heG97XcFxkH0kUVv8Eprzwuyh1+z
-	MROUjkI1VhPEm4uHWVRUJtIQCi1zLqRdeNc2njdrgLo6LoXHEupd6gZmWnqn2OAJCaQH
-	dZFbNeEF3HtfCSzE9woYMt5cVXd+KX8ebSRHifnvEAmaLiIZlMamjQ1pBuSj5Pahs5lV
-	4+CKvaNkkb6nOXuzVRxN+z7dKbmqwFwg7zi/l4ZZXmqQMnnHWdL+Tth7aNxX3oJXjbjL
-	EYlLJ7J1d91XrkbiG3ygtHtP2plJFm1hkyXLwaM/eai5Fu7VFYFRcZy87WM4wq6981PB
-	CgHQ==
-X-Received: by 10.52.37.9 with SMTP id u9mr11708822vdj.83.1355997948105;
-	Thu, 20 Dec 2012 02:05:48 -0800 (PST)
-Received: by 10.52.37.9 with SMTP id u9mr11708815vdj.83.1355997948028; Thu, 20
-	Dec 2012 02:05:48 -0800 (PST)
+	Thu, 20 Dec 2012 11:35:12 +0100
+Received: from rrcs-24-173-181-34.sw.biz.rr.com ([24.173.181.34]:64824
+	helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TldEq-0005g4-Tl for openembedded-core@lists.openembedded.org;
+	Thu, 20 Dec 2012 05:20:29 -0500
+Date: Thu, 20 Dec 2012 04:20:25 -0600 (CST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1212200418430.17787@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 02:05:27 -0800 (PST)
-In-Reply-To: <8bfee81d0404d9325ccaccb260cadad8269d92ae.1355990839.git.hongxu.jia@windriver.com>
-References: <cover.1355990839.git.hongxu.jia@windriver.com>
-	<8bfee81d0404d9325ccaccb260cadad8269d92ae.1355990839.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2012 10:05:27 +0000
-Message-ID: <CAJTo0LYrfbtkoO5WD+ckvm4s2xejxyAtjWhWyMfyaGPOGtTZnA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQnm4+WH/xWU8RQS2O8+OVhhup324WzIFhlnqebCdppZ+zJyj658nQj6ekgbQ1SedkAEmiDubQsH6xrlZwIvE7Q40uaSqPlaODbX/3VLsdOJ1Rp84dCetfZ31oyL7QIrYPuV3gkDTwAs5j8x6oY137M8xbqfEmS6+OU5eYHwFsQb3+YYeqgKsbu3WsSwnOURUQw0vU9Q
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] glib-2.0-native:add option march to BUILD_CFLAGS
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: setting up a build ipkg feed -- BUILD_IMAGES_FROM_FEEDS and IPK_FEED_URIS?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,17 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 10:20:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Dec 2012 10:35:12 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 20 December 2012 08:10, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> +# Add option -march to BUILD_CFLAGS in order to let the atomic operations
-> +# ("lock free") be available while using old version GCC on x86 host to
-> +# compile glib-2.0-native
-> +BUILD_CFLAGS += "-march=`echo ${BUILD_ARCH} | sed 's/_/-/'`"
 
-Should we do this inside bitbake.conf instead of just in glib?
+  how does one configure a *build* .ipk feed?  based on my reading, it
+would seem to involve setting BUILD_IMAGES_FROM FEEDS and
+IPK_FEED_URIS, but i don't see an actual example of that.  am i
+reading things properly?  thanks.
 
-Ross
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
