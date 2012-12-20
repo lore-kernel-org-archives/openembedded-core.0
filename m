@@ -1,39 +1,41 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ob0-f174.google.com ([209.85.214.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TlfyS-00057Q-Vu
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tlg6I-0005PT-PD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 14:15:51 +0100
-Received: from mail-we0-f200.google.com ([74.125.82.200])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 05:00:59 -0800
-Received: by mail-we0-f200.google.com with SMTP id x43so2553040wey.11
+	Thu, 20 Dec 2012 14:23:51 +0100
+Received: by mail-ob0-f174.google.com with SMTP id ta14so3230554obb.19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 05:00:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=jmPFWHT47xWvi1KH8Io+EgWqV6t1hPsT2zlWVgkIs/c=;
-	b=VThQafmU6Pjk6dTnyUTkXSCnXV2ONDYPF1vB6ej8O8b1ERYVIBmy5H8DCuOtPWE44B
-	SlywrIAxqIQt/SkYSyvk++noe0iFID8BLTnFqKPOVskca5l0WePS6W27KXLDmmJWBogT
-	E2m/FD9qi7vRml00vP5xbYVKEX6bhE8lTyskn6W0btutOGkX1HYkPJe/ScqFmnYlwEmO
-	9tXXYpPDzQ25G5D3prB4QSo87UFkAd19B6x1dIesncowpzgIelPX8TuUhymBGE97SpVN
-	eqUQyUoV1NCtxhyYYwCl7pUvn+DGJjj2OdhiwevNbUKBf6oxrvO66SIxPXQJsYBWFfWs
-	ImwA==
-X-Received: by 10.194.92.180 with SMTP id cn20mr17413730wjb.51.1356008457398; 
-	Thu, 20 Dec 2012 05:00:57 -0800 (PST)
-X-Received: by 10.194.92.180 with SMTP id cn20mr17413718wjb.51.1356008457301; 
-	Thu, 20 Dec 2012 05:00:57 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p3sm25116206wic.8.2012.12.20.05.00.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Dec 2012 05:00:56 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2012 12:59:13 +0000
-Message-Id: <1356008353-12375-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlDYyPpZ7Z5WDaMkv629s130mXaUOrzyXobkl7/3/Z+gMCXHdBH1GdU6RiqxxV0hcl9yi/EiLpAsoQhH7eBLLF0JeM3HTd/hwXTcgm/7TFz56+LO05ephWn6lHCkg7NQ4QlqF2Fs/jCA9vyhBe9RYsspQIfwv9PVVmA+Uj3S3zk2tnR7XH3Slwp5WWxU/zVWq+cSSzi
-Subject: [PATCH] python: add -crypt as a dependency on -math
+	Thu, 20 Dec 2012 05:09:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=5m6VkZH5rFwEnb6JeNNkUoMlNvNwxLCEmmM8zQsx2zY=;
+	b=sWRTIBWWTmB+x2cmyKcBLsGJQzb1X+u6J4SwhkdFVltgVeorZCLrIRVPaZuX9Oxa3d
+	8Zk4QcK2CSjBp/qrRAHb69fycvxp83/zFH2daXrLjtdp7HrhMxN9sVEKzzqx3d/r8VeC
+	wBFtNo/98035JRj4aHjOQ9DCxHXtEvDBWdmCpEGYmsu6hFqkep+bTvR3X57hjPX2Nd0J
+	9RGKNOs5PXcUcnVXEZE2+LOe2PUOHlJE48TWr7YzbuZEekc9CAKlDoqfhJFqXR/vTE5z
+	Ncwk5HXNDLQ7afIYVU8lhLRlWRtTfFy43RJMZOLh932xnKKTuHuTX8Q20o6l+HasUP4Y
+	N3lg==
+MIME-Version: 1.0
+Received: by 10.182.98.5 with SMTP id ee5mr7950230obb.28.1356008945895; Thu,
+	20 Dec 2012 05:09:05 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Thu, 20 Dec 2012 05:09:05 -0800 (PST)
+In-Reply-To: <CAJTo0La6DRoi8vfbn+qDad5Zm1fpceKfTpRZ=1e07XL79eBswA@mail.gmail.com>
+References: <50D1F76D.4070000@intel.com>
+	<EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
+	<CAJTo0LYA9-__u-ptX+=2D61wjVEDDc=6mfdFDc_+8-9zr22s8g@mail.gmail.com>
+	<CAP9ODKrrSKgd4oFc06Ea=qero4i8Lc1awT7NH_+WwbZru0+XEQ@mail.gmail.com>
+	<CAJTo0La6DRoi8vfbn+qDad5Zm1fpceKfTpRZ=1e07XL79eBswA@mail.gmail.com>
+Date: Thu, 20 Dec 2012 11:09:05 -0200
+X-Google-Sender-Auth: 0TBHSzJzaivrB_rkUAphtwhh4Yw
+Message-ID: <CAP9ODKpt8gcfkm=59q-HGFcN12uZ+qJ5ZPJanyNCBtYj3BEc7w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,30 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 13:15:51 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 13:23:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-random.py imports hashlib, so add this missing dependency.
+On Thu, Dec 20, 2012 at 10:59 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 20 December 2012 12:50, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Not really, I've been using sysvinit images and systemd images in OE
+>> with meta-oe and it works fine.
+>>
+>> There're some changes need, indeed, but it is possible to make it
+>> work. The biggest change I had to do is to get systemd-udevd using
+>> init scripts.
+>
+> Sure it works, I never said it didn't work. It's just not optimal -
+> dbus isn't using the superior console ownership information available
+> to it through systemd for example, because that means linking to
+> libsystemd-login.  By making systemd an image-time choice we can't
+> ever have any code that requires systemd in the build.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think if I enable systemd feature I do expect to have some systemd
+libraries in rootfs however I may opt to use it or not. If I do want
+to have *no* systemd libraries, than I should not have systemd feature
+enabled.
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 1e16c6b..3c7be7e 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -139,7 +139,7 @@ RDEPENDS_${PN}-mailbox="${PN}-core ${PN}-mime"
- FILES_${PN}-mailbox="${libdir}/python2.7/mailbox.* "
- 
- DESCRIPTION_${PN}-math="Python Math Support"
--RDEPENDS_${PN}-math="${PN}-core"
-+RDEPENDS_${PN}-math="${PN}-core ${PN}-crypt"
- FILES_${PN}-math="${libdir}/python2.7/lib-dynload/cmath.so ${libdir}/python2.7/lib-dynload/math.so ${libdir}/python2.7/lib-dynload/_random.so ${libdir}/python2.7/random.* ${libdir}/python2.7/sets.* "
- 
- DESCRIPTION_${PN}-mime="Python MIME Handling APIs"
--- 
-1.7.10
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
