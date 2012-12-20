@@ -1,38 +1,24 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Noor_Ahsan@mentor.com>) id 1TlgV2-0006Sl-HN
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Bjoern.Stenberg@enea.com>) id 1TlgnM-0007M4-Jp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 14:49:24 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Tlfps-0003ME-CW from Noor_Ahsan@mentor.com ;
-	Thu, 20 Dec 2012 05:06:52 -0800
-Received: from SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Thu, 20 Dec 2012 05:06:52 -0800
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.171]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.01.0289.001; Thu, 20 Dec 2012 13:06:50 +0000
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: Otavio Salvador <otavio@ossystems.com.br>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] freetype: Update EXTRA_OECONF to use host gcc.
-Thread-Index: AQHN3q0qxUaiVE0k/0KAZWCNdymix5ghqEEQ
-Date: Thu, 20 Dec 2012 13:06:50 +0000
-Message-ID: <365E1805BC95084CBE82381A0B8699949169F33D@EU-MBX-01.mgc.mentorg.com>
-References: <1356003444-22171-1-git-send-email-noor_ahsan@mentor.com>
-	<CAP9ODKqw5pGY8GqQPVB=tBrVmW7ePCww1uxuTS2WLd94Egk-Gg@mail.gmail.com>
-In-Reply-To: <CAP9ODKqw5pGY8GqQPVB=tBrVmW7ePCww1uxuTS2WLd94Egk-Gg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Thu, 20 Dec 2012 15:08:20 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 20 Dec 2012 14:53:35 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 4E90D290C60;
+	Thu, 20 Dec 2012 14:53:35 +0100 (CET)
+From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Dec 2012 14:53:13 +0100
+Message-ID: <1356011593-29134-1-git-send-email-bjst@enea.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <50D1FB8D.1010506@linaro.org>
+References: <50D1FB8D.1010506@linaro.org>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 20 Dec 2012 13:06:52.0245 (UTC)
-	FILETIME=[E0E7E050:01CDDEB2]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] freetype: Update EXTRA_OECONF to use host gcc.
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Subject: [PATCH 4/5] Add ptest for dbus.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,38 +31,303 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 13:49:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 20 Dec 2012 14:08:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I think the behavior is same on danny.
+This patch adds a new recipe dbus-test to build and package the dbus test
+suite. The reason for a separate recipe is that the dbus test suite depends
+on dbus-glib, so it cannot be compiled at the same time as dbus.
 
-Noor
+Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+---
+ meta/recipes-core/dbus/dbus-1.6.4/ptest.patch      |  144 ++++++++++++++++=
+++++
+ meta/recipes-core/dbus/dbus-1.6.4/run-ptest        |    3 +
+ .../dbus/dbus-1.6.4/test-run-path.patch            |   26 ++++
+ meta/recipes-core/dbus/dbus-ptest_1.6.4.bb         |   46 ++++++
+ meta/recipes-core/dbus/dbus.inc                    |    2 +
+ 5 files changed, 221 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
+ create mode 100755 meta/recipes-core/dbus/dbus-1.6.4/run-ptest
+ create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
+ create mode 100644 meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
 
------Original Message-----
-From: otavio.salvador@gmail.com [mailto:otavio.salvador@gmail.com] On Behal=
-f Of Otavio Salvador
-Sent: Thursday, December 20, 2012 5:25 PM
-To: Ahsan, Noor; Burton, Ross
-Cc: Patches and discussions about the oe-core layer
-Subject: Re: [OE-core] [PATCH] freetype: Update EXTRA_OECONF to use host gc=
-c.
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/ptest.patch b/meta/recipes-c=
+ore/dbus/dbus-1.6.4/ptest.patch
+new file mode 100644
+index 0000000..106bfb4
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
+@@ -0,0 +1,144 @@
++Add install-ptest rules.
++Change TEST_ENVIRONMENT to allow running outside build dir.
++
++ Makefile.am                |    7 +++++++
++ bus/Makefile.am            |    6 ++++++
++ dbus/Makefile.am           |    6 ++++++
++ doc/Makefile.am            |    4 ++++
++ test/Makefile.am           |   25 ++++++++++++++++++++-----
++ test/name-test/Makefile.am |    9 +++++++++
++ tools/Makefile.am          |   12 ++++++++++++
++ 7 files changed, 64 insertions(+), 5 deletions(-)
++
++Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
++Upstream-Status: Pending
++
++diff -ur a/Makefile.am b/Makefile.am
++--- a/Makefile.am	2012-12-06 14:34:01.157414449 +0100
+++++ b/Makefile.am	2012-12-06 15:21:14.447113035 +0100
++@@ -30,4 +30,11 @@
++=20
++ ACLOCAL_AMFLAGS =3D -I m4 ${ACLOCAL_FLAGS}
++=20
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@for subdir in $(SUBDIRS); do \
+++		$(MAKE) -C $$subdir DESTDIR=3D$(DESTDIR)/$$subdir $@; \
+++	done
+++endif
+++
++ include tools/lcov.am
++diff -ur a/bus/Makefile.am b/bus/Makefile.am
++--- a/bus/Makefile.am	2012-12-06 14:34:01.169413931 +0100
+++++ b/bus/Makefile.am	2012-12-06 15:21:14.463112346 +0100
++@@ -290,3 +290,9 @@
++ #### Extra dist
++=20
++ EXTRA_DIST=3D$(CONFIG_IN_FILES) $(SCRIPT_IN_FILES)
+++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@install $(dbus_daemon_exec_PROGRAMS) $(noinst_PROGRAMS) $(DESTDIR)
+++endif
++diff -ur a/dbus/Makefile.am b/dbus/Makefile.am
++--- a/dbus/Makefile.am	2012-12-06 14:34:01.161414276 +0100
+++++ b/dbus/Makefile.am	2012-12-06 15:21:14.451112862 +0100
++@@ -310,3 +310,9 @@
++ update-systemd:
++ 	curl http://cgit.freedesktop.org/systemd/plain/src/sd-daemon.c > sd-daem=
+on.c
++ 	curl http://cgit.freedesktop.org/systemd/plain/src/sd-daemon.h > sd-daem=
+on.h
+++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@install $(noinst_PROGRAMS) $(DESTDIR)
+++endif
++diff -ur a/test/Makefile.am b/test/Makefile.am
++--- a/test/Makefile.am	2012-12-06 14:34:01.165414103 +0100
+++++ b/test/Makefile.am	2012-12-06 15:21:14.455112690 +0100
++@@ -119,12 +119,13 @@
++ 	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
++ 	DBUS_TEST_SYSCONFDIR=3D$(DESTDIR)$(sysconfdir)
++=20
+++ptest_run_dir =3D ..
+++
++ TESTS_ENVIRONMENT =3D \
++-	DBUS_BLOCK_ON_ABORT=3D1 \
++-	DBUS_FATAL_WARNINGS=3D1 \
++-	DBUS_TEST_DAEMON=3D@abs_top_builddir@/bus/dbus-daemon$(EXEEXT) \
++-	DBUS_TEST_DATA=3D@abs_top_builddir@/test/data \
++-	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
+++	DBUS_FATAL_WARNINGS=3D0 \
+++	DBUS_TEST_DAEMON=3D$(ptest_run_dir)/bus/dbus-daemon$(EXEEXT) \
+++	DBUS_TEST_DATA=3D$(ptest_run_dir)/test/data \
+++	DBUS_TEST_HOMEDIR=3D$(ptest_run_dir)/dbus \
++ 	$(NULL)
++=20
++ test_corrupt_SOURCES =3D corrupt.c
++@@ -325,3 +326,18 @@
++ data/valid-config-files/system.conf: $(top_builddir)/bus/system.conf
++ 	$(AM_V_at)$(MKDIR_P) data/valid-config-files
++ 	$(AM_V_GEN)cp $< $@
+++
+++if DBUS_BUILD_TESTS
+++install-ptest: install-ptest-nonrecursive
+++	@for subdir in $(SUBDIRS); do \
+++		if [ $$subdir !=3D "." ]; then \
+++			$(MAKE) -C $$subdir DESTDIR=3D$(DESTDIR)/$$subdir $@; \
+++		fi; \
+++	done
+++
+++install-ptest-nonrecursive:
+++	@$(MKDIR_P) $(DESTDIR)/data/valid-config-files/session.d
+++	@for file in Makefile $(installable_tests) $(EXTRA_DIST) $(noinst_DATA);=
+ do \
+++		install -D $${file%.in} $(DESTDIR)/$${file%.in}; \
+++	done;
+++endif
++diff -ur a/test/name-test/Makefile.am b/test/name-test/Makefile.am
++--- a/test/name-test/Makefile.am	2012-12-06 14:34:01.169413931 +0100
+++++ b/test/name-test/Makefile.am	2012-12-06 15:21:14.459112518 +0100
++@@ -36,4 +36,13 @@
++ test_privserver_client_LDADD=3D../libdbus-testutils.la
++ test_autolaunch_LDADD=3D../libdbus-testutils.la
++=20
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@for file in Makefile $(noinst_PROGRAMS) $(EXTRA_DIST); do \
+++		if [ -f .libs/$$file ]; then \
+++			install .libs/$$file $(DESTDIR); \
+++		else \
+++			install $$file $(DESTDIR); \
+++		fi \
+++	done;
++ endif
++diff -ur a/tools/Makefile.am b/tools/Makefile.am
++--- a/tools/Makefile.am	2012-12-06 14:34:01.161414276 +0100
+++++ b/tools/Makefile.am	2012-12-06 15:21:14.455112690 +0100
++@@ -78,3 +78,15 @@
++=20
++ installcheck-local:
++ 	test -d $(DESTDIR)$(localstatedir)/lib/dbus
+++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)
+++	@for file in $(bin_PROGRAMS); do \
+++		if [ -f .libs/$$file ]; then \
+++			install .libs/$$file $(DESTDIR); \
+++		else \
+++			install $$file $(DESTDIR); \
+++		fi; \
+++	done;
+++endif
++diff -ur a/doc/Makefile.am b/doc/Makefile.am
++--- a/doc/Makefile.am	2012-06-06 12:45:55.000000000 +0200
+++++ b/doc/Makefile.am	2012-12-06 16:04:58.990070587 +0100
++@@ -174,3 +174,7 @@
++=20
++ maintainer-clean-local:
++ 	rm -f $(XMLTO_OUTPUT)
+++
+++if DBUS_BUILD_TESTS
+++install-ptest:
+++endif
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/run-ptest b/meta/recipes-cor=
+e/dbus/dbus-1.6.4/run-ptest
+new file mode 100755
+index 0000000..e08ecb1
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-1.6.4/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++cd test
++make -k runtest-TESTS
+diff --git a/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch b/meta/r=
+ecipes-core/dbus/dbus-1.6.4/test-run-path.patch
+new file mode 100644
+index 0000000..5c08c93
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
+@@ -0,0 +1,26 @@
++
++
++Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
++Upstream-Status: Pending
++
++--- a/test/Makefile.am	2012-06-15 15:25:43.000000000 +0200
+++++ b/test/Makefile.am	2012-11-16 09:24:44.263140840 +0100
++@@ -119,12 +119,13 @@
++ 	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
++ 	DBUS_TEST_SYSCONFDIR=3D$(DESTDIR)$(sysconfdir)
++=20
+++ptest_run_dir =3D ..
+++
++ TESTS_ENVIRONMENT =3D \
++-	DBUS_BLOCK_ON_ABORT=3D1 \
++-	DBUS_FATAL_WARNINGS=3D1 \
++-	DBUS_TEST_DAEMON=3D@abs_top_builddir@/bus/dbus-daemon$(EXEEXT) \
++-	DBUS_TEST_DATA=3D@abs_top_builddir@/test/data \
++-	DBUS_TEST_HOMEDIR=3D@abs_top_builddir@/dbus \
+++	DBUS_FATAL_WARNINGS=3D0 \
+++	DBUS_TEST_DAEMON=3D$(ptest_run_dir)/bus/dbus-daemon$(EXEEXT) \
+++	DBUS_TEST_DATA=3D$(ptest_run_dir)/test/data \
+++	DBUS_TEST_HOMEDIR=3D$(ptest_run_dir)/dbus \
++ 	$(NULL)
++=20
++ test_corrupt_SOURCES =3D corrupt.c
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.4.bb b/meta/recipes-core=
+/dbus/dbus-ptest_1.6.4.bb
+new file mode 100644
+index 0000000..2982439
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
+@@ -0,0 +1,46 @@
++DESCRIPTION =3D "D-Bus test package, only used for D-bus functionality tes=
+t."
++HOMEPAGE =3D "http://dbus.freedesktop.org"
++SECTION =3D "base"
++LICENSE =3D "AFL-2 | GPLv2+"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10dded3b58148f3f1fd804b26354af3=
+e \
++                    file://dbus/dbus.h;firstline=3D6;endline=3D20;md5=3D6e=
+ea2e0c7750dd8e620dcb1437312fa5"
++
++DEPENDS =3D "python-pygobject dbus dbus-glib"
++
++RDEPENDS =3D "make"
++
++SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
++           file://tmpdir.patch \
++           file://ptest.patch \
++           file://dbus-1.init  \
++           file://run-ptest \
++           "
++
++SRC_URI[md5sum] =3D "5ec43dc4554cba638917317b2b4f7640"
++SRC_URI[sha256sum] =3D "5fba6b7a415d761a843fb8e0aee72db61cf13057a9ef8cdc79=
+5e5d369dc74cf1"
++
++S=3D"${WORKDIR}/dbus-${PV}"
++FILESPATH =3D "${FILE_DIRNAME}/dbus-${PV}"
++
++inherit autotools pkgconfig gettext ptest
++
++EXTRA_OECONF_X =3D "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x',=
+ '--without-x', d)}"
++EXTRA_OECONF_X_virtclass-native =3D "--without-x"
++
++EXTRA_OECONF =3D "--enable-tests \
++                --enable-modular-tests \
++                --enable-installed-tests \
++                --enable-checks \
++                --enable-asserts \
++                --enable-verbose-mode \
++                --disable-xml-docs \
++                --disable-doxygen-docs \
++                --disable-libaudit \
++                --with-xml=3Dexpat \
++                --with-systemdsystemunitdir=3D${systemd_unitdir}/system/ \
++                ${EXTRA_OECONF_X}"
++
++do_install() {
++    ptest_do_install
++    find ${D}${PTEST_PATH} -name Makefile | xargs sed -i 's/^Makefile:/_Ma=
+kefile:/'
++}
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.=
+inc
+index d165cdd..68f5e40 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -9,6 +9,8 @@ X11DEPENDS =3D "virtual/libx11 libsm"
+ DEPENDS =3D "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x1=
+1', '${X11DEPENDS}', '', d)}"
+ DEPENDS_class-native =3D "expat-native virtual/libintl-native"
+ DEPENDS_class-nativesdk =3D "nativesdk-expat virtual/nativesdk-libintl vir=
+tual/libx11"
++RDEPENDS_dbus =3D "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptes=
+t', '', d)}"
++RDEPENDS_class-native =3D ""
+=20
+ INC_PR =3D "r5"
+=20
+--=20
+1.7.5.4
 
-On Thu, Dec 20, 2012 at 9:37 AM, Noor, Ahsan <noor_ahsan@mentor.com> wrote:
-> From: Noor Ahsan <noor_ahsan@mentor.com>
->
-> * It uses host gcc in its configure script. When IA32 toolchain is=20
-> installed it starts using its binaries instead of native gcc. Modified=20
-> EXTRA_OECONF so that host gcc is used.
->
-> Signed-off-by: Noor Ahsa <noor_ahsan@mentor.com>
-
-Ross, I think this could be evaluated for danny too.
-
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
