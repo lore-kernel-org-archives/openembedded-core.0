@@ -1,20 +1,42 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1Tlhw1-0006jD-8V
+	(envelope-from <ross.burton@intel.com>) id 1Tli8o-0006yu-Se
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 16:21:21 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Dec 2012 07:05:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="265045416"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2012 07:05:30 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2012 17:05:55 +0200
-Message-Id: <1356015955-24078-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] telepathy-mission-control: upgrade to 5.14.0
+	Thu, 20 Dec 2012 16:34:47 +0100
+Received: from mail-vc0-f199.google.com ([209.85.220.199])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 07:19:26 -0800
+Received: by mail-vc0-f199.google.com with SMTP id p16so5045540vcq.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Dec 2012 07:19:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=qH9PjIIinVXNYwjVmKQR4tceOGNCQtfvATZNbF9BpfE=;
+	b=mBrezLmCNnaCgCB0maco3GN552+wJ2ZlV2yN7Myc1K7o4LhfhwDZ9DPfH3i0WyUS+7
+	xsiNfQOttyRsamMyFhVFMJTW/TD0I6KKZpr37brKs9fHx6bk4i0ybTBm3yXLU62QOClu
+	7YMYvzboM+fTDMBA4/8owtrlrm54525XdW5VjWHdE8knxBao4aS+Txq/vSoXUHdZrxM+
+	Nc5rVUvBp4+BEescvspXnNDcWQ3TI86xqgP+z00rTocIS11A6NLOdQX+Vxtt6ofTwk1/
+	NeqBl4+H/k0qLBWN0iUXcP4tKJLc2jVwDG7vdRWguIaFekPrEkTzGLJNMFhwXnpsUud3
+	xDdA==
+X-Received: by 10.58.214.231 with SMTP id od7mr15355268vec.44.1356016765410;
+	Thu, 20 Dec 2012 07:19:25 -0800 (PST)
+Received: by 10.58.214.231 with SMTP id od7mr15355262vec.44.1356016765322;
+	Thu, 20 Dec 2012 07:19:25 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 07:19:05 -0800 (PST)
+In-Reply-To: <50D327C8.4040703@intel.com>
+References: <1356009340-15874-1-git-send-email-laurentiu.palcu@intel.com>
+	<1356009340-15874-2-git-send-email-laurentiu.palcu@intel.com>
+	<CAJTo0LbMxNc4JJMw+F+sUnsQAWiBorty_Tfbyw+ZWuU0UPVg0Q@mail.gmail.com>
+	<50D327C8.4040703@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2012 15:19:05 +0000
+Message-ID: <CAJTo0LaD4ALtLT-r7_HnfVr4p32S974O9wQbG638KXug2MtTGw@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQl39D2ksDemYiiNMa50Jf9k3KzDCeVtYsRkmKA8B22sDi2x7Ih4ajij78tANjY/H5zXIRs5WkrfNh76Lu1dGd4UEqWeWHmZJ1SLPgxEmzjRBqxC41eZozDIubdFEllbdSxysRikmAMKD26lB+e+/lcuMgNdiSJ+gzrrDEWpqs38JZCeyXZo4BuBebe2X/7Y6HCu2bSA
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/3] qemu.bbclass: add qemu_run_binary() function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,49 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 15:21:23 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 15:34:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...n-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} (87%)
+On 20 December 2012 14:59, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> Ok, I agree. But how do you call python routines from the postinstall
+> scriptlets which run in do_rootfs context? readelf needs to run at
+> postinstall time because the binary we run through qemu does not
+> necessarily belong to the same package. Let's take, for example, the
+> current patchset. You can have a recipe that provides an input method
+> module and call gtk-query-modules-2.0 binary to create the cache.
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
-similarity index 87%
-rename from meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
-rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
-index 55ae117..7caacb4 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libtelepathy dbus-glib gconf"
- 
- SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
- 
--PR = "r1"
-+PR = "r0"
- 
- inherit autotools pkgconfig
- 
-@@ -32,7 +32,7 @@ FILES_libmissioncontrol-server = "${libdir}/libmissioncontrol-server.so.*"
- 
- FILES_libmissioncontrol-dev = "${libdir}/libmissioncontrol.* \
-                                ${includedir}/libmissioncontrol/ \
--                	       ${libdir}/pkgconfig/libmissioncontrol.pc"
-+                               ${libdir}/pkgconfig/libmissioncontrol.pc"
- FILES_libmissioncontrol-config-dev = "${libdir}/libmissioncontrol-config.*"
- FILES_libmissioncontrol-server-dev = "${libdir}/libmissioncontrol-server.*"
- 
-@@ -40,5 +40,5 @@ FILES_libmissioncontrol-dbg = "${libdir}/.debug/libmissioncontrol.so.*"
- FILES_libmissioncontrol-config-dbg = "${libdir}/.debug/libmissioncontrol-config.so.*"
- FILES_libmissioncontrol-server-dbg = "${libdir}/.debug/libmissioncontrol-server.so.*"
- 
--SRC_URI[md5sum] = "8b0c82136467d1188d4fa7f032cd3beb"
--SRC_URI[sha256sum] = "b546da6bd1a1ac16f8a1db67b7673673e007ecaf9844da405c50acbcef0118eb"
-+SRC_URI[md5sum] = "483fa8860891815a540ecf1bb9155122"
-+SRC_URI[sha256sum] = "58e0047f5292836c2c35e1603a908b3ac20a5c0b183869514c63de339fd48a30"
--- 
-1.7.10.4
+Right, of course.  awk might be clearer than grep/sed but only marginally...
 
+Ross
 
 
