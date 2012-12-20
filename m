@@ -1,25 +1,40 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TldCl-00054V-Ee
+	(envelope-from <ross.burton@intel.com>) id 1TldEx-00059m-2l
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 11:18:24 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2012 02:03:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,322,1355126400"; d="scan'208";a="264918873"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2012 02:03:12 -0800
-Message-ID: <50D2E3B9.7080506@intel.com>
-Date: Thu, 20 Dec 2012 12:08:57 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 20 Dec 2012 11:20:59 +0100
+Received: from mail-qa0-f70.google.com ([209.85.216.70])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 02:05:49 -0800
+Received: by mail-qa0-f70.google.com with SMTP id hg5so5762591qab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Dec 2012 02:05:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=eZ2SDxHLzX9BtgTjkOssEkzfdta0c6Je3d3V2zaqB1M=;
+	b=pteN7RfnJb24fdV6otNamgCCoDL5qr06aqiZA4heG97XcFxkH0kUVv8Eprzwuyh1+z
+	MROUjkI1VhPEm4uHWVRUJtIQCi1zLqRdeNc2njdrgLo6LoXHEupd6gZmWnqn2OAJCaQH
+	dZFbNeEF3HtfCSzE9woYMt5cVXd+KX8ebSRHifnvEAmaLiIZlMamjQ1pBuSj5Pahs5lV
+	4+CKvaNkkb6nOXuzVRxN+z7dKbmqwFwg7zi/l4ZZXmqQMnnHWdL+Tth7aNxX3oJXjbjL
+	EYlLJ7J1d91XrkbiG3ygtHtP2plJFm1hkyXLwaM/eai5Fu7VFYFRcZy87WM4wq6981PB
+	CgHQ==
+X-Received: by 10.52.37.9 with SMTP id u9mr11708822vdj.83.1355997948105;
+	Thu, 20 Dec 2012 02:05:48 -0800 (PST)
+Received: by 10.52.37.9 with SMTP id u9mr11708815vdj.83.1355997948028; Thu, 20
+	Dec 2012 02:05:48 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <50D1F76D.4070000@intel.com> <20121219215749.1c511d83@eb-e6520>
-	<50D2D1BD.20402@intel.com>
-In-Reply-To: <50D2D1BD.20402@intel.com>
-Subject: Re: RFC: systemd integration
+Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 02:05:27 -0800 (PST)
+In-Reply-To: <8bfee81d0404d9325ccaccb260cadad8269d92ae.1355990839.git.hongxu.jia@windriver.com>
+References: <cover.1355990839.git.hongxu.jia@windriver.com>
+	<8bfee81d0404d9325ccaccb260cadad8269d92ae.1355990839.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2012 10:05:27 +0000
+Message-ID: <CAJTo0LYrfbtkoO5WD+ckvm4s2xejxyAtjWhWyMfyaGPOGtTZnA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+X-Gm-Message-State: ALoCoQnm4+WH/xWU8RQS2O8+OVhhup324WzIFhlnqebCdppZ+zJyj658nQj6ekgbQ1SedkAEmiDubQsH6xrlZwIvE7Q40uaSqPlaODbX/3VLsdOJ1Rp84dCetfZ31oyL7QIrYPuV3gkDTwAs5j8x6oY137M8xbqfEmS6+OU5eYHwFsQb3+YYeqgKsbu3WsSwnOURUQw0vU9Q
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] glib-2.0-native:add option march to BUILD_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,56 +47,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 10:18:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Dec 2012 10:20:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 20 December 2012 08:10, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> +# Add option -march to BUILD_CFLAGS in order to let the atomic operations
+> +# ("lock free") be available while using old version GCC on x86 host to
+> +# compile glib-2.0-native
+> +BUILD_CFLAGS += "-march=`echo ${BUILD_ARCH} | sed 's/_/-/'`"
 
-On 12/20/2012 10:52 AM, Radu Moisan wrote:
->
-> On 12/19/2012 10:57 PM, Eric Bénard wrote:
->> Hi,
->>
->> Le Wed, 19 Dec 2012 19:20:45 +0200,
->> Radu Moisan <radu.moisan@intel.com> a écrit :
->>>       I have prepared a branch on poky-contrib (rmoisan/systemd) 
->>> where I
->>> pulled systemd from meta-openembedded. The goal is to merge this into
->>> oe-core, so please take a look and give me your feedback on stuff that
->>> needs work or things that I might have done wrong, so that I can 
->>> prepare
->>> it for merge.
->> a nitpick :
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&id=02f4027f7ccddaff3b0316962e7a86a04d31abbc 
->>
->> here you add that to lighttpd recipe :
->> + file://lighttpd_fix_for_automake-1.12.patch \
->> + file://lighttpd.service
->> but you don't add the patch
->>
->> then here (several patches later)
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&id=0b6a5d3f998d2f1bb346c403d512c33ee93052fb 
->>
->> you fix that :
->> - file://lighttpd_fix_for_automake-1.12.patch \
-> that was a regression I introduced when I rebased on master a while 
-> back. I'll squash it with the initial commit.
-     It just got clearer what happened here. So, there was a regression, 
-systemd related changes were missing after rebase. However with automake 
-patch something alse happened.  Since my initial commit, lighttpd was 
-updated to 1.4.32 and it didn't need that patch anymore, so it got 
-removed. When I rebased, the patch was removed but the inclusion in .bb 
-file didn't so I got an error, which I had to fix.
-     For consistency, I'll squash systemd related changes back into the 
-first commit, but the removal of automake patch will stay in this last 
-patch.
+Should we do this inside bitbake.conf instead of just in glib?
 
-> Radu
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Ross
 
 
