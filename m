@@ -1,37 +1,41 @@
-Received: from mail-ob0-f177.google.com ([209.85.214.177])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TlfQ1-0003S7-3O
+	(envelope-from <ross.burton@intel.com>) id 1Tlfdb-0003j5-77
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 13:40:12 +0100
-Received: by mail-ob0-f177.google.com with SMTP id uo13so3229411obb.36
+	Thu, 20 Dec 2012 13:54:13 +0100
+Received: from mail-ye0-f198.google.com ([209.85.213.198])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 04:39:24 -0800
+Received: by mail-ye0-f198.google.com with SMTP id l11so4822570yen.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 04:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=Trxp+wc2jO7SbeNTXObMJlDHMoR8etTPFbzCMPyHg1U=;
-	b=rJ71g5m3VzL1ipY+idTDJftW8QmTXzgau7Oc6sgW8biYQTMsQW1+1PMZplglPFXO7W
-	6yRH1J2xrFYEkIlf1XN1QCoR9awjztxDvIwHh4TfoxNjMjKyd+/b83ZrT/rbW95RXPfG
-	TVsG0I7SODlWV6M2KmWysoGPrOvQKKVqXrB0U74HK6qQPmZd6eyRjYHkm7NGG0jW93mN
-	aFRMJBmfssr6/xq9p5NoKILfBzMGiZRdYxnpgePGok4bsPsgiwU8vgM8LaVIgHM9xvMM
-	vWmQiRQKCJQHXIAT80J81gOhuolJ7NiV98chvzsywhvMB3l2RYgNleg22jJKkZCTwvgv
-	n+0Q==
+	Thu, 20 Dec 2012 04:39:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=DeZLDFiMg6NOGEumJ8BAjWVVNfO/pBzG2BG0Q++MZdU=;
+	b=TQ4Y+8v9EsU29RICkx6jl67yg9dzJ/oYYD+Kyyp9n75xsAJU6WBpm9QsDahcLrOZGu
+	OGoH4WzDl78G/bHdQMgaFmUY29fZzw1R1DJcu1ZSJnkwnN/cbYAMaZjBG0BD6IJDURD1
+	FZo5pMMvRt6B4senuKjka6887RthZmuVvWjiQIQg4Y8pPDRyDPxKOBrsGOEA3zr8m894
+	zGNOIyF2pkh26LEiUxNpM/5OIBE1/+b84Q5clZewiXqjA6pqB4oQFMHSPGr2pV7Xi1JX
+	u66yX1H346YRrzTzXkJqZhX4atRmGj5BfqYKsaQJGn5o0K614Qt53yh65PToZiC4QuyH
+	nM5Q==
+X-Received: by 10.221.10.6 with SMTP id oy6mr12233243vcb.65.1356007163415;
+	Thu, 20 Dec 2012 04:39:23 -0800 (PST)
+Received: by 10.221.10.6 with SMTP id oy6mr12233237vcb.65.1356007163344; Thu,
+	20 Dec 2012 04:39:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.182.131.3 with SMTP id oi3mr3372084obb.13.1356006324132; Thu,
-	20 Dec 2012 04:25:24 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Thu, 20 Dec 2012 04:25:24 -0800 (PST)
-In-Reply-To: <1356003444-22171-1-git-send-email-noor_ahsan@mentor.com>
-References: <1356003444-22171-1-git-send-email-noor_ahsan@mentor.com>
-Date: Thu, 20 Dec 2012 10:25:24 -0200
-X-Google-Sender-Auth: eyvI7-znypbpAve2z9AuuIjBzgw
-Message-ID: <CAP9ODKqw5pGY8GqQPVB=tBrVmW7ePCww1uxuTS2WLd94Egk-Gg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Noor, Ahsan" <noor_ahsan@mentor.com>, "Burton,
-	Ross" <ross.burton@intel.com>
+Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 04:39:02 -0800 (PST)
+In-Reply-To: <EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
+References: <50D1F76D.4070000@intel.com>
+	<EC7262B3-B95B-4AC6-AAF3-4EA4B7C66B3F@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2012 12:39:02 +0000
+Message-ID: <CAJTo0LYA9-__u-ptX+=2D61wjVEDDc=6mfdFDc_+8-9zr22s8g@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQlQeDAFzX4yRZ/x562y7eb0Ouy74Hnt/8LOy7eKuZjH4zgpppLa4epg7S75QAnQ1cXCpU27GDpBgbmcBpN8OCD4HTkSiW7OaXekZwAnXoxqcbzu6mTAbQTt8DqP8qWTaqFM0fZSCtuw7f99E2SPNbn1D8t+f+HrQoD0jp0Y+4H5j8oBBQv2ohbB6WPksdKQPbS3wE5B
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] freetype: Update EXTRA_OECONF to use host gcc.
+Subject: Re: RFC: systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,23 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 12:40:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Dec 2012 12:54:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Dec 20, 2012 at 9:37 AM, Noor, Ahsan <noor_ahsan@mentor.com> wrote:
-> From: Noor Ahsan <noor_ahsan@mentor.com>
+On 20 December 2012 10:47, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>     You can activate systemd by  DISTRO_FEATURES_INITMAN = "systemd"
 >
-> * It uses host gcc in its configure script. When IA32
-> toolchain is installed it starts using its binaries instead
-> of native gcc. Modified EXTRA_OECONF so that host gcc is used.
->
-> Signed-off-by: Noor Ahsa <noor_ahsan@mentor.com>
+> What happens when I do DISTRO_FEATURES_INITMAN = "sysvinit systemd"?
 
-Ross, I think this could be evaluated for danny too.
+As systemd is showing, the choice of init manager isn't just something
+you can do at image generation time, but impacts the build.  Services
+may opt to use systemd-native interfaces if systemd is available, or
+streamline their daemonisation based on the support that systemd has.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+This is why this series makes the choice of init a distribution
+choice, and doesn't allow multiple choices.
+
+Ross
 
 
