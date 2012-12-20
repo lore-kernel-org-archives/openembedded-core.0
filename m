@@ -1,27 +1,43 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TleTK-0007UG-UX
+	(envelope-from <ross.burton@intel.com>) id 1Tlecp-0007iV-RW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 12:39:41 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2012 03:24:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,322,1355126400"; d="scan'208";a="267645288"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Dec 2012 03:24:43 -0800
-Message-ID: <50D2F6D4.5080001@intel.com>
-Date: Thu, 20 Dec 2012 13:30:28 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 20 Dec 2012 12:49:20 +0100
+Received: from mail-yh0-f72.google.com ([209.85.213.72])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 03:34:33 -0800
+Received: by mail-yh0-f72.google.com with SMTP id q46so4651365yhf.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Dec 2012 03:34:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=7Jv7C9KyQg/tBB8f9iLkVh/9GboxRGtsgk0ALl/UKgI=;
+	b=H5u9/XxpZ77iN8dp96RBs+OE1obSicuS+8XN5piKIfgom3yVriqIg1vjBbG8T31/tF
+	o6pWlO1HIBf9kP6ufX5p7RxZhQ3tyfbke1JAa/J0xbL7juZobSwxIqyYpUJc/G1kRVNy
+	qUHE+9cRwhgCmHOF79JUSq6AWLKmbgL9vM8fESH7AlzcRi0Da3hfCmsItjIGzTX7/lSW
+	b0E4YgYQPLfVeib0fvKhfo7ihmE7TeigpLC58F+XCxcQd2qwP3LtbIreFvH2BmlMuL/X
+	dwBIlHb/+NMhmQxxHYzXmZlySwnOsJXBrVKMet+8ij5o76SHUsWeRWMFxQTRIvGQJAsH
+	Fmpg==
+X-Received: by 10.58.107.235 with SMTP id hf11mr14323130veb.16.1356003273011; 
+	Thu, 20 Dec 2012 03:34:33 -0800 (PST)
+Received: by 10.58.107.235 with SMTP id hf11mr14323118veb.16.1356003272845;
+	Thu, 20 Dec 2012 03:34:32 -0800 (PST)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <50D1F76D.4070000@intel.com>
-	<20121220104241.GG14543@jama.palm1.palmone.com>
-In-Reply-To: <20121220104241.GG14543@jama.palm1.palmone.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: systemd integration
+Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 03:34:12 -0800 (PST)
+In-Reply-To: <CAJTo0La4ou6_1NvgRo0rqHNEDqmAFH29qFbg_N1Wfv8L1uUa=Q@mail.gmail.com>
+References: <1355839120-12142-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<1355839120-12142-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<CAJTo0LavddUVfHnF2qVGgE9U2Vb7NtbL_B3M5PPtHNV6V6D8qg@mail.gmail.com>
+	<50D1B088.3000009@oss.bmw-carit.de>
+	<CAJTo0La4ou6_1NvgRo0rqHNEDqmAFH29qFbg_N1Wfv8L1uUa=Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Dec 2012 11:34:12 +0000
+Message-ID: <CAJTo0LYieHXLYPCUuAkScUhrxsnQm4XyPfVX17uwnAPfmw24oQ@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+X-Gm-Message-State: ALoCoQnxZE+NLES+q1MgywauYlqiaE5ZnJq7pFEAWcciRveqYjycOC9BdPMvnKM3C+7tvvlffaUGKDDQGm2ztaZ5VpF453b4Vy7PMh9EyqsQGpZPRAYLxFszAKlNNHvqen2fHhb4Ltia18t9ndWQQW7U8pGSVjBrTPnN2hq3JiV2EdSpraUpYC1Sdu24Pwb41eA0tOdwZIf0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] easyinstall: class to create and extend the easyinstall.pth file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +50,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 11:39:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Dec 2012 11:49:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-On 12/20/2012 12:42 PM, Martin Jansa wrote:
-> On Wed, Dec 19, 2012 at 07:20:45PM +0200, Radu Moisan wrote:
->> Hi guys,
->>       I have prepared a branch on poky-contrib (rmoisan/systemd) where I
->> pulled systemd from meta-openembedded. The goal is to merge this into
->> oe-core, so please take a look and give me your feedback on stuff that
->> needs work or things that I might have done wrong, so that I can prepare
->> it for merge.
->>       At this point core-image-minimal and core-image-sato both boot fine
->> with systemd. There still are a few warnings but not critical(at
->> runtime), at least in my opinion, you may want to take a look at those too.
->>       You can activate systemd by *DISTRO_FEATURES_INITMAN = "systemd"*
-> What about upgrade path from meta-systemd?
+On 19 December 2012 12:24, Burton, Ross <ross.burton@intel.com> wrote:
+>> From your description I could not find the version of python-mako that uses
+>> the --s-v-e-m option.
+>> Where can I find this version of the file? Maybe I was just looking at the
+>> wrong repository...
 >
-> I've noticed that
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/meta/recipes-connectivity/wpa-supplicant?h=rmoisan/systemd&id=02f4027f7ccddaff3b0316962e7a86a04d31abbc
-> does not increment PR at all while
-> http://git.openembedded.org/meta-openembedded/tree/meta-systemd/oe-core/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bbappend
-> PRINC := "${@int(PRINC) + 2}"
-I'll take care of this one.
+> The patch isn't in meta-oe yet, it's in the list archives somewhere
+> but it's also on my branch here:
 >
-> Also I like this commit very much
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/meta/recipes-connectivity/wpa-supplicant?h=rmoisan/systemd&id=216049b154799fc7984c54858a386d7318f99ce0
-> but current styleguide thinks something else about consistent whitespace
-> usage. So I think this wont be accepted as my change to styleguide
-> wasn't.
-I think Richard suggested it, but anyway wasn't the recomandation to use 
-spaces instead of tabs (I use 4 spaces)? I can revert or change it when 
-time comes. Feedback on this will be well appreciated.
-> And last thing:
-> there is few pending patches for meta-systemd:
-> http://patchwork.openembedded.org/project/oe/list/?q=systemd
-> Can you check them and merge them if needed? Or will you update your
-> systemd* copies if we merge them in meta-oe?
-These look very interesting. I'll take a closer look and pull them in as 
-appropriate.
+> http://git.openembedded.org/meta-openembedded-contrib/commit/?h=ross/piglit&id=2d6ae0a328c2e3d24e43b2858c70a5f404796d21
 
-Radu
+Not sure how I failed to notice this, but there's a setuptools.bbclass
+in oe-core:
+
+inherit distutils
+
+DEPENDS += "python-setuptools-native"
+
+DISTUTILS_INSTALL_ARGS = "--root=${D} \
+    --single-version-externally-managed \
+    --prefix=${prefix} \
+    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
+    --install-data=${datadir}"
+
+Yeah, that.  I'll fix python-mako and this should be suitable for you too.
+
+Ross
 
 
