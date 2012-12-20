@@ -1,39 +1,20 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TlhuC-0006f1-T9
+	(envelope-from <cristian.iorga@intel.com>) id 1Tlhw1-0006jD-8V
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 16:19:31 +0100
-Received: from mail-wg0-f70.google.com ([74.125.82.70])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 07:04:42 -0800
-Received: by mail-wg0-f70.google.com with SMTP id ds1so2646670wgb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 07:04:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=iXjPVsg4zy+FOU4Oiwo9eVU7BriXmus33AB6JTVjv/0=;
-	b=XJ7PQ81haxsXHjGmLwF8CW4IeerlEpBQz94icNL9ac8Z+w7YaUYldzwOienXS5HgzB
-	OPG3Pfb9RpjXmYHHn7RSejApbM+O3B8oBkAP7TA33urRSrULiwjJr/hTxA0QwVmwlHWg
-	qIVnq/Z0R5GrdWTWWa9vRqITMz3FWJSeDgzDBw/8WV3Zw9xuoYOfc6otsd9CTUVyLOqT
-	luS5XxIFTYukynzzrr2JC8svN7BRKSEH3LlXRk0wObp5iec23B6+82d3JA4aQIZ+EqXB
-	Om5bkrxLBz+1RES5ybLT+KQ97Y2lnOt4zxSLhHPfqCVyKnjFedqoPlEHAL3893xlF8h+
-	Qvpg==
-X-Received: by 10.194.9.197 with SMTP id c5mr18210407wjb.20.1356015880208;
-	Thu, 20 Dec 2012 07:04:40 -0800 (PST)
-X-Received: by 10.194.9.197 with SMTP id c5mr18210391wjb.20.1356015880036;
-	Thu, 20 Dec 2012 07:04:40 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t17sm13494932wiv.6.2012.12.20.07.04.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Dec 2012 07:04:39 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 20 Dec 2012 16:21:21 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Dec 2012 07:05:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,324,1355126400"; d="scan'208";a="265045416"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.157])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2012 07:05:30 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Dec 2012 15:02:54 +0000
-Message-Id: <1356015774-13746-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnerHHTViDBp4TGU/rpQAKevvbewzZqp0WDn5LVKuGatpdfq1v7Xuh9r2NzEr8S3Ih21jG2uLoptNe6xQynJ2/MNAyCO8idoaCpuZhzD7XUtVgSGNXAItY5TKfpdQrx1Iscro1/YjNk5+lodMdzoVdNpL5AqU9zU+99EF17ygCiP+Zsor785FOnOcy+4G2fGfFy6mNF
-Subject: [PATCH V2] python: add -crypt as a dependency on -math
+Date: Thu, 20 Dec 2012 17:05:55 +0200
+Message-Id: <1356015955-24078-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] telepathy-mission-control: upgrade to 5.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,44 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 15:19:31 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 15:21:23 -0000
 
-random.py imports hashlib, so add this missing dependency.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-devtools/python/python-2.7-manifest.inc |    2 +-
- scripts/contrib/python/generate-manifest-2.7.py      |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ ...n-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 1e16c6b..3c7be7e 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -139,7 +139,7 @@ RDEPENDS_${PN}-mailbox="${PN}-core ${PN}-mime"
- FILES_${PN}-mailbox="${libdir}/python2.7/mailbox.* "
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+similarity index 87%
+rename from meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
+rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+index 55ae117..7caacb4 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libtelepathy dbus-glib gconf"
  
- DESCRIPTION_${PN}-math="Python Math Support"
--RDEPENDS_${PN}-math="${PN}-core"
-+RDEPENDS_${PN}-math="${PN}-core ${PN}-crypt"
- FILES_${PN}-math="${libdir}/python2.7/lib-dynload/cmath.so ${libdir}/python2.7/lib-dynload/math.so ${libdir}/python2.7/lib-dynload/_random.so ${libdir}/python2.7/random.* ${libdir}/python2.7/sets.* "
+ SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
  
- DESCRIPTION_${PN}-mime="Python MIME Handling APIs"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 5c52724..6a11c89 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -291,7 +291,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-mailbox", "Python Mailbox Format Support", "${PN}-core ${PN}-mime",
-     "mailbox.*" )
+-PR = "r1"
++PR = "r0"
  
--    m.addPackage( "${PN}-math", "Python Math Support", "${PN}-core",
-+    m.addPackage( "${PN}-math", "Python Math Support", "${PN}-core ${PN}-crypt",
-     "lib-dynload/cmath.so lib-dynload/math.so lib-dynload/_random.so random.* sets.*" )
+ inherit autotools pkgconfig
  
-     m.addPackage( "${PN}-mime", "Python MIME Handling APIs", "${PN}-core ${PN}-io",
+@@ -32,7 +32,7 @@ FILES_libmissioncontrol-server = "${libdir}/libmissioncontrol-server.so.*"
+ 
+ FILES_libmissioncontrol-dev = "${libdir}/libmissioncontrol.* \
+                                ${includedir}/libmissioncontrol/ \
+-                	       ${libdir}/pkgconfig/libmissioncontrol.pc"
++                               ${libdir}/pkgconfig/libmissioncontrol.pc"
+ FILES_libmissioncontrol-config-dev = "${libdir}/libmissioncontrol-config.*"
+ FILES_libmissioncontrol-server-dev = "${libdir}/libmissioncontrol-server.*"
+ 
+@@ -40,5 +40,5 @@ FILES_libmissioncontrol-dbg = "${libdir}/.debug/libmissioncontrol.so.*"
+ FILES_libmissioncontrol-config-dbg = "${libdir}/.debug/libmissioncontrol-config.so.*"
+ FILES_libmissioncontrol-server-dbg = "${libdir}/.debug/libmissioncontrol-server.so.*"
+ 
+-SRC_URI[md5sum] = "8b0c82136467d1188d4fa7f032cd3beb"
+-SRC_URI[sha256sum] = "b546da6bd1a1ac16f8a1db67b7673673e007ecaf9844da405c50acbcef0118eb"
++SRC_URI[md5sum] = "483fa8860891815a540ecf1bb9155122"
++SRC_URI[sha256sum] = "58e0047f5292836c2c35e1603a908b3ac20a5c0b183869514c63de339fd48a30"
 -- 
-1.7.10
+1.7.10.4
 
 
 
