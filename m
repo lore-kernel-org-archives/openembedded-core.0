@@ -1,40 +1,26 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tlk2D-0002pI-IT
+	(envelope-from <sgw@linux.intel.com>) id 1TlkuC-0004TP-99
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 18:35:53 +0100
-Received: from mail-gg0-f200.google.com ([209.85.161.200])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 09:21:07 -0800
-Received: by mail-gg0-f200.google.com with SMTP id k5so5143387ggd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 09:21:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=rBimrdOAAz5jjgauXq54d3erL3LWi+QiOgyVrL/Woh8=;
-	b=T/mLTjzE46e7BNpyTGFqhdR1sVtG+aGMfkKk4X4D6bgm5vHvmFxzWT/fWfy4yvOdvf
-	umCFb0qGsepxSsC3Lw8UHIZA3A3EqNi49ilUHaboZvBpz7cb/bFt20lz+fh1Ts4yU0P/
-	foE3UAmtw49z6+symQah9m5BFJFSIzP7tjNztbFMBDStpF1wUxwGjCMlz+z1KrU+brpw
-	dS2UaoKtwN/L37ML2l0s5XMinwQv+Tlf+OYsgXI3by4zU7b1tA8b1eRI8BEH/BX7VP8I
-	DDLW80vramUZartYiNN4yMqZ9IbR/G+fT5dOezq7jeHhQRveetoO5WSsSQcZdl+at2gP
-	q13g==
-X-Received: by 10.58.107.235 with SMTP id hf11mr16175465veb.16.1356024066185; 
-	Thu, 20 Dec 2012 09:21:06 -0800 (PST)
-Received: by 10.58.107.235 with SMTP id hf11mr16175452veb.16.1356024066074;
-	Thu, 20 Dec 2012 09:21:06 -0800 (PST)
+	Thu, 20 Dec 2012 19:31:42 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Dec 2012 10:16:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,326,1355126400"; d="scan'208";a="267870541"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.4])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Dec 2012 10:16:45 -0800
+Message-ID: <50D3560D.3040508@linux.intel.com>
+Date: Thu, 20 Dec 2012 10:16:45 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 09:20:46 -0800 (PST)
-In-Reply-To: <5f9c3b67176f90714a2fd394e64f7d8da3cb0258.1356021837.git.alexandru.damian@intel.com>
-References: <cover.1356021837.git.alexandru.damian@intel.com>
-	<5f9c3b67176f90714a2fd394e64f7d8da3cb0258.1356021837.git.alexandru.damian@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2012 17:20:46 +0000
-Message-ID: <CAJTo0Lb2QgqE77f4oZm8sqc3izJfDhmcniGoMMCyTtBOsne2Dw@mail.gmail.com>
-To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQngR5OyE6AkdENZDmZPIFFWZwkGnr7f8pPqkroOX6oWYaD8Xuajdq/hiLS9UJ3Ci6ivpDp2WzJWkKaIB894cW5GUf8BvV9l/2PboI3xQITdWRaNYYHCx4h9nbu44xLQVahFr2JS4FydknT9p4RvLXE8PhB2Ut3jTixOHqmQ2oZynxB4t2QM6SG7bsHZ83l/PuXGmfej
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] Prepare mesa-dri for weston compatibility
+To: Tarek El-Sherbiny <tarek.elsherbiny@gmail.com>
+References: <CAB3sqtZrp=zQCbEp-+Vs4wokeN7gZs7T+bqaa3Qn6E6DhrcxPQ@mail.gmail.com>
+In-Reply-To: <CAB3sqtZrp=zQCbEp-+Vs4wokeN7gZs7T+bqaa3Qn6E6DhrcxPQ@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Building OpenCV is failling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,26 +33,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 17:35:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Dec 2012 18:31:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 20 December 2012 16:48, Alex DAMIAN <alexandru.damian@intel.com> wrote:
-> +PROVIDES += "wayland-egl libgbm libglapi"
+On 12/20/2012 08:47 AM, Tarek El-Sherbiny wrote:
+> Hello,
+>
+> I'm building the graphics components for Freescale i.MX6 and OpenCV
+> is failing. The actual error is in Python !
+>
+In Python?  It looks like it's not finding libatlas, it seems like you 
+might have some host contamination issue also, but I can't be sure right 
+now from this snippet.
 
-Remove this.
+Sau!
 
->  # this needs to be lower than -1 because all mesa-dri have -1 and git version has highest PV, but shouldn't be default
-> -DEFAULT_PREFERENCE = "-2"
-> +# adamian - switch to git version
-> +DEFAULT_PREFERENCE = "1"
-
-Please don't touch this, we can document at the moment that people
-need to use mesa-dri-git until the tarball is sufficient (9.0.2 should
-work).
-
-I also don't see anything that adds a build-dependency on wayland for
-the Wayland EGL backend to build successfully.
-
-Ross
+> Is there a solution to this problem?
+>
+> Thanks
+>
+> | _configtest
+> | unable to execute _configtest: Exec format error
+> | failure.
+> | removing: _configtest.c _configtest.o _configtest
+> | building data_files sources
+> | build_src: building npy-pkg config files
+> | running build_py
+> | copying numpy/version.py -> build/lib.linux-i686-2.7/numpy
+> | copying build/src.linux-i686-2.7/numpy/__config__.py ->
+> build/lib.linux-i686-2.7/numpy
+> | copying build/src.linux-i686-2.7/numpy/distutils/__config__.py ->
+> build/lib.linux-i686-2.7/numpy/distutils
+> | running build_clib
+> | customize UnixCCompiler
+> | customize UnixCCompiler using build_clib
+> | running build_ext
+> | customize UnixCCompiler
+> | customize UnixCCompiler using build_ext
+> | customize GnuFCompiler
+> | customize IntelFCompiler
+> | customize LaheyFCompiler
+> | customize PGroupFCompiler
+> | customize AbsoftFCompiler
+> | customize NAGFCompiler
+> | customize VastFCompiler
+> | customize GnuFCompiler
+> | customize CompaqFCompiler
+> | customize IntelItaniumFCompiler
+> | customize IntelEM64TFCompiler
+> | customize Gnu95FCompiler
+> | customize G95FCompiler
+> | don't know how to compile Fortran code on platform 'posix'
+> | warning: build_ext: f77_compiler=None is not available.
+> |
+> | building 'numpy.core._dotblas' extension
+> | compiling C sources
+> | C compiler: arm-poky-linux-gnueabi-gcc -march=armv7-a
+> -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a9
+> --sysroot=/data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/nitrogen6x
+> -DNDEBUG -g -O3 -Wall -Wstrict-prototypes -O2 -pipe -g
+> -feliminate-unused-debug-types -fPIC
+> |
+> | compile options: '-DNO_ATLAS_INFO=2 -Inumpy/core/blasdot
+> -I/usr/include -Inumpy/core/include
+> -Ibuild/src.linux-i686-2.7/numpy/core/include/numpy
+> -Inumpy/core/src/private -Inumpy/core/src -Inumpy/core
+> -Inumpy/core/src/npymath -Inumpy/core/src/multiarray
+> -Inumpy/core/src/umath -Inumpy/core/include
+> -I/data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/nitrogen6x/usr/include/python2.7
+> -Ibuild/src.linux-i686-2.7/numpy/core/src/multiarray
+> -Ibuild/src.linux-i686-2.7/numpy/core/src/umath -c'
+> | arm-poky-linux-gnueabi-gcc: numpy/core/blasdot/_dotblas.c
+> | cc1: warning: include location "/usr/include" is unsafe for
+> cross-compilation [-Wpoison-system-directories]
+> | arm-poky-linux-gnueabi-gcc -march=armv7-a -mthumb-interwork
+> -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a9
+> --sysroot=/data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/nitrogen6x
+> -shared -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -O2 -pipe -g
+> -feliminate-unused-debug-types
+> build/temp.linux-i686-2.7/numpy/core/blasdot/_dotblas.o -L/usr/lib
+> -L/data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/nitrogen6x/usr/lib
+> -Lbuild/temp.linux-i686-2.7 -lf77blas -lcblas -latlas -lpython2.7 -o
+> build/lib.linux-i686-2.7/numpy/core/_dotblas.so
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> warning: library search path "/usr/lib" is unsafe for cross-compilation
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libf77blas.so when searching for -lf77blas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libf77blas.a when searching for -lf77blas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> cannot find -lf77blas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libcblas.so when searching for -lcblas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libcblas.a when searching for -lcblas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> cannot find -lcblas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libatlas.so when searching for -latlas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libatlas.a when searching for -latlas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> cannot find -latlas
+> | collect2: error: ld returned 1 exit status
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> warning: library search path "/usr/lib" is unsafe for cross-compilation
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libf77blas.so when searching for -lf77blas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libf77blas.a when searching for -lf77blas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> cannot find -lf77blas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libcblas.so when searching for -lcblas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libcblas.a when searching for -lcblas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> cannot find -lcblas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libatlas.so when searching for -latlas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> skipping incompatible /usr/lib/libatlas.a when searching for -latlas
+> |
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/i686-linux/usr/libexec/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/ld:
+> cannot find -latlas
+> | collect2: error: ld returned 1 exit status
+> | error: Command "arm-poky-linux-gnueabi-gcc -march=armv7-a
+> -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a9
+> --sysroot=/data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/nitrogen6x
+> -shared -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -O2 -pipe -g
+> -feliminate-unused-debug-types
+> build/temp.linux-i686-2.7/numpy/core/blasdot/_dotblas.o -L/usr/lib
+> -L/data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/sysroots/nitrogen6x/usr/lib
+> -Lbuild/temp.linux-i686-2.7 -lf77blas -lcblas -latlas -lpython2.7 -o
+> build/lib.linux-i686-2.7/numpy/core/_dotblas.so" failed with exit status 1
+> | ERROR: python setup.py build_ext execution failed.
+> | ERROR: Function failed: do_compile (see
+> /data/extend_homes/telsherbiny/work/fsl-t1/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/python-numpy-1.4.1-r4/temp/log.do_compile.25197
+> for further information)
+> ERROR: Task 6
+> (/data/extend_homes/telsherbiny/work/fsl-t1/sources/meta-openembedded/meta-oe/recipes-devtools/python/python-numpy_1.4.1.bb
+> <http://python-numpy_1.4.1.bb>, do_compile) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 996 tasks of which 994 didn't need to be
+> rerun and 1 failed.
+> No currently running tasks (726 of 1002)
+>
+> Summary: 1 task failed:
+>
+> /data/extend_homes/telsherbiny/work/fsl-t1/sources/meta-openembedded/meta-oe/recipes-devtools/python/python-numpy_1.4.1.bb
+> <http://python-numpy_1.4.1.bb>, do_compile
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
