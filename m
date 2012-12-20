@@ -1,40 +1,40 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TlhP7-0003V8-F2
+	(envelope-from <ross.burton@intel.com>) id 1TlhWz-0003n7-RT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 20 Dec 2012 15:47:22 +0100
-Received: from mail-qc0-f197.google.com ([209.85.216.197])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 06:32:35 -0800
-Received: by mail-qc0-f197.google.com with SMTP id x40so4897441qcs.4
+	Thu, 20 Dec 2012 15:55:33 +0100
+Received: from mail-qa0-f70.google.com ([209.85.216.70])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 20 Dec 2012 06:40:41 -0800
+Received: by mail-qa0-f70.google.com with SMTP id hg5so6174573qab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Dec 2012 06:32:34 -0800 (PST)
+	Thu, 20 Dec 2012 06:40:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=fTCIgbRhQXRBRsj0ZiGoDJPLcIBbpmA8lvUUrRrnVaA=;
-	b=JwWEnhQyp8eAX8UiRYiZbcEEA2byewMzMS8RPnrBuWDOKnFWrZXWlOPZh8MRr7Un3P
-	m8CirZ3ObDttmBWZ24Npw8N92k0xb/fsqiblu5wA6d/WSLFfL3VkZ8cmOXNBswy6xTGb
-	4CI/soRvX+7QsCj8Yw+o22IQdrT9a4NQxCNedHaXHTXZuYVW9Ls4fPd5wQ2IFmu782n9
-	QXsdVVtGeE1KMO5VE22QjJBmpLglcvaEEA/cUkd7xTc3VB6lp0qAV/MZgu3I1rNbiFZ5
-	hJFG2UuDsuKBSIBOTi4/B23WAem6hu1u1qaqEnlJKtDLvuix+L5X1jkuznXmYM3+pAYc
-	+28A==
-X-Received: by 10.58.221.130 with SMTP id qe2mr15293352vec.14.1356013953928;
-	Thu, 20 Dec 2012 06:32:33 -0800 (PST)
-Received: by 10.58.221.130 with SMTP id qe2mr15293317vec.14.1356013953583;
-	Thu, 20 Dec 2012 06:32:33 -0800 (PST)
+	bh=iF9aQoq3/x21B7fhremYg7C9jESrjX5ICpsDyUFgPq8=;
+	b=S8ayJdElR3bkqhougjRhvV4lcHLfpMnSri7Hs5irPFETlyULgTBFDviKq2vOUJ7Ptd
+	5m0ojnW6rKJT6DVQxELlyGjFEF5YqW0tWlxuHgh2rJ3NIYDhqlHnL41vuXSjxXdqgXYy
+	xPc3AUYLOrot9r+caQHt/r0lGE49UBAb7JMuc3jJHRt5ymokxlklJEyQFwc/TsSqM7b7
+	OlqHkmqKWp1LBpviU70dfmw7wKhHUEkYIB+78+JvINudEhC6b2noVg3UN26N35gKvF44
+	QYfHaIQ2R/KpTG+5Aqj6tdzj0inC25l/miiaW4I/Vro2pCv1ildJmfkgxFPF+kJbBv/0
+	6JdA==
+X-Received: by 10.58.221.130 with SMTP id qe2mr15339246vec.14.1356014440629;
+	Thu, 20 Dec 2012 06:40:40 -0800 (PST)
+Received: by 10.58.221.130 with SMTP id qe2mr15339243vec.14.1356014440575;
+	Thu, 20 Dec 2012 06:40:40 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 06:32:13 -0800 (PST)
-In-Reply-To: <20121220131641.GI14543@jama.palm1.palmone.com>
-References: <1356008353-12375-1-git-send-email-ross.burton@intel.com>
-	<20121220131641.GI14543@jama.palm1.palmone.com>
+Received: by 10.58.178.244 with HTTP; Thu, 20 Dec 2012 06:40:20 -0800 (PST)
+In-Reply-To: <1356009340-15874-4-git-send-email-laurentiu.palcu@intel.com>
+References: <1356009340-15874-1-git-send-email-laurentiu.palcu@intel.com>
+	<1356009340-15874-4-git-send-email-laurentiu.palcu@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Dec 2012 14:32:13 +0000
-Message-ID: <CAJTo0LYrj7ak-2FJmWHWPiequpNPx0UBxeow=cex_kFYUYY2mw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQkTC1OlLBg7WGg+EtEv8dXKGvYLJIVbxtwrFS7wLbTBdCPs24fRGMtiTTbsxirGlztmRLG/KMA35FoKU3ozM7NSvtc1dfI+iSSw7B3IOgYtsI1l6xOYMnkzMzAJ8Cp3xY72ta+qnquDv18PfZIi5AEYn8XDXjF8in0AlBH8sPRivZCMVyN70R2hGkyPNoNqGHNT7COm
+Date: Thu, 20 Dec 2012 14:40:20 +0000
+Message-ID: <CAJTo0LaRT2du=YsOddTV14tJgL7+E8mSbO8jAkrzFwq7Jx9seQ@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQlryZxwnZ8smhcgSu6038/XISTFQ8RtWnDU6B5a9BA0YDZRTaK+D/qLgndWSGcGljMBTBvN4KCj7PeUsRIyQtuR9uvcRqBInSG9vsLeF2pyOg3GW+pSLdmqWXlyHRmCPs1T2jlZeaUpI/xt3hLY7N9N+KU6TVlYQLu4OhmsS76LjQuyfpGe1sUGnX85YDUO+Dp61FgK
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python: add -crypt as a dependency on -math
+Subject: Re: [PATCH v2 3/3] matchbox-keyboard: use the gtk-immodules-cache.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +47,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Dec 2012 14:47:23 -0000
+X-List-Received-Date: Thu, 20 Dec 2012 14:55:38 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 20 December 2012 13:16, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Dec 20, 2012 at 12:59:13PM +0000, Ross Burton wrote:
->> random.py imports hashlib, so add this missing dependency.
->
-> Please follow warning in that file:
-> # WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
-> # Generator: 'scripts/contrib/python/generate-manifest-2.7.py' Version 20110222.2 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
-> # Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
->
-> and change it in
-> openembedded-core/scripts/contrib/python/generate-manifest-2.7.py
-> first and then regenerate python-2.7-manifest.inc
+On 20 December 2012 13:15, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> Since the class was already present, use it. Also, this will have the
+> postinstalls run on host, at do_rootfs time.
 
-Whoops, thanks, I just did a grep.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
 Ross
 
