@@ -1,30 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1Tm2Ir-0004hB-S8
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Tm2RL-0004wI-P5
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 14:06:24 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Dec 2012 04:51:31 -0800
+	Fri, 21 Dec 2012 14:15:06 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2012 04:58:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,329,1355126400"; d="scan'208";a="268399186"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2012 04:51:26 -0800
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id DEE8C560AA2; Fri, 21 Dec 2012 14:51:30 +0200 (EET)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
-	richard.purdie@linuxfoundation.org, ross.burton@intel.com,
-	martin.jansa@gmail.com
-Date: Fri, 21 Dec 2012 14:51:28 +0200
-Message-Id: <45d6f8871229e15a1bca91da7beeee99201ef7a8.1356094006.git.alexandru.damian@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,329,1355126400"; d="scan'208";a="237501092"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2012 04:59:11 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Dec 2012 15:02:20 +0200
+Message-Id: <1356094940-22690-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356094006.git.alexandru.damian@intel.com>
-References: <cover.1356094006.git.alexandru.damian@intel.com>
-	<bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356094006.git.alexandru.damian@intel.com>
-In-Reply-To: <cover.1356094006.git.alexandru.damian@intel.com>
-References: <cover.1356094006.git.alexandru.damian@intel.com>
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
+Subject: [PATCH] nasm: upgraded to 2.10.06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,70 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 13:06:25 -0000
+X-List-Received-Date: Fri, 21 Dec 2012 13:15:06 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
-
-This patch adds the Weston reference compositing
-manager from Wayland.
-
-We add version 1.0.3 which is the latest stable release
-in Dec 2012. See the upstream at:
-
-http://wayland.freedesktop.org/releases.html
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/recipes-graphics/wayland/weston.inc      |   23 +++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.0.3.bb |    9 +++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston.inc
- create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+ meta/recipes-devtools/nasm/{nasm_2.10.05.bb => nasm_2.10.06.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/nasm/{nasm_2.10.05.bb => nasm_2.10.06.bb} (81%)
 
-diff --git a/meta/recipes-graphics/wayland/weston.inc b/meta/recipes-graphics/wayland/weston.inc
-new file mode 100644
-index 0000000..7d26f7f
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston.inc
-@@ -0,0 +1,23 @@
-+inherit autotools pkgconfig
-+
-+SUMMARY = "Weston, a Wayland compositor"
-+DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+SECTION = "wayland/base"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466"
-+
-+DEPENDS = "wayland libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
-+DEPENDS += "virtual/egl"
-+
-+EXTRA_OECONF  = "--enable-wayland-compositor --disable-android-compositor"
-+EXTRA_OECONF += "--enable-setuid-install --enable-simple-clients"
-+EXTRA_OECONF += "--enable-clients --disable-xwayland"
-+
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-+                  "
-+PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm libgbm libglapi udev wayland-egl libpam"
-+PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
-+PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
-diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-new file mode 100644
-index 0000000..625965b
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-@@ -0,0 +1,9 @@
-+require weston.inc
-+
-+SRC_URI = "http://wayland.freedesktop.org/releases/weston-1.0.3.tar.xz \
-+	  "
-+SRC_URI[md5sum] = "f82ac2e013e6b6a6303ac4ba7b64c7f2"
-+SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968e04853"
-+
-+PR = "r0"
-+
+diff --git a/meta/recipes-devtools/nasm/nasm_2.10.05.bb b/meta/recipes-devtools/nasm/nasm_2.10.06.bb
+similarity index 81%
+rename from meta/recipes-devtools/nasm/nasm_2.10.05.bb
+rename to meta/recipes-devtools/nasm/nasm_2.10.06.bb
+index d430b1e..cb12a22 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.10.05.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.10.06.bb
+@@ -7,8 +7,8 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+ PR = "r0"
+ 
+ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
+-SRC_URI[md5sum] = "d3c50875fd923b782749f883294336ed"
+-SRC_URI[sha256sum] = "de5af263ce344d3a89711c61802e3ad8a4e14a61d539f521f7554cdbbe04ed0f"
++SRC_URI[md5sum] = "875c4217b2e581dbae0bf96d45a6067a"
++SRC_URI[sha256sum] = "ac84dd0d7e4ad6282061ce36b68a72db591db55cf0902b53d4297c743b0944a6"
+ 
+ inherit autotools
+ 
 -- 
 1.7.10.4
 
