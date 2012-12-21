@@ -1,32 +1,33 @@
-Received: from mail-ia0-f180.google.com ([209.85.210.180])
+Received: from mail-la0-f43.google.com ([209.85.215.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1Tm2S9-00050z-64
+	(envelope-from <twoerner@gmail.com>) id 1Tm2Uc-00054e-5x
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 14:15:54 +0100
-Received: by mail-ia0-f180.google.com with SMTP id t4so3818884iag.39
+	Fri, 21 Dec 2012 14:18:26 +0100
+Received: by mail-la0-f43.google.com with SMTP id z14so4943576lag.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2012 05:01:06 -0800 (PST)
+	Fri, 21 Dec 2012 05:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=sxIOzUe3DY+4zMehY5Af6+46xw5jnZ6Bsceea6P7PfQ=;
-	b=MiuYoh3+AebZiU0XypiP6v/vdDtLwoB1337Zl1wupEIcL0s3gLJurSEMXW3ZPLPWv1
-	ze4UUdcfHNd6XqPkV5wisVcY8EB97e+ZFyZvQKtdmdftlzLFRU9f8eRPWXl3kKOsdc4i
-	EvoWNCR3+vnc++Rgze0fRAb7mhU6IzsbMJBwsWtuaE+ZTK7ZHxQyI9qvqvReAvyP4wOf
-	Y77kPW8Zqc5wF8A436OsvRtu+glGsSpixH6N2qiuhMqZNlC0kwlWxTI/KY6gVrhgBTC5
-	m/+nLf/vouR4BwuZa/SA2eh+IORC7ht0hJSADlz2bVriiyGJHgee30e+drgvyyg9wLFD
-	1+cw==
-X-Received: by 10.50.157.130 with SMTP id wm2mr13972651igb.0.1356094866863;
-	Fri, 21 Dec 2012 05:01:06 -0800 (PST)
-Received: from localhost.localdomain (dsl-67-55-9-50.acanac.net. [67.55.9.50])
-	by mx.google.com with ESMTPS id
-	bg10sm15535930igc.6.2012.12.21.05.01.05 (version=SSLv3 cipher=OTHER);
-	Fri, 21 Dec 2012 05:01:05 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=y22xK5OYozf4WzjQ+4bMext6wx4fyZP8B1mFZzQUN8s=;
+	b=nJIKq2cJfh1l+pFoGKOxvucuRvykboNpVQEGrQbRRnpKvRSt4PvnrYOe29JYEtGRCf
+	HxIZwGc2Dv+b/P/p5FIET59DJXOPgP9Dvi3cELKuGXXCLqcBMzRVw0zCmsUwwi/uN4m6
+	3zhza430VgG6CRWfMSQ/IPhsC5uaXOOLriNf86ZBTxK+dCtAY9gcF6XVSR0ssDqTrgXS
+	bOV8SNIru8bxj+W8q8xSzPoz74xLD185QPhUlDNFgaHcd+mYsMeKqM0zzf73inuAIhKU
+	vMRlBay1eRG9NhsqBnRZvbGKdWSLY7Y79J1Uh7m/fUoQKT9G3nz7A3Xz19UBdn4l9bOV
+	vG/w==
+MIME-Version: 1.0
+Received: by 10.112.101.232 with SMTP id fj8mr4932187lbb.83.1356095020286;
+	Fri, 21 Dec 2012 05:03:40 -0800 (PST)
+Received: by 10.112.101.135 with HTTP; Fri, 21 Dec 2012 05:03:40 -0800 (PST)
+In-Reply-To: <1356094822-21647-1-git-send-email-twoerner@gmail.com>
+References: <1356094822-21647-1-git-send-email-twoerner@gmail.com>
+Date: Fri, 21 Dec 2012 08:03:40 -0500
+Message-ID: <CAHUNapRjGACLVh4+oGr-CfA+ewSPQSYCo+Oxq2Bs87YZaR_XEw@mail.gmail.com>
 From: Trevor Woerner <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Dec 2012 08:00:22 -0500
-Message-Id: <1356094822-21647-1-git-send-email-twoerner@gmail.com>
-X-Mailer: git-send-email 1.8.0
-Subject: [PATCH] runqemu: change terminal's INTR key in 'serial' mode
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: change terminal's INTR key in 'serial' mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +40,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 13:15:54 -0000
+X-List-Received-Date: Fri, 21 Dec 2012 13:18:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-If you are using an image in '-serial stdio' mode, temporarily change the
-terminal's interrupt character to 'Ctrl-]' for the duration of the image
-run. In this way, hitting 'Ctrl-C' for something running in the image
-doesn't accidentally abort the entire qemu session.
+On Fri, Dec 21, 2012 at 8:00 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+> +if [ "x$SERIALSTDIO" = "x1" ]; then
+> +        echo "Escape character is '^]'"
+> +        stty intr ^]
+> +fi
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- scripts/runqemu          | 2 ++
- scripts/runqemu-internal | 7 +++++++
- 2 files changed, 9 insertions(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 190e3b4..9418ebd 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -64,6 +64,7 @@ LAZY_ROOTFS=""
- SCRIPT_QEMU_OPT=""
- SCRIPT_QEMU_EXTRA_OPT=""
- SCRIPT_KERNEL_OPT=""
-+SERIALSTDIO=""
- 
- # Determine whether the file is a kernel or QEMU image, and set the
- # appropriate variables
-@@ -138,6 +139,7 @@ while true; do
-         "serial")
-             SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -serial stdio"
-             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
-+            SERIALSTDIO="1"
-             ;;
-         "qemuparams="*)
-             SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 7fbe0a0..10d5a5f 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -444,6 +444,7 @@ if [ "$MACHINE" = "qemush4" ]; then
-         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         KERNCMDLINE="root=/dev/hda rw console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
-+        SERIALSTDIO="1"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-@@ -453,6 +454,7 @@ if [ "$MACHINE" = "qemush4" ]; then
-         fi
-         KERNCMDLINE="root=/dev/nfs console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
-+        SERIALSTDIO="1"
-     fi
- fi
- 
-@@ -565,6 +567,11 @@ then
- fi
- fi
- 
-+if [ "x$SERIALSTDIO" = "x1" ]; then
-+        echo "Escape character is '^]'"
-+        stty intr ^]
-+fi
-+
- echo "Running $QEMU..."
- # -no-reboot is a mandatory option - see bug #100
- if [ "$FSTYPE" = "vmdk" ]; then
--- 
-1.8.0
-
+Hold on. This should be "Interrupt charater".
 
 
