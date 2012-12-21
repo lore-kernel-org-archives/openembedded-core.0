@@ -1,40 +1,20 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tm1kQ-0001h8-8k
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Tm23O-0003hU-K0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 13:30:46 +0100
-Received: from mail-vb0-f69.google.com ([209.85.212.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Dec 2012 04:15:55 -0800
-Received: by mail-vb0-f69.google.com with SMTP id ff20so6402888vbb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2012 04:15:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=sYs0oyTD2u661uzIYUv7cqZNAEAT3xcJV1Rq4GGtjTo=;
-	b=KlWKWcLrBdc5yMsDufMSjo+WS7bPZt2cAQvS0nZ0fgfSc+fEvgUSsnOH8QJb4C3+bo
-	d60PRc8eb6VPYvIoCTJTK3R+O/A2xa+sDwq/3yXEwWPEOtOs99ekjcWmS8AqvgbuiTFZ
-	kue8aIuoTChI0abncsWu8GIcLu9Gfawgf6OjF+97KhvvvD8IQxQFVj5eS3p/09dosKi1
-	i1OftmWZfFdcLaGQVDDTa9C7kLBLgOd+CGbViXAxUl6qtmxsts/gEk8bZNEbcCJbfhBj
-	RNpYz/wIct911fU8gRLUWSbFllaxY4nw92OLomK3q/lZt29ml+rZdFkcKwr1LaEjbo74
-	ORHw==
-X-Received: by 10.52.37.9 with SMTP id u9mr17102553vdj.83.1356092154459;
-	Fri, 21 Dec 2012 04:15:54 -0800 (PST)
-Received: by 10.52.37.9 with SMTP id u9mr17102548vdj.83.1356092154388; Fri, 21
-	Dec 2012 04:15:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Fri, 21 Dec 2012 04:15:34 -0800 (PST)
-In-Reply-To: <50D42D58.4010703@intel.com>
-References: <cover.1356022882.git.radu.moisan@intel.com>
-	<50D38B3E.30003@linux.intel.com> <50D42D58.4010703@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Dec 2012 12:15:34 +0000
-Message-ID: <CAJTo0Lb0AyeZwC6R4M+YjzGxm21d4Q-goSMQ1x0EMAFvCtO6iA@mail.gmail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Gm-Message-State: ALoCoQnbjhwikZFXV5x3XQuEliByCPQ0N6KfdVwpTnbd/Zmj+2s+dbcsDTNLP7/bvdMaAkZpJ0kwtPdXUH4qLCJwrTaUe0szpJUz7VeqfHdm3sVkVFeqIRigK759XMzXWxDjgOpVX2XkVql4o0ddW+LBxCMB82kGaVoskZbwSX05L3wAvdyw4jNLlIS1AVIaN14IkEfnNOFl
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/28][RFC] systemd Integration
+	Fri, 21 Dec 2012 13:50:18 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Dec 2012 04:35:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,329,1355126400"; d="scan'208";a="265540056"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Dec 2012 04:35:30 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Dec 2012 14:38:37 +0200
+Message-Id: <1356093519-27312-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/2] bison: update to 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,15 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 12:30:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Dec 2012 12:50:18 -0000
 
-On 21 December 2012 09:35, Radu Moisan <radu.moisan@intel.com> wrote:
-> Wouldn't it be harder to review? I can do it anytime, if you think it is the
-> right way to go.
+The bison 2.7 update needs a change in rpm too; without this change, rpm
+doesn't compile with bison 2.7.
 
-It's much harder to review a patch which has corrections later.
+Bogdan Marinescu (2):
+  bison: update to 2.7
+  rpm: remove declaration of "sykcparse"
 
-Ross
+ .../bison/{bison_2.5.1.bb => bison_2.7.bb}               |    4 ++--
+ .../rpm/rpm/rpm-remove-sykcparse-decl.patch              |   14 ++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb                   |    3 ++-
+ 3 files changed, 18 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/bison/{bison_2.5.1.bb => bison_2.7.bb} (89%)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-remove-sykcparse-decl.patch
+
+-- 
+1.7.10.4
+
 
 
