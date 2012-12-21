@@ -1,40 +1,40 @@
 Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tm1LO-00084o-1S
+	(envelope-from <ross.burton@intel.com>) id 1Tm1Mz-000881-4K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 13:04:50 +0100
-Received: from mail-gh0-f200.google.com ([209.85.160.200])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 21 Dec 2012 03:50:02 -0800
-Received: by mail-gh0-f200.google.com with SMTP id 10so2455771ghy.7
+	Fri, 21 Dec 2012 13:06:29 +0100
+Received: from mail-gh0-f199.google.com ([209.85.160.199])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 21 Dec 2012 03:51:42 -0800
+Received: by mail-gh0-f199.google.com with SMTP id r16so2457772ghr.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2012 03:50:02 -0800 (PST)
+	Fri, 21 Dec 2012 03:51:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:mime-version:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type:x-gm-message-state;
-	bh=Hw+WnXa/BcVbt6da/NizhbLkjP4to8D+q5iXiP+LUFM=;
-	b=U8TPiaNJh4RMGBvdcNMqs3h3iVmlgAK4FfaTEYYcAvZXWqkjs9IZPbQfbPZsIrJWt3
-	28ZbRbQC3fdvu3D+1j6Qu9LgUmoBAX/7wKiW6ut39VuKa/EgsSNtFyr6XnQSLqzDsM3X
-	Ua+A8CR03ERazrtNGeNb+eE7+6k3FgbSxl8eS1YbtsqyjAngC4xYYwFZBqqQbMNi6iZU
-	fI6hLllJIFSO3lDnBi0rzZvNt13BWWinccHa72BwGkkJntePZktD1ovUT1s5kM4b4RKq
-	6fYDLP1npgh6PU7HAXOVnhh9LOxvewnagI8Oo9Un6tLaANXp5AUocbuIyvcnYNy3P9ma
-	YrtQ==
-X-Received: by 10.52.180.200 with SMTP id dq8mr16834184vdc.71.1356090602172;
-	Fri, 21 Dec 2012 03:50:02 -0800 (PST)
-Received: by 10.52.180.200 with SMTP id dq8mr16834179vdc.71.1356090602109;
-	Fri, 21 Dec 2012 03:50:02 -0800 (PST)
+	bh=+PIqA3llySMe3QnnK/dICKbGhP4ovLngHYvP2F94yco=;
+	b=oWREDL4jJPvjLLvghhs0INCGl1XkIBojyhI58t/xB1GtngGAF0uGkXl+mX8ylPUYbF
+	leE7ontwC3c25SaFYDoHbHnG4OoJb4OyjO+MBKRcYgzKxig4Z9ZmSRB5ZQZQ748Wcnd/
+	Fq4LiasC6UJdYuvSPUN+JyKcMZJPANVGjE3nY/pdPLnZNPOCqMq5ON9mARSF1NksRRyu
+	IY1jkMG58dAKvaLK+ggBXCUZZt51+RE2WdmFxDZX2GM9boVX13Dg5gGj2+ac2ROdTFZW
+	+YN+2GBOFe1AL5mC2sJczuGE9gXEMhb6VZZLeUbA8Ccpqepfk18nabDFQ1i25cdWcQp3
+	BB1A==
+X-Received: by 10.52.70.46 with SMTP id j14mr16698722vdu.99.1356090701670;
+	Fri, 21 Dec 2012 03:51:41 -0800 (PST)
+Received: by 10.52.70.46 with SMTP id j14mr16698715vdu.99.1356090701587; Fri,
+	21 Dec 2012 03:51:41 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.58.178.244 with HTTP; Fri, 21 Dec 2012 03:49:42 -0800 (PST)
-In-Reply-To: <cea26d19d74480fd0056adfff07782e23e92e1bd.1356089735.git.alexandru.damian@intel.com>
+Received: by 10.58.178.244 with HTTP; Fri, 21 Dec 2012 03:51:21 -0800 (PST)
+In-Reply-To: <44b5cd3486d37209bdebc0f1e278059e5694e306.1356089735.git.alexandru.damian@intel.com>
 References: <cover.1356089735.git.alexandru.damian@intel.com>
-	<cea26d19d74480fd0056adfff07782e23e92e1bd.1356089735.git.alexandru.damian@intel.com>
+	<44b5cd3486d37209bdebc0f1e278059e5694e306.1356089735.git.alexandru.damian@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Dec 2012 11:49:42 +0000
-Message-ID: <CAJTo0LZ29BGKgzDXQHPD+Sw7T0omUF9SRj2iH18n2V0SZ38fdA@mail.gmail.com>
+Date: Fri, 21 Dec 2012 11:51:21 +0000
+Message-ID: <CAJTo0LaOCgoKWZjmgMwW9fgOrG0hKmnu5py9skbUyvHqnUXjNA@mail.gmail.com>
 To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQkjgriHdHGheC2si1n6ih68APQv0Kk2F0S/cxPN8BS24KFlo08CwwYxbcTtGejMmEg9d/PkZv5loKNhgMqc1lzfSadBDDzXkAMhNBOmyqVHO30TWJzWM6Wi5vnXTY9xQOPt3EDpQD3BxpvuS4AweHjVXdW+jLkWkBFYxxBFtTE9utLHfrTE0HnTTazISTShxGm2Cr2q
+X-Gm-Message-State: ALoCoQljRTzx+JRxtjez0CymQS6lWJoDvHBcIO/gH+EJt5Ev/xZ3x6s66ovQpjwuC5BZ8C7K27BBug5Azvgtr9m9iAu5/V7huXReTkHTm+z5SWK2qRqZbxTXIgaajLOi79vPwhzklu5W0rnzyvW0sFco05GhX7MfXeb1ucOYr0VbKhMmAe2nDJ2CE0aKVgH9p+AKSGe2H2Ds
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] Initial commit for wayland/weston 1.0.3
+Subject: Re: [PATCH 3/3] Prepare mesa-dri for weston compatibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,20 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 12:04:50 -0000
+X-List-Received-Date: Fri, 21 Dec 2012 12:06:29 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 21 December 2012 11:38, Alex DAMIAN <alexandru.damian@intel.com> wrote:
 > From: Alexandru DAMIAN <alexandru.damian@intel.com>
 >
-> This patch adds the Weston reference compositing
-> manager from Wayland.
+> This patch enables mesa-git to build wayland-compatible
+> packages for usage with weston.
+>
+> It adds wayland platform support, packs the wayland-egl
+> files, and sets the -git version as preffered provider.
 
-Same comments as wayland, fix ordering and remove PR.
+This message isn't right anymore.
 
-If I have wayland, x11 and gles features so it supports all of the
-compositors, what happens?  Are there multiple binaries, or a single
-binary that can act as wayland-on-X11 and wayland-on-DRM?
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa-common.inc |   13 ++++++++++---
+>  meta/recipes-graphics/mesa/mesa-dri.inc    |    1 +
+>  2 files changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+> index 70957eb..65f70e7 100644
+> --- a/meta/recipes-graphics/mesa/mesa-common.inc
+> +++ b/meta/recipes-graphics/mesa/mesa-common.inc
+> @@ -12,13 +12,12 @@ SECTION = "x11"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
+>
+> -INC_PR = "r9"
+> +INC_PR = "r10"
+>  PE = "2"
+
+No need to fiddle PR in oe-core.
+
+>  DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
+>
+>  PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
+> -
+
+Please restore this whitespace.
 
 Ross
 
