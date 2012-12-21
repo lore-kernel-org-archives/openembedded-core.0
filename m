@@ -1,30 +1,40 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1Tm19r-0007Qu-Dv
+	(envelope-from <ross.burton@intel.com>) id 1Tm1IC-0007yl-QF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 12:52:55 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2012 03:37:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,329,1355126400"; d="scan'208";a="237478843"
-Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2012 03:38:02 -0800
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 640C7560AA1; Fri, 21 Dec 2012 13:38:07 +0200 (EET)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: ross.burton@intel.com, martin.jansa@gmail.com,
-	richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org, sgw@linux.intel.com
-Date: Fri, 21 Dec 2012 13:38:03 +0200
-Message-Id: <cea26d19d74480fd0056adfff07782e23e92e1bd.1356089735.git.alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.10.4
+	Fri, 21 Dec 2012 13:01:33 +0100
+Received: from mail-gh0-f197.google.com ([209.85.160.197])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 21 Dec 2012 03:45:48 -0800
+Received: by mail-gh0-f197.google.com with SMTP id f15so2452381ghb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Dec 2012 03:46:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=btm4Czx72aOfo5jXcJQ6GO5otIw4DBhcPRrsAk2EkC4=;
+	b=VOlz5kPppCqz0AW1GH6tCF46aZtkg7Wynpx+Y3ndchTgA66m05rzFTXVFdHu8HlETk
+	aC7cC/9jFjKjydpvwVG/Ey84PciXyIQo645xnCUpggmF/SfIinCZ2is+RXOypSawaGwa
+	dIXcxGuLgb0huwJiio1CE1TDl5VZmceujDwxp16vdLP3xyeOxLSmNl6eoSEuKCiASnRd
+	IUmvwr4IBaKeVY0G1ykLPQq7CErSxuRvHu9wiIZy48F702KI0rQK+AQaVvzMw1e+73Hk
+	R3gn82PCz4isVzHnFmAHGnlqEll/XLBOzPYnXEq9X7Erqz5F00q+emtS9mMrtjlPuraG
+	gueQ==
+X-Received: by 10.52.37.9 with SMTP id u9mr16985738vdj.83.1356090401264;
+	Fri, 21 Dec 2012 03:46:41 -0800 (PST)
+Received: by 10.52.37.9 with SMTP id u9mr16985731vdj.83.1356090401172; Fri, 21
+	Dec 2012 03:46:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.178.244 with HTTP; Fri, 21 Dec 2012 03:46:21 -0800 (PST)
 In-Reply-To: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356089735.git.alexandru.damian@intel.com>
 References: <cover.1356089735.git.alexandru.damian@intel.com>
 	<bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356089735.git.alexandru.damian@intel.com>
-In-Reply-To: <cover.1356089735.git.alexandru.damian@intel.com>
-References: <cover.1356089735.git.alexandru.damian@intel.com>
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 2/3] Initial commit for wayland/weston 1.0.3
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Dec 2012 11:46:21 +0000
+Message-ID: <CAJTo0LZaLtqfkmxgk6RwdTxEbZHUw5LCWu9yv=tqj26vPqfzzg@mail.gmail.com>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+X-Gm-Message-State: ALoCoQkVN9sWmkJVMo7RJKLniNbX3SLoZ2JCNQJASI7WU0rdzinpNa0XDuj+jtKDPm7NnfgWn2KZg6quLeUlrv3oXo6Dym3IJQaHYmLPjzoBIgiuzCBYyjpZ+TERCr2ZoefCY5Jn4539cY/zYmKtCy/zp7bnUaT/LMjTjU/TBitlGsK9SdrhbmVVI1efx3TPXgQljdAmoxyo
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] Wayland userspace library initial 1.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,72 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 11:52:55 -0000
+X-List-Received-Date: Fri, 21 Dec 2012 12:01:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On 21 December 2012 11:38, Alex DAMIAN <alexandru.damian@intel.com> wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> Wayland is a new protocol a protocol for a client application to
+> display user interface windows through the use of a compositing
+> window manager. This package include the specific set of server-side
+> and client-side C libraries that implement the protocol.
 
-This patch adds the Weston reference compositing
-manager from Wayland.
+The ordering of the fields is a bit unusual,
+http://www.openembedded.org/wiki/Styleguide has a rough preferred
+order that's great to follow.
 
-We add version 1.0.3 which is the latest stable release
-in Dec 2012. See the upstream at:
+Also, no need to introduce PR with new recipes in oe-core.
 
-http://wayland.freedesktop.org/releases.html
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/recipes-graphics/wayland/weston.inc      |   23 +++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.0.3.bb |    9 +++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston.inc
- create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
-
-diff --git a/meta/recipes-graphics/wayland/weston.inc b/meta/recipes-graphics/wayland/weston.inc
-new file mode 100644
-index 0000000..7d26f7f
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston.inc
-@@ -0,0 +1,23 @@
-+inherit autotools pkgconfig
-+
-+SUMMARY = "Weston, a Wayland compositor"
-+DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+SECTION = "wayland/base"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466"
-+
-+DEPENDS = "wayland libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
-+DEPENDS += "virtual/egl"
-+
-+EXTRA_OECONF  = "--enable-wayland-compositor --disable-android-compositor"
-+EXTRA_OECONF += "--enable-setuid-install --enable-simple-clients"
-+EXTRA_OECONF += "--enable-clients --disable-xwayland"
-+
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-+                  "
-+PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm libgbm libglapi udev wayland-egl libpam"
-+PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
-+PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
-diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-new file mode 100644
-index 0000000..625965b
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-@@ -0,0 +1,9 @@
-+require weston.inc
-+
-+SRC_URI = "http://wayland.freedesktop.org/releases/weston-1.0.3.tar.xz \
-+	  "
-+SRC_URI[md5sum] = "f82ac2e013e6b6a6303ac4ba7b64c7f2"
-+SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968e04853"
-+
-+PR = "r0"
-+
--- 
-1.7.10.4
-
+Ross
 
 
