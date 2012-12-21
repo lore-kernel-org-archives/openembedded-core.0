@@ -1,35 +1,40 @@
-Received: from mail-we0-f178.google.com ([74.125.82.178])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fahad.usman@gmail.com>) id 1Tm1Xu-0008Fw-0k
+	(envelope-from <ross.burton@intel.com>) id 1Tm1kQ-0001h8-8k
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 13:17:46 +0100
-Received: by mail-we0-f178.google.com with SMTP id x43so2121769wey.37
+	Fri, 21 Dec 2012 13:30:46 +0100
+Received: from mail-vb0-f69.google.com ([209.85.212.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Dec 2012 04:15:55 -0800
+Received: by mail-vb0-f69.google.com with SMTP id ff20so6402888vbb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2012 04:03:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=gabxTf7EBP5ehITpec/VrZ0AE5jdDqLwhEWxRMV5JkI=;
-	b=W1YR1NT5MBZBUtPUH494DWS88T3y7BN4bXnyJW7C/JymiPNtM7oWSbuccSfa5hqEcB
-	dF74a6Rat5/8uliu8e8HgwE+l3MyBVN63RmLJvF1vEc9DHp/QdtHBjYgFMQ4pil73Qz6
-	s2TMgUgPuqQlI2e0oc4jv2jxvU74E+7FJICLdUpnevO79hcoyE5HgKU6uHEmh2YoJFwz
-	QnbilKh3Iant2Ud2VN3P5DRvlSDcb/t2o8Uy7hzcuzkGqYDBCZXYUiV9EPcqys1vgjRb
-	A0TkPXC+2jqv7B4hDr81t8sX2dt1sT7Htl7JCroKewI85VajWDsNq9QrjY6g3YITXi2/
-	EbGw==
-X-Received: by 10.180.73.202 with SMTP id n10mr22956175wiv.17.1356091380126;
-	Fri, 21 Dec 2012 04:03:00 -0800 (PST)
-Received: from fahad-u1204.mgc.mentorg.com ([110.93.212.98])
-	by mx.google.com with ESMTPS id dw4sm17959133wib.1.2012.12.21.04.02.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 21 Dec 2012 04:02:59 -0800 (PST)
-Sender: Fahad Usman <fahad.usman@gmail.com>
-From: Fahad Usman <fahad_usman@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Dec 2012 17:02:39 +0500
-Message-Id: <1356091359-29763-1-git-send-email-fahad_usman@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Fahad Usman <fahad_usman@mentor.com>
-Subject: [PATCH] cml1: set and export TERMINFO, to handle ncurses-native relocation
+	Fri, 21 Dec 2012 04:15:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=sYs0oyTD2u661uzIYUv7cqZNAEAT3xcJV1Rq4GGtjTo=;
+	b=KlWKWcLrBdc5yMsDufMSjo+WS7bPZt2cAQvS0nZ0fgfSc+fEvgUSsnOH8QJb4C3+bo
+	d60PRc8eb6VPYvIoCTJTK3R+O/A2xa+sDwq/3yXEwWPEOtOs99ekjcWmS8AqvgbuiTFZ
+	kue8aIuoTChI0abncsWu8GIcLu9Gfawgf6OjF+97KhvvvD8IQxQFVj5eS3p/09dosKi1
+	i1OftmWZfFdcLaGQVDDTa9C7kLBLgOd+CGbViXAxUl6qtmxsts/gEk8bZNEbcCJbfhBj
+	RNpYz/wIct911fU8gRLUWSbFllaxY4nw92OLomK3q/lZt29ml+rZdFkcKwr1LaEjbo74
+	ORHw==
+X-Received: by 10.52.37.9 with SMTP id u9mr17102553vdj.83.1356092154459;
+	Fri, 21 Dec 2012 04:15:54 -0800 (PST)
+Received: by 10.52.37.9 with SMTP id u9mr17102548vdj.83.1356092154388; Fri, 21
+	Dec 2012 04:15:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.178.244 with HTTP; Fri, 21 Dec 2012 04:15:34 -0800 (PST)
+In-Reply-To: <50D42D58.4010703@intel.com>
+References: <cover.1356022882.git.radu.moisan@intel.com>
+	<50D38B3E.30003@linux.intel.com> <50D42D58.4010703@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Dec 2012 12:15:34 +0000
+Message-ID: <CAJTo0Lb0AyeZwC6R4M+YjzGxm21d4Q-goSMQ1x0EMAFvCtO6iA@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQnbjhwikZFXV5x3XQuEliByCPQ0N6KfdVwpTnbd/Zmj+2s+dbcsDTNLP7/bvdMaAkZpJ0kwtPdXUH4qLCJwrTaUe0szpJUz7VeqfHdm3sVkVFeqIRigK759XMzXWxDjgOpVX2XkVql4o0ddW+LBxCMB82kGaVoskZbwSX05L3wAvdyw4jNLlIS1AVIaN14IkEfnNOFl
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/28][RFC] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +47,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 12:17:46 -0000
+X-List-Received-Date: Fri, 21 Dec 2012 12:30:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ncurses library looks at the compiled-in search path for the terminfo
-database, and that path no longer exists, when using cached binaries (sstate).
-Export TERMINFO pointing at the current sysroot, so the attempt to run mconf
-is able to find the correct terminfo db.
+On 21 December 2012 09:35, Radu Moisan <radu.moisan@intel.com> wrote:
+> Wouldn't it be harder to review? I can do it anytime, if you think it is the
+> right way to go.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+It's much harder to review a patch which has corrections later.
 
-the patch was imported from meta-mentor layer on yoctoproject git server
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor as of commit id
-0cae284f294e3a2c99d9a4d79c95c25103cd8f8b
-
-Signed-off-by: Fahad Usman <fahad_usman@mentor.com>
----
- meta/classes/cml1.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index ba44196..bb95639 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -9,10 +9,11 @@ addtask configure after do_unpack do_patch before do_compile
- 
- inherit terminal
- 
--OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIBES"
-+OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIBES TERMINFO"
- HOST_EXTRACFLAGS = "${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
- HOSTLDFLAGS = "${BUILD_LDFLAGS}"
- HOST_LOADLIBES = "-lncurses"
-+TERMINFO = "${STAGING_DATADIR_NATIVE}/terminfo"
- 
- python do_menuconfig() {
-     try:
--- 
-1.7.9.5
-
+Ross
 
 
