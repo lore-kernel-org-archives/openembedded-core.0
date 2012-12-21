@@ -1,20 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ia0-f180.google.com ([209.85.210.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Tm2RL-0004wI-P5
+	(envelope-from <twoerner@gmail.com>) id 1Tm2S9-00050z-64
 	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Dec 2012 14:15:06 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Dec 2012 04:58:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,329,1355126400"; d="scan'208";a="237501092"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by orsmga001.jf.intel.com with ESMTP; 21 Dec 2012 04:59:11 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+	Fri, 21 Dec 2012 14:15:54 +0100
+Received: by mail-ia0-f180.google.com with SMTP id t4so3818884iag.39
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Dec 2012 05:01:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=sxIOzUe3DY+4zMehY5Af6+46xw5jnZ6Bsceea6P7PfQ=;
+	b=MiuYoh3+AebZiU0XypiP6v/vdDtLwoB1337Zl1wupEIcL0s3gLJurSEMXW3ZPLPWv1
+	ze4UUdcfHNd6XqPkV5wisVcY8EB97e+ZFyZvQKtdmdftlzLFRU9f8eRPWXl3kKOsdc4i
+	EvoWNCR3+vnc++Rgze0fRAb7mhU6IzsbMJBwsWtuaE+ZTK7ZHxQyI9qvqvReAvyP4wOf
+	Y77kPW8Zqc5wF8A436OsvRtu+glGsSpixH6N2qiuhMqZNlC0kwlWxTI/KY6gVrhgBTC5
+	m/+nLf/vouR4BwuZa/SA2eh+IORC7ht0hJSADlz2bVriiyGJHgee30e+drgvyyg9wLFD
+	1+cw==
+X-Received: by 10.50.157.130 with SMTP id wm2mr13972651igb.0.1356094866863;
+	Fri, 21 Dec 2012 05:01:06 -0800 (PST)
+Received: from localhost.localdomain (dsl-67-55-9-50.acanac.net. [67.55.9.50])
+	by mx.google.com with ESMTPS id
+	bg10sm15535930igc.6.2012.12.21.05.01.05 (version=SSLv3 cipher=OTHER);
+	Fri, 21 Dec 2012 05:01:05 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Dec 2012 15:02:20 +0200
-Message-Id: <1356094940-22690-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] nasm: upgraded to 2.10.06
+Date: Fri, 21 Dec 2012 08:00:22 -0500
+Message-Id: <1356094822-21647-1-git-send-email-twoerner@gmail.com>
+X-Mailer: git-send-email 1.8.0
+Subject: [PATCH] runqemu: change terminal's INTR key in 'serial' mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2012 13:15:06 -0000
+X-List-Received-Date: Fri, 21 Dec 2012 13:15:54 -0000
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+If you are using an image in '-serial stdio' mode, temporarily change the
+terminal's interrupt character to 'Ctrl-]' for the duration of the image
+run. In this way, hitting 'Ctrl-C' for something running in the image
+doesn't accidentally abort the entire qemu session.
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/recipes-devtools/nasm/{nasm_2.10.05.bb => nasm_2.10.06.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.10.05.bb => nasm_2.10.06.bb} (81%)
+ scripts/runqemu          | 2 ++
+ scripts/runqemu-internal | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.10.05.bb b/meta/recipes-devtools/nasm/nasm_2.10.06.bb
-similarity index 81%
-rename from meta/recipes-devtools/nasm/nasm_2.10.05.bb
-rename to meta/recipes-devtools/nasm/nasm_2.10.06.bb
-index d430b1e..cb12a22 100644
---- a/meta/recipes-devtools/nasm/nasm_2.10.05.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.10.06.bb
-@@ -7,8 +7,8 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
- PR = "r0"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 190e3b4..9418ebd 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -64,6 +64,7 @@ LAZY_ROOTFS=""
+ SCRIPT_QEMU_OPT=""
+ SCRIPT_QEMU_EXTRA_OPT=""
+ SCRIPT_KERNEL_OPT=""
++SERIALSTDIO=""
  
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
--SRC_URI[md5sum] = "d3c50875fd923b782749f883294336ed"
--SRC_URI[sha256sum] = "de5af263ce344d3a89711c61802e3ad8a4e14a61d539f521f7554cdbbe04ed0f"
-+SRC_URI[md5sum] = "875c4217b2e581dbae0bf96d45a6067a"
-+SRC_URI[sha256sum] = "ac84dd0d7e4ad6282061ce36b68a72db591db55cf0902b53d4297c743b0944a6"
+ # Determine whether the file is a kernel or QEMU image, and set the
+ # appropriate variables
+@@ -138,6 +139,7 @@ while true; do
+         "serial")
+             SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -serial stdio"
+             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
++            SERIALSTDIO="1"
+             ;;
+         "qemuparams="*)
+             SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 7fbe0a0..10d5a5f 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -444,6 +444,7 @@ if [ "$MACHINE" = "qemush4" ]; then
+         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         KERNCMDLINE="root=/dev/hda rw console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
++        SERIALSTDIO="1"
+     fi
+     if [ "$FSTYPE" = "nfs" ]; then
+         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
+@@ -453,6 +454,7 @@ if [ "$MACHINE" = "qemush4" ]; then
+         fi
+         KERNCMDLINE="root=/dev/nfs console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
++        SERIALSTDIO="1"
+     fi
+ fi
  
- inherit autotools
+@@ -565,6 +567,11 @@ then
+ fi
+ fi
  
++if [ "x$SERIALSTDIO" = "x1" ]; then
++        echo "Escape character is '^]'"
++        stty intr ^]
++fi
++
+ echo "Running $QEMU..."
+ # -no-reboot is a mandatory option - see bug #100
+ if [ "$FSTYPE" = "vmdk" ]; then
 -- 
-1.7.10.4
+1.8.0
 
 
 
