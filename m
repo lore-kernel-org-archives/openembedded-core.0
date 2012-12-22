@@ -1,34 +1,46 @@
-Received: from mail-ee0-f42.google.com ([74.125.83.42])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TmS6T-0004uY-GU
+	(envelope-from <ross.burton@intel.com>) id 1TmSgE-0005vh-2h
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Dec 2012 17:39:21 +0100
-Received: by mail-ee0-f42.google.com with SMTP id c41so3028050eek.29
+	Sat, 22 Dec 2012 18:16:18 +0100
+Received: from mail-ea0-f200.google.com ([209.85.215.200])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 22 Dec 2012 09:00:26 -0800
+Received: by mail-ea0-f200.google.com with SMTP id j13so4708815eaa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Dec 2012 08:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=W2zz27axY4m+dq7fTvRhYfD3+Y5G/0rBbhoiraT7fKY=;
-	b=LxZ2KOI4ZM8RpticBV7dCb2MHpVZC+Q3D0tDqzFF8tAy3DxIzfHS+19AcvjOjNv4Vr
-	A5Luc3qebZoJBLOyIbaeUhZ6yxlPtJZ7UR1liIlf66/Xm3AqD5oJjZv6QHZwpDzPS4II
-	Z1vhcQCuL5aUCS7b4N+iJ3cMX1d82W4ol4p9qY81x0lSDRlx+VHkzgZo6DxV8335OC1h
-	BV+JNFVVatUs3edl/GHyyq0l8SwMEh70ZvAKOZksKBHIBUn8v75fRs61OogtDR8ZnldX
-	TxwUF2tYq2CAGnohsBkrkTfF/skSJSK1vJMmoIn8Qqs7THK5fUzFa4D4D2yh4zBDYySk
-	x8zA==
-X-Received: by 10.14.1.195 with SMTP id 43mr41375465eed.31.1356193466342;
-	Sat, 22 Dec 2012 08:24:26 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id b2sm29083161eep.9.2012.12.22.08.24.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 22 Dec 2012 08:24:25 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Dec 2012 17:24:20 +0100
-Message-Id: <1356193460-27079-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.0.2
-In-Reply-To: <20121222161624.GB8988@jama.palm1.palmone.com>
-References: <20121222161624.GB8988@jama.palm1.palmone.com>
-Subject: [PATCH] libpng: fix packaging
+	Sat, 22 Dec 2012 09:01:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=rxkZ8WTPhwTvI/gqH8DAu62LIOVcZ0Pqk4xF+jH3hCY=;
+	b=IUf/yFehJSopdpc8tYrRAUeL8/GFlLE9k6wqGcuIokgMFC+SDDB/9jg4A24wa4OKRz
+	6PeunRGV7Cb55prGqxWpOGrm0o3Ge95akIvG/j8/3eTfmqDnQHgnkKZfpp9yK5h9ly6m
+	VEFqha2cydZ4m2jwdy1E8lpHvy+doIaEjRrSkEOsXItYMhOLIk3FB7OFyewGIpQY/Hlv
+	APoshBWP9MXgyJ+vGg/29+i1TJph7KTckpwAxwE/wBHLdj9aaRYTFwctyuUt9iyOJTi4
+	f1UGpq6vnPJl8KkjTKUcRgmbZQ5lANHDhyMAh5/8MQCYtMSnhz8w1Os1UOa/8vQXV0pc
+	+3+w==
+X-Received: by 10.181.13.75 with SMTP id ew11mr28522733wid.9.1356195679078;
+	Sat, 22 Dec 2012 09:01:19 -0800 (PST)
+X-Received: by 10.181.13.75 with SMTP id ew11mr28522722wid.9.1356195678959;
+	Sat, 22 Dec 2012 09:01:18 -0800 (PST)
+Received: from [192.168.1.13] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id p3sm35028068wic.8.2012.12.22.09.01.17
+	(version=SSLv3 cipher=OTHER); Sat, 22 Dec 2012 09:01:18 -0800 (PST)
+Date: Sat, 22 Dec 2012 17:01:20 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <3A52198641724EB2A46E018E68766013@intel.com>
+In-Reply-To: <CAP9ODKq=JF3JnjQ-rjxBFQbYEPpRhftDaY0NjcmTpseUVKOg-Q@mail.gmail.com>
+References: <cover.1356022882.git.radu.moisan@intel.com>
+	<50D38B3E.30003@linux.intel.com> <50D42D58.4010703@intel.com>
+	<CAJTo0Lb0AyeZwC6R4M+YjzGxm21d4Q-goSMQ1x0EMAFvCtO6iA@mail.gmail.com>
+	<CAP9ODKq=JF3JnjQ-rjxBFQbYEPpRhftDaY0NjcmTpseUVKOg-Q@mail.gmail.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQmuweHxqEGega7x1mygz26aHNllaTKDAAbDmg1hiLB+XbAyr4crT/roOYerR7oqCh9nR3B7gsEN07p/PWo7zSoJfo6T1g5Nkz/Qs/7M8cp0b6uULKlBQZPvnjit62YKEo0KBjl7qk/x1y4bDK2yX06eatJ2uwIXWL/8ysH1CYThmbM/UCev2USGto4RRuvdeE8IyMW3
+Cc: Patches, the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/28][RFC] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,43 +53,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Dec 2012 16:39:22 -0000
+X-List-Received-Date: Sat, 22 Dec 2012 17:16:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-* PN-LIBV is not needed, was used to package libpng12 from libpng3 build
-  now only libpng15 is built.
-* if you're not using OEBasicHash + PRserv you need to rebuild and
-  reinstall a lot of packages to upgrade to libpng-1.5 correctly
+On Saturday, 22 December 2012 at 00:43, Otavio Salvador wrote:
+> Sorry but it is not clear what you mean; do you prefer him to squash
+> all changes in a single patch or have an initial patch and queue
+> patches above this with the fixes?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-multimedia/libpng/libpng_1.5.13.bb | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+I prefer a logical series of correct patches, which will probably involve squashing into a single commit and then splitting the pieces out afterwards.
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.5.13.bb b/meta/recipes-multimedia/libpng/libpng_1.5.13.bb
-index 28220ad..04bb932 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.5.13.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.5.13.bb
-@@ -6,7 +6,7 @@ LICENSE = "Libpng"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=00b5b35853278d508806c2e5860e82cb \
-                     file://png.h;beginline=207;endline=321;md5=50e583fb60bb36f37ab5023b2a3715d1"
- DEPENDS = "zlib"
--PR = "r0"
-+PR = "r1"
- LIBV = "15"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz"
-@@ -16,9 +16,4 @@ SRC_URI[sha256sum] = "b843f9cb01d10ae22acd9aaf58aceaa4a6aeb9cf78943b41588004b271
- 
- inherit autotools binconfig pkgconfig
- 
--PACKAGES =+ "${PN}${LIBV}"
--
--FILES_${PN}${LIBV} = "${libdir}/libpng${LIBV}${SOLIBS}"
--RPROVIDES_${PN}-dev += "${PN}${LIBV}-dev"
--
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.8.0.2
+(with a reference to what version of meta-oe the series was based on)
+
+Ross 
+
 
 
 
