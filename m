@@ -1,38 +1,45 @@
-Received: from mail-ob0-f177.google.com ([209.85.214.177])
+Received: from mail-pb0-f42.google.com ([209.85.160.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TmDPm-0004Bh-7A
+	(envelope-from <sgw@bigsur.com>) id 1TmKaz-0006eY-Cy
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Dec 2012 01:58:10 +0100
-Received: by mail-ob0-f177.google.com with SMTP id uo13so5069029obb.8
+	Sat, 22 Dec 2012 09:38:13 +0100
+Received: by mail-pb0-f42.google.com with SMTP id rp2so3174381pbb.29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Dec 2012 16:43:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=/+hcUm4PwXPvKfYYYpTH3F/4TtgRYotbcD2YsLMpEEk=;
-	b=ewTPx/0k8eLvLf4vi7oICbPMDDQox+ARRHptxNP8cOauSzbC7io6PD6Eth0szdDMWk
-	bLTe221LIvy467dQ2Kjuw54znosi2qcq9741nTy7EOeat2UCrxhRZFydrY13WzrNybkK
-	oFiniqR7XMmNWWIxtUk0qHM8xa/dHlCobH4bvTlGXSu9BNt2wbLLCdyh11oH7XzBxwtm
-	CrPKqaZpZnIV5DuVYuIMaSW4wjVEnUWwfRfvaIPgg45QP2kwFfp1It7qsTW6Y2rsV/yZ
-	ZQDO73uwu9VpwhLQYi6y+J8/Un5cNzqVTPb+bpDmgY37iiLZrM9ygplp69B5d/dxZua/
-	kq0A==
-MIME-Version: 1.0
-Received: by 10.60.1.42 with SMTP id 10mr1021430oej.125.1356137003154; Fri, 21
-	Dec 2012 16:43:23 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Fri, 21 Dec 2012 16:43:22 -0800 (PST)
-In-Reply-To: <CAJTo0Lb0AyeZwC6R4M+YjzGxm21d4Q-goSMQ1x0EMAFvCtO6iA@mail.gmail.com>
-References: <cover.1356022882.git.radu.moisan@intel.com>
-	<50D38B3E.30003@linux.intel.com> <50D42D58.4010703@intel.com>
-	<CAJTo0Lb0AyeZwC6R4M+YjzGxm21d4Q-goSMQ1x0EMAFvCtO6iA@mail.gmail.com>
-Date: Fri, 21 Dec 2012 22:43:22 -0200
-X-Google-Sender-Auth: G6gtBRppcZYk-jSRCbIgTZPykts
-Message-ID: <CAP9ODKq=JF3JnjQ-rjxBFQbYEPpRhftDaY0NjcmTpseUVKOg-Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/28][RFC] systemd Integration
+	Sat, 22 Dec 2012 00:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=emZ/8gN6ZYXSCU5nEuvsC0db0JGYXuUVrEuOJubeEMM=;
+	b=d/PY1+XPOU/oPZ1JcORqpElwk2KT4k2Uw1RRxTJ9luc7Neji/Hf+TCfdAeTXq0DJxp
+	LFPYq6OxgXHG77PfO45Ws0SloBN/QJrMduClMxEhwsHLUE/1i+FGdQYe4cQ5MgtEACun
+	IvOqgVeHB9fUAXteHiqD1Q85xH+JFFDJMYD6U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=emZ/8gN6ZYXSCU5nEuvsC0db0JGYXuUVrEuOJubeEMM=;
+	b=NYOcNnTTpX/e64Iwj8OUKh2Sj5cmmhVTE2FlKBnx2X6ibApZFCuoUOAGQlzZ58tlTG
+	DtU9cClahs7owEvThYacPnmFAydGVwQn1XYeqrW7qfprht9XYq48aslnyvZtn+RpsCNH
+	chreaKP5rBZsTV4gFlhYQvgqN5CUypI6LpxqHI1p35ep1QCx6TwIsMDvUtYVN4JR89gH
+	gcCIEFNzuapvhUx12wSoajC24XVri5FhLC97WNpU8f5O0enEN/N2lu7KwUDbeJesIMDG
+	1bUe0Wf3tkjiz9sImUEUDvzMy6sp8q75fc7QyYT7oz3uT6XHMejOSSdGPECzzyaRp3ID
+	kLEQ==
+X-Received: by 10.68.131.73 with SMTP id ok9mr47571753pbb.83.1356164605592;
+	Sat, 22 Dec 2012 00:23:25 -0800 (PST)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id d8sm8893424pax.23.2012.12.22.00.23.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 22 Dec 2012 00:23:24 -0800 (PST)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: yocto@yoctoproject.org
+Date: Sat, 22 Dec 2012 00:22:52 -0800
+Message-Id: <1356164572-25770-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQm5GkH82o6EgBWYuv2/mMNMZj9Fwi2fbQm0sFaoaogVyA6nAWuMPiBrPzXMtHaR0Dcj6WRx
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qt-x11-free-native: Use private libpng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,23 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Dec 2012 00:58:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 22 Dec 2012 08:38:13 -0000
 
-On Fri, Dec 21, 2012 at 10:15 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 21 December 2012 09:35, Radu Moisan <radu.moisan@intel.com> wrote:
->> Wouldn't it be harder to review? I can do it anytime, if you think it is the
->> right way to go.
->
-> It's much harder to review a patch which has corrections later.
+Ensure the 3rdparty version of libpng headers are found first, otherwise
+the sysroot libpng15 header are found which causes a mis-match issue.
 
-Sorry but it is not clear what you mean; do you prefer him to squash
-all changes in a single patch or have an initial patch and queue
-patches above this with the fixes?
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ recipes-qt3/qt3/qt-x11-free-native_3.3.5.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+diff --git a/recipes-qt3/qt3/qt-x11-free-native_3.3.5.bb b/recipes-qt3/qt3/qt-x11-free-native_3.3.5.bb
+index 2d87d26..b18ea0d 100644
+--- a/recipes-qt3/qt3/qt-x11-free-native_3.3.5.bb
++++ b/recipes-qt3/qt3/qt-x11-free-native_3.3.5.bb
+@@ -40,6 +40,7 @@ inherit native
+ do_configure() {
+ 	echo "yes" | ./configure -prefix ${prefix} ${QT_CONFIG_FLAGS} -fast -L ${STAGING_LIBDIR} \
+                 -I ${STAGING_INCDIR_NATIVE} 
++	sed -i -e '\:obj/release-shared-mt/qpngio.o\ kerne:s:$(CXXFLAGS):-I3rdparty/libpng $(CXXFLAGS):' src/Makefile
+ }
+ 
+ do_compile() {
+-- 
+1.7.9.5
+
 
 
