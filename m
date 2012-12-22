@@ -1,36 +1,44 @@
-Received: from mail-ee0-f48.google.com ([74.125.83.48])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TmVgz-00020z-Cn
+	(envelope-from <scott.a.garman@intel.com>) id 1TmVlg-00026R-B6
 	for openembedded-core@lists.openembedded.org;
-	Sat, 22 Dec 2012 21:29:09 +0100
-Received: by mail-ee0-f48.google.com with SMTP id b57so3057414eek.35
+	Sat, 22 Dec 2012 21:34:06 +0100
+Received: from mail-da0-f70.google.com ([209.85.210.70])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 22 Dec 2012 12:19:11 -0800
+Received: by mail-da0-f70.google.com with SMTP id t11so5268807daj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Dec 2012 12:14:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=jtzT2YoVydbbkFMPVO1T4mRCRD7JHXJovfya13FEDJ8=;
-	b=HPFkiHPNRblOv3T3FtJhB+JIQVuXfcPfSQ1BADO5fLOE/XPpIXMykW9CE4fUPG0VOO
-	FYtPYjhBwYUdUF2RFS9cyedUsXlkfSDziijmPAQnBZUz+I+Tj2LuZsX7xL4WnBq0Lb5n
-	5HNOOHUP5gQ7WNjA9pXIvttAP5V2aZrH6UjmrlH42K7nxz6nUOBiH67KDCOPkGyUoArr
-	7dtc6RtGmP4luq7D33XcejHW85WLOxgjvURU14P9OEecmNs3sHaCD1aq+VHWU3HkKtip
-	NalUSSwGmVVEw4vDpirj5YdbTIl6CPH07tIJH6UDdPpFp1rLN/jnZyLdBd/M7fUqKtkR
-	v/ig==
-X-Received: by 10.14.203.2 with SMTP id e2mr42277267eeo.20.1356207262002;
-	Sat, 22 Dec 2012 12:14:22 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id b49sm30254770eem.16.2012.12.22.12.14.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 22 Dec 2012 12:14:21 -0800 (PST)
-Date: Sat, 22 Dec 2012 21:14:18 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20121222201418.GE8988@jama.palm1.palmone.com>
-References: <1356206329-12627-1-git-send-email-Martin.Jansa@gmail.com>
+	Sat, 22 Dec 2012 12:19:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:message-id:date:from:user-agent:mime-version
+	:to:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=RKfAdknNi+IHbJ4Y99b333MVTOatkPkblhNIHZeAZhY=;
+	b=MyEYJc/5Jhr+QhyQpPIIqP2dEFrKzbB6ckoHN+63WrP1/EjZSt1X/gn2MMu3WMWyTv
+	XnyOHhntfNR/WVfmjfxWdUm4sBr9PsFyeHMhZ2AavqVCB05Q4xm4n7zbZgE9zl6F1d4E
+	5kpwmZ80eimGENrMd2tyEHM3/bCgTksiqhw+PsOMX357DsJLUQp2GxqTHcXX1us6rsWx
+	n/nU8VaqRzJHzs/5L4xVDdgenIhtawaGsLbVe+7CEJR7KM4x3+jb+XHhwdiR3d5qf+WJ
+	IMrOaqm8aaflyUBfZSWomFT5l87xAmFjKEdXKTYnpUFU1ZZiw8DS5h07i9GUTMAwr8Av
+	Vh7A==
+X-Received: by 10.68.225.232 with SMTP id rn8mr51936452pbc.34.1356207551097;
+	Sat, 22 Dec 2012 12:19:11 -0800 (PST)
+X-Received: by 10.68.225.232 with SMTP id rn8mr51936441pbc.34.1356207550941;
+	Sat, 22 Dec 2012 12:19:10 -0800 (PST)
+Received: from [192.168.1.102] (c-71-237-213-89.hsd1.or.comcast.net.
+	[71.237.213.89])
+	by mx.google.com with ESMTPS id qb3sm9300128pbb.35.2012.12.22.12.19.09
+	(version=SSLv3 cipher=OTHER); Sat, 22 Dec 2012 12:19:10 -0800 (PST)
+Message-ID: <50D615BC.9010002@intel.com>
+Date: Sat, 22 Dec 2012 12:19:08 -0800
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <1356206329-12627-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] gtk-icon-cache: don't call gtk-update-icon-cache on files
+To: openembedded-core@lists.openembedded.org
+References: <1356095093-21988-1-git-send-email-twoerner@gmail.com>
+In-Reply-To: <1356095093-21988-1-git-send-email-twoerner@gmail.com>
+X-Gm-Message-State: ALoCoQn11ApVsTG+YK3Qmuba0ban6bE0+w4RU/49AB6IAsUyuDQ2qkjMO1gGmsxx+3N3dhJedjbHku8ug2FORBz3TIM3rTGWC4pGrKSilnx0vUAMco52JofHZg6G7uEbzrPabfWUFRNWfR5IEFdf3OzsmETJpJgJ/eUoDTcOtEeO0esSZeXewL7AZSs1FM00mHYBVy2Bc0C7
+Subject: Re: [PATCH] runqemu: change terminal's INTR key in 'serial' mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,82 +51,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Dec 2012 20:29:09 -0000
-X-Groupsio-MsgNum: 33025
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="idY8LE8SD6/8DnRI"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 22 Dec 2012 20:34:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---idY8LE8SD6/8DnRI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/21/2012 05:04 AM, Trevor Woerner wrote:
+> If you are using an image in '-serial stdio' mode, temporarily change the
+> terminal's interrupt character to 'Ctrl-]' for the duration of the image
+> run. In this way, hitting 'Ctrl-C' for something running in the image
+> doesn't accidentally abort the entire qemu session.
+>
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 
-On Sat, Dec 22, 2012 at 08:58:49PM +0100, Martin Jansa wrote:
-> * check if icondir is directory before calling gtk-update-icon-cache, lik=
-e all other calls do
-> * fixes:
->   | > Executing update_icon_cache
->   | + chmod +x update_icon_cache
->   | + ./update_icon_cache
->   | gtk-update-icon-cache.real: Failed to open file /tmp-eglibc/work/qemu=
-arm-oe-linux-gnueabi/shr-image-all/2.0-r20/rootfs/usr/share/icons/enjoy.png=
-/.icon-theme.cache : Not a directory
->   | gtk-update-icon-cache.real: Failed to open file /tmp-eglibc/work/qemu=
-arm-oe-linux-gnueabi/shr-image-all/2.0-r20/rootfs/usr/share/icons/monav.png=
-/.icon-theme.cache : Not a directory
->   | gtk-update-icon-cache.real: Failed to open file /tmp-eglibc/work/qemu=
-arm-oe-linux-gnueabi/shr-image-all/2.0-r20/rootfs/usr/share/icons/orrery.pn=
-g/.icon-theme.cache : Not a directory
+Nice addition - thanks a bunch for this!
 
-Be aware that you need to manually remove
-$INTERCEPT_DIR/update_icon_cache
-otherwise such broken script is kept forever
+Acked-by: Scott Garman <scott.a.garman@intel.com>
 
-gtk_icon_cache_postinst() {
-if [ "x$D" !=3D "x" ]; then
-    if [ ! -f $INTERCEPT_DIR/update_icon_cache ]; then
-        cat << "EOF" > $INTERCEPT_DIR/update_icon_cache
-
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  meta/classes/gtk-icon-cache.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-=
-cache.bbclass
-> index f87a30f..7c7dd78 100644
-> --- a/meta/classes/gtk-icon-cache.bbclass
-> +++ b/meta/classes/gtk-icon-cache.bbclass
-> @@ -12,7 +12,9 @@ if [ "x$D" !=3D "x" ]; then
->  gdk-pixbuf-query-loaders --update-cache
-> =20
->  for icondir in $D/usr/share/icons/*/ ; do
-> -	gtk-update-icon-cache -fqt  $icondir
-> +    if [ -d $icondir ] ; then
-> +        gtk-update-icon-cache -fqt  $icondir
-> +    fi
->  done
->  EOF
->      fi
-> --=20
-> 1.8.0.2
->=20
+>   scripts/runqemu          | 2 ++
+>   scripts/runqemu-internal | 7 +++++++
+>   2 files changed, 9 insertions(+)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 190e3b4..9418ebd 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -64,6 +64,7 @@ LAZY_ROOTFS=""
+>   SCRIPT_QEMU_OPT=""
+>   SCRIPT_QEMU_EXTRA_OPT=""
+>   SCRIPT_KERNEL_OPT=""
+> +SERIALSTDIO=""
+>
+>   # Determine whether the file is a kernel or QEMU image, and set the
+>   # appropriate variables
+> @@ -138,6 +139,7 @@ while true; do
+>           "serial")
+>               SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -serial stdio"
+>               SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT console=ttyS0"
+> +            SERIALSTDIO="1"
+>               ;;
+>           "qemuparams="*)
+>               SCRIPT_QEMU_EXTRA_OPT="${arg##qemuparams=}"
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index 7fbe0a0..a11220d 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -444,6 +444,7 @@ if [ "$MACHINE" = "qemush4" ]; then
+>           #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+>           KERNCMDLINE="root=/dev/hda rw console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+>           QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
+> +        SERIALSTDIO="1"
+>       fi
+>       if [ "$FSTYPE" = "nfs" ]; then
+>           if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
+> @@ -453,6 +454,7 @@ if [ "$MACHINE" = "qemush4" ]; then
+>           fi
+>           KERNCMDLINE="root=/dev/nfs console=ttySC1 noiotrap earlyprintk=sh-sci.1 console=tty nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+>           QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -no-reboot $QEMU_UI_OPTIONS -monitor null -serial vc -serial stdio"
+> +        SERIALSTDIO="1"
+>       fi
+>   fi
+>
+> @@ -565,6 +567,11 @@ then
+>   fi
+>   fi
+>
+> +if [ "x$SERIALSTDIO" = "x1" ]; then
+> +        echo "Interrupt character is '^]'"
+> +        stty intr ^]
+> +fi
+> +
+>   echo "Running $QEMU..."
+>   # -no-reboot is a mandatory option - see bug #100
+>   if [ "$FSTYPE" = "vmdk" ]; then
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---idY8LE8SD6/8DnRI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlDWFJoACgkQN1Ujt2V2gBwNWQCguRSZ63VJMZrhjN/7YkUZpCxj
-IjEAn1GyfzzCAPWnr99KaRUW5Rf8y3rs
-=KwrF
------END PGP SIGNATURE-----
-
---idY8LE8SD6/8DnRI--
