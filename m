@@ -1,31 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-ea0-f181.google.com ([209.85.215.181])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Tmoom-0003fa-Al
+	(envelope-from <martin.jansa@gmail.com>) id 1Tmp8J-0004a0-8f
 	for openembedded-core@lists.openembedded.org;
-	Sun, 23 Dec 2012 17:54:28 +0100
-Received: from wnpgmb0903w-ds01-73-59.dynamic.mtsallstream.net
-	([207.161.73.59]:34868 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TmoaS-0004uM-SF for openembedded-core@lists.openembedded.org;
-	Sun, 23 Dec 2012 11:39:41 -0500
-Date: Sun, 23 Dec 2012 10:39:37 -0600 (CST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1212231037550.22219@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Sun, 23 Dec 2012 18:14:41 +0100
+Received: by mail-ea0-f181.google.com with SMTP id k14so2532746eaa.26
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Dec 2012 08:59:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=qZsJHJ1gYdxZN3v0XiOeNPH6xSlCsDmkfxWAyYtF9aI=;
+	b=l1BhQpf7ut/9hfMRAhY/S97IWDZBRudvAWmosvPJXjuLtN2nRNjYVMgkAygRxgX72Y
+	bC4CqZ+TR5NVjT8fVLYxGgW2y3RLT+Wc1qnDw3vhmayl7SpoBYlW+8eFxPdJvIQEQXn8
+	+ihdojiHiGw9eCyap1HB/1jU0BCCxcuKnU/63lw86blAEM3g9gqOxadZ0Hje7K+5EbGP
+	OJQBIx7LZtSFJ5FmGmvOi2V6OGaXfeoy6FG25sxNdBcoqKoKSbxb7wpbkqixTfHnQ+vf
+	QRS6WLIuuldOxr4OQjoYQUzt4dHtrWCiYUT81Nz4rwBtuJFxIAItMYrp/Zhm3EMQcbtV
+	F/OQ==
+X-Received: by 10.14.177.1 with SMTP id c1mr49139563eem.8.1356281990510;
+	Sun, 23 Dec 2012 08:59:50 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id b49sm35904432eem.16.2012.12.23.08.59.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 23 Dec 2012 08:59:49 -0800 (PST)
+Date: Sun, 23 Dec 2012 17:59:47 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20121223165947.GI8988@jama.palm1.palmone.com>
+References: <alpine.DEB.2.02.1212230949580.11704@oneiric>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: updated sqlite-autoconf-3071500 seems broken with "dsac"
+In-Reply-To: <alpine.DEB.2.02.1212230949580.11704@oneiric>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: OK to drop reference to "udev-extra-rules" from udev-extraconf_1.0.bb?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,27 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Dec 2012 16:54:28 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 23 Dec 2012 17:14:42 -0000
+X-Groupsio-MsgNum: 33030
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="STPqjqpCrtky8aYs"
+Content-Disposition: inline
 
+--STPqjqpCrtky8aYs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ltmain.sh:7838:			dsac
-x86_64-linux-libtool:8260:			dsac
+On Sun, Dec 23, 2012 at 09:50:18AM -0600, Robert P. J. Day wrote:
+>=20
+>   it would seem that this from udev-extraconf_1.0.bb:
+>=20
+> # to replace udev-extra-rules from meta-oe
+> RPROVIDES_${PN} =3D "udev-extra-rules"
+> RREPLACES_${PN} =3D "udev-extra-rules"
+> RCONFLICTS_${PN} =3D "udev-extra-rules"
+>=20
+> is now superfluous since udev-extra-rules was tossed from meta-oe some
+> months ago?  OK to submit a patch to just take it out?  unless someone
+> wants to do it, i'm good either way.
 
-  current native build of sqlite fails as the above seems misspelled,
-should of course be "esac".  am i just still too asleep to see what's
-happening?
+No keep it, you don't know how long it will take for _all_ users to
+upgrade on target.
 
-rday
+Cheers,
 
--- 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--STPqjqpCrtky8aYs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlDXOIMACgkQN1Ujt2V2gBy4tACfXDaTzAU4Bk5cjGdOkgHn0t4q
+dGMAninwaU2Kl/5YIKBAjRiMxllx6jlH
+=gsW1
+-----END PGP SIGNATURE-----
 
+--STPqjqpCrtky8aYs--
