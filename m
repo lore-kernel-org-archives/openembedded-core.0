@@ -1,26 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TnH2O-0003Di-Te
+	(envelope-from <sgw@linux.intel.com>) id 1TnH9x-0003Qp-CI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Dec 2012 00:02:30 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Dec 2012 14:47:33 -0800
+	Tue, 25 Dec 2012 00:10:17 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 24 Dec 2012 14:55:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,349,1355126400"; d="scan'208";a="269529462"
+X-IronPort-AV: E=Sophos;i="4.84,349,1355126400"; d="scan'208";a="262271941"
 Received: from unknown (HELO [10.255.12.150]) ([10.255.12.150])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Dec 2012 14:47:33 -0800
-Message-ID: <50D8DB85.4080509@linux.intel.com>
-Date: Mon, 24 Dec 2012 14:47:33 -0800
+	by orsmga002.jf.intel.com with ESMTP; 24 Dec 2012 14:55:20 -0800
+Message-ID: <50D8DD58.4040904@linux.intel.com>
+Date: Mon, 24 Dec 2012 14:55:20 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Peter Seebach <peter.seebach@windriver.com>
-References: <cover.1355536994.git.peter.seebach@windriver.com>
-	<344997e252e611dab1772e71d80500d92937da39.1355536994.git.peter.seebach@windriver.com>
-In-Reply-To: <344997e252e611dab1772e71d80500d92937da39.1355536994.git.peter.seebach@windriver.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+References: <1356015955-24078-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1356015955-24078-1-git-send-email-cristian.iorga@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] pseudo_git.bb and friends: Update to 1.4.2.
+Subject: Re: [PATCH] telepathy-mission-control: upgrade to 5.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,122 +32,344 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Dec 2012 23:02:30 -0000
+X-List-Received-Date: Mon, 24 Dec 2012 23:10:17 -0000
+X-Groupsio-MsgNum: 33079
+Content-Type: multipart/mixed; boundary="------------090907090503060409090603"
+
+--------------090907090503060409090603
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/14/2012 06:10 PM, Peter Seebach wrote:
-> Pseudo 1.4.2 adds a linkat() wrapper, needed for coreutils to work
-> on some newer systems. It also changes the way $(LIB) is used with
-> enable-static-sqlite, because this was broken for some 64-bit builds
-> (not in yocto, though). As a side-effect, the pseudo.inc recipe has
-> to be altered to use --with-static-sqlite=(explicit path), because the
-> default is that 64-bit pseudo would use lib64/libsqlite3.a.
+On 12/20/2012 07:05 AM, Cristian Iorga wrote:
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   ...n-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} |    8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>   rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} (87%)
 >
-> Note that the same --with-static-sqlite= is used for both 64-bit and
-> 32-bit builds on 64-bit systems with NO32LIBS = 0. This sounds scary,
-> but it's harmless; we only build the library for 32-bit, and the library
-> never actually uses the sqlite library; it just has to be specfied for
-> configure to complete. (This is going to become a low-priority bug
-> report for pseudo: It should have a configuration option for "library
-> only, and don't worry about sqlite.")
->
-This patch continues to have issues after I fixed up the pathes.  There 
-is still and issue when build for a 32bit host, works for 64bit, but not 
-32bit.  I will look into this later in the week, but this patch is on 
-hold for now.
+
+There was a problem building this with MUT, not sure if it should be 
+/usr/bin/python vs the python-native image, I was building an x86_64 image.
+
+I saw a similar issue with telepathy-idle, will send that log on that 
+thread.
 
 Sau!
 
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-> ---
->   meta/recipes-devtools/pseudo/pseudo.inc      |    9 +++++----
->   meta/recipes-devtools/pseudo/pseudo_1.4.1.bb |    8 --------
->   meta/recipes-devtools/pseudo/pseudo_1.4.2.bb |    8 ++++++++
->   meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
->   4 files changed, 16 insertions(+), 15 deletions(-)
->   delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
->   create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.2.bb
+> diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+> similarity index 87%
+> rename from meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
+> rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+> index 55ae117..7caacb4 100644
+> --- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.13.0.bb
+> +++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+> @@ -8,7 +8,7 @@ DEPENDS = "libtelepathy dbus-glib gconf"
 >
-> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-> index 98f706c..e38bec8 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo.inc
-> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
-> @@ -30,9 +30,9 @@ NO32LIBS ??= "1"
->   # Compile for the local machine arch...
->   do_compile () {
->   	if [ "${SITEINFO_BITS}" = "64" ]; then
-> -	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
-> +	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-static-sqlite=${prefix}/lib/libsqlite3.a --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
->   	else
-> -	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
-> +	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-static-sqlite=${prefix}/lib/libsqlite3.a --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
->   	fi
->   	oe_runmake ${MAKEOPTS}
->   }
-> @@ -51,7 +51,7 @@ do_compile_prepend_class-native () {
->   		# built this will fail and be ignored.
->   		make ${MAKEOPTS} distclean || :
+>   SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
 >
-> -		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
-> +		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-static-sqlite=${prefix}/lib/libsqlite3.a --bits=32 --without-rpath
->   		oe_runmake ${MAKEOPTS} libpseudo
->   		# prevent it from removing the lib, but remove everything else
->   		make 'LIB=foo' ${MAKEOPTS} distclean
-> @@ -63,7 +63,8 @@ do_compile_prepend_class-nativesdk () {
->   		# We need the 32-bit libpseudo on a 64-bit machine...
->                   # ... and we really, really, hope that the native host is
->                   # x86, or else --bits may not work.
-> -		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
-> +
-> +		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-static-sqlite=${prefix}/lib/libsqlite3.a --bits=32 --without-rpath
->   		oe_runmake ${MAKEOPTS} libpseudo
->   		# prevent it from removing the lib, but remove everything else
->   		make 'LIB=foo' ${MAKEOPTS} distclean
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
-> deleted file mode 100644
-> index 70fe9c0..0000000
-> --- a/meta/recipes-devtools/pseudo/pseudo_1.4.1.bb
-> +++ /dev/null
-> @@ -1,8 +0,0 @@
-> -require pseudo.inc
-> -
-> -PR = "r13"
-> -
-> -SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
-> -
-> -SRC_URI[md5sum] = "b49bb87c7e1de33f37fea479ddb99dca"
-> -SRC_URI[sha256sum] = "ae4bfba2bd1e3954ea8f83bf06571ee4958bf7623e4fa897056281dddfe6446d"
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.2.bb
-> new file mode 100644
-> index 0000000..fb0d178
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.4.2.bb
-> @@ -0,0 +1,8 @@
-> +require pseudo.inc
-> +
-> +PR = "r14"
-> +
-> +SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
-> +
-> +SRC_URI[md5sum] = "44270e55c3b1323a5f0a1473ecb708a6"
-> +SRC_URI[sha256sum] = "c848f5555162e4d3eeed99b0993c794e625714b876315c24273490e0376ce3a8"
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> index e394ffb..5d5ff8c 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -1,8 +1,8 @@
->   require pseudo.inc
+> -PR = "r1"
+> +PR = "r0"
 >
-> -SRCREV = "398a264490713c912b4ce465251a8a82a7905f45"
-> -PV = "1.4.1+git${SRCPV}"
-> -PR = "r28"
-> +SRCREV = "2f56acf04e85cfd617eaded954c1ce40403d7f66"
-> +PV = "1.4.2+git${SRCPV}"
-> +PR = "r29"
+>   inherit autotools pkgconfig
 >
->   DEFAULT_PREFERENCE = "-1"
+> @@ -32,7 +32,7 @@ FILES_libmissioncontrol-server = "${libdir}/libmissioncontrol-server.so.*"
 >
+>   FILES_libmissioncontrol-dev = "${libdir}/libmissioncontrol.* \
+>                                  ${includedir}/libmissioncontrol/ \
+> -                	       ${libdir}/pkgconfig/libmissioncontrol.pc"
+> +                               ${libdir}/pkgconfig/libmissioncontrol.pc"
+>   FILES_libmissioncontrol-config-dev = "${libdir}/libmissioncontrol-config.*"
+>   FILES_libmissioncontrol-server-dev = "${libdir}/libmissioncontrol-server.*"
+>
+> @@ -40,5 +40,5 @@ FILES_libmissioncontrol-dbg = "${libdir}/.debug/libmissioncontrol.so.*"
+>   FILES_libmissioncontrol-config-dbg = "${libdir}/.debug/libmissioncontrol-config.so.*"
+>   FILES_libmissioncontrol-server-dbg = "${libdir}/.debug/libmissioncontrol-server.so.*"
+>
+> -SRC_URI[md5sum] = "8b0c82136467d1188d4fa7f032cd3beb"
+> -SRC_URI[sha256sum] = "b546da6bd1a1ac16f8a1db67b7673673e007ecaf9844da405c50acbcef0118eb"
+> +SRC_URI[md5sum] = "483fa8860891815a540ecf1bb9155122"
+> +SRC_URI[sha256sum] = "58e0047f5292836c2c35e1603a908b3ac20a5c0b183869514c63de339fd48a30"
 >
 
+--------------090907090503060409090603
+Content-Type: text/plain; charset=UTF-8;
+ name="log.do_compile.28655"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="log.do_compile.28655"
 
+DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64=
+', 'x86_64-linux', 'common']
+DEBUG: Executing shell function do_compile
+NOTE: make -j 8
+make  all-recursive
+make[1]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0'
+Making all in data
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/data'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/data'
+Making all in m4
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/m4'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/m4'
+Making all in tools
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/tools=
+'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/tools'
+Making all in xml
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/xml'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/xml'
+Making all in mission-control-plugins
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/missi=
+on-control-plugins'
+{ echo '#include "mcp-signals-marshal.h"' && \
+	  glib-genmarshal --body --prefix=3D_mcp_marshal mcp-signals-marshal.list;=
+ } \
+	    > mcp-signals-marshal.c
+glib-genmarshal --header --prefix=3D_mcp_marshal mcp-signals-marshal.list \
+	  > mcp-signals-marshal.h
+make  all-am
+make[3]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/missi=
+on-control-plugins'
+../x86_64-poky-linux-libtool  --tag=3DCC   --mode=3Dcompile x86_64-poky-lin=
+ux-gcc    -m64 --sysroot=3D/intel/builds/world/tmp/sysroots/qemux86-64 -DHA=
+VE_CONFIG_H -I. -I.. -pthread -I/intel/builds/world/tmp/sysroots/qemux86-64=
+/usr/include/telepathy-1.0 -I/intel/builds/world/tmp/sysroots/qemux86-64/us=
+r/include/dbus-1.0 -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/db=
+us-1.0/include -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/include/gl=
+ib-2.0 -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/inclu=
+de   -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/include/dbus-1.0 -I/=
+intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/dbus-1.0/include -I/inte=
+l/builds/world/tmp/sysroots/qemux86-64/usr/include/glib-2.0 -I/intel/builds=
+/world/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/include   -pthread -I/intel=
+/builds/world/tmp/sysroots/qemux86-64/usr/include/glib-2.0 -I/intel/builds/=
+world/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/include   -I.. -I.. -DG_LOG_=
+DOMAIN=3D\"mc-plugins\" -DMCP_API_VERSION=3D5.5 -DMCP_ABI_VERSION=3D0   -Wa=
+ll -Wextra -Wdeclaration-after-statement -Wshadow -Wstrict-prototypes -Wmis=
+sing-prototypes -Wmissing-declarations -Wsign-compare -Wnested-externs -Wpo=
+inter-arith -Wformat-security -Winit-self -Wno-missing-field-initializers -=
+Wno-deprecated-declarations -Wno-unused-parameter -O2 -pipe -g -feliminate-=
+unused-debug-types -DENABLE_DEBUG -c -o mcp-signals-marshal.lo mcp-signals-=
+marshal.c
+x86_64-poky-linux-libtool: compile:  x86_64-poky-linux-gcc -m64 --sysroot=
+=3D/intel/builds/world/tmp/sysroots/qemux86-64 -DHAVE_CONFIG_H -I. -I.. -pt=
+hread -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/include/telepathy-1=
+.0 -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/include/dbus-1.0 -I/in=
+tel/builds/world/tmp/sysroots/qemux86-64/usr/lib/dbus-1.0/include -I/intel/=
+builds/world/tmp/sysroots/qemux86-64/usr/include/glib-2.0 -I/intel/builds/w=
+orld/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/include -I/intel/builds/world=
+/tmp/sysroots/qemux86-64/usr/include/dbus-1.0 -I/intel/builds/world/tmp/sys=
+roots/qemux86-64/usr/lib/dbus-1.0/include -I/intel/builds/world/tmp/sysroot=
+s/qemux86-64/usr/include/glib-2.0 -I/intel/builds/world/tmp/sysroots/qemux8=
+6-64/usr/lib/glib-2.0/include -pthread -I/intel/builds/world/tmp/sysroots/q=
+emux86-64/usr/include/glib-2.0 -I/intel/builds/world/tmp/sysroots/qemux86-6=
+4/usr/lib/glib-2.0/include -I.. -I.. -DG_LOG_DOMAIN=3D\"mc-plugins\" -DMCP_=
+API_VERSION=3D5.5 -DMCP_ABI_VERSION=3D0 -Wall -Wextra -Wdeclaration-after-s=
+tatement -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declar=
+ations -Wsign-compare -Wnested-externs -Wpointer-arith -Wformat-security -W=
+init-self -Wno-missing-field-initializers -Wno-deprecated-declarations -Wno=
+-unused-parameter -O2 -pipe -g -feliminate-unused-debug-types -DENABLE_DEBU=
+G -c mcp-signals-marshal.c  -fPIC -DPIC -o .libs/mcp-signals-marshal.o
+x86_64-poky-linux-libtool: compile:  x86_64-poky-linux-gcc -m64 --sysroot=
+=3D/intel/builds/world/tmp/sysroots/qemux86-64 -DHAVE_CONFIG_H -I. -I.. -pt=
+hread -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/include/telepathy-1=
+.0 -I/intel/builds/world/tmp/sysroots/qemux86-64/usr/include/dbus-1.0 -I/in=
+tel/builds/world/tmp/sysroots/qemux86-64/usr/lib/dbus-1.0/include -I/intel/=
+builds/world/tmp/sysroots/qemux86-64/usr/include/glib-2.0 -I/intel/builds/w=
+orld/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/include -I/intel/builds/world=
+/tmp/sysroots/qemux86-64/usr/include/dbus-1.0 -I/intel/builds/world/tmp/sys=
+roots/qemux86-64/usr/lib/dbus-1.0/include -I/intel/builds/world/tmp/sysroot=
+s/qemux86-64/usr/include/glib-2.0 -I/intel/builds/world/tmp/sysroots/qemux8=
+6-64/usr/lib/glib-2.0/include -pthread -I/intel/builds/world/tmp/sysroots/q=
+emux86-64/usr/include/glib-2.0 -I/intel/builds/world/tmp/sysroots/qemux86-6=
+4/usr/lib/glib-2.0/include -I.. -I.. -DG_LOG_DOMAIN=3D\"mc-plugins\" -DMCP_=
+API_VERSION=3D5.5 -DMCP_ABI_VERSION=3D0 -Wall -Wextra -Wdeclaration-after-s=
+tatement -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declar=
+ations -Wsign-compare -Wnested-externs -Wpointer-arith -Wformat-security -W=
+init-self -Wno-missing-field-initializers -Wno-deprecated-declarations -Wno=
+-unused-parameter -O2 -pipe -g -feliminate-unused-debug-types -DENABLE_DEBU=
+G -c mcp-signals-marshal.c -o mcp-signals-marshal.o >/dev/null 2>&1
+../x86_64-poky-linux-libtool  --tag=3DCC   --mode=3Dlink x86_64-poky-linux-=
+gcc    -m64 --sysroot=3D/intel/builds/world/tmp/sysroots/qemux86-64 -Wall -=
+Wextra -Wdeclaration-after-statement -Wshadow -Wstrict-prototypes -Wmissing=
+-prototypes -Wmissing-declarations -Wsign-compare -Wnested-externs -Wpointe=
+r-arith -Wformat-security -Winit-self -Wno-missing-field-initializers -Wno-=
+deprecated-declarations -Wno-unused-parameter -O2 -pipe -g -feliminate-unus=
+ed-debug-types -DENABLE_DEBUG -export-symbols-regex "^(mcp_)" -no-undefined=
+ -version-info "4":"1":"4" -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -=
+o libmission-control-plugins.la -rpath /usr/lib debug.lo account.lo account=
+-storage.lo dbus-acl.lo dispatch-operation.lo dispatch-operation-policy.lo =
+loader.lo request.lo request-policy.lo mcp-signals-marshal.lo -ltelepathy-g=
+lib   -ldbus-glib-1 -ldbus-1 -lgobject-2.0 -lglib-2.0   -pthread -lgmodule-=
+2.0 -lrt -lgio-2.0 -lgobject-2.0 -lglib-2.0   =20
+x86_64-poky-linux-libtool: link: rm -fr  .libs/libmission-control-plugins.a=
+ .libs/libmission-control-plugins.exp .libs/libmission-control-plugins.la .=
+libs/libmission-control-plugins.lai .libs/libmission-control-plugins.so .li=
+bs/libmission-control-plugins.so.0 .libs/libmission-control-plugins.so.0.4.=
+1 .libs/libmission-control-plugins.ver
+x86_64-poky-linux-libtool: link: x86_64-poky-linux-nm  .libs/debug.o .libs/=
+account.o .libs/account-storage.o .libs/dbus-acl.o .libs/dispatch-operation=
+.o .libs/dispatch-operation-policy.o .libs/loader.o .libs/request.o .libs/r=
+equest-policy.o .libs/mcp-signals-marshal.o   | sed -n -e 's/^.*[	 ]\([ABCD=
+GIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | se=
+d '/ __gnu_lto/d' | /intel/builds/world/tmp/sysroots/x86_64-linux//bin/sed =
+'s/.* //' | sort | uniq > .libs/libmission-control-plugins.exp
+x86_64-poky-linux-libtool: link: /bin/grep -E -e "^(mcp_)" ".libs/libmissio=
+n-control-plugins.exp" > ".libs/libmission-control-plugins.expT"
+x86_64-poky-linux-libtool: link: mv -f ".libs/libmission-control-plugins.ex=
+pT" ".libs/libmission-control-plugins.exp"
+x86_64-poky-linux-libtool: link: echo "{ global:" > .libs/libmission-contro=
+l-plugins.ver
+x86_64-poky-linux-libtool: link:  cat .libs/libmission-control-plugins.exp =
+| sed -e "s/\(.*\)/\1;/" >> .libs/libmission-control-plugins.ver
+x86_64-poky-linux-libtool: link:  echo "local: *; };" >> .libs/libmission-c=
+ontrol-plugins.ver
+x86_64-poky-linux-libtool: link:  x86_64-poky-linux-gcc    -m64 --sysroot=
+=3D/intel/builds/world/tmp/sysroots/qemux86-64 -shared  -fPIC -DPIC  .libs/=
+debug.o .libs/account.o .libs/account-storage.o .libs/dbus-acl.o .libs/disp=
+atch-operation.o .libs/dispatch-operation-policy.o .libs/loader.o .libs/req=
+uest.o .libs/request-policy.o .libs/mcp-signals-marshal.o   /intel/builds/w=
+orld/tmp/sysroots/qemux86-64/usr/lib/libtelepathy-glib.so -L/intel/builds/w=
+orld/tmp/sysroots/qemux86-64/usr/lib /intel/builds/world/tmp/sysroots/qemux=
+86-64/usr/lib/libdbus-glib-1.so /intel/builds/world/tmp/sysroots/qemux86-64=
+/usr/lib/libdbus-1.so /intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/l=
+ibgio-2.0.so /intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/libgmodule=
+-2.0.so -ldl -lz -lresolv /intel/builds/world/tmp/sysroots/qemux86-64/usr/l=
+ib/libgobject-2.0.so /intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/li=
+bgthread-2.0.so /intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/libffi.=
+so /intel/builds/world/tmp/sysroots/qemux86-64/usr/lib/libglib-2.0.so -lpth=
+read -lrt  -m64 --sysroot=3D/intel/builds/world/tmp/sysroots/qemux86-64 -O2=
+ -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -pthread   -pthread -Wl,-so=
+name -Wl,libmission-control-plugins.so.0 -Wl,-version-script -Wl,.libs/libm=
+ission-control-plugins.ver -o .libs/libmission-control-plugins.so.0.4.1
+x86_64-poky-linux-libtool: link: (cd ".libs" && rm -f "libmission-control-p=
+lugins.so.0" && ln -s "libmission-control-plugins.so.0.4.1" "libmission-con=
+trol-plugins.so.0")
+x86_64-poky-linux-libtool: link: (cd ".libs" && rm -f "libmission-control-p=
+lugins.so" && ln -s "libmission-control-plugins.so.0.4.1" "libmission-contr=
+ol-plugins.so")
+x86_64-poky-linux-libtool: link: x86_64-poky-linux-ar cru .libs/libmission-=
+control-plugins.a  debug.o account.o account-storage.o dbus-acl.o dispatch-=
+operation.o dispatch-operation-policy.o loader.o request.o request-policy.o=
+ mcp-signals-marshal.o
+x86_64-poky-linux-libtool: link: x86_64-poky-linux-ranlib .libs/libmission-=
+control-plugins.a
+x86_64-poky-linux-libtool: link: ( cd ".libs" && rm -f "libmission-control-=
+plugins.la" && ln -s "../libmission-control-plugins.la" "libmission-control=
+-plugins.la" )
+make[3]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/missio=
+n-control-plugins'
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/missio=
+n-control-plugins'
+Making all in plugins
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/plugi=
+ns'
+make[2]: Nothing to be done for `all'.
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/plugin=
+s'
+Making all in src
+make[2]: Entering directory `/intel/builds/world/tmp/work/x86_64-poky-linux=
+/telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/src'
+( cd . && glib-mkenums \
+		--fhead "#include \"mcd-enum-types.h\"\n#define g_intern_static_string(s)=
+ (s)\n" \
+		--fprod "\n/* enumerations from \"@filename@\" */" \
+		--ftail "\n#define __MCD_ENUM_TYPES_C__\n" \
+		--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype =3D =
+0;\n  if (etype =3D=3D 0) {\n    static const G@Type@Value values[] =3D {" =
+\
+		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
+		--vtail "      { 0, NULL, NULL }\n    };\n    etype =3D g_@type@_register=
+_static (g_intern_static_string (\"@EnumName@\"), values);\n  }\n  return e=
+type;\n}\n" \
+	    mcd-account.h mcd-account-conditions.h mcd-account-manager.h mcd-accou=
+nt-manager-default.h mcd-debug.h mcd-mission.h mcd-operation.h mcd-master.h=
+ mcd-manager.h mcd-connection.h mcd-connection-plugin.h mcd-connection-serv=
+ice-points.h mcd-channel.h mcd-dispatcher.h mcd-service.h mcd-transport.h m=
+cd-storage.h   ) > xgen-getc \
+	&& cp xgen-getc mcd-enum-types.c  \
+	&& rm -f xgen-getc
+/bin/mkdir -p _gen
+/usr/bin/python ../tools/glib-gtypes-generator.py \
+		_gen/mcd.xml _gen/gtypes mc
+{ echo '#include "_gen/signals-marshal.h"' && \
+	glib-genmarshal --body --prefix=3D_mcd_ext_marshal _gen/signals-marshal.li=
+st; } \
+	> _gen/signals-marshal.c
+xsltproc  --xinclude ../tools/identity.xsl \
+		../xml/Connection_Manager_Interface_Account_Storage.xml > _gen/Connection=
+_Manager_Interface_Account_Storage.xml
+glib-genmarshal --header --prefix=3D_mcd_ext_marshal _gen/signals-marshal.l=
+ist > _gen/signals-marshal.h
+/bin/mkdir -p _gen
+/bin/mkdir -p _gen
+/bin/mkdir -p _gen
+xsltproc  --xinclude ../tools/identity.xsl \
+		../xml/Account_Interface_External_Password_Storage.xml > _gen/Account_Int=
+erface_External_Password_Storage.xml
+xsltproc  --xinclude ../tools/identity.xsl \
+		../xml/Account_Interface_Conditions.xml > _gen/Account_Interface_Conditio=
+ns.xml
+xsltproc  --xinclude ../tools/identity.xsl \
+		../xml/Account_Manager_Interface_Hidden.xml > _gen/Account_Manager_Interf=
+ace_Hidden.xml
+/bin/mkdir -p _gen
+/usr/bin/python ../tools/glib-gtypes-generator.py \
+		_gen/mcd.xml _gen/gtypes mc
+xsltproc  --xinclude ../tools/identity.xsl \
+		dispatcher.xml > _gen/dispatcher.xml
+Traceback (most recent call last):
+  File "../tools/glib-gtypes-generator.py", line 283, in <module>
+    dom =3D xml.dom.minidom.parse(argv[0])
+  File "/usr/lib/python2.7/xml/dom/minidom.py", line 1920, in parse
+    return expatbuilder.parse(file)
+  File "/usr/lib/python2.7/xml/dom/expatbuilder.py", line 924, in parse
+    result =3D builder.parseFile(fp)
+  File "/usr/lib/python2.7/xml/dom/expatbuilder.py", line 211, in parseFile
+    parser.Parse("", True)
+xml.parsers.expat.ExpatError: no element found: line 1, column 0
+Traceback (most recent call last):
+  File "../tools/glib-gtypes-generator.py", line 283, in <module>
+    dom =3D xml.dom.minidom.parse(argv[0])
+  File "/usr/lib/python2.7/xml/dom/minidom.py", line 1920, in parse
+    return expatbuilder.parse(file)
+  File "/usr/lib/python2.7/xml/dom/expatbuilder.py", line 924, in parse
+    result =3D builder.parseFile(fp)
+  File "/usr/lib/python2.7/xml/dom/expatbuilder.py", line 211, in parseFile
+    parser.Parse("", True)
+xml.parsers.expat.ExpatError: no element found: line 1, column 0
+make[2]: *** [_gen/gtypes.h] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[2]: *** [_gen/gtypes-body.h] Error 1
+rm _gen/dispatcher.xml _gen/Account_Interface_External_Password_Storage.xml=
+ _gen/Connection_Manager_Interface_Account_Storage.xml _gen/Account_Interfa=
+ce_Conditions.xml _gen/Account_Manager_Interface_Hidden.xml
+make[2]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0/src'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/intel/builds/world/tmp/work/x86_64-poky-linux/=
+telepathy-mission-control/5.14.0-r0/telepathy-mission-control-5.14.0'
+make: *** [all] Error 2
+ERROR: oe_runmake failed
+ERROR: Function failed: do_compile (see /intel/builds/world/tmp/work/x86_64=
+-poky-linux/telepathy-mission-control/5.14.0-r0/temp/log.do_compile.28655 f=
+or further information)
+
+--------------090907090503060409090603--
