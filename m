@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tn3iV-0003rX-1C
+	(envelope-from <constantinx.musca@intel.com>) id 1Tn3iV-0003rc-49
 	for openembedded-core@lists.openembedded.org;
 	Mon, 24 Dec 2012 09:48:59 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Dec 2012 00:34:02 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 24 Dec 2012 00:34:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="266440668"
+X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="266440676"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 00:34:00 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 00:34:02 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Dec 2012 10:34:19 +0200
-Message-Id: <1d67932d2878800a0b033b6d2349e179df566d97.1356337650.git.constantinx.musca@intel.com>
+Date: Mon, 24 Dec 2012 10:34:20 +0200
+Message-Id: <7052eafcfa91495d9a4323c1437435cb68c95158.1356337650.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1356337650.git.constantinx.musca@intel.com>
 References: <cover.1356337650.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1356337650.git.constantinx.musca@intel.com>
 References: <cover.1356337650.git.constantinx.musca@intel.com>
-Subject: [PATCH 07/15] libcroco: upgrade to 0.6.8
+Subject: [PATCH 08/15] libfm: upgrade to 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,105 +33,160 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 24 Dec 2012 08:48:59 -0000
 
-License checksum modification due to:
-    src/cr-rgb.c: code (not license)  change
+fix-includedir-ln.patch: added
+- fix infinite link recursion by specifying the absolute path
+- fix make parallelism issues
 
-croco.patch: removed
-    - it doesn't apply anymore
-    - not needed anymore
-
-libcroco_fix_for_automake-1.12.patch: removed
-    - problem not reprodicible anymore
+libfm_fix_for_automake-1.12.patch: removed
+- problem not reprodicible anymore
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-support/libcroco/files/croco.patch    | 15 ---------------
- .../files/libcroco_fix_for_automake-1.12.patch     | 22 ----------------------
- .../{libcroco_0.6.3.bb => libcroco_0.6.8.bb}       | 11 +++++------
- 3 files changed, 5 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-support/libcroco/files/croco.patch
- delete mode 100644 meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
- rename meta/recipes-support/libcroco/{libcroco_0.6.3.bb => libcroco_0.6.8.bb} (57%)
+ .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch | 48 ----------------------
+ .../configure_fix.patch                            |  0
+ .../libfm/libfm-1.1.0/fix-includedir-ln.patch      | 45 ++++++++++++++++++++
+ .../libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb}      |  8 ++--
+ 4 files changed, 49 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+ rename meta/recipes-support/libfm/{libfm-0.1.17 => libfm-1.1.0}/configure_fix.patch (100%)
+ create mode 100644 meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch
+ rename meta/recipes-support/libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb} (75%)
 
-diff --git a/meta/recipes-support/libcroco/files/croco.patch b/meta/recipes-support/libcroco/files/croco.patch
+diff --git a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch b/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
 deleted file mode 100644
-index 88bdb09..0000000
---- a/meta/recipes-support/libcroco/files/croco.patch
+index 3efb4dd..0000000
+--- a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
 +++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
----- opie/configure.in.old	2006-05-19 20:57:30.000000000 +0100
--+++ opie/configure.in	2006-05-19 20:57:56.000000000 +0100
--@@ -131,8 +131,8 @@
-- dnl Define the CROCO_LIBS and CROCO_CFLAGS variables. These will be used
-- dnl by client application to know where to find croco include files and libs.
-- dnl
---CROCO_LIBS="-L${libdir} -lcroco-$LIBCROCO_MAJOR_VERSION.$LIBCROCO_MINOR_VERSION"
---CROCO_CFLAGS="-I${includedir}/libcroco-$LIBCROCO_MAJOR_VERSION.$LIBCROCO_MINOR_VERSION"
--+CROCO_LIBS='-L${libdir}'" -lcroco-$LIBCROCO_MAJOR_VERSION.$LIBCROCO_MINOR_VERSION"
--+CROCO_CFLAGS='-I${includedir}'"/libcroco-$LIBCROCO_MAJOR_VERSION.$LIBCROCO_MINOR_VERSION"
-- 
-- AC_SUBST(LIBXML2_LIBS)
-- AC_SUBST(LIBXML2_CFLAGS)
-diff --git a/meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch b/meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
-deleted file mode 100644
-index 9dcf7b0..0000000
---- a/meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
+@@ -1,48 +0,0 @@
 -Upstream-Status: Pending
 -
 -This patch fixes following kind of issues with automake 1.12
--
--| configure.in:51: error: automatic de-ANSI-fication support has been removed
+-| automake: warnings are treated as errors
+-| data/ui/Makefile.am:21: warning: '%'-style pattern rules are a GNU make extension
+-...
+-| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libfm-gtk.la': linking libtool libraries using a non-POSIX
+-| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
+-...
+-| src/Makefile.am:21: warning: compiling 'glib-compat.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
 -
 -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 -2012/05/03
 -
--Index: libcroco-0.6.3/configure.in
+-Index: libfm-0.1.17/configure.ac
 -===================================================================
----- libcroco-0.6.3.orig/configure.in
--+++ libcroco-0.6.3/configure.in
--@@ -47,8 +47,6 @@ AC_PROG_CC
-- AC_PROG_INSTALL
-- AC_PROG_CPP
+---- libfm-0.1.17.orig/configure.ac
+-+++ libfm-0.1.17/configure.ac
+-@@ -4,11 +4,17 @@
+- AC_PREREQ([2.63])
+- AC_INIT([libfm], [0.1.17], [http://pcmanfm.sorceforge.net/])
+- AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+-+
+-+# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
+-+m4_pattern_allow([AM_PROG_AR])
+-+AM_PROG_AR
+-+
+- AC_CONFIG_MACRO_DIR(m4)
+- AC_CONFIG_HEADERS([config.h])
 - 
---dnl Make sure we have an ANSI compiler
---AM_C_PROTOTYPES
-- test "x$U" != "x" && AC_MSG_ERROR(Compiler not ANSI compliant)
+- # Checks for programs.
+- AC_PROG_CC
+-+AM_PROG_CC_C_O
+- AM_PROG_LIBTOOL
 - 
-- dnl Checks for libraries.
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.3.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-similarity index 57%
-rename from meta/recipes-support/libcroco/libcroco_0.6.3.bb
-rename to meta/recipes-support/libcroco/libcroco_0.6.8.bb
-index d9ff8de..6f5995f 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.3.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-@@ -4,17 +4,16 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+- # Checks for libraries.
+-Index: libfm-0.1.17/data/ui/Makefile.am
+-===================================================================
+---- libfm-0.1.17.orig/data/ui/Makefile.am
+-+++ libfm-0.1.17/data/ui/Makefile.am
+-@@ -18,6 +18,6 @@ EXTRA_DIST = \
+- 	$(NULL)
+- 
+- # Purge GtkBuilder UI files
+--%.ui: %.glade
+-+.glade.ui:
+- 	cp $< $@
+- 	$(top_builddir)/src/xml-purge $@
+diff --git a/meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch b/meta/recipes-support/libfm/libfm-1.1.0/configure_fix.patch
+similarity index 100%
+rename from meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch
+rename to meta/recipes-support/libfm/libfm-1.1.0/configure_fix.patch
+diff --git a/meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch b/meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch
+new file mode 100644
+index 0000000..3f06278
+--- /dev/null
++++ b/meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch
+@@ -0,0 +1,45 @@
++Fix infinite link recursion by specifying the absolute path
++Fix make parallelism issues
++
++Upstream-Status: Pending
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++
++Index: libfm-1.1.0/src/Makefile.in
++===================================================================
++--- libfm-1.1.0.orig/src/Makefile.in
+++++ libfm-1.1.0/src/Makefile.in
++@@ -2523,8 +2523,6 @@ info: info-recursive
++ info-am:
++ 
++ install-data-am: install-data-local install-giomodulesLTLIBRARIES \
++-	install-libfmgtkincludeHEADERS install-libfmincludeHEADERS \
++-	install-pkgincludeHEADERS
++ 
++ install-dvi: install-dvi-recursive
++ 
++@@ -2617,7 +2615,9 @@ gtk/fm-gtk-marshal.h: gtk/fm-gtk-marshal
++ gtk/fm-gtk-marshal.c: gtk/fm-gtk-marshal.list
++ 	glib-genmarshal --body --prefix=fm_marshal $? > $@.tmp && mv $@.tmp $@
++ 
++-install-data-local:
+++install-data-local: install-libfmgtkincludeHEADERS install-libfmincludeHEADERS \
+++	install-pkgincludeHEADERS
+++
++ 	@if test -e "$(DESTDIR)$(includedir)/@PACKAGE@"; then \
++ 		echo rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
++ 		rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
++Index: libfm-1.1.0/src/Makefile.am
++===================================================================
++--- libfm-1.1.0.orig/src/Makefile.am
+++++ libfm-1.1.0/src/Makefile.am
++@@ -453,8 +453,8 @@ install-data-local:
++ 		echo rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
++ 		rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
++ 	fi
++-	test -z "$(includedir)" || $(MKDIR_P) "$(DESTDIR)$(includedir)"
++-	@LN_S@ @PACKAGE@-@FMLIBVER@ "$(DESTDIR)$(includedir)/@PACKAGE@"
+++	rm -rf $(DESTDIR)$(includedir)/@PACKAGE@
+++	@LN_S@ $(DESTDIR)$(includedir)/@PACKAGE@-@FMLIBVER@ $(DESTDIR)$(includedir)/@PACKAGE@
++ 
++ uninstall-local:
++ 	@if test -L "$(DESTDIR)$(includedir)/@PACKAGE@"; then \
+diff --git a/meta/recipes-support/libfm/libfm_0.1.17.bb b/meta/recipes-support/libfm/libfm_1.1.0.bb
+similarity index 75%
+rename from meta/recipes-support/libfm/libfm_0.1.17.bb
+rename to meta/recipes-support/libfm/libfm_1.1.0.bb
+index 2cac361..7282871 100644
+--- a/meta/recipes-support/libfm/libfm_0.1.17.bb
++++ b/meta/recipes-support/libfm/libfm_1.1.0.bb
+@@ -10,14 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ SECTION = "x11/libs"
+ DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native"
  
- LICENSE = "LGPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
--                    file://src/cr-rgb.c;endline=25;md5=1df8189094ba7bbed953225785032826 \
-+                    file://src/cr-rgb.c;endline=25;md5=cbb4f64cc46ee9fcf602d3b0836cee56 \
-                     file://tests/cr-test-utils.c;endline=21;md5=2382c27934cae1d3792fcb17a6142c4e"
- 
- SECTION = "x11/utils"
- DEPENDS = "glib-2.0 libxml2 zlib"
--PR = "r3"
+-PR = "r4"
 +PR = "r0"
  
- inherit autotools pkgconfig gnome
+ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
+-           file://libfm_fix_for_automake-1.12.patch \
++           file://fix-includedir-ln.patch \
+            "
  
--SRC_URI_append = " file://croco.patch;apply=yes \
--                  file://libcroco_fix_for_automake-1.12.patch "
-+GNOME_COMPRESS_TYPE = "xz"
+-SRC_URI[md5sum] = "a97e03d973e6ac727f28d0934d6c9ad5"
+-SRC_URI[sha256sum] = "1740681cff4cd4c5a2eaa9805d8898269cfb6a49a0bda0acb242def15bc7131b"
++SRC_URI[md5sum] = "a5bc8b8291cf810c659bfb3af378b5de"
++SRC_URI[sha256sum] = "b9426e588670b53570b808c49abd1d103863614dd3622559b8c3ef1392fe0b3d"
  
--SRC_URI[archive.md5sum] = "e1e93eeff4367c896f3959af34ba20eb"
--SRC_URI[archive.sha256sum] = "746192d979263c74094d41e5ff0e19900b3d81eb2bd42c27c1c320dd94008034"
-+SRC_URI[archive.md5sum] = "767e73c4174f75b99695d4530fd9bb80"
-+SRC_URI[archive.sha256sum] = "ea6e1b858c55219cefd7109756bff5bc1a774ba7a55f7d3ccd734d6b871b8570"
+ inherit autotools pkgconfig
+ 
 -- 
 1.7.11.7
 
