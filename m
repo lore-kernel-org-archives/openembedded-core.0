@@ -1,28 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1Tn50w-0000uT-LQ
+	(envelope-from <ddalex@intel.com>) id 1Tn51y-00010G-I5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 24 Dec 2012 11:12:08 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Dec 2012 01:57:15 -0800
+	Mon, 24 Dec 2012 11:13:16 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 24 Dec 2012 01:57:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="266458046"
+X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="238429584"
 Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 01:57:14 -0800
+	by orsmga001.jf.intel.com with ESMTP; 24 Dec 2012 01:57:08 -0800
 Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 98AC5560627; Mon, 24 Dec 2012 11:57:27 +0200 (EET)
+	id 82365560516; Mon, 24 Dec 2012 11:57:21 +0200 (EET)
 From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
 	richard.purdie@linuxfoundation.org, ross.burton@intel.com
-Date: Mon, 24 Dec 2012 11:57:23 +0200
-Message-Id: <43f5ecf2bec840e1266c74982aaa847e11b09007.1356342794.git.alexandru.damian@intel.com>
+Date: Mon, 24 Dec 2012 11:57:19 +0200
+Message-Id: <cover.1356342794.git.alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
-References: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
-In-Reply-To: <cover.1356342794.git.alexandru.damian@intel.com>
-References: <cover.1356342794.git.alexandru.damian@intel.com>
 Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 2/3] Prepare mesa-dri for weston compatibility
+Subject: [PATCH 0/3] Initial wayland integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,74 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Dec 2012 10:12:09 -0000
+X-List-Received-Date: Mon, 24 Dec 2012 10:13:17 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-This patch enables mesa-git to build wayland-compatible
-packages for usage with weston.
+Hi,
 
-It adds wayland platform support, packs the wayland-egl
-files.
+This is a set of patches that integrate Wayland/Weston 1.0.3 into mainline.
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/recipes-graphics/mesa/mesa-common.inc |   10 +++++++++-
- meta/recipes-graphics/mesa/mesa-dri.inc    |    1 +
- 2 files changed, 10 insertions(+), 1 deletion(-)
+All library dependencies are satisfied, and Weston works under X11 and DRM.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index 70957eb..cf6e610 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -29,10 +29,15 @@ EXTRA_OECONF = "--disable-glu \
-                 --disable-glut \
-                 --enable-shared-glapi"
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} egl gles"
-+PACKAGECONFIG ??= "egl gles \
-+		${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
-+		${@base_contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}\
-+		"
- 
- X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
- PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
-+PACKAGECONFIG[wayland] = ",,wayland"
-+
- 
- # Multiple virtual/gl providers being built breaks staging
- EXCLUDE_FROM_WORLD = "1"
-@@ -49,6 +54,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libgles1-mesa libgles1-mesa-dev \
-              libgles2-mesa libgles2-mesa-dev \
-              libgles3-mesa libgles3-mesa-dev \
-+             wayland-egl wayland-egl-dev \
-             "
- 
- do_install_append () {
-@@ -90,8 +96,10 @@ FILES_libgles2-mesa = "${libdir}/libGLESv2.so.*"
- FILES_libgl-mesa = "${libdir}/libGL.so.*"
- FILES_libglapi = "${libdir}/libglapi.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
-+FILES_wayland-egl = "${libdir}/libwayland-egl.so.*"
- 
- FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc"
-+FILES_wayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc ${libdir}/libwayland-egl.*"
- FILES_libdricore-dev = "${libdir}/libdricore*.*"
- FILES_libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
- FILES_libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
-diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
-index 07544ab..1f6ec78 100644
---- a/meta/recipes-graphics/mesa/mesa-dri.inc
-+++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-@@ -13,6 +13,7 @@ PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-
- 
- EGL_PLATFORMS  = "drm"
- EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'x11', ',x11', '', d)}"
-+EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'wayland', ',wayland', '', d)}"
- PACKAGECONFIG[egl] = "--enable-egl --with-egl-platforms=${EGL_PLATFORMS}, --disable-egl"
- 
- python populate_packages_prepend() {
+A user must install separately (no hard dependency) the hardware DRM drivers
+to be able to run weston on barebone hardware. Hardware drivers built-in
+are the swrast, i915 and i965 (i965 is tested on real hardware).
+
+There is no default integration in any distro, the packages may be installed
+through the package manager.
+
+Further improvements will include a wrapper script for weston and integration
+in the distro features.
+
+Documentation will be available on wiki, and announced here.
+
+The following changes since commit 90c0eb29f0b41e4ac2d3d17ebad7295c2ebdc02a:
+
+  rootfs_rpm.bbclass: remove debug code (2012-12-19 21:43:55 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib adamian/wayland/upstream.4
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=adamian/wayland/upstream.4
+
+Alexandru DAMIAN (3):
+  Wayland userspace library initial 1.0.3
+  Prepare mesa-dri for weston compatibility
+  Initial commit for wayland/weston 1.0.3
+
+ meta/recipes-graphics/mesa/mesa-common.inc     |   10 +++++++-
+ meta/recipes-graphics/mesa/mesa-dri.inc        |    1 +
+ meta/recipes-graphics/wayland/wayland.inc      |   32 ++++++++++++++++++++++++
+ meta/recipes-graphics/wayland/wayland_1.0.3.bb |    7 ++++++
+ meta/recipes-graphics/wayland/weston.inc       |   23 +++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.0.3.bb  |    9 +++++++
+ 6 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/wayland/wayland.inc
+ create mode 100644 meta/recipes-graphics/wayland/wayland_1.0.3.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston.inc
+ create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+
 -- 
 1.7.10.4
 
