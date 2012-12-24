@@ -1,28 +1,28 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1Tn50y-0000uU-2u
+	(envelope-from <ddalex@intel.com>) id 1Tn50w-0000uT-LQ
 	for openembedded-core@lists.openembedded.org;
 	Mon, 24 Dec 2012 11:12:08 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 24 Dec 2012 01:57:17 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Dec 2012 01:57:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="236143836"
+X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="266458046"
 Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by azsmga001.ch.intel.com with ESMTP; 24 Dec 2012 01:57:15 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 01:57:14 -0800
 Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 9C46156062C; Mon, 24 Dec 2012 11:57:27 +0200 (EET)
+	id 98AC5560627; Mon, 24 Dec 2012 11:57:27 +0200 (EET)
 From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
 	richard.purdie@linuxfoundation.org, ross.burton@intel.com
-Date: Mon, 24 Dec 2012 11:57:24 +0200
-Message-Id: <b81c825c2737a2042ed7a99796752d12b1576725.1356342794.git.alexandru.damian@intel.com>
+Date: Mon, 24 Dec 2012 11:57:23 +0200
+Message-Id: <43f5ecf2bec840e1266c74982aaa847e11b09007.1356342794.git.alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
 References: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
 In-Reply-To: <cover.1356342794.git.alexandru.damian@intel.com>
 References: <cover.1356342794.git.alexandru.damian@intel.com>
 Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
+Subject: [PATCH 2/3] Prepare mesa-dri for weston compatibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,66 +39,70 @@ X-List-Received-Date: Mon, 24 Dec 2012 10:12:09 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-This patch adds the Weston reference compositing
-manager from Wayland.
+This patch enables mesa-git to build wayland-compatible
+packages for usage with weston.
 
-We add version 1.0.3 which is the latest stable release
-in Dec 2012. See the upstream at:
-
-http://wayland.freedesktop.org/releases.html
+It adds wayland platform support, packs the wayland-egl
+files.
 
 Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/recipes-graphics/wayland/weston.inc      |   23 +++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.0.3.bb |    9 +++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston.inc
- create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+ meta/recipes-graphics/mesa/mesa-common.inc |   10 +++++++++-
+ meta/recipes-graphics/mesa/mesa-dri.inc    |    1 +
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston.inc b/meta/recipes-graphics/wayland/weston.inc
-new file mode 100644
-index 0000000..7d26f7f
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston.inc
-@@ -0,0 +1,23 @@
-+inherit autotools pkgconfig
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 70957eb..cf6e610 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -29,10 +29,15 @@ EXTRA_OECONF = "--disable-glu \
+                 --disable-glut \
+                 --enable-shared-glapi"
+ 
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} egl gles"
++PACKAGECONFIG ??= "egl gles \
++		${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
++		${@base_contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)}\
++		"
+ 
+ X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
+ PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
++PACKAGECONFIG[wayland] = ",,wayland"
 +
-+SUMMARY = "Weston, a Wayland compositor"
-+DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+SECTION = "wayland/base"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466"
-+
-+DEPENDS = "wayland libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
-+DEPENDS += "virtual/egl"
-+
-+EXTRA_OECONF  = "--enable-wayland-compositor --disable-android-compositor"
-+EXTRA_OECONF += "--enable-setuid-install --enable-simple-clients"
-+EXTRA_OECONF += "--enable-clients --disable-xwayland"
-+
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-+                  "
-+PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm libgbm libglapi udev wayland-egl libpam"
-+PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
-+PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
-diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-new file mode 100644
-index 0000000..625965b
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-@@ -0,0 +1,9 @@
-+require weston.inc
-+
-+SRC_URI = "http://wayland.freedesktop.org/releases/weston-1.0.3.tar.xz \
-+	  "
-+SRC_URI[md5sum] = "f82ac2e013e6b6a6303ac4ba7b64c7f2"
-+SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968e04853"
-+
-+PR = "r0"
-+
+ 
+ # Multiple virtual/gl providers being built breaks staging
+ EXCLUDE_FROM_WORLD = "1"
+@@ -49,6 +54,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libgles1-mesa libgles1-mesa-dev \
+              libgles2-mesa libgles2-mesa-dev \
+              libgles3-mesa libgles3-mesa-dev \
++             wayland-egl wayland-egl-dev \
+             "
+ 
+ do_install_append () {
+@@ -90,8 +96,10 @@ FILES_libgles2-mesa = "${libdir}/libGLESv2.so.*"
+ FILES_libgl-mesa = "${libdir}/libGL.so.*"
+ FILES_libglapi = "${libdir}/libglapi.so.*"
+ FILES_libosmesa = "${libdir}/libOSMesa.so.*"
++FILES_wayland-egl = "${libdir}/libwayland-egl.so.*"
+ 
+ FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc"
++FILES_wayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc ${libdir}/libwayland-egl.*"
+ FILES_libdricore-dev = "${libdir}/libdricore*.*"
+ FILES_libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
+ FILES_libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
+diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
+index 07544ab..1f6ec78 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri.inc
++++ b/meta/recipes-graphics/mesa/mesa-dri.inc
+@@ -13,6 +13,7 @@ PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-
+ 
+ EGL_PLATFORMS  = "drm"
+ EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'x11', ',x11', '', d)}"
++EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'wayland', ',wayland', '', d)}"
+ PACKAGECONFIG[egl] = "--enable-egl --with-egl-platforms=${EGL_PLATFORMS}, --disable-egl"
+ 
+ python populate_packages_prepend() {
 -- 
 1.7.10.4
 
