@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tn3iW-0003rX-HO
+	(envelope-from <constantinx.musca@intel.com>) id 1Tn3iW-0003rc-Ip
 	for openembedded-core@lists.openembedded.org;
 	Mon, 24 Dec 2012 09:49:00 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Dec 2012 00:34:09 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 24 Dec 2012 00:34:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="266440704"
+X-IronPort-AV: E=Sophos;i="4.84,346,1355126400"; d="scan'208";a="266440712"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 00:34:08 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 00:34:09 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Dec 2012 10:34:25 +0200
-Message-Id: <0a47d556f40e643094228fb54e666a3008024aa8.1356337650.git.constantinx.musca@intel.com>
+Date: Mon, 24 Dec 2012 10:34:26 +0200
+Message-Id: <076896b6989230187ea8fe8e7c03a4c28f4bc568.1356337650.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1356337650.git.constantinx.musca@intel.com>
 References: <cover.1356337650.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1356337650.git.constantinx.musca@intel.com>
 References: <cover.1356337650.git.constantinx.musca@intel.com>
-Subject: [PATCH 13/15] metacity: upgrade to 2.34.13
+Subject: [PATCH 14/15] pcmanfm: upgrade to 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,165 +33,182 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 24 Dec 2012 08:49:00 -0000
 
-crosscompile.patch: removed
-- schema_bindings binary not generated anymore
+pcmanfm_fix_for_automake_1.12.patch: removed
+- problem not reprodicible anymore
 
-remove-yelp-help-rules-var.patch: added
-- YELP_HELP_RULES var is not used
-
-[Other changes]
-- the 2.34.13 version requires the gsettings-desktop-schemas
-(add it to DEPENDS)
+owl-window-menu.patch: removed
+- not needed anymore
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- .../gnome/metacity/crosscompile.patch              | 62 ----------------------
- .../metacity/remove-yelp-help-rules-var.patch      | 28 ++++++++++
- .../{metacity_2.30.3.bb => metacity_2.34.13.bb}    | 14 ++---
- 3 files changed, 35 insertions(+), 69 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/metacity/crosscompile.patch
- create mode 100644 meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
- rename meta/recipes-gnome/gnome/{metacity_2.30.3.bb => metacity_2.34.13.bb} (56%)
+ .../pcmanfm/files/owl-window-menu.patch            | 81 ----------------------
+ .../files/pcmanfm_fix_for_automake_1.12.patch      | 35 ----------
+ .../{pcmanfm_0.9.10.bb => pcmanfm_1.1.0.bb}        | 11 ++-
+ 3 files changed, 4 insertions(+), 123 deletions(-)
+ delete mode 100644 meta/recipes-sato/pcmanfm/files/owl-window-menu.patch
+ delete mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+ rename meta/recipes-sato/pcmanfm/{pcmanfm_0.9.10.bb => pcmanfm_1.1.0.bb} (76%)
 
-diff --git a/meta/recipes-gnome/gnome/metacity/crosscompile.patch b/meta/recipes-gnome/gnome/metacity/crosscompile.patch
+diff --git a/meta/recipes-sato/pcmanfm/files/owl-window-menu.patch b/meta/recipes-sato/pcmanfm/files/owl-window-menu.patch
 deleted file mode 100644
-index 7a1942a..0000000
---- a/meta/recipes-gnome/gnome/metacity/crosscompile.patch
+index 88b154e..0000000
+--- a/meta/recipes-sato/pcmanfm/files/owl-window-menu.patch
 +++ /dev/null
-@@ -1,62 +0,0 @@
--This patch is revised version from openembed. It build host native binary
--rather than target binary in cross-compile environment.
+@@ -1,81 +0,0 @@
+-0.9.7 use a new menu bar from gtk_ui_manager, so need a translation here to
+-enable owl menu
 -
 -Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 -
--Upstream-Status: Inappropriate [embedded specific]
+-Upstream-Status: Inappropriate [enable feature]
 -
--Index: metacity-2.30.3/src/Makefile.am
+-Index: pcmanfm-0.9.9/configure.ac
 -===================================================================
----- metacity-2.30.3.orig/src/Makefile.am	2010-09-05 00:09:52.000000000 +0800
--+++ metacity-2.30.3/src/Makefile.am	2010-12-31 11:15:31.000000000 +0800
--@@ -134,11 +134,9 @@
-- metacity_theme_viewer_SOURCES=  \
-- 	ui/theme-viewer.c
+---- pcmanfm-0.9.9.orig/configure.ac	2011-08-10 05:28:31.000000000 +0800
+-+++ pcmanfm-0.9.9/configure.ac	2011-10-10 15:47:33.000000000 +0800
+-@@ -70,6 +70,8 @@
 - 
---schema_bindings_SOURCES =       \
---        core/schema-bindings.c			\
---	metacity.schemas.in.in
--+schema_bindings:
--+	@CC_FOR_BUILD@ core/schema-bindings.c -I./include -I../ @CFLAGS_FOR_BUILD@ @LDFLAGS_FOR_BUILD@ -o schema_bindings
+- gtk_modules="gtk+-2.0 >= 2.16.0"
+- PKG_CHECK_MODULES(GTK, [$gtk_modules])
+-+OWL_LIBS="-lowl"
+-+GTK_LIBS="$GTK_LIBS $OWL_LIBS"
+- AC_SUBST(GTK_CFLAGS)
+- AC_SUBST(GTK_LIBS)
 - 
---schema_bindings_LDADD = @METACITY_LIBS@
-- metacity.schemas.in: schema_bindings ${srcdir}/metacity.schemas.in.in
-- 	@echo Generating keybinding schemas... ${srcdir}/metacity.schemas.in.in
-- 	${builddir}/schema_bindings ${srcdir}/metacity.schemas.in.in ${builddir}/metacity.schemas.in
--Index: metacity-2.30.3/configure.in
+-Index: pcmanfm-0.9.9/src/main-win.c
 -===================================================================
----- metacity-2.30.3.orig/configure.in	2010-09-22 22:14:06.000000000 +0800
--+++ metacity-2.30.3/configure.in	2010-12-31 11:15:31.000000000 +0800
--@@ -31,6 +31,32 @@
-- AC_LIBTOOL_WIN32_DLL
+---- pcmanfm-0.9.9.orig/src/main-win.c	2011-08-10 05:28:32.000000000 +0800
+-+++ pcmanfm-0.9.9/src/main-win.c	2011-10-10 15:50:48.000000000 +0800
+-@@ -37,6 +37,8 @@
+- #include "pref.h"
+- #include "tab-page.h"
+- 
+-+#include "libowl/owlwindowmenu.h"
+-+
+- static void fm_main_win_finalize              (GObject *object);
+- G_DEFINE_TYPE(FmMainWin, fm_main_win, GTK_TYPE_WINDOW);
+- 
+-@@ -400,9 +402,27 @@
+-     }
+- }
+- 
+-+/* Transfer gtk_ui_manager menubar to gtk menubar */
+-+static GtkWidget * ui_menubar_to_menu(GtkWidget *menubar)
+-+{
+-+    GtkWidget *main_menu;
+-+    GList *iter;
+-+
+-+    main_menu = gtk_menu_new();
+-+
+-+    for ( iter = gtk_container_get_children(GTK_CONTAINER(menubar));
+-+          iter;
+-+          iter = g_list_next(iter) )
+-+    {
+-+        GtkWidget *menu = GTK_WIDGET(iter->data);
+-+        gtk_widget_reparent(menu, main_menu);
+-+    }
+-+    return main_menu;
+-+}
+-+
+- static void fm_main_win_init(FmMainWin *win)
+- {
+--    GtkWidget *vbox, *menubar, *toolitem, *btn;
+-+    GtkWidget *vbox, *menubar, *owl_menubar, *toolitem, *btn;
+-     GtkUIManager* ui;
+-     GtkActionGroup* act_grp;
+-     GtkAction* act;
+-@@ -456,7 +476,6 @@
+-     win->popup = gtk_ui_manager_get_widget(ui, "/popup");
+-     gtk_menu_attach_to_widget(GTK_WIDGET(win->popup), win, NULL);
+- 
+--    gtk_box_pack_start( (GtkBox*)vbox, menubar, FALSE, TRUE, 0 );
+-     gtk_box_pack_start( (GtkBox*)vbox, win->toolbar, FALSE, TRUE, 0 );
+- 
+-     /* load bookmarks menu */
+-@@ -517,6 +536,10 @@
+- 
+-     gtk_container_add( (GtkContainer*)win, vbox );
+-     gtk_widget_show_all(vbox);
+-+
+-+    owl_menubar = ui_menubar_to_menu(menubar);
+-+    gtk_widget_show_all(owl_menubar);
+-+    owl_set_window_menu(GTK_WINDOW(win), GTK_MENU(owl_menubar));
+- }
+- 
+- 
+diff --git a/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+deleted file mode 100644
+index 1ad0ff5..0000000
+--- a/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Upstream-Status: Pending
+-
+-Fix these errors:
+-| automake: warnings are treated as errors
+-| data/ui/Makefile.am:18: warning: '%'-style pattern rules are a GNU make extension
+-| src/Makefile.am:10: warning: compiling 'pcmanfm.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
+-| autoreconf: automake failed with exit status: 1
+-| ERROR: autoreconf execution failed.
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@Intel.com>
+-2012/07/09
+-
+-Index: pcmanfm-0.9.10/configure.ac
+-===================================================================
+---- pcmanfm-0.9.10.orig/configure.ac
+-+++ pcmanfm-0.9.10/configure.ac
+-@@ -13,6 +13,7 @@ AC_PROG_CC
 - AM_PROG_LIBTOOL
+- AM_PROG_CC_STDC
+- AC_HEADER_STDC
+-+AM_PROG_CC_C_O
 - 
--+if test x"$CC_FOR_BUILD" = x; then
--+	if test x"$cross_compiling" = xyes; then
--+	       AC_CHECK_PROGS(CC_FOR_BUILD, gcc cc)
--+	else
--+	       CC_FOR_BUILD="$CC"
--+	fi
--+fi
--+AC_SUBST([CC_FOR_BUILD])
--+if test x"$CFLAGS_FOR_BUILD" = x; then
--+	if test x"$cross_compiling" = xyes; then
--+	       echo boo!
--+	else
--+	       CFLAGS_FOR_BUILD="$CFLAGS"
--+	fi
--+fi
--+AC_SUBST([CFLAGS_FOR_BUILD])
--+if test x"$LDFLAGS_FOR_BUILD" = x; then
--+	if test x"$cross_compiling" = xyes; then
--+	       echo boo!
--+	else
--+	       LDFLAGS_FOR_BUILD="$LDFLAGS"
--+	fi
--+fi
--+AC_SUBST([LDFLAGS_FOR_BUILD])
--+
--+
-- #### Integer sizes 
+- # Checks for header files.
+- AC_HEADER_STDC
+-Index: pcmanfm-0.9.10/data/ui/Makefile.am
+-===================================================================
+---- pcmanfm-0.9.10.orig/data/ui/Makefile.am
+-+++ pcmanfm-0.9.10/data/ui/Makefile.am
+-@@ -15,6 +15,6 @@ EXTRA_DIST = \
+- 	$(NULL)
 - 
-- AC_CHECK_SIZEOF(char)
-diff --git a/meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch b/meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
-new file mode 100644
-index 0000000..1970e9a
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/metacity/remove-yelp-help-rules-var.patch
-@@ -0,0 +1,28 @@
-+Remove unused variable (YELP_HELP_RULES)
-+
-+Upstream-Status: Pending
-+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-+
-+Index: metacity-2.34.13/doc/creating_themes/Makefile.am
-+===================================================================
-+--- metacity-2.34.13.orig/doc/creating_themes/Makefile.am
-++++ metacity-2.34.13/doc/creating_themes/Makefile.am
-+@@ -1,6 +1,5 @@
-+ ### This part of Makefile.am can be customized by you.
-+ 
-+-@YELP_HELP_RULES@
-+ 
-+ # The name of the directory in /usr/share/gnome/help/, 
-+ # and the name of the main .xml file:
-+Index: metacity-2.34.13/doc/creating_themes/Makefile.in
-+===================================================================
-+--- metacity-2.34.13.orig/doc/creating_themes/Makefile.in
-++++ metacity-2.34.13/doc/creating_themes/Makefile.in
-+@@ -455,7 +455,6 @@ uninstall-am:
-+ 	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am
-+ 
-+ 
-+-@YELP_HELP_RULES@
-+ 
-+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
-+ # Otherwise a system limit (for SysV at least) may be exceeded.
-diff --git a/meta/recipes-gnome/gnome/metacity_2.30.3.bb b/meta/recipes-gnome/gnome/metacity_2.34.13.bb
-similarity index 56%
-rename from meta/recipes-gnome/gnome/metacity_2.30.3.bb
-rename to meta/recipes-gnome/gnome/metacity_2.34.13.bb
-index 5b996d2..3605201 100644
---- a/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-+++ b/meta/recipes-gnome/gnome/metacity_2.34.13.bb
-@@ -4,14 +4,16 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/include/main.h;endline=24;md5=c2242df552c880280315989bab626b90"
+- # Purge GtkBuilder UI files
+--%.ui: %.glade
+-+.glade.ui:
+- 	cp $< $@
+- #	$(top_builddir)/src/xml-purge $@
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb
+similarity index 76%
+rename from meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
+rename to meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb
+index 1780764..bcfc9db 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb
+@@ -11,7 +11,7 @@ SECTION = "x11"
+ DEPENDS = "gtk+ startup-notification libfm"
+ DEPENDS_append_poky = " libowl"
  
--DEPENDS = "startup-notification gtk+ gconf gdk-pixbuf-native libcanberra gnome-doc-utils"
--PR = "r5"
-+DEPENDS = "gsettings-desktop-schemas startup-notification gtk+ gconf gdk-pixbuf-native libcanberra gnome-doc-utils"
+-PR = "r1"
 +PR = "r0"
  
- inherit gnome update-alternatives
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|aarch64.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
  
--SRC_URI += "file://crosscompile.patch"
--SRC_URI[archive.md5sum] = "553784f376d96b902e19ff437cd5b339"
--SRC_URI[archive.sha256sum] = "08f887018fa5e447cf184d03bae3fe2c05fdb7583bed6768e3b4d66392fc18dd"
-+GNOME_COMPRESS_TYPE = "xz"
-+
-+SRC_URI += "file://remove-yelp-help-rules-var.patch"
-+SRC_URI[archive.md5sum] = "6d89b71672d4fa49fc87f83d610d0ef6"
-+SRC_URI[archive.sha256sum] = "8cf4dbf0da0a6f36357ce7db7f829ec685908a7792453c662fb8184572b91075"
+@@ -20,13 +20,10 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.gz \
+ 	   file://gnome-fs-regular.png \
+ 	   file://gnome-mime-text-plain.png \
+ 	   file://emblem-symbolic-link.png \
+-	   file://cross-compile-fix.patch \
+-           file://pcmanfm_fix_for_automake_1.12.patch" 
++	   file://cross-compile-fix.patch"
  
- ALTERNATIVE_${PN} = "x-window-manager"
- ALTERNATIVE_TARGET[x-window-manager] = "${bindir}/metacity"
-@@ -23,8 +25,6 @@ EXTRA_OECONF += "--disable-verbose \
- do_configure_prepend() {
- 	sed -i -e 's:$ZENITY:$NOZENITY:g' -e 's:-Werror::g' ${S}/configure.in
- }
--CFLAGS_FOR_BUILD += "-I${STAGING_LIBDIR_NATIVE}/glib-2.0/include -I${STAGING_INCDIR_NATIVE}/glib-2.0 -I${STAGING_INCDIR_NATIVE}/glib-2.0/include -I${STAGING_INCDIR_NATIVE}"
--LDFLAGS_FOR_BUILD += "-L${STAGING_LIBDIR_NATIVE} -lglib-2.0"
+-SRC_URI_append_poky = " file://owl-window-menu.patch"
+-
+-SRC_URI[md5sum] = "d34a3530a6c5dcd674d23021d71c3e95"
+-SRC_URI[sha256sum] = "f133c6f207f719d1fc69fe8bc07b2de6883c6937ffa87448df42e3b1a30e0298"
++SRC_URI[md5sum] = "af0cff78690e658f3c06ceabf27bc71a"
++SRC_URI[sha256sum] = "1f6301f330ad648f3322708ec6c0f680a8695a9453932fe19653bab6731e5582"
  
- FILES_${PN} += "${datadir}/themes ${datadir}/gnome-control-center ${datadir}/gnome"
+ inherit autotools pkgconfig
  
 -- 
 1.7.11.7
