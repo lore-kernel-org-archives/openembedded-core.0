@@ -1,25 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TnJJj-0000Mm-Df
+	(envelope-from <Qi.Chen@windriver.com>) id 1TnKtT-0004Vu-O0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Dec 2012 02:28:38 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Dec 2012 17:13:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,351,1355126400"; d="scan'208";a="266649967"
-Received: from unknown (HELO [10.255.12.150]) ([10.255.12.150])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Dec 2012 17:13:34 -0800
-Message-ID: <50D8FDBE.4030203@linux.intel.com>
-Date: Mon, 24 Dec 2012 17:13:34 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 25 Dec 2012 04:09:28 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBP2saiJ027484
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Dec 2012 18:54:36 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 24 Dec 2012 18:54:35 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Dec 2012 10:55:04 +0800
+Message-ID: <ba9942945d364872b351474bff102f488c82e9bb.1356403679.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1356403679.git.Qi.Chen@windriver.com>
+References: <cover.1356403679.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-To: Radu Moisan <radu.moisan@intel.com>
-References: <cover.1356022882.git.radu.moisan@intel.com>
-In-Reply-To: <cover.1356022882.git.radu.moisan@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/28][RFC] systemd Integration
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH V2 1/2] initscripts: support read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,204 +34,517 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Dec 2012 01:28:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Dec 2012 03:09:37 -0000
+Content-Type: text/plain
 
-On 12/20/2012 09:11 AM, Radu Moisan wrote:
-> I've rebased my branch, again :), with some cleanups here and there
-> I also pushed a few patches suggested by Martin.
-> Feel free to comment on everything.
->
-> The following changes since commit 958162e96b4a4f23bca94500b5f20975633dd5c6:
->
->    bitbake: hob: use base image only if it was set (2012-12-14 17:31:31 +0000)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib rmoisan/systemd
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
->
-> Enrico Scholz (1):
->    systemd: move disable operation into prerm() script
->
-> Holger Hans Peter Freyther (2):
->    systemd: Make the main systemd files proper CONFFILES
->    systemd: Introduce a create-volatile to create tmp directories
->
-> Khem Raj (1):
->    systemd: Fix build when base_libdir is not /lib
->
-> Martin Donnelly (2):
->    cgroups: Add INSANE_SKIP to avoid warning about .so file
->    Remove sysvinit mount related services if systemd is enabled
->
-> Martin Jansa (2):
->    systemd-systemctl-native: fix FILESPATH to find systemctl
->    systemd: add PACKAGES_DYNAMIC
->
-> Radu Moisan (20):
->    Systemd initial integration
->    Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
->    Automatically set PREFERRED_PROVIDER_udev
->    Add systemd_base.bbclass
->    Include systemd-compat-units and avahi-systemd
->    Inherit the systemd_base class
->    set default.target to multi-user.target
->    wpa-supplicant: Fix indentation
->    dropbear: Fix indentation and cleanup
->    systemd: Some more cleanup
->    systemd: disable  source rcS-default
->    polkit: merge together the two instances of PACKAGECONFIG
->    systemd-native: update FILESPATH with *-native directory
->    systemd: Remove gitpkgv.bbclass
->    systemd: (temporary) remove dependency on cairo
->    initscripts: Cleanup recipe
->    systemd: disable sysfs.service
->    xserver-nodm-init: add systemd support
->    util-linux: Enable systemd support
->    lighttpd: Remove automake patch
->
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Please be sure to build this with the INCOMPATIBLE_LICENSE = "GPLv3" 
-settig, I saw the following issues on the Autobuilder.
+Add read-only rootfs support to sysvinit startup system.
 
->
-> NOTE: Resolving any missing task queue dependencies
-> ERROR: Nothing PROVIDES 'xz' (but /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/meta/recipes-core/systemd/systemd_git.bb DEPENDS on or otherwise requires it)
-> ERROR: xz was skipped: incompatible with license GPLv2+ & GPLv3+ & LGPLv2.1+
-> ERROR: Nothing RPROVIDES 'udev-systemd' (but /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/meta/recipes-core/systemd/systemd_git.bb RDEPENDS on or otherwise requires it)
-> ERROR: No eligible RPROVIDERs exist for 'udev-systemd'
-> NOTE: Runtime target 'udev-systemd' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['udev-systemd']
-> ERROR: Nothing RPROVIDES 'systemd' (but /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/meta/recipes-core/systemd/systemd_git.bb RDEPENDS on or otherwise requires it)
-> ERROR: No eligible RPROVIDERs exist for 'systemd'
-> NOTE: Runtime target 'systemd' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['systemd']
-> ERROR: Nothing RPROVIDES 'systemd-dev' (but /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/meta/recipes-core/systemd/systemd_git.bb RDEPENDS on or otherwise requires it)
-> ERROR: No eligible RPROVIDERs exist for 'systemd-dev'
-> NOTE: Runtime target 'systemd-dev' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['systemd-dev']
-> NOTE: Runtime target 'systemd-serialgetty' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['systemd-serialgetty']
-> NOTE: Preparing runqueue
-> NOTE: Executing SetScene Tasks
+The main ideas here are:
+1) Let populate-volatile.sh run at rootfs time to set up basic
+directories and files needed by read-only rootfs.
+2) Use symbolic links to create the illusion that some directories/files
+are writable.
 
-Also, you do not provide very clear information at the beginning, but I 
-assume to enable systemd, it's just setting DISTRO_FEATURE += "systemd", 
-or is there more?
+Two extra config files for read-only rootfs support are created, one for
+minimal image -- volatiles-readonly-minimal, and the other for sato
+image -- volatiles-readonly-sato.
 
-Sau!
+[YOCTO #3404]
+[YOCTO #3406]
 
->   meta/classes/base.bbclass                          |    7 +
->   meta/classes/systemd.bbclass                       |    1 +
->   meta/classes/systemd_base.bbclass                  |  218 +++++++++++++
->   meta/conf/distro/include/default-distrovars.inc    |    3 +-
->   meta/recipes-bsp/keymaps/files/keymaps.service     |    9 +
->   meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    9 +-
->   meta/recipes-connectivity/avahi/avahi.inc          |   10 +-
->   meta/recipes-connectivity/connman/connman.inc      |    6 +
->   meta/recipes-connectivity/connman/connman_1.4.bb   |    3 +-
->   meta/recipes-connectivity/dhcp/dhcp.inc            |   15 +-
->   meta/recipes-connectivity/dhcp/files/dhcpd.service |   12 +
->   .../dhcp/files/dhcrelay.service                    |   10 +
->   .../openssh/openssh-6.0p1/sshd.socket              |   11 +
->   .../openssh/openssh-6.0p1/sshd@.service            |    9 +
->   .../openssh/openssh-6.0p1/sshdgenkeys.service      |   10 +
->   meta/recipes-connectivity/openssh/openssh_6.0p1.bb |   14 +-
->   .../wpa-supplicant/wpa-supplicant-1.0.inc          |   74 +++--
->   .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
->   meta/recipes-core/busybox/busybox.inc              |   18 ++
->   meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
->   .../busybox/files/busybox-klogd.service.in         |    8 +
->   .../busybox/files/busybox-syslog.service.in        |   13 +
->   meta/recipes-core/dropbear/dropbear.inc            |   81 ++---
->   .../recipes-core/dropbear/dropbear/dropbear.socket |   10 +
->   .../dropbear/dropbear/dropbear@.service            |    9 +
->   .../dropbear/dropbear/dropbearkey.service          |   10 +
->   .../initscripts-1.0/{urandom => urandom.sh}        |    0
->   meta/recipes-core/initscripts/initscripts_1.0.bb   |  166 +++++-----
->   meta/recipes-core/libcgroup/libcgroup_0.37.1.bb    |    1 +
->   .../packagegroups/packagegroup-base.bb             |    4 +-
->   .../packagegroups/packagegroup-core-boot.bb        |    8 +-
->   meta/recipes-core/systemd/systemd-compat-units.bb  |   59 ++++
->   .../systemd/systemd-compat-units/machineid.service |   16 +
->   .../systemd-compat-units/run-postinsts.service     |   17 +
->   .../systemd/systemd-machine-units_1.0.bb           |   14 +
->   meta/recipes-core/systemd/systemd-serialgetty.bb   |   46 +++
->   .../systemd/systemd-serialgetty/LICENSE            |  339 ++++++++++++++++++++
->   .../systemd-serialgetty/serial-getty@.service      |   32 ++
->   meta/recipes-core/systemd/systemd-speed-hacks.bb   |   18 ++
->   .../systemd/systemd-systemctl-native.bb            |   20 ++
->   .../systemd/systemd-systemctl-native/systemctl     |  126 ++++++++
->   .../systemd/systemd/create-volatile.conf           |   10 +
->   meta/recipes-core/systemd/systemd/gtk-doc.make     |  230 +++++++++++++
->   meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
->   .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
->   .../systemd/set_default_target_to_multi-user.patch |   13 +
->   .../systemd-pam-configure-check-uclibc.patch       |   26 ++
->   .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
->   .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
->   .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
->   .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
->   .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 +++++++++++++++++++
->   .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
->   meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
->   meta/recipes-core/systemd/systemd_git.bb           |  251 +++++++++++++++
->   meta/recipes-core/util-linux/util-linux.inc        |    9 +-
->   meta/recipes-extended/cronie/cronie/crond.service  |   10 +
->   meta/recipes-extended/cronie/cronie_1.4.8.bb       |   10 +-
->   .../lighttpd/files/lighttpd.service                |   13 +
->   meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 +-
->   meta/recipes-extended/pam/libpam_1.1.6.bb          |    5 +-
->   meta/recipes-extended/polkit/polkit_0.104.bb       |   11 +-
->   meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
->   .../x11-common/xserver-nodm-init.bb                |   19 +-
->   .../x11-common/xserver-nodm-init/xserver-nodm.conf |    1 +
->   .../xserver-nodm-init/xserver-nodm.service         |    9 +
->   66 files changed, 2604 insertions(+), 172 deletions(-)
->   create mode 100644 meta/classes/systemd.bbclass
->   create mode 100644 meta/classes/systemd_base.bbclass
->   create mode 100644 meta/recipes-bsp/keymaps/files/keymaps.service
->   create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
->   create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
->   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd.socket
->   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd@.service
->   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshdgenkeys.service
->   create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
->   create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
->   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
->   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
->   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
->   rename meta/recipes-core/initscripts/initscripts-1.0/{urandom => urandom.sh} (100%)
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
->   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
->   create mode 100644 meta/recipes-core/systemd/systemd-machine-units_1.0.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/LICENSE
->   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
->   create mode 100644 meta/recipes-core/systemd/systemd-speed-hacks.bb
->   create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
->   create mode 100755 meta/recipes-core/systemd/systemd-systemctl-native/systemctl
->   create mode 100644 meta/recipes-core/systemd/systemd/create-volatile.conf
->   create mode 100644 meta/recipes-core/systemd/systemd/gtk-doc.make
->   create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
->   create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/set_default_target_to_multi-user.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
->   create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
->   create mode 100644 meta/recipes-core/systemd/systemd_git.bb
->   create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
->   create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd.service
->   create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
->   create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service
->
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +-
+ .../initscripts-1.0/populate-volatile.sh           |  285 ++++++++++----------
+ .../initscripts/initscripts-1.0/volatiles          |    1 +
+ .../initscripts-1.0/volatiles-readonly-minimal     |   23 ++
+ .../initscripts-1.0/volatiles-readonly-sato        |   30 +++
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |   15 +-
+ 6 files changed, 210 insertions(+), 153 deletions(-)
+ create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-minimal
+ create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-sato
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 4f76cb4..3b5a47f 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -54,14 +54,7 @@ fi
+ 
+ #
+ # This is as good a place as any for a sanity check
+-# /tmp should be a symlink to /var/tmp to cut down on the number
+-# of mounted ramdisks.
+-if test ! -L /tmp && test -d /var/tmp
+-then
+-	rm -rf /tmp
+-	ln -sf /var/tmp /tmp
+-fi
+-
++#
+ # Set the system clock from hardware clock
+ # If the timestamp is more recent than the current time,
+ # use the timestamp instead.
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index d2175d7..9c1ce23 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -8,192 +8,191 @@
+ # Short-Description:  Populate the volatile filesystem
+ ### END INIT INFO
+ 
+-. /etc/default/rcS
+-
+-CFGDIR="/etc/default/volatiles"
+-TMPROOT="/var/tmp"
++# Get ROOT_DIR
++DIRNAME=`dirname $0`
++ROOT_DIR=`echo $DIRNAME | sed -ne 's:etc/.*::p'`
++
++. ${ROOT_DIR}/etc/default/rcS
++# Test whether rootfs is read-only or not
++if > ${ROOT_DIR}/etc/test-read-write; then
++	ROOTFS_READ_ONLY=no
++	rm ${ROOT_DIR}/etc/test-read-write
++else
++	ROOTFS_READ_ONLY=yes
++fi 2>/dev/null
++
++# When running populat-volatile.sh at rootfs time, disable cache.
++[ "$ROOT_DIR" != "/" ] && VOLATILE_ENABLE_CACHE=no
++# If rootfs is read-only, disable cache.
++[ "$ROOTFS_READ_ONLY" = "yes" ] && VOLATILE_ENABLE_CACHE=no
++# All above statements will be moved to a central place, say var.sh which
++# encapsulates '. /etc/default/rcS'. 
++
++CFGDIR="${ROOT_DIR}/etc/default/volatiles"
++TMPROOT="${ROOT_DIR}/var/volatile/tmp"
+ COREDEF="00_core"
++COREDEF_READONLY="00_core_readonly"
+ 
+-[ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
++[ "${VERBOSE}" != "no" ] && echo "Setting up basic files related to volatile storage under ${ROOT_DIR}."
+ 
+ create_file() {
+-	EXEC=" 
+-	touch \"$1\"; 
+-	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 " 
++	EXEC="
++	touch \"$1\";
++	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" > /dev/null 2>&1;
++	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" > /dev/null 2>&1 "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 
+ 	[ -e "$1" ] && {
+-	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
++		[ "${VERBOSE}" != "no" ] && echo "Target $1 already exists. Skipping."
+ 	} || {
+-	  eval $EXEC &
++		if [ "$ROOT_DIR" = "/" ]; then
++			eval $EXEC
++		else
++			# Some operations at rootfs time may fail and should fail,
++		        # but these failures should not be logged.
++			eval $EXEC > /dev/null 2>&1
++		fi
+ 	}
+ }
+ 
+ mk_dir() {
+ 	EXEC=" 
+ 	mkdir -p \"$1\"; 
+-	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
++	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" 2>&1; 
++	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" 2>&1 "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 	
+ 	[ -e "$1" ] && {
+-	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
++		[ "${VERBOSE}" != "no" ] && echo "Target ${1} already exists. Skipping."
+ 	} || {
+-	  eval $EXEC
++		if [ "$ROOT_DIR" = "/" ]; then
++			eval $EXEC
++		else
++			# Some operations at rootfs time may fail and should fail,
++                        # but these failures should not be logged.
++			eval $EXEC > /dev/null 2>&1
++		fi
+ 	}
+ }
+ 
+ link_file() {
+-	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1" 
+-
+-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+-	
+-	[ -e "$2" ] && {
+-	  echo "Cannot create link over existing -${TNAME}-." >&2
+-	} || {
+-	  eval $EXEC &
+-	}
++	EXEC="
++	if [ -L \"$2\" ]; then
++		[ \"$(readlink -f \"$2\")\" != \"$(readlink -f \"$1\")\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
++	elif [ -d \"$2\" ]; then
++		rm -rf \"$2\";
++                ln -sf \"$1\" \"$2\";
++        else
++                ln -sf \"$1\" \"$2\";
++	fi
++        "
++        test "$VOLATILE_ENABLE_CACHE" = yes && echo "   $EXEC" >> /etc/volatile.cache.build
++	if [ "$ROOT_DIR" = "/" ]; then
++		eval $EXEC
++	else
++		# Some operations at rootfs time may fail and should fail,
++                # but these failures should not be logged
++		eval $EXEC > /dev/null 2>&1
++	fi
+ }
+ 
+ check_requirements() {
++	cleanup() {
++		rm "${TMP_INTERMED}"
++		rm "${TMP_DEFINED}"
++		rm "${TMP_COMBINED}"
++	}
++	
++	CFGFILE="$1"
++	[ `basename "${CFGFILE}"` = "${COREDEF}" ] && return 0
++	[ `basename "${CFGFILE}"` = "${COREDEF_READONLY}" ] && return 0
++	TMP_INTERMED="${TMPROOT}/tmp.$$"
++	TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
++	TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
++
++	cat ${ROOT_DIR}/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
++	cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
++	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
++	NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
++	NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
++
++	[ "${NR_DEFINED_USERS}" -ne "${NR_COMBINED_USERS}" ] && {
++		echo "Undefined users:"
++		diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
++		cleanup
++		return 1
++	}
+ 
+-  cleanup() {
+-    rm "${TMP_INTERMED}"
+-    rm "${TMP_DEFINED}"
+-    rm "${TMP_COMBINED}"
+-    }
+-    
+-  CFGFILE="$1"
+-
+-  [ `basename "${CFGFILE}"` = "${COREDEF}" ] && return 0
+-
+-  TMP_INTERMED="${TMPROOT}/tmp.$$"
+-  TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
+-  TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
+-
+-
+-  cat /etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+-  cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
+-  cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+-
+-  NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
+-  NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
+-
+-  [ "${NR_DEFINED_USERS}" -ne "${NR_COMBINED_USERS}" ] && {
+-    echo "Undefined users:"
+-    diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
+-    cleanup
+-    return 1
+-    }
+-
+-
+-  cat /etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+-  cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
+-  cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 
+-  NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
+-  NR_COMBINED_GROUPS="`cat "${TMP_COMBINED}" | wc -l`"
++	cat ${ROOT_DIR}/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
++	cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
++	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 
+-  [ "${NR_DEFINED_GROUPS}" -ne "${NR_COMBINED_GROUPS}" ] && {
+-    echo "Undefined groups:"
+-    diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
+-    cleanup
+-    return 1
+-    }
++	NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
++	NR_COMBINED_GROUPS="`cat "${TMP_COMBINED}" | wc -l`"
+ 
+-  # Add checks for required directories here
++	[ "${NR_DEFINED_GROUPS}" -ne "${NR_COMBINED_GROUPS}" ] && {
++		echo "Undefined groups:"
++		diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
++		cleanup
++		return 1
++	}
+ 
+-  cleanup
+-  return 0
+-  }
++	cleanup
++	return 0
++}
+ 
+ apply_cfgfile() {
++	CFGFILE="$1"
++	[ ${VERBOSE} != "no" ] && echo "Applying config file: $CFGFILE"
++	
++	check_requirements "${CFGFILE}" || {
++		echo "Skipping ${CFGFILE}"
++		return 1
++	}
++
++	cat ${CFGFILE} | grep -v "^#" | sed -e '/^$/ d' | \
++		while read LINE; do
++		eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
++		TNAME=${ROOT_DIR}/${TNAME}
++		[ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
++
++		[ "${TTYPE}" = "l" ] && {
++			TSOURCE="$TLTARGET"
++			[ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
++			link_file "${TSOURCE}" "${TNAME}"
++			continue
++		}
++		case "${TTYPE}" in
++			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
++				create_file "${TNAME}"
++				;;
++			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
++				mk_dir "${TNAME}"
++				;;
++			*)    [ "${VERBOSE}" != "no" ] && echo "Invalid type -${TTYPE}-."
++				continue
++				;;
++		esac
++	done
++	return 0
++}
+ 
+-  CFGFILE="$1"
+-
+-  check_requirements "${CFGFILE}" || {
+-    echo "Skipping ${CFGFILE}"
+-    return 1
+-    }
+-
+-  cat ${CFGFILE} | grep -v "^#" | \
+-  while read LINE; do
+-
+-    eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
+-
+-    [ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
+-
+-
+-    [ "${TTYPE}" = "l" ] && {
+-      TSOURCE="$TLTARGET"
+-      [ -L "${TNAME}" ] || {
+-        [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
+-        link_file "${TSOURCE}" "${TNAME}" &
+-        }
+-      continue
+-      }
+-
+-    [ -L "${TNAME}" ] && {
+-      [ "${VERBOSE}" != "no" ] && echo "Found link."
+-      NEWNAME=`ls -l "${TNAME}" | sed -e 's/^.*-> \(.*\)$/\1/'`
+-      echo ${NEWNAME} | grep -v "^/" >/dev/null && {
+-        TNAME="`echo ${TNAME} | sed -e 's@\(.*\)/.*@\1@'`/${NEWNAME}"
+-        [ "${VERBOSE}" != "no" ] && echo "Converted relative linktarget to absolute path -${TNAME}-."
+-        } || {
+-        TNAME="${NEWNAME}"
+-        [ "${VERBOSE}" != "no" ] && echo "Using absolute link target -${TNAME}-."
+-        }
+-      }
+-
+-    case "${TTYPE}" in
+-      "f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
+-            create_file "${TNAME}" &
+-	    ;;
+-      "d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
+-            mk_dir "${TNAME}"
+-	    # Add check to see if there's an entry in fstab to mount.
+-	    ;;
+-      *)    [ "${VERBOSE}" != "no" ] && echo "Invalid type -${TTYPE}-."
+-            continue
+-	    ;;
+-    esac
+-
+-
+-    done
+-
+-  return 0
+-
+-  }
+-
+-clearcache=0
+-exec 9</proc/cmdline
+-while read line <&9
+-do
+-	case "$line" in
+-		*clearcache*)  clearcache=1
+-			       ;;
+-		*)	       continue
+-			       ;;
+-	esac
+-done
+-exec 9>&-
+-
+-if test -e /etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "xupdate" -a "x$clearcache" = "x0"
++if test -e ${ROOT_DIR}/etc/volatile.cache -a $VOLATILE_ENABLE_CACHE = yes -a x$1 != xupdate
+ then
+-	sh /etc/volatile.cache
++	sh ${ROOT_DIR}/etc/volatile.cache
+ else	
+-	rm -f /etc/volatile.cache /etc/volatile.cache.build
++	rm -f ${ROOT_DRI}/etc/volatile.cache ${ROOT_DIR}/etc/volatile.cache.build
+ 	for file in `ls -1 "${CFGDIR}" | sort`; do
+ 		apply_cfgfile "${CFGDIR}/${file}"
+ 	done
+ 
+-	[ -e /etc/volatile.cache.build ] && sync && mv /etc/volatile.cache.build /etc/volatile.cache
++	[ -e ${ROOT_DIR}/etc/volatile.cache.build ] && sync && mv ${ROOT_DIR}/etc/volatile.cache.build ${ROOT_DIR}/etc/volatile.cache
+ fi
+ 
+-if test -f /etc/ld.so.cache -a ! -f /var/run/ld.so.cache
++if [ "${ROOT_DIR}" = "/" ] && [ -f /etc/ld.so.cache ] && [ ! -f /var/run/ld.so.cache ]
+ then
+ 	ln -s /etc/ld.so.cache /var/run/ld.so.cache
+ fi
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+index e0741aa..f7e2ef7 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
+ l root root 0755 /var/log /var/volatile/log
+ l root root 0755 /var/run /var/volatile/run
+ l root root 1777 /var/tmp /var/volatile/tmp
++l root root 1777 /tmp /var/tmp
+ d root root 0755 /var/lock/subsys none
+ f root root 0664 /var/log/wtmp none
+ f root root 0664 /var/run/utmp none
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-minimal b/meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-minimal
+new file mode 100644
+index 0000000..6169ecc
+--- /dev/null
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-minimal
+@@ -0,0 +1,23 @@
++# This configuration file lists filesystem objects specific to readonly rootfs
++# that should get verified during startup and be created if missing.
++#
++# Every line must either be a comment starting with #
++# or a definition of format:
++# <type> <owner> <group> <mode> <path> <linksource>
++# where the items are separated by whitespace !
++#
++# <type> : d|f|l : (d)irectory|(f)ile|(l)ink
++#
++# A linking example:
++# l root root 0777 /var/test /tmp/testfile
++# f root root 0644 /var/test none
++#
++# Understanding links:
++# When populate-volatile is to verify/create a directory or file, it will first
++# check its existence. If a link is found to exist in the place of the target,
++# the path of the target is replaced with the target the link points to.
++# Thus, if a link is in the place to be verified, the object will be created
++# in the place the link points to instead.
++# This explains the order of "link before object" as in the example above, where
++# a link will be created at /var/test pointing to /tmp/testfile and due to this
++# link the file defined as /var/test will actually be created as /tmp/testfile.
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-sato b/meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-sato
+new file mode 100644
+index 0000000..e128869
+--- /dev/null
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles-readonly-sato
+@@ -0,0 +1,30 @@
++# This configuration file lists filesystem objects specific to readonly rootfs
++# that should get verified during startup and be created if missing.
++#
++# Every line must either be a comment starting with #
++# or a definition of format:
++# <type> <owner> <group> <mode> <path> <linksource>
++# where the items are separated by whitespace !
++#
++# <type> : d|f|l : (d)irectory|(f)ile|(l)ink
++#
++# A linking example:
++# l root root 0777 /var/test /tmp/testfile
++# f root root 0644 /var/test none
++#
++# Understanding links:
++# When populate-volatile is to verify/create a directory or file, it will first
++# check it's existence. If a link is found to exist in the place of the target,
++# the path of the target is replaced with the target the link points to.
++# Thus, if a link is in the place to be verified, the object will be created
++# in the place the link points to instead.
++# This explains the order of "link before object" as in the example above, where
++# a link will be created at /var/test pointing to /tmp/testfile and due to this
++# link the file defined as /var/test will actually be created as /tmp/testfile.
++d root root 0755 /var/volatile/lib/ none
++d root root 0755 /var/volatile/lib/dropbear/ none
++d root root 0755 /var/volatile/lib/nfs/ none
++d root root 1777 /var/volatile/lib/dbus/ none
++l root root 0755 /var/lib/dropbear /var/volatile/lib/dropbear
++l root root 0755 /var/lib/nfs /var/volatile/lib/nfs
++l root root 0755 /var/lib/dbus /var/volatile/lib/dbus
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 39be9a8..d0869ea 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r138"
++PR = "r139"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+@@ -30,8 +30,10 @@ SRC_URI = "file://functions \
+            file://device_table.txt \
+            file://populate-volatile.sh \
+            file://volatiles \
++           file://volatiles-readonly-minimal \
++           file://volatiles-readonly-sato \
+            file://save-rtc.sh \
+-	   file://GPLv2.patch"
++           file://GPLv2.patch"
+ 
+ SRC_URI_append_arm = " file://alignment.sh"
+ 
+@@ -86,6 +88,15 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/populate-volatile.sh ${D}${sysconfdir}/init.d
+ 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
++        # Install read-only rootfs specific config files in case of an read-only-rootfs image
++	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
++	        if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
++                        install -m 0644 ${WORKDIR}/volatiles-readonly-sato ${D}${sysconfdir}/default/volatiles/00_core_readonly
++                else
++                        install -m 0644 ${WORKDIR}/volatiles-readonly-minimal ${D}${sysconfdir}/default/volatiles/00_core_readonly
++                fi
++	fi
++
+ 	if [ "${TARGET_ARCH}" = "arm" ]; then
+ 		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
+ 	fi
+-- 
+1.7.9.5
+
 
 
