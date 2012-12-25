@@ -1,27 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TnKtU-0004Vw-JW
+	(envelope-from <martin.jansa@gmail.com>) id 1TnPxc-0000wv-OL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Dec 2012 04:09:35 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBP2sbV6010308
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 25 Dec 2012 09:34:04 +0100
+Received: by mail-wi0-f172.google.com with SMTP id o1so6635195wic.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Dec 2012 18:54:37 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 24 Dec 2012 18:54:37 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Dec 2012 10:55:05 +0800
-Message-ID: <59ce0f37e56a93748c19bb45cc8aa9138cd7a5a1.1356403679.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1356403679.git.Qi.Chen@windriver.com>
-References: <cover.1356403679.git.Qi.Chen@windriver.com>
+	Tue, 25 Dec 2012 00:19:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=USzGYYkmghC3XtzcIRii+gN4553dLTF7hlQB9xOiMyw=;
+	b=HYkjLx+oekFYIbNpkOB1tI3zDBt+G4/lEjeNmj0jpjxIvgnBkJ4MZVtcyDGDc1BeA9
+	EZDHTX51+gK90XRhUAfRicE7ml50Ix3GYP4UJrUGlghKyiCu2Moc1UHjpc/ZiBP6mmdS
+	ggD1irRcv1I0ra4RrxQT9IXvvoaXDyXDFvlIysNOqFaN/t38RzF1wLbJz+0lkWw7qzR7
+	KeZxAnr5XEvDdtbP5G/x8/Yfb4FowemfYT40CCxPI5Tn9rBi42UPr/k5Z3S5YjgJXukZ
+	fVlDydAloM5ss9aZcRfVnL4vsz6GEOiU4kMvohBLnul9QJXUynDswuk+W6ewqqeiUGEG
+	jTAQ==
+X-Received: by 10.194.238.5 with SMTP id vg5mr38731751wjc.40.1356423553731;
+	Tue, 25 Dec 2012 00:19:13 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id fv2sm46631665wib.4.2012.12.25.00.19.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 25 Dec 2012 00:19:13 -0800 (PST)
+Date: Tue, 25 Dec 2012 09:19:12 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Qi.Chen@windriver.com
+Message-ID: <20121225081912.GU8988@jama.palm1.palmone.com>
+References: <cover.1356335387.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V2 2/2] rootfs: support read-only-rootfs image feature
+In-Reply-To: <cover.1356335387.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 0/2] read-only rootfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,163 +44,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Dec 2012 03:09:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Dec 2012 08:34:05 -0000
+X-Groupsio-MsgNum: 33084
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gn1ylXQ+YRNuZICZ"
+Content-Disposition: inline
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--gn1ylXQ+YRNuZICZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Two small tweaks at rootfs time:
-1) If IMAGE_FEATUERS contains 'read-only-rootfs', we make
-populate-volatile.sh run at rootfs time to set up basic files and
-directories.
-2) If IMAGE_FEATURES contains 'read-only-rootfs', mount options in
-/etc/fstab is automatically tweaked to the appropriate value.
+On Tue, Dec 25, 2012 at 10:55:03AM +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> Add read-only rootfs support to sysvinit startup system.
+> The main changes are:
+> 1) Let rootfs_xxx.bbclass support 'read-only-rootfs' image feature.
+>    If IMAGE_FEATURES contains 'read-only-rootfs', then the populate-volat=
+ile.sh
+>    script is run at rootfs time to set up basic directories and files.
+> 2) Improve the populate-volatile.sh init script.
+> 3) Add two config files specific to read-only-rootfs image, which are to =
+be used
+>    by the populate-volatile.sh script.
+> 4) Automatically adjust the mount options in fstab when 'read-only-rootfs=
+' is in
+>    IMAGE_FEATURES.
+>=20
+> Version 2 fixes a problem version one has, that is, if we build an image =
+without
+> 'read-only-rootfs' image feature after we built one that has this feature=
+, the
+> mount options in fstab is wrong.=20
 
-[YOCTO #3406]
+initscripts recipe still have that issue.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/core-image.bbclass |    4 +++-
- meta/classes/image.bbclass      |    6 ++++++
- meta/classes/rootfs_deb.bbclass |   14 ++++++++++++++
- meta/classes/rootfs_ipk.bbclass |   15 +++++++++++++++
- meta/classes/rootfs_rpm.bbclass |   20 +++++++++++++++++++-
- 5 files changed, 57 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 2e67018..ee0b397 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -28,6 +28,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
- # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
- # - doc-pkgs            - documentation packages for all installed packages in the rootfs
-+# - read-only-rootfs    - tweaks an image to support read-only rootfs
- #
- PACKAGE_GROUP_x11 = "packagegroup-core-x11"
- PACKAGE_GROUP_x11-base = "packagegroup-core-x11-base"
-@@ -78,4 +79,5 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
- # Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
--
-+# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "fstab_tweak_mount_opt; ", "",d)}'
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 8bf718a..3854ee7 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -394,6 +394,12 @@ zap_root_password () {
- 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
- } 
- 
-+# Change the mount options for rootfs in case of a read-only-rootfs image
-+fstab_tweak_mount_opt () {
-+	sed '/rootfs/ s/defaults/ro/' < ${IMAGE_ROOTFS}/etc/fstab > ${IMAGE_ROOTFS}/etc/fstab.new
-+	mv ${IMAGE_ROOTFS}/etc/fstab.new ${IMAGE_ROOTFS}/etc/fstab
-+}
-+
- # allow openssh accept login with empty password string
- openssh_allow_empty_password () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 293953d..052d5d9 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -84,6 +84,20 @@ fakeroot rootfs_deb_do_rootfs () {
- 
- 	${ROOTFS_POSTPROCESS_COMMAND}
- 
-+	# Let populate-volatile.sh run at rootfs time in case of an read-only rootfs
-+	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false", d)}; then
-+		if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
-+			echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh doesn't exist."
-+			exit 1
-+		else
-+			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-+			if [ $? != 0 ]; then
-+				echo "Running populate-volatile.sh under ${IMAGE_ROOTFS} failed"
-+				exit 1
-+			fi
-+		fi
-+	fi
-+
- 	log_check rootfs
- }
- 
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 5c962de..b851049 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -114,6 +114,21 @@ fakeroot rootfs_ipk_do_rootfs () {
- 			remove_packaging_data_files
- 		fi
- 	fi
-+
-+        # Let populate-volatile.sh run at rootfs time in case of a read-only-rootfs image
-+	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false", d)}; then
-+		if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
-+			echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh doesn't exist."
-+			exit 1
-+		else
-+			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-+			if [ $? != 0 ]; then
-+				echo "Running populate-volatile.sh under ${IMAGE_ROOTFS} failed"
-+				exit 1
-+			fi
-+		fi
-+	fi
-+
- 	set +x
- 	log_check rootfs
- }
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index f7e4c5e..733764a 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -89,6 +89,8 @@ fakeroot rootfs_rpm_do_rootfs () {
- 
- 	# Report delayed package scriptlets
- 	for i in ${IMAGE_ROOTFS}/etc/rpm-postinsts/*; do
-+                # We should add a check here to check whether we're building a read-only rootfs
-+                # If so, exit 1, because there are still postintalls that are to be run on target.
- 		if [ -f $i ]; then
- 			echo "Delayed package scriptlet: `head -n 3 $i | tail -n 1`"
- 		fi
-@@ -104,7 +106,7 @@ for i in /etc/rpm-postinsts/*; do
- 	if [ -f $i ] && $i; then
- 		rm $i
- 	else
--		echo "ERROR: postinst $i failed."
-+		[ -f $i ] && echo "ERROR: postinst $i failed."
- 	fi
- done
- rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
-@@ -127,6 +129,22 @@ EOF
- 	# Remove all remaining resolver files
- 	rm -rf ${IMAGE_ROOTFS}/install
- 
-+	# Run init scripts that are necessary in case of an read-only rootfs
-+	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false", d)}; then
-+		if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
-+			echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh doesn't exist."
-+			exit 1
-+		else
-+			# Run populate_volatile.sh under ${IMAGE_ROOTFS} to set up basic
-+                        # directories and files which are related to volatile storage.
-+			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-+			if [ $? != 0 ]; then
-+				echo "Running populate-volatile.sh under ${IMAGE_ROOTFS} failed"
-+				exit 1
-+			fi
-+		fi
-+	fi
-+
- 	log_check rootfs
- }
- 
--- 
-1.7.9.5
+> The following changes since commit 90c0eb29f0b41e4ac2d3d17ebad7295c2ebdc0=
+2a:
+>=20
+>   rootfs_rpm.bbclass: remove debug code (2012-12-19 21:43:55 +0000)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.pokylinux.org/poky-contrib ChenQi/readonly-rootfs
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3DChenQi/readonly=
+-rootfs
+>=20
+> Chen Qi (2):
+>   initscripts: support read-only rootfs
+>   rootfs_xxx.bbclass: support read-only-rootfs image feature
+>=20
+>  meta/classes/rootfs_deb.bbclass                    |   14 +
+>  meta/classes/rootfs_ipk.bbclass                    |   15 ++
+>  meta/classes/rootfs_rpm.bbclass                    |   20 +-
+>  meta/recipes-core/base-files/base-files_3.0.14.bb  |    8 +-
+>  .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +-
+>  .../initscripts-1.0/populate-volatile.sh           |  285 ++++++++++----=
+------
+>  .../initscripts/initscripts-1.0/volatiles          |    1 +
+>  .../initscripts-1.0/volatiles-readonly-minimal     |   23 ++
+>  .../initscripts-1.0/volatiles-readonly-sato        |   30 +++
+>  meta/recipes-core/initscripts/initscripts_1.0.bb   |   15 +-
+>  10 files changed, 265 insertions(+), 155 deletions(-)
+>  create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/volatil=
+es-readonly-minimal
+>  create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/volatil=
+es-readonly-sato
+>=20
+> --=20
+> 1.7.9.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--gn1ylXQ+YRNuZICZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDZYYAACgkQN1Ujt2V2gBzEdgCfU/q7IPH/K3lYMQ96zYjI3e8Y
+fQ4An1UslrIEPXxH2ksFvjE8ktVuumrf
+=tG+5
+-----END PGP SIGNATURE-----
+
+--gn1ylXQ+YRNuZICZ--
