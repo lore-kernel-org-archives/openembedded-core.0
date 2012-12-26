@@ -1,21 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-bk0-f42.google.com ([209.85.214.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TndbM-00069F-BU
+	(envelope-from <cazfi74@gmail.com>) id 1Tnfkn-00005e-23
 	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Dec 2012 00:08:08 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Dec 2012 14:53:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,354,1355126400"; d="scan'208";a="262669365"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.150])
-	by orsmga002.jf.intel.com with ESMTP; 25 Dec 2012 14:53:06 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 26 Dec 2012 02:25:53 +0100
+Received: by mail-bk0-f42.google.com with SMTP id ji2so3715244bkc.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Dec 2012 17:11:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=A0nqefLG49wAgF/SHFtwi5qdtPB7FTkHdZxhfGcCyiM=;
+	b=uWrsvGtpMZ4+8zUD8fa9YWieNwI0PO0dQ3CWV2WMoCuWZ462e9VtbD3gpgJuimfUql
+	TJcEeXQBmGN8cyb5h+T9MKGevi6nFYV5bYJMXxUwVbvhvHcuiRgS+/8eCAIEOUNPzVCG
+	9wpAKtLsR48m+J/gFqGuAk0Dko6/EoG4pHpSAo87Wk7XKNAfz8vgHhjQ6OUGXiqyKmls
+	dssEvGiyrodsQOirtBcKRCybrl5yy9PwoanCi6fq1klcrTx2gdz/2qydR5DXJewu2R6Y
+	TIYuGHwf6cH7RfW8P4XiUYgK+9uVCjlFKlx4ILKSQXluzzeNA9pNipdLyG7dt20hSkrc
+	aU5Q==
+X-Received: by 10.204.5.202 with SMTP id 10mr12206045bkw.135.1356484260853;
+	Tue, 25 Dec 2012 17:11:00 -0800 (PST)
+Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
+	by mx.google.com with ESMTPS id m20sm17709396bkw.4.2012.12.25.17.10.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 25 Dec 2012 17:10:59 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1TnfWL-0003ZI-Ae; Wed, 26 Dec 2012 03:10:57 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Dec 2012 14:53:06 -0800
-Message-Id: <cover.1356472937.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-MIME-Version: 1.0
-Subject: [CONSOLIDATED PULL 00/27] Christmas Fixes!
+Date: Wed, 26 Dec 2012 03:10:56 +0200
+Message-Id: <1356484256-12329-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] curl: update to upstream version 7.28.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,172 +42,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Dec 2012 23:08:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Dec 2012 01:25:55 -0000
+X-List-Received-Date: Wed, 26 Dec 2012 01:25:55 -0000
 
-Richard,
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ meta/recipes-support/curl/curl/pkgconfig_fix.patch |   45 +++++++++-----------
+ .../curl/{curl_7.26.0.bb => curl_7.28.1.bb}        |    4 +-
+ 2 files changed, 23 insertions(+), 26 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.26.0.bb => curl_7.28.1.bb} (93%)
 
-After much hair pulling, I have a change set that builds
-cleanly other than webkit (which was broken before).
-
-More patch testing over the next few days!
-
-Happy Holidays to all
-
-Sau!
-
-
-The following changes since commit bbd55cc34ca893c7202634fe138cedb2f380be56:
-
-  rootfs_rpm.bbclass: remove debug code (2012-12-19 21:43:50 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andrei Dinu (1):
-  telepathy-glib upgrade to 0.20.1
-
-Björn Stenberg (6):
-  Fix typo in kvm capability detection in runqemu
-  Add a new distro feature "ptest".
-  New package: ptest-runner
-  Add ptest for glib.
-  Add ptest for dbus.
-  Add ptest for bash.
-
-Bogdan Marinescu (4):
-  bison: update to 2.7
-  nasm: upgraded to 2.10.06
-  rpm: remove declaration of "sykcparse"
-  subversion: updated to 1.7.8
-
-Constantin Musca (1):
-  libmusicbrainz: upgrade to git SRCREV 0749dd0a35b4a543
-
-Cristian Iorga (2):
-  ofono: upgrade to 1.12
-  iptables: upgrade to v1.4.16.3
-
-Fahad Usman (2):
-  blktrace: essentially rework the recipe, obey LDFLAGS
-  cml1: set and export TERMINFO, to handle ncurses-native relocation
-
-Kang Kai (4):
-  bitbake.conf: import var ROOT_HOME
-  base-files: use dynamic root home directory
-  base-passwd: use configurable root home directory
-  oprofile: use dynamic root home directory
-
-Marcin Juszkiewicz (1):
-  slang: added gnu-configize for AArch64 support
-
-Martin Jansa (2):
-  gtk-icon-cache: don't call gtk-update-icon-cache on files
-  libpng: fix packaging
-
-Muhammad Shakeel (1):
-  wireless-tools: Remove QA warning: No GNU_HASH in the elf binary
-
-Noor Ahsan (1):
-  freetype: Update EXTRA_OECONF to use host gcc.
-
-Ross Burton (1):
-  python: add -crypt as a dependency on -math
-
-Trevor Woerner (1):
-  runqemu: change terminal's INTR key in 'serial' mode
-
- meta/classes/cml1.bbclass                          |   3 +-
- meta/classes/gtk-icon-cache.bbclass                |   4 +-
- meta/classes/image.bbclass                         |   6 +-
- meta/classes/packagegroup.bbclass                  |   2 +-
- meta/classes/ptest.bbclass                         |  34 +++++
- meta/conf/bitbake.conf                             |   3 +
- .../ofono/{ofono_1.10.bb => ofono_1.12.bb}         |   9 +-
- ...thy-glib_0.19.8.bb => telepathy-glib_0.20.1.bb} |   6 +-
- .../wireless-tools/wireless-tools/ldflags.patch    |  22 ++++
- .../wireless-tools/wireless-tools_29.bb            |   3 +-
- meta/recipes-core/base-files/base-files/profile    |   2 +-
- meta/recipes-core/base-files/base-files_3.0.14.bb  |   3 +-
- .../base-passwd/base-passwd-3.5.26/root-home.patch |  16 ---
- .../recipes-core/base-passwd/base-passwd_3.5.26.bb |   4 +-
- meta/recipes-core/dbus/dbus-1.6.4/ptest.patch      | 144 +++++++++++++++++++++
- meta/recipes-core/dbus/dbus-1.6.4/run-ptest        |   3 +
- .../dbus/dbus-1.6.4/test-run-path.patch            |  26 ++++
- meta/recipes-core/dbus/dbus-ptest_1.6.4.bb         |  46 +++++++
- meta/recipes-core/dbus/dbus.inc                    |   2 +
- .../glib-2.0/glib-2.0/Makefile-ptest.patch         |  61 +++++++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |   3 +
- meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |  25 +++-
- meta/recipes-core/glib-2.0/glib.inc                |   7 +-
- .../automake/automake/buildtest.patch              |  33 +++++
- meta/recipes-devtools/automake/automake_1.12.5.bb  |   3 +-
- .../bison/{bison_2.5.1.bb => bison_2.7.bb}         |   4 +-
- .../nasm/{nasm_2.10.05.bb => nasm_2.10.06.bb}      |   4 +-
- .../python/python-2.7-manifest.inc                 |   2 +-
- .../rpm/rpm/rpm-remove-sykcparse-decl.patch        |  14 ++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   3 +-
- .../fix-install-depends.patch                      |   0
- .../libtool2.patch                                 |   0
- .../{subversion_1.7.7.bb => subversion_1.7.8.bb}   |   4 +-
- .../bash/bash-4.2/build-tests.patch                |  48 +++++++
- meta/recipes-extended/bash/bash-4.2/run-ptest      |   2 +
- .../bash/bash-4.2/test-output.patch                |  25 ++++
- meta/recipes-extended/bash/bash.inc                |  16 ++-
- meta/recipes-extended/bash/bash_4.2.bb             |   3 +
- .../{iptables_1.4.15.bb => iptables_1.4.16.3.bb}   |   8 +-
- meta/recipes-extended/slang/slang_2.2.4.bb         |   8 ++
- meta/recipes-graphics/freetype/freetype_2.4.10.bb  |   2 +-
- .../blktrace/blktrace/blktrace-makefile.patch      |  55 --------
- .../recipes-kernel/blktrace/blktrace/ldflags.patch |  89 +++++++++++++
- meta/recipes-kernel/blktrace/blktrace_git.bb       |  18 ++-
- meta/recipes-kernel/oprofile/oprofile.inc          |   1 +
- .../oprofile/oprofile/oprofile-root.patch          |  23 ++--
- meta/recipes-multimedia/libpng/libpng_1.5.13.bb    |   7 +-
- .../allow-libdir-override.patch                    |   0
- .../fix_build_issue_for_gcc_4.5.0.patch            |  39 ------
- ...bmusicbrainz_3.0.3.bb => libmusicbrainz_git.bb} |  30 +++--
- .../ptest-runner/files/ptest-runner                |  16 +++
- .../ptest-runner/ptest-runner_1.0.bb               |  17 +++
- scripts/contrib/python/generate-manifest-2.7.py    |   2 +-
- scripts/runqemu                                    |   4 +-
- scripts/runqemu-internal                           |   7 +
- 55 files changed, 738 insertions(+), 183 deletions(-)
- create mode 100644 meta/classes/ptest.bbclass
- rename meta/recipes-connectivity/ofono/{ofono_1.10.bb => ofono_1.12.bb} (53%)
- rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.19.8.bb => telepathy-glib_0.20.1.bb} (79%)
- create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.26/root-home.patch
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
- create mode 100755 meta/recipes-core/dbus/dbus-1.6.4/run-ptest
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
- create mode 100644 meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Makefile-ptest.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/run-ptest
- create mode 100644 meta/recipes-devtools/automake/automake/buildtest.patch
- rename meta/recipes-devtools/bison/{bison_2.5.1.bb => bison_2.7.bb} (89%)
- rename meta/recipes-devtools/nasm/{nasm_2.10.05.bb => nasm_2.10.06.bb} (81%)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-remove-sykcparse-decl.patch
- rename meta/recipes-devtools/subversion/{subversion-1.7.7 => subversion-1.7.8}/fix-install-depends.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion-1.7.7 => subversion-1.7.8}/libtool2.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion_1.7.7.bb => subversion_1.7.8.bb} (88%)
- create mode 100644 meta/recipes-extended/bash/bash-4.2/build-tests.patch
- create mode 100644 meta/recipes-extended/bash/bash-4.2/run-ptest
- create mode 100644 meta/recipes-extended/bash/bash-4.2/test-output.patch
- rename meta/recipes-extended/iptables/{iptables_1.4.15.bb => iptables_1.4.16.3.bb} (87%)
- delete mode 100644 meta/recipes-kernel/blktrace/blktrace/blktrace-makefile.patch
- create mode 100644 meta/recipes-kernel/blktrace/blktrace/ldflags.patch
- rename meta/recipes-multimedia/musicbrainz/{libmusicbrainz-3.0.3 => files}/allow-libdir-override.patch (100%)
- delete mode 100644 meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/fix_build_issue_for_gcc_4.5.0.patch
- rename meta/recipes-multimedia/musicbrainz/{libmusicbrainz_3.0.3.bb => libmusicbrainz_git.bb} (41%)
- create mode 100644 meta/recipes-support/ptest-runner/files/ptest-runner
- create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_1.0.bb
-
+diff --git a/meta/recipes-support/curl/curl/pkgconfig_fix.patch b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+index ad73c00..7f4ef7d 100644
+--- a/meta/recipes-support/curl/curl/pkgconfig_fix.patch
++++ b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+@@ -1,25 +1,9 @@
+ Upstream-Status: Inappropriate [packaging]
+ 
+-
+-Index: curl-7.20.0/libcurl.pc.in
+-===================================================================
+---- curl-7.20.0.orig/libcurl.pc.in	2009-11-17 18:11:07.000000000 +0000
+-+++ curl-7.20.0/libcurl.pc.in	2010-03-25 12:13:26.814051066 +0000
+-@@ -35,6 +35,7 @@
+- URL: http://curl.haxx.se/
+- Description: Library to transfer files with ftp, http, etc.
+- Version: @CURLVERSION@
+--Libs: -L${libdir} -lcurl @LIBS@
+--Libs.private: @LIBCURL_LIBS@ @LIBS@
+-+Requires.private: @GNUTLS_REQUIRED@
+-+Libs: -L${libdir} -lcurl
+-+Libs.private: -ldl -lz
+- Cflags: -I${includedir}
+-Index: curl-7.20.0/configure.ac
+-===================================================================
+---- curl-7.20.0.orig/configure.ac	2010-02-04 21:41:46.000000000 +0000
+-+++ curl-7.20.0/configure.ac	2010-03-25 12:12:18.673129001 +0000
+-@@ -1668,6 +1668,7 @@
++diff -Nurd curl-7.28.1/configure.ac curl-7.28.1/configure.ac
++--- curl-7.28.1/configure.ac	2012-09-08 23:39:18.000000000 +0300
+++++ curl-7.28.1/configure.ac	2012-12-25 03:41:29.948026351 +0200
++@@ -1863,6 +1863,7 @@
+         AC_SUBST(USE_GNUTLS, [1])
+         GNUTLS_ENABLED=1
+         USE_GNUTLS="yes"
+@@ -27,12 +11,25 @@ Index: curl-7.20.0/configure.ac
+         curl_ssl_msg="enabled (GnuTLS)"
+         ],
+         [
+-@@ -1696,6 +1697,8 @@
+- 
+- fi dnl OPENSSL != 1
++@@ -1933,6 +1934,8 @@
++    ])
++ fi
+  
+ +AC_SUBST(GNUTLS_REQUIRED)
+ +
+  dnl ----------------------------------------------------
+- dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
++ dnl check for PolarSSL
+  dnl ----------------------------------------------------
++diff -Nurd curl-7.28.1/libcurl.pc.in curl-7.28.1/libcurl.pc.in
++--- curl-7.28.1/libcurl.pc.in	2012-08-08 23:45:18.000000000 +0300
+++++ curl-7.28.1/libcurl.pc.in	2012-12-25 03:43:23.564023858 +0200
++@@ -34,6 +34,7 @@
++ URL: http://curl.haxx.se/
++ Description: Library to transfer files with ftp, http, etc.
++ Version: @CURLVERSION@
++-Libs: -L${libdir} -lcurl @LIBS@
++-Libs.private: @LIBCURL_LIBS@ @LIBS@
+++Requires.private: @GNUTLS_REQUIRED@
+++Libs: -L${libdir} -lcurl
+++Libs.private: -ldl -lz
++ Cflags: -I${includedir} @CPPFLAG_CURL_STATICLIB@
+diff --git a/meta/recipes-support/curl/curl_7.26.0.bb b/meta/recipes-support/curl/curl_7.28.1.bb
+similarity index 93%
+rename from meta/recipes-support/curl/curl_7.26.0.bb
+rename to meta/recipes-support/curl/curl_7.28.1.bb
+index c95788b..1f20066 100644
+--- a/meta/recipes-support/curl/curl_7.26.0.bb
++++ b/meta/recipes-support/curl/curl_7.28.1.bb
+@@ -18,8 +18,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
+ 
+-SRC_URI[md5sum] = "bfa80f01b3d300359cfb4d409b6136a3"
+-SRC_URI[sha256sum] = "fced262f16eb6bfcdcea15e04a7905ffcb5ff04b14a19ca35b9df86d6720d26a"
++SRC_URI[md5sum] = "26eb081c999b0e203770869427e9a93d"
++SRC_URI[sha256sum] = "e569d6deb58a516e6858cd4c348949e0397433e1354666bafde1a52d1ea77367"
+ 
+ inherit autotools pkgconfig binconfig
+ 
 -- 
-1.8.0.2
+1.7.10.4
 
 
 
