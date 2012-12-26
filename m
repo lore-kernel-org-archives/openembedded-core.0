@@ -1,38 +1,30 @@
-Received: from mail-ee0-f51.google.com ([74.125.83.51])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TnovB-00024S-Q7
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Dec 2012 12:13:19 +0100
-Received: by mail-ee0-f51.google.com with SMTP id d4so4098061eek.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2012 02:58:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=Wy8zusp7xNg1jfIMyMk87jVMsY25qGb/C1JrxxYIzD0=;
-	b=TWrfXZVuRp8yrzXFAvoUYnW5XRpYD70w9YZf2wfHQ9lgI1judBs6WrqYB63Ia6WNuR
-	vbrjfchh5D0Y4dCkRPwRMVM7QTNh/XaXcetFCwRIHNXD65o+glUT2gG0PINBtTQb6tAG
-	nOeG821vjE02iq0gW7s4VQKlgHVu7cEjW2rxPDNxh27g1DV+64nsiL441BMJeNNEW6Hs
-	VR/xvSkUdL6GNeDFL9PEn1irunKCq9pV27IOXBW2GhrXW764vYxYjJPRdv7By3H1L/8N
-	OFEDazJ+JYXvgx5ACxyUcLRtIDTpLHVRtOKls8uSSGdKMj8qtl4ZD25eBsAEuf5bsHnk
-	zybg==
-X-Received: by 10.14.173.65 with SMTP id u41mr68957230eel.13.1356519501281;
-	Wed, 26 Dec 2012 02:58:21 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id k4sm52508054eep.15.2012.12.26.02.58.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 26 Dec 2012 02:58:20 -0800 (PST)
-Date: Wed, 26 Dec 2012 11:58:21 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Message-ID: <20121226105821.GY8988@jama.palm1.palmone.com>
-References: <50D1F76D.4070000@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <50D1F76D.4070000@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: systemd integration
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TnpW9-00031V-JO for openembedded-core@lists.openembedded.org;
+	Wed, 26 Dec 2012 12:51:32 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBQBaUEk011524;
+	Wed, 26 Dec 2012 11:36:31 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08685-02; Wed, 26 Dec 2012 11:36:26 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id qBQBaNMN011516
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 26 Dec 2012 11:36:24 GMT
+Message-ID: <1356521783.29302.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 26 Dec 2012 11:36:23 +0000
+In-Reply-To: <cover.1356472937.git.sgw@linux.intel.com>
+References: <cover.1356472937.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/27] Christmas Fixes!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,59 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Dec 2012 11:13:19 -0000
-X-Groupsio-MsgNum: 33095
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="j+D14l8Ki1YJdzYp"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Dec 2012 11:51:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---j+D14l8Ki1YJdzYp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2012-12-25 at 14:53 -0800, Saul Wold wrote:
+> Richard,
+> 
+> After much hair pulling, I have a change set that builds
+> cleanly other than webkit (which was broken before).
+> 
+> More patch testing over the next few days!
+> 
+> Happy Holidays to all
 
-On Wed, Dec 19, 2012 at 07:20:45PM +0200, Radu Moisan wrote:
-> Hi guys,
->      I have prepared a branch on poky-contrib (rmoisan/systemd) where I=
-=20
-> pulled systemd from meta-openembedded. The goal is to merge this into=20
-> oe-core, so please take a look and give me your feedback on stuff that=20
-> needs work or things that I might have done wrong, so that I can prepare=
-=20
-> it for merge.
->      At this point core-image-minimal and core-image-sato both boot fine=
-=20
-> with systemd. There still are a few warnings but not critical(at=20
-> runtime), at least in my opinion, you may want to take a look at those to=
-o.
->      You can activate systemd by *DISTRO_FEATURES_INITMAN =3D "systemd"*
+Thanks Saul, I merged these.
 
-Is this correct?
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/meta/recipes-=
-extended/pam/libpam_1.1.6.bb?h=3Drmoisan/systemd&id=3Dd31d804ad76829de039f3=
-b41d7b45ffcc25e69b5
-
-Shouldn't it be added to common-session only when systemd is enabled?
-
-Is '|-' some special syntax for palm config?
-
-"session required|-pam_systemd.so"=20
+Happy holidays all!
 
 Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---j+D14l8Ki1YJdzYp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Richard
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlDa2E0ACgkQN1Ujt2V2gByOEgCfcbV/hmj6Ow66eiLnch3789VX
-6RIAn1YjcpiUxwD23VgXGHzDb33IeBc8
-=Y6tl
------END PGP SIGNATURE-----
 
---j+D14l8Ki1YJdzYp--
