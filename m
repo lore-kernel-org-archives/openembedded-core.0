@@ -1,30 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-bk0-f50.google.com ([209.85.214.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1To9UR-00060L-Fy
+	(envelope-from <cazfi74@gmail.com>) id 1ToBXN-00070s-Gw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Dec 2012 10:11:03 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBR8u3kV005088
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Dec 2012 00:56:03 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Thu, 27 Dec 2012 00:56:03 -0800
-Message-ID: <50DC0D23.6090804@windriver.com>
-Date: Thu, 27 Dec 2012 16:56:03 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1356576405.git.Qi.Chen@windriver.com>
-	<819997e2cad5d6a4bf2621fb7cc443105ca0fc87.1356576405.git.Qi.Chen@windriver.com>
-	<20121227084244.GB3777@jama>
-In-Reply-To: <20121227084244.GB3777@jama>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] image.bbclass: add two hook funtions to support read-only rootfs
+	Thu, 27 Dec 2012 12:22:09 +0100
+Received: by mail-bk0-f50.google.com with SMTP id jf3so4174200bkc.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Dec 2012 03:07:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=xWuLno55QZe5f6tUb5OqaLzfFHjP1OEyeCr3Tt7IPw4=;
+	b=XrkdDCtv+7d/SuwnaVMcIbOKkgHMjKlIFRWBYpVMkz5Jrk4qhVFNz6yGhyvRJ9yHdC
+	TLe+4CYpSFIkmtOesiC/ZlGFaX3KYMeLbEgsT7DIlugscAUx3RUCZKg5V2XhyuUSJRR4
+	N5bhAalDn08w28VELwIw0SOoKnkTgO6IRBDVcgBZe2I9pPhd7EDmsSQjcAJ58rfrClWg
+	9hJjm8TT5l7K30Hv728ypqCxxKqJJoBWZJRgmiivzw+7n+kV9wkxpuhgz/fFLBQLg2bo
+	Wi5XCs/WyVEc2aeoLVuxFGSNNih+rM4xNLvaTY3DlEPefYiJpGa7W7iDte/AgGPuWiVN
+	VNIg==
+X-Received: by 10.204.12.203 with SMTP id y11mr14856929bky.27.1356606435409;
+	Thu, 27 Dec 2012 03:07:15 -0800 (PST)
+Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
+	by mx.google.com with ESMTPS id 18sm20150367bkv.0.2012.12.27.03.07.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 27 Dec 2012 03:07:14 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1ToBIu-0008Jk-AL; Thu, 27 Dec 2012 13:07:12 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Dec 2012 13:07:11 +0200
+Message-Id: <1356606431-31942-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] gettext: update to upstream version 0.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,90 +42,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 09:11:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Dec 2012 11:22:09 -0000
 
-On 12/27/2012 04:42 PM, Martin Jansa wrote:
-> On Thu, Dec 27, 2012 at 10:57:39AM +0800, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
->> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
->> volatile.sh script run at rootfs time.
->>
->> choose_volatile_conf_file: this function properly chooses the right
->> conf file for volatile storage handling according to the IMAGE_FEATURES.
-> choose_volatile_conf_file is always called from core-image with or
-> without read-only-rootfs in IMAGE_FEATURES.
->
-> So it will use /etc/default/volatiles_stage/volatiles-readonly-minimal
-> without read-only-rootfs.
->
-> Cheers,
-Thanks for your review  :)
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 --------------------
+ .../gnulib-uclibc-sched_param-def.patch            |    0
+ .../parallel.patch                                 |    0
+ .../wchar-uclibc.patch                             |    0
+ .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |    7 +--
+ 5 files changed, 3 insertions(+), 62 deletions(-)
+ delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
+ rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
 
-The commit message here is kind of misleading.
-Maybe I should modify the commit message here?
-
-Thanks,
-Chen Qi
-
->> [YOCTO #3406]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/image.bbclass |   29 +++++++++++++++++++++++++++++
->>   1 file changed, 29 insertions(+)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index 8bf718a..15d42d0 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -394,6 +394,35 @@ zap_root_password () {
->>   	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
->>   }
->>   
->> +# A hook function to support read-only-rootfs IMAGE_FEATURES
->> +read_only_rootfs_hook () {
->> +	# Tweak the mount option in fstab
->> +	sed '/rootfs/ s/defaults/ro/' < ${IMAGE_ROOTFS}/etc/fstab > ${IMAGE_ROOTFS}/etc/fstab.new
->> +	mv ${IMAGE_ROOTFS}/etc/fstab.new ${IMAGE_ROOTFS}/etc/fstab
->> +	# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
->> +	sed 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' < ${IMAGE_ROOTFS}/etc/default/rcS > ${IMAGE_ROOTFS}/etc/default/rcS.new
->> +	mv ${IMAGE_ROOTFS}/etc/default/rcS.new ${IMAGE_ROOTFS}/etc/default/rcS
->> +	# Run populate-volatile.sh at rootfs time to set up basic files
->> +	# and directories to support read-only rootfs.
->> +	if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
->> +		echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh doesn't exist."
->> +		exit 1
->> +	else
->> +		${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
->> +	fi
->> +}
->> +
->> +# Choose the correct config file for volatile storage handling according to the image type
->> +choose_volatile_conf_file () {
->> +	if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
->> +		cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
->> +			${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
->> +	else
->> +		cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
->> +			${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
->> +	fi
->> +}
->> +
->>   # allow openssh accept login with empty password string
->>   openssh_allow_empty_password () {
->>   	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
->> -- 
->> 1.7.9.5
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch b/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+deleted file mode 100644
+index 3d3c400..0000000
+--- a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-eglibc 2.16 has removed gets so we need to check for it
+-being there before using it.
+-
+-
+-From glibc stdio.h
+-
+-The function has been officially removed in ISO C11.  This opportunity
+-   is used to also remove it from the GNU feature list.  It is now only
+-   available when explicitly using an old ISO C, Unix, or POSIX standard.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-Index: gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h
+-===================================================================
+---- gettext-0.18.1.1.orig/gettext-runtime/gnulib-lib/stdio.in.h	2010-05-17 12:56:12.000000000 -0700
+-+++ gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h	2012-07-02 22:42:21.292223316 -0700
+-@@ -140,8 +140,10 @@
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+-+#if defined gets
+- #undef gets
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+#endif
+- 
+- #if @GNULIB_FOPEN@
+- # if @REPLACE_FOPEN@
+-Index: gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h
+-===================================================================
+---- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/stdio.in.h	2010-05-24 02:42:46.000000000 -0700
+-+++ gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h	2012-07-02 23:02:33.476281979 -0700
+-@@ -140,8 +140,10 @@
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+-+#if defined gets
+- #undef gets
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+#endif
+- 
+- #if @GNULIB_FOPEN@
+- # if @REPLACE_FOPEN@
+-Index: gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h
+-===================================================================
+---- gettext-0.18.1.1.orig/gettext-tools/libgettextpo/stdio.in.h	2010-05-17 12:58:03.000000000 -0700
+-+++ gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h	2012-07-02 23:01:57.440280253 -0700
+-@@ -140,8 +140,10 @@
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+-+#if defined gets
+- #undef gets
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+#endif
+- 
+- #if @GNULIB_FOPEN@
+- # if @REPLACE_FOPEN@
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch b/meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch
+rename to meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
+rename to meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch b/meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch
+rename to meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.2.bb
+similarity index 96%
+rename from meta/recipes-core/gettext/gettext_0.18.1.1.bb
+rename to meta/recipes-core/gettext/gettext_0.18.2.bb
+index 4639481..3e93089 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.2.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3+ & LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-PR = "r19"
++PR = "r0"
+ DEPENDS = "gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_class-native = "gettext-minimal-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+@@ -13,7 +13,6 @@ PROVIDES_class-native = "virtual/gettext-native"
+ RCONFLICTS_${PN} = "proxy-libintl"
+ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+ 	   file://parallel.patch \
+-	   file://remove_gets.patch \
+           "
+ 
+ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+@@ -21,8 +20,8 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+                              "
+ LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
+ 
+-SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
+-SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
++SRC_URI[md5sum] = "0c86e5af70c195ab8bd651d17d783928"
++SRC_URI[sha256sum] = "516a6370b3b3f46e2fc5a5e222ff5ecd76f3089bc956a7587a6e4f89de17714c"
+ 
+ inherit autotools
+ 
+-- 
+1.7.10.4
 
 
 
