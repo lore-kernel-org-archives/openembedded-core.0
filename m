@@ -1,39 +1,35 @@
-Received: from mail-ee0-f50.google.com ([74.125.83.50])
+Received: from mail-bk0-f41.google.com ([209.85.214.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eren@hambedded.org>) id 1ToMfL-0002dU-6u
+	(envelope-from <cazfi74@gmail.com>) id 1ToMxg-0002qN-V6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Dec 2012 00:15:07 +0100
-Received: by mail-ee0-f50.google.com with SMTP id b45so5032440eek.37
+	Fri, 28 Dec 2012 00:34:05 +0100
+Received: by mail-bk0-f41.google.com with SMTP id jg9so4450298bkc.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Dec 2012 15:00:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references:mime-version:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=aBCgmHsIlH+p+VG4s+Bf4/OJaJibk29AfGJmRBDLJGg=;
-	b=GlWPuHGDJFEUeprfO3cr6tzavqKXOWhnhl0tqyyq/olQiij/XmRdA41I1FIOw2G65R
-	AWx59nuX0JMZhEX6cwNdHLJ/jmF1veVqnaIGuZH2f3knVcjaFcTvjgfL6ejNtAqRv+st
-	YTQdeqzrftexYqHZWIAkNsAOJu9gGsLrXt7PEUV2DFZVlUSqF1L916rIEVTIKN/q1IVj
-	ktwfT5EIfYNQB8H4J1uXc52qLFAzGUmN2P7dlfWX2s2ubH+LUoa3YKWpPqsCGnM30JVw
-	CF9BJ5CtXBlQvc+sTCcd6lXn8FYjDn+AwnD/8Ur28nnNDtsAbwWWfoFC4fu01xflBjo7
-	s/lg==
-X-Received: by 10.14.225.194 with SMTP id z42mr81225283eep.22.1356649212535;
-	Thu, 27 Dec 2012 15:00:12 -0800 (PST)
-Received: from localhost.localdomain ([46.196.117.99])
-	by mx.google.com with ESMTPS id b49sm62333792eem.16.2012.12.27.15.00.10
+	Thu, 27 Dec 2012 15:19:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=SXf+NFXV9CjJY2/RCR+U+OvlZWLmAR66iwFqzfU1kUU=;
+	b=nTgJyOEQBUVBZrGgAys/WdTzo4yh/UCT7q2CQnw+CgrJVe9R8GwAM2qasQ3jTigtMq
+	s85g3PUP158zALzK39L/whSwsOniiZEt9mFjIj9ySpL/dW5vVuQbteZp0ou14cFBsRHX
+	BTpsrOWSKVah6ArxarIdOLFF7fy864PRQfHNvIK6MG2KeuUkbt63ryQ2kdYTwJXk9OVy
+	BlAbH1qmkaZ6y6bZAhaxTZR+J0KKEM8G+4HqLwwOxwJZQ77gaOB1lN4moe9K6hjPI+ho
+	siFlpnWPwuyXndRKcB7P/KS26lByhiAp6i8DuXqMskZg9Bn/qDPhV9H5l/zoxWxiw4/K
+	82sg==
+X-Received: by 10.204.11.142 with SMTP id t14mr15623138bkt.9.1356650350076;
+	Thu, 27 Dec 2012 15:19:10 -0800 (PST)
+Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
+	by mx.google.com with ESMTPS id o7sm21709309bkv.13.2012.12.27.15.19.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 27 Dec 2012 15:00:11 -0800 (PST)
-From: =?UTF-8?q?Eren=20T=C3=BCrkay?= <eren@hambedded.org>
+	Thu, 27 Dec 2012 15:19:09 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1ToMjC-0005AG-Dw; Fri, 28 Dec 2012 01:19:06 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Dec 2012 01:00:00 +0200
-Message-Id: <1356649200-5192-2-git-send-email-eren@hambedded.org>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1356649200-5192-1-git-send-email-eren@hambedded.org>
-References: <1356649200-5192-1-git-send-email-eren@hambedded.org>
-MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQlXYJaRuaYV0C62/Cf17Z4AwPmU9h8xYABeu3MxHDfQjRN0WbByLzleSo4u8x0WJmAMrP5K
-Subject: [PATCH V2] freetype: update to 2.4.11 which includes fixes for CVE-2012-{5668, 5669, 5670}
+Date: Fri, 28 Dec 2012 01:19:05 +0200
+Message-Id: <1356650345-19419-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH v2] gettext: update to upstream version 0.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,66 +42,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 23:15:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Dec 2012 23:34:05 -0000
 
-Multiple security issues were reported by Mateusz Jurczyk of Google
-security team. These have been fixed in freetype 2.4.11. Details are as
-follows.
+remove_gets.patch dropped as upstream now contains
+fix for the problem.
 
-* CVE-2012-5668: NULL Pointer Dereference in bdf_free_font
-Bug: https://savannah.nongnu.org/bugs/?37905
-Patch:
-http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=9b6b5754b57c12b820e01305eb69b8863a161e5a
-
-* CVE-2012-5669: Out-of-bounds read in _bdf_parse_glyphs
-Bug: https://savannah.nongnu.org/bugs/?37906
-Patch:
-http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=07bdb6e289c7954e2a533039dc93c1c136099d2d
-
-* CVE-2012-5670: Out-of-bounds write in _bdf_parse_glyphs
-Bug: https://savannah.nongnu.org/bugs/?37907
-Patch:
-http://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=7f2e4f4f553f6836be7683f66226afac3fa979b8
-
-For original e-mail and CVE assignment, see the following URLs:
-
-http://www.openwall.com/lists/oss-security/2012/12/25/1
-http://www.openwall.com/lists/oss-security/2012/12/25/2
-
-Signed-off-by: Eren Türkay <eren@hambedded.org>
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../no-hardcode.patch                              |    0
- .../{freetype_2.4.10.bb => freetype_2.4.11.bb}     |    4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/freetype/{freetype-2.4.10 => freetype-2.4.11}/no-hardcode.patch (100%)
- rename meta/recipes-graphics/freetype/{freetype_2.4.10.bb => freetype_2.4.11.bb} (91%)
+ .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 --------------------
+ .../gnulib-uclibc-sched_param-def.patch            |    0
+ .../parallel.patch                                 |    0
+ .../wchar-uclibc.patch                             |    0
+ .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |    7 +--
+ 5 files changed, 3 insertions(+), 62 deletions(-)
+ delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
+ rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
 
-diff --git a/meta/recipes-graphics/freetype/freetype-2.4.10/no-hardcode.patch b/meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch b/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+deleted file mode 100644
+index 3d3c400..0000000
+--- a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-eglibc 2.16 has removed gets so we need to check for it
+-being there before using it.
+-
+-
+-From glibc stdio.h
+-
+-The function has been officially removed in ISO C11.  This opportunity
+-   is used to also remove it from the GNU feature list.  It is now only
+-   available when explicitly using an old ISO C, Unix, or POSIX standard.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-Index: gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h
+-===================================================================
+---- gettext-0.18.1.1.orig/gettext-runtime/gnulib-lib/stdio.in.h	2010-05-17 12:56:12.000000000 -0700
+-+++ gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h	2012-07-02 22:42:21.292223316 -0700
+-@@ -140,8 +140,10 @@
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+-+#if defined gets
+- #undef gets
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+#endif
+- 
+- #if @GNULIB_FOPEN@
+- # if @REPLACE_FOPEN@
+-Index: gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h
+-===================================================================
+---- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/stdio.in.h	2010-05-24 02:42:46.000000000 -0700
+-+++ gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h	2012-07-02 23:02:33.476281979 -0700
+-@@ -140,8 +140,10 @@
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+-+#if defined gets
+- #undef gets
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+#endif
+- 
+- #if @GNULIB_FOPEN@
+- # if @REPLACE_FOPEN@
+-Index: gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h
+-===================================================================
+---- gettext-0.18.1.1.orig/gettext-tools/libgettextpo/stdio.in.h	2010-05-17 12:58:03.000000000 -0700
+-+++ gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h	2012-07-02 23:01:57.440280253 -0700
+-@@ -140,8 +140,10 @@
+- /* It is very rare that the developer ever has full control of stdin,
+-    so any use of gets warrants an unconditional warning.  Assume it is
+-    always declared, since it is required by C89.  */
+-+#if defined gets
+- #undef gets
+- _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+-+#endif
+- 
+- #if @GNULIB_FOPEN@
+- # if @REPLACE_FOPEN@
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch b/meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
 similarity index 100%
-rename from meta/recipes-graphics/freetype/freetype-2.4.10/no-hardcode.patch
-rename to meta/recipes-graphics/freetype/freetype-2.4.11/no-hardcode.patch
-diff --git a/meta/recipes-graphics/freetype/freetype_2.4.10.bb b/meta/recipes-graphics/freetype/freetype_2.4.11.bb
-similarity index 91%
-rename from meta/recipes-graphics/freetype/freetype_2.4.10.bb
-rename to meta/recipes-graphics/freetype/freetype_2.4.11.bb
-index 35d6d22..53fde1d 100644
---- a/meta/recipes-graphics/freetype/freetype_2.4.10.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.4.11.bb
-@@ -18,8 +18,8 @@ PR = "r0"
- SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
-            file://no-hardcode.patch"
+rename from meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch
+rename to meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
+rename to meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch b/meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch
+rename to meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.2.bb
+similarity index 96%
+rename from meta/recipes-core/gettext/gettext_0.18.1.1.bb
+rename to meta/recipes-core/gettext/gettext_0.18.2.bb
+index 4639481..3e93089 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.2.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3+ & LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--SRC_URI[md5sum] = "13286702e9390a91661f980608adaff1"
--SRC_URI[sha256sum] = "0c8e242c33c45928de560d7d595db06feb41d1b22167e37260ceabe72f9e992f"
-+SRC_URI[md5sum] = "b93435488942486c8d0ca22e8f768034"
-+SRC_URI[sha256sum] = "ef9d0bcb64647d9e5125dc7534d7ca371c98310fec87677c410f397f71ffbe3f"
+-PR = "r19"
++PR = "r0"
+ DEPENDS = "gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_class-native = "gettext-minimal-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+@@ -13,7 +13,6 @@ PROVIDES_class-native = "virtual/gettext-native"
+ RCONFLICTS_${PN} = "proxy-libintl"
+ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+ 	   file://parallel.patch \
+-	   file://remove_gets.patch \
+           "
  
- S = "${WORKDIR}/freetype-${PV}"
+ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+@@ -21,8 +20,8 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+                              "
+ LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
+ 
+-SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
+-SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
++SRC_URI[md5sum] = "0c86e5af70c195ab8bd651d17d783928"
++SRC_URI[sha256sum] = "516a6370b3b3f46e2fc5a5e222ff5ecd76f3089bc956a7587a6e4f89de17714c"
+ 
+ inherit autotools
  
 -- 
-1.7.9.5
+1.7.10.4
 
 
 
