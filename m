@@ -1,27 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1To3tc-0002hs-L6
+	(envelope-from <Qi.Chen@windriver.com>) id 1To3te-0002hv-RU
 	for openembedded-core@lists.openembedded.org;
 	Thu, 27 Dec 2012 04:12:49 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBR2vgTj023581
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBR2viMI000763
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Dec 2012 18:57:42 -0800 (PST)
+	Wed, 26 Dec 2012 18:57:44 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 26 Dec 2012 18:57:41 -0800
+	14.2.318.4; Wed, 26 Dec 2012 18:57:44 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Dec 2012 10:57:38 +0800
-Message-ID: <27d5c357543048d3a675d573ddc658f6c3f333bf.1356576405.git.Qi.Chen@windriver.com>
+Date: Thu, 27 Dec 2012 10:57:40 +0800
+Message-ID: <b6f403b0459e82d2709f3311b9273964e0a29ef9.1356576405.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1356576405.git.Qi.Chen@windriver.com>
 References: <cover.1356576405.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/4] sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
+Subject: [PATCH 3/4] core-image.bbclass: support read-only-rootfs image feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,49 +39,42 @@ Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-This variable indicates whether the rootfs is intended to be read-only
-or not. Changing this value from 'no' to 'yes' on a currently running
-system with read-write rootfs and rebooting will give the user a working
-system with read-only rootfs.
-
-However, it is not suggested to change its value. Normally, if a read-only
-rootfs is required, we should build an image with 'read-only-rootfs' image
-feature.
+Two hook functions are appended to ROOTFS_POSTPROCESS_COMMAND
+properly to support the 'read-only-rootfs' image feature.
 
 [YOCTO #3406]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/sysvinit/sysvinit/rcS-default |    4 ++++
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb  |    2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/core-image.bbclass |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rcS-default b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-index 3c9dea9..88907a5 100644
---- a/meta/recipes-core/sysvinit/sysvinit/rcS-default
-+++ b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-@@ -23,3 +23,7 @@ FSCKFIX=yes
- #TICKADJ=10000
- # Enable caching in populate-volatile.sh
- VOLATILE_ENABLE_CACHE=yes
-+# Indicate whether the rootfs is intended to be read-only or not.
-+# Setting ROOTFS_READ_ONLY to yes and rebooting will give you a read-only rootfs.
-+# Normally you should not change this value.
-+ROOTFS_READ_ONLY=no
-\ No newline at end of file
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index de073b8..bf6a29b 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r9"
-+PR = "r10"
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 2e67018..dc8fdc3 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -28,6 +28,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+ # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
+ # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
+ # - doc-pkgs            - documentation packages for all installed packages in the rootfs
++# - read-only-rootfs    - tweaks an image to support read-only rootfs
+ #
+ PACKAGE_GROUP_x11 = "packagegroup-core-x11"
+ PACKAGE_GROUP_x11-base = "packagegroup-core-x11-base"
+@@ -73,9 +74,11 @@ inherit image
  
- RDEPENDS_${PN} = "${PN}-inittab"
- 
+ # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+-
++# Choose the correct configuartion files for volatile storage handling
++ROOTFS_POSTPROCESS_COMMAND += "choose_volatile_conf_file ; "
+ # Zap the root password if debug-tweaks feature is not enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
+ # Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
+-
++# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
 -- 
 1.7.9.5
 
