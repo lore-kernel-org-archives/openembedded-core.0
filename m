@@ -1,34 +1,26 @@
-Received: from mail-ie0-f175.google.com ([209.85.223.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1ToICM-0007Vc-Mp
+	(envelope-from <sgw@linux.intel.com>) id 1ToIKN-0007cm-Dk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Dec 2012 19:28:54 +0100
-Received: by mail-ie0-f175.google.com with SMTP id qd14so11930555ieb.34
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Dec 2012 10:13:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=/3diw8EHQlkLoINlSUFcCs1i5OIRXT1MdVN1IP9zGFA=;
-	b=PsHe8+8m11SEuWl113GZG8RccPoZEVvi/GljmKUCZPrdwHNCMi4MCmhm+XVXsAUpD1
-	p9QhH3FtTQvHaFPPDOZR7S7d+9amyz+qYmCqGlaEY6UrrJTONyh1PgRjnf44J+GNCbU6
-	yvOyb2sFNb/WT6mzKy9xMCv+Xn/w58M3sW+8dstf+Hj872oiYb7brfNL5jCv8OM8Nb/D
-	4g7sKFoPFNV2ONuGXlBX5IBPZQW9Wo0ip0D/dXtlKCF4wfqf+T3lmygB08JaeLGDno6v
-	uw0ebU6CTcOSmXufvIsf5c7uZyHyiRqDDw5OmWJDVfWcDqS7Otaoqkw15CwMrw20d3Zd
-	wSPw==
+	Thu, 27 Dec 2012 19:37:26 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 27 Dec 2012 10:22:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,363,1355126400"; d="scan'208";a="185345997"
+Received: from unknown (HELO [10.255.14.22]) ([10.255.14.22])
+	by AZSMGA002.ch.intel.com with ESMTP; 27 Dec 2012 10:22:15 -0800
+Message-ID: <50DC91D7.10306@linux.intel.com>
+Date: Thu, 27 Dec 2012 10:22:15 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.50.91.169 with SMTP id cf9mr27737171igb.44.1356632039690; Thu,
-	27 Dec 2012 10:13:59 -0800 (PST)
-Received: by 10.64.24.175 with HTTP; Thu, 27 Dec 2012 10:13:59 -0800 (PST)
-In-Reply-To: <50DC727B.5000103@linux.intel.com>
-References: <1356606431-31942-1-git-send-email-cazfi74@gmail.com>
-	<50DC727B.5000103@linux.intel.com>
-Date: Thu, 27 Dec 2012 20:13:59 +0200
-Message-ID: <CAF6bG8de7mX0iWsYRXgQ06P1e4zv3KeD-7bTtHvL2hB3-yO5yQ@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gettext: update to upstream version 0.18.2
+To: Qi.Chen@windriver.com
+References: <cover.1356576405.git.Qi.Chen@windriver.com>
+	<819997e2cad5d6a4bf2621fb7cc443105ca0fc87.1356576405.git.Qi.Chen@windriver.com>
+In-Reply-To: <819997e2cad5d6a4bf2621fb7cc443105ca0fc87.1356576405.git.Qi.Chen@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] image.bbclass: add two hook funtions to support read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,25 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 18:28:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Dec 2012 18:37:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 27 December 2012 18:08, Saul Wold <sgw@linux.intel.com> wrote:
-> On 12/27/2012 03:07 AM, Marko Lindqvist wrote:
->>
->> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
->> ---
->>   .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58
->> --------------------
+On 12/26/2012 06:57 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> Why are we removing this patch, it's important to note this in the commit
-> message, did the upstream take this patch or change the code??
+> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+> volatile.sh script run at rootfs time.
+>
+> choose_volatile_conf_file: this function properly chooses the right
+> conf file for volatile storage handling according to the IMAGE_FEATURES.
+>
+> [YOCTO #3406]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/classes/image.bbclass |   29 +++++++++++++++++++++++++++++
+>   1 file changed, 29 insertions(+)
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 8bf718a..15d42d0 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -394,6 +394,35 @@ zap_root_password () {
+>   	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+>   }
+>
+> +# A hook function to support read-only-rootfs IMAGE_FEATURES
+> +read_only_rootfs_hook () {
+> +	# Tweak the mount option in fstab
+> +	sed '/rootfs/ s/defaults/ro/' < ${IMAGE_ROOTFS}/etc/fstab > ${IMAGE_ROOTFS}/etc/fstab.new
+> +	mv ${IMAGE_ROOTFS}/etc/fstab.new ${IMAGE_ROOTFS}/etc/fstab
+> +	# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+> +	sed 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' < ${IMAGE_ROOTFS}/etc/default/rcS > ${IMAGE_ROOTFS}/etc/default/rcS.new
+> +	mv ${IMAGE_ROOTFS}/etc/default/rcS.new ${IMAGE_ROOTFS}/etc/default/rcS
+For the above 2 sed/mv, can't you use sed -i instead, cuts down on the 
+exec overhead.
 
- Sorry, I forgot to amend commit message to mention that upstream has
-resolved the issue the patch was for. I'll send updated version once
-I've finished testing of some other patches.
+Sau!
 
-
- - ML
+> +	# Run populate-volatile.sh at rootfs time to set up basic files
+> +	# and directories to support read-only rootfs.
+> +	if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+> +		echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh doesn't exist."
+> +		exit 1
+> +	else
+> +		${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+> +	fi
+> +}
+> +
+> +# Choose the correct config file for volatile storage handling according to the image type
+> +choose_volatile_conf_file () {
+> +	if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
+> +		cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
+> +			${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+> +	else
+> +		cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
+> +			${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+> +	fi
+> +}
+> +
+>   # allow openssh accept login with empty password string
+>   openssh_allow_empty_password () {
+>   	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+>
 
 
