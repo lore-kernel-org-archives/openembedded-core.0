@@ -1,25 +1,32 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f41.google.com ([74.125.83.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ToGEu-0004bL-Sv
+	(envelope-from <martin.jansa@gmail.com>) id 1ToGLm-0004th-5O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Dec 2012 17:23:25 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Dec 2012 08:08:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,363,1355126400"; d="scan'208";a="270394065"
-Received: from unknown (HELO [10.255.14.22]) ([10.255.14.22])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Dec 2012 08:08:28 -0800
-Message-ID: <50DC727B.5000103@linux.intel.com>
-Date: Thu, 27 Dec 2012 08:08:27 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <1356606431-31942-1-git-send-email-cazfi74@gmail.com>
-In-Reply-To: <1356606431-31942-1-git-send-email-cazfi74@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gettext: update to upstream version 0.18.2
+	Thu, 27 Dec 2012 17:30:48 +0100
+Received: by mail-ee0-f41.google.com with SMTP id d41so4910607eek.28
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Dec 2012 08:15:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=kv3LYA0/yczFv+JaP5VgTuVLkvH8d/m9hab4IabCbFo=;
+	b=m0llY7vJUcY5cmrm42w7MhjRP/HRwLtKsllMz/BUo4wEWNoTHE5o5Tq8BMLqlux2vL
+	5u6HZreNzyjRJl4Q7EzcQzxqWF3AnBYoYuJq5mfh8CvM/rB3O9zqCOotBwqZI7vKrI3q
+	tOVmLhNuFD0MTbbI5S2kvVQe2HqTO46Srf/QgfbaKqUAeqCNXKMbVIYiX0SrQs2d8HnR
+	ul/7bXs/HVh9W3LVfuicpNl9RJWgPJ5v4n7EAiHmpHH4iYiHr9UHj/LCd2GeZPSJegvd
+	Es1EKDqGTBm1m8EVsuyOZGnxUJuEDdCmSGFCa9PeWuHb/dWen0B/JZhEywLqQs4YNpLH
+	+CQg==
+X-Received: by 10.14.2.66 with SMTP id 42mr79385214eee.7.1356624936001;
+	Thu, 27 Dec 2012 08:15:36 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id l3sm60345954eem.14.2012.12.27.08.15.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 27 Dec 2012 08:15:35 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Dec 2012 16:15:32 +0100
+Message-Id: <1356621332-5076-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] webkit-gtk: fix build with bison-2.6+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,141 +39,604 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 16:23:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Dec 2012 16:30:54 -0000
 
-On 12/27/2012 03:07 AM, Marko Lindqvist wrote:
-> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> ---
->   .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 --------------------
-Why are we removing this patch, it's important to note this in the 
-commit message, did the upstream take this patch or change the code??
+* bison was upgraded to 2.7 in oe-core
 
-Sau!
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-sato/webkit/files/bison-2.6.patch | 558 +++++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb   |   3 +-
+ 2 files changed, 560 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/webkit/files/bison-2.6.patch
 
->   .../gnulib-uclibc-sched_param-def.patch            |    0
->   .../parallel.patch                                 |    0
->   .../wchar-uclibc.patch                             |    0
->   .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |    7 +--
->   5 files changed, 3 insertions(+), 62 deletions(-)
->   delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
->   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
->   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
->   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
->   rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
->
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch b/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
-> deleted file mode 100644
-> index 3d3c400..0000000
-> --- a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
-> +++ /dev/null
-> @@ -1,58 +0,0 @@
-> -eglibc 2.16 has removed gets so we need to check for it
-> -being there before using it.
-> -
-> -
-> -From glibc stdio.h
-> -
-> -The function has been officially removed in ISO C11.  This opportunity
-> -   is used to also remove it from the GNU feature list.  It is now only
-> -   available when explicitly using an old ISO C, Unix, or POSIX standard.
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Upstream-Status: Pending
-> -Index: gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h
-> -===================================================================
-> ---- gettext-0.18.1.1.orig/gettext-runtime/gnulib-lib/stdio.in.h	2010-05-17 12:56:12.000000000 -0700
-> -+++ gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h	2012-07-02 22:42:21.292223316 -0700
-> -@@ -140,8 +140,10 @@
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> -+#if defined gets
-> - #undef gets
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+#endif
-> -
-> - #if @GNULIB_FOPEN@
-> - # if @REPLACE_FOPEN@
-> -Index: gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h
-> -===================================================================
-> ---- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/stdio.in.h	2010-05-24 02:42:46.000000000 -0700
-> -+++ gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h	2012-07-02 23:02:33.476281979 -0700
-> -@@ -140,8 +140,10 @@
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> -+#if defined gets
-> - #undef gets
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+#endif
-> -
-> - #if @GNULIB_FOPEN@
-> - # if @REPLACE_FOPEN@
-> -Index: gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h
-> -===================================================================
-> ---- gettext-0.18.1.1.orig/gettext-tools/libgettextpo/stdio.in.h	2010-05-17 12:58:03.000000000 -0700
-> -+++ gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h	2012-07-02 23:01:57.440280253 -0700
-> -@@ -140,8 +140,10 @@
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> -+#if defined gets
-> - #undef gets
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+#endif
-> -
-> - #if @GNULIB_FOPEN@
-> - # if @REPLACE_FOPEN@
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch b/meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
-> similarity index 100%
-> rename from meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch
-> rename to meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
-> similarity index 100%
-> rename from meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
-> rename to meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch b/meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
-> similarity index 100%
-> rename from meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch
-> rename to meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
-> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.2.bb
-> similarity index 96%
-> rename from meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> rename to meta/recipes-core/gettext/gettext_0.18.2.bb
-> index 4639481..3e93089 100644
-> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.18.2.bb
-> @@ -5,7 +5,7 @@ SECTION = "libs"
->   LICENSE = "GPLv3+ & LGPL-2.1+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->
-> -PR = "r19"
-> +PR = "r0"
->   DEPENDS = "gettext-native virtual/libiconv ncurses expat"
->   DEPENDS_class-native = "gettext-minimal-native"
->   PROVIDES = "virtual/libintl virtual/gettext"
-> @@ -13,7 +13,6 @@ PROVIDES_class-native = "virtual/gettext-native"
->   RCONFLICTS_${PN} = "proxy-libintl"
->   SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
->   	   file://parallel.patch \
-> -	   file://remove_gets.patch \
->             "
->
->   SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
-> @@ -21,8 +20,8 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
->                                "
->   LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
->
-> -SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
-> -SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
-> +SRC_URI[md5sum] = "0c86e5af70c195ab8bd651d17d783928"
-> +SRC_URI[sha256sum] = "516a6370b3b3f46e2fc5a5e222ff5ecd76f3089bc956a7587a6e4f89de17714c"
->
->   inherit autotools
->
->
+diff --git a/meta/recipes-sato/webkit/files/bison-2.6.patch b/meta/recipes-sato/webkit/files/bison-2.6.patch
+new file mode 100644
+index 0000000..d4aa674
+--- /dev/null
++++ b/meta/recipes-sato/webkit/files/bison-2.6.patch
+@@ -0,0 +1,558 @@
++Upstream-Status: Backport
++http://trac.webkit.org/changeset/124099
++
++Subversion Revision: 123651
++diff --git a/Source/WebCore/css/CSSGrammar.y b/Source/WebCore/css/CSSGrammar.y
++index c7c10b541cd46ad4febc6efe289e81b2cfb0861e..1c604e76b4da4cc65f395bc4a73b112561bd5c84 100644
++--- a/Source/WebCore/css/CSSGrammar.y
+++++ b/Source/WebCore/css/CSSGrammar.y
++@@ -53,14 +53,13 @@ using namespace HTMLNames;
++ #define YYMAXDEPTH 10000
++ #define YYDEBUG 0
++ 
++-// FIXME: Replace with %parse-param { CSSParser* parser } once we can depend on bison 2.x
++-#define YYPARSE_PARAM parser
++-#define YYLEX_PARAM parser
++-
++ %}
++ 
++ %pure_parser
++ 
+++%parse-param { CSSParser* parser }
+++%lex-param { CSSParser* parser }
+++
++ %union {
++     bool boolean;
++     char character;
++@@ -89,7 +88,7 @@ using namespace HTMLNames;
++ 
++ %{
++ 
++-static inline int cssyyerror(const char*)
+++static inline int cssyyerror(void*, const char*)
++ {
++     return 1;
++ }
++diff --git a/Source/WebCore/css/CSSParser.cpp b/Source/WebCore/css/CSSParser.cpp
++index 650844060477cfc6ea6fdeaf11ec63b34ac646e7..8369549dbff25537cf93a11237a9bbbac4fe50f2 100644
++--- a/Source/WebCore/css/CSSParser.cpp
+++++ b/Source/WebCore/css/CSSParser.cpp
++@@ -114,7 +114,7 @@
++ extern int cssyydebug;
++ #endif
++ 
++-extern int cssyyparse(void* parser);
+++extern int cssyyparse(WebCore::CSSParser*);
++ 
++ using namespace std;
++ using namespace WTF;
++diff --git a/Source/WebCore/xml/XPathGrammar.y b/Source/WebCore/xml/XPathGrammar.y
++index 2eba5b35bd2338272a0f4ec756d137e47d2d59c8..d558211db2d89ea13716762a51397755560f66f3 100644
++--- a/Source/WebCore/xml/XPathGrammar.y
+++++ b/Source/WebCore/xml/XPathGrammar.y
++@@ -34,6 +34,7 @@
++ #include "XPathParser.h"
++ #include "XPathPath.h"
++ #include "XPathPredicate.h"
+++#include "XPathStep.h"
++ #include "XPathVariableReference.h"
++ #include <wtf/FastMalloc.h>
++ 
++@@ -44,8 +45,6 @@
++ #define YYLTYPE_IS_TRIVIAL 1
++ #define YYDEBUG 0
++ #define YYMAXDEPTH 10000
++-#define YYPARSE_PARAM parserParameter
++-#define PARSER static_cast<Parser*>(parserParameter)
++ 
++ using namespace WebCore;
++ using namespace XPath;
++@@ -53,6 +52,7 @@ using namespace XPath;
++ %}
++ 
++ %pure_parser
+++%parse-param { WebCore::XPath::Parser* parser }
++ 
++ %union
++ {
++@@ -71,7 +71,7 @@ using namespace XPath;
++ %{
++ 
++ static int xpathyylex(YYSTYPE* yylval) { return Parser::current()->lex(yylval); }
++-static void xpathyyerror(const char*) { }
+++static void xpathyyerror(void*, const char*) { }
++     
++ %}
++ 
++@@ -118,7 +118,7 @@ static void xpathyyerror(const char*) { }
++ Expr:
++     OrExpr
++     {
++-        PARSER->m_topExpr = $1;
+++        parser->m_topExpr = $1;
++     }
++     ;
++ 
++@@ -138,7 +138,7 @@ AbsoluteLocationPath:
++     '/'
++     {
++         $$ = new LocationPath;
++-        PARSER->registerParseNode($$);
+++        parser->registerParseNode($$);
++     }
++     |
++     '/' RelativeLocationPath
++@@ -150,7 +150,7 @@ AbsoluteLocationPath:
++     {
++         $$ = $2;
++         $$->insertFirstStep($1);
++-        PARSER->unregisterParseNode($1);
+++        parser->unregisterParseNode($1);
++     }
++     ;
++ 
++@@ -159,22 +159,22 @@ RelativeLocationPath:
++     {
++         $$ = new LocationPath;
++         $$->appendStep($1);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     RelativeLocationPath '/' Step
++     {
++         $$->appendStep($3);
++-        PARSER->unregisterParseNode($3);
+++        parser->unregisterParseNode($3);
++     }
++     |
++     RelativeLocationPath DescendantOrSelf Step
++     {
++         $$->appendStep($2);
++         $$->appendStep($3);
++-        PARSER->unregisterParseNode($2);
++-        PARSER->unregisterParseNode($3);
+++        parser->unregisterParseNode($2);
+++        parser->unregisterParseNode($3);
++     }
++     ;
++ 
++@@ -183,58 +183,58 @@ Step:
++     {
++         if ($2) {
++             $$ = new Step(Step::ChildAxis, *$1, *$2);
++-            PARSER->deletePredicateVector($2);
+++            parser->deletePredicateVector($2);
++         } else
++             $$ = new Step(Step::ChildAxis, *$1);
++-        PARSER->deleteNodeTest($1);
++-        PARSER->registerParseNode($$);
+++        parser->deleteNodeTest($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     NAMETEST OptionalPredicateList
++     {
++         String localName;
++         String namespaceURI;
++-        if (!PARSER->expandQName(*$1, localName, namespaceURI)) {
++-            PARSER->m_gotNamespaceError = true;
+++        if (!parser->expandQName(*$1, localName, namespaceURI)) {
+++            parser->m_gotNamespaceError = true;
++             YYABORT;
++         }
++         
++         if ($2) {
++             $$ = new Step(Step::ChildAxis, Step::NodeTest(Step::NodeTest::NameTest, localName, namespaceURI), *$2);
++-            PARSER->deletePredicateVector($2);
+++            parser->deletePredicateVector($2);
++         } else
++             $$ = new Step(Step::ChildAxis, Step::NodeTest(Step::NodeTest::NameTest, localName, namespaceURI));
++-        PARSER->deleteString($1);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     AxisSpecifier NodeTest OptionalPredicateList
++     {
++         if ($3) {
++             $$ = new Step($1, *$2, *$3);
++-            PARSER->deletePredicateVector($3);
+++            parser->deletePredicateVector($3);
++         } else
++             $$ = new Step($1, *$2);
++-        PARSER->deleteNodeTest($2);
++-        PARSER->registerParseNode($$);
+++        parser->deleteNodeTest($2);
+++        parser->registerParseNode($$);
++     }
++     |
++     AxisSpecifier NAMETEST OptionalPredicateList
++     {
++         String localName;
++         String namespaceURI;
++-        if (!PARSER->expandQName(*$2, localName, namespaceURI)) {
++-            PARSER->m_gotNamespaceError = true;
+++        if (!parser->expandQName(*$2, localName, namespaceURI)) {
+++            parser->m_gotNamespaceError = true;
++             YYABORT;
++         }
++ 
++         if ($3) {
++             $$ = new Step($1, Step::NodeTest(Step::NodeTest::NameTest, localName, namespaceURI), *$3);
++-            PARSER->deletePredicateVector($3);
+++            parser->deletePredicateVector($3);
++         } else
++             $$ = new Step($1, Step::NodeTest(Step::NodeTest::NameTest, localName, namespaceURI));
++-        PARSER->deleteString($2);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($2);
+++        parser->registerParseNode($$);
++     }
++     |
++     AbbreviatedStep
++@@ -259,23 +259,23 @@ NodeTest:
++         else if (*$1 == "comment")
++             $$ = new Step::NodeTest(Step::NodeTest::CommentNodeTest);
++ 
++-        PARSER->deleteString($1);
++-        PARSER->registerNodeTest($$);
+++        parser->deleteString($1);
+++        parser->registerNodeTest($$);
++     }
++     |
++     PI '(' ')'
++     {
++         $$ = new Step::NodeTest(Step::NodeTest::ProcessingInstructionNodeTest);
++-        PARSER->deleteString($1);        
++-        PARSER->registerNodeTest($$);
+++        parser->deleteString($1);
+++        parser->registerNodeTest($$);
++     }
++     |
++     PI '(' LITERAL ')'
++     {
++         $$ = new Step::NodeTest(Step::NodeTest::ProcessingInstructionNodeTest, $3->stripWhiteSpace());
++-        PARSER->deleteString($1);        
++-        PARSER->deleteString($3);
++-        PARSER->registerNodeTest($$);
+++        parser->deleteString($1);
+++        parser->deleteString($3);
+++        parser->registerNodeTest($$);
++     }
++     ;
++ 
++@@ -293,14 +293,14 @@ PredicateList:
++     {
++         $$ = new Vector<Predicate*>;
++         $$->append(new Predicate($1));
++-        PARSER->unregisterParseNode($1);
++-        PARSER->registerPredicateVector($$);
+++        parser->unregisterParseNode($1);
+++        parser->registerPredicateVector($$);
++     }
++     |
++     PredicateList Predicate
++     {
++         $$->append(new Predicate($2));
++-        PARSER->unregisterParseNode($2);
+++        parser->unregisterParseNode($2);
++     }
++     ;
++ 
++@@ -315,7 +315,7 @@ DescendantOrSelf:
++     SLASHSLASH
++     {
++         $$ = new Step(Step::DescendantOrSelfAxis, Step::NodeTest(Step::NodeTest::AnyNodeTest));
++-        PARSER->registerParseNode($$);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -323,13 +323,13 @@ AbbreviatedStep:
++     '.'
++     {
++         $$ = new Step(Step::SelfAxis, Step::NodeTest(Step::NodeTest::AnyNodeTest));
++-        PARSER->registerParseNode($$);
+++        parser->registerParseNode($$);
++     }
++     |
++     DOTDOT
++     {
++         $$ = new Step(Step::ParentAxis, Step::NodeTest(Step::NodeTest::AnyNodeTest));
++-        PARSER->registerParseNode($$);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -337,8 +337,8 @@ PrimaryExpr:
++     VARIABLEREFERENCE
++     {
++         $$ = new VariableReference(*$1);
++-        PARSER->deleteString($1);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     '(' Expr ')'
++@@ -349,15 +349,15 @@ PrimaryExpr:
++     LITERAL
++     {
++         $$ = new StringExpression(*$1);
++-        PARSER->deleteString($1);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     NUMBER
++     {
++         $$ = new Number($1->toDouble());
++-        PARSER->deleteString($1);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     FunctionCall
++@@ -369,8 +369,8 @@ FunctionCall:
++         $$ = createFunction(*$1);
++         if (!$$)
++             YYABORT;
++-        PARSER->deleteString($1);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($1);
+++        parser->registerParseNode($$);
++     }
++     |
++     FUNCTIONNAME '(' ArgumentList ')'
++@@ -378,9 +378,9 @@ FunctionCall:
++         $$ = createFunction(*$1, *$3);
++         if (!$$)
++             YYABORT;
++-        PARSER->deleteString($1);
++-        PARSER->deleteExpressionVector($3);
++-        PARSER->registerParseNode($$);
+++        parser->deleteString($1);
+++        parser->deleteExpressionVector($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -389,14 +389,14 @@ ArgumentList:
++     {
++         $$ = new Vector<Expression*>;
++         $$->append($1);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->registerExpressionVector($$);
+++        parser->unregisterParseNode($1);
+++        parser->registerExpressionVector($$);
++     }
++     |
++     ArgumentList ',' Argument
++     {
++         $$->append($3);
++-        PARSER->unregisterParseNode($3);
+++        parser->unregisterParseNode($3);
++     }
++     ;
++ 
++@@ -412,9 +412,9 @@ UnionExpr:
++         $$ = new Union;
++         $$->addSubExpression($1);
++         $$->addSubExpression($3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -430,9 +430,9 @@ PathExpr:
++     {
++         $3->setAbsolute(true);
++         $$ = new Path(static_cast<Filter*>($1), $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     |
++     FilterExpr DescendantOrSelf RelativeLocationPath
++@@ -440,10 +440,10 @@ PathExpr:
++         $3->insertFirstStep($2);
++         $3->setAbsolute(true);
++         $$ = new Path(static_cast<Filter*>($1), $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($2);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($2);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -453,9 +453,9 @@ FilterExpr:
++     PrimaryExpr PredicateList
++     {
++         $$ = new Filter($1, *$2);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->deletePredicateVector($2);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->deletePredicateVector($2);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -465,9 +465,9 @@ OrExpr:
++     OrExpr OR AndExpr
++     {
++         $$ = new LogicalOp(LogicalOp::OP_Or, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -477,9 +477,9 @@ AndExpr:
++     AndExpr AND EqualityExpr
++     {
++         $$ = new LogicalOp(LogicalOp::OP_And, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -489,9 +489,9 @@ EqualityExpr:
++     EqualityExpr EQOP RelationalExpr
++     {
++         $$ = new EqTestOp($2, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -501,9 +501,9 @@ RelationalExpr:
++     RelationalExpr RELOP AdditiveExpr
++     {
++         $$ = new EqTestOp($2, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -513,17 +513,17 @@ AdditiveExpr:
++     AdditiveExpr PLUS MultiplicativeExpr
++     {
++         $$ = new NumericOp(NumericOp::OP_Add, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     |
++     AdditiveExpr MINUS MultiplicativeExpr
++     {
++         $$ = new NumericOp(NumericOp::OP_Sub, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -533,9 +533,9 @@ MultiplicativeExpr:
++     MultiplicativeExpr MULOP UnaryExpr
++     {
++         $$ = new NumericOp($2, $1, $3);
++-        PARSER->unregisterParseNode($1);
++-        PARSER->unregisterParseNode($3);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($1);
+++        parser->unregisterParseNode($3);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++@@ -546,8 +546,8 @@ UnaryExpr:
++     {
++         $$ = new Negative;
++         $$->addSubExpression($2);
++-        PARSER->unregisterParseNode($2);
++-        PARSER->registerParseNode($$);
+++        parser->unregisterParseNode($2);
+++        parser->registerParseNode($$);
++     }
++     ;
++ 
++diff --git a/Source/WebCore/xml/XPathParser.cpp b/Source/WebCore/xml/XPathParser.cpp
++index 62d8ee37fd6ebb74a580a00c59beb6cd40c5a8b7..b5e6a9237593b4aaa2a243f2ff9d86e57f930a97 100644
++--- a/Source/WebCore/xml/XPathParser.cpp
+++++ b/Source/WebCore/xml/XPathParser.cpp
++@@ -32,24 +32,21 @@
++ #include "XPathEvaluator.h"
++ #include "XPathException.h"
++ #include "XPathNSResolver.h"
+++#include "XPathPath.h"
++ #include "XPathStep.h"
++ #include <wtf/StdLibExtras.h>
++ #include <wtf/text/StringHash.h>
++ 
++-int xpathyyparse(void*);
++-
+++using namespace WebCore;
++ using namespace WTF;
++ using namespace Unicode;
+++using namespace XPath;
++ 
++-namespace WebCore {
++-namespace XPath {
++-
++-class LocationPath;
++-
++-#include "XPathGrammar.h"    
+++extern int xpathyyparse(WebCore::XPath::Parser*);
+++#include "XPathGrammar.h"
++ 
++ Parser* Parser::currentParser = 0;
++-    
+++
++ enum XMLCat { NameStart, NameCont, NotPartOfName };
++ 
++ typedef HashMap<String, Step::Axis> AxisNamesMap;
++@@ -630,5 +627,3 @@ void Parser::deleteNodeTest(Step::NodeTest* t)
++     delete t;
++ }
++ 
++-}
++-}
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb
+index bba9a80..1789d4d 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
+                     file://Source/WebKit/gtk/webkit/webkit.h;endline=21;md5=b4fbe9f4a944f1d071dba1d2c76b3351 \
+                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=b57c8a2952a8d0e655988fa0ecb2bf7f"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ # Choice of language backends - icu has issues on Big Endian machines so use pango
+ ICU_LIB = "icu"
+@@ -22,6 +22,7 @@ SRC_URI = "\
+   file://nodolt.patch \
+   file://no-gtkdoc.patch \
+   file://webgit-gtk_fix_build_with_automake_1.12.patch \
++  file://bison-2.6.patch \
+  "
+ 
+ SRC_URI[md5sum] = "f7bd0bd4f323039f15e19c82a9a8313c"
+-- 
+1.8.0.2
+
 
 
