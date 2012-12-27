@@ -1,27 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1ToEw3-0002cK-NT
+	(envelope-from <sgw@linux.intel.com>) id 1ToGEu-0004bL-Sv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Dec 2012 15:59:52 +0100
+	Thu, 27 Dec 2012 17:23:25 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Dec 2012 06:43:51 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 27 Dec 2012 08:08:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,362,1355126400"; d="scan'208";a="270368413"
-Received: from costin-desktop (HELO [10.237.105.152]) ([10.237.105.152])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Dec 2012 06:43:44 -0800
-Message-ID: <50DC5ECB.1020205@intel.com>
-Date: Thu, 27 Dec 2012 16:44:27 +0200
-From: Constantin Musca <constantinx.musca@intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,363,1355126400"; d="scan'208";a="270394065"
+Received: from unknown (HELO [10.255.14.22]) ([10.255.14.22])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Dec 2012 08:08:28 -0800
+Message-ID: <50DC727B.5000103@linux.intel.com>
+Date: Thu, 27 Dec 2012 08:08:27 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1356337650.git.constantinx.musca@intel.com>
-	<7052eafcfa91495d9a4323c1437435cb68c95158.1356337650.git.constantinx.musca@intel.com>
-	<50DB3F78.20409@linux.intel.com>
-In-Reply-To: <50DB3F78.20409@linux.intel.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+References: <1356606431-31942-1-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1356606431-31942-1-git-send-email-cazfi74@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 08/15] libfm: upgrade to 1.1.0
+Subject: Re: [PATCH] gettext: update to upstream version 0.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,220 +32,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 14:59:52 -0000
+X-List-Received-Date: Thu, 27 Dec 2012 16:23:25 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/26/2012 08:18 PM, Saul Wold wrote:
-> On 12/24/2012 12:34 AM, Constantin Musca wrote:
->> fix-includedir-ln.patch: added
->> - fix infinite link recursion by specifying the absolute path
->> - fix make parallelism issues
->>
->> libfm_fix_for_automake-1.12.patch: removed
->> - problem not reprodicible anymore
->>
->> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->> ---
->>   .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch | 48 
->> ----------------------
->>   .../configure_fix.patch                            |  0
-> If this patch is not being used any more, then it should be removed.
->
->> .../libfm/libfm-1.1.0/fix-includedir-ln.patch      | 45 
->> ++++++++++++++++++++
-> What is the intent of this, it seems to be part of the cause of the 
-> pcmanfm failure.
->
-> See below
->
-> Sau!
->
->>   .../libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb}      |  8 ++--
->>   4 files changed, 49 insertions(+), 52 deletions(-)
->>   delete mode 100644 
->> meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
->>   rename meta/recipes-support/libfm/{libfm-0.1.17 => 
->> libfm-1.1.0}/configure_fix.patch (100%)
->>   create mode 100644 
->> meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch
->>   rename meta/recipes-support/libfm/{libfm_0.1.17.bb => 
->> libfm_1.1.0.bb} (75%)
->>
->> diff --git 
->> a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch 
->> b/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch 
->>
->> deleted file mode 100644
->> index 3efb4dd..0000000
->> --- 
->> a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
->> +++ /dev/null
->> @@ -1,48 +0,0 @@
->> -Upstream-Status: Pending
->> -
->> -This patch fixes following kind of issues with automake 1.12
->> -| automake: warnings are treated as errors
->> -| data/ui/Makefile.am:21: warning: '%'-style pattern rules are a GNU 
->> make extension
->> -...
->> -| 
->> /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: 
->> warning: 'libfm-gtk.la': linking libtool libraries using a non-POSIX
->> -| 
->> /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: 
->> archiver requires 'AM_PROG_AR' in 'configure.ac'
->> -...
->> -| src/Makefile.am:21: warning: compiling 'glib-compat.c' with 
->> per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
->> -
->> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
->> -2012/05/03
->> -
->> -Index: libfm-0.1.17/configure.ac
->> -===================================================================
->> ---- libfm-0.1.17.orig/configure.ac
->> -+++ libfm-0.1.17/configure.ac
->> -@@ -4,11 +4,17 @@
->> - AC_PREREQ([2.63])
->> - AC_INIT([libfm], [0.1.17], [http://pcmanfm.sorceforge.net/])
->> - AM_INIT_AUTOMAKE([-Wall -Werror foreign])
->> -+
->> -+# automake 1.12 seems to require this, but automake 1.11 doesn't 
->> recognize it
->> -+m4_pattern_allow([AM_PROG_AR])
->> -+AM_PROG_AR
->> -+
->> - AC_CONFIG_MACRO_DIR(m4)
->> - AC_CONFIG_HEADERS([config.h])
->> -
->> - # Checks for programs.
->> - AC_PROG_CC
->> -+AM_PROG_CC_C_O
->> - AM_PROG_LIBTOOL
->> -
->> - # Checks for libraries.
->> -Index: libfm-0.1.17/data/ui/Makefile.am
->> -===================================================================
->> ---- libfm-0.1.17.orig/data/ui/Makefile.am
->> -+++ libfm-0.1.17/data/ui/Makefile.am
->> -@@ -18,6 +18,6 @@ EXTRA_DIST = \
->> -     $(NULL)
->> -
->> - # Purge GtkBuilder UI files
->> --%.ui: %.glade
->> -+.glade.ui:
->> -     cp $< $@
->> -     $(top_builddir)/src/xml-purge $@
->> diff --git 
->> a/meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch 
->> b/meta/recipes-support/libfm/libfm-1.1.0/configure_fix.patch
->> similarity index 100%
->> rename from meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch
->> rename to meta/recipes-support/libfm/libfm-1.1.0/configure_fix.patch
->> diff --git 
->> a/meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch 
->> b/meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch
->> new file mode 100644
->> index 0000000..3f06278
->> --- /dev/null
->> +++ b/meta/recipes-support/libfm/libfm-1.1.0/fix-includedir-ln.patch
->> @@ -0,0 +1,45 @@
->> +Fix infinite link recursion by specifying the absolute path
->> +Fix make parallelism issues
->> +
->> +Upstream-Status: Pending
->> +Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->> +
->> +Index: libfm-1.1.0/src/Makefile.in
->> +===================================================================
->> +--- libfm-1.1.0.orig/src/Makefile.in
->> ++++ libfm-1.1.0/src/Makefile.in
->> +@@ -2523,8 +2523,6 @@ info: info-recursive
->> + info-am:
->> +
->> + install-data-am: install-data-local install-giomodulesLTLIBRARIES \
->> +-    install-libfmgtkincludeHEADERS install-libfmincludeHEADERS \
->> +-    install-pkgincludeHEADERS
->> +
->> + install-dvi: install-dvi-recursive
->> +
->> +@@ -2617,7 +2615,9 @@ gtk/fm-gtk-marshal.h: gtk/fm-gtk-marshal
->> + gtk/fm-gtk-marshal.c: gtk/fm-gtk-marshal.list
->> +     glib-genmarshal --body --prefix=fm_marshal $? > $@.tmp && mv 
->> $@.tmp $@
->> +
->> +-install-data-local:
->> ++install-data-local: install-libfmgtkincludeHEADERS 
->> install-libfmincludeHEADERS \
->> ++    install-pkgincludeHEADERS
->> ++
->> +     @if test -e "$(DESTDIR)$(includedir)/@PACKAGE@"; then \
->> +         echo rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
->> +         rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
->> +Index: libfm-1.1.0/src/Makefile.am
->> +===================================================================
->> +--- libfm-1.1.0.orig/src/Makefile.am
->> ++++ libfm-1.1.0/src/Makefile.am
->> +@@ -453,8 +453,8 @@ install-data-local:
->> +         echo rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
->> +         rm -rf "$(DESTDIR)$(includedir)/@PACKAGE@"; \
->> +     fi
->> +-    test -z "$(includedir)" || $(MKDIR_P) "$(DESTDIR)$(includedir)"
->> +-    @LN_S@ @PACKAGE@-@FMLIBVER@ "$(DESTDIR)$(includedir)/@PACKAGE@"
->> ++    rm -rf $(DESTDIR)$(includedir)/@PACKAGE@
->> ++    @LN_S@ $(DESTDIR)$(includedir)/@PACKAGE@-@FMLIBVER@ 
->> $(DESTDIR)$(includedir)/@PACKAGE@
->> +
-> this does not look right and I think produces the following:
->
-> tmp/sysroots/qemuarm/usr/include/libfm:
-> total 4
-> lrwxrwxrwx 1 sgw sgw 98 Dec 25 22:55 libfm-1.0 -> 
-> /intel/builds/world/tmp/work/armv5te-poky-linux-gnueabi/libfm/1.1.0-r0/image/usr/include/libfm-1.0
->
-> Notice linking back into the image dir, that's not correct.
->
->
->> + uninstall-local:
->> +     @if test -L "$(DESTDIR)$(includedir)/@PACKAGE@"; then \
->> diff --git a/meta/recipes-support/libfm/libfm_0.1.17.bb 
->> b/meta/recipes-support/libfm/libfm_1.1.0.bb
->> similarity index 75%
->> rename from meta/recipes-support/libfm/libfm_0.1.17.bb
->> rename to meta/recipes-support/libfm/libfm_1.1.0.bb
->> index 2cac361..7282871 100644
->> --- a/meta/recipes-support/libfm/libfm_0.1.17.bb
->> +++ b/meta/recipes-support/libfm/libfm_1.1.0.bb
->> @@ -10,14 +10,14 @@ LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->>   SECTION = "x11/libs"
->>   DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native"
->>
->> -PR = "r4"
->> +PR = "r0"
->>
->>   SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
->> -           file://libfm_fix_for_automake-1.12.patch \
->> +           file://fix-includedir-ln.patch \
->>              "
->>
->> -SRC_URI[md5sum] = "a97e03d973e6ac727f28d0934d6c9ad5"
->> -SRC_URI[sha256sum] = 
->> "1740681cff4cd4c5a2eaa9805d8898269cfb6a49a0bda0acb242def15bc7131b"
->> +SRC_URI[md5sum] = "a5bc8b8291cf810c659bfb3af378b5de"
->> +SRC_URI[sha256sum] = 
->> "b9426e588670b53570b808c49abd1d103863614dd3622559b8c3ef1392fe0b3d"
->>
->>   inherit autotools pkgconfig
->>
->>
-I managed to reproduce the problem after several builds. The libfm dir 
-is created before the link is made and that's why the link is incorrect. 
-I have sent patch v2 which fixes the problem by creating a relative 
-symbolic link after do_install.
+On 12/27/2012 03:07 AM, Marko Lindqvist wrote:
+> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+> ---
+>   .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 --------------------
+Why are we removing this patch, it's important to note this in the 
+commit message, did the upstream take this patch or change the code??
 
-Cheers,
-Constantin
+Sau!
+
+>   .../gnulib-uclibc-sched_param-def.patch            |    0
+>   .../parallel.patch                                 |    0
+>   .../wchar-uclibc.patch                             |    0
+>   .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |    7 +--
+>   5 files changed, 3 insertions(+), 62 deletions(-)
+>   delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+>   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
+>   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
+>   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
+>   rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
+>
+> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch b/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+> deleted file mode 100644
+> index 3d3c400..0000000
+> --- a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+> +++ /dev/null
+> @@ -1,58 +0,0 @@
+> -eglibc 2.16 has removed gets so we need to check for it
+> -being there before using it.
+> -
+> -
+> -From glibc stdio.h
+> -
+> -The function has been officially removed in ISO C11.  This opportunity
+> -   is used to also remove it from the GNU feature list.  It is now only
+> -   available when explicitly using an old ISO C, Unix, or POSIX standard.
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> -Upstream-Status: Pending
+> -Index: gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h
+> -===================================================================
+> ---- gettext-0.18.1.1.orig/gettext-runtime/gnulib-lib/stdio.in.h	2010-05-17 12:56:12.000000000 -0700
+> -+++ gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h	2012-07-02 22:42:21.292223316 -0700
+> -@@ -140,8 +140,10 @@
+> - /* It is very rare that the developer ever has full control of stdin,
+> -    so any use of gets warrants an unconditional warning.  Assume it is
+> -    always declared, since it is required by C89.  */
+> -+#if defined gets
+> - #undef gets
+> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+> -+#endif
+> -
+> - #if @GNULIB_FOPEN@
+> - # if @REPLACE_FOPEN@
+> -Index: gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h
+> -===================================================================
+> ---- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/stdio.in.h	2010-05-24 02:42:46.000000000 -0700
+> -+++ gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h	2012-07-02 23:02:33.476281979 -0700
+> -@@ -140,8 +140,10 @@
+> - /* It is very rare that the developer ever has full control of stdin,
+> -    so any use of gets warrants an unconditional warning.  Assume it is
+> -    always declared, since it is required by C89.  */
+> -+#if defined gets
+> - #undef gets
+> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+> -+#endif
+> -
+> - #if @GNULIB_FOPEN@
+> - # if @REPLACE_FOPEN@
+> -Index: gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h
+> -===================================================================
+> ---- gettext-0.18.1.1.orig/gettext-tools/libgettextpo/stdio.in.h	2010-05-17 12:58:03.000000000 -0700
+> -+++ gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h	2012-07-02 23:01:57.440280253 -0700
+> -@@ -140,8 +140,10 @@
+> - /* It is very rare that the developer ever has full control of stdin,
+> -    so any use of gets warrants an unconditional warning.  Assume it is
+> -    always declared, since it is required by C89.  */
+> -+#if defined gets
+> - #undef gets
+> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+> -+#endif
+> -
+> - #if @GNULIB_FOPEN@
+> - # if @REPLACE_FOPEN@
+> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch b/meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
+> similarity index 100%
+> rename from meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch
+> rename to meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
+> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
+> similarity index 100%
+> rename from meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
+> rename to meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
+> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch b/meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
+> similarity index 100%
+> rename from meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch
+> rename to meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
+> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.2.bb
+> similarity index 96%
+> rename from meta/recipes-core/gettext/gettext_0.18.1.1.bb
+> rename to meta/recipes-core/gettext/gettext_0.18.2.bb
+> index 4639481..3e93089 100644
+> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+> +++ b/meta/recipes-core/gettext/gettext_0.18.2.bb
+> @@ -5,7 +5,7 @@ SECTION = "libs"
+>   LICENSE = "GPLv3+ & LGPL-2.1+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>
+> -PR = "r19"
+> +PR = "r0"
+>   DEPENDS = "gettext-native virtual/libiconv ncurses expat"
+>   DEPENDS_class-native = "gettext-minimal-native"
+>   PROVIDES = "virtual/libintl virtual/gettext"
+> @@ -13,7 +13,6 @@ PROVIDES_class-native = "virtual/gettext-native"
+>   RCONFLICTS_${PN} = "proxy-libintl"
+>   SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+>   	   file://parallel.patch \
+> -	   file://remove_gets.patch \
+>             "
+>
+>   SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+> @@ -21,8 +20,8 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
+>                                "
+>   LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
+>
+> -SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
+> -SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
+> +SRC_URI[md5sum] = "0c86e5af70c195ab8bd651d17d783928"
+> +SRC_URI[sha256sum] = "516a6370b3b3f46e2fc5a5e222ff5ecd76f3089bc956a7587a6e4f89de17714c"
+>
+>   inherit autotools
+>
+>
 
 
