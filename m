@@ -1,24 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1ToERY-0001tt-Ve
+	(envelope-from <constantinx.musca@intel.com>) id 1ToEqH-0002Vs-Ra
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Dec 2012 15:28:37 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Dec 2012 06:13:27 -0800
+	Thu, 27 Dec 2012 15:53:55 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Dec 2012 06:38:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,362,1355126400"; d="scan'208";a="239466245"
+X-IronPort-AV: E=Sophos;i="4.84,362,1355126400"; d="scan'208";a="267477067"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 27 Dec 2012 06:13:26 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 27 Dec 2012 06:38:54 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Dec 2012 16:13:57 +0200
-Message-Id: <96f18ec499efb9727b1e73bfea891f8ab9e19ac7.1356617488.git.constantinx.musca@intel.com>
+Date: Thu, 27 Dec 2012 16:39:32 +0200
+Message-Id: <1356619172-30115-1-git-send-email-constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1356617488.git.constantinx.musca@intel.com>
-References: <cover.1356617488.git.constantinx.musca@intel.com>
-In-Reply-To: <cover.1356617488.git.constantinx.musca@intel.com>
-References: <cover.1356617488.git.constantinx.musca@intel.com>
-Subject: [PATCH 6/6] rpm: replace /usr/lib with ${libdir}
+Subject: [PATCH v2] libfm: upgrade to 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +27,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 14:28:45 -0000
+X-List-Received-Date: Thu, 27 Dec 2012 14:53:55 -0000
 
-Fix the following warning:
-WARNING: QA Issue: rpm: Files/directories were installed but not shipped
-  /usr/lib64/rpm/bin/api-sanity-checker.pl
+libfm_fix_for_automake-1.12.patch: removed
+- problem not reprodicible anymore
+
+configure_fix.patch: removed
+- not used
+
+[Other changes]
+- create a symbolic link from ${includedir}/libfm-1.0 to
+${includedir}/libfm (this is where pcmanfm looks)
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.9.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libfm/libfm-0.1.17/configure_fix.patch         | 19 ---------
+ .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch | 48 ----------------------
+ .../libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb}      | 14 +++++--
+ 3 files changed, 10 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch
+ delete mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+ rename meta/recipes-support/libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb} (71%)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 088fc66..c916a42 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+diff --git a/meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch b/meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch
+deleted file mode 100644
+index 351e6e7..0000000
+--- a/meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Update configure.ac after docs removed in 0.1.16
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+-Index: libfm-0.1.16/configure.ac
+-===================================================================
+---- libfm-0.1.16.orig/configure.ac	2011-10-10 15:13:21.000000000 +0800
+-+++ libfm-0.1.16/configure.ac	2011-10-10 15:13:30.000000000 +0800
+-@@ -153,9 +153,6 @@
+-     data/Makefile
+-     data/ui/Makefile
+-     po/Makefile.in
+--    docs/Makefile
+--    docs/reference/Makefile
+--    docs/reference/libfm/Makefile
+-     libfm.pc
+-     libfm-gtk.pc
+- ])
+diff --git a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch b/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+deleted file mode 100644
+index 3efb4dd..0000000
+--- a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-Upstream-Status: Pending
+-
+-This patch fixes following kind of issues with automake 1.12
+-| automake: warnings are treated as errors
+-| data/ui/Makefile.am:21: warning: '%'-style pattern rules are a GNU make extension
+-...
+-| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libfm-gtk.la': linking libtool libraries using a non-POSIX
+-| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
+-...
+-| src/Makefile.am:21: warning: compiling 'glib-compat.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
+-
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2012/05/03
+-
+-Index: libfm-0.1.17/configure.ac
+-===================================================================
+---- libfm-0.1.17.orig/configure.ac
+-+++ libfm-0.1.17/configure.ac
+-@@ -4,11 +4,17 @@
+- AC_PREREQ([2.63])
+- AC_INIT([libfm], [0.1.17], [http://pcmanfm.sorceforge.net/])
+- AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+-+
+-+# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
+-+m4_pattern_allow([AM_PROG_AR])
+-+AM_PROG_AR
+-+
+- AC_CONFIG_MACRO_DIR(m4)
+- AC_CONFIG_HEADERS([config.h])
+- 
+- # Checks for programs.
+- AC_PROG_CC
+-+AM_PROG_CC_C_O
+- AM_PROG_LIBTOOL
+- 
+- # Checks for libraries.
+-Index: libfm-0.1.17/data/ui/Makefile.am
+-===================================================================
+---- libfm-0.1.17.orig/data/ui/Makefile.am
+-+++ libfm-0.1.17/data/ui/Makefile.am
+-@@ -18,6 +18,6 @@ EXTRA_DIST = \
+- 	$(NULL)
+- 
+- # Purge GtkBuilder UI files
+--%.ui: %.glade
+-+.glade.ui:
+- 	cp $< $@
+- 	$(top_builddir)/src/xml-purge $@
+diff --git a/meta/recipes-support/libfm/libfm_0.1.17.bb b/meta/recipes-support/libfm/libfm_1.1.0.bb
+similarity index 71%
+rename from meta/recipes-support/libfm/libfm_0.1.17.bb
+rename to meta/recipes-support/libfm/libfm_1.1.0.bb
+index 2cac361..95a2ca0 100644
+--- a/meta/recipes-support/libfm/libfm_0.1.17.bb
++++ b/meta/recipes-support/libfm/libfm_1.1.0.bb
+@@ -10,16 +10,22 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ SECTION = "x11/libs"
+ DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native"
  
- DEPENDS = "libpcre attr acl popt ossp-uuid file bison-native"
--PR = "r60"
-+PR = "r61"
+-PR = "r4"
++PR = "r0"
  
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -445,7 +445,7 @@ do_install_append() {
- 	rm -f ${D}/${libdir}/rpm/bin/pom2spec
+ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
+-           file://libfm_fix_for_automake-1.12.patch \
+            "
  
- 	rm -rf ${D}/var/lib/wdj ${D}/var/cache/wdj
--	rm -f ${D}/usr/lib/rpm/bin/api-sanity-checker.pl
-+	rm -f ${D}/${libdir}/rpm/bin/api-sanity-checker.pl
- }
+-SRC_URI[md5sum] = "a97e03d973e6ac727f28d0934d6c9ad5"
+-SRC_URI[sha256sum] = "1740681cff4cd4c5a2eaa9805d8898269cfb6a49a0bda0acb242def15bc7131b"
++SRC_URI[md5sum] = "a5bc8b8291cf810c659bfb3af378b5de"
++SRC_URI[sha256sum] = "b9426e588670b53570b808c49abd1d103863614dd3622559b8c3ef1392fe0b3d"
  
- do_install_append_class-native() {
+ inherit autotools pkgconfig
+ 
++do_install_append() {
++    cd ${D}/${includedir}
++    rm -rf ${BPN}
++    ln -s ${BPN}-1.0 ${BPN}
++    cd ${S}
++}
++
+ PACKAGES += "${PN}-mime"
+ FILES_${PN}-mime = "${datadir}/mime/"
 -- 
 1.7.11.7
 
