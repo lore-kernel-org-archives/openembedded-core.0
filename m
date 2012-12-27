@@ -1,18 +1,18 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1To9QN-0005u7-W8
+	(envelope-from <Qi.Chen@windriver.com>) id 1To9UR-00060L-Fy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Dec 2012 10:06:50 +0100
+	Thu, 27 Dec 2012 10:11:03 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBR8poPg026483
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBR8u3kV005088
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Dec 2012 00:51:50 -0800 (PST)
+	Thu, 27 Dec 2012 00:56:03 -0800 (PST)
 Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Thu, 27 Dec 2012 00:51:48 -0800
-Message-ID: <50DC0C24.3080002@windriver.com>
-Date: Thu, 27 Dec 2012 16:51:48 +0800
+	Thu, 27 Dec 2012 00:56:03 -0800
+Message-ID: <50DC0D23.6090804@windriver.com>
+Date: Thu, 27 Dec 2012 16:56:03 +0800
 From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Dec 2012 09:06:54 -0000
+X-List-Received-Date: Thu, 27 Dec 2012 09:11:03 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -58,18 +58,12 @@ On 12/27/2012 04:42 PM, Martin Jansa wrote:
 > without read-only-rootfs.
 >
 > Cheers,
-Yes. And I did this on purpose.
+Thanks for your review  :)
 
-I want to ship the conf file no matter we're building a 
-'read-only-rootfs' image or not.
-In this way, changing 'ROOTFS_READ_ONLY' to 'yes' on a currently running 
-system and rebooting will give the user a working system with read-only 
-rootfs.
+The commit message here is kind of misleading.
+Maybe I should modify the commit message here?
 
-If the rootfs is not read-only, this conf file will not be applied, both 
-at rootfs construction time and at system startup time.
-
-Best Regards,
+Thanks,
 Chen Qi
 
 >> [YOCTO #3406]
