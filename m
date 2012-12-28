@@ -1,30 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1ToPj1-0003G6-Dn
+	(envelope-from <Rongqing.Li@windriver.com>) id 1ToQ3W-0003bD-5x
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Dec 2012 03:31:24 +0100
+	Fri, 28 Dec 2012 03:52:30 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBS2GCAb008648
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Dec 2012 18:16:12 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Thu, 27 Dec 2012 18:16:11 -0800
-Message-ID: <50DD00EC.6000004@windriver.com>
-Date: Fri, 28 Dec 2012 10:16:12 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBS2bMog007344
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Dec 2012 18:37:22 -0800 (PST)
+Received: from [128.224.162.143] (128.224.162.143) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Thu, 27 Dec 2012 18:37:22 -0800
+Message-ID: <50DD05E2.9000809@windriver.com>
+Date: Fri, 28 Dec 2012 10:37:22 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1356576405.git.Qi.Chen@windriver.com>
-	<819997e2cad5d6a4bf2621fb7cc443105ca0fc87.1356576405.git.Qi.Chen@windriver.com>
-	<50DC91D7.10306@linux.intel.com>
-In-Reply-To: <50DC91D7.10306@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] image.bbclass: add two hook funtions to support read-only rootfs
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1356310727.git.rongqing.li@windriver.com>
+In-Reply-To: <cover.1356310727.git.rongqing.li@windriver.com>
+Subject: Re: [PATCH 0/1] replace portmap with rpcbind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,89 +34,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Dec 2012 02:31:25 -0000
+X-List-Received-Date: Fri, 28 Dec 2012 02:52:33 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/28/2012 02:22 AM, Saul Wold wrote:
-> On 12/26/2012 06:57 PM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> read_only_rootfs_hook: this funtion is invoked only if 
->> 'read-only-rootfs'
->> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
->> volatile.sh script run at rootfs time.
->>
->> choose_volatile_conf_file: this function properly chooses the right
->> conf file for volatile storage handling according to the IMAGE_FEATURES.
->>
->> [YOCTO #3406]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/image.bbclass |   29 +++++++++++++++++++++++++++++
->>   1 file changed, 29 insertions(+)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index 8bf718a..15d42d0 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -394,6 +394,35 @@ zap_root_password () {
->>       mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
->>   }
->>
->> +# A hook function to support read-only-rootfs IMAGE_FEATURES
->> +read_only_rootfs_hook () {
->> +    # Tweak the mount option in fstab
->> +    sed '/rootfs/ s/defaults/ro/' < ${IMAGE_ROOTFS}/etc/fstab > 
->> ${IMAGE_ROOTFS}/etc/fstab.new
->> +    mv ${IMAGE_ROOTFS}/etc/fstab.new ${IMAGE_ROOTFS}/etc/fstab
->> +    # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
->> +    sed 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' < 
->> ${IMAGE_ROOTFS}/etc/default/rcS > ${IMAGE_ROOTFS}/etc/default/rcS.new
->> +    mv ${IMAGE_ROOTFS}/etc/default/rcS.new 
->> ${IMAGE_ROOTFS}/etc/default/rcS
-> For the above 2 sed/mv, can't you use sed -i instead, cuts down on the 
-> exec overhead.
->
-> Sau!
->
-I've fixed this and sent out a V4.
+Ping
 
-Thanks,
-Chen Qi
->> +    # Run populate-volatile.sh at rootfs time to set up basic files
->> +    # and directories to support read-only rootfs.
->> +    if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
->> +        echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh 
->> doesn't exist."
->> +        exit 1
->> +    else
->> +        ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
->> +    fi
->> +}
->> +
->> +# Choose the correct config file for volatile storage handling 
->> according to the image type
->> +choose_volatile_conf_file () {
->> +    if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", 
->> "false" ,d)}; then
->> +        cp 
->> ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
->> + ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
->> +    else
->> +        cp 
->> ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
->> + ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
->> +    fi
->> +}
->> +
->>   # allow openssh accept login with empty password string
->>   openssh_allow_empty_password () {
->>       if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
->>
+
+
+this is a cleanup of below commit, please consider to merge it.
+
+commit f63add40c6bdfb3a19e59ac28f7d2ae5597f5bfd
+Author: Christopher Larson <kergoth@gmail.com>
+Date:   Thu Jun 7 16:36:51 2012 -0700
+
+     task-core-basic: drop portmap
+
+     Both rpcbind and portmap are RPC port mappers. Having both is 
+redundant. Chose
+     rpcbind over portmap as rpcbind supports ipv6, nfs4, and builds 
+without the
+     glibc rpc headers, which have been obsoleted in glibc 2.14.
+
+     Signed-off-by: Christopher Larson <kergoth@gmail.com>
+     Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Thanks
+
+-roy
+
+
+On 12/24/2012 09:02 AM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
 >
+> *** BLURB HERE ***
+> The following changes since commit 26bf8f6a047ccc0f73eaa40093afddabfce8ea1b:
+>
+>    gst-openmax: fix build with newer GLib (2012-12-17 17:53:33 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib roy/rpcbind
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/rpcbind
+>
+> Roy.Li (1):
+>    replace portmap with rpcbind.
+>
+>   meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb |    2 +-
+>   .../initscripts/initscripts-1.0/mountnfs.sh            |   16 ++++++++--------
+>   meta/recipes-core/packagegroups/packagegroup-base.bb   |    2 +-
+>   3 files changed, 10 insertions(+), 10 deletions(-)
 >
 
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
 
