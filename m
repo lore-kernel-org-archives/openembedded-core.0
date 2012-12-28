@@ -1,27 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1ToPgf-000309-BG
+	(envelope-from <Qi.Chen@windriver.com>) id 1ToPj1-0003G6-Dn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Dec 2012 03:28:51 +0100
+	Fri, 28 Dec 2012 03:31:24 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBS2Dibu005349
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Dec 2012 18:13:44 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 27 Dec 2012 18:13:44 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Dec 2012 10:13:41 +0800
-Message-ID: <f8f9ac290040f9b714df32301f25f0eba9bd3052.1356660479.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1356660479.git.Qi.Chen@windriver.com>
-References: <cover.1356660479.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBS2GCAb008648
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Dec 2012 18:16:12 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Thu, 27 Dec 2012 18:16:11 -0800
+Message-ID: <50DD00EC.6000004@windriver.com>
+Date: Fri, 28 Dec 2012 10:16:12 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V4 3/4] core-image.bbclass: support read-only-rootfs image feature
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1356576405.git.Qi.Chen@windriver.com>
+	<819997e2cad5d6a4bf2621fb7cc443105ca0fc87.1356576405.git.Qi.Chen@windriver.com>
+	<50DC91D7.10306@linux.intel.com>
+In-Reply-To: <50DC91D7.10306@linux.intel.com>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] image.bbclass: add two hook funtions to support read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +37,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Dec 2012 02:28:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Dec 2012 02:31:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 12/28/2012 02:22 AM, Saul Wold wrote:
+> On 12/26/2012 06:57 PM, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> read_only_rootfs_hook: this funtion is invoked only if 
+>> 'read-only-rootfs'
+>> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+>> volatile.sh script run at rootfs time.
+>>
+>> choose_volatile_conf_file: this function properly chooses the right
+>> conf file for volatile storage handling according to the IMAGE_FEATURES.
+>>
+>> [YOCTO #3406]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/image.bbclass |   29 +++++++++++++++++++++++++++++
+>>   1 file changed, 29 insertions(+)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index 8bf718a..15d42d0 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -394,6 +394,35 @@ zap_root_password () {
+>>       mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+>>   }
+>>
+>> +# A hook function to support read-only-rootfs IMAGE_FEATURES
+>> +read_only_rootfs_hook () {
+>> +    # Tweak the mount option in fstab
+>> +    sed '/rootfs/ s/defaults/ro/' < ${IMAGE_ROOTFS}/etc/fstab > 
+>> ${IMAGE_ROOTFS}/etc/fstab.new
+>> +    mv ${IMAGE_ROOTFS}/etc/fstab.new ${IMAGE_ROOTFS}/etc/fstab
+>> +    # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+>> +    sed 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' < 
+>> ${IMAGE_ROOTFS}/etc/default/rcS > ${IMAGE_ROOTFS}/etc/default/rcS.new
+>> +    mv ${IMAGE_ROOTFS}/etc/default/rcS.new 
+>> ${IMAGE_ROOTFS}/etc/default/rcS
+> For the above 2 sed/mv, can't you use sed -i instead, cuts down on the 
+> exec overhead.
+>
+> Sau!
+>
+I've fixed this and sent out a V4.
 
-Two hook functions are appended to ROOTFS_POSTPROCESS_COMMAND
-properly to support the 'read-only-rootfs' image feature.
-
-[YOCTO #3406]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/core-image.bbclass |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 2e67018..dc8fdc3 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -28,6 +28,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
- # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
- # - doc-pkgs            - documentation packages for all installed packages in the rootfs
-+# - read-only-rootfs    - tweaks an image to support read-only rootfs
- #
- PACKAGE_GROUP_x11 = "packagegroup-core-x11"
- PACKAGE_GROUP_x11-base = "packagegroup-core-x11-base"
-@@ -73,9 +74,11 @@ inherit image
- 
- # Create /etc/timestamp during image construction to give a reasonably sane default time setting
- ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
--
-+# Choose the correct configuartion files for volatile storage handling
-+ROOTFS_POSTPROCESS_COMMAND += "choose_volatile_conf_file ; "
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
- # Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
--
-+# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
--- 
-1.7.9.5
+Thanks,
+Chen Qi
+>> +    # Run populate-volatile.sh at rootfs time to set up basic files
+>> +    # and directories to support read-only rootfs.
+>> +    if [ ! -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+>> +        echo "${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh 
+>> doesn't exist."
+>> +        exit 1
+>> +    else
+>> +        ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+>> +    fi
+>> +}
+>> +
+>> +# Choose the correct config file for volatile storage handling 
+>> according to the image type
+>> +choose_volatile_conf_file () {
+>> +    if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", 
+>> "false" ,d)}; then
+>> +        cp 
+>> ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
+>> + ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+>> +    else
+>> +        cp 
+>> ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
+>> + ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+>> +    fi
+>> +}
+>> +
+>>   # allow openssh accept login with empty password string
+>>   openssh_allow_empty_password () {
+>>       if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+>>
+>
+>
 
 
 
