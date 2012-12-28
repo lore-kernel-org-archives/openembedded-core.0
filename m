@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Tohvl-0007Y5-JT
+	(envelope-from <scott.a.garman@intel.com>) id 1Tohvo-0007bd-RS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 28 Dec 2012 22:57:29 +0100
+	Fri, 28 Dec 2012 22:57:33 +0100
 Received: from localhost (c-50-137-42-92.hsd1.or.comcast.net [50.137.42.92])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id B1F592FEF2
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 909CD2FEF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Dec 2012 16:42:28 -0500 (EST)
+	Fri, 28 Dec 2012 16:42:31 -0500 (EST)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Dec 2012 13:41:46 -0800
-Message-Id: <e6fddd1961061895e9335fa94b636163efdc9caa.1356730817.git.scott.a.garman@intel.com>
+Date: Fri, 28 Dec 2012 13:41:47 -0800
+Message-Id: <6d030fcb69221da073ce413049deb8447934bed5.1356730817.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1356730817.git.scott.a.garman@intel.com>
 References: <cover.1356730817.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1356730817.git.scott.a.garman@intel.com>
 References: <cover.1356730817.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: B1F592FEF2.0E907
+X-MailScanner-ID: 909CD2FEF3.C7B11
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 13/15] squashfs: fix CVE-2012-4025
+Subject: [PATCH 14/15] librsvg: CVE-2011-3146
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,518 +38,1157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Dec 2012 21:57:30 -0000
+X-List-Received-Date: Fri, 28 Dec 2012 21:57:33 -0000
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+From: Li Wang <li.wang@windriver.com>
 
-CQID:WIND00366813
+Store node type separately in RsvgNode
 
-Reference: http://squashfs.git.sourceforge.net/git/gitweb.cgi?
-p=squashfs/squashfs;a=patch;h=8515b3d420f502c5c0236b86e2d6d7e3b23c190e
+commit 34c95743ca692ea0e44778e41a7c0a129363de84 upstream
 
-Integer overflow in the queue_init function in unsquashfs.c in
-unsquashfs in Squashfs 4.2 and earlier allows remote attackers
-to execute arbitrary code via a crafted block_log field in the
-superblock of a .sqsh file, leading to a heap-based buffer overflow.
+The node name (formerly RsvgNode:type) cannot be used to infer
+the sub-type of RsvgNode that we're dealing with, since for unknown
+elements we put type = node-name. This lead to a (potentially exploitable)
+crash e.g. when the element name started with "fe" which tricked
+the old code into considering it as a RsvgFilterPrimitive.
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-3146
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4025
+https://bugzilla.gnome.org/show_bug.cgi?id=658014
 
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+[YOCTO #3581]
+[ CQID: WIND00376773 ]
+Upstream-Status: Backport
 
-[YOCTO #3564]
+Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../patches/squashfs-4.2-fix-CVE-2012-4025.patch   |  190 +++++++++++++++++
- ...dd-a-commment-and-fix-some-other-comments.patch |   38 ++++
- .../patches/squashfs-fix-open-file-limit.patch     |  215 ++++++++++++++++++++
- .../squashfs-tools/squashfs-tools_4.2.bb           |    5 +-
- 4 files changed, 447 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
- create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
- create mode 100644 meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
 
-diff --git a/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
+Resolved merge conflicts with denzil branch.
+
+Fixes denzil bug [YOCTO #3651].
+
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
+ .../librsvg-2.32.1/librsvg-CVE-2011-3146.patch     | 1088 ++++++++++++++++++++
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    6 +-
+ 2 files changed, 1092 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/librsvg/librsvg-2.32.1/librsvg-CVE-2011-3146.patch
+
+diff --git a/meta/recipes-gnome/librsvg/librsvg-2.32.1/librsvg-CVE-2011-3146.patch b/meta/recipes-gnome/librsvg/librsvg-2.32.1/librsvg-CVE-2011-3146.patch
 new file mode 100644
-index 0000000..0dabfba
+index 0000000..251f31e
 --- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/patches/squashfs-4.2-fix-CVE-2012-4025.patch
-@@ -0,0 +1,190 @@
-+Upstream-Status: Backport
++++ b/meta/recipes-gnome/librsvg/librsvg-2.32.1/librsvg-CVE-2011-3146.patch
+@@ -0,0 +1,1088 @@
++librsvg: CVE-2011-3146
 +
-+Reference: http://squashfs.git.sourceforge.net/git/gitweb.cgi?
-+p=squashfs/squashfs;a=patch;h=8515b3d420f502c5c0236b86e2d6d7e3b23c190e
++Store node type separately in RsvgNode
 +
-+Integer overflow in the queue_init function in unsquashfs.c in
-+unsquashfs in Squashfs 4.2 and earlier allows remote attackers
-+to execute arbitrary code via a crafted block_log field in the
-+superblock of a .sqsh file, leading to a heap-based buffer overflow.
++commit 34c95743ca692ea0e44778e41a7c0a129363de84 upstream
 +
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4025
++The node name (formerly RsvgNode:type) cannot be used to infer
++the sub-type of RsvgNode that we're dealing with, since for unknown
++elements we put type = node-name. This lead to a (potentially exploitable)
++crash e.g. when the element name started with "fe" which tricked
++the old code into considering it as a RsvgFilterPrimitive.
++http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-3146
 +
-+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
++https://bugzilla.gnome.org/show_bug.cgi?id=658014
++---
++ rsvg-base.c         |   68 ++++++++++++++++++++++++++------------------
++ rsvg-cairo-draw.c   |    2 +-
++ rsvg-filter.c       |   79 +++++++++++++++++++++++++++------------------------
++ rsvg-filter.h       |    2 +-
++ rsvg-image.c        |    2 +-
++ rsvg-marker.c       |    4 +-
++ rsvg-mask.c         |    8 ++--
++ rsvg-paint-server.c |   25 ++++++++--------
++ rsvg-private.h      |   60 ++++++++++++++++++++++++++++++++++++++-
++ rsvg-shapes.c       |   25 ++++++++--------
++ rsvg-shapes.h       |    2 +-
++ rsvg-structure.c    |   25 ++++++++--------
++ rsvg-structure.h    |    5 ++-
++ rsvg-text.c         |   22 ++++++++------
++ 14 files changed, 204 insertions(+), 125 deletions(-)
 +
-+--- a/unsquashfs.c	2012-11-30 17:57:57.000000000 +0800
-++++ b/unsquashfs.c	2012-11-30 17:58:09.000000000 +0800
-+@@ -33,6 +33,7 @@
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <sys/resource.h>
-++#include <limits.h>
++diff --git a/rsvg-base.c b/rsvg-base.c
++index 1f5c48c..b1a2d8b 100644
++--- a/rsvg-base.c
+++++ b/rsvg-base.c
++@@ -147,7 +147,6 @@ rsvg_start_style (RsvgHandle * ctx, RsvgPropertyBag * atts)
++ static void
++ rsvg_standard_element_start (RsvgHandle * ctx, const char *name, RsvgPropertyBag * atts)
++ {
++-
++     /*replace this stuff with a hash for fast reading! */
++     RsvgNode *newnode = NULL;
++     if (!strcmp (name, "g"))
++@@ -241,11 +240,11 @@ rsvg_standard_element_start (RsvgHandle * ctx, const char *name, RsvgPropertyBag
++     else if (!strcmp (name, "feFuncA"))
++         newnode = rsvg_new_node_component_transfer_function ('a');
++     else if (!strcmp (name, "feDistantLight"))
++-        newnode = rsvg_new_filter_primitive_light_source ('d');
+++        newnode = rsvg_new_node_light_source ('d');
++     else if (!strcmp (name, "feSpotLight"))
++-        newnode = rsvg_new_filter_primitive_light_source ('s');
+++        newnode = rsvg_new_node_light_source ('s');
++     else if (!strcmp (name, "fePointLight"))
++-        newnode = rsvg_new_filter_primitive_light_source ('p');
+++        newnode = rsvg_new_node_light_source ('p');
++     /* hack to make multiImage sort-of work */
++     else if (!strcmp (name, "multiImage"))
++         newnode = rsvg_new_switch ();
++@@ -259,21 +258,22 @@ rsvg_standard_element_start (RsvgHandle * ctx, const char *name, RsvgPropertyBag
++         newnode = rsvg_new_tspan ();
++     else if (!strcmp (name, "tref"))
++         newnode = rsvg_new_tref ();
++-	else {
+++    else {
++ 		/* hack for bug 401115. whenever we encounter a node we don't understand, push it into a group. 
++ 		   this will allow us to handle things like conditionals properly. */
++ 		newnode = rsvg_new_group ();
++ 	}
 + 
-+ struct cache *fragment_cache, *data_cache;
-+ struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
-+@@ -138,6 +139,24 @@ void sigalrm_handler()
++     if (newnode) {
++-        newnode->type = g_string_new (name);
+++        g_assert (RSVG_NODE_TYPE (newnode) != RSVG_NODE_TYPE_INVALID);
+++        newnode->name = (char *) name; /* libxml will keep this while parsing */
++         newnode->parent = ctx->priv->currentnode;
++         rsvg_node_set_atts (newnode, ctx, atts);
++         rsvg_defs_register_memory (ctx->priv->defs, newnode);
++         if (ctx->priv->currentnode) {
++             rsvg_node_group_pack (ctx->priv->currentnode, newnode);
++             ctx->priv->currentnode = newnode;
++-        } else if (!strcmp (name, "svg")) {
+++        } else if (RSVG_NODE_TYPE (newnode) == RSVG_NODE_TYPE_SVG) {
++             ctx->priv->treebase = newnode;
++             ctx->priv->currentnode = newnode;
++         }
++@@ -689,10 +689,11 @@ rsvg_end_element (void *data, const xmlChar * name)
++             ctx->priv->handler = NULL;
++         }
++ 
++-        if (ctx->priv->currentnode
++-            && !strcmp ((const char *) name, ctx->priv->currentnode->type->str))
++-            rsvg_pop_def_group (ctx);
+++        if (ctx->priv->currentnode &&
+++            !strcmp ((const char *) name, ctx->priv->currentnode->name))
+++                rsvg_pop_def_group (ctx);
++ 
+++        /* FIXMEchpe: shouldn't this check that currentnode == treebase or sth like that? */
++         if (ctx->priv->treebase && !strcmp ((const char *)name, "svg"))
++             _rsvg_node_svg_apply_atts ((RsvgNodeSvg *)ctx->priv->treebase, ctx);
++     }
++@@ -706,6 +707,30 @@ _rsvg_node_chars_free (RsvgNode * node)
++     _rsvg_node_free (node);
++ }
++ 
+++static RsvgNodeChars *
+++rsvg_new_node_chars (const char *text,
+++                     int len)
+++{
+++    RsvgNodeChars *self;
+++
+++    self = g_new (RsvgNodeChars, 1);
+++    _rsvg_node_init (&self->super, RSVG_NODE_TYPE_CHARS);
+++
+++    if (!g_utf8_validate (text, len, NULL)) {
+++        char *utf8;
+++        utf8 = rsvg_make_valid_utf8 (text, len);
+++        self->contents = g_string_new (utf8);
+++        g_free (utf8);
+++    } else {
+++        self->contents = g_string_new_len (text, len);
+++    }
+++
+++    self->super.free = _rsvg_node_chars_free;
+++    self->super.state->cond_true = FALSE;
+++
+++    return self;
+++}
+++
++ static void
++ rsvg_characters_impl (RsvgHandle * ctx, const xmlChar * ch, int len)
++ {
++@@ -715,8 +740,9 @@ rsvg_characters_impl (RsvgHandle * ctx, const xmlChar * ch, int len)
++         return;
++ 
++     if (ctx->priv->currentnode) {
++-        if (!strcmp ("tspan", ctx->priv->currentnode->type->str) ||
++-            !strcmp ("text", ctx->priv->currentnode->type->str)) {
+++        RsvgNodeType type = RSVG_NODE_TYPE (ctx->priv->currentnode);
+++        if (type == RSVG_NODE_TYPE_TSPAN ||
+++            type == RSVG_NODE_TYPE_TEXT) {
++             guint i;
++ 
++             /* find the last CHARS node in the text or tspan node, so that we
++@@ -724,7 +750,7 @@ rsvg_characters_impl (RsvgHandle * ctx, const xmlChar * ch, int len)
++             self = NULL;
++             for (i = 0; i < ctx->priv->currentnode->children->len; i++) {
++                 RsvgNode *node = g_ptr_array_index (ctx->priv->currentnode->children, i);
++-                if (!strcmp (node->type->str, "RSVG_NODE_CHARS")) {
+++                if (RSVG_NODE_TYPE (node) == RSVG_NODE_TYPE_CHARS) {
++                     self = (RsvgNodeChars*)node;
++                 }
++             }
++@@ -744,21 +770,7 @@ rsvg_characters_impl (RsvgHandle * ctx, const xmlChar * ch, int len)
++         }
++     }
++ 
++-    self = g_new (RsvgNodeChars, 1);
++-    _rsvg_node_init (&self->super);
++-
++-    if (!g_utf8_validate ((char *) ch, len, NULL)) {
++-        char *utf8;
++-        utf8 = rsvg_make_valid_utf8 ((char *) ch, len);
++-        self->contents = g_string_new (utf8);
++-        g_free (utf8);
++-    } else {
++-        self->contents = g_string_new_len ((char *) ch, len);
++-    }
++-
++-    self->super.type = g_string_new ("RSVG_NODE_CHARS");
++-    self->super.free = _rsvg_node_chars_free;
++-    self->super.state->cond_true = FALSE;
+++    self = rsvg_new_node_chars ((char *) ch, len);
++ 
++     rsvg_defs_register_memory (ctx->priv->defs, (RsvgNode *) self);
++     if (ctx->priv->currentnode)
++diff --git a/rsvg-cairo-draw.c b/rsvg-cairo-draw.c
++index 0b74e22..c01cd17 100644
++--- a/rsvg-cairo-draw.c
+++++ b/rsvg-cairo-draw.c
++@@ -147,7 +147,7 @@ _pattern_add_rsvg_color_stops (cairo_pattern_t * pattern,
++ 
++     for (i = 0; i < stops->len; i++) {
++         node = (RsvgNode *) g_ptr_array_index (stops, i);
++-        if (strcmp (node->type->str, "stop"))
+++        if (RSVG_NODE_TYPE (node) != RSVG_NODE_TYPE_STOP)
++             continue;
++         stop = (RsvgGradientStop *) node;
++         rgba = stop->rgba;
++diff --git a/rsvg-filter.c b/rsvg-filter.c
++index e65be41..ce96c4f 100644
++--- a/rsvg-filter.c
+++++ b/rsvg-filter.c
++@@ -495,7 +495,7 @@ rsvg_filter_render (RsvgFilter * self, GdkPixbuf * source,
++ 
++     for (i = 0; i < self->super.children->len; i++) {
++         current = g_ptr_array_index (self->super.children, i);
++-        if (!strncmp (current->super.type->str, "fe", 2))
+++        if (RSVG_NODE_IS_FILTER_PRIMITIVE (&current->super))
++             rsvg_filter_primitive_render (current, ctx);
++     }
++ 
++@@ -703,7 +703,7 @@ rsvg_filter_parse (const RsvgDefs * defs, const char *str)
++         val = rsvg_defs_lookup (defs, name);
++         g_free (name);
++ 
++-        if (val && (!strcmp (val->type->str, "filter")))
+++        if (val && RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_FILTER)
++             return (RsvgFilter *) val;
++     }
++     return NULL;
++@@ -754,7 +754,7 @@ rsvg_new_filter (void)
++     RsvgFilter *filter;
++ 
++     filter = g_new (RsvgFilter, 1);
++-    _rsvg_node_init (&filter->super);
+++    _rsvg_node_init (&filter->super, RSVG_NODE_TYPE_FILTER);
++     filter->filterunits = objectBoundingBox;
++     filter->primitiveunits = userSpaceOnUse;
++     filter->x = _rsvg_css_parse_length ("-10%");
++@@ -978,7 +978,7 @@ rsvg_new_filter_primitive_blend (void)
++ {
++     RsvgFilterPrimitiveBlend *filter;
++     filter = g_new (RsvgFilterPrimitiveBlend, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_BLEND);
++     filter->mode = normal;
++     filter->super.in = g_string_new ("none");
++     filter->in2 = g_string_new ("none");
++@@ -1230,7 +1230,7 @@ rsvg_new_filter_primitive_convolve_matrix (void)
++ {
++     RsvgFilterPrimitiveConvolveMatrix *filter;
++     filter = g_new (RsvgFilterPrimitiveConvolveMatrix, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_CONVOLVE_MATRIX);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -1471,7 +1471,7 @@ rsvg_new_filter_primitive_gaussian_blur (void)
++ {
++     RsvgFilterPrimitiveGaussianBlur *filter;
++     filter = g_new (RsvgFilterPrimitiveGaussianBlur, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_GAUSSIAN_BLUR);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -1607,7 +1607,7 @@ rsvg_new_filter_primitive_offset (void)
++ {
++     RsvgFilterPrimitiveOffset *filter;
++     filter = g_new (RsvgFilterPrimitiveOffset, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_OFFSET);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -1648,7 +1648,7 @@ rsvg_filter_primitive_merge_render (RsvgFilterPrimitive * self, RsvgFilterContex
++     for (i = 0; i < upself->super.super.children->len; i++) {
++         RsvgFilterPrimitive *mn;
++         mn = g_ptr_array_index (upself->super.super.children, i);
++-        if (strcmp (mn->super.type->str, "feMergeNode"))
+++        if (RSVG_NODE_TYPE (&mn->super) != RSVG_NODE_TYPE_FILTER_PRIMITIVE_MERGE_NODE)
++             continue;
++         in = rsvg_filter_get_in (mn->in, ctx);
++         rsvg_alpha_blt (in, boundarys.x0, boundarys.y0, boundarys.x1 - boundarys.x0,
++@@ -1701,7 +1701,7 @@ rsvg_new_filter_primitive_merge (void)
++ {
++     RsvgFilterPrimitiveMerge *filter;
++     filter = g_new (RsvgFilterPrimitiveMerge, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_MERGE);
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++         filter->super.height.factor = 'n';
++@@ -1744,7 +1744,7 @@ rsvg_new_filter_primitive_merge_node (void)
++ {
++     RsvgFilterPrimitive *filter;
++     filter = g_new (RsvgFilterPrimitive, 1);
++-    _rsvg_node_init (&filter->super);
+++    _rsvg_node_init (&filter->super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_MERGE_NODE);
++     filter->in = g_string_new ("none");
++     filter->super.free = rsvg_filter_primitive_merge_node_free;
++     filter->render = &rsvg_filter_primitive_merge_node_render;
++@@ -1978,7 +1978,7 @@ rsvg_new_filter_primitive_colour_matrix (void)
++ {
++     RsvgFilterPrimitiveColourMatrix *filter;
++     filter = g_new (RsvgFilterPrimitiveColourMatrix, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_COLOUR_MATRIX);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -2010,8 +2010,9 @@ struct _RsvgNodeComponentTransferFunc {
++     gint slope;
++     gint intercept;
++     gint amplitude;
++-    gdouble exponent;
++     gint offset;
+++    gdouble exponent;
+++    char channel;
++ };
++ 
++ struct _RsvgFilterPrimitiveComponentTransfer {
++@@ -2107,15 +2108,18 @@ rsvg_filter_primitive_component_transfer_render (RsvgFilterPrimitive *
++     for (c = 0; c < 4; c++) {
++         char channel = "RGBA"[c];
++         for (i = 0; i < self->super.children->len; i++) {
++-            RsvgNodeComponentTransferFunc *temp;
++-            temp = (RsvgNodeComponentTransferFunc *)
++-                g_ptr_array_index (self->super.children, i);
++-            if (!strncmp (temp->super.type->str, "feFunc", 6))
++-                if (temp->super.type->str[6] == channel) {
+++            RsvgNode *child_node;
+++
+++            child_node = (RsvgNode *) g_ptr_array_index (self->super.children, i);
+++            if (RSVG_NODE_TYPE (child_node) == RSVG_NODE_TYPE_FILTER_PRIMITIVE_COMPONENT_TRANSFER) {
+++                RsvgNodeComponentTransferFunc *temp = (RsvgNodeComponentTransferFunc *) child_node;
+++
+++                if (temp->channel == channel) {
++                     functions[ctx->channelmap[c]] = temp->function;
++                     channels[ctx->channelmap[c]] = temp;
++                     break;
++                 }
+++            }
++         }
++         if (i == self->super.children->len)
++             functions[ctx->channelmap[c]] = identity_component_transfer_func;
++@@ -2198,7 +2202,7 @@ rsvg_new_filter_primitive_component_transfer (void)
++     RsvgFilterPrimitiveComponentTransfer *filter;
++ 
++     filter = g_new (RsvgFilterPrimitiveComponentTransfer, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_COMPONENT_TRANSFER);
++     filter->super.result = g_string_new ("none");
++     filter->super.in = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -2272,7 +2276,7 @@ rsvg_new_node_component_transfer_function (char channel)
++     RsvgNodeComponentTransferFunc *filter;
++ 
++     filter = g_new (RsvgNodeComponentTransferFunc, 1);
++-    _rsvg_node_init (&filter->super);
+++    _rsvg_node_init (&filter->super, RSVG_NODE_TYPE_COMPONENT_TRANFER_FUNCTION);
++     filter->super.free = rsvg_component_transfer_function_free;
++     filter->super.set_atts = rsvg_node_component_transfer_function_set_atts;
++     filter->function = identity_component_transfer_func;
++@@ -2414,7 +2418,7 @@ rsvg_new_filter_primitive_erode (void)
++ {
++     RsvgFilterPrimitiveErode *filter;
++     filter = g_new (RsvgFilterPrimitiveErode, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_ERODE);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -2639,7 +2643,7 @@ rsvg_new_filter_primitive_composite (void)
++ {
++     RsvgFilterPrimitiveComposite *filter;
++     filter = g_new (RsvgFilterPrimitiveComposite, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_COMPOSITE);
++     filter->mode = COMPOSITE_MODE_OVER;
++     filter->super.in = g_string_new ("none");
++     filter->in2 = g_string_new ("none");
++@@ -2744,7 +2748,7 @@ rsvg_new_filter_primitive_flood (void)
++ {
++     RsvgFilterPrimitive *filter;
++     filter = g_new (RsvgFilterPrimitive, 1);
++-    _rsvg_node_init (&filter->super);
+++    _rsvg_node_init (&filter->super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_FLOOD);
++     filter->in = g_string_new ("none");
++     filter->result = g_string_new ("none");
++     filter->x.factor = filter->y.factor = filter->width.factor = filter->height.factor = 'n';
++@@ -2920,7 +2924,7 @@ rsvg_new_filter_primitive_displacement_map (void)
++ {
++     RsvgFilterPrimitiveDisplacementMap *filter;
++     filter = g_new (RsvgFilterPrimitiveDisplacementMap, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_DISPLACEMENT_MAP);
++     filter->super.in = g_string_new ("none");
++     filter->in2 = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++@@ -3291,7 +3295,7 @@ rsvg_new_filter_primitive_turbulence (void)
++ {
++     RsvgFilterPrimitiveTurbulence *filter;
++     filter = g_new (RsvgFilterPrimitiveTurbulence, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_TURBULENCE);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -3510,7 +3514,7 @@ rsvg_new_filter_primitive_image (void)
++ {
++     RsvgFilterPrimitiveImage *filter;
++     filter = g_new (RsvgFilterPrimitiveImage, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_IMAGE);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -3871,8 +3875,8 @@ get_light_colour (RsvgNodeLightSource * source, vector3 colour,
++ 
++ 
++ static void
++-rsvg_filter_primitive_light_source_set_atts (RsvgNode * self,
++-                                             RsvgHandle * ctx, RsvgPropertyBag * atts)
+++rsvg_node_light_source_set_atts (RsvgNode * self,
+++                                 RsvgHandle * ctx, RsvgPropertyBag * atts)
++ {
++     RsvgNodeLightSource *data;
++     const char *value;
++@@ -3904,13 +3908,13 @@ rsvg_filter_primitive_light_source_set_atts (RsvgNode * self,
++ }
++ 
++ RsvgNode *
++-rsvg_new_filter_primitive_light_source (char type)
+++rsvg_new_node_light_source (char type)
++ {
++     RsvgNodeLightSource *data;
++     data = g_new (RsvgNodeLightSource, 1);
++-    _rsvg_node_init (&data->super);
+++    _rsvg_node_init (&data->super, RSVG_NODE_TYPE_LIGHT_SOURCE);
++     data->super.free = _rsvg_node_free;
++-    data->super.set_atts = rsvg_filter_primitive_light_source_set_atts;
+++    data->super.set_atts = rsvg_node_light_source_set_atts;
++     data->specularExponent = 1;
++     if (type == 's')
++         data->type = SPOTLIGHT;
++@@ -3960,10 +3964,11 @@ rsvg_filter_primitive_diffuse_lighting_render (RsvgFilterPrimitive * self, RsvgF
++ 
++     for (i = 0; i < self->super.children->len; i++) {
++         RsvgNode *temp;
+++
++         temp = g_ptr_array_index (self->super.children, i);
++-        if (!strcmp (temp->type->str, "feDistantLight") ||
++-            !strcmp (temp->type->str, "fePointLight") || !strcmp (temp->type->str, "feSpotLight"))
+++        if (RSVG_NODE_TYPE (temp) == RSVG_NODE_TYPE_LIGHT_SOURCE) {
++             source = (RsvgNodeLightSource *) temp;
+++        }
++     }
++     if (source == NULL)
++         return;
++@@ -4080,7 +4085,7 @@ rsvg_new_filter_primitive_diffuse_lighting (void)
++ {
++     RsvgFilterPrimitiveDiffuseLighting *filter;
++     filter = g_new (RsvgFilterPrimitiveDiffuseLighting, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_DIFFUSE_LIGHTING);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -4135,9 +4140,9 @@ rsvg_filter_primitive_specular_lighting_render (RsvgFilterPrimitive * self, Rsvg
++     for (i = 0; i < self->super.children->len; i++) {
++         RsvgNode *temp;
++         temp = g_ptr_array_index (self->super.children, i);
++-        if (!strcmp (temp->type->str, "feDistantLight") ||
++-            !strcmp (temp->type->str, "fePointLight") || !strcmp (temp->type->str, "feSpotLight"))
+++        if (RSVG_NODE_TYPE (temp) == RSVG_NODE_TYPE_LIGHT_SOURCE) {
++             source = (RsvgNodeLightSource *) temp;
+++        }
++     }
++     if (source == NULL)
++         return;
++@@ -4259,7 +4264,7 @@ rsvg_new_filter_primitive_specular_lighting (void)
++ {
++     RsvgFilterPrimitiveSpecularLighting *filter;
++     filter = g_new (RsvgFilterPrimitiveSpecularLighting, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_SPECULAR_LIGHTING);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++@@ -4381,7 +4386,7 @@ rsvg_new_filter_primitive_tile (void)
++ {
++     RsvgFilterPrimitiveTile *filter;
++     filter = g_new (RsvgFilterPrimitiveTile, 1);
++-    _rsvg_node_init (&filter->super.super);
+++    _rsvg_node_init (&filter->super.super, RSVG_NODE_TYPE_FILTER_PRIMITIVE_TILE);
++     filter->super.in = g_string_new ("none");
++     filter->super.result = g_string_new ("none");
++     filter->super.x.factor = filter->super.y.factor = filter->super.width.factor =
++diff --git a/rsvg-filter.h b/rsvg-filter.h
++index 25dac75..0aeda22 100644
++--- a/rsvg-filter.h
+++++ b/rsvg-filter.h
++@@ -64,7 +64,7 @@ RsvgNode    *rsvg_new_filter_primitive_displacement_map     (void);
++ RsvgNode    *rsvg_new_filter_primitive_turbulence           (void);
++ RsvgNode    *rsvg_new_filter_primitive_image                (void);
++ RsvgNode    *rsvg_new_filter_primitive_diffuse_lighting	    (void);
++-RsvgNode    *rsvg_new_filter_primitive_light_source	        (char type);
+++RsvgNode    *rsvg_new_node_light_source	                    (char type);
++ RsvgNode    *rsvg_new_filter_primitive_specular_lighting    (void);
++ RsvgNode    *rsvg_new_filter_primitive_tile                 (void);
++ 
++diff --git a/rsvg-image.c b/rsvg-image.c
++index a81dcf5..02882bd 100644
++--- a/rsvg-image.c
+++++ b/rsvg-image.c
++@@ -356,7 +356,7 @@ rsvg_new_image (void)
++ {
++     RsvgNodeImage *image;
++     image = g_new (RsvgNodeImage, 1);
++-    _rsvg_node_init (&image->super);
+++    _rsvg_node_init (&image->super, RSVG_NODE_TYPE_IMAGE);
++     g_assert (image->super.state);
++     image->img = NULL;
++     image->preserve_aspect_ratio = RSVG_ASPECT_RATIO_XMID_YMID;
++diff --git a/rsvg-marker.c b/rsvg-marker.c
++index 591e1e0..c7e76f1 100644
++--- a/rsvg-marker.c
+++++ b/rsvg-marker.c
++@@ -84,7 +84,7 @@ rsvg_new_marker (void)
++ {
++     RsvgMarker *marker;
++     marker = g_new (RsvgMarker, 1);
++-    _rsvg_node_init (&marker->super);
+++    _rsvg_node_init (&marker->super, RSVG_NODE_TYPE_MARKER);
++     marker->orient = 0;
++     marker->orientAuto = FALSE;
++     marker->preserve_aspect_ratio = RSVG_ASPECT_RATIO_XMID_YMID;
++@@ -198,7 +198,7 @@ rsvg_marker_parse (const RsvgDefs * defs, const char *str)
++         val = rsvg_defs_lookup (defs, name);
++         g_free (name);
++ 
++-        if (val && (!strcmp (val->type->str, "marker")))
+++        if (val && RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_MARKER)
++             return val;
++     }
++     return NULL;
++diff --git a/rsvg-mask.c b/rsvg-mask.c
++index dd36a38..8e3cba3 100644
++--- a/rsvg-mask.c
+++++ b/rsvg-mask.c
++@@ -74,7 +74,7 @@ rsvg_new_mask (void)
++     RsvgMask *mask;
++ 
++     mask = g_new (RsvgMask, 1);
++-    _rsvg_node_init (&mask->super);
+++    _rsvg_node_init (&mask->super, RSVG_NODE_TYPE_MASK);
++     mask->maskunits = objectBoundingBox;
++     mask->contentunits = userSpaceOnUse;
++     mask->x = _rsvg_css_parse_length ("0");
++@@ -113,7 +113,7 @@ rsvg_mask_parse (const RsvgDefs * defs, const char *str)
++         val = rsvg_defs_lookup (defs, name);
++         g_free (name);
++ 
++-        if (val && (!strcmp (val->type->str, "mask")))
+++        if (val && RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_MASK)
++             return val;
++     }
++     return NULL;
++@@ -130,7 +130,7 @@ rsvg_clip_path_parse (const RsvgDefs * defs, const char *str)
++         val = rsvg_defs_lookup (defs, name);
++         g_free (name);
++ 
++-        if (val && (!strcmp (val->type->str, "clipPath")))
+++        if (val && RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_CLIP_PATH)
++             return val;
++     }
++     return NULL;
++@@ -168,7 +168,7 @@ rsvg_new_clip_path (void)
++     RsvgClipPath *clip_path;
++ 
++     clip_path = g_new (RsvgClipPath, 1);
++-    _rsvg_node_init (&clip_path->super);
+++    _rsvg_node_init (&clip_path->super, RSVG_NODE_TYPE_CLIP_PATH);
++     clip_path->units = userSpaceOnUse;
++     clip_path->super.set_atts = rsvg_clip_path_set_atts;
++     clip_path->super.free = _rsvg_node_free;
++diff --git a/rsvg-paint-server.c b/rsvg-paint-server.c
++index 4967e03..7903684 100644
++--- a/rsvg-paint-server.c
+++++ b/rsvg-paint-server.c
++@@ -129,11 +129,11 @@ rsvg_paint_server_parse (gboolean * inherit, const RsvgDefs * defs, const char *
++ 
++         if (val == NULL)
++             return NULL;
++-        if (!strcmp (val->type->str, "linearGradient"))
+++        if (RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_LINEAR_GRADIENT)
++             return rsvg_paint_server_lin_grad ((RsvgLinearGradient *) val);
++-        else if (!strcmp (val->type->str, "radialGradient"))
+++        else if (RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_RADIAL_GRADIENT)
++             return rsvg_paint_server_rad_grad ((RsvgRadialGradient *) val);
++-        else if (!strcmp (val->type->str, "pattern"))
+++        else if (RSVG_NODE_TYPE (val) == RSVG_NODE_TYPE_PATTERN)
++             return rsvg_paint_server_pattern ((RsvgPattern *) val);
++         else
++             return NULL;
++@@ -224,7 +224,7 @@ RsvgNode *
++ rsvg_new_stop (void)
++ {
++     RsvgGradientStop *stop = g_new (RsvgGradientStop, 1);
++-    _rsvg_node_init (&stop->super);
+++    _rsvg_node_init (&stop->super, RSVG_NODE_TYPE_STOP);
++     stop->super.set_atts = rsvg_stop_set_atts;
++     stop->offset = 0;
++     stop->rgba = 0;
++@@ -293,7 +293,7 @@ rsvg_new_linear_gradient (void)
++ {
++     RsvgLinearGradient *grad = NULL;
++     grad = g_new (RsvgLinearGradient, 1);
++-    _rsvg_node_init (&grad->super);
+++    _rsvg_node_init (&grad->super, RSVG_NODE_TYPE_LINEAR_GRADIENT);
++     _rsvg_affine_identity (grad->affine);
++     grad->has_current_color = FALSE;
++     grad->x1 = grad->y1 = grad->y2 = _rsvg_css_parse_length ("0");
++@@ -376,7 +376,7 @@ rsvg_new_radial_gradient (void)
++ {
++ 
++     RsvgRadialGradient *grad = g_new (RsvgRadialGradient, 1);
++-    _rsvg_node_init (&grad->super);
+++    _rsvg_node_init (&grad->super, RSVG_NODE_TYPE_RADIAL_GRADIENT);
++     _rsvg_affine_identity (grad->affine);
++     grad->has_current_color = FALSE;
++     grad->obj_bbox = TRUE;
++@@ -458,7 +458,7 @@ RsvgNode *
++ rsvg_new_pattern (void)
++ {
++     RsvgPattern *pattern = g_new (RsvgPattern, 1);
++-    _rsvg_node_init (&pattern->super);
+++    _rsvg_node_init (&pattern->super, RSVG_NODE_TYPE_PATTERN);
++     pattern->obj_bbox = TRUE;
++     pattern->obj_cbbox = FALSE;
++     pattern->x = pattern->y = pattern->width = pattern->height = _rsvg_css_parse_length ("0");
++@@ -477,7 +477,8 @@ hasstop (GPtrArray * lookin)
++ {
++     unsigned int i;
++     for (i = 0; i < lookin->len; i++) {
++-        if (!strcmp (((RsvgNode *) g_ptr_array_index (lookin, i))->type->str, "stop"))
+++        RsvgNode *node = g_ptr_array_index (lookin, i);
+++        if (RSVG_NODE_TYPE (node) == RSVG_NODE_TYPE_STOP)
++             return 1;
++     }
++     return 0;
++@@ -490,7 +491,7 @@ rsvg_linear_gradient_fix_fallback (RsvgLinearGradient * grad)
++     int i;
++     ufallback = grad->fallback;
++     while (ufallback != NULL) {
++-        if (!strcmp (ufallback->type->str, "linearGradient")) {
+++        if (RSVG_NODE_TYPE (ufallback) == RSVG_NODE_TYPE_LINEAR_GRADIENT) {
++             RsvgLinearGradient *fallback = (RsvgLinearGradient *) ufallback;
++             if (!grad->hasx1 && fallback->hasx1) {
++                 grad->hasx1 = TRUE;
++@@ -525,7 +526,7 @@ rsvg_linear_gradient_fix_fallback (RsvgLinearGradient * grad)
++                 grad->super.children = fallback->super.children;
++             }
++             ufallback = fallback->fallback;
++-        } else if (!strcmp (ufallback->type->str, "radialGradient")) {
+++        } else if (RSVG_NODE_TYPE (ufallback) == RSVG_NODE_TYPE_RADIAL_GRADIENT) {
++             RsvgRadialGradient *fallback = (RsvgRadialGradient *) ufallback;
++             if (!grad->hastransform && fallback->hastransform) {
++                 grad->hastransform = TRUE;
++@@ -555,7 +556,7 @@ rsvg_radial_gradient_fix_fallback (RsvgRadialGradient * grad)
++     int i;
++     ufallback = grad->fallback;
++     while (ufallback != NULL) {
++-        if (!strcmp (ufallback->type->str, "radialGradient")) {
+++        if (RSVG_NODE_TYPE (ufallback) == RSVG_NODE_TYPE_RADIAL_GRADIENT) {
++             RsvgRadialGradient *fallback = (RsvgRadialGradient *) ufallback;
++             if (!grad->hascx && fallback->hascx) {
++                 grad->hascx = TRUE;
++@@ -594,7 +595,7 @@ rsvg_radial_gradient_fix_fallback (RsvgRadialGradient * grad)
++                 grad->super.children = fallback->super.children;
++             }
++             ufallback = fallback->fallback;
++-        } else if (!strcmp (ufallback->type->str, "linearGradient")) {
+++        } else if (RSVG_NODE_TYPE (ufallback) == RSVG_NODE_TYPE_LINEAR_GRADIENT) {
++             RsvgLinearGradient *fallback = (RsvgLinearGradient *) ufallback;
++             if (!grad->hastransform && fallback->hastransform) {
++                 grad->hastransform = TRUE;
++diff --git a/rsvg-private.h b/rsvg-private.h
++index 288c2de..162917a 100644
++--- a/rsvg-private.h
+++++ b/rsvg-private.h
++@@ -255,16 +255,74 @@ struct RsvgSizeCallbackData {
++ 
++ void _rsvg_size_callback (int *width, int *height, gpointer data);
++ 
+++typedef enum {
+++    RSVG_NODE_TYPE_INVALID = 0,
+++
+++    RSVG_NODE_TYPE_CHARS,
+++    RSVG_NODE_TYPE_CIRCLE,
+++    RSVG_NODE_TYPE_CLIP_PATH,
+++    RSVG_NODE_TYPE_COMPONENT_TRANFER_FUNCTION,
+++    RSVG_NODE_TYPE_DEFS,
+++    RSVG_NODE_TYPE_ELLIPSE,
+++    RSVG_NODE_TYPE_FILTER,
+++    RSVG_NODE_TYPE_GROUP,
+++    RSVG_NODE_TYPE_IMAGE,
+++    RSVG_NODE_TYPE_LIGHT_SOURCE,
+++    RSVG_NODE_TYPE_LINE,
+++    RSVG_NODE_TYPE_LINEAR_GRADIENT,
+++    RSVG_NODE_TYPE_MARKER,
+++    RSVG_NODE_TYPE_MASK,
+++    RSVG_NODE_TYPE_PATH,
+++    RSVG_NODE_TYPE_PATTERN,
+++    RSVG_NODE_TYPE_POLYGON,
+++    RSVG_NODE_TYPE_POLYLINE,
+++    RSVG_NODE_TYPE_RADIAL_GRADIENT,
+++    RSVG_NODE_TYPE_RECT,
+++    RSVG_NODE_TYPE_STOP,
+++    RSVG_NODE_TYPE_SVG,
+++    RSVG_NODE_TYPE_SWITCH,
+++    RSVG_NODE_TYPE_SYMBOL,
+++    RSVG_NODE_TYPE_TEXT,
+++    RSVG_NODE_TYPE_TREF,
+++    RSVG_NODE_TYPE_TSPAN,
+++    RSVG_NODE_TYPE_USE,
+++
+++    /* Filter primitives */
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE = 64,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_BLEND,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_COLOUR_MATRIX,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_COMPONENT_TRANSFER,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_COMPOSITE,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_CONVOLVE_MATRIX,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_DIFFUSE_LIGHTING,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_DISPLACEMENT_MAP,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_ERODE,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_FLOOD,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_GAUSSIAN_BLUR,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_IMAGE,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_MERGE,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_MERGE_NODE,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_OFFSET,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_SPECULAR_LIGHTING,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_TILE,
+++    RSVG_NODE_TYPE_FILTER_PRIMITIVE_TURBULENCE,
+++
+++} RsvgNodeType;
+++
++ struct _RsvgNode {
++     RsvgState *state;
++     RsvgNode *parent;
++-    GString *type;
++     GPtrArray *children;
+++    RsvgNodeType type;
+++    const char *name; /* owned by the xmlContext, invalid after parsing! */
++     void (*free) (RsvgNode * self);
++     void (*draw) (RsvgNode * self, RsvgDrawingCtx * ctx, int dominate);
++     void (*set_atts) (RsvgNode * self, RsvgHandle * ctx, RsvgPropertyBag *);
++ };
++ 
+++#define RSVG_NODE_TYPE(node)                ((node)->type)
+++#define RSVG_NODE_IS_FILTER_PRIMITIVE(node) (RSVG_NODE_TYPE((node)) & RSVG_NODE_TYPE_FILTER_PRIMITIVE)
+++
++ struct _RsvgNodeChars {
++     RsvgNode super;
++     GString *contents;
++diff --git a/rsvg-shapes.c b/rsvg-shapes.c
++index d481abf..07baf24 100644
++--- a/rsvg-shapes.c
+++++ b/rsvg-shapes.c
++@@ -89,7 +89,7 @@ rsvg_new_path (void)
++ {
++     RsvgNodePath *path;
++     path = g_new (RsvgNodePath, 1);
++-    _rsvg_node_init (&path->super);
+++    _rsvg_node_init (&path->super, RSVG_NODE_TYPE_PATH);
++     path->d = NULL;
++     path->super.free = rsvg_node_path_free;
++     path->super.draw = rsvg_node_path_draw;
++@@ -101,7 +101,6 @@ rsvg_new_path (void)
++ struct _RsvgNodePoly {
++     RsvgNode super;
++     gdouble *pointlist;
++-    gboolean is_polyline;
++     guint pointlist_len;
++ };
++ 
++@@ -126,7 +125,8 @@ _rsvg_node_poly_set_atts (RsvgNode * self, RsvgHandle * ctx, RsvgPropertyBag * a
++             rsvg_defs_register_name (ctx->priv->defs, value, self);
++         }
++ 
++-        rsvg_parse_style_attrs (ctx, self->state, (poly->is_polyline ? "polyline" : "polygon"),
+++        rsvg_parse_style_attrs (ctx, self->state,
+++                                RSVG_NODE_TYPE (self) == RSVG_NODE_TYPE_POLYLINE ? "polyline" : "polygon",
++                                 klazz, id, atts);
++     }
++ 
++@@ -160,7 +160,7 @@ _rsvg_node_poly_draw (RsvgNode * self, RsvgDrawingCtx * ctx, int dominate)
++         g_string_append (d, g_ascii_dtostr (buf, sizeof (buf), poly->pointlist[i + 1]));
++     }
++ 
++-    if (!poly->is_polyline)
+++    if (RSVG_NODE_TYPE (self) == RSVG_NODE_TYPE_POLYGON)
++         g_string_append (d, " Z");
++ 
++     rsvg_state_reinherit_top (ctx, self->state, dominate);
++@@ -181,16 +181,15 @@ _rsvg_node_poly_free (RsvgNode * self)
++ 
++ 
++ static RsvgNode *
++-rsvg_new_any_poly (gboolean is_polyline)
+++rsvg_new_any_poly (RsvgNodeType type)
++ {
++     RsvgNodePoly *poly;
++     poly = g_new (RsvgNodePoly, 1);
++-    _rsvg_node_init (&poly->super);
+++    _rsvg_node_init (&poly->super, type);
++     poly->super.free = _rsvg_node_poly_free;
++     poly->super.draw = _rsvg_node_poly_draw;
++     poly->super.set_atts = _rsvg_node_poly_set_atts;
++     poly->pointlist = NULL;
++-    poly->is_polyline = is_polyline;
++     poly->pointlist_len = 0;
++     return &poly->super;
++ }
++@@ -198,13 +197,13 @@ rsvg_new_any_poly (gboolean is_polyline)
++ RsvgNode *
++ rsvg_new_polygon (void)
++ {
++-    return rsvg_new_any_poly (FALSE);
+++    return rsvg_new_any_poly (RSVG_NODE_TYPE_POLYGON);
++ }
++ 
++ RsvgNode *
++ rsvg_new_polyline (void)
++ {
++-    return rsvg_new_any_poly (TRUE);
+++    return rsvg_new_any_poly (RSVG_NODE_TYPE_POLYLINE);
 + }
 + 
 + 
-++int add_overflow(int a, int b)
-++{
-++	return (INT_MAX - a) < b;
-++}
-++
-++
-++int shift_overflow(int a, int shift)
-++{
-++	return (INT_MAX >> shift) < a;
-++}
-++
-++ 
-++int multiply_overflow(int a, int multiplier)
-++{
-++	return (INT_MAX / multiplier) < a;
-++}
-++
-++
-+ struct queue *queue_init(int size)
++@@ -275,7 +274,7 @@ rsvg_new_line (void)
 + {
-+ 	struct queue *queue = malloc(sizeof(struct queue));
-+@@ -145,6 +164,10 @@ struct queue *queue_init(int size)
-+ 	if(queue == NULL)
-+ 		EXIT_UNSQUASH("Out of memory in queue_init\n");
++     RsvgNodeLine *line;
++     line = g_new (RsvgNodeLine, 1);
++-    _rsvg_node_init (&line->super);
+++    _rsvg_node_init (&line->super, RSVG_NODE_TYPE_LINE);
++     line->super.draw = _rsvg_node_line_draw;
++     line->super.set_atts = _rsvg_node_line_set_atts;
++     line->x1 = line->x2 = line->y1 = line->y2 = _rsvg_css_parse_length ("0");
++@@ -451,7 +450,7 @@ rsvg_new_rect (void)
++ {
++     RsvgNodeRect *rect;
++     rect = g_new (RsvgNodeRect, 1);
++-    _rsvg_node_init (&rect->super);
+++    _rsvg_node_init (&rect->super, RSVG_NODE_TYPE_RECT);
++     rect->super.draw = _rsvg_node_rect_draw;
++     rect->super.set_atts = _rsvg_node_rect_set_atts;
++     rect->x = rect->y = rect->w = rect->h = rect->rx = rect->ry = _rsvg_css_parse_length ("0");
++@@ -577,7 +576,7 @@ rsvg_new_circle (void)
++ {
++     RsvgNodeCircle *circle;
++     circle = g_new (RsvgNodeCircle, 1);
++-    _rsvg_node_init (&circle->super);
+++    _rsvg_node_init (&circle->super, RSVG_NODE_TYPE_CIRCLE);
++     circle->super.draw = _rsvg_node_circle_draw;
++     circle->super.set_atts = _rsvg_node_circle_set_atts;
++     circle->cx = circle->cy = circle->r = _rsvg_css_parse_length ("0");
++@@ -703,7 +702,7 @@ rsvg_new_ellipse (void)
++ {
++     RsvgNodeEllipse *ellipse;
++     ellipse = g_new (RsvgNodeEllipse, 1);
++-    _rsvg_node_init (&ellipse->super);
+++    _rsvg_node_init (&ellipse->super, RSVG_NODE_TYPE_ELLIPSE);
++     ellipse->super.draw = _rsvg_node_ellipse_draw;
++     ellipse->super.set_atts = _rsvg_node_ellipse_set_atts;
++     ellipse->cx = ellipse->cy = ellipse->rx = ellipse->ry = _rsvg_css_parse_length ("0");
++diff --git a/rsvg-shapes.h b/rsvg-shapes.h
++index 7cf6621..baad98f 100644
++--- a/rsvg-shapes.h
+++++ b/rsvg-shapes.h
++@@ -34,7 +34,7 @@
 + 
-++	if(add_overflow(size, 1) ||
-++				multiply_overflow(size + 1, sizeof(void *)))
-++		EXIT_UNSQUASH("Size too large in queue_init\n");
-++
-+ 	queue->data = malloc(sizeof(void *) * (size + 1));
-+ 	if(queue->data == NULL)
-+ 		EXIT_UNSQUASH("Out of memory in queue_init\n");
-+@@ -1948,13 +1971,30 @@ void initialise_threads(int fragment_buf
-+ 	 * allocate to_reader, to_deflate and to_writer queues.  Set based on
-+ 	 * open file limit and cache size, unless open file limit is unlimited,
-+ 	 * in which case set purely based on cache limits
-++	 *
-++	 * In doing so, check that the user supplied values do not overflow
-++	 * a signed int
-+ 	 */
-+ 	if (max_files != -1) {
-++		if(add_overflow(data_buffer_size, max_files) ||
-++				add_overflow(data_buffer_size, max_files * 2))
-++			EXIT_UNSQUASH("Data queue size is too large\n");
-++
-+ 		to_reader = queue_init(max_files + data_buffer_size);
-+ 		to_deflate = queue_init(max_files + data_buffer_size);
-+ 		to_writer = queue_init(max_files * 2 + data_buffer_size);
-+ 	} else {
-+-		int all_buffers_size = fragment_buffer_size + data_buffer_size;
-++		int all_buffers_size;
-++
-++		if(add_overflow(fragment_buffer_size, data_buffer_size))
-++			EXIT_UNSQUASH("Data and fragment queues combined are"
-++							" too large\n");
-++
-++		all_buffers_size = fragment_buffer_size + data_buffer_size;
-++
-++		if(add_overflow(all_buffers_size, all_buffers_size))
-++			EXIT_UNSQUASH("Data and fragment queues combined are"
-++							" too large\n");
++ G_BEGIN_DECLS 
 + 
-+ 		to_reader = queue_init(all_buffers_size);
-+ 		to_deflate = queue_init(all_buffers_size);
-+@@ -2059,6 +2099,32 @@ void progress_bar(long long current, lon
++-RsvgNode * rsvg_new_path (void);
+++RsvgNode *rsvg_new_path (void);
++ RsvgNode *rsvg_new_polygon (void);
++ RsvgNode *rsvg_new_polyline (void);
++ RsvgNode *rsvg_new_line (void);
++diff --git a/rsvg-structure.c b/rsvg-structure.c
++index b078fea..33889be 100644
++--- a/rsvg-structure.c
+++++ b/rsvg-structure.c
++@@ -103,8 +103,10 @@ _rsvg_node_dont_set_atts (RsvgNode * node, RsvgHandle * ctx, RsvgPropertyBag * a
 + }
 + 
-+ 
-++int parse_number(char *arg, int *res)
-++{
-++	char *b;
-++	long number = strtol(arg, &b, 10);
-++
-++	/* check for trailing junk after number */
-++	if(*b != '\0')
-++		return 0;
-++
-++	/* check for strtol underflow or overflow in conversion */
-++	if(number == LONG_MIN || number == LONG_MAX)
-++		return 0;
-++
-++	/* reject negative numbers as invalid */
-++	if(number < 0)
-++		return 0;
-++
-++	/* check if long result will overflow signed int */
-++	if(number > INT_MAX)
-++		return 0;
-++
-++	*res = number;
-++	return 1;
-++}
-++
-++
-+ #define VERSION() \
-+ 	printf("unsquashfs version 4.2 (2011/02/28)\n");\
-+ 	printf("copyright (C) 2011 Phillip Lougher "\
-+@@ -2140,8 +2206,8 @@ int main(int argc, char *argv[])
-+ 		} else if(strcmp(argv[i], "-data-queue") == 0 ||
-+ 					 strcmp(argv[i], "-da") == 0) {
-+ 			if((++i == argc) ||
-+-					(data_buffer_size = strtol(argv[i], &b,
-+-					 10), *b != '\0')) {
-++					!parse_number(argv[i],
-++						&data_buffer_size)) {
-+ 				ERROR("%s: -data-queue missing or invalid "
-+ 					"queue size\n", argv[0]);
-+ 				exit(1);
-+@@ -2154,8 +2220,8 @@ int main(int argc, char *argv[])
-+ 		} else if(strcmp(argv[i], "-frag-queue") == 0 ||
-+ 					strcmp(argv[i], "-fr") == 0) {
-+ 			if((++i == argc) ||
-+-					(fragment_buffer_size = strtol(argv[i],
-+-					 &b, 10), *b != '\0')) {
-++					!parse_number(argv[i],
-++						&fragment_buffer_size)) {
-+ 				ERROR("%s: -frag-queue missing or invalid "
-+ 					"queue size\n", argv[0]);
-+ 				exit(1);
-+@@ -2280,11 +2346,39 @@ options:
-+ 	block_log = sBlk.s.block_log;
-+ 
-+ 	/*
-++	 * Sanity check block size and block log.
-++	 *
-++	 * Check they're within correct limits
-++	 */
-++	if(block_size > SQUASHFS_FILE_MAX_SIZE ||
-++					block_log > SQUASHFS_FILE_MAX_LOG)
-++		EXIT_UNSQUASH("Block size or block_log too large."
-++			"  File system is corrupt.\n");
-++
-++	/*
-++	 * Check block_size and block_log match
-++	 */
-++	if(block_size != (1 << block_log))
-++		EXIT_UNSQUASH("Block size and block_log do not match."
-++			"  File system is corrupt.\n");
-++
-++	/*
-+ 	 * convert from queue size in Mbytes to queue size in
-+-	 * blocks
-++	 * blocks.
-++	 *
-++	 * In doing so, check that the user supplied values do not
-++	 * overflow a signed int
-+ 	 */
-+-	fragment_buffer_size <<= 20 - block_log;
-+-	data_buffer_size <<= 20 - block_log;
-++	if(shift_overflow(fragment_buffer_size, 20 - block_log))
-++		EXIT_UNSQUASH("Fragment queue size is too large\n");
-++	else
-++		fragment_buffer_size <<= 20 - block_log;
-++
-++	if(shift_overflow(data_buffer_size, 20 - block_log))
-++		EXIT_UNSQUASH("Data queue size is too large\n");
-++	else
-++		data_buffer_size <<= 20 - block_log;
-++
-+ 	initialise_threads(fragment_buffer_size, data_buffer_size);
-+ 
-+ 	fragment_data = malloc(block_size);
-diff --git a/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch b/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
-new file mode 100644
-index 0000000..fa075f9
---- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/patches/squashfs-add-a-commment-and-fix-some-other-comments.patch
-@@ -0,0 +1,38 @@
-+Upstream-Status: Backport
-+
-+unsquashfs: add a commment and fix some other comments
-+
-+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
-+
-+diff -urpN a/unsquashfs.c b/unsquashfs.c
-+--- a/unsquashfs.c	2012-11-30 15:27:14.000000000 +0800
-++++ b/unsquashfs.c	2012-11-30 15:27:56.000000000 +0800
-+@@ -814,7 +814,7 @@ int write_file(struct inode *inode, char
-+ 
-+ 	/*
-+ 	 * the writer thread is queued a squashfs_file structure describing the
-+- 	 * file.  If the file has one or more blocks or a fragments they are
-++ 	 * file.  If the file has one or more blocks or a fragment they are
-+  	 * queued separately (references to blocks in the cache).
-+  	 */
-+ 	file->fd = file_fd;
-+@@ -838,7 +838,7 @@ int write_file(struct inode *inode, char
-+ 		block->offset = 0;
-+ 		block->size = i == file_end ? inode->data & (block_size - 1) :
-+ 			block_size;
-+-		if(block_list[i] == 0) /* sparse file */
-++		if(block_list[i] == 0) /* sparse block */
-+ 			block->buffer = NULL;
-+ 		else {
-+ 			block->buffer = cache_get(data_cache, start,
-+@@ -2161,6 +2161,10 @@ options:
-+ 	block_size = sBlk.s.block_size;
-+ 	block_log = sBlk.s.block_log;
-+ 
-++	/*
-++	 * convert from queue size in Mbytes to queue size in
-++	 * blocks
-++	 */
-+ 	fragment_buffer_size <<= 20 - block_log;
-+ 	data_buffer_size <<= 20 - block_log;
-+ 	initialise_threads(fragment_buffer_size, data_buffer_size);
-diff --git a/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch b/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
-new file mode 100644
-index 0000000..c60f7b4
---- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/patches/squashfs-fix-open-file-limit.patch
-@@ -0,0 +1,215 @@
-+Upstream-Status: Backport
-+
-+unsquashfs: fix open file limit
-+
-+Previously Unsquashfs relied on the to_writer queue being
-+set to 1000 to limit the amount of open file read-ahead to a
-+maximum of 500.  For the default process limit of 1024 open files
-+this was perhaps acceptable, but it obviously breaks if ulimit has
-+been used to set the open file limit to below 504 (this includes
-+stdin, stdout, stderr and the Squashfs filesystem being unsquashed).
-+
-+More importantly setting the to_writer queue to 1000 to limit
-+the amount of files open has always been an inherent performance
-+hit because the to_writer queue queues blocks.  It limits the
-+block readhead to 1000 blocks, irrespective of how many files
-+that represents.  A single file containing more than 1000 blocks
-+will still be limited to a 1000 block readahead even though the
-+data block cache typically can buffer more than this (at the
-+default data cache size of 256 Mbytes and the default block size
-+of 128 Kbytes, it can buffer 2048 blocks).  Obviously the
-+caches serve more than just a read-ahead role (they also
-+cache decompressed blocks in case they're referenced later e.g.
-+by duplicate files), but the artificial limit imposed on
-+the read-ahead due to setting the to_writer queue to 1000 is
-+unnecessary.
-+
-+This commit does away with the need to limit the to_writer queue,
-+by introducing open_wait() and close_wake() calls which correctly
-+track the amount of open files.
-+
-+Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
-+
-+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com> 
-+
-+diff -urpN a/unsquashfs.c b/unsquashfs.c
-+--- a/unsquashfs.c	2012-11-30 15:31:29.000000000 +0800
-++++ b/unsquashfs.c	2012-11-30 15:32:03.000000000 +0800
-+@@ -31,6 +31,8 @@
-+ 
-+ #include <sys/sysinfo.h>
-+ #include <sys/types.h>
-++#include <sys/time.h>
-++#include <sys/resource.h>
-+ 
-+ struct cache *fragment_cache, *data_cache;
-+ struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
-+@@ -784,6 +786,46 @@ failure:
++ void
++-_rsvg_node_init (RsvgNode * self)
+++_rsvg_node_init (RsvgNode * self,
+++                 RsvgNodeType type)
++ {
+++    self->type = type;
++     self->parent = NULL;
++     self->children = g_ptr_array_new ();
++     self->state = g_new (RsvgState, 1);
++@@ -112,7 +114,6 @@ _rsvg_node_init (RsvgNode * self)
++     self->free = _rsvg_node_free;
++     self->draw = _rsvg_node_draw_nothing;
++     self->set_atts = _rsvg_node_dont_set_atts;
++-    self->type = NULL;
 + }
 + 
++ void
++@@ -124,8 +125,6 @@ _rsvg_node_finalize (RsvgNode * self)
++     }
++     if (self->children != NULL)
++         g_ptr_array_free (self->children, TRUE);
++-    if (self->type != NULL)
++-        g_string_free (self->type, TRUE);
++ }
 + 
-++pthread_mutex_t open_mutex = PTHREAD_MUTEX_INITIALIZER;
-++pthread_cond_t open_empty = PTHREAD_COND_INITIALIZER;
-++int open_unlimited, open_count;
-++#define OPEN_FILE_MARGIN 10
-++
-++
-++void open_init(int count)
-++{
-++	open_count = count;
-++	open_unlimited = count == -1;
-++}
-++
-++
-++int open_wait(char *pathname, int flags, mode_t mode)
-++{
-++	if (!open_unlimited) {
-++		pthread_mutex_lock(&open_mutex);
-++		while (open_count == 0)
-++			pthread_cond_wait(&open_empty, &open_mutex);
-++		open_count --;
-++		pthread_mutex_unlock(&open_mutex);
-++	}
-++
-++	return open(pathname, flags, mode);
-++}
-++
-++
-++void close_wake(int fd)
-++{
-++	close(fd);
-++
-++	if (!open_unlimited) {
-++		pthread_mutex_lock(&open_mutex);
-++		open_count ++;
-++		pthread_cond_signal(&open_empty);
-++		pthread_mutex_unlock(&open_mutex);
-++	}
-++}
-++
-++
-+ int write_file(struct inode *inode, char *pathname)
++ void
++@@ -157,7 +156,7 @@ rsvg_new_group (void)
 + {
-+ 	unsigned int file_fd, i;
-+@@ -794,8 +836,8 @@ int write_file(struct inode *inode, char
-+ 
-+ 	TRACE("write_file: regular file, blocks %d\n", inode->blocks);
-+ 
-+-	file_fd = open(pathname, O_CREAT | O_WRONLY | (force ? O_TRUNC : 0),
-+-		(mode_t) inode->mode & 0777);
-++	file_fd = open_wait(pathname, O_CREAT | O_WRONLY |
-++		(force ? O_TRUNC : 0), (mode_t) inode->mode & 0777);
-+ 	if(file_fd == -1) {
-+ 		ERROR("write_file: failed to create file %s, because %s\n",
-+ 			pathname, strerror(errno));
-+@@ -1712,7 +1754,7 @@ void *writer(void *arg)
-+ 			}
-+ 		}
-+ 
-+-		close(file_fd);
-++		close_wake(file_fd);
-+ 		if(failed == FALSE)
-+ 			set_attributes(file->pathname, file->mode, file->uid,
-+ 				file->gid, file->time, file->xattr, force);
-+@@ -1803,9 +1845,9 @@ void *progress_thread(void *arg)
-+ 
-+ void initialise_threads(int fragment_buffer_size, int data_buffer_size)
++     RsvgNodeGroup *group;
++     group = g_new (RsvgNodeGroup, 1);
++-    _rsvg_node_init (&group->super);
+++    _rsvg_node_init (&group->super, RSVG_NODE_TYPE_GROUP);
++     group->super.draw = _rsvg_node_draw_children;
++     group->super.set_atts = rsvg_node_group_set_atts;
++     return &group->super;
++@@ -166,8 +165,8 @@ rsvg_new_group (void)
++ void
++ rsvg_pop_def_group (RsvgHandle * ctx)
 + {
-+-	int i;
-++	struct rlimit rlim;
-++	int i, max_files, res;
-+ 	sigset_t sigmask, old_mask;
-+-	int all_buffers_size = fragment_buffer_size + data_buffer_size;
++-    if (ctx->priv->currentnode != NULL)
++-        ctx->priv->currentnode = ctx->priv->currentnode->parent;
+++    g_assert (ctx->priv->currentnode != NULL);
+++    ctx->priv->currentnode = ctx->priv->currentnode->parent;
++ }
 + 
-+ 	sigemptyset(&sigmask);
-+ 	sigaddset(&sigmask, SIGINT);
-+@@ -1841,10 +1883,86 @@ void initialise_threads(int fragment_buf
-+ 		EXIT_UNSQUASH("Out of memory allocating thread descriptors\n");
-+ 	deflator_thread = &thread[3];
++ void
++@@ -218,7 +217,7 @@ rsvg_node_use_draw (RsvgNode * self, RsvgDrawingCtx * ctx, int dominate)
++         return;
 + 
-+-	to_reader = queue_init(all_buffers_size);
-+-	to_deflate = queue_init(all_buffers_size);
-+-	to_writer = queue_init(1000);
-++	/*
-++	 * dimensioning the to_reader and to_deflate queues.  The size of
-++	 * these queues is directly related to the amount of block
-++	 * read-ahead possible.  To_reader queues block read requests to
-++	 * the reader thread and to_deflate queues block decompression
-++	 * requests to the deflate thread(s) (once the block has been read by
-++	 * the reader thread).  The amount of read-ahead is determined by
-++	 * the combined size of the data_block and fragment caches which
-++	 * determine the total number of blocks which can be "in flight"
-++	 * at any one time (either being read or being decompressed)
-++	 *
-++	 * The maximum file open limit, however, affects the read-ahead
-++	 * possible, in that for normal sizes of the fragment and data block
-++	 * caches, where the incoming files have few data blocks or one fragment
-++	 * only, the file open limit is likely to be reached before the
-++	 * caches are full.  This means the worst case sizing of the combined
-++	 * sizes of the caches is unlikely to ever be necessary.  However, is is
-++	 * obvious read-ahead up to the data block cache size is always possible
-++	 * irrespective of the file open limit, because a single file could
-++	 * contain that number of blocks.
-++	 *
-++	 * Choosing the size as "file open limit + data block cache size" seems
-++	 * to be a reasonable estimate.  We can reasonably assume the maximum
-++	 * likely read-ahead possible is data block cache size + one fragment
-++	 * per open file.
-++	 *
-++	 * dimensioning the to_writer queue.  The size of this queue is
-++	 * directly related to the amount of block read-ahead possible.
-++	 * However, unlike the to_reader and to_deflate queues, this is
-++	 * complicated by the fact the to_writer queue not only contains
-++	 * entries for fragments and data_blocks but it also contains
-++	 * file entries, one per open file in the read-ahead.
-++	 *
-++	 * Choosing the size as "2 * (file open limit) +
-++	 * data block cache size" seems to be a reasonable estimate.
-++	 * We can reasonably assume the maximum likely read-ahead possible
-++	 * is data block cache size + one fragment per open file, and then
-++	 * we will have a file_entry for each open file.
-++	 */
-++	res = getrlimit(RLIMIT_NOFILE, &rlim);
-++	if (res == -1) {
-++		ERROR("failed to get open file limit!  Defaulting to 1\n");
-++		rlim.rlim_cur = 1;
-++	}
++     state = rsvg_current_state (ctx);
++-    if (strcmp (child->type->str, "symbol")) {
+++    if (RSVG_NODE_TYPE (child) != RSVG_NODE_TYPE_SYMBOL) {
++         _rsvg_affine_translate (affine, x, y);
++         _rsvg_affine_multiply (state->affine, affine, state->affine);
++ 
++@@ -397,7 +396,7 @@ rsvg_new_svg (void)
++ {
++     RsvgNodeSvg *svg;
++     svg = g_new (RsvgNodeSvg, 1);
++-    _rsvg_node_init (&svg->super);
+++    _rsvg_node_init (&svg->super, RSVG_NODE_TYPE_SVG);
++     svg->vbox.active = FALSE;
++     svg->preserve_aspect_ratio = RSVG_ASPECT_RATIO_XMID_YMID;
++     svg->x = _rsvg_css_parse_length ("0");
++@@ -444,7 +443,7 @@ rsvg_new_use (void)
++ {
++     RsvgNodeUse *use;
++     use = g_new (RsvgNodeUse, 1);
++-    _rsvg_node_init (&use->super);
+++    _rsvg_node_init (&use->super, RSVG_NODE_TYPE_USE);
++     use->super.draw = rsvg_node_use_draw;
++     use->super.set_atts = rsvg_node_use_set_atts;
++     use->x = _rsvg_css_parse_length ("0");
++@@ -485,7 +484,7 @@ rsvg_new_symbol (void)
++ {
++     RsvgNodeSymbol *symbol;
++     symbol = g_new (RsvgNodeSymbol, 1);
++-    _rsvg_node_init (&symbol->super);
+++    _rsvg_node_init (&symbol->super, RSVG_NODE_TYPE_SYMBOL);
++     symbol->vbox.active = FALSE;
++     symbol->preserve_aspect_ratio = RSVG_ASPECT_RATIO_XMID_YMID;
++     symbol->super.draw = _rsvg_node_draw_nothing;
++@@ -498,7 +497,7 @@ rsvg_new_defs (void)
++ {
++     RsvgNodeGroup *group;
++     group = g_new (RsvgNodeGroup, 1);
++-    _rsvg_node_init (&group->super);
+++    _rsvg_node_init (&group->super, RSVG_NODE_TYPE_DEFS);
++     group->super.draw = _rsvg_node_draw_nothing;
++     group->super.set_atts = rsvg_node_group_set_atts;
++     return &group->super;
++@@ -533,7 +532,7 @@ rsvg_new_switch (void)
++ {
++     RsvgNodeGroup *group;
++     group = g_new (RsvgNodeGroup, 1);
++-    _rsvg_node_init (&group->super);
+++    _rsvg_node_init (&group->super, RSVG_NODE_TYPE_SWITCH);
++     group->super.draw = _rsvg_node_switch_draw;
++     group->super.set_atts = rsvg_node_group_set_atts;
++     return &group->super;
++diff --git a/rsvg-structure.h b/rsvg-structure.h
++index d672977..7d17c82 100644
++--- a/rsvg-structure.h
+++++ b/rsvg-structure.h
++@@ -36,7 +36,7 @@
++ 
++ G_BEGIN_DECLS 
++ 
++-RsvgNode * rsvg_new_use (void);
+++RsvgNode *rsvg_new_use (void);
++ RsvgNode *rsvg_new_symbol (void);
++ RsvgNode *rsvg_new_svg (void);
++ RsvgNode *rsvg_new_defs (void);
++@@ -50,6 +50,7 @@ typedef struct _RsvgNodeSvg RsvgNodeSvg;
++ 
++ struct _RsvgNodeGroup {
++     RsvgNode super;
+++    char *name;
++ };
++ 
++ struct _RsvgNodeSymbol {
++@@ -80,7 +81,7 @@ void rsvg_node_draw         (RsvgNode * self, RsvgDrawingCtx * ctx, int dominate
++ void _rsvg_node_draw_children   (RsvgNode * self, RsvgDrawingCtx * ctx, int dominate);
++ void _rsvg_node_finalize    (RsvgNode * self);
++ void _rsvg_node_free        (RsvgNode * self);
++-void _rsvg_node_init        (RsvgNode * self);
+++void _rsvg_node_init        (RsvgNode * self, RsvgNodeType type);
++ void _rsvg_node_svg_apply_atts  (RsvgNodeSvg * self, RsvgHandle * ctx);
++ 
++ G_END_DECLS
++diff --git a/rsvg-text.c b/rsvg-text.c
++index 7066f24..89720de 100644
++--- a/rsvg-text.c
+++++ b/rsvg-text.c
++@@ -170,17 +170,19 @@ _rsvg_node_text_type_children (RsvgNode * self, RsvgDrawingCtx * ctx,
++     rsvg_push_discrete_layer (ctx);
++     for (i = 0; i < self->children->len; i++) {
++         RsvgNode *node = g_ptr_array_index (self->children, i);
++-        if (!strcmp (node->type->str, "RSVG_NODE_CHARS")) {
+++        RsvgNodeType type = RSVG_NODE_TYPE (node);
 ++
-++	if (rlim.rlim_cur != RLIM_INFINITY) {
-++		/*
-++		 * leave OPEN_FILE_MARGIN free (rlim_cur includes fds used by
-++		 * stdin, stdout, stderr and filesystem fd
-++		 */
-++		if (rlim.rlim_cur <= OPEN_FILE_MARGIN)
-++			/* no margin, use minimum possible */
-++			max_files = 1;
-++		else
-++			max_files = rlim.rlim_cur - OPEN_FILE_MARGIN;
-++	} else
-++		max_files = -1;
+++        if (type == RSVG_NODE_TYPE_CHARS) {
++             RsvgNodeChars *chars = (RsvgNodeChars *) node;
++             GString *str = _rsvg_text_chomp (rsvg_current_state (ctx), chars->contents, lastwasspace);
++             rsvg_text_render_text (ctx, str->str, x, y);
++             g_string_free (str, TRUE);
++-        } else if (!strcmp (node->type->str, "tspan")) {
+++        } else if (type == RSVG_NODE_TYPE_TSPAN) {
++             RsvgNodeText *tspan = (RsvgNodeText *) node;
++             rsvg_state_push (ctx);
++             _rsvg_node_text_type_tspan (tspan, ctx, x, y, lastwasspace);
++             rsvg_state_pop (ctx);
++-        } else if (!strcmp (node->type->str, "tref")) {
+++        } else if (type == RSVG_NODE_TYPE_TREF) {
++             RsvgNodeTref *tref = (RsvgNodeTref *) node;
++             _rsvg_node_text_type_tref (tref, ctx, x, y, lastwasspace);
++         }
++@@ -206,17 +208,19 @@ _rsvg_node_text_length_children (RsvgNode * self, RsvgDrawingCtx * ctx,
++     int out = FALSE;
++     for (i = 0; i < self->children->len; i++) {
++         RsvgNode *node = g_ptr_array_index (self->children, i);
+++        RsvgNodeType type = RSVG_NODE_TYPE (node);
 ++
-++	/* set amount of available files for use by open_wait and close_wake */
-++	open_init(max_files);
-++
-++	/*
-++	 * allocate to_reader, to_deflate and to_writer queues.  Set based on
-++	 * open file limit and cache size, unless open file limit is unlimited,
-++	 * in which case set purely based on cache limits
-++	 */
-++	if (max_files != -1) {
-++		to_reader = queue_init(max_files + data_buffer_size);
-++		to_deflate = queue_init(max_files + data_buffer_size);
-++		to_writer = queue_init(max_files * 2 + data_buffer_size);
-++	} else {
-++		int all_buffers_size = fragment_buffer_size + data_buffer_size;
-++
-++		to_reader = queue_init(all_buffers_size);
-++		to_deflate = queue_init(all_buffers_size);
-++		to_writer = queue_init(all_buffers_size * 2);
-++	}
-++
-+ 	from_writer = queue_init(1);
-++
-+ 	fragment_cache = cache_init(block_size, fragment_buffer_size);
-+ 	data_cache = cache_init(block_size, data_buffer_size);
-+ 	pthread_create(&thread[0], NULL, reader, NULL);
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-index 9922f1e..528efed 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb
-@@ -8,12 +8,15 @@ LIC_FILES_CHKSUM = "file://../COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://../../7zC.txt;beginline=12;endline=16;md5=2056cd6d919ebc3807602143c7449a7c \
-                    "
- DEPENDS = "attr zlib xz"
--PR = "1"
-+PR = "r2"
++         rsvg_state_push (ctx);
++         rsvg_state_reinherit_top (ctx, node->state, 0);
++-        if (!strcmp (node->type->str, "RSVG_NODE_CHARS")) {
+++        if (type == RSVG_NODE_TYPE_CHARS) {
++             RsvgNodeChars *chars = (RsvgNodeChars *) node;
++             GString *str = _rsvg_text_chomp (rsvg_current_state (ctx), chars->contents, lastwasspace);
++             *x += rsvg_text_length_text_as_string (ctx, str->str);
++             g_string_free (str, TRUE);
++-        } else if (!strcmp (node->type->str, "tspan")) {
+++        } else if (type == RSVG_NODE_TYPE_TSPAN) {
++             RsvgNodeText *tspan = (RsvgNodeText *) node;
++             out = _rsvg_node_text_length_tspan (tspan, ctx, x, lastwasspace);
++-        } else if (!strcmp (node->type->str, "tref")) {
+++        } else if (type == RSVG_NODE_TYPE_TREF) {
++             RsvgNodeTref *tref = (RsvgNodeTref *) node;
++             out = _rsvg_node_text_length_tref (tref, ctx, x, lastwasspace);
++         }
++@@ -259,7 +263,7 @@ rsvg_new_text (void)
++ {
++     RsvgNodeText *text;
++     text = g_new (RsvgNodeText, 1);
++-    _rsvg_node_init (&text->super);
+++    _rsvg_node_init (&text->super, RSVG_NODE_TYPE_TEXT);
++     text->super.draw = _rsvg_node_text_draw;
++     text->super.set_atts = _rsvg_node_text_set_atts;
++     text->x = text->y = text->dx = text->dy = _rsvg_css_parse_length ("0");
++@@ -331,7 +335,7 @@ rsvg_new_tspan (void)
++ {
++     RsvgNodeText *text;
++     text = g_new (RsvgNodeText, 1);
++-    _rsvg_node_init (&text->super);
+++    _rsvg_node_init (&text->super, RSVG_NODE_TYPE_TSPAN);
++     text->super.set_atts = _rsvg_node_tspan_set_atts;
++     text->x.factor = text->y.factor = 'n';
++     text->dx = text->dy = _rsvg_css_parse_length ("0");
++@@ -374,7 +378,7 @@ rsvg_new_tref (void)
++ {
++     RsvgNodeTref *text;
++     text = g_new (RsvgNodeTref, 1);
++-    _rsvg_node_init (&text->super);
+++    _rsvg_node_init (&text->super, RSVG_NODE_TYPE_TREF);
++     text->super.set_atts = _rsvg_node_tref_set_atts;
++     text->link = NULL;
++     return &text->super;
++-- 
++1.7.0.5
++
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+index 1e57647..ed2630e 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+@@ -9,13 +9,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SECTION = "x11/utils"
+ DEPENDS = "gtk+ libcroco cairo libxml2 popt"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/squashfs/squashfs${PV}.tar.gz;name=squashfs \
-            http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
-           "
- SRC_URI += "file://squashfs-4.2-fix-CVE-2012-4024.patch \
-+            file://squashfs-add-a-commment-and-fix-some-other-comments.patch \
-+            file://squashfs-fix-open-file-limit.patch \
-+            file://squashfs-4.2-fix-CVE-2012-4025.patch \
-            " 
- SRC_URI[squashfs.md5sum] = "1b7a781fb4cf8938842279bd3e8ee852"
- SRC_URI[squashfs.sha256sum] = "d9e0195aa922dbb665ed322b9aaa96e04a476ee650f39bbeadb0d00b24022e96"
+-PR = "r5"
++PR = "r6"
+ 
+ inherit autotools pkgconfig gnome
+ 
+ EXTRA_OECONF = "--disable-mozilla-plugin --without-svgz --without-croco --disable-gnome-vfs"
+ 
+-SRC_URI += "file://doc_Makefile.patch"
++SRC_URI += "file://doc_Makefile.patch \
++	    file://librsvg-CVE-2011-3146.patch \
++	    "
+ 
+ SRC_URI[archive.md5sum] = "4b00d0fee130c936644892c152f42db7"
+ SRC_URI[archive.sha256sum] = "91b98051f352fab8a6257688d6b2fd665b4648ed66144861f2f853ccf876d334"
 -- 
 1.7.9.5
 
