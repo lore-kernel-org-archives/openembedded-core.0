@@ -1,37 +1,36 @@
-Received: from mail-ea0-f182.google.com ([209.85.215.182])
+Received: from mail-oa0-f50.google.com ([209.85.219.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Tp2fH-0002C9-64
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tp2vK-0002yD-5M
 	for openembedded-core@lists.openembedded.org;
-	Sat, 29 Dec 2012 21:05:54 +0100
-Received: by mail-ea0-f182.google.com with SMTP id a14so4828877eaa.13
+	Sat, 29 Dec 2012 21:22:29 +0100
+Received: by mail-oa0-f50.google.com with SMTP id n16so10585462oag.23
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Dec 2012 11:50:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=lyuyMKajhIf2GsE4e0vXKJloi1LbNnrDboluml4Vhn4=;
-	b=Ekj3V6hUyYxKKdFSz5KQJSBgyHs/OS63XXdXhyxWkQ1OmLIWQwOkx3qXxca0nyczZK
-	o+dS2RC18Fr0/jJJzXu5S/FGwgyZg+fyuOy9fiNd+j7YCyyc5eQdV3F0SI73+3tSVfUY
-	csASGPVcpYU0ipzBdELkBLIPTnUOdbkGE9lmzUCBytYxtA27nzH2/N0S5JC/HvXqVwM7
-	gi9yl4tRWhJkDI0dQuWgbY0Cbvc4X9gyXubAOVd8ViC9XmEFkV36wgXlhF6Vp54uNwfv
-	II4RiBXMzFXY4JKniiMoOrJC+PckATlIjU44MV8tKSNfda32pC3N3ha7TPklRoYzN0QE
-	yZ5Q==
-X-Received: by 10.14.219.72 with SMTP id l48mr97346557eep.37.1356810653967;
-	Sat, 29 Dec 2012 11:50:53 -0800 (PST)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPS id e2sm74140825eeo.8.2012.12.29.11.50.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 29 Dec 2012 11:50:53 -0800 (PST)
-From: koen@dominion.thruhere.net
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Dec 2012 20:50:45 +0100
-Message-Id: <50df499d.02cb0e0a.2047.4ecf@mx.google.com>
-X-Mailer: git-send-email 1.7.7.6
-X-Gm-Message-State: ALoCoQkySvxH9HR70301gV/g32DZCYxyatcA5Kyvk8p26pg5kisjTUx9BNi7MAkcohMQwpE4pfmn
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [RFC][PATCH] libnss-mdns: enable IPv6 as well as IPv4 mnds resolving
+	Sat, 29 Dec 2012 12:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=fLHdMPiuR2FuTCtNC/6ft92y6FHwtdy1Nv5UEB832QI=;
+	b=O/iqX+1ZsoPKGfEDippHp1a397LA/aZRddkMRkA19BP3zLOLuuJeBzDGIjVgxrio+h
+	zpQToEy5EHlYtXaksidGKi1AsJauucxPuzgvCUaowXHWJ7YmRGv7McqEncAeiTiEUT1W
+	oNplYke0s68xVPNDOKZSJk12gYokSHNiNCrIAnm3q0qaGO9xPlSyloSKtGCli7dj3luI
+	a7TWl/gag1OFAO7kMvPdglTvUBt9UVhtIIscO3MmuxgC81J1vCj/DYmA5gK0nDr0PrO5
+	Sk2dieqPqNnlMv+QKbGKgq0+i7lN3RqDX7yV2SNbq2uHu0CnajdQFObLagpu5jASFZ8j
+	QPhw==
+MIME-Version: 1.0
+Received: by 10.60.171.201 with SMTP id aw9mr18861414oec.126.1356811647683;
+	Sat, 29 Dec 2012 12:07:27 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Sat, 29 Dec 2012 12:07:27 -0800 (PST)
+In-Reply-To: <14597559.apOXRQSfRu@ll-pc>
+References: <14597559.apOXRQSfRu@ll-pc>
+Date: Sat, 29 Dec 2012 18:07:27 -0200
+X-Google-Sender-Auth: 197KeSPJg93-k-V3dfLzfOPgL8g
+Message-ID: <CAP9ODKrVuLGDVUPC+co_oxVRfxnamRCnLhSe4wJp-WU3HVGiuw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Yi Qingliang <niqingliang2003@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: disk space problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,50 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Dec 2012 20:06:01 -0000
+X-List-Received-Date: Sat, 29 Dec 2012 20:22:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+On Sat, Dec 29, 2012 at 1:09 PM, Yi Qingliang <niqingliang2003@gmail.com> wrote:
+>
+> When using poky,  I got following problem:
+>
+> WARNING: The free inode of /dev/md127 is running low (0.000K left)
+> ERROR: Immediately abort since the disk space monitor action is
+> "ABORT"!
+> ERROR: Unknown event: <bb.event.DiskFull object at 0x47dbed0>
+>
+> the disk is  a raid partition, and fs format is reiserfs, the 'statvfs' call
+> in bitbake got a zero f_favail.
+>
+> I don't know it is feature of reiserfs, or bug of reiserfs driver, or python's
+> problem.
+>
+> Any idea?
 
-From the docs: "libnss_mdns.so.2 resolves both IPv6 and IPv4 addresses, libnss_mdns4.so.2 only IPv4 addresses and libnss_mdns6.so.2 only IPv6 addresses."
+I had a similar problem when using btrfs. You can find the bug at
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3609
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../libnss-mdns/libnss-mdns_0.10.bb                |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+Regards,
 
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-index a1f2f9a..ae11487 100644
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-+++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- DEPENDS = "avahi"
- RDEPENDS_${PN} = "avahi-daemon"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz"
- 
-@@ -24,13 +24,13 @@ DEBIANNAME_${PN} = "libnss-mdns"
- EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
- 
- pkg_postinst_${PN} () {
--if ! grep -q '^hosts:.*\<mdns4\>' $D/etc/nsswitch.conf; then
--	sed -e 's/^hosts:.*/& mdns4/' -i $D/etc/nsswitch.conf
-+if ! grep -q '^hosts:.*\<mdns\>' $D/etc/nsswitch.conf; then
-+	sed -e 's/^hosts:.*/& mdns/' -i $D/etc/nsswitch.conf
- fi
- }
- 
- pkg_prerm_${PN} () {
--if grep -q '^hosts:.*\<mdns4\>' /etc/nsswitch.conf; then
--	sed -e '/^hosts:/s/\s\<mdns4\>//' -i /etc/nsswitch.conf
-+if grep -q '^hosts:.*\<mdns\>' /etc/nsswitch.conf; then
-+	sed -e '/^hosts:/s/\s\<mdns\>//' -i /etc/nsswitch.conf
- fi
- }
--- 
-1.7.7.6
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
