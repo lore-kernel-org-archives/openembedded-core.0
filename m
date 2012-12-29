@@ -1,33 +1,38 @@
-Received: from mail-pa0-f48.google.com ([209.85.220.48])
+Received: from mail-pa0-f46.google.com ([209.85.220.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Top43-00076L-Mt
+	(envelope-from <kergoth@gmail.com>) id 1Top46-00076P-Gk
 	for openembedded-core@lists.openembedded.org;
 	Sat, 29 Dec 2012 06:34:38 +0100
-Received: by mail-pa0-f48.google.com with SMTP id fa1so6417920pad.7
+Received: by mail-pa0-f46.google.com with SMTP id bh2so6333386pad.19
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Dec 2012 21:19:34 -0800 (PST)
+	Fri, 28 Dec 2012 21:19:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=RqwISqMtWk28LEszNTajMhTcOSDMRQRjwKKoAfMPN+o=;
-	b=wQ5MrDSm94MIMQYAWjv90Na5lgAMb53iLDbeVQWLUX0T2UKyXZHSW87/FY7P7+pxw5
-	KOj3+2rEb7ABSo3+ec3I1OIo8XX6Ua3WgVuTaEXsEAt1ZAMlM8ChmJA4Nsk0sYzHMJL+
-	JM8gJK4WwviXyF+skfCIH1x0cWRbA692qGpvZC6T8e8GvoQmMd/2joSbqPfpVVpzTDiy
-	NFhANm6nQKtdooiXciIAp5crrGUPSPNerzySpDOVG4v8ptTuQZ4A9igddsz99tAcd0+1
-	Dm6iVWmwy36vlMV6UNPMYtHjNATbU7SfNpJj+Y6fq2GuRm6IGxZ4vav6TxTwokaK7wb3
-	Js3Q==
-X-Received: by 10.66.82.73 with SMTP id g9mr104680624pay.5.1356758374417;
-	Fri, 28 Dec 2012 21:19:34 -0800 (PST)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=PUo2dEjH6NGEckA7orP++/HmHkPEZOnYg4uqFem6GD4=;
+	b=uX2LoEYAcNe1dUhL2jawdT1yHUbTMJFoWPZc5iDAwGdch1L4dMfKYRVxdICloX67h8
+	E2XSeXdfk2dfSH8RIRYaRNhpipDC0HHB8g212729O9fp/hI86ZLkKga+4tPyl7GnrYmT
+	f8PzWE1hzfeQLZUenGOi24/a2jylvsb+DLyAQNmWrp8w+xu1FpvXPB3i4uVu6l9k0Bpl
+	pgY9CFLUas1KZSjuaVBiG/SxmupOSSvDS4BxbjwurMeQVAZasdld6py5mIiG6xqiQQS0
+	lRPj+zwnLVz5JrlMDtV7pa+I5RpQEjgaT7U8f01VmSAgnZLmmkp5JS/t2sIgvZltCW3Y
+	Iztg==
+X-Received: by 10.68.130.226 with SMTP id oh2mr67995900pbb.157.1356758377512; 
+	Fri, 28 Dec 2012 21:19:37 -0800 (PST)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id vs3sm20848581pbc.61.2012.12.28.21.19.31
+	by mx.google.com with ESMTPS id vs3sm20848581pbc.61.2012.12.28.21.19.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 28 Dec 2012 21:19:32 -0800 (PST)
+	Fri, 28 Dec 2012 21:19:36 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Dec 2012 22:19:22 -0700
-Message-Id: <cover.1356758000.git.chris_larson@mentor.com>
+Date: Fri, 28 Dec 2012 22:19:23 -0700
+Message-Id: <3f926cfa57debf042253c7c0db7be5b63de98209.1356758000.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.0
+In-Reply-To: <cover.1356758000.git.chris_larson@mentor.com>
+References: <cover.1356758000.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1356758000.git.chris_larson@mentor.com>
+References: <cover.1356758000.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/6] Add the ability to use chkconfig's update-alternatives
+Subject: [PATCH 1/6] update-alternatives.bbclass: use absolute paths for link targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,61 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Dec 2012 05:34:38 -0000
+X-List-Received-Date: Sat, 29 Dec 2012 05:34:39 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This short patch series fixes a few issues with the chkconfig recipe to
-prepare for packaging of its C implementation of update-alternatives, enables
-this packaging, adds a recipe with minimal deps for the -native case, and
-fixes a couple issues in opkg-native and update-alternatives.bbclass.
+This improves compatibility, as both the debian update-alternatives and the
+chkconfig alternatives require absolute paths.
 
-With this applied, you can use this implementation of update-alternatives
-rather than cworth's by defining:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/update-alternatives.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    VIRTUAL-RUNTIME_update-alternatives = "chkconfig-alternatives"
-    PREFERRED_PROVIDER_virtual/update-alternatives = "chkconfig-alternatives"
-    PREFERRED_PROVIDER_virtual/update-alternatives-native = "chkconfig-alternatives-native"
-
-I've sanity checked both package and image buildhistory, and the only changes
-are due to the particular layout of the alternatives directories, which is
-reasonable. I've also confirmed that image do_rootfs run times have dropped by
-7 seconds on average, so it at least doesn't regress that. Of course, the main
-benefit to being able to use this implementation is the removal of the sh
-dependency, and that the maintainer of its code is someone other than us and
-the opkg maintainer.
-
-Comments welcome. Thanks.
-
-
-The following changes since commit 69bbce0176183b0dc14eda21e4f6b601443060f0:
-
-  libpng: fix packaging (2012-12-25 14:00:22 -0800)
-
-are available in the git repository at:
-
-  https://github.com/kergoth/oe-core chkconfig-alternatives
-
-for you to fetch changes up to a755aa630c6d2095d5950ee00d396f3249e4a912:
-
-  chkconfig-alternatives-native-1.3.59: add recipe (2012-12-28 14:19:56 -0700)
-
-----------------------------------------------------------------
-Christopher Larson (6):
-      update-alternatives.bbclass: use absolute paths for link targets
-      opkg-native: obey virtual/update-alternatives-native
-      chkconfig: don't inherit autotools
-      chkconfig: obey sysconfdir, base_libdir
-      chkconfig: package the update-alternatives implementation
-      chkconfig-alternatives-native-1.3.59: add recipe
-
- meta/classes/update-alternatives.bbclass           |  2 +-
- meta/recipes-devtools/opkg/opkg.inc                | 10 ++++-
- .../chkconfig-alternatives-native_1.3.59.bb        | 43 +++++++++++++++++++
- .../recipes-extended/chkconfig/chkconfig_1.3.58.bb | 48 ++++++++++++++++++----
- 4 files changed, 91 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-extended/chkconfig/chkconfig-alternatives-native_1.3.59.bb
-
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index a3631ec..556ee7c 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -298,7 +298,7 @@ python populate_packages_prepend () {
+                 continue
+ 
+             # Default to generate shell script.. eventually we may want to change this...
+-            alt_target = os.path.relpath(alt_target, os.path.dirname(alt_link))
++            alt_target = os.path.normpath(alt_target)
+ 
+             alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+             alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
 -- 
 1.8.0
 
