@@ -1,31 +1,38 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-pa0-f44.google.com ([209.85.220.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TpJYQ-0004Yb-2n
+	(envelope-from <niqingliang2003@gmail.com>) id 1TpKe9-0005np-3l
 	for openembedded-core@lists.openembedded.org;
-	Sun, 30 Dec 2012 15:07:54 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:50182 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TpJJx-0007Vs-1h for openembedded-core@lists.openembedded.org;
-	Sun, 30 Dec 2012 08:52:57 -0500
-Date: Sun, 30 Dec 2012 08:52:48 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1212300823480.14485@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Sun, 30 Dec 2012 16:17:56 +0100
+Received: by mail-pa0-f44.google.com with SMTP id hz11so6778133pad.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Dec 2012 07:02:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:user-agent
+	:in-reply-to:references:mime-version:content-transfer-encoding
+	:content-type; bh=PchaZF87xDamQbXZVvKfHbOBaIXsMLqoUGv9oZTXyjk=;
+	b=OaRnHT9edjiNjO0vC+o2b0Vsz4ndfvaBkXcYwrckzf2AH6VxjH2neqNk2bAykZ2S7Q
+	KSOhmXWYYunJrRhejC4U+yFad71wH0GuDoyjJey+D3O+KnKfpsegNZgJS/2SiQ0yEvfK
+	vgmTZSEK9to3PEi/oacp8wREPkkqOP6SIi3jYwodbGsF9Cs41nx2hp4m+ThqfR0YwT3a
+	UaX44F1hfzcQs7d2nO4ZwrwUngGidszvj5z1NsBlQnoSnnP2rh34WpSe8iijXsMu+uf0
+	WRVSISN3EyC9S9Nak4DJnVCIERgc2ijQDPiRxism5Idi/5QVsBlnDNr6lhl4YhZ7BLFN
+	cUiQ==
+X-Received: by 10.66.82.230 with SMTP id l6mr114602768pay.12.1356879773957;
+	Sun, 30 Dec 2012 07:02:53 -0800 (PST)
+Received: from ll-pc.localnet ([112.3.235.206])
+	by mx.google.com with ESMTPS id oi3sm23238496pbb.1.2012.12.30.07.02.50
+	(version=SSLv3 cipher=OTHER); Sun, 30 Dec 2012 07:02:52 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Sun, 30 Dec 2012 23:01:23 +0800
+Message-ID: <2102269.34dXU5iKec@ll-pc>
+User-Agent: KMail/4.9.4 (Linux/3.6.10-1-ARCH; KDE/4.9.4; x86_64; ; )
+In-Reply-To: <CAP9ODKrVuLGDVUPC+co_oxVRfxnamRCnLhSe4wJp-WU3HVGiuw@mail.gmail.com>
+References: <14597559.apOXRQSfRu@ll-pc>
+	<CAP9ODKrVuLGDVUPC+co_oxVRfxnamRCnLhSe4wJp-WU3HVGiuw@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: packagegroups: equally referenced as recipe or with IMAGE_FEATURES?
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: disk space problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,26 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Dec 2012 14:07:54 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 30 Dec 2012 15:17:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Saturday, December 29, 2012 06:07:27 PM Otavio Salvador wrote:
+> On Sat, Dec 29, 2012 at 1:09 PM, Yi Qingliang 
+<niqingliang2003@gmail.com> wrote:
+> > When using poky,  I got following problem:
+> > 
+> > WARNING: The free inode of /dev/md127 is running low (0.000K left)
+> > ERROR: Immediately abort since the disk space monitor action is
+> > "ABORT"!
+> > ERROR: Unknown event: <bb.event.DiskFull object at 0x47dbed0>
+> > 
+> > the disk is  a raid partition, and fs format is reiserfs, the 'statvfs'
+> > call in bitbake got a zero f_favail.
+> > 
+> > I don't know it is feature of reiserfs, or bug of reiserfs driver, or
+> > python's problem.
+> > 
+> > Any idea?
+> 
+> I had a similar problem when using btrfs. You can find the bug at
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3609
 
-  simple question re: packagegroups -- are they equally included in a
-build, or image, or whatever, using either of the two techniques:
+The only thing I can do is to disable the disk space motor.
+I doubt it is some fs format's feature, but not bug.
+If so, the bitbake should consider that.
 
-  1) as a basic recipe file
-  2) using IMAGE_FEATURES if it's mentioned in core-image.bbclass?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+> Regards,
+> 
+> --
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
