@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Tpnnf-0005dN-EK
+	(envelope-from <rpjday@crashcourse.ca>) id 1Tpo7q-0005uH-7p
 	for openembedded-core@lists.openembedded.org;
-	Mon, 31 Dec 2012 23:26:04 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 31 Dec 2012 14:09:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,387,1355126400"; d="scan'208";a="265567981"
-Received: from unknown (HELO helios.localnet) ([10.252.123.27])
-	by orsmga002.jf.intel.com with ESMTP; 31 Dec 2012 14:10:35 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Date: Mon, 31 Dec 2012 22:10:33 +0000
-Message-ID: <4078626.EH4CM1sFWo@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9.3 (Linux/3.5.0-21-generic; KDE/4.9.3; i686; ; )
-In-Reply-To: <50DDABA4.70309@intel.com>
-References: <cover.1356022882.git.radu.moisan@intel.com>
-	<50D8FDBE.4030203@linux.intel.com> <50DDABA4.70309@intel.com>
+	Mon, 31 Dec 2012 23:46:44 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:56046 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TpntL-0007rV-C6 for openembedded-core@lists.openembedded.org;
+	Mon, 31 Dec 2012 17:31:31 -0500
+Date: Mon, 31 Dec 2012 17:31:28 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1212311727140.4802@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/28][RFC] systemd Integration
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what means FILESPATH .= ":${@base_set_filespath([bb.which(BBPATH, 'recipes-support/libpcre/files', direction=True)], d)}"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Dec 2012 22:26:04 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 31 Dec 2012 22:46:45 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Friday 28 December 2012 16:24:36 Radu Moisan wrote:
-> On 12/25/2012 03:13 AM, Saul Wold wrote:
-> > Also, you do not provide very clear information at the beginning, but
-> > I assume to enable systemd, it's just setting DISTRO_FEATURE +=
-> > "systemd", or is there more?
-> 
-> DISTRO_FEATURES_INITMAN = "systemd" it's all you need. DISTRO_FEATURE +=
-> "systemd" might also work in some extent since I'm checking against
-> DISTRO_FEATURES, however there are variables like
-> VIRTUAL_RUNTIME_init_manager (which is inherited legacy) which get set
-> from DISTRO_FEATURES_INITMAN. The way to go is with DISTRO_FEATURES_INITMAN.
 
-Can you explain why we need another variable for this?
+  i thought i had a handle on using FILESPATH and its association with
+.bbappend files until i ran across the oe-core recipe
+meta/recipes-support/libpcre/libpcre_8.32.bb and this line in it:
 
-Cheers,
-Paul
+FILESPATH .= ":${@base_set_filespath([bb.which(BBPATH, 'recipes-support/libpcre/files', direction=True)], d)}"
+
+this is doing the kind of appending i expect to see in a .bbappend
+file, and it looks redundant anyway since the "files" directory is
+automatically part of FILESPATH.
+
+  so ... what is the purpose of the above?  thanks.
+
+rday
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
