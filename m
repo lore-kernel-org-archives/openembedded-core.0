@@ -1,27 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TpVAJ-0004g6-DB
+	(envelope-from <Qi.Chen@windriver.com>) id 1TpaRp-0006by-Tr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 31 Dec 2012 03:31:54 +0100
+	Mon, 31 Dec 2012 09:10:20 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id qBV2GkZ1029538
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBV7tEjh012347
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Dec 2012 18:16:46 -0800 (PST)
+	Sun, 30 Dec 2012 23:55:14 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Sun, 30 Dec 2012 18:16:46 -0800
+	14.2.318.4; Sun, 30 Dec 2012 23:55:13 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Dec 2012 10:16:49 +0800
-Message-ID: <29b8701ad0c5e0cabe53f59ef839f8f20bec6c4c.1356919994.git.Qi.Chen@windriver.com>
+Date: Mon, 31 Dec 2012 15:55:20 +0800
+Message-ID: <53d2506b4fd5e55c7a3969ae456bea101f170633.1356940443.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1356919994.git.Qi.Chen@windriver.com>
-References: <cover.1356919994.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1356940443.git.Qi.Chen@windriver.com>
+References: <cover.1356940443.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V5 1/4] sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
+Subject: [PATCH 1/1] init-live.sh: avoid duplicate mount points for the same filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,54 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Dec 2012 02:31:56 -0000
+X-List-Received-Date: Mon, 31 Dec 2012 08:10:21 -0000
+X-List-Received-Date: Mon, 31 Dec 2012 08:10:21 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-This variable indicates whether the rootfs is intended to be read-only
-or not. Changing this value from 'no' to 'yes' on a currently running
-system with read-write rootfs and rebooting will give the user a working
-system with read-only rootfs.
+A live system had duplicate mount points for the same filesystem
+in the output of 'mount' command. That was because we didn't handle
+the temporary mounts properly before switch_root.
 
-However, it is not suggested to change its value. Normally, if a read-only
-rootfs is required, we should build an image with 'read-only-rootfs' image
-feature.
+This patch fixes this problem by moving the mount points of some
+filesystems to the corresponding directories in the real root filesystem.
 
-[YOCTO #3406]
+[YOCTO #3155]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/sysvinit/sysvinit/rcS-default |    4 ++++
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb  |    2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-core/initrdscripts/files/init-live.sh |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rcS-default b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-index 3c9dea9..88907a5 100644
---- a/meta/recipes-core/sysvinit/sysvinit/rcS-default
-+++ b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-@@ -23,3 +23,7 @@ FSCKFIX=yes
- #TICKADJ=10000
- # Enable caching in populate-volatile.sh
- VOLATILE_ENABLE_CACHE=yes
-+# Indicate whether the rootfs is intended to be read-only or not.
-+# Setting ROOTFS_READ_ONLY to yes and rebooting will give you a read-only rootfs.
-+# Normally you should not change this value.
-+ROOTFS_READ_ONLY=no
-\ No newline at end of file
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index de073b8..bf6a29b 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r9"
-+PR = "r10"
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index e8d7f70..0ae359d 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -59,10 +59,11 @@ read_args() {
+ boot_live_root() {
+     killall udevd 2>/dev/null
  
- RDEPENDS_${PN} = "${PN}-inittab"
+-    # use devtmpfs if available
+-    if grep -q devtmpfs /proc/filesystems; then
+-        mount -t devtmpfs devtmpfs $ROOT_MOUNT/dev
+-    fi
++    # Move the mount points of some filesystems over to
++    # the corresponding directories under the real root filesystem.
++    mount -n --move /proc ${ROOT_MOUNT}/proc
++    mount -n --move /sys ${ROOT_MOUNT}/sys
++    mount -n --move /dev ${ROOT_MOUNT}/dev
  
+     cd $ROOT_MOUNT
+     exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init
 -- 
 1.7.9.5
 
