@@ -1,31 +1,27 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TpP8u-0003Iu-1B
+	(envelope-from <Qi.Chen@windriver.com>) id 1TpVAJ-0004g8-In
 	for openembedded-core@lists.openembedded.org;
-	Sun, 30 Dec 2012 21:05:56 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:51360 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TpOuQ-00034r-Av for openembedded-core@lists.openembedded.org;
-	Sun, 30 Dec 2012 14:50:58 -0500
-Date: Sun, 30 Dec 2012 14:50:49 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1212301446300.16626@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 31 Dec 2012 03:31:54 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id qBV2GmL9010467
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Dec 2012 18:16:48 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Sun, 30 Dec 2012 18:16:48 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 31 Dec 2012 10:16:50 +0800
+Message-ID: <b809c41a8171f0b113f4f6dd506d52ee0e18cd3d.1356919994.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1356919994.git.Qi.Chen@windriver.com>
+References: <cover.1356919994.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: some inconsistencies with valgrind support in recipe vs packagegroup-core-tools-profile.bb
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH V5 2/4] image.bbclass: add two hook funtions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,63 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Dec 2012 20:05:56 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 31 Dec 2012 02:31:56 -0000
+Content-Type: text/plain
 
+From: Chen Qi <Qi.Chen@windriver.com>
 
-  from poking around in packagegroup files, the following observation.
-first, there's the valgrind recipe itself, which suggests at least
-armv7a support:
+read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+volatile.sh script run at rootfs time.
 
-COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64).*-linux'
-COMPATIBLE_HOST_armv7a = 'arm.*-linux'
+choose_volatile_conf_file: this function is invoked no matter
+'read-only-rootfs' is in IMAGE_FEATURES or not, it properly chooses
+the right conf file for volatile storage handling according to the
+IMAGE_FEATURES.
 
-inherit autotools
+[YOCTO #3406]
 
-EXTRA_OECONF = "--enable-tls"
-EXTRA_OECONF_armv7a = "--enable-tls -host=armv7-none-linux-gnueabi"
-EXTRA_OEMAKE = "-w"
-PARALLEL_MAKE = ""
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/image.bbclass |   30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-  this appears to disagree with what one reads in
-packagegroup-core-tools-profile.bb, which suggests no arm support
-whatsoever(?):
-
-# valgrind does not work on mips
-
-VALGRIND = "valgrind"
-VALGRIND_libc-uclibc = ""
-VALGRIND_mips = ""
-VALGRIND_arm = ""   <-- ???
-VALGRIND_aarch64 = ""
-
-note also that the comment doesn't even match what follows, which is
-quite common in that very file, as in:
-
-# lttng-tools, lttng-modules and babeltrace all depend on liburcu
-# which currentl doesn't build on mips
-
-LTTNGTOOLS = "lttng-tools"
-LTTNGTOOLS_mips = ""
-LTTNGTOOLS_aarch64 = ""
-
-  and, finally, there's valgrind 3.8.0, which now apparently has mips
-support:
-
-http://valgrind.org/info/platforms.html
-
-so just some contradictory info scattered around.
-
-rday
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index d3a416d..57bd0e3 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -396,6 +396,36 @@ zap_root_password () {
+ 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+ } 
+ 
++# A hook function to support read-only-rootfs IMAGE_FEATURES
++read_only_rootfs_hook () {
++	# Tweak the mount option in fstab
++	sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
++	# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
++	if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
++		sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
++	fi
++	# Run populate-volatile.sh at rootfs time to set up basic files
++	# and directories to support read-only rootfs.
++	if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
++		${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
++	fi
++}
++
++# Choose the correct config file for volatile storage handling according to the image type
++choose_volatile_conf_file () {
++	if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
++		if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato ]; then
++			cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
++				${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
++		fi
++	else
++		if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal ]; then
++			cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
++				${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
++		fi
++	fi
++}
++
+ # allow openssh accept login with empty password string
+ openssh_allow_empty_password () {
+ 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
 -- 
+1.7.9.5
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
