@@ -1,38 +1,38 @@
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
+Received: from mail-oa0-f51.google.com ([209.85.219.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Tq6YU-0006Il-GL
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tq6Zh-0006LR-VS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Jan 2013 19:27:23 +0100
-Received: by mail-ob0-f180.google.com with SMTP id wd20so12439004obb.11
+	Tue, 01 Jan 2013 19:28:30 +0100
+Received: by mail-oa0-f51.google.com with SMTP id n12so12560841oag.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Jan 2013 10:12:12 -0800 (PST)
+	Tue, 01 Jan 2013 10:13:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=+O95G7jVmg0ChbMsG3pVqKVX6MC71xsgDbiQ2vJcIL8=;
-	b=y719qot2cSyuL+qz73/SEozEbDm7Sh6fXm697iAG6mTRn5Mo12Y1J64qP90ouToo58
-	nXMDM8vjCmXhnb20qqOOUGiOXfoDHllf8VTsiBmtG6yu7cYA/oSBZFLOWYU6RW+2IFTz
-	1kBcZpZaf4ygRJ2mnA9HzqDL+QsteYSGcLVq7scwaA/0vL8RuCY/BBBr3UowJdSTfRQQ
-	I9sYBzqXB7JyZDfRQFVfVUtFc+XYz60hL4UTtgONYUdbEg/tRJPOVGB5jXbt+sxKjhbd
-	SACzJzWkj9CNZ4nyPtOI5asGVyUftout76TNABWSQ0T4z7FMhAREvFehvbTS1DUqRUqx
-	I/kQ==
+	bh=DpCOCNxPD6Jxla1Xrlv4cXA928Ni8S0LegQ5qWxLWlk=;
+	b=lwMuUPZpiC/Fh6b6rFlospj2QUWi6RpLDkBFpvgdmt4KYMBFluJqrl99bnK2r06s+D
+	C151GeGSOqJO2tgxlYgknTN9rsw999rPeooul8SeFILhSRefLlBW8r5Q6wGWemqTu/Ym
+	hkZNgQtsaRe1DaRZOZ8VghB+fItZhTxBUBkXzf2TNqIq2YQQOYBVlbp+2YXcZ+zuwaYn
+	uimXfdsxrL+QD9+EIArYxMG4cv56ylyoZATI/zqV5jxUahTjyGF09XG0GKQAX/4S92wn
+	LT0PHkIw0r3920cQ2N6r4yh2zEhGaMSLmfR9yU2xd9TdzgR0dnhfUb65u/QI+hs08jeU
+	Tu2A==
 MIME-Version: 1.0
-Received: by 10.182.54.103 with SMTP id i7mr36219046obp.62.1357063932796; Tue,
-	01 Jan 2013 10:12:12 -0800 (PST)
+Received: by 10.60.171.11 with SMTP id aq11mr24731146oec.104.1357064008276;
+	Tue, 01 Jan 2013 10:13:28 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Tue, 1 Jan 2013 10:12:12 -0800 (PST)
-In-Reply-To: <b809c41a8171f0b113f4f6dd506d52ee0e18cd3d.1356919994.git.Qi.Chen@windriver.com>
+Received: by 10.182.219.130 with HTTP; Tue, 1 Jan 2013 10:13:28 -0800 (PST)
+In-Reply-To: <7d6c79b382b07771da688930a34ae0ec8b3ba97a.1356919994.git.Qi.Chen@windriver.com>
 References: <cover.1356919994.git.Qi.Chen@windriver.com>
-	<b809c41a8171f0b113f4f6dd506d52ee0e18cd3d.1356919994.git.Qi.Chen@windriver.com>
-Date: Tue, 1 Jan 2013 16:12:12 -0200
-X-Google-Sender-Auth: wWLitNKT1p2k8eplueJ4M1LCHk8
-Message-ID: <CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
+	<7d6c79b382b07771da688930a34ae0ec8b3ba97a.1356919994.git.Qi.Chen@windriver.com>
+Date: Tue, 1 Jan 2013 16:13:28 -0200
+X-Google-Sender-Auth: IBp0APXGFNyv1cPpf7o863XI1Ww
+Message-ID: <CAP9ODKqYRyFC==AF-ubfRTJk7epT+VzgURHsr3hrZYZ=HF6xyg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: ChenQi <Qi.Chen@windriver.com>
 Cc: Zhenfeng.Zhao@windriver.com,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V5 2/4] image.bbclass: add two hook funtions
+Subject: Re: [PATCH V5 3/4] core-image.bbclass: support read-only-rootfs image feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,76 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jan 2013 18:27:24 -0000
+X-List-Received-Date: Tue, 01 Jan 2013 18:28:30 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
 On Mon, Dec 31, 2012 at 12:16 AM,  <Qi.Chen@windriver.com> wrote:
 > From: Chen Qi <Qi.Chen@windriver.com>
 >
-> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
-> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
-> volatile.sh script run at rootfs time.
->
-> choose_volatile_conf_file: this function is invoked no matter
-> 'read-only-rootfs' is in IMAGE_FEATURES or not, it properly chooses
-> the right conf file for volatile storage handling according to the
-> IMAGE_FEATURES.
+> Two hook functions are appended to ROOTFS_POSTPROCESS_COMMAND
+> properly to support the 'read-only-rootfs' image feature.
 >
 > [YOCTO #3406]
 >
 > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta/classes/image.bbclass |   30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+>  meta/classes/core-image.bbclass |    7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index d3a416d..57bd0e3 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -396,6 +396,36 @@ zap_root_password () {
->         mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
->  }
+> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+> index 2e67018..dc8fdc3 100644
+> --- a/meta/classes/core-image.bbclass
+> +++ b/meta/classes/core-image.bbclass
+> @@ -28,6 +28,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+>  # - dev-pkgs            - development packages (headers, etc.) for all installed packages in the rootfs
+>  # - dbg-pkgs            - debug symbol packages for all installed packages in the rootfs
+>  # - doc-pkgs            - documentation packages for all installed packages in the rootfs
+> +# - read-only-rootfs    - tweaks an image to support read-only rootfs
+>  #
+>  PACKAGE_GROUP_x11 = "packagegroup-core-x11"
+>  PACKAGE_GROUP_x11-base = "packagegroup-core-x11-base"
+> @@ -73,9 +74,11 @@ inherit image
 >
-> +# A hook function to support read-only-rootfs IMAGE_FEATURES
-> +read_only_rootfs_hook () {
-> +       # Tweak the mount option in fstab
-> +       sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
+>  # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+>  ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+> -
+> +# Choose the correct configuartion files for volatile storage handling
+> +ROOTFS_POSTPROCESS_COMMAND += "choose_volatile_conf_file ; "
 
-Maybe use 'defaults,ro' in fstab?
+You can remove this if you use a package to provide the volatile configuration.
 
-> +       # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
-> +       if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
-> +               sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
-> +       fi
-> +       # Run populate-volatile.sh at rootfs time to set up basic files
-> +       # and directories to support read-only rootfs.
-> +       if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
-> +               ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-> +       fi
-> +}
-> +
-> +# Choose the correct config file for volatile storage handling according to the image type
-> +choose_volatile_conf_file () {
-> +       if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
-> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato ]; then
-> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
-> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
-> +               fi
-> +       else
-> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal ]; then
-> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
-> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
-> +               fi
-> +       fi
-
-Wouldn't be better to have a package which provides the need valatile
-config? this makes it easy to reuse for other images.
-
-> +}
-> +
->  # allow openssh accept login with empty password string
->  openssh_allow_empty_password () {
->         if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+>  # Zap the root password if debug-tweaks feature is not enabled
+>  ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
+>  # Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
+>  ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
+> -
+> +# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+> +ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
 > --
 > 1.7.9.5
 >
