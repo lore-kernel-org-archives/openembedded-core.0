@@ -1,19 +1,21 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Tpo7q-0005uH-7p
+	(envelope-from <rpjday@crashcourse.ca>) id 1Tq1TE-00016n-MH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 31 Dec 2012 23:46:44 +0100
+	Tue, 01 Jan 2013 14:01:28 +0100
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:56046 helo=crashcourse.ca)
+	([174.115.5.73]:34934 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TpntL-0007rV-C6 for openembedded-core@lists.openembedded.org;
-	Mon, 31 Dec 2012 17:31:31 -0500
-Date: Mon, 31 Dec 2012 17:31:28 -0500 (EST)
+	id 1Tq1Ei-0000GJ-80; Tue, 01 Jan 2013 07:46:28 -0500
+Date: Tue, 1 Jan 2013 07:46:24 -0500 (EST)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1212311727140.4802@oneiric>
+To: Gary Thomas <gary@mlbassoc.com>
+In-Reply-To: <50E18137.9090009@mlbassoc.com>
+Message-ID: <alpine.DEB.2.02.1301010737590.17984@oneiric>
+References: <alpine.DEB.2.02.1212301442200.16593@oneiric>
+	<50E18137.9090009@mlbassoc.com>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -25,7 +27,8 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: what means FILESPATH .= ":${@base_set_filespath([bb.which(BBPATH, 'recipes-support/libpcre/files', direction=True)], d)}"?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: any objection to my cleaning up some packagegroup files in oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,21 +41,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Dec 2012 22:46:45 -0000
+X-List-Received-Date: Tue, 01 Jan 2013 13:01:28 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
+On Mon, 31 Dec 2012, Gary Thomas wrote:
 
-  i thought i had a handle on using FILESPATH and its association with
-.bbappend files until i ran across the oe-core recipe
-meta/recipes-support/libpcre/libpcre_8.32.bb and this line in it:
+> On 2012-12-30 12:44, Robert P. J. Day wrote:
+> >
+> >    specifically, in cases like this in packagegroup-core-sdk.bb:
+> >
+> > RDEPENDS_packagegroup-core-sdk
+> >
+> > could more cleanly be expressed as:
+> >
+> > RDEPENDS_${PN}
+> >
+> > could it not?  there are quite a few of those unnecessarily verbose
+> > constructs, anyone mind if i submit a patch to make that change?
+>
+> Why stop there?  It seems that recipe could use more changes:
+>   RPROVIDES_packagegroup-core-sdk = "task-core-sdk"
+>   RREPLACES_packagegroup-core-sdk = "task-core-sdk"
+>   RCONFLICTS_packagegroup-core-sdk = "task-core-sdk"
+>
+>   RDEPENDS_packagegroup-core-sdk = "\
+>
+> All of these should use _${PN}
+>
+> Also, most of the recipes in meta/recipes-core/packagegroups/* could
+> use similar changes to make them more readable and maintainable.
 
-FILESPATH .= ":${@base_set_filespath([bb.which(BBPATH, 'recipes-support/libpcre/files', direction=True)], d)}"
+  good lord, there's a lot of that, such as in packagegroups-base.bb:
 
-this is doing the kind of appending i expect to see in a .bbappend
-file, and it looks redundant anyway since the "files" directory is
-automatically part of FILESPATH.
+PROVIDES = "${PACKAGES}"
+PACKAGES = ' \
+            packagegroup-base \
+            packagegroup-base-extended \
+            packagegroup-distro-base \
+            packagegroup-machine-base \
+            \
+            ${@base_contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
+            ${@base_contains("MACHINE_FEATURES", "alsa", "packagegroup-base-alsa", "", d)} \
+            ${@base_contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
+            ${@base_contains("MACHINE_FEATURES", "ext2", "packagegroup-base-ext2", "", d)} \
+            ... and lots more ...
 
-  so ... what is the purpose of the above?  thanks.
+  sure, there's a lot of that cleanup that could be done but a few
+questions:
+
+1) given how *much* there is, is it worth the non-functional churn?
+i'm a big believer in consistency and aesthetics but even *i* would
+understand if others didn't want to go down that road.
+
+2) is there a standard for quoting here (single vs double)?  i've seen
+both variations:
+
+  ${@base_contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
+  ${@base_contains("MACHINE_FEATURES", "alsa", 'packagegroup-base-alsa', "", d)} \
+
+  although i don't think that matters for the eventual expansion of
+${PN} inside the quotes
+
+3) as i mentioned before, there are the occasional package defns that
+mess up the prettiness, as with packagegroup-base:
+
+  PACKAGES = ' \
+            packagegroup-base \
+            packagegroup-base-extended \
+            packagegroup-distro-base \    <-- can't abbreviate obviously
+            packagegroup-machine-base \
+
+
+  anyway, i'd be willing to do some cleaning for the aesthetic
+benefit, but only if others think it's worth it and there's a clear
+style guide.  it would certainly cut down on the verbosity.
 
 rday
 
