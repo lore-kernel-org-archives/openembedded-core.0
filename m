@@ -1,33 +1,34 @@
-Received: from mail-la0-f46.google.com ([209.85.215.46])
+Received: from mail-oa0-f52.google.com ([209.85.219.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TqPuG-00009l-Lj
+	(envelope-from <otavio.salvador@gmail.com>) id 1TqRyI-0001tZ-46
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Jan 2013 16:07:04 +0100
-Received: by mail-la0-f46.google.com with SMTP id fq13so6047445lab.5
+	Wed, 02 Jan 2013 18:19:21 +0100
+Received: by mail-oa0-f52.google.com with SMTP id o6so13393506oag.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2013 06:51:58 -0800 (PST)
+	Wed, 02 Jan 2013 09:04:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=NUfS+tUD6qLCaUrVLHn++VapNTYjK4ml1ygYrWu1Qx0=;
-	b=0vbPT39E1QopuMHLIU46JQrLUJ4KyHTScfEP3O5RowcrJJkmAY3DEKtQhBzutCGI0A
-	R6qiS4KPX+bTQeSdYbY5KqJT+J7rkp1UZ09A6HO+kYAWfI4ZKVOERl7GmARx6LriDpeq
-	J5eHstUk+Gd8cOaFUs890o9aVYfahIXl+kTUmFoA+lSf/g8jlLT+sPC5G1hSBGkfh1EH
-	DF8zqZ1nmR4SRUPJQ7O97EikR3tW+puwdcniDS3opxOHy48EQ+NNCaupG7abfMQBNwAC
-	uYwbQ+E2+oVFaN+EGgMBDv364qeGkN/fqNPxtDzJxOg13/YBno6ClsAQxhnoHrmxcNWj
-	7E4w==
-Received: by 10.112.43.161 with SMTP id x1mr19002084lbl.32.1357138317986; Wed,
-	02 Jan 2013 06:51:57 -0800 (PST)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=UcEpsVsX5RlDsW0IHO3rLMy1ylqKsQnUSGUXCihvE1g=;
+	b=bv4q12On1m0nuA+VaJX95YuGjR+7x9oEBGj0Ihl0A6yLgnElpN1XhF1aZquNFh0OY0
+	JS6tCip/A6JSvIdrsnLePMaqDXjUKWu/XTaQnPN+8gLq1N36XukYey0TdubEG+0pDth3
+	S898ykpRDju2XmlIddQpmbhqIOpXsPm2TkszDDVy6xpXyAbKNqcYIMDs+V5yTgULX5cX
+	FY7521aR9nyq5NTD5GtG3I+EsIFcOUu5MqbfvP9ad5wC/El921IZGjwZzftwCoUAs+Ky
+	128qb93uxkfZKLrKBJPOhLvK72g+g8rgkwhR/iO7medQzVohu0gM7Aq9PBcw+hMLK7yo
+	Zw5A==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Wed, 2 Jan 2013 06:51:37 -0800 (PST)
-In-Reply-To: <1357127607-20161-1-git-send-email-muhammad_shakeel@mentor.com>
+Received: by 10.182.98.19 with SMTP id ee19mr37402850obb.90.1357146254922;
+	Wed, 02 Jan 2013 09:04:14 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Wed, 2 Jan 2013 09:04:14 -0800 (PST)
+In-Reply-To: <CABcZANn3GUDdPK6XwVMHqEeJjiAhWRukEiiumXoifYF-PT--Sg@mail.gmail.com>
 References: <1357127607-20161-1-git-send-email-muhammad_shakeel@mentor.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Wed, 2 Jan 2013 07:51:37 -0700
-X-Google-Sender-Auth: CSxtMKQ3g2jmj0tqM5op0pSpU_w
-Message-ID: <CABcZANn3GUDdPK6XwVMHqEeJjiAhWRukEiiumXoifYF-PT--Sg@mail.gmail.com>
-To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+	<CABcZANn3GUDdPK6XwVMHqEeJjiAhWRukEiiumXoifYF-PT--Sg@mail.gmail.com>
+Date: Wed, 2 Jan 2013 15:04:14 -0200
+X-Google-Sender-Auth: L1VbUe6OltDbA_c05t14_ZtU6TA
+Message-ID: <CAP9ODKoRytWOxAX3jn0nj12Jeah9mihobxd2PWaqApWA0ut9yQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Christopher Larson <chris_larson@mentor.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/3] [RFC] archive-*-source.bbclass: Handle package class 'package_ipk'
@@ -43,44 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2013 15:07:05 -0000
-Content-Type: multipart/alternative; boundary=e0cb4efe2b2a5acc0404d24f6384
+X-List-Received-Date: Wed, 02 Jan 2013 17:19:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---e0cb4efe2b2a5acc0404d24f6384
-Content-Type: text/plain; charset=UTF-8
-
-On Wed, Jan 2, 2013 at 4:53 AM, Shakeel, Muhammad <
-muhammad_shakeel@mentor.com> wrote:
-
->  addtask do_archive_scripts_logs after do_package_write_rpm
-> +addtask do_archive_scripts_logs after do_package_write_ipk
+On Wed, Jan 2, 2013 at 12:51 PM, Christopher Larson
+<chris_larson@mentor.com> wrote:
+> On Wed, Jan 2, 2013 at 4:53 AM, Shakeel, Muhammad
+> <muhammad_shakeel@mentor.com> wrote:
+>>
+>>  addtask do_archive_scripts_logs after do_package_write_rpm
+>> +addtask do_archive_scripts_logs after do_package_write_ipk
 >
+>
+> This will cause problems for anyone trying to do builds without package_ipk
+> at all. I'd suggest using anonymous python to add the appropriate package
+> dependencies based on what tasks actually exist.
 
-This will cause problems for anyone trying to do builds without package_ipk
-at all. I'd suggest using anonymous python to add the appropriate package
-dependencies based on what tasks actually exist.
+Uh? the only exception for it would be deb, right?
 
--CHris
+Regards,
 
---e0cb4efe2b2a5acc0404d24f6384
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">On Wed, Jan 2, 2013 at 4:53 AM,=
- Shakeel, Muhammad <span dir=3D"ltr">&lt;<a href=3D"mailto:muhammad_shakeel=
-@mentor.com" target=3D"_blank">muhammad_shakeel@mentor.com</a>&gt;</span> w=
-rote:<br>
 
-<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hw">=
-=C2=A0addtask do_archive_scripts_logs after do_package_write_rpm<br>
-+addtask do_archive_scripts_logs after do_package_write_ipk</div></blockquo=
-te></div><br></div><div class=3D"gmail_extra" style>This will cause problem=
-s for anyone trying to do builds without package_ipk at all. I&#39;d sugges=
-t using anonymous python to add the appropriate package dependencies based =
-on what tasks actually exist.</div>
-
-<div class=3D"gmail_extra" style><br></div><div class=3D"gmail_extra" style=
->-CHris</div></div>
-
---e0cb4efe2b2a5acc0404d24f6384--
