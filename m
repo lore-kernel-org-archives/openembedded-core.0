@@ -1,21 +1,32 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from out4-smtp.messagingengine.com ([66.111.4.28])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TqUW7-0005FG-R4
+	(envelope-from <walters@verbum.org>) id 1TqXNM-0006Fb-TY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Jan 2013 21:02:24 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jan 2013 11:47:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,398,1355126400"; d="scan'208";a="272144225"
-Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.14.135])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2013 11:47:17 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 03 Jan 2013 00:05:34 +0100
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id AF6E52088F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Jan 2013 17:50:31 -0500 (EST)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute5.internal (MEProxy); Wed, 02 Jan 2013 17:50:31 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:content-type:date
+	:message-id:mime-version; s=smtpout; bh=rYk0NJf5jPxwhEa6jr3EAdtt
+	PRo=; b=tlagPp3/HgXqYJDlKPU3hZJFb/WuMx1rXUMDNN8qYqr0SBGkBgX1v8H1
+	Yj9YaHfi3vytUXoe2F00S17FeCWgFrFAtXy0hhDbkKxlT0Az0yNyOhtSvzxj+mqM
+	rg3JFYUOL6PYGYn8TwvsgGyy5HcgYyyYHgH65Z5rjvDeAQfAErI=
+X-Sasl-enc: bTdPiA/kl0eiqWJQeHc7atfD0YH2TCsIjDItSnNqnkSa 1357167031
+Received: from [172.30.200.54] (unknown [153.120.232.4])
+	by mail.messagingengine.com (Postfix) with ESMTPA id EC7B84824E1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Jan 2013 17:50:30 -0500 (EST)
+From: Colin Walters <walters@verbum.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Jan 2013 11:47:16 -0800
-Message-Id: <cover.1357155947.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-MIME-Version: 1.0
-Subject: [CONSOLIDATED PULL 00/17] Updates and ML Fixes
+Date: Wed, 02 Jan 2013 17:50:14 -0500
+Message-ID: <1357167014.14851.18.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-27.el6) 
+Subject: locale packages patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,106 +39,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2013 20:02:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 02 Jan 2013 23:05:34 -0000
+X-Groupsio-MsgNum: 33222
+Content-Type: multipart/mixed; boundary="=-o0cok4hHFnJNipmyljD8"
 
-Richard,
+--=-o0cok4hHFnJNipmyljD8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Here is another batch of patches, mostly multilib fixes and
-some more updates.
+Hi,
 
-Sau!
+A GNOME contributor submitted the following patch to the gnome-ostree
+system (Yocto-derived base):
 
-The following changes since commit b693f6d3d48b281fbbf71fd56996c85e23c3a9c9:
+https://bugzilla.gnome.org/show_bug.cgi?id=690959#c3
 
-  freetype: update to 2.4.11 which includes fixes for CVE-2012-{5668, 5669, 5670} (2012-12-31 09:42:49 +0000)
+Any comments on whether this could be upstreamable?  While we're already
+carrying a few patches to oe-core, I'd obviously like to keep them as
+minimal as possible.
 
-are available in the git repository at:
+Hmmm...in our case, we may be able to set PACKAGE_NO_LOCALE globally to
+avoid split locales?  But this patch may be more broadly useful if there
+are projects that want say just all eglibc locales, but not translations
+for everything.
 
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+For convenience, the full patch is attached.
 
-Constantin Musca (7):
-  libpam: enable multilib
-  package.bbclass: don't prepend MLPREFIX to LOCALEBASEPN
-  eglibc-locale: enable multilib
-  sysstat: fix sa_lib_dir
-  rpm: replace /usr/lib with ${libdir}
-  libfm: upgrade to 1.1.0
-  pcmanfm: upgrade to 1.1.0
 
-David Nyström (1):
-  Added ability to parse python sources to create-recipe
+--=-o0cok4hHFnJNipmyljD8
+Content-Disposition: attachment; filename="oe-locales.patch"
+Content-Type: text/x-patch; name="oe-locales.patch"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Kang Kai (4):
-  autoconf: update RDEDENDS
-  perl: add sub-package perl-tests
-  perl: update RPROVIDES and popuate_package script
-  perl: update dependency creating script
+From 171a0fc3c034a8c723263f785c8524c263af8c4b Mon Sep 17 00:00:00 2001
+From: Giovanni Campagna <gcampagna@src.gnome.org>
+Date: Sun, 30 Dec 2012 18:15:14 +0100
+Subject: [PATCH] Fix locale package generation
 
-Laurentiu Palcu (1):
-  pango: have postinstalls run at do_rootfs time
+The package class has code to generate split language pack packages,
+one, and each of those provides ${PN}-locale, so installing ${PN}-locale
+ends up installing a language at random. Make ${PN}-locale a meta package
+instead, and have it RDEPEND on the actual locale packages.
+This allows a distro to install all translations without caring of which
+are actually shipped by a particular package.
+The dependency for individual locale packages on virtual-locale-* is
+removed, to allow installing eglibc-locale-locale.alias (otherwise depending
+on a non-existing virtual-locale-locale.alias)
 
-Marko Lindqvist (3):
-  automake: update to upstream version 1.12.6
-  gettext: update to upstream version 0.18.2
-  icu: update to upstream version 50.1.1
+https://bugzilla.gnome.org/show_bug.cgi?id=690959
+---
+ meta/classes/package.bbclass | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-Martin Jansa (1):
-  kernel.bbclass: include PE in KERNEL_IMAGE_BASE_NAME
-
- meta/classes/kernel.bbclass                        |    2 +-
- meta/classes/package.bbclass                       |    2 +-
- meta/recipes-core/eglibc/eglibc-locale.inc         |    4 +-
- .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 -
- .../gnulib-uclibc-sched_param-def.patch            |    0
- .../parallel.patch                                 |    0
- .../wchar-uclibc.patch                             |    0
- .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |    7 +-
- meta/recipes-devtools/autoconf/autoconf.inc        |    1 -
- meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    2 +-
- ...-compile-compile-only-optimized-byte-code.patch |   28 +-
- .../automake/automake/python-libdir.patch          |   41 +-
- .../{automake_1.12.5.bb => automake_1.12.6.bb}     |    4 +-
- meta/recipes-devtools/perl/perl-5.14.2/config.sh   |   18 +-
- .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2336 +++++++++++++++++++-
- meta/recipes-devtools/perl/perl-tests.inc          |   34 +
- meta/recipes-devtools/perl/perl_5.14.2.bb          |   12 +-
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    4 +-
- meta/recipes-extended/pam/libpam_1.1.6.bb          |   15 +-
- meta/recipes-extended/sysstat/sysstat.inc          |    6 +-
- meta/recipes-graphics/pango/pango.inc              |   26 +-
- .../pcmanfm/files/owl-window-menu.patch            |   81 -
- .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 -
- .../{pcmanfm_0.9.10.bb => pcmanfm_1.1.0.bb}        |   11 +-
- meta/recipes-support/icu/icu_50.1.1.bb             |   11 +
- meta/recipes-support/icu/icu_50.1.bb               |   11 -
- .../libfm/libfm-0.1.17/configure_fix.patch         |   19 -
- .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch |   48 -
- .../libfm-1.1.0/fix-make-parallelism-issue.patch   |   31 +
- .../libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb}      |    8 +-
- scripts/create-recipe                              |   51 +-
- 31 files changed, 2526 insertions(+), 380 deletions(-)
- delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
- rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
- rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
- rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
- rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
- rename meta/recipes-devtools/automake/{automake_1.12.5.bb => automake_1.12.6.bb} (90%)
- create mode 100644 meta/recipes-devtools/perl/perl-tests.inc
- delete mode 100644 meta/recipes-sato/pcmanfm/files/owl-window-menu.patch
- delete mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
- rename meta/recipes-sato/pcmanfm/{pcmanfm_0.9.10.bb => pcmanfm_1.1.0.bb} (76%)
- create mode 100644 meta/recipes-support/icu/icu_50.1.1.bb
- delete mode 100644 meta/recipes-support/icu/icu_50.1.bb
- delete mode 100644 meta/recipes-support/libfm/libfm-0.1.17/configure_fix.patch
- delete mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/libfm/libfm-1.1.0/fix-make-parallelism-issue.patch
- rename meta/recipes-support/libfm/{libfm_0.1.17.bb => libfm_1.1.0.bb} (75%)
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 73c4358..4258dee 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -446,17 +446,28 @@ python package_do_split_locales() {
+     locale_section = d.getVar('LOCALE_SECTION', True)
+     mlprefix = d.getVar('MLPREFIX', True) or ""
+     pndep = base_contains('PACKAGES', pn, '%s ' % pn, '', d)
++
++    base_locale_pkg = pn + '-locale'
++    packages.append(base_locale_pkg)
++    d.setVar('ALLOW_EMPTY_' + base_locale_pkg, '1')
++    d.setVar('SUMMARY_' + base_locale_pkg, '%s - all translations' % (summary,))
++    d.setVar('DESCRIPTION_' + base_locale_pkg, '%s  This metapackage depends on packages providing language translation files.' % (description,))
++    d.setVar('RDEPENDS_' + base_locale_pkg, '')
++    d.setVar('FILES_' + base_locale_pkg, '')
++    if locale_section:
++        d.setVar('SECTION_' + pkg, locale_section)
++
+     for l in sorted(locales):
+         ln = legitimize_package_name(l)
+         pkg = pn + '-locale-' + ln
+         packages.append(pkg)
+         d.setVar('FILES_' + pkg, os.path.join(datadir, 'locale', l))
+-        d.setVar('RDEPENDS_' + pkg, '%s%svirtual-locale-%s' % (pndep, mlprefix, ln))
+-        d.setVar('RPROVIDES_' + pkg, '%s-locale %s%s-translation' % (pn, mlprefix, ln))
++        d.setVar('RDEPENDS_' + pkg, pndep)
+         d.setVar('SUMMARY_' + pkg, '%s - %s translations' % (summary, l))
+         d.setVar('DESCRIPTION_' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l))
+         if locale_section:
+             d.setVar('SECTION_' + pkg, locale_section)
++        d.setVar('RDEPENDS_' + base_locale_pkg, '%s %s' % (d.getVar('RDEPENDS_' + base_locale_pkg, True), pkg))
+ 
+     d.setVar('PACKAGES', ' '.join(packages))
+ 
 -- 
-1.8.0.2
+1.8.0.1
 
-
-
+--=-o0cok4hHFnJNipmyljD8--
