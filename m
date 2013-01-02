@@ -1,37 +1,31 @@
-Received: from mail-oa0-f52.google.com ([209.85.219.52])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TqRyI-0001tZ-46
+	(envelope-from <rpjday@crashcourse.ca>) id 1TqRyW-0002Id-BQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Jan 2013 18:19:21 +0100
-Received: by mail-oa0-f52.google.com with SMTP id o6so13393506oag.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Jan 2013 09:04:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=UcEpsVsX5RlDsW0IHO3rLMy1ylqKsQnUSGUXCihvE1g=;
-	b=bv4q12On1m0nuA+VaJX95YuGjR+7x9oEBGj0Ihl0A6yLgnElpN1XhF1aZquNFh0OY0
-	JS6tCip/A6JSvIdrsnLePMaqDXjUKWu/XTaQnPN+8gLq1N36XukYey0TdubEG+0pDth3
-	S898ykpRDju2XmlIddQpmbhqIOpXsPm2TkszDDVy6xpXyAbKNqcYIMDs+V5yTgULX5cX
-	FY7521aR9nyq5NTD5GtG3I+EsIFcOUu5MqbfvP9ad5wC/El921IZGjwZzftwCoUAs+Ky
-	128qb93uxkfZKLrKBJPOhLvK72g+g8rgkwhR/iO7medQzVohu0gM7Aq9PBcw+hMLK7yo
-	Zw5A==
+	Wed, 02 Jan 2013 18:19:35 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:44065 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TqRjz-0005r2-6x for openembedded-core@lists.openembedded.org;
+	Wed, 02 Jan 2013 12:04:31 -0500
+Date: Wed, 2 Jan 2013 12:04:27 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301021151240.6551@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.182.98.19 with SMTP id ee19mr37402850obb.90.1357146254922;
-	Wed, 02 Jan 2013 09:04:14 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Wed, 2 Jan 2013 09:04:14 -0800 (PST)
-In-Reply-To: <CABcZANn3GUDdPK6XwVMHqEeJjiAhWRukEiiumXoifYF-PT--Sg@mail.gmail.com>
-References: <1357127607-20161-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CABcZANn3GUDdPK6XwVMHqEeJjiAhWRukEiiumXoifYF-PT--Sg@mail.gmail.com>
-Date: Wed, 2 Jan 2013 15:04:14 -0200
-X-Google-Sender-Auth: L1VbUe6OltDbA_c05t14_ZtU6TA
-Message-ID: <CAP9ODKoRytWOxAX3jn0nj12Jeah9mihobxd2PWaqApWA0ut9yQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Christopher Larson <chris_larson@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] [RFC] archive-*-source.bbclass: Handle package class 'package_ipk'
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: value of "PACKAGE_BEFORE_PN" versus "PACKAGES =+"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,29 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Jan 2013 17:19:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 02 Jan 2013 17:20:00 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Wed, Jan 2, 2013 at 12:51 PM, Christopher Larson
-<chris_larson@mentor.com> wrote:
-> On Wed, Jan 2, 2013 at 4:53 AM, Shakeel, Muhammad
-> <muhammad_shakeel@mentor.com> wrote:
->>
->>  addtask do_archive_scripts_logs after do_package_write_rpm
->> +addtask do_archive_scripts_logs after do_package_write_ipk
->
->
-> This will cause problems for anyone trying to do builds without package_ipk
-> at all. I'd suggest using anonymous python to add the appropriate package
-> dependencies based on what tasks actually exist.
 
-Uh? the only exception for it would be deb, right?
 
-Regards,
+  just now noticed the variable PACKAGE_BEFORE_PN, whose entire
+usage in poky (other than documentation) is:
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+meta/conf/bitbake.conf:PACKAGE_BEFORE_PN ?= ""
+meta/conf/bitbake.conf:PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+meta/classes/lib_package.bbclass:PACKAGE_BEFORE_PN = "${PN}-bin"
+
+  is there an actual need for that variable that places the new
+package names *precisely* in that location in the PACKAGES list?  and
+given the specificity of the initial PN-related packages:
+
+  "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale"
+
+is there any reason more recipes couldn't use PACKAGE_BEFORE_PN
+instead of "PACKAGES =+" when defining new packages?  i *realize*
+those two things don't represent the same thing but, in many cases,
+would the end result be the same?
+
+  is there any reason more code doesn't use "PACKAGE_BEFORE_PN"?
+
+rday
+
+
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
