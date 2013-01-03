@@ -1,35 +1,35 @@
-Received: from mail-la0-f41.google.com ([209.85.215.41])
+Received: from mail-la0-f42.google.com ([209.85.215.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TqrlS-0000dT-2p
+	(envelope-from <cazfi74@gmail.com>) id 1TqrlT-0000dU-5w
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 21:51:46 +0100
-Received: by mail-la0-f41.google.com with SMTP id em20so8665227lab.14
+	Thu, 03 Jan 2013 21:51:47 +0100
+Received: by mail-la0-f42.google.com with SMTP id fe20so8669271lab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 12:36:42 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=JGrEeeLweXruR8jCnOS7hgwJ+S5k/3ojQFXkY0EJ2G0=;
-	b=Hxv32clyz1x8H56xa9NMU1e9k+JyNKHE3rG9+IwLvg1Eg9RRdQiCtR2ABaXylwYfFi
-	nZz+VRXFJR8upgov6zoxoDy7wb0QQMdvwOBsKc6C7VXxhpie6rJRb0DVkypgtjlJ6nYl
-	o5kVKEgDRBCL2eBykcax204OT7+/CQq55hKKj7FKvowNheko+cS5mj7sgWrr4iMg+JIb
-	5q3nx5sRNpOKNWkXRAWWjwAz87zDxOnAWJAgCD/uD2yXIN1Gmu/pdX4nofN0wSiyDtlP
-	ynjHmS49uKTIchPukiiTcBbv78x/DIHEReFsNz7EGAHH3uffg+q1zVIGdbhphrnm0KQ1
-	16Og==
-X-Received: by 10.112.50.205 with SMTP id e13mr20464609lbo.57.1357245402004;
+	:references; bh=kEzkSmVZxlXWkVDifIv8nWX/7xMPA5K17L8Ku5oqrI0=;
+	b=aXa7v8Fr7cO3H57xO6TVyG3rlnVY9ZNeT6F7GqpozAzZi9WB5wdONUkzQQDkxwt8YK
+	ZM8xEEpuPsSfOn3modMtj1c8b8Zo+7e0HoOGUyF37K/UCpaDgvULUVm/+vNNgD2pI5s/
+	C257B+CUgODnSzHf8baM+npb+emJXAzlNOeNI4wF7dhFlVL3OsV665YaeF8RTmunavq7
+	D6tJI2szDr1KSUye6R887yKedGgTGvBXX1Pup2WNM1/jbzm+71xexMfOAphccqM9PbbA
+	loj7lI8N1LJVf8Sra68QOjGs7aWuAfDs+CO1P7mw742TslwPZoNmjR3JOEcowWZm5PEA
+	X13g==
+X-Received: by 10.152.124.15 with SMTP id me15mr48329249lab.5.1357245402837;
 	Thu, 03 Jan 2013 12:36:42 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id ft8sm18773071lab.9.2013.01.03.12.36.38
+	by mx.google.com with ESMTPS id mb2sm990010lab.7.2013.01.03.12.36.39
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Thu, 03 Jan 2013 12:36:41 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TqrWl-0002GV-KV; Thu, 03 Jan 2013 22:36:35 +0200
+	id 1TqrWl-0002Gl-OY; Thu, 03 Jan 2013 22:36:35 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jan 2013 22:36:30 +0200
-Message-Id: <1357245391-11055-15-git-send-email-cazfi74@gmail.com>
+Date: Thu,  3 Jan 2013 22:36:31 +0200
+Message-Id: <1357245391-11055-16-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357245391-11055-14-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357245391-11055-15-git-send-email-cazfi74@gmail.com>
 References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-2-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-3-git-send-email-cazfi74@gmail.com>
@@ -44,7 +44,8 @@ References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-12-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-13-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-14-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH 14/15] libtasn1: remove help2man dependency
+	<1357245391-11055-15-git-send-email-cazfi74@gmail.com>
+Subject: [PATCH 15/15] flac: replace obsolete automake macros with working ones
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,57 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 20:51:46 -0000
+X-List-Received-Date: Thu, 03 Jan 2013 20:51:47 -0000
 
-Remove manpage creation. It wasn't working because of help2man
-missing when libtasn1 is being built. This attempt to create
-manpages without help2man turns from no-op to hard error with
-automake-1.13.
+Add obsolete-automake-macros.patch that replaces automake macros
+no longer supported by automake-1.13 with modern constructs.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../gnutls/libtasn1/dont-depend-on-help2man.patch        |   14 ++++++++++++++
- meta/recipes-support/gnutls/libtasn1_2.14.bb             |    3 ++-
- 2 files changed, 16 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
+ .../flac/flac-1.2.1/obsolete_automake_macros.patch       |   14 ++++++++++++++
+ meta/recipes-multimedia/flac/flac_1.2.1.bb               |    6 ++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch
 
-diff --git a/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
+diff --git a/meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch b/meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch
 new file mode 100644
-index 0000000..2ac89f3
+index 0000000..7d7504d
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
++++ b/meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch
 @@ -0,0 +1,14 @@
-+Upstream-Status: Inappropriate
++Upstream-Status: Submitted (https://sourceforge.net/p/flac/support-requests/146/)
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd libtasn1-2.14/doc/Makefile.am libtasn1-2.14/doc/Makefile.am
-+--- libtasn1-2.14/doc/Makefile.am	2012-09-24 15:08:42.000000000 +0300
-++++ libtasn1-2.14/doc/Makefile.am	2013-01-03 07:35:26.702763403 +0200
-+@@ -31,7 +31,7 @@
-+ AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS) \
-+	--no-split --number-sections --css-include=texinfo.css
++diff -Nurd flac-1.2.1/configure.in flac-1.2.1/configure.in
++--- flac-1.2.1/configure.in	2007-09-13 18:48:42.000000000 +0300
+++++ flac-1.2.1/configure.in	2013-01-03 08:20:07.454704587 +0200
++@@ -44,7 +44,7 @@
++ AC_CHECK_SIZEOF(void*,0)
 +
-+-dist_man_MANS = $(gdoc_MANS) asn1Parser.1 asn1Coding.1 asn1Decoding.1
-++dist_man_MANS = $(gdoc_MANS)
++ #@@@ new name is AC_CONFIG_HEADERS
++-AM_CONFIG_HEADER(config.h)
+++AC_CONFIG_HEADERS(config.h)
 +
-+ HELP2MAN_OPTS = --info-page libtasn1
-diff --git a/meta/recipes-support/gnutls/libtasn1_2.14.bb b/meta/recipes-support/gnutls/libtasn1_2.14.bb
-index 3f49bfa..68d5ddf 100644
---- a/meta/recipes-support/gnutls/libtasn1_2.14.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_2.14.bb
-@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
++ AC_C_BIGENDIAN
+diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+index 903de6d..7fd7a03 100644
+--- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
++++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+@@ -14,14 +14,16 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
+                     file://include/FLAC/all.h;beginline=64;endline=69;md5=64474f2b22e9e77b28d8b8b25c983a48"
+ DEPENDS = "libogg"
  
--PR = "r0"
-+PR = "r1"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://libtasn1_fix_for_automake_1.12.patch \
-+           file://dont-depend-on-help2man.patch \
-            "
+ SRC_URI = "${SOURCEFORGE_MIRROR}/flac/flac-${PV}.tar.gz \
+            file://disable-xmms-plugin.patch \
+            file://flac-gcc43-fixes.patch \
+            file://xmms.m4 \
+            file://0001-No-AltiVec-on-SPE.patch \
+-           file://asm-pic.patch"
++           file://asm-pic.patch \
++           file://obsolete_automake_macros.patch \
++"
  
- SRC_URI[md5sum] = "a08c5936f9672da9b05691785499bcc3"
+ SRC_URI[md5sum] = "153c8b15a54da428d1f0fadc756c22c7"
+ SRC_URI[sha256sum] = "9635a44bceb478bbf2ee8a785cf6986fba525afb5fad1fd4bba73cf71f2d3edf"
 -- 
 1.7.10.4
 
