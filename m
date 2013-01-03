@@ -1,35 +1,35 @@
-Received: from mail-la0-f53.google.com ([209.85.215.53])
+Received: from mail-la0-f41.google.com ([209.85.215.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TqrlR-0000dS-Kc
+	(envelope-from <cazfi74@gmail.com>) id 1TqrlS-0000dT-2p
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 21:51:45 +0100
-Received: by mail-la0-f53.google.com with SMTP id fn20so8682745lab.12
+	Thu, 03 Jan 2013 21:51:46 +0100
+Received: by mail-la0-f41.google.com with SMTP id em20so8665227lab.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 12:36:41 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=QeyfUaS4l8t1nrlAwCENLkZ5Jipp+0aOgVN8CuMJZ2A=;
-	b=B/cZorR2yUwRGbOPPKdaFzqBHhUCh9DYO4qzdz+/dTRi1EDuYOiMPndJgo3LVBAMlX
-	7clo2BGS1pCJbw635B4zJAhkuCbWAbRutgcCkTn9pRCbTVjBa+jyfJ7R9pCiofR17RcQ
-	LiwVneaLl900YM8xFoZbkhXAWS6pvlb0utKRfDF+kZFelXK1D34oBDRVsel0ol4Msn3r
-	2TAo2BWjTmj6opOAnF6046k//tcPVFpvEe6Oxd+7tQz3KbzupoInMkl0yLH3WhR19b2N
-	87a7tsEA/aXNzyv2ik358PGw/lB1sAMUiIxbZSLVEOYWXDjdnDuCgwFrWgZuKVzFLFU1
-	HcCw==
-X-Received: by 10.112.103.202 with SMTP id fy10mr20180026lbb.13.1357245401532; 
-	Thu, 03 Jan 2013 12:36:41 -0800 (PST)
+	:references; bh=JGrEeeLweXruR8jCnOS7hgwJ+S5k/3ojQFXkY0EJ2G0=;
+	b=Hxv32clyz1x8H56xa9NMU1e9k+JyNKHE3rG9+IwLvg1Eg9RRdQiCtR2ABaXylwYfFi
+	nZz+VRXFJR8upgov6zoxoDy7wb0QQMdvwOBsKc6C7VXxhpie6rJRb0DVkypgtjlJ6nYl
+	o5kVKEgDRBCL2eBykcax204OT7+/CQq55hKKj7FKvowNheko+cS5mj7sgWrr4iMg+JIb
+	5q3nx5sRNpOKNWkXRAWWjwAz87zDxOnAWJAgCD/uD2yXIN1Gmu/pdX4nofN0wSiyDtlP
+	ynjHmS49uKTIchPukiiTcBbv78x/DIHEReFsNz7EGAHH3uffg+q1zVIGdbhphrnm0KQ1
+	16Og==
+X-Received: by 10.112.50.205 with SMTP id e13mr20464609lbo.57.1357245402004;
+	Thu, 03 Jan 2013 12:36:42 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id if8sm18777008lab.1.2013.01.03.12.36.36
+	by mx.google.com with ESMTPS id ft8sm18773071lab.9.2013.01.03.12.36.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Jan 2013 12:36:39 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:41 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TqrWl-0002GE-GA; Thu, 03 Jan 2013 22:36:35 +0200
+	id 1TqrWl-0002GV-KV; Thu, 03 Jan 2013 22:36:35 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jan 2013 22:36:29 +0200
-Message-Id: <1357245391-11055-14-git-send-email-cazfi74@gmail.com>
+Date: Thu,  3 Jan 2013 22:36:30 +0200
+Message-Id: <1357245391-11055-15-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357245391-11055-13-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357245391-11055-14-git-send-email-cazfi74@gmail.com>
 References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-2-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-3-git-send-email-cazfi74@gmail.com>
@@ -43,7 +43,8 @@ References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-11-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-12-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-13-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH 13/15] gnutls: replace obsolete automake macros with working ones
+	<1357245391-11055-14-git-send-email-cazfi74@gmail.com>
+Subject: [PATCH 14/15] libtasn1: remove help2man dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,82 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 20:51:45 -0000
+X-List-Received-Date: Thu, 03 Jan 2013 20:51:46 -0000
 
-Add obsolete-automake-macros.patch that replaces automake macros
-no longer supported by automake-1.13 with modern constructs.
+Remove manpage creation. It wasn't working because of help2man
+missing when libtasn1 is being built. This attempt to create
+manpages without help2man turns from no-op to hard error with
+automake-1.13.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../gnutls/gnutls/obsolete_automake_macros.patch   |   39 ++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_2.12.21.bb      |    3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+ .../gnutls/libtasn1/dont-depend-on-help2man.patch        |   14 ++++++++++++++
+ meta/recipes-support/gnutls/libtasn1_2.14.bb             |    3 ++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch b/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+diff --git a/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
 new file mode 100644
-index 0000000..be01303
+index 0000000..2ac89f3
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Submitted (https://savannah.gnu.org/support/index.php?108219)
++++ b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
+@@ -0,0 +1,14 @@
++Upstream-Status: Inappropriate
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd gnutls-2.12.21/configure.ac gnutls-2.12.21/configure.ac
-+--- gnutls-2.12.21/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/configure.ac	2013-01-03 07:53:41.662739378 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++diff -Nurd libtasn1-2.14/doc/Makefile.am libtasn1-2.14/doc/Makefile.am
++--- libtasn1-2.14/doc/Makefile.am	2012-09-24 15:08:42.000000000 +0300
+++++ libtasn1-2.14/doc/Makefile.am	2013-01-03 07:35:26.702763403 +0200
++@@ -31,7 +31,7 @@
++ AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS) \
++	--no-split --number-sections --css-include=texinfo.css
 +
-+ AC_MSG_RESULT([***
-+ *** Checking for compilation programs...
-+diff -Nurd gnutls-2.12.21/lib/configure.ac gnutls-2.12.21/lib/configure.ac
-+--- gnutls-2.12.21/lib/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/lib/configure.ac	2013-01-03 08:07:38.150721027 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++-dist_man_MANS = $(gdoc_MANS) asn1Parser.1 asn1Coding.1 asn1Decoding.1
+++dist_man_MANS = $(gdoc_MANS)
 +
-+ AC_PROG_CC
-+ lgl_EARLY
-+diff -Nurd gnutls-2.12.21/libextra/configure.ac gnutls-2.12.21/libextra/configure.ac
-+--- gnutls-2.12.21/libextra/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/libextra/configure.ac	2013-01-03 08:10:56.654716669 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
-+
-+ AC_PROG_CC
-+ xgl_EARLY
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.21.bb b/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-index 6b2ef3a..7b4426b 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-@@ -1,12 +1,13 @@
- require gnutls.inc
++ HELP2MAN_OPTS = --info-page libtasn1
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.14.bb b/meta/recipes-support/gnutls/libtasn1_2.14.bb
+index 3f49bfa..68d5ddf 100644
+--- a/meta/recipes-support/gnutls/libtasn1_2.14.bb
++++ b/meta/recipes-support/gnutls/libtasn1_2.14.bb
+@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
  
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
+-PR = "r0"
++PR = "r1"
  
- SRC_URI += "file://gnutls-openssl.patch \
-             file://correct_rpl_gettimeofday_signature.patch \
-             file://configure-fix.patch \
-             file://gnutls_fix_for_automake_1.12.1.patch \
-             file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
-+            file://obsolete_automake_macros.patch \
-             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
-             file://remove-gets.patch \
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://libtasn1_fix_for_automake_1.12.patch \
++           file://dont-depend-on-help2man.patch \
             "
+ 
+ SRC_URI[md5sum] = "a08c5936f9672da9b05691785499bcc3"
 -- 
 1.7.10.4
 
