@@ -1,34 +1,39 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TqjCX-0004jG-CA
+	(envelope-from <ross.burton@intel.com>) id 1TqjUm-0005HT-F2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 12:43:13 +0100
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:47456 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Tqixy-0006nl-Eg; Thu, 03 Jan 2013 06:28:06 -0500
-Date: Thu, 3 Jan 2013 06:27:57 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <50E4829C.9040908@linux.intel.com>
-Message-ID: <alpine.DEB.2.02.1301030605190.8567@oneiric>
-References: <alpine.DEB.2.02.1301021151240.6551@oneiric>
-	<50E4829C.9040908@linux.intel.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: value of "PACKAGE_BEFORE_PN" versus "PACKAGES =+"?
+	Thu, 03 Jan 2013 13:02:09 +0100
+Received: from mail-ee0-f69.google.com ([74.125.83.69])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 03 Jan 2013 03:46:54 -0800
+Received: by mail-ee0-f69.google.com with SMTP id d41so14042599eek.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Jan 2013 03:46:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=8/5LI5QjCMjX0QaawZ7mGQKZdjMZ0Zy615cliB7gLN4=;
+	b=UpY0WlcLx8UvgCqJmrRL6FC9MPAWJ2rhJKhQgjFNrhHpTWEnmWPzE97F7wA4PVi+vT
+	Ngox5HNglx1qOBRMWp4IzaQpzZx2uyeT0mDDlrZS5yFbwRAuPUMrFT8tgtArJ5Q13VUH
+	93Qjjt1O8hv6xduT36RZITKgzfc290tSjC9oKrn+NG1OzELe4Cs7wcTAyE7trdgCGdUc
+	o81HICOHi6AYl3tXMghmJKoeTTXPXj8rcM9fUn2P1PdnFE0T3XMsS/plEJdWoivDV9xg
+	9e4xZy0afVUabYwebjzatBN70ClmaH8l8W6vm7Si8LZSfenBBkUj/amd8BjgTIoMfD3Q
+	MPtg==
+X-Received: by 10.180.24.70 with SMTP id s6mr76193210wif.22.1357213611955;
+	Thu, 03 Jan 2013 03:46:51 -0800 (PST)
+X-Received: by 10.180.24.70 with SMTP id s6mr76193178wif.22.1357213611620;
+	Thu, 03 Jan 2013 03:46:51 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id hg17sm89143210wib.1.2013.01.03.03.46.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 Jan 2013 03:46:50 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Jan 2013 11:44:53 +0000
+Message-Id: <1357213493-25506-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnE8U4z863QFF1AwTFUcDykNkff9PTuwf1gzL2QD3siGlvB52I09aSqNl86atT0AMmL9Z+EQT/LhKy88ygpCkR+bMvvQZCyON4O9vPdBCzEusLdd8uRoYanwWEabTw0Wv1xMPhcoceoQaMKYlW08IN5k1/IHrD4CjwUDO5Ao0Q9Ck041YHrDyNDvOuARas4GloDztzv
+Subject: [PATCH] gtk+: add native class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,122 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 11:43:13 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 03 Jan 2013 12:02:10 -0000
 
-On Wed, 2 Jan 2013, Saul Wold wrote:
+It's easiest to bootstrap GTK+ 3 using a native GTK+ 2.
 
-> On 01/02/2013 09:04 AM, Robert P. J. Day wrote:
-> >
-> >    just now noticed the variable PACKAGE_BEFORE_PN, whose entire
-> > usage in poky (other than documentation) is:
-> >
-> > meta/conf/bitbake.conf:PACKAGE_BEFORE_PN ?= ""
-> > meta/conf/bitbake.conf:PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev
-> > ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-> > meta/classes/lib_package.bbclass:PACKAGE_BEFORE_PN = "${PN}-bin"
-> >
-> >    is there an actual need for that variable that places the new
-> > package names *precisely* in that location in the PACKAGES list?
-> > and given the specificity of the initial PN-related packages:
-> >
-> Yes, the need in the case of lib_package it to ensure that the
-> ${PN}-bin (bindir and sbindir) files get packages separately from
-> the ${PN} files, which are typically the libraries in the case of
-> recipes that deliver libraries and binaries.
+(Patch taken from meta-oe)
 
-  predictably, a few minutes after i posted, i realized what was going
-on.  i was a bit confused since the variable name, PACKAGE_BEFORE_PN,
-was so terrifically generic when its purpose is clearly to deal with
-library packages for which (as you say) you'd like to break out the
-generated binary artifacts under /usr/bin and /usr/sbin as a separate
-output package, which makes sense.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/gtk+/gtk+_2.24.14.bb |    3 +++
+ 1 file changed, 3 insertions(+)
 
-> >    "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale"
-> >
-> > is there any reason more recipes couldn't use PACKAGE_BEFORE_PN
-> > instead of "PACKAGES =+" when defining new packages?  i *realize*
-> > those two things don't represent the same thing but, in many cases,
-> > would the end result be the same?
-> >
-> >    is there any reason more code doesn't use "PACKAGE_BEFORE_PN"?
-> >
-> The =+ prepends it to the list and therefore is correctly greedy for
-> the items they are trying to package. Since the PACKAGE_BEFORE_PN
-> specifically inserts it, so for the most part there is no real need
-> to use the P_B_P variable, and =+ is more consistent.
-
-  the point i was trying to make above (probably badly) was that it
-seemed unlikely there was much (effective) difference between, as you
-point out, usage of P_B_P and using =+:
-
-PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-
-unless those earlier packages in the above would greedily suck up any
-of /usr/bin or /usr/sbin.
-
-  so, to recap (to make sure i can explain it properly), OE's
-bitbake.conf already defines this:
-
-PACKAGE_BEFORE_PN ?= ""
-PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-... snip ...
-FILES_${PN}-bin = "${bindir}/* ${sbindir}/*"
-
-which will have no effect unless, in your recipe, you inherit
-lib_package, which pulls in:
-
-PACKAGE_BEFORE_PN = "${PN}-bin"
-
-  at which point, you can either accept the default definition of
-FILES_${PN}-bin as sucking up *everything* left under /usr/bin and
-/usr/sbin or you can set it explicitly to some other value, which
-brings me to two final questions.
-
-  is there any value in setting FILES_${PN}-bin without inheriting
-lib_package?  see oe-core/meta/recipes-multimedia/pulseaudio, where
-pulseaudio.inc contains the line:
-
-FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
-
-but there is no reference to lib_package anywhere in that recipe
-directory.  so what's the point of that line above?
-
-  on the other hand, you can always just set PACKAGE_BEFORE_PN
-explicitly and skip all of lib_package.bbclass, like this in
-meta-openembedded/meta-networking/recipes-protocols/quagga/quagga.inc:
-
-# Split into a main package and separate per-protocol packages
-PACKAGE_BEFORE_PN = "${PN}-ospfd ${PN}-ospf6d ${PN}-babeld ${PN}-bgpd
-\
-                     ${PN}-ripd ${PN}-ripngd ${PN}-isisd \
-                     ${PN}-ospfclient ${PN}-watchquagga"
-
-FILES_${PN}-ospfd       = "${sbindir}/ospfd ${libdir}/libospf.so.*"
-FILES_${PN}-ospf6d      = "${sbindir}/ospf6d"
-FILES_${PN}-babeld      = "${sbindir}/babeld"
-FILES_${PN}-bgpd        = "${sbindir}/bgpd"
-FILES_${PN}-ripd        = "${sbindir}/ripd"
-FILES_${PN}-ripngd      = "${sbindir}/ripngd"
-FILES_${PN}-isisd       = "${sbindir}/isisd"
-FILES_${PN}-ospfclient  = "${sbindir}/ospfclient
-${libdir}/libospfapiclient.so.*"
-FILES_${PN}-watchquagga = "${sbindir}/watchquagga ${sysconfdir}/default/watchquagga \
-                           ${sysconfdir}/init.d/watchquagga"
-
-
-  is all of that about right?
-
-rday
-
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
+index 553196a..a6e705b 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
+@@ -60,3 +60,6 @@ python populate_packages_prepend () {
+     if (d.getVar('DEBIAN_NAMES', True)):
+         d.setVar('PKG_${PN}', '${MLPREFIX}libgtk-2.0')
+ }
++
++BBCLASSEXTEND = "native"
++RRECOMMENDS_${PN}_virtclass-native = ""
 -- 
+1.7.10
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
