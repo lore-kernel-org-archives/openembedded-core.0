@@ -1,47 +1,36 @@
-Received: from mail-la0-f44.google.com ([209.85.215.44])
+Received: from mail-la0-f45.google.com ([209.85.215.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TqrlQ-0000dQ-Re
+	(envelope-from <cazfi74@gmail.com>) id 1TqrlN-0000dB-AS
 	for openembedded-core@lists.openembedded.org;
 	Thu, 03 Jan 2013 21:51:45 +0100
-Received: by mail-la0-f44.google.com with SMTP id fr10so8641615lab.3
+Received: by mail-la0-f45.google.com with SMTP id ep20so8652884lab.18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 12:36:40 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=YvzvByjFRRakiG2l9E8gS0bilHB1ynge+WFY5rBv+9Q=;
-	b=sCVeMliTmAjmyII+8X86LThLyK6sqxmqYTsbvQpb5CRPTfZzd28AhStkg3zWjTky4W
-	UU7EOtAUhRR+aOgASdwCQPd4ief4fk1OfS0ip3IJ9mdqin6/plYIb1Pbutl0N/h58r3k
-	VWLZX6vSC0/kdA9UXSSxfiXU0lHRPuMSbmStLQQYnCFAXRjBKBhAqvGuaIezHKxpil9f
-	kjNy7reh7TTAyFJacLIdNEkjmxTFRezQvl+WuYHEQE8owSE6yyL2vUayAnhjzmyhyG7J
-	TfIiAK/XAqi/htLEfCyhKYpB0+/MD/pXodVI165ZqIhLALgWTxcTsUlBeFmNVFI/Ijo6
-	PC3g==
-X-Received: by 10.152.125.237 with SMTP id mt13mr48017644lab.45.1357245400738; 
-	Thu, 03 Jan 2013 12:36:40 -0800 (PST)
+	h=x-received:from:to:subject:date:message-id:x-mailer;
+	bh=sKtGpBJ8jKCoWnqQYUTHjOdLpxfCQXyeCuM1XXXbIdQ=;
+	b=nGPTrykkVs7zOu+lKm+zqIFJAr2Ena7BZLThckkc0fxfJY/ZCicgH0brG/CpGIV0/o
+	vUuuIve+WeCDShO8e8gQK9WabsopYoKHWq1iIVBuWAwJfNzZrEol+g7j5wGWBmia6X/C
+	+JtXIbkbtBkG4ls/XfUm1CQ0enrxPwDk5Q4QJnRhqyCM3vEpXF+OcrDAf7xThacAVOup
+	EsTY4sEvkNyHrG/k2eDOcmWoGQacC2jwOlsRL14OswpXVuBVUWr6SCFLaSjUumLgkDy7
+	OFX/bRkUvVDoadNX+xJh5mDdU7MCW5JkYrHimrVEqlcIHOsEPKM55znplEUZe/sPXl0R
+	v+Vg==
+X-Received: by 10.152.147.103 with SMTP id tj7mr48498009lab.54.1357245397017; 
+	Thu, 03 Jan 2013 12:36:37 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id b3sm17341682lbl.0.2013.01.03.12.36.36
+	by mx.google.com with ESMTPS id u5sm17334161lbm.8.2013.01.03.12.36.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Jan 2013 12:36:38 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:35 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TqrWl-0002Fd-6u; Thu, 03 Jan 2013 22:36:35 +0200
+	(envelope-from <cazfi74@gmail.com>) id 1TqrWj-0002C7-En
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Jan 2013 22:36:33 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jan 2013 22:36:27 +0200
-Message-Id: <1357245391-11055-12-git-send-email-cazfi74@gmail.com>
+Date: Thu,  3 Jan 2013 22:36:16 +0200
+Message-Id: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357245391-11055-11-git-send-email-cazfi74@gmail.com>
-References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-2-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-3-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-4-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-5-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-6-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-7-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-8-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-9-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-10-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-11-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH 11/15] libid3tag: replace obsolete automake macros with working ones
+Subject: Prepare recipes for automake-1.13 (batch 1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,57 +45,43 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 03 Jan 2013 20:51:45 -0000
 
-Add obsolete-automake-macros.patch that replaces automake macros
-no longer supported by automake-1.13 with modern constructs.
+In practice there is three categories of changes in automake-1.13
+that cause packages to break. From that follows that virtually all
+problems fall to three categories, and all packages suffering from
+problem of the same category get virtually identical fix.
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../libid3tag/libid3tag/obsolete_automake_macros.patch   |   14 ++++++++++++++
- meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb   |    6 ++++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
+* Long deprecated macros completely removed from automake-1.13,
+  which errors out upon seeing them. For these I add patch,
+  always called obsolete_automake_macros.patch, that replaces
+  obsolete macro with proper one. Most of the patches are just
+  AM_CONFIG_HEADER -> AC_CONFIG_HEADERS change.
 
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
-new file mode 100644
-index 0000000..2ecd478
---- /dev/null
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
-@@ -0,0 +1,14 @@
-+Upstream-Status: Submitted (https://sourceforge.net/tracker/?func=detail&aid=3599280&group_id=12349&atid=112349)
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd libid3tag-0.15.1b/configure.ac libid3tag-0.15.1b/configure.ac
-+--- libid3tag-0.15.1b/configure.ac	2004-01-24 01:22:46.000000000 +0200
-++++ libid3tag-0.15.1b/configure.ac	2013-01-03 06:41:02.734835014 +0200
-+@@ -28,7 +28,7 @@
-+
-+ AM_INIT_AUTOMAKE
-+
-+-AM_CONFIG_HEADER([config.h])
-++AC_CONFIG_HEADERS([config.h])
-+
-+ dnl System type.
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index dbcf2da..d81f58b 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 			file://version.h;beginline=1;endline=8;md5=86ac68b67f054b7afde9e149bbc3fe63"
- SECTION = "libs"
- DEPENDS = "zlib gperf-native"
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libid3tag-${PV}.tar.gz \
--           file://addpkgconfig.patch"
-+           file://addpkgconfig.patch \
-+           file://obsolete_automake_macros.patch \
-+"
- 
- SRC_URI[md5sum] = "e5808ad997ba32c498803822078748c3"
- SRC_URI[sha256sum] = "63da4f6e7997278f8a3fef4c6a372d342f705051d1eeb6a46a86b03610e26151"
--- 
-1.7.10.4
+* Trying to run help2man via "missing" when it doesn't exist.
+  Old automake versions allowed "missing" to be used that way,
+  1.13 aborts. I'm just removing the attempt to create manpages
+  that way. Note that it never actually worked anyway -
+  old automake just didn't abort when it failed.
 
+* TESTS list cannot have $(srcdir) or $(top_srcdir) as part
+  of the path. When it does, it's usually bug in the package,
+  but unfortunately automake prevents it also when it's not.
+  Solution applied here is to simply remove TESTS.
+
+
+[PATCH 01/15] pkg-config: replace obsolete automake macros with
+[PATCH 02/15] libtool: remove help2man dependency
+[PATCH 03/15] bison: remove help2man dependency
+[PATCH 04/15] file: replace obsolete automake macros with working
+[PATCH 05/15] popt: disable tests
+[PATCH 06/15] glib-2.0: replace obsolete automake macros with
+[PATCH 07/15] libx11: disable tests
+[PATCH 08/15] libpng: replace obsolete automake macros with working
+[PATCH 09/15] libusb: replace obsolete automake macros with working
+[PATCH 10/15] pixman: replace obsolete automake macros with working
+[PATCH 11/15] libid3tag: replace obsolete automake macros with
+[PATCH 12/15] libgcrypt: replace obsolete automake macros with
+[PATCH 13/15] gnutls: replace obsolete automake macros with working
+[PATCH 14/15] libtasn1: remove help2man dependency
+[PATCH 15/15] flac: replace obsolete automake macros with working
 
 
