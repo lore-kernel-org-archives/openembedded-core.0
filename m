@@ -1,36 +1,26 @@
-Received: from mail-pa0-f50.google.com ([209.85.220.50])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1TqoGR-0003YJ-OF; Thu, 03 Jan 2013 18:07:35 +0100
-Received: by mail-pa0-f50.google.com with SMTP id hz10so8730095pad.37
-	for <multiple recipients>; Thu, 03 Jan 2013 08:52:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=MPQwcLPzbHZwTOipbvE1iytJr9/2WPQNfJEhJwvp008=;
-	b=k1JkTaaupuqExA93eGHPbOn9lSBH1/Vva1w+vnEzoH67zxtn+CDZPiJpfQOSHuiBMh
-	S+cu3cdUbEYqm4SvK+9Y3l0BNp63v8TZveykHcsRSVa8T2XPBX3PgA65eYn/6oKdpzk8
-	JCeuYO3cT5FyJycs3jBBOcaAbPm8ty84bTW/aOvpEryrPyehFrDxe1hY/dW65N9eVBQr
-	CsapkVoa0tZg9xFlgDxUPUGoYaGE95CLStN/luMhD0BcyqIo1DnN3ximguHMwy6o+yQa
-	mEndgdIykUxzZEE4Dh21pPKazuVMdJpbhUwWQh4igJDh1JRR+UOwTLOTW8R08TIVTkrS
-	02pQ==
-X-Received: by 10.68.131.73 with SMTP id ok9mr156332326pbb.83.1357231946687;
-	Thu, 03 Jan 2013 08:52:26 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ot3sm30588869pbb.38.2013.01.03.08.52.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Jan 2013 08:52:25 -0800 (PST)
-Date: Thu, 3 Jan 2013 17:52:32 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Constantin Musca <constantinx.musca@intel.com>
-Message-ID: <20130103165232.GH3276@jama>
-References: <20121231094421.4C58F102EC@opal>
+	(envelope-from <sgw@linux.intel.com>) id 1TqokI-00048t-G2
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Jan 2013 18:38:22 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jan 2013 09:23:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,403,1355126400"; d="scan'208";a="272516378"
+Received: from unknown (HELO [10.255.14.41]) ([10.255.14.41])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jan 2013 09:23:11 -0800
+Message-ID: <50E5BE7E.6040201@linux.intel.com>
+Date: Thu, 03 Jan 2013 09:23:10 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <20121231094421.4C58F102EC@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Constantin Musca : gsettings-desktop-schemas: add recipe
+To: Radu Moisan <radu.moisan@intel.com>
+References: <cover.1356022882.git.radu.moisan@intel.com>
+	<50D8FDBE.4030203@linux.intel.com> <50E53E76.1080801@intel.com>
+In-Reply-To: <50E53E76.1080801@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/28][RFC] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,112 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 17:07:37 -0000
-X-Groupsio-MsgNum: 33241
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="J+eNKFoVC4T1DV3f"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Jan 2013 17:38:23 -0000
+X-List-Received-Date: Thu, 03 Jan 2013 17:38:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---J+eNKFoVC4T1DV3f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 01/03/2013 12:16 AM, Radu Moisan wrote:
+>
+> On 12/25/2012 03:13 AM, Saul Wold wrote:
+>> On 12/20/2012 09:11 AM, Radu Moisan wrote:
+>>> I've rebased my branch, again :), with some cleanups here and there
+>>> I also pushed a few patches suggested by Martin.
+>>> Feel free to comment on everything.
+>>>
+>>> The following changes since commit
+>>> 958162e96b4a4f23bca94500b5f20975633dd5c6:
+>>>
+>>>    bitbake: hob: use base image only if it was set (2012-12-14
+>>> 17:31:31 +0000)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>    git://git.yoctoproject.org/poky-contrib rmoisan/systemd
+>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
+>>>
+>>> Enrico Scholz (1):
+>>>    systemd: move disable operation into prerm() script
+>>>
+>>> Holger Hans Peter Freyther (2):
+>>>    systemd: Make the main systemd files proper CONFFILES
+>>>    systemd: Introduce a create-volatile to create tmp directories
+>>>
+>>> Khem Raj (1):
+>>>    systemd: Fix build when base_libdir is not /lib
+>>>
+>>> Martin Donnelly (2):
+>>>    cgroups: Add INSANE_SKIP to avoid warning about .so file
+>>>    Remove sysvinit mount related services if systemd is enabled
+>>>
+>>> Martin Jansa (2):
+>>>    systemd-systemctl-native: fix FILESPATH to find systemctl
+>>>    systemd: add PACKAGES_DYNAMIC
+>>>
+>>> Radu Moisan (20):
+>>>    Systemd initial integration
+>>>    Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+>>>    Automatically set PREFERRED_PROVIDER_udev
+>>>    Add systemd_base.bbclass
+>>>    Include systemd-compat-units and avahi-systemd
+>>>    Inherit the systemd_base class
+>>>    set default.target to multi-user.target
+>>>    wpa-supplicant: Fix indentation
+>>>    dropbear: Fix indentation and cleanup
+>>>    systemd: Some more cleanup
+>>>    systemd: disable  source rcS-default
+>>>    polkit: merge together the two instances of PACKAGECONFIG
+>>>    systemd-native: update FILESPATH with *-native directory
+>>>    systemd: Remove gitpkgv.bbclass
+>>>    systemd: (temporary) remove dependency on cairo
+>>>    initscripts: Cleanup recipe
+>>>    systemd: disable sysfs.service
+>>>    xserver-nodm-init: add systemd support
+>>>    util-linux: Enable systemd support
+>>>    lighttpd: Remove automake patch
+>>>
+>>
+>> Please be sure to build this with the INCOMPATIBLE_LICENSE = "GPLv3"
+>> settig, I saw the following issues on the Autobuilder.
+>>
+>
+> I've rebuilt systemd without xz dependency and now I can build
+> core-image-minimal with INCOMPATIBLE_LICENSE = "GPLv3", however
+> core-image-sato would not build. Do we want sato to build with GPLv3
+> incompatibility flag set? I couldn't build sato this way on master
+> either, but I didn't try a clean build so I'm not 100% sure about that.
+>
+Sato will not build with non-GPLv3. The other image that can build 
+non-GPLv3 is core-image-basic, it pulls in much more LSB full commands, 
+non-busybox.
 
-On Mon, Dec 31, 2012 at 09:44:21AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 59d7b8b3bdef47c1ad45fc404b1b169b5f2980b7
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D59d7b8b3bdef47c1ad45fc404b1b169b5f2980b7
->=20
-> Author: Constantin Musca <constantinx.musca@intel.com>
-> Date:   Fri Dec 21 14:42:07 2012 +0200
->=20
-> gsettings-desktop-schemas: add recipe
->=20
-> - this is needed by metacity 2.34.13
->=20
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Sau!
 
-gsettings-desktop-shemas recipe in meta-gnome had extra postinst,=20
-can you add that to oe-core recipe if it's still useful?
+> Radu
+>
+>
 
-BTW: gsettings-desktop-schemas_3.0.1.bb needs to be removed from
-otherwise old version is built and metacity fails.
 
---- ./meta-gnome/recipes-gnome/gnome-desktop/gsettings-desktop-schemas_3.0.=
-1.bb 2012-07-19 09:10:28.502340570 +0200
-+++ ../openembedded-core/./meta/recipes-gnome/gnome/gsettings-desktop-schem=
-as_3.7.3.bb  2013-01-01 22:16:07.294198940 +0100
--inherit gnome
--
--RDEPENDS_${PN} =3D "glib-2.0-utils"
-+DEPENDS =3D "glib-2.0"
-=20
--pkg_postinst_${PN} () {
--if [ -n "$D" ]; then
--    exit 1
--fi
-+inherit gnome pkgconfig autotools gettext
-=20
--glib-compile-schemas ${datadir}/glib-2.0/schemas
--}
-+GNOME_COMPRESS_TYPE =3D "xz"
-
-Cheers,
-
->=20
-> ---
->=20
->  .../gnome/gsettings-desktop-schemas_3.7.3.bb       |   15 +++++++++++++++
->  1 files changed, 15 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb =
-b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
-> new file mode 100644
-> index 0000000..720858a
-> --- /dev/null
-> +++ b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
-> @@ -0,0 +1,15 @@
-> +DESCRIPTION =3D "A collection of GSettings schemas for settings shared b=
-y various components of a desktop"
-> +HOMEPAGE =3D "http://live.gnome.org/gsettings-desktop-schemas"
-> +BUGTRACKER =3D "https://bugzilla.gnome.org/"
-> +
-> +LICENSE =3D "LGPLv2.1"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
-16c"
-> +
-> +DEPENDS =3D "glib-2.0"
-> +
-> +inherit gnome pkgconfig autotools gettext
-> +
-> +GNOME_COMPRESS_TYPE =3D "xz"
-> +
-> +SRC_URI[archive.md5sum] =3D "6dbede8f6112b7e0dd4864e979b91771"
-> +SRC_URI[archive.sha256sum] =3D "1da53e1b960f08ce4b0d472e6f339b7beaf19a78=
-89c15911775abf4efe2ec760"
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---J+eNKFoVC4T1DV3f
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDlt1AACgkQN1Ujt2V2gBxVMgCePNyX/w3JXSa/xmpX8ihfz141
-jucAn0BP/h9n6ZCkYlc/cmlVxcsN6myC
-=pdqp
------END PGP SIGNATURE-----
-
---J+eNKFoVC4T1DV3f--
