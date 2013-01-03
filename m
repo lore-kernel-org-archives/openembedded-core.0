@@ -1,40 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tqjkr-0005ep-2c
-	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 13:18:38 +0100
-Received: from mail-vc0-f198.google.com ([209.85.220.198])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 03 Jan 2013 04:02:32 -0800
-Received: by mail-vc0-f198.google.com with SMTP id n11so23324752vch.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 04:03:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=ABVJFRDI5RRcyvcqUnGYJyKj+FfcK3tRknRV9sPyLOI=;
-	b=LfyoGX7EG05uQ8vIFVEyOg8V3gHA3NKEeEHuztLigue8H61SNpV5DlxqfKzJu5ggE1
-	Dfca8F5vM0J6LWHej3FzD9F0L4w3V5yfarJjLFSEo7ElxK7Xh0E/1Rme7dGNBuGD+uyT
-	+DeKrgDpcdYvrxJ9OvIHPpWUxf28zEnjrnKZfNCj9e4Now0MUiQmYNd22LPDIjLFpCDf
-	ktJvgb1nDS/Vvh0clsnbcUCa/KAejPydf+4gP9WU2dAkBRJNXTh6I9kT60oeVe43ondb
-	GSXgfR7vBCFTvQmzHxn2t7d1sCszHi877dg7vuBh6xMF83BXMDtlPqN3uLPD6ib1eRG+
-	fT4Q==
-X-Received: by 10.58.48.231 with SMTP id p7mr76221323ven.11.1357214611211;
-	Thu, 03 Jan 2013 04:03:31 -0800 (PST)
-Received: by 10.58.48.231 with SMTP id p7mr76221318ven.11.1357214611087; Thu,
-	03 Jan 2013 04:03:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Thu, 3 Jan 2013 04:03:11 -0800 (PST)
-In-Reply-To: <20130103120117.GF3276@jama>
-References: <1357213493-25506-1-git-send-email-ross.burton@intel.com>
-	<20130103120117.GF3276@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Jan 2013 12:03:11 +0000
-Message-ID: <CAJTo0LZnnb7YL9qAe=oMz7YXpjVXMJ3W7qqy5eEU-eK7sFyLtQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQlTrUhJ3K0e4VvbUBm7Be9Drzv13FIIOBhBVC4euHGJpl0hBkJPToQ1Thwd82Bnb0s4/voxDVf0UVdzOgNOVeUe+A6E6BXFQpNFcO+Cs1X0NupRImt0yFxjaSkC44/658k+lnvfKT+Tq7WuhwSF0M6SjA3h1Aw+d/bfcY3+6iJIA5bwHjTsfZdZ5ZGFxd1eWi+H0SDV
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TqkM7-0006Nf-Qm for openembedded-core@lists.openembedded.org;
+	Thu, 03 Jan 2013 13:57:08 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r03Cg2ON012752;
+	Thu, 3 Jan 2013 12:42:02 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32506-03; Thu,  3 Jan 2013 12:41:59 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r03Cfvhu012746
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 3 Jan 2013 12:41:58 GMT
+Message-ID: <1357216919.28649.90.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Scott Garman <scott.a.garman@intel.com>
+Date: Thu, 03 Jan 2013 12:41:59 +0000
+In-Reply-To: <cover.1356730817.git.scott.a.garman@intel.com>
+References: <cover.1356730817.git.scott.a.garman@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gtk+: add native class
+Subject: Re: [PATCH 00/15] denzil pull request 5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 12:18:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 03 Jan 2013 12:57:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 3 January 2013 12:01, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Jan 03, 2013 at 11:44:53AM +0000, Ross Burton wrote:
->> It's easiest to bootstrap GTK+ 3 using a native GTK+ 2.
->>
->> (Patch taken from meta-oe)
->
-> That's 4th or 5th version of this patch:
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019625.html
->   rejected in http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/019683.html
-> http://patches.openembedded.org/patch/33761/
-> http://patches.openembedded.org/patch/36913/
+On Fri, 2012-12-28 at 13:41 -0800, Scott Garman wrote:
+> This is a pull request for denzil, it includes a number of security
+> fixes and a few important bugfixes. The poky-based tree has been run
+> through the autobuilder as follows:
+[...]
+> The following changes since commit d35560f33f257bd12a07c7c0be770319086d6ad9:
+> 
+>   squashfs: fix for CVE-2012-4024 (2012-11-30 14:51:10 -0800)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-pull5
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull5
+> 
+> Khem Raj (5):
+>   coreutils: Fix build with eglibc 2.16
+>   diffutils: Fix build with eglibc 2.16
+>   gettext,m4,augeas,gnutls: Account for removal of gets in eglibc 2.16
+>   bison: Fix for gets being removed from eglibc 2.16
+>   grub,guile,cpio,tar,wget: Fix gnulib for absense of gets in eglibc
+> 
+> Li Wang (1):
+>   librsvg: CVE-2011-3146
+> 
+> Mihai Lindner (1):
+>   sysklogd: removed tabs from syslog.conf
+> 
+> Richard Purdie (1):
+>   boot-directdisk: Fix kernel location after STAGING_KERNEL_DIR change
+> 
+> Scott Garman (6):
+>   psplash: new patch to fix segfault
+>   build-appliance-image: Allow SRCREV to be overriden
+>   gitignore: add generated doc files to ignore list
+>   libxml2: patch for CVE-2012-2871
+>   freetype: patches for CVE-2012-5668, 5669, and 5670
+>   cups: patch for CVE-2011-2896
+> 
+> yanjun.zhu (1):
+>   squashfs: fix CVE-2012-4025
 
-Hm, this could be fun.
+Merged into denzil, thanks.
 
-Ross
+Richard
+
 
 
