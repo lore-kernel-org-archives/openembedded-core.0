@@ -1,25 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TqZwG-0001xH-Hd
+	(envelope-from <sgw@linux.intel.com>) id 1TqbV2-0004Ry-Bu
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 02:49:50 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Jan 2013 17:34:40 -0800
+	Thu, 03 Jan 2013 04:29:46 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Jan 2013 19:14:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,400,1355126400"; d="scan'208";a="272249099"
+X-IronPort-AV: E=Sophos;i="4.84,400,1355126400"; d="scan'208";a="269377543"
 Received: from unknown (HELO [10.255.14.135]) ([10.255.14.135])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jan 2013 17:34:36 -0800
-Message-ID: <50E4E02C.6050602@linux.intel.com>
-Date: Wed, 02 Jan 2013 17:34:36 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jan 2013 19:14:38 -0800
+Message-ID: <50E4F79D.3050105@linux.intel.com>
+Date: Wed, 02 Jan 2013 19:14:37 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <1356650345-19419-1-git-send-email-cazfi74@gmail.com>
-In-Reply-To: <1356650345-19419-1-git-send-email-cazfi74@gmail.com>
+To: koen@dominion.thruhere.net
+References: <50df499d.02cb0e0a.2047.4ecf@mx.google.com>
+In-Reply-To: <50df499d.02cb0e0a.2047.4ecf@mx.google.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] gettext: update to upstream version 0.18.2
+Subject: Re: [RFC][PATCH] libnss-mdns: enable IPv6 as well as IPv4 mnds resolving
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,145 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 01:49:50 -0000
+X-List-Received-Date: Thu, 03 Jan 2013 03:29:46 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/27/2012 03:19 PM, Marko Lindqvist wrote:
-> remove_gets.patch dropped as upstream now contains
-> fix for the problem.
+On 12/29/2012 11:50 AM, koen@dominion.thruhere.net wrote:
+> From: Koen Kooi <koen@dominion.thruhere.net>
 >
-> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+>>From the docs: "libnss_mdns.so.2 resolves both IPv6 and IPv4 addresses, libnss_mdns4.so.2 only IPv4 addresses and libnss_mdns6.so.2 only IPv6 addresses."
+>
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 > ---
->   .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 --------------------
-You need to update the gettext-minimal recipes also, please submit those 
-changes also.
+>   .../libnss-mdns/libnss-mdns_0.10.bb                |   10 +++++-----
+>   1 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> index a1f2f9a..ae11487 100644
+> --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> +++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>
+>   DEPENDS = "avahi"
+>   RDEPENDS_${PN} = "avahi-daemon"
+> -PR = "r5"
+> +PR = "r6"
+>
+>   SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz"
+>
+> @@ -24,13 +24,13 @@ DEBIANNAME_${PN} = "libnss-mdns"
+>   EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
+>
+>   pkg_postinst_${PN} () {
+> -if ! grep -q '^hosts:.*\<mdns4\>' $D/etc/nsswitch.conf; then
+> -	sed -e 's/^hosts:.*/& mdns4/' -i $D/etc/nsswitch.conf
+> +if ! grep -q '^hosts:.*\<mdns\>' $D/etc/nsswitch.conf; then
+> +	sed -e 's/^hosts:.*/& mdns/' -i $D/etc/nsswitch.conf
+>   fi
+>   }
+>
+>   pkg_prerm_${PN} () {
+> -if grep -q '^hosts:.*\<mdns4\>' /etc/nsswitch.conf; then
+> -	sed -e '/^hosts:/s/\s\<mdns4\>//' -i /etc/nsswitch.conf
+> +if grep -q '^hosts:.*\<mdns\>' /etc/nsswitch.conf; then
+> +	sed -e '/^hosts:/s/\s\<mdns\>//' -i /etc/nsswitch.conf
+There were some other changes made to this recently, can you please have 
+a look at the current version, it now uses the mdns4_minimal
 
 Thanks
 	Sau!
 
->   .../gnulib-uclibc-sched_param-def.patch            |    0
->   .../parallel.patch                                 |    0
->   .../wchar-uclibc.patch                             |    0
->   .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |    7 +--
->   5 files changed, 3 insertions(+), 62 deletions(-)
->   delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
->   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
->   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
->   rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
->   rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
->
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch b/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
-> deleted file mode 100644
-> index 3d3c400..0000000
-> --- a/meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
-> +++ /dev/null
-> @@ -1,58 +0,0 @@
-> -eglibc 2.16 has removed gets so we need to check for it
-> -being there before using it.
-> -
-> -
-> -From glibc stdio.h
-> -
-> -The function has been officially removed in ISO C11.  This opportunity
-> -   is used to also remove it from the GNU feature list.  It is now only
-> -   available when explicitly using an old ISO C, Unix, or POSIX standard.
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Upstream-Status: Pending
-> -Index: gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h
-> -===================================================================
-> ---- gettext-0.18.1.1.orig/gettext-runtime/gnulib-lib/stdio.in.h	2010-05-17 12:56:12.000000000 -0700
-> -+++ gettext-0.18.1.1/gettext-runtime/gnulib-lib/stdio.in.h	2012-07-02 22:42:21.292223316 -0700
-> -@@ -140,8 +140,10 @@
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> -+#if defined gets
-> - #undef gets
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+#endif
-> -
-> - #if @GNULIB_FOPEN@
-> - # if @REPLACE_FOPEN@
-> -Index: gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h
-> -===================================================================
-> ---- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/stdio.in.h	2010-05-24 02:42:46.000000000 -0700
-> -+++ gettext-0.18.1.1/gettext-tools/gnulib-lib/stdio.in.h	2012-07-02 23:02:33.476281979 -0700
-> -@@ -140,8 +140,10 @@
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> -+#if defined gets
-> - #undef gets
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+#endif
-> -
-> - #if @GNULIB_FOPEN@
-> - # if @REPLACE_FOPEN@
-> -Index: gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h
-> -===================================================================
-> ---- gettext-0.18.1.1.orig/gettext-tools/libgettextpo/stdio.in.h	2010-05-17 12:58:03.000000000 -0700
-> -+++ gettext-0.18.1.1/gettext-tools/libgettextpo/stdio.in.h	2012-07-02 23:01:57.440280253 -0700
-> -@@ -140,8 +140,10 @@
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> -+#if defined gets
-> - #undef gets
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+#endif
-> -
-> - #if @GNULIB_FOPEN@
-> - # if @REPLACE_FOPEN@
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch b/meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
-> similarity index 100%
-> rename from meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch
-> rename to meta/recipes-core/gettext/gettext-0.18.2/gnulib-uclibc-sched_param-def.patch
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
-> similarity index 100%
-> rename from meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
-> rename to meta/recipes-core/gettext/gettext-0.18.2/parallel.patch
-> diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch b/meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
-> similarity index 100%
-> rename from meta/recipes-core/gettext/gettext-0.18.1.1/wchar-uclibc.patch
-> rename to meta/recipes-core/gettext/gettext-0.18.2/wchar-uclibc.patch
-> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.2.bb
-> similarity index 96%
-> rename from meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> rename to meta/recipes-core/gettext/gettext_0.18.2.bb
-> index 4639481..3e93089 100644
-> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.18.2.bb
-> @@ -5,7 +5,7 @@ SECTION = "libs"
->   LICENSE = "GPLv3+ & LGPL-2.1+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->
-> -PR = "r19"
-> +PR = "r0"
->   DEPENDS = "gettext-native virtual/libiconv ncurses expat"
->   DEPENDS_class-native = "gettext-minimal-native"
->   PROVIDES = "virtual/libintl virtual/gettext"
-> @@ -13,7 +13,6 @@ PROVIDES_class-native = "virtual/gettext-native"
->   RCONFLICTS_${PN} = "proxy-libintl"
->   SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
->   	   file://parallel.patch \
-> -	   file://remove_gets.patch \
->             "
->
->   SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
-> @@ -21,8 +20,8 @@ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
->                                "
->   LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
->
-> -SRC_URI[md5sum] = "3dd55b952826d2b32f51308f2f91aa89"
-> -SRC_URI[sha256sum] = "93ac71a7afa5b70c1b1032516663658c51e653087f42a3fc8044752c026443e9"
-> +SRC_URI[md5sum] = "0c86e5af70c195ab8bd651d17d783928"
-> +SRC_URI[sha256sum] = "516a6370b3b3f46e2fc5a5e222ff5ecd76f3089bc956a7587a6e4f89de17714c"
->
->   inherit autotools
->
+
+>   fi
+>   }
 >
 
 
