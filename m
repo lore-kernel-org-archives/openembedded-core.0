@@ -1,41 +1,39 @@
-Received: from mail-la0-f48.google.com ([209.85.215.48])
+Received: from mail-la0-f42.google.com ([209.85.215.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TqrlP-0000dI-DU
+	(envelope-from <cazfi74@gmail.com>) id 1TqrlO-0000dG-FJ
 	for openembedded-core@lists.openembedded.org;
 	Thu, 03 Jan 2013 21:51:45 +0100
-Received: by mail-la0-f48.google.com with SMTP id ej20so8673711lab.35
+Received: by mail-la0-f42.google.com with SMTP id fe20so8670269lab.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 12:36:39 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=MQLI98y6zy4s0ssHIbTO6Wf0BeuOmtTw7a1tdUdmGtA=;
-	b=yI8A+gfu20xk/cfnld3wz3jhTPSpGR7msxdapKXrvFYkrlV7IUee4zLId9uSHMHdJY
-	JZSEBOkTPedREF5q7BUqGM/K7/adc5MknxSOB4xl9eBKdxLgyupTG6Rctc3i9Z02WN82
-	IEGESX6joI068qCgV9JgO/9KJ6jyP7UcKdeLFGd1tc0jo69+NlbTSS2ZJa6S+jyFb1Mh
-	m/f0ERctDkfaLBd3Niwqf8cFKZ2d9WzbeZEFUYj4ImziEpOqQsrmK3W4ZpmLEvy5eutq
-	I9E93b7Tu9WuOyM0kBzhc0hEc6YV8LOAxE7HXgNgrYK0nApxfLAxlvbxY0Hs87lxIrBz
-	qPYA==
-X-Received: by 10.152.147.103 with SMTP id tj7mr48498099lab.54.1357245399370; 
-	Thu, 03 Jan 2013 12:36:39 -0800 (PST)
+	:references; bh=yXRhBuAIFp/6QQHLWlqZbwtihOnu7/IUgdMNedAvYqI=;
+	b=GiAUFm3nI3mO8Dyo6XBdaAWvIskim5szyFsuXsU9WURMkRBzBN8raCBpR7GngJOcB2
+	EbOVdreh/FtSBxss7nM3xBIGJIaBltFpEJVAddSK9HqG3Yb2x0ODYh+xhVf3YyVKQC9H
+	8y4kMZ2AaAhSOKo8QA/Hi8LSp20s2fppvHV+aaLI4kibTmUrGf6PRw8Km4sfgZhbeU+Z
+	FU9tC68VrjDEDeBl8+7viBw5BnQRN1dBqRYUrDmnoPMCimXaiPWDKqOomi4SE7Lx1gGJ
+	fJdvSPJxJy1TpCL72Uqmbz1UKbn973+SMlHmWOrkQyBQcc6Alsb3FieuwJH3caqtsEsX
+	3L1g==
+X-Received: by 10.152.125.136 with SMTP id mq8mr47988339lab.41.1357245398367; 
+	Thu, 03 Jan 2013 12:36:38 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id er8sm17333447lbb.9.2013.01.03.12.36.35
+	by mx.google.com with ESMTPS id ja10sm18774440lab.6.2013.01.03.12.36.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Jan 2013 12:36:37 -0800 (PST)
+	Thu, 03 Jan 2013 12:36:36 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TqrWk-0002E1-Ca; Thu, 03 Jan 2013 22:36:34 +0200
+	id 1TqrWk-0002DP-32; Thu, 03 Jan 2013 22:36:34 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jan 2013 22:36:21 +0200
-Message-Id: <1357245391-11055-6-git-send-email-cazfi74@gmail.com>
+Date: Thu,  3 Jan 2013 22:36:19 +0200
+Message-Id: <1357245391-11055-4-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357245391-11055-5-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357245391-11055-3-git-send-email-cazfi74@gmail.com>
 References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-2-git-send-email-cazfi74@gmail.com>
 	<1357245391-11055-3-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-4-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-5-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH 05/15] popt: disable tests
+Subject: [PATCH 03/15] bison: remove help2man dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,61 +48,75 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 03 Jan 2013 20:51:45 -0000
 
-Use of $(top_srcdir) in TESTS is an error causing automake-1.13
-to abort. Disable the tests completely.
+Remove manpage creation. It wasn't working because of help2man
+missing when bison is being built. This attempt to create
+manpages without help2man turns from no-op to hard error with
+automake-1.13.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- meta/recipes-support/popt/popt/disable_tests.patch |   21 ++++++++++++++++++++
- meta/recipes-support/popt/popt_1.16.bb             |    3 ++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/popt/popt/disable_tests.patch
+ .../bison/bison/dont-depend-on-help2man.patch      |   32 ++++++++++++++++++++
+ meta/recipes-devtools/bison/bison_2.7.bb           |    7 +++--
+ 2 files changed, 37 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
 
-diff --git a/meta/recipes-support/popt/popt/disable_tests.patch b/meta/recipes-support/popt/popt/disable_tests.patch
+diff --git a/meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch b/meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
 new file mode 100644
-index 0000000..d9f6324
+index 0000000..66b1e37
 --- /dev/null
-+++ b/meta/recipes-support/popt/popt/disable_tests.patch
-@@ -0,0 +1,21 @@
-+Use of $(top_srcdir) in TESTS is an error which causes
-+automake-1.13 to abort. Just remove tests.
-+
-+Upstream-status: Not sent
++++ b/meta/recipes-devtools/bison/bison/dont-depend-on-help2man.patch
+@@ -0,0 +1,32 @@
++Upstream-status: Inappropriate
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd popt-1.16/Makefile.am popt-1.16/Makefile.am
-+--- popt-1.16/Makefile.am	2010-05-04 23:55:54.000000000 +0300
-++++ popt-1.16/Makefile.am	2013-01-02 13:34:29.540361391 +0200
-+@@ -34,11 +34,6 @@
++diff -Nurd bison-2.7/doc/Makefile.am bison-2.7/doc/Makefile.am
++--- bison-2.7/doc/Makefile.am	2012-12-09 17:51:03.000000000 +0200
+++++ bison-2.7/doc/Makefile.am	2013-01-02 06:49:50.804894071 +0200
++@@ -52,15 +52,11 @@
++ ## Man Pages.  ##
++ ## ----------- ##
 +
-+ noinst_SCRIPTS = testit.sh
-+
-+-TESTS_ENVIRONMENT = \
-+-test1="$(top_builddir)/test1"
++-dist_man_MANS = $(srcdir)/bison.1
 +-
-+-TESTS = $(top_srcdir)/testit.sh
-+-
-+ include_HEADERS = popt.h
++-EXTRA_DIST += $(dist_man_MANS:.1=.x) common.x
++-MAINTAINERCLEANFILES += $(dist_man_MANS)
+++EXTRA_DIST += bison.x common.x
 +
-+ usrlibdir = $(libdir)
-diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
-index 91b0d60..aa4e379 100644
---- a/meta/recipes-support/popt/popt_1.16.bb
-+++ b/meta/recipes-support/popt/popt_1.16.bb
-@@ -4,11 +4,12 @@ SECTION = "libs"
++ # Depend on configure to get version number changes.
++ common_dep = $(top_srcdir)/configure $(srcdir)/common.x
++ srcsrcdir = $(top_srcdir)/bin
++-$(srcdir)/bison.1:      $(common_dep) $(top_srcdir)/src/getargs.c
++
++ # Differences to ignore when comparing the man page (the date).
++ remove_time_stamp = \
++@@ -94,8 +90,6 @@
++	fi
++	$(AM_V_at)rm -f $@*.t
++
++-nodist_man_MANS = yacc.1
++-
++ ## ------------------------------ ##
++ ## Graphviz examples generation.  ##
++ ## ------------------------------ ##
+diff --git a/meta/recipes-devtools/bison/bison_2.7.bb b/meta/recipes-devtools/bison/bison_2.7.bb
+index 9fb3884..ee2effb 100644
+--- a/meta/recipes-devtools/bison/bison_2.7.bb
++++ b/meta/recipes-devtools/bison/bison_2.7.bb
+@@ -9,9 +9,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SECTION = "devel"
+ DEPENDS = "bison-native flex-native"
  
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=cb0613c30af2a8249b8dcc67d3edb06d"
--PR = "r2"
-+PR = "r3"
++PR = "r1"
++
+ BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
+-	   file://m4.patch \
+-	  "
++	        file://m4.patch \
++                file://dont-depend-on-help2man.patch \
++	       "
  
- SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch \
-            file://popt_fix_for_automake-1.12.patch \
-+           file://disable_tests.patch \
-           "
- 
- SRC_URI[md5sum] = "3743beefa3dd6247a73f8f7a32c14c33"
+ SRC_URI = "${BASE_SRC_URI} \
+            file://fix_cross_manpage_building.patch \
 -- 
 1.7.10.4
 
