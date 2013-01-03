@@ -1,39 +1,26 @@
-Received: from mail-vb0-f53.google.com ([209.85.212.53])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tqstl-00068Z-CV
+	(envelope-from <sgw@linux.intel.com>) id 1TqtFT-0006S2-Tt
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 23:04:25 +0100
-Received: by mail-vb0-f53.google.com with SMTP id b23so15946547vbz.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 13:49:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=fDkmM9KUPJ8/eCkH8Zd/ENF5ed/eCIJxWpPKsGQ9LhA=;
-	b=T95SnScVGJRRvyuhr/RKsGw8R9xuRpfW1vqmJxqIuC4vaH8lc/mB6N70iT/0vzAlGc
-	IIhwyVCTHfAP43a3oqOy/bwHUOWIp14b6OWVcfeNRrCn5qknpj8rlQ2bNOHPdGYCuJ5U
-	FHVuGsaX/5jOCyb+SxyQvbE7gYuH67l6pSxvDhlF8rtyi49VqOPSXNOMp+F0PFdmjeu1
-	SYHxrwYjvXLiQ2Qr5iIOmis6pOMwspA0cZZCauj/tQ8B8NnvMJof50pi01p5R8An3vFQ
-	d2/GuMA3uLBpj8rvt74mgy85FqkJ77L5VQHg2GdCI2yxYG+6x/74fx7norzfq0YwOmfu
-	BiUw==
+	Thu, 03 Jan 2013 23:26:52 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Jan 2013 14:11:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,405,1355126400"; d="scan'208";a="241801349"
+Received: from unknown (HELO [10.255.14.41]) ([10.255.14.41])
+	by orsmga001.jf.intel.com with ESMTP; 03 Jan 2013 14:11:30 -0800
+Message-ID: <50E601F9.7010705@linux.intel.com>
+Date: Thu, 03 Jan 2013 14:11:05 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.49.130 with SMTP id u2mr77989742ven.0.1357249760881; Thu,
-	03 Jan 2013 13:49:20 -0800 (PST)
-Received: by 10.58.80.2 with HTTP; Thu, 3 Jan 2013 13:49:20 -0800 (PST)
-In-Reply-To: <160EE236CFD44F58901B43D12D55934D@intel.com>
-References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-2-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-3-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-4-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-5-git-send-email-cazfi74@gmail.com>
-	<1357245391-11055-6-git-send-email-cazfi74@gmail.com>
-	<160EE236CFD44F58901B43D12D55934D@intel.com>
-Date: Thu, 3 Jan 2013 23:49:20 +0200
-Message-ID: <CAF6bG8eM827RGkAYvV_xwFx7MBy25OLS=kqYwHthNrDHGpRLYQ@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+References: <1356662690-16034-1-git-send-email-cazfi74@gmail.com>
+	<1356662690-16034-2-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1356662690-16034-2-git-send-email-cazfi74@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 05/15] popt: disable tests
+Subject: Re: [PATCH] icu: update to upstream version 50.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,27 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 22:04:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 03 Jan 2013 22:26:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 3 January 2013 23:22, Ross Burton <ross.burton@intel.com> wrote:
-> On Thursday, 3 January 2013 at 20:36, Marko Lindqvist wrote:
->> Use of $(top_srcdir) in TESTS is an error causing automake-1.13
->> to abort. Disable the tests completely.
->> +Upstream-status: Not sent
+On 12/27/2012 06:44 PM, Marko Lindqvist wrote:
+> This seems to fix HarfBuzz compile problems.
 >
-> Is the real fix as simple as removing the $(top_srcdir) line, or is there a more complicate reason as to why we can't fix this properly and submit it upstream?
+Just found a problem with this in my testing:
+
+> | configure:3983: error: No such directory /home/sgw/yocto/builds/world/tmp/sysroots/x86_64-linux/usr/share/icu/50.1.1 supplied as the argument to --with-cross-build. Use an absolute path.
+
+Seems that icu lays down a /usr/share/icu/50.1 directory, not a ${PV}, 
+so this needs a little work.
+
+I am still testing with HaftBuzz, I saw one issue with building it that 
+I need to investigate further.
+
+Sau!
+> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+> ---
+>   meta/recipes-support/icu/icu_50.1.1.bb |   11 +++++++++++
+>   meta/recipes-support/icu/icu_50.1.bb   |   11 -----------
+>   2 files changed, 11 insertions(+), 11 deletions(-)
+>   create mode 100644 meta/recipes-support/icu/icu_50.1.1.bb
+>   delete mode 100644 meta/recipes-support/icu/icu_50.1.bb
 >
-> Ross
-
- No, it's not that simple. Actually need to use $(top_srcdir) just
-indicates the real problem, which is that test script lives in
-srctree. Given that fix to problems of that category easily take
-significant amount of work, and oe does not need the tests, I think
-it's ok to leave these to upstream (should file bugreports, of
-course).
-
-
- - ML
+> diff --git a/meta/recipes-support/icu/icu_50.1.1.bb b/meta/recipes-support/icu/icu_50.1.1.bb
+> new file mode 100644
+> index 0000000..26b086f
+> --- /dev/null
+> +++ b/meta/recipes-support/icu/icu_50.1.1.bb
+> @@ -0,0 +1,11 @@
+> +require icu.inc
+> +
+> +LIC_FILES_CHKSUM = "file://../license.html;md5=4ee45701e87d34303281978e3b78ecda"
+> +
+> +PR = "r0"
+> +
+> +BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-50_1_1-src.tgz"
+> +SRC_URI = "${BASE_SRC_URI}"
+> +
+> +SRC_URI[md5sum] = "c721c2e0c8f86975ccea620d09aedc81"
+> +SRC_URI[sha256sum] = "a6f426e3c04749c74bcb9d2ce229f905de88deda2353db2249f2e96fe604df8f"
+> diff --git a/meta/recipes-support/icu/icu_50.1.bb b/meta/recipes-support/icu/icu_50.1.bb
+> deleted file mode 100644
+> index 8f65c6d..0000000
+> --- a/meta/recipes-support/icu/icu_50.1.bb
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -require icu.inc
+> -
+> -LIC_FILES_CHKSUM = "file://../license.html;md5=4ee45701e87d34303281978e3b78ecda"
+> -
+> -PR = "r1"
+> -
+> -BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/50.1/icu4c-50_1-src.tgz"
+> -SRC_URI = "${BASE_SRC_URI}"
+> -
+> -SRC_URI[md5sum] = "cf7bf9e56aa6c2057a8b6f464046483e"
+> -SRC_URI[sha256sum] = "68592b3c07d9b86100f41d0172eb1a81f3ffb2a8fef1104d7395099079ba7350"
+> \ No newline at end of file
+>
 
 
