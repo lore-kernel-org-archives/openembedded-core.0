@@ -1,39 +1,40 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TqjUm-0005HT-F2
+	(envelope-from <ross.burton@intel.com>) id 1TqjZk-0005Od-SB
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Jan 2013 13:02:09 +0100
-Received: from mail-ee0-f69.google.com ([74.125.83.69])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 03 Jan 2013 03:46:54 -0800
-Received: by mail-ee0-f69.google.com with SMTP id d41so14042599eek.8
+	Thu, 03 Jan 2013 13:07:09 +0100
+Received: from mail-yh0-f71.google.com ([209.85.213.71])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 03 Jan 2013 03:52:03 -0800
+Received: by mail-yh0-f71.google.com with SMTP id 22so6803452yhr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 03:46:52 -0800 (PST)
+	Thu, 03 Jan 2013 03:52:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=8/5LI5QjCMjX0QaawZ7mGQKZdjMZ0Zy615cliB7gLN4=;
-	b=UpY0WlcLx8UvgCqJmrRL6FC9MPAWJ2rhJKhQgjFNrhHpTWEnmWPzE97F7wA4PVi+vT
-	Ngox5HNglx1qOBRMWp4IzaQpzZx2uyeT0mDDlrZS5yFbwRAuPUMrFT8tgtArJ5Q13VUH
-	93Qjjt1O8hv6xduT36RZITKgzfc290tSjC9oKrn+NG1OzELe4Cs7wcTAyE7trdgCGdUc
-	o81HICOHi6AYl3tXMghmJKoeTTXPXj8rcM9fUn2P1PdnFE0T3XMsS/plEJdWoivDV9xg
-	9e4xZy0afVUabYwebjzatBN70ClmaH8l8W6vm7Si8LZSfenBBkUj/amd8BjgTIoMfD3Q
-	MPtg==
-X-Received: by 10.180.24.70 with SMTP id s6mr76193210wif.22.1357213611955;
-	Thu, 03 Jan 2013 03:46:51 -0800 (PST)
-X-Received: by 10.180.24.70 with SMTP id s6mr76193178wif.22.1357213611620;
-	Thu, 03 Jan 2013 03:46:51 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id hg17sm89143210wib.1.2013.01.03.03.46.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Jan 2013 03:46:50 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Jan 2013 11:44:53 +0000
-Message-Id: <1357213493-25506-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnE8U4z863QFF1AwTFUcDykNkff9PTuwf1gzL2QD3siGlvB52I09aSqNl86atT0AMmL9Z+EQT/LhKy88ygpCkR+bMvvQZCyON4O9vPdBCzEusLdd8uRoYanwWEabTw0Wv1xMPhcoceoQaMKYlW08IN5k1/IHrD4CjwUDO5Ao0Q9Ck041YHrDyNDvOuARas4GloDztzv
-Subject: [PATCH] gtk+: add native class
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=ywt2vOR89+X1ZTti36TzgDIqUSkBlxkJjhBsgvW+RqQ=;
+	b=SwGQRsGydM3ll24bXr7tBJ8IZgCZGNevXmWZLPe0T3yqTgNmr1rU3oRc7R/Mk+ItH7
+	YrAFyFQzU8bW2wPOEVzCUFx+GhMQy5qRBlvkxCegYvbbNnN5wxGgrZYaPUQoHUn6BD/Y
+	T+OQ2FIsgIU4II8ecxjSGVMtYiUst5x7AzGheIoPivojTBBw5335UsvZD5Cqa0Rur/vM
+	NnFUeEaZj2qxLTZW5NrTbNLiNc12/GQ5+Rcg9WgXzgSviqbbYKFIjm1kz+sX4i0maH0k
+	eWLsudwwoSKE4n8EY4vM0hyKiYA/PjxROZ/kc5zQj+MYy3WBIZ2g9pA1itSHXI7/6qgZ
+	m8RQ==
+X-Received: by 10.58.198.164 with SMTP id jd4mr75860732vec.34.1357213923092;
+	Thu, 03 Jan 2013 03:52:03 -0800 (PST)
+Received: by 10.58.198.164 with SMTP id jd4mr75860727vec.34.1357213923012;
+	Thu, 03 Jan 2013 03:52:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.103 with HTTP; Thu, 3 Jan 2013 03:51:42 -0800 (PST)
+In-Reply-To: <1356947154.28649.21.camel@ted>
+References: <cover.1356626500.git.sgw@linux.intel.com>
+	<1356947154.28649.21.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Jan 2013 11:51:42 +0000
+Message-ID: <CAJTo0Laa5CJzuEOCpZ_ksXf-fxCdQWKfEOJBTtwJD-9FLeGnBw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQndQHu/pCgWyUL3fHPGJ0OXkE6+cPtbYEldxsOkeGx0TVTOwu2o+hEdT9Wsbg9Ub8C0E+7IWwjmimaGtizchGbqW6mnv27GyWXs1c+F0VABU/vlIt0mgxqhftsPxDcxjBkGnuyezSvvK9H5YjuZuNI+BVqNoEA7TaSe3deTZY1xZPtMtjvz3LTOalJReqEsYavrzva8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/26] Next batch, mostly updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,30 +47,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Jan 2013 12:02:10 -0000
+X-List-Received-Date: Thu, 03 Jan 2013 12:07:09 -0000
+X-List-Received-Date: Thu, 03 Jan 2013 12:07:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-It's easiest to bootstrap GTK+ 3 using a native GTK+ 2.
+On 31 December 2012 09:45, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> Noor Ahsan (1):
+>>   cairo: Adds libxext in X11DEPENDS.
+>
+> No, we shouldn't be depending on libxext. Ross will not be happy about
+> this. See Ross. Ideally we shouldn't have libxext in the images at all.
 
-(Patch taken from meta-oe)
+Cairo actually uses Xext, because that's where the SHM headers are.  I
+suspect you're thinking of libXt, which as you say should almost never
+be pulled in.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gtk+/gtk+_2.24.14.bb |    3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
-index 553196a..a6e705b 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.14.bb
-@@ -60,3 +60,6 @@ python populate_packages_prepend () {
-     if (d.getVar('DEBIAN_NAMES', True)):
-         d.setVar('PKG_${PN}', '${MLPREFIX}libgtk-2.0')
- }
-+
-+BBCLASSEXTEND = "native"
-+RRECOMMENDS_${PN}_virtclass-native = ""
--- 
-1.7.10
-
+Ross
 
 
