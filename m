@@ -1,35 +1,35 @@
-Received: from mail-vc0-f170.google.com ([209.85.220.170])
+Received: from mail-la0-f43.google.com ([209.85.215.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tqx5i-0004Ho-Eh
+	(envelope-from <cazfi74@gmail.com>) id 1Tr1LY-0005m5-3J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 03:33:13 +0100
-Received: by mail-vc0-f170.google.com with SMTP id fl11so16167499vcb.15
+	Fri, 04 Jan 2013 08:05:47 +0100
+Received: by mail-la0-f43.google.com with SMTP id eg20so9284788lab.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Jan 2013 18:17:57 -0800 (PST)
+	Thu, 03 Jan 2013 22:50:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=MabUC4HI5P9ovi3ntXnUM/nBHJX34dg8xjnfd92XF78=;
-	b=t0t8PYY6MZjX6L2JzTXYMWUOIAfeHwY9WhiPHNoJzHD2PF4OpAK5UlxoDq6QHMBboN
-	9LWHocm570mxMoQI+xFJkUQ/CzkzZ/gIddAuo2/4c0oGLqky9Hs/bAEocjL3ZTVM9bdb
-	Ljq1Vd8awZKYc34pI5ujDehgNww3hNXwSgzgS9iRW8yE6BPT/miCwoKxuh9FH1nKbT6x
-	G3uwLA2bxYHAjCF4+g/GE4Z+APNMh+ySK737kIWLLM/JEi55nqBCKW/kAW9H65fVSwhF
-	Zi3fCi1SbOoWY/m8hMwFjMOEQ6rfgn0zMYtribKGeU0NAxx9vBbf72wR/HPXQ+Aasxec
-	OjnA==
-MIME-Version: 1.0
-Received: by 10.220.218.197 with SMTP id hr5mr74106351vcb.8.1357265877610;
-	Thu, 03 Jan 2013 18:17:57 -0800 (PST)
-Received: by 10.58.80.2 with HTTP; Thu, 3 Jan 2013 18:17:57 -0800 (PST)
-In-Reply-To: <50E601F9.7010705@linux.intel.com>
-References: <1356662690-16034-1-git-send-email-cazfi74@gmail.com>
-	<1356662690-16034-2-git-send-email-cazfi74@gmail.com>
-	<50E601F9.7010705@linux.intel.com>
-Date: Fri, 4 Jan 2013 04:17:57 +0200
-Message-ID: <CAF6bG8f5d8GbkRtT2L8ZS4ZCJ0n6FUByyZAcJ=M5V-oH5HnxXQ@mail.gmail.com>
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=wIKvwhSZ2jIhdeK6QAffsereFcd4s1bInb462RkFC+4=;
+	b=ZK9ODE7j9hjHBGEpuHilUp214LlclAL20n3NbixSoDcoiZ0hOjIMLh/sHjMrSXBdlx
+	bwH2MKWEOSGOlYBhh+EX+Uvffjyp5veAPwi1IlVT1ysqFrLyQ62IHkoU+IkFRZ+fheLv
+	lKZ2sKEbLxXQj+9P0rFZA0kpnhDkcI2UgMkmyLtq2/sjmrm/h7ugPBMhMxI7V2nET2S8
+	9uM2AVPH1iPJtCN4na0QjWT3+c4whfiEtQ8wmVHF5EukXLhQgh3kRflOvkuMAueXGVXr
+	rbC69HGN5RpHorxPvrxoQJ8SP6LDxyNvaBkZu2WCuhe+0mLoFh5NsbAYnBiLsYsE0zAJ
+	74Tg==
+X-Received: by 10.112.103.202 with SMTP id fy10mr20646962lbb.13.1357282235244; 
+	Thu, 03 Jan 2013 22:50:35 -0800 (PST)
+Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
+	by mx.google.com with ESMTPS id fe4sm17639650lbb.1.2013.01.03.22.50.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 Jan 2013 22:50:34 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1Tr16u-0006i3-05; Fri, 04 Jan 2013 08:50:32 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] icu: update to upstream version 50.1.1
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Jan 2013 08:50:30 +0200
+Message-Id: <1357282231-25713-1-git-send-email-cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] libxdamage: update to upstream version 1.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,34 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 02:33:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Jan 2013 07:06:09 -0000
+X-List-Received-Date: Fri, 04 Jan 2013 07:06:09 -0000
 
-On 4 January 2013 00:11, Saul Wold <sgw@linux.intel.com> wrote:
-> On 12/27/2012 06:44 PM, Marko Lindqvist wrote:
->>
->> This seems to fix HarfBuzz compile problems.
->>
-> Just found a problem with this in my testing:
->
->> | configure:3983: error: No such directory
->> /home/sgw/yocto/builds/world/tmp/sysroots/x86_64-linux/usr/share/icu/50.1.1
->> supplied as the argument to --with-cross-build. Use an absolute path.
->
-> Seems that icu lays down a /usr/share/icu/50.1 directory, not a ${PV}, so
-> this needs a little work.
+Compatible with automake-1.13.
 
- Can you tell anything more about the situation where this came up? I
-tried to reproduce, but icu-native build created, and icu build used
-.../icu/50.1.1/... just right.
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ .../xorg-lib/{libxdamage_1.1.3.bb => libxdamage_1.1.4.bb}        |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxdamage_1.1.3.bb => libxdamage_1.1.4.bb} (86%)
 
- Was that with already populated tree where just the icu update patch
-had been applied? I'm guessing if icu-native and icu builds somehow
-happened concurrently, and icu-native was not ready by the time icu
-needed it. Then that 50.1 directory you saw could be leftover from
-earlier version.
+diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
+similarity index 86%
+rename from meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
+index dfc2425..deea451 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
+@@ -20,10 +20,10 @@ DEPENDS += "virtual/libx11 damageproto libxfixes"
+ PROVIDES = "xdamage"
+ BBCLASSEXTEND = "native"
+ 
+-PR = "r1"
++PR = "r0"
+ PE = "1"
+ 
+ XORG_PN = "libXdamage"
+ 
+-SRC_URI[md5sum] = "44774e1a065158b52f1a0da5100cebec"
+-SRC_URI[sha256sum] = "bc6169c826d3cb17435ca84e1b479d65e4b51df1e48bbc3ec39a9cabf842c7a8"
++SRC_URI[md5sum] = "0cf292de2a9fa2e9a939aefde68fd34f"
++SRC_URI[sha256sum] = "7c3fe7c657e83547f4822bfde30a90d84524efb56365448768409b77f05355ad"
+-- 
+1.7.10.4
 
-
- - ML
 
 
