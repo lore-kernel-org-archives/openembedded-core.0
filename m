@@ -1,36 +1,40 @@
-Received: from mail-oa0-f41.google.com ([209.85.219.41])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Tr2w7-0000f9-46
+	(envelope-from <ross.burton@intel.com>) id 1Tr5I7-0003hU-68
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 09:47:37 +0100
-Received: by mail-oa0-f41.google.com with SMTP id k14so14999583oag.0
+	Fri, 04 Jan 2013 12:18:52 +0100
+Received: from mail-vb0-f69.google.com ([209.85.212.69])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 04 Jan 2013 03:03:16 -0800
+Received: by mail-vb0-f69.google.com with SMTP id ff20so24629520vbb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Jan 2013 00:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=bGmNMK8hPiiCRB2UumoY8YyMMGC0xylHDx95A60WPWA=;
-	b=xhENUxyhEGJ1s/wK+0/VofobiWTrqIRu5Hx1RN6mosQW9A3w8ze7OKWUUSw496uKdi
-	9XB+5bqYGYnZ6+/tKon59IbN4SXpnnbcVOhGCziFyf9A9XTnTsgjgfIdSk6Hem5fgqqp
-	FI81BjF0ndNy+xraSYxRi4GkLK0WPeafG7y3mgAYmDYvExqtsw8mkm1C3hJASpTkMMX/
-	wcYlopU7md6jq9hMWWxYU7lQR0m5pzyJIOibTXVUUva2Fq1mx/i0TtsUuj4uhbERjLNh
-	FbepDKMg15P/OL5SazCfysVX+vbUsRX5kN1SPAFon3WOvBle1GULQA+Sj0WFQnco2Iiy
-	bRFg==
+	Fri, 04 Jan 2013 03:03:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=SRBS/LhpeXK8kYQGBPIExx3VZMe+FjYtrK7SZ1OAKnk=;
+	b=V3N2AOsTnUOD8g/ofudaS075njwrYlqMJ2sU3g0dm2BkiqyGvJwSiK9usEQTotfwSs
+	ccjHztTY1Mc+QOPV8dAyAIELwQSGj1NOua4Fj5jvKph9wAOzW0L/3gr/w6sgluPdnaFJ
+	T+TPQwa02GQEpdDLCLT7w4dbUAUVyjW+GE11xV31QisUcCEjWJgq16rjglq9m7tuiff4
+	rKgmA2Ay8OvRVmRFYzYqNzZPscqcRGKc+yi0fRlltGao5tyePrs8GlS5RqVN2UnaQoqO
+	xUeDUcy3gsFiYR8auk/UZWv+64Ziwi6zPVfIsP5pFbQCyuEZn3jQIyEDfvjc44tA7lAo
+	NOJg==
+X-Received: by 10.52.35.20 with SMTP id d20mr66599433vdj.50.1357297396062;
+	Fri, 04 Jan 2013 03:03:16 -0800 (PST)
+Received: by 10.52.35.20 with SMTP id d20mr66599429vdj.50.1357297395972; Fri,
+	04 Jan 2013 03:03:15 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.60.31.206 with SMTP id c14mr28748395oei.88.1357288345747; Fri,
-	04 Jan 2013 00:32:25 -0800 (PST)
-Received: by 10.60.8.39 with HTTP; Fri, 4 Jan 2013 00:32:25 -0800 (PST)
-In-Reply-To: <2128976.L3Pq5tyagE@helios>
-References: <CAOHjBZvW_wovoRDXuk=sbc-sgf64zLjsZYwDv+1UnXgkrLE_Nw@mail.gmail.com>
-	<alpine.DEB.2.02.1212141209200.9553@oneiric>
-	<CAOHjBZsawyuAo4zrzoSd3R5GypV=BiNEHc-JD5STmz1mR80G3Q@mail.gmail.com>
-	<2128976.L3Pq5tyagE@helios>
-Date: Fri, 4 Jan 2013 09:32:25 +0100
-Message-ID: <CAOHjBZunBu-nLUcJzVJMBj6VDHFnRKGVWHtZ5n0PEXa4mBbHaQ@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Received: by 10.58.95.103 with HTTP; Fri, 4 Jan 2013 03:02:55 -0800 (PST)
+In-Reply-To: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
+References: <cover.1356342794.git.alexandru.damian@intel.com>
+	<bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Jan 2013 11:02:55 +0000
+Message-ID: <CAJTo0LaFR3DZWN=x-wk1s2xyyDAmdFKzvzTbmgrwfX+z2=e4zQ@mail.gmail.com>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+X-Gm-Message-State: ALoCoQkHfBqT0dRj1AkwfXuQKEYhorCrJrGH3Zp7bh1N1Ql/WslEtIq+M35VoIBiALcXOt1sVCa4lnxHVaV1kFRkf5GV6V4rggaVtQjz1d54jLSjMwvMsoiGnHW/zo+r9cG9Cfq+zE+KAXfxb/txV1ZKW8gKO5gTRmLZ5rmNlc/aXaU5QTZTu4pWjlAWFATUV2Myzu7IQ9sW
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: gcc-4.7.inc wrong FILESPATH setting?
+Subject: Re: [PATCH 1/3] Wayland userspace library initial 1.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,226 +47,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 08:48:01 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff252e0b4c26f04d27251b9
-
---e89a8ff252e0b4c26f04d27251b9
+X-List-Received-Date: Fri, 04 Jan 2013 11:18:53 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Paul and all,
+On 24 December 2012 09:57, Alex DAMIAN <alexandru.damian@intel.com> wrote:
+> +do_install_append() {
+> +  sed -i -e '4,10s,prefix=.*$,prefix=${D}/${prefix},;4,10s,exec_prefix=,exec_prefix=${D}/${exec_prefix},' \
+> +    ${D}/${datadir}/aclocal/wayland-scanner.m4
+> +}
 
-coming back to this discussion....
-It seems that setting FILESPATH in the gcc .inc file doesn't allow system
-to recognize the FILESEXTRAPATHS_prepend setting in the append file.
-I'm wondering if you can test this scenario, maybe creating a gcc append
-recipe to add a dummy file in the SRC_URI list.
+You can suffix this with _class-native to show/ensure that it's only
+intended for the native case.
 
-Cheers,
-Giuseppe
-2012/12/19 Paul Eggleton <paul.eggleton@linux.intel.com>
+The use of addresses seems fragile, would it be safer to inject the
+paths pre-configure when @prefix@ is easily replaceable?  Thinking
+about it, why are the paths wrong in the first place?
 
-> On Monday 17 December 2012 14:51:59 Giuseppe Condorelli wrote:
-> > 2012/12/14 Robert P. J. Day <rpjday@crashcourse.ca>
-> >
-> > > On Fri, 14 Dec 2012, Giuseppe Condorelli wrote:
-> > > > 2012/12/14 Robert P. J. Day <rpjday@crashcourse.ca>
-> > > >
-> > > >       On Fri, 14 Dec 2012, Marko Kati=C4=87 wrote:
-> > > >       > On Fri, 2012-12-14 at 17:41 +0100, Giuseppe Condorelli wrot=
-e:
-> > > >       > > Hi All,
-> > > >       > >
-> > > >       > > I've seen that, in the given .inc file, the FILESPATH is
-> > >
-> > > statically
-> > >
-> > > >       > > set to
-> > > >       > >
-> > > >       > > FILESPATH =3D "${FILE_DIRNAME}/gcc-4.7"
-> > > >       > >
-> > > >       > > This seems to avoid any FILESEXTRAPATHS_prepend usage on
-> > >
-> > > append file.
-> > >
-> > > >       > > I need to add further patches for gcc-4.7.2 in my own met=
-a
-> > >
-> > > layer but
-> > >
-> > > >       > > if I set the FILESEXTRAPATHS_prepend as usual
-> > > >       > > nothing happens, sources are taken only from the director=
-y
-> set
-> > >
-> > > by
-> > >
-> > > >       > > FILESPATH.
-> > > >       > > Also I saw this setting was different in the past
-> > > >       > >
-> > > >       > > FILESPATH =3D "${@base_set_filespath([
-> '${FILE_DIRNAME}/gcc-4.7'
-> > >
-> > > ], d)}"
-> > >
-> > > >   i'm fairly sure i posted on this recently.  base.bbclass
-> > > >
-> > > > *explicitly* sets FILESPATH to a set of variations thusly:
-> > > >
-> > > > FILESPATH =3D "${@base_set_filespath(["${FILE_DIRNAME}/${BP}",
-> > >
-> > > "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
-> > >
-> > > > which works fine with the recipes in the underlying oe-core layer.
-> > > >
-> > > >   however, when you use FILESEXTRAPATHS_prepend, you get additional
-> > > >
-> > > > directories based on *only* the name you specify.  so if you do:
-> > > >
-> > > > FILESEXTRAPATHS_prepend :=3D "${THISDIR}/${PN}:"
-> > > >
-> > > > are you thinking you should also get all variations of "gcc-4.7"?
-> > > > because that's not what's going to happen.
-> > > >
-> > > > I'm sorry, I've not catched your last sentence. I set (as in the
-> > > > past) the FILESEXTRAPATHS_prepend :=3D "${THISDIR}/files:"
-> > > > also updating the SRC_URI inside the .bbappend file to use the
-> > > > sources available in the gcc directory available in my own layer.
-> > > >
-> > >   did you also set THISDIR just above that?
-> >
-> > No, I don't set it. Is it necessary now?
->
-> No, THISDIR is set automatically, you should not set it yourself.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
+Wouldn't STAGING_DIR_NATIVE be more correct than D?
 
---e89a8ff252e0b4c26f04d27251b9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Ross
 
-<div>Hi Paul and all,</div><div>=C2=A0</div><div>coming back to this discus=
-sion....</div><div>It seems that setting FILESPATH in the gcc .inc file doe=
-sn&#39;t allow system to recognize the FILESEXTRAPATHS_prepend setting in t=
-he append file.</div>
-<div>I&#39;m wondering if you can test this scenario, maybe creating a gcc =
-append recipe to add a dummy file in the SRC_URI list.</div><div>=C2=A0</di=
-v><div>Cheers,</div><div>Giuseppe<br></div><div class=3D"gmail_quote">2012/=
-12/19 Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@l=
-inux.intel.com" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</sp=
-an><br>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote"><div class=3D"HOEnZb"><div class=3D"h5">On Monday 17 Decem=
-ber 2012 14:51:59 Giuseppe Condorelli wrote:<br>
 
-&gt; 2012/12/14 Robert P. J. Day &lt;<a href=3D"mailto:rpjday@crashcourse.c=
-a">rpjday@crashcourse.ca</a>&gt;<br>
-&gt;<br>
-&gt; &gt; On Fri, 14 Dec 2012, Giuseppe Condorelli wrote:<br>
-&gt; &gt; &gt; 2012/12/14 Robert P. J. Day &lt;<a href=3D"mailto:rpjday@cra=
-shcourse.ca">rpjday@crashcourse.ca</a>&gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 On Fri, 14 Dec 2012, Marko Kati=C4=87 w=
-rote:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; On Fri, 2012-12-14 at 17:41 +0100,=
- Giuseppe Condorelli wrote:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; Hi All,<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; I&#39;ve seen that, in the gi=
-ven .inc file, the FILESPATH is<br>
-&gt; &gt;<br>
-&gt; &gt; statically<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; set to<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; FILESPATH =3D &quot;${FILE_DI=
-RNAME}/gcc-4.7&quot;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; This seems to avoid any FILES=
-EXTRAPATHS_prepend usage on<br>
-&gt; &gt;<br>
-&gt; &gt; append file.<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; I need to add further patches=
- for gcc-4.7.2 in my own meta<br>
-&gt; &gt;<br>
-&gt; &gt; layer but<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; if I set the FILESEXTRAPATHS_=
-prepend as usual<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; nothing happens, sources are =
-taken only from the directory set<br>
-&gt; &gt;<br>
-&gt; &gt; by<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; FILESPATH.<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; Also I saw this setting was d=
-ifferent in the past<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 &gt; &gt; FILESPATH =3D &quot;${@base_s=
-et_filespath([ &#39;${FILE_DIRNAME}/gcc-4.7&#39;<br>
-&gt; &gt;<br>
-&gt; &gt; ], d)}&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 i&#39;m fairly sure i posted on this recently. =C2=A0=
-base.bbclass<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; *explicitly* sets FILESPATH to a set of variations thusly:<b=
-r>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; FILESPATH =3D &quot;${@base_set_filespath([&quot;${FILE_DIRN=
-AME}/${BP}&quot;,<br>
-&gt; &gt;<br>
-&gt; &gt; &quot;${FILE_DIRNAME}/${BPN}&quot;, &quot;${FILE_DIRNAME}/files&q=
-uot;], d)}&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; which works fine with the recipes in the underlying oe-core =
-layer.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; =C2=A0 however, when you use FILESEXTRAPATHS_prepend, you ge=
-t additional<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; directories based on *only* the name you specify. =C2=A0so i=
-f you do:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; FILESEXTRAPATHS_prepend :=3D &quot;${THISDIR}/${PN}:&quot;<b=
-r>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; are you thinking you should also get all variations of &quot=
-;gcc-4.7&quot;?<br>
-&gt; &gt; &gt; because that&#39;s not what&#39;s going to happen.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I&#39;m sorry, I&#39;ve not catched your last sentence. I se=
-t (as in the<br>
-&gt; &gt; &gt; past) the FILESEXTRAPATHS_prepend :=3D &quot;${THISDIR}/file=
-s:&quot;<br>
-&gt; &gt; &gt; also updating the SRC_URI inside the .bbappend file to use t=
-he<br>
-&gt; &gt; &gt; sources available in the gcc directory available in my own l=
-ayer.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; =C2=A0 did you also set THISDIR just above that?<br>
-&gt;<br>
-&gt; No, I don&#39;t set it. Is it necessary now?<br>
-<br>
-</div></div>No, THISDIR is set automatically, you should not set it yoursel=
-f.<br>
-<br>
-Cheers,<br>
-Paul<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</font></span></blockquote></div><br>
-
---e89a8ff252e0b4c26f04d27251b9--
