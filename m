@@ -1,41 +1,20 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tr9Jx-0006LQ-Ec
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Tr9QE-0001n6-QK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 16:36:34 +0100
-Received: from mail-gg0-f198.google.com ([209.85.161.198])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 04 Jan 2013 07:21:26 -0800
-Received: by mail-gg0-f198.google.com with SMTP id f4so25084041ggn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Jan 2013 07:21:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=mVkcLIKIkjn6lwxoY/sdSc9TSpM4xpAT/CPwPWMY6S8=;
-	b=FQtERB2AIE1T3gwZ8eEg0ktrn3pwwa4nhY0KxPuBVIisc7Na3cXoz9qsHjFWZRhy2e
-	WHUE4AvMBMbKxx5QtsWtvbrVBAfBUbU+bLPN+Qev5GeOB4A5A+4/pC8DoKKQ6SzNZQMR
-	/6AeLRvnz9T3bvAXAL67Ggd3zrsRqLgjcVYhTSNODe7Rt+166ksZH4NaLAfuQLwxnUZt
-	llblonrEM2+cM04SSo5Gp8t/JwD8LoE/qoI8kq+xmuIqdO5Uh8atS6/chtArssHuRMCP
-	vLqKlItEDlRR5YVRHWjwTQmaHDe2lOZ4yjNcRtaSzpDdcAsQRkDvZNWSW66lvG0mJBDi
-	WSJw==
-X-Received: by 10.52.31.197 with SMTP id c5mr67019912vdi.65.1357312885285;
-	Fri, 04 Jan 2013 07:21:25 -0800 (PST)
-Received: by 10.52.31.197 with SMTP id c5mr67019908vdi.65.1357312885199; Fri,
-	04 Jan 2013 07:21:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Fri, 4 Jan 2013 07:21:05 -0800 (PST)
-In-Reply-To: <CAJTo0LYHjwXvQLXvbVkO4Bc5gkr58DCrcbRndairRoLCNNZ-MQ@mail.gmail.com>
-References: <cover.1356342794.git.alexandru.damian@intel.com>
-	<b81c825c2737a2042ed7a99796752d12b1576725.1356342794.git.alexandru.damian@intel.com>
-	<CAJTo0LYHjwXvQLXvbVkO4Bc5gkr58DCrcbRndairRoLCNNZ-MQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Jan 2013 15:21:05 +0000
-Message-ID: <CAJTo0LYN=_Ya+kwCPfNuAcRWPSyyKvony-6kK8ZOZmYdASuS3g@mail.gmail.com>
-To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQkjCbhB8VJmG4e5rs7ir3zrFPunW86a8Dm3ypLFdmQ6VykJCM9oj8M1k7dYG+iMlqrQ1BvMq01cwJyGt6sgbG1wG7acvntjtSJtHFiLGmlzN5zwT7JoWbeWclA2QNlYZd/b3UHzYU9RPSkejzSmHB6n+i+LQoNRf9V08e5QiTFFXOwgZOolmchnViCH6eY0Li8xmVJs
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
+	Fri, 04 Jan 2013 16:43:13 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 04 Jan 2013 07:26:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,411,1355126400"; d="scan'208";a="239962251"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by azsmga001.ch.intel.com with ESMTP; 04 Jan 2013 07:26:45 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Jan 2013 17:29:54 +0200
+Message-Id: <1357313394-28894-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] oprofile: updated to 0.9.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,24 +27,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 15:36:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Jan 2013 15:43:14 -0000
 
-On 4 January 2013 11:04, Burton, Ross <ross.burton@intel.com> wrote:
-> On 24 December 2012 09:57, Alex DAMIAN <alexandru.damian@intel.com> wrote:
->> +PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm libgbm libglapi udev wayland-egl libpam"
->
-> "libgbm libglapi wayland-egl" aren't valid source recipes, just use "mesa-dri".
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ meta/recipes-kernel/oprofile/oprofile.inc          |    3 +-
+ .../oprofile/oprofile/fix-bfd-include.patch        |   66 --------------------
+ .../recipes-kernel/oprofile/oprofile/opstart.patch |   29 ++++-----
+ meta/recipes-kernel/oprofile/oprofile_0.9.7.bb     |   11 ----
+ meta/recipes-kernel/oprofile/oprofile_0.9.8.bb     |   11 ++++
+ 5 files changed, 27 insertions(+), 93 deletions(-)
+ delete mode 100644 meta/recipes-kernel/oprofile/oprofile/fix-bfd-include.patch
+ delete mode 100644 meta/recipes-kernel/oprofile/oprofile_0.9.7.bb
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
 
-Ignore that.  They're still not valid source recipes, but I've dug
-into how Wayland on the PandaBoard works and we should enable that to
-work in meta-ti without much effort.
+diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
+index 23ddb14..9bbd2ef 100644
+--- a/meta/recipes-kernel/oprofile/oprofile.inc
++++ b/meta/recipes-kernel/oprofile/oprofile.inc
+@@ -19,12 +19,11 @@ FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*${SOLIBS} ${datadir}/${BPN}"
+ FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
+ FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
+ 
+-INC_PR = "r2"
++INC_PR = "r0"
+ 
+ SRC_URI = "file://opstart.patch \
+            file://oprofile-no-query-modules.patch \
+            file://oprofile-root.patch \
+-           file://fix-bfd-include.patch \
+            file://acinclude.m4"
+ 
+ inherit autotools
+diff --git a/meta/recipes-kernel/oprofile/oprofile/fix-bfd-include.patch b/meta/recipes-kernel/oprofile/oprofile/fix-bfd-include.patch
+deleted file mode 100644
+index 944320f..0000000
+--- a/meta/recipes-kernel/oprofile/oprofile/fix-bfd-include.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-bfd.h now wants to include autotools generated config.h for reasoning read
+-http://sourceware.org/bugzilla/show_bug.cgi?id=14243
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-Index: oprofile-0.9.7/libutil++/bfd_support.h
+-===================================================================
+---- oprofile-0.9.7.orig/libutil++/bfd_support.h	2011-07-04 19:25:04.000000000 -0700
+-+++ oprofile-0.9.7/libutil++/bfd_support.h	2012-12-02 10:51:23.518784249 -0800
+-@@ -11,6 +11,7 @@
+- #ifndef BFD_SUPPORT_H
+- #define BFD_SUPPORT_H
+- 
+-+#include "config.h"
+- #include "utility.h"
+- #include "op_types.h"
+- #include "locate_images.h"
+-Index: oprofile-0.9.7/libopagent/opagent.c
+-===================================================================
+---- oprofile-0.9.7.orig/libopagent/opagent.c	2011-07-04 19:25:04.000000000 -0700
+-+++ oprofile-0.9.7/libopagent/opagent.c	2012-12-02 10:58:10.954804150 -0800
+-@@ -50,6 +50,7 @@
+-  *   See libopagent/Makefile.am for more information.
+-  *******************************************************************/
+- 
+-+#include "config.h"
+- #include <stdio.h>
+- #include <errno.h>
+- #include <string.h>
+-Index: oprofile-0.9.7/libpp/symbol.h
+-===================================================================
+---- oprofile-0.9.7.orig/libpp/symbol.h	2011-07-04 19:25:04.000000000 -0700
+-+++ oprofile-0.9.7/libpp/symbol.h	2012-12-02 10:59:59.434809273 -0800
+-@@ -18,6 +18,7 @@
+- #include "format_flags.h"
+- #include "op_types.h"
+- 
+-+#include "config.h"
+- #include <bfd.h>
+- #include <stdint.h>
+- 
+-Index: oprofile-0.9.7/opjitconv/debug_line.c
+-===================================================================
+---- oprofile-0.9.7.orig/opjitconv/debug_line.c	2011-07-04 19:25:04.000000000 -0700
+-+++ oprofile-0.9.7/opjitconv/debug_line.c	2012-12-02 11:02:26.046816339 -0800
+-@@ -8,6 +8,7 @@
+-  * @author Philippe Elie
+-  */
+- 
+-+#include "config.h"
+- #include <stdint.h>
+- #include <stdlib.h>
+- #include <string.h>
+-Index: oprofile-0.9.7/opjitconv/opjitconv.h
+-===================================================================
+---- oprofile-0.9.7.orig/opjitconv/opjitconv.h	2011-07-04 19:25:04.000000000 -0700
+-+++ oprofile-0.9.7/opjitconv/opjitconv.h	2012-12-02 11:01:25.558813373 -0800
+-@@ -26,6 +26,7 @@
+- #define OP_JIT_CONV_ALREADY_DONE 5
+- #define OP_JIT_CONV_TMPDIR_NOT_REMOVED 6
+- 
+-+#include "config.h"
+- #include <bfd.h>
+- #include <stddef.h>
+- #include <sys/stat.h>
+diff --git a/meta/recipes-kernel/oprofile/oprofile/opstart.patch b/meta/recipes-kernel/oprofile/oprofile/opstart.patch
+index c588deb..0b181b10 100644
+--- a/meta/recipes-kernel/oprofile/oprofile/opstart.patch
++++ b/meta/recipes-kernel/oprofile/oprofile/opstart.patch
+@@ -1,17 +1,18 @@
+-Upstream-Status: Pending
+-
+-Index: oprofile/utils/Makefile.am
+-===================================================================
+---- oprofile.orig/utils/Makefile.am	2005-03-31 18:20:41.000000000 +0100
+-+++ oprofile/utils/Makefile.am	2008-07-02 15:14:07.000000000 +0100
+-@@ -3,8 +3,15 @@
++diff --git a/utils/Makefile.am b/utils/Makefile.am
++index d34b060..dff15f9 100644
++--- oprofile.orig/utils/Makefile.am
+++++ oprofile/utils/Makefile.am
++@@ -7,7 +7,7 @@ AM_LDFLAGS = @OP_LDFLAGS@
+  
+  LIBS=@POPT_LIBS@ @LIBERTY_LIBS@
+  
+--bin_PROGRAMS = ophelp
+-+bin_PROGRAMS = ophelp opstart
++-bin_PROGRAMS = ophelp op-check-perfevents
+++bin_PROGRAMS = ophelp op-check-perfevents opstart
+  dist_bin_SCRIPTS = opcontrol
+  
++ op_check_perfevents_SOURCES = op_perf_events_checker.c
++@@ -15,3 +15,10 @@ op_check_perfevents_CPPFLAGS = ${AM_CFLAGS} @PERF_EVENT_FLAGS@
++ 
+  ophelp_SOURCES = ophelp.c
+  ophelp_LDADD = ../libop/libop.a ../libutil/libutil.a
+ +
+@@ -19,8 +20,8 @@ Index: oprofile/utils/Makefile.am
+ +
+ +install-exec-local:
+ +	cd $(DESTDIR)/$(bindir) && \
+-+		rm -f opstop && \
+-+		$(LN_S) opstart opstop
+++	rm -f opstop && \
+++	$(LN_S) opstart opstop
+ Index: oprofile/utils/opstart.c
+ ===================================================================
+ --- /dev/null	1970-01-01 00:00:00.000000000 +0000
+@@ -136,10 +137,10 @@ Index: oprofile/utils/opstart.c
+ +	return 0;
+ +}
+ +
+-Index: oprofile/configure.in
++Index: oprofile/configure.ac
+ ===================================================================
+---- oprofile.orig/configure.in	2008-07-02 15:13:58.000000000 +0100
+-+++ oprofile/configure.in	2008-07-02 15:17:37.000000000 +0100
++--- oprofile.orig/configure.ac	2008-07-02 15:13:58.000000000 +0100
+++++ oprofile/configure.ac	2008-07-02 15:17:37.000000000 +0100
+ @@ -16,6 +16,7 @@
+  AM_CONFIG_HEADER(config.h)
+  
+diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.7.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.7.bb
+deleted file mode 100644
+index d7e1511..0000000
+--- a/meta/recipes-kernel/oprofile/oprofile_0.9.7.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require oprofile.inc
+-
+-PR = "${INC_PR}.0"
+-
+-SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "8b5d1d9b65f84420bcc3234777ad3be3"
+-SRC_URI[sha256sum] = "cb5b507d5dea058d223fcad3cec8ff9638a4163106afd66d176798bbd973d527"
+-
+-S = "${WORKDIR}/oprofile-${PV}"
+-
+diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
+new file mode 100644
+index 0000000..939c1ba
+--- /dev/null
++++ b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
+@@ -0,0 +1,11 @@
++require oprofile.inc
++
++PR = "${INC_PR}.0"
++
++SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "6d127023af1dd1cf24e15411229f3cc8"
++SRC_URI[sha256sum] = "ab45900fa1a23e5d5badf3c0a55f26c17efe6e184efcf00b371433751fa761bc"
++
++S = "${WORKDIR}/oprofile-${PV}"
++
+-- 
+1.7.10.4
 
-Their binary blob has it's own wayland-egl- and libgbm-compatible
-libraries.  Let's create a new virtual provider virtual/wayland-egl
-which mesa-dri (and the TI drivers) can PROVIDE and weston can DEPEND
-on.
-
-Ross
 
 
