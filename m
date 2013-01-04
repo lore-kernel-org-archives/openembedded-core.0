@@ -1,35 +1,26 @@
-Received: from mail-vc0-f171.google.com ([209.85.220.171])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TrB4M-0008Rd-Jx
+	(envelope-from <sgw@linux.intel.com>) id 1TrBeJ-0006vt-8J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 18:28:36 +0100
-Received: by mail-vc0-f171.google.com with SMTP id n11so16617323vch.16
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Jan 2013 09:13:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=zp+jLcQi54Jh8N35ihaaO6AZynqNYTM2QAekburrZM8=;
-	b=W6kq1zJGGeEjy5sdm4Q8aSl8+imtu4p6c7lwsqv5SvIVb9i1zweIGbqUIIujhzT6z/
-	9uYtm0a6ALMrJaijbm/IJ0areShUOSs3ddk4alH02iaW1PlNb1UwUzn8FakNUbOwdu95
-	owPz0gEwswOWCkOsy9XJ43WkCPNaDEdQ+nxrgwL35S5NdkrBP3k+u2splBwJmyoizpa7
-	LLgC7kcpnOwTJxpXhwXsjuwH+JgjENo1z2KBAgNtzejOP3P46pJpODkjSN18p4WltUs8
-	zELF8YY6254alx6Q33DFR+CmxXO0dTSYnQimceMuzZQk6RYkgaNu2VzzCh67BvdkSIW4
-	69Lw==
+	Fri, 04 Jan 2013 19:05:58 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 04 Jan 2013 09:50:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,411,1355126400"; d="scan'208";a="240013255"
+Received: from unknown (HELO [10.255.14.97]) ([10.255.14.97])
+	by azsmga001.ch.intel.com with ESMTP; 04 Jan 2013 09:50:20 -0800
+Message-ID: <50E71625.3060909@linux.intel.com>
+Date: Fri, 04 Jan 2013 09:49:25 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.52.29.175 with SMTP id l15mr67200779vdh.2.1357319608994; Fri,
-	04 Jan 2013 09:13:28 -0800 (PST)
-Received: by 10.58.80.2 with HTTP; Fri, 4 Jan 2013 09:13:28 -0800 (PST)
-In-Reply-To: <CAF6bG8daZ1x-XxCoTqrLh=1=8BjT4iwQxYuTem1M1hUR9qnyAw@mail.gmail.com>
-References: <1354273734-7103-1-git-send-email-cazfi74@gmail.com>
-	<50C8062C.9050408@linux.intel.com>
-	<CAF6bG8daZ1x-XxCoTqrLh=1=8BjT4iwQxYuTem1M1hUR9qnyAw@mail.gmail.com>
-Date: Fri, 4 Jan 2013 19:13:28 +0200
-Message-ID: <CAF6bG8dSSu=-EREvr2NJ=FT1s=fnuHC8+zsbRNpxs1frPXzVLw@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: update to upstream version 8.20
+References: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
+	<b81c825c2737a2042ed7a99796752d12b1576725.1356342794.git.alexandru.damian@intel.com>
+In-Reply-To: <b81c825c2737a2042ed7a99796752d12b1576725.1356342794.git.alexandru.damian@intel.com>
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,28 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 17:28:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Jan 2013 18:05:59 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 13 December 2012 00:48, Marko Lindqvist <cazfi74@gmail.com> wrote:
-> On 12 December 2012 06:21, Saul Wold <sgw@linux.intel.com> wrote:
->>>
->>> | mips-poky-linux-gcc  -meb -mabi=32   -mhard-float -march=mips32
->>> --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/build/tmp/sysroots/qemumips
->>> -std=gnu99  -I. -I./lib  -Ilib -I./lib -Isrc -I./src    -O2 -pipe -g
->>> -feliminate-unused-debug-types -c -o src/false.o src/false.c
->>> | src/factor.c: In function 'factor_using_division':
->>> | src/factor.c:766:11: error: unable to emulate 'TI'
+On 12/24/2012 01:57 AM, Alex DAMIAN wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
 >
- ...
->  As for your mips build failure, I'm investigating it so that I can at
-> least report bug for upstream to fix.
+> This patch adds the Weston reference compositing
+> manager from Wayland.
+>
+> We add version 1.0.3 which is the latest stable release
+> in Dec 2012. See the upstream at:
+>
+> http://wayland.freedesktop.org/releases.html
+>
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>   meta/recipes-graphics/wayland/weston.inc      |   23 +++++++++++++++++++++++
+>   meta/recipes-graphics/wayland/weston_1.0.3.bb |    9 +++++++++
+>   2 files changed, 32 insertions(+)
+>   create mode 100644 meta/recipes-graphics/wayland/weston.inc
+>   create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+>
+> diff --git a/meta/recipes-graphics/wayland/weston.inc b/meta/recipes-graphics/wayland/weston.inc
+> new file mode 100644
+> index 0000000..7d26f7f
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/weston.inc
+> @@ -0,0 +1,23 @@
+> +inherit autotools pkgconfig
+> +
+> +SUMMARY = "Weston, a Wayland compositor"
+> +DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
+> +HOMEPAGE = "http://wayland.freedesktop.org"
+> +SECTION = "wayland/base"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466"
+> +
+> +DEPENDS = "wayland libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
+> +DEPENDS += "virtual/egl"
+> +
 
- For the record, this issue was handled in upstream ticket
-http://debbugs.gnu.org/cgi/bugreport.cgi?bug=13353
-and is now fixed in upstream.
+The Weston Build fails with the WORLD build target, not sure if we need 
+to disable weston for world or if there is some other issue that needs 
+to be addressed.
+> | configure:16321: $PKG_CONFIG --exists --print-errors "wayland-client wayland-egl"
+> | Package wayland-egl was not found in the pkg-config search path.
+> | Perhaps you should add the directory containing `wayland-egl.pc'
+> | to the PKG_CONFIG_PATH environment variable
+> | No package 'wayland-egl' found
+> | configure:16324: $? = 1
+> | configure:16337: result: no
+> | No package 'wayland-egl' found
+> | configure:16353: error: Package requirements (wayland-client wayland-egl) were not met:
+> |
+> | No package 'wayland-egl' found
+> |
+> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
+> | installed software in a non-standard prefix.
+> |
+> | Alternatively, you may set the environment variables WAYLAND_COMPOSITOR_CFLAGS
+> | and WAYLAND_COMPOSITOR_LIBS to avoid the need to call pkg-config.
+> | See the pkg-config man page for more details.
+> |
+
+Notice that it's the wayland-egl is not being found.
+
+Sau!
 
 
-  - ML
+> +EXTRA_OECONF  = "--enable-wayland-compositor --disable-android-compositor"
+> +EXTRA_OECONF += "--enable-setuid-install --enable-simple-clients"
+> +EXTRA_OECONF += "--enable-clients --disable-xwayland"
+> +
+> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms', '', d)} \
+> +                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+> +                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
+> +                  "
+> +PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm libgbm libglapi udev wayland-egl libpam"
+> +PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
+> +PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
+> diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
+> new file mode 100644
+> index 0000000..625965b
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
+> @@ -0,0 +1,9 @@
+> +require weston.inc
+> +
+> +SRC_URI = "http://wayland.freedesktop.org/releases/weston-1.0.3.tar.xz \
+> +	  "
+> +SRC_URI[md5sum] = "f82ac2e013e6b6a6303ac4ba7b64c7f2"
+> +SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968e04853"
+> +
+> +PR = "r0"
+> +
+>
 
 
