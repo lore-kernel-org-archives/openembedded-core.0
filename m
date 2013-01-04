@@ -1,26 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1Tr9eH-00026X-8F
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <Maxin.John@enea.com>) id 1Tr9ef-00028x-Ue
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 16:57:38 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jan 2013 07:42:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,411,1355126400"; d="scan'208";a="242089799"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jan 2013 07:42:26 -0800
-Message-ID: <50E6F9D8.9090306@intel.com>
-Date: Fri, 04 Jan 2013 17:48:40 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Fri, 04 Jan 2013 16:57:59 +0100
+Received: from localhost (172.16.140.24) by smtp.enea.com (172.21.1.209) with
+	Microsoft SMTP Server id 14.2.318.1; Fri, 4 Jan 2013 16:41:48 +0100
+Date: Fri, 4 Jan 2013 16:41:33 +0100
+From: "Maxin B. John" <Maxin.John@enea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20130104154133.GA12178@ubuntu.ubuntu-domain>
+References: <1357299055-56828-1-git-send-email-maxin.john@enea.com>
+	<1357309662.28649.127.camel@ted>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1356022882.git.radu.moisan@intel.com>
-	<50D8FDBE.4030203@linux.intel.com> <50E53E76.1080801@intel.com>
-	<50E5BE7E.6040201@linux.intel.com> <50E6F919.5070105@intel.com>
-In-Reply-To: <50E6F919.5070105@intel.com>
-Subject: Re: [PATCH 00/28][RFC] systemd Integration
+In-Reply-To: <1357309662.28649.127.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX03.enea.se: Maxin.John@enea.com does not
+	designate permitted sender hosts)
+Cc: yocto@yoctoproject.org, scott.a.garman@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] latencytop: add sudo as runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 15:57:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Jan 2013 15:57:59 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
+Hi Richard,
+On Fri, Jan 04, 2013 at 02:27:42PM +0000, Richard Purdie wrote:
+> On Fri, 2013-01-04 at 12:30 +0100, Maxin B. John wrote:
+> > From: "Maxin B. John" <maxin.john@enea.com>
+> > 
+> > Latencytop needs superuser privileges. The latencytop plugin in
+> > eclipse invokes it as 'sudo latencytop'. So, it will be good to
+> > include sudo as a runtime dependency.
+> > 
+> > Signed-off-by: Maxin B. John <maxin.john@enea.com>
+> > ---
+> >  meta/recipes-kernel/latencytop/latencytop_0.5.bb |    3 +++
+> >  1 files changed, 3 insertions(+), 0 deletions(-)
+> > 
+> > diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+> > index 3e35bf9..a148a47 100644
+> > --- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+> > +++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+> > @@ -7,6 +7,9 @@ LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a
+> >  
+> >  DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
+> >  
+> > +# latencytop and it's eclipse support need sudo
+> > +RDEPENDS_${PN} = "sudo"
+> > +
+> >  PR = "r3"
+> 
+> Shouldn't the eclipse support RDEPEND on sudo, not latencytop? There are
+> several ways you could run latencytop without sudo...
 
-On 01/04/2013 05:45 PM, Radu Moisan wrote:
->
-> On 01/03/2013 07:23 PM, Saul Wold wrote:
->> On 01/03/2013 12:16 AM, Radu Moisan wrote:
->>>
->>> On 12/25/2012 03:13 AM, Saul Wold wrote:
->>>>
->>>> Please be sure to build this with the INCOMPATIBLE_LICENSE = "GPLv3"
->>>> settig, I saw the following issues on the Autobuilder.
->>>>
->>>
->>> I've rebuilt systemd without xz dependency and now I can build
->>> core-image-minimal with INCOMPATIBLE_LICENSE = "GPLv3", however
->>> core-image-sato would not build. Do we want sato to build with GPLv3
->>> incompatibility flag set? I couldn't build sato this way on master
->>> either, but I didn't try a clean build so I'm not 100% sure about that.
->>>
->> Sato will not build with non-GPLv3. The other image that can build 
->> non-GPLv3 is core-image-basic, it pulls in much more LSB full 
->> commands, non-busybox.
->>
-> I tried to build core-image-basic with incompatible license flag set 
-> to GPLv3. It crashes in bash (3.2.48) complaining about undefined 
-> reference to `xopen' and 'xread'. I tried to dig a little bit into 
-> this but got nowhere. There are no references in code for xopen & 
-> xread. I don't understand why the linker is looking for these 
-> functions while in the code open & read are called.
->
-Forgot to mention that this is happening also on master branch.
+I agree. We can run latencytop without sudo. However, it is possible
+to install the Eclipse Yocto Plug-in from the downloads.yoctoproject.org.
+So, it may not be necessary to build the Eclipse Yocto Plug-in
+support in-order to use it.
 
-Radu
+In that case, when we use the latencytop plugin from Eclipse by
+connecting to a target board running linux, it will fail with the
+following output:
+# sudo : command not found
+
+It is because of this line in 'LatencytopHandler.java':
+private static String initCmd="export
+PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin; cd; sudo latencytop\r"; 
+
+This line 'assumes' that every target board with latencytop also have
+sudo. Please correct me if I am wrong.
+ 
+> Following this logic, we'd add an RDEPENDS on sudo for every app that
+> could possibly need root privs.
+I didn't mean that :) 
+This is a special case for latencytop. Please let me know your comments.
+
+> Cheers,
+> 
+> Richard
+Best Regards,
+Maxin
 
 
