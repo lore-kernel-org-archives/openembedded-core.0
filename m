@@ -1,24 +1,29 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <Maxin.John@enea.com>) id 1Tr9ef-00028x-Ue
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1Tr9i3-0002at-5d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 16:57:59 +0100
-Received: from localhost (172.16.140.24) by smtp.enea.com (172.21.1.209) with
-	Microsoft SMTP Server id 14.2.318.1; Fri, 4 Jan 2013 16:41:48 +0100
-Date: Fri, 4 Jan 2013 16:41:33 +0100
-From: "Maxin B. John" <Maxin.John@enea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130104154133.GA12178@ubuntu.ubuntu-domain>
-References: <1357299055-56828-1-git-send-email-maxin.john@enea.com>
-	<1357309662.28649.127.camel@ted>
+	Fri, 04 Jan 2013 17:01:31 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r04FkIBk015351
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 4 Jan 2013 07:46:18 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Fri, 4 Jan 2013 07:46:18 -0800
+Message-ID: <50E6F950.2070306@windriver.com>
+Date: Fri, 4 Jan 2013 09:46:24 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <1357309662.28649.127.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: Maxin.John@enea.com does not
-	designate permitted sender hosts)
-Cc: yocto@yoctoproject.org, scott.a.garman@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] latencytop: add sudo as runtime dependency
+To: Philip Balister <philip@balister.org>
+References: <50E5D101.9030701@balister.org> <50E5DA36.5090702@windriver.com>
+	<50E6F6F0.2070502@balister.org>
+In-Reply-To: <50E6F6F0.2070502@balister.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Enabling NEON instructions for fftw
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,66 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 15:57:59 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 Jan 2013 16:01:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
-On Fri, Jan 04, 2013 at 02:27:42PM +0000, Richard Purdie wrote:
-> On Fri, 2013-01-04 at 12:30 +0100, Maxin B. John wrote:
-> > From: "Maxin B. John" <maxin.john@enea.com>
-> > 
-> > Latencytop needs superuser privileges. The latencytop plugin in
-> > eclipse invokes it as 'sudo latencytop'. So, it will be good to
-> > include sudo as a runtime dependency.
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> > ---
-> >  meta/recipes-kernel/latencytop/latencytop_0.5.bb |    3 +++
-> >  1 files changed, 3 insertions(+), 0 deletions(-)
-> > 
-> > diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> > index 3e35bf9..a148a47 100644
-> > --- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> > +++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> > @@ -7,6 +7,9 @@ LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a
-> >  
-> >  DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
-> >  
-> > +# latencytop and it's eclipse support need sudo
-> > +RDEPENDS_${PN} = "sudo"
-> > +
-> >  PR = "r3"
-> 
-> Shouldn't the eclipse support RDEPEND on sudo, not latencytop? There are
-> several ways you could run latencytop without sudo...
+On 1/4/13 9:36 AM, Philip Balister wrote:
+> On 01/03/2013 02:21 PM, Mark Hatle wrote:
+>> On 1/3/13 12:42 PM, Philip Balister wrote:
+>>> So, recent versions of fftw have NEON support for the single precision
+>>> build. In the poast, I just passed --enable-neon to configure or the
+>>> armv7a case. Now, this is not entirely correct, since some armv7a's lack
+>>> a NEON coprocessor.
+>>>
+>>> Does anyone have a suggestion for how to handle this better? Personally,
+>>> I think if you want to run fftwf without NEON, you should have your head
+>>> examined, but I would like to avoid generating packages that SIGILL on
+>>> people.
+>>
+>> This says to me that either you need a machine specific package, or use
+>> an alternative architecture for that package.. (that is compatible)..
+>> then the package can switch neon on/off depending on arch of tuning flags.
+>>
+>> There is an armv7a-neon tuning defined.  This enabled the TUNE_FEATURES
+>> of 'neon'.  So you should be able to check for that in the fftw recipe,
+>> and enable the --enable-neon when it's set.  (Using PACKAGECONFIG is
+>> likely best...)
+>>
+>> Then you can change the DEFAULTTUNE_<recipe> = "armv7-neon" in your
+>> local.conf.
+>
+> I really do not want to depend on users putting entries in local.conf to
+> obtain proper operation on a specific machine. It looks like the neon
+> tune is already selected for the machine I am building for.
+>
+> In the end, this boils down to, do we care about supporting machines
+> with/without NEON from one set of packages by making ones with NEON
+> machine specific.
 
-I agree. We can run latencytop without sudo. However, it is possible
-to install the Eclipse Yocto Plug-in from the downloads.yoctoproject.org.
-So, it may not be necessary to build the Eclipse Yocto Plug-in
-support in-order to use it.
+Machine specific is one answer, but my preference is to have a neon specific 
+package arch selected.  Looking at the definitions, my expectation is that once 
+the -neon version of armv7 is selected the package arch should similarly be 
+modified to end in "-neon".
 
-In that case, when we use the latencytop plugin from Eclipse by
-connecting to a target board running linux, it will fail with the
-following output:
-# sudo : command not found
+So as long as the BSP/machine uses the neon tune, then everything should be 
+compiled and labeled properly.
 
-It is because of this line in 'LatencytopHandler.java':
-private static String initCmd="export
-PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin; cd; sudo latencytop\r"; 
+> For now, I will purse the route of fftwf building with --enable if the
+> neon tune is available for the machine.
 
-This line 'assumes' that every target board with latencytop also have
-sudo. Please correct me if I am wrong.
- 
-> Following this logic, we'd add an RDEPENDS on sudo for every app that
-> could possibly need root privs.
-I didn't mean that :) 
-This is a special case for latencytop. Please let me know your comments.
+Definitely the right way to do it, no matter how the package's arch is named.
 
-> Cheers,
-> 
-> Richard
-Best Regards,
-Maxin
+> Philip
+>
+> Philip
+>
+> Philip
+>
+>>
+>> --Mark
+>>
+>>> Philip
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+
 
 
