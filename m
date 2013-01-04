@@ -1,26 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TrBeJ-0006vt-8J
+	(envelope-from <sgw@linux.intel.com>) id 1TrBqQ-0007BW-Nm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Jan 2013 19:05:58 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 04 Jan 2013 09:50:36 -0800
+	Fri, 04 Jan 2013 19:18:23 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jan 2013 10:03:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,411,1355126400"; d="scan'208";a="240013255"
+X-IronPort-AV: E=Sophos;i="4.84,411,1355126400"; d="scan'208";a="270020548"
 Received: from unknown (HELO [10.255.14.97]) ([10.255.14.97])
-	by azsmga001.ch.intel.com with ESMTP; 04 Jan 2013 09:50:20 -0800
-Message-ID: <50E71625.3060909@linux.intel.com>
-Date: Fri, 04 Jan 2013 09:49:25 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jan 2013 10:03:06 -0800
+Message-ID: <50E71957.2020901@linux.intel.com>
+Date: Fri, 04 Jan 2013 10:03:03 -0800
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-References: <bf4c63b763ceb045df5b4b27136ab6cf3f8f5ca5.1356342794.git.alexandru.damian@intel.com>
-	<b81c825c2737a2042ed7a99796752d12b1576725.1356342794.git.alexandru.damian@intel.com>
-In-Reply-To: <b81c825c2737a2042ed7a99796752d12b1576725.1356342794.git.alexandru.damian@intel.com>
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
+To: Marko Lindqvist <cazfi74@gmail.com>
+References: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357245391-11055-1-git-send-email-cazfi74@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Prepare recipes for automake-1.13 (batch 1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,102 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Jan 2013 18:05:59 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Fri, 04 Jan 2013 18:18:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/24/2012 01:57 AM, Alex DAMIAN wrote:
-> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On 01/03/2013 12:36 PM, Marko Lindqvist wrote:
+> In practice there is three categories of changes in automake-1.13
+> that cause packages to break. From that follows that virtually all
+> problems fall to three categories, and all packages suffering from
+> problem of the same category get virtually identical fix.
 >
-> This patch adds the Weston reference compositing
-> manager from Wayland.
+> * Long deprecated macros completely removed from automake-1.13,
+>    which errors out upon seeing them. For these I add patch,
+>    always called obsolete_automake_macros.patch, that replaces
+>    obsolete macro with proper one. Most of the patches are just
+>    AM_CONFIG_HEADER -> AC_CONFIG_HEADERS change.
 >
-> We add version 1.0.3 which is the latest stable release
-> in Dec 2012. See the upstream at:
+> * Trying to run help2man via "missing" when it doesn't exist.
+>    Old automake versions allowed "missing" to be used that way,
+>    1.13 aborts. I'm just removing the attempt to create manpages
+>    that way. Note that it never actually worked anyway -
+>    old automake just didn't abort when it failed.
 >
-> http://wayland.freedesktop.org/releases.html
+> * TESTS list cannot have $(srcdir) or $(top_srcdir) as part
+>    of the path. When it does, it's usually bug in the package,
+>    but unfortunately automake prevents it also when it's not.
+>    Solution applied here is to simply remove TESTS.
 >
-> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-> ---
->   meta/recipes-graphics/wayland/weston.inc      |   23 +++++++++++++++++++++++
->   meta/recipes-graphics/wayland/weston_1.0.3.bb |    9 +++++++++
->   2 files changed, 32 insertions(+)
->   create mode 100644 meta/recipes-graphics/wayland/weston.inc
->   create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
 >
-> diff --git a/meta/recipes-graphics/wayland/weston.inc b/meta/recipes-graphics/wayland/weston.inc
-> new file mode 100644
-> index 0000000..7d26f7f
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston.inc
-> @@ -0,0 +1,23 @@
-> +inherit autotools pkgconfig
-> +
-> +SUMMARY = "Weston, a Wayland compositor"
-> +DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
-> +HOMEPAGE = "http://wayland.freedesktop.org"
-> +SECTION = "wayland/base"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466"
-> +
-> +DEPENDS = "wayland libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
-> +DEPENDS += "virtual/egl"
-> +
+> [PATCH 01/15] pkg-config: replace obsolete automake macros with
+> [PATCH 02/15] libtool: remove help2man dependency
+> [PATCH 03/15] bison: remove help2man dependency
+> [PATCH 04/15] file: replace obsolete automake macros with working
+> [PATCH 05/15] popt: disable tests
+> [PATCH 06/15] glib-2.0: replace obsolete automake macros with
+> [PATCH 07/15] libx11: disable tests
+> [PATCH 08/15] libpng: replace obsolete automake macros with working
+> [PATCH 09/15] libusb: replace obsolete automake macros with working
+> [PATCH 10/15] pixman: replace obsolete automake macros with working
+> [PATCH 11/15] libid3tag: replace obsolete automake macros with
+> [PATCH 12/15] libgcrypt: replace obsolete automake macros with
+> [PATCH 13/15] gnutls: replace obsolete automake macros with working
+> [PATCH 14/15] libtasn1: remove help2man dependency
+> [PATCH 15/15] flac: replace obsolete automake macros with working
+>
+I am reviewing these and will included them next week based on my reviews.
 
-The Weston Build fails with the WORLD build target, not sure if we need 
-to disable weston for world or if there is some other issue that needs 
-to be addressed.
-> | configure:16321: $PKG_CONFIG --exists --print-errors "wayland-client wayland-egl"
-> | Package wayland-egl was not found in the pkg-config search path.
-> | Perhaps you should add the directory containing `wayland-egl.pc'
-> | to the PKG_CONFIG_PATH environment variable
-> | No package 'wayland-egl' found
-> | configure:16324: $? = 1
-> | configure:16337: result: no
-> | No package 'wayland-egl' found
-> | configure:16353: error: Package requirements (wayland-client wayland-egl) were not met:
-> |
-> | No package 'wayland-egl' found
-> |
-> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> | installed software in a non-standard prefix.
-> |
-> | Alternatively, you may set the environment variables WAYLAND_COMPOSITOR_CFLAGS
-> | and WAYLAND_COMPOSITOR_LIBS to avoid the need to call pkg-config.
-> | See the pkg-config man page for more details.
-> |
+Any chance for the future, you can share a branch from either the Yocto 
+Project Git (via poky-contrib) or an OE Git (via oe-core-contrib), 
+please contact Michael@yoctoproject.org or Richard for git access. Or
+you can use github or ...
 
-Notice that it's the wayland-egl is not being found.
-
-Sau!
-
-
-> +EXTRA_OECONF  = "--enable-wayland-compositor --disable-android-compositor"
-> +EXTRA_OECONF += "--enable-setuid-install --enable-simple-clients"
-> +EXTRA_OECONF += "--enable-clients --disable-xwayland"
-> +
-> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms', '', d)} \
-> +                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-> +                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-> +                  "
-> +PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm libgbm libglapi udev wayland-egl libpam"
-> +PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
-> +PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
-> diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-> new file mode 100644
-> index 0000000..625965b
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
-> @@ -0,0 +1,9 @@
-> +require weston.inc
-> +
-> +SRC_URI = "http://wayland.freedesktop.org/releases/weston-1.0.3.tar.xz \
-> +	  "
-> +SRC_URI[md5sum] = "f82ac2e013e6b6a6303ac4ba7b64c7f2"
-> +SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968e04853"
-> +
-> +PR = "r0"
-> +
+Thanks
+	Sau!
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
