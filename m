@@ -1,38 +1,32 @@
-Received: from mail-la0-f48.google.com ([209.85.215.48])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TrNO3-0004c7-Nj
+	(envelope-from <Qi.Chen@windriver.com>) id 1TrNlg-0005Rs-Jh
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Jan 2013 07:37:43 +0100
-Received: by mail-la0-f48.google.com with SMTP id ej20so10682327lab.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Jan 2013 22:22:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=zD/E0WiD+dtqkGtWBU4cUD1uWue21e1qUEtENSgsVeE=;
-	b=EbzzLYlsnDbtHZBbA32DjnBtka+D0Ql+pDJBWoqJ2INqZ0Jvg7/kQnJqwBIzshV7+y
-	zN406Q+UcP1qCTXVVYySinuo1h6e0SAmcuzm6j9qJ5JET/VOv8jeggi0J5WNIuSXsvwz
-	OO/+t5zCmjXxEdrdTN2wOVBelbnaXqPZSiuuXOMB5VrHeNn9R8oQ2PRpuDB0EN0iMy7/
-	hCPLYRS6/caOydVfkNipvfCKNtdX5dx5103WP+U5r6W0AgT/ou2l7JpnZHz/LGRB9nii
-	Df175NQWAWvLJ625B/xig3sNSzY4w/2NRm6q6eJUImP+yoJW8cwkXKsueW5K0QZZ4z7w
-	ZvVQ==
-X-Received: by 10.152.129.197 with SMTP id ny5mr52419385lab.43.1357366957487; 
-	Fri, 04 Jan 2013 22:22:37 -0800 (PST)
-Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id
-	ew10sm18549759lbb.10.2013.01.04.22.22.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 04 Jan 2013 22:22:36 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TrN9G-00081x-IO; Sat, 05 Jan 2013 08:22:26 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Jan 2013 08:22:22 +0200
-Message-Id: <1357366942-30816-2-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357366942-30816-1-git-send-email-cazfi74@gmail.com>
-References: <1357366942-30816-1-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH] polkit: update SRC_URI and HOMEPAGE
+	Sat, 05 Jan 2013 08:02:13 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r056l1xM022181
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 4 Jan 2013 22:47:01 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Fri, 4 Jan 2013 22:47:00 -0800
+Message-ID: <50E7CC73.8030507@windriver.com>
+Date: Sat, 5 Jan 2013 14:47:15 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1356919994.git.Qi.Chen@windriver.com>
+	<b809c41a8171f0b113f4f6dd506d52ee0e18cd3d.1356919994.git.Qi.Chen@windriver.com>
+	<CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
+In-Reply-To: <CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V5 2/4] image.bbclass: add two hook funtions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,42 +39,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jan 2013 06:37:43 -0000
+X-List-Received-Date: Sat, 05 Jan 2013 07:02:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Author of old code.google.com homepage lists polkit under heading
-'former projects'. Newer versions are available from page at
-freedesktop.org. Freedesktop.org homepage also points to SRC_URI
-different from what we've been using. Latest version there is 0.109,
-while latest version in old SRC_URI is 0.104.
+Hi Otavio,
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- meta/recipes-extended/polkit/polkit_0.104.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thank you for you review and suggestions :)
+And please see some details below.
 
-diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
-index 74b5379..4eaec8c 100644
---- a/meta/recipes-extended/polkit/polkit_0.104.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.104.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "PolicyKit Authorization Framework"
- DESCRIPTION = "The polkit package is an application-level toolkit for defining and handling the policy that allows unprivileged processes to speak to privileged processes."
--HOMEPAGE = "http://code.google.com/p/polkit/"
-+HOMEPAGE = "http://www.freedesktop.org/wiki/Software/polkit"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
-                     file://src/polkit/polkit.h;beginline=1;endline=20;md5=0a8630b0133176d0504c87a0ded39db4"
-@@ -13,7 +13,7 @@ PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
- PR = "r8"
- 
- PAM_SRC_URI = "file://polkit-1_pam.patch"
--SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
-+SRC_URI = "http://www.freedesktop.org/software/polkit/releases/polkit-${PV}.tar.gz \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch \
-            file://0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch \
--- 
-1.7.10.4
+On 01/02/2013 02:12 AM, Otavio Salvador wrote:
+> On Mon, Dec 31, 2012 at 12:16 AM,  <Qi.Chen@windriver.com> wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+>> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+>> volatile.sh script run at rootfs time.
+>>
+>> choose_volatile_conf_file: this function is invoked no matter
+>> 'read-only-rootfs' is in IMAGE_FEATURES or not, it properly chooses
+>> the right conf file for volatile storage handling according to the
+>> IMAGE_FEATURES.
+>>
+>> [YOCTO #3406]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/image.bbclass |   30 ++++++++++++++++++++++++++++++
+>>   1 file changed, 30 insertions(+)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index d3a416d..57bd0e3 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -396,6 +396,36 @@ zap_root_password () {
+>>          mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+>>   }
+>>
+>> +# A hook function to support read-only-rootfs IMAGE_FEATURES
+>> +read_only_rootfs_hook () {
+>> +       # Tweak the mount option in fstab
+>> +       sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
+> Maybe use 'defaults,ro' in fstab?
+In my understanding, 'ro' and 'defaults,ro' are the same. Maybe I'm 
+wrong, but what's the difference between them?
+>> +       # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+>> +       if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
+>> +               sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+>> +       fi
+>> +       # Run populate-volatile.sh at rootfs time to set up basic files
+>> +       # and directories to support read-only rootfs.
+>> +       if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+>> +               ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+>> +       fi
+>> +}
+>> +
+>> +# Choose the correct config file for volatile storage handling according to the image type
+>> +choose_volatile_conf_file () {
+>> +       if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
+>> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato ]; then
+>> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
+>> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+>> +               fi
+>> +       else
+>> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal ]; then
+>> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
+>> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+>> +               fi
+>> +       fi
+> Wouldn't be better to have a package which provides the need valatile
+> config? this makes it easy to reuse for other images.
+Yes, you're right.
+
+In fact, I think it should be the initscripts recipe which provides the 
+volatile conf files. Because both populate-volatile.sh and the conf 
+files it uses logically belong to initscripts.
+So I'll remove this function from image.bbclass and choose the correct 
+conf file in the initscripts recipe.
+
+Also, for the purpose of easy use, as you mentioned above, I think we 
+should allow users to use customized conf file if they want to.
+So I want to support customized conf file for volatile storages in 
+initscripts recipe.
+
+That's all what I've came up with for now.
+I'll send out a patch V6 as soon as possible.
+
+Cheers,
+Chen Qi
+>> +}
+>> +
+>>   # allow openssh accept login with empty password string
+>>   openssh_allow_empty_password () {
+>>          if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+>> --
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>
+>
 
 
 
