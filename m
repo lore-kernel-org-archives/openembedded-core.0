@@ -1,38 +1,26 @@
-Received: from mail-oa0-f49.google.com ([209.85.219.49])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TrHw5-0005Wh-EQ
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TrI86-0008Nf-5Z
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Jan 2013 01:48:29 +0100
-Received: by mail-oa0-f49.google.com with SMTP id l10so15300156oag.8
+	Sat, 05 Jan 2013 02:00:56 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r050jltW026901
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Jan 2013 16:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=+x670IdIfIbWLg4KS+sRTrjuxmdEE+1KlpQAVPTWDOI=;
-	b=XMCnGlmcFpwllOFz+42knTNAD6PPqAPyaLvPpwoOCMEe5PgJSmZh/hslD0JF+zpKm2
-	PhuZMFm19wcxLhUi4YRijpeMXzlPPx6qmIZc7zbzCj9otXM9aOL1LS+7gBNcYFT34K4n
-	+KQNuFMWsrJeNChoNkwf/9E+0UAUaJJO3RXfGs5Ox7TQA6UaT0FS4iI4KWRnYApH1/ok
-	Pbcx8JNtsUUGM66m2H7sAugAJ4Ixy2igHQW8dIXs5oh2P1/lHJCuslTKUQCaG8IWv8eP
-	2ZwVbrZE/7p8PZSuM33W4cT536oVwdOJrUc+zXlXj1tNBHASMiQqOkPnjHKw3v+jkXI+
-	L82A==
+	Fri, 4 Jan 2013 16:45:47 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Fri, 4 Jan 2013 16:45:47 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 5 Jan 2013 08:45:43 +0800
+Message-ID: <c7eeaf9b46dd9c854603f2c5e3157799390ab76d.1357290320.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1357290320.git.hongxu.jia@windriver.com>
+References: <cover.1357290320.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Received: by 10.182.207.3 with SMTP id ls3mr39953900obc.60.1357346003118; Fri,
-	04 Jan 2013 16:33:23 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Fri, 4 Jan 2013 16:33:22 -0800 (PST)
-In-Reply-To: <449d181c104843ef74cbc1f81a5a58f18051fc14.1357343832.git.raj.khem@gmail.com>
-References: <cover.1357343832.git.raj.khem@gmail.com>
-	<a199c2dc372f0c5a524685e30d8417f05b3713f9.1357343832.git.raj.khem@gmail.com>
-	<449d181c104843ef74cbc1f81a5a58f18051fc14.1357343832.git.raj.khem@gmail.com>
-Date: Fri, 4 Jan 2013 22:33:22 -0200
-X-Google-Sender-Auth: _CkmNjTugP1gcIub50lqn-B2mPc
-Message-ID: <CAP9ODKqBnkx0U7FQjs1HB6VqWVsBOv+YOufouLebWT9=dJ=kpQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] eglibc_2.17: Fix Tibetian locale generation error
+Subject: [PATCH 1/1] image.bbclass:specify the order of do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,26 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jan 2013 00:48:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 05 Jan 2013 01:00:59 -0000
+Content-Type: text/plain
 
-On Fri, Jan 4, 2013 at 10:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> This is fallout of BZ #13950 fix to glibc
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The task of do_populate_lic use "bb.build.exec_func" to execute shell function
+"sstate_create_package", and "bb.build.exec_func" use ${B} as default dir to cd
+and execute the shell function. At this place, B = "${WORKDIR}/${BPN}-${PV}/",
+and "${WORKDIR}/${BPN}-${PV}/" is removed by task do_rootfs.
 
-Fix doesn't seem as an accurate name here; I'd prefer:
+When we use more than one bitabke to run tasks, there is a chance that do_rootfs
+and do_populate_lic are being executed at the same time. So we should explicity
+specify the order of do_populate_lic and do_rootfs to let "${WORKDIR}/${BPN}-${PV}/"
+could be correctly used and removed.
 
-Workaround Tibetian locale generation error
+[YOCTO #3674]
 
-as it better describes what it does; the patch file should be renamed
-and updated as well.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/image.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-What do you think?
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index d3a416d..c2dab36 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -472,4 +472,4 @@ do_package_write_ipk[noexec] = "1"
+ do_package_write_deb[noexec] = "1"
+ do_package_write_rpm[noexec] = "1"
+ 
+-addtask rootfs before do_build
++addtask rootfs before do_build after do_populate_lic
+-- 
+1.7.10.4
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
