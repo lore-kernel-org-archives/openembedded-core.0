@@ -1,35 +1,24 @@
-Received: from mail-la0-f41.google.com ([209.85.215.41])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TrZx9-0004wX-W0
+	(envelope-from <Andrei.Gherzan@windriver.com>) id 1Tra97-000595-BL
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Jan 2013 21:02:48 +0100
-Received: by mail-la0-f41.google.com with SMTP id em20so11996992lab.28
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Jan 2013 11:47:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=b4mERjZhSwiVaPrUpEeNMhFtsSsbiBiqrss6ltQBPg0=;
-	b=tPorzo1DJQPXMvwlwz6ljTXtPmEd1p1IZegclrVdFQuW+ZEBACo0w35/AQwMmDbfwI
-	it+tfl+amu6jIz1cxiQiKl+bm/GUATTWrMBtX08Prc5MtDYPLHrk83TI4LunzyWMb8jL
-	mfZdSNPy6ULsCdLfETFt1xSnxf2G6ifrITfhWL1Nz+rwL5GV9I3xHajdVHLB4R5jn1op
-	m6AOz8MrUd/r1uveg+tgy+I6dC8n2bctjUXx4LxUtnzO0/XUDZiXVzgTDYk7+c0r70ut
-	fYKLa4PONNhf3PxOldjghvF1QvenoYoxh2yNYML9ZBz5y6gsmAlEq8ShhHhEyfclUru+
-	F1Mw==
-X-Received: by 10.152.123.49 with SMTP id lx17mr1436237lab.52.1357415260742;
-	Sat, 05 Jan 2013 11:47:40 -0800 (PST)
-Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id sv4sm2171409lab.0.2013.01.05.11.47.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 05 Jan 2013 11:47:39 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TrZiT-0005B3-IR; Sat, 05 Jan 2013 21:47:37 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Jan 2013 21:47:36 +0200
-Message-Id: <1357415256-19871-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] libxcomposite: update to upstream version 0.4.4
+	Sat, 05 Jan 2013 21:15:09 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r05GbtpG024065
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 5 Jan 2013 08:37:55 -0800 (PST)
+Received: from localhost.localdomain (128.224.170.79) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Sat, 5 Jan 2013 08:37:54 -0800
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 5 Jan 2013 18:38:13 +0200
+Message-ID: <1357403893-4155-1-git-send-email-andrei.gherzan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-Originating-IP: [128.224.170.79]
+Subject: [PATCH 1/1] directfb: Rename __no_instrument_function__ macro to avoid conflicting redefinitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +31,397 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jan 2013 20:02:48 -0000
+X-List-Received-Date: Sat, 05 Jan 2013 20:15:09 -0000
+Content-Type: text/plain
 
-Compatible with automake-1.13.
+From: Andrei Gherzan <andrei@gherzan.ro>
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+The macro was renamed to __dfb_no_instrument_function__ . This will avoid build
+errors while compiling gst-plugins-bad with directfb support.
+
+This happens because gstreamer uses this macro to pass it to __attribute__. So,
+if we include directfb.h before, the gstreamer definition will end up:
+__attribute__ ((__attribute__((no_instrument_function)))).
+
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- .../xorg-lib/{libxcomposite_0.4.3.bb => libxcomposite_0.4.4.bb}    |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxcomposite_0.4.3.bb => libxcomposite_0.4.4.bb} (86%)
+ .../rename-no-instrument-function-macro.patch      |  345 ++++++++++++++++++++
+ meta/recipes-graphics/directfb/directfb_1.6.1.bb   |    5 +-
+ 2 files changed, 348 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb
-similarity index 86%
-rename from meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-rename to meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb
-index 7377711..8ee35b0 100644
---- a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb
-@@ -25,5 +25,5 @@ XORG_PN = "libXcomposite"
+diff --git a/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch b/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+new file mode 100644
+index 0000000..443df5a
+--- /dev/null
++++ b/meta/recipes-graphics/directfb/directfb/rename-no-instrument-function-macro.patch
+@@ -0,0 +1,345 @@
++Rename __no_instrument_function__ macro to avoid conficting redefinitions
++of the same symbol.
++
++Upstream-Status: Pending
++Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++
++Index: DirectFB-1.6.1/lib/direct/clock.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/clock.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/clock.c	2013-01-05 18:03:24.000000000 +0200
++@@ -36,28 +36,28 @@
++ 
++ /**********************************************************************************************************************/
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ long long
++ direct_clock_get_micros( void )
++ {
++      return direct_clock_get_time( DIRECT_CLOCK_SESSION );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ long long
++ direct_clock_get_millis( void )
++ {
++      return direct_clock_get_time( DIRECT_CLOCK_SESSION ) / 1000LL;
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ long long
++ direct_clock_get_abs_micros( void )
++ {
++      return direct_clock_get_time( DIRECT_CLOCK_REALTIME );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ long long
++ direct_clock_get_abs_millis( void )
++ {
++Index: DirectFB-1.6.1/lib/direct/debug.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/debug.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/debug.c	2013-01-05 18:03:49.000000000 +0200
++@@ -48,7 +48,7 @@
++ 
++ #if DIRECT_BUILD_DEBUGS  /* Build with debug support? */
++   
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_debug_log( DirectLogDomain *domain,
++               unsigned int     debug_level,  /* 1-9, 0 = info */
++@@ -63,7 +63,7 @@
++      va_end( ap );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_debug_at( DirectLogDomain *domain,
++                  const char      *format, ... )
++@@ -77,7 +77,7 @@
++ 
++ #endif /* DIRECT_BUILD_DEBUGS */
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_debug_at_always( DirectLogDomain *domain,
++                         const char      *format, ... )
++@@ -93,7 +93,7 @@
++ 
++ #if DIRECT_BUILD_DEBUGS  /* Build with debug support? */
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_break( const char *func,
++               const char *file,
++@@ -123,7 +123,7 @@
++           direct_trap( "Break", SIGABRT );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_assertion( const char *exp,
++                   const char *func,
++@@ -144,7 +144,7 @@
++           direct_trap( "Assertion", SIGTRAP );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_assumption( const char *exp,
++                    const char *func,
++Index: DirectFB-1.6.1/lib/direct/interface.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/interface.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/interface.c	2013-01-05 18:04:56.000000000 +0200
++@@ -522,7 +522,7 @@
++ 
++ /**************************************************************************************************/
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ static InterfaceDesc *
++ allocate_interface_desc( void )
++ {
++@@ -543,7 +543,7 @@
++      return &alloc_list[alloc_count++];
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ static __inline__ void
++ fill_interface_desc( InterfaceDesc     *desc,
++                      const void        *interface_ptr,
++@@ -565,7 +565,7 @@
++ 
++ /**************************************************************************************************/
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_dbg_interface_add( const char *func,
++                           const char *file,
++@@ -586,7 +586,7 @@
++      direct_mutex_unlock( &alloc_lock );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_dbg_interface_remove( const char *func,
++                              const char *file,
++Index: DirectFB-1.6.1/lib/direct/log.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/log.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/log.c	2013-01-05 18:04:18.000000000 +0200
++@@ -128,7 +128,7 @@
++      return DR_OK;
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ DirectResult
++ direct_log_printf( DirectLog  *log,
++                    const char *format, ... )
++@@ -197,7 +197,7 @@
++      return DR_OK;
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_log_lock( DirectLog *log )
++ {
++@@ -211,7 +211,7 @@
++      direct_mutex_lock( &log->lock );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_log_unlock( DirectLog *log )
++ {
++@@ -262,7 +262,7 @@
++ 
++ /**********************************************************************************************************************/
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ DirectLog *
++ direct_log_default( void )
++ {
++Index: DirectFB-1.6.1/lib/direct/log_domain.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/log_domain.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/log_domain.c	2013-01-05 18:04:38.000000000 +0200
++@@ -69,7 +69,7 @@
++ 
++ /**********************************************************************************************************************/
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ static __inline__ LogDomainEntry *
++ lookup_domain( const char *name, bool sub );
++ 
++@@ -104,7 +104,7 @@
++      return NULL;
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ static DirectLogLevel
++ check_domain( DirectLogDomain *domain );
++ 
++@@ -207,7 +207,7 @@
++ /* FIXME: merge following */
++ 
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ DirectResult
++ direct_log_domain_vprintf( DirectLogDomain *domain,
++                            DirectLogLevel   level,
++@@ -268,7 +268,7 @@
++      return DR_OK;
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ DirectResult
++ direct_log_domain_log( DirectLogDomain *domain,
++                        DirectLogLevel   level,
++Index: DirectFB-1.6.1/lib/direct/mem.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/mem.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/mem.c	2013-01-05 18:03:08.000000000 +0200
++@@ -121,7 +121,7 @@
++ 
++ /**********************************************************************************************************************/
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ static __inline__ MemDesc *
++ fill_mem_desc( MemDesc *desc, int bytes, const char *func, const char *file, int line, DirectTraceBuffer *trace )
++ {
++Index: DirectFB-1.6.1/lib/direct/messages.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/messages.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/messages.c	2013-01-05 18:02:57.000000000 +0200
++@@ -40,7 +40,7 @@
++ 
++ #if DIRECT_BUILD_TEXT
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_info( const char *format, ... )
++ {
++@@ -57,7 +57,7 @@
++      direct_log_printf( NULL, "(*) %s", buf );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_error( const char *format, ... )
++ {
++@@ -76,7 +76,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_derror( DirectResult result, const char *format, ... )
++ {
++@@ -95,7 +95,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_perror( int erno, const char *format, ... )
++ {
++@@ -114,7 +114,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_dlerror( const char *dlerr, const char *format, ... )
++ {
++@@ -133,7 +133,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_once( const char *func,
++                       const char *file,
++@@ -155,7 +155,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_unimplemented( const char *func,
++                                const char *file,
++@@ -166,7 +166,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_bug( const char *func,
++                      const char *file,
++@@ -188,7 +188,7 @@
++      direct_trace_print_stack( NULL );
++ }
++ 
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ void
++ direct_messages_warn( const char *func,
++                       const char *file,
++Index: DirectFB-1.6.1/lib/direct/os/linux/glibc/types.h
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/os/linux/glibc/types.h	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/os/linux/glibc/types.h	2013-01-05 18:06:04.000000000 +0200
++@@ -74,7 +74,7 @@
++ 
++ #define __inline__                      inline
++ #define D_UNUSED                        __attribute__((unused))
++-#define __no_instrument_function__      __attribute__((no_instrument_function))
+++#define __dfb_no_instrument_function__  __attribute__((no_instrument_function))
++ #define __constructor__                 __attribute__((constructor))
++ #define __destructor__                  __attribute__((destructor))
++ #define __typeof__(x)                   typeof(x)
++Index: DirectFB-1.6.1/lib/direct/util.c
++===================================================================
++--- DirectFB-1.6.1.orig/lib/direct/util.c	2012-06-29 19:01:11.000000000 +0300
+++++ DirectFB-1.6.1/lib/direct/util.c	2013-01-05 18:03:59.000000000 +0200
++@@ -110,7 +110,7 @@
++ /*
++  * translates errno to DirectResult
++  */
++-__no_instrument_function__
+++__dfb_no_instrument_function__
++ DirectResult
++ errno2result( int erno )
++ {
+diff --git a/meta/recipes-graphics/directfb/directfb_1.6.1.bb b/meta/recipes-graphics/directfb/directfb_1.6.1.bb
+index a6012ca..52f78c6 100644
+--- a/meta/recipes-graphics/directfb/directfb_1.6.1.bb
++++ b/meta/recipes-graphics/directfb/directfb_1.6.1.bb
+@@ -1,11 +1,12 @@
+ require directfb.inc
  
- SRC_URI += " file://change-include-order.patch"
+ RV = "1.6-0"
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
  
--SRC_URI[md5sum] = "a60e0b5c276d0aa9e2d3b982c98f61c8"
--SRC_URI[sha256sum] = "32294d28f4ee46db310c344546d98484728b7d52158c6d7c25bba02563b41aad"
-+SRC_URI[md5sum] = "f7a218dcbf6f0848599c6c36fc65c51a"
-+SRC_URI[sha256sum] = "ede250cd207d8bee4a338265c3007d7a68d5aca791b6ac41af18e9a2aeb34178"
+ DEPENDS += "sysfsutils"
+ 
+-SRC_URI += "file://fix-compilation-with-zlib.patch"
++SRC_URI += "file://fix-compilation-with-zlib.patch \
++            file://rename-no-instrument-function-macro.patch"
+ 
+ EXTRA_OECONF = "\
+   --enable-freetype=yes \
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
