@@ -1,28 +1,38 @@
-Received: from eu1sys200aog110.obsmtp.com ([207.126.144.129])
+Received: from mail-oa0-f49.google.com ([209.85.219.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TrHlp-0000JF-98
+	(envelope-from <otavio.salvador@gmail.com>) id 1TrHw5-0005Wh-EQ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Jan 2013 01:38:04 +0100
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob110.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUOdyWR3tCeWrx18EyUkACOy/pJKJN3XJ@postini.com;
-	Sat, 05 Jan 2013 00:22:49 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 05AF362
+	Sat, 05 Jan 2013 01:48:29 +0100
+Received: by mail-oa0-f49.google.com with SMTP id l10so15300156oag.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jan 2013 14:06:16 +0000 (GMT)
-Received: from mail7.sgp.st.com (unknown [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 381F349AF
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Jan 2013 14:06:16 +0000 (GMT)
-Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id AUP63231 (AUTH condorg); Fri, 4 Jan 2013 15:06:15 +0100
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Jan 2013 15:03:45 +0100
-Message-Id: <1357308225-30900-1-git-send-email-giuseppe.condorelli@st.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] gcc: restore FILESPATH
+	Fri, 04 Jan 2013 16:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=+x670IdIfIbWLg4KS+sRTrjuxmdEE+1KlpQAVPTWDOI=;
+	b=XMCnGlmcFpwllOFz+42knTNAD6PPqAPyaLvPpwoOCMEe5PgJSmZh/hslD0JF+zpKm2
+	PhuZMFm19wcxLhUi4YRijpeMXzlPPx6qmIZc7zbzCj9otXM9aOL1LS+7gBNcYFT34K4n
+	+KQNuFMWsrJeNChoNkwf/9E+0UAUaJJO3RXfGs5Ox7TQA6UaT0FS4iI4KWRnYApH1/ok
+	Pbcx8JNtsUUGM66m2H7sAugAJ4Ixy2igHQW8dIXs5oh2P1/lHJCuslTKUQCaG8IWv8eP
+	2ZwVbrZE/7p8PZSuM33W4cT536oVwdOJrUc+zXlXj1tNBHASMiQqOkPnjHKw3v+jkXI+
+	L82A==
+MIME-Version: 1.0
+Received: by 10.182.207.3 with SMTP id ls3mr39953900obc.60.1357346003118; Fri,
+	04 Jan 2013 16:33:23 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Fri, 4 Jan 2013 16:33:22 -0800 (PST)
+In-Reply-To: <449d181c104843ef74cbc1f81a5a58f18051fc14.1357343832.git.raj.khem@gmail.com>
+References: <cover.1357343832.git.raj.khem@gmail.com>
+	<a199c2dc372f0c5a524685e30d8417f05b3713f9.1357343832.git.raj.khem@gmail.com>
+	<449d181c104843ef74cbc1f81a5a58f18051fc14.1357343832.git.raj.khem@gmail.com>
+Date: Fri, 4 Jan 2013 22:33:22 -0200
+X-Google-Sender-Auth: _CkmNjTugP1gcIub50lqn-B2mPc
+Message-ID: <CAP9ODKqBnkx0U7FQjs1HB6VqWVsBOv+YOufouLebWT9=dJ=kpQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] eglibc_2.17: Fix Tibetian locale generation error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jan 2013 00:38:09 -0000
+X-List-Received-Date: Sat, 05 Jan 2013 00:48:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-restore FILESPATH to previous setting because the new one doesn't allow the
-normal use of FILESEXTRAPATHS_prepend in the case of append recipe.
-In the current implementation, in fact, the FILESPATH is statically set into
-the gcc-4.7.inc and so the base_set_filespath is not invoked to manage
-extrapaths.
+On Fri, Jan 4, 2013 at 10:00 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> This is fallout of BZ #13950 fix to glibc
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
----
- meta/recipes-devtools/gcc/gcc-4.7.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Fix doesn't seem as an accurate name here; I'd prefer:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 2cfbf99..378caf0 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -18,7 +18,7 @@ PV = "4.7.2"
- 
- BINV = "4.7.2"
- 
--FILESPATH = "${FILE_DIRNAME}/gcc-4.7"
-+FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
- 
- DEPENDS =+ "mpfr gmp libmpc"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
--- 
-1.7.7.6
+Workaround Tibetian locale generation error
 
+as it better describes what it does; the patch file should be renamed
+and updated as well.
+
+What do you think?
+
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
