@@ -1,35 +1,35 @@
-Received: from mail-la0-f51.google.com ([209.85.215.51])
+Received: from mail-la0-f44.google.com ([209.85.215.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Ts0DH-0006nT-RU
+	(envelope-from <cazfi74@gmail.com>) id 1Ts0DH-0006nN-9g
 	for openembedded-core@lists.openembedded.org;
 	Mon, 07 Jan 2013 01:05:12 +0100
-Received: by mail-la0-f51.google.com with SMTP id fj20so13645971lab.24
+Received: by mail-la0-f44.google.com with SMTP id fr10so13959211lab.3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 06 Jan 2013 15:50:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=QeyfUaS4l8t1nrlAwCENLkZ5Jipp+0aOgVN8CuMJZ2A=;
-	b=Zgia/aKM3uGsFXz0NpRvVIQaV/ZyK00gXi1GUjGJpbKmRh/U2ubYGlKATouGo0ACIS
-	WSoIWVLInVLOHAaXe0QnZx6QT/CXeENI6Lq8IGQqU00nLhuXdiIt+Ccbhoy/THGt6AxN
-	kz3nzXcBgHwO1kwQlaZrS9nmNyrxkEe+6uSpzBuSe3pr0/mCLL187V0Y4lBl/DxNZoQd
-	Ut0QZ8LmTgoV96eKwM+a4bwLEilLAHQt8XV9WNKKk+NOjsWRsH3mSToDNqzl46VaD0+w
-	KlLlDn+P7A9M72XnU9xfC6le/Oc9IdloUAGzT9I1BdjsCg6e6xKhUUe5PJ/K/TMwlBIu
-	DzXQ==
-X-Received: by 10.152.114.65 with SMTP id je1mr57034878lab.33.1357516203455;
-	Sun, 06 Jan 2013 15:50:03 -0800 (PST)
+	:references; bh=YvzvByjFRRakiG2l9E8gS0bilHB1ynge+WFY5rBv+9Q=;
+	b=XhnZknv0VV7Xo/Jg7mADJw1eq3nI3j4BWkxDGhaUYo2rurnO43gDGglMFD5HJf6kqn
+	Ea86zvFzBgQ5+azJm83Q4yUyl+zlVsV4WCru4oM2TNA4zHV81dQ7k4qKCX0o/W7A1VQO
+	kZ8hfEvbKm7omW9Foq2oZrvEzz2eIwouDVM8VDv42EZKv1jQZa4X7lArhXRorRa4JeNe
+	n9JLQ5Ezn4p16OfokHi2tufJr58iTt4HNfzP8mzZF2TM2AxfhAVgBn96pCN/JST/fnfK
+	ivJgv/0EA+zVpt4GSidn9zTa9uVR30AZTmaXZLgGzSxJCjB30qqe1PU/AB2ytAqbBkQe
+	wmiA==
+X-Received: by 10.152.148.40 with SMTP id tp8mr56276365lab.30.1357516202680;
+	Sun, 06 Jan 2013 15:50:02 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id fb1sm20239977lbb.15.2013.01.06.15.49.59
+	by mx.google.com with ESMTPS id ox6sm21994961lab.16.2013.01.06.15.49.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Sun, 06 Jan 2013 15:50:01 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TrzyW-0001QD-HU; Mon, 07 Jan 2013 01:49:56 +0200
+	id 1TrzyU-0001Q3-H3; Mon, 07 Jan 2013 01:49:54 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 01:49:39 +0200
-Message-Id: <1357516181-5358-14-git-send-email-cazfi74@gmail.com>
+Date: Mon,  7 Jan 2013 01:49:37 +0200
+Message-Id: <1357516181-5358-12-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357516181-5358-13-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357516181-5358-11-git-send-email-cazfi74@gmail.com>
 References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
@@ -41,9 +41,7 @@ References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-9-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-10-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-11-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-12-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-13-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH v2 13/15] gnutls: replace obsolete automake macros with working ones
+Subject: [PATCH v2 11/15] libid3tag: replace obsolete automake macros with working ones
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,75 +61,50 @@ no longer supported by automake-1.13 with modern constructs.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../gnutls/gnutls/obsolete_automake_macros.patch   |   39 ++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_2.12.21.bb      |    3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+ .../libid3tag/libid3tag/obsolete_automake_macros.patch   |   14 ++++++++++++++
+ meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb   |    6 ++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch b/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
 new file mode 100644
-index 0000000..be01303
+index 0000000..2ecd478
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Submitted (https://savannah.gnu.org/support/index.php?108219)
++++ b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
+@@ -0,0 +1,14 @@
++Upstream-Status: Submitted (https://sourceforge.net/tracker/?func=detail&aid=3599280&group_id=12349&atid=112349)
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd gnutls-2.12.21/configure.ac gnutls-2.12.21/configure.ac
-+--- gnutls-2.12.21/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/configure.ac	2013-01-03 07:53:41.662739378 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++diff -Nurd libid3tag-0.15.1b/configure.ac libid3tag-0.15.1b/configure.ac
++--- libid3tag-0.15.1b/configure.ac	2004-01-24 01:22:46.000000000 +0200
+++++ libid3tag-0.15.1b/configure.ac	2013-01-03 06:41:02.734835014 +0200
++@@ -28,7 +28,7 @@
 +
-+ AC_MSG_RESULT([***
-+ *** Checking for compilation programs...
-+diff -Nurd gnutls-2.12.21/lib/configure.ac gnutls-2.12.21/lib/configure.ac
-+--- gnutls-2.12.21/lib/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/lib/configure.ac	2013-01-03 08:07:38.150721027 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++ AM_INIT_AUTOMAKE
 +
-+ AC_PROG_CC
-+ lgl_EARLY
-+diff -Nurd gnutls-2.12.21/libextra/configure.ac gnutls-2.12.21/libextra/configure.ac
-+--- gnutls-2.12.21/libextra/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/libextra/configure.ac	2013-01-03 08:10:56.654716669 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++-AM_CONFIG_HEADER([config.h])
+++AC_CONFIG_HEADERS([config.h])
 +
-+ AC_PROG_CC
-+ xgl_EARLY
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.21.bb b/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-index 6b2ef3a..7b4426b 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-@@ -1,12 +1,13 @@
- require gnutls.inc
++ dnl System type.
+diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+index dbcf2da..d81f58b 100644
+--- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
++++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
+@@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 			file://version.h;beginline=1;endline=8;md5=86ac68b67f054b7afde9e149bbc3fe63"
+ SECTION = "libs"
+ DEPENDS = "zlib gperf-native"
+-PR = "r6"
++PR = "r7"
  
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
+ SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libid3tag-${PV}.tar.gz \
+-           file://addpkgconfig.patch"
++           file://addpkgconfig.patch \
++           file://obsolete_automake_macros.patch \
++"
  
- SRC_URI += "file://gnutls-openssl.patch \
-             file://correct_rpl_gettimeofday_signature.patch \
-             file://configure-fix.patch \
-             file://gnutls_fix_for_automake_1.12.1.patch \
-             file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
-+            file://obsolete_automake_macros.patch \
-             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
-             file://remove-gets.patch \
-            "
+ SRC_URI[md5sum] = "e5808ad997ba32c498803822078748c3"
+ SRC_URI[sha256sum] = "63da4f6e7997278f8a3fef4c6a372d342f705051d1eeb6a46a86b03610e26151"
 -- 
 1.7.10.4
 
