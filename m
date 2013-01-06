@@ -1,35 +1,35 @@
-Received: from mail-la0-f44.google.com ([209.85.215.44])
+Received: from mail-la0-f48.google.com ([209.85.215.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Ts0DH-0006nN-9g
+	(envelope-from <cazfi74@gmail.com>) id 1Ts0DI-0006nU-9d
 	for openembedded-core@lists.openembedded.org;
 	Mon, 07 Jan 2013 01:05:12 +0100
-Received: by mail-la0-f44.google.com with SMTP id fr10so13959211lab.3
+Received: by mail-la0-f48.google.com with SMTP id ej20so14008675lab.35
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 06 Jan 2013 15:50:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=YvzvByjFRRakiG2l9E8gS0bilHB1ynge+WFY5rBv+9Q=;
-	b=XhnZknv0VV7Xo/Jg7mADJw1eq3nI3j4BWkxDGhaUYo2rurnO43gDGglMFD5HJf6kqn
-	Ea86zvFzBgQ5+azJm83Q4yUyl+zlVsV4WCru4oM2TNA4zHV81dQ7k4qKCX0o/W7A1VQO
-	kZ8hfEvbKm7omW9Foq2oZrvEzz2eIwouDVM8VDv42EZKv1jQZa4X7lArhXRorRa4JeNe
-	n9JLQ5Ezn4p16OfokHi2tufJr58iTt4HNfzP8mzZF2TM2AxfhAVgBn96pCN/JST/fnfK
-	ivJgv/0EA+zVpt4GSidn9zTa9uVR30AZTmaXZLgGzSxJCjB30qqe1PU/AB2ytAqbBkQe
-	wmiA==
-X-Received: by 10.152.148.40 with SMTP id tp8mr56276365lab.30.1357516202680;
-	Sun, 06 Jan 2013 15:50:02 -0800 (PST)
+	:references; bh=JGrEeeLweXruR8jCnOS7hgwJ+S5k/3ojQFXkY0EJ2G0=;
+	b=cgB0eTo+KU1Wom8Xye1RoukZ7XrzkKuX8c5+3xgWtjD5VA8KTtpCOjnnNqlCyp0GqE
+	1QVnF67gj6k6GKzNGa2nBUrwWfG7+3BubMUlY2Alt1IejcdFlqLHdgPsedkmxgC8bAi9
+	RebryH/4coDT9eqRmcax1zso4EDcJ8qzfcrw61QInHbdhwYjKFxxE8/s3YoYUE9bRNq4
+	wqNFZ//sH3EJnhcpPCrd5eXfIBXYB7monOZPsaF1qn0Aq2KmUSef0rDyvXCKwzLeSspu
+	tQuPgnkoqwVF0gyqT2vOYmXZqpzUzlryo+mDi6/w1Lbod/9DNIWym2MtQn8nIykSaECq
+	L/Sw==
+X-Received: by 10.112.49.102 with SMTP id t6mr22986438lbn.60.1357516203905;
+	Sun, 06 Jan 2013 15:50:03 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id ox6sm21994961lab.16.2013.01.06.15.49.59
+	by mx.google.com with ESMTPS id fb1sm20239970lbb.15.2013.01.06.15.49.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 06 Jan 2013 15:50:01 -0800 (PST)
+	Sun, 06 Jan 2013 15:50:02 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TrzyU-0001Q3-H3; Mon, 07 Jan 2013 01:49:54 +0200
+	id 1TrzyX-0001QI-KC; Mon, 07 Jan 2013 01:49:57 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 01:49:37 +0200
-Message-Id: <1357516181-5358-12-git-send-email-cazfi74@gmail.com>
+Date: Mon,  7 Jan 2013 01:49:40 +0200
+Message-Id: <1357516181-5358-15-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357516181-5358-11-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357516181-5358-14-git-send-email-cazfi74@gmail.com>
 References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
@@ -41,7 +41,10 @@ References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-9-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-10-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-11-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH v2 11/15] libid3tag: replace obsolete automake macros with working ones
+	<1357516181-5358-12-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-13-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-14-git-send-email-cazfi74@gmail.com>
+Subject: [PATCH v2 14/15] libtasn1: remove help2man dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,55 +59,55 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 07 Jan 2013 00:05:12 -0000
 
-Add obsolete-automake-macros.patch that replaces automake macros
-no longer supported by automake-1.13 with modern constructs.
+Remove manpage creation. It wasn't working because of help2man
+missing when libtasn1 is being built. This attempt to create
+manpages without help2man turns from no-op to hard error with
+automake-1.13.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../libid3tag/libid3tag/obsolete_automake_macros.patch   |   14 ++++++++++++++
- meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb   |    6 ++++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
+ .../gnutls/libtasn1/dont-depend-on-help2man.patch        |   14 ++++++++++++++
+ meta/recipes-support/gnutls/libtasn1_2.14.bb             |    3 ++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
 
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
+diff --git a/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
 new file mode 100644
-index 0000000..2ecd478
+index 0000000..2ac89f3
 --- /dev/null
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
++++ b/meta/recipes-support/gnutls/libtasn1/dont-depend-on-help2man.patch
 @@ -0,0 +1,14 @@
-+Upstream-Status: Submitted (https://sourceforge.net/tracker/?func=detail&aid=3599280&group_id=12349&atid=112349)
++Upstream-Status: Inappropriate
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd libid3tag-0.15.1b/configure.ac libid3tag-0.15.1b/configure.ac
-+--- libid3tag-0.15.1b/configure.ac	2004-01-24 01:22:46.000000000 +0200
-++++ libid3tag-0.15.1b/configure.ac	2013-01-03 06:41:02.734835014 +0200
-+@@ -28,7 +28,7 @@
++diff -Nurd libtasn1-2.14/doc/Makefile.am libtasn1-2.14/doc/Makefile.am
++--- libtasn1-2.14/doc/Makefile.am	2012-09-24 15:08:42.000000000 +0300
+++++ libtasn1-2.14/doc/Makefile.am	2013-01-03 07:35:26.702763403 +0200
++@@ -31,7 +31,7 @@
++ AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS) \
++	--no-split --number-sections --css-include=texinfo.css
 +
-+ AM_INIT_AUTOMAKE
++-dist_man_MANS = $(gdoc_MANS) asn1Parser.1 asn1Coding.1 asn1Decoding.1
+++dist_man_MANS = $(gdoc_MANS)
 +
-+-AM_CONFIG_HEADER([config.h])
-++AC_CONFIG_HEADERS([config.h])
-+
-+ dnl System type.
-diff --git a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-index dbcf2da..d81f58b 100644
---- a/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-+++ b/meta/recipes-multimedia/libid3tag/libid3tag_0.15.1b.bb
-@@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 			file://version.h;beginline=1;endline=8;md5=86ac68b67f054b7afde9e149bbc3fe63"
- SECTION = "libs"
- DEPENDS = "zlib gperf-native"
--PR = "r6"
-+PR = "r7"
++ HELP2MAN_OPTS = --info-page libtasn1
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.14.bb b/meta/recipes-support/gnutls/libtasn1_2.14.bb
+index 3f49bfa..68d5ddf 100644
+--- a/meta/recipes-support/gnutls/libtasn1_2.14.bb
++++ b/meta/recipes-support/gnutls/libtasn1_2.14.bb
+@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
  
- SRC_URI = "ftp://ftp.mars.org/pub/mpeg/libid3tag-${PV}.tar.gz \
--           file://addpkgconfig.patch"
-+           file://addpkgconfig.patch \
-+           file://obsolete_automake_macros.patch \
-+"
+-PR = "r0"
++PR = "r1"
  
- SRC_URI[md5sum] = "e5808ad997ba32c498803822078748c3"
- SRC_URI[sha256sum] = "63da4f6e7997278f8a3fef4c6a372d342f705051d1eeb6a46a86b03610e26151"
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://libtasn1_fix_for_automake_1.12.patch \
++           file://dont-depend-on-help2man.patch \
+            "
+ 
+ SRC_URI[md5sum] = "a08c5936f9672da9b05691785499bcc3"
 -- 
 1.7.10.4
 
