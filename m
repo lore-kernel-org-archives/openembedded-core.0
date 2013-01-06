@@ -1,26 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tri6T-0008Ri-4m
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TrlvE-0001zt-UD
 	for openembedded-core@lists.openembedded.org;
-	Sun, 06 Jan 2013 05:45:03 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jan 2013 20:29:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,418,1355126400"; d="scan'208";a="188123027"
-Received: from unknown (HELO [10.255.14.104]) ([10.255.14.104])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Jan 2013 20:29:48 -0800
-Message-ID: <50E8FDBB.5080500@linux.intel.com>
-Date: Sat, 05 Jan 2013 20:29:47 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Sun, 06 Jan 2013 09:49:37 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r068YT0f002251
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 6 Jan 2013 00:34:29 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Sun, 6 Jan 2013 00:34:28 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 6 Jan 2013 16:34:25 +0800
+Message-ID: <cover.1357354330.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <cover.1357366840.git.sgw@linux.intel.com>
-	<CAF6bG8ed60RO2bBTPFhKQiG+3xis6-H9icmLDWtwHCO9NAyadw@mail.gmail.com>
-In-Reply-To: <CAF6bG8ed60RO2bBTPFhKQiG+3xis6-H9icmLDWtwHCO9NAyadw@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL (V2) 00/35] Updates, Multilib Patches and other fixes
+Subject: [PATCH 0/1] glib-2.0-native:add option march to BUILD_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2013 04:45:03 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 06 Jan 2013 08:49:37 -0000
+Content-Type: text/plain
 
-On 01/04/2013 10:52 PM, Marko Lindqvist wrote:
-> On 5 January 2013 08:22, Saul Wold <sgw@linux.intel.com> wrote:
->>
->> Saul Wold (3):
->>    glib-2.0: Update to 2.35.3
->
->   Is there some specific need for bleeding edge (unstable development snapshot)?
->
-I was updating glib-networking and it required glib 2.35.3, I had not 
-checked (my bad that it was unstable).  Even after a number of years, I 
-loose track sometimes of what's stable vs unstable (odd vs .99 vs ??)
+The following changes since commit 09359e6ec00901abfe49157f1f9730117b4d284b:
 
-We can drop both the glib and glib-networking patches.
+  freetype: update to 2.4.11 which includes fixes for CVE-2012-{5668, 5669, 5670} (2012-12-31 09:43:27 +0000)
 
+are available in the git repository at:
 
-Sau!
+  git://git.pokylinux.org/poky-contrib hongxu/glib-2.0-native
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/glib-2.0-native
 
->
->
->   - ML
->
+Hongxu Jia (1):
+  glib-2.0-native:add option march to BUILD_CFLAGS
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+-- 
+1.7.10.4
+
 
 
