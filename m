@@ -1,32 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pa0-f52.google.com ([209.85.220.52])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Trn3Y-0006hh-Op
+	(envelope-from <martin.jansa@gmail.com>) id 1Trn8p-0006tX-KA
 	for openembedded-core@lists.openembedded.org;
-	Sun, 06 Jan 2013 11:02:17 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r069l8iu002694
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 6 Jan 2013 01:47:08 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Sun, 6 Jan 2013 01:47:06 -0800
-Message-ID: <50E9482B.5020905@windriver.com>
-Date: Sun, 6 Jan 2013 17:47:23 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Sun, 06 Jan 2013 11:07:44 +0100
+Received: by mail-pa0-f52.google.com with SMTP id fb1so10173996pad.39
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 06 Jan 2013 01:52:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=J4jR1GgDQ+1lsf+oMoGSkz0z66JaiPp91csp82/TwLY=;
+	b=Yjrah9GqgJIl3pzGRzbeI2t0jpRLVFj+WSjkENL9xkLXU78pP82Y2YbTTVV5ozWpwh
+	1S1VO9AnOWJ8FMI0t8zL9ebkKaGfqXmtKHaYGHl0BGQQqzcpxobvMNrmD3gAeBZONjTy
+	u04EM1KuHEQVnWFRHV2ZDvOK0xe8CzeJ9Fce3fde0gEnb9Is4pxBgX0HQXJoe2NqTslh
+	g4Ncr1Nm9o5Kv6eBviEG0wsgDZf+GsFf/QDVLBam/23PBZUSqE/aqQ95+gsMLxJjtBoN
+	D/1G16je6lWnlCDW2elvNpk7uQyBDsb2c97v3oPpU0V0+uKn0wB/jmCttSjryn+MJGzM
+	UlSA==
+X-Received: by 10.66.82.230 with SMTP id l6mr168752386pay.12.1357465955053;
+	Sun, 06 Jan 2013 01:52:35 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id
+	zv10sm35545455pbc.76.2013.01.06.01.52.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 06 Jan 2013 01:52:34 -0800 (PST)
+Date: Sun, 6 Jan 2013 10:52:33 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Qi.Chen@windriver.com
+Message-ID: <20130106095233.GD3272@jama>
+References: <cover.1357465230.git.Qi.Chen@windriver.com>
+	<1d17c4e8a5cdbfd59016e83b3a6aab810638aebf.1357465230.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1356919994.git.Qi.Chen@windriver.com>
-	<b809c41a8171f0b113f4f6dd506d52ee0e18cd3d.1356919994.git.Qi.Chen@windriver.com>
-	<CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
-In-Reply-To: <CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V5 2/4] image.bbclass: add two hook funtions
+In-Reply-To: <1d17c4e8a5cdbfd59016e83b3a6aab810638aebf.1357465230.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V6 3/6] core-image.bbclass: support read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,102 +46,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2013 10:02:17 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 06 Jan 2013 10:07:44 -0000
+X-List-Received-Date: Sun, 06 Jan 2013 10:07:44 -0000
+X-Groupsio-MsgNum: 33331
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="tNQTSEo8WG/FKZ8E"
+Content-Disposition: inline
 
-Hi Otavio:
+--tNQTSEo8WG/FKZ8E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-V6 has been sent with support for customized conf files.
-Also, the specific conf files are provided by corresponding image 
-recipes, because the contents of the conf files are closely related to 
-the image types.
+On Sun, Jan 06, 2013 at 05:44:25PM +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> The hook function is appended to ROOTFS_POSTPROCESS_COMMAND
+> properly to support the 'read-only-rootfs' image feature.
+>=20
+> [YOCTO #3406]
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/core-image.bbclass |    5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bb=
+class
+> index 2e67018..ebb9597 100644
+> --- a/meta/classes/core-image.bbclass
+> +++ b/meta/classes/core-image.bbclass
+> @@ -28,6 +28,7 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D=
+3f40d7994397109285ec7b81fdeb3
+>  # - dev-pkgs            - development packages (headers, etc.) for all i=
+nstalled packages in the rootfs
+>  # - dbg-pkgs            - debug symbol packages for all installed packag=
+es in the rootfs
+>  # - doc-pkgs            - documentation packages for all installed packa=
+ges in the rootfs
+> +# - read-only-rootfs    - tweaks an image to support read-only rootfs
+>  #
+>  PACKAGE_GROUP_x11 =3D "packagegroup-core-x11"
+>  PACKAGE_GROUP_x11-base =3D "packagegroup-core-x11-base"
+> @@ -73,9 +74,9 @@ inherit image
+> =20
+>  # Create /etc/timestamp during image construction to give a reasonably s=
+ane default time setting
+>  ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp ; "
+> -
+>  # Zap the root password if debug-tweaks feature is not enabled
+>  ROOTFS_POSTPROCESS_COMMAND +=3D '${@base_contains("IMAGE_FEATURES", "deb=
+ug-tweaks", "", "zap_root_password ; ",d)}'
+>  # Allow openssh accept empty password login if both debug-tweaks and ssh=
+-server-openssh are enabled
+>  ROOTFS_POSTPROCESS_COMMAND +=3D '${@base_contains("IMAGE_FEATURES", "deb=
+ug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
+> -
+> +# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs i=
+s enabled
+
+This read_only_rootfs_hook does more than that, please update comment
 
 Cheers,
-Chen Qi
 
-On 01/02/2013 02:12 AM, Otavio Salvador wrote:
-> On Mon, Dec 31, 2012 at 12:16 AM,  <Qi.Chen@windriver.com> wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
->> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
->> volatile.sh script run at rootfs time.
->>
->> choose_volatile_conf_file: this function is invoked no matter
->> 'read-only-rootfs' is in IMAGE_FEATURES or not, it properly chooses
->> the right conf file for volatile storage handling according to the
->> IMAGE_FEATURES.
->>
->> [YOCTO #3406]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/image.bbclass |   30 ++++++++++++++++++++++++++++++
->>   1 file changed, 30 insertions(+)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index d3a416d..57bd0e3 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -396,6 +396,36 @@ zap_root_password () {
->>          mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
->>   }
->>
->> +# A hook function to support read-only-rootfs IMAGE_FEATURES
->> +read_only_rootfs_hook () {
->> +       # Tweak the mount option in fstab
->> +       sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
-> Maybe use 'defaults,ro' in fstab?
->
->> +       # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
->> +       if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
->> +               sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
->> +       fi
->> +       # Run populate-volatile.sh at rootfs time to set up basic files
->> +       # and directories to support read-only rootfs.
->> +       if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
->> +               ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
->> +       fi
->> +}
->> +
->> +# Choose the correct config file for volatile storage handling according to the image type
->> +choose_volatile_conf_file () {
->> +       if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
->> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato ]; then
->> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
->> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
->> +               fi
->> +       else
->> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal ]; then
->> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
->> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
->> +               fi
->> +       fi
-> Wouldn't be better to have a package which provides the need valatile
-> config? this makes it easy to reuse for other images.
->
->> +}
->> +
->>   # allow openssh accept login with empty password string
->>   openssh_allow_empty_password () {
->>          if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
->> --
->> 1.7.9.5
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
->
->
+> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@base_contains("IMAGE_FEATURES", "rea=
+d-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+> --=20
+> 1.7.9.5
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--tNQTSEo8WG/FKZ8E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDpSWEACgkQN1Ujt2V2gBwTgwCghoLETIUfTLPu6Z8JQ1/7W6Q9
+iFUAoLIeeFCahQCSgz+9oQUbpsUxOpkN
+=Zrll
+-----END PGP SIGNATURE-----
+
+--tNQTSEo8WG/FKZ8E--
