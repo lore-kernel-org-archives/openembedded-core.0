@@ -1,24 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Lei.Yang@windriver.com>) id 1Trp8M-00020P-Kz
+	(envelope-from <walters@verbum.org>) id 1TrvJ4-0006Tm-Aq
 	for openembedded-core@lists.openembedded.org;
-	Sun, 06 Jan 2013 13:15:24 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r06BHLmc005762
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 6 Jan 2013 03:17:21 -0800 (PST)
-Received: from pek-lpgtest4.wrs.com (128.224.153.84) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Sun, 6 Jan 2013 03:17:20 -0800
-From: <lei.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 6 Jan 2013 19:17:19 +0800
-Message-ID: <1357471039-3056-1-git-send-email-lei.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] Remove the redundant "/"
+	Sun, 06 Jan 2013 19:50:51 +0100
+Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 45B82208F3;
+	Sun,  6 Jan 2013 13:28:17 -0500 (EST)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute3.internal (MEProxy); Sun, 06 Jan 2013 13:28:17 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=LqcgIOa/vSmWbCatlGPAdB
+	4MwBE=; b=n5hc2P8bk1S4CizjuPjzbYlC1UFJBPl2pJr6vq4DbNAlhS8MkncCWH
+	FusLWyMoXMU7vpnj7fhISx01AWR8sExIZpRVUHcAnPHnCXtPt0iVEfcWo+tQb+FW
+	ZjzYOWBSubY7WUfkJB9QjSqHmoOniwigAGxM65Q5qTtZtVHMcBYCU=
+X-Sasl-enc: B1RASfOV46P31NQZX48shV4RoYGMVtMvrYZCmnkZiEB1 1357496896
+Received: from [192.168.1.6] (unknown [50.138.225.153])
+	by mail.messagingengine.com (Postfix) with ESMTPA id DE2738E0408;
+	Sun,  6 Jan 2013 13:28:16 -0500 (EST)
+From: Colin Walters <walters@verbum.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+In-Reply-To: <2f2c14ff5bbe6619fd7ac1649f5f985604bd6941.1357354330.git.hongxu.jia@windriver.com>
+References: <cover.1357354330.git.hongxu.jia@windriver.com>
+	<2f2c14ff5bbe6619fd7ac1649f5f985604bd6941.1357354330.git.hongxu.jia@windriver.com>
+Date: Sun, 06 Jan 2013 13:28:16 -0500
+Message-ID: <1357496896.8239.0.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 (2.28.3-27.el6) 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] glib-2.0-native:add option march to BUILD_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,40 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2013 12:15:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 06 Jan 2013 18:50:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Lei Yang <lei.yang@windriver.com>
+On Sun, 2013-01-06 at 16:34 +0800, Hongxu Jia wrote:
 
-Signed-off-by: Lei Yang <lei.yang@windriver.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+> +# Add option -march to BUILD_CFLAGS in order to let the atomic operations
+> +# ("lock free") be available while using old version GCC on x86 host to
+> +# compile glib-2.0-native
+> +BUILD_CFLAGS += "-march=${@'${BUILD_ARCH}'.replace('_','-')}"
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 39faad9..8ef7195 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Miscellaneous files for the base system."
- DESCRIPTION = "The base-files package creates the basic system directory structure and provides a small set of key configuration files for the system."
- SECTION = "base"
--PR = "r72"
-+PR = "r73"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://licenses/GPL-2;md5=94d55d512a9ba36caa9b7df079bae19f"
- # Removed all license related tasks in this recipe as license.bbclass 
-@@ -78,7 +78,7 @@ do_install () {
- 		install -m 2755 -d ${D}$d
- 	done
- 	for d in ${volatiles}; do
--		ln -sf volatile/$d ${D}/${localstatedir}/$d
-+		ln -sf volatile/$d ${D}${localstatedir}/$d
- 	done
- 	for d in card cf net ram; do
- 		ln -sf /media/$d ${D}/mnt/$d
--- 
-1.7.1
+Shouldn't this be handled more generically for all native recipes?
+
 
 
 
