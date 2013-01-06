@@ -1,27 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Trn0p-0005yE-7K
+	(envelope-from <Qi.Chen@windriver.com>) id 1Trn3Y-0006hh-Op
 	for openembedded-core@lists.openembedded.org;
-	Sun, 06 Jan 2013 10:59:28 +0100
+	Sun, 06 Jan 2013 11:02:17 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r069iJiv013456
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 6 Jan 2013 01:44:19 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Sun, 6 Jan 2013 01:44:18 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 6 Jan 2013 17:44:28 +0800
-Message-ID: <c8df96d897ecdf4fe04088aff1eba2fbfb0c004a.1357465230.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1357465230.git.Qi.Chen@windriver.com>
-References: <cover.1357465230.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r069l8iu002694
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 6 Jan 2013 01:47:08 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Sun, 6 Jan 2013 01:47:06 -0800
+Message-ID: <50E9482B.5020905@windriver.com>
+Date: Sun, 6 Jan 2013 17:47:23 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V6 6/6] core-image-sato: support read-only rootfs
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1356919994.git.Qi.Chen@windriver.com>
+	<b809c41a8171f0b113f4f6dd506d52ee0e18cd3d.1356919994.git.Qi.Chen@windriver.com>
+	<CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
+In-Reply-To: <CAP9ODKoCGGj8wEhpgJ2UziQar_pc45t7P76DSQJSSjSf4LFyRw@mail.gmail.com>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V5 2/4] image.bbclass: add two hook funtions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,63 +39,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2013 09:59:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 06 Jan 2013 10:02:17 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Hi Otavio:
 
-Support read-only rootfs by providing a specific conf file for volatile storage.
+V6 has been sent with support for customized conf files.
+Also, the specific conf files are provided by corresponding image 
+recipes, because the contents of the conf files are closely related to 
+the image types.
 
-[YOCTO #3406]
+Cheers,
+Chen Qi
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-sato/images/core-image-sato.bb        |    8 ++++++++
- .../images/files/volatiles-readonly-sato           |   14 ++++++++++++++
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-sato/images/files/volatiles-readonly-sato
-
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index f52a1a5..4ca1746 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -6,6 +6,14 @@ IMAGE_FEATURES += "splash package-management x11-base x11-sato ssh-server-dropbe
- 
- LICENSE = "MIT"
- 
-+SRC_URI += "file://volatiles-readonly-sato"
-+
- inherit core-image
- 
- IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
-+
-+# install read-only rootfs specific conf file for sato image
-+choose_volatile_conf () {
-+	cp ${WORKDIR}/volatiles-readonly-sato \
-+		${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
-+}
-diff --git a/meta/recipes-sato/images/files/volatiles-readonly-sato b/meta/recipes-sato/images/files/volatiles-readonly-sato
-new file mode 100644
-index 0000000..4a56b81
---- /dev/null
-+++ b/meta/recipes-sato/images/files/volatiles-readonly-sato
-@@ -0,0 +1,14 @@
-+# This configuration file lists filesystem objects specific to sato image
-+# with read-only rootfs.
-+# This configuration file will only be applied if the image is sato and the
-+# rootfs is read-only.
-+# For the detailed format information, refer to /etc/default/volatiles/00_core.
-+d root root 0755 /var/volatile/lib/ none
-+d root root 0755 /var/volatile/lib/urandom/ none
-+d root root 0755 /var/volatile/lib/dropbear/ none
-+d root root 0755 /var/volatile/lib/nfs/ none
-+d root root 0755 /var/volatile/lib/dbus/ none
-+l root root 0755 /var/lib/urandom /var/volatile/lib/urandom
-+l root root 0755 /var/lib/dropbear /var/volatile/lib/dropbear
-+l root root 0755 /var/lib/nfs /var/volatile/lib/nfs
-+l root root 0755 /var/lib/dbus /var/volatile/lib/dbus
--- 
-1.7.9.5
+On 01/02/2013 02:12 AM, Otavio Salvador wrote:
+> On Mon, Dec 31, 2012 at 12:16 AM,  <Qi.Chen@windriver.com> wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+>> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+>> volatile.sh script run at rootfs time.
+>>
+>> choose_volatile_conf_file: this function is invoked no matter
+>> 'read-only-rootfs' is in IMAGE_FEATURES or not, it properly chooses
+>> the right conf file for volatile storage handling according to the
+>> IMAGE_FEATURES.
+>>
+>> [YOCTO #3406]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/image.bbclass |   30 ++++++++++++++++++++++++++++++
+>>   1 file changed, 30 insertions(+)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index d3a416d..57bd0e3 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -396,6 +396,36 @@ zap_root_password () {
+>>          mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+>>   }
+>>
+>> +# A hook function to support read-only-rootfs IMAGE_FEATURES
+>> +read_only_rootfs_hook () {
+>> +       # Tweak the mount option in fstab
+>> +       sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
+> Maybe use 'defaults,ro' in fstab?
+>
+>> +       # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+>> +       if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
+>> +               sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+>> +       fi
+>> +       # Run populate-volatile.sh at rootfs time to set up basic files
+>> +       # and directories to support read-only rootfs.
+>> +       if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+>> +               ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+>> +       fi
+>> +}
+>> +
+>> +# Choose the correct config file for volatile storage handling according to the image type
+>> +choose_volatile_conf_file () {
+>> +       if ${@base_contains("IMAGE_FEATURES", "x11-sato", "true", "false" ,d)}; then
+>> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato ]; then
+>> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-sato \
+>> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+>> +               fi
+>> +       else
+>> +               if [ -e ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal ]; then
+>> +                       cp ${IMAGE_ROOTFS}/etc/default/volatiles_stage/volatiles-readonly-minimal \
+>> +                               ${IMAGE_ROOTFS}/etc/default/volatiles/00_core_readonly
+>> +               fi
+>> +       fi
+> Wouldn't be better to have a package which provides the need valatile
+> config? this makes it easy to reuse for other images.
+>
+>> +}
+>> +
+>>   # allow openssh accept login with empty password string
+>>   openssh_allow_empty_password () {
+>>          if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+>> --
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>
+>
 
 
 
