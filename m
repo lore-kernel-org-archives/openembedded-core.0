@@ -1,35 +1,35 @@
-Received: from mail-la0-f50.google.com ([209.85.215.50])
+Received: from mail-la0-f42.google.com ([209.85.215.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Ts0DG-0006n5-Lq
+	(envelope-from <cazfi74@gmail.com>) id 1Ts0DG-0006n6-SO
 	for openembedded-core@lists.openembedded.org;
 	Mon, 07 Jan 2013 01:05:10 +0100
-Received: by mail-la0-f50.google.com with SMTP id fs13so13991984lab.9
+Received: by mail-la0-f42.google.com with SMTP id fe20so13998774lab.1
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 06 Jan 2013 15:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=04MGmqTVNyB+DMy5lnwTquTGeBVIub8MOwVCn/cR2rA=;
-	b=cX/fE39gSBU4nmCR0/roAB+d71qUiQg0DuE2zOefyNn3CFPydrfs2LbhL9cVOJPANP
-	ZxMF25JEdVWetqNHwoJrEOYg8RR+cO/CeIT/LShWaO8eT1OCfmk+jf7N7bKDUnrHTN6h
-	E+xPFi8FSWLPB1/iXJFe3V+KR9Cyte/yuseXne+ZXZ5lp77NjpaFp1O1xvmK9crIOJEz
-	gp7W2h6l+EwRPtSE9yzVFcRJGinf3vaGSKgX+wpHhGjEsw1xu+XKv8J6zUldckrNNKdA
-	yNUdgn2zWqnFFq0edzI3L/rpoqPNLIBjfZe722uBBW21aGyHMR4Q4cluJKZ4K07V71DN
-	Y3oA==
-X-Received: by 10.112.46.199 with SMTP id x7mr23927080lbm.109.1357516202081;
+	:references; bh=2GUKzY9gxGFaH+s1UZinfhIOq9Kn15/YJlKWPPWtx18=;
+	b=IMXWzrfRhMTxqZBUDceOIR9PhFdcEyaw8LRCMFD0skMkaHwBq6iiZPsO79bPk44QQs
+	QxcfvtYY2KkMHPlt2T8gOHUnxQK8bh2ImkdCTAZWrSFuPWw8ylo5++H5+xlcXk7yD5PP
+	4tL/Y9gQkkRMFcN7TVQLk50ySMa9Ez0DXzxwyYUd2gHDtfd1sr9Wp4+KKxE1S6HeOdzV
+	gUEzvGLi6PqMqLvhmE+jhrSjbyWRMyboGV68JTwx2/C2c4zBxgh4U52t/DQSB2tGhKrI
+	J08SWiqBYZTrQMnIOTaV5NwvNO/Hkbio3iv0segyLrGbcluxY4otgpJWWTu3sDaaMJEx
+	kWew==
+X-Received: by 10.152.45.229 with SMTP id q5mr56007557lam.34.1357516202464;
 	Sun, 06 Jan 2013 15:50:02 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id ee5sm20240492lbb.14.2013.01.06.15.49.58
+	by mx.google.com with ESMTPS id ee5sm20240456lbb.14.2013.01.06.15.49.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 06 Jan 2013 15:50:00 -0800 (PST)
+	Sun, 06 Jan 2013 15:50:01 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TrzyS-0001Pt-It; Mon, 07 Jan 2013 01:49:52 +0200
+	id 1TrzyT-0001Py-I6; Mon, 07 Jan 2013 01:49:53 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 01:49:35 +0200
-Message-Id: <1357516181-5358-10-git-send-email-cazfi74@gmail.com>
+Date: Mon,  7 Jan 2013 01:49:36 +0200
+Message-Id: <1357516181-5358-11-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357516181-5358-9-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357516181-5358-10-git-send-email-cazfi74@gmail.com>
 References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
@@ -39,7 +39,8 @@ References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-7-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-8-git-send-email-cazfi74@gmail.com>
 	<1357516181-5358-9-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH v2 09/15] libusb: replace obsolete automake macros with working ones
+	<1357516181-5358-10-git-send-email-cazfi74@gmail.com>
+Subject: [PATCH v2 10/15] pixman: replace obsolete automake macros with working ones
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,97 +53,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 00:05:10 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 00:05:11 -0000
 
 Add obsolete-automake-macros.patch that replaces automake macros
 no longer supported by automake-1.13 with modern constructs.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../libusb-compat-0.1.4/obsolete_automake_macros.patch  |   15 +++++++++++++++
- meta/recipes-support/libusb/libusb-compat_0.1.4.bb      |    3 ++-
- .../libusb/libusb1-1.0.9/obsolete_automake_macros.patch |   15 +++++++++++++++
- meta/recipes-support/libusb/libusb1_1.0.9.bb            |    6 ++++--
- 4 files changed, 36 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/libusb/libusb-compat-0.1.4/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
+ .../xorg-lib/pixman/obsolete_automake_macros.patch       |   14 ++++++++++++++
+ meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb          |    3 ++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/obsolete_automake_macros.patch
 
-diff --git a/meta/recipes-support/libusb/libusb-compat-0.1.4/obsolete_automake_macros.patch b/meta/recipes-support/libusb/libusb-compat-0.1.4/obsolete_automake_macros.patch
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/obsolete_automake_macros.patch b/meta/recipes-graphics/xorg-lib/pixman/obsolete_automake_macros.patch
 new file mode 100644
-index 0000000..bb07f81
+index 0000000..7a4237c
 --- /dev/null
-+++ b/meta/recipes-support/libusb/libusb-compat-0.1.4/obsolete_automake_macros.patch
-@@ -0,0 +1,15 @@
-+Upstream-status: Submitted (https://libusb.org/ticket/161)
++++ b/meta/recipes-graphics/xorg-lib/pixman/obsolete_automake_macros.patch
+@@ -0,0 +1,14 @@
++Upstream-Status: Accepted
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd libusb-compat-0.1.4/configure.ac libusb-compat-0.1.4/configure.ac
-+--- libusb-compat-0.1.4/configure.ac	2012-04-24 08:45:46.000000000 +0300
-++++ libusb-compat-0.1.4/configure.ac	2013-01-02 16:41:30.440115202 +0200
-+@@ -1,7 +1,7 @@
-+ AC_INIT([libusb-compat], [0.1.4])
-+ AM_INIT_AUTOMAKE
-+ AC_CONFIG_SRCDIR([libusb/core.c])
-+-AM_CONFIG_HEADER([config.h])
-++AC_CONFIG_HEADERS([config.h])
-+ AC_CONFIG_MACRO_DIR([m4])
++diff -Nurd pixman-0.28.2/configure.ac pixman-0.28.2/configure.ac
++--- pixman-0.28.2/configure.ac	2012-12-10 13:46:36.000000000 +0200
+++++ pixman-0.28.2/configure.ac	2013-01-03 06:31:07.574848073 +0200
++@@ -64,7 +64,7 @@
++ # Suppress verbose compile lines
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 +
-+ AC_PREREQ([2.50])
-diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.4.bb b/meta/recipes-support/libusb/libusb-compat_0.1.4.bb
-index 24df017..d743072 100644
---- a/meta/recipes-support/libusb/libusb-compat_0.1.4.bb
-+++ b/meta/recipes-support/libusb/libusb-compat_0.1.4.bb
-@@ -16,9 +16,10 @@ PROVIDES = "libusb virtual/libusb0"
++-AM_CONFIG_HEADER(config.h)
+++AC_CONFIG_HEADERS(config.h)
++
++ AC_CANONICAL_HOST
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb
+index 4ec0490..59c2691 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb
+@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
+ DEPENDS += "zlib libpng"
  BBCLASSEXTEND = "native nativesdk"
+ 
+-PR = "r0"
++PR = "r1"
  
  PE = "1"
--PR = "r0"
-+PR = "r1"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
-+           file://obsolete_automake_macros.patch \
-           "
- #           file://0.1.0-beta1-gcc3.4-fix.patch"
+@@ -31,6 +31,7 @@ EXTRA_OECONF_class-native = "--disable-gtk"
+ SRC_URI += "\
+             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+             file://Generic-C-implementation-of-pixman_blt-with-overlapp.patch \
++            file://obsolete_automake_macros.patch \
+ "
  
-diff --git a/meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch b/meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
-new file mode 100644
-index 0000000..02a447c
---- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Submitted (https://libusb.org/ticket/159)
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd libusb-1.0.9/configure.ac libusb-1.0.9/configure.ac
-+--- libusb-1.0.9/configure.ac	2012-04-20 09:44:27.000000000 +0300
-++++ libusb-1.0.9/configure.ac	2013-01-02 16:36:44.152121483 +0200
-+@@ -31,7 +31,7 @@
-+
-+ AC_CONFIG_SRCDIR([libusb/core.c])
-+ AC_CONFIG_MACRO_DIR([m4])
-+-AM_CONFIG_HEADER([config.h])
-++AC_CONFIG_HEADERS([config.h])
-+ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
-+
-+ AC_PREREQ([2.50])
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.9.bb b/meta/recipes-support/libusb/libusb1_1.0.9.bb
-index e002374..012ac27 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.9.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.9.bb
-@@ -8,9 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--PR = "r0"
-+PR = "r1"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-+           file://obsolete_automake_macros.patch \
-+          "
- 
- SRC_URI[md5sum] = "7f5a02375ad960d4e33a6dae7d63cfcb"
- SRC_URI[sha256sum] = "e920eedc2d06b09606611c99ec7304413c6784cba6e33928e78243d323195f9b"
+ SRC_URI[md5sum] = "f6e3294c4edb7b6bca8459e604286348"
 -- 
 1.7.10.4
 
