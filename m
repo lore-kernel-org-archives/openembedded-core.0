@@ -1,30 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TsBdW-0001FU-He for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 13:17:21 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07C1p9j004267;
-	Mon, 7 Jan 2013 12:01:51 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04100-02; Mon,  7 Jan 2013 12:01:47 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07C1iHK004261
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 7 Jan 2013 12:01:45 GMT
-Message-ID: <1357560107.25855.9.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-Date: Mon, 07 Jan 2013 12:01:47 +0000
-In-Reply-To: <1357555757-24538-1-git-send-email-bogdan.a.marinescu@intel.com>
-References: <1357555757-24538-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TsBeU-0001N9-MP
+	for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 13:18:07 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 655B8D22EA; Mon,  7 Jan 2013 13:02:53 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 00536D22CD;
+	Mon,  7 Jan 2013 13:02:18 +0100 (CET)
+Message-ID: <50EAB946.5090707@linaro.org>
+Date: Mon, 07 Jan 2013 13:02:14 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1354207309-27534-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<50BDC8C3.6060607@linaro.org> <50EA7D0C.5030804@linaro.org>
+	<1357559209.25855.0.camel@ted>
+In-Reply-To: <1357559209.25855.0.camel@ted>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] tcl: updated to 8.5.13
+Subject: Re: [PATCH] libffi: add AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 12:17:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 07 Jan 2013 12:18:14 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-01-07 at 12:49 +0200, Bogdan Marinescu wrote:
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> ---
->  .../tcl/fix_issue_with_old_distro_glibc.patch      |  109 --------------------
+W dniu 07.01.2013 12:46, Richard Purdie pisze:
 
-TCL doesn't need this on old distros now? Or we're dropping support for
-the old distros?
+> I thought we'd merged it. It is now merged to master. 
 
-Cheers,
-
-Richard
+Thanks. One more thing to remove from my layer.
 
 
 
