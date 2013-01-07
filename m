@@ -1,45 +1,28 @@
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
+Received: from eu1sys200aog108.obsmtp.com ([207.126.144.125])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TsFKV-0005YT-GY
+	(envelope-from <giuseppe.condorelli@st.com>) id 1TsFLR-0005df-Up
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 17:13:39 +0100
-Received: by mail-ob0-f180.google.com with SMTP id wd20so17123833obb.25
+	Mon, 07 Jan 2013 17:14:42 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob108.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUOrw4nT8SKXhrYaa9XhifOTQoYE8wyb2@postini.com;
+	Mon, 07 Jan 2013 15:59:30 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 65EE4206
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 07:58:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=mxquKK895/4KMoXCCm6BusM3Ir7MV7tkenEXzq+AYP8=;
-	b=lSeb1gt8clPNxazuMX9OR528jAXsQC3Hc1Js88acJkFWC+DKUpmjXDyuPTYp5ibdh1
-	G6txnCVLBbWI3V81O5fmJx132uXGu8F+9TBFqsop+oDFpJmwYoglJyL6LBJt0mF+/Gyo
-	M6hXRY4eok8wYjercexv0/rIT6pEw5xhFGHdFmTxsynE2kLwVW2UkFFN1FQomfkuM596
-	6kaKDlgzmndjELCrCaj+5lPnnTzhZUCxiMjJQDpge3PmJK21BH/2szmR465ahQZmd2xA
-	CJc528YvtbyqRDUO8VdQOS9ZJCC3Mw/Wt1g1/HL6zAHZeBDJgpdHfWqUxWwQ0gJSwjjZ
-	LWSQ==
-MIME-Version: 1.0
-Received: by 10.60.171.146 with SMTP id au18mr32964255oec.108.1357574309647;
-	Mon, 07 Jan 2013 07:58:29 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Mon, 7 Jan 2013 07:58:29 -0800 (PST)
-In-Reply-To: <1357566365.25855.17.camel@ted>
-References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-4-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-5-git-send-email-cazfi74@gmail.com>
-	<1357559941.25855.7.camel@ted>
-	<CAF6bG8eMo0c=e8G2zd_Y4ST0hG-S2Zx4f4f7hhO8PPML7Ozs7Q@mail.gmail.com>
-	<CAJTo0LYXWwLEwmz+oWT4Lo6PL1naJxP0NV5DKcEBbJvyLPh0cw@mail.gmail.com>
-	<CAP9ODKq2UVEmG11WFNHNdvE5+-X5NW6azhaQsxxGPbC05+j8og@mail.gmail.com>
-	<1357566365.25855.17.camel@ted>
-Date: Mon, 7 Jan 2013 13:58:29 -0200
-X-Google-Sender-Auth: BKVnVM6lq3G1sN9tY63hy-JZqjA
-Message-ID: <CAP9ODKr+sZwLb5A_H6s2-SJ7kPh9T2S4B9zDt1+0B6NwzMUwYQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 04/15] file: replace obsolete automake macros with working ones
+	Mon,  7 Jan 2013 09:19:08 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0EF932879
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Jan 2013 09:19:07 +0000 (GMT)
+Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id AUS50865 (AUTH condorg); Mon, 7 Jan 2013 10:19:07 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Jan 2013 10:16:47 +0100
+Message-Id: <1357550207-19933-1-git-send-email-giuseppe.condorelli@st.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] libpcre: set BUILD_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,42 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 16:13:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 07 Jan 2013 16:15:05 -0000
 
-On Mon, Jan 7, 2013 at 11:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2013-01-07 at 10:18 -0200, Otavio Salvador wrote:
->> On Mon, Jan 7, 2013 at 10:16 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> > On 7 January 2013 12:11, Marko Lindqvist <cazfi74@gmail.com> wrote:
->> >> What's the correct status for fixes that are not really backports,
->> >> but have happened independently in oe and upstream?
->> >>  - If practically identical, still mark as "Backport"?
->> >>  - If different solution, "Inappropriate [not needed]"?
->> >
->> > If you did it and then later discovered it's happened upstream
->> > independently, it's essentially a backport.
->
-> The best thing is to consider how we use the information. I'd happily
-> accept "Backport" in this case as meaning "the upstream latest version
-> has equivalent functionality". You can note the status after the word to
-> give specifics if needed.
->
->> Maybe it'd be better to not patch at all and update to the newer
->> recipe version?
->
-> I don't think that is a reasonable policy in all cases. I'm not going to
-> block automake on all upstreams making new releases for example.
+Set LINK_SIZE in BUILD_CFLAGS given that the autotools bbclass use it to set
+CFLAG_FOR_BUILD, required for the libpcre build.
 
-Sure but if there're a new release with the fix it is better to
-upgrade than backport the fix (with exceptions, of course).
+Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
+---
+ meta/recipes-support/libpcre/libpcre_8.32.bb |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-My point is: it is good to verify if there're a new release and use it
-if possible. Otherwise backport the fix.
+diff --git a/meta/recipes-support/libpcre/libpcre_8.32.bb b/meta/recipes-support/libpcre/libpcre_8.32.bb
+index e434d55..361e9f0 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.32.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.32.bb
+@@ -34,8 +34,9 @@ EXTRA_OECONF = "\
+     --with-match-limit=10000000 \
+ "
+ 
+-BUILD_CPPFLAGS += "-DLINK_SIZE=2"
+-BUILD_CFLAGS =+ "-I${S}/include"
++# Set LINK_SIZE in BUILD_CFLAGS given that the autotools bbclass use it to
++# set CFLAG_FOR_BUILD, required for the libpcre build.
++BUILD_CFLAGS =+ "-DLINK_SIZE=2 -I${S}/include"
+ CFLAGS += "-D_REENTRANT"
+ CXXFLAGS_append_powerpc = " -lstdc++"
+ 
+-- 
+1.7.7.6
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
