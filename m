@@ -1,44 +1,41 @@
 Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TsArH-0003d6-9B
+	(envelope-from <ross.burton@intel.com>) id 1TsArL-0003d6-RV
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 12:27:13 +0100
-Received: from mail-la0-f71.google.com ([209.85.215.71])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 Jan 2013 03:12:00 -0800
-Received: by mail-la0-f71.google.com with SMTP id fn20so8268649lab.10
+	Mon, 07 Jan 2013 12:27:19 +0100
+Received: from mail-bk0-f70.google.com ([209.85.214.70])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 Jan 2013 03:12:01 -0800
+Received: by mail-bk0-f70.google.com with SMTP id jc3so16660611bkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 03:11:58 -0800 (PST)
+	Mon, 07 Jan 2013 03:11:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references:x-gm-message-state;
-	bh=CQScIug1eQG2Eo47UUtkffDklA/AjUCgek6D86iqXzo=;
-	b=E7CXASAmP3wP2CkkMvJsfD4rASeCvkKOd5YLKkynF/MfRXU88tOF1LlKeSCuykVHCg
-	32UL9oQ2zHQNjgpmmfRIwvEzFGvL+HSx9hCkAr8PmaykuvPk3EErOBFxD/gQCzGzkB9W
-	NgbufXbz2gRMdC/H9k0jp6a/+0RcU2snW+LDcNlmDuPAEGtuUQwwkqeqijxtZi/r0yWc
-	ogNNUt0taEu/+TynZLayo6qFlJg0Xh6lFYjdh4WdDHNCmji99ZsvIUXVvm/x+PcJoWNf
-	c5DBWXHRQKeRwTSyu265MT3QpBZHEPpYAr7RIpP9LTsoo/sAiJJgK5q/Z35LTuLfNhJN
-	b1Eg==
-X-Received: by 10.180.107.130 with SMTP id hc2mr8549539wib.12.1357557117932;
-	Mon, 07 Jan 2013 03:11:57 -0800 (PST)
-X-Received: by 10.180.107.130 with SMTP id hc2mr8549521wib.12.1357557117810;
-	Mon, 07 Jan 2013 03:11:57 -0800 (PST)
+	bh=yNv+SR4hObqApAwaxkMBOSnjj3Aiu/32f0/+oeW99aU=;
+	b=Yqj8ZtIPhqwFUvNt6542OQ6zqkVeP3svOA3d+r4qre+dNEn3+cZEt4CR/vwGCT2/v3
+	zwAfAW58g5Qg7+2LiVGQDs2+7Lb/R5L8vZgVJZCpICO5NDZYsprmQsvACQ3rOtszFK2E
+	kyExWgEZ/pDEmZmYOHRUkzWWC3TLJnQPAKge+3ctPI4idxhzy637mPl7H60PSb15vJKe
+	n46cGoui6lo+i5/Vm4og86AZHB0wRlTKmpSERpo7gIAzyFpOg97QugspDlEMG/j5IeZ5
+	ZZxyNJlVH1WNB+OY2KBCmQOjRA0eLAOEECojvZIL5yjk/z2mO214qFWoz9ScISIDJBmc
+	fCDQ==
+X-Received: by 10.181.13.195 with SMTP id fa3mr8527830wid.8.1357557119189;
+	Mon, 07 Jan 2013 03:11:59 -0800 (PST)
+X-Received: by 10.181.13.195 with SMTP id fa3mr8527824wid.8.1357557119113;
+	Mon, 07 Jan 2013 03:11:59 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l5sm12993779wia.10.2013.01.07.03.11.55
+	by mx.google.com with ESMTPS id l5sm12993779wia.10.2013.01.07.03.11.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Jan 2013 03:11:56 -0800 (PST)
+	Mon, 07 Jan 2013 03:11:58 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 11:09:56 +0000
-Message-Id: <1357557002-22183-2-git-send-email-ross.burton@intel.com>
+Date: Mon,  7 Jan 2013 11:09:57 +0000
+Message-Id: <1357557002-22183-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1357557002-22183-1-git-send-email-ross.burton@intel.com>
 References: <1357557002-22183-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkmMAeHk8W7/txmvhjMcd+HiwfLy6xU0sirubGLCZxKH9WGTmNbXp0VZCe1lQDvJFUCbE8EmI1aM96d2L6hTnZ3pDlRTFiDF1wOsVP4zKS1x4dQhrpig+HgGyAaiJ0xJBrJhTcIpDvuq5FCkcq+flv6B8EDG25s19LXkflQwujHX1f4wGEVyrDaRcsFI2AGwlnUXDGs
-Cc: Przemek Czesnowicz <przemyslawx.czesnowicz@intel.com>,
-	Darren Hart <dvhart@linux.intel.com>, Joshua Immanuel <josh@hipro.co.in>,
-	Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH 1/7] bootimg: Use FAT 32 for images larger than 512MB
+X-Gm-Message-State: ALoCoQm2yyJmN6THZkX53qIWrN1rl7oC7cn72dxxU2rZZennYslolyb1qRbIKYxvo+TblBK0LbHzg96zTstgbCMszu8P6P6m7GyvCLHggnmYEb5dotnicFM32UWjTMzxq6TPRrh6TK8KEOyTP0Tvs0WAcd3W7C70gAEBHzJYilY9iqz1ti/NS9dW3OItCE5/625KMSOM7bJH
+Subject: [PATCH 2/7] Revert "initrdscripts: fix udevd in the live boot init scripts"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,83 +48,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 11:27:15 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 11:27:38 -0000
 
-From: Darren Hart <dvhart@linux.intel.com>
+This cherry-pick slipped through testing and lead to unbootable hddimg images.
 
-Fixes [YOCTO #2138]
+This reverts commit 0140519ba15bfb27ccbfb3d41c7e678a1118fc5c.
 
-Commit 217584211625b1c496fe5b78aa4765ccf605d2b9 dropped the forced use
-of FAT32 for the hddimg generation as it broke with very small images
-(< 32MB). Unfortunately, left to its own devices, mkdosfs appears to select
-FAT16 even for very large images, resulting in 2.2GB images being
-generated as FAT16:
+[ YOCTO #3634 ]
 
-$ ls -lah core-image-lsb-sdk-atom-pc-20121010233936.hddimg
--rw-rw-r-- 1 dvhart dvhart 2.2G 2012-10-17 08:00 core-image-lsb-sdk-atom-pc-20121010233936.hddimg
-
-$ file !$
-file core-image-lsb-sdk-atom-pc-20121010233936.hddimg
-core-image-lsb-sdk-atom-pc-20121010233936.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 128, root entries 512, Media descriptor 0xf8, sectors/FAT 138, heads 64, sectors 4502496 (volumes > 32 MB) , serial number 0x50761926, label: "boot       ", FAT (16 bit)
-
-The result was a runtime boot error from SYSLINUX and a failure to boot
-live images greater than 1GB in size.
-
-While strictly speaking it is the cluster count that determines which
-FAT size is used, that calculation requires more information than we
-have readily available (such as sectors per cluster). If we let mkdosfs
-determine sectors per cluster and just set a sane threshold above which
-FAT32 is used, we get correct bootable images. With this patch the 2.2GB
-core-image-lsb-sdk uses FAT32 and the 21 MB core-image-minimal uses
-FAT16, and both boot in qemu successfully:
-
-$ ls -lah tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
--rw-r--r-- 1 dvhart dvhart 2.2G 2012-12-12 14:18 tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
-
-$ file !$
-file tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg
-tmp/deploy/images/core-image-lsb-sdk-atom-pc-20121212220835.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 8, Media descriptor 0xf8, heads 64, sectors 4470304 (volumes > 32 MB) , FAT (32 bit), sectors/FAT 4357, reserved3 0x800000, serial number 0x50c902b7, label: "boot       "
-
-$ ls -lah tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
--rw-r--r-- 1 dvhart dvhart 21M 2012-12-12 14:06 tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
-
-$ file !$
-file tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg
-tmp/deploy/images/core-image-minimal-atom-pc-20121212220600.hddimg: x86 boot sector, code offset 0x58, OEM-ID "SYSLINUX", sectors/cluster 4, root entries 512, sectors 41408 (volumes <=32 MB) , Media descriptor 0xf8, sectors/FAT 41, heads 64, serial number 0x50c8ffec, label: "boot       ", FAT (16 bit)
-
-I have tested and booted core-image-minimal and core-image-lsb-sdk for
-atom-pc with qemu-system-i386 using this patch.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Steve Sakoman <steve@sakoman.com>
-Cc: Joshua Immanuel <josh@hipro.co.in>
-Cc: Przemek Czesnowicz <przemyslawx.czesnowicz@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/bootimg.bbclass |    9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/recipes-core/initrdscripts/files/init-live.sh         |    4 +---
+ meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb |    2 +-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 11a29cd..83c8ac4 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -163,8 +163,15 @@ build_hddimg() {
- 		# done in blocks, thus the mod by 16 instead of 32.
- 		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index c591f0d..5682fd1 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -14,14 +14,12 @@ early_setup() {
+     mkdir -p /sys
+     mount -t proc proc /proc
+     mount -t sysfs sysfs /sys
+-    mount -t devtmpfs none /dev
  
-+		# mkdosfs will sometimes use FAT16 when it is not appropriate,
-+		# resulting in a boot failure from SYSLINUX. Use FAT32 for
-+		# images larger than 512MB, otherwise let mkdosfs decide.
-+		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
-+			FATSIZE="-F 32"
-+		fi
-+
- 		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--		mkdosfs -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
-+		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
- 		# Copy HDDDIR recursively into the image file directly
- 		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
+     # support modular kernel
+     modprobe isofs 2> /dev/null
  
+     mkdir -p /run
+-    mkdir -p /var/run
+-    /lib/udev/udevd --daemon
++    udevd --daemon
+     udevadm trigger --action=add
+ }
+ 
+diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+index 55a8600..a41b66b 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+@@ -5,7 +5,7 @@ RDEPENDS = "udev"
+ DEPENDS = "virtual/kernel"
+ SRC_URI = "file://init-live.sh"
+ 
+-PR = "r11"
++PR = "r12"
+ 
+ do_compile() {
+ 	#if grep -q "CONFIG_UNION_FS=y" ${STAGING_KERNEL_DIR}/.config; then
 -- 
 1.7.10.4
 
