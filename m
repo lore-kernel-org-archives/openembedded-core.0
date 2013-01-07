@@ -1,44 +1,30 @@
-Received: from mail-la0-f43.google.com ([209.85.215.43])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koansoftware@gmail.com>) id 1TsGRy-0002Xl-63
+	(envelope-from <dvhart@linux.intel.com>) id 1TsGbO-0002us-5n
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 18:25:26 +0100
-Received: by mail-la0-f43.google.com with SMTP id eg20so16568181lab.30
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 09:10:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:reply-to:organization:user-agent
-	:mime-version:to:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=HLlfNDguHGKnhmht4enRYb5Msml2AC9pyt/9fYbRA0U=;
-	b=YIpT7K7wuOqJREUnuoHUbum5vtbHDeT6yjA4WbJjzeyERbk/HTo+WVvDMcjNHNjYSj
-	CvN1z/Zd/27rS57FBSIvyCKO2T+PEfaFKslUYp+4G4RucEuyOfH97ZifSgI1YIBpbYMe
-	G4Sw9i2WeffCMIPdH/iADHVnJY12UDncVy1JdZjWCtBB3xRwsgvMiCUaKc4fhYz0Vfze
-	LTFBulQy9oyorjzzXb0itQpByaAjfdqRRrF9sVgWAuaWfFoXifPHoyGGUopC8jEXuc4h
-	f/RK1Myzc90azGdNoaUEsUziG7Y/jPAOco6k4xwCHYpOvxpuU/tYcJ51X4itd+N1hjqH
-	vRfw==
-X-Received: by 10.152.45.174 with SMTP id o14mr48309907lam.12.1357578616693;
-	Mon, 07 Jan 2013 09:10:16 -0800 (PST)
-Received: from [192.168.0.5]
-	(host56-7-static.30-87-b.business.telecomitalia.it. [87.30.7.56])
-	by mx.google.com with ESMTPS id if8sm23477469lab.1.2013.01.07.09.10.12
-	(version=SSLv3 cipher=OTHER); Mon, 07 Jan 2013 09:10:15 -0800 (PST)
-Message-ID: <50EB0172.7010806@gmail.com>
-Date: Mon, 07 Jan 2013 18:10:10 +0100
-From: Marco <koansoftware@gmail.com>
-Organization: MC
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Mon, 07 Jan 2013 18:35:10 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jan 2013 09:19:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="268751529"
+Received: from envy.jf.intel.com (HELO envy.home) ([10.7.199.53])
+	by orsmga002.jf.intel.com with ESMTP; 07 Jan 2013 09:19:52 -0800
+Message-ID: <50EB03B8.9050106@linux.intel.com>
+Date: Mon, 07 Jan 2013 09:19:52 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
+To: koansoftware@gmail.com
 References: <1357565963-21367-1-git-send-email-m.cavallini@koansoftware.com>
-	<50EAF39C.20202@linux.intel.com>
-In-Reply-To: <50EAF39C.20202@linux.intel.com>
+	<50EAF39C.20202@linux.intel.com> <50EB0172.7010806@gmail.com>
+In-Reply-To: <50EB0172.7010806@gmail.com>
+X-Enigmail-Version: 1.4.6
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [oe][meta-oe][PATCH] kernel.bbclass: kernel_do_install fails with 2.6 kernel recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: koansoftware@gmail.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -48,76 +34,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 17:25:27 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 07 Jan 2013 17:35:14 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Il 07/01/2013 17:11, Darren Hart ha scritto:
-> Hi Marco,
->
-> On 01/07/2013 05:39 AM, Marco Cavallini wrote:
->>   * old 2.6.x kernels don't have $kerneldir/tools directory
->>   * so we got this error:
->>   * sed: can't read ...SNIP...linux/2.6.30-r0/image/usr/src/kernel/tools/perf/Makefile: No such file or directory
->>   * ERROR: Function failed: do_install
+
+
+On 01/07/2013 09:10 AM, Marco wrote:
+> Il 07/01/2013 17:11, Darren Hart ha scritto:
+>> Hi Marco,
 >>
->> Signed-off-by: Marco Cavallini <m.cavallini@koansoftware.com>
->> ---
->>   meta/classes/kernel.bbclass | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
+>> On 01/07/2013 05:39 AM, Marco Cavallini wrote:
+>>>   * old 2.6.x kernels don't have $kerneldir/tools directory
+>>>   * so we got this error:
+>>>   * sed: can't read ...SNIP...linux/2.6.30-r0/image/usr/src/kernel/tools/perf/Makefile: No such file or directory
+>>>   * ERROR: Function failed: do_install
+>>>
+>>> Signed-off-by: Marco Cavallini <m.cavallini@koansoftware.com>
+>>> ---
+>>>   meta/classes/kernel.bbclass | 6 ++++--
+>>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>> index aee8a77..06b23e0 100644
+>>> --- a/meta/classes/kernel.bbclass
+>>> +++ b/meta/classes/kernel.bbclass
+>>> @@ -204,8 +204,10 @@ kernel_do_install() {
+>>>   		rm -f $kerneldir/$entry
+>>>   	done
+>>>
+>>> -	# Fix SLANG_INC for slang.h
+>>> -	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
 >>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index aee8a77..06b23e0 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -204,8 +204,10 @@ kernel_do_install() {
->>   		rm -f $kerneldir/$entry
->>   	done
+>> Please include a comment here describing why this was needed. Something
+>> like:
 >>
->> -	# Fix SLANG_INC for slang.h
->> -	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
->
-> Please include a comment here describing why this was needed. Something
-> like:
->
-> 	# Linux 2.6.x kernels don't have a tools directory
->
-> (Replace .x with the appropriate version of course)
->
-> Otherwise, looks good to me. Thanks!
->
->> +	if [ -f $kerneldir/tools/perf/Makefile ]; then
->> +		# Fix SLANG_INC for slang.h
->> +		sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
->> +	fi
->>   }
+>> 	# Linux 2.6.x kernels don't have a tools directory
 >>
->>   sysroot_stage_all_append() {
+>> (Replace .x with the appropriate version of course)
 >>
->
+>> Otherwise, looks good to me. Thanks!
+>>
+>>> +	if [ -f $kerneldir/tools/perf/Makefile ]; then
+>>> +		# Fix SLANG_INC for slang.h
+>>> +		sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
+>>> +	fi
+>>>   }
+>>>
+>>>   sysroot_stage_all_append() {
+>>>
+>>
+> 
+> 
+> Hi Darren,
+> the comment describing why this was needed was in the patch header, is 
+> in these four lines:
+> 
+>   * old 2.6.x kernels don't have $kerneldir/tools directory
+>   * so we got this error:
+>   * sed: can't read 
+> ...SNIP...linux/2.6.30-r0/image/usr/src/kernel/tools/perf/Makefile: No 
+> such file or directory
+>   * ERROR: Function failed: do_install
+> 
 
+Yes :-) The point being that it should be in the code itself so someone
+reading the code can understand why the test is there without having to
+use git blame and git log to discover it.
 
-Hi Darren,
-the comment describing why this was needed was in the patch header, is 
-in these four lines:
+--
+Darren
 
-  * old 2.6.x kernels don't have $kerneldir/tools directory
-  * so we got this error:
-  * sed: can't read 
-...SNIP...linux/2.6.30-r0/image/usr/src/kernel/tools/perf/Makefile: No 
-such file or directory
-  * ERROR: Function failed: do_install
+> I haven't specified the 2.6 version because I thought that all 2.6 
+> version don't have a 'tools' directory.
+> BTW I patched it because with 2.6.28 and 2.6.30 it failed.
+> 
+> 
+> Cordiali Saluti / Kindest Regards / Mit freundlichen Grüßen
+> 
 
-I haven't specified the 2.6 version because I thought that all 2.6 
-version don't have a 'tools' directory.
-BTW I patched it because with 2.6.28 and 2.6.30 it failed.
-
-
-Cordiali Saluti / Kindest Regards / Mit freundlichen Grüßen
 -- 
-Marco Cavallini | KOAN sas | Bergamo - Italia
-  embedded and real-time software engineering
-Phone:+39-035-255.235 - Fax:+39-178-22.39.748
-       http://www.KoanSoftware.com
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
