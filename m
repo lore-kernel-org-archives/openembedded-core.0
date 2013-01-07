@@ -1,38 +1,37 @@
-Received: from mail-vb0-f44.google.com ([209.85.212.44])
+Received: from mail-oa0-f53.google.com ([209.85.219.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TsBmo-0001kU-9Y
+	(envelope-from <otavio.salvador@gmail.com>) id 1TsBq5-0001uQ-7K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 13:26:38 +0100
-Received: by mail-vb0-f44.google.com with SMTP id fc26so19174298vbb.17
+	Mon, 07 Jan 2013 13:30:02 +0100
+Received: by mail-oa0-f53.google.com with SMTP id j6so17716138oag.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 04:11:28 -0800 (PST)
+	Mon, 07 Jan 2013 04:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=0lTzX2wsr8iTtf7UIMAZoEhSCLEg1gFJvpg4MGUpBkY=;
-	b=G2wbi4cSrXhTP2TTaT0Pa97A/edN6CCTp0xQqLX1x2tlLhqCzDWV6MVTPEwGbhnuIc
-	4jv53wBlL3wrx+wq7fZOK2Zi64dDUF9StI6o1gtXotV0hhbNSQOsozfFlvEyy5Q10fbx
-	XrqGODq4Pb+YSoJgnImMLNijLmVZABxRWbLpw6/wTzaLYM/ChIaznsSAGF1KySuvA1I8
-	1Po2d+T+Ym8p7XVdRjnHoPqVVqrEh+ce7G2gIea7VQTBKbfwoNw9x6MIWl/CqoAGKrYw
-	/SmyFLc4R55jUnB/9/Aqf/xHJZhxiuzmgwufVGp/4cWXT2UO334EAuxflmUuu2bVKlaD
-	zv8w==
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=jSfEjCwmlkL/S5DNRcdHBIhl5v0cKKe9fhq+g+OW9yI=;
+	b=DFNGbwEoXy39x7J3h/ileiVi8Tesb5MeCgTZRTkFBVLBxxWVTuGUKDsusMoUawZnp3
+	a1Lb6IEOBaOykIYnkH2Bv3gTnYFOGS6d7cnYHUvweRSx92OSK5XhVNmI701LgsWuL5zi
+	hRLXcZdjL7FgMuVTtDkfpWuXdW1z8yklIpsHuSefhKsdRo4U1McZ1mC1TDtW0PTXiaO7
+	vUvguE44/VCe7IBfWhFJioykVzImp3qXhNYaTydQsbUN3S0PbjnQU/TG6YRodg0Qr3CD
+	IhfKbw6iTKdH0mb3hlKfXJUTXWMzeguU7ylU/P0SvSSVPzjfH2yHJoKKfzaFtADcEkTR
+	SnmQ==
 MIME-Version: 1.0
-Received: by 10.220.228.138 with SMTP id je10mr40676664vcb.67.1357560688845;
-	Mon, 07 Jan 2013 04:11:28 -0800 (PST)
-Received: by 10.58.80.2 with HTTP; Mon, 7 Jan 2013 04:11:28 -0800 (PST)
-In-Reply-To: <1357559941.25855.7.camel@ted>
-References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-4-git-send-email-cazfi74@gmail.com>
-	<1357516181-5358-5-git-send-email-cazfi74@gmail.com>
-	<1357559941.25855.7.camel@ted>
-Date: Mon, 7 Jan 2013 14:11:28 +0200
-Message-ID: <CAF6bG8eMo0c=e8G2zd_Y4ST0hG-S2Zx4f4f7hhO8PPML7Ozs7Q@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 04/15] file: replace obsolete automake macros with working ones
+Received: by 10.182.54.103 with SMTP id i7mr42855692obp.62.1357560891505; Mon,
+	07 Jan 2013 04:14:51 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Mon, 7 Jan 2013 04:14:51 -0800 (PST)
+In-Reply-To: <CAJTo0LZh_uw9Q3yY+1kxaMLwMp8n-_LujKV3Tk6pkMcKtFfx2g@mail.gmail.com>
+References: <50EAB9C9.1090903@linaro.org>
+	<CAJTo0LZh_uw9Q3yY+1kxaMLwMp8n-_LujKV3Tk6pkMcKtFfx2g@mail.gmail.com>
+Date: Mon, 7 Jan 2013 10:14:51 -0200
+X-Google-Sender-Auth: ijjakr-qHJnGp0lVWlRpFWj69dY
+Message-ID: <CAP9ODKp9QoHDJ9svT_Wse+80-PGUDuEktBgfyOjMqe7YPu+_tw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Default xorg.conf is for x86 devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,43 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 12:26:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 07 Jan 2013 12:30:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 7 January 2013 13:59, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2013-01-07 at 01:49 +0200, Marko Lindqvist wrote:
->> Add obsolete-automake-macros.patch that replaces automake macros
->> no longer supported by automake-1.13 with modern constructs.
->>
->> Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
->> ---
->>  .../file/file/obsolete_automake_macros.patch            |   15 +++++++++++++++
->>  meta/recipes-devtools/file/file_5.11.bb                 |    3 ++-
->>  2 files changed, 17 insertions(+), 1 deletion(-)
->>  create mode 100644 meta/recipes-devtools/file/file/obsolete_automake_macros.patch
->>
->> diff --git a/meta/recipes-devtools/file/file/obsolete_automake_macros.patch b/meta/recipes-devtools/file/file/obsolete_automake_macros.patch
->> new file mode 100644
->> index 0000000..8b0d34c
->> --- /dev/null
->> +++ b/meta/recipes-devtools/file/file/obsolete_automake_macros.patch
->> @@ -0,0 +1,15 @@
->> +Upstream-Status: Fixed in file-5.12
+On Mon, Jan 7, 2013 at 10:10 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 7 January 2013 12:04, Marcin Juszkiewicz
+> <marcin.juszkiewicz@linaro.org> wrote:
+>> Can we replace default xorg.conf with empty one? I finally got X11
+>> working on AArch64 just to notice that I have to remove xorg.conf file
+>> to get them started.
 >
-> Can we use a standard syntax for this, something like:
->
-> Upstream-Status: Backport (fixed in file-5.12)
->
-> (as mentioned in
-> https://wiki.yoctoproject.org/wiki/Contribution_Guidelines#Patch_Header_Recommendations)
+> I'm all for removing xorg.conf wherever it's possible assuming it
+> still works.  The default should be no xorg.conf with machine
+> overrides where required.
 
-  What's the correct status for fixes that are not really backports,
-but have happened independently in oe and upstream?
- - If practically identical, still mark as "Backport"?
- - If different solution, "Inappropriate [not needed]"?
+I also support this. I have override it in our internal layer to make
+it more generic.
 
-
- - ML
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
