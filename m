@@ -1,37 +1,32 @@
-Received: from mail.cvg.de ([62.153.82.30])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TsCtg-0004L9-CW
-	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 14:37:55 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r07DMbIl013867
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Jan 2013 14:22:38 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1TsCey-0001WK-U4
-	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 14:22:37 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <20121226113500.4490F1036A@opal>
-	<CAGiJk9di7Tt3UW47kqYGK9ekVQV=Uci-vJcT_EvSHQmjhXGozQ@mail.gmail.com>
-Date: Mon, 07 Jan 2013 14:22:36 +0100
-In-Reply-To: <CAGiJk9di7Tt3UW47kqYGK9ekVQV=Uci-vJcT_EvSHQmjhXGozQ@mail.gmail.com>
-	(Samuel Stirtzel's message of "Mon, 7 Jan 2013 13:59:40 +0100")
-Message-ID: <lyvcb9t9er.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.75
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [oe-commits] Constantin Musca : libmusicbrainz: upgrade to git SRCREV 0749dd0a35b4a543
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TsCwu-0004QV-JU for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 14:41:09 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07DPuxs004767;
+	Mon, 7 Jan 2013 13:25:56 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04131-02; Mon,  7 Jan 2013 13:25:52 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07DPmLX004760
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 7 Jan 2013 13:25:49 GMT
+Message-ID: <1357565150.25855.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Philip Balister <philip@balister.org>
+Date: Mon, 07 Jan 2013 13:25:50 +0000
+In-Reply-To: <50E70BBE.1000607@balister.org>
+References: <50E70742.6060201@balister.org>
+	<CAF6bG8d=147QWj7C3nzXdbFkenUF4b7EefnNTSXFBB15W8nySw@mail.gmail.com>
+	<50E70BBE.1000607@balister.org>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Recipes with SRC_URI in .inc file and checksum in bb file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,24 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 13:38:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Jan 2013 13:41:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Samuel Stirtzel <s.stirtzel-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-writes:
+On Fri, 2013-01-04 at 12:05 -0500, Philip Balister wrote:
+> On 01/04/2013 11:59 AM, Marko Lindqvist wrote:
+> > On 4 January 2013 18:45, Philip Balister <philip@balister.org> wrote:
+> >>
+> >> I am on the process of updating the fftw recipes to the most recent
+> >> version. Along the way I noticed it looks like the checksum test is
+> >> being ignored. The only way I can get it to fail is to remove all the
+> >> checksum entries from the bb files.
+> > 
+> >  I've got this kind of problems when I have made several iterations of
+> > the recipe update. In my case the explanation has always been that
+> > first test already downloaded the file, so no matter what I do to
+> > checksums after that, there's no download + checksum check on later
+> > tests.
+> >  Remove file and <file>.done from download, + 'bitbake <recipe> -c clean'
+> 
+> I uderstand that, but the other problem is even with a new download, the
+> checksum check is ignored if there are checksum entries in more than one
+> bb file.
 
->> Commit: a9d25a8e6720ceff5cfefa3191026357dd6e0f49
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=a9d25a8e6720ceff5cfefa3191026357dd6e0f49
->> ...
->> libmusicbrainz: upgrade to git SRCREV 0749dd0a35b4a543
+Multiple checksums in different .bb files for the same filename?
 
+Cheers,
 
-> this fails tests for build-hosts without libcap2 installed:
+Richard
 
-ditto for build-hosts without neon-devel (DEPENDS on 'neon-native' does
-*not* suffice)
-
-
-Enrico
 
 
