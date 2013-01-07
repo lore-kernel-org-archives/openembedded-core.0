@@ -1,36 +1,26 @@
-Received: from mail-vb0-f43.google.com ([209.85.212.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TsHcf-0004uH-C2
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TsJI6-0008Qm-KE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 19:40:33 +0100
-Received: by mail-vb0-f43.google.com with SMTP id fs19so20041203vbb.30
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 10:25:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=10Fc6H3XncE7Fixr1q7rJ4kuZeISOXjNUhpDjVLBKLQ=;
-	b=oYW7fECfLaftFFBn5hHUYtsETiokLSrbodwWvt2LPtIXt9+1rWwNlFifdiJrIfuSxn
-	yTuenSalCOoQw2Up0aPWXdbGPjlO1H7c6SmzNAEbm4pQl3D4dIxmf+KCTVAsmo8Nrblb
-	uuK+7QpNpK4PL4bEKkEZ/yLlugyeX4alA7XhJYQ61HILPlR9rH2rS6ZfrCcPwJBvpF2e
-	nLShnANIIJzESL7ZE07N2GdaIhe9wQM3ZfXXMZJAQPdR71CA4vdkl3V+6HPUlVyHyLdg
-	C15/hMY4WJEubga/8JLD7tOsUutPK/cMq7JEfsE4fv95lHKFS1bS9Y/8mS89lVUIiIjf
-	Ymrg==
-Received: by 10.220.107.5 with SMTP id z5mr84214790vco.22.1357583123436; Mon,
-	07 Jan 2013 10:25:23 -0800 (PST)
+	Mon, 07 Jan 2013 21:27:33 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 07 Jan 2013 12:12:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,425,1355126400"; d="scan'208";a="240990509"
+Received: from unknown (HELO helios.localnet) ([10.252.123.60])
+	by azsmga001.ch.intel.com with ESMTP; 07 Jan 2013 12:12:12 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 07 Jan 2013 20:11:58 +0000
+Message-ID: <2814359.Bpg095F8KW@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.3 (Linux/3.5.0-21-generic; KDE/4.9.3; i686; ; )
+In-Reply-To: <1357558573.28649.231.camel@ted>
+References: <1357557340-28756-1-git-send-email-Martin.Jansa@gmail.com>
+	<1357558573.28649.231.camel@ted>
 MIME-Version: 1.0
-Received: by 10.58.102.132 with HTTP; Mon, 7 Jan 2013 10:25:03 -0800 (PST)
-X-Originating-IP: [5.13.212.252]
-In-Reply-To: <50EAB9C9.1090903@linaro.org>
-References: <50EAB9C9.1090903@linaro.org>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 7 Jan 2013 20:25:03 +0200
-Message-ID: <CAK18fxGnWHWCxuH_oRV29bduUJr=LyN52FuBA9mEoUy61W8Vgw@mail.gmail.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-X-Gm-Message-State: ALoCoQnlyVWXBdH4aml9jWQlGi8PZygpDsQfkPL+5gTuh8+bP2LaYwntEweDnVw2uKUraXqJYkU4
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: Default xorg.conf is for x86 devices
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] dropbear: don't use IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +33,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 18:40:34 -0000
-Content-Type: multipart/alternative; boundary=f46d043c7bd4d3536504d2b6f3af
+X-List-Received-Date: Mon, 07 Jan 2013 20:27:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---f46d043c7bd4d3536504d2b6f3af
-Content-Type: text/plain; charset=ISO-8859-1
+On Monday 07 January 2013 11:36:13 Richard Purdie wrote:
+> On Mon, 2013-01-07 at 12:15 +0100, Martin Jansa wrote:
+> > * IMAGE_FEATURES are image specific, but dropbear recipe isn't
+> > * if you have debug-tweaks in EXTRA_IMAGE_FEATURES or added to
+> > 
+> >   IMAGE_FEATURES in distro config, then it will set DISTRO_TYPE
+> >   to debug as expected, but if you add debug-tweaks only in
+> >   your-own-debug-image, then dropbear never sees debug-tweaks and
+> >   your-own-debug-image won't allow empty password login.
+> > 
+> > * best way would be to patch dropbear to enable empty password by
+> > 
+> >   runtime config or argument and enable it in ROOTFS_POSTPROCESS_COMMAND
+> >   like openssh_allow_empty_password does, see
+> >   http://permalink.gmane.org/gmane.network.ssh.dropbear/845
+> > 
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> > 
+> >  meta/recipes-core/dropbear/dropbear.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/dropbear/dropbear.inc
+> > b/meta/recipes-core/dropbear/dropbear.inc index aa313df..2c170c6 100644
+> > --- a/meta/recipes-core/dropbear/dropbear.inc
+> > +++ b/meta/recipes-core/dropbear/dropbear.inc
+> > @@ -2,7 +2,7 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP
+> > implementation"> 
+> >  HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
+> >  SECTION = "console/network"
+> > 
+> > -INC_PR = "r0"
+> > +INC_PR = "r1"
+> > 
+> >  # some files are from other projects and have others license terms:
+> >  #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+> > 
+> > @@ -40,7 +40,7 @@ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1
+> > PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'> 
+> >  EXTRA_OECONF += "\
+> >  
+> >   ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam',
+> >   '--disable-pam', d)}"> 
+> > -DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks",
+> > "debug", "",d)}" +DISTRO_TYPE ?= "debug"
+> > 
+> >  do_install() {
+> >  
+> >  	install -d ${D}${sysconfdir} \
+> 
+> How about we ditch DISTRO_TYPE entirely and check for "debug-tweaks" in
+> DISTRO_FEATURES? This would bring it more into line with the other
+> places we do things like this.
+> 
+> FWIW I agree this should ideally be runtime configured and we should
+> really add an enhancement request to the bugzilla for that (or patches
+> welcome).
 
-On Mon, Jan 7, 2013 at 2:04 PM, Marcin Juszkiewicz <
-marcin.juszkiewicz@linaro.org> wrote:
+There's already a request open:
 
-> Hi
->
-> Can we replace default xorg.conf with empty one? I finally got X11
-> working on AArch64 just to notice that I have to remove xorg.conf file
-> to get them started.
->
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2578
 
-I'm all for removal. Machine should add their xorg.conf taking into
-consideration a specific driver or some other needed configurations.
+I'd suggest leaving the current behaviour (poor as it may be) until that bug 
+is fixed.
 
-ag
+Cheers,
+Paul
 
---f46d043c7bd4d3536504d2b6f3af
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+-- 
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
-On Mon, Jan 7, 2013 at 2:04 PM, Marcin Juszkiewicz <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:marcin.juszkiewicz@linaro.org" target=3D"_blank">marcin.jus=
-zkiewicz@linaro.org</a>&gt;</span> wrote:<br>
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Hi<br>
-<br>
-Can we replace default xorg.conf with empty one? I finally got X11<br>
-working on AArch64 just to notice that I have to remove xorg.conf file<br>
-to get them started.<br></blockquote><div>=A0</div><div>I&#39;m all for rem=
-oval. Machine should add their xorg.conf=A0taking=A0into consideration a=A0=
-specific=A0driver or some other needed configurations.</div><div><br>
-</div><div>ag</div></div></div></div>
-
---f46d043c7bd4d3536504d2b6f3af--
