@@ -1,20 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TsCfJ-000456-8X
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TsCtg-0004L9-CW
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 14:23:07 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 Jan 2013 05:07:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="268633800"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jan 2013 05:07:06 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 07 Jan 2013 14:37:55 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r07DMbIl013867
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Jan 2013 14:22:38 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1TsCey-0001WK-U4
+	for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 14:22:37 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 15:07:04 +0200
-Message-Id: <1357564025-10485-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] relocate_sdk.py: new interpreter string was not '\0' terminated
+References: <20121226113500.4490F1036A@opal>
+	<CAGiJk9di7Tt3UW47kqYGK9ekVQV=Uci-vJcT_EvSHQmjhXGozQ@mail.gmail.com>
+Date: Mon, 07 Jan 2013 14:22:36 +0100
+In-Reply-To: <CAGiJk9di7Tt3UW47kqYGK9ekVQV=Uci-vJcT_EvSHQmjhXGozQ@mail.gmail.com>
+	(Samuel Stirtzel's message of "Mon, 7 Jan 2013 13:59:40 +0100")
+Message-ID: <lyvcb9t9er.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.75
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [oe-commits] Constantin Musca : libmusicbrainz: upgrade to git SRCREV 0749dd0a35b4a543
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,38 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 13:23:08 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 13:38:12 -0000
+Content-Type: text/plain
 
-The problem: SDK binaries were not properly relocated when the SDK
-was installed into a path that had a length less than the default one.
-Apparently, there were two problems here: the padding was done wrong
-(the size of one program header table entry was used instead of the
-program section size) and the new padded string was not used at all.
+Samuel Stirtzel <s.stirtzel-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+writes:
 
-[YOCTO #3655]
+>> Commit: a9d25a8e6720ceff5cfefa3191026357dd6e0f49
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=a9d25a8e6720ceff5cfefa3191026357dd6e0f49
+>> ...
+>> libmusicbrainz: upgrade to git SRCREV 0749dd0a35b4a543
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- scripts/relocate_sdk.py |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 637ffe9..74bb7a5 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -89,8 +89,8 @@ def change_interpreter():
-         if p_type == 3:
-             # PT_INTERP section
-             f.seek(p_offset)
--            dl_path = new_dl_path + "\0" * (e_phentsize - len(new_dl_path))
--            f.write(new_dl_path)
-+            dl_path = new_dl_path + "\0" * (p_filesz - len(new_dl_path))
-+            f.write(dl_path)
-             break
- 
- def change_dl_sysdirs():
--- 
-1.7.9.5
+> this fails tests for build-hosts without libcap2 installed:
 
+ditto for build-hosts without neon-devel (DEPENDS on 'neon-native' does
+*not* suffice)
+
+
+Enrico
 
 
