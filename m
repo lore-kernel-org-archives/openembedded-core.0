@@ -1,32 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TsCwu-0004QV-JU for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 14:41:09 +0100
+	id 1TsD5C-0004l5-P3 for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 14:50:11 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07DPuxs004767;
-	Mon, 7 Jan 2013 13:25:56 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07DYV4f004820;
+	Mon, 7 Jan 2013 13:34:31 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 04131-02; Mon,  7 Jan 2013 13:25:52 +0000 (GMT)
+	id 04100-03; Mon,  7 Jan 2013 13:34:27 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07DPmLX004760
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07DYM6D004813
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 7 Jan 2013 13:25:49 GMT
-Message-ID: <1357565150.25855.11.camel@ted>
+	Mon, 7 Jan 2013 13:34:23 GMT
+Message-ID: <1357565664.25855.12.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Philip Balister <philip@balister.org>
-Date: Mon, 07 Jan 2013 13:25:50 +0000
-In-Reply-To: <50E70BBE.1000607@balister.org>
-References: <50E70742.6060201@balister.org>
-	<CAF6bG8d=147QWj7C3nzXdbFkenUF4b7EefnNTSXFBB15W8nySw@mail.gmail.com>
-	<50E70BBE.1000607@balister.org>
+To: Constantin Musca <constantinx.musca@intel.com>
+Date: Mon, 07 Jan 2013 13:34:24 +0000
+In-Reply-To: <1357560325-8260-1-git-send-email-constantinx.musca@intel.com>
+References: <1357560325-8260-1-git-send-email-constantinx.musca@intel.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Recipes with SRC_URI in .inc file and checksum in bb file
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] gsettings-desktop-schemas: add missing elements from meta-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 13:41:09 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 13:50:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-01-04 at 12:05 -0500, Philip Balister wrote:
-> On 01/04/2013 11:59 AM, Marko Lindqvist wrote:
-> > On 4 January 2013 18:45, Philip Balister <philip@balister.org> wrote:
-> >>
-> >> I am on the process of updating the fftw recipes to the most recent
-> >> version. Along the way I noticed it looks like the checksum test is
-> >> being ignored. The only way I can get it to fail is to remove all the
-> >> checksum entries from the bb files.
-> > 
-> >  I've got this kind of problems when I have made several iterations of
-> > the recipe update. In my case the explanation has always been that
-> > first test already downloaded the file, so no matter what I do to
-> > checksums after that, there's no download + checksum check on later
-> > tests.
-> >  Remove file and <file>.done from download, + 'bitbake <recipe> -c clean'
+On Mon, 2013-01-07 at 14:05 +0200, Constantin Musca wrote:
+> - add postinst using gsettings.bbclass
+> - modify the recipe according to the meta-gnome variant
 > 
-> I uderstand that, but the other problem is even with a new download, the
-> checksum check is ignored if there are checksum entries in more than one
-> bb file.
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> ---
+>  meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
+> index 720858a..1242741 100644
+> --- a/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
+> +++ b/meta/recipes-gnome/gnome/gsettings-desktop-schemas_3.7.3.bb
+> @@ -4,10 +4,9 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+>  
+>  LICENSE = "LGPLv2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> +PR = "r1"
+>  
+> -DEPENDS = "glib-2.0"
 
-Multiple checksums in different .bb files for the same filename?
+It doesn't need glib-2.0?
+
+> -
+> -inherit gnome pkgconfig autotools gettext
+> +inherit gnome gsettings
+
+It doesn't need gettext?
 
 Cheers,
 
