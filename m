@@ -1,32 +1,20 @@
-Received: from mail-we0-f172.google.com ([74.125.82.172])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TsC80-0002Y4-I6
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TsC8k-0002b5-Sd
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 13:48:45 +0100
-Received: by mail-we0-f172.google.com with SMTP id r3so9817617wey.31
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 04:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=AaWzoLKkGtYggKnFpLyTKbgBYXATbNg3+27jldnjjpU=;
-	b=rfE0tZLhRFfZQ3pCFdpmfCwanTwhmMj4GKQQmjdRCNiQk3okNcwVjATfvWLtcpHT1P
-	IRpU8N5Af6hhNe6s9wvUYhghnRxy5Ol2xXxTFuFJWOLruTASFvjmXYKZnNh+Qbsbub9O
-	YqXLE2a+0GvUoFb6ldO3r2TytrE30MR6wvbpsP1XEBYcV7U+mZF0lR021mFp35bn2b1F
-	m1m4gd5h6JXwBSmF51ucdfMXitMqMqL2z8IIFTACdGZElTbD/yUQuYc+PAUfGiaELeKO
-	fXTR12BNXTCBMhvhLrsBRnAWFWvtzPbBFjXyRPoA9qw1rpS2qbkm3gBhLpVuBlHjR/6o
-	0I1A==
-X-Received: by 10.180.95.169 with SMTP id dl9mr8868709wib.20.1357562003591;
-	Mon, 07 Jan 2013 04:33:23 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id gz3sm11952425wib.2.2013.01.07.04.33.22
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 07 Jan 2013 04:33:23 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 07 Jan 2013 13:49:25 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jan 2013 04:34:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="242951816"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jan 2013 04:34:06 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 13:33:17 +0100
-Message-Id: <1357561997-7175-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.1
-Subject: [PATCH] perl-rdepends: be more strict in multiline comment
+Date: Mon,  7 Jan 2013 14:37:19 +0200
+Message-Id: <1357562239-2200-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] scons: updated to 2.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +27,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 12:48:46 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 12:49:28 -0000
 
-* fails to parse when http://patchwork.openembedded.org/patch/40997/ is used
-Parsing recipes...ERROR: There is a confusing multiline, partially commented expression on line 10 of file
-/OE/shr-core/openembedded-core/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc (| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+=
-.*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/
-[^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \).
-Please clarify whether this is all a comment or should be parsed.
-ERROR: Unable to parse /OE/shr-core/openembedded-core/meta/recipes-devtools/perl/perl_5.14.2.bb: Exited with "1"
-ERROR: Command execution failed: Exited with 1
+The license file was updated with a "2012" in the "Copyright" line,
+nothing else changed in the license text.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ ...ons-native_2.1.0.bb => python-scons-native_2.2.0.bb} |    2 +-
+ meta/recipes-devtools/python/python-scons_2.1.0.bb      |   15 ---------------
+ meta/recipes-devtools/python/python-scons_2.2.0.bb      |   15 +++++++++++++++
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+ rename meta/recipes-devtools/python/{python-scons-native_2.1.0.bb => python-scons-native_2.2.0.bb} (91%)
+ delete mode 100644 meta/recipes-devtools/python/python-scons_2.1.0.bb
+ create mode 100644 meta/recipes-devtools/python/python-scons_2.2.0.bb
 
-diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-index 7672e48..87d7a32 100644
---- a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-+++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
-@@ -6,12 +6,12 @@
- 
- #1 cp -r packages-split packages-split.new && cd packages-split.new
- #2 find . -name \*.pm | xargs sed -i '/^=head/,/^=cut/d'
--#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" \
--| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \
--| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix \
--| sort -u \
--| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' \
--| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/1
-+#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" 
-+#| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] 
-+#| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix 
-+#| sort -u 
-+#| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' 
-+#| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/
- 
- 
- # Some additional dependencies that the above doesn't manage to figure out
+diff --git a/meta/recipes-devtools/python/python-scons-native_2.1.0.bb b/meta/recipes-devtools/python/python-scons-native_2.2.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python-scons-native_2.1.0.bb
+rename to meta/recipes-devtools/python/python-scons-native_2.2.0.bb
+index ec3f2f4..701e0f7 100644
+--- a/meta/recipes-devtools/python/python-scons-native_2.1.0.bb
++++ b/meta/recipes-devtools/python/python-scons-native_2.2.0.bb
+@@ -2,4 +2,4 @@ require python-scons_${PV}.bb
+ inherit native pythonnative
+ DEPENDS = "python-native"
+ RDEPENDS_${PN} = ""
+-PR = "r2"
++PR = "r0"
+diff --git a/meta/recipes-devtools/python/python-scons_2.1.0.bb b/meta/recipes-devtools/python/python-scons_2.1.0.bb
+deleted file mode 100644
+index 8c5aa07..0000000
+--- a/meta/recipes-devtools/python/python-scons_2.1.0.bb
++++ /dev/null
+@@ -1,15 +0,0 @@
+-DESCRIPTION = "A Software Construction Tool"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ab8b65435c2e520ed18e67459f1f9bb9"
+-SRCNAME = "scons"
+-
+-PR = "r2"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "47daf989e303a045b76c11236df719df"
+-SRC_URI[sha256sum] = "4139ed14f60dd2ebcd47c59984d14705636180eb27b3d1b2949489e514b1921d"
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit distutils
+diff --git a/meta/recipes-devtools/python/python-scons_2.2.0.bb b/meta/recipes-devtools/python/python-scons_2.2.0.bb
+new file mode 100644
+index 0000000..b796ae8
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-scons_2.2.0.bb
+@@ -0,0 +1,15 @@
++DESCRIPTION = "A Software Construction Tool"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61e6307bb15ee490a9ec01fd27022d7e"
++SRCNAME = "scons"
++
++PR = "r0"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "f737f474a02d08156c821bd2d4d4b632"
++SRC_URI[sha256sum] = "f7fcd11a7af7ec13d587a2f7cf14a92e3223eea64bf078454a9856ec0ab465b9"
++S = "${WORKDIR}/${SRCNAME}-${PV}"
++
++inherit distutils
 -- 
-1.8.1
+1.7.10.4
 
 
 
