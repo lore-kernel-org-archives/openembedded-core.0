@@ -1,33 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TsJp6-0001TA-Vl for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 22:01:35 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07KkHkT010815;
-	Mon, 7 Jan 2013 20:46:17 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04100-07; Mon,  7 Jan 2013 20:46:13 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07Kk8g1010797
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 7 Jan 2013 20:46:09 GMT
-Message-ID: <1357591571.25855.41.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 07 Jan 2013 20:46:11 +0000
-In-Reply-To: <20130107203157.GI3285@jama>
-References: <1357557340-28756-1-git-send-email-Martin.Jansa@gmail.com>
-	<1357558573.28649.231.camel@ted> <2814359.Bpg095F8KW@helios>
-	<20130107203157.GI3285@jama>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+Received: from 19.mo4.mail-out.ovh.net ([87.98.179.66]
+	helo=mo4.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1TsKSE-0007b9-RM
+	for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 22:42:06 +0100
+Received: from mail423.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo4.mail-out.ovh.net (Postfix) with SMTP id 1FADE104F61B
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Jan 2013 21:58:02 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 7 Jan 2013 22:48:49 +0200
+Received: from tal33-3-82-233-81-124.fbx.proxad.net (HELO e6520eb)
+	(eric%eukrea.com@82.233.81.124)
+	by ns0.ovh.net with SMTP; 7 Jan 2013 22:48:47 +0200
+Date: Mon, 7 Jan 2013 21:48:42 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Ovh-Mailout: 178.32.228.4 (mo4.mail-out.ovh.net)
+Message-ID: <20130107214842.428342a9@e6520eb>
+In-Reply-To: <CAP9ODKqOsQMrRDtw+uRgCb4Twr60wC+pbjB9m4_MrPrvF15eyg@mail.gmail.com>
+References: <1357577024-7889-1-git-send-email-eric@eukrea.com>
+	<CAP9ODKqOsQMrRDtw+uRgCb4Twr60wC+pbjB9m4_MrPrvF15eyg@mail.gmail.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dropbear: don't use IMAGE_FEATURES
+X-Ovh-Tracer-Id: 3796253010994310524
+X-Ovh-Remote: 82.233.81.124 (tal33-3-82-233-81-124.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeekucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeekucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libnl: fix compilation on hosts without lex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,92 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 21:01:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Jan 2013 21:42:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2013-01-07 at 21:31 +0100, Martin Jansa wrote:
-> On Mon, Jan 07, 2013 at 08:11:58PM +0000, Paul Eggleton wrote:
-> > On Monday 07 January 2013 11:36:13 Richard Purdie wrote:
-> > > On Mon, 2013-01-07 at 12:15 +0100, Martin Jansa wrote:
-> > > > * IMAGE_FEATURES are image specific, but dropbear recipe isn't
-> > > > * if you have debug-tweaks in EXTRA_IMAGE_FEATURES or added to
-> > > > 
-> > > >   IMAGE_FEATURES in distro config, then it will set DISTRO_TYPE
-> > > >   to debug as expected, but if you add debug-tweaks only in
-> > > >   your-own-debug-image, then dropbear never sees debug-tweaks and
-> > > >   your-own-debug-image won't allow empty password login.
-> > > > 
-> > > > * best way would be to patch dropbear to enable empty password by
-> > > > 
-> > > >   runtime config or argument and enable it in ROOTFS_POSTPROCESS_COMMAND
-> > > >   like openssh_allow_empty_password does, see
-> > > >   http://permalink.gmane.org/gmane.network.ssh.dropbear/845
-> > > > 
-> > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > > ---
-> > > > 
-> > > >  meta/recipes-core/dropbear/dropbear.inc | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/meta/recipes-core/dropbear/dropbear.inc
-> > > > b/meta/recipes-core/dropbear/dropbear.inc index aa313df..2c170c6 100644
-> > > > --- a/meta/recipes-core/dropbear/dropbear.inc
-> > > > +++ b/meta/recipes-core/dropbear/dropbear.inc
-> > > > @@ -2,7 +2,7 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP
-> > > > implementation"> 
-> > > >  HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
-> > > >  SECTION = "console/network"
-> > > > 
-> > > > -INC_PR = "r0"
-> > > > +INC_PR = "r1"
-> > > > 
-> > > >  # some files are from other projects and have others license terms:
-> > > >  #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
-> > > > 
-> > > > @@ -40,7 +40,7 @@ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1
-> > > > PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'> 
-> > > >  EXTRA_OECONF += "\
-> > > >  
-> > > >   ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam',
-> > > >   '--disable-pam', d)}"> 
-> > > > -DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks",
-> > > > "debug", "",d)}" +DISTRO_TYPE ?= "debug"
-> > > > 
-> > > >  do_install() {
-> > > >  
-> > > >  	install -d ${D}${sysconfdir} \
-> > > 
-> > > How about we ditch DISTRO_TYPE entirely and check for "debug-tweaks" in
-> > > DISTRO_FEATURES? This would bring it more into line with the other
-> > > places we do things like this.
-> > > 
-> > > FWIW I agree this should ideally be runtime configured and we should
-> > > really add an enhancement request to the bugzilla for that (or patches
-> > > welcome).
-> > 
-> > There's already a request open:
-> > 
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=2578
-> > 
-> > I'd suggest leaving the current behaviour (poor as it may be) until that bug 
-> > is fixed.
-> 
-> Building with OEBasic won't rebuild dropbear to suit IMAGE_FEATURES of
-> currently build image and even with OEBasicHash I don't know which
-> dropbear version will be used if I build 2 different images:
-> bitbake foo-image foo-debug-image
-> 
-> So changing it one way or another is IMHO improvement of current
-> situation until that bug is fixed properly.
+Hi Otavio,
 
-Having looked into it more, the current situation is a complete mess and
-for something security sensitive like this, it *needs* to behave better.
-I just raised the priority of the task (medium+).
+Le Mon, 7 Jan 2013 15:59:24 -0200,
+Otavio Salvador <otavio@ossystems.com.br> a =C3=A9crit :
 
-Cheers,
+> On Mon, Jan 7, 2013 at 2:43 PM, Eric B=C3=A9nard <eric@eukrea.com> wrote:
+> > * libnl's makefiles are calling $(LEX) but only define $(FLEX), thus
+> > compilation on a host which doesn't have lex fails with :
+> > | lex --header-file=3Droute/cls/ematch_grammar.h  -o route/cls/ematch_g=
+rammar.c route/cls/ematch_grammar.l
+> > | make[1]: lex: Command not found
+> > | make[1]: *** [route/cls/ematch_grammar.c] Error 127
+> >
+> > * this patch fix this by setting LEX variable to flex tool
+> >
+> > Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+>=20
+> I have prepared a patch for this issue but I did patch the Makefile.am
+> to use $(FLEX) as this is the fix commited in upstream 3.2.17. If you
+> do not object, I'd like to propose mine patch for review as it is more
+> in line with upstream fix.
+>=20
+as the end result is the same, the maintainer now has the choice ;-)
 
-Richard
-
+Eric
 
 
