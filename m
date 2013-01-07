@@ -1,42 +1,35 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Muhammad_Shakeel@mentor.com>) id 1Ts7PZ-0005Ov-UD
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Ts7dn-00067c-0W
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 08:46:26 +0100
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Ts7At-0006BM-6O from Muhammad_Shakeel@mentor.com ;
-	Sun, 06 Jan 2013 23:31:11 -0800
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Sun, 6 Jan 2013 23:31:10 -0800
-Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.64]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
-	14.01.0289.001; Mon, 7 Jan 2013 07:31:09 +0000
-From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
-To: Otavio Salvador <otavio@ossystems.com.br>, "Larson, Chris"
-	<Chris_Larson@mentor.com>
-Thread-Topic: [OE-core] [PATCH 3/3] [RFC] archive-*-source.bbclass: Handle
-	package class 'package_ipk'
-Thread-Index: AQHN6N/NuWv3/7ZGeUWqYyY77s4KDJg2H5SAgAAlDgCAAAHtAIAB1hyAgAVi1cA=
-Date: Mon, 7 Jan 2013 07:31:09 +0000
-Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F85BC87543@EU-MBX-04.mgc.mentorg.com>
-References: <1357127607-20161-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CABcZANn3GUDdPK6XwVMHqEeJjiAhWRukEiiumXoifYF-PT--Sg@mail.gmail.com>
-	<CAP9ODKoRytWOxAX3jn0nj12Jeah9mihobxd2PWaqApWA0ut9yQ@mail.gmail.com>
-	<CABcZANkEoq6BpZ7YWPnD_QVpFym31DmWH+G6mBaFOnqqeO6SXg@mail.gmail.com>
-	<CAP9ODKoiXA6jNavd=191nzZNGCHW2ygRfd-PnjoxoZt8bP7Ncw@mail.gmail.com>
-In-Reply-To: <CAP9ODKoiXA6jNavd=191nzZNGCHW2ygRfd-PnjoxoZt8bP7Ncw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Mon, 07 Jan 2013 09:01:08 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 0A093D22E9; Mon,  7 Jan 2013 08:45:51 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 1C818D22CD
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Jan 2013 08:45:19 +0100 (CET)
+Message-ID: <50EA7D0C.5030804@linaro.org>
+Date: Mon, 07 Jan 2013 08:45:16 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-OriginalArrivalTime: 07 Jan 2013 07:31:10.0722 (UTC)
-	FILETIME=[F70EDE20:01CDECA8]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] [RFC] archive-*-source.bbclass: Handle package class 'package_ipk'
+To: openembedded-core@lists.openembedded.org
+References: <1354207309-27534-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	<50BDC8C3.6060607@linaro.org>
+In-Reply-To: <50BDC8C3.6060607@linaro.org>
+Subject: Re: [PATCH] libffi: add AArch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,64 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 07:46:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Jan 2013 08:01:10 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Okay, I will fix it by using python function before sending the final patch=
-. Thanks for your feedback.
+W dniu 04.12.2012 10:56, Marcin Juszkiewicz pisze:
+> W dniu 29.11.2012 17:41, Marcin Juszkiewicz pisze:
+>> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+>> ---
+>>  .../libffi/aarch64-adding-build-support.patch      |   63 +
+>>  .../libffi/libffi/add-aarch64-support.patch        | 2672 ++++++++++++++++++++
+>>  meta/recipes-gnome/libffi/libffi_3.0.11.bb         |    7 +-
+>>  3 files changed, 2740 insertions(+), 2 deletions(-)
+>>  create mode 100644 meta/recipes-gnome/libffi/libffi/aarch64-adding-build-support.patch
+>>  create mode 100644 meta/recipes-gnome/libffi/libffi/add-aarch64-support.patch
+> 
+> ping?
 
---Shakeel
+ping again?
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Otavio Salvador
-Sent: Friday, January 04, 2013 2:14 AM
-To: Larson, Chris
-Cc: Patches and discussions about the oe-core layer
-Subject: Re: [OE-core] [PATCH 3/3] [RFC] archive-*-source.bbclass: Handle p=
-ackage class 'package_ipk'
-
-On Wed, Jan 2, 2013 at 3:11 PM, Christopher Larson <chris_larson@mentor.com=
-> wrote:
->
->
-> On Wed, Jan 2, 2013 at 10:04 AM, Otavio Salvador=20
-> <otavio@ossystems.com.br>
-> wrote:
->>
->> On Wed, Jan 2, 2013 at 12:51 PM, Christopher Larson=20
->> <chris_larson@mentor.com> wrote:
->> > On Wed, Jan 2, 2013 at 4:53 AM, Shakeel, Muhammad=20
->> > <muhammad_shakeel@mentor.com> wrote:
->> >>
->> >>  addtask do_archive_scripts_logs after do_package_write_rpm
->> >> +addtask do_archive_scripts_logs after do_package_write_ipk
->> >
->> >
->> > This will cause problems for anyone trying to do builds without=20
->> > package_ipk at all. I'd suggest using anonymous python to add the=20
->> > appropriate package dependencies based on what tasks actually=20
->> > exist.
->>
->> Uh? the only exception for it would be deb, right?
->
->
-> Yes, and?
-
-So the first patch changing from pre/post commands should be reworked and s=
-olve it in the right way. I agree about the use of annonymous python method=
- for it.
-
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
