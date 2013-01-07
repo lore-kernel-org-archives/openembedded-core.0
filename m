@@ -1,37 +1,45 @@
-Received: from mail-oa0-f53.google.com ([209.85.219.53])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TsBq5-0001uQ-7K
+	(envelope-from <ross.burton@intel.com>) id 1TsBs3-00023Y-Rz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 13:30:02 +0100
-Received: by mail-oa0-f53.google.com with SMTP id j6so17716138oag.12
+	Mon, 07 Jan 2013 13:32:04 +0100
+Received: from mail-qc0-f200.google.com ([209.85.216.200])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 Jan 2013 04:16:53 -0800
+Received: by mail-qc0-f200.google.com with SMTP id l42so29499020qco.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 04:14:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=jSfEjCwmlkL/S5DNRcdHBIhl5v0cKKe9fhq+g+OW9yI=;
-	b=DFNGbwEoXy39x7J3h/ileiVi8Tesb5MeCgTZRTkFBVLBxxWVTuGUKDsusMoUawZnp3
-	a1Lb6IEOBaOykIYnkH2Bv3gTnYFOGS6d7cnYHUvweRSx92OSK5XhVNmI701LgsWuL5zi
-	hRLXcZdjL7FgMuVTtDkfpWuXdW1z8yklIpsHuSefhKsdRo4U1McZ1mC1TDtW0PTXiaO7
-	vUvguE44/VCe7IBfWhFJioykVzImp3qXhNYaTydQsbUN3S0PbjnQU/TG6YRodg0Qr3CD
-	IhfKbw6iTKdH0mb3hlKfXJUTXWMzeguU7ylU/P0SvSSVPzjfH2yHJoKKfzaFtADcEkTR
-	SnmQ==
+	Mon, 07 Jan 2013 04:16:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=+x9ceWicNPY4/hWVi3z4VFmzWCo7g+5PfBmGi498QTw=;
+	b=fIB7RvciEatW4kdCIOKu3ugXm9z87ufv0N1cQq2NfprVxvv7amtTG42PBT6cMa5inL
+	KT7X0tZQO673THF0ugs/Q5+6ZSDqdSugcQqMtnQlgY40sQHstLI+iM2K1jLq/Htu8xEg
+	1c37dF8e4TruAZ6x6lnV6+xHwnHuMUiv7Zzlxh8cChrMa3rGZdGuHIodZ6Bx86SgLSeZ
+	OF8eXOcx5sQe9kU5+VnNyzkkoFZh0ExL/MhGLkJmqjPG+MgRqQFBfa1j+NTIiVeGJl0g
+	nbK2sX0d/o2wxy2OdyK47Zf+tbxpsjKaXByYlADKngi83U5BmzlugftL3O+5r9PvK+F7
+	zRKQ==
+X-Received: by 10.52.72.232 with SMTP id g8mr71994817vdv.69.1357561012173;
+	Mon, 07 Jan 2013 04:16:52 -0800 (PST)
+Received: by 10.52.72.232 with SMTP id g8mr71994814vdv.69.1357561012101; Mon,
+	07 Jan 2013 04:16:52 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.182.54.103 with SMTP id i7mr42855692obp.62.1357560891505; Mon,
-	07 Jan 2013 04:14:51 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Mon, 7 Jan 2013 04:14:51 -0800 (PST)
-In-Reply-To: <CAJTo0LZh_uw9Q3yY+1kxaMLwMp8n-_LujKV3Tk6pkMcKtFfx2g@mail.gmail.com>
-References: <50EAB9C9.1090903@linaro.org>
-	<CAJTo0LZh_uw9Q3yY+1kxaMLwMp8n-_LujKV3Tk6pkMcKtFfx2g@mail.gmail.com>
-Date: Mon, 7 Jan 2013 10:14:51 -0200
-X-Google-Sender-Auth: ijjakr-qHJnGp0lVWlRpFWj69dY
-Message-ID: <CAP9ODKp9QoHDJ9svT_Wse+80-PGUDuEktBgfyOjMqe7YPu+_tw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Default xorg.conf is for x86 devices
+Received: by 10.58.95.103 with HTTP; Mon, 7 Jan 2013 04:16:31 -0800 (PST)
+In-Reply-To: <CAF6bG8eMo0c=e8G2zd_Y4ST0hG-S2Zx4f4f7hhO8PPML7Ozs7Q@mail.gmail.com>
+References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-4-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-5-git-send-email-cazfi74@gmail.com>
+	<1357559941.25855.7.camel@ted>
+	<CAF6bG8eMo0c=e8G2zd_Y4ST0hG-S2Zx4f4f7hhO8PPML7Ozs7Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Jan 2013 12:16:31 +0000
+Message-ID: <CAJTo0LYXWwLEwmz+oWT4Lo6PL1naJxP0NV5DKcEBbJvyLPh0cw@mail.gmail.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+X-Gm-Message-State: ALoCoQlLUmHeHAeBDYQmH3ngPDAuMCm/K65FOTCIZtXEHbCvDZ62aMGzGFEHtK9Veli2KRhKZbdRS83XT5l8jaC20ldH/2FmhHFMFC0BsqhvImV9ETgP73Dq4HfXm5dCX4n4bGAbSKmnzVKx6hk5BNkf+RnSMA+wls56vgkCVpb4UXq5GVK7ryIkXLaDB+I5KkIrrBAHTMm2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 04/15] file: replace obsolete automake macros with working ones
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,26 +52,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 12:30:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 07 Jan 2013 12:32:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jan 7, 2013 at 10:10 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 7 January 2013 12:04, Marcin Juszkiewicz
-> <marcin.juszkiewicz@linaro.org> wrote:
->> Can we replace default xorg.conf with empty one? I finally got X11
->> working on AArch64 just to notice that I have to remove xorg.conf file
->> to get them started.
->
-> I'm all for removing xorg.conf wherever it's possible assuming it
-> still works.  The default should be no xorg.conf with machine
-> overrides where required.
+On 7 January 2013 12:11, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> What's the correct status for fixes that are not really backports,
+> but have happened independently in oe and upstream?
+>  - If practically identical, still mark as "Backport"?
+>  - If different solution, "Inappropriate [not needed]"?
 
-I also support this. I have override it in our internal layer to make
-it more generic.
+If you did it and then later discovered it's happened upstream
+independently, it's essentially a backport.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Ross
 
 
