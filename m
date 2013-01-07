@@ -1,31 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TsDaG-0006F1-C1 for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 15:21:51 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07E6dCK005072;
-	Mon, 7 Jan 2013 14:06:39 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04131-05; Mon,  7 Jan 2013 14:06:35 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07E6WmU005066
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 7 Jan 2013 14:06:33 GMT
-Message-ID: <1357567595.25855.25.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Mon, 07 Jan 2013 14:06:35 +0000
-In-Reply-To: <c7eeaf9b46dd9c854603f2c5e3157799390ab76d.1357290320.git.hongxu.jia@windriver.com>
-References: <cover.1357290320.git.hongxu.jia@windriver.com>
-	<c7eeaf9b46dd9c854603f2c5e3157799390ab76d.1357290320.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass:specify the order of do_rootfs
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <cristian.iorga@intel.com>) id 1TsDbh-0006IQ-UD
+	for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 15:23:23 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Jan 2013 06:07:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="242981832"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jan 2013 06:08:06 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.95]) by
+	IRSMSX103.ger.corp.intel.com ([169.254.3.74]) with mapi id
+	14.01.0355.002; Mon, 7 Jan 2013 14:08:05 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] libtelepathy: python-native is used during
+	build
+Thread-Index: AQHN7N4YUGgKklLYLUS31rOpo98dWpg95J0AgAABQZA=
+Date: Mon, 7 Jan 2013 14:08:05 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161DB159@IRSMSX102.ger.corp.intel.com>
+References: <1357566682-7595-1-git-send-email-cristian.iorga@intel.com>
+	<1357567154.25855.22.camel@ted>
+In-Reply-To: <1357567154.25855.22.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libtelepathy: python-native is used during build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,52 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 14:21:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Jan 2013 14:23:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Sat, 2013-01-05 at 08:45 +0800, Hongxu Jia wrote:
-> The task of do_populate_lic use "bb.build.exec_func" to execute shell function
-> "sstate_create_package", and "bb.build.exec_func" use ${B} as default dir to cd
-> and execute the shell function. At this place, B = "${WORKDIR}/${BPN}-${PV}/",
-> and "${WORKDIR}/${BPN}-${PV}/" is removed by task do_rootfs.
-> 
-> When we use more than one bitabke to run tasks, there is a chance that do_rootfs
-> and do_populate_lic are being executed at the same time. So we should explicity
-> specify the order of do_populate_lic and do_rootfs to let "${WORKDIR}/${BPN}-${PV}/"
-> could be correctly used and removed.
-> 
-> [YOCTO #3674]
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/classes/image.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index d3a416d..c2dab36 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -472,4 +472,4 @@ do_package_write_ipk[noexec] = "1"
->  do_package_write_deb[noexec] = "1"
->  do_package_write_rpm[noexec] = "1"
->  
-> -addtask rootfs before do_build
-> +addtask rootfs before do_build after do_populate_lic
-
-Lets not add pointless ordering constraints.
-
-sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
-sstate_unpack_package[dirs] = "${SSTATE_INSTDIR}"
-
-in sstate.bbclass should resolve this and another similar possible race.
-
-Cheers,
-
-Richard
-
-
-
-
+SSBhbSB0YWxraW5nIGFib3V0IHBvdGVudGlhbCBwcm9ibGVtcywgbGlrZSBidWlsZGluZyBpdCB3
+aXRoIHRoZSBob3N0IHB5dGhvbiwgYW5kIG5vdCB3aXRoIHB5dGhvbi1uYXRpdmUuDQoNCkl0IGlz
+IG15IHVuZGVyc3RhbmRpbmcgZnJvbSBTYXVsJ3MgY29tbWVudHMgcmVsYXRlZCB0byB0ZWxlcGF0
+aHktaWRsZSBwYWNrYWdlIHRoYXQgYnVpbGRpbmcgaXQgZmFpbHMgYmVjYXVzZSBpdCB1c2VzIC91
+c3IvYmluL3B5dGhvbiBpbnN0ZWFkIG9mIHB5dGhvbi1uYXRpdmUuDQpJIGhhdmUgYXNzdW1lZCB0
+aGF0IHRoaXMgY291bGQgaGFwcGVuIGFsc28gZm9yIGxpYnRlbGVwYXRoeSwgZ2l2ZW4gdGhhdCBp
+biB0aGUgcmVzdWx0aW5nIE1ha2VmaWxlIHRoZXJlIGlzIGFuIGFzc2lnbm1lbnQgbGlrZSB0aGlz
+Og0KUFlUSE9OPXB5dGhvbg0KDQpIb3BlIHRoaXMgY2xhcmlmaWVzIGl0Lg0KDQpSZWdhcmRzLA0K
+Q3Jpc3RpYW4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVy
+ZGllIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBN
+b25kYXksIEphbnVhcnkgMDcsIDIwMTMgMzo1OSBQTQ0KVG86IElvcmdhLCBDcmlzdGlhbg0KQ2M6
+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIXSBsaWJ0ZWxlcGF0aHk6IHB5dGhvbi1uYXRpdmUgaXMgdXNlZCBkdXJp
+bmcgYnVpbGQNCg0KT24gTW9uLCAyMDEzLTAxLTA3IGF0IDE1OjUxICswMjAwLCBDcmlzdGlhbiBJ
+b3JnYSB3cm90ZToNCj4gcHl0aG9uLW5hdGl2ZSB3YXMgbm90IHVzZWQgZHVyaW5nIHRoZSBidWls
+ZC4NCj4gVGhpcyBjb3VsZCBsZWFkIHRvIHByb2JsZW1zLg0KDQpXaGF0IGtpbmQgb2YgInByb2Js
+ZW1zIj8gWWVzLCBJIGNvdWxkIGdvIGFuZCBsb29rIGF0IHRoZSBidWd6aWxsYSBidXQgY29tbWl0
+IG1lc3NhZ2VzIHNob3VsZCBiZSBzZWxmIHN1cHBvcnRpbmcsIGF0IGxlYXN0IHdpdGggYSBzdW1t
+YXJ5Lg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQo+IEZpeGVzIFtZT0NUTyAjMzY3OV0NCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IENyaXN0aWFuIElvcmdhIDxjcmlzdGlhbi5pb3JnYUBpbnRlbC5j
+b20+DQo+IC0tLQ0KPiAgbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS90ZWxlcGF0aHkvbGlidGVs
+ZXBhdGh5XzAuMy4zLmJiIHwgICAgMiArLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS90ZWxlcGF0aHkvbGlidGVsZXBhdGh5XzAuMy4zLmJiIA0KPiBiL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvdGVsZXBhdGh5L2xpYnRlbGVwYXRoeV8wLjMuMy5iYg0KPiBpbmRleCBl
+ZTEzMWVlLi43ZDBlZjc5IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L3RlbGVwYXRoeS9saWJ0ZWxlcGF0aHlfMC4zLjMuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNv
+bm5lY3Rpdml0eS90ZWxlcGF0aHkvbGlidGVsZXBhdGh5XzAuMy4zLmJiDQo+IEBAIC0xNyw3ICsx
+Nyw3IEBAIFNSQ19VUkkgPSANCj4gImh0dHA6Ly90ZWxlcGF0aHkuZnJlZWRlc2t0b3Aub3JnL3Jl
+bGVhc2VzL2xpYnRlbGVwYXRoeS9saWJ0ZWxlcGF0aHktJA0KPiAgU1JDX1VSSVttZDVzdW1dID0g
+IjQ5MGNhMWEwYzYxNGQ0NDY2Mzk0YjcyZDQzYmY3MzcwIg0KPiAgU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gImUwZDIzMGJlODU1MTI1MTYzNTc5NzQzNDE4MjAzYzZmNmJlMmYxMGY5OGM0ZjA2NTczNWMx
+ZGM5ZWQxMTU4NzgiDQo+ICANCj4gLWluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZw0KPiAraW5o
+ZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnIHB5dGhvbm5hdGl2ZQ0KPiAgDQo+ICBGSUxFU18ke1BO
+fSArPSAiJHtkYXRhZGlyfS90ZWxlcGF0aHkgXA0KPiAgCQkke2RhdGFkaXJ9L2RidXMtMSINCg0K
+DQo=
 
 
