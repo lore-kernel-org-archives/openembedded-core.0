@@ -1,24 +1,28 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@intel.com>) id 1TsFS9-00062y-CX
+	(envelope-from <ddalex@intel.com>) id 1TsFSD-00062y-9b
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 17:21:33 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jan 2013 08:06:22 -0800
+	Mon, 07 Jan 2013 17:21:38 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jan 2013 08:06:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="273837593"
+X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="270883358"
 Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Jan 2013 08:06:20 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 07 Jan 2013 08:06:25 -0800
 Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id 602DC5605D1; Mon,  7 Jan 2013 18:06:49 +0200 (EET)
+	id 1C0185608F3; Mon,  7 Jan 2013 18:06:55 +0200 (EET)
 From: Alex DAMIAN <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
 	richard.purdie@linuxfoundation.org, ross.burton@intel.com
-Date: Mon,  7 Jan 2013 18:06:47 +0200
-Message-Id: <cover.1357574641.git.alexandru.damian@intel.com>
+Date: Mon,  7 Jan 2013 18:06:53 +0200
+Message-Id: <6b9684a5239103564b499be51bfe655bf89abea4.1357574641.git.alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <b35b229be238eae6d836432bbdffca31803e8e18.1357574641.git.alexandru.damian@intel.com>
+References: <b35b229be238eae6d836432bbdffca31803e8e18.1357574641.git.alexandru.damian@intel.com>
+In-Reply-To: <cover.1357574641.git.alexandru.damian@intel.com>
+References: <cover.1357574641.git.alexandru.damian@intel.com>
 Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH v4 0/3] Initial wayland integration
+Subject: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,61 +35,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 16:21:33 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 16:21:50 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 16:21:50 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Hi,
+This patch adds the Weston reference compositing
+manager from Wayland.
 
-I've rebased the patch on top of the latest master.
+We add version 1.0.3 which is the latest stable release
+in Dec 2012. See the upstream at:
 
-I have several changes in the patches, in particular on how to select proper dependency versions.
-Please review.
+http://wayland.freedesktop.org/releases.html
 
-This is a set of patches that integrate Wayland/Weston 1.0.3 into mainline.
+To enable building, set in local.conf
 
-All library dependencies are satisfied, and Weston works under X11 and DRM.
+ #Build mesa-dri compatible packages
+ OVERRIDES += ":weston"
+ #Enable the wayland distro feature
+ DISTRO_FEATURES_append_weston = " wayland "
 
-A user must install separately (no hard dependency) the hardware DRM drivers
-to be able to run weston on barebone hardware. Hardware drivers built-in
-are the swrast, i915 and i965 (i965 is tested on real hardware).
-
-There is no default integration in any distro, the packages may be installed
-through the package manager.
-
-Further improvements will include a wrapper script for weston and integration
-in the distro features.
-
-Documentation will be available on wiki, and announced here.
-
-
-The following changes since commit b03c4188c8372ae9156a9e6adc7cf66edc76dd16:
-
-  icu: update to upstream version 50.1.1 (2013-01-07 11:09:44 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib adamian/wayland/upstream.1
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=adamian/wayland/upstream.1
-
-Alexandru DAMIAN (3):
-  Wayland userspace library initial 1.0.3
-  Prepare mesa-dri for weston compatibility
-  Initial commit for wayland/weston 1.0.3
-
- meta/recipes-graphics/mesa/mesa-common.inc     |   10 +++++++-
- meta/recipes-graphics/mesa/mesa-dri.inc        |    1 +
- meta/recipes-graphics/mesa/mesa-dri_git.bb     |    3 +++
- meta/recipes-graphics/wayland/wayland.inc      |   32 ++++++++++++++++++++++++
- meta/recipes-graphics/wayland/wayland_1.0.3.bb |    7 ++++++
- meta/recipes-graphics/wayland/weston.inc       |   23 +++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.0.3.bb  |    9 +++++++
- 7 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/wayland/wayland.inc
- create mode 100644 meta/recipes-graphics/wayland/wayland_1.0.3.bb
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/recipes-graphics/wayland/weston.inc      |   23 +++++++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.0.3.bb |    9 +++++++++
+ 2 files changed, 32 insertions(+)
  create mode 100644 meta/recipes-graphics/wayland/weston.inc
  create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
 
+diff --git a/meta/recipes-graphics/wayland/weston.inc b/meta/recipes-graphics/wayland/weston.inc
+new file mode 100644
+index 0000000..2293589
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston.inc
+@@ -0,0 +1,23 @@
++inherit autotools pkgconfig
++
++SUMMARY = "Weston, a Wayland compositor"
++DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
++HOMEPAGE = "http://wayland.freedesktop.org"
++SECTION = "wayland/base"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466"
++
++DEPENDS = "wayland mesa-dri libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
++DEPENDS += "virtual/egl"
++
++EXTRA_OECONF  = "--enable-wayland-compositor --disable-android-compositor"
++EXTRA_OECONF += "--enable-setuid-install --enable-simple-clients"
++EXTRA_OECONF += "--enable-clients --disable-xwayland"
++
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
++                  "
++PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev mesa-dri libpam"
++PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
++PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
+diff --git a/meta/recipes-graphics/wayland/weston_1.0.3.bb b/meta/recipes-graphics/wayland/weston_1.0.3.bb
+new file mode 100644
+index 0000000..625965b
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston_1.0.3.bb
+@@ -0,0 +1,9 @@
++require weston.inc
++
++SRC_URI = "http://wayland.freedesktop.org/releases/weston-1.0.3.tar.xz \
++	  "
++SRC_URI[md5sum] = "f82ac2e013e6b6a6303ac4ba7b64c7f2"
++SRC_URI[sha256sum] = "3136a7d2f654ea3e946d4217f7e25321248ad2921f1f4e2504dda58968e04853"
++
++PR = "r0"
++
 -- 
 1.7.10.4
 
