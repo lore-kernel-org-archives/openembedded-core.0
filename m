@@ -1,28 +1,24 @@
-Received: from eu1sys200aog108.obsmtp.com ([207.126.144.125])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TsFLR-0005df-Up
+	(envelope-from <ddalex@intel.com>) id 1TsFS9-00062y-CX
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 17:14:42 +0100
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob108.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUOrw4nT8SKXhrYaa9XhifOTQoYE8wyb2@postini.com;
-	Mon, 07 Jan 2013 15:59:30 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 65EE4206
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2013 09:19:08 +0000 (GMT)
-Received: from mail7.sgp.st.com (unknown [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0EF932879
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Jan 2013 09:19:07 +0000 (GMT)
-Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id AUS50865 (AUTH condorg); Mon, 7 Jan 2013 10:19:07 +0100
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 10:16:47 +0100
-Message-Id: <1357550207-19933-1-git-send-email-giuseppe.condorelli@st.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] libpcre: set BUILD_CFLAGS
+	Mon, 07 Jan 2013 17:21:33 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jan 2013 08:06:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="273837593"
+Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Jan 2013 08:06:20 -0800
+Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
+	id 602DC5605D1; Mon,  7 Jan 2013 18:06:49 +0200 (EET)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org, sgw@linux.intel.com,
+	richard.purdie@linuxfoundation.org, ross.burton@intel.com
+Date: Mon,  7 Jan 2013 18:06:47 +0200
+Message-Id: <cover.1357574641.git.alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH v4 0/3] Initial wayland integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 16:15:05 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 16:21:33 -0000
 
-Set LINK_SIZE in BUILD_CFLAGS given that the autotools bbclass use it to set
-CFLAG_FOR_BUILD, required for the libpcre build.
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
----
- meta/recipes-support/libpcre/libpcre_8.32.bb |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.32.bb b/meta/recipes-support/libpcre/libpcre_8.32.bb
-index e434d55..361e9f0 100644
---- a/meta/recipes-support/libpcre/libpcre_8.32.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.32.bb
-@@ -34,8 +34,9 @@ EXTRA_OECONF = "\
-     --with-match-limit=10000000 \
- "
- 
--BUILD_CPPFLAGS += "-DLINK_SIZE=2"
--BUILD_CFLAGS =+ "-I${S}/include"
-+# Set LINK_SIZE in BUILD_CFLAGS given that the autotools bbclass use it to
-+# set CFLAG_FOR_BUILD, required for the libpcre build.
-+BUILD_CFLAGS =+ "-DLINK_SIZE=2 -I${S}/include"
- CFLAGS += "-D_REENTRANT"
- CXXFLAGS_append_powerpc = " -lstdc++"
- 
+I've rebased the patch on top of the latest master.
+
+I have several changes in the patches, in particular on how to select proper dependency versions.
+Please review.
+
+This is a set of patches that integrate Wayland/Weston 1.0.3 into mainline.
+
+All library dependencies are satisfied, and Weston works under X11 and DRM.
+
+A user must install separately (no hard dependency) the hardware DRM drivers
+to be able to run weston on barebone hardware. Hardware drivers built-in
+are the swrast, i915 and i965 (i965 is tested on real hardware).
+
+There is no default integration in any distro, the packages may be installed
+through the package manager.
+
+Further improvements will include a wrapper script for weston and integration
+in the distro features.
+
+Documentation will be available on wiki, and announced here.
+
+
+The following changes since commit b03c4188c8372ae9156a9e6adc7cf66edc76dd16:
+
+  icu: update to upstream version 50.1.1 (2013-01-07 11:09:44 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib adamian/wayland/upstream.1
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=adamian/wayland/upstream.1
+
+Alexandru DAMIAN (3):
+  Wayland userspace library initial 1.0.3
+  Prepare mesa-dri for weston compatibility
+  Initial commit for wayland/weston 1.0.3
+
+ meta/recipes-graphics/mesa/mesa-common.inc     |   10 +++++++-
+ meta/recipes-graphics/mesa/mesa-dri.inc        |    1 +
+ meta/recipes-graphics/mesa/mesa-dri_git.bb     |    3 +++
+ meta/recipes-graphics/wayland/wayland.inc      |   32 ++++++++++++++++++++++++
+ meta/recipes-graphics/wayland/wayland_1.0.3.bb |    7 ++++++
+ meta/recipes-graphics/wayland/weston.inc       |   23 +++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.0.3.bb  |    9 +++++++
+ 7 files changed, 84 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/wayland/wayland.inc
+ create mode 100644 meta/recipes-graphics/wayland/wayland_1.0.3.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston.inc
+ create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+
 -- 
-1.7.7.6
+1.7.10.4
 
 
 
