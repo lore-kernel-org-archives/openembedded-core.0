@@ -1,23 +1,45 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TsF5p-0000wv-Sx
+	(envelope-from <otavio.salvador@gmail.com>) id 1TsFKV-0005YT-GY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 16:58:30 +0100
-Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r07FhFFq014487;
-	Mon, 7 Jan 2013 07:43:17 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon,  7 Jan 2013 10:43:06 -0500
-Message-Id: <ab5aea63b975a4ae84de90702af55468a410311a.1357572952.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1357572952.git.bruce.ashfield@windriver.com>
-References: <cover.1357572952.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1357572952.git.bruce.ashfield@windriver.com>
-References: <cover.1357572952.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] linux-libc-headers: make 3.7 the default and remove older libc-header recipes
+	Mon, 07 Jan 2013 17:13:39 +0100
+Received: by mail-ob0-f180.google.com with SMTP id wd20so17123833obb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Jan 2013 07:58:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=mxquKK895/4KMoXCCm6BusM3Ir7MV7tkenEXzq+AYP8=;
+	b=lSeb1gt8clPNxazuMX9OR528jAXsQC3Hc1Js88acJkFWC+DKUpmjXDyuPTYp5ibdh1
+	G6txnCVLBbWI3V81O5fmJx132uXGu8F+9TBFqsop+oDFpJmwYoglJyL6LBJt0mF+/Gyo
+	M6hXRY4eok8wYjercexv0/rIT6pEw5xhFGHdFmTxsynE2kLwVW2UkFFN1FQomfkuM596
+	6kaKDlgzmndjELCrCaj+5lPnnTzhZUCxiMjJQDpge3PmJK21BH/2szmR465ahQZmd2xA
+	CJc528YvtbyqRDUO8VdQOS9ZJCC3Mw/Wt1g1/HL6zAHZeBDJgpdHfWqUxWwQ0gJSwjjZ
+	LWSQ==
+MIME-Version: 1.0
+Received: by 10.60.171.146 with SMTP id au18mr32964255oec.108.1357574309647;
+	Mon, 07 Jan 2013 07:58:29 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Mon, 7 Jan 2013 07:58:29 -0800 (PST)
+In-Reply-To: <1357566365.25855.17.camel@ted>
+References: <1357516181-5358-1-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-2-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-3-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-4-git-send-email-cazfi74@gmail.com>
+	<1357516181-5358-5-git-send-email-cazfi74@gmail.com>
+	<1357559941.25855.7.camel@ted>
+	<CAF6bG8eMo0c=e8G2zd_Y4ST0hG-S2Zx4f4f7hhO8PPML7Ozs7Q@mail.gmail.com>
+	<CAJTo0LYXWwLEwmz+oWT4Lo6PL1naJxP0NV5DKcEBbJvyLPh0cw@mail.gmail.com>
+	<CAP9ODKq2UVEmG11WFNHNdvE5+-X5NW6azhaQsxxGPbC05+j8og@mail.gmail.com>
+	<1357566365.25855.17.camel@ted>
+Date: Mon, 7 Jan 2013 13:58:29 -0200
+X-Google-Sender-Auth: BKVnVM6lq3G1sN9tY63hy-JZqjA
+Message-ID: <CAP9ODKr+sZwLb5A_H6s2-SJ7kPh9T2S4B9zDt1+0B6NwzMUwYQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 04/15] file: replace obsolete automake macros with working ones
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,76 +52,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 15:58:30 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 16:13:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Switch the default libc-headers to the 3.7 version. At the same time, remove
-older versions of the headers to keep things simple and clear. All userspace
-and kernel combinations should build and boot against this single lib-headers
-version.
+On Mon, Jan 7, 2013 at 11:46 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2013-01-07 at 10:18 -0200, Otavio Salvador wrote:
+>> On Mon, Jan 7, 2013 at 10:16 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>> > On 7 January 2013 12:11, Marko Lindqvist <cazfi74@gmail.com> wrote:
+>> >> What's the correct status for fixes that are not really backports,
+>> >> but have happened independently in oe and upstream?
+>> >>  - If practically identical, still mark as "Backport"?
+>> >>  - If different solution, "Inappropriate [not needed]"?
+>> >
+>> > If you did it and then later discovered it's happened upstream
+>> > independently, it's essentially a backport.
+>
+> The best thing is to consider how we use the information. I'd happily
+> accept "Backport" in this case as meaning "the upstream latest version
+> has equivalent functionality". You can note the status after the word to
+> give specifics if needed.
+>
+>> Maybe it'd be better to not patch at all and update to the newer
+>> recipe version?
+>
+> I don't think that is a reasonable policy in all cases. I'm not going to
+> block automake on all upstreams making new releases for example.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/conf/distro/include/tcmode-default.inc                     |    2 +-
- .../linux-libc-headers/linux-libc-headers_3.0.8.bb              |    7 -------
- .../recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb |    6 ------
- .../linux-libc-headers/linux-libc-headers_3.4.3.bb              |    6 ------
- 4 files changed, 1 insertion(+), 20 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+Sure but if there're a new release with the fix it is better to
+upgrade than backport the fix (with exceptions, of course).
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 1d6cd8b..8f3ba2b 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.23.1"
- EGLIBCVERSION ?= "2.16"
- UCLIBCVERSION ?= "0.9.33"
--LINUXLIBCVERSION ?= "3.4.3"
-+LINUXLIBCVERSION ?= "3.7"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
-deleted file mode 100644
-index 7bb5895..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.0.8.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require linux-libc-headers.inc
--
--PR = "r1"
--
--SRC_URI += " file://connector-msg-size-fix.patch"
--SRC_URI[md5sum] = "eac4d398a0ecd98214487cd47a228998"
--SRC_URI[sha256sum] = "4ed16da319848f681f711dbda2ac2cf1b306a280ec22f90bae190cf23b533add"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb
-deleted file mode 100644
-index 9bee02b..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.2.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require linux-libc-headers.inc
--
--PR = "r1"
--
--SRC_URI[md5sum] = "7ceb61f87c097fc17509844b71268935"
--SRC_URI[sha256sum] = "c881fc2b53cf0da7ca4538aa44623a7de043a41f76fd5d0f51a31f6ed699d463"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
-deleted file mode 100644
-index 6f8d9e8..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require linux-libc-headers.inc
--
--PR = "r0"
--
--SRC_URI[md5sum] = "3aefa02db55715d627ed23a01667057d"
--SRC_URI[sha256sum] = "17f1256daa289dde1a0a587c9753556d37a52770f7c4efcf2666fd4796a6eacc"
--- 
-1.7.10.4
+My point is: it is good to verify if there're a new release and use it
+if possible. Otherwise backport the fix.
 
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
