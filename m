@@ -1,37 +1,34 @@
-Received: from mail-ob0-f172.google.com ([209.85.214.172])
+Received: from mail-ie0-f174.google.com ([209.85.223.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TsHDW-00049v-Ra
+	(envelope-from <otavio.salvador@gmail.com>) id 1TsHHC-0004JH-RK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 19:14:37 +0100
-Received: by mail-ob0-f172.google.com with SMTP id za17so17814394obc.17
+	Mon, 07 Jan 2013 19:18:24 +0100
+Received: by mail-ie0-f174.google.com with SMTP id c11so23887132ieb.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 09:59:24 -0800 (PST)
+	Mon, 07 Jan 2013 10:03:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=Zjyv/+h0f16oA2o3Dnm2ygYEncs1qAYHTLRYTjRGZVI=;
-	b=ATYNxgFPkpaQvwTuetXxoq5XGrQy6vRpwKFN+Keb6g++yIBHre13h5c3n9aYBq94BH
-	4jb24BTaqXxuCZf7rQVs//V9/2NrXUVwQ0vwgrlDKrucfQ3mZa4NeZkeTxjvBVgV1eAR
-	XMO0jibQv8JFFcXmTkjbFWLedxG2uAvhKnDFlEb6y9+4lP+0/LAkKYmmqP9Aesiuqdtf
-	G0r/XzqUSXxsUbVCIjOtw2F2kkdM4WRzf5bOenWm4KTNCpZY2D8E8EdL5vy+eiK+Sg4c
-	DdZBfpzSoVsIG/QbvCh8R1MqQ76HntnfjmMq40AiyTtTWvAGXZWSoajbu6+mdQMHJxc6
-	KIMw==
-MIME-Version: 1.0
-Received: by 10.182.212.70 with SMTP id ni6mr44285173obc.44.1357581564787;
-	Mon, 07 Jan 2013 09:59:24 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Mon, 7 Jan 2013 09:59:24 -0800 (PST)
-In-Reply-To: <1357577024-7889-1-git-send-email-eric@eukrea.com>
-References: <1357577024-7889-1-git-send-email-eric@eukrea.com>
-Date: Mon, 7 Jan 2013 15:59:24 -0200
-X-Google-Sender-Auth: kcGEDOX_ROXqEu6cEt-V4cwZ0j0
-Message-ID: <CAP9ODKqOsQMrRDtw+uRgCb4Twr60wC+pbjB9m4_MrPrvF15eyg@mail.gmail.com>
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=dCL1xY8x5mXcKojpFdo+uofUF9A5Uje8GSrixoSLCkY=;
+	b=ZlrGpEPYqSYeTIMcEhrbl4aTPMi2XZTsLXSAqhjnOaeMZ/sMPXalwoZAZpXqsASMs7
+	qTqLPhhbUyRn82XvM2Cjx9mAmu5WANCz42PqLa4XuNxm2NUdmJ2DR7RSxP9ffXuKQXPd
+	oLQUqWEg2sts+io1Vz9tc1N9lXwdzVMuCP+stqS481lGFNARovN7cGwdvvxortNDGBI2
+	BAp15K/kzBGAl1wKQUJXVTIGgK4RAvEnxC75ftKVZlJ2IItxDruxpIhV15aslXLc1qXj
+	ZzQjXbTZTNvOxQOSGceHshDhwpsKgFqJSwgucWWGQ0zS4LWIBW6eEGyh9BjmaqHP3jXC
+	+XfQ==
+X-Received: by 10.50.150.142 with SMTP id ui14mr6190096igb.93.1357581792875;
+	Mon, 07 Jan 2013 10:03:12 -0800 (PST)
+Received: from nano.lab.ossystems.com.br.lab.ossystems.com.br ([187.23.158.26])
+	by mx.google.com with ESMTPS id wg2sm7440545igb.13.2013.01.07.10.03.10
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 07 Jan 2013 10:03:12 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libnl: fix compilation on hosts without lex
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Jan 2013 16:06:55 -0200
+Message-Id: <1357582015-16423-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] libnl: Fix building using flex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +41,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 18:15:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Jan 2013 18:18:32 -0000
 
-On Mon, Jan 7, 2013 at 2:43 PM, Eric B=E9nard <eric@eukrea.com> wrote:
-> * libnl's makefiles are calling $(LEX) but only define $(FLEX), thus
-> compilation on a host which doesn't have lex fails with :
-> | lex --header-file=3Droute/cls/ematch_grammar.h  -o route/cls/ematch_gra=
-mmar.c route/cls/ematch_grammar.l
-> | make[1]: lex: Command not found
-> | make[1]: *** [route/cls/ematch_grammar.c] Error 127
->
-> * this patch fix this by setting LEX variable to flex tool
->
-> Signed-off-by: Eric B=E9nard <eric@eukrea.com>
+The build system has not been fully changed to use flex in 3.2.16 so
+we need to finish the conversion. In 3.2.17 this bug has been fixed.
 
-I have prepared a patch for this issue but I did patch the Makefile.am
-to use $(FLEX) as this is the fix commited in upstream 3.2.17. If you
-do not object, I'd like to propose mine patch for review as it is more
-in line with upstream fix.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../libnl/libnl/fix-build-using-flex.patch         |   55 ++++++++++++++++++++
+ meta/recipes-support/libnl/libnl_3.2.16.bb         |    3 +-
+ 2 files changed, 57 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+diff --git a/meta/recipes-support/libnl/libnl/fix-build-using-flex.patch b/meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
+new file mode 100644
+index 0000000..89a36ba
+--- /dev/null
++++ b/meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
+@@ -0,0 +1,55 @@
++From 89ab8d4f1229a1d2605193686cc00e6b2c9786ff Mon Sep 17 00:00:00 2001
++From: Otavio Salvador <otavio@ossystems.com.br>
++Date: Mon, 7 Jan 2013 15:44:38 -0200
++Subject: [PATCH] Fix build using flex
++
++Upstream-Status: Backport [3.2.17]
++---
++ lib/Makefile.am     |    4 ++--
++ src/lib/Makefile.am |    4 ++--
++ 2 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/lib/Makefile.am b/lib/Makefile.am
++index 98c7b90..89cc5d2 100644
++--- a/lib/Makefile.am
+++++ b/lib/Makefile.am
++@@ -43,14 +43,14 @@ CLEANFILES = \
++ route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
++ route/pktloc_grammar.h: route/pktloc_grammar.c
++ route/pktloc_grammar.c: route/pktloc_grammar.l
++-	$(AM_V_GEN) $(LEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
+++	$(AM_V_GEN) $(FLEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
++ 
++ route/pktloc_syntax.h: route/pktloc_syntax.c
++ route/pktloc_syntax.c: route/pktloc_syntax.y
++ 	$(AM_V_GEN) $(YACC) -d $(YFLAGS) -o $@ $^
++ 
++ route/cls/ematch_grammar.c: route/cls/ematch_grammar.l
++-	$(AM_V_GEN) $(LEX) --header-file=route/cls/ematch_grammar.h $(LFLAGS) -o $@ $^
+++	$(AM_V_GEN) $(FLEX) --header-file=route/cls/ematch_grammar.h $(LFLAGS) -o $@ $^
++ 
++ route/cls/ematch_syntax.c: route/cls/ematch_syntax.y
++ 	$(AM_V_GEN) $(YACC) -d $(YFLAGS) -o $@ $^
++diff --git a/src/lib/Makefile.am b/src/lib/Makefile.am
++index 6688e7c..507635d 100644
++--- a/src/lib/Makefile.am
+++++ b/src/lib/Makefile.am
++@@ -11,13 +11,13 @@ AM_LDFLAGS = \
++ #cls_ematch_cmp_la_LDFLAGS = -module -version-info 2:0:0
++ 
++ #cls/ematch_grammar.c: cls/ematch_grammar.l
++-#	$(LEX) --header-file=cls/ematch_grammar.h $(LFLAGS) -o $@ $^
+++#	$(FLEX) --header-file=cls/ematch_grammar.h $(LFLAGS) -o $@ $^
++ 
++ #cls/ematch_syntax.c: cls/ematch_syntax.y
++ #	$(YACC) -d $(YFLAGS) -o $@ $^
++ 
++ #cls/pktloc_grammar.c: cls/pktloc_grammar.l
++-#	$(LEX) --header-file=cls/pktloc_grammar.h $(LFLAGS) -o $@ $^
+++#	$(FLEX) --header-file=cls/pktloc_grammar.h $(LFLAGS) -o $@ $^
++ 
++ #cls/pktloc_syntax.c: cls/pktloc_syntax.y
++ #	$(YACC) -d $(YFLAGS) -o $@ $^
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-support/libnl/libnl_3.2.16.bb b/meta/recipes-support/libnl/libnl_3.2.16.bb
+index be3a3a2..db9ae9d 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.16.bb
++++ b/meta/recipes-support/libnl/libnl_3.2.16.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.infradead.org/~tgr/libnl/"
+ SECTION = "libs/network"
+ 
+ PE = "1"
+-PR = "r0"
++PR = "r1"
+ 
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+@@ -12,6 +12,7 @@ DEPENDS = "flex-native bison-native"
+ 
+ SRC_URI = "http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
+            file://fix-pktloc_syntax_h-race.patch \
++           file://fix-build-using-flex.patch \
+            file://fix-pc-file.patch "
+ 
+ SRC_URI[md5sum] = "f06e6de102abb2cef71ed671957ee099"
+-- 
+1.7.10.4
+
 
 
