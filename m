@@ -1,25 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-we0-f172.google.com ([74.125.82.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TsC6H-0002Ti-22
+	(envelope-from <martin.jansa@gmail.com>) id 1TsC80-0002Y4-I6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 13:46:51 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Jan 2013 04:31:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,424,1355126400"; d="scan'208";a="242951155"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jan 2013 04:31:34 -0800
-Message-ID: <50EAC025.6080402@intel.com>
-Date: Mon, 07 Jan 2013 14:31:33 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
+	Mon, 07 Jan 2013 13:48:45 +0100
+Received: by mail-we0-f172.google.com with SMTP id r3so9817617wey.31
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Jan 2013 04:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=AaWzoLKkGtYggKnFpLyTKbgBYXATbNg3+27jldnjjpU=;
+	b=rfE0tZLhRFfZQ3pCFdpmfCwanTwhmMj4GKQQmjdRCNiQk3okNcwVjATfvWLtcpHT1P
+	IRpU8N5Af6hhNe6s9wvUYhghnRxy5Ol2xXxTFuFJWOLruTASFvjmXYKZnNh+Qbsbub9O
+	YqXLE2a+0GvUoFb6ldO3r2TytrE30MR6wvbpsP1XEBYcV7U+mZF0lR021mFp35bn2b1F
+	m1m4gd5h6JXwBSmF51ucdfMXitMqMqL2z8IIFTACdGZElTbD/yUQuYc+PAUfGiaELeKO
+	fXTR12BNXTCBMhvhLrsBRnAWFWvtzPbBFjXyRPoA9qw1rpS2qbkm3gBhLpVuBlHjR/6o
+	0I1A==
+X-Received: by 10.180.95.169 with SMTP id dl9mr8868709wib.20.1357562003591;
+	Mon, 07 Jan 2013 04:33:23 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id gz3sm11952425wib.2.2013.01.07.04.33.22
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 07 Jan 2013 04:33:23 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1357366840.git.sgw@linux.intel.com>
-	<1357557021.28649.228.camel@ted>
-In-Reply-To: <1357557021.28649.228.camel@ted>
-Subject: Re: [CONSOLIDATED PULL (V2) 00/35] Updates, Multilib Patches and other fixes
+Date: Mon,  7 Jan 2013 13:33:17 +0100
+Message-Id: <1357561997-7175-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1
+Subject: [PATCH] perl-rdepends: be more strict in multiline comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,36 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 12:46:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Jan 2013 12:48:46 -0000
 
+* fails to parse when http://patchwork.openembedded.org/patch/40997/ is used
+Parsing recipes...ERROR: There is a confusing multiline, partially commented expression on line 10 of file
+/OE/shr-core/openembedded-core/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc (| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+=
+.*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/
+[^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \).
+Please clarify whether this is all a comment or should be parsed.
+ERROR: Unable to parse /OE/shr-core/openembedded-core/meta/recipes-devtools/perl/perl_5.14.2.bb: Exited with "1"
+ERROR: Command execution failed: Exited with 1
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-On 01/07/2013 01:10 PM, Richard Purdie wrote:
-> On Fri, 2013-01-04 at 22:22 -0800, Saul Wold wrote:
->>
->> Laurentiu Palcu (1):
->>   pango: have postinstalls run at do_rootfs time
-> 
-> Merged, apart from harfbuzz, pango, glib and glib-networking changes as
-> per the feedback on list.
-I think pango can be merged. The comments on the list are about other
-packages that ship pango modules, in which case the qemu approach should
-be used.
+diff --git a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+index 7672e48..87d7a32 100644
+--- a/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
++++ b/meta/recipes-devtools/perl/perl-rdepends_5.14.2.inc
+@@ -6,12 +6,12 @@
+ 
+ #1 cp -r packages-split packages-split.new && cd packages-split.new
+ #2 find . -name \*.pm | xargs sed -i '/^=head/,/^=cut/d'
+-#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" \
+-| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \
+-| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix \
+-| sort -u \
+-| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' \
+-| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/1
++#3 egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" 
++#| sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] 
++#| grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix 
++#| sort -u 
++#| sed 's/^/RDEPENDS_/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' 
++#| egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-build-.*|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' > /tmp/
+ 
+ 
+ # Some additional dependencies that the above doesn't manage to figure out
+-- 
+1.8.1
 
-Thanks,
-Laurentiu
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
 
 
