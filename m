@@ -1,26 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ie0-f177.google.com ([209.85.223.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TsKbh-0007qa-3D
+	(envelope-from <otavio.salvador@gmail.com>) id 1TsKe0-0007wr-5d
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 22:51:48 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 07 Jan 2013 13:36:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,425,1355126400"; d="scan'208";a="188626947"
-Received: from unknown (HELO [10.255.14.104]) ([10.255.14.104])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Jan 2013 13:36:33 -0800
-Message-ID: <50EB3FE1.6020803@linux.intel.com>
-Date: Mon, 07 Jan 2013 13:36:33 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1357461730.git.hongxu.jia@windriver.com>
-	<3dad51b86a16d1bc44a8ac69c8a0efac870768e1.1357461730.git.hongxu.jia@windriver.com>
-In-Reply-To: <3dad51b86a16d1bc44a8ac69c8a0efac870768e1.1357461730.git.hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] apt-native: fix the creation of apt.conf.sample
+	Mon, 07 Jan 2013 22:54:13 +0100
+Received: by mail-ie0-f177.google.com with SMTP id k13so24812082iea.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Jan 2013 13:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=SwmX5gJxLpGnplkiEn9Fz5iWnTakVQoPnkgECwCRNQ4=;
+	b=uEev8+twYv1bmRCdv7IdpBvlFeccBJwRLAgqHmojkeLZb/XRXUiVSO7BgWx7sI6IRN
+	p/8mMuSWzSjUSTC5Wo2HAk4yUF5V5DwuukiNSnl9hw6F15X3i4MjiV4Di90WU2E5yhzF
+	Cl8DO3VTv3M6OUVGUW/AHjk5hfpTpKOfnY4UWCrpH6cwiE8k9wWmo1L3pYTVyMcgBpTU
+	nryDYp+zgAFj7dFBua/ykM39KRhM5/L/6W65AeTvKfr8nsA/vUsJ1corF6X3yOL8Qjjg
+	m7GmD1zkJocWTo0f0KuOyg1fedBQE7OoY+PvzYkLrYDu4Pj4xrbBKdRtrxzettIb0ZI4
+	rpBw==
+X-Received: by 10.50.1.200 with SMTP id 8mr6793116igo.76.1357594737912;
+	Mon, 07 Jan 2013 13:38:57 -0800 (PST)
+Received: from nano.lab.ossystems.com.br.lab.ossystems.com.br ([187.23.158.26])
+	by mx.google.com with ESMTPS id k5sm8756832igq.9.2013.01.07.13.38.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Jan 2013 13:38:57 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Jan 2013 19:42:39 -0200
+Message-Id: <1357594959-31124-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] perl: Remove bashism from perl-tests.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,58 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 21:51:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Jan 2013 21:54:14 -0000
 
-On 01/06/2013 12:43 AM, Hongxu Jia wrote:
-> The file of apt.conf.sample is kept in outdir, and outdir is assigned
-> by "os.path.join" with the params of ${D}, ${sysconfdir} and "apt". But
-> ${sysconfdir} is an absolute dir and that is not allowed by "os.path.join".
->
-> The following is the help on function os.path.join(a, *p):
->      Join two or more pathname components, inserting '/' as needed.
->      If any component is an absolute path, all previous path components
->      will be discarded.
->
-> So remove "/" in ${sysconfdir} to create "apt.conf.sample" if it doesn't
-> exist, not by the existance of prefix dir.
->
-> [YOCTO #3677]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-devtools/apt/apt-native.inc |    7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
-> index ab89f71..0de159a 100644
-> --- a/meta/recipes-devtools/apt/apt-native.inc
-> +++ b/meta/recipes-devtools/apt/apt-native.inc
-> @@ -20,14 +20,17 @@ python do_install_config () {
->
->       data = d.expand(data)
->
-> -    outdir = os.path.join(d.getVar('D', True), d.getVar('sysconfdir', True), 'apt')
-> +    # os.path.join does not allow sysconfdir to be a absolute dir
-> +    outdir = os.path.join(d.getVar('D', True), d.getVar('sysconfdir', True)[1:], 'apt')
->       if not os.path.exists(outdir):
->           os.makedirs(outdir)
-> -        outpath = os.path.join(outdir, 'apt.conf.sample')
->
-> +    outpath = os.path.join(outdir, 'apt.conf.sample')
-> +    if not os.path.exists(outpath):
->           outfile = file(outpath, 'w')
->           outfile.write(data)
->           outfile.close()
-> +        bb.note("create %s" %outpath)
-Do we need to keep this debug message around?
+The perl-tests.inc file where using the constructs:
 
-Sau!
+ cp {a,b} to/
 
->   }
->
->   do_install_base () {
->
+but this is not supported in every shell so we cannot use it. This
+patch fixes it.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-devtools/perl/perl-tests.inc |    7 ++++---
+ meta/recipes-devtools/perl/perl_5.14.2.bb |    2 +-
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/perl/perl-tests.inc b/meta/recipes-devtools/perl/perl-tests.inc
+index c968eb6..e6de088 100644
+--- a/meta/recipes-devtools/perl/perl-tests.inc
++++ b/meta/recipes-devtools/perl/perl-tests.inc
+@@ -21,12 +21,13 @@ do_install_append () {
+ 	cp -pv lib/AnyDBM_File.t ${D}${libdir}/perl/${PV}/
+ 
+ 	mkdir -p ${D}${libdir}/perl/${PV}/XS
+-	cp -pv lib/XS/{APItest,Typemap}.pm ${D}${libdir}/perl/${PV}/XS/
++	cp -pv lib/XS/APItest.pm ${D}${libdir}/perl/${PV}/XS/
++	cp -pv lib/XS/Typemap.pm ${D}${libdir}/perl/${PV}/XS/
+ 	mkdir -p ${D}${libdir}/perl/${PV}/auto/XS/APItest
+ 	cp -pv lib/auto/XS/APItest/APItest.so ${D}${libdir}/perl/${PV}/auto/XS/APItest/
+ 	cp -pv lib/auto/XS/Typemap/Typemap.so ${D}${libdir}/perl/${PV}/auto/XS/Typemap/
+-
+-	cp -pv cpan/Digest-MD5/{README,MD5.xs} ${D}${PERL_TEST_DIR}/cpan/Digest-MD5/
++	cp -pv cpan/Digest-MD5/README ${D}${PERL_TEST_DIR}/cpan/Digest-MD5/
++	cp -pv cpan/Digest-MD5/MD5.xs ${D}${PERL_TEST_DIR}/cpan/Digest-MD5/
+ }
+ 
+ FILES_${PN}-tests = "${PERL_TEST_DIR} \
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index 8678e76..e62e8ec 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+ # We need gnugrep (for -I)
+ DEPENDS = "virtual/db grep-native"
+ DEPENDS += "gdbm zlib"
+-PR = "r16"
++PR = "r17"
+ 
+ # 5.10.1 has Module::Build built-in
+ PROVIDES += "libmodule-build-perl"
+-- 
+1.7.10.4
+
 
 
