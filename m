@@ -1,20 +1,35 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TsG0w-0007w2-N6
+Received: from 4.mo1.mail-out.ovh.net ([46.105.76.26]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1TsGKl-0002Lo-3Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 17:57:34 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id CD8B7D22CD;
-	Mon,  7 Jan 2013 17:42:23 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+	Mon, 07 Jan 2013 18:18:00 +0100
+Received: from mail435.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id B6288FF9863
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Jan 2013 17:57:00 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 7 Jan 2013 18:43:33 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO
+	buildor.local.eukrea.com) (ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 7 Jan 2013 18:43:32 +0200
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Jan 2013 17:42:19 +0100
-Message-Id: <1357576939-16772-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.0
-Subject: [PATCH] ghostscript: add AArch64 support
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Date: Mon,  7 Jan 2013 17:43:44 +0100
+Message-Id: <1357577024-7889-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+X-Ovh-Tracer-Id: 18101092804144639426
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeejucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+Subject: [PATCH] libnl: fix compilation on hosts without lex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,62 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 16:57:38 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 17:18:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+* libnl's makefiles are calling $(LEX) but only define $(FLEX), thus
+compilation on a host which doesn't have lex fails with :
+| lex --header-file=3Droute/cls/ematch_grammar.h  -o route/cls/ematch_gra=
+mmar.c route/cls/ematch_grammar.l
+| make[1]: lex: Command not found
+| make[1]: *** [route/cls/ematch_grammar.c] Error 127
+
+* this patch fix this by setting LEX variable to flex tool
+
+Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
 ---
- .../ghostscript/ghostscript/aarch64/objarch.h      | 40 ++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
+ meta/recipes-support/libnl/libnl_3.2.16.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
-new file mode 100644
-index 0000000..a05de29
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/aarch64/objarch.h
-@@ -0,0 +1,40 @@
-+/* Parameters derived from machine and compiler architecture. */
-+/* This file is generated mechanically by genarch.c. */
+diff --git a/meta/recipes-support/libnl/libnl_3.2.16.bb b/meta/recipes-su=
+pport/libnl/libnl_3.2.16.bb
+index be3a3a2..0181436 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.16.bb
++++ b/meta/recipes-support/libnl/libnl_3.2.16.bb
+@@ -3,7 +3,7 @@ HOMEPAGE =3D "http://www.infradead.org/~tgr/libnl/"
+ SECTION =3D "libs/network"
+=20
+ PE =3D "1"
+-PR =3D "r0"
++PR =3D "r1"
+=20
+ LICENSE =3D "LGPLv2.1"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c"
+@@ -19,6 +19,8 @@ SRC_URI[sha256sum] =3D "c43a42336c6a3cf559f390e202f8f02=
+9d165bd767da7cf7a32a815c570
+=20
+ inherit autotools pkgconfig
+=20
++EXTRA_OEMAKE +=3D "LEX=3Dflex"
 +
-+	 /* ---------------- Scalar alignments ---------------- */
-+
-+#define ARCH_ALIGN_SHORT_MOD 2
-+#define ARCH_ALIGN_INT_MOD 4
-+#define ARCH_ALIGN_LONG_MOD 8
-+#define ARCH_ALIGN_PTR_MOD 8
-+#define ARCH_ALIGN_FLOAT_MOD 4
-+#define ARCH_ALIGN_DOUBLE_MOD 8
-+
-+	 /* ---------------- Scalar sizes ---------------- */
-+
-+#define ARCH_LOG2_SIZEOF_CHAR 0
-+#define ARCH_LOG2_SIZEOF_SHORT 1
-+#define ARCH_LOG2_SIZEOF_INT 2
-+#define ARCH_LOG2_SIZEOF_LONG 3
-+#define ARCH_LOG2_SIZEOF_LONG_LONG 3
-+#define ARCH_SIZEOF_GX_COLOR_INDEX 8
-+#define ARCH_SIZEOF_PTR 8
-+#define ARCH_SIZEOF_FLOAT 4
-+#define ARCH_SIZEOF_DOUBLE 8
-+#define ARCH_FLOAT_MANTISSA_BITS 24
-+#define ARCH_DOUBLE_MANTISSA_BITS 53
-+
-+	 /* ---------------- Unsigned max values ---------------- */
-+
-+#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
-+#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
-+#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
-+#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
-+
-+	 /* ---------------- Miscellaneous ---------------- */
-+
-+#define ARCH_IS_BIG_ENDIAN 0
-+#define ARCH_PTRS_ARE_SIGNED 0
-+#define ARCH_FLOATS_ARE_IEEE 1
-+#define ARCH_ARITH_RSHIFT 2
-+#define ARCH_DIV_NEG_POS_TRUNCATES 1
--- 
-1.8.0
+ FILES_${PN} =3D "${libdir}/libnl-3.so.* \
+                ${libdir}/libnl.so.* \
+                ${sysconfdir}"
+--=20
+1.7.10.4
 
 
 
