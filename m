@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TsBCs-0006Sv-UV for openembedded-core@lists.openembedded.org;
-	Mon, 07 Jan 2013 12:49:35 +0100
+	id 1TsBEn-0006eu-Rz for openembedded-core@lists.openembedded.org;
+	Mon, 07 Jan 2013 12:51:30 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07BYKLi004021;
-	Mon, 7 Jan 2013 11:34:20 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07BaKWT004045;
+	Mon, 7 Jan 2013 11:36:20 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 32489-09; Mon,  7 Jan 2013 11:34:16 +0000 (GMT)
+	id 32506-09; Mon,  7 Jan 2013 11:36:16 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07BYAnB004014
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r07BaBw3004039
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 7 Jan 2013 11:34:11 GMT
-Message-ID: <1357558452.28649.229.camel@ted>
+	Mon, 7 Jan 2013 11:36:11 GMT
+Message-ID: <1357558573.28649.231.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 07 Jan 2013 11:34:12 +0000
-In-Reply-To: <1357557002-22183-1-git-send-email-ross.burton@intel.com>
-References: <1357557002-22183-1-git-send-email-ross.burton@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 07 Jan 2013 11:36:13 +0000
+In-Reply-To: <1357557340-28756-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1357557340-28756-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [danny] Consolidated Pull Request
+Subject: Re: [PATCH] dropbear: don't use IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 11:49:39 -0000
+X-List-Received-Date: Mon, 07 Jan 2013 11:51:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-01-07 at 11:09 +0000, Ross Burton wrote:
-> Hi,
+On Mon, 2013-01-07 at 12:15 +0100, Martin Jansa wrote:
+> * IMAGE_FEATURES are image specific, but dropbear recipe isn't
+> * if you have debug-tweaks in EXTRA_IMAGE_FEATURES or added to
+>   IMAGE_FEATURES in distro config, then it will set DISTRO_TYPE
+>   to debug as expected, but if you add debug-tweaks only in
+>   your-own-debug-image, then dropbear never sees debug-tweaks and
+>   your-own-debug-image won't allow empty password login.
+> * best way would be to patch dropbear to enable empty password by
+>   runtime config or argument and enable it in ROOTFS_POSTPROCESS_COMMAND
+>   like openssh_allow_empty_password does, see
+>   http://permalink.gmane.org/gmane.network.ssh.dropbear/845
 > 
-> This short series is mainly to fix a udev booting regression on hddimg and
-> brings in a number of CVE fixes, with two other good fixing coming along.
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-core/dropbear/dropbear.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> d88bdd6 librsvg: CVE-2011-3146
-> c30e7e5 cups CVE-2011-3170
-> b91e5f6 cups - CVE-2011-2896
-> 6f966f8 cups: CVE-2012-5519
-> d25e356 libnss-mdns: fix mDNS resolving speed
-> 002ef4a Revert "initrdscripts: fix udevd in the live boot init scripts"
-> 774b05e bootimg: Use FAT 32 for images larger than 512MB
+> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+> index aa313df..2c170c6 100644
+> --- a/meta/recipes-core/dropbear/dropbear.inc
+> +++ b/meta/recipes-core/dropbear/dropbear.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
+>  HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
+>  SECTION = "console/network"
+>  
+> -INC_PR = "r0"
+> +INC_PR = "r1"
+>  
+>  # some files are from other projects and have others license terms:
+>  #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+> @@ -40,7 +40,7 @@ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
+>  EXTRA_OECONF += "\
+>   ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+>  
+> -DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
+> +DISTRO_TYPE ?= "debug"
+>  
+>  do_install() {
+>  	install -d ${D}${sysconfdir} \
 
-Merged to danny, thanks.
+How about we ditch DISTRO_TYPE entirely and check for "debug-tweaks" in
+DISTRO_FEATURES? This would bring it more into line with the other
+places we do things like this.
+
+FWIW I agree this should ideally be runtime configured and we should
+really add an enhancement request to the bugzilla for that (or patches
+welcome).
+
+Cheers,
 
 Richard
+
 
 
 
