@@ -1,20 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TsaRl-0000TZ-JW
+	(envelope-from <tom.zanussi@intel.com>) id 1TsaRp-0000Tc-2b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 15:46:34 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 08 Jan 2013 06:31:21 -0800
+	Tue, 08 Jan 2013 15:46:38 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Jan 2013 06:31:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="188863108"
+X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="271302957"
 Received: from unknown (HELO localhost) ([10.255.14.51])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Jan 2013 06:31:21 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2013 06:31:24 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 08:31:18 -0600
-Message-Id: <cover.1357655073.git.tom.zanussi@intel.com>
+Date: Tue,  8 Jan 2013 08:31:19 -0600
+Message-Id: <8c55fe2c86ce12ea6a9fa491ed8a16971997285e.1357655073.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.11.4
-Subject: [PATCH 0/5] Remove legacy lttng
+In-Reply-To: <e47be218eb0e9f08110720f412a517226670d0d0.1357655073.git.tom.zanussi@intel.com>
+References: <e47be218eb0e9f08110720f412a517226670d0d0.1357655073.git.tom.zanussi@intel.com>
+In-Reply-To: <cover.1357655073.git.tom.zanussi@intel.com>
+References: <cover.1357655073.git.tom.zanussi@intel.com>
+Subject: [PATCH 2/5] lttng2-ust: rename to lttng-ust
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,57 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 14:46:35 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 14:47:00 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This patchset removes legacy lttng, which hasn't been operational in
-Yocto for awhile now.  lttng-2.0 is the current version, which was
-recently updated and now does work.
+recipes-kernel/lttng/lttng-ust was removed by a previous patch, which
+also removed the naming conflict that caused the lttng-2.0 version of
+lttng-ust to be named lttng2-ust.  lttng2-ust was the only lttng-2.0
+recipe to be named in this way and since that was entirely due to the
+conflict, we can go back to the consistent naming for it.
 
-With legacy lttng gone, lttng-2.0 can be renamed back to lttng, which
-this patchset also does.
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
+ meta-yocto/conf/distro/include/distro_alias.inc                         | 1 -
+ meta-yocto/conf/distro/include/maintainers.inc                          | 1 -
+ meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb      | 2 +-
+ meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb                      | 2 +-
+ .../lttng-2.0/{lttng2-ust_2.0.5.bb => lttng-ust_2.0.5.bb}               | 0
+ 5 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.0.5.bb => lttng-ust_2.0.5.bb} (100%)
 
-The following changes since commit 691a830b93358b78e5411bdaa694bab32166f56f:
-
-  linux-libc-headers: make 3.7 the default and remove older libc-header recipes (2013-01-07 19:26:30 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/rm-legacy-lttng
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/rm-legacy-lttng
-
-Tom Zanussi (5):
-  lttng: remove 'legacy' lttng
-  lttng2-ust: rename to lttng-ust
-  recipes-kernel/lttng-2.0: rename to recipes-kernel/lttng
-  lttng: remove references to legacy lttng recipes
-  recipe_color.inc: add lttng recipes
-
- meta-yocto/conf/distro/include/distro_alias.inc    |  3 --
- meta-yocto/conf/distro/include/maintainers.inc     |  3 --
- meta-yocto/conf/distro/include/recipe_color.inc    |  5 +--
- .../packagegroup-core-tools-profile.bb             |  2 +-
- .../{lttng-2.0 => lttng}/babeltrace_1.0.0.bb       |  0
- meta/recipes-kernel/lttng/lttng-control_0.89.bb    | 23 ------------
- ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |  0
- .../{lttng-2.0 => lttng}/lttng-modules_2.0.5.bb    |  0
- .../{lttng-2.0 => lttng}/lttng-tools_2.0.4.bb      |  2 +-
- meta/recipes-kernel/lttng/lttng-ust_0.16.bb        | 32 -----------------
- .../lttng-ust_2.0.5.bb}                            |  0
- .../lttng-viewer/add_linkage_to_lttvwindow.patch   | 42 ----------------------
- meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb  | 40 ---------------------
- 13 files changed, 5 insertions(+), 147 deletions(-)
- rename meta/recipes-kernel/{lttng-2.0 => lttng}/babeltrace_1.0.0.bb (100%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-control_0.89.bb
- rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch (100%)
- rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-modules_2.0.5.bb (100%)
- rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-tools_2.0.4.bb (97%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.16.bb
- rename meta/recipes-kernel/{lttng-2.0/lttng2-ust_2.0.5.bb => lttng/lttng-ust_2.0.5.bb} (100%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-viewer/add_linkage_to_lttvwindow.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
-
+diff --git a/meta-yocto/conf/distro/include/distro_alias.inc b/meta-yocto/conf/distro/include/distro_alias.inc
+index 0699c5f..1994e27 100644
+--- a/meta-yocto/conf/distro/include/distro_alias.inc
++++ b/meta-yocto/conf/distro/include/distro_alias.inc
+@@ -226,7 +226,6 @@ DISTRO_PN_ALIAS_pn-lttng-modules = "OSPDT upstream=http://lttng.org/"
+ DISTRO_PN_ALIAS_pn-lttng-tools = "OSPDT upstream=http://lttng.org/"
+ DISTRO_PN_ALIAS_pn-lttng-ust = "OSPDT upstream=http://lttng.org/"
+ DISTRO_PN_ALIAS_pn-lttng-viewer = "OSPDT upstream=http://lttng.org/"
+-DISTRO_PN_ALIAS_pn-lttng2-ust = "OSPDT upstream=http://lttng.org/"
+ DISTRO_PN_ALIAS_pn-makedepend = "Mandriva=makedepend Ubuntu=xutils-dev"
+ DISTRO_PN_ALIAS_pn-makedevs = "OE-Core"
+ DISTRO_PN_ALIAS_pn-matchbox-config-gtk = "OpenedHand"
+diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
+index 5efb7d0..6de57dc 100644
+--- a/meta-yocto/conf/distro/include/maintainers.inc
++++ b/meta-yocto/conf/distro/include/maintainers.inc
+@@ -490,7 +490,6 @@ RECIPE_MAINTAINER_pn-lsbtest = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-lsb = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-lsof = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+ RECIPE_MAINTAINER_pn-ltp = "Mihai Lindner <mihaix.lindner@linux.intel.com>"
+-RECIPE_MAINTAINER_pn-lttng2-ust = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+ RECIPE_MAINTAINER_pn-lttng-control = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+ RECIPE_MAINTAINER_pn-lttng-modules = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+ RECIPE_MAINTAINER_pn-lttng-tools = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 591f33f..8f40c4e 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -46,7 +46,7 @@ SYSTEMTAP_aarch64 = ""
+ # which means we can not use syscall() to call it. So we ignore
+ # it for x86_64/uclibc
+ 
+-LTTNGUST = "lttng2-ust"
++LTTNGUST = "lttng-ust"
+ LTTNGUST_libc-uclibc = ""
+ LTTNGUST_mips = ""
+ LTTNGUST_aarch64 = ""
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+index 2a5dd58..34d4484 100644
+--- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
++++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
+                     file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+ 
+-DEPENDS = "liburcu popt lttng2-ust"
++DEPENDS = "liburcu popt lttng-ust"
+ 
+ SRCREV = "98c8c95b0e1afb2dac686338efdf036f6446d790"
+ PV = "v2.0.4"
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.0.5.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
+rename to meta/recipes-kernel/lttng-2.0/lttng-ust_2.0.5.bb
 -- 
 1.7.11.4
 
