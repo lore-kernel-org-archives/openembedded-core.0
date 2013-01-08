@@ -1,19 +1,37 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
+Received: from mail-ob0-f178.google.com ([209.85.214.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muhammad_shakeel@mentor.com>) id 1TsbmJ-0003oh-3N
+	(envelope-from <otavio.salvador@gmail.com>) id 1TsbtG-00044q-3A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 17:12:05 +0100
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
-	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id r08FuaaF020264;
-	Tue, 8 Jan 2013 09:56:37 -0600
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 20:56:40 +0500
-Message-Id: <1357660600-19872-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/3] archive-*-source.bbclass: Handle all package classes
+	Tue, 08 Jan 2013 17:19:13 +0100
+Received: by mail-ob0-f178.google.com with SMTP id eh20so575858obb.23
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Jan 2013 08:03:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=UwIjCtce+ht6qCxcpcH8Uh2r+2IvuQuqY+1PXT5khWM=;
+	b=iKkgSCfZXYpJLyU8e/nDN+s70/pR0pJzxSQ4kbsOhWnW1rdcRGBIIT0ORwOj7b8TKL
+	1CcESyPeW7E+tJiGByp/dM9k0OVH39emPX+mlIVSfNYGHhKrdcjJRXbTtslv6+09AB+5
+	HGwXkZoFOYPNAT5NvVewM9woEexj1gRfM8fI+rhgz+FL8wnwZ6H7gBbREN7SH/cOEOxv
+	4HqvhdkxD36A6axRv8TkJbd48iy2UbBnRLQd2BQU67Pt17lTA0yI+Wvl5qerxvQYzKlr
+	MvnhKgfZeJPHmdVTT+mHs0YT/wtck60JfGqfOMPgcs97PNStRTPfVW2+MMJSMQ0uCO+u
+	8xEQ==
+MIME-Version: 1.0
+Received: by 10.60.171.201 with SMTP id aw9mr35926651oec.126.1357661030839;
+	Tue, 08 Jan 2013 08:03:50 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Tue, 8 Jan 2013 08:03:50 -0800 (PST)
+In-Reply-To: <1357660547-19803-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1357660547-19803-1-git-send-email-muhammad_shakeel@mentor.com>
+Date: Tue, 8 Jan 2013 14:03:50 -0200
+X-Google-Sender-Auth: fy4Irim8QPeLvKTphI9mB6F5UrA
+Message-ID: <CAP9ODKqce52z7FKg2frjMwUEkRzsWRGJ78HQwTatiXR09FugQQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] archive-*-source.bbclass: Use tasks instead of pre/post functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,136 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 16:12:10 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 16:19:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On Tue, Jan 8, 2013 at 1:55 PM, Shakeel, Muhammad
+<muhammad_shakeel@mentor.com> wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>
+> * Modified following archiver related classes to add separate tasks
+>   for different archiver functions instead of adding these as pre/post
+>   functions of existing tasks.
+>     -archive-original-source.bbclass
+>     -archive-patched-source.bbclass
+>     -archive-configured-source.bbclass
+>
+> [YOCTO #3449]
+>
+> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 
-* Add archiver tasks correctly for any 'IMAGE_PKGTYPE'.
+This can be dropped as it will be changed again in 3/3. Right?
 
-[YOCTO #3449]
-
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/archive-configured-source.bbclass |   15 +++++++++++++--
- meta/classes/archive-original-source.bbclass   |   15 +++++++++++++--
- meta/classes/archive-patched-source.bbclass    |   15 +++++++++++++--
- 3 files changed, 39 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
-index 64799e3..50838e6 100644
---- a/meta/classes/archive-configured-source.bbclass
-+++ b/meta/classes/archive-configured-source.bbclass
-@@ -11,12 +11,19 @@ inherit archiver
- addtask do_archive_configured_sources after do_configure
- 
- # Get archiving package with temp(logs) and scripts(.bb and inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    write_package_task = 'do_package_write_' + packaging
-+
-+    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-+    deps.append(write_package_task)
-+    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-@@ -30,6 +37,10 @@ python () {
-         recrdeptask += ' do_archive_configured_sources '
-         d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
- 
-+        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-+        deps.append(write_package_task)
-+        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
-+
-         deps = d.getVarFlag('do_build', 'deps') or []
-         deps.append('do_archive_scripts_logs')
-         d.setVarFlag('do_build', 'deps', deps)
-diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
-index 44dffb4..77f9650 100644
---- a/meta/classes/archive-original-source.bbclass
-+++ b/meta/classes/archive-original-source.bbclass
-@@ -11,12 +11,19 @@ inherit archiver
- addtask do_archive_original_sources_patches after do_unpack
- 
- # Get archiving package with temp(logs) and scripts(.bb and inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    write_package_task = 'do_package_write_' + packaging
-+
-+    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-+    deps.append(write_package_task)
-+    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-@@ -30,6 +37,10 @@ python () {
-         recrdeptask += ' do_archive_original_sources_patches '
-         d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
- 
-+        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-+        deps.append(write_package_task)
-+        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
-+
-         deps = d.getVarFlag('do_build', 'deps') or []
-         deps.append('do_archive_scripts_logs')
-         d.setVarFlag('do_build', 'deps', deps)
-diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
-index 35bae54..11dd547 100644
---- a/meta/classes/archive-patched-source.bbclass
-+++ b/meta/classes/archive-patched-source.bbclass
-@@ -11,12 +11,19 @@ inherit archiver
- addtask do_archive_patched_sources after do_patch
- 
- # Get archiving package with logs(temp) and scripts(.bb and .inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    write_package_task = 'do_package_write_' + packaging
-+
-+    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-+    deps.append(write_package_task)
-+    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-@@ -30,6 +37,10 @@ python () {
-         recrdeptask += ' do_archive_patched_sources '
-         d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
- 
-+        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-+        deps.append(write_package_task)
-+        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
-+
-         deps = d.getVarFlag('do_build', 'deps') or []
-         deps.append('do_archive_scripts_logs')
-         d.setVarFlag('do_build', 'deps', deps)
--- 
-1.7.9.5
-
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
