@@ -1,34 +1,28 @@
-Received: from mail-we0-f178.google.com ([74.125.82.178])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1TsUJj-0002Oi-Ss
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1TsUL3-0002SI-Dm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 09:13:53 +0100
-Received: by mail-we0-f178.google.com with SMTP id x43so82837wey.37
+	Tue, 08 Jan 2013 09:15:18 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0869IHN029140
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 23:58:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=PsWFv1KdMuWrUVF8Ekxw/1VO4fafWwvyhShux9GLHVA=;
-	b=mWRFu5HXJkpKj9m0VoxXbCuWsDpIRDIxc1LRQ7ETtGpfP7vqy/lFis7t1yCuAtGutT
-	if2M76JU4IJ8NO50Zb2Nsk9OyVPKX2H5IysOe1QqyEk2ILH2zp0mwB/F/yR8UzJrsfgL
-	rxh6vm6LNc1bLXpqYC7XWbNk9HoNzfnLkDkRfjtQcMWLGZO64YHiAsW0qvu11fJIVbUA
-	YFgT7GlugwWABAv/GAFjzU3oryUfjkZ1h0T9efRoYK7F4Lw14lhB0ugybmbRcPZfpSEt
-	0nbr2kCXpSxMnMkKsxgtZrzpgGPnpSJbswiISwgnyNsol+b8TlVPM5AiO3pb6ZVoEBy5
-	Tu7w==
-X-Received: by 10.180.82.170 with SMTP id j10mr13238025wiy.2.1357631921680;
-	Mon, 07 Jan 2013 23:58:41 -0800 (PST)
-Received: from localhost.localdomain ([83.137.143.222])
-	by mx.google.com with ESMTPS id eo10sm17267195wib.9.2013.01.07.23.58.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Jan 2013 23:58:39 -0800 (PST)
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 08:58:15 +0100
-Message-Id: <1357631895-9535-1-git-send-email-fransmeulenbroeks@gmail.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: Frans Meulenbroeks <frans.meulenbroeks@axon.tv>,
-	Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-Subject: [PATCH] inotify-tools: new recipe
+	Mon, 7 Jan 2013 22:09:18 -0800 (PST)
+Received: from [128.224.18.193] (128.224.18.193) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Mon, 7 Jan 2013 22:09:15 -0800
+Message-ID: <50EBB80A.2090704@windriver.com>
+Date: Tue, 8 Jan 2013 08:09:14 +0200
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <50EB3FF4.60601@windriver.com>
+	<CABcZAN=nVVoNxdu7tZKQ=uK5Q7jcCrhvFezX-YYpyWPZbTw9jg@mail.gmail.com>
+In-Reply-To: <CABcZAN=nVVoNxdu7tZKQ=uK5Q7jcCrhvFezX-YYpyWPZbTw9jg@mail.gmail.com>
+Subject: Re: alsaconf and bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +35,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 08:13:55 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 08:15:24 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 08:15:24 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010205030408040505070102"
 
-From: Frans Meulenbroeks <frans.meulenbroeks@axon.tv>
+--------------010205030408040505070102
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id r0869IHN029140
 
-- mostly taken from oe classic
-- updated to latest version (3.14)
-- adopted for new home location (project moved from sourceforge to github)
+On 01/08/2013 02:44 AM, Chris Larson wrote:
+> On Mon, Jan 7, 2013 at 2:36 PM, Florin Sarbu=20
+> <florin.sarbu@windriver.com <mailto:florin.sarbu@windriver.com>> wrote:
+>
+>     in alsa-utils_1.0.25.bb <http://alsa-utils_1.0.25.bb>, I see this
+>     comment:
+>
+>     # We omit alsaconf, because
+>     # a) this is a bash script
+>     # b) it creates config files not suitable for OE-based distros
+>
+>     Trying out on master, I get a do_rootfs error because bash is not
+>     a rundep of alsa-utils, and there is nothing in the alsa-utils
+>     recipe that actually does the above mentioned removal of the
+>     alsaconf script. Looking in the git log, I only see that the
+>     comment has suddenly appeared in an older alsa-utils recipe and
+>     has been carried along since with every update to the recipe, and
+>     not left over there as an artifact of some older commit as I expect=
+ed.
+>     Can anyone shed some light on this?
+>
+>
+>
+> From some quick git log -S commands in the old openembedded classic=20
+> repository, it seems to have originated=20
+> with 7653e980f66b4bd147df308f9b04d6b197382d6a from 2005, and the line=20
+> below the comment was 'FILES_${PN} =3D ""', so presumably that was what=
+=20
+> left it out =E2=80=94 none of the files patterns matched it.
+Okay, so it seems that the comment actually said at that time that the=20
+alsa-utils generated rpm won't contain alsaconf. And bellow, this bash=20
+script gets into the alsa-utils-alsaconf rpm. Unfortunately, even though=20
+there is this separation, the alsa-utils rpm depends on the=20
+alsa-utils-alsaconf rpm so it's pretty much the same thing as do_rootfs=20
+is concerned. (missing bash dependency). How would you guys see this=20
+resolved upstream? Add bash as a dep, remove alsa-utils-alsaconf as a=20
+dep or alsa-utils (as the comment says the script is not suitable for=20
+OE-based distros) or check the alsaconf script for bashisms and fix if=20
+any and make alsa-utils rely on a busybox shell interpreter if possible=20
+(with the modification of the !/bin/bash shabang from the alsaconf=20
+script to /bin/sh)?
 
-Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
----
+Florin
 
-This patch is provided as is, in the hope that is it useful for someone.
-I have no plans to become the maintainer of this recipe or so.
-
-I was not too sure if this is something for oe-core or better suited for meta-oe
-The patch is against oe-core.
-I've also decided to put it in recipes-extended.
-
-If there is a better layer than oe-core or a better dir than recipes-extended feel free
-to put it in a more appropriate location.
-(and if you do not like it, feel free to ignore)
-
-Have fun!
-Frans
-
- .../inotify-tools/inotify-tools_3.14.bb            |   16 ++++++++++++++++
- 1 files changed, 16 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/inotify-tools/inotify-tools_3.14.bb
-
-diff --git a/meta/recipes-extended/inotify-tools/inotify-tools_3.14.bb b/meta/recipes-extended/inotify-tools/inotify-tools_3.14.bb
-new file mode 100644
-index 0000000..3597225
---- /dev/null
-+++ b/meta/recipes-extended/inotify-tools/inotify-tools_3.14.bb
-@@ -0,0 +1,16 @@
-+DESCRIPTION = "command line utilities for the Linux inotify filesystem change notification system."
-+AUTHOR = "Rohan McGovern"
-+HOMEPAGE = "https://github.com/rvoicilas/inotify-tools/wiki"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ac6c26e52aea428ee7f56dc2c56424c6"
-+
-+PR = "r0"
-+
-+SRC_URI = "http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-${PV}.tar.gz"
-+
-+EXTRA_OECONF = "--disable-doxygen"
-+
-+inherit autotools
-+
-+SRC_URI[md5sum] = "b43d95a0fa8c45f8bab3aec9672cf30c"
-+SRC_URI[sha256sum] = "222bcca8893d7bf8a1ce207fb39ceead5233b5015623d099392e95197676c92f"
--- 
-1.7.0.4
+> --=20
+> Christopher Larson
 
 
+--------------010205030408040505070102
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id r0869IHN029140
 
+<html>
+  <head>
+    <meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Ty=
+pe">
+  </head>
+  <body bgcolor=3D"#FFFFFF" text=3D"#000000">
+    <div class=3D"moz-cite-prefix">On 01/08/2013 02:44 AM, Chris Larson
+      wrote:<br>
+    </div>
+    <blockquote
+cite=3D"mid:CABcZAN=3DnVVoNxdu7tZKQ=3DuK5Q7jcCrhvFezX-YYpyWPZbTw9jg@mail.=
+gmail.com"
+      type=3D"cite">
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DU=
+TF-8">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_extra">On Mon, Jan 7, 2013 at 2:36 PM, Florin
+          Sarbu <span dir=3D"ltr">&lt;<a moz-do-not-send=3D"true"
+              href=3D"mailto:florin.sarbu@windriver.com" target=3D"_blank=
+">florin.sarbu@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <div class=3D"gmail_quote">
+            <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
+t-style:solid;padding-left:1ex">
+              <div id=3D":10h">in <a moz-do-not-send=3D"true"
+                  href=3D"http://alsa-utils_1.0.25.bb" target=3D"_blank">=
+alsa-utils_1.0.25.bb</a>,
+                I see this comment:<br>
+                <br>
+                # We omit alsaconf, because<br>
+                # a) this is a bash script<br>
+                # b) it creates config files not suitable for OE-based
+                distros<br>
+                <br>
+                Trying out on master, I get a do_rootfs error because
+                bash is not a rundep of alsa-utils, and there is nothing
+                in the alsa-utils recipe that actually does the above
+                mentioned removal of the alsaconf script. Looking in the
+                git log, I only see that the comment has suddenly
+                appeared in an older alsa-utils recipe and has been
+                carried along since with every update to the recipe, and
+                not left over there as an artifact of some older commit
+                as I expected.<br>
+                Can anyone shed some light on this?<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          <br clear=3D"all">
+          <div style=3D"">From some quick git log -S commands in the old
+            openembedded classic repository, it seems to have originated
+            with=C2=A07653e980f66b4bd147df308f9b04d6b197382d6a from 2005,=
+ and
+            the line below the comment was 'FILES_${PN} =3D ""', so
+            presumably that was what left it out =E2=80=94 none of the fi=
+les
+            patterns matched it.</div>
+        </div>
+      </div>
+    </blockquote>
+    Okay, so it seems that the comment actually said at that time that
+    the alsa-utils generated rpm won't contain alsaconf. And bellow,
+    this bash script gets into the alsa-utils-alsaconf rpm.
+    Unfortunately, even though there is this separation, the alsa-utils
+    rpm depends on the alsa-utils-alsaconf rpm so it's pretty much the
+    same thing as do_rootfs is concerned. (missing bash dependency). How
+    would you guys see this resolved upstream? Add bash as a dep, remove
+    alsa-utils-alsaconf as a dep or alsa-utils (as the comment says the
+    script is not suitable for OE-based distros) or check the alsaconf
+    script for bashisms and fix if any and make alsa-utils rely on a
+    busybox shell interpreter if possible (with the modification of the
+    !/bin/bash shabang from the alsaconf script to /bin/sh)?<br>
+    <br>
+    Florin<br>
+    <br>
+    <blockquote
+cite=3D"mid:CABcZAN=3DnVVoNxdu7tZKQ=3DuK5Q7jcCrhvFezX-YYpyWPZbTw9jg@mail.=
+gmail.com"
+      type=3D"cite">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_extra">
+          -- <br>
+          Christopher Larson</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------010205030408040505070102--
