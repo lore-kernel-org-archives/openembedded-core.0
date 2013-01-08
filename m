@@ -1,22 +1,41 @@
-Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1TsUSS-0002e0-Ef
+Received: from 1.mo1.mail-out.ovh.net ([178.32.127.22]
+	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1TsUlz-00035N-BX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 09:22:52 +0100
-Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
-	[192.168.101.47])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 16E074005E;
-	Tue,  8 Jan 2013 08:29:38 +0100 (CET)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 09:07:11 +0100
-Message-Id: <1357632431-17934-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
-Subject: [PATCH] site/common: deactivate a runtime check for ipv6-support in python >=2.7.1 that fails when cross-compiling
+	Tue, 08 Jan 2013 09:43:03 +0100
+Received: from mail99.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo1.mail-out.ovh.net (Postfix) with SMTP id 14725FF9460
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 Jan 2013 09:22:38 +0100 (CET)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 8 Jan 2013 10:09:00 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO e6520eb)
+	(eric%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 8 Jan 2013 10:08:59 +0200
+Date: Tue, 8 Jan 2013 09:08:58 +0100
+From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
+Message-ID: <20130108090858.05e8b623@e6520eb>
+In-Reply-To: <50EB5E25.2080204@linux.intel.com>
+References: <1357582015-16423-1-git-send-email-otavio@ossystems.com.br>
+	<50EB5E25.2080204@linux.intel.com>
+Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
+X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+X-Ovh-Tracer-Id: 15283809760445246873
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-Spam-Check: DONE|U 0.50003/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libnl: Fix building using flex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 08:22:55 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 08:43:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In configure there is a runtime check to determine buggy getaddrinfo and as we
-are cross-compiling this check goes wrong. If ipv6 is enabled in python, the
-failed test is reported as fatal error with the message
-Fatal: You must get working getaddrinfo() function.
+Hi Saul,
 
-Setting ac_cv_buggy_getaddrinfo=no deactivates the runtime check and allows to
-compile python with ipv6 enabled.
+Le Mon, 07 Jan 2013 15:45:41 -0800,
+Saul Wold <sgw@linux.intel.com> a =C3=A9crit :
+> I am looking into the failure now, can you on your side also.
+>=20
+strange it seems you are still using lex and not flex : do you have the
+same problem with my patch ?
+http://lists.linuxtogo.org/pipermail/openembedded-core/2013-January/033884.=
+html
 
-This commit was derived from the commit 700b75e7661062aa93cf81205b78c8bf7609922d
-in the Classic OpenEmbedded Development Tree.
-
-Signed-off-by: Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
----
- meta/site/common |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/site/common b/meta/site/common
-index 5da3ff4..1214a13 100644
---- a/meta/site/common
-+++ b/meta/site/common
-@@ -15,3 +15,5 @@ shadow_cv_utmpdir=${localstatedir}/run
- shadow_cv_logdir=${localstatedir}/log
- shadow_cv_passwd_dir=${bindir}
- 
-+# python: deactivate a runtime check for ipv6-support in python >=2.7.1 that fails when cross-compiling
-+ac_cv_buggy_getaddrinfo=no
--- 
-1.7.9.5
-
+Eric
 
 
