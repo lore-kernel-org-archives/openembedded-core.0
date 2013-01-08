@@ -1,44 +1,25 @@
-Received: from 4.mo1.mail-out.ovh.net ([46.105.76.26]
-	helo=mo1.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1TsUqn-0003BJ-UX
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Qi.Chen@windriver.com>) id 1TsUvK-0003IX-7l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 09:48:04 +0100
-Received: from mail99.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo1.mail-out.ovh.net (Postfix) with SMTP id 79067FF9642
+	Tue, 08 Jan 2013 09:52:42 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r088bTZX000461
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Jan 2013 09:30:48 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 8 Jan 2013 10:17:11 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO e6520eb)
-	(eric%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 8 Jan 2013 10:17:09 +0200
-Date: Tue, 8 Jan 2013 09:17:08 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Ovh-Mailout: 178.32.228.1 (mo1.mail-out.ovh.net)
-Message-ID: <20130108091708.4f504be9@e6520eb>
-In-Reply-To: <50EB8F3A.4090100@linux.intel.com>
-References: <1357582015-16423-1-git-send-email-otavio@ossystems.com.br>
-	<50EB5E25.2080204@linux.intel.com>
-	<CAP9ODKqy4p045c045K6Smi391gK7cKW-jV-nmL66Ra2QUfQKXg@mail.gmail.com>
-	<CAP9ODKpf_btTLPgK9SCW_-7Fdu+krj2zrkeds+erahoyLeHUPQ@mail.gmail.com>
-	<50EB8F3A.4090100@linux.intel.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-X-Ovh-Tracer-Id: 15421732500271312281
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -100
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrfeelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Cc: about the oe-core layer' <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>, 'Patches
-Subject: Re: [PATCH] libnl: Fix building using flex
+	Tue, 8 Jan 2013 00:37:30 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 8 Jan 2013 00:37:29 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 8 Jan 2013 16:37:50 +0800
+Message-ID: <cover.1357627669.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] rootfs_rpm.bbclass: export INSTALL_PLATFORM_EXTRA_RPM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,22 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 08:48:05 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Jan 2013 08:53:44 -0000
+Content-Type: text/plain
 
-Le Mon, 07 Jan 2013 19:15:06 -0800,
-Saul Wold <sgw@linux.intel.com> a =C3=A9crit :
+From: Chen Qi <Qi.Chen@windriver.com>
 
-> On 01/07/2013 04:00 PM, Otavio Salvador wrote:
-> > Looking at the error it seems it is using your distribution binary, not
-> > the built one (for flex).
-> >
-> My bad, you patch was not in the first build I did, RP pulled it in=20
-> after I started the build.  I am rebuilding MASTER now with your patch in.
->=20
-OK forget my previous mail ;-)
+The following changes since commit 09359e6ec00901abfe49157f1f9730117b4d284b:
 
-Eric
+  freetype: update to 2.4.11 which includes fixes for CVE-2012-{5668, 5669, 5670} (2012-12-31 09:43:27 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/rootfs_rpm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/rootfs_rpm
+
+Chen Qi (1):
+  rootfs_rpm.bbclass: export INSTALL_PLATFORM_EXTRA_RPM
+
+ meta/classes/rootfs_rpm.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.7.9.5
+
 
 
