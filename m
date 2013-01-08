@@ -1,30 +1,39 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Tsb5F-0002LZ-Kb
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TsbB4-0002Vy-7K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 16:27:22 +0100
-Received: by mail-ob0-f175.google.com with SMTP id vb8so463467obc.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 07:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=Yft38nYHCDjNtudQ6/jFx0olM9ImPZCkqom3aGWd/z4=;
-	b=OO5ugQj3IFlF4areYAOEesx8kuI9kexYb4eSOmJrcmKNQwfGgJrkNb3xovt5yMCCRr
-	PW30nhUP/e8g1rkatcB2w8MgsfId3Y2Wvxaq1TScVj/BAD7gxLGCSv0g6K06gS2BkgPU
-	t0sGCp1bL8LQMNMLvtbOcNYKrI7441zcXoSPwcfI3w9rwhk89Wa4Lb/hzihQRZSHQYWv
-	w+ICLNh+TiY8Tshepk92lfihDPU8bXpqRhcMEDPcq2whbSBmW+gqMHqa0ZLVGq3fzCol
-	0xIq6Wv8nqhR3J7ZKIt9c6Pagc780J4amw1vojMMdgCVvVFDDkOrJln4rTca8os3SLTf
-	hEoA==
+	Tue, 08 Jan 2013 16:33:28 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r08FI4f7003188
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 8 Jan 2013 16:18:05 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TsawF-00065I-Vc; Tue, 08 Jan 2013 16:18:04 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Radu Moisan <radu.moisan@intel.com>
+References: <cover.1357647338.git.radu.moisan@intel.com>
+	<lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<50EC34AF.5010303@intel.com>
+	<CAJTo0LbEV2STP5gYz77rRT5dOXMJ+yMYivzuyHkD7YkpeXH6Hg@mail.gmail.com>
+	<50EC3725.2060604@intel.com>
+Date: Tue, 08 Jan 2013 16:18:03 +0100
+In-Reply-To: <50EC3725.2060604@intel.com> (Radu Moisan's message of "Tue, 08
+	Jan 2013 17:11:33 +0200")
+Message-ID: <lyk3rnn1p0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.60.31.130 with SMTP id a2mr36748559oei.95.1357657930501; Tue,
-	08 Jan 2013 07:12:10 -0800 (PST)
-Received: by 10.182.85.198 with HTTP; Tue, 8 Jan 2013 07:12:10 -0800 (PST)
-Date: Tue, 8 Jan 2013 16:12:10 +0100
-Message-ID: <CAOHjBZuDiLmweStxyu3ghH-WMz6S-TO+R7qDurnrvXHw9x4qvg@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: meta-toolchain build for uclibc, possible issue?
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 15:27:22 -0000
-Content-Type: multipart/alternative; boundary=e89a8fb201acac8c4104d2c85e83
+X-List-Received-Date: Tue, 08 Jan 2013 15:33:29 -0000
+Content-Type: text/plain
 
---e89a8fb201acac8c4104d2c85e83
-Content-Type: text/plain; charset=ISO-8859-1
+Radu Moisan <radu.moisan@intel.com> writes:
 
-Hi All,
+> No question about that, the question was whether to add Sign-off-by
+> from the author itself. I know that we are doing it like that right
+> now, but I don't understand it's reasoning. Being the author of a
+> patch what would be the point in adding a Sign-off-by with the same
+> name?
 
-gcc-runtime nativesdk is failing due to the lack of libm.
-I want to build meta-toolchain for uclibc, I mean obtaining the cross
-compiler for these flavour, so libm should be
-provided by the uclibc. But repository doesn't build any uclibc for
-nativesdk, (it builds eglibc by default).
-I'm in trouble to understand this, where is the answer I'm not
-understanding?
+afaik, signed-off-by is required to allow tracking of the patch to prove
+copyright or so.
 
-Please can you help me?
-Cheers,
-Giuseppe
+The plain authorship information does not suffice because it may get
+lost in some workflows.  E.g. when somebody sends a patch by email and
+applies it manually, the metadata might get overridden.
 
---e89a8fb201acac8c4104d2c85e83
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div>Hi All,</div><div>=A0</div><div>gcc-runtime nativesdk is failing due t=
-o the lack of libm.</div><div>I want to build meta-toolchain for uclibc, I =
-mean obtaining the cross compiler for these flavour, so libm should be</div=
->
-<div>provided by the uclibc. But repository doesn&#39;t build any uclibc fo=
-r nativesdk, (it builds eglibc by default).</div><div>I&#39;m in trouble to=
- understand this, where is the answer I&#39;m not understanding?</div><div>
-=A0</div><div>Please can you help me?</div><div>Cheers,</div><div>Giuseppe<=
-/div><div>=A0</div>
 
---e89a8fb201acac8c4104d2c85e83--
+Enrico
+
+
