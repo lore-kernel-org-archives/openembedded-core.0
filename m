@@ -1,29 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Florin.Sarbu@windriver.com>) id 1Tsd0m-0006HL-KM
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 18:31:08 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r08HFe9k009070
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Jan 2013 09:15:40 -0800 (PST)
-Received: from [128.224.171.150] (128.224.171.150) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 8 Jan 2013 09:15:40 -0800
-Message-ID: <50EC543B.8050105@windriver.com>
-Date: Tue, 8 Jan 2013 19:15:39 +0200
-From: Florin Sarbu <florin.sarbu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: openembedded <openembedded-core@lists.openembedded.org>
-References: <50EB3FF4.60601@windriver.com>
-	<CABcZAN=nVVoNxdu7tZKQ=uK5Q7jcCrhvFezX-YYpyWPZbTw9jg@mail.gmail.com>
-	<50EBB80A.2090704@windriver.com> <50EC29E9.7000500@windriver.com>
-	<CAK18fxHUuzTMsBGVPZYYFnEcVwop78OHsqhqoT1V6jAYKVHdrg@mail.gmail.com>
-In-Reply-To: <CAK18fxHUuzTMsBGVPZYYFnEcVwop78OHsqhqoT1V6jAYKVHdrg@mail.gmail.com>
-Subject: Re: alsaconf and bash
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TsdMA-0006ws-0q for openembedded-core@lists.openembedded.org;
+	Tue, 08 Jan 2013 18:52:59 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r08HbglT023404;
+	Tue, 8 Jan 2013 17:37:42 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04131-10; Tue,  8 Jan 2013 17:37:38 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r08HbZY7023398
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 8 Jan 2013 17:37:36 GMT
+Message-ID: <1357666658.13022.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Date: Tue, 08 Jan 2013 17:37:38 +0000
+In-Reply-To: <CAOHjBZuDiLmweStxyu3ghH-WMz6S-TO+R7qDurnrvXHw9x4qvg@mail.gmail.com>
+References: <CAOHjBZuDiLmweStxyu3ghH-WMz6S-TO+R7qDurnrvXHw9x4qvg@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain build for uclibc, possible issue?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,80 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 17:31:10 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030107050408070504020506"
-
---------------030107050408070504020506
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 08 Jan 2013 17:53:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-But on the other hand, if the comment says the script is not suited for 
-OE-core, then why have the alsa-utils rpm depend on the alsaconf rpm?
+On Tue, 2013-01-08 at 16:12 +0100, Giuseppe Condorelli wrote:
+> Hi All,
+>  
+> gcc-runtime nativesdk is failing due to the lack of libm.
+> I want to build meta-toolchain for uclibc, I mean obtaining the cross
+> compiler for these flavour, so libm should be
+> provided by the uclibc. But repository doesn't build any uclibc for
+> nativesdk, (it builds eglibc by default).
+> I'm in trouble to understand this, where is the answer I'm not
+> understanding?
+>  
+> Please can you help me?
 
-Florin
+What are you trying to build *exactly*?
 
-On 01/08/2013 06:27 PM, Andrei Gherzan wrote:
-> On Tue, Jan 8, 2013 at 4:15 PM, Florin Sarbu 
-> <florin.sarbu@windriver.com <mailto:florin.sarbu@windriver.com>> wrote:
->
->     Would you guys suggest we add bash as a dependency for alsa-utils?
->
->
-> Alsaconf is a bash script - obviously add a RDEPENDS to bash.
->
-> ag
+Do you want a toolchain that contains a compiler and uclibc for the
+target you're cross compiling for?
+
+or do you want the toolchain itself to use uclibc instead of glibc as
+well as whatever the target uses?
+
+The options would be:
+
+a) Uclibc based toolchain, glibc target system
+b) Uclibc based toolchain, uclibc target system
+c) glibc based toolchain, uclibc target system
+d) glibc based toolchain, glibc target system
+
+We only support c/d and only those combinations are known to work.
+
+Its important to differentiate between the C library the cross compiler
+links against compared to the C library the ultimate target system uses.
+
+Cheers,
+
+Richard
 
 
---------------030107050408070504020506
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">But on the other hand, if the comment
-      says the script is not suited for OE-core, then why have the
-      alsa-utils rpm depend on the alsaconf rpm?<br>
-      <br>
-      Florin<br>
-      <br>
-      On 01/08/2013 06:27 PM, Andrei Gherzan wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAK18fxHUuzTMsBGVPZYYFnEcVwop78OHsqhqoT1V6jAYKVHdrg@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=ISO-8859-1">
-      <div dir="ltr">On Tue, Jan 8, 2013 at 4:15 PM, Florin Sarbu <span
-          dir="ltr">&lt;<a moz-do-not-send="true"
-            href="mailto:florin.sarbu@windriver.com" target="_blank">florin.sarbu@windriver.com</a>&gt;</span>
-        wrote:<br>
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div bgcolor="#FFFFFF" text="#000000">
-                <div>Would you guys suggest we add bash as a dependency
-                  for alsa-utils?</div>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div style="">Alsaconf is a bash script - obviously add a
-              RDEPENDS to bash.</div>
-            <div style=""><br>
-            </div>
-            <div style="">ag</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
 
---------------030107050408070504020506--
+
