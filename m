@@ -1,39 +1,29 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tsd0M-0006Dy-KD
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1Tsd0m-0006HL-KM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 18:30:26 +0100
-Received: from mail-we0-f200.google.com ([74.125.82.200])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 09:15:14 -0800
-Received: by mail-we0-f200.google.com with SMTP id x43so640389wey.11
+	Tue, 08 Jan 2013 18:31:08 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r08HFe9k009070
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 09:15:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=UGSxWEP8qCW6ocAZANxs9UX7dPt8NpxDw4O3BJg9/54=;
-	b=pMhTeAPwJGQL7iFTHuLNS9kOpN3sLxuJNNDEh3rrIyOgAMUcgzcwUMIN2xfmZKG2sl
-	qN85FClW79LwCUDFwTsi7rPzTWsXghm8gI6x29/pqRfnLR0lTFdUVowf/nO7UrSuegpd
-	DjXhEgj3K/5wpqWDFoaUM+WTmwZKXSHXHlKs/DO36CVpqBH0/6tmZ5z5LjomGBmpa1EN
-	2BFPk9lIEbalvaiT+Ee5sXg1duz4gHrL9GuAmGMuWRVl0A5wKY2qo3Ji2q0nz41kmra/
-	KvW4FgjHLnJI21SBWoY5XKO56F67U9ufzvrCq2IRlVS8DHEbPPMRnWc47qAX+tCYylm6
-	iDGw==
-X-Received: by 10.180.95.135 with SMTP id dk7mr16139114wib.29.1357665312463;
-	Tue, 08 Jan 2013 09:15:12 -0800 (PST)
-X-Received: by 10.180.95.135 with SMTP id dk7mr16139091wib.29.1357665312287;
-	Tue, 08 Jan 2013 09:15:12 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id df2sm17294308wib.0.2013.01.08.09.15.10
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 08 Jan 2013 09:15:11 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 17:13:18 +0000
-Message-Id: <1357665198-8780-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmLtHKNDuIyExvi8ZRB3jTDrkC5jOMGqfdgsiyjzr9HxL0PXKIEMh/KfBVCvgLbTBKZCD0RE/EpAHnvR17UyOK54UUv1D7sznrFWXYCccL9UdvmfjjfdYD90Fw4ciOx3yGypFObBXHzEwV2WBn03/o+EQk2z0A73bHfk6hmMZvXS3745mhRKDNUs6ihKlATAEEWlGVh
-Subject: [PATCH] musicbrainz: handle rebuilds
+	Tue, 8 Jan 2013 09:15:40 -0800 (PST)
+Received: from [128.224.171.150] (128.224.171.150) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Tue, 8 Jan 2013 09:15:40 -0800
+Message-ID: <50EC543B.8050105@windriver.com>
+Date: Tue, 8 Jan 2013 19:15:39 +0200
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: openembedded <openembedded-core@lists.openembedded.org>
+References: <50EB3FF4.60601@windriver.com>
+	<CABcZAN=nVVoNxdu7tZKQ=uK5Q7jcCrhvFezX-YYpyWPZbTw9jg@mail.gmail.com>
+	<50EBB80A.2090704@windriver.com> <50EC29E9.7000500@windriver.com>
+	<CAK18fxHUuzTMsBGVPZYYFnEcVwop78OHsqhqoT1V6jAYKVHdrg@mail.gmail.com>
+In-Reply-To: <CAK18fxHUuzTMsBGVPZYYFnEcVwop78OHsqhqoT1V6jAYKVHdrg@mail.gmail.com>
+Subject: Re: alsaconf and bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,30 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 17:30:26 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 17:31:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------030107050408070504020506"
 
-When rebuilding build-native already exists, so don't error when running mkdir.
+--------------030107050408070504020506
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But on the other hand, if the comment says the script is not suited for 
+OE-core, then why have the alsa-utils rpm depend on the alsaconf rpm?
 
-diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-index 7343662..76c69c4 100644
---- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-+++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-@@ -20,7 +20,7 @@ LDFLAGS_prepend_libc-uclibc = " -lpthread "
- inherit cmake pkgconfig
- 
- do_configure_prepend() {
--    mkdir build-native
-+    mkdir --parents build-native
-     cd build-native
-     cmake -DCMAKE_C_FLAGS=${BUILD_CFLAGS} \
-             -DCMAKE_C_COMPILER=${BUILD_CC} \
--- 
-1.7.10.4
+Florin
 
+On 01/08/2013 06:27 PM, Andrei Gherzan wrote:
+> On Tue, Jan 8, 2013 at 4:15 PM, Florin Sarbu 
+> <florin.sarbu@windriver.com <mailto:florin.sarbu@windriver.com>> wrote:
+>
+>     Would you guys suggest we add bash as a dependency for alsa-utils?
+>
+>
+> Alsaconf is a bash script - obviously add a RDEPENDS to bash.
+>
+> ag
 
 
+--------------030107050408070504020506
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">But on the other hand, if the comment
+      says the script is not suited for OE-core, then why have the
+      alsa-utils rpm depend on the alsaconf rpm?<br>
+      <br>
+      Florin<br>
+      <br>
+      On 01/08/2013 06:27 PM, Andrei Gherzan wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAK18fxHUuzTMsBGVPZYYFnEcVwop78OHsqhqoT1V6jAYKVHdrg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <div dir="ltr">On Tue, Jan 8, 2013 at 4:15 PM, Florin Sarbu <span
+          dir="ltr">&lt;<a moz-do-not-send="true"
+            href="mailto:florin.sarbu@windriver.com" target="_blank">florin.sarbu@windriver.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div bgcolor="#FFFFFF" text="#000000">
+                <div>Would you guys suggest we add bash as a dependency
+                  for alsa-utils?</div>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div style="">Alsaconf is a bash script - obviously add a
+              RDEPENDS to bash.</div>
+            <div style=""><br>
+            </div>
+            <div style="">ag</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------030107050408070504020506--
