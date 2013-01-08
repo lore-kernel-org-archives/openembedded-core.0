@@ -1,20 +1,40 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TsW8J-0005fo-EN
+	(envelope-from <ross.burton@intel.com>) id 1TsWCR-0005oq-Vm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 11:10:17 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2013 01:55:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="243362755"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2013 01:54:58 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 11:58:12 +0200
-Message-Id: <1357639092-14169-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] nasm: updated to 2.10.07
+	Tue, 08 Jan 2013 11:14:37 +0100
+Received: from mail-qc0-f197.google.com ([209.85.216.197])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 01:59:16 -0800
+Received: by mail-qc0-f197.google.com with SMTP id x40so463326qcs.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Jan 2013 01:59:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=4Zg5p98XqqdvXwQyZWCCUwHjQniTzLv1SoTKRSeW4Ko=;
+	b=jLi6+ZlPLiLZp+VhsMPbA8OsNyHYLE/h0nWVOaHgVs6EA8OwH5JiKuj6MvyZznuuQl
+	/lo3vyRQm4vnWbj859f9dcNjLfSc00kv9F5+H6pzvzgQISNP7B8Tz0qPjynHK90bABSs
+	RUbxubRBMdS1nFN7PV+Jg2g6htEpexFWklNnwchIa1l+okTmXVK6WQGBXlRZC9Y9Uor0
+	1IkL93iH+MsYd3NYfmNqxP2ijca8PG8h6SDIbxz9lrxKM7EbolmULf/mszRpxLvpdNXH
+	GPDwV7Qo6YpLAs0gOSRALdav3dUMXRoVGp5x+AQPShZ1TCjtv75G134tkM5r2G8lZeVL
+	XAtw==
+X-Received: by 10.58.30.7 with SMTP id o7mr88901423veh.19.1357639155255;
+	Tue, 08 Jan 2013 01:59:15 -0800 (PST)
+Received: by 10.58.30.7 with SMTP id o7mr88901422veh.19.1357639155174; Tue, 08
+	Jan 2013 01:59:15 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.58.95.103 with HTTP; Tue, 8 Jan 2013 01:58:53 -0800 (PST)
+In-Reply-To: <6b9684a5239103564b499be51bfe655bf89abea4.1357574641.git.alexandru.damian@intel.com>
+References: <cover.1357574641.git.alexandru.damian@intel.com>
+	<6b9684a5239103564b499be51bfe655bf89abea4.1357574641.git.alexandru.damian@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Jan 2013 09:58:53 +0000
+Message-ID: <CAJTo0LYE36diEmQSxYjaq6c5nJ9UXesiHxV+_GvRkSHwVPJnUA@mail.gmail.com>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+X-Gm-Message-State: ALoCoQnsV1zyip/47sReZ4nd1RJeBZjt6suU+4g2mrsQmDjreqaIFt1iOCh0Ro+jzotpRZXRBcAatWc0S6LdgTzDHFmMLa5x7+qA93VbQSG4occi5df6/Uq1+x1H8OQuU0YLkWzk0w3jv0DcX79f+x+Be60VjAkEmCl63yStgHhR8zTf/cT7L084j5UAFPu6U78s9TPwvSVD
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] Initial commit for wayland/weston 1.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,34 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 10:10:19 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 10:14:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- meta/recipes-devtools/nasm/{nasm_2.10.06.bb => nasm_2.10.07.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/nasm/{nasm_2.10.06.bb => nasm_2.10.07.bb} (81%)
+On 7 January 2013 16:06, Alex DAMIAN <alexandru.damian@intel.com> wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+> This patch adds the Weston reference compositing
+> manager from Wayland.
+>
+> We add version 1.0.3 which is the latest stable release
+> in Dec 2012. See the upstream at:
+>
+> http://wayland.freedesktop.org/releases.html
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.10.06.bb b/meta/recipes-devtools/nasm/nasm_2.10.07.bb
-similarity index 81%
-rename from meta/recipes-devtools/nasm/nasm_2.10.06.bb
-rename to meta/recipes-devtools/nasm/nasm_2.10.07.bb
-index cb12a22..1c95ed8 100644
---- a/meta/recipes-devtools/nasm/nasm_2.10.06.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.10.07.bb
-@@ -7,8 +7,8 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
- PR = "r0"
- 
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
--SRC_URI[md5sum] = "875c4217b2e581dbae0bf96d45a6067a"
--SRC_URI[sha256sum] = "ac84dd0d7e4ad6282061ce36b68a72db591db55cf0902b53d4297c743b0944a6"
-+SRC_URI[md5sum] = "af1cd6669f5e98148cd5ec42dee90f19"
-+SRC_URI[sha256sum] = "c056e2abc83816892e448f9e9e95a3d21e9e096f44341b9d4853f62a443bba82"
- 
- inherit autotools
- 
--- 
-1.7.10.4
+Remove this, it's obvious from the commit which version you're using.
 
+> To enable building, set in local.conf
+>
+>  #Build mesa-dri compatible packages
+>  OVERRIDES += ":weston"
+
+As in 2/3, don't do this.
+
+>  #Enable the wayland distro feature
+>  DISTRO_FEATURES_append_weston = " wayland "
+
+Surely you want the wayland feature globally, so that mesa builds with
+Wayland support?  'To enable wayland, add "wayland" to
+DISTRO_FEATURES.' is all you need.
+
+Ross
 
 
