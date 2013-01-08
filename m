@@ -1,26 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TsaoN-0001fr-23
+	(envelope-from <ross.burton@intel.com>) id 1TsarD-0001pY-7g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 16:10:00 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2013 06:53:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; 
-	d="scan'208,217";a="243455832"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2013 06:54:41 -0800
-Message-ID: <50EC34AF.5010303@intel.com>
-Date: Tue, 08 Jan 2013 17:01:03 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 08 Jan 2013 16:12:52 +0100
+Received: from mail-yh0-f72.google.com ([209.85.213.72])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 06:57:39 -0800
+Received: by mail-yh0-f72.google.com with SMTP id q46so1036276yhf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Jan 2013 06:57:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type:x-gm-message-state;
+	bh=8Uqxv8t94d0NWCOD3hUs4SYq5oRNtPYlQmPNwJOx5ZQ=;
+	b=eVYgMqSAri8a11cykwg1NNdcX3gGtlbGQaZfh9L9enrTJ1f5qeQ4gQAt/tK0X1WgrO
+	9+xeQaIWEYA6o+07VTvxFRdm6Bq0U9ArSaqdzEgYHPUo/w/XYDJ3Cvk8O+Gxqw+pSF1S
+	qCiIkLK6PK6AimaOs7RUrSuS6vnaHhymsqYWrMXGsRT344T9S0iAKa0LujIMNBlO6K+C
+	r6HkaP3maNK2GZwss4Ij9mvpQUoyUaUw+cwEvTwOGRftvV6yj69ZVaoNNz36l57DCCRC
+	oB0Qldt3aAbMNesfsGO1Vx3QFVmLoHE3bzZvPQHlpkEn3p26m6mJdGYdwAgs9zgD94ai
+	Xr5Q==
+X-Received: by 10.52.72.232 with SMTP id g8mr75630678vdv.69.1357657058143;
+	Tue, 08 Jan 2013 06:57:38 -0800 (PST)
+Received: by 10.52.72.232 with SMTP id g8mr75630673vdv.69.1357657058073; Tue,
+	08 Jan 2013 06:57:38 -0800 (PST)
 MIME-Version: 1.0
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Received: by 10.58.95.103 with HTTP; Tue, 8 Jan 2013 06:57:17 -0800 (PST)
+In-Reply-To: <50EC34AF.5010303@intel.com>
 References: <cover.1357647338.git.radu.moisan@intel.com>
 	<lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Cc: openembedded-core@lists.openembedded.org
+	<50EC34AF.5010303@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Jan 2013 14:57:17 +0000
+Message-ID: <CAJTo0LbEV2STP5gYz77rRT5dOXMJ+yMYivzuyHkD7YkpeXH6Hg@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+X-Gm-Message-State: ALoCoQlZYNa+cZqNjRNOulImqboY26wlT6kEfFcxpy8jFJFA4y4T4S9wpiDhU0f6RmS5qIzAQ6j/ODzwRsaVAtLj60VrZIOhYCTMAVGriXhX3OGQLQNWSLV8iDiNBNMz7a0YLeZ6d4dJYkYRBwwA9Uubip45Fkp2BoaoI8yJP89oZMbX3Y/te62cBq5dGWDzUSBkVJIP8D5V
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,112 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 15:10:02 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060603020707080200020005"
+X-List-Received-Date: Tue, 08 Jan 2013 15:12:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
---------------060603020707080200020005
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 01/08/2013 02:57 PM, Enrico Scholz wrote:
-> Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> writes:
->
->> Enrico Scholz (1):
->>    systemd: move disable operation into prerm() script
->     http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&id=e01411c2400231a89bc76a229b38e7eb95b7cd81
->
+On 8 January 2013 15:01, Radu Moisan <radu.moisan@intel.com> wrote:
 > I am pretty sure that I added a 'Signed-off-by:' field to my patch but
 > it is missing in the commit.  Other patches don't have the signed-off-by
 > of the original author neither.
 >
 > Was this removal done on purpose?
-
-I had to port the patch manually so I guess it got lost then. Do we want 
-to have Sign-off-by from author as well?
-
->>    systemd: Introduce a create-volatile to create tmp directories
->     http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&id=64de9a773c1ac79d4dbcb041ed7e66c19a3cf6b7
 >
-> When/because the order of files is really important, they should be installed
-> with the usual <number>- prefix method (e.g. '00-create-volatile.conf').
 >
-> Else, when e.g. /var/cache/apache is created by a 3rd part recipe, it
-> requires (yet more) ugly naming tricks (e.g. naming it
-> 'zz-apache-httpd.conf') to ensure the correct order and it might break
-> easily when something else is changed.
->
-You have a point here. Noted.
+> I had to port the patch manually so I guess it got lost then. Do we want to
+> have Sign-off-by from author as well?
 
-Radu
+By the time the patches land in oe-core there'll have been a lot of
+rebasing and merging as I don't intend to see a series that contains
+fixes in oe-core.  We should ensure that everyone who contributed to
+meta-oe gets a credit in the series.
 
---------------060603020707080200020005
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Ross
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <div class="moz-cite-prefix">On 01/08/2013 02:57 PM, Enrico Scholz
-      wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de"
-      type="cite">
-      <pre wrap="">Radu Moisan <a class="moz-txt-link-rfc2396E" href="mailto:radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org">&lt;radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org&gt;</a>
-writes:
 
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Enrico Scholz (1):
-  systemd: move disable operation into prerm() script
-</pre>
-      </blockquote>
-      <pre wrap="">
-   <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&amp;id=e01411c2400231a89bc76a229b38e7eb95b7cd81">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&amp;id=e01411c2400231a89bc76a229b38e7eb95b7cd81</a>
-
-I am pretty sure that I added a 'Signed-off-by:' field to my patch but
-it is missing in the commit.  Other patches don't have the signed-off-by
-of the original author neither.
-
-Was this removal done on purpose?
-</pre>
-    </blockquote>
-    <br>
-    I had to port the patch manually so I guess it got lost then. Do we
-    want to have Sign-off-by from author as well?<br>
-    <br>
-    <blockquote
-      cite="mid:lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de"
-      type="cite">
-      <blockquote type="cite">
-        <pre wrap="">  systemd: Introduce a create-volatile to create tmp directories
-</pre>
-      </blockquote>
-      <pre wrap="">
-   <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&amp;id=64de9a773c1ac79d4dbcb041ed7e66c19a3cf6b7">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rmoisan/systemd&amp;id=64de9a773c1ac79d4dbcb041ed7e66c19a3cf6b7</a>
-
-When/because the order of files is really important, they should be installed
-with the usual &lt;number&gt;- prefix method (e.g. '00-create-volatile.conf').
-
-Else, when e.g. /var/cache/apache is created by a 3rd part recipe, it
-requires (yet more) ugly naming tricks (e.g. naming it
-'zz-apache-httpd.conf') to ensure the correct order and it might break
-easily when something else is changed.
-
-</pre>
-    </blockquote>
-    You have a point here. Noted.<br>
-    <br>
-    Radu<br>
-    <font face="monospace"></font>
-  </body>
-</html>
-
---------------060603020707080200020005--
