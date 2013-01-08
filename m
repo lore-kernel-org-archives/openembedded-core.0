@@ -1,24 +1,22 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TsaRp-0000Tc-2b
+	(envelope-from <tom.zanussi@intel.com>) id 1TsaRp-0000Td-DC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 15:46:38 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Jan 2013 06:31:25 -0800
+	Tue, 08 Jan 2013 15:46:39 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2013 06:30:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="271302957"
+X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="243448334"
 Received: from unknown (HELO localhost) ([10.255.14.51])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2013 06:31:24 -0800
+	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2013 06:31:23 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 08:31:19 -0600
-Message-Id: <8c55fe2c86ce12ea6a9fa491ed8a16971997285e.1357655073.git.tom.zanussi@intel.com>
+Date: Tue,  8 Jan 2013 08:31:18 -0600
+Message-Id: <e47be218eb0e9f08110720f412a517226670d0d0.1357655073.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <e47be218eb0e9f08110720f412a517226670d0d0.1357655073.git.tom.zanussi@intel.com>
-References: <e47be218eb0e9f08110720f412a517226670d0d0.1357655073.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1357655073.git.tom.zanussi@intel.com>
 References: <cover.1357655073.git.tom.zanussi@intel.com>
-Subject: [PATCH 2/5] lttng2-ust: rename to lttng-ust
+Subject: [PATCH 1/5] lttng: remove 'legacy' lttng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,80 +29,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 14:47:00 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 14:47:01 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-recipes-kernel/lttng/lttng-ust was removed by a previous patch, which
-also removed the naming conflict that caused the lttng-2.0 version of
-lttng-ust to be named lttng2-ust.  lttng2-ust was the only lttng-2.0
-recipe to be named in this way and since that was entirely due to the
-conflict, we can go back to the consistent naming for it.
+This removes 'legacy' lttng - it hasn't actually worked for awhile
+now, and has been replaced by equivalent functionality in
+recipes-kernel/lttng-2.0 (which will be renamed to lttng in a
+follow-up patch).
+
+Fixes [YOCTO #3303].
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta-yocto/conf/distro/include/distro_alias.inc                         | 1 -
- meta-yocto/conf/distro/include/maintainers.inc                          | 1 -
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb      | 2 +-
- meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb                      | 2 +-
- .../lttng-2.0/{lttng2-ust_2.0.5.bb => lttng-ust_2.0.5.bb}               | 0
- 5 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.0.5.bb => lttng-ust_2.0.5.bb} (100%)
+ meta/recipes-kernel/lttng/lttng-control_0.89.bb    | 23 ------------
+ meta/recipes-kernel/lttng/lttng-ust_0.16.bb        | 32 -----------------
+ .../lttng-viewer/add_linkage_to_lttvwindow.patch   | 42 ----------------------
+ meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb  | 40 ---------------------
+ 4 files changed, 137 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-control_0.89.bb
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.16.bb
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-viewer/add_linkage_to_lttvwindow.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
 
-diff --git a/meta-yocto/conf/distro/include/distro_alias.inc b/meta-yocto/conf/distro/include/distro_alias.inc
-index 0699c5f..1994e27 100644
---- a/meta-yocto/conf/distro/include/distro_alias.inc
-+++ b/meta-yocto/conf/distro/include/distro_alias.inc
-@@ -226,7 +226,6 @@ DISTRO_PN_ALIAS_pn-lttng-modules = "OSPDT upstream=http://lttng.org/"
- DISTRO_PN_ALIAS_pn-lttng-tools = "OSPDT upstream=http://lttng.org/"
- DISTRO_PN_ALIAS_pn-lttng-ust = "OSPDT upstream=http://lttng.org/"
- DISTRO_PN_ALIAS_pn-lttng-viewer = "OSPDT upstream=http://lttng.org/"
--DISTRO_PN_ALIAS_pn-lttng2-ust = "OSPDT upstream=http://lttng.org/"
- DISTRO_PN_ALIAS_pn-makedepend = "Mandriva=makedepend Ubuntu=xutils-dev"
- DISTRO_PN_ALIAS_pn-makedevs = "OE-Core"
- DISTRO_PN_ALIAS_pn-matchbox-config-gtk = "OpenedHand"
-diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
-index 5efb7d0..6de57dc 100644
---- a/meta-yocto/conf/distro/include/maintainers.inc
-+++ b/meta-yocto/conf/distro/include/maintainers.inc
-@@ -490,7 +490,6 @@ RECIPE_MAINTAINER_pn-lsbtest = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-lsb = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-lsof = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
- RECIPE_MAINTAINER_pn-ltp = "Mihai Lindner <mihaix.lindner@linux.intel.com>"
--RECIPE_MAINTAINER_pn-lttng2-ust = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
- RECIPE_MAINTAINER_pn-lttng-control = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
- RECIPE_MAINTAINER_pn-lttng-modules = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
- RECIPE_MAINTAINER_pn-lttng-tools = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 591f33f..8f40c4e 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -46,7 +46,7 @@ SYSTEMTAP_aarch64 = ""
- # which means we can not use syscall() to call it. So we ignore
- # it for x86_64/uclibc
- 
--LTTNGUST = "lttng2-ust"
-+LTTNGUST = "lttng-ust"
- LTTNGUST_libc-uclibc = ""
- LTTNGUST_mips = ""
- LTTNGUST_aarch64 = ""
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
-index 2a5dd58..34d4484 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.4.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
-                     file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
- 
--DEPENDS = "liburcu popt lttng2-ust"
-+DEPENDS = "liburcu popt lttng-ust"
- 
- SRCREV = "98c8c95b0e1afb2dac686338efdf036f6446d790"
- PV = "v2.0.4"
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.0.5.bb
-similarity index 100%
-rename from meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.5.bb
-rename to meta/recipes-kernel/lttng-2.0/lttng-ust_2.0.5.bb
+diff --git a/meta/recipes-kernel/lttng/lttng-control_0.89.bb b/meta/recipes-kernel/lttng/lttng-control_0.89.bb
+deleted file mode 100644
+index 77314c8..0000000
+--- a/meta/recipes-kernel/lttng/lttng-control_0.89.bb
++++ /dev/null
+@@ -1,23 +0,0 @@
+-SECTION = "devel"
+-SUMMARY = "Linux Trace Toolkit Control"
+-DESCRIPTION = "The Linux trace toolkit is a suite of tools designed to \
+-extract program execution details from the Linux operating system and  \
+-interpret them."
+-LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-PR = "r0"
+-
+-LTTDATE = "05122011"
+-
+-SRC_URI = "http://lttng.org/files/lttng/ltt-control-${PV}-${LTTDATE}.tar.gz"
+-
+-SRC_URI[md5sum] = "2e5a531bf5cab88eef5282b45271789f"
+-SRC_URI[sha256sum] = "feb120e0bedd9ef8917dd14ee96cc94941f517826a4c2035d1c4aa33e4e808ab"
+-
+-S = "${WORKDIR}/ltt-control-${PV}-${LTTDATE}"
+-
+-inherit autotools
+-
+-export KERNELDIR="${STAGING_KERNEL_DIR}"
+-
+-FILES_${PN} += "${datadir}/ltt-control/facilities/*"	    
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.16.bb b/meta/recipes-kernel/lttng/lttng-ust_0.16.bb
+deleted file mode 100644
+index 3618a2d..0000000
+--- a/meta/recipes-kernel/lttng/lttng-ust_0.16.bb
++++ /dev/null
+@@ -1,32 +0,0 @@
+-SUMMARY = "Linux Trace Toolkit Userspace Tracer"
+-DESCRIPTION = "The LTTng Userspace Tracer (UST) is a library accompanied by a set of tools to trace userspace code"
+-HOMEPAGE = "http://lttng.org/ust"
+-BUGTRACKER = "http://lttng.org/project/issues"
+-
+-LICENSE = "LGPLv2.1+ & BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
+-                    file://ustctl/ustctl.c;endline=16;md5=b50c6fa0307175bb1ce0db49d752c03b \
+-                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+-
+-DEPENDS = "liburcu"
+-
+-PR = "r1"
+-PE = "1"
+-
+-SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "8e5d5de47bfff29f50439d192ad1e478"
+-SRC_URI[sha256sum] = "88167741b1fbf335e006f0208d8c41784705e28adac84df71d3d9f6c58191dab"
+-
+-
+-S = "${WORKDIR}/ust-${PV}"
+-
+-inherit autotools
+-
+-#EXTRA_OECONF = "ac_cv_lib_urcu_bp_synchronize_rcu_bp=no"
+-
+-# Due to liburcu not building on MIPS currently this recipe needs to
+-# be limited also.
+-# So here let us first suppport x86/arm/powerpc platforms now.
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux.*'
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-viewer/add_linkage_to_lttvwindow.patch b/meta/recipes-kernel/lttng/lttng-viewer/add_linkage_to_lttvwindow.patch
+deleted file mode 100644
+index 4a135df..0000000
+--- a/meta/recipes-kernel/lttng/lttng-viewer/add_linkage_to_lttvwindow.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Explicitly add linkage to lttvwindow.
+-
+-Without the fix, lttv-gui inside target can't run, complaining
+-"undefined symbol: LTTV_VIEWER_CONSTRUCTORS".
+-
+-Tue May  3 21:39:37 CST 2011
+-
+-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+-
+-diff --git a/lttv/modules/gui/common.am b/lttv/modules/gui/common.am
+-index ce50113..89083aa 100644
+---- a/lttv/modules/gui/common.am
+-+++ b/lttv/modules/gui/common.am
+-@@ -21,3 +21,4 @@ AM_LDFLAGS = $(MODULE_LDFLAGS)
+- 
+- libdir = ${lttvplugindir}
+- 
+-+LIBS += $(GTK_LIBS) -L${top_builddir}/lttv/modules/gui/lttvwindow/lttvwindow -llttvwindow
+-diff --git a/lttv/modules/gui/lttvwindow/lttvwindow/Makefile.am b/lttv/modules/gui/lttvwindow/lttvwindow/Makefile.am
+-index c953fc9..489d640 100644
+---- a/lttv/modules/gui/lttvwindow/lttvwindow/Makefile.am
+-+++ b/lttv/modules/gui/lttvwindow/lttvwindow/Makefile.am
+-@@ -1,13 +1,14 @@
+- ## Process this file with automake to produce Makefile.in
+- 
+--include ../../common.am
+--
+- INCLUDES = \
+- 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+- 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
+- 	$(DEFAULT_INCLUDES)
+- 
+--#libdir = ${lttvplugindir}
+-+AM_CFLAGS = $(MODULE_CFLAGS)
+-+AM_LDFLAGS = $(MODULE_LDFLAGS)
+-+
+-+libdir = ${lttvplugindir}
+- 
+- lib_LTLIBRARIES = liblttvwindow.la
+- 
+diff --git a/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb b/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
+deleted file mode 100644
+index 9d94903..0000000
+--- a/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
++++ /dev/null
+@@ -1,40 +0,0 @@
+-SUMMARY = "Linux Trace Toolkit Viewer"
+-DESCRIPTION = "The Linux trace toolkit is a suite of tools designed to \
+-extract program execution details from the Linux operating system and  \
+-interpret them."
+-HOMEPAGE = "http://lttng.org/content/download"
+-BUGTRACKER = "n/a"
+-
+-LICENSE = "GPLv2 & LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=f650d5f5af1e9648fe0b40e290d3adbb \
+-                    file://ltt/ltt.h;beginline=2;endline=18;md5=8b7da9190028c50396d97fc85bad0da9 \
+-                    file://lttv/lttv/traceset.c;beginline=2;endline=17;md5=bcab42863b64b41d153bf81bbe2490a6"
+-PR = "r3"
+-
+-DEPENDS = "gtk+ pango popt"
+-
+-SECTION = "devel"
+-
+-ALTNAME = "lttv-${PV}-21032011"
+-
+-SRC_URI = "http://lttng.org/files/packages/${ALTNAME}.tar.gz \
+-           file://add_linkage_to_lttvwindow.patch"
+-
+-SRC_URI[md5sum] = "071bf3dd13e7562c08ee8f8971cfc76d"
+-SRC_URI[sha256sum] = "cf87ffcf5d266b18979418e610a180a0b4214de41677f0be867885e15b2f7647"
+-S = "${WORKDIR}/${ALTNAME}"
+-
+-inherit autotools
+-
+-LEAD_SONAME = "liblttvtraceread*"
+-
+-FILES_SOLIBSDEV = ""
+-FILES_${PN} += "\
+-    ${libdir}/liblttvtraceread*.so \
+-    ${libdir}/lttv/plugins/*.so \
+-    ${datadir}/lttv/facilities/* \
+-    ${datadir}/lttv/pixmaps/* "
+-FILES_${PN}-dbg += "${libdir}/lttv/plugins/.debug/"
+-FILES_${PN}-dev += "${libdir}/lttv/plugins/*.la"
+-FILES_${PN}-staticdev += "${libdir}/lttv/plugins/*.a"
+-INSANE_SKIP_${PN} = "dev-so"
 -- 
 1.7.11.4
 
