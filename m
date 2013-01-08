@@ -1,44 +1,30 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tsb3b-0002G1-Gk
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Tsb5F-0002LZ-Kb
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 16:25:50 +0100
-Received: from mail-yh0-f70.google.com ([209.85.213.70])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 07:10:27 -0800
-Received: by mail-yh0-f70.google.com with SMTP id f73so1060048yha.9
+	Tue, 08 Jan 2013 16:27:22 +0100
+Received: by mail-ob0-f175.google.com with SMTP id vb8so463467obc.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 07:10:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=w3uifyutZ7ILnLnMvglblizp8Mn/UH5rOxEsSqZSciI=;
-	b=UPW37D6RsCBDBLMOgvSi5/4R61pZfvg5Xc5lLM8t/PU3OS+exljBYZbxvt/CCTzyMM
-	cEN28ligc/lrkgP1xqwrR2GzVtdZ0OFlq3dKqsmcV5bbXgPd0bsIVmeAe4DzzhJB7aqz
-	ONgj5CRkFZNkI4/xn8mIMAIl05775D2eODrGPPMwFLBLYKPRKBhLaiYR6Nd82v3qa5Sa
-	b+LRhCLUHRisOwl/0EoQCTSNUuvTiyrLjBxeAJV4nYXh1XF9Kjh0YTo58aZQq+Mr1btY
-	VK4xtWLYiB9hyFNAguA2AdSdbeSp2nWDiBFllANQbKEdzhJobQKVYsx04eIsZGfhLOhI
-	mNDQ==
-X-Received: by 10.52.17.70 with SMTP id m6mr75672334vdd.92.1357657826054;
-	Tue, 08 Jan 2013 07:10:26 -0800 (PST)
-Received: by 10.52.17.70 with SMTP id m6mr75672324vdd.92.1357657825983; Tue,
-	08 Jan 2013 07:10:25 -0800 (PST)
+	Tue, 08 Jan 2013 07:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=Yft38nYHCDjNtudQ6/jFx0olM9ImPZCkqom3aGWd/z4=;
+	b=OO5ugQj3IFlF4areYAOEesx8kuI9kexYb4eSOmJrcmKNQwfGgJrkNb3xovt5yMCCRr
+	PW30nhUP/e8g1rkatcB2w8MgsfId3Y2Wvxaq1TScVj/BAD7gxLGCSv0g6K06gS2BkgPU
+	t0sGCp1bL8LQMNMLvtbOcNYKrI7441zcXoSPwcfI3w9rwhk89Wa4Lb/hzihQRZSHQYWv
+	w+ICLNh+TiY8Tshepk92lfihDPU8bXpqRhcMEDPcq2whbSBmW+gqMHqa0ZLVGq3fzCol
+	0xIq6Wv8nqhR3J7ZKIt9c6Pagc780J4amw1vojMMdgCVvVFDDkOrJln4rTca8os3SLTf
+	hEoA==
 MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Tue, 8 Jan 2013 07:10:05 -0800 (PST)
-In-Reply-To: <50EC3725.2060604@intel.com>
-References: <cover.1357647338.git.radu.moisan@intel.com>
-	<lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<50EC34AF.5010303@intel.com>
-	<CAJTo0LbEV2STP5gYz77rRT5dOXMJ+yMYivzuyHkD7YkpeXH6Hg@mail.gmail.com>
-	<50EC3725.2060604@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2013 15:10:05 +0000
-Message-ID: <CAJTo0LYSY-Ucbthhr0UObuugMBdxKj_3NbC5y1FFPf=GBQ+PfQ@mail.gmail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-X-Gm-Message-State: ALoCoQneIjH6ivW72KvDQLI8craHYiRtJtRJTFHrySEd/ayAqTZQ6SIRH9A+wtb5UqXwtkuAtYY1ZCz4MscIUgYgFUxhQKHPjBxSIIaGFJehxOeQRyEQiz+8oZiw3VDkyl3u3jxlwhYWvwOI1rdScY7j0WpllynjU4JNj/0CHj+Y1jDbN85IiagWlN9AexjSYr1a/uE9lM9u
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
+Received: by 10.60.31.130 with SMTP id a2mr36748559oei.95.1357657930501; Tue,
+	08 Jan 2013 07:12:10 -0800 (PST)
+Received: by 10.182.85.198 with HTTP; Tue, 8 Jan 2013 07:12:10 -0800 (PST)
+Date: Tue, 8 Jan 2013 16:12:10 +0100
+Message-ID: <CAOHjBZuDiLmweStxyu3ghH-WMz6S-TO+R7qDurnrvXHw9x4qvg@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: meta-toolchain build for uclibc, possible issue?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,21 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 15:25:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Jan 2013 15:27:22 -0000
+Content-Type: multipart/alternative; boundary=e89a8fb201acac8c4104d2c85e83
 
-On 8 January 2013 15:11, Radu Moisan <radu.moisan@intel.com> wrote:
-> No question about that, the question was whether to add Sign-off-by from the
-> author itself. I know that we are doing it like that right now, but I don't
-> understand it's reasoning. Being the author of a patch what would be the
-> point in adding a Sign-off-by with the same name? I can agree either way, no
-> question about that, just want it to get it clear why we do it like we do
-> it.
+--e89a8fb201acac8c4104d2c85e83
+Content-Type: text/plain; charset=ISO-8859-1
 
-It's usual to sign-off your own patches, but in this case where
-people's conributions are being remixed, merged and so on, they didn't
-strictly speaking sign-off on the actual commit.
+Hi All,
 
-Ross
+gcc-runtime nativesdk is failing due to the lack of libm.
+I want to build meta-toolchain for uclibc, I mean obtaining the cross
+compiler for these flavour, so libm should be
+provided by the uclibc. But repository doesn't build any uclibc for
+nativesdk, (it builds eglibc by default).
+I'm in trouble to understand this, where is the answer I'm not
+understanding?
 
+Please can you help me?
+Cheers,
+Giuseppe
 
+--e89a8fb201acac8c4104d2c85e83
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi All,</div><div>=A0</div><div>gcc-runtime nativesdk is failing due t=
+o the lack of libm.</div><div>I want to build meta-toolchain for uclibc, I =
+mean obtaining the cross compiler for these flavour, so libm should be</div=
+>
+<div>provided by the uclibc. But repository doesn&#39;t build any uclibc fo=
+r nativesdk, (it builds eglibc by default).</div><div>I&#39;m in trouble to=
+ understand this, where is the answer I&#39;m not understanding?</div><div>
+=A0</div><div>Please can you help me?</div><div>Cheers,</div><div>Giuseppe<=
+/div><div>=A0</div>
+
+--e89a8fb201acac8c4104d2c85e83--
