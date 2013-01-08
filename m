@@ -1,47 +1,39 @@
-Received: from mail-lb0-f178.google.com ([209.85.217.178])
+Received: from mail-la0-f45.google.com ([209.85.215.45])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TsTfH-0000qn-Pt
+	(envelope-from <cazfi74@gmail.com>) id 1TsTfF-0000qe-4J
 	for openembedded-core@lists.openembedded.org;
 	Tue, 08 Jan 2013 08:32:05 +0100
-Received: by mail-lb0-f178.google.com with SMTP id l5so148296lbo.37
+Received: by mail-la0-f45.google.com with SMTP id ep20so100640lab.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Jan 2013 23:16:53 -0800 (PST)
+	Mon, 07 Jan 2013 23:16:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=RA/YJa9GHGq8rDn5R24nWeIG2+goOsbgcKehjhfmnNI=;
-	b=oqlzACbAXkfqhuSuZF5Yf9+qUr0L5awlzy0B4LIHeDdU1ksvdy8+8YFJHOsvr34c6y
-	cEBXscVe6g/ALmohHzcXjiCnB14fck2dN6k9LBSG7W5gu1OfTWI5q1m3qgVooopSR1C5
-	Mk5bbGkndp6XP5+m0DkSEgqmhcxIIdhDtll4OZTYuwyzYQ4Qb27SnqWUZvhQlnyK9Gi3
-	HtDSxWbs2yHgVmjyfkDV6tFg8pAsf+K5rP1Vn21fPVVuq4P7jf+9lcRWSC7NvJ55aFdN
-	QXQp1ebx7BoCVpFRUv+kzV283yqq7cS7stCwlZ6W8c8qpoQAzwhzPJYEO72Vn0asuwv3
-	ZYfA==
-X-Received: by 10.112.103.72 with SMTP id fu8mr25774295lbb.124.1357629413530; 
-	Mon, 07 Jan 2013 23:16:53 -0800 (PST)
+	:references; bh=fwKkbzB/vOtelnvQyzeCVZkDlU9HCB9/CvdyHSw7ZVM=;
+	b=ZTBH3yY1lkVvQ321LvdlhW0Fa7HHjscaIbV/vWmI6eDXYltFlQ+gbYYWMZlPLIqyfX
+	AJdZQg/xImHiiHKgna19a4AS/1gq1NuMnZXWwHsSecVCol9ovtsAlJegdCTXXkpj/phY
+	iqFHbxKyPtQLQtzwUE9eqDs/oQOCqT96L+7iQ+ndpGaafMLE3SI5pK8ojAFV2+Gkb+1Q
+	CmXE/o+fNjKC/U3+p7r1inoAJSv3El5aKR6efq1Xg4PeYjpnilMRqMBesBMlab8CfAhE
+	sGImG+8YmAYFcJrgEiWihEm2PlXNgCb8XO4/fV08MR3H8Ncv7n4hehtH6/HDakgBiEme
+	nVUA==
+X-Received: by 10.152.125.7 with SMTP id mm7mr61370400lab.2.1357629410888;
+	Mon, 07 Jan 2013 23:16:50 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id hm5sm359044lab.6.2013.01.07.23.16.50
+	by mx.google.com with ESMTPS id v7sm22108957lbj.13.2013.01.07.23.16.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Jan 2013 23:16:52 -0800 (PST)
+	Mon, 07 Jan 2013 23:16:48 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TsTQV-0005kw-Af; Tue, 08 Jan 2013 09:16:47 +0200
+	id 1TsTQU-0005kI-Cs; Tue, 08 Jan 2013 09:16:46 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 09:16:43 +0200
-Message-Id: <1357629404-22020-12-git-send-email-cazfi74@gmail.com>
+Date: Tue,  8 Jan 2013 09:16:35 +0200
+Message-Id: <1357629404-22020-4-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357629404-22020-11-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357629404-22020-3-git-send-email-cazfi74@gmail.com>
 References: <1357629404-22020-1-git-send-email-cazfi74@gmail.com>
 	<1357629404-22020-2-git-send-email-cazfi74@gmail.com>
 	<1357629404-22020-3-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-4-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-5-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-6-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-7-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-8-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-9-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-10-git-send-email-cazfi74@gmail.com>
-	<1357629404-22020-11-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH v3 11/12] gnutls: replace obsolete automake macros with working ones
+Subject: [PATCH v3 03/12] popt: disable tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,80 +48,61 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Jan 2013 07:32:16 -0000
 
-Add obsolete_automake_macros.patch that replaces automake macros
-no longer supported by automake-1.13 with modern constructs.
+Use of $(top_srcdir) in TESTS is an error causing automake-1.13
+to abort. Disable the tests completely.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../gnutls/gnutls/obsolete_automake_macros.patch   |   39 ++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_2.12.21.bb      |    3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+ meta/recipes-support/popt/popt/disable_tests.patch |   21 ++++++++++++++++++++
+ meta/recipes-support/popt/popt_1.16.bb             |    3 ++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/popt/popt/disable_tests.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch b/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+diff --git a/meta/recipes-support/popt/popt/disable_tests.patch b/meta/recipes-support/popt/popt/disable_tests.patch
 new file mode 100644
-index 0000000..5640178
+index 0000000..016cf66
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
-@@ -0,0 +1,39 @@
-+Upstream-Status: Submitted [https://savannah.gnu.org/support/index.php?108219]
++++ b/meta/recipes-support/popt/popt/disable_tests.patch
+@@ -0,0 +1,21 @@
++Use of $(top_srcdir) in TESTS is an error which causes
++automake-1.13 to abort. Just remove tests.
++
++Upstream-Status: Inappropriate [disable feature]
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd gnutls-2.12.21/configure.ac gnutls-2.12.21/configure.ac
-+--- gnutls-2.12.21/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/configure.ac	2013-01-03 07:53:41.662739378 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++diff -Nurd popt-1.16/Makefile.am popt-1.16/Makefile.am
++--- popt-1.16/Makefile.am	2010-05-04 23:55:54.000000000 +0300
+++++ popt-1.16/Makefile.am	2013-01-02 13:34:29.540361391 +0200
++@@ -34,11 +34,6 @@
 +
-+ AC_MSG_RESULT([***
-+ *** Checking for compilation programs...
-+diff -Nurd gnutls-2.12.21/lib/configure.ac gnutls-2.12.21/lib/configure.ac
-+--- gnutls-2.12.21/lib/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/lib/configure.ac	2013-01-03 08:07:38.150721027 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++ noinst_SCRIPTS = testit.sh
 +
-+ AC_PROG_CC
-+ lgl_EARLY
-+diff -Nurd gnutls-2.12.21/libextra/configure.ac gnutls-2.12.21/libextra/configure.ac
-+--- gnutls-2.12.21/libextra/configure.ac	2013-01-03 07:52:42.182740682 +0200
-++++ gnutls-2.12.21/libextra/configure.ac	2013-01-03 08:10:56.654716669 +0200
-+@@ -29,7 +29,7 @@
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+-AM_CONFIG_HEADER(config.h)
-++AC_CONFIG_HEADERS(config.h)
++-TESTS_ENVIRONMENT = \
++-test1="$(top_builddir)/test1"
++-
++-TESTS = $(top_srcdir)/testit.sh
++-
++ include_HEADERS = popt.h
 +
-+ AC_PROG_CC
-+ xgl_EARLY
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.21.bb b/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-index 6b2ef3a..7b4426b 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.21.bb
-@@ -1,12 +1,13 @@
- require gnutls.inc
++ usrlibdir = $(libdir)
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 91b0d60..aa4e379 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -4,11 +4,12 @@ SECTION = "libs"
  
--PR = "${INC_PR}.3"
-+PR = "${INC_PR}.4"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=cb0613c30af2a8249b8dcc67d3edb06d"
+-PR = "r2"
++PR = "r3"
  
- SRC_URI += "file://gnutls-openssl.patch \
-             file://correct_rpl_gettimeofday_signature.patch \
-             file://configure-fix.patch \
-             file://gnutls_fix_for_automake_1.12.1.patch \
-             file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
-+            file://obsolete_automake_macros.patch \
-             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
-             file://remove-gets.patch \
-            "
+ SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
++           file://disable_tests.patch \
+           "
+ 
+ SRC_URI[md5sum] = "3743beefa3dd6247a73f8f7a32c14c33"
 -- 
 1.7.10.4
 
