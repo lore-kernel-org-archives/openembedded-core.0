@@ -1,39 +1,39 @@
-Received: from mail-ob0-f172.google.com ([209.85.214.172])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1TsbCp-0002a3-J6
+	(envelope-from <ross.burton@intel.com>) id 1TsbIN-0002jm-1L
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 16:35:12 +0100
-Received: by mail-ob0-f172.google.com with SMTP id za17so475186obc.31
+	Tue, 08 Jan 2013 16:40:59 +0100
+Received: from mail-ee0-f70.google.com ([74.125.83.70])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 07:25:42 -0800
+Received: by mail-ee0-f70.google.com with SMTP id b47so549901eek.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 07:20:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ZweBXSp1Wl1bFmK1o6zRB5lRGjaPUhOVuVINyPcUVsU=;
-	b=Ztr8nSRLyhv8sjV9mFfylNyEqdXZXEJ8i3qjnS8xioOfaQoq55fRWKxd5gqh+yqIBy
-	SPPu6TyFf9AeMtdOqxBd93J7FgZl7OO1uiPaJSS6r4gxaCXgY69LLvUZACyT1RSgx7QU
-	C+bnTqnvEiKXc6PVXmeiZEGxBzhFamAskfey3abg40VeO0448f4VOeRFJp6U10b+yXL2
-	AZsZ50roZTeOJpMjxxyPA9hFxz3YS9los0fEv/ntM3Ns9vscgeVhiid0Ye/Hge5iWm5a
-	Ojkxsp/m/KFUTeSRYHafIjkt/3gWfWEZctAkxnhQHCqdmSy1y21wxerTUPtQJXaCt951
-	+4Bg==
-MIME-Version: 1.0
-Received: by 10.60.31.8 with SMTP id w8mr36457012oeh.55.1357658400393; Tue, 08
-	Jan 2013 07:20:00 -0800 (PST)
-Received: by 10.60.54.34 with HTTP; Tue, 8 Jan 2013 07:20:00 -0800 (PST)
-In-Reply-To: <50EC3725.2060604@intel.com>
-References: <cover.1357647338.git.radu.moisan@intel.com>
-	<lyvcb7n87x.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<50EC34AF.5010303@intel.com>
-	<CAJTo0LbEV2STP5gYz77rRT5dOXMJ+yMYivzuyHkD7YkpeXH6Hg@mail.gmail.com>
-	<50EC3725.2060604@intel.com>
-Date: Tue, 8 Jan 2013 16:20:00 +0100
-Message-ID: <CAGiJk9f0Oy5-goE8kmnJt5BCiOYZ32tLsNHUvdjZVos_ReBXEQ@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
+	Tue, 08 Jan 2013 07:25:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=FODr4Ze+w6mHV+gROroG5LIiSo+5gv0kazRnLYIWfpk=;
+	b=G/PRg76vc3qevZraKNMMmHimihHQV0YLJ1+eEVGQZJiZO53XGDxNcBrQOYdmt16gZt
+	qvIzy2u1gCwjIVvqifh9HdnoiwIUpCg0D9icbNCnkfKf/kYHuCMEw1A7rvf8B1n8Tk0y
+	1PBY/k+tKlrU2+XlG6mqpXkWxuwJC0icdCLGRM6Vz1voPW31U3OooquzStKBzRGJG9sH
+	vMhGrZ9YbUEm8OGSJHVPtR0v1pgImDa19cDkDC44XButt0iTyJd3avJ43+GLZGfyK4hS
+	Nst7rGHTy1CGm5H98kLFqbljVr8dJJ3SDumOyMsMN6mTQFQvGucZRI7Nq+cWBPJ53aYQ
+	U8UA==
+X-Received: by 10.180.96.225 with SMTP id dv1mr5948333wib.0.1357658740687;
+	Tue, 08 Jan 2013 07:25:40 -0800 (PST)
+X-Received: by 10.180.96.225 with SMTP id dv1mr5948322wib.0.1357658740456;
+	Tue, 08 Jan 2013 07:25:40 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id s16sm17506974wii.0.2013.01.08.07.25.39
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 08 Jan 2013 07:25:39 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Jan 2013 15:23:47 +0000
+Message-Id: <1357658627-31689-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmOtjFR/o5Hbl8UzQp/5IacDRZ7rdbm2kqR0a4b8dF0Zp2Ek+6m3zOdJDV2R2eDHfzK5NNbifSwEbfoNFfgLsyy1hHnPA+1XhQVqgxdJQeR97fyAP+MSBhyQGkDBddPQOohBZ5c7U5swQWUSvGtdgylkKmtX//okqTvlKByW+pR2d9hTDYTK5WRmIeLmLMIyQKA/hke
+Subject: [PATCH] pkgconfig: add -native script that uses the native sysroot instead of target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,53 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 15:35:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Jan 2013 15:41:00 -0000
 
-2013/1/8 Radu Moisan <radu.moisan@intel.com>:
->
-> On 01/08/2013 04:57 PM, Burton, Ross wrote:
->>
->> On 8 January 2013 15:01, Radu Moisan <radu.moisan@intel.com> wrote:
->>>
->>> I am pretty sure that I added a 'Signed-off-by:' field to my patch but
->>> it is missing in the commit.  Other patches don't have the signed-off-by
->>> of the original author neither.
->>>
->>> Was this removal done on purpose?
->>>
->>>
->>> I had to port the patch manually so I guess it got lost then. Do we want
->>> to
->>> have Sign-off-by from author as well?
->>
->> By the time the patches land in oe-core there'll have been a lot of
->> rebasing and merging as I don't intend to see a series that contains
->> fixes in oe-core.  We should ensure that everyone who contributed to
->> meta-oe gets a credit in the series.
->>
-> No question about that, the question was whether to add Sign-off-by from the
-> author itself. I know that we are doing it like that right now, but I don't
-> understand it's reasoning. Being the author of a patch what would be the
-> point in adding a Sign-off-by with the same name? I can agree either way, no
-> question about that, just want it to get it clear why we do it like we do
-> it.
->
-> Radu
+pkg-config-native is useful when building a package for the target that needs to
+compile a build-time tool, to avoid having to hard-code many paths.
 
-This is part of the Linux Kernel patch workflow:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/pkgconfig/pkgconfig.inc                |   10 ++++++++++
+ .../pkgconfig/pkgconfig/pkg-config-native.in                 |    7 +++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
 
-"To improve tracking of who did what, especially with patches that can
-percolate to their final resting place in the kernel through several
-layers of maintainers, we've introduced a "sign-off" procedure on
-patches that are being emailed around."
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+index c54e325..c4fa456 100644
+--- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+@@ -15,6 +15,7 @@ DEPENDS_class-nativesdk = ""
+ SRC_URI = "http://pkgconfig.freedesktop.org/releases/pkg-config-${PV}.tar.gz \
+            file://autofoo.patch \
+            file://glibconfig-sysdefs.h \
++           file://pkg-config-native.in \
+            file://disable-legacy.patch"
+ 
+ S = "${WORKDIR}/pkg-config-${PV}/"
+@@ -43,3 +44,12 @@ FILES_${PN} += "${datadir}/aclocal/pkg.m4"
+ # will end up requiring 'pkgconfig(pkg-config)'.  Allow this behavior by
+ # specifying an appropriate provide.
+ RPROVIDES_${PN} += "pkgconfig(pkg-config) (= ${PV})"
++
++# Install a pkg-config-native wrapper that will use the native sysroot instead
++# of the MACHINE sysroot, for using pkg-config when building native tools.
++do_install_append_class-native () {
++    sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
++        -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
++        < ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
++    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
++}
+diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+new file mode 100644
+index 0000000..5e44bb4
+--- /dev/null
++++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+@@ -0,0 +1,7 @@
++#! /bin/sh
++
++PKG_CONFIG_PATH="@PATH_NATIVE@"
++PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
++unset PKG_CONFIG_SYSROOT_DIR
++
++pkg-config "$@"
+-- 
+1.7.10.4
 
-
-see: http://kerneltrap.org/files/Jeremy/DCO.txt
-
-
---
-Regards
-Samuel
 
 
