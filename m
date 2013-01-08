@@ -1,40 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TsWIy-0007Oy-44
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TsWJd-0007Q9-7m
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 11:21:18 +0100
-Received: from mail-vc0-f197.google.com ([209.85.220.197])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 02:04:59 -0800
-Received: by mail-vc0-f197.google.com with SMTP id m8so438478vcd.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 02:06:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=jUhpRsNBJMb3M31phz+ysR9XpnA+iBp0755vR5diUMs=;
-	b=TGUP71KjkmAlvCKnwtQkHBxlcj8zCzWtvKQSKfPL/gyN8CECg0WE/wzXR/Lkldxa1q
-	5iHb7JJv/p7biLsMQhOggf8z2P3nz/d8Wh20rxEBo2Nyxmyl0I1+1iJaqITxG44i2T+F
-	pI0tUqPRY5FWwqmZUhN7lXqN2oHGOI/THgVdr51bW2ZHap/IFgb6xk8iXG2VckPPNjme
-	kkYG5RVfuy6p8sdZSM0LXMXeLDUURjM9JOiu6F4Gp49nIvPLA8IN+p4AdbYzbB+5QmDG
-	/VErdxjVomXsLTjKOXVyTcF87nCBMFz25o3RTIY99oZx75vBJXftxHwp3X8Oru9HfkRl
-	muRw==
-X-Received: by 10.52.17.70 with SMTP id m6mr74944249vdd.92.1357639560005;
-	Tue, 08 Jan 2013 02:06:00 -0800 (PST)
-Received: by 10.52.17.70 with SMTP id m6mr74944246vdd.92.1357639559942; Tue,
-	08 Jan 2013 02:05:59 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Tue, 8 Jan 2013 02:05:39 -0800 (PST)
-In-Reply-To: <3d4ed4e62c2af3e6cafa59c07d33bb3ea6c302f6.1357574641.git.alexandru.damian@intel.com>
-References: <cover.1357574641.git.alexandru.damian@intel.com>
-	<3d4ed4e62c2af3e6cafa59c07d33bb3ea6c302f6.1357574641.git.alexandru.damian@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2013 10:05:39 +0000
-Message-ID: <CAJTo0LYKPbDFpbd058=+62XOHD9Y5K3ESa3FPVaq2YtSPdWitQ@mail.gmail.com>
-To: Alex DAMIAN <alexandru.damian@intel.com>
-X-Gm-Message-State: ALoCoQnYDgRJxaak/F27YogVyHa8OZbXo/42ANl8TgGN5EedDqJcoqo//w5lIhbD7uuLJzLHHvtlD7QJXoumRe6/FJXBG+huIGh/FMP3MsBsJK4pxqI2LHC2rMdxHPHWnXR/P5N9c2e2VX/jibEh60QnxEBdcH9ulvS0AZN82/pI2WTr9TtWj2SQhxohHQOc/mO3kC+szb3j
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] Prepare mesa-dri for weston compatibility
+	Tue, 08 Jan 2013 11:21:54 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jan 2013 02:06:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="271224104"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2013 02:06:40 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Jan 2013 12:09:54 +0200
+Message-Id: <1357639794-23810-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] lsof: updated to 4.87
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,14 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 10:21:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Jan 2013 10:21:55 -0000
 
-On 7 January 2013 16:06, Alex DAMIAN <alexandru.damian@intel.com> wrote:
-> +             wayland-egl wayland-egl-dev \
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ meta/recipes-extended/lsof/{lsof_4.86.bb => lsof_4.87.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/lsof/{lsof_4.86.bb => lsof_4.87.bb} (91%)
 
-"libwayland-egl" and "libwayland-egl-dev", please.
+diff --git a/meta/recipes-extended/lsof/lsof_4.86.bb b/meta/recipes-extended/lsof/lsof_4.87.bb
+similarity index 91%
+rename from meta/recipes-extended/lsof/lsof_4.86.bb
+rename to meta/recipes-extended/lsof/lsof_4.87.bb
+index e3f5ef3..2f425aa 100644
+--- a/meta/recipes-extended/lsof/lsof_4.86.bb
++++ b/meta/recipes-extended/lsof/lsof_4.87.bb
+@@ -7,8 +7,8 @@ PR = "r0"
+ 
+ SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "9f1cda41f35add068c7b81f873fa56b5"
+-SRC_URI[sha256sum] = "13e52b8e87dddf1b2e219004e315d755c659217ce6ffc6a5f1102969f1c4dd0c"
++SRC_URI[md5sum] = "80e2a76d0e05826db910ec88e631296c"
++SRC_URI[sha256sum] = "dfdd3709d82bc79ccdf3e404b84aafa9aede5948642a824ecaefd0aac589da2c"
+ 
+ LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
+ S = "${WORKDIR}/lsof_${PV}_src"
+-- 
+1.7.10.4
 
-Ross
 
 
