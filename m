@@ -1,40 +1,20 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TsVjR-0004k0-0c
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TsW4W-0005XM-G4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 10:44:29 +0100
-Received: from mail-vc0-f199.google.com ([209.85.220.199])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 08 Jan 2013 01:29:06 -0800
-Received: by mail-vc0-f199.google.com with SMTP id p16so381534vcq.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 01:29:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=sTKuH/wBT5EptDE8otX3/8v/b1YiS3r5fkPNxqCFsrM=;
-	b=liFmwxOXZDOMKVcM0dgXfqYTNKbmuX0zuQGsgCC6dSEiEjCZ9QAWm5+bAIjZfNQov3
-	FMqTJ/N+SP4Hk5gUpIme5XsVYsLKWB5QKdJFwtOVVsU6qsiLD6u4EVj1JyWH5Xi86xqt
-	Bgm5s6MPjOH94O8G96EkZ7wJBO8QUcnL9pDoko+wHBseGuW9fl2Lkgh/AKgJl26FRfhP
-	rbmZyMmNJeTpnUn8mhIoF419FCPO4hLFJNRb9KP+xQ9czPXfhgySK/HTwoct9qSFMSQB
-	9jbfpRKOpb53zQLSkIT6En/TrPY7DHvTUP0sqz/FHRGX08ej8Lgp06iR1NXees/PHvsK
-	v58w==
-X-Received: by 10.58.239.162 with SMTP id vt2mr88972865vec.1.1357637345744;
-	Tue, 08 Jan 2013 01:29:05 -0800 (PST)
-Received: by 10.58.239.162 with SMTP id vt2mr88972862vec.1.1357637345675; Tue,
-	08 Jan 2013 01:29:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Tue, 8 Jan 2013 01:28:45 -0800 (PST)
-In-Reply-To: <1357631895-9535-1-git-send-email-fransmeulenbroeks@gmail.com>
-References: <1357631895-9535-1-git-send-email-fransmeulenbroeks@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Jan 2013 09:28:45 +0000
-Message-ID: <CAJTo0LaMwJtHVdXyugtVPivvT8qNj1smq2fL5yzTw0wrSAv6TQ@mail.gmail.com>
-To: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-X-Gm-Message-State: ALoCoQmgM4DEKpgzWwxWENzkds0ZrnKuSiHQM4q+93Dc/6rBXv5y1LXpHHadqFqa82UyUffLJx85ic9sKdUvD4V44tFLHc7b8PV3MKJCiNKzCNBcilQ7EeKTnuCWpXEWO9lVE2nFYs7JrWmjGNAsvBkmzdqu4oxitDzHSC8jKR2VOlqUvSrKlu7SvkRWUX7yDDD7F2B0EqGL
-Cc: Frans Meulenbroeks <frans.meulenbroeks@axon.tv>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] inotify-tools: new recipe
+	Tue, 08 Jan 2013 11:06:19 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2013 01:50:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="243361680"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
+	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2013 01:51:03 -0800
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Jan 2013 11:54:17 +0200
+Message-Id: <1357638857-4888-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] byacc: updated to 20121003
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 09:44:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Jan 2013 10:06:21 -0000
 
-On 8 January 2013 07:58, Frans Meulenbroeks <fransmeulenbroeks@gmail.com> wrote:
-> This patch is provided as is, in the hope that is it useful for someone.
-> I have no plans to become the maintainer of this recipe or so.
->
-> I was not too sure if this is something for oe-core or better suited for meta-oe
-> The patch is against oe-core.
-> I've also decided to put it in recipes-extended.
->
-> If there is a better layer than oe-core or a better dir than recipes-extended feel free
-> to put it in a more appropriate location.
-> (and if you do not like it, feel free to ignore)
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../byacc/{byacc_20120526.bb => byacc_20121003.bb}              |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/byacc/{byacc_20120526.bb => byacc_20121003.bb} (73%)
 
-This should be in meta-oe, please re-submit a patch there.
+diff --git a/meta/recipes-extended/byacc/byacc_20120526.bb b/meta/recipes-extended/byacc/byacc_20121003.bb
+similarity index 73%
+rename from meta/recipes-extended/byacc/byacc_20120526.bb
+rename to meta/recipes-extended/byacc/byacc_20121003.bb
+index 3e83813..c3c8744 100644
+--- a/meta/recipes-extended/byacc/byacc_20120526.bb
++++ b/meta/recipes-extended/byacc/byacc_20121003.bb
+@@ -1,4 +1,4 @@
+-PR = "r1"
++PR = "r0"
+ 
+ # Sigh. This is one of those places where everyone licenses it differently. Someone
+ # even apply UCB to it (Free/Net/OpenBSD). The maintainer states that:
+@@ -9,5 +9,6 @@ LICENSE="PD"
+ LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=f186cf0d59bac042b75830396ec389a3"
+ require byacc.inc
+ 
+-SRC_URI[md5sum] = "d8a9959f784205092762eb29426bdf23"
+-SRC_URI[sha256sum] = "be05856b039bc9eb95a93cf89ac381de4fc6bb91d236c6b130e8b1daeb6075d6"
++SRC_URI[md5sum] = "26ba97e33a3bfaa311e2e5e1e078de55"
++SRC_URI[sha256sum] = "5afa4863550a7fc528e976cc33cc383bc0a9637ab95a6a594d2d5f6bf08dd1c5"
++
+-- 
+1.7.10.4
 
-Ross
 
 
