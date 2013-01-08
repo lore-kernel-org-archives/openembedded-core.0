@@ -1,22 +1,31 @@
-Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1TsWqj-000059-2u
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 11:56:05 +0100
-Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
-	[192.168.101.47])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 49A134005E;
-	Tue,  8 Jan 2013 11:02:50 +0100 (CET)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 11:40:33 +0100
-Message-Id: <1357641633-18077-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
-Subject: [PATCH] site/common: deactivate a runtime check for ipv6-support in python >=2.7.1 that fails when cross-compiling
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TsWwy-00018l-CD for openembedded-core@lists.openembedded.org;
+	Tue, 08 Jan 2013 12:02:38 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r08AlKC7020984;
+	Tue, 8 Jan 2013 10:47:20 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04100-09; Tue,  8 Jan 2013 10:47:15 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r08Al9d0020978
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Tue, 8 Jan 2013 10:47:10 GMT
+Message-ID: <1357642031.13022.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 08 Jan 2013 10:47:11 +0000
+In-Reply-To: <b26787f62090d0760758b854627e94de25d6ccca.1357640488.git.hongxu.jia@windriver.com>
+References: <cover.1357640488.git.hongxu.jia@windriver.com>
+	<b26787f62090d0760758b854627e94de25d6ccca.1357640488.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] apt-native: fix the creation of apt.conf.sample
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 10:56:09 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 11:02:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-In configure there is a runtime check to determine buggy getaddrinfo and as we
-are cross-compiling this check goes wrong. If ipv6 is enabled in python, the
-failed test is reported as fatal error with the message
-Fatal: You must get working getaddrinfo() function.
+On Tue, 2013-01-08 at 18:23 +0800, Hongxu Jia wrote:
+> The file of apt.conf.sample is kept in outdir, and outdir is assigned
+> by "os.path.join" with the params of ${D}, ${sysconfdir} and "apt". But
+> ${sysconfdir} is an absolute dir and that is not allowed by "os.path.join".
+> 
+> The following is the help on function os.path.join(a, *p):
+>      Join two or more pathname components, inserting '/' as needed.
+>      If any component is an absolute path, all previous path components
+>      will be discarded.
+> 
+> So remove "/" in ${sysconfdir} to create "apt.conf.sample" if it doesn't
+> exist, not by the existance of prefix dir.
 
-Setting ac_cv_buggy_getaddrinfo=no deactivates the runtime check and allows to
-compile python with ipv6 enabled.
+Use oe.path.join() instead which doesn't have this problem iirc.
 
-This commit was derived from the commit 700b75e7661062aa93cf81205b78c8bf7609922d
-in the Classic OpenEmbedded Development Tree.
+Cheers,
 
-Signed-off-by: Lukas Bulwahn <Lukas.Bulwahn@oss.bmw-carit.de>
----
- meta/site/common |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/site/common b/meta/site/common
-index 5da3ff4..1214a13 100644
---- a/meta/site/common
-+++ b/meta/site/common
-@@ -15,3 +15,5 @@ shadow_cv_utmpdir=${localstatedir}/run
- shadow_cv_logdir=${localstatedir}/log
- shadow_cv_passwd_dir=${bindir}
- 
-+# python: deactivate a runtime check for ipv6-support in python >=2.7.1 that fails when cross-compiling
-+ac_cv_buggy_getaddrinfo=no
--- 
-1.7.9.5
+Richard
 
 
 
