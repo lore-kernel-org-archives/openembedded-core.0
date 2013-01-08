@@ -1,20 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TsWJd-0007Q9-7m
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TsWa9-0007iC-AC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 11:21:54 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Jan 2013 02:06:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,430,1355126400"; d="scan'208";a="271224104"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2013 02:06:40 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Jan 2013 12:09:54 +0200
-Message-Id: <1357639794-23810-1-git-send-email-bogdan.a.marinescu@intel.com>
+	Tue, 08 Jan 2013 11:39:17 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r08ANk8U001575
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Jan 2013 02:23:46 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 8 Jan 2013 02:23:45 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 8 Jan 2013 18:23:42 +0800
+Message-ID: <b26787f62090d0760758b854627e94de25d6ccca.1357640488.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] lsof: updated to 4.87
+In-Reply-To: <cover.1357640488.git.hongxu.jia@windriver.com>
+References: <cover.1357640488.git.hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] apt-native: fix the creation of apt.conf.sample
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,32 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 10:21:55 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 10:39:21 -0000
+X-List-Received-Date: Tue, 08 Jan 2013 10:39:21 -0000
+Content-Type: text/plain
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+The file of apt.conf.sample is kept in outdir, and outdir is assigned
+by "os.path.join" with the params of ${D}, ${sysconfdir} and "apt". But
+${sysconfdir} is an absolute dir and that is not allowed by "os.path.join".
+
+The following is the help on function os.path.join(a, *p):
+     Join two or more pathname components, inserting '/' as needed.
+     If any component is an absolute path, all previous path components
+     will be discarded.
+
+So remove "/" in ${sysconfdir} to create "apt.conf.sample" if it doesn't
+exist, not by the existance of prefix dir.
+
+[YOCTO #3677]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/lsof/{lsof_4.86.bb => lsof_4.87.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/lsof/{lsof_4.86.bb => lsof_4.87.bb} (91%)
+ meta/recipes-devtools/apt/apt-native.inc |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.86.bb b/meta/recipes-extended/lsof/lsof_4.87.bb
-similarity index 91%
-rename from meta/recipes-extended/lsof/lsof_4.86.bb
-rename to meta/recipes-extended/lsof/lsof_4.87.bb
-index e3f5ef3..2f425aa 100644
---- a/meta/recipes-extended/lsof/lsof_4.86.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.87.bb
-@@ -7,8 +7,8 @@ PR = "r0"
+diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
+index ab89f71..ae03f6e 100644
+--- a/meta/recipes-devtools/apt/apt-native.inc
++++ b/meta/recipes-devtools/apt/apt-native.inc
+@@ -20,11 +20,13 @@ python do_install_config () {
  
- SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
+     data = d.expand(data)
  
--SRC_URI[md5sum] = "9f1cda41f35add068c7b81f873fa56b5"
--SRC_URI[sha256sum] = "13e52b8e87dddf1b2e219004e315d755c659217ce6ffc6a5f1102969f1c4dd0c"
-+SRC_URI[md5sum] = "80e2a76d0e05826db910ec88e631296c"
-+SRC_URI[sha256sum] = "dfdd3709d82bc79ccdf3e404b84aafa9aede5948642a824ecaefd0aac589da2c"
+-    outdir = os.path.join(d.getVar('D', True), d.getVar('sysconfdir', True), 'apt')
++    # os.path.join does not allow sysconfdir to be a absolute dir
++    outdir = os.path.join(d.getVar('D', True), d.getVar('sysconfdir', True)[1:], 'apt')
+     if not os.path.exists(outdir):
+         os.makedirs(outdir)
+-        outpath = os.path.join(outdir, 'apt.conf.sample')
  
- LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
- S = "${WORKDIR}/lsof_${PV}_src"
++    outpath = os.path.join(outdir, 'apt.conf.sample')
++    if not os.path.exists(outpath):
+         outfile = file(outpath, 'w')
+         outfile.write(data)
+         outfile.close()
 -- 
 1.7.10.4
 
