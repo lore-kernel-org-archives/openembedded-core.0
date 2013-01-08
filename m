@@ -1,35 +1,44 @@
-Received: from mail-ia0-f175.google.com ([209.85.210.175])
+Received: from mail-pa0-f53.google.com ([209.85.220.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Tsgl4-000328-QH
+	(envelope-from <sgw@bigsur.com>) id 1Tsi5M-0004lA-5e
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 22:30:55 +0100
-Received: by mail-ia0-f175.google.com with SMTP id 21so678087iay.34
+	Tue, 08 Jan 2013 23:55:57 +0100
+Received: by mail-pa0-f53.google.com with SMTP id hz1so609824pad.26
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 13:15:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=8YTypkHWbJOAMy4GgT49fb4hPYq0EEak3QVjv1ZMnPU=;
-	b=rL0DJJD0b3eu4HHshOEgXwqAjFOA5nRmN0jcgl59p+fr9JuFRuMFQAM08dKyVV8Un3
-	45YgrCERC3I24vddu1HfXfcw1uYuLKksMAscqtWT/QDVHi7gBySTeV44pRpykIUcPaND
-	+c8CI3yCaw5trM7kJhMJ6FoJjBAhWdrvurvbiyBm+naPhnH/3cENawSP8aTHZXzshZyT
-	Ma6BTHEDqxNR3uHth71i/K+BXXQg8wD9gpsTBnqcloTKh9/h7vkFB8NeattS0O+ar2dr
-	ao/nteigSqfOKpIJsDYn2PQAvv9c5sbXRK8sR14R0yynTqslYEQolmkEOz2YqItPS8Oa
-	M+yQ==
-MIME-Version: 1.0
-X-Received: by 10.50.163.104 with SMTP id yh8mr10418314igb.112.1357679743095; 
-	Tue, 08 Jan 2013 13:15:43 -0800 (PST)
-Received: by 10.64.19.8 with HTTP; Tue, 8 Jan 2013 13:15:43 -0800 (PST)
-In-Reply-To: <70CC66F5C30A414DADDA6973E4CA391A81A7F6@039-SN1MPN1-002.039d.mgd.msft.net>
-References: <201301081756.r08Huv1l013540@ibapah.eng.bsdi.com>
-	<70CC66F5C30A414DADDA6973E4CA391A81A7F6@039-SN1MPN1-002.039d.mgd.msft.net>
-Date: Tue, 8 Jan 2013 13:15:43 -0800
-Message-ID: <CAMKF1sovNdz+GNrZjwj=UjJFdwj=3xO00gwVAo=d2zvjo20ruA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: anyone interested in CentOS 5 fixes for dpkg-native?
+	Tue, 08 Jan 2013 14:40:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bigsur.com; s=bigsur.com;
+	h=x-received:sender:from:to:subject:date:message-id:x-mailer;
+	bh=/Ecr3RK9Rw+6mIahOFq3NPzmKHVwPiE8a5SQ6zx5SXY=;
+	b=czssezzjcYF1oqJnE0xxPB+a2br4GprAAozHnwFG/R1j7lqcaOddBZPNRVDGt4k2qi
+	aF8GBt4FxF6ZU+T2xn8kG10lqHjGtQgY5+UUz1ksJxVNbPXkv6F9p87EUFyfJw2GBvTj
+	wyCt58rq+HDwJcd6AYXLEkXwV8gs6D7hodcu8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:sender:from:to:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=/Ecr3RK9Rw+6mIahOFq3NPzmKHVwPiE8a5SQ6zx5SXY=;
+	b=jpEG3R2sjs4Y7yPG1Q3K6Lzit/TRm3cS5KdmIKxX+/93F9sZm5P3UFOcUZmUOB/XqH
+	oFKj057LHjFFo7f9o49zsJOmii4MNO0vo0yUFkaq+ISRrwD1qYSKkpKVFZM0NK4qMBbJ
+	sM7oBVz0/Ez8tiSvQt2zSyA5yZgtgSHBKrUQFU9vURdFBcoKdKBE2orvsoZ3RE0fqSvC
+	iKgqvgDRm97rsAl03Li1UvuyJagkUSYXucEPIyUzOa9YPgW8lM/jkDHdVP8fg27Ewriv
+	fQ83tPRVrSfrVbHf/LIulN5+UhoYw8ZbbdCFElh0fnjzoXtQ2z8c9yHyvwkA+u7YbF1h
+	p2Iw==
+X-Received: by 10.68.242.41 with SMTP id wn9mr58655115pbc.142.1357684844353;
+	Tue, 08 Jan 2013 14:40:44 -0800 (PST)
+Received: from localhost (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117]) by mx.google.com with ESMTPS id
+	mt15sm40331047pbc.49.2013.01.08.14.40.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 08 Jan 2013 14:40:42 -0800 (PST)
+Sender: Saul Wold <sgw@bigsur.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Jan 2013 14:39:50 -0800
+Message-Id: <1357684790-1477-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQl4NY/9HoxnCqjyHSv69CIn7zqBVgdIrTNzI6Spt7gSWP87wBGg+NZbY6IHzlY07MrgmJjd
+Subject: [PATCH] bash: fix mkbuiltins build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,66 +51,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 21:30:58 -0000
-Content-Type: multipart/alternative; boundary=e89a8f646c97ce54ae04d2cd725d
+X-List-Received-Date: Tue, 08 Jan 2013 22:56:01 -0000
 
---e89a8f646c97ce54ae04d2cd725d
-Content-Type: text/plain; charset=UTF-8
+Same patch for non-gplv3 version:
 
-On Tuesday, January 8, 2013, McClintock Matthew-B29882 <B29882@freescale.com>
-wrote:
-> On Tue, Jan 8, 2013 at 11:56 AM, Donn Seeley <donn.seeley@windriver.com>
-wrote:
->> We recently tried to build using 'PACKAGE_CLASSES = package_deb' and
->> found that our ancient CentOS 5 build VMs couldn't compile and link
->> dpkg-native.  (We support CentOS 5 for very conservative customers, so
->> we run test builds with it regularly.)
->>
->> Given that package_deb isn't used frequently and that CentOS 5 is so
->> old, I thought that I would ask first before submitting fixes for that
->> configuration.  Do we want the patches in oe-core?
->
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=1fd9a16d2a4594a4e9179dc7353ac51ce32eb712
 
-Second patch is fine first patch should be made gcc version dependent and
-not disable the warning unconditionally
+[YOCTO #3646]
 
-> I vote yes, additionally these patches don't look too complex or
-intrusive.
->
-> -M
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../bash-3.2.48/mkbuiltins_have_stringize.patch    |   29 ++++++++++++++++++++
+ meta/recipes-extended/bash/bash_3.2.48.bb          |    4 ++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/mkbuiltins_have_stringize.patch
 
---e89a8f646c97ce54ae04d2cd725d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-extended/bash/bash-3.2.48/mkbuiltins_have_stringize.patch b/meta/recipes-extended/bash/bash-3.2.48/mkbuiltins_have_stringize.patch
+new file mode 100644
+index 0000000..c4229a7
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash-3.2.48/mkbuiltins_have_stringize.patch
+@@ -0,0 +1,29 @@
++On hosts with FORTIFY_SOURCES, stringize support is required, as it's used by
++the macros to wrap functions (e.g. read and open in unistd.h). Those wrappers
++use the STRING() macro from unistd.h. A header in the bash sources overrides
++the unistd.h macro to 'x' when HAVE_STRINGIZE is not defined, causing the
++wrappers to generate calls to 'xread' and 'xopen', which do not exist,
++resulting in a failure to link.
++
++Assume we have stringize support when cross-compiling, which works around the
++issue.
++
++It may be best for upstream to either give up on supporting compilers without
++stringize support, or to not define STRING() at all when FORTIFY_SOURCES is
++defined, letting the unistd.h one be used, instead.
++
++Upstream-Status: Pending
++
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++--- bash-4.2.orig/builtins/mkbuiltins.c
+++++ bash-4.2/builtins/mkbuiltins.c
++@@ -28,6 +28,7 @@
++ #  define HAVE_STDLIB_H
++
++ #  define HAVE_RENAME
+++#  define HAVE_STRINGIZE
++ #endif /* CROSS_COMPILING */
++
++ #if defined (HAVE_UNISTD_H)
+diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+index 828d629..4e6f0f3 100644
+--- a/meta/recipes-extended/bash/bash_3.2.48.bb
++++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+@@ -8,7 +8,9 @@ PR = "r11"
+ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-049;apply=yes;striplevel=0;name=patch001 \
+            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-050;apply=yes;striplevel=0;name=patch002 \
+-           ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-051;apply=yes;striplevel=0;name=patch003"
++           ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-051;apply=yes;striplevel=0;name=patch003 \
++           file://mkbuiltins_have_stringize.patch \
++          "
+ 
+ SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
+ SRC_URI[tarball.sha256sum] = "128d281bd5682ba5f6953122915da71976357d7a76490d266c9173b1d0426348"
+-- 
+1.7.9.5
 
-<br><br>On Tuesday, January 8, 2013, McClintock Matthew-B29882 &lt;<a href=
-=3D"mailto:B29882@freescale.com">B29882@freescale.com</a>&gt; wrote:<br>&gt=
-; On Tue, Jan 8, 2013 at 11:56 AM, Donn Seeley &lt;<a href=3D"mailto:donn.s=
-eeley@windriver.com">donn.seeley@windriver.com</a>&gt; wrote:<br>
-&gt;&gt; We recently tried to build using &#39;PACKAGE_CLASSES =3D package_=
-deb&#39; and<br>&gt;&gt; found that our ancient CentOS 5 build VMs couldn&#=
-39;t compile and link<br>&gt;&gt; dpkg-native. =C2=A0(We support CentOS 5 f=
-or very conservative customers, so<br>
-&gt;&gt; we run test builds with it regularly.)<br>&gt;&gt;<br>&gt;&gt; Giv=
-en that package_deb isn&#39;t used frequently and that CentOS 5 is so<br>&g=
-t;&gt; old, I thought that I would ask first before submitting fixes for th=
-at<br>
-&gt;&gt; configuration. =C2=A0Do we want the patches in oe-core?<br>&gt;<br=
-><br>Second patch is fine first patch should be made gcc version dependent =
-and not disable the warning unconditionally<br><br>&gt; I vote yes, additio=
-nally these patches don&#39;t look too complex or intrusive.<br>
-&gt;<br>&gt; -M<br>&gt;<br>&gt; ___________________________________________=
-____<br>&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Opene=
-mbedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.o=
-rg</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde=
-d-core</a><br>&gt;
 
---e89a8f646c97ce54ae04d2cd725d--
+
