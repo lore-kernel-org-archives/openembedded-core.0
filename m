@@ -1,37 +1,35 @@
-Received: from mail-ob0-f178.google.com ([209.85.214.178])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1TsbtG-00044q-3A
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Tsbvt-0004DN-O5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Jan 2013 17:19:13 +0100
-Received: by mail-ob0-f178.google.com with SMTP id eh20so575858obb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Jan 2013 08:03:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=UwIjCtce+ht6qCxcpcH8Uh2r+2IvuQuqY+1PXT5khWM=;
-	b=iKkgSCfZXYpJLyU8e/nDN+s70/pR0pJzxSQ4kbsOhWnW1rdcRGBIIT0ORwOj7b8TKL
-	1CcESyPeW7E+tJiGByp/dM9k0OVH39emPX+mlIVSfNYGHhKrdcjJRXbTtslv6+09AB+5
-	HGwXkZoFOYPNAT5NvVewM9woEexj1gRfM8fI+rhgz+FL8wnwZ6H7gBbREN7SH/cOEOxv
-	4HqvhdkxD36A6axRv8TkJbd48iy2UbBnRLQd2BQU67Pt17lTA0yI+Wvl5qerxvQYzKlr
-	MvnhKgfZeJPHmdVTT+mHs0YT/wtck60JfGqfOMPgcs97PNStRTPfVW2+MMJSMQ0uCO+u
-	8xEQ==
+	Tue, 08 Jan 2013 17:21:48 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r08G6Wj7012523
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 8 Jan 2013 17:06:33 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Tsbh9-0002xw-W6; Tue, 08 Jan 2013 17:06:32 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1357658627-31689-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 08 Jan 2013 17:06:31 +0100
+In-Reply-To: <1357658627-31689-1-git-send-email-ross.burton@intel.com> (Ross
+	Burton's message of "Tue, 8 Jan 2013 15:23:47 +0000")
+Message-ID: <lyd2xfmzg8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.60.171.201 with SMTP id aw9mr35926651oec.126.1357661030839;
-	Tue, 08 Jan 2013 08:03:50 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.219.130 with HTTP; Tue, 8 Jan 2013 08:03:50 -0800 (PST)
-In-Reply-To: <1357660547-19803-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1357660547-19803-1-git-send-email-muhammad_shakeel@mentor.com>
-Date: Tue, 8 Jan 2013 14:03:50 -0200
-X-Google-Sender-Auth: fy4Irim8QPeLvKTphI9mB6F5UrA
-Message-ID: <CAP9ODKqce52z7FKg2frjMwUEkRzsWRGJ78HQwTatiXR09FugQQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] archive-*-source.bbclass: Use tasks instead of pre/post functions
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] pkgconfig: add -native script that uses the native sysroot instead of target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2013 16:19:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 08 Jan 2013 16:21:49 -0000
+Content-Type: text/plain
 
-On Tue, Jan 8, 2013 at 1:55 PM, Shakeel, Muhammad
-<muhammad_shakeel@mentor.com> wrote:
-> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
->
-> * Modified following archiver related classes to add separate tasks
->   for different archiver functions instead of adding these as pre/post
->   functions of existing tasks.
->     -archive-original-source.bbclass
->     -archive-patched-source.bbclass
->     -archive-configured-source.bbclass
->
-> [YOCTO #3449]
->
-> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-This can be dropped as it will be changed again in 3/3. Right?
+> pkg-config-native is useful when building a package for the target that needs to
+> compile a build-time tool, to avoid having to hard-code many paths.
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+how will you call this wrapper when e.g. makefile contains:
+
+| foo_CFLAGS = $(shell pkg-config --cflags foo)
+
+? 
+
+A more powerful approach might be to install it as 'pkg-config' under
+${STAGING_BINDIR_NATIVE}/pkg-config-native/ and prepend this dir to
+$PATH when executing the makefile above.
+
+
+> --- /dev/null
+> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+> @@ -0,0 +1,7 @@
+> +#! /bin/sh
+> +
+> +PKG_CONFIG_PATH="@PATH_NATIVE@"
+> +PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
+> +unset PKG_CONFIG_SYSROOT_DIR
+> +
+> +pkg-config "$@"
+
+1. last 'pkg-config' should be called with 'exec'
+
+2. it depends on too much assumptions (e.g. that PKG_CONFIG_PATH and
+   _LIBDIR are already exported.
+
+I would write it:
+
+| #! /bin/sh
+| exec env -u PKG_CONFIG_SYSROOT_DIR \
+|    PKG_CONFIG_PATH="@PATH_NATIVE@" \
+|    PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@" \
+|    pkg-config "$@"
+
+
+Enrico
 
 
