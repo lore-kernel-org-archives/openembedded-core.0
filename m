@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1TsrkU-0002EU-QO
+	(envelope-from <ddalex@intel.com>) id 1TsrpJ-0002Rt-Aj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 10:15:08 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 09 Jan 2013 00:59:48 -0800
+	Wed, 09 Jan 2013 10:20:07 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jan 2013 01:04:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,436,1355126400"; d="scan'208";a="189196809"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 09 Jan 2013 00:59:47 -0800
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 11:00:23 +0200
-Message-Id: <441976458177570ed317fb6a8687c8eab8667cf8.1357721541.git.constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1357721541.git.constantinx.musca@intel.com>
-References: <cover.1357721541.git.constantinx.musca@intel.com>
-In-Reply-To: <cover.1357721541.git.constantinx.musca@intel.com>
-References: <cover.1357721541.git.constantinx.musca@intel.com>
-Subject: [PATCH 2/3] gcc: remove the 64bithack patch
+X-IronPort-AV: E=Sophos;i="4.84,436,1355126400"; d="scan'208";a="271676543"
+Received: from adamian-desktop.rb.intel.com ([10.237.105.141])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2013 01:04:47 -0800
+Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
+	id AF98C5606EB; Wed,  9 Jan 2013 11:05:21 +0200 (EET)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, ross.burton@intel.com
+Date: Wed,  9 Jan 2013 11:05:19 +0200
+Message-Id: <1357722319-430-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH] Git ignore pull requests and built manuals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,98 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 09:15:11 -0000
+X-List-Received-Date: Wed, 09 Jan 2013 09:20:08 -0000
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
+
+We ignore the in-tree built manuals, and
+the in-tree pull requests.
 ---
- meta/recipes-devtools/gcc/gcc-4.7.inc             |  1 -
- meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch | 63 -----------------------
- 2 files changed, 64 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
+ .gitignore |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 08a0103..2fad764 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -50,7 +50,6 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
-            file://gcc-poison-system-directories.patch \
-            file://gcc-poison-dir-extend.patch \
-            file://gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
--	   file://64bithack.patch \
- 	   file://optional_libstdc.patch \
- 	   file://disable_relax_pic_calls_flag.patch \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch b/meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
-deleted file mode 100644
-index f475669..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--GCC has internal multilib handling code but it assumes a very specific rigid directory
--layout. The build system implementation of multilib layout is very generic and allows
--complete customisation of the library directories.
--
--This patch is a partial solution to allow any custom directories to be passed into gcc
--and handled correctly. It forces gcc to use the base_libdir (which is the current 
--directory, "."). We need to do this for each multilib that is configured as we don't
--know which compiler options may be being passed into the compiler. Since we have a compiler
--per mulitlib at this point that isn't an issue.
--
--The one problem is the target compiler is only going to work for the default multlilib at
--this point. Ideally we'd figure out which multilibs were being enabled with which paths
--and be able to patch these entries with a complete set of correct paths but this we
--don't have such code at this point. This is something the target gcc recipe should do 
--and override these platform defaults in its build config.
--
--RP 15/8/11
--
--Index: trunk/gcc/config/i386/t-linux64
--===================================================================
----- trunk.orig/gcc/config/i386/t-linux64	2012-02-22 09:44:48.000000000 -0800
--+++ trunk/gcc/config/i386/t-linux64	2012-02-22 12:31:01.836462957 -0800
--@@ -33,7 +33,6 @@
-- #
-- comma=,
-- MULTILIB_OPTIONS    = $(subst $(comma),/,$(TM_MULTILIB_CONFIG))
---MULTILIB_DIRNAMES   = $(patsubst m%, %, $(subst /, ,$(MULTILIB_OPTIONS)))
---MULTILIB_OSDIRNAMES = m64=../lib64
---MULTILIB_OSDIRNAMES+= m32=$(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)
---MULTILIB_OSDIRNAMES+= mx32=../libx32
--+MULTILIB_DIRNAMES = . .
--+MULTILIB_OSDIRNAMES = ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
--+
--Index: trunk/gcc/config/mips/t-linux64
--===================================================================
----- trunk.orig/gcc/config/mips/t-linux64	2012-02-22 09:44:58.000000000 -0800
--+++ trunk/gcc/config/mips/t-linux64	2012-02-22 12:32:01.132465823 -0800
--@@ -17,5 +17,5 @@
-- # <http://www.gnu.org/licenses/>.
-- 
-- MULTILIB_OPTIONS = mabi=n32/mabi=32/mabi=64
---MULTILIB_DIRNAMES = n32 32 64
---MULTILIB_OSDIRNAMES = ../lib32 ../lib ../lib64
--+MULTILIB_DIRNAMES = . . .
--+MULTILIB_OSDIRNAMES = ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
--Index: trunk/gcc/config/rs6000/t-linux64
--===================================================================
----- trunk.orig/gcc/config/rs6000/t-linux64	2012-02-22 09:44:54.000000000 -0800
--+++ trunk/gcc/config/rs6000/t-linux64	2012-02-22 12:28:17.960454968 -0800
--@@ -27,9 +27,9 @@
-- # MULTILIB_OSDIRNAMES according to what is found on the target.
-- 
-- MULTILIB_OPTIONS        = m64/m32 msoft-float
---MULTILIB_DIRNAMES       = 64 32 nof
--+MULTILIB_DIRNAMES       = . . .
-- MULTILIB_EXTRA_OPTS     = fPIC mstrict-align
-- MULTILIB_EXCEPTIONS     = m64/msoft-float
-- MULTILIB_EXCLUSIONS     = m64/!m32/msoft-float
---MULTILIB_OSDIRNAMES	= ../lib64 $(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib) nof
--+MULTILIB_OSDIRNAMES	= ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir)) ../$(shell basename $(base_libdir))
-- MULTILIB_MATCHES        = $(MULTILIB_MATCHES_FLOAT)
+diff --git a/.gitignore b/.gitignore
+index d99a409..43f7688 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -16,3 +16,8 @@ hob-image-*.bb
+ *~
+ !meta-yocto
+ !meta-yocto-bsp
++bitbake/doc/manual/html/
++bitbake/doc/manual/pdf/
++bitbake/doc/manual/txt/
++bitbake/doc/manual/xhtml/
++pull-*/
 -- 
-1.7.11.7
+1.7.10.4
 
 
 
