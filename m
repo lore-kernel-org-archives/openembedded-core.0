@@ -1,33 +1,45 @@
-Received: from mail-ie0-f173.google.com ([209.85.223.173])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Tt1eb-0005zp-UH
+	(envelope-from <ross.burton@intel.com>) id 1Tt1fY-00063X-HB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 20:49:39 +0100
-Received: by mail-ie0-f173.google.com with SMTP id e13so2590141iej.32
+	Wed, 09 Jan 2013 20:50:38 +0100
+Received: from mail-ea0-f200.google.com ([209.85.215.200])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 11:35:22 -0800
+Received: by mail-ea0-f200.google.com with SMTP id j13so1824889eaa.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 11:34:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=e54S65GUOx6bsxmR6EukZeXavKUu7Gzjr7wsH1uNAYs=;
-	b=PkmLw7RlY/EON5fTqrAvOoZ+Yg32LZocTaCfU6TijfOyboxHg+0J7//QeQ7Kgnraq1
-	pJ7tWFeNRyJnqGYA4oI49vpE1yUPYJnYSnBi+7sBQaya2pgwXJ2YcqH0YeFTxYwflbe2
-	lB9oNBBYceMKZuJCK4rPRAABhI4tjMZZa7jCVITapoNdGHM3XhS/XwfTHZk1+AuotGEC
-	PjrnGTMcqNzKz3IAAaSA0FCg5im4BQD/9J6981xN5iZevf3fgM53DtjsoVzerhdhTSKZ
-	pcMJIQgvBVHA95BoFdYBohsKbOUPgM7cCkR45w5wzcearSS1DWBPlq4fKU0fpw05NQKv
-	2X2g==
-Received: by 10.50.179.71 with SMTP id de7mr2721589igc.84.1357760065003; Wed,
-	09 Jan 2013 11:34:25 -0800 (PST)
+	Wed, 09 Jan 2013 11:35:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=gGbi2fC3+QnOrhMMlkJ0Ge20BInnfEJSUi+t2c/5pYk=;
+	b=RVFUS1gyq2OxKZubRe6QP+MMNaOez3/bQEq1O54T1NyikwF+Ir94BAxnjwhFgwfRrW
+	q07pOr0YRHzAewWM+l61jsC882yBU737ImOLvga7z6ifkTZdYLLJJbR0Y49XVIfuCB63
+	bZg0IbuB8cwSvcg0HK0Kgu8ei7gGaLJNDJO869ECp1zxEtsnmMHKn1PCGFODUqVfyEQp
+	a4vpNMR1RPkV4tCWQ+A1sO6ZXfQuLKXagMQEm0wq37sq/yKNcH6Wmn35Yt6/h3/aZxtY
+	wJJ/KfKav46Fja/KP2uU8WeWw0ErLQh0xzX18Zw5zPJBXu77kwTvljGO+h8fGrLOhMKS
+	I43w==
+X-Received: by 10.194.89.167 with SMTP id bp7mr109563880wjb.0.1357760121151;
+	Wed, 09 Jan 2013 11:35:21 -0800 (PST)
+X-Received: by 10.194.89.167 with SMTP id bp7mr109563867wjb.0.1357760121022;
+	Wed, 09 Jan 2013 11:35:21 -0800 (PST)
+Received: from [192.168.1.7] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dm3sm5210733wib.9.2013.01.09.11.35.19
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Wed, 09 Jan 2013 11:35:19 -0800 (PST)
+Date: Wed, 9 Jan 2013 19:35:24 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: =?utf-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+Message-ID: <89ACB277BC7047D58E19B3BA98CE24F0@intel.com>
+In-Reply-To: <CAEYzJUHQ8c4NDErbcjNyRLKg3NfENUrFo6JO1xdL71dZsXyzrA@mail.gmail.com>
+References: <alpine.DEB.2.02.1301090752510.25391@oneiric>
+	<CAEYzJUHQ8c4NDErbcjNyRLKg3NfENUrFo6JO1xdL71dZsXyzrA@mail.gmail.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
 MIME-Version: 1.0
-Received: by 10.64.19.8 with HTTP; Wed, 9 Jan 2013 11:33:54 -0800 (PST)
-In-Reply-To: <1357754185-17000-1-git-send-email-sgw@linux.intel.com>
-References: <1357754185-17000-1-git-send-email-sgw@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Jan 2013 11:33:54 -0800
-Message-ID: <CAMKF1sqCcBzze_rt5dQAu+Zpy=5y+7nsRmE0dsEznq3BfE8Lcg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] valgrind: update configure for eglibc 2.17
+X-Gm-Message-State: ALoCoQkedqvfNisyaIjdkAhYhQS+FxRxYASk3og5EfdwDauczEbB1RhOSPPDxNq05a0GC0iKHmfHTIeaMHrXGJMYYv6QVYTAIe/m4SFRDkVjGZrC93/vesuqYxtSLyEehk2YHK7O7F6WzBL3DS7xubaQx0eCxnPGeEJxdbRF6RNoIMCosu+u0sf21sabp/c8+igVVeIM/l0A
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: for a quad-core machine, shouldn't parallelism be set to 8?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,100 +52,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 19:49:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 Jan 2013 19:50:38 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-Acked-by: Khem Raj <raj.khem@gmail.com>
+On Wednesday, 9 January 2013 at 18:42, Bj=C3=B8rn =46orsman wrote:
+> > =23 =46or a quad-core machine, BB=5FNUMBER=5FTHREADS =3D =224=22, PAR=
+ALLEL=5FMAKE =3D =22-j 4=22 would
+> > =23 be appropriate for example.
+> > =20
+> > i thought the general rule was that parallelism should be *twice*
+> > the number of cores. that's certainly what's suggested in the yocto
+> > QS guide:
+> =20
+> =20
+> =20
+> Some time ago I wrote a script to build the linux kernel 3 times at
+> each -jN level from 1 to 50. Then I averaged the build time on each
+> -jN level. I got the fastest build with -jNCPUS. Going above NCPUS
+> just added overhead, although very little. The overhead seemed to
+> build up quite linearly from above -jNCPUS. Because the overhead is so
+> little, having -jNCPUS*2 may not be noticeably slower than -jNCPUS.
+> =20
+> I ran the same benchmark another machine and it showed the same trend
+> curve. Note that NCPUS must include the hyperthread cores.
 
-On Wed, Jan 9, 2013 at 9:56 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> Tested with both eglibc 2.16 and 2.17
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  ...ibc-2.16.patch => configure-with-newer-glibc.patch} | 18 +++++++++++++-----
->  meta/recipes-devtools/valgrind/valgrind_3.7.0.bb       |  4 ++--
->  2 files changed, 15 insertions(+), 7 deletions(-)
->  rename meta/recipes-devtools/valgrind/valgrind-3.7.0/{configure-with-glibc-2.16.patch => configure-with-newer-glibc.patch} (62%)
->
-> diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
-> similarity index 62%
-> rename from meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
-> rename to meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
-> index c622637..b369de8 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
-> +++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
-> @@ -1,13 +1,14 @@
->  Add case for glibc 2.16 and correct error message to denote support until 2.16
->
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
->  Upstream-Status: Pending
->  Index: valgrind-3.7.0/configure.in
->  ===================================================================
-> ---- valgrind-3.7.0.orig/configure.in   2012-07-04 12:57:10.557192441 -0700
-> -+++ valgrind-3.7.0/configure.in        2012-07-04 12:57:58.785194776 -0700
-> -@@ -788,6 +788,13 @@
-> +--- valgrind-3.7.0.orig/configure.in
-> ++++ valgrind-3.7.0/configure.in
-> +@@ -788,6 +788,20 @@ case "${GLIBC_VERSION}" in
->         DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
->         DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
->         ;;
-> @@ -18,15 +19,22 @@ Index: valgrind-3.7.0/configure.in
->  +      DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
->  +      DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
->  +      ;;
-> ++     2.17)
-> ++      AC_MSG_RESULT(2.17 family)
-> ++      AC_DEFINE([GLIBC_2_17], 1, [Define to 1 if you're using glibc 2.17.x])
-> ++      DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-> ++      DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-> ++      DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-> ++      ;;
->        darwin)
->         AC_MSG_RESULT(Darwin)
->         AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
-> -@@ -801,7 +808,7 @@
-> +@@ -801,7 +815,7 @@ case "${GLIBC_VERSION}" in
->
->        *)
->         AC_MSG_RESULT([unsupported version ${GLIBC_VERSION}])
->  -      AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.14])
-> -+      AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.16])
-> ++      AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.17])
->         AC_MSG_ERROR([or Darwin libc])
->         ;;
->   esac
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-> index 3def11d..0bf6ef4 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
->
->  X11DEPENDS = "virtual/libx11"
->  DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
-> -PR = "r7"
-> +PR = "r8"
->
->  SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->            file://fix_issue_caused_by_ccache.patch \
-> @@ -18,7 +18,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->             file://fix_for_automake_1.11.2.patch \
->             file://configure-fix.patch \
->             file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
-> -           file://configure-with-glibc-2.16.patch \
-> +           file://configure-with-newer-glibc.patch \
->            "
->
->  SRC_URI_append_powerpc = " file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
-> --
-> 1.8.0.2
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Of course if you set BB=5FNUM=5FTHREADS and PARALLEL=5FMAKE to NCPUS, the=
+n you're actually potentially running NCPUS*NCPUS compile threads.  I'm n=
+ot convinced that NCPUS*2 is useful with that considered.
+
+Ross
 
 
