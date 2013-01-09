@@ -1,24 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TstqV-00067M-DZ
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TsuEn-0006ah-4H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 12:29:24 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2013 03:14:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,436,1355126400"; d="scan'208";a="243948482"
-Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2013 03:14:09 -0800
-Message-ID: <50ED5100.7050508@intel.com>
-Date: Wed, 09 Jan 2013 13:14:08 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Wed, 09 Jan 2013 12:54:32 +0100
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 3DBD2D22E9; Wed,  9 Jan 2013 12:39:17 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
+	[87.206.60.225])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 8C405D22CD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Jan 2013 12:38:45 +0100 (CET)
+Message-ID: <50ED56C1.60809@linaro.org>
+Date: Wed, 09 Jan 2013 12:38:41 +0100
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>
-References: <1356009340-15874-1-git-send-email-laurentiu.palcu@intel.com>
-In-Reply-To: <1356009340-15874-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: Re: [PATCH v2 0/3] have input method modules cached at do-rootfs time
+To: openembedded-core@lists.openembedded.org
+References: <cover.1357343832.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1357343832.git.raj.khem@gmail.com>
+Subject: Re: [RFC][PATCH 0/4] eglibc 2.17 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,43 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 11:29:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 09 Jan 2013 11:54:34 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Saul,
+W dniu 05.01.2013 01:00, Khem Raj pisze:
+> I would like folks to try and test this upgrade. I have tested it on angstrom/systemd-image
+> booted on all supported qemu images.
+> 
+> This is however now the final set since I have to put the 2.17 tars on
+> downloads location
+> 
+> Please try it out in your configurations and let me know if you find issues.
 
-Any reason for not merging this patchset?
+bitbake meta-toolchain fails:
 
-Thanks,
-Laurentiu
-
-On 12/20/2012 03:15 PM, Laurentiu Palcu wrote:
-> changes in v2:
->  * added a new qemu.bbclass function that will return a string containing the
->    command line needed to run a target binary through qemu at postinstall time;
->  * use 'readelf -l' instead of 'readelf -a' for retrieving the dynamic loader
->    path;
-> 
-> from v1:
-> Hi
-> 
-> This patchset will change the postinstall routine in gtk-immodules-cache.bbclass,
-> so it can run at do_rootfs time, and changes matchbox-keyboard recipe to use
-> the class.
-> 
-> Thanks,
-> Laurentiu
-> 
-> Laurentiu Palcu (3):
->   qemu.bbclass: add qemu_run_binary() function
->   gtk-immodules-cache.bbclass: allow for offline cache generation
->   matchbox-keyboard: use the gtk-immodules-cache.bbclass
-> 
->  meta/classes/gtk-immodules-cache.bbclass           |   17 ++++++++++++++++-
->  meta/classes/qemu.bbclass                          |   17 +++++++++++++++++
->  .../matchbox-keyboard/matchbox-keyboard_git.bb     |   18 ++----------------
->  3 files changed, 35 insertions(+), 17 deletions(-)
-> 
+Applying patch ld-search-order.patch
+patching file elf/dl-load.c
+Hunk #1 FAILED at 2107.
+Hunk #2 succeeded at 2283 with fuzz 2 (offset 114 lines).
+1 out of 2 hunks FAILED -- rejects in file elf/dl-load.c
+Patch ld-search-order.patch does not apply (enforce with -f)
+ERROR: Function failed: patch_do_patch
 
 
