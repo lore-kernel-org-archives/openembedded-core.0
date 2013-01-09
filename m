@@ -1,43 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tsz5f-00087Q-Pq
+	(envelope-from <sgw@linux.intel.com>) id 1Tsz6g-00089f-Vs
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 18:05:34 +0100
-Received: from mail-fa0-f69.google.com ([209.85.161.69])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 08:49:07 -0800
-Received: by mail-fa0-f69.google.com with SMTP id v1so1882447fav.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 08:50:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=CRxUGBfTkH7M+utFfHtNgRb2vxDtMsfwwveVxWect6I=;
-	b=BjNI2jsnAgoXPHqgGtxx72f7YKZnIlkWHgGMGNtIT4rVQpL5ceTRiHj4kRa/ZHOt0m
-	MG+k+wCYhkxP8uNmz7EjrmJmreQaku5LoUZ6jU4SoKhcd52GmrCR0sHvWGnEdVOSZxqJ
-	54KFwUoijrMYJ/Qdt8wKCIMV2qWBcE4sh57cEItFRTFZj1nBR0WocFdCJ1m8BuDfhkrb
-	GCNV5V1YpJ9G6QeV368sKCuFQEvw3NgD88/k9siqWs3d4zSBdowxqbwSmV+hWV0dLwWg
-	6kdzAuzIgKx1/u3LBhXmY8JQcY7grlSz6mOfo9r9BnkNfLL4wRNkR1S/9APPKzunWRMz
-	DyPw==
-X-Received: by 10.194.123.105 with SMTP id lz9mr110063127wjb.43.1357750208301; 
-	Wed, 09 Jan 2013 08:50:08 -0800 (PST)
-X-Received: by 10.194.123.105 with SMTP id lz9mr110063111wjb.43.1357750208173; 
-	Wed, 09 Jan 2013 08:50:08 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id gz3sm4637422wib.2.2013.01.09.08.50.06
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Jan 2013 08:50:07 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 16:48:08 +0000
-Message-Id: <374767b5c1c81658f09f997becc3b8461574746d.1357749457.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1357749457.git.ross.burton@intel.com>
-References: <cover.1357749457.git.ross.burton@intel.com>
-In-Reply-To: <cover.1357749457.git.ross.burton@intel.com>
-References: <cover.1357749457.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQl+xcuZNFBMAIfTgsFGbuKZ7lDwa6goRPBUU/RhK14ng87AtOODzO5yfRbUsES3bKOGc36iH0HXFWbgUB5HE9ukGlBc4VEIvhC5192v2ScP+Iswss8mwmpcJ53KqmHq9c6W/9wccadKNLODHiZEJCLXpS4p+Jo5c+IROjeDxtgl5dbB2Fuh29kjEi19+GHSd0EOazVt
-Subject: [PATCH 3/3] gtk+3: add 3.4.4
+	Wed, 09 Jan 2013 18:06:31 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Jan 2013 08:50:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,438,1355126400"; d="scan'208";a="244117994"
+Received: from unknown (HELO [10.255.14.147]) ([10.255.14.147])
+	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2013 08:51:12 -0800
+Message-ID: <50EDA000.9000505@linux.intel.com>
+Date: Wed, 09 Jan 2013 08:51:12 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Radu Moisan <radu.moisan@intel.com>, Khem Raj <raj.khem@gmail.com>
+References: <cover.1357647338.git.radu.moisan@intel.com>
+In-Reply-To: <cover.1357647338.git.radu.moisan@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,434 +32,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 17:05:51 -0000
+X-List-Received-Date: Wed, 09 Jan 2013 17:06:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Mostly taken from meta-gnome, with some changes.
+On 01/08/2013 04:24 AM, Radu Moisan wrote:
+> As Ross suggested I've done the following changes to the previous set:
+> * added two patches (the first two) that address multiple init systems support,\
+> as in shifting from default hardcoded sysvinit to something more generic while
+> the default values still remains on sysvinit
+> * moved automatic setting of PREFERRED_PROVIDER_udev into default_providers.inc
+> * removed ahavi-systemd since all it provided was service files; now service files
+> are pulled in by avahi-daemon
+> * also rebased on master
+>
 
-Instead of depending on gtk+-native, depend on just gdk-pixbuf-native and build
-the tool required for the host directly.  This saves building the entire GTK+
-stack natively just for one tool.
+With a world build I saw the following failure:
+> | i586-poky-linux-libtool: link: (cd ".libs" && rm -f "libsystemd-journal.so" && ln -s "libsystemd-journal.so.0.6.0" "libsystemd-journal.so")
+> | i586-poky-linux-libtool: link: (cd ".libs" && rm -f "libsystemd-id128.so.0" && ln -s "libsystemd-id128.so.0.0.15" "libsystemd-id128.so.0")
+> | i586-poky-linux-libtool: link: (cd .libs/libudev.lax/libsystemd-shared.a && i586-poky-linux-ar x "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/systemd/git-r12/git/./.libs/libsystemd-shared.a")
+> | i586-poky-linux-libtool: link: (cd ".libs" && rm -f "libsystemd-id128.so" && ln -s "libsystemd-id128.so.0.0.15" "libsystemd-id128.so")
+> | ./.libs/libsystemd-daemon.so: undefined reference to `mq_getattr'
+> | i586-poky-linux-libtool: link: (cd .libs/libsystemd-logs.lax/libsystemd-shared.a && i586-poky-linux-ar x "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/systemd/git-r12/git/./.libs/libsystemd-shared.a")
+> | collect2: error: ld returned 1 exit status
+> | make[2]: *** [systemd-nspawn] Error 1
+> | make[2]: *** Waiting for unfinished jobs....
+> | i586-poky-linux-libtool: link: ( cd ".libs" && rm -f "libsystemd-journal.la" && ln -s "../libsystemd-journal.la" "libsystemd-journal.la" )
+> | i586-poky-linux-libtool: link: i586-poky-linux-ar cru .libs/libudev.a  src/libudev/libudev_la-libudev.o src/libudev/libudev_la-libudev-list.o src/libudev/libudev_la-libudev-util.o src/libudev/libudev_la-libudev-device.o src/libudev/libudev_la-libudev-enumerate.o src/libudev/libudev_la-libudev-monitor.o src/libudev/libudev_la-libudev-queue.o  .libs/libudev.lax/libsystemd-shared.a/cgroup-show.o .libs/libudev.lax/libsystemd-shared.a/cgroup-util.o .libs/libudev.lax/libsystemd-shared.a/conf-files.o .libs/libudev.lax/libsystemd-shared.a/conf-parser.o .libs/libudev.lax/libsystemd-shared.a/exit-status.o .libs/libudev.lax/libsystemd-shared.a/hashmap.o .libs/libudev.lax/libsystemd-shared.a/hwclock.o .libs/libudev.lax/libsystemd-shared.a/log.o .libs/libudev.lax/libsystemd-shared.a/pager.o .libs/libudev.lax/libsystemd-shared.a/path-util.o .libs/libudev.lax/libsystemd-shared.a/ratelimit.o .libs/libudev.lax/libsystemd-shared.a/set.o .libs/libudev.lax/libsystemd-shared.a/socket-util.o .libs/libu
+dev.lax/libsystemd-shared.a/spawn-ask-password-agent.o .libs/libudev.lax/libsystemd-shared.a/spawn-polkit-agent.o .libs/libudev.lax/libsystemd-shared.a/specifier.o .libs/libudev.lax/libsystemd-shared.a/strbuf.o .libs/libudev.lax/libsystemd-shared.a/strv.o .libs/libudev.lax/libsystemd-shared.a/unit-name.o .libs/libudev.lax/libsystemd-shared.a/utf8.o .libs/libudev.lax/libsystemd-shared.a/util.o .libs/libudev.lax/libsystemd-shared.a/utmp-wtmp.o .libs/libudev.lax/libsystemd-shared.a/virt.o .libs/libudev.lax/libsystemd-shared.a/watchdog.o
+> | i586-poky-linux-libtool: link: ( cd ".libs" && rm -f "libsystemd-id128.la" && ln -s "../libsystemd-id128.la" "libsystemd-id128.la" )
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-cgroup src/test/test-cgroup.o  ./.libs/libsystemd-label.a ./.libs/libsystemd-shared.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-env-replace src/test/test-env-replace.o  ./.libs/libsystemd-shared.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-ar cru .libs/libsystemd-logs.a src/shared/.libs/libsystemd_logs_la-logs-show.o   .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-fsprg.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-journal-authenticate.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-journal-file.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-journal-send.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-journal-vacuum.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-journal-verify.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-lookup3.o .libs/libsystemd-logs.lax/libsystemd-journal-internal.a/libsystemd_journal_internal_la-mmap-cache.o .libs/libsystemd-logs.lax/libsystemd-journal-internal
+.a/libsystemd_journal_internal_la-sd-journal.o  .libs/libsystemd-logs.lax/libsystemd-id128-internal.a/sd-id128.o  .libs/libsystemd-logs.lax/libsystemd-shared.a/cgroup-show.o .libs/libsystemd-logs.lax/libsystemd-shared.a/cgroup-util.o .libs/libsystemd-logs.lax/libsystemd-shared.a/conf-files.o .libs/libsystemd-logs.lax/libsystemd-shared.a/conf-parser.o .libs/libsystemd-logs.lax/libsystemd-shared.a/exit-status.o .libs/libsystemd-logs.lax/libsystemd-shared.a/hashmap.o .libs/libsystemd-logs.lax/libsystemd-shared.a/hwclock.o .libs/libsystemd-logs.lax/libsystemd-shared.a/log.o .libs/libsystemd-logs.lax/libsystemd-shared.a/pager.o .libs/libsystemd-logs.lax/libsystemd-shared.a/path-util.o .libs/libsystemd-logs.lax/libsystemd-shared.a/ratelimit.o .libs/libsystemd-logs.lax/libsystemd-shared.a/set.o .libs/libsystemd-logs.lax/libsystemd-shared.a/socket-util.o .libs/libsystemd-logs.lax/libsystemd-shared.a/spawn-ask-password-agent.o .libs/libsystemd-logs.lax/libsystemd-shared.a/spawn-polkit-agent.o 
+.libs/libsystemd-logs.lax/libsystemd-shared.a/specifier.o .libs/libsystemd-logs.lax/libsystemd-shared.a/strbuf.o .libs/libsystemd-logs.lax/libsystemd-shared.a/strv.o .libs/libsystemd-logs.lax/libsystemd-shared.a/unit-name.o .libs/libsystemd-logs.lax/libsystemd-shared.a/utf8.o .libs/libsystemd-logs.lax/libsystemd-shared.a/util.o .libs/libsystemd-logs.lax/libsystemd-shared.a/utmp-wtmp.o .libs/libsystemd-logs.lax/libsystemd-shared.a/virt.o .libs/libsystemd-logs.lax/libsystemd-shared.a/watchdog.o
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-strv src/test/test-strv.o  ./.libs/libsystemd-shared.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-watchdog src/test/test-watchdog.o  ./.libs/libsystemd-shared.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-id128 src/test/test-id128.o  ./.libs/libsystemd-shared.a ./.libs/libsystemd-id128-internal.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/include/dbus-1.0 -I/srv/home/pokybu
+ild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/dbus-1.0/include -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o test-install src/test/test_install-test-install.o  ./.libs/libsystemd-units.a ./.libs/libsystemd-label.a ./.libs/libsystemd-shared.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-journal-syslog src/journal/test-journal-syslog.o src/journal/journald-syslog.o  ./.libs/libsystemd-shared.a ./.libs/libsystemd-journal-internal.a -L/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/libgcrypt.so -L=/usr/lib -lcap /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/libgpg-error.so ./.libs/libsystemd-id128-internal.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-journal-send src/journal/test-journal-send.o  ./.libs/libsystemd-shared.a ./.libs/libsystemd-journal-internal.a -L/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/libgcrypt.so -L=/usr/lib -lcap /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/libgpg-error.so ./.libs/libsystemd-id128-internal.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o test-journal src/journal/test-journal.o  ./.libs/libsystemd-shared.a ./.libs/libsystemd-journal-internal.a -L/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/libgcrypt.so -L=/usr/lib -lcap /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86/usr/lib/libgpg-error.so ./.libs/libsystemd-id128-internal.a -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-gcc -m32 -march=i586 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/sysroots/qemux86 -std=gnu99 -pipe -Wall -Wextra -Wno-inline -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Werror=overflow -ffast-math -fno-common -fdiagnostics-show-option -fno-strict-aliasing -fvisibility=hidden -ffunction-sections -fdata-sections -fstack-protector --param=ssp-buffer-size=4 -O2 -pipe -g -feliminate-unused-debug-types -Wl,--as-needed -Wl,--gc-sections -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-O1 -Wl,--hash-style=gnu
+ -Wl,--as-needed -o .libs/test-daemon src/test/test-daemon.o  ./.libs/libsystemd-shared.a ./.libs/libsystemd-daemon.so -ldl
+> | i586-poky-linux-libtool: link: i586-poky-linux-ranlib .libs/libudev-private.a
+> | i586-poky-linux-libtool: link: i586-poky-linux-ranlib .libs/libsystemd-logs.a
+> | i586-poky-linux-libtool: link: i586-poky-linux-ranlib .libs/libudev.a
+> | i586-poky-linux-libtool: link: rm -fr .libs/libudev-private.lax
+> | i586-poky-linux-libtool: link: rm -fr .libs/libsystemd-logs.lax
+> | i586-poky-linux-libtool: link: rm -fr .libs/libudev.lax
+> | i586-poky-linux-libtool: link: ( cd ".libs" && rm -f "libudev-private.la" && ln -s "../libudev-private.la" "libudev-private.la" )
+> | i586-poky-linux-libtool: link: ( cd ".libs" && rm -f "libsystemd-logs.la" && ln -s "../libsystemd-logs.la" "libsystemd-logs.la" )
+> | i586-poky-linux-libtool: link: ( cd ".libs" && rm -f "libudev.la" && ln -s "../libudev.la" "libudev.la" )
+> | ./.libs/libsystemd-daemon.so: undefined reference to `mq_getattr'
+> | collect2: error: ld returned 1 exit status
+> | make[2]: *** [test-daemon] Error 1
+> | rm units/console-shell.service.m4 src/core/org.freedesktop.systemd1.policy.in units/rescue.service.m4 units/console-getty.service.m4
+> | make[1]: *** [all-recursive] Error 1
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> | ERROR: Function failed: do_compile (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/systemd/git-r12/temp/log.do_compile.7045 for further information)
+> NOTE: recipe systemd-git-r12: task do_compile: Failed
+> ERROR: Task 9123 (/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-core/systemd/systemd_git.bb, do_compile) failed with exit code '1'
 
-Append a version suffix and use update-alternatives on gtk-update-icon-cache as
-with GTK+ 2.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gtk+/gtk+3/cross.patch |  284 +++++++++++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb    |  111 +++++++++++
- 2 files changed, 395 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/cross.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
+This was with the eglibc 2.17, so I am not sure that's related or not, I 
+have cc'ed Khem, since none of the other AB build systemd code this is 
+the first time it's seeing it.
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/cross.patch b/meta/recipes-gnome/gtk+/gtk+3/cross.patch
-new file mode 100644
-index 0000000..7b2a158
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+3/cross.patch
-@@ -0,0 +1,284 @@
-+Upstream-Status: Submitted [#691301]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 2ce72e5d53e84a2eba8c3f2cb6af25ffffc46ea9 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Mon, 7 Jan 2013 12:49:27 +0000
-+Subject: [PATCH] build: support cross-compilation by natively building
-+ gtk-update-icon-cache
-+
-+When cross-compiling, instead of depending on a natively built GTK+ (which means
-+building Glib, ATK, Pango, gdk-pixbuf, libX11...) for gtk-update-icon-cache,
-+find the host compiler and gdk-pixbuf, and build another gtk-update-icon-cache
-+with that.
-+
-+This uses AX_PROG_CC_FOR_BUILD from autostars to find the host compiler, and
-+assumes that you'd set PKG_CONFIG_FOR_BUILD to a host pkg-config binary.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=691301
-+---
-+ configure.ac               |   25 +++++++--
-+ gtk/Makefile.am            |   12 ++++-
-+ gtk/native/Makefile.am     |   12 +++++
-+ m4/ax_prog_cc_for_build.m4 |  125 ++++++++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 168 insertions(+), 6 deletions(-)
-+ create mode 100644 gtk/native/Makefile.am
-+ create mode 100644 m4/ax_prog_cc_for_build.m4
-+
-+diff --git a/configure.ac b/configure.ac
-+index 0069a9f..35b5f27 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -29,6 +29,9 @@ AC_CONFIG_SRCDIR([gdk/gdktypes.h])
-+ AC_CONFIG_MACRO_DIR([m4])
-+ AC_CONFIG_AUX_DIR([build-aux])
-+ 
-++AC_CANONICAL_HOST
-++AC_CANONICAL_TARGET
-++
-+ # Define a string for the earliest version that this release has
-+ # backwards binary compatibility with for all interfaces a module
-+ # might. Unless we add module-only API with lower stability
-+@@ -123,6 +126,7 @@ AC_SUBST([GAIL_LT_CURRENT_MINUS_AGE],[gail_lt_current_minus_age])
-+ 
-+ # Checks for programs.
-+ AC_PROG_CC
-++AX_PROG_CC_FOR_BUILD
-+ AC_PROG_CC_C_O
-+ AC_PROG_CC_STDC
-+ AC_PROG_MKDIR_P
-+@@ -135,8 +139,6 @@ AC_SUBST(GETTEXT_PACKAGE)
-+ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
-+                    [The prefix for our gettext translation domains.])
-+ 
-+-AC_CANONICAL_HOST
-+-
-+ MATH_LIB=-lm
-+ AC_MSG_CHECKING([for native Win32])
-+ LIB_EXE_MACHINE_FLAG=X86
-+@@ -868,14 +870,28 @@ dnl Look for a host system's gdk-pixbuf-csource if we are cross-compiling
-+ 
-+ AM_CONDITIONAL(CROSS_COMPILING, test $cross_compiling = yes)
-+ 
-+-if test "x$cross_compiling" = xyes || test "x$enable_gtk2_dependency" = xyes; then
-++if test "x$enable_gtk2_dependency" = xyes; then
-+   AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache, no)
-+   if test x$GTK_UPDATE_ICON_CACHE = xno; then
-+     REBUILD_PNGS=#
-+   fi
-++elif test "x$cross_compiling" = xyes; then
-++  # If no GTK+2 dependency and cross compiling, we need to find a host gdk-pixbuf.
-++  # pkg.m4 blocks all variable starting with PKG, so allow this one
-++  m4_pattern_allow([PKG_CONFIG_FOR_BUILD])
-++  AC_MSG_CHECKING([for native gdk-pixbuf])
-++  if AC_RUN_LOG([$PKG_CONFIG_FOR_BUILD --exists --print-errors gdk-pixbuf-2.0]); then
-++    AC_MSG_RESULT([yes])
-++  else
-++    AC_MSG_ERROR([native gdk-pixbuf not found])
-++  fi
-++  NATIVE_GDKPIXBUF_CFLAGS=`$PKG_CONFIG_FOR_BUILD --cflags gdk-pixbuf-2.0`
-++  NATIVE_GDKPIXBUF_LIBS=`$PKG_CONFIG_FOR_BUILD --libs gdk-pixbuf-2.0`
-++  AC_SUBST(NATIVE_GDKPIXBUF_CFLAGS)
-++  AC_SUBST(NATIVE_GDKPIXBUF_LIBS)
-+ fi
-+ 
-+-AM_CONDITIONAL(USE_EXTERNAL_ICON_CACHE, [test "x$cross_compiling" = xyes || test "x$enable_gtk2_dependency" = xyes])
-++AM_CONDITIONAL(USE_EXTERNAL_ICON_CACHE, [test "x$enable_gtk2_dependency" = xyes])
-+ 
-+ AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, no)
-+ 
-+@@ -1742,6 +1758,7 @@ gtk/makefile.msc
-+ gtk/gtkversion.h
-+ gtk/gtk-win32.rc
-+ gtk/a11y/Makefile
-++gtk/native/Makefile
-+ gtk/tests/Makefile
-+ libgail-util/Makefile
-+ modules/Makefile
-+diff --git a/gtk/Makefile.am b/gtk/Makefile.am
-+index e763ca8..6b1ec65 100644
-+--- a/gtk/Makefile.am
-++++ b/gtk/Makefile.am
-+@@ -16,7 +16,7 @@ else
-+ GTK_PRINT_PREVIEW_COMMAND="evince --unlink-tempfile --preview --print-settings %s %f"
-+ endif
-+ 
-+-SUBDIRS = a11y . tests
-++SUBDIRS = a11y native . tests
-+ 
-+ if HAVE_PAPI_CUPS
-+ GTK_PRINT_BACKENDS=file,papi,cups
-+@@ -1569,12 +1569,20 @@ stamp-icons: $(STOCK_ICONS)
-+ if USE_EXTERNAL_ICON_CACHE
-+ gtk_update_icon_cache_program = $(GTK_UPDATE_ICON_CACHE)
-+ else
-++if CROSS_COMPILING
-++gtk_update_icon_cache_program = ./native/native-update-icon-cache
-++else
-+ gtk_update_icon_cache_program = ./gtk-update-icon-cache
-+ endif
-++endif
-+ 
-+ gtkbuiltincache.h: @REBUILD@ stamp-icons
-+ if !USE_EXTERNAL_ICON_CACHE
-+-	$(AM_V_at) $(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
-++if CROSS_COMPILING
-++	$(AM_V_at) $(MAKE) $(AM_MAKEFLAGS) -C native/
-++else
-++	$(AM_V_at) $(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT)
-++endif
-+ endif
-+ 	$(AM_V_GEN) $(gtk_update_icon_cache_program) --quiet --force --ignore-theme-index		\
-+ 	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
-+diff --git a/gtk/native/Makefile.am b/gtk/native/Makefile.am
-+new file mode 100644
-+index 0000000..4f029f6
-+--- /dev/null
-++++ b/gtk/native/Makefile.am
-+@@ -0,0 +1,12 @@
-++CC = @CC_FOR_BUILD@
-++CFLAGS = @CFLAGS_FOR_BUILD@
-++CPP = @CPP_FOR_BUILD@
-++CPPFLAGS = @CPPFLAGS_FOR_BUILD@
-++LDFLAGS = @LDFLAGS_FOR_BUILD@
-++
-++if CROSS_COMPILING
-++noinst_PROGRAMS = native-update-icon-cache
-++native_update_icon_cache_CFLAGS = $(NATIVE_GDKPIXBUF_CFLAGS)
-++native_update_icon_cache_LDADD = $(NATIVE_GDKPIXBUF_LIBS)
-++native_update_icon_cache_SOURCES = $(srcdir)/../updateiconcache.c
-++endif
-+diff --git a/m4/ax_prog_cc_for_build.m4 b/m4/ax_prog_cc_for_build.m4
-+new file mode 100644
-+index 0000000..96cd98a
-+--- /dev/null
-++++ b/m4/ax_prog_cc_for_build.m4
-+@@ -0,0 +1,125 @@
-++# ===========================================================================
-++#   http://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html
-++# ===========================================================================
-++#
-++# SYNOPSIS
-++#
-++#   AX_PROG_CC_FOR_BUILD
-++#
-++# DESCRIPTION
-++#
-++#   This macro searches for a C compiler that generates native executables,
-++#   that is a C compiler that surely is not a cross-compiler. This can be
-++#   useful if you have to generate source code at compile-time like for
-++#   example GCC does.
-++#
-++#   The macro sets the CC_FOR_BUILD and CPP_FOR_BUILD macros to anything
-++#   needed to compile or link (CC_FOR_BUILD) and preprocess (CPP_FOR_BUILD).
-++#   The value of these variables can be overridden by the user by specifying
-++#   a compiler with an environment variable (like you do for standard CC).
-++#
-++#   It also sets BUILD_EXEEXT and BUILD_OBJEXT to the executable and object
-++#   file extensions for the build platform, and GCC_FOR_BUILD to `yes' if
-++#   the compiler we found is GCC. All these variables but GCC_FOR_BUILD are
-++#   substituted in the Makefile.
-++#
-++# LICENSE
-++#
-++#   Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>
-++#
-++#   Copying and distribution of this file, with or without modification, are
-++#   permitted in any medium without royalty provided the copyright notice
-++#   and this notice are preserved. This file is offered as-is, without any
-++#   warranty.
-++
-++#serial 7
-++
-++AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
-++AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
-++AC_REQUIRE([AC_PROG_CC])dnl
-++AC_REQUIRE([AC_PROG_CPP])dnl
-++AC_REQUIRE([AC_EXEEXT])dnl
-++AC_REQUIRE([AC_CANONICAL_SYSTEM])dnl
-++
-++dnl Use the standard macros, but make them use other variable names
-++dnl
-++pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
-++pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
-++pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
-++pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
-++pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
-++pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
-++pushdef([ac_cv_objext], ac_cv_build_objext)dnl
-++pushdef([ac_exeext], ac_build_exeext)dnl
-++pushdef([ac_objext], ac_build_objext)dnl
-++pushdef([CC], CC_FOR_BUILD)dnl
-++pushdef([CPP], CPP_FOR_BUILD)dnl
-++pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
-++pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
-++pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
-++pushdef([host], build)dnl
-++pushdef([host_alias], build_alias)dnl
-++pushdef([host_cpu], build_cpu)dnl
-++pushdef([host_vendor], build_vendor)dnl
-++pushdef([host_os], build_os)dnl
-++pushdef([ac_cv_host], ac_cv_build)dnl
-++pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl
-++pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl
-++pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl
-++pushdef([ac_cv_host_os], ac_cv_build_os)dnl
-++pushdef([ac_cpp], ac_build_cpp)dnl
-++pushdef([ac_compile], ac_build_compile)dnl
-++pushdef([ac_link], ac_build_link)dnl
-++
-++save_cross_compiling=$cross_compiling
-++save_ac_tool_prefix=$ac_tool_prefix
-++cross_compiling=no
-++ac_tool_prefix=
-++
-++AC_PROG_CC
-++AC_PROG_CPP
-++AC_EXEEXT
-++
-++ac_tool_prefix=$save_ac_tool_prefix
-++cross_compiling=$save_cross_compiling
-++
-++dnl Restore the old definitions
-++dnl
-++popdef([ac_link])dnl
-++popdef([ac_compile])dnl
-++popdef([ac_cpp])dnl
-++popdef([ac_cv_host_os])dnl
-++popdef([ac_cv_host_vendor])dnl
-++popdef([ac_cv_host_cpu])dnl
-++popdef([ac_cv_host_alias])dnl
-++popdef([ac_cv_host])dnl
-++popdef([host_os])dnl
-++popdef([host_vendor])dnl
-++popdef([host_cpu])dnl
-++popdef([host_alias])dnl
-++popdef([host])dnl
-++popdef([LDFLAGS])dnl
-++popdef([CPPFLAGS])dnl
-++popdef([CFLAGS])dnl
-++popdef([CPP])dnl
-++popdef([CC])dnl
-++popdef([ac_objext])dnl
-++popdef([ac_exeext])dnl
-++popdef([ac_cv_objext])dnl
-++popdef([ac_cv_exeext])dnl
-++popdef([ac_cv_prog_cc_g])dnl
-++popdef([ac_cv_prog_cc_cross])dnl
-++popdef([ac_cv_prog_cc_works])dnl
-++popdef([ac_cv_prog_gcc])dnl
-++popdef([ac_cv_prog_CPP])dnl
-++
-++dnl Finally, set Makefile variables
-++dnl
-++BUILD_EXEEXT=$ac_build_exeext
-++BUILD_OBJEXT=$ac_build_objext
-++AC_SUBST(BUILD_EXEEXT)dnl
-++AC_SUBST(BUILD_OBJEXT)dnl
-++AC_SUBST([CFLAGS_FOR_BUILD])dnl
-++AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
-++AC_SUBST([LDFLAGS_FOR_BUILD])dnl
-++])
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
-new file mode 100644
-index 0000000..e624387
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
-@@ -0,0 +1,111 @@
-+SUMMARY = "Multi-platform toolkit for creating GUIs"
-+DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
-+set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
-+HOMEPAGE = "http://www.gtk.org"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
-+SECTION = "libs"
-+
-+DEPENDS = "glib-2.0 pango atk jpeg libpng libxext libxcursor \
-+           docbook-utils-native libxrandr libgcrypt \
-+           libxdamage libxrender libxcomposite libxi cairo gdk-pixbuf gdk-pixbuf-native"
-+
-+LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
-+                    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
-+                    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
-+                    file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
-+
-+SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz \
-+           file://cross.patch"
-+SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
-+SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
-+
-+inherit autotools pkgconfig gtk-doc update-alternatives
-+
-+S = "${WORKDIR}/gtk+-${PV}"
-+
-+# This should be in autotools.bbclass, but until something elses uses it putting
-+# it here avoids rebuilding everything.
-+export PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
-+
-+do_configure_prepend() {
-+    # Do this because the configure script is running ./libtool directly
-+    ln -s ${TARGET_PREFIX}libtool libtool || true
-+}
-+
-+# Forcibly disable the GTK+ 2 dependency as we don't want to natively build the
-+# entire GTK+ stack, or need GTK+ 2 for gtk-update-icon-cache.
-+EXTRA_OECONF += " \
-+                 --disable-gtk2-dependency \
-+                 --disable-glibtest \
-+                 --enable-modules \
-+                 --disable-cups \
-+"
-+
-+do_install_append() {
-+	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
-+}
-+
-+PACKAGES =+ "${PN}-demo"
-+LIBV = "3.0.0"
-+
-+FILES_${PN}-demo = "${bindir}/gtk3-demo \
-+                    ${bindir}/gtk3-demo-application \
-+                    ${bindir}/gtk3-widget-factory \
-+                    ${datadir}/gtk-3.0/demo"
-+
-+FILES_${PN} = "${bindir}/gtk-update-icon-cache-3.0 \
-+               ${bindir}/gtk-query-immodules-3.0 \
-+               ${bindir}/gtk-launch \
-+               ${libdir}/lib*${SOLIBS} \
-+               ${datadir}/themes ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
-+               ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
-+               ${libdir}/gtk-3.0/modules/*.so"
-+
-+FILES_${PN}-dev += " \
-+                    ${datadir}/gtk-3.0/gtkbuilder.rng \
-+                    ${datadir}/gtk-3.0/include \
-+                    ${libdir}/gtk-3.0/include \
-+                    ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
-+                    ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
-+                    ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
-+                    ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
-+                    ${libdir}/gtk-3.0/modules/*.la \
-+                    ${bindir}/gtk-builder-convert"
-+
-+FILES_${PN}-dbg += " \
-+                    ${libdir}/gtk-3.0/${LIBV}/loaders/.debug \
-+                    ${libdir}/gtk-3.0/${LIBV}/immodules/.debug \
-+                    ${libdir}/gtk-3.0/${LIBV}/engines/.debug \
-+                    ${libdir}/gtk-3.0/${LIBV}/printbackends/.debug \
-+                    ${libdir}/gtk-3.0/modules/.debug"
-+
-+
-+PACKAGES_DYNAMIC += "^gtk3-immodule-.* ^gtk3-printbackend-.*"
-+
-+ALTERNATIVE_${PN} = "gtk-update-icon-cache"
-+ALTERNATIVE_TARGET[gtk-update-icon-cache] = "${bindir}/gtk-update-icon-cache-3.0"
-+
-+python populate_packages_prepend () {
-+    import os.path
-+
-+    prologue = d.getVar("postinst_prologue", 1)
-+
-+    gtk_libdir = d.expand('${libdir}/gtk-3.0/${LIBV}')
-+    immodules_root = os.path.join(gtk_libdir, 'immodules')
-+    printmodules_root = os.path.join(gtk_libdir, 'printbackends');
-+
-+    do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk3-immodule-%s', 'GTK input module for %s', prologue + 'gtk-query-immodules-3.0 > /etc/gtk-3.0/gtk.immodules')
-+    do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
-+
-+    if (d.getVar('DEBIAN_NAMES', 1)):
-+        d.setVar('PKG_${PN}', 'libgtk-3.0')
-+}
-+
-+postinst_prologue() {
-+if [ "x$D" != "x" ]; then
-+  exit 1
-+fi
-+
-+}
--- 
-1.7.10.4
+Sau!
 
+
+> The following changes since commit 7e1f8faad0c4b6f490c26f87acc698dd6e002b15:
+>
+>    perl: Remove bashism from perl-tests.inc (2013-01-07 22:37:37 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib rmoisan/systemd
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
+>
+> Enrico Scholz (1):
+>    systemd: move disable operation into prerm() script
+>
+> Holger Hans Peter Freyther (2):
+>    systemd: Make the main systemd files proper CONFFILES
+>    systemd: Introduce a create-volatile to create tmp directories
+>
+> Khem Raj (1):
+>    systemd: Fix build when base_libdir is not /lib
+>
+> Martin Donnelly (2):
+>    cgroups: Add INSANE_SKIP to avoid warning about .so file
+>    systemd: Remove sysvinit mount related services if systemd is enabled
+>
+> Martin Jansa (2):
+>    systemd: fix FILESPATH to find systemctl
+>    systemd: add PACKAGES_DYNAMIC
+>
+> Radu Moisan (13):
+>    default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+>    default-providers: Automatically set PREFERRED_PROVIDER_udev
+>    systemd: initial integration
+>    systemd: Add systemd_base.bbclass
+>    systemd: Add systemd option to PREFERRED_PROVIDER_udev
+>    systemd: set default.target to multi-user.target
+>    systemd: update FILESPATH with *-native directory
+>    systemd: disable sysfs.service
+>    systemd: Add systemd-compat-units
+>    systemd: Add avahi to packagegroup-core-boot
+>    xserver-nodm-init: Enable systemd support
+>    util-linux: Enable systemd support
+>    systemd: Disable xz when building with GPLv3 incompatibility flag
+>
+>   meta/classes/systemd.bbclass                       |    1 +
+>   meta/classes/systemd_base.bbclass                  |  218 +++++++++++++
+>   meta/conf/distro/include/default-distrovars.inc    |    3 +-
+>   meta/conf/distro/include/default-providers.inc     |    1 +
+>   meta/recipes-bsp/keymaps/files/keymaps.service     |    9 +
+>   meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    9 +-
+>   meta/recipes-connectivity/avahi/avahi.inc          |   23 +-
+>   meta/recipes-connectivity/connman/connman.inc      |    6 +
+>   meta/recipes-connectivity/connman/connman_1.4.bb   |    3 +-
+>   meta/recipes-connectivity/dhcp/dhcp.inc            |   15 +-
+>   meta/recipes-connectivity/dhcp/files/dhcpd.service |   12 +
+>   .../dhcp/files/dhcrelay.service                    |   10 +
+>   .../openssh/openssh-6.0p1/sshd.socket              |   11 +
+>   .../openssh/openssh-6.0p1/sshd@.service            |    9 +
+>   .../openssh/openssh-6.0p1/sshdgenkeys.service      |   10 +
+>   meta/recipes-connectivity/openssh/openssh_6.0p1.bb |   14 +-
+>   .../wpa-supplicant/wpa-supplicant-1.0.inc          |   74 +++--
+>   .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
+>   meta/recipes-core/busybox/busybox.inc              |   18 ++
+>   meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
+>   .../busybox/files/busybox-klogd.service.in         |    8 +
+>   .../busybox/files/busybox-syslog.service.in        |   13 +
+>   meta/recipes-core/dropbear/dropbear.inc            |   81 ++---
+>   .../recipes-core/dropbear/dropbear/dropbear.socket |   10 +
+>   .../dropbear/dropbear/dropbear@.service            |    9 +
+>   .../dropbear/dropbear/dropbearkey.service          |   10 +
+>   .../initscripts-1.0/{urandom => urandom.sh}        |    0
+>   meta/recipes-core/initscripts/initscripts_1.0.bb   |  164 +++++-----
+>   meta/recipes-core/libcgroup/libcgroup_0.37.1.bb    |    1 +
+>   .../packagegroups/packagegroup-base.bb             |    3 +-
+>   .../packagegroups/packagegroup-core-boot.bb        |    9 +-
+>   meta/recipes-core/systemd/systemd-compat-units.bb  |   59 ++++
+>   .../systemd/systemd-compat-units/machineid.service |   16 +
+>   .../systemd-compat-units/run-postinsts.service     |   17 +
+>   .../systemd/systemd-machine-units_1.0.bb           |   14 +
+>   meta/recipes-core/systemd/systemd-serialgetty.bb   |   46 +++
+>   .../systemd/systemd-serialgetty/LICENSE            |  339 ++++++++++++++++++++
+>   .../systemd-serialgetty/serial-getty@.service      |   32 ++
+>   meta/recipes-core/systemd/systemd-speed-hacks.bb   |   18 ++
+>   .../systemd/systemd-systemctl-native.bb            |   20 ++
+>   .../systemd/systemd-systemctl-native/systemctl     |  126 ++++++++
+>   .../systemd/systemd/create-volatile.conf           |   10 +
+>   meta/recipes-core/systemd/systemd/gtk-doc.make     |  230 +++++++++++++
+>   meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
+>   .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
+>   .../systemd/set_default_target_to_multi-user.patch |   13 +
+>   .../systemd-pam-configure-check-uclibc.patch       |   26 ++
+>   .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
+>   .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
+>   .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
+>   .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
+>   .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 +++++++++++++++++++
+>   .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
+>   meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
+>   meta/recipes-core/systemd/systemd_git.bb           |  252 +++++++++++++++
+>   meta/recipes-core/util-linux/util-linux.inc        |   11 +-
+>   meta/recipes-extended/cronie/cronie/crond.service  |   10 +
+>   meta/recipes-extended/cronie/cronie_1.4.8.bb       |   10 +-
+>   .../lighttpd/files/lighttpd.service                |   13 +
+>   meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 +-
+>   meta/recipes-extended/pam/libpam_1.1.6.bb          |    3 +
+>   meta/recipes-extended/polkit/polkit_0.104.bb       |    9 +-
+>   meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
+>   .../x11-common/xserver-nodm-init.bb                |   19 +-
+>   .../x11-common/xserver-nodm-init/xserver-nodm.conf |    1 +
+>   .../xserver-nodm-init/xserver-nodm.service         |    9 +
+>   66 files changed, 2606 insertions(+), 174 deletions(-)
+>   create mode 100644 meta/classes/systemd.bbclass
+>   create mode 100644 meta/classes/systemd_base.bbclass
+>   create mode 100644 meta/recipes-bsp/keymaps/files/keymaps.service
+>   create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
+>   create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd.socket
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd@.service
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshdgenkeys.service
+>   create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+>   create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
+>   rename meta/recipes-core/initscripts/initscripts-1.0/{urandom => urandom.sh} (100%)
+>   create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
+>   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
+>   create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+>   create mode 100644 meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+>   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
+>   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/LICENSE
+>   create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+>   create mode 100644 meta/recipes-core/systemd/systemd-speed-hacks.bb
+>   create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
+>   create mode 100755 meta/recipes-core/systemd/systemd-systemctl-native/systemctl
+>   create mode 100644 meta/recipes-core/systemd/systemd/create-volatile.conf
+>   create mode 100644 meta/recipes-core/systemd/systemd/gtk-doc.make
+>   create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
+>   create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/set_default_target_to_multi-user.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
+>   create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
+>   create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
+>   create mode 100644 meta/recipes-core/systemd/systemd_git.bb
+>   create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
+>   create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd.service
+>   create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
+>   create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service
+>
 
 
