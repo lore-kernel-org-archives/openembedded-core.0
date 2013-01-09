@@ -1,34 +1,31 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TsuEn-0006ah-4H
+	(envelope-from <rpjday@crashcourse.ca>) id 1TsuXO-0007Kc-7L
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 12:54:32 +0100
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id 3DBD2D22E9; Wed,  9 Jan 2013 12:39:17 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-225.dynamic.chello.pl
-	[87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 8C405D22CD
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Jan 2013 12:38:45 +0100 (CET)
-Message-ID: <50ED56C1.60809@linaro.org>
-Date: Wed, 09 Jan 2013 12:38:41 +0100
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Wed, 09 Jan 2013 13:13:42 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:34762 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TsuIh-00056p-Rc for openembedded-core@lists.openembedded.org;
+	Wed, 09 Jan 2013 06:58:31 -0500
+Date: Wed, 9 Jan 2013 06:58:28 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301090656070.14444@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1357343832.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1357343832.git.raj.khem@gmail.com>
-Subject: Re: [RFC][PATCH 0/4] eglibc 2.17 upgrade
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: should SRC_URI for mpfr be switched to ftp.gnu.org?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,27 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 11:54:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Jan 2013 12:13:43 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-W dniu 05.01.2013 01:00, Khem Raj pisze:
-> I would like folks to try and test this upgrade. I have tested it on angstrom/systemd-image
-> booted on all supported qemu images.
-> 
-> This is however now the final set since I have to put the 2.17 tars on
-> downloads location
-> 
-> Please try it out in your configurations and let me know if you find issues.
 
-bitbake meta-toolchain fails:
+  currently, fetching from mpfr's official SRC_URI,
+http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.bz2, is failing, and i
+can't even browse there.  however, mpfr seems well supported here:
 
-Applying patch ld-search-order.patch
-patching file elf/dl-load.c
-Hunk #1 FAILED at 2107.
-Hunk #2 succeeded at 2283 with fuzz 2 (offset 114 lines).
-1 out of 2 hunks FAILED -- rejects in file elf/dl-load.c
-Patch ld-search-order.patch does not apply (enforce with -f)
-ERROR: Function failed: patch_do_patch
+  http://ftp.gnu.org/gnu/mpfr/
+
+is there any incentive to switch SRC_URI, or is mpfr.org the official
+download site and this is just a temporary glitch of some kind?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
