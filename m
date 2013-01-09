@@ -1,27 +1,40 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-da0-f48.google.com ([209.85.210.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tswtb-00035V-T5
+	(envelope-from <martin.jansa@gmail.com>) id 1Tswy1-0003Dk-7M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 15:44:49 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jan 2013 06:29:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,438,1355126400"; d="scan'208";a="274856733"
-Received: from costin-desktop (HELO [10.237.105.152]) ([10.237.105.152])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2013 06:29:32 -0800
-Message-ID: <50ED7EF9.5080308@intel.com>
-Date: Wed, 09 Jan 2013 16:30:17 +0200
-From: Constantin Musca <constantinx.musca@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
+	Wed, 09 Jan 2013 15:49:41 +0100
+Received: by mail-da0-f48.google.com with SMTP id k18so779335dae.21
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Jan 2013 06:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=Z0ltnx5D9j4EXhHKkLCEDyJzNj9VSgmEqWYpdmwlHe0=;
+	b=EyJXY9F9aFPD5aauyO3HXNtsUbLgqfiu4869eyabZ/DVT4OT/e+Zi8ptCDYXvYDQti
+	3HaH9QGGcn3lTYYyFFQF5/gY4DFoqJSaI6PtKv1fBSBv0RNEAVx3dRawXEMlEWxOeMX1
+	SPiMK0z+Lz6jdFfSGxKRr+L03IxC0/UZ+K1BUWnl1H9je/vM2teCeNzBrx6/y3BIshv4
+	MYx1a2xN3n7b7q7NUEwIpBlq9UeWxikUR2QSStbe8zn+ux14TDY7DaX5PTVcUJsaLMB4
+	4rsx/rDqUDTnWa9nf512o4n7EeY4QJPktf+QUqwJot9FaEeEchcATZLbWgdf6u5IADjC
+	LgZA==
+X-Received: by 10.66.84.195 with SMTP id b3mr190667039paz.30.1357742048426;
+	Wed, 09 Jan 2013 06:34:08 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id
+	mt15sm41722774pbc.49.2013.01.09.06.34.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 09 Jan 2013 06:34:07 -0800 (PST)
+Date: Wed, 9 Jan 2013 15:34:11 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20130109143411.GQ3722@jama.palm1.palmone.com>
+References: <alpine.DEB.2.02.1301090752510.25391@oneiric>
+	<7E75003D-F6FC-4B4B-9FB8-A84DB5CCEDC8@gmail.com>
+	<alpine.DEB.2.02.1301090923001.10155@oneiric>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1357721541.git.constantinx.musca@intel.com>
-	<441976458177570ed317fb6a8687c8eab8667cf8.1357721541.git.constantinx.musca@intel.com>
-	<1357739128.13022.81.camel@ted>
-In-Reply-To: <1357739128.13022.81.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] gcc: remove the 64bithack patch
+In-Reply-To: <alpine.DEB.2.02.1301090923001.10155@oneiric>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: for a quad-core machine, shouldn't parallelism be set to 8?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 14:44:50 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Jan 2013 14:49:50 -0000
+X-Groupsio-MsgNum: 33601
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ubuMVesmirrCclZT"
+Content-Disposition: inline
 
-On 01/09/2013 03:45 PM, Richard Purdie wrote:
-> On Wed, 2013-01-09 at 11:00 +0200, Constantin Musca wrote:
->> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->> ---
->>   meta/recipes-devtools/gcc/gcc-4.7.inc             |  1 -
->>   meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch | 63 -----------------------
->>   2 files changed, 64 deletions(-)
->>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
-> Does removing this break multilib builds? For example, with different
-> libdir layouts?
-I think it's going to break other multilib builds. The solution is to 
-keep the 64bithack.patch for setting the default multilib options.  The 
-3/3 patch can be used without PATCH 2/3.
-> Note that gcc has a shared source tree so patches cannot by applied in
-> say the cross case when we need this yet not in the target case when we
-> probably don't want it. We need to make a patch which works in all
-> cases.
-The other gcc variants (e.g. gcc-cross) are configured using 
---disable-multilib as option and they will not be influenced if we 
-modify the multilib files.
->
-> Cheers,
->
-> Richard
->
->
+--ubuMVesmirrCclZT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jan 09, 2013 at 09:26:10AM -0500, Robert P. J. Day wrote:
+> On Wed, 9 Jan 2013, Elvis Dowson wrote:
+>=20
+> > Hi Robert,
+>=20
+> > On my i7 quad core machine, I've set both values to 6. Setting it to
+> > 6 appears to be nearly the same as setting it to 8, I dare say a
+> > marginally faster by a minute. I can build core image console in
+> > around 22 minutes.
+> >
+> > Elvis
+>=20
+>   i recall someone (richard purdie?) once benchmarked to check the
+> benefits of increasing parallelism and while it's obvious you'll hit
+> the wall eventually, it would still be nice for the documentation to
+> be consistent.
+
+You can use openembedded-core/scripts/contrib/bb-perf/bb-matrix.sh to
+find best value for your HW and bitbake target.
 
 Cheers,
-Constantin
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--ubuMVesmirrCclZT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDtf+MACgkQN1Ujt2V2gByYLwCdHoo4KCLAuKAJxfELCh8fubtc
+9HEAn3gZVGbvozwP9t9nBGr5vid5MmfF
+=j3H8
+-----END PGP SIGNATURE-----
+
+--ubuMVesmirrCclZT--
