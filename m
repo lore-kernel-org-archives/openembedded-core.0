@@ -1,28 +1,27 @@
-Received: from starfish.geekisp.com ([216.168.135.166])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1TsynM-0007Pn-W9
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1TsyqY-0007VA-Rx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 17:46:38 +0100
-Received: (qmail 26825 invoked by uid 1003); 9 Jan 2013 16:31:16 -0000
-Received: from unknown (HELO ?192.168.43.231?)
-	(philip@opensdr.com@32.169.131.90)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	9 Jan 2013 16:31:14 -0000
-Message-ID: <50ED9B4D.3000409@balister.org>
-Date: Wed, 09 Jan 2013 11:31:09 -0500
-From: Philip Balister <philip@balister.org>
+	Wed, 09 Jan 2013 17:49:57 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 09 Jan 2013 08:34:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,438,1355126400"; d="scan'208";a="189378086"
+Received: from unknown (HELO [10.255.14.147]) ([10.255.14.147])
+	by AZSMGA002.ch.intel.com with ESMTP; 09 Jan 2013 08:34:25 -0800
+Message-ID: <50ED9C11.4060502@linux.intel.com>
+Date: Wed, 09 Jan 2013 08:34:25 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1357744955.13022.97.camel@ted>
-In-Reply-To: <1357744955.13022.97.camel@ted>
-X-Enigmail-Version: 1.4.6
-Cc: yocto <yocto@yoctoproject.org>,
-	bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	poky <poky@lists.yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: WebHob Mailing List Setup
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1357343832.git.raj.khem@gmail.com>
+	<50ED85D4.9000806@linaro.org>
+	<CAMKF1srWtx55LRNM6_Dkrfsvb3N-kLnpNofjPwx8eeNV4TnMqA@mail.gmail.com>
+In-Reply-To: <CAMKF1srWtx55LRNM6_Dkrfsvb3N-kLnpNofjPwx8eeNV4TnMqA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH 0/4] eglibc 2.17 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,44 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 16:46:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 09 Jan 2013 16:50:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/09/2013 10:22 AM, Richard Purdie wrote:
-> Various people at various times have expressed an interest in webhob
-> which will be a web interface to bitbake's functionality as an evolution
-> of the capabilities of the current hob UI. There are some people looking
-> at the design of it and who are actively working on figuring out what it
-> should look like, what it needs to do, who it needs to serve and some
-> other key questions. They will also likely start implementing the
-> functionality soon.
-> 
-> In the interests of collaboration, we've setup the mailing list:
-> 
-> https://lists.yoctoproject.org/listinfo/webhob
+On 01/09/2013 07:02 AM, Khem Raj wrote:
+> On Wed, Jan 9, 2013 at 6:59 AM, Marcin Juszkiewicz
+> <marcin.juszkiewicz@linaro.org> wrote:
+>> W dniu 05.01.2013 01:00, Khem Raj pisze:
+>>> I would like folks to try and test this upgrade. I have tested it on angstrom/systemd-image
+>>> booted on all supported qemu images.
+>>>
+>>> This is however now the final set since I have to put the 2.17 tars on
+>>> downloads location
+>>>
+>>> Please try it out in your configurations and let me know if you find issues.
+>>
+>> Other than meta-toolchain I did not found any new bugs while built for
+>> AArch64 target.
+>>
+>
+> cool the patching error is now fixed. I have updated the contrib tree so if you
+> reapply the patches then meta-toolchain issue should be gone too.
+>
+I will update  the MUT branch also, I saw this issue last night on the 
+Autobuilder and was going to send email, glad I read email first!
 
-Is there a gmane archive?
+Sau!
 
-Philip
-
-> 
-> which is where the design and initial implementation discussions are
-> going to happen. If you are interested please join the list.
-> 
-> I've cross posted this to ensure people know about it. Please take
-> discussion and replies up on the webhob list itself.
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
+>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> 
+>
+>
 
 
