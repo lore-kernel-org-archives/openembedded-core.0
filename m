@@ -1,20 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tt07n-0000zy-P3
+	(envelope-from <rpjday@crashcourse.ca>) id 1Tt0PZ-0001Is-Fe
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 19:11:45 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2013 09:56:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,439,1355126400"; d="scan'208";a="244149667"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.147])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2013 09:56:26 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 09:56:25 -0800
-Message-Id: <1357754185-17000-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [PATCH] valgrind: update configure for eglibc 2.17
+	Wed, 09 Jan 2013 19:30:11 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:43260 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Tt0As-0005NV-Qy for openembedded-core@lists.openembedded.org;
+	Wed, 09 Jan 2013 13:14:50 -0500
+Date: Wed, 9 Jan 2013 13:14:47 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301091312270.14396@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: [PATCH] local.conf.sample: Suggest parallelism of twice the number of cores.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,91 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 18:11:48 -0000
+X-List-Received-Date: Wed, 09 Jan 2013 18:30:13 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-Tested with both eglibc 2.16 and 2.17
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+To be consistent with the Yocto Quick Start Guide, recommend that
+parallelism represent twice the number of cores on a multi-core
+machine.
+
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+
 ---
- ...ibc-2.16.patch => configure-with-newer-glibc.patch} | 18 +++++++++++++-----
- meta/recipes-devtools/valgrind/valgrind_3.7.0.bb       |  4 ++--
- 2 files changed, 15 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/valgrind/valgrind-3.7.0/{configure-with-glibc-2.16.patch => configure-with-newer-glibc.patch} (62%)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
-similarity index 62%
-rename from meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
-rename to meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
-index c622637..b369de8 100644
---- a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
-+++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
-@@ -1,13 +1,14 @@
- Add case for glibc 2.16 and correct error message to denote support until 2.16
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
- Upstream-Status: Pending
- Index: valgrind-3.7.0/configure.in
- ===================================================================
----- valgrind-3.7.0.orig/configure.in	2012-07-04 12:57:10.557192441 -0700
--+++ valgrind-3.7.0/configure.in	2012-07-04 12:57:58.785194776 -0700
--@@ -788,6 +788,13 @@
-+--- valgrind-3.7.0.orig/configure.in
-++++ valgrind-3.7.0/configure.in
-+@@ -788,6 +788,20 @@ case "${GLIBC_VERSION}" in
-  	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-  	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-  	;;
-@@ -18,15 +19,22 @@ Index: valgrind-3.7.0/configure.in
- +	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
- +	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
- +	;;
-++     2.17)
-++	AC_MSG_RESULT(2.17 family)
-++	AC_DEFINE([GLIBC_2_17], 1, [Define to 1 if you're using glibc 2.17.x])
-++	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
-++	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
-++	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
-++	;;
-       darwin)
-  	AC_MSG_RESULT(Darwin)
-  	AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
--@@ -801,7 +808,7 @@
-+@@ -801,7 +815,7 @@ case "${GLIBC_VERSION}" in
-  
-       *)
-  	AC_MSG_RESULT([unsupported version ${GLIBC_VERSION}])
- -	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.14])
--+	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.16])
-++	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.17])
-  	AC_MSG_ERROR([or Darwin libc])
-  	;;
-  esac
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-index 3def11d..0bf6ef4 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
- 
- X11DEPENDS = "virtual/libx11"
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
- 	   file://fix_issue_caused_by_ccache.patch \
-@@ -18,7 +18,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://fix_for_automake_1.11.2.patch \
-            file://configure-fix.patch \
-            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
--           file://configure-with-glibc-2.16.patch \
-+           file://configure-with-newer-glibc.patch \
-           "
- 
- SRC_URI_append_powerpc = " file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 859eb93..46187ce 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -24,9 +24,9 @@
+ #
+ #PARALLEL_MAKE = "-j 4"
+ #
+-# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+-# be appropriate for example.
+-
++# If you have a multi-core machine, you would normally set both of these variables
++# to twice the number of cores.  So for a quad-core machine, it would be appropriate
++# to set BB_NUMBER_THREADS = "8" and PARALLEL_MAKE = "-j 8".
+ #
+ # Machine Selection
+ #
+
 -- 
-1.8.0.2
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
