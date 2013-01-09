@@ -1,37 +1,38 @@
-Received: from mail-la0-f43.google.com ([209.85.215.43])
+Received: from mail-lb0-f174.google.com ([209.85.217.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tsunb-0007ge-Kt
+	(envelope-from <cazfi74@gmail.com>) id 1Tsunv-0007hR-Is
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 13:30:27 +0100
-Received: by mail-la0-f43.google.com with SMTP id eg20so1770258lab.16
+	Wed, 09 Jan 2013 13:30:54 +0100
+Received: by mail-lb0-f174.google.com with SMTP id gi11so981428lbb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 04:15:15 -0800 (PST)
+	Wed, 09 Jan 2013 04:15:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=0tCtZ61SotK7lAPdBqRgdgMko0DfpAb+zRr3XQTtJHk=;
-	b=Ef+sTNd5AsJMH5jTgEuv2BAUbGo/sKgfg15mjfpXKauph+bmmVUL1QXFigb7JvKDop
-	QSng6EJc9MjgZVaFKiBRwEP5PLKNny11nd69rNfE4FnHUN8uXweImHAYmAsm3+YYZfcx
-	kQ5qPJyNCSIwlS5O8fM4nGcMu2uhm0Ta4c38Ev9qmjMB+k82ixah2ogpT+UPkZ8QutbN
-	tVE+Ixj225XOdtnQXuGqlerx0zpFdSVoRZf4wFy5qTRQ6amnYssVIuL7kfvk1Fb2VqjS
-	48dVKxGBOpGlQAnU9dvuDHAS4VsQZG6mLtUMSkt5XJ+dAbBEiJsAWdNwH3lXeuDgpyK0
-	iwZg==
-X-Received: by 10.152.103.99 with SMTP id fv3mr64077554lab.16.1357733715575;
-	Wed, 09 Jan 2013 04:15:15 -0800 (PST)
+	:references; bh=InycOvhCNN78V4u+n0Jw6rQuehPYwLi+vvtZAYyuRWw=;
+	b=n9B0ZFk5QCg4kp/GLb6e0aJtkEC67+j4n4P2JDJuA9BwvjWCJFYQ7pdGLgjMAJtTbd
+	+TseY8N8qrbLe8upHHiuDRiSfO+XmznjdnJnr4EXepgY/Bg9XS5WXYaFM+xg0nud47Zn
+	h17dS7/y8GERSkj0B2HbS/qI/axrtjsLyZmyqllx/hx2aSMYqXAyv8S/kOkIt8HyjVGN
+	+AbUX6+Qb0DdDapDXPSWVZ8aIJa7lFNzbk2/lk98yfm4Un8kZYHZH2U5gskG0Dl4GWuS
+	jaoHDmMChFH8utxb20rgTl9j0hyaVZonlO9ibNSFHn01Zf7NTO6u8GRmZOLeNdKqZz5y
+	d6gg==
+X-Received: by 10.112.10.232 with SMTP id l8mr27918968lbb.69.1357733735676;
+	Wed, 09 Jan 2013 04:15:35 -0800 (PST)
 Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id ft8sm25769569lab.9.2013.01.09.04.15.13
+	by mx.google.com with ESMTPS id fh4sm23873851lbb.7.2013.01.09.04.15.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Jan 2013 04:15:14 -0800 (PST)
+	Wed, 09 Jan 2013 04:15:34 -0800 (PST)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1TsuY8-00060W-5F; Wed, 09 Jan 2013 14:14:28 +0200
+	id 1TsuYd-00060c-76; Wed, 09 Jan 2013 14:14:59 +0200
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 14:13:53 +0200
-Message-Id: <1357733634-23036-2-git-send-email-cazfi74@gmail.com>
+Date: Wed,  9 Jan 2013 14:13:54 +0200
+Message-Id: <1357733634-23036-3-git-send-email-cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357733634-23036-1-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1357733634-23036-2-git-send-email-cazfi74@gmail.com>
 References: <1357733634-23036-1-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH v3 1/2] harfbuzz: add recipe, version 0.9.10
+	<1357733634-23036-2-git-send-email-cazfi74@gmail.com>
+Subject: [PATCH v3 2/2] pango: update to upstream version 1.32.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,80 +45,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 12:30:29 -0000
+X-List-Received-Date: Wed, 09 Jan 2013 12:31:35 -0000
 
-OpenType text shaping engine HarfBuzz is dependency of pango >= 1.32
-This depends on all of glib-2.0, cairo, and freetype to consistently
-provide all backends. Otherwise it would, in typical case, depend
-on build order of these packages. HarfBuzz configure would pick those
-backends for which dependencies happen to be built before it.
-Similarly graphite is consistenly disabled if there ever happens
-to be recipe for it.
+multilib-fix-clean.patch adjusted to apply cleanly, and to handle
+new modules.cache file.
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../harfbuzz-0.9.10/disable_graphite.patch         |   15 ++++++++++
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb  |   29 ++++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/disable_graphite.patch
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb
+ .../pango/pango-1.30.1/multilib-fix-clean.patch    |   42 -----------
+ .../pango/pango-1.32.5/multilib-fix-clean.patch    |   75 ++++++++++++++++++++
+ .../{pango-1.30.1 => pango-1.32.5}/no-tests.patch  |    0
+ meta/recipes-graphics/pango/pango.inc              |    6 +-
+ .../pango/{pango_1.30.1.bb => pango_1.32.5.bb}     |    4 +-
+ 5 files changed, 80 insertions(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
+ create mode 100644 meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
+ rename meta/recipes-graphics/pango/{pango-1.30.1 => pango-1.32.5}/no-tests.patch (100%)
+ rename meta/recipes-graphics/pango/{pango_1.30.1.bb => pango_1.32.5.bb} (59%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/disable_graphite.patch b/meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/disable_graphite.patch
+diff --git a/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
+deleted file mode 100644
+index 3f00ad8..0000000
+--- a/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: pango-1.28.4/configure.in
+-===================================================================
+---- pango-1.28.4.orig/configure.in	2011-04-05 04:29:16.000000000 +0800
+-+++ pango-1.28.4/configure.in	2012-05-08 21:32:17.000000000 +0800
+-@@ -205,6 +205,11 @@
+- 
+- AC_SUBST(PANGO_DEBUG_FLAGS)
+- 
+-+AC_ARG_WITH(mlprefix,
+-+            AC_HELP_STRING([--with-mlprefix=<ARG>], [multilib prefix]),
+-+            mlprefix_str=$withval, mlprefix_str="")
+-+AC_DEFINE_UNQUOTED([MLPREFIX], ["$mlprefix_str"], [multilib prefix.])
+-+
+- AC_ARG_ENABLE(rebuilds,
+-               [AC_HELP_STRING([--disable-rebuilds],
+-                               [disable all source autogeneration rules])],,
+-Index: pango-1.28.4/pango/modules.c
+-===================================================================
+---- pango-1.28.4.orig/pango/modules.c	2010-09-22 03:37:01.000000000 +0800
+-+++ pango-1.28.4/pango/modules.c	2012-05-08 21:21:02.000000000 +0800
+-@@ -529,7 +529,8 @@
+- 
+-   if (!file_str)
+-     file_str = g_build_filename (pango_get_sysconf_subdirectory (),
+--				 "pango.modules",
+-+/* For multilib case, keep multiple config file for different libs */
+-+				 MLPREFIX "pango.modules",
+- 				 NULL);
+- 
+-   files = pango_split_file_list (file_str);
+-@@ -640,7 +641,8 @@
+-       if (!no_module_warning)
+- 	{
+- 	  gchar *filename = g_build_filename (pango_get_sysconf_subdirectory (),
+--					      "pango.modules",
+-+/* For multilib case, keep multiple config file for different libs */
+-+					      MLPREFIX "pango.modules",
+- 					      NULL);
+- 	  g_critical ("No modules found:\n"
+- 		      "No builtin or dynamically loaded modules were found.\n"
+diff --git a/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
 new file mode 100644
-index 0000000..49938ba
+index 0000000..ad414dd
 --- /dev/null
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/disable_graphite.patch
-@@ -0,0 +1,15 @@
-+Upstream-Status: Inappropriate [disable feature]
++++ b/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
+@@ -0,0 +1,75 @@
++Upstream-Status: Pending
++
++Updated to apply to pango-1.32.5
 +
 +Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd harfbuzz-0.9.10/configure.ac harfbuzz-0.9.10/configure.ac
-+--- harfbuzz-0.9.10/configure.ac	2013-01-03 08:08:51.000000000 +0200
-++++ harfbuzz-0.9.10/configure.ac	2013-01-09 08:18:04.812529418 +0200
-+@@ -185,7 +185,7 @@
++diff -Nurd pango-1.32.5/configure.ac pango-1.32.5/configure.ac
++--- pango-1.32.5/configure.ac	2012-12-07 04:43:25.000000000 +0200
+++++ pango-1.32.5/configure.ac	2013-01-09 08:27:40.328516792 +0200
++@@ -213,6 +213,11 @@
 +
-+ dnl ==========================================================================
++ AC_SUBST(PANGO_DEBUG_FLAGS)
 +
-+-PKG_CHECK_MODULES(GRAPHITE2, graphite2, have_graphite=true, have_graphite=false)
-++have_graphite=false
-+ if $have_graphite; then
-+     AC_DEFINE(HAVE_GRAPHITE2, 1, [Have Graphite library])
-+ fi
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb
-new file mode 100644
-index 0000000..0dd6301
---- /dev/null
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "Text shaping library"
-+DESCRIPTION = "HarfBuzz is an OpenType text shaping engine."
-+HOMEPAGE = "http://www.freedesktop.org/wiki/Software/HarfBuzz"
-+BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=HarfBuzz"
+++AC_ARG_WITH(mlprefix,
+++            AC_HELP_STRING([--with-mlprefix=<ARG>], [multilib prefix]),
+++            mlprefix_str=$withval, mlprefix_str="")
+++AC_DEFINE_UNQUOTED([MLPREFIX], ["$mlprefix_str"], [multilib prefix.])
+++
++ AC_ARG_ENABLE(rebuilds,
++               [AC_HELP_STRING([--disable-rebuilds],
++                               [disable all source autogeneration rules])],,
++diff -Nurd pango-1.32.5/pango/modules.c pango-1.32.5/pango/modules.c
++--- pango-1.32.5/pango/modules.c	2012-12-17 20:27:56.000000000 +0200
+++++ pango-1.32.5/pango/modules.c	2013-01-09 08:31:16.336512052 +0200
++@@ -555,11 +555,11 @@
++       files = g_new (char *, 3);
 +
-+LICENSE = "Old-MIT | UCDN | ICU | HarfBuzz-old"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
-+                    file://src/hb-ucdn/COPYING;md5=994ba0f1295f15b4bda4999a5bbeddef \
-+                    file://src/hb-icu-le/COPYING;md5=0ac60acf068e2cc9facdf86169a9c13e \
-+                    file://src/hb-icu-le/license.html;md5=9136737088bbfbbf86d9a714da49fb89 \
-+                    file://src/hb-old/COPYING;md5=6e8442c12d498ce55cfe39fc60f97981 \
-+"
++       files[0] = g_build_filename (pango_get_sysconf_subdirectory (),
++-                                   "pango.modules",
+++                                   MLPREFIX "pango.modules",
++                                    NULL);
++       files[1] = g_build_filename (pango_get_lib_subdirectory (),
++                                    MODULE_VERSION,
++-                                   "modules.cache",
+++                                   MLPREFIX "modules.cache",
++                                    NULL);
++       files[2] = NULL;
++     }
++@@ -674,7 +674,8 @@
++       if (!no_module_warning)
++	{
++	  gchar *filename = g_build_filename (pango_get_sysconf_subdirectory (),
++-					      "pango.modules",
+++/* For multilib case, keep multiple config file for different libs */
+++					      MLPREFIX "pango.modules",
++					      NULL);
++	  g_critical ("No modules found:\n"
++		      "No builtin or dynamically loaded modules were found.\n"
++diff -Nurd pango-1.32.5/pango/modules.c.rej pango-1.32.5/pango/modules.c.rej
++--- pango-1.32.5/pango/modules.c.rej	1970-01-01 02:00:00.000000000 +0200
+++++ pango-1.32.5/pango/modules.c.rej	2013-01-09 08:27:40.328516792 +0200
++@@ -0,0 +1,12 @@
+++--- pango/modules.c	2010-09-22 03:37:01.000000000 +0800
++++++ pango/modules.c	2012-05-08 21:21:02.000000000 +0800
+++@@ -529,7 +529,8 @@
+++
+++   if (!file_str)
+++     file_str = g_build_filename (pango_get_sysconf_subdirectory (),
+++-				 "pango.modules",
++++/* For multilib case, keep multiple config file for different libs */
++++				 MLPREFIX "pango.modules",
+++ 				 NULL);
+++
+++   files = pango_split_file_list (file_str);
++diff -Nurd pango-1.32.5/pango/querymodules.c pango-1.32.5/pango/querymodules.c
++--- pango-1.32.5/pango/querymodules.c	2012-08-28 15:27:18.000000000 +0300
+++++ pango-1.32.5/pango/querymodules.c	2013-01-09 08:31:47.828511359 +0200
++@@ -304,7 +304,7 @@
 +
-+SECTION = "libs"
-+
-+PR = "r0"
-+
-+SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-${PV}.tar.bz2 \
-+           file://disable_graphite.patch \
-+"
-+
-+SRC_URI[md5sum] = "deec04f2281bef6323f4ad1dabbf75f7"
-+SRC_URI[sha256sum] = "1f8c281ded05290fd1964c0e11a2bde607713b33d0c8122a8d230452d99c2e23"
-+
-+inherit autotools pkgconfig
-+
-+DEPENDS = "icu glib-2.0 cairo freetype"
-+
-+BBCLASSEXTEND = "native"
++       cache_file = g_build_filename (pango_get_lib_subdirectory (),
++                                      MODULE_VERSION,
++-                                     "modules.cache",
+++                                     MLPREFIX "modules.cache",
++                                      NULL);
++       err = NULL;
++       if (!g_file_set_contents (cache_file, contents->str, -1, &err))
+diff --git a/meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch b/meta/recipes-graphics/pango/pango-1.32.5/no-tests.patch
+similarity index 100%
+rename from meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch
+rename to meta/recipes-graphics/pango/pango-1.32.5/no-tests.patch
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 81c2a7e..ce5caf6 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -10,13 +10,13 @@ SECTION = "libs"
+ LICENSE = "LGPLv2.0+"
+ 
+ X11DEPENDS = "virtual/libx11 libxft"
+-DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils pango-native"
++DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils pango-native harfbuzz"
+ 
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
+ 
+ BBCLASSEXTEND = "native"
+-DEPENDS_class-native = "glib-2.0-native cairo-native"
++DEPENDS_class-native = "glib-2.0-native cairo-native harfbuzz-native"
+ 
+ PACKAGES_DYNAMIC += "^pango-module-.*"
+ 
+@@ -41,7 +41,7 @@ EXTRA_OECONF = "--disable-glibtest \
+ 	        --with-mlprefix=${MLPREFIX}"
+ 
+ LEAD_SONAME = "libpango-1.0*"
+-LIBV = "1.6.0"
++LIBV = "1.8.0"
+ 
+ postinst_prologue() {
+ if ! [ -e $D${sysconfdir}/pango ] ; then
+diff --git a/meta/recipes-graphics/pango/pango_1.30.1.bb b/meta/recipes-graphics/pango/pango_1.32.5.bb
+similarity index 59%
+rename from meta/recipes-graphics/pango/pango_1.30.1.bb
+rename to meta/recipes-graphics/pango/pango_1.32.5.bb
+index 7254321..e71f514 100644
+--- a/meta/recipes-graphics/pango/pango_1.30.1.bb
++++ b/meta/recipes-graphics/pango/pango_1.32.5.bb
+@@ -9,7 +9,7 @@ GNOME_COMPRESS_TYPE="xz"
+ SRC_URI += "file://no-tests.patch \
+             file://multilib-fix-clean.patch"
+ 
+-SRC_URI[archive.md5sum] = "ec3c1f236ee9bd4a982a5f46fcaff7b9"
+-SRC_URI[archive.sha256sum] = "3a8c061e143c272ddcd5467b3567e970cfbb64d1d1600a8f8e62435556220cbe"
++SRC_URI[archive.md5sum] = "8e846804d6e219bc795a26a4a39b5bfd"
++SRC_URI[archive.sha256sum] = "7d7bc99c3d9b580cb4fe787fe47824e56e39534b9040e1c8a2a159248d8e5821"
+ 
+ #PARALLEL_MAKE = ""
 -- 
 1.7.10.4
 
