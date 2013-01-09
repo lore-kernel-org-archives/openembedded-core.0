@@ -1,33 +1,36 @@
-Received: from mail-la0-f54.google.com ([209.85.215.54])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bjorn.forsman@gmail.com>) id 1Tt0pu-0004nm-LA
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Tt0rQ-0004ru-FO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 19:57:21 +0100
-Received: by mail-la0-f54.google.com with SMTP id fp12so2237934lab.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 10:42:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=4upSpTY6Sk9zeG2Mb9yNN5drHVxMMO3Ip7SlOCUmrQ4=;
-	b=deq3C9NnJPGo/0/iTljp+Kko5wsZLeQpiCWasMhMbyCZX7x+IvjILEcqlMJP7x6cHU
-	4MWDZC9iPYmEpLFBbPfNQutcrZ8Bwqi1lZUMNY5rn+IH3dmlBtlL2OsVxZHrnQjZXEIE
-	FZZTy55WShnX5x0hE8dFzywi/mSiKj6TY/mnY49XXdJG2Kdshf8/36ftGVRtDkCnNPe9
-	fhaJs4YVLStQ66lk+KXt6JZF5U6iePTmPC2pdF584neKWgGviqVtzf0DP1ZScHtKBTIS
-	Z+aDbLtyAwjtcu1JqiQP6R9HEOEpZRjqSxSQd1Xubl9U+v+W0zGcn6s2HvwxWlPpY6NU
-	hXbA==
+	Wed, 09 Jan 2013 19:58:49 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r09IhWGG007721
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 9 Jan 2013 19:43:34 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Tt0ce-0005ug-GX; Wed, 09 Jan 2013 19:43:32 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <alpine.DEB.2.02.1301091312270.14396@oneiric>
+	<50EDB793.7080202@linux.intel.com>
+Date: Wed, 09 Jan 2013 19:43:32 +0100
+In-Reply-To: <50EDB793.7080202@linux.intel.com> (Saul Wold's message of "Wed, 
+	09 Jan 2013 10:31:47 -0800")
+Message-ID: <ly38ya8aej.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.112.10.71 with SMTP id g7mr28245502lbb.70.1357756922362; Wed,
-	09 Jan 2013 10:42:02 -0800 (PST)
-Received: by 10.112.133.195 with HTTP; Wed, 9 Jan 2013 10:42:02 -0800 (PST)
-In-Reply-To: <alpine.DEB.2.02.1301090752510.25391@oneiric>
-References: <alpine.DEB.2.02.1301090752510.25391@oneiric>
-Date: Wed, 9 Jan 2013 19:42:02 +0100
-Message-ID: <CAEYzJUHQ8c4NDErbcjNyRLKg3NfENUrFo6JO1xdL71dZsXyzrA@mail.gmail.com>
-From: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: for a quad-core machine, shouldn't parallelism be set to 8?
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Subject: Re: [PATCH] local.conf.sample: Suggest parallelism of twice the number of cores.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 18:57:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Jan 2013 18:58:49 -0000
+Content-Type: text/plain
 
-On 9 January 2013 13:55, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
+
+>>   #PARALLEL_MAKE = "-j 4"
+>>   #
+>> -# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+>> -# be appropriate for example.
+>> -
+>> +# If you have a multi-core machine, you would normally set both of these variables
+>> +# to twice the number of cores.  So for a quad-core machine, it would be appropriate
+>> +# to set BB_NUMBER_THREADS = "8" and PARALLEL_MAKE = "-j 8".
 >
->   just noticed this in local.conf.sample:
->
-> # For a quad-core machine, BB_NUMBER_THREADS =3D "4", PARALLEL_MAKE =3D "=
--j 4" would
-> # be appropriate for example.
->
->   i thought the general rule was that parallelism should be *twice*
-> the number of cores.  that's certainly what's suggested in the yocto
-> QS guide:
+> I think adding a note to ensure that hyperthreading is enabled would
+> be appropriate, then number of threads = number of hyperthreaded cores
+> (4 vs 8).
 
-Some time ago I wrote a script to build the linux kernel 3 times at
-each -jN level from 1 to 50. Then I averaged the build time on each
--jN level. I got the fastest build with -jNCPUS. Going above NCPUS
-just added overhead, although very little. The overhead seemed to
-build up quite linearly from above -jNCPUS. Because the overhead is so
-little, having -jNCPUS*2 may not be noticeably slower than -jNCPUS.
+what about a general
 
-I ran the same benchmark another machine and it showed the same trend
-curve. Note that NCPUS must include the hyperthread cores.
+| BB_NUMBER_THREADS ??= "${@os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])}"
 
-Best regards,
-Bj=C3=B8rn Forsman
+in bitbake.conf?  Or the sqrt() of it in in both PARALLEL_MAKE and
+BB_NUMBER_THREADS...
+
+
+Enrico
 
 
