@@ -1,46 +1,20 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Tt06o-0000w5-B2
+	(envelope-from <sgw@linux.intel.com>) id 1Tt07n-0000zy-P3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 19:10:39 +0100
-Received: from mail-pa0-f72.google.com ([209.85.220.72])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 09:55:24 -0800
-Received: by mail-pa0-f72.google.com with SMTP id fb10so1819135pad.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 09:55:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:message-id:date:from:user-agent:mime-version
-	:to:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=5a3swbegoLEOKTY676f2nQnbnY6Kd2nM8uykDfe9JPQ=;
-	b=cd0lWSWhgY0Nl6bcF60Jzxxg84utb3z/ICQ7uTwFK8HfzxOm+rgyNwFujqBhrziEOH
-	VnY1otRToMo8vyKsH7aO5wCAjyS3qy2x+ogkjIJM+IXTBF5WSOJT8dj2PBQ+h54Catcr
-	cKD3+BNsAod4B1gAQ0w4QJJmPq3q3lrKkM3+FHJSv+L9KsMdgZMDwJNOL2VYAqXw8q+V
-	qCx1mo3qUZ7VTmWWPv5RLuE7BWcVzpD+6jNAJBYzX6P4BNl3kYkOnwcjF79ksOsiAu3C
-	W3gr1iIRT6qHOxzt5+1OutGh/1POdNYMYkJ+JsynWwy1owekH+rQKngGLgMbErX4BSJb
-	JS3A==
-X-Received: by 10.68.234.36 with SMTP id ub4mr213304266pbc.68.1357754124281;
-	Wed, 09 Jan 2013 09:55:24 -0800 (PST)
-X-Received: by 10.68.234.36 with SMTP id ub4mr213304240pbc.68.1357754124129;
-	Wed, 09 Jan 2013 09:55:24 -0800 (PST)
-Received: from [192.168.1.137] (c-76-115-207-118.hsd1.or.comcast.net.
-	[76.115.207.118])
-	by mx.google.com with ESMTPS id d8sm43185015pax.23.2013.01.09.09.55.22
-	(version=SSLv3 cipher=OTHER); Wed, 09 Jan 2013 09:55:23 -0800 (PST)
-Message-ID: <50EDAF03.5@intel.com>
-Date: Wed, 09 Jan 2013 09:55:15 -0800
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
+	Wed, 09 Jan 2013 19:11:45 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2013 09:56:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,439,1355126400"; d="scan'208";a="244149667"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.147])
+	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2013 09:56:26 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <alpine.DEB.2.02.1301090752510.25391@oneiric>
-	<7E75003D-F6FC-4B4B-9FB8-A84DB5CCEDC8@gmail.com>
-	<alpine.DEB.2.02.1301090923001.10155@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1301090923001.10155@oneiric>
-X-Gm-Message-State: ALoCoQmEPeyGexgRUc3z3Md3SE70uRuBhSVa2U6gYgiynZg9N0HQ0tBoIu8UQIBlLyhOEqUREQ/+dfqqjxXFxiOH6lWGHSbgf7swMD2RwxpBK5XLC95Rn/7NVyfroPaXMMVuqcFMeY2Lzv7xBzi4Xen8E0UGeuC+QXq+z3FnxUUz4oxxonMI2x3mv5Nyv+Kkv1xka38pkmFp
-Subject: Re: for a quad-core machine, shouldn't parallelism be set to 8?
+Date: Wed,  9 Jan 2013 09:56:25 -0800
+Message-Id: <1357754185-17000-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] valgrind: update configure for eglibc 2.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,41 +27,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 18:10:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Jan 2013 18:11:48 -0000
 
-On 01/09/2013 06:26 AM, Robert P. J. Day wrote:
-> On Wed, 9 Jan 2013, Elvis Dowson wrote:
->
->> Hi Robert,
->
->> On my i7 quad core machine, I've set both values to 6. Setting it to
->> 6 appears to be nearly the same as setting it to 8, I dare say a
->> marginally faster by a minute. I can build core image console in
->> around 22 minutes.
->>
->> Elvis
->
->    i recall someone (richard purdie?) once benchmarked to check the
-> benefits of increasing parallelism and while it's obvious you'll hit
-> the wall eventually, it would still be nice for the documentation to
-> be consistent.
+Tested with both eglibc 2.16 and 2.17
 
-FWIW Robert, I think in the cases like this where the patch is fairly 
-trivial, I'd recommend just submitting it and getting feedback on it. In 
-general I've found you've raised some legitimate issues, but the fixes 
-aren't happening because patches aren't coming in, and things like 
-documentation consistency on this level is not going to compete with 
-other issues the developers are munching on.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ ...ibc-2.16.patch => configure-with-newer-glibc.patch} | 18 +++++++++++++-----
+ meta/recipes-devtools/valgrind/valgrind_3.7.0.bb       |  4 ++--
+ 2 files changed, 15 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/valgrind/valgrind-3.7.0/{configure-with-glibc-2.16.patch => configure-with-newer-glibc.patch} (62%)
 
-Just a suggestion,
-
-Scott
-
+diff --git a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
+similarity index 62%
+rename from meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
+rename to meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
+index c622637..b369de8 100644
+--- a/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
++++ b/meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-newer-glibc.patch
+@@ -1,13 +1,14 @@
+ Add case for glibc 2.16 and correct error message to denote support until 2.16
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+ Upstream-Status: Pending
+ Index: valgrind-3.7.0/configure.in
+ ===================================================================
+---- valgrind-3.7.0.orig/configure.in	2012-07-04 12:57:10.557192441 -0700
+-+++ valgrind-3.7.0/configure.in	2012-07-04 12:57:58.785194776 -0700
+-@@ -788,6 +788,13 @@
++--- valgrind-3.7.0.orig/configure.in
+++++ valgrind-3.7.0/configure.in
++@@ -788,6 +788,20 @@ case "${GLIBC_VERSION}" in
+  	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
+  	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
+  	;;
+@@ -18,15 +19,22 @@ Index: valgrind-3.7.0/configure.in
+ +	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
+ +	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
+ +	;;
+++     2.17)
+++	AC_MSG_RESULT(2.17 family)
+++	AC_DEFINE([GLIBC_2_17], 1, [Define to 1 if you're using glibc 2.17.x])
+++	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
+++	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
+++	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
+++	;;
+       darwin)
+  	AC_MSG_RESULT(Darwin)
+  	AC_DEFINE([DARWIN_LIBC], 1, [Define to 1 if you're using Darwin])
+-@@ -801,7 +808,7 @@
++@@ -801,7 +815,7 @@ case "${GLIBC_VERSION}" in
+  
+       *)
+  	AC_MSG_RESULT([unsupported version ${GLIBC_VERSION}])
+ -	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.14])
+-+	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.16])
+++	AC_MSG_ERROR([Valgrind requires glibc version 2.2 - 2.17])
+  	AC_MSG_ERROR([or Darwin libc])
+  	;;
+  esac
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+index 3def11d..0bf6ef4 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c46082167a314d785d012a244748d803 \
+ 
+ X11DEPENDS = "virtual/libx11"
+ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+ 	   file://fix_issue_caused_by_ccache.patch \
+@@ -18,7 +18,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://fix_for_automake_1.11.2.patch \
+            file://configure-fix.patch \
+            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
+-           file://configure-with-glibc-2.16.patch \
++           file://configure-with-newer-glibc.patch \
+           "
+ 
+ SRC_URI_append_powerpc = " file://valgrind-3.7.0-fix-error-of-reading-debug-info.patch"
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.8.0.2
+
 
 
