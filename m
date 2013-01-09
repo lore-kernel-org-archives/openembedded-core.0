@@ -1,38 +1,32 @@
-Received: from mail-lb0-f174.google.com ([209.85.217.174])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Tsunv-0007hR-Is
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 13:30:54 +0100
-Received: by mail-lb0-f174.google.com with SMTP id gi11so981428lbb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 04:15:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=InycOvhCNN78V4u+n0Jw6rQuehPYwLi+vvtZAYyuRWw=;
-	b=n9B0ZFk5QCg4kp/GLb6e0aJtkEC67+j4n4P2JDJuA9BwvjWCJFYQ7pdGLgjMAJtTbd
-	+TseY8N8qrbLe8upHHiuDRiSfO+XmznjdnJnr4EXepgY/Bg9XS5WXYaFM+xg0nud47Zn
-	h17dS7/y8GERSkj0B2HbS/qI/axrtjsLyZmyqllx/hx2aSMYqXAyv8S/kOkIt8HyjVGN
-	+AbUX6+Qb0DdDapDXPSWVZ8aIJa7lFNzbk2/lk98yfm4Un8kZYHZH2U5gskG0Dl4GWuS
-	jaoHDmMChFH8utxb20rgTl9j0hyaVZonlO9ibNSFHn01Zf7NTO6u8GRmZOLeNdKqZz5y
-	d6gg==
-X-Received: by 10.112.10.232 with SMTP id l8mr27918968lbb.69.1357733735676;
-	Wed, 09 Jan 2013 04:15:35 -0800 (PST)
-Received: from prime (a91-153-5-18.elisa-laajakaista.fi. [91.153.5.18])
-	by mx.google.com with ESMTPS id fh4sm23873851lbb.7.2013.01.09.04.15.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Jan 2013 04:15:34 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TsuYd-00060c-76; Wed, 09 Jan 2013 14:14:59 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 14:13:54 +0200
-Message-Id: <1357733634-23036-3-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1357733634-23036-2-git-send-email-cazfi74@gmail.com>
-References: <1357733634-23036-1-git-send-email-cazfi74@gmail.com>
-	<1357733634-23036-2-git-send-email-cazfi74@gmail.com>
-Subject: [PATCH v3 2/2] pango: update to upstream version 1.32.5
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TsvGx-00005I-2E for openembedded-core@lists.openembedded.org;
+	Wed, 09 Jan 2013 14:00:47 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r09CjX7D029369;
+	Wed, 9 Jan 2013 12:45:33 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23407-03; Wed,  9 Jan 2013 12:45:29 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r09CjMJl029362
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 9 Jan 2013 12:45:24 GMT
+Message-ID: <1357735525.13022.38.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+Date: Wed, 09 Jan 2013 12:45:25 +0000
+In-Reply-To: <50ED302A.1080601@oss.bmw-carit.de>
+References: <50ED2BAD.5030405@oss.bmw-carit.de>
+	<CAF6bG8cLVGAyphd=pk7T5eF8LS=BXb7+fy7uOyUzwBHSPKJxvg@mail.gmail.com>
+	<50ED302A.1080601@oss.bmw-carit.de>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Problems with sending patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,205 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 12:31:35 -0000
+X-List-Received-Date: Wed, 09 Jan 2013 13:00:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-multilib-fix-clean.patch adjusted to apply cleanly, and to handle
-new modules.cache file.
+On Wed, 2013-01-09 at 09:54 +0100, Lukas Bulwahn wrote:
+> On 01/09/2013 09:50 AM, Marko Lindqvist wrote:
+> > On 9 January 2013 10:34, Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de> wrote:
+> >> Hi,
+> >>
+> >> I have been repeated trying to send a patch to this mailing list, but it
+> >> seems that it never appears here.
+> >> I have checked the commit extensively for some problem, I tried different
+> >> ways of sending with format-patch and thunderbird, and git-send-email.
+> >> And I have checked our mail server. However, none of these options helped.
+> >>
+> >> I have sent patches some weeks ago already, that's why I am surprised that
+> >> it does not work anymore.
+> >> Has something been changed lately for sending patches on the mailing list?
+> >>
+> >> Any pointers are welcome.
+> >   Looking my inbox, I've received at least three times this patch from you:
+> > [PATCH] site/common: deactivate a runtime check for ipv6-support in,
+> > python >=2.7.1 that fails when cross-compiling
+> >
+> >   If you still don't see them yourself, your end is probably just
+> > noticing that you have sent them yourself and they should not be
+> > displayed as incoming.
+> >
+> Thanks for your response. I did not expect my end to be that intelligent.
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../pango/pango-1.30.1/multilib-fix-clean.patch    |   42 -----------
- .../pango/pango-1.32.5/multilib-fix-clean.patch    |   75 ++++++++++++++++++++
- .../{pango-1.30.1 => pango-1.32.5}/no-tests.patch  |    0
- meta/recipes-graphics/pango/pango.inc              |    6 +-
- .../pango/{pango_1.30.1.bb => pango_1.32.5.bb}     |    4 +-
- 5 files changed, 80 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
- create mode 100644 meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
- rename meta/recipes-graphics/pango/{pango-1.30.1 => pango-1.32.5}/no-tests.patch (100%)
- rename meta/recipes-graphics/pango/{pango_1.30.1.bb => pango_1.32.5.bb} (59%)
+There is an option in mailman's config where you elect to get your own
+emails to the mailing list or not. It sounds like you've elected not to.
 
-diff --git a/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
-deleted file mode 100644
-index 3f00ad8..0000000
---- a/meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Upstream-Status: Pending
--
--Index: pango-1.28.4/configure.in
--===================================================================
----- pango-1.28.4.orig/configure.in	2011-04-05 04:29:16.000000000 +0800
--+++ pango-1.28.4/configure.in	2012-05-08 21:32:17.000000000 +0800
--@@ -205,6 +205,11 @@
-- 
-- AC_SUBST(PANGO_DEBUG_FLAGS)
-- 
--+AC_ARG_WITH(mlprefix,
--+            AC_HELP_STRING([--with-mlprefix=<ARG>], [multilib prefix]),
--+            mlprefix_str=$withval, mlprefix_str="")
--+AC_DEFINE_UNQUOTED([MLPREFIX], ["$mlprefix_str"], [multilib prefix.])
--+
-- AC_ARG_ENABLE(rebuilds,
--               [AC_HELP_STRING([--disable-rebuilds],
--                               [disable all source autogeneration rules])],,
--Index: pango-1.28.4/pango/modules.c
--===================================================================
----- pango-1.28.4.orig/pango/modules.c	2010-09-22 03:37:01.000000000 +0800
--+++ pango-1.28.4/pango/modules.c	2012-05-08 21:21:02.000000000 +0800
--@@ -529,7 +529,8 @@
-- 
--   if (!file_str)
--     file_str = g_build_filename (pango_get_sysconf_subdirectory (),
---				 "pango.modules",
--+/* For multilib case, keep multiple config file for different libs */
--+				 MLPREFIX "pango.modules",
-- 				 NULL);
-- 
--   files = pango_split_file_list (file_str);
--@@ -640,7 +641,8 @@
--       if (!no_module_warning)
-- 	{
-- 	  gchar *filename = g_build_filename (pango_get_sysconf_subdirectory (),
---					      "pango.modules",
--+/* For multilib case, keep multiple config file for different libs */
--+					      MLPREFIX "pango.modules",
-- 					      NULL);
-- 	  g_critical ("No modules found:\n"
-- 		      "No builtin or dynamically loaded modules were found.\n"
-diff --git a/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
-new file mode 100644
-index 0000000..ad414dd
---- /dev/null
-+++ b/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
-@@ -0,0 +1,75 @@
-+Upstream-Status: Pending
-+
-+Updated to apply to pango-1.32.5
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd pango-1.32.5/configure.ac pango-1.32.5/configure.ac
-+--- pango-1.32.5/configure.ac	2012-12-07 04:43:25.000000000 +0200
-++++ pango-1.32.5/configure.ac	2013-01-09 08:27:40.328516792 +0200
-+@@ -213,6 +213,11 @@
-+
-+ AC_SUBST(PANGO_DEBUG_FLAGS)
-+
-++AC_ARG_WITH(mlprefix,
-++            AC_HELP_STRING([--with-mlprefix=<ARG>], [multilib prefix]),
-++            mlprefix_str=$withval, mlprefix_str="")
-++AC_DEFINE_UNQUOTED([MLPREFIX], ["$mlprefix_str"], [multilib prefix.])
-++
-+ AC_ARG_ENABLE(rebuilds,
-+               [AC_HELP_STRING([--disable-rebuilds],
-+                               [disable all source autogeneration rules])],,
-+diff -Nurd pango-1.32.5/pango/modules.c pango-1.32.5/pango/modules.c
-+--- pango-1.32.5/pango/modules.c	2012-12-17 20:27:56.000000000 +0200
-++++ pango-1.32.5/pango/modules.c	2013-01-09 08:31:16.336512052 +0200
-+@@ -555,11 +555,11 @@
-+       files = g_new (char *, 3);
-+
-+       files[0] = g_build_filename (pango_get_sysconf_subdirectory (),
-+-                                   "pango.modules",
-++                                   MLPREFIX "pango.modules",
-+                                    NULL);
-+       files[1] = g_build_filename (pango_get_lib_subdirectory (),
-+                                    MODULE_VERSION,
-+-                                   "modules.cache",
-++                                   MLPREFIX "modules.cache",
-+                                    NULL);
-+       files[2] = NULL;
-+     }
-+@@ -674,7 +674,8 @@
-+       if (!no_module_warning)
-+	{
-+	  gchar *filename = g_build_filename (pango_get_sysconf_subdirectory (),
-+-					      "pango.modules",
-++/* For multilib case, keep multiple config file for different libs */
-++					      MLPREFIX "pango.modules",
-+					      NULL);
-+	  g_critical ("No modules found:\n"
-+		      "No builtin or dynamically loaded modules were found.\n"
-+diff -Nurd pango-1.32.5/pango/modules.c.rej pango-1.32.5/pango/modules.c.rej
-+--- pango-1.32.5/pango/modules.c.rej	1970-01-01 02:00:00.000000000 +0200
-++++ pango-1.32.5/pango/modules.c.rej	2013-01-09 08:27:40.328516792 +0200
-+@@ -0,0 +1,12 @@
-++--- pango/modules.c	2010-09-22 03:37:01.000000000 +0800
-+++++ pango/modules.c	2012-05-08 21:21:02.000000000 +0800
-++@@ -529,7 +529,8 @@
-++
-++   if (!file_str)
-++     file_str = g_build_filename (pango_get_sysconf_subdirectory (),
-++-				 "pango.modules",
-+++/* For multilib case, keep multiple config file for different libs */
-+++				 MLPREFIX "pango.modules",
-++ 				 NULL);
-++
-++   files = pango_split_file_list (file_str);
-+diff -Nurd pango-1.32.5/pango/querymodules.c pango-1.32.5/pango/querymodules.c
-+--- pango-1.32.5/pango/querymodules.c	2012-08-28 15:27:18.000000000 +0300
-++++ pango-1.32.5/pango/querymodules.c	2013-01-09 08:31:47.828511359 +0200
-+@@ -304,7 +304,7 @@
-+
-+       cache_file = g_build_filename (pango_get_lib_subdirectory (),
-+                                      MODULE_VERSION,
-+-                                     "modules.cache",
-++                                     MLPREFIX "modules.cache",
-+                                      NULL);
-+       err = NULL;
-+       if (!g_file_set_contents (cache_file, contents->str, -1, &err))
-diff --git a/meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch b/meta/recipes-graphics/pango/pango-1.32.5/no-tests.patch
-similarity index 100%
-rename from meta/recipes-graphics/pango/pango-1.30.1/no-tests.patch
-rename to meta/recipes-graphics/pango/pango-1.32.5/no-tests.patch
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index 81c2a7e..ce5caf6 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -10,13 +10,13 @@ SECTION = "libs"
- LICENSE = "LGPLv2.0+"
- 
- X11DEPENDS = "virtual/libx11 libxft"
--DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils pango-native"
-+DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo elfutils pango-native harfbuzz"
- 
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
- 
- BBCLASSEXTEND = "native"
--DEPENDS_class-native = "glib-2.0-native cairo-native"
-+DEPENDS_class-native = "glib-2.0-native cairo-native harfbuzz-native"
- 
- PACKAGES_DYNAMIC += "^pango-module-.*"
- 
-@@ -41,7 +41,7 @@ EXTRA_OECONF = "--disable-glibtest \
- 	        --with-mlprefix=${MLPREFIX}"
- 
- LEAD_SONAME = "libpango-1.0*"
--LIBV = "1.6.0"
-+LIBV = "1.8.0"
- 
- postinst_prologue() {
- if ! [ -e $D${sysconfdir}/pango ] ; then
-diff --git a/meta/recipes-graphics/pango/pango_1.30.1.bb b/meta/recipes-graphics/pango/pango_1.32.5.bb
-similarity index 59%
-rename from meta/recipes-graphics/pango/pango_1.30.1.bb
-rename to meta/recipes-graphics/pango/pango_1.32.5.bb
-index 7254321..e71f514 100644
---- a/meta/recipes-graphics/pango/pango_1.30.1.bb
-+++ b/meta/recipes-graphics/pango/pango_1.32.5.bb
-@@ -9,7 +9,7 @@ GNOME_COMPRESS_TYPE="xz"
- SRC_URI += "file://no-tests.patch \
-             file://multilib-fix-clean.patch"
- 
--SRC_URI[archive.md5sum] = "ec3c1f236ee9bd4a982a5f46fcaff7b9"
--SRC_URI[archive.sha256sum] = "3a8c061e143c272ddcd5467b3567e970cfbb64d1d1600a8f8e62435556220cbe"
-+SRC_URI[archive.md5sum] = "8e846804d6e219bc795a26a4a39b5bfd"
-+SRC_URI[archive.sha256sum] = "7d7bc99c3d9b580cb4fe787fe47824e56e39534b9040e1c8a2a159248d8e5821"
- 
- #PARALLEL_MAKE = ""
--- 
-1.7.10.4
+An easy way to check if an email has got to the list is to use the
+mailing list archives:
+
+http://lists.linuxtogo.org/pipermail/openembedded-core/
+
+Cheers,
+
+Richard
 
 
 
