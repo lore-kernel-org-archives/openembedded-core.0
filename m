@@ -1,39 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TsykJ-0007Ic-Py
+Received: from starfish.geekisp.com ([216.168.135.166])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <philip@balister.org>) id 1TsynM-0007Pn-W9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 17:43:21 +0100
-Received: from mail-la0-f71.google.com ([209.85.215.71])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 08:27:04 -0800
-Received: by mail-la0-f71.google.com with SMTP id fn20so1849994lab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 08:28:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=0vktEwm82ZULBNpiJ2EvVe6ayUKUnPQk+A50ps6sfBw=;
-	b=daVxpVxllPpV1RD6jMuylyn2A+Icr0RO3cRf1llJt4A2xDdvaRFz07W6Cb7eLFQeDg
-	ePPWikhl+/GeTUSsmgaDLD7dCwpJ3ze59jdB1K97LWDSFKEydfLxGGpmUrWQXfHPGC2L
-	786cevPWcRhy5Rv7H14/i+2CuVBzHqK8K+Fme7R03bzVaX+ux2tP6OB5bkZ05QVuXC0t
-	mAuWoYjAalUsVCPq3ySdAItC12Wfb1R5UFhU9D1nE85OOUGesuozEFJFlR9yzo0KYif6
-	Q1bYx5KePriG20Ygg7HX7/hHS68cZFHsdmfB4gphJh7wipVZFovK+BbRIFF3AHwU5SyD
-	yaqw==
-X-Received: by 10.194.123.105 with SMTP id lz9mr109939992wjb.43.1357748880573; 
-	Wed, 09 Jan 2013 08:28:00 -0800 (PST)
-X-Received: by 10.194.123.105 with SMTP id lz9mr109939963wjb.43.1357748880306; 
-	Wed, 09 Jan 2013 08:28:00 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id s16sm5023902wii.0.2013.01.09.08.27.58
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Jan 2013 08:27:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 16:26:04 +0000
-Message-Id: <1357748764-5551-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQm5QzcD3nSZiWLsM3NqMyG9J3paHbTh75m3e489eTxW9sxFi5JFW9k/p/UvojF/eQFUe/Xv+rRWx8WfLeCMVOVjQDmv9NtGfdwlw0RGtvo2EzWU83t8v/tVmXNOO7JUNrbB2qRYKTF6ZTpidb5IHVqOjglNWc/Yn9mN0gr3/kqDdfYHgzzI7tjrpj7KfRn2N6Ot6ngM
-Subject: [PATCH V2] musicbrainz: handle rebuilds
+	Wed, 09 Jan 2013 17:46:38 +0100
+Received: (qmail 26825 invoked by uid 1003); 9 Jan 2013 16:31:16 -0000
+Received: from unknown (HELO ?192.168.43.231?)
+	(philip@opensdr.com@32.169.131.90)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	9 Jan 2013 16:31:14 -0000
+Message-ID: <50ED9B4D.3000409@balister.org>
+Date: Wed, 09 Jan 2013 11:31:09 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1357744955.13022.97.camel@ted>
+In-Reply-To: <1357744955.13022.97.camel@ted>
+X-Enigmail-Version: 1.4.6
+Cc: yocto <yocto@yoctoproject.org>,
+	bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	poky <poky@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: WebHob Mailing List Setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,46 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 16:43:22 -0000
+X-List-Received-Date: Wed, 09 Jan 2013 16:46:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-When rebuilding build-native already exists.  Sadly handling the directory
-existing causes cmake to forkbomb when rebuilding, so delete an existing
-build-native.
+On 01/09/2013 10:22 AM, Richard Purdie wrote:
+> Various people at various times have expressed an interest in webhob
+> which will be a web interface to bitbake's functionality as an evolution
+> of the capabilities of the current hob UI. There are some people looking
+> at the design of it and who are actively working on figuring out what it
+> should look like, what it needs to do, who it needs to serve and some
+> other key questions. They will also likely start implementing the
+> functionality soon.
+> 
+> In the interests of collaboration, we've setup the mailing list:
+> 
+> https://lists.yoctoproject.org/listinfo/webhob
 
-Also remove a variable that cmake warns isn't being used, and just build the
-tool that we need natively, not the entire library.
+Is there a gmane archive?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Philip
 
-diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-index 7343662..21eec6d 100644
---- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-+++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
-@@ -20,15 +20,17 @@ LDFLAGS_prepend_libc-uclibc = " -lpthread "
- inherit cmake pkgconfig
- 
- do_configure_prepend() {
-+    # The native build really doesn't like being rebuilt, so delete
-+    # it if it's already present.
-+    rm -rf build-native
-     mkdir build-native
-     cd build-native
-     cmake -DCMAKE_C_FLAGS=${BUILD_CFLAGS} \
-             -DCMAKE_C_COMPILER=${BUILD_CC} \
-             -DCMAKE_CXX_FLAGS=${BUILD_CXXFLAGS} \
-             -DCMAKE_CXX_COMPILER=${BUILD_CXX} \
--            -DCMAKE_LINK_FLAGS=${BUILD_LDFLAGS} \
-             ..
--    make
-+    make make-c-interface
-     cd ..
- }
- 
--- 
-1.7.10.4
-
+> 
+> which is where the design and initial implementation discussions are
+> going to happen. If you are interested please join the list.
+> 
+> I've cross posted this to ensure people know about it. Please take
+> discussion and replies up on the webhob list itself.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> 
 
 
