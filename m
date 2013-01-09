@@ -1,46 +1,39 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TsyiJ-00079s-Tg
+	(envelope-from <ross.burton@intel.com>) id 1TsykJ-0007Ic-Py
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 17:41:17 +0100
-Received: from mail-qa0-f69.google.com ([209.85.216.69])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 08:26:01 -0800
-Received: by mail-qa0-f69.google.com with SMTP id o19so2324730qap.4
+	Wed, 09 Jan 2013 17:43:21 +0100
+Received: from mail-la0-f71.google.com ([209.85.215.71])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 08:27:04 -0800
+Received: by mail-la0-f71.google.com with SMTP id fn20so1849994lab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 08:26:00 -0800 (PST)
+	Wed, 09 Jan 2013 08:28:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding
+	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
 	:x-gm-message-state;
-	bh=h3IuoSWbD92cD/AuzC6REfMePRW2QZyFjJrQMqVBho4=;
-	b=kHlnAtErkhSnsvK9M7b5Y4FjEi3QjJ+QJGkvyArXUFW56fVsUQq7dyPtrlkqYPdSwi
-	5gopZHwt8nidT8AtTOeBwkvFMmpO3uM9SwNjfAxM93MLgfZbpOzk0plBX6WhAgOLGmkq
-	aRFFC/xIruIV/cBw54YzYyNfbzSno1xxesvupkB298oHV1M92gr5ZG4S+8Xr33YAb2mV
-	BUJgEXhlu4xBlseLIxnCe3ahMVphYii+eCCD9/bn/cPXhcfkI0yxWgW3tF4pp2latqHT
-	II9/acLz6urWKn8xA0TElXnC3RT2F2HnBZx/VCSMmHF1q4jN7678LMdaYy05C0E47Hu+
-	iCuw==
-X-Received: by 10.220.247.136 with SMTP id mc8mr10937465vcb.44.1357748760812; 
-	Wed, 09 Jan 2013 08:26:00 -0800 (PST)
-Received: by 10.220.247.136 with SMTP id mc8mr10937460vcb.44.1357748760724;
-	Wed, 09 Jan 2013 08:26:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Wed, 9 Jan 2013 08:25:40 -0800 (PST)
-In-Reply-To: <CALbNGRTEiLQ8JkN1PvRc6k2rbuvnozP79ywYudMaUyXNViGpSg@mail.gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20121223201634.GN8988@jama.palm1.palmone.com>
-	<20121224091242.GS8988@jama.palm1.palmone.com>
-	<20130109132813.GJ3722@jama.palm1.palmone.com>
-	<CALbNGRTEiLQ8JkN1PvRc6k2rbuvnozP79ywYudMaUyXNViGpSg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Jan 2013 16:25:40 +0000
-Message-ID: <CAJTo0LZT_b4mRrYJOVJzfTzgU4-ipZhswQme-=FqFNGD6q845g@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-X-Gm-Message-State: ALoCoQnEnrpNQ7BUBe6FPgXyrw6ddv8W9+XsoH0dlmlyR8QZicbnG6AByypNSPEtYvhjLHemFqKzMPEsOFzNvK7vFGKzRr3LkRCO29ZREoWEiBz019Us+JuW68SCBi7ltfdutgSOK6ps/kPb/4ZYCzkmJJUNoBzXdfP1m/jvEdhDINMeM0xXl38swxjHOirqyz2YysciwF6K
-Cc: openembedded-core@lists.openembedded.org,
-	Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: State of bitbake world
+	bh=0vktEwm82ZULBNpiJ2EvVe6ayUKUnPQk+A50ps6sfBw=;
+	b=daVxpVxllPpV1RD6jMuylyn2A+Icr0RO3cRf1llJt4A2xDdvaRFz07W6Cb7eLFQeDg
+	ePPWikhl+/GeTUSsmgaDLD7dCwpJ3ze59jdB1K97LWDSFKEydfLxGGpmUrWQXfHPGC2L
+	786cevPWcRhy5Rv7H14/i+2CuVBzHqK8K+Fme7R03bzVaX+ux2tP6OB5bkZ05QVuXC0t
+	mAuWoYjAalUsVCPq3ySdAItC12Wfb1R5UFhU9D1nE85OOUGesuozEFJFlR9yzo0KYif6
+	Q1bYx5KePriG20Ygg7HX7/hHS68cZFHsdmfB4gphJh7wipVZFovK+BbRIFF3AHwU5SyD
+	yaqw==
+X-Received: by 10.194.123.105 with SMTP id lz9mr109939992wjb.43.1357748880573; 
+	Wed, 09 Jan 2013 08:28:00 -0800 (PST)
+X-Received: by 10.194.123.105 with SMTP id lz9mr109939963wjb.43.1357748880306; 
+	Wed, 09 Jan 2013 08:28:00 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id s16sm5023902wii.0.2013.01.09.08.27.58
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 09 Jan 2013 08:27:59 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Jan 2013 16:26:04 +0000
+Message-Id: <1357748764-5551-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQm5QzcD3nSZiWLsM3NqMyG9J3paHbTh75m3e489eTxW9sxFi5JFW9k/p/UvojF/eQFUe/Xv+rRWx8WfLeCMVOVjQDmv9NtGfdwlw0RGtvo2EzWU83t8v/tVmXNOO7JUNrbB2qRYKTF6ZTpidb5IHVqOjglNWc/Yn9mN0gr3/kqDdfYHgzzI7tjrpj7KfRn2N6Ot6ngM
+Subject: [PATCH V2] musicbrainz: handle rebuilds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,26 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 16:41:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Jan 2013 16:43:22 -0000
 
-On 9 January 2013 15:17, Andreas M=C3=BCller <schnitzeltony@googlemail.com>=
- wrote:
-> 2. bitbake libnotify3 -> Tons of: 'WARNING: The recipe libnotify3 is
-> trying to install files into a shared area when those files already
-> exist. Those files and their manifest location are:
->    /home/andreas/tmp/oe-core-eglibc/sysroots/overo/usr/lib/libnotify.a
->    Matched in manifest-overo-libnotify
+When rebuilding build-native already exists.  Sadly handling the directory
+existing causes cmake to forkbomb when rebuilding, so delete an existing
+build-native.
 
-The current libnotify doesn't actually depend on GTK+ 2 or GTK+ 3
-(well, the tests do, but that's trivially resolved with an
-upstreamable patch to add --disable-tests), so we don't need two
-recipes.
+Also remove a variable that cmake warns isn't being used, and just build the
+tool that we need natively, not the entire library.
 
-Speaking of GTK+ 3, I'm about to start pushing a series to add it to oe-cor=
-e.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
+index 7343662..21eec6d 100644
+--- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
++++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_git.bb
+@@ -20,15 +20,17 @@ LDFLAGS_prepend_libc-uclibc = " -lpthread "
+ inherit cmake pkgconfig
+ 
+ do_configure_prepend() {
++    # The native build really doesn't like being rebuilt, so delete
++    # it if it's already present.
++    rm -rf build-native
+     mkdir build-native
+     cd build-native
+     cmake -DCMAKE_C_FLAGS=${BUILD_CFLAGS} \
+             -DCMAKE_C_COMPILER=${BUILD_CC} \
+             -DCMAKE_CXX_FLAGS=${BUILD_CXXFLAGS} \
+             -DCMAKE_CXX_COMPILER=${BUILD_CXX} \
+-            -DCMAKE_LINK_FLAGS=${BUILD_LDFLAGS} \
+             ..
+-    make
++    make make-c-interface
+     cd ..
+ }
+ 
+-- 
+1.7.10.4
+
 
 
