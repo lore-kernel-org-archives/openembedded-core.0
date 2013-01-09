@@ -1,43 +1,43 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tsz5l-00087n-1i
+	(envelope-from <ross.burton@intel.com>) id 1Tsz5f-00087Q-Pq
 	for openembedded-core@lists.openembedded.org;
 	Wed, 09 Jan 2013 18:05:34 +0100
-Received: from mail-la0-f71.google.com ([209.85.215.71])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 08:50:15 -0800
-Received: by mail-la0-f71.google.com with SMTP id fn20so1871101lab.6
+Received: from mail-fa0-f69.google.com ([209.85.161.69])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 08:49:07 -0800
+Received: by mail-fa0-f69.google.com with SMTP id v1so1882447fav.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 08:50:13 -0800 (PST)
+	Wed, 09 Jan 2013 08:50:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=FODr4Ze+w6mHV+gROroG5LIiSo+5gv0kazRnLYIWfpk=;
-	b=SIkQS0vWKSM03kWFpo9Jj72YQy8w+Lc15Y8zW2a48CEDtMlKXWbQzuWGKyu6zE17ik
-	Nr5k4QzRV9pZnRfnEAEnlEn7ZtwhNRaDgqO9oyXa/f+kaqEl3QasgLbmzCmRor2is0dZ
-	YRAf+B9XAU/G/PGrsQFAQOWbm+MG8N8GP0ETyQ8RmMwKToKH7JjUpaVSeeu9YTqyeKsk
-	uwghJ/SwCnxSN5Sidi++0SxA6dLrjq8IQtAOAsyT6iva0fDIcSguvneokPz5uTPdI/R8
-	me/GnWHAmFZjA4E9BdT50GDnSiFEWz1QV9/57T4H9vL1scaBLJcx2sbQKHUI3L8DHNVf
-	Gfmw==
-X-Received: by 10.194.77.13 with SMTP id o13mr109709635wjw.58.1357750213527;
-	Wed, 09 Jan 2013 08:50:13 -0800 (PST)
-X-Received: by 10.194.77.13 with SMTP id o13mr109708940wjw.58.1357750206680;
-	Wed, 09 Jan 2013 08:50:06 -0800 (PST)
+	bh=CRxUGBfTkH7M+utFfHtNgRb2vxDtMsfwwveVxWect6I=;
+	b=BjNI2jsnAgoXPHqgGtxx72f7YKZnIlkWHgGMGNtIT4rVQpL5ceTRiHj4kRa/ZHOt0m
+	MG+k+wCYhkxP8uNmz7EjrmJmreQaku5LoUZ6jU4SoKhcd52GmrCR0sHvWGnEdVOSZxqJ
+	54KFwUoijrMYJ/Qdt8wKCIMV2qWBcE4sh57cEItFRTFZj1nBR0WocFdCJ1m8BuDfhkrb
+	GCNV5V1YpJ9G6QeV368sKCuFQEvw3NgD88/k9siqWs3d4zSBdowxqbwSmV+hWV0dLwWg
+	6kdzAuzIgKx1/u3LBhXmY8JQcY7grlSz6mOfo9r9BnkNfLL4wRNkR1S/9APPKzunWRMz
+	DyPw==
+X-Received: by 10.194.123.105 with SMTP id lz9mr110063127wjb.43.1357750208301; 
+	Wed, 09 Jan 2013 08:50:08 -0800 (PST)
+X-Received: by 10.194.123.105 with SMTP id lz9mr110063111wjb.43.1357750208173; 
+	Wed, 09 Jan 2013 08:50:08 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id gz3sm4637422wib.2.2013.01.09.08.50.05
+	by mx.google.com with ESMTPS id gz3sm4637422wib.2.2013.01.09.08.50.06
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Jan 2013 08:50:05 -0800 (PST)
+	Wed, 09 Jan 2013 08:50:07 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 16:48:07 +0000
-Message-Id: <89426bf8656ae89b397e6e0c77efd973e1cac1bd.1357749457.git.ross.burton@intel.com>
+Date: Wed,  9 Jan 2013 16:48:08 +0000
+Message-Id: <374767b5c1c81658f09f997becc3b8461574746d.1357749457.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1357749457.git.ross.burton@intel.com>
 References: <cover.1357749457.git.ross.burton@intel.com>
 In-Reply-To: <cover.1357749457.git.ross.burton@intel.com>
 References: <cover.1357749457.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmSWHs+8zDG/n9lw3Po39lTm5yQgMlJpKHvbHLje0Xx+viJgP3aeBpodQjjYiR40/2IP06emtPpsZYgdtYvf5UVdbqv0qih9ItJpiCKshzQr4yUgXtJdHzO7ROuTUKXMccGF62PyhnhpIOZ2SNsUBpyrYtymEI5xuZ73KGGxR+7PYy6KjMY8AGtWXQzMHTIOSRwButX
-Subject: [PATCH 2/3] pkgconfig: add -native script that uses the native sysroot instead of target
+X-Gm-Message-State: ALoCoQl+xcuZNFBMAIfTgsFGbuKZ7lDwa6goRPBUU/RhK14ng87AtOODzO5yfRbUsES3bKOGc36iH0HXFWbgUB5HE9ukGlBc4VEIvhC5192v2ScP+Iswss8mwmpcJ53KqmHq9c6W/9wccadKNLODHiZEJCLXpS4p+Jo5c+IROjeDxtgl5dbB2Fuh29kjEi19+GHSd0EOazVt
+Subject: [PATCH 3/3] gtk+3: add 3.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,54 +52,430 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 09 Jan 2013 17:05:51 -0000
 
-pkg-config-native is useful when building a package for the target that needs to
-compile a build-time tool, to avoid having to hard-code many paths.
+Mostly taken from meta-gnome, with some changes.
+
+Instead of depending on gtk+-native, depend on just gdk-pixbuf-native and build
+the tool required for the host directly.  This saves building the entire GTK+
+stack natively just for one tool.
+
+Append a version suffix and use update-alternatives on gtk-update-icon-cache as
+with GTK+ 2.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/pkgconfig/pkgconfig.inc                |   10 ++++++++++
- .../pkgconfig/pkgconfig/pkg-config-native.in                 |    7 +++++++
- 2 files changed, 17 insertions(+)
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+ meta/recipes-gnome/gtk+/gtk+3/cross.patch |  284 +++++++++++++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb    |  111 +++++++++++
+ 2 files changed, 395 insertions(+)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/cross.patch
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
 
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-index c54e325..c4fa456 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-@@ -15,6 +15,7 @@ DEPENDS_class-nativesdk = ""
- SRC_URI = "http://pkgconfig.freedesktop.org/releases/pkg-config-${PV}.tar.gz \
-            file://autofoo.patch \
-            file://glibconfig-sysdefs.h \
-+           file://pkg-config-native.in \
-            file://disable-legacy.patch"
- 
- S = "${WORKDIR}/pkg-config-${PV}/"
-@@ -43,3 +44,12 @@ FILES_${PN} += "${datadir}/aclocal/pkg.m4"
- # will end up requiring 'pkgconfig(pkg-config)'.  Allow this behavior by
- # specifying an appropriate provide.
- RPROVIDES_${PN} += "pkgconfig(pkg-config) (= ${PV})"
-+
-+# Install a pkg-config-native wrapper that will use the native sysroot instead
-+# of the MACHINE sysroot, for using pkg-config when building native tools.
-+do_install_append_class-native () {
-+    sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
-+        -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
-+        < ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
-+    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
-+}
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/cross.patch b/meta/recipes-gnome/gtk+/gtk+3/cross.patch
 new file mode 100644
-index 0000000..5e44bb4
+index 0000000..7b2a158
 --- /dev/null
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
-@@ -0,0 +1,7 @@
-+#! /bin/sh
++++ b/meta/recipes-gnome/gtk+/gtk+3/cross.patch
+@@ -0,0 +1,284 @@
++Upstream-Status: Submitted [#691301]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+PKG_CONFIG_PATH="@PATH_NATIVE@"
-+PKG_CONFIG_LIBDIR="@LIBDIR_NATIVE@"
-+unset PKG_CONFIG_SYSROOT_DIR
++From 2ce72e5d53e84a2eba8c3f2cb6af25ffffc46ea9 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Mon, 7 Jan 2013 12:49:27 +0000
++Subject: [PATCH] build: support cross-compilation by natively building
++ gtk-update-icon-cache
 +
-+pkg-config "$@"
++When cross-compiling, instead of depending on a natively built GTK+ (which means
++building Glib, ATK, Pango, gdk-pixbuf, libX11...) for gtk-update-icon-cache,
++find the host compiler and gdk-pixbuf, and build another gtk-update-icon-cache
++with that.
++
++This uses AX_PROG_CC_FOR_BUILD from autostars to find the host compiler, and
++assumes that you'd set PKG_CONFIG_FOR_BUILD to a host pkg-config binary.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=691301
++---
++ configure.ac               |   25 +++++++--
++ gtk/Makefile.am            |   12 ++++-
++ gtk/native/Makefile.am     |   12 +++++
++ m4/ax_prog_cc_for_build.m4 |  125 ++++++++++++++++++++++++++++++++++++++++++++
++ 4 files changed, 168 insertions(+), 6 deletions(-)
++ create mode 100644 gtk/native/Makefile.am
++ create mode 100644 m4/ax_prog_cc_for_build.m4
++
++diff --git a/configure.ac b/configure.ac
++index 0069a9f..35b5f27 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -29,6 +29,9 @@ AC_CONFIG_SRCDIR([gdk/gdktypes.h])
++ AC_CONFIG_MACRO_DIR([m4])
++ AC_CONFIG_AUX_DIR([build-aux])
++ 
+++AC_CANONICAL_HOST
+++AC_CANONICAL_TARGET
+++
++ # Define a string for the earliest version that this release has
++ # backwards binary compatibility with for all interfaces a module
++ # might. Unless we add module-only API with lower stability
++@@ -123,6 +126,7 @@ AC_SUBST([GAIL_LT_CURRENT_MINUS_AGE],[gail_lt_current_minus_age])
++ 
++ # Checks for programs.
++ AC_PROG_CC
+++AX_PROG_CC_FOR_BUILD
++ AC_PROG_CC_C_O
++ AC_PROG_CC_STDC
++ AC_PROG_MKDIR_P
++@@ -135,8 +139,6 @@ AC_SUBST(GETTEXT_PACKAGE)
++ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
++                    [The prefix for our gettext translation domains.])
++ 
++-AC_CANONICAL_HOST
++-
++ MATH_LIB=-lm
++ AC_MSG_CHECKING([for native Win32])
++ LIB_EXE_MACHINE_FLAG=X86
++@@ -868,14 +870,28 @@ dnl Look for a host system's gdk-pixbuf-csource if we are cross-compiling
++ 
++ AM_CONDITIONAL(CROSS_COMPILING, test $cross_compiling = yes)
++ 
++-if test "x$cross_compiling" = xyes || test "x$enable_gtk2_dependency" = xyes; then
+++if test "x$enable_gtk2_dependency" = xyes; then
++   AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache, no)
++   if test x$GTK_UPDATE_ICON_CACHE = xno; then
++     REBUILD_PNGS=#
++   fi
+++elif test "x$cross_compiling" = xyes; then
+++  # If no GTK+2 dependency and cross compiling, we need to find a host gdk-pixbuf.
+++  # pkg.m4 blocks all variable starting with PKG, so allow this one
+++  m4_pattern_allow([PKG_CONFIG_FOR_BUILD])
+++  AC_MSG_CHECKING([for native gdk-pixbuf])
+++  if AC_RUN_LOG([$PKG_CONFIG_FOR_BUILD --exists --print-errors gdk-pixbuf-2.0]); then
+++    AC_MSG_RESULT([yes])
+++  else
+++    AC_MSG_ERROR([native gdk-pixbuf not found])
+++  fi
+++  NATIVE_GDKPIXBUF_CFLAGS=`$PKG_CONFIG_FOR_BUILD --cflags gdk-pixbuf-2.0`
+++  NATIVE_GDKPIXBUF_LIBS=`$PKG_CONFIG_FOR_BUILD --libs gdk-pixbuf-2.0`
+++  AC_SUBST(NATIVE_GDKPIXBUF_CFLAGS)
+++  AC_SUBST(NATIVE_GDKPIXBUF_LIBS)
++ fi
++ 
++-AM_CONDITIONAL(USE_EXTERNAL_ICON_CACHE, [test "x$cross_compiling" = xyes || test "x$enable_gtk2_dependency" = xyes])
+++AM_CONDITIONAL(USE_EXTERNAL_ICON_CACHE, [test "x$enable_gtk2_dependency" = xyes])
++ 
++ AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, no)
++ 
++@@ -1742,6 +1758,7 @@ gtk/makefile.msc
++ gtk/gtkversion.h
++ gtk/gtk-win32.rc
++ gtk/a11y/Makefile
+++gtk/native/Makefile
++ gtk/tests/Makefile
++ libgail-util/Makefile
++ modules/Makefile
++diff --git a/gtk/Makefile.am b/gtk/Makefile.am
++index e763ca8..6b1ec65 100644
++--- a/gtk/Makefile.am
+++++ b/gtk/Makefile.am
++@@ -16,7 +16,7 @@ else
++ GTK_PRINT_PREVIEW_COMMAND="evince --unlink-tempfile --preview --print-settings %s %f"
++ endif
++ 
++-SUBDIRS = a11y . tests
+++SUBDIRS = a11y native . tests
++ 
++ if HAVE_PAPI_CUPS
++ GTK_PRINT_BACKENDS=file,papi,cups
++@@ -1569,12 +1569,20 @@ stamp-icons: $(STOCK_ICONS)
++ if USE_EXTERNAL_ICON_CACHE
++ gtk_update_icon_cache_program = $(GTK_UPDATE_ICON_CACHE)
++ else
+++if CROSS_COMPILING
+++gtk_update_icon_cache_program = ./native/native-update-icon-cache
+++else
++ gtk_update_icon_cache_program = ./gtk-update-icon-cache
++ endif
+++endif
++ 
++ gtkbuiltincache.h: @REBUILD@ stamp-icons
++ if !USE_EXTERNAL_ICON_CACHE
++-	$(AM_V_at) $(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT) $(GTK_UPDATE_ICON_CACHE_MANIFEST)
+++if CROSS_COMPILING
+++	$(AM_V_at) $(MAKE) $(AM_MAKEFLAGS) -C native/
+++else
+++	$(AM_V_at) $(MAKE) $(AM_MAKEFLAGS) gtk-update-icon-cache$(EXEEXT)
+++endif
++ endif
++ 	$(AM_V_GEN) $(gtk_update_icon_cache_program) --quiet --force --ignore-theme-index		\
++ 	   --source builtin_icons stock-icons > gtkbuiltincache.h.tmp &&        \
++diff --git a/gtk/native/Makefile.am b/gtk/native/Makefile.am
++new file mode 100644
++index 0000000..4f029f6
++--- /dev/null
+++++ b/gtk/native/Makefile.am
++@@ -0,0 +1,12 @@
+++CC = @CC_FOR_BUILD@
+++CFLAGS = @CFLAGS_FOR_BUILD@
+++CPP = @CPP_FOR_BUILD@
+++CPPFLAGS = @CPPFLAGS_FOR_BUILD@
+++LDFLAGS = @LDFLAGS_FOR_BUILD@
+++
+++if CROSS_COMPILING
+++noinst_PROGRAMS = native-update-icon-cache
+++native_update_icon_cache_CFLAGS = $(NATIVE_GDKPIXBUF_CFLAGS)
+++native_update_icon_cache_LDADD = $(NATIVE_GDKPIXBUF_LIBS)
+++native_update_icon_cache_SOURCES = $(srcdir)/../updateiconcache.c
+++endif
++diff --git a/m4/ax_prog_cc_for_build.m4 b/m4/ax_prog_cc_for_build.m4
++new file mode 100644
++index 0000000..96cd98a
++--- /dev/null
+++++ b/m4/ax_prog_cc_for_build.m4
++@@ -0,0 +1,125 @@
+++# ===========================================================================
+++#   http://www.gnu.org/software/autoconf-archive/ax_prog_cc_for_build.html
+++# ===========================================================================
+++#
+++# SYNOPSIS
+++#
+++#   AX_PROG_CC_FOR_BUILD
+++#
+++# DESCRIPTION
+++#
+++#   This macro searches for a C compiler that generates native executables,
+++#   that is a C compiler that surely is not a cross-compiler. This can be
+++#   useful if you have to generate source code at compile-time like for
+++#   example GCC does.
+++#
+++#   The macro sets the CC_FOR_BUILD and CPP_FOR_BUILD macros to anything
+++#   needed to compile or link (CC_FOR_BUILD) and preprocess (CPP_FOR_BUILD).
+++#   The value of these variables can be overridden by the user by specifying
+++#   a compiler with an environment variable (like you do for standard CC).
+++#
+++#   It also sets BUILD_EXEEXT and BUILD_OBJEXT to the executable and object
+++#   file extensions for the build platform, and GCC_FOR_BUILD to `yes' if
+++#   the compiler we found is GCC. All these variables but GCC_FOR_BUILD are
+++#   substituted in the Makefile.
+++#
+++# LICENSE
+++#
+++#   Copyright (c) 2008 Paolo Bonzini <bonzini@gnu.org>
+++#
+++#   Copying and distribution of this file, with or without modification, are
+++#   permitted in any medium without royalty provided the copyright notice
+++#   and this notice are preserved. This file is offered as-is, without any
+++#   warranty.
+++
+++#serial 7
+++
+++AU_ALIAS([AC_PROG_CC_FOR_BUILD], [AX_PROG_CC_FOR_BUILD])
+++AC_DEFUN([AX_PROG_CC_FOR_BUILD], [dnl
+++AC_REQUIRE([AC_PROG_CC])dnl
+++AC_REQUIRE([AC_PROG_CPP])dnl
+++AC_REQUIRE([AC_EXEEXT])dnl
+++AC_REQUIRE([AC_CANONICAL_SYSTEM])dnl
+++
+++dnl Use the standard macros, but make them use other variable names
+++dnl
+++pushdef([ac_cv_prog_CPP], ac_cv_build_prog_CPP)dnl
+++pushdef([ac_cv_prog_gcc], ac_cv_build_prog_gcc)dnl
+++pushdef([ac_cv_prog_cc_works], ac_cv_build_prog_cc_works)dnl
+++pushdef([ac_cv_prog_cc_cross], ac_cv_build_prog_cc_cross)dnl
+++pushdef([ac_cv_prog_cc_g], ac_cv_build_prog_cc_g)dnl
+++pushdef([ac_cv_exeext], ac_cv_build_exeext)dnl
+++pushdef([ac_cv_objext], ac_cv_build_objext)dnl
+++pushdef([ac_exeext], ac_build_exeext)dnl
+++pushdef([ac_objext], ac_build_objext)dnl
+++pushdef([CC], CC_FOR_BUILD)dnl
+++pushdef([CPP], CPP_FOR_BUILD)dnl
+++pushdef([CFLAGS], CFLAGS_FOR_BUILD)dnl
+++pushdef([CPPFLAGS], CPPFLAGS_FOR_BUILD)dnl
+++pushdef([LDFLAGS], LDFLAGS_FOR_BUILD)dnl
+++pushdef([host], build)dnl
+++pushdef([host_alias], build_alias)dnl
+++pushdef([host_cpu], build_cpu)dnl
+++pushdef([host_vendor], build_vendor)dnl
+++pushdef([host_os], build_os)dnl
+++pushdef([ac_cv_host], ac_cv_build)dnl
+++pushdef([ac_cv_host_alias], ac_cv_build_alias)dnl
+++pushdef([ac_cv_host_cpu], ac_cv_build_cpu)dnl
+++pushdef([ac_cv_host_vendor], ac_cv_build_vendor)dnl
+++pushdef([ac_cv_host_os], ac_cv_build_os)dnl
+++pushdef([ac_cpp], ac_build_cpp)dnl
+++pushdef([ac_compile], ac_build_compile)dnl
+++pushdef([ac_link], ac_build_link)dnl
+++
+++save_cross_compiling=$cross_compiling
+++save_ac_tool_prefix=$ac_tool_prefix
+++cross_compiling=no
+++ac_tool_prefix=
+++
+++AC_PROG_CC
+++AC_PROG_CPP
+++AC_EXEEXT
+++
+++ac_tool_prefix=$save_ac_tool_prefix
+++cross_compiling=$save_cross_compiling
+++
+++dnl Restore the old definitions
+++dnl
+++popdef([ac_link])dnl
+++popdef([ac_compile])dnl
+++popdef([ac_cpp])dnl
+++popdef([ac_cv_host_os])dnl
+++popdef([ac_cv_host_vendor])dnl
+++popdef([ac_cv_host_cpu])dnl
+++popdef([ac_cv_host_alias])dnl
+++popdef([ac_cv_host])dnl
+++popdef([host_os])dnl
+++popdef([host_vendor])dnl
+++popdef([host_cpu])dnl
+++popdef([host_alias])dnl
+++popdef([host])dnl
+++popdef([LDFLAGS])dnl
+++popdef([CPPFLAGS])dnl
+++popdef([CFLAGS])dnl
+++popdef([CPP])dnl
+++popdef([CC])dnl
+++popdef([ac_objext])dnl
+++popdef([ac_exeext])dnl
+++popdef([ac_cv_objext])dnl
+++popdef([ac_cv_exeext])dnl
+++popdef([ac_cv_prog_cc_g])dnl
+++popdef([ac_cv_prog_cc_cross])dnl
+++popdef([ac_cv_prog_cc_works])dnl
+++popdef([ac_cv_prog_gcc])dnl
+++popdef([ac_cv_prog_CPP])dnl
+++
+++dnl Finally, set Makefile variables
+++dnl
+++BUILD_EXEEXT=$ac_build_exeext
+++BUILD_OBJEXT=$ac_build_objext
+++AC_SUBST(BUILD_EXEEXT)dnl
+++AC_SUBST(BUILD_OBJEXT)dnl
+++AC_SUBST([CFLAGS_FOR_BUILD])dnl
+++AC_SUBST([CPPFLAGS_FOR_BUILD])dnl
+++AC_SUBST([LDFLAGS_FOR_BUILD])dnl
+++])
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
+new file mode 100644
+index 0000000..e624387
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.4.4.bb
+@@ -0,0 +1,111 @@
++SUMMARY = "Multi-platform toolkit for creating GUIs"
++DESCRIPTION = "GTK+ is a multi-platform toolkit for creating graphical user interfaces. Offering a complete \
++set of widgets, GTK+ is suitable for projects ranging from small one-off projects to complete application suites."
++HOMEPAGE = "http://www.gtk.org"
++BUGTRACKER = "https://bugzilla.gnome.org/"
++SECTION = "libs"
++
++DEPENDS = "glib-2.0 pango atk jpeg libpng libxext libxcursor \
++           docbook-utils-native libxrandr libgcrypt \
++           libxdamage libxrender libxcomposite libxi cairo gdk-pixbuf gdk-pixbuf-native"
++
++LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
++                    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
++                    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
++                    file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
++
++SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz \
++           file://cross.patch"
++SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
++SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
++
++inherit autotools pkgconfig gtk-doc update-alternatives
++
++S = "${WORKDIR}/gtk+-${PV}"
++
++# This should be in autotools.bbclass, but until something elses uses it putting
++# it here avoids rebuilding everything.
++export PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
++
++do_configure_prepend() {
++    # Do this because the configure script is running ./libtool directly
++    ln -s ${TARGET_PREFIX}libtool libtool || true
++}
++
++# Forcibly disable the GTK+ 2 dependency as we don't want to natively build the
++# entire GTK+ stack, or need GTK+ 2 for gtk-update-icon-cache.
++EXTRA_OECONF += " \
++                 --disable-gtk2-dependency \
++                 --disable-glibtest \
++                 --enable-modules \
++                 --disable-cups \
++"
++
++do_install_append() {
++	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
++}
++
++PACKAGES =+ "${PN}-demo"
++LIBV = "3.0.0"
++
++FILES_${PN}-demo = "${bindir}/gtk3-demo \
++                    ${bindir}/gtk3-demo-application \
++                    ${bindir}/gtk3-widget-factory \
++                    ${datadir}/gtk-3.0/demo"
++
++FILES_${PN} = "${bindir}/gtk-update-icon-cache-3.0 \
++               ${bindir}/gtk-query-immodules-3.0 \
++               ${bindir}/gtk-launch \
++               ${libdir}/lib*${SOLIBS} \
++               ${datadir}/themes ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
++               ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
++               ${libdir}/gtk-3.0/modules/*.so"
++
++FILES_${PN}-dev += " \
++                    ${datadir}/gtk-3.0/gtkbuilder.rng \
++                    ${datadir}/gtk-3.0/include \
++                    ${libdir}/gtk-3.0/include \
++                    ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
++                    ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
++                    ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
++                    ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
++                    ${libdir}/gtk-3.0/modules/*.la \
++                    ${bindir}/gtk-builder-convert"
++
++FILES_${PN}-dbg += " \
++                    ${libdir}/gtk-3.0/${LIBV}/loaders/.debug \
++                    ${libdir}/gtk-3.0/${LIBV}/immodules/.debug \
++                    ${libdir}/gtk-3.0/${LIBV}/engines/.debug \
++                    ${libdir}/gtk-3.0/${LIBV}/printbackends/.debug \
++                    ${libdir}/gtk-3.0/modules/.debug"
++
++
++PACKAGES_DYNAMIC += "^gtk3-immodule-.* ^gtk3-printbackend-.*"
++
++ALTERNATIVE_${PN} = "gtk-update-icon-cache"
++ALTERNATIVE_TARGET[gtk-update-icon-cache] = "${bindir}/gtk-update-icon-cache-3.0"
++
++python populate_packages_prepend () {
++    import os.path
++
++    prologue = d.getVar("postinst_prologue", 1)
++
++    gtk_libdir = d.expand('${libdir}/gtk-3.0/${LIBV}')
++    immodules_root = os.path.join(gtk_libdir, 'immodules')
++    printmodules_root = os.path.join(gtk_libdir, 'printbackends');
++
++    do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk3-immodule-%s', 'GTK input module for %s', prologue + 'gtk-query-immodules-3.0 > /etc/gtk-3.0/gtk.immodules')
++    do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
++
++    if (d.getVar('DEBIAN_NAMES', 1)):
++        d.setVar('PKG_${PN}', 'libgtk-3.0')
++}
++
++postinst_prologue() {
++if [ "x$D" != "x" ]; then
++  exit 1
++fi
++
++}
 -- 
 1.7.10.4
 
