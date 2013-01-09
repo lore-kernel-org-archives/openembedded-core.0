@@ -1,30 +1,30 @@
-Received: from mail.bmw-carit.de ([62.245.222.98] helo=linuxmail.bmw-carit.de)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lukas.bulwahn@oss.bmw-carit.de>) id 1Tsr9A-0000tV-CT
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TsrBk-0000xe-WB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 09:36:32 +0100
-Received: from [192.168.101.47] (afplatform.bmw-carit.intra [192.168.101.47])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 0A0374003E;
-	Wed,  9 Jan 2013 08:43:08 +0100 (CET)
-Message-ID: <50ED287D.6030507@oss.bmw-carit.de>
-Date: Wed, 09 Jan 2013 09:21:17 +0100
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+	Wed, 09 Jan 2013 09:39:10 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r098NtHU006648
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 Jan 2013 00:23:55 -0800 (PST)
+Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
+	Wed, 9 Jan 2013 00:23:54 -0800
+Message-ID: <50ED2918.1070005@windriver.com>
+Date: Wed, 9 Jan 2013 16:23:52 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1355839120-12142-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-	<1355839120-12142-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-	<CAJTo0LavddUVfHnF2qVGgE9U2Vb7NtbL_B3M5PPtHNV6V6D8qg@mail.gmail.com>
-	<50D1B088.3000009@oss.bmw-carit.de>
-	<CAJTo0La4ou6_1NvgRo0rqHNEDqmAFH29qFbg_N1Wfv8L1uUa=Q@mail.gmail.com>
-	<CAJTo0LYieHXLYPCUuAkScUhrxsnQm4XyPfVX17uwnAPfmw24oQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYieHXLYPCUuAkScUhrxsnQm4XyPfVX17uwnAPfmw24oQ@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] easyinstall: class to create and extend the easyinstall.pth file
+To: Colin Walters <walters@verbum.org>, Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1357354330.git.hongxu.jia@windriver.com>
+	<2f2c14ff5bbe6619fd7ac1649f5f985604bd6941.1357354330.git.hongxu.jia@windriver.com>
+	<1357496896.8239.0.camel@localhost>
+In-Reply-To: <1357496896.8239.0.camel@localhost>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] glib-2.0-native:add option march to BUILD_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 08:36:36 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Wed, 09 Jan 2013 08:39:10 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/20/2012 12:34 PM, Burton, Ross wrote:
-> Not sure how I failed to notice this, but there's a setuptools.bbclass
-> in oe-core:
+On 01/07/2013 02:28 AM, Colin Walters wrote:
+> On Sun, 2013-01-06 at 16:34 +0800, Hongxu Jia wrote:
 >
-> inherit distutils
+>> +# Add option -march to BUILD_CFLAGS in order to let the atomic operations
+>> +# ("lock free") be available while using old version GCC on x86 host to
+>> +# compile glib-2.0-native
+>> +BUILD_CFLAGS += "-march=${@'${BUILD_ARCH}'.replace('_','-')}"
+> Shouldn't this be handled more generically for all native recipes?
 >
-> DEPENDS += "python-setuptools-native"
 >
-> DISTUTILS_INSTALL_ARGS = "--root=${D} \
->      --single-version-externally-managed \
->      --prefix=${prefix} \
->      --install-lib=${PYTHON_SITEPACKAGES_DIR} \
->      --install-data=${datadir}"
->
-> Yeah, that.  I'll fix python-mako and this should be suitable for you too.
->
-> Ross
-Hi Ross,
+Hi Colin,
 
-the setuptools class does great work. Writing recipes and installing 
-python packages now works like a charm.
-As you probably noticed as well, to add a package, one must add recipes 
-for the transitive closure of all required packages defined in the 
-setup.py file with the lines install_requires=[.*] and setup_requires=[.*].
+I have a fully test and the qemu-native has the similar problem, and I will
+resend the patch.
 
-The previous patches are now completely obsolete.
+It's a bad idea to modify bitbake.conf to add option -march to BUILD_CFLAGS,
+because it's global and its side effect is unknown, such as beecrypt-native
+do_compile will fail if we do that.
 
-Lukas
+So it's best to test most of the native recipes to have a check about 
+the similar
+problem and fix them separately, and the packagegroup-toolset-native.bb
+could work for that.
 
+Regards,
+Hongxu
 
 
