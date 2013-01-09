@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1TsrXy-0001n2-PQ
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TsrXx-0001mw-Bu
 	for openembedded-core@lists.openembedded.org;
 	Wed, 09 Jan 2013 10:02:12 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r098krtx009310
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r098ks7U020102
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 9 Jan 2013 00:46:54 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 9 Jan 2013 00:46:53 -0800
+	14.2.318.4; Wed, 9 Jan 2013 00:46:52 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Jan 2013 16:46:47 +0800
-Message-ID: <1499acb24c57f9bf9b10c0b87e331df4f00ea5b4.1357719953.git.hongxu.jia@windriver.com>
+Date: Wed, 9 Jan 2013 16:46:46 +0800
+Message-ID: <aa9eb2aa5b239128138eab2552ccfb99f3ac5d3a.1357719953.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1357719953.git.hongxu.jia@windriver.com>
 References: <cover.1357719953.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] qemu-native:add option march to BUILD_CFLAGS
+Subject: [PATCH 1/2] glib-2.0-native:add option march to BUILD_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,25 +44,33 @@ on x86 host to compile glib-2.0-native.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc |    5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index ca411a6..acc7cbc 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -38,6 +38,11 @@ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disa
- 				--disable-curl \
- 				"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+index 9854585..bc3f4ca 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb
+@@ -1,6 +1,6 @@
+ require glib.inc
+ 
+-PR = "r0"
++PR = "r1"
+ PE = "1"
+ 
+ DEPENDS += "libffi python-argparse-native zlib"
+@@ -21,6 +21,11 @@ SRC_URI[sha256sum] = "855fcbf87cb93065b488358e351774d8a39177281023bae58c286f4161
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+ BBCLASSEXTEND = "native nativesdk"
  
 +# Add option -march to BUILD_CFLAGS in order to let the atomic operations
 +# ("lock free") be available while using old version GCC on x86 host to
 +# compile glib-2.0-native
 +BUILD_CFLAGS += "-march=${@'${BUILD_ARCH}'.replace('_','-')}"
 +
- do_configure_prepend_class-native() {
- 	# Undo the -lX11 added by linker-flags.patch, don't assume that host has libX11 installed
- 	sed -i 's/-lX11//g' Makefile.target
+ RDEPENDS_${PN}-ptest += "\
+             eglibc-gconv-utf-16 \
+             eglibc-charmap-utf-8 \
 -- 
 1.7.10.4
 
