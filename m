@@ -1,26 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-la0-f54.google.com ([209.85.215.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tt0jp-0004g2-PI
+	(envelope-from <bjorn.forsman@gmail.com>) id 1Tt0pu-0004nm-LA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 19:51:08 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jan 2013 10:34:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,439,1355126400"; d="scan'208";a="244173916"
-Received: from unknown (HELO [10.255.14.147]) ([10.255.14.147])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2013 10:35:44 -0800
-Message-ID: <50EDB87F.2090205@linux.intel.com>
-Date: Wed, 09 Jan 2013 10:35:43 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Wed, 09 Jan 2013 19:57:21 +0100
+Received: by mail-la0-f54.google.com with SMTP id fp12so2237934lab.27
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Jan 2013 10:42:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=4upSpTY6Sk9zeG2Mb9yNN5drHVxMMO3Ip7SlOCUmrQ4=;
+	b=deq3C9NnJPGo/0/iTljp+Kko5wsZLeQpiCWasMhMbyCZX7x+IvjILEcqlMJP7x6cHU
+	4MWDZC9iPYmEpLFBbPfNQutcrZ8Bwqi1lZUMNY5rn+IH3dmlBtlL2OsVxZHrnQjZXEIE
+	FZZTy55WShnX5x0hE8dFzywi/mSiKj6TY/mnY49XXdJG2Kdshf8/36ftGVRtDkCnNPe9
+	fhaJs4YVLStQ66lk+KXt6JZF5U6iePTmPC2pdF584neKWgGviqVtzf0DP1ZScHtKBTIS
+	Z+aDbLtyAwjtcu1JqiQP6R9HEOEpZRjqSxSQd1Xubl9U+v+W0zGcn6s2HvwxWlPpY6NU
+	hXbA==
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <1356009340-15874-1-git-send-email-laurentiu.palcu@intel.com>
-	<50ED5100.7050508@intel.com>
-In-Reply-To: <50ED5100.7050508@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 0/3] have input method modules cached at do-rootfs time
+Received: by 10.112.10.71 with SMTP id g7mr28245502lbb.70.1357756922362; Wed,
+	09 Jan 2013 10:42:02 -0800 (PST)
+Received: by 10.112.133.195 with HTTP; Wed, 9 Jan 2013 10:42:02 -0800 (PST)
+In-Reply-To: <alpine.DEB.2.02.1301090752510.25391@oneiric>
+References: <alpine.DEB.2.02.1301090752510.25391@oneiric>
+Date: Wed, 9 Jan 2013 19:42:02 +0100
+Message-ID: <CAEYzJUHQ8c4NDErbcjNyRLKg3NfENUrFo6JO1xdL71dZsXyzrA@mail.gmail.com>
+From: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: for a quad-core machine, shouldn't parallelism be set to 8?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 18:51:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Jan 2013 18:57:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 01/09/2013 03:14 AM, Laurentiu Palcu wrote:
-> Hi Saul,
+On 9 January 2013 13:55, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> Any reason for not merging this patchset?
+>   just noticed this in local.conf.sample:
 >
-I thought there was a pending re-work of the grep/sed to awk per Ross's 
-last email on the qemu.bbclass patch.  I will pull it into a MUT and test.
+> # For a quad-core machine, BB_NUMBER_THREADS =3D "4", PARALLEL_MAKE =3D "=
+-j 4" would
+> # be appropriate for example.
+>
+>   i thought the general rule was that parallelism should be *twice*
+> the number of cores.  that's certainly what's suggested in the yocto
+> QS guide:
 
-Sau!
+Some time ago I wrote a script to build the linux kernel 3 times at
+each -jN level from 1 to 50. Then I averaged the build time on each
+-jN level. I got the fastest build with -jNCPUS. Going above NCPUS
+just added overhead, although very little. The overhead seemed to
+build up quite linearly from above -jNCPUS. Because the overhead is so
+little, having -jNCPUS*2 may not be noticeably slower than -jNCPUS.
 
-> Thanks,
-> Laurentiu
->
-> On 12/20/2012 03:15 PM, Laurentiu Palcu wrote:
->> changes in v2:
->>   * added a new qemu.bbclass function that will return a string containing the
->>     command line needed to run a target binary through qemu at postinstall time;
->>   * use 'readelf -l' instead of 'readelf -a' for retrieving the dynamic loader
->>     path;
->>
->> from v1:
->> Hi
->>
->> This patchset will change the postinstall routine in gtk-immodules-cache.bbclass,
->> so it can run at do_rootfs time, and changes matchbox-keyboard recipe to use
->> the class.
->>
->> Thanks,
->> Laurentiu
->>
->> Laurentiu Palcu (3):
->>    qemu.bbclass: add qemu_run_binary() function
->>    gtk-immodules-cache.bbclass: allow for offline cache generation
->>    matchbox-keyboard: use the gtk-immodules-cache.bbclass
->>
->>   meta/classes/gtk-immodules-cache.bbclass           |   17 ++++++++++++++++-
->>   meta/classes/qemu.bbclass                          |   17 +++++++++++++++++
->>   .../matchbox-keyboard/matchbox-keyboard_git.bb     |   18 ++----------------
->>   3 files changed, 35 insertions(+), 17 deletions(-)
->>
->
->
+I ran the same benchmark another machine and it showed the same trend
+curve. Note that NCPUS must include the hyperthread cores.
+
+Best regards,
+Bj=C3=B8rn Forsman
 
 
