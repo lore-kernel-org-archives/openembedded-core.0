@@ -1,34 +1,27 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1TswqJ-0002vk-QI
+	(envelope-from <constantinx.musca@intel.com>) id 1Tswtb-00035V-T5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Jan 2013 15:41:25 +0100
-Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
-	([99.253.156.71]:38004 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Tswbd-0002ja-0B; Wed, 09 Jan 2013 09:26:13 -0500
-Date: Wed, 9 Jan 2013 09:26:10 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <7E75003D-F6FC-4B4B-9FB8-A84DB5CCEDC8@gmail.com>
-Message-ID: <alpine.DEB.2.02.1301090923001.10155@oneiric>
-References: <alpine.DEB.2.02.1301090752510.25391@oneiric>
-	<7E75003D-F6FC-4B4B-9FB8-A84DB5CCEDC8@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Wed, 09 Jan 2013 15:44:49 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jan 2013 06:29:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,438,1355126400"; d="scan'208";a="274856733"
+Received: from costin-desktop (HELO [10.237.105.152]) ([10.237.105.152])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2013 06:29:32 -0800
+Message-ID: <50ED7EF9.5080308@intel.com>
+Date: Wed, 09 Jan 2013 16:30:17 +0200
+From: Constantin Musca <constantinx.musca@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: for a quad-core machine, shouldn't parallelism be set to 8?
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1357721541.git.constantinx.musca@intel.com>
+	<441976458177570ed317fb6a8687c8eab8667cf8.1357721541.git.constantinx.musca@intel.com>
+	<1357739128.13022.81.camel@ted>
+In-Reply-To: <1357739128.13022.81.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] gcc: remove the 64bithack patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,35 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 14:41:28 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 09 Jan 2013 14:44:50 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 9 Jan 2013, Elvis Dowson wrote:
-
-> Hi Robert,
-
-> On my i7 quad core machine, I've set both values to 6. Setting it to
-> 6 appears to be nearly the same as setting it to 8, I dare say a
-> marginally faster by a minute. I can build core image console in
-> around 22 minutes.
+On 01/09/2013 03:45 PM, Richard Purdie wrote:
+> On Wed, 2013-01-09 at 11:00 +0200, Constantin Musca wrote:
+>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-4.7.inc             |  1 -
+>>   meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch | 63 -----------------------
+>>   2 files changed, 64 deletions(-)
+>>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
+> Does removing this break multilib builds? For example, with different
+> libdir layouts?
+I think it's going to break other multilib builds. The solution is to 
+keep the 64bithack.patch for setting the default multilib options.  The 
+3/3 patch can be used without PATCH 2/3.
+> Note that gcc has a shared source tree so patches cannot by applied in
+> say the cross case when we need this yet not in the target case when we
+> probably don't want it. We need to make a patch which works in all
+> cases.
+The other gcc variants (e.g. gcc-cross) are configured using 
+--disable-multilib as option and they will not be influenced if we 
+modify the multilib files.
 >
-> Elvis
+> Cheers,
+>
+> Richard
+>
+>
 
-  i recall someone (richard purdie?) once benchmarked to check the
-benefits of increasing parallelism and while it's obvious you'll hit
-the wall eventually, it would still be nice for the documentation to
-be consistent.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Cheers,
+Constantin
 
 
