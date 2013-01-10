@@ -1,35 +1,41 @@
-Received: from mail-ee0-f46.google.com ([74.125.83.46])
+Received: from mail-pa0-f42.google.com ([209.85.220.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martiert@gmail.com>) id 1TtE4n-0006bW-GU
+	(envelope-from <martin.jansa@gmail.com>) id 1TtEBt-0006tD-AI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 10:05:34 +0100
-Received: by mail-ee0-f46.google.com with SMTP id e49so137470eek.33
+	Thu, 10 Jan 2013 10:13:05 +0100
+Received: by mail-pa0-f42.google.com with SMTP id rl6so242182pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 00:50:16 -0800 (PST)
+	Thu, 10 Jan 2013 00:57:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=zJjMaon2yLJCMoT0K6r8jXOifGhS/4V3FHviutUHObo=;
-	b=IhpDiDZozhtP8DiQ01lC4Qqd5QGPOlmN0Iq+oM5iKsHPlxqvRheS7ImppLu95b3bKT
-	r6nvK3xx+3aE1W3lTJoEt9SVxJ658TJBIAoa7rhcAeSE+bTiR92+o1kpplqZI5t4i6wn
-	Ss0NCGeDWSeh745hwuql/LZxafxLlG8ax0OWupBY4ffIdtJHPtRgNiqcoyEZ/gdOa7Y6
-	11GNJJGHaPe0Vhb5lcxgOALzit+4Sy9Jjfy4E5GATOl5AM1U3PrVHyRSiJ9onetdUTz+
-	+QvL2yc0LyOO7FgTee62Ra5Y83BxMKfEageRyLpNodSH0BE9BL070vPNdlnaIxjcBCIc
-	dx5Q==
-X-Received: by 10.14.221.9 with SMTP id q9mr192030106eep.3.1357807816658;
-	Thu, 10 Jan 2013 00:50:16 -0800 (PST)
-Received: from dhcp-10-54-86-82.cisco.com (64-103-25-233.cisco.com.
-	[64.103.25.233])
-	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.15
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 00:50:15 -0800 (PST)
-From: Martin Ertsaas <martiert@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 09:50:04 +0100
-Message-Id: <1357807806-31720-3-git-send-email-martiert@gmail.com>
-X-Mailer: git-send-email 1.7.10.2 (Apple Git-33)
-In-Reply-To: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-Subject: [PATCH 3/5] quilt: Don't use BUILD_ROOT on darwin.
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=CNoydgkL6AyeprEAAEgKbP5aY2M5Oa2JJ7x6VG5y7Gk=;
+	b=arH5cdy5NLxyoKRK6C4NceFuS516Q1S9fE/wqwTnjzQGw4QwoDYZC/CmWRIbC3Xc1i
+	Djagj03YxIvipbbbWZMwHZw1/gA/70lftQF8rqRTIEJrMtI2/MdRATh7CfqN3aQQ+j4t
+	7RA115GdUtgHAnkfp7e05Guh4txQEIBUnC/NJ38ayn2pYeZY7HtKu7cvyF/HqUq3Bk3I
+	vLjpOWXyl4uWDSO39ZKxIATaRwzHdebnDPdYqxEzM4Md/adV/Eu2sygHkB4atldkhIH0
+	6kVsp6TlXcaIpzBX/hxgL/gnCjYwlQUDHWvvaPlSRLwrPnKd3eBf49jkAeEL6FI0ssQb
+	8Vww==
+X-Received: by 10.66.9.2 with SMTP id v2mr195596455paa.18.1357808255209;
+	Thu, 10 Jan 2013 00:57:35 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id o5sm722667paz.32.2013.01.10.00.57.32
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 10 Jan 2013 00:57:34 -0800 (PST)
+Date: Thu, 10 Jan 2013 09:57:38 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20130110085738.GT3722@jama.palm1.palmone.com>
+References: <1357751495-28236-1-git-send-email-cristian.iorga@intel.com>
+	<CAJTo0LZwxy0E-ODr61YK4T9Qn+jkqqsPeW06vm8O7pmE-cMAfg@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB161DC46C@IRSMSX102.ger.corp.intel.com>
+	<7782F5CBD39246A3A6204E6FE729FD71@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <7782F5CBD39246A3A6204E6FE729FD71@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +48,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 09:05:39 -0000
+X-List-Received-Date: Thu, 10 Jan 2013 09:13:07 -0000
+X-Groupsio-MsgNum: 33658
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="N7HXVILz59yg1nI8"
+Content-Disposition: inline
 
----
- meta/recipes-devtools/quilt/quilt-0.60.inc |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+--N7HXVILz59yg1nI8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/quilt/quilt-0.60.inc b/meta/recipes-devtools/quilt/quilt-0.60.inc
-index e0a2e51..5fe201f 100644
---- a/meta/recipes-devtools/quilt/quilt-0.60.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.60.inc
-@@ -25,9 +25,12 @@ FILES_guards-doc = "${mandir}/man1/guards.1"
- 
- RDEPENDS_${PN} = "bash"
- 
-+EXTRA_OE_MAKE_ARGS_darwin ?= ""
-+EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
-+
- # quilt ignores DESTDIR
- do_install () {
--	oe_runmake 'BUILD_ROOT=${D}' install
-+	oe_runmake ${EXTRA_OE_MAKE_ARGS} install
- 	# cleanup unpackaged files
- 	rm -rf ${D}/${datadir}/emacs
- }
--- 
-1.7.10.2 (Apple Git-33)
+On Thu, Jan 10, 2013 at 07:56:30AM +0000, Ross Burton wrote:
+> On Thursday, 10 January 2013 at 07:15, Iorga, Cristian wrote:
+> > Well, I have the prior art stand by me.
+> > The same technique is applied for netbase.
+> >=20
+> > And, in this specific case, connman should be machine specific.
+> > Can you please give me more detail?
+> >=20
+> > The configuration file will have only the interface blacklist enabled i=
+n case of a qemu* machine.
+> netbase is a lot smaller than connman. =20
 
+and also listed in SIGGEN_EXCLUDERECIPES_ABISAFE
 
+>With this change you're rebuilding connman per-machine instead of sharing =
+the package between compatible machines, with the only difference being a c=
+onfiguration file.
 
+And rebuilding also all stuff depending on connman.
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--N7HXVILz59yg1nI8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDugoIACgkQN1Ujt2V2gBwwtACcCH1TM+e3lPcGsI2poVR9xHDB
+ul8AoJRUd1r0sByfJothcVga4Vettex9
+=sG0t
+-----END PGP SIGNATURE-----
+
+--N7HXVILz59yg1nI8--
