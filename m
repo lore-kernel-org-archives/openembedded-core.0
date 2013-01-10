@@ -1,35 +1,35 @@
-Received: from mail-ea0-f180.google.com ([209.85.215.180])
+Received: from mail-ee0-f46.google.com ([74.125.83.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martiert@gmail.com>) id 1TtE4p-0006bZ-DV
+	(envelope-from <martiert@gmail.com>) id 1TtE4n-0006bW-GU
 	for openembedded-core@lists.openembedded.org;
 	Thu, 10 Jan 2013 10:05:34 +0100
-Received: by mail-ea0-f180.google.com with SMTP id f13so115797eai.39
+Received: by mail-ee0-f46.google.com with SMTP id e49so137470eek.33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 00:50:18 -0800 (PST)
+	Thu, 10 Jan 2013 00:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=CoyJVZ3gPw6J+Qi32e4mlqWo0NIpOWcOBog5UaYJe8Q=;
-	b=OhrFBJcB7wn96QgLlflcP8vxKIt/5/F4aGW4UNkpiAvPyJww0mot7Jsj68goe75ZB4
-	zqzg9Ry/VGQmUjVrmau7uJhRa8u1V3lli5PbHUusvVGK0V6Z60BPEYcTcFkfICUEuA9A
-	WwdE/DFe0czUz1oxBpvznFlxZhTpEePLEwzmKBOgPXh4ntnFqstoOJLSdS3W+LK9WXKr
-	+WMI8AeABw/ddOaJOlMbBbG90IitJzvVrVWWAAVwID4YYqVTZ1O8Z/M1WICa5rhxDSba
-	cgiIMA4p/j7EVX1dR8smpgUh7SE13PaeTUYmjCyKiRqjkJQW1asoVjGtBHRgXu37eAnC
-	bz+A==
-X-Received: by 10.14.206.197 with SMTP id l45mr191303709eeo.17.1357807818578; 
-	Thu, 10 Jan 2013 00:50:18 -0800 (PST)
+	:references; bh=zJjMaon2yLJCMoT0K6r8jXOifGhS/4V3FHviutUHObo=;
+	b=IhpDiDZozhtP8DiQ01lC4Qqd5QGPOlmN0Iq+oM5iKsHPlxqvRheS7ImppLu95b3bKT
+	r6nvK3xx+3aE1W3lTJoEt9SVxJ658TJBIAoa7rhcAeSE+bTiR92+o1kpplqZI5t4i6wn
+	Ss0NCGeDWSeh745hwuql/LZxafxLlG8ax0OWupBY4ffIdtJHPtRgNiqcoyEZ/gdOa7Y6
+	11GNJJGHaPe0Vhb5lcxgOALzit+4Sy9Jjfy4E5GATOl5AM1U3PrVHyRSiJ9onetdUTz+
+	+QvL2yc0LyOO7FgTee62Ra5Y83BxMKfEageRyLpNodSH0BE9BL070vPNdlnaIxjcBCIc
+	dx5Q==
+X-Received: by 10.14.221.9 with SMTP id q9mr192030106eep.3.1357807816658;
+	Thu, 10 Jan 2013 00:50:16 -0800 (PST)
 Received: from dhcp-10-54-86-82.cisco.com (64-103-25-233.cisco.com.
 	[64.103.25.233])
-	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.17
+	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.15
 	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 00:50:17 -0800 (PST)
+	Thu, 10 Jan 2013 00:50:15 -0800 (PST)
 From: Martin Ertsaas <martiert@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 09:50:05 +0100
-Message-Id: <1357807806-31720-4-git-send-email-martiert@gmail.com>
+Date: Thu, 10 Jan 2013 09:50:04 +0100
+Message-Id: <1357807806-31720-3-git-send-email-martiert@gmail.com>
 X-Mailer: git-send-email 1.7.10.2 (Apple Git-33)
 In-Reply-To: <1357807806-31720-1-git-send-email-martiert@gmail.com>
 References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-Subject: [PATCH 4/5] lib/oe/path.py: Use shutil.rmtree if the path we wish to remove is a directory.
+Subject: [PATCH 3/5] quilt: Don't use BUILD_ROOT on darwin.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +44,28 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Jan 2013 09:05:39 -0000
 
-On mac, os.unlink can not be done to remove directories, and so we have to
-explicitly use shutil.rmtree instead to support mac.
 ---
- meta/lib/oe/path.py |    9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ meta/recipes-devtools/quilt/quilt-0.60.inc |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 7197b23..1da39b7 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -86,14 +86,7 @@ def copytree(src, dst):
+diff --git a/meta/recipes-devtools/quilt/quilt-0.60.inc b/meta/recipes-devtools/quilt/quilt-0.60.inc
+index e0a2e51..5fe201f 100644
+--- a/meta/recipes-devtools/quilt/quilt-0.60.inc
++++ b/meta/recipes-devtools/quilt/quilt-0.60.inc
+@@ -25,9 +25,12 @@ FILES_guards-doc = "${mandir}/man1/guards.1"
  
- def remove(path, recurse=True):
-     """Equivalent to rm -f or rm -rf"""
--    for name in glob.glob(path):
--        try:
--            os.unlink(name)
--        except OSError, exc:
--            if recurse and exc.errno == errno.EISDIR:
--                shutil.rmtree(name)
--            elif exc.errno != errno.ENOENT:
--                raise
-+    bb.utils.remove(path, recurse)
+ RDEPENDS_${PN} = "bash"
  
- def symlink(source, destination, force=False):
-     """Create a symbolic link"""
++EXTRA_OE_MAKE_ARGS_darwin ?= ""
++EXTRA_OE_MAKE_ARGS ?= "BUILD_ROOT=${D}"
++
+ # quilt ignores DESTDIR
+ do_install () {
+-	oe_runmake 'BUILD_ROOT=${D}' install
++	oe_runmake ${EXTRA_OE_MAKE_ARGS} install
+ 	# cleanup unpackaged files
+ 	rm -rf ${D}/${datadir}/emacs
+ }
 -- 
 1.7.10.2 (Apple Git-33)
 
