@@ -1,41 +1,36 @@
-Received: from mail-pa0-f42.google.com ([209.85.220.42])
+Received: from mail-lb0-f170.google.com ([209.85.217.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TtEBt-0006tD-AI
+	(envelope-from <cazfi74@gmail.com>) id 1TtFOD-00006S-Bk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 10:13:05 +0100
-Received: by mail-pa0-f42.google.com with SMTP id rl6so242182pac.1
+	Thu, 10 Jan 2013 11:29:50 +0100
+Received: by mail-lb0-f170.google.com with SMTP id j14so343719lbo.29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 00:57:35 -0800 (PST)
+	Thu, 10 Jan 2013 02:14:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=CNoydgkL6AyeprEAAEgKbP5aY2M5Oa2JJ7x6VG5y7Gk=;
-	b=arH5cdy5NLxyoKRK6C4NceFuS516Q1S9fE/wqwTnjzQGw4QwoDYZC/CmWRIbC3Xc1i
-	Djagj03YxIvipbbbWZMwHZw1/gA/70lftQF8rqRTIEJrMtI2/MdRATh7CfqN3aQQ+j4t
-	7RA115GdUtgHAnkfp7e05Guh4txQEIBUnC/NJ38ayn2pYeZY7HtKu7cvyF/HqUq3Bk3I
-	vLjpOWXyl4uWDSO39ZKxIATaRwzHdebnDPdYqxEzM4Md/adV/Eu2sygHkB4atldkhIH0
-	6kVsp6TlXcaIpzBX/hxgL/gnCjYwlQUDHWvvaPlSRLwrPnKd3eBf49jkAeEL6FI0ssQb
-	8Vww==
-X-Received: by 10.66.9.2 with SMTP id v2mr195596455paa.18.1357808255209;
-	Thu, 10 Jan 2013 00:57:35 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id o5sm722667paz.32.2013.01.10.00.57.32
+	h=x-received:from:to:subject:date:message-id:x-mailer;
+	bh=OaRuLpGNVxlBilAQOOM9FaghJ/SnxjUkHrlJfPFP5D8=;
+	b=TFZHNd4enG+gQtB1phfxBYbldru5xLEaD38uHtN0K6DXqwv3t6T69eKPiY/K47V+lR
+	tEJhFy5NxeqdSavUoISeeX3sXVvN5UNHk5I4ZA0KHmbFmRoMM4wMD6h0OmPPyDuwgnb4
+	i388XDWqVX6qGaxn92VsQTHQojP0i14DXsBPKx7Hb2Z77PVH7xNo5Cnw63HiVR5PMVFQ
+	wUTUoTZroKZz0KQR8PFqGmVvYOLhQ1dLlonPrBR18fdZU/vRb50L64RT0YbRM+nFKrEA
+	idABy6Op3M1DqH+3YGqaVRJlAN3SzWscrfPWq5fZMu72AjesX/y/FglsICTOXdtvrul2
+	w1lA==
+X-Received: by 10.112.50.138 with SMTP id c10mr29087946lbo.104.1357812863756; 
+	Thu, 10 Jan 2013 02:14:23 -0800 (PST)
+Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
+	by mx.google.com with ESMTPS id ee5sm518856lbb.14.2013.01.10.02.14.21
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 00:57:34 -0800 (PST)
-Date: Thu, 10 Jan 2013 09:57:38 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20130110085738.GT3722@jama.palm1.palmone.com>
-References: <1357751495-28236-1-git-send-email-cristian.iorga@intel.com>
-	<CAJTo0LZwxy0E-ODr61YK4T9Qn+jkqqsPeW06vm8O7pmE-cMAfg@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB161DC46C@IRSMSX102.ger.corp.intel.com>
-	<7782F5CBD39246A3A6204E6FE729FD71@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <7782F5CBD39246A3A6204E6FE729FD71@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: upgrade to 1.10
+	Thu, 10 Jan 2013 02:14:22 -0800 (PST)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>) id 1TtF9P-0007lu-E6
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 Jan 2013 12:14:19 +0200
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Jan 2013 12:13:57 +0200
+Message-Id: <cover.1357812474.git.cazfi74@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 00/14] Prepare recipes for automake-1.13 (batch 2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,52 +43,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 09:13:07 -0000
-X-Groupsio-MsgNum: 33658
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="N7HXVILz59yg1nI8"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 Jan 2013 10:29:50 -0000
 
---N7HXVILz59yg1nI8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 0cfec10c4c7b0597f0e0c8f85539d901861a2f83:
 
-On Thu, Jan 10, 2013 at 07:56:30AM +0000, Ross Burton wrote:
-> On Thursday, 10 January 2013 at 07:15, Iorga, Cristian wrote:
-> > Well, I have the prior art stand by me.
-> > The same technique is applied for netbase.
-> >=20
-> > And, in this specific case, connman should be machine specific.
-> > Can you please give me more detail?
-> >=20
-> > The configuration file will have only the interface blacklist enabled i=
-n case of a qemu* machine.
-> netbase is a lot smaller than connman. =20
+  guile: add explicit dependency to avoid parallel build issue (2013-01-09 13:41:12 +0000)
 
-and also listed in SIGGEN_EXCLUDERECIPES_ABISAFE
+are available in the git repository at:
 
->With this change you're rebuilding connman per-machine instead of sharing =
-the package between compatible machines, with the only difference being a c=
-onfiguration file.
+  git://git.openembedded.org/openembedded-core-contrib cazfi/am13
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/am13
 
-And rebuilding also all stuff depending on connman.
+Marko Lindqvist (14):
+  dbus-glib: replace obsolete automake macros with working ones
+  tslib: replace obsolete automake macros with working ones
+  makedepend: replace obsolete automake macros with working ones
+  alsa-lib: replace obsolete automake macros with working ones
+  python: replace obsolete automake macros with working ones
+  libogg: replace obsolete automake macros with working ones
+  libmad: replace obsolete automake macros with working ones
+  libvorbis: replace obsolete automake macros with working ones
+  opensp: replace obsolete automake macros with working ones
+  gconf: replace obsolete automake macros with working ones
+  startup-notification: replace obsolete automake macros with working
+    ones
+  gtk+: replace obsolete automake macros with working ones
+  gmp: replace obsolete automake macros with working ones
+  bluez4: replace obsolete automake macros with working ones
 
-Cheers,
+ .../bluez4-4.101/obsolete_automake_macros.patch    |   14 ++++++++++++
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    6 +++--
+ .../dbus-glib-0.100/obsolete_automake_macros.patch |   15 +++++++++++++
+ meta/recipes-core/dbus/dbus-glib.inc               |    1 +
+ meta/recipes-core/dbus/dbus-glib_0.100.bb          |    2 +-
+ .../opensp-1.5.2/obsolete_automake_macros.patch    |   15 +++++++++++++
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb       |    6 +++--
+ .../obsolete_automake_macros.patch                 |   14 ++++++++++++
+ meta/recipes-devtools/python/python-dbus_1.1.1.bb  |    6 +++--
+ .../obsolete_automake_macros.patch                 |   23 ++++++++++++++++++++
+ .../python/python-pygobject_2.27.91.bb             |    6 +++--
+ .../gconf-3.2.5/obsolete_automake_macros.patch     |   14 ++++++++++++
+ meta/recipes-gnome/gnome/gconf_3.2.5.bb            |    6 +++--
+ .../gtk+-2.24.14/obsolete_automake_macros.patch    |   23 ++++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+_2.24.14.bb            |    1 +
+ .../obsolete_automake_macros.patch                 |   15 +++++++++++++
+ .../startup-notification_0.12.bb                   |    4 +++-
+ .../tslib/tslib/obsolete_automake_macros.patch     |   15 +++++++++++++
+ meta/recipes-graphics/tslib/tslib_1.0.bb           |    6 +++--
+ .../obsolete_automake_macros.patch                 |   15 +++++++++++++
+ .../recipes-graphics/xorg-util/makedepend_1.0.4.bb |    4 +++-
+ .../alsa-lib-1.0.25/obsolete_automake_macros.patch |   15 +++++++++++++
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |    6 +++--
+ .../libmad/libmad/obsolete_automake_macros.patch   |   14 ++++++++++++
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    6 +++--
+ .../libogg-1.3.0/obsolete_automake_macros.patch    |   14 ++++++++++++
+ meta/recipes-multimedia/libogg/libogg_1.3.0.bb     |    6 +++--
+ .../libvorbis-1.3.3/obsolete_automake_macros.patch |   15 +++++++++++++
+ .../libvorbis/libvorbis_1.3.3.bb                   |    6 +++--
+ .../gmp/gmp-5.1.0/obsolete_automake_macros.patch   |   13 +++++++++++
+ meta/recipes-support/gmp/gmp_5.1.0.bb              |    3 +++
+ 31 files changed, 286 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-core/dbus/dbus-glib-0.100/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/opensp/opensp-1.5.2/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/python/python-dbus-1.1.1/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.5/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-graphics/startup-notification/startup-notification-0.12/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-graphics/xorg-util/makedepend-1.0.4/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib-1.0.25/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libogg/libogg-1.3.0/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis-1.3.3/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
+1.7.10.4
 
---N7HXVILz59yg1nI8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlDugoIACgkQN1Ujt2V2gBwwtACcCH1TM+e3lPcGsI2poVR9xHDB
-ul8AoJRUd1r0sByfJothcVga4Vettex9
-=sG0t
------END PGP SIGNATURE-----
-
---N7HXVILz59yg1nI8--
