@@ -1,37 +1,31 @@
-Received: from mail-da0-f45.google.com ([209.85.210.45])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TtFpi-0000br-WC
+	(envelope-from <rpjday@crashcourse.ca>) id 1TtITL-0006LO-3I
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 11:58:16 +0100
-Received: by mail-da0-f45.google.com with SMTP id w4so187923dam.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 02:42:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=0GovNM5oAzOAiv2MspmcAyxioIKPN0AQguxDur9tSIQ=;
-	b=tScWyboReMJ/ZgUIn43dqp+dt3OjFA/SKuz81wt6R+b4SoyBUGZT3TfJOjSK7VQuww
-	nBwa454SktPflneLv99X+aX/b2I+gZ4wCjyNmYgk8boQ4E+1MNJuA2H9fzRLI1m0Bwq3
-	I0mRl2Iy1/8Z51ClV8gy0PR1V3PUZUbLdqvlL4sulS59AVFwjLLyryaqJDh7i76W/1Br
-	MgjGUOnM4e+dpVltq3/bFgSo7hvVw/wxiH3b9L3FjPEo1Y0nJTDn6tGGJ8bmudoQjKtw
-	1ZbR9h/MUDeQsq2oYe1SQEFZquNj7gO+dcHygRNyG7skVj3OMhHn6kboEnhNLhvnkM5m
-	Xfcg==
-X-Received: by 10.68.224.165 with SMTP id rd5mr220799918pbc.49.1357814569079; 
-	Thu, 10 Jan 2013 02:42:49 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id qw8sm615628pbc.39.2013.01.10.02.42.46
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 02:42:48 -0800 (PST)
-Date: Thu, 10 Jan 2013 11:42:53 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Message-ID: <20130110104253.GU3722@jama.palm1.palmone.com>
-References: <1757330.jo1AhcIeyl@yiqingliang-pc>
+	Thu, 10 Jan 2013 14:47:09 +0100
+Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
+	([99.253.156.71]:37614 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TtIEd-00021Y-2E for openembedded-core@lists.openembedded.org;
+	Thu, 10 Jan 2013 08:31:55 -0500
+Date: Thu, 10 Jan 2013 08:31:52 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1301100825400.10271@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <1757330.jo1AhcIeyl@yiqingliang-pc>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: glib2.0 and dbus dependency
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: defining a new image: inherit "image" vs "image_types"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,61 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 10:58:16 -0000
-X-Groupsio-MsgNum: 33662
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cqG5pBpskktEuCrX"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 Jan 2013 13:47:11 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---cqG5pBpskktEuCrX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 10, 2013 at 06:31:22PM +0000, Yi Qingliang wrote:
-> when compiling using 4 threads, I got following error.
-> the glib2.0-native want find dbus header file.
-> If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
->=20
-> when grep glib2.0 bb files, I can't find dbus in dependency, why?
+  possibly a distinction with no distinction but i wanted to throw
+together a page on how one defines a new "image type" -- most
+commonly, an SD card image -- and i started with what comes with the
+meta-raspberrypi layer, which seems to work just fine.
 
-It was causing cyclic dependency at least when dbus tests were enabled,
-I'm not sure if this was resolved already.
+  what i noticed is that that layer introduces the new
+"sdcard_image-rpi.bbclass" class file, which opens with:
 
-> ERROR: Function failed: do_compile (see /mnt/src/arm9plf-
-> build/tmp/work/x86_64-linux/glib-2.0-native/1_2.34.3-
-> r0/temp/log.do_compile.28193 for further information)
-> ERROR: Task 1851 (virtual:native:/mnt/src/optimus/poky/meta/recipes-
-> core/glib-2.0/glib-2.0_2.34.3.bb, do_compile) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 929 tasks of which 925 didn't need to be r=
-erun=20
-> and 1 failed.
-> Waiting for 0 running tasks to finish:
->=20
-> Summary: 1 task failed:
->   virtual:native:/mnt/src/optimus/poky/meta/recipes-
-> core/glib-2.0/glib-2.0_2.34.3.bb, do_compile
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+inherit image_types
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  but then i remembered that the meta-ti layer does the same thing,
+providing the new class file "sdcard_image.bbclass" which opens
+instead with:
 
---cqG5pBpskktEuCrX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+inherit image
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+  i realize that the oe-core image.bbclass contains this snippet:
 
-iEYEARECAAYFAlDumy0ACgkQN1Ujt2V2gBx70wCggXCwqLvNKsd8cbBsZxtLPz0H
-NfEAoJGBh/ApZW+gdJl6qFxclzidNi1a
-=mW+Q
------END PGP SIGNATURE-----
+IMAGE_CLASSES ?= "image_types"
+inherit ${IMAGE_CLASSES}
 
---cqG5pBpskktEuCrX--
+so it's clear that inheriting "image" is sufficient, but the
+alternative *isn't* clear.
+
+  what's the preferred construction here?  before digging further to
+see if there's something subtle or equivalent happening, should it be
+sufficient for new image definitions to simply:
+
+inherit image_types
+
+??  have i just not RTFS far enough to see that there's no difference?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
