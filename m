@@ -1,43 +1,20 @@
-Received: from mail-da0-f48.google.com ([209.85.210.48])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mhalstead@linuxfoundation.org>) id 1Tt5RG-0004q5-8D
+	(envelope-from <sgw@linux.intel.com>) id 1Tt6ro-0006zB-LJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 00:52:10 +0100
-Received: by mail-da0-f48.google.com with SMTP id k18so985652dae.21
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Jan 2013 15:36:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:sender:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:x-enigmail-version:content-type
-	:x-gm-message-state;
-	bh=ns2R1qh44IF+4LRq2WprtIaY6I44SpMdUeHwnoKo6mw=;
-	b=BYirEKvH0k5s1RIqla+26EMdKWv0seQJ5zq9GJsy6h6OUkYm6xnsEPHk65KfXAaKG/
-	my4cvDbc9sTdN40OLB9qdZbw0lkQa118G1MABNkaM6+7xY/nhmaV3XrKWjbAQo1UPdhZ
-	cLxJP+mPrGghFt803vlp+xYD4griTUFxOvsDetLAbEstH4lANfqgopjEy8H2hP305Ruk
-	shFBD4q/P8uzaW6dgJFS6HRmMwUHqE6u7ewQ7vV8MAsQiIBZ3T3LJkvtrMFMhO5TnMEJ
-	EBVIyI+7XqM+dJMWIPobEaye1XBFrif//fb1jhVscBae6AOtQ3e0Qbn5izKqMayq5lxV
-	PEXA==
-X-Received: by 10.66.82.67 with SMTP id g3mr192877298pay.58.1357774612943;
-	Wed, 09 Jan 2013 15:36:52 -0800 (PST)
-Received: from [192.168.1.66] (static-50-43-14-175.bvtn.or.frontiernet.net.
-	[50.43.14.175])
-	by mx.google.com with ESMTPS id a9sm68333pav.24.2013.01.09.15.36.49
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Jan 2013 15:36:51 -0800 (PST)
-Sender: Michael Halstead <mhalstead@linuxfoundation.org>
-Message-ID: <50EDFF1F.30506@yoctoproject.org>
-Date: Wed, 09 Jan 2013 15:37:03 -0800
-From: Michael Halstead <michael@yoctoproject.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
+	Thu, 10 Jan 2013 02:23:37 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2013 17:08:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,440,1355126400"; d="scan'208";a="270266920"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.147])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jan 2013 17:08:22 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1357744955.13022.97.camel@ted> <50ED9B4D.3000409@balister.org>
-In-Reply-To: <50ED9B4D.3000409@balister.org>
-X-Enigmail-Version: 1.4.6
-X-Gm-Message-State: ALoCoQk8T9Eze8FEqAem4An9OdosLd8VjGi5zpEJf6sTRWzvYrcTpBWOUHCwsB7cbUVp7lbJRxvK
-Subject: Re: WebHob Mailing List Setup
+Date: Wed,  9 Jan 2013 17:08:21 -0800
+Message-Id: <cover.1357779856.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [CONSOLIDATED PULL 00/43] Updates, fixes and groundwork for automake and eglibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,153 +27,263 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2013 23:52:10 -0000
-X-Groupsio-MsgNum: 33642
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
-	micalg=sha1; boundary="------------ms030909080707060606090102"
-
---------------ms030909080707060606090102
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-On 01/09/2013 08:31 AM, Philip Balister wrote:
-> On 01/09/2013 10:22 AM, Richard Purdie wrote:
->> Various people at various times have expressed an interest in webhob
->> which will be a web interface to bitbake's functionality as an evoluti=
-on
->> of the capabilities of the current hob UI. There are some people looki=
-ng
->> at the design of it and who are actively working on figuring out what =
-it
->> should look like, what it needs to do, who it needs to serve and some
->> other key questions. They will also likely start implementing the
->> functionality soon.
->>
->> In the interests of collaboration, we've setup the mailing list:
->>
->> https://lists.yoctoproject.org/listinfo/webhob
-> Is there a gmane archive?
->
-> Philip
-Not yet but soon. Gmane archives usually take three to five days to set u=
-p.
+X-List-Received-Date: Thu, 10 Jan 2013 01:23:37 -0000
 
 
-Michael Halstead
-Yocto Project / Sys Admin
+Richard,
+
+This is a subset of patches that are pending on the list currently, 
+mostly things build cleanly, there is a oprofile issue on PPC, that
+I am digging into, but I do not beleive it's related to this patch
+set.
+
+This set includes patches for the upcoming Eglibc and automake updates.
+
+I have build bits of wayland and systemd, but there are still some issues
+that need to be resolved.
+
+Thanks
+	Sau!
 
 
->
->> which is where the design and initial implementation discussions are
->> going to happen. If you are interested please join the list.
->>
->> I've cross posted this to ensure people know about it. Please take
->> discussion and replies up on the webhob list itself.
->>
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+The following changes since commit 0cfec10c4c7b0597f0e0c8f85539d901861a2f83:
+
+  guile: add explicit dependency to avoid parallel build issue (2013-01-09 13:41:12 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Bogdan Marinescu (6):
+  python-smartpm: add dependency on python-pprint
+  byacc: updated to 20121003
+  nasm: updated to 2.10.07
+  lsof: updated to 4.87
+  lttng-2.0: components updated to version 2.1.0
+  bdwgc: updated to version 7.2d
+
+Chen Qi (1):
+  rootfs_rpm.bbclass: export INSTALL_PLATFORM_EXTRA_RPM
+
+Cristian Iorga (3):
+  libtelepathy: python-native is now used during build
+  telepathy-idle: upgrade to 0.1.14
+  telepathy-mission-control: upgrade to 5.14.0
+
+Giuseppe CONDORELLI (1):
+  libpcre: change BUILD_CPPFLAGS and BUILD_CFLAGS values
+
+Khem Raj (2):
+  ofono: Fix build with eglibc 2.17
+  udev: Fix build with eglibc 2.17
+
+Laurentiu Palcu (3):
+  qemu.bbclass: add qemu_run_binary() function
+  gtk-immodules-cache.bbclass: allow for offline cache generation
+  matchbox-keyboard: use the gtk-immodules-cache.bbclass
+
+Marcin Juszkiewicz (1):
+  gmp: add patch from upstream to unbreak AArch64
+
+Marco Cavallini (1):
+  kernel.bbclass: kernel_do_install fails with kernel <2.6.30
+
+Marko Lindqvist (17):
+  gettext: update to upstream version 0.18.2
+  gettext-minimal: update files from gettext 0.18.2
+  bluez-hcidump: updated to upstream version 2.5
+  file: replace obsolete automake macros with working ones
+  popt: disable tests
+  glib-2.0: replace obsolete automake macros with working ones
+  libx11: disable tests
+  libpng: replace obsolete automake macros with working ones
+  libusb: replace obsolete automake macros with working ones
+  pixman: replace obsolete automake macros with working ones
+  libid3tag: replace obsolete automake macros with working ones
+  libgcrypt: replace obsolete automake macros with working ones
+  gnutls: replace obsolete automake macros with working ones
+  flac: replace obsolete automake macros with working ones
+  pkg-config: replace obsolete automake macros with working ones
+  harfbuzz: add recipe, version 0.9.10
+  pango: update to upstream version 1.32.5
+
+Noor Ahsan (1):
+  cairo: Adds libxext in X11DEPENDS.
+
+Otavio Salvador (1):
+  libnl: Update to 3.2.18
+
+Robert P. J. Day (1):
+  kernel.bbclass: Define MODULE_IMAGE_BASE_NAME for layer convenience.
+
+Ross Burton (4):
+  pkgconfig: add -native script that uses the native sysroot instead of
+    target
+  musicbrainz: handle rebuilds
+  mesa: bump to 9.0.1
+  directfb: fix build against Mesa 9
+
+Saul Wold (1):
+  valgrind: update configure for eglibc 2.17
+
+ meta/classes/gtk-immodules-cache.bbclass           |  17 +-
+ meta/classes/kernel.bbclass                        |  10 +-
+ meta/classes/qemu.bbclass                          |  17 +
+ meta/classes/rootfs_rpm.bbclass                    |   2 +-
+ .../{bluez-hcidump_2.4.bb => bluez-hcidump_2.5.bb} |   4 +-
+ .../ofono/ofono/missing-ssize_t.patch              |  23 +
+ meta/recipes-connectivity/ofono/ofono_1.12.bb      |   3 +-
+ .../telepathy/libtelepathy_0.3.3.bb                |   2 +-
+ .../build-fix-for-make-j-safety.patch              |  39 --
+ .../fix-svc-gtk-doc.h-target.patch                 |   0
+ ...thy-idle_0.1.12.bb => telepathy-idle_0.1.14.bb} |  11 +-
+ ...13.0.bb => telepathy-mission-control_5.14.0.bb} |  10 +-
+ .../gettext/gettext-0.18.1.1/remove_gets.patch     |  58 --
+ .../gnulib-uclibc-sched_param-def.patch            |   0
+ .../parallel.patch                                 |   0
+ .../wchar-uclibc.patch                             |   0
+ .../gettext/gettext-minimal-0.18.1.1/aclocal.tgz   | Bin 36374 -> 0 bytes
+ .../COPYING                                        |   0
+ .../Makefile.in.in                                 |  19 +-
+ .../Makevars.template                              |  12 +
+ .../gettext/gettext-minimal-0.18.2/aclocal.tgz     | Bin 0 -> 37504 bytes
+ .../config.rpath                                   | 106 ++--
+ .../remove-potcdate.sin                            |   0
+ ....18.1.1.bb => gettext-minimal-native_0.18.2.bb} |   2 +-
+ .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |   7 +-
+ .../glib-2.0/obsolete_automake_macros.patch        |  13 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   3 +-
+ meta/recipes-core/udev/udev.inc                    |   3 +-
+ meta/recipes-core/udev/udev_182.bb                 |   2 +-
+ .../file/file/obsolete_automake_macros.patch       |  15 +
+ meta/recipes-devtools/file/file_5.11.bb            |   3 +-
+ .../nasm/{nasm_2.10.06.bb => nasm_2.10.07.bb}      |   4 +-
+ .../pkgconfig-0.25/obsolete_automake_macros.patch  |  35 ++
+ meta/recipes-devtools/pkgconfig/pkgconfig.inc      |  14 +-
+ .../pkgconfig/pkgconfig/pkg-config-native.in       |   7 +
+ meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb  |   2 +-
+ .../python/python-smartpm_1.4.1.bb                 |   4 +-
+ ...2.16.patch => configure-with-newer-glibc.patch} |  18 +-
+ meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |   4 +-
+ .../byacc/{byacc_20120526.bb => byacc_20121003.bb} |   7 +-
+ .../lsof/{lsof_4.86.bb => lsof_4.87.bb}            |   4 +-
+ meta/recipes-graphics/cairo/cairo.inc              |   6 +-
+ meta/recipes-graphics/directfb/directfb.inc        |   3 +-
+ .../recipes-graphics/directfb/directfb/mesa9.patch |  29 +
+ .../harfbuzz-0.9.10/disable_graphite.patch         |  15 +
+ meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb  |  29 +
+ meta/recipes-graphics/mesa/mesa-8.0.5.inc          |  18 -
+ meta/recipes-graphics/mesa/mesa-9.0.1.inc          |  11 +
+ meta/recipes-graphics/mesa/mesa-common.inc         |   3 +-
+ .../recipes-graphics/mesa/mesa-dri-glsl-native.inc |   7 -
+ .../mesa/mesa-dri-glsl-native_8.0.5.bb             |  22 -
+ .../mesa/{mesa-dri_8.0.5.bb => mesa-dri_9.0.1.bb}  |   0
+ .../mesa/mesa/0001-Compile-with-uclibc.patch       |  52 --
+ .../mesa/mesa/0003-fix-for-x32.patch               |  50 --
+ ...-gross-hack-to-prevent-from-install-libgl.patch |  29 -
+ meta/recipes-graphics/mesa/mesa/cross-glsl.patch   | 632 +++++++++++++++++++++
+ .../pango/pango-1.30.1/multilib-fix-clean.patch    |  42 --
+ .../pango/pango-1.32.5/multilib-fix-clean.patch    |  75 +++
+ .../{pango-1.30.1 => pango-1.32.5}/no-tests.patch  |   0
+ meta/recipes-graphics/pango/pango.inc              |   6 +-
+ .../pango/{pango_1.30.1.bb => pango_1.32.5.bb}     |   4 +-
+ .../xorg-lib/libx11/disable_tests.patch            |  17 +
+ meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb     |   6 +-
+ .../xorg-lib/pixman/obsolete_automake_macros.patch |  14 +
+ meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb    |   3 +-
+ ...tng-modules_2.0.5.bb => lttng-modules_2.1.0.bb} |   6 +-
+ .../{lttng-tools_2.0.4.bb => lttng-tools_2.1.0.bb} |   6 +-
+ .../{lttng2-ust_2.0.5.bb => lttng2-ust_2.1.0.bb}   |   4 +-
+ .../flac/flac-1.2.1/obsolete_automake_macros.patch |  14 +
+ meta/recipes-multimedia/flac/flac_1.2.1.bb         |   6 +-
+ .../libid3tag/obsolete_automake_macros.patch       |  14 +
+ .../libid3tag/libid3tag_0.15.1b.bb                 |   6 +-
+ .../libpng-1.5.13/obsolete_automake_macros.patch   |  15 +
+ meta/recipes-multimedia/libpng/libpng_1.5.13.bb    |   6 +-
+ .../musicbrainz/libmusicbrainz_git.bb              |   6 +-
+ .../matchbox-keyboard/matchbox-keyboard_git.bb     |  18 +-
+ .../bdwgc/{bdwgc_20110107.bb => bdwgc_7.2.bb}      |  14 +-
+ .../gmp/gmp-5.1.0/187b7b1646ee.patch               |  44 ++
+ meta/recipes-support/gmp/gmp_5.1.0.bb              |   1 +
+ .../gnutls/gnutls/obsolete_automake_macros.patch   |  39 ++
+ meta/recipes-support/gnutls/gnutls_2.12.21.bb      |   3 +-
+ .../libgcrypt-1.5.0/obsolete_automake_macros.patch |  15 +
+ meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb  |   4 +-
+ .../libnl/libnl/fix-build-using-flex.patch         |  55 --
+ .../libnl/libnl/fix-pktloc_syntax_h-race.patch     |   2 +-
+ .../libnl/{libnl_3.2.16.bb => libnl_3.2.18.bb}     |   7 +-
+ meta/recipes-support/libpcre/libpcre_8.32.bb       |   5 +-
+ .../obsolete_automake_macros.patch                 |  15 +
+ meta/recipes-support/libusb/libusb-compat_0.1.4.bb |   3 +-
+ .../libusb1-1.0.9/obsolete_automake_macros.patch   |  15 +
+ meta/recipes-support/libusb/libusb1_1.0.9.bb       |   6 +-
+ meta/recipes-support/popt/popt/disable_tests.patch |  21 +
+ meta/recipes-support/popt/popt_1.16.bb             |   3 +-
+ 93 files changed, 1375 insertions(+), 531 deletions(-)
+ rename meta/recipes-connectivity/bluez/{bluez-hcidump_2.4.bb => bluez-hcidump_2.5.bb} (83%)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono/missing-ssize_t.patch
+ delete mode 100644 meta/recipes-connectivity/telepathy/telepathy-idle-0.1.12/build-fix-for-make-j-safety.patch
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle-0.1.12 => telepathy-idle-0.1.14}/fix-svc-gtk-doc.h-target.patch (100%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.12.bb => telepathy-idle_0.1.14.bb} (67%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} (85%)
+ delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
+ rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
+ delete mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.1.1/aclocal.tgz
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/COPYING (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/Makefile.in.in (95%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/Makevars.template (76%)
+ create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.2/aclocal.tgz
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/config.rpath (92%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/remove-potcdate.sin (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-native_0.18.1.1.bb => gettext-minimal-native_0.18.2.bb} (98%)
+ rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/file/file/obsolete_automake_macros.patch
+ rename meta/recipes-devtools/nasm/{nasm_2.10.06.bb => nasm_2.10.07.bb} (81%)
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.25/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
+ rename meta/recipes-devtools/valgrind/valgrind-3.7.0/{configure-with-glibc-2.16.patch => configure-with-newer-glibc.patch} (62%)
+ rename meta/recipes-extended/byacc/{byacc_20120526.bb => byacc_20121003.bb} (73%)
+ rename meta/recipes-extended/lsof/{lsof_4.86.bb => lsof_4.87.bb} (91%)
+ create mode 100644 meta/recipes-graphics/directfb/directfb/mesa9.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/disable_graphite.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-8.0.5.inc
+ create mode 100644 meta/recipes-graphics/mesa/mesa-9.0.1.inc
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native.inc
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_8.0.5.bb
+ rename meta/recipes-graphics/mesa/{mesa-dri_8.0.5.bb => mesa-dri_9.0.1.bb} (100%)
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0001-Compile-with-uclibc.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0003-fix-for-x32.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/cross-glsl.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
+ create mode 100644 meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
+ rename meta/recipes-graphics/pango/{pango-1.30.1 => pango-1.32.5}/no-tests.patch (100%)
+ rename meta/recipes-graphics/pango/{pango_1.30.1.bb => pango_1.32.5.bb} (59%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/disable_tests.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/obsolete_automake_macros.patch
+ rename meta/recipes-kernel/lttng-2.0/{lttng-modules_2.0.5.bb => lttng-modules_2.1.0.bb} (85%)
+ rename meta/recipes-kernel/lttng-2.0/{lttng-tools_2.0.4.bb => lttng-tools_2.1.0.bb} (88%)
+ rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.0.5.bb => lttng2-ust_2.1.0.bb} (93%)
+ create mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libpng/libpng-1.5.13/obsolete_automake_macros.patch
+ rename meta/recipes-support/bdwgc/{bdwgc_20110107.bb => bdwgc_7.2.bb} (83%)
+ create mode 100644 meta/recipes-support/gmp/gmp-5.1.0/187b7b1646ee.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-support/libgcrypt/libgcrypt-1.5.0/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
+ rename meta/recipes-support/libnl/{libnl_3.2.16.bb => libnl_3.2.18.bb} (87%)
+ create mode 100644 meta/recipes-support/libusb/libusb-compat-0.1.4/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-support/popt/popt/disable_tests.patch
+
+-- 
+1.8.0.2
 
 
 
---------------ms030909080707060606090102
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIINjDCCBjQw
-ggQcoAMCAQICASAwDQYJKoZIhvcNAQEFBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNVBAoTDVN0YXJ0
-Q29tIEx0ZC4xKzApBgNVBAsTIlNlY3VyZSBEaWdpdGFsIENlcnRpZmljYXRlIFNpZ25pbmcxKTAn
-BgNVBAMTIFN0YXJ0Q29tIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTA3MTAyNDIxMDI1NVoX
-DTE3MTAyNDIxMDI1NVowgYwxCzAJBgNVBAYTAklMMRYwFAYDVQQKEw1TdGFydENvbSBMdGQuMSsw
-KQYDVQQLEyJTZWN1cmUgRGlnaXRhbCBDZXJ0aWZpY2F0ZSBTaWduaW5nMTgwNgYDVQQDEy9TdGFy
-dENvbSBDbGFzcyAyIFByaW1hcnkgSW50ZXJtZWRpYXRlIENsaWVudCBDQTCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBAMsohUWcASz7GfKrpTOMKqANy9BV7V0igWdGxA8IU77L3aTxErQ+
-fcxtDYZ36Z6GH0YFn7fq5RADteP0AYzrCA+EQTfi8q1+kA3m0nwtwXG94M5sIqsvs7lRP1aycBke
-/s5g9hJHryZ2acScnzczjBCAo7X1v5G3yw8MDP2m2RCye0KfgZ4nODerZJVzhAlOD9YejvAXZqHk
-sw56HzElVIoYSZ3q4+RJuPXXfIoyby+Y2m1E+YzX5iCZXBx05gk6MKAW1vaw4/v2OOLy6FZH3XHH
-tOkzUreG//CsFnB9+uaYSlR65cdGzTsmoIK8WH1ygoXhRBm98SD7Hf/r3FELNvUCAwEAAaOCAa0w
-ggGpMA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgEGMB0GA1UdDgQWBBSuVYNv7DHKufcd
-+q9rMfPIHeOsuzAfBgNVHSMEGDAWgBROC+8apEBbpRdphzDKNGhD0EGu8jBmBggrBgEFBQcBAQRa
-MFgwJwYIKwYBBQUHMAGGG2h0dHA6Ly9vY3NwLnN0YXJ0c3NsLmNvbS9jYTAtBggrBgEFBQcwAoYh
-aHR0cDovL3d3dy5zdGFydHNzbC5jb20vc2ZzY2EuY3J0MFsGA1UdHwRUMFIwJ6AloCOGIWh0dHA6
-Ly93d3cuc3RhcnRzc2wuY29tL3Nmc2NhLmNybDAnoCWgI4YhaHR0cDovL2NybC5zdGFydHNzbC5j
-b20vc2ZzY2EuY3JsMIGABgNVHSAEeTB3MHUGCysGAQQBgbU3AQIBMGYwLgYIKwYBBQUHAgEWImh0
-dHA6Ly93d3cuc3RhcnRzc2wuY29tL3BvbGljeS5wZGYwNAYIKwYBBQUHAgEWKGh0dHA6Ly93d3cu
-c3RhcnRzc2wuY29tL2ludGVybWVkaWF0ZS5wZGYwDQYJKoZIhvcNAQEFBQADggIBADqpJw3I07QW
-ke9plNBpxUxcffc7nUrIQpJHDci91DFG7fVhHRkMZ1J+BKg5UNUxIFJ2Z9B90Micc/NXcs7kPBRd
-n6XGO/vPc87Y6R+cWS9Nc9+fp3Enmsm94OxOwI9wn8qnr/6o3mD4noP9JphwUPTXwHovjavRnhUQ
-HLfo/i2NG0XXgTHXS2Xm0kVUozXqpYpAdumMiB/vezj1QHQJDmUdPYMcp+reg9901zkyT3fDW/iv
-JVv6pWtkh6Pw2ytZT7mvg7YhX3V50Nv860cV11mocUVcqBLv0gcT+HBDYtbuvexNftwNQKD5193A
-7zN4vG7CTYkXxytSjKuXrpEatEiFPxWgb84nVj25SU5q/r1Xhwby6mLhkbaXslkVtwEWT3Van49r
-KjlK4XrUKYYWtnfzq6aSak5u0Vpxd1rY79tWhD3EdCvOhNz/QplNa+VkIsrcp7+8ZhP1l1b2U6Ma
-xIVteuVMD3X0vziIwr7jxYae9FZjbxlpUemqXjcC0QaFfN7qI0JsQMALL7iGRBg7K0CoOBzECdD3
-fuZil5kU/LP9cr1BK31U0Uy651bFnAMMMkqhAChIbn0ei72VnbpSsrrSdF0BAGYQ8vyHae5aCg+H
-75dVCV33K6FuxZrf09yTz+Vx/PkdRUYkXmZz/OTfyJXsUOUXrym6KvI2rYpccSk5MIIHUDCCBjig
-AwIBAgICIgMwDQYJKoZIhvcNAQEFBQAwgYwxCzAJBgNVBAYTAklMMRYwFAYDVQQKEw1TdGFydENv
-bSBMdGQuMSswKQYDVQQLEyJTZWN1cmUgRGlnaXRhbCBDZXJ0aWZpY2F0ZSBTaWduaW5nMTgwNgYD
-VQQDEy9TdGFydENvbSBDbGFzcyAyIFByaW1hcnkgSW50ZXJtZWRpYXRlIENsaWVudCBDQTAeFw0x
-MjA2MTMwNDU5MjlaFw0xNDA2MTQxNjE4MzBaMIGRMRkwFwYDVQQNExBnMDFwWTYwMWJGM1BrRTY3
-MQswCQYDVQQGEwJVUzEPMA0GA1UECBMGT3JlZ29uMRIwEAYDVQQHEwlIaWxsc2Jvcm8xGTAXBgNV
-BAMTEE1pY2hhZWwgSGFsc3RlYWQxJzAlBgkqhkiG9w0BCQEWGG1pY2hhZWxAeW9jdG9wcm9qZWN0
-Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMFZ+GW0VKdiyuQy3hlOvwcHxcm0
-8ZwNGGah4zipYky5wVFZO7p9LjJfyF6rvd24xdkaTluxTMmd9pfq2cOVQ6c3RsPufv1yBUbytk6F
-4Wk+qD0qEGjuHh5FfakcLIEsHiSn3nzaQZHaolS/yzx/A3coQS8pQrshZYqAF/ME5OxMyL8KDdtk
-xatt1reDPqzvI5rKYdeEbmHsTYgd9WWHvs8MfZFHidZoAXMXU+PcsKCUxEYhgP/h9NKcTApu/Mhd
-IPKn11pD+gfDM+ochGu1uxuW/t1tNJyRYDVQSDV+rpliQ7mrimSmyktIKkow02pUk4Xw3OqdYq7/
-/HpVOUs5nk8CAwEAAaOCA7MwggOvMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgSwMB0GA1UdJQQWMBQG
-CCsGAQUFBwMCBggrBgEFBQcDBDAdBgNVHQ4EFgQUcZFNotb1OfDmPE6GQ6MQIBh7meUwHwYDVR0j
-BBgwFoAUrlWDb+wxyrn3HfqvazHzyB3jrLswIwYDVR0RBBwwGoEYbWljaGFlbEB5b2N0b3Byb2pl
-Y3Qub3JnMIICIQYDVR0gBIICGDCCAhQwggIQBgsrBgEEAYG1NwECAjCCAf8wLgYIKwYBBQUHAgEW
-Imh0dHA6Ly93d3cuc3RhcnRzc2wuY29tL3BvbGljeS5wZGYwNAYIKwYBBQUHAgEWKGh0dHA6Ly93
-d3cuc3RhcnRzc2wuY29tL2ludGVybWVkaWF0ZS5wZGYwgfcGCCsGAQUFBwICMIHqMCcWIFN0YXJ0
-Q29tIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MAMCAQEagb5UaGlzIGNlcnRpZmljYXRlIHdhcyBp
-c3N1ZWQgYWNjb3JkaW5nIHRvIHRoZSBDbGFzcyAyIFZhbGlkYXRpb24gcmVxdWlyZW1lbnRzIG9m
-IHRoZSBTdGFydENvbSBDQSBwb2xpY3ksIHJlbGlhbmNlIG9ubHkgZm9yIHRoZSBpbnRlbmRlZCBw
-dXJwb3NlIGluIGNvbXBsaWFuY2Ugb2YgdGhlIHJlbHlpbmcgcGFydHkgb2JsaWdhdGlvbnMuMIGc
-BggrBgEFBQcCAjCBjzAnFiBTdGFydENvbSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTADAgECGmRM
-aWFiaWxpdHkgYW5kIHdhcnJhbnRpZXMgYXJlIGxpbWl0ZWQhIFNlZSBzZWN0aW9uICJMZWdhbCBh
-bmQgTGltaXRhdGlvbnMiIG9mIHRoZSBTdGFydENvbSBDQSBwb2xpY3kuMDYGA1UdHwQvMC0wK6Ap
-oCeGJWh0dHA6Ly9jcmwuc3RhcnRzc2wuY29tL2NydHUyLWNybC5jcmwwgY4GCCsGAQUFBwEBBIGB
-MH8wOQYIKwYBBQUHMAGGLWh0dHA6Ly9vY3NwLnN0YXJ0c3NsLmNvbS9zdWIvY2xhc3MyL2NsaWVu
-dC9jYTBCBggrBgEFBQcwAoY2aHR0cDovL2FpYS5zdGFydHNzbC5jb20vY2VydHMvc3ViLmNsYXNz
-Mi5jbGllbnQuY2EuY3J0MCMGA1UdEgQcMBqGGGh0dHA6Ly93d3cuc3RhcnRzc2wuY29tLzANBgkq
-hkiG9w0BAQUFAAOCAQEANR/d6M8GHL/rkx3Kz9ILDxYMcekmFgefaDXNQMicUHiUw5TsIl5af1pS
-Y2AvbKlA2/FZnyG8w42FuK6ZQBZJxs4/N10NW8qDmuuFTi6TyJgurj73tx9RogW50miDHMZLoMRe
-avB1h8zy99L2lRPZSebpSFkrQdYDHaGRVhYMjEcWNW9cLxhR8BaAEw/KlpERv3hUQpwGMppYOE66
-M7KJ3HpeR7DXfa4njL9W2hukTQNsskdWtzejHp5iQ65+5Mv+NXLmYP4uLJcR9AbttgNhwStc0P1b
-LxnQkElGeUzATOBq+QsVZ7Fo6sSS7kqrhpfaPibqpj83m/wSgpKVsbZJ3DGCA9owggPWAgEBMIGT
-MIGMMQswCQYDVQQGEwJJTDEWMBQGA1UEChMNU3RhcnRDb20gTHRkLjErMCkGA1UECxMiU2VjdXJl
-IERpZ2l0YWwgQ2VydGlmaWNhdGUgU2lnbmluZzE4MDYGA1UEAxMvU3RhcnRDb20gQ2xhc3MgMiBQ
-cmltYXJ5IEludGVybWVkaWF0ZSBDbGllbnQgQ0ECAiIDMAkGBSsOAwIaBQCgggIbMBgGCSqGSIb3
-DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTEzMDEwOTIzMzcwM1owIwYJKoZIhvcN
-AQkEMRYEFGfuy7WVOVGloA3za/hzdgpEn7OIMGwGCSqGSIb3DQEJDzFfMF0wCwYJYIZIAWUDBAEq
-MAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAw
-BwYFKw4DAgcwDQYIKoZIhvcNAwICASgwgaQGCSsGAQQBgjcQBDGBljCBkzCBjDELMAkGA1UEBhMC
-SUwxFjAUBgNVBAoTDVN0YXJ0Q29tIEx0ZC4xKzApBgNVBAsTIlNlY3VyZSBEaWdpdGFsIENlcnRp
-ZmljYXRlIFNpZ25pbmcxODA2BgNVBAMTL1N0YXJ0Q29tIENsYXNzIDIgUHJpbWFyeSBJbnRlcm1l
-ZGlhdGUgQ2xpZW50IENBAgIiAzCBpgYLKoZIhvcNAQkQAgsxgZaggZMwgYwxCzAJBgNVBAYTAklM
-MRYwFAYDVQQKEw1TdGFydENvbSBMdGQuMSswKQYDVQQLEyJTZWN1cmUgRGlnaXRhbCBDZXJ0aWZp
-Y2F0ZSBTaWduaW5nMTgwNgYDVQQDEy9TdGFydENvbSBDbGFzcyAyIFByaW1hcnkgSW50ZXJtZWRp
-YXRlIENsaWVudCBDQQICIgMwDQYJKoZIhvcNAQEBBQAEggEAD4eup+mxMgNoBaByFWn2BEYgpwo1
-5DwUCaWDqIBhCI4SFwEGQDYVIflHD0WEL2v4knvyUPW8R9CfQvqdC5qoAiH5G2y8vwEPcfSNGr/Y
-nGwaaKglnYh92ujpGrr9OUB3x1hGCvzu+HhgF5RMusYKqEh2UKaggxfN4il0o0gDDfaPx4Ice4Hf
-+HWQ4AczBOgSauZkOR1PqxMYc2s1oShYXvQHZnWUGU1/lus5Darw3PRWqjG60JEUYgec8zre3vjC
-YemKE/hDxqV6VGVcajIsfpKVtFCyTMmGN61GARYxoBO5QIi+/mGEvt7XOq+mm327/X6YE1kJ+2x5
-Vr8retR05AAAAAAAAA==
-
---------------ms030909080707060606090102--
