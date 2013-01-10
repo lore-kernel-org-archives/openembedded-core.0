@@ -1,36 +1,35 @@
-Received: from mail-pa0-f45.google.com ([209.85.220.45])
+Received: from mail-ia0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1TtJwd-00025u-46
+	(envelope-from <raj.khem@gmail.com>) id 1TtN5T-0006TS-M5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 16:21:27 +0100
-Received: by mail-pa0-f45.google.com with SMTP id bg2so404966pad.32
+	Thu, 10 Jan 2013 19:43:10 +0100
+Received: by mail-ia0-f171.google.com with SMTP id q36so794000iaq.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 07:06:13 -0800 (PST)
+	Thu, 10 Jan 2013 10:27:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ahcUT3/JWzdoi7bL4LyMWmaQj9LeSZvdurnB0FBVN7s=;
-	b=VPRaXtaMhMAxCgaZ4W8yfi60dhdoEwklhP2RGIrFCbsDXeqSESin/YzrIj9BkNtZTZ
-	4uF0jp2UbXd76psCR6i6UrABct0JoYL48mRznfqBy8ZDLd5ITqJ8bJyOjCXN119Rb+zB
-	3vBHX1VqzTftK/CB1R1fN2y4QDPeKbXW07HhVO5Rq9qOWDmlwWlLFkFsusKZ24jXZdRU
-	iawNrHTJnkVdDl0PmIzn82nUBXwfzlJawHrsfCOhA+wgc8pUp5h9j4oxr9ztGoGJ8XL8
-	INAeNay2erzBU0usmlHdKN2YvEY6C0lbl2nR4y0LWvsZcUSCO5WV9ZFW1Va/sb7nwIm8
-	DIhA==
+	h=x-received:mime-version:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=Xn3ePVI3GrPSrcIaq57/bnGgA0H0rnUdySvWV64xRsE=;
+	b=MW/T/J8PuftlPlsg9Jo4m9a/CH86whfC2FQnvmPREPhvTEyD1RPXDzkMZCKQR0TZqk
+	IyR700tDuuoF0jNiV2H4GdfmLLh2QensakZaBx0eRLRF6u3/iZt1D8oauKZOpzT6K5uw
+	uR9hbML12Wu2aH39HRiNb686OKrIqSTnaFp536vaK/H6xiIbaNf/BoIyr+x1mOKm4ktW
+	PKuZtLyyqE5V/Zsn/3GbOgzu45mH9ZpQ5Hx5ppovtdPBu18+CLDYXodt1HyYtfe0CJKL
+	r//zT92gdXoBqdAAyip7L/Jlg4X9PjFedNueZkp/SU1itd1rWdhwUnEMbTQqAvIITHoq
+	5vig==
+X-Received: by 10.50.184.199 with SMTP id ew7mr6791854igc.84.1357842453525;
+	Thu, 10 Jan 2013 10:27:33 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.68.219.67 with SMTP id pm3mr221263647pbc.150.1357830372961;
-	Thu, 10 Jan 2013 07:06:12 -0800 (PST)
-Received: by 10.68.230.196 with HTTP; Thu, 10 Jan 2013 07:06:12 -0800 (PST)
-In-Reply-To: <CAAQYJAsygkKtJiu7QFSM2o+5iNx7GSmwvOZ6E+LBkoAh4ChQzA@mail.gmail.com>
-References: <CACW_hTbcpzGuQw3HfNc1bL+a7L6oGcJWfhE5=YKyXR6fwQeVfg@mail.gmail.com>
-	<1357751835.13022.103.camel@ted>
-	<CAAQYJAsygkKtJiu7QFSM2o+5iNx7GSmwvOZ6E+LBkoAh4ChQzA@mail.gmail.com>
-Date: Thu, 10 Jan 2013 16:06:12 +0100
-Message-ID: <CACW_hTZdivwbMO8jskuhPNefEL2riDfQ6_XWdG7bkpZJNOmnzQ@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: split mtd-utils
+Received: by 10.64.19.8 with HTTP; Thu, 10 Jan 2013 10:27:03 -0800 (PST)
+In-Reply-To: <50EE757E.5030006@intel.com>
+References: <cover.1357647338.git.radu.moisan@intel.com>
+	<CAMKF1sow_bbU84+EYXR0hU_pbFxeR50c1ueWYWGqUnr6Swdy6g@mail.gmail.com>
+	<50EE757E.5030006@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 10 Jan 2013 10:27:03 -0800
+Message-ID: <CAMKF1sqJ6X6-Pb_r4B+S3va4SB8PLmeaCShB-PbQtP+_JwPqCw@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,135 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 15:21:29 -0000
-Content-Type: multipart/alternative; boundary=047d7b2eda8b0bad0904d2f0853c
+X-List-Received-Date: Thu, 10 Jan 2013 18:43:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
---047d7b2eda8b0bad0904d2f0853c
-Content-Type: text/plain; charset=ISO-8859-1
-
-Cool, I'll have a peek at the oe classic recipe and give it a stab along
-the same spirit.
-
-Best regards, Frans
-
-
-2013/1/10 Andrea Adami <andrea.adami@gmail.com>
-
-> On Wed, Jan 9, 2013 at 6:17 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2013-01-09 at 17:12 +0100, Frans Meulenbroeks wrote:
-> >> As I am involved in embedded systems where flash is somewhat sparse
-> >> I'm always eager to save a few bytes where possible.
-> >>
-> >> Today I noticed that mtd-utils (1.5.0 from danny) generates for my
-> >> architecture (powerpc) roughly 780k of binaries in usr/sbin. 423k of
-> >> it is due to ubifs related files.
-> >>
-> >> Would it be desired to put this in a separate package?
-> >>
-> >> e.g. mtd-utils-ubi and mtd-utils-nonubi with mtd-utils itself being
-> >> empty but rdepend on those two?
-> >> that way mtd-utils will still give all packages but those only wanting
-> >> the non ubi stuff can limit themselves to that.
-> >>
-> >> If desired I can give this a stab.
-> >
-> > Sounds like a sensible split to me...
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Thu, Jan 10, 2013 at 12:02 AM, Radu Moisan <radu.moisan@intel.com> wrote:
 >
-> OE-Classic already has one packaging split:
-> PACKAGES =+ "mkfs-jffs2 mkfs-ubifs
+> On 01/09/2013 07:14 PM, Khem Raj wrote:
+>>
+>> On Tue, Jan 8, 2013 at 4:24 AM, Radu Moisan <radu.moisan@intel.com> wrote:
+>>>
+>>> As Ross suggested I've done the following changes to the previous set:
+>>> * added two patches (the first two) that address multiple init systems
+>>> support,\
+>>> as in shifting from default hardcoded sysvinit to something more generic
+>>> while
+>>> the default values still remains on sysvinit
+>>> * moved automatic setting of PREFERRED_PROVIDER_udev into
+>>> default_providers.inc
+>>> * removed ahavi-systemd since all it provided was service files; now
+>>> service files
+>>> are pulled in by avahi-daemon
+>>> * also rebased on master
+>>>
+>> btw. there has been more merges into meta-systemd in meta-openembedded
+>> since these patches were created I cant accertain
+>> that you picked those too but please redo this series so the history
+>> is a bit better for tracking purposes.
 >
-> Recently I faced this same issue: for ubiattach we have to install
-> full mtd-utils (>700KiB)
-> FYI there is a recipe for ubi-utils-klibc for more extreme size
-> optimization.
->
->
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-devtools/mtd
->
-> Cheers
->
-> Andrea
->
+> I've tried to get in sync with meta-openembedded until they upgraded systemd
+> to v196.
 
---047d7b2eda8b0bad0904d2f0853c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+hmm that would also explain the -lrt problem that Saul is seeing but I dont.
 
-<div dir=3D"ltr"><div>Cool, I&#39;ll have a peek at the oe classic recipe a=
-nd give it a stab along the same spirit.<br><br></div>Best regards, Frans<b=
-r></div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">2013/=
-1/10 Andrea Adami <span dir=3D"ltr">&lt;<a href=3D"mailto:andrea.adami@gmai=
-l.com" target=3D"_blank">andrea.adami@gmail.com</a>&gt;</span><br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On W=
-ed, Jan 9, 2013 at 6:17 PM, Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@li=
-nuxfoundation.org</a>&gt; wrote:<br>
-&gt; On Wed, 2013-01-09 at 17:12 +0100, Frans Meulenbroeks wrote:<br>
-&gt;&gt; As I am involved in embedded systems where flash is somewhat spars=
-e<br>
-&gt;&gt; I&#39;m always eager to save a few bytes where possible.<br>
-&gt;&gt;<br>
-&gt;&gt; Today I noticed that mtd-utils (1.5.0 from danny) generates for my=
-<br>
-&gt;&gt; architecture (powerpc) roughly 780k of binaries in usr/sbin. 423k =
-of<br>
-&gt;&gt; it is due to ubifs related files.<br>
-&gt;&gt;<br>
-&gt;&gt; Would it be desired to put this in a separate package?<br>
-&gt;&gt;<br>
-&gt;&gt; e.g. mtd-utils-ubi and mtd-utils-nonubi with mtd-utils itself bein=
-g<br>
-&gt;&gt; empty but rdepend on those two?<br>
-&gt;&gt; that way mtd-utils will still give all packages but those only wan=
-ting<br>
-&gt;&gt; the non ubi stuff can limit themselves to that.<br>
-&gt;&gt;<br>
-&gt;&gt; If desired I can give this a stab.<br>
-&gt;<br>
-&gt; Sounds like a sensible split to me...<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-</div></div>&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
-stinfo/openembedded-core</a><br>
-<br>
-OE-Classic already has one packaging split:<br>
-PACKAGES =3D+ &quot;mkfs-jffs2 mkfs-ubifs<br>
-<br>
-Recently I faced this same issue: for ubiattach we have to install<br>
-full mtd-utils (&gt;700KiB)<br>
-FYI there is a recipe for ubi-utils-klibc for more extreme size optimizatio=
-n.<br>
-<br>
-<a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-initram=
-fs/recipes-devtools/mtd" target=3D"_blank">http://cgit.openembedded.org/met=
-a-openembedded/tree/meta-initramfs/recipes-devtools/mtd</a><br>
-<br>
-Cheers<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Andrea<br>
-</font></span></blockquote></div><br></div>
+ I tried to upgrade but something changed in the latest version and
+> dbus-daemon didn't start anymore and because of that a few other services
+> depending on it. I spent some time debugging it but eventually I decided we
+> should go with the previous version and address the update after we merge.
+> More details about this at
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=1625
 
---047d7b2eda8b0bad0904d2f0853c--
+but we have to fix it I think weather you merge it or not since I dont  expect
+us to stay at 195 forever and especially when folks who use meta-systemd
+are already using 196 we wont be able to discard meta-systemd.
+
+>
+> Radu
+
+
