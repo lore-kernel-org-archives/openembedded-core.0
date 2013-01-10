@@ -1,35 +1,33 @@
-Received: from mail-pa0-f41.google.com ([209.85.220.41])
+Received: from mail-we0-f170.google.com ([74.125.82.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1TtFgS-0000PH-T9
+	(envelope-from <s.stirtzel@googlemail.com>) id 1TtFjO-0000Uk-Qk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 11:48:29 +0100
-Received: by mail-pa0-f41.google.com with SMTP id bj3so280290pad.28
+	Thu, 10 Jan 2013 11:51:35 +0100
+Received: by mail-we0-f170.google.com with SMTP id r1so179645wey.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 02:33:15 -0800 (PST)
+	Thu, 10 Jan 2013 02:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:organization:user-agent
-	:mime-version:content-transfer-encoding:content-type;
-	bh=2tN8eHlDJlS8+HGJqifmBvwIzwBavfa+RWIoxmZs1LM=;
-	b=uitGIEZMTSPgEACaPYTjJVP2Zt6TKoGG89n9f3lze+8HM8/vbq4wat7GSsxCdyjjmn
-	WEcY44P27+KDzorRN4s2Y6pooP/WoUpDWZFubWmtPBv0BjbEAHu1jhiKZrLpmNyZb9vR
-	LNtdaVkeRu69aM/1dLmu9mGN/QZzAGJxUd7AqEEkAo7FnMP4FSgZYMI3X5KtkjuFnrPo
-	ScUKw8FrAUTblMtuabv8MoSwSnuPY6koIn2PTQ7R29clmRIpAzsI6BV3Co5Y0PEKElgx
-	aLViodbJS42uN5uhUbHZRQBQvl7tPgM9A8ZChUuWVYidd2dm4osoyBGrKCqeTDVtV5pY
-	JHMA==
-X-Received: by 10.68.192.66 with SMTP id he2mr216465185pbc.112.1357813994836; 
-	Thu, 10 Jan 2013 02:33:14 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([58.212.76.3])
-	by mx.google.com with ESMTPS id vk5sm606264pbc.34.2013.01.10.02.33.12
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=yvIIX9mO5Y4WtQHf3+bMfYYccRw6NcrVrqI/7MJpac8=;
+	b=Z3hBz17Ic6hjbwhTzviHKs2QLMkaTNqEEoXsE+d7YFsylENfzpwRNNFGyBlA84FGZc
+	WN8zmxvjpWY+o/4YIKGDwl5XsMG7FJ7EMSW9/G9Xm5GtBflJ5ViPWJDGLRQ8CAJLYCKh
+	PGV/D18cs/mOQc1hd6TlZrtYokUxV3rkjvA6G4ZG7uUhR1tT77pWZ+bL1pj96VQ9PeaZ
+	eiwxEg6Le28n/4pE2g2KNITE8R+JFY6ihv7QAqhHj+6j29InVgaVEglpx4KJvjhM46YD
+	Bf7BB09+B7Tb4vEjfrCXGQ7hwUvUAgZmpQi6SEVyTqcXD6rIhWSUWiU2mzlGYbpRjnSj
+	loHA==
+X-Received: by 10.180.78.226 with SMTP id e2mr8302276wix.1.1357814177721;
+	Thu, 10 Jan 2013 02:36:17 -0800 (PST)
+Received: from s-stirtzel-linux.zera.local
+	(ip-95-223-251-141.unitymediagroup.de. [95.223.251.141])
+	by mx.google.com with ESMTPS id w5sm7748241wif.11.2013.01.10.02.36.16
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 02:33:13 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
+	Thu, 10 Jan 2013 02:36:16 -0800 (PST)
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 18:31:22 +0000
-Message-ID: <1757330.jo1AhcIeyl@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
-MIME-Version: 1.0
-Subject: glib2.0 and dbus dependency
+Date: Thu, 10 Jan 2013 11:35:47 +0100
+Message-Id: <1357814147-3319-1-git-send-email-s.stirtzel@googlemail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] boost: Use PARALLEL_MAKE for bjam
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +40,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 10:48:30 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 10 Jan 2013 10:51:38 -0000
 
-when compiling using 4 threads, I got following error.
-the glib2.0-native want find dbus header file.
-If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
+Like make, bjam accepts the parameter -jX for multithreaded execution
+do_install also profits from this setting
+Tested with a quad core 64bit intel cpu (with hyperthreading) PARALLEL_MAKE="j16"
 
-when grep glib2.0 bb files, I can't find dbus in dependency, why?
+$ time bitbake boost
 
+before:
+real    14m37.433s
+user    7m40.785s
+sys     4m30.109s
 
+after:
+real    7m11.979s
+user    12m10.694s
+sys     2m47.078s
 
+Also fixes tab indention
 
+Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
+---
+ meta/recipes-support/boost/boost.inc |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 830fcb0..4fe5a35 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -120,10 +120,12 @@ BJAM_TOOLS   = "-sTOOLS=gcc \
+ 		'--layout=system' \
+ 		"
  
-ERROR: Function failed: do_compile (see /mnt/src/arm9plf-
-build/tmp/work/x86_64-linux/glib-2.0-native/1_2.34.3-
-r0/temp/log.do_compile.28193 for further information)
-ERROR: Task 1851 (virtual:native:/mnt/src/optimus/poky/meta/recipes-
-core/glib-2.0/glib-2.0_2.34.3.bb, do_compile) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 929 tasks of which 925 didn't need to be rerun 
-and 1 failed.
-Waiting for 0 running tasks to finish:
-
-Summary: 1 task failed:
-  virtual:native:/mnt/src/optimus/poky/meta/recipes-
-core/glib-2.0/glib-2.0_2.34.3.bb, do_compile
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+-BJAM_OPTS    = '${BJAM_TOOLS} \
+-                -sBOOST_BUILD_USER_CONFIG=${S}/tools/build/v2/user-config.jam \
++#use PARALLEL_MAKE to speed up the build
++BJAM_OPTS    = '${PARALLEL_MAKE} \
++		${BJAM_TOOLS} \
++		-sBOOST_BUILD_USER_CONFIG=${S}/tools/build/v2/user-config.jam \
+ 		--builddir=${S}/${TARGET_SYS} \
+-                --disable-icu \
++		--disable-icu \
+ 		${BJAM_EXTRA}'
+ 
+ 
+-- 
+1.7.9.5
 
 
 
