@@ -1,26 +1,47 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TtDE1-0005B2-6D
+	(envelope-from <ross.burton@intel.com>) id 1TtDEq-0005Dt-T1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 09:11:12 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jan 2013 23:54:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,443,1355126400"; d="scan'208";a="244490680"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2013 23:55:41 -0800
-Message-ID: <50EE757E.5030006@intel.com>
-Date: Thu, 10 Jan 2013 10:02:06 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 10 Jan 2013 09:11:53 +0100
+Received: from mail-fa0-f71.google.com ([209.85.161.71])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 09 Jan 2013 23:56:34 -0800
+Received: by mail-fa0-f71.google.com with SMTP id m1so242965fam.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Jan 2013 23:56:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=LdDnMOzYBHVydfAKY1zRUw7AO2q6yyxJ+Fman8HEtPE=;
+	b=NX1IVSnzv1ieDudNAeM+8XPRacsF3lCdfYV4vTbYWofi7lumglW3xrracP9lu9F5LF
+	xtL/RLF5y5oeVDNw6S2mWul9xIGlQ7iAbsBOU16TrqglSk17bkOuzsQGHQYf/QXOV6xa
+	ZFUqVu2DxhRPJNiKMAxXlj8pbIFtgcbtRMlZFYe0mM8uWcXzLAnygLr/41XWelHCjRjr
+	Do2Q2Fjv6ie7Mw7Hn3XKpR7xSsRiae4gKMvaZdaEW35T83DQX6DyQrp+KLYZ9BGr2lqS
+	fl2nrnH8e18SGmlG1zvOkXoOYeYWWE19V3C/n7OWrdVATZhCX5kiAroA7PM7Lkefj1cA
+	kdCA==
+X-Received: by 10.194.19.170 with SMTP id g10mr113017374wje.56.1357804592389; 
+	Wed, 09 Jan 2013 23:56:32 -0800 (PST)
+X-Received: by 10.194.19.170 with SMTP id g10mr113017369wje.56.1357804592276; 
+	Wed, 09 Jan 2013 23:56:32 -0800 (PST)
+Received: from [192.168.1.7] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id l5sm1056629wia.10.2013.01.09.23.56.30
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Wed, 09 Jan 2013 23:56:31 -0800 (PST)
+Date: Thu, 10 Jan 2013 07:56:30 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: =?utf-8?Q?Iorga=2C_Cristian?= <cristian.iorga@intel.com>
+Message-ID: <7782F5CBD39246A3A6204E6FE729FD71@intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB161DC46C@IRSMSX102.ger.corp.intel.com>
+References: <1357751495-28236-1-git-send-email-cristian.iorga@intel.com>
+	<CAJTo0LZwxy0E-ODr61YK4T9Qn+jkqqsPeW06vm8O7pmE-cMAfg@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB161DC46C@IRSMSX102.ger.corp.intel.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1357647338.git.radu.moisan@intel.com>
-	<CAMKF1sow_bbU84+EYXR0hU_pbFxeR50c1ueWYWGqUnr6Swdy6g@mail.gmail.com>
-In-Reply-To: <CAMKF1sow_bbU84+EYXR0hU_pbFxeR50c1ueWYWGqUnr6Swdy6g@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
+X-Gm-Message-State: ALoCoQnII7auCZ9DfSmk2BGBazrcWoevUc/KDZnjIqxpXNRZuxJgtEAJPUDRrK2ifCBPTVJ9QpB0xWlYd3p/34Aut8Uhmv/IXpcvAC/TUUCd2bxpAm4TMc1FNano8zDaFnOiKJQBB2sCOAtcADG/gPpZn57cbp7bihH1M6tQPxExIZ1l4XMEew+2A1mAv4LiChpja2jfRJvL
+Cc: "=?utf-8?Q?openembedded-core=40lists.openembedded.org?="
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +54,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 08:11:14 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Thu, 10 Jan 2013 08:11:54 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+On Thursday, 10 January 2013 at 07:15, Iorga, Cristian wrote:
+> Well, I have the prior art stand by me.
+> The same technique is applied for netbase.
+> 
+> And, in this specific case, connman should be machine specific.
+> Can you please give me more detail?
+> 
+> The configuration file will have only the interface blacklist enabled in case of a qemu* machine.
+netbase is a lot smaller than connman.  With this change you're rebuilding connman per-machine instead of sharing the package between compatible machines, with the only difference being a configuration file.
+
+Ross 
 
 
-On 01/09/2013 07:14 PM, Khem Raj wrote:
-> On Tue, Jan 8, 2013 at 4:24 AM, Radu Moisan <radu.moisan@intel.com> wrote:
->> As Ross suggested I've done the following changes to the previous set:
->> * added two patches (the first two) that address multiple init systems support,\
->> as in shifting from default hardcoded sysvinit to something more generic while
->> the default values still remains on sysvinit
->> * moved automatic setting of PREFERRED_PROVIDER_udev into default_providers.inc
->> * removed ahavi-systemd since all it provided was service files; now service files
->> are pulled in by avahi-daemon
->> * also rebased on master
->>
-> btw. there has been more merges into meta-systemd in meta-openembedded
-> since these patches were created I cant accertain
-> that you picked those too but please redo this series so the history
-> is a bit better for tracking purposes.
-I've tried to get in sync with meta-openembedded until they upgraded 
-systemd to v196. I tried to upgrade but something changed in the latest 
-version and dbus-daemon didn't start anymore and because of that a few 
-other services depending on it. I spent some time debugging it but 
-eventually I decided we should go with the previous version and address 
-the update after we merge. More details about this at 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=1625
-
-Radu
 
 
