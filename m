@@ -1,36 +1,35 @@
-Received: from mail-lb0-f170.google.com ([209.85.217.170])
+Received: from mail-pa0-f41.google.com ([209.85.220.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TtFOD-00006S-Bk
+	(envelope-from <niqingliang2003@gmail.com>) id 1TtFgS-0000PH-T9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 11:29:50 +0100
-Received: by mail-lb0-f170.google.com with SMTP id j14so343719lbo.29
+	Thu, 10 Jan 2013 11:48:29 +0100
+Received: by mail-pa0-f41.google.com with SMTP id bj3so280290pad.28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 02:14:24 -0800 (PST)
+	Thu, 10 Jan 2013 02:33:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:subject:date:message-id:x-mailer;
-	bh=OaRuLpGNVxlBilAQOOM9FaghJ/SnxjUkHrlJfPFP5D8=;
-	b=TFZHNd4enG+gQtB1phfxBYbldru5xLEaD38uHtN0K6DXqwv3t6T69eKPiY/K47V+lR
-	tEJhFy5NxeqdSavUoISeeX3sXVvN5UNHk5I4ZA0KHmbFmRoMM4wMD6h0OmPPyDuwgnb4
-	i388XDWqVX6qGaxn92VsQTHQojP0i14DXsBPKx7Hb2Z77PVH7xNo5Cnw63HiVR5PMVFQ
-	wUTUoTZroKZz0KQR8PFqGmVvYOLhQ1dLlonPrBR18fdZU/vRb50L64RT0YbRM+nFKrEA
-	idABy6Op3M1DqH+3YGqaVRJlAN3SzWscrfPWq5fZMu72AjesX/y/FglsICTOXdtvrul2
-	w1lA==
-X-Received: by 10.112.50.138 with SMTP id c10mr29087946lbo.104.1357812863756; 
-	Thu, 10 Jan 2013 02:14:23 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id ee5sm518856lbb.14.2013.01.10.02.14.21
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 02:14:22 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>) id 1TtF9P-0007lu-E6
-	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 12:14:19 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
+	h=x-received:from:to:subject:date:message-id:organization:user-agent
+	:mime-version:content-transfer-encoding:content-type;
+	bh=2tN8eHlDJlS8+HGJqifmBvwIzwBavfa+RWIoxmZs1LM=;
+	b=uitGIEZMTSPgEACaPYTjJVP2Zt6TKoGG89n9f3lze+8HM8/vbq4wat7GSsxCdyjjmn
+	WEcY44P27+KDzorRN4s2Y6pooP/WoUpDWZFubWmtPBv0BjbEAHu1jhiKZrLpmNyZb9vR
+	LNtdaVkeRu69aM/1dLmu9mGN/QZzAGJxUd7AqEEkAo7FnMP4FSgZYMI3X5KtkjuFnrPo
+	ScUKw8FrAUTblMtuabv8MoSwSnuPY6koIn2PTQ7R29clmRIpAzsI6BV3Co5Y0PEKElgx
+	aLViodbJS42uN5uhUbHZRQBQvl7tPgM9A8ZChUuWVYidd2dm4osoyBGrKCqeTDVtV5pY
+	JHMA==
+X-Received: by 10.68.192.66 with SMTP id he2mr216465185pbc.112.1357813994836; 
+	Thu, 10 Jan 2013 02:33:14 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([58.212.76.3])
+	by mx.google.com with ESMTPS id vk5sm606264pbc.34.2013.01.10.02.33.12
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 10 Jan 2013 02:33:13 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 12:13:57 +0200
-Message-Id: <cover.1357812474.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 00/14] Prepare recipes for automake-1.13 (batch 2)
+Date: Thu, 10 Jan 2013 18:31:22 +0000
+Message-ID: <1757330.jo1AhcIeyl@yiqingliang-pc>
+Organization: Nanjing Jilong
+User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
+MIME-Version: 1.0
+Subject: glib2.0 and dbus dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,84 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 10:29:50 -0000
+X-List-Received-Date: Thu, 10 Jan 2013 10:48:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-The following changes since commit 0cfec10c4c7b0597f0e0c8f85539d901861a2f83:
+when compiling using 4 threads, I got following error.
+the glib2.0-native want find dbus header file.
+If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
 
-  guile: add explicit dependency to avoid parallel build issue (2013-01-09 13:41:12 +0000)
+when grep glib2.0 bb files, I can't find dbus in dependency, why?
 
-are available in the git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib cazfi/am13
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/am13
 
-Marko Lindqvist (14):
-  dbus-glib: replace obsolete automake macros with working ones
-  tslib: replace obsolete automake macros with working ones
-  makedepend: replace obsolete automake macros with working ones
-  alsa-lib: replace obsolete automake macros with working ones
-  python: replace obsolete automake macros with working ones
-  libogg: replace obsolete automake macros with working ones
-  libmad: replace obsolete automake macros with working ones
-  libvorbis: replace obsolete automake macros with working ones
-  opensp: replace obsolete automake macros with working ones
-  gconf: replace obsolete automake macros with working ones
-  startup-notification: replace obsolete automake macros with working
-    ones
-  gtk+: replace obsolete automake macros with working ones
-  gmp: replace obsolete automake macros with working ones
-  bluez4: replace obsolete automake macros with working ones
 
- .../bluez4-4.101/obsolete_automake_macros.patch    |   14 ++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    6 +++--
- .../dbus-glib-0.100/obsolete_automake_macros.patch |   15 +++++++++++++
- meta/recipes-core/dbus/dbus-glib.inc               |    1 +
- meta/recipes-core/dbus/dbus-glib_0.100.bb          |    2 +-
- .../opensp-1.5.2/obsolete_automake_macros.patch    |   15 +++++++++++++
- meta/recipes-devtools/opensp/opensp_1.5.2.bb       |    6 +++--
- .../obsolete_automake_macros.patch                 |   14 ++++++++++++
- meta/recipes-devtools/python/python-dbus_1.1.1.bb  |    6 +++--
- .../obsolete_automake_macros.patch                 |   23 ++++++++++++++++++++
- .../python/python-pygobject_2.27.91.bb             |    6 +++--
- .../gconf-3.2.5/obsolete_automake_macros.patch     |   14 ++++++++++++
- meta/recipes-gnome/gnome/gconf_3.2.5.bb            |    6 +++--
- .../gtk+-2.24.14/obsolete_automake_macros.patch    |   23 ++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+_2.24.14.bb            |    1 +
- .../obsolete_automake_macros.patch                 |   15 +++++++++++++
- .../startup-notification_0.12.bb                   |    4 +++-
- .../tslib/tslib/obsolete_automake_macros.patch     |   15 +++++++++++++
- meta/recipes-graphics/tslib/tslib_1.0.bb           |    6 +++--
- .../obsolete_automake_macros.patch                 |   15 +++++++++++++
- .../recipes-graphics/xorg-util/makedepend_1.0.4.bb |    4 +++-
- .../alsa-lib-1.0.25/obsolete_automake_macros.patch |   15 +++++++++++++
- meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |    6 +++--
- .../libmad/libmad/obsolete_automake_macros.patch   |   14 ++++++++++++
- meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    6 +++--
- .../libogg-1.3.0/obsolete_automake_macros.patch    |   14 ++++++++++++
- meta/recipes-multimedia/libogg/libogg_1.3.0.bb     |    6 +++--
- .../libvorbis-1.3.3/obsolete_automake_macros.patch |   15 +++++++++++++
- .../libvorbis/libvorbis_1.3.3.bb                   |    6 +++--
- .../gmp/gmp-5.1.0/obsolete_automake_macros.patch   |   13 +++++++++++
- meta/recipes-support/gmp/gmp_5.1.0.bb              |    3 +++
- 31 files changed, 286 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-core/dbus/dbus-glib-0.100/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-devtools/opensp/opensp-1.5.2/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-devtools/python/python-dbus-1.1.1/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.5/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-graphics/startup-notification/startup-notification-0.12/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-graphics/xorg-util/makedepend-1.0.4/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib-1.0.25/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-multimedia/libogg/libogg-1.3.0/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis-1.3.3/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch
+ 
+ERROR: Function failed: do_compile (see /mnt/src/arm9plf-
+build/tmp/work/x86_64-linux/glib-2.0-native/1_2.34.3-
+r0/temp/log.do_compile.28193 for further information)
+ERROR: Task 1851 (virtual:native:/mnt/src/optimus/poky/meta/recipes-
+core/glib-2.0/glib-2.0_2.34.3.bb, do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 929 tasks of which 925 didn't need to be rerun 
+and 1 failed.
+Waiting for 0 running tasks to finish:
 
--- 
-1.7.10.4
+Summary: 1 task failed:
+  virtual:native:/mnt/src/optimus/poky/meta/recipes-
+core/glib-2.0/glib-2.0_2.34.3.bb, do_compile
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
 
 
