@@ -1,20 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Tt6ro-0006zB-LJ
+	(envelope-from <Qi.Chen@windriver.com>) id 1Tt8AO-0002ap-QE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 02:23:37 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jan 2013 17:08:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,440,1355126400"; d="scan'208";a="270266920"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.147])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jan 2013 17:08:22 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Jan 2013 17:08:21 -0800
-Message-Id: <cover.1357779856.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.0.2
-Subject: [CONSOLIDATED PULL 00/43] Updates, fixes and groundwork for automake and eglibc
+	Thu, 10 Jan 2013 03:46:54 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0A2VdQ2005860
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Jan 2013 18:31:39 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Wed, 9 Jan 2013 18:31:38 -0800
+Message-ID: <50EE2822.9050108@windriver.com>
+Date: Thu, 10 Jan 2013 10:32:02 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <D9D7124626ED1E43963D86B2657D5CCD04EA51DA@FRSNPREXC1.usr.ingenico.loc>
+In-Reply-To: <D9D7124626ED1E43963D86B2657D5CCD04EA51DA@FRSNPREXC1.usr.ingenico.loc>
+X-Originating-IP: [128.224.163.154]
+Subject: Re: sstate, cache or licence issue?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,263 +35,366 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 01:23:37 -0000
+X-List-Received-Date: Thu, 10 Jan 2013 02:47:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070809040901020505040208"
+
+--------------070809040901020505040208
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 01/10/2013 01:40 AM, Matthieu CRAPET wrote:
+>
+> Dear all,
+>
+> I've got some trouble with my today's update to oe-core.
+>
+> I created a basic (image) recipe:
+>
+> ---
+>
+> DESCRIPTION = "A console-only production image with headers."
+>
+> PR = "r0"
+>
+> LICENSE = "MIT"
+>
+> IMAGE_FEATURES += "dev-pkgs debug-tweaks package-management 
+> ssh-server-openssh"
+>
+> inherit core-image
+>
+> IMAGE_INSTALL += "openssh openssl directfb directfb-examples"
+>
+> ---
+>
+> I've got a do_populate_lic failure but image is generated correctly 
+> (do_rootfs is ok). It fails in sstate_create_package
+>
+> | DEBUG: Executing shell function sstate_create_package
+>
+> | shell-init: error retrieving current directory: getcwd: cannot 
+> access parent directories: No such file or directory
+>
+> | chdir: error retrieving current directory: getcwd: cannot access 
+> parent directories: No such file or directory
+>
+> run.sstate_create_package.$PID
+>
+> sstate_create_package() {
+>
+>         cd 
+>  /lingot/build/tmp-eglibc/work/rp02-ing-linux-gnueabi/test-image/1.0-r0/sstate-build-populate-lic/
+>
+>         TFILE=`mktemp ...
+>
+> ...
+>
+> The problem is that the directory exists (containing 
+> license-destdir/test-image/{COPYING.MIT,LICENSE,generic_MIT})
+>
+> If re-bitbake recipe, works fine.
+>
+> If I "bitbake -c cleanall" first + manually delete recipe directory 
+> (/lingot/build/tmp-eglibc/work/rp02-ing-linux-gnueabi/test-image) 
+> then, re-bitbake recipe: the do_populate_lic fails again.
+>
+> More surprising: if I wait some times (few minutes). I re-get the 
+> error but with the extra lines:
+>
+> | DEBUG: Removing manifest: 
+> /lingot/build/tmp-eglibc/deploy/licenses/test-image/LICENSE
+>
+> | DEBUG: Removing manifest: 
+> /lingot/build/tmp-eglibc/deploy/licenses/test-image/COPYING.MIT
+>
+> | DEBUG: Removing manifest: 
+> /lingot/build/tmp-eglibc/deploy/licenses/test-image/generic_MIT
+>
+> | DEBUG: Removing manifest: 
+> /lingot/build/tmp-eglibc/deploy/licenses/test-image/
+>
+> I added and removed package in IMAGE_INSTALL, sometimes it passes, 
+> sometimes not, maybe there is a concurrent access somewhere?
+>
+
+Maybe it's the same bug with bug#3674 
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=3674).
+
+Cheers,
+Chen Qi
+
+> The two logs are available here:
+>
+> http://pastebin.com/raw.php?i=CVczF2vB
+>
+> Notice that I'm using my own external toolchain but I don't know that 
+> It is relevant.
+>
+> Any hint appreciated here!
+>
+> Regards,
+>
+> Matthieu Crapet
+>
+> *About Ingenico *(Euronext: FR0000125346 - ING)
+>
+> Ingenico is a leading provider of payment solutions, with over 17 
+> million terminals deployed in more than 125 countries. Its 3,600 
+> employees worldwide support retailers, banks and service providers to 
+> optimize and secure their electronic payments solutions, develop their 
+> offer of services and increase their point of sales revenue.
+>
+> More information on*www.ingenico.com <http://www.ingenico.com/>.*
+>
+> This message may contain confidential and/or privileged information. 
+> If you are not the addressee or authorized to receive this for the 
+> addressee, you must not use, copy, disclose or take any action based 
+> on this message or any information herein. If you have received this 
+> message in error, please advise the sender immediately by reply e-mail 
+> and delete this message. Thank you for your cooperation.
+>
+> PPlease consider the environment before printing this e-mail
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Richard,
+--------------070809040901020505040208
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-This is a subset of patches that are pending on the list currently, 
-mostly things build cleanly, there is a oprofile issue on PPC, that
-I am digging into, but I do not beleive it's related to this patch
-set.
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 01/10/2013 01:40 AM, Matthieu CRAPET
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:D9D7124626ED1E43963D86B2657D5CCD04EA51DA@FRSNPREXC1.usr.ingenico.loc"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <meta content="Microsoft Word 14 (filtered medium)"
+        name="Generator">
+      <style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext="edit" spidmax="1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext="edit">
+<o:idmap v:ext="edit" data="1" />
+</o:shapelayout></xml><![endif]-->
+      <style><!-- /* Style Definitions */ p.6271aeb8-3e0c-4268-9157-9618eb0e7060, li.6271aeb8-3e0c-4268-9157-9618eb0e7060, div.6271aeb8-3e0c-4268-9157-9618eb0e7060, table.6271aeb8-3e0c-4268-9157-9618eb0e7060Table	{margin:0cm; margin-bottom:.0001pt;}div.Section1 {page:Section1;}--></style>
+      <div>
+        <div class="WordSection1">
+          <p class="MsoNormal">Dear all,<o:p></o:p></p>
+          <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+          <p class="MsoNormal"><span lang="EN-GB">I&#8217;ve got some trouble
+              with my today&#8217;s update to oe-core.<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">I created a basic
+              (image) recipe:<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">---<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">DESCRIPTION = "A
+              console-only production image with headers."<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">PR = "r0"<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">LICENSE = "MIT"<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">IMAGE_FEATURES +=
+              "dev-pkgs debug-tweaks package-management
+              ssh-server-openssh"<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">inherit core-image<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">IMAGE_INSTALL +=
+              "openssh openssl directfb directfb-examples"<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">---<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">I&#8217;ve got a
+              do_populate_lic failure but image is generated correctly
+              (do_rootfs is ok). It fails in sstate_create_package<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| DEBUG: Executing
+              shell function sstate_create_package<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| shell-init: error
+              retrieving current directory: getcwd: cannot access parent
+              directories: No such file or directory<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| chdir: error
+              retrieving current directory: getcwd: cannot access parent
+              directories: No such file or directory<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">run.sstate_create_package.$PID<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">sstate_create_package()
+              {<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cd
+&nbsp;/lingot/build/tmp-eglibc/work/rp02-ing-linux-gnueabi/test-image/1.0-r0/sstate-build-populate-lic/<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TFILE=`mktemp
+              &#8230;<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">&#8230;<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">The problem is that
+              the directory exists (containing
+              license-destdir/test-image/{COPYING.MIT,LICENSE,generic_MIT})<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">If re-bitbake recipe,
+              works fine.<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">If I &#8220;bitbake -c
+              cleanall&#8221; first + manually delete recipe directory
+              (/lingot/build/tmp-eglibc/work/rp02-ing-linux-gnueabi/test-image)
+              then, re-bitbake recipe: the do_populate_lic fails again.<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">More surprising: if I
+              wait some times (few minutes). I re-get the error but with
+              the extra lines:<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| DEBUG: Removing
+              manifest:
+              /lingot/build/tmp-eglibc/deploy/licenses/test-image/LICENSE<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| DEBUG: Removing
+              manifest:
+              /lingot/build/tmp-eglibc/deploy/licenses/test-image/COPYING.MIT<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| DEBUG: Removing
+              manifest:
+              /lingot/build/tmp-eglibc/deploy/licenses/test-image/generic_MIT<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">| DEBUG: Removing
+              manifest:
+              /lingot/build/tmp-eglibc/deploy/licenses/test-image/<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">I added and removed
+              package in IMAGE_INSTALL, sometimes it passes, sometimes
+              not, maybe there is a concurrent access somewhere?<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Maybe it's the same bug with bug#3674
+    (<a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=3674">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3674</a>).<br>
+    <br>
+    Cheers,<br>
+    Chen Qi<br>
+    <br>
+    <blockquote
+cite="mid:D9D7124626ED1E43963D86B2657D5CCD04EA51DA@FRSNPREXC1.usr.ingenico.loc"
+      type="cite">
+      <div>
+        <div class="WordSection1">
+          <p class="MsoNormal"><span lang="EN-GB">The two logs are
+              available here:<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><a
+                moz-do-not-send="true"
+                href="http://pastebin.com/raw.php?i=CVczF2vB">http://pastebin.com/raw.php?i=CVczF2vB</a><o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">Notice that I&#8217;m using
+              my own external toolchain but I don&#8217;t know that It is
+              relevant.<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">Any hint appreciated
+              here!<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB"><o:p>&nbsp;</o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">Regards,<o:p></o:p></span></p>
+          <p class="MsoNormal"><span lang="EN-GB">Matthieu Crapet<o:p></o:p></span></p>
+        </div>
+      </div>
+      <div>&nbsp;</div>
+      <div style="FONT-FAMILY: Courier New; FONT-SIZE: 9pt"><font
+          face="Arial" size="1">
+          <p style="TEXT-ALIGN: justify"><span><font face="Arial"
+                size="2"><strong>About Ingenico </strong>(Euronext:
+                FR0000125346 - ING)</font></span></p>
+          <p style="TEXT-ALIGN: justify"><span><span style="FONT-FAMILY:
+                Arial; FONT-SIZE: 10pt; mso-ansi-language: EN-GB"
+                lang="EN-GB"><span style="FONT-FAMILY: Arial; COLOR:
+                  black; FONT-SIZE: 10pt; mso-ansi-language: FR;
+                  mso-fareast-font-family: 'Times New Roman';
+                  mso-fareast-language: FR; mso-bidi-language: AR-SA">Ingenico
+                  is a leading provider of payment solutions, with over
+                  17 million terminals deployed in more than 125
+                  countries.&nbsp;Its 3,600 employees worldwide support
+                  retailers, banks and service providers to optimize and
+                  secure their electronic payments solutions, develop
+                  their offer of services and increase their point of
+                  sales revenue.</span></span></span></p>
+          <p style="TEXT-ALIGN: justify"><span><span style="FONT-FAMILY:
+                Arial; FONT-SIZE: 10pt; mso-ansi-language: EN-GB"
+                lang="EN-GB"><span style="FONT-FAMILY: Arial; COLOR:
+                  black; FONT-SIZE: 10pt; mso-ansi-language: FR;
+                  mso-fareast-font-family: 'Times New Roman';
+                  mso-fareast-language: FR; mso-bidi-language: AR-SA">More
+                  information on</span></span></span><span><strong><span
+                  style="FONT-FAMILY: Arial; FONT-SIZE: 10pt;
+                  mso-ansi-language: EN-GB" lang="EN-GB"><span
+                    style="COLOR: red"> <a moz-do-not-send="true"
+                      href="http://www.ingenico.com/"><span
+                        style="COLOR: red"><font color="#ff0000">www.ingenico.com</font></span></a></span>.</span></strong></span></p>
+          <p style="TEXT-ALIGN: justify"><span style="FONT-FAMILY:
+              'Arial','sans-serif'; FONT-SIZE: 7.5pt"><font size="1">This
+                message may contain confidential and/or privileged
+                information. If you are not the addressee or authorized
+                to receive this for the addressee, you must not use,
+                copy, disclose or take any action based on this message
+                or any information herein. If you have received this
+                message in error, please advise the sender immediately
+                by reply e-mail and delete this message. </font></span><span
+              style="FONT-FAMILY: 'Arial','sans-serif'; FONT-SIZE:
+              7.5pt"><font size="1">Thank you for your cooperation.</font></span></p>
+          <p class="MsoNormal"><span style="FONT-FAMILY:
+              'Arial','sans-serif'; FONT-SIZE: 7.5pt">&nbsp;</span><span
+              style="FONT-FAMILY: Webdings; COLOR: green; FONT-SIZE:
+              12pt" lang="EN-GB">P</span><span style="FONT-FAMILY:
+              'Arial','sans-serif'; COLOR: black" lang="EN-GB"> </span><span
+              style="FONT-FAMILY: 'Arial','sans-serif'; COLOR: green;
+              FONT-SIZE: 7.5pt" lang="EN-GB">Please consider the
+              environment before printing this e-mail</span></p>
+        </font></div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-This set includes patches for the upcoming Eglibc and automake updates.
-
-I have build bits of wayland and systemd, but there are still some issues
-that need to be resolved.
-
-Thanks
-	Sau!
-
-
-The following changes since commit 0cfec10c4c7b0597f0e0c8f85539d901861a2f83:
-
-  guile: add explicit dependency to avoid parallel build issue (2013-01-09 13:41:12 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Bogdan Marinescu (6):
-  python-smartpm: add dependency on python-pprint
-  byacc: updated to 20121003
-  nasm: updated to 2.10.07
-  lsof: updated to 4.87
-  lttng-2.0: components updated to version 2.1.0
-  bdwgc: updated to version 7.2d
-
-Chen Qi (1):
-  rootfs_rpm.bbclass: export INSTALL_PLATFORM_EXTRA_RPM
-
-Cristian Iorga (3):
-  libtelepathy: python-native is now used during build
-  telepathy-idle: upgrade to 0.1.14
-  telepathy-mission-control: upgrade to 5.14.0
-
-Giuseppe CONDORELLI (1):
-  libpcre: change BUILD_CPPFLAGS and BUILD_CFLAGS values
-
-Khem Raj (2):
-  ofono: Fix build with eglibc 2.17
-  udev: Fix build with eglibc 2.17
-
-Laurentiu Palcu (3):
-  qemu.bbclass: add qemu_run_binary() function
-  gtk-immodules-cache.bbclass: allow for offline cache generation
-  matchbox-keyboard: use the gtk-immodules-cache.bbclass
-
-Marcin Juszkiewicz (1):
-  gmp: add patch from upstream to unbreak AArch64
-
-Marco Cavallini (1):
-  kernel.bbclass: kernel_do_install fails with kernel <2.6.30
-
-Marko Lindqvist (17):
-  gettext: update to upstream version 0.18.2
-  gettext-minimal: update files from gettext 0.18.2
-  bluez-hcidump: updated to upstream version 2.5
-  file: replace obsolete automake macros with working ones
-  popt: disable tests
-  glib-2.0: replace obsolete automake macros with working ones
-  libx11: disable tests
-  libpng: replace obsolete automake macros with working ones
-  libusb: replace obsolete automake macros with working ones
-  pixman: replace obsolete automake macros with working ones
-  libid3tag: replace obsolete automake macros with working ones
-  libgcrypt: replace obsolete automake macros with working ones
-  gnutls: replace obsolete automake macros with working ones
-  flac: replace obsolete automake macros with working ones
-  pkg-config: replace obsolete automake macros with working ones
-  harfbuzz: add recipe, version 0.9.10
-  pango: update to upstream version 1.32.5
-
-Noor Ahsan (1):
-  cairo: Adds libxext in X11DEPENDS.
-
-Otavio Salvador (1):
-  libnl: Update to 3.2.18
-
-Robert P. J. Day (1):
-  kernel.bbclass: Define MODULE_IMAGE_BASE_NAME for layer convenience.
-
-Ross Burton (4):
-  pkgconfig: add -native script that uses the native sysroot instead of
-    target
-  musicbrainz: handle rebuilds
-  mesa: bump to 9.0.1
-  directfb: fix build against Mesa 9
-
-Saul Wold (1):
-  valgrind: update configure for eglibc 2.17
-
- meta/classes/gtk-immodules-cache.bbclass           |  17 +-
- meta/classes/kernel.bbclass                        |  10 +-
- meta/classes/qemu.bbclass                          |  17 +
- meta/classes/rootfs_rpm.bbclass                    |   2 +-
- .../{bluez-hcidump_2.4.bb => bluez-hcidump_2.5.bb} |   4 +-
- .../ofono/ofono/missing-ssize_t.patch              |  23 +
- meta/recipes-connectivity/ofono/ofono_1.12.bb      |   3 +-
- .../telepathy/libtelepathy_0.3.3.bb                |   2 +-
- .../build-fix-for-make-j-safety.patch              |  39 --
- .../fix-svc-gtk-doc.h-target.patch                 |   0
- ...thy-idle_0.1.12.bb => telepathy-idle_0.1.14.bb} |  11 +-
- ...13.0.bb => telepathy-mission-control_5.14.0.bb} |  10 +-
- .../gettext/gettext-0.18.1.1/remove_gets.patch     |  58 --
- .../gnulib-uclibc-sched_param-def.patch            |   0
- .../parallel.patch                                 |   0
- .../wchar-uclibc.patch                             |   0
- .../gettext/gettext-minimal-0.18.1.1/aclocal.tgz   | Bin 36374 -> 0 bytes
- .../COPYING                                        |   0
- .../Makefile.in.in                                 |  19 +-
- .../Makevars.template                              |  12 +
- .../gettext/gettext-minimal-0.18.2/aclocal.tgz     | Bin 0 -> 37504 bytes
- .../config.rpath                                   | 106 ++--
- .../remove-potcdate.sin                            |   0
- ....18.1.1.bb => gettext-minimal-native_0.18.2.bb} |   2 +-
- .../{gettext_0.18.1.1.bb => gettext_0.18.2.bb}     |   7 +-
- .../glib-2.0/obsolete_automake_macros.patch        |  13 +
- meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   3 +-
- meta/recipes-core/udev/udev.inc                    |   3 +-
- meta/recipes-core/udev/udev_182.bb                 |   2 +-
- .../file/file/obsolete_automake_macros.patch       |  15 +
- meta/recipes-devtools/file/file_5.11.bb            |   3 +-
- .../nasm/{nasm_2.10.06.bb => nasm_2.10.07.bb}      |   4 +-
- .../pkgconfig-0.25/obsolete_automake_macros.patch  |  35 ++
- meta/recipes-devtools/pkgconfig/pkgconfig.inc      |  14 +-
- .../pkgconfig/pkgconfig/pkg-config-native.in       |   7 +
- meta/recipes-devtools/pkgconfig/pkgconfig_0.25.bb  |   2 +-
- .../python/python-smartpm_1.4.1.bb                 |   4 +-
- ...2.16.patch => configure-with-newer-glibc.patch} |  18 +-
- meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |   4 +-
- .../byacc/{byacc_20120526.bb => byacc_20121003.bb} |   7 +-
- .../lsof/{lsof_4.86.bb => lsof_4.87.bb}            |   4 +-
- meta/recipes-graphics/cairo/cairo.inc              |   6 +-
- meta/recipes-graphics/directfb/directfb.inc        |   3 +-
- .../recipes-graphics/directfb/directfb/mesa9.patch |  29 +
- .../harfbuzz-0.9.10/disable_graphite.patch         |  15 +
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb  |  29 +
- meta/recipes-graphics/mesa/mesa-8.0.5.inc          |  18 -
- meta/recipes-graphics/mesa/mesa-9.0.1.inc          |  11 +
- meta/recipes-graphics/mesa/mesa-common.inc         |   3 +-
- .../recipes-graphics/mesa/mesa-dri-glsl-native.inc |   7 -
- .../mesa/mesa-dri-glsl-native_8.0.5.bb             |  22 -
- .../mesa/{mesa-dri_8.0.5.bb => mesa-dri_9.0.1.bb}  |   0
- .../mesa/mesa/0001-Compile-with-uclibc.patch       |  52 --
- .../mesa/mesa/0003-fix-for-x32.patch               |  50 --
- ...-gross-hack-to-prevent-from-install-libgl.patch |  29 -
- meta/recipes-graphics/mesa/mesa/cross-glsl.patch   | 632 +++++++++++++++++++++
- .../pango/pango-1.30.1/multilib-fix-clean.patch    |  42 --
- .../pango/pango-1.32.5/multilib-fix-clean.patch    |  75 +++
- .../{pango-1.30.1 => pango-1.32.5}/no-tests.patch  |   0
- meta/recipes-graphics/pango/pango.inc              |   6 +-
- .../pango/{pango_1.30.1.bb => pango_1.32.5.bb}     |   4 +-
- .../xorg-lib/libx11/disable_tests.patch            |  17 +
- meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb     |   6 +-
- .../xorg-lib/pixman/obsolete_automake_macros.patch |  14 +
- meta/recipes-graphics/xorg-lib/pixman_0.28.2.bb    |   3 +-
- ...tng-modules_2.0.5.bb => lttng-modules_2.1.0.bb} |   6 +-
- .../{lttng-tools_2.0.4.bb => lttng-tools_2.1.0.bb} |   6 +-
- .../{lttng2-ust_2.0.5.bb => lttng2-ust_2.1.0.bb}   |   4 +-
- .../flac/flac-1.2.1/obsolete_automake_macros.patch |  14 +
- meta/recipes-multimedia/flac/flac_1.2.1.bb         |   6 +-
- .../libid3tag/obsolete_automake_macros.patch       |  14 +
- .../libid3tag/libid3tag_0.15.1b.bb                 |   6 +-
- .../libpng-1.5.13/obsolete_automake_macros.patch   |  15 +
- meta/recipes-multimedia/libpng/libpng_1.5.13.bb    |   6 +-
- .../musicbrainz/libmusicbrainz_git.bb              |   6 +-
- .../matchbox-keyboard/matchbox-keyboard_git.bb     |  18 +-
- .../bdwgc/{bdwgc_20110107.bb => bdwgc_7.2.bb}      |  14 +-
- .../gmp/gmp-5.1.0/187b7b1646ee.patch               |  44 ++
- meta/recipes-support/gmp/gmp_5.1.0.bb              |   1 +
- .../gnutls/gnutls/obsolete_automake_macros.patch   |  39 ++
- meta/recipes-support/gnutls/gnutls_2.12.21.bb      |   3 +-
- .../libgcrypt-1.5.0/obsolete_automake_macros.patch |  15 +
- meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb  |   4 +-
- .../libnl/libnl/fix-build-using-flex.patch         |  55 --
- .../libnl/libnl/fix-pktloc_syntax_h-race.patch     |   2 +-
- .../libnl/{libnl_3.2.16.bb => libnl_3.2.18.bb}     |   7 +-
- meta/recipes-support/libpcre/libpcre_8.32.bb       |   5 +-
- .../obsolete_automake_macros.patch                 |  15 +
- meta/recipes-support/libusb/libusb-compat_0.1.4.bb |   3 +-
- .../libusb1-1.0.9/obsolete_automake_macros.patch   |  15 +
- meta/recipes-support/libusb/libusb1_1.0.9.bb       |   6 +-
- meta/recipes-support/popt/popt/disable_tests.patch |  21 +
- meta/recipes-support/popt/popt_1.16.bb             |   3 +-
- 93 files changed, 1375 insertions(+), 531 deletions(-)
- rename meta/recipes-connectivity/bluez/{bluez-hcidump_2.4.bb => bluez-hcidump_2.5.bb} (83%)
- create mode 100644 meta/recipes-connectivity/ofono/ofono/missing-ssize_t.patch
- delete mode 100644 meta/recipes-connectivity/telepathy/telepathy-idle-0.1.12/build-fix-for-make-j-safety.patch
- rename meta/recipes-connectivity/telepathy/{telepathy-idle-0.1.12 => telepathy-idle-0.1.14}/fix-svc-gtk-doc.h-target.patch (100%)
- rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.12.bb => telepathy-idle_0.1.14.bb} (67%)
- rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.13.0.bb => telepathy-mission-control_5.14.0.bb} (85%)
- delete mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
- rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/gnulib-uclibc-sched_param-def.patch (100%)
- rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/parallel.patch (100%)
- rename meta/recipes-core/gettext/{gettext-0.18.1.1 => gettext-0.18.2}/wchar-uclibc.patch (100%)
- delete mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.1.1/aclocal.tgz
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/COPYING (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/Makefile.in.in (95%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/Makevars.template (76%)
- create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.2/aclocal.tgz
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/config.rpath (92%)
- rename meta/recipes-core/gettext/{gettext-minimal-0.18.1.1 => gettext-minimal-0.18.2}/remove-potcdate.sin (100%)
- rename meta/recipes-core/gettext/{gettext-minimal-native_0.18.1.1.bb => gettext-minimal-native_0.18.2.bb} (98%)
- rename meta/recipes-core/gettext/{gettext_0.18.1.1.bb => gettext_0.18.2.bb} (96%)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-devtools/file/file/obsolete_automake_macros.patch
- rename meta/recipes-devtools/nasm/{nasm_2.10.06.bb => nasm_2.10.07.bb} (81%)
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig-0.25/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig/pkg-config-native.in
- rename meta/recipes-devtools/valgrind/valgrind-3.7.0/{configure-with-glibc-2.16.patch => configure-with-newer-glibc.patch} (62%)
- rename meta/recipes-extended/byacc/{byacc_20120526.bb => byacc_20121003.bb} (73%)
- rename meta/recipes-extended/lsof/{lsof_4.86.bb => lsof_4.87.bb} (91%)
- create mode 100644 meta/recipes-graphics/directfb/directfb/mesa9.patch
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz-0.9.10/disable_graphite.patch
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz_0.9.10.bb
- delete mode 100644 meta/recipes-graphics/mesa/mesa-8.0.5.inc
- create mode 100644 meta/recipes-graphics/mesa/mesa-9.0.1.inc
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native.inc
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_8.0.5.bb
- rename meta/recipes-graphics/mesa/{mesa-dri_8.0.5.bb => mesa-dri_9.0.1.bb} (100%)
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0001-Compile-with-uclibc.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0003-fix-for-x32.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
- create mode 100644 meta/recipes-graphics/mesa/mesa/cross-glsl.patch
- delete mode 100644 meta/recipes-graphics/pango/pango-1.30.1/multilib-fix-clean.patch
- create mode 100644 meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
- rename meta/recipes-graphics/pango/{pango-1.30.1 => pango-1.32.5}/no-tests.patch (100%)
- rename meta/recipes-graphics/pango/{pango_1.30.1.bb => pango_1.32.5.bb} (59%)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/disable_tests.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/pixman/obsolete_automake_macros.patch
- rename meta/recipes-kernel/lttng-2.0/{lttng-modules_2.0.5.bb => lttng-modules_2.1.0.bb} (85%)
- rename meta/recipes-kernel/lttng-2.0/{lttng-tools_2.0.4.bb => lttng-tools_2.1.0.bb} (88%)
- rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.0.5.bb => lttng2-ust_2.1.0.bb} (93%)
- create mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-multimedia/libpng/libpng-1.5.13/obsolete_automake_macros.patch
- rename meta/recipes-support/bdwgc/{bdwgc_20110107.bb => bdwgc_7.2.bb} (83%)
- create mode 100644 meta/recipes-support/gmp/gmp-5.1.0/187b7b1646ee.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/libgcrypt/libgcrypt-1.5.0/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
- rename meta/recipes-support/libnl/{libnl_3.2.16.bb => libnl_3.2.18.bb} (87%)
- create mode 100644 meta/recipes-support/libusb/libusb-compat-0.1.4/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/libusb/libusb1-1.0.9/obsolete_automake_macros.patch
- create mode 100644 meta/recipes-support/popt/popt/disable_tests.patch
-
--- 
-1.8.0.2
-
-
-
+--------------070809040901020505040208--
