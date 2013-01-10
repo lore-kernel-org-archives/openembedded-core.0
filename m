@@ -1,35 +1,33 @@
-Received: from mail-ea0-f170.google.com ([209.85.215.170])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martiert@gmail.com>) id 1TtE4l-0006bD-9a
+	(envelope-from <martiert@gmail.com>) id 1TtE4j-0006bB-3v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 10:05:33 +0100
-Received: by mail-ea0-f170.google.com with SMTP id d11so121147eaa.29
+	Thu, 10 Jan 2013 10:05:27 +0100
+Received: by mail-ee0-f47.google.com with SMTP id e52so132738eek.20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 00:50:14 -0800 (PST)
+	Thu, 10 Jan 2013 00:50:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=YphbwsVe/Ap/oFskVyi0kM6KSIyUxkXEOLckslJxGaw=;
-	b=F1YGJ/FpJU3o58+mzGp4o/HwI3k+x+x5zoQ3DL+l7V7cf2IWJ3ONWQIyefaamO0hyV
-	u+z+aNUWIM1hZEGOPO0THIW5QwLoU2wRScMCY0N6zjFu+RKixEEyCLqoKelJFjZUy0+0
-	XMlhnh+THWig/rsZrdaiWQ9MvFOXl3YDl8FMsPt/B81xxxNuIhauxsqQDQoTfJpyxY5Q
-	WDBz2SJakXVGrB+R2QCJKUREzYQuJEn4BE5tSlf2oR0NgkjVPwqIfMJE80pvQaM6gXvB
-	MF3fFp6026lvGZZQQcZP/riJDXaAxUNSTPmaDZG0yLSxQ0WoNxz9uyQieW3us66Q3w1F
-	lgqA==
-X-Received: by 10.14.178.196 with SMTP id f44mr191004525eem.14.1357807814356; 
-	Thu, 10 Jan 2013 00:50:14 -0800 (PST)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZOmTmRR2LciWF4wwld1QfqlQWxItdNl1ShzLEa7w/aE=;
+	b=ZI/s54w36jFzmmNhJoYjM4LOP6fX8oNBfiuDM+Ek/WKeUNRFupBarf+uL4zkrubF2z
+	UxOzs1rvsKHdif/uv9m1k1WjuAf9Et23zLRGr3BAE0lhWuLpIkdnBsxKaawQeOwXGv6B
+	vTtVlhgFiQziT98VE0+/neJPp3giMbBBhJaT6VZ4R8Qq791SvxgRWJgpgOdViyDXsXZk
+	28nh8w9TSF7T+l2tiAwf9Xcl6DV9RBE6pjJ5kFxajVfqX2Qg+DSAtM6NwvwSrjYMHlWl
+	+ZlIpaEY4XUfMbAMX+Ju8tZiPel7QwXVo4DyqGHY1zrdsUnahqJ6qAjb8/OPNfoL2IFn
+	o36g==
+X-Received: by 10.14.194.4 with SMTP id l4mr190747096een.42.1357807812062;
+	Thu, 10 Jan 2013 00:50:12 -0800 (PST)
 Received: from dhcp-10-54-86-82.cisco.com (64-103-25-233.cisco.com.
 	[64.103.25.233])
-	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.13
+	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.10
 	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 00:50:13 -0800 (PST)
+	Thu, 10 Jan 2013 00:50:11 -0800 (PST)
 From: Martin Ertsaas <martiert@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 09:50:03 +0100
-Message-Id: <1357807806-31720-2-git-send-email-martiert@gmail.com>
+Date: Thu, 10 Jan 2013 09:50:02 +0100
+Message-Id: <1357807806-31720-1-git-send-email-martiert@gmail.com>
 X-Mailer: git-send-email 1.7.10.2 (Apple Git-33)
-In-Reply-To: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-Subject: [PATCH 2/5] quilt: Remove non-gnu.patch, and added configure flags for darwin.
+Subject: [PATCH 1/5] sanity: Make the required utilities more platform specific.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,270 +41,49 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Jan 2013 09:05:38 -0000
-X-List-Received-Date: Thu, 10 Jan 2013 09:05:38 -0000
 
+This might make us able to build on mac os X.
+
+Signed-off-by: Martin Ertsaas <martiert@gmail.com>
 ---
- meta/recipes-devtools/quilt/quilt-0.60.inc      |    4 +
- meta/recipes-devtools/quilt/quilt-native.inc    |    1 -
- meta/recipes-devtools/quilt/quilt/non-gnu.patch |  225 -----------------------
- 3 files changed, 4 insertions(+), 226 deletions(-)
- delete mode 100644 meta/recipes-devtools/quilt/quilt/non-gnu.patch
+ meta/classes/sanity.bbclass |   10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/quilt/quilt-0.60.inc b/meta/recipes-devtools/quilt/quilt-0.60.inc
-index 1e240a0..e0a2e51 100644
---- a/meta/recipes-devtools/quilt/quilt-0.60.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.60.inc
-@@ -12,6 +12,10 @@ SRC_URI[sha256sum] = "3d72a292e432beb9a73f9d0acfe3a77c9b4d7e42209919bb244e9958c7
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 0ffa52d..03651be 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -2,7 +2,9 @@
+ # Sanity check the users setup for common misconfigurations
+ #
  
- inherit autotools
+-SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
++SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk wget cpio"
++SANITY_REQUIRED_UTILITIES_Linux ?= "${SANITY_REQUIRED_UTILITIES} chrpath"
++SANITY_REQUIRED_UTILITIES_Darwin ?= "${SANITY_REQUIRED_UTILITIES} install_name_tool"
  
-+EXTRA_OECONF_darwin += "--without-date \
-+                        --without-getopt \
-+                        "
-+
- PACKAGES += "guards guards-doc"
- FILES_${PN} = "${sysconfdir} ${datadir}/quilt \
-                ${bindir}/quilt ${libdir}/quilt"
-diff --git a/meta/recipes-devtools/quilt/quilt-native.inc b/meta/recipes-devtools/quilt/quilt-native.inc
-index 9345d88..5c4b0a2 100644
---- a/meta/recipes-devtools/quilt/quilt-native.inc
-+++ b/meta/recipes-devtools/quilt/quilt-native.inc
-@@ -1,4 +1,3 @@
--SRC_URI_append_build-darwin = "?   file://non-gnu.patch "
- RDEPENDS_${PN} = "diffstat-native patch-native bzip2-native util-linux-native"
+ python check_bblayers_conf() {
+     bblayers_fn = os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
+@@ -340,6 +342,10 @@ def check_sanity_validmachine(sanity_data):
  
- INHIBIT_AUTOTOOLS_DEPS = "1"
-diff --git a/meta/recipes-devtools/quilt/quilt/non-gnu.patch b/meta/recipes-devtools/quilt/quilt/non-gnu.patch
-deleted file mode 100644
-index 520bf52..0000000
---- a/meta/recipes-devtools/quilt/quilt/non-gnu.patch
-+++ /dev/null
-@@ -1,225 +0,0 @@
--Upstream-Status: Pending
--
--Patch is from the Fink projetc (http://fink.sf.net)
--
--diff -r 7b51c215fc54 Makefile.in
----- a/Makefile.in	Sat Mar  4 17:16:21 2006 -0800
--+++ b/Makefile.in	Sat Mar  4 17:59:09 2006 -0800
--@@ -256,7 +256,7 @@ bin/guards.1 : bin/guards
-- 		-e 's:@VERSION''@:$(VERSION):g'				\
-- 		-e 's:@RELEASE''@:$(RELEASE):g'				\
-- 		-e 's:@LOCALEDIR''@:$(localedir):g'			\
---		-e 's:@DOCSUBDIR''@:$(docdir)/$(PACKAGE)-$(VERSION):g'	\
--+		-e 's:@DOCSUBDIR''@:$(docdir)/$(PACKAGE):g'	\
-- 		$< > $@
-- 	@$(if $(filter-out $<,$(NON_EXEC_IN)),chmod +x $@)
-- 
--@@ -320,11 +320,11 @@ endif
-- 	$(INSTALL) -d $(BUILD_ROOT)$(libdir)/$(PACKAGE)
-- 	$(INSTALL) -m 755 $(LIB:%=lib/%) $(BUILD_ROOT)$(libdir)/$(PACKAGE)/
-- 
---	$(INSTALL) -d $(BUILD_ROOT)$(docdir)/$(PACKAGE)-$(VERSION)/
--+	$(INSTALL) -d $(BUILD_ROOT)$(docdir)/$(PACKAGE)/
-- 	$(INSTALL) -m 644 doc/README					\
---		   $(BUILD_ROOT)$(docdir)/$(PACKAGE)-$(VERSION)/
--+		   $(BUILD_ROOT)$(docdir)/$(PACKAGE)/
-- 	$(INSTALL) -m 644 doc/quilt.pdf doc/README.MAIL			\
---		   $(BUILD_ROOT)$(docdir)/$(PACKAGE)-$(VERSION)/
--+		   $(BUILD_ROOT)$(docdir)/$(PACKAGE)/
-- 
-- 	$(INSTALL) -d $(BUILD_ROOT)$(mandir)/man1
-- 	$(INSTALL) -m 644 $(MAN1) $(BUILD_ROOT)$(mandir)/man1/
--@@ -367,7 +367,7 @@ uninstall ::
-- 		   $(notdir $(MAN1)))					\
-- 	       $(BUILD_ROOT)$(etcdir)/bash_completion.d/quilt		\
-- 	       $(BUILD_ROOT)$(etcdir)/quilt.quiltrc			\
---	       $(BUILD_ROOT)$(docdir)/$(PACKAGE)-$(VERSION)/
--+	       $(BUILD_ROOT)$(docdir)/$(PACKAGE)/
-- 
-- check: $(TESTS:test/%.test=test/.%.ok)
-- check-all: $(TESTS:test/%.test=check-%)
--diff -r 7b51c215fc54 configure
----- a/configure	Sat Mar  4 17:16:21 2006 -0800
--+++ b/configure	Sat Mar  4 17:59:09 2006 -0800
--@@ -3882,29 +3882,6 @@ echo "$as_me: error: Please specify the 
--   fi
-- 
-- 
---echo "$as_me:$LINENO: checking whether $CP -l works" >&5
---echo $ECHO_N "checking whether $CP -l works... $ECHO_C" >&6
---touch conftest.1
---if $CP -l conftest.1 conftest.2 2>/dev/null; then
---	echo "$as_me:$LINENO: result: yes" >&5
---echo "${ECHO_T}yes" >&6
---else
---	{ { echo "$as_me:$LINENO: error: no
---
---You appear to have a \`cp' that does not support hard links.
---You can download GNU fileutils from ftp.gnu.org
---" >&5
---echo "$as_me: error: no
---
---You appear to have a \`cp' that does not support hard links.
---You can download GNU fileutils from ftp.gnu.org
---" >&2;}
---   { (exit 1); exit 1; }; }
---fi
---
---
---
---
-- 
-- # Check whether --with-date or --without-date was given.
-- if test "${with_date+set}" = set; then
--@@ -3999,32 +3976,6 @@ echo "$as_me: WARNING: Using internal da
--       INTERNAL_DATE=1
-- 
--   fi
---
---
---
---if test -z "$INTERNAL_DATE"; then
---  echo "$as_me:$LINENO: checking whether $DATE --rfc-822 works" >&5
---echo $ECHO_N "checking whether $DATE --rfc-822 works... $ECHO_C" >&6
---  if $DATE --rfc-822 >/dev/null 2>/dev/null; then
---	echo "$as_me:$LINENO: result: yes" >&5
---echo "${ECHO_T}yes" >&6
---  else
---	{ { echo "$as_me:$LINENO: error: no
---
---If you don't have a version of \`date' that supports --rfc-822, you
---can specify '--without-date' and $PACKAGE_NAME will use its own
---internal date.
---" >&5
---echo "$as_me: error: no
---
---If you don't have a version of \`date' that supports --rfc-822, you
---can specify '--without-date' and $PACKAGE_NAME will use its own
---internal date.
---" >&2;}
---   { (exit 1); exit 1; }; }
---  fi
---fi
---
-- 
-- 
-- 
--diff -r 7b51c215fc54 quilt/diff.in
----- a/quilt/diff.in	Sat Mar  4 17:16:21 2006 -0800
--+++ b/quilt/diff.in	Sat Mar  4 17:59:09 2006 -0800
--@@ -303,7 +303,7 @@ then
-- 
-- 	if [ ${#files[@]} -gt 0 ] \
-- 	   && ! ( cd $QUILT_PC/$last_patch &&
---		  cp -l --parents "${files[@]}" $workdir/ )
--+		  mycpl $workdir/ "${files[@]}" )
-- 	then
-- 		printf $"Failed to copy files to temporary directory\n" >&2
-- 		die 1
--diff -r 7b51c215fc54 quilt/mail.in
----- a/quilt/mail.in	Sat Mar  4 17:16:21 2006 -0800
--+++ b/quilt/mail.in	Sat Mar  4 17:59:09 2006 -0800
--@@ -64,7 +64,7 @@ with a template for the introduction. Pl
-- 
-- msgid()
-- {
---	local timestamp=$(date --utc "+%Y%m%d%H%M%S.%N")
--+	local timestamp=$(date -u "+%Y%m%d%H%M%S.000000000")
-- 	echo "$timestamp@${opt_sender#*@}"
-- }
-- 
--@@ -334,7 +334,7 @@ introduction="$(gen_tempfile)"
-- 	cat <<-EOF
-- 	Message-Id: <$(msgid)>
-- 	User-Agent: quilt/@VERSION@-@RELEASE@
---	Date: $(date --rfc-822)
--+	Date: $(date '+%a, %d %b %Y %H:%M:%S %z')
-- 	From: ${opt_from:-$opt_sender}
-- 	To: $(IFS=,; echo "${opt_to[*]}")
-- 	Cc: $(IFS=,; echo "${opt_cc[*]}")
--@@ -401,7 +401,11 @@ fi
-- # increment the timestamp by one second and wait with sending until
-- # that time has arrived. This allows MUAs to show the messages in the
-- # correct order.
---last_ts=$(date '+%s' -d "$(sed -ne $'s/^Date:[ \t]*//p' $introduction)")
--+#last_ts=$(date '+%s' -d "$(sed -ne $'s/^Date:[ \t]*//p' $introduction)")
--+# fink has no date available that does -d, so we fudge with the time now.
--+# If the user edits the date field in the message patch 0 could end up
--+# out of order wrt the actual patches. just a minor cosmetic nit.
--+last_ts=$(date '+%s')
-- 
-- num=1
-- for patch in "${patches[@]}"; do
--@@ -412,7 +416,7 @@ for patch in "${patches[@]}"; do
-- 	#	sleep 1
-- 	#done
-- 	((last_ts++))
---	new_date="$(date --rfc-822 -d "1970/01/01 UTC $last_ts seconds")"
--+	new_date="$(date -r $last_ts '+%a, %d %b %Y %H:%M:%S %z')"
-- 
-- 	modify="$(awk '
-- 	sub(/^Recipient-/, "")	{ r = $0
--diff -r 7b51c215fc54 quilt/pop.in
----- a/quilt/pop.in	Sat Mar  4 17:16:21 2006 -0800
--+++ b/quilt/pop.in	Sat Mar  4 17:59:09 2006 -0800
--@@ -93,7 +93,7 @@ check_for_pending_changes()
-- 	if [ -d $QUILT_PC/$patch ]
-- 	then
-- 		if ! rmdir $workdir ||  # note that this is racey...
---		   ! cp -rl $QUILT_PC/$patch $workdir
--+		   ! (for i in "$(find "$QUILT_PC/$patch" -type f)"; do mycpl $workdir $i; done)
-- 		then
-- 			printf $"Failed to copy files to temporary directory\n" >&2
-- 			rm -rf $workdir
--diff -r 7b51c215fc54 quilt/scripts/patchfns.in
----- a/quilt/scripts/patchfns.in	Sat Mar  4 17:16:21 2006 -0800
--+++ b/quilt/scripts/patchfns.in	Sat Mar  4 17:59:09 2006 -0800
--@@ -45,6 +45,28 @@ fi
-- fi
-- 
-- # ========================================================
--+
--+dater()
--+{
--+  ts=$(perl -e '@st = stat($ARGV[0]); print $st[9];' "$1")
--+  fmt=$(date -r $ts "$2")
--+
--+  echo $fmt
--+}
--+
--+mycpl ()
--+{
--+  target=$1
--+  shift;
--+
--+  for src in "$@"
--+  do
--+    srcdir="${src%/*}"
--+    test -n "$srcdir" && mkdir -p "$target/$srcdir"
--+    ln $src "$target/$src"
--+  done
--+}
--+
-- 
-- #declare -a exit_handlers
-- #
--@@ -669,8 +691,7 @@ diff_file()
-- 		|| old_date=$'\t'"1970-01-01 00:00:00.000000000 +0000"
-- 	else
-- 		[ -n "$QUILT_NO_DIFF_TIMESTAMPS" ] \
---		|| old_date=$'\t'$(date +'%Y-%m-%d %H:%M:%S.%N %z' \
---					-r "$old_file")
--+		|| old_date=$'\t'$(dater "$old_file" +'%Y-%m-%d %H:%M:%S.000000000 %z')
-- 	fi
-- 	if ! [ -s "$new_file" ]
-- 	then
--@@ -682,8 +703,7 @@ diff_file()
-- 		|| new_date=$'\t'"1970-01-01 00:00:00.000000000 +0000"
-- 	else
-- 		[ -n "$QUILT_NO_DIFF_TIMESTAMPS" ] \
---		|| new_date=$'\t'$(date +'%Y-%m-%d %H:%M:%S.%N %z' \
---					-r "$new_file")
--+		|| new_date=$'\t'$(dater "$new_file" +'%Y-%m-%d %H:%M:%S.000000000 %z')
-- 	fi
-- 
-- 	diff $QUILT_DIFF_OPTS $old_file $new_file \
+     return messages
+ 
++def get_required_utilities(sanity_data):
++    import platform
++    sanity_var = 'SANITY_REQUIRED_UTILITIES_%s' %platform.system()
++    return sanity_data.getVar(sanity_var, True)
+ 
+ def check_sanity(sanity_data):
+     import subprocess
+@@ -444,7 +450,7 @@ def check_sanity(sanity_data):
+     if not check_app_exists('${BUILD_PREFIX}g++', sanity_data):
+         missing = missing + "C++ Compiler (%sg++)," % sanity_data.getVar("BUILD_PREFIX", True)
+ 
+-    required_utilities = sanity_data.getVar('SANITY_REQUIRED_UTILITIES', True)
++    required_utilities = get_required_utilities(sanity_data)
+ 
+     if "qemu-native" in assume_provided:
+         if not check_app_exists("qemu-arm", sanity_data):
 -- 
 1.7.10.2 (Apple Git-33)
 
