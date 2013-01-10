@@ -1,25 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Florin.Sarbu@windriver.com>) id 1TtCNW-0003v7-VY
+	(envelope-from <cristian.iorga@intel.com>) id 1TtCah-0004A5-VP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 08:16:54 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0A71Qdc007872
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Jan 2013 23:01:28 -0800 (PST)
-Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.171.150) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Wed, 9 Jan 2013 23:01:25 -0800
-From: Florin Sarbu <florin.sarbu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Jan 2013 09:01:09 +0200
-Message-ID: <1357801270-3793-1-git-send-email-florin.sarbu@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Thu, 10 Jan 2013 08:30:32 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2013 23:15:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,442,1355126400"; d="scan'208";a="275229673"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jan 2013 23:15:05 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.95]) by
+	IRSMSX101.ger.corp.intel.com ([169.254.1.13]) with mapi id
+	14.01.0355.002; Thu, 10 Jan 2013 07:15:03 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] connman: upgrade to 1.10
+Thread-Index: AQHN7oxxxi0xp9BDFE6xsoeD6eNchZhBRF8AgADh8MA=
+Date: Thu, 10 Jan 2013 07:15:03 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161DC46C@IRSMSX102.ger.corp.intel.com>
+References: <1357751495-28236-1-git-send-email-cristian.iorga@intel.com>
+	<CAJTo0LZwxy0E-ODr61YK4T9Qn+jkqqsPeW06vm8O7pmE-cMAfg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZwxy0E-ODr61YK4T9Qn+jkqqsPeW06vm8O7pmE-cMAfg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-X-Originating-IP: [128.224.171.150]
-Subject: [PATCH] alsa-utils: add bash as a dependency of the alsa-utils-alsaconf rpm.
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,33 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 07:17:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 Jan 2013 07:30:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-alsa-utils-alsaconf rpm contains the bash script alsaconf. In order
-to have the do_rootfs not error when bash is not brought along in
-the rootfs as an explicit dependency, we add it as a dependency
-of alsa-utils.
-
-Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
----
- meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-index 4990eb0..a76985c 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-@@ -47,6 +47,7 @@ ALSA_UTILS_PKGS = "\
- 
- PACKAGES += "${ALSA_UTILS_PKGS}"
- RDEPENDS_${PN} += "${ALSA_UTILS_PKGS}"
-+RDEPENDS_alsa-utils-alsaconf += "bash"
- 
- # We omit alsaconf, because
- # a) this is a bash script
--- 
-1.7.10.4
-
+SGkgUm9zcywNCg0KV2VsbCwgSSBoYXZlIHRoZSBwcmlvciBhcnQgc3RhbmQgYnkgbWUuDQpUaGUg
+c2FtZSB0ZWNobmlxdWUgaXMgYXBwbGllZCBmb3IgbmV0YmFzZS4NCg0KQW5kLCBpbiB0aGlzIHNw
+ZWNpZmljIGNhc2UsIGNvbm5tYW4gc2hvdWxkIGJlIG1hY2hpbmUgc3BlY2lmaWMuDQpDYW4geW91
+IHBsZWFzZSBnaXZlIG1lIG1vcmUgZGV0YWlsPw0KDQpUaGUgY29uZmlndXJhdGlvbiBmaWxlIHdp
+bGwgaGF2ZSBvbmx5IHRoZSBpbnRlcmZhY2UgYmxhY2tsaXN0IGVuYWJsZWQgaW4gY2FzZSBvZiBh
+IHFlbXUqIG1hY2hpbmUuDQoNClJlZ2FyZHMsDQpDcmlzdGlhbg0KDQotLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
+Y29tXSANClNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSAwOSwgMjAxMyA3OjQzIFBNDQpUbzogSW9y
+Z2EsIENyaXN0aWFuDQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGNvbm5tYW46IHVwZ3JhZGUgdG8gMS4x
+MA0KDQpPbiA5IEphbnVhcnkgMjAxMyAxNzoxMSwgQ3Jpc3RpYW4gSW9yZ2EgPGNyaXN0aWFuLmlv
+cmdhQGludGVsLmNvbT4gd3JvdGU6DQo+ICtkb19pbnN0YWxsX2FwcGVuZCgpIHsNCj4gKyAgICAj
+QmxhY2tsaXN0IGV0aG4gbmV0d29yayBpbnRlcmZhY2UgaW4gY2FzZSBvZiBxZW11KiBtYWNoaW5l
+cw0KPiArICAgIGNhc2UgIiR7TUFDSElORX0iIGluDQoNClRoaXMgbWFrZXMgY29ubm1hbiBtYWNo
+aW5lLXNwZWNpZmljLCB3aGljaCBpc24ndCBhIGdvb2QgdGhpbmcuICBUaGlzIGNvbmZpZ3VyYXRp
+b24gZmlsZSBzaG91bGQgYmUgc3BsaXQgb3V0IGludG8gYSBzZXBhcmF0ZSBwYWNrYWdlLg0KDQpS
+b3NzDQo=
 
 
