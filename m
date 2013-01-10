@@ -1,33 +1,35 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ee0-f51.google.com ([74.125.83.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martiert@gmail.com>) id 1TtE4j-0006bB-3v
+	(envelope-from <martiert@gmail.com>) id 1TtE4r-0006bc-9f
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 10:05:27 +0100
-Received: by mail-ee0-f47.google.com with SMTP id e52so132738eek.20
+	Thu, 10 Jan 2013 10:05:34 +0100
+Received: by mail-ee0-f51.google.com with SMTP id d4so131873eek.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 00:50:12 -0800 (PST)
+	Thu, 10 Jan 2013 00:50:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=ZOmTmRR2LciWF4wwld1QfqlQWxItdNl1ShzLEa7w/aE=;
-	b=ZI/s54w36jFzmmNhJoYjM4LOP6fX8oNBfiuDM+Ek/WKeUNRFupBarf+uL4zkrubF2z
-	UxOzs1rvsKHdif/uv9m1k1WjuAf9Et23zLRGr3BAE0lhWuLpIkdnBsxKaawQeOwXGv6B
-	vTtVlhgFiQziT98VE0+/neJPp3giMbBBhJaT6VZ4R8Qq791SvxgRWJgpgOdViyDXsXZk
-	28nh8w9TSF7T+l2tiAwf9Xcl6DV9RBE6pjJ5kFxajVfqX2Qg+DSAtM6NwvwSrjYMHlWl
-	+ZlIpaEY4XUfMbAMX+Ju8tZiPel7QwXVo4DyqGHY1zrdsUnahqJ6qAjb8/OPNfoL2IFn
-	o36g==
-X-Received: by 10.14.194.4 with SMTP id l4mr190747096een.42.1357807812062;
-	Thu, 10 Jan 2013 00:50:12 -0800 (PST)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=KnDVUGCw+ZGkHdKgGLeJmiEYYCmpZ4+FW9uWH6VuXNQ=;
+	b=ZINZJozxHioI9UfMfwRJNcW5asIonBLYrI5w+60vzRA5/CP6DhgWqjdVlDf5c8ns3U
+	oJn7cFH3GEaRD4gmOvvQ/7v2Y3g/FJxW+XZnu1uWS322bj+ahU0EJ9mW92Md07l0CFSv
+	5fGZWQoXmMMO0oxIT8SRLIi5rJkchDY4Y+JA/JQG4uhjz6UyBKfarvONd9h6Mx3PrCsi
+	aGdX+dfhdYBILhfPVe7Fu2eMwWOq8FzoUjqi4r2gVY/qGk0lpcs9se200F1MSjR8v1ju
+	SUMyE/oCch+X7oy92w3Tf2f7aaAQkMdrNiqKH2qSKtaSTHq8eccmfsC8/MWCauQqRymC
+	kqlA==
+X-Received: by 10.14.213.134 with SMTP id a6mr190890552eep.45.1357807820465;
+	Thu, 10 Jan 2013 00:50:20 -0800 (PST)
 Received: from dhcp-10-54-86-82.cisco.com (64-103-25-233.cisco.com.
 	[64.103.25.233])
-	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.10
+	by mx.google.com with ESMTPS id 44sm1908196eek.0.2013.01.10.00.50.19
 	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 00:50:11 -0800 (PST)
+	Thu, 10 Jan 2013 00:50:19 -0800 (PST)
 From: Martin Ertsaas <martiert@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 09:50:02 +0100
-Message-Id: <1357807806-31720-1-git-send-email-martiert@gmail.com>
+Date: Thu, 10 Jan 2013 09:50:06 +0100
+Message-Id: <1357807806-31720-5-git-send-email-martiert@gmail.com>
 X-Mailer: git-send-email 1.7.10.2 (Apple Git-33)
-Subject: [PATCH 1/5] sanity: Make the required utilities more platform specific.
+In-Reply-To: <1357807806-31720-1-git-send-email-martiert@gmail.com>
+References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
+Subject: [PATCH 5/5] sstate: Do not add the --no-run-if-empty arguement to xargs when on Darwin, as it is not supported.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,50 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 09:05:38 -0000
+X-List-Received-Date: Thu, 10 Jan 2013 09:05:39 -0000
 
-This might make us able to build on mac os X.
-
-Signed-off-by: Martin Ertsaas <martiert@gmail.com>
 ---
- meta/classes/sanity.bbclass |   10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass |   10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 0ffa52d..03651be 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -2,7 +2,9 @@
- # Sanity check the users setup for common misconfigurations
- #
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 68fd996..e92fbae 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -368,7 +368,7 @@ python sstate_cleanall() {
+ }
  
--SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
-+SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk wget cpio"
-+SANITY_REQUIRED_UTILITIES_Linux ?= "${SANITY_REQUIRED_UTILITIES} chrpath"
-+SANITY_REQUIRED_UTILITIES_Darwin ?= "${SANITY_REQUIRED_UTILITIES} install_name_tool"
+ def sstate_hardcode_path(d):
+-    import subprocess
++    import subprocess, platform
  
- python check_bblayers_conf() {
-     bblayers_fn = os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
-@@ -340,6 +342,10 @@ def check_sanity_validmachine(sanity_data):
+     # Need to remove hardcoded paths and fix these when we install the
+     # staging packages.
+@@ -390,7 +390,7 @@ def sstate_hardcode_path(d):
+     else:
+         sstate_grep_cmd = "grep -l -e '%s'" % (staging_host)
+         sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRHOST:g'" % (staging_host)
+-    
++
+     fixmefn =  sstate_builddir + "fixmepath"
  
-     return messages
+     sstate_scan_cmd = d.getVar('SSTATE_SCAN_CMD', True)
+@@ -399,9 +399,13 @@ def sstate_hardcode_path(d):
+     # fixmepath file needs relative paths, drop sstate_builddir prefix
+     sstate_filelist_relative_cmd = "sed -i -e 's:^%s::g' %s" % (sstate_builddir, fixmefn)
  
-+def get_required_utilities(sanity_data):
-+    import platform
-+    sanity_var = 'SANITY_REQUIRED_UTILITIES_%s' %platform.system()
-+    return sanity_data.getVar(sanity_var, True)
++    xargs_no_empty_run_cmd = '--no-run-if-empty'
++    if platform.system() == 'Darwin':
++        xargs_no_empty_run_cmd = ''
++
+     # Limit the fixpaths and sed operations based on the initial grep search
+     # This has the side effect of making sure the vfs cache is hot
+-    sstate_hardcode_cmd = "%s | xargs %s | %s | xargs --no-run-if-empty %s" % (sstate_scan_cmd, sstate_grep_cmd, sstate_filelist_cmd, sstate_sed_cmd)
++    sstate_hardcode_cmd = "%s | xargs %s | %s | xargs %s %s" % (sstate_scan_cmd, sstate_grep_cmd, sstate_filelist_cmd, xargs_no_empty_run_cmd, sstate_sed_cmd)
  
- def check_sanity(sanity_data):
-     import subprocess
-@@ -444,7 +450,7 @@ def check_sanity(sanity_data):
-     if not check_app_exists('${BUILD_PREFIX}g++', sanity_data):
-         missing = missing + "C++ Compiler (%sg++)," % sanity_data.getVar("BUILD_PREFIX", True)
- 
--    required_utilities = sanity_data.getVar('SANITY_REQUIRED_UTILITIES', True)
-+    required_utilities = get_required_utilities(sanity_data)
- 
-     if "qemu-native" in assume_provided:
-         if not check_app_exists("qemu-arm", sanity_data):
+     print "Removing hardcoded paths from sstate package: '%s'" % (sstate_hardcode_cmd)
+     subprocess.call(sstate_hardcode_cmd, shell=True)
 -- 
 1.7.10.2 (Apple Git-33)
 
