@@ -1,35 +1,45 @@
-Received: from mail-la0-f47.google.com ([209.85.215.47])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TtNlM-0007iL-4W
+	(envelope-from <ross.burton@intel.com>) id 1TtOsP-00012e-2r
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 20:26:05 +0100
-Received: by mail-la0-f47.google.com with SMTP id fh20so988517lab.20
+	Thu, 10 Jan 2013 21:37:25 +0100
+Received: from mail-fa0-f71.google.com ([209.85.161.71])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 10 Jan 2013 12:22:09 -0800
+Received: by mail-fa0-f71.google.com with SMTP id m1so971914fam.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 11:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=DPv3mSsRfcdwS+ix6EgiQ+gTR4RKlvdu0c1/UX9pSSs=;
-	b=hymkLhtNopOt7jTOhHWx+pi0I79pVaLhXXP7Z9fP5bH0Z7J2DuBBDBXT4z7AIFHWdx
-	RP3cQq2zi72NN6cqxhp8rpyAxsrRBFy5lcuNT2XsoNNEABbyGHzxVnJsMyLVfoP+Px+I
-	m6qwG1GeXVCB8ElC+n35vQNBwjXgM1OREB5LnI3HXhGNxYwOLaHVuYvtCL98oFgcjiRN
-	3+ZakKrBTdsB/KOabyoff6J4Kx68wC7sp+noGvXYf7HgsrNwRR3YIFvbnknojUratScI
-	jAHiuuGVLC8hny8xVFb0WHBt6l2P/EcK/FsPn0RWhMUU2G18WBZKyTv5FTrpA3LwqxA7
-	HSdg==
-X-Received: by 10.152.125.136 with SMTP id mq8mr70257400lab.41.1357845050457; 
-	Thu, 10 Jan 2013 11:10:50 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id ie3sm1196732lab.4.2013.01.10.11.10.48
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 11:10:49 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TtNWY-00085h-HE; Thu, 10 Jan 2013 21:10:46 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Jan 2013 21:10:44 +0200
-Message-Id: <cover.1357844418.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/3] Misc patches
+	Thu, 10 Jan 2013 12:22:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=Bs8amLhyO3RsuO1m6cQXh1iPRwybQlkN6TGUIZr1dag=;
+	b=EVtx/FvDIj4BTlZVLEwBdixT7XV3YWKdsw0LhDDv4WsdRCc8nAwwlwHiUPxuCdKyap
+	tFYYqvbFESaeYPI2JXwNQVmEPCHBvYpyL1fCi33H/D0BgTMc6e2LOUZRtfLa5lFEVWPt
+	h7EvUdnONy7T6Gvvm5t9XoeMLmNCKjpOAcl14VZWB+OCpnwHrZlvGj9x7hNtWUQlFTKu
+	gkWLwO84iLQW9Oppt0ovQWPP4Rc6lJa1f19NHvLRHpEPZPENKDylRSAVQtRuxth5wN1U
+	iPZB1E6gCpkYsKAMKFcuYBEzxtDBhe8t8IZ31qdHavBkixXYKuk1QauzO7gFRA6J36Cz
+	yqww==
+X-Received: by 10.14.205.198 with SMTP id j46mr195698969eeo.27.1357849324150; 
+	Thu, 10 Jan 2013 12:22:04 -0800 (PST)
+X-Received: by 10.14.205.198 with SMTP id j46mr195698931eeo.27.1357849323796; 
+	Thu, 10 Jan 2013 12:22:03 -0800 (PST)
+Received: from [192.168.1.7] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id v46sm5003161eep.1.2013.01.10.12.22.02
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Thu, 10 Jan 2013 12:22:02 -0800 (PST)
+Date: Thu, 10 Jan 2013 20:22:03 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <65E2376D69F0422989FFE6F99DA14D8D@intel.com>
+In-Reply-To: <50EF117F.4080000@linux.intel.com>
+References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
+	<50EF117F.4080000@linux.intel.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQmjWkuOqQ4ntFqmw4GgKsk9HQtL3y8Uf7lwJwY14SIJF1rb8KS00re4itnh+AaYdseigEIaVnExMPUnojec5zuQPZzYR7e1YU+1tnK50L8YeZh4HI55NP9nsMNOTn+tQGtCt19t0VHNLRCCAuyqKqQA5xD85jqtn3HSHJdSrHvzZC2aH3PVIrhGSYELs5CEyK/X0KaY
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 19:26:05 -0000
+X-List-Received-Date: Thu, 10 Jan 2013 20:37:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-A couple of already sent patches that have been ignored (patchwork issues?)
+On Thursday, 10 January 2013 at 19:07, Saul Wold wrote:
+> I am not wild about us having to carry around the COPYING file for GPLv2
+> as a "patch" file, is there any way use the existing copies we have in
+> meta/files/common-licenses? I think that sysvinit-inittab uses the
+> following:
 
-The following changes since commit 0cfec10c4c7b0597f0e0c8f85539d901861a2f83:
+It's also declaring GPL on what is effectively just "+NetworkInterfaceBlacklist = eth0".  If we don't ship the entire example configuration file but just the two lines that we need, copyright almost certainly doesn't exist anyway.
 
-  guile: add explicit dependency to avoid parallel build issue (2013-01-09 13:41:12 +0000)
+I'd prefer just shipping the fragment that we need.  We don't need all of the comments and examples on the device.
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
-
-Marko Lindqvist (3):
-  libxdamage: update to upstream version 1.1.4
-  coreutils: fix license segment md5sum boundary
-  help2man: update to upstream version 1.40.13
-
- meta/recipes-core/coreutils/coreutils_8.14.bb                    |    2 +-
- .../{help2man-native_1.38.2.bb => help2man-native_1.40.13.bb}    |    6 +++---
- .../xorg-lib/{libxdamage_1.1.3.bb => libxdamage_1.1.4.bb}        |    6 +++---
- 3 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.38.2.bb => help2man-native_1.40.13.bb} (78%)
- rename meta/recipes-graphics/xorg-lib/{libxdamage_1.1.3.bb => libxdamage_1.1.4.bb} (86%)
-
--- 
-1.7.10.4
-
+Ross
 
 
