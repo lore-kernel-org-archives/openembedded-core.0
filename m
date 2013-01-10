@@ -1,19 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1TtPIt-0001uP-HI
-	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 22:04:54 +0100
-Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0AKnV8v013888;
-	Thu, 10 Jan 2013 12:49:31 -0800 (PST)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu, 10 Jan 2013 15:49:15 -0500
-Message-Id: <cover.1357850854.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1TtSHE-0007MV-BJ for openembedded-core@lists.openembedded.org;
+	Fri, 11 Jan 2013 01:15:16 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0B000UM012276;
+	Fri, 11 Jan 2013 00:00:00 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02957-07; Thu, 10 Jan 2013 23:59:56 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0ANxooa012270
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 10 Jan 2013 23:59:51 GMT
+Message-ID: <1357862392.4072.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Jan 2013 23:59:52 +0000
+In-Reply-To: <CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
+References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
+	<CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-libc-headers: fix long path name build breakage
+Subject: Re: [PATCH V2] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,46 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 21:04:56 -0000
+X-List-Received-Date: Fri, 11 Jan 2013 00:15:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard/Saul,
+On Thu, 2013-01-10 at 20:26 +0000, Burton, Ross wrote:
+> On 10 January 2013 18:42, Cristian Iorga <cristian.iorga@intel.com> wrote:
+> > 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+> >     - adapted to the new version
+> >
+> > 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+> >     - patch removed (it is included in the new version)
+> >
+> > inet-fix-ip-cleanup-functions.patch: added
+> >     - fix for ip cleanup functions
+> >
+> > Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> 
+> Also document the point of connman-conf.
+> 
+> > diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+> > index 5d59a7f..41fe552 100644
+> > --- a/meta/conf/machine/include/qemu.inc
+> > +++ b/meta/conf/machine/include/qemu.inc
+> > @@ -10,6 +10,8 @@ XSERVER ?= "xserver-xorg \
+> >
+> >  MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
+> >
+> > +MACHINEOVERRIDES .= ":qemu"
+> > +
+> 
+> Please submit this as a separate patch, it's effectively unrelated to connman.
 
-Here's a patch to fix the recent autobuilder failures with the updated
-linux-libc-headers (3.7) as the default.
-
-I wasn't sure if we needed a PR bump, but I added one anyone. Let
-me know if I should respin with it removed.
-
-I'll send this patch upstream for comments as well, but in it's current
-form it does get us up and running on the builders.
-
-Until this is accepted, it will be propagated to any > 3.7 kernel headers,
-just in case they are used in a long path name configuration.
+Please don't use "qemu", use something like qemuall or allqemu since I
+have some thoughts about how this might interact with the qemu class,
+most involving the word "badly" ;-).
 
 Cheers,
 
-Bruce
-
-The following changes since commit 66f4c8a674d9f8db958b13866af4d63ab8cbcd44:
-
-  guile: add explicit dependency to avoid parallel build issue (2013-01-09 15:05:26 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-libc-headers: fix headers install in long path name
-    environments
-
- ...efile.headersinst-install-headers-from-sc.patch |   47 ++++++++++++++++++++
- .../linux-libc-headers/linux-libc-headers_3.7.bb   |    4 ++
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
-
--- 
-1.7.10.4
+Richard
 
 
 
