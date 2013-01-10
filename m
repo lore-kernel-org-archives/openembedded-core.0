@@ -1,39 +1,23 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TtOxQ-00018c-F8
+	(envelope-from <bruce.ashfield@windriver.com>) id 1TtPIt-0001uQ-HM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Jan 2013 21:42:36 +0100
-Received: from mail-vb0-f70.google.com ([209.85.212.70])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 10 Jan 2013 12:27:21 -0800
-Received: by mail-vb0-f70.google.com with SMTP id ff1so638756vbb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 12:27:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:x-gm-message-state;
-	bh=j1F6VEOW/EzJhmMdrKKOWsQBkOuaXGHadDBQvUWXomo=;
-	b=T5Msczdj2b8RZPVwJmteozwmqqJRcxDZmk9A0eEQfjYXoyDX+C79okLHImAdlibjJw
-	d7J1iRjAxeefAIPEjDSKELuYn72/yFGKViIhmMA/o9YcSWGaFQWJIfGnaT5pG/Bdexz7
-	u/Ihul00Pwrlyb2mS19sJCMcO8JWoBge9pVBFhUtdnqCFlAR6h3Nu4AbzpzoFRLpQsu4
-	5ZRhw9RAo/rmKK2bo+Xql7yAKk0Y7N06SCr+txDo+9YOThKuZQ1nhIQ9fXLXERVADCxZ
-	PbgA2aH3YlwoY7zGYJ34OBhSHwZr1kNgyz152xTvZV0IIm0k+kP5Ij4V+Y8dZ5ijEM9W
-	Bvag==
-X-Received: by 10.52.31.197 with SMTP id c5mr80240236vdi.65.1357849635570;
-	Thu, 10 Jan 2013 12:27:15 -0800 (PST)
-Received: by 10.52.31.197 with SMTP id c5mr80240231vdi.65.1357849635505; Thu,
-	10 Jan 2013 12:27:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Thu, 10 Jan 2013 12:26:55 -0800 (PST)
-In-Reply-To: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
-References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Jan 2013 20:26:55 +0000
-Message-ID: <CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQn1o9o0b/hk3scL2q5qETc2y3gQsbe7cDP278WUQnbYlzxqmSrNtiDK6wyy7a8LG8670LYQWVr+rdYyKPysuM378W9Iq/83OPA8P2ubugQam6eO/hkOAVG0C5tYAgt0l2dKZmVTedVDgSwgf5BLrSx3TY/c14aq2sEFmLslf8q+g3KfpCm7wPxwUP9BTyZd5iVzZ65S
+	Thu, 10 Jan 2013 22:04:54 +0100
+Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0AKnV8w013888;
+	Thu, 10 Jan 2013 12:49:31 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Thu, 10 Jan 2013 15:49:16 -0500
+Message-Id: <0a1e805fc5bda5253453fe65b8a8947b4f5082ca.1357850854.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1357850854.git.bruce.ashfield@windriver.com>
+References: <cover.1357850854.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1357850854.git.bruce.ashfield@windriver.com>
+References: <cover.1357850854.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] connman: upgrade to 1.10
+Subject: [PATCH 1/1] linux-libc-headers: fix headers install in long path name environments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,37 +30,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Jan 2013 20:42:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 10 Jan 2013 21:04:56 -0000
 
-On 10 January 2013 18:42, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
->     - adapted to the new version
->
-> 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
->     - patch removed (it is included in the new version)
->
-> inet-fix-ip-cleanup-functions.patch: added
->     - fix for ip cleanup functions
->
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+If a build is started in a deep directory structure, or in a path with
+long directory names the installation of linux-libc-headers will fail
+with:
 
-Also document the point of connman-conf.
+  | make[2]: execvp: /bin/sh: Argument list too long
+  | make[2]: ***
 
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-> index 5d59a7f..41fe552 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -10,6 +10,8 @@ XSERVER ?= "xserver-xorg \
->
->  MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
->
-> +MACHINEOVERRIDES .= ":qemu"
-> +
+From within the kernel Makefiles themselves.
 
-Please submit this as a separate patch, it's effectively unrelated to connman.
+The solution is to patch the kernel build rules with the following
+change:
 
-Ross
+[
+    scripts/Makefile.headersinst: install headers from scratch file
+
+    If headers_install is executed from a deep/long directory structure, the
+    shell's maximum argument length can be execeeded, which breaks the operation
+    with:
+
+    | make[2]: execvp: /bin/sh: Argument list too long
+    | make[2]: ***
+
+    By dumping the input files to a scratch file and using xargs to read the
+    input list from the scratch file, we can avoid blowing out the maximum
+    argument size and install headers in a long path name environment.
+]
+
+Until this change, or a similar one, is merged into the mainline kernel, this
+change should be applied to any 3.7 or greater libc-headers build.
+
+Upstream-status: Pending
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ ...efile.headersinst-install-headers-from-sc.patch |   47 ++++++++++++++++++++
+ .../linux-libc-headers/linux-libc-headers_3.7.bb   |    4 ++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
+
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
+new file mode 100644
+index 0000000..be1ef25
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-install-headers-from-sc.patch
+@@ -0,0 +1,47 @@
++From e60cc1b011bf0f1acdb7e5168b7bed4ebb78c91f Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@windriver.com>
++Date: Wed, 9 Jan 2013 16:24:39 -0500
++Subject: [PATCH] scripts/Makefile.headersinst: install headers from scratch file
++
++If headers_install is executed from a deep/long directory structure, the
++shell's maximum argument length can be execeeded, which breaks the operation
++with:
++
++| make[2]: execvp: /bin/sh: Argument list too long
++| make[2]: ***
++
++By dumping the input files to a scratch file and using xargs to read the
++input list from the scratch file, we can avoid blowing out the maximum
++argument size and install headers in a long path name environment.
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ scripts/Makefile.headersinst |    4 +++-
++ 1 files changed, 3 insertions(+), 1 deletions(-)
++
++diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
++index 06ba4a7..536d722 100644
++--- a/scripts/Makefile.headersinst
+++++ b/scripts/Makefile.headersinst
++@@ -71,7 +71,7 @@ printdir = $(patsubst $(INSTALL_HDR_PATH)/%/,%,$(dir $@))
++ quiet_cmd_install = INSTALL $(printdir) ($(words $(all-files))\
++                             file$(if $(word 2, $(all-files)),s))
++       cmd_install = \
++-        $(PERL) $< $(installdir) $(SRCARCH) $(input-files); \
+++        xargs $(PERL) $< $(installdir) $(SRCARCH) < $(INSTALL_HDR_PATH)/.input-files; \
++         for F in $(wrapper-files); do                                   \
++                 echo "\#include <asm-generic/$$F>" > $(installdir)/$$F;    \
++         done;                                                           \
++@@ -100,7 +100,9 @@ targets += $(install-file)
++ $(install-file): scripts/headers_install.pl $(input-files) FORCE
++ 	$(if $(unwanted),$(call cmd,remove),)
++ 	$(if $(wildcard $(dir $@)),,$(shell mkdir -p $(dir $@)))
+++	@echo $(input-files) > $(INSTALL_HDR_PATH)/.input-files
++ 	$(call if_changed,install)
+++	@rm $(INSTALL_HDR_PATH)/.input-files
++ 
++ else
++ __headerscheck: $(subdirs) $(check-file)
++-- 
++1.7.0.4
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.7.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.7.bb
+index 3d688b7..a363289 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.7.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.7.bb
+@@ -1,4 +1,8 @@
+ require linux-libc-headers.inc
+ 
++SRC_URI += "file://scripts-Makefile.headersinst-install-headers-from-sc.patch"
++
++PR = "r1"
++
+ SRC_URI[md5sum] = "5323f3faadd051e83af605a63be5ea2e"
+ SRC_URI[sha256sum] = "dc08d87a579fe2918362e6666e503a95a76296419195cb499aa9dd4dbe171a9e"
+-- 
+1.7.10.4
+
 
 
