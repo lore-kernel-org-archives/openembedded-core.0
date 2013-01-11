@@ -1,36 +1,26 @@
-Received: from mail-vb0-f49.google.com ([209.85.212.49])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1TtlCz-0007DQ-Hf
+	(envelope-from <sgw@linux.intel.com>) id 1Ttmcu-0005WZ-IY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 21:28:11 +0100
-Received: by mail-vb0-f49.google.com with SMTP id s24so1332795vbi.22
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 12:12:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=Uxulln22zjf7jyIFWY9Pc9DxoMbo1NddRI/sEfSWoxs=;
-	b=AJ8yYlUzxVxre9vAuWwItk9F91+3WP7hyKkqZAakxXPkb/1Y7AV4mleEN+WfZirZc3
-	d1b4/PD15h5Bs7t/r+VH/GmSo4wLrATAHza27GTacmuid2EyMF9nBNREPEP9NuAL97q0
-	C7Gz4hUNqRj5j0aPgecdyVqBmpGyD9GWnx6CWEvAq6crwlG1//zxiWVCCz9fgd5xiOkT
-	5AF+PfBlUR5fnN5KZ4eYcUbYIeIIpl2WMq4ueSsFCs5ZIqER8I65FB2zvFXvNhHJlAvl
-	83PLC6UkktZIkqv7qfokdKh5APV4aJPmgr8cJWAHQgPlNQJJ7ztkI4vmbQwoj1nSdOHd
-	Mf4Q==
-Received: by 10.52.88.19 with SMTP id bc19mr52597390vdb.67.1357935173769; Fri,
-	11 Jan 2013 12:12:53 -0800 (PST)
+	Fri, 11 Jan 2013 22:59:17 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 11 Jan 2013 13:43:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,453,1355126400"; d="scan'208";a="242931804"
+Received: from unknown (HELO [10.255.14.194]) ([10.255.14.194])
+	by azsmga001.ch.intel.com with ESMTP; 11 Jan 2013 13:43:32 -0800
+Message-ID: <50F08780.10407@linux.intel.com>
+Date: Fri, 11 Jan 2013 13:43:28 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.102.132 with HTTP; Fri, 11 Jan 2013 12:12:33 -0800 (PST)
-X-Originating-IP: [5.13.223.33]
-In-Reply-To: <1357801270-3793-1-git-send-email-florin.sarbu@windriver.com>
-References: <1357801270-3793-1-git-send-email-florin.sarbu@windriver.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Fri, 11 Jan 2013 22:12:33 +0200
-Message-ID: <CAK18fxFt1ZiqOc1X0nb2XTfuG6QHUG_dTLC938mhGV-8_SBobQ@mail.gmail.com>
-To: Florin Sarbu <florin.sarbu@windriver.com>
-X-Gm-Message-State: ALoCoQkV1NttI/abzTokyIFjXlzVOSgilcvAtqq8ThQhFifu8Tj3lNP+rUZTD4A8R/1m7I33QLjz
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-utils: add bash as a dependency of the alsa-utils-alsaconf rpm.
+To: tom.zanussi@intel.com
+References: <88b78152fff010082e07b57992977e0b9d65fdde.1357930527.git.tom.zanussi@intel.com>
+	<ed6ed5e95e9932260d83b1ab2473d53c02985688.1357930527.git.tom.zanussi@intel.com>
+In-Reply-To: <ed6ed5e95e9932260d83b1ab2473d53c02985688.1357930527.git.tom.zanussi@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/5] lttng2-ust: rename to lttng-ust
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,127 +33,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 20:28:11 -0000
-Content-Type: multipart/alternative; boundary=20cf3071ca14a919fa04d308eb9e
+X-List-Received-Date: Fri, 11 Jan 2013 21:59:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---20cf3071ca14a919fa04d308eb9e
-Content-Type: text/plain; charset=ISO-8859-1
-
-ack
-
-
-
-*Andrei Gherzan*
-mobile +40.744.478.414  fax +40.31.816.28.12
-Email: andrei@gherzan.ro
-Email: andrei.gherzan@windriver.com
-Romania
-
-
-On Thu, Jan 10, 2013 at 9:01 AM, Florin Sarbu <florin.sarbu@windriver.com>wrote:
-
-> alsa-utils-alsaconf rpm contains the bash script alsaconf. In order
-> to have the do_rootfs not error when bash is not brought along in
-> the rootfs as an explicit dependency, we add it as a dependency
-> of alsa-utils.
+On 01/11/2013 11:20 AM, tom.zanussi@intel.com wrote:
+> From: Tom Zanussi <tom.zanussi@intel.com>
 >
-> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
+> recipes-kernel/lttng/lttng-ust was removed by a previous patch, which
+> also removed the naming conflict that caused the lttng-2.0 version of
+> lttng-ust to be named lttng2-ust.  lttng2-ust was the only lttng-2.0
+> recipe to be named in this way and since that was entirely due to the
+> conflict, we can go back to the consistent naming for it.
+>
+> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 > ---
->  meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb |    1 +
->  1 file changed, 1 insertion(+)
+>   meta-yocto/conf/distro/include/distro_alias.inc                      | 1 -
+>   meta-yocto/conf/distro/include/maintainers.inc                       | 1 -
+These need to be in a sperate patch to poky@yoctoproject, they are not 
+part of OE-Core.
+
+Thanks
+	Sau!
+
+>   meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb   | 2 +-
+>   meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb                   | 2 +-
+>   .../lttng-2.0/{lttng2-ust_2.1.0.bb => lttng-ust_2.1.0.bb}            | 5 +++++
+>   5 files changed, 7 insertions(+), 4 deletions(-)
+>   rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.1.0.bb => lttng-ust_2.1.0.bb} (87%)
 >
-> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bbb/meta/recipes-multimedia/alsa/
-> alsa-utils_1.0.25.bb
-> index 4990eb0..a76985c 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.25.bb
-> @@ -47,6 +47,7 @@ ALSA_UTILS_PKGS = "\
+> diff --git a/meta-yocto/conf/distro/include/distro_alias.inc b/meta-yocto/conf/distro/include/distro_alias.inc
+> index 0699c5f..1994e27 100644
+> --- a/meta-yocto/conf/distro/include/distro_alias.inc
+> +++ b/meta-yocto/conf/distro/include/distro_alias.inc
+> @@ -226,7 +226,6 @@ DISTRO_PN_ALIAS_pn-lttng-modules = "OSPDT upstream=http://lttng.org/"
+>   DISTRO_PN_ALIAS_pn-lttng-tools = "OSPDT upstream=http://lttng.org/"
+>   DISTRO_PN_ALIAS_pn-lttng-ust = "OSPDT upstream=http://lttng.org/"
+>   DISTRO_PN_ALIAS_pn-lttng-viewer = "OSPDT upstream=http://lttng.org/"
+> -DISTRO_PN_ALIAS_pn-lttng2-ust = "OSPDT upstream=http://lttng.org/"
+>   DISTRO_PN_ALIAS_pn-makedepend = "Mandriva=makedepend Ubuntu=xutils-dev"
+>   DISTRO_PN_ALIAS_pn-makedevs = "OE-Core"
+>   DISTRO_PN_ALIAS_pn-matchbox-config-gtk = "OpenedHand"
+> diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
+> index 5efb7d0..6de57dc 100644
+> --- a/meta-yocto/conf/distro/include/maintainers.inc
+> +++ b/meta-yocto/conf/distro/include/maintainers.inc
+> @@ -490,7 +490,6 @@ RECIPE_MAINTAINER_pn-lsbtest = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER_pn-lsb = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER_pn-lsof = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+>   RECIPE_MAINTAINER_pn-ltp = "Mihai Lindner <mihaix.lindner@linux.intel.com>"
+> -RECIPE_MAINTAINER_pn-lttng2-ust = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+>   RECIPE_MAINTAINER_pn-lttng-control = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+>   RECIPE_MAINTAINER_pn-lttng-modules = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+>   RECIPE_MAINTAINER_pn-lttng-tools = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> index 591f33f..8f40c4e 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> @@ -46,7 +46,7 @@ SYSTEMTAP_aarch64 = ""
+>   # which means we can not use syscall() to call it. So we ignore
+>   # it for x86_64/uclibc
 >
->  PACKAGES += "${ALSA_UTILS_PKGS}"
->  RDEPENDS_${PN} += "${ALSA_UTILS_PKGS}"
-> +RDEPENDS_alsa-utils-alsaconf += "bash"
+> -LTTNGUST = "lttng2-ust"
+> +LTTNGUST = "lttng-ust"
+>   LTTNGUST_libc-uclibc = ""
+>   LTTNGUST_mips = ""
+>   LTTNGUST_aarch64 = ""
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
+> index 482b9a6..16e1ccc 100644
+> --- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+>                       file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>                       file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
 >
->  # We omit alsaconf, because
->  # a) this is a bash script
-> --
-> 1.7.10.4
+> -DEPENDS = "liburcu popt lttng2-ust"
+> +DEPENDS = "liburcu popt lttng-ust"
 >
+>   SRCREV = "917f768512b5d336d553b801f6c5308d90252a89"
+>   PV = "v2.1.0"
+> diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
+> similarity index 87%
+> rename from meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb
+> rename to meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
+> index 439e006..1076bde 100644
+> --- a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb
+> +++ b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
+> @@ -12,6 +12,11 @@ inherit autotools
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>   DEPENDS = "liburcu util-linux"
+>
+> +# For backwards compatibility after rename
+> +RPROVIDES_${PN} = "lttng2-ust"
+> +RREPLACES_${PN} = "lttng2-ust"
+> +RCONFLICTS_${PN} = "lttng2-ust"
+> +
+>   SRCREV = "0c9ad44b7604040dfcd1e67b18afc3dc5d025b19"
+>   PV = "2.1.0"
+>   PR = "r0"
 >
 
---20cf3071ca14a919fa04d308eb9e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">ack</div><div class=3D"gmail_extra"><br clear=3D"all"><div=
-><div style=3D"text-align:center"></div><div style=3D"text-align:center"><d=
-iv align=3D"left" style=3D"font-family:&#39;Times New Roman&#39;;font-size:=
-medium"><font face=3D"Arial" color=3D"#333333" size=3D"-1"><br>
-
-<br><strong>Andrei Gherzan</strong></font><br><font face=3D"Arial" color=3D=
-"#333333" size=3D"-1">mobile +40.744.478.414=A0=A0fax +40.31.816.28.12</fon=
-t><br><font face=3D"Arial" color=3D"#333333" size=3D"-1">Email: <a href=3D"=
-mailto:andrei@gherzan.ro" target=3D"_blank">andrei@gherzan.ro</a></font><br=
->
-
-<font face=3D"Arial" color=3D"#333333" size=3D"-1">Email: <a href=3D"mailto=
-:andrei.gherzan@windriver.com" target=3D"_blank">andrei.gherzan@windriver.c=
-om</a></font><br><font face=3D"Arial" color=3D"#333333" size=3D"-1">Romania=
-</font></div>
-
-</div></div>
-<br><br><div class=3D"gmail_quote">On Thu, Jan 10, 2013 at 9:01 AM, Florin =
-Sarbu <span dir=3D"ltr">&lt;<a href=3D"mailto:florin.sarbu@windriver.com" t=
-arget=3D"_blank">florin.sarbu@windriver.com</a>&gt;</span> wrote:<br><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">
-
-alsa-utils-alsaconf rpm contains the bash script alsaconf. In order<br>
-to have the do_rootfs not error when bash is not brought along in<br>
-the rootfs as an explicit dependency, we add it as a dependency<br>
-of alsa-utils.<br>
-<br>
-Signed-off-by: Florin Sarbu &lt;<a href=3D"mailto:florin.sarbu@windriver.co=
-m">florin.sarbu@windriver.com</a>&gt;<br>
----<br>
-=A0meta/recipes-multimedia/alsa/<a href=3D"http://alsa-utils_1.0.25.bb" tar=
-get=3D"_blank">alsa-utils_1.0.25.bb</a> | =A0 =A01 +<br>
-=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-multimedia/alsa/<a href=3D"http://alsa-utils_1.0.=
-25.bb" target=3D"_blank">alsa-utils_1.0.25.bb</a> b/meta/recipes-multimedia=
-/alsa/<a href=3D"http://alsa-utils_1.0.25.bb" target=3D"_blank">alsa-utils_=
-1.0.25.bb</a><br>
-
-
-index 4990eb0..a76985c 100644<br>
---- a/meta/recipes-multimedia/alsa/<a href=3D"http://alsa-utils_1.0.25.bb" =
-target=3D"_blank">alsa-utils_1.0.25.bb</a><br>
-+++ b/meta/recipes-multimedia/alsa/<a href=3D"http://alsa-utils_1.0.25.bb" =
-target=3D"_blank">alsa-utils_1.0.25.bb</a><br>
-@@ -47,6 +47,7 @@ ALSA_UTILS_PKGS =3D &quot;\<br>
-<br>
-=A0PACKAGES +=3D &quot;${ALSA_UTILS_PKGS}&quot;<br>
-=A0RDEPENDS_${PN} +=3D &quot;${ALSA_UTILS_PKGS}&quot;<br>
-+RDEPENDS_alsa-utils-alsaconf +=3D &quot;bash&quot;<br>
-<br>
-=A0# We omit alsaconf, because<br>
-=A0# a) this is a bash script<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.7.10.4<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</font></span></blockquote></div><br></div>
-
---20cf3071ca14a919fa04d308eb9e--
