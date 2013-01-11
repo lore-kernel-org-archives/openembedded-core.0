@@ -1,41 +1,42 @@
-Received: from mail-pa0-f50.google.com ([209.85.220.50])
+Received: from mail-oa0-f44.google.com ([209.85.219.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1TtUHJ-0002Nr-KC
+	(envelope-from <eu@felipetonello.com>) id 1TtUnI-0002yc-45
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 03:23:30 +0100
-Received: by mail-pa0-f50.google.com with SMTP id hz10so712558pad.23
+	Fri, 11 Jan 2013 03:56:35 +0100
+Received: by mail-oa0-f44.google.com with SMTP id n5so1358252oag.31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 18:08:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:organization
-	:user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type;
-	bh=saDc5DWd/HWO1cmIFggmMDJZ04sAX4xwP3p0zXrZ2nA=;
-	b=MqHZOTs+mvwziZkXSWYdLj9jTe2KWUQJZzAWvA2lmGjmbR0N7sHbHHU3wpQFNVQLGr
-	i46Al3EZ+B/ag9PRRhSLzioXZ2thFtUjWq2noGzkhP9TZpkb3ZpbFTacpBTM8OrBjVHK
-	ul2XZ5KTrq1xUEsMV/9Anic2vfuKj6Wg+AcGDOc3Szhe55gWvLvY5I81XS9wZqF411Ok
-	pOcz15rAt2f+1wLk08TimlaGDuQJvPbz80S8HWCTxbwFt0gpUFxVyZPVB77Q7Bb/Bp3U
-	aallEF5MyqdO6lorCG4cOs06THVAzoLR2aWpff/Y4Mw8GqF3R2BrcWu7SdKK8qB5spQ5
-	jWjg==
-X-Received: by 10.68.237.135 with SMTP id vc7mr224298382pbc.2.1357870093956;
-	Thu, 10 Jan 2013 18:08:13 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([58.212.76.3])
-	by mx.google.com with ESMTPS id rs7sm1803278pbc.2.2013.01.10.18.08.11
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 10 Jan 2013 18:08:13 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 11 Jan 2013 10:06:29 +0000
-Message-ID: <3052200.6SOdFal3Kf@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
-In-Reply-To: <20130111015212.GK3722@jama.palm1.palmone.com>
-References: <1757330.jo1AhcIeyl@yiqingliang-pc>
-	<2093032.6T1PG2Tjzt@yiqingliang-pc>
-	<20130111015212.GK3722@jama.palm1.palmone.com>
+	Thu, 10 Jan 2013 18:41:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:subject
+	:references:in-reply-to:x-forwarded-message-id:content-type
+	:x-gm-message-state;
+	bh=kfFfZ5Pp4UCjEjaEvtEB0FNFXHsb968hwXPQpXUmo1I=;
+	b=bl8K1ggs0AB0icMBZycMP0BszRmtp2HRNYnZrqA9RVAf4RgOLQVjArcQDNgc6iASCE
+	nr3SXNYh6cfEjLKHYL73p6AKuySdot+Ngpx6qBrrEvh1P4SDRefgL4qnJrbgxzcDlLde
+	LL5tGvJeoxLr3qi6pDXmxiCvv6uUKMbCg5hkzC8qW1At6GCZzNJOlmbUswBAMztDaC1n
+	s35c9RK8NuTWyBhtD+5JpFmOobX+8tpn0duCp1uUCJ4BpqkXVtjQun3Fw7WuGH1sm53+
+	0oefKCjH2hKRT1UxF791F01GmJCt1msTlgc7u38/AdThOmVURv7x69BzmCWR7lisq860
+	DR2g==
+X-Received: by 10.60.7.167 with SMTP id k7mr44825523oea.20.1357872077460;
+	Thu, 10 Jan 2013 18:41:17 -0800 (PST)
+Received: from [192.168.48.44] (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPS id vk8sm2625793obb.19.2013.01.10.18.41.15
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 10 Jan 2013 18:41:16 -0800 (PST)
+Message-ID: <50EF7BFF.70908@felipetonello.com>
+Date: Thu, 10 Jan 2013 18:42:07 -0800
+From: Felipe Ferreri Tonello <eu@felipetonello.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: glib2.0 and dbus dependency
+To: openembedded-core@lists.openembedded.org
+References: <1357866646-31522-1-git-send-email-ftonello@cercacor.com>
+In-Reply-To: <1357866646-31522-1-git-send-email-ftonello@cercacor.com>
+X-Forwarded-Message-Id: <1357866646-31522-1-git-send-email-ftonello@cercacor.com>
+X-Gm-Message-State: ALoCoQnMDuAheW6A5M/cjgJ915dgQq91Q/1hIGnbgfLXTI7oDmpE6XwqKTswXd+8L23xywkNNg6D
+Subject: [PATCH] connman: fixed init script so connman can runs over nfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,42 +49,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 02:23:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 11 Jan 2013 02:56:36 -0000
+X-Groupsio-MsgNum: 33690
+Content-Type: multipart/mixed; boundary="------------090700040506020409080701"
 
-On Friday, January 11, 2013 02:52:12 AM Martin Jansa wrote:
-> On Fri, Jan 11, 2013 at 09:18:06AM +0000, Yi Qingliang wrote:
-> > On Thursday, January 10, 2013 11:42:53 AM Martin Jansa wrote:
-> > > On Thu, Jan 10, 2013 at 06:31:22PM +0000, Yi Qingliang wrote:
-> > > > when compiling using 4 threads, I got following error.
-> > > > the glib2.0-native want find dbus header file.
-> > > > If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
-> > > > 
-> > > > when grep glib2.0 bb files, I can't find dbus in dependency, why?
-> > > 
-> > > It was causing cyclic dependency at least when dbus tests were enabled,
-> > > I'm not sure if this was resolved already.
-> > 
-> > cyclic dependency???? OMG, do they really need 'cyclic dependency'?
-> > splitting them cannot solve 'cyclic dependency'? am i right?
-> 
-> Please check first if this is still valid:
-> http://lists.linuxtogo.org/pipermail/openembedded-devel/2010-December/027987
-> .html
-> 
-> I think it was resolved somewhere, but I'm not sure or you can just add
-> it and see if it fails :).
-indeed, I can't got 'just add "what"',
-maybe you mean just add 'dbus' in glib2.0's DEPENDS?
+--------------090700040506020409080701
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
- I checked the glib2.0, found:
-RDEPENDS_${PN}-ptest += "\
-		......
-            python-dbus \
-           "
-and the 'python-dbus' depends on 'dbus'.
-but for glib2.0, it's compiling need dbus, not only running.
-> Cheers,
+From: "Felipe F. Tonello" <ftonello@cercacor.com>
+
+Adding -I to the arguments, connmand will ignore the eth interface, so 
+if you
+are using nfs it will not be disconnected.
+
+OBS: it might not work if using more than one eth interface. But it's better
+than not using connman with nfs at all.
+
+Signed-off-by: Felipe F. Tonello <ftonello@cercacor.com>
+---
+  meta/recipes-connectivity/connman/connman/connman |    6 ++++--
+  1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman/connman 
+b/meta/recipes-connectivity/connman/connman/connman
+index 4a0017f..aed4a79 100644
+--- a/meta/recipes-connectivity/connman/connman/connman
++++ b/meta/recipes-connectivity/connman/connman/connman
+@@ -28,9 +28,11 @@ done
+
+  do_start() {
+  	EXTRA_PARAM=""
+-	if test $nfsroot -eq 0 ; then
+-		$DAEMON $EXTRA_PARAM
++	if test $nfsroot -eq 1 ; then
++		ethn=`ifconfig | grep eth | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
++		EXTRA_PARAM="-I $ethn"
+  	fi
++	$DAEMON $EXTRA_PARAM
+  }
+
+  do_stop() {
+-- 
+1.7.9.5
 
 
+
+
+--------------090700040506020409080701
+Content-Type: text/plain; charset=UTF-8;
+ name="Attached Message Part"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="Attached Message Part"
+
+
+
+--------------090700040506020409080701--
