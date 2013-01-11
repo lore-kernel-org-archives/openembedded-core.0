@@ -1,34 +1,36 @@
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
+Received: from mail-da0-f48.google.com ([209.85.210.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1TtaP9-0006em-Fh
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Ttafi-0007Ol-Of
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 09:56:00 +0100
-Received: by mail-pb0-f52.google.com with SMTP id ro2so829822pbb.11
+	Fri, 11 Jan 2013 10:13:16 +0100
+Received: by mail-da0-f48.google.com with SMTP id k18so682283dae.21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 00:40:44 -0800 (PST)
+	Fri, 11 Jan 2013 00:57:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=tAyLj2ztCXh6cKdY9dOe7a/xb47LJahozPz93UJ3F08=;
-	b=K5A+HGrNdCaEFwc/uVe1ijHTvCdlFi4DUOAgYiPRhvZZnryVMXD5iRXrRptjzwc0l9
-	wLwjUgaoHkhxok8JWNlToc8rKKtXI56QZ+rBVJPhgfW1RpHnbSmniR1hqCQpWLxEkQwQ
-	6MRZnFzcvhqajyhx2Wj6LFsVgdwpIW4CaxMFQRSP7vg8NlCepb6iUwWkI1ya9yLm7GFp
-	ewCKsltbp5hkv45w5KAg4yFddJ2513Ntz/N01P96BxL1XDjqDEGAWoeznZv9qsDxG66s
-	VBLFdVwgFWjUdzIKfjV5I2p2XEhqHtJCpjGrPvpjWC7B5jtDa5VGy1/Y/HGIv8wXrNUV
-	Zo3g==
+	bh=GqWn0OgPOWrQE29jIzgrEnHKPrsE1dycfMcJQymGOIE=;
+	b=lhj47ntSHAPRjHmpaqjbH9UVj/SVgHAr5xrljO8D3WhDxoTrlc+LIqQ3XhO/ZfsX60
+	Q9MOS4IBiJkJjVV5FZO0O1w6eOViNdG9mZOY/8VqPKsP/Xdjc8If85ik6IOgXKEELkI9
+	CVPmdIVAlem8OGkP5b8/VYm5TGmjFB/8jAq28EQ+wxrPHvl/H4pkuvhbq0BQJh1bWRA4
+	HBN3NFdyn+BDHh9PncNc7xX2AU8+/MUU+EOU6Yvo+vYVE/safN9o8BesBBhzDXLnmP7o
+	i/KQ/p2TWXYmWkQLhad3fHX5P6gIdJ4M+SlaOp1XWWgpmh0Xu+e3v6DlnziJ0wGiXj/U
+	y0aQ==
 MIME-Version: 1.0
-Received: by 10.68.219.67 with SMTP id pm3mr228548982pbc.150.1357893644048;
-	Fri, 11 Jan 2013 00:40:44 -0800 (PST)
-Received: by 10.68.230.196 with HTTP; Fri, 11 Jan 2013 00:40:43 -0800 (PST)
-In-Reply-To: <CACW_hTZdivwbMO8jskuhPNefEL2riDfQ6_XWdG7bkpZJNOmnzQ@mail.gmail.com>
+Received: by 10.66.88.99 with SMTP id bf3mr205512515pab.62.1357894671589; Fri,
+	11 Jan 2013 00:57:51 -0800 (PST)
+Received: by 10.68.230.196 with HTTP; Fri, 11 Jan 2013 00:57:51 -0800 (PST)
+In-Reply-To: <20130111094825.13615ca8@e6520eb>
 References: <CACW_hTbcpzGuQw3HfNc1bL+a7L6oGcJWfhE5=YKyXR6fwQeVfg@mail.gmail.com>
 	<1357751835.13022.103.camel@ted>
 	<CAAQYJAsygkKtJiu7QFSM2o+5iNx7GSmwvOZ6E+LBkoAh4ChQzA@mail.gmail.com>
 	<CACW_hTZdivwbMO8jskuhPNefEL2riDfQ6_XWdG7bkpZJNOmnzQ@mail.gmail.com>
-Date: Fri, 11 Jan 2013 09:40:43 +0100
-Message-ID: <CACW_hTaR+s1OyZFCseA1Nx0kxwi_W0NHzpBw7r-8jinKeBA21w@mail.gmail.com>
+	<CACW_hTaR+s1OyZFCseA1Nx0kxwi_W0NHzpBw7r-8jinKeBA21w@mail.gmail.com>
+	<20130111094825.13615ca8@e6520eb>
+Date: Fri, 11 Jan 2013 09:57:51 +0100
+Message-ID: <CACW_hTab1ALUqN8GnaMZ2+tJ0fOq4qg9Zt8m6SnMW1j+V-vMjg@mail.gmail.com>
 From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
+To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: split mtd-utils
@@ -44,215 +46,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 08:56:00 -0000
-Content-Type: multipart/alternative; boundary=047d7b2eda8b4bd96004d2ff400d
+X-List-Received-Date: Fri, 11 Jan 2013 09:13:20 -0000
+Content-Type: multipart/alternative; boundary=f46d042f97988ae22d04d2ff7d9d
 
---047d7b2eda8b4bd96004d2ff400d
+--f46d042f97988ae22d04d2ff7d9d
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Along the lines of the oe classic patch I propose to split as follows:
+2013/1/11 Eric B=E9nard <eric@eukrea.com>
 
-
-mtd-utils-jffs2 package containing
-jffs2dump
-jffs2reader
-mkfs.jffs2
-
-mtd-utils-ubifs package containing:
-mkfs.ubifs
-ubiattach
-ubicrc32
-ubidetach
-ubiformat
-ubimkvol
-ubinfo
-ubinize
-ubirename
-ubirmvol
-ubirsvol
-ubiupdatevol
-
-mtd-utils package containing:
-docfdisk
-doc_loadbios
-flashcp
-flash_erase
-flash_eraseall
-flash_lock
-flash_otp_dump
-flash_otp_info
-flash_unlock
-ftl_check
-ftl_format
-mtd_debug
-mtdinfo
-nanddump
-nandtest
-nandwrite
-nftldump
-nftl_format
-recv_image
-rfddump
-rfdformat
-serve_image
-sumtool
-
-Or do we need to make additional packages (like e.g. for (n)tfl )
-
-Best regards, Frans
-
-
-
-
-2013/1/10 Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-
-> Cool, I'll have a peek at the oe classic recipe and give it a stab along
-> the same spirit.
+> Hi Frans,
 >
-> Best regards, Frans
->
->
-> 2013/1/10 Andrea Adami <andrea.adami@gmail.com>
->
->> On Wed, Jan 9, 2013 at 6:17 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Wed, 2013-01-09 at 17:12 +0100, Frans Meulenbroeks wrote:
->> >> As I am involved in embedded systems where flash is somewhat sparse
->> >> I'm always eager to save a few bytes where possible.
->> >>
->> >> Today I noticed that mtd-utils (1.5.0 from danny) generates for my
->> >> architecture (powerpc) roughly 780k of binaries in usr/sbin. 423k of
->> >> it is due to ubifs related files.
->> >>
->> >> Would it be desired to put this in a separate package?
->> >>
->> >> e.g. mtd-utils-ubi and mtd-utils-nonubi with mtd-utils itself being
->> >> empty but rdepend on those two?
->> >> that way mtd-utils will still give all packages but those only wanting
->> >> the non ubi stuff can limit themselves to that.
->> >>
->> >> If desired I can give this a stab.
->> >
->> > Sounds like a sensible split to me...
->> >
->> > Cheers,
->> >
->> > Richard
->> >
->> >
->> >
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> OE-Classic already has one packaging split:
->> PACKAGES =+ "mkfs-jffs2 mkfs-ubifs
->>
->> Recently I faced this same issue: for ubiattach we have to install
->> full mtd-utils (>700KiB)
->> FYI there is a recipe for ubi-utils-klibc for more extreme size
->> optimization.
->>
->>
->> http://cgit.openembedded.org/meta-openembedded/tree/meta-initramfs/recipes-devtools/mtd
->>
->> Cheers
->>
->> Andrea
->>
->
->
+> [...]
 
---047d7b2eda8b4bd96004d2ff400d
+> IIRC sumtol is used for jffs2 images (to create the erase block
+> summary) so that may better fit into mtd-utils-jffs2
+>
+> Also, nftl* rfd* doc* ftl* serve_image may go into a separate packate
+> (mtd-utils-misc ?) as I believe those tools are not very usefull in
+> most configurations using mtd with nowadays's flashs.
+>
+> Eric
+>
+Hi Eric,
+
+Thanks for the feedback. I'm not into the details of all tools in the
+package (I typically only use the flash* mtd* and jffs2 things)
+Seems a good plan to me to put these in a misc package
+(actually I also considered moving all other stuff that is in my proposal
+in mtd-utils into a differently named package, e.g. mtd-utils-core) and
+have mtd-utils as an umbrella package dragging in what it does now (so it
+should RDEPEND on the meta-utils-* packages but have no other stuff in it).
+
+Best regards, Frans.
+
+PS: partially related: I have filed yocto bug 3702 asking for more
+fine-grained control on what is included in an image.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3702
+
+--f46d042f97988ae22d04d2ff7d9d
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div>Along the lines of the oe classic patch I p=
-ropose to split as follows:<br><br></div><div><br>mtd-utils-jffs2 package c=
-ontaining <br>jffs2dump<br>jffs2reader<br>mkfs.jffs2<br><br>mtd-utils-ubifs=
- package containing:<br>
-mkfs.ubifs<br>ubiattach<br>ubicrc32<br>ubidetach<br>ubiformat<br>ubimkvol<b=
-r>ubinfo<br>ubinize<br>ubirename<br>ubirmvol<br>ubirsvol<br>ubiupdatevol<br=
-><br>mtd-utils package containing:<br></div>docfdisk<br>doc_loadbios<br>
-flashcp<br>flash_erase<br>flash_eraseall<br>flash_lock<br>flash_otp_dump<br=
->flash_otp_info<br>flash_unlock<br>ftl_check<br>ftl_format<br>mtd_debug<br>=
-mtdinfo<br>nanddump<br>nandtest<br>nandwrite<br>nftldump<br>nftl_format<br>
-recv_image<br>rfddump<br>rfdformat<br>serve_image<br>sumtool<br><br></div>O=
-r do we need to make additional packages (like e.g. for (n)tfl )<br><br></d=
-iv>Best regards, Frans<br><div><div><div><div><br><div><br></div></div>
-</div></div></div></div><div class=3D"gmail_extra"><br><br><div class=3D"gm=
-ail_quote">2013/1/10 Frans Meulenbroeks <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:fransmeulenbroeks@gmail.com" target=3D"_blank">fransmeulenbroeks@gmail=
-.com</a>&gt;</span><br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>Cool, I&#39;ll have a =
-peek at the oe classic recipe and give it a stab along the same spirit.<br>=
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">2013/1/11 Eric B=E9nard <span dir=3D"ltr">&lt;<a href=3D"mailto:eri=
+c@eukrea.com" target=3D"_blank">eric@eukrea.com</a>&gt;</span><br><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+Hi Frans,<br>
+<br></blockquote><div>[...] <br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+IIRC sumtol is used for jffs2 images (to create the erase block<br>
+summary) so that may better fit into mtd-utils-jffs2<br>
 <br>
-</div>Best regards, Frans<br></div><div class=3D"HOEnZb"><div class=3D"h5">=
-<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">2013/1/10 And=
-rea Adami <span dir=3D"ltr">&lt;<a href=3D"mailto:andrea.adami@gmail.com" t=
-arget=3D"_blank">andrea.adami@gmail.com</a>&gt;</span><br>
+Also, nftl* rfd* doc* ftl* serve_image may go into a separate packate<br>
+(mtd-utils-misc ?) as I believe those tools are not very usefull in<br>
+most configurations using mtd with nowadays&#39;s flashs.<br>
+<span class=3D""><font color=3D"#888888"><br>
+Eric<br>
+</font></span></blockquote></div>Hi Eric,<br><br>Thanks for the feedback. I=
+&#39;m not into the details of all tools in the package (I typically only u=
+se the flash* mtd* and jffs2 things)<br></div><div class=3D"gmail_extra">
+Seems a good plan to me to put these in a misc package<br></div><div class=
+=3D"gmail_extra">(actually I also considered moving all other stuff that is=
+ in my proposal in mtd-utils into a differently named package, e.g. mtd-uti=
+ls-core) and have mtd-utils as an umbrella package dragging in what it does=
+ now (so it should RDEPEND on the meta-utils-* packages but have no other s=
+tuff in it).<br>
+<br></div><div class=3D"gmail_extra">Best regards, Frans.<br><br>PS: partia=
+lly related: I have filed yocto bug 3702 asking for more fine-grained contr=
+ol on what is included in an image.<br><a href=3D"https://bugzilla.yoctopro=
+ject.org/show_bug.cgi?id=3D3702">https://bugzilla.yoctoproject.org/show_bug=
+.cgi?id=3D3702</a> <br>
+</div></div>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div><div>On Wed, Jan 9, 2013 at 6:17 PM, Ri=
-chard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; On Wed, 2013-01-09 at 17:12 +0100, Frans Meulenbroeks wrote:<br>
-&gt;&gt; As I am involved in embedded systems where flash is somewhat spars=
-e<br>
-&gt;&gt; I&#39;m always eager to save a few bytes where possible.<br>
-&gt;&gt;<br>
-&gt;&gt; Today I noticed that mtd-utils (1.5.0 from danny) generates for my=
-<br>
-&gt;&gt; architecture (powerpc) roughly 780k of binaries in usr/sbin. 423k =
-of<br>
-&gt;&gt; it is due to ubifs related files.<br>
-&gt;&gt;<br>
-&gt;&gt; Would it be desired to put this in a separate package?<br>
-&gt;&gt;<br>
-&gt;&gt; e.g. mtd-utils-ubi and mtd-utils-nonubi with mtd-utils itself bein=
-g<br>
-&gt;&gt; empty but rdepend on those two?<br>
-&gt;&gt; that way mtd-utils will still give all packages but those only wan=
-ting<br>
-&gt;&gt; the non ubi stuff can limit themselves to that.<br>
-&gt;&gt;<br>
-&gt;&gt; If desired I can give this a stab.<br>
-&gt;<br>
-&gt; Sounds like a sensible split to me...<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-</div></div>&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
-stinfo/openembedded-core</a><br>
-<br>
-OE-Classic already has one packaging split:<br>
-PACKAGES =3D+ &quot;mkfs-jffs2 mkfs-ubifs<br>
-<br>
-Recently I faced this same issue: for ubiattach we have to install<br>
-full mtd-utils (&gt;700KiB)<br>
-FYI there is a recipe for ubi-utils-klibc for more extreme size optimizatio=
-n.<br>
-<br>
-<a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-initram=
-fs/recipes-devtools/mtd" target=3D"_blank">http://cgit.openembedded.org/met=
-a-openembedded/tree/meta-initramfs/recipes-devtools/mtd</a><br>
-<br>
-Cheers<br>
-<span><font color=3D"#888888"><br>
-Andrea<br>
-</font></span></blockquote></div><br></div>
-</div></div></blockquote></div><br></div>
-
---047d7b2eda8b4bd96004d2ff400d--
+--f46d042f97988ae22d04d2ff7d9d--
