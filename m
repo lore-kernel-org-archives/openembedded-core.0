@@ -1,39 +1,28 @@
-Received: from mail-la0-f42.google.com ([209.85.215.42])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TtgFv-0007jr-Ab
+	(envelope-from <radu.moisan@intel.com>) id 1TtgQ3-0007wM-0a
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 16:10:53 +0100
-Received: by mail-la0-f42.google.com with SMTP id fe20so1871098lab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 06:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=+A28h3hmtG2nxszHh8r9KZAPV7od27GlkYZoe1/vVSU=;
-	b=EZ0gdgbxZQxmCamvhdWpxhdfNaCoeOZuimMYF5cvuMjk9DyoBQGOqSaLl0SCxEk9ja
-	xVnB8hOLHNhpShMRQ9qc+l5qAQ44VkzgFSy5Y9RSEvXJdNn9ObtK++e5urv9ObH900xp
-	krjxaeZ9Io+dz/WOoEULXGWxBd1+8/8YU/nv8OtPJ2+Mafd1csZi8bYr/GZxvvGrcHvK
-	JE7k1SHzPp9vb4lfX9WxgzCusUr9OaDgmkEqN/h9Lf1cwY9vqIpaRYC2HGqk6xjZ8J5d
-	Bss34qOAkyAH1Ql3uI/fz9vyNeuZiYgVF5OedTuBe+H3Q35NMW9D4OtLMWL9TDuHmQ1X
-	XWzQ==
-Received: by 10.152.134.243 with SMTP id pn19mr72504807lab.11.1357916136250;
-	Fri, 11 Jan 2013 06:55:36 -0800 (PST)
+	Fri, 11 Jan 2013 16:21:21 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jan 2013 07:06:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,452,1355126400"; d="scan'208";a="275854173"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Jan 2013 07:06:02 -0800
+Message-ID: <50F02BC8.6040101@intel.com>
+Date: Fri, 11 Jan 2013 17:12:08 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Fri, 11 Jan 2013 06:55:15 -0800 (PST)
-In-Reply-To: <50EFB0B5.4000700@gmail.com>
-References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-	<1357807806-31720-4-git-send-email-martiert@gmail.com>
-	<CABcZANkEeDdxgrb-2JqU19aofCgGor79wqKhvqktg+M34kenBg@mail.gmail.com>
-	<50EFB0B5.4000700@gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 11 Jan 2013 07:55:15 -0700
-X-Google-Sender-Auth: M4xOr1UMlehCv8uTQhbmKWFhIjA
-Message-ID: <CABcZANkgrunyjHVjXbCk23jgj+d3TL8845rOetHFLJ_3EAozSA@mail.gmail.com>
-To: Martin Ertsaas <martiert@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] lib/oe/path.py: Use shutil.rmtree if the path we wish to remove is a directory.
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1357647338.git.radu.moisan@intel.com>
+	<CAMKF1sow_bbU84+EYXR0hU_pbFxeR50c1ueWYWGqUnr6Swdy6g@mail.gmail.com>
+	<50EE757E.5030006@intel.com>
+	<CAMKF1sqJ6X6-Pb_r4B+S3va4SB8PLmeaCShB-PbQtP+_JwPqCw@mail.gmail.com>
+In-Reply-To: <CAMKF1sqJ6X6-Pb_r4B+S3va4SB8PLmeaCShB-PbQtP+_JwPqCw@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,80 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 15:10:54 -0000
-Content-Type: multipart/alternative; boundary=f46d04427248ef9d1904d3047ccd
+X-List-Received-Date: Fri, 11 Jan 2013 15:21:22 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d04427248ef9d1904d3047ccd
-Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jan 10, 2013 at 11:27 PM, Martin Ertsaas <martiert@gmail.com> wrote:
-
->  On 01/10/13 15:15, Chris Larson wrote:
+On 01/10/2013 08:27 PM, Khem Raj wrote:
+> On Thu, Jan 10, 2013 at 12:02 AM, Radu Moisan <radu.moisan@intel.com> wrote:
+>> On 01/09/2013 07:14 PM, Khem Raj wrote:
+>>> On Tue, Jan 8, 2013 at 4:24 AM, Radu Moisan <radu.moisan@intel.com> wrote:
+>>>> As Ross suggested I've done the following changes to the previous set:
+>>>> * added two patches (the first two) that address multiple init systems
+>>>> support,\
+>>>> as in shifting from default hardcoded sysvinit to something more generic
+>>>> while
+>>>> the default values still remains on sysvinit
+>>>> * moved automatic setting of PREFERRED_PROVIDER_udev into
+>>>> default_providers.inc
+>>>> * removed ahavi-systemd since all it provided was service files; now
+>>>> service files
+>>>> are pulled in by avahi-daemon
+>>>> * also rebased on master
+>>>>
+>>> btw. there has been more merges into meta-systemd in meta-openembedded
+>>> since these patches were created I cant accertain
+>>> that you picked those too but please redo this series so the history
+>>> is a bit better for tracking purposes.
+>> I've tried to get in sync with meta-openembedded until they upgraded systemd
+>> to v196.
+> hmm that would also explain the -lrt problem that Saul is seeing but I dont.
 >
->
-> On Thu, Jan 10, 2013 at 1:50 AM, Martin Ertsaas <martiert@gmail.com>wrote:
->
->> On mac, os.unlink can not be done to remove directories, and so we have to
->> explicitly use shutil.rmtree instead to support mac.
->>
->
->  As pointed out for the bitbake patch, the functions can already handle
-> this case if you pass recurse=True, and mac isn't at all special in this
-> context.
->  --
-> Christopher Larson
->
-> True. In this case though, I feel the patch is still valid though, and
-> that I should instead change the commit message. What I want from this
-> patch, as I see it again now, is to not duplicate the same code in both
-> bitbake and oe-core, when the oe-core function 'remove' can just be calling
-> bb.utils.remove. So personally I still want this patch, I just wish to
-> change the commit message to something sane. Agreed?
->
 
-Agreed.
--- 
-Christopher Larson
+Not quite, the problem Soul is seeing is probably because he is using 
+eglibc v2.17
+I'm running a world build right now (with eglibc v2.16) and I don't see 
+those problems.
 
---f46d04427248ef9d1904d3047ccd
-Content-Type: text/html; charset=UTF-8
+>   I tried to upgrade but something changed in the latest version and
+>> dbus-daemon didn't start anymore and because of that a few other services
+>> depending on it. I spent some time debugging it but eventually I decided we
+>> should go with the previous version and address the update after we merge.
+>> More details about this at
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=1625
+> but we have to fix it I think weather you merge it or not since I dont  expect
+> us to stay at 195 forever and especially when folks who use meta-systemd
+> are already using 196 we wont be able to discard meta-systemd.
 
-<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Thu, Jan 10, 2013 at 11:27 PM, Martin Ertsaas <span dir="ltr">&lt;<a href="mailto:martiert@gmail.com" target="_blank">martiert@gmail.com</a>&gt;</span> wrote:<br>
+It's not a question of fixing it or not, rather of when will we fix it. 
+My approach was to have a buildable version
+that is also stable at runtime and merge that into oe-core. The we will 
+address systemd upgrade as a normal
+package upgrate, since package upgrade is routine task anyway and we do 
+it for all packages.
+I also took a look over latest patches on meta-openembedded since 
+systemd update, and there aren't that many changes that are relevant to 
+oe-core. Any way I'll get back with a new separate branch for review 
+(with systemd v196).
 
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="adM">
-  
-    
-  
-  </div><div bgcolor="#FFFFFF" text="#000000"><div class="adM"><div class="im">
-    On 01/10/13 15:15, Chris Larson wrote:
-    <blockquote type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Thu, Jan 10, 2013 at 1:50 AM,
-            Martin Ertsaas <span dir="ltr">&lt;<a href="mailto:martiert@gmail.com" target="_blank">martiert@gmail.com</a>&gt;</span> wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div>On mac, os.unlink can not be done to remove
-                directories, and so we have to<br>
-                explicitly use shutil.rmtree instead to support mac.<br>
-              </div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>As pointed out for the bitbake patch, the
-              functions can already handle this case if you pass
-              recurse=True, and mac isn&#39;t at all special in this
-              context.</div>
-          </div>
-          -- <br>
-          Christopher Larson</div>
-      </div>
-    </blockquote></div></div>
-    True. In this case though, I feel the patch is still valid though,
-    and that I should instead change the commit message. What I want
-    from this patch, as I see it again now, is to not duplicate the same
-    code in both bitbake and oe-core, when the oe-core function &#39;remove&#39;
-    can just be calling bb.utils.remove. So personally I still want this
-    patch, I just wish to change the commit message to something sane.
-    Agreed?</div></blockquote></div><br>Agreed.<br>-- <br>Christopher Larson</div></div>
+Radu
 
---f46d04427248ef9d1904d3047ccd--
+
