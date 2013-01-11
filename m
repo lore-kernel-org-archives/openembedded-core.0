@@ -1,31 +1,40 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TtSHE-0007MV-BJ for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 01:15:16 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0B000UM012276;
-	Fri, 11 Jan 2013 00:00:00 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02957-07; Thu, 10 Jan 2013 23:59:56 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0ANxooa012270
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Thu, 10 Jan 2013 23:59:51 GMT
-Message-ID: <1357862392.4072.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Jan 2013 23:59:52 +0000
-In-Reply-To: <CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
-References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
-	<CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from mail-pa0-f43.google.com ([209.85.220.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <niqingliang2003@gmail.com>) id 1TtTWf-0001AZ-Ap
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Jan 2013 02:35:28 +0100
+Received: by mail-pa0-f43.google.com with SMTP id fb10so691751pad.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Jan 2013 17:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:organization
+	:user-agent:in-reply-to:references:mime-version
+	:content-transfer-encoding:content-type;
+	bh=EOqUBh+ab9cq7pOTtxEr0P1FgWQeIctWM3zcOfkuRi0=;
+	b=04iC1i8F3yORkRIr5HhGP/9F9uc4UQeK7x/w8zCWqoljTJGXxJV3nGhSWB+gM2FM7A
+	e/MXzE3NZ4RWcHnWcqch4ftYiQZcYD5Eixxi2EUMfjbBn1hrvpdX3ISvZhrPHiL7401O
+	yrzp/0+VTi07L68SWMveKAM8HWwhxm5G1RDErKk22g6YbgO3BhISfsIdAWGeiSFP4nMX
+	OCf1lEIsp+6ukk5AJaHKx6vLnJX9KFwhN4/DsLZ4MR+9nbmnSuDT7e0ImAKz6A990hJY
+	sKXtaC6spkob+XtgLgQ+DKbv71d57kG+GUAs7K+E2+TxaGw4MMKrb07OWyGM5qK1dUHa
+	Wf7Q==
+X-Received: by 10.66.52.79 with SMTP id r15mr203251654pao.46.1357867202471;
+	Thu, 10 Jan 2013 17:20:02 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([58.212.76.3])
+	by mx.google.com with ESMTPS id qh6sm1724553pbb.25.2013.01.10.17.19.52
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 10 Jan 2013 17:20:01 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 11 Jan 2013 09:18:06 +0000
+Message-ID: <2093032.6T1PG2Tjzt@yiqingliang-pc>
+Organization: Nanjing Jilong
+User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
+In-Reply-To: <20130110104253.GU3722@jama.palm1.palmone.com>
+References: <1757330.jo1AhcIeyl@yiqingliang-pc>
+	<20130110104253.GU3722@jama.palm1.palmone.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] connman: upgrade to 1.10
+Subject: Re: glib2.0 and dbus dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,46 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 00:15:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Jan 2013 01:35:32 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Thu, 2013-01-10 at 20:26 +0000, Burton, Ross wrote:
-> On 10 January 2013 18:42, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> > 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
-> >     - adapted to the new version
-> >
-> > 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
-> >     - patch removed (it is included in the new version)
-> >
-> > inet-fix-ip-cleanup-functions.patch: added
-> >     - fix for ip cleanup functions
-> >
-> > Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
-> > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+On Thursday, January 10, 2013 11:42:53 AM Martin Jansa wrote:
+> On Thu, Jan 10, 2013 at 06:31:22PM +0000, Yi Qingliang wrote:
+> > when compiling using 4 threads, I got following error.
+> > the glib2.0-native want find dbus header file.
+> > If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
+> > 
+> > when grep glib2.0 bb files, I can't find dbus in dependency, why?
 > 
-> Also document the point of connman-conf.
+> It was causing cyclic dependency at least when dbus tests were enabled,
+> I'm not sure if this was resolved already.
+cyclic dependency???? OMG, do they really need 'cyclic dependency'?
+splitting them cannot solve 'cyclic dependency'? am i right?
 > 
-> > diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-> > index 5d59a7f..41fe552 100644
-> > --- a/meta/conf/machine/include/qemu.inc
-> > +++ b/meta/conf/machine/include/qemu.inc
-> > @@ -10,6 +10,8 @@ XSERVER ?= "xserver-xorg \
-> >
-> >  MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
-> >
-> > +MACHINEOVERRIDES .= ":qemu"
-> > +
-> 
-> Please submit this as a separate patch, it's effectively unrelated to connman.
-
-Please don't use "qemu", use something like qemuall or allqemu since I
-have some thoughts about how this might interact with the qemu class,
-most involving the word "badly" ;-).
-
-Cheers,
-
-Richard
-
+> > ERROR: Function failed: do_compile (see /mnt/src/arm9plf-
+> > build/tmp/work/x86_64-linux/glib-2.0-native/1_2.34.3-
+> > r0/temp/log.do_compile.28193 for further information)
+> > ERROR: Task 1851 (virtual:native:/mnt/src/optimus/poky/meta/recipes-
+> > core/glib-2.0/glib-2.0_2.34.3.bb, do_compile) failed with exit code '1'
+> > NOTE: Tasks Summary: Attempted 929 tasks of which 925 didn't need to be
+> > rerun and 1 failed.
+> > Waiting for 0 running tasks to finish:
+> > 
+> > Summary: 1 task failed:
+> >   virtual:native:/mnt/src/optimus/poky/meta/recipes-
+> > 
+> > core/glib-2.0/glib-2.0_2.34.3.bb, do_compile
+> > Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+> > 
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
