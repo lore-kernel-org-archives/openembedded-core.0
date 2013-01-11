@@ -1,37 +1,38 @@
-Received: from mail-pa0-f49.google.com ([209.85.220.49])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Ttd0T-0002Ys-9f
+	(envelope-from <cristian.iorga@intel.com>) id 1TtdXi-0003Ts-S9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 12:42:41 +0100
-Received: by mail-pa0-f49.google.com with SMTP id bi1so971960pad.36
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 03:27:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=H1ttIBDVKOHrCQLBHPHZPg7Y2wz+6xrRZ7sj7fR+hjc=;
-	b=OxO/yzecUc7bz5vG9IKB2haUl5N53+3ovymuiIHmsrs6Xm0NGRZdPJ+gBxuXx7A2Bh
-	hw/rU0nJqQp12J7O/K6kHam9LRdzuLQ+xsLIIw847QdpOCm+VQQOk+qEp9sV+MUan04b
-	3lmO/QHzKV53M9rXg2IgroCoJMG00M5jPSk8CcS/wAo1/kNtS0SvZmt40gRf2q2qyt1v
-	ACfSvxsmpjpg9shErU/RBXEsGn+/4K9+CCgLyKlZ6F/5c68s+vuyx5TR5QXReEcdkWjx
-	vQbilGnwdvn+HaD5+I+NeYUOQuCA2YAa9I2qbgxudmgXgmKpAzfzH0+OwDibJwZwGDI4
-	4bDg==
-X-Received: by 10.68.117.145 with SMTP id ke17mr31012989pbb.52.1357903645706; 
-	Fri, 11 Jan 2013 03:27:25 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id m3sm2958493pav.4.2013.01.11.03.27.23
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 11 Jan 2013 03:27:24 -0800 (PST)
-Date: Fri, 11 Jan 2013 12:27:30 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20130111112730.GM3722@jama.palm1.palmone.com>
+	Fri, 11 Jan 2013 13:17:08 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jan 2013 04:01:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,451,1355126400"; d="scan'208";a="275791585"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Jan 2013 04:01:46 -0800
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Fri, 11 Jan 2013 12:01:45 +0000
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.95]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.213]) with mapi id
+	14.01.0355.002; Fri, 11 Jan 2013 12:01:44 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH V3 2/2] connman-conf: configures connman in
+	qemu machines
+Thread-Index: AQHN7+ny6bFCTbo960KZCJ+LFt75FZhD/XQAgAAJZFA=
+Date: Fri, 11 Jan 2013 12:01:44 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161DCD9B@IRSMSX102.ger.corp.intel.com>
 References: <1357901618-21786-1-git-send-email-cristian.iorga@intel.com>
 	<1357901618-21786-3-git-send-email-cristian.iorga@intel.com>
+	<20130111112730.GM3722@jama.palm1.palmone.com>
+In-Reply-To: <20130111112730.GM3722@jama.palm1.palmone.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-In-Reply-To: <1357901618-21786-3-git-send-email-cristian.iorga@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V3 2/2] connman-conf: configures connman in qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,23 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 11:42:51 -0000
-X-Groupsio-MsgNum: 33706
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aXXwKK8cHQSbFLNd"
-Content-Disposition: inline
-
---aXXwKK8cHQSbFLNd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 11 Jan 2013 12:17:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+Yes, I think I missed that. Should I resend the patches?
+
+-----Original Message-----
+From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
+Sent: Friday, January 11, 2013 1:28 PM
+To: Iorga, Cristian
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V3 2/2] connman-conf: configures connman in q=
+emu machines
+
 On Fri, Jan 11, 2013 at 12:53:38PM +0200, Cristian Iorga wrote:
-> For qemu machines, connman should not configure
-> virtual wired interfaces. Wired interfaces (eth0)
-> are assigned static IP addresses by the virtual machine
-> manager (qemu). This packages places the eth0 interface in
-> a list of blacklisted interfaces, forbiding connman
+> For qemu machines, connman should not configure virtual wired=20
+> interfaces. Wired interfaces (eth0) are assigned static IP addresses=20
+> by the virtual machine manager (qemu). This packages places the eth0=20
+> interface in a list of blacklisted interfaces, forbiding connman=20
 > administering wired interfaces for qemu machines.
 
 This should be applied before 1/2 which is RRECOMMENDING this.
@@ -79,11 +83,11 @@ Cheers,
 >  .../connman/connman-conf/qemuall/main.conf           |    3 +++
 >  4 files changed, 24 insertions(+)
 >  create mode 100644 meta/recipes-connectivity/connman/connman-conf.bb
->  create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemual=
-l/main.conf
+>  create mode 100644=20
+> meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
 >=20
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 78ceae9..3259e5c 100644
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf index=20
+> 78ceae9..3259e5c 100644
 > --- a/meta/conf/layer.conf
 > +++ b/meta/conf/layer.conf
 > @@ -22,6 +22,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE +=3D " \
@@ -94,8 +98,8 @@ l/main.conf
 >    formfactor \
 >    xserver-xf86-config \
 >    pointercal \
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/inclu=
-de/qemu.inc
+> diff --git a/meta/conf/machine/include/qemu.inc=20
+> b/meta/conf/machine/include/qemu.inc
 > index 5d59a7f..c1012ab 100644
 > --- a/meta/conf/machine/include/qemu.inc
 > +++ b/meta/conf/machine/include/qemu.inc
@@ -108,8 +112,8 @@ de/qemu.inc
 >  IMAGE_FSTYPES +=3D "tar.bz2 ext3"
 > =20
 >  ROOT_FLASH_SIZE =3D "280"
-> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/rec=
-ipes-connectivity/connman/connman-conf.bb
+> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb=20
+> b/meta/recipes-connectivity/connman/connman-conf.bb
 > new file mode 100644
 > index 0000000..7c7ef26
 > --- /dev/null
@@ -134,8 +138,9 @@ ipes-connectivity/connman/connman-conf.bb
 > +        install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman
 > +    fi
 > +}
-> diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/main.=
-conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+> diff --git=20
+> a/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf=20
+> b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
 > new file mode 100644
 > index 0000000..01973e7
 > --- /dev/null
@@ -144,7 +149,7 @@ conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
 > +[General]
 > +
 > +NetworkInterfaceBlacklist =3D eth
-> --=20
+> --
 > 1.7.10.4
 >=20
 >=20
@@ -156,16 +161,4 @@ conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---aXXwKK8cHQSbFLNd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDv9yIACgkQN1Ujt2V2gBys+wCfchs+8CHoHQyeQZEbptlWE3D4
-gmYAoIzgaqqb5jmNyrM0yuB4akyNdYKX
-=3cak
------END PGP SIGNATURE-----
-
---aXXwKK8cHQSbFLNd--
