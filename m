@@ -1,20 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TtkOK-0005nF-Fm
+	(envelope-from <tom.zanussi@intel.com>) id 1TtkOQ-0005nL-E0
 	for openembedded-core@lists.openembedded.org;
 	Fri, 11 Jan 2013 20:35:57 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jan 2013 11:19:25 -0800
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 11 Jan 2013 11:20:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,453,1355126400"; d="scan'208";a="271068522"
+X-IronPort-AV: E=Sophos;i="4.84,453,1355126400"; d="scan'208";a="190280144"
 Received: from unknown (HELO localhost) ([10.255.14.242])
-	by orsmga002.jf.intel.com with ESMTP; 11 Jan 2013 11:20:28 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Jan 2013 11:20:33 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2013 13:20:26 -0600
-Message-Id: <cover.1357930527.git.tom.zanussi@intel.com>
+Date: Fri, 11 Jan 2013 13:20:27 -0600
+Message-Id: <ef98aeab61fcc3877c3cabd56e6bcdf8e22a1adc.1357930527.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.11.4
-Subject: [PATCH 0/5] Remove legacy lttng
+In-Reply-To: <88b78152fff010082e07b57992977e0b9d65fdde.1357930527.git.tom.zanussi@intel.com>
+References: <88b78152fff010082e07b57992977e0b9d65fdde.1357930527.git.tom.zanussi@intel.com>
+In-Reply-To: <cover.1357930527.git.tom.zanussi@intel.com>
+References: <cover.1357930527.git.tom.zanussi@intel.com>
+Subject: [PATCH 3/5] recipes-kernel/lttng-2.0: rename to recipes-kernel/lttng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,61 +35,45 @@ X-List-Received-Date: Fri, 11 Jan 2013 19:36:03 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This patchset removes legacy lttng, which hasn't been operational in
-Yocto for awhile now.  lttng-2.0 is the current version, which was
-recently updated and now does work.
+recipes-kernel/lttng was removed by a previous patch, which also
+removed the naming conflict that caused the lttng-2.0 version of lttng
+to be named recipes-kernel/lttng-2.0.  Since the naming conflict has
+disappeared, we can go back to the simpler naming.
 
-With legacy lttng gone, lttng-2.0 can be renamed back to lttng, which
-this patchset also does.
-
-Tested on crownbay (kernel and userspace).
-
-v2 changes:
-
-- added upgrade path for lttng2->lttng rename
-- since the original posting, lttng-2.0 was upgraded, so the original
-  patchset had to be rebased on top of that
-
-The following changes since commit 53cc748b93e8af584557d6db5309c3e955182c5c:
-
-  linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:51 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/rm-legacy-lttng-v2
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/rm-legacy-lttng-v2
-
-Tom Zanussi (5):
-  lttng: remove 'legacy' lttng
-  lttng2-ust: rename to lttng-ust
-  recipes-kernel/lttng-2.0: rename to recipes-kernel/lttng
-  lttng: remove references to legacy lttng recipes
-  recipe_color.inc: add lttng recipes
-
- meta-yocto/conf/distro/include/distro_alias.inc    |  3 --
- meta-yocto/conf/distro/include/maintainers.inc     |  3 --
- meta-yocto/conf/distro/include/recipe_color.inc    |  5 +--
- .../packagegroup-core-tools-profile.bb             |  2 +-
- .../{lttng-2.0 => lttng}/babeltrace_1.0.0.bb       |  0
- meta/recipes-kernel/lttng/lttng-control_0.89.bb    | 23 ------------
- ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch |  0
- .../{lttng-2.0 => lttng}/lttng-modules_2.1.0.bb    |  0
- .../{lttng-2.0 => lttng}/lttng-tools_2.1.0.bb      |  2 +-
- meta/recipes-kernel/lttng/lttng-ust_0.16.bb        | 32 -----------------
- .../lttng-ust_2.1.0.bb}                            |  5 +++
- .../lttng-viewer/add_linkage_to_lttvwindow.patch   | 42 ----------------------
- meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb  | 40 ---------------------
- 13 files changed, 10 insertions(+), 147 deletions(-)
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
+ meta/recipes-kernel/{lttng-2.0 => lttng}/babeltrace_1.0.0.bb              | 0
+ .../lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch   | 0
+ meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-modules_2.1.0.bb           | 0
+ meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-tools_2.1.0.bb             | 0
+ meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-ust_2.1.0.bb               | 0
+ 5 files changed, 0 insertions(+), 0 deletions(-)
  rename meta/recipes-kernel/{lttng-2.0 => lttng}/babeltrace_1.0.0.bb (100%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-control_0.89.bb
  rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch (100%)
  rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-modules_2.1.0.bb (100%)
- rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-tools_2.1.0.bb (97%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.16.bb
- rename meta/recipes-kernel/{lttng-2.0/lttng2-ust_2.1.0.bb => lttng/lttng-ust_2.1.0.bb} (87%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-viewer/add_linkage_to_lttvwindow.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
+ rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-tools_2.1.0.bb (100%)
+ rename meta/recipes-kernel/{lttng-2.0 => lttng}/lttng-ust_2.1.0.bb (100%)
 
+diff --git a/meta/recipes-kernel/lttng-2.0/babeltrace_1.0.0.bb b/meta/recipes-kernel/lttng/babeltrace_1.0.0.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/babeltrace_1.0.0.bb
+rename to meta/recipes-kernel/lttng/babeltrace_1.0.0.bb
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+rename to meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.1.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.1.0.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-modules_2.1.0.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.1.0.bb
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.1.0.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.1.0.bb
+diff --git a/meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
+similarity index 100%
+rename from meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
 -- 
 1.7.11.4
 
