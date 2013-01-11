@@ -1,29 +1,51 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TtiuR-00046n-IW
+	(envelope-from <saul.wold@intel.com>) id 1Ttiz7-0004CF-GG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 19:00:52 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 11 Jan 2013 09:45:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,453,1355126400"; d="scan'208";a="242850614"
-Received: from unknown (HELO [10.255.14.194]) ([10.255.14.194])
-	by azsmga001.ch.intel.com with ESMTP; 11 Jan 2013 09:45:13 -0800
-Message-ID: <50F04FA9.4050301@linux.intel.com>
-Date: Fri, 11 Jan 2013 09:45:13 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 11 Jan 2013 19:05:43 +0100
+Received: from mail-da0-f70.google.com ([209.85.210.70])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 11 Jan 2013 09:49:09 -0800
+Received: by mail-da0-f70.google.com with SMTP id t11so1867542daj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Jan 2013 09:49:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:message-id:date:from:organization:user-agent
+	:mime-version:to:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=myVeJ1p3OKGJMWppgY4Goe1uRSVh9ii1kFK1pO6kaQo=;
+	b=ESy7tm0e3tKhSuJRjp5Qxt+0WOZ6dImnn6CHEPpCRgLtwWdUKJe7PkXX3MJDY5Msdb
+	Z+dAeg4V3UMuG3eq/CuPGzZfnB7ItN8iDYtGfyiFvVhydpEzegoc0Z7hbTpzwYFghAtV
+	Q/JOp22e0pj064vbTYw2Mk/Evwll7K422NpoQyx5WBzwxOCTluXEidfHQq3wCwWqVbxh
+	yKAen9kD1VaII5lXcuKto5miL0MlkbdHdH9VrmetKopMnEx151Rkjb69fV3InfLpbXLJ
+	asioJTvXqa1lKegxOti2p3zha8l4pSSziYWQTVryzfj8sGEfljw7dWHsja1aG2hVOdtM
+	8sFA==
+X-Received: by 10.68.219.164 with SMTP id pp4mr229877102pbc.72.1357926549441; 
+	Fri, 11 Jan 2013 09:49:09 -0800 (PST)
+X-Received: by 10.68.219.164 with SMTP id pp4mr229877085pbc.72.1357926549321; 
+	Fri, 11 Jan 2013 09:49:09 -0800 (PST)
+Received: from [10.6.18.24] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id sb3sm3135273pbc.44.2013.01.11.09.49.08
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Fri, 11 Jan 2013 09:49:08 -0800 (PST)
+Message-ID: <50F05093.3090201@intel.com>
+Date: Fri, 11 Jan 2013 09:49:07 -0800
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Radu Moisan <radu.moisan@intel.com>
-References: <cover.1357647338.git.radu.moisan@intel.com>
-	<CAMKF1sow_bbU84+EYXR0hU_pbFxeR50c1ueWYWGqUnr6Swdy6g@mail.gmail.com>
-	<50EE757E.5030006@intel.com>
-	<CAMKF1sqJ6X6-Pb_r4B+S3va4SB8PLmeaCShB-PbQtP+_JwPqCw@mail.gmail.com>
-	<50F02BC8.6040101@intel.com>
-In-Reply-To: <50F02BC8.6040101@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
+	<CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
+	<1357862392.4072.3.camel@ted> <1357917120.4072.73.camel@ted>
+	<969F26A8BAB325438E7EB80D3C3134FB161DCF13@IRSMSX102.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB161DCF13@IRSMSX102.ger.corp.intel.com>
+X-Gm-Message-State: ALoCoQkAJa7XBH3IseCESgZhPZ5e3rrd6wnxHfyqoqwzJUrCNIcMhzDjMz98uGZh425/a1J9+IHOZ09WCRZYRnrUMzfA15Sw/mL1i3qB/guclRp0s35tgxxJV0UqpiPXSQlnU2jlngiF9suO3/xTBRBlVQ3oFAL2yOW+Uz0i5etu6xj3MjU0kHJoLw14rvE2QjXLBW4Izf8B
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,89 +58,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 18:00:59 -0000
+X-List-Received-Date: Fri, 11 Jan 2013 18:05:44 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/11/2013 07:12 AM, Radu Moisan wrote:
+On 01/11/2013 07:35 AM, Iorga, Cristian wrote:
+> Hello Richard, Saul,
 >
-> On 01/10/2013 08:27 PM, Khem Raj wrote:
->> On Thu, Jan 10, 2013 at 12:02 AM, Radu Moisan <radu.moisan@intel.com>
->> wrote:
->>> On 01/09/2013 07:14 PM, Khem Raj wrote:
->>>> On Tue, Jan 8, 2013 at 4:24 AM, Radu Moisan <radu.moisan@intel.com>
->>>> wrote:
->>>>> As Ross suggested I've done the following changes to the previous set:
->>>>> * added two patches (the first two) that address multiple init systems
->>>>> support,\
->>>>> as in shifting from default hardcoded sysvinit to something more
->>>>> generic
->>>>> while
->>>>> the default values still remains on sysvinit
->>>>> * moved automatic setting of PREFERRED_PROVIDER_udev into
->>>>> default_providers.inc
->>>>> * removed ahavi-systemd since all it provided was service files; now
->>>>> service files
->>>>> are pulled in by avahi-daemon
->>>>> * also rebased on master
->>>>>
->>>> btw. there has been more merges into meta-systemd in meta-openembedded
->>>> since these patches were created I cant accertain
->>>> that you picked those too but please redo this series so the history
->>>> is a bit better for tracking purposes.
->>> I've tried to get in sync with meta-openembedded until they upgraded
->>> systemd
->>> to v196.
->> hmm that would also explain the -lrt problem that Saul is seeing but I
->> dont.
+> Which versions of connman upgrade patches were used? V2 or V3?
+>
+I used the V2 version since that what I had available, I wanted to get a 
+sanity run it for that and the gcc multilib changes (which also broke 
+gcc-runtime).
+
+Sau!
+
+> Also, does the issue will be present with V3 also?
+>
+The v3 patch should split out the qemu change from the patch and it 
+should be 3 patches total.
+
+Sau!
+
+> Regards,
+> Cristian
+>
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
+> Sent: Friday, January 11, 2013 5:12 PM
+> To: Burton, Ross
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH V2] connman: upgrade to 1.10
+>
+> On Thu, 2013-01-10 at 23:59 +0000, Richard Purdie wrote:
+>> On Thu, 2013-01-10 at 20:26 +0000, Burton, Ross wrote:
+>>> On 10 January 2013 18:42, Cristian Iorga <cristian.iorga@intel.com> wrote:
+>>>> 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+>>>>      - adapted to the new version
+>>>>
+>>>> 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+>>>>      - patch removed (it is included in the new version)
+>>>>
+>>>> inet-fix-ip-cleanup-functions.patch: added
+>>>>      - fix for ip cleanup functions
+>>>>
+>>>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>>>> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+>>>
+>>> Also document the point of connman-conf.
+>>>
+>>>> diff --git a/meta/conf/machine/include/qemu.inc
+>>>> b/meta/conf/machine/include/qemu.inc
+>>>> index 5d59a7f..41fe552 100644
+>>>> --- a/meta/conf/machine/include/qemu.inc
+>>>> +++ b/meta/conf/machine/include/qemu.inc
+>>>> @@ -10,6 +10,8 @@ XSERVER ?= "xserver-xorg \
+>>>>
+>>>>   MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
+>>>>
+>>>> +MACHINEOVERRIDES .= ":qemu"
+>>>> +
+>>>
+>>> Please submit this as a separate patch, it's effectively unrelated to connman.
 >>
+>> Please don't use "qemu", use something like qemuall or allqemu since I
+>> have some thoughts about how this might interact with the qemu class,
+>> most involving the word "badly" ;-).
 >
-> Not quite, the problem Soul is seeing is probably because he is using
-> eglibc v2.17
-> I'm running a world build right now (with eglibc v2.16) and I don't see
-> those problems.
+> Saul included this change in MUT on the autobuilders. I've just lost a load of time wondering why we had an odd world autobuilder failure:
 >
-
-Radu, you I was testing with 2.17, and we need to prepare for the 2.17 
-update occuring, if it occurs before systemd or after these fixes will 
-be needed to happen.
-
->>   I tried to upgrade but something changed in the latest version and
->>> dbus-daemon didn't start anymore and because of that a few other
->>> services
->>> depending on it. I spent some time debugging it but eventually I
->>> decided we
->>> should go with the previous version and address the update after we
->>> merge.
->>> More details about this at
->>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=1625
->> but we have to fix it I think weather you merge it or not since I
->> dont  expect
->> us to stay at 195 forever and especially when folks who use meta-systemd
->> are already using 196 we wont be able to discard meta-systemd.
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-world/builds/439/steps/shell_43/logs/stdio
 >
-> It's not a question of fixing it or not, rather of when will we fix it.
-> My approach was to have a buildable version
-> that is also stable at runtime and merge that into oe-core. The we will
-> address systemd upgrade as a normal
-> package upgrate, since package upgrade is routine task anyway and we do
-> it for all packages.
-As mentioned above, we will need the updated version of systemd & 
-friends before we can update eglibc, we want both systemd and eglibc in 
-for the M3 build.
-
-> I also took a look over latest patches on meta-openembedded since
-> systemd update, and there aren't that many changes that are relevant to
-> oe-core. Any way I'll get back with a new separate branch for review
-> (with systemd v196).
+> This override patch was why :(.
 >
-> Radu
+> Cheers,
+>
+> Richard
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
->
+
 
 
