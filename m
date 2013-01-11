@@ -1,24 +1,32 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TtoGh-0008Pu-1F
+	(envelope-from <sgw@linux.intel.com>) id 1TtoJm-00009P-Bj
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Jan 2013 00:44:21 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Jan 2013 15:28:54 -0800
+	Sat, 12 Jan 2013 00:47:22 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jan 2013 15:32:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,455,1355126400"; d="scan'208";a="242964327"
-Received: from unknown (HELO localhost) ([10.255.14.242])
-	by azsmga001.ch.intel.com with ESMTP; 11 Jan 2013 15:28:53 -0800
-From: tom.zanussi@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2013 17:28:47 -0600
-Message-Id: <0e839ece9f4b1e2533cf3cdc341df37107da8d8c.1357946582.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <b7c087229da048ee38f14508c2d157bea10c8e49.1357946582.git.tom.zanussi@intel.com>
-References: <b7c087229da048ee38f14508c2d157bea10c8e49.1357946582.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1357946582.git.tom.zanussi@intel.com>
-References: <cover.1357946582.git.tom.zanussi@intel.com>
-Subject: [PATCH 2/3] lttng2-ust: rename to lttng-ust
+X-IronPort-AV: E=Sophos;i="4.84,455,1355126400"; d="scan'208";a="272905527"
+Received: from unknown (HELO [10.255.14.194]) ([10.255.14.194])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2013 15:32:05 -0800
+Message-ID: <50F0A0F5.1080301@linux.intel.com>
+Date: Fri, 11 Jan 2013 15:32:05 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: ChenQi <Qi.Chen@windriver.com>
+References: <cover.1357465230.git.Qi.Chen@windriver.com>
+	<c8df96d897ecdf4fe04088aff1eba2fbfb0c004a.1357465230.git.Qi.Chen@windriver.com>
+	<CAP9ODKpQUQmBOnWHRBEcF6k3aK=-bqM0=9m+bi8DxXC7gsHzSw@mail.gmail.com>
+	<50EA3BB5.7080103@windriver.com>
+	<CAP9ODKqdZVqPj8zMvmDnCbyJZSN_MB2f+qutTKBwkn4FE3aNLw@mail.gmail.com>
+	<50EB82DD.7050808@windriver.com>
+In-Reply-To: <50EB82DD.7050808@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com, Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V6 6/6] core-image-sato: support read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,71 +39,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 23:44:22 -0000
+X-List-Received-Date: Fri, 11 Jan 2013 23:47:25 -0000
+X-List-Received-Date: Fri, 11 Jan 2013 23:47:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+On 01/07/2013 06:22 PM, ChenQi wrote:
+> On 01/07/2013 06:30 PM, Otavio Salvador wrote:
+>> On Mon, Jan 7, 2013 at 1:06 AM, ChenQi <Qi.Chen@windriver.com> wrote:
+>>> On 01/07/2013 03:05 AM, Otavio Salvador wrote:
+>>>> On Sun, Jan 6, 2013 at 7:44 AM,  <Qi.Chen@windriver.com> wrote:
+>>>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>>>
+>>>>> Support read-only rootfs by providing a specific conf file for
+>>>>> volatile
+>>>>> storage.
+>>>>>
+>>>>> [YOCTO #3406]
+>>>>>
+>>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>> I prefer this solution than the previous one however why you don't use
+>>>> a sato-volatile-conf package to provide this?
+>>> Because the there exists a one-to-one (or almost one-to-one)
+>>> correspondence
+>>> between the volatile conf file and the specific image.
+>>>
+>>> If there is a 'sato-volatile-conf' package, then there should be a
+>>> 'minimal-volatile-conf', and maybe a 'custom-volatile-conf' if users are
+>>> using a customized image.
+>>>
+>>> So I think it's simpler to let the image recipe provide the conf file.
+>>> The only thing we have to do, when adding read-only rootfs support to
+>>> some
+>>> image, is to add the conf file to SRC_URI and install it in
+>>> choose_volatile_conf.
+>> The problem of not using a package for it is regarding upgrades; it is
+>> not possible to upgrade the configuration file using the package
+>> manager. I know most systems using the read-only-fs will be small and
+>> do not use a package manager at all but some use cases will do (mine,
+>> in case).
+> Sounds reasonable.
+> I'll think about it :)
+>
 
-recipes-kernel/lttng/lttng-ust was removed by a previous patch, which
-also removed the naming conflict that caused the lttng-2.0 version of
-lttng-ust to be named lttng2-ust.  lttng2-ust was the only lttng-2.0
-recipe to be named in this way and since that was entirely due to the
-conflict, we can go back to the consistent naming for it.
++1 for creating a *-volatile-conf package instead of having it buried in 
+the image recipe.
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb   | 2 +-
- meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb                   | 2 +-
- .../lttng-2.0/{lttng2-ust_2.1.0.bb => lttng-ust_2.1.0.bb}            | 5 +++++
- 3 files changed, 7 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng-2.0/{lttng2-ust_2.1.0.bb => lttng-ust_2.1.0.bb} (87%)
+Sau!
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 591f33f..8f40c4e 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -46,7 +46,7 @@ SYSTEMTAP_aarch64 = ""
- # which means we can not use syscall() to call it. So we ignore
- # it for x86_64/uclibc
- 
--LTTNGUST = "lttng2-ust"
-+LTTNGUST = "lttng-ust"
- LTTNGUST_libc-uclibc = ""
- LTTNGUST_mips = ""
- LTTNGUST_aarch64 = ""
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
-index 482b9a6..16e1ccc 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
-                     file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
- 
--DEPENDS = "liburcu popt lttng2-ust"
-+DEPENDS = "liburcu popt lttng-ust"
- 
- SRCREV = "917f768512b5d336d553b801f6c5308d90252a89"
- PV = "v2.1.0"
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
-similarity index 87%
-rename from meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb
-rename to meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
-index 439e006..1076bde 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
-@@ -12,6 +12,11 @@ inherit autotools
- 
- DEPENDS = "liburcu util-linux"
- 
-+# For backwards compatibility after rename
-+RPROVIDES_${PN} = "lttng2-ust"
-+RREPLACES_${PN} = "lttng2-ust"
-+RCONFLICTS_${PN} = "lttng2-ust"
-+
- SRCREV = "0c9ad44b7604040dfcd1e67b18afc3dc5d025b19"
- PV = "2.1.0"
- PR = "r0"
--- 
-1.7.11.4
-
+> Thanks,
+> Chen Qi
+>
+>> So I do believe we ought to have a one-to-one correspondence here.
+>>
+>> --
+>> Otavio Salvador                             O.S. Systems
+>> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+>> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>>
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
