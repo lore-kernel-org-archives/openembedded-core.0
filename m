@@ -1,43 +1,28 @@
-Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]
-	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1Ttaos-0007cY-9r
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Qi.Chen@windriver.com>) id 1TtbBL-000857-Ds
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 10:22:44 +0100
-Received: from mail416.ha.ovh.net (b6.ovh.net [213.186.33.56])
-	by mo2.mail-out.ovh.net (Postfix) with SMTP id 37A22DC5BD7
+	Fri, 11 Jan 2013 10:45:47 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0B9UXkG028013
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 09:57:51 +0100 (CET)
-Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
-	by b0.ovh.net with SMTP; 11 Jan 2013 10:48:28 +0200
-Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO e6520eb)
-	(eric%eukrea.com@82.240.38.71)
-	by ns0.ovh.net with SMTP; 11 Jan 2013 10:48:26 +0200
-Date: Fri, 11 Jan 2013 09:48:25 +0100
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-X-Ovh-Mailout: 178.32.228.2 (mo2.mail-out.ovh.net)
-Message-ID: <20130111094825.13615ca8@e6520eb>
-In-Reply-To: <CACW_hTaR+s1OyZFCseA1Nx0kxwi_W0NHzpBw7r-8jinKeBA21w@mail.gmail.com>
-References: <CACW_hTbcpzGuQw3HfNc1bL+a7L6oGcJWfhE5=YKyXR6fwQeVfg@mail.gmail.com>
-	<1357751835.13022.103.camel@ted>
-	<CAAQYJAsygkKtJiu7QFSM2o+5iNx7GSmwvOZ6E+LBkoAh4ChQzA@mail.gmail.com>
-	<CACW_hTZdivwbMO8jskuhPNefEL2riDfQ6_XWdG7bkpZJNOmnzQ@mail.gmail.com>
-	<CACW_hTaR+s1OyZFCseA1Nx0kxwi_W0NHzpBw7r-8jinKeBA21w@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.13; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-X-Ovh-Tracer-Id: 15121398699230211550
-X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -100
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrgeelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-Spam-Check: DONE|U 0.5/N
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeehledrgeelucetufdoteggodetrfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Cc: Patches, oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: split mtd-utils
+	Fri, 11 Jan 2013 01:30:33 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Fri, 11 Jan 2013 01:30:31 -0800
+Message-ID: <50EFDBCF.6030003@windriver.com>
+Date: Fri, 11 Jan 2013 17:30:55 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1757330.jo1AhcIeyl@yiqingliang-pc>
+In-Reply-To: <1757330.jo1AhcIeyl@yiqingliang-pc>
+X-Originating-IP: [128.224.163.154]
+Subject: Re: glib2.0 and dbus dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,69 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 09:22:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 Jan 2013 09:45:48 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Frans,
+On 01/11/2013 02:31 AM, Yi Qingliang wrote:
+> when compiling using 4 threads, I got following error.
+> the glib2.0-native want find dbus header file.
+> If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
+>
+> when grep glib2.0 bb files, I can't find dbus in dependency, why?
+>
+>
+Hi,
 
-Le Fri, 11 Jan 2013 09:40:43 +0100,
-Frans Meulenbroeks <fransmeulenbroeks@gmail.com> a =C3=A9crit :
+What's the error message?
 
-> Along the lines of the oe classic patch I propose to split as follows:
->=20
->=20
-> mtd-utils-jffs2 package containing
-> jffs2dump
-> jffs2reader
-> mkfs.jffs2
->=20
-> mtd-utils-ubifs package containing:
-> mkfs.ubifs
-> ubiattach
-> ubicrc32
-> ubidetach
-> ubiformat
-> ubimkvol
-> ubinfo
-> ubinize
-> ubirename
-> ubirmvol
-> ubirsvol
-> ubiupdatevol
->=20
-> mtd-utils package containing:
-> docfdisk
-> doc_loadbios
-> flashcp
-> flash_erase
-> flash_eraseall
-> flash_lock
-> flash_otp_dump
-> flash_otp_info
-> flash_unlock
-> ftl_check
-> ftl_format
-> mtd_debug
-> mtdinfo
-> nanddump
-> nandtest
-> nandwrite
-> nftldump
-> nftl_format
-> recv_image
-> rfddump
-> rfdformat
-> serve_image
-> sumtool
->=20
-IIRC sumtol is used for jffs2 images (to create the erase block
-summary) so that may better fit into mtd-utils-jffs2
+Cheers,
+Chen Qi
 
-Also, nftl* rfd* doc* ftl* serve_image may go into a separate packate
-(mtd-utils-misc ?) as I believe those tools are not very usefull in
-most configurations using mtd with nowadays's flashs.
+>
+>   
+> ERROR: Function failed: do_compile (see /mnt/src/arm9plf-
+> build/tmp/work/x86_64-linux/glib-2.0-native/1_2.34.3-
+> r0/temp/log.do_compile.28193 for further information)
+> ERROR: Task 1851 (virtual:native:/mnt/src/optimus/poky/meta/recipes-
+> core/glib-2.0/glib-2.0_2.34.3.bb, do_compile) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 929 tasks of which 925 didn't need to be rerun
+> and 1 failed.
+> Waiting for 0 running tasks to finish:
+>
+> Summary: 1 task failed:
+>    virtual:native:/mnt/src/optimus/poky/meta/recipes-
+> core/glib-2.0/glib-2.0_2.34.3.bb, do_compile
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
-Eric
 
 
