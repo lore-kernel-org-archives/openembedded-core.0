@@ -1,27 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ea0-f182.google.com ([209.85.215.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TtWC1-000512-Dw
+	(envelope-from <martiert@gmail.com>) id 1TtYJm-0003Ho-95
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 05:26:14 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0B4AtVX025380
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 11 Jan 2013 07:42:40 +0100
+Received: by mail-ea0-f182.google.com with SMTP id d1so541977eaa.27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Jan 2013 20:10:55 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 10 Jan 2013 20:10:53 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Jan 2013 12:11:18 +0800
-Message-ID: <7ffead0b32913021f84520c042dc40e1a5738b27.1357875161.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1357875161.git.Qi.Chen@windriver.com>
-References: <cover.1357875161.git.Qi.Chen@windriver.com>
+	Thu, 10 Jan 2013 22:27:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type;
+	bh=snOsaAkvcmjmaa3kj+jqyLP5t9wuZr1Lz4xi6oKNuMc=;
+	b=dhHWaI+gMCWTQyxNMhRjC8K6tox4dMdwVXH9Pve6nAfnQmDp7UywrShOelg/TT6+j3
+	IIgq+y04ht+/9x2DMSeo0xMgAxH/lvi60xKmP6dwM2k5qcaUB6zU6fehMjDz+KxFF7Nz
+	P2y8RzOQ/R8n6mArpWreNpVUJtAWAIqY6NAiYxf6VYbGhYAkRVY6kxMdg7QxsA1XIEwO
+	BlfxVzC1lhoKWFb+uw7PVW12EbOp+JrNc64oIYoddcWH8p7eYuk+eJ6bfLCvtK4otcJJ
+	y0/zYJBrWNxr1vgaEAzeAydf3LwF1tn9dJsaE/IXInxOC/tunsOzB2jI780bhIxo4mR8
+	fnVQ==
+X-Received: by 10.14.225.4 with SMTP id y4mr196557779eep.6.1357885623875;
+	Thu, 10 Jan 2013 22:27:03 -0800 (PST)
+Received: from [10.54.86.72] (64-103-25-233.cisco.com. [64.103.25.233])
+	by mx.google.com with ESMTPS id b2sm7228504eep.9.2013.01.10.22.27.02
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 10 Jan 2013 22:27:02 -0800 (PST)
+Message-ID: <50EFB0B5.4000700@gmail.com>
+Date: Fri, 11 Jan 2013 07:27:01 +0100
+From: Martin Ertsaas <martiert@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.11) Gecko/20121128 Thunderbird/10.0.11
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] initscripts: remove finish.sh
+To: Chris Larson <clarson@kergoth.com>
+References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
+	<1357807806-31720-4-git-send-email-martiert@gmail.com>
+	<CABcZANkEeDdxgrb-2JqU19aofCgGor79wqKhvqktg+M34kenBg@mail.gmail.com>
+In-Reply-To: <CABcZANkEeDdxgrb-2JqU19aofCgGor79wqKhvqktg+M34kenBg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] lib/oe/path.py: Use shutil.rmtree if the path we wish to remove is a directory.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,88 +48,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 04:26:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 11 Jan 2013 06:43:04 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060502030509020106050707"
 
-From: Chen Qi <Qi.Chen@windriver.com>
+--------------060502030509020106050707
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Remove finish.sh from initscripts as it is no longer used.
+On 01/10/13 15:15, Chris Larson wrote:
+>
+> On Thu, Jan 10, 2013 at 1:50 AM, Martin Ertsaas <martiert@gmail.com
+> <mailto:martiert@gmail.com>> wrote:
+>
+>     On mac, os.unlink can not be done to remove directories, and so we
+>     have to
+>     explicitly use shutil.rmtree instead to support mac.
+>
+>
+> As pointed out for the bitbake patch, the functions can already handle
+> this case if you pass recurse=True, and mac isn't at all special in
+> this context.
+> -- 
+> Christopher Larson
+True. In this case though, I feel the patch is still valid though, and
+that I should instead change the commit message. What I want from this
+patch, as I see it again now, is to not duplicate the same code in both
+bitbake and oe-core, when the oe-core function 'remove' can just be
+calling bb.utils.remove. So personally I still want this patch, I just
+wish to change the commit message to something sane. Agreed?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../initscripts/initscripts-1.0/finish.sh          |   14 --------------
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    7 ++-----
- 2 files changed, 2 insertions(+), 19 deletions(-)
- delete mode 100755 meta/recipes-core/initscripts/initscripts-1.0/finish.sh
+- Martin
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/finish.sh b/meta/recipes-core/initscripts/initscripts-1.0/finish.sh
-deleted file mode 100755
-index 183a384..0000000
---- a/meta/recipes-core/initscripts/initscripts-1.0/finish.sh
-+++ /dev/null
-@@ -1,14 +0,0 @@
--#!/bin/sh
--### BEGIN INIT INFO
--# Provides:          finish.sh
--# Required-Start:    $remote_fs rmnologin
--# Required-Stop:
--# Default-Start:     2 3 4 5
--# Default-Stop:
--# Short-Description: Finish system start
--# Description:       
--### END INIT INFO
--
--if ! test -e /etc/.configured; then
--	> /etc/.configured
--fi
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 39be9a8..6e15f88 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r138"
-+PR = "r139"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-@@ -15,7 +15,6 @@ SRC_URI = "file://functions \
-            file://hostname.sh \
-            file://mountall.sh \
-            file://banner.sh \
--           file://finish.sh \
-            file://bootmisc.sh \
-            file://mountnfs.sh \
-            file://reboot \
-@@ -31,7 +30,7 @@ SRC_URI = "file://functions \
-            file://populate-volatile.sh \
-            file://volatiles \
-            file://save-rtc.sh \
--	   file://GPLv2.patch"
-+           file://GPLv2.patch"
- 
- SRC_URI_append_arm = " file://alignment.sh"
- 
-@@ -69,7 +68,6 @@ do_install () {
- 	install -m 0644    ${WORKDIR}/functions		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/bootmisc.sh	${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/checkroot.sh	${D}${sysconfdir}/init.d
--#	install -m 0755    ${WORKDIR}/finish.sh		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/halt		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/hostname.sh	${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/mountall.sh	${D}${sysconfdir}/init.d
-@@ -123,7 +121,6 @@ do_install () {
- 	ln -sf		../init.d/mountnfs.sh	${D}${sysconfdir}/rcS.d/S45mountnfs.sh
- 	ln -sf		../init.d/bootmisc.sh	${D}${sysconfdir}/rcS.d/S55bootmisc.sh
- #	ln -sf		../init.d/urandom	${D}${sysconfdir}/rcS.d/S55urandom
--#	ln -sf		../init.d/finish.sh	${D}${sysconfdir}/rcS.d/S99finish.sh
- 	ln -sf		../init.d/sysfs.sh	${D}${sysconfdir}/rcS.d/S02sysfs.sh
- 	# udev will run at S03 if installed
- 	ln -sf		../init.d/populate-volatile.sh	${D}${sysconfdir}/rcS.d/S37populate-volatile.sh
--- 
-1.7.9.5
+--------------060502030509020106050707
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    On 01/10/13 15:15, Chris Larson wrote:
+    <blockquote
+cite="mid:CABcZANkEeDdxgrb-2JqU19aofCgGor79wqKhvqktg+M34kenBg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On Thu, Jan 10, 2013 at 1:50 AM,
+            Martin Ertsaas <span dir="ltr">&lt;<a
+                moz-do-not-send="true" href="mailto:martiert@gmail.com"
+                target="_blank">martiert@gmail.com</a>&gt;</span> wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+              <div id=":1lu">On mac, os.unlink can not be done to remove
+                directories, and so we have to<br>
+                explicitly use shutil.rmtree instead to support mac.<br>
+              </div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div style="">As pointed out for the bitbake patch, the
+              functions can already handle this case if you pass
+              recurse=True, and mac isn't at all special in this
+              context.</div>
+          </div>
+          -- <br>
+          Christopher Larson</div>
+      </div>
+    </blockquote>
+    True. In this case though, I feel the patch is still valid though,
+    and that I should instead change the commit message. What I want
+    from this patch, as I see it again now, is to not duplicate the same
+    code in both bitbake and oe-core, when the oe-core function 'remove'
+    can just be calling bb.utils.remove. So personally I still want this
+    patch, I just wish to change the commit message to something sane.
+    Agreed?<br>
+    <br>
+    - Martin<br>
+  </body>
+</html>
 
-
+--------------060502030509020106050707--
