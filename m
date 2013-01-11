@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TthXf-0001ak-Il
+	(envelope-from <cristian.iorga@intel.com>) id 1Tthnr-00024y-GA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 17:33:19 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Jan 2013 08:17:59 -0800
+	Fri, 11 Jan 2013 17:50:04 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 11 Jan 2013 08:34:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,452,1355126400"; d="scan'208";a="272760090"
+X-IronPort-AV: E=Sophos;i="4.84,453,1355126400"; d="scan'208";a="242815688"
 Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2013 08:17:57 -0800
+	by azsmga001.ch.intel.com with ESMTP; 11 Jan 2013 08:34:42 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Jan 2013 18:18:02 +0200
-Message-Id: <1357921082-17180-1-git-send-email-cristian.iorga@intel.com>
+Date: Fri, 11 Jan 2013 18:34:49 +0200
+Message-Id: <1357922089-20065-1-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] db: upgrade to 5.3.21
+Subject: [PATCH] quota: upgrade to 4.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,43 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 16:33:19 -0000
-
-License file changed the year,
-triggering a change in checksum
+X-List-Received-Date: Fri, 11 Jan 2013 16:50:04 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-support/db/{db_5.3.15.bb => db_5.3.21.bb} |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/db/{db_5.3.15.bb => db_5.3.21.bb} (93%)
+ meta/recipes-extended/quota/{quota_4.00.bb => quota_4.01.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/quota/{quota_4.00.bb => quota_4.01.bb} (85%)
 
-diff --git a/meta/recipes-support/db/db_5.3.15.bb b/meta/recipes-support/db/db_5.3.21.bb
-similarity index 93%
-rename from meta/recipes-support/db/db_5.3.15.bb
-rename to meta/recipes-support/db/db_5.3.21.bb
-index 509c567..23d6c4e 100644
---- a/meta/recipes-support/db/db_5.3.15.bb
-+++ b/meta/recipes-support/db/db_5.3.21.bb
-@@ -14,15 +14,15 @@ HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
- LICENSE = "Sleepycat"
- VIRTUAL_NAME ?= "virtual/db"
- RCONFLICTS_${PN} = "db3"
--PR = "r9"
-+PR = "r0"
+diff --git a/meta/recipes-extended/quota/quota_4.00.bb b/meta/recipes-extended/quota/quota_4.01.bb
+similarity index 85%
+rename from meta/recipes-extended/quota/quota_4.00.bb
+rename to meta/recipes-extended/quota/quota_4.01.bb
+index 25f6381..e2b7ad7 100644
+--- a/meta/recipes-extended/quota/quota_4.00.bb
++++ b/meta/recipes-extended/quota/quota_4.01.bb
+@@ -10,8 +10,8 @@ PR = "r0"
  
- SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
- SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "5493fb5f7cc3915887c836b096f18773"
--SRC_URI[sha256sum] = "4f4f7d548984dde3584fcda0e4f96901cb8bafb08033a7781aec64ef2ea1f579"
-+SRC_URI[md5sum] = "3fda0b004acdaa6fa350bfc41a3b95ca"
-+SRC_URI[sha256sum] = "ddd92a930317df92021054c03992392db9ea5cddba43bef8920d392a82114fb8"
+-SRC_URI[md5sum] = "975f587ff761a60ac25dbe6c00865925"
+-SRC_URI[sha256sum] = "eb2b045f58b98299edc568b8607b95b10735b4a131fa5196f41c89b51fb409ba"
++SRC_URI[md5sum] = "5c2c31e321d2e1322ce12d69ae5c66d6"
++SRC_URI[sha256sum] = "a36300bbc126b79b745bf937245092808b4585aa3309ef3335d4ab9d873cd206"
  
--LIC_FILES_CHKSUM = "file://../LICENSE;md5=12cc3ff983ed4ecc6cc091370ee4dbc3"
-+LIC_FILES_CHKSUM = "file://../LICENSE;md5=32aefa5a8e7318be1f657432cbe2e768"
- 
- inherit autotools
+ S = "${WORKDIR}/quota-tools"
  
 -- 
 1.7.10.4
