@@ -1,51 +1,21 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1Ttiz7-0004CF-GG
+	(envelope-from <sgw@linux.intel.com>) id 1TtjM4-0004Y7-GC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Jan 2013 19:05:43 +0100
-Received: from mail-da0-f70.google.com ([209.85.210.70])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 11 Jan 2013 09:49:09 -0800
-Received: by mail-da0-f70.google.com with SMTP id t11so1867542daj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 09:49:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:message-id:date:from:organization:user-agent
-	:mime-version:to:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=myVeJ1p3OKGJMWppgY4Goe1uRSVh9ii1kFK1pO6kaQo=;
-	b=ESy7tm0e3tKhSuJRjp5Qxt+0WOZ6dImnn6CHEPpCRgLtwWdUKJe7PkXX3MJDY5Msdb
-	Z+dAeg4V3UMuG3eq/CuPGzZfnB7ItN8iDYtGfyiFvVhydpEzegoc0Z7hbTpzwYFghAtV
-	Q/JOp22e0pj064vbTYw2Mk/Evwll7K422NpoQyx5WBzwxOCTluXEidfHQq3wCwWqVbxh
-	yKAen9kD1VaII5lXcuKto5miL0MlkbdHdH9VrmetKopMnEx151Rkjb69fV3InfLpbXLJ
-	asioJTvXqa1lKegxOti2p3zha8l4pSSziYWQTVryzfj8sGEfljw7dWHsja1aG2hVOdtM
-	8sFA==
-X-Received: by 10.68.219.164 with SMTP id pp4mr229877102pbc.72.1357926549441; 
-	Fri, 11 Jan 2013 09:49:09 -0800 (PST)
-X-Received: by 10.68.219.164 with SMTP id pp4mr229877085pbc.72.1357926549321; 
-	Fri, 11 Jan 2013 09:49:09 -0800 (PST)
-Received: from [10.6.18.24] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id sb3sm3135273pbc.44.2013.01.11.09.49.08
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Fri, 11 Jan 2013 09:49:08 -0800 (PST)
-Message-ID: <50F05093.3090201@intel.com>
-Date: Fri, 11 Jan 2013 09:49:07 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Fri, 11 Jan 2013 19:29:28 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Jan 2013 10:14:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,453,1355126400"; d="scan'208";a="272807062"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.194])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2013 10:14:07 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Jan 2013 10:14:07 -0800
+Message-Id: <cover.1357927839.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
 MIME-Version: 1.0
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
-	<CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
-	<1357862392.4072.3.camel@ted> <1357917120.4072.73.camel@ted>
-	<969F26A8BAB325438E7EB80D3C3134FB161DCF13@IRSMSX102.ger.corp.intel.com>
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB161DCF13@IRSMSX102.ger.corp.intel.com>
-X-Gm-Message-State: ALoCoQkAJa7XBH3IseCESgZhPZ5e3rrd6wnxHfyqoqwzJUrCNIcMhzDjMz98uGZh425/a1J9+IHOZ09WCRZYRnrUMzfA15Sw/mL1i3qB/guclRp0s35tgxxJV0UqpiPXSQlnU2jlngiF9suO3/xTBRBlVQ3oFAL2yOW+Uz0i5etu6xj3MjU0kHJoLw14rvE2QjXLBW4Izf8B
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] connman: upgrade to 1.10
+Subject: [CONSOLIDATED PULL 00/28] Automake patches & other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,90 +28,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 18:05:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Jan 2013 18:29:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 01/11/2013 07:35 AM, Iorga, Cristian wrote:
-> Hello Richard, Saul,
->
-> Which versions of connman upgrade patches were used? V2 or V3?
->
-I used the V2 version since that what I had available, I wanted to get a 
-sanity run it for that and the gcc multilib changes (which also broke 
-gcc-runtime).
+Richard,
+
+Another batch of automake related changes from Marko (Thanks Marko!)
+
+Along with some other fixes and patches, I have again included the
+cairo patch as I am not sure what your objection to it is.
 
 Sau!
 
-> Also, does the issue will be present with V3 also?
->
-The v3 patch should split out the qemu change from the patch and it 
-should be 3 patches total.
+The following changes since commit 1e63a3b7b7915d40bb59976a02b9f53968997ed3:
 
-Sau!
+  linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:47 +0000)
 
-> Regards,
-> Cristian
->
->
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-> Sent: Friday, January 11, 2013 5:12 PM
-> To: Burton, Ross
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH V2] connman: upgrade to 1.10
->
-> On Thu, 2013-01-10 at 23:59 +0000, Richard Purdie wrote:
->> On Thu, 2013-01-10 at 20:26 +0000, Burton, Ross wrote:
->>> On 10 January 2013 18:42, Cristian Iorga <cristian.iorga@intel.com> wrote:
->>>> 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
->>>>      - adapted to the new version
->>>>
->>>> 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
->>>>      - patch removed (it is included in the new version)
->>>>
->>>> inet-fix-ip-cleanup-functions.patch: added
->>>>      - fix for ip cleanup functions
->>>>
->>>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->>>> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
->>>
->>> Also document the point of connman-conf.
->>>
->>>> diff --git a/meta/conf/machine/include/qemu.inc
->>>> b/meta/conf/machine/include/qemu.inc
->>>> index 5d59a7f..41fe552 100644
->>>> --- a/meta/conf/machine/include/qemu.inc
->>>> +++ b/meta/conf/machine/include/qemu.inc
->>>> @@ -10,6 +10,8 @@ XSERVER ?= "xserver-xorg \
->>>>
->>>>   MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
->>>>
->>>> +MACHINEOVERRIDES .= ":qemu"
->>>> +
->>>
->>> Please submit this as a separate patch, it's effectively unrelated to connman.
->>
->> Please don't use "qemu", use something like qemuall or allqemu since I
->> have some thoughts about how this might interact with the qemu class,
->> most involving the word "badly" ;-).
->
-> Saul included this change in MUT on the autobuilders. I've just lost a load of time wondering why we had an odd world autobuilder failure:
->
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-world/builds/439/steps/shell_43/logs/stdio
->
-> This override patch was why :(.
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Chen Qi (1):
+  initscripts: remove finish.sh
+
+Constantin Musca (1):
+  gcc: add missing dependency (zlib)
+
+Eric Bénard (1):
+  gitignore: only ignore meta- directories
+
+Felipe F. Tonello (1):
+  connman: fixed init script so connman can runs over nfs
+
+Hongxu Jia (2):
+  qemu-native:add option march to BUILD_CFLAGS
+  glib-2.0-native:add option march to BUILD_CFLAGS
+
+Marko Lindqvist (17):
+  libxdamage: update to upstream version 1.1.4
+  coreutils: fix license segment md5sum boundary
+  help2man: update to upstream version 1.40.13
+  dbus-glib: replace obsolete automake macros with working ones
+  tslib: replace obsolete automake macros with working ones
+  makedepend: replace obsolete automake macros with working ones
+  alsa-lib: replace obsolete automake macros with working ones
+  python: replace obsolete automake macros with working ones
+  libogg: replace obsolete automake macros with working ones
+  libmad: replace obsolete automake macros with working ones
+  libvorbis: replace obsolete automake macros with working ones
+  opensp: replace obsolete automake macros with working ones
+  gconf: replace obsolete automake macros with working ones
+  startup-notification: replace obsolete automake macros with working
+    ones
+  gtk+: replace obsolete automake macros with working ones
+  gmp: replace obsolete automake macros with working ones
+  bluez4: replace obsolete automake macros with working ones
+
+Martin Ertsaas (4):
+  sanity: Make the required utilities more platform specific.
+  sstate: Do not add the --no-run-if-empty arguement to xargs when on
+    Darwin, as it is not supported.
+  quilt: Remove non-gnu.patch, and added configure flags for darwin.
+  quilt: Don't use BUILD_ROOT on darwin.
+
+Noor Ahsan (1):
+  cairo: Adds libxext in X11DEPENDS.
+
+ .gitignore                                         |   4 +-
+ meta/classes/sanity.bbclass                        |  10 +-
+ meta/classes/sstate.bbclass                        |  10 +-
+ .../bluez4-4.101/obsolete_automake_macros.patch    |  14 ++
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   6 +-
+ meta/recipes-connectivity/connman/connman/connman  |   6 +-
+ meta/recipes-core/coreutils/coreutils_8.14.bb      |   2 +-
+ .../dbus-glib-0.100/obsolete_automake_macros.patch |  15 ++
+ meta/recipes-core/dbus/dbus-glib.inc               |   1 +
+ meta/recipes-core/dbus/dbus-glib_0.100.bb          |   2 +-
+ meta/recipes-core/glib-2.0/glib-2.0_2.34.3.bb      |   7 +-
+ .../initscripts/initscripts-1.0/finish.sh          |  14 --
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |   7 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |   4 +-
+ ...native_1.38.2.bb => help2man-native_1.40.13.bb} |   6 +-
+ .../opensp-1.5.2/obsolete_automake_macros.patch    |  15 ++
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb       |   6 +-
+ .../obsolete_automake_macros.patch                 |  14 ++
+ meta/recipes-devtools/python/python-dbus_1.1.1.bb  |   6 +-
+ .../obsolete_automake_macros.patch                 |  23 +++
+ .../python/python-pygobject_2.27.91.bb             |   6 +-
+ meta/recipes-devtools/qemu/qemu.inc                |   5 +
+ meta/recipes-devtools/quilt/quilt-0.60.inc         |   9 +-
+ meta/recipes-devtools/quilt/quilt-native.inc       |   1 -
+ meta/recipes-devtools/quilt/quilt/non-gnu.patch    | 225 ---------------------
+ .../gconf-3.2.5/obsolete_automake_macros.patch     |  14 ++
+ meta/recipes-gnome/gnome/gconf_3.2.5.bb            |   6 +-
+ .../gtk+-2.24.14/obsolete_automake_macros.patch    |  23 +++
+ meta/recipes-gnome/gtk+/gtk+_2.24.14.bb            |   1 +
+ meta/recipes-graphics/cairo/cairo.inc              |   6 +-
+ .../obsolete_automake_macros.patch                 |  15 ++
+ .../startup-notification_0.12.bb                   |   4 +-
+ .../tslib/tslib/obsolete_automake_macros.patch     |  15 ++
+ meta/recipes-graphics/tslib/tslib_1.0.bb           |   6 +-
+ .../{libxdamage_1.1.3.bb => libxdamage_1.1.4.bb}   |   6 +-
+ .../obsolete_automake_macros.patch                 |  15 ++
+ .../recipes-graphics/xorg-util/makedepend_1.0.4.bb |   4 +-
+ .../alsa-lib-1.0.25/obsolete_automake_macros.patch |  15 ++
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |   6 +-
+ .../libmad/libmad/obsolete_automake_macros.patch   |  14 ++
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |   6 +-
+ .../libogg-1.3.0/obsolete_automake_macros.patch    |  14 ++
+ meta/recipes-multimedia/libogg/libogg_1.3.0.bb     |   6 +-
+ .../libvorbis-1.3.3/obsolete_automake_macros.patch |  15 ++
+ .../libvorbis/libvorbis_1.3.3.bb                   |   6 +-
+ .../gmp/gmp-5.1.0/obsolete_automake_macros.patch   |  13 ++
+ meta/recipes-support/gmp/gmp_5.1.0.bb              |   3 +
+ 47 files changed, 341 insertions(+), 290 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-core/dbus/dbus-glib-0.100/obsolete_automake_macros.patch
+ delete mode 100755 meta/recipes-core/initscripts/initscripts-1.0/finish.sh
+ rename meta/recipes-devtools/help2man/{help2man-native_1.38.2.bb => help2man-native_1.40.13.bb} (78%)
+ create mode 100644 meta/recipes-devtools/opensp/opensp-1.5.2/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/python/python-dbus-1.1.1/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/python/python-pygobject/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-devtools/quilt/quilt/non-gnu.patch
+ create mode 100644 meta/recipes-gnome/gnome/gconf-3.2.5/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.14/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-graphics/startup-notification/startup-notification-0.12/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
+ rename meta/recipes-graphics/xorg-lib/{libxdamage_1.1.3.bb => libxdamage_1.1.4.bb} (86%)
+ create mode 100644 meta/recipes-graphics/xorg-util/makedepend-1.0.4/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib-1.0.25/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libmad/libmad/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libogg/libogg-1.3.0/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis-1.3.3/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-support/gmp/gmp-5.1.0/obsolete_automake_macros.patch
+
+-- 
+1.8.0.2
 
 
 
