@@ -1,33 +1,36 @@
-Received: from mail-pb0-f51.google.com ([209.85.160.51])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1Ttgm3-0008RG-9B; Fri, 11 Jan 2013 16:44:08 +0100
-Received: by mail-pb0-f51.google.com with SMTP id ro12so1008202pbb.24
-	for <multiple recipients>; Fri, 11 Jan 2013 07:28:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=gDNm2r7xmlaw5QklSNH1rwg/3+UNEnzWRN+5sLNEZoU=;
-	b=oXAPXq7ahxBupDFEztmwICd8UKpBTMwOqtlw6A6uFUHiAyh68NFQU5HuoqTKroRJTE
-	elJhzqKQHNa7HIDIh4iswMH04/3nRSXG+FaYBDIrHizkMJE6McD5RRjKcTK2/hj7HC/v
-	dDIkJMKu2s8olXQIqAqmYpkAdKiprIspiclkxuICmHBHJhOOauFUsvbwCmDKeQBd1f6s
-	TJMcmo8iAeO0jLnfcHG2mCjyJP4LpdbuxBP+CAQCoLP5yXBkf18ewVcbZWQWx1Zi4x59
-	ZvCKYX6n4/9Dpqdi0yDhX+rhfOm9j+g9oPV7H7ikO7oDVGBoNvBC1EkAVLbgiLtZ954O
-	uGXQ==
-X-Received: by 10.68.253.161 with SMTP id ab1mr209805407pbd.97.1357918127406; 
-	Fri, 11 Jan 2013 07:28:47 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id nm2sm2954709pbc.43.2013.01.11.07.28.44
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 11 Jan 2013 07:28:46 -0800 (PST)
-Date: Fri, 11 Jan 2013 16:28:56 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130111152856.GC3781@jama.palm1.palmone.com>
+	(envelope-from <cristian.iorga@intel.com>) id 1TtgtH-0000A7-3r
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Jan 2013 16:51:35 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jan 2013 07:35:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,452,1355126400"; d="scan'208";a="245240755"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jan 2013 07:36:14 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.95]) by
+	IRSMSX101.ger.corp.intel.com ([169.254.1.13]) with mapi id
+	14.01.0355.002; Fri, 11 Jan 2013 15:35:59 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Burton, Ross"
+	<ross.burton@intel.com>, "Wold, Saul" <saul.wold@intel.com>
+Thread-Topic: [OE-core] [PATCH V2] connman: upgrade to 1.10
+Thread-Index: AQHN72JVsCnwMsz9GEep0c4GIwYYz5hDAuWAgAA7fwCAAP7ZAIAABlNg
+Date: Fri, 11 Jan 2013 15:35:59 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161DCF13@IRSMSX102.ger.corp.intel.com>
+References: <1357843361-18125-1-git-send-email-cristian.iorga@intel.com>
+	<CAJTo0LaWTPXh9Ph+LFMK+44t3T+TN-uZXXEwJg7yoOmcUZCL1A@mail.gmail.com>
+	<1357862392.4072.3.camel@ted> <1357917120.4072.73.camel@ted>
+In-Reply-To: <1357917120.4072.73.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Subject: bitbake hangs forever when PR serv is enabled
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,71 +43,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 15:44:09 -0000
-X-Groupsio-MsgNum: 33717
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="RYJh/3oyKhIjGcML"
-Content-Disposition: inline
-
---RYJh/3oyKhIjGcML
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 11 Jan 2013 15:51:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-When building world which takes long time to finish I=20
-sometimes see bitbake hanging forever. It didn't happen
-until I've enabled PR Service. But maybe it's not caused=20
-by PR Service and it's just coincidence.
+Hello Richard, Saul,
 
-I've to kill python processes manually and this traceback shown:
-Exception in thread Thread-1:
-Traceback (most recent call last):
-  File "/usr/lib/python2.7/threading.py", line 551, in __bootstrap_inner
-    self.run()
-  File "/usr/lib/python2.7/threading.py", line 504, in run
-    self.__target(*self.__args, **self.__kwargs)
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/prserv/serv=
-=2Epy", line 173, in _work
-    self.prserv.work_forever()
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/prserv/serv=
-=2Epy", line 93, in work_forever
-    self.handle_request()
-  File "/usr/lib/python2.7/SocketServer.py", line 265, in handle_request
-    fd_sets =3D select.select([self], [], [], timeout)
-error: (4, 'Interrupted system call')
+Which versions of connman upgrade patches were used? V2 or V3?
 
-When this happens, there is only one python process doing something=20
-for very long time:
-29299 jenkins    20   0     0     0     0 Z  0.0  0.0 26:13.66 |  |        =
-   |        `- python
+Also, does the issue will be present with V3 also?
 
-and when I've tried to connect to it with strace it was looping
-between 2 pipes both returning EAGAIN.
+Regards,
+Cristian
 
-Usually last cooker output is rm_work_all in gimp, but I don't see=20
-anything special in gimp recipe and it could be some other thread=20
-in background.
 
-NOTE: Running task 22874 of 23570 (ID: 996, /home/jenkins/oe/shr-core-branc=
-hes/shr-core/meta-openembedded/meta-oe/recipes-graphics/gimp/gimp_2.8.2.bb,=
- do_rm_work_all)
-NOTE: recipe gimp-2.8.2-r0: task do_rm_work_all: Started
-NOTE: recipe gimp-2.8.2-r0: task do_rm_work_all: Succeeded
-Exception in thread Thread-1:
-=2E. traceback from above
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
+Sent: Friday, January 11, 2013 5:12 PM
+To: Burton, Ross
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V2] connman: upgrade to 1.10
 
-Anyone seen this too? Any hints?
+On Thu, 2013-01-10 at 23:59 +0000, Richard Purdie wrote:
+> On Thu, 2013-01-10 at 20:26 +0000, Burton, Ross wrote:
+> > On 10 January 2013 18:42, Cristian Iorga <cristian.iorga@intel.com> wro=
+te:
+> > > 0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+> > >     - adapted to the new version
+> > >
+> > > 0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+> > >     - patch removed (it is included in the new version)
+> > >
+> > > inet-fix-ip-cleanup-functions.patch: added
+> > >     - fix for ip cleanup functions
+> > >
+> > > Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> > > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> >=20
+> > Also document the point of connman-conf.
+> >=20
+> > > diff --git a/meta/conf/machine/include/qemu.inc=20
+> > > b/meta/conf/machine/include/qemu.inc
+> > > index 5d59a7f..41fe552 100644
+> > > --- a/meta/conf/machine/include/qemu.inc
+> > > +++ b/meta/conf/machine/include/qemu.inc
+> > > @@ -10,6 +10,8 @@ XSERVER ?=3D "xserver-xorg \
+> > >
+> > >  MACHINE_FEATURES =3D "apm alsa pcmcia bluetooth irda usbgadget scree=
+n"
+> > >
+> > > +MACHINEOVERRIDES .=3D ":qemu"
+> > > +
+> >=20
+> > Please submit this as a separate patch, it's effectively unrelated to c=
+onnman.
+>=20
+> Please don't use "qemu", use something like qemuall or allqemu since I=20
+> have some thoughts about how this might interact with the qemu class,=20
+> most involving the word "badly" ;-).
 
---RYJh/3oyKhIjGcML
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Saul included this change in MUT on the autobuilders. I've just lost a load=
+ of time wondering why we had an odd world autobuilder failure:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+http://autobuilder.yoctoproject.org:8010/builders/nightly-world/builds/439/=
+steps/shell_43/logs/stdio
 
-iEYEARECAAYFAlDwL7gACgkQN1Ujt2V2gBwADgCfbfybY5nlPZIuEH7PKWHswc3n
-zEIAniItPgobbwXmeZ6Tm+qigumxs4+s
-=SXk+
------END PGP SIGNATURE-----
+This override patch was why :(.
 
---RYJh/3oyKhIjGcML--
+Cheers,
+
+Richard
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
