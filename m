@@ -1,35 +1,22 @@
-Received: from mail-da0-f45.google.com ([209.85.210.45])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1TtbHK-0008Eh-Gt; Fri, 11 Jan 2013 10:51:59 +0100
-Received: by mail-da0-f45.google.com with SMTP id w4so694323dam.4
-	for <multiple recipients>; Fri, 11 Jan 2013 01:36:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=ikqwyS5MUKk4AsY4qoZlYjYsEGYt/3CZjMhIK7WSzJQ=;
-	b=ciCgD98j+Ca+x1KGWe2Gr0u7qbNqQpF1R+CItbVoaL7G8aH417nDE9AR7Ao2mjuxDz
-	nHOvW76uhVGwgorr0NQKo0QjS18z0hpRWQ/EGD9oJ1P5W2Y8OrfYJIciCtGwJkgHgRZz
-	+qHQaK4RgiwmUJfH8q8XPuKZ+y6uhDwjQgVIQVT8mV69lO8RzCiIxPTtPrtuBM10cAtd
-	subQ2Bo2DuE6OQTpgW2zFchA9X3RNq+tu4ViRKMI1IScQjosLnbYt6Ldhz9YJt20Faeh
-	/PAGPhxWTpHUX7wxaB1QaOZtzV/xzrX5NZmkanlgGaL1luVjvWaslEIce2g3JOXq5ClD
-	bSrg==
-X-Received: by 10.68.135.67 with SMTP id pq3mr227819280pbb.127.1357897000909; 
-	Fri, 11 Jan 2013 01:36:40 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id ni8sm2488256pbc.70.2013.01.11.01.36.38
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 11 Jan 2013 01:36:39 -0800 (PST)
-Date: Fri, 11 Jan 2013 10:36:45 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20130111093645.GL3722@jama.palm1.palmone.com>
-References: <20130110235229.77FB2103D8@opal>
-MIME-Version: 1.0
-In-Reply-To: <20130110235229.77FB2103D8@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Otavio Salvador : libnl: Update to 3.2.18
+	(envelope-from <cristian.iorga@intel.com>) id 1TtcTi-0001sp-GC
+	for openembedded-core@lists.openembedded.org;
+	Fri, 11 Jan 2013 12:08:54 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Jan 2013 02:53:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,451,1355126400"; d="scan'208";a="245132558"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jan 2013 02:53:32 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Jan 2013 12:53:37 +0200
+Message-Id: <1357901618-21786-2-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1357901618-21786-1-git-send-email-cristian.iorga@intel.com>
+References: <1357901618-21786-1-git-send-email-cristian.iorga@intel.com>
+Subject: [PATCH V3 1/2] connman: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,190 +29,230 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Jan 2013 09:52:02 -0000
-X-Groupsio-MsgNum: 33702
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5mN69Y7OHXGepfYh"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 11 Jan 2013 11:08:57 -0000
 
---5mN69Y7OHXGepfYh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+    - adapted to the new version
 
-On Thu, Jan 10, 2013 at 11:52:29PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 5de138939c42b0a6d80732130b2617fd60a7d545
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D5de138939c42b0a6d80732130b2617fd60a7d545
->=20
-> Author: Otavio Salvador <otavio@ossystems.com.br>
-> Date:   Tue Jan  8 12:19:39 2013 -0200
->=20
-> libnl: Update to 3.2.18
->=20
-> This release fixes the build failures found when building against old
-> Linux kernel headers and also includes the fix for to use 'flex'
-> instead of 'lex'.
->=20
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+    - patch removed (it is included in the new version)
 
-Warning for those who are still using OEBasic or not using PR service.
+inet-fix-ip-cleanup-functions.patch: added
+    - fix for ip cleanup functions
 
-=2Eso version changed, libnl-route-3-200, libnl-3-200, libnl-nf-3-200 are
-gone if you're using debian.bbclass. All recipes (r)depending on one of
-those need to be rebuild and reinstalled on target (ideally PR bumped)
-to rebuild against libnl-route-3-201, libnl-3-201, libnl-nf-3-201.
+Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   61 --------------------
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   38 +++++++-----
+ .../connman/inet-fix-ip-cleanup-functions.patch    |   40 +++++++++++++
+ .../connman/{connman_1.4.bb => connman_1.10.bb}    |    8 ++-
+ 4 files changed, 67 insertions(+), 80 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+ rename meta/recipes-connectivity/connman/{connman_1.4.bb => connman_1.10.bb} (71%)
 
-Cheers,
+diff --git a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+deleted file mode 100644
+index 3bced52..0000000
+--- a/meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-From f2094e6b2e4542adf458d8fa58d7bccd5edb762e Mon Sep 17 00:00:00 2001
+-From: Andrei Gherzan <andrei@gherzan.ro>
+-Date: Tue, 17 Jul 2012 17:27:39 +0300
+-Subject: [PATCH V3 1/2] timezone.c: If there is no d_type support use
+- fstatat()
+-
+-This is useful for filesystems where d_type is always DT_UNKNOWN.
+-In this case use fstatat() function.
+-
+-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+-Upstream-Status: Submitted
+- 
+----
+- src/timezone.c |   24 ++++++++++++++++++++++++
+- 1 file changed, 24 insertions(+)
+-
+-diff --git a/src/timezone.c b/src/timezone.c
+-index 173d658..f951f6b 100644
+---- a/src/timezone.c
+-+++ b/src/timezone.c
+-@@ -157,6 +157,8 @@ static char *find_origin(void *src_map, struct stat *src_st,
+- 	DIR *dir;
+- 	struct dirent *d;
+- 	char *str, pathname[PATH_MAX];
+-+	struct stat buf;
+-+	int ret;
+- 
+- 	if (subpath == NULL)
+- 		strncpy(pathname, basepath, sizeof(pathname));
+-@@ -205,6 +207,28 @@ static char *find_origin(void *src_map, struct stat *src_st,
+- 				return str;
+- 			}
+- 			break;
+-+		case DT_UNKNOWN:
+-+			/*
+-+			 * If there is no d_type support use fstatat()
+-+			 * to check if directory
+-+			 */
+-+			ret = fstatat(dirfd(dir), d->d_name, &buf, 0);
+-+			if (ret < 0)
+-+				continue;
+-+			if (!(buf.st_mode & S_IFDIR))
+-+				continue;
+-+			if (subpath == NULL)
+-+				strncpy(pathname, d->d_name, sizeof(pathname));
+-+			else
+-+				snprintf(pathname, sizeof(pathname),
+-+						"%s/%s", subpath, d->d_name);
+-+
+-+			str = find_origin(src_map, src_st, basepath, pathname);
+-+			if (str != NULL) {
+-+				closedir(dir);
+-+				return str;
+-+			}
+-+			break;
+- 		}
+- 	}
+- 
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+index d3205c0..7315545 100644
+--- a/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
++++ b/meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+@@ -8,20 +8,33 @@ This is useful for filesystems where d_type is always DT_UNKNOWN.
+ In this case use fstatat() function.
+ 
+ Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+ Upstream-Status: Submitted
+  
+ ---
+  src/storage.c |   19 +++++++++++++++++++
+  1 file changed, 19 insertions(+)
+ 
+-diff --git a/src/storage.c b/src/storage.c
+-index 47bd0cb..0491a52 100644
+---- a/src/storage.c
+-+++ b/src/storage.c
+-@@ -206,6 +206,25 @@ gchar **connman_storage_get_services()
++Index: git/src/storage.c
++===================================================================
++--- git.orig/src/storage.c
+++++ git/src/storage.c
++@@ -193,7 +193,6 @@ gchar **connman_storage_get_services()
+  
+- 			g_string_append_printf(result, "%s/", d->d_name);
+- 			break;
++ 		switch (d->d_type) {
++ 		case DT_DIR:
++-		case DT_UNKNOWN:
++ 			/*
++ 			 * If the settings file is not found, then
++ 			 * assume this directory is not a services dir.
++@@ -203,6 +202,25 @@ gchar **connman_storage_get_services()
++ 			ret = stat(str, &buf);
++ 			g_free(str);
++ 			if (ret < 0)
+++				continue;
+++
+++			g_string_append_printf(result, "%s/", d->d_name);
+++			break;
+ +		case DT_UNKNOWN:
+ +			/*
+ +			 * If there is no d_type support use fstatat()
+@@ -37,13 +50,6 @@ index 47bd0cb..0491a52 100644
+ +			ret = stat(str, &buf);
+ +			g_free(str);
+ +			if (ret < 0)
+-+				continue;
+-+
+-+			g_string_append_printf(result, "%s/", d->d_name);
+-+			break;
+- 		}
+- 	}
++ 				continue;
+  
+--- 
+-1.7.9.5
+-
++ 			g_string_append_printf(result, "%s/", d->d_name);
+diff --git a/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+new file mode 100644
+index 0000000..3071549
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+@@ -0,0 +1,40 @@
++From 100353e10f60a50ca1ba78daa6bc4dfebf5b3297 Mon Sep 17 00:00:00 2001
++From: Constantin Musca <constantinx.musca@intel.com>
++Date: Wed, 5 Dec 2012 15:07:21 +0200
++Subject: [PATCH] inet: fix ip cleanup functions
++
++Upstream-Status: Pending
++Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
++---
++ src/inet.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/src/inet.c b/src/inet.c
++index be69aca..e76a1f1 100644
++--- a/src/inet.c
+++++ b/src/inet.c
++@@ -626,6 +626,10 @@ int connman_inet_clear_ipv6_address(int index, const char *address,
++ 
++ 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
++ 
+++	if (address == NULL) {
+++		return -1;
+++	}
+++
++ 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET6,
++ 				address, NULL, prefix_len, NULL);
++ 	if (err < 0) {
++@@ -649,6 +653,10 @@ int connman_inet_clear_address(int index, struct connman_ipaddress *ipaddress)
++ 
++ 	DBG("index %d address %s prefix_len %d", index, address, prefix_len);
++ 
+++	if (address == NULL) {
+++		return -1;
+++	}
+++
++ 	err = __connman_inet_modify_address(RTM_DELADDR, 0, index, AF_INET,
++ 				address, peer, prefix_len, broadcast);
++ 	if (err < 0) {
++-- 
++1.7.11.7
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.4.bb b/meta/recipes-connectivity/connman/connman_1.10.bb
+similarity index 71%
+rename from meta/recipes-connectivity/connman/connman_1.4.bb
+rename to meta/recipes-connectivity/connman/connman_1.10.bb
+index bd8ba65..10d5255 100644
+--- a/meta/recipes-connectivity/connman/connman_1.4.bb
++++ b/meta/recipes-connectivity/connman/connman_1.10.bb
+@@ -1,12 +1,14 @@
+ require connman.inc
+ 
+-# 1.4 tag
+-SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
++# 1.10 tag
++SRCREV = "3bda76eb442c9395db1dba17352c3e78376671cc"
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
+             file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
+-            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
++            file://inet-fix-ip-cleanup-functions.patch"
+ S = "${WORKDIR}/git"
+ PR = "${INC_PR}.0"
++
++RRECOMMENDS_${PN} = "connman-conf"
+-- 
+1.7.10.4
 
->=20
-> ---
->=20
->  .../libnl/libnl/fix-build-using-flex.patch         |   55 --------------=
-------
->  .../libnl/libnl/fix-pktloc_syntax_h-race.patch     |    2 +-
->  .../libnl/{libnl_3.2.16.bb =3D> libnl_3.2.18.bb}     |    7 +--
->  3 files changed, 4 insertions(+), 60 deletions(-)
->=20
-> diff --git a/meta/recipes-support/libnl/libnl/fix-build-using-flex.patch =
-b/meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
-> deleted file mode 100644
-> index 89a36ba..0000000
-> --- a/meta/recipes-support/libnl/libnl/fix-build-using-flex.patch
-> +++ /dev/null
-> @@ -1,55 +0,0 @@
-> -From 89ab8d4f1229a1d2605193686cc00e6b2c9786ff Mon Sep 17 00:00:00 2001
-> -From: Otavio Salvador <otavio@ossystems.com.br>
-> -Date: Mon, 7 Jan 2013 15:44:38 -0200
-> -Subject: [PATCH] Fix build using flex
-> -
-> -Upstream-Status: Backport [3.2.17]
-> ----
-> - lib/Makefile.am     |    4 ++--
-> - src/lib/Makefile.am |    4 ++--
-> - 2 files changed, 4 insertions(+), 4 deletions(-)
-> -
-> -diff --git a/lib/Makefile.am b/lib/Makefile.am
-> -index 98c7b90..89cc5d2 100644
-> ---- a/lib/Makefile.am
-> -+++ b/lib/Makefile.am
-> -@@ -43,14 +43,14 @@ CLEANFILES =3D \
-> - route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
-> - route/pktloc_grammar.h: route/pktloc_grammar.c
-> - route/pktloc_grammar.c: route/pktloc_grammar.l
-> --	$(AM_V_GEN) $(LEX) --header-file=3Droute/pktloc_grammar.h $(LFLAGS) -o=
- $@ $^
-> -+	$(AM_V_GEN) $(FLEX) --header-file=3Droute/pktloc_grammar.h $(LFLAGS) -=
-o $@ $^
-> -=20
-> - route/pktloc_syntax.h: route/pktloc_syntax.c
-> - route/pktloc_syntax.c: route/pktloc_syntax.y
-> - 	$(AM_V_GEN) $(YACC) -d $(YFLAGS) -o $@ $^
-> -=20
-> - route/cls/ematch_grammar.c: route/cls/ematch_grammar.l
-> --	$(AM_V_GEN) $(LEX) --header-file=3Droute/cls/ematch_grammar.h $(LFLAGS=
-) -o $@ $^
-> -+	$(AM_V_GEN) $(FLEX) --header-file=3Droute/cls/ematch_grammar.h $(LFLAG=
-S) -o $@ $^
-> -=20
-> - route/cls/ematch_syntax.c: route/cls/ematch_syntax.y
-> - 	$(AM_V_GEN) $(YACC) -d $(YFLAGS) -o $@ $^
-> -diff --git a/src/lib/Makefile.am b/src/lib/Makefile.am
-> -index 6688e7c..507635d 100644
-> ---- a/src/lib/Makefile.am
-> -+++ b/src/lib/Makefile.am
-> -@@ -11,13 +11,13 @@ AM_LDFLAGS =3D \
-> - #cls_ematch_cmp_la_LDFLAGS =3D -module -version-info 2:0:0
-> -=20
-> - #cls/ematch_grammar.c: cls/ematch_grammar.l
-> --#	$(LEX) --header-file=3Dcls/ematch_grammar.h $(LFLAGS) -o $@ $^
-> -+#	$(FLEX) --header-file=3Dcls/ematch_grammar.h $(LFLAGS) -o $@ $^
-> -=20
-> - #cls/ematch_syntax.c: cls/ematch_syntax.y
-> - #	$(YACC) -d $(YFLAGS) -o $@ $^
-> -=20
-> - #cls/pktloc_grammar.c: cls/pktloc_grammar.l
-> --#	$(LEX) --header-file=3Dcls/pktloc_grammar.h $(LFLAGS) -o $@ $^
-> -+#	$(FLEX) --header-file=3Dcls/pktloc_grammar.h $(LFLAGS) -o $@ $^
-> -=20
-> - #cls/pktloc_syntax.c: cls/pktloc_syntax.y
-> - #	$(YACC) -d $(YFLAGS) -o $@ $^
-> ---=20
-> -1.7.10.4
-> -
-> diff --git a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.pa=
-tch b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-> index 332ec01..b93d97b 100644
-> --- a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-> +++ b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
-> @@ -17,7 +17,7 @@ Index: libnl-3.2.14/lib/Makefile.am
->  +route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
->  +route/pktloc_grammar.h: route/pktloc_grammar.c
->   route/pktloc_grammar.c: route/pktloc_grammar.l
-> - 	$(AM_V_GEN) $(LEX) --header-file=3Droute/pktloc_grammar.h $(LFLAGS) -o=
- $@ $^
-> + 	$(AM_V_GEN) $(FLEX) --header-file=3Droute/pktloc_grammar.h $(LFLAGS) -=
-o $@ $^
->  =20
->  +route/pktloc_syntax.h: route/pktloc_syntax.c
->   route/pktloc_syntax.c: route/pktloc_syntax.y
-> diff --git a/meta/recipes-support/libnl/libnl_3.2.16.bb b/meta/recipes-su=
-pport/libnl/libnl_3.2.18.bb
-> similarity index 87%
-> rename from meta/recipes-support/libnl/libnl_3.2.16.bb
-> rename to meta/recipes-support/libnl/libnl_3.2.18.bb
-> index db9ae9d..0da7f20 100644
-> --- a/meta/recipes-support/libnl/libnl_3.2.16.bb
-> +++ b/meta/recipes-support/libnl/libnl_3.2.18.bb
-> @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://www.infradead.org/~tgr/libnl/"
->  SECTION =3D "libs/network"
-> =20
->  PE =3D "1"
-> -PR =3D "r1"
-> +PR =3D "r0"
-> =20
->  LICENSE =3D "LGPLv2.1"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
-16c"
-> @@ -12,11 +12,10 @@ DEPENDS =3D "flex-native bison-native"
-> =20
->  SRC_URI =3D "http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
->             file://fix-pktloc_syntax_h-race.patch \
-> -           file://fix-build-using-flex.patch \
->             file://fix-pc-file.patch "
-> =20
-> -SRC_URI[md5sum] =3D "f06e6de102abb2cef71ed671957ee099"
-> -SRC_URI[sha256sum] =3D "c43a42336c6a3cf559f390e202f8f029d165bd767da7cf7a=
-32a815c570b31826"
-> +SRC_URI[md5sum] =3D "378eafcca1f51d1c7498d78946cd891a"
-> +SRC_URI[sha256sum] =3D "6563e4e72a35f9f96380086f6bd17307552977af98e98bd3=
-dd0fdde8013d53a9"
-> =20
->  inherit autotools pkgconfig
-> =20
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---5mN69Y7OHXGepfYh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDv3S0ACgkQN1Ujt2V2gByZCACfbse3oADXpnamW2mzYFD+hRCK
-LZIAn05CkDaTxCKMQatDhbSAszFZ9H9w
-=7msg
------END PGP SIGNATURE-----
-
---5mN69Y7OHXGepfYh--
