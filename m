@@ -1,39 +1,30 @@
-Received: from mail-ye0-f181.google.com ([209.85.213.181])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1Ttq3A-0002T6-Es
-	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Jan 2013 02:38:49 +0100
-Received: by mail-ye0-f181.google.com with SMTP id m11so445190yen.40
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Jan 2013 17:23:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:organization
-	:user-agent:in-reply-to:references:mime-version
-	:content-transfer-encoding:content-type;
-	bh=yo1V5BikDSQJ1amqummediVy3JcKGHzn5huknZpb5IA=;
-	b=v1DHUEEzRvpsTY87VfxfbKhd29HRQCow9qMefYnlQsVRrKyNQV6QYrm9Jb2yU0azl2
-	i1YI1LjjMUeMjNYuchg1kKrqFQLz/jqJLutICp6Jg8HoxGkqIfbwA0GHy9/OgO3xabIh
-	T3Mu0KHyh328ZhgAt3IQuHXDYc74XrnZls36Uev2QlQ1EDNyozFSkl4v6bc2JahrJ84W
-	OyliqGfaAzOF84Fqre/nnFYA7R3vuOXvhlnQis2oJO8kbf794vOXdC5lQ8S+ZqnYTeGU
-	MgYwIlk8MdwJ0hFHTZQ2jwOHo9ncM84oQ95vUisSvNE3XAlXCgQEJQZ70ziHiBgxPDek
-	bWPA==
-X-Received: by 10.236.126.102 with SMTP id a66mr86657099yhi.82.1357953784650; 
-	Fri, 11 Jan 2013 17:23:04 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([58.212.76.3])
-	by mx.google.com with ESMTPS id j8sm5337318ank.21.2013.01.11.17.23.02
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 11 Jan 2013 17:23:04 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Jan 2013 09:21:19 +0000
-Message-ID: <15791092.kWdxvsskOJ@yiqingliang-pc>
-Organization: Nanjing Jilong
-User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
-In-Reply-To: <50EFDBCF.6030003@windriver.com>
-References: <1757330.jo1AhcIeyl@yiqingliang-pc>
-	<50EFDBCF.6030003@windriver.com>
-MIME-Version: 1.0
-Subject: Re: glib2.0 and dbus dependency
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Ttyrk-0000zA-5o for openembedded-core@lists.openembedded.org;
+	Sat, 12 Jan 2013 12:03:53 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0CAlnvJ026232;
+	Sat, 12 Jan 2013 10:47:49 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18272-04; Sat, 12 Jan 2013 10:47:44 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0CAleBe026225
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Sat, 12 Jan 2013 10:47:42 GMT
+Message-ID: <1357987662.4072.132.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Sat, 12 Jan 2013 10:47:42 +0000
+In-Reply-To: <cover.1357927839.git.sgw@linux.intel.com>
+References: <cover.1357927839.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/28] Automake patches & other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,51 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2013 01:38:49 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Sat, 12 Jan 2013 11:04:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Friday, January 11, 2013 05:30:55 PM ChenQi wrote:
-> On 01/11/2013 02:31 AM, Yi Qingliang wrote:
-> > when compiling using 4 threads, I got following error.
-> > the glib2.0-native want find dbus header file.
-> > If I compiled dbus/dbus-natigve, and then compile glib2.0 OK.
-> > 
-> > when grep glib2.0 bb files, I can't find dbus in dependency, why?
+On Fri, 2013-01-11 at 10:14 -0800, Saul Wold wrote:
+> Richard,
 > 
-> Hi,
+> Another batch of automake related changes from Marko (Thanks Marko!)
 > 
-> What's the error message?
-I can't remember it, somes like can't find dub/dbus.h.
+> Along with some other fixes and patches, I have again included the
+> cairo patch as I am not sure what your objection to it is.
 
-> 
-> Cheers,
-> Chen Qi
-> 
-> > ERROR: Function failed: do_compile (see /mnt/src/arm9plf-
-> > build/tmp/work/x86_64-linux/glib-2.0-native/1_2.34.3-
-> > r0/temp/log.do_compile.28193 for further information)
-> > ERROR: Task 1851 (virtual:native:/mnt/src/optimus/poky/meta/recipes-
-> > core/glib-2.0/glib-2.0_2.34.3.bb, do_compile) failed with exit code '1'
-> > NOTE: Tasks Summary: Attempted 929 tasks of which 925 didn't need to be
-> > rerun and 1 failed.
-> > Waiting for 0 running tasks to finish:
-> > 
-> > Summary: 1 task failed:
-> >    virtual:native:/mnt/src/optimus/poky/meta/recipes-
-> > 
-> > core/glib-2.0/glib-2.0_2.34.3.bb, do_compile
-> > Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-> > 
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Read the patch description/summary, then the patch contents and see if
+you think the two match up. It may be a perfectly good patch (perhaps
+fixing errors with uclibc?) but the explanation doesn't appear to say
+that, or match the patch at all. I don't know what the mutex bit does.
+The request is to clarify the patch description.
+
+Cheers,
+
+Richard
+
 
 
