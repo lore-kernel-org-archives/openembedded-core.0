@@ -1,37 +1,36 @@
-Received: from mail-pa0-f46.google.com ([209.85.220.46])
+Received: from mail-pa0-f54.google.com ([209.85.220.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang2003@gmail.com>) id 1TuR3z-0004yH-Gk
+	(envelope-from <niqingliang2003@gmail.com>) id 1TuR5H-00052J-D3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 13 Jan 2013 18:09:40 +0100
-Received: by mail-pa0-f46.google.com with SMTP id bh2so1805456pad.19
+	Sun, 13 Jan 2013 18:11:05 +0100
+Received: by mail-pa0-f54.google.com with SMTP id bi5so1827827pad.41
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jan 2013 08:54:21 -0800 (PST)
+	Sun, 13 Jan 2013 08:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:user-agent
-	:in-reply-to:references:mime-version:content-transfer-encoding
-	:content-type; bh=KOTD2e79MZtZ4cJdSgjEPwvFO+OVurl7TtUvQm1T1CY=;
-	b=HfaAVMirIqRjQK7RU2RWfUNilbaNDnIJQDFFZiU9qFEUBWLNtWVVF3MYZIk6VKxF1q
-	7DIpBT3109Ln5dLrDYYFFDDXbhTYb3/oWHC75FqvwYSEpsHwF+QftcHpwvKGuqU9y5ih
-	rc0uQF7LjFm6nrGQ5c16IDI10SJTtug3mpPtDd6ajaCe6vKgtZNFp8N8NARaHIxg5zjj
-	fP8ZTsd4BzydGBxaRKYYjDnBSulr9d1WhiBy/d1b2HwabOtnY26m9shgIm33XKW5O3hH
-	oCemjcmOzL2zhTPefX7ySwi6P7LChrrXBOZz7b4vOWayZKkSWpi/LHheWqjmkG521/nU
-	nKRw==
-X-Received: by 10.68.130.226 with SMTP id oh2mr204623623pbb.157.1358096060911; 
-	Sun, 13 Jan 2013 08:54:20 -0800 (PST)
+	h=x-received:from:to:subject:date:message-id:user-agent:in-reply-to
+	:references:mime-version:content-transfer-encoding:content-type;
+	bh=RUEmLPKrKNvxEk16caDdmflslYmCmXfXrRgUZzuV2Ag=;
+	b=xbXKHpl+fYf2dyC77YwjWRabLqyAL+TvKmBmR3qDlbFmEMclSFveZt8g1jSBGUr0cV
+	aaUOEVZ/7clBEX8/plaIIp0B6grOkOXlxH3wsldS78n9nwqjqMcpqtkgIfSqKA22Bgg/
+	Sy4tqtIw+S0LCUvL18Dxm2teBt/pXtdIIA6zfTaTygryvyLOaJXYSQzzlXFXG03RCma2
+	ENRL4d6zt6tXwJKKisGPOnui61oDTgn2mGCo9xyTgimmJGGUs7on9ASPhF6euDl3H32Y
+	VZSvUT9z8Jcd4seYjR9KhjXij2h669Xjnic3GwUuFXkoZrpb/Pxl33XV/At1sbqORT+s
+	3jKw==
+X-Received: by 10.66.80.65 with SMTP id p1mr224319937pax.20.1358096140915;
+	Sun, 13 Jan 2013 08:55:40 -0800 (PST)
 Received: from ll-pc.localnet ([183.209.41.151])
-	by mx.google.com with ESMTPS id hc4sm6575451pbc.30.2013.01.13.08.54.18
+	by mx.google.com with ESMTPS id nw9sm6577364pbb.42.2013.01.13.08.55.38
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 13 Jan 2013 08:54:19 -0800 (PST)
+	Sun, 13 Jan 2013 08:55:39 -0800 (PST)
 From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2013 00:27:10 +0800
-Message-ID: <2770678.BTRXfyjD3z@ll-pc>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Jan 2013 00:29:50 +0800
+Message-ID: <11519600.2rXqV1jsdJ@ll-pc>
 User-Agent: KMail/4.9.5 (Linux/3.6.11-1-ARCH; KDE/4.9.5; x86_64; ; )
-In-Reply-To: <50F09EDA.1000807@linux.intel.com>
-References: <cover.1357647338.git.radu.moisan@intel.com>
-	<50F09EDA.1000807@linux.intel.com>
+In-Reply-To: <10956581.fOyYazISSg@ll-pc>
+References: <10956581.fOyYazISSg@ll-pc>
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
+Subject: Re: core-image-minimal boot problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,229 +43,231 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Jan 2013 17:09:41 -0000
+X-List-Received-Date: Sun, 13 Jan 2013 17:11:06 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-When add it in the oe-core?
+can you give some suggestions?
+I have struggled on it for 4days with a big headache.:(
 
-On Friday, January 11, 2013 03:23:06 PM Saul Wold wrote:
-> On 01/08/2013 04:24 AM, Radu Moisan wrote:
-> > As Ross suggested I've done the following changes to the previous set:
-> > * added two patches (the first two) that address multiple init systems
-> > support,\ as in shifting from default hardcoded sysvinit to something
-> > more generic while the default values still remains on sysvinit
-> > * moved automatic setting of PREFERRED_PROVIDER_udev into
-> > default_providers.inc * removed ahavi-systemd since all it provided was
-> > service files; now service files are pulled in by avahi-daemon
-> > * also rebased on master
-> > 
-> > The following changes since commit 
-7e1f8faad0c4b6f490c26f87acc698dd6e002b15:
-> >    perl: Remove bashism from perl-tests.inc (2013-01-07 22:37:37 +0000)
-> > 
-> > are available in the git repository at:
-> >    git://git.yoctoproject.org/poky-contrib rmoisan/systemd
-> >    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/system
-> >    d
-> > 
-> > Enrico Scholz (1):
-> >    systemd: move disable operation into prerm() script
-> > 
-> > Holger Hans Peter Freyther (2):
-> >    systemd: Make the main systemd files proper CONFFILES
-> >    systemd: Introduce a create-volatile to create tmp directories
+On Sunday, January 13, 2013 07:29:52 PM Yi Qingliang wrote:
+> I have compiled a core-image-minimal running on my s3c2442 board.
+> both the kernel and barebox are compiled based on mini2440.
 > 
-> White space 4 spaces vs tab
+> the fs is ubifs.
 > 
-> > Khem Raj (1):
-> >    systemd: Fix build when base_libdir is not /lib
-> > 
-> > Martin Donnelly (2):
-> >    cgroups: Add INSANE_SKIP to avoid warning about .so file
-> >    systemd: Remove sysvinit mount related services if systemd is enabled
-> > 
-> > Martin Jansa (2):
-> >    systemd: fix FILESPATH to find systemctl
-> >    systemd: add PACKAGES_DYNAMIC
-> > 
-> > Radu Moisan (13):
-> >    default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
-> >    default-providers: Automatically set PREFERRED_PROVIDER_udev
-> >    systemd: initial integration
+> after set rtc, stop several seconds.
+> and the continue mount rootfs.
+> when execute sysvinit,
+> after print "INIT:", stop long time, and then print " version 2.88 booting".
+> stop long time, print a newline.
+> stop long time, continue.
+> and finally, no shell prompt occur.
 > 
-> I believe this was mentioned before, but can you avoid making white
-> space changes, you seem to have changed tabs (which we use tabs for
-> shell based functions and 4 spaces for python based functions)
+> I have checked sysvinit code, the "INIT:" and "version 2.88 booting" are
+> only continuous print, it should not pause between them.
 > 
-> Specifically, I saw some changes in wpa-supplicant-1.0.inc, busybox,
-> dropbear, initscripts
+> I have changed ubifs to cramfs, no luck.
+> and if I uncheck the s3c nand debug option in kernel configuration,
+> I can get shell prompt, and login the system, and only that, the boot time
+> no change.
 > 
-> For the systemd-serialgetty, can we not carry around a LICENSE file, and
-> instead point to the meta/files/common-licenses for a checksum?
+> is there someone can help me?
 > 
-> Also a load of the patches do not contains Signed-off-by or
-> Upstream-Status tags.
 > 
-> >    systemd: Add systemd_base.bbclass
-> >    systemd: Add systemd option to PREFERRED_PROVIDER_udev
-> >    systemd: set default.target to multi-user.target
-> >    systemd: update FILESPATH with *-native directory
-> >    systemd: disable sysfs.service
 > 
-> White space changes, makes it much harder to review, please fix
+> =====================ATTACHE FILE=================
 > 
-> >    systemd: Add systemd-compat-units
-> >    systemd: Add avahi to packagegroup-core-boot
-> >    xserver-nodm-init: Enable systemd support
-> >    util-linux: Enable systemd support
 > 
-> What's the actual change here?  Whitespace?
+> the serial output is:
 > 
-> >    systemd: Disable xz when building with GPLv3 incompatibility flag
+> booting kernel from /dev/nand0.kernel.bb
+> commandline: console=ttySAC0,115200 mini2440=0tbc LANG=en_US.UTF-8 ip=dhcp
+> root=ubi0:arm9plf-rootfs ubi.mtd=3 rootfstype=ubifs noinit
+> rd mtdparts=nand:768k(barebox),256k(bareboxenv),5M(kernel),-(fs)
+> arch_number: 1999
+> Uncompressing Linux... done, booting the kernel.
+> Booting Linux on physical CPU 0
+> Linux version 3.7.2 (ll@ll-pc) (gcc version 4.7.2 (GCC) ) #23 Sun Jan 13
+> 19:14:52 CST 2013
+> CPU: ARM920T [41129200] revision 0 (ARMv4T), cr=c0007177
+> CPU: VIVT data cache, VIVT instruction cache
+> Machine: NJJL2442
+> Memory policy: ECC disabled, Data cache writeback
+> CPU S3C2442B (id 0x32440aab)
+> S3C24XX Clocks, Copyright 2004 Simtec Electronics
+> S3C244X: core 405.000 MHz, memory 101.250 MHz, peripheral 50.625 MHz
+> CLOCK: Slow mode (1.500 MHz), fast, MPLL on, UPLL on
+> Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 16256
+> Kernel command line: console=ttySAC0,115200 mini2440=0tbc LANG=en_US.UTF-8
+> ip=dhcp root=ubi0:arm9plf-rootfs ubi.mtd=3 rootfstype=ubif
+> s noinitrd mtdparts=nand:768k(barebox),256k(bareboxenv),5M(kernel),-(fs)
+> PID hash table entries: 256 (order: -2, 1024 bytes)
+> Dentry cache hash table entries: 8192 (order: 3, 32768 bytes)
+> Inode-cache hash table entries: 4096 (order: 2, 16384 bytes)
+> Memory: 64MB = 64MB total
+> Memory: 60440k/60440k available, 5096k reserved, 0K highmem
+> Virtual kernel memory layout:
+>     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+>     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+>     vmalloc : 0xc4800000 - 0xff000000   ( 936 MB)
+>     lowmem  : 0xc0000000 - 0xc4000000   (  64 MB)
+>     modules : 0xbf000000 - 0xc0000000   (  16 MB)
+>       .text : 0xc0008000 - 0xc03f57dc   (4022 kB)
+>       .init : 0xc03f6000 - 0xc04170dc   ( 133 kB)
+>       .data : 0xc0418000 - 0xc043d720   ( 150 kB)
+>        .bss : 0xc043d744 - 0xc046299c   ( 149 kB)
+> NR_IRQS:85
+> irq: clearing subpending status 00000002
+> sched_clock: 32 bits at 200 Hz, resolution 5000000ns, wraps every
+> 4294967291ms Console: colour dummy device 80x30
+> Calibrating delay loop... 201.52 BogoMIPS (lpj=503808)
+> pid_max: default: 32768 minimum: 301
+> Mount-cache hash table entries: 512
+> CPU: Testing write buffer coherency: ok
+> Setting up static identity map for 0x3030ab68 - 0x3030abc0
+> devtmpfs: initialized
+> NET: Registered protocol family 16
+> DMA: preallocated 256 KiB pool for atomic coherent allocations
+> MINI2440: Option string mini2440=0tbc
+> MINI2440: 't' ignored, touchscreen not compiled in
+> MINI2440: LCD [0:240x320] 1:800x480 2:1024x768 3:320x240
+> S3C2442: Initialising architecture
+> S3C24XX DMA Driver, Copyright 2003-2006 Simtec Electronics
+> DMA channel 0 at c4846000, irq 33
+> DMA channel 1 at c4846040, irq 34
+> DMA channel 2 at c4846080, irq 35
+> DMA channel 3 at c48460c0, irq 36
+> S3C244X: Clock Support, DVS off
+> bio: create slab <bio-0> at 0
+> SCSI subsystem initialized
+> usbcore: registered new interface driver usbfs
+> usbcore: registered new interface driver hub
+> usbcore: registered new device driver usb
+> NET: Registered protocol family 2
+> TCP established hash table entries: 2048 (order: 2, 16384 bytes)
+> TCP bind hash table entries: 2048 (order: 1, 8192 bytes)
+> TCP: Hash tables configured (established 2048 bind 2048)
+> TCP: reno registered
+> UDP hash table entries: 256 (order: 0, 4096 bytes)
+> UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
+> NET: Registered protocol family 1
+> NetWinder Floating Point Emulator V0.97 (extended precision)
+> NTFS driver 2.1.30 [Flags: R/O].
+> fuse init (API version 7.20)
+> msgmni has been set to 118
+> io scheduler noop registered
+> io scheduler deadline registered
+> io scheduler cfq registered (default)
+> Console: switching to colour frame buffer device 30x40
+> s3c2410-lcd s3c2410-lcd: fb0: s3c2410fb frame buffer device
+> s3c2440-uart.0: ttySAC0 at MMIO 0x50000000 (irq = 70) is a S3C2440
+> console [ttySAC0] enabled
+> s3c2440-uart.1: ttySAC1 at MMIO 0x50004000 (irq = 73) is a S3C2440
+> s3c2440-uart.2: ttySAC2 at MMIO 0x50008000 (irq = 76) is a S3C2440
+> brd: module loaded
+> loop: module loaded
+> s3c24xx-nand s3c2440-nand: Tacls=1, 9ns Twrph0=3 29ns, Twrph1=2 19ns
+> s3c24xx-nand s3c2440-nand: NAND hardware ECC
+> NAND device: Manufacturer ID: 0xec, Chip ID: 0xa1 (Samsung NAND 128MiB 1,8V
+> 8- bit), page size: 2048, OOB size: 64
+> Scanning device for bad blocks
+> 4 cmdlinepart partitions found on MTD device nand
+> Creating 4 MTD partitions on "nand":
+> 0x000000000000-0x0000000c0000 : "barebox"
+> 0x0000000c0000-0x000000100000 : "bareboxenv"
+> 0x000000100000-0x000000600000 : "kernel"
+> 0x000000600000-0x000008000000 : "fs"
+> ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+> mousedev: PS/2 mouse device common for all mice
+> s3c-rtc s3c2410-rtc: rtc disabled, re-enabling
+> s3c-rtc s3c2410-rtc: rtc core: registered s3c as rtc0
+> s3c-rtc s3c2410-rtc: warning: invalid RTC value so initializing it
+> i2c /dev entries driver
+> sdhci: Secure Digital Host Controller Interface driver
+> sdhci: Copyright(c) Pierre Ossman
+> usbcore: registered new interface driver usbhid
+> usbhid: USB HID core driver
+> TCP: cubic registered
+> NET: Registered protocol family 17
+> UBI: attaching mtd3 to ubi0
+> UBI: scanning is finished
+> UBI warning: print_rsvd_warning: cannot reserve enough PEBs for bad PEB
+> handling, reserved 9, need 20
+> UBI: attached mtd3 (name "fs", size 122 MiB) to ubi0
+> UBI: PEB size: 131072 bytes (128 KiB), LEB size: 129024 bytes
+> UBI: min./max. I/O unit sizes: 2048/2048, sub-page size 512
+> UBI: VID header offset: 512 (aligned 512), data offset: 2048
+> UBI: good PEBs: 976, bad PEBs: 0, corrupted PEBs: 0
+> UBI: user volume: 1, internal volumes: 1, max. volumes count: 128
+> UBI: max/mean erase counter: 4/1, WL threshold: 4096, image sequence number:
+> 0 UBI: available PEBs: 0, total reserved PEBs: 976, PEBs reserved for bad
+> PEB handling: 9
+> UBI: background thread "ubi_bgt0d" started, PID 883
+> s3c-rtc s3c2410-rtc: setting system clock to 2000-01-01 00:00:00 UTC
+> (946684800)
 > 
-> This should go away, I have verified that the license field in xz is
-> wrong and should not contain GPLv3 since it's a build macro, not a
-> runtime, and the LICENSE field pertains to packaged and installed items
-> and their licenses.
+> <<<<<<<<<<<<<<<<<<< stop some time <<<<<<<<<<<<<<
 > 
-> Sau!
+> UBIFS: background thread "ubifs_bgt0_0" started, PID 886
+> UBIFS: recovery needed
+> UBIFS: recovery completed
+> UBIFS: mounted UBI device 0, volume 0, name "arm9plf-rootfs"(null)
+> UBIFS: LEB size: 129024 bytes (126 KiB), min./max. I/O unit sizes: 2048
+> bytes/2048 bytes
+> UBIFS: FS size: 8773632 bytes (8 MiB, 68 LEBs), journal size 1548288 bytes
+> (1 MiB, 12 LEBs)
+> UBIFS: reserved for root: 0 bytes (0 KiB)
+> UBIFS: media format: w4/r0 (latest is w4/r0), UUID 0D0C24B9-21D9-4769-
+> B340-93B91C783DC3, small LPT model
+> VFS: Mounted root (ubifs filesystem) on device 0:10.
+> devtmpfs: mounted
+> Freeing init memory: 132K
+> INIT:
+> <<<<<<<<<<<<<<<<<<< pause long time <<<<<<<<<<<<<<
+> version 2.88 booting
+> <<<<<<<<<<<<<<<<<<< pause long time <<<<<<<<<<<<<<
 > 
-> >   meta/classes/systemd.bbclass                       |    1 +
-> >   meta/classes/systemd_base.bbclass                  |  218 +++++++++++++
-> >   meta/conf/distro/include/default-distrovars.inc    |    3 +-
-> >   meta/conf/distro/include/default-providers.inc     |    1 +
-> >   meta/recipes-bsp/keymaps/files/keymaps.service     |    9 +
-> >   meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    9 +-
-> >   meta/recipes-connectivity/avahi/avahi.inc          |   23 +-
-> >   meta/recipes-connectivity/connman/connman.inc      |    6 +
-> >   meta/recipes-connectivity/connman/connman_1.4.bb   |    3 +-
-> >   meta/recipes-connectivity/dhcp/dhcp.inc            |   15 +-
-> >   meta/recipes-connectivity/dhcp/files/dhcpd.service |   12 +
-> >   .../dhcp/files/dhcrelay.service                    |   10 +
-> >   .../openssh/openssh-6.0p1/sshd.socket              |   11 +
-> >   .../openssh/openssh-6.0p1/sshd@.service            |    9 +
-> >   .../openssh/openssh-6.0p1/sshdgenkeys.service      |   10 +
-> >   meta/recipes-connectivity/openssh/openssh_6.0p1.bb |   14 +-
-> >   .../wpa-supplicant/wpa-supplicant-1.0.inc          |   74 +++--
-> >   .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
-> >   meta/recipes-core/busybox/busybox.inc              |   18 ++
-> >   meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
-> >   .../busybox/files/busybox-klogd.service.in         |    8 +
-> >   .../busybox/files/busybox-syslog.service.in        |   13 +
-> >   meta/recipes-core/dropbear/dropbear.inc            |   81 ++---
-> >   .../recipes-core/dropbear/dropbear/dropbear.socket |   10 +
-> >   .../dropbear/dropbear/dropbear@.service            |    9 +
-> >   .../dropbear/dropbear/dropbearkey.service          |   10 +
-> >   .../initscripts-1.0/{urandom => urandom.sh}        |    0
-> >   meta/recipes-core/initscripts/initscripts_1.0.bb   |  164 +++++-----
-> >   meta/recipes-core/libcgroup/libcgroup_0.37.1.bb    |    1 +
-> >   .../packagegroups/packagegroup-base.bb             |    3 +-
-> >   .../packagegroups/packagegroup-core-boot.bb        |    9 +-
-> >   meta/recipes-core/systemd/systemd-compat-units.bb  |   59 ++++
-> >   .../systemd/systemd-compat-units/machineid.service |   16 +
-> >   .../systemd-compat-units/run-postinsts.service     |   17 +
-> >   .../systemd/systemd-machine-units_1.0.bb           |   14 +
-> >   meta/recipes-core/systemd/systemd-serialgetty.bb   |   46 +++
-> >   .../systemd/systemd-serialgetty/LICENSE            |  339
-> >   ++++++++++++++++++++ .../systemd-serialgetty/serial-getty@.service     
-> >   |   32 ++
-> >   meta/recipes-core/systemd/systemd-speed-hacks.bb   |   18 ++
-> >   .../systemd/systemd-systemctl-native.bb            |   20 ++
-> >   .../systemd/systemd-systemctl-native/systemctl     |  126 ++++++++
-> >   .../systemd/systemd/create-volatile.conf           |   10 +
-> >   meta/recipes-core/systemd/systemd/gtk-doc.make     |  230 +++++++++++++
-> >   meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
-> >   .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
-> >   .../systemd/set_default_target_to_multi-user.patch |   13 +
-> >   .../systemd-pam-configure-check-uclibc.patch       |   26 ++
-> >   .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
-> >   .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
-> >   .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
-> >   .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
-> >   .../systemd/systemd/systemd-pam-fix-msformat.patch |  335
-> >   +++++++++++++++++++ .../recipes-core/systemd/systemd/touchscreen.rules
-> >   |   18 ++
-> >   meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
-> >   meta/recipes-core/systemd/systemd_git.bb           |  252
-> >   +++++++++++++++
-> >   meta/recipes-core/util-linux/util-linux.inc        |   11 +-
-> >   meta/recipes-extended/cronie/cronie/crond.service  |   10 +
-> >   meta/recipes-extended/cronie/cronie_1.4.8.bb       |   10 +-
-> >   .../lighttpd/files/lighttpd.service                |   13 +
-> >   meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 +-
-> >   meta/recipes-extended/pam/libpam_1.1.6.bb          |    3 +
-> >   meta/recipes-extended/polkit/polkit_0.104.bb       |    9 +-
-> >   meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
-> >   .../x11-common/xserver-nodm-init.bb                |   19 +-
-> >   .../x11-common/xserver-nodm-init/xserver-nodm.conf |    1 +
-> >   .../xserver-nodm-init/xserver-nodm.service         |    9 +
-> >   66 files changed, 2606 insertions(+), 174 deletions(-)
-> >   create mode 100644 meta/classes/systemd.bbclass
-> >   create mode 100644 meta/classes/systemd_base.bbclass
-> >   create mode 100644 meta/recipes-bsp/keymaps/files/keymaps.service
-> >   create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
-> >   create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
-> >   create mode 100644
-> >   meta/recipes-connectivity/openssh/openssh-6.0p1/sshd.socket create mode
-> >   100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd@.service
-> >   create mode 100644
-> >   meta/recipes-connectivity/openssh/openssh-6.0p1/sshdgenkeys.service
-> >   create mode 100644
-> >   meta/recipes-core/busybox/files/busybox-klogd.service.in create mode
-> >   100644 meta/recipes-core/busybox/files/busybox-syslog.service.in create
-> >   mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket create
-> >   mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
-> >   create mode 100644
-> >   meta/recipes-core/dropbear/dropbear/dropbearkey.service rename
-> >   meta/recipes-core/initscripts/initscripts-1.0/{urandom => urandom.sh}
-> >   (100%) create mode 100644
-> >   meta/recipes-core/systemd/systemd-compat-units.bb create mode 100644
-> >   meta/recipes-core/systemd/systemd-compat-units/machineid.service create
-> >   mode 100644
-> >   meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-> >   create mode 100644
-> >   meta/recipes-core/systemd/systemd-machine-units_1.0.bb create mode
-> >   100644 meta/recipes-core/systemd/systemd-serialgetty.bb create mode
-> >   100644 meta/recipes-core/systemd/systemd-serialgetty/LICENSE create
-> >   mode 100644
-> >   meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-> >   create mode 100644 meta/recipes-core/systemd/systemd-speed-hacks.bb
-> >   create mode 100644
-> >   meta/recipes-core/systemd/systemd-systemctl-native.bb create mode
-> >   100755 meta/recipes-core/systemd/systemd-systemctl-native/systemctl
-> >   create mode 100644
-> >   meta/recipes-core/systemd/systemd/create-volatile.conf create mode
-> >   100644 meta/recipes-core/systemd/systemd/gtk-doc.make
-> >   create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
-> >   create mode 100644
-> >   meta/recipes-core/systemd/systemd/optional_secure_getenv.patch create
-> >   mode 100644
-> >   meta/recipes-core/systemd/systemd/set_default_target_to_multi-user.patc
-> >   h create mode 100644
-> >   meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.pa
-> >   tch create mode 100644
-> >   meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch create
-> >   mode 100644
-> >   meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
-> >   create mode 100644
-> >   meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
-> >   create mode 100644
-> >   meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch create
-> >   mode 100644
-> >   meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch create
-> >   mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules create
-> >   mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
-> >   create mode 100644 meta/recipes-core/systemd/systemd_git.bb
-> >   create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
-> >   create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd.service
-> >   create mode 100644
-> >   meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
-> >   create mode 100644
-> >   meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> INIT: Running /etc/rcS.d/S02banner.sh start...
+> INIT: Running /etc/rcS.d/S02sysfs.sh start...
+> INIT: Running /etc/rcS.d/S03udev start...
+> Starting udev
+> udevd[904]: starting version 182
+> INIT: Running /etc/rcS.d/S04modutils.sh start...
+> INIT: Running /etc/rcS.d/S06alignment.sh start...
+> INIT: Running /etc/rcS.d/S07bootlogd start...
+> Starting Bootlog daemon: bootlogd.
+> INIT: Running /etc/rcS.d/S10checkroot.sh start...
+> Activating swap
+> INIT: Running /etc/rcS.d/S35mountall.sh start...
+> Mounting local filesystems...
+> INIT: Running /etc/rcS.d/S37populate-volatile.sh start...
+> Populating volatile Filesystems.
+> INIT: Running /etc/rcS.d/S38devpts.sh start...
+> INIT: Running /etc/rcS.d/S39hostname.sh start...
+> INIT: Running /etc/rcS.d/S40networking start...
+> Configuring network interfaces... ifconfig: SIOCGIFFLAGS: No such device
+> INIT: Running /etc/rcS.d/S45mountnfs.sh start...
+> INIT: Running /etc/rcS.d/S55bootmisc.sh start...
+> System time was Sat Jan  1 00:01:54 UTC 2000.
+> Setting the System Clock using the Hardware Clock as reference...
+> System Clock set. System local time is now Sat Jan  1 00:01:54 UTC 2000.
+> Sun Jan 13 10:42:00 UTC 2013
+> Saving the System Clock time to the Hardware Clock...
+> Hardware Clock updated to Sun Jan 13 10:42:00 UTC 2013.
+> INIT: Entering runlevel: 5
+> INIT: Running /etc/rc5.d/S20hwclock.sh start...
+> System time was Sun Jan 13 10:42:00 UTC 2013.
+> Setting the System Clock using the Hardware Clock as reference...
+> System Clock set. System local time is now Sun Jan 13 10:42:00 UTC 2013.
+> INIT: Running /etc/rc5.d/S20syslog start...
+> Starting syslogd/klogd: done
+> INIT: Running /etc/rc5.d/S99rmnologin.sh start...
+> INIT: Running /etc/rc5.d/S99stop-bootlogd start...
+> Stopping Bootlog daemon: bootlogd.
+> 
+> PANGU (Built by optimus 1.0) 1.3+snapshot-20130113 arm9plf ttySAC0
+> 
+> <<<<<<<<<<<<<<<< no shell prompt <<<<<<<<<<<<<<<<<
 
 
