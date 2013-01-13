@@ -1,34 +1,33 @@
-Received: from mail-lb0-f173.google.com ([209.85.217.173])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Tu6mx-00033j-Cu
+	(envelope-from <rpjday@crashcourse.ca>) id 1TuKpN-0002CQ-EF
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Jan 2013 20:30:44 +0100
-Received: by mail-lb0-f173.google.com with SMTP id c1so2034925lbg.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Jan 2013 11:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=VT/CIFZL2RKCLKn1qf5Xo8+upmlfKPPI8XkCmOZkxGY=;
-	b=zbcRvv75N/+HvXc9vLz4O+vI8Q9sRYZnYpVMnibGpLE1j9LI1EvkuD5ZDixIXta8xN
-	8TrVpQOS4h+KymD8YlH5+tRSemVK1VWfOqAWi3zkdhwKOP9EXzpQJ15cUJAW5YNepu+r
-	WpcXdKOJVnF5qdSaSMEYHab04AeDnpD7nKV2SQN5xopQxP7XkiWoXXdN82Gcgma6U636
-	82c1BX42sdbcFtUHAGYnR8TSi+7E9zDUeu+ynXauduDYq79RrOlvTAkjGHxuV85PJF0T
-	rF1Ook+OkxFkrqd9jQIVNqyFSdCPmS//FppzX6D6JC9+0DT80aBw7+Ns60+re4S7Jnwh
-	x8Ww==
-Received: by 10.152.103.99 with SMTP id fv3mr75785439lab.16.1358018126681;
-	Sat, 12 Jan 2013 11:15:26 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Sat, 12 Jan 2013 11:15:06 -0800 (PST)
-In-Reply-To: <1357995930.4072.134.camel@ted>
+	Sun, 13 Jan 2013 11:30:24 +0100
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:55981 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1TuKaa-0001vQ-L3; Sun, 13 Jan 2013 05:14:52 -0500
+Date: Sun, 13 Jan 2013 05:14:50 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Chris Larson <clarson@kergoth.com>
+In-Reply-To: <CABcZAN=T+GS=H_PuyusNYJNmjbVraoz1u_OdCHq3Nr8s=hqBHw@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1301130504330.21628@oneiric>
 References: <alpine.DEB.2.02.1301120618220.15410@oneiric>
 	<1357995930.4072.134.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sat, 12 Jan 2013 12:15:06 -0700
-X-Google-Sender-Auth: EgliVZXAPqTzzwMyhmLK-Mq6vrs
-Message-ID: <CABcZAN=T+GS=H_PuyusNYJNmjbVraoz1u_OdCHq3Nr8s=hqBHw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CABcZAN=T+GS=H_PuyusNYJNmjbVraoz1u_OdCHq3Nr8s=hqBHw@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: image_types.bbclass: what's with "elf" and "cpio.gz"?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,62 +42,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Jan 2013 19:30:44 -0000
-Content-Type: multipart/alternative; boundary=f46d040716550a15c504d31c3c95
+X-List-Received-Date: Sun, 13 Jan 2013 10:30:25 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1353976235-1358072090=:21628"
 
---f46d040716550a15c504d31c3c95
-Content-Type: text/plain; charset=UTF-8
+--8323329-1353976235-1358072090=:21628
+Content-Type: TEXT/PLAIN; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-On Sat, Jan 12, 2013 at 6:05 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Sat, 12 Jan 2013, Chris Larson wrote:
 
-> > i was going to trivially fix that comment (it's now "alltypes", not
-> > "types"), but i was distracted by the code above that -- what the heck
-> > is going on there?  what's the rationale for removing elf, then adding
-> > cpio.gz and elf back on at the end?  if someone can clarify that, i
-> > can add that as more comment, as well as a few other tweaks in that
-> > file for more documentation for anyone reading TFS.  thanks.
 >
-> Order is important. The elf image depends on the cpio.gz image already
-> having been created so a) it must be created and b) it must happen
-> before elf.
+> On Sat, Jan 12, 2013 at 6:05 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+>       > i was going to trivially fix that comment (it's now "alltypes", not
+>       > "types"), but i was distracted by the code above that -- what the heck
+>       > is going on there?  what's the rationale for removing elf, then adding
+>       > cpio.gz and elf back on at the end?  if someone can clarify that, i
+>       > can add that as more comment, as well as a few other tweaks in that
+>       > file for more documentation for anyone reading TFS.  thanks.
+>
+> Order is important.
 
+  we'll come back to this shortly.
 
-I'd think we could implement a data-driven method for this, rather than
-hardcoding this knowledge. Either declare the deps via a flag, or have one
-directly call the other.
+> The elf image depends on the cpio.gz image already having been
+> created so a) it must be created and b) it must happen before elf.
+
+  i'd immediately assumed that's what was going on -- what confused me
+was that i was unaware that ordering was important in simply
+*tracking* the collection of types one wanted to create.  (it isn't,
+of course, but the code led me to believe that.)
+
+> I'd think we could implement a data-driven method for this, rather
+> than hardcoding this knowledge. Either declare the deps via a flag,
+> or have one directly call the other.
+
+  yes, any of the above, since in many places, the code seems
+unnecessarily confusing by implementing with (ordered) lists what
+should be supported by sets.  for example, as in this case, the
+collection of image types should be a set to not have to mess with
+additional code checking for prior membership, uniqueness, etc.
+
+  and yet, in files like image_types.bbclass, you read unnecessarily
+complicated code like:
+
+        if "ext3" not in types:
+            types.append("ext3")
+        if "ext3" not in alltypes:
+            alltypes.append("ext3")
+
+simply because "types" is a list and not a set.  things like that
+should be handled by sets, and any order-dependent processing should
+be left until the very end and hidden from normal view in whatever
+specific routine *needs* to care about order.  as you suggest,
+data-driven, deps via flags, whatever.
+
+  anyway, just my $0.02 at way too early on a sunday morning.
+
+rday
+
 -- 
-Christopher Larson
 
---f46d040716550a15c504d31c3c95
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Sat, Jan 12, 2013 at 6:05 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">&gt; i was going to trivia=
-lly fix that comment (it&#39;s now &quot;alltypes&quot;, not<br>
-&gt; &quot;types&quot;), but i was distracted by the code above that -- wha=
-t the heck<br>
-&gt; is going on there? =C2=A0what&#39;s the rationale for removing elf, th=
-en adding<br>
-&gt; cpio.gz and elf back on at the end? =C2=A0if someone can clarify that,=
- i<br>
-&gt; can add that as more comment, as well as a few other tweaks in that<br=
->
-&gt; file for more documentation for anyone reading TFS. =C2=A0thanks.<br>
-<br>
-</div>Order is important. The elf image depends on the cpio.gz image alread=
-y<br>
-having been created so a) it must be created and b) it must happen<br>
-before elf.</blockquote></div><br>I&#39;d think we could implement a data-d=
-riven method for this, rather than hardcoding this knowledge. Either declar=
-e the deps via a flag, or have one directly call the other.<br>-- <br>
 
-Christopher Larson</div></div>
-
---f46d040716550a15c504d31c3c95--
+--8323329-1353976235-1358072090=:21628--
