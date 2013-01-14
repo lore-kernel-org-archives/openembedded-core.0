@@ -1,27 +1,27 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TufkY-00072W-Ht
+	(envelope-from <Qi.Chen@windriver.com>) id 1Tufkb-00072d-KF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 09:50:34 +0100
+	Mon, 14 Jan 2013 09:51:11 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0E8ZFED018133
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0E8ZIFc018163
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 00:35:15 -0800 (PST)
+	Mon, 14 Jan 2013 00:35:18 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 14 Jan 2013 00:35:15 -0800
+	14.2.318.4; Mon, 14 Jan 2013 00:35:18 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jan 2013 16:35:40 +0800
-Message-ID: <4d6a5afdcd4222d653334ae32e75df962eac5df1.1358152182.git.Qi.Chen@windriver.com>
+Date: Mon, 14 Jan 2013 16:35:42 +0800
+Message-ID: <ff6d93366e5de8c99b40b0095ff52850dc59321f.1358152182.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1358152182.git.Qi.Chen@windriver.com>
 References: <cover.1358152182.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V7 2/6] image.bbclass: add a hook funtion to support readonly rootfs
+Subject: [PATCH V7 4/6] initscripts: support read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,57 +34,425 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 08:50:35 -0000
-X-List-Received-Date: Mon, 14 Jan 2013 08:50:35 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 08:51:23 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
-is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
-volatile.sh script run at rootfs time.
+To support a read-only rootfs, we use symbolic links which point
+to volatile storage to create the illusion that some directories
+are writable.
+
+Improve populate-volatile.sh script to support read-only rootfs.
+Add two default config files specific to read-only-rootfs image.
 
 [YOCTO #3406]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/image.bbclass |   16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +-
+ .../initscripts-1.0/populate-volatile.sh           |  281 ++++++++++----------
+ .../initscripts/initscripts-1.0/volatiles          |    1 +
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 +-
+ 4 files changed, 143 insertions(+), 153 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index e494689..834497a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -185,7 +185,6 @@ do_build[nostamp] = "1"
- # task, so that we have a single fakeroot context for the whole process.
- do_rootfs[umask] = "022"
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 4f76cb4..3b5a47f 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -54,14 +54,7 @@ fi
  
+ #
+ # This is as good a place as any for a sanity check
+-# /tmp should be a symlink to /var/tmp to cut down on the number
+-# of mounted ramdisks.
+-if test ! -L /tmp && test -d /var/tmp
+-then
+-	rm -rf /tmp
+-	ln -sf /var/tmp /tmp
+-fi
 -
- run_intercept_scriptlets () {
- 	if [ -d ${WORKDIR}/intercept_scripts ]; then
- 		cd ${WORKDIR}/intercept_scripts
-@@ -396,6 +395,21 @@ zap_root_password () {
- 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
- } 
++#
+ # Set the system clock from hardware clock
+ # If the timestamp is more recent than the current time,
+ # use the timestamp instead.
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index d2175d7..2691173 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -8,192 +8,187 @@
+ # Short-Description:  Populate the volatile filesystem
+ ### END INIT INFO
  
-+# A hook function to support read-only-rootfs IMAGE_FEATURES
-+read_only_rootfs_hook () {
-+	# Tweak the mount option in fstab
-+	sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
-+	# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
-+	if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
-+		sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
-+	fi
-+	# Run populate-volatile.sh at rootfs time to set up basic files
-+	# and directories to support read-only rootfs.
-+	if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
-+		${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-+	fi
-+}
+-. /etc/default/rcS
+-
+-CFGDIR="/etc/default/volatiles"
+-TMPROOT="/var/tmp"
++# Get ROOT_DIR
++DIRNAME=`dirname $0`
++ROOT_DIR=`echo $DIRNAME | sed -ne 's:etc/.*::p'`
 +
- # allow openssh accept login with empty password string
- openssh_allow_empty_password () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++. ${ROOT_DIR}/etc/default/rcS
++# When running populat-volatile.sh at rootfs time, disable cache.
++[ "$ROOT_DIR" != "/" ] && VOLATILE_ENABLE_CACHE=no
++# If rootfs is read-only, disable cache.
++[ "$ROOTFS_READ_ONLY" = "yes" ] && VOLATILE_ENABLE_CACHE=no
++# All above statements will be moved to a central place, say var.sh which
++# encapsulates '. /etc/default/rcS'. 
++
++CFGDIR="${ROOT_DIR}/etc/default/volatiles"
++TMPROOT="${ROOT_DIR}/var/volatile/tmp"
+ COREDEF="00_core"
++COREDEF_READONLY="00_core_readonly"
+ 
+-[ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
++[ "${VERBOSE}" != "no" ] && echo "Setting up basic files related to volatile storage under ${ROOT_DIR}."
+ 
+ create_file() {
+-	EXEC=" 
+-	touch \"$1\"; 
+-	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 " 
++	EXEC="
++	touch \"$1\";
++	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" > /dev/null 2>&1;
++	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" > /dev/null 2>&1 "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 
+ 	[ -e "$1" ] && {
+-	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
++		[ "${VERBOSE}" != "no" ] && echo "Target $1 already exists. Skipping."
+ 	} || {
+-	  eval $EXEC &
++		if [ "$ROOT_DIR" = "/" ]; then
++			eval $EXEC
++		else
++			# Some operations at rootfs time may fail and should fail,
++		        # but these failures should not be logged.
++			eval $EXEC > /dev/null 2>&1
++		fi
+ 	}
+ }
+ 
+ mk_dir() {
+ 	EXEC=" 
+ 	mkdir -p \"$1\"; 
+-	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
++	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" 2>&1; 
++	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" 2>&1 "
+ 
+ 	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
+ 	
+ 	[ -e "$1" ] && {
+-	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
++		[ "${VERBOSE}" != "no" ] && echo "Target ${1} already exists. Skipping."
+ 	} || {
+-	  eval $EXEC
++		if [ "$ROOT_DIR" = "/" ]; then
++			eval $EXEC
++		else
++			# Some operations at rootfs time may fail and should fail,
++                        # but these failures should not be logged.
++			eval $EXEC > /dev/null 2>&1
++		fi
+ 	}
+ }
+ 
+ link_file() {
+-	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1" 
+-
+-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+-	
+-	[ -e "$2" ] && {
+-	  echo "Cannot create link over existing -${TNAME}-." >&2
+-	} || {
+-	  eval $EXEC &
+-	}
++	EXEC="
++	if [ -L \"$2\" ]; then
++		[ \"$(readlink -f \"$2\")\" != \"$(readlink -f \"$1\")\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
++	elif [ -d \"$2\" ]; then
++		rm -rf \"$2\";
++                ln -sf \"$1\" \"$2\";
++        else
++                ln -sf \"$1\" \"$2\";
++	fi
++        "
++        test "$VOLATILE_ENABLE_CACHE" = yes && echo "   $EXEC" >> /etc/volatile.cache.build
++	if [ "$ROOT_DIR" = "/" ]; then
++		eval $EXEC
++	else
++		# Some operations at rootfs time may fail and should fail,
++                # but these failures should not be logged
++		eval $EXEC > /dev/null 2>&1
++	fi
+ }
+ 
+ check_requirements() {
++	cleanup() {
++		rm "${TMP_INTERMED}"
++		rm "${TMP_DEFINED}"
++		rm "${TMP_COMBINED}"
++	}
++	
++	CFGFILE="$1"
++	[ `basename "${CFGFILE}"` = "${COREDEF}" ] && return 0
++	# $COREDEF_READONLY conf file should only be applied when rootfs is read-only
++	if [ `basename "${CFGFILE}"` = "${COREDEF_READONLY}" ]; then
++		[ "$ROOTFS_READ_ONLY" = "yes" ] && return 0 || return 1
++	fi
++
++	TMP_INTERMED="${TMPROOT}/tmp.$$"
++	TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
++	TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
++
++	cat ${ROOT_DIR}/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
++	cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
++	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
++	NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
++	NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
++
++	[ "${NR_DEFINED_USERS}" -ne "${NR_COMBINED_USERS}" ] && {
++		echo "Undefined users:"
++		diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
++		cleanup
++		return 1
++	}
+ 
+-  cleanup() {
+-    rm "${TMP_INTERMED}"
+-    rm "${TMP_DEFINED}"
+-    rm "${TMP_COMBINED}"
+-    }
+-    
+-  CFGFILE="$1"
+-
+-  [ `basename "${CFGFILE}"` = "${COREDEF}" ] && return 0
+-
+-  TMP_INTERMED="${TMPROOT}/tmp.$$"
+-  TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
+-  TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
+-
+-
+-  cat /etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+-  cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
+-  cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+-
+-  NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
+-  NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
+-
+-  [ "${NR_DEFINED_USERS}" -ne "${NR_COMBINED_USERS}" ] && {
+-    echo "Undefined users:"
+-    diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
+-    cleanup
+-    return 1
+-    }
+-
+-
+-  cat /etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+-  cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
+-  cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 
+-  NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
+-  NR_COMBINED_GROUPS="`cat "${TMP_COMBINED}" | wc -l`"
++	cat ${ROOT_DIR}/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
++	cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
++	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 
+-  [ "${NR_DEFINED_GROUPS}" -ne "${NR_COMBINED_GROUPS}" ] && {
+-    echo "Undefined groups:"
+-    diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
+-    cleanup
+-    return 1
+-    }
++	NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
++	NR_COMBINED_GROUPS="`cat "${TMP_COMBINED}" | wc -l`"
+ 
+-  # Add checks for required directories here
++	[ "${NR_DEFINED_GROUPS}" -ne "${NR_COMBINED_GROUPS}" ] && {
++		echo "Undefined groups:"
++		diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
++		cleanup
++		return 1
++	}
+ 
+-  cleanup
+-  return 0
+-  }
++	cleanup
++	return 0
++}
+ 
+ apply_cfgfile() {
++	CFGFILE="$1"
++	[ ${VERBOSE} != "no" ] && echo "Applying config file: $CFGFILE"
++	
++	check_requirements "${CFGFILE}" || {
++		echo "Skipping ${CFGFILE}"
++		return 1
++	}
++
++	cat ${CFGFILE} | grep -v "^#" | sed -e '/^$/ d' | \
++		while read LINE; do
++		eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
++		TNAME=${ROOT_DIR}/${TNAME}
++		[ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
++
++		[ "${TTYPE}" = "l" ] && {
++			TSOURCE="$TLTARGET"
++			[ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
++			link_file "${TSOURCE}" "${TNAME}"
++			continue
++		}
++		case "${TTYPE}" in
++			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
++				create_file "${TNAME}"
++				;;
++			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
++				mk_dir "${TNAME}"
++				;;
++			*)    [ "${VERBOSE}" != "no" ] && echo "Invalid type -${TTYPE}-."
++				continue
++				;;
++		esac
++	done
++	return 0
++}
+ 
+-  CFGFILE="$1"
+-
+-  check_requirements "${CFGFILE}" || {
+-    echo "Skipping ${CFGFILE}"
+-    return 1
+-    }
+-
+-  cat ${CFGFILE} | grep -v "^#" | \
+-  while read LINE; do
+-
+-    eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
+-
+-    [ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
+-
+-
+-    [ "${TTYPE}" = "l" ] && {
+-      TSOURCE="$TLTARGET"
+-      [ -L "${TNAME}" ] || {
+-        [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
+-        link_file "${TSOURCE}" "${TNAME}" &
+-        }
+-      continue
+-      }
+-
+-    [ -L "${TNAME}" ] && {
+-      [ "${VERBOSE}" != "no" ] && echo "Found link."
+-      NEWNAME=`ls -l "${TNAME}" | sed -e 's/^.*-> \(.*\)$/\1/'`
+-      echo ${NEWNAME} | grep -v "^/" >/dev/null && {
+-        TNAME="`echo ${TNAME} | sed -e 's@\(.*\)/.*@\1@'`/${NEWNAME}"
+-        [ "${VERBOSE}" != "no" ] && echo "Converted relative linktarget to absolute path -${TNAME}-."
+-        } || {
+-        TNAME="${NEWNAME}"
+-        [ "${VERBOSE}" != "no" ] && echo "Using absolute link target -${TNAME}-."
+-        }
+-      }
+-
+-    case "${TTYPE}" in
+-      "f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
+-            create_file "${TNAME}" &
+-	    ;;
+-      "d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
+-            mk_dir "${TNAME}"
+-	    # Add check to see if there's an entry in fstab to mount.
+-	    ;;
+-      *)    [ "${VERBOSE}" != "no" ] && echo "Invalid type -${TTYPE}-."
+-            continue
+-	    ;;
+-    esac
+-
+-
+-    done
+-
+-  return 0
+-
+-  }
+-
+-clearcache=0
+-exec 9</proc/cmdline
+-while read line <&9
+-do
+-	case "$line" in
+-		*clearcache*)  clearcache=1
+-			       ;;
+-		*)	       continue
+-			       ;;
+-	esac
+-done
+-exec 9>&-
+-
+-if test -e /etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "xupdate" -a "x$clearcache" = "x0"
++if test -e ${ROOT_DIR}/etc/volatile.cache -a $VOLATILE_ENABLE_CACHE = yes -a x$1 != xupdate
+ then
+-	sh /etc/volatile.cache
++	sh ${ROOT_DIR}/etc/volatile.cache
+ else	
+-	rm -f /etc/volatile.cache /etc/volatile.cache.build
++	rm -f ${ROOT_DRI}/etc/volatile.cache ${ROOT_DIR}/etc/volatile.cache.build
+ 	for file in `ls -1 "${CFGDIR}" | sort`; do
+ 		apply_cfgfile "${CFGDIR}/${file}"
+ 	done
+ 
+-	[ -e /etc/volatile.cache.build ] && sync && mv /etc/volatile.cache.build /etc/volatile.cache
++	[ -e ${ROOT_DIR}/etc/volatile.cache.build ] && sync && mv ${ROOT_DIR}/etc/volatile.cache.build ${ROOT_DIR}/etc/volatile.cache
+ fi
+ 
+-if test -f /etc/ld.so.cache -a ! -f /var/run/ld.so.cache
++if [ "${ROOT_DIR}" = "/" ] && [ -f /etc/ld.so.cache ] && [ ! -f /var/run/ld.so.cache ]
+ then
+ 	ln -s /etc/ld.so.cache /var/run/ld.so.cache
+ fi
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+index e0741aa..f7e2ef7 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -31,6 +31,7 @@ l root root 1777 /var/lock /var/volatile/lock
+ l root root 0755 /var/log /var/volatile/log
+ l root root 0755 /var/run /var/volatile/run
+ l root root 1777 /var/tmp /var/volatile/tmp
++l root root 1777 /tmp /var/tmp
+ d root root 0755 /var/lock/subsys none
+ f root root 0664 /var/log/wtmp none
+ f root root 0664 /var/run/utmp none
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 39be9a8..3c4e9ee 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r138"
++PR = "r139"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+@@ -31,7 +31,7 @@ SRC_URI = "file://functions \
+            file://populate-volatile.sh \
+            file://volatiles \
+            file://save-rtc.sh \
+-	   file://GPLv2.patch"
++           file://GPLv2.patch"
+ 
+ SRC_URI_append_arm = " file://alignment.sh"
+ 
+@@ -86,6 +86,7 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/populate-volatile.sh ${D}${sysconfdir}/init.d
+ 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
+ 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
++
+ 	if [ "${TARGET_ARCH}" = "arm" ]; then
+ 		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
+ 	fi
 -- 
 1.7.9.5
 
