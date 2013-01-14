@@ -1,38 +1,20 @@
-Received: from mail-wg0-f48.google.com ([74.125.82.48])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TufQV-0006Zz-Sz
-	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 09:30:05 +0100
-Received: by mail-wg0-f48.google.com with SMTP id 16so926768wgi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 00:14:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=efh8+vHUjfsbp4hbJwZrwBnX4+4NlFUkkN6fJYWLLoo=;
-	b=WghBrXStqElYkMlscwiZ2L85OVSL15LhedJ8Thr/VELPWACkumcToQJmzP/L6pCYEb
-	D+cXIQy3F5aNEz+AF20N+5Egep2VSQ+XJozrmsEkfEbTebwDvkiojjCjo5oEnG7IwiBA
-	fmWzaoFSDfnYWNTpPaGNztjikSo+5DihQskvHd/k7ODEk7qNtay7QEjRad/OXmfsfdhe
-	Ap91hGLKKPEZ7fKrC5H6Xe3QC+EsIDahobteceDJeqEsZmV9VJNT3Wh3vki7CJ0RB4cF
-	OzmV714a/Sq3VvOmfMyWI8kwk3N7P+lcIMrUC7+ySLAaQIjLvKBCWBeG3bFpr290pO8y
-	sfPg==
-X-Received: by 10.180.107.130 with SMTP id hc2mr10774633wib.12.1358151273339; 
-	Mon, 14 Jan 2013 00:14:33 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id g2sm12828192wiy.0.2013.01.14.00.14.32
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 14 Jan 2013 00:14:32 -0800 (PST)
-Date: Mon, 14 Jan 2013 09:14:34 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <20130114081434.GA2992@jama>
-References: <20130107113603.F0F381034A@opal> <20130107122949.GD3285@jama>
-	<50F37555.9090604@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <50F37555.9090604@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Kang Kai : perl: update dependency creating script
+	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
+	id 1TufYM-0006kv-1A for openembedded-core@lists.openembedded.org;
+	Mon, 14 Jan 2013 09:37:59 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 14 Jan 2013 00:21:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,466,1355126400"; d="scan'208";a="243474367"
+Received: from ema-vostro-460 (HELO localhost.localdomain) ([10.237.105.41])
+	by azsmga001.ch.intel.com with ESMTP; 14 Jan 2013 00:21:31 -0800
+From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Jan 2013 10:25:21 +0200
+Message-Id: <1358151921-3147-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] Updated checkpkg task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,105 +27,350 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 08:30:05 -0000
-X-Groupsio-MsgNum: 33760
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 14 Jan 2013 08:38:26 -0000
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+	bitbake -c checkpkg fetches the latest version for all packages,
+	including the ones from sourceforge and those that have
+	ununsual package naming.
 
-On Mon, Jan 14, 2013 at 11:02:45AM +0800, Kang Kai wrote:
-> On 2013=E5=B9=B401=E6=9C=8807=E6=97=A5 20:29, Martin Jansa wrote:
-> > On Mon, Jan 07, 2013 at 11:36:03AM +0000, git@git.openembedded.org wrot=
-e:
-> >> Module: openembedded-core.git
-> >> Branch: master
-> >> Commit: 35291c97edc05756788d206457c56dcc41edb637
-> >> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcom=
-mit;h=3D35291c97edc05756788d206457c56dcc41edb637
-> >>
-> >> Author: Kang Kai<kai.kang@windriver.com>
-> >> Date:   Mon Nov  5 10:42:00 2012 +0800
-> >>
-> >> perl: update dependency creating script
-> >>
-> >> Base on dependency create script provided by Saul, I update it with:
-> >> 1 remove document strings in perl module files that may import fake
-> >>    dependencies.
-> >>
-> >> 2 not all the 'use' or 'require' clauses start at the begin of line, a=
-nd
-> >>    some of them don't end with ';', such as:
-> >>
-> >> use vars qw(
-> >>              $AUTOLOAD
-> >> 	    ...
-> >>
-> >> 3 filter some strings that they are not real dependencies: some of them
-> >>    are wrong result of script, some are conditional use/require, and s=
-ome
-> >>    are cpan extra modules that we don't need.
-> >>
-> >> Signed-off-by: Kang Kai<kai.kang@windriver.com>
-> >> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> > This breaks parsing when
-> > http://patchwork.openembedded.org/patch/40997/
-> > is used.
-> >
-> > Parsing recipes...ERROR: There is a confusing multiline, partially comm=
-ented expression on line 10 of file /OE/shr-core/openembedded-core/meta/rec=
-ipes-devtools/perl/perl-rdepends_5.14.2.inc (| sed "s/\/.*\.pm: */ +=3D /g;=
-s/[\"\']//g;s/;.*/\"/g;s/+=3D .*\(require\|use\)\>  */+=3D \"perl-module-/g=
-;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/=
-g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \).
-> > Please clarify whether this is all a comment or should be parsed.
-> > ERROR: Unable to parse /OE/shr-core/openembedded-core/meta/recipes-devt=
-ools/perl/perl_5.14.2.bb: Exited with "1"
-> > ERROR: Command execution failed: Exited with 1
->=20
-> Hi Jansa,
->=20
-> Because my boy was born, I have been leaving office and missed this messa=
-ge.
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+---
+ meta/classes/distrodata.bbclass |  181 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 129 insertions(+), 52 deletions(-)
 
-np, congratz!
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index ffc1b82..1445c3f 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -1,4 +1,4 @@
+-include conf/distro/include/upstream_tracking.inc
++include conf/distro/include/package_regex.inc
+ addhandler distro_eventhandler
+ python distro_eventhandler() {
+ 
+@@ -198,6 +198,48 @@ do_distrodataall() {
+ 
+ addhandler checkpkg_eventhandler
+ python checkpkg_eventhandler() {
++    def parse_csv_file(filename):
++        package_dict = {}
++        fd = open(filename, "r")
++        lines = fd.read().rsplit("\n")
++        fd.close()
++
++        first_line = ''
++        index = 0
++        for line in lines:
++            #Skip the first line
++            if index == 0:
++                first_line = line
++                index += 1
++                continue
++            elif line == '':
++                continue
++            index += 1
++            package_name = line.rsplit("\t")[0]
++            if '-native' in package_name or 'nativesdk-' in package_name:
++                original_name = package_name.rsplit('-native')[0]
++                if original_name == '':
++                    original_name = package_name.rsplit('nativesdk-')[0]
++                if original_name in package_dict:
++                    continue
++                else:
++                    package_dict[package_name] = line
++            else:
++                new_name = package_name + "-native"
++                if not(new_name in package_dict):
++                    new_name = 'nativesdk-' + package_name
++                if new_name in package_dict:
++                    del package_dict[new_name]
++                package_dict[package_name] = line
++
++        fd = open(filename, "w")
++        fd.write("%s\n"%first_line)
++        for el in package_dict:
++            fd.write(package_dict[el] + "\n")
++        fd.close()
++
++        del package_dict
++
+     if bb.event.getName(e) == "BuildStarted":
+         import oe.distro_check as dc
+         logfile = dc.create_log_file(e.data, "checkpkg.csv")
+@@ -207,6 +249,13 @@ python checkpkg_eventhandler() {
+         f.write("Package\tVersion\tUpver\tLicense\tSection\tHome\tRelease\tDepends\tBugTracker\tPE\tDescription\tStatus\tTracking\tURI\tMAINTAINER\n")
+         f.close()
+         bb.utils.unlockfile(lf)
++    elif bb.event.getName(e) == "BuildCompleted":
++        import os
++        filename = "tmp/log/checkpkg.csv"
++        if os.path.isfile(filename):
++            lf = bb.utils.lockfile("%s.lock"%filename)
++            parse_csv_file(filename)
++            bb.utils.unlockfile(lf)
+     return
+ }
+ 
+@@ -214,7 +263,6 @@ addtask checkpkg
+ do_checkpkg[nostamp] = "1"
+ python do_checkpkg() {
+         localdata = bb.data.createCopy(d)
+-        import sys
+         import re
+         import tempfile
+         import subprocess
+@@ -233,16 +281,18 @@ python do_checkpkg() {
+                 genext2fs_1.3.orig.tar.gz
+                 gst-fluendo-mp3
+         """
+-        prefix1 = "[a-zA-Z][a-zA-Z0-9]*([\-_][a-zA-Z]\w+)*[\-_]"        # match most patterns which uses "-" as separator to version digits
++        prefix1 = "[a-zA-Z][a-zA-Z0-9]*([\-_][a-zA-Z]\w+)*\+?[\-_]"        # match most patterns which uses "-" as separator to version digits
+         prefix2 = "[a-zA-Z]+"                        # a loose pattern such as for unzip552.tar.gz
+-        prefix3 = "[0-9a-zA-Z]+"                        # a loose pattern such as for 80325-quicky-0.4.tar.gz
++        prefix3 = "[0-9]+[\-]?[a-zA-Z]+"                        # a loose pattern such as for 80325-quicky-0.4.tar.gz
+         prefix = "(%s|%s|%s)" % (prefix1, prefix2, prefix3)
+-        #ver_regex = "((\d+[\.\-_]*[a-z]*)+)"#"((\d+[\.\-_[a-z]])+)"
+-        suffix = "(tar\.gz|tgz|tar\.bz2|zip|xz|rpm|bz2|orig\.tar\.gz|tar\.xz)"
++        ver_regex = "(([A-Z]*\d+[a-zA-Z]*[\.\-_]*)+)"#"((\d+[\.\-_[a-z]])+)"
++        # src.rpm extension was added only for rpm package. Can be removed if the rpm
++        # packaged will always be considered as having to be manually upgraded
++        suffix = "(tar\.gz|tgz|tar\.bz2|zip|xz|rpm|bz2|orig\.tar\.gz|tar\.xz|src\.tar\.gz|src\.tgz|svnr\d+\.tar\.bz2|stable\.tar\.gz|src\.rpm)"
+ 
+-        suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "src.rpm", "bz2", "orig.tar.gz")
+-        sinterstr = "(?P<name>%s?)(?P<ver>.*)" % prefix
+-        sdirstr = "(?P<name>%s)\.?(?P<ver>.*)\.(?P<type>%s$)" % (prefix, suffix)
++        suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "bz2", "orig.tar.gz", "src.tar.gz", "src.rpm", "src.tgz", "svnr\d+.tar.bz2", "stable.tar.gz", "src.rpm")
++        sinterstr = "(?P<name>%s?)v?(?P<ver>%s)(source)?" % (prefix, ver_regex)
++        sdirstr = "(?P<name>%s)\.?v?(?P<ver>%s)(source)?[\.\-](?P<type>%s$)" % (prefix, ver_regex, suffix)
+ 
+         def parse_inter(s):
+                 m = re.search(sinterstr, s)
+@@ -258,6 +308,22 @@ python do_checkpkg() {
+                 else:
+                         return (m.group('name'), m.group('ver'), m.group('type'))
+ 
++        def modelate_version(version):
++                if version[0] in ['.', '-']:
++                        if version[1].isdigit():
++                                version = version[1] + version[0] + version[2:len(version)]
++                        else:
++                                version = version[1:len(version)]
++
++                version = re.sub('\-', '.', version)
++                version = re.sub('_', '.', version)
++                version = re.sub('(rc)+', '.-1.', version)
++                version = re.sub('(alpha)+', '.-3.', version)
++                version = re.sub('(beta)+', '.-2.', version)
++                if version[0] == 'v':
++                        version = version[1:len(version)]
++                return version
++
+         """
+         Check whether 'new' is newer than 'old' version. We use existing vercmp() for the
+         purpose. PE is cleared in comparison as it's not for build, and PV is cleared too
+@@ -267,18 +333,16 @@ python do_checkpkg() {
+                 (on, ov, ot) = old
+                 (en, ev, et) = new
+                 if on != en or (et and et not in suffixtuple):
+-                        return 0
+-                ov = re.search("[\d|\.]+[^a-zA-Z]+", ov).group()
+-                ev = re.search("[\d|\.]+[^a-zA-Z]+", ev).group()
+-                return bb.utils.vercmp(("0", ov, ""), ("0", ev, ""))
+-
+-        def __vercmp2(old,new):
+-                (on,ov,ot) = old
+-                (en,ev,et) = new
+-                #bb.plain("old n = %s" %(str(ov)))
+-                if on != en or (et and et not in suffixtuple):
+                         return False
+-                return ov < ev
++                ov = modelate_version(ov)
++                ev = modelate_version(ev)
++
++                result = bb.utils.vercmp(("0", ov, ""), ("0", ev, ""))
++                if result < 0:
++                    return True
++                else:
++                    return False
++
+         """
+         wrapper for fetch upstream directory info
+                 'url'        - upstream link customized by regular expression
+@@ -335,15 +399,18 @@ python do_checkpkg() {
+                         match "*4.1/">*4.1/ where '*' matches chars
+                         N.B. add package name, only match for digits
+                         """
+-                        m = re.search("^%s" % prefix, curver)
++                        regex = d.getVar('REGEX', True)
++                        if regex == '':
++                                regex = "^%s" %prefix
++                        m = re.search("^%s" % regex, curver)
+                         if m:
+                                 s = "%s[^\d\"]*?(\d+[\.\-_])+\d+/?" % m.group()
+                         else:
+                                 s = "(\d+[\.\-_])+\d+/?"
+                                 
+                         searchstr = "[hH][rR][eE][fF]=\"%s\">" % s
+-                        reg = re.compile(searchstr)
+ 
++                        reg = re.compile(searchstr)
+                         valid = 0
+                         for line in fhtml.split("\n"):
+                                 if line.find(curver) >= 0:
+@@ -353,7 +420,7 @@ python do_checkpkg() {
+                                         ver = m.group().split("\"")[1]
+                                         ver = ver.strip("/")
+                                         ver = parse_inter(ver)
+-                                        if ver and __vercmp(newver, ver) < 0:
++                                        if ver and __vercmp(newver, ver) == True:
+                                                 newver = ver
+ 
+                         """Expect a match for curver in directory list, or else it indicates unknown format"""
+@@ -384,7 +451,7 @@ python do_checkpkg() {
+                 if not re.search("\d+", curname):
+                         return pcurver
+                 pn = d.getVar('PN', True)
+-                newver_regex = d.getVar('RECIPE_NEWVER_REGEX',True)
++                newver_regex = d.getVar('REGEX', True)
+                 f = tempfile.NamedTemporaryFile(delete=False, prefix="%s-2-" % pn)
+                 status = internal_fetch_wget(url, d, f)
+                 fhtml = f.read()
+@@ -401,10 +468,20 @@ python do_checkpkg() {
+                                 searchstr = "[hH][rR][eE][fF]=\"%s\".*[>\"]" % s
+                                 reg = searchstr
+                         else:
+-                                reg = newver_regex
++                               reg = newver_regex
+                         valid = 0
+                         count = 0
+                         for line in fhtml.split("\n"):
++                                if pn == 'kconfig-frontends':
++                                        m = re.findall(reg, line)
++                                        if m:
++                                            valid = 1
++                                            for match in m:
++                                                    (on, ov, oe) = newver
++                                                    ver = (on, match[0], oe)
++                                                    if ver and __vercmp(newver, ver) == True:
++                                                            newver = ver
++                                        continue
+                                 count += 1
+                                 m = re.search(reg, line)
+                                 if m:
+@@ -419,28 +496,15 @@ python do_checkpkg() {
+                                                 regular expression in the recipe will extract exacly
+                                                 the version """
+                                                 (on, ov, oe) = newver
+-                                                #HARDCODED MESS
+-                                                if pn == 'remake':
+-                                                        ver = (on, m.group(1)+m.group(3), oe)
+-                                                else:
+-                                                        ver = (on, m.group(1), oe)
+-                                        pkg_problem = ['jpeg','dhcp','remake','blktool','apmd','nativesdk-openssl','valgrind','net-tools']
+-                                        if pn in pkg_problem:
+-                                                if ver and __vercmp2(newver,ver) == True:
+-                                                        newver = ver
+-                                        else:
+-                                                if ver and __vercmp(newver, ver) < 0:
+-                                                        newver = ver
++                                                ver = (on, m.group('pver'), oe)
++                                        if ver and __vercmp(newver, ver) == True:
++                                                newver = ver
+                         """Expect a match for curver in directory list, or else it indicates unknown format"""
+                         if not valid:
+                                 status = "ErrParseDir"
+                         else:
+                                 """newver still contains a full package name string"""
+-                                status = re.search("(\d+[\.\-_])*(\d+[0-9a-zA-Z]*)", newver[1]).group()
+-                                if "_" in status:
+-                                        status = re.sub("_",".",status)
+-                                elif "-" in status:
+-                                        status = re.sub("-",".",status)
++                                status = newver[1]
+                 elif not len(fhtml):
+                         status = "ErrHostNoDir"
+ 
+@@ -466,11 +530,23 @@ python do_checkpkg() {
+         pname = d.getVar('PN', True)
+ 
+         if pname.find("-native") != -1:
++            if d.getVar('BBCLASSEXTEND', True):
++                    bb.plain('#EMA# ---> SKIP!!!!')
++                    return
+             pnstripped = pname.split("-native")
+             bb.note("Native Split: %s" % pnstripped)
+             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+             bb.data.update_data(localdata)
+ 
++        if pname.startswith("nativesdk-"):
++            if d.getVar('BBCLASSEXTEND', True):
++                    bb.plain('#EMA# ---> SKIP!!!!')
++                    return
++            pnstripped = pname.replace("nativesdk-", "")
++            bb.note("NativeSDK Split: %s" % pnstripped)
++            localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
++            bb.data.update_data(localdata)
++
+         if pname.find("-cross") != -1:
+             pnstripped = pname.split("-cross")
+             bb.note("cross Split: %s" % pnstripped)
+@@ -483,7 +559,7 @@ python do_checkpkg() {
+             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
+             bb.data.update_data(localdata)
+ 
+-        chk_uri = d.getVar('RECIPE_NEWVER_URI',True)
++        chk_uri = d.getVar('REGEX_URI', True)
+         if not chk_uri:
+                chk_uri = src_uri
+         pdesc = localdata.getVar('DESCRIPTION', True)
+@@ -537,14 +613,14 @@ python do_checkpkg() {
+         
+                         """use new path and remove param. for wget only param is md5sum"""
+                         alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
+-                        my_uri = d.getVar('RECIPE_NEWVER_URI',True)
++                        my_uri = d.getVar('REGEX_URI', True)
+                         if my_uri:
+                             newver = d.getVar('PV', True)
+                         else:
+                             newver = check_new_dir(alturi, dirver, d)
+                         altpath = path
+                         if not re.match("Err", newver) and dirver != newver:
+-                                altpath = altpath.replace(dirver, newver, True)                 
++                                altpath = altpath.replace(dirver, newver, True)
+                 # For folder in folder cases - try to enter the folder again and then try parsing
+                 """Now try to acquire all remote files in current directory"""
+                 if not re.match("Err", newver):
+@@ -556,7 +632,8 @@ python do_checkpkg() {
+                                 altpath = "/"
+                         else:
+                                 altpath = m.group()
+-                        chk_uri = d.getVar('RECIPE_NEWVER_URI',True)
++
++                        chk_uri = d.getVar('REGEX_URI', True)
+                         if not chk_uri:
+                                 alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
+                         else:
+@@ -568,12 +645,12 @@ python do_checkpkg() {
+                                 else:
+                                         alturi = "/".join(alturi.split("/")[0:-2]) + "/download"
+                                         newver = check_new_version(alturi, curname, d)
+-                        if not re.match("Err", newver):
+-                                pupver = newver
+-                                if pupver != pcurver:
+-                                        pstatus = "UPDATE"
+-                                else:
+-                                        pstatus = "MATCH"
++                if not re.match("Err", newver):
++                        pupver = newver
++                        if pupver != pcurver:
++                                pstatus = "UPDATE"
++                        else:
++                                pstatus = "MATCH"
+         
+                 if re.match("Err", newver):
+                         pstatus = newver + ":" + altpath + ":" + dirver + ":" + curname
+-- 
+1.7.9.5
 
-Cheers,
 
-> >
-> >> ---
-> >>
-> >>   .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2336 ++++++++++=
-+++++++++-
-> >>   1 files changed, 2287 insertions(+), 49 deletions(-)
-> >>
-> >> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3Dco=
-mmitdiff;h=3D35291c97edc05756788d206457c56dcc41edb637
-> >>
-> >> _______________________________________________
-> >> Openembedded-commits mailing list
-> >> Openembedded-commits@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commi=
-ts
->=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlDzvmoACgkQN1Ujt2V2gBxvfgCfWb/gMeoF0J9qs4OsEJX6JszM
-+IMAn2dE/AGEq2c64oK3RL6jOQ4cn8DM
-=P9Nh
------END PGP SIGNATURE-----
-
---EeQfGwPcQSOJBaQU--
