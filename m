@@ -1,27 +1,30 @@
-Received: from [213.180.93.183] (helo=www.emagii.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <openembedded-core@emagii.com>) id 1TuWeT-00048n-9W
+	(envelope-from <Qi.Chen@windriver.com>) id 1Tua76-0000jW-5P
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 00:07:41 +0100
-Received: from www.emagii.com (localhost.localdomain [127.0.0.1])
-	by www.emagii.com (Postfix) with ESMTP id 3ED9D28C1426
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jan 2013 23:44:54 +0100 (CET)
-Received: from [10.175.196.244]
-	(c-c338e353.011-39-73746f12.cust.bredbandsbolaget.se [83.227.56.195])
-	by www.emagii.com (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Jan 2013 23:44:54 +0100 (CET)
-Message-ID: <50F338E5.1030905@emagii.com>
-Date: Sun, 13 Jan 2013 23:44:53 +0100
-From: Ulf Samuelsson <openembedded-core@emagii.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130107 Thunderbird/17.0.2
+	Mon, 14 Jan 2013 03:49:28 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0E2Y8MT000182
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 13 Jan 2013 18:34:09 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Sun, 13 Jan 2013 18:34:07 -0800
+Message-ID: <50F36EBD.5070903@windriver.com>
+Date: Mon, 14 Jan 2013 10:34:37 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <50ABF140.4040308@balister.org> <1684102.id2BTWEj2K@helios>
-In-Reply-To: <1684102.id2BTWEj2K@helios>
-Subject: Re: Stand for FOSDEM
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1357465230.git.Qi.Chen@windriver.com>
+	<589cb89b315809bf657c394c4ad5e7aac83d43e5.1357465230.git.Qi.Chen@windriver.com>
+	<50F0A151.20609@linux.intel.com>
+In-Reply-To: <50F0A151.20609@linux.intel.com>
+X-Originating-IP: [128.224.163.154]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V6 2/6] image.bbclass: add two funtions to support readonly rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +37,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Jan 2013 23:08:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 14 Jan 2013 02:49:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Paul Eggleton skrev 2012-11-20 23:26:
-> On Tuesday 20 November 2012 16:08:16 Philip Balister wrote:
->> Does someone want to take the lead applying for and organizing the stand
->> for FOSDEM this year?
+On 01/12/2013 07:33 AM, Saul Wold wrote:
+> On 01/06/2013 01:44 AM, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
 >>
->> https://fosdem.org/2013/call_for_stands/
+>> read_only_rootfs_hook: this funtion is invoked only if 
+>> 'read-only-rootfs'
+>> is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+>> volatile.sh script run at rootfs time.
 >>
->> The application is due next Wednesday.
-Plan to be there.
-Hopefully I should be able to arrange another Atmel raffle,
-to draw people to the stand.
-
-Do we have any plans for demo's?
-
-BR
-Ulf Samuelsson
-
-> I volunteered to do this at the GA, so I can do it. I'll definitely need some
-> assistance though (esp. with regard to getting the gear to the venue).
+>> choose_volatile_conf: this function is exported and should be overriden
+>> by the specific image recipe. Config files specific to read-only rootfs
+>> are closely related to the image types. So these config file should be
+>> provided by the corresponding image recipes.
+>> In addition, this function adds support to customized config files for
+>> customized images.
+>>
+>> [YOCTO #3406]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/image.bbclass |   29 ++++++++++++++++++++++++-----
+>>   1 file changed, 24 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index d3a416d..0cd49f0 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -167,6 +167,7 @@ inherit ${IMAGE_CLASSES}
+>>   IMAGE_POSTPROCESS_COMMAND ?= ""
+>>   MACHINE_POSTPROCESS_COMMAND ?= ""
+>>   ROOTFS_POSTPROCESS_COMMAND_prepend = "run_intercept_scriptlets; "
+>> +ROOTFS_POSTPROCESS_COMMAND_prepend = "choose_volatile_conf; "
+>>
+>>   # some default locales
+>>   IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+>> @@ -185,6 +186,11 @@ do_build[nostamp] = "1"
+>>   # task, so that we have a single fakeroot context for the whole 
+>> process.
+>>   do_rootfs[umask] = "022"
+>>
+>> +choose_volatile_conf () {
+>> +        # This task should be overriden by the specific image recipe.
+>> +        # It is used to install the correct conf file for volatile 
+>> storage
+>> +        # handling to support read-only rootfs.
+>> +}
+>>
+>>   run_intercept_scriptlets () {
+>>       if [ -d ${WORKDIR}/intercept_scripts ]; then
+>> @@ -396,6 +402,21 @@ zap_root_password () {
+>>       mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+>>   }
+>>
+>> +# A hook function to support read-only-rootfs IMAGE_FEATURES
+>> +read_only_rootfs_hook () {
+>> +    # Tweak the mount option in fstab
+>> +    sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
+>> +    # Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+>> +    if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
+>> +        sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' 
+>> ${IMAGE_ROOTFS}/etc/default/rcS
+>> +    fi
+>> +    # Run populate-volatile.sh at rootfs time to set up basic files
+>> +    # and directories to support read-only rootfs.
+>> +    if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+>> +        ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+>> +    fi
+>> +}
+>> +
+>>   # allow openssh accept login with empty password string
+>>   openssh_allow_empty_password () {
+>>       if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+>> @@ -458,11 +479,9 @@ rootfs_trim_schemas () {
+>>       done
+>>   }
+>>
+>> -EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs 
+>> make_zimage_symlink_relative set_image_autologin 
+>> rootfs_update_timestamp rootfs_no_x_startup
+>> +EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs 
+>> make_zimage_symlink_relative set_image_autologin 
+>> rootfs_update_timestamp rootfs_no_x_startup choose_volatile_conf
+>>
+>> -do_fetch[noexec] = "1"
+>> -do_unpack[noexec] = "1"
+>> -do_patch[noexec] = "1"
+>> +# do_fetch, do_unpack and do_patch are needed to copy conf files to 
+>> workdir
+>>   do_configure[noexec] = "1"
+>>   do_compile[noexec] = "1"
+>>   do_install[noexec] = "1"
+>> @@ -472,4 +491,4 @@ do_package_write_ipk[noexec] = "1"
+>>   do_package_write_deb[noexec] = "1"
+>>   do_package_write_rpm[noexec] = "1"
+>>
+>> -addtask rootfs before do_build
+>> +addtask rootfs before do_build after do_patch
+>>
+> Why is this needed, and will it continue to be needed if we move to 
+> the *-volatile-conf packages?
 >
-> Cheers,
-> Paul
+
+The read_only_rootfs_hook function is always needed.
+The choose_volatile_conf function is not needed any more if we move to 
+the *-volatile-conf package.
+
+Thanks,
+Chen Qi
+
+> Sau!
+>
+>
 >
 
 
