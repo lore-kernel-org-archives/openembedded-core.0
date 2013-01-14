@@ -1,20 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <emilia.maria.silvia.ciobanu@intel.com>)
-	id 1TufYM-0006kv-1A for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 09:37:59 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 14 Jan 2013 00:21:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,466,1355126400"; d="scan'208";a="243474367"
-Received: from ema-vostro-460 (HELO localhost.localdomain) ([10.237.105.41])
-	by azsmga001.ch.intel.com with ESMTP; 14 Jan 2013 00:21:31 -0800
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2013 10:25:21 +0200
-Message-Id: <1358151921-3147-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+	(envelope-from <Qi.Chen@windriver.com>) id 1TufkW-00072N-Dx
+	for openembedded-core@lists.openembedded.org;
+	Mon, 14 Jan 2013 09:50:32 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0E8ZCjT018128
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jan 2013 00:35:12 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 14 Jan 2013 00:35:12 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Jan 2013 16:35:38 +0800
+Message-ID: <cover.1358152182.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] Updated checkpkg task
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH V7 0/6] read-only rootfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,348 +32,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 08:38:26 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 08:50:33 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 08:50:33 -0000
+Content-Type: text/plain
 
-	bitbake -c checkpkg fetches the latest version for all packages,
-	including the ones from sourceforge and those that have
-	ununsual package naming.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
- meta/classes/distrodata.bbclass |  181 ++++++++++++++++++++++++++++-----------
- 1 file changed, 129 insertions(+), 52 deletions(-)
+The series of patches add support to read-only rootfs.
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index ffc1b82..1445c3f 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -1,4 +1,4 @@
--include conf/distro/include/upstream_tracking.inc
-+include conf/distro/include/package_regex.inc
- addhandler distro_eventhandler
- python distro_eventhandler() {
- 
-@@ -198,6 +198,48 @@ do_distrodataall() {
- 
- addhandler checkpkg_eventhandler
- python checkpkg_eventhandler() {
-+    def parse_csv_file(filename):
-+        package_dict = {}
-+        fd = open(filename, "r")
-+        lines = fd.read().rsplit("\n")
-+        fd.close()
-+
-+        first_line = ''
-+        index = 0
-+        for line in lines:
-+            #Skip the first line
-+            if index == 0:
-+                first_line = line
-+                index += 1
-+                continue
-+            elif line == '':
-+                continue
-+            index += 1
-+            package_name = line.rsplit("\t")[0]
-+            if '-native' in package_name or 'nativesdk-' in package_name:
-+                original_name = package_name.rsplit('-native')[0]
-+                if original_name == '':
-+                    original_name = package_name.rsplit('nativesdk-')[0]
-+                if original_name in package_dict:
-+                    continue
-+                else:
-+                    package_dict[package_name] = line
-+            else:
-+                new_name = package_name + "-native"
-+                if not(new_name in package_dict):
-+                    new_name = 'nativesdk-' + package_name
-+                if new_name in package_dict:
-+                    del package_dict[new_name]
-+                package_dict[package_name] = line
-+
-+        fd = open(filename, "w")
-+        fd.write("%s\n"%first_line)
-+        for el in package_dict:
-+            fd.write(package_dict[el] + "\n")
-+        fd.close()
-+
-+        del package_dict
-+
-     if bb.event.getName(e) == "BuildStarted":
-         import oe.distro_check as dc
-         logfile = dc.create_log_file(e.data, "checkpkg.csv")
-@@ -207,6 +249,13 @@ python checkpkg_eventhandler() {
-         f.write("Package\tVersion\tUpver\tLicense\tSection\tHome\tRelease\tDepends\tBugTracker\tPE\tDescription\tStatus\tTracking\tURI\tMAINTAINER\n")
-         f.close()
-         bb.utils.unlockfile(lf)
-+    elif bb.event.getName(e) == "BuildCompleted":
-+        import os
-+        filename = "tmp/log/checkpkg.csv"
-+        if os.path.isfile(filename):
-+            lf = bb.utils.lockfile("%s.lock"%filename)
-+            parse_csv_file(filename)
-+            bb.utils.unlockfile(lf)
-     return
- }
- 
-@@ -214,7 +263,6 @@ addtask checkpkg
- do_checkpkg[nostamp] = "1"
- python do_checkpkg() {
-         localdata = bb.data.createCopy(d)
--        import sys
-         import re
-         import tempfile
-         import subprocess
-@@ -233,16 +281,18 @@ python do_checkpkg() {
-                 genext2fs_1.3.orig.tar.gz
-                 gst-fluendo-mp3
-         """
--        prefix1 = "[a-zA-Z][a-zA-Z0-9]*([\-_][a-zA-Z]\w+)*[\-_]"        # match most patterns which uses "-" as separator to version digits
-+        prefix1 = "[a-zA-Z][a-zA-Z0-9]*([\-_][a-zA-Z]\w+)*\+?[\-_]"        # match most patterns which uses "-" as separator to version digits
-         prefix2 = "[a-zA-Z]+"                        # a loose pattern such as for unzip552.tar.gz
--        prefix3 = "[0-9a-zA-Z]+"                        # a loose pattern such as for 80325-quicky-0.4.tar.gz
-+        prefix3 = "[0-9]+[\-]?[a-zA-Z]+"                        # a loose pattern such as for 80325-quicky-0.4.tar.gz
-         prefix = "(%s|%s|%s)" % (prefix1, prefix2, prefix3)
--        #ver_regex = "((\d+[\.\-_]*[a-z]*)+)"#"((\d+[\.\-_[a-z]])+)"
--        suffix = "(tar\.gz|tgz|tar\.bz2|zip|xz|rpm|bz2|orig\.tar\.gz|tar\.xz)"
-+        ver_regex = "(([A-Z]*\d+[a-zA-Z]*[\.\-_]*)+)"#"((\d+[\.\-_[a-z]])+)"
-+        # src.rpm extension was added only for rpm package. Can be removed if the rpm
-+        # packaged will always be considered as having to be manually upgraded
-+        suffix = "(tar\.gz|tgz|tar\.bz2|zip|xz|rpm|bz2|orig\.tar\.gz|tar\.xz|src\.tar\.gz|src\.tgz|svnr\d+\.tar\.bz2|stable\.tar\.gz|src\.rpm)"
- 
--        suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "src.rpm", "bz2", "orig.tar.gz")
--        sinterstr = "(?P<name>%s?)(?P<ver>.*)" % prefix
--        sdirstr = "(?P<name>%s)\.?(?P<ver>.*)\.(?P<type>%s$)" % (prefix, suffix)
-+        suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "bz2", "orig.tar.gz", "src.tar.gz", "src.rpm", "src.tgz", "svnr\d+.tar.bz2", "stable.tar.gz", "src.rpm")
-+        sinterstr = "(?P<name>%s?)v?(?P<ver>%s)(source)?" % (prefix, ver_regex)
-+        sdirstr = "(?P<name>%s)\.?v?(?P<ver>%s)(source)?[\.\-](?P<type>%s$)" % (prefix, ver_regex, suffix)
- 
-         def parse_inter(s):
-                 m = re.search(sinterstr, s)
-@@ -258,6 +308,22 @@ python do_checkpkg() {
-                 else:
-                         return (m.group('name'), m.group('ver'), m.group('type'))
- 
-+        def modelate_version(version):
-+                if version[0] in ['.', '-']:
-+                        if version[1].isdigit():
-+                                version = version[1] + version[0] + version[2:len(version)]
-+                        else:
-+                                version = version[1:len(version)]
-+
-+                version = re.sub('\-', '.', version)
-+                version = re.sub('_', '.', version)
-+                version = re.sub('(rc)+', '.-1.', version)
-+                version = re.sub('(alpha)+', '.-3.', version)
-+                version = re.sub('(beta)+', '.-2.', version)
-+                if version[0] == 'v':
-+                        version = version[1:len(version)]
-+                return version
-+
-         """
-         Check whether 'new' is newer than 'old' version. We use existing vercmp() for the
-         purpose. PE is cleared in comparison as it's not for build, and PV is cleared too
-@@ -267,18 +333,16 @@ python do_checkpkg() {
-                 (on, ov, ot) = old
-                 (en, ev, et) = new
-                 if on != en or (et and et not in suffixtuple):
--                        return 0
--                ov = re.search("[\d|\.]+[^a-zA-Z]+", ov).group()
--                ev = re.search("[\d|\.]+[^a-zA-Z]+", ev).group()
--                return bb.utils.vercmp(("0", ov, ""), ("0", ev, ""))
--
--        def __vercmp2(old,new):
--                (on,ov,ot) = old
--                (en,ev,et) = new
--                #bb.plain("old n = %s" %(str(ov)))
--                if on != en or (et and et not in suffixtuple):
-                         return False
--                return ov < ev
-+                ov = modelate_version(ov)
-+                ev = modelate_version(ev)
-+
-+                result = bb.utils.vercmp(("0", ov, ""), ("0", ev, ""))
-+                if result < 0:
-+                    return True
-+                else:
-+                    return False
-+
-         """
-         wrapper for fetch upstream directory info
-                 'url'        - upstream link customized by regular expression
-@@ -335,15 +399,18 @@ python do_checkpkg() {
-                         match "*4.1/">*4.1/ where '*' matches chars
-                         N.B. add package name, only match for digits
-                         """
--                        m = re.search("^%s" % prefix, curver)
-+                        regex = d.getVar('REGEX', True)
-+                        if regex == '':
-+                                regex = "^%s" %prefix
-+                        m = re.search("^%s" % regex, curver)
-                         if m:
-                                 s = "%s[^\d\"]*?(\d+[\.\-_])+\d+/?" % m.group()
-                         else:
-                                 s = "(\d+[\.\-_])+\d+/?"
-                                 
-                         searchstr = "[hH][rR][eE][fF]=\"%s\">" % s
--                        reg = re.compile(searchstr)
- 
-+                        reg = re.compile(searchstr)
-                         valid = 0
-                         for line in fhtml.split("\n"):
-                                 if line.find(curver) >= 0:
-@@ -353,7 +420,7 @@ python do_checkpkg() {
-                                         ver = m.group().split("\"")[1]
-                                         ver = ver.strip("/")
-                                         ver = parse_inter(ver)
--                                        if ver and __vercmp(newver, ver) < 0:
-+                                        if ver and __vercmp(newver, ver) == True:
-                                                 newver = ver
- 
-                         """Expect a match for curver in directory list, or else it indicates unknown format"""
-@@ -384,7 +451,7 @@ python do_checkpkg() {
-                 if not re.search("\d+", curname):
-                         return pcurver
-                 pn = d.getVar('PN', True)
--                newver_regex = d.getVar('RECIPE_NEWVER_REGEX',True)
-+                newver_regex = d.getVar('REGEX', True)
-                 f = tempfile.NamedTemporaryFile(delete=False, prefix="%s-2-" % pn)
-                 status = internal_fetch_wget(url, d, f)
-                 fhtml = f.read()
-@@ -401,10 +468,20 @@ python do_checkpkg() {
-                                 searchstr = "[hH][rR][eE][fF]=\"%s\".*[>\"]" % s
-                                 reg = searchstr
-                         else:
--                                reg = newver_regex
-+                               reg = newver_regex
-                         valid = 0
-                         count = 0
-                         for line in fhtml.split("\n"):
-+                                if pn == 'kconfig-frontends':
-+                                        m = re.findall(reg, line)
-+                                        if m:
-+                                            valid = 1
-+                                            for match in m:
-+                                                    (on, ov, oe) = newver
-+                                                    ver = (on, match[0], oe)
-+                                                    if ver and __vercmp(newver, ver) == True:
-+                                                            newver = ver
-+                                        continue
-                                 count += 1
-                                 m = re.search(reg, line)
-                                 if m:
-@@ -419,28 +496,15 @@ python do_checkpkg() {
-                                                 regular expression in the recipe will extract exacly
-                                                 the version """
-                                                 (on, ov, oe) = newver
--                                                #HARDCODED MESS
--                                                if pn == 'remake':
--                                                        ver = (on, m.group(1)+m.group(3), oe)
--                                                else:
--                                                        ver = (on, m.group(1), oe)
--                                        pkg_problem = ['jpeg','dhcp','remake','blktool','apmd','nativesdk-openssl','valgrind','net-tools']
--                                        if pn in pkg_problem:
--                                                if ver and __vercmp2(newver,ver) == True:
--                                                        newver = ver
--                                        else:
--                                                if ver and __vercmp(newver, ver) < 0:
--                                                        newver = ver
-+                                                ver = (on, m.group('pver'), oe)
-+                                        if ver and __vercmp(newver, ver) == True:
-+                                                newver = ver
-                         """Expect a match for curver in directory list, or else it indicates unknown format"""
-                         if not valid:
-                                 status = "ErrParseDir"
-                         else:
-                                 """newver still contains a full package name string"""
--                                status = re.search("(\d+[\.\-_])*(\d+[0-9a-zA-Z]*)", newver[1]).group()
--                                if "_" in status:
--                                        status = re.sub("_",".",status)
--                                elif "-" in status:
--                                        status = re.sub("-",".",status)
-+                                status = newver[1]
-                 elif not len(fhtml):
-                         status = "ErrHostNoDir"
- 
-@@ -466,11 +530,23 @@ python do_checkpkg() {
-         pname = d.getVar('PN', True)
- 
-         if pname.find("-native") != -1:
-+            if d.getVar('BBCLASSEXTEND', True):
-+                    bb.plain('#EMA# ---> SKIP!!!!')
-+                    return
-             pnstripped = pname.split("-native")
-             bb.note("Native Split: %s" % pnstripped)
-             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
-             bb.data.update_data(localdata)
- 
-+        if pname.startswith("nativesdk-"):
-+            if d.getVar('BBCLASSEXTEND', True):
-+                    bb.plain('#EMA# ---> SKIP!!!!')
-+                    return
-+            pnstripped = pname.replace("nativesdk-", "")
-+            bb.note("NativeSDK Split: %s" % pnstripped)
-+            localdata.setVar('OVERRIDES', "pn-" + pnstripped + ":" + d.getVar('OVERRIDES', True))
-+            bb.data.update_data(localdata)
-+
-         if pname.find("-cross") != -1:
-             pnstripped = pname.split("-cross")
-             bb.note("cross Split: %s" % pnstripped)
-@@ -483,7 +559,7 @@ python do_checkpkg() {
-             localdata.setVar('OVERRIDES', "pn-" + pnstripped[0] + ":" + d.getVar('OVERRIDES', True))
-             bb.data.update_data(localdata)
- 
--        chk_uri = d.getVar('RECIPE_NEWVER_URI',True)
-+        chk_uri = d.getVar('REGEX_URI', True)
-         if not chk_uri:
-                chk_uri = src_uri
-         pdesc = localdata.getVar('DESCRIPTION', True)
-@@ -537,14 +613,14 @@ python do_checkpkg() {
-         
-                         """use new path and remove param. for wget only param is md5sum"""
-                         alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
--                        my_uri = d.getVar('RECIPE_NEWVER_URI',True)
-+                        my_uri = d.getVar('REGEX_URI', True)
-                         if my_uri:
-                             newver = d.getVar('PV', True)
-                         else:
-                             newver = check_new_dir(alturi, dirver, d)
-                         altpath = path
-                         if not re.match("Err", newver) and dirver != newver:
--                                altpath = altpath.replace(dirver, newver, True)                 
-+                                altpath = altpath.replace(dirver, newver, True)
-                 # For folder in folder cases - try to enter the folder again and then try parsing
-                 """Now try to acquire all remote files in current directory"""
-                 if not re.match("Err", newver):
-@@ -556,7 +632,8 @@ python do_checkpkg() {
-                                 altpath = "/"
-                         else:
-                                 altpath = m.group()
--                        chk_uri = d.getVar('RECIPE_NEWVER_URI',True)
-+
-+                        chk_uri = d.getVar('REGEX_URI', True)
-                         if not chk_uri:
-                                 alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
-                         else:
-@@ -568,12 +645,12 @@ python do_checkpkg() {
-                                 else:
-                                         alturi = "/".join(alturi.split("/")[0:-2]) + "/download"
-                                         newver = check_new_version(alturi, curname, d)
--                        if not re.match("Err", newver):
--                                pupver = newver
--                                if pupver != pcurver:
--                                        pstatus = "UPDATE"
--                                else:
--                                        pstatus = "MATCH"
-+                if not re.match("Err", newver):
-+                        pupver = newver
-+                        if pupver != pcurver:
-+                                pstatus = "UPDATE"
-+                        else:
-+                                pstatus = "MATCH"
-         
-                 if re.match("Err", newver):
-                         pstatus = newver + ":" + altpath + ":" + dirver + ":" + curname
+The main idea is to use symbolic links to create the illuion that some
+directories are writable in case of a read-only rootfs.
+
+This set of patches have been tested on minimal images with and without
+'read-only-rootfs' image feature enabled. Everything is OK.
+
+For sato images, everything is the same as before if 'read-only-rootfs' is not enabled.
+With 'read-only-rootfs' enabled, sato image could work if graphic interface is diabled.
+When all postinstall problems are resolved, sato image should work well (maybe with some
+small changes in volatiles-readonly-sato conf file).
+
+Changes for Version 4:
+1) Improve the commit messages to be clearer.
+2) Use 'sed -i' to replace 'sed' and 'mv' operations to cut down the exec overhead.
+
+Changes for Version 5:
+Fix the problem of failing to build the live images
+
+Changes for Version 6:
+1) Let the image recipes provide the corresponding conf files for read-only rootfs.
+   The config files are closely related to the image types, so it's more reasonable
+   to let these image recipes provide the config files.
+2) Support customized conf files for customized images.
+
+Changes for Version 7:
+1) Separate read-only-rootfs specific conf files from image recipes.
+   Create recipes for them and let image recipes depend on the them.
+2) 'choose_volatiel_conf' is no more need, thus removed.
+
+
+The following changes since commit 53cc748b93e8af584557d6db5309c3e955182c5c:
+
+  linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:51 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/readonly-rootfs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/readonly-rootfs
+
+Chen Qi (6):
+  sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
+  image.bbclass: add a hook funtion to support readonly rootfs
+  core-image.bbclass: support read-only rootfs
+  initscripts: support read-only rootfs
+  volatile-conf-minimal: add recipe
+  volatile-conf-sato: add recipe
+
+ meta/classes/core-image.bbclass                    |    5 +-
+ meta/classes/image.bbclass                         |   16 +-
+ meta/recipes-core/images/core-image-minimal.bb     |    3 +
+ .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +-
+ .../initscripts-1.0/populate-volatile.sh           |  281 ++++++++++----------
+ .../initscripts/initscripts-1.0/volatiles          |    1 +
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 +-
+ .../files/volatiles-readonly-minimal               |    8 +
+ .../volatile-conf-minimal_1.0.bb                   |   15 ++
+ meta/recipes-core/sysvinit/sysvinit/rcS-default    |    4 +
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
+ meta/recipes-sato/images/core-image-sato.bb        |    3 +
+ .../files/volatiles-readonly-sato                  |   14 +
+ .../volatile-conf-sato_1.0.bb                      |   15 ++
+ 14 files changed, 224 insertions(+), 157 deletions(-)
+ create mode 100644 meta/recipes-core/readonly-volatile-conf/files/volatiles-readonly-minimal
+ create mode 100644 meta/recipes-core/readonly-volatile-conf/volatile-conf-minimal_1.0.bb
+ create mode 100644 meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
+ create mode 100644 meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
+
 -- 
 1.7.9.5
 
