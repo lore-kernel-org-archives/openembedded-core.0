@@ -1,19 +1,20 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34]
-	helo=gemini.alm.mentorg.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <muhammad_shakeel@mentor.com>) id 1TukdZ-0007gs-UX
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <constantinx.musca@intel.com>) id 1Tum0M-0001KN-5z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 15:03:43 +0100
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com
-	(pkl-comp-bm2.pkl.mentorg.com [137.202.157.186])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r0EDmJjW021778; 
-	Mon, 14 Jan 2013 07:48:20 -0600
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+	Mon, 14 Jan 2013 16:31:19 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Jan 2013 07:15:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,468,1355126400"; d="scan'208";a="246401793"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
+	by orsmga001.jf.intel.com with ESMTP; 14 Jan 2013 07:15:56 -0800
+From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2013 18:48:20 +0500
-Message-Id: <1358171300-970-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/2 v2] archive-*-source.bbclass: Handle all package classes
+Date: Mon, 14 Jan 2013 17:16:35 +0200
+Message-Id: <cover.1358175955.git.constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v2 0/6] On-target multilib gcc enhacement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -26,136 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 14:03:44 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 15:31:22 -0000
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+This patchset enables the user to build gcc with configurable multilib options.
+The following changes since commit 53cc748b93e8af584557d6db5309c3e955182c5c:
 
-* Add archiver tasks correctly for any 'IMAGE_PKGTYPE'.
+  linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:51 +0000)
 
-[YOCTO #3449]
+are available in the git repository at:
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/archive-configured-source.bbclass |   15 +++++++++++++--
- meta/classes/archive-original-source.bbclass   |   15 +++++++++++++--
- meta/classes/archive-patched-source.bbclass    |   15 +++++++++++++--
- 3 files changed, 39 insertions(+), 6 deletions(-)
+  git://git.pokylinux.org/poky-contrib cmuscax/gcc_enhan3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/gcc_enhan3
 
-diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
-index 64799e3..50838e6 100644
---- a/meta/classes/archive-configured-source.bbclass
-+++ b/meta/classes/archive-configured-source.bbclass
-@@ -11,12 +11,19 @@ inherit archiver
- addtask do_archive_configured_sources after do_configure
- 
- # Get archiving package with temp(logs) and scripts(.bb and inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    write_package_task = 'do_package_write_' + packaging
-+
-+    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-+    deps.append(write_package_task)
-+    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-@@ -30,6 +37,10 @@ python () {
-         recrdeptask += ' do_archive_configured_sources '
-         d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
- 
-+        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-+        deps.append(write_package_task)
-+        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
-+
-         deps = d.getVarFlag('do_build', 'deps') or []
-         deps.append('do_archive_scripts_logs')
-         d.setVarFlag('do_build', 'deps', deps)
-diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
-index 44dffb4..77f9650 100644
---- a/meta/classes/archive-original-source.bbclass
-+++ b/meta/classes/archive-original-source.bbclass
-@@ -11,12 +11,19 @@ inherit archiver
- addtask do_archive_original_sources_patches after do_unpack
- 
- # Get archiving package with temp(logs) and scripts(.bb and inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    write_package_task = 'do_package_write_' + packaging
-+
-+    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-+    deps.append(write_package_task)
-+    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-@@ -30,6 +37,10 @@ python () {
-         recrdeptask += ' do_archive_original_sources_patches '
-         d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
- 
-+        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-+        deps.append(write_package_task)
-+        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
-+
-         deps = d.getVarFlag('do_build', 'deps') or []
-         deps.append('do_archive_scripts_logs')
-         d.setVarFlag('do_build', 'deps', deps)
-diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
-index 35bae54..11dd547 100644
---- a/meta/classes/archive-patched-source.bbclass
-+++ b/meta/classes/archive-patched-source.bbclass
-@@ -11,12 +11,19 @@ inherit archiver
- addtask do_archive_patched_sources after do_patch
- 
- # Get archiving package with logs(temp) and scripts(.bb and .inc files)
--addtask do_archive_scripts_logs after do_package_write_rpm
-+addtask do_archive_scripts_logs
- 
- # Get dump date and create diff file 
--addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-+addtask do_dumpdata_create_diff_gz before do_build
- 
- python () {
-+    packaging = d.getVar('IMAGE_PKGTYPE', True)
-+    write_package_task = 'do_package_write_' + packaging
-+
-+    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-+    deps.append(write_package_task)
-+    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-+
-     if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
-         """
-         If package type is not 'srpm' then add tasks to move archive packages of
-@@ -30,6 +37,10 @@ python () {
-         recrdeptask += ' do_archive_patched_sources '
-         d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
- 
-+        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-+        deps.append(write_package_task)
-+        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
-+
-         deps = d.getVarFlag('do_build', 'deps') or []
-         deps.append('do_archive_scripts_logs')
-         d.setVarFlag('do_build', 'deps', deps)
+Constantin Musca (6):
+  gcc: add missing dependency (zlib)
+  gcc: remove the 64bithack patch
+  multilib.conf: add TARGET_ARCH to MULTILIB_SAVE_VARNAME
+  gcc: enable multilib for target gcc
+  tune-mips32: add BASE_LIB to mips32 tunes
+  tune-ppc603e: add BASE_LIB
+
+ meta/conf/machine/include/tune-mips32.inc          |   4 +
+ meta/conf/machine/include/tune-ppc603e.inc         |   1 +
+ meta/conf/multilib.conf                            |   2 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |   5 +-
+ meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch  |  63 -------
+ meta/recipes-devtools/gcc/gcc-common.inc           |  25 +++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |   3 +-
+ meta/recipes-devtools/gcc/gcc-configure-target.inc |   1 +
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc  | 200 +++++++++++++++++++++
+ meta/recipes-devtools/gcc/libgcc_4.7.bb            |  44 +++++
+ 10 files changed, 280 insertions(+), 68 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
+
 -- 
-1.7.9.5
+1.7.11.7
 
 
 
