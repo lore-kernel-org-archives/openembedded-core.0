@@ -1,20 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1TukHv-0006dy-KJ
+	(envelope-from <Muhammad_Shakeel@mentor.com>) id 1TukY1-000768-CL
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 14:41:35 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 14 Jan 2013 05:25:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,468,1355126400"; d="scan'208";a="190871330"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.166])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Jan 2013 05:25:55 -0800
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2013 15:29:09 +0200
-Message-Id: <1358170149-27579-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] oprofile: set correct kernel path
+	Mon, 14 Jan 2013 14:58:16 +0100
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1TukJA-0003c5-LW from Muhammad_Shakeel@mentor.com ;
+	Mon, 14 Jan 2013 05:42:36 -0800
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 14 Jan 2013 05:42:36 -0800
+Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.64]) by
+	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
+	14.01.0289.001; Mon, 14 Jan 2013 13:42:34 +0000
+From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH 1/3] archive-*-source.bbclass: Use tasks
+	instead of pre/post functions
+Thread-Index: AQHN7bipqnQxtucxR0Cw3rl2dtkGI5g/mA0AgAlFs3A=
+Date: Mon, 14 Jan 2013 13:42:33 +0000
+Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F85BC88B2A@EU-MBX-04.mgc.mentorg.com>
+References: <1357660547-19803-1-git-send-email-muhammad_shakeel@mentor.com>
+	<CAP9ODKqce52z7FKg2frjMwUEkRzsWRGJ78HQwTatiXR09FugQQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKqce52z7FKg2frjMwUEkRzsWRGJ78HQwTatiXR09FugQQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 14 Jan 2013 13:42:36.0075 (UTC)
+	FILETIME=[030E1FB0:01CDF25D]
+Cc: "Larson, Chris" <Chris_Larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] archive-*-source.bbclass: Use tasks instead of pre/post functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,42 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 13:41:35 -0000
-X-List-Received-Date: Mon, 14 Jan 2013 13:41:35 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 13:58:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-oprofile's "configure" was always looking at the configuration of the host
-kernel, not the target kernel. This patch instructs oprofile to use the
-target kernel to configure itself.
+All right. I am resending this patch with two commits in total.
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- meta/recipes-kernel/oprofile/oprofile.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--Shakeel
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
-index 9bbd2ef..d6d20ae 100644
---- a/meta/recipes-kernel/oprofile/oprofile.inc
-+++ b/meta/recipes-kernel/oprofile/oprofile.inc
-@@ -19,7 +19,7 @@ FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*${SOLIBS} ${datadir}/${BPN}"
- FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
- FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
- 
--INC_PR = "r0"
-+INC_PR = "r1"
- 
- SRC_URI = "file://opstart.patch \
-            file://oprofile-no-query-modules.patch \
-@@ -28,7 +28,7 @@ SRC_URI = "file://opstart.patch \
- 
- inherit autotools
- 
--EXTRA_OECONF = "--with-kernel-support --without-x"
-+EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x"
- do_configure () {
- 	find . -type f | xargs sed -i 's#ROOTHOME#${ROOT_HOME}#'
- 	cp ${WORKDIR}/acinclude.m4 ${S}/
--- 
-1.7.10.4
+-----Original Message-----
+From: otavio.salvador@gmail.com [mailto:otavio.salvador@gmail.com] On Behal=
+f Of Otavio Salvador
+Sent: Tuesday, January 08, 2013 9:04 PM
+To: Shakeel, Muhammad
+Cc: Patches and discussions about the oe-core layer; Larson, Chris
+Subject: Re: [OE-core] [PATCH 1/3] archive-*-source.bbclass: Use tasks inst=
+ead of pre/post functions
 
+On Tue, Jan 8, 2013 at 1:55 PM, Shakeel, Muhammad <muhammad_shakeel@mentor.=
+com> wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>
+> * Modified following archiver related classes to add separate tasks
+>   for different archiver functions instead of adding these as pre/post
+>   functions of existing tasks.
+>     -archive-original-source.bbclass
+>     -archive-patched-source.bbclass
+>     -archive-configured-source.bbclass
+>
+> [YOCTO #3449]
+>
+> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+
+This can be dropped as it will be changed again in 3/3. Right?
+
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
