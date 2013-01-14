@@ -1,26 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-oa0-f44.google.com ([209.85.219.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TunnS-0004pD-5L
+	(envelope-from <otavio.salvador@gmail.com>) id 1Tuo9C-0005GC-K3
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 18:26:21 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jan 2013 09:09:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,468,1355126400"; d="scan'208";a="271826530"
-Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jan 2013 09:10:26 -0800
-Message-ID: <50F43D8A.8020502@intel.com>
-Date: Mon, 14 Jan 2013 19:16:58 +0200
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Mon, 14 Jan 2013 18:48:35 +0100
+Received: by mail-oa0-f44.google.com with SMTP id n5so4265029oag.17
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Jan 2013 09:33:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=ZPQv+zO/5+mMii8DQhpvAvp7h+KmJinjMpjS58QIVdw=;
+	b=qcapBx5sad/hu8YW2UEEFgw13aJp1b1dZT+pfEWvT0ECN6VmcjG2gAhhMESWBYo/On
+	2LKhsSMDbNZG9VpsFujEQ0X3zx43WhsFZ6pBd31vKeWhuuGb7TktUfnsSep+J6dr6cHZ
+	NoZbtnBL9zga22Rj+ntQYn7andhgAO157ypmAm7P31tSbBQHspbkHRuza3uHEmSnhFQ3
+	KW2n/b0Gc3q8iuAQCdJ9jyoa8HLACthmR7x8E2Reb24qqD42x/jmUAS2xpN54NQAosIk
+	jQLEvDKn7h8SXbnz7pa0vpJyXbILWn+8E+nm7wsLVVbSS3YrSTZiA4GKQQA/zi0xsvK4
+	e/Ng==
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1357647338.git.radu.moisan@intel.com>
-	<50F09EDA.1000807@linux.intel.com>
-In-Reply-To: <50F09EDA.1000807@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
+Received: by 10.60.1.42 with SMTP id 10mr51335159oej.125.1358184794972; Mon,
+	14 Jan 2013 09:33:14 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.219.130 with HTTP; Mon, 14 Jan 2013 09:33:14 -0800 (PST)
+In-Reply-To: <1358171300-970-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1358171300-970-1-git-send-email-muhammad_shakeel@mentor.com>
+Date: Mon, 14 Jan 2013 15:33:14 -0200
+X-Google-Sender-Auth: eiruHsaOFCvb__WCK7FfLfuuMQw
+Message-ID: <CAP9ODKoom8bBhU-YJZTFLxmNt6uAW+T6GnmWtWiCxmgbiFA3Aw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 v2] archive-*-source.bbclass: Handle all package classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,117 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 17:26:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Jan 2013 17:48:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-
-On 01/12/2013 01:23 AM, Saul Wold wrote:
-> On 01/08/2013 04:24 AM, Radu Moisan wrote:
->> As Ross suggested I've done the following changes to the previous set:
->> * added two patches (the first two) that address multiple init 
->> systems support,\
->> as in shifting from default hardcoded sysvinit to something more 
->> generic while
->> the default values still remains on sysvinit
->> * moved automatic setting of PREFERRED_PROVIDER_udev into 
->> default_providers.inc
->> * removed ahavi-systemd since all it provided was service files; now 
->> service files
->> are pulled in by avahi-daemon
->> * also rebased on master
->>
->> The following changes since commit 
->> 7e1f8faad0c4b6f490c26f87acc698dd6e002b15:
->>
->>    perl: Remove bashism from perl-tests.inc (2013-01-07 22:37:37 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.yoctoproject.org/poky-contrib rmoisan/systemd
->> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
->>
->> Enrico Scholz (1):
->>    systemd: move disable operation into prerm() script
->>
->> Holger Hans Peter Freyther (2):
->>    systemd: Make the main systemd files proper CONFFILES
->>    systemd: Introduce a create-volatile to create tmp directories
-> White space 4 spaces vs tab
-
-Fixed.
-
+On Mon, Jan 14, 2013 at 11:48 AM, Shakeel, Muhammad
+<muhammad_shakeel@mentor.com> wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 >
->>
->> Khem Raj (1):
->>    systemd: Fix build when base_libdir is not /lib
->>
->> Martin Donnelly (2):
->>    cgroups: Add INSANE_SKIP to avoid warning about .so file
->>    systemd: Remove sysvinit mount related services if systemd is enabled
->>
->> Martin Jansa (2):
->>    systemd: fix FILESPATH to find systemctl
->>    systemd: add PACKAGES_DYNAMIC
->>
->> Radu Moisan (13):
->>    default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
->>    default-providers: Automatically set PREFERRED_PROVIDER_udev
->>    systemd: initial integration
-> I believe this was mentioned before, but can you avoid making white 
-> space changes, you seem to have changed tabs (which we use tabs for 
-> shell based functions and 4 spaces for python based functions)
+> * Add archiver tasks correctly for any 'IMAGE_PKGTYPE'.
 >
-> Specifically, I saw some changes in wpa-supplicant-1.0.inc, busybox, 
-> dropbear, initscripts
+> [YOCTO #3449]
 >
-Reviewed those files and cleaned them up to comply.
+> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 
-> For the systemd-serialgetty, can we not carry around a LICENSE file, 
-> and instead point to the meta/files/common-licenses for a checksum?
->
+I'd prefer if this patch would be squashed in the first one. It does
+looks like the same change for me as you're adding those hooks here as
+well.
 
-Done.
+Richard, can you comment here?
 
-> Also a load of the patches do not contains Signed-off-by or 
-> Upstream-Status tags.
->
-
-Updated Signed-off-by
-yet to check and update Upstream-Status.
-
->
->>    systemd: Add systemd_base.bbclass
->>    systemd: Add systemd option to PREFERRED_PROVIDER_udev
->>    systemd: set default.target to multi-user.target
->>    systemd: update FILESPATH with *-native directory
->>    systemd: disable sysfs.service
-> White space changes, makes it much harder to review, please fix
-
-corrected white spaces.
-disabled hostname.sh, mountall.sh, mountnfs.sh and sysfs.sh when running 
-with systemd
-changed patch header & description
-
->
->
->>    systemd: Add systemd-compat-units
->>    systemd: Add avahi to packagegroup-core-boot
->>    xserver-nodm-init: Enable systemd support
->>    util-linux: Enable systemd support
-> What's the actual change here?  Whitespace?
-
-dropped.
-white space issues fixed in initial commit.
-
->>    systemd: Disable xz when building with GPLv3 incompatibility flag
-> This should go away, I have verified that the license field in xz is 
-> wrong and should not contain GPLv3 since it's a build macro, not a 
-> runtime, and the LICENSE field pertains to packaged and installed 
-> items and their licenses.
->
-dropped.
-
-Radu
+--
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
