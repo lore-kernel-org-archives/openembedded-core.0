@@ -1,31 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1TugjW-00019x-LG
+	(envelope-from <cristian.iorga@intel.com>) id 1Tuh7A-000252-N5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 10:53:49 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0E9cE6k003330
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Jan 2013 01:38:14 -0800 (PST)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Mon, 14 Jan 2013 01:38:13 -0800
-Message-ID: <50F3D250.2060309@windriver.com>
-Date: Mon, 14 Jan 2013 17:39:28 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
+	Mon, 14 Jan 2013 11:18:21 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Jan 2013 02:02:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,466,1355126400"; d="scan'208";a="273444299"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2013 02:02:40 -0800
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.95]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.151]) with mapi id
+	14.01.0355.002; Mon, 14 Jan 2013 10:02:39 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>, Mark Hatle
+	<mark.hatle@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] db: upgrade to 5.3.21
+Thread-Index: AQHN8Bc8FtCfKwt08UCKtG0+S6Tu35hEU1+AgAAB0sCABEbfcA==
+Date: Mon, 14 Jan 2013 10:02:38 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161DD52A@IRSMSX102.ger.corp.intel.com>
+References: <1357921082-17180-1-git-send-email-cristian.iorga@intel.com>
+	<50F03F81.9070103@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB161DCF9B@IRSMSX102.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB161DCF9B@IRSMSX102.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130107113603.F0F381034A@opal> <20130107122949.GD3285@jama>
-	<50F37555.9090604@windriver.com> <20130114081434.GA2992@jama>
-In-Reply-To: <20130114081434.GA2992@jama>
-X-Originating-IP: [128.224.162.205]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	r0E9cE6k003330
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Kang Kai : perl: update dependency creating script
+Subject: Re: [PATCH] db: upgrade to 5.3.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,88 +42,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 09:53:49 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Mon, 14 Jan 2013 10:19:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On 2013=E5=B9=B401=E6=9C=8814=E6=97=A5 16:14, Martin Jansa wrote:
-> On Mon, Jan 14, 2013 at 11:02:45AM +0800, Kang Kai wrote:
->> On 2013=E5=B9=B401=E6=9C=8807=E6=97=A5 20:29, Martin Jansa wrote:
->>> On Mon, Jan 07, 2013 at 11:36:03AM +0000, git@git.openembedded.org wr=
-ote:
->>>> Module: openembedded-core.git
->>>> Branch: master
->>>> Commit: 35291c97edc05756788d206457c56dcc41edb637
->>>> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dc=
-ommit;h=3D35291c97edc05756788d206457c56dcc41edb637
->>>>
->>>> Author: Kang Kai<kai.kang@windriver.com>
->>>> Date:   Mon Nov  5 10:42:00 2012 +0800
->>>>
->>>> perl: update dependency creating script
->>>>
->>>> Base on dependency create script provided by Saul, I update it with:
->>>> 1 remove document strings in perl module files that may import fake
->>>>     dependencies.
->>>>
->>>> 2 not all the 'use' or 'require' clauses start at the begin of line,=
- and
->>>>     some of them don't end with ';', such as:
->>>>
->>>> use vars qw(
->>>>               $AUTOLOAD
->>>> 	    ...
->>>>
->>>> 3 filter some strings that they are not real dependencies: some of t=
-hem
->>>>     are wrong result of script, some are conditional use/require, an=
-d some
->>>>     are cpan extra modules that we don't need.
->>>>
->>>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
->>>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->>> This breaks parsing when
->>> http://patchwork.openembedded.org/patch/40997/
->>> is used.
->>>
->>> Parsing recipes...ERROR: There is a confusing multiline, partially co=
-mmented expression on line 10 of file /OE/shr-core/openembedded-core/meta=
-/recipes-devtools/perl/perl-rdepends_5.14.2.inc (| sed "s/\/.*\.pm: */ +=3D=
- /g;s/[\"\']//g;s/;.*/\"/g;s/+=3D .*\(require\|use\)\>   */+=3D \"perl-mo=
-dule-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*/=
-/g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \).
->>> Please clarify whether this is all a comment or should be parsed.
->>> ERROR: Unable to parse /OE/shr-core/openembedded-core/meta/recipes-de=
-vtools/perl/perl_5.14.2.bb: Exited with "1"
->>> ERROR: Command execution failed: Exited with 1
->> Hi Jansa,
->>
->> Because my boy was born, I have been leaving office and missed this me=
-ssage.
-> np, congratz!
+Hello,
 
-Thank you!
+Checked RPM and SMART functionality. Works OK after db upgrade.
+It is ok to be merged.
 
 Regards,
-Kai
+Cristian
 
->
-> Cheers,
->
->>>> ---
->>>>
->>>>    .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2336 +++++++=
-++++++++++++-
->>>>    1 files changed, 2287 insertions(+), 49 deletions(-)
->>>>
->>>> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3D=
-commitdiff;h=3D35291c97edc05756788d206457c56dcc41edb637
->>>>
->>>> _______________________________________________
->>>> Openembedded-commits mailing list
->>>> Openembedded-commits@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-com=
-mits
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Iorga, Cristian
+Sent: Friday, January 11, 2013 6:43 PM
+To: Mark Hatle; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] db: upgrade to 5.3.21
 
+Noted. Thanks, I will do that on Monday.
+
+Regards,
+Cristian
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Mark Hatle
+Sent: Friday, January 11, 2013 6:36 PM
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] db: upgrade to 5.3.21
+
+On 1/11/13 10:18 AM, Cristian Iorga wrote:
+> License file changed the year,
+> triggering a change in checksum
+
+Any change is BerkleyDB versions requires us to verify RPM and Smart functi=
+onality.  I don't have any objections to the change -- just pointing that o=
+ut.
+
+--Mark
+
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   meta/recipes-support/db/{db_5.3.15.bb =3D> db_5.3.21.bb} |    8 ++++---=
+-
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>   rename meta/recipes-support/db/{db_5.3.15.bb =3D> db_5.3.21.bb} (93%)
+>
+> diff --git a/meta/recipes-support/db/db_5.3.15.bb=20
+> b/meta/recipes-support/db/db_5.3.21.bb
+> similarity index 93%
+> rename from meta/recipes-support/db/db_5.3.15.bb
+> rename to meta/recipes-support/db/db_5.3.21.bb
+> index 509c567..23d6c4e 100644
+> --- a/meta/recipes-support/db/db_5.3.15.bb
+> +++ b/meta/recipes-support/db/db_5.3.21.bb
+> @@ -14,15 +14,15 @@ HOMEPAGE =3D "http://www.oracle.com/technology/produc=
+ts/berkeley-db/db/index.html"
+>   LICENSE =3D "Sleepycat"
+>   VIRTUAL_NAME ?=3D "virtual/db"
+>   RCONFLICTS_${PN} =3D "db3"
+> -PR =3D "r9"
+> +PR =3D "r0"
+>
+>   SRC_URI =3D "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+>   SRC_URI +=3D "file://arm-thumb-mutex_db5.patch;patchdir=3D.."
+>
+> -SRC_URI[md5sum] =3D "5493fb5f7cc3915887c836b096f18773"
+> -SRC_URI[sha256sum] =3D "4f4f7d548984dde3584fcda0e4f96901cb8bafb08033a778=
+1aec64ef2ea1f579"
+> +SRC_URI[md5sum] =3D "3fda0b004acdaa6fa350bfc41a3b95ca"
+> +SRC_URI[sha256sum] =3D "ddd92a930317df92021054c03992392db9ea5cddba43bef8=
+920d392a82114fb8"
+>
+> -LIC_FILES_CHKSUM =3D "file://../LICENSE;md5=3D12cc3ff983ed4ecc6cc091370e=
+e4dbc3"
+> +LIC_FILES_CHKSUM =3D "file://../LICENSE;md5=3D32aefa5a8e7318be1f657432cb=
+e2e768"
+>
+>   inherit autotools
+>
+>
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
