@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tum0O-0001KQ-Kb
+	(envelope-from <constantinx.musca@intel.com>) id 1Tum0M-0001KQ-Vw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 16:31:22 +0100
+	Mon, 14 Jan 2013 16:31:19 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Jan 2013 07:16:01 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Jan 2013 07:15:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,468,1355126400"; d="scan'208";a="246401844"
+X-IronPort-AV: E=Sophos;i="4.84,468,1355126400"; d="scan'208";a="246401809"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jan 2013 07:16:00 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Jan 2013 07:15:58 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Jan 2013 17:16:38 +0200
-Message-Id: <be12b8c89952c046dd063e0dc37f84dc9ce2f5a5.1358175955.git.constantinx.musca@intel.com>
+Date: Mon, 14 Jan 2013 17:16:36 +0200
+Message-Id: <0f0b8f62a26dc897e8b3f66ec27e348c14baae84.1358175955.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1358175955.git.constantinx.musca@intel.com>
 References: <cover.1358175955.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1358175955.git.constantinx.musca@intel.com>
 References: <cover.1358175955.git.constantinx.musca@intel.com>
-Subject: [PATCH v2 3/6] multilib.conf: add TARGET_ARCH to MULTILIB_SAVE_VARNAME
+Subject: [PATCH v2 1/6] gcc: add missing dependency (zlib)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,26 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 15:31:24 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 15:31:22 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 15:31:22 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 15:31:22 -0000
+
+- add zlib to DEPENDS (it fails otherwise)
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/conf/multilib.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-4.7.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 97b53ec..daa569c 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -2,7 +2,7 @@
- baselib = "${@d.getVar('BASE_LIB_tune-' + (d.getVar('DEFAULTTUNE', True) or 'INVALID'), True) or 'lib'}"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 378caf0..08a0103 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
- MULTILIB_VARIANTS = "${@extend_variants(d,'MULTILIBS','multilib')}"
--MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
-+MULTILIB_SAVE_VARNAME = "DEFAULTTUNE TARGET_ARCH"
+-PR = "r13"
++PR = "r14"
  
- MULTILIBS ??= "multilib:lib32"
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.1
+@@ -20,7 +20,7 @@ BINV = "4.7.2"
  
+ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
+ 
+-DEPENDS =+ "mpfr gmp libmpc"
++DEPENDS =+ "mpfr gmp libmpc zlib"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+ 
+ LICENSE="GPL-3.0-with-GCC-exception & GPLv3"
 -- 
 1.7.11.7
 
