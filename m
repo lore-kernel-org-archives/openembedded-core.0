@@ -1,25 +1,27 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TufkW-00072N-Dx
+	(envelope-from <Qi.Chen@windriver.com>) id 1TufkY-00072W-Ht
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 09:50:32 +0100
+	Mon, 14 Jan 2013 09:50:34 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0E8ZCjT018128
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0E8ZFED018133
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 00:35:12 -0800 (PST)
+	Mon, 14 Jan 2013 00:35:15 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 14 Jan 2013 00:35:12 -0800
+	14.2.318.4; Mon, 14 Jan 2013 00:35:15 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Jan 2013 16:35:38 +0800
-Message-ID: <cover.1358152182.git.Qi.Chen@windriver.com>
+Date: Mon, 14 Jan 2013 16:35:40 +0800
+Message-ID: <4d6a5afdcd4222d653334ae32e75df962eac5df1.1358152182.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1358152182.git.Qi.Chen@windriver.com>
+References: <cover.1358152182.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V7 0/6] read-only rootfs support
+Subject: [PATCH V7 2/6] image.bbclass: add a hook funtion to support readonly rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,81 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 08:50:33 -0000
-X-List-Received-Date: Mon, 14 Jan 2013 08:50:33 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 08:50:35 -0000
+X-List-Received-Date: Mon, 14 Jan 2013 08:50:35 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The series of patches add support to read-only rootfs.
+read_only_rootfs_hook: this funtion is invoked only if 'read-only-rootfs'
+is in IMAGE_FEATURES. It tweaks some basic files and makes populate-
+volatile.sh script run at rootfs time.
 
-The main idea is to use symbolic links to create the illuion that some
-directories are writable in case of a read-only rootfs.
+[YOCTO #3406]
 
-This set of patches have been tested on minimal images with and without
-'read-only-rootfs' image feature enabled. Everything is OK.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/image.bbclass |   16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-For sato images, everything is the same as before if 'read-only-rootfs' is not enabled.
-With 'read-only-rootfs' enabled, sato image could work if graphic interface is diabled.
-When all postinstall problems are resolved, sato image should work well (maybe with some
-small changes in volatiles-readonly-sato conf file).
-
-Changes for Version 4:
-1) Improve the commit messages to be clearer.
-2) Use 'sed -i' to replace 'sed' and 'mv' operations to cut down the exec overhead.
-
-Changes for Version 5:
-Fix the problem of failing to build the live images
-
-Changes for Version 6:
-1) Let the image recipes provide the corresponding conf files for read-only rootfs.
-   The config files are closely related to the image types, so it's more reasonable
-   to let these image recipes provide the config files.
-2) Support customized conf files for customized images.
-
-Changes for Version 7:
-1) Separate read-only-rootfs specific conf files from image recipes.
-   Create recipes for them and let image recipes depend on the them.
-2) 'choose_volatiel_conf' is no more need, thus removed.
-
-
-The following changes since commit 53cc748b93e8af584557d6db5309c3e955182c5c:
-
-  linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:51 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/readonly-rootfs
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/readonly-rootfs
-
-Chen Qi (6):
-  sysvinit: add ROOTFS_READ_ONLY variable to rcS-default
-  image.bbclass: add a hook funtion to support readonly rootfs
-  core-image.bbclass: support read-only rootfs
-  initscripts: support read-only rootfs
-  volatile-conf-minimal: add recipe
-  volatile-conf-sato: add recipe
-
- meta/classes/core-image.bbclass                    |    5 +-
- meta/classes/image.bbclass                         |   16 +-
- meta/recipes-core/images/core-image-minimal.bb     |    3 +
- .../initscripts/initscripts-1.0/bootmisc.sh        |    9 +-
- .../initscripts-1.0/populate-volatile.sh           |  281 ++++++++++----------
- .../initscripts/initscripts-1.0/volatiles          |    1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 +-
- .../files/volatiles-readonly-minimal               |    8 +
- .../volatile-conf-minimal_1.0.bb                   |   15 ++
- meta/recipes-core/sysvinit/sysvinit/rcS-default    |    4 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
- meta/recipes-sato/images/core-image-sato.bb        |    3 +
- .../files/volatiles-readonly-sato                  |   14 +
- .../volatile-conf-sato_1.0.bb                      |   15 ++
- 14 files changed, 224 insertions(+), 157 deletions(-)
- create mode 100644 meta/recipes-core/readonly-volatile-conf/files/volatiles-readonly-minimal
- create mode 100644 meta/recipes-core/readonly-volatile-conf/volatile-conf-minimal_1.0.bb
- create mode 100644 meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
- create mode 100644 meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index e494689..834497a 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -185,7 +185,6 @@ do_build[nostamp] = "1"
+ # task, so that we have a single fakeroot context for the whole process.
+ do_rootfs[umask] = "022"
+ 
+-
+ run_intercept_scriptlets () {
+ 	if [ -d ${WORKDIR}/intercept_scripts ]; then
+ 		cd ${WORKDIR}/intercept_scripts
+@@ -396,6 +395,21 @@ zap_root_password () {
+ 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+ } 
+ 
++# A hook function to support read-only-rootfs IMAGE_FEATURES
++read_only_rootfs_hook () {
++	# Tweak the mount option in fstab
++	sed -i '/rootfs/ s/defaults/ro/' ${IMAGE_ROOTFS}/etc/fstab
++	# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
++	if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
++		sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
++	fi
++	# Run populate-volatile.sh at rootfs time to set up basic files
++	# and directories to support read-only rootfs.
++	if [ -e ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
++		${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
++	fi
++}
++
+ # allow openssh accept login with empty password string
+ openssh_allow_empty_password () {
+ 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
 -- 
 1.7.9.5
 
