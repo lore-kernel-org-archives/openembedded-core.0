@@ -1,37 +1,26 @@
-Received: from mail-pa0-f45.google.com ([209.85.220.45])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TunSW-0004EN-05
+	(envelope-from <radu.moisan@intel.com>) id 1TunnS-0004pD-5L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 18:04:45 +0100
-Received: by mail-pa0-f45.google.com with SMTP id bg2so2328653pad.32
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 08:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=8SPavOG1CJ0NEzOI949Z3n3tjZCB+DmD6LxXMjjgdHw=;
-	b=z0mkxEJXDwONDHY9672InhLyrTVpibzEa+wkX1s8YKUuzxEwZBSL3E5UAbpBsESqHA
-	56NbGr1F9R0ctDuTs8MCYMGC91A9/UIJ+zs65fcDvN/kXGN9uyLnu0YYZV05Tns9NvhR
-	Mle9Ju4S6V5thaRoJiYsPN9pKvWD9rKdqKqfJM0V2D1hd4y+6TwiH+o5mnYE6HpOuOrY
-	TG65DU1nj0YqqCPiENifC81rMHo13ada6AOE12ANP+i2VERg9RBWkC+pUyXBVMV/f00y
-	NCZrLugSVimvV7TA5wSHM2F/K/Y0HAArenrAyeFL63B0uid/VaQ0bTfUgbK2gZNeSOdI
-	iiqw==
-X-Received: by 10.66.83.232 with SMTP id t8mr97657030pay.73.1358182148056;
-	Mon, 14 Jan 2013 08:49:08 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id l8sm9043761pax.9.2013.01.14.08.49.05
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 14 Jan 2013 08:49:06 -0800 (PST)
-Date: Mon, 14 Jan 2013 17:49:05 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20130114164905.GF2992@jama>
-References: <1358181569-30628-1-git-send-email-laurentiu.palcu@intel.com>
+	Mon, 14 Jan 2013 18:26:21 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 Jan 2013 09:09:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,468,1355126400"; d="scan'208";a="271826530"
+Received: from dell-desktop (HELO [10.237.105.59]) ([10.237.105.59])
+	by orsmga002.jf.intel.com with ESMTP; 14 Jan 2013 09:10:26 -0800
+Message-ID: <50F43D8A.8020502@intel.com>
+Date: Mon, 14 Jan 2013 19:16:58 +0200
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <1358181569-30628-1-git-send-email-laurentiu.palcu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1357647338.git.radu.moisan@intel.com>
+	<50F09EDA.1000807@linux.intel.com>
+In-Reply-To: <50F09EDA.1000807@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] busybox.inc: have the busybox-syslog postinstall run on host
+Subject: Re: [PATCH 00/21][RFC v3] systemd Integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,77 +33,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 17:04:45 -0000
-X-Groupsio-MsgNum: 33787
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jkO+KyKz7TfD21mV"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 14 Jan 2013 17:26:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---jkO+KyKz7TfD21mV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 14, 2013 at 06:39:29PM +0200, Laurentiu Palcu wrote:
-> update-rc.d fails when executing the postinstall on host. That's because
-> 'syslog' is renamed to 'syslog.busybox' and a 'syslog' link to it is made
-> instead. However, on host, the link is not valid and update-rc.d will
-> complain that the file does not exist. On target, this does not happen.
->=20
-> So, this patch will have update-rc.d create the necessary links to
-> syslog.busybox instead. Technically, the behavior is unchanged and
-> syslogd will be started as usual. The only change will be the links in
-> rcX.d directories:
->=20
-> Instead of: S20syslog -> ../init.d/syslog
-> we will have: S20syslog.busybox -> ../init.d/syslog.busybox
->=20
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/recipes-core/busybox/busybox.inc |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
-sybox/busybox.inc
-> index 972e7d0..c70ba62 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -25,7 +25,7 @@ FILES_${PN}-hwclock =3D "${sysconfdir}/init.d/hwclock.s=
-h"
->  INITSCRIPT_PACKAGES =3D "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mde=
-v ${PN}-hwclock"
-> =20
->  INITSCRIPT_NAME_${PN}-httpd =3D "busybox-httpd"
-> -INITSCRIPT_NAME_${PN}-syslog =3D "syslog"
-> +INITSCRIPT_NAME_${PN}-syslog =3D "syslog.${BPN}"
+On 01/12/2013 01:23 AM, Saul Wold wrote:
+> On 01/08/2013 04:24 AM, Radu Moisan wrote:
+>> As Ross suggested I've done the following changes to the previous set:
+>> * added two patches (the first two) that address multiple init 
+>> systems support,\
+>> as in shifting from default hardcoded sysvinit to something more 
+>> generic while
+>> the default values still remains on sysvinit
+>> * moved automatic setting of PREFERRED_PROVIDER_udev into 
+>> default_providers.inc
+>> * removed ahavi-systemd since all it provided was service files; now 
+>> service files
+>> are pulled in by avahi-daemon
+>> * also rebased on master
+>>
+>> The following changes since commit 
+>> 7e1f8faad0c4b6f490c26f87acc698dd6e002b15:
+>>
+>>    perl: Remove bashism from perl-tests.inc (2013-01-07 22:37:37 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.yoctoproject.org/poky-contrib rmoisan/systemd
+>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
+>>
+>> Enrico Scholz (1):
+>>    systemd: move disable operation into prerm() script
+>>
+>> Holger Hans Peter Freyther (2):
+>>    systemd: Make the main systemd files proper CONFFILES
+>>    systemd: Introduce a create-volatile to create tmp directories
+> White space 4 spaces vs tab
 
-What if syslog-ng is installed? won't it run both syslog implementations?
+Fixed.
 
->  INITSCRIPT_NAME_${PN}-mdev =3D "mdev"
->  INITSCRIPT_NAME_${PN}-hwclock =3D "hwclock.sh"
->  INITSCRIPT_PARAMS_${PN}-mdev =3D "start 06 S ."
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>>
+>> Khem Raj (1):
+>>    systemd: Fix build when base_libdir is not /lib
+>>
+>> Martin Donnelly (2):
+>>    cgroups: Add INSANE_SKIP to avoid warning about .so file
+>>    systemd: Remove sysvinit mount related services if systemd is enabled
+>>
+>> Martin Jansa (2):
+>>    systemd: fix FILESPATH to find systemctl
+>>    systemd: add PACKAGES_DYNAMIC
+>>
+>> Radu Moisan (13):
+>>    default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+>>    default-providers: Automatically set PREFERRED_PROVIDER_udev
+>>    systemd: initial integration
+> I believe this was mentioned before, but can you avoid making white 
+> space changes, you seem to have changed tabs (which we use tabs for 
+> shell based functions and 4 spaces for python based functions)
+>
+> Specifically, I saw some changes in wpa-supplicant-1.0.inc, busybox, 
+> dropbear, initscripts
+>
+Reviewed those files and cleaned them up to comply.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> For the systemd-serialgetty, can we not carry around a LICENSE file, 
+> and instead point to the meta/files/common-licenses for a checksum?
+>
 
---jkO+KyKz7TfD21mV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Done.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+> Also a load of the patches do not contains Signed-off-by or 
+> Upstream-Status tags.
+>
 
-iEYEARECAAYFAlD0NwEACgkQN1Ujt2V2gBzT6ACeNJgAVDjDCAh1jlxDrfNYivlC
-RawAoIKljedWrytl7MzAcgVh3C5NAHLA
-=FFHR
------END PGP SIGNATURE-----
+Updated Signed-off-by
+yet to check and update Upstream-Status.
 
---jkO+KyKz7TfD21mV--
+>
+>>    systemd: Add systemd_base.bbclass
+>>    systemd: Add systemd option to PREFERRED_PROVIDER_udev
+>>    systemd: set default.target to multi-user.target
+>>    systemd: update FILESPATH with *-native directory
+>>    systemd: disable sysfs.service
+> White space changes, makes it much harder to review, please fix
+
+corrected white spaces.
+disabled hostname.sh, mountall.sh, mountnfs.sh and sysfs.sh when running 
+with systemd
+changed patch header & description
+
+>
+>
+>>    systemd: Add systemd-compat-units
+>>    systemd: Add avahi to packagegroup-core-boot
+>>    xserver-nodm-init: Enable systemd support
+>>    util-linux: Enable systemd support
+> What's the actual change here?  Whitespace?
+
+dropped.
+white space issues fixed in initial commit.
+
+>>    systemd: Disable xz when building with GPLv3 incompatibility flag
+> This should go away, I have verified that the license field in xz is 
+> wrong and should not contain GPLv3 since it's a build macro, not a 
+> runtime, and the LICENSE field pertains to packaged and installed 
+> items and their licenses.
+>
+dropped.
+
+Radu
+
+
