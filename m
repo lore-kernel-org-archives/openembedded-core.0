@@ -1,35 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1Tua83-0000mC-LE
+	(envelope-from <Kai.Kang@windriver.com>) id 1TuaXb-0001cO-7J
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 03:50:30 +0100
+	Mon, 14 Jan 2013 04:17:12 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0E2Z9vu000193
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0E31UUZ014977
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 13 Jan 2013 18:35:09 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	Sun, 13 Jan 2013 19:01:30 -0800 (PST)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Sun, 13 Jan 2013 18:35:08 -0800
-Message-ID: <50F36EF9.4040403@windriver.com>
-Date: Mon, 14 Jan 2013 10:35:37 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Sun, 13 Jan 2013 19:01:30 -0800
+Message-ID: <50F37555.9090604@windriver.com>
+Date: Mon, 14 Jan 2013 11:02:45 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1357465230.git.Qi.Chen@windriver.com>
-	<c8df96d897ecdf4fe04088aff1eba2fbfb0c004a.1357465230.git.Qi.Chen@windriver.com>
-	<CAP9ODKpQUQmBOnWHRBEcF6k3aK=-bqM0=9m+bi8DxXC7gsHzSw@mail.gmail.com>
-	<50EA3BB5.7080103@windriver.com>
-	<CAP9ODKqdZVqPj8zMvmDnCbyJZSN_MB2f+qutTKBwkn4FE3aNLw@mail.gmail.com>
-	<50EB82DD.7050808@windriver.com> <50F0A0F5.1080301@linux.intel.com>
-In-Reply-To: <50F0A0F5.1080301@linux.intel.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com, Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V6 6/6] core-image-sato: support read-only rootfs
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130107113603.F0F381034A@opal> <20130107122949.GD3285@jama>
+In-Reply-To: <20130107122949.GD3285@jama>
+X-Originating-IP: [128.224.162.205]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	r0E31UUZ014977
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Kang Kai : perl: update dependency creating script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,83 +37,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 02:50:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Jan 2013 03:17:12 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 01/12/2013 07:32 AM, Saul Wold wrote:
-> On 01/07/2013 06:22 PM, ChenQi wrote:
->> On 01/07/2013 06:30 PM, Otavio Salvador wrote:
->>> On Mon, Jan 7, 2013 at 1:06 AM, ChenQi <Qi.Chen@windriver.com> wrote:
->>>> On 01/07/2013 03:05 AM, Otavio Salvador wrote:
->>>>> On Sun, Jan 6, 2013 at 7:44 AM, <Qi.Chen@windriver.com> wrote:
->>>>>> From: Chen Qi <Qi.Chen@windriver.com>
->>>>>>
->>>>>> Support read-only rootfs by providing a specific conf file for
->>>>>> volatile
->>>>>> storage.
->>>>>>
->>>>>> [YOCTO #3406]
->>>>>>
->>>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>>> I prefer this solution than the previous one however why you don't 
->>>>> use
->>>>> a sato-volatile-conf package to provide this?
->>>> Because the there exists a one-to-one (or almost one-to-one)
->>>> correspondence
->>>> between the volatile conf file and the specific image.
->>>>
->>>> If there is a 'sato-volatile-conf' package, then there should be a
->>>> 'minimal-volatile-conf', and maybe a 'custom-volatile-conf' if 
->>>> users are
->>>> using a customized image.
->>>>
->>>> So I think it's simpler to let the image recipe provide the conf file.
->>>> The only thing we have to do, when adding read-only rootfs support to
->>>> some
->>>> image, is to add the conf file to SRC_URI and install it in
->>>> choose_volatile_conf.
->>> The problem of not using a package for it is regarding upgrades; it is
->>> not possible to upgrade the configuration file using the package
->>> manager. I know most systems using the read-only-fs will be small and
->>> do not use a package manager at all but some use cases will do (mine,
->>> in case).
->> Sounds reasonable.
->> I'll think about it :)
+On 2013=E5=B9=B401=E6=9C=8807=E6=97=A5 20:29, Martin Jansa wrote:
+> On Mon, Jan 07, 2013 at 11:36:03AM +0000, git@git.openembedded.org wrot=
+e:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: 35291c97edc05756788d206457c56dcc41edb637
+>> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcom=
+mit;h=3D35291c97edc05756788d206457c56dcc41edb637
 >>
->
-> +1 for creating a *-volatile-conf package instead of having it buried 
-> in the image recipe.
->
-I'll rework on it and send out the patch again.
-
-Thanks for your review :)
-
-Cheers,
-Chen Qi
-
-> Sau!
->
->> Thanks,
->> Chen Qi
+>> Author: Kang Kai<kai.kang@windriver.com>
+>> Date:   Mon Nov  5 10:42:00 2012 +0800
 >>
->>> So I do believe we ought to have a one-to-one correspondence here.
->>>
->>> -- 
->>> Otavio Salvador                             O.S. Systems
->>> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
->>> Mobile: +55 53 9981-7854 http://projetos.ossystems.com.br
->>>
->>>
+>> perl: update dependency creating script
 >>
+>> Base on dependency create script provided by Saul, I update it with:
+>> 1 remove document strings in perl module files that may import fake
+>>    dependencies.
+>>
+>> 2 not all the 'use' or 'require' clauses start at the begin of line, a=
+nd
+>>    some of them don't end with ';', such as:
+>>
+>> use vars qw(
+>>              $AUTOLOAD
+>> 	    ...
+>>
+>> 3 filter some strings that they are not real dependencies: some of the=
+m
+>>    are wrong result of script, some are conditional use/require, and s=
+ome
+>>    are cpan extra modules that we don't need.
+>>
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+> This breaks parsing when
+> http://patchwork.openembedded.org/patch/40997/
+> is used.
+>
+> Parsing recipes...ERROR: There is a confusing multiline, partially comm=
+ented expression on line 10 of file /OE/shr-core/openembedded-core/meta/r=
+ecipes-devtools/perl/perl-rdepends_5.14.2.inc (| sed "s/\/.*\.pm: */ +=3D=
+ /g;s/[\"\']//g;s/;.*/\"/g;s/+=3D .*\(require\|use\)\>  */+=3D \"perl-mod=
+ule-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//=
+g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] \).
+> Please clarify whether this is all a comment or should be parsed.
+> ERROR: Unable to parse /OE/shr-core/openembedded-core/meta/recipes-devt=
+ools/perl/perl_5.14.2.bb: Exited with "1"
+> ERROR: Command execution failed: Exited with 1
+
+Hi Jansa,
+
+Because my boy was born, I have been leaving office and missed this messa=
+ge.
+Thanks for you fix.
+
+Regards,
+Kai
+
+>
+>> ---
+>>
+>>   .../recipes-devtools/perl/perl-rdepends_5.14.2.inc | 2336 ++++++++++=
++++++++++-
+>>   1 files changed, 2287 insertions(+), 49 deletions(-)
+>>
+>> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3Dco=
+mmitdiff;h=3D35291c97edc05756788d206457c56dcc41edb637
 >>
 >> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commi=
+ts
 
 
 
