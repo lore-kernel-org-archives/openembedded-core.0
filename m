@@ -1,22 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1Tv1fz-0001G6-IR
+	(envelope-from <Sen.Zhang@windriver.com>) id 1Tv1g1-0001G8-T0
 	for openembedded-core@lists.openembedded.org;
 	Tue, 15 Jan 2013 09:15:23 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0F7GVUU021252
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0F7GV00025340
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 23:16:32 -0800 (PST)
+	Mon, 14 Jan 2013 23:16:31 -0800 (PST)
 Received: from jesse-wrs-desktop.wrs.com (128.224.162.230) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Mon, 14 Jan 2013 23:16:30 -0800
+	14.2.318.4; Mon, 14 Jan 2013 23:16:31 -0800
 From: Jesse Zhang <sen.zhang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Jan 2013 15:16:47 +0800
-Message-ID: <1358234208-6177-1-git-send-email-sen.zhang@windriver.com>
+Date: Tue, 15 Jan 2013 15:16:48 +0800
+Message-ID: <1358234208-6177-2-git-send-email-sen.zhang@windriver.com>
 X-Mailer: git-send-email 1.7.11.7
+In-Reply-To: <1358234208-6177-1-git-send-email-sen.zhang@windriver.com>
+References: <1358234208-6177-1-git-send-email-sen.zhang@windriver.com>
 MIME-Version: 1.0
 Subject: [PATCH] coreutils: remove dependency on coreutils-native
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,31 +36,34 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 15 Jan 2013 08:15:24 -0000
 Content-Type: text/plain
 
-Hi,
+If coreutils-native is built, it will replace the host commands and will
+in parallel builds cause such errors:
 
-In builds that exclude GPLv3 packages, such errors will frequently appear:
+     make[6]: execvp: rm: Text file busy
 
-    make[6]: execvp: rm: Text file busy
-Or
-    libtool: ...tmp/sysroots/x86_64-linux//bin/mv: Text file busy
+     libtool: ...tmp/sysroots/x86_64-linux//bin/mv: Text file busy
 
-And some others in various forms.
+Remove the dependency and always use the host version.
 
-It's caused by coreutils-6.9's dependency on coreutils-native, which overrides
-host commands and causes these ETXTBSY errors in parallel builds.
-
-This dependency doesn't seem to be necessary, and the GPLv3 recipe doesn't have
-it either.
-
-It's also possible to use ASSUME_PROVIDED to exclude coreutils-native, but I
-think this might be better.
-
-Jesse Zhang (1):
-  coreutils: remove dependency on coreutils-native
-
+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
+---
  meta/recipes-core/coreutils/coreutils_6.9.bb | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 37d8dc9..c0778ba 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -8,8 +8,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://src/ls.c;beginline=4;endline=16;md5=15ed60f67b1db5fedd5dbc37cf8a9543"
+-PR = "r4"
+-DEPENDS = "coreutils-native-${PV}"
++PR = "r5"
+ DEPENDS_class-native = "gettext-native"
+ 
+ inherit autotools gettext
 -- 
 1.7.11.7
 
