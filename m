@@ -1,22 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1TvChU-0007Zc-Se
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 21:01:51 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 Jan 2013 11:45:11 -0800
+	(envelope-from <cristian.iorga@intel.com>) id 1TvD3D-00087F-Ky
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Jan 2013 21:24:13 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 15 Jan 2013 12:08:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="247226249"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jan 2013 11:45:11 -0800
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2013 11:44:46 -0800
-Message-Id: <8738a6efd777d20d444fc9b149ce75498b21202b.1358278958.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1358278958.git.nitin.a.kamble@intel.com>
-References: <cover.1358278958.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] xf86-video-modesetting: new recipe for gma500
+X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="244286445"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
+	by azsmga001.ch.intel.com with ESMTP; 15 Jan 2013 12:08:40 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2013 22:08:44 +0200
+Message-Id: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V4 0/3] connman 1.10 upgrade and qemu networking fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 20:01:51 -0000
+X-List-Received-Date: Tue, 15 Jan 2013 20:24:31 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+This set of patches will:
+- update connman to 1.10
+- solve the issue of lost connectivity with qemu machines
+    connman will clear previous configuration for a network
+    interface, rendering qemu machines eth0 unusable, because
+    there is no DHCP server to be used, and the static configuration
+    of eth0 will be cleared when connman starts.
+    connman-conf solves this.
+- add machine override ability for any qemu machine
+    can be used for doing specific configs only for qemu* machines
 
-I am trying to use gma500 driver for the noemgd BSPs. The current best
-xf86 driver for it is modesetting. This recipe provides that
-driver.
+Cristian Iorga (3):
+  connman: upgrade to 1.10
+  connman-conf: configures connman in qemu machines
+  qemu: machine override ability added
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../xorg-driver/xf86-video-modesetting_0.6.0.bb    |    8 ++++++++
- 1 files changed, 8 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
+ meta/conf/layer.conf                               |    1 +
+ meta/conf/machine/include/qemu.inc                 |    2 +
+ meta/recipes-connectivity/connman/connman-conf.bb  |   18 ++++++
+ .../connman/connman-conf/qemuall/main.conf         |    3 +
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   61 --------------------
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   38 +++++++-----
+ .../connman/inet-fix-ip-cleanup-functions.patch    |   40 +++++++++++++
+ .../connman/{connman_1.4.bb => connman_1.10.bb}    |    8 ++-
+ 8 files changed, 91 insertions(+), 80 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf.bb
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/inet-fix-ip-cleanup-functions.patch
+ rename meta/recipes-connectivity/connman/{connman_1.4.bb => connman_1.10.bb} (71%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
-new file mode 100644
-index 0000000..407ad1a
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
-@@ -0,0 +1,8 @@
-+require xorg-driver-video.inc
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d8cbd99fff773f92e844948f74ef0df8"
-+
-+DESCRIPTION = "X.Org X server -- modesetting display driver"
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "d8a771d5d2d75ea9d234c6928153c08b"
-+SRC_URI[sha256sum] = "852f9ddb213913f75e1e65ad7ce9c6b5bc7f43a93d8087b6e59666ea4eb3d0d6"
 -- 
-1.7.3.4
+1.7.10.4
 
 
 
