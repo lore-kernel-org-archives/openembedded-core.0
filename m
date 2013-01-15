@@ -1,30 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Tv1ub-0001ib-Ha for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 09:30:27 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0F8F4jE014823;
-	Tue, 15 Jan 2013 08:15:04 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17527-09; Tue, 15 Jan 2013 08:14:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0F8EsVS014802
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Tue, 15 Jan 2013 08:14:56 GMT
-Message-ID: <1358237694.23113.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Ertsaas <martiert@gmail.com>
-Date: Tue, 15 Jan 2013 08:14:54 +0000
-In-Reply-To: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Tv2hg-0003dZ-Kx
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Jan 2013 10:21:42 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 15 Jan 2013 01:05:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,473,1355126400"; d="scan'208";a="243993472"
+Received: from lpalcu-linux (HELO [10.237.105.165]) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 15 Jan 2013 01:05:45 -0800
+Message-ID: <50F51BE9.6080302@intel.com>
+Date: Tue, 15 Jan 2013 11:05:45 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1358181569-30628-1-git-send-email-laurentiu.palcu@intel.com>
+	<20130114164905.GF2992@jama>
+In-Reply-To: <20130114164905.GF2992@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] sanity: Make the required utilities more platform specific.
+Subject: Re: [PATCH] busybox.inc: have the busybox-syslog postinstall run on host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 08:30:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 15 Jan 2013 09:21:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-01-10 at 09:50 +0100, Martin Ertsaas wrote:
-> This might make us able to build on mac os X.
+
+
+On 01/14/2013 06:49 PM, Martin Jansa wrote:
+> On Mon, Jan 14, 2013 at 06:39:29PM +0200, Laurentiu Palcu wrote:
+>> update-rc.d fails when executing the postinstall on host. That's because
+>> 'syslog' is renamed to 'syslog.busybox' and a 'syslog' link to it is made
+>> instead. However, on host, the link is not valid and update-rc.d will
+>> complain that the file does not exist. On target, this does not happen.
+>>
+>> So, this patch will have update-rc.d create the necessary links to
+>> syslog.busybox instead. Technically, the behavior is unchanged and
+>> syslogd will be started as usual. The only change will be the links in
+>> rcX.d directories:
+>>
+>> Instead of: S20syslog -> ../init.d/syslog
+>> we will have: S20syslog.busybox -> ../init.d/syslog.busybox
+>>
+>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> ---
+>>  meta/recipes-core/busybox/busybox.inc |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+>> index 972e7d0..c70ba62 100644
+>> --- a/meta/recipes-core/busybox/busybox.inc
+>> +++ b/meta/recipes-core/busybox/busybox.inc
+>> @@ -25,7 +25,7 @@ FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
+>>  INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
+>>  
+>>  INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
+>> -INITSCRIPT_NAME_${PN}-syslog = "syslog"
+>> +INITSCRIPT_NAME_${PN}-syslog = "syslog.${BPN}"
 > 
-> Signed-off-by: Martin Ertsaas <martiert@gmail.com>
-> ---
->  meta/classes/sanity.bbclass |   10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+> What if syslog-ng is installed? won't it run both syslog implementations?
+This is a valid concern. It would certainly start them both or, at
+least, try. But, is it normal for one to have two different syslog
+implementations installed? Is this a valid use case?
+
+Thanks,
+Laurentiu
+
 > 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 0ffa52d..03651be 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -2,7 +2,9 @@
->  # Sanity check the users setup for common misconfigurations
->  #
->  
-> -SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
-> +SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk wget cpio"
-> +SANITY_REQUIRED_UTILITIES_Linux ?= "${SANITY_REQUIRED_UTILITIES} chrpath"
-> +SANITY_REQUIRED_UTILITIES_Darwin ?= "${SANITY_REQUIRED_UTILITIES} install_name_tool"
-
-You should be able to make this:
-
-SANITY_REQUIRED_UTILITIES_COMMON ?= "patch diffstat makeinfo git bzip2 tar gzip gawk wget cpio"
-SANITY_REQUIRED_UTILITIES ?= "${SANITY_REQUIRED_UTILITIES_COMMON} chrpath"
-SANITY_REQUIRED_UTILITIES_build-darwin ?= "${SANITY_REQUIRED_UTILITIES_COMMON} install_name_tool"
-
-which will then simplify the other part of the patch (make it
-unnecessary).
-
-Before we go and merge a ton of these type of changes I'd also like to
-understand how close we are to making this work?
-
-Cheers,
-
-Richard
-
+>>  INITSCRIPT_NAME_${PN}-mdev = "mdev"
+>>  INITSCRIPT_NAME_${PN}-hwclock = "hwclock.sh"
+>>  INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
+>> -- 
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
