@@ -1,30 +1,34 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail-bk0-f49.google.com ([209.85.214.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <twoerner@gmail.com>) id 1TuyBb-00078A-0h
+	(envelope-from <yanglei.fage@gmail.com>) id 1TuzNF-0004gh-J1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 05:31:45 +0100
-Received: by mail-wg0-f41.google.com with SMTP id ds1so1570792wgb.4
+	Tue, 15 Jan 2013 06:47:58 +0100
+Received: by mail-bk0-f49.google.com with SMTP id jm19so2406141bkc.36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 20:16:21 -0800 (PST)
+	Mon, 14 Jan 2013 21:32:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=OrY7GxHtn7hRUJHueMsqKrrRlH2qL90zqfKi/ELH5I8=;
-	b=zCqh430UBUXhy1KmMfSZxgrMiYpKNp7MEc4lQhVFQL012Potni9/OFgiSVkf11Qq2a
-	1vg/NfUVeFFmF4QHhyukvaN/V+0sbYHTtau0E1YOyWxVakEeBfEWyGaaxGQ1UOf/zoiG
-	3bbc1ae5pGnz5qD6cU58bE/HPSJ3wFHqmJ0v938M4mUPCK9eZiTfPrvRKqriUIQEP83b
-	cnOn+S/hl8RCdSMlv6nVOBtgK9xNDm9pAUGGzQgYJTC8THmEt83bpcAuTIhgesrAToXF
-	XeOzxmMz8O8HuSgU3ecPpDuh56cHm4oEfHYokBGBJLolj0JgX4V1LgGcVoTzqvcplPvm
-	HsnQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=gNIF3Iq54UO5gmoRHx0gpgOUzFkRqEXY/4bEhEdmurY=;
+	b=vxw8KAwjMFCtTZu1N02WPgFzTHFVy2IaCuOdDSGSZO6ABVtIf1bPOEM00jImvb+J6H
+	ciXkj0eT3vdIVBl8fR4W2m+Sj8wblGyyHbTYX2rjuCPI4iUYvlcNs7JkLVMXmBhZxCMK
+	4jhhw3jmxUar9qi3maIMx1WeCO0tzOhBXVkDdOAUwuIXhFWhsFWmbUhSJKkdB2MRlIrj
+	VwcFplrQnwa7ovd8DPup5a1L3G30vVd1kegNrIxtlaJx6mfoGh7TyTz/LsLS+CRtFiI0
+	qjAw6KvXF0mFpO/Gly5WCFPTaaOGi2/FDY3xc2b3ZaMYMJ08Ba8wnL1Jad+H5gBnW34D
+	JWOA==
 MIME-Version: 1.0
-Received: by 10.194.9.197 with SMTP id c5mr139053517wjb.20.1358223380916; Mon,
-	14 Jan 2013 20:16:20 -0800 (PST)
-Received: by 10.227.132.205 with HTTP; Mon, 14 Jan 2013 20:16:20 -0800 (PST)
-Date: Mon, 14 Jan 2013 23:16:20 -0500
-Message-ID: <CAHUNapRTL1j5S1hW+VxjGVvGjBPA0uy0kS4g1LpyYT9Q7q9J6Q@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: image creation and deployment
+Received: by 10.204.8.143 with SMTP id h15mr39606727bkh.115.1358227949590;
+	Mon, 14 Jan 2013 21:32:29 -0800 (PST)
+Received: by 10.204.11.86 with HTTP; Mon, 14 Jan 2013 21:32:29 -0800 (PST)
+In-Reply-To: <96b27c5fa51c35070dda031c81f9ffaf554292bf.1356310727.git.rongqing.li@windriver.com>
+References: <cover.1356310727.git.rongqing.li@windriver.com>
+	<96b27c5fa51c35070dda031c81f9ffaf554292bf.1356310727.git.rongqing.li@windriver.com>
+Date: Tue, 15 Jan 2013 13:32:29 +0800
+Message-ID: <CAHsH0E9AQfm7kxziU3RXQKEmOpx18qR=eJ00HMCN0piQs2W2=g@mail.gmail.com>
+From: lei yang <yanglei.fage@gmail.com>
+To: rongqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] replace portmap with rpcbind.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,61 +41,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 04:31:45 -0000
+X-List-Received-Date: Tue, 15 Jan 2013 05:47:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-(sorry I don't have the original email around to which to reply...)
+Hi Rongqing,
 
-For the past many years I have been accumulating various scripts which
-I have used to create the root filesystems for various embedded
-systems. These scripts create updates, generate artifacts for creating
-bootable CF cards, and produce complete VMDK images in one VMDK file.
-This script allows the user on the cmdline to specify things such as
-the size, number, and filesystem for a flexible number of partitions.
-These scripts work on systems that are both 8 years old, as well as
-the latest distributions, they work with systems that have a little
-memory, to ones with lots. They can use any of lilo, extlinux, or
-u-boot (specified on the cmdline).
+I just find rpcbind introduce some packages conflicts, both rpcbind
+and eglibc-utils provides rpcinfo. not sure who is responsible to fix
+this.
 
-I want to begin integrating this work with OE/YP in order to provide a
-demonstration so others can evaluate it and decide if this is
-something along the lines of what they'd find useful.
+Lei
 
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-June/023484.html
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026938.html
 
-Although I'm quite familiar with my scripts... with OE/YP, not so
-much. So I was hoping to find some pointers for how I might proceed
-with this integration.
 
-Currently my scripts still require various privileges. So in the same
-way that a build runs to completion and then the user might run
-"runqemu" from the poky/scripts directory (and be required to give the
-root user's password to setup the tap networking), I would like to
-create a script in poky/scripts that would be run after a successful
-build which also might require root's password.
 
-I would like to ignore any images that are created as part of the
-build and rely solely on a package feed.
 
-So, provided a package feed is available, what would be the easiest
-way, in a shell script (run after a successful build), to say:
-"populate this random (specified) <directory> with all the packages
-the user wishes in their image". In other words I don't want to have
-to care whether the user has selected RPM or DEB, or IPK, and
-(preferably) I don't want to have to care what packages the user has
-selected (through various means) to be installed.
-
-I want to setup and create <directory> beforehand, I want OE/YP to
-populate it (without deleting <directory> or changing it in any way
-other than to populate it), then I want OE/YP to leave it alone for me
-to post-process.
-
-Is that possible?
-
-I was thinking that, as a kludge, I could use bitbake-env if I needed
-to get bitbake variables into the script.
-
-Any suggestions?
+On Mon, Dec 24, 2012 at 9:02 AM,  <rongqing.li@windriver.com> wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> Rpcbind has more features, like ipv6 support and nfs4 support;
+> Redhat, Fedora, debian, Ubuntu are using rpcbind by default.
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>  meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb |    2 +-
+>  .../initscripts/initscripts-1.0/mountnfs.sh            |   16 ++++++++--------
+>  meta/recipes-core/packagegroups/packagegroup-base.bb   |    2 +-
+>  3 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+> index 5a4a7e7..84b8e76 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+>
+>  # util-linux for libblkid
+>  DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
+> -RDEPENDS_${PN} = "portmap"
+> +RDEPENDS_${PN} = "rpcbind"
+>  RRECOMMENDS_${PN} = "kernel-module-nfsd"
+>
+>  PR = "r5"
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> index 82ec7f6..4fffe4e 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> @@ -1,7 +1,7 @@
+>  #!/bin/sh
+>  ### BEGIN INIT INFO
+>  # Provides:          mountnfs
+> -# Required-Start:    $local_fs $network $portmap
+> +# Required-Start:    $local_fs $network $rpcbind
+>  # Required-Stop:
+>  # Default-Start:     S
+>  # Default-Stop:
+> @@ -17,9 +17,9 @@ test -f /etc/fstab && (
+>  #
+>  #      Read through fstab line by line. If it is NFS, set the flag
+>  #      for mounting NFS filesystems. If any NFS partition is found and it
+> -#      not mounted with the nolock option, we start the portmapper.
+> +#      not mounted with the nolock option, we start the rpcbind.
+>  #
+> -portmap=no
+> +rpcbind=no
+>  mount_nfs=no
+>  mount_smb=no
+>  mount_ncp=no
+> @@ -45,7 +45,7 @@ do
+>                         *nolock*)
+>                                 ;;
+>                         *)
+> -                               portmap=yes
+> +                               rpcbind=yes
+>                                 ;;
+>                 esac
+>         fi
+> @@ -65,12 +65,12 @@ done
+>
+>  exec 0>&1
+>
+> -if test "$portmap" = yes
+> +if test "$rpcbind" = yes
+>  then
+> -       if test -x /sbin/portmap
+> +       if test -x /usr/sbin/rpcbind
+>         then
+> -               echo -n "Starting portmapper... "
+> -               start-stop-daemon --start --quiet --exec /sbin/portmap
+> +               echo -n "Starting rpcbind... "
+> +               start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+>                 sleep 2
+>         fi
+>  fi
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> index 347a7e1..b3cdbad 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> @@ -328,7 +328,7 @@ RRECOMMENDS_packagegroup-base-cramfs = "\
+>  #
+>  SUMMARY_packagegroup-base-nfs = "NFS network filesystem support"
+>  RDEPENDS_packagegroup-base-nfs = "\
+> -    portmap"
+> +    rpcbind"
+>
+>  RRECOMMENDS_packagegroup-base-nfs = "\
+>      kernel-module-nfs "
+> --
+> 1.7.10.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
