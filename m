@@ -1,40 +1,26 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martiert@gmail.com>) id 1Tv2j2-0003h4-Hw
+	(envelope-from <constantinx.musca@intel.com>) id 1Tv2oH-0003oV-LG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 10:22:34 +0100
-Received: by mail-lb0-f175.google.com with SMTP id gg13so3545846lbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2013 01:07:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=MnSHzRdQx9Ck4gy3yKFxYkhCSdmbPvHU2BjJd2GoeNA=;
-	b=xOMifO8C7tbuC/ScJpHGLs1mP8ezZsvbvMvN5Mqt8ZD+18upDDb1/P9klh+lLEr2pb
-	2isQfKk6hxpvxH5ZMLjMgmsG7UqZD3Nt6sYnB+zAoUAY1Z8rKQHPg7trBsOlS/98QCTU
-	tAAM4/j9rTrrye0hjWZrVYt2mw70CFiJ1n0Za6r+1Q3h+qDOOCeNJ9ikcD4QxkvdBqsI
-	CMeDaIiHT2dsvs3QGu76UiMxWcJ/hHho+NeFAa62AJFYlR0z6cKRuEcYe3R3QdGWIYKF
-	to4ZL6k1WYluXVNc0FoC5Nu0VF0B963t62iPcsOK+1ccPbIkoN+ZkHsyX1pNaK0UX65C
-	tkvw==
-X-Received: by 10.112.25.100 with SMTP id b4mr34792859lbg.37.1358240832511;
-	Tue, 15 Jan 2013 01:07:12 -0800 (PST)
-Received: from [10.54.86.72] (64-103-25-233.cisco.com. [64.103.25.233])
-	by mx.google.com with ESMTPS id bf3sm6391149lbb.16.2013.01.15.01.07.10
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 15 Jan 2013 01:07:11 -0800 (PST)
-Message-ID: <50F51C3D.1070904@gmail.com>
-Date: Tue, 15 Jan 2013 10:07:09 +0100
-From: Martin Ertsaas <martiert@gmail.com>
+	Tue, 15 Jan 2013 10:28:01 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jan 2013 01:11:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,473,1355126400"; d="scan'208";a="246885853"
+Received: from costin-desktop (HELO [10.237.105.152]) ([10.237.105.152])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jan 2013 01:12:35 -0800
+Message-ID: <50F51DB4.7080004@intel.com>
+Date: Tue, 15 Jan 2013 11:13:24 +0200
+From: Constantin Musca <constantinx.musca@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.11) Gecko/20121128 Thunderbird/10.0.11
+	rv:16.0) Gecko/20121016 Thunderbird/16.0.1
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1357807806-31720-1-git-send-email-martiert@gmail.com>
-	<1358237694.23113.17.camel@ted>
-In-Reply-To: <1358237694.23113.17.camel@ted>
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1358175955.git.constantinx.musca@intel.com>
+	<50F507D0.2060707@linux.intel.com>
+In-Reply-To: <50F507D0.2060707@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] sanity: Make the required utilities more platform specific.
+Subject: Re: [PATCH v2 0/6] On-target multilib gcc enhacement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 09:22:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Jan 2013 09:28:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/15/13 09:14, Richard Purdie wrote:
-> which will then simplify the other part of the patch (make it
-> unnecessary).
-That is true, will make it a lot simpler.
+On 01/15/2013 09:40 AM, Saul Wold wrote:
+> On 01/14/2013 07:16 AM, Constantin Musca wrote:
+>> This patchset enables the user to build gcc with configurable 
+>> multilib options.
+>> The following changes since commit 
+>> 53cc748b93e8af584557d6db5309c3e955182c5c:
+>>
+>>    linux-libc-headers: fix headers install in long path name 
+>> environments (2013-01-10 23:53:51 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib cmuscax/gcc_enhan3
+>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/gcc_enhan3
+>>
+>> Constantin Musca (6):
+>>    gcc: add missing dependency (zlib)
+>>    gcc: remove the 64bithack patch
+>>    multilib.conf: add TARGET_ARCH to MULTILIB_SAVE_VARNAME
+>>    gcc: enable multilib for target gcc
+>>    tune-mips32: add BASE_LIB to mips32 tunes
+>>    tune-ppc603e: add BASE_LIB
+>>
+> This patch set caused a number of failures on the Autobuilder today. 
+> please check the AB results.
+>
+> Thanks
+>
+>     Sau!
+The re.sub flags argument doesn't exist in python 2.6 or in a lower 
+version. Should I adapt my patch for 2.6 or do we need to update
+python on the AB systems ?
 
-What I know is still missing:
+Cheers,
+Constantin
+>
+>> meta/conf/machine/include/tune-mips32.inc          |   4 +
+>>   meta/conf/machine/include/tune-ppc603e.inc         |   1 +
+>>   meta/conf/multilib.conf                            |   2 +-
+>>   meta/recipes-devtools/gcc/gcc-4.7.inc              |   5 +-
+>>   meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch  |  63 -------
+>>   meta/recipes-devtools/gcc/gcc-common.inc           |  25 +++
+>>   meta/recipes-devtools/gcc/gcc-configure-common.inc |   3 +-
+>>   meta/recipes-devtools/gcc/gcc-configure-target.inc |   1 +
+>>   meta/recipes-devtools/gcc/gcc-multilib-config.inc  | 200 
+>> +++++++++++++++++++++
+>>   meta/recipes-devtools/gcc/libgcc_4.7.bb            |  44 +++++
+>>   10 files changed, 280 insertions(+), 68 deletions(-)
+>>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
+>>   create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
+>>
 
-1) There are some errors with the paths, seems like stuff is not
-correctly transfered to the sysroot, this is next on the agenda.
-2) Make a class that does what chrpath does, but for install_name_tool,
-going to do this as soon as I get an error on it.
-3) Probably some errors after I get past the error I have now.
-
-I agree that we should not merge a ton of these patches.
-
-For my part, I can keep these in my repository until I have stuff
-working. When we can compile everything I can do a pull request. If
-someone wants to help, they can just pull from me and work against that
-repo.
-
-- Martin
 
 
