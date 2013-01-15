@@ -1,37 +1,39 @@
 Received: from mail-ea0-f179.google.com ([209.85.215.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Tv30Q-00049v-7F
+	(envelope-from <koen@dominion.thruhere.net>) id 1Tv30R-00049w-Go
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 10:40:30 +0100
-Received: by mail-ea0-f179.google.com with SMTP id i12so2032871eaa.38
+	Tue, 15 Jan 2013 10:40:32 +0100
+Received: by mail-ea0-f179.google.com with SMTP id i12so2033697eaa.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2013 01:25:10 -0800 (PST)
+	Tue, 15 Jan 2013 01:25:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=mChrJtoJHAd7dB0u6Ee2UBIta5C7I7uEaY2uvq12Yu4=;
-	b=HbC27diHR2M3M25TMSey1ziAT2xZBQqE15+Glmk9eVaticKNLkO733qJMGDjcPoMTE
-	YVFo03nkaQ0pzE2pJgiGGu/DmohdZvTYgRSrfyVi8ZuHXFK9+eqV8EZOF3MDP1gCON6x
-	oc76vz/YUzxtzvv9mqGUUHlzAebsDM/A66hxoUG2YMhm5xBRQDegNL1x6FC9PvN8Amsh
-	K6B+t3QCSBnl8ALr4dVn6WQxv127/fLyzXfkYYN9/iOUNnkKOCXfLSoND3z3AFlVuidF
-	DXyYdzS79ojg0G8/dNRMqOrGdmuURiXhUvQNj0SziLIeI7jVvLiDGmoF0Mw0bukPeqm6
-	LkMA==
-X-Received: by 10.14.205.199 with SMTP id j47mr239112031eeo.26.1358241910032; 
-	Tue, 15 Jan 2013 01:25:10 -0800 (PST)
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references:x-gm-message-state;
+	bh=lY3X9+hc0wciU8CfUNadkmFB3s0DHMBrD7FdFWVkTN8=;
+	b=ozPAzwWkwQzhj4bFUfpMKaf2HA+xpi/lFFKmonDFGH3RN5AwN09DLg0ntR/aU9sGtd
+	ZgCcnAdomLtMC/XOAFcKSKKNMlly4/KAdFdFugfzpKV5Ej/WIZpO7f0ICIZ72S5at2Ae
+	mewqqMPhuF/qdlLra+HWRFAtrHT2mqCMF3BIoCNN9DA1E+YrDOMD393Mq+mtbTgewe3y
+	rkvjboAeROsxeNgl10e/rd+8u3dK2QFzSvNau9MnRmlRbQ57mVQUknhRTwQnr/kEcbZ5
+	YfN5IYhT2KvWe06QyHAU27ztPLgKDNianfwAuaRqZy235If597xvwTgAi/CIpwUAX/gy
+	E7pA==
+X-Received: by 10.14.221.5 with SMTP id q5mr239242725eep.33.1358241911605;
+	Tue, 15 Jan 2013 01:25:11 -0800 (PST)
 Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
 	[77.162.165.174])
-	by mx.google.com with ESMTPS id f49sm24802960eep.12.2013.01.15.01.25.08
+	by mx.google.com with ESMTPS id f49sm24802960eep.12.2013.01.15.01.25.10
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 15 Jan 2013 01:25:09 -0800 (PST)
+	Tue, 15 Jan 2013 01:25:10 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2013 10:24:37 +0100
-Message-Id: <1358241880-3921-1-git-send-email-koen@dominion.thruhere.net>
+Date: Tue, 15 Jan 2013 10:24:38 +0100
+Message-Id: <1358241880-3921-2-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.8.1
-X-Gm-Message-State: ALoCoQknmD22aU0GoC/fiGzs/Jq5EMfBbdLp/fCJPNipzPZeaCnDbRnLlUhGezoQB8KF36OscHAv
-Cc: Martin Jansa <martin.jansa@gmail.com>, scott.a.garmin@intel.com
-Subject: [for-denzil][Fedora 18 fixes][PATCH 1/4] bison: move remove-gets.patch to BASE_SRC_URI, it's needed for bison-native too if host has (e)glibc-2.16
+In-Reply-To: <1358241880-3921-1-git-send-email-koen@dominion.thruhere.net>
+References: <1358241880-3921-1-git-send-email-koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQnGlG7FKtWej2mTejkdrer2jtUhVlsOEyKOdMBVG3mA0dBDd8yNMm0CTK5IehYM57XVOPK9
+Cc: scott.a.garmin@intel.com
+Subject: [for-denzil][Fedora 18 fixes][PATCH 2/4] libtasn1: Update to 2.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +46,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 09:40:31 -0000
+X-List-Received-Date: Tue, 15 Jan 2013 09:40:33 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Use the GUN_MIRROR correctly
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/bison/bison_2.5.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/gnutls/libtasn1_2.11.bb | 20 --------------------
+ meta/recipes-support/gnutls/libtasn1_2.12.bb | 20 ++++++++++++++++++++
+ 2 files changed, 20 insertions(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/libtasn1_2.11.bb
+ create mode 100644 meta/recipes-support/gnutls/libtasn1_2.12.bb
 
-diff --git a/meta/recipes-devtools/bison/bison_2.5.bb b/meta/recipes-devtools/bison/bison_2.5.bb
-index e3f9273..4d82723 100644
---- a/meta/recipes-devtools/bison/bison_2.5.bb
-+++ b/meta/recipes-devtools/bison/bison_2.5.bb
-@@ -9,15 +9,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SECTION = "devel"
- DEPENDS = "bison-native flex-native"
- 
--PR = "r2"
-+PR = "r3"
- 
- BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
- 	   file://m4.patch \
-+           file://remove-gets.patch \
- 	  "
- 
- SRC_URI = "${BASE_SRC_URI} \
-            file://fix_cross_manpage_building.patch \
--           file://remove-gets.patch \
-           "
- 
- SRC_URI[md5sum] = "687e1dcd29452789d34eaeea4c25abe4"
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.11.bb b/meta/recipes-support/gnutls/libtasn1_2.11.bb
+deleted file mode 100644
+index 1a87fc8..0000000
+--- a/meta/recipes-support/gnutls/libtasn1_2.11.bb
++++ /dev/null
+@@ -1,20 +0,0 @@
+-DESCRIPTION = "Library for ASN.1 and DER manipulation"
+-HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
+-
+-LICENSE = "GPLv3+ & LGPLv2.1+"
+-LICENSE_${PN}-bin = "GPLv3+"
+-LICENSE_${PN} = "LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+-                    file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
+-
+-PR = "r0"
+-
+-SRC_URI = "ftp://ftp.gnu.org/gnu/libtasn1/libtasn1-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "ee8076752f2afcbcd12f3dd9bc622748"
+-SRC_URI[sha256sum] = "f4d43c77c12ceabf1a72911472fc8c67e43728b328dfb1b83fd519ed5d079afb"
+-
+-inherit autotools binconfig lib_package
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.12.bb b/meta/recipes-support/gnutls/libtasn1_2.12.bb
+new file mode 100644
+index 0000000..aae409e
+--- /dev/null
++++ b/meta/recipes-support/gnutls/libtasn1_2.12.bb
+@@ -0,0 +1,20 @@
++DESCRIPTION = "Library for ASN.1 and DER manipulation"
++HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
++
++LICENSE = "GPLv3+ & LGPLv2.1+"
++LICENSE_${PN}-bin = "GPLv3+"
++LICENSE_${PN} = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
++                    file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
++
++PR = "r0"
++
++SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "4eba39fb962d6cf5a370267eae8ff52b"
++SRC_URI[sha256sum] = "0e257a8a01c80e464f73262e13c226e04a15165c2ad087a340f53902281a1c5d"
++
++inherit autotools binconfig lib_package
++
++BBCLASSEXTEND = "native"
 -- 
 1.8.1
 
