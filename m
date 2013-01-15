@@ -1,36 +1,29 @@
-Received: from mail-ie0-f171.google.com ([209.85.223.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Tuppc-0008P1-2g
+	(envelope-from <Qi.Chen@windriver.com>) id 1TuwFB-0003Jc-Ha
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Jan 2013 20:36:39 +0100
-Received: by mail-ie0-f171.google.com with SMTP id 17so5645779iea.16
+	Tue, 15 Jan 2013 03:27:21 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0F2Btad023342
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 11:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=MX46aArpErj7ugHFtg7+y1d5dWZixFMkkZQgtYqvpzo=;
-	b=aP3ED0fSDT3zOWdbtMzlwz9rtzdajHjqU2b1FlMDTXeFaou4l5KdSnb/1bvjwlthQb
-	KBwsH7FvbCnqyvsWOTLyBJvA41tKvVNI2Odzp3QVXZQC97GYJxA0M7R/ZZNv0lXtVBRg
-	ybxlJ7J1/ctdp3KJ8fKuH92UC7IdFTdO5pivLrELRQgwmmf1cz+R+rPErEnKWkQuZwoT
-	woqc7wJMHCMj72gQ/Q1zE6w6i36qD5ZnpFVKPER77Kg9K6HB56lQOIaERsaqLdylfyXM
-	zJJqQfphFZ+msKtljKSgolFxQzXmGDrHBTCM5yq7tytF80wBVX8coQSoT8Y1d3NvWKXN
-	ukAA==
-X-Received: by 10.50.184.199 with SMTP id ew7mr7851214igc.84.1358191268416;
-	Mon, 14 Jan 2013 11:21:08 -0800 (PST)
+	Mon, 14 Jan 2013 18:11:56 -0800 (PST)
+Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Mon, 14 Jan 2013 18:11:55 -0800
+Message-ID: <50F4BAE8.6060104@windriver.com>
+Date: Tue, 15 Jan 2013 10:11:52 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-Received: by 10.64.18.169 with HTTP; Mon, 14 Jan 2013 11:20:38 -0800 (PST)
-In-Reply-To: <CAMKF1sp07U3FK3X_VDfr_sOGSObZLMHY6Tta-STatLs64ywnhQ@mail.gmail.com>
-References: <a199c2dc372f0c5a524685e30d8417f05b3713f9.1357343832.git.raj.khem@gmail.com>
-	<5c96537b0319af960a917a7b9decb317bbfd4daa.1357343832.git.raj.khem@gmail.com>
-	<50F449AE.3060101@linux.intel.com>
-	<CAMKF1sp07U3FK3X_VDfr_sOGSObZLMHY6Tta-STatLs64ywnhQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 14 Jan 2013 11:20:38 -0800
-Message-ID: <CAMKF1sraYccCZRZ-wD862mTXP5qLAz94F5vPj2jrKwmSEM0N3w@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] cairo: Adds libxext in X11DEPENDS.
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1358152182.git.Qi.Chen@windriver.com>
+	<3fcca17cd3080e160104a92b0ca812c3c49c257f.1358152182.git.Qi.Chen@windriver.com>
+In-Reply-To: <3fcca17cd3080e160104a92b0ca812c3c49c257f.1358152182.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.163.154]
+Subject: Re: [PATCH V7 6/6] volatile-conf-sato: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,24 +36,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Jan 2013 19:36:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Jan 2013 02:27:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 14, 2013 at 11:14 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Jan 14, 2013 at 10:08 AM, Saul Wold <sgw@linux.intel.com> wrote:
->>
->> This commit message does not fully state what's going on in the change
->> below, as pointed out by Richard, you do not comment on the uclib change at
->> all and what's the CAIRO_NO_MUTEX setting doing?
->>
->> The DEPENDS part is good, we just need to know about the rest of it.
+I've got to apologize.
+This patch has a serious problem.
+
+The fact that the IMAGE_INSTALL statement was before the 'inherit' 
+statement caused an override of IMAGE_INSTALL variable in image.bbclass, 
+thus resulting a bunch of packaged not installed on target.
+
+A new patch will be sent soon.
+Sorry for that.
+
+Chen Qi
+
+On 01/14/2013 04:35 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi<Qi.Chen@windriver.com>
 >
-> it botched two different patches into 1 which were not meant to be. I
-> will untangle it
+> This recipe provides a config file for core-image-sato.
+> The config file is used to handle volatile storage in case of a
+> read-only-rootfs image.
+>
+> Also, let core-image-sato.bb depend on this recipe.
+>
+> [YOCTO #3406]
+>
+> Signed-off-by: Chen Qi<Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-sato/images/core-image-sato.bb        |    3 +++
+>   .../files/volatiles-readonly-sato                  |   14 ++++++++++++++
+>   .../volatile-conf-sato_1.0.bb                      |   15 +++++++++++++++
+>   3 files changed, 32 insertions(+)
+>   create mode 100644 meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
+>   create mode 100644 meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
+>
+> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
+> index f52a1a5..8aaeaf8 100644
+> --- a/meta/recipes-sato/images/core-image-sato.bb
+> +++ b/meta/recipes-sato/images/core-image-sato.bb
+> @@ -6,6 +6,9 @@ IMAGE_FEATURES += "splash package-management x11-base x11-sato ssh-server-dropbe
+>   
+>   LICENSE = "MIT"
+>   
+> +RDEPENDS += "volatile-conf-sato"
+> +IMAGE_INSTALL += "volatile-conf-sato"
+> +
+>   inherit core-image
+>   
+>   IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
+> diff --git a/meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato b/meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
+> new file mode 100644
+> index 0000000..4a56b81
+> --- /dev/null
+> +++ b/meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
+> @@ -0,0 +1,14 @@
+> +# This configuration file lists filesystem objects specific to sato image
+> +# with read-only rootfs.
+> +# This configuration file will only be applied if the image is sato and the
+> +# rootfs is read-only.
+> +# For the detailed format information, refer to /etc/default/volatiles/00_core.
+> +d root root 0755 /var/volatile/lib/ none
+> +d root root 0755 /var/volatile/lib/urandom/ none
+> +d root root 0755 /var/volatile/lib/dropbear/ none
+> +d root root 0755 /var/volatile/lib/nfs/ none
+> +d root root 0755 /var/volatile/lib/dbus/ none
+> +l root root 0755 /var/lib/urandom /var/volatile/lib/urandom
+> +l root root 0755 /var/lib/dropbear /var/volatile/lib/dropbear
+> +l root root 0755 /var/lib/nfs /var/volatile/lib/nfs
+> +l root root 0755 /var/lib/dbus /var/volatile/lib/dbus
+> diff --git a/meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb b/meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
+> new file mode 100644
+> index 0000000..acc8901
+> --- /dev/null
+> +++ b/meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
+> @@ -0,0 +1,15 @@
+> +SUMMARY = "Provide config files for core-image-sato"
+> +DESCRIPTION = "This package contains a config file for core-image-sato. \
+> +It is used to handle volatile storage in case of a read-only rootfs."
+> +
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM ="file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +
+> +SRC_URI ="file://volatiles-readonly-sato"
+> +
+> +PR = "r1"
+> +
+> +do_install () {
+> +	install -d ${D}${sysconfdir}/default/volatiles
+> +	install -m 0644 ${WORKDIR}/volatiles-readonly-sato ${D}${sysconfdir}/default/volatiles/00_core_readonly
+> +}
 
-The changes in there were uclibc specific. Which I havent yet proposed and need
-some more work. I have punted that patch from eglibc-2.17 branch since
-the needed
-patch has already been applied.
 
 
