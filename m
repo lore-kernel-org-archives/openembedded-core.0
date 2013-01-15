@@ -1,34 +1,25 @@
-Received: from mail-bk0-f49.google.com ([209.85.214.49])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <yanglei.fage@gmail.com>) id 1TuzNF-0004gh-J1
+	(envelope-from <sgw@linux.intel.com>) id 1Tv1Mg-0000VD-1v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 06:47:58 +0100
-Received: by mail-bk0-f49.google.com with SMTP id jm19so2406141bkc.36
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Jan 2013 21:32:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=gNIF3Iq54UO5gmoRHx0gpgOUzFkRqEXY/4bEhEdmurY=;
-	b=vxw8KAwjMFCtTZu1N02WPgFzTHFVy2IaCuOdDSGSZO6ABVtIf1bPOEM00jImvb+J6H
-	ciXkj0eT3vdIVBl8fR4W2m+Sj8wblGyyHbTYX2rjuCPI4iUYvlcNs7JkLVMXmBhZxCMK
-	4jhhw3jmxUar9qi3maIMx1WeCO0tzOhBXVkDdOAUwuIXhFWhsFWmbUhSJKkdB2MRlIrj
-	VwcFplrQnwa7ovd8DPup5a1L3G30vVd1kegNrIxtlaJx6mfoGh7TyTz/LsLS+CRtFiI0
-	qjAw6KvXF0mFpO/Gly5WCFPTaaOGi2/FDY3xc2b3ZaMYMJ08Ba8wnL1Jad+H5gBnW34D
-	JWOA==
+	Tue, 15 Jan 2013 08:55:26 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Jan 2013 23:40:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,471,1355126400"; d="scan'208";a="276977873"
+Received: from unknown (HELO [10.255.14.213]) ([10.255.14.213])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Jan 2013 23:40:00 -0800
+Message-ID: <50F507D0.2060707@linux.intel.com>
+Date: Mon, 14 Jan 2013 23:40:00 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.204.8.143 with SMTP id h15mr39606727bkh.115.1358227949590;
-	Mon, 14 Jan 2013 21:32:29 -0800 (PST)
-Received: by 10.204.11.86 with HTTP; Mon, 14 Jan 2013 21:32:29 -0800 (PST)
-In-Reply-To: <96b27c5fa51c35070dda031c81f9ffaf554292bf.1356310727.git.rongqing.li@windriver.com>
-References: <cover.1356310727.git.rongqing.li@windriver.com>
-	<96b27c5fa51c35070dda031c81f9ffaf554292bf.1356310727.git.rongqing.li@windriver.com>
-Date: Tue, 15 Jan 2013 13:32:29 +0800
-Message-ID: <CAHsH0E9AQfm7kxziU3RXQKEmOpx18qR=eJ00HMCN0piQs2W2=g@mail.gmail.com>
-From: lei yang <yanglei.fage@gmail.com>
-To: rongqing.li@windriver.com
+To: Constantin Musca <constantinx.musca@intel.com>
+References: <cover.1358175955.git.constantinx.musca@intel.com>
+In-Reply-To: <cover.1358175955.git.constantinx.musca@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] replace portmap with rpcbind.
+Subject: Re: [PATCH v2 0/6] On-target multilib gcc enhacement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,118 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 05:47:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 15 Jan 2013 07:55:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Rongqing,
+On 01/14/2013 07:16 AM, Constantin Musca wrote:
+> This patchset enables the user to build gcc with configurable multilib options.
+> The following changes since commit 53cc748b93e8af584557d6db5309c3e955182c5c:
+>
+>    linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:51 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib cmuscax/gcc_enhan3
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=cmuscax/gcc_enhan3
+>
+> Constantin Musca (6):
+>    gcc: add missing dependency (zlib)
+>    gcc: remove the 64bithack patch
+>    multilib.conf: add TARGET_ARCH to MULTILIB_SAVE_VARNAME
+>    gcc: enable multilib for target gcc
+>    tune-mips32: add BASE_LIB to mips32 tunes
+>    tune-ppc603e: add BASE_LIB
+>
+This patch set caused a number of failures on the Autobuilder today. 
+please check the AB results.
 
-I just find rpcbind introduce some packages conflicts, both rpcbind
-and eglibc-utils provides rpcinfo. not sure who is responsible to fix
-this.
+Thanks
 
-Lei
+	Sau!
 
-
-
-
-
-On Mon, Dec 24, 2012 at 9:02 AM,  <rongqing.li@windriver.com> wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
+>   meta/conf/machine/include/tune-mips32.inc          |   4 +
+>   meta/conf/machine/include/tune-ppc603e.inc         |   1 +
+>   meta/conf/multilib.conf                            |   2 +-
+>   meta/recipes-devtools/gcc/gcc-4.7.inc              |   5 +-
+>   meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch  |  63 -------
+>   meta/recipes-devtools/gcc/gcc-common.inc           |  25 +++
+>   meta/recipes-devtools/gcc/gcc-configure-common.inc |   3 +-
+>   meta/recipes-devtools/gcc/gcc-configure-target.inc |   1 +
+>   meta/recipes-devtools/gcc/gcc-multilib-config.inc  | 200 +++++++++++++++++++++
+>   meta/recipes-devtools/gcc/libgcc_4.7.bb            |  44 +++++
+>   10 files changed, 280 insertions(+), 68 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/64bithack.patch
+>   create mode 100644 meta/recipes-devtools/gcc/gcc-multilib-config.inc
 >
-> Rpcbind has more features, like ipv6 support and nfs4 support;
-> Redhat, Fedora, debian, Ubuntu are using rpcbind by default.
->
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->  meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb |    2 +-
->  .../initscripts/initscripts-1.0/mountnfs.sh            |   16 ++++++++--------
->  meta/recipes-core/packagegroups/packagegroup-base.bb   |    2 +-
->  3 files changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> index 5a4a7e7..84b8e76 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
->
->  # util-linux for libblkid
->  DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
-> -RDEPENDS_${PN} = "portmap"
-> +RDEPENDS_${PN} = "rpcbind"
->  RRECOMMENDS_${PN} = "kernel-module-nfsd"
->
->  PR = "r5"
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-> index 82ec7f6..4fffe4e 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-> @@ -1,7 +1,7 @@
->  #!/bin/sh
->  ### BEGIN INIT INFO
->  # Provides:          mountnfs
-> -# Required-Start:    $local_fs $network $portmap
-> +# Required-Start:    $local_fs $network $rpcbind
->  # Required-Stop:
->  # Default-Start:     S
->  # Default-Stop:
-> @@ -17,9 +17,9 @@ test -f /etc/fstab && (
->  #
->  #      Read through fstab line by line. If it is NFS, set the flag
->  #      for mounting NFS filesystems. If any NFS partition is found and it
-> -#      not mounted with the nolock option, we start the portmapper.
-> +#      not mounted with the nolock option, we start the rpcbind.
->  #
-> -portmap=no
-> +rpcbind=no
->  mount_nfs=no
->  mount_smb=no
->  mount_ncp=no
-> @@ -45,7 +45,7 @@ do
->                         *nolock*)
->                                 ;;
->                         *)
-> -                               portmap=yes
-> +                               rpcbind=yes
->                                 ;;
->                 esac
->         fi
-> @@ -65,12 +65,12 @@ done
->
->  exec 0>&1
->
-> -if test "$portmap" = yes
-> +if test "$rpcbind" = yes
->  then
-> -       if test -x /sbin/portmap
-> +       if test -x /usr/sbin/rpcbind
->         then
-> -               echo -n "Starting portmapper... "
-> -               start-stop-daemon --start --quiet --exec /sbin/portmap
-> +               echo -n "Starting rpcbind... "
-> +               start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
->                 sleep 2
->         fi
->  fi
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> index 347a7e1..b3cdbad 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> @@ -328,7 +328,7 @@ RRECOMMENDS_packagegroup-base-cramfs = "\
->  #
->  SUMMARY_packagegroup-base-nfs = "NFS network filesystem support"
->  RDEPENDS_packagegroup-base-nfs = "\
-> -    portmap"
-> +    rpcbind"
->
->  RRECOMMENDS_packagegroup-base-nfs = "\
->      kernel-module-nfs "
-> --
-> 1.7.10.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
