@@ -1,29 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-la0-f46.google.com ([209.85.215.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1Tv5UB-0002AV-RG
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Tv6n4-0004IN-NQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 13:19:24 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0FC3xtT013352
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jan 2013 04:03:59 -0800 (PST)
-Received: from [128.224.162.143] (128.224.162.143) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Tue, 15 Jan 2013 04:03:58 -0800
-Message-ID: <50F545AB.7020608@windriver.com>
-Date: Tue, 15 Jan 2013 20:03:55 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue, 15 Jan 2013 14:43:01 +0100
+Received: by mail-la0-f46.google.com with SMTP id fq13so108200lab.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2013 05:27:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=PGSOiUghTZGhdetAg7/LRLE49bMK07pb75cxavIzxV4=;
+	b=koB7CJHcefOrGGM5zoPnhe/piz/Yvr6FImi762QXw9gN56o+JDtpyhwrCeY5el7MCH
+	q0/evIeNer29B6OjHmlJeWQAQ+OHeX1S1s/L3wFIxFVIgLpGWvic6XMzsHMTZHlC52PQ
+	ADXrhVcNnSjJwV/SJADddNmnfFU3ukg/4Qw0bEbkdN13kfmYRMLX6fWF9IMTJvmaae5+
+	R9Y+uqFmiEXkedxHwEXDaPdHUbZ26IUlKVcsnl0/b4nBu56O3CakPMtKN3DrqIq7e2cS
+	03jtOCduE6cZGj8AJBG5k3HykagrVBXTlmlibx1teAXIsg8jbci348KgH3jv1kWCLPyx
+	njew==
 MIME-Version: 1.0
-To: lei yang <yanglei.fage@gmail.com>
-References: <cover.1356310727.git.rongqing.li@windriver.com>
-	<96b27c5fa51c35070dda031c81f9ffaf554292bf.1356310727.git.rongqing.li@windriver.com>
-	<CAHsH0E9AQfm7kxziU3RXQKEmOpx18qR=eJ00HMCN0piQs2W2=g@mail.gmail.com>
-In-Reply-To: <CAHsH0E9AQfm7kxziU3RXQKEmOpx18qR=eJ00HMCN0piQs2W2=g@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] replace portmap with rpcbind.
+Received: by 10.112.46.199 with SMTP id x7mr36382302lbm.109.1358256458218;
+	Tue, 15 Jan 2013 05:27:38 -0800 (PST)
+Received: by 10.112.127.35 with HTTP; Tue, 15 Jan 2013 05:27:38 -0800 (PST)
+In-Reply-To: <50F52E92.6050304@herbrechtsmeier.net>
+References: <50F52E92.6050304@herbrechtsmeier.net>
+Date: Tue, 15 Jan 2013 08:27:38 -0500
+Message-ID: <CADkTA4M38hcwe4jh23sX1OaVYeTiTKWp-JknUeAez6HG-Er7uw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: guilt: Unsupported version of git (1.8.0.2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,133 +41,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 12:19:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Jan 2013 13:43:05 -0000
+X-List-Received-Date: Tue, 15 Jan 2013 13:43:05 -0000
+Content-Type: multipart/alternative; boundary=bcaec5540568b4bcb304d353b94f
+
+--bcaec5540568b4bcb304d353b94f
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Tue, Jan 15, 2013 at 5:25 AM, Stefan Herbrechtsmeier <
+stefan@herbrechtsmeier.net> wrote:
+
+> Hi,
+>
+> the current version of git is not supported by guilt and breaks
+> linux-yocto when used with additional patches.
+>
+
+Open a bug in the bugzilla (if you haven't already) and assign it to me.
+I'll take care of it.
+
+Cheers,
+
+Bruce
 
 
+>
+> Regards,
+>   Stefan
+>
+>
+> ______________________________**_________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.**openembedded.org<Openembedded-core@lists.openembedded.org>
+> http://lists.linuxtogo.org/**cgi-bin/mailman/listinfo/**openembedded-core<http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>
+>
 
-On 01/15/2013 01:32 PM, lei yang wrote:
-> Hi Rongqing,
->
-> I just find rpcbind introduce some packages conflicts, both rpcbind
-> and eglibc-utils provides rpcinfo. not sure who is responsible to fix
-> this.
->
-> Lei
->
 
-eglibc-2.16 does not provide rpcinfo, so mainstream has no bug.
-
--rongqing
-
->
->
->
->
-> On Mon, Dec 24, 2012 at 9:02 AM,  <rongqing.li@windriver.com> wrote:
->> From: "Roy.Li" <rongqing.li@windriver.com>
->>
->> Rpcbind has more features, like ipv6 support and nfs4 support;
->> Redhat, Fedora, debian, Ubuntu are using rpcbind by default.
->>
->> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->> ---
->>   meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb |    2 +-
->>   .../initscripts/initscripts-1.0/mountnfs.sh            |   16 ++++++++--------
->>   meta/recipes-core/packagegroups/packagegroup-base.bb   |    2 +-
->>   3 files changed, 10 insertions(+), 10 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->> index 5a4a7e7..84b8e76 100644
->> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
->>
->>   # util-linux for libblkid
->>   DEPENDS = "libcap libnfsidmap libevent util-linux tcp-wrappers"
->> -RDEPENDS_${PN} = "portmap"
->> +RDEPENDS_${PN} = "rpcbind"
->>   RRECOMMENDS_${PN} = "kernel-module-nfsd"
->>
->>   PR = "r5"
->> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
->> index 82ec7f6..4fffe4e 100755
->> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
->> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
->> @@ -1,7 +1,7 @@
->>   #!/bin/sh
->>   ### BEGIN INIT INFO
->>   # Provides:          mountnfs
->> -# Required-Start:    $local_fs $network $portmap
->> +# Required-Start:    $local_fs $network $rpcbind
->>   # Required-Stop:
->>   # Default-Start:     S
->>   # Default-Stop:
->> @@ -17,9 +17,9 @@ test -f /etc/fstab && (
->>   #
->>   #      Read through fstab line by line. If it is NFS, set the flag
->>   #      for mounting NFS filesystems. If any NFS partition is found and it
->> -#      not mounted with the nolock option, we start the portmapper.
->> +#      not mounted with the nolock option, we start the rpcbind.
->>   #
->> -portmap=no
->> +rpcbind=no
->>   mount_nfs=no
->>   mount_smb=no
->>   mount_ncp=no
->> @@ -45,7 +45,7 @@ do
->>                          *nolock*)
->>                                  ;;
->>                          *)
->> -                               portmap=yes
->> +                               rpcbind=yes
->>                                  ;;
->>                  esac
->>          fi
->> @@ -65,12 +65,12 @@ done
->>
->>   exec 0>&1
->>
->> -if test "$portmap" = yes
->> +if test "$rpcbind" = yes
->>   then
->> -       if test -x /sbin/portmap
->> +       if test -x /usr/sbin/rpcbind
->>          then
->> -               echo -n "Starting portmapper... "
->> -               start-stop-daemon --start --quiet --exec /sbin/portmap
->> +               echo -n "Starting rpcbind... "
->> +               start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
->>                  sleep 2
->>          fi
->>   fi
->> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
->> index 347a7e1..b3cdbad 100644
->> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
->> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
->> @@ -328,7 +328,7 @@ RRECOMMENDS_packagegroup-base-cramfs = "\
->>   #
->>   SUMMARY_packagegroup-base-nfs = "NFS network filesystem support"
->>   RDEPENDS_packagegroup-base-nfs = "\
->> -    portmap"
->> +    rpcbind"
->>
->>   RRECOMMENDS_packagegroup-base-nfs = "\
->>       kernel-module-nfs "
->> --
->> 1.7.10.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--bcaec5540568b4bcb304d353b94f
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Tue, Jan 15, 2013 at 5:25 AM, Stefan Herbrechtsmeier <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:stefan@herbrechtsmeier.net" target=3D"_blank=
+">stefan@herbrechtsmeier.net</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Hi,<br>
+<br>
+the current version of git is not supported by guilt and breaks linux-yocto=
+ when used with additional patches.<br></blockquote><div><br></div><div sty=
+le>Open a bug in the bugzilla (if you haven&#39;t already) and assign it to=
+ me. I&#39;ll take care of it.</div>
+<div style><br></div><div style>Cheers,</div><div style><br></div><div styl=
+e>Bruce</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Regards,<br>
+=A0 Stefan<br>
+<br>
+<br>
+______________________________<u></u>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<u></u>openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/<u></u>cgi-bin/mailman/=
+listinfo/<u></u>openembedded-core</a><br>
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>&quot;Thou s=
+halt not follow the NULL pointer, for chaos and madness await thee at its e=
+nd&quot;
+</div></div>
+
+--bcaec5540568b4bcb304d353b94f--
