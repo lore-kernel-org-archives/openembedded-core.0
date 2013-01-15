@@ -1,35 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pa0-f54.google.com ([209.85.220.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TvDF1-000095-Vu
+	(envelope-from <martin.jansa@gmail.com>) id 1TvDFM-00009Z-W3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 21:36:30 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 15 Jan 2013 12:20:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="244290596"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by azsmga001.ch.intel.com with ESMTP; 15 Jan 2013 12:20:48 -0800
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.60]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.151]) with mapi id
-	14.01.0355.002; Tue, 15 Jan 2013 20:18:06 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Thread-Topic: [OE-core] [PATCH V4 2/3] connman-conf: configures connman in
-	qemu machines
-Thread-Index: AQHN81wtEeC3f6EZ2E6+BuI9v9mtv5hK04oAgAAANKA=
-Date: Tue, 15 Jan 2013 20:18:06 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB161E02B1@IRSMSX101.ger.corp.intel.com>
+	Tue, 15 Jan 2013 21:36:51 +0100
+Received: by mail-pa0-f54.google.com with SMTP id bi5so320408pad.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2013 12:21:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=0gNv9kqRFQikQI65fVoqRsBvM37zcDCyLcU0YrrS6OE=;
+	b=DkgvK+jBiIgoqJWrjysXGkCRIfZCD9uhXWBO/hVcxaWaMO7PZk1xA7+aYsf1rOpR5U
+	oHtBnhF/kojoyvCwfmD62pYLKNH1urhl1CEEJ6lOA8XLocB3BV4ie0KZl/73f+DcO5Mz
+	+WUrMQfpjlaMFszkeb8c0AO9XLkEtbEFDw0CZdKQPWbU7hS/ouCq1M42J6Ts7KUgdAc7
+	od2eIaq3T+cyagfpKVqtmQLKq6Oo2Zeb6YtEeH/25dWS/nrKHvtzyqYkAI6WCo0YPmP8
+	i2wIUZtMWCpsJ6f8BXmY601zocyzuzR0emweziU1y6byu28CYY0IOz1iqnKONDK9JHcF
+	P8WA==
+X-Received: by 10.68.239.194 with SMTP id vu2mr40292551pbc.34.1358281275532;
+	Tue, 15 Jan 2013 12:21:15 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id ql9sm10770763pbc.61.2013.01.15.12.21.12
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 15 Jan 2013 12:21:14 -0800 (PST)
+Date: Tue, 15 Jan 2013 21:21:16 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <20130115202116.GB3002@jama>
 References: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
 	<1358280527-14078-3-git-send-email-cristian.iorga@intel.com>
-	<CAP9ODKpNzcW7qtqC5WX7EP6OZBLBpKPLn_S1zsguZkcjgvz3Kw@mail.gmail.com>
-In-Reply-To: <CAP9ODKpNzcW7qtqC5WX7EP6OZBLBpKPLn_S1zsguZkcjgvz3Kw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1358280527-14078-3-git-send-email-cristian.iorga@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V4 2/3] connman-conf: configures connman in qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,43 +45,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 20:36:32 -0000
-X-List-Received-Date: Tue, 15 Jan 2013 20:36:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 15 Jan 2013 20:36:54 -0000
+X-Groupsio-MsgNum: 33841
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qtZFehHsKgwS5rPz"
+Content-Disposition: inline
+
+--qtZFehHsKgwS5rPz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-It didn't during my tests.
-But I might be wrong.
-Please let me know if there are such warnings.
-
-Thanks,
-Cristian
-
------Original Message-----
-From: otavio.salvador@gmail.com [mailto:otavio.salvador@gmail.com] On Behal=
-f Of Otavio Salvador
-Sent: Tuesday, January 15, 2013 10:16 PM
-To: Iorga, Cristian
-Cc: Patches and discussions about the oe-core layer
-Subject: Re: [OE-core] [PATCH V4 2/3] connman-conf: configures connman in q=
-emu machines
-
-On Tue, Jan 15, 2013 at 6:08 PM, Cristian Iorga <cristian.iorga@intel.com> =
-wrote:
-> For qemu machines, connman should not configure virtual wired=20
-> interfaces. Wired interfaces (eth0) are assigned static IP addresses=20
-> by the virtual machine manager (qemu). This packages places the eth0=20
-> interface in a list of blacklisted interfaces, forbiding connman=20
+On Tue, Jan 15, 2013 at 10:08:46PM +0200, Cristian Iorga wrote:
+> For qemu machines, connman should not configure
+> virtual wired interfaces. Wired interfaces (eth0)
+> are assigned static IP addresses by the virtual machine
+> manager (qemu). This packages places the eth0 interface in
+> a list of blacklisted interfaces, forbiding connman
 > administering wired interfaces for qemu machines.
->
+
+Again wrong order,
+
+3/3 should be 1st
+2/3 2nd
+1/3 3rd
+
+Cheers,
+
+>=20
 > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>  meta/conf/layer.conf                                 |    1 +
+>  meta/recipes-connectivity/connman/connman-conf.bb    |   18 ++++++++++++=
+++++++
+>  .../connman/connman-conf/qemuall/main.conf           |    3 +++
+>  3 files changed, 22 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/connman/connman-conf.bb
+>  create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemual=
+l/main.conf
+>=20
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> index 78ceae9..3259e5c 100644
+> --- a/meta/conf/layer.conf
+> +++ b/meta/conf/layer.conf
+> @@ -22,6 +22,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE +=3D " \
+>    shadow-securetty \
+>    opkg-config-base \
+>    netbase \
+> +  connman-conf \
+>    formfactor \
+>    xserver-xf86-config \
+>    pointercal \
+> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/rec=
+ipes-connectivity/connman/connman-conf.bb
+> new file mode 100644
+> index 0000000..7c7ef26
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
+> @@ -0,0 +1,18 @@
+> +#connman config to ignore wired interfaces on qemu machines
+> +
+> +LICENSE =3D "GPLv2"
+> +LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/common-licenses/GPL-=
+2.0;md5=3D801f80980d171dd6425610833a22dbe6"
+> +
+> +SRC_URI_append_qemuall =3D " file://main.conf"
+> +
+> +PR =3D "r0"
+> +
+> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> +
+> +do_install() {
+> +    #Blacklist ethn network interface in case of qemu* machines
+> +    if test -e ${WORKDIR}/main.conf; then
+> +        install -d ${D}${sysconfdir}/connman
+> +        install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman
+> +    fi
+> +}
+> diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/main.=
+conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+> new file mode 100644
+> index 0000000..01973e7
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
+> @@ -0,0 +1,3 @@
+> +[General]
+> +
+> +NetworkInterfaceBlacklist =3D eth
+> --=20
+> 1.7.10.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-I think this will raise a warning durig build for non-qemu machines, no?
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+--qtZFehHsKgwS5rPz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlD1ujwACgkQN1Ujt2V2gBxhUwCeOYjiZcDBh2E+B1Q+NQN/IFpM
+a3MAnR1YN+PuW4x12lwObBTkdcR6dDbo
+=1whp
+-----END PGP SIGNATURE-----
+
+--qtZFehHsKgwS5rPz--
