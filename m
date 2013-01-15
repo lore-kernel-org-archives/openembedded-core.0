@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1Tv8MV-0007Ou-V4
+	(envelope-from <constantinx.musca@intel.com>) id 1Tv8MV-0007Ot-QH
 	for openembedded-core@lists.openembedded.org;
 	Tue, 15 Jan 2013 16:23:48 +0100
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jan 2013 07:08:16 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jan 2013 07:08:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,473,1355126400"; d="scan'208";a="277141028"
+X-IronPort-AV: E=Sophos;i="4.84,473,1355126400"; d="scan'208";a="277141000"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.152])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jan 2013 07:08:15 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jan 2013 07:08:12 -0800
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2013 17:08:47 +0200
-Message-Id: <50d7b9ed93eeb0a62f75cf85b19aee46e152db8d.1358262293.git.constantinx.musca@intel.com>
+Date: Tue, 15 Jan 2013 17:08:45 +0200
+Message-Id: <be12b8c89952c046dd063e0dc37f84dc9ce2f5a5.1358262293.git.constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.11.7
 In-Reply-To: <cover.1358262293.git.constantinx.musca@intel.com>
 References: <cover.1358262293.git.constantinx.musca@intel.com>
 In-Reply-To: <cover.1358262293.git.constantinx.musca@intel.com>
 References: <cover.1358262293.git.constantinx.musca@intel.com>
-Subject: [PATCH v3 5/6] tune-mips32: add BASE_LIB to mips32 tunes
+Subject: [PATCH v3 3/6] multilib.conf: add TARGET_ARCH to MULTILIB_SAVE_VARNAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +35,22 @@ X-List-Received-Date: Tue, 15 Jan 2013 15:23:50 -0000
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/conf/machine/include/tune-mips32.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/conf/multilib.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-index 03cd411..ffbaecf 100644
---- a/meta/conf/machine/include/tune-mips32.inc
-+++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -9,17 +9,21 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32",
- AVAILTUNES += "mips32 mips32el mips32-nf mips32el-nf"
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 97b53ec..daa569c 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -2,7 +2,7 @@
+ baselib = "${@d.getVar('BASE_LIB_tune-' + (d.getVar('DEFAULTTUNE', True) or 'INVALID'), True) or 'lib'}"
  
- TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
-+BASE_LIB_tune-mips32 = "lib"
- MIPSPKGSFX_VARIANT_tune-mips32 = "mips32"
- PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips mips32"
+ MULTILIB_VARIANTS = "${@extend_variants(d,'MULTILIBS','multilib')}"
+-MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
++MULTILIB_SAVE_VARNAME = "DEFAULTTUNE TARGET_ARCH"
  
- TUNE_FEATURES_tune-mips32el = "${TUNE_FEATURES_tune-mipsel} mips32"
-+BASE_LIB_tune-mips32el = "lib"
- MIPSPKGSFX_VARIANT_tune-mips32el = "mips32el"
- PACKAGE_EXTRA_ARCHS_tune-mips32el = "mipsel mips32el"
+ MULTILIBS ??= "multilib:lib32"
  
- TUNE_FEATURES_tune-mips32-nf = "${TUNE_FEATURES_tune-mips-nf} mips32"
-+BASE_LIB_tune-mips32-nf = "lib"
- MIPSPKGSFX_VARIANT_tune-mips32-nf = "mips32"
- PACKAGE_EXTRA_ARCHS_tune-mips32-nf = "mips-nf mips32-nf"
- 
- TUNE_FEATURES_tune-mips32el-nf = "${TUNE_FEATURES_tune-mipsel-nf} mips32"
-+BASE_LIB_tune-mips32el-nf = "lib"
- MIPSPKGSFX_VARIANT_tune-mips32el-nf = "mips32el"
- PACKAGE_EXTRA_ARCHS_tune-mips32el-nf = "mipsel-nf mips32el-nf"
 -- 
 1.7.11.7
 
