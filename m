@@ -1,27 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ie0-f171.google.com ([209.85.223.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TvDIv-0000V2-Vb
+	(envelope-from <raj.khem@gmail.com>) id 1TvFdJ-0005Mo-Vu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 21:40:20 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jan 2013 12:23:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="272434462"
-Received: from unknown (HELO [10.255.14.213]) ([10.255.14.213])
-	by orsmga002.jf.intel.com with ESMTP; 15 Jan 2013 12:24:55 -0800
-Message-ID: <50F5BB17.4040709@linux.intel.com>
-Date: Tue, 15 Jan 2013 12:24:55 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Wed, 16 Jan 2013 00:09:59 +0100
+Received: by mail-ie0-f171.google.com with SMTP id 17so1297462iea.16
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2013 14:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Mwx8fcV57G+SyUT8WC3NXvW0n92/DGw8hs+HMuIlKR8=;
+	b=i76HvMvjM5aQloAB3v0kayfqDfY638Ab0Lyk5LV3vdH0cBOYuRf8N0J9B7JiIuXPRi
+	P+yhXt8+P33zq6dJL4ylIKv+b4AqYzGfXHs1JJHOnr8MzXBeAFQ9sNDdpYWnGub2jGOb
+	WOqxFGXgjSRS8UjSBetSZe5u1Jf6G8b5E16eIN0zdpByGwYNe+pxToIe4yihYBwIFWMw
+	2VulvUY+u7oB+i29V+W+z92YPN3F+/+wxywOqEOK2hRCfT+XO05xZ9qj/6oxUjveiFcZ
+	Q6+8HDwpoqRhT0F3+oxG+2BZlM6pQPpK0KRNgfzRbwQpV8Y5ZvBQdhnEJMVDbOl+f1Ii
+	0MxA==
+Received: by 10.50.150.142 with SMTP id ui14mr3113366igb.93.1358290441242;
+	Tue, 15 Jan 2013 14:54:01 -0800 (PST)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
-	<1358280527-14078-3-git-send-email-cristian.iorga@intel.com>
-	<20130115202116.GB3002@jama>
-In-Reply-To: <20130115202116.GB3002@jama>
+Received: by 10.64.18.169 with HTTP; Tue, 15 Jan 2013 14:53:31 -0800 (PST)
+In-Reply-To: <50ED9C11.4060502@linux.intel.com>
+References: <cover.1357343832.git.raj.khem@gmail.com>
+	<50ED85D4.9000806@linaro.org>
+	<CAMKF1srWtx55LRNM6_Dkrfsvb3N-kLnpNofjPwx8eeNV4TnMqA@mail.gmail.com>
+	<50ED9C11.4060502@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 15 Jan 2013 14:53:31 -0800
+Message-ID: <CAMKF1sqO8DGu6=2xjzDEzQAOyfqTDk6AoUPE9_BqiNG-=2-JnA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V4 2/3] connman-conf: configures connman in qemu machines
+Subject: Re: [RFC][PATCH 0/4] eglibc 2.17 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,102 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 20:40:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Jan 2013 23:09:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 01/15/2013 12:21 PM, Martin Jansa wrote:
-> On Tue, Jan 15, 2013 at 10:08:46PM +0200, Cristian Iorga wrote:
->> For qemu machines, connman should not configure
->> virtual wired interfaces. Wired interfaces (eth0)
->> are assigned static IP addresses by the virtual machine
->> manager (qemu). This packages places the eth0 interface in
->> a list of blacklisted interfaces, forbiding connman
->> administering wired interfaces for qemu machines.
+>>
+>> cool the patching error is now fixed. I have updated the contrib tree so
+>> if you
+>> reapply the patches then meta-toolchain issue should be gone too.
+>>
+> I will update  the MUT branch also, I saw this issue last night on the
+> Autobuilder and was going to send email, glad I read email first!
 >
-> Again wrong order,
->
-> 3/3 should be 1st
-> 2/3 2nd
-> 1/3 3rd
->
-I have re-ordered this in my consolidated pull MUT staging area, saw 
-that right away!
 
-Sau!
+The tar files are now uploads to dl yp org and I have updated the recipes
+to reflect the new download location in recipes and pushed to pull branch
+this would be the last update before pushing this change. Please update
 
-> Cheers,
->
->>
->> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
->> ---
->>   meta/conf/layer.conf                                 |    1 +
->>   meta/recipes-connectivity/connman/connman-conf.bb    |   18 ++++++++++++++++++
->>   .../connman/connman-conf/qemuall/main.conf           |    3 +++
->>   3 files changed, 22 insertions(+)
->>   create mode 100644 meta/recipes-connectivity/connman/connman-conf.bb
->>   create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
->>
->> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
->> index 78ceae9..3259e5c 100644
->> --- a/meta/conf/layer.conf
->> +++ b/meta/conf/layer.conf
->> @@ -22,6 +22,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
->>     shadow-securetty \
->>     opkg-config-base \
->>     netbase \
->> +  connman-conf \
->>     formfactor \
->>     xserver-xf86-config \
->>     pointercal \
->> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
->> new file mode 100644
->> index 0000000..7c7ef26
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
->> @@ -0,0 +1,18 @@
->> +#connman config to ignore wired interfaces on qemu machines
->> +
->> +LICENSE = "GPLv2"
->> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
->> +
->> +SRC_URI_append_qemuall = " file://main.conf"
->> +
->> +PR = "r0"
->> +
->> +PACKAGE_ARCH = "${MACHINE_ARCH}"
->> +
->> +do_install() {
->> +    #Blacklist ethn network interface in case of qemu* machines
->> +    if test -e ${WORKDIR}/main.conf; then
->> +        install -d ${D}${sysconfdir}/connman
->> +        install -m 0644 ${WORKDIR}/main.conf ${D}${sysconfdir}/connman
->> +    fi
->> +}
->> diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
->> new file mode 100644
->> index 0000000..01973e7
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/main.conf
->> @@ -0,0 +1,3 @@
->> +[General]
->> +
->> +NetworkInterfaceBlacklist = eth
->> --
->> 1.7.10.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks
+-Khem
 
 
