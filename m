@@ -1,35 +1,20 @@
-Received: from mail-bk0-f41.google.com ([209.85.214.41])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1TvCdN-000754-AU
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Jan 2013 20:57:25 +0100
-Received: by mail-bk0-f41.google.com with SMTP id jg9so301676bkc.28
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2013 11:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=Otl+ObTisf9QWtTp7WNTnMDWb5rz8Ch848oqXEv42W4=;
-	b=oij6rTF1L/XXh9yx/MfX6RPQcF31+cHCRsp1ZcZq8u7zhZoKdR1wPMfwjamApzut1P
-	ZctU5je7n3gjWlqU3CmMUdCUNdR/xLmfBdEpqDNtWOd0yB8pPZizfy+pdufqg4bBB/Ec
-	ej5TZZ5AZyN6CbL/5vOA8IemdwlXtX+wyz3+kRt183MqOKhoqkPBfKh0jpgSg28U7/93
-	GJUv9KqBtr/RYf0UEigSExm4c6CAJXjjY7h+ZdydNIG5cYRaH6UAIB1DqHUZe0u8hRl6
-	eoOd17OWsDEONCQ8NZT5XrHPtVhhAnFfcs6XYwa8pd19iu3i9HT+cglocwWAK3Tmwhi6
-	YA8g==
-X-Received: by 10.204.147.8 with SMTP id j8mr41749852bkv.105.1358278920661;
-	Tue, 15 Jan 2013 11:42:00 -0800 (PST)
-Received: from prime (a91-153-5-47.elisa-laajakaista.fi. [91.153.5.47])
-	by mx.google.com with ESMTPS id f24sm13782424bkv.7.2013.01.15.11.41.58
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 15 Jan 2013 11:41:59 -0800 (PST)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1TvCOS-00060r-KI; Tue, 15 Jan 2013 21:41:56 +0200
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Jan 2013 21:41:54 +0200
-Message-Id: <cover.1358278681.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/9] Fix license segment boundaries
+	(envelope-from <nitin.a.kamble@intel.com>) id 1TvChA-0007Yo-In
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 15 Jan 2013 21:01:21 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jan 2013 11:44:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="247225965"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jan 2013 11:44:45 -0800
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2013 11:44:33 -0800
+Message-Id: <cover.1358278958.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/1] misc oecore layer commits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,50 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 19:57:26 -0000
+X-List-Received-Date: Tue, 15 Jan 2013 20:01:22 -0000
 
-Found that also "firstline" has been used in several recipes instead
-of "beginline". This set fixes those.
-It was impossible to fetch affected libidn version at all (for testing
-the md5sum change) because of missing SRC checksums so fix for that is
-included too.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit 6080d1dc719c38fd97c2abd38e0ad938fbf6f452:
+This pull request adds this new recipe to oecore layer:
+  xf85-video-modesetting
 
-  connman: fixed init script so connman can runs over nfs (2013-01-15 08:09:30 +0000)
+Thanks,
+Nitin
+
+The following changes since commit 53cc748b93e8af584557d6db5309c3e955182c5c:
+
+  linux-libc-headers: fix headers install in long path name environments (2013-01-10 23:53:51 +0000)
 
 are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
 
-  git://git.openembedded.org/openembedded-core-contrib cazfi/beginline
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/beginline
+Nitin A Kamble (1):
+  xf86-video-modesetting: new recipe for gma500
 
-Marko Lindqvist (9):
-  libidn: add checksums to version 0.6.14 recipe
-  gzip: fix license segment md5sum boundary
-  iptables: fix license segment md5sum boundary
-  shadow: fix license segment md5sum boundary
-  ethtool: fix license segment md5sum boundary
-  gperf: fix license segment md5sum boundary
-  libidn: fix license segment md5sum boundary
-  dbus: fix license segment md5sum boundary
-  apmd: fix license segment md5sum boundary
-
- meta/recipes-bsp/apmd/apmd_3.2.2-14.bb                |    2 +-
- meta/recipes-core/dbus/dbus-glib.inc                  |    2 +-
- meta/recipes-core/dbus/dbus-ptest_1.6.4.bb            |    2 +-
- meta/recipes-core/dbus/dbus.inc                       |    2 +-
- meta/recipes-extended/ethtool/ethtool_3.7.bb          |    2 +-
- meta/recipes-extended/gperf/gperf.inc                 |    2 +-
- meta/recipes-extended/gperf/gperf_3.0.3.bb            |    2 +-
- meta/recipes-extended/gzip/gzip.inc                   |    2 +-
- meta/recipes-extended/iptables/iptables_1.4.16.3.bb   |    2 +-
- meta/recipes-extended/libidn/libidn_0.6.14.bb         |    7 +++++--
- meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb |    2 +-
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb        |    2 +-
- 12 files changed, 16 insertions(+), 13 deletions(-)
+ .../xorg-driver/xf86-video-modesetting_0.6.0.bb    |    8 ++++++++
+ 1 files changed, 8 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
 
 -- 
-1.7.10.4
+1.7.3.4
 
 
 
