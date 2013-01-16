@@ -1,20 +1,28 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1TvVTv-0006Nm-MG
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvVWO-0006UE-4K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 17:05:11 +0100
-Received: from puchatek.dom (87-206-60-225.dynamic.chello.pl [87.206.60.225])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id B19F8D22B4;
-	Wed, 16 Jan 2013 16:49:31 +0100 (CET)
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 16:49:16 +0100
-Message-Id: <1358351356-5969-1-git-send-email-marcin.juszkiewicz@linaro.org>
-X-Mailer: git-send-email 1.8.0
-Subject: [PATCH] oprofile: add AArch64 support
+	Wed, 16 Jan 2013 17:07:46 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 16 Jan 2013 07:52:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="191826605"
+Received: from unknown (HELO helios.localnet) ([10.252.123.117])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Jan 2013 07:52:00 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chris Larson <clarson@kergoth.com>
+Date: Wed, 16 Jan 2013 15:51:59 +0000
+Message-ID: <3318326.b3DB6CrXXm@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9.3 (Linux/3.5.0-21-generic; KDE/4.9.3; i686; ; )
+In-Reply-To: <CABcZANn7NKY2zQa2trx4DfGQuJCN9KokxK+Vnh80o=5ve2gkqg@mail.gmail.com>
+References: <cover.1358350661.git.paul.eggleton@linux.intel.com>
+	<d0ac33caf983e8a3eeb8c596587e9ae29c4edc88.1358350661.git.paul.eggleton@linux.intel.com>
+	<CABcZANn7NKY2zQa2trx4DfGQuJCN9KokxK+Vnh80o=5ve2gkqg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] classes/image: improve debug-tweaks ssh server configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,68 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 16:05:21 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 16:07:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
----
- ...d-rmb-definition-for-AArch64-architecture.patch | 31 ++++++++++++++++++++++
- meta/recipes-kernel/oprofile/oprofile_0.9.8.bb     |  3 ++-
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-AArch64-architecture.patch
+On Wednesday 16 January 2013 08:48:05 Chris Larson wrote:
+> On Wed, Jan 16, 2013 at 8:38 AM, Paul Eggleton <
+> 
+> paul.eggleton@linux.intel.com> wrote:
+> > +
+> > +       if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+> > +               echo 'DROPBEAR_EXTRA_ARGS="-B"' >
+> > ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
+> > +       fi
+> > 
+> >  }
+> 
+> Slightly concerned with this, in the potential case where a layer provides
+> its own /etc/default/dropbear, this will blow it away entirely.
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-AArch64-architecture.patch b/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-AArch64-architecture.patch
-new file mode 100644
-index 0000000..195bfb2
---- /dev/null
-+++ b/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-AArch64-architecture.patch
-@@ -0,0 +1,31 @@
-+From 27edaef9c6d66dfc324630ef40cb27e78031eeeb Mon Sep 17 00:00:00 2001
-+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-+Date: Tue, 15 Jan 2013 07:37:33 +0100
-+Subject: [PATCH] Add rmb() definition for AArch64 architecture
-+
-+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-+
-+Upstream-status: backport
-+---
-+ libperf_events/operf_utils.h | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/libperf_events/operf_utils.h b/libperf_events/operf_utils.h
-+index 815d51d..2df00b7 100644
-+--- a/libperf_events/operf_utils.h
-++++ b/libperf_events/operf_utils.h
-+@@ -148,6 +148,11 @@ void op_release_resources(void);
-+ #define cpu_relax()	asm volatile("":::"memory")
-+ #endif
-+ 
-++#ifdef __aarch64__
-++#define rmb()		asm volatile("dmb ld" ::: "memory")
-++#define cpu_relax()	asm volatile("yield" ::: "memory")
-++#endif
-++
-+ #ifdef __mips__
-+ #include <asm/unistd.h>
-+ #define rmb()		asm volatile(					\
-+-- 
-+1.8.0
-+
-diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
-index 939c1ba..d283b5c 100644
---- a/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
-+++ b/meta/recipes-kernel/oprofile/oprofile_0.9.8.bb
-@@ -2,7 +2,8 @@ require oprofile.inc
- 
- PR = "${INC_PR}.0"
- 
--SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
-+SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-+            file://0001-Add-rmb-definition-for-AArch64-architecture.patch"
- 
- SRC_URI[md5sum] = "6d127023af1dd1cf24e15411229f3cc8"
- SRC_URI[sha256sum] = "ab45900fa1a23e5d5badf3c0a55f26c17efe6e184efcf00b371433751fa761bc"
+I already considered this, but interacting nicely with that situation given 
+that the provided /etc/default/dropbear would likely be setting its own value 
+of DROPBEAR_EXTRA_ARGS isn't going to be straightforward from a shell 
+script...
+
+Cheers,
+Paul
+
 -- 
-1.8.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
