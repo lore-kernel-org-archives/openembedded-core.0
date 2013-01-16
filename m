@@ -1,31 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1TvRj7-0007iJ-87 for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 13:04:48 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0GBmtdl023752;
-	Wed, 16 Jan 2013 11:48:55 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20832-02; Wed, 16 Jan 2013 11:48:51 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id r0GBmoNJ023746
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 16 Jan 2013 11:48:51 GMT
-Message-ID: <1358336929.3276.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-Date: Wed, 16 Jan 2013 11:48:49 +0000
-In-Reply-To: <1358171300-970-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1358171300-970-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2 v2] archive-*-source.bbclass: Handle all package classes
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1TvRsq-0008Bo-U1
+	for openembedded-core@lists.openembedded.org;
+	Wed, 16 Jan 2013 13:14:22 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 16 Jan 2013 03:58:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,478,1355126400"; d="scan'208";a="247632840"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 16 Jan 2013 03:58:57 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jan 2013 13:58:55 +0200
+Message-Id: <1358337535-21561-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] update-rc.d: check also that symlinks are valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,78 +27,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 12:04:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Jan 2013 12:14:24 -0000
 
-On Mon, 2013-01-14 at 18:48 +0500, Shakeel, Muhammad wrote:
-> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> 
-> * Add archiver tasks correctly for any 'IMAGE_PKGTYPE'.
-> 
-> [YOCTO #3449]
-> 
-> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->  meta/classes/archive-configured-source.bbclass |   15 +++++++++++++--
->  meta/classes/archive-original-source.bbclass   |   15 +++++++++++++--
->  meta/classes/archive-patched-source.bbclass    |   15 +++++++++++++--
->  3 files changed, 39 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
-> index 64799e3..50838e6 100644
-> --- a/meta/classes/archive-configured-source.bbclass
-> +++ b/meta/classes/archive-configured-source.bbclass
-> @@ -11,12 +11,19 @@ inherit archiver
->  addtask do_archive_configured_sources after do_configure
->  
->  # Get archiving package with temp(logs) and scripts(.bb and inc files)
-> -addtask do_archive_scripts_logs after do_package_write_rpm
-> +addtask do_archive_scripts_logs
->  
->  # Get dump date and create diff file 
-> -addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_build
-> +addtask do_dumpdata_create_diff_gz before do_build
->  
->  python () {
-> +    packaging = d.getVar('IMAGE_PKGTYPE', True)
-> +    write_package_task = 'do_package_write_' + packaging
-> +
-> +    deps = d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []
-> +    deps.append(write_package_task)
-> +    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)
-> +
->      if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) != 'srpm':
->          """
->          If package type is not 'srpm' then add tasks to move archive packages of
-> @@ -30,6 +37,10 @@ python () {
->          recrdeptask += ' do_archive_configured_sources '
->          d.setVarFlag('do_build', 'recrdeptask', recrdeptask)
->  
-> +        deps = d.getVarFlag('do_archive_scripts_logs', 'deps') or []
-> +        deps.append(write_package_task)
-> +        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)
+Running:
 
-Looking at the patch series, this is code introducing users of the
-'deps' flag outside of externalsrc.bbclass (which has some nasty reasons
-it currently pokes bitbake internals).
+update-rc.d -r /path/to/target/rootfs basename defaults
 
-I'd like to not introduce usage of the flag so can you please change
-these references to things like:
+at do_rootfs time in package postinstall stage, when
+/path/to/target/rootfs/etc/init.d/basename is a symlink and points to some path
+on target (for example: /etc/init.d/basename.some_package), would fail and the
+postinstall execution would be postponed for first boot, on target.
 
-d.appendVarFlag('do_archive_scripts_logs', 'deps', ' do_package_write_' + packaging)
+This patch adds the posibility to verify whether the file the symlink
+points to actually exists in the target rootfs.
 
-Use of appendVarFlag applies anywhere you currently do a set, append,
-set operation, its just neater code and gives us some scope to optmise
-the implementation in bitbake at a later date.
+[YOCTO #3716]
 
-This applies to both this patch and the other one.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../update-rc.d/check-if-symlinks-are-valid.patch  |   53 ++++++++++++++++++++
+ meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |    6 ++-
+ 2 files changed, 57 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
 
-Thanks,
-
-Richard
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
+new file mode 100644
+index 0000000..4476e91
+--- /dev/null
++++ b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
+@@ -0,0 +1,53 @@
++Check if symlinks are valid
++
++When using root option and $initd/$bn is a symlink, the script would fail because
++the symlink points to a path on target. For example:
++
++/path/to/target/rootfs/etc/init.d/syslog -> /etc/init.d/syslog.busybox
++
++Hence, [ -f /path/to/target/rootfs/etc/init.d/syslog ] condition would return
++false.
++
++This patch adds the posibility to check whether the file the symlink points to
++actually exists in rootfs path and then continue.
++
++Upstream-Status: Pending
++
++Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com> 
++
++Index: git/update-rc.d
++===================================================================
++--- git.orig/update-rc.d	2013-01-16 12:12:58.349814356 +0200
+++++ git/update-rc.d	2013-01-16 13:02:42.490864939 +0200
++@@ -147,13 +147,29 @@
++ bn=$1
++ shift
++ 
+++sn=$initd/$bn
+++if [ -L "$sn" -a -n $root ]; then
+++	readlink=$(which readlink)
+++
+++	if [ -n $readlink ]; then
+++		sn=$($readlink "$sn")
+++		case "$sn" in
+++			/*) sn=${root}${sn} ;;
+++			*)  sn=$initd/$sn ;;
+++		esac
+++	else
+++		echo "update-rc.d: readlink tool not present, cannot check whether \
+++				$sn symlink points to a valid file." >&2
+++	fi
+++fi
+++
++ if [ $1 != "remove" ]; then
++-	if [ ! -f "$initd/$bn" ]; then
+++	if [ ! -f "$sn" ]; then
++ 		echo "update-rc.d: $initd/$bn: file does not exist" >&2
++ 		exit 1
++ 	fi
++ else
++-	if [ -f "$initd/$bn" ]; then
+++	if [ -f "$sn" ]; then
++ 		if [ $force -eq 1 ]; then
++ 			echo "update-rc.d: $initd/$bn exists during rc.d purge (continuing)" >&2
++ 		else
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+index 0aac5fa..bfcbd97 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+@@ -5,13 +5,15 @@ SECTION = "base"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=148a48321b10eb37c1fa3ee02b940a75"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ # Revision corresponding to tag update-rc.d_0.7
+ SRCREV = "eca680ddf28d024954895f59a241a622dd575c11"
+ 
+ SRC_URI = "git://github.com/philb/update-rc.d.git;protocol=git \
+-           file://add-verbose.patch;"
++           file://add-verbose.patch \
++           file://check-if-symlinks-are-valid.patch \
++          "
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+1.7.9.5
 
 
 
