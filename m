@@ -1,24 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvUd6-0004dJ-PT
+	(envelope-from <radu.moisan@intel.com>) id 1TvUfI-0004lO-6O
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 16:10:18 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 16 Jan 2013 06:54:22 -0800
+	Wed, 16 Jan 2013 16:12:38 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2013 06:56:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="244640280"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.117])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jan 2013 06:54:21 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="272793101"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
+	by orsmga002.jf.intel.com with ESMTP; 16 Jan 2013 06:57:08 -0800
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 14:54:17 +0000
-Message-Id: <92e9abc7bc28eced054b0cbd6f9eaa74eb4af670.1358347974.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1358347974.git.paul.eggleton@linux.intel.com>
-References: <cover.1358347974.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1358347974.git.paul.eggleton@linux.intel.com>
-References: <cover.1358347974.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] dropbear: allow configuring blank password option at runtime
+Date: Wed, 16 Jan 2013 17:03:42 +0200
+Message-Id: <cover.1358348134.git.radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 00/23][RFC v4]systemd integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,234 +27,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 15:10:19 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 15:12:43 -0000
 
-Instead of using IMAGE_FEATURES to control something within a recipe,
-allow this to be set at runtime and set it during postprocessing.
-Additionally, use one postprocessing function for both openssh and
-dropbear and run it regardless of whether ssh-server-* are in
-IMAGE_FEATURES so that it still takes effect if these are installed by
-adding dropbear/openssh to IMAGE_INSTALL.
+*Since last RFC I've udpated systemd to 196 and got in sync with
+meta-openembedded (pulled in a few more patches)
+*Also removed some initscripts that are not required while systemd
+is enabled, for tasks that systemd can handle by itself.
+*Removed update-rc.d while systemd is enabled. systemd provides
+systemctl to replace update-rc.d
 
-Fixes [YOCTO #2578].
+Please review and send me your feedback.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/core-image.bbclass                    |    5 +-
- meta/classes/image.bbclass                         |    8 +-
- meta/recipes-core/dropbear/dropbear.inc            |    6 +-
- .../dropbear/dropbear/allow-nopw.patch             |   19 ----
- .../dropbear/dropbear/nopw-option.patch            |  106 ++++++++++++++++++++
- 5 files changed, 116 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-core/dropbear/dropbear/allow-nopw.patch
- create mode 100644 meta/recipes-core/dropbear/dropbear/nopw-option.patch
+The following changes since commit 9eb88ceb39b7d0b8ddc6487e61ce8edadef10ec4:
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 2e67018..04059fe 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -76,6 +76,5 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
- 
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
--# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
--ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
--
-+# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "ssh_allow_empty_password; ", "",d)}'
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index e494689..661299e 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -396,12 +396,16 @@ zap_root_password () {
- 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
- } 
- 
--# allow openssh accept login with empty password string
--openssh_allow_empty_password () {
-+# allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
-+ssh_allow_empty_password () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
- 		sed -i 's#.*PermitRootLogin.*#PermitRootLogin yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
- 		sed -i 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
- 	fi
-+
-+	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
-+		echo 'DROPBEAR_EXTRA_ARGS="-B"' > ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
-+	fi
- }
- 
- # Turn any symbolic /sbin/init link into a file
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index aa313df..3e430f2 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
- HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
- SECTION = "console/network"
- 
--INC_PR = "r0"
-+INC_PR = "r1"
- 
- # some files are from other projects and have others license terms:
- #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
-@@ -18,7 +18,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
- 		 file://dropbear-0.53.1-static_build_fix.patch \
- 	         file://configure.patch \
- 	         file://fix-2kb-keys.patch \
--	         ${@base_contains("DISTRO_TYPE", "debug", "file://allow-nopw.patch", "",d)} \
-+	         file://nopw-option.patch \
- 	         file://init \
-                  ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
- 
-@@ -40,8 +40,6 @@ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
- EXTRA_OECONF += "\
-  ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
- 
--DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
--
- do_install() {
- 	install -d ${D}${sysconfdir} \
- 		   ${D}${sysconfdir}/init.d \
-diff --git a/meta/recipes-core/dropbear/dropbear/allow-nopw.patch b/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
-deleted file mode 100644
-index a175ee1..0000000
---- a/meta/recipes-core/dropbear/dropbear/allow-nopw.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Enable blank password login function for new release dropbear.
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Mei Lei <lei.mei@intel.com>
--
--diff --git a/options.h b/options.h
--index 73689ad..041ddaa 100644
----- a/options.h
--+++ b/options.h
--@@ -180,7 +180,7 @@ much traffic. */
--  * Public key logins are allowed for blank-password accounts regardless of this
--  * setting.  PAM is not affected by this setting, it uses the normal pam.d
--  * settings ('nullok' option) */
---/* #define ALLOW_BLANK_PASSWORD */
--+#define ALLOW_BLANK_PASSWORD
-- 
-- #define ENABLE_CLI_PASSWORD_AUTH
-- #define ENABLE_CLI_PUBKEY_AUTH
-diff --git a/meta/recipes-core/dropbear/dropbear/nopw-option.patch b/meta/recipes-core/dropbear/dropbear/nopw-option.patch
-new file mode 100644
-index 0000000..e7fcbb3
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/nopw-option.patch
-@@ -0,0 +1,106 @@
-+Allow configuring "allow blank password option" at runtime
-+
-+Changes this from a compile-time switch to a command-line option.
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+Upstream-Status: Pending
-+
-+diff --git a/options.h b/options.h
-+index 00f6179..b8d0ccb 100644
-+--- a/options.h
-++++ b/options.h
-+@@ -176,12 +176,6 @@ much traffic. */
-+ #define ENABLE_SVR_PUBKEY_OPTIONS
-+ #endif
-+ 
-+-/* Define this to allow logging in to accounts that have no password specified.
-+- * Public key logins are allowed for blank-password accounts regardless of this
-+- * setting.  PAM is not affected by this setting, it uses the normal pam.d
-+- * settings ('nullok' option) */
-+-/* #define ALLOW_BLANK_PASSWORD */
-+-
-+ #define ENABLE_CLI_PASSWORD_AUTH
-+ #define ENABLE_CLI_PUBKEY_AUTH
-+ #define ENABLE_CLI_INTERACT_AUTH
-+diff --git a/runopts.h b/runopts.h
-+index 83b5861..126585b 100644
-+--- a/runopts.h
-++++ b/runopts.h
-+@@ -85,6 +85,7 @@ typedef struct svr_runopts {
-+ 
-+ 	int noauthpass;
-+ 	int norootpass;
-++	int allowblankpass;
-+ 
-+ #ifdef ENABLE_SVR_REMOTETCPFWD
-+ 	int noremotetcp;
-+diff --git a/svr-authpasswd.c b/svr-authpasswd.c
-+index 54b4889..d9b7928 100644
-+--- a/svr-authpasswd.c
-++++ b/svr-authpasswd.c
-+@@ -29,6 +29,7 @@
-+ #include "buffer.h"
-+ #include "dbutil.h"
-+ #include "auth.h"
-++#include "runopts.h"
-+ 
-+ #ifdef ENABLE_SVR_PASSWORD_AUTH
-+ 
-+@@ -78,16 +79,17 @@ void svr_auth_password() {
-+ 
-+ 	/* check for empty password */
-+ 	if (passwdcrypt[0] == '\0') {
-+-#ifdef ALLOW_BLANK_PASSWORD
-+-		if (passwordlen == 0) {
-+-			success_blank = 1;
-++		if (svr_opts.allowblankpass) {
-++			if (passwordlen == 0) {
-++				success_blank = 1;
-++			}
-++		}
-++		else {
-++			dropbear_log(LOG_WARNING, "User '%s' has blank password, rejected",
-++					ses.authstate.pw_name);
-++			send_msg_userauth_failure(0, 1);
-++			return;
-+ 		}
-+-#else
-+-		dropbear_log(LOG_WARNING, "User '%s' has blank password, rejected",
-+-				ses.authstate.pw_name);
-+-		send_msg_userauth_failure(0, 1);
-+-		return;
-+-#endif
-+ 	}
-+ 
-+ 	if (success_blank || strcmp(testcrypt, passwdcrypt) == 0) {
-+diff --git a/svr-runopts.c b/svr-runopts.c
-+index c6e3508..b39ffb2 100644
-+--- a/svr-runopts.c
-++++ b/svr-runopts.c
-+@@ -63,6 +63,7 @@ static void printhelp(const char * progname) {
-+ #if defined(ENABLE_SVR_PASSWORD_AUTH) || defined(ENABLE_SVR_PAM_AUTH)
-+ 					"-s		Disable password logins\n"
-+ 					"-g		Disable password logins for root\n"
-++					"-B		Allow blank password logins\n"
-+ #endif
-+ #ifdef ENABLE_SVR_LOCALTCPFWD
-+ 					"-j		Disable local port forwarding\n"
-+@@ -115,6 +116,7 @@ void svr_getopts(int argc, char ** argv) {
-+ 	svr_opts.norootlogin = 0;
-+ 	svr_opts.noauthpass = 0;
-+ 	svr_opts.norootpass = 0;
-++	svr_opts.allowblankpass = 0;
-+ 	svr_opts.inetdmode = 0;
-+ 	svr_opts.portcount = 0;
-+ 	svr_opts.hostkey = NULL;
-+@@ -234,6 +236,9 @@ void svr_getopts(int argc, char ** argv) {
-+ 				case 'g':
-+ 					svr_opts.norootpass = 1;
-+ 					break;
-++				case 'B':
-++					svr_opts.allowblankpass = 1;
-++					break;
-+ #endif
-+ 				case 'h':
-+ 					printhelp(argv[0]);
+  connman: fixed init script so connman can runs over nfs (2013-01-15 08:12:05 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib rmoisan/systemd
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
+
+Enrico Scholz (1):
+  systemd: move disable operation into prerm() script
+
+Holger Hans Peter Freyther (2):
+  systemd: Make the main systemd files proper CONFFILES
+  systemd: Introduce a create-volatile to create tmp directories
+
+Khem Raj (2):
+  systemd: Fix build when base_libdir is not /lib
+  systemd.bbclass: Fixes for living along with multilib
+
+Koen Kooi (1):
+  systemd: update to v196
+
+Martin Donnelly (3):
+  cgroups: Add INSANE_SKIP to avoid warning about .so file
+  base-files: add fstab for systemd based systems
+  pam: fix common-session to permit logins with systemd
+
+Martin Jansa (2):
+  systemd: fix FILESPATH to find systemctl
+  systemd: add PACKAGES_DYNAMIC
+
+Radu Moisan (12):
+  default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
+  default-providers: Automatically set PREFERRED_PROVIDER_udev
+  systemd: initial integration
+  systemd: Add systemd_base.bbclass
+  systemd: Add systemd option to PREFERRED_PROVIDER_udev
+  systemd: set default.target to multi-user.target
+  systemd: update FILESPATH with *-native directory
+  systemd: disable unnecessary initscripts
+  systemd: Add systemd-compat-units
+  systemd: Add avahi to packagegroup-core-boot
+  xserver-nodm-init: Enable systemd support
+  update-rc.d: remove update-rc.d.bbclass when systemd enabled
+
+ meta/classes/systemd.bbclass                       |    1 +
+ meta/classes/systemd_base.bbclass                  |  222 +++++++++++++
+ meta/classes/update-rc.d.bbclass                   |   86 +----
+ meta/classes/update-rc.d_base.bbclass              |   85 +++++
+ meta/conf/distro/include/default-distrovars.inc    |    3 +-
+ meta/conf/distro/include/default-providers.inc     |    1 +
+ meta/recipes-bsp/keymaps/files/keymaps.service     |    9 +
+ meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    9 +-
+ meta/recipes-connectivity/avahi/avahi.inc          |   23 +-
+ meta/recipes-connectivity/connman/connman.inc      |    6 +
+ meta/recipes-connectivity/connman/connman_1.4.bb   |    3 +-
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   15 +-
+ meta/recipes-connectivity/dhcp/files/dhcpd.service |   12 +
+ .../dhcp/files/dhcrelay.service                    |   10 +
+ .../openssh/openssh-6.0p1/sshd.socket              |   11 +
+ .../openssh/openssh-6.0p1/sshd@.service            |    9 +
+ .../openssh/openssh-6.0p1/sshdgenkeys.service      |   10 +
+ meta/recipes-connectivity/openssh/openssh_6.0p1.bb |   14 +-
+ .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
+ .../base-files/base-files/fstab.systemd            |    9 +
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |   17 +-
+ meta/recipes-core/busybox/busybox.inc              |   18 ++
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
+ .../busybox/files/busybox-klogd.service.in         |    8 +
+ .../busybox/files/busybox-syslog.service.in        |   13 +
+ meta/recipes-core/dropbear/dropbear.inc            |   81 ++---
+ .../recipes-core/dropbear/dropbear/dropbear.socket |   10 +
+ .../dropbear/dropbear/dropbear@.service            |    9 +
+ .../dropbear/dropbear/dropbearkey.service          |   10 +
+ .../initscripts-1.0/{urandom => urandom.sh}        |    0
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |  146 +++++----
+ meta/recipes-core/libcgroup/libcgroup_0.37.1.bb    |    1 +
+ .../packagegroups/packagegroup-base.bb             |    3 +-
+ .../packagegroups/packagegroup-core-boot.bb        |    9 +-
+ meta/recipes-core/systemd/systemd-compat-units.bb  |   58 ++++
+ .../systemd/systemd-compat-units/machineid.service |   16 +
+ .../systemd-compat-units/run-postinsts.service     |   17 +
+ .../systemd/systemd-machine-units_1.0.bb           |   14 +
+ meta/recipes-core/systemd/systemd-serialgetty.bb   |   46 +++
+ .../systemd/systemd-serialgetty/LICENSE            |  339 ++++++++++++++++++++
+ .../systemd-serialgetty/serial-getty@.service      |   32 ++
+ meta/recipes-core/systemd/systemd-speed-hacks.bb   |   18 ++
+ .../systemd/systemd-systemctl-native.bb            |   20 ++
+ .../systemd/systemd-systemctl-native/systemctl     |  126 ++++++++
+ .../systemd/systemd/00-create-volatile.conf        |   10 +
+ ...emd-analyze-use-argparse-instead-of-getop.patch |  103 ++++++
+ ...-analyze-use-GDBus-instead-of-dbus-python.patch |   91 ++++++
+ meta/recipes-core/systemd/systemd/gtk-doc.make     |  230 +++++++++++++
+ meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
+ .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
+ .../systemd/set_default_target_to_multi-user.patch |   13 +
+ .../systemd-pam-configure-check-uclibc.patch       |   26 ++
+ .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
+ .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
+ .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
+ .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
+ .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 +++++++++++++++++++
+ .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
+ meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
+ meta/recipes-core/systemd/systemd_git.bb           |  254 +++++++++++++++
+ meta/recipes-core/util-linux/util-linux.inc        |   46 +--
+ meta/recipes-extended/cronie/cronie/crond.service  |   10 +
+ meta/recipes-extended/cronie/cronie_1.4.8.bb       |   10 +-
+ .../lighttpd/files/lighttpd.service                |   13 +
+ meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 +-
+ meta/recipes-extended/pam/libpam_1.1.6.bb          |    3 +
+ meta/recipes-extended/polkit/polkit_0.104.bb       |    9 +-
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
+ .../x11-common/xserver-nodm-init.bb                |   19 +-
+ .../x11-common/xserver-nodm-init/xserver-nodm.conf |    1 +
+ .../xserver-nodm-init/xserver-nodm.service         |    9 +
+ 71 files changed, 2871 insertions(+), 248 deletions(-)
+ create mode 100644 meta/classes/systemd.bbclass
+ create mode 100644 meta/classes/systemd_base.bbclass
+ create mode 100644 meta/classes/update-rc.d_base.bbclass
+ create mode 100644 meta/recipes-bsp/keymaps/files/keymaps.service
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd.socket
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd@.service
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshdgenkeys.service
+ create mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
+ create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
+ create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
+ rename meta/recipes-core/initscripts/initscripts-1.0/{urandom => urandom.sh} (100%)
+ create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
+ create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+ create mode 100644 meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/LICENSE
+ create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+ create mode 100644 meta/recipes-core/systemd/systemd-speed-hacks.bb
+ create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
+ create mode 100755 meta/recipes-core/systemd/systemd-systemctl-native/systemctl
+ create mode 100644 meta/recipes-core/systemd/systemd/00-create-volatile.conf
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-systemd-analyze-use-argparse-instead-of-getop.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0002-Revert-analyze-use-GDBus-instead-of-dbus-python.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/gtk-doc.make
+ create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
+ create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/set_default_target_to_multi-user.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
+ create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
+ create mode 100644 meta/recipes-core/systemd/systemd_git.bb
+ create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
+ create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd.service
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
+ create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service
+
 -- 
-1.7.10.4
+1.7.9.5
 
 
 
