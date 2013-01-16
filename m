@@ -1,21 +1,23 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1TvVIM-0005Ug-GH
+	(envelope-from <tom.zanussi@intel.com>) id 1TvVIO-0005Ul-HE
 	for openembedded-core@lists.openembedded.org;
 	Wed, 16 Jan 2013 16:53:04 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 16 Jan 2013 07:37:26 -0800
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Jan 2013 07:37:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="244657696"
+X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="277640314"
 Received: from unknown (HELO localhost) ([10.255.14.217])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jan 2013 07:37:20 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jan 2013 07:37:23 -0800
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org,
 	martin.jansa@gmail.com
-Date: Wed, 16 Jan 2013 09:37:18 -0600
-Message-Id: <cover.1358350412.git.tom.zanussi@intel.com>
+Date: Wed, 16 Jan 2013 09:37:22 -0600
+Message-Id: <9c37b12484a30237b8f2e20a02527476e240f9ba.1358350412.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.11.4
-Subject: [PATCH 0/1] lttng PE bump
+In-Reply-To: <cover.1358350412.git.tom.zanussi@intel.com>
+References: <cover.1358350412.git.tom.zanussi@intel.com>
+Subject: [PATCH 1/1] lttng-ust: bump PE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +34,32 @@ X-List-Received-Date: Wed, 16 Jan 2013 15:53:04 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This fixes the problem reported by Martin Jansa, which is due to a missing PE
-in the new lttng-ust recipe when it was renamed:
+The previous lttng-ust had a PE of "1" - that recipe was removed and
+replaced with the lttng2-ust recipe, which was renamed back to
+lttng-ust.  The new recipe had didn't define a PE so got the default
+PE of 0 - this adds the PE back and gives it a value of "2", which
+reflects the history and fixes the following error:
 
-ERROR: Package version for package lttng-ust-dbg went backwards which would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-staticdev went backwards which would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-dev went backwards which would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-doc went backwards which would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-locale went backwards which would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust went backwards which would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
+ERROR: Package version for package lttng-ust went backwards which
+would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
 
-The following changes since commit 7bfb98568a1d7ba8dbd95332d65cd19faec6c725:
-
-  bitbake: hig.py: refactor into individual components (2013-01-16 12:51:33 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/lttng-pe-bump
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/lttng-pe-bump
-
-Tom Zanussi (1):
-  lttng-ust: bump PE
-
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
  meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb | 1 +
  1 file changed, 1 insertion(+)
 
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
+index 1076bde..20c8b3d 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.1.0.bb
+@@ -20,6 +20,7 @@ RCONFLICTS_${PN} = "lttng2-ust"
+ SRCREV = "0c9ad44b7604040dfcd1e67b18afc3dc5d025b19"
+ PV = "2.1.0"
+ PR = "r0"
++PE = "2"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git"
+ 
 -- 
 1.7.11.4
 
