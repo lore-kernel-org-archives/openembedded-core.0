@@ -1,20 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1TvUfI-0004lO-6O
+	(envelope-from <Muhammad_Shakeel@mentor.com>) id 1TvUgh-0004oj-IT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 16:12:38 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2013 06:56:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="272793101"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.59])
-	by orsmga002.jf.intel.com with ESMTP; 16 Jan 2013 06:57:08 -0800
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 17:03:42 +0200
-Message-Id: <cover.1358348134.git.radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 00/23][RFC v4]systemd integration
+	Wed, 16 Jan 2013 16:14:25 +0100
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1TvURo-00051x-SU from Muhammad_Shakeel@mentor.com ;
+	Wed, 16 Jan 2013 06:58:36 -0800
+Received: from SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 16 Jan 2013 06:58:36 -0800
+Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.64]) by
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.01.0289.001; Wed, 16 Jan 2013 14:58:34 +0000
+From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 2/2 v2] archive-*-source.bbclass: Handle all
+	package classes
+Thread-Index: AQHN8l3X+Ebvg+mw0kWqc80By7IPv5hL2imAgAAzbfw=
+Date: Wed, 16 Jan 2013 14:58:34 +0000
+Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F85BC890E1@EU-MBX-04.mgc.mentorg.com>
+References: <1358171300-970-1-git-send-email-muhammad_shakeel@mentor.com>,
+	<1358336929.3276.16.camel@ted>
+In-Reply-To: <1358336929.3276.16.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 16 Jan 2013 14:58:36.0568 (UTC)
+	FILETIME=[F625A180:01CDF3F9]
+Cc: "Larson, Chris" <Chris_Larson@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 v2] archive-*-source.bbclass: Handle all package classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,184 +46,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 15:12:43 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 15:14:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-*Since last RFC I've udpated systemd to 196 and got in sync with
-meta-openembedded (pulled in a few more patches)
-*Also removed some initscripts that are not required while systemd
-is enabled, for tasks that systemd can handle by itself.
-*Removed update-rc.d while systemd is enabled. systemd provides
-systemctl to replace update-rc.d
-
-Please review and send me your feedback.
-
-The following changes since commit 9eb88ceb39b7d0b8ddc6487e61ce8edadef10ec4:
-
-  connman: fixed init script so connman can runs over nfs (2013-01-15 08:12:05 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib rmoisan/systemd
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rmoisan/systemd
-
-Enrico Scholz (1):
-  systemd: move disable operation into prerm() script
-
-Holger Hans Peter Freyther (2):
-  systemd: Make the main systemd files proper CONFFILES
-  systemd: Introduce a create-volatile to create tmp directories
-
-Khem Raj (2):
-  systemd: Fix build when base_libdir is not /lib
-  systemd.bbclass: Fixes for living along with multilib
-
-Koen Kooi (1):
-  systemd: update to v196
-
-Martin Donnelly (3):
-  cgroups: Add INSANE_SKIP to avoid warning about .so file
-  base-files: add fstab for systemd based systems
-  pam: fix common-session to permit logins with systemd
-
-Martin Jansa (2):
-  systemd: fix FILESPATH to find systemctl
-  systemd: add PACKAGES_DYNAMIC
-
-Radu Moisan (12):
-  default-distrovars: Add DISTRO_FEATURES_INITMAN to DISTRO_FEATURES
-  default-providers: Automatically set PREFERRED_PROVIDER_udev
-  systemd: initial integration
-  systemd: Add systemd_base.bbclass
-  systemd: Add systemd option to PREFERRED_PROVIDER_udev
-  systemd: set default.target to multi-user.target
-  systemd: update FILESPATH with *-native directory
-  systemd: disable unnecessary initscripts
-  systemd: Add systemd-compat-units
-  systemd: Add avahi to packagegroup-core-boot
-  xserver-nodm-init: Enable systemd support
-  update-rc.d: remove update-rc.d.bbclass when systemd enabled
-
- meta/classes/systemd.bbclass                       |    1 +
- meta/classes/systemd_base.bbclass                  |  222 +++++++++++++
- meta/classes/update-rc.d.bbclass                   |   86 +----
- meta/classes/update-rc.d_base.bbclass              |   85 +++++
- meta/conf/distro/include/default-distrovars.inc    |    3 +-
- meta/conf/distro/include/default-providers.inc     |    1 +
- meta/recipes-bsp/keymaps/files/keymaps.service     |    9 +
- meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    9 +-
- meta/recipes-connectivity/avahi/avahi.inc          |   23 +-
- meta/recipes-connectivity/connman/connman.inc      |    6 +
- meta/recipes-connectivity/connman/connman_1.4.bb   |    3 +-
- meta/recipes-connectivity/dhcp/dhcp.inc            |   15 +-
- meta/recipes-connectivity/dhcp/files/dhcpd.service |   12 +
- .../dhcp/files/dhcrelay.service                    |   10 +
- .../openssh/openssh-6.0p1/sshd.socket              |   11 +
- .../openssh/openssh-6.0p1/sshd@.service            |    9 +
- .../openssh/openssh-6.0p1/sshdgenkeys.service      |   10 +
- meta/recipes-connectivity/openssh/openssh_6.0p1.bb |   14 +-
- .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
- .../base-files/base-files/fstab.systemd            |    9 +
- meta/recipes-core/base-files/base-files_3.0.14.bb  |   17 +-
- meta/recipes-core/busybox/busybox.inc              |   18 ++
- meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
- .../busybox/files/busybox-klogd.service.in         |    8 +
- .../busybox/files/busybox-syslog.service.in        |   13 +
- meta/recipes-core/dropbear/dropbear.inc            |   81 ++---
- .../recipes-core/dropbear/dropbear/dropbear.socket |   10 +
- .../dropbear/dropbear/dropbear@.service            |    9 +
- .../dropbear/dropbear/dropbearkey.service          |   10 +
- .../initscripts-1.0/{urandom => urandom.sh}        |    0
- meta/recipes-core/initscripts/initscripts_1.0.bb   |  146 +++++----
- meta/recipes-core/libcgroup/libcgroup_0.37.1.bb    |    1 +
- .../packagegroups/packagegroup-base.bb             |    3 +-
- .../packagegroups/packagegroup-core-boot.bb        |    9 +-
- meta/recipes-core/systemd/systemd-compat-units.bb  |   58 ++++
- .../systemd/systemd-compat-units/machineid.service |   16 +
- .../systemd-compat-units/run-postinsts.service     |   17 +
- .../systemd/systemd-machine-units_1.0.bb           |   14 +
- meta/recipes-core/systemd/systemd-serialgetty.bb   |   46 +++
- .../systemd/systemd-serialgetty/LICENSE            |  339 ++++++++++++++++++++
- .../systemd-serialgetty/serial-getty@.service      |   32 ++
- meta/recipes-core/systemd/systemd-speed-hacks.bb   |   18 ++
- .../systemd/systemd-systemctl-native.bb            |   20 ++
- .../systemd/systemd-systemctl-native/systemctl     |  126 ++++++++
- .../systemd/systemd/00-create-volatile.conf        |   10 +
- ...emd-analyze-use-argparse-instead-of-getop.patch |  103 ++++++
- ...-analyze-use-GDBus-instead-of-dbus-python.patch |   91 ++++++
- meta/recipes-core/systemd/systemd/gtk-doc.make     |  230 +++++++++++++
- meta/recipes-core/systemd/systemd/modprobe.rules   |   17 +
- .../systemd/systemd/optional_secure_getenv.patch   |   19 ++
- .../systemd/set_default_target_to_multi-user.patch |   13 +
- .../systemd-pam-configure-check-uclibc.patch       |   26 ++
- .../systemd/systemd/systemd-pam-fix-execvpe.patch  |   26 ++
- .../systemd/systemd-pam-fix-fallocate.patch        |   82 +++++
- .../systemd/systemd-pam-fix-getty-unit.patch       |   35 ++
- .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  166 ++++++++++
- .../systemd/systemd/systemd-pam-fix-msformat.patch |  335 +++++++++++++++++++
- .../recipes-core/systemd/systemd/touchscreen.rules |   18 ++
- meta/recipes-core/systemd/systemd/var-run.conf     |    4 +
- meta/recipes-core/systemd/systemd_git.bb           |  254 +++++++++++++++
- meta/recipes-core/util-linux/util-linux.inc        |   46 +--
- meta/recipes-extended/cronie/cronie/crond.service  |   10 +
- meta/recipes-extended/cronie/cronie_1.4.8.bb       |   10 +-
- .../lighttpd/files/lighttpd.service                |   13 +
- meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 +-
- meta/recipes-extended/pam/libpam_1.1.6.bb          |    3 +
- meta/recipes-extended/polkit/polkit_0.104.bb       |    9 +-
- meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
- .../x11-common/xserver-nodm-init.bb                |   19 +-
- .../x11-common/xserver-nodm-init/xserver-nodm.conf |    1 +
- .../xserver-nodm-init/xserver-nodm.service         |    9 +
- 71 files changed, 2871 insertions(+), 248 deletions(-)
- create mode 100644 meta/classes/systemd.bbclass
- create mode 100644 meta/classes/systemd_base.bbclass
- create mode 100644 meta/classes/update-rc.d_base.bbclass
- create mode 100644 meta/recipes-bsp/keymaps/files/keymaps.service
- create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd.service
- create mode 100644 meta/recipes-connectivity/dhcp/files/dhcrelay.service
- create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd.socket
- create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshd@.service
- create mode 100644 meta/recipes-connectivity/openssh/openssh-6.0p1/sshdgenkeys.service
- create mode 100644 meta/recipes-core/base-files/base-files/fstab.systemd
- create mode 100644 meta/recipes-core/busybox/files/busybox-klogd.service.in
- create mode 100644 meta/recipes-core/busybox/files/busybox-syslog.service.in
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
- rename meta/recipes-core/initscripts/initscripts-1.0/{urandom => urandom.sh} (100%)
- create mode 100644 meta/recipes-core/systemd/systemd-compat-units.bb
- create mode 100644 meta/recipes-core/systemd/systemd-compat-units/machineid.service
- create mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
- create mode 100644 meta/recipes-core/systemd/systemd-machine-units_1.0.bb
- create mode 100644 meta/recipes-core/systemd/systemd-serialgetty.bb
- create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/LICENSE
- create mode 100644 meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
- create mode 100644 meta/recipes-core/systemd/systemd-speed-hacks.bb
- create mode 100644 meta/recipes-core/systemd/systemd-systemctl-native.bb
- create mode 100755 meta/recipes-core/systemd/systemd-systemctl-native/systemctl
- create mode 100644 meta/recipes-core/systemd/systemd/00-create-volatile.conf
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-systemd-analyze-use-argparse-instead-of-getop.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-Revert-analyze-use-GDBus-instead-of-dbus-python.patch
- create mode 100644 meta/recipes-core/systemd/systemd/gtk-doc.make
- create mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
- create mode 100644 meta/recipes-core/systemd/systemd/optional_secure_getenv.patch
- create mode 100644 meta/recipes-core/systemd/systemd/set_default_target_to_multi-user.patch
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-configure-check-uclibc.patch
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-execvpe.patch
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-fallocate.patch
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-getty-unit.patch
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-mkostemp.patch
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-pam-fix-msformat.patch
- create mode 100644 meta/recipes-core/systemd/systemd/touchscreen.rules
- create mode 100644 meta/recipes-core/systemd/systemd/var-run.conf
- create mode 100644 meta/recipes-core/systemd/systemd_git.bb
- create mode 100644 meta/recipes-extended/cronie/cronie/crond.service
- create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd.service
- create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.conf
- create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service
-
--- 
-1.7.9.5
-
+Thanks for your valuable feedback. I will rework the patch as per your sugg=
+estion and will send a v3 after testing.=0A=
+=0A=
+Regards,=0A=
+--Shakeel=0A=
+________________________________________=0A=
+From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
+Sent: Wednesday, January 16, 2013 4:48 PM=0A=
+To: Shakeel, Muhammad=0A=
+Cc: openembedded-core@lists.openembedded.org; Larson, Chris=0A=
+Subject: Re: [OE-core] [PATCH 2/2 v2] archive-*-source.bbclass: Handle all =
+package classes=0A=
+=0A=
+On Mon, 2013-01-14 at 18:48 +0500, Shakeel, Muhammad wrote:=0A=
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>=0A=
+>=0A=
+> * Add archiver tasks correctly for any 'IMAGE_PKGTYPE'.=0A=
+>=0A=
+> [YOCTO #3449]=0A=
+>=0A=
+> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>=0A=
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>=0A=
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>=0A=
+> ---=0A=
+>  meta/classes/archive-configured-source.bbclass |   15 +++++++++++++--=0A=
+>  meta/classes/archive-original-source.bbclass   |   15 +++++++++++++--=0A=
+>  meta/classes/archive-patched-source.bbclass    |   15 +++++++++++++--=0A=
+>  3 files changed, 39 insertions(+), 6 deletions(-)=0A=
+>=0A=
+> diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classe=
+s/archive-configured-source.bbclass=0A=
+> index 64799e3..50838e6 100644=0A=
+> --- a/meta/classes/archive-configured-source.bbclass=0A=
+> +++ b/meta/classes/archive-configured-source.bbclass=0A=
+> @@ -11,12 +11,19 @@ inherit archiver=0A=
+>  addtask do_archive_configured_sources after do_configure=0A=
+>=0A=
+>  # Get archiving package with temp(logs) and scripts(.bb and inc files)=
+=0A=
+> -addtask do_archive_scripts_logs after do_package_write_rpm=0A=
+> +addtask do_archive_scripts_logs=0A=
+>=0A=
+>  # Get dump date and create diff file=0A=
+> -addtask do_dumpdata_create_diff_gz after do_package_write_rpm before do_=
+build=0A=
+> +addtask do_dumpdata_create_diff_gz before do_build=0A=
+>=0A=
+>  python () {=0A=
+> +    packaging =3D d.getVar('IMAGE_PKGTYPE', True)=0A=
+> +    write_package_task =3D 'do_package_write_' + packaging=0A=
+> +=0A=
+> +    deps =3D d.getVarFlag('do_dumpdata_create_diff_gz', 'deps') or []=0A=
+> +    deps.append(write_package_task)=0A=
+> +    d.setVarFlag('do_dumpdata_create_diff_gz', 'deps', deps)=0A=
+> +=0A=
+>      if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) !=3D 'srpm':=0A=
+>          """=0A=
+>          If package type is not 'srpm' then add tasks to move archive pac=
+kages of=0A=
+> @@ -30,6 +37,10 @@ python () {=0A=
+>          recrdeptask +=3D ' do_archive_configured_sources '=0A=
+>          d.setVarFlag('do_build', 'recrdeptask', recrdeptask)=0A=
+>=0A=
+> +        deps =3D d.getVarFlag('do_archive_scripts_logs', 'deps') or []=
+=0A=
+> +        deps.append(write_package_task)=0A=
+> +        d.setVarFlag('do_archive_scripts_logs', 'deps', deps)=0A=
+=0A=
+Looking at the patch series, this is code introducing users of the=0A=
+'deps' flag outside of externalsrc.bbclass (which has some nasty reasons=0A=
+it currently pokes bitbake internals).=0A=
+=0A=
+I'd like to not introduce usage of the flag so can you please change=0A=
+these references to things like:=0A=
+=0A=
+d.appendVarFlag('do_archive_scripts_logs', 'deps', ' do_package_write_' + p=
+ackaging)=0A=
+=0A=
+Use of appendVarFlag applies anywhere you currently do a set, append,=0A=
+set operation, its just neater code and gives us some scope to optmise=0A=
+the implementation in bitbake at a later date.=0A=
+=0A=
+This applies to both this patch and the other one.=0A=
+=0A=
+Thanks,=0A=
+=0A=
+Richard=0A=
+=0A=
 
 
