@@ -1,36 +1,25 @@
-Received: from mail-la0-f50.google.com ([209.85.215.50])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TvIcY-0002Fv-4s
+	(envelope-from <Qi.Chen@windriver.com>) id 1TvNbt-0004cC-CC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 03:20:58 +0100
-Received: by mail-la0-f50.google.com with SMTP id fs13so866357lab.9
+	Wed, 16 Jan 2013 08:40:38 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0G7PBnH011054
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2013 18:05:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=U4iq4nDPw/vh3bip91YmIJraqg5U7oaOYe+kPP4enP8=;
-	b=Dd0OJUUBjQ/P/Ug8ZSKqbfo/AVGvXlxmHXae9+7YrJqahZ3z02NhaN/VzzMH8RfN0J
-	16ndPy7HspqqhFX1Ljvcj8e/K7GyWRv8PjeDm3MXkZc9Xizo9RkeOCb/KpEJkZFviMuC
-	OPAweTKpsiLDTks7HdV1ARpxQEETxveK/UeH1B2Sz1OJJvE5CcTEzStLv92+0/8o9Gr6
-	TUDCDNjgV4+toESUK9Z6XQr4IXeg3hMe6Y6G+m5eFUNFkwIXOUEuUk6tTdSekE46Y1WI
-	Pj0JLnLmKjMJZIF7fHpE5ciIODUyHJvxdSVCVb3BOmvhb9//vFfyP5VzeWkbr0+3x+RU
-	loKw==
-Received: by 10.112.99.2 with SMTP id em2mr28876170lbb.11.1358301921083; Tue,
-	15 Jan 2013 18:05:21 -0800 (PST)
+	Tue, 15 Jan 2013 23:25:12 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 15 Jan 2013 23:25:10 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Jan 2013 15:25:09 +0800
+Message-ID: <cover.1358320866.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Tue, 15 Jan 2013 18:05:01 -0800 (PST)
-In-Reply-To: <40692.10.7.202.59.1358299786.squirrel@linux.intel.com>
-References: <40692.10.7.202.59.1358299786.squirrel@linux.intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 15 Jan 2013 19:05:01 -0700
-X-Google-Sender-Auth: ivpaROWHDqzyfx-6R4bJbfhA1_k
-Message-ID: <CABcZANn9xdKo5a1a3mAHiXtgfGcScTZRQxx96TZ5ipRbcCRB8g@mail.gmail.com>
-To: kevin.strasser@linux.intel.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: archiver.bbclass: what is the purpose of create_diff_gz?
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] sysvinit & initscripts: use update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,49 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 02:21:03 -0000
-Content-Type: multipart/alternative; boundary=f46d0401f9718102c904d35e4ff9
+X-List-Received-Date: Wed, 16 Jan 2013 07:40:42 -0000
+Content-Type: text/plain
 
---f46d0401f9718102c904d35e4ff9
-Content-Type: text/plain; charset=UTF-8
+From: Chen Qi <Qi.Chen@windriver.com>
 
-On Tue, Jan 15, 2013 at 6:29 PM, <kevin.strasser@linux.intel.com> wrote:
+The following changes since commit 9eb88ceb39b7d0b8ddc6487e61ce8edadef10ec4:
 
-> In it's current state, the source archiver creates a diff.gz file
-> containing everything found in 'S'. I am wondering if this was really the
-> intended behavior, as 'S' usually contains things like object and binary
-> files. If anything, I would expect that this file should represent all
-> changes made to the original sources.
->
+  connman: fixed init script so connman can runs over nfs (2013-01-15 08:12:05 +0000)
 
-I was wondering about that too. It doesn't seem particularly useful today.
-I'd think after do_patch would be best (and change recipes to do their
-general source modifications before then, or via pre/postfuncs).
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/init-updatercd
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/init-updatercd
+
+Chen Qi (1):
+  sysvinit & initscripts: use update-rc.d
+
+ meta/recipes-core/initscripts/initscripts_1.0.bb |   59 +++++++++-------------
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb   |   17 ++++---
+ 2 files changed, 34 insertions(+), 42 deletions(-)
+
 -- 
-Christopher Larson
+1.7.9.5
 
---f46d0401f9718102c904d35e4ff9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Jan 15, 2013 at 6:29 PM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:k=
-evin.strasser@linux.intel.com" target=3D"_blank">kevin.strasser@linux.intel=
-.com</a>&gt;</span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":1se">In it&#39;s current state, =
-the source archiver creates a diff.gz file<br>
-containing everything found in &#39;S&#39;. I am wondering if this was real=
-ly the<br>
-intended behavior, as &#39;S&#39; usually contains things like object and b=
-inary<br>
-files. If anything, I would expect that this file should represent all<br>
-changes made to the original sources.</div></blockquote></div><br>I was won=
-dering about that too. It doesn&#39;t seem particularly useful today. I&#39=
-;d think after do_patch would be best (and change recipes to do their gener=
-al source modifications before then, or via pre/postfuncs).<br>
-
--- <br>Christopher Larson</div></div>
-
---f46d0401f9718102c904d35e4ff9--
