@@ -1,37 +1,29 @@
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
+Received: from eu1sys200aog115.obsmtp.com ([207.126.144.139])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TvTuy-0003YE-Dw
+	(envelope-from <giuseppe.condorelli@st.com>) id 1TvURR-000440-E7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 15:24:49 +0100
-Received: by mail-pb0-f52.google.com with SMTP id ro2so741585pbb.39
+	Wed, 16 Jan 2013 15:58:20 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob115.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUPa8bWrQBsz+1tSR6/3C9Zpr9uRTo5LG@postini.com;
+	Wed, 16 Jan 2013 14:42:53 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 430D8135
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 06:09:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=mGNiibXyY73m8dMq3uXNHLtjgseww5gsqjKCqcfdOkM=;
-	b=I88AwvdrpH6+ElU4pTwYALzsXznEVQIIffjvLN3yTewilIbQoOwLn6mJfR37+O8BI7
-	7uX7tDpXXD2gtqhSEVSj0OmWFTHLdxFfS+1AdQzpqbSTLQakNXij64y0oIELHCmbtw0e
-	vMFDt1qsf+hEJzWq1eBafbvk0sTMw6ap6S3YqQyIk0vhv7MGQOShnWScrd3gHulIAHRi
-	woPu/zGrCzKM8MuNERL3UfzIoRgFpXp4RGfVig3NEm2fA0AY1y5TTDA+6O3OkqhzCv0N
-	u9XWprgW7Q9aurc7SlYkpqmp+0M9hKqvceHgNo2qnPNBh4KEowMLdqBUPPW5C+2yfz/Y
-	KEkg==
-X-Received: by 10.68.254.195 with SMTP id ak3mr3146441pbd.37.1358345357897;
-	Wed, 16 Jan 2013 06:09:17 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id z10sm13044686pax.38.2013.01.16.06.09.15
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 16 Jan 2013 06:09:16 -0800 (PST)
-Date: Wed, 16 Jan 2013 15:09:19 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Tom Zanussi <tom.zanussi@intel.com>
-Message-ID: <20130116140919.GD3002@jama>
-References: <20130116115800.A69171034D@opal>
-MIME-Version: 1.0
-In-Reply-To: <20130116115800.A69171034D@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Tom Zanussi : lttng2-ust: rename to lttng-ust
+	Wed, 16 Jan 2013 14:15:51 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 93B964C62
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jan 2013 14:15:51 +0000 (GMT)
+Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id AVK49684 (AUTH condorg);
+	Wed, 16 Jan 2013 15:15:51 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jan 2013 15:14:07 +0100
+Message-Id: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,132 +36,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 14:24:49 -0000
-X-Groupsio-MsgNum: 33875
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="47eKBCiAZYFK5l32"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 16 Jan 2013 14:58:21 -0000
 
---47eKBCiAZYFK5l32
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix routine to check as and ld version check in the configure, to allow system
+to correctly check for version 2.1x.
 
-On Wed, Jan 16, 2013 at 11:58:00AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 3c927c39502061bdf3ef9fba1f0f6e7080f6c3cd
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D3c927c39502061bdf3ef9fba1f0f6e7080f6c3cd
->=20
-> Author: Tom Zanussi <tom.zanussi@intel.com>
-> Date:   Fri Jan 11 17:28:47 2013 -0600
->=20
-> lttng2-ust: rename to lttng-ust
->=20
-> recipes-kernel/lttng/lttng-ust was removed by a previous patch, which
-> also removed the naming conflict that caused the lttng-2.0 version of
-> lttng-ust to be named lttng2-ust.  lttng2-ust was the only lttng-2.0
-> recipe to be named in this way and since that was entirely due to the
-> conflict, we can go back to the consistent naming for it.
->=20
-> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
+---
+ .../eglibc-2.16_fix_as_ld_ver_check.patch          |   23 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
+ 2 files changed, 25 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
 
-lttng-ust had PE=3D"1", bump PE to fix upgrade path:
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+new file mode 100644
+index 0000000..a8a2344
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+@@ -0,0 +1,23 @@
++Fix as and ld checking steps to allow system to correctly check 2.1x versions.
++
++Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com> 
++--- libc.orig/configure	2013-01-16 12:07:18.146902148 +0100
+++++ libc/configure	2013-01-16 12:08:10.598911559 +0100
++@@ -4757,7 +4757,7 @@ $as_echo_n "checking version of $AS... "
++   ac_prog_version=`$AS --version 2>&1 | sed -n 's/^.*GNU assembler.* \([0-9]*\.[0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
+++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
++@@ -4820,7 +4820,7 @@ $as_echo_n "checking version of $LD... "
++   ac_prog_version=`$LD --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]*\.[0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
+++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 2dcaceb..fbc1499 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr21
+            file://tzselect-sh.patch \
+            file://tzselect-awk.patch \
+            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
++	   file://eglibc-2.16_fix_as_ld_ver_check.patch \
+           "
+ 
+ SRC_URI[tarball.md5sum] = "88894fa6e10e58e85fbd8134b8e486a8"
+@@ -69,7 +70,7 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
+ 
+ GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
+ 
+-FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
++#FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
+ 
+ #
+ # For now, we will skip building of a gcc package if it is a uclibc one
+-- 
+1.7.7.6
 
-ERROR: Package version for package lttng-ust-dbg went backwards which would=
- break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-staticdev went backwards which=
- would break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-dev went backwards which would=
- break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-doc went backwards which would=
- break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust-locale went backwards which wo=
-uld break package feeds from (1:0.16-r1 to 0:2.1.0-r0)
-ERROR: Package version for package lttng-ust went backwards which would bre=
-ak package feeds from (1:0.16-r1 to 0:2.1.0-r0)
 
->=20
-> ---
->=20
->  .../packagegroup-core-tools-profile.bb             |    2 +-
->  meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb |    2 +-
->  .../{lttng2-ust_2.1.0.bb =3D> lttng-ust_2.1.0.bb}    |    5 +++++
->  3 files changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-prof=
-ile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> index 591f33f..8f40c4e 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> @@ -46,7 +46,7 @@ SYSTEMTAP_aarch64 =3D ""
->  # which means we can not use syscall() to call it. So we ignore
->  # it for x86_64/uclibc
-> =20
-> -LTTNGUST =3D "lttng2-ust"
-> +LTTNGUST =3D "lttng-ust"
->  LTTNGUST_libc-uclibc =3D ""
->  LTTNGUST_mips =3D ""
->  LTTNGUST_aarch64 =3D ""
-> diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb b/meta/re=
-cipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
-> index 482b9a6..16e1ccc 100644
-> --- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
-> +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.1.0.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D01d7fc4496aacf=
-37d90df90b90b0cac1 \
->                      file://gpl-2.0.txt;md5=3Db234ee4d69f5fce4486a80fdaf4=
-a4263 \
->                      file://lgpl-2.1.txt;md5=3D0f0d71500e6a57fd24d825f332=
-42b9ca"
-> =20
-> -DEPENDS =3D "liburcu popt lttng2-ust"
-> +DEPENDS =3D "liburcu popt lttng-ust"
-> =20
->  SRCREV =3D "917f768512b5d336d553b801f6c5308d90252a89"
->  PV =3D "v2.1.0"
-> diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb b/meta/rec=
-ipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
-> similarity index 87%
-> rename from meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb
-> rename to meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
-> index 439e006..1076bde 100644
-> --- a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.1.0.bb
-> +++ b/meta/recipes-kernel/lttng-2.0/lttng-ust_2.1.0.bb
-> @@ -12,6 +12,11 @@ inherit autotools
-> =20
->  DEPENDS =3D "liburcu util-linux"
-> =20
-> +# For backwards compatibility after rename
-> +RPROVIDES_${PN} =3D "lttng2-ust"
-> +RREPLACES_${PN} =3D "lttng2-ust"
-> +RCONFLICTS_${PN} =3D "lttng2-ust"
-> +
->  SRCREV =3D "0c9ad44b7604040dfcd1e67b18afc3dc5d025b19"
->  PV =3D "2.1.0"
->  PR =3D "r0"
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---47eKBCiAZYFK5l32
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlD2tI8ACgkQN1Ujt2V2gBwTMACgm7AjhIYfYFkSiVHvqEEJVHr8
-pmYAoJw37d6CFMRvs8104wh8e1y5rqDl
-=yawX
------END PGP SIGNATURE-----
-
---47eKBCiAZYFK5l32--
