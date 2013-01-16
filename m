@@ -1,24 +1,38 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-lb0-f170.google.com ([209.85.217.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvVJU-0005YE-0p
+	(envelope-from <kergoth@gmail.com>) id 1TvVRg-0006Dv-2W
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 16:54:25 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jan 2013 07:38:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="274519120"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.117])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jan 2013 07:38:17 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 15:38:13 +0000
-Message-Id: <d0ac33caf983e8a3eeb8c596587e9ae29c4edc88.1358350661.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1358350661.git.paul.eggleton@linux.intel.com>
-References: <cover.1358350661.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1358350661.git.paul.eggleton@linux.intel.com>
-References: <cover.1358350661.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 2/2] classes/image: improve debug-tweaks ssh server configuration
+	Wed, 16 Jan 2013 17:02:47 +0100
+Received: by mail-lb0-f170.google.com with SMTP id j14so1151669lbo.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jan 2013 07:47:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=z7kIz7XprO9R8iBtPIFscw+vHK3Gf0oLILrf0H4WnYc=;
+	b=qVh1jeZNAw3wh/PUKnMdyJoF1Yr/nG6TBFd5kEEl5pjf0aly0B/LqHcrX0oLWwJVnc
+	UnQWO4TYX6BftiMRMdcXccinUQ+EqsF4Lmvm9GaAuopB3PGdaMArYiC0eTOm/r1b/tmS
+	O94Wt24V+bnHlXNaXpMFO4dB1N5qcwPkB+o5enI8l8ESyyGA0t7z02QrsbluP8/zBujE
+	7fYe33RbhYJnEkM+CrZbWnikb0vBdccotTWd4cD+NcZFb+aj4BA7b9BvFLs6+QVj30hz
+	UU0eSibsaHIEyr3Rg72BW2F109y1LLHAR8bNz/DSLrWQEqfNfXpntGkPY3VH1vyYsdpp
+	zEHA==
+X-Received: by 10.112.49.202 with SMTP id w10mr831590lbn.2.1358351230164; Wed,
+	16 Jan 2013 07:47:10 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.34.10 with HTTP; Wed, 16 Jan 2013 07:46:49 -0800 (PST)
+In-Reply-To: <1358350681.1665.31.camel@empanada>
+References: <20130116115800.A69171034D@opal> <20130116140919.GD3002@jama>
+	<1358350681.1665.31.camel@empanada>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 16 Jan 2013 08:46:49 -0700
+X-Google-Sender-Auth: DVlEeHOfq3eIxc6YXBK72NOjhVo
+Message-ID: <CABcZAN=u7_BGuAQGhYF134PedRq0KkHrgBEtPoN1Tet_T-O6Lw@mail.gmail.com>
+To: Tom Zanussi <tom.zanussi@intel.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Tom Zanussi : lttng2-ust: rename to lttng-ust
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,70 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 15:54:30 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 16:02:47 -0000
+Content-Type: multipart/alternative; boundary=bcaec554daa28ddfe104d369ca43
 
-Create a single postprocessing function that enables no-password logins
-for both openssh and dropbear when debug-tweaks is in IMAGE_FEATURES,
-changing its behaviour slightly:
-* Run it regardless of whether ssh-server-* are in IMAGE_FEATURES so
-  that it still takes effect if these are installed by adding
-  dropbear/openssh to IMAGE_INSTALL.
-* Enable it to be run from image.bbclass rather than core-image.bbclass
-  so that it works for images that are using the former.
+--bcaec554daa28ddfe104d369ca43
+Content-Type: text/plain; charset=UTF-8
 
-Second half of the fix for [YOCTO #2578].
+On Wed, Jan 16, 2013 at 8:38 AM, Tom Zanussi <tom.zanussi@intel.com> wrote:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/core-image.bbclass |    3 ---
- meta/classes/image.bbclass      |   10 ++++++++--
- 2 files changed, 8 insertions(+), 5 deletions(-)
+> > lttng-ust had PE="1", bump PE to fix upgrade path:
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 2e67018..e0f6dbb 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -76,6 +76,3 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
- 
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
--# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
--ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
--
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index e494689..131958d 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -167,6 +167,8 @@ inherit ${IMAGE_CLASSES}
- IMAGE_POSTPROCESS_COMMAND ?= ""
- MACHINE_POSTPROCESS_COMMAND ?= ""
- ROOTFS_POSTPROCESS_COMMAND_prepend = "run_intercept_scriptlets; "
-+# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks is enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "ssh_allow_empty_password; ", "",d)}'
- 
- # some default locales
- IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
-@@ -396,12 +398,16 @@ zap_root_password () {
- 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
- } 
- 
--# allow openssh accept login with empty password string
--openssh_allow_empty_password () {
-+# allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
-+ssh_allow_empty_password () {
- 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
- 		sed -i 's#.*PermitRootLogin.*#PermitRootLogin yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
- 		sed -i 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
- 	fi
-+
-+	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
-+		echo 'DROPBEAR_EXTRA_ARGS="-B"' > ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
-+	fi
- }
- 
- # Turn any symbolic /sbin/init link into a file
+
+Technically, that isn't going to "fix" the upgrade path. lttng 1.x requires
+kernel patches and isn't compatible with lttng 2.x, as far as I'm aware. So
+any machine with lttng 1.x that upgrades to this wouldn't be a real
+'upgrade', it would switch interfaces, and potentially break compatibility
+with the kernel running on that device. At mentor we have bsp layers for
+1.x and for 2.x, and both work. I'm glad we aren't binary package feed
+based, or we'd be in serious trouble with this.
 -- 
-1.7.10.4
+Christopher Larson
 
+--bcaec554daa28ddfe104d369ca43
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Jan 16, 2013 at 8:38 AM, Tom Zanussi <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:tom.zanussi@intel.com" target=3D"_blank">tom.zanussi@intel.com</=
+a>&gt;</span> wrote:<br>
 
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">&gt; lttng-ust had PE=3D&quot;1&quot;, bump =
+PE to fix upgrade path:</blockquote></div><br>Technically, that isn&#39;t g=
+oing to &quot;fix&quot; the upgrade path. lttng 1.x requires kernel patches=
+ and isn&#39;t compatible with lttng 2.x, as far as I&#39;m aware. So any m=
+achine with lttng 1.x that upgrades to this wouldn&#39;t be a real &#39;upg=
+rade&#39;, it would switch interfaces, and potentially break compatibility =
+with the kernel running on that device. At mentor we have bsp layers for 1.=
+x and for 2.x, and both work. I&#39;m glad we aren&#39;t binary package fee=
+d based, or we&#39;d be in serious trouble with this.<br>
+
+-- <br>Christopher Larson</div></div>
+
+--bcaec554daa28ddfe104d369ca43--
