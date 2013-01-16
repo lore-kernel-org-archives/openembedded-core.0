@@ -1,26 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvWFi-0007Z8-T4
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvWGd-0007cS-S0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 17:54:15 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Jan 2013 08:38:51 -0800
+	Wed, 16 Jan 2013 17:55:15 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2013 08:38:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,480,1355126400"; d="scan'208";a="191846430"
+X-IronPort-AV: E=Sophos;i="4.84,480,1355126400"; d="scan'208";a="272836765"
 Received: from unknown (HELO helios.localnet) ([10.252.123.117])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Jan 2013 08:38:50 -0800
+	by orsmga002.jf.intel.com with ESMTP; 16 Jan 2013 08:39:46 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Ulf Samuelsson <openembedded-core@emagii.com>
-Date: Wed, 16 Jan 2013 16:38:49 +0000
-Message-ID: <1985382.IITHNa7hCZ@helios>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jan 2013 16:39:45 +0000
+Message-ID: <2945435.zNsC9RGq7I@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.9.3 (Linux/3.5.0-21-generic; KDE/4.9.3; i686; ; )
-In-Reply-To: <50F338E5.1030905@emagii.com>
-References: <50ABF140.4040308@balister.org> <1684102.id2BTWEj2K@helios>
-	<50F338E5.1030905@emagii.com>
+In-Reply-To: <3318326.b3DB6CrXXm@helios>
+References: <cover.1358350661.git.paul.eggleton@linux.intel.com>
+	<CABcZANn7NKY2zQa2trx4DfGQuJCN9KokxK+Vnh80o=5ve2gkqg@mail.gmail.com>
+	<3318326.b3DB6CrXXm@helios>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Stand for FOSDEM
+Cc: Chris Larson <clarson@kergoth.com>
+Subject: Re: [PATCH v2 2/2] classes/image: improve debug-tweaks ssh server configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 16:54:16 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 16:55:15 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Sunday 13 January 2013 23:44:53 Ulf Samuelsson wrote:
-> Plan to be there.
-> Hopefully I should be able to arrange another Atmel raffle,
-> to draw people to the stand.
+On Wednesday 16 January 2013 15:51:59 Paul Eggleton wrote:
+> On Wednesday 16 January 2013 08:48:05 Chris Larson wrote:
+> > On Wed, Jan 16, 2013 at 8:38 AM, Paul Eggleton <
+> > 
+> > paul.eggleton@linux.intel.com> wrote:
+> > > +
+> > > +       if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+> > > +               echo 'DROPBEAR_EXTRA_ARGS="-B"' >
+> > > ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
+> > > +       fi
+> > > 
+> > >  }
+> > 
+> > Slightly concerned with this, in the potential case where a layer provides
+> > its own /etc/default/dropbear, this will blow it away entirely.
+> 
+> I already considered this, but interacting nicely with that situation given
+> that the provided /etc/default/dropbear would likely be setting its own
+> value of DROPBEAR_EXTRA_ARGS isn't going to be straightforward from a shell
+> script...
 
-That would be awesome!
-
-> Do we have any plans for demo's?
-
-Nothing solid yet, but thinking about it I'd like to have something around 5 
-devices on show, preferably showing the range of different targets we support, 
-and ideally the each of them should be doing something interesting. I'm going 
-to try and bring along an x86-powered device, and have access to various other 
-devices although I'm not sure I can come up with demos to run on each so 
-suggestions/help would be welcome. 
-
-For the last FOSDEM, Alex Lennon was kind enough to bring along his radar 
-detector that was powered by OE, and I think that worked quite well as a demo. 
-If at all possible it would be great if we could not just have dev boards but 
-some actual products powered by OE on the stand. Can anyone help with that?
-
-We probably also want to be prepared to do demos of configuring / running a 
-build, with the usual assumption that we might not have a reliable internet 
-connection. I think I can take care of setting this up.
+Scratch that, it's not too difficult. v3 on the way.
 
 Cheers,
 Paul
