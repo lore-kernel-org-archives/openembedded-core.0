@@ -1,29 +1,20 @@
-Received: from eu1sys200aog115.obsmtp.com ([207.126.144.139])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TvURR-000440-E7
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvUcZ-0004dJ-Tn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 15:58:20 +0100
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob115.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUPa8bWrQBsz+1tSR6/3C9Zpr9uRTo5LG@postini.com;
-	Wed, 16 Jan 2013 14:42:53 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 430D8135
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 14:15:51 +0000 (GMT)
-Received: from mail7.sgp.st.com (unknown [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 93B964C62
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 14:15:51 +0000 (GMT)
-Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id AVK49684 (AUTH condorg);
-	Wed, 16 Jan 2013 15:15:51 +0100
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+	Wed, 16 Jan 2013 16:10:16 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 16 Jan 2013 06:54:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="244640269"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.117])
+	by azsmga001.ch.intel.com with ESMTP; 16 Jan 2013 06:54:20 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 15:14:07 +0100
-Message-Id: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] eglibc: fix as and ld check in libc dir
+Date: Wed, 16 Jan 2013 14:54:16 +0000
+Message-Id: <cover.1358347974.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/1] dropbear: allow configuring blank password option at runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,70 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 14:58:21 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 15:10:16 -0000
 
-Fix routine to check as and ld version check in the configure, to allow system
-to correctly check for version 2.1x.
+The following change since commit 4b63e73422ea25aba1bde0beddb02bc04948e13c:
 
-Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
----
- .../eglibc-2.16_fix_as_ld_ver_check.patch          |   23 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
- 2 files changed, 25 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+  update-rc.d: check also that symlinks are valid (2013-01-16 12:07:55 +0000)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
-new file mode 100644
-index 0000000..a8a2344
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
-@@ -0,0 +1,23 @@
-+Fix as and ld checking steps to allow system to correctly check 2.1x versions.
-+
-+Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com> 
-+--- libc.orig/configure	2013-01-16 12:07:18.146902148 +0100
-++++ libc/configure	2013-01-16 12:08:10.598911559 +0100
-+@@ -4757,7 +4757,7 @@ $as_echo_n "checking version of $AS... "
-+   ac_prog_version=`$AS --version 2>&1 | sed -n 's/^.*GNU assembler.* \([0-9]*\.[0-9.]*\).*$/\1/p'`
-+   case $ac_prog_version in
-+     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
-+-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-+        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
-+     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
-+ 
-+@@ -4820,7 +4820,7 @@ $as_echo_n "checking version of $LD... "
-+   ac_prog_version=`$LD --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]*\.[0-9.]*\).*$/\1/p'`
-+   case $ac_prog_version in
-+     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
-+-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-+        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
-+     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
-+ 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-index 2dcaceb..fbc1499 100644
---- a/meta/recipes-core/eglibc/eglibc_2.16.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr21
-            file://tzselect-sh.patch \
-            file://tzselect-awk.patch \
-            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
-+	   file://eglibc-2.16_fix_as_ld_ver_check.patch \
-           "
- 
- SRC_URI[tarball.md5sum] = "88894fa6e10e58e85fbd8134b8e486a8"
-@@ -69,7 +70,7 @@ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
- 
- GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
- 
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
-+#FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
- 
- #
- # For now, we will skip building of a gcc package if it is a uclibc one
+is available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/ssh-nopw
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/ssh-nopw
+
+Paul Eggleton (1):
+  dropbear: allow configuring blank password option at runtime
+
+ meta/classes/core-image.bbclass                    |    5 +-
+ meta/classes/image.bbclass                         |    8 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    6 +-
+ .../dropbear/dropbear/allow-nopw.patch             |   19 ----
+ .../dropbear/dropbear/nopw-option.patch            |  106 ++++++++++++++++++++
+ 5 files changed, 116 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/nopw-option.patch
+
 -- 
-1.7.7.6
+1.7.10.4
 
 
 
