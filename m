@@ -1,40 +1,37 @@
-Received: from mail-la0-f48.google.com ([209.85.215.48])
+Received: from mail-lb0-f170.google.com ([209.85.217.170])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TvXZA-0001gO-1r
+	(envelope-from <kergoth@gmail.com>) id 1TvXah-0001kb-FK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 19:18:29 +0100
-Received: by mail-la0-f48.google.com with SMTP id ej20so1712876lab.7
+	Wed, 16 Jan 2013 19:19:59 +0100
+Received: by mail-lb0-f170.google.com with SMTP id j14so1256628lbo.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 10:03:02 -0800 (PST)
+	Wed, 16 Jan 2013 10:04:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:mime-version:sender:in-reply-to:references:from:date
 	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=GmL2fra5rwwY7W0TU1anbH0Q0UBWZuoLjQ7ZFueHxqM=;
-	b=AVudYVSUO5Q1WcaWGxAKGTgM/ox9xcEFcGHzZKUjf4EbGzTQt7K/DHRjbpzZOyboJm
-	3YQA3/GpnenhSLuqpeWBQ43FxSwOE0hY0NUXSr64uSe1mk7L97ehrGQgQtJkXHJLr5Na
-	//z4hn+Kc8r8gXMRkwz8nADFaKrFmELNIRe+Lr6ZT+7fGat8O+TvIqiuJqM5nSC8RJL5
-	/4sIUCGV1XQntgA6xSxmVwhNEK7wpZNGiZmWpKEySQMj4NEOoLC2oeMbVgLSM/OdEaQQ
-	mMo90XRaMQsEVxj6b0dU3NVOVrT1kDEc9qsin2XgotMebBPO9uZjNS1d+8DL+BOHE3WI
-	421g==
-X-Received: by 10.152.103.99 with SMTP id fv3mr2034893lab.16.1358359382096;
-	Wed, 16 Jan 2013 10:03:02 -0800 (PST)
+	bh=6CuO48F9vXrTX+bfs0NADXgx2NSKzfDozgpfX9yz2Go=;
+	b=KaYBLTbwOnAF9u9myukH9UlhGrn6Z4bybLsN2XxxK2ZJzvvgyhZT1N2nvTBmcsgf8y
+	6mFdRumPxCn09YI7specWaAVdpvVTWYiHc+eRLezA7AMTGX4hEHBOl5gE0i51yK2em6E
+	gbnxfgLmYAVYiWx9YUuSTdhO0b/+Lh8hZYlSFff+XRiOSVWeTy6WkVAMpb4HTxTd20PP
+	SWBjEiD6/N3y7u8JE0ZErpnROKz1k1hb2XqFOWFl0QMz81yuQSPGiWFiXDOiM4b77TSi
+	XG+VXoBEhXxTihXu0H+Lr8sm6zfxBsPX/KixTu7erIlKXujx+7Qia7l2pgkqX1jpg1bv
+	2KaA==
+X-Received: by 10.112.88.105 with SMTP id bf9mr1036547lbb.43.1358359476489;
+	Wed, 16 Jan 2013 10:04:36 -0800 (PST)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Wed, 16 Jan 2013 10:02:41 -0800 (PST)
-In-Reply-To: <1358354428.1665.54.camel@empanada>
-References: <20130116115800.A69171034D@opal> <20130116140919.GD3002@jama>
-	<1358350681.1665.31.camel@empanada>
-	<CABcZAN=u7_BGuAQGhYF134PedRq0KkHrgBEtPoN1Tet_T-O6Lw@mail.gmail.com>
-	<1358354428.1665.54.camel@empanada>
+Received: by 10.112.34.10 with HTTP; Wed, 16 Jan 2013 10:04:16 -0800 (PST)
+In-Reply-To: <81aaaa6acc35e5fddf945d2a694a9381fb071635.1358355580.git.paul.eggleton@linux.intel.com>
+References: <cover.1358355580.git.paul.eggleton@linux.intel.com>
+	<81aaaa6acc35e5fddf945d2a694a9381fb071635.1358355580.git.paul.eggleton@linux.intel.com>
 From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 16 Jan 2013 11:02:41 -0700
-X-Google-Sender-Auth: Pq4XNtGOrhTNA9rC2qWmzO3F2LY
-Message-ID: <CABcZANmR8vAcEFwOWBf7PdufdZTCXwWFreegpREWj99EzH1caA@mail.gmail.com>
-To: Tom Zanussi <tom.zanussi@intel.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
+Date: Wed, 16 Jan 2013 11:04:16 -0700
+X-Google-Sender-Auth: 0us163-EUocn8xbWNoyQ1Mqc02w
+Message-ID: <CABcZANmeipR++4mAkMvwm_2fvZEp6rmXMd2j1DAC4cTE-U1oMA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Tom Zanussi : lttng2-ust: rename to lttng-ust
+Subject: Re: [PATCH v3 2/2] classes/image: improve debug-tweaks ssh server configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,59 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 18:18:30 -0000
-Content-Type: multipart/alternative; boundary=f46d04071655727c6804d36bb035
+X-List-Received-Date: Wed, 16 Jan 2013 18:20:05 -0000
+Content-Type: multipart/alternative; boundary=f46d04016ac712cccd04d36bb6ad
 
---f46d04071655727c6804d36bb035
+--f46d04016ac712cccd04d36bb6ad
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jan 16, 2013 at 9:40 AM, Tom Zanussi <tom.zanussi@intel.com> wrote:
+On Wed, Jan 16, 2013 at 10:00 AM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-> This is for the userspace tracing part, lttng-ust, which AFAIK doesn't
-> require any kernel patches.
->
+> +       if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+> +               if grep -q DROPBEAR_EXTRA_ARGS
+> ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
+> +                       if ! grep -q "DROPBEAR_EXTRA_ARGS=.*-B"
+> ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear ; then
+> +                               sed -i
+> 's/^DROPBEAR_EXTRA_ARGS="*\([^"]*\)"*/DROPBEAR_EXTRA_ARGS="\1 -B"/'
+> ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
+> +                       fi
+> +               else
+> +                       printf '\nDROPBEAR_EXTRA_ARGS="-B"\n' >>
+> ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
+> +               fi
 
-Yes, but the point was, as far as I know, the newer ust requires the newer
-kernel components, and the older requires the older kernel components, so
-technically the package upgrade on a device is likely to change the
-behavior.
 
-I didn't say the current version required patches, the point was about the
-upgrade path for this recipe. I suspect we're one of the only companies
-that was actually using the old recipes, and we don't particularly care
-about the binary package upgrade paths at this time, but again, this is
-*not* a particularly smooth binary package upgrade path. I expect we're
-fine with that, but I wanted make sure it was an explicit conscious choice
-of behavior, not something unexpected.
+
+Looks good, thanks.
 -- 
 Christopher Larson
 
---f46d04071655727c6804d36bb035
+--f46d04016ac712cccd04d36bb6ad
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Jan 16, 2013 at 9:40 AM, Tom Zanussi <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:tom.zanussi@intel.com" target=3D"_blank">tom.zanussi@intel.com</a>&gt=
-;</span> wrote:<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Jan 16, 2013 at 10:00 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton=
+@linux.intel.com</a>&gt;</span> wrote:<br>
 
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":az">This is for the userspace tr=
-acing part, lttng-ust, which AFAIK doesn&#39;t<br>
-require any kernel patches.</div></blockquote></div><br>Yes, but the point =
-was, as far as I know, the newer ust requires the newer kernel components, =
-and the older requires the older kernel components, so technically the pack=
-age upgrade on a device is likely to change the behavior.</div>
+x #ccc solid;padding-left:1ex"><div class=3D"im">+ =C2=A0 =C2=A0 =C2=A0 if =
+[ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then<br>
+</div>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if grep -q DROPBEA=
+R_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2&gt;/dev/null ;=
+ then<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if ! grep -q &quot;DROPBEAR_EXTRA_ARGS=3D.*-B&quot; ${IMAGE_ROOTFS}${sy=
+sconfdir}/default/dropbear ; then<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i &#39;s/^DROPBEAR_EXTRA_ARGS=3D&quot;=
+*\([^&quot;]*\)&quot;*/DROPBEAR_EXTRA_ARGS=3D&quot;\1 -B&quot;/&#39; ${IMAG=
+E_ROOTFS}${sysconfdir}/default/dropbear<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 fi<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 printf &#39;\nDROPBEAR_EXTRA_ARGS=3D&quot;-B&quot;\n&#39; &gt;&gt; ${IM=
+AGE_ROOTFS}${sysconfdir}/default/dropbear<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi</blockquote></div><br=
+><br>Looks good, thanks.<br>-- <br>Christopher Larson</div></div>
 
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I didn&#39;=
-t say the current version required patches, the point was about the upgrade=
- path for this recipe. I suspect we&#39;re one of the only companies that w=
-as actually using the old recipes, and we don&#39;t particularly care about=
- the binary package upgrade paths at this time, but again, this is *not* a =
-particularly smooth binary package upgrade path. I expect we&#39;re fine wi=
-th that, but I wanted make sure it was an explicit conscious choice of beha=
-vior, not something unexpected.<br>
-
--- <br>Christopher Larson</div></div>
-
---f46d04071655727c6804d36bb035--
+--f46d04016ac712cccd04d36bb6ad--
