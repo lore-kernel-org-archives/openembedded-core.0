@@ -1,36 +1,22 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1TvHOE-0000Hv-MX
+	(envelope-from <nitin.a.kamble@intel.com>) id 1TvHSG-0000PR-0Z
 	for Openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 02:02:10 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jan 2013 16:45:30 -0800
+	Wed, 16 Jan 2013 02:06:12 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jan 2013 16:50:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="247361701"
-Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jan 2013 16:46:35 -0800
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.5]) by
-	ORSMSX105.amr.corp.intel.com ([169.254.4.35]) with mapi id
-	14.01.0355.002; Tue, 15 Jan 2013 16:46:35 -0800
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] xf86-video-modesetting: new recipe for
-	gma500
-Thread-Index: AQHN81jYfP0N8BeEYE+6EAJUHfhwDZhLoymA//97vMA=
-Date: Wed, 16 Jan 2013 00:46:35 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C3F0B78B7@ORSMSX106.amr.corp.intel.com>
-References: <cover.1358278958.git.nitin.a.kamble@intel.com>
-	<8738a6efd777d20d444fc9b149ce75498b21202b.1358278958.git.nitin.a.kamble@intel.com>
-	<50F5F6A3.4060101@linux.intel.com>
-In-Reply-To: <50F5F6A3.4060101@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] xf86-video-modesetting: new recipe for gma500
+X-IronPort-AV: E=Sophos;i="4.84,475,1355126400"; d="scan'208";a="277364588"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jan 2013 16:50:34 -0800
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org
+Date: Tue, 15 Jan 2013 16:50:32 -0800
+Message-Id: <fd0fcc2c7adcf22e25677147ef975616f8b9a020.1358297126.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1358297126.git.nitin.a.kamble@intel.com>
+References: <cover.1358297126.git.nitin.a.kamble@intel.com>
+Subject: [Patch v2 1/2] xf86-video-modesetting: new recipe for gma500
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 01:02:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 16 Jan 2013 01:06:13 -0000
 
-> > +++ b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.b
-> > +++ b
-> > @@ -0,0 +1,8 @@
-> > +require xorg-driver-video.inc
-> > +LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3Dd8cbd99fff773f92e844948f74ef0df8"
-> > +
-> This seems to be wrong relative the actual version.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Yes, I missed to push that change in the commit. I am sending another pull =
-request with one additional commit soon.
+I am trying to use gma500 driver for the noemgd BSPs. The current best
+xf86 driver for it is modesetting. This recipe provides that
+driver.
 
-Thanks,
-Nitin
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../xorg-driver/xf86-video-modesetting_0.6.0.bb    |    8 ++++++++
+ 1 files changed, 8 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
+
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
+new file mode 100644
+index 0000000..02f4667
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.6.0.bb
+@@ -0,0 +1,8 @@
++require xorg-driver-video.inc
++LIC_FILES_CHKSUM = "file://COPYING;md5=5e53d3fcadb1c23d122ad63cb099a918"
++
++DESCRIPTION = "X.Org X server -- modesetting display driver"
++PR = "${INC_PR}.0"
++
++SRC_URI[md5sum] = "d8a771d5d2d75ea9d234c6928153c08b"
++SRC_URI[sha256sum] = "852f9ddb213913f75e1e65ad7ce9c6b5bc7f43a93d8087b6e59666ea4eb3d0d6"
+-- 
+1.7.3.4
 
 
 
