@@ -1,20 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from eu1sys200aog110.obsmtp.com ([207.126.144.129])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1TvXfd-0001s8-SR
+	(envelope-from <giuseppe.condorelli@st.com>) id 1TvY5I-0002Pi-6l
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 19:25:20 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Jan 2013 10:09:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,480,1355126400"; d="scan'208";a="274584309"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.117])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jan 2013 10:09:29 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 16 Jan 2013 19:51:37 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob110.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUPbzINHMgMRxyY5mM7I6cfzv00EGeZ6h@postini.com;
+	Wed, 16 Jan 2013 18:36:16 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 55400191
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jan 2013 15:11:55 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id ECB414E9C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jan 2013 15:11:54 +0000 (GMT)
+Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id AVK60408 (AUTH condorg);
+	Wed, 16 Jan 2013 16:11:54 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 18:09:27 +0000
-Message-Id: <1358359767-18302-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] classes/rootfs_*: error out if postinstalls exist with read-only rootfs
+Date: Wed, 16 Jan 2013 16:10:14 +0100
+Message-Id: <1358349014-8736-1-git-send-email-giuseppe.condorelli@st.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH V2] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,77 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 18:25:22 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 18:51:37 -0000
 
-If there are postinstall scripts to be run on first boot and
-IMAGE_FEATURES contains "read-only-rootfs", we know this will fail on
-the target device so just error out during do_rootfs. This check was
-already implemented for ipk, so add it to the deb and rpm backends. Also
-make all backends use bberror rather than just echo to display the
-error.
+Fix routine to check as and ld version check in the configure, to allow system
+to correctly check for version 2.1x.
 
-Fixes [YOCTO #3407].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
 ---
- meta/classes/rootfs_deb.bbclass |    7 +++++++
- meta/classes/rootfs_ipk.bbclass |    2 +-
- meta/classes/rootfs_rpm.bbclass |    9 +++++++++
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ .../eglibc-2.16_fix_as_ld_ver_check.patch          |   23 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
+ 2 files changed, 24 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 293953d..9997996 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -70,6 +70,13 @@ fakeroot rootfs_deb_do_rootfs () {
- 
- 	set -e
- 
-+	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
-+		if grep Status:.install.ok.unpacked ${IMAGE_ROOTFS}/var/lib/dpkg/status; then
-+			bberror "Some packages could not be configured offline and rootfs is read-only."
-+			exit 1
-+		fi
-+	fi
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+new file mode 100644
+index 0000000..a8a2344
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+@@ -0,0 +1,23 @@
++Fix as and ld checking steps to allow system to correctly check 2.1x versions.
 +
- 	install -d ${IMAGE_ROOTFS}/${sysconfdir}
- 	echo ${BUILDNAME} > ${IMAGE_ROOTFS}/${sysconfdir}/version
++Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com> 
++--- libc.orig/configure	2013-01-16 12:07:18.146902148 +0100
+++++ libc/configure	2013-01-16 12:08:10.598911559 +0100
++@@ -4757,7 +4757,7 @@ $as_echo_n "checking version of $AS... "
++   ac_prog_version=`$AS --version 2>&1 | sed -n 's/^.*GNU assembler.* \([0-9]*\.[0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
+++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
++@@ -4820,7 +4820,7 @@ $as_echo_n "checking version of $LD... "
++   ac_prog_version=`$LD --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]*\.[0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
+++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 2dcaceb..d4a31e3 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr21
+            file://tzselect-sh.patch \
+            file://tzselect-awk.patch \
+            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
++           file://eglibc-2.16_fix_as_ld_ver_check.patch \
+           "
  
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 5c962de..0e2fa12 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -83,7 +83,7 @@ fakeroot rootfs_ipk_do_rootfs () {
- 	
- 	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
- 		if grep Status:.install.ok.unpacked ${STATUS}; then
--			echo "Some packages could not be configured offline and rootfs is read-only."
-+			bberror "Some packages could not be configured offline and rootfs is read-only."
- 			exit 1
- 		fi
- 	fi
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 2bfd1b7..7d789cc 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -87,6 +87,15 @@ fakeroot rootfs_rpm_do_rootfs () {
- 
- 	${ROOTFS_POSTINSTALL_COMMAND}
- 
-+	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
-+		if [ -d ${IMAGE_ROOTFS}/etc/rpm-postinsts ] ; then
-+			if [ "`ls -A ${IMAGE_ROOTFS}/etc/rpm-postinsts`" != "" ] ; then
-+				bberror "Some packages could not be configured offline and rootfs is read-only."
-+				exit 1
-+			fi
-+		fi
-+	fi
-+
- 	# Report delayed package scriptlets
- 	for i in ${IMAGE_ROOTFS}/etc/rpm-postinsts/*; do
- 		if [ -f $i ]; then
+ SRC_URI[tarball.md5sum] = "88894fa6e10e58e85fbd8134b8e486a8"
 -- 
-1.7.10.4
+1.7.7.6
 
 
 
