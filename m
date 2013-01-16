@@ -1,31 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-la0-f50.google.com ([209.85.215.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TvIal-0002AX-OK
+	(envelope-from <kergoth@gmail.com>) id 1TvIcY-0002Fv-4s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 03:19:07 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0G23glH008752
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jan 2013 18:03:42 -0800 (PST)
-Received: from [128.224.163.154] (128.224.163.154) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 15 Jan 2013 18:03:40 -0800
-Message-ID: <50F60A66.60504@windriver.com>
-Date: Wed, 16 Jan 2013 10:03:18 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Wed, 16 Jan 2013 03:20:58 +0100
+Received: by mail-la0-f50.google.com with SMTP id fs13so866357lab.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Jan 2013 18:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=U4iq4nDPw/vh3bip91YmIJraqg5U7oaOYe+kPP4enP8=;
+	b=Dd0OJUUBjQ/P/Ug8ZSKqbfo/AVGvXlxmHXae9+7YrJqahZ3z02NhaN/VzzMH8RfN0J
+	16ndPy7HspqqhFX1Ljvcj8e/K7GyWRv8PjeDm3MXkZc9Xizo9RkeOCb/KpEJkZFviMuC
+	OPAweTKpsiLDTks7HdV1ARpxQEETxveK/UeH1B2Sz1OJJvE5CcTEzStLv92+0/8o9Gr6
+	TUDCDNjgV4+toESUK9Z6XQr4IXeg3hMe6Y6G+m5eFUNFkwIXOUEuUk6tTdSekE46Y1WI
+	Pj0JLnLmKjMJZIF7fHpE5ciIODUyHJvxdSVCVb3BOmvhb9//vFfyP5VzeWkbr0+3x+RU
+	loKw==
+Received: by 10.112.99.2 with SMTP id em2mr28876170lbb.11.1358301921083; Tue,
+	15 Jan 2013 18:05:21 -0800 (PST)
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1358216103-2735-1-git-send-email-Qi.Chen@windriver.com>
-	<CAP9ODKq6X6o0yRLRUuSFsAPpfqc-9uA7AbtBMyi4qrZgvcFgsA@mail.gmail.com>
-In-Reply-To: <CAP9ODKq6X6o0yRLRUuSFsAPpfqc-9uA7AbtBMyi4qrZgvcFgsA@mail.gmail.com>
-X-Originating-IP: [128.224.163.154]
-Cc: Zhenfeng.Zhao@windriver.com,
-	Patches and discussions about the oe-core layer
+Sender: kergoth@gmail.com
+Received: by 10.112.34.10 with HTTP; Tue, 15 Jan 2013 18:05:01 -0800 (PST)
+In-Reply-To: <40692.10.7.202.59.1358299786.squirrel@linux.intel.com>
+References: <40692.10.7.202.59.1358299786.squirrel@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 15 Jan 2013 19:05:01 -0700
+X-Google-Sender-Auth: ivpaROWHDqzyfx-6R4bJbfhA1_k
+Message-ID: <CABcZANn9xdKo5a1a3mAHiXtgfGcScTZRQxx96TZ5ipRbcCRB8g@mail.gmail.com>
+To: kevin.strasser@linux.intel.com
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V7 6/6] volatile-conf-sato: add recipe
+Subject: Re: archiver.bbclass: what is the purpose of create_diff_gz?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,131 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 02:19:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Jan 2013 02:21:03 -0000
+Content-Type: multipart/alternative; boundary=f46d0401f9718102c904d35e4ff9
 
-On 01/15/2013 07:26 PM, Otavio Salvador wrote:
-> On Tue, Jan 15, 2013 at 12:15 AM,  <Qi.Chen@windriver.com> wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> This recipe provides a config file for core-image-sato.
->> The config file is used to handle volatile storage in case of a
->> read-only-rootfs image.
->>
->> Also, let core-image-sato.bb depend on this recipe.
->>
->> [YOCTO #3406]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-sato/images/core-image-sato.bb        |    3 +++
->>   .../files/volatiles-readonly-sato                  |   14 ++++++++++++++
->>   .../volatile-conf-sato_1.0.bb                      |   15 +++++++++++++++
->>   3 files changed, 32 insertions(+)
->>   create mode 100644 meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
->>   create mode 100644 meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
-> Please name the package and the dir the same. It will be confusing for
-> user to try to guess where the .bb file is otherwise.
+--f46d0401f9718102c904d35e4ff9
+Content-Type: text/plain; charset=UTF-8
 
-Hi Otavio,
+On Tue, Jan 15, 2013 at 6:29 PM, <kevin.strasser@linux.intel.com> wrote:
 
-As the conf file is related to the image recipe, so I keep the same 
-directory hierarchy with the image recipes. Thus, instead of creating 
-distinct directories for each conf recipe, I gather them together, in 
-the way image recipes are organized.
-
-poky/meta/recipes-core/images/
-     -- image recipe 1
-     -- image recipe 2
-
-poky/meta/recipes-sato/images/
-     -- image recipe 1
-     -- image recipe 2
-
-poky/meta/recipes-core/readonly-volatile-conf/
-     -- conf recipe 1
-     -- conf recipe 2
-
-poky/meta/recipes-sato/readonly-volatile-conf/
-     -- conf recipe 1
-     -- conf recipe 2
-
-
-Cheers,
-Chen Qi
-
->> diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
->> index f52a1a5..a3d3d27 100644
->> --- a/meta/recipes-sato/images/core-image-sato.bb
->> +++ b/meta/recipes-sato/images/core-image-sato.bb
->> @@ -6,6 +6,9 @@ IMAGE_FEATURES += "splash package-management x11-base x11-sato ssh-server-dropbe
->>
->>   LICENSE = "MIT"
->>
->> +RDEPENDS += "volatile-conf-sato"
->> +
->>   inherit core-image
->>
->>   IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
->> +IMAGE_INSTALL += "volatile-conf-sato"
->> diff --git a/meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato b/meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
->> new file mode 100644
->> index 0000000..4a56b81
->> --- /dev/null
->> +++ b/meta/recipes-sato/readonly-volatile-conf/files/volatiles-readonly-sato
->> @@ -0,0 +1,14 @@
->> +# This configuration file lists filesystem objects specific to sato image
->> +# with read-only rootfs.
->> +# This configuration file will only be applied if the image is sato and the
->> +# rootfs is read-only.
->> +# For the detailed format information, refer to /etc/default/volatiles/00_core.
->> +d root root 0755 /var/volatile/lib/ none
->> +d root root 0755 /var/volatile/lib/urandom/ none
->> +d root root 0755 /var/volatile/lib/dropbear/ none
->> +d root root 0755 /var/volatile/lib/nfs/ none
->> +d root root 0755 /var/volatile/lib/dbus/ none
->> +l root root 0755 /var/lib/urandom /var/volatile/lib/urandom
->> +l root root 0755 /var/lib/dropbear /var/volatile/lib/dropbear
->> +l root root 0755 /var/lib/nfs /var/volatile/lib/nfs
->> +l root root 0755 /var/lib/dbus /var/volatile/lib/dbus
->> diff --git a/meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb b/meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
->> new file mode 100644
->> index 0000000..acc8901
->> --- /dev/null
->> +++ b/meta/recipes-sato/readonly-volatile-conf/volatile-conf-sato_1.0.bb
->> @@ -0,0 +1,15 @@
->> +SUMMARY = "Provide config files for core-image-sato"
->> +DESCRIPTION = "This package contains a config file for core-image-sato. \
->> +It is used to handle volatile storage in case of a read-only rootfs."
->> +
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->> +
->> +SRC_URI = "file://volatiles-readonly-sato"
->> +
->> +PR = "r1"
->> +
->> +do_install () {
->> +       install -d ${D}${sysconfdir}/default/volatiles
->> +       install -m 0644 ${WORKDIR}/volatiles-readonly-sato ${D}${sysconfdir}/default/volatiles/00_core_readonly
->> +}
->> --
->> 1.7.9.5
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
->
+> In it's current state, the source archiver creates a diff.gz file
+> containing everything found in 'S'. I am wondering if this was really the
+> intended behavior, as 'S' usually contains things like object and binary
+> files. If anything, I would expect that this file should represent all
+> changes made to the original sources.
 >
 
+I was wondering about that too. It doesn't seem particularly useful today.
+I'd think after do_patch would be best (and change recipes to do their
+general source modifications before then, or via pre/postfuncs).
+-- 
+Christopher Larson
 
+--f46d0401f9718102c904d35e4ff9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Jan 15, 2013 at 6:29 PM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:k=
+evin.strasser@linux.intel.com" target=3D"_blank">kevin.strasser@linux.intel=
+.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1se">In it&#39;s current state, =
+the source archiver creates a diff.gz file<br>
+containing everything found in &#39;S&#39;. I am wondering if this was real=
+ly the<br>
+intended behavior, as &#39;S&#39; usually contains things like object and b=
+inary<br>
+files. If anything, I would expect that this file should represent all<br>
+changes made to the original sources.</div></blockquote></div><br>I was won=
+dering about that too. It doesn&#39;t seem particularly useful today. I&#39=
+;d think after do_patch would be best (and change recipes to do their gener=
+al source modifications before then, or via pre/postfuncs).<br>
+
+-- <br>Christopher Larson</div></div>
+
+--f46d0401f9718102c904d35e4ff9--
