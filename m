@@ -1,29 +1,42 @@
-Received: from eu1sys200aog110.obsmtp.com ([207.126.144.129])
+Received: from mail-da0-f49.google.com ([209.85.210.49])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1TvY5I-0002Pi-6l
+	(envelope-from <martin.jansa@gmail.com>) id 1TvYGe-000322-6U
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 19:51:37 +0100
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob110.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUPbzINHMgMRxyY5mM7I6cfzv00EGeZ6h@postini.com;
-	Wed, 16 Jan 2013 18:36:16 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 55400191
+	Wed, 16 Jan 2013 20:03:20 +0100
+Received: by mail-da0-f49.google.com with SMTP id v40so691257dad.22
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 15:11:55 +0000 (GMT)
-Received: from mail7.sgp.st.com (unknown [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id ECB414E9C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 15:11:54 +0000 (GMT)
-Received: from localhost ([164.130.129.16]) by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id AVK60408 (AUTH condorg);
-	Wed, 16 Jan 2013 16:11:54 +0100
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 16:10:14 +0100
-Message-Id: <1358349014-8736-1-git-send-email-giuseppe.condorelli@st.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH V2] eglibc: fix as and ld check in libc dir
+	Wed, 16 Jan 2013 10:47:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=DE6wm2ZX/XzQGYGmI7wIfXdpioVBqVicAN0bKLnrEPY=;
+	b=pUpsXcxWBVjNko8+wbnRAKOwslVPsQAqbEepG22xUxKNPgf4ihq2NHPWgNoAiZ7YtY
+	dWDhxOo3tnViAAH5F0XkcHnJHg9qBgKPA0k0t3tt2JjqIoc+dQ93hHnCeT6UmxK8lrim
+	CjPYk1xgp1VO55asWNvpeP7TIzGu9lwe/WtlEeVGXktIEy3RNRe3JZ+NpRNnJVLUfKVw
+	Uhep/HqBiAFSQNwJtT6UGOSIRjOsY8ntWwpu+WL8vnQa6GD045wS4Yt1S78DMktO2CCs
+	TpMWLznhoFsTx4mYBkP99vloZ/MoKV08v+n0KuqYmMNg0gnYpTBoHSEUQsP1TfIwK+XG
+	yxLA==
+X-Received: by 10.68.234.36 with SMTP id ub4mr5509773pbc.68.1358362077126;
+	Wed, 16 Jan 2013 10:47:57 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id qf7sm12722874pbb.49.2013.01.16.10.47.53
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 16 Jan 2013 10:47:55 -0800 (PST)
+Date: Wed, 16 Jan 2013 19:47:59 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Message-ID: <20130116184759.GG3002@jama>
+References: <20130116115800.A69171034D@opal> <20130116140919.GD3002@jama>
+	<1358350681.1665.31.camel@empanada>
+	<CABcZAN=u7_BGuAQGhYF134PedRq0KkHrgBEtPoN1Tet_T-O6Lw@mail.gmail.com>
+	<1358354428.1665.54.camel@empanada>
+	<CABcZANmR8vAcEFwOWBf7PdufdZTCXwWFreegpREWj99EzH1caA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CABcZANmR8vAcEFwOWBf7PdufdZTCXwWFreegpREWj99EzH1caA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Tom Zanussi : lttng2-ust: rename to lttng-ust
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,61 +49,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 18:51:37 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 19:03:24 -0000
+X-Groupsio-MsgNum: 33913
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="e5bfZ/T2xnjpUIbw"
+Content-Disposition: inline
 
-Fix routine to check as and ld version check in the configure, to allow system
-to correctly check for version 2.1x.
+--e5bfZ/T2xnjpUIbw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com>
----
- .../eglibc-2.16_fix_as_ld_ver_check.patch          |   23 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    1 +
- 2 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+On Wed, Jan 16, 2013 at 11:02:41AM -0700, Chris Larson wrote:
+> On Wed, Jan 16, 2013 at 9:40 AM, Tom Zanussi <tom.zanussi@intel.com> wrot=
+e:
+>=20
+> > This is for the userspace tracing part, lttng-ust, which AFAIK doesn't
+> > require any kernel patches.
+> >
+>=20
+> Yes, but the point was, as far as I know, the newer ust requires the newer
+> kernel components, and the older requires the older kernel components, so
+> technically the package upgrade on a device is likely to change the
+> behavior.
+>=20
+> I didn't say the current version required patches, the point was about the
+> upgrade path for this recipe. I suspect we're one of the only companies
+> that was actually using the old recipes, and we don't particularly care
+> about the binary package upgrade paths at this time, but again, this is
+> *not* a particularly smooth binary package upgrade path. I expect we're
+> fine with that, but I wanted make sure it was an explicit conscious choice
+> of behavior, not something unexpected.
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
-new file mode 100644
-index 0000000..a8a2344
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
-@@ -0,0 +1,23 @@
-+Fix as and ld checking steps to allow system to correctly check 2.1x versions.
-+
-+Signed-off-by: Giuseppe Condorelli <giuseppe.condorelli@st.com> 
-+--- libc.orig/configure	2013-01-16 12:07:18.146902148 +0100
-++++ libc/configure	2013-01-16 12:08:10.598911559 +0100
-+@@ -4757,7 +4757,7 @@ $as_echo_n "checking version of $AS... "
-+   ac_prog_version=`$AS --version 2>&1 | sed -n 's/^.*GNU assembler.* \([0-9]*\.[0-9.]*\).*$/\1/p'`
-+   case $ac_prog_version in
-+     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
-+-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-+        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
-+     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
-+ 
-+@@ -4820,7 +4820,7 @@ $as_echo_n "checking version of $LD... "
-+   ac_prog_version=`$LD --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]*\.[0-9.]*\).*$/\1/p'`
-+   case $ac_prog_version in
-+     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
-+-    2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-++    2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-9]*)
-+        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
-+     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
-+ 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-index 2dcaceb..d4a31e3 100644
---- a/meta/recipes-core/eglibc/eglibc_2.16.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr21
-            file://tzselect-sh.patch \
-            file://tzselect-awk.patch \
-            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
-+           file://eglibc-2.16_fix_as_ld_ver_check.patch \
-           "
- 
- SRC_URI[tarball.md5sum] = "88894fa6e10e58e85fbd8134b8e486a8"
--- 
-1.7.7.6
+=46rom what you said it looks like recipe shouldn't be renamed in first
+place.
 
+I'm not interested in lttng, first I was commenting only about recipe
+being renamed without RPROVIDES/RREPLEACES/RCONFLICTS combo and then I
+was surprised to see that ERROR about version downgrade from
+buildhistory.
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--e5bfZ/T2xnjpUIbw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlD29d8ACgkQN1Ujt2V2gBw8KwCePdf4+Oa+B6WnFug9y1yw+MeW
+4I4AoJZSWiJXtSckr9pDBxrQ8HcRVom2
+=DV98
+-----END PGP SIGNATURE-----
+
+--e5bfZ/T2xnjpUIbw--
