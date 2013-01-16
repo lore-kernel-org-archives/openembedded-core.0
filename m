@@ -1,27 +1,44 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Qi.Chen@windriver.com>) id 1TvNbu-0004cE-Tw
+	(envelope-from <ross.burton@intel.com>) id 1TvNsf-00052A-DQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 08:40:38 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0G7PCuK025236
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 16 Jan 2013 08:57:54 +0100
+Received: from mail-bk0-f69.google.com ([209.85.214.69])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 15 Jan 2013 23:41:25 -0800
+Received: by mail-bk0-f69.google.com with SMTP id jg9so1183759bkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Jan 2013 23:25:12 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.154) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Tue, 15 Jan 2013 23:25:12 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Jan 2013 15:25:10 +0800
-Message-ID: <19166346cc89cbecec84bbf43d021b2e6a51a4f3.1358320866.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1358320866.git.Qi.Chen@windriver.com>
-References: <cover.1358320866.git.Qi.Chen@windriver.com>
+	Tue, 15 Jan 2013 23:42:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:x-received:date:from:to:cc:message-id:in-reply-to
+	:references:subject:x-mailer:mime-version:content-type
+	:content-transfer-encoding:content-disposition:x-gm-message-state;
+	bh=uIXncXMcaOy47jBwyIdeBjCW9LEq6koZY1sH4PaFt3o=;
+	b=XNVsoq8QMFMXVn6n1SjQEWL07Zn0yrj7TfeisDYmPlRFHWmN4i/SCzktAUNTWeLfJ+
+	mc0c3CbVmPurjuPuestUrk9LxW4ZthLgls6UPGqHZXkwbpGLUYsXwDKqL9MIQJfpsGTw
+	n370G+4SfnOP8wIqQSkEiZPKmUDNFeFcxHUCJdZDjRCjXGqouzMhSDODpOjGJcv2Hex7
+	ATQyoVw1rJku0GuA8DMxNPOBITrIfkPzD6ucepAPQjF/jtIfzBKaU9QRSdB4MAR2GJPB
+	v9+MU0mCv9lHly8ah5/l/PKUyFGPYPzCbOw5+z4+pVlm5OJAKn1e3L253+qcowcHVXlP
+	q5Uw==
+X-Received: by 10.180.106.34 with SMTP id gr2mr296306wib.18.1358322148805;
+	Tue, 15 Jan 2013 23:42:28 -0800 (PST)
+X-Received: by 10.180.106.34 with SMTP id gr2mr296294wib.18.1358322148629;
+	Tue, 15 Jan 2013 23:42:28 -0800 (PST)
+Received: from [192.168.1.7] (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id e6sm7727445wiz.1.2013.01.15.23.42.27
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Tue, 15 Jan 2013 23:42:27 -0800 (PST)
+Date: Wed, 16 Jan 2013 07:42:35 +0000
+From: Ross Burton <ross.burton@intel.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <A4A34200E35C4007BAEAFC1D08F1D399@intel.com>
+In-Reply-To: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
+References: <1358280527-14078-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: sparrow 1.6.4 (build 1178)
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] sysvinit & initscripts: use update-rc.d
+X-Gm-Message-State: ALoCoQmS2Ngv2e93f1tWja8UY/t6gx36CNPe9JOGG7kF4AINDR1Bb0JqlgmI9sYmi5OaS5XYR1OKWuNVlZ4udRq2Dq1wmYAd6oeM1M1lDqGd4PGtf/lnyBRb13v/+660dreaP5vnRh1UEpbm5f30XhIrL4UZVrNBnkxGxlEyLlCa6brx05X3yeOKjiPixk1SKmXbS4oNJXna
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V4 0/3] connman 1.10 upgrade and qemu networking fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,174 +51,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 07:40:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Jan 2013 07:58:19 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Tuesday, 15 January 2013 at 20:08, Cristian Iorga wrote:
+> Cristian Iorga (3):
+> connman: upgrade to 1.10
+> connman-conf: configures connman in qemu machines
+> qemu: machine override ability added
 
-Update-rc.d provides a cleaner interface for creating links for init scripts.
-So we use update-rc.d to replace the redundant 'ln -sf xxx' statements.
+The ordering is wrong, the qemu change needs to land before connman-conf, but assuming that Saul re-orders these when pulling Acked-by: Ross Burton <ross.burton@intel.com>.
 
-[YOCTO #3708]
+Ross 
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/initscripts/initscripts_1.0.bb |   59 +++++++++-------------
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb   |   17 ++++---
- 2 files changed, 34 insertions(+), 42 deletions(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 6e15f88..702f3a8 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r139"
-+PR = "r140"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-@@ -37,6 +37,7 @@ SRC_URI_append_arm = " file://alignment.sh"
- KERNEL_VERSION = ""
- 
- inherit update-alternatives
-+DEPENDS_append = " update-rc.d-native"
- 
- ALTERNATIVE_PRIORITY = "90"
- ALTERNATIVE_${PN} = "functions"
-@@ -64,6 +65,8 @@ do_install () {
- 	install -d ${D}${sysconfdir}/rc6.d
- 	install -d ${D}${sysconfdir}/default
- 	install -d ${D}${sysconfdir}/default/volatiles
-+	# Holds state information pertaining to urandom
-+	install -d ${D}/var/lib/urandom
- 
- 	install -m 0644    ${WORKDIR}/functions		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/bootmisc.sh	${D}${sysconfdir}/init.d
-@@ -84,6 +87,7 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/populate-volatile.sh ${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
-+
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
- 		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
- 	fi
-@@ -92,44 +96,29 @@ do_install () {
- #
- 	install -m 0755 ${WORKDIR}/banner.sh	${D}${sysconfdir}/init.d/banner.sh
- 	install -m 0755 ${WORKDIR}/umountfs	${D}${sysconfdir}/init.d/umountfs
-+	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
- #
- # Create runlevel links
- #
--	ln -sf		../init.d/rmnologin.sh	${D}${sysconfdir}/rc2.d/S99rmnologin.sh
--	ln -sf		../init.d/rmnologin.sh	${D}${sysconfdir}/rc3.d/S99rmnologin.sh
--	ln -sf		../init.d/rmnologin.sh	${D}${sysconfdir}/rc4.d/S99rmnologin.sh
--	ln -sf		../init.d/rmnologin.sh	${D}${sysconfdir}/rc5.d/S99rmnologin.sh
--	ln -sf		../init.d/sendsigs	${D}${sysconfdir}/rc6.d/S20sendsigs
--#	ln -sf		../init.d/urandom	${D}${sysconfdir}/rc6.d/S30urandom
--	ln -sf		../init.d/umountnfs.sh	${D}${sysconfdir}/rc6.d/S31umountnfs.sh
--	ln -sf		../init.d/umountfs	${D}${sysconfdir}/rc6.d/S40umountfs
--	# udev will run at S55 if installed
--	ln -sf		../init.d/reboot	${D}${sysconfdir}/rc6.d/S90reboot
--	ln -sf		../init.d/sendsigs	${D}${sysconfdir}/rc0.d/S20sendsigs
--#	ln -sf		../init.d/urandom	${D}${sysconfdir}/rc0.d/S30urandom
--	ln -sf		../init.d/umountnfs.sh	${D}${sysconfdir}/rc0.d/S31umountnfs.sh
--	ln -sf		../init.d/umountfs	${D}${sysconfdir}/rc0.d/S40umountfs
--	# udev will run at S55 if installed
--	ln -sf		../init.d/halt		${D}${sysconfdir}/rc0.d/S90halt
--	ln -sf		../init.d/save-rtc.sh	${D}${sysconfdir}/rc0.d/S25save-rtc.sh
--	ln -sf		../init.d/save-rtc.sh	${D}${sysconfdir}/rc6.d/S25save-rtc.sh
--	ln -sf		../init.d/banner.sh	${D}${sysconfdir}/rcS.d/S02banner.sh
--	ln -sf		../init.d/checkroot.sh	${D}${sysconfdir}/rcS.d/S10checkroot.sh
--#	ln -sf		../init.d/checkfs.sh	${D}${sysconfdir}/rcS.d/S30checkfs.sh
--	ln -sf		../init.d/mountall.sh	${D}${sysconfdir}/rcS.d/S35mountall.sh
--	ln -sf		../init.d/hostname.sh	${D}${sysconfdir}/rcS.d/S39hostname.sh
--	ln -sf		../init.d/mountnfs.sh	${D}${sysconfdir}/rcS.d/S45mountnfs.sh
--	ln -sf		../init.d/bootmisc.sh	${D}${sysconfdir}/rcS.d/S55bootmisc.sh
--#	ln -sf		../init.d/urandom	${D}${sysconfdir}/rcS.d/S55urandom
--	ln -sf		../init.d/sysfs.sh	${D}${sysconfdir}/rcS.d/S02sysfs.sh
--	# udev will run at S03 if installed
--	ln -sf		../init.d/populate-volatile.sh	${D}${sysconfdir}/rcS.d/S37populate-volatile.sh
--	ln -sf		../init.d/devpts.sh	${D}${sysconfdir}/rcS.d/S38devpts.sh
-+	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
-+	update-rc.d -r ${D} sendsigs start 20 0 6 .
-+	update-rc.d -r ${D} urandom start 30 S 0 6 .
-+	update-rc.d -r ${D} umountnfs.sh start 31 0 6 .
-+	update-rc.d -r ${D} umountfs start 40 0 6 .
-+	update-rc.d -r ${D} reboot start 90 6 .
-+	update-rc.d -r ${D} halt start 90 0 .
-+	update-rc.d -r ${D} save-rtc.sh start 25 0 6 .
-+	update-rc.d -r ${D} banner.sh start 02 S .
-+	update-rc.d -r ${D} checkroot.sh start 10 S .
-+	update-rc.d -r ${D} mountall.sh start 35 S .
-+	update-rc.d -r ${D} hostname.sh start 39 S .
-+	update-rc.d -r ${D} mountnfs.sh start 45 S .
-+	update-rc.d -r ${D} bootmisc.sh start 55 S .
-+	update-rc.d -r ${D} sysfs.sh start 02 S .
-+	update-rc.d -r ${D} populate-volatile.sh start 37 S .
-+	update-rc.d -r ${D} devpts.sh start 38 S .
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
--		ln -sf	../init.d/alignment.sh	${D}${sysconfdir}/rcS.d/S06alignment.sh
-+	        update-rc.d -r ${D} alignment.sh start 06 S .
- 	fi
- 
--	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
--	# Holds state information pertaining to urandom
--	install -d ${D}/var/lib/urandom
- }
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index de073b8..0a11139 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r9"
-+PR = "r10"
- 
- RDEPENDS_${PN} = "${PN}-inittab"
- 
-@@ -26,6 +26,7 @@ S = "${WORKDIR}/sysvinit-${PV}"
- B = "${S}/src"
- 
- inherit update-alternatives
-+DEPENDS_append = " update-rc.d-native"
- 
- ALTERNATIVE_${PN} = "init mountpoint halt reboot runlevel shutdown poweroff last mesg utmpdump wall"
- 
-@@ -63,18 +64,20 @@ EXTRA_OEMAKE += "'base_bindir=${base_bindir}' \
- 
- do_install () {
- 	oe_runmake 'ROOT=${D}' install
-+
- 	install -d ${D}${sysconfdir} \
- 		   ${D}${sysconfdir}/default \
- 		   ${D}${sysconfdir}/init.d
-+	for level in S 0 1 2 3 4 5 6; do
-+		install -d ${D}${sysconfdir}/rc$level.d
-+	done
-+
- 	install -m 0644    ${WORKDIR}/rcS-default	${D}${sysconfdir}/default/rcS
- 	install -m 0755    ${WORKDIR}/rc		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/rcS		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/bootlogd.init     ${D}${sysconfdir}/init.d/bootlogd
- 	ln -sf bootlogd ${D}${sysconfdir}/init.d/stop-bootlogd
--	install -d ${D}${sysconfdir}/rcS.d
--	ln -sf ../init.d/bootlogd ${D}${sysconfdir}/rcS.d/S07bootlogd
--	for level in 2 3 4 5; do
--		install -d ${D}${sysconfdir}/rc$level.d
--		ln -s ../init.d/stop-bootlogd ${D}${sysconfdir}/rc$level.d/S99stop-bootlogd
--	done
-+
-+        update-rc.d -r ${D} bootlogd start 07 S .
-+        update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
- }
--- 
-1.7.9.5
 
 
 
