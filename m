@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1TvpGO-0003iP-77
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TvpGK-0003iJ-Fp
 	for openembedded-core@lists.openembedded.org;
 	Thu, 17 Jan 2013 14:12:38 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0HCumnn006576
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0HCuivQ012715
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2013 04:56:49 -0800 (PST)
+	Thu, 17 Jan 2013 04:56:44 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Thu, 17 Jan 2013 04:56:48 -0800
+	14.2.318.4; Thu, 17 Jan 2013 04:56:44 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Jan 2013 20:56:40 +0800
-Message-ID: <e32c29fce3b22061311ae40aa9e9456af3dd64ee.1358427029.git.hongxu.jia@windriver.com>
+Date: Thu, 17 Jan 2013 20:56:37 +0800
+Message-ID: <720b0398453c9072a2b21ff15c71c30e61dc6e76.1358427029.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1358427029.git.hongxu.jia@windriver.com>
 References: <cover.1358427029.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] gtk-immodules-cache.bbclass:fix support postrm at image creation time
+Subject: [PATCH 1/4] gtk-icon-cache.bbclass:fix support postrm at image creation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +34,48 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Jan 2013 13:12:43 -0000
-X-List-Received-Date: Thu, 17 Jan 2013 13:12:43 -0000
 Content-Type: text/plain
 
-Let postrm use the same logic as the postinst to run on both build machine
-and target
+When use postrm on the build machine, it installs the hook in intercept-scripts
+directory and exit 0, the hook will be later invoked and it will properly call
+gtk-update-icon-cache.
 
 [YOCTO #3633]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/gtk-immodules-cache.bbclass |   13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/classes/gtk-icon-cache.bbclass |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
-index 9ffb03b..a8855af 100644
---- a/meta/classes/gtk-immodules-cache.bbclass
-+++ b/meta/classes/gtk-immodules-cache.bbclass
-@@ -31,7 +31,18 @@ fi
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index 7c7dd78..d5fdcd5 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -32,6 +32,24 @@ done
+ }
  
- gtk_immodule_cache_postrm() {
- if [ "x$D" != "x" ]; then
--    exit 1
-+    for maj_ver in 2 3; do
-+        if [ -x $D${bindir}/gtk-query-immodules-$maj_ver.0 ]; then
-+            IMFILES=$(ls $D${libdir}/gtk-$maj_ver.0/*/immodules/*.so)
-+            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
-+                $IMFILES > $D/etc/gtk-$maj_ver.0/gtk.immodules 2>/dev/null &&
-+                sed -i -e "s:$D::" $D/etc/gtk-$maj_ver.0/gtk.immodules
+ gtk_icon_cache_postrm() {
++if [ "x$D" != "x" ]; then
++    if [ ! -f $INTERCEPT_DIR/update_icon_cache ]; then
++        cat << "EOF" > $INTERCEPT_DIR/update_icon_cache
++#!/bin/sh
 +
-+            [ $? -ne 0 ] && exit 1
-+        fi
-+    done
++# update native pixbuf loaders
++gdk-pixbuf-query-loaders --update-cache
 +
++for icondir in $D/usr/share/icons/*/ ; do
++    if [ -d $icondir ] ; then
++        gtk-update-icon-cache -fqt  $icondir
++    fi
++done
++EOF
++    fi
 +    exit 0
- fi
- if [ ! -z `which gtk-query-immodules-2.0` ]; then
-     gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
++fi
++
+ for icondir in /usr/share/icons/* ; do
+     if [ -d $icondir ] ; then
+         gtk-update-icon-cache -qt  $icondir
 -- 
 1.7.10.4
 
