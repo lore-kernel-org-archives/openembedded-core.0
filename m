@@ -1,25 +1,38 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from eu1sys200aog104.obsmtp.com ([207.126.144.117])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TvuMT-0006dj-5H
+	(envelope-from <giuseppe.condorelli@st.com>) id 1Tvuyg-0007gF-HE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 19:38:52 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jan 2013 10:23:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,486,1355126400"; d="scan'208";a="245199551"
-Received: from unknown (HELO [10.252.123.149]) ([10.252.123.149])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jan 2013 10:23:23 -0800
-Message-ID: <50F8419A.5000500@intel.com>
-Date: Thu, 17 Jan 2013 20:23:22 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 17 Jan 2013 20:18:19 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob104.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUPhK4GDfyzCAZTGS/fnojKqIf7TwpDXl@postini.com;
+	Thu, 17 Jan 2013 19:02:57 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 627701CA;
+	Thu, 17 Jan 2013 16:59:02 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 25D204F27;
+	Thu, 17 Jan 2013 16:59:02 +0000 (GMT)
+Received: from CTN005027 (pcmdt30.ctn.st.com [164.130.129.192])
+	by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id AVN58794 (AUTH condorg);
+	Thu, 17 Jan 2013 17:59:01 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+To: "'Martin Jansa'" <martin.jansa@gmail.com>
+References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+	<20130116150205.GE3002@jama>
+	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
+	<20130117124209.GE3067@jama>
+	<065b01cdf4b6$e1510160$a3f30420$@st.com>
+	<20130117134619.GI3067@jama>
+In-Reply-To: <20130117134619.GI3067@jama>
+Date: Thu, 17 Jan 2013 17:59:00 +0100
+Message-ID: <068101cdf4d3$f2e58fa0$d8b0aee0$@st.com>
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130116125428.8B76B1036C@opal> <20130117174412.GL3067@jama>
-In-Reply-To: <20130117174412.GL3067@jama>
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQJd3UIgpWykE/uuKxds/KWg86Wy7AI8MptVAf37k6YCXM8t6gG5dPdSAgbRfn+W2zFUIA==
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Laurentiu Palcu : update-rc.d: check also that symlinks are valid
+Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,144 +45,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 18:38:52 -0000
-X-List-Received-Date: Thu, 17 Jan 2013 18:38:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jan 2013 19:18:19 -0000
+X-Groupsio-MsgNum: 33987
+Content-Type: multipart/mixed;
+	boundary="----=_NextPart_000_0682_01CDF4DC.54AE8B80"
+Content-Language: it
+
+------=_NextPart_000_0682_01CDF4DC.54AE8B80
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 
+>-----Original Message-----
+>From: Martin Jansa [mailto:martin.jansa@gmail.com]
+>Sent: gioved=EC 17 gennaio 2013 14:46
+>To: Giuseppe CONDORELLI
+>Cc: 'Giuseppe Condorelli'; openembedded-core@lists.openembedded.org
+>Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc dir
+>
+>On Thu, Jan 17, 2013 at 02:30:55PM +0100, Giuseppe CONDORELLI wrote:
+>> Hi Martin,
+>>
+>> Do you mean applying the patch you highlighted in libc/configure?
+>
+>I was expecting you're trying to fix ld --version detection when ld is
+gold. But
+>after few experiments I don't see what you're trying to fix:
+>
+>martin@jama ~ $ ld.bfd --version 2>&1 | sed -n 's/^.*GNU ld.* =
+\([0-9][0-
+>9]*\.[0-9.]*\).*$/\1/p'
+>2.23.1
+>martin@jama ~ $ ld.gold --version 2>&1 | sed -n 's/^.*GNU ld.* =
+\([0-9][0-
+>9]*\.[0-9.]*\).*$/\1/p'
+>nothing -> ld.gold still unsupported
+>
+>old:
+>martin@jama ~ $ echo 2.23.1 | egrep
+"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
+>9][0-9]*"
+>2.23.1
+>martin@jama ~ $ echo 2.19.1 | egrep
+"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
+>9][0-9]*"
+>2.19.1
+>martin@jama ~ $ echo 2.19   | egrep
+"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
+>9][0-9]*"
+>2.19
+>martin@jama ~ $ echo 2.1    | egrep
+"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
+>9][0-9]*"
+>2.1
+>
+>new:
+>martin@jama ~ $ echo 2.19.1 | egrep
+"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
+>9]*"
+>2.19.1
+>martin@jama ~ $ echo 2.23.1 | egrep
+"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
+>9]*"
+>2.23.1
+>martin@jama ~ $ echo 2.19   | egrep
+"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
+>9]*"
+>2.19
+>martin@jama ~ $ echo 2.1    | egrep
+"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
+>9]*"
+>2.1
+>
+>Can you show some example version your patch is fixing?
+>
 
-On 01/17/2013 07:44 PM, Martin Jansa wrote:
-> On Wed, Jan 16, 2013 at 12:54:28PM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: 4b63e73422ea25aba1bde0beddb02bc04948e13c
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=4b63e73422ea25aba1bde0beddb02bc04948e13c
->>
->> Author: Laurentiu Palcu <laurentiu.palcu@intel.com>
->> Date:   Wed Jan 16 13:58:55 2013 +0200
->>
->> update-rc.d: check also that symlinks are valid
->>
-> 
-> now every update-rc.d call on target fails with
-> /usr/sbin/update-rc.d: line 151: [: argument expected
-Addressed. Sent a patch for that. I guess I never tested when root was
-not set... :(
+Hi Martin,
 
-Thanks,
-Laurentiu
-> 
->> Running:
->>
->> update-rc.d -r /path/to/target/rootfs basename defaults
->>
->> at do_rootfs time in package postinstall stage, when
->> /path/to/target/rootfs/etc/init.d/basename is a symlink and points to some path
->> on target (for example: /etc/init.d/basename.some_package), would fail and the
->> postinstall execution would be postponed for first boot, on target.
->>
->> This patch adds the posibility to verify whether the file the symlink
->> points to actually exists in the target rootfs.
->>
->> [YOCTO #3716]
->>
->> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> ---
->>
->>  .../update-rc.d/check-if-symlinks-are-valid.patch  |   53 ++++++++++++++++++++
->>  meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |    6 ++-
->>  2 files changed, 57 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
->> new file mode 100644
->> index 0000000..4476e91
->> --- /dev/null
->> +++ b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
->> @@ -0,0 +1,53 @@
->> +Check if symlinks are valid
->> +
->> +When using root option and $initd/$bn is a symlink, the script would fail because
->> +the symlink points to a path on target. For example:
->> +
->> +/path/to/target/rootfs/etc/init.d/syslog -> /etc/init.d/syslog.busybox
->> +
->> +Hence, [ -f /path/to/target/rootfs/etc/init.d/syslog ] condition would return
->> +false.
->> +
->> +This patch adds the posibility to check whether the file the symlink points to
->> +actually exists in rootfs path and then continue.
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com> 
->> +
->> +Index: git/update-rc.d
->> +===================================================================
->> +--- git.orig/update-rc.d	2013-01-16 12:12:58.349814356 +0200
->> ++++ git/update-rc.d	2013-01-16 13:02:42.490864939 +0200
->> +@@ -147,13 +147,29 @@
->> + bn=$1
->> + shift
->> + 
->> ++sn=$initd/$bn
->> ++if [ -L "$sn" -a -n $root ]; then
->> ++	readlink=$(which readlink)
->> ++
->> ++	if [ -n $readlink ]; then
->> ++		sn=$($readlink "$sn")
->> ++		case "$sn" in
->> ++			/*) sn=${root}${sn} ;;
->> ++			*)  sn=$initd/$sn ;;
->> ++		esac
->> ++	else
->> ++		echo "update-rc.d: readlink tool not present, cannot check whether \
->> ++				$sn symlink points to a valid file." >&2
->> ++	fi
->> ++fi
->> ++
->> + if [ $1 != "remove" ]; then
->> +-	if [ ! -f "$initd/$bn" ]; then
->> ++	if [ ! -f "$sn" ]; then
->> + 		echo "update-rc.d: $initd/$bn: file does not exist" >&2
->> + 		exit 1
->> + 	fi
->> + else
->> +-	if [ -f "$initd/$bn" ]; then
->> ++	if [ -f "$sn" ]; then
->> + 		if [ $force -eq 1 ]; then
->> + 			echo "update-rc.d: $initd/$bn exists during rc.d purge (continuing)" >&2
->> + 		else
->> diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
->> index 0aac5fa..bfcbd97 100644
->> --- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
->> +++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
->> @@ -5,13 +5,15 @@ SECTION = "base"
->>  LICENSE = "GPLv2+"
->>  LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=148a48321b10eb37c1fa3ee02b940a75"
->>  
->> -PR = "r4"
->> +PR = "r5"
->>  
->>  # Revision corresponding to tag update-rc.d_0.7
->>  SRCREV = "eca680ddf28d024954895f59a241a622dd575c11"
->>  
->>  SRC_URI = "git://github.com/philb/update-rc.d.git;protocol=git \
->> -           file://add-verbose.patch;"
->> +           file://add-verbose.patch \
->> +           file://check-if-symlinks-are-valid.patch \
->> +          "
->>  
->>  S = "${WORKDIR}/git"
->>  
->>
->>
->> _______________________________________________
->> Openembedded-commits mailing list
->> Openembedded-commits@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
-> 
+Please untar the attachment and run the test I sent you.
+It reproduces the same scenario as in the libc/configure eglibc file.
 
+Cheers,
+Giuseppe
 
+>Cheers,
+>
+>> >-----Original Message-----
+>> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
+>> >Sent: gioved=EC 17 gennaio 2013 13:42
+>> >To: Giuseppe Condorelli
+>> >Cc: Giuseppe CONDORELLI; openembedded-
+>core@lists.openembedded.org
+>> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc
+>> >dir
+>> >
+>> >On Wed, Jan 16, 2013 at 04:07:39PM +0100, Giuseppe Condorelli wrote:
+>> >> 2013/1/16 Martin Jansa <martin.jansa@gmail.com>
+>> >>
+>> >> > On Wed, Jan 16, 2013 at 03:14:07PM +0100, Giuseppe CONDORELLI
+>wrote:
+>> >> > > Fix routine to check as and ld version check in the configure,
+>> >> > > to
+>> allow
+>> >> > system
+>> >> > > to correctly check for version 2.1x.
+>> >> >
+>> >> > Does it build with gold now?
+>> >> >
+>> >> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-
+>> >March/020310.html
+>> >
+>> >does it?
+>> >
+>> >--
+>> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>>
+>
+>--
+>Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+------=_NextPart_000_0682_01CDF4DC.54AE8B80
+Content-Type: application/x-compressed;
+	name="test_for_Martin.tgz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="test_for_Martin.tgz"
+
+H4sIACIs+FAAA+3S32qDMBQGcK99ijM3KC0sTWKtSBk+wZ5AhqTqqoyZotmfiz38TJGOtRTdoB2M
+73fh0ZBDPo+aojXpo27Se9WYqnbOgXfCILBVct+3VYSB2K3be+EvHCF5uORyseTc4cK3S8TPkubA
+S2tUQ+Rkus51szm57zk3l4hzaddX83VVz9vSdVWWbhu9SV+Lpq10fedJJiIWCCY5j7ovF3ium6m2
+oJuDnVTVLhFNJlMqslKTV2vaKpOVjLHjzXEc01rl3mplm7ozEn4bPewusw/JEvn1lPhdYV0V+7Wp
+beqMOEg/9WfMRuXqMxWtyk6/J/3S9/m8Vab88YTGDGcown5wAwmORzfQ0Mftp1e8V4a4+9f/NgAA
+AAAAAAAAAAAAAAAAAADAf/cJd73P8QAoAAA=
+
+------=_NextPart_000_0682_01CDF4DC.54AE8B80--
