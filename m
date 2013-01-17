@@ -1,39 +1,39 @@
-Received: from mail-pb0-f53.google.com ([209.85.160.53])
+Received: from mail-pb0-f42.google.com ([209.85.160.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tvovb-0002qr-Q9
+	(envelope-from <martin.jansa@gmail.com>) id 1Tvp2J-0002wr-C4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 13:50:44 +0100
-Received: by mail-pb0-f53.google.com with SMTP id un1so736167pbc.12
+	Thu, 17 Jan 2013 13:57:40 +0100
+Received: by mail-pb0-f42.google.com with SMTP id rp2so1391509pbb.29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2013 04:35:20 -0800 (PST)
+	Thu, 17 Jan 2013 04:42:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=oXix+/Ql5hJb9vKGZr3KKZjXyxUeBJLAPzL2ziY9IxU=;
-	b=ZF9PJyFNan5MsdSd+IqnaRVMX3Zluy391BCkRjgXKHIPuSyBbiry7ouCWviGhzofJD
-	v+1Zow3ELckcA9mcmpki7AdzWfmw971bQXKRVM25KNDc8d4t9oT0XR+znRwravx/3OEL
-	EtUIxi4+jJMnddLYQ3gRehj9n85Z+njsTCqJx8ZxZHK5mBK72kX50NzSrt0qlPT3h9j8
-	2N8nXW8+mZru7RtFW6gtzkFLDbzfBYCvV8zNBLvkOGwp/H6aqOt6lPTy659kIsMuvXDQ
-	kXOPS2jQ5Hl9vtm5LB3du7fSS+VW3exWUXaT1wbjxeadjPVCdoxGRA+mKDxZCYOYOg0N
-	R0/w==
-X-Received: by 10.66.73.167 with SMTP id m7mr13144940pav.68.1358426119963;
-	Thu, 17 Jan 2013 04:35:19 -0800 (PST)
+	:user-agent; bh=l3q+L+/2yg+VreQzCP2l0bW4DOyzYKWrveGSzOGUFdI=;
+	b=UTbMGAxm4YGrokdi76v/na5DJGPmp3kDmfKtJNiaeX1/ubGxJ+sSNNhvfGhaJmpJXi
+	SAmHWQ0FaPuDzhosdRDc/9gY2Me2EhilSe5slVozdzZ0p331FFNPmarxxuGq5Q6w98JR
+	Fc0y8iEJNHkiftLhR4eZax79lzoiNyWVciHr8qkd5HealTENnjva1L9r7N8Aqje7MGky
+	wUqBjxlhRjkoegXDVm5ITplHmjDaDeOwSjupsdBIBzaKGDIawCYfbTT8NQEdzq4+241g
+	fs4HNhNUBfY028bgqUAgkKH/314Xh3pfrUmW4nTuzoqJUFXex7EOYpxA2LROliCABv/T
+	6FHg==
+X-Received: by 10.66.89.199 with SMTP id bq7mr13353382pab.26.1358426535674;
+	Thu, 17 Jan 2013 04:42:15 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id hs2sm1018088pbc.22.2013.01.17.04.35.17
+	by mx.google.com with ESMTPS id bi8sm1287802pab.15.2013.01.17.04.42.12
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 17 Jan 2013 04:35:18 -0800 (PST)
-Date: Thu, 17 Jan 2013 13:35:13 +0100
+	Thu, 17 Jan 2013 04:42:14 -0800 (PST)
+Date: Thu, 17 Jan 2013 13:42:09 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20130117123513.GD3067@jama>
-References: <cover.1358406049.git.hongxu.jia@windriver.com>
-	<6b20de5260fdf8542bd214ca4c380bfe7614f56c.1358406049.git.hongxu.jia@windriver.com>
-	<20130117092811.GB3067@jama> <50F7D6E1.4000800@windriver.com>
+To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Message-ID: <20130117124209.GE3067@jama>
+References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+	<20130116150205.GE3002@jama>
+	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <50F7D6E1.4000800@windriver.com>
+In-Reply-To: <CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] libnss-mdns:fix support prerm at image creation time
+Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,98 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 12:50:44 -0000
-X-Groupsio-MsgNum: 33952
+X-List-Received-Date: Thu, 17 Jan 2013 12:57:40 -0000
+X-Groupsio-MsgNum: 33953
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZARJHfwaSJQLOEUz"
+	protocol="application/pgp-signature"; boundary="orO6xySwJI16pVnm"
 Content-Disposition: inline
 
---ZARJHfwaSJQLOEUz
+--orO6xySwJI16pVnm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 17, 2013 at 06:48:01PM +0800, Hongxu Jia wrote:
-> On 01/17/2013 05:28 PM, Martin Jansa wrote:
-> > On Thu, Jan 17, 2013 at 03:07:21PM +0800, Hongxu Jia wrote:
-> >> The pkg_prerm_${PN} failed at image creation time because $D is not as=
-signed
-> >> as the prefix of "/etc/nsswitch.conf"
-> > Again looks the same why not use $D/etc/nsswitch.conf in both cases?
-> I think that  test $D to explicitly make a distinction between the build=
-=20
-> time
-> and run time, it's better for others to notice the difference.
-
-But there isn't any difference if I'm looking correctly.
-
-Cheers,
-
-> Thanks,
-> Hongxu
-> >> [YOCTO #3633]
-> >>
-> >> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> >> ---
-> >>   meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb |   11 +++=
-++++++--
-> >>   1 file changed, 9 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb=
- b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-> >> index f7356e4..e9a4128 100644
-> >> --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-> >> +++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-> >> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2d5025d4aa3=
-495befef8f17206a5b0a1"
-> >>  =20
-> >>   DEPENDS =3D "avahi"
-> >>   RDEPENDS_${PN} =3D "avahi-daemon"
-> >> -PR =3D "r6"
-> >> +PR =3D "r7"
-> >>  =20
-> >>   SRC_URI =3D "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-$=
-{PV}.tar.gz"
-> >>  =20
-> >> @@ -30,7 +30,14 @@ pkg_postinst_${PN} () {
-> >>   }
-> >>  =20
-> >>   pkg_prerm_${PN} () {
-> >> +if [ "$D" !=3D "" ]; then
-> >>   	sed -e '/^hosts:/s/\s*\<mdns4\>//' \
-> >>   		-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=3Dreturn\]//' \
-> >> -		-i /etc/nsswitch.conf
-> >> +		-i $D/etc/nsswitch.conf
-> >> +	exit 0
-> >> +fi
-> >> +
-> >> +sed -e '/^hosts:/s/\s*\<mdns4\>//' \
-> >> +	-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=3Dreturn\]//' \
-> >> +	-i /etc/nsswitch.conf
-> >>   }
-> >> --=20
-> >> 1.7.10.4
-> >>
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Wed, Jan 16, 2013 at 04:07:39PM +0100, Giuseppe Condorelli wrote:
+> 2013/1/16 Martin Jansa <martin.jansa@gmail.com>
 >=20
+> > On Wed, Jan 16, 2013 at 03:14:07PM +0100, Giuseppe CONDORELLI wrote:
+> > > Fix routine to check as and ld version check in the configure, to all=
+ow
+> > system
+> > > to correctly check for version 2.1x.
+> >
+> > Does it build with gold now?
+> >
+> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/02031=
+0.html
+
+does it?
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---ZARJHfwaSJQLOEUz
+--orO6xySwJI16pVnm
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlD38AEACgkQN1Ujt2V2gByAMwCfU9OnoaZzCir/GlwZMyk6yuE+
-HgEAn1fhSibCvWdVGguq76MztYc3hVov
-=3CoD
+iEYEARECAAYFAlD38aEACgkQN1Ujt2V2gBy/0wCeLeOfkwsIllV4LK9k1r0IEftN
+jbUAnA+zizUW5jBviCLttE0+MfW7JpLa
+=9kB/
 -----END PGP SIGNATURE-----
 
---ZARJHfwaSJQLOEUz--
+--orO6xySwJI16pVnm--
