@@ -1,31 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-la0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1Tvf9j-0004Ie-Dy
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Tvfur-0005RB-BY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 03:24:39 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0H29CM2027457
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Jan 2013 18:09:12 -0800 (PST)
-Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 16 Jan 2013 18:09:11 -0800
-Message-ID: <50F75D56.3050005@windriver.com>
-Date: Thu, 17 Jan 2013 10:09:26 +0800
-From: Jesse Zhang <sen.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Thu, 17 Jan 2013 04:13:57 +0100
+Received: by mail-la0-f47.google.com with SMTP id fh20so2096478lab.20
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Jan 2013 18:57:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=19Bod+k2POVCK8gkzXultdUHTRtM8GkhuLVL083ug5A=;
+	b=XDt32UDaNeBXD0CXEvSRG6AbbWEsXQ3g80cyVLTJApIrTSKf7jny4lkxFuAfudunlY
+	q+N9+evRNiTHfy8qPq4kXw/A64IsN0Hslu1mTYKH8R4A1aiqdyPWTFrOPAFoyNXKbOgE
+	6iz1C0SPmmLICIjaLKFT0qroje3dJI69C7TKiuJKrJIqZ9x9GcsVSnjKhrzWF8Kz5YI9
+	diKn5JMKe5ipcCNPbf2YwKP/nW/BNsv0/o24DAzU4QJRTLFi/86gG7SABerUaejRqKXM
+	hMr5o4wn1Axxcngoc3pbO+Xn9VX8iWrgix9PsCMHHe8TZw0+n1kVIZyThiPdGimNp1oz
+	c1rQ==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<nitin.a.kamble@intel.com>
-References: <1358234208-6177-1-git-send-email-sen.zhang@windriver.com>
-	<1358234208-6177-2-git-send-email-sen.zhang@windriver.com>
-	<1358337581.8129.2.camel@ted>
-In-Reply-To: <1358337581.8129.2.camel@ted>
-X-Originating-IP: [128.224.162.230]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] coreutils: remove dependency on coreutils-native
+X-Received: by 10.152.127.202 with SMTP id ni10mr3281091lab.6.1358391478845;
+	Wed, 16 Jan 2013 18:57:58 -0800 (PST)
+Received: by 10.112.127.35 with HTTP; Wed, 16 Jan 2013 18:57:58 -0800 (PST)
+In-Reply-To: <CAP9ODKq7C0-Ntnehdo3qK7QsptD8B_8X0UCaMmjCR+jT8vxBAg@mail.gmail.com>
+References: <CAP9ODKoRws=EzHxyNumYnj-F2S5h_66wkCfL42-yrJK7KGYBOQ@mail.gmail.com>
+	<20121216185215.GE3448@jama>
+	<CAP9ODKq7C0-Ntnehdo3qK7QsptD8B_8X0UCaMmjCR+jT8vxBAg@mail.gmail.com>
+Date: Wed, 16 Jan 2013 21:57:58 -0500
+Message-ID: <CADkTA4PHFrXbLL24Fwvz+WSux4X2aX-JQ035HZLM40Fr_bndag@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Build fail in kconfig-frontends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +44,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 02:24:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jan 2013 03:13:58 -0000
+Content-Type: multipart/alternative; boundary=f46d042c6aeb9001a504d3732977
 
-On 01/16/2013 07:59 PM, Richard Purdie wrote:
-> Two questions:
-> 
-> 1) Why do we have this dependency here at all? Are we sure we don't need
-> it for some reasons?
+--f46d042c6aeb9001a504d3732977
+Content-Type: text/plain; charset=ISO-8859-1
 
-It was introduced in this commit, Cc'ing Nitin.
+On Sun, Dec 16, 2012 at 1:57 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-commit 543577c25b5a4e89a3ab15ee28e754b71c2a43d5
-Author: Nitin A Kamble <nitin.a.kamble@intel.com>
-Date:   Thu Mar 17 10:25:04 2011 -0700
+> On Sun, Dec 16, 2012 at 4:52 PM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+> > On Sun, Dec 16, 2012 at 04:16:40PM -0200, Otavio Salvador wrote:
+> >> Hello,
+> >>
+> >> Today I did a sync and kconfig-frontends fails to build. I submitted a
+> >> bug report (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3610).
+> >>
+> >> I am sending it here as well so people can confirm if it is
+> >> reproducable in some other environment?
+> >
+> > It failed exactly the same here, but only once (on Friday) after
+> cleansstate
+> > it built OK.
+>
+> Confusing ... it works here as well after cleansstate.
+>
 
-    coreutils-6.9: fix man page building for the gplv2 recipe
+kicking this old thread. I'm now hitting exactly this issue on my up to
+date master.
+Except for some reason I'm not able to work around it at all, and all my
+builds
+are failing. I'm avoiding purging sstate completely, but that seems to be
+where
+I'm heading.
 
-But the reason behind the dependency is not entirely clear. And we've
-never seen such issue with the GPLv3 recipe. (And the GPLv2 recipe with
-my fix has been building well here for some time).
+Cheers,
 
-> 2) Isn't the build of coreutils-native still broken? We should probably
-> hack it so it installs into some path prefix like
-> {python/perl/gzip/tar}-native or doesn't install the utils at all.
-
-Yeah, the build would still be broken.
-
-The main contents of coreutils are the several dozen commands. I'm not
-sure how it can be useful if we install them into a not-in-$PATH dir.
-Any suggestions? I'm willing to work out a fix.
-
-jesse
+Bruce
 
 
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--f46d042c6aeb9001a504d3732977
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Sun, Dec 16, 2012 at 1:57 PM, Otavio Salvador <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@oss=
+ystems.com.br</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Sun, Dec 16, 2012 at 4:=
+52 PM, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.ja=
+nsa@gmail.com</a>&gt; wrote:<br>
+
+&gt; On Sun, Dec 16, 2012 at 04:16:40PM -0200, Otavio Salvador wrote:<br>
+&gt;&gt; Hello,<br>
+&gt;&gt;<br>
+&gt;&gt; Today I did a sync and kconfig-frontends fails to build. I submitt=
+ed a<br>
+&gt;&gt; bug report (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.=
+cgi?id=3D3610" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bug=
+.cgi?id=3D3610</a>).<br>
+&gt;&gt;<br>
+&gt;&gt; I am sending it here as well so people can confirm if it is<br>
+&gt;&gt; reproducable in some other environment?<br>
+&gt;<br>
+&gt; It failed exactly the same here, but only once (on Friday) after clean=
+sstate<br>
+&gt; it built OK.<br>
+<br>
+</div>Confusing ... it works here as well after cleansstate.<br></blockquot=
+e><div><br></div><div style>kicking this old thread. I&#39;m now hitting ex=
+actly this issue on my up to date master.</div><div style>Except for some r=
+eason I&#39;m not able to work around it at all, and all my builds</div>
+<div style>are failing. I&#39;m avoiding purging sstate completely, but tha=
+t seems to be where</div><div style>I&#39;m heading.</div><div style><br></=
+div><div style>Cheers,</div><div style><br></div><div style>Bruce</div>
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+--<br>
+Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S=
+. Systems<br>
+E-mail: <a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br<=
+/a> =A0<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www=
+.ossystems.com.br</a><br>
+Mobile: <a href=3D"tel:%2B55%2053%209981-7854" value=3D"+555399817854">+55 =
+53 9981-7854</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0<a href=3D"http://projetos.ossy=
+stems.com.br" target=3D"_blank">http://projetos.ossystems.com.br</a><br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
+hee at its end&quot;
+</div></div>
+
+--f46d042c6aeb9001a504d3732977--
