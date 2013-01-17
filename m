@@ -1,26 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1TvjoI-0006Xt-BN
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TvjoG-0006Xm-B7
 	for openembedded-core@lists.openembedded.org;
 	Thu, 17 Jan 2013 08:22:51 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0H77Rri029831
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0H77O88018692
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 23:07:27 -0800 (PST)
+	Wed, 16 Jan 2013 23:07:24 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Wed, 16 Jan 2013 23:07:25 -0800
+	14.2.318.4; Wed, 16 Jan 2013 23:07:24 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Jan 2013 15:07:19 +0800
-Message-ID: <4dc1347ed4057656a542263878aeeadf768dd2e9.1358406049.git.hongxu.jia@windriver.com>
+Date: Thu, 17 Jan 2013 15:07:18 +0800
+Message-ID: <cover.1358406049.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1358406049.git.hongxu.jia@windriver.com>
-References: <cover.1358406049.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] gtk-icon-cache.bbclass:fix support postrm at image creation time
+Subject: [PATCH 0/4]fix support postrm/prerm at image creation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +34,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Thu, 17 Jan 2013 07:22:51 -0000
 Content-Type: text/plain
 
-The gtk_icon_cache_postrm failed at image creation time because ${D} is not
-assigned as the prefix of icondir.
+There are defects to support prerm/postrm at image creation time:
+  1) gtk-icon-cache.bbclass:support postrm at image creation time
+  2) update-rc.d:support postrm at image creation time
+  3) libnss-mdns:support prerm at image creation time
+  4) gtk-immodules-cache.bbclass:fix support postrm at image creation time
 
-[YOCTO #3633]
+[YOCTO #3633] is about 1)gtk-icon-cache.bbclass
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/gtk-icon-cache.bbclass |    9 +++++++++
- 1 file changed, 9 insertions(+)
+The following changes since commit 9f263a60e3521b800121a6f527a7b30dc9b62432:
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index 7c7dd78..4499782 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -32,6 +32,15 @@ done
- }
- 
- gtk_icon_cache_postrm() {
-+if [ "$D" != "" ]; then
-+    for icondir in $D/usr/share/icons/* ; do
-+        if [ -d $icondir ] ; then
-+            gtk-update-icon-cache -qt  $icondir
-+        fi
-+    done
-+    exit 0
-+fi
-+
- for icondir in /usr/share/icons/* ; do
-     if [ -d $icondir ] ; then
-         gtk-update-icon-cache -qt  $icondir
+  oprofile: add AArch64 support (2013-01-16 16:10:39 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-postrm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-postrm
+
+Hongxu Jia (4):
+  gtk-icon-cache.bbclass:fix support postrm at image creation time
+  update-rc.d:fix support postrm at image creation time
+  libnss-mdns:fix support prerm at image creation time
+  gtk-immodules-cache.bbclass:fix support postrm at image creation time
+
+ meta/classes/gtk-icon-cache.bbclass                       |    9 +++++++++
+ meta/classes/gtk-immodules-cache.bbclass                  |    2 +-
+ meta/classes/update-rc.d.bbclass                          |    6 +++++-
+ meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb |   11 +++++++++--
+ 4 files changed, 24 insertions(+), 4 deletions(-)
+
 -- 
 1.7.10.4
 
