@@ -1,20 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-da0-f46.google.com ([209.85.210.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1TvpZQ-0004FV-5G
+	(envelope-from <martin.jansa@gmail.com>) id 1Tvq2P-0005Jz-G1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 14:31:53 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jan 2013 05:15:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,486,1355126400"; d="scan'208";a="273242442"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.30])
-	by orsmga002.jf.intel.com with ESMTP; 17 Jan 2013 05:16:27 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jan 2013 15:16:37 +0200
-Message-Id: <1358428597-20086-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] dbus: upgrade to 1.6.8
+	Thu, 17 Jan 2013 15:02:06 +0100
+Received: by mail-da0-f46.google.com with SMTP id p5so1116052dak.19
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2013 05:46:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=FDGmib+0XwDk/AUi1jG+fXDGGAmsZm3RM1wM1IXJKRY=;
+	b=YINhMZfWOv9KILQALG3WD8YOhBuwHsNWVyh3Xz8rEG4bSTNK6NsQ/SMUq/+/tC64zu
+	xPds4BD3punZ7mlMMo0/IJzptOm6WmSyXktjbSgQpxPq0gGyavz1K26OuvW5owZXHasI
+	v7ui0FS0qDIBvjpQbAozuP5UwMe9sg0U4MQJ0pA+LOaTPgm2cu92YEaPLe6oJo4BTP15
+	7RFPaBAHT2Ur1W4TiSHPEejSoLZJOuawIFEHBI5rv6N6nwD0a836WUEgIeK7In6HamJh
+	BI/Ch7ld6IC87oDS9eiK6LU8BonUO1Ry5xNs7ESPJEoAaNTFAZBJEwve47qb/IMOTgJO
+	0hZg==
+X-Received: by 10.68.229.169 with SMTP id sr9mr13413641pbc.120.1358430385662; 
+	Thu, 17 Jan 2013 05:46:25 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id d8sm1371853pax.23.2013.01.17.05.46.23
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 17 Jan 2013 05:46:24 -0800 (PST)
+Date: Thu, 17 Jan 2013 14:46:19 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+Message-ID: <20130117134619.GI3067@jama>
+References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+	<20130116150205.GE3002@jama>
+	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
+	<20130117124209.GE3067@jama>
+	<065b01cdf4b6$e1510160$a3f30420$@st.com>
+MIME-Version: 1.0
+In-Reply-To: <065b01cdf4b6$e1510160$a3f30420$@st.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,94 +48,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 13:31:54 -0000
+X-List-Received-Date: Thu, 17 Jan 2013 14:02:20 -0000
+X-Groupsio-MsgNum: 33961
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="YhFoJY/gx7awiIuK"
+Content-Disposition: inline
 
-dbus, dbus-ptest upgraded to v1.6.8
+--YhFoJY/gx7awiIuK
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/dbus-1.init    |    0
- meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/ptest.patch    |    0
- meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/run-ptest      |    0
- .../dbus/{dbus-1.6.4 => dbus-1.6.8}/test-run-path.patch          |    0
- meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/tmpdir.patch   |    0
- .../dbus/{dbus-ptest_1.6.4.bb => dbus-ptest_1.6.8.bb}            |    4 ++--
- meta/recipes-core/dbus/dbus_1.6.4.bb                             |    6 ------
- meta/recipes-core/dbus/dbus_1.6.8.bb                             |    6 ++++++
- 8 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/dbus-1.init (100%)
- rename meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/ptest.patch (100%)
- rename meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/run-ptest (100%)
- rename meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/test-run-path.patch (100%)
- rename meta/recipes-core/dbus/{dbus-1.6.4 => dbus-1.6.8}/tmpdir.patch (100%)
- rename meta/recipes-core/dbus/{dbus-ptest_1.6.4.bb => dbus-ptest_1.6.8.bb} (91%)
- delete mode 100644 meta/recipes-core/dbus/dbus_1.6.4.bb
- create mode 100644 meta/recipes-core/dbus/dbus_1.6.8.bb
+On Thu, Jan 17, 2013 at 02:30:55PM +0100, Giuseppe CONDORELLI wrote:
+> Hi Martin,
+>=20
+> Do you mean applying the patch you highlighted in libc/configure?
 
-diff --git a/meta/recipes-core/dbus/dbus-1.6.4/dbus-1.init b/meta/recipes-core/dbus/dbus-1.6.8/dbus-1.init
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.6.4/dbus-1.init
-rename to meta/recipes-core/dbus/dbus-1.6.8/dbus-1.init
-diff --git a/meta/recipes-core/dbus/dbus-1.6.4/ptest.patch b/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.6.4/ptest.patch
-rename to meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
-diff --git a/meta/recipes-core/dbus/dbus-1.6.4/run-ptest b/meta/recipes-core/dbus/dbus-1.6.8/run-ptest
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.6.4/run-ptest
-rename to meta/recipes-core/dbus/dbus-1.6.8/run-ptest
-diff --git a/meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch b/meta/recipes-core/dbus/dbus-1.6.8/test-run-path.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.6.4/test-run-path.patch
-rename to meta/recipes-core/dbus/dbus-1.6.8/test-run-path.patch
-diff --git a/meta/recipes-core/dbus/dbus-1.6.4/tmpdir.patch b/meta/recipes-core/dbus/dbus-1.6.8/tmpdir.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.6.4/tmpdir.patch
-rename to meta/recipes-core/dbus/dbus-1.6.8/tmpdir.patch
-diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.4.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
-similarity index 91%
-rename from meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
-rename to meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
-index dbfa638..fd7ce7d 100644
---- a/meta/recipes-core/dbus/dbus-ptest_1.6.4.bb
-+++ b/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
-@@ -16,8 +16,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://run-ptest \
-            "
- 
--SRC_URI[md5sum] = "5ec43dc4554cba638917317b2b4f7640"
--SRC_URI[sha256sum] = "5fba6b7a415d761a843fb8e0aee72db61cf13057a9ef8cdc795e5d369dc74cf1"
-+SRC_URI[md5sum] = "3bf059c7dd5eda5f539a1b7cfe7a14a2"
-+SRC_URI[sha256sum] = "fc1370ef38abeeb13f55c905ec002e60705fb0bfde3b8d21c8d6eb8056c11bac"
- 
- S="${WORKDIR}/dbus-${PV}"
- FILESPATH = "${FILE_DIRNAME}/dbus-${PV}"
-diff --git a/meta/recipes-core/dbus/dbus_1.6.4.bb b/meta/recipes-core/dbus/dbus_1.6.4.bb
-deleted file mode 100644
-index 179097d..0000000
---- a/meta/recipes-core/dbus/dbus_1.6.4.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--include dbus.inc
--
--PR = "${INC_PR}.0"
--
--SRC_URI[md5sum] = "5ec43dc4554cba638917317b2b4f7640"
--SRC_URI[sha256sum] = "5fba6b7a415d761a843fb8e0aee72db61cf13057a9ef8cdc795e5d369dc74cf1"
-diff --git a/meta/recipes-core/dbus/dbus_1.6.8.bb b/meta/recipes-core/dbus/dbus_1.6.8.bb
-new file mode 100644
-index 0000000..facc02e
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus_1.6.8.bb
-@@ -0,0 +1,6 @@
-+include dbus.inc
-+
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "3bf059c7dd5eda5f539a1b7cfe7a14a2"
-+SRC_URI[sha256sum] = "fc1370ef38abeeb13f55c905ec002e60705fb0bfde3b8d21c8d6eb8056c11bac"
--- 
-1.7.10.4
+I was expecting you're trying to fix ld --version detection when ld is
+gold. But after few experiments I don't see what you're trying to fix:
 
+martin@jama ~ $ ld.bfd --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]*=
+\.[0-9.]*\).*$/\1/p'
+2.23.1
+martin@jama ~ $ ld.gold --version 2>&1 | sed -n 's/^.*GNU ld.* \([0-9][0-9]=
+*\.[0-9.]*\).*$/\1/p'
+nothing -> ld.gold still unsupported
 
+old:
+martin@jama ~ $ echo 2.23.1 | egrep "2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[=
+1-9][0-9]*"
+2.23.1
+martin@jama ~ $ echo 2.19.1 | egrep "2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[=
+1-9][0-9]*"
+2.19.1
+martin@jama ~ $ echo 2.19   | egrep "2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[=
+1-9][0-9]*"
+2.19
+martin@jama ~ $ echo 2.1    | egrep "2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[=
+1-9][0-9]*"
+2.1
 
+new:
+martin@jama ~ $ echo 2.19.1 | egrep "2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][=
+0-9]*"
+2.19.1
+martin@jama ~ $ echo 2.23.1 | egrep "2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][=
+0-9]*"
+2.23.1
+martin@jama ~ $ echo 2.19   | egrep "2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][=
+0-9]*"
+2.19
+martin@jama ~ $ echo 2.1    | egrep "2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][=
+0-9]*"
+2.1
+
+Can you show some example version your patch is fixing?
+
+Cheers,
+
+> >-----Original Message-----
+> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
+> >Sent: gioved=EC 17 gennaio 2013 13:42
+> >To: Giuseppe Condorelli
+> >Cc: Giuseppe CONDORELLI; openembedded-core@lists.openembedded.org
+> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc dir
+> >
+> >On Wed, Jan 16, 2013 at 04:07:39PM +0100, Giuseppe Condorelli wrote:
+> >> 2013/1/16 Martin Jansa <martin.jansa@gmail.com>
+> >>
+> >> > On Wed, Jan 16, 2013 at 03:14:07PM +0100, Giuseppe CONDORELLI wrote:
+> >> > > Fix routine to check as and ld version check in the configure, to
+> allow
+> >> > system
+> >> > > to correctly check for version 2.1x.
+> >> >
+> >> > Does it build with gold now?
+> >> >
+> >> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-
+> >March/020310.html
+> >
+> >does it?
+> >
+> >--
+> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--YhFoJY/gx7awiIuK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlD4AKsACgkQN1Ujt2V2gBzAaQCfcpuA/hk047pf2mNaFo9MSDwc
+I9sAoKV/nLfjqa7/XBVajacXen8fjBpF
+=tgxT
+-----END PGP SIGNATURE-----
+
+--YhFoJY/gx7awiIuK--
