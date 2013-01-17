@@ -1,29 +1,29 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Hongxu.Jia@windriver.com>) id 1Tvn6K-0003b8-Pg
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TvnFp-0004C8-SK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 11:54:02 +0100
+	Thu, 17 Jan 2013 12:03:37 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0HAcGGu018099
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0HAm35a020687
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 17 Jan 2013 02:38:16 -0800 (PST)
+	Thu, 17 Jan 2013 02:48:03 -0800 (PST)
 Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Thu, 17 Jan 2013 02:38:16 -0800
-Message-ID: <50F7D496.3060601@windriver.com>
-Date: Thu, 17 Jan 2013 18:38:14 +0800
+	Thu, 17 Jan 2013 02:48:03 -0800
+Message-ID: <50F7D6E1.4000800@windriver.com>
+Date: Thu, 17 Jan 2013 18:48:01 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <cover.1358406049.git.hongxu.jia@windriver.com>
-	<0392b32826d8e307a1e2d2af187979f453279001.1358406049.git.hongxu.jia@windriver.com>
-	<CAJTo0La=D3TTZBkEytV3WoYHYFZOX8Ubs3C_rGfhdMHjj6NDzg@mail.gmail.com>
-In-Reply-To: <CAJTo0La=D3TTZBkEytV3WoYHYFZOX8Ubs3C_rGfhdMHjj6NDzg@mail.gmail.com>
+	<6b20de5260fdf8542bd214ca4c380bfe7614f56c.1358406049.git.hongxu.jia@windriver.com>
+	<20130117092811.GB3067@jama>
+In-Reply-To: <20130117092811.GB3067@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] gtk-immodules-cache.bbclass:fix support postrm at image creation time
+Subject: Re: [PATCH 3/4] libnss-mdns:fix support prerm at image creation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,42 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 10:54:02 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 17 Jan 2013 11:03:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 01/17/2013 05:52 PM, Burton, Ross wrote:
-> On 17 January 2013 07:07, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> Let gtk_immodule_cache_postrm exit with ok at image creation time
->>
+On 01/17/2013 05:28 PM, Martin Jansa wrote:
+> On Thu, Jan 17, 2013 at 03:07:21PM +0800, Hongxu Jia wrote:
+>> The pkg_prerm_${PN} failed at image creation time because $D is not assigned
+>> as the prefix of "/etc/nsswitch.conf"
+> Again looks the same why not use $D/etc/nsswitch.conf in both cases?
+I think that  test $D to explicitly make a distinction between the build 
+time
+and run time, it's better for others to notice the difference.
+
+Thanks,
+Hongxu
 >> [YOCTO #3633]
 >>
 >> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 >> ---
->>   meta/classes/gtk-immodules-cache.bbclass |    2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>   meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb |   11 +++++++++--
+>>   1 file changed, 9 insertions(+), 2 deletions(-)
 >>
->> diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
->> index 9ffb03b..6e1f5ef 100644
->> --- a/meta/classes/gtk-immodules-cache.bbclass
->> +++ b/meta/classes/gtk-immodules-cache.bbclass
->> @@ -31,7 +31,7 @@ fi
+>> diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+>> index f7356e4..e9a4128 100644
+>> --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+>> +++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+>> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>>   
+>>   DEPENDS = "avahi"
+>>   RDEPENDS_${PN} = "avahi-daemon"
+>> -PR = "r6"
+>> +PR = "r7"
+>>   
+>>   SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz"
+>>   
+>> @@ -30,7 +30,14 @@ pkg_postinst_${PN} () {
+>>   }
+>>   
+>>   pkg_prerm_${PN} () {
+>> +if [ "$D" != "" ]; then
+>>   	sed -e '/^hosts:/s/\s*\<mdns4\>//' \
+>>   		-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=return\]//' \
+>> -		-i /etc/nsswitch.conf
+>> +		-i $D/etc/nsswitch.conf
+>> +	exit 0
+>> +fi
+>> +
+>> +sed -e '/^hosts:/s/\s*\<mdns4\>//' \
+>> +	-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=return\]//' \
+>> +	-i /etc/nsswitch.conf
+>>   }
+>> -- 
+>> 1.7.10.4
 >>
->>   gtk_immodule_cache_postrm() {
->>   if [ "x$D" != "x" ]; then
->> -    exit 1
->> +    exit 0
->>   fi
->>   if [ ! -z `which gtk-query-immodules-2.0` ]; then
->>       gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
-> Surely you still want to run the postrm, and by exiting with 0 you're
-> not deferring it.  Can't this use the same logic as the postinst to
-> run on both build machine and target?
->
-> Ross
-No problem, I will use the same logic as the postinst to do that.
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Thanks,
-Hongxu
 
 
