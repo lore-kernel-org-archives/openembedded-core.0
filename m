@@ -1,32 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1Tviza-00053D-PN
+	(envelope-from <sgw@linux.intel.com>) id 1Tvj1z-00058J-57
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 07:30:32 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0H6Exp3029422
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Jan 2013 22:14:59 -0800 (PST)
-Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Wed, 16 Jan 2013 22:14:58 -0800
-Message-ID: <50F796EF.3040900@windriver.com>
-Date: Thu, 17 Jan 2013 14:15:11 +0800
-From: Jesse Zhang <sen.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-References: <1358234208-6177-1-git-send-email-sen.zhang@windriver.com>
-	<1358234208-6177-2-git-send-email-sen.zhang@windriver.com>
-	<1358337581.8129.2.camel@ted> <50F75D56.3050005@windriver.com>
-	<ADD6A3980E8C39419A432FF422031B4C3F0BB37A@ORSMSX106.amr.corp.intel.com>
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C3F0BB37A@ORSMSX106.amr.corp.intel.com>
-X-Originating-IP: [128.224.162.230]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] coreutils: remove dependency on coreutils-native
+	Thu, 17 Jan 2013 07:33:14 +0100
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 Jan 2013 22:17:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,484,1355126400"; d="scan'208";a="192090107"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.213])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Jan 2013 22:17:30 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Jan 2013 22:17:30 -0800
+Message-Id: <cover.1358403327.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [CONSOLIDATED PULL 00/11] Wayland and other patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,21 +27,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 06:30:33 -0000
-X-List-Received-Date: Thu, 17 Jan 2013 06:30:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Jan 2013 06:33:53 -0000
 
-On 01/17/2013 01:37 PM, Kamble, Nitin A wrote:
-> This is bit old (out of my cached memory), but looking at my commit (543577c25b5a4e89a3ab15ee28e754b71c2a43d5) the dependency on coreutils-native is needed if the build system does not have coreutils, or it is not compatible with the sources of the coreutils you are trying to build. And the commit log does show the errors it was hitting, which are solved by using the native version of the coreutils.
+Richard,
 
-Thanks Nitin. But I don't think there can be any system without
-coreutils. And if there is some compatibility issue (which I haven't been
-able to reproduce on our various hosts), we should be able to trace it
-down to a specific command within coreutils.
+This contains the wayland code updated by Ross, it has been
+built on the AB. Ross has tested it along with Alex.
 
-Do you still have some notes on how to reproduce the error?
+Some addition updates and patches from others.
 
-jesse
+Thanks
+	Sau!
+
+
+The following changes since commit 169b9afcf2d357fdcf254a380d21d17701685834:
+
+  oprofile: add AArch64 support (2013-01-16 16:10:00 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Alexandru DAMIAN (2):
+  wayland: add Wayland protocol library
+  mesa-dri: enable the wayland-egl platform
+
+Christopher Larson (1):
+  ptest.bbclass: don't add to PACKAGES if disabled
+
+Cristian Iorga (1):
+  iptables: upgrade to 1.4.17
+
+Giuseppe CONDORELLI (1):
+  eglibc: fix as and ld check in libc dir
+
+Nitin A Kamble (1):
+  linux-yocto_3.4: use ${KSRC_linux_yocto_3_4_repo} based SRC_URI
+
+Paul Eggleton (3):
+  classes/rootfs_*: error out if postinstalls exist with read-only
+    rootfs
+  dropbear: allow configuring blank password option at runtime
+  classes/image: improve debug-tweaks ssh server configuration
+
+Ross Burton (2):
+  x11-common: set XDG_RUNTIME_DIR if it isn't already set
+  weston: add reference Wayland compositor
+
+ meta/classes/core-image.bbclass                    |   3 -
+ meta/classes/image.bbclass                         |  16 +++-
+ meta/classes/ptest.bbclass                         |   2 +-
+ meta/classes/rootfs_deb.bbclass                    |   7 ++
+ meta/classes/rootfs_ipk.bbclass                    |   2 +-
+ meta/classes/rootfs_rpm.bbclass                    |   9 ++
+ meta/recipes-core/dropbear/dropbear.inc            |   6 +-
+ .../dropbear/dropbear/allow-nopw.patch             |  19 ----
+ .../dropbear/dropbear/nopw-option.patch            | 106 +++++++++++++++++++++
+ .../eglibc-2.16_fix_as_ld_ver_check.patch          |  23 +++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |   1 +
+ .../fix-iptables-extensions-build-error.patch      |  44 +++++++++
+ .../iptables/fix-link-failure-ip6t-NETMAP.patch    |  86 +++++++++++++++++
+ .../{iptables_1.4.16.3.bb => iptables_1.4.17.bb}   |   9 +-
+ meta/recipes-graphics/mesa/mesa-common.inc         |  10 +-
+ meta/recipes-graphics/mesa/mesa-dri.inc            |   1 +
+ meta/recipes-graphics/wayland/wayland_1.0.3.bb     |  37 +++++++
+ .../recipes-graphics/wayland/weston/weston.desktop |   9 ++
+ meta/recipes-graphics/wayland/weston/weston.png    | Bin 0 -> 2383 bytes
+ meta/recipes-graphics/wayland/weston_1.0.3.bb      |  52 ++++++++++
+ .../x11-common/etc/X11/Xsession.d/13xdgbasedirs.sh |  13 +++
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   3 +-
+ 22 files changed, 422 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear/allow-nopw.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/nopw-option.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-2.16_fix_as_ld_ver_check.patch
+ create mode 100644 meta/recipes-extended/iptables/iptables/fix-iptables-extensions-build-error.patch
+ create mode 100644 meta/recipes-extended/iptables/iptables/fix-link-failure-ip6t-NETMAP.patch
+ rename meta/recipes-extended/iptables/{iptables_1.4.16.3.bb => iptables_1.4.17.bb} (85%)
+ create mode 100644 meta/recipes-graphics/wayland/wayland_1.0.3.bb
+ create mode 100644 meta/recipes-graphics/wayland/weston/weston.desktop
+ create mode 100644 meta/recipes-graphics/wayland/weston/weston.png
+ create mode 100644 meta/recipes-graphics/wayland/weston_1.0.3.bb
+ create mode 100644 meta/recipes-graphics/x11-common/x11-common/etc/X11/Xsession.d/13xdgbasedirs.sh
+
+-- 
+1.8.0.2
+
 
 
