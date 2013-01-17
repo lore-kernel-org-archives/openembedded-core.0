@@ -1,36 +1,26 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Tvp4B-0002zv-9S
+	(envelope-from <Hongxu.Jia@windriver.com>) id 1TvpGO-0003iP-77
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 14:00:09 +0100
-Received: from cpebcc81008dd2c-cmbcc81008dd29.cpe.net.cable.rogers.com
-	([99.253.156.71]:37048 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1TvopI-0006Kr-MK; Thu, 17 Jan 2013 07:44:12 -0500
-Date: Thu, 17 Jan 2013 07:44:04 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Anders Roxell <anders.roxell@gmail.com>
-In-Reply-To: <CAEUf8FumY+NL1Xe69j9eYFv5VCsDJ9=Dn0+4ShK8rerMWbh6-g@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1301170743160.5423@oneiric>
-References: <1358417014-49625-1-git-send-email-anders.roxell@gmail.com>
-	<alpine.DEB.2.02.1301170605440.3457@oneiric>
-	<CAEUf8FumY+NL1Xe69j9eYFv5VCsDJ9=Dn0+4ShK8rerMWbh6-g@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 17 Jan 2013 14:12:38 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0HCumnn006576
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2013 04:56:49 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.131) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Thu, 17 Jan 2013 04:56:48 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Jan 2013 20:56:40 +0800
+Message-ID: <e32c29fce3b22061311ae40aa9e9456af3dd64ee.1358427029.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1358427029.git.hongxu.jia@windriver.com>
+References: <cover.1358427029.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Anders Roxell <anders.roxell@enea.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemtap: sources.redhat.com is deprecated.
+Subject: [PATCH 4/4] gtk-immodules-cache.bbclass:fix support postrm at image creation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,34 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 13:00:14 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-248601282-1358426652=:5423"
+X-List-Received-Date: Thu, 17 Jan 2013 13:12:43 -0000
+X-List-Received-Date: Thu, 17 Jan 2013 13:12:43 -0000
+Content-Type: text/plain
 
---8323329-248601282-1358426652=:5423
-Content-Type: TEXT/PLAIN; charset=ISO-8859-1
-Content-Transfer-Encoding: 8BIT
+Let postrm use the same logic as the postinst to run on both build machine
+and target
 
-On Thu, 17 Jan 2013, Anders Roxell wrote:
+[YOCTO #3633]
 
-> >  out of curiosity, is sources.redhat.com deprecated just for
-> > systemtap, or deprecated in its entirety as a download source?
->
-> the 'sources.redhat.com' which redirects to 'sourceware.org'
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/gtk-immodules-cache.bbclass |   13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-  i thought so.  there are a number of other references to
-sources.redhat.com in oe-core, particularly in the docbook and sgml
-tools recipes.  so those should probably be updated as well.
-
-rday
-
+diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
+index 9ffb03b..a8855af 100644
+--- a/meta/classes/gtk-immodules-cache.bbclass
++++ b/meta/classes/gtk-immodules-cache.bbclass
+@@ -31,7 +31,18 @@ fi
+ 
+ gtk_immodule_cache_postrm() {
+ if [ "x$D" != "x" ]; then
+-    exit 1
++    for maj_ver in 2 3; do
++        if [ -x $D${bindir}/gtk-query-immodules-$maj_ver.0 ]; then
++            IMFILES=$(ls $D${libdir}/gtk-$maj_ver.0/*/immodules/*.so)
++            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
++                $IMFILES > $D/etc/gtk-$maj_ver.0/gtk.immodules 2>/dev/null &&
++                sed -i -e "s:$D::" $D/etc/gtk-$maj_ver.0/gtk.immodules
++
++            [ $? -ne 0 ] && exit 1
++        fi
++    done
++
++    exit 0
+ fi
+ if [ ! -z `which gtk-query-immodules-2.0` ]; then
+     gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
 -- 
+1.7.10.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
---8323329-248601282-1358426652=:5423--
