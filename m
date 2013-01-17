@@ -1,43 +1,37 @@
-Received: from mail-pb0-f51.google.com ([209.85.160.51])
+Received: from mail-pa0-f43.google.com ([209.85.220.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1TvtVE-00055V-OC
+	(envelope-from <martin.jansa@gmail.com>) id 1Tvtkd-0005P6-1U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 18:43:49 +0100
-Received: by mail-pb0-f51.google.com with SMTP id ro12so1516089pbb.38
+	Thu, 17 Jan 2013 18:59:46 +0100
+Received: by mail-pa0-f43.google.com with SMTP id fb10so1611671pad.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2013 09:28:24 -0800 (PST)
+	Thu, 17 Jan 2013 09:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=EYSn5AQWCfJ2TnQ129evF2+31JEtCttWY8Icktq3WVQ=;
-	b=Hg+teOnLNptZ6nGu7sQJE5tFhgOElvzjkt3KMu/LCGZ+RBVgRC4nbaOrnZdAVOJ37M
-	GtqCr5q3FQfaI462hm5MFC7B3CNfZ1no7JZaLGQJ/VRC6NNZplDIA10vNcxnikvmGO9s
-	2uBB81wa6vMtju/KUmtNl6o/vpFlrcDRtdC7H4FLYUhjCtzf0ftXPT9oh6Y9R9oC3RYu
-	l6HJnxZpaycgOGTvwxI/tE+ccckEZiVhXfjw0CnyBsqQk/UBZJCTL9uxGOPSMGTy2Aht
-	Xe3UHCr4qjEO6k78xN4fBINNqjPrpXp18lwWFqP4ZVFPl5OYVJgrh2b0Wq9Guc9kdEZ1
-	DI3Q==
-X-Received: by 10.68.251.136 with SMTP id zk8mr15386093pbc.82.1358443704597;
-	Thu, 17 Jan 2013 09:28:24 -0800 (PST)
+	:user-agent; bh=xHNdtlUwvaJhER4+DUH5BaXIc1aRtw4JcAQzH/1UpHs=;
+	b=sEWmE9jaL8FhTKEhk5cU73AzynBW0zBuLWN3n1NayHiyMmZjIzP9qbD2NsPYf2Obi7
+	lkB19iJzL7V9Yeu2MH8FvmKypgGCySsAAu04enATz0gvVUvVotC+XZrY8d21P8TfLeYL
+	TbF8nIgkwFUOZb9T+1iQ0rrvEjbTAZo22zRlmDhUP2e5AiNnuWgRuj5MYoXIJBFJ8PUa
+	efseIVXW2mpWNBTp3zHmbdvhYpT/cZfH4BrxUca1PU8OYGP+jcnNTNXObE+MPHirNuup
+	QVX82cjMH70doEbFfSlO+i55YLV/LIs+BWIdIKGh2erNVcdmO3yX1KRKq5l3GRsele6w
+	fkcA==
+X-Received: by 10.68.241.232 with SMTP id wl8mr15485040pbc.144.1358444658989; 
+	Thu, 17 Jan 2013 09:44:18 -0800 (PST)
 Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id i5sm1683501pax.13.2013.01.17.09.28.21
+	by mx.google.com with ESMTPS id ou3sm1419932pbb.46.2013.01.17.09.44.16
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 17 Jan 2013 09:28:23 -0800 (PST)
-Date: Thu, 17 Jan 2013 18:28:17 +0100
+	Thu, 17 Jan 2013 09:44:17 -0800 (PST)
+Date: Thu, 17 Jan 2013 18:44:12 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-Message-ID: <20130117172817.GK3067@jama>
-References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
-	<20130116150205.GE3002@jama>
-	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
-	<20130117124209.GE3067@jama>
-	<065b01cdf4b6$e1510160$a3f30420$@st.com>
-	<20130117134619.GI3067@jama>
-	<068101cdf4d3$f2e58fa0$d8b0aee0$@st.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Message-ID: <20130117174412.GL3067@jama>
+References: <20130116125428.8B76B1036C@opal>
 MIME-Version: 1.0
-In-Reply-To: <068101cdf4d3$f2e58fa0$d8b0aee0$@st.com>
+In-Reply-To: <20130116125428.8B76B1036C@opal>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
+Subject: Re: [oe-commits] Laurentiu Palcu : update-rc.d: check also that symlinks are valid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,95 +44,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 17:43:49 -0000
-X-Groupsio-MsgNum: 33983
+X-List-Received-Date: Thu, 17 Jan 2013 17:59:46 -0000
+X-Groupsio-MsgNum: 33984
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="iSeZnk6FyAS3EJ1y"
+	protocol="application/pgp-signature"; boundary="Pz0BBB9QxoYXlT+x"
 Content-Disposition: inline
 
---iSeZnk6FyAS3EJ1y
-Content-Type: text/plain; charset=iso-8859-1
+--Pz0BBB9QxoYXlT+x
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 17, 2013 at 05:59:00PM +0100, Giuseppe CONDORELLI wrote:
+On Wed, Jan 16, 2013 at 12:54:28PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 4b63e73422ea25aba1bde0beddb02bc04948e13c
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D4b63e73422ea25aba1bde0beddb02bc04948e13c
 >=20
-> >-----Original Message-----
-> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
-> >Sent: gioved=EC 17 gennaio 2013 14:46
-> >To: Giuseppe CONDORELLI
-> >Cc: 'Giuseppe Condorelli'; openembedded-core@lists.openembedded.org
-> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc dir
-> >
-> >On Thu, Jan 17, 2013 at 02:30:55PM +0100, Giuseppe CONDORELLI wrote:
-> >> Hi Martin,
-> >>
-> >> Do you mean applying the patch you highlighted in libc/configure?
+> Author: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Date:   Wed Jan 16 13:58:55 2013 +0200
 >=20
-> Hi Martin,
+> update-rc.d: check also that symlinks are valid
 >=20
-> Please untar the attachment and run the test I sent you.
-> It reproduces the same scenario as in the libc/configure eglibc file.
 
-Ah I see it's not used as regexp.
+now every update-rc.d call on target fails with
+/usr/sbin/update-rc.d: line 151: [: argument expected
 
-But doesn't upstream have some good reason to require 2.20 and newer?
-
-It was incremented from 1.17+ to 2.20+ in
-http://www.eglibc.org/cgi-bin/viewvc.cgi/trunk/libc/configure.in?r1=3D17195=
-&r2=3D17385
-
-Cheers,
-
-> >> >-----Original Message-----
-> >> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
-> >> >Sent: gioved=EC 17 gennaio 2013 13:42
-> >> >To: Giuseppe Condorelli
-> >> >Cc: Giuseppe CONDORELLI; openembedded-
-> >core@lists.openembedded.org
-> >> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc
-> >> >dir
-> >> >
-> >> >On Wed, Jan 16, 2013 at 04:07:39PM +0100, Giuseppe Condorelli wrote:
-> >> >> 2013/1/16 Martin Jansa <martin.jansa@gmail.com>
-> >> >>
-> >> >> > On Wed, Jan 16, 2013 at 03:14:07PM +0100, Giuseppe CONDORELLI
-> >wrote:
-> >> >> > > Fix routine to check as and ld version check in the configure,
-> >> >> > > to
-> >> allow
-> >> >> > system
-> >> >> > > to correctly check for version 2.1x.
-> >> >> >
-> >> >> > Does it build with gold now?
-> >> >> >
-> >> >> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-
-> >> >March/020310.html
-> >> >
-> >> >does it?
-> >> >
-> >> >--
-> >> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> >>
-> >
-> >--
-> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
-
+> Running:
+>=20
+> update-rc.d -r /path/to/target/rootfs basename defaults
+>=20
+> at do_rootfs time in package postinstall stage, when
+> /path/to/target/rootfs/etc/init.d/basename is a symlink and points to som=
+e path
+> on target (for example: /etc/init.d/basename.some_package), would fail an=
+d the
+> postinstall execution would be postponed for first boot, on target.
+>=20
+> This patch adds the posibility to verify whether the file the symlink
+> points to actually exists in the target rootfs.
+>=20
+> [YOCTO #3716]
+>=20
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  .../update-rc.d/check-if-symlinks-are-valid.patch  |   53 ++++++++++++++=
+++++++
+>  meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |    6 ++-
+>  2 files changed, 57 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-=
+are-valid.patch b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlin=
+ks-are-valid.patch
+> new file mode 100644
+> index 0000000..4476e91
+> --- /dev/null
+> +++ b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-val=
+id.patch
+> @@ -0,0 +1,53 @@
+> +Check if symlinks are valid
+> +
+> +When using root option and $initd/$bn is a symlink, the script would fai=
+l because
+> +the symlink points to a path on target. For example:
+> +
+> +/path/to/target/rootfs/etc/init.d/syslog -> /etc/init.d/syslog.busybox
+> +
+> +Hence, [ -f /path/to/target/rootfs/etc/init.d/syslog ] condition would r=
+eturn
+> +false.
+> +
+> +This patch adds the posibility to check whether the file the symlink poi=
+nts to
+> +actually exists in rootfs path and then continue.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>=20
+> +
+> +Index: git/update-rc.d
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- git.orig/update-rc.d	2013-01-16 12:12:58.349814356 +0200
+> ++++ git/update-rc.d	2013-01-16 13:02:42.490864939 +0200
+> +@@ -147,13 +147,29 @@
+> + bn=3D$1
+> + shift
+> +=20
+> ++sn=3D$initd/$bn
+> ++if [ -L "$sn" -a -n $root ]; then
+> ++	readlink=3D$(which readlink)
+> ++
+> ++	if [ -n $readlink ]; then
+> ++		sn=3D$($readlink "$sn")
+> ++		case "$sn" in
+> ++			/*) sn=3D${root}${sn} ;;
+> ++			*)  sn=3D$initd/$sn ;;
+> ++		esac
+> ++	else
+> ++		echo "update-rc.d: readlink tool not present, cannot check whether \
+> ++				$sn symlink points to a valid file." >&2
+> ++	fi
+> ++fi
+> ++
+> + if [ $1 !=3D "remove" ]; then
+> +-	if [ ! -f "$initd/$bn" ]; then
+> ++	if [ ! -f "$sn" ]; then
+> + 		echo "update-rc.d: $initd/$bn: file does not exist" >&2
+> + 		exit 1
+> + 	fi
+> + else
+> +-	if [ -f "$initd/$bn" ]; then
+> ++	if [ -f "$sn" ]; then
+> + 		if [ $force -eq 1 ]; then
+> + 			echo "update-rc.d: $initd/$bn exists during rc.d purge (continuing)"=
+ >&2
+> + 		else
+> diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/reci=
+pes-core/update-rc.d/update-rc.d_0.7.bb
+> index 0aac5fa..bfcbd97 100644
+> --- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+> +++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+> @@ -5,13 +5,15 @@ SECTION =3D "base"
+>  LICENSE =3D "GPLv2+"
+>  LIC_FILES_CHKSUM =3D "file://update-rc.d;beginline=3D5;endline=3D15;md5=
+=3D148a48321b10eb37c1fa3ee02b940a75"
+> =20
+> -PR =3D "r4"
+> +PR =3D "r5"
+> =20
+>  # Revision corresponding to tag update-rc.d_0.7
+>  SRCREV =3D "eca680ddf28d024954895f59a241a622dd575c11"
+> =20
+>  SRC_URI =3D "git://github.com/philb/update-rc.d.git;protocol=3Dgit \
+> -           file://add-verbose.patch;"
+> +           file://add-verbose.patch \
+> +           file://check-if-symlinks-are-valid.patch \
+> +          "
+> =20
+>  S =3D "${WORKDIR}/git"
+> =20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---iSeZnk6FyAS3EJ1y
+--Pz0BBB9QxoYXlT+x
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlD4NLEACgkQN1Ujt2V2gBza7QCfTg9Y3JqotGxN3Nua5Pij0zRG
-DXQAniacxRAPor/yPPbNfFe7Gcgj4xz+
-=mef1
+iEYEARECAAYFAlD4OGwACgkQN1Ujt2V2gBzohwCgjddnbi1jiIETq1IBK9DJqTE9
+r/UAn2XPGE13Sp9QhBqPnMLbTdoz6lSe
+=npA7
 -----END PGP SIGNATURE-----
 
---iSeZnk6FyAS3EJ1y--
+--Pz0BBB9QxoYXlT+x--
