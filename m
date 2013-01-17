@@ -1,40 +1,23 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TvmON-0002iP-P0
+Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <anders.roxell@gmail.com>) id 1TvmZw-0002x9-4k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 11:08:16 +0100
-Received: from mail-vb0-f69.google.com ([209.85.212.69])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 17 Jan 2013 01:52:51 -0800
-Received: by mail-vb0-f69.google.com with SMTP id ff20so3532021vbb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2013 01:52:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=WPhE9Fh/QsRI+siUXfqShATl61u3ZfLiZfbdRG64KE4=;
-	b=SefPC6tR53eAaOLKY2OYkkgRgn733kp6618dOAtzxWoT4Zv8+hffGPAYXJCTnpNzIa
-	CmJ3N9QNbtA9bVvX0zUNhenUg82/a0qeygaSVJz2hAng99HSfztMiG5hhNrCmunaR9xC
-	9wL5CTfWX23xgdazWos03Z7vrWbr0ErzEtoN+tofJY9RSAIjcCfGo4rYWW2KKj/H9VLe
-	uTRI3LEfBAT8TxN9QgJtXV505siOvDHYoQSmf+hRsvVrCEa4PKuw5EKk3LI9QZkpBBr4
-	idOt1UPI5wfTK6UzVcnWoRBAL1O4FgAib0jAOXoHlOJGd+ph69qMIIbC5KKXV37xnqKV
-	rcfg==
-X-Received: by 10.220.151.83 with SMTP id b19mr4701597vcw.25.1358416370404;
-	Thu, 17 Jan 2013 01:52:50 -0800 (PST)
-X-Received: by 10.220.151.83 with SMTP id b19mr4701594vcw.25.1358416370322;
-	Thu, 17 Jan 2013 01:52:50 -0800 (PST)
+	Thu, 17 Jan 2013 11:20:27 +0100
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 17 Jan 2013 11:03:46 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 3976)	id 4D5DC291D4B;
+	Thu, 17 Jan 2013 11:03:46 +0100 (CET)
+From: <anders.roxell@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Jan 2013 11:03:34 +0100
+Message-ID: <1358417014-49625-1-git-send-email-anders.roxell@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Received: by 10.58.95.103 with HTTP; Thu, 17 Jan 2013 01:52:30 -0800 (PST)
-In-Reply-To: <0392b32826d8e307a1e2d2af187979f453279001.1358406049.git.hongxu.jia@windriver.com>
-References: <cover.1358406049.git.hongxu.jia@windriver.com>
-	<0392b32826d8e307a1e2d2af187979f453279001.1358406049.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Jan 2013 09:52:30 +0000
-Message-ID: <CAJTo0La=D3TTZBkEytV3WoYHYFZOX8Ubs3C_rGfhdMHjj6NDzg@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQkkAmIXfD8RM/qNO0GEhAz7vizhnRpetTheMPIAd5vMTWlS/EhJ5eyG8h6KVpVfOqdwuTuWlUk2fVOeUCkXqwieblpqcCDDdmbHCmMuXdTBpvod/ZTydXJZqgA4ge3km86LHbryK+m1qAeSZRwE76G1gUdEEV9ae1te/JfUcxdR1wKP5coFhmJJjJ3f8Ay+6Qxvk1oM
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] gtk-immodules-cache.bbclass:fix support postrm at image creation time
+Received-SPF: Neutral (SESTOEX08.enea.se: 172.21.3.145 is neither permitted
+	nor denied by domain of anders.roxell@gmail.com)
+Cc: Anders Roxell <anders.roxell@enea.com>
+Subject: [PATCH] systemtap: sources.redhat.com is deprecated.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,37 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 10:08:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 17 Jan 2013 10:20:28 -0000
+Content-Type: text/plain
 
-On 17 January 2013 07:07, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> Let gtk_immodule_cache_postrm exit with ok at image creation time
->
-> [YOCTO #3633]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/classes/gtk-immodules-cache.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
-> index 9ffb03b..6e1f5ef 100644
-> --- a/meta/classes/gtk-immodules-cache.bbclass
-> +++ b/meta/classes/gtk-immodules-cache.bbclass
-> @@ -31,7 +31,7 @@ fi
->
->  gtk_immodule_cache_postrm() {
->  if [ "x$D" != "x" ]; then
-> -    exit 1
-> +    exit 0
->  fi
->  if [ ! -z `which gtk-query-immodules-2.0` ]; then
->      gtk-query-immodules-2.0 > /etc/gtk-2.0/gtk.immodules
+From: Anders Roxell <anders.roxell@enea.com>
 
-Surely you still want to run the postrm, and by exiting with 0 you're
-not deferring it.  Can't this use the same logic as the postinst to
-run on both build machine and target?
+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
+---
+ meta/recipes-kernel/systemtap/systemtap_git.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Ross
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 093e62d..3e7bc7b 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRCREV = "48fa6b5e1d3e636c34cbd5650370e6f634efc294"
+ PV = "1.8+git${SRCPV}"
+ 
+-SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
++SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=git \
+            file://docproc-build-fix.patch \
+           "
+ 
+-- 
+1.7.5.4
+
 
 
