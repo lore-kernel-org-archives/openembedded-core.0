@@ -1,36 +1,34 @@
-Received: from mail-la0-f45.google.com ([209.85.215.45])
+Received: from mail-pb0-f42.google.com ([209.85.160.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TvrYb-00027n-Kt
+	(envelope-from <martin.jansa@gmail.com>) id 1TvrZv-0002BY-S4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 16:39:10 +0100
-Received: by mail-la0-f45.google.com with SMTP id ep20so2750477lab.4
+	Thu, 17 Jan 2013 16:40:34 +0100
+Received: by mail-pb0-f42.google.com with SMTP id rp2so1464716pbb.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2013 07:23:46 -0800 (PST)
+	Thu, 17 Jan 2013 07:25:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=CglLxffALrL9zFLKVmPyDHW+NcDa7DfAvMiH0oGN62Y=;
-	b=wlqbCtcyitMv69ZcJ/k73Vl6CnMAcS08DNqkTrxHOIrBcZSRdvkoj1z3GKedYihncg
-	pR6cagVsgXvYGig/4YoZ314nIRfOCnpqPoVu29sX5GcA3hvuVM67UHVD+Tes9XQsMB+u
-	G6hFI1/qPIRgNxeKFNG6NKmfyHQOpx1JICZ6ukgaKylN9z0Ls7+eZNzoTEpcZ47y4TYr
-	nlhNb3Tinc19uK0Yos83e4Ibi3d3pJb3viI6KdFOF2S+wFN7bljZvGUE56RDlMWYbfYj
-	5//bkRYA15tBMto/snRhCi2FWF/M/uUy/n/lfmrpxt1EmdODrV8YuT2RUNDI4u/xXCJl
-	J2MQ==
-X-Received: by 10.112.49.202 with SMTP id w10mr2337881lbn.2.1358436226441;
-	Thu, 17 Jan 2013 07:23:46 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.34.10 with HTTP; Thu, 17 Jan 2013 07:23:26 -0800 (PST)
-In-Reply-To: <50F816C9.5000504@communistcode.co.uk>
-References: <50F816A8.4080508@eumx.net> <50F816C9.5000504@communistcode.co.uk>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 17 Jan 2013 08:23:26 -0700
-X-Google-Sender-Auth: g9_hihz_8mamNfr8ELn6TO2Nbbk
-Message-ID: <CABcZANn4fZGec9P3siPCSGWONP9p6gpW+U+s2JWyHcpq1Fc+YQ@mail.gmail.com>
-To: Jack Mitchell <ml@communistcode.co.uk>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: lttng-ust issue
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=U4JmpQPp4WAVGIfp1KfVybnA1ADkxBXvEURM2lxTUIM=;
+	b=JEoxcNHQAEU6bTDqh9YBL9njqlNYweMuLePHNj4I23haKY7pxI8CivKvO43cVMfSMW
+	ZHTgCUj45PhExtPkq5hlfBTScA/rpVPUt8AzQYQ3fPD+Za+O4u/3RnLzwlijoubMUGwF
+	GPwQNB2MtM4myDDz1zWDN1b/0LeQSJ7Phcrqr105sVlUYt6yAVn1oMUc7p39nnGlK4ys
+	GOnbBdKJg6a2uIuLU6fU0/+L9786279eS3OHhzD0hxK1M+4CeMX8cq1W47LYfTvhjHAg
+	s7hwGpoGIvFQDmeclXuWaRsjMRR6xKqxEO8inJR8oMDtLwyz2ZAvvrPeU+q5emEYISFJ
+	Wdew==
+X-Received: by 10.68.222.232 with SMTP id qp8mr14369503pbc.99.1358436307956;
+	Thu, 17 Jan 2013 07:25:07 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id t6sm1515237paz.11.2013.01.17.07.25.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 17 Jan 2013 07:25:07 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Jan 2013 16:24:58 +0100
+Message-Id: <1358436298-6360-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.1.1
+In-Reply-To: <20130117152150.GJ3067@jama>
+References: <20130117152150.GJ3067@jama>
+Subject: [PATCH] kernel.bbclass: don't depend on DATETIME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,42 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 15:39:10 -0000
-Content-Type: multipart/alternative; boundary=bcaec554daa2ba20ee04d37d94da
+X-List-Received-Date: Thu, 17 Jan 2013 15:40:35 -0000
 
---bcaec554daa2ba20ee04d37d94da
-Content-Type: text/plain; charset=UTF-8
+* http://cgit.openembedded.org/openembedded-core/commit/?id=67e77cd948c69798695d5d5f34163ef89339b35a
+  moved DATETIME dependency from MODULE_TARBALL_BASE_NAME to MODULE_IMAGE_BASE_NAME
+  but without copying that vardepsexclude
 
-On Thu, Jan 17, 2013 at 8:20 AM, Jack Mitchell <ml@communistcode.co.uk>wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On a build today I was hit with this error. I am at commit
-> 169b9afcf2d357fdcf254a380d21d1**7701685834.
->
-> |  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
-> file
->
-
-Don't install lttng2-ust :) It no longer exists.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 46ba55f..ce4c01a 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -501,9 +501,9 @@ KERNEL_IMAGE_BASE_NAME ?= "${KERNEL_IMAGETYPE}-${PE}-${PV}-${PR}-${MACHINE}-${DA
+ KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+ MODULE_IMAGE_BASE_NAME ?= "modules-${PE}-${PV}-${PR}-${MACHINE}-${DATETIME}"
++MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
+ MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
+ # Don't include the DATETIME variable in the sstate package signatures
+-MODULE_TARBALL_BASE_NAME[vardepsexclude] = "DATETIME"
+ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+ MODULE_TARBALL_DEPLOY ?= "1"
+ 
 -- 
-Christopher Larson
+1.8.1.1
 
---bcaec554daa2ba20ee04d37d94da
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jan 17, 2013 at 8:20 AM, Jack Mitchell <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ml@communistcode.co.uk" target=3D"_blank">ml@communistcode.co.u=
-k</a>&gt;</span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":o2">On a build today I was hit w=
-ith this error. I am at commit<br>
-169b9afcf2d357fdcf254a380d21d1<u></u>7701685834.<br>
-<br>
-| =C2=A0* check_data_file_clashes: Package lttng2-ust-dbg wants to install<=
-br>
-file</div></blockquote></div><br>Don&#39;t install lttng2-ust :) It no long=
-er exists.<br>-- <br>Christopher Larson</div></div>
-
---bcaec554daa2ba20ee04d37d94da--
