@@ -1,35 +1,39 @@
-Received: from mail-oa0-f46.google.com ([209.85.219.46])
+Received: from mail-pb0-f53.google.com ([209.85.160.53])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.roxell@gmail.com>) id 1Tvone-0002iR-Gu
+	(envelope-from <martin.jansa@gmail.com>) id 1Tvovb-0002qr-Q9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 13:42:35 +0100
-Received: by mail-oa0-f46.google.com with SMTP id h16so2548870oag.5
+	Thu, 17 Jan 2013 13:50:44 +0100
+Received: by mail-pb0-f53.google.com with SMTP id un1so736167pbc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Jan 2013 04:27:07 -0800 (PST)
+	Thu, 17 Jan 2013 04:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=IR9Dc+8xaWtJ8n+9sd2gITT6cH3tyyQnHhEYfGr7FNY=;
-	b=ZmpnTv58ioiWOwWWshRa9bWPtP8CsPz2yCKfHr/5hptZdQlSgdTzdCfXEZ82N4JPC7
-	cMl04UGw3N5lF/pgsPvBA4onfGmzHr0JLQpaD8mqdMN+rerJb5Q71lhZjuYeUz/feltN
-	ZC9cvX7lvkZmAf8CsY7KB3bob7b79RM4z0fnJD7QDpAVGKG0WjEO9E7lnjDBN5F4CpvM
-	oyYGvUdLqqMXAr/v2rCdNjCQkVoNwx5lyGY5Yhi/O9etkso1SZH6/6VnaeMSl31VDyZD
-	0WyWC3AZKbDRvRgzYXIy4/3cG6OliudUmjiOA0suWIh6roQZ0SUIwIvGFLeG9rppP6pI
-	wdtA==
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=oXix+/Ql5hJb9vKGZr3KKZjXyxUeBJLAPzL2ziY9IxU=;
+	b=ZF9PJyFNan5MsdSd+IqnaRVMX3Zluy391BCkRjgXKHIPuSyBbiry7ouCWviGhzofJD
+	v+1Zow3ELckcA9mcmpki7AdzWfmw971bQXKRVM25KNDc8d4t9oT0XR+znRwravx/3OEL
+	EtUIxi4+jJMnddLYQ3gRehj9n85Z+njsTCqJx8ZxZHK5mBK72kX50NzSrt0qlPT3h9j8
+	2N8nXW8+mZru7RtFW6gtzkFLDbzfBYCvV8zNBLvkOGwp/H6aqOt6lPTy659kIsMuvXDQ
+	kXOPS2jQ5Hl9vtm5LB3du7fSS+VW3exWUXaT1wbjxeadjPVCdoxGRA+mKDxZCYOYOg0N
+	R0/w==
+X-Received: by 10.66.73.167 with SMTP id m7mr13144940pav.68.1358426119963;
+	Thu, 17 Jan 2013 04:35:19 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id hs2sm1018088pbc.22.2013.01.17.04.35.17
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 17 Jan 2013 04:35:18 -0800 (PST)
+Date: Thu, 17 Jan 2013 13:35:13 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20130117123513.GD3067@jama>
+References: <cover.1358406049.git.hongxu.jia@windriver.com>
+	<6b20de5260fdf8542bd214ca4c380bfe7614f56c.1358406049.git.hongxu.jia@windriver.com>
+	<20130117092811.GB3067@jama> <50F7D6E1.4000800@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.182.154.4 with SMTP id vk4mr3626457obb.70.1358425627037;
-	Thu, 17 Jan 2013 04:27:07 -0800 (PST)
-Received: by 10.182.78.164 with HTTP; Thu, 17 Jan 2013 04:27:06 -0800 (PST)
-In-Reply-To: <alpine.DEB.2.02.1301170605440.3457@oneiric>
-References: <1358417014-49625-1-git-send-email-anders.roxell@gmail.com>
-	<alpine.DEB.2.02.1301170605440.3457@oneiric>
-Date: Thu, 17 Jan 2013 13:27:06 +0100
-Message-ID: <CAEUf8FumY+NL1Xe69j9eYFv5VCsDJ9=Dn0+4ShK8rerMWbh6-g@mail.gmail.com>
-From: Anders Roxell <anders.roxell@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Anders Roxell <anders.roxell@enea.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemtap: sources.redhat.com is deprecated.
+In-Reply-To: <50F7D6E1.4000800@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] libnss-mdns:fix support prerm at image creation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,96 +46,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 12:42:35 -0000
-Content-Type: multipart/alternative; boundary=f46d04479f11f4119804d37b1cdc
+X-List-Received-Date: Thu, 17 Jan 2013 12:50:44 -0000
+X-Groupsio-MsgNum: 33952
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ZARJHfwaSJQLOEUz"
+Content-Disposition: inline
 
---f46d04479f11f4119804d37b1cdc
-Content-Type: text/plain; charset=ISO-8859-1
-
->  out of curiosity, is sources.redhat.com deprecated just for
-> systemtap, or deprecated in its entirety as a download source?
-
-the 'sources.redhat.com' which redirects to 'sourceware.org'
-
-/Anders
-
-On Thu, Jan 17, 2013 at 12:06 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
-
-> On Thu, 17 Jan 2013, anders.roxell@gmail.com wrote:
->
-> > From: Anders Roxell <anders.roxell@enea.com>
-> >
-> > Signed-off-by: Anders Roxell <anders.roxell@enea.com>
->
->   out of curiosity, is sources.redhat.com deprecated just for
-> systemtap, or deprecated in its entirety as a download source?
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-
---f46d04479f11f4119804d37b1cdc
-Content-Type: text/html; charset=ISO-8859-1
+--ZARJHfwaSJQLOEUz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>&gt; =A0out of curiosity, is <a href=3D"http://source=
-s.redhat.com">sources.redhat.com</a> deprecated just for</div><div>&gt; sys=
-temtap, or deprecated in its entirety as a download source?</div><div style=
-><br>
-</div><div class=3D"gmail_extra">the &#39;<a href=3D"http://sources.redhat.=
-com">sources.redhat.com</a>&#39; which=A0redirects to &#39;<a href=3D"http:=
-//sourceware.org">sourceware.org</a>&#39;<br></div><div class=3D"gmail_extr=
-a"><br>
-</div><div class=3D"gmail_extra" style>/Anders</div><div class=3D"gmail_ext=
-ra"><br><div class=3D"gmail_quote">On Thu, Jan 17, 2013 at 12:06 PM, Robert=
- P. J. Day <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" t=
-arget=3D"_blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div class=3D"im">On Thu, 17 Jan 2013, <a href=3D"mailto:a=
-nders.roxell@gmail.com">anders.roxell@gmail.com</a> wrote:<br>
+On Thu, Jan 17, 2013 at 06:48:01PM +0800, Hongxu Jia wrote:
+> On 01/17/2013 05:28 PM, Martin Jansa wrote:
+> > On Thu, Jan 17, 2013 at 03:07:21PM +0800, Hongxu Jia wrote:
+> >> The pkg_prerm_${PN} failed at image creation time because $D is not as=
+signed
+> >> as the prefix of "/etc/nsswitch.conf"
+> > Again looks the same why not use $D/etc/nsswitch.conf in both cases?
+> I think that  test $D to explicitly make a distinction between the build=
+=20
+> time
+> and run time, it's better for others to notice the difference.
 
-<br>
-&gt; From: Anders Roxell &lt;<a href=3D"mailto:anders.roxell@enea.com">ande=
-rs.roxell@enea.com</a>&gt;<br>
-&gt;<br>
-&gt; Signed-off-by: Anders Roxell &lt;<a href=3D"mailto:anders.roxell@enea.=
-com">anders.roxell@enea.com</a>&gt;<br>
-<br>
-</div>=A0 out of curiosity, is <a href=3D"http://sources.redhat.com" target=
-=3D"_blank">sources.redhat.com</a> deprecated just for<br>
-systemtap, or deprecated in its entirety as a download source?<br>
-<br>
-rday<br>
-<span class=3D""><font color=3D"#888888"><br>
---<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-Robert P. J. Day =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 Ottawa, Ontario, CANADA<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 <a href=3D"http://crashcour=
-se.ca" target=3D"_blank">http://crashcourse.ca</a><br>
-<br>
-Twitter: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 <a href=3D"http://twitter.com/rpjday" target=3D"_blank">http://=
-twitter.com/rpjday</a><br>
-LinkedIn: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 <a hr=
-ef=3D"http://ca.linkedin.com/in/rpjday" target=3D"_blank">http://ca.linkedi=
-n.com/in/rpjday</a><br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-</font></span></blockquote></div><br></div></div>
+But there isn't any difference if I'm looking correctly.
 
---f46d04479f11f4119804d37b1cdc--
+Cheers,
+
+> Thanks,
+> Hongxu
+> >> [YOCTO #3633]
+> >>
+> >> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> >> ---
+> >>   meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb |   11 +++=
+++++++--
+> >>   1 file changed, 9 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb=
+ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> >> index f7356e4..e9a4128 100644
+> >> --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> >> +++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> >> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2d5025d4aa3=
+495befef8f17206a5b0a1"
+> >>  =20
+> >>   DEPENDS =3D "avahi"
+> >>   RDEPENDS_${PN} =3D "avahi-daemon"
+> >> -PR =3D "r6"
+> >> +PR =3D "r7"
+> >>  =20
+> >>   SRC_URI =3D "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-$=
+{PV}.tar.gz"
+> >>  =20
+> >> @@ -30,7 +30,14 @@ pkg_postinst_${PN} () {
+> >>   }
+> >>  =20
+> >>   pkg_prerm_${PN} () {
+> >> +if [ "$D" !=3D "" ]; then
+> >>   	sed -e '/^hosts:/s/\s*\<mdns4\>//' \
+> >>   		-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=3Dreturn\]//' \
+> >> -		-i /etc/nsswitch.conf
+> >> +		-i $D/etc/nsswitch.conf
+> >> +	exit 0
+> >> +fi
+> >> +
+> >> +sed -e '/^hosts:/s/\s*\<mdns4\>//' \
+> >> +	-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=3Dreturn\]//' \
+> >> +	-i /etc/nsswitch.conf
+> >>   }
+> >> --=20
+> >> 1.7.10.4
+> >>
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--ZARJHfwaSJQLOEUz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlD38AEACgkQN1Ujt2V2gByAMwCfU9OnoaZzCir/GlwZMyk6yuE+
+HgEAn1fhSibCvWdVGguq76MztYc3hVov
+=3CoD
+-----END PGP SIGNATURE-----
+
+--ZARJHfwaSJQLOEUz--
