@@ -1,33 +1,31 @@
-Received: from mail-ie0-f169.google.com ([209.85.223.169])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1TvZt5-00056Z-9j
+	(envelope-from <Sen.Zhang@windriver.com>) id 1Tvf9j-0004Ie-Dy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Jan 2013 21:47:16 +0100
-Received: by mail-ie0-f169.google.com with SMTP id c14so3448523ieb.28
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Jan 2013 12:31:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer;
-	bh=iz5kgyGHiB4tK+UpHTi658FxKshtVkVq5o43+YqwJto=;
-	b=oDWojpueaz6t5fGnO8lb5FRxriNszzNx5ekGBFlwRt1QA4CJfv48QRzjM2jPBXvmA5
-	um9MO2b6LINik++TeHHIK91T4I6JAjVXnwV93k/2NEWi9zV0A+dSFlxX3I631IV7UC65
-	8/cljvR/rndwjRpevFW1QPNIPRBU1/dqhcX+xkzkh78fkgDJFOH4aANiCPMUB54zBMEy
-	8M0/UU80Xw+5EjopppmQv5DYh/5n+gfEWTk7/hEFqK+EE+MLQxKRUw7qxU/JGLKyOdCH
-	HQ2hPKqEvemYRnPjdl3v2Rz8E5yi9UqoUYL4r2s5HjVeB1NiBsxu0iFR5NaXNRCFZWmJ
-	bGcg==
-X-Received: by 10.50.222.226 with SMTP id qp2mr1791343igc.103.1358368304746;
-	Wed, 16 Jan 2013 12:31:44 -0800 (PST)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id x7sm5635144igk.8.2013.01.16.12.31.41
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 16 Jan 2013 12:31:43 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Jan 2013 13:31:36 -0700
-Message-Id: <1358368296-24597-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.0.3
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] ptest.bbclass: don't add to PACKAGES if disabled
+	Thu, 17 Jan 2013 03:24:39 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0H29CM2027457
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Jan 2013 18:09:12 -0800 (PST)
+Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
+	Wed, 16 Jan 2013 18:09:11 -0800
+Message-ID: <50F75D56.3050005@windriver.com>
+Date: Thu, 17 Jan 2013 10:09:26 +0800
+From: Jesse Zhang <sen.zhang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<nitin.a.kamble@intel.com>
+References: <1358234208-6177-1-git-send-email-sen.zhang@windriver.com>
+	<1358234208-6177-2-git-send-email-sen.zhang@windriver.com>
+	<1358337581.8129.2.camel@ted>
+In-Reply-To: <1358337581.8129.2.camel@ted>
+X-Originating-IP: [128.224.162.230]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] coreutils: remove dependency on coreutils-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 20:47:20 -0000
+X-List-Received-Date: Thu, 17 Jan 2013 02:24:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On 01/16/2013 07:59 PM, Richard Purdie wrote:
+> Two questions:
+> 
+> 1) Why do we have this dependency here at all? Are we sure we don't need
+> it for some reasons?
 
-Without this, we have excessive dependencies leaking into the build. In
-particular, glib-2.0 was sucking in python modules even if ptest wasn't in
-DISTRO_FEATURES.
+It was introduced in this commit, Cc'ing Nitin.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/ptest.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+commit 543577c25b5a4e89a3ab15ee28e754b71c2a43d5
+Author: Nitin A Kamble <nitin.a.kamble@intel.com>
+Date:   Thu Mar 17 10:25:04 2011 -0700
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 8bde489..361de78 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -14,7 +14,7 @@ PTEST_ENABLED = "${@base_contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
- RDEPENDS_${PN}-ptest_virtclass-native = ""
- RDEPENDS_${PN}-ptest_virtclass-nativesdk = ""
- 
--PACKAGES += "${PN}-ptest"
-+PACKAGES += "${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
- 
- FILES_${PN}-dbg += "${PTEST_PATH}/*/.debug \
-                     ${PTEST_PATH}/*/*/.debug \
--- 
-1.8.0.3
+    coreutils-6.9: fix man page building for the gplv2 recipe
 
+But the reason behind the dependency is not entirely clear. And we've
+never seen such issue with the GPLv3 recipe. (And the GPLv2 recipe with
+my fix has been building well here for some time).
+
+> 2) Isn't the build of coreutils-native still broken? We should probably
+> hack it so it installs into some path prefix like
+> {python/perl/gzip/tar}-native or doesn't install the utils at all.
+
+Yeah, the build would still be broken.
+
+The main contents of coreutils are the several dozen commands. I'm not
+sure how it can be useful if we install them into a not-in-$PATH dir.
+Any suggestions? I'm willing to work out a fix.
+
+jesse
 
 
