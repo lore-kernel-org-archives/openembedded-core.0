@@ -1,38 +1,40 @@
-Received: from eu1sys200aog104.obsmtp.com ([207.126.144.117])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@st.com>) id 1Tvuyg-0007gF-HE
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1TvvT7-0008Q2-4i
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 20:18:19 +0100
-Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
-	eu1sys200aob104.postini.com ([207.126.147.11]) with SMTP
-	ID DSNKUPhK4GDfyzCAZTGS/fnojKqIf7TwpDXl@postini.com;
-	Thu, 17 Jan 2013 19:02:57 UTC
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 627701CA;
-	Thu, 17 Jan 2013 16:59:02 +0000 (GMT)
-Received: from mail7.sgp.st.com (unknown [164.129.223.81])
-	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 25D204F27;
-	Thu, 17 Jan 2013 16:59:02 +0000 (GMT)
-Received: from CTN005027 (pcmdt30.ctn.st.com [164.130.129.192])
-	by mail7.sgp.st.com (MOS 4.3.3-GA)
-	with ESMTP id AVN58794 (AUTH condorg);
-	Thu, 17 Jan 2013 17:59:01 +0100
-From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-To: "'Martin Jansa'" <martin.jansa@gmail.com>
-References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
-	<20130116150205.GE3002@jama>
-	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
-	<20130117124209.GE3067@jama>
-	<065b01cdf4b6$e1510160$a3f30420$@st.com>
-	<20130117134619.GI3067@jama>
-In-Reply-To: <20130117134619.GI3067@jama>
-Date: Thu, 17 Jan 2013 17:59:00 +0100
-Message-ID: <068101cdf4d3$f2e58fa0$d8b0aee0$@st.com>
+	Thu, 17 Jan 2013 20:49:56 +0100
+Received: from mail-gg0-f199.google.com ([209.85.161.199])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 17 Jan 2013 11:34:14 -0800
+Received: by mail-gg0-f199.google.com with SMTP id n6so4419271ggf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Jan 2013 11:34:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-received:mime-version:x-received:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type:x-gm-message-state;
+	bh=MlBFD66ZIgMsXey4wwduabwY5W6m1FNjQ9sO2gGmkcQ=;
+	b=aRU/IyYrnp54/G5V7w5ikvLdURamO4wDwkcK23/T7mtuFGgO0Mf1CDzIfZNEkw1VHW
+	5A6gFPD3UImINfkNEILlMEiYGnhxwz6Qz5xPw+ccfAoQYRPkGzdc6vJaQkpWzYm0nsIu
+	o6TuefARTs95VWCESHvwIvd+mhmctSnGAoJlAm+++r2CXT0SYiagBKQpV2vjOfM+y/eQ
+	dZRkLBd2Ny2iIA8sjJliMQf5t/7HsBJX8fxp+/mprE9HaiQ6WMnB6omzgDICayximTWg
+	VjyBVPLXh9CJgZLFomrP4BnAHi7z0GFBh9R9OXiQ5C8BYvmRW5blr29jdCdg2OE8TQzV
+	wUUg==
+X-Received: by 10.224.216.65 with SMTP id hh1mr6746882qab.43.1358451253506;
+	Thu, 17 Jan 2013 11:34:13 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQJd3UIgpWykE/uuKxds/KWg86Wy7AI8MptVAf37k6YCXM8t6gG5dPdSAgbRfn+W2zFUIA==
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
+X-Received: by 10.224.216.65 with SMTP id hh1mr6746871qab.43.1358451253350;
+	Thu, 17 Jan 2013 11:34:13 -0800 (PST)
+Received: by 10.49.128.234 with HTTP; Thu, 17 Jan 2013 11:34:13 -0800 (PST)
+In-Reply-To: <cover.1358281118.git.chris_larson@mentor.com>
+References: <cover.1358281118.git.chris_larson@mentor.com>
+Date: Thu, 17 Jan 2013 11:34:13 -0800
+Message-ID: <CAPhnLPAc5TcgvWdr6WMAK_6K5KzqS6_6vuJZf4YCxD6jfWOT+w@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Christopher Larson <kergoth@gmail.com>
+X-Gm-Message-State: ALoCoQlv1mhhfru9P27lYxLH60ErOpC0N4DazcZXnA0o3P4QTZgayybuFDsfPWArz6aWaCl2eJu6W9y1cw3DVwB68xvoTWbKQtwSuV5Jk2NmeOpxz7+EGgANIfRxoJZfkccYj0Kp4EDqninXC4ccRf4otXFtD0or0onYeGFfveCT69nV34VNhhxFmfurk/eUirH5+yIyLL9a
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Fixes for INCOMPATIBLE_LICENSE handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,138 +47,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 19:18:19 -0000
-X-Groupsio-MsgNum: 33987
-Content-Type: multipart/mixed;
-	boundary="----=_NextPart_000_0682_01CDF4DC.54AE8B80"
-Content-Language: it
+X-List-Received-Date: Thu, 17 Jan 2013 19:49:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-------=_NextPart_000_0682_01CDF4DC.54AE8B80
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-
->-----Original Message-----
->From: Martin Jansa [mailto:martin.jansa@gmail.com]
->Sent: gioved=EC 17 gennaio 2013 14:46
->To: Giuseppe CONDORELLI
->Cc: 'Giuseppe Condorelli'; openembedded-core@lists.openembedded.org
->Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc dir
+On Tue, Jan 15, 2013 at 12:22 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
 >
->On Thu, Jan 17, 2013 at 02:30:55PM +0100, Giuseppe CONDORELLI wrote:
->> Hi Martin,
->>
->> Do you mean applying the patch you highlighted in libc/configure?
+> This fixes a number of bugs spotted while trying to use INCOMPATIBLE_LICENSE
+> = "*GPLv3", and also while experimenting with a recipe whose LICENSE includes
+> GPLv3, but whose packages do not. In addition, it reduces the message spam by
+> switching the license incompatibility messages to debug.
 >
->I was expecting you're trying to fix ld --version detection when ld is
-gold. But
->after few experiments I don't see what you're trying to fix:
->
->martin@jama ~ $ ld.bfd --version 2>&1 | sed -n 's/^.*GNU ld.* =
-\([0-9][0-
->9]*\.[0-9.]*\).*$/\1/p'
->2.23.1
->martin@jama ~ $ ld.gold --version 2>&1 | sed -n 's/^.*GNU ld.* =
-\([0-9][0-
->9]*\.[0-9.]*\).*$/\1/p'
->nothing -> ld.gold still unsupported
->
->old:
->martin@jama ~ $ echo 2.23.1 | egrep
-"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
->9][0-9]*"
->2.23.1
->martin@jama ~ $ echo 2.19.1 | egrep
-"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
->9][0-9]*"
->2.19.1
->martin@jama ~ $ echo 2.19   | egrep
-"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
->9][0-9]*"
->2.19
->martin@jama ~ $ echo 2.1    | egrep
-"2.1[0-9][0-9]*|2.[2-9][0-9]*|[3-9].*|[1-
->9][0-9]*"
->2.1
->
->new:
->martin@jama ~ $ echo 2.19.1 | egrep
-"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
->9]*"
->2.19.1
->martin@jama ~ $ echo 2.23.1 | egrep
-"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
->9]*"
->2.23.1
->martin@jama ~ $ echo 2.19   | egrep
-"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
->9]*"
->2.19
->martin@jama ~ $ echo 2.1    | egrep
-"2.1[0-9]*|2.[2-9][0-9]*|[3-9].*|[1-9][0-
->9]*"
->2.1
->
->Can you show some example version your patch is fixing?
->
+> Note: there's still one remaining bug I noticed, the wildcard support which
+> was added is not very well supported in concert with the host tools exclusion
+> variables. It asks for an spdx version of "*GPLv3", gets nothing but itself,
+> and tries to look up whitelists for that string. This is not addressed by this
+> patch series, but I mention it here for awareness, and also a reminder to
+> myself to look in to it.
 
-Hi Martin,
+Acking the entire series. Thanks Chris!
 
-Please untar the attachment and run the test I sent you.
-It reproduces the same scenario as in the libc/configure eglibc file.
+Acked-by: Beth Flanagan <elizabeth.flanagan@intel.com>
 
-Cheers,
-Giuseppe
-
->Cheers,
 >
->> >-----Original Message-----
->> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
->> >Sent: gioved=EC 17 gennaio 2013 13:42
->> >To: Giuseppe Condorelli
->> >Cc: Giuseppe CONDORELLI; openembedded-
->core@lists.openembedded.org
->> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc
->> >dir
->> >
->> >On Wed, Jan 16, 2013 at 04:07:39PM +0100, Giuseppe Condorelli wrote:
->> >> 2013/1/16 Martin Jansa <martin.jansa@gmail.com>
->> >>
->> >> > On Wed, Jan 16, 2013 at 03:14:07PM +0100, Giuseppe CONDORELLI
->wrote:
->> >> > > Fix routine to check as and ld version check in the configure,
->> >> > > to
->> allow
->> >> > system
->> >> > > to correctly check for version 2.1x.
->> >> >
->> >> > Does it build with gold now?
->> >> >
->> >> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-
->> >March/020310.html
->> >
->> >does it?
->> >
->> >--
->> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->>
+> The following changes since commit 6080d1dc719c38fd97c2abd38e0ad938fbf6f452:
 >
->--
->Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>   connman: fixed init script so connman can runs over nfs (2013-01-15 08:09:30 +0000)
+>
+> are available in the git repository at:
+>
+>   https://github.com/kergoth/oe-core incompatible-license
+>
+> for you to fetch changes up to 5cb12f38b2ac74ea118b58888a0c37f63917fbfa:
+>
+>   base.bbclass: improve the incompatible license logic a bit (2013-01-15 12:48:51 -0700)
+>
+> ----------------------------------------------------------------
+> Christopher Larson (6):
+>       license.bbclass: check LICENSE_pkg, not LICENSE_pn-pkg
+>       license: correct re.search/fnmatch indentation
+>       license.bbclass: cleanly handle invalid licenses in incompatible_license
+>       linux-firmware: use LICENSEs which can actually be parsed
+>       base.bbclass: use debug messages for INCOMPATIBLE_LICENSE
+>       base.bbclass: improve the incompatible license logic a bit
+>
+>  meta/classes/base.bbclass                                |  9 ++++-----
+>  meta/classes/license.bbclass                             | 16 +++++++++-------
+>  meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 13 ++++++-------
+>  3 files changed, 19 insertions(+), 19 deletions(-)
+>
+> Christopher Larson (6):
+>   license.bbclass: check LICENSE_pkg, not LICENSE_pn-pkg
+>   license: correct re.search/fnmatch indentation
+>   license.bbclass: cleanly handle invalid licenses in
+>     incompatible_license
+>   linux-firmware: use LICENSEs which can actually be parsed
+>   base.bbclass: use debug messages for INCOMPATIBLE_LICENSE
+>   base.bbclass: improve the incompatible license logic a bit
+>
+>  meta/classes/base.bbclass                                |  9 ++++-----
+>  meta/classes/license.bbclass                             | 16 +++++++++-------
+>  meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 13 ++++++-------
+>  3 files changed, 19 insertions(+), 19 deletions(-)
+>
+> --
+> 1.8.0.3
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-------=_NextPart_000_0682_01CDF4DC.54AE8B80
-Content-Type: application/x-compressed;
-	name="test_for_Martin.tgz"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="test_for_Martin.tgz"
+-- 
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
-H4sIACIs+FAAA+3S32qDMBQGcK99ijM3KC0sTWKtSBk+wZ5AhqTqqoyZotmfiz38TJGOtRTdoB2M
-73fh0ZBDPo+aojXpo27Se9WYqnbOgXfCILBVct+3VYSB2K3be+EvHCF5uORyseTc4cK3S8TPkubA
-S2tUQ+Rkus51szm57zk3l4hzaddX83VVz9vSdVWWbhu9SV+Lpq10fedJJiIWCCY5j7ovF3ium6m2
-oJuDnVTVLhFNJlMqslKTV2vaKpOVjLHjzXEc01rl3mplm7ozEn4bPewusw/JEvn1lPhdYV0V+7Wp
-beqMOEg/9WfMRuXqMxWtyk6/J/3S9/m8Vab88YTGDGcown5wAwmORzfQ0Mftp1e8V4a4+9f/NgAA
-AAAAAAAAAAAAAAAAAADAf/cJd73P8QAoAAA=
 
-------=_NextPart_000_0682_01CDF4DC.54AE8B80--
