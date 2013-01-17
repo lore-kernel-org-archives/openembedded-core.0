@@ -1,27 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1TvrAh-0001Ny-4D
+	(envelope-from <ml@communistcode.co.uk>) id 1TvrVd-00020J-Dl
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Jan 2013 16:14:28 +0100
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2013 06:59:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,486,1355126400"; d="scan'208";a="192236333"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Jan 2013 06:58:59 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Jan 2013 16:58:48 +0200
-Message-Id: <17624011ba80ab3cb28f8b98ecab152c82011b7e.1358432402.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1358432402.git.laurentiu.palcu@intel.com>
-References: <cover.1358432402.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1358432402.git.laurentiu.palcu@intel.com>
-References: <cover.1358432402.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 6/6] bitbake.conf: remove update-modules from DISTRO_FEATURES
+	Thu, 17 Jan 2013 16:36:05 +0100
+Message-ID: <50F816C9.5000504@communistcode.co.uk>
+Date: Thu, 17 Jan 2013 15:20:41 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130109 Thunderbird/17.0.2
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <50F816A8.4080508@eumx.net>
+In-Reply-To: <50F816A8.4080508@eumx.net>
+X-Forwarded-Message-Id: <50F816A8.4080508@eumx.net>
+Subject: lttng-ust issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -31,32 +28,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Jan 2013 15:14:29 -0000
+X-List-Received-Date: Thu, 17 Jan 2013 15:36:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Since update-modules is obsolete, remove it from DISTRO_FEATURES.
 
-[YOCTO #3598]
+Hi,
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On a build today I was hit with this error. I am at commit
+169b9afcf2d357fdcf254a380d21d17701685834.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9ae11ad..2dc50ca 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -738,7 +738,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
- MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
- 
--DISTRO_FEATURES_BACKFILL = "pulseaudio update-modules"
-+DISTRO_FEATURES_BACKFILL = "pulseaudio"
- DISTRO_FEATURES_append = "${@oe.utils.features_backfill("DISTRO_FEATURES",d)}"
- 
- MACHINE_FEATURES_BACKFILL = "rtc"
--- 
-1.7.9.5
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-tracepoint.so.0.0.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust.so
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-fork.so.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-tracepoint.so.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-fork.so
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-ctl.so.1
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust.so.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-tracepoint.so
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust.so.0.0.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-libc-wrapper.so.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-libc-wrapper.so
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-ctl.so.1.0.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-ctl.so
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-libc-wrapper.so.0.0.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * check_data_file_clashes: Package lttng2-ust-dbg wants to install
+file
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/rootfs/usr/lib/.debug/liblttng-ust-fork.so.0.0.0
+|     But that file is already provided by package  * lttng-ust-dbg
+|  * opkg_install_cmd: Cannot install package
+packagegroup-core-tools-profile-dbg.
+| ERROR: Function failed: do_rootfs (see
+/home/jack/Projects/oe-r0005/r0005/tmp/work/beaglebone-oecore-linux-gnueabi/core-image-dev/1.0-r0/temp/log.do_rootfs.16929
+for further information)
+ERROR: Task 7
+(/home/jack/Projects/oe-r0005/meta-db/recipes-core/images/core-image-dev.bb,
+do_rootfs) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 2620 tasks of which 2607 didn't need to
+be rerun and 1 failed.
+No currently running tasks (2620 of 2621)
+
+Any ideas?
+
+Cheers,
+Jack
+
+
 
 
 
