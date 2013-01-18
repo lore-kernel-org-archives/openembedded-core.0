@@ -1,22 +1,22 @@
 Received: from afflict.kos.to ([92.243.29.197])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <riku.voipio@linaro.org>) id 1TwD4Y-0007YU-5S
+	(envelope-from <riku.voipio@linaro.org>) id 1TwD4Y-0007YT-5a
 	for openembedded-core@lists.openembedded.org;
 	Fri, 18 Jan 2013 15:37:50 +0100
 Received: from aimless.elisa-laajakaista.fi
 	(a91-156-58-157.elisa-laajakaista.fi [91.156.58.157])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by afflict.kos.to (Postfix) with ESMTPSA id 3B943264C0;
-	Fri, 18 Jan 2013 15:13:29 +0100 (CET)
+	by afflict.kos.to (Postfix) with ESMTPSA id D2359264C2;
+	Fri, 18 Jan 2013 15:13:30 +0100 (CET)
 From: Riku Voipio <riku.voipio@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jan 2013 16:13:22 +0200
-Message-Id: <1358518403-11155-2-git-send-email-riku.voipio@linaro.org>
+Date: Fri, 18 Jan 2013 16:13:23 +0200
+Message-Id: <1358518403-11155-3-git-send-email-riku.voipio@linaro.org>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1358518403-11155-1-git-send-email-riku.voipio@linaro.org>
 References: <1358518403-11155-1-git-send-email-riku.voipio@linaro.org>
-Subject: [PATCH 2/3] attr: convert to generic syscall numbers
+Subject: [PATCH 3/3] libaio: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,227 +31,137 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Jan 2013 14:37:54 -0000
 
-xattr system calls are old enough that we can switch
-to just pulling the system call numbers from kernel
-headers.
-
-Upstream-Status: Submitted acl-devel@nongnu.org
+Picking up a patch from gentoo and adding aarch64 defines
+is enough to fix libaio and pass the harness testsuite
 
 Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
 ---
- meta/recipes-support/attr/attr.inc                 |    4 +-
- .../attr/files/generic-syscalls.patch              |  187 ++++++++++++++++++++
- 2 files changed, 190 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/attr/files/generic-syscalls.patch
+ .../libaio/libaio/libaio-aarch64.patch             |   26 ++++++++
+ .../libaio/libaio/libaio-generic.patch             |   65 ++++++++++++++++++++
+ meta/recipes-extended/libaio/libaio_0.3.109.bb     |    5 +-
+ 3 files changed, 95 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
+ create mode 100644 meta/recipes-extended/libaio/libaio/libaio-generic.patch
 
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 6deb004..eaed7af 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
-                     file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
-                     file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb"
- 
--SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz"
-+SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
-+           file://generic-syscalls.patch \
-+           "
- 
- require ea-acl.inc
- 
-diff --git a/meta/recipes-support/attr/files/generic-syscalls.patch b/meta/recipes-support/attr/files/generic-syscalls.patch
+diff --git a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
 new file mode 100644
-index 0000000..3a35e02
+index 0000000..98b778b
 --- /dev/null
-+++ b/meta/recipes-support/attr/files/generic-syscalls.patch
-@@ -0,0 +1,187 @@
-+Remove arch specific syscall numbers
++++ b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
+@@ -0,0 +1,26 @@
++Upstream-Status: Submitted
 +
-+xattr system calls are old enough that we can switch
-+to just pulling the system call numbers from kernel
-+headers.
++---
++ harness/cases/16.t |    2 ++
++ src/libaio.h       |   10 ++++++++++
++ 2 files changed, 12 insertions(+)
 +
-+Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-+
-+Upstream-Status: Submitted acl-devel@nongnu.org
-+
-+--- a/libattr/syscalls.c
-++++ b/libattr/syscalls.c
-+@@ -23,172 +23,10 @@
-+ 
-+ #include <errno.h>
-+ #include <unistd.h>
-++#include <sys/syscall.h>
-+ 
-+-#if defined (__i386__)
-++#if defined (__NR_setxattr)
-+ # define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		226
-+-# define __NR_lsetxattr		227
-+-# define __NR_fsetxattr		228
-+-# define __NR_getxattr		229
-+-# define __NR_lgetxattr		230
-+-# define __NR_fgetxattr		231
-+-# define __NR_listxattr		232
-+-# define __NR_llistxattr	233
-+-# define __NR_flistxattr	234
-+-# define __NR_removexattr	235
-+-# define __NR_lremovexattr	236
-+-# define __NR_fremovexattr	237
-+-#elif defined (__sparc__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		169
-+-# define __NR_lsetxattr		170
-+-# define __NR_fsetxattr		171
-+-# define __NR_getxattr		172
-+-# define __NR_lgetxattr		173
-+-# define __NR_fgetxattr		177
-+-# define __NR_listxattr		178
-+-# define __NR_llistxattr	179
-+-# define __NR_flistxattr	180
-+-# define __NR_removexattr	181
-+-# define __NR_lremovexattr	182
-+-# define __NR_fremovexattr	186
-+-#elif defined (__ia64__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		1217
-+-# define __NR_lsetxattr		1218
-+-# define __NR_fsetxattr		1219
-+-# define __NR_getxattr		1220
-+-# define __NR_lgetxattr		1221
-+-# define __NR_fgetxattr		1222
-+-# define __NR_listxattr		1223
-+-# define __NR_llistxattr	1224
-+-# define __NR_flistxattr	1225
-+-# define __NR_removexattr	1226
-+-# define __NR_lremovexattr	1227
-+-# define __NR_fremovexattr	1228
-+-#elif defined (__powerpc__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		209
-+-# define __NR_lsetxattr		210
-+-# define __NR_fsetxattr		211
-+-# define __NR_getxattr		212
-+-# define __NR_lgetxattr		213
-+-# define __NR_fgetxattr		214
-+-# define __NR_listxattr		215
-+-# define __NR_llistxattr	216
-+-# define __NR_flistxattr	217
-+-# define __NR_removexattr	218
-+-# define __NR_lremovexattr	219
-+-# define __NR_fremovexattr	220
-+-#elif defined (__x86_64__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		188
-+-# define __NR_lsetxattr		189
-+-# define __NR_fsetxattr		190
-+-# define __NR_getxattr		191
-+-# define __NR_lgetxattr		192
-+-# define __NR_fgetxattr		193
-+-# define __NR_listxattr		194
-+-# define __NR_llistxattr	195
-+-# define __NR_flistxattr	196
-+-# define __NR_removexattr	197
-+-# define __NR_lremovexattr	198
-+-# define __NR_fremovexattr	199
-+-#elif defined (__s390__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		224
-+-# define __NR_lsetxattr		225
-+-# define __NR_fsetxattr		226
-+-# define __NR_getxattr		227
-+-# define __NR_lgetxattr		228
-+-# define __NR_fgetxattr		229
-+-# define __NR_listxattr		230
-+-# define __NR_llistxattr	231
-+-# define __NR_flistxattr	232
-+-# define __NR_removexattr	233
-+-# define __NR_lremovexattr	234
-+-# define __NR_fremovexattr	235
-+-#elif defined (__arm__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# if defined(__ARM_EABI__) || defined(__thumb__)
-+-#  define __NR_SYSCALL_BASE 0
-+-# else
-+-#  define __NR_SYSCALL_BASE 0x900000
-+-# endif
-+-# define __NR_setxattr		(__NR_SYSCALL_BASE+226)
-+-# define __NR_lsetxattr		(__NR_SYSCALL_BASE+227)
-+-# define __NR_fsetxattr		(__NR_SYSCALL_BASE+228)
-+-# define __NR_getxattr		(__NR_SYSCALL_BASE+229)
-+-# define __NR_lgetxattr		(__NR_SYSCALL_BASE+230)
-+-# define __NR_fgetxattr		(__NR_SYSCALL_BASE+231)
-+-# define __NR_listxattr		(__NR_SYSCALL_BASE+232)
-+-# define __NR_llistxattr	(__NR_SYSCALL_BASE+233)
-+-# define __NR_flistxattr	(__NR_SYSCALL_BASE+234)
-+-# define __NR_removexattr	(__NR_SYSCALL_BASE+235)
-+-# define __NR_lremovexattr	(__NR_SYSCALL_BASE+236)
-+-# define __NR_fremovexattr	(__NR_SYSCALL_BASE+237)
-+-#elif defined (__mips64)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# ifdef __LP64__ /* mips64 using n64 ABI */
-+-#  define __NR_Linux 5000
-+-# else /* mips64 using n32 ABI */
-+-#  define __NR_Linux 6000
-+-# endif
-+-# define __NR_setxattr		(__NR_Linux + 180)
-+-# define __NR_lsetxattr		(__NR_Linux + 181)
-+-# define __NR_fsetxattr		(__NR_Linux + 182)
-+-# define __NR_getxattr		(__NR_Linux + 183)
-+-# define __NR_lgetxattr		(__NR_Linux + 184)
-+-# define __NR_fgetxattr		(__NR_Linux + 185)
-+-# define __NR_listxattr		(__NR_Linux + 186)
-+-# define __NR_llistxattr	(__NR_Linux + 187)
-+-# define __NR_flistxattr	(__NR_Linux + 188)
-+-# define __NR_removexattr	(__NR_Linux + 189)
-+-# define __NR_lremovexattr	(__NR_Linux + 190)
-+-# define __NR_fremovexattr	(__NR_Linux + 191)
-+-#elif defined (__mips__) /* mips32, or mips64 using o32 ABI */
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_Linux 4000
-+-# define __NR_setxattr		(__NR_Linux + 224)
-+-# define __NR_lsetxattr		(__NR_Linux + 225)
-+-# define __NR_fsetxattr		(__NR_Linux + 226)
-+-# define __NR_getxattr		(__NR_Linux + 227)
-+-# define __NR_lgetxattr		(__NR_Linux + 228)
-+-# define __NR_fgetxattr		(__NR_Linux + 229)
-+-# define __NR_listxattr		(__NR_Linux + 230)
-+-# define __NR_llistxattr	(__NR_Linux + 231)
-+-# define __NR_flistxattr	(__NR_Linux + 232)
-+-# define __NR_removexattr	(__NR_Linux + 233)
-+-# define __NR_lremovexattr	(__NR_Linux + 234)
-+-# define __NR_fremovexattr	(__NR_Linux + 235)
-+-#elif defined (__alpha__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		382
-+-# define __NR_lsetxattr		383
-+-# define __NR_fsetxattr		384
-+-# define __NR_getxattr		385
-+-# define __NR_lgetxattr		386
-+-# define __NR_fgetxattr		387
-+-# define __NR_listxattr		388
-+-# define __NR_llistxattr	389
-+-# define __NR_flistxattr	390
-+-# define __NR_removexattr	391
-+-# define __NR_lremovexattr	392
-+-# define __NR_fremovexattr	393
-+-#elif defined (__mc68000__)
-+-# define HAVE_XATTR_SYSCALLS 1
-+-# define __NR_setxattr		223
-+-# define __NR_lsetxattr		224
-+-# define __NR_fsetxattr		225
-+-# define __NR_getxattr		226
-+-# define __NR_lgetxattr		227
-+-# define __NR_fgetxattr		228
-+-# define __NR_listxattr		229
-+-# define __NR_llistxattr	230
-+-# define __NR_flistxattr	231
-+-# define __NR_removexattr	232
-+-# define __NR_lremovexattr	233
-+-# define __NR_fremovexattr	234
++--- a/src/libaio.h
+++++ b/src/libaio.h
++@@ -107,6 +107,16 @@
++ #  else
++ #    error "neither mipseb nor mipsel?"
++ #  endif
+++#elif defined(__aarch64__)
+++#  if defined (__AARCH64EB__) /* big endian, 64 bits */
+++#define PADDED(x, y)    unsigned y; x
+++#define PADDEDptr(x,y)  x
+++#define PADDEDul(x, y)  unsigned long x
+++#  elif defined(__AARCH64EL__) /* little endian, 64 bits */
+++#define PADDED(x, y)    x, y
+++#define PADDEDptr(x, y) x
+++#define PADDEDul(x, y)  unsigned long x
+++#  endif
 + #else
-+ # warning "Extended attribute syscalls undefined for this architecture"
-+ # define HAVE_XATTR_SYSCALLS 0
++ #error	endian?
++ #endif
+diff --git a/meta/recipes-extended/libaio/libaio/libaio-generic.patch b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
+new file mode 100644
+index 0000000..3fcf541
+--- /dev/null
++++ b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
+@@ -0,0 +1,65 @@
++From 5e96c73d5dfbdea8d0be82b7f3fc8d6735e5dfa7 Mon Sep 17 00:00:00 2001
++From: Mike Frysinger <vapier@gentoo.org>
++Date: Sun, 17 Jan 2010 17:07:48 -0500
++Subject: [PATCH] add a generic syscall() fallback
++
++Upstream-Status: Pending
++
++Signed-off-by: Mike Frysinger <vapier@gentoo.org>
++Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
++---
++ src/syscall-generic.h |   29 +++++++++++++++++++++++++++++
++ src/syscall.h         |    3 ++-
++ 2 files changed, 31 insertions(+), 1 deletions(-)
++ create mode 100644 src/syscall-generic.h
++
++diff --git a/src/syscall-generic.h b/src/syscall-generic.h
++new file mode 100644
++index 0000000..24d7c7c
++--- /dev/null
+++++ b/src/syscall-generic.h
++@@ -0,0 +1,29 @@
+++#include <errno.h>
+++#include <unistd.h>
+++#include <sys/syscall.h>
+++
+++#define _body_io_syscall(sname, args...) \
+++{ \
+++   int ret = syscall(__NR_##sname, ## args); \
+++   return ret < 0 ? -errno : ret; \
+++}
+++
+++#define io_syscall1(type,fname,sname,type1,arg1) \
+++type fname(type1 arg1) \
+++_body_io_syscall(sname, (long)arg1)
+++
+++#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
+++type fname(type1 arg1,type2 arg2) \
+++_body_io_syscall(sname, (long)arg1, (long)arg2)
+++
+++#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
+++type fname(type1 arg1,type2 arg2,type3 arg3) \
+++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3)
+++
+++#define io_syscall4(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
+++type fname (type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
+++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4)
+++
+++#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, type5,arg5) \
+++type fname (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
+++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4, (long)arg5)
++diff --git a/src/syscall.h b/src/syscall.h
++index 78becfe..d954af0 100644
++--- a/src/syscall.h
+++++ b/src/syscall.h
++@@ -25,5 +25,6 @@
++ #elif defined(__arm__)
++ #include "syscall-arm.h"
++ #else
++-#error "add syscall-arch.h"
+++#warning "using generic syscall method"
+++#include "syscall-generic.h"
++ #endif
++-- 
++1.7.3.1
++
+diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
+index 0712d04..afe9adf 100644
+--- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
++++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
+@@ -11,7 +11,10 @@ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
+            file://00_arches.patch \
+            file://toolchain.patch \
+            file://destdir.patch \
+-           file://libaio_fix_for_x32.patch"
++           file://libaio_fix_for_x32.patch \
++           file://libaio-generic.patch \
++           file://libaio-aarch64.patch \
++"
+ 
+ SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
+ SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
 -- 
 1.7.10.4
 
