@@ -1,27 +1,29 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <amy.fong@windriver.com>) id 1TwFGk-0005Cj-6y
+	(envelope-from <sgw@linux.intel.com>) id 1TwFXW-00061k-Na
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Jan 2013 17:58:30 +0100
-Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
-	[128.224.146.164])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0IGgpvd011585
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Fri, 18 Jan 2013 08:42:51 -0800 (PST)
-Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
-	4.80) (envelope-from <amy.fong@windriver.com>)
-	id 1TwF1m-000312-Qo; Fri, 18 Jan 2013 11:42:50 -0500
-Date: Fri, 18 Jan 2013 11:42:50 -0500
-From: Amy Fong <amy.fong@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20130118164250.GA11580@windriver.com>
-References: <20130118161408.GA11224@windriver.com>
-	<20130118163734.GX23233@jama.palm1.palmone.com>
+	Fri, 18 Jan 2013 18:15:54 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 18 Jan 2013 09:00:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,493,1355126400"; d="scan'208";a="245676178"
+Received: from unknown (HELO [10.255.15.56]) ([10.255.15.56])
+	by azsmga001.ch.intel.com with ESMTP; 18 Jan 2013 09:00:12 -0800
+Message-ID: <50F97F9B.1060808@linux.intel.com>
+Date: Fri, 18 Jan 2013 09:00:11 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-In-Reply-To: <20130118163734.GX23233@jama.palm1.palmone.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] autofs has openldap dependency issues
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+References: <1358509171-19924-1-git-send-email-cristian.iorga@intel.com>
+	<1358509171-19924-2-git-send-email-cristian.iorga@intel.com>
+	<1358515371.27799.26.camel@ted>
+	<969F26A8BAB325438E7EB80D3C3134FB161E974F@IRSMSX102.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB161E974F@IRSMSX102.ger.corp.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] alsa-utils: upgrade to 1.0.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 16:58:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 18 Jan 2013 17:15:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 18, 2013 at 05:37:34PM +0100, Martin Jansa wrote:
-> On Fri, Jan 18, 2013 at 11:14:08AM -0500, Amy Fong wrote:
-> > commit 09947d772a36e4d2c2dc48356281bd3ce0a04b0c
-> > Author: Amy Fong <amy.fong@windriver.com>
-> > Date:   Fri Jan 18 11:10:35 2013 -0500
-> > 
-> >     autofs: fails to compile with openldap disabled
-> >     
-> >     As of 5.0.6, it appears that changes were introduced so that
-> >     if you compile with openldap disabled and openldap headers are not
-> >     available, then autofs fails to build.
-> >     
-> >     Since autofs no longer depends on openldap, remove the dependency
-> >     
-> >     Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> 
-> I think this belongs to oe-devel ML and should be for
-> meta-openembedded/meta-networking not standalone meta-networking.
-> 
+On 01/18/2013 05:29 AM, Iorga, Cristian wrote:
+> Is no longer necessary, the build system if now fixed.
+>
+So please add this to the commit message and resend.
+
+Thanks
+	Sau!
+
+> -----Original Message-----
+> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> Sent: Friday, January 18, 2013 3:23 PM
+> To: Iorga, Cristian
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 2/2] alsa-utils: upgrade to 1.0.26
+>
+> On Fri, 2013-01-18 at 13:39 +0200, Cristian Iorga wrote:
+>> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+>> ---
+>>   .../alsa/alsa-utils-1.0.25/ncursesfix.patch        |   44 --------------------
+>>   ...-t-let-systemd-unit-restore-the-volume-wh.patch |    0
+>>   .../obsolete_automake_macros.patch                 |    0
+>>   .../uclibc-exp10-replacement.patch                 |    0
+>>   .../{alsa-utils_1.0.25.bb => alsa-utils_1.0.26.bb} |    7 ++--
+>>   5 files changed, 3 insertions(+), 48 deletions(-)  delete mode 100644
+>> meta/recipes-multimedia/alsa/alsa-utils-1.0.25/ncursesfix.patch
+>
+> What happened to the patch?
+>
 > Cheers,
-
-D'oh! Sorry. :)
+>
+> Richard
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
