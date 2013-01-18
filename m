@@ -1,38 +1,40 @@
-Received: from mail-pb0-f45.google.com ([209.85.160.45])
+Received: from eu1sys200aog110.obsmtp.com ([207.126.144.129])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tw7WA-0004w2-BV
+	(envelope-from <giuseppe.condorelli@st.com>) id 1Tw7cR-00057v-Ql
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Jan 2013 09:42:06 +0100
-Received: by mail-pb0-f45.google.com with SMTP id mc8so1921424pbc.32
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2013 00:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=bpJl14ebS6Gvg2xoAEhZRDyXln5u/wckXTqcq0m9H8s=;
-	b=B3rhlPV2AbEcXdJGlifzdZUDyb4jNZDSgIMvBIgsE7kBqjo1QNU38EvnI8/u6CUpFB
-	VWQlwG+vyVBV6P81BmqJ9c+/Coz3pPBkrMinFZb6r+ABccyKoe0r7LWWkwxtGZYfIlIl
-	Do/S+F36D0MC+rC8rCURXMQl9Y7f8ffOhvAIYsoTxEAMXglUM2iORtoO0WIvmIUywuVF
-	2wZoojX3iKuFrApjb5ZMRm4AM8aabHRi7vHdwpUih756tSZ5Wa++zLkmLi9oESuaMllL
-	9b/fgaAw23iXIso66fIOi+jgHsR5LAxQHbC3cy99fozoaJ4HjlkTu9ZvCSavTWLw/RNn
-	ZWiQ==
-X-Received: by 10.68.189.35 with SMTP id gf3mr2927608pbc.69.1358497577435;
-	Fri, 18 Jan 2013 00:26:17 -0800 (PST)
-Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
-	by mx.google.com with ESMTPS id qt3sm2683697pbb.32.2013.01.18.00.26.14
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 18 Jan 2013 00:26:16 -0800 (PST)
-Date: Fri, 18 Jan 2013 09:26:11 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: rongqing.li@windriver.com
-Message-ID: <20130118082611.GC3091@jama>
-References: <cover.1358477598.git.rongqing.li@windriver.com>
-	<101e3bb96160957183aaa5770f989757916edaa9.1358477598.git.rongqing.li@windriver.com>
+	Fri, 18 Jan 2013 09:48:52 +0100
+Received: from beta.dmz-eu.st.com ([164.129.1.35]) (using TLSv1) by
+	eu1sys200aob110.postini.com ([207.126.147.11]) with SMTP
+	ID DSNKUPkIsLOrbusSCy0veAC7HovRH3A5Y8I/@postini.com;
+	Fri, 18 Jan 2013 08:32:49 UTC
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 61A52198;
+	Fri, 18 Jan 2013 08:32:33 +0000 (GMT)
+Received: from mail7.sgp.st.com (unknown [164.129.223.81])
+	by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E27992AB4;
+	Fri, 18 Jan 2013 08:32:32 +0000 (GMT)
+Received: from CTN005027 (pcmdt30.ctn.st.com [164.130.129.192])
+	by mail7.sgp.st.com (MOS 4.3.3-GA)
+	with ESMTP id AVO62502 (AUTH condorg);
+	Fri, 18 Jan 2013 09:32:32 +0100
+From: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
+To: "'Martin Jansa'" <martin.jansa@gmail.com>
+References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+	<20130116150205.GE3002@jama>
+	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
+	<20130117124209.GE3067@jama>
+	<065b01cdf4b6$e1510160$a3f30420$@st.com>
+	<20130117134619.GI3067@jama>
+	<068101cdf4d3$f2e58fa0$d8b0aee0$@st.com>
+	<20130117172817.GK3067@jama>
+In-Reply-To: <20130117172817.GK3067@jama>
+Date: Fri, 18 Jan 2013 09:32:31 +0100
+Message-ID: <06a101cdf556$5c273b80$1475b280$@st.com>
 MIME-Version: 1.0
-In-Reply-To: <101e3bb96160957183aaa5770f989757916edaa9.1358477598.git.rongqing.li@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org, joe.macdonald@windriver.com
-Subject: Re: [PATCH 1/2] xinetd: enable tcp-wrappers support by DISTRO_FEATURE
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQJd3UIgpWykE/uuKxds/KWg86Wy7AI8MptVAf37k6YCXM8t6gG5dPdSAgbRfn8CkCQuxwHX1DyQlrj2sRA=
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,79 +47,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 08:42:11 -0000
-X-Groupsio-MsgNum: 34006
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4jXrM3lyYWu4nBt5"
-Content-Disposition: inline
-
---4jXrM3lyYWu4nBt5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 18 Jan 2013 08:49:03 -0000
+Content-Type: text/plain;
+	charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+Content-Language: it
 
-On Fri, Jan 18, 2013 at 10:56:22AM +0800, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->=20
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->  meta/recipes-extended/xinetd/xinetd_2.3.15.bb |    5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes=
--extended/xinetd/xinetd_2.3.15.bb
-> index 3bde512..9278cc2 100644
-> --- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> +++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-> @@ -7,7 +7,7 @@ LICENSE =3D "BSD"
->  LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D8ad8615198542444f84d28a6cf2=
-26dd8"
-> =20
->  DEPENDS =3D ""
-> -PR =3D "r1"
-> +PR =3D "r2"
-> =20
->  SRC_URI =3D "http://www.xinetd.org/xinetd-${PV}.tar.gz \
->        file://xinetd.init \
-> @@ -28,6 +28,9 @@ INITSCRIPT_PARAMS =3D "defaults"
-> =20
->  EXTRA_OECONF=3D"--disable-nls"
-> =20
-> +DEPENDS +=3D "${@base_contains('DISTRO_FEATURES', 'tcp-wrappers', 'tcp-w=
-rappers', '', d)}"
-> +EXTRA_OECONF +=3D "${@base_contains('DISTRO_FEATURES', 'tcp-wrappers', '=
---with-libwrap', '', d)}"
-> +
+Yes Martin,
 
-Why not use PACKAGECONFIG here?
+but I discovered the issue building (erroneously because eglibc was =
+actually
+not required at all) an external-toolchain a little bit old (gcc and
+binutils) against the master oe-core repository,
+which contains eglic-2.16 as you know. And libc/configure comes with the
+issue I highlighted.
+So, please, think to my patch as a nice to have and not as a mandatory =
+one.
+I don't know if other people will fall in my same condition.
 
-Cheers,
+Thanks so much for your support.
+Giuseppe
 
->  do_configure() {
->  	# Looks like configure.in is broken, so we are skipping
->  	# rebuilding configure and are just using the shipped one
-> --=20
-> 1.7.10.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>-----Original Message-----
+>From: Martin Jansa [mailto:martin.jansa@gmail.com]
+>Sent: gioved=EC 17 gennaio 2013 18:28
+>To: Giuseppe CONDORELLI
+>Cc: 'Giuseppe Condorelli'; openembedded-core@lists.openembedded.org
+>Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc dir
+>
+>On Thu, Jan 17, 2013 at 05:59:00PM +0100, Giuseppe CONDORELLI wrote:
+>>
+>> >-----Original Message-----
+>> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
+>> >Sent: gioved=EC 17 gennaio 2013 14:46
+>> >To: Giuseppe CONDORELLI
+>> >Cc: 'Giuseppe Condorelli'; openembedded-core@lists.openembedded.org
+>> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in libc
+>> >dir
+>> >
+>> >On Thu, Jan 17, 2013 at 02:30:55PM +0100, Giuseppe CONDORELLI wrote:
+>> >> Hi Martin,
+>> >>
+>> >> Do you mean applying the patch you highlighted in libc/configure?
+>>
+>> Hi Martin,
+>>
+>> Please untar the attachment and run the test I sent you.
+>> It reproduces the same scenario as in the libc/configure eglibc file.
+>
+>Ah I see it's not used as regexp.
+>
+>But doesn't upstream have some good reason to require 2.20 and newer?
+>
+>It was incremented from 1.17+ to 2.20+ in
+>http://www.eglibc.org/cgi-
+>bin/viewvc.cgi/trunk/libc/configure.in?r1=3D17195&r2=3D17385
+>
+>Cheers,
+>
+>> >> >-----Original Message-----
+>> >> >From: Martin Jansa [mailto:martin.jansa@gmail.com]
+>> >> >Sent: gioved=EC 17 gennaio 2013 13:42
+>> >> >To: Giuseppe Condorelli
+>> >> >Cc: Giuseppe CONDORELLI; openembedded-
+>> >core@lists.openembedded.org
+>> >> >Subject: Re: [OE-core] [PATCH] eglibc: fix as and ld check in =
+libc
+>> >> >dir
+>> >> >
+>> >> >On Wed, Jan 16, 2013 at 04:07:39PM +0100, Giuseppe Condorelli =
+wrote:
+>> >> >> 2013/1/16 Martin Jansa <martin.jansa@gmail.com>
+>> >> >>
+>> >> >> > On Wed, Jan 16, 2013 at 03:14:07PM +0100, Giuseppe CONDORELLI
+>> >wrote:
+>> >> >> > > Fix routine to check as and ld version check in the
+>> >> >> > > configure, to
+>> >> allow
+>> >> >> > system
+>> >> >> > > to correctly check for version 2.1x.
+>> >> >> >
+>> >> >> > Does it build with gold now?
+>> >> >> >
+>> >> >> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-
+>> >> >March/020310.html
+>> >> >
+>> >> >does it?
+>> >> >
+>> >> >--
+>> >> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>> >>
+>> >
+>> >--
+>> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+>
+>
+>--
+>Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---4jXrM3lyYWu4nBt5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlD5ByMACgkQN1Ujt2V2gBw3xACgqSrNuf0ol3GcnmtHdoalV7QL
-OQEAnj7KdzrgqLMW1yPi46mpBpuiKZqR
-=YNqx
------END PGP SIGNATURE-----
-
---4jXrM3lyYWu4nBt5--
