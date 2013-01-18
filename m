@@ -1,42 +1,54 @@
-Received: from mail-wg0-f52.google.com ([74.125.82.52])
+Received: from retry101.mer-nm.internl.net ([217.149.192.105])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Tw7yJ-0005tf-91
+	(envelope-from <mike.looijmans@topic.nl>) id 1Tw9Qc-0008KR-3C
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Jan 2013 10:10:50 +0100
-Received: by mail-wg0-f52.google.com with SMTP id 12so2102685wgh.19
+	Fri, 18 Jan 2013 11:44:06 +0100
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by retry101.mer-nm.internl.net (Postfix) with ESMTP id 80CD140EE0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2013 00:55:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=tERQlKoTUtH3iPD5LeYA2ToZ4SLFSwuCOlHLMar+ZRg=;
-	b=LH6ncPeRuxTSrGCSCMl3nop7WWX90OfCaFvz3LMP9L9/FAnuaGRHCQMXCC4zpov6CO
-	6BOMtvdlEJuvSG3Ev9QTCSwvDvu9gGHPlvVvOWvk9DuooSYj4ZJeyebgSQh9q+Q+Rjnc
-	AZaVYhGqrWi8cUs3GE43I9YafomGRp7jdz9Grv+dLbmc6XVZ08Ju099adtUW4ObA+hV+
-	/htN2pIIyZzek5A4qLdFuCZ7Let3800NYKKo6tMuNwMWBCkcxreM9gPMOaghi1ne7IJT
-	XDqWgSd4Guf4uDbYpxDjb6otTrljOiz//cyWADtREFW1m8aWrcfILTrBknP6R6sGhPAr
-	HJdg==
+	Fri, 18 Jan 2013 11:27:37 +0100 (CET)
+Received: from amavisd-new (mailscanner13.mer-nm.internl.net [217.149.192.128])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 01BDD3F60F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jan 2013 11:27:37 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mailscanner13.mer-nm.internl.net
+X-Spam-Flag: NO
+X-Spam-Score: -0.617
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.617 required=3 tests=[INN_HELPER1=-1,
+	INN_NONNLRELAY=0.01, INN_TESTB=0.01, RDNS_DYNAMIC=0.363]
+	autolearn=disabled
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner13.mer-nm.internl.net [217.149.192.159])
+	(amavisd-new, port 10024) with ESMTP id gYoghSKl8sMS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jan 2013 11:27:36 +0100 (CET)
+Received: from TOP-EX02.topic.local (82-204-13-181.dsl.bbeyond.nl
+	[82.204.13.181]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jan 2013 11:27:36 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (192.168.10.102) by mail.topic.nl
+	(192.168.1.103) with Microsoft SMTP Server (TLS) id 14.1.218.12;
+	Fri, 18 Jan 2013 11:27:28 +0100
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.289.1;
+	Fri, 18 Jan 2013 11:27:35 +0100
+Message-ID: <50F92396.403@topic.nl>
+Date: Fri, 18 Jan 2013 11:27:34 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-X-Received: by 10.180.88.138 with SMTP id bg10mr2242475wib.13.1358499323047;
-	Fri, 18 Jan 2013 00:55:23 -0800 (PST)
-Received: by 10.194.178.72 with HTTP; Fri, 18 Jan 2013 00:55:23 -0800 (PST)
-In-Reply-To: <06a101cdf556$5c273b80$1475b280$@st.com>
-References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
-	<20130116150205.GE3002@jama>
-	<CAOHjBZsXebja8FB4GbQNwm5zxBCoEOPh40rE9b71EzXG5fGWdA@mail.gmail.com>
-	<20130117124209.GE3067@jama>
-	<065b01cdf4b6$e1510160$a3f30420$@st.com>
-	<20130117134619.GI3067@jama>
-	<068101cdf4d3$f2e58fa0$d8b0aee0$@st.com>
-	<20130117172817.GK3067@jama>
-	<06a101cdf556$5c273b80$1475b280$@st.com>
-Date: Fri, 18 Jan 2013 09:55:23 +0100
-Message-ID: <CA+chaQecHVmeRUmsJ1-guXMv7n8Y2B2AVF-bf4CxfyD3rdrYow@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Giuseppe CONDORELLI <giuseppe.condorelli@st.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
+To: <openembedded-core@lists.openembedded.org>
+References: <3116730.Gs6kyeAI7b@yiqingliang-pc>
+In-Reply-To: <3116730.Gs6kyeAI7b@yiqingliang-pc>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: OpenMP and OE-core (or: Why is OpenMP explicitly disabled?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,82 +61,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 09:10:51 -0000
-X-List-Received-Date: Fri, 18 Jan 2013 09:10:51 -0000
-Content-Type: multipart/alternative; boundary=f46d0442685293efde04d38c4586
-
---f46d0442685293efde04d38c4586
-Content-Type: text/plain; charset=UTF-8
-
-On Fri, Jan 18, 2013 at 9:32 AM, Giuseppe CONDORELLI <
-giuseppe.condorelli@st.com> wrote:
-
-> Yes Martin,
->
-> but I discovered the issue building (erroneously because eglibc was
-> actually
-> not required at all) an external-toolchain a little bit old (gcc and
-> binutils) against the master oe-core repository,
-> which contains eglic-2.16 as you know. And libc/configure comes with the
-> issue I highlighted.
-> So, please, think to my patch as a nice to have and not as a mandatory one.
-> I don't know if other people will fall in my same condition.
->
-> Thanks so much for your support.
-> Giuseppe
->
-
-And are you using eglibc-2.16 built with binutils-2.19 in runtime on some
-targets?
-
-My point is that if upstream developers decided to support binutils-2.20+
-only, they probably had some reason to do it and failing configure check is
-better way to show you're building unsupported combination then something
-failing badly in runtime on target.
-
-http://sourceware.org/git/?p=glibc.git;a=commit;f=configure.in;h=bec039bcefe6a0494a249e2b78e112a0ab60893b
-This commit also doesn't say why..
-
-Cheers,
-
---f46d0442685293efde04d38c4586
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 18 Jan 2013 10:44:08 -0000
+X-List-Received-Date: Fri, 18 Jan 2013 10:44:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Jan 18, 2013 at 9:32 AM, Giuseppe CONDORELLI <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:giuseppe.condorelli@st.com" target=3D"_blank">giuseppe.co=
-ndorelli@st.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div id=3D":6">Yes Martin,<br>
-<br>
-but I discovered the issue building (erroneously because eglibc was actuall=
-y<br>
-not required at all) an external-toolchain a little bit old (gcc and<br>
-binutils) against the master oe-core repository,<br>
-which contains eglic-2.16 as you know. And libc/configure comes with the<br=
->
-issue I highlighted.<br>
-So, please, think to my patch as a nice to have and not as a mandatory one.=
-<br>
-I don&#39;t know if other people will fall in my same condition.<br>
-<br>
-Thanks so much for your support.<br>
-Giuseppe</div></blockquote></div><br>And are you using eglibc-2.16 built wi=
-th binutils-2.19 in runtime on some targets?</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra" style>My point is that if upstream d=
-evelopers decided to support binutils-2.20+ only, they probably had some re=
-ason to do it and failing configure check is better way to show you&#39;re =
-building unsupported combination then something failing badly in runtime on=
- target.</div>
-<div class=3D"gmail_extra" style><br></div><div class=3D"gmail_extra" style=
-><a href=3D"http://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;f=3Dconfigu=
-re.in;h=3Dbec039bcefe6a0494a249e2b78e112a0ab60893b">http://sourceware.org/g=
-it/?p=3Dglibc.git;a=3Dcommit;f=3Dconfigure.in;h=3Dbec039bcefe6a0494a249e2b7=
-8e112a0ab60893b</a><br>
-</div><div class=3D"gmail_extra" style>This commit also doesn&#39;t say why=
-..</div><div class=3D"gmail_extra" style><br></div><div class=3D"gmail_extr=
-a" style>Cheers,</div></div>
+=EF=BB=BFHello,
 
---f46d0442685293efde04d38c4586--
+When trying to use OpenMP in an embedded ARM project, I found that=20
+oe-core explicitly tells GCC to NOT include the OpenMP support.
+
+Is there a particular reason why this was done?
+
+As an experiment, I just removed the "--disable-libgomp" OECONF=20
+additions from the GCC recipes, and added libgomp unconditionally (why=20
+is that only included for powerpc?).
+
+Since multicore systems are getting more and more common even in=20
+embedded systems, I guess I shouldn't be the only one who bumped into this.
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
+Telefax: (+31) - (0)499 - 33.69.70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
+end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
+en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
+ Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
+jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
+ te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
+n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
+nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
+ een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
+ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
+C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
+d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
+orende bijlagen.
+
+The contents of this message, as well as any enclosures, are addressed pers=
+onally to, and thus solely intended for the addressee. They may contain inf=
+ormation regarding a third party. A recipient who is neither the addressee,=
+ nor empowered to receive this message on behalf of the addressee, is kindl=
+y requested to immediately inform the sender of receipt, and to destroy the=
+ message and the enclosures. Any use of the contents of this message and/or=
+ the enclosures by any other person than the addressee or person who is emp=
+owered to receive this message, is illegal towards the sender and/or the af=
+orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
+age as a result of the use and/or acceptance of this message and as well as=
+ any enclosures.
+
+
