@@ -1,22 +1,20 @@
 Received: from afflict.kos.to ([92.243.29.197])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <riku.voipio@linaro.org>) id 1TwD4Y-0007YT-5a
+	(envelope-from <riku.voipio@linaro.org>) id 1TwD4Y-0007YS-5L
 	for openembedded-core@lists.openembedded.org;
 	Fri, 18 Jan 2013 15:37:50 +0100
 Received: from aimless.elisa-laajakaista.fi
 	(a91-156-58-157.elisa-laajakaista.fi [91.156.58.157])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by afflict.kos.to (Postfix) with ESMTPSA id D2359264C2;
-	Fri, 18 Jan 2013 15:13:30 +0100 (CET)
+	by afflict.kos.to (Postfix) with ESMTPSA id A04EC264BE;
+	Fri, 18 Jan 2013 15:13:27 +0100 (CET)
 From: Riku Voipio <riku.voipio@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jan 2013 16:13:23 +0200
-Message-Id: <1358518403-11155-3-git-send-email-riku.voipio@linaro.org>
+Date: Fri, 18 Jan 2013 16:13:21 +0200
+Message-Id: <1358518403-11155-1-git-send-email-riku.voipio@linaro.org>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1358518403-11155-1-git-send-email-riku.voipio@linaro.org>
-References: <1358518403-11155-1-git-send-email-riku.voipio@linaro.org>
-Subject: [PATCH 3/3] libaio: add aarch64 support
+Subject: [PATCH 1/3] nspr: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,137 +29,136 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Jan 2013 14:37:54 -0000
 
-Picking up a patch from gentoo and adding aarch64 defines
-is enough to fix libaio and pass the harness testsuite
+Add needed defines for Aarch64 support.
+
+Upstream-Status: Submitted https://bugzilla.mozilla.org/show_bug.cgi?id=827271
 
 Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
 ---
- .../libaio/libaio/libaio-aarch64.patch             |   26 ++++++++
- .../libaio/libaio/libaio-generic.patch             |   65 ++++++++++++++++++++
- meta/recipes-extended/libaio/libaio_0.3.109.bb     |    5 +-
- 3 files changed, 95 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
- create mode 100644 meta/recipes-extended/libaio/libaio/libaio-generic.patch
+ .../nspr/files/fix-build-on-aarch64.patch          |  101 ++++++++++++++++++++
+ meta/recipes-support/nspr/nspr_4.9.4.bb            |    1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-support/nspr/files/fix-build-on-aarch64.patch
 
-diff --git a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
+diff --git a/meta/recipes-support/nspr/files/fix-build-on-aarch64.patch b/meta/recipes-support/nspr/files/fix-build-on-aarch64.patch
 new file mode 100644
-index 0000000..98b778b
+index 0000000..ccad0a1
 --- /dev/null
-+++ b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-@@ -0,0 +1,26 @@
-+Upstream-Status: Submitted
++++ b/meta/recipes-support/nspr/files/fix-build-on-aarch64.patch
+@@ -0,0 +1,101 @@
++Add Aarch64 support 
 +
-+---
-+ harness/cases/16.t |    2 ++
-+ src/libaio.h       |   10 ++++++++++
-+ 2 files changed, 12 insertions(+)
-+
-+--- a/src/libaio.h
-++++ b/src/libaio.h
-+@@ -107,6 +107,16 @@
-+ #  else
-+ #    error "neither mipseb nor mipsel?"
-+ #  endif
-++#elif defined(__aarch64__)
-++#  if defined (__AARCH64EB__) /* big endian, 64 bits */
-++#define PADDED(x, y)    unsigned y; x
-++#define PADDEDptr(x,y)  x
-++#define PADDEDul(x, y)  unsigned long x
-++#  elif defined(__AARCH64EL__) /* little endian, 64 bits */
-++#define PADDED(x, y)    x, y
-++#define PADDEDptr(x, y) x
-++#define PADDEDul(x, y)  unsigned long x
-++#  endif
-+ #else
-+ #error	endian?
-+ #endif
-diff --git a/meta/recipes-extended/libaio/libaio/libaio-generic.patch b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
-new file mode 100644
-index 0000000..3fcf541
---- /dev/null
-+++ b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
-@@ -0,0 +1,65 @@
-+From 5e96c73d5dfbdea8d0be82b7f3fc8d6735e5dfa7 Mon Sep 17 00:00:00 2001
-+From: Mike Frysinger <vapier@gentoo.org>
-+Date: Sun, 17 Jan 2010 17:07:48 -0500
-+Subject: [PATCH] add a generic syscall() fallback
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
 +Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
++
++Upstream-Status: Submitted https://bugzilla.mozilla.org/show_bug.cgi?id=827271
 +---
-+ src/syscall-generic.h |   29 +++++++++++++++++++++++++++++
-+ src/syscall.h         |    3 ++-
-+ 2 files changed, 31 insertions(+), 1 deletions(-)
-+ create mode 100644 src/syscall-generic.h
-+
-+diff --git a/src/syscall-generic.h b/src/syscall-generic.h
-+new file mode 100644
-+index 0000000..24d7c7c
-+--- /dev/null
-++++ b/src/syscall-generic.h
-+@@ -0,0 +1,29 @@
-++#include <errno.h>
-++#include <unistd.h>
-++#include <sys/syscall.h>
++ configure.in |   12 ++++++------
++ 1 files changed, 6 insertions(+), 6 deletions(-)
++--- a/pr/include/md/_linux.cfg
+++++ b/pr/include/md/_linux.cfg
++@@ -861,6 +861,59 @@
++ #define PR_BYTES_PER_WORD_LOG2   2
++ #define PR_BYTES_PER_DWORD_LOG2  3
++ 
+++#elif defined(__aarch64__)
 ++
-++#define _body_io_syscall(sname, args...) \
-++{ \
-++   int ret = syscall(__NR_##sname, ## args); \
-++   return ret < 0 ? -errno : ret; \
-++}
+++#ifdef __AARCH64EB__
+++#undef  IS_LITTLE_ENDIAN
+++#define IS_BIG_ENDIAN 1
+++#elif defined(__AARCH64EL__)
+++#define IS_LITTLE_ENDIAN 1
+++#undef  IS_BIG_ENDIAN
+++#else
+++#error "Unknown Aarch64 endianness."
+++#endif
+++#define IS_64
 ++
-++#define io_syscall1(type,fname,sname,type1,arg1) \
-++type fname(type1 arg1) \
-++_body_io_syscall(sname, (long)arg1)
+++#define PR_BYTES_PER_BYTE   1
+++#define PR_BYTES_PER_SHORT  2
+++#define PR_BYTES_PER_INT    4
+++#define PR_BYTES_PER_INT64  8
+++#define PR_BYTES_PER_LONG   8
+++#define PR_BYTES_PER_FLOAT  4
+++#define PR_BYTES_PER_DOUBLE 8
+++#define PR_BYTES_PER_WORD   8
+++#define PR_BYTES_PER_DWORD  8
 ++
-++#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
-++type fname(type1 arg1,type2 arg2) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2)
+++#define PR_BITS_PER_BYTE    8
+++#define PR_BITS_PER_SHORT   16
+++#define PR_BITS_PER_INT     32
+++#define PR_BITS_PER_INT64   64
+++#define PR_BITS_PER_LONG    64
+++#define PR_BITS_PER_FLOAT   32
+++#define PR_BITS_PER_DOUBLE  64
+++#define PR_BITS_PER_WORD    64
 ++
-++#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
-++type fname(type1 arg1,type2 arg2,type3 arg3) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3)
+++#define PR_BITS_PER_BYTE_LOG2   3
+++#define PR_BITS_PER_SHORT_LOG2  4
+++#define PR_BITS_PER_INT_LOG2    5
+++#define PR_BITS_PER_INT64_LOG2  6
+++#define PR_BITS_PER_LONG_LOG2   6
+++#define PR_BITS_PER_FLOAT_LOG2  5
+++#define PR_BITS_PER_DOUBLE_LOG2 6
+++#define PR_BITS_PER_WORD_LOG2   6
 ++
-++#define io_syscall4(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
-++type fname (type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4)
+++#define PR_ALIGN_OF_SHORT   2
+++#define PR_ALIGN_OF_INT     4
+++#define PR_ALIGN_OF_LONG    8
+++#define PR_ALIGN_OF_INT64   8
+++#define PR_ALIGN_OF_FLOAT   4
+++#define PR_ALIGN_OF_DOUBLE  8
+++#define PR_ALIGN_OF_POINTER 8
+++#define PR_ALIGN_OF_WORD    8
 ++
-++#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, type5,arg5) \
-++type fname (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
-++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4, (long)arg5)
-+diff --git a/src/syscall.h b/src/syscall.h
-+index 78becfe..d954af0 100644
-+--- a/src/syscall.h
-++++ b/src/syscall.h
-+@@ -25,5 +25,6 @@
-+ #elif defined(__arm__)
-+ #include "syscall-arm.h"
+++#define PR_BYTES_PER_WORD_LOG2  3
+++#define PR_BYTES_PER_DWORD_LOG2 3
+++
 + #else
-+-#error "add syscall-arch.h"
-++#warning "using generic syscall method"
-++#include "syscall-generic.h"
++ 
++ #error "Unknown CPU architecture"
++--- a/pr/include/md/_linux.h
+++++ b/pr/include/md/_linux.h
++@@ -53,6 +53,8 @@
++ #define _PR_SI_ARCHITECTURE "avr32"
++ #elif defined(__m32r__)
++ #define _PR_SI_ARCHITECTURE "m32r"
+++#elif defined(__aarch64__)
+++#define _PR_SI_ARCHITECTURE "aarch64"
++ #else
++ #error "Unknown CPU architecture"
 + #endif
-+-- 
-+1.7.3.1
-+
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-index 0712d04..afe9adf 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-@@ -11,7 +11,10 @@ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
-            file://00_arches.patch \
-            file://toolchain.patch \
-            file://destdir.patch \
--           file://libaio_fix_for_x32.patch"
-+           file://libaio_fix_for_x32.patch \
-+           file://libaio-generic.patch \
-+           file://libaio-aarch64.patch \
-+"
++@@ -186,7 +188,7 @@
++ })
++ #endif
++ 
++-#if defined(__arm__)
+++#if defined(__arm__) || defined(__aarch64__)
++ #if defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
++ /* Use GCC built-in functions */
++ #define _PR_HAVE_ATOMIC_OPS
++@@ -242,6 +244,10 @@
++ #endif
++ #endif /* __arm__ */
++ 
+++#if defined(__aarch64__)
+++#define _MD_MINIMUM_STACK_SIZE 0x20000
+++#endif
+++
++ #define USE_SETJMP
++ #if (defined(__GLIBC__) && __GLIBC__ >= 2) || defined(ANDROID)
++ #define _PR_POLL_AVAILABLE
+diff --git a/meta/recipes-support/nspr/nspr_4.9.4.bb b/meta/recipes-support/nspr/nspr_4.9.4.bb
+index 36f93e0..accfda7 100644
+--- a/meta/recipes-support/nspr/nspr_4.9.4.bb
++++ b/meta/recipes-support/nspr/nspr_4.9.4.bb
+@@ -11,6 +11,7 @@ SRC_URI = "ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${PV}/src/nspr-$
+            file://remove-rpath-from-tests.patch \
+            file://fix-build-on-x86_64.patch \
+            file://trickly-fix-build-on-x86_64.patch \
++           file://fix-build-on-aarch64.patch \
+           "
  
- SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
- SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
+ SRC_URI += "file://nspr.pc.in"
 -- 
 1.7.10.4
 
