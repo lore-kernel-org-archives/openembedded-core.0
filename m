@@ -1,23 +1,23 @@
-Received: from sysmocom.de ([78.46.147.233] helo=mail.sysmocom.de)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <holger@moiji-mobile.com>) id 1TwDTH-0000bv-15
+	(envelope-from <amy.fong@windriver.com>) id 1TwEoy-0004h2-EK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Jan 2013 16:03:11 +0100
-Received: from sangmingze-mail.local (91-66-230-199-dynip.superkabel.de
-	[91.66.230.199])
-	by mail.sysmocom.de (Postfix) with ESMTPSA id E786B2543409;
-	Fri, 18 Jan 2013 15:01:25 +0000 (UTC)
-Received: from localhost.lan ([127.0.0.1] helo=xiaoyu.lan)
-	by sangmingze-mail.local with esmtp (Exim 4.80)
-	(envelope-from <holger@moiji-mobile.com>)
-	id 1TwDEM-0008Fl-8l; Fri, 18 Jan 2013 15:47:42 +0100
-From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+	Fri, 18 Jan 2013 17:29:40 +0100
+Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
+	[128.224.146.164])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0IGE9Z6006694
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+	Fri, 18 Jan 2013 08:14:10 -0800 (PST)
+Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
+	4.80) (envelope-from <amy.fong@windriver.com>)
+	id 1TwEa0-0002vF-TH; Fri, 18 Jan 2013 11:14:08 -0500
+Date: Fri, 18 Jan 2013 11:14:08 -0500
+From: Amy Fong <amy.fong@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Jan 2013 15:47:34 +0100
-Message-Id: <1358520454-31595-1-git-send-email-holger@moiji-mobile.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Holger Hans Peter Freyther <holger@moiji-mobile.com>
-Subject: [PATCH] dropbear: Deal with truncated host keys by removing them
+Message-ID: <20130118161408.GA11224@windriver.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: [PATCH] autofs has openldap dependency issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,53 +30,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 15:03:14 -0000
+X-List-Received-Date: Fri, 18 Jan 2013 16:29:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dropbear does not start when the host key is empty and it is possible
-that a device is switched off before the host key is generated. This
-is possible because the dropbearkey code doesn't create a temporary
-file first. Detect truncated keys and then remove them which will lead
-to the re-generation. This way the dropbear process will always start.
----
- meta/recipes-core/dropbear/dropbear.inc  |    2 +-
- meta/recipes-core/dropbear/dropbear/init |    6 ++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+commit 09947d772a36e4d2c2dc48356281bd3ce0a04b0c
+Author: Amy Fong <amy.fong@windriver.com>
+Date:   Fri Jan 18 11:10:35 2013 -0500
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 3e430f2..3a39c95 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
- HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
- SECTION = "console/network"
+    autofs: fails to compile with openldap disabled
+    
+    As of 5.0.6, it appears that changes were introduced so that
+    if you compile with openldap disabled and openldap headers are not
+    available, then autofs fails to build.
+    
+    Since autofs no longer depends on openldap, remove the dependency
+    
+    Signed-off-by: Amy Fong <amy.fong@windriver.com>
+
+diff --git a/recipes-daemons/autofs/autofs-5.0.7/fix_disable_ldap.patch b/recipes-daemons/autofs/autofs-5.0.7/fix_disable_ldap.patch
+new file mode 100644
+index 0000000..b62f955
+--- /dev/null
++++ b/recipes-daemons/autofs/autofs-5.0.7/fix_disable_ldap.patch
+@@ -0,0 +1,40 @@
++autofs: fails to compile with openldap disabled
++
++As of 5.0.6, it appears that changes were introduced so that 
++if you compile with openldap disabled and openldap headers are not
++available, then autofs fails to build.
++
++Signed-off-by: Amy Fong <amy.fong@windriver.com>
++--
++ lookup_ldap.h |    4 ++++
++ 1 file changed, 4 insertions(+)
++
++---
++ include/lookup_ldap.h |    4 ++++
++ 1 file changed, 4 insertions(+)
++
++--- a/include/lookup_ldap.h
+++++ b/include/lookup_ldap.h
++@@ -1,7 +1,9 @@
++ #ifndef LOOKUP_LDAP_H
++ #define LOOKUP_LDAP_H
++ 
+++#ifdef WITH_LDAP
++ #include <ldap.h>
+++#endif
++ 
++ #ifdef WITH_SASL
++ #include <openssl/ssl.h>
++@@ -109,10 +111,12 @@
++ 
++ #define LDAP_AUTH_USESIMPLE	0x0008
++ 
+++#ifdef WITH_LDAP
++ /* lookup_ldap.c */
++ LDAP *init_ldap_connection(unsigned logopt, const char *uri, struct lookup_context *ctxt);
++ int unbind_ldap_connection(unsigned logopt, LDAP *ldap, struct lookup_context *ctxt);
++ int authtype_requires_creds(const char *authtype);
+++#endif
++ 
++ #ifdef WITH_SASL
++ /* cyrus-sasl.c */
+diff --git a/recipes-daemons/autofs/autofs_5.0.7.bb b/recipes-daemons/autofs/autofs_5.0.7.bb
+index c1b0b46..a6683ff 100644
+--- a/recipes-daemons/autofs/autofs_5.0.7.bb
++++ b/recipes-daemons/autofs/autofs_5.0.7.bb
+@@ -3,7 +3,9 @@ SECTION = "base"
+ LICENSE = "GPL-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
  
--INC_PR = "r1"
-+INC_PR = "r2"
+-DEPENDS += "openldap libtirpc flex-native bison-native"
++PR = "r1"
++
++DEPENDS += "libtirpc flex-native bison-native"
  
- # some files are from other projects and have others license terms:
- #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
-diff --git a/meta/recipes-core/dropbear/dropbear/init b/meta/recipes-core/dropbear/dropbear/init
-index e882bae..5cc2d65 100755
---- a/meta/recipes-core/dropbear/dropbear/init
-+++ b/meta/recipes-core/dropbear/dropbear/init
-@@ -58,9 +58,15 @@ gen_keys() {
- for t in $DROPBEAR_KEYTYPES; do
-   case $t in
-     rsa)
-+        if [ -f "$DROPBEAR_RSAKEY" -a ! -s "$DROPBEAR_RSAKEY" ]; then
-+                rm $DROPBEAR_RSAKEY || true
-+        fi
-         test -f $DROPBEAR_RSAKEY || dropbearkey -t rsa -f $DROPBEAR_RSAKEY
- 	;;
-     dsa)
-+        if [ -f "$DROPBEAR_DSSKEY" -a ! -s "$DROPBEAR_DSSKEY" ]; then
-+                rm $DROPBEAR_DSSKEY || true
-+        fi
-         test -f $DROPBEAR_DSSKEY || dropbearkey -t dss -f $DROPBEAR_DSSKEY
- 	;;
-   esac
--- 
-1.7.10.4
-
+ inherit autotools systemd
+ 
+@@ -30,6 +32,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/daemons/autofs/v5/autofs-${PV}.tar.bz2 \
+            file://cross.patch \
+            file://libtirpc.patch \
+            file://libtirpc-name-clash-backout.patch \
++           file://fix_disable_ldap.patch \
+           "
+ 
+ SRC_URI[md5sum] = "bc46838dece83c02d800ff144ed9f431"
 
 
