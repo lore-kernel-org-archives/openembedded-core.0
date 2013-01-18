@@ -1,40 +1,42 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Tw9w0-000114-Hi
+	(envelope-from <mike.looijmans@topic.nl>) id 1Tw9xP-00014S-TJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Jan 2013 12:16:34 +0100
-Received: from mail-vb0-f70.google.com ([209.85.212.70])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 18 Jan 2013 03:01:06 -0800
-Received: by mail-vb0-f70.google.com with SMTP id s24so2427578vbi.1
+	Fri, 18 Jan 2013 12:18:20 +0100
+Received: from amavisd-new (mailscanner6.mer-nm.internl.net [217.149.192.58])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id D7F7D3F49E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2013 03:01:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-received:x-received:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=jKZd9/9qEwrBHmtCbIjBkXPDG01gibC7y//mvrOaSPw=;
-	b=cBFvkp+Cu5/3wUnnn2uoFZVhHlNHR57I9oVmmyCww503HoSy/DPEEQ4NgekbrZe9OH
-	XMIMwfuih8P4vBgVZuWfFHpSYPguHN9KWWyi/PRZ1PIxWm06E25ZyfUl5+cXCiul76NF
-	/1w1Km/TVCU39ah77fFML8pa+ACs1I0LkSJo0I7oR86V2ZcAnaUxFEXZSewXi4knDNDl
-	HHBVA0eiOoi/mH7t3kXQCQmM7q9kUglTrDuppTPBSmtiG4TRl4bd92XsUHnjY/Pfv8/N
-	f7fG9kQ1o6NWb9imVq9ZrF6cHqZe+RK8NN01olwLCVlA6x+WnSHo0dT009olCjR44ybP
-	LmGg==
-X-Received: by 10.220.240.141 with SMTP id la13mr8970730vcb.39.1358506865291; 
-	Fri, 18 Jan 2013 03:01:05 -0800 (PST)
-X-Received: by 10.220.240.141 with SMTP id la13mr8970721vcb.39.1358506865185; 
-	Fri, 18 Jan 2013 03:01:05 -0800 (PST)
+	Fri, 18 Jan 2013 12:02:37 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mailrelay1.nijmegen.internl.net
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner6.mer-nm.internl.net [217.149.192.159])
+	(amavisd-new, port 10024) with ESMTP id a6-hqf9PAAGT
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jan 2013 12:02:37 +0100 (CET)
+Received: from TOP-EX02.topic.local (82-204-13-181.dsl.bbeyond.nl
+	[82.204.13.181]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jan 2013 12:02:37 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (192.168.10.102) by mail.topic.nl
+	(192.168.1.103) with Microsoft SMTP Server (TLS) id 14.1.218.12;
+	Fri, 18 Jan 2013 12:02:29 +0100
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.289.1;
+	Fri, 18 Jan 2013 12:02:36 +0100
+Message-ID: <50F92BCC.5020006@topic.nl>
+Date: Fri, 18 Jan 2013 12:02:36 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.58.152.232 with HTTP; Fri, 18 Jan 2013 03:00:45 -0800 (PST)
-In-Reply-To: <50F92AEB.8000609@topic.nl>
+To: <openembedded-core@lists.openembedded.org>
 References: <3116730.Gs6kyeAI7b@yiqingliang-pc> <50F92396.403@topic.nl>
-	<CAJTo0LYbNyBMhWNDH5pzmn2BO9mCt+0mODXohaC7ZO-PSyLVAQ@mail.gmail.com>
-	<50F92AEB.8000609@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Jan 2013 11:00:45 +0000
-Message-ID: <CAJTo0Lbg5CAH86-p-LNFipLqs5KSuMO+pMGv-P8DEhx4roTr2Q@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Gm-Message-State: ALoCoQm9St6rZ8c/AIKf4qo+mbX+qNFSLbPLmw4EnQwG1Or0s/8ngfAqqaiIrVCwDhpBLf3Gixo3dliivYR3aLt/lKxA4vYkjuzGoMOijafnZ1TsPOnJkWLRr760KI/z1hi0hGUwixRD5WmJh87+Czw9TTChM2Tedj3V+XnJIJJyzYg5W1FhR5IVE1wjpTz7qjjjDzZ4r7AR
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <50F92396.403@topic.nl>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
 Subject: Re: OpenMP and OE-core (or: Why is OpenMP explicitly disabled?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,22 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 11:16:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Jan 2013 11:18:20 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-[re-adding oe-core to CC]
-
-On 18 January 2013 10:58, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> I'd welcome suggestions, especially for "words" to use. I'd be tempted to
-> add "openmp" to MACHINE_FEATURES (because it's mostly a machine thing, I'd
-> expect).
+=EF=BB=BFOn 01/18/2013 11:27 AM, Mike Looijmans wrote:
+> Hello,
 >
-> Just compiling without the "--disable-libgomp" should be harmless
-> regardless. Right?
+> When trying to use OpenMP in an embedded ARM project, I found that=20
+> oe-core explicitly tells GCC to NOT include the OpenMP support.
+>
+> Is there a particular reason why this was done?
+>
+> As an experiment, I just removed the "--disable-libgomp" OECONF=20
+> additions from the GCC recipes, and added libgomp unconditionally (why=20
+> is that only included for powerpc?).
+>
+> Since multicore systems are getting more and more common even in=20
+> embedded systems, I guess I shouldn't be the only one who bumped into=20
+> this.
 
-If all that does is make the compiler larger, and doesn't impact
-generated images, then you can make a case for enabling it always.
+I tested with simply compiling like that, and adding a=20
+"ac_cv_prog_c_openmp=3D-fopenmp" to the OECONF options because otherwise=20
+autotools tries to run an ARM binary on the build machine. The resulting=20
+image rusn fine, and my program get double the performance.
 
-Ross
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
+Telefax: (+31) - (0)499 - 33.69.70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
+end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
+en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
+ Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
+jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
+ te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
+n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
+nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
+ een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
+ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
+C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
+d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
+orende bijlagen.
+
+The contents of this message, as well as any enclosures, are addressed pers=
+onally to, and thus solely intended for the addressee. They may contain inf=
+ormation regarding a third party. A recipient who is neither the addressee,=
+ nor empowered to receive this message on behalf of the addressee, is kindl=
+y requested to immediately inform the sender of receipt, and to destroy the=
+ message and the enclosures. Any use of the contents of this message and/or=
+ the enclosures by any other person than the addressee or person who is emp=
+owered to receive this message, is illegal towards the sender and/or the af=
+orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
+age as a result of the use and/or acceptance of this message and as well as=
+ any enclosures.
 
 
