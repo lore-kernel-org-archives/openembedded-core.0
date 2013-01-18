@@ -1,26 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-da0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TwFYZ-00064y-JS
+	(envelope-from <raj.khem@gmail.com>) id 1TwFix-0006Iz-Pv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Jan 2013 18:17:28 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 18 Jan 2013 09:01:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,493,1355126400"; d="scan'208";a="245676845"
-Received: from unknown (HELO [10.255.15.56]) ([10.255.15.56])
-	by azsmga001.ch.intel.com with ESMTP; 18 Jan 2013 09:01:16 -0800
-Message-ID: <50F97FDC.2060405@linux.intel.com>
-Date: Fri, 18 Jan 2013 09:01:16 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Fri, 18 Jan 2013 18:27:41 +0100
+Received: by mail-da0-f43.google.com with SMTP id u36so1704749dak.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Jan 2013 09:12:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:message-id:date:from:user-agent:mime-version:to:subject
+	:references:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=ScnvCdZyxv21iqADlaYHVgvQayrchxz2Ks0OqIqo4y0=;
+	b=BZHHcYvddGzdONRy1P0Iv4LW2J6AMygbAv2NJNKqj7jjliAR0qNQzRY/+e4EB2ipPN
+	jc7Vkqo4mBEOR0IahJzPvTPD4Ra7b/MVIGqDcKURSfVAsaYpx/xor0B2wFCLEw5prhr6
+	zAw/PBTYyBtcJkfv+w40gYh1M4pBmUcy5/81Q+CJtcrAcU6URvEdW3sXKXOZuV0R6qNa
+	elJGMyO8hcpEZypfA3l2zchIVcrNmyVwfgVb/O9IQq3qiGDlJ+n0py62NnaPtOcrzi09
+	BsCp4MTWbTTm58dpuadh/9L+Rp7PXWsCUVmcKSL7/xNTuRfE/guied14BKTdia3nzQO2
+	gFww==
+X-Received: by 10.68.224.227 with SMTP id rf3mr7303256pbc.108.1358529122324;
+	Fri, 18 Jan 2013 09:12:02 -0800 (PST)
+Received: from [172.23.9.30] (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id jo6sm3410287pbb.5.2013.01.18.09.12.01
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 18 Jan 2013 09:12:01 -0800 (PST)
+Message-ID: <50F98260.40501@gmail.com>
+Date: Fri, 18 Jan 2013 09:12:00 -0800
+From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:17.0) Gecko/20130105 Thunderbird/17.0.2
 MIME-Version: 1.0
-To: Riku Voipio <riku.voipio@linaro.org>
-References: <1358518403-11155-1-git-send-email-riku.voipio@linaro.org>
-	<1358518403-11155-3-git-send-email-riku.voipio@linaro.org>
-In-Reply-To: <1358518403-11155-3-git-send-email-riku.voipio@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] libaio: add aarch64 support
+To: openembedded-core@lists.openembedded.org
+References: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+In-Reply-To: <1358345647-13274-1-git-send-email-giuseppe.condorelli@st.com>
+X-Enigmail-Version: 1.5
+Subject: Re: [PATCH] eglibc: fix as and ld check in libc dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,149 +46,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Jan 2013 17:17:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 18 Jan 2013 17:27:43 -0000
+X-List-Received-Date: Fri, 18 Jan 2013 17:27:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 01/18/2013 06:13 AM, Riku Voipio wrote:
-> Picking up a patch from gentoo and adding aarch64 defines
-> is enough to fix libaio and pass the harness testsuite
->
-> Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-> ---
->   .../libaio/libaio/libaio-aarch64.patch             |   26 ++++++++
->   .../libaio/libaio/libaio-generic.patch             |   65 ++++++++++++++++++++
->   meta/recipes-extended/libaio/libaio_0.3.109.bb     |    5 +-
->   3 files changed, 95 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
->   create mode 100644 meta/recipes-extended/libaio/libaio/libaio-generic.patch
->
-> diff --git a/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-> new file mode 100644
-> index 0000000..98b778b
-> --- /dev/null
-> +++ b/meta/recipes-extended/libaio/libaio/libaio-aarch64.patch
-> @@ -0,0 +1,26 @@
-> +Upstream-Status: Submitted
-> +
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-This one needs a Signed-off-by: Please.
+On 01/16/2013 06:14 AM, Giuseppe CONDORELLI wrote:
+> Fix routine to check as and ld version check in the configure, to
+> allow system to correctly check for version 2.1x.
 
-Thanks
-	Sau!
+Giuseppe
+
+This demotion of letting older binutils will not be accepted since
+there is reason to demand 2.20 minimum see
+
+http://sourceware.org/ml/libc-alpha/2012-02/msg00605.html
+
+Now you might have backported needed functionality into your local
+copy of binutils but having this patch local to your layer is best
+approach here.
+
+- -Khem
 
 
-> +---
-> + harness/cases/16.t |    2 ++
-> + src/libaio.h       |   10 ++++++++++
-> + 2 files changed, 12 insertions(+)
-> +
-> +--- a/src/libaio.h
-> ++++ b/src/libaio.h
-> +@@ -107,6 +107,16 @@
-> + #  else
-> + #    error "neither mipseb nor mipsel?"
-> + #  endif
-> ++#elif defined(__aarch64__)
-> ++#  if defined (__AARCH64EB__) /* big endian, 64 bits */
-> ++#define PADDED(x, y)    unsigned y; x
-> ++#define PADDEDptr(x,y)  x
-> ++#define PADDEDul(x, y)  unsigned long x
-> ++#  elif defined(__AARCH64EL__) /* little endian, 64 bits */
-> ++#define PADDED(x, y)    x, y
-> ++#define PADDEDptr(x, y) x
-> ++#define PADDEDul(x, y)  unsigned long x
-> ++#  endif
-> + #else
-> + #error	endian?
-> + #endif
-> diff --git a/meta/recipes-extended/libaio/libaio/libaio-generic.patch b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
-> new file mode 100644
-> index 0000000..3fcf541
-> --- /dev/null
-> +++ b/meta/recipes-extended/libaio/libaio/libaio-generic.patch
-> @@ -0,0 +1,65 @@
-> +From 5e96c73d5dfbdea8d0be82b7f3fc8d6735e5dfa7 Mon Sep 17 00:00:00 2001
-> +From: Mike Frysinger <vapier@gentoo.org>
-> +Date: Sun, 17 Jan 2010 17:07:48 -0500
-> +Subject: [PATCH] add a generic syscall() fallback
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Mike Frysinger <vapier@gentoo.org>
-> +Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-> +---
-> + src/syscall-generic.h |   29 +++++++++++++++++++++++++++++
-> + src/syscall.h         |    3 ++-
-> + 2 files changed, 31 insertions(+), 1 deletions(-)
-> + create mode 100644 src/syscall-generic.h
-> +
-> +diff --git a/src/syscall-generic.h b/src/syscall-generic.h
-> +new file mode 100644
-> +index 0000000..24d7c7c
-> +--- /dev/null
-> ++++ b/src/syscall-generic.h
-> +@@ -0,0 +1,29 @@
-> ++#include <errno.h>
-> ++#include <unistd.h>
-> ++#include <sys/syscall.h>
-> ++
-> ++#define _body_io_syscall(sname, args...) \
-> ++{ \
-> ++   int ret = syscall(__NR_##sname, ## args); \
-> ++   return ret < 0 ? -errno : ret; \
-> ++}
-> ++
-> ++#define io_syscall1(type,fname,sname,type1,arg1) \
-> ++type fname(type1 arg1) \
-> ++_body_io_syscall(sname, (long)arg1)
-> ++
-> ++#define io_syscall2(type,fname,sname,type1,arg1,type2,arg2) \
-> ++type fname(type1 arg1,type2 arg2) \
-> ++_body_io_syscall(sname, (long)arg1, (long)arg2)
-> ++
-> ++#define io_syscall3(type,fname,sname,type1,arg1,type2,arg2,type3,arg3) \
-> ++type fname(type1 arg1,type2 arg2,type3 arg3) \
-> ++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3)
-> ++
-> ++#define io_syscall4(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4) \
-> ++type fname (type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
-> ++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4)
-> ++
-> ++#define io_syscall5(type,fname,sname,type1,arg1,type2,arg2,type3,arg3,type4,arg4, type5,arg5) \
-> ++type fname (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5) \
-> ++_body_io_syscall(sname, (long)arg1, (long)arg2, (long)arg3, (long)arg4, (long)arg5)
-> +diff --git a/src/syscall.h b/src/syscall.h
-> +index 78becfe..d954af0 100644
-> +--- a/src/syscall.h
-> ++++ b/src/syscall.h
-> +@@ -25,5 +25,6 @@
-> + #elif defined(__arm__)
-> + #include "syscall-arm.h"
-> + #else
-> +-#error "add syscall-arch.h"
-> ++#warning "using generic syscall method"
-> ++#include "syscall-generic.h"
-> + #endif
-> +--
-> +1.7.3.1
-> +
-> diff --git a/meta/recipes-extended/libaio/libaio_0.3.109.bb b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-> index 0712d04..afe9adf 100644
-> --- a/meta/recipes-extended/libaio/libaio_0.3.109.bb
-> +++ b/meta/recipes-extended/libaio/libaio_0.3.109.bb
-> @@ -11,7 +11,10 @@ SRC_URI = "${DEBIAN_MIRROR}/main/liba/libaio/libaio_${PV}.orig.tar.gz \
->              file://00_arches.patch \
->              file://toolchain.patch \
->              file://destdir.patch \
-> -           file://libaio_fix_for_x32.patch"
-> +           file://libaio_fix_for_x32.patch \
-> +           file://libaio-generic.patch \
-> +           file://libaio-aarch64.patch \
-> +"
->
->   SRC_URI[md5sum] = "435a5b16ca6198eaf01155263d855756"
->   SRC_URI[sha256sum] = "bf4a457253cbaab215aea75cb6e18dc8d95bbd507e9920661ff9bdd288c8778d"
->
+
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+Comment: Using GnuPG with Thunderbird - http://www.enigmail.net/
+
+iEYEARECAAYFAlD5gmAACgkQuwUzVZGdMxQrBQCggIutiKGvZYlfQimMO+2gEu6S
+ZcUAnjQynyJrIQTfIJWw/Jqt7ZyzJ0Xl
+=7E9N
+-----END PGP SIGNATURE-----
 
 
