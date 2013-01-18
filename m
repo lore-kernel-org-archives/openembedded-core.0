@@ -1,25 +1,27 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1TwLN2-0007zR-M2
+	(envelope-from <mark.hatle@windriver.com>) id 1TwLN3-0007zS-5o
 	for openembedded-core@lists.openembedded.org;
 	Sat, 19 Jan 2013 00:29:22 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0INDkWU003227
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0INDlKa003230
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Jan 2013 15:13:46 -0800 (PST)
+	Fri, 18 Jan 2013 15:13:47 -0800 (PST)
 Received: from localhost.localdomain (172.25.34.110) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Fri, 18 Jan 2013 15:13:45 -0800
+	(TLS) id 14.2.318.4; Fri, 18 Jan 2013 15:13:47 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Jan 2013 17:13:36 -0600
-Message-ID: <cover.1358550581.git.mark.hatle@windriver.com>
+Date: Fri, 18 Jan 2013 17:13:37 -0600
+Message-ID: <1cabb636ae1640c7d59a9932141fae973ad17985.1358550581.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1358550581.git.mark.hatle@windriver.com>
+References: <cover.1358550581.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.110]
-Subject: [PATCH 0/2] Fix meta-toolchain and meta-toolchain-gmae install problems
+Subject: [PATCH 1/2] populate_sdk_rpm: Re-add a few system provides to the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,22 +37,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 18 Jan 2013 23:29:27 -0000
 Content-Type: text/plain
 
-The following changes since commit 18bc7b44ef58cbcbe32d45504d71eed54ef695a4:
+When building the target SDK portion, we can safely ignore various
+package rdepends.  These dependencies are not required on a build
+only environment like an SDK.
 
-  guilt: add git 1.8.x support (2013-01-18 13:20:56 +0000)
+[YOCTO #3691]
 
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib mhatle/ua-dep
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/ua-dep
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Tested-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/populate_sdk_rpm.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-Mark Hatle (2):
-  populate_sdk_rpm: Re-add a few system provides to the SDK
-  update-alternatives: Add a build-time dependency
-
- meta/classes/populate_sdk_rpm.bbclass          |    4 +++-
- meta/classes/update-alternatives.bbclass       |   13 +++++++++++++
- meta/conf/distro/include/default-providers.inc |    2 +-
- 3 files changed, 17 insertions(+), 2 deletions(-)
+diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
+index eb80e1d..00a3ab4 100644
+--- a/meta/classes/populate_sdk_rpm.bbclass
++++ b/meta/classes/populate_sdk_rpm.bbclass
+@@ -43,7 +43,9 @@ populate_sdk_rpm () {
+ 	export INSTALL_PACKAGES_RPM="${TOOLCHAIN_TARGET_TASK}"
+ 	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${TOOLCHAIN_TARGET_TASK_ATTEMPTONLY}"
+ 	export INSTALL_PACKAGES_LINGUAS_RPM=""
+-	export INSTALL_PROVIDENAME_RPM=""
++	# We don't need any of these runtime items for the SDK, so
++	# just make the system assume they exist.
++	export INSTALL_PROVIDENAME_RPM="/bin/sh /bin/bash /usr/bin/env /usr/bin/perl pkgconfig"
+ 	export INSTALL_TASK_RPM="populate_sdk-target"
+ 	export INSTALL_COMPLEMENTARY_RPM=""
+ 	export INTERCEPT_DIR=${WORKDIR}/intercept_scripts
+-- 
+1.7.1
 
 
 
