@@ -1,23 +1,23 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Tw4ba-0000Rj-NS
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Tw4bZ-0000Rh-Ig
 	for openembedded-core@lists.openembedded.org;
 	Fri, 18 Jan 2013 06:35:15 +0100
 Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0I5JaTI006246;
-	Thu, 17 Jan 2013 21:19:41 -0800 (PST)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0I5JaTG006246;
+	Thu, 17 Jan 2013 21:19:39 -0800 (PST)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Fri, 18 Jan 2013 00:19:32 -0500
-Message-Id: <678a21a959f6d93da8964a520ed197f2d03ec83a.1358485481.git.bruce.ashfield@windriver.com>
+Date: Fri, 18 Jan 2013 00:19:30 -0500
+Message-Id: <35e6bc2991c36737b027fb78db8309ad968d69e2.1358485481.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1358485481.git.bruce.ashfield@windriver.com>
 References: <cover.1358485481.git.bruce.ashfield@windriver.com>
 In-Reply-To: <cover.1358485481.git.bruce.ashfield@windriver.com>
 References: <cover.1358485481.git.bruce.ashfield@windriver.com>
 Cc: linux-yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] guilt: add git 1.8.x support
+Subject: [PATCH 5/7] linux-yocto/routerstationpro: enable GPIO_SYSFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,74 +32,58 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Jan 2013 05:35:16 -0000
 
-Updating guilt to allow git 1.8.x as a supported version. This version has
-no impact on other functionality within the scripts, so no other adjustments
-are necessary.
+We had a request to enable GPIO_SYSFS to allow easy use of the available
+GPIOs in the board out of the box. This is a simple / contained config item
+to enable, so there's no reason not to.
 
-[YOCTO #3275]
+[YOCTO #3519]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- ...lt-update-supported-git-versions-to-1.8.x.patch |   28 ++++++++++++++++++++
- meta/recipes-devtools/guilt/guilt-native_0.33.bb   |    3 ++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb      |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch b/meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
-new file mode 100644
-index 0000000..579d9bc
---- /dev/null
-+++ b/meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
-@@ -0,0 +1,28 @@
-+From d7fb5d4e159071b6255181fcf436300038fe9e6c Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@windriver.com>
-+Date: Wed, 16 Jan 2013 20:48:11 -0500
-+Subject: [PATCH] guilt: update supported git versions to 1.8.x
-+
-+guilt errors on the new 1.8.x git series, when it shouldn't, since
-+1.8.x works fine with the existing guilt version.
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-+---
-+ guilt |    1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/guilt b/guilt
-+index 346f929..6505653 100755
-+--- a/guilt
-++++ b/guilt
-+@@ -37,6 +37,7 @@ case "$gitver" in
-+ 	1.5.*)	;; # git config
-+ 	1.6.*)	;; # git config
-+ 	1.7.*)	;; # git config
-++	1.8.*)	;; # git config
-+ 	*)	die "Unsupported version of git ($gitver)" ;;
-+ esac
-+ 
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-devtools/guilt/guilt-native_0.33.bb b/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-index 754b528..6652ab6 100644
---- a/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-+++ b/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b6f3400dc1a01cebafe8a52b3f344135"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index 2674090..bcac395 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -10,7 +10,7 @@ KMETA = "meta"
  
- PV = "0.33"
--PR = "r2"
-+PR = "r3"
+ SRCREV_machine ?= "729e8634f75bf10582916eae6b5b96325785c001"
+ SRCREV_machine_qemuppc ?= "15ce18fac50c49ea4893b0d7ed3d0086ef9c7448"
+-SRCREV_meta ?= "d9646442b3763097a425c4e728525685bafc4b89"
++SRCREV_meta ?= "2cbb5aca2c25e37b04828cf0b7d90e2f22af816e"
  
- inherit native
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+index 083cdf5..984476f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
+@@ -13,7 +13,7 @@ LINUX_VERSION ?= "3.4.24"
+ KMETA = "meta"
  
-@@ -20,6 +20,7 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/g/guilt/guilt_${PV}.orig.ta
- 	   file://improve_auto_header_gen.patch \
- 	   file://guilt-set-git_exec_path.patch \
- 	   file://guilt-bash.patch \
-+	   file://guilt-update-supported-git-versions-to-1.8.x.patch \
- 	   file://optional_head_check.patch"
+ SRCREV_machine ?= "5432e2acb6053f9f7563cf63abd101ed2fdc1b6f"
+-SRCREV_meta ?= "d9646442b3763097a425c4e728525685bafc4b89"
++SRCREV_meta ?= "2cbb5aca2c25e37b04828cf0b7d90e2f22af816e"
  
- SRC_URI[md5sum] = "d800c5e0743d90543ef51d797a626e09"
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 35f0074..0ac51b9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -9,7 +9,7 @@ SRCREV_machine_qemuppc ?= "1c8a1aa8cc839f0328edbfe0d755100368bc4ae6"
+ SRCREV_machine_qemux86 ?= "5432e2acb6053f9f7563cf63abd101ed2fdc1b6f"
+ SRCREV_machine_qemux86-64 ?= "5432e2acb6053f9f7563cf63abd101ed2fdc1b6f"
+ SRCREV_machine ?= "5432e2acb6053f9f7563cf63abd101ed2fdc1b6f"
+-SRCREV_meta ?= "d9646442b3763097a425c4e728525685bafc4b89"
++SRCREV_meta ?= "2cbb5aca2c25e37b04828cf0b7d90e2f22af816e"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
 -- 
 1.7.10.4
 
