@@ -1,43 +1,43 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1TwhSw-0007e4-5b
+	(envelope-from <ross.burton@intel.com>) id 1TwhSv-0007e2-DB
 	for openembedded-core@lists.openembedded.org;
 	Sun, 20 Jan 2013 00:04:46 +0100
-Received: from mail-wg0-f72.google.com ([74.125.82.72])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jan 2013 14:49:18 -0800
-Received: by mail-wg0-f72.google.com with SMTP id fg15so5235534wgb.11
+Received: from mail-bk0-f71.google.com ([209.85.214.71])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jan 2013 14:49:16 -0800
+Received: by mail-bk0-f71.google.com with SMTP id jm19so5348668bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2013 14:49:16 -0800 (PST)
+	Sat, 19 Jan 2013 14:49:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-received:x-received:from:to:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references:x-gm-message-state;
-	bh=evj2du2e9WjsiyeayOoYKI0OY7B+LahdDyDgnS8UvnI=;
-	b=FtLv06/yq/7bzRD1ExLd888ou9VpWoMeD9kAAjFQ7qzKHm9GmNNsK0hfIFlUNLbCMi
-	+ZhXnBBU+Dch28dYh5utekIZ/Szb6tw67M8NOLgp1PwfABVANUXszhAruj6BzbBdR5FG
-	fEeXsQYegAP35L5bV7VNkkSJsMUGsJvs8KkFAqCFaZ84F/OOGz+M2ZlzHzA0TLBICZeF
-	bGT0XJSM2K4zKwO5uo2/uVY7bLoCDmFE77qnDQGutXD8VHr0mSx1lhtxv89NH81clofj
-	B3c/SMtaMhkvDuNtPMeZVTu2MeXAy3jjam/BC036JrsIeKpm/FL56YpvA6hI/oFMByQ1
-	HLVw==
-X-Received: by 10.194.20.231 with SMTP id q7mr19991295wje.44.1358635756675;
-	Sat, 19 Jan 2013 14:49:16 -0800 (PST)
-X-Received: by 10.194.20.231 with SMTP id q7mr19991291wje.44.1358635756605;
-	Sat, 19 Jan 2013 14:49:16 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id p2sm10967931wic.7.2013.01.19.14.49.15
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	bh=6CbMrLOGVcUB0oeeuYXrehUEY9bS7cEmSRiitpukj+M=;
+	b=kvje/OzEPYLmuYBGtLyJ969XRaRanMJuYW3OcIYa0/ZZR1xBK3Qa78KO3yWRMSTrqf
+	9mreuOOzp07jkyaJ0Rv/oEFMtiDJQA/eMuU3c53YeDSrOaWJyvPM5WLpbDpIvfNvZuOt
+	004585uOeBAe7BgBwEnuOzo+9dOqfxCAmKMr4AaEsGHGDu/g2F47lwPyI9RFNYQWSGju
+	aeOlBPiBr35lebs58JpNqJ3FZ856XSz470Fk2RpvTBnSBDHsuwhiDugzinHY/WDK065k
+	sli58E6ZdB6L0hTKGNhhOdG6A8vKQIjWRdn5GjWYLo2UGVjbXvYTElLaBrrKLw1PSdgR
+	02mg==
+X-Received: by 10.180.78.226 with SMTP id e2mr9312656wix.1.1358635755134;
 	Sat, 19 Jan 2013 14:49:15 -0800 (PST)
+X-Received: by 10.180.78.226 with SMTP id e2mr9312653wix.1.1358635755077;
+	Sat, 19 Jan 2013 14:49:15 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id p2sm10967931wic.7.2013.01.19.14.49.13
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 19 Jan 2013 14:49:14 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Jan 2013 22:47:06 +0000
-Message-Id: <ae25b75af351676b7866215d07359fb602a953b8.1358635193.git.ross.burton@intel.com>
+Date: Sat, 19 Jan 2013 22:47:05 +0000
+Message-Id: <7c26b8f7417dfbe245926137acfa61d0f659488c.1358635193.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1358635193.git.ross.burton@intel.com>
 References: <cover.1358635193.git.ross.burton@intel.com>
 In-Reply-To: <cover.1358635193.git.ross.burton@intel.com>
 References: <cover.1358635193.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnZpUDzVIucaCeROoHx9f4eevflTTG9HzhgXLGZt47QRlqg355+vGHF5GpLn1pFyUbBdOQur3+T90qoldeefJ7yJ4rj8cDJHkOo7lMSfrSocHyGX16N/wA8TN0pDbHlLlW3orc3462/fteWk940YrAAyZBD6aKuVdHIv4+JinU61WjE/t49dgoploO8Fpz39TDjHcd+
-Subject: [PATCH 03/10] dbus: respect systemd distro feature
+X-Gm-Message-State: ALoCoQnPukHr1tu6NNK+w1PXaO/3FONwAFNUyOzCa4u1j3ANwWPOOJryrNVPtfg10yAopa5/4euAz2+A+0Cv/GdY8JrVVZ0nHh8RZef522ywO/Up3y9nzWC0KQ8gHf2Cbr3Bj1gyfpaSwyAxUOLFy3jS7mqCM/omJfLZQpIpXQ8WUblfRujVdenGqgZ2UKmfF+VxKYSwpevS
+Subject: [PATCH 02/10] default-providers: Automatically set PREFERRED_PROVIDER_udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,99 +52,28 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 19 Jan 2013 23:04:46 -0000
 
-Only configure for systemd if we are using systemd, and remove the dbus-systemd
-package by putting the service files into PN itself.
+From: Radu Moisan <radu.moisan@intel.com>
 
+This is a more generic way to set preferred provider for udev.
+We expect to have multiple choices once we integrate other init
+managers, and this way we can automatically set it considering
+distro settings.
+
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/dbus/dbus.inc |   27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ meta/conf/distro/include/default-providers.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index bcc5b6b..88218b7 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -33,7 +33,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
- 
- DEBIANNAME_${PN} = "dbus-1"
- 
--PACKAGES =+ "${PN}-lib ${PN}-systemd"
-+PACKAGES =+ "${PN}-lib"
- 
- OLDPKGNAME = "dbus-x11"
- OLDPKGNAME_class-nativesdk = ""
-@@ -42,8 +42,6 @@ OLDPKGNAME_class-nativesdk = ""
- RPROVIDES_${PN} = "${OLDPKGNAME}"
- RREPLACES_${PN} += "${OLDPKGNAME}"
- 
--FILES_${PN}-systemd = "${systemd_unitdir}/system/"
--
- FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${bindir}/dbus-uuidgen \
-                ${bindir}/dbus-cleanup-sockets \
-@@ -54,7 +52,8 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${sysconfdir} \
-                ${localstatedir} \
-                ${datadir}/dbus-1/services \
--               ${datadir}/dbus-1/system-services"
-+               ${datadir}/dbus-1/system-services \
-+               ${systemd_unitdir}/system/"
- FILES_${PN}-lib = "${libdir}/lib*.so.*"
- RRECOMMENDS_${PN}-lib = "${PN}"
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
-@@ -67,6 +66,9 @@ pkg_postinst_dbus() {
- 
- EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
- EXTRA_OECONF_X_class-native = "--without-x --disable-x11-autolaunch"
-+# TODO: would like to --enable-systemd but that's a circular build-dependency
-+# between systemd <->dbus
-+EXTRA_OECONF_SYSTEMD = "${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdsystemunitdir=${systemd_unitdir}/system/', '', d)}"
- 
- EXTRA_OECONF = "--disable-tests \
-                 --disable-checks \
-@@ -74,15 +76,18 @@ EXTRA_OECONF = "--disable-tests \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
-                 --with-xml=expat \
--                --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
-+                --disable-systemd \
-+                ${EXTRA_OECONF_SYSTEMD} \
-                 ${EXTRA_OECONF_X}"
- 
- do_install() {
- 	autotools_do_install
- 
--	install -d ${D}${sysconfdir}/init.d
--	sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${WORKDIR}/dbus-1.init.sh
--	install -m 0755 ${WORKDIR}/dbus-1.init.sh ${D}${sysconfdir}/init.d/dbus-1
-+	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/init.d
-+		sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${WORKDIR}/dbus-1.init.sh
-+		install -m 0755 ${WORKDIR}/dbus-1.init.sh ${D}${sysconfdir}/init.d/dbus-1
-+	fi
- 
- 	install -d ${D}${sysconfdir}/default/volatiles
- 	echo "d messagebus messagebus 0755 ${localstatedir}/run/dbus none" \
-@@ -101,10 +106,6 @@ do_install() {
- 
- 	# Remove empty testexec directory as we don't build tests
- 	rm -rf ${D}${libdir}/dbus-1.0/test
--
--	# disable dbus-1 sysv script on systemd installs
--	# nearly all distros call the initscript plain 'dbus', but OE-core is different
--	ln -sf /dev/null ${D}/${systemd_unitdir}/system/dbus-1.service
- }
- 
- do_install_class-native() {
-@@ -114,7 +115,7 @@ do_install_class-native() {
- 	install -d ${STAGING_DATADIR_NATIVE}/dbus/
- 	# N.B. is below install actually required?
- 	install -m 0644 bus/session.conf ${STAGING_DATADIR_NATIVE}/dbus/session.conf
--	
-+
- 	# dbus-glib-native and dbus-glib need this xml file
- 	./bus/dbus-daemon --introspect > ${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml
- }
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 8ed703c..89b6465 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -37,3 +37,4 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
+ PREFERRED_PROVIDER_console-tools ?= "kbd"
+ PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+ PREFERRED_PROVIDER_make ?= "make"
++PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','sysvinit','udev','',d)}"
 -- 
 1.7.10.4
 
