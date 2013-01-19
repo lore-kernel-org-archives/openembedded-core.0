@@ -1,28 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1TwQY7-0007XE-3r
+	(envelope-from <sgw@linux.intel.com>) id 1TwQb2-0007bo-Oa
 	for openembedded-core@lists.openembedded.org;
-	Sat, 19 Jan 2013 06:01:11 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Jan 2013 20:44:26 -0800
+	Sat, 19 Jan 2013 06:04:16 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 18 Jan 2013 20:48:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,496,1355126400"; d="scan'208";a="249431844"
-Received: from unknown (HELO [10.255.15.56]) ([10.255.15.56])
-	by orsmga001.jf.intel.com with ESMTP; 18 Jan 2013 20:45:31 -0800
-Message-ID: <50FA24EA.5060200@linux.intel.com>
-Date: Fri, 18 Jan 2013 20:45:30 -0800
+X-IronPort-AV: E=Sophos;i="4.84,497,1355126400"; d="scan'208";a="245868657"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.56])
+	by azsmga001.ch.intel.com with ESMTP; 18 Jan 2013 20:48:33 -0800
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Rongqing Li <rongqing.li@windriver.com>
-References: <cover.1358477598.git.rongqing.li@windriver.com>
-	<101e3bb96160957183aaa5770f989757916edaa9.1358477598.git.rongqing.li@windriver.com>
-	<20130118082611.GC3091@jama> <50FA2323.5060305@windriver.com>
-In-Reply-To: <50FA2323.5060305@windriver.com>
-Cc: joe.macdonald@windriver.com, Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] xinetd: enable tcp-wrappers support by DISTRO_FEATURE
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Jan 2013 20:48:33 -0800
+Message-Id: <1358570913-10128-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.0.2
+Subject: [PATCH] rpm2cpio: Update to match rpm4 specs for decompression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,85 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Jan 2013 05:01:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 19 Jan 2013 05:04:17 -0000
 
-On 01/18/2013 08:37 PM, Rongqing Li wrote:
->
->
-> On 01/18/2013 04:26 PM, Martin Jansa wrote:
->> On Fri, Jan 18, 2013 at 10:56:22AM +0800, rongqing.li@windriver.com
->> wrote:
->>> From: "Roy.Li" <rongqing.li@windriver.com>
->>>
->>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->>> ---
->>>   meta/recipes-extended/xinetd/xinetd_2.3.15.bb |    5 ++++-
->>>   1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
->>> b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
->>> index 3bde512..9278cc2 100644
->>> --- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
->>> +++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
->>> @@ -7,7 +7,7 @@ LICENSE = "BSD"
->>>   LIC_FILES_CHKSUM =
->>> "file://COPYRIGHT;md5=8ad8615198542444f84d28a6cf226dd8"
->>>
->>>   DEPENDS = ""
->>> -PR = "r1"
->>> +PR = "r2"
->>>
->>>   SRC_URI = "http://www.xinetd.org/xinetd-${PV}.tar.gz \
->>>         file://xinetd.init \
->>> @@ -28,6 +28,9 @@ INITSCRIPT_PARAMS = "defaults"
->>>
->>>   EXTRA_OECONF="--disable-nls"
->>>
->>> +DEPENDS += "${@base_contains('DISTRO_FEATURES', 'tcp-wrappers',
->>> 'tcp-wrappers', '', d)}"
->>> +EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'tcp-wrappers',
->>> '--with-libwrap', '', d)}"
->>> +
->>
->> Why not use PACKAGECONFIG here?
->>
->
-> Enabling tcp-wrapper is not a random thing for some customer,
-> it is a must. So I think feature is more suitable
->
-Martin's point is you can use the PACKAGECONFIG syntax here instead of 2 
-base_contains.
+[YOCTO #3753]
 
-for example:
-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'tcp_wrappers', 
-'tcp_wrappers', '', d)}"
-PACKAGECONFIG[tcp_wrappers] = "--with-libwrap,--without-libwrap, 
-tcp_wrappers"
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/rpm/rpm/rpm2cpio | 40 ++++++++++++----------------------
+ 1 file changed, 14 insertions(+), 26 deletions(-)
 
-See docs for more information.
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm2cpio b/meta/recipes-devtools/rpm/rpm/rpm2cpio
+index 00c4ec5..6bcef6a 100755
+--- a/meta/recipes-devtools/rpm/rpm/rpm2cpio
++++ b/meta/recipes-devtools/rpm/rpm/rpm2cpio
+@@ -1,5 +1,8 @@
+ #!/bin/sh
+ 
++# Prevent gawk >= 4.0.x from getting funny ideas wrt UTF in printf()
++LANG=C
++
+ pkg=$1
+ if [ "$pkg" = "" -o ! -e "$pkg" ]; then
+     echo "no package supplied" 1>&2
+@@ -22,30 +25,15 @@ dl=`expr 256 \* \( 256 \* \( 256 \* $6 + $7 \) + $8 \) + $9`
+ 
+ hdrsize=`expr 8 + 16 \* $il + $dl`
+ o=`expr $o + $hdrsize`
+-EXTRACTOR="dd if=$pkg ibs=$o skip=1"
+-
+-COMPRESSION=`($EXTRACTOR |file -) 2>/dev/null`
+-if echo $COMPRESSION |grep -q gzip; then
+-	DECOMPRESSOR=gunzip
+-elif echo $COMPRESSION |grep -q bzip2; then
+-	DECOMPRESSOR=bunzip2
+-elif echo $COMPRESSION |grep -q xz; then
+-	DECOMPRESSOR=unxz
+-elif echo $COMPRESSION |grep -q cpio; then
+-	DECOMPRESSOR=cat
+-else
+-	# Most versions of file don't support LZMA, therefore we assume
+-	# anything not detected is LZMA
+-	DECOMPRESSOR=`which unlzma 2>/dev/null`
+-	case "$DECOMPRESSOR" in
+-	    /* ) ;;
+-	    *  ) DECOMPRESSOR=`which lzmash 2>/dev/null`
+-	         case "$DECOMPRESSOR" in
+-	             /* ) DECOMPRESSOR="lzmash -d -c" ;;
+-	             *  ) DECOMPRESSOR=cat ;;
+-	         esac
+-	         ;;
+-	esac
+-fi
++comp=`dd if=$pkg ibs=$o skip=1 count=1 2>/dev/null | dd bs=3 count=1 2> /dev/null`
+ 
+-$EXTRACTOR 2>/dev/null | $DECOMPRESSOR
++gz="`echo . | awk '{ printf("%c%c", 0x1f, 0x8b); }'`"
++lzma="`echo . | awk '{ printf("%cLZ", 0xff); }'`"
++xz="`echo . | awk '{ printf("%c7z", 0xfd); }'`"
++case "$comp" in
++    BZh)      dd if="$pkg" ibs=$o skip=1 2>/dev/null | bunzip2 ;;
++    "$gz"*)   dd if="$pkg" ibs=$o skip=1 2>/dev/null | gunzip ;;
++    "$xz"*)   dd if="$pkg" ibs=$o skip=1 2>/dev/null | xzcat ;;
++    "$lzma"*) dd if="$pkg" ibs=$o skip=1 2>/dev/null | unlzma ;;
++    *)        echo "Unrecognized rpm file: $pkg"; exit 1 ;;
++esac
+-- 
+1.8.0.2
 
-Sau!
-
-
-
-> -Roy
->
->> Cheers,
->>
->>>   do_configure() {
->>>       # Looks like configure.in is broken, so we are skipping
->>>       # rebuilding configure and are just using the shipped one
->>> --
->>> 1.7.10.4
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
 
 
