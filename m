@@ -1,24 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1TwaR2-0003hh-Gl
-	for Openembedded-core@lists.openembedded.org;
-	Sat, 19 Jan 2013 16:34:24 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0JFIrFt012117
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 19 Jan 2013 07:18:53 -0800 (PST)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.318.4;
-	Sat, 19 Jan 2013 07:18:53 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Sat, 19 Jan 2013 09:18:50 -0600
-Message-ID: <1358608730-45776-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] populate_sdk_base.bbclass: Work around bugs with gnu tar < 1.24
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1TwbRV-0005H2-U4
+	for openembedded-core@lists.openembedded.org;
+	Sat, 19 Jan 2013 17:39:04 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r0JGNHBu010099
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 19 Jan 2013 17:23:18 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1TwbCM-0004FF-Ev; Sat, 19 Jan 2013 17:23:14 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 19 Jan 2013 17:23:01 +0100
+Message-Id: <1358612581-5453-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.7.11.7
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Subject: [PATCH] package.bbclass: replace AUTOINC directly in PKGV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,62 +38,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Jan 2013 15:34:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 19 Jan 2013 16:39:04 -0000
 
-The gnu tar versions less than 1.24 pose a problem with the SDK
-extraction.  A typical SDK will have hard links.  The SDK is created
-with a newer version of tar but extracted with the host version of tar
-which may be much older.  The specific defect is that older version of
-gnu tar do not properly handle the "--strip-components=" argument when
-processing hard links and the paths do not get properly truncated and
-hooked up with the corresponding real file payloads.  This leads to
-errors like the following during the SDK install:
+From: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
 
-tar: sysroots/qemux86-yocto-linux/usr/bin/getconf: Cannot hard link to `./opt/yocto/SDK-qemux86/sysroots/qemux86-yocto-linux/usr/bin/POSIX_V6_ILP32_OFFBIG': No such file or directory
+b27b438221e16ac3df6ac66d761b77e3bd43db67 introduced a regression when
+PKGV is modified by the recipe.  E.g. when having something like
 
-The simple way to work around the problem is to just not save the path
-information that is going to get chopped off anyway.  This has the
-added benefit that it saves a small amount of space in the tar archive
-as well.
+| PV = "1.7.33+gitr${SRCPV}"
+| PKGV = "1.7.33+gitr${GITPKGV}"
+| RDEPENDS_${PN}-subpkg += "${PN} (= ${EXTENDPKGV})"
+| inherit gitpkgv
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+The resulting core package has
+
+| Version: 1.7.33+git234+cd01e8c-r11
+
+and because the subpackage has
+
+| Depends: vdr (= 1.7.33+git0+cd01e8c18d494150730214f033f84e5282ce7639-r11)
+
+image build fails with
+
+|  * satisfy_dependencies_for: Cannot satisfy the following dependencies ...
+|  *    vdr (= 1.7.33+git0+cd01e8c18d494150730214f033f84e5282ce7639-r11)
+
+Patch avoids the 'PKGV = "cleanup(${PV})"' operation and replaces
+AUTOINC directly within PKGV.  This might introduce a regression too
+when 'AUTOINC' is added to PKGV intentionally but impact is small and
+can be fixed trivially by using another string.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
+Cc: Constantin Musca <constantinx.musca@intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
+ meta/classes/package.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index c1756e8..da846b4 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -113,7 +113,7 @@ fakeroot create_sdk_files() {
- fakeroot tar_sdk() {
- 	# Package it up
- 	mkdir -p ${SDK_DEPLOY}
--	cd ${SDK_OUTPUT}
-+	cd ${SDK_OUTPUT}/${SDKPATH}
- 	tar --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index b067dd8..d350eb2 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -418,9 +418,9 @@ python package_get_auto_pr() {
+             return
+         d.setVar('PRAUTO',str(auto_pr))
+     else:
+-        pv = d.getVar("PV", True)
+-        if 'AUTOINC' in pv:
+-            d.setVar("PKGV", pv.replace("AUTOINC", "0"))
++        pkgv = d.getVar("PKGV", True)
++        if 'AUTOINC' in pkgv:
++            d.setVar("PKGV", pkgv.replace("AUTOINC", "0"))
  }
  
-@@ -130,7 +130,6 @@ if [ "$INST_ARCH" != "$SDK_ARCH" ]; then
- fi
- 
- DEFAULT_INSTALL_DIR="${SDKPATH}"
--COMPONENTS_LEN=$(echo ".${SDKPATH}" | sed "s/\// /g" | wc -w)
- SUDO_EXEC=""
- target_sdk_dir=""
- answer=""
-@@ -212,7 +211,7 @@ fi
- payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
- 
- printf "Extracting SDK..."
--tail -n +$payload_offset $0| $SUDO_EXEC tar xj --strip-components=$COMPONENTS_LEN -C $target_sdk_dir
-+tail -n +$payload_offset $0| $SUDO_EXEC tar xj -C $target_sdk_dir
- echo "done"
- 
- printf "Setting it up..."
+ LOCALEBASEPN ??= "${PN}"
 -- 
-1.7.1
+1.7.11.7
 
 
 
